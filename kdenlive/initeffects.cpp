@@ -18,6 +18,7 @@
 
 #include <qfile.h>
 #include <qregexp.h>
+#include <qdir.h>
 
 #include <kdebug.h>
 #include <kglobal.h>
@@ -34,9 +35,15 @@ initEffects::~initEffects()
 {
 }
 
-//static 
-void initEffects::initializeEffects(EffectDescriptionList *effectList)
+//static
+void initEffects::parseEffectFiles(EffectDescriptionList *effectList)
 {
+    QStringList::Iterator more;
+    QStringList::Iterator it;
+    QStringList fileList;
+    QString itemName;
+
+
     // Build effects. Retrieve the list of MLT's available effects first.
 
     QString datFile = KdenliveSettings::mltpath() + "/share/mlt/modules/filters.dat";
@@ -76,6 +83,114 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/opt/lib/ladspa");
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/opt/local/lib/ladspa");
 
+    kdDebug()<<"//  INIT EFFECT SEARCH"<<endl;
+
+    QStringList direc = KGlobal::dirs()->findDirs("data", "kdenlive/effects");
+    kdDebug()<<"//  FOUND DIRECTORIES: "<<direc<<endl;
+    QDir directory;
+    for ( more = direc.begin() ; more != direc.end() ; ++more ) {
+	directory = QDir(*more);
+	fileList = directory.entryList( QDir::Files );
+	for ( it = fileList.begin() ; it != fileList.end() ; ++it ){
+	    itemName = KURL(*more + *it).path();
+	    parseEffectFile(effectList, itemName, filtersList, producersList);
+	    kdDebug()<<"//  FOUND EFFECT FILE: "<<itemName<<endl;
+	}
+    }
+}
+
+// static
+void initEffects::parseEffectFile(EffectDescriptionList *effectList, QString name, QStringList filtersList, QStringList producersList)
+{
+    QDomDocument doc;
+    QFile file(name);
+    doc.setContent(&file, false);
+
+    QDomElement documentElement = doc.documentElement();
+    while (!documentElement.isNull() && documentElement.tagName() != "effect") {
+	documentElement = documentElement.firstChild().toElement();
+    }
+    if (documentElement.isNull()) {
+	kdDebug()<<"// EFFECT FILET: "<<name<<" IS BROKEN"<<endl;
+	return;
+    }
+    QString tag = documentElement.attribute("tag", QString::null);
+    bool ladspaOk = true;
+    if (tag == "ladspa") {
+	QString library = documentElement.attribute("library", QString::null);
+	if (locate("ladspa_plugin", library).isEmpty()) ladspaOk = false;
+    }
+
+    // Parse effect file
+    if (filtersList.findIndex(tag) != -1 && ladspaOk) {
+	kdDebug()<<"++ ADDING EFFECT: "<<tag<<endl;
+    	QDomNode n = documentElement.firstChild();
+	QString id, effectName, effectTag, paramType;
+	int paramCount = 0;
+	EFFECTTYPE type;
+        QXmlAttributes xmlAttr;
+
+        // Create Effect
+        EffectParamDescFactory effectDescParamFactory;
+        EffectDesc *effect = NULL;
+
+    	while (!n.isNull()) {
+	    QDomElement e = n.toElement();
+	    if (!e.isNull()) {
+	        if (e.tagName() == "name") {
+		    effectName = i18n(e.text());
+		}
+	        if (e.tagName() == "properties") {
+		    id = e.attribute("id", QString::null);
+		    effectTag = e.attribute("tag", QString::null);
+		    if (e.attribute("type", QString::null) == "audio") type = AUDIOEFFECT;
+		    else type = VIDEOEFFECT;
+		    effect = new EffectDesc(effectName, id, effectTag, type);
+		}
+	        if (e.tagName() == "parameter" && effect) {
+		    paramCount++;
+		    xmlAttr.clear();
+		    
+		    QDomNamedNodeMap attrs = e.attributes();
+		    int i = 0;
+		    QString value;
+		    while (!attrs.item(i).isNull()) {
+			QDomNode n = attrs.item(i);
+			value = n.nodeValue();
+			if (value.find("MAX_WIDTH") != -1)
+			    value.replace("MAX_WIDTH", QString::number(KdenliveSettings::defaultwidth()));
+			if (value.find("MID_WIDTH") != -1)
+			    value.replace("MID_WIDTH", QString::number(KdenliveSettings::defaultwidth() / 2));
+			if (value.find("MAX_HEIGHT") != -1)
+			    value.replace("MAX_HEIGHT", QString::number(KdenliveSettings::defaultheight()));
+			if (value.find("MID_HEIGHT") != -1)
+			    value.replace("MID_HEIGHT", QString::number(KdenliveSettings::defaultheight() / 2));
+			xmlAttr.append(n.nodeName(), QString::null, QString::null, value);
+			i++;
+		    }
+		    QDomNode n2 = n.firstChild();
+		    QDomElement e2 = n2.toElement();
+	    	    if (!e2.isNull() && e2.tagName() == "name") {
+			xmlAttr.append(QString("description"), QString::null, QString::null, i18n(e2.text()));
+		    }
+        	    effect->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+		}
+	    }
+	    n = n.nextSibling();
+	}
+	if (paramCount == 0) {
+	    xmlAttr.append("type", QString::null, QString::null, "fixed");
+            effect->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	}
+        effectList->append(effect);
+    }
+}
+
+
+//static 
+void initEffects::initializeEffects(EffectDescriptionList *effectList)
+{
+
     /**
 
 	This lists all effects that will be available in  Kdenlive.
@@ -101,7 +216,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	* bool: a boolean value that will be represented ba a checkbox
 
     **/
-
+/*
     QXmlAttributes xmlAttr;
     EffectParamDescFactory effectDescParamFactory;
 
@@ -571,10 +686,10 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 
 	xmlAttr.clear();
 	xmlAttr.append("type", QString::null, QString::null, "complex");
-	xmlAttr.append("name", QString::null, QString::null, i18n("X") + ";" + i18n("Y") + ";" + i18n("Width") + ";" + i18n("Height") + ";" + i18n("Averaging"));
+	xmlAttr.append("name", QString::null, QString::null, i18n("X") + ";" + i18n("Y") + ";" + i18n("Width") + ";" + i18n("Height") + ";" + i18n("Averaging") + ";" + i18n("Autotrack") + ";" + i18n("Debug"));
 	xmlAttr.append("min", QString::null, QString::null, "0;0;0;0;3");
-	xmlAttr.append("max", QString::null, QString::null, QString::number(KdenliveSettings::defaultwidth()) + ";" + QString::number(KdenliveSettings::defaultheight()) + ";1000;1000;100");
-	xmlAttr.append("default", QString::null, QString::null, QString::number((int) KdenliveSettings::defaultwidth() / 2) + ";" + QString::number((int) KdenliveSettings::defaultheight() / 2) + ";100;100;20");
+	xmlAttr.append("max", QString::null, QString::null, QString::number(KdenliveSettings::defaultwidth()) + ";" + QString::number(KdenliveSettings::defaultheight()) + ";1000;1000;100;");
+	xmlAttr.append("default", QString::null, QString::null, QString::number((int) KdenliveSettings::defaultwidth() / 2) + ";" + QString::number((int) KdenliveSettings::defaultheight() / 2) + ";100;100;20;0;0");
 	obscure->addParameter(effectDescParamFactory.createParameter(xmlAttr));
 	effectList->append(obscure);
     }
@@ -637,7 +752,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	xmlAttr.append("type", QString::null, QString::null, "position");
 	xmlAttr.append("name", QString::null, QString::null, "freeze");
 	xmlAttr.append("description", QString::null, QString::null, i18n("Freeze at"));
-	xmlAttr.append("max", QString::null, QString::null, "300");
+	xmlAttr.append("max", QString::null, QString::null, "1000000");
 	xmlAttr.append("min", QString::null, QString::null, "1");
 	xmlAttr.append("default", QString::null, QString::null, "1");
 	freeze->addParameter(effectDescParamFactory.createParameter(xmlAttr));
@@ -950,6 +1065,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	}
 
     }
+*/
 }
 
 //static 

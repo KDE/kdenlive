@@ -876,7 +876,7 @@ void exportWidget::renderSelectedZone(const QString &url, bool audioOnly)
     m_emitSignal = true;
 }
 
-void exportWidget::renderSelectedClipAudio(const QString &source, const QString &dest)
+void exportWidget::renderSelectedClipAudio(const QString &source, const QString &dest, bool addToProject)
 {
     if (m_isRunning) {
 	if (KMessageBox::questionYesNo(this, i18n("There is another file render currently running, cancel it ?")) != KMessageBox::Yes) return;
@@ -884,7 +884,7 @@ void exportWidget::renderSelectedClipAudio(const QString &source, const QString 
     }
     m_createdFile = dest;
     doAudioExport(source, dest);
-    m_emitSignal = true;
+    m_emitSignal = addToProject;
 }
 
 void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, bool isNTSC)

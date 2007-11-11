@@ -34,6 +34,7 @@
 #include "kselectclipcommand.h"
 #include "kaddrefclipcommand.h"
 #include "aviconviewitem.h"
+#include "westleylistviewitem.h"
 #include "kdenlivedoc.h"
 #include "docclipref.h"
 #include "docclipavfile.h"
@@ -62,15 +63,18 @@ namespace Gui {
 	if (!iconView) {
         QListViewItemIterator it( m_listView );
         while ( it.current() ) {
-            const AVListViewItem *avitem = static_cast < AVListViewItem * >(*it);
-            if (avitem && avitem->clip() && avitem->clip()->clipType() == DocClipBase::PLAYLIST) {
-		QStringList urls = avitem->clip()->referencedClip()->toDocClipAVFile()->brokenPlayList();
-		if (!urls.isEmpty()) {
-		    KListViewItem *item = new KListViewItem(m_broken_list, avitem->clip()->fileURL().path());
-    		    for ( QStringList::Iterator it = urls.begin(); it != urls.end(); ++it )
-        	        (void) new KListViewItem(item, (*it));
+	    BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) it.current())->getType();
+            if (type == BaseListViewItem::PLAYLISTITEM) {
+		if (((WestleyListViewItem *) it.current())->isBroken()) {
+		    const AVListViewItem *avitem = static_cast < AVListViewItem * >(*it);
+		    QStringList urls = avitem->clip()->referencedClip()->toDocClipAVFile()->brokenPlayList();
+		    if (!urls.isEmpty()) {
+		        KListViewItem *item = new KListViewItem(m_broken_list, avitem->clip()->fileURL().path());
+		        for ( QStringList::Iterator it = urls.begin(); it != urls.end(); ++it )
+			    (void) new KListViewItem(item, (*it));
+		    }
 		}
-            }
+	    }
             ++it;
         }
 	}
@@ -352,7 +356,7 @@ namespace Gui {
 				    macroCommand->addCommand(new Command::KSelectClipCommand(app->getDocument(), clip, true));
 	  			    app->addCommand(macroCommand, true);
 
-				    app->addCommand(new Command::KAddRefClipCommand(app->effectList(), *(app->getDocument()), clip, true), false);
+				    app->addCommand(new Command::KAddRefClipCommand(*(app->getDocument()), clip, true), false);
 
 				}
 

@@ -47,6 +47,7 @@ int EffectComplexKeyFrame::value(int ix) const
 
 const QString EffectComplexKeyFrame::processComplexKeyFrame() const
 {
+    // returns values needed for a region define:  X,Y:WxH[:PWxPY]
     return m_values[0] + "," + m_values[1] + ":" + m_values[2] + "x" +
 	m_values[3] + ":" + m_values[4] + "x" + m_values[4];
 }

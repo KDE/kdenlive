@@ -125,7 +125,6 @@ QStringList ProjectListView::selectedItemsIds() const
     QStringList result;
     QPtrList< QListViewItem > selectedItems;
     selectedItems = KListView::selectedItems(true);
-    DocClipRefList selectedList;
     QListViewItem *item;
     for ( item = selectedItems.first(); item; item = selectedItems.next() ) {
 	BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) item)->getType();

@@ -1,0 +1,20 @@
+<!DOCTYPE kpartgui>
+<effect tag="sox">
+	<name>Sox Flanger</name>
+	<properties id="sox_flanger" tag="sox" type="audio" />
+	<parameter type="constant" name="gain-in" max="100" min="0" default="50" factor="100">
+		<name>Gain in</name>
+	</parameter>
+	<parameter type="constant" name="gain-out" max="100" min="0" default="50" factor="100">
+		<name>Gain out</name>
+	</parameter>
+	<parameter type="constant" name="delay" max="500" min="0" default="100" factor="100">
+		<name>Delay</name>
+	</parameter>
+	<parameter type="constant" name="decay" max="100" min="0" default="100" factor="100">
+		<name>Decay</name>
+	</parameter>
+	<parameter type="constant" name="speed" max="20" min="0" default="10" factor="10">
+		<name>Speed</name>
+	</parameter>
+</effect>

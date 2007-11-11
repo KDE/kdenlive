@@ -31,6 +31,8 @@
 #include "effectkeyframe.h"
 #include "effectparamdesc.h"
 #include "kdenlivesettings.h"
+#include "docclipref.h"
+#include "initeffects.h"
 
 
 Effect::Effect(const EffectDesc & desc, const QString & id):m_desc(desc),
@@ -178,7 +180,7 @@ Effect *Effect::createEffect(const EffectDesc & desc,
 		    result->addParameter(e.attribute("name", ""));
 		    QDomNode keyNode = e.firstChild();
 		    QString paramType = e.attribute("type", "");
-		    if (paramType == "constant" || paramType == "list" || paramType == "bool" || paramType == "position" || paramType == "color")
+		    if (paramType == "constant" || paramType == "list" || paramType == "bool" || paramType == "position" || paramType == "color" || paramType == "geometry")
 			result->effectDescription().parameter(index)->setValue(e.attribute("value", "0"));
 		    while (!keyNode.isNull()) {
 			QDomElement k = keyNode.toElement();
@@ -202,3 +204,178 @@ Effect *Effect::createEffect(const EffectDesc & desc,
     }
     return result;
 }
+
+
+QMap <QString, QString> Effect::getParameters(DocClipRef *clip)
+{
+    QMap <QString, QString> params;
+    uint parameterNum = 0;
+    uint keyFrameNum = 0;
+    QString effecttype = effectDescription().parameter(parameterNum)->type();
+
+    if (effectDescription().tag() == "sox") {
+	// THIS is a SOX FILTER, process 
+        		QStringList soxparams;
+			soxparams<<QString(effectDescription().stringId()).remove("sox_");
+			while (parameter(parameterNum)) {
+		    	if (effectDescription().parameter(parameterNum)->type() == "constant") {
+				double effectParam;
+			    	if (effectDescription().parameter(parameterNum)->factor() != 1.0)
+                            		effectParam = effectDescription().parameter(parameterNum)->value().toDouble() / effectDescription().parameter(parameterNum)->factor();
+			    	else effectParam = effectDescription().parameter(parameterNum)->value().toDouble();
+				soxparams.append(QString::number(effectParam));
+			    }
+			    //params.append(effect->effectDescription().parameter(parameterNum)->value());
+			    parameterNum++;
+			}
+			params["effect"] = soxparams.join(" ");
+			kdDebug()<<" / / /SOX PARAMS: "<<params["effect"]<<endl;
+    }
+    else if (effectDescription().tag().startsWith("ladspa", false)) {
+		// THIS is a LADSPA FILTER, process 
+			QStringList ladspaparams;
+			while (parameter(parameterNum)) {
+			    if (effectDescription().parameter(parameterNum)->type() == "constant") {
+				double effectParam;
+			    	if (effectDescription().parameter(parameterNum)->factor() != 1.0)
+                            		effectParam = effectDescription().parameter(parameterNum)->value().toDouble() / effectDescription().parameter(parameterNum)->factor();
+			    	else effectParam = effectDescription().parameter(parameterNum)->value().toDouble();
+				ladspaparams.append(QString::number(effectParam));
+			    }
+			    else ladspaparams.append(effectDescription().parameter(parameterNum)->value());
+			    parameterNum++;
+			}
+			int ladspaid = effectDescription().tag().right(effectDescription().tag().length() - 6).toInt();
+
+			QString effectFile = tempFileName();
+			if (!effectFile.isEmpty()) {
+			    initEffects::ladspaEffectFile( effectFile, ladspaid, ladspaparams );
+			    params["src"] = effectFile;
+			}
+			/*if (effectDescription().isMono()) {
+			    // Audio Mono clip. Duplicate audio channel
+			    entry.appendChild(monoFilter);
+			}*/
+
+		// end of LADSPA FILTER
+
+	    }
+
+    else if (effecttype == "double") {
+	// Effect has one parameter with keyframes
+	QString startTag, endTag;
+	keyFrameNum = parameter(parameterNum)->numKeyFrames();
+	startTag = effectDescription().parameter(parameterNum)->startTag();
+	endTag = effectDescription().parameter(parameterNum)->endTag();
+
+	double factor = effectDescription().parameter(parameterNum)->factor();
+	QString keyframePrefix = "#0:";
+
+	if (keyFrameNum > 1) {
+	    for (uint count = 0; count < keyFrameNum - 1; count++) {
+		uint in =(uint) clip->cropStartTime().frames(KdenliveSettings::defaultfps());
+		uint duration =(uint) clip->cropDuration().frames(KdenliveSettings::defaultfps());
+
+		params[keyframePrefix + "in"] = QString::number(in + (parameter(parameterNum)->keyframe(count)->time()) *duration);
+
+		params[keyframePrefix + startTag] = QString::number(parameter(parameterNum)->keyframe(count)->toDoubleKeyFrame()->value() / factor);
+
+		params[keyframePrefix + "out"] = QString::number(in + (parameter(parameterNum)->keyframe(count + 1)->time()) * duration);
+
+		params[keyframePrefix + endTag] = QString::number(parameter(parameterNum)->keyframe(count + 1)->toDoubleKeyFrame()->value() / factor);
+
+		// Add the other constant parameters if any
+		uint parameterNumBis = parameterNum + 1;
+		while (parameter(parameterNumBis)) {
+		    params[keyframePrefix + effectDescription().parameter(parameterNumBis)->name()] = QString::number(effectDescription().parameter(parameterNumBis)->value().toDouble() / effectDescription().parameter(parameterNumBis)->factor());
+		    parameterNumBis++;
+		}
+		keyframePrefix = "#" + QString::number(count + 1) + ":";
+	    }
+	}
+    }
+    else if (effecttype == "complex") {
+	// Effect has keyframes with several sub-parameters
+	QString startTag, endTag;
+	keyFrameNum = parameter(parameterNum)->numKeyFrames();
+	startTag = effectDescription().parameter(parameterNum)->startTag();
+	endTag = effectDescription().parameter(parameterNum)->endTag();
+	QString keyframePrefix = "#0:";
+	if (keyFrameNum > 1) {
+	    for (uint count = 0; count < keyFrameNum - 1;count++) {
+		uint in = (uint)(clip->cropStartTime().frames(KdenliveSettings::defaultfps()));
+		uint duration = (uint)(clip->cropDuration().frames(KdenliveSettings::defaultfps()));
+
+		params[keyframePrefix + "in"] = QString::number(in + (parameter(parameterNum)->keyframe(count)->time()) *duration);
+
+		params[keyframePrefix + "out"] = QString::number(in + (parameter(parameterNum)->keyframe(count + 1)->time()) * duration);
+
+		params[keyframePrefix + startTag] =  parameter(parameterNum)->keyframe(count)->toComplexKeyFrame()->processComplexKeyFrame();
+
+		params[keyframePrefix + endTag] = parameter(parameterNum)->keyframe(count + 1)->toComplexKeyFrame()->processComplexKeyFrame();
+
+		keyframePrefix = "#" + QString::number(count + 1) + ":";
+	    }
+	}
+    }
+    else if (effecttype == "constant" || effecttype == "list" || effecttype == "bool" || effecttype == "color" || effecttype == "geometry")
+	while (parameter(parameterNum)) {
+	    if (effectDescription().parameter(parameterNum)->factor() != 1.0)
+                params[effectDescription().parameter(parameterNum)->name()] = QString::number(effectDescription().parameter(parameterNum)->value().toDouble() / effectDescription().parameter(parameterNum)->factor());
+	    else params[effectDescription().parameter(parameterNum)->name()] = effectDescription().parameter(parameterNum)->value();
+	    parameterNum++;
+	}
+    return params;
+}
+
+/*	// Effect has one parameter with keyframes
+	QString startTag, endTag;
+	keyFrameNum = parameter(parameterNum)->numKeyFrames();
+	startTag = effectDescription().parameter(parameterNum)->startTag();
+	endTag = effectDescription().parameter(parameterNum)->endTag();
+
+	double factor = effectDescription().parameter(parameterNum)->factor();
+
+	if (keyFrameNum > 1) {
+		
+			for (uint count = 0; count < keyFrameNum - 1;
+			    count++) {
+                                clipFilter =
+				sceneList.createElement("filter");
+			    clipFilter.setAttribute("mlt_service",
+				effect->effectDescription().tag());
+				 uint in =(uint)
+				m_cropStart.frames(framesPerSecond());
+				 uint duration =(uint)
+				cropDuration().frames(framesPerSecond());
+			    clipFilter.setAttribute("in",
+				QString::number(in +
+				    (effect->parameter(parameterNum)->
+					keyframe(count)->time()) *
+				    duration));
+			    clipFilter.setAttribute(startTag,
+				QString::number(effect->
+				    parameter(parameterNum)->
+				    keyframe(count)->toDoubleKeyFrame()->
+				    value() / factor));
+			    clipFilter.setAttribute("out",
+				QString::number(in +
+				    (effect->parameter(parameterNum)->
+					keyframe(count +
+					    1)->time()) * duration));
+			    clipFilter.setAttribute(endTag,
+				QString::number(effect->
+				    parameter(parameterNum)->
+				    keyframe(count +
+					1)->toDoubleKeyFrame()->value() / factor));
+			    entry.appendChild(clipFilter);
+			}
+			// Add the other constant parameters if any
+			uint parameterNumBis = parameterNum + 1;
+			while (effect->parameter(parameterNumBis)) {
+			    clipFilter.setAttribute(effect->effectDescription().parameter(parameterNumBis)->name(), QString::number( effect->effectDescription().parameter(parameterNumBis)->value().toDouble() / effect->effectDescription().parameter(parameterNumBis)->factor()));
+			    parameterNumBis++;
+			}
+			parameterNum = parameterNumBis;
+		    }*/
+

@@ -128,7 +128,7 @@ Transition::Transition(const DocClipRef * clipa, const GenTime &time, const QStr
     m_secondClip = NULL;
     m_transitionType = getTransitionForName(type);
     m_transitionName = getTransitionName(m_transitionType);
-    
+
     // Default duration = 2.5 seconds
     GenTime defaultTransitionDuration = GenTime(2.5);
 
@@ -199,6 +199,7 @@ Transition::Transition(const DocClipRef * clip, QDomElement transitionElement, G
             QDomElement paramElement = n.toElement();
             params[paramElement.tagName()] = paramElement.attribute("value", QString::null);
         }
+	if (m_invertTransition) params["reverse"] = "1";
         if (!params.isEmpty()) setTransitionParameters(params);
 	
 	// Check if transition is valid (not outside of clip)
@@ -437,6 +438,7 @@ QDomElement Transition::toXML()
     effect.setAttribute("transition_track", m_transitionTrack);
     effect.setAttribute("start", transitionStartTime().frames(KdenliveSettings::defaultfps()));
     effect.setAttribute("end", transitionEndTime().frames(KdenliveSettings::defaultfps()));
+
     if (m_secondClip) {
         effect.setAttribute("clipb_starttime", m_secondClip->trackStart().frames(KdenliveSettings::defaultfps()));
         effect.setAttribute("clipb_track", transitionEndTrack());

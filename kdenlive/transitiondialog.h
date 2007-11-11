@@ -61,7 +61,7 @@ namespace Gui {
     void setActivePage(const Transition::TRANSITIONTYPE &pageName);
     void setTransitionDirection(bool direc);
     void setTransitionParameters(const QMap < QString, QString > parameters);
-    void setTransition(Transition *transition, KdenliveDoc *doc = 0);
+    void setTransition(Transition *transition, KdenliveDoc *doc);
     bool isActiveTransition(Transition *transition) const;
     bool belongsToClip(DocClipRef *clip);
     bool isOnTrack(int ix);

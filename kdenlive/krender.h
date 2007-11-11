@@ -26,10 +26,6 @@
 
 #include <kurl.h>
 
-#ifdef ENABLE_FIREWIRE
-#include <libiec61883/iec61883.h>
-#endif
-
 #include "gentime.h"
 #include "docclipref.h"
 #include "effectdesc.h"
@@ -163,7 +159,7 @@ class KRender:public QObject {
     bool isBlocked;
 
     /** Playlist manipulation */
-    void mltInsertClip(int track, int position, QString resource);
+    void mltInsertClip(int track, GenTime position, QString resource);
     void mltCutClip(int track, GenTime position);
     void mltResizeClipEnd(int track, GenTime pos, GenTime in, GenTime out);
     void mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime moveStart, GenTime in, GenTime out);
@@ -174,6 +170,9 @@ class KRender:public QObject {
     void mltAddEffect(int track, GenTime position, QString id, QString tag, QMap <QString, QString> args);
     void mltEditEffect(int track, GenTime position, int index, QString id, QString tag, QMap <QString, QString> args);
     void mltChangeTrackState(int track, bool mute, bool blind);
+    void mltMoveTransition(QString type, int startTrack, int trackOffset, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut);
+    void mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args);
+
  
   private:			// Private attributes & methods
 	/** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */
@@ -209,10 +208,8 @@ class KRender:public QObject {
 	/** Sets the description of this renderer to desc. */
     void setDescription(const QString & description);
     void closeMlt();
-    
-#ifdef ENABLE_FIREWIRE
-    void dv_transmit( raw1394handle_t handle, FILE *f, int channel);
-#endif
+    void mltCheckLength();
+    void initSceneList();
 
 
     private slots:		// Private slots
@@ -246,6 +243,7 @@ class KRender:public QObject {
     void effectListChanged(const QPtrList < EffectDesc > &);
 	/** Emitted when an error occurs within this renderer. */
     void error(const QString &, const QString &);
+    void durationChanged();
 
     
     public slots:		// Public slots

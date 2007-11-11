@@ -305,7 +305,7 @@ void DocClipRef::setTrackEnd(const GenTime & time)
         TransitionStack::iterator itt = m_transitionStack.begin();
         while (itt != m_transitionStack.end()) {
             if (time - (*itt)->transitionStartTime() < GenTime(2, m_clip->framesPerSecond()))
-                (*itt)->moveTransition(time - trackEnd()); 
+                (*itt)->moveTransition(time - trackEnd());
             //GenTime(0) - GenTime(3, m_clip->framesPerSecond()));
             ++itt;
         }
@@ -805,22 +805,23 @@ void DocClipRef::setSpeed(double newspeed)
 QDomDocument DocClipRef::generateSceneList(bool, bool)
 {
     QDomDocument sceneList = m_clip->generateSceneList();
-    
-    // If this clip has a non 1.0 speed, wrap it in a framebuffer service so 
-    // that when resizing individual clips with a speed effect, the correct frame 
-    // is shown
-    if (m_speed == 1.0)
-        return sceneList;
-    
-    // Get the producer for this scene list. If it has no associated service, 
-    // give it to the frambuffer service and set its speed
     QDomNodeList producers = sceneList.elementsByTagName("producer");
     
     if (producers.count() == 0)
         return sceneList;
     
     QDomElement producer = producers.item(0).toElement();
-    
+    producer.setAttribute("in", cropStartTime().frames(framesPerSecond()));
+    producer.setAttribute("out", (cropStartTime() + cropDuration()).frames(framesPerSecond()));
+    // If this clip has a non 1.0 speed, wrap it in a framebuffer service so 
+    // that when resizing individual clips with a speed effect, the correct frame 
+    // is shown
+    if (m_speed == 1.0)
+        return sceneList;
+
+    // Get the producer for this scene list. If it has no associated service, 
+    // give it to the frambuffer service and set its speed
+
     if (!producer.hasAttribute("resource") || producer.hasAttribute("mlt_service"))
         return sceneList;
 
@@ -862,6 +863,8 @@ QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hide
 	    for ( it = blanklist.begin(); it != blanklist.end(); ++it ) {
 		int currentStart = (*it).x();
 		int currentEnd = (*it).y();
+		// kdDebug()<<"// CURRENT TRANSITION IS: "<<transStart<<" - "<<transEnd<<endl;
+		// kdDebug()<<"// CURRENT ANALYSED: "<<currentStart<<" - "<<currentEnd<<endl;
 		if (transStart <= currentEnd && transEnd >= currentStart) {
 		    if (currentStart != transStart) {
 			(*it) = QPoint(currentStart, transStart);
@@ -1112,6 +1115,7 @@ QDomDocument DocClipRef::generateXMLClip(bool rendering)
 		// THIS is a SOX FILTER, process 
                         QDomElement clipFilter = sceneList.createElement("filter");
 			clipFilter.setAttribute("mlt_service", "sox");
+			clipFilter.setAttribute("kdenlive_id", effect->effectDescription().stringId());
 			QStringList params;
 			params<<QString(effect->effectDescription().stringId()).remove("sox_");
 			while (effect->parameter(parameterNum)) {
@@ -1132,6 +1136,7 @@ QDomDocument DocClipRef::generateXMLClip(bool rendering)
 		// THIS is a LADSPA FILTER, process 
                         QDomElement clipFilter = sceneList.createElement("filter");
 			clipFilter.setAttribute("mlt_service", "ladspa");
+			clipFilter.setAttribute("kdenlive_id", effect->effectDescription().stringId());
 			QStringList params;
 
 
@@ -1183,12 +1188,10 @@ QDomDocument DocClipRef::generateXMLClip(bool rendering)
 			    count++) {
 			    QDomElement transition =
 				sceneList.createElement("filter");
-			    transition.setAttribute("mlt_service",
-				effect->effectDescription().tag());
-			    uint in =
-				(uint)(m_cropStart.frames(framesPerSecond()));
-			    uint duration =
-				(uint)(cropDuration().frames(framesPerSecond()));
+			    transition.setAttribute("mlt_service", effect->effectDescription().tag());
+			    transition.setAttribute("kdenlive_id", effect->effectDescription().stringId());
+			    uint in = (uint)(m_cropStart.frames(framesPerSecond()));
+			    uint duration = (uint)(cropDuration().frames(framesPerSecond()));
 			    transition.setAttribute("in",
 				QString::number(in +
 				    (effect->parameter(parameterNum)->
@@ -1214,7 +1217,6 @@ QDomDocument DocClipRef::generateXMLClip(bool rendering)
 			}
 		    }
 		}
-
 		else if (effect->effectDescription().parameter(parameterNum)->type() == "double") {
 		    // Effect has one parameter with keyframes
 		    QString startTag, endTag;
@@ -1237,6 +1239,7 @@ QDomDocument DocClipRef::generateXMLClip(bool rendering)
 				sceneList.createElement("filter");
 			    clipFilter.setAttribute("mlt_service",
 				effect->effectDescription().tag());
+			clipFilter.setAttribute("kdenlive_id", effect->effectDescription().stringId());
 				 uint in =(uint)
 				m_cropStart.frames(framesPerSecond());
 				 uint duration =(uint)
@@ -1276,13 +1279,13 @@ QDomDocument DocClipRef::generateXMLClip(bool rendering)
 		    if (effect->effectDescription().tag() != "framebuffer") {
                     QDomElement clipFilter =
 			sceneList.createElement("filter");
-                    clipFilter.setAttribute("mlt_service",
-			effect->effectDescription().tag());
-		    if (effect->effectDescription().
-			parameter(parameterNum)->type() == "constant" || effect->effectDescription().
-			parameter(parameterNum)->type() == "list" || effect->effectDescription().
-			parameter(parameterNum)->type() == "bool" || effect->effectDescription().
-			parameter(parameterNum)->type() == "color")
+
+		    QString effecttag = effect->effectDescription().tag();
+		    QString effecttype = effect->effectDescription().parameter(parameterNum)->type();
+
+		    clipFilter.setAttribute("mlt_service", effecttag);
+		    clipFilter.setAttribute("kdenlive_id", effect->effectDescription().stringId());
+		    if (effecttype == "constant" || effecttype == "list" || effecttype == "bool" || effecttype == "color" || effecttype == "geometry")
 			while (effect->parameter(parameterNum)) {
 			    if (effect->effectDescription().parameter(parameterNum)->factor() != 1.0)
                             clipFilter.setAttribute(effect->
@@ -1301,9 +1304,16 @@ QDomDocument DocClipRef::generateXMLClip(bool rendering)
                         entry.appendChild(clipFilter);
 		    }
 		    else {  //slowmotion or freeze effect, use special producer
-    				entry.setTagName("producer");
-    				entry.setAttribute("mlt_service","framebuffer");
-    				entry.setAttribute("id","slowmotion"+ QString::number(m_clip->getId()));
+
+    			QDomElement slowProd;
+			slowProd = sceneList.createElement("producer");
+			QString filterId = "slowmotion"+ QString::number(m_clip->getId()) + QString::number(trackNum()) + QString::number(trackStart().frames(framesPerSecond()));
+    			slowProd.setAttribute("id", filterId);
+			slowProd.setAttribute("mlt_service","framebuffer");
+
+    				//entry.setTagName("producer");
+    				//entry.setAttribute("mlt_service","framebuffer");
+    				//entry.setAttribute("id","slowmotion"+ QString::number(m_clip->getId()));
 				QString fileName;
 				if (effect->effectDescription().name() == i18n("Speed")) {
 				    double speed = effect->effectDescription().parameter(0)->value().toDouble() / effect->effectDescription().parameter(0)->factor();
@@ -1311,13 +1321,14 @@ QDomDocument DocClipRef::generateXMLClip(bool rendering)
 				    // entry.setAttribute("out", QString::number(entry.attribute("out").toInt() / speed));
 				    fileName = fileURL().path() + ":" + QString::number(speed);
 				}
-				else fileName = fileURL().path();
-    				entry.setAttribute("resource", fileName.ascii());
-    				entry.removeAttribute("producer");
+				else fileName = fileURL().path() + ":1";
+    				slowProd.setAttribute("resource", fileName.ascii());
+    				entry.setAttribute("producer", filterId);
 				while (effect->parameter(parameterNum)) {
-					entry.setAttribute(effect->effectDescription().parameter(parameterNum)->name(), QString::number(effect->effectDescription().parameter(parameterNum)->value().toDouble() / effect->effectDescription().parameter(parameterNum)->factor()));
+					slowProd.setAttribute(effect->effectDescription().parameter(parameterNum)->name(), QString::number(effect->effectDescription().parameter(parameterNum)->value().toDouble() / effect->effectDescription().parameter(parameterNum)->factor()));
 			    		parameterNum++;
 				}
+				sceneList.appendChild(slowProd);
 		    }
 		}
 		parameterNum++;
@@ -1327,6 +1338,7 @@ QDomDocument DocClipRef::generateXMLClip(bool rendering)
 	}
 
     sceneList.appendChild(entry);
+    //kdDebug()<<"-------------------\n"<<sceneList.toString()<<endl;
     return sceneList;
     //return m_clip->toDocClipAVFile()->sceneToXML(m_cropStart, m_cropStart+cropDuration());        
 }
@@ -1529,12 +1541,12 @@ QDomDocument DocClipRef::generateOffsetXMLClip(GenTime start, GenTime end)
 		    if (effect->effectDescription().tag() != "framebuffer") {
                     QDomElement clipFilter =
 			sceneList.createElement("filter");
-                    clipFilter.setAttribute("mlt_service",
-			effect->effectDescription().tag());
-		    if (effect->effectDescription().
-			parameter(parameterNum)->type() == "constant" || effect->effectDescription().
-			parameter(parameterNum)->type() == "list" || effect->effectDescription().
-			parameter(parameterNum)->type() == "bool")
+
+		    QString effecttag = effect->effectDescription().tag();
+		    QString effecttype = effect->effectDescription().parameter(parameterNum)->type();
+		    clipFilter.setAttribute("mlt_service", effecttag);
+
+		    if (effecttype == "constant" || effecttype == "list" || effecttype == "bool" || effecttype == "color" || effecttype == "geometry")
 			while (effect->parameter(parameterNum)) {
 			    if (effect->effectDescription().parameter(parameterNum)->factor() != 1.0)
                             clipFilter.setAttribute(effect->
@@ -1563,7 +1575,7 @@ QDomDocument DocClipRef::generateOffsetXMLClip(GenTime start, GenTime end)
 				    // entry.setAttribute("out", QString::number(entry.attribute("out").toInt() / speed));
 				    fileName = fileURL().path() + ":" + QString::number(speed);
 				}
-				else fileName = fileURL().path();
+				else fileName = fileURL().path() + ":1";
     				entry.setAttribute("resource", fileName.ascii());
     				entry.removeAttribute("producer");
 				while (effect->parameter(parameterNum)) {
@@ -1928,6 +1940,24 @@ Transition *DocClipRef::transitionAt(const GenTime &time)
         ++itt;
     }
     return 0;
+}
+
+int DocClipRef::transitionIndex(Transition *trans)
+{
+    TransitionStack::iterator itt = m_transitionStack.begin();
+    int count = 0;
+    while (itt) {
+        if ((*itt) == trans) break;
+        ++itt;
+	count ++;
+    }
+    return count;
+}
+
+Transition *DocClipRef::transitionAt(int ix)
+{
+    if (m_transitionStack.isEmpty() || ix > m_transitionStack.count() - 1) return NULL;
+    return m_transitionStack.at(ix);
 }
 
 QDomElement DocClipRef::transitionAtIndex(int ix)

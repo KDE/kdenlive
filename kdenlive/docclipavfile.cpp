@@ -443,10 +443,12 @@ QDomDocument DocClipAVFile::sceneToXML(const GenTime & startTime,
 QDomDocument DocClipAVFile::generateSceneList(bool, bool) const
 {
     QDomDocument sceneList;
+    QDomElement westley = sceneList.createElement("westley");
+    sceneList.appendChild(westley);
+    QDomElement playlist = sceneList.createElement("playlist");
 
     if (clipType() == IMAGE || clipType() == SLIDESHOW ) {
-	QDomElement westley = sceneList.createElement("westley");
-	sceneList.appendChild(westley);
+
        	QDomElement producer = sceneList.createElement("producer");
         producer.setAttribute("id", 0);
         producer.setAttribute("resource", fileURL().path());
@@ -454,7 +456,6 @@ QDomDocument DocClipAVFile::generateSceneList(bool, bool) const
 	// else producer.setAttribute("aspect_ratio", QString::number(KdenliveSettings::aspectratio()));
 	
         westley.appendChild(producer);
-        QDomElement playlist = sceneList.createElement("playlist");
         playlist.setAttribute("in", "0");
         playlist.setAttribute("out",
         QString::number(duration().frames(KdenliveSettings::defaultfps())));
@@ -479,21 +480,18 @@ QDomDocument DocClipAVFile::generateSceneList(bool, bool) const
     }
 
     else if (clipType() == COLOR) {
-	QDomElement westley = sceneList.createElement("westley");
-	sceneList.appendChild(westley);
-
 	QDomElement producer = sceneList.createElement("producer");
-	producer.setAttribute("id", 0);
+	producer.setAttribute("id", getId());
 	producer.setAttribute("mlt_service", "colour");
 	producer.setAttribute("colour", color());
 	westley.appendChild(producer);
-	QDomElement playlist = sceneList.createElement("playlist");
-	playlist.setAttribute("in", "0");
-	playlist.setAttribute("out",
-	    QString::number(duration().frames(KdenliveSettings::defaultfps())));
 	QDomElement entry = sceneList.createElement("entry");
-	entry.setAttribute("producer", 0);
+	entry.setAttribute("producer", getId());
+	entry.setAttribute("in", "0");
+	entry.setAttribute("out",
+	    QString::number(duration().frames(KdenliveSettings::defaultfps())));
 	playlist.appendChild(entry);
+	//playlist.appendChild(producer);
 	westley.appendChild(playlist);
     }
 
@@ -502,7 +500,8 @@ QDomDocument DocClipAVFile::generateSceneList(bool, bool) const
 	QDomElement producer = sceneList.createElement("producer");
 	producer.setAttribute("id", getId());
 	producer.setAttribute("resource", fileURL().path());
-	sceneList.appendChild(producer);
+	playlist.appendChild(producer);
+	westley.appendChild(playlist);
     }
 
     //kdDebug()<<"++++++++++++CLIP SCENE:\n"<<sceneList.toString()<<endl;

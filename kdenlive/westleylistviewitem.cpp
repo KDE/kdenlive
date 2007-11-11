@@ -30,7 +30,8 @@
 #include "gentime.h"
 #include "kdenlivesettings.h"
 #include "westleylistviewitem.h"
-
+#include "documentbasenode.h"
+#include "documentclipnode.h"
 
 WestleyListViewItem::WestleyListViewItem(QListViewItem * parent, QDomElement e, int width, int height):
 BaseListViewItem(parent, BaseListViewItem::PLAYLISTITEM), m_in(-1), m_out(-1), m_xml(e)
@@ -177,4 +178,3 @@ QString WestleyListViewItem::getComment(Timecode tc) const {
         text += " ( " + Timecode::getEasyTimecode(GenTime(m_out - m_in, fps), fps) + " )";
 	return text;
 }
-

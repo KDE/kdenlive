@@ -1,0 +1,5 @@
+<!DOCTYPE kpartgui>
+<effect tag="greyscale">
+	<name>Greyscale</name>
+	<properties id="greyscale" tag="greyscale"/>
+</effect>

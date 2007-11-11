@@ -217,7 +217,8 @@ namespace Gui {
 
 	m_effectList.setAutoDelete(true);
 
-	initEffects::initializeEffects( &m_effectList );
+	initEffects::parseEffectFiles( &m_effectList );
+	//initEffects::initializeEffects( &m_effectList );
 
 	// init dynamic transitions & effects menu
 	transitionsMenu = new QPopupMenu;
@@ -457,7 +458,7 @@ namespace Gui {
 	DocClipRef *refClip;
 
     	for (refClip = list.first(); refClip; refClip = list.next()) {
-		macroCommand->addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), refClip, refClip->numEffects(), effect));	
+		macroCommand->addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), refClip, refClip->numEffects(), effect));
 	}
 	addCommand(macroCommand, true);
 
@@ -681,6 +682,8 @@ namespace Gui {
 
 	showAllMarkers->setChecked(KdenliveSettings::showallmarkers());
 
+	KAction *syncTimeline = new KAction(i18n("Sync Timeline"), "reload", 0, this, SLOT(forceTimelineRefresh()), actionCollection(), "sync_timeline");
+
 	KAction *defineThumb = new KAction(i18n("Define Clip Thumbnail"), 0, this, SLOT(slotDefineClipThumb()), actionCollection(), "define_thumb");
 	defineThumb->setToolTip(i18n("Define thumbnail for the current clip"));
 
@@ -802,6 +805,8 @@ namespace Gui {
 	KAction *projectDeleteMarkers = new KAction(i18n("Delete Markers"), 0, this,
 	    SLOT(slotProjectDeleteClipMarkers()), actionCollection(), "project_delete_markers");
 	projectImportCueSheet->setToolTip(i18n("Delete Clip Markers"));
+
+
 
 	actionNextFrame =
 	    new KAction(i18n("Forward one frame"),
@@ -1438,6 +1443,7 @@ namespace Gui {
 	    connect(m_workspaceMonitor, SIGNAL(activatedSlider(int)), m_timeline,SLOT(slotActivateSlider(int)));
 	    connect(m_workspaceMonitor,SIGNAL(outpointPositionChanged(const GenTime &)), m_timeline, SLOT(setOutpointTimeline(const GenTime &)));
 	    connect(getDocument(), SIGNAL(documentChanged(DocClipBase *)), m_workspaceMonitor, SLOT(slotSetClip(DocClipBase *)));
+	    connect(getDocument(), SIGNAL(updateMonitorPlaytime()), m_workspaceMonitor, SLOT(slotCheckLength()));
 	}
 
 	connect(m_resizeFunction,
@@ -1646,8 +1652,8 @@ namespace Gui {
 	connect(m_transitionPanel, SIGNAL(resizeTransition(const QString &)),
                 getDocument(), SLOT(slotResizeClipTransition(const QString &)));
 
-	connect(keyFrameFunction, SIGNAL(signalKeyFrameChanged(bool)),
-	    getDocument(), SLOT(activateSceneListGeneration(bool)));
+	/*connect(keyFrameFunction, SIGNAL(signalKeyFrameChanged(bool)),
+	    getDocument(), SLOT(activateSceneListGeneration(bool)));*/
         
         connect(transitionMoveFunction, SIGNAL(transitionChanged(bool)),
                 getDocument(), SLOT(activateSceneListGeneration(bool)));
@@ -2515,19 +2521,26 @@ namespace Gui {
             KMessageBox::sorry(this, i18n("No clip in clipboard"));
             return;
         }
+
+	DocClipRefList list = getDocument()->projectClip().selectedClipList();
+	if (list.isEmpty()) return;
+	DocClipRef *refClip;
+
 	DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
 	if (!clipUnderMouse) return;
 	slotStatusMsg(i18n("Pasting clip %1 effects.").arg(m_copiedClip->name()));
 	EffectStack effectStack = m_copiedClip->effectStack();
 	KMacroCommand *macroCommand = new KMacroCommand(i18n("Copy Effects"));
 
-	EffectStack::iterator itt = effectStack.begin();
-	while (itt != effectStack.end()) {
-		macroCommand->addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), clipUnderMouse, clipUnderMouse->numEffects(), *itt));	
-	    ++itt;
+    	for (refClip = list.first(); refClip; refClip = list.next()) {
+	    EffectStack::iterator itt = effectStack.begin();
+	    while (itt != effectStack.end()) {
+		macroCommand->addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), refClip, refClip->numEffects(), *itt));	
+	        ++itt;
+	    }
 	}
 	addCommand(macroCommand, true);
-	getDocument()->activateSceneListGeneration(true);
+	//getDocument()->activateSceneListGeneration(true);
 	slotStatusMsg(i18n("Ready."));
     }
 
@@ -2552,7 +2565,7 @@ namespace Gui {
 	    ++itt;
 	}
 	addCommand(macroCommand, true);
-	getDocument()->activateSceneListGeneration(true);
+	//getDocument()->activateSceneListGeneration(true);
 	slotStatusMsg(i18n("Ready."));
     }
 
@@ -2576,18 +2589,18 @@ namespace Gui {
 		kdDebug()<<"/ / / PASTING CLPI TOP TRACK: "<<ix<<endl;
 		m_pastedClip->setParentTrack(getDocument()->track(ix), ix);
 		m_pastedClip->moveTrackStart(insertTime);
-		getDocument()->track(ix)->addClip(m_pastedClip, false);
+		//getDocument()->track(ix)->addClip(m_pastedClip, false);
 
-		KMacroCommand *macroCommand = new KMacroCommand(i18n("Paste"));
+		/*KMacroCommand *macroCommand = new KMacroCommand(i18n("Paste"));
 		macroCommand->addCommand(Command::KSelectClipCommand::selectNone(getDocument()));
 		macroCommand->addCommand(new Command::KSelectClipCommand(getDocument(), m_pastedClip, true));
-	  	addCommand(macroCommand, true);
+	  	addCommand(macroCommand, true);*/
 
-		addCommand(new Command::KAddRefClipCommand(effectList(), *m_doc, m_pastedClip, true), false);
+		addCommand(new Command::KAddRefClipCommand(*m_doc, m_pastedClip, true), true);
 
 		if (m_pastedClip->trackEnd() > getDocument()->projectClip().duration())
 			 getDocument()->track(ix)->checkTrackLength();
-		getDocument()->activateSceneListGeneration(true);
+		// getDocument()->activateSceneListGeneration(true);
 		slotStatusMsg(i18n("Ready."));
 	}
 	else {
@@ -2618,7 +2631,7 @@ namespace Gui {
 	if (KMessageBox::warningContinueCancel(this, i18n("Remove track %1 ?\nThis will remove all clips on that track.").arg(ix),i18n("Delete Track")) != KMessageBox::Continue) return;
 	//kdDebug()<<"+++++++++++++++++++++  ASK TRACK DELETION: "<<ix<<endl;
 	addCommand(Command::KAddRefClipCommand::deleteAllTrackClips(getDocument(), ix));
-	if (m_transitionPanel->isOnTrack(ix)) m_transitionPanel->setTransition(0); 
+	if (m_transitionPanel->isOnTrack(ix)) m_transitionPanel->setTransition(0, getDocument()); 
 	getDocument()->slotDeleteTrack(ix);
 	m_transitionPanel->refreshTracks(getDocument()->trackList().count());
     }
@@ -3263,7 +3276,8 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	    myChild = m_projectList->m_listView->findItem(folderName, 1, Qt::CaseSensitive);
         }*/
 	slotProjectDeleteClips(folderItems);
-	getDocument()->deleteGroupNode(folderName);	getDocument()->activateSceneListGeneration(true);
+	getDocument()->deleteGroupNode(folderName);	
+	getDocument()->activateSceneListGeneration(true);
     }
 
     void KdenliveApp::slotProjectAddFolder(QString message) {
@@ -3626,8 +3640,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		QPtrListIterator < DocClipRef > itt(list);
 
 		while (itt.current()) {
-		    Command::KAddRefClipCommand * command = new Command::KAddRefClipCommand(effectList(), *m_doc, itt.current(), false);
-		    if (m_transitionPanel->belongsToClip(itt.current())) m_transitionPanel->setTransition(0);
+		    Command::KAddRefClipCommand * command = new Command::KAddRefClipCommand(*m_doc, itt.current(), false);
+		    if (m_transitionPanel->belongsToClip(itt.current())) m_transitionPanel->setTransition(0, getDocument());
 		    macroCommand->addCommand(command);
 		    ++itt;
 		}
@@ -3664,8 +3678,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    QPtrListIterator < DocClipRef > itt(list);
 
 	    while (itt.current()) {
-		    Command::KAddRefClipCommand * command = new Command::KAddRefClipCommand(effectList(), *m_doc, itt.current(), false);
-		    if (m_transitionPanel->belongsToClip(itt.current())) m_transitionPanel->setTransition(0);
+		    Command::KAddRefClipCommand * command = new Command::KAddRefClipCommand(*m_doc, itt.current(), false);
+		    if (m_transitionPanel->belongsToClip(itt.current())) m_transitionPanel->setTransition(0, getDocument());
 		    macroCommand->addCommand(command);
 		    ++itt;
 	    }
@@ -3826,6 +3840,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	slotExtractClipAudio(clip);
     }
 
+
     void KdenliveApp::slotProjectDeleteClipMarkers() {
 	DocClipRef *clip = m_projectList->currentClip();
 	if (!clip) return;
@@ -3893,7 +3908,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		    QString save = "<westley><producer id=\"" + QString::number(clip->referencedClip()->getId()) + "\" resource=\"" + clip->fileURL().path() + "\" /><playlist>"+partial.toString()+"</playlist></westley>";
 
 		    initRenderExport(false);
-		    m_exportWidget->renderSelectedClipAudio(save, fd->selectedURL().path());
+		    m_exportWidget->renderSelectedClipAudio(save, fd->selectedURL().path(), addToProject->isChecked());
 		}
 	}
 	delete addToProject;
@@ -4027,6 +4042,10 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	addCommand(Command::KSelectClipCommand::selectNone(getDocument()), true);
     }
 
+    void KdenliveApp::forceTimelineRefresh() {
+	getDocument()->forceTimelineRefresh();
+    }
+
     void KdenliveApp::slotDefineClipThumb() {
 	DocClipRef *clip = m_projectList->currentClip();
 	if (!clip) return;
@@ -4056,7 +4075,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	DocClipRefList list = getDocument()->listSelected();
 	QPtrListIterator < DocClipRef > itt(list);
 	while (itt.current()) {
-		if (m_transitionPanel->belongsToClip(itt.current())) m_transitionPanel->setTransition(0);
+		if (m_transitionPanel->belongsToClip(itt.current())) m_transitionPanel->setTransition(0, getDocument());
 	        ++itt;
 	}
 
@@ -4499,7 +4518,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		itt(clip.track(track)->firstClip(selectedClips));
 
 	    while (itt.current()) {
-	    QValueVector < CommentedTime > markers = itt.current()->commentedSnapMarkers();
+	        QValueVector < CommentedTime > markers = itt.current()->commentedSnapMarkers();
 		QValueVector < CommentedTime >::iterator markerItt = markers.begin();
 		while (markerItt != markers.end()) {
 		    Command::KAddMarkerCommand * command =
@@ -4611,7 +4630,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	if (b_clip)
 	    addCommand(Command::KAddTransitionCommand::appendTransition(getDocument(), getDocument()->projectClip().selectedClip(), b_clip, transitionName), true);
 	else addCommand(Command::KAddTransitionCommand::appendTransition(getDocument(), getDocument()->projectClip().selectedClip(), mouseTime, transitionName), true);
-	getDocument()->indirectlyModified();
+	slotEditCurrentTransition();
+	//getDocument()->indirectlyModified();
     }
     
     void KdenliveApp::slotDeleteTransition() {
@@ -4624,7 +4644,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(position).x());
 	Transition *transit = getDocument()->projectClip().selectedClip()->transitionAt(mouseTime);
 	if (transit) {
-	    if (m_transitionPanel->isActiveTransition(transit)) m_transitionPanel->setTransition(0); 
+	    if (m_transitionPanel->isActiveTransition(transit)) m_transitionPanel->setTransition(0, getDocument()); 
 	    addCommand(Command::KAddTransitionCommand::removeTransition(getDocument(), getDocument()->projectClip().selectedClip(), transit), true);
 	    getDocument()->indirectlyModified();
 	}
@@ -4642,7 +4662,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	Transition *transit = getDocument()->projectClip().selectedClip()->transitionAt(mouseTime);
 	if (transit) {
 	    m_dockTransition->makeDockVisible();
-	    m_transitionPanel->setTransition(transit);
+	    m_transitionPanel->setTransition(transit, getDocument());
             m_timeline->drawTrackViewBackBuffer();
 	}
     }
@@ -4737,7 +4757,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	GenTime curr = m_timeline->seekPosition();
 	if ((curr <= clip->trackStart()) || (curr >= clip->trackEnd())) return;
 	//getDocument()->activateSceneListGeneration(false);
-	addCommand(Command::DocumentMacroCommands::razorSelectedClipsAt(getDocument(), curr), true);
+	addCommand(Command::DocumentMacroCommands::razorSelectedClipsAt(this, getDocument(), curr), true);
 	//getDocument()->activateSceneListGeneration(true);
     }
 

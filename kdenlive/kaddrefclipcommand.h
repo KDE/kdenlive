@@ -27,7 +27,6 @@
 class ClipManager;
 class DocClipProject;
 class DocClipRef;
-class EffectDescriptionList;
 class KdenliveDoc;
 
 /**Adds a clip to the document
@@ -44,8 +43,7 @@ namespace Command {
 	static KMacroCommand *deleteSelectedClips(KdenliveDoc * document);
 	static KMacroCommand *deleteAllTrackClips(KdenliveDoc *document, int ix);
 	/** Construct an AddClipCommand that will delete a clip */
-	 KAddRefClipCommand(const EffectDescriptionList & effectList,
-	    KdenliveDoc & document, DocClipRef * clip, bool create = true);
+	 KAddRefClipCommand(KdenliveDoc & document, DocClipRef * clip, bool create = true);
 
 	~KAddRefClipCommand();
 	/** Unexecute the command */
@@ -58,7 +56,6 @@ namespace Command {
       private:			// Private attributes
 
 	 KdenliveDoc & m_document;
-	const EffectDescriptionList & m_effectList;
 	/** If true, then executing the command will create a clip, and
 		unexecuting the command will delete a clip. Otherwise, it will be the
 		other way around. */

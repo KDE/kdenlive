@@ -1,0 +1,8 @@
+<!DOCTYPE kpartgui>
+<effect tag="gamma">
+	<name>Gamma</name>
+	<properties id="gamma" tag="gamma"/>
+	<parameter type="constant" name="gamma" max="300" min="1" default="100" factor="100">
+		<name>Gamme</name>
+	</parameter>
+</effect>

@@ -178,8 +178,9 @@ bool TrackPanelClipResizeFunction::mouseReleased(Gui::KTrackPanel *, QMouseEvent
     bool result = false;
     m_app->activateWorkspaceMonitor();
     m_resizeCommand->setEndSize(*m_clipUnderMouse);
-    m_app->addCommand(m_resizeCommand, false);
-    m_document->indirectlyModified();
+    m_app->addCommand(m_resizeCommand, true);
+    // m_document->indirectlyModified();
+    m_document->slotUpdateMonitorPlaytime();
     m_resizeCommand = 0;
 
     result = true;
@@ -201,7 +202,7 @@ bool TrackPanelClipResizeFunction::mouseMoved(Gui::KTrackPanel * panel,
 
 	    if (m_clipUnderMouse) {
 		result = true;
-		if (m_resizeState == Start) {
+		if (m_resizeState == Start) {		    
 		    track->resizeClipTrackStart(m_clipUnderMouse,
 			mouseTime);
 		    emit signalClipCropStartChanged(m_clipUnderMouse);

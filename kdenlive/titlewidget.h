@@ -47,9 +47,9 @@ public:
 protected:
         void contentsMousePressEvent(QMouseEvent*);
         void contentsMouseMoveEvent(QMouseEvent*);
-        void contentsMouseDoubleClickEvent(QMouseEvent* e);
-        void contentsMouseReleaseEvent(QMouseEvent* e);
-        void keyPressEvent ( QKeyEvent * e );
+        void contentsMouseDoubleClickEvent(QMouseEvent* );
+        void contentsMouseReleaseEvent(QMouseEvent* );
+        void keyPressEvent ( QKeyEvent * );
         void resizeEvent ( QResizeEvent * );
 
 signals:

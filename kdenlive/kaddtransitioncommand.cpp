@@ -102,6 +102,8 @@ namespace Command {
 		if (!clip) return;
 		Transition *tr = new Transition(clip, m_transition);
 		m_transitionIndex = clip->addTransition(tr);
+
+		m_document->renderer()->mltAddTransition(tr->transitionTag(), tr->transitionEndTrack(), tr->transitionStartTrack(), tr->transitionStartTime(), tr->transitionEndTime(), tr->transitionParameters());
 	}
     }
 

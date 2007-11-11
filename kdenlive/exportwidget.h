@@ -130,7 +130,7 @@ public slots:
 	void updateGuides();
 	void generateDvdFile(QString file, GenTime start, GenTime end, bool isNTSC);
 	void renderSelectedZone(const QString &url, bool audioOnly = false);
-	void renderSelectedClipAudio(const QString &source, const QString &dest);
+	void renderSelectedClipAudio(const QString &source, const QString &dest, bool addToProject);
 
 signals:
     void exportToFirewire(QString, int, GenTime, GenTime);

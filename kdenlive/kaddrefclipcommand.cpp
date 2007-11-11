@@ -26,9 +26,7 @@
 namespace Command {
 
     KAddRefClipCommand::
-	KAddRefClipCommand(const EffectDescriptionList & effectList,
-	KdenliveDoc & document, DocClipRef * clip, bool create):m_document(document),
-	m_effectList(effectList), m_create(create),
+	KAddRefClipCommand(KdenliveDoc & document, DocClipRef * clip, bool create):m_document(document), m_create(create),
 	m_xmlClip(clip->toXML()),
 	m_findTime(clip->trackStart() + (clip->cropDuration() / 2.0)),
 	m_track(clip->trackNum()) {
@@ -65,10 +63,12 @@ namespace Command {
 	DocClipRef *clip =
 	    DocClipRef::createClip(&m_document,
 	    m_xmlClip.documentElement());
-
         clip->referencedClip()->addReference();
 	if (clip->referencedClip()->numReferences() == 1) m_document.generateProducersList();
 	m_document.projectClip().track(clip->trackNum())->addClip(clip, true);
+	QString args = clip->generateSceneList().toString();
+	// kdDebug()<<"***** adding clip: "<<args<<endl;
+	m_document.renderer()->mltInsertClip(m_document.projectClip().playlistTrackNum(m_track), clip->trackStart(), args);
         m_document.projectClip().slotClipReferenceChanged();
     }
 
@@ -87,6 +87,8 @@ namespace Command {
         clip->referencedClip()->removeReference();
 	if (clip->referencedClip()->numReferences() == 0) m_document.generateProducersList();
         m_document.projectClip().slotClipReferenceChanged();
+	m_document.setModified(true);
+	m_document.renderer()->mltRemoveClip(m_document.projectClip().playlistTrackNum(m_track), m_findTime);
 	delete clip;
     }
 
@@ -103,8 +105,7 @@ namespace Command {
 
 	    while (itt.current()) {
 		Command::KAddRefClipCommand * command =
-		    new Command::KAddRefClipCommand(document->
-		    effectDescriptions(), *document, itt.current(), false);
+		    new Command::KAddRefClipCommand(*document, itt.current(), false);
 		macroCommand->addCommand(command);
 		found++;
 		++itt;
@@ -124,8 +125,7 @@ namespace Command {
 	    QPtrListIterator < DocClipRef > itt = track->firstClip(true);
 	    while (itt.current()) {
 		Command::KAddRefClipCommand * command =
-		    new Command::KAddRefClipCommand(document->
-		    effectDescriptions(), *document, itt.current(), false);
+		    new Command::KAddRefClipCommand(*document, itt.current(), false);
 		macroCommand->addCommand(command);
 		++itt;
 	    }
@@ -133,8 +133,7 @@ namespace Command {
 	    itt = track->firstClip(false);
 	    while (itt.current()) {
 		Command::KAddRefClipCommand * command =
-		    new Command::KAddRefClipCommand(document->
-		    effectDescriptions(), *document, itt.current(), false);
+		    new Command::KAddRefClipCommand(*document, itt.current(), false);
 		macroCommand->addCommand(command);
 		++itt;
 	    }

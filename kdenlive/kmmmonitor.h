@@ -128,7 +128,7 @@ namespace Gui {
 	void slotSetClip(QDomDocument playlist, GenTime duration);
 	/** Clears the displayed clip on the timeline */
 	void slotClearClip();
-
+	void slotCheckLength();
 	void activateMonitor();
 	void refreshClip();
 

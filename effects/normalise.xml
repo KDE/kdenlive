@@ -1,0 +1,8 @@
+<!DOCTYPE kpartgui>
+<effect tag="volume">
+	<name>Normalise</name>
+	<properties id="normalise" tag="volume" type="audio" />
+	<parameter type="constant" name="gain" max="0" min="0" default="normalise">
+		<name>Gain</name>
+	</parameter>
+</effect>

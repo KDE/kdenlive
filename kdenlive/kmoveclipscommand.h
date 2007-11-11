@@ -22,9 +22,11 @@
 #include <qstring.h>
 #include <kcommand.h>
 #include <gentime.h>
+#include <docclipreflist.h>
 
 class KdenliveDoc;
 class DocClipRef;
+// class DocClipRefList;
 
 namespace Command {
 
@@ -44,12 +46,26 @@ namespace Command {
 	void execute();
 	/** Specifies where the master clip should be moved to by this command. */
 	void setEndLocation(DocClipRef * master);
+	/** Sets the list of clips to move */
+        void setClipList(const DocClipRefList & list);
 
 	bool doesMove() {
 	    return m_startTime == m_endTime;
 	}
+
+	int startTrack() {
+	    return m_startTrack;
+	}
+
+	GenTime startTime() {
+	    return m_startTime;
+	}
+
+
       private:
-	 KdenliveDoc * m_doc;
+	KdenliveDoc * m_doc;
+	DocClipRefList m_clipList;
+	//QValueList < QPoint > m_clipList;
 
 	/** The track the master clip is on before execution */
 	int m_startTrack;

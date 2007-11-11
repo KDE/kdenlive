@@ -22,8 +22,10 @@
 
 #include "docclipref.h"
 #include "kdenlivedoc.h"
+#include "docclipproject.h"
 
 #include "kaddrefclipcommand.h"
+#include "krazorclipscommand.h"
 #include "kresizecommand.h"
 #include "kselectclipcommand.h"
 #include "kaddtransitioncommand.h"
@@ -31,7 +33,9 @@
 namespace Command {
 
     DocumentMacroCommands::DocumentMacroCommands() {
-    } DocumentMacroCommands::~DocumentMacroCommands() {
+    } 
+
+    DocumentMacroCommands::~DocumentMacroCommands() {
     }
 
     KCommand *DocumentMacroCommands::razorAllClipsAt(KdenliveDoc *
@@ -49,7 +53,7 @@ namespace Command {
 	return command;
     }
 
-    KCommand *DocumentMacroCommands::razorSelectedClipsAt(KdenliveDoc *
+    KCommand *DocumentMacroCommands::razorSelectedClipsAt(Gui::KdenliveApp * app, KdenliveDoc *
 	document, const GenTime & time) {
 	KMacroCommand *command =
 	    new KMacroCommand(i18n("Razor Clip"));
@@ -59,8 +63,8 @@ namespace Command {
 	    DocClipRef *clip = track->getClipAt(time);
 	    if (clip) {
 		if (track->clipSelected(clip)) {
-		    KCommand *razorCommand =
-			razorClipAt(document, *track, time);
+		    KCommand *razorCommand = new Command::KRazorClipsCommand(app, document, *track, time);
+			//razorClipAt(document, *track, time);
 		    if (razorCommand)
 			command->addCommand(razorCommand);
 		}
@@ -73,8 +77,9 @@ namespace Command {
     KCommand *DocumentMacroCommands::razorClipAt(KdenliveDoc * document,
 	DocTrackBase & track, const GenTime & time) {
 	KMacroCommand *command = 0;
-
 	DocClipRef *clip = track.getClipAt(time);
+	if (clip) document->renderer()->mltCutClip(clip->playlistTrackNum(), time);
+	
 	if (clip) {
 	    // disallow the creation of clips with 0 length.
 	    if ((clip->trackStart() == time) || (clip->trackEnd() == time))
@@ -84,6 +89,7 @@ namespace Command {
 
 	    DocClipRef *clone = clip->clone(document);
 	    if (clone) {
+		
 	        clone->moveCropStartTime(clip->cropStartTime() + (time - clip->trackStart()));
 	        clone->setTrackStart(time);	
 	        // Remove original clip's transitions that are after the cut
@@ -98,14 +104,18 @@ namespace Command {
         	        ++itt;
     		    }
 	     	}
-		command->addCommand(Command::KSelectClipCommand::selectNone(document));
+		clip->setTrackEnd(time);
 
-		Command::KResizeCommand * resizeCommand = new Command::KResizeCommand(document, *clip);
+		clone->referencedClip()->addReference();
+		document->projectClip().track(clone->trackNum())->addClip(clone, true);
+        	document->projectClip().slotClipReferenceChanged();
+		command->addCommand(Command::KSelectClipCommand::selectNone(document));
+		/*Command::KResizeCommand * resizeCommand = new Command::KResizeCommand(document, *clip);
 		resizeCommand->setEndTrackEnd(time);
 		command->addCommand(resizeCommand);
 
-		command->addCommand(new Command::KAddRefClipCommand(document->effectDescriptions(), *document, clone, true));
-		delete clone;
+		command->addCommand(new Command::KAddRefClipCommand(document->effectDescriptions(), *document, clone, true));*/
+		//delete clone;
 	    } else {
 		kdError() << "razorClipAt - could not clone clip!!!" <<
 		    endl;

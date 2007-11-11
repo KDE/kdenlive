@@ -24,6 +24,7 @@
 #include "kselectclipcommand.h"
 #include "docclipproject.h"
 #include "transitionstack.h"
+#include "kmovetransitioncommand.h"
 
 
 #include <cmath>
@@ -38,6 +39,9 @@ m_document(document),
 m_clipUnderMouse(0),
 m_selectedTransition(0),
 m_resizeCommand(0),
+m_mousePos(-1),
+m_trans_start(0),
+m_trans_end(0),
 m_snapToGrid(), m_refresh(false),
 m_startedTransitionMove(false), m_dragging(false)
 
@@ -108,6 +112,7 @@ bool TrackPanelTransitionMoveFunction::mousePressed(Gui::KTrackPanel * panel,
 		m_document->framesPerSecond());
 	    m_clipUnderMouse = track->getClipAt(mouseTime);
 	    if (m_clipUnderMouse) {
+		m_mousePos = event->x();
                 TransitionStack m_transitions = m_clipUnderMouse->clipTransitions();
                 if (m_transitions.isEmpty()) return false;
 
@@ -130,8 +135,10 @@ bool TrackPanelTransitionMoveFunction::mousePressed(Gui::KTrackPanel * panel,
                     {
                         m_dragging = true;
                         m_transitionOffset = (*itt)->transitionStartTime(); 
-                        m_clipOffset = m_timeline->timeUnderMouse((double) event->x()) - m_transitionOffset;
+                        m_clipOffset = m_timeline->timeUnderMouse((double) m_mousePos) - m_transitionOffset;
 			emit editTransition(*itt);
+			m_trans_start = (*itt)->transitionStartTime();
+			m_trans_end = (*itt)->transitionEndTime();
                         break;
                     }
                     ++itt;
@@ -161,6 +168,7 @@ bool TrackPanelTransitionMoveFunction::mousePressed(Gui::KTrackPanel * panel,
                 
                        result = true;
             }
+	    else m_mousePos = -1;
         }
     }
 
@@ -173,7 +181,11 @@ bool TrackPanelTransitionMoveFunction::mouseReleased(Gui::KTrackPanel * panel,
     bool result = false;
     m_selectedTransition = 0;
     m_dragging = false;
-    if (m_startedTransitionMove) emit transitionChanged(true);
+    if (m_startedTransitionMove) {
+	Transition *trans = m_clipUnderMouse->transitionAt(m_selectedTransition);
+	Command::KMoveTransitionCommand *move = new Command::KMoveTransitionCommand(m_document, m_clipUnderMouse, trans, m_trans_start, m_trans_end, trans->transitionStartTime(), trans->transitionEndTime());
+	m_app->addCommand(move, true);
+    }
     m_startedTransitionMove = false;
     result = true;
     return result;
@@ -193,14 +205,16 @@ bool TrackPanelTransitionMoveFunction::mouseMoved(Gui::KTrackPanel * panel,
             GenTime mouseTime =
                     m_timeline->
                     timeUnderMouse(event->x()) - m_clipOffset;
-            
-            mouseTime = m_snapToGrid.getSnappedTime(mouseTime);
-
             if (m_dragging && m_clipUnderMouse) {
-                         m_startedTransitionMove = true;
-                         m_clipUnderMouse->moveTransition(m_selectedTransition, mouseTime - m_transitionOffset);
-                         m_transitionOffset = mouseTime;
-                         result = true;
+			kdDebug()<<"// TRANS DIFF: "<<event->x()<<" - "<<m_mousePos<<endl;
+			if (event->x() != m_mousePos) 
+			{
+			    mouseTime = m_snapToGrid.getSnappedTime(mouseTime);
+			    m_startedTransitionMove = true;
+                            m_clipUnderMouse->moveTransition(m_selectedTransition, mouseTime - m_transitionOffset);
+                            m_transitionOffset = mouseTime;
+                            result = true;
+			}
                 }
         }
     }

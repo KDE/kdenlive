@@ -23,6 +23,7 @@
 #include "kdenlive.h"
 #include "kdenlivedoc.h"
 #include "ktimeline.h"
+#include "krazorclipscommand.h"
 
 TrackPanelRazorFunction::TrackPanelRazorFunction(Gui::KdenliveApp * app, Gui::KTimeLine * timeline, KdenliveDoc * document):
 m_app(app), m_timeline(timeline), m_document(document), m_clipUnderMouse(0)
@@ -86,17 +87,18 @@ bool TrackPanelRazorFunction::mousePressed(Gui::KTrackPanel * panel,
 
 	    m_clipUnderMouse = track->getClipAt(mouseTime);
 	    if (m_clipUnderMouse) {
-		m_document->activateSceneListGeneration(false);
+		//m_document->activateSceneListGeneration(false);
 		if (event->state() & ShiftButton) {
 		    m_app->
 			addCommand(Command::DocumentMacroCommands::
 			razorAllClipsAt(m_document, roundedMouseTime),
 			true);
 		} else {
-		    m_app->
+			m_app->addCommand(new Command::KRazorClipsCommand(m_app, m_document, *track, roundedMouseTime), true);
+		    /*m_app->
 			addCommand(Command::DocumentMacroCommands::
 			razorClipAt(m_document, *track, roundedMouseTime),
-			true);
+			true);*/
 		}
 		return true;
 	    }
@@ -112,7 +114,7 @@ bool TrackPanelRazorFunction::mouseDoubleClicked(Gui::KTrackPanel *, QMouseEvent
 
 bool TrackPanelRazorFunction::mouseReleased(Gui::KTrackPanel *, QMouseEvent * event)
 {
-    emit sceneListChanged(true);
+    //emit sceneListChanged(true);
     GenTime mouseTime = m_timeline->timeUnderMouse(event->x());
     m_clipUnderMouse = 0;
     return true;

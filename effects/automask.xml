@@ -1,0 +1,14 @@
+<!DOCTYPE kpartgui>
+<effect tag="motion_est">
+	<name>Auto Mask</name>
+	<properties id="autotrack_rectangle" tag="autotrack_rectangle" />
+	<parameter type="geometry" name="geometry" default="100,100:100x100">
+		<name>Geometry</name>
+	</parameter>
+	<parameter type="bool" name="debug" default="1">
+		<name>Debug</name>
+	</parameter>
+	<parameter type="bool" name="obscure" default="0">
+		<name>Obscure</name>
+	</parameter>
+</effect>

@@ -278,6 +278,7 @@ bool DocClipProject::moveSelectedClips(GenTime startOffset,
 	    destTrack = m_tracks.at(destTrackNum);
 	    destTrack->addClips(srcTrack->removeClips(true), true);
 	}
+	
     }
 
     blockTrackSignals(false);
@@ -353,7 +354,7 @@ int DocClipProject::playlistNextVideoTrack(int ix) const
 
 QDomDocument DocClipProject::generateSceneList(bool addProducers, bool rendering) const
 {
-    //kdDebug()<<"+++++++++++  Generating scenelist start...  ++++++++++++++++++"<<endl;
+    kdDebug()<<"+++++++++++  Generating scenelist start...  ++++++++++++++++++"<<endl;
     QDomDocument doc;
     QStringList videoTracks;
     int tracknb = 0;
@@ -433,7 +434,18 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers, bool rendering
 	    }
 
             // Insert xml describing clip
-            playlist.appendChild(itt.current()->generateXMLClip(rendering).firstChild());
+	QDomDocument clipDoc = itt.current()->generateXMLClip(rendering);
+	QDomNode n = clipDoc.firstChild();
+    	while( !n.isNull() ) {
+	    //playlist.appendChild(n);
+	    QDomElement e = n.toElement();
+	    if (e.tagName() == "producer") westley.appendChild(doc.importNode(n, true));
+	    else playlist.appendChild(doc.importNode(n, true));
+            n = n.nextSibling();
+    	}
+
+	    
+            //playlist.appendChild(itt.current()->generateXMLClip(rendering).firstChild());
 
             // Append clip's transitions for video tracks
             if ((KdenliveSettings::showtransitions() && !KdenliveSettings::multitrackview()) || rendering) clipTransitions.insertBefore(doc.importNode(itt.current()->generateXMLTransition(isBlind, isMute), true), QDomNode());
@@ -538,11 +550,11 @@ QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end
     doc.appendChild(westley);
 
     QDomDocumentFragment clipTransitions = doc.createDocumentFragment();
-    /*QDomElement blackprod = doc.createElement("producer");
+    QDomElement blackprod = doc.createElement("producer");
     blackprod.setAttribute("id", "black");
     blackprod.setAttribute("mlt_service", "colour");
     blackprod.setAttribute("colour", "black");
-    westley.appendChild(blackprod);*/
+    westley.appendChild(blackprod);
 
     QDomElement tractor = doc.createElement("tractor");
     QDomElement multitrack = doc.createElement("multitrack");
@@ -554,7 +566,7 @@ QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end
     
     // Add black clip as first track, so that empty spaces appear black 
     // (looks like color producer cannot be longer than 15000 frames, so hack around it... 
-    /*QDomElement playlist = doc.createElement("playlist");
+    QDomElement playlist = doc.createElement("playlist");
     int dur = (end - start).frames(framesPerSecond()) - 1;
 
     // black background	 track
@@ -571,7 +583,7 @@ QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end
     blank.setAttribute("out", QString::number(dur));
     blank.setAttribute("producer", "black");
     playlist.appendChild(blank);
-    multitrack.appendChild(playlist);*/
+    multitrack.appendChild(playlist);
 
     // parse the tracks in reverse order so that the upper tracks appear in front of the lower ones
     trackItt.toLast();
@@ -604,7 +616,18 @@ QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end
 		    playlist.appendChild(blank);
 	        }
                 // Insert xml describing clip
-                playlist.appendChild(itt.current()->generateOffsetXMLClip(start, end).firstChild());
+                //playlist.appendChild(itt.current()->generateOffsetXMLClip(start, end).firstChild());
+
+		QDomDocument clipDoc = itt.current()->generateOffsetXMLClip(start, end);
+		QDomNode n = clipDoc.firstChild();
+    		while( !n.isNull() ) {
+	    	    //playlist.appendChild(n);
+	    	    QDomElement e = n.toElement();
+	    	    if (e.tagName() == "producer") westley.appendChild(doc.importNode(n, true));
+	    	    else playlist.appendChild(doc.importNode(n, true));
+            	    n = n.nextSibling();
+    	}
+
 
                 // Append clip's transitions for video tracks
                 clipTransitions.insertBefore(doc.importNode(itt.current()->generateOffsetXMLTransition(isBlind, isMute, start, end), true), QDomNode());
@@ -995,6 +1018,8 @@ void DocClipProject::slotCheckProjectLength()
 	length = (test > length) ? test : length;
 	++itt;
     }
+
+    kdDebug()<<"//  CLIP PRJECT LENGTH IS: "<<length.frames(25)<<endl;
 
     if (m_projectLength != length) {
 	m_projectLength = length;

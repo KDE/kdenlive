@@ -65,8 +65,8 @@ class ClipManager:public QObject {
 	/** Find and return the AVFile with the id specified, or return null is no file matches. */
     DocClipBase *findClipById(uint id);
 
-	/** Check if the given producer Id already exists so that we don't insert 2 clips with same id */
-    bool producerIdExists(uint id) const;
+	/** Check if the given producer Id already exists so that we don't insert 2 clips with same id, return available id */
+    int checkId(uint id);
 	/** Get a valid new clip ID */
     int requestIdNumber();
 

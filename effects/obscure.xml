@@ -1,0 +1,13 @@
+<!DOCTYPE kpartgui>
+<effect tag="obscure">
+	<name>Obscure</name>
+	<label>X</label>
+	<label>Y</label>
+	<label>Width</label>
+	<label>Height</label>
+	<label>Averaging</label>
+	<properties id="obscure" tag="obscure" />
+	<parameter type="complex" name="X;Y;Width;Height;Averaging" max="MAX_WIDTH;MAX_HEIGHT;1000;1000;100" min="0;0;0;0;3" default="MID_WIDTH;MID_HEIGHT;100;100;20">
+		<name>Region</name>
+	</parameter>
+</effect>

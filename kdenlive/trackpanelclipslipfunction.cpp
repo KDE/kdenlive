@@ -524,8 +524,7 @@ KMacroCommand *TrackPanelClipSlipFunction::createAddClipsCommand()
 
 	while (itt.current()) {
 	    Command::KAddRefClipCommand * command =
-		new Command::KAddRefClipCommand(m_document->
-		effectDescriptions(), *m_document, itt.current(), true);
+		new Command::KAddRefClipCommand(*m_document, itt.current(), true);
 	    macroCommand->addCommand(command);
 	    ++itt;
 	}

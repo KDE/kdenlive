@@ -95,6 +95,7 @@ derived classes allow different behaviours to be added to panels as required.
     KdenliveDoc *m_document;
     DocClipRef *m_clipUnderMouse;
     bool m_dragging;
+    bool m_firststep;
 
 	/**
 	This variable should be set to true if we have initiated a drag which
@@ -112,6 +113,7 @@ derived classes allow different behaviours to be added to panels as required.
 	been placed.
 	*/
     DocClipRefList m_selection;
+    DocClipRefList m_selection_to_add;
 
 	/**
 	This is the "master" Clip - the clip that is actively being dragged by the mouse.

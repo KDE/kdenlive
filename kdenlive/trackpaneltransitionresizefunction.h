@@ -97,6 +97,8 @@ class TrackPanelTransitionResizeFunction:public TrackPanelFunction
     ResizeState m_resizeState;
     uint m_selectedTransition;
     bool m_dragStarted;
+    GenTime m_trans_start;
+    GenTime m_trans_end;
     
 	/** This command holds the resize information during a resize operation */
      Command::KResizeCommand * m_resizeCommand;

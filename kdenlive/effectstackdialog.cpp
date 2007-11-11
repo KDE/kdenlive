@@ -84,6 +84,7 @@ namespace Gui {
 	 m_blockUpdate = false;
 	 m_effecttype = "";
 	 m_hasKeyFrames = false;
+
 	 tabWidget2->setTabEnabled(tabWidget2->page(1), false);
 
 	 connect(m_upButton, SIGNAL(clicked()), m_effectList,
@@ -112,7 +113,9 @@ namespace Gui {
 	/*connect(spinValue, SIGNAL(valueChanged(int)), sliderValue, SLOT(setValue(int)));
 	   connect(sliderValue, SIGNAL(valueChanged(int)), spinValue, SLOT(setValue(int)));
 	   connect(spinValue, SIGNAL(valueChanged(int)), this, SLOT(changeKeyFrameValue(int))); */
-    } EffectStackDialog::~EffectStackDialog() {
+    } 
+
+    EffectStackDialog::~EffectStackDialog() {
     }
 
     void EffectStackDialog::disableButtons()
@@ -193,8 +196,9 @@ namespace Gui {
                 }
 	    }
 	    else if (m_effecttype == "position") {
-		int maxValue = clip->cropDuration().frames(KdenliveSettings::defaultfps());
-		int minValue = clip->cropStartTime().frames(KdenliveSettings::defaultfps());
+		int minValue = 1; //clip->cropStartTime().frames(KdenliveSettings::defaultfps());
+		int maxValue = clip->duration().frames(KdenliveSettings::defaultfps());
+		// cropDuration().frames(KdenliveSettings::defaultfps()) + minValue;
 		if (minValue == 0) minValue = 1; // Currently, MLT does not support freeze at frame 0.
                 if (maxValue != minValue) {
 		  (void) new QLabel(effect->effectDescription().parameter(parameterNum)->description(), m_container);
@@ -204,6 +208,7 @@ namespace Gui {
 		  QSpinBox *spinParam = new QSpinBox(m_container, widgetName.ascii());
 		  spinParam->setMaxValue(maxValue);
 		  spinParam->setMinValue(minValue);
+		  spinParam->setValue(effect->effectDescription().parameter(parameterNum)->value().toInt());
 		  connect(m_app->getDocument(), SIGNAL(currentClipPosition(int)), spinParam, SLOT(setValue(int)));
 		  connect(buttonParam, SIGNAL(clicked()), m_app->getDocument(), SLOT(emitCurrentClipPosition()));
 		  connect(spinParam, SIGNAL(valueChanged(int)), this, SLOT(parameterChanged()));
@@ -294,6 +299,75 @@ namespace Gui {
 		  KColorButton *colorParam = new KColorButton(QColor(value), m_container, widgetName.ascii());
 		  kdDebug()<<" ++++  VALUE FOR COLOR PARAM: "<<effect->effectDescription().parameter(parameterNum)->description()<<" IS: "<<value<<endl;
 		  connect(colorParam, SIGNAL(changed(const QColor &)), this, SLOT(parameterChanged()));
+
+	    }
+	    else if (m_effecttype == "geometry") {
+		QString val = effect->effectDescription().parameter(parameterNum)->value();
+		QString valx = val.section(",", 0, 0);
+		QString valy = val.section(",", 1).section(":", 0, 0);
+		QString valw = val.section(":", 1).section("x", 0, 0);
+		QString valh = val.section(":", 1).section("x", 1);
+
+		// x widget
+		int maxValue = KdenliveSettings::defaultwidth();
+		int minValue = 0;
+		(void) new QLabel(i18n("X"), m_container);
+		QString widgetName = QString("param0");
+		QSlider *sliderParam = new QSlider(Qt::Horizontal, m_container);
+		sliderParam->setRange(minValue, maxValue);
+		QSpinBox *spinParam = new QSpinBox(m_container, widgetName.ascii());
+		spinParam->setMaxValue(maxValue);
+		spinParam->setMinValue(minValue);
+		connect(sliderParam, SIGNAL(valueChanged(int)), spinParam, SLOT(setValue(int)));
+		connect(spinParam, SIGNAL(valueChanged(int)), sliderParam, SLOT(setValue(int)));
+		spinParam->setValue(valx.toInt());
+		connect(spinParam, SIGNAL(valueChanged(int)), this, SLOT(parameterChanged()));
+
+		// y widget
+		maxValue = KdenliveSettings::defaultheight();
+		minValue = 0;
+		(void) new QLabel(i18n("Y"), m_container);
+		widgetName = QString("param1");
+		QSlider *sliderParamy = new QSlider(Qt::Horizontal, m_container);
+		sliderParamy->setRange(minValue, maxValue);
+		QSpinBox *spinParamy = new QSpinBox(m_container, widgetName.ascii());
+		spinParamy->setMaxValue(maxValue);
+		spinParamy->setMinValue(minValue);
+		connect(sliderParamy, SIGNAL(valueChanged(int)), spinParamy, SLOT(setValue(int)));
+		connect(spinParamy, SIGNAL(valueChanged(int)), sliderParamy, SLOT(setValue(int)));
+		spinParamy->setValue(valy.toInt());
+		connect(spinParamy, SIGNAL(valueChanged(int)), this, SLOT(parameterChanged()));
+
+		// w widget
+		maxValue = KdenliveSettings::defaultwidth();
+		minValue = 3;
+		(void) new QLabel(i18n("Width"), m_container);
+		widgetName = QString("param2");
+		QSlider *sliderParamw = new QSlider(Qt::Horizontal, m_container);
+		sliderParamw->setRange(minValue, maxValue);
+		QSpinBox *spinParamw = new QSpinBox(m_container, widgetName.ascii());
+		spinParamw->setMaxValue(maxValue);
+		spinParamw->setMinValue(minValue);
+		connect(sliderParamw, SIGNAL(valueChanged(int)), spinParamw, SLOT(setValue(int)));
+		connect(spinParamw, SIGNAL(valueChanged(int)), sliderParamw, SLOT(setValue(int)));
+		spinParamw->setValue(valw.toInt());
+		connect(spinParamw, SIGNAL(valueChanged(int)), this, SLOT(parameterChanged()));
+
+		// h widget
+		maxValue = KdenliveSettings::defaultheight();
+		minValue = 3;
+		(void) new QLabel(i18n("Height"), m_container);
+		widgetName = QString("param3");
+		QSlider *sliderParamh = new QSlider(Qt::Horizontal, m_container);
+		sliderParamh->setRange(minValue, maxValue);
+		QSpinBox *spinParamh = new QSpinBox(m_container, widgetName.ascii());
+		spinParamh->setMaxValue(maxValue);
+		spinParamh->setMinValue(minValue);
+		connect(sliderParamh, SIGNAL(valueChanged(int)), spinParamh, SLOT(setValue(int)));
+		connect(spinParamh, SIGNAL(valueChanged(int)), sliderParamh, SLOT(setValue(int)));
+		spinParamh->setValue(valh.toInt());
+		connect(spinParamh, SIGNAL(valueChanged(int)), this, SLOT(parameterChanged()));
+
 
 	    }
 	    else if (m_effecttype == "complex") {
@@ -391,6 +465,28 @@ namespace Gui {
 			setValue(QString::number(sbox->value()));
 		}
 	    }
+	    else if (m_effecttype == "geometry") {
+		QString value;
+		widgetName = "param0";
+		QSpinBox *sbox =
+		    dynamic_cast < QSpinBox * >(m_parameter->child(widgetName.ascii(), "QSpinBox"));
+		if (!sbox) kdWarning() << "EFFECTSTACKDIALOG ERROR, CANNOT FIND BOX FOR PARAMETER " 
+			<< parameterNum << endl;
+		else {
+		    value = QString::number(sbox->value());
+		    widgetName = "param1";
+		    sbox = dynamic_cast < QSpinBox * >(m_parameter->child(widgetName.ascii(), "QSpinBox"));
+		    if (sbox) value.append("," + QString::number(sbox->value()));
+		    widgetName = "param2";
+		    sbox = dynamic_cast < QSpinBox * >(m_parameter->child(widgetName.ascii(), "QSpinBox"));
+		    if (sbox) value.append(":" + QString::number(sbox->value()));
+		    widgetName = "param3";
+		    sbox = dynamic_cast < QSpinBox * >(m_parameter->child(widgetName.ascii(), "QSpinBox"));
+		    if (sbox) value.append("x" + QString::number(sbox->value()));
+
+		    effect->effectDescription().parameter(parameterNum)->setValue(value);
+		}
+	    }
 	    else if (m_effecttype == "bool") {
 		QCheckBox *sbox =
 		    dynamic_cast <
@@ -438,13 +534,22 @@ namespace Gui {
 	    }		
 	    parameterNum++;
 	}
-	if (effect->effectDescription().tag() == "framebuffer") {
+
+	QString tag = effect->effectDescription().tag();
+
+	if (tag == "framebuffer") {
 	    if (effect->effectDescription().name() == i18n("Speed")) m_effectList->clip()->setSpeed(effect->effectDescription().parameter(0)->value().toDouble() / 100.0);
+	    else m_effectList->clip()->setSpeed(1.0);
 
 	}
 
 	if (!m_blockUpdate) {
-	    emit generateSceneList();
+	    //emit generateSceneList();
+	    QMap <QString, QString> params = effect->getParameters(m_effectList->clip());
+
+	    if (tag != QString("framebuffer") && tag != QString("affine"))
+		m_app->getDocument()->renderer()->mltEditEffect(m_effectList->clip()->playlistTrackNum(), m_effectList->clip()->trackMiddleTime(), m_effectList->selectedEffectIndex(), effect->effectDescription().stringId(), tag, params);
+	    else emit generateSceneList();
  	    m_app->focusTimelineWidget();
 	}
     }
@@ -458,16 +563,33 @@ namespace Gui {
 
     void EffectStackDialog::slotSwitchEffect() {
 	DocClipRef *clip = m_effectList->clip();
-	Effect *effect = clip->effectAt(m_effectList->
-	    selectedEffectIndex());
+	Effect *effect = clip->effectAt(m_effectList->selectedEffectIndex());
 	if (!effect) return;
+
 	tabWidget2->setEnabled(effect->isEnabled());
 	if (effect->name() == i18n("Speed")) {
 	    // If we disable speed effect, reset clip speed to normal
 	    if (!effect->isEnabled()) clip->setSpeed( 1.0);
 	    else clip->setSpeed(effect->effectDescription().parameter(0)->value().toDouble() / 100.0);
 	}
-	emit generateSceneList();
+
+	if (effect->isEnabled()) {
+	    QMap <QString, QString> params = effect->getParameters(clip);
+	    QString tag = effect->effectDescription().tag();
+
+	    if (tag != QString("framebuffer") && tag != QString("affine"))
+		m_app->getDocument()->renderer()->mltAddEffect(clip->playlistTrackNum(), clip->trackMiddleTime(), effect->effectDescription().stringId(), tag, params);
+	    else emit generateSceneList();
+	}
+	else {
+	    QString tag = effect->effectDescription().tag();
+	    int index = 0;
+	    if (effect->effectDescription().parameter(0)->type() == "complex" || effect->effectDescription().parameter(0)->type() == "double") index = -1;
+	    m_app->getDocument()->renderer()->mltRemoveEffect(clip->playlistTrackNum(), clip->trackMiddleTime(), effect->effectDescription().stringId(), tag, index);
+	}
+
+
+	//emit generateSceneList();
 	emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
     }
 
@@ -655,7 +777,14 @@ namespace Gui {
 
 	if (!m_blockUpdate) {
 	    	emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
-	    emit generateSceneList();
+
+	    QMap <QString, QString> params = effect->getParameters(m_effectList->clip());
+	    QString tag = effect->effectDescription().tag();
+
+    	    kdDebug()<<" / / INSERTING EFFECT- "<<tag<<endl;
+	    if (tag != QString("framebuffer") && tag != QString("affine"))
+		m_app->getDocument()->renderer()->mltEditEffect(m_effectList->clip()->playlistTrackNum(), m_effectList->clip()->trackMiddleTime(), m_effectList->selectedEffectIndex(), effect->effectDescription().stringId(), tag, params);
+	    else emit generateSceneList();
 	}
     }
 
@@ -695,7 +824,13 @@ namespace Gui {
 
 	if (!m_blockUpdate) {
 	    emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
-	    emit generateSceneList();
+	    QMap <QString, QString> params = effect->getParameters(m_effectList->clip());
+	    QString tag = effect->effectDescription().tag();
+
+    	    kdDebug()<<" / / INSERTING EFFECT- "<<tag<<endl;
+	    if (tag != QString("framebuffer") && tag != QString("affine"))
+		m_app->getDocument()->renderer()->mltEditEffect(m_effectList->clip()->playlistTrackNum(), m_effectList->clip()->trackMiddleTime(), m_effectList->selectedEffectIndex(), effect->effectDescription().stringId(), tag, params);
+	    else emit generateSceneList();
 	    m_app->focusTimelineWidget();
 	}
     }

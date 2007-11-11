@@ -103,7 +103,8 @@ class TrackPanelTransitionMoveFunction:public TrackPanelFunction
     ResizeState m_resizeState;
     uint m_selectedTransition;
     GenTime m_transitionOffset;
-    
+    GenTime m_trans_start;
+    GenTime m_trans_end;
 	/** This command holds the resize information during a resize operation */
      Command::KResizeCommand * m_resizeCommand;
     SnapToGrid m_snapToGrid;
@@ -111,6 +112,7 @@ class TrackPanelTransitionMoveFunction:public TrackPanelFunction
     bool m_startedTransitionMove;
     bool m_dragging;
     GenTime m_clipOffset;
+    int m_mousePos;
     
     //void initiateDrag(DocClipRef * clipUnderMouse, GenTime mouseTime);
 };

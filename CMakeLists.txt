@@ -1,6 +1,8 @@
 SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
 INCLUDE(FindKdeLibs)
+INCLUDE(FindGettext)
+INCLUDE(KdenlivePackageMessages)
 
 # START MLT
 SET(LIBMLT_DIR ${CMAKE_MODULE_PATH})
@@ -20,5 +22,5 @@ ${LIBMLT_INCLUDE_DIR}
 #/usr/local/include/mlt
 )
 
-SUBDIRS(kdenlive renderer graphics profiles pgm icons doc po)
+SUBDIRS(kdenlive renderer graphics profiles pgm icons doc po effects)
 

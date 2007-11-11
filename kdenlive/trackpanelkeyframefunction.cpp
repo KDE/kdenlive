@@ -195,8 +195,16 @@ bool TrackPanelKeyFrameFunction::mouseReleased(Gui::KTrackPanel * panel,
 	setSelectedKeyFrame(m_selectedKeyframe);
 
     emit redrawTrack();
-    if (m_refresh)
-	emit signalKeyFrameChanged(true);
+    if (m_refresh) {
+	//emit signalKeyFrameChanged(true);
+	QMap <QString, QString> params = effect->getParameters(m_clipUnderMouse);
+	QString tag = effect->effectDescription().tag();
+
+	if (tag != QString("framebuffer") && tag != QString("affine"))
+	     m_app->getDocument()->renderer()->mltEditEffect(m_clipUnderMouse->playlistTrackNum(), m_clipUnderMouse->trackMiddleTime(), effectIndex, effect->effectDescription().stringId(), tag, params);
+	else emit signalKeyFrameChanged(true);
+
+    }
     m_refresh = false;
 
     result = true;
@@ -241,7 +249,14 @@ bool TrackPanelKeyFrameFunction::mouseMoved(Gui::KTrackPanel * panel,
 			m_selectedKeyframe = -1;
 			m_refresh = false;
 			emit redrawTrack();
-			emit signalKeyFrameChanged(true);
+
+			QMap <QString, QString> params = effect->getParameters(m_clipUnderMouse);
+			QString tag = effect->effectDescription().tag();
+
+			if (tag != QString("framebuffer") && tag != QString("affine"))
+	     		    m_app->getDocument()->renderer()->mltEditEffect(m_clipUnderMouse->playlistTrackNum(), m_clipUnderMouse->trackMiddleTime(), effectIndex, effect->effectDescription().stringId(), tag, params);
+			else emit signalKeyFrameChanged(true);
+
 			return true;
 		    }
 		    if (delta < 0) dy1 = 100;

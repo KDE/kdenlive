@@ -495,6 +495,7 @@ namespace Gui {
 	void slotProjectExtractAudio();
 	void slotProjectImportCue();
 	void slotExtractClipAudio(DocClipRef *clip);
+	void forceTimelineRefresh();
 
         /** Add a transition between the 2 selected clips */
         void slotAddTransition(int ix = 0);
@@ -543,8 +544,8 @@ namespace Gui {
         void slotRenderAudioZone();
 	void addMarkerUnderCursor();
 	void deleteMarkerUnderCursor();
-	void deleteClipMarkers(DocClipRef *clip);
         void editMarkerUnderCursor();
+	void deleteClipMarkers(DocClipRef *clip);
 	/** Hide / show effects in timeline */
 	void slotDisableEffects();
 	/** Hide / show transitions in timeline */

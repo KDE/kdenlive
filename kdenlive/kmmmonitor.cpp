@@ -236,6 +236,10 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	}
     }
 
+    void KMMMonitor::slotCheckLength() {
+	m_screen->updateClipLength();
+    }
+
     void KMMMonitor::slotSetClip(QDomDocument playlist, GenTime duration) {
 	if (m_clip) {
 	    delete m_clip;
@@ -244,8 +248,8 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	m_referredClip = 0;
 	m_editPanel->doStop();
 	setSceneList(playlist);
-	m_screen->setClipLength(duration);
-	m_editPanel->setClipLength((int) duration.frames(m_document->framesPerSecond()));
+	m_screen->updateClipLength();
+	//m_editPanel->setClipLength((int) duration.frames(m_document->framesPerSecond()));
 	activateMonitor();
     }	
 
@@ -254,7 +258,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	QDomDocument scenelist = m_clip->generateSceneList();
 	setSceneList(scenelist, (int) m_app->cursorPosition().frames(m_document->framesPerSecond()));
 	GenTime clipDuration(m_clip->duration() / m_clip->speed());
-	m_screen->setClipLength(clipDuration);
+	m_screen->updateClipLength();
 	m_editPanel->setClipLength((int) clipDuration.frames(m_document->framesPerSecond()));
 	activateMonitor();
         if (resetCropPosition) {
@@ -275,12 +279,13 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	    delete m_clip;
 	    m_clip = 0;
 	}
-	m_screen->setClipLength(GenTime());
-	m_editPanel->setClipLength(0);
+	m_screen->resetRenderer();
+	m_screen->updateClipLength();
+	//m_editPanel->setClipLength(0);
 	m_editPanel->setInpoint(GenTime(0));
 	m_editPanel->setOutpoint(GenTime(0));
         m_editPanel->seek(GenTime(0));
-	m_screen->resetRenderer();
+	
     }
 
     void KMMMonitor::startDrag() {

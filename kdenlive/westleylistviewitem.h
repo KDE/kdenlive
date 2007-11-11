@@ -31,6 +31,8 @@
   *@author Jean-Baptiste Mardelle
   */
 
+class DocClipRef;
+
 class WestleyListViewItem:public BaseListViewItem {
   public:
     WestleyListViewItem(QListViewItem * parent, QDomElement e, int width, int height);

@@ -26,6 +26,7 @@
 #include "doctrackbase.h"
 #include "effect.h"
 #include "effectparameter.h"
+#include "effectparamdesc.h"
 #include "kdenlivedoc.h"
 
 namespace Command {
@@ -65,7 +66,7 @@ namespace Command {
 	m_addEffect(true),
 	m_effect(effect->toXML()),
 	m_trackIndex(clip->trackNum()),
-	m_position(clip->trackStart() + clip->cropDuration() / 2),
+	m_position(clip->trackMiddleTime()),
 	m_effectIndex(effectIndex), m_document(document) {
     }
 
@@ -73,7 +74,7 @@ namespace Command {
 	DocClipRef * clip, int effectIndex):KCommand(), m_addEffect(false),
 	m_effect(clip->effectAt(effectIndex)->toXML()),
 	m_trackIndex(clip->trackNum()),
-	m_position(clip->trackStart() + clip->cropDuration() / 2),
+	m_position(clip->trackMiddleTime()),
 	m_effectIndex(effectIndex), m_document(document) {
     }
 
@@ -103,8 +104,21 @@ namespace Command {
 	DocTrackBase *track =
 	    m_document->projectClip().track(m_trackIndex);
 	if (track) {
-	    track->addEffectToClip(m_position, m_effectIndex,
-		m_document->createEffect(m_effect.documentElement()));
+    	    kdDebug()<<" / / INSERTING EFFECT--- "<<endl;
+	    Effect *effect = m_document->createEffect(m_effect.documentElement());
+	    track->addEffectToClip(m_position, m_effectIndex, effect);
+	    DocClipRef *clip = track->getClipAt(m_position);
+	    if (!clip) {
+		kdDebug()<<"// CANNOT FIND CLIP TO APPLY EFFECT"<<endl;
+		return;
+	    }
+	    QMap <QString, QString> params = effect->getParameters(clip);
+	    QString tag = effect->effectDescription().tag();
+
+    	    kdDebug()<<" / / INSERTING EFFECT- "<<tag<<endl;
+	    if (tag != QString("framebuffer") && tag != QString("affine"))
+		 m_document->renderer()->mltAddEffect(m_document->projectClip().playlistTrackNum(m_trackIndex), m_position, effect->effectDescription().stringId(), tag, params);
+	    else m_document->activateSceneListGeneration(true);
 	} else {
 	    kdError() <<
 		"KAddEffectCommand::addEffect() - cannot find track index "
@@ -116,7 +130,13 @@ namespace Command {
 	DocTrackBase *track =
 	    m_document->projectClip().track(m_trackIndex);
 	if (track) {
+	    Effect *effect = m_document->createEffect(m_effect.documentElement());
+	    QString tag = effect->effectDescription().tag();
 	    track->deleteEffectFromClip(m_position, m_effectIndex);
+	    int index = m_effectIndex;
+	    if (effect->effectDescription().parameter(0)->type() == "complex" || effect->effectDescription().parameter(0)->type() == "double") index = -1;
+	    if (effect->isEnabled()) m_document->renderer()->mltRemoveEffect(m_document->projectClip().playlistTrackNum(m_trackIndex), m_position, effect->effectDescription().stringId(),  tag, index);
+	    delete effect;
 	} else {
 	    kdError() <<
 		"KAddEffectCommand::deleteEffect() - cannot find track index "

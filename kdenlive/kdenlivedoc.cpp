@@ -397,6 +397,14 @@ void KdenliveDoc::hasBeenModified(bool mod)
     if (mod) setModified(mod);
 }
 
+/** Called when the document is modifed in some way. */
+void KdenliveDoc::forceTimelineRefresh()
+{
+	kdDebug()<<" *********  FORCE REFRSH"<<endl;
+	refreshVirtualClips();
+        if (m_projectClip->producersList.isNull()) generateProducersList();
+	emit documentChanged(m_projectClip);
+}
 
 /** Renders the current document timeline to the specified url. */
 void KdenliveDoc::renderDocument(const KURL & url)
@@ -443,8 +451,12 @@ void KdenliveDoc::connectProjectClip()
 
 // Commented out following line, causes multiple unnecessary refreshes - jbm, 26/12/05 
     connect(m_projectClip, SIGNAL(clipLayoutChanged()), this, SLOT(hasBeenModified()));
-    connect(m_projectClip, SIGNAL(effectStackChanged(DocClipRef *)), this,
-	SLOT(hasBeenModified()));
+    //connect(m_projectClip, SIGNAL(effectStackChanged(DocClipRef *)), this, SLOT(hasBeenModified()));
+}
+
+void KdenliveDoc::slotUpdateMonitorPlaytime()
+{
+    emit updateMonitorPlaytime();
 }
 
 const GenTime & KdenliveDoc::projectDuration() const
@@ -905,7 +917,7 @@ const QString KdenliveDoc::getEffectStringId(QString effectName) const
 
 void KdenliveDoc::slotDeleteClipTransition()
 {
-    application()->transitionPanel()->setTransition(0);
+    m_app->transitionPanel()->setTransition(0, this);
     emit documentChanged(m_projectClip);
 }
 

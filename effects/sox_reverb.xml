@@ -1,0 +1,14 @@
+<!DOCTYPE kpartgui>
+<effect tag="sox">
+	<name>Sox Reverb</name>
+	<properties id="sox_reverb" tag="sox" type="audio" />
+	<parameter type="constant" name="gain-out" max="100" min="0" default="50" factor="100">
+		<name>Gain out</name>
+	</parameter>
+	<parameter type="constant" name="reverb-time" max="5000" min="100" default="1000">
+		<name>Reverb Time</name>
+	</parameter>	
+	<parameter type="constant" name="delay" max="500" min="100" default="200">
+		<name>Delay</name>
+	</parameter>
+</effect>

@@ -102,6 +102,7 @@ DocClipBase *ClipManager::insertClip(KURL file, int thumbnailFrame, int clipId)
 
         if (clipId == -1) clip = new DocClipAVFile(file.fileName(), file, m_clipCounter++);
         else {
+	    clipId = checkId(clipId);
             clip = new DocClipAVFile(file.fileName(), file, clipId);
             if (clipId >= (int) m_clipCounter) m_clipCounter = clipId+1;
         }
@@ -134,6 +135,7 @@ QDomDocument ClipManager::buildClip(KURL & file, int clipId)
 
         if (clipId == -1) clip = new DocClipAVFile(file.fileName(), file, m_clipCounter++);
         else {
+	    clipId = checkId(clipId);
             clip = new DocClipAVFile(file.fileName(), file, clipId);
 	    if (clipId >= (int) m_clipCounter) m_clipCounter = clipId + 1;
         }
@@ -162,6 +164,7 @@ DocClipBase *ClipManager::insertImageClip(KURL file,
 
     	if (clipId == -1) clip = new DocClipAVFile(file, duration, alphaTransparency, m_clipCounter++);
     	else {
+	    clipId = checkId(clipId);
             clip = new DocClipAVFile(file, duration, alphaTransparency, clipId);
             if (clipId >= (int) m_clipCounter) m_clipCounter = clipId + 1;
     	}
@@ -195,6 +198,7 @@ QDomDocument ClipManager::buildImageClip(KURL file,
 
     	if (clipId == -1) clip = new DocClipAVFile(file, duration, alphaTransparency, m_clipCounter++);
     	else {
+		clipId = checkId(clipId);
         	clip = new DocClipAVFile(file, duration, alphaTransparency, clipId);
 		if (clipId >= (int) m_clipCounter) m_clipCounter = clipId + 1;
     	}
@@ -221,6 +225,7 @@ DocClipBase *ClipManager::insertSlideshowClip(const KURL & file,
 
     	if (clipId == -1) clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, loop, crossfade, lumaFile, lumasoftness, lumaduration, m_clipCounter++);
     	else {
+	    clipId = checkId(clipId);
             clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, loop, crossfade, lumaFile, lumasoftness, lumaduration, clipId);
             if (clipId >= (int) m_clipCounter) m_clipCounter = clipId + 1;
     	}
@@ -255,6 +260,7 @@ QDomDocument ClipManager::buildSlideshowClip(const KURL & file,
 
     	if (clipId == -1) clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, loop, crossfade, lumaFile, lumasoftness, lumaduration, m_clipCounter++);
     	else {
+	    clipId = checkId(clipId);
 	    clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, loop, crossfade, lumaFile, lumasoftness, lumaduration, clipId);
 	    if (clipId >= (int) m_clipCounter) m_clipCounter = clipId + 1;
     	}
@@ -279,6 +285,7 @@ DocClipBase *ClipManager::insertColorClip(const QString & color,
 	clip = new DocClipAVFile(color, duration, m_clipCounter++);
     }
     else {
+	clipId = checkId(clipId);
         clip = new DocClipAVFile(color, duration, clipId);
         if (clipId >= (int) m_clipCounter) m_clipCounter = clipId + 1;
     }
@@ -297,6 +304,7 @@ QDomDocument ClipManager::buildColorClip(const QString & color,
     DocClipBase *clip;
     if (clipId == -1) clip = new DocClipAVFile(color, duration, m_clipCounter++);
     else {
+	clipId = checkId(clipId);
         clip = new DocClipAVFile(color, duration, clipId);
 	if (clipId >= (int) m_clipCounter) m_clipCounter = clipId + 1;
     }
@@ -313,6 +321,7 @@ QDomDocument ClipManager::buildTextClip(const GenTime & duration, const QString 
     DocClipBase *clip;
     if (clipId == -1) clip = new DocClipTextFile( name, description, duration, xml, url, 0, alphaTransparency, m_clipCounter++);
     else {
+	clipId = checkId(clipId);
         clip = new DocClipTextFile( name, description, duration, xml, url, 0, alphaTransparency, clipId);
 	if (clipId >= (int) m_clipCounter) m_clipCounter = clipId + 1;
     }
@@ -327,6 +336,7 @@ QDomDocument ClipManager::buildVirtualClip(const GenTime & start, const GenTime 
     DocClipBase *clip;
     if (clipId == -1) clip = new DocClipVirtual( url, name, description, start, end, m_clipCounter++);
     else {
+	clipId = checkId(clipId);
         clip = new DocClipVirtual(url, name, description, start, end, clipId);
 	if (clipId >= (int) m_clipCounter) m_clipCounter = clipId + 1;
     }
@@ -441,6 +451,7 @@ DocClipBase *ClipManager::insertTextClip(
     DocClipBase *clip;
     if (clipId == -1) clip = new DocClipTextFile( name, description, duration, xml, url, result, alphaTransparency, m_clipCounter++);
     else {
+	clipId = checkId(clipId);
         clip = new DocClipTextFile( name, description, duration, xml, url, result, alphaTransparency, clipId);
         if (clipId >= (int) m_clipCounter) m_clipCounter = clipId + 1;
     }
@@ -593,16 +604,18 @@ DocClipBase *ClipManager::findClipById(uint id)
     return result;
 }
 
-bool ClipManager::producerIdExists(uint id) const
+
+int ClipManager::checkId(uint id)
 {
     QPtrListIterator < DocClipBase > itt(m_clipList);
     while (itt.current()) {
         if (itt.current()->getId() == id) {
-            return true;
+	    kdDebug()<<" / // / WARNING, Trying to insert a clip with already existing ID: "<<id<<endl;
+            return requestIdNumber();
 	}
 	++itt;
     }
-    return false;
+    return id;
 }
 
 int ClipManager::requestIdNumber()

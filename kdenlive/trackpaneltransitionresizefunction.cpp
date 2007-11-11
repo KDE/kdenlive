@@ -24,6 +24,7 @@
 #include "kselectclipcommand.h"
 #include "docclipproject.h"
 #include "transitionstack.h"
+#include "kmovetransitioncommand.h"
 
 #include <cmath>
 
@@ -163,6 +164,10 @@ bool TrackPanelTransitionResizeFunction::mousePressed(Gui::KTrackPanel * panel,
                             cursor.append((*itt)->transitionEndTime());
                         }
                         m_snapToGrid.setCursorTimes(cursor);
+
+			m_trans_start = (*itt)->transitionStartTime();
+			m_trans_end = (*itt)->transitionEndTime();
+
                         /*m_resizeCommand =
                                 new Command::KResizeCommand(m_document,
                                 *m_clipUnderMouse);*/
@@ -185,8 +190,21 @@ bool TrackPanelTransitionResizeFunction::mouseReleased(Gui::KTrackPanel * panel,
 {
     bool result = false;
     m_dragStarted = false;
+    //emit transitionChanged(true);
+
+    Transition * trans = m_clipUnderMouse->transitionAt(m_selectedTransition);
+    GenTime start = trans->transitionStartTime();
+    GenTime end = trans->transitionEndTime();
+    if (m_resizeState == Start) {
+	Command::KMoveTransitionCommand *move = new Command::KMoveTransitionCommand(m_document, m_clipUnderMouse, trans, m_trans_start, m_trans_end, start, m_trans_end);
+	m_app->addCommand(move, true);
+    }
+    else {
+	Command::KMoveTransitionCommand *move = new Command::KMoveTransitionCommand(m_document, m_clipUnderMouse, trans, m_trans_start, m_trans_end, m_trans_start, end);
+        m_app->addCommand(move, true);
+    }
+
     m_selectedTransition = 0;
-    emit transitionChanged(true);
     result = true;
     return result;
 }

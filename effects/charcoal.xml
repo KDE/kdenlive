@@ -1,0 +1,20 @@
+<!DOCTYPE kpartgui>
+<effect tag="charcoal">
+	<name>Charcoal</name>
+	<properties id="charcoal" tag="charcoal" />
+	<parameter type="constant" name="x_scatter" max="10" min="0" default="2">
+		<name>Horizontal scatter</name>
+	</parameter>
+	<parameter type="constant" name="y_scatter" max="10" min="0" default="2">
+		<name>Vertical scatter</name>
+	</parameter>
+	<parameter type="constant" name="scale" max="10" min="0" default="1">
+		<name>Scale</name>
+	</parameter>
+	<parameter type="constant" name="mix" max="10" min="0" default="0">
+		<name>Mix</name>
+	</parameter>
+	<parameter type="bool" name="invert" default="0">
+		<name>Invert</name>
+	</parameter>
+</effect>

@@ -22,8 +22,11 @@
 #include <qstringlist.h>
 #include <qptrlist.h>
 #include <qdom.h>
+#include <qmap.h>
 
 #include "effectdesc.h"
+
+class DocClipRef;
 class EffectDesc;
 class EffectParameter;
 
@@ -59,6 +62,7 @@ class Effect {
     } 
 
    EffectParameter *parameter(const uint ix);
+   QMap <QString, QString> getParameters(DocClipRef *clip);
 
 	/** Creates a new keyframe at specified time and returns the new key's index */
     uint addKeyFrame(const uint ix, double time);

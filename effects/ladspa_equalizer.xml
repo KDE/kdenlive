@@ -1,0 +1,14 @@
+<!DOCTYPE kpartgui>
+<effect tag="ladspa" library="dj_eq_1901.so">
+	<name>Equalizer</name>
+	<properties id="equalizer" tag="ladspa1901" type="audio" />
+	<parameter type="constant" name="logain" max="6" min="-70" default="0">
+		<name>Lo gain</name>
+	</parameter>
+	<parameter type="constant" name="midgain" max="6" min="-70" default="0">
+		<name>Mid gain</name>
+	</parameter>
+	<parameter type="constant" name="higain" max="6" min="-70" default="0">
+		<name>Hi gain</name>
+	</parameter>
+</effect>

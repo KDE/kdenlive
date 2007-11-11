@@ -1,0 +1,11 @@
+<!DOCTYPE kpartgui>
+<effect tag="threshold">
+	<name>Threshold</name>
+	<properties id="threshold" tag="threshold" />
+	<parameter type="constant" name="midpoint" max="255" min="0" default="128">
+		<name>Threshold value</name>
+	</parameter>
+	<parameter type="bool" name="use_alpha" default="0">
+		<name>Use transparency</name>
+	</parameter>
+</effect>

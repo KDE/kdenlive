@@ -302,6 +302,8 @@ class DocClipRef:public QObject {
         bool hasVariableThumbnails();
         
         bool hasTransition(DocClipRef *clip);
+	int transitionIndex(Transition *trans);
+	Transition *transitionAt(int ix);
         void deleteTransitions();
         int addTransition(Transition *transition);
 	void deleteTransition(QDomElement transitionXml);

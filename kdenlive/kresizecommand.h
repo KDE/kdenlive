@@ -21,6 +21,7 @@
 #include <kcommand.h>
 
 #include "gentime.h"
+#include "transitionstack.h"
 
 /**This command handles the resizing of clips.
   *@author Jason Wood
@@ -59,6 +60,8 @@ namespace Command {
 	GenTime m_end_trackStart;
 	GenTime m_end_cropStart;
 	GenTime m_end_trackEnd;
+	QValueList < QPoint > m_transitionStartPoints;
+	QValueList < QPoint > m_transitionEndPoints;
   /** Pointer to the document */
 	KdenliveDoc *m_doc;
     };

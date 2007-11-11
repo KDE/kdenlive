@@ -1,0 +1,14 @@
+<!DOCTYPE kpartgui>
+<effect tag="framebuffer">
+	<name>Speed</name>
+	<properties id="speed" tag="framebuffer"/>
+	<parameter type="constant" name="_speed" max="300" min="1" default="100" factor="100">
+		<name>Speed</name>
+	</parameter>
+	<parameter type="constant" name="strobe" max="100" min="1" default="1">
+		<name>Stroboscope</name>
+	</parameter>	
+	<parameter type="bool" name="reverse" default="0">
+		<name>Reverse playing</name>
+	</parameter>
+</effect>

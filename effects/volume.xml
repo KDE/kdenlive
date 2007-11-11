@@ -1,0 +1,8 @@
+<!DOCTYPE kpartgui>
+<effect tag="volume">
+	<name>Volume</name>
+	<properties id="volume" tag="volume" type="audio" />
+	<parameter type="double" name="gain" starttag="gain" max="300" min="0" default="10" factor="100">
+		<name>Gain</name>
+	</parameter>
+</effect>

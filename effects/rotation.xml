@@ -1,0 +1,14 @@
+<!DOCTYPE kpartgui>
+<effect tag="affine">
+	<name>Rotate</name>
+	<properties id="affine" tag="affine" />
+	<parameter type="constant" name="transition.rotate_x" max="200" min="-200" default="0" factor="10">
+		<name>Rotation x</name>
+	</parameter>
+	<parameter type="constant" name="transition.rotate_y" max="200" min="-200" default="0" factor="10">
+		<name>Rotation y</name>
+	</parameter>
+	<parameter type="constant" name="transition.rotate_z" max="200" min="-200" default="0" factor="10">
+		<name>Rotation z</name>
+	</parameter>
+</effect>

@@ -40,6 +40,7 @@ m_dragging(false), m_startedClipMove(false), m_masterClip(0), m_clipOffset(0)
     m_moveClipsCommand = 0;
     m_deleteClipsCommand = 0;
     m_addingClips = false;
+    m_firststep = true;
 }
 
 
@@ -230,6 +231,7 @@ bool TrackPanelClipMoveFunction::dragMoved(Gui::KTrackPanel *, QDragMoveEvent * 
 	} else {
 	    if (m_document->projectClip().canAddClipsToTracks(m_selection,
 		    trackUnder, mouseTime)) {
+		m_selection_to_add = m_selection;
 		addClipsToTracks(m_selection, trackUnder, mouseTime, true);
 		setupSnapToGrid();
 		m_selection.clear();
@@ -289,7 +291,6 @@ bool TrackPanelClipMoveFunction::dragLeft(Gui::KTrackPanel *, QDragLeaveEvent *)
     if (m_moveClipsCommand) {
         m_moveClipsCommand->setEndLocation(m_masterClip);
         m_app->addCommand(m_moveClipsCommand, false);
-
 	// In a drag Leave Event, any clips in the selection are removed from the timeline.
 	//delete m_moveClipsCommand;
         m_moveClipsCommand = 0;
@@ -329,10 +330,23 @@ bool TrackPanelClipMoveFunction::dragDropped(Gui::KTrackPanel * panel,
 	}
 
 	if (m_addingClips) {
-	    m_app->addCommand(createAddClipsCommand(), false);
+	
+	    m_app->addCommand(createAddClipsCommand(), true);
 	    m_addingClips = false;
             m_app->clipReferenceChanged();
-	    m_document->activateSceneListGeneration(true);
+
+	    /*
+	    QPoint pos = event->pos();
+	    int trackUnder = trackUnderPoint(pos);
+    	    QPtrListIterator < DocClipRef > itt(m_selection_to_add);
+
+    	    while (itt.current() != 0) {
+	        m_document->renderer()->mltInsertClip(trackUnder, itt.current()->trackStart().frames(25), itt.current()->fileURL().path());
+	    ++itt;
+	    }*/
+
+	    //if (m_firststep) m_document->activateSceneListGeneration(true);
+	    m_firststep = false;
 	}
 
 	if (m_deleteClipsCommand) {
@@ -344,9 +358,12 @@ bool TrackPanelClipMoveFunction::dragDropped(Gui::KTrackPanel * panel,
 	    m_moveClipsCommand->setEndLocation(m_masterClip);
 	    if (!m_moveClipsCommand->doesMove())
 	    {
-		m_document->activateSceneListGeneration(true);
-	        m_app->addCommand(m_moveClipsCommand, false);
-	        m_moveClipsCommand = 0;	// KdenliveApp is now managing this command, we do not need to delete it.
+		//m_document->activateSceneListGeneration(true);
+		moveSelectedClips(m_moveClipsCommand->startTrack(), m_moveClipsCommand->startTime());
+	        m_app->addCommand(m_moveClipsCommand, true);
+	        m_moveClipsCommand = 0;	
+		m_document->slotUpdateMonitorPlaytime();
+		// KdenliveApp is now managing this command, we do not need to delete it.
 	    }
 	    else {
 		m_document->activateSceneListGeneration(true, false);
@@ -354,6 +371,7 @@ bool TrackPanelClipMoveFunction::dragDropped(Gui::KTrackPanel * panel,
 		m_moveClipsCommand = 0;
 	    }
 	}
+	event->accept();
     } else if (EffectDrag::canDecode(event)) {
 	DocClipRef *clipUnderMouse = 0;
 	Gui::KTrackPanel * panel =
@@ -456,8 +474,8 @@ void TrackPanelClipMoveFunction::addClipsToTracks(DocClipRefList & clips,
 
 
 	if ((moveToTrack >= 0) && (moveToTrack < (int)m_document->numTracks())) {
-	    m_document->track(moveToTrack)->addClip(itt.current(),
-		selected);
+	    //if (itt.current()->referencedClip()->numReferences() == 0)
+	    m_document->track(moveToTrack)->addClip(itt.current(), selected);
 	}
 
 	++itt;
@@ -495,6 +513,9 @@ void TrackPanelClipMoveFunction::initiateDrag(DocClipRef * clipUnderMouse,
 
     m_moveClipsCommand =
 	new Command::KMoveClipsCommand(m_document, m_masterClip);
+
+    m_moveClipsCommand->setClipList(m_document->listSelected());
+
     m_deleteClipsCommand =
 	Command::KAddRefClipCommand::deleteSelectedClips(m_document);
     setupSnapToGrid();
@@ -511,7 +532,7 @@ void TrackPanelClipMoveFunction::initiateDrag(DocClipRef * clipUnderMouse,
 
 KMacroCommand *TrackPanelClipMoveFunction::createAddClipsCommand()
 {
-    KMacroCommand *macroCommand = new KMacroCommand(i18n("Delete Clips"));
+    KMacroCommand *macroCommand = new KMacroCommand(i18n("Add Clips"));
 
 	 for (int count = 0; count < (int)m_document->numTracks(); ++count) {
 	DocTrackBase *track = m_document->track(count);
@@ -520,8 +541,7 @@ KMacroCommand *TrackPanelClipMoveFunction::createAddClipsCommand()
 
 	while (itt.current()) {
 	    Command::KAddRefClipCommand * command =
-		new Command::KAddRefClipCommand(m_document->
-		effectDescriptions(), *m_document, itt.current(), true);
+		new Command::KAddRefClipCommand(*m_document, itt.current(), true);
 	    macroCommand->addCommand(command);
             (*itt)->referencedClip()->addReference();
 	    ++itt;

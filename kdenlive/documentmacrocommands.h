@@ -18,6 +18,7 @@
 #define DOCUMENTMACROCOMMANDS_H
 
 #include "gentime.h"
+#include "kdenlive.h"
 
 class KCommand;
 
@@ -40,7 +41,7 @@ namespace Command {
 	static KCommand *razorAllClipsAt(KdenliveDoc * document,
 	    const GenTime & time);
 	/** Razor all selected clips which are at the time specified, irrespective of which track they are on. */
-	static KCommand *razorSelectedClipsAt(KdenliveDoc * document,
+	static KCommand *razorSelectedClipsAt(Gui::KdenliveApp * app, KdenliveDoc * document,
 	    const GenTime & time);
 
 	 DocumentMacroCommands();

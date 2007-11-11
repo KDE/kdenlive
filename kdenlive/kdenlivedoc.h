@@ -253,6 +253,7 @@ class KdenliveDoc:public QObject {
     KURL m_projectFolder;
     /** Holds metadata (author, title, comment, copyright, album, track, year) for this project */
     QStringList m_metadata;
+
     
     public slots:
 	/** Adds a sound track to the project */
@@ -273,9 +274,12 @@ class KdenliveDoc:public QObject {
     void slotDeleteClipTransition();
     void slotCheckCurrentTransition();
     void slotResizeClipTransition(const QString &duration);
+
     void slotUpdateClipThumbnails(DocClipBase *clip);
 	/** Check that all audio thumbnails have been generated. */
     void refreshAudioThumbnails();
+	/** Force timeline recreation */
+    void forceTimelineRefresh();
 
 	/** called to generate scenelist the first time a document is loaded */
     void initSceneListGeneration();
@@ -284,6 +288,8 @@ class KdenliveDoc:public QObject {
     QString guidesStringList();
 
     void emitCurrentClipPosition();
+
+    void slotUpdateMonitorPlaytime();
 
     Gui::KdenliveApp *application() {
     return m_app;
@@ -331,6 +337,8 @@ class KdenliveDoc:public QObject {
 	/** Emitted when an effect needs to know relative position in a clip. */
     void currentClipPosition(int);
     void selectProjectItem(int);
+
+    void updateMonitorPlaytime();
 };
 
 #endif				// KDENLIVEDOC_H

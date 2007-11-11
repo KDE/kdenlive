@@ -1,0 +1,11 @@
+<!DOCTYPE kpartgui>
+<effect tag="mirror">
+	<name>Mirror</name>
+	<properties id="mirror" tag="mirror"/>
+	<parameter type="list" name="mirror" default="horizontal" paramlist="horizontal,vertical,diagonal,xdiagonal,flip,flop">
+		<name>Mirroring direction</name>
+	</parameter>
+	<parameter type="bool" name="reverse" default="0">
+		<name>Invert</name>
+	</parameter>
+</effect>

@@ -1,0 +1,5 @@
+<!DOCTYPE kpartgui>
+<effect tag="invert">
+	<name>Invert</name>
+	<properties id="invert" tag="invert" />
+</effect>

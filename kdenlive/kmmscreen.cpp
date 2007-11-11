@@ -40,6 +40,10 @@ namespace Gui {
 
 	 connect(m_render, SIGNAL(playing(double)), m_monitor,
 	    SLOT(slotPlaySpeedChanged(double)));
+
+	 connect(m_render, SIGNAL(durationChanged()), this,
+	    SLOT(updateClipLength()));
+
 	 connect(m_render, SIGNAL(stopped()), this,
 	    SLOT(slotRendererStopped()));
 	m_render->createVideoXWindow(winId(), m_monitor->externalMonitor());
@@ -186,8 +190,11 @@ namespace Gui {
 	seek(newSeek);
     }
 
-    void KMMScreen::setClipLength(GenTime duration) {
-	m_clipLength = duration;
+    void KMMScreen::updateClipLength(){
+	int length = getLength();
+	kdDebug()<<"//  SCREEN length update: "<<length<<endl;
+	m_monitor->editPanel()->setClipLength(length);
+	m_clipLength = GenTime(length, KdenliveSettings::defaultfps());
     }
 
 }				// namespace Gui

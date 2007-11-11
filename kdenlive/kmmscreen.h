@@ -48,7 +48,7 @@ public:
 
 	/** Returns the current seek position */
 	const GenTime & seekPosition() const;
-	void setClipLength(GenTime duration);
+
 protected:
 	void mousePressEvent(QMouseEvent * e);
 	void mouseReleaseEvent(QMouseEvent * e);
@@ -100,6 +100,8 @@ public slots:
 
 	/** return current scenelist */
 	QDomDocument sceneList();
+
+	void updateClipLength();
 
 signals:
 	/** Emitted when the screen has seeked to a new position, e.g. when the renderer is playing. */
