@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="38">
+<kpartgui name="kdenlive" version="39">
 <MenuBar>
   <Menu name="file">
 	<Action name="merge_project"/>
@@ -38,6 +38,7 @@
       <Action name="restore_zoom"/>
       <Separator />
       <Action name="show_markers"/>
+      <Action name="sync_timeline"/>
   </Menu>
   
   <Menu name="project"><text>&amp;Project</text>
