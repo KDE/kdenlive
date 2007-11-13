@@ -351,12 +351,13 @@ transitionwipewidget.h
 
 ADD_DEFINITIONS ( ${QT_DEFINITIONS} -DVERSION=\\"0.6svn\\" -D__STDC_CONSTANT_MACROS)
 
-INCLUDE_DIRECTORIES(. ${KDE3_INCLUDE_DIR} ${QT_INCLUDE_DIR} /usr/include/mlt /usr/include/mlt++ )
+INCLUDE_DIRECTORIES(. ${KDE3_INCLUDE_DIR} ${QT_INCLUDE_DIR} /usr/include/mlt /usr/include/mlt++ ${CMAKE_CURRENT_BINARY_DIR})
+
 LINK_DIRECTORIES( ${KDE3_LIB_DIR} ) 
 ADD_EXECUTABLE(kdenlive ${SRC_FILES} ${SRC_MOC} ${SRC_UI} ${SRC_KCFG} )
 TARGET_LINK_LIBRARIES(kdenlive ${QT_LIBRARIES} kio kdeui mlt++ kdecore knewstuff kdeprint)
 
-INSTALL (PROGRAMS kdenlive DESTINATION ${CMAKE_INSTALL_PREFIX}/bin )
+INSTALL_TARGETS (${CMAKE_INSTALL_PREFIX}/bin kdenlive )
 INSTALL (FILES kdenlive.kcfg DESTINATION share/config.cfg)
 INSTALL (FILES kdenliveui.rc eventsrc DESTINATION share/apps/kdenlive)
 INSTALL (FILES eventsrc DESTINATION share/applications/kde)

@@ -1,3 +1,5 @@
+EXECUTE_PROCESS(COMMAND kde-config --install locale --expandvars
+                OUTPUT_VARIABLE KDE3_LOCALEDIR)
 GETTEXT_CREATE_TRANSLATIONS(kdenlive.pot ALL
     ca.po
     cs.po
