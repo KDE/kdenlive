@@ -1,5 +1,6 @@
-EXECUTE_PROCESS(COMMAND kde-config --install locale --expandvars
-                OUTPUT_VARIABLE KDE3_LOCALEDIR)
+#EXECUTE_PROCESS(COMMAND kde-config --install locale --expandvars
+#                OUTPUT_VARIABLE KDE3_LOCALEDIR)
+SET(KDE3_LOCALEDIR ${CMAKE_INSTALL_PREFIX}/share/locale)
 GETTEXT_CREATE_TRANSLATIONS(kdenlive.pot ALL
     ca.po
     cs.po
