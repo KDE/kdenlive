@@ -169,18 +169,18 @@
 
 ### THEORA
 
-:MED:Theora:160x112:Low::avformat::avi:vcodec=libtheora acodec=vorbis video_rc_min_rate=0 video_bit_rate=100000 audio_bit_rate=16000 frequency=11025 size=160x112 progressive=1
-:MED:Theora:160x112:Medium::avformat::avi:vcodec=libtheora acodec=vorbis video_rc_min_rate=0 video_bit_rate=300000 audio_bit_rate=64000 frequency=22050 size=160x112 progressive=1
-:MED:Theora:160x112:High::avformat::avi:vcodec=libtheora acodec=vorbis video_rc_min_rate=0 video_bit_rate=500000 audio_bit_rate=128000 frequency=32000 size=160x112 progressive=1
+:MED:Theora:160x112:Low::avformat::ogg:vcodec=libtheora acodec=vorbis video_rc_min_rate=0 video_bit_rate=100000 audio_bit_rate=16000 frequency=11025 size=160x112 progressive=1
+:MED:Theora:160x112:Medium::avformat::ogg:vcodec=libtheora acodec=vorbis video_rc_min_rate=0 video_bit_rate=300000 audio_bit_rate=64000 frequency=22050 size=160x112 progressive=1
+:MED:Theora:160x112:High::avformat::ogg:vcodec=libtheora acodec=vorbis video_rc_min_rate=0 video_bit_rate=500000 audio_bit_rate=128000 frequency=32000 size=160x112 progressive=1
 
 
-:MED:Theora:320x240:Low::avformat::avi:vcodec=libtheora acodec=vorbis video_rc_min_rate=0 video_bit_rate=600000 audio_bit_rate=16000 frequency=11025 size=320x240 progressive=1
-:MED:Theora:320x240:Medium::avformat::avi:vcodec=libtheora acodec=vorbis video_rc_min_rate=0 video_bit_rate=1000000 audio_bit_rate=64000 frequency=22050 size=320x240 progressive=1
-:MED:Theora:320x240:High::avformat::avi:vcodec=libtheora acodec=vorbis video_rc_min_rate=0 video_bit_rate=1200000 audio_bit_rate=128000 frequency=32000 size=320x240 progressive=1
+:MED:Theora:320x240:Low::avformat::ogg:vcodec=libtheora acodec=vorbis video_rc_min_rate=0 video_bit_rate=600000 audio_bit_rate=16000 frequency=11025 size=320x240 progressive=1
+:MED:Theora:320x240:Medium::avformat::ogg:vcodec=libtheora acodec=vorbis video_rc_min_rate=0 video_bit_rate=1000000 audio_bit_rate=64000 frequency=22050 size=320x240 progressive=1
+:MED:Theora:320x240:High::avformat::ogg:vcodec=libtheora acodec=vorbis video_rc_min_rate=0 video_bit_rate=1200000 audio_bit_rate=128000 frequency=32000 size=320x240 progressive=1
 
-:MED:Theora:640x480:Low::avformat::avi:vcodec=libtheora acodec=vorbis video_rc_min_rate=0 video_bit_rate=3000000 audio_bit_rate=32000 frequency=22050 size=640x480 progressive=1
-:MED:Theora:640x480:Medium::avformat::avi:vcodec=libtheora acodec=vorbis video_rc_min_rate=0 video_bit_rate=5000000 audio_bit_rate=64000 frequency=32000 size=640x480 progressive=1
-:MED:Theora:640x480:High::avformat::avi:vcodec=libtheora acodec=vorbis video_rc_min_rate=0 video_bit_rate=7000000 audio_bit_rate=128000 frequency=44100 size=640x480 progressive=1
+:MED:Theora:640x480:Low::avformat::ogg:vcodec=libtheora acodec=vorbis video_rc_min_rate=0 video_bit_rate=3000000 audio_bit_rate=32000 frequency=22050 size=640x480 progressive=1
+:MED:Theora:640x480:Medium::avformat::ogg:vcodec=libtheora acodec=vorbis video_rc_min_rate=0 video_bit_rate=5000000 audio_bit_rate=64000 frequency=32000 size=640x480 progressive=1
+:MED:Theora:640x480:High::avformat::ogg:vcodec=libtheora acodec=vorbis video_rc_min_rate=0 video_bit_rate=7000000 audio_bit_rate=128000 frequency=44100 size=640x480 progressive=1
 
 
 #### AUDIO
