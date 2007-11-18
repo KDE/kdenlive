@@ -92,11 +92,12 @@ kmmtracksoundpanel.cpp
 kmmtrackvideopanel.cpp
 kmonitor.cpp
 kmoveclipscommand.cpp
+kmovetransitioncommand.cpp
 kplacer.cpp
+krazorclipscommand.cpp
 krender.cpp
 krendermanager.cpp
 kresizecommand.cpp
-kmovetransitioncommand.cpp
 krollcommand.cpp
 kruler.cpp
 krulermodel.cpp
@@ -104,7 +105,6 @@ krulersliderbase.cpp
 krulertimemodel.cpp
 kscalableruler.cpp
 kselectclipcommand.cpp
-krazorclipscommand.cpp
 kthumb.cpp
 ktimeline.cpp
 ktrackpanel.cpp
@@ -283,11 +283,12 @@ kmmtracksoundpanel.h
 kmmtrackvideopanel.h
 kmonitor.h
 kmoveclipscommand.h
+kmovetransitioncommand.h
 kplacer.h
+krazorclipscommand.h
 krender.h
 krendermanager.h
 kresizecommand.h
-kmovetransitioncommand.cpp
 krollcommand.h
 kruler.h
 krulermodel.h
@@ -295,7 +296,6 @@ krulersliderbase.h
 krulertimemodel.h
 kscalableruler.h
 kselectclipcommand.h
-krazorclipscommand.h
 kthumb.h
 ktimeline.h
 ktrackpanel.h
@@ -350,8 +350,7 @@ transitionwipewidget.h
 )
 
 ADD_DEFINITIONS ( ${QT_DEFINITIONS} -DVERSION=\\"0.6svn\\" -D__STDC_CONSTANT_MACROS)
-
-INCLUDE_DIRECTORIES(. ${KDE3_INCLUDE_DIR} ${QT_INCLUDE_DIR} /usr/include/mlt /usr/include/mlt++ ${CMAKE_CURRENT_BINARY_DIR})
+INCLUDE_DIRECTORIES(. ${KDE3_INCLUDE_DIR} ${QT_INCLUDE_DIR} ${LIBMLT_INC} ${MLT_PATH}/include/mlt++ ${CMAKE_CURRENT_BINARY_DIR})
 
 LINK_DIRECTORIES( ${KDE3_LIB_DIR} ) 
 ADD_EXECUTABLE(kdenlive ${SRC_FILES} ${SRC_MOC} ${SRC_UI} ${SRC_KCFG} )
