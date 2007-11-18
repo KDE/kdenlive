@@ -1,6 +1,6 @@
 SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmakemodules ${CMAKE_SOURCE_DIR}/cmake/modules)
 
-INCLUDE(FindKdeLibs)
+# INCLUDE(FindKdeLibs)
 INCLUDE(FindGettext)
 INCLUDE(KdenlivePackageMessages)
 

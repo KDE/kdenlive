@@ -1,20 +1,9 @@
 TODO List
 
-Urgent
-- effect detection / editing for kdenlive
-- other-than-DV support for piave (ffmpeg?)
-- DV capture dialog
-
-Less urgent
-* (Kdenlive) KDockWidget layouts need to be saved on exit/opened on loading.
-* (Kdenlive) Dragging a clip to the timeline with undefined length should become full-length once it's duration is known.
-
-This is not a comprehensive list :-) If you are interested in helping
-with the development of Kdenlive, then please join the development
-mailing list, or contact us directly on Kdenlive mailing list.
+Check our forums for ideas and requests.
 
 Homepage:
-http://kdenlive.sourceforge.net
+http://kdenlive.org
 
 Development Mailing List:
 https://lists.sourceforge.net/lists/listinfo/kdenlive-devel

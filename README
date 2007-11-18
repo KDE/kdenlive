@@ -1,31 +1,28 @@
-Kdenlive V 0.2.4 by Jason Wood <jasonwood@blueyonder.co.uk>
+Kdenlive V 0.6 SVN by Jean-Baptiste Mardelle <jb@kdenlive.org>
 
-Kdenlive is a video editing application for KDE. It will eventually run on
-any machine that KDE can run on.
+Kdenlive is a video editing application for KDE.
 
 This is a development release, and has at least some known bugs. Please check the
 project page for more information, and to report new bugs.
 
-http://www.sourceforge.net/projects/kdenlive
+http://kdenlive.org
 
-To use Kdenlive, you will need to download and install Piave, available from
+To use Kdenlive, you will need to download and install MLT, available from
 the following webpage :
 
-http://modesto.sourceforge.net/piave/
+http://www.mltframework.org
 
-This version of Kdenlive requires Piave version 0.2.4. It may work with different 
+This version of Kdenlive requires MLT version 0.2.4. It may work with different 
 versions, but this is not guaranteed, or (at this stage of development) likely.
 
-Then, go to the Settings->configure Kdenlive menu, and type in or browse to
-the location where PIave is installed. Restart Kdenlive for the changes to take 
-effect.
 
-This is a stable release of Kdenlive. All known major bugs have been removed, but
-that doesn't mean that there aren't any. In particular, it is advised that you use
-something more feature-complete if you have a tight deadline to reach ;-)
+We welcome all bug reports, feedback and offers for help! so please visit our bugtracker and forums:
 
-We welcome all bug reports, feedback and offers for help! so please contact me
-if you have any queries or interest in Kdenlive's future.
+Forum: 
+http://kdenlive.org/bbforum
+
+Bug Tracker:
+http://kdenlive.org/mantis
 
 Cheers,
-Jason
+Jean-Baptiste
