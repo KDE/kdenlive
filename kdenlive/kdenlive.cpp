@@ -190,10 +190,13 @@ namespace Gui {
 	    }
 	}
 
+        config->setGroup("RecentFiles");
+        QString Lastproject = config->readPathEntry("File1");
+
 	if (!crashRecovery && !KdenliveSettings::openlast() && !KdenliveSettings::openblank() && !newDoc) {
 		slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks, false, true);
 	}
-	else if (!crashRecovery && KdenliveSettings::openblank() && !newDoc) {
+	else if (!crashRecovery && (KdenliveSettings::openblank() || (KdenliveSettings::openlast() && Lastproject.isEmpty())) && !newDoc) {
 		slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks, true, true);
 	}
 
@@ -218,7 +221,6 @@ namespace Gui {
 	m_effectList.setAutoDelete(true);
 
 	initEffects::parseEffectFiles( &m_effectList );
-	//initEffects::initializeEffects( &m_effectList );
 
 	// init dynamic transitions & effects menu
 	transitionsMenu = new QPopupMenu;
@@ -285,9 +287,9 @@ namespace Gui {
 	    setCaption(i18n("Untitled") + ".kdenlive" + " - " + projectFormatName(m_projectFormat), false);
 	    m_doc->setProjectName( i18n("Untitled") + ".kdenlive");
 	}
-	else if (KdenliveSettings::openlast()) openLastFile();
+	else if (KdenliveSettings::openlast() && !Lastproject.isEmpty()) openDocumentFile(KURL(Lastproject));
         else if (!m_selectedFile.isEmpty()) openSelectedFile();
-	else if (!newDoc || KdenliveSettings::openblank()) {
+	else {
 	    initView();
 	    setCaption(newProjectName + ".kdenlive" + " - " + projectFormatName(m_projectFormat), false);
 	    m_doc->setProjectName( newProjectName + ".kdenlive");
@@ -504,14 +506,6 @@ namespace Gui {
     void KdenliveApp::openSelectedFile()
     {
         openDocumentFile(m_selectedFile);
-    }
-
-    void KdenliveApp::openLastFile()
-    {
-        config->setGroup("RecentFiles");
-        QString Lastproject = config->readPathEntry("File1");
-        if (!Lastproject.isEmpty())
-            openDocumentFile(KURL(Lastproject));
     }
 
     void KdenliveApp::initActions() {
