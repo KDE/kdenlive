@@ -64,6 +64,9 @@ msgstr ""
 #, no-c-format
 msgid "ROLES_OF_TRANSLATORS"
 msgstr ""
+"<othercredit role=\"translator\"><firstname>José</firstname><surname>Jorge</"
+"surname><affiliation><address><email>jjorge@free.fr</email></address></"
+"affiliation><contrib></contrib></othercredit>"
 
 #. Tag: holder
 #: index.docbook:63

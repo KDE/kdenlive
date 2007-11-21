@@ -83,7 +83,21 @@ as Authors, publish date, the abstract, and Keywords -->
 </author>
 </authorgroup>
 
-ROLES_OF_TRANSLATORS 
+<othercredit role="translator"
+><firstname
+>José</firstname
+><surname
+>Jorge</surname
+><affiliation
+><address
+><email
+>jjorge@free.fr</email
+></address
+></affiliation
+><contrib
+></contrib
+></othercredit
+> 
 
 <copyright>
 <year
@@ -1695,7 +1709,11 @@ distribution. -->
 >jasonwood@blueyonder.co.uk</email
 > </para>
 
-CREDIT_FOR_TRANSLATORS 
+<para
+>Übersetzer: Name<email
+>mail@host.de</email
+>.</para
+> 
 &underFDL; &underGPL; </chapter>
 
 <appendix id="installation">

@@ -64,6 +64,10 @@ msgstr ""
 #, no-c-format
 msgid "ROLES_OF_TRANSLATORS"
 msgstr ""
+"<othercredit role=\"translator\"><firstname>José</firstname><surname>Jorge</"
+"surname><affiliation><address><email>jjorge@free.fr</email></address></"
+"affiliation><contrib></contrib></othercredit>"
+
 
 #. Tag: holder
 #: index.docbook:63
@@ -1974,6 +1978,8 @@ msgstr ""
 #, no-c-format
 msgid "CREDIT_FOR_TRANSLATORS"
 msgstr ""
+"<para>Übersetzer: Name<email>mail@host.de</email>.</"
+"para>"
 
 #. Tag: chapter
 #: index.docbook:1497
