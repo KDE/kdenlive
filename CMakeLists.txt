@@ -19,6 +19,7 @@ ENDIF(LIBMLT_FOUND)
 #SET(CMAKE_C_FLAGS `mlt-config --cflags`)
 INCLUDE_DIRECTORIES(
 ${LIBMLT_INCLUDE_DIR}
+${LIBMLT_INCLUDE_DIR}/mlt
 #/usr/local/include/mlt
 )
 

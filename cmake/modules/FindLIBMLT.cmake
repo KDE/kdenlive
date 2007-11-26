@@ -8,8 +8,8 @@ MESSAGE(STATUS "Found MLT INSTALL PATH: ${MLT_CONFIG_EXECUTABLE} , ${MLT_PATH}")
 SET(CMAKE_CXX_FLAGS -DMLT_PREFIX=\\\"\"${MLT_PATH}\"\\\")
 
 FIND_PATH(LIBMLT_INCLUDE_DIR 
-  NAMES framework/mlt.h
-  PATHS ${MLT_PATH}/include/mlt /usr/local/include/mlt /usr/include/mlt
+  NAMES mlt/framework/mlt.h
+  PATHS ${MLT_PATH}/include /usr/local/include /usr/include
   #PATH_SUFFIXES mlt/framework
   NO_DEFAULT_PATH
 )
