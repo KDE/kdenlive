@@ -245,13 +245,13 @@ revision history. (see installation appendix comment) -->
 			<para
 >Le panneau en haut à gauche contient de différents onglets d'information et d'édition sur le projet en cours: </para>
 			<para
->Le premier est l'onglet Arborescence du projet. il montre tous les clips vidéo, les images, les diaporamas, les clips couleur et les clips de texte qui appartiennent au projet. </para>
+>Le premier est l'onglet Arborescence du projet. il montre tous les plans vidéo, les images, les diaporamas, les plans couleur et les plans de texte qui appartiennent au projet. </para>
 			<para
 >Le deuxième onglet s'appelle l'onglet Transition. Il vous montre toutes les transitions vidéo que vous pouvez utiliser, et pendant l'édition vidéo, vous permet de changer différents paramètres. </para>
 			<para
->Le troisième onglet est l'onglet Effets disponibles. Il vous montre les effets audio et vidéo que vous pouvez appliquer au clip sélectionné. </para>
+>Le troisième onglet est l'onglet Effets disponibles. Il vous montre les effets audio et vidéo que vous pouvez appliquer au plan sélectionné. </para>
 			<para
->Enfin, le dernier onglet est l'onglet Effets utilisés. Si vous avez différents effets appliqués à vos clips, vous pourrez dans cet onglet définir l'ordre de leur application, ainsi que leur paramétrage. </para>
+>Enfin, le dernier onglet est l'onglet Effets utilisés. Si vous avez différents effets appliqués à vos plans, vous pourrez dans cet onglet définir l'ordre de leur application, ainsi que leur paramétrage. </para>
 		</sect2>
 
 		<sect2 id="monitor-panel">
@@ -273,7 +273,7 @@ revision history. (see installation appendix comment) -->
 			<para
 >Le Moniteur de montage affiche la vidéo finale - ce que vous produirez. </para>
 			<para
->Le Moniteur de clip permet de visionner les clips, et sélectionner une partie d'un clip à ajouter à la timeline. </para>
+>Le Moniteur de plan permet de visionner les plans, et sélectionner une partie d'un plan à ajouter à la table de montage. </para>
 			<para
 >Le Moniteur de capture vous permet d'acquérir des vidéos depuis votre camescope connecté à votre ordinateur via le port Firewire. Vous pourrez contrôler le moniteur (Lecture, stop,...), voir la vidéo et capturer une partie d'un fichier au format DV. </para>
 		</sect2>
@@ -293,7 +293,7 @@ revision history. (see installation appendix comment) -->
 				</mediaobject>
 			</screenshot>
 			<para
->Le panneau en bas de la fenêtre contient la table de montage vidéo. Celle-ci vous donne une représentation visuelle de votre projet, et montre le début et la fin des clips, ainsi que lequel est affiché en cas de superposition. La table de montage vidéo peut contenir plusieurs pistes. Vous pouvez ajouter des clips vidéo, des sons, et d'autres choses aux pistes. </para>
+>Le panneau en bas de la fenêtre contient la table de montage vidéo. Celle-ci vous donne une représentation visuelle de votre projet, et montre le début et la fin des plans, ainsi que lequel est affiché en cas de superposition. La table de montage vidéo peut contenir plusieurs pistes. Vous pouvez ajouter des plans vidéo, des sons, et d'autres choses aux pistes. </para>
 			<para
 >Une barre d'état est située en bas de la table de montage vidéo. Cette barre donne des informations sur votre projet et contient aussi quelques icônes utiles pour afficher ou pas des vignettes pour les vidéos, les sons, les transitions et les effets. </para>
 			<screenshot>
@@ -314,7 +314,7 @@ revision history. (see installation appendix comment) -->
 >Maintenant, la vidéo!</title>
 
 		<para
->Maintenant que vous savez à quoi correspondent les zones et boutons à l'écran, nous allons faire une configuration basique pour un projet, ajouter les clips vidéo et les sons, les déplacer et ainsi de suite. </para>
+>Maintenant que vous savez à quoi correspondent les zones et boutons à l'écran, nous allons faire une configuration basique pour un projet, ajouter les plans vidéo et les sons, les déplacer et ainsi de suite. </para>
 		<sect2 id="project-settings">
 			<title
 >Réglages de Projet et Préférences</title>
@@ -323,17 +323,17 @@ revision history. (see installation appendix comment) -->
 		</sect2>
 		<sect2 id="using-clips">
 			<title
->Ajouter des clips à votre projet</title>
+>Ajouter des plans à votre projet</title>
 			<para
->Il va sans dire que pour aller plus loin, vous aurez besoin de clips sur votre ordinateur que vous pourrez utiliser ou d'en capturer directement de votre caméra. Pour cette section, on suppose que vous disposez déja de fichiers supportés par Kdenlive. </para>
+>Il va sans dire que pour aller plus loin, vous aurez besoin de plans sur votre ordinateur que vous pourrez utiliser ou d'en capturer directement de votre caméra. Pour cette section, on suppose que vous disposez déja de fichiers supportés par Kdenlive. </para>
 			<para
 >Après avoir récupérer quelques plans vidéo sur votre ordinateur, vous pourrez les ajouter à votre projet. Sélectionnez l'onglet « Projet » dans le panneau relatif au projet, et activez le menu contextuel avec le bouton droit de la souris. Sélectionnez l'option <guimenuitem
 >Ajouter des plans vidéo</guimenuitem
 > qui ouvrira la boîte de dialogue de sélection de fichiers de &kde;. Rechercher vos plans vidéo, choisissez les, et validez votre sélection. </para>
 			<para
->Les clips ajoutés apparaissent maintenant dans la liste de projet, accompagnés de leur durée et quelques autres informations (comme une miniature). </para>
+>Les plans ajoutés apparaissent maintenant dans la liste de projet, accompagnés de leur durée et quelques autres informations (comme une miniature). </para>
 			<para
->Pour les objectifs de ce guide de démarrage rapide, et pour vous montrer les fonctionnalités basiques de Kdenlive, nous allons travailler avec deux de vos clips, ajouter un titre au début, une transition vidéo entre eux et un effet vidéo sur une partie d'un des clips. Finalement, nous allons produire le projet pour obtenir un joli DVD prêt à être gravé et lu sur votre TV. </para>
+>Pour les objectifs de ce guide de démarrage rapide, et pour vous montrer les fonctionnalités basiques de Kdenlive, nous allons travailler avec deux de vos plans, ajouter un titre au début, une transition vidéo entre eux et un effet vidéo sur une partie d'un des plans. Finalement, nous allons produire le projet pour obtenir un joli DVD prêt à être gravé et lu sur votre TV. </para>
 		<screenshot>
 			<mediaobject>
 				<imageobject>
@@ -350,9 +350,9 @@ revision history. (see installation appendix comment) -->
 			<title
 >Création d'un titre</title>
 			<para
->Premièrement, nous allons créer un clip de titre pour votre projet. &kdenlive; est capable de créer des titres simples. Nous pouvons également travailler avec des éditeurs d'images externes (comme GIMP ou Krita) pour créer des titres plus sophistiqués puis les ajouter à la liste du projet comme expliqué ci-dessus. </para>
+>Premièrement, nous allons créer un plan de titre pour votre projet. &kdenlive; est capable de créer des titres simples. Nous pouvons également travailler avec des éditeurs d'images externes (comme GIMP ou Krita) pour créer des titres plus sophistiqués puis les ajouter à la liste du projet comme expliqué ci-dessus. </para>
 			<para
->Pour créer un clip de titre, cliquer sur l'icône "ajoutez un clip" et choisissez dans le menu contextuel "créer un clip texte". Une nouvelle fenêtre s'affiche alors : </para>
+>Pour créer un plan de titre, cliquer sur l'icône "ajoutez un plan" et choisissez dans le menu contextuel "créer un plan texte". Une nouvelle fenêtre s'affiche alors : </para>
 			<screenshot>
 				<mediaobject>
 					<imageobject>
@@ -365,7 +365,7 @@ revision history. (see installation appendix comment) -->
 				</mediaobject>
 			</screenshot>
 			<para
->Dans cette fenêtre, vous donnez un nom pour votre clip, définissez la durée, la police de caractère, la taille et la couleur. </para>
+>Dans cette fenêtre, vous donnez un nom pour votre plan, définissez la durée, la police de caractère, la taille et la couleur. </para>
 			<para
 >Vous pouvez maintenant sélectionner l'icône "Ajouter un texte", écrire un titre et cliquer sur OK. Le texte va apparaître dans la fenêtre ; vous pouvez le déplacer où vous voulez par simple glisser-déposer. Pour améliorer votre titre, cliquez sur l'icône "ajouter un rectangle" et dessinez un rectangle avec le bouton gauche de la souris. Avant d'effectuer cela, vous devez changer la couleur du rectangle de la même manière que pour le texte. Si le texte et le rectangle ont la même couleur, ils se confondront ! </para>
 			<para
@@ -375,36 +375,36 @@ revision history. (see installation appendix comment) -->
 		</sect2>
 		<sect2 id="clips-to-timeline">
 			<title
->Glisser / déposer des clips vidéo dans la table de montage</title>
+>Glisser / déposer des plans vidéo dans la table de montage</title>
 	
 			<para
 >Maintenant que vous avez quelques plans vidéo dans votre projet, vous pouvez commencer les opérations correspondantes au montage vidéo. Il existe deux méthodes pour ajouter un plan vidéo à la table de montage. </para>
 			<para
 >Vous pouvez utiliser le « glisser / déposer » directement entre la liste du projet et la table de montage. Choisissez un plan vidéo dans la liste du projet et glisser le sur la table de montage à l'aide de la souris. La piste vidéo doit apparaître dans la table de montage et peut y être déplacer à volonté. Cette méthode place la totalité du plan vidéo dans la table de montage. </para>
 			<para
->L'autre façon est de sélectionner un segment du clip et d'ajouter ce segment à la timeline. Quand vous cliquez sur un clip dans la liste du projet, le moniteur de clip charge automatiquement le clip. Vous pouvez ensuite cliquer sur lecture dans le moniteur de clip et vous faire une idée de quelle partie vous voulez placer dans la timeline. </para>
+>L'autre façon est de sélectionner un segment du plan et d'ajouter ce segment à la table de montage. Quand vous cliquez sur un plan dans la liste du projet, le moniteur de plan charge automatiquement le plan. Vous pouvez ensuite cliquer sur lecture dans le moniteur de plan et vous faire une idée de quelle partie vous voulez placer dans la table de montage. </para>
 			<para
->Ensuite, positionnez le curseur de lecture à l'endroit où vous voulez que le clip commence et cliquez sur le bouton "définir un point d'entrée". Déplacez le curseur à l'endroit où vous voulez que le clip se termine, et cliquez sur le bouton "définir un point de sortie". Finalement, vous pouvez déplacer ce clip découpé vers la timeline en cliquant sur la vidéo dans le moniteur de clip, et en maintenant le clic, en la plaçant sur le point voulu dans la timeline. La zone sélectionnée entre le point d'entrée et de sortie va alors apparaître comme un clip, ou plutôt un sous-clip puisqu'une partie seulement a été sélectionnée. </para>
+>Ensuite, positionnez le curseur de lecture à l'endroit où vous voulez que le plan commence et cliquez sur le bouton "définir un point d'entrée". Déplacez le curseur à l'endroit où vous voulez que le plan se termine, et cliquez sur le bouton "définir un point de sortie". Finalement, vous pouvez déplacer ce plan découpé vers la table de montage en cliquant sur la vidéo dans le moniteur de plan, et en maintenant le clic, en la plaçant sur le point voulu dans la table de montage. La zone sélectionnée entre le point d'entrée et de sortie va alors apparaître comme un plan, ou plutôt un sous-plan puisqu'une partie seulement a été sélectionnée. </para>
 			<para
->Choisissez une des deux manières de faire et, pour continuer le guide de démarrage rapide, ajoutez deux clips (ou segments de clips) dans la timeline. Un dans la piste #1 et un dans la piste #2. </para>
+>Choisissez une des deux manières de faire et, pour continuer le guide de démarrage rapide, ajoutez deux plans (ou segments de plans) dans la table de montage. Un dans la piste #1 et un dans la piste #2. </para>
 		</sect2>
 	
 		<sect2 id="moving-clips">
 			<title
->Moving and resizing clips on the timeline</title>
+>Déplacement et redimensionnement des plans vidéo dans la table de montage</title>
 	
 			<para
->Moving the selected clips around on the timeline is as simple as clicking on them with the left mouse button and dragging them around. You can resize clips directly from the timeline. Simply move the mouse cursor to the beginning or end of the clip you want to resize. Now, click and drag with the left mouse button to resize the clip. </para>
+>Pour déplacer les plans vidéo dans la table de montage, utiliser le « glisser / déposer » avec le bouton gauche de la souris. Vous pouvez redimensionner un plan vidéo directement dans la table de montage en déplaçant le curseur de la souris sur le début ou la fin de celui ci, puis en utilisant le le « glisser / déposer » avec le bouton gauche de la souris afin d'obtenir la bonne dimension. </para>
 			<para
->Resizing a clip changes its in and out points. If you reselect the clip and look in the clip monitor, you will see that the in and out points on the monitor show the new positions. </para>
+>Le redimensionnement d'un plan vidéo change automatiquement les points d'entrée et de sortie qui lui sont associés. Si vous resélectionnez le plan vidéo et que vous l'affichez dans la fenêtre de prévisualisation des plans vidéo, vous apercevrez alors leurs nouvelles positions. </para>
 			<note>
 				<para
 >Il n'est pas possible de redimensionner un plan vidéo au dessus de sa taille d'origine. Par exemple, si un plan vidéo a une durée de 30 secondes, vous ne pourrez pas le redimensionner à une durée de 35 secondes. </para>
 				<para
->On the other hand, you can resize text, image or color clips to increase or reduce their length as you want. </para>
+>Par contre, vous pouvez redimensionner des clips texte, image ou couleur pour augmenter ou diminuer la durée. </para>
 			</note>
 			<para
->When you are resizing and moving clips, there is a handy "snap to" feature, which will snap the edges of clips to other clips and the current seek position. This is useful for quickly lining clips up with each other, but in some cases may not be what you want. You can turn this behaviour on and off using the "Snap to" icons. </para>
+>Quand vous redimensionnez et déplacez des plans vidéo, les options « Utiliser les trames » et « Utiliser les bords » du menu « Montage vidéo » vous permettent d'ajuster la position des plans vidéo dans la table de montage. Ceci peut être utile pour aligner rapidement l'un derrière l'autre les plans vidéo. </para>
 		</sect2>
 		
 		<sect2 id="removing-clips-from-timeline">
@@ -412,45 +412,45 @@ revision history. (see installation appendix comment) -->
 >Suppression de plans vidéo dans la table de montage</title>
 	
 			<para
->Il existe deux méthodes pour supprimer un plan vidéo de la table de montage. La première est de sélectionner le plan ou les plans vidéo à supprimer et d'appuyer sur la touche <keycombo action="simul"
+>Il existe deux méthodes pour supprimer un plan vidéo de la table de montage. La première est de sélectionner le ou les plans vidéo à supprimer et d'appuyer sur la touche <keycombo action="simul"
 ><keycap
 >Suppr</keycap
 ></keycombo
 >. </para>
 			<para
->Another way is to select the clips that you want to delete, press the right mouse button and in the context menu select option Delete Clip. </para>
+>La seconde méthode consiste à sélectionner les plans vidéo et de les « glisser / déposer » en dehors de la table de montage. </para>
 			<note>
 				<para
->By this, you'll remove the clip from the timeline but it still appears in the "Project Tree" list. If you select the clip here and proceed as above, you'll remove it also from the project. But do not worry, it still remains physically in your disk! </para>
+>De cette manière, les plans sont supprimés de la table de montage, mais restent dans l'onglet "Arborescence du projet". Vous pouvez supprimez les plans de l'arborescence de la même façon que dans la table de montage. </para>
 			</note>
 		</sect2>
 		<sect2 id="splitting-clips-in-the-timeline">
 			<title
->Splitting clips in the timeline</title>
+>Scinder les plans vidéo dans la table de montage</title>
 	
 			<para
->Sometimes you may need to delete (maybe because you let your camera recording without realize :-)) or apply a video effect to only a part of a clip. &kdenlive; allows you to do so by splitting the original clip. </para>
+>Parfois vous aurez besoin d'effacer (peut-être parce que vous avez laissé votre caméra enregistrer sans vous en rendre compte :-)) ou d'appliquer un effet vidéo seulement pour une partie d'un clip. &kdenlive; permet de faire ceci en scindant le clip original. </para>
 			<para
->To split a clip, the easier way is to place the timeline cursor at the splitting point (you can adjust the exact position by playing with the "Next frame" and "Previous frame" buttons in the "Timeline Monitor"). Then press the right mouse button and in the context menu select option Razor Clip. With this option only the clip in the current track will be splitted. You can split all clips at that position selection option Razor All Clips. </para>
+>Pour scinder un clip, la façon la plus facile est de placer le curseur de la timeline au point de division (vous pouvez ajuster la position exacte en jouant avec les boutons "Reculer d'une trame" et "Avancer d'une trame" dans le "Moniteur de montage"). Puis faites un clic droit sur le clip et choisissez Scinder le clip dans le menu contextuel. Avec cette option, seul le clip situé dans la piste en cours sera divisé. Pour scinder tous les clips selon cette position, faites un clic droit sur une zone vide de la timeline et cliquez sur Scinder tous les clips. </para>
 			<para
->If you repeat this action, you can create different subclips that will appear in the "Project Tree" list. Then you can move, delete or resize these clips as you want. </para>
+>Si vous répétez cette action, vous pouvez créer différents sous-clips qui apparaîtront dans la liste de l'arborescence du projet. Ensuite, vous pouvez déplacer, effacer ou redimensionner ces clips à volonté. </para>
 		</sect2>
 		<sect2 id="adding-a-transition">
 			<title
->Adding a transition</title>
+>Ajouter une transition</title>
 	
 			<para
->We are going now to add a transition between two clips. Transitions are normally used to smoothly change from one clip to another (or from one scene to another). Some transitions can be used also as video effects (Picture in Picture, for example). These powerful features are explained in detail in the manual, but for the purpose of this quickstart guide, we'll focus on an easy one, the crossfade transition. </para>
+>Nous allons maintenant ajouter une transition entre deux clips. Les transitions sont normalement utilisées pour passer graduellement d'un clip à un autre (ou d'une scène à un autre). Quelques transitions peuvent être utilisées comme des effets vidéo (Image dans l'Image, par exemple). Ces puissantes fonctionnalités sont expliquées en détail sur cette page, mais dans le cadre de ce guide de démarrage rapide, nous allons nous concentrer sur une transition simple, le fondu-enchaîné. </para>
 			<para
->Before start, be sure that you have your two videoclips in tracks #1 and #2. Also, move (as explained before) the tittle clip that we've created previously to the start of track #0. </para>
+>Avant de commencer, vérifiez que vous ayez deux clips, un dans la piste #1 et un fans la piste #2. De plus, déplacez (comme expliqué précédemment) le clip de titre que nous avons créé vers la piste #0. </para>
 			<para
->If we want to apply a transition, we need to overlap the required clips in different tracks. So first thing to do is to move the clip in track #1 to overlap with the tittle in track #0, let say by 2 seconds. </para>
+>Si vous voulez appliquer une transition, nous devons faire se chevaucher les clips en questions, dans les différentes pistes. Donc la première chose à faire est de déplacer le clip de la piste #1 pour qu'il se chevauche avec le clip de titre de la piste #0, par exemple sur 2 secondes. </para>
 			<para
->To better control this overlap you can change the timeline zoom using the viewer tool Image:Timeline_scale.jpg. Click on the magnifying glass and select a small scale or click on the ruler and drag left. </para>
+>Pour mieux contrôler ce chevauchement vous pouvez changer le zoom de la timeline en utilisant l'outil de zoom. Cliquez sur la loupe et sélectionnez une petite échelle ou cliquez sur le curseur de zoom et déplacez-le vers la gauche. </para>
 			<para
->Once done, click on the tittle clip and press the right mouse button. In the context menu select Add transition -> Crossfade. A yellow bar will appear between the clips in tracks #0 and #1 indicating your transition has been added to the project. </para>
+>Une fois ceci fait, cliquez sur le clip de titre avec le bouton droit de la souris. Dans le menu contextuel, choisissez Ajouter une transition -> Fondu-enchainé. Une barre jaune apparaît entre les clips de la piste #0 et #1 indiquant que la transition a été ajoutée au projet. </para>
 			<para
->At this point your screen should look like this one: </para>
+>À ce niveau là, votre écran devrait ressembler à cela : </para>
 			<screenshot>
 				<mediaobject>
 					<imageobject>
@@ -458,56 +458,56 @@ revision history. (see installation appendix comment) -->
 					</imageobject>
 					<textobject>
 						<phrase
->A transition</phrase>
+>Une transition</phrase>
 					</textobject>
 				</mediaobject>
 			</screenshot>
 			<para
->To have a real time view of how your transition works, you can click the seek marker and drag it over the transition area. If everything is OK, you should see in the "Timeline Monitor" how the tittle clip dissapears at the same time the video clip is displayed. </para>
+>Pour avoir une vue réelle de la manière dont votre transition fonctionne, vous pouvez déplacer le curseur du montage et le déplacer vers la zone de transition. Si tout va bien, vous devriez voir dans le "moniteur de montage" le titre disparaître et le clip vidéo apparaître. </para>
 			<para
->To edit a transition and change parameters, you can double click on it (the yellow bar). In this way, it will become red and the focus in the "Project Panel" will change to the "Transition tab". In this tab you'll be able to change the transition parameters if needed. </para>
+>Pour éditer une transition et changer des paramètres, vous pouvez double-cliquer sur la barre jaune. De cette manière, elle devient rouge et le focus change vers l'onglet "transition" dans le "panneau de projet". Dans cet onglet, vous pouvez changer les paramètres de la transition si besoin. </para>
 			<para
->As the Crossfade is an easy transition, the only parameters you can change are the transition direction and the track where it applies. </para>
+>Comme le fondu-enchaîné est une transition simple, le seul paramètre à changer est la direction de la transition et les pistes sur lesquelles elle s'applique. </para>
 			<para
->If the Invert direction parameter is selected, the upper track clip is shown first and the transition is applied until the view changes to the lower track clip. If the parameter is not selected, then the direction is the other way round. </para>
+>Si le paramètre "direction de l'inversion" est sélectionné, le clip de la piste du haut est montrée en premier et la transition est appliquée jusqu'à voir le clip de la piste du dessous. Si ce paramètre n'est pas sélectionné, alors la direction de la transition est inversée. </para>
 			<para
->The track to apply the transition is normally the next track after the one where we created the transition. But you can change this behaviour by selecting others in the Track Selection List. This is a powerful feature for advanced transitions, but for the moment we'll not use, so be sure your selection is Automatic – Use next video track. </para>
+>La piste sur laquelle la transition est appliquée est normalement la piste suivant celle où la transition a été créée. Mais vous pouvez changer ce comportement en sélectionnant la piste voulue dans la liste déroulante de l'onglet transition. Ceci est une fonctionnalité puissante pour faire des transitions avancées, mais pour le moment nous n'allons pas l'utiliser, donc vérifiez que votre sélection est bien sur Automatique – Utiliser la piste vidéo suivante. </para>
 			<para
->You can play now creating a new transition between clips in tracks #1 and #2 in the same way as explained above. </para>
+>Vous pouvez maintenant vous amuser à créer une nouvelle transition entre des clip des piste #1 et #2 de la même manière que précédemment. </para>
 		</sect2>
 		<sect2 id="adding-effects">
 			<title
->Adding effects</title>
+>Ajouter des effets</title>
 	
 			<para
->Now you know how to create a transition between clips, is time to experiment with another feature in Kdenlive: The effects. </para>
+>Maintenant que vous connaissez comment créer une transition entre des clips, il est temps d'expérimenter une autre fonctionnalité de Kdenlive : les effets. </para>
 			<para
->Effects are ways to change your original clip. Kdenlive comes with different effects that can be applied to the audio and others that can be applied to the video. The small number of standard audio effects can be easily increased if you use the Ladspa plug-ins (see this page to know how to load them). </para>
+>Les effets sont des façon de modifier votre clip original. Kdenlive intègre différents effets qui peuvent être appliqués au niveau du son ou de la vidéo. Le petit nombre d'effets audio par défaut peut être augmenté facilement en utilisant les plug-ins Ladsa (voir cette page pour savoir comment les charger). </para>
 			<para
->To know in detail all effects and how they works, you can have a look at this page. </para>
+>Pour connaître en détail tous les effets et comment ils fonctionnent, allez voir cette page. </para>
 			<para
->In this guide we'll know how to apply a "Greyscale" effect to a clip. This effect, as the name indicates, will take out colors from the video and display it in black and white (well, really using black, white and different grey tones! ). Normally, except some of them, the effects apply to a full clip so, if you want to limit the effect to just a part, you need to create "subclips" as explained before in this page. </para>
+>Dans ce guide nous allons voir comment appliquer un effet "niveaux de gris" à un clip. Cet effet, comme son nom l'indique, enlève les couleurs de la vidéo et l'affiche en noir et blanc (avec des niveaux de gris bien sûr).Normalement, à part pour certains d'entre eux, les effet s'appliquent à un effet en entier ; si vous désirez limiter un effet à juste une partie, vous devez créer un sous-clip comme expliqué auparavant dans cette page. </para>
 			<para
->So let's go to clip in track #2. Select it and click the right mouse button. In the context menu select Add Video Effect -> Greyscale. You'll see immediatly how the colours in your clip dissapear and are replaced by grey tones! </para>
+>Sélectionnez le clip dans la piste #2 et faîtes un clic droit dessus. Dans le menu contextuel sélectionner Ajoutez un effet vidéo -> niveaux de gris. Vous verrez immédiatement que les couleurs du clip disparaissent et sont remplacées par des niveaux de gris ! </para>
 			<para
->In the same way as transitions, you can also edit the effect parameters. To do so, select the "Effect Stack" tab in the Project Panel. Unfortunately, the Greyscale effect is so easy that has no parameters! </para>
+>De la même façon que pour les transitions, vous pouvez également éditer les paramètres des effets. Pour cela, sélectionnez l'onglet "Effets appliqués" dans le panneau de projet. Malheureusement, l'effet "niveaux de gris" est si simple qu'il n'a pas de paramètres ! </para>
 			<para
->But in this tab, you can also find some useful icons to organize the effects: - "Effect Up" to move the effect up in the list (that means it will be applied first to the clip) - "Effect down" to move the effect down in the list - "Reset" to reset all effect parameters to the default values - "Remove effect" to remove the effect from the clip </para>
+>Dans cet onglet, vous trouverez également des icônes utiles pour organiser les effets :Image: "Monter l'effet" pour déplacer l'effet vers le haut dans la liste (ce qui signifie qu'il sera appliqué en premier au clip) - "Descendre l'effet" pour déplacer l'effet vers le bas dans la liste - "Par défaut" pour restaurer les paramètres par défaut pour l'effet - "Supprimer l'effet" pour retirer l'effet du clip -  </para>
 			<para
->You can see also that behind the effect name there's a checkbox. If you uncheck it, the effect will not be applied but still remains in the effect list with the selected parameters (if any!). This is useful if you want to use it later on. </para>
+>Vous pouvez également voir qu'il y a une case à cocher devant le nom de l'effet. Si vous la décochez, l'effet ne sera plus appliqué mais reste dans la liste des effets et garde ses paramètres. Ceci est utile si vous désirez l'utiliser plus tard. </para>
 			<para
->And behind the "Parameters" tab, you'll notice another one titled "Keyframes". For some effects, you can select as many keyframes as you need in the clip and for each keyframe you can define different parameters. This is useful if you want, for example, mute a part of a clip. You can do so in two ways: </para>
+>A côté de 'onglet "Configuration" , un autre nommé "Trames clés". Pour certains effets, vous pouvez choisi autant de trames clés que nécessaire dans le clip et définir pour chacune d'elle différents paramètres. Ceci est utile si vous désirez, par exemple, rendre muette une partie d'un clip. Vous pouvez le faire de deux manières : </para>
 			<para
->- Creating a subclip and applying the "Mute" audio effect to this subclip </para>
+>- Créer un sous-clip et lui appliquer l'effet audio "Muet" </para>
 			<para
->- Using the "Volume" effect. This can be applied to the full clip and, by defining different keyframes you can adjust the volume, for example, to start muted, then increase progressively, then continue at normal level, then decrease progressively and become muted, continue muted for a time and start again progressively ... </para>
+> - Utiliser l'effet audio "Volume". Ceci peut être appliqué au clip entier et, en définissant différentes trames clés vous pouvez ajuster le volume pour, par exemple, commencer en muet, puis augmenter progressivement, puis continuer au niveau normal, puis diminuer progressivement et redevenir muet, continuer muet un certain temps et recommencer à nouveau progressivement ... </para>
 		</sect2>
 		<sect2 id="rendering-your-work">
 			<title
->Rendering your work</title>
+>Le rendu vidéo du projet</title>
 	
 			<para
->At this point we are ready to render our project and see how it looks on our TV, PC, ... If you've followed the steps until now, your screen should look like this one: </para>
+>Au point où nous en sommes, nous sommes prêts pour exporter notre projet et voir à quoi il ressemble sur votre TV, PC... Si vous avez suivi les étapes jusqu'à maintenant, votre écran devrait ressembler à celui-là : </para>
 			<screenshot>
 				<mediaobject>
 					<imageobject>
@@ -515,16 +515,16 @@ revision history. (see installation appendix comment) -->
 					</imageobject>
 					<textobject>
 						<phrase
->Effects</phrase>
+>Effets</phrase>
 					</textobject>
 				</mediaobject>
 			</screenshot>
 			<para
->You have a title clip in track #0 with a crossfade transition between it and the other clip in track #1. Another transition (this one costum made by you!) between this clip and the one in track #2 and a greyscale effect applied to this clip. </para>
+>Vous disposez d'un clip de titre sur la piste #0 avec une transition fondu-enchaîné entre ce clip et l'autre clip sur la piste #1. Une autre transition (que vous avez faites vous même celle-la !) entre ce clip et celui de la piste #2 et un effet "niveaux de gris" sur ce dernier clip. </para>
 			<para
->Now follow some steps to create a DVD with this project. With &kdenlive; you'll be able to easily create a DVD video structure and burn it (if you have installed the program k3b). You will also add a simple menu with chapters and even with an intro movie if you like. </para>
+>Maintenant nous allons suivre les étapes pour créer un DVD avec ce projet. Avec Kdenlive, vous pourrez facilement créer un DVD vidéo et le graver (si vous avez installé le programme k3b). Vous allez également ajouter un simple menu avec des chapitres et même avec une vidéo d'introduction si vous le souhaitez. </para>
 			<para
->To create a DVD video, you can follow these steps: select the menu option Render -> Export to DVD. - You'll be presented with a window to enter export details: </para>
+>Pour créer un DVD vidéo, suivez ces étapes :- Sélectionnez le menu Fichier -> Exporter vers un DVD. - Une fenêtre apparaît pour entrer les détails de l'export : </para>
 			<screenshot>
 				<mediaobject>
 					<imageobject>
@@ -532,16 +532,16 @@ revision history. (see installation appendix comment) -->
 					</imageobject>
 					<textobject>
 						<phrase
->Create DVD step 1</phrase>
+>Créer un DVD étape 1</phrase>
 					</textobject>
 				</mediaobject>
 			</screenshot>
 			<para
->In this screen you should enter the folder name where the DVD structure should be created and the DVD format (PAL/NTSC). Be sure that the option "Render file now" is selected. </para>
+>Sur cet écran, entrez le dossier vers lequel la structure du DVD sera créée et le format du DVD (PAL/NTSC). Vérifiez que l'option "lancer le rendu du fichier" est sélectionnée. </para>
 			<para
->As you can see, in this screen it's also possible to define the DVD chapters and also to create the DVD from an existing video file (.VOB), but for the moment we are not going to use these options. </para>
+>Comme vous pouvez le voir, dans cet écran il est également possible de définir des chapitres sur le DVD et aussi de créer un DVD à partir d'un fichier vidéo existant (.VOB), mais pour le moment, nous n'allons pas utiliser ces options. </para>
 			<para
->Press the "Next" button. In the following dialog you can select to create a DVD menu or not. If you want to, check the "Create Menu" option and the rest of the data will be accessible. </para>
+>Cliquez sur le bouton "suivant". Entrez le nom du fichier voulu et validez. Dans la fenêtre suivante, vous pouvez choisir de créer un menu DVD ou non. Si vous le souhaitez, cochez l'option "Créer un menu" pour rendre accessible le reste des informations. </para>
 			<screenshot>
 				<mediaobject>
 					<imageobject>
@@ -549,18 +549,18 @@ revision history. (see installation appendix comment) -->
 					</imageobject>
 					<textobject>
 						<phrase
->Create DVD step 2</phrase>
+>Créer un DVD étape 2</phrase>
 					</textobject>
 				</mediaobject>
 			</screenshot>
 			<para
->You can choose to use a plain colored screen for your menu (click on the color box to select it), an image file or even a movie file (enter the path and name if selected). Also, you can define a pause between chapters if you have created such. </para>
+>Vous pouvez choisir d'utiliser un simple fond coloré pour votre menu (cliquez sur la boîte de couleur pour choisir), un fichier image ou même un fichier vidéo (entrez le chemin et le nom du fichier). De plus, vous pouvez définir un temps de pause entre les chapitres si vous en avez créés. </para>
 			<para
->In the "Buttons" tab you can define the title text, font and size and the different colors for the button depending on status (not selected, selected, pressed). </para>
+>Dans l'onglet "Boutons" vous pouvez définir le texte du titre, sa police de caractère, sa taille et les différentes couleurs pour les boutons en fonction de leur état (non sélectionné, sélectionné, pressé). </para>
 			<para
->In the "Intro" tab you can indicate a video file to be presented before the menu appears in the screen (like an introduction video). </para>
+>Dans l'onglet "Introduction" vous pouvez choisir un fichier vidéo à lire avant que le menu apparaisse à l'écran. </para>
 			<para
->When you've entered data, press again the "Next" button. Kdenlive is now ready to generate the DVD using the program DvdAuthor. Click on "Generate DVD" to do so. </para>
+>Quand vous avez entré les informations, cliquez sur "suivant". Kdenlive est maintenant prêt à générer le DVD en utilisant le programme DvdAuthor. Cliquez sur "Générer le DVD" pour ce faire. </para>
 			<screenshot>
 				<mediaobject>
 					<imageobject>
@@ -568,16 +568,16 @@ revision history. (see installation appendix comment) -->
 					</imageobject>
 					<textobject>
 						<phrase
->Create DVD step 3</phrase>
+>Créer un DVD étape 3</phrase>
 					</textobject>
 				</mediaobject>
 			</screenshot>
 			<para
->A message will appear telling you to continue working while the video is generated. You can see progress in the "Status Bar". </para>
+>Un message va apparaître vous disant de continuer à travailler pendant que la vidéo est générée. Vous pouvez voir la progression dans la "barre de statut". </para>
 			<para
->When the process is finished, you may choose to work with the generated DVD externally (you'll find the Audio and Video directories in the specified path) or return again to this screen by selecting menu option Render -> Export to DVD. If you decided to go on with &kdenlive;, you'll have options to directly burn your video (using k3b), preview it (using Xine) or edit again the structure (using QDvdAuthor). </para>
+>Quand le processus est fini, vous pouvez choisir de travailler de manière externe avec le DVD généré (vous trouverez les dossiers Audio et Vidéo dans le chemin indiqué) ou de retourner à nouveau à cet écran en cliquant à nouveau sur le menu Fichier -> Exporter en DVD. Si vous décidez de continuer avec &kdenlive;, vous aurez la possibilité de graver directement votre vidéo (en utilisant k3b), la prévisualiser (en utilisant Xine) ou d'éditer à nouveau sa structure (en utilisant QDvdAuthor). </para>
 			<para
->Congratulations! You've created your first video with &kdenlive;. Enjoy it and continue reading to know more about this program and its advanced features. </para>
+>Félicitations ! Vous avez créé votre première vidéo avec &kdenlive;. Profitez en et continuez à lire pour en savoir plus à propos de ce programme et de ses fonctionnalités avancées. </para>
 		</sect2>
 	</sect1>
 </chapter>
@@ -1036,7 +1036,7 @@ or menu bars. -->
 <listitem>
 <para>
 <action
->Delete the selected clip from the project. This deletes all references to the clip, including those on the timeline, or those within composite clips.</action>
+>Efface le clip sélectionné du projet. Ceci supprime toute référence au clip, y compris au sein de la timeline ou des clips composite.</action>
 </para>
 </listitem>
 </varlistentry>
@@ -1638,10 +1638,14 @@ taken from that reference and shortened a bit for readability. -->
 >Problèmes connus et solutions</title>
 
 	<para
->If you upgrade &kdenlive; the user interface may be strange. This is because of the way &kapp; stores window positions in his configuration file. </para>
+>Si vous mettez à jour &kdenlive; l'interface peut devenir étrange. Ceci est dû à la façon dont &kapp; enregistre la position des fenêtres dans son fichier de configuration. </para>
 	<para
->The simplest way to make it work is removing all previous configuration file, typing from the command line: <screen width="40"
-><prompt>%</prompt> <userinput>rm ~/.kde/share/config/kdenliverc</userinput>
+>Le moyen le plus simple de corriger ce problème est de supprimer tout fichier de configuration précédent, en saisissant cette ligne de commande: <screen width="40"
+><prompt
+>%</prompt
+> <userinput
+>rm ~/.kde/share/config/kdenliverc</userinput
+>
                 </screen>
 	</para>
 </chapter>
@@ -1653,14 +1657,14 @@ taken from that reference and shortened a bit for readability. -->
 > <qandaentry>
 			<question>
 				<para
->What file formats does &kapp; support? </para>
+>Quels formats de fichier sont acceptés par &kapp;? </para>
 			</question>
 			<answer>
 				<para
->Currently, &kapp; accepts all files supported by the project ffmpeg. So the list is huge, even if it can happen that some file won't be displayed in &kapp; </para>
+>Actuellement, &kapp; accepte tous les fichiers gérés par le projet ffmpeg. La liste est immense, même s'il peut encore arriver qu'un fichier ne soit pas affiché dans &kapp; </para>
 				<note>
 					<para
->On a technical note, &kapp; does not provide any video formats itself; all video formats are provided by the backend renderer, &mlt;. </para>
+>D'un point de vue technique, &kapp; ne gère aucun format de vidéo en lui-même, tous les formats vidéo sont gérés par le système &mlt;. </para>
 				</note>
 			</answer>
 		</qandaentry>
@@ -1675,7 +1679,7 @@ the credits with a reference to the appropriate license file included in the KDE
 distribution. -->
 
 <title
->Remerciements et licences</title>
+>Remerciements et Licence</title>
 
 <para
 >&kapp; </para>
@@ -1695,7 +1699,7 @@ distribution. -->
 			<para
 >José Jorge <email
 >jjorge@free.fr</email
-> documentation update, French and Portuguese translations </para>
+> mise à jour de la documentation, traductions de celle-ci en Français et Portugais </para>
 		</listitem>
 		<listitem>
 			<para
@@ -1729,7 +1733,7 @@ distribution. -->
 <para
 >The &kdenlive; WEB site is <ulink url="http://www.kdenlive.org"
 >http://www.kdenlive.org</ulink
->. &kdenlive; can be found in the SourceForge project page on <ulink url="http://sourceforge.net/projects/kdenlive/"
+>. &kdenlive; peut être trouvé dans la page du projet SourceForge à l'adresse <ulink url="http://sourceforge.net/projects/kdenlive/"
 >http://sourceforge.net/projects/kdenlive/</ulink
 > </para>
 </sect1>
@@ -1750,28 +1754,32 @@ information here.
 -->
 
 <para
->In order to successfully use &kdenlive;, you need KDE 3.0 or higher. Additionally, you need MLT in order to do anthing useful - kdenlive itself is after all, just an interface :-) </para>
+>Pour pouvoir utiliser &kdenlive;, il est nécessaire d'avoir l'environnement de bureau KDE en version 3.0 ou supérieure. De plus, il vous faudra MLT pour obtenir quoi que ce soit d'utile. Kdenlive n'est après tout qu'une interface graphique ;-) </para>
 
 <para
->All required libraries as well as &kdenlive; itself can be found on or via <ulink url="http://www.kdenlive.org"
->The &kdenlive; home page</ulink
+>Toutes les bibliothèques ainsi que &kdenlive; peuvent être trouvés sur <ulink url="http://www.kdenlive.org"
+>la page Internet de &kdenlive;</ulink
 >. </para>
 
 <!-- For a list of updates, you may refer to the application web site
 or the ChangeLog file, or ... -->
 <para
->You can find new releases in the <ulink url="http://www.kdenlive.org/news.php"
->News page</ulink
+>Vous pouvez trouver de nouvelles versions à la <ulink url="http://www.kdenlive.org/news.php"
+>page des nouveautés</ulink
 >. </para>
 </sect1>
 
 <sect1 id="compilation">
 	<title
->Compilation et installation</title>
+>Compilation et Installation</title>
 
 	<para
 >Pour compiler et installer &kdenlive; sur votre système, saisissez les lignes de commande suivantes dans le dossier de base contenant les sources du programme : <screen width="40"
-><prompt>%</prompt> <userinput>./configure --prefix=`kde-config --prefix`</userinput>
+><prompt
+>%</prompt
+> <userinput
+>./configure --prefix=`kde-config --prefix`</userinput
+>
                 </screen>
 		<screen width="40"
 ><prompt
@@ -1800,8 +1808,8 @@ or the ChangeLog file, or ... -->
 	</para>
 
 	<para
->Since &kdenlive; uses autoconf and automake you should have not trouble compiling it. Should you run into problems please report them in the <ulink url="http://www.kdenlive.org/contact.php"
-> Contact Page</ulink
+>Comme &kdenlive; utilise les programmes « autoconf » et « automake », vous ne devriez pas avoir de problèmes pour compiler celui ci. Si vous rencontrez des difficultés, veuillez les rapporter à la <ulink url="http://www.kdenlive.org/contact.php"
+> page des contacts</ulink
 >. </para>
 
 </sect1>
