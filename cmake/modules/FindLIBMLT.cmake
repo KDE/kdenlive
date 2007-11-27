@@ -8,9 +8,8 @@ MESSAGE(STATUS "Found MLT INSTALL PATH: ${MLT_CONFIG_EXECUTABLE} , ${MLT_PATH}")
 SET(CMAKE_CXX_FLAGS -DMLT_PREFIX=\\\"\"${MLT_PATH}\"\\\")
 
 FIND_PATH(LIBMLT_INCLUDE_DIR 
-  NAMES mlt/framework/mlt.h
-  PATHS ${MLT_PATH}/include /usr/local/include /usr/include
-  #PATH_SUFFIXES mlt/framework
+  NAMES framework/mlt.h
+  PATHS ${MLT_PATH}/include/mlt /usr/local/include/mlt /usr/include/mlt
   NO_DEFAULT_PATH
 )
 
@@ -40,3 +39,4 @@ ELSE (LIBMLT_FOUND)
     MESSAGE(FATAL_ERROR "Could not find MLT library")
   ENDIF (LIBMLT_FIND_REQUIRED)
 ENDIF (LIBMLT_FOUND)
+
