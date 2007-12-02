@@ -19,5 +19,11 @@ ${LIBMLTPLUS_INCLUDE_DIR}
 ${LIBFFMPEG_INCLUDE_DIR}
 )
 
+LINK_DIRECTORIES(
+${LIBMLT_LIBRARY}
+${LIBMLTPLUS_LIBRARY}
+${LIBFFMPEG_LIBRARY}
+)
+
 SUBDIRS(kdenlive renderer graphics profiles pgm icons doc po effects)
 
