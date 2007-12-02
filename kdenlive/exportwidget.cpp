@@ -561,24 +561,31 @@ void exportWidget::initEncoders()
 		    }
 		}
 		else if (line.section(":",1,1) == "MED") {
-			MedEncoders<<line;
 			QString name = line.section(":",2,2);
+			QString size = line.section(":",3,3);
+			QString quality = line.section(":",4,4);
+			if (KdenliveSettings::defaultfps() != 25) {
+			  // NTSC FORMAT, CHANGE VIDEO FRAME SIZE
+			    if (size == "720x576") size = "720x480";
+			    line.replace("720x576", "720x480");
+			}
+			MedEncoders<<line;
 			QListViewItem *item =  med_encoders->findItem(name, 0);
 			if (!item) item = new KListViewItem(med_encoders, name);
 			QListViewItem *child = item->firstChild();
-			if (!child) child = new KListViewItem(item, line.section(":",3,3));
+			if (!child) child = new KListViewItem(item, size);
 			else {
 			    bool found = false;
 			    while (child) {
-				if (child->text(0) == line.section(":",3,3)) {
+				if (child->text(0) == size) {
 					found = true;
 					break;
 				}
 				child = child->nextSibling();
 			    }
-			    if (!found) child = new KListViewItem(item, line.section(":",3,3));
+			    if (!found) child = new KListViewItem(item, size);
 			}
-			if (!line.section(":",4,4).isEmpty()) (void) new KListViewItem(child, line.section(":",4,4));
+			if (!quality.isEmpty()) (void) new KListViewItem(child, quality);
 		}
 		else if (line.section(":",1,1) == "AUDIO") {
 			AudioEncoders<<line;
