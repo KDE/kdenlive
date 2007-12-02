@@ -1,5 +1,12 @@
 SET (RENDERER_SRC kdenlive_renderer.c)
 
+INCLUDE_DIRECTORIES(
+.
+${LIBMLT_INCLUDE_DIR}
+${LIBMLTPLUS_INCLUDE_DIR}
+${CMAKE_CURRENT_BINARY_DIR}
+)
+
 ADD_EXECUTABLE(kdenlive_renderer ${RENDERER_SRC})
-TARGET_LINK_LIBRARIES(kdenlive_renderer mlt )
+TARGET_LINK_LIBRARIES(kdenlive_renderer ${LIBMLT_LIBRARY} )
 INSTALL_TARGETS (/bin kdenlive_renderer )
