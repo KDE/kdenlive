@@ -11,6 +11,7 @@ GETTEXT_CREATE_TRANSLATIONS(kdenlive.pot ALL
     ja.po
     nl.po
     pt_BR.po
+    pt.po
     tr.po
 )
 
