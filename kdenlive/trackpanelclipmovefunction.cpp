@@ -543,7 +543,6 @@ KMacroCommand *TrackPanelClipMoveFunction::createAddClipsCommand()
 	    Command::KAddRefClipCommand * command =
 		new Command::KAddRefClipCommand(*m_document, itt.current(), true);
 	    macroCommand->addCommand(command);
-            (*itt)->referencedClip()->addReference();
 	    ++itt;
 	}
 	m_document->generateProducersList();
