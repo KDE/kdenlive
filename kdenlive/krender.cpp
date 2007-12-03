@@ -791,7 +791,6 @@ void KRender::sendSeekCommand(GenTime time)
     if (!m_mltProducer)
 	return;
     m_mltProducer->seek((int) (time.frames(m_fps)));
-    kdDebug()<<"//////////////SEEK REQUESTED"<<endl;
     refresh();
 }
 
@@ -803,7 +802,6 @@ void KRender::askForRefresh()
 
 void KRender::refresh()
 {
-    kdDebug()<<"///////  REFRESH DISPLAY************* "<<endl;
     if (!m_mltProducer)
 	return;
     refreshTimer->stop();
@@ -848,7 +846,7 @@ void KRender::emitFrameNumber(double position)
 {
 	if (m_generateScenelist) return;
 	m_framePosition = position;
-        QApplication::postEvent(qApp->mainWidget(), new PositionChangeEvent( GenTime((int) position, m_fps), m_monitorId));
+        if (qApp->mainWidget()) QApplication::postEvent(qApp->mainWidget(), new PositionChangeEvent( GenTime((int) position, m_fps), m_monitorId));
 }
 
 void KRender::emitConsumerStopped()
@@ -856,7 +854,7 @@ void KRender::emitConsumerStopped()
     // This is used to know when the playing stopped
     if (m_mltProducer && !m_generateScenelist) {
 	double pos = m_mltProducer->position();
-        QApplication::postEvent(qApp->mainWidget(), new PositionChangeEvent(GenTime((int) pos, m_fps), m_monitorId + 100));
+        if (qApp->mainWidget()) QApplication::postEvent(qApp->mainWidget(), new PositionChangeEvent(GenTime((int) pos, m_fps), m_monitorId + 100));
 	//new QCustomEvent(10002));
     }
 }
@@ -947,7 +945,6 @@ void KRender::mltCheckLength()
 
 void KRender::mltInsertClip(int track, GenTime position, QString resource)
 {
-    kdDebug()<<"inseering clip on track: "<<track<<".........."<<endl;
     if (!m_mltProducer) {
 	kdDebug()<<"PLAYLIST NOT INITIALISED //////"<<endl;
 	return;
@@ -958,33 +955,21 @@ void KRender::mltInsertClip(int track, GenTime position, QString resource)
 	return;
     }
     Mlt::Service service(parentProd.get_service());
-    if (service.type() == playlist_type) kdDebug()<<"// PLAYLIST TYPE"<<endl;
-    if (service.type() == tractor_type) kdDebug()<<"// TRACOT TYPE"<<endl;
-    if (service.type() == multitrack_type) kdDebug()<<"// MULTITRACK TYPE"<<endl;
-    if (service.type() == producer_type) kdDebug()<<"// PROD TYPE"<<endl;
-
     Mlt::Tractor tractor(service);
-    kdDebug()<<"/ / / / TRACTOR: "<<tractor.count()<<endl;
+
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
     char *tmp = decodedString(resource);
-    //Mlt::Producer *prod = new Mlt::Producer(tmp);
     Mlt::Producer clip("westley-xml", tmp);
     delete[] tmp;
     trackPlaylist.insert_at(position.frames(m_fps), clip, 1);
+    tractor.multitrack()->refresh();
+    tractor.refresh();
     if (track != 0) mltCheckLength();
     double duration = Mlt::Producer(trackPlaylist.get_producer()).get_playtime();
     kdDebug()<<"// +  +INSERTING CLIP: "<<resource<<" AT: "<<position.frames(m_fps)<<" on track: "<<track<<", DURATION: "<<duration<<endl;
-    tractor.multitrack()->refresh();
-    tractor.refresh();
-    int prevLength = (int) mlt_producer_get_playtime(tractor.get_producer()) - 1;
-    int length = (int) mlt_producer_get_playtime(trackPlaylist.get_producer()) - 1;
-    kdDebug()<<"////// AD CLIP, NEW LENGTH: "<<length<<", "<<prevLength<<endl;
-/*    if (prevLength > length) length = prevLength; 
-    {
-	m_mltProducer->set("out", length);
-	emit durationChanged();
-    }*/
+
+
 }
 
 void KRender::mltCutClip(int track, GenTime position)
@@ -1281,11 +1266,6 @@ void KRender::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveE
     mlt_multitrack multitrack = mlt_field_multitrack(field); //mlt_tractor_multitrack(tractor.get_tractor());
     kdDebug()<<" --  CURRENT MULTIOTRACK HAS: "<<mlt_multitrack_count(multitrack)<<" tracks"<<endl;;
     mlt_service multiprod = mlt_multitrack_service( multitrack );
-
-    /*mlt_transition trans = mlt_service_get_transition(multiprod, 0);
-    if (trans != NULL) mlt_transition_close(trans);*/
-
-    //kdDebug()<<"// Playtime for start track : "<<startTrack<<" is: "<<mlt_producer_get_playtime(trackPlaylist.get_producer())<<endl;
 
     Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
     mlt_events_block( MLT_PRODUCER_PROPERTIES(clipProducer.get_producer()), NULL );
