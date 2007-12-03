@@ -456,11 +456,11 @@ QDomDocument DocClipAVFile::generateSceneList(bool, bool) const
 	// else producer.setAttribute("aspect_ratio", QString::number(KdenliveSettings::aspectratio()));
 	
         westley.appendChild(producer);
-        playlist.setAttribute("in", "0");
-        playlist.setAttribute("out",
-        QString::number(duration().frames(KdenliveSettings::defaultfps())));
         QDomElement entry = sceneList.createElement("entry");
         entry.setAttribute("producer", 0);
+        entry.setAttribute("in", "0");
+        entry.setAttribute("out",
+        QString::number(duration().frames(KdenliveSettings::defaultfps()) - 1));
 
 	if (clipType() == SLIDESHOW) {
 	    producer.setAttribute("ttl", clipTtl());
@@ -489,7 +489,7 @@ QDomDocument DocClipAVFile::generateSceneList(bool, bool) const
 	entry.setAttribute("producer", getId());
 	entry.setAttribute("in", "0");
 	entry.setAttribute("out",
-	    QString::number(duration().frames(KdenliveSettings::defaultfps())));
+	    QString::number(duration().frames(KdenliveSettings::defaultfps()) - 1));
 	playlist.appendChild(entry);
 	//playlist.appendChild(producer);
 	westley.appendChild(playlist);
