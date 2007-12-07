@@ -54,10 +54,10 @@ namespace Gui {
 		"ProjectList created with no document - expect a crash shortly"
 		<< endl;
 	}
-	QBoxLayout * viewLayout = new QHBoxLayout( view_frame );
-        viewLayout->setAutoAdd( TRUE );
-	QBoxLayout * searchLayout = new QHBoxLayout( lv_frame );
-        searchLayout->setAutoAdd( TRUE );
+	m_viewLayout = new QHBoxLayout( view_frame );
+        m_viewLayout->setAutoAdd( TRUE );
+	m_searchLayout = new QHBoxLayout( lv_frame );
+        m_searchLayout->setAutoAdd( TRUE );
 	if (!m_isIconView) setupListView();
 	else setupIconView();
 
@@ -90,6 +90,8 @@ namespace Gui {
     }
 
     ProjectList::~ProjectList() {
+	delete m_viewLayout;
+	delete m_searchLayout;
 	if (!m_isIconView) m_listView->clear();
 	else m_iconView->clear();
     }

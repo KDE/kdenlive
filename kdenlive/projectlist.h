@@ -88,6 +88,8 @@ namespace Gui {
 	ListViewTagSearchWidget *lv_search;
 	KIconViewSearchLine *iv_search;
 	bool m_isIconView;
+	QBoxLayout * m_viewLayout;
+	QBoxLayout * m_searchLayout;
 
       public slots:		// Public slots
 	/** No descriptions */
