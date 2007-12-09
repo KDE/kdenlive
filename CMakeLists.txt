@@ -1,6 +1,19 @@
+PROJECT(KDENLIVE)
+
+# Kdenlive version string
+SET (VERSION_MAJOR "0")
+SET (VERSION_MINOR "6")
+SET (VERSION_PATCH "0")
+# comment out the next line for a public release
+SET (VERSION_SUFFIX "svn")
+SET (VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
+IF(VERSION_SUFFIX)
+   SET (VERSION "${VERSION}-${VERSION_SUFFIX}")
+ENDIF(VERSION_SUFFIX)
+ADD_DEFINITIONS(-D'VERSION="${VERSION}"')
+
 SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmakemodules ${CMAKE_SOURCE_DIR}/cmake/modules)
 
-# INCLUDE(FindKdeLibs)
 INCLUDE(FindGettext)
 INCLUDE(KdenlivePackageMessages)
 
@@ -15,5 +28,5 @@ FIND_PACKAGE(LIBFFMPEG REQUIRED)
 #SET(CMAKE_C_FLAGS `mlt-config --cflags`)
 
 
-SUBDIRS(kdenlive renderer graphics profiles pgm icons doc po effects)
+SUBDIRS(kdenlive renderer graphics profiles pgm icons doc effects po)
 
