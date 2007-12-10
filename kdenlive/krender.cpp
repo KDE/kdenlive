@@ -178,6 +178,7 @@ void KRender::createVideoXWindow(WId winid, WId externalMonitor)
 
     m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
 
+    //QTimer::singleShot(500, this, SLOT(initSceneList()));
     initSceneList();
 //  m_mltConsumer->listen("consumer-stopped", this, (mlt_listener) consumer_stopped);
 //  m_mltConsumer->set("buffer", 25);
@@ -290,10 +291,10 @@ QPixmap KRender::getImageThumbnail(KURL url, int width, int height)
     return pixmap;
 }
 
-QPixmap KRender::getVideoThumbnail(KURL url, int frame_position, int width, int height)
+QPixmap KRender::getVideoThumbnail(QString file, int frame_position, int width, int height)
 {
     QPixmap pix(width, height);
-    char *tmp = decodedString(url.path());
+    char *tmp = decodedString(file);
     Mlt::Producer m_producer(tmp);
     delete[] tmp;
     if (m_producer.is_blank()) {
@@ -437,7 +438,7 @@ void KRender::getFileProperties(KURL url, uint framenb)
 
 	if (frame->is_valid()) {
 	    filePropertyMap["fps"] =
-		QString::number(frame->get_double("fps"));
+		QString::number(mlt_producer_get_fps( producer.get_producer() ));
 	    filePropertyMap["width"] =
 		QString::number(frame->get_int("width"));
 	    filePropertyMap["height"] =
@@ -517,13 +518,16 @@ void KRender::initSceneList()
     doc.appendChild(westley);
     QDomElement prod = doc.createElement("producer");
     prod.setAttribute("resource", "colour");
-    prod.setAttribute("colour", "red");
-    prod.setAttribute("id", "red");
-    westley.appendChild(prod);
+    prod.setAttribute("colour", "black");
+    prod.setAttribute("id", "black");
+    prod.setAttribute("in", "0");
+    prod.setAttribute("out", "0");
 
     QDomElement tractor = doc.createElement("tractor");
     QDomElement multitrack = doc.createElement("multitrack"); 
+
     QDomElement playlist1 = doc.createElement("playlist");
+    playlist1.appendChild(prod);
     multitrack.appendChild(playlist1);
     QDomElement playlist2 = doc.createElement("playlist");
     multitrack.appendChild(playlist2);
@@ -532,11 +536,6 @@ void KRender::initSceneList()
     QDomElement playlist4 = doc.createElement("playlist");
     multitrack.appendChild(playlist4);
     QDomElement playlist5 = doc.createElement("playlist");
-    QDomElement entry = doc.createElement("entry");
-    entry.setAttribute("producer", "red");
-    entry.setAttribute("in", "0");
-    entry.setAttribute("out", "50");
-    //playlist5.appendChild(entry);
     multitrack.appendChild(playlist5);
     tractor.appendChild(multitrack);
     westley.appendChild(tractor);
@@ -553,7 +552,7 @@ void KRender::setSceneList(QDomDocument list, int position)
     if (!m_winid == -1) return;
     m_generateScenelist = true;
 
-    kdDebug()<<"//////  RENDER, SET SCENE LIST"<<endl;
+    kdWarning()<<"//////  RENDER, SET SCENE LIST"<<endl;
 
     Mlt::Playlist track;
     char *tmp = decodedString(list.toString());
@@ -586,7 +585,7 @@ void KRender::setSceneList(QDomDocument list, int position)
 	emit stopped();
     }
 
-    m_mltProducer = track.current();
+    m_mltProducer = new Mlt::Producer(clip); //track.current();
     m_mltProducer->optimise();
     if (position != 0) m_mltProducer->seek(position);
 
@@ -631,6 +630,7 @@ void KRender::connectPlaylist() {
 	}
 	else {
     	    m_mltConsumer->connect(*m_mltProducer);
+	    m_mltProducer->set_speed(0.0);
     	    refresh();
 	}
 }
@@ -790,6 +790,7 @@ void KRender::sendSeekCommand(GenTime time)
 {
     if (!m_mltProducer)
 	return;
+    //kdDebug()<<"//////////  KDENLIVE SEEK: "<<(int) (time.frames(m_fps))<<endl;
     m_mltProducer->seek((int) (time.frames(m_fps)));
     refresh();
 }
@@ -897,7 +898,7 @@ void KRender::exportCurrentFrame(KURL url, bool notify) {
 void KRender::mltCheckLength()
 {
     //kdDebug()<<"checking track length: "<<track<<".........."<<endl;
-    Mlt::Service service(m_mltProducer->parent().get_service());
+    Mlt::Service service(m_mltProducer->get_service());
     Mlt::Tractor tractor(service);
 
     int trackNb = tractor.count( );
@@ -929,13 +930,14 @@ void KRender::mltCheckLength()
 	blackTrackPlaylist.remove_region( 0, blackDuration );
 	int i = 0;
 	int dur = duration;
-        while (dur > 14000) {
-	    mltInsertClip(0, GenTime(i * 14000, m_fps), QString("<westley><producer id=\"black\" resource=\"colour\" colour=\"black\" /><playlist><entry in=\"0\" out=\"13999\" producer=\"black\" /></playlist></westley>"));
+	
+        while (dur > 14000) { // <producer mlt_service=\"colour\" colour=\"black\" in=\"0\" out=\"13999\" />
+	    mltInsertClip(0, GenTime(i * 14000, m_fps), QString("<westley><producer mlt_service=\"colour\" colour=\"black\" in=\"0\" out=\"13999\" /></westley>"));
 	    dur = dur - 14000;
 	    i++;
         }
 
-	mltInsertClip(0, GenTime(), QString("<westley><producer id=\"black\" resource=\"colour\" colour=\"black\" /><playlist><entry in=\"0\" out=\"" + QString::number(dur) + "\" producer=\"black\" /></playlist></westley>"));
+	mltInsertClip(0, GenTime(), QString("<westley><producer mlt_service=\"colour\" colour=\"black\" in=\"0\" out=\"" + QString::number(dur) + "\" /></westley>"));
 
 	m_mltProducer->set("out", duration);
 	emit durationChanged();
@@ -961,7 +963,9 @@ void KRender::mltInsertClip(int track, GenTime position, QString resource)
     Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
     char *tmp = decodedString(resource);
     Mlt::Producer clip("westley-xml", tmp);
+    //clip.set_in_and_out(in.frames(m_fps), out.frames(m_fps));
     delete[] tmp;
+
     trackPlaylist.insert_at(position.frames(m_fps), clip, 1);
     tractor.multitrack()->refresh();
     tractor.refresh();
@@ -987,6 +991,7 @@ void KRender::mltCutClip(int track, GenTime position)
     trackPlaylist.consolidate_blanks(0);
     kdDebug()<<"/ / / /CUTTING CLIP AT: "<<position.frames(m_fps)<<endl;
 }
+
 
 void KRender::mltRemoveClip(int track, GenTime position)
 {
@@ -1268,11 +1273,12 @@ void KRender::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveE
     mlt_service multiprod = mlt_multitrack_service( multitrack );
 
     Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
+    trackPlaylist.consolidate_blanks(0);
     mlt_events_block( MLT_PRODUCER_PROPERTIES(clipProducer.get_producer()), NULL );
+
     if (endTrack == startTrack) {
-	kdDebug()<<" / / / moving clip from: "<<moveStart<<" to: "<<moveEnd<<endl;
 	if (!trackPlaylist.is_blank_at(moveEnd)) {
-	    kdDebug()<<"// ERROR, CLIP COLLISION----------"<<endl;
+	    kdWarning()<<"// ERROR, CLIP COLLISION----------"<<endl;
 	    int ix = trackPlaylist.get_clip_index_at(moveEnd);
 		kdDebug()<<"BAD CLIP STARTS AT: "<<trackPlaylist.clip_start(ix)<<", LENGT: "<<trackPlaylist.clip_length(ix)<<endl;
 	}
@@ -1360,3 +1366,18 @@ void KRender::mltAddTransition(QString tag, int a_track, int b_track, GenTime in
     refresh();
 
 }
+
+void KRender::mltSavePlaylist()
+{
+    kdWarning()<<"// UPDATING PLAYLIST TO DISK++++++++++++++++"<<endl;
+    Mlt::Consumer *fileConsumer = new Mlt::Consumer("westley");
+    fileConsumer->set("resource", "/home/one/playlist.xml");
+
+    Mlt::Service service(m_mltProducer->get_service());
+    Mlt::Tractor tractor(service);
+
+    fileConsumer->connect(service);
+    fileConsumer->start();
+
+}
+

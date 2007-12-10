@@ -100,7 +100,7 @@
 				Mlt::Frame *mlt_frame = m_producer.get_frame();
 				if ( mlt_frame->is_valid() )
 				{
-					double m_framesPerSecond = mlt_frame->get_double( "fps" );
+					double m_framesPerSecond = mlt_producer_get_fps( m_producer.get_producer() ); //mlt_frame->get_double( "fps" );
 					int m_samples = mlt_sample_calculator( m_framesPerSecond, m_frequency, mlt_frame_get_position(mlt_frame->get_frame()) );
 					mlt_audio_format m_audioFormat = mlt_audio_pcm;
 				

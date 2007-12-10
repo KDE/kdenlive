@@ -494,6 +494,7 @@ namespace Gui {
 	void slotProjectImportCue();
 	void slotExtractClipAudio(DocClipRef *clip);
 	void forceTimelineRefresh();
+	//void forceDiskTimelineRefresh();
 
         /** Add a transition between the 2 selected clips */
         void slotAddTransition(int ix = 0);
@@ -693,6 +694,7 @@ namespace Gui {
 
 	EffectStackDialog *m_effectStackDialog;
 	EffectListDialog *m_effectListDialog;
+	KTextEdit *m_debugDialog;
 	//EffectParamDialog *m_effectParamDialog;
 	ClipPropertiesDialog *m_clipPropertyDialog;
 	KDockWidget *clipWidget;
@@ -725,6 +727,7 @@ namespace Gui {
 
 	KDockWidget *m_dockEffectList;
 	KDockWidget *m_dockProjectList;
+	KDockWidget *m_dockDebug;
 	KDockWidget *m_dockEffectStack;
 	KDockWidget *m_dockTransition;
         newLumaStuff *m_newLumaDialog;

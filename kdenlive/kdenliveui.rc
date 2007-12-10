@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="39">
+<kpartgui name="kdenlive" version="40">
 <MenuBar>
   <Menu name="file">
 	<Action name="merge_project"/>
@@ -39,6 +39,7 @@
       <Separator />
       <Action name="show_markers"/>
       <Action name="sync_timeline"/>
+      <Action name="sync_disk_timeline"/>
   </Menu>
   
   <Menu name="project"><text>&amp;Project</text>

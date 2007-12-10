@@ -370,8 +370,7 @@ namespace Gui {
 		    QListViewItem *child = new WestleyListViewItem( item, e, width, height);
 		    int cliptype = e.attribute("type", QString::number(-1)).toInt();
 		    if (cliptype == DocClipBase::PLAYLIST || cliptype == DocClipBase::VIDEO || cliptype == DocClipBase::AV || cliptype == -1) {
-			    KURL resource =  KURL(e.attribute("resource", QString::null));
-			    QPixmap pix = m_document->renderer()->getVideoThumbnail(resource, 1, width, height);
+			    QPixmap pix = m_document->renderer()->getVideoThumbnail(e.attribute("resource", QString::null), 1, width, height);
 			    child->setPixmap(0, pix);
 		    }
 	        }

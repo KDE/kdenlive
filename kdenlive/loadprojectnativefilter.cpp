@@ -242,12 +242,12 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 	    uint clipType;
 	    clipType = clip.attribute("type", "").toInt();
 	    DocClipBase *baseClip=0;
-
+	    KURL url;
+	    url.setPath(clip.attribute("resource", QString::null));
 	    if (clipType < 4 || clipType == DocClipBase::PLAYLIST)	//  AUDIO OR VIDEO CLIP
 	    {
 		baseClip =
-		    document->clipManager().insertClip(KURL(clip.
-                        attribute("resource", "")), clip.attribute("frame_thumbnail", "0").toInt(), clip.attribute("id", "-1").toInt());
+		    document->clipManager().insertClip(url, clip.attribute("frame_thumbnail", "0").toInt(), clip.attribute("id", "-1").toInt());
 	    }
 	    else if (clipType == DocClipBase::COLOR)	//   COLOR CLIP
 		baseClip =
@@ -259,14 +259,12 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 
 	    else if (clipType == DocClipBase::IMAGE)	//   IMAGE CLIP
 		baseClip =
-		    document->clipManager().insertImageClip(clip.
-		    attribute("resource", ""), GenTime(clip.attribute("duration", "").toInt(), 25),
+		    document->clipManager().insertImageClip(url, GenTime(clip.attribute("duration", "").toInt(), 25),
                     clip.attribute("description", ""), clip.attribute("transparency", "").toInt(), clip.attribute("id", "-1").toInt());
 
 	    else if (clipType == DocClipBase::SLIDESHOW)	//   SLIDESHOW CLIP
 		baseClip =
-		    document->clipManager().insertSlideshowClip(clip.
-		    attribute("resource", ""), "", clip.attribute("ttl", "0").toInt(), clip.attribute("crossfade","").toInt(), clip.attribute("lumafile",""), clip.attribute("lumasoftness","0").toDouble(), clip.attribute("lumaduration","0").toInt(),
+		    document->clipManager().insertSlideshowClip(url, "", clip.attribute("ttl", "0").toInt(), clip.attribute("crossfade","").toInt(), clip.attribute("lumafile",""), clip.attribute("lumasoftness","0").toDouble(), clip.attribute("lumaduration","0").toInt(),
 		    GenTime(clip.attribute("duration", "").toInt(), 25),
                     clip.attribute("description", ""), clip.attribute("transparency","").toInt(), clip.attribute("id", "-1").toInt());
 
@@ -277,12 +275,12 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
                 xml.appendChild(clip.firstChild());
                 baseClip =
                         document->clipManager().insertTextClip(GenTime(clip.attribute("duration", "").toInt(), KdenliveSettings::defaultfps()), clip.attribute("name", ""),
-                clip.attribute("description", ""), xml, clip.attribute("resource", ""), pm, clip.attribute("transparency", "").toInt(), clip.attribute("id", "-1").toInt());
+                clip.attribute("description", ""), xml, url, pm, clip.attribute("transparency", "").toInt(), clip.attribute("id", "-1").toInt());
             }
             else if (clipType == DocClipBase::VIRTUAL)	//   VIRTUAL CLIP
             {
                 baseClip =
-                        document->clipManager().insertVirtualClip(clip.attribute("name", ""), clip.attribute("description", ""), GenTime(clip.attribute("virtualstart", "").toInt(), KdenliveSettings::defaultfps()), GenTime(clip.attribute("virtualend", "").toInt(), KdenliveSettings::defaultfps()), clip.attribute("resource", ""), clip.attribute("frame_thumbnail", "0").toInt(), clip.attribute("id", "-1").toInt());
+                        document->clipManager().insertVirtualClip(clip.attribute("name", ""), clip.attribute("description", ""), GenTime(clip.attribute("virtualstart", "").toInt(), KdenliveSettings::defaultfps()), GenTime(clip.attribute("virtualend", "").toInt(), KdenliveSettings::defaultfps()), url, clip.attribute("frame_thumbnail", "0").toInt(), clip.attribute("id", "-1").toInt());
             }
 
 	    if (baseClip) {

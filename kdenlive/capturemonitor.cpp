@@ -158,7 +158,10 @@ void CaptureMonitor::displayCapturedFiles()
         QDir dir( KURL(m_tmpFolder).path() );
         more = dir.entryList( QDir::Files );
         for ( it = more.begin() ; it != more.end() ; ++it ){
-		QPixmap p = m_app->getDocument()->renderer()->getVideoThumbnail(KURL(m_tmpFolder + (*it)), 1, 60, 40);
+		KURL url;
+		url.setPath(m_tmpFolder);
+		url.addPath(*it);
+		QPixmap p = m_app->getDocument()->renderer()->getVideoThumbnail(url.path(), 1, 60, 40);
 		if (!p.isNull()) {
 		    QCheckListItem *item = new QCheckListItem(lv, QString::null, QCheckListItem::CheckBox);
 		    item->setPixmap(0, p);

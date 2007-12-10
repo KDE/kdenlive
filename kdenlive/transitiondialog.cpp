@@ -60,7 +60,6 @@ namespace Gui {
     transLab = new QLabel(i18n("Duration: "), this);
     transitionDuration = new KRestrictedLine(this);
     transitionDuration->setInputMask("99:99:99:99; ");
-    connect(transitionDuration,SIGNAL(textChanged(const QString &)), this, SIGNAL(resizeTransition(const QString &)));
 
     m_videoFormat = app->projectFormatParameters(app->projectVideoFormat());
     propertiesDialog = new KJanusWidget(this, name, KJanusWidget::IconList);
@@ -268,15 +267,17 @@ void TransitionDialog::slotMoveCursor(int position)
 void TransitionDialog::connectTransition()
 {
    connect(propertiesDialog, SIGNAL( aboutToShowPage ( QWidget * )), this, SLOT(applyChanges()));
+   connect(transitionDuration,SIGNAL(textChanged(const QString &)), this, SIGNAL(resizeTransition(const QString &)));
    connect(transitWipe, SIGNAL(applyChanges ()), this, SLOT(applyChanges()));
    connect(transitWipe->use_luma, SIGNAL(toggled(bool)), this, SLOT(applyChanges()));
    connect(transitCrossfade->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
    connect(trackPolicy, SIGNAL(activated(int)), this, SLOT(applyChanges()));
+
    connect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
    connect(transitPip, SIGNAL(transitionNeedsRedraw()), this, SLOT(slotRedrawTransition()));
    connect(transitPip, SIGNAL(moveCursorToKeyFrame(int)), this, SLOT(slotMoveCursor(int)));
-
    connect(transitPip->use_luma, SIGNAL(toggled(bool)), this, SLOT(applyChanges()));
+
    connect(transitLumaFile->spin_soft, SIGNAL(valueChanged(int)), this, SLOT(applyChanges()));
    connect(transitLumaFile->lumaView, SIGNAL(selectionChanged ()), this, SLOT(applyChanges()));
    connect(transitLumaFile->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
@@ -285,13 +286,17 @@ void TransitionDialog::connectTransition()
 void TransitionDialog::disconnectTransition()
 {
     disconnect(propertiesDialog, SIGNAL( aboutToShowPage ( QWidget * )), this, SLOT(applyChanges()));
-
+    disconnect(transitionDuration,SIGNAL(textChanged(const QString &)), this, SIGNAL(resizeTransition(const QString &)));
     disconnect(transitWipe, SIGNAL(applyChanges ()), this, SLOT(applyChanges()));
     disconnect(transitWipe->use_luma, SIGNAL(toggled(bool)), this, SLOT(applyChanges()));
     disconnect(transitCrossfade->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
     disconnect(trackPolicy, SIGNAL(activated(int)), this, SLOT(applyChanges()));
+
     disconnect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
+    disconnect(transitPip, SIGNAL(transitionNeedsRedraw()), this, SLOT(slotRedrawTransition()));
+    disconnect(transitPip, SIGNAL(moveCursorToKeyFrame(int)), this, SLOT(slotMoveCursor(int)));
     disconnect(transitPip->use_luma, SIGNAL(toggled(bool)), this, SLOT(applyChanges()));
+
     disconnect(transitLumaFile->spin_soft, SIGNAL(valueChanged(int)), this, SLOT(applyChanges()));
     disconnect(transitLumaFile->lumaView, SIGNAL(selectionChanged ()), this, SLOT(applyChanges()));
     disconnect(transitLumaFile->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));

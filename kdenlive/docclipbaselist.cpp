@@ -101,7 +101,7 @@ generateFromXML(KdenliveDoc *doc, QDomElement elem)
 		    if (clip) {
 			append(clip);
 			if (clip->isDocClipAVFile()) {
-			    kdDebug()<<"// / / / / CLIP LIST GET PROPS /////"<<endl;
+			    kdWarning()<<"// / / / / CLIP LIST GET PROPS FOR: "<<clip->fileURL().path()<<endl;
 			    doc->renderer()->getFileProperties(clip->fileURL(), clip->getProjectThumbFrame());
 			}
 		    }

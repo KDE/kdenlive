@@ -84,7 +84,7 @@ class KRender:public QObject {
 	/** Seeks the renderer clip to the given time. */
     void seek(GenTime time);
     
-    QPixmap getVideoThumbnail(KURL url, int frame, int width, int height);
+    QPixmap getVideoThumbnail(QString file, int frame, int width, int height);
     QPixmap getImageThumbnail(KURL url, int width, int height);
 
 	/** Return thumbnail for color clip */
@@ -209,8 +209,6 @@ class KRender:public QObject {
     void setDescription(const QString & description);
     void closeMlt();
     void mltCheckLength();
-    void initSceneList();
-
 
     private slots:		// Private slots
 	/** refresh monitor display */
@@ -218,6 +216,7 @@ class KRender:public QObject {
 	void slotOsdTimeout();
 	void restartConsumer();
 	void connectPlaylist();
+	void initSceneList();
 
      signals:			// Signals
 	/** This signal is emitted once a reply to createVideoXWidow() has been recieved. */
@@ -263,7 +262,7 @@ class KRender:public QObject {
     
     void exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime);
     static char *decodedString(QString str);
-
+    void mltSavePlaylist();
 };
 
 #endif

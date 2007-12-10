@@ -439,6 +439,7 @@ void exportWidget::slotCheckSelection()
 	else {
 	    exportButton->setEnabled(true);
 	    QString encoderCommand = slotCommandForItem(MedEncoders, med_encoders->currentItem());
+	    kdDebug()<<" / / / /CHOSEN ENCODER CMD: "<<encoderCommand<<endl;
     	    fileExportName->setText(currentName+"." + encoderCommand.section(":", 8, 8));
 	    encoder_command->setText(encoderCommand.section(":",9));
 	    encoder_norm = encoderCommand.section(":",7,7);

@@ -136,7 +136,7 @@ namespace Gui {
 
     KdenliveApp::KdenliveApp(bool newDoc, QWidget *parent,
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
-    m_workspaceMonitor(NULL), m_clipMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_renderManager(NULL), m_doc(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_projectList(NULL), m_effectStackDialog(NULL), m_effectListDialog(NULL), m_projectFormat("dv_pal"), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL), m_transitionPanel(NULL), m_resizeFunction(NULL), m_moveFunction(NULL), m_rollFunction(NULL), m_markerFunction(NULL),m_newLumaDialog(NULL), m_externalMonitor(0) {
+    m_workspaceMonitor(NULL), m_clipMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_renderManager(NULL), m_doc(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_projectList(NULL), m_effectStackDialog(NULL), m_effectListDialog(NULL), m_projectFormat("dv_pal"), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL), m_transitionPanel(NULL), m_resizeFunction(NULL), m_moveFunction(NULL), m_rollFunction(NULL), m_markerFunction(NULL),m_newLumaDialog(NULL), m_externalMonitor(0), m_debugDialog(NULL) {
 
 	parseProfiles();
 	config = kapp->config();
@@ -677,6 +677,8 @@ namespace Gui {
 	showAllMarkers->setChecked(KdenliveSettings::showallmarkers());
 
 	KAction *syncTimeline = new KAction(i18n("Sync Timeline"), "reload", 0, this, SLOT(forceTimelineRefresh()), actionCollection(), "sync_timeline");
+
+	/*KAction *syncDiskTimeline = new KAction(i18n("Sync Disk Timeline"), "reload", 0, this, SLOT(forceDiskTimelineRefresh()), actionCollection(), "sync_disk_timeline");*/
 
 	KAction *defineThumb = new KAction(i18n("Define Clip Thumbnail"), 0, this, SLOT(slotDefineClipThumb()), actionCollection(), "define_thumb");
 	defineThumb->setToolTip(i18n("Define thumbnail for the current clip"));
@@ -1404,6 +1406,12 @@ namespace Gui {
 	m_dockEffectStack->manualDock(m_dockProjectList, KDockWidget::DockCenter);
 	m_dockEffectStack->setToolTipString(i18n("Effect Stack"));
 
+/*	m_dockDebug = createDockWidget("Debug", QPixmap(), 0, i18n("Debug"));
+	m_dockDebug->setDockSite(KDockWidget::DockFullSite);
+	m_dockDebug->manualDock(m_dockProjectList, KDockWidget::DockCenter);
+	m_dockDebug->setToolTipString(i18n("Debug"));*/
+
+
 	m_dockWorkspaceMonitor = createDockWidget("Workspace Monitor", QPixmap(), 0, i18n("Timeline Monitor"));
 
 	m_dockWorkspaceMonitor->setDockSite(KDockWidget::DockFullSite);
@@ -1479,12 +1487,21 @@ namespace Gui {
 
 	m_dockProjectList->update();
 
+	/*if (m_debugDialog) delete m_debugDialog;
+	m_debugDialog =
+	    new KTextEdit();
+	m_debugDialog->setReadOnly(true);
+	m_dockDebug->setWidget(m_debugDialog);
+	m_debugDialog->show();
+	m_dockDebug->update();*/
+
 	if (m_effectListDialog) delete m_effectListDialog;
 	m_effectListDialog =
 	    new EffectListDialog(effectList(), m_timelineWidget, "effect list");
 	m_dockEffectList->setWidget(m_effectListDialog);
 	m_effectListDialog->show();
 	m_dockEffectList->update();
+
 	if (m_effectStackDialog) delete m_effectStackDialog;
 	m_effectStackDialog =
 	    new EffectStackDialog(this, getDocument(), m_dockEffectStack,
@@ -2367,9 +2384,9 @@ namespace Gui {
 
     void KdenliveApp::initMonitors() {
 	activateClipMonitor();
-	if (m_clipMonitor) m_clipMonitor->screen()->play(1.0);
+	//if (m_clipMonitor) m_clipMonitor->screen()->play(1.0);
 	activateWorkspaceMonitor();
-	if (m_workspaceMonitor) m_workspaceMonitor->screen()->play(1.0);
+	//if (m_workspaceMonitor) m_workspaceMonitor->screen()->play(1.0);
 	}
 
 
@@ -3582,20 +3599,24 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                                 duration, dia->name(), dia->description());
                     }
                     else if (refClip->clipType() == DocClipBase::IMAGE) {
-			QString url = dia->url();
+			KURL url;
+			url.setPath(dia->url());
 			if (duration > GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond())) duration = GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond());
                         Command::KEditClipCommand(*m_doc, refClip, url, duration, dia->description(), dia->transparency());
 		    }
 		    else if (refClip->clipType() == DocClipBase::SLIDESHOW) {
 			QString lumaFile = m_transitionPanel->getLumaFilePath(dia->lumaFile());
-			QString url = dia->url() + "/.all." + dia->extension();
+			KURL url;
+			url.setPath( dia->url() + "/.all." + dia->extension());
 			if (duration > GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond())) duration = GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond());
                         Command::KEditClipCommand(*m_doc, refClip, url, "",dia->ttl(), dia->crossfading(), lumaFile, dia->lumaSoftness(), dia->lumaDuration(), duration, dia->description(), dia->transparency());
                     }
                     else { // Video clip
-                        Command::KEditClipCommand(*m_doc, refClip, dia->url(),dia->description());
+			KURL url;
+			url.setPath(dia->url());
+                        Command::KEditClipCommand(*m_doc, refClip, url, dia->description());
                     }
-		if (refClip->numReferences() > 0)     getDocument()->activateSceneListGeneration(true);
+		if (refClip->numReferences() > 0) getDocument()->activateSceneListGeneration(true);
                 }
 		delete dia;
             }
@@ -4039,6 +4060,16 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     void KdenliveApp::forceTimelineRefresh() {
 	getDocument()->forceTimelineRefresh();
     }
+
+    /*void KdenliveApp::forceDiskTimelineRefresh() {
+	getDocument()->renderer()->mltSavePlaylist();
+	
+    QFile file( "/home/one/playlist.xml" ); // Read the text from a file
+    if ( file.open( IO_ReadOnly ) ) {
+        QTextStream stream( &file );
+        m_debugDialog->setText( stream.read() );
+    }
+    }*/
 
     void KdenliveApp::slotDefineClipThumb() {
 	DocClipRef *clip = m_projectList->currentClip();

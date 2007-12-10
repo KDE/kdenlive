@@ -374,7 +374,7 @@ namespace Gui {
     
     QString ClipProperties::url() const
     {
-        return clipChoice->edit_url->url(); 
+        return clipChoice->edit_url->url();
     }
     
     bool ClipProperties::transparency() const

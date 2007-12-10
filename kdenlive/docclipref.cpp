@@ -811,8 +811,8 @@ QDomDocument DocClipRef::generateSceneList(bool, bool)
         return sceneList;
     
     QDomElement producer = producers.item(0).toElement();
-    producer.setAttribute("in", cropStartTime().frames(framesPerSecond()));
-    producer.setAttribute("out", (cropStartTime() + cropDuration()).frames(framesPerSecond()));
+    // producer.setAttribute("in", cropStartTime().frames(framesPerSecond()));
+    // producer.setAttribute("out", (cropStartTime() + cropDuration()).frames(framesPerSecond()));
     // If this clip has a non 1.0 speed, wrap it in a framebuffer service so 
     // that when resizing individual clips with a speed effect, the correct frame 
     // is shown

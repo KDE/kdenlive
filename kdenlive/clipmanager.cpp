@@ -834,8 +834,9 @@ void ClipManager::AVFilePropertiesArrived(const QMap < QString,
 	    << endl;
 	return;
     }
-
-    DocClipAVFile *file = findAVFile(KURL(properties["filename"]));
+    KURL url;
+    url.setPath(properties["filename"]);
+    DocClipAVFile *file = findAVFile(url);
     if (!file) {
 	kdWarning() << "File properties returned for a non-existant AVFile"
 	    << endl;

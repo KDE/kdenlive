@@ -55,7 +55,7 @@ QDomDocument DocSubClip::toXML()
 	if (!element.isNull()) {
 	    if (element.tagName() == "kdenliveclip") {
 		QDomElement avfile = doc.createElement("avfile");
-		avfile.setAttribute("url", fileURL().url());
+		avfile.setAttribute("url", fileURL().path());
 		element.appendChild(avfile);
 		return doc;
 	    }
