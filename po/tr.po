@@ -2465,7 +2465,7 @@ msgstr "Ses Önizlemelerini Göster"
 
 #: kdenlive/kdenlive.cpp:1238
 msgid "Move/Resize mode"
-msgstr "Taşı/ yeniden boyutlandır modu"
+msgstr "Taşı/yeniden boyutlandır modu"
 
 #: kdenlive/kdenlive.cpp:1245
 msgid "Abort export ?"
