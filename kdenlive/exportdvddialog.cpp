@@ -111,7 +111,10 @@ ExportDvdDialog::ExportDvdDialog(DocClipProject *proj, exportWidget *render_widg
     connect(menu_image, SIGNAL(urlSelected( const QString & )), this, SLOT(slotCheckMenuImage()));
     connect(menu_movie, SIGNAL(urlSelected( const QString & )), this, SLOT(slotCheckMenuMovie()));
     connect(play_text, SIGNAL(textChanged ( const QString & )), this, SLOT(generateMenuPreview()));
-    preview_pixmap->setScaledContents(true);
+
+    refreshTimer = new QTimer( this );
+    connect( refreshTimer, SIGNAL(timeout()), this, SLOT(generateMenuPreview()) );
+
     checkFolder();
 }
 
@@ -121,6 +124,7 @@ ExportDvdDialog::~ExportDvdDialog()
 	m_exportProcess->kill();
 	delete m_exportProcess;
     }
+    delete refreshTimer;
 }
 
 void ExportDvdDialog::slotUpdateNextButton()
@@ -179,6 +183,9 @@ void ExportDvdDialog::generateDvd() {
     menu_ok->setPixmap(QPixmap());
     dvd_ok->setPixmap(QPixmap());
     button_generate->setEnabled(false);
+    button_burn->setEnabled(false);
+    button_preview->setEnabled(false);
+    button_qdvd->setEnabled(false);
     dvd_info->setText(i18n("You can now close this dialog and keep on working on your project while the DVD is being created."));
     if (render_now->isChecked()) {
 	    main_ok->setPixmap(KGlobal::iconLoader()->loadIcon("1rightarrow", KIcon::Toolbar));
@@ -222,7 +229,7 @@ void ExportDvdDialog::slotFinishExport(bool isOk) {
     if (!isOk) {
 	KMessageBox::sorry(this, i18n("The export terminated unexpectedly.\nOutput file will probably be corrupted..."));
 	main_ok->setPixmap(KGlobal::iconLoader()->loadIcon("button_cancel", KIcon::Toolbar));
-    	button_generate->setEnabled(true);
+    	enableButtons();
 	return;
     }
     main_ok->setPixmap(KGlobal::iconLoader()->loadIcon("button_ok", KIcon::Toolbar));
@@ -309,12 +316,16 @@ void ExportDvdDialog::burnDvd() {
 }
 
 void ExportDvdDialog::previewDvd() {
-    if (KStandardDirs::findExe("xine") == QString::null) {
-	KMessageBox::sorry(this, i18n("You need the program \"xine\" to preview your DVD. Please install it if you want to use this feature."));
+    QString player;
+    if (KStandardDirs::findExe("kaffeine") != QString::null) player = "kaffeine";
+    else if (KStandardDirs::findExe("xine") != QString::null) player = "xine";
+    else {
+	KMessageBox::sorry(this, i18n("You need the video player \"kaffeine\" or \"xine\" to preview your DVD. Please install one of them if you want to use this feature."));
 	return;
     }
+
     KProcess *previewProcess = new KProcess;
-    *previewProcess << "xine";
+    *previewProcess << player;
     *previewProcess << "dvd:/" + dvd_folder->url();
     previewProcess->start();
     previewProcess->detach();
@@ -324,7 +335,7 @@ void ExportDvdDialog::previewDvd() {
 
 void ExportDvdDialog::openWithQDvdauthor() {
     if (KStandardDirs::findExe("qdvdauthor") == QString::null) {
-	KMessageBox::sorry(this, i18n("You need the program \"QDvdAuthor\" to preview your DVD. Please install it if you want to use this feature."));
+	KMessageBox::sorry(this, i18n("You need the program \"QDvdAuthor\" to author your DVD. Please install it if you want to use this feature."));
 	return;
     }
     KProcess *previewProcess = new KProcess;
@@ -343,7 +354,7 @@ void ExportDvdDialog::openWithQDvdauthor() {
 void ExportDvdDialog::generateDvdXml() {
     dvd_ok->setPixmap(KGlobal::iconLoader()->loadIcon("1rightarrow", KIcon::Toolbar));
     if (KIO::NetAccess::exists(KURL(dvd_folder->url() + "/VIDEO_TS/"), false, this)) {
-	if (KMessageBox::questionYesNo(this, i18n("The specified dvd folder already exists.\nOverwite it ?")) != KMessageBox::Yes) {
+	if (KMessageBox::questionYesNo(this, i18n("The specified dvd folder ( %1 ) already exists.\nOverwite it ?").arg(dvd_folder->url())) != KMessageBox::Yes) {
 	    dvd_ok->setPixmap(KGlobal::iconLoader()->loadIcon("button_cancel", KIcon::Toolbar));
 	    dvdFailed();
 	    return;
@@ -359,7 +370,7 @@ void ExportDvdDialog::generateDvdXml() {
     if (use_existing->isChecked() && render_file->url().isEmpty()) {
 	KMessageBox::sorry(this, i18n("You didn't select the video file for the DVD.\n Please choose one before starting any operation."));
 	dvd_ok->setPixmap(KGlobal::iconLoader()->loadIcon("button_cancel", KIcon::Toolbar));
-    	button_generate->setEnabled(true);
+    	enableButtons();
 	return;
     }
     //button_generate->setEnabled(false);
@@ -413,13 +424,15 @@ void ExportDvdDialog::generateDvdXml() {
 	pgc.setAttribute("entry", "root");
 	menus.appendChild(pgc);
 
-	QDomElement playButton = doc.createElement("button");
+	QDomElement playButton = doc.createElement ( "button" );
+	playButton.setAttribute ( "name", "PlayButton" ); // Hardcoded. Only one button ?
  	QDomText t = doc.createTextNode( "jump title 1;" );
     	playButton.appendChild( t );
 	pgc.appendChild(playButton);
 
 	QDomElement menuvob = doc.createElement("vob");	
-	menuvob.setAttribute("file", KdenliveSettings::currenttmpfolder() + "menu_final.vob");
+	menuvob.setAttribute ( "file",  KdenliveSettings::currenttmpfolder() + "menu_final.vob" );
+	menuvob.setAttribute ( "pause", movie_background->isChecked ( ) ? "0" : "inf" );
 	pgc.appendChild(menuvob);
 
 	if (movie_background->isChecked()) {
@@ -429,7 +442,6 @@ void ExportDvdDialog::generateDvdXml() {
     	    post.appendChild( t2 );
 	    pgc.appendChild( post );
 	}
-	//menuvob.setAttribute("pause", "inf");
     }
 
     QDomElement titles = doc.createElement("titles");
@@ -473,12 +485,20 @@ void ExportDvdDialog::generateDvdXml() {
     connect(m_exportProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
     connect(m_exportProcess, SIGNAL(receivedStdout (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
 
+    disconnect(button_generate, SIGNAL(clicked()), this, SLOT(generateDvd()));
+    connect(button_generate, SIGNAL(clicked()), this, SLOT(stopDvd()));
     m_exportProcess->start(KProcess::NotifyOnExit, KProcess::AllOutput);
+    button_generate->setText(i18n("Stop"));
+    button_generate->setEnabled(true);
     
     //if (!render_now->isChecked()) slotFinishExport(true);
     //QApplication::connect(m_exportProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
     //kdDebug()<<"- - - - - - -"<<endl;
     //kdDebug()<<doc.toString()<<endl;
+}
+
+void ExportDvdDialog::stopDvd() {
+    m_exportProcess->kill();
 }
 
 
@@ -497,7 +517,7 @@ void ExportDvdDialog::generateMenuMovie() {
 	    showPage(page(1));
 	    create_menu->setChecked(false);
 	    menu_ok->setPixmap(KGlobal::iconLoader()->loadIcon("button_cancel", KIcon::Toolbar));
-    	    button_generate->setEnabled(true);
+    	    enableButtons();
 	    return;
     	}
 
@@ -639,6 +659,11 @@ void ExportDvdDialog::spuMenuDone(KProcess *p)
     //button_generate->setEnabled(true);
 }
 
+void ExportDvdDialog::resizeEvent ( QResizeEvent * e )
+{
+    if (title(currentPage()) ==  i18n("Menu")) refreshTimer->start(200, TRUE);;
+}
+
 
 void ExportDvdDialog::generateMenuPreview()
 {
@@ -665,14 +690,14 @@ void ExportDvdDialog::generateMenuPreview()
 	p.flush();
 	p.end();
 	QImage im = pix.convertToImage();
-	preview_pixmap->setPixmap(im.smoothScale(preview_pixmap->width() - 2, preview_pixmap->height() - 2));
+	preview_pixmap->setPixmap(im.smoothScale((preview_pixmap->height() - 2) * width / height, preview_pixmap->height() - 2));
 }
 
 
 void ExportDvdDialog::generateMenuImages()
 {
-    generateImage("highlight.png", play_text->text(), select_color->color());
-    generateImage("select.png", play_text->text(), active_color->color());
+    QRect boundingRect = generateImage ( "highlight.png",  play_text->text ( ), select_color->color ( ) );
+    generateImage ( "select.png", play_text->text ( ), active_color->color ( ) );
 
     // Generate spumux xml file
     QDomDocument doc;
@@ -687,10 +712,23 @@ void ExportDvdDialog::generateMenuImages()
     //spu.setAttribute("image", KdenliveSettings::currentdefaultfolder() + "/tmp/menu.png");
     spu.setAttribute("highlight", KdenliveSettings::currenttmpfolder() + "highlight.png");
     spu.setAttribute("select", KdenliveSettings::currenttmpfolder() + "select.png");
-    spu.setAttribute("autooutline", "infer");
+    //spu.setAttribute("autooutline", "infer");
     spu.setAttribute("outlinewidth", "20");
     spu.setAttribute("autoorder", "rows");
-    doc.appendChild(main);
+
+    //<button y0="152" y1="280" x0="197" name="01_Button_1" x1="356" />
+    if ( !boundingRect.isValid ( ) )
+	boundingRect = QRect ( 260, 200, 200, 80 );
+
+    QDomElement button = doc.createElement ( "button" );
+    button.setAttribute ( "x0",    boundingRect.left   ( ) );
+    button.setAttribute ( "x1",    boundingRect.right  ( ) );
+    button.setAttribute ( "y0",    boundingRect.top    ( ) );
+    button.setAttribute ( "y1",    boundingRect.bottom ( ) );
+    button.setAttribute ( "name", "PlayButton" );  
+    spu.appendChild ( button );
+
+    doc.appendChild ( main );
 
     QFile *file = new QFile(spuxml_file);
     file->open(IO_WriteOnly);
@@ -723,9 +761,10 @@ void ExportDvdDialog::receivedStderr(KProcess *, char *buffer, int len)
 	if (show_log->isChecked()) dvd_info->setText(m_processlog);
 }
 
-void ExportDvdDialog::generateImage(QString imageName, QString buttonText, QColor color)
+QRect ExportDvdDialog::generateImage(QString imageName, QString buttonText, QColor color)
 {
 	QPainter p;
+	QRect boundingRect;
 	int width = 720;
 	int height;
 	if (m_isNTSC) height = 480;
@@ -741,7 +780,7 @@ void ExportDvdDialog::generateImage(QString imageName, QString buttonText, QColo
 	f.setFamily(font_combo->currentFont());
 	f.setPointSize(font_size->value());
 	p.setFont(f);
-	p.drawText(0, 0, width, height, Qt::AlignHCenter | Qt::AlignVCenter, buttonText);
+	p.drawText(0, 0, width, height, Qt::AlignHCenter | Qt::AlignVCenter, buttonText, -1, &boundingRect );
 	p.flush();
 	p.end();
 /*
@@ -767,6 +806,8 @@ void ExportDvdDialog::generateImage(QString imageName, QString buttonText, QColo
 	conv<<"2";
 	conv<<KdenliveSettings::currenttmpfolder() + imageName;
 	conv.start(KProcess::Block);
+	
+	return boundingRect;
 }
 
 void ExportDvdDialog::generateTranspImage(QString imageName, QString buttonText, QColor color)
@@ -810,7 +851,12 @@ void ExportDvdDialog::endExport(KProcess *)
 {
     bool finishedOK = true;
     checkFolder();
-    button_generate->setEnabled(true);
+    button_generate->setText(i18n("Generate DVD"));
+    
+    disconnect(button_generate, SIGNAL(clicked()), this, SLOT(stopDvd()));
+    connect(button_generate, SIGNAL(clicked()), this, SLOT(generateDvd()));
+    enableButtons();
+
     setCursor(QCursor(Qt::ArrowCursor));
     if (!m_exportProcess->normalExit()) {
 	dvd_ok->setPixmap(KGlobal::iconLoader()->loadIcon("button_cancel", KIcon::Toolbar));
@@ -828,8 +874,15 @@ void ExportDvdDialog::dvdFailed()
     setCursor(QCursor(Qt::ArrowCursor));
     KNotifyClient::event(winId(), "DvdError", i18n("The creation of DVD structure failed."));
     //KMessageBox::sorry(this, );
-    button_generate->setEnabled(true);
+    enableButtons();
     
+}
+
+void ExportDvdDialog::enableButtons() {
+    button_generate->setEnabled(true);
+    button_burn->setEnabled(true);
+    button_preview->setEnabled(true);
+    button_qdvd->setEnabled(true);
 }
 
 GenTime ExportDvdDialog::timeFromString(QString timeString) {

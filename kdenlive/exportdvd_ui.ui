@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>427</width>
-            <height>368</height>
+            <width>437</width>
+            <height>491</height>
         </rect>
     </property>
     <widget class="QWidget">
@@ -239,6 +239,9 @@
                 <property name="title">
                     <string>Create Menu</string>
                 </property>
+                <property name="alignment">
+                    <set>AlignAuto</set>
+                </property>
                 <property name="checkable">
                     <bool>true</bool>
                 </property>
@@ -249,24 +252,41 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <spacer row="0" column="0">
+                    <widget class="QLabel" row="0" column="0">
                         <property name="name">
-                            <cstring>spacer17</cstring>
+                            <cstring>preview_pixmap</cstring>
                         </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>5</hsizetype>
+                                <vsizetype>3</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
                         </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
+                        <property name="minimumSize">
                             <size>
-                                <width>20</width>
-                                <height>66</height>
+                                <width>0</width>
+                                <height>150</height>
                             </size>
                         </property>
-                    </spacer>
-                    <widget class="QTabWidget" row="1" column="0" rowspan="1" colspan="2">
+                        <property name="frameShape">
+                            <enum>Panel</enum>
+                        </property>
+                        <property name="lineWidth">
+                            <number>1</number>
+                        </property>
+                        <property name="text">
+                            <string></string>
+                        </property>
+                        <property name="scaledContents">
+                            <bool>false</bool>
+                        </property>
+                        <property name="alignment">
+                            <set>AlignCenter</set>
+                        </property>
+                    </widget>
+                    <widget class="QTabWidget" row="1" column="0">
                         <property name="name">
                             <cstring>tabWidget2</cstring>
                         </property>
@@ -597,23 +617,6 @@
                             </grid>
                         </widget>
                     </widget>
-                    <widget class="QLabel" row="0" column="1">
-                        <property name="name">
-                            <cstring>preview_pixmap</cstring>
-                        </property>
-                        <property name="frameShape">
-                            <enum>Panel</enum>
-                        </property>
-                        <property name="lineWidth">
-                            <number>1</number>
-                        </property>
-                        <property name="text">
-                            <string></string>
-                        </property>
-                        <property name="scaledContents">
-                            <bool>true</bool>
-                        </property>
-                    </widget>
                 </grid>
             </widget>
         </grid>
@@ -755,40 +758,6 @@
                     <bool>true</bool>
                 </property>
             </widget>
-            <spacer row="6" column="4">
-                <property name="name">
-                    <cstring>spacer7</cstring>
-                </property>
-                <property name="orientation">
-                    <enum>Vertical</enum>
-                </property>
-                <property name="sizeType">
-                    <enum>Expanding</enum>
-                </property>
-                <property name="sizeHint">
-                    <size>
-                        <width>16</width>
-                        <height>38</height>
-                    </size>
-                </property>
-            </spacer>
-            <spacer row="3" column="3">
-                <property name="name">
-                    <cstring>spacer8</cstring>
-                </property>
-                <property name="orientation">
-                    <enum>Vertical</enum>
-                </property>
-                <property name="sizeType">
-                    <enum>Expanding</enum>
-                </property>
-                <property name="sizeHint">
-                    <size>
-                        <width>16</width>
-                        <height>16</height>
-                    </size>
-                </property>
-            </spacer>
             <widget class="QCheckBox" row="6" column="0" rowspan="1" colspan="4">
                 <property name="name">
                     <cstring>show_log</cstring>
@@ -807,7 +776,7 @@
                 <property name="sizePolicy">
                     <sizepolicy>
                         <hsizetype>7</hsizetype>
-                        <vsizetype>5</vsizetype>
+                        <vsizetype>3</vsizetype>
                         <horstretch>0</horstretch>
                         <verstretch>0</verstretch>
                     </sizepolicy>
@@ -870,8 +839,6 @@
         </grid>
     </widget>
 </widget>
-<customwidgets>
-</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kurlrequester.h</includehint>

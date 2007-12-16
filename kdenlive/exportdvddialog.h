@@ -42,6 +42,9 @@ class ExportDvdDialog:public ExportDvd_UI {
     ExportDvdDialog(DocClipProject *proj, exportWidget *render_widget, formatTemplate format, QWidget * parent = 0, const char *name = 0);
     virtual ~ExportDvdDialog();
 
+    protected:
+	void resizeEvent ( QResizeEvent * );
+
     public slots:		// Public slots
 	void fillStructure(QDomDocument xml);
 
@@ -62,7 +65,7 @@ class ExportDvdDialog:public ExportDvd_UI {
 	void slotCheckRendered();
 	void slotCheckMenuImage();
 	void slotCheckMenuMovie();
-	void generateImage(QString imageName, QString buttonText, QColor color);
+	QRect generateImage(QString imageName, QString buttonText, QColor color);
 	void generateTranspImage(QString imageName, QString buttonText, QColor color);
 	void slotSetStandard(int std);
 	void openWithQDvdauthor();
@@ -70,6 +73,7 @@ class ExportDvdDialog:public ExportDvd_UI {
 	void dvdFailed();
 	void receivedStderr(KProcess *, char *buffer, int len);
 	void slotUpdateNextButton();
+	void stopDvd();
 
     private:			// Private attributes
 	GenTime timeFromString(QString timeString);
@@ -84,6 +88,9 @@ class ExportDvdDialog:public ExportDvd_UI {
 	QString m_processlog;
 	formatTemplate m_format;
 	bool m_isNTSC;
+	QTimer *refreshTimer;
+
+	void enableButtons();
 };
 
 }				// namespace Gui
