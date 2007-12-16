@@ -1316,9 +1316,9 @@ void KRender::mltMoveTransition(QString type, int startTrack, int trackOffset, G
 	int currentTrack = mlt_transition_get_b_track(tr);
 	int currentIn = (int) mlt_transition_get_in(tr);
         int currentOut = (int) mlt_transition_get_out(tr);
-	kdDebug()<<"// FOUND EXISTING TRANS, IN: "<<currentIn<<", OUT: "<<currentOut<<", TRACK_A: "<<mlt_transition_get_a_track(tr)<<"B_TRACK: "<<mlt_transition_get_b_track(tr)<<", starttrack: "<<startTrack<<endl;
+	kdDebug()<<"// FOUND EXISTING TRANS, IN: "<<currentIn<<", OUT: "<<currentOut<<", TRACK: "<<currentTrack<<endl;
 	//kdDebug()<<"// LOOKING FOR IN: "<<old_in<<", OUT: "<<old_out<<endl;
-	kdDebug()<<"// OLD POS: "<<old_pos<<" // NEW IN: "<<new_in<<", OUT: "<<new_out<<endl;
+	kdDebug()<<"// OLD IN: "<<oldIn.frames(m_fps)<<" // OLD OUT: "<<oldOut.frames(m_fps)<<", TRACK: "<<startTrack<<", MID POS: "<<old_pos<<endl;
 	if (resource == type && startTrack == currentTrack && currentIn <= old_pos && currentOut >= old_pos) {
             mlt_transition_set_in_and_out(tr, new_in, new_out);
             if (trackOffset != 0) {
