@@ -617,7 +617,7 @@ void KRender::setSceneList(QDomDocument list, int position)
 	    restartConsumer();
         }
 
-	m_connectTimer->start(100, TRUE);
+	m_connectTimer->start( 500, TRUE);
 	m_generateScenelist = false;
   
 }
