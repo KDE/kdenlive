@@ -68,19 +68,27 @@ namespace Command {
 	int startOffset = (m_endTime - m_startTime).frames(m_doc->framesPerSecond());
 
 	QPtrListIterator < DocClipRef > itt(m_clipList);
-    	while (itt.current() != 0) {
-	    int track = itt.current()->playlistTrackNum();
-	    int start = itt.current()->trackStart().frames(m_doc->framesPerSecond());
+	DocClipRef * clip;
+
+    	while ( itt.current() != 0 ) {
+	    clip = itt.current();
+	    int track = clip->playlistTrackNum();
+	    GenTime startTime = clip->trackStart();
+	    GenTime endTime = clip->trackEnd();
+	    int start = startTime.frames(m_doc->framesPerSecond());
   	    m_doc->renderer()->mltMoveClip(track, track + trackOffset, start, start + startOffset);
 
 	    // Move clip transitions
-	    TransitionStack stack = itt.current()->clipTransitions();
+	    TransitionStack stack = clip->clipTransitions();
 	    TransitionStack::iterator it = stack.begin();
     	    while (it) {
 		m_doc->renderer()->mltMoveTransition((*it)->transitionTag(), (*it)->transitionStartTrack(), trackOffset, (*it)->transitionStartTime(), (*it)->transitionEndTime(), (*it)->transitionStartTime() + m_endTime - m_startTime, (*it)->transitionEndTime() + m_endTime - m_startTime);
         	++it;
     	    }
             ++itt;
+
+	    // Transparent images/texts and some effects add a composite transition to the clip, so try to move it in case there is one.
+	    m_doc->renderer()->mltMoveTransition("composite", track, trackOffset, startTime, endTime, startTime + m_endTime - m_startTime, endTime + m_endTime - m_startTime + GenTime(1, m_doc->framesPerSecond()));
         }
 
 /*
