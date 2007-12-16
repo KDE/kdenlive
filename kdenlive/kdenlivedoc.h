@@ -253,8 +253,8 @@ class KdenliveDoc:public QObject {
     KURL m_projectFolder;
     /** Holds metadata (author, title, comment, copyright, album, track, year) for this project */
     QStringList m_metadata;
+    QTimer *m_generateTimer;
 
-    
     public slots:
 	/** Adds a sound track to the project */
     void addSoundTrack(int ix = -1);

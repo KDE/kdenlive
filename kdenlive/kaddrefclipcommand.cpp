@@ -103,6 +103,7 @@ namespace Command {
 	if (clip->referencedClip()->numReferences() == 0) m_document.generateProducersList();
         m_document.projectClip().slotClipReferenceChanged();
 	m_document.setModified(true);
+	m_document.activateSceneListGeneration(true);
 	//m_document.renderer()->mltRemoveClip(m_document.projectClip().playlistTrackNum(m_track), m_findTime);
 	delete clip;
     }

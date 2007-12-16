@@ -59,6 +59,9 @@ m_clipHierarch(0), m_render(app->renderManager()->findRenderer("Document")), m_c
     else m_timecode.setFormat(fps);
     connect(this, SIGNAL(trackListChanged()), this, SLOT(hasBeenModified()));
 
+    m_generateTimer = new QTimer( this );
+    connect( m_generateTimer, SIGNAL(timeout()), this, SLOT(hasBeenModified()) );
+
     connect(&m_clipManager, SIGNAL(clipListUpdated()), this, SLOT(generateProducersList()));
     connect(&m_clipManager, SIGNAL(clipChanged(DocClipBase *)), this, SLOT(slotClipChanged(DocClipBase *)));
     connect(&m_clipManager, SIGNAL(updateClipThumbnails(DocClipBase *)), this, SLOT(slotUpdateClipThumbnails(DocClipBase *)));
@@ -72,6 +75,7 @@ m_clipHierarch(0), m_render(app->renderManager()->findRenderer("Document")), m_c
 
 KdenliveDoc::~KdenliveDoc()
 {
+    delete m_generateTimer;
     if (m_projectClip) {
 	m_projectClip->requestProjectClose();
 	delete m_projectClip;
@@ -502,7 +506,7 @@ void KdenliveDoc::activateSceneListGeneration(bool active, bool doit)
 {
     m_sceneListGeneration = active;
     if (active && doit) {
-	hasBeenModified();
+	m_generateTimer->start(100, TRUE);
     }
 }
 

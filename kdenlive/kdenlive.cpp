@@ -4106,7 +4106,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
 	addCommand(Command::KAddRefClipCommand::
 	    deleteSelectedClips(getDocument()), true);
-	getDocument()->activateSceneListGeneration(true);
 	slotStatusMsg(i18n("Ready."));
     }
     

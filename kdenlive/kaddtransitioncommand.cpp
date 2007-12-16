@@ -108,6 +108,7 @@ namespace Command {
     }
 
     void KAddTransitionCommand::deleteTransition() {
+	kdDebug()<<"//////// delete TRANSITION AT:"<<m_transitionIndex<<endl;
 	DocTrackBase *track = m_document->projectClip().track(m_trackIndex);
 	if (track) {
 		DocClipRef *clip = track->getClipAt(m_position);
@@ -117,6 +118,7 @@ namespace Command {
 		    clip->deleteTransition(m_transitionIndex);
 		}
 		else clip->deleteTransition(m_transition);
+		m_document->activateSceneListGeneration(true);
 	}
     }
 
