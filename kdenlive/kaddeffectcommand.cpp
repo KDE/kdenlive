@@ -116,8 +116,20 @@ namespace Command {
 	    QString tag = effect->effectDescription().tag();
 
     	    kdDebug()<<" / / INSERTING EFFECT- "<<tag<<endl;
-	    if (tag != QString("framebuffer") && tag != QString("affine"))
-		 m_document->renderer()->mltAddEffect(m_document->projectClip().playlistTrackNum(m_trackIndex), m_position, effect->effectDescription().stringId(), tag, params);
+	    if (tag != QString("framebuffer")) {
+		m_document->renderer()->mltAddEffect(m_document->projectClip().playlistTrackNum(m_trackIndex), m_position, effect->effectDescription().stringId(), tag, params);
+
+		if (tag == QString ("chroma") || tag == QString("affine")) {
+		    QMap<QString, QString> params;
+		    params["fill"] = "1";
+		    params["progressive"] = "1";
+		    params["valign"] = "1";
+		    params["halign"] = "1";
+		    int endtrack = m_document->projectClip().playlistTrackNum(m_trackIndex);
+		    int track = m_document->projectClip().playlistNextVideoTrack(m_trackIndex);
+		    m_document->renderer()->mltAddTransition("composite", track, endtrack, clip->trackStart(), clip->trackEnd(), params);
+		}
+	    }
 	    else m_document->activateSceneListGeneration(true);
 	} else {
 	    kdError() <<
@@ -135,7 +147,11 @@ namespace Command {
 	    track->deleteEffectFromClip(m_position, m_effectIndex);
 	    int index = m_effectIndex;
 	    if (effect->effectDescription().parameter(0)->type() == "complex" || effect->effectDescription().parameter(0)->type() == "double") index = -1;
-	    if (effect->isEnabled()) m_document->renderer()->mltRemoveEffect(m_document->projectClip().playlistTrackNum(m_trackIndex), m_position, effect->effectDescription().stringId(),  tag, index);
+	    if (effect->isEnabled()) {
+		if (tag != QString("chroma") && tag != QString("affine")) 
+		    m_document->renderer()->mltRemoveEffect(m_document->projectClip().playlistTrackNum(m_trackIndex), m_position, effect->effectDescription().stringId(),  tag, index);
+		else m_document->activateSceneListGeneration(true);
+	    }
 	    delete effect;
 	} else {
 	    kdError() <<

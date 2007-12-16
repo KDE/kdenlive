@@ -20,6 +20,8 @@
 #include "kaddrefclipcommand.h"
 #include "kdenlivedoc.h"
 #include "docclipbase.h"
+#include "docclipavfile.h"
+#include "doccliptextfile.h"
 #include "clipmanager.h"
 #include "docclipproject.h"
 
@@ -67,8 +69,21 @@ namespace Command {
 	if (clip->referencedClip()->numReferences() == 1) m_document.generateProducersList();
 	m_document.projectClip().track(clip->trackNum())->addClip(clip, true);
 	QString args = clip->generateSceneList().toString();
-	// kdDebug()<<"***** adding clip: "<<args<<endl;
+
 	m_document.renderer()->mltInsertClip(m_document.projectClip().playlistTrackNum(m_track), clip->trackStart(), args);
+
+	DocClipBase::CLIPTYPE ct = clip->clipType();
+	if ((ct == DocClipBase::TEXT && clip->referencedClip()->toDocClipTextFile()->isTransparent()) ||
+	((ct == DocClipBase::IMAGE || ct == DocClipBase::SLIDESHOW) && clip->referencedClip()->toDocClipAVFile()->isTransparent()) || clip->hasEffect("chroma")) {
+		QMap<QString, QString> params;
+		params["fill"] = "1";
+		params["progressive"] = "1";
+		params["valign"] = "1";
+		params["halign"] = "1";
+		int endtrack = m_document.projectClip().playlistTrackNum(m_track);
+		int track = m_document.projectClip().playlistNextVideoTrack(m_track);
+		m_document.renderer()->mltAddTransition("composite", track, endtrack, clip->trackStart(), clip->trackEnd(), params);
+	}
         m_document.projectClip().slotClipReferenceChanged();
     }
 
@@ -88,7 +103,7 @@ namespace Command {
 	if (clip->referencedClip()->numReferences() == 0) m_document.generateProducersList();
         m_document.projectClip().slotClipReferenceChanged();
 	m_document.setModified(true);
-	m_document.renderer()->mltRemoveClip(m_document.projectClip().playlistTrackNum(m_track), m_findTime);
+	//m_document.renderer()->mltRemoveClip(m_document.projectClip().playlistTrackNum(m_track), m_findTime);
 	delete clip;
     }
 
