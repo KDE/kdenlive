@@ -398,19 +398,22 @@ void ExportDvdDialog::generateDvdXml() {
     QDomElement vmgm = doc.createElement("vmgm");
     main.appendChild(vmgm);
 
+    QDomElement intro_pgc = doc.createElement("pgc");
+
     if (intro_movie->isChecked()) {
-	QDomElement menus = doc.createElement("menus");
-	vmgm.appendChild(menus);
-	QDomElement pgc = doc.createElement("pgc");
-	menus.appendChild(pgc);
+        QDomElement fpc = doc.createElement("fpc");
+	QDomText intro = doc.createTextNode("{ jump menu 2; }");
+	fpc.appendChild(intro);
+	vmgm.appendChild(fpc);
+
 	QDomElement menuvob = doc.createElement("vob");	
 	menuvob.setAttribute("file", intro_url->url());
-	pgc.appendChild(menuvob);
+	intro_pgc.appendChild(menuvob);
 
 	QDomElement post = doc.createElement("post");
- 	QDomText t2 = doc.createTextNode( "jump titleset 1 menu;" );
+ 	QDomText t2 = doc.createTextNode( "jump vmgm menu 1;" );
     	post.appendChild( t2 );
-	pgc.appendChild( post );
+	intro_pgc.appendChild( post );
     }
 
     QDomElement titleset = doc.createElement("titleset");
@@ -419,10 +422,12 @@ void ExportDvdDialog::generateDvdXml() {
     if (create_menu->isChecked()) {
 	// add spumux file
 	QDomElement menus = doc.createElement("menus");	
-	titleset.appendChild(menus);
+	vmgm.appendChild(menus);
 	QDomElement pgc = doc.createElement("pgc");
-	pgc.setAttribute("entry", "root");
+	pgc.setAttribute("entry", "title");
 	menus.appendChild(pgc);
+
+	if (intro_movie->isChecked()) menus.appendChild(intro_pgc);
 
 	QDomElement playButton = doc.createElement ( "button" );
 	playButton.setAttribute ( "name", "PlayButton" ); // Hardcoded. Only one button ?
@@ -457,7 +462,7 @@ void ExportDvdDialog::generateDvdXml() {
     pgc.appendChild(vob);
     if (create_menu->isChecked()) {
         QDomElement post = doc.createElement("post");
-        QDomText t = doc.createTextNode( "call menu;" );
+        QDomText t = doc.createTextNode( "call vmgm menu 1;" );
         post.appendChild( t );
         pgc.appendChild(post);
     }
