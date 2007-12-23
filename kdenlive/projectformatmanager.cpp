@@ -179,7 +179,6 @@ LoadProjectFilter *ProjectFormatManager::
 findLoadFormat(const QString & format)
 {
     QPtrListIterator < LoadProjectFilter > itt(m_loadFilters);
-
     while (itt.current()) {
 	if (itt.current()->handlesFormat(format)) {
 	    return itt.current();
@@ -187,7 +186,7 @@ findLoadFormat(const QString & format)
 	++itt;
     }
 
-    return 0;
+    return m_loadFilters.first();
 }
 
 SaveProjectFilter *ProjectFormatManager::
@@ -202,7 +201,7 @@ findSaveFormat(const QString & format)
 	++itt;
     }
 
-    return 0;
+    return m_saveFilters.first();
 }
 
 /** Returns the mime types that can be loaded in */
