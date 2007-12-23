@@ -129,7 +129,8 @@ bool ProjectFormatManager::saveDocument(const KURL & url,
 	    }
 	    else result = true;
 	} else {
-	    kdError() << "Save failed" << endl;
+	    KMessageBox::sorry(0, i18n("Could not save file %1.\nPlease check your permissions").arg(file.name()));
+	    //kdError() << "Save failed" << endl;
 	}
     }
 

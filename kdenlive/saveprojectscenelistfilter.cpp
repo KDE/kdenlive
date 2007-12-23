@@ -44,7 +44,7 @@ bool SaveProjectScenelistFilter::save(QFile & file, KdenliveDoc * document, bool
     doc.appendChild(playlist);
     
     QCString save = doc.toString().utf8();
-    file.writeBlock(save, save.length());
+    if (file.writeBlock(save, save.length()) == -1) return false;
     return true;
 }
 
