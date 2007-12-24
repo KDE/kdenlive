@@ -75,13 +75,10 @@ namespace Gui {
 	    i18n("Reset all parameters to default values"));
 	 QToolTip::add(m_deleteButton, i18n("Remove effect"));
 
-	// HACK - We are setting app and doc here because we cannot pass app and doc directly via the auto-generated UI file. This
-	// needs to be fixed...
 	 QHBoxLayout *viewLayout = new QHBoxLayout( frame );
          viewLayout->setAutoAdd( TRUE );
 
-	 m_effectList = new EffectStackListView(frame);
-	 m_effectList->setAppAndDoc(app, doc);
+	 m_effectList = new EffectStackListView(frame, app, doc);
 
 	 m_parameter->setOrientation(Qt::Vertical);
 	 m_parameter->setColumns(5);

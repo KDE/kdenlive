@@ -33,7 +33,8 @@ A list view that displays an effect stack, and allows the relevant drag/drop ope
 */
     class EffectStackListView:public KListView {
       Q_OBJECT public:
-	EffectStackListView(QWidget * parent = 0, const char *name = 0);
+	EffectStackListView(QWidget * parent, KdenliveApp *app,
+	KdenliveDoc *doc, const char *name = 0);
 
 	~EffectStackListView();
 
@@ -42,9 +43,6 @@ A list view that displays an effect stack, and allows the relevant drag/drop ope
 
 	/** Setup the effect stack dialog to display the given clip */
 	void setEffectStack(DocClipRef * clip);
-
-	/** HACK - this method should be removed and app and doc should be set via the constructor. */
-	void setAppAndDoc(KdenliveApp * app, KdenliveDoc * document);
 
 	public slots:
 	/** Moves the currently selected effect one place up the effect stack. If no effect is selected, or if the selected effect is already first in the
@@ -79,10 +77,10 @@ A list view that displays an effect stack, and allows the relevant drag/drop ope
 	void slotCheckItem(QListViewItem *item);
 
       private:
-
-	 DocClipRef * m_clip;
 	KdenliveApp *m_app;
 	KdenliveDoc *m_document;
+	DocClipRef * m_clip;
+
     };
 
 }				// namespace Gui

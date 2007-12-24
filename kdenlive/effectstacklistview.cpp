@@ -25,9 +25,9 @@
 
 namespace Gui {
 
-    EffectStackListView::EffectStackListView(QWidget * parent,
-	const char *name):KListView(parent, name), m_app(NULL),
-	m_document(NULL) {
+    EffectStackListView::EffectStackListView(QWidget * parent, KdenliveApp *app,
+	KdenliveDoc *doc, const char *name):KListView(parent, name), m_app(app),
+	m_document(doc) {
 	//addColumn(QString::null);
 	addColumn(i18n("Effect Stack"));
 	setSorting(-1);
@@ -46,11 +46,6 @@ namespace Gui {
 		    QListViewItem *)), this, SLOT(dragDropped(QDropEvent *,
 		    QListViewItem *, QListViewItem *)));
     } 
-    
-    void EffectStackListView::setAppAndDoc(KdenliveApp * app, KdenliveDoc * document) {
-	m_app = app;
-	m_document = document;
-    }
 
     void EffectStackListView::checkCurrentItem(bool isOn) {
 	//QCheckListItem* (currentItem())->setOn(isOn);
