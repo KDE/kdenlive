@@ -15,8 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qlayout.h>
+
 #include <kdebug.h>
 #include <klocale.h>
+#include <klistviewsearchline.h>
 
 #include "effectdrag.h"
 #include "effectlistdialog.h"
@@ -26,28 +29,38 @@
 namespace Gui {
 
     EffectListDialog::EffectListDialog(const QPtrList < EffectDesc >
-	&effectList, QWidget * parent, const char *name):KListView(parent,
+	&effectList, QWidget * parent, const char *name):QWidget(parent,
 	name) {
 	m_effectList.setAutoDelete(false);
+	QVBoxLayout *viewLayout = new QVBoxLayout( this );
+        viewLayout->setAutoAdd( TRUE );
+	
+	m_effectSearch = new ListViewTagSearchWidget(NULL, this, "search_line");
+	m_effectView = new KListView(this);
 
-	addColumn(i18n("Effect"));
+	m_effectView->addColumn(i18n("Effect"));
 	setEffectList(effectList);
-	setRootIsDecorated(true);
-	setDragEnabled(true);
-	setFullWidth(true);
-	setFrameStyle (QFrame::NoFrame);
-	connect(this, SIGNAL(doubleClicked(QListViewItem *, const QPoint &, int)), this,
+
+	m_effectView->setRootIsDecorated(true);
+	m_effectView->setDragEnabled(true);
+	m_effectView->setFullWidth(true);
+	m_effectView->setFrameStyle (QFrame::NoFrame);
+	m_effectSearch->searchLine()->setListView(m_effectView);
+
+	connect(m_effectView, SIGNAL(doubleClicked(QListViewItem *, const QPoint &, int)), this,
 	    SLOT(slotEffectSelected(QListViewItem *)));
     } 
     
     EffectListDialog::~EffectListDialog() {
+	delete m_effectSearch;
+	delete m_effectView;
     }
 
 /** Generates the layout for this widget. */
     void EffectListDialog::generateLayout() {
-	clear();
-	KListViewItem *video = new KListViewItem(this, i18n("Video"));
-	KListViewItem *audio = new KListViewItem(this, i18n("Audio"));
+	m_effectView->clear();
+	KListViewItem *video = new KListViewItem(m_effectView, i18n("Video"));
+	KListViewItem *audio = new KListViewItem(m_effectView, i18n("Audio"));
 	QPtrListIterator < EffectDesc > itt(m_effectList);
 	while (itt.current()) {
 	    if (itt.current()->type() == VIDEOEFFECT) new KListViewItem(video, itt.current()->name());
@@ -71,7 +84,7 @@ namespace Gui {
 
 /** returns a drag object which is used for drag operations. */
     QDragObject *EffectListDialog::dragObject() {
-	QListViewItem *selected = selectedItem();
+	QListViewItem *selected = m_effectView->selectedItem();
 
 	kdWarning() << "Returning appropriate dragObejct" << endl;
 

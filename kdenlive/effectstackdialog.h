@@ -67,6 +67,7 @@ Implementation of the EffectStackDialog
 	QGrid *m_container;
 	QFrame *m_frame;
 	KdenliveApp * m_app;
+	EffectStackListView *m_effectList;
 
       private slots: 
 	void parameterChanged();

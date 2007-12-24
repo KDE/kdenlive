@@ -23,6 +23,7 @@
 #include <qptrlist.h>
 
 #include "effectdesc.h"
+#include "listviewtagsearch.h"
 
 namespace Gui {
 
@@ -30,7 +31,7 @@ namespace Gui {
   *@author Jason Wood
   */
 
-    class EffectListDialog:public KListView {
+    class EffectListDialog:public QWidget {
       Q_OBJECT public:
 	EffectListDialog(const QPtrList < EffectDesc > &effectList,
 	    QWidget * parent = 0, const char *name = 0);
@@ -38,7 +39,8 @@ namespace Gui {
 
 	/** returns a drag object which is used for drag operations. */
 	QDragObject *dragObject();
-      private:
+
+    private:
 	/** Generates the layout for this widget. */
 	void generateLayout();
 
@@ -50,13 +52,16 @@ namespace Gui {
 		Returns: The EffectDesc found, or 0 if nothing is found.
 	*/
 	EffectDesc *findDescription(const QString & name);
+	QPtrList < EffectDesc > m_effectList;
 
-	 QPtrList < EffectDesc > m_effectList;
-	public slots:
+	ListViewTagSearchWidget *m_effectSearch;
+	KListView *m_effectView;
+
+    public slots:
 	/** Set the effect list displayed by this dialog. */
 	void setEffectList(const QPtrList < EffectDesc > &effectList);
 
-	private slots:
+    private slots:
 	/** an effect has been selected in the dialog */
 	void slotEffectSelected(QListViewItem * item);
 	 signals: 

@@ -1940,7 +1940,7 @@ namespace Gui {
 
     void KdenliveApp::slotFocusEffectStack() {
 	m_dockEffectStack->makeDockVisible();
-	m_effectStackDialog->m_effectList->setFocus();
+	m_effectStackDialog->setFocus();
     }
 
     void KdenliveApp::slotFocusProjectList() {
