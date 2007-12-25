@@ -16,7 +16,6 @@ westleylistviewitem.cpp
 clipdrag.cpp
 clipmanager.cpp
 clipproperties.cpp
-clippropertiesdialog.cpp
 capturemonitor.cpp
 configureprojectdialog.cpp
 createslideshowclip.cpp
@@ -176,6 +175,7 @@ createslideshowclip_ui.ui
 editencoder_ui.ui
 editmetadata_ui.ui
 effectstackdialog_ui.ui
+effectlist_ui.ui
 exportbasewidget_ui.ui
 exportdvd_ui.ui
 firstrun_ui.ui
@@ -207,7 +207,6 @@ westleylistviewitem.h
 capturemonitor.h
 clipdrag.h
 clipmanager.h
-clippropertiesdialog.h
 clipproperties.h
 configureprojectdialog.h
 createslideshowclip.h

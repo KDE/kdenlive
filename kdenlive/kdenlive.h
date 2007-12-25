@@ -97,7 +97,6 @@ namespace Gui {
 
 
     class CaptureMonitor;
-    class ClipPropertiesDialog;
     class EffectListDialog;
     class EffectParamDialog;
     class EffectStackDialog;
@@ -160,7 +159,7 @@ namespace Gui {
 
 		/** Retreive timeline ruler cursor time */
 	GenTime cursorPosition() const;
-
+	void refreshEffects();
 
       protected:
 		/** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
@@ -186,6 +185,7 @@ namespace Gui {
 		 */
 	void initView();
 	void initWidgets();
+
 		/** queryClose is called by KTMainWindow on each closeEvent of a window. Against the
 		 * default implementation (only returns true), this calles saveModified() on the document object to ask if the document shall
 		 * be saved if Modified; on cancel the closeEvent is rejected.
@@ -298,10 +298,6 @@ namespace Gui {
         void slotProjectEditParentClip();
 	void slotSetClipDuration();
 	void slotProjectDeleteClipMarkers();
-		/** Opens a clip properties dialog */
-	//void slotProjectClipProperties();
-	//sets properties for selected clip without showing dialog
-	//void slotProjectClipProperties(DocClipRef * clip);
 		/** Toggle between play/stop in the active monitor */
 	void slotPlay();
 	void slotStop();
@@ -696,7 +692,6 @@ namespace Gui {
 	EffectListDialog *m_effectListDialog;
 	KTextEdit *m_debugDialog;
 	//EffectParamDialog *m_effectParamDialog;
-	ClipPropertiesDialog *m_clipPropertyDialog;
 	KDockWidget *clipWidget;
 	KDockWidget *m_timelineWidget;
 

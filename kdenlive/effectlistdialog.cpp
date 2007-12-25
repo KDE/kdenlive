@@ -16,12 +16,16 @@
  ***************************************************************************/
 
 #include <qlayout.h>
+#include <qbuttongroup.h>
+#include <qradiobutton.h>
 
 #include <kdebug.h>
 #include <klocale.h>
-#include <klistviewsearchline.h>
+#include <klistbox.h>
+#include <ktextedit.h>
 
 #include "effectdrag.h"
+#include "effectparamdesc.h"
 #include "effectlistdialog.h"
 
 #include "krender.h"
@@ -31,44 +35,45 @@ namespace Gui {
     EffectListDialog::EffectListDialog(const QPtrList < EffectDesc >
 	&effectList, QWidget * parent, const char *name):QWidget(parent,
 	name) {
+	QFont dialogFont = font();
+	dialogFont.setPointSize(dialogFont.pointSize() - 1);
+	setFont(dialogFont);
+
 	m_effectList.setAutoDelete(false);
 	QVBoxLayout *viewLayout = new QVBoxLayout( this );
         viewLayout->setAutoAdd( TRUE );
 	
-	m_effectSearch = new ListViewTagSearchWidget(NULL, this, "search_line");
-	m_effectView = new KListView(this);
+	m_effectListBox = new EffectList_UI(this);
 
-	m_effectView->addColumn(i18n("Effect"));
 	setEffectList(effectList);
 
-	m_effectView->setRootIsDecorated(true);
-	m_effectView->setDragEnabled(true);
-	m_effectView->setFullWidth(true);
-	m_effectView->setFrameStyle (QFrame::NoFrame);
-	m_effectSearch->searchLine()->setListView(m_effectView);
+	connect(m_effectListBox->effect_list, SIGNAL(doubleClicked (QListBoxItem *, const QPoint &)), this, SLOT(slotAddEffect(QListBoxItem *)));
 
-	connect(m_effectView, SIGNAL(doubleClicked(QListViewItem *, const QPoint &, int)), this,
-	    SLOT(slotEffectSelected(QListViewItem *)));
+	connect(m_effectListBox->effect_list, SIGNAL(selectionChanged ()), this, SLOT(slotEffectSelected()));
+
+	connect(m_effectListBox->button_group, SIGNAL(clicked (int)), this, SLOT(generateLayout()));
+
+	
     } 
     
     EffectListDialog::~EffectListDialog() {
-	delete m_effectSearch;
-	delete m_effectView;
+	delete m_effectListBox;
     }
 
 /** Generates the layout for this widget. */
     void EffectListDialog::generateLayout() {
-	m_effectView->clear();
-	KListViewItem *video = new KListViewItem(m_effectView, i18n("Video"));
-	KListViewItem *audio = new KListViewItem(m_effectView, i18n("Audio"));
+	m_effectListBox->effect_list->clear();
+	EFFECTTYPE type = VIDEOEFFECT;
+	if (m_effectListBox->audio_button->isChecked()) type = AUDIOEFFECT;
+	else if (m_effectListBox->custom_button->isChecked()) type = CUSTOMEFFECT;
+
+	kdWarning()<<"///////  EFFECT LIST GEN LAYOUT"<<type<<endl;
+
 	QPtrListIterator < EffectDesc > itt(m_effectList);
 	while (itt.current()) {
-	    if (itt.current()->type() == VIDEOEFFECT) new KListViewItem(video, itt.current()->name());
-	    else new KListViewItem(audio, itt.current()->name());
+	    if (itt.current()->type() == type) m_effectListBox->effect_list->insertItem(itt.current()->name());
 	    ++itt;
 	}
-	audio->setOpen(true);
-	video->setOpen(true);
     }
 
 /** Set the effect list displayed by this dialog. */
@@ -78,17 +83,41 @@ namespace Gui {
 	generateLayout();
     }
 
-    void EffectListDialog::slotEffectSelected(QListViewItem * item) {
-	emit effectSelected(item->text(0));
+    void EffectListDialog::slotAddEffect(QListBoxItem * item) {
+	emit effectSelected(item->text());
+    }
+
+    void EffectListDialog::slotEffectSelected() {
+	EffectDesc *desc = findDescription(m_effectListBox->effect_list->currentText());
+	QString description;
+	QString fullDescription = desc->description();
+	if (!fullDescription.isEmpty()) {
+	    description.append("<b>Description:</b><br />");
+	    description.append(i18n(fullDescription));
+	}
+	QString author = desc->author();
+	if (!author.isEmpty()) {
+	    description.append("<b>Author:</b><br />");
+	    description.append(author);
+	}
+
+	description.append("<b>Parameters:</b><br />");
+	int num = desc->numParameters();
+	int ix;
+	for (ix = 0; ix < num; ix++) {
+	    if ( ix > 0 ) description.append(", ");
+	    description.append(i18n(desc->parameter(ix)->description()));
+	}
+	m_effectListBox->effect_text->setText(description);
     }
 
 /** returns a drag object which is used for drag operations. */
     QDragObject *EffectListDialog::dragObject() {
-	QListViewItem *selected = m_effectView->selectedItem();
+	QListBoxItem *selected = m_effectListBox->effect_list->selectedItem();
 
 	kdWarning() << "Returning appropriate dragObejct" << endl;
 
-	EffectDesc *desc = findDescription(selected->text(0));
+	EffectDesc *desc = findDescription(selected->text());
 
 	if (!desc) {
 	    kdWarning() << "no selected item in effect list" << endl;

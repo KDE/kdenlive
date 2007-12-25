@@ -42,7 +42,7 @@ EffectDesc *EffectDescriptionList::effectDescription(const QString & type) const
     }
 
     if (itt.current()) {
-	result = new EffectDesc( itt.current()->name(), itt.current()->stringId(), itt.current()->tag(),itt.current()->type(), itt.current()->isMono());
+	result = new EffectDesc( itt.current()->name(), itt.current()->stringId(), itt.current()->tag(), itt.current()->description(), itt.current()->author(), itt.current()->type(), itt.current()->isMono());
 	   for (uint count = 0; count < itt.current()->numParameters(); ++count)
 		result->addParameter(itt.current()->parameter(count)->clone());
     }

@@ -63,7 +63,6 @@
 // p.s., get the idea this class is kind, central to everything?
 #include "capturemonitor.h"
 #include "clipdrag.h"
-#include "clippropertiesdialog.h"
 #include "configureprojectdialog.h"
 #include "docclipbase.h"
 #include "docclipavfile.h"
@@ -74,7 +73,6 @@
 #include "effectlistdialog.h"
 #include "effectparamdialog.h"
 #include "effectstackdialog.h"
-#include "clippropertiesdialog.h"
 #include "kaddclipcommand.h"
 #include "kaddeffectcommand.h"
 #include "kaddavfilecommand.h"
@@ -1568,11 +1566,6 @@ namespace Gui {
 	    m_projectList, SLOT(slot_nodeDeleted(DocumentBaseNode *)));
 
 	connect(getDocument()->renderer(),
-	    SIGNAL(effectListChanged(const QPtrList < EffectDesc > &)),
-	    m_effectListDialog,
-	    SLOT(setEffectList(const QPtrList < EffectDesc > &)));
-
-	connect(getDocument()->renderer(),
 	    SIGNAL(rendering(const GenTime &)), this,
 	    SLOT(slotSetRenderProgress(const GenTime &)));
 	connect(getDocument()->renderer(), SIGNAL(renderFinished()), this,
@@ -1904,6 +1897,12 @@ namespace Gui {
 
     void KdenliveApp::slotToggleEffectList() {
 	m_dockEffectList->changeHideShowState();
+    }
+
+    void KdenliveApp::refreshEffects() {
+	m_effectList.clear();
+	initEffects::parseEffectFiles( &m_effectList );
+	m_effectListDialog->setEffectList(m_effectList);
     }
 
     void KdenliveApp::slotToggleEffectStack() {
@@ -3736,22 +3735,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	m_projectList->fixPlaylists();
 	slotStatusMsg(i18n("Ready."));
     }
-
-/*
-    void KdenliveApp::slotProjectClipProperties() {
-	slotStatusMsg(i18n("Viewing clip properties"));
-	m_clipPropertyDialog->setClip(m_projectList->currentSelection());
-	makeDockVisible(clipWidget);
-	slotStatusMsg(i18n("Ready."));
-    }
-
-    void KdenliveApp::slotProjectClipProperties(DocClipRef * ) {
-	slotStatusMsg(i18n("Viewing clip properties"));
-	m_clipPropertyDialog->setClip(m_projectList->currentSelection());
-	slotStatusMsg(i18n("Ready."));
-    }
-*/
-
 
     void KdenliveApp::slotPlay() {
 	slotStatusMsg(i18n("Play / Pause"));

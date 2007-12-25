@@ -55,7 +55,7 @@ A list view that displays an effect stack, and allows the relevant drag/drop ope
 	void slotDeleteEffect();
 
 	/** @returns the index of the currently selected effect, or -1 if no effect is currently selected. */
-	int selectedEffectIndex() const;
+	int selectedEffectIndex(QListViewItem *selectedItem = NULL);
 
 	DocClipRef *clip();
 	 signals:
@@ -63,20 +63,21 @@ A list view that displays an effect stack, and allows the relevant drag/drop ope
 	void effectSelected(DocClipRef *, Effect *);
 	void effectToggled();
 
-      protected:
+    protected:
 	/** Returns true if we can accept the drag. An effectstacklistview can accept EffectDrag events. When an event is
 	dropped onto the effectstack it should issue a command to insert the effect at the correct point in the list. */
 	 bool acceptDrag(QDropEvent * event) const;
 
 
-	private slots: void selectedEffect(QListViewItem * item);
+    private slots: 
+	void selectedEffect();
 
 	/** Called when a drag operation has dropped onto the effect stack list. */
 	void dragDropped(QDropEvent * e, QListViewItem * parent,
 	    QListViewItem * after);
 	void slotCheckItem(QListViewItem *item);
 
-      private:
+    private:
 	KdenliveApp *m_app;
 	KdenliveDoc *m_document;
 	DocClipRef * m_clip;

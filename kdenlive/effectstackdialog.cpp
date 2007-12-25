@@ -35,6 +35,9 @@
 #include <klocale.h>
 #include <kcombobox.h>
 #include <kcolorbutton.h>
+#include <kinputdialog.h>
+#include <kstandarddirs.h>
+#include <kmessagebox.h>
 
 #include <effectstacklistview.h>
 
@@ -68,12 +71,18 @@ namespace Gui {
 		    KIcon::Toolbar)));
 	 m_deleteButton->setIconSet(QIconSet(loader.loadIcon("editdelete",
 		    KIcon::Toolbar)));
+	 m_saveButton->setIconSet(QIconSet(loader.loadIcon("filesave",
+		    KIcon::Toolbar)));
+	 m_groupButton->setIconSet(QIconSet(loader.loadIcon("attach",
+		    KIcon::Toolbar)));
 
 	 QToolTip::add(m_upButton, i18n("Move effect up"));
 	 QToolTip::add(m_downButton, i18n("Move effect down"));
-	 QToolTip::add(m_resetButton,
-	    i18n("Reset all parameters to default values"));
+	 QToolTip::add(m_resetButton, i18n("Reset all parameters to default values"));
 	 QToolTip::add(m_deleteButton, i18n("Remove effect"));
+	 QToolTip::add(m_saveButton, i18n("Save effect"));
+	 QToolTip::add(m_groupButton, i18n("Group effects"));
+	 QToolTip::add(m_ungroupButton, i18n("Ungroup effects"));
 
 	 QHBoxLayout *viewLayout = new QHBoxLayout( frame );
          viewLayout->setAutoAdd( TRUE );
@@ -96,6 +105,13 @@ namespace Gui {
 	    SLOT(resetParameters()));
 	 connect(m_deleteButton, SIGNAL(clicked()), this,
 	    SLOT(slotDeleteEffect()));
+	 connect(m_saveButton, SIGNAL(clicked()), this,
+	    SLOT(slotSaveEffect()));
+	 connect(m_groupButton, SIGNAL(clicked()), this,
+	    SLOT(slotGroupEffects()));
+	 connect(m_ungroupButton, SIGNAL(clicked()), this,
+	    SLOT(slotUngroupEffects()));
+
 	 connect(spinIndex, SIGNAL(valueChanged(int)), this,
 	    SLOT(selectKeyFrame(int)));
 	 connect(m_effectList, SIGNAL(effectSelected(DocClipRef *,
@@ -126,6 +142,9 @@ namespace Gui {
 	m_downButton->setEnabled(false);
 	m_resetButton->setEnabled(false);
 	m_deleteButton->setEnabled(false);
+	m_saveButton->setEnabled(false);
+	m_groupButton->setEnabled(false);
+	m_ungroupButton->setEnabled(false);
     }
 
     void EffectStackDialog::enableButtons()
@@ -134,6 +153,9 @@ namespace Gui {
 	m_downButton->setEnabled(true);
 	m_resetButton->setEnabled(true);
 	m_deleteButton->setEnabled(true);
+	m_saveButton->setEnabled(true);
+	m_groupButton->setEnabled(true);
+	m_ungroupButton->setEnabled(true);
     }
 
     void EffectStackDialog::cleanWidgets()
@@ -151,6 +173,11 @@ namespace Gui {
 	//kdDebug()<<"++++++++++++  REBUILD PARAMETER DIALOG FOR CLIP: "<<clip->name()<<endl;
 	uint parameterNum = 0;
 	m_hasKeyFrames = false;
+
+	if (effect == NULL) {
+	    cleanWidgets();
+	    return;
+	}
 	tabWidget2->setEnabled(effect->isEnabled());
         if (!effect->parameter(parameterNum)) {
 		disableButtons();
@@ -445,10 +472,8 @@ namespace Gui {
     void EffectStackDialog::parameterChanged() {
 	// A parameter was changed, sync the clip's effect with the spin box values
 	uint parameterNum = 0;
-	Effect *effect =
-	    m_effectList->clip()->effectAt(m_effectList->
-	    selectedEffectIndex());
-
+	Effect *effect = m_effectList->clip()->effectAt(m_effectList->selectedEffectIndex());
+	if (!effect) return;
 	while (effect->parameter(parameterNum)) {
 	    m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
 	    QString widgetName = QString("param");
@@ -563,6 +588,71 @@ namespace Gui {
 	m_effectList->slotDeleteEffect();
     }
 
+    void EffectStackDialog::slotGroupEffects() {
+	DocClipRef *clip = m_effectList->clip();
+	if (m_effectList->selectedEffectIndex() == -1 || !clip) return;
+	QString groupName = KInputDialog::getText(i18n("Create Effect Group"), i18n("New group name"));
+	if (groupName.isEmpty()) return;
+	int cnt = 0;
+
+        QListViewItemIterator it( m_effectList );
+        while ( it.current() ) {
+            QListViewItem *item = it.current();
+            if (item->isSelected()) {
+		Effect *effect = clip->effectAt(cnt);
+		effect->setGroup(groupName);
+	    }
+	    if (((QCheckListItem *) item)->type() == QCheckListItem::CheckBox) cnt++;
+            ++it;
+        }
+
+	slotSetEffectStack(clip);
+    }
+
+    void EffectStackDialog::slotUngroupEffects() {
+	DocClipRef *clip = m_effectList->clip();
+	if (!clip) return;
+	int ix = m_effectList->selectedEffectIndex();
+	Effect *effect;
+	QString group;
+	if (ix == -1) {
+	    group = m_effectList->currentItem()->text(0);
+	}
+	else {
+	    effect = clip->effectAt(ix);
+	    if (!effect) return;
+	    group = effect->group();
+	}
+
+	int cnt = 0;
+	effect = clip->effectAt(cnt);
+	while (effect) {
+	    if (effect->group() == group) effect->setGroup(QString::null);
+	    cnt++;
+	    effect = clip->effectAt(cnt);
+	}
+	slotSetEffectStack(clip);
+    }
+
+    void EffectStackDialog::slotSaveEffect() {
+	DocClipRef *clip = m_effectList->clip();
+	if (!clip) return;
+	Effect *effect = clip->effectAt(m_effectList->selectedEffectIndex());
+	if (!effect) return;
+	QString name = KInputDialog::getText(i18n("Save Custom Effect"), i18n("Effect name:"));
+	if (!name.isEmpty()) {
+	    QString direc = locateLocal("appdata", "effects/");
+	    QFile file(direc + name + ".xml");
+	    file.open( IO_WriteOnly );
+
+	    QDomDocument doc = effect->toFullXML(name);
+	    QCString save = doc.toString().utf8();
+	    if (file.writeBlock(save, save.length()) == -1) KMessageBox::sorry(this, i18n("Cannot save file %1, check your permissions").arg(file.name()));
+	    file.close();
+	    m_app->refreshEffects();
+	}
+    }
+
     void EffectStackDialog::slotSwitchEffect() {
 	DocClipRef *clip = m_effectList->clip();
 	Effect *effect = clip->effectAt(m_effectList->selectedEffectIndex());
@@ -600,8 +690,8 @@ namespace Gui {
 	uint parameterNum = 0;
 	spinIndex->setValue(0);
 	DocClipRef *clip = m_effectList->clip();
-	Effect *effect = clip->effectAt(m_effectList->
-	    selectedEffectIndex());
+	Effect *effect = clip->effectAt(m_effectList->selectedEffectIndex());
+	if (!effect) return;
 	while (effect->parameter(parameterNum)) {
 	    m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
 	    QString widgetName = QString("param");
@@ -668,9 +758,8 @@ namespace Gui {
 
 
     void EffectStackDialog::updateKeyFrames() {
-	Effect *effect =
-	    m_effectList->clip()->effectAt(m_effectList->
-	    selectedEffectIndex());
+	Effect *effect = m_effectList->clip()->effectAt(m_effectList->selectedEffectIndex());
+	if (!effect) return;
 	uint parameterNum = 0;
 	uint numKeyFrames = effect->parameter(parameterNum)->numKeyFrames();
 	if (numKeyFrames == 0 || !m_hasKeyFrames)
@@ -692,7 +781,7 @@ namespace Gui {
 	uint currentValue;
 	DocClipRef *clip = m_effectList->clip();
 	Effect *effect = clip->effectAt(m_effectList->selectedEffectIndex());
-        if (!effect->parameter(parameterNum)) return;
+        if (!effect || !effect->parameter(parameterNum)) return;
 	effect->parameter(parameterNum)->setSelectedKeyFrame(ix);
 
 	m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
@@ -772,7 +861,7 @@ namespace Gui {
 	Effect *effect =
 	    clip->effectAt(m_effectList->
 	    selectedEffectIndex());
-
+	if (!effect) return;
 	int ix = effect->parameter(parameterNum)->selectedKeyFrame();
 	effect->parameter(parameterNum)->keyframe(ix)->
 	    setTime(currentTime);
@@ -796,7 +885,7 @@ namespace Gui {
 	//double currentTime;
 	DocClipRef *clip = m_effectList->clip();
 	Effect *effect = clip->effectAt(m_effectList->selectedEffectIndex());
-        if (!effect->parameter(parameterNum)) return;
+        if (!effect || !effect->parameter(parameterNum)) return;
 	int ix = effect->parameter(parameterNum)->selectedKeyFrame();
 	m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
 	if (m_effecttype == "double")
@@ -842,10 +931,12 @@ namespace Gui {
 	// remove all previous params
 	cleanWidgets();
 	disableButtons();
+	if (!clip) return;
 	tabWidget2->setTabEnabled(tabWidget2->page(1), false);
 	m_effectList->setEffectStack(clip);
-	if (!clip) return;
-	Effect *effect = clip->effectAt(m_effectList->selectedEffectIndex());
+	if (m_effectList->childCount() > 0) enableButtons();
+	
+	//Effect *effect = clip->effectAt(m_effectList->selectedEffectIndex());
 	emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
     }
 

@@ -23,8 +23,8 @@
 #include "effect.h"
 #include "effectparamdesc.h"
 
-EffectDesc::EffectDesc(const QString & name, const QString stringId, const QString & tag, EFFECTTYPE type, bool mono):
-m_name(name), m_tag(tag), m_type(type), m_id(stringId), m_mono(mono)
+EffectDesc::EffectDesc(const QString & name, const QString stringId, const QString & tag, const QString & description, const QString & author, EFFECTTYPE type, bool mono):
+m_name(name), m_tag(tag), m_type(type), m_id(stringId), m_mono(mono), m_description(description), m_author(author)
 {
     m_params.setAutoDelete(true);
 
@@ -65,6 +65,18 @@ bool EffectDesc::isMono() const
     return m_mono;
 }
 
+/** Returns effect full description. */
+const QString & EffectDesc::description() const
+{
+    return m_description;
+}
+
+/** Returns effect author name. */
+const QString & EffectDesc::author() const
+{
+    return m_author;
+}
+
 /** Adds an input to this description. An input might be a video stream, and audio stream, or it may require both. */
 void EffectDesc::addInput(const QString & name, bool video, bool audio)
 {
@@ -93,6 +105,7 @@ Effect *EffectDesc::createEffect()
 
     for (uint count = 0; count < numParameters(); ++count) {
 	returnEffect->addParameter(parameter(count)->name());
+//	if (parameter(count)->numKeyFrames()())
     }
 
     return returnEffect;

@@ -26,20 +26,24 @@
   *@author Jason Wood
   */
 
-enum EFFECTTYPE { VIDEOEFFECT = 0, AUDIOEFFECT = 1};
+enum EFFECTTYPE { VIDEOEFFECT = 0, AUDIOEFFECT = 1, CUSTOMEFFECT = 2};
 
 class Effect;
 class EffectParamDesc;
 
 class EffectDesc {
   public:
-    EffectDesc(const QString & name, const QString stringId, const QString & tag, EFFECTTYPE type, bool mono = false);
+    EffectDesc(const QString & name, const QString stringId, const QString & tag, const QString & description, const QString & author, EFFECTTYPE type, bool mono = false);
     ~EffectDesc();
 
 	/** Returns the name of this effect. */
     const QString & name() const;
 	/** Returns the description of this effect. */
     const QString & tag() const;
+	/** Returns the full text description of this effect. */
+    const QString & description() const;
+	/** Returns the author name of this effect. */
+    const QString & author() const;
 	/** Returns the type of this effect (audio/video). */
     EFFECTTYPE type() const;
     const QString & stringId() const;
@@ -64,6 +68,10 @@ class EffectDesc {
     QString m_name;
 	/** The description of this effect, text that will be displayed in the effect list */
     QString m_tag;
+	/** The full text description of this effect */
+    QString m_description;
+	/** The author of this effect */
+    QString m_author;
 	/** The type of this effect (is it audio or video) */
     EFFECTTYPE m_type;
     QString m_id;

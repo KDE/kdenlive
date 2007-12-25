@@ -238,8 +238,6 @@ class KRender:public QObject {
     void renderFinished();
 	/** Emitted when the current seek position has been changed by the renderer. */
 //    void positionChanged(const GenTime &);
-	/** No descriptions */
-    void effectListChanged(const QPtrList < EffectDesc > &);
 	/** Emitted when an error occurs within this renderer. */
     void error(const QString &, const QString &);
     void durationChanged();

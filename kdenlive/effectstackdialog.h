@@ -79,6 +79,9 @@ Implementation of the EffectStackDialog
 	void disableButtons();
 	void enableButtons();
 	void cleanWidgets();
+	void slotSaveEffect();
+	void slotGroupEffects();
+	void slotUngroupEffects();
     };
 
 }				// namespace Gui

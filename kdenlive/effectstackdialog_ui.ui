@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>385</width>
-            <height>281</height>
+            <width>367</width>
+            <height>227</height>
         </rect>
     </property>
     <grid>
@@ -19,35 +19,7 @@
         <property name="margin">
             <number>0</number>
         </property>
-        <widget class="KPushButton" row="0" column="0">
-            <property name="name">
-                <cstring>m_upButton</cstring>
-            </property>
-            <property name="maximumSize">
-                <size>
-                    <width>25</width>
-                    <height>32767</height>
-                </size>
-            </property>
-            <property name="text">
-                <string></string>
-            </property>
-        </widget>
-        <widget class="KPushButton" row="1" column="0">
-            <property name="name">
-                <cstring>m_downButton</cstring>
-            </property>
-            <property name="maximumSize">
-                <size>
-                    <width>25</width>
-                    <height>32767</height>
-                </size>
-            </property>
-            <property name="text">
-                <string></string>
-            </property>
-        </widget>
-        <spacer row="4" column="0">
+        <spacer row="1" column="0">
             <property name="name">
                 <cstring>spacer1</cstring>
             </property>
@@ -59,40 +31,144 @@
             </property>
             <property name="sizeHint">
                 <size>
-                    <width>16</width>
-                    <height>108</height>
+                    <width>20</width>
+                    <height>16</height>
                 </size>
             </property>
         </spacer>
-        <widget class="KPushButton" row="2" column="0">
+        <widget class="QLayoutWidget" row="0" column="0">
             <property name="name">
-                <cstring>m_resetButton</cstring>
+                <cstring>layout1</cstring>
             </property>
-            <property name="maximumSize">
-                <size>
-                    <width>25</width>
-                    <height>32767</height>
-                </size>
-            </property>
-            <property name="text">
-                <string></string>
-            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="spacing">
+                    <number>2</number>
+                </property>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>m_upButton</cstring>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>25</width>
+                            <height>32767</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="flat">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>m_downButton</cstring>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>25</width>
+                            <height>32767</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="flat">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>m_resetButton</cstring>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>25</width>
+                            <height>32767</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="flat">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>m_deleteButton</cstring>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>25</width>
+                            <height>32767</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="flat">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>m_saveButton</cstring>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>25</width>
+                            <height>32767</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="flat">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>m_groupButton</cstring>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>25</width>
+                            <height>32767</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="flat">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>m_ungroupButton</cstring>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>25</width>
+                            <height>32767</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="flat">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </vbox>
         </widget>
-        <widget class="KPushButton" row="3" column="0">
-            <property name="name">
-                <cstring>m_deleteButton</cstring>
-            </property>
-            <property name="maximumSize">
-                <size>
-                    <width>25</width>
-                    <height>32767</height>
-                </size>
-            </property>
-            <property name="text">
-                <string></string>
-            </property>
-        </widget>
-        <widget class="QSplitter" row="0" column="1" rowspan="5" colspan="1">
+        <widget class="QSplitter" row="0" column="1" rowspan="2" colspan="1">
             <property name="name">
                 <cstring>splitter1</cstring>
             </property>
@@ -135,42 +211,42 @@
                     <attribute name="title">
                         <string>Parameters</string>
                     </attribute>
-                    <widget class="QGroupBox">
+                    <grid>
                         <property name="name">
-                            <cstring>m_parameter</cstring>
+                            <cstring>unnamed</cstring>
                         </property>
-                        <property name="geometry">
-                            <rect>
-                                <x>11</x>
-                                <y>11</y>
-                                <width>246</width>
-                                <height>200</height>
-                            </rect>
-                        </property>
-                        <property name="sizePolicy">
-                            <sizepolicy>
-                                <hsizetype>5</hsizetype>
-                                <vsizetype>5</vsizetype>
-                                <horstretch>0</horstretch>
-                                <verstretch>0</verstretch>
-                            </sizepolicy>
-                        </property>
-                        <property name="frameShape">
-                            <enum>NoFrame</enum>
-                        </property>
-                        <property name="frameShadow">
-                            <enum>Plain</enum>
-                        </property>
-                        <property name="lineWidth">
+                        <property name="margin">
                             <number>0</number>
                         </property>
-                        <property name="title">
-                            <string></string>
-                        </property>
-                        <property name="flat">
-                            <bool>true</bool>
-                        </property>
-                    </widget>
+                        <widget class="QGroupBox" row="0" column="0">
+                            <property name="name">
+                                <cstring>m_parameter</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>5</hsizetype>
+                                    <vsizetype>5</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="frameShape">
+                                <enum>NoFrame</enum>
+                            </property>
+                            <property name="frameShadow">
+                                <enum>Plain</enum>
+                            </property>
+                            <property name="lineWidth">
+                                <number>0</number>
+                            </property>
+                            <property name="title">
+                                <string></string>
+                            </property>
+                            <property name="flat">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                    </grid>
                 </widget>
                 <widget class="QWidget">
                     <property name="name">
@@ -305,6 +381,9 @@
 </customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>

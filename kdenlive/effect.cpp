@@ -35,13 +35,14 @@
 #include "initeffects.h"
 
 
-Effect::Effect(const EffectDesc & desc, const QString & id):m_desc(desc),
-m_id(id), m_enabled(true)
+Effect::Effect(const EffectDesc & desc, const QString & id, const QString & group):m_desc(desc),
+m_id(id), m_group(group), m_enabled(true)
 {
 	if (m_desc.tag().startsWith("ladspa", false)) { 
 		//ladspa filter, needs a unique temp file for xml input file
 		m_paramFile = KdenliveSettings::currenttmpfolder() + QString::number(time(0)) + QString::number(rand()) + ".rack";
 	}
+	
 }
 
 Effect::~Effect()
@@ -55,6 +56,11 @@ Effect::~Effect()
 void Effect::setEnabled(bool isOn)
 {
 	m_enabled = isOn;
+}
+
+void Effect::setGroup(const QString & group)
+{
+	m_group = group;
 }
 
 bool Effect::isEnabled()
@@ -75,6 +81,7 @@ QDomDocument Effect::toXML()
 
     //effect.setAttribute("name", name());
     effect.setAttribute("id", m_desc.stringId());
+    effect.setAttribute("group", m_group);
     effect.setAttribute("enabled", isEnabled());
     if (!m_paramFile.isEmpty()) effect.setAttribute("tempfile", m_paramFile);
 
@@ -97,6 +104,71 @@ QDomDocument Effect::toXML()
 		    value());
 		param.appendChild(keyframe);
 	    }
+	if (paramdesc->type() == "complex")
+		for (uint j = 0; j < (uint)m_paramList.at(i)->numKeyFrames(); j++) {
+		QDomElement keyframe = doc.createElement("keyframe");
+		keyframe.setAttribute("time",
+		    m_paramList.at(i)->keyframe(j)->time());
+		keyframe.setAttribute("value",
+		    m_paramList.at(i)->keyframe(j)->toComplexKeyFrame()->
+		    toString());
+		param.appendChild(keyframe);
+	    }
+	effect.appendChild(param);
+    }
+    doc.appendChild(effect);
+/*  kdDebug()<<"---------- EFFECT -------------------"<<endl;
+    kdDebug()<<doc.toString()<<endl;
+    kdDebug()<<"---------- EFFECT -------------------"<<endl;*/
+    return doc;
+}
+
+QDomDocument Effect::toFullXML(const QString &effectName)
+{
+    QDomDocument doc;
+
+    QDomElement effect = doc.createElement("effect");
+    //effect.setAttribute("name", name());
+    effect.setAttribute("tag", m_desc.tag());
+
+    QDomElement name = doc.createElement("name");
+    QDomText nametxt = doc.createTextNode(effectName);
+    name.appendChild(nametxt);
+    effect.appendChild(name);
+
+    QDomElement props = doc.createElement("properties");
+    props.setAttribute("id", m_desc.stringId() + effectName);
+    props.setAttribute("tag", m_desc.tag());
+    props.setAttribute("type", "custom");
+    effect.appendChild(props);
+
+    for (uint i = 0; i < m_desc.numParameters(); i++) {
+	EffectParamDesc *paramdesc = m_desc.parameter(i);
+	QDomElement param = doc.createElement("parameter");
+	QDomElement paramname = doc.createElement("name");
+	QDomText paramnametxt = doc.createTextNode(paramdesc->description());
+	paramname.appendChild(paramnametxt);
+	param.appendChild(paramname);
+
+	param.setAttribute("type", paramdesc->type());
+	param.setAttribute("name", paramdesc->name());
+	param.setAttribute("default", paramdesc->value());
+	param.setAttribute("max", paramdesc->max());
+	param.setAttribute("min", paramdesc->min());
+	param.setAttribute("factor", paramdesc->factor());
+	if (paramdesc->type() == "double") {
+		param.setAttribute("startag", paramdesc->startTag());
+		param.setAttribute("endtag", paramdesc->endTag());
+		for (uint j = 0; j < (uint)m_paramList.at(i)->numKeyFrames(); j++) {
+		QDomElement keyframe = doc.createElement("keyframe");
+		keyframe.setAttribute("time",
+		    m_paramList.at(i)->keyframe(j)->time());
+		keyframe.setAttribute("value",
+		    m_paramList.at(i)->keyframe(j)->toDoubleKeyFrame()->
+		    value());
+		param.appendChild(keyframe);
+	    }
+	}
 	if (paramdesc->type() == "complex")
 		for (uint j = 0; j < (uint)m_paramList.at(i)->numKeyFrames(); j++) {
 		QDomElement keyframe = doc.createElement("keyframe");
@@ -158,14 +230,15 @@ Effect *Effect::createEffect(const EffectDesc & desc,
     Effect *result = 0;
 
     if (effect.tagName() == "effect") {
-	QString id = effect.attribute("id", "");
-	QString tmpFile = effect.attribute("tempfile", "");
+	QString id = effect.attribute("id", QString::null);
+	QString group = effect.attribute("group", QString::null);
+	QString tmpFile = effect.attribute("tempfile", QString::null);
 /*	if (type != desc.stringId()) {
 	    kdError() <<
 		"Effect::createEffect() failed integrity check - desc.name() == "
 		<< desc.name() << ", type == " << type << endl;
 	}*/
-	result = new Effect(desc, id);
+	result = new Effect(desc, id, group);
 	result->setEnabled(effect.attribute("enabled", "1").toInt());
 	if (!tmpFile.isEmpty() && QFile(tmpFile).exists()) result->setTempFile(tmpFile);
 

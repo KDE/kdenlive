@@ -41,7 +41,7 @@ class KdenliveDoc;
 namespace Gui {
     class KdenliveApp;
 
-/**Displays the properties of a sepcified clip.
+/**Displays the properties of a selected clip.
   *@author Jean-Baptiste Mardelle
   */
 

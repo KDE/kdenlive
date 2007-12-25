@@ -35,8 +35,10 @@ namespace Gui {
 	setAcceptDrops(true);
 	setAllColumnsShowFocus(true);
 	setFullWidth(true);
-	connect(this, SIGNAL(selectionChanged(QListViewItem *)), this,
-	    SLOT(selectedEffect(QListViewItem *)));
+	setRootIsDecorated(true);
+	setSelectionMode(QListView::Extended);
+	connect(this, SIGNAL(selectionChanged()), this,
+	    SLOT(selectedEffect()));
 
 	connect(this, SIGNAL(clicked(QListViewItem *)), this,
 	    SLOT(slotCheckItem(QListViewItem *)));
@@ -63,10 +65,19 @@ namespace Gui {
 	    uint selected = m_clip->effectStack().selectedItemIndex();
 	    uint ix = 0;
 	    QListViewItem *lastItem = NULL;
-	    for (EffectStack::const_iterator itt =
-		m_clip->effectStack().begin();
+	    for (EffectStack::const_iterator itt = m_clip->effectStack().begin();
 		itt != m_clip->effectStack().end(); ++itt) {
-		QCheckListItem *item = new QCheckListItem (this, lastItem, (*itt)->name(), QCheckListItem::CheckBox);
+		QCheckListItem *item;
+		QString group = (*itt)->group();
+		if (!group.isEmpty()) {
+			QListViewItem *grp = findItem(group, 0);
+			if (!grp) grp = new KListViewItem(this, lastItem, group);
+			item = new QCheckListItem (grp, lastItem, (*itt)->name(), QCheckListItem::CheckBox);
+		}
+		else {
+		    if (lastItem && lastItem->parent()) lastItem = lastItem->parent();
+		    item = new QCheckListItem (this, lastItem, (*itt)->name(), QCheckListItem::CheckBox);
+		}
 		item->setOn((*itt)->isEnabled());
 		if (ix == selected) setSelected(item, true);
 		ix++; 
@@ -81,10 +92,13 @@ namespace Gui {
     void EffectStackListView::slotCheckItem(QListViewItem *item)
     {
 	if (!item) return;
-	bool isEnabled = m_clip->effectStack()[selectedEffectIndex()]->isEnabled();
+	int ix = selectedEffectIndex();
+	kdWarning()<<"-------SWL EFFECT: "<<ix<<endl;
+	if (ix == -1) return;
+	bool isEnabled = m_clip->effectStack()[ix]->isEnabled();
 	if (( (QCheckListItem*)item )->isOn() != isEnabled) {
 		// effect was disabled or enabled
-		m_clip->effectStack()[selectedEffectIndex()]->setEnabled(!isEnabled);
+		m_clip->effectStack()[ix]->setEnabled(!isEnabled);
 		emit effectToggled();
 	}
     }
@@ -94,8 +108,13 @@ namespace Gui {
 	updateEffectStack();
     }
 
-    void EffectStackListView::selectedEffect(QListViewItem * item) {
+    void EffectStackListView::selectedEffect() {
 	if (m_clip) {
+	    QListViewItem * item = currentItem();
+	    if (((QCheckListItem *)item)->type() != QCheckListItem::CheckBox) {
+		emit effectSelected(m_clip, NULL);
+		return;
+	    }
 	    QListViewItem *itemItt = firstChild();
 
 	    EffectStack::iterator itt = m_clip->effectStack().begin();
@@ -104,8 +123,11 @@ namespace Gui {
 		    emit effectSelected(m_clip, *itt);
 		    break;
 		}
-		++itt;
-		itemItt = itemItt->nextSibling();
+		if (((QCheckListItem *)itemItt)->type() == QCheckListItem::CheckBox) {
+		    ++itt;
+		    itemItt = itemItt->nextSibling();
+		}
+		else itemItt = itemItt->firstChild();
 	    }
 	    if (itt == m_clip->effectStack().end()) {
 		kdWarning() <<
@@ -184,30 +206,57 @@ namespace Gui {
     }
 
     void EffectStackListView::slotDeleteEffect() {
-	int selectedIx = selectedEffectIndex();
-	if (selectedIx != -1) {
-	    m_app->
-		addCommand(Command::KAddEffectCommand::
-		removeEffect(m_document, m_clip, selectedIx));
+	QListViewItemIterator it( this );
+	int offset = 0;
+	QStringList toDelete;
+        while ( it.current() ) {
+            QListViewItem *item = it.current();
+            if (item->isSelected()) {
+		if (((QCheckListItem *)item)->type() == QCheckListItem::CheckBox) toDelete.append(QString::number(selectedEffectIndex(item)));
+		else {
+		    // SELECTED item is a group, select all its children
+		    QListViewItem *itemChild = item->firstChild();
+		    while (itemChild) {
+			itemChild->setSelected(true);
+			itemChild = itemChild->nextSibling();
+		    }
+		}
+	    }
+	    ++it;
 	}
+	int index;
+	for ( QStringList::Iterator it = toDelete.begin(); it != toDelete.end(); ++it ) {
+            index = (*it).toInt();
+	    m_app->addCommand(Command::KAddEffectCommand::removeEffect(m_document, m_clip, index - offset));
+	    offset++;
+    	}
+	
+	setEffectStack(m_clip);
     }
 
-    int EffectStackListView::selectedEffectIndex() const {
+    int EffectStackListView::selectedEffectIndex(QListViewItem *selectedItem) {
 	int result = -1;
-	QListViewItem *item = currentItem();
-	if (item) {
-	    int count = 0;
-	    QListViewItem *itemItt = firstChild();
-	    while (itemItt) {
-		if (itemItt == item) {
-		    result = count;
-		    break;
-		}
-		++count;
-		itemItt = itemItt->nextSibling();
+	QCheckListItem *item;
+	if (selectedItem) item = (QCheckListItem *) selectedItem;
+	else item = (QCheckListItem *) currentItem();
+	if (!item || item->type() != QCheckListItem::CheckBox) return result;
+
+	int count = 0;
+
+	QListViewItemIterator it( this );
+        while ( it.current() ) {
+            QListViewItem *itemItt = it.current();
+	    if (itemItt == item) {
+		result = count;
+		break;
 	    }
+	    if (((QCheckListItem *)itemItt)->type() == QCheckListItem::CheckBox) {
+		++count;
+	    }
+	    ++it;
 	}
-	// kdWarning() << "selectedEffectIndex = " << result << endl;
+
+	//kdWarning() << "selectedEffectIndex = " << result << endl;
 	return result;
     }
 

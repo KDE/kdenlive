@@ -18,12 +18,11 @@
 #ifndef EFFECTLISTDIALOG_H
 #define EFFECTLISTDIALOG_H
 
-#include <qwidget.h>
-#include <klistview.h>
 #include <qptrlist.h>
+#include <qdragobject.h>
 
 #include "effectdesc.h"
-#include "listviewtagsearch.h"
+#include "effectlist_ui.h"
 
 namespace Gui {
 
@@ -37,13 +36,12 @@ namespace Gui {
 	    QWidget * parent = 0, const char *name = 0);
 	~EffectListDialog();
 
+	EffectList_UI *m_effectListBox;
+
 	/** returns a drag object which is used for drag operations. */
 	QDragObject *dragObject();
 
     private:
-	/** Generates the layout for this widget. */
-	void generateLayout();
-
 	/** 	EffectDesc::findDescription():
 		@name : the name of the description we are trying to find.
 
@@ -54,17 +52,19 @@ namespace Gui {
 	EffectDesc *findDescription(const QString & name);
 	QPtrList < EffectDesc > m_effectList;
 
-	ListViewTagSearchWidget *m_effectSearch;
-	KListView *m_effectView;
-
     public slots:
 	/** Set the effect list displayed by this dialog. */
 	void setEffectList(const QPtrList < EffectDesc > &effectList);
 
     private slots:
 	/** an effect has been selected in the dialog */
-	void slotEffectSelected(QListViewItem * item);
-	 signals: 
+	void slotEffectSelected();
+	/** an effect has been double clicked in the dialog */
+	void slotAddEffect(QListBoxItem * item);
+	/** Generates the layout for this widget. */
+	void generateLayout();
+
+    signals: 
 	void effectSelected(const QString &);
     };
 

@@ -642,7 +642,7 @@ void KdenliveDoc::setProjectClip(DocClipProject * projectClip)
     updateReferences();
     emit trackListChanged();
     emit documentLengthChanged(projectDuration());
-    if (KdenliveSettings::videothumbnails()) updateTracksThumbnails();
+    if (KdenliveSettings::videothumbnails()) QTimer::singleShot(1500, this, SLOT(updateTracksThumbnails()));
     QTimer::singleShot(1000, this, SLOT(refreshAudioThumbnails()));
     connectProjectClip();
     setModified(!m_documentIsClean);
@@ -795,6 +795,7 @@ void KdenliveDoc::updateTracksThumbnails()
 	QTimer::singleShot(3*1000, this, SLOT(updateTracksThumbnails()));
 	return;
     }
+
     QPtrListIterator < DocTrackBase > trackItt(trackList());
     QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10006));
     int clipTotal = 0;

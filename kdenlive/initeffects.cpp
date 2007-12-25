@@ -25,6 +25,7 @@
 #include <kstandarddirs.h>
 
 #include "initeffects.h"
+#include "effectparamdesc.h"
 #include "krender.h"
 
 initEffects::initEffects()
@@ -86,7 +87,7 @@ void initEffects::parseEffectFiles(EffectDescriptionList *effectList)
     kdDebug()<<"//  INIT EFFECT SEARCH"<<endl;
 
     QStringList direc = KGlobal::dirs()->findDirs("data", "kdenlive/effects");
-    kdDebug()<<"//  FOUND DIRECTORIES: "<<direc<<endl;
+
     QDir directory;
     for ( more = direc.begin() ; more != direc.end() ; ++more ) {
 	directory = QDir(*more);
@@ -144,8 +145,18 @@ void initEffects::parseEffectFile(EffectDescriptionList *effectList, QString nam
 		    id = e.attribute("id", QString::null);
 		    effectTag = e.attribute("tag", QString::null);
 		    if (e.attribute("type", QString::null) == "audio") type = AUDIOEFFECT;
+		    else if (e.attribute("type", QString::null) == "custom") type = CUSTOMEFFECT;
 		    else type = VIDEOEFFECT;
-		    effect = new EffectDesc(effectName, id, effectTag, type);
+
+		    QString effectDescription;
+		    QDomNode descnode = doc.elementsByTagName("description").item(0);
+		    if (!descnode.isNull()) effectDescription = descnode.toElement().text() + "<br />";
+
+		    QString effectAuthor;
+		    QDomNode authnode = doc.elementsByTagName("author").item(0);
+		    if (!authnode.isNull()) effectAuthor = authnode.toElement().text() + "<br />";
+
+		    effect = new EffectDesc(effectName, id, effectTag, effectDescription, effectAuthor, type);
 		}
 	        if (e.tagName() == "parameter" && effect) {
 		    paramCount++;
@@ -170,10 +181,26 @@ void initEffects::parseEffectFile(EffectDescriptionList *effectList, QString nam
 		    }
 		    QDomNode n2 = n.firstChild();
 		    QDomElement e2 = n2.toElement();
-	    	    if (!e2.isNull() && e2.tagName() == "name") {
-			xmlAttr.append(QString("description"), QString::null, QString::null, i18n(e2.text()));
+		    while (!e2.isNull()) {
+	    	    	if ( e2.tagName() == "name" ) {
+			    xmlAttr.append(QString("description"), QString::null, QString::null, i18n(e2.text()));
+			    break;
+		    	}
+			n2 = n2.nextSibling();
+			e2 = n2.toElement();
 		    }
         	    effect->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+		    n2 = n.firstChild();
+		    e2 = n2.toElement();
+		    while (!e2.isNull()) {
+	    	    	if ( e2.tagName() == "keyframe" ) {
+			    kdWarning()<<"// EFFECT: "<<effect->name()<<", KEYFR: "<<e2.attribute("value", QString::null)<<", "<<e2.attribute("time", QString::null)<<endl;
+			    effect->parameter(0)->createKeyFrame(e2.attribute("value", QString::null).toInt(), e2.attribute("time", QString::null).toDouble());
+		    	}
+			n2 = n2.nextSibling();
+			e2 = n2.toElement();
+		    }
 		}
 	    }
 	    n = n.nextSibling();

@@ -1838,12 +1838,13 @@ void DocClipRef::deleteEffect(uint index)
 void DocClipRef::setEffectStackSelectedItem(uint ix)
 {
     m_effectStack.setSelected(ix);
-
 }
 
 Effect *DocClipRef::selectedEffect()
 {
-    return m_effectStack.selectedItem();
+    Effect *eff = m_effectStack.selectedItem();
+    if (eff) return eff;
+    return m_effectStack.at(0);
 }
 
 bool DocClipRef::hasEffect() const

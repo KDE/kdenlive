@@ -36,16 +36,23 @@ class EffectParameter;
 
 class Effect {
   public:
-    Effect(const EffectDesc & desc, const QString & id);
+    Effect(const EffectDesc & desc, const QString & id, const QString & id = NULL);
 
     ~Effect();
 
 	/** Returns an XML representation of this effect. */
     QDomDocument toXML();
+	/** Returns a full XML representation of this effect for file saving. */
+    QDomDocument toFullXML(const QString &effectName);
 
     const QString & name() const {
 	return m_desc.name();
-    } 
+    }
+
+    const QString & group() const {
+	return m_group;
+    }
+
     void addParameter(const QString & name);
     void setEnabled(bool isOn);
     bool isEnabled();
@@ -69,6 +76,7 @@ class Effect {
     uint addKeyFrame(const uint ix, double time, double value);
     void addKeyFrame(const uint ix, double time, QStringList values);
     void setTempFile(QString tmpFile);
+    void setGroup(const QString &group);
 
     QString tempFileName() {
 	return m_paramFile;
@@ -77,6 +85,7 @@ class Effect {
   private:
     const EffectDesc & m_desc;
     QString m_id;
+    QString m_group;
     QString m_paramFile;
     QPtrList < EffectParameter > m_paramList;
     bool m_enabled;
