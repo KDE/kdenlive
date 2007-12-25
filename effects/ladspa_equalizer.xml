@@ -1,6 +1,8 @@
 <!DOCTYPE kpartgui>
 <effect tag="ladspa" library="dj_eq_1901.so">
 	<name>Equalizer</name>
+	<description>LADSPA equalizer audio effect</description>
+	<author>http://www.ladspa.org</author>
 	<properties id="equalizer" tag="ladspa1901" type="audio" />
 	<parameter type="constant" name="logain" max="6" min="-70" default="0">
 		<name>Lo gain</name>

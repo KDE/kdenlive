@@ -1,6 +1,8 @@
 <!DOCTYPE kpartgui>
 <effect tag="threshold">
 	<name>Threshold</name>
+	<description>Make monochrome clip</description>
+	<author>Charles Yates</author>
 	<properties id="threshold" tag="threshold" />
 	<parameter type="constant" name="midpoint" max="255" min="0" default="128">
 		<name>Threshold value</name>

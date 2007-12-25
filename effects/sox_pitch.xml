@@ -1,6 +1,8 @@
 <!DOCTYPE kpartgui>
 <effect tag="sox">
 	<name>Sox Pitch Shift</name>
+	<description>Sox change pitch audio effect</description>
+	<author>http://sox.sourceforge.net</author>
 	<properties id="sox_pitch" tag="sox" type="audio" />
 	<parameter type="constant" name="shift" max="1500" min="-1500" default="0">
 		<name>Shift</name>

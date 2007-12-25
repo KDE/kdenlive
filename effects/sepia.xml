@@ -1,6 +1,8 @@
 <!DOCTYPE kpartgui>
 <effect tag="sepia">
 	<name>Sepia</name>
+	<description>Turn clip colors to sepia</description>
+	<author>Charles Yates</author>
 	<properties id="sepia" tag="sepia" />
 	<parameter type="constant" name="u" max="255" min="0" default="75">
 		<name>Chrominance U</name>

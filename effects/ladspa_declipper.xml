@@ -1,5 +1,7 @@
 <!DOCTYPE kpartgui>
 <effect tag="ladspa" library="declip_1195.so">
 	<name>Declipper</name>
+	<description>LADSPA declipper audio effect</description>
+	<author>http://www.ladspa.org</author>
 	<properties id="declipper" tag="ladspa1195" type="audio"/>
 </effect>

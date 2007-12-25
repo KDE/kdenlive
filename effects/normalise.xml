@@ -1,6 +1,8 @@
 <!DOCTYPE kpartgui>
 <effect tag="volume">
 	<name>Normalise</name>
+	<description>Normalise audio volume</description>
+	<author>Dan Dennedy</author>
 	<properties id="normalise" tag="volume" type="audio" />
 	<parameter type="constant" name="gain" max="0" min="0" default="normalise">
 		<name>Gain</name>

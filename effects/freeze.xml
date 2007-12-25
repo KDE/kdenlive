@@ -1,6 +1,8 @@
 <!DOCTYPE kpartgui>
 <effect tag="framebuffer">
 	<name>Freeze</name>
+	<description>Freeze video on a chosen frame</description>
+	<author>Jean-Baptiste Mardelle</author>
 	<properties id="freeze" tag="framebuffer"/>
 	<parameter type="position" name="freeze" max="1000000" min="1" default="1">
 		<name>Freeze at</name>

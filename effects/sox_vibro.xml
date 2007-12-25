@@ -1,6 +1,8 @@
 <!DOCTYPE kpartgui>
 <effect tag="sox">
 	<name>Sox Vibro</name>
+	<description>Sox vibro audio effect</description>
+	<author>http://sox.sourceforge.net</author>
 	<properties id="sox_vibro" tag="sox" type="audio" />
 	<parameter type="constant" name="speed" max="30" min="1" default="15">
 		<name>Speed</name>

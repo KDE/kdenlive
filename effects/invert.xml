@@ -1,5 +1,7 @@
 <!DOCTYPE kpartgui>
 <effect tag="invert">
 	<name>Invert</name>
+	<description>Invert colors</description>
+	<author>Charles Yates</author>
 	<properties id="invert" tag="invert" />
 </effect>

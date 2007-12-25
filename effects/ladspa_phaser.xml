@@ -1,6 +1,8 @@
 <!DOCTYPE kpartgui>
 <effect tag="ladspa" library="phasers_1217.so">
 	<name>Phaser</name>
+	<description>LADSPA phaser audio effect</description>
+	<author>http://www.ladspa.org</author>
 	<properties id="phaser" tag="ladspa1217" type="audio" />
 	<parameter type="constant" name="rate" max="100" min="0" default="25">
 		<name>Rate (Hz)</name>

@@ -1,6 +1,8 @@
 <!DOCTYPE kpartgui>
 <effect tag="obscure">
 	<name>Obscure</name>
+	<description>Hide a region of the clip</description>
+	<author>Charles Yates</author>
 	<label>X</label>
 	<label>Y</label>
 	<label>Width</label>
