@@ -129,10 +129,6 @@ class KdenliveDoc:public QObject {
     void setModified(bool state);
 	/** Sets the modified state of the document on loading, if files were relocated, state is false */
     void setDocumentState(bool state);
-	/** Returns a scene list generated from the current document. */
-    void generateSceneList();
-	/** Renders the current document timeline to the specified url. */
-    void renderDocument(const KURL & url);
 	/** Returns renderer associated with this document. */
     KRender *renderer() const;
     void redrawTimeLine();
@@ -237,8 +233,6 @@ class KdenliveDoc:public QObject {
     RangeList < GenTime > m_invalidSceneTimes;
 	/** Application pointer. */
     Gui::KdenliveApp * m_app;
-	/** This is the scenelist that get's passed from the clip to a renderer. */
-    QDomDocument m_domSceneList;
 
 	/** Connects the various project clip signals/slots up to the document. This should be done whenever
 	a new document project clip is created.*/

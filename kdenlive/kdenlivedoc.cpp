@@ -67,8 +67,6 @@ m_clipHierarch(0), m_render(app->renderManager()->findRenderer("Document")), m_c
     connect(&m_clipManager, SIGNAL(updateClipThumbnails(DocClipBase *)), this, SLOT(slotUpdateClipThumbnails(DocClipBase *)));
     connect(&m_clipManager, SIGNAL(fixClipDuration(DocClipBase *)), this, SLOT(fixClipDuration(DocClipBase *)));
 
-    m_domSceneList.appendChild(m_domSceneList.createElement("scenelist"));
-    generateSceneList();
     connectProjectClip();
     setModified(false);
 }
@@ -326,18 +324,6 @@ bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 	emit currentClipPosition(pos);
     }
 
-/** Returns a scene list generated from the current document. */
-
-void KdenliveDoc::generateSceneList()
-{
-    if (m_projectClip) {
-	refreshVirtualClips();
-        m_domSceneList = m_projectClip->generateSceneList();
-    } else {
-	kdWarning() <<
-	    "Cannot generate scene list - m_projectClip is null!" << endl;
-    }
-}
 
 void KdenliveDoc::slotSelectProjectItem(int id)
 {
@@ -410,12 +396,6 @@ void KdenliveDoc::forceTimelineRefresh()
 	emit documentChanged(m_projectClip);
 }
 
-/** Renders the current document timeline to the specified url. */
-void KdenliveDoc::renderDocument(const KURL & url)
-{
-    m_render->setSceneList(m_domSceneList);
-    m_render->render(url);
-}
 
 /** Returns renderer associated with this document. */
 KRender *KdenliveDoc::renderer() const
