@@ -931,10 +931,10 @@ namespace Gui {
 	// remove all previous params
 	cleanWidgets();
 	disableButtons();
-	if (!clip) return;
 	tabWidget2->setTabEnabled(tabWidget2->page(1), false);
 	m_effectList->setEffectStack(clip);
 	if (m_effectList->childCount() > 0) enableButtons();
+	if (!clip) return;
 	
 	//Effect *effect = clip->effectAt(m_effectList->selectedEffectIndex());
 	emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
