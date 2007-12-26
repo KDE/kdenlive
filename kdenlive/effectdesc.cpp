@@ -106,6 +106,6 @@ Effect *EffectDesc::createEffect()
     for (uint count = 0; count < numParameters(); ++count) {
 	returnEffect->addParameter(parameter(count)->name());
     }
-    returnEffect->addInitialKeyFrames(0);
+    if (numParameters() > 0) returnEffect->addInitialKeyFrames(0);
     return returnEffect;
 }

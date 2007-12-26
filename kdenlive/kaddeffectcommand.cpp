@@ -104,7 +104,7 @@ namespace Command {
 	DocTrackBase *track =
 	    m_document->projectClip().track(m_trackIndex);
 	if (track) {
-    	    kdDebug()<<" / / INSERTING EFFECT--- "<<endl;
+
 	    Effect *effect = m_document->createEffect(m_effect.documentElement());
 	    track->addEffectToClip(m_position, m_effectIndex, effect);
 	    DocClipRef *clip = track->getClipAt(m_position);
@@ -115,7 +115,6 @@ namespace Command {
 	    QMap <QString, QString> params = effect->getParameters(clip);
 	    QString tag = effect->effectDescription().tag();
 
-    	    kdDebug()<<" / / INSERTING EFFECT- "<<tag<<endl;
 	    if (tag != QString("framebuffer")) {
 		m_document->renderer()->mltAddEffect(m_document->projectClip().playlistTrackNum(m_trackIndex), m_position, effect->effectDescription().stringId(), tag, params);
 

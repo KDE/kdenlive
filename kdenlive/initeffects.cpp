@@ -161,7 +161,12 @@ void initEffects::parseEffectFile(EffectDescriptionList *effectList, QString nam
 	effect = new EffectDesc(effectName, id, effectTag, effectDescription, effectAuthor, type);
 
 	QDomNodeList paramList = doc.elementsByTagName("parameter");
-	for (int i = 0; i < paramList.count(); i++) {
+	if (paramList.count() == 0) {
+	    QDomElement fixed = doc.createElement("parameter");
+	    fixed.setAttribute("type", "fixed");
+	    effect->addParameter(effectDescParamFactory.createParameter(fixed));
+	}
+	else for (int i = 0; i < paramList.count(); i++) {
 	    QDomElement e = paramList.item(i).toElement();
 	    if (!e.isNull()) {
 		paramCount++;
