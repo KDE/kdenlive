@@ -1545,6 +1545,9 @@ namespace Gui {
 	connect(m_effectListDialog, SIGNAL(effectSelected(const QString &, const QString &)), this,
         SLOT(slotAddEffect(const QString &, const QString &)));
 
+	connect(m_effectListDialog, SIGNAL(refreshEffects()), this,
+        SLOT(refreshEffects()));
+
 	connect(m_effectStackDialog, SIGNAL(redrawTrack(int, GenTime, GenTime)), m_timeline,
 	    SLOT(drawPartialTrack(int, GenTime, GenTime)));
         

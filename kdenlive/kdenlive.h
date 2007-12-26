@@ -159,7 +159,6 @@ namespace Gui {
 
 		/** Retreive timeline ruler cursor time */
 	GenTime cursorPosition() const;
-	void refreshEffects();
 
       protected:
 		/** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
@@ -440,6 +439,7 @@ namespace Gui {
         void slotOnScreenDisplay();
         void slotMultiTrackView();
 	void slotAdjustPreviewQuality();
+	void refreshEffects();
 
       private slots: 
 	void initMonitors();

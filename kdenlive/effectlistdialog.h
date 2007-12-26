@@ -63,9 +63,12 @@ namespace Gui {
 	void slotAddEffect(QListBoxItem * item);
 	/** Generates the layout for this widget. */
 	void generateLayout();
+	/** delete a custom effect */
+        void slotDeleteEffect();
 
     signals: 
 	void effectSelected(const QString &effectName, const QString &groupName = QString::null);
+	void refreshEffects();
     };
 
 }				// namespace Gui

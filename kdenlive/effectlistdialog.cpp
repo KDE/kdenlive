@@ -18,11 +18,18 @@
 #include <qlayout.h>
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
+#include <qtooltip.h>
+#include <qdir.h>
 
 #include <kdebug.h>
 #include <klocale.h>
 #include <klistbox.h>
 #include <ktextedit.h>
+#include <kpushbutton.h>
+#include <kiconloader.h>
+#include <kglobal.h>
+#include <kstandarddirs.h>
+#include <kmessagebox.h>
 
 #include "effectdrag.h"
 #include "effectparamdesc.h"
@@ -42,8 +49,14 @@ namespace Gui {
 	m_effectList.setAutoDelete(false);
 	QVBoxLayout *viewLayout = new QVBoxLayout( this );
         viewLayout->setAutoAdd( TRUE );
+	KIconLoader loader;
 	
 	m_effectListBox = new EffectList_UI(this);
+
+	m_effectListBox->button_delete->setIconSet(QIconSet(loader.loadIcon("editdelete",
+		    KIcon::Toolbar)));
+
+	QToolTip::add(m_effectListBox->button_delete, i18n("Delete custom effect"));
 
 	setEffectList(effectList);
 
@@ -52,6 +65,10 @@ namespace Gui {
 	connect(m_effectListBox->effect_list, SIGNAL(selectionChanged ()), this, SLOT(slotEffectSelected()));
 
 	connect(m_effectListBox->button_group, SIGNAL(clicked (int)), this, SLOT(generateLayout()));
+
+	connect(m_effectListBox->button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteEffect()));
+
+
 
 	
     } 
@@ -64,8 +81,12 @@ namespace Gui {
     void EffectListDialog::generateLayout() {
 	m_effectListBox->effect_list->clear();
 	EFFECTTYPE type = VIDEOEFFECT;
+	m_effectListBox->button_delete->setEnabled(false);
 	if (m_effectListBox->audio_button->isChecked()) type = AUDIOEFFECT;
-	else if (m_effectListBox->custom_button->isChecked()) type = CUSTOMEFFECT;
+	else if (m_effectListBox->custom_button->isChecked()) {
+	    m_effectListBox->button_delete->setEnabled(true);
+	    type = CUSTOMEFFECT;
+	}
 
 	QPtrListIterator < EffectDesc > itt(m_effectList);
 	while (itt.current()) {
@@ -82,6 +103,43 @@ namespace Gui {
 	    ++itt;
 	}
     }
+
+/** Delete a custom effect. */
+    void EffectListDialog::slotDeleteEffect() {
+	QString direc = locateLocal("appdata", "effects/");
+
+	bool isGroup = false;
+	QString itemToDelete;
+	if (m_effectListBox->effect_list->currentText().endsWith(i18n("[group]"))) {
+	    isGroup = true;
+	    itemToDelete = m_effectListBox->effect_list->currentText().section("[", 0, 0);
+	}
+	else itemToDelete = m_effectListBox->effect_list->currentText();
+	QDomDocument doc;
+	QString docName;
+        QStringList::Iterator it;
+        QStringList fileList;
+
+	QDir directory(direc);
+	fileList = directory.entryList( QDir::Files );
+	for ( it = fileList.begin() ; it != fileList.end() ; ++it ){
+	    QString itemName = KURL(direc + *it).path();
+	    QFile file(itemName);
+	    doc.setContent(&file, false);
+	    file.close();
+	    QDomElement documentElement = doc.documentElement();
+	    if (isGroup) docName = doc.elementsByTagName("effectgroup").item(0).toElement().attribute("name");
+	    else docName = doc.elementsByTagName("name").item(0).toElement().text();
+	    if (docName == itemToDelete) {
+		kdWarning()<<"///// / / / FOUND ITEM TO DELETE: "<<itemName<<endl;
+		if (KMessageBox::questionYesNo(this, i18n("<qt>Delete custom effect <b>%1</b> saved in:<br />%2</qt>").arg(itemToDelete).arg(itemName)) == KMessageBox::Yes) 
+		    file.remove(itemName);
+		break;
+	    }
+	}
+	emit refreshEffects();
+    }
+
 
 /** Set the effect list displayed by this dialog. */
     void EffectListDialog::setEffectList(const QPtrList < EffectDesc >

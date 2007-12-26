@@ -106,15 +106,22 @@ void initEffects::parseEffectFile(EffectDescriptionList *effectList, QString nam
     QDomDocument doc;
     QFile file(name);
     doc.setContent(&file, false);
-
     QDomElement documentElement = doc.documentElement();
-    while (!documentElement.isNull() && documentElement.tagName() != "effect") {
-	documentElement = documentElement.firstChild().toElement();
-    }
-    if (documentElement.isNull()) {
+    QDomNodeList effects = doc.elementsByTagName("effect");
+
+    if (effects.count() == 0) {
 	kdDebug()<<"// EFFECT FILET: "<<name<<" IS BROKEN"<<endl;
 	return;
     }
+    QString groupName;
+    if (doc.elementsByTagName("effectgroup").item(0).toElement().tagName() == "effectgroup") {
+	groupName = documentElement.attribute("name", QString::null);
+    }
+
+    int i = 0;
+
+    while (!effects.item(i).isNull()) {
+    documentElement = effects.item(i).toElement();
     QString tag = documentElement.attribute("tag", QString::null);
     bool ladspaOk = true;
     if (tag == "ladspa") {
@@ -135,10 +142,11 @@ void initEffects::parseEffectFile(EffectDescriptionList *effectList, QString nam
         EffectDesc *effect = NULL;
 
 	// parse effect file
-	QDomNode namenode = doc.elementsByTagName("name").item(0);
+	QDomNode namenode = documentElement.elementsByTagName("name").item(0);
 	if (!namenode.isNull()) effectName = i18n(namenode.toElement().text());
+	if (!groupName.isEmpty()) effectName.prepend("_" + groupName + "_");
 
-	QDomNode propsnode = doc.elementsByTagName("properties").item(0);
+	QDomNode propsnode = documentElement.elementsByTagName("properties").item(0);
 	if (!propsnode.isNull()) {
 	    QDomElement propselement = propsnode.toElement();
 	    id = propselement.attribute("id", QString::null);
@@ -149,18 +157,18 @@ void initEffects::parseEffectFile(EffectDescriptionList *effectList, QString nam
 	}
 
 	QString effectDescription;
-	QDomNode descnode = doc.elementsByTagName("description").item(0);
+	QDomNode descnode = documentElement.elementsByTagName("description").item(0);
 	if (!descnode.isNull()) effectDescription = descnode.toElement().text() + "<br />";
 
 	QString effectAuthor;
-	QDomNode authnode = doc.elementsByTagName("author").item(0);
+	QDomNode authnode = documentElement.elementsByTagName("author").item(0);
 	if (!authnode.isNull()) effectAuthor = authnode.toElement().text() + "<br />";
 
 	if (effectName.isEmpty() || id.isEmpty() || effectTag.isEmpty()) return;
 
 	effect = new EffectDesc(effectName, id, effectTag, effectDescription, effectAuthor, type);
 
-	QDomNodeList paramList = doc.elementsByTagName("parameter");
+	QDomNodeList paramList = documentElement.elementsByTagName("parameter");
 	if (paramList.count() == 0) {
 	    QDomElement fixed = doc.createElement("parameter");
 	    fixed.setAttribute("type", "fixed");
@@ -191,6 +199,8 @@ void initEffects::parseEffectFile(EffectDescriptionList *effectList, QString nam
 	    }
 	}
         effectList->append(effect);
+	}
+	i++;
     }
 }
 
