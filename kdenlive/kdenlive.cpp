@@ -448,12 +448,13 @@ namespace Gui {
 	return m_effectList;
     }
 
-    void KdenliveApp::slotAddEffect(const QString & effectName)
+    void KdenliveApp::slotAddEffect(const QString & effectName, const QString &groupName)
     {
 	DocClipRefList list = getDocument()->projectClip().selectedClipList();
 	QString effectId = getDocument()->getEffectStringId(effectName);
 	if (list.isEmpty() || !effectList().effectDescription(effectId)) return;
 	Effect *effect = effectList().effectDescription(effectId)->createEffect();
+	if (!groupName.isEmpty()) effect->setGroup(groupName);
 	KMacroCommand *macroCommand = new KMacroCommand(i18n("Add Effect"));
 	DocClipRef *refClip;
 
@@ -1541,8 +1542,8 @@ namespace Gui {
 	connect(m_effectStackDialog, SIGNAL(generateSceneList()),
 	    getDocument(), SLOT(hasBeenModified()));
 
-	connect(m_effectListDialog, SIGNAL(effectSelected(const QString &)), this,
-        SLOT(slotAddEffect(const QString &)));
+	connect(m_effectListDialog, SIGNAL(effectSelected(const QString &, const QString &)), this,
+        SLOT(slotAddEffect(const QString &, const QString &)));
 
 	connect(m_effectStackDialog, SIGNAL(redrawTrack(int, GenTime, GenTime)), m_timeline,
 	    SLOT(drawPartialTrack(int, GenTime, GenTime)));

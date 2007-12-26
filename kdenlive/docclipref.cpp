@@ -1865,6 +1865,16 @@ void DocClipRef::clearVideoEffects()
 	}
 }
 
+void DocClipRef::renameEffectGroup(QString oldName, QString newName)
+{
+	for (uint count = 0; count < m_effectStack.count(); ++count)
+	{
+	    if (m_effectStack.at(count)->group() == oldName) {
+		    m_effectStack.at(count)->setGroup(newName);
+	    }
+	}
+}
+
 Effect *DocClipRef::effectAt(uint index) const
 {
     EffectStack::iterator itt = m_effectStack.begin();

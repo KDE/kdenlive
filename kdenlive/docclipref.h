@@ -285,6 +285,7 @@ class DocClipRef:public QObject {
     void fetchEndThumbnail();
 
     void clearVideoEffects();
+    void renameEffectGroup(QString oldName, QString newName);
 
     QPixmap thumbnail(bool end = false) const;
     int thumbnailWidth() const;

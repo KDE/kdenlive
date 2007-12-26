@@ -43,7 +43,6 @@ namespace Gui {
 	connect(this, SIGNAL(clicked(QListViewItem *)), this,
 	    SLOT(slotCheckItem(QListViewItem *)));
 
-
 	connect(this, SIGNAL(dropped(QDropEvent *, QListViewItem *,
 		    QListViewItem *)), this, SLOT(dragDropped(QDropEvent *,
 		    QListViewItem *, QListViewItem *)));
@@ -262,6 +261,13 @@ namespace Gui {
 
     DocClipRef *EffectStackListView::clip() {
 	return m_clip;
+    }
+
+    bool EffectStackListView::groupSelected()
+    {
+	QCheckListItem *item = (QCheckListItem *) currentItem();
+	if (!item || item->type() == QCheckListItem::CheckBox) return false;
+	return true;
     }
 
 

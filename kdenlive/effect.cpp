@@ -123,22 +123,26 @@ QDomDocument Effect::toXML()
     return doc;
 }
 
-QDomDocument Effect::toFullXML(const QString &effectName)
+QDomDocument Effect::toFullXML(const QString &effectName, bool group)
 {
     QDomDocument doc;
 
     QDomElement effect = doc.createElement("effect");
-    //effect.setAttribute("name", name());
     effect.setAttribute("tag", m_desc.tag());
 
     QDomElement name = doc.createElement("name");
-    QDomText nametxt = doc.createTextNode(effectName);
+    QDomText nametxt;
+    if (group) 
+	nametxt = doc.createTextNode(m_desc.name());
+    else 
+	nametxt = doc.createTextNode(effectName);
     name.appendChild(nametxt);
     effect.appendChild(name);
 
     QDomElement props = doc.createElement("properties");
     props.setAttribute("id", m_desc.stringId() + effectName);
     props.setAttribute("tag", m_desc.tag());
+    if (group) props.setAttribute("group",effectName);
     props.setAttribute("type", "custom");
     effect.appendChild(props);
 
@@ -156,6 +160,8 @@ QDomDocument Effect::toFullXML(const QString &effectName)
 	param.setAttribute("max", paramdesc->max());
 	param.setAttribute("min", paramdesc->min());
 	param.setAttribute("factor", paramdesc->factor());
+	param.setAttribute("paramlist", paramdesc->list());
+
 	if (paramdesc->type() == "double") {
 		param.setAttribute("startag", paramdesc->startTag());
 		param.setAttribute("endtag", paramdesc->endTag());

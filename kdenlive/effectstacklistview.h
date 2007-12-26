@@ -57,6 +57,9 @@ A list view that displays an effect stack, and allows the relevant drag/drop ope
 	/** @returns the index of the currently selected effect, or -1 if no effect is currently selected. */
 	int selectedEffectIndex(QListViewItem *selectedItem = NULL);
 
+	/** @returns true if the selected item is a group.  */
+	bool groupSelected();
+
 	DocClipRef *clip();
 	 signals:
 	/** Emitted when a new effect has been selected in the effect stack. */

@@ -516,7 +516,7 @@ namespace Gui {
 	void selectClipUnderCursor();
 	void slotAddAudioEffect(int ix);
 	void slotAddVideoEffect(int ix);
-	void slotAddEffect(const QString & effectName);
+	void slotAddEffect(const QString & effectName, const QString &groupName = QString::null);
         void slotRemoveEffect(int ix);
 
 	/** Save the selected zone as Westley playlist */

@@ -119,6 +119,10 @@ namespace Gui {
 		    Effect *)));
 	 connect(m_effectList, SIGNAL(effectToggled()), this, SLOT(slotSwitchEffect()));
 
+	 connect(m_effectList, SIGNAL(doubleClicked ( QListViewItem *, const QPoint &, int )), this,
+	    SLOT(slotRenameGroup()));
+
+
 	 connect(sliderPosition, SIGNAL(valueChanged(int)), spinPosition,
 	    SLOT(setValue(int)));
 	 connect(spinPosition, SIGNAL(valueChanged(int)), sliderPosition,
@@ -589,6 +593,16 @@ namespace Gui {
 	m_effectList->slotDeleteEffect();
     }
 
+    void EffectStackDialog::slotRenameGroup() {
+	DocClipRef *clip = m_effectList->clip();
+	if (m_effectList->selectedEffectIndex() != -1 || !clip) return;
+	QString oldName = m_effectList->currentItem()->text(0);
+	QString groupName = KInputDialog::getText(i18n("Edit Effect Group"), i18n("Rename group"), oldName);
+	if (groupName.isEmpty()) return;
+	clip->renameEffectGroup(oldName, groupName);
+	slotSetEffectStack(clip);
+    }
+
     void EffectStackDialog::slotGroupEffects() {
 	DocClipRef *clip = m_effectList->clip();
 	if (m_effectList->selectedEffectIndex() == -1 || !clip) return;
@@ -638,15 +652,33 @@ namespace Gui {
     void EffectStackDialog::slotSaveEffect() {
 	DocClipRef *clip = m_effectList->clip();
 	if (!clip) return;
-	Effect *effect = clip->effectAt(m_effectList->selectedEffectIndex());
-	if (!effect) return;
+	QDomDocument doc;
 	QString name = KInputDialog::getText(i18n("Save Custom Effect"), i18n("Effect name:"));
 	if (!name.isEmpty()) {
+	if (m_effectList->groupSelected()) {
+	    QDomElement group = doc.createElement("effectgroup");
+    	    doc.appendChild(group);
+	    QString groupName = m_effectList->currentItem()->text(0);
+	    group.setAttribute("name", groupName);
+	    QListViewItem *child = m_effectList->currentItem()->firstChild();
+	    while (child) {
+		Effect *effect = clip->effectAt(m_effectList->selectedEffectIndex(child));
+		if (effect) {
+		    QDomNode eff = effect->toFullXML(groupName, true).firstChild();
+		    group.appendChild(doc.importNode(eff, true));
+		}
+		else kdWarning()<<"// TRYING TO SAVE EFFECT BUT FAILED.........."<<child->text(0)<<endl;
+		child = child->nextSibling();
+	    }
+	}
+	else {
+	    Effect *effect = clip->effectAt(m_effectList->selectedEffectIndex());
+	    if (!effect) return;
+	    doc = effect->toFullXML(name);
+	}
 	    QString direc = locateLocal("appdata", "effects/");
 	    QFile file(direc + name + ".xml");
 	    file.open( IO_WriteOnly );
-
-	    QDomDocument doc = effect->toFullXML(name);
 	    QCString save = doc.toString().utf8();
 	    if (file.writeBlock(save, save.length()) == -1) KMessageBox::sorry(this, i18n("Cannot save file %1, check your permissions").arg(file.name()));
 	    file.close();

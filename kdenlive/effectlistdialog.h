@@ -65,7 +65,7 @@ namespace Gui {
 	void generateLayout();
 
     signals: 
-	void effectSelected(const QString &);
+	void effectSelected(const QString &effectName, const QString &groupName = QString::null);
     };
 
 }				// namespace Gui

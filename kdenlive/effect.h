@@ -43,7 +43,7 @@ class Effect {
 	/** Returns an XML representation of this effect. */
     QDomDocument toXML();
 	/** Returns a full XML representation of this effect for file saving. */
-    QDomDocument toFullXML(const QString &effectName);
+    QDomDocument toFullXML(const QString &effectName, bool group = false);
 
     const QString & name() const {
 	return m_desc.name();

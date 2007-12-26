@@ -67,11 +67,18 @@ namespace Gui {
 	if (m_effectListBox->audio_button->isChecked()) type = AUDIOEFFECT;
 	else if (m_effectListBox->custom_button->isChecked()) type = CUSTOMEFFECT;
 
-	kdWarning()<<"///////  EFFECT LIST GEN LAYOUT"<<type<<endl;
-
 	QPtrListIterator < EffectDesc > itt(m_effectList);
 	while (itt.current()) {
-	    if (itt.current()->type() == type) m_effectListBox->effect_list->insertItem(itt.current()->name());
+	    QString effectName = itt.current()->name();
+	    if (effectName.startsWith("_")) {
+		//Effect is a group
+		effectName = effectName.section("_", 1,1) + i18n("[group]");
+	    }
+	    if (itt.current()->type() == type) {
+		if (m_effectListBox->effect_list->findItem(effectName)) 
+		    kdWarning()<<"//  DUPLICATE EFFECT ENTRY: "<<effectName<<endl;
+		else m_effectListBox->effect_list->insertItem(effectName);
+	    }
 	    ++itt;
 	}
     }
@@ -84,11 +91,30 @@ namespace Gui {
     }
 
     void EffectListDialog::slotAddEffect(QListBoxItem * item) {
-	emit effectSelected(item->text());
+	if (item->text().endsWith(i18n("[group]"))) {
+	    // A group is selected, add all its effects
+	    QString groupName = item->text().section("[", 0, 0);
+	    kdWarning()<<"//////  ADDING GRUOP: "<<groupName<<endl;
+	    QPtrListIterator < EffectDesc > itt(m_effectList);
+
+	    while (itt.current()) {
+	    	if (itt.current()->name().startsWith("_" + groupName + "_")) {
+		    emit effectSelected(itt.current()->name(), groupName);
+	    	}
+	        ++itt;
+	    }
+
+	}
+	else emit effectSelected(item->text());
     }
 
     void EffectListDialog::slotEffectSelected() {
 	EffectDesc *desc = findDescription(m_effectListBox->effect_list->currentText());
+	if (desc == 0) {
+	    // Selected effect is a group
+	    m_effectListBox->effect_text->setText(i18n("<b>Effect group</b>"));
+	    return;
+	}
 	QString description;
 	QString fullDescription = desc->description();
 	if (!fullDescription.isEmpty()) {

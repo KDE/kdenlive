@@ -81,6 +81,7 @@ Implementation of the EffectStackDialog
 	void cleanWidgets();
 	void slotSaveEffect();
 	void slotGroupEffects();
+	void slotRenameGroup();
 	void slotUngroupEffects();
     };
 
