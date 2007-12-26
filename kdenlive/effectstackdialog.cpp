@@ -400,6 +400,7 @@ namespace Gui {
 
 	    }
 	    else if (m_effecttype == "complex") {
+		kdWarning()<<"/////  BIUILDING CPLX PARAM DLG"<<endl;
 		m_frame = new QFrame(k_container, "container2");
 		m_frame->setSizePolicy(QSizePolicy::MinimumExpanding,
 		    QSizePolicy::MinimumExpanding);
@@ -410,7 +411,6 @@ namespace Gui {
 		uint paramNum =
 		    effect->effectDescription().parameter(parameterNum)->
 		    complexParamNum();
-
 		for (uint i = 0; i < paramNum; i++) {
 		    int ix =
 			effect->parameter(parameterNum)->
@@ -424,7 +424,6 @@ namespace Gui {
 			 uint currVal =
 			effect->parameter(parameterNum)->keyframe(ix)->
 			toComplexKeyFrame()->value(i);
-
 		    QLabel *label =
 			new QLabel(effect->effectDescription().
 			parameter(parameterNum)->complexParamName(i),
@@ -436,6 +435,8 @@ namespace Gui {
 		    sliderParam->setRange(minVal, maxVal);
 		    QSpinBox *spinParam =
 			new QSpinBox(m_frame, widgetName.ascii());
+
+
 
 		    grid->addWidget(label, i, 0);
 		    grid->addWidget(sliderParam, i, 1);
@@ -704,8 +705,7 @@ namespace Gui {
 			1);
 		    ix--;
 		}
-		effect->addKeyFrame(0, 0.0);
-		effect->addKeyFrame(0, 1.0);
+		effect->addInitialKeyFrames(parameterNum);
 		effect->parameter(parameterNum)->setSelectedKeyFrame(0);
 		updateKeyFrames();
 	    } else if (effect->effectDescription().

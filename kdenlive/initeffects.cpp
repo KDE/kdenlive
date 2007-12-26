@@ -129,85 +129,61 @@ void initEffects::parseEffectFile(EffectDescriptionList *effectList, QString nam
 	QString id, effectName, effectTag, paramType;
 	int paramCount = 0;
 	EFFECTTYPE type;
-        QXmlAttributes xmlAttr;
 
         // Create Effect
         EffectParamDescFactory effectDescParamFactory;
         EffectDesc *effect = NULL;
 
-    	while (!n.isNull()) {
-	    QDomElement e = n.toElement();
-	    if (!e.isNull()) {
-	        if (e.tagName() == "name") {
-		    effectName = i18n(e.text());
-		}
-	        if (e.tagName() == "properties") {
-		    id = e.attribute("id", QString::null);
-		    effectTag = e.attribute("tag", QString::null);
-		    if (e.attribute("type", QString::null) == "audio") type = AUDIOEFFECT;
-		    else if (e.attribute("type", QString::null) == "custom") type = CUSTOMEFFECT;
-		    else type = VIDEOEFFECT;
+	// parse effect file
+	QDomNode namenode = doc.elementsByTagName("name").item(0);
+	if (!namenode.isNull()) effectName = i18n(namenode.toElement().text());
 
-		    QString effectDescription;
-		    QDomNode descnode = doc.elementsByTagName("description").item(0);
-		    if (!descnode.isNull()) effectDescription = descnode.toElement().text() + "<br />";
-
-		    QString effectAuthor;
-		    QDomNode authnode = doc.elementsByTagName("author").item(0);
-		    if (!authnode.isNull()) effectAuthor = authnode.toElement().text() + "<br />";
-
-		    effect = new EffectDesc(effectName, id, effectTag, effectDescription, effectAuthor, type);
-		}
-	        if (e.tagName() == "parameter" && effect) {
-		    paramCount++;
-		    xmlAttr.clear();
-		    
-		    QDomNamedNodeMap attrs = e.attributes();
-		    int i = 0;
-		    QString value;
-		    while (!attrs.item(i).isNull()) {
-			QDomNode n = attrs.item(i);
-			value = n.nodeValue();
-			if (value.find("MAX_WIDTH") != -1)
-			    value.replace("MAX_WIDTH", QString::number(KdenliveSettings::defaultwidth()));
-			if (value.find("MID_WIDTH") != -1)
-			    value.replace("MID_WIDTH", QString::number(KdenliveSettings::defaultwidth() / 2));
-			if (value.find("MAX_HEIGHT") != -1)
-			    value.replace("MAX_HEIGHT", QString::number(KdenliveSettings::defaultheight()));
-			if (value.find("MID_HEIGHT") != -1)
-			    value.replace("MID_HEIGHT", QString::number(KdenliveSettings::defaultheight() / 2));
-			xmlAttr.append(n.nodeName(), QString::null, QString::null, value);
-			i++;
-		    }
-		    QDomNode n2 = n.firstChild();
-		    QDomElement e2 = n2.toElement();
-		    while (!e2.isNull()) {
-	    	    	if ( e2.tagName() == "name" ) {
-			    xmlAttr.append(QString("description"), QString::null, QString::null, i18n(e2.text()));
-			    break;
-		    	}
-			n2 = n2.nextSibling();
-			e2 = n2.toElement();
-		    }
-        	    effect->addParameter(effectDescParamFactory.createParameter(xmlAttr));
-
-		    n2 = n.firstChild();
-		    e2 = n2.toElement();
-		    while (!e2.isNull()) {
-	    	    	if ( e2.tagName() == "keyframe" ) {
-			    kdWarning()<<"// EFFECT: "<<effect->name()<<", KEYFR: "<<e2.attribute("value", QString::null)<<", "<<e2.attribute("time", QString::null)<<endl;
-			    effect->parameter(0)->createKeyFrame(e2.attribute("value", QString::null).toInt(), e2.attribute("time", QString::null).toDouble());
-		    	}
-			n2 = n2.nextSibling();
-			e2 = n2.toElement();
-		    }
-		}
-	    }
-	    n = n.nextSibling();
+	QDomNode propsnode = doc.elementsByTagName("properties").item(0);
+	if (!propsnode.isNull()) {
+	    QDomElement propselement = propsnode.toElement();
+	    id = propselement.attribute("id", QString::null);
+	    effectTag = propselement.attribute("tag", QString::null);
+	    if (propselement.attribute("type", QString::null) == "audio") type = AUDIOEFFECT;
+	    else if (propselement.attribute("type", QString::null) == "custom") type = CUSTOMEFFECT;
+	    else type = VIDEOEFFECT;
 	}
-	if (paramCount == 0) {
-	    xmlAttr.append("type", QString::null, QString::null, "fixed");
-            effect->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	QString effectDescription;
+	QDomNode descnode = doc.elementsByTagName("description").item(0);
+	if (!descnode.isNull()) effectDescription = descnode.toElement().text() + "<br />";
+
+	QString effectAuthor;
+	QDomNode authnode = doc.elementsByTagName("author").item(0);
+	if (!authnode.isNull()) effectAuthor = authnode.toElement().text() + "<br />";
+
+	if (effectName.isEmpty() || id.isEmpty() || effectTag.isEmpty()) return;
+
+	effect = new EffectDesc(effectName, id, effectTag, effectDescription, effectAuthor, type);
+
+	QDomNodeList paramList = doc.elementsByTagName("parameter");
+	for (int i = 0; i < paramList.count(); i++) {
+	    QDomElement e = paramList.item(i).toElement();
+	    if (!e.isNull()) {
+		paramCount++;
+ 		QDomNamedNodeMap attrs = e.attributes();
+		int i = 0;
+		QString value;
+		while (!attrs.item(i).isNull()) {
+		    QDomNode n = attrs.item(i);
+		    value = n.nodeValue();
+		    if (value.find("MAX_WIDTH") != -1)
+			value.replace("MAX_WIDTH", QString::number(KdenliveSettings::defaultwidth()));
+		    if (value.find("MID_WIDTH") != -1)
+			value.replace("MID_WIDTH", QString::number(KdenliveSettings::defaultwidth() / 2));
+		    if (value.find("MAX_HEIGHT") != -1)
+			value.replace("MAX_HEIGHT", QString::number(KdenliveSettings::defaultheight()));
+		    if (value.find("MID_HEIGHT") != -1)
+			value.replace("MID_HEIGHT", QString::number(KdenliveSettings::defaultheight() / 2));
+		    n.setNodeValue(value);
+		    i++;
+		}
+		effect->addParameter(effectDescParamFactory.createParameter(e));
+	    }
 	}
         effectList->append(effect);
     }

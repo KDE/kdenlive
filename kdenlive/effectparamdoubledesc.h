@@ -28,7 +28,7 @@ An effect parameter that holds a double value.
 */
 class EffectParamDoubleDesc:public EffectParamDesc {
   public:
-    EffectParamDoubleDesc(const QXmlAttributes & attributes);
+    EffectParamDoubleDesc(const QDomElement & parameter);
 
     ~EffectParamDoubleDesc();
 
@@ -54,6 +54,8 @@ class EffectParamDoubleDesc:public EffectParamDesc {
     virtual const QString endTag() const;
     virtual const QString startTag() const;
     virtual const QString list() const;
+    virtual const QMap <double, QString> initialKeyFrames() const;
+    virtual const bool isComplex() const;
 
   private:
     double m_min;
@@ -62,6 +64,7 @@ class EffectParamDoubleDesc:public EffectParamDesc {
     QString m_starttag;
     QString m_endtag;
     QString m_list;
+    QDomNodeList m_keyframes;
 };
 
 #endif

@@ -17,6 +17,7 @@
 #ifndef EFFECTPARAMDESCFACTORY_H
 #define EFFECTPARAMDESCFACTORY_H
 
+#include <qdom.h>
 #include <qstring.h>
 #include <qptrlist.h>
 
@@ -26,13 +27,17 @@ class QXmlAttributes;
 class EffectParamDescFactoryBase {
   public:
     EffectParamDescFactoryBase(const QString & type):m_type(type) {;
-    } virtual ~ EffectParamDescFactoryBase() {;
+    } 
+
+    virtual ~ EffectParamDescFactoryBase() {;
     }
 
     bool matchesType(const QString & type) const {
 	return m_type == type;
-    } virtual EffectParamDesc *createParameter(const QXmlAttributes &
-	attributes) = 0;
+    } 
+
+    virtual EffectParamDesc *createParameter(const QDomElement & ) = 0;
+
   private:
     QString m_type;
 };
@@ -44,9 +49,8 @@ template < class Desc > class EffectParamDescFactoryTemplate:public EffectParamD
 	type):EffectParamDescFactoryBase(type) {;
     }
 
-    virtual EffectParamDesc *createParameter(const QXmlAttributes &
-	attributes) {
-	return new Desc(attributes);
+    virtual EffectParamDesc *createParameter(const QDomElement &parameter) {
+	return new Desc(parameter);
     }
 };
 
@@ -63,7 +67,7 @@ class EffectParamDescFactory {
 
 	/** Construct an EffectParamDesc from the attribute list passed. Exactly what attributes are in the list will depend on the type of parameter
 	created - the only attribute that is guaranteed to exist is "type". */
-    EffectParamDesc *createParameter(const QXmlAttributes & attributes);
+    EffectParamDesc *createParameter(const QDomElement & parameter);
 
     void registerFactory(EffectParamDescFactoryBase * factory);
   private:

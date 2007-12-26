@@ -26,23 +26,30 @@
 #include "kmmtrackkeyframepanel.h"
 
 EffectParamComplexDesc::
-EffectParamComplexDesc(const QXmlAttributes & attributes)
-:  EffectParamDesc(attributes)
+EffectParamComplexDesc(const QDomElement & parameter)
+:  EffectParamDesc(parameter)
 {
-    m_mins = QStringList::split(";", attributes.value("min"));
-    m_maxs = QStringList::split(";", attributes.value("max"));
-    m_names = QStringList::split(";", attributes.value("name"));
-    m_starttag = attributes.value("starttag");
-    m_endtag = attributes.value("endtag");
-    if (m_starttag == "")
+    m_mins = QStringList::split(";", parameter.attribute("min", QString::null));
+    m_maxs = QStringList::split(";", parameter.attribute("max", QString::null));
+    m_names = QStringList::split(";", parameter.attribute("name", QString::null));
+    m_starttag = parameter.attribute("starttag", QString::null);
+    m_endtag = parameter.attribute("endtag", QString::null);
+    m_keyframes = parameter.elementsByTagName("keyframe");
+    if (m_starttag.isEmpty())
 	m_starttag = "start";
-    if (m_endtag == "")
+    if (m_endtag.isEmpty())
 	m_endtag = "end";
-    m_defaults = QStringList::split(";", attributes.value("default"));
+    m_defaults = QStringList::split(";", parameter.attribute("default", QString::null));
 }
 
 EffectParamComplexDesc::~EffectParamComplexDesc()
 {
+}
+
+//Virtual
+const bool EffectParamComplexDesc::isComplex() const
+{
+    return true;
 }
 
 const QString EffectParamComplexDesc::complexParamName(uint ix) const
@@ -109,6 +116,17 @@ EffectKeyFrame *EffectParamComplexDesc::createKeyFrame(double time,
     QStringList parametersList)
 {
     return new EffectComplexKeyFrame(time, parametersList);
+}
+
+//Virtual
+const QMap <double, QString> EffectParamComplexDesc::initialKeyFrames() const
+{
+    QMap <double, QString> list;
+    for (int i = 0; i < m_keyframes.count(); i++) {
+        QDomElement kframe = m_keyframes.item(i).toElement();
+	list[kframe.attribute("time", QString::null).toDouble()] = kframe.attribute("value", QString::null);
+    }
+    return list;
 }
 
 // virtual

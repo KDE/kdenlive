@@ -17,7 +17,8 @@
 #ifndef EFFECTPARAMDESC_H
 #define EFFECTPARAMDESC_H
 
-#include <qxml.h>
+#include <qdom.h>
+#include <qmap.h>
 #include <qstring.h>
 #include <qstringlist.h>
 
@@ -41,9 +42,9 @@ A description of an effect parameter
 */ class EffectParamDesc
 {
   public:
-    EffectParamDesc(const QXmlAttributes & attributes);
+    EffectParamDesc(const QDomElement & parameter);
 
-     virtual ~ EffectParamDesc();
+    virtual ~ EffectParamDesc();
 
 	/** Creates a parameter that conforms to this parameter Description */
     virtual EffectKeyFrame *createKeyFrame(double time) = 0;
@@ -70,12 +71,15 @@ A description of an effect parameter
     virtual const QString endTag() const = 0;
     virtual const QString startTag() const = 0;
     virtual const QString list() const = 0;
+    virtual const QMap <double, QString> initialKeyFrames() const;
+    virtual const bool isComplex() const = 0;
 
     void setDescription(const QString & description);
     const QString & description() const;
     const QString & name() const {
 	return m_name;
-    } 
+    }
+
     
     const QString & type() const {
 	return m_type;
@@ -113,7 +117,7 @@ A description of an effect parameter
     QString m_description;
 	/** The parameter value should be divided by this value before being passed to the filter. */
     double m_factor;
-    QXmlAttributes m_xml;
+    QDomElement m_xml;
 
 };
 

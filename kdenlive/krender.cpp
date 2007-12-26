@@ -1088,6 +1088,7 @@ void KRender::mltAddEffect(int track, GenTime position, QString id, QString tag,
     		// attach filter to the clip
 		clipService.attach(*filter);
 	        filter = new Mlt::Filter(filterId);
+		filter->set("kdenlive_id", id);
 		keyFrameNumber = currentKeyFrameNumber;
 	    }
 	    key = it.key().section(":", 1);

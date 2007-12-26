@@ -188,6 +188,26 @@ QDomDocument Effect::toFullXML(const QString &effectName)
     return doc;
 }
 
+uint Effect::addInitialKeyFrames(int ix)
+{
+    QMap <double, QString> list;
+    QMap <double, QString>::Iterator it;
+
+    list = effectDescription().parameter(ix)->initialKeyFrames();
+    if (list.isEmpty()) {
+	addKeyFrame(ix, 0.0);
+	addKeyFrame(ix, 1.0);
+    }
+    else for ( it = list.begin(); it != list.end(); ++it ) {
+	if (!effectDescription().parameter(ix)->isComplex()) { m_paramList.at(ix)->addKeyFrame(effectDescription().parameter(ix)->
+	createKeyFrame(it.key(), it.data().toDouble()));
+	}
+	else {
+	    m_paramList.at(ix)->addKeyFrame(effectDescription().parameter(ix)->createKeyFrame(it.key(), QStringList::split(";", it.data())));
+	}
+    }
+}
+
 uint Effect::addKeyFrame(const uint ix, double time)
 {
     return m_paramList.at(ix)->addKeyFrame(effectDescription().

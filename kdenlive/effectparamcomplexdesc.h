@@ -30,7 +30,7 @@ An effect parameter that holds a double value.
 */
 class EffectParamComplexDesc:public EffectParamDesc {
   public:
-    EffectParamComplexDesc(const QXmlAttributes & attributes);
+    EffectParamComplexDesc(const QDomElement & parameter);
 
     ~EffectParamComplexDesc();
 
@@ -58,6 +58,8 @@ class EffectParamComplexDesc:public EffectParamDesc {
     virtual double max(uint ix = 0) const;
     virtual double min(uint ix = 0) const;
     virtual const double &defaultValue(uint ix = 0) const;
+    virtual const QMap <double, QString> initialKeyFrames() const;
+    virtual const bool isComplex() const;
 
     const QString complexParamName(uint ix) const;
     const uint complexParamNum() const;
@@ -69,6 +71,7 @@ class EffectParamComplexDesc:public EffectParamDesc {
     QStringList m_defaults;
     QString m_starttag;
     QString m_endtag;
+    QDomNodeList m_keyframes;
 };
 
 #endif

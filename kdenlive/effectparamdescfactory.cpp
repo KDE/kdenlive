@@ -54,16 +54,16 @@ EffectParamDescFactory::~EffectParamDescFactory()
 }
 
 EffectParamDesc *EffectParamDescFactory::
-createParameter(const QXmlAttributes & attributes)
+createParameter(const QDomElement & parameter)
 {
-    QString type = attributes.value("type");
+    QString type = parameter.attribute("type", QString::null);
 
     QPtrListIterator < EffectParamDescFactoryBase > itt(m_registered);
 
     while (itt.current()) {
 	//kdDebug()<<"PARAM FACTORY, ADD :"<<itt.current()->name()<<endl;
 	if (itt.current()->matchesType(type)) {
-	    return itt.current()->createParameter(attributes);
+	    return itt.current()->createParameter(parameter);
 	}
 	++itt;
     }

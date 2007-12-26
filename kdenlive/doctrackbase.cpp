@@ -814,8 +814,7 @@ void DocTrackBase::addEffectToClip(const GenTime & position,
 		"double"
 		|| effect->effectDescription().parameter(0)->type() ==
 		"complex") && effect->parameter(0)->numKeyFrames() == 0) {
-	    effect->addKeyFrame(0, 0.0);
-	    effect->addKeyFrame(0, 1.0);
+	    effect->addInitialKeyFrames(0);
 	}
 
 	clip->addEffect(effectIndex, effect);

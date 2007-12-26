@@ -14,19 +14,22 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <klocale.h>
+
 #include "effectparamdesc.h"
 #include "effectparamdescfactory.h"
 
-EffectParamDesc::EffectParamDesc(const QXmlAttributes & attributes)
+EffectParamDesc::EffectParamDesc(const QDomElement & parameter)
 {
-    m_xml = attributes;
-    m_name = attributes.value("name");
-    m_type = attributes.value("type");
-    m_default = attributes.value("default");
-    m_factor = attributes.value("factor").toDouble();
+    m_xml = parameter;
+    m_name = parameter.attribute("name", QString::null);
+    m_type = parameter.attribute("type", QString::null);
+    m_default = parameter.attribute("default", QString::null);
+    m_factor = parameter.attribute("factor", QString::null).toDouble();
     if (m_factor == 0.0) m_factor = 1.0;
     m_value = m_default;
-    m_description = attributes.value("description");
+    QDomNode namenode = parameter.elementsByTagName("name").item(0);
+    m_description = i18n(namenode.toElement().text());
 }
 
 EffectParamDesc::~EffectParamDesc()
@@ -39,6 +42,10 @@ EffectParamDesc *EffectParamDesc::clone()
     return effectDescParamFactory.createParameter(m_xml);
 }
 
+const bool EffectParamDesc::isComplex() const
+{
+}
+
 void EffectParamDesc::setValue(const QString &value)
 {
     m_value = value;
@@ -49,6 +56,10 @@ EffectKeyFrame *EffectParamDesc::createKeyFrame(double time, double value)
 }
 
 EffectKeyFrame *EffectParamDesc::createKeyFrame(double time, QStringList parametersList)
+{
+}
+
+const QMap <double, QString> EffectParamDesc::initialKeyFrames() const
 {
 }
 

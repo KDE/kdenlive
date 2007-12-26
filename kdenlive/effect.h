@@ -77,6 +77,7 @@ class Effect {
     void addKeyFrame(const uint ix, double time, QStringList values);
     void setTempFile(QString tmpFile);
     void setGroup(const QString &group);
+    uint addInitialKeyFrames(int ix);
 
     QString tempFileName() {
 	return m_paramFile;

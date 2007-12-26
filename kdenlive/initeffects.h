@@ -18,7 +18,6 @@
 #ifndef InitEffects_H
 #define InitEffects_H
 
-#include <qxml.h>
 #include <klocale.h>
 
 #include "kdenlivesettings.h"
