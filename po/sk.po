@@ -1,0 +1,3778 @@
+# Peter Štrba <pestr@nextra.sk>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdenlive\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-07-01 21:24+0200\n"
+"PO-Revision-Date: 2007-12-27 13:42+0100\n"
+"Last-Translator: Peter Štrba <pestr@nextra.sk>\n"
+"Language-Team: Slovak <kde-sk@linux.sk>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: kdenlive/addmarker_ui.cpp:124 kdenlive/clipproperties_ui.cpp:308
+#: kdenlive/clipproperties_ui.cpp:310 kdenlive/clipproperties_ui.cpp:321
+#: kdenlive/configmisc_ui.cpp:121 kdenlive/configmisc_ui.cpp:124
+#: kdenlive/createcolorclip_ui.cpp:93 kdenlive/createimageclip_ui.cpp:94
+#: kdenlive/createslideshowclip_ui.cpp:171
+#: kdenlive/createslideshowclip_ui.cpp:173
+#: kdenlive/createslideshowclip_ui.cpp:178 kdenlive/titlebasewidget_ui.cpp:207
+#: kdenlive/titlebasewidget_ui.cpp:209
+msgid ":::"
+msgstr ":::"
+
+#: kdenlive/addmarker_ui.cpp:125 kdenlive/clipproperties_ui.cpp:309
+#: kdenlive/clipproperties_ui.cpp:311 kdenlive/clipproperties_ui.cpp:322
+#: kdenlive/configmisc_ui.cpp:122 kdenlive/configmisc_ui.cpp:125
+#: kdenlive/createcolorclip_ui.cpp:94 kdenlive/createimageclip_ui.cpp:95
+#: kdenlive/createslideshowclip_ui.cpp:172
+#: kdenlive/createslideshowclip_ui.cpp:174
+#: kdenlive/createslideshowclip_ui.cpp:179 kdenlive/kmmeditpanel_ui.cpp:508
+#: kdenlive/titlebasewidget_ui.cpp:208 kdenlive/titlebasewidget_ui.cpp:210
+msgid "99:99:99:99; "
+msgstr "99:99:99:99; "
+
+#: kdenlive/addmarker_ui.cpp:126 kdenlive/editmetadata_ui.cpp:155
+msgid "Comment"
+msgstr "Komentár"
+
+#: kdenlive/addmarker_ui.cpp:127 kdenlive/effectstackdialog_ui.cpp:158
+msgid "Position"
+msgstr "Pozícia"
+
+#: kdenlive/addmarker_ui.cpp:132
+msgid "DVD Marker"
+msgstr "DVD záložka"
+
+#: kdenlive/addmarker_ui.cpp:133
+msgid "End of Dvd"
+msgstr "Koniec DVD"
+
+#: kdenlive/addmarker_ui.cpp:134
+msgid "New chapter"
+msgstr "Nová Kapitola"
+
+#: kdenlive/addtrackdialog_ui.cpp:119
+msgid "Audio Track"
+msgstr "Audio stopa"
+
+#: kdenlive/addtrackdialog_ui.cpp:121
+msgid "Above"
+msgstr "Nad aktuálnou "
+
+#: kdenlive/addtrackdialog_ui.cpp:122
+msgid "Under"
+msgstr "Pod aktuálnou"
+
+#: kdenlive/addtrackdialog_ui.cpp:124
+msgid "track"
+msgstr "stopa"
+
+#: kdenlive/addtrackdialog_ui.cpp:125
+msgid "Video Track"
+msgstr "Video stopa"
+
+#: kdenlive/aviconviewitem.cpp:121 kdenlive/avlistviewitem.cpp:139
+#: kdenlive/clipproperties.cpp:185
+msgid "Video Clip"
+msgstr "Videoklip"
+
+#: kdenlive/aviconviewitem.cpp:123 kdenlive/avlistviewitem.cpp:141
+msgid "Mute Video Clip"
+msgstr "Stlmiť videoklip"
+
+#: kdenlive/aviconviewitem.cpp:125 kdenlive/avlistviewitem.cpp:143
+#: kdenlive/clipproperties.cpp:180
+msgid "Audio Clip"
+msgstr "Audio klip"
+
+#: kdenlive/aviconviewitem.cpp:127 kdenlive/avlistviewitem.cpp:145
+#: kdenlive/clipproperties.cpp:85 kdenlive/docclipavfile.cpp:53
+#: kdenlive/kdenlive.cpp:3046
+msgid "Color Clip"
+msgstr "Klip farby"
+
+#: kdenlive/aviconviewitem.cpp:129 kdenlive/avlistviewitem.cpp:147
+#: kdenlive/clipproperties.cpp:110 kdenlive/kdenlive.cpp:2581
+msgid "Virtual Clip"
+msgstr "Virtuálny klip"
+
+#: kdenlive/aviconviewitem.cpp:131 kdenlive/avlistviewitem.cpp:149
+#: kdenlive/clipproperties.cpp:99
+msgid "Image Clip"
+msgstr "Obrázok"
+
+#: kdenlive/aviconviewitem.cpp:133 kdenlive/avlistviewitem.cpp:151
+#: kdenlive/clipproperties.cpp:132
+msgid "Slideshow Clip"
+msgstr "Prezentácia"
+
+#: kdenlive/aviconviewitem.cpp:135 kdenlive/avlistviewitem.cpp:153
+#: kdenlive/kdenlive.cpp:3147
+msgid "Text Clip"
+msgstr "Text"
+
+#: kdenlive/aviconviewitem.cpp:138 kdenlive/avlistviewitem.cpp:156
+msgid "Path: %1"
+msgstr "Cesta: %1"
+
+#: kdenlive/aviconviewitem.cpp:139 kdenlive/avlistviewitem.cpp:157
+msgid "File Size: "
+msgstr "Veľkosť súboru:"
+
+#: kdenlive/aviconviewitem.cpp:145 kdenlive/avlistviewitem.cpp:163
+#: kdenlive/clipproperties.cpp:167
+msgid "Mono"
+msgstr "Mono"
+
+#: kdenlive/aviconviewitem.cpp:148 kdenlive/avlistviewitem.cpp:166
+#: kdenlive/clipproperties.cpp:170
+msgid "Stereo"
+msgstr "Stereo"
+
+#: kdenlive/aviconviewitem.cpp:151 kdenlive/avlistviewitem.cpp:169
+#: kdenlive/clipproperties.cpp:173
+msgid "%1 Channels"
+msgstr "%1 kanálov"
+
+#: kdenlive/aviconviewitem.cpp:154 kdenlive/avlistviewitem.cpp:172
+msgid "Audio: %1Hz %2"
+msgstr "Audio: %1Hz %2"
+
+#: kdenlive/aviconviewitem.cpp:156 kdenlive/avlistviewitem.cpp:174
+msgid "Usage: %1"
+msgstr "Využitie: %1"
+
+#: kdenlive/aviconviewitem.cpp:159 kdenlive/avlistviewitem.cpp:177
+msgid "Folder"
+msgstr "Priečinok"
+
+#: kdenlive/avlistviewitem.cpp:108 kdenlive/avlistviewitem.cpp:231
+#: kdenlive/clipproperties_ui.cpp:315 kdenlive/createcolorclip_ui.cpp:91
+#: kdenlive/createimageclip_ui.cpp:90 kdenlive/createslideshowclip_ui.cpp:168
+#: kdenlive/projectlistview.cpp:40
+msgid "Description"
+msgstr "Popis"
+
+#: kdenlive/avlistviewitem.cpp:178
+msgid "%1 clips"
+msgstr "%1 klipov"
+
+#: kdenlive/avlistviewitem.cpp:187 kdenlive/projectlistview.cpp:35
+msgid "Filename"
+msgstr "Názov súboru"
+
+#: kdenlive/avlistviewitem.cpp:189 kdenlive/createcolorclip_ui.cpp:89
+#: kdenlive/createimageclip_ui.cpp:91 kdenlive/titlebasewidget_ui.cpp:204
+msgid "Duration"
+msgstr "Trvanie"
+
+#: kdenlive/avlistviewitem.cpp:199 kdenlive/clippropertiesdialog.cpp:118
+msgid "unknown"
+msgstr "neznáme"
+
+#: kdenlive/avlistviewitem.cpp:202 kdenlive/transitionpip_ui.cpp:193
+msgid "Size"
+msgstr "Veľkosť"
+
+#: kdenlive/avlistviewitem.cpp:208
+msgid "Type"
+msgstr "Typ"
+
+#: kdenlive/avlistviewitem.cpp:214
+msgid "video"
+msgstr "video"
+
+#: kdenlive/avlistviewitem.cpp:216
+msgid "mute video"
+msgstr "stlmiť video"
+
+#: kdenlive/avlistviewitem.cpp:218
+msgid "audio"
+msgstr "Audio"
+
+#: kdenlive/avlistviewitem.cpp:221
+msgid "group"
+msgstr "skupina"
+
+#: kdenlive/avlistviewitem.cpp:223
+msgid "n/a"
+msgstr "n/a"
+
+#: kdenlive/avlistviewitem.cpp:225
+msgid "Usage Count"
+msgstr "Počet využití"
+
+#: kdenlive/avlistviewitem.cpp:246 kdenlive/projectlistview.cpp:34
+msgid "Thumbnail"
+msgstr "Miniatúra"
+
+#: kdenlive/capturemonitor.cpp:69
+msgid ""
+"<b>The programs dvgrab or ffplay are missing</b>.<br>Firewire capture will "
+"be disabled until you install them."
+msgstr "<b>Program dvgrab alebo ffplay chýba</b>.<br>Zachytávanie pomocou firewire bude vypnuté, pokiaľ jeden z nich nenainštalujete."
+
+#: kdenlive/capturemonitor.cpp:74
+msgid ""
+"<b>Device not detected. Make sure that the camcorder is turned on. Please "
+"check that the kernel module raw1394 is loaded and that you have write "
+"permission to /dev/raw1394 or equivalent."
+msgstr "<b>Zariadenie nebolo detegované, uistite sa, že je kamera zapnutá. Tiež overte prítomnosť jadrového modulu raw1394 a vaše zapisovacie práva k zariadeniu /dev/raw1394."
+
+#: kdenlive/capturemonitor.cpp:81
+msgid "Check again"
+msgstr "Znovu skontrolovať"
+
+#: kdenlive/capturemonitor.cpp:134
+msgid "Captured Clips"
+msgstr "Zachytené klipy"
+
+#: kdenlive/capturemonitor.cpp:135
+msgid "Process captured files"
+msgstr "Spracovať nahrané súbory"
+
+#: kdenlive/capturemonitor.cpp:136
+msgid "Continue capture..."
+msgstr "Pokračovať v nahrávaní"
+
+#: kdenlive/capturemonitor.cpp:141
+msgid "Clip Name"
+msgstr "Meno klipu"
+
+#: kdenlive/capturemonitor.cpp:149
+msgid "Move selected files to:"
+msgstr "Presunúť vybrané súbory do:"
+
+#: kdenlive/capturemonitor.cpp:182
+msgid "File exists"
+msgstr "Súbor existuje"
+
+#: kdenlive/capturemonitor.cpp:182
+msgid "File already exists, enter a new name"
+msgstr "Súbor už existuje, zadajte nový názov"
+
+#: kdenlive/capturemonitor.cpp:202
+msgid "The capture stopped, see details for more info."
+msgstr "Nahrávanie bolo zastavené, pre viac informácií sa pozrite do informácií."
+
+#: kdenlive/clipdrag.cpp:150 kdenlive/kdenlive.cpp:3024
+#: kdenlive/kdenlive.cpp:3099
+msgid "The clip %1 is already present in this project"
+msgstr "Klip %1 je už v projekte uložený"
+
+#: kdenlive/clipmanager.cpp:77
+msgid ""
+"Cannot open file %1\n"
+"Do you want to search for the file or remove it from the project ?"
+msgstr ""
+"Nemôžem otvoriť súbor %1.\n"
+"Chcete ho vyhľadať sami alebo ho odobrať z projektu?"
+
+#: kdenlive/clipmanager.cpp:77
+msgid "Missing File"
+msgstr "Chýbajúci súbor"
+
+#: kdenlive/clipmanager.cpp:77
+msgid "Find File"
+msgstr "Nájsť súbor"
+
+#: kdenlive/clipmanager.cpp:97 kdenlive/clipmanager.cpp:129
+#: kdenlive/clipmanager.cpp:156 kdenlive/clipmanager.cpp:189
+#: kdenlive/clipmanager.cpp:214 kdenlive/clipmanager.cpp:248
+#: kdenlive/clipmanager.cpp:859
+msgid "The file %1 is not a valid video file for kdenlive..."
+msgstr "Súbor %1 nie je platným video súborom pre aplikáciu kdenlive..."
+
+#: kdenlive/clipmanager.cpp:225 kdenlive/clipmanager.cpp:258
+msgid " [%1 images]"
+msgstr " [%1 obrázky]"
+
+#: kdenlive/clipproperties.cpp:49 kdenlive/kdenlive.cpp:989
+msgid "Clip Properties"
+msgstr "Vlastnosti klipu"
+
+#: kdenlive/clipproperties.cpp:136
+msgid "Folder:"
+msgstr "Priečinok:"
+
+#: kdenlive/clipproperties.cpp:176
+msgid "%1Hz %2"
+msgstr "%1Hz %2"
+
+#: kdenlive/clipproperties.cpp:178
+msgid "None"
+msgstr "Nič"
+
+#: kdenlive/clipproperties.cpp:232
+msgid "Duration (%1 images)"
+msgstr "Trvanie (%1 obrázkov)"
+
+#: kdenlive/clipproperties_ui.cpp:285
+msgid "File:"
+msgstr "Súbor:"
+
+#: kdenlive/clipproperties_ui.cpp:286
+msgid "Color:"
+msgstr "Farba:"
+
+#: kdenlive/clipproperties_ui.cpp:287 kdenlive/titlebasewidget_ui.cpp:203
+msgid "Name:"
+msgstr "Názov:"
+
+#: kdenlive/clipproperties_ui.cpp:288 kdenlive/configtimeline_ui.cpp:135
+#: kdenlive/configtimeline_ui.cpp:141
+msgid "Size:"
+msgstr "Veľkosť:"
+
+#: kdenlive/clipproperties_ui.cpp:290
+msgid "Audio:"
+msgstr "Audio:"
+
+#: kdenlive/clipproperties_ui.cpp:292
+msgid "Video codec:"
+msgstr "Video kodek:"
+
+#: kdenlive/clipproperties_ui.cpp:294
+msgid "Fps:"
+msgstr "Fps:"
+
+#: kdenlive/clipproperties_ui.cpp:296
+msgid "Audio codec:"
+msgstr "Audio kodek:"
+
+#: kdenlive/clipproperties_ui.cpp:298
+msgid "Type:"
+msgstr "Typ:"
+
+#: kdenlive/clipproperties_ui.cpp:300
+msgid "File size:"
+msgstr "Veľkosť súboru:"
+
+#: kdenlive/clipproperties_ui.cpp:302 kdenlive/createimageclip_ui.cpp:97
+#: kdenlive/createslideshowclip_ui.cpp:164
+msgid "png"
+msgstr "png"
+
+#: kdenlive/clipproperties_ui.cpp:303 kdenlive/createimageclip_ui.cpp:98
+#: kdenlive/createslideshowclip_ui.cpp:165
+msgid "jpg"
+msgstr "jpg"
+
+#: kdenlive/clipproperties_ui.cpp:304 kdenlive/createimageclip_ui.cpp:99
+#: kdenlive/createslideshowclip_ui.cpp:166
+msgid "gif"
+msgstr "gif"
+
+#: kdenlive/clipproperties_ui.cpp:305 kdenlive/createslideshowclip_ui.cpp:167
+msgid "bmp"
+msgstr "bmp"
+
+#: kdenlive/clipproperties_ui.cpp:306 kdenlive/exportdvd_ui.cpp:384
+msgid "Duration:"
+msgstr "Trvanie:"
+
+#: kdenlive/clipproperties_ui.cpp:307 kdenlive/createslideshowclip_ui.cpp:162
+msgid "Image type"
+msgstr "Typ obrázku"
+
+#: kdenlive/clipproperties_ui.cpp:312 kdenlive/createslideshowclip_ui.cpp:161
+msgid "Duration per Image"
+msgstr "Trvanie na obrázok"
+
+#: kdenlive/clipproperties_ui.cpp:314
+msgid "Transparent &background"
+msgstr "Priehľadné &pozadie"
+
+#: kdenlive/clipproperties_ui.cpp:317 kdenlive/exportbasewidget_ui.cpp:279
+msgid "Metadata"
+msgstr "Metadáta"
+
+#: kdenlive/clipproperties_ui.cpp:318 kdenlive/createslideshowclip_ui.cpp:176
+#: kdenlive/kdenlive.cpp:219 kdenlive/transition.cpp:245
+#: kdenlive/transitiondialog.cpp:70
+msgid "Crossfade"
+msgstr "Prelínačka"
+
+#: kdenlive/clipproperties_ui.cpp:319 kdenlive/createslideshowclip_ui.cpp:180
+msgid "Use Luma"
+msgstr "Použiť Luma"
+
+#: kdenlive/clipproperties_ui.cpp:320 kdenlive/createslideshowclip_ui.cpp:177
+msgid "Transition duration"
+msgstr "Dĺžka prechodu"
+
+#: kdenlive/clipproperties_ui.cpp:323 kdenlive/createslideshowclip_ui.cpp:181
+#: kdenlive/transitionlumafile_ui.cpp:76 kdenlive/transitionpip_ui.cpp:197
+#: kdenlive/transitionwipe_ui.cpp:235
+msgid "Softness"
+msgstr "Jemnosť"
+
+#: kdenlive/clippropertiesdialog.cpp:35
+msgid "Video Stream"
+msgstr "Video prúd"
+
+#: kdenlive/clippropertiesdialog.cpp:43 kdenlive/exportbasewidget_ui.cpp:260
+msgid "Filename:"
+msgstr "Názov súboru:"
+
+#: kdenlive/clippropertiesdialog.cpp:44
+msgid "Frame size, (fps):"
+msgstr "Veľkosť snímku, (fps):"
+
+#: kdenlive/clippropertiesdialog.cpp:45
+msgid "Length (hh:mm:ss):"
+msgstr "Dĺžka (hh:mm:ss):"
+
+#: kdenlive/clippropertiesdialog.cpp:46
+msgid "System:"
+msgstr "Systém:"
+
+#: kdenlive/clippropertiesdialog.cpp:47
+msgid "Decompressor:"
+msgstr "Dekompresor:"
+
+#: kdenlive/clippropertiesdialog.cpp:62
+msgid "Audio Stream"
+msgstr "Audio prúd"
+
+#: kdenlive/clippropertiesdialog.cpp:70
+msgid "Sampling Rate:"
+msgstr "Vzorkovacia frekvencia:"
+
+#: kdenlive/clippropertiesdialog.cpp:71
+msgid "Channels:"
+msgstr "Kanálov:"
+
+#: kdenlive/clippropertiesdialog.cpp:72
+msgid "Format:"
+msgstr "Formát:"
+
+#: kdenlive/clippropertiesdialog.cpp:73
+msgid "Bits per Sample:"
+msgstr "Bitov na vzorku:"
+
+#: kdenlive/clippropertiesdialog.cpp:93
+msgid "%1x%2, %3 fps"
+msgstr "%1x%2, %3 fps"
+
+#: kdenlive/clippropertiesdialog.cpp:96
+msgid "Unknown size, %1 fps"
+msgstr "Neznáma veľkosť, %1 fps"
+
+#: kdenlive/clippropertiesdialog.cpp:124
+msgid "0Hz"
+msgstr "0Hz"
+
+#: kdenlive/clippropertiesdialog.cpp:127
+msgid "%1 (stereo)"
+msgstr "%1 (stereo)"
+
+#: kdenlive/clippropertiesdialog.cpp:131
+msgid "%1 (mono)"
+msgstr "%1 (mono)"
+
+#: kdenlive/clippropertiesdialog.cpp:140
+msgid "%1 bit"
+msgstr "%1 bit"
+
+#: kdenlive/configcapture_ui.cpp:70
+msgid "Automatic scene detection"
+msgstr "Automatické rozpoznanie scén"
+
+#: kdenlive/configcapture_ui.cpp:71
+msgid "Put recording time info in captured file name"
+msgstr "Vložiť čas nahrávania do zachyteného súboru"
+
+#: kdenlive/configcapture_ui.cpp:72
+msgid "DV capture format:"
+msgstr "Formát nahrávky DV:"
+
+#: kdenlive/configcapture_ui.cpp:74
+msgid "DV Type 1 AVI"
+msgstr "DV Typ 1 AVI"
+
+#: kdenlive/configcapture_ui.cpp:75
+msgid "DV Type 2 AVI"
+msgstr "DV Typ 2 AVI"
+
+#: kdenlive/configcapture_ui.cpp:76
+msgid "Raw DV"
+msgstr "Raw DV"
+
+#: kdenlive/confighard_ui.cpp:89
+msgid "Audio device:"
+msgstr "Audio zariadenie:"
+
+#: kdenlive/confighard_ui.cpp:90
+msgid "Audio driver:"
+msgstr "Audio ovládač:"
+
+#: kdenlive/confighard_ui.cpp:91
+msgid "Video driver:"
+msgstr "Video ovládač:"
+
+#: kdenlive/confighard_ui.cpp:92
+msgid "Use secondary monitor for video output"
+msgstr "Použiť druhý monitor pre video výstup"
+
+#: kdenlive/configinterface_ui.cpp:102
+msgid "minutes"
+msgstr "minút"
+
+#: kdenlive/configinterface_ui.cpp:103
+msgid "Autosave project every"
+msgstr "Automatické uloženie projektu každých"
+
+#: kdenlive/configinterface_ui.cpp:104
+msgid "Scroll timeline using mouse wheel (Alt for vertical scroll)"
+msgstr "Posúvať časovú os pomocou koliečka myši (s Altom pre vertikálny smer)"
+
+#: kdenlive/configinterface_ui.cpp:105
+msgid "Show splash screen"
+msgstr "Zobraziť úvodnú obrazovku"
+
+#: kdenlive/configinterface_ui.cpp:106 kdenlive/firstrun_ui.cpp:2797
+msgid "Startup options"
+msgstr "Inicializačné voľby"
+
+#: kdenlive/configinterface_ui.cpp:107 kdenlive/firstrun_ui.cpp:2798
+msgid "Open last project"
+msgstr "Otvoriť posledný projekt"
+
+#: kdenlive/configinterface_ui.cpp:108 kdenlive/firstrun_ui.cpp:2799
+msgid "Open blank project"
+msgstr "Otvoriť prázdny projekt"
+
+#: kdenlive/configinterface_ui.cpp:109 kdenlive/firstrun_ui.cpp:2800
+msgid "Always ask"
+msgstr "Vždy sa pýtať"
+
+#: kdenlive/configmisc_ui.cpp:123
+msgid "Default color/image clip duration"
+msgstr "Východzia doba trvania farebného alebo obrázkového klipu"
+
+#: kdenlive/configmisc_ui.cpp:126
+msgid "Default text clip duration"
+msgstr "Východzia doba trvania textového klipu"
+
+#: kdenlive/configmisc_ui.cpp:127
+msgid "Folder for temporary files"
+msgstr "Priečinok pre dočasné súbory"
+
+#: kdenlive/configmisc_ui.cpp:128
+msgid "Use system temporary folder"
+msgstr "Použiť systémový priečinok pre dočasné súbory"
+
+#: kdenlive/configmisc_ui.cpp:129
+msgid "User defined folder"
+msgstr "Užívateľom vybraný priečinok"
+
+#: kdenlive/configmisc_ui.cpp:130
+msgid "External audio editor"
+msgstr "Externý audio editor"
+
+#: kdenlive/configmisc_ui.cpp:131
+msgid "External image editor"
+msgstr "Externý obrázkový editor"
+
+#: kdenlive/configmisc_ui.cpp:132
+msgid "Display timecode"
+msgstr "Zobraziť časový kód"
+
+#: kdenlive/configmisc_ui.cpp:133
+msgid "Distort Images (non proportionnal scaling)"
+msgstr "Zdeformovať obrázky (nezachovanie pomeru strán)"
+
+#: kdenlive/configproject_ui.cpp:96 kdenlive/configureproject_ui.cpp:158
+msgid "Timecode"
+msgstr "Časová značka"
+
+#: kdenlive/configproject_ui.cpp:98 kdenlive/configureproject_ui.cpp:160
+msgid "HH:MM:SS:FF"
+msgstr "HH:MM:SS:FF"
+
+#: kdenlive/configproject_ui.cpp:99 kdenlive/configureproject_ui.cpp:161
+msgid "HH:MM:SS.hh"
+msgstr "HH:MM:SS.hh"
+
+#: kdenlive/configproject_ui.cpp:100 kdenlive/configureproject_ui.cpp:162
+msgid "Frames"
+msgstr "Snímkov"
+
+#: kdenlive/configproject_ui.cpp:101 kdenlive/configureproject_ui.cpp:163
+msgid "Seconds"
+msgstr "Sekúnd"
+
+#: kdenlive/configproject_ui.cpp:102
+msgid "Use Drop Frame timecode (NTSC only)"
+msgstr "Používať časový kód so zahadzovaním snímkov (iba NTSC)"
+
+#: kdenlive/configproject_ui.cpp:104 kdenlive/configureproject_ui.cpp:166
+msgid ""
+"Specifies that we should display timecodes using a drop frame timecode "
+"(specifically for NTSC). Drop frame timecode compensates for the fact that "
+"NTSC runs at 29.97 frames per second by \"dropping\" two frames a minute, "
+"except for every 10th minute. WIthout this, the timecode will slowly slip "
+"out of sync with the real world time.\n"
+"\n"
+"Drop frame timecode only affects the way that frames are numbered, no frames "
+"are dropped from the video edit."
+msgstr ""
+"NTSC formát používa 29,97 snímkov za sekundu, a tak sa musí každú minútu (vrátane desiatej minúty) dva snímky odobrať. Pokiaľ nepoužijete zahadzovanie snímkov časová značka sa nakoniec bude líšiť od skutočného času.\n"
+"\n"
+"Zahadzovanie snímkov iba ovplyvňuje spôsob, akým sú snímky počítané. Váš klip nebude vôbec zmenený."
+
+#: kdenlive/configproject_ui.cpp:107
+msgid "Video format"
+msgstr "Video formát"
+
+#: kdenlive/configproject_ui.cpp:108
+msgid "Video tracks"
+msgstr "Video stopy"
+
+#: kdenlive/configproject_ui.cpp:109
+msgid "Audio tracks"
+msgstr "Audio stopy"
+
+#: kdenlive/configtimeline_ui.cpp:134
+msgid "Video Tracks"
+msgstr "Video stopy"
+
+#: kdenlive/configtimeline_ui.cpp:136 kdenlive/configtimeline_ui.cpp:144
+msgid "Clip color:"
+msgstr "Farba klipu:"
+
+#: kdenlive/configtimeline_ui.cpp:138 kdenlive/configtimeline_ui.cpp:142
+msgid "Thumbnails"
+msgstr "Miniatúry"
+
+#: kdenlive/configtimeline_ui.cpp:139
+msgid "Auto scroll while playing"
+msgstr "Automatické posúvanie časovej osi počas prehrávania"
+
+#: kdenlive/configtimeline_ui.cpp:140
+msgid "Audio Tracks"
+msgstr "Audio stopy"
+
+#: kdenlive/configtimeline_ui.cpp:143
+msgid "Disable thumbnails for large clips on low zoom level"
+msgstr "Pri veľkých klipoch vyradiť miniatúry pri malom priblížení"
+
+#: kdenlive/configtimeline_ui.cpp:146
+msgid "Normalise volume for thumbnail creation"
+msgstr "Normalizovať hlasitosť pre vytváranie miniatúr"
+
+#: kdenlive/configtitler_ui.cpp:65
+msgid "Default Color"
+msgstr "Východzia barva"
+
+#: kdenlive/configureproject_ui.cpp:156
+msgid "Aspect Ratio"
+msgstr "Pomer strán"
+
+#: kdenlive/configureproject_ui.cpp:164
+msgid "Use Drop Frame timecode"
+msgstr "Použiť zahadzovanie snímkov"
+
+#: kdenlive/configureproject_ui.cpp:169
+msgid "Frames Per Second"
+msgstr "Snímkov za sekundu"
+
+#: kdenlive/configureproject_ui.cpp:170
+msgid "Video Format"
+msgstr "Video Formát"
+
+#: kdenlive/configureproject_ui.cpp:171
+msgid "Project folder"
+msgstr "Priečinok projektu"
+
+#: kdenlive/configureproject_ui.cpp:172
+msgid "Edit Metadata"
+msgstr "Upraviť metadáta"
+
+#: kdenlive/createcolorclip_ui.cpp:90
+msgid "Color"
+msgstr "Farba"
+
+#: kdenlive/createcolorclip_ui.cpp:92 kdenlive/editencoder_ui.cpp:109
+msgid "Name"
+msgstr "Meno"
+
+#: kdenlive/createimageclip_ui.cpp:92
+msgid "Image file"
+msgstr "Obrázkový súbor"
+
+#: kdenlive/createimageclip_ui.cpp:93 kdenlive/createslideshowclip_ui.cpp:169
+msgid "Transparent background"
+msgstr "Priehľadné pozadie"
+
+#: kdenlive/createslideshowclip.cpp:43
+msgid "Create Slideshow"
+msgstr "Vytvoriť prezentáciu"
+
+#: kdenlive/createslideshowclip.cpp:156
+msgid "Found %1 images in selected folder"
+msgstr "Vo vybranom priečinku bol nájdený obrázok %1"
+
+#: kdenlive/createslideshowclip_ui.cpp:160
+msgid "Image folder"
+msgstr "Priečinok obrázkov"
+
+#: kdenlive/createslideshowclip_ui.cpp:170
+msgid "Total duration"
+msgstr "Celkové trvanie"
+
+#: kdenlive/createslideshowclip_ui.cpp:175
+msgid "No images in slideshow"
+msgstr "Žiadne obrázky v prezentácií"
+
+#: kdenlive/docclipavfile.cpp:81
+msgid "Slideshow"
+msgstr "Prezentácia"
+
+#. i18n: file kdenlive/kdenliveui.rc line 312
+#: kdenlive/docclipbase.cpp:281 kdenlive/kdenlive.cpp:4082
+#: kdenlive/kmmmonitor.cpp:378 kdenlive/rc.cpp:75 kdenlive/rc.cpp:165
+#: kdenlive/rc.cpp:255 kdenlive/rc.cpp:345 kdenlive/rc.cpp:435
+#: kdenlive/rc.cpp:525 kdenlive/rc.cpp:615 kdenlive/rc.cpp:705
+#: kdenlive/trackpanelmarkerfunction.cpp:108
+#, no-c-format
+msgid "Marker"
+msgstr "Záložka"
+
+#: kdenlive/docclipref.cpp:789 kdenlive/docclipref.cpp:1285
+#: kdenlive/docclipref.cpp:1537 kdenlive/docclipref.cpp:1796
+#: kdenlive/effectstackdialog.cpp:410 kdenlive/effectstackdialog.cpp:433
+#: kdenlive/initeffects.cpp:356 kdenlive/initeffects.cpp:360
+msgid "Speed"
+msgstr "Rýchlosť"
+
+#: kdenlive/docclipref.cpp:1581
+msgid " byte(s)"
+msgstr " bajt(ov)"
+
+#: kdenlive/docclipref.cpp:1586
+msgid " Kb"
+msgstr " Kb"
+
+#: kdenlive/docclipref.cpp:1592
+msgid " Mb"
+msgstr " Mb"
+
+#: kdenlive/docclipref.cpp:1598
+msgid " Gb"
+msgstr " Gb"
+
+#: kdenlive/documentmacrocommands.cpp:40
+msgid "Razor all tracks"
+msgstr "Orezať všetky stopy"
+
+#: kdenlive/documentmacrocommands.cpp:55 kdenlive/kdenlive.cpp:797
+msgid "Razor Clip"
+msgstr "Orezať klip"
+
+#: kdenlive/documentmacrocommands.cpp:83
+msgid "Razor clip"
+msgstr "Orezať klip"
+
+#: kdenlive/editencoder_ui.cpp:108
+msgid "Custom Encoding Options"
+msgstr "Vlastné voľby enkódovania"
+
+#: kdenlive/editencoder_ui.cpp:114
+msgid "Parameters (libavformat)"
+msgstr "Parametre (libavformat)"
+
+#: kdenlive/editencoder_ui.cpp:115
+msgid "Extension"
+msgstr "Prípona"
+
+#: kdenlive/editmetadata_ui.cpp:151 kdenlive/initeffects.cpp:444
+msgid "Year"
+msgstr "Rok"
+
+#: kdenlive/editmetadata_ui.cpp:152
+msgid "9999; "
+msgstr "9999;"
+
+#: kdenlive/editmetadata_ui.cpp:153
+msgid "Album"
+msgstr "Album"
+
+#: kdenlive/editmetadata_ui.cpp:154
+msgid "Copyright"
+msgstr "Copyright"
+
+#: kdenlive/editmetadata_ui.cpp:156
+msgid "Track"
+msgstr "Stopa"
+
+#: kdenlive/editmetadata_ui.cpp:157
+msgid "Author"
+msgstr "Autor"
+
+#: kdenlive/editmetadata_ui.cpp:158 kdenlive/exportdvd_ui.cpp:93
+#: kdenlive/exportdvd_ui.cpp:382
+msgid "Title"
+msgstr "Názov"
+
+#: kdenlive/effectlistdialog.cpp:33
+msgid "Effect"
+msgstr "Efekt"
+
+#: kdenlive/effectlistdialog.cpp:49
+msgid "Video"
+msgstr "Video"
+
+#: kdenlive/effectlistdialog.cpp:50 kdenlive/exportbasewidget_ui.cpp:266
+msgid "Audio"
+msgstr "Audio"
+
+#: kdenlive/effectparamdialog.cpp:51 kdenlive/exportbasewidget_ui.cpp:271
+msgid "Custom"
+msgstr "Vlastné"
+
+#: kdenlive/effectparamdialog.cpp:67
+msgid "add"
+msgstr "pridať"
+
+#: kdenlive/effectparamdialog.cpp:68
+msgid "delete"
+msgstr "zmazať"
+
+#: kdenlive/effectstackdialog.cpp:71
+msgid "Move effect up"
+msgstr "Presunúť efekt vyššie"
+
+#: kdenlive/effectstackdialog.cpp:72
+msgid "Move effect down"
+msgstr "Presunúť efekt nižšie"
+
+#: kdenlive/effectstackdialog.cpp:74
+msgid "Reset all parameters to default values"
+msgstr "Obnoviť východzie parametre"
+
+#: kdenlive/effectstackdialog.cpp:75
+msgid "Remove effect"
+msgstr "Odobrať efekt"
+
+#: kdenlive/effectstackdialog.cpp:202
+msgid "Get Current Frame"
+msgstr "Získať aktuálny snímok"
+
+#: kdenlive/effectstackdialog_ui.cpp:155
+msgid "Parameters"
+msgstr "Parametre"
+
+#: kdenlive/effectstackdialog_ui.cpp:157
+msgid "Index"
+msgstr "Index"
+
+#: kdenlive/effectstackdialog_ui.cpp:159
+msgid "Keyframes"
+msgstr "Klúčové snímky"
+
+#: kdenlive/effectstacklistview.cpp:32 kdenlive/kdenlive.cpp:915
+#: kdenlive/kdenlive.cpp:1283 kdenlive/kdenlive.cpp:1286
+msgid "Effect Stack"
+msgstr "Usporiadanie efektov"
+
+#: kdenlive/exportbasewidget_ui.cpp:81 kdenlive/exportbasewidget_ui.cpp:94
+#: kdenlive/exportbasewidget_ui.cpp:107 kdenlive/exportbasewidget_ui.cpp:120
+#: kdenlive/exportbasewidget_ui.cpp:261 kdenlive/exportbasewidget_ui.cpp:263
+#: kdenlive/exportbasewidget_ui.cpp:265 kdenlive/exportbasewidget_ui.cpp:267
+msgid "Format"
+msgstr "Formát"
+
+#: kdenlive/exportbasewidget_ui.cpp:259
+msgid "Export Folder:"
+msgstr "Výstupný priečinok:"
+
+#: kdenlive/exportbasewidget_ui.cpp:262
+msgid "High Quality"
+msgstr "Vysoká kvalita"
+
+#: kdenlive/exportbasewidget_ui.cpp:264 kdenlive/kdenlive.cpp:562
+msgid "Medium Quality"
+msgstr "Stredná kvalita"
+
+#: kdenlive/exportbasewidget_ui.cpp:270
+msgid "New"
+msgstr "Nový"
+
+#: kdenlive/exportbasewidget_ui.cpp:272
+msgid "Export Priority"
+msgstr "Priorita exportu"
+
+#: kdenlive/exportbasewidget_ui.cpp:273
+msgid "Selected zone"
+msgstr "Vybrané pásmo"
+
+#: kdenlive/exportbasewidget_ui.cpp:274
+msgid "Export:"
+msgstr "Export:"
+
+#: kdenlive/exportbasewidget_ui.cpp:275
+msgid "Guide zone"
+msgstr "Medzi záložkami"
+
+#: kdenlive/exportbasewidget_ui.cpp:277
+msgid "to"
+msgstr "do"
+
+#: kdenlive/exportbasewidget_ui.cpp:278
+msgid "From"
+msgstr "Z"
+
+#: kdenlive/exportbasewidget_ui.cpp:280
+msgid "Add metadata"
+msgstr "Pridať metadáta"
+
+#: kdenlive/exportbasewidget_ui.cpp:282
+msgid "Play video after export"
+msgstr "Prehrať video po exporte"
+
+#: kdenlive/exportdvd_ui.cpp:89 kdenlive/exportdvd_ui.cpp:379
+msgid "Chapter"
+msgstr "Kapitola"
+
+#: kdenlive/exportdvd_ui.cpp:90 kdenlive/exportdvd_ui.cpp:380
+#: kdenlive/transitionwipe_ui.cpp:221
+msgid "Start"
+msgstr "Začiatok"
+
+#: kdenlive/exportdvd_ui.cpp:91 kdenlive/exportdvd_ui.cpp:381
+#: kdenlive/transitionwipe_ui.cpp:222
+msgid "End"
+msgstr "Koniec"
+
+#: kdenlive/exportdvd_ui.cpp:374
+msgid "DVD Folder"
+msgstr "Priečinok DVD"
+
+#: kdenlive/exportdvd_ui.cpp:376
+msgid "Use existing video file"
+msgstr "Použiť existujúci video súbor"
+
+#: kdenlive/exportdvd_ui.cpp:377 kdenlive/exportdvd_ui.cpp:395
+#: kdenlive/exportdvd_ui.cpp:411
+msgid "*.vob | DVD Movie file"
+msgstr "*.vob | Súbor formátu DVD"
+
+#: kdenlive/exportdvd_ui.cpp:378
+msgid "Render file now"
+msgstr "Exportovať súbor teraz"
+
+#: kdenlive/exportdvd_ui.cpp:385
+msgid "DVD Format"
+msgstr "Formát DVD"
+
+#: kdenlive/exportdvd_ui.cpp:386 kdenlive/exportdvddialog.cpp:62
+msgid "Rendering"
+msgstr "Exportujem"
+
+#: kdenlive/exportdvd_ui.cpp:387
+msgid "Pause between chapters (seconds)"
+msgstr "Medzery medzi kapitolami (v sekundách)"
+
+#: kdenlive/exportdvd_ui.cpp:388
+msgid "Create Menu"
+msgstr "Vytvoriť menu"
+
+#: kdenlive/exportdvd_ui.cpp:390
+msgid "Plain color"
+msgstr "Farba"
+
+#: kdenlive/exportdvd_ui.cpp:392 kdenlive/exportdvd_ui.cpp:404
+msgid "Text Color"
+msgstr "Farba textu"
+
+#: kdenlive/exportdvd_ui.cpp:393
+msgid "Image"
+msgstr "Obrázok"
+
+#: kdenlive/exportdvd_ui.cpp:394
+msgid "Movie"
+msgstr "Film"
+
+#: kdenlive/exportdvd_ui.cpp:396
+msgid "image/gif image/x-bmp image/png image/jpeg"
+msgstr "image/gif image/x-bmp image/png image/jpeg"
+
+#: kdenlive/exportdvd_ui.cpp:397
+msgid "Background"
+msgstr "Pozadie"
+
+#: kdenlive/exportdvd_ui.cpp:398
+msgid "Generate entries for chapters"
+msgstr "Generovať položky pre kapitoly"
+
+#: kdenlive/exportdvd_ui.cpp:399
+msgid "Colors"
+msgstr "Farby"
+
+#: kdenlive/exportdvd_ui.cpp:401
+msgid "Text"
+msgstr "Text"
+
+#: kdenlive/exportdvd_ui.cpp:402
+msgid "Play Movie"
+msgstr "Prehrať film"
+
+#: kdenlive/exportdvd_ui.cpp:406
+msgid "Highlighted Text Color"
+msgstr "Farba zvýrazneného textu"
+
+#: kdenlive/exportdvd_ui.cpp:408
+msgid "Activated Text Color"
+msgstr "Farba aktivovaného textu"
+
+#: kdenlive/exportdvd_ui.cpp:409
+msgid "Buttons"
+msgstr "Tlačidlá"
+
+#: kdenlive/exportdvd_ui.cpp:410
+msgid "Intro movie"
+msgstr "Predohra"
+
+#: kdenlive/exportdvd_ui.cpp:412
+msgid "Intro"
+msgstr "Predohra"
+
+#: kdenlive/exportdvd_ui.cpp:414 kdenlive/exportdvddialog.cpp:63
+msgid "Menu"
+msgstr "Menu"
+
+#: kdenlive/exportdvd_ui.cpp:416
+msgid "Generating DVD structure"
+msgstr "Generujem štruktúru DVD"
+
+#: kdenlive/exportdvd_ui.cpp:419
+msgid "Preview"
+msgstr "Náhľad"
+
+#: kdenlive/exportdvd_ui.cpp:421
+msgid "Generate DVD"
+msgstr "Generovať DVD"
+
+#: kdenlive/exportdvd_ui.cpp:423
+msgid "Open in QDvdAuthor"
+msgstr "Otvoriť v QDvdAuthor"
+
+#: kdenlive/exportdvd_ui.cpp:425
+msgid "Burn"
+msgstr "Vypáliť"
+
+#: kdenlive/exportdvd_ui.cpp:427
+msgid "Show process output"
+msgstr "Zobraziť výstup generovania"
+
+#: kdenlive/exportdvd_ui.cpp:428
+msgid "Generating main movie"
+msgstr "Generujem hlavný film"
+
+#: kdenlive/exportdvd_ui.cpp:430
+msgid "Generating menu"
+msgstr "Generujem menu"
+
+#: kdenlive/exportdvd_ui.cpp:431
+msgid "DVD Creation"
+msgstr "Tvorba DVD"
+
+#: kdenlive/exportdvddialog.cpp:56
+msgid ""
+"Cannot find the program \"dvdauthor\" on your system. Install it if you want "
+"to be able to create a DVD"
+msgstr "Program \"dvdauthor\" sa nedá nájsť vo vašom systéme. Nainštalujte ho, ak chcete vytvárať DVD"
+
+#: kdenlive/exportdvddialog.cpp:61
+msgid "Create DVD"
+msgstr "Vytvoriť DVD"
+
+#: kdenlive/exportdvddialog.cpp:64
+msgid "Burning"
+msgstr "Vypaľovanie"
+
+#: kdenlive/exportdvddialog.cpp:70 kdenlive/kdenlive.cpp:1898
+msgid "PAL"
+msgstr "PAL"
+
+#: kdenlive/exportdvddialog.cpp:71
+msgid "PAL 16:9"
+msgstr "PAL 16:9"
+
+#: kdenlive/exportdvddialog.cpp:72 kdenlive/kdenlive.cpp:1896
+msgid "NTSC"
+msgstr "NTSC"
+
+#: kdenlive/exportdvddialog.cpp:73
+msgid "NTSC 16:9"
+msgstr "NTSC 16:9"
+
+#: kdenlive/exportdvddialog.cpp:176
+msgid ""
+"You can now close this dialog and keep on working on your project while the "
+"DVD is being created."
+msgstr "Teraz môžete zavrieť tento dialóg, práca na vytváraní DVD z vášho projektu bude pokračovať."
+
+#: kdenlive/exportdvddialog.cpp:200
+msgid "Enter name for rendered movie file"
+msgstr "Zadajte meno súboru pre výstup"
+
+#: kdenlive/exportdvddialog.cpp:217 kdenlive/exportwidget.cpp:948
+msgid ""
+"The export terminated unexpectedly.\n"
+"Output file will probably be corrupted..."
+msgstr ""
+"Export neočakávane skončil.\n"
+"Výstupný súbor bude pravdepodobne poškodený..."
+
+#: kdenlive/exportdvddialog.cpp:258 kdenlive/exportdvddialog.cpp:261
+#: kdenlive/kruler.cpp:1151
+msgid "Chapter %1"
+msgstr "Kapitola %1"
+
+#: kdenlive/exportdvddialog.cpp:270
+msgid "Chapter 0"
+msgstr "Kapitola 0"
+
+#: kdenlive/exportdvddialog.cpp:288
+msgid ""
+"You need the program \"K3b\" to burn your DVD. Please install it if you want "
+"to use this feature."
+msgstr "Na napálenie vášho DVD potrebujete program \"K3b\". Pokiaľ ho chcete použiť, tak ho nainštalujte."
+
+#: kdenlive/exportdvddialog.cpp:292
+msgid "You need to generate the DVD structure before burning."
+msgstr "Pred vypaľovaním musíte vytvoriť štruktúru DVD."
+
+#: kdenlive/exportdvddialog.cpp:307
+msgid ""
+"You need the program \"xine\" to preview your DVD. Please install it if you "
+"want to use this feature."
+msgstr "Pre náhľad vášho DVD potrebujete program  \"xine\". Pokiaľ si chcete prezrieť náhľad, tak ho nainštalujte."
+
+#: kdenlive/exportdvddialog.cpp:321
+msgid ""
+"You need the program \"QDvdAuthor\" to preview your DVD. Please install it "
+"if you want to use this feature."
+msgstr "Pre náhľad vášho DVD potrebujete program  \"QDvdAuthor\". Pokiaľ si chcete prezrieť náhľad, tak ho nainštalujte."
+
+#: kdenlive/exportdvddialog.cpp:340
+msgid ""
+"The specified dvd folder already exists.\n"
+"Overwite it ?"
+msgstr ""
+"Vami vybraný priečinok DVD už existuje.\n"
+"Chcete ho prepísať?"
+
+#: kdenlive/exportdvddialog.cpp:354
+msgid ""
+"You didn't select the video file for the DVD.\n"
+" Please choose one before starting any operation."
+msgstr ""
+"Nevybrali ste žiaden video súbor pre DVD.\n"
+"Vyberte jeden pred začiatkom akýchkoľvek akcií."
+
+#: kdenlive/exportdvddialog.cpp:490
+msgid ""
+"You need the program \"convert\" which is included in ImageMagick to create "
+"DVD menus. Install ImageMagick if you want to make a DVD with menu."
+msgstr "Na vytvorenie DVD menu potrebujete program \"convert\", ten je obsiahnutý v balíčku ImageMagick. Pokiaľ chcete vytvárať menu, tak ho nainštalujte."
+
+#: kdenlive/exportdvddialog.cpp:819
+msgid "The creation of DVD structure is finished."
+msgstr "Vytváranie štruktúry DVD bolo dokončené."
+
+#: kdenlive/exportdvddialog.cpp:827
+msgid "The creation of DVD structure failed."
+msgstr "Vytváranie šturktúry DVD zlyhalo."
+
+#: kdenlive/exportwidget.cpp:70
+msgid "Render Timeline"
+msgstr "Renderovanie časovej osi"
+
+#: kdenlive/exportwidget.cpp:83
+msgid "Low"
+msgstr "Nízka"
+
+#: kdenlive/exportwidget.cpp:83 kdenlive/exportwidget.cpp:85
+msgid "Normal"
+msgstr "Normálna"
+
+#: kdenlive/exportwidget.cpp:83
+msgid "High"
+msgstr "Vysoká"
+
+#: kdenlive/exportwidget.cpp:305 kdenlive/exportwidget.cpp:343
+msgid "An encoder named %1 already exists, please choose another name."
+msgstr "Enkóder s názvom %1 už existuje, vyberte prosím iný názov."
+
+#: kdenlive/exportwidget.cpp:622
+msgid "Please enter a file name"
+msgstr "Zadajte názov súboru"
+
+#: kdenlive/exportwidget.cpp:631 kdenlive/kdenlive.cpp:2553
+#: kdenlive/kdenlive.cpp:2670 kdenlive/kdenlive.cpp:3549
+msgid ""
+"File already exists.\n"
+"Do you want to overwrite it ?"
+msgstr ""
+"Súbor už existuje.\n"
+"Chcete ho prepísať?"
+
+#: kdenlive/exportwidget.cpp:698 kdenlive/exportwidget.cpp:716
+msgid "There is another file render currently running, cancel it ?"
+msgstr ""
+"Momentálne beží iný renderovací proces.\n"
+"Chcete ho zrušiť?"
+
+#: kdenlive/exportwidget.cpp:953
+msgid "Export of %1 is finished"
+msgstr "Export súboru %1 bol dokončený."
+
+#: kdenlive/exportwidget.cpp:998
+msgid ""
+"The conversion terminated unexpectedly.\n"
+"Output file will probably be corrupted..."
+msgstr ""
+"Konverzia neočakávane skončila.\n"
+"Výstupný súbor bude pravdepodobne poškodený..."
+
+#: kdenlive/firstrun_ui.cpp:2796
+msgid "Default video format:"
+msgstr "Východzí formát videa:"
+
+#: kdenlive/firstrun_ui.cpp:2801
+msgid ""
+"<b>Welcome to Kdenlive</b><br>\n"
+"This is the first time you run Kdenlive, please define your preferred "
+"settings, they can always be adjusted later from the Settings dialog."
+msgstr ""
+"<b>Vitajte v Kdenlive</b><br>\n"
+"Toto je prvé spustenie Kdenlive, prosím definujte požadované nastavenia, môžu byť kedykoľvek neskôr upravené z dialógu Nastavenia."
+
+#: kdenlive/initeffects.cpp:118
+msgid "Greyscale"
+msgstr "Stupne šedej"
+
+#: kdenlive/initeffects.cpp:126 kdenlive/initeffects.cpp:194
+#: kdenlive/initeffects.cpp:346
+msgid "Invert"
+msgstr "Obrátiť"
+
+#: kdenlive/initeffects.cpp:136
+msgid "Sepia"
+msgstr "Sépia"
+
+#: kdenlive/initeffects.cpp:140
+msgid "Chrominance U"
+msgstr "Chrominancia U"
+
+#: kdenlive/initeffects.cpp:148
+msgid "Chrominance V"
+msgstr "Chrominancia V"
+
+#: kdenlive/initeffects.cpp:158
+msgid "Charcoal"
+msgstr "Kreslenie uhlíkom"
+
+#: kdenlive/initeffects.cpp:162
+msgid "Horizontal scatter"
+msgstr "Vodorovné rozptýlenie"
+
+#: kdenlive/initeffects.cpp:170
+msgid "Vertical scatter"
+msgstr "Zvislé rozptýlenie"
+
+#: kdenlive/initeffects.cpp:178
+msgid "Scale"
+msgstr "Škálovať"
+
+#: kdenlive/initeffects.cpp:186
+msgid "Mix"
+msgstr "Zmiešať"
+
+#: kdenlive/initeffects.cpp:202
+msgid "Brightness"
+msgstr "Jas"
+
+#: kdenlive/initeffects.cpp:207
+msgid "Intensity"
+msgstr "Intenzita"
+
+#: kdenlive/initeffects.cpp:218
+msgid "Box Blur"
+msgstr "Box Blur"
+
+#: kdenlive/initeffects.cpp:222
+msgid "Blur factor"
+msgstr "Faktor rozmazania"
+
+#: kdenlive/initeffects.cpp:230
+msgid "Horizontal multiplicator"
+msgstr "Vodorovný multiplikátor"
+
+#: kdenlive/initeffects.cpp:238
+msgid "Vertical multiplicator"
+msgstr "Zvislý multiplikátor"
+
+#: kdenlive/initeffects.cpp:248
+msgid "Wave"
+msgstr "Vlna"
+
+#: kdenlive/initeffects.cpp:252
+msgid "Amplitude"
+msgstr "Amplitúda"
+
+#: kdenlive/initeffects.cpp:262
+msgid "Horizontal factor"
+msgstr "Vodorovný faktor"
+
+#: kdenlive/initeffects.cpp:271
+msgid "Vertical factor"
+msgstr "Zvislý faktor"
+
+#: kdenlive/initeffects.cpp:282
+msgid "Volume"
+msgstr "Objem"
+
+#: kdenlive/initeffects.cpp:286
+msgid "Gain"
+msgstr "Prírastok"
+
+#: kdenlive/initeffects.cpp:296 kdenlive/kdenlive.cpp:3519
+msgid "Mute"
+msgstr "Stlmiť"
+
+#: kdenlive/initeffects.cpp:307
+msgid "Normalise"
+msgstr "Normalizovať"
+
+#: kdenlive/initeffects.cpp:320
+msgid "Obscure"
+msgstr "Nejasnosť"
+
+#: kdenlive/initeffects.cpp:324
+msgid "X"
+msgstr "X"
+
+#: kdenlive/initeffects.cpp:324
+msgid "Y"
+msgstr "Y"
+
+#: kdenlive/initeffects.cpp:324
+msgid "Averaging"
+msgstr "Priemerovanie"
+
+#: kdenlive/initeffects.cpp:334
+msgid "Mirror"
+msgstr "Zrkadlo"
+
+#: kdenlive/initeffects.cpp:341
+msgid "Mirroring direction"
+msgstr "Kontrola zrkadlenia"
+
+#: kdenlive/initeffects.cpp:370
+msgid "Stroboscope"
+msgstr "Stroboskopicky"
+
+#: kdenlive/initeffects.cpp:378
+msgid "Reverse Playing"
+msgstr "Obrátené prehrávanie"
+
+#: kdenlive/initeffects.cpp:385 kdenlive/kdenlive.cpp:368
+#: kdenlive/trackpanelclipmovefunction.cpp:378
+msgid "Freeze"
+msgstr "Zmrazenie"
+
+#: kdenlive/initeffects.cpp:389
+msgid "Freeze at"
+msgstr "Zmraziť na"
+
+#: kdenlive/initeffects.cpp:398
+msgid "Freeze Before"
+msgstr "Zmraziť pred"
+
+#: kdenlive/initeffects.cpp:405
+msgid "Freeze After"
+msgstr "Zmraziť po"
+
+#: kdenlive/initeffects.cpp:414 kdenlive/initeffects.cpp:418
+msgid "Gamma"
+msgstr "Gama"
+
+#: kdenlive/initeffects.cpp:431
+msgid "Declipper"
+msgstr "Declipper"
+
+#: kdenlive/initeffects.cpp:440
+msgid "Vinyl"
+msgstr "Vinyl"
+
+#: kdenlive/initeffects.cpp:454
+msgid "RPM"
+msgstr "RPM"
+
+#: kdenlive/initeffects.cpp:464
+msgid "Surface warping"
+msgstr "Deformácia priestoru"
+
+#: kdenlive/initeffects.cpp:474
+msgid "Crackle"
+msgstr "Praskanie"
+
+#: kdenlive/initeffects.cpp:484
+msgid "Wear"
+msgstr "Opotrebenie"
+
+#: kdenlive/initeffects.cpp:495
+msgid "Pitch Shift"
+msgstr "Výška posunu"
+
+#: kdenlive/initeffects.cpp:499
+msgid "Shift"
+msgstr "Posun"
+
+#: kdenlive/initeffects.cpp:510
+msgid "Room reverb"
+msgstr "Ozvena miestnosti"
+
+#: kdenlive/initeffects.cpp:514
+msgid "Room size (m)"
+msgstr "Veľkosť miestnosti (m)"
+
+#: kdenlive/initeffects.cpp:522
+msgid "Delay (s/10)"
+msgstr "Omeškanie (s/10)"
+
+#: kdenlive/initeffects.cpp:531 kdenlive/initeffects.cpp:556
+msgid "Damping"
+msgstr "Zoslabenie"
+
+#: kdenlive/initeffects.cpp:543
+msgid "Reverb"
+msgstr "Ozvena"
+
+#: kdenlive/initeffects.cpp:547
+msgid "Reverb time"
+msgstr "Čas ozveny"
+
+#: kdenlive/initeffects.cpp:568
+msgid "Equalizer"
+msgstr "Ekvalizér"
+
+#: kdenlive/initeffects.cpp:572
+msgid "Lo gain"
+msgstr "Nízky zisk"
+
+#: kdenlive/initeffects.cpp:580
+msgid "Mid gain"
+msgstr "Stredný zisk"
+
+#: kdenlive/initeffects.cpp:588
+msgid "Hi gain"
+msgstr "Vysoký zisk"
+
+#: kdenlive/initeffects.cpp:600
+msgid "Limiter"
+msgstr "Limit"
+
+#: kdenlive/initeffects.cpp:604
+msgid "Input Gain (db)"
+msgstr "Vstupný zisk (db)"
+
+#: kdenlive/initeffects.cpp:612
+msgid "Limit (db)"
+msgstr "Limit (db)"
+
+#: kdenlive/initeffects.cpp:620
+msgid "Release time (s)"
+msgstr "Čas uvoľnenia (s)"
+
+#: kdenlive/initeffects.cpp:632
+msgid "Pitch Scaler"
+msgstr "Škálovanie výšok"
+
+#: kdenlive/initeffects.cpp:636
+msgid "Co-efficient"
+msgstr "Ukazateľ"
+
+#: kdenlive/initeffects.cpp:647
+msgid "Rate Scaler"
+msgstr "Pomer škálovania"
+
+#: kdenlive/initeffects.cpp:651
+msgid "Rate"
+msgstr "Pomer"
+
+#: kdenlive/initeffects.cpp:662
+msgid "Phaser"
+msgstr "Fázovač"
+
+#: kdenlive/initeffects.cpp:666
+msgid "Rate (Hz)"
+msgstr "Rýchlosť (Hz)"
+
+#: kdenlive/initeffects.cpp:674
+msgid "Depth"
+msgstr "Hĺbka"
+
+#: kdenlive/initeffects.cpp:683
+msgid "Feedback"
+msgstr "Spätná väzba"
+
+#: kdenlive/initeffects.cpp:692
+msgid "Spread"
+msgstr "Rozšíriť"
+
+#: kdenlive/kaddclipcommand.cpp:35 kdenlive/kdenlive.cpp:629
+msgid "Clean Project"
+msgstr "Vyčistiť projekt"
+
+#: kdenlive/kaddclipcommand.cpp:47
+msgid "Clean project"
+msgstr "Vyčistiť projekt"
+
+#: kdenlive/kaddclipcommand.cpp:216 kdenlive/kaddrefclipcommand.cpp:42
+#: kdenlive/projectlist.cpp:80
+msgid "Add Clip"
+msgstr "Pridať klip"
+
+#: kdenlive/kaddclipcommand.cpp:218 kdenlive/kaddrefclipcommand.cpp:44
+#: kdenlive/kdenlive.cpp:625 kdenlive/kdenlive.cpp:741
+#: kdenlive/kdenlive.cpp:3332 kdenlive/kdenlive.cpp:3372
+#: kdenlive/projectlist.cpp:81
+msgid "Delete Clip"
+msgstr "Zmazať klip"
+
+#: kdenlive/kaddeffectcommand.cpp:55
+msgid "Move Effect"
+msgstr "Presunúť efekt"
+
+#: kdenlive/kaddeffectcommand.cpp:85
+msgid "Add effect"
+msgstr "Pridať efekt"
+
+#: kdenlive/kaddeffectcommand.cpp:85
+msgid "Delete effect"
+msgstr "Zmazať efekt"
+
+#: kdenlive/kaddmarkercommand.cpp:46
+msgid "Add Snap Marker"
+msgstr "Pridať rýchlu záložku"
+
+#: kdenlive/kaddmarkercommand.cpp:48
+msgid "Delete Snap Marker"
+msgstr "Zmazať rýchlu záložku"
+
+#: kdenlive/kaddrefclipcommand.cpp:97 kdenlive/kaddrefclipcommand.cpp:120
+#: kdenlive/trackpanelclipmovefunction.cpp:514
+#: kdenlive/trackpanelclipslipfunction.cpp:518
+msgid "Delete Clips"
+msgstr "Zmazať klipy"
+
+#: kdenlive/kaddtransitioncommand.cpp:79
+msgid "Add transition"
+msgstr "Pridať prechod"
+
+#: kdenlive/kaddtransitioncommand.cpp:79
+msgid "Delete transition"
+msgstr "Zmazať prechod"
+
+#: kdenlive/kdenlive.cpp:139
+msgid "PAL (720x576, 25fps)"
+msgstr "PAL (720x576, 25fps)"
+
+#: kdenlive/kdenlive.cpp:140
+msgid "PAL 16:9 (720x576, 25fps)"
+msgstr "PAL 16:9 (720x576, 25fps)"
+
+#: kdenlive/kdenlive.cpp:142
+msgid "NTSC (720x480, 30fps)"
+msgstr "NTSC (720x480, 30fps)"
+
+#: kdenlive/kdenlive.cpp:143
+msgid "NTSC 16:9 (720x480, 30fps)"
+msgstr "NTSC 16:9 (720x480, 30fps)"
+
+#: kdenlive/kdenlive.cpp:220 kdenlive/transition.cpp:241
+#: kdenlive/transition.cpp:250 kdenlive/transitiondialog.cpp:72
+msgid "Push"
+msgstr "Vytlačenie"
+
+#: kdenlive/kdenlive.cpp:221 kdenlive/transition.cpp:242
+#: kdenlive/transition.cpp:251
+msgid "Pip"
+msgstr "Obraz v obraze"
+
+#: kdenlive/kdenlive.cpp:222 kdenlive/transition.cpp:243
+#: kdenlive/transition.cpp:252 kdenlive/transitiondialog.cpp:76
+msgid "Wipe"
+msgstr "Zotrenie"
+
+#: kdenlive/kdenlive.cpp:358
+msgid "Add Effect"
+msgstr "Pridať efekt"
+
+#: kdenlive/kdenlive.cpp:378
+msgid "Remove Effect"
+msgstr "Zmazať efekt"
+
+#: kdenlive/kdenlive.cpp:461
+msgid "Paste Effects"
+msgstr "Vložiť efekt"
+
+#: kdenlive/kdenlive.cpp:466
+msgid "Paste Transitions"
+msgstr "Vložiť prechod"
+
+#: kdenlive/kdenlive.cpp:486
+msgid "Zoom to display the whole project"
+msgstr "Zmeniť veľkosť časovej osi pre zobrazenie celého projektu."
+
+#: kdenlive/kdenlive.cpp:490
+msgid "Zoom in"
+msgstr "Priblížiť"
+
+#: kdenlive/kdenlive.cpp:494
+msgid "Zoom out"
+msgstr "Oddialiť"
+
+#: kdenlive/kdenlive.cpp:496
+msgid "Restore Last Zoom Level"
+msgstr "Obnoviť poslednú úroveň priblíženia"
+
+#: kdenlive/kdenlive.cpp:499
+msgid "Restoring previous zoom level"
+msgstr "Obnoviť predchádzajúcu úroveň priblíženia"
+
+#: kdenlive/kdenlive.cpp:501
+msgid "List View"
+msgstr "Zoznamové zobrazenie"
+
+#: kdenlive/kdenlive.cpp:504
+msgid "Icon View"
+msgstr "Zobrazenie s ikonami"
+
+#: kdenlive/kdenlive.cpp:508
+msgid "Move/Resize Tool"
+msgstr "Presunúť/Zmeniť veľkosť"
+
+#: kdenlive/kdenlive.cpp:512
+msgid "Razor Tool"
+msgstr "Orezanie"
+
+#: kdenlive/kdenlive.cpp:516
+msgid "Spacing Tool"
+msgstr "Rozmiestňovanie"
+
+#: kdenlive/kdenlive.cpp:520
+msgid "Marker Tool"
+msgstr "Záložkovač"
+
+#: kdenlive/kdenlive.cpp:524
+msgid "Roll Tool"
+msgstr "Balič"
+
+#: kdenlive/kdenlive.cpp:529
+msgid "Multiselect Tool"
+msgstr "Hromadný výber"
+
+#: kdenlive/kdenlive.cpp:534
+msgid "Snap To Frames"
+msgstr "Prichytávať ku snímkom"
+
+#: kdenlive/kdenlive.cpp:538
+msgid "Snap To Border"
+msgstr "Prichytávať k okraju"
+
+#: kdenlive/kdenlive.cpp:542
+msgid "Snap To Marker"
+msgstr "Prichytávať k záložkám"
+
+#: kdenlive/kdenlive.cpp:547
+msgid "Display Timecode"
+msgstr "Zobraziť časový kód"
+
+#: kdenlive/kdenlive.cpp:552
+msgid "Multi Track View"
+msgstr "Viacstopový pohľad"
+
+#: kdenlive/kdenlive.cpp:557
+msgid "Low Quality"
+msgstr "Nízka kvalita"
+
+#: kdenlive/kdenlive.cpp:567
+msgid "Best Quality"
+msgstr "Nejlepšia kvalita"
+
+#: kdenlive/kdenlive.cpp:580
+msgid "Show all markers"
+msgstr "Zobraziť všetky záložky"
+
+#: kdenlive/kdenlive.cpp:586
+msgid "Define Clip Thumbnail"
+msgstr "Vybrať miniatúry klipov"
+
+#: kdenlive/kdenlive.cpp:587
+msgid "Define thumbnail for the current clip"
+msgstr "Vybrať miniatúru pre súčasný klip"
+
+#: kdenlive/kdenlive.cpp:589
+msgid "Go To Beginning"
+msgstr "Skočiť na začiatok"
+
+#: kdenlive/kdenlive.cpp:590
+msgid "Beginning of project"
+msgstr "Začiatok projektu"
+
+#: kdenlive/kdenlive.cpp:592
+msgid "Go To End"
+msgstr "Skočiť na konec"
+
+#: kdenlive/kdenlive.cpp:593
+msgid "End of project"
+msgstr "Koniec projektu"
+
+#: kdenlive/kdenlive.cpp:596 kdenlive/kdenlive.cpp:3017
+#: kdenlive/kdenlive.cpp:3969
+msgid "Add Clips"
+msgstr "Pridať klipy"
+
+#: kdenlive/kdenlive.cpp:601 kdenlive/kdenlive.cpp:3044
+msgid "Create Color Clip"
+msgstr "Vytvoriť klip farby"
+
+#: kdenlive/kdenlive.cpp:606 kdenlive/kdenlive.cpp:3074
+msgid "Create Image Clip"
+msgstr "Vytvoriť klip obrázku"
+
+#: kdenlive/kdenlive.cpp:610
+msgid "Create Slideshow Clip"
+msgstr "Vytvoriť klip prezentácie"
+
+#: kdenlive/kdenlive.cpp:615
+msgid "Create Text Clip"
+msgstr "Vytvoriť textový klip"
+
+#: kdenlive/kdenlive.cpp:619
+msgid "Duplicate Text Clip"
+msgstr "Zdvojiť textový klip"
+
+#: kdenlive/kdenlive.cpp:638
+msgid "&Export Timeline"
+msgstr "&Exportovať časovú os"
+
+#: kdenlive/kdenlive.cpp:642
+msgid "Export to DVD"
+msgstr "Exportovať na DVD"
+
+#: kdenlive/kdenlive.cpp:644
+msgid "Generating DVD files"
+msgstr "Generujem súbory DVD"
+
+#: kdenlive/kdenlive.cpp:647
+msgid "&Configure Project"
+msgstr "&Nastavenie projektu"
+
+#: kdenlive/kdenlive.cpp:652 kdenlive/kdenlive.cpp:667
+msgid "Play/Pause"
+msgstr "Hrať/Pozastaviť"
+
+#: kdenlive/kdenlive.cpp:658
+msgid "Stop playing"
+msgstr "Zastaviť prehrávanie"
+
+#: kdenlive/kdenlive.cpp:661
+msgid "Play Selection"
+msgstr "Prehrať výber"
+
+#: kdenlive/kdenlive.cpp:665
+msgid "Play selection"
+msgstr "Prehrať výber"
+
+#: kdenlive/kdenlive.cpp:669
+msgid "Play or pause"
+msgstr "Prehrať alebo pozastaviť"
+
+#: kdenlive/kdenlive.cpp:671
+msgid "Play forward"
+msgstr "Pretáčať dopredu"
+
+#: kdenlive/kdenlive.cpp:673
+msgid "Fast forwards playing (click several times for faster playing)"
+msgstr "Rýchle pretáčanie dopredu (pre ešte rýchlejšie prehrávanie viackrát stlačte)"
+
+#: kdenlive/kdenlive.cpp:675
+msgid "Play backward"
+msgstr "Pretáčať dozadu"
+
+#: kdenlive/kdenlive.cpp:677
+msgid "Fast backwards playing (click several times for faster playing)"
+msgstr "Rýchle pretáčanie späť (pre ešte rýchlejšie prehrávanie viackrát stlačte)"
+
+#: kdenlive/kdenlive.cpp:679
+msgid "Loop selected zone"
+msgstr "Slučka vybraného pásma"
+
+#: kdenlive/kdenlive.cpp:681
+msgid "Play selected zone in loop"
+msgstr "Prehrať vybrané pásmo v sľučke"
+
+#: kdenlive/kdenlive.cpp:683 kdenlive/kdenlive.cpp:685
+msgid "Split Audio From Selected Clip"
+msgstr "Oddeliť audio od vybraného klipu"
+
+#: kdenlive/kdenlive.cpp:687 kdenlive/kdenlive.cpp:691
+msgid "Extract Clip Audio"
+msgstr "Vytiahnuť audio klip"
+
+#: kdenlive/kdenlive.cpp:689
+msgid "Extract Audio From Selected Clip"
+msgstr "Vytiahnuť audio z vybraného klipu"
+
+#: kdenlive/kdenlive.cpp:693
+msgid "Extract Audio From Clip"
+msgstr "Vytiahnuť audio z klipu"
+
+#: kdenlive/kdenlive.cpp:696
+msgid "Forward one frame"
+msgstr "Dopredu o jeden snímok"
+
+#: kdenlive/kdenlive.cpp:700
+msgid "Back one frame"
+msgstr "Späť o jeden snímok"
+
+#: kdenlive/kdenlive.cpp:704
+msgid "Forward one second"
+msgstr "Pretočiť dopredu o jednu sekundu"
+
+#: kdenlive/kdenlive.cpp:707
+msgid "Move cursor forward one second"
+msgstr "Presunúť kurzor o jednu sekundu dopredu"
+
+#: kdenlive/kdenlive.cpp:709
+msgid "Back one second"
+msgstr "Vrátiť o jednu sekundu"
+
+#: kdenlive/kdenlive.cpp:712
+msgid "Move cursor backwards one second"
+msgstr "Presunúť kurzor o jednu sekundu späť"
+
+#: kdenlive/kdenlive.cpp:714
+msgid "Forward to next snap point"
+msgstr "Pretočiť na ďalší zlomový bod"
+
+#: kdenlive/kdenlive.cpp:717
+msgid "Move cursor to next snap point"
+msgstr "Presunúť kurzor na ďalší zlomový bod"
+
+#: kdenlive/kdenlive.cpp:719
+msgid "Rewind to previous snap point"
+msgstr "Pretočiť na predchádzajúci zlomový bod"
+
+#: kdenlive/kdenlive.cpp:722
+msgid "Move cursor to previous snap point"
+msgstr "Presunúť kurzor na predchadzajúci zlomový bod"
+
+#: kdenlive/kdenlive.cpp:724
+msgid "Remove empty space"
+msgstr "Zmazať prázdne miesto"
+
+#: kdenlive/kdenlive.cpp:727
+msgid "Remove space between two clips"
+msgstr "Zmazať prázdne miesto medzi dvoma klipmi"
+
+#: kdenlive/kdenlive.cpp:729
+msgid "Get new luma transition"
+msgstr "Získať nové luma prechody"
+
+#: kdenlive/kdenlive.cpp:732
+msgid "Download new Luma file transition"
+msgstr "Stiahnuť súbory s novými Luma prechodmi"
+
+#: kdenlive/kdenlive.cpp:735 kdenlive/kmmeditpanel_ui.cpp:493
+msgid "Set Inpoint"
+msgstr "Nastaviť počiatočný bod"
+
+#: kdenlive/kdenlive.cpp:738 kdenlive/kmmeditpanel_ui.cpp:495
+msgid "Set Outpoint"
+msgstr "Nastaviť koncový bod"
+
+#: kdenlive/kdenlive.cpp:746
+msgid "Toggle Marker"
+msgstr "Prepnúť záložku"
+
+#: kdenlive/kdenlive.cpp:750
+msgid "Clear All Markers"
+msgstr "Zmazať všetky záložky"
+
+#: kdenlive/kdenlive.cpp:754
+msgid "Clear Markers From Selected"
+msgstr "Z výberu zmazať záložky"
+
+#: kdenlive/kdenlive.cpp:759
+msgid "Load Layout &1"
+msgstr "Načítať rozloženie &1"
+
+#: kdenlive/kdenlive.cpp:763
+msgid "Load Layout &2"
+msgstr "Načítať rozloženie &2 "
+
+#: kdenlive/kdenlive.cpp:767
+msgid "Load Layout &3"
+msgstr "Načítať rozloženie &3"
+
+#: kdenlive/kdenlive.cpp:771
+msgid "Load Layout &4"
+msgstr "Načítať rozloženie &4"
+
+#: kdenlive/kdenlive.cpp:775
+msgid "Save Layout &1"
+msgstr "Uložiť rozloženie &1"
+
+#: kdenlive/kdenlive.cpp:779
+msgid "Save Layout &2"
+msgstr "Uložiť rozloženie &2"
+
+#: kdenlive/kdenlive.cpp:783
+msgid "Save Layout &3"
+msgstr "Uložiť rozloženie &3"
+
+#: kdenlive/kdenlive.cpp:787
+msgid "Save Layout &4"
+msgstr "Uložiť rozloženie &4"
+
+#: kdenlive/kdenlive.cpp:792
+msgid "Razor All Clips"
+msgstr "Orezať všetky klipy"
+
+#: kdenlive/kdenlive.cpp:802
+msgid "Create Folder"
+msgstr "Vytvoriť priečinok"
+
+#: kdenlive/kdenlive.cpp:805
+msgid "Add folder"
+msgstr "Pridať priečinok"
+
+#: kdenlive/kdenlive.cpp:807 kdenlive/kdenlive.cpp:2951
+msgid "Rename Folder"
+msgstr "Premenovať priečinok"
+
+#: kdenlive/kdenlive.cpp:810
+msgid "Rename folder"
+msgstr "Premenovať priečinok"
+
+#: kdenlive/kdenlive.cpp:812
+msgid "Delete Folder"
+msgstr "Zmazať priečinok"
+
+#: kdenlive/kdenlive.cpp:815
+msgid "Delete folder"
+msgstr "Zmazať priečinok"
+
+#: kdenlive/kdenlive.cpp:817
+msgid "Delete Transition"
+msgstr "Zmazať prechod"
+
+#: kdenlive/kdenlive.cpp:820
+msgid "Delete transition from selected clip"
+msgstr "Zmazať prechod u vybraného klipu"
+
+#: kdenlive/kdenlive.cpp:822
+msgid "Edit Transition"
+msgstr "Upraviť prechod"
+
+#: kdenlive/kdenlive.cpp:825
+msgid "Edit transition from selected clip"
+msgstr "Zmazať prechod u vybraného klipu"
+
+#: kdenlive/kdenlive.cpp:827 kdenlive/kdenlive.cpp:2468
+msgid "Add Track"
+msgstr "Pridať stopu"
+
+#: kdenlive/kdenlive.cpp:830
+msgid "Add track"
+msgstr "Pridať stopu"
+
+#: kdenlive/kdenlive.cpp:832 kdenlive/kdenlive.cpp:2452
+msgid "Delete Track"
+msgstr "Zmazať stopu"
+
+#: kdenlive/kdenlive.cpp:835
+msgid "Delete track"
+msgstr "Zmazať stopu"
+
+#: kdenlive/kdenlive.cpp:837
+msgid "Open Clip In External Editor"
+msgstr "Otvoriť klip v externom editore"
+
+#: kdenlive/kdenlive.cpp:840
+msgid "Open clip in an external editor"
+msgstr "Otvoriť klip v externom editore"
+
+#: kdenlive/kdenlive.cpp:842
+msgid "Save Selected Zone"
+msgstr "Uložiť vybrané pásmo"
+
+#: kdenlive/kdenlive.cpp:845
+msgid "Save selected zone as playlist for future use"
+msgstr "Uložiť vybrané pásmo ako playlist pre budúce použitie"
+
+#: kdenlive/kdenlive.cpp:847 kdenlive/kdenlive.cpp:2548
+msgid "Save Subclip"
+msgstr "Uložiť podklip"
+
+#: kdenlive/kdenlive.cpp:850
+msgid "Save selected clip as playlist for future use"
+msgstr "Uložiť vybraný klip ako playlist pre budúce použitie"
+
+#: kdenlive/kdenlive.cpp:853
+msgid "Render Selected Zone"
+msgstr "Renderovať vybrané pásmo"
+
+#: kdenlive/kdenlive.cpp:856
+msgid "Render selected zone for future use"
+msgstr "Renderovať vybrané pásmo pre budúce použitie"
+
+#: kdenlive/kdenlive.cpp:858
+msgid "Render Selected Zone Audio"
+msgstr "Renderovať vybrané Audio pásmo"
+
+#: kdenlive/kdenlive.cpp:861
+msgid "Render selected zone audio for future use"
+msgstr "Renderovať vybrané Audio pásmo pre budúce použitie"
+
+#: kdenlive/kdenlive.cpp:863 kdenlive/kdenlive.cpp:2581
+msgid "Create Virtual Clip"
+msgstr "Vytvoriť virtuálny klip"
+
+#: kdenlive/kdenlive.cpp:866
+msgid "Create virtual clip from selected zone"
+msgstr "Vytvoriť virtuálny klip z vybraného pásma"
+
+#: kdenlive/kdenlive.cpp:868
+msgid "Go To Virtual Zone"
+msgstr "Skoč na virtuálne pásmo"
+
+#: kdenlive/kdenlive.cpp:871
+msgid "Go to selected clip's virtual zone"
+msgstr "Skoč na virtuálne pásmo vybraného klipu"
+
+#: kdenlive/kdenlive.cpp:873 kdenlive/ktimeline.cpp:709
+msgid "Add Guide"
+msgstr "Pridať sprievodcu"
+
+#: kdenlive/kdenlive.cpp:876
+msgid "Add guide at cursor position"
+msgstr "Pridať sprievodcu na pozíciu kurzoru"
+
+#: kdenlive/kdenlive.cpp:878 kdenlive/kdenlive.cpp:4082
+#: kdenlive/kmmmonitor.cpp:378 kdenlive/trackpanelmarkerfunction.cpp:108
+msgid "Add Marker"
+msgstr "Pridať záložku"
+
+#: kdenlive/kdenlive.cpp:881
+msgid "Add marker at cursor position"
+msgstr "Pridať záložku na súčasnú pozíciu kurzoru"
+
+#: kdenlive/kdenlive.cpp:883 kdenlive/kdenlive.cpp:4063
+#: kdenlive/trackpanelmarkerfunction.cpp:97
+msgid "Edit Marker"
+msgstr "Upraviť záložku"
+
+#: kdenlive/kdenlive.cpp:886
+msgid "Edit marker at cursor position"
+msgstr "Upraviť záložku na súčasnej pozícií kurzoru"
+
+#: kdenlive/kdenlive.cpp:888
+msgid "Delete Marker"
+msgstr "Zmazať záložku"
+
+#: kdenlive/kdenlive.cpp:891
+msgid "Delete marker at cursor position"
+msgstr "Zmazať záložku na súčasnej pozícií kurzoru"
+
+#: kdenlive/kdenlive.cpp:893
+msgid "Delete Guide"
+msgstr "Zmazať sprievodcu"
+
+#: kdenlive/kdenlive.cpp:896
+msgid "Delete guide at cursor position"
+msgstr "Zmazať sprievodcu na pozícií kurzoru"
+
+#: kdenlive/kdenlive.cpp:898 kdenlive/ktimeline.cpp:743
+msgid "Edit Guide"
+msgstr "Upraviť sprievodcu"
+
+#: kdenlive/kdenlive.cpp:901
+msgid "Edit guide at cursor position"
+msgstr "Upraviť sprievodcu na pozícii kurzoru"
+
+#: kdenlive/kdenlive.cpp:903 kdenlive/kdenlive.cpp:1294
+#: kdenlive/kdenlive.cpp:1297
+msgid "Clip Monitor"
+msgstr "Monitor klipu"
+
+#: kdenlive/kdenlive.cpp:906 kdenlive/kdenlive.cpp:1288
+#: kdenlive/kdenlive.cpp:1292
+msgid "Timeline Monitor"
+msgstr "Monitor časovej osi"
+
+#: kdenlive/kdenlive.cpp:909 kdenlive/kdenlive.cpp:1299
+#: kdenlive/kdenlive.cpp:1302
+msgid "Capture Monitor"
+msgstr "Monitor zachytávania"
+
+#: kdenlive/kdenlive.cpp:912 kdenlive/kdenlive.cpp:1276
+#: kdenlive/kdenlive.cpp:1281
+msgid "Effect List"
+msgstr "Zoznam efektov"
+
+#: kdenlive/kdenlive.cpp:918 kdenlive/kdenlive.cpp:1262
+#: kdenlive/kdenlive.cpp:1269
+msgid "Project Tree"
+msgstr "Strom projektu"
+
+#: kdenlive/kdenlive.cpp:921
+msgid "Transitions"
+msgstr "Prechody"
+
+#: kdenlive/kdenlive.cpp:925
+msgid "Focus Clip Monitor"
+msgstr "Zamerať monitor klipu"
+
+#: kdenlive/kdenlive.cpp:928
+msgid "Focus Timeline Monitor"
+msgstr "Zamerať monitor časovej osi"
+
+#: kdenlive/kdenlive.cpp:931
+msgid "Focus Capture Monitor"
+msgstr "Zamerať zachytávací monitor"
+
+#: kdenlive/kdenlive.cpp:934
+msgid "Focus Effect List"
+msgstr "Zamerať zoznam efektov"
+
+#: kdenlive/kdenlive.cpp:937
+msgid "Focus Effect Stack"
+msgstr "Zamerať poradie efektov"
+
+#: kdenlive/kdenlive.cpp:940
+msgid "Focus Project Tree"
+msgstr "Zamerať správcu súborov projektu"
+
+#: kdenlive/kdenlive.cpp:944
+msgid "Focus Transitions"
+msgstr "Zamerať prechody"
+
+#: kdenlive/kdenlive.cpp:948
+msgid "Move Clip To Cursor"
+msgstr "Presunúť klip na pozíciu kurzoru"
+
+#: kdenlive/kdenlive.cpp:952
+msgid "Move Clip Up"
+msgstr "Presunúť klip hore"
+
+#: kdenlive/kdenlive.cpp:956
+msgid "Move Clip Down"
+msgstr "Presunúť klip dole"
+
+#: kdenlive/kdenlive.cpp:960
+msgid "Resize Clip Start To Current Time"
+msgstr "Orezať začiatok klipu k súčasnej pozícii kurzoru"
+
+#: kdenlive/kdenlive.cpp:964
+msgid "Resize Clip End To Current Time"
+msgstr "Orezať koniec klipu k súčasnej pozícii kurzoru"
+
+#: kdenlive/kdenlive.cpp:968
+msgid "Select Next Track"
+msgstr "Vybrať ďalšiu stopu"
+
+#: kdenlive/kdenlive.cpp:972
+msgid "Select Previous Track"
+msgstr "Vybrať predchádzajúcu stopu"
+
+#: kdenlive/kdenlive.cpp:976
+msgid "Select Clip Under Cursor"
+msgstr "Vybrať klip pod kurzorom"
+
+#: kdenlive/kdenlive.cpp:980
+msgid "Clip Auto Selection"
+msgstr "Automatický výber klipu"
+
+#: kdenlive/kdenlive.cpp:984 kdenlive/kdenlive.cpp:987
+#: kdenlive/projectlist.cpp:79
+msgid "Edit Clip Properties"
+msgstr "Upraviť vlastnosti klipu"
+
+#: kdenlive/kdenlive.cpp:992
+msgid "Edit clip properties"
+msgstr "Upraviť vlastnosti klipu"
+
+#: kdenlive/kdenlive.cpp:994
+msgid "Edit Duration"
+msgstr "Upraviť dĺžku trvania"
+
+#: kdenlive/kdenlive.cpp:997
+msgid "Set current clip duration"
+msgstr "Nastaviť súčasnu dĺžku trvania klipu"
+
+#: kdenlive/kdenlive.cpp:999
+msgid "Export Current Frame"
+msgstr "Exportovať súčasnú snímku"
+
+#: kdenlive/kdenlive.cpp:1002
+msgid "Save current frame as image file"
+msgstr "Uložiť súčasnú snímku ako obrázok"
+
+#: kdenlive/kdenlive.cpp:1004
+msgid "Merge Project..."
+msgstr "Zlúčiť projekt..."
+
+#: kdenlive/kdenlive.cpp:1006
+msgid "Merge current project with another one"
+msgstr "Zlúčiť súčasný projekt s iným"
+
+#: kdenlive/kdenlive.cpp:1008
+msgid "Play Clip"
+msgstr "Prehrať klip"
+
+#: kdenlive/kdenlive.cpp:1011
+msgid "Play clip in clip monitor"
+msgstr "Prehrať klip v monitore klipu"
+
+#: kdenlive/kdenlive.cpp:1021
+msgid "Create a new project"
+msgstr "Vytvoriť nový projekt"
+
+#: kdenlive/kdenlive.cpp:1022
+msgid "Open a project"
+msgstr "Otvoriť projekt"
+
+#: kdenlive/kdenlive.cpp:1023
+msgid "Open a recent file"
+msgstr "Otvoriť nedávny súbor"
+
+#: kdenlive/kdenlive.cpp:1024
+msgid "Save project"
+msgstr "Uložiť projekt"
+
+#: kdenlive/kdenlive.cpp:1025
+msgid "Save project as..."
+msgstr "Uložiť projekt ako..."
+
+#: kdenlive/kdenlive.cpp:1028
+msgid "Exit application"
+msgstr "Ukončiť aplikáciu"
+
+#: kdenlive/kdenlive.cpp:1031
+msgid "Cut and move selected zone to clipboard"
+msgstr "Vystrihnúť vybrané pásmo do schránky"
+
+#: kdenlive/kdenlive.cpp:1034
+msgid "Copy clip to clipboard"
+msgstr "Kopírovať do schránky"
+
+#: kdenlive/kdenlive.cpp:1037
+msgid "Paste clipboard contents to cursor position"
+msgstr "Vložiť obsah schránky na súčasnú pozíciu kurzoru"
+
+#: kdenlive/kdenlive.cpp:1039
+msgid "Move and resize clips"
+msgstr "Presunúť/Zmeniť veľkosť klipu"
+
+#: kdenlive/kdenlive.cpp:1041
+msgid "Split Clip"
+msgstr "Rozdeliť klip"
+
+#: kdenlive/kdenlive.cpp:1043
+msgid ""
+"Shift all clips to the right of mouse. Ctrl + click to move only clips on "
+"current track."
+msgstr "Posunúť všetky klipy napravo od myši. Kliknite s Ctrl pre presun klipov aktuálnej stopy."
+
+#: kdenlive/kdenlive.cpp:1046
+msgid "Insert commented snap markers on clips (Ctrl + click to remove a marker)"
+msgstr "Vloží do klipu komentovanú záložku (Ctrl + ťuknutie na záložku ju zmaže)"
+
+#: kdenlive/kdenlive.cpp:1049
+msgid "Move edit point between two selected clips"
+msgstr "Presunúť upravovací bod medzi dvoma označenými klipmi"
+
+#: kdenlive/kdenlive.cpp:1052
+msgid "Select multiple clips"
+msgstr "Vybrať viac klipov"
+
+#: kdenlive/kdenlive.cpp:1054
+msgid "Align clips on nearest frame"
+msgstr "Zachytávať klipy k najbližšej snímke"
+
+#: kdenlive/kdenlive.cpp:1057
+msgid "Align clips on nearest clip borders"
+msgstr "Zachytávať klipy k nejbližšiemu okraju klipu"
+
+#: kdenlive/kdenlive.cpp:1060
+msgid "Align clips on snap markers"
+msgstr "Zachytávať klipy k záložkam"
+
+#: kdenlive/kdenlive.cpp:1061
+msgid "Add clips"
+msgstr "Pridať klipy"
+
+#: kdenlive/kdenlive.cpp:1063
+msgid "Remove clip"
+msgstr "Odobrať klip"
+
+#: kdenlive/kdenlive.cpp:1065
+msgid "Remove unused clips"
+msgstr "Odobrať nepoužívané klipy"
+
+#: kdenlive/kdenlive.cpp:1067
+msgid "Start or stop playback"
+msgstr "Spustiť alebo zastaviť prehrávanie"
+
+#: kdenlive/kdenlive.cpp:1070
+msgid "Start or stop playback of inpoint/outpoint selection"
+msgstr "Spustiť alebo zastaviť prehrávanie od počiatočného do koncového bodu"
+
+#: kdenlive/kdenlive.cpp:1073
+msgid "Move forwards one frame"
+msgstr "Posunúť o jednu snímku dopredu"
+
+#: kdenlive/kdenlive.cpp:1076
+msgid "Move backwards one frame"
+msgstr "Posunúť o jednu snímku dozadu"
+
+#: kdenlive/kdenlive.cpp:1078
+msgid "Set inpoint"
+msgstr "Nastaviť počiatočný bod"
+
+#: kdenlive/kdenlive.cpp:1081
+msgid "Set outpoint"
+msgstr "Nastaviť koncový bod"
+
+#: kdenlive/kdenlive.cpp:1083
+msgid "Delete clip"
+msgstr "Zmazať klip"
+
+#: kdenlive/kdenlive.cpp:1087
+msgid "Toggle a snap marker at the current monitor position"
+msgstr "Prepnúť zlomovú záložku na aktuálnej pozícií monitoru projektu"
+
+#: kdenlive/kdenlive.cpp:1090
+msgid "Remove all snap markers from project"
+msgstr "Z celého projektu odobrať všetky zlomové záložky"
+
+#: kdenlive/kdenlive.cpp:1093
+msgid "Remove snap markers from selected clips"
+msgstr "Z vybraného klipu odstrániť všetky zlomové záložky"
+
+#: kdenlive/kdenlive.cpp:1096
+msgid "Render timeline to a file"
+msgstr "Renderovať časovú os do súboru"
+
+#: kdenlive/kdenlive.cpp:1098
+msgid "Configure project"
+msgstr "Nastaviť projekt"
+
+#: kdenlive/kdenlive.cpp:1102
+msgid "Razor all clips at cursor position"
+msgstr "Orezať všetky klipy na pozícií kurzoru"
+
+#: kdenlive/kdenlive.cpp:1105
+msgid "Razor clip at cursor position"
+msgstr "Orezať klip na pozícií kurzoru"
+
+#: kdenlive/kdenlive.cpp:1123 kdenlive/kdenlive.cpp:1642
+#: kdenlive/kdenlive.cpp:1647 kdenlive/kdenlive.cpp:1668
+#: kdenlive/kdenlive.cpp:1673 kdenlive/kdenlive.cpp:1691
+#: kdenlive/kdenlive.cpp:1886 kdenlive/kdenlive.cpp:2135
+#: kdenlive/kdenlive.cpp:2258 kdenlive/kdenlive.cpp:2265
+#: kdenlive/kdenlive.cpp:2330 kdenlive/kdenlive.cpp:2344
+#: kdenlive/kdenlive.cpp:2366 kdenlive/kdenlive.cpp:2391
+#: kdenlive/kdenlive.cpp:2425 kdenlive/kdenlive.cpp:2654
+#: kdenlive/kdenlive.cpp:2682 kdenlive/kdenlive.cpp:2688
+#: kdenlive/kdenlive.cpp:2705 kdenlive/kdenlive.cpp:2880
+#: kdenlive/kdenlive.cpp:2933 kdenlive/kdenlive.cpp:3037
+#: kdenlive/kdenlive.cpp:3062 kdenlive/kdenlive.cpp:3088
+#: kdenlive/kdenlive.cpp:3093 kdenlive/kdenlive.cpp:3108
+#: kdenlive/kdenlive.cpp:3137 kdenlive/kdenlive.cpp:3158
+#: kdenlive/kdenlive.cpp:3244 kdenlive/kdenlive.cpp:3310
+#: kdenlive/kdenlive.cpp:3325 kdenlive/kdenlive.cpp:3362
+#: kdenlive/kdenlive.cpp:3400 kdenlive/kdenlive.cpp:3419
+#: kdenlive/kdenlive.cpp:3443 kdenlive/kdenlive.cpp:3451
+#: kdenlive/kdenlive.cpp:3461 kdenlive/kdenlive.cpp:3699
+#: kdenlive/kdenlive.cpp:3707 kdenlive/kdenlive.cpp:3723
+#: kdenlive/kdenlive.cpp:4013 kdenlive/kdenlive.cpp:4028
+#: kdenlive/kdenlive.cpp:4042
+msgid "Ready."
+msgstr "Pripravený."
+
+#: kdenlive/kdenlive.cpp:1138
+msgid "Stop Export"
+msgstr "Zastaviť export"
+
+#: kdenlive/kdenlive.cpp:1155
+msgid "Show Effects"
+msgstr "Zobraziť efekty"
+
+#: kdenlive/kdenlive.cpp:1165
+msgid "Show Transitions"
+msgstr "Zobraziť prechody"
+
+#: kdenlive/kdenlive.cpp:1175
+msgid "Show Thumbnails"
+msgstr "Zobraziť miniatúry"
+
+#: kdenlive/kdenlive.cpp:1186
+msgid "Show Audio Thumbnails"
+msgstr "Zobraziť audio miniatúry"
+
+#: kdenlive/kdenlive.cpp:1197
+msgid "Move/Resize mode"
+msgstr "Režim presunutia/zmeny veľkosti"
+
+#: kdenlive/kdenlive.cpp:1204
+msgid "Abort export ?"
+msgstr "Zrušiť export?"
+
+#: kdenlive/kdenlive.cpp:1241 kdenlive/kdenlive.cpp:1245 kdenlive/main.cpp:43
+msgid "Kdenlive"
+msgstr "Kdenlive"
+
+#: kdenlive/kdenlive.cpp:1254 kdenlive/kdenlive.cpp:1260
+msgid "TimeLine"
+msgstr "Časová os"
+
+#: kdenlive/kdenlive.cpp:1264
+msgid ""
+"Video files usable in your project. Add or remove files with the contextual "
+"menu. In order to add sequences to the current video project, use the drag "
+"and drop."
+msgstr "Video súbory použiteľné vo vašom projekte. Pridajte alebo odoberte pomocou kontextovej ponuky. Pre pridanie sekvencii do aktuálneho video projektu, môžete tiež použiť ťahaj a pusť."
+
+#. i18n: file kdenlive/kdenliveui.rc line 301
+#: kdenlive/kdenlive.cpp:1271 kdenlive/kdenlive.cpp:1274 kdenlive/rc.cpp:63
+#: kdenlive/rc.cpp:153 kdenlive/rc.cpp:243 kdenlive/rc.cpp:333
+#: kdenlive/rc.cpp:423 kdenlive/rc.cpp:513 kdenlive/rc.cpp:603
+#: kdenlive/rc.cpp:693
+#, no-c-format
+msgid "Transition"
+msgstr "Prechod"
+
+#: kdenlive/kdenlive.cpp:1278
+msgid "Current effects usable with the renderer"
+msgstr "Súčasné efekty použiteľné pre renderovanie."
+
+#: kdenlive/kdenlive.cpp:1655
+msgid "Generating audio thumb"
+msgstr "Generujem  audio náhľad."
+
+#: kdenlive/kdenlive.cpp:1680
+msgid "Generating video thumbnails"
+msgstr "Generujem video miniatúry"
+
+#: kdenlive/kdenlive.cpp:1699
+msgid "Exporting to File"
+msgstr "Exportujem do súboru"
+
+#: kdenlive/kdenlive.cpp:1711
+msgid "Export will finish in %1h%2m%3s"
+msgstr "Dokončenie exportu za %1h%2m%3s"
+
+#: kdenlive/kdenlive.cpp:1862
+msgid "Cannot read file: %1"
+msgstr "Nemôžem prečítať súbor: %1"
+
+#: kdenlive/kdenlive.cpp:1892
+msgid "HDV 1080"
+msgstr "HDV 1080"
+
+#: kdenlive/kdenlive.cpp:1894
+msgid "HDV 720"
+msgstr "HDV 720"
+
+#: kdenlive/kdenlive.cpp:2026
+msgid ""
+"An export process is currently running.\n"
+"Closing Kdenlive will terminate the export.\n"
+"Close anyways ?"
+msgstr ""
+"Momentálne beží exportovanie.\n"
+"Ukončením Kdenlive sa export zruší.\n"
+"Naozaj zavrieť?"
+
+#: kdenlive/kdenlive.cpp:2040
+msgid ""
+"The current file has been modified.\n"
+"Do you want to save it?"
+msgstr ""
+"Používaný súbor bol upravený.\n"
+"Chcete ho uložiť?"
+
+#: kdenlive/kdenlive.cpp:2109
+msgid "Creating new project..."
+msgstr "Vytváram nový projekt..."
+
+#: kdenlive/kdenlive.cpp:2158
+msgid "Kdenlive - New Project"
+msgstr "Kdenlive - Nový projekt"
+
+#: kdenlive/kdenlive.cpp:2210
+msgid ""
+"Unable to create a folder for temporary files.\n"
+"Kdenlive will not work properly unless you choose a folder for temporary "
+"files with write access in Kdenlive Settings dialog."
+msgstr ""
+"Nemôžem vytvoriť priečinok pre dočasné súbory\n"
+"Kdenlive nebude pracovať správne, pokiaľ nevyberiete v Nastaveniach priečinok pre dočasné súbory s právami zápisu."
+
+#: kdenlive/kdenlive.cpp:2229
+msgid "Select project file"
+msgstr "Vyberte súbor projektu"
+
+#: kdenlive/kdenlive.cpp:2230
+msgid "Merge project"
+msgstr "Spojiť projekt"
+
+#: kdenlive/kdenlive.cpp:2235
+msgid "Project file: "
+msgstr "Súbor projektu:"
+
+#: kdenlive/kdenlive.cpp:2242
+msgid "Timeline clips: "
+msgstr "Klipy časovej osi: "
+
+#: kdenlive/kdenlive.cpp:2245
+msgid "Ignore"
+msgstr "Ignorovať"
+
+#: kdenlive/kdenlive.cpp:2246
+msgid "Insert at current cursor position"
+msgstr "Vložiť na súčasnú pozíciu kurzoru"
+
+#: kdenlive/kdenlive.cpp:2247
+msgid "Insert at the beginning"
+msgstr "Vložiť na začiatok"
+
+#: kdenlive/kdenlive.cpp:2248
+msgid "Insert at the end"
+msgstr "Vložiť na koniec"
+
+#: kdenlive/kdenlive.cpp:2262
+msgid "Opening file..."
+msgstr "Otváram súboru..."
+
+#: kdenlive/kdenlive.cpp:2263 kdenlive/kdenlive.cpp:3012
+#: kdenlive/newproject.cpp:79
+msgid "Open File..."
+msgstr "Otvoriť súbor..."
+
+#: kdenlive/kdenlive.cpp:2323 kdenlive/kdenlive.cpp:2336
+msgid "No clip selected"
+msgstr "Nebol vybraný žiaden klip"
+
+#: kdenlive/kdenlive.cpp:2326
+msgid "Copying clip %1."
+msgstr "Kopírujem klip %1"
+
+#: kdenlive/kdenlive.cpp:2339
+msgid "Cutting clip %1."
+msgstr "Vystrihujem klip %1"
+
+#: kdenlive/kdenlive.cpp:2350 kdenlive/kdenlive.cpp:2372
+#: kdenlive/kdenlive.cpp:2397
+msgid "No clip in clipboard"
+msgstr "V schránke nie je  žiaden klip"
+
+#: kdenlive/kdenlive.cpp:2355
+msgid "Pasting clip %1 effects."
+msgstr "Vkladám efekty klipu %1"
+
+#: kdenlive/kdenlive.cpp:2357
+msgid "Copy Effects"
+msgstr "Kopírovať efekt"
+
+#: kdenlive/kdenlive.cpp:2377
+msgid "Pasting clip %1 transitions."
+msgstr "Vkladám prechod klipu %1"
+
+#: kdenlive/kdenlive.cpp:2380
+msgid "Copy Transitions"
+msgstr "Kopírujem prechody"
+
+#: kdenlive/kdenlive.cpp:2400
+msgid "Pasting clip %1."
+msgstr "Vkladám klip %1"
+
+#: kdenlive/kdenlive.cpp:2428
+msgid "Cannot past clip %1 on track %2 at %3"
+msgstr "Nemôžem vložiť klip %1 do stopy %2 na %3"
+
+#: kdenlive/kdenlive.cpp:2452
+msgid ""
+"Remove track %1 ?\n"
+"This will remove all clips on that track."
+msgstr ""
+"Odobrať stopu %1\n"
+"Týmto zmažete všetky klipy v tejto stope."
+
+#: kdenlive/kdenlive.cpp:2493
+msgid ""
+"You didn't define any external editor for that kind of clip.\n"
+"Please go to Kdenlive settings -> Misc to define it."
+msgstr ""
+"Nenastavili ste externý editor pre tento druh klipu.\n"
+"Nastavte ho v Nastaveniach-> Ostatné."
+
+#: kdenlive/kdenlive.cpp:2512 kdenlive/kdenlive.cpp:2526
+#: kdenlive/kdenlive.cpp:2545
+msgid "Add new clip to project"
+msgstr "Pridať nový klip do projektu"
+
+#: kdenlive/kdenlive.cpp:2577
+msgid ""
+"The selected timeline zone is smaller than 10 frames.\n"
+"Please select a zone with the timeline selection tool before creating a "
+"virtual clip.\n"
+"(Double click in the timeline ruler to bring the selection zone to current "
+"time)"
+msgstr ""
+"Vybraná časť časovej osi je kratšia ako 10 sekúnd.\n"
+"Vyberte časť z časovej osi pred vytváraním virtuálného klipu.\n"
+"(Dvojťuk v pravítku časovej osi skočí na súčasný čas)"
+
+#: kdenlive/kdenlive.cpp:2581
+msgid "New clip name"
+msgstr "Meno nového klipu"
+
+#: kdenlive/kdenlive.cpp:2649
+msgid "Saving file..."
+msgstr "Ukladám súbor..."
+
+#: kdenlive/kdenlive.cpp:2660
+msgid "Saving file with a new filename..."
+msgstr "Ukladám pod novým názvom..."
+
+#: kdenlive/kdenlive.cpp:2663
+msgid "Save as..."
+msgstr "Uložiť ako..."
+
+#: kdenlive/kdenlive.cpp:2686
+msgid "Closing file..."
+msgstr "Zatváram súbor"
+
+#: kdenlive/kdenlive.cpp:2692
+msgid "Printing..."
+msgstr "Tlačím..."
+
+#: kdenlive/kdenlive.cpp:2709
+msgid "Exiting..."
+msgstr "Končím..."
+
+#: kdenlive/kdenlive.cpp:2831
+msgid "Move/Resize tool"
+msgstr "Presun/Zmena veľkosti"
+
+#: kdenlive/kdenlive.cpp:2837
+msgid "Razor tool"
+msgstr "Orezanie"
+
+#: kdenlive/kdenlive.cpp:2843
+msgid "Separate tool"
+msgstr "Rozmiestňovanie"
+
+#: kdenlive/kdenlive.cpp:2849
+msgid "Marker tool"
+msgstr "Záložkovač"
+
+#: kdenlive/kdenlive.cpp:2855
+msgid "Roll tool"
+msgstr "Prehadzovanie"
+
+#: kdenlive/kdenlive.cpp:2861
+msgid "Multiselect tool"
+msgstr "Hromadný výber"
+
+#: kdenlive/kdenlive.cpp:2867
+msgid "Exporting Timeline..."
+msgstr "Exportujem časovú os..."
+
+#: kdenlive/kdenlive.cpp:2903
+msgid "Editing Preferences"
+msgstr "Upravovanie volieb"
+
+#: kdenlive/kdenlive.cpp:2925
+msgid ""
+"Please restart Kdenlive to apply your changes\n"
+"to the audio/video system"
+msgstr ""
+"Reštartujte Kdenlive, aby sa uplatnili zmeny\n"
+"v audio/video nastaveniach."
+
+#: kdenlive/kdenlive.cpp:2951 kdenlive/kdenlive.cpp:2986
+msgid "Enter new folder name: "
+msgstr "Zadajte meno nového priečinku:"
+
+#: kdenlive/kdenlive.cpp:2971
+msgid ""
+"Deleting this folder will remove all reference to its clips in your "
+"project.\n"
+"Delete this folder ?"
+msgstr ""
+"Zmazaním tohto priečinku zrušíte všetky odkazy na klipy v ňom vo vašom projekte. Tieto potom prestanú fungovať.\n"
+"Naozaj zmazať priečinok?"
+
+#: kdenlive/kdenlive.cpp:2986
+msgid "New Folder"
+msgstr "Nový priečinok"
+
+#: kdenlive/kdenlive.cpp:3001 kdenlive/kdenlivedoc.cpp:133
+#: kdenlive/kdenlivedoc.cpp:144 kdenlive/loadprojectnativefilter.cpp:105
+#: kdenlive/loadprojectnativefilter.cpp:173
+#: kdenlive/loadprojectnativefilter.cpp:209
+msgid "Clips"
+msgstr "Klipy"
+
+#: kdenlive/kdenlive.cpp:3006 kdenlive/kdenlive.cpp:3043
+#: kdenlive/kdenlive.cpp:3066 kdenlive/kdenlive.cpp:3113
+#: kdenlive/kdenlive.cpp:3143
+msgid "Adding Clips"
+msgstr "Pridávam klip"
+
+#: kdenlive/kdenlive.cpp:3022
+msgid "You cannot include the current Kdenlive document in itself."
+msgstr "Nemôžete vložiť do projektu súčasný súbor kdenlive projektu."
+
+#: kdenlive/kdenlive.cpp:3170
+msgid "Add image to project"
+msgstr "Pridať obrázok do projektu"
+
+#: kdenlive/kdenlive.cpp:3181
+msgid "Please activate a monitor if you want to save a frame"
+msgstr "Zapnite monitor, pokiaľ chcete uložiť snímku"
+
+#: kdenlive/kdenlive.cpp:3197
+msgid "Change Clip Duration"
+msgstr "Zmeniť trvanie klipu"
+
+#: kdenlive/kdenlive.cpp:3199
+msgid "Enter new duration: "
+msgstr "Zadajte novú dĺžku trvania: "
+
+#: kdenlive/kdenlive.cpp:3249
+msgid "Editing Clips"
+msgstr "Upravovanie klipov"
+
+#: kdenlive/kdenlive.cpp:3317 kdenlive/kdenlive.cpp:3368
+msgid "Removing Clips"
+msgstr "Odeberanie klipov"
+
+#: kdenlive/kdenlive.cpp:3323
+msgid ""
+"This will remove all clips on timeline that are currently using the selected "
+"clips. Are you sure you want to do this?"
+msgstr ""
+"Týmto odstraníte všetky klipy na časovej osi, ktoré v nej  momentálne používate.\n"
+"Naozaj to chcete urobiť?"
+
+#: kdenlive/kdenlive.cpp:3406
+msgid "Cleaning Project"
+msgstr "Čistím projekt"
+
+#: kdenlive/kdenlive.cpp:3409
+msgid ""
+"Clean Project removes unused files.\t              Are you sure you want to "
+"do this?"
+msgstr "Vyčistenie projektu odstráni nepoužívané súbory.\t               Určite to chcete urobiť?"
+
+#: kdenlive/kdenlive.cpp:3439
+msgid "Play / Pause"
+msgstr "Prehrať / Pozastaviť"
+
+#: kdenlive/kdenlive.cpp:3456
+msgid "Starting/stopping playback of inpoint/outpoint section"
+msgstr "Spustiť/zastaviť prehrávanie od počiatočného bodu do koncového bodu"
+
+#: kdenlive/kdenlive.cpp:3468
+#, c-format
+msgid "Playing Forwards (%1x)"
+msgstr "Pretáčam dopredu (%1x)"
+
+#: kdenlive/kdenlive.cpp:3475
+#, c-format
+msgid "Playing Backwards (%1x)"
+msgstr "Pretáčam dozadu (%1x)"
+
+#: kdenlive/kdenlive.cpp:3480
+msgid "Play Loop"
+msgstr "Prehrávam slučku"
+
+#: kdenlive/kdenlive.cpp:3516
+msgid "Cannot find track to insert audio clip."
+msgstr "Nemôžem nájsť stopu pre vloženie audio klipu."
+
+#: kdenlive/kdenlive.cpp:3541
+msgid "Add new audio clip to project"
+msgstr "Pridať do projektu nový audio klip"
+
+#: kdenlive/kdenlive.cpp:3544
+msgid "Save Audio Track"
+msgstr "Uložiť zvukovú stopu"
+
+#: kdenlive/kdenlive.cpp:3569
+msgid "Seeking Forwards one frame"
+msgstr "Posúvam o jednu snímku dopredu"
+
+#: kdenlive/kdenlive.cpp:3578
+msgid "Seeking Backwards one frame"
+msgstr "Posúvam o jednu snímku dozadu"
+
+#: kdenlive/kdenlive.cpp:3667
+msgid "Select Clips"
+msgstr "Vybrané klipy"
+
+#: kdenlive/kdenlive.cpp:3673 kdenlive/kmoveclipscommand.cpp:44
+#: kdenlive/trackpanelspacerfunction.cpp:55
+msgid "Move Clips"
+msgstr "Presunúť klipy"
+
+#: kdenlive/kdenlive.cpp:3695
+msgid "Setting Inpoint"
+msgstr "Nastavujem počiatočný bod"
+
+#: kdenlive/kdenlive.cpp:3703
+msgid "Setting outpoint"
+msgstr "Nastavujem koncový bod"
+
+#: kdenlive/kdenlive.cpp:3711
+msgid "Deleting Selected Clips"
+msgstr "Mažem označené klipy"
+
+#: kdenlive/kdenlive.cpp:3738 kdenlive/kdenlive.cpp:4175
+#: kdenlive/trackpanelclipmovefunction.cpp:102
+#: kdenlive/trackpanelclipmovefunction.cpp:163
+#: kdenlive/trackpanelclipresizefunction.cpp:107
+#: kdenlive/trackpanelcliprollfunction.cpp:130
+#: kdenlive/trackpanelclipslipfunction.cpp:134
+#: kdenlive/trackpanelclipslipfunction.cpp:173
+#: kdenlive/trackpanelselectnonefunction.cpp:73
+#: kdenlive/trackpaneltransitionmovefunction.cpp:118
+#: kdenlive/trackpaneltransitionresizefunction.cpp:139
+msgid "Select Clip"
+msgstr "Vybrať klip"
+
+#: kdenlive/kdenlive.cpp:4009
+msgid "Toggling snap marker"
+msgstr "Pridávanie zlomovej záložky"
+
+#: kdenlive/kdenlive.cpp:4017 kdenlive/kdenlive.cpp:4032
+msgid "Clearing snap markers"
+msgstr "Čistím zlomové záložky"
+
+#: kdenlive/kdenlive.cpp:4020
+msgid "Clear all snap markers"
+msgstr "Zmazať všetky zlomové záložky"
+
+#: kdenlive/kdenlive.cpp:4035
+msgid "Clear selected snap markers"
+msgstr "Zmazat vybrané klipové záložky"
+
+#: kdenlive/kdenlive.cpp:4063 kdenlive/kdenlive.cpp:4082
+#: kdenlive/kmmmonitor.cpp:378 kdenlive/trackpanelmarkerfunction.cpp:97
+#: kdenlive/trackpanelmarkerfunction.cpp:108
+msgid "Marker comment: "
+msgstr "Komentár záložky: "
+
+#: kdenlive/kdenlive.cpp:4224
+msgid "Please select a clip to apply transition"
+msgstr "Vyberte klip pre aplikáciu prechodu"
+
+#: kdenlive/kdenlive.cpp:4241
+msgid "Please select a clip to delete transition"
+msgstr "Vyberte klip, ktorému chcete zmazat prechod"
+
+#: kdenlive/kdenlive.cpp:4258
+msgid "Please select a clip to edit transition"
+msgstr "Vyberte klip, u ktorého chcete upraviť prechod"
+
+#: kdenlive/kdenlivesetupdlg.cpp:51
+msgid "Interface"
+msgstr "Rozhranie"
+
+#: kdenlive/kdenlivesetupdlg.cpp:52
+msgid "Timeline"
+msgstr "Časová os"
+
+#: kdenlive/kdenlivesetupdlg.cpp:53
+msgid "Misc"
+msgstr "Ostatné"
+
+#: kdenlive/kdenlivesetupdlg.cpp:54 kdenlive/titlebasewidget_ui.cpp:189
+msgid "Titler"
+msgstr "Titulkovač"
+
+#: kdenlive/kdenlivesetupdlg.cpp:55
+msgid "Default Project"
+msgstr "Štandardný projekt"
+
+#: kdenlive/kdenlivesetupdlg.cpp:56
+msgid "Capture"
+msgstr "Zachytávať"
+
+#: kdenlive/kdenlivesetupdlg.cpp:57
+msgid "Hardware"
+msgstr "Hardvér"
+
+#: kdenlive/kdenlivesetupdlg.cpp:66 kdenlive/kdenlivesetupdlg.cpp:80
+msgid "Automatic"
+msgstr "Automaticky"
+
+#: kdenlive/kdenlivesetupdlg.cpp:67
+msgid "(OSS)"
+msgstr "(OSS)"
+
+#: kdenlive/kdenlivesetupdlg.cpp:68
+msgid "(ALSA)"
+msgstr "(ALSA)"
+
+#: kdenlive/kdenlivesetupdlg.cpp:69
+msgid "(OSS with DMA access)"
+msgstr "(OSS s DMA prístupom)"
+
+#: kdenlive/kdenlivesetupdlg.cpp:70
+msgid "(Esound daemon)"
+msgstr "(Esound démon)"
+
+#: kdenlive/kdenlivesetupdlg.cpp:71
+msgid "(ARTS daemon)"
+msgstr "(ARTS démon)"
+
+#: kdenlive/kdenlivesetupdlg.cpp:81
+msgid "(Default)"
+msgstr "(Východzí)"
+
+#: kdenlive/kdenlivesetupdlg.cpp:82
+msgid "(XFREE86 DGA 2.0)"
+msgstr "(XFREE86 DGA 2.0)"
+
+#: kdenlive/kdenlivesetupdlg.cpp:83
+msgid "()"
+msgstr "()"
+
+#: kdenlive/kdenlivesetupdlg.cpp:84
+msgid "(Framebuffer console)"
+msgstr "(Konzolový framebuffer)"
+
+#: kdenlive/kdenlivesetupdlg.cpp:85
+msgid "(DirectFB)"
+msgstr "(DirectFB)"
+
+#: kdenlive/kdenlivesetupdlg.cpp:86
+msgid "(SVGAlib)"
+msgstr "(SVGAlib)"
+
+#: kdenlive/kdenlivesetupdlg.cpp:87
+msgid "(General graphics interface)"
+msgstr "(Hlavné grafické rozhranie)"
+
+#: kdenlive/kdenlivesetupdlg.cpp:88
+msgid "(Ascii art library)"
+msgstr "(Ascii knižnica)"
+
+#: kdenlive/kdenlivesplash.cpp:23
+msgid "Version "
+msgstr "Verzia"
+
+#: kdenlive/keditclipcommand.cpp:126
+msgid "Edit Clip"
+msgstr "Upraviť klip"
+
+#: kdenlive/keditmarkercommand.cpp:46
+msgid "Edit Snap Marker"
+msgstr "Upraviť zlomovú záložku"
+
+#: kdenlive/keditmarkercommand.cpp:48
+msgid "Undo Edit Snap Marker"
+msgstr "Vrátiť úpravu zlomovej záložky"
+
+#: kdenlive/kmmeditpanel.cpp:197 kdenlive/kmmrecpanel.cpp:133
+msgid "Renderer connected"
+msgstr "Renderovacie zariadenie je pripojené"
+
+#: kdenlive/kmmeditpanel.cpp:202 kdenlive/kmmrecpanel.cpp:138
+msgid "Renderer not connected"
+msgstr "Renderovacie zariadenie nie je pripojené"
+
+#: kdenlive/kmmeditpanel_ui.cpp:477
+msgid "Move to start of clip"
+msgstr "Presunúť na začiatok klipu"
+
+#: kdenlive/kmmeditpanel_ui.cpp:479 kdenlive/kmmrecpanel_ui.cpp:248
+msgid "Rewind clip"
+msgstr "Pretočiť klip späť"
+
+#: kdenlive/kmmeditpanel_ui.cpp:481
+msgid "Rewind 1 frame"
+msgstr "Pretočit o 1 snímku dozadu"
+
+#: kdenlive/kmmeditpanel_ui.cpp:483
+msgid "Stop clip"
+msgstr "Zastaviť klip"
+
+#: kdenlive/kmmeditpanel_ui.cpp:485
+msgid "Play clip"
+msgstr "Prehrať klip"
+
+#: kdenlive/kmmeditpanel_ui.cpp:487
+msgid "Forward 1 frame"
+msgstr "Pretočiť o 1 snímku dopredu"
+
+#: kdenlive/kmmeditpanel_ui.cpp:489
+msgid "Forward clip"
+msgstr "Pretočiť klip dopredu"
+
+#: kdenlive/kmmeditpanel_ui.cpp:491
+msgid "Move to end of clip"
+msgstr "Presunúť na koniec klipu"
+
+#: kdenlive/kmmeditpanel_ui.cpp:497
+msgid "Play Section between inpoint and outpoint"
+msgstr "Prehrať výber medzi počiatočným a koncovým bodom"
+
+#: kdenlive/kmmeditpanel_ui.cpp:499
+msgid "Loop Section between inpoint and outpoint"
+msgstr "Opakovať výber medzi počiatočným a koncovým bodom"
+
+#: kdenlive/kmmeditpanel_ui.cpp:501
+msgid "Move to previous marker"
+msgstr "Presunúť na predchádzajúcu záložku"
+
+#: kdenlive/kmmeditpanel_ui.cpp:503
+msgid "Set marker on timeline"
+msgstr "Vytvoriť záložku na časovej osi"
+
+#: kdenlive/kmmeditpanel_ui.cpp:505
+msgid "Move to next marker"
+msgstr "Presunúť na ďalšiu záložku"
+
+#: kdenlive/kmmeditpanel_ui.cpp:507
+msgid "Monitor volume"
+msgstr "Hlasitosť"
+
+#: kdenlive/kmmrecpanel_ui.cpp:244
+msgid "Record"
+msgstr "Nahrávka"
+
+#: kdenlive/kmmrecpanel_ui.cpp:246
+msgid "End Rec"
+msgstr "Koniec nahrávania"
+
+#: kdenlive/kmmrecpanel_ui.cpp:250
+msgid "Live Rewind"
+msgstr "Živé pretáčanie dozadu"
+
+#: kdenlive/kmmrecpanel_ui.cpp:254
+msgid "Play"
+msgstr "Prehrať"
+
+#: kdenlive/kmmrecpanel_ui.cpp:256
+msgid "Live Forward"
+msgstr "Živé pretáčanie dopredu"
+
+#: kdenlive/kmmrecpanel_ui.cpp:258
+msgid "Forward"
+msgstr "Pretáčať"
+
+#: kdenlive/kmmrulerpanel.cpp:48
+msgid "1 Frame"
+msgstr "1 snímok"
+
+#: kdenlive/kmmrulerpanel.cpp:49
+msgid "2 Frames"
+msgstr "2 snímky"
+
+#: kdenlive/kmmrulerpanel.cpp:50
+msgid "5 Frames"
+msgstr "5 snímkov"
+
+#: kdenlive/kmmrulerpanel.cpp:51
+msgid "10 Frames"
+msgstr "10 snímkov"
+
+#: kdenlive/kmmrulerpanel.cpp:52
+msgid "1 Second"
+msgstr "1 sekunda"
+
+#: kdenlive/kmmrulerpanel.cpp:53
+msgid "2 Seconds"
+msgstr "2 sekundy"
+
+#: kdenlive/kmmrulerpanel.cpp:54
+msgid "5 Seconds"
+msgstr "5 sekúnd"
+
+#: kdenlive/kmmrulerpanel.cpp:55
+msgid "10 Seconds"
+msgstr "10 sekúnd"
+
+#: kdenlive/kmmrulerpanel.cpp:56
+msgid "20 Seconds"
+msgstr "20 sekúnd"
+
+#: kdenlive/kmmrulerpanel.cpp:57
+msgid "30 Seconds"
+msgstr "30 sekúnd"
+
+#: kdenlive/kmmrulerpanel.cpp:58
+msgid "1 Minute"
+msgstr "1 minúta"
+
+#: kdenlive/kmmrulerpanel.cpp:59
+msgid "2 Minutes"
+msgstr "2 minúty"
+
+#: kdenlive/kmmrulerpanel.cpp:60
+msgid "4 Minutes"
+msgstr "4 minúty"
+
+#: kdenlive/kmmrulerpanel.cpp:61
+msgid "8 Minutes"
+msgstr "8 minút"
+
+#: kdenlive/kmmrulerpanel_ui.cpp:70
+msgid "Change the timeline view"
+msgstr "Zmeniť pohľad časovej osi"
+
+#: kdenlive/kmmtracksoundpanel.cpp:51 kdenlive/kmmtrackvideopanel.cpp:62
+#: kdenlive/transitiondialog.cpp:65
+msgid "Track %1"
+msgstr "Stopa %1"
+
+#: kdenlive/krender.cpp:153
+msgid ""
+"Could not create the video preview window.\n"
+"There is something wrong with your Kdenlive install.\n"
+" Exiting now..."
+msgstr ""
+"Nemôžem vytvoriť okno pre náhľad videa.\n"
+"Niečo je zlé s inštaláciou Kdenlive.\n"
+"Nemôžem pokračovať, teraz končím ..."
+
+#: kdenlive/krender.cpp:581 kdenlive/krender.cpp:645
+msgid ""
+"Could not create the video preview window.\n"
+"There is something wrong with your Kdenlive install or your driver settings, "
+"please fix it."
+msgstr ""
+"Nemôžem vytvoriť okno pre náhľad videa.\n"
+"Pravdepodobne inštalácia Kdenlive neprebehla dobre, alebo ovládače nie sú nastavene správne."
+
+#: kdenlive/krender.cpp:616
+msgid "Volume: "
+msgstr "Hlasitosť: "
+
+#: kdenlive/krender.cpp:912
+msgid "Cannot open file: "
+msgstr "Nemôžem otvoriť súbor"
+
+#: kdenlive/krender.cpp:916
+msgid ""
+"NO firewire access on that port\n"
+"Make sure you have loaded the raw1394 module and that you have write access "
+"on /dev/raw1394..."
+msgstr ""
+"Žiadny firewire prístup na príslušnom porte\n"
+"Uistite sa, že je nahratý modul raw1394 a máte zapisovacie práva na /dev/raw1394..."
+
+#: kdenlive/krender.cpp:927
+msgid "NO DV device found"
+msgstr "Nebolo nájdene žiadne DV zariadenie"
+
+#: kdenlive/krender.cpp:931
+msgid ""
+"Transmission of dv file is finished.\n"
+"%1 frames were dropped during transfer."
+msgstr ""
+"Prenášanie dv súboru bolo dokončené.\n"
+"Počas prenosu bolo zahodených %1 snímkov."
+
+#: kdenlive/krender.cpp:932
+msgid "Transmission of dv file finished successfully."
+msgstr "Prenesenie dv súborov prebehlo úspešne."
+
+#: kdenlive/krender.cpp:934
+msgid ""
+"Firewire is not enabled on your system.\n"
+" Please install Libiec61883 and recompile Kdenlive"
+msgstr ""
+"Firewire nie je na vašom systéme povolené.\n"
+"Nainštalujte libiec61883 a rekompilujte Kdenlive"
+
+#: kdenlive/krender.cpp:941
+msgid "There is no clip, cannot extract frame."
+msgstr "Nie je vybraný žiadny klip, nemôžem vybrať snímok."
+
+#: kdenlive/kresizecommand.cpp:46
+msgid "Resize clip"
+msgstr "Zmeniť veľkosť klipu"
+
+#: kdenlive/krollcommand.cpp:54
+msgid "Roll clips"
+msgstr "Prehodiť klipy"
+
+#: kdenlive/kruler.cpp:1145
+msgid "Guide %1"
+msgstr "Sprievodca %1"
+
+#: kdenlive/kruler.cpp:1150
+msgid "Chapter End"
+msgstr "Koniec kapitoly"
+
+#: kdenlive/kselectclipcommand.cpp:57 kdenlive/kselectclipcommand.cpp:61
+#: kdenlive/kselectclipcommand.cpp:83 kdenlive/kselectclipcommand.cpp:111
+#: kdenlive/kselectclipcommand.cpp:138
+msgid "Selection"
+msgstr "Výber"
+
+#: kdenlive/ktimeline.cpp:65
+msgid "Ruler"
+msgstr "Pravítko"
+
+#: kdenlive/ktimeline.cpp:81
+msgid "Scroll"
+msgstr "Rolovať"
+
+#: kdenlive/loadprogress_ui.cpp:56
+msgid "Test"
+msgstr "Test"
+
+#: kdenlive/main.cpp:28
+msgid ""
+"Kdenlive\n"
+"\n"
+"A non-linear video editor for KDE.\n"
+"\n"
+"Kdenlive is a frontend for the Mlt Framework.\n"
+"You can download the Mlt Framework on this url:\n"
+"http://mltframework.org"
+msgstr ""
+"Kdenlive video\n"
+"\n"
+"Nelineárný video editor pro KDE.\n"
+"\n"
+"Kdenlive je nadstavbou Mlt frameworku.\n"
+"Ten môžete stiahnúť na oficiálnych stránkach:\n"
+"http://mltframework.org"
+
+#: kdenlive/main.cpp:35
+msgid "file to open"
+msgstr "súbor na otvorenie"
+
+#: kdenlive/main.cpp:53
+msgid "Kdenlive original author"
+msgstr "Originálny autor Kdenlive"
+
+#: kdenlive/main.cpp:57
+msgid "Kdenlive programmer, MLT porting, Effects, Transitions"
+msgstr "Kdenlive programátor, portovanie MLT, efekty, prechody"
+
+#: kdenlive/main.cpp:60
+msgid "Piave renderer author"
+msgstr "Autor Piave renderovania"
+
+#: kdenlive/main.cpp:66
+msgid "Piave and Kdenlive internationalization, French translations, splashscreen"
+msgstr "Internacionalizácia Piave a Kdenlive, francúzsky preklad, úvodná obrazovka"
+
+#: kdenlive/main.cpp:71
+msgid "Artist, Kdenlive logo, splashscreen and application icon"
+msgstr "Výtvarníci, Kdenlive logo, úvodná obrazovka a ikona aplikácie"
+
+#: kdenlive/main.cpp:74 kdenlive/main.cpp:80
+msgid "Kdenlive programmer"
+msgstr "Kdenlive programátor"
+
+#: kdenlive/main.cpp:77
+msgid "Kdenlive programmer, Trackdecorators"
+msgstr "Kdenlive programátor, stopoví dekorátori"
+
+#: kdenlive/main.cpp:81
+msgid "_: NAME OF TRANSLATORS\\nYour names"
+msgstr "Peter Štrba"
+
+#: kdenlive/main.cpp:81
+msgid "_: EMAIL OF TRANSLATORS\\nYour emails"
+msgstr "pestr@nextra.sk"
+
+#: kdenlive/newproject.cpp:79
+msgid "*.kdenlive|Kdenlive Project Files (*.kdenlive)"
+msgstr "*.kdenlive|Kdenlive Projektové súbory (*.kdenlive)"
+
+#: kdenlive/newproject_ui.cpp:146
+msgid "Default project folder (to store rendered files):"
+msgstr "Východzí priečinok projektu (pre renderované súbory)"
+
+#: kdenlive/newproject_ui.cpp:147
+msgid "Project name:"
+msgstr "Názov projektu:"
+
+#: kdenlive/newproject_ui.cpp:148
+msgid "Audio tracks:"
+msgstr "Audio stopy:"
+
+#: kdenlive/newproject_ui.cpp:149
+msgid "Video tracks:"
+msgstr "Video stopy:"
+
+#: kdenlive/newproject_ui.cpp:150
+msgid "Video format:"
+msgstr "Video formát:"
+
+#: kdenlive/newproject_ui.cpp:151
+msgid "New File"
+msgstr "Nový súbor"
+
+#: kdenlive/newproject_ui.cpp:152
+msgid "Recent Files"
+msgstr "Nedávne súbory"
+
+#: kdenlive/newproject_ui.cpp:153
+msgid "Open Existing Project"
+msgstr "Otvoriť existujúci projekt"
+
+#: kdenlive/newproject_ui.cpp:157
+msgid "Ok"
+msgstr "Ok"
+
+#: kdenlive/projectformatmanager.cpp:128
+msgid ""
+"Could not save file %1.\n"
+"Please check your permissions"
+msgstr ""
+"Nemôžem uložiť súbor %1.\n"
+"Skontrolujte svoje oprávnenia."
+
+#: kdenlive/projectlist.cpp:78
+msgid "Select View Type"
+msgstr "Vybrať zobrazovaný typ"
+
+#. i18n: file kdenlive/kdenliveui.rc line 43
+#: kdenlive/rc.cpp:3 kdenlive/rc.cpp:93 kdenlive/rc.cpp:183
+#: kdenlive/rc.cpp:273 kdenlive/rc.cpp:363 kdenlive/rc.cpp:453
+#: kdenlive/rc.cpp:543 kdenlive/rc.cpp:633
+#, no-c-format
+msgid "&Project"
+msgstr "&Projekt"
+
+#. i18n: file kdenlive/kdenliveui.rc line 55
+#: kdenlive/rc.cpp:6 kdenlive/rc.cpp:96 kdenlive/rc.cpp:186
+#: kdenlive/rc.cpp:276 kdenlive/rc.cpp:366 kdenlive/rc.cpp:456
+#: kdenlive/rc.cpp:546 kdenlive/rc.cpp:636
+#, no-c-format
+msgid "&Timeline"
+msgstr "Čas&ová os"
+
+#. i18n: file kdenlive/kdenliveui.rc line 63
+#. i18n: file kdenlive/kdenliveui.rc line 249
+#. i18n: file kdenlive/kdenliveui.rc line 63
+#. i18n: file kdenlive/kdenliveui.rc line 249
+#. i18n: file kdenlive/kdenliveui.rc line 63
+#. i18n: file kdenlive/kdenliveui.rc line 249
+#. i18n: file kdenlive/kdenliveui.rc line 63
+#. i18n: file kdenlive/kdenliveui.rc line 249
+#. i18n: file kdenlive/kdenliveui.rc line 63
+#. i18n: file kdenlive/kdenliveui.rc line 249
+#. i18n: file kdenlive/kdenliveui.rc line 63
+#. i18n: file kdenlive/kdenliveui.rc line 249
+#. i18n: file kdenlive/kdenliveui.rc line 63
+#. i18n: file kdenlive/kdenliveui.rc line 249
+#. i18n: file kdenlive/kdenliveui.rc line 63
+#. i18n: file kdenlive/kdenliveui.rc line 249
+#: kdenlive/rc.cpp:9 kdenlive/rc.cpp:42 kdenlive/rc.cpp:99 kdenlive/rc.cpp:132
+#: kdenlive/rc.cpp:189 kdenlive/rc.cpp:222 kdenlive/rc.cpp:279
+#: kdenlive/rc.cpp:312 kdenlive/rc.cpp:369 kdenlive/rc.cpp:402
+#: kdenlive/rc.cpp:459 kdenlive/rc.cpp:492 kdenlive/rc.cpp:549
+#: kdenlive/rc.cpp:582 kdenlive/rc.cpp:639 kdenlive/rc.cpp:672
+#, no-c-format
+msgid "Go To"
+msgstr "Prejsť na"
+
+#. i18n: file kdenlive/kdenliveui.rc line 89
+#: kdenlive/rc.cpp:12 kdenlive/rc.cpp:102 kdenlive/rc.cpp:192
+#: kdenlive/rc.cpp:282 kdenlive/rc.cpp:372 kdenlive/rc.cpp:462
+#: kdenlive/rc.cpp:552 kdenlive/rc.cpp:642
+#, no-c-format
+msgid "Monitor"
+msgstr "Monitor"
+
+#. i18n: file kdenlive/kdenliveui.rc line 99
+#. i18n: file kdenlive/kdenliveui.rc line 345
+#. i18n: file kdenlive/kdenliveui.rc line 361
+#. i18n: file kdenlive/kdenliveui.rc line 99
+#. i18n: file kdenlive/kdenliveui.rc line 345
+#. i18n: file kdenlive/kdenliveui.rc line 361
+#. i18n: file kdenlive/kdenliveui.rc line 99
+#. i18n: file kdenlive/kdenliveui.rc line 345
+#. i18n: file kdenlive/kdenliveui.rc line 361
+#. i18n: file kdenlive/kdenliveui.rc line 99
+#. i18n: file kdenlive/kdenliveui.rc line 345
+#. i18n: file kdenlive/kdenliveui.rc line 361
+#. i18n: file kdenlive/kdenliveui.rc line 99
+#. i18n: file kdenlive/kdenliveui.rc line 345
+#. i18n: file kdenlive/kdenliveui.rc line 361
+#. i18n: file kdenlive/kdenliveui.rc line 99
+#. i18n: file kdenlive/kdenliveui.rc line 345
+#. i18n: file kdenlive/kdenliveui.rc line 361
+#. i18n: file kdenlive/kdenliveui.rc line 99
+#. i18n: file kdenlive/kdenliveui.rc line 345
+#. i18n: file kdenlive/kdenliveui.rc line 361
+#. i18n: file kdenlive/kdenliveui.rc line 99
+#. i18n: file kdenlive/kdenliveui.rc line 345
+#. i18n: file kdenlive/kdenliveui.rc line 361
+#: kdenlive/rc.cpp:15 kdenlive/rc.cpp:81 kdenlive/rc.cpp:84
+#: kdenlive/rc.cpp:105 kdenlive/rc.cpp:171 kdenlive/rc.cpp:174
+#: kdenlive/rc.cpp:195 kdenlive/rc.cpp:261 kdenlive/rc.cpp:264
+#: kdenlive/rc.cpp:285 kdenlive/rc.cpp:351 kdenlive/rc.cpp:354
+#: kdenlive/rc.cpp:375 kdenlive/rc.cpp:441 kdenlive/rc.cpp:444
+#: kdenlive/rc.cpp:465 kdenlive/rc.cpp:531 kdenlive/rc.cpp:534
+#: kdenlive/rc.cpp:555 kdenlive/rc.cpp:621 kdenlive/rc.cpp:624
+#: kdenlive/rc.cpp:645 kdenlive/rc.cpp:711 kdenlive/rc.cpp:714
+#, no-c-format
+msgid "Preview Quality"
+msgstr "Kvalita náhľadu"
+
+#. i18n: file kdenlive/kdenliveui.rc line 106
+#: kdenlive/rc.cpp:18 kdenlive/rc.cpp:108 kdenlive/rc.cpp:198
+#: kdenlive/rc.cpp:288 kdenlive/rc.cpp:378 kdenlive/rc.cpp:468
+#: kdenlive/rc.cpp:558 kdenlive/rc.cpp:648
+#, no-c-format
+msgid "Layout"
+msgstr "Rozloženie"
+
+#. i18n: file kdenlive/kdenliveui.rc line 117
+#: kdenlive/rc.cpp:21 kdenlive/rc.cpp:111 kdenlive/rc.cpp:201
+#: kdenlive/rc.cpp:291 kdenlive/rc.cpp:381 kdenlive/rc.cpp:471
+#: kdenlive/rc.cpp:561 kdenlive/rc.cpp:651
+#, no-c-format
+msgid "Windows"
+msgstr "Okná"
+
+#. i18n: file kdenlive/kdenliveui.rc line 147
+#. i18n: file kdenlive/kdenliveui.rc line 165
+#. i18n: file kdenlive/kdenliveui.rc line 181
+#. i18n: file kdenlive/kdenliveui.rc line 197
+#. i18n: file kdenlive/kdenliveui.rc line 213
+#. i18n: file kdenlive/kdenliveui.rc line 230
+#. i18n: file kdenlive/kdenliveui.rc line 147
+#. i18n: file kdenlive/kdenliveui.rc line 165
+#. i18n: file kdenlive/kdenliveui.rc line 181
+#. i18n: file kdenlive/kdenliveui.rc line 197
+#. i18n: file kdenlive/kdenliveui.rc line 213
+#. i18n: file kdenlive/kdenliveui.rc line 230
+#. i18n: file kdenlive/kdenliveui.rc line 147
+#. i18n: file kdenlive/kdenliveui.rc line 165
+#. i18n: file kdenlive/kdenliveui.rc line 181
+#. i18n: file kdenlive/kdenliveui.rc line 197
+#. i18n: file kdenlive/kdenliveui.rc line 213
+#. i18n: file kdenlive/kdenliveui.rc line 230
+#. i18n: file kdenlive/kdenliveui.rc line 147
+#. i18n: file kdenlive/kdenliveui.rc line 165
+#. i18n: file kdenlive/kdenliveui.rc line 181
+#. i18n: file kdenlive/kdenliveui.rc line 197
+#. i18n: file kdenlive/kdenliveui.rc line 213
+#. i18n: file kdenlive/kdenliveui.rc line 230
+#. i18n: file kdenlive/kdenliveui.rc line 147
+#. i18n: file kdenlive/kdenliveui.rc line 165
+#. i18n: file kdenlive/kdenliveui.rc line 181
+#. i18n: file kdenlive/kdenliveui.rc line 197
+#. i18n: file kdenlive/kdenliveui.rc line 213
+#. i18n: file kdenlive/kdenliveui.rc line 230
+#. i18n: file kdenlive/kdenliveui.rc line 147
+#. i18n: file kdenlive/kdenliveui.rc line 165
+#. i18n: file kdenlive/kdenliveui.rc line 181
+#. i18n: file kdenlive/kdenliveui.rc line 197
+#. i18n: file kdenlive/kdenliveui.rc line 213
+#. i18n: file kdenlive/kdenliveui.rc line 230
+#. i18n: file kdenlive/kdenliveui.rc line 147
+#. i18n: file kdenlive/kdenliveui.rc line 165
+#. i18n: file kdenlive/kdenliveui.rc line 181
+#. i18n: file kdenlive/kdenliveui.rc line 197
+#. i18n: file kdenlive/kdenliveui.rc line 213
+#. i18n: file kdenlive/kdenliveui.rc line 230
+#. i18n: file kdenlive/kdenliveui.rc line 147
+#. i18n: file kdenlive/kdenliveui.rc line 165
+#. i18n: file kdenlive/kdenliveui.rc line 181
+#. i18n: file kdenlive/kdenliveui.rc line 197
+#. i18n: file kdenlive/kdenliveui.rc line 213
+#. i18n: file kdenlive/kdenliveui.rc line 230
+#: kdenlive/rc.cpp:24 kdenlive/rc.cpp:27 kdenlive/rc.cpp:30 kdenlive/rc.cpp:33
+#: kdenlive/rc.cpp:36 kdenlive/rc.cpp:39 kdenlive/rc.cpp:114
+#: kdenlive/rc.cpp:117 kdenlive/rc.cpp:120 kdenlive/rc.cpp:123
+#: kdenlive/rc.cpp:126 kdenlive/rc.cpp:129 kdenlive/rc.cpp:204
+#: kdenlive/rc.cpp:207 kdenlive/rc.cpp:210 kdenlive/rc.cpp:213
+#: kdenlive/rc.cpp:216 kdenlive/rc.cpp:219 kdenlive/rc.cpp:294
+#: kdenlive/rc.cpp:297 kdenlive/rc.cpp:300 kdenlive/rc.cpp:303
+#: kdenlive/rc.cpp:306 kdenlive/rc.cpp:309 kdenlive/rc.cpp:384
+#: kdenlive/rc.cpp:387 kdenlive/rc.cpp:390 kdenlive/rc.cpp:393
+#: kdenlive/rc.cpp:396 kdenlive/rc.cpp:399 kdenlive/rc.cpp:474
+#: kdenlive/rc.cpp:477 kdenlive/rc.cpp:480 kdenlive/rc.cpp:483
+#: kdenlive/rc.cpp:486 kdenlive/rc.cpp:489 kdenlive/rc.cpp:564
+#: kdenlive/rc.cpp:567 kdenlive/rc.cpp:570 kdenlive/rc.cpp:573
+#: kdenlive/rc.cpp:576 kdenlive/rc.cpp:579 kdenlive/rc.cpp:654
+#: kdenlive/rc.cpp:657 kdenlive/rc.cpp:660 kdenlive/rc.cpp:663
+#: kdenlive/rc.cpp:666 kdenlive/rc.cpp:669
+#, no-c-format
+msgid "Create Clip"
+msgstr "Vytvoriť klip"
+
+#. i18n: file kdenlive/kdenliveui.rc line 254
+#. i18n: file kdenlive/kdenliveui.rc line 276
+#. i18n: file kdenlive/kdenliveui.rc line 254
+#. i18n: file kdenlive/kdenliveui.rc line 276
+#. i18n: file kdenlive/kdenliveui.rc line 254
+#. i18n: file kdenlive/kdenliveui.rc line 276
+#. i18n: file kdenlive/kdenliveui.rc line 254
+#. i18n: file kdenlive/kdenliveui.rc line 276
+#. i18n: file kdenlive/kdenliveui.rc line 254
+#. i18n: file kdenlive/kdenliveui.rc line 276
+#. i18n: file kdenlive/kdenliveui.rc line 254
+#. i18n: file kdenlive/kdenliveui.rc line 276
+#. i18n: file kdenlive/kdenliveui.rc line 254
+#. i18n: file kdenlive/kdenliveui.rc line 276
+#. i18n: file kdenlive/kdenliveui.rc line 254
+#. i18n: file kdenlive/kdenliveui.rc line 276
+#: kdenlive/rc.cpp:45 kdenlive/rc.cpp:54 kdenlive/rc.cpp:135
+#: kdenlive/rc.cpp:144 kdenlive/rc.cpp:225 kdenlive/rc.cpp:234
+#: kdenlive/rc.cpp:315 kdenlive/rc.cpp:324 kdenlive/rc.cpp:405
+#: kdenlive/rc.cpp:414 kdenlive/rc.cpp:495 kdenlive/rc.cpp:504
+#: kdenlive/rc.cpp:585 kdenlive/rc.cpp:594 kdenlive/rc.cpp:675
+#: kdenlive/rc.cpp:684
+#, no-c-format
+msgid "Tools"
+msgstr "Nástroje"
+
+#. i18n: file kdenlive/kdenliveui.rc line 262
+#. i18n: file kdenlive/kdenliveui.rc line 284
+#. i18n: file kdenlive/kdenliveui.rc line 262
+#. i18n: file kdenlive/kdenliveui.rc line 284
+#. i18n: file kdenlive/kdenliveui.rc line 262
+#. i18n: file kdenlive/kdenliveui.rc line 284
+#. i18n: file kdenlive/kdenliveui.rc line 262
+#. i18n: file kdenlive/kdenliveui.rc line 284
+#. i18n: file kdenlive/kdenliveui.rc line 262
+#. i18n: file kdenlive/kdenliveui.rc line 284
+#. i18n: file kdenlive/kdenliveui.rc line 262
+#. i18n: file kdenlive/kdenliveui.rc line 284
+#. i18n: file kdenlive/kdenliveui.rc line 262
+#. i18n: file kdenlive/kdenliveui.rc line 284
+#. i18n: file kdenlive/kdenliveui.rc line 262
+#. i18n: file kdenlive/kdenliveui.rc line 284
+#: kdenlive/rc.cpp:48 kdenlive/rc.cpp:57 kdenlive/rc.cpp:138
+#: kdenlive/rc.cpp:147 kdenlive/rc.cpp:228 kdenlive/rc.cpp:237
+#: kdenlive/rc.cpp:318 kdenlive/rc.cpp:327 kdenlive/rc.cpp:408
+#: kdenlive/rc.cpp:417 kdenlive/rc.cpp:498 kdenlive/rc.cpp:507
+#: kdenlive/rc.cpp:588 kdenlive/rc.cpp:597 kdenlive/rc.cpp:678
+#: kdenlive/rc.cpp:687
+#, no-c-format
+msgid "Snap To"
+msgstr "Prichytávať k"
+
+#. i18n: file kdenlive/kdenliveui.rc line 267
+#: kdenlive/rc.cpp:51 kdenlive/rc.cpp:141 kdenlive/rc.cpp:231
+#: kdenlive/rc.cpp:321 kdenlive/rc.cpp:411 kdenlive/rc.cpp:501
+#: kdenlive/rc.cpp:591 kdenlive/rc.cpp:681
+#, no-c-format
+msgid "Tracks"
+msgstr "Stopy"
+
+#. i18n: file kdenlive/kdenliveui.rc line 299
+#: kdenlive/rc.cpp:60 kdenlive/rc.cpp:150 kdenlive/rc.cpp:240
+#: kdenlive/rc.cpp:330 kdenlive/rc.cpp:420 kdenlive/rc.cpp:510
+#: kdenlive/rc.cpp:600 kdenlive/rc.cpp:690
+#, no-c-format
+msgid "Add Transition"
+msgstr "Pridať prechod"
+
+#. i18n: file kdenlive/kdenliveui.rc line 306
+#: kdenlive/rc.cpp:66 kdenlive/rc.cpp:156 kdenlive/rc.cpp:246
+#: kdenlive/rc.cpp:336 kdenlive/rc.cpp:426 kdenlive/rc.cpp:516
+#: kdenlive/rc.cpp:606 kdenlive/rc.cpp:696
+#, no-c-format
+msgid "Add Video Effect"
+msgstr "Pridať video efekt"
+
+#. i18n: file kdenlive/kdenliveui.rc line 308
+#: kdenlive/rc.cpp:69 kdenlive/rc.cpp:159 kdenlive/rc.cpp:249
+#: kdenlive/rc.cpp:339 kdenlive/rc.cpp:429 kdenlive/rc.cpp:519
+#: kdenlive/rc.cpp:609 kdenlive/rc.cpp:699
+#, no-c-format
+msgid "Add Audio Effect"
+msgstr "Pridať audio efekt"
+
+#. i18n: file kdenlive/kdenliveui.rc line 310
+#: kdenlive/rc.cpp:72 kdenlive/rc.cpp:162 kdenlive/rc.cpp:252
+#: kdenlive/rc.cpp:342 kdenlive/rc.cpp:432 kdenlive/rc.cpp:522
+#: kdenlive/rc.cpp:612 kdenlive/rc.cpp:702
+#, no-c-format
+msgid "Delete Effect"
+msgstr "Zmazať efekt"
+
+#. i18n: file kdenlive/kdenliveui.rc line 369
+#: kdenlive/rc.cpp:87 kdenlive/rc.cpp:177 kdenlive/rc.cpp:267
+#: kdenlive/rc.cpp:357 kdenlive/rc.cpp:447 kdenlive/rc.cpp:537
+#: kdenlive/rc.cpp:627 kdenlive/rc.cpp:717
+#, no-c-format
+msgid "Timeline Toolbar"
+msgstr "Panel nástrojov časová os"
+
+#. i18n: file kdenlive/kdenliveui.rc line 385
+#: kdenlive/rc.cpp:90 kdenlive/rc.cpp:180 kdenlive/rc.cpp:270
+#: kdenlive/rc.cpp:360 kdenlive/rc.cpp:450 kdenlive/rc.cpp:540
+#: kdenlive/rc.cpp:630 kdenlive/rc.cpp:720
+#, no-c-format
+msgid "Layout Toolbar"
+msgstr "Panel nástrojov rozloženie"
+
+#: kdenlive/timecode.cpp:106
+msgid "hour"
+msgstr "hodina"
+
+#: kdenlive/timecode.cpp:115
+msgid "min."
+msgstr "min."
+
+#: kdenlive/timecode.cpp:124
+msgid "sec."
+msgstr "sek."
+
+#: kdenlive/timecode.cpp:129
+msgid "frames"
+msgstr "snímky"
+
+#: kdenlive/titlebasewidget_ui.cpp:190 kdenlive/titlebasewidget_ui.cpp:191
+#: kdenlive/titlebasewidget_ui.cpp:196 kdenlive/titlebasewidget_ui.cpp:197
+#: kdenlive/titlebasewidget_ui.cpp:198 kdenlive/titlebasewidget_ui.cpp:199
+#: kdenlive/titlebasewidget_ui.cpp:200 kdenlive/titlebasewidget_ui.cpp:201
+#: kdenlive/titlebasewidget_ui.cpp:211 kdenlive/titlebasewidget_ui.cpp:212
+#: kdenlive/titlebasewidget_ui.cpp:213
+msgid "..."
+msgstr "..."
+
+#: kdenlive/titlebasewidget_ui.cpp:205
+msgid "Transparent bac&kground"
+msgstr "Prie&hľadné pozadie"
+
+#: kdenlive/titlewidget.cpp:898
+msgid "Align Left"
+msgstr "Zarovnať vľavo"
+
+#: kdenlive/titlewidget.cpp:899
+msgid "Align Right"
+msgstr "Zarovnať vpravo"
+
+#: kdenlive/titlewidget.cpp:900
+msgid "Align Center"
+msgstr "Zarovnať na stred"
+
+#: kdenlive/titlewidget.cpp:901
+msgid "Align Block"
+msgstr "Zarovnať do bloku"
+
+#: kdenlive/titlewidget.cpp:907
+msgid "Add Text"
+msgstr "Pridať text"
+
+#: kdenlive/titlewidget.cpp:908
+msgid "Add Rectangle"
+msgstr "Pridať obdĺžnik"
+
+#: kdenlive/titlewidget.cpp:909
+msgid "Select Objects"
+msgstr "Vybrať objekty"
+
+#: kdenlive/titlewidget.cpp:910
+msgid "Bring to Front"
+msgstr "Preniesť do popredia"
+
+#: kdenlive/titlewidget.cpp:911
+msgid "Send to Background"
+msgstr "Preniesť do pozadia"
+
+#: kdenlive/titlewidget.cpp:912
+msgid "Center Horizontally"
+msgstr "Centrovať horizontálne"
+
+#: kdenlive/titlewidget.cpp:913
+msgid "Center Vertically"
+msgstr "Centrovať vertikálne"
+
+#: kdenlive/titlewidget.cpp:1000
+msgid "Enter your text"
+msgstr "Zadajte váš text"
+
+#: kdenlive/trackviewtransitiondecorator.cpp:97
+msgid "> Background"
+msgstr "> Pozadie"
+
+#: kdenlive/transition.cpp:244
+msgid "Audio Fade"
+msgstr "Audio zosilnenie/zoslabnutie"
+
+#: kdenlive/transitionaudiofade_ui.cpp:55
+#: kdenlive/transitioncrossfade_ui.cpp:55
+#: kdenlive/transitionlumafile_ui.cpp:77 kdenlive/transitionwipe_ui.cpp:236
+msgid "Invert direction"
+msgstr "Obrátený smer"
+
+#: kdenlive/transitiondialog.cpp:56
+msgid "Perform transition with: "
+msgstr "Previesť prechod s:"
+
+#: kdenlive/transitiondialog.cpp:58
+msgid "Automatic - Use next video track"
+msgstr "Automaticky - použije ďalšiu video stopu"
+
+#: kdenlive/transitiondialog.cpp:59
+msgid "Background track (black)"
+msgstr "Stopa na pozadí (čierna)"
+
+#: kdenlive/transitiondialog.cpp:74
+msgid "PIP"
+msgstr "Obraz v obraze"
+
+#: kdenlive/transitionpip_ui.cpp:192
+msgid "Vert. position"
+msgstr "Zvislá pozícia"
+
+#: kdenlive/transitionpip_ui.cpp:194 kdenlive/transitionwipe_ui.cpp:233
+msgid "Transparency"
+msgstr "Priehľadnosť"
+
+#: kdenlive/transitionpip_ui.cpp:195
+msgid "Horiz. position"
+msgstr "Vodorovná pozícia"
+
+#: kdenlive/transitionpip_ui.cpp:196 kdenlive/transitionwipe_ui.cpp:234
+msgid "Use luma file"
+msgstr "Použiť luma súbor"
+
+#: kdenlive/transitionpip_ui.cpp:199
+msgid "St&art"
+msgstr "Št&art"
+
+#: kdenlive/transitionpip_ui.cpp:200
+msgid "E&nd"
+msgstr "Ko&niec"
+
+#: kdenlive/transitionwipe_ui.cpp:237
+msgid "Rescale images"
+msgstr "Zmeniť mierku obrázkov"
+
