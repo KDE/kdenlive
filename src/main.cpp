@@ -7,7 +7,7 @@
  
 int main (int argc, char *argv[])
 {
-  KAboutData aboutData( "Kdenlive", "kdenlive",
+  KAboutData aboutData( "kdenlive", "kdenlive",
       ki18n("Kdenlive"), "1.0",
       ki18n("A simple text area which can load and save."),
       KAboutData::License_GPL,

@@ -29,21 +29,25 @@ MainWindow::MainWindow(QWidget *parent)
   setCentralWidget(m_timelineArea);
 
   projectListDock = new QDockWidget(i18n("Project Tree"), this);
+  projectListDock->setObjectName("project_tree");
   m_projectList = new ProjectList(NULL, this);
   projectListDock->setWidget(m_projectList);
   addDockWidget(Qt::TopDockWidgetArea, projectListDock);
 
   effectListDock = new QDockWidget(i18n("Effect List"), this);
+  effectListDock->setObjectName("project_tree");
   effectList = new KListWidget(this);
   effectListDock->setWidget(effectList);
   addDockWidget(Qt::TopDockWidgetArea, effectListDock);
   
   effectStackDock = new QDockWidget(i18n("Effect Stack"), this);
+  effectStackDock->setObjectName("project_tree");
   effectStack = new KListWidget(this);
   effectStackDock->setWidget(effectStack);
   addDockWidget(Qt::TopDockWidgetArea, effectStackDock);
   
   transitionConfigDock = new QDockWidget(i18n("Transition"), this);
+  transitionConfigDock->setObjectName("project_tree");
   transitionConfig = new KListWidget(this);
   transitionConfigDock->setWidget(transitionConfig);
   addDockWidget(Qt::TopDockWidgetArea, transitionConfigDock);
@@ -51,11 +55,13 @@ MainWindow::MainWindow(QWidget *parent)
   Mlt::Factory::init(NULL);
 
   clipMonitorDock = new QDockWidget(i18n("Clip Monitor"), this);
+  clipMonitorDock->setObjectName("project_tree");
   m_clipMonitor = new Monitor("clip", this);
   clipMonitorDock->setWidget(m_clipMonitor);
   addDockWidget(Qt::TopDockWidgetArea, clipMonitorDock);
 
   projectMonitorDock = new QDockWidget(i18n("Project Monitor"), this);
+  projectMonitorDock->setObjectName("project_tree");
   m_projectMonitor = new Monitor("project", this);
   projectMonitorDock->setWidget(m_projectMonitor);
   addDockWidget(Qt::TopDockWidgetArea, projectMonitorDock);

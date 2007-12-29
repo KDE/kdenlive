@@ -3,14 +3,18 @@
 #include <QStylePainter>
 #include <QPixmap>
 #include <QIcon>
+#include <QToolBar>
+#include <QDialog>
 
 #include <KDebug>
+#include <KAction>
 #include <KLocale>
 #include <KFileDialog>
 #include <klistwidgetsearchline.h>
 
 #include "projectlist.h"
 #include "projectitem.h"
+#include "ui_colorclip_ui.h"
 
 #include <QtGui>
 
@@ -53,20 +57,57 @@ ProjectList::ProjectList(Render *projectRender, QWidget *parent)
     : QWidget(parent), m_render(projectRender)
 {
 
-  ui.setupUi(this);
-  ui.project_search->setTreeWidget(ui.project_list);
-      QStringList itemEntry;
-      itemEntry.append(QString::null);
-      itemEntry.append("coucou");
-  new ProjectItem(ui.project_list, itemEntry);
-  connect(ui.button_add, SIGNAL(clicked ( bool )), this, SLOT(slotAddClip()));
-  connect(ui.project_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotClipSelected()));
-  connect(ui.project_list, SIGNAL(itemDoubleClicked ( QTreeWidgetItem *, int )), this, SLOT(slotEditClip(QTreeWidgetItem *, int)));
+  QWidget *vbox = new QWidget;
+  listView = new QTreeWidget(this);;
+  QVBoxLayout *layout = new QVBoxLayout;
+
+  // setup toolbar
+  searchView = new KTreeWidgetSearchLine (this);
+  QToolBar *bar = new QToolBar("projectToolBar", this);
+  bar->addWidget (searchView);
+
+  QToolButton *addButton = new QToolButton( bar );
+  QMenu *addMenu = new QMenu(this);
+  addButton->setMenu( addMenu );
+  addButton->setPopupMode(QToolButton::MenuButtonPopup);
+  bar->addWidget (addButton);
+  
+  QAction *addClip = addMenu->addAction (KIcon("document-new"), i18n("Add Clip"));
+  connect(addClip, SIGNAL(triggered()), this, SLOT(slotAddClip()));
+
+  QAction *addColorClip = addMenu->addAction (KIcon("document-new"), i18n("Add Color Clip"));
+  connect(addColorClip, SIGNAL(triggered()), this, SLOT(slotAddColorClip()));
+
+  QAction *deleteClip = bar->addAction (KIcon("edit-delete"), i18n("Delete Clip"));
+  connect(deleteClip, SIGNAL(triggered()), this, SLOT(slotRemoveClip()));
+
+  QAction *editClip = bar->addAction (KIcon("document-properties"), i18n("Edit Clip"));
+  connect(editClip, SIGNAL(triggered()), this, SLOT(slotEditClip()));
+
+  addButton->setDefaultAction( addClip );
+
+  layout->addWidget( bar );
+  layout->addWidget( listView );
+  setLayout( layout );
+
+  searchView->setTreeWidget(listView);
+  listView->setColumnCount(3);
+  QStringList headers;
+  headers<<i18n("Thumbnail")<<i18n("Filename")<<i18n("Description");
+  listView->setHeaderLabels(headers);
+
+  QStringList itemEntry;
+  itemEntry.append(QString::null);
+  itemEntry.append("coucou");
+  new ProjectItem(listView, itemEntry);
+
+  connect(listView, SIGNAL(itemSelectionChanged()), this, SLOT(slotClipSelected()));
+  //connect(listView, SIGNAL(itemDoubleClicked ( QTreeWidgetItem *, int )), this, SLOT(slotEditClip(QTreeWidgetItem *, int)));
 
 
-  ui.project_list->setItemDelegate(new ItemDelegate(ui.project_list));
-  ui.project_list->setIconSize(QSize(60, 40));
-  ui.project_list->setSortingEnabled (true);
+  listView->setItemDelegate(new ItemDelegate(listView));
+  listView->setIconSize(QSize(60, 40));
+  listView->setSortingEnabled (true);
 
 }
 
@@ -85,15 +126,20 @@ void ProjectList::slotDoubleClicked(QListWidgetItem *item, const QPoint &pos)
 
 void ProjectList::slotClipSelected()
 {
-  ProjectItem *item = (ProjectItem*) ui.project_list->currentItem();
+  ProjectItem *item = (ProjectItem*) listView->currentItem();
   if (item) emit clipSelected(item->toXml());
 }
 
-void ProjectList::slotEditClip(QTreeWidgetItem *item, int column)
+void ProjectList::slotEditClip()
 {
-  if (column != 2){
-    return;
-  }
+
+}
+
+void ProjectList::slotRemoveClip()
+{
+  kDebug()<<"//////////  SLOT REMOVE";
+  if (!listView->currentItem()) return;
+  delete listView->currentItem();
 }
 
 void ProjectList::slotAddClip()
@@ -108,16 +154,52 @@ void ProjectList::slotAddClip()
       QStringList itemEntry;
       itemEntry.append(QString::null);
       itemEntry.append((*it).fileName());
-      ProjectItem *item = new ProjectItem(ui.project_list, itemEntry, QDomElement());
+      ProjectItem *item = new ProjectItem(listView, itemEntry, QDomElement());
       item->setData(1, FullPathRole, (*it).path());
       emit getFileProperties((*it), 0);
   }
+}
 
+void ProjectList::slotAddColorClip()
+{
+  QDialog *dia = new QDialog;
+  Ui::ColorClip_UI *dia_ui = new Ui::ColorClip_UI();
+  dia_ui->setupUi(dia);
+  dia_ui->clip_name->setText(i18n("Color Clip"));
+  if (dia->exec() == QDialog::Accepted)
+  {
+    QDomDocument doc;
+    QDomElement element = doc.createElement("producer");
+    element.setAttribute("mlt_service", "colour");
+    QString color = dia_ui->clip_color->color().name();
+    color = color.replace(0, 1, "0x") + "ff";
+    element.setAttribute("colour", color);
+    element.setAttribute("type", (int) DocClipBase::COLOR);
+    QStringList itemEntry;
+    itemEntry.append(QString::null);
+    itemEntry.append(dia_ui->clip_name->text());
+    ProjectItem *item = new ProjectItem(listView, itemEntry, element);
+    QPixmap pix(60, 40);
+    pix.fill(dia_ui->clip_color->color());
+    item->setIcon(0, QIcon(pix));
+
+    
+  }
+  delete dia_ui;
+  delete dia;
+  /*for (it = list.begin(); it != list.end(); it++) {
+      QStringList itemEntry;
+      itemEntry.append(QString::null);
+      itemEntry.append((*it).fileName());
+      ProjectItem *item = new ProjectItem(listView, itemEntry, QDomElement());
+      item->setData(1, FullPathRole, (*it).path());
+      emit getFileProperties((*it), 0);
+  }*/
 }
 
 void ProjectList::populate(QDomNodeList prods)
 {
-  ui.project_list->clear();
+  listView->clear();
   for (int i = 0; i <  prods.count () ; i++)
   {
     addProducer(prods.item(i).toElement());
@@ -128,12 +210,12 @@ void ProjectList::slotReplyGetFileProperties(const QMap < QString, QString > &pr
 {
   QTreeWidgetItem *parent = 0;
   int count =
-    parent ? parent->childCount() : ui.project_list->topLevelItemCount();
+    parent ? parent->childCount() : listView->topLevelItemCount();
 
   for (int i = 0; i < count; i++)
   {
     QTreeWidgetItem *item =
-      parent ? parent->child(i) : ui.project_list->topLevelItem(i);
+      parent ? parent->child(i) : listView->topLevelItem(i);
 
     if (item->data(1, FullPathRole).toString() == properties["filename"]) {
       ((ProjectItem *) item)->setProperties(properties, metadata);
@@ -147,12 +229,12 @@ void ProjectList::slotReplyGetImage(const KUrl &url, int pos, const QPixmap &pix
 {
    QTreeWidgetItem *parent = 0;
   int count =
-    parent ? parent->childCount() : ui.project_list->topLevelItemCount();
+    parent ? parent->childCount() : listView->topLevelItemCount();
 
   for (int i = 0; i < count; i++)
   {
     QTreeWidgetItem *item =
-      parent ? parent->child(i) : ui.project_list->topLevelItem(i);
+      parent ? parent->child(i) : listView->topLevelItem(i);
 
     if (item->data(1, FullPathRole).toString() == url.path()) {
       item->setIcon(0,pix);
@@ -174,7 +256,7 @@ void ProjectList::addProducer(QDomElement producer)
       QStringList itemEntry;
       itemEntry.append(QString::null);
       itemEntry.append(resource.fileName());
-      ProjectItem *item = new ProjectItem(ui.project_list, itemEntry, producer);
+      ProjectItem *item = new ProjectItem(listView, itemEntry, producer);
       //item->setIcon(0, Render::getVideoThumbnail(resource, 0, 60, 40));
       item->setData(1, FullPathRole, resource.path());
       item->setData(1, ClipTypeRole, (int) type);
@@ -188,8 +270,8 @@ void ProjectList::addProducer(QDomElement producer)
     pix.fill(QColor(colour.left(7)));
     QStringList itemEntry;
     itemEntry.append(QString::null);
-    itemEntry.append(i18n("Color Clip"));
-    ProjectItem *item = new ProjectItem(ui.project_list, itemEntry, producer);
+    itemEntry.append(producer.attribute("name"););
+    ProjectItem *item = new ProjectItem(listView, itemEntry, producer);
     item->setIcon(0, QIcon(pix));
     item->setData(1, ClipTypeRole, (int) type);
   }

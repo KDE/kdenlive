@@ -3,8 +3,8 @@
 
 #include <QDomNodeList>
 #include <QTreeWidget>
+#include <KTreeWidgetSearchLine>
 
-#include "ui_projectlist_ui.h"
 #include "docclipbase.h"
 #include "renderer.h"
 
@@ -23,14 +23,17 @@ class ProjectList : public QWidget
     void slotReplyGetFileProperties(const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata);
 
   private:
-    Ui::ProjectList_UI ui;
+    QTreeWidget *listView;
+    KTreeWidgetSearchLine *searchView;
     Render *m_render;
 
   private slots:
     void slotDoubleClicked(QListWidgetItem *, const QPoint &);
     void slotAddClip();
-    void slotEditClip(QTreeWidgetItem *item, int column);
+    void slotRemoveClip();
+    void slotEditClip();
     void slotClipSelected();
+    void slotAddColorClip();
 
   signals:
     void clipSelected(const QDomElement &);
