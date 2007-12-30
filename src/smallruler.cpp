@@ -53,6 +53,15 @@ void SmallRuler::mousePressEvent ( QMouseEvent * event )
   kDebug()<<pos;
 }
 
+// virtual
+void SmallRuler::mouseMoveEvent ( QMouseEvent * event )
+{
+  int pos = event->x();
+  //slotNewValue( pos );
+  emit seekRenderer(pos);
+  kDebug()<<pos;
+}
+
 void SmallRuler::slotNewValue ( int _value )
 {
   m_cursorPosition = _value / pixelPerMark();

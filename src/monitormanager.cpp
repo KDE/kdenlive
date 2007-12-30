@@ -10,6 +10,16 @@ MonitorManager::MonitorManager(QWidget *parent)
 
 }
 
+void MonitorManager::setTimecode(Timecode tc)
+{
+  m_timecode = tc;
+}
+
+Timecode MonitorManager::timecode()
+{
+  return m_timecode;
+}
+
 void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor)
 {
   m_clipMonitor = clipMonitor;

@@ -105,6 +105,8 @@ ProjectList::ProjectList(QWidget *parent)
 
   searchView->setTreeWidget(listView);
   listView->setColumnCount(3);
+  listView->setDragEnabled(true);
+  listView->setDragDropMode(QAbstractItemView::DragOnly);
   QStringList headers;
   headers<<i18n("Thumbnail")<<i18n("Filename")<<i18n("Description");
   listView->setHeaderLabels(headers);

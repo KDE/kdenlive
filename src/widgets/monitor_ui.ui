@@ -5,14 +5,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>365</width>
-    <height>249</height>
+    <width>320</width>
+    <height>238</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Form</string>
   </property>
   <layout class="QGridLayout" >
+   <property name="verticalSpacing" >
+    <number>0</number>
+   </property>
    <item row="0" column="0" colspan="2" >
     <widget class="QFrame" name="video_frame" >
      <property name="frameShape" >
@@ -45,25 +48,6 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="KPushButton" name="button_play" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>40</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="flat" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="KPushButton" name="button_rew" >
        <property name="sizePolicy" >
         <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
@@ -83,7 +67,26 @@
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="button_play_2" >
+      <widget class="KPushButton" name="button_rew1" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="flat" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KPushButton" name="button_play" >
        <property name="sizePolicy" >
         <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
          <horstretch>0</horstretch>
@@ -102,13 +105,10 @@
        <property name="checked" >
         <bool>false</bool>
        </property>
-       <property name="flat" >
-        <bool>true</bool>
-       </property>
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="kpushbutton_18" >
+      <widget class="KPushButton" name="button_fwd1" >
        <property name="sizePolicy" >
         <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
          <horstretch>0</horstretch>
@@ -127,7 +127,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="kpushbutton_19" >
+      <widget class="KPushButton" name="button_fwd" >
        <property name="sizePolicy" >
         <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
          <horstretch>0</horstretch>
@@ -288,7 +288,7 @@
     </layout>
    </item>
    <item row="3" column="1" >
-    <widget class="KRestrictedLine" name="krestrictedline" >
+    <widget class="KRestrictedLine" name="monitor_time" >
      <property name="inputMask" >
       <string>99:99:99:99; </string>
      </property>

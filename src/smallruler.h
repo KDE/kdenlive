@@ -10,7 +10,7 @@ class SmallRuler : public KRuler
   public:
     SmallRuler(QWidget *parent=0);
     virtual void mousePressEvent ( QMouseEvent * event );
-
+    virtual void mouseMoveEvent ( QMouseEvent * event );
     void setPixelPerMark ( double rate );
 
   protected:

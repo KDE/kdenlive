@@ -212,6 +212,7 @@ void MainWindow::connectDocument(KdenliveDoc *doc) //changed
 {
   if (m_activeDocument) m_activeDocument->setProducers(m_projectList->producersList());
   m_projectList->setDocument(doc);
+  m_monitorManager->setTimecode(doc->timecode());
   m_activeDocument = doc;
 }
 

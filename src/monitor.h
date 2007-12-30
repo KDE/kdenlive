@@ -1,6 +1,8 @@
 #ifndef MONITOR_H
 #define MONITOR_H
 
+#include <KIcon>
+
 #include "ui_monitor_ui.h"
 #include "renderer.h"
 #include "monitormanager.h"
@@ -28,15 +30,20 @@ class Monitor : public QWidget
     int m_length;
     int m_position;
     SmallRuler *m_ruler;
+    KIcon m_playIcon;
+    KIcon m_pauseIcon;
 
   private slots:
     void slotPlay();
     void slotOpen();
-    void slotRewind();
     void adjustRulerSize(int length);
     void seekCursor(int pos);
     void rendererStopped(int pos);
     void slotSeek(int pos);
+    void slotRewindOneFrame();
+    void slotForwardOneFrame();
+    void slotForward();
+    void slotRewind();
 
   public slots:
     void slotOpenFile(const QString &);

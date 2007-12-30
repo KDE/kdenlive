@@ -18,10 +18,19 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
   layout->addWidget( m_ruler);
   ui.ruler_frame->setLayout( layout );
   //m_ruler->setPixelPerMark(3);
+  m_playIcon = KIcon("media-playback-start");
+  m_pauseIcon = KIcon("media-playback-pause");
+  ui.button_play->setIcon(m_playIcon);
+  ui.button_rew1->setIcon(KIcon("media-skip-backward"));
+  ui.button_rew->setIcon(KIcon("media-seek-backward"));
+  ui.button_fwd1->setIcon(KIcon("media-skip-forward"));
+  ui.button_fwd->setIcon(KIcon("media-seek-forward"));
   connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
-  connect(ui.button_play, SIGNAL(clicked()), this, SLOT(slotOpen()));
   connect(ui.button_rew, SIGNAL(clicked()), this, SLOT(slotRewind()));
-  connect(ui.button_play_2, SIGNAL(clicked()), this, SLOT(slotPlay()));
+  connect(ui.button_rew1, SIGNAL(clicked()), this, SLOT(slotRewindOneFrame()));
+  connect(ui.button_fwd, SIGNAL(clicked()), this, SLOT(slotForward()));
+  connect(ui.button_fwd1, SIGNAL(clicked()), this, SLOT(slotForwardOneFrame()));
+  connect(ui.button_play, SIGNAL(clicked()), this, SLOT(slotPlay()));
 }
 
 // virtual
@@ -33,10 +42,8 @@ void Monitor::mousePressEvent ( QMouseEvent * event )
 // virtual
 void Monitor::wheelEvent ( QWheelEvent * event )
 {
-  render->play(0);
-  if (event->delta() > 0) m_position++;
-  else m_position--;
-  render->seekToFrame(m_position);
+  if (event->delta() > 0) slotForwardOneFrame();
+  else slotRewindOneFrame();
 }
 
 void Monitor::slotSeek(int pos)
@@ -44,13 +51,49 @@ void Monitor::slotSeek(int pos)
   if ( render == NULL ) return;
   int realPos = ((double) pos) / m_scale;
   render->seekToFrame(realPos);
-  
+  m_position = realPos;
+  ui.monitor_time->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
+}
+
+void Monitor::slotRewind()
+{
+  double speed = render->playSpeed();
+  if ( speed >= 0 ) render->play(-2);
+  else render->play(speed * 2);
+  ui.button_play->setChecked(true);
+  ui.button_play->setIcon(m_pauseIcon);
+}
+
+void Monitor::slotForward()
+{
+  double speed = render->playSpeed();
+  if ( speed <= 1 ) render->play(2);
+  else render->play(speed * 2);
+  ui.button_play->setChecked(true);
+  ui.button_play->setIcon(m_pauseIcon);
+}
+
+void Monitor::slotRewindOneFrame()
+{
+  render->play(0);
+  m_position--;
+  render->seekToFrame(m_position);
+  ui.monitor_time->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
+}
+
+void Monitor::slotForwardOneFrame()
+{
+  render->play(0);
+  m_position++;
+  render->seekToFrame(m_position);
+  ui.monitor_time->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 
 void Monitor::seekCursor(int pos)
 {
   int rulerPos = (int) (pos * m_scale);
   m_position = pos;
+  ui.monitor_time->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
   //kDebug()<<"seek: "<<pos<<", scale: "<<m_scale<<
   m_ruler->slotNewValue(rulerPos);
 }
@@ -59,7 +102,8 @@ void Monitor::rendererStopped(int pos)
 {
   int rulerPos = (int) (pos * m_scale);
   m_ruler->slotNewValue(rulerPos);
-  ui.button_play_2->setChecked(false);
+  ui.button_play->setChecked(false);
+  ui.button_play->setIcon(m_playIcon);
 }
 
 void Monitor::initMonitor()
@@ -118,19 +162,13 @@ void Monitor::slotOpen()
   render->mltInsertClip(2, GenTime(0, 25), QString("<westley><producer mlt_service=\"avformat\" resource=\"/home/one/.vids/clip3e.mpg\" in=\"1\" out=\"300\" /></westley>"));
 }
 
-void Monitor::slotRewind()
-{
-  if ( render == NULL ) return;
-  m_monitorManager->activateMonitor(m_name);
-  render->seek(GenTime(0));
-}
-
 void Monitor::slotPlay()
 {
   if ( render == NULL ) return;
   m_monitorManager->activateMonitor(m_name);
   render->switchPlay();
-  ui.button_play_2->setChecked(true);
+  ui.button_play->setChecked(true);
+  ui.button_play->setIcon(m_pauseIcon);
 }
 
 void Monitor::slotSetXml(const QDomElement &e)
@@ -143,6 +181,7 @@ void Monitor::slotSetXml(const QDomElement &e)
     westley.appendChild(e);
     render->setSceneList(doc, 0);
     m_ruler->slotNewValue(0);
+    ui.monitor_time->setText("00:00:00:00");
     m_position = 0;
 }
 
