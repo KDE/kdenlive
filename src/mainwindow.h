@@ -10,6 +10,7 @@
 
 #include "projectlist.h"
 #include "monitor.h"
+#include "monitormanager.h"
 #include "kdenlivedoc.h"
 
 class MainWindow : public KXmlGuiWindow
@@ -24,6 +25,8 @@ class MainWindow : public KXmlGuiWindow
     KTabWidget* m_timelineArea;
     void setupActions();
     QString fileName;
+    KdenliveDoc *m_activeDocument;
+    MonitorManager *m_monitorManager;
 
     QDockWidget *projectListDock;
     ProjectList *m_projectList;
@@ -52,6 +55,8 @@ class MainWindow : public KXmlGuiWindow
     void saveFileAs();
     void saveFileAs(const QString &outputFileName);
     void slotPreferences();
+    void slotConnectMonitors();
+    void slotRaiseMonitor(bool clipMonitor);
 };
  
 #endif

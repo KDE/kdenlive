@@ -12,7 +12,7 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
 {
   view = new Ui::TimeLine_UI();
   view->setupUi(this);
-  m_ruler = new CustomRuler();
+  m_ruler = new CustomRuler(doc->timecode());
   QVBoxLayout *layout = new QVBoxLayout;
   layout->addWidget(m_ruler);
   view->ruler_frame->setLayout(layout);

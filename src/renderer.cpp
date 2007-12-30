@@ -46,7 +46,7 @@ extern "C" {
 Render::Render(const QString & rendererName, QWidget *parent):QObject(parent), m_name(rendererName), m_mltConsumer(NULL), m_mltProducer(NULL), m_mltTextProducer(NULL), m_sceneList(QDomDocument()), m_winid(-1), m_framePosition(0), m_generateScenelist(false), isBlocked(true)
 {
     refreshTimer = new QTimer( this );
-    connect( refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()) );
+    connect( refreshTimer, SIGNAL(timeout()), this, SLOT( refresh()) );
 
     m_connectTimer = new QTimer( this );
     connect( m_connectTimer, SIGNAL(timeout()), this, SLOT(connectPlaylist()) );
@@ -593,12 +593,16 @@ void Render::setSceneList(QDomDocument list, int position)
         if (!m_mltConsumer) {
 	    restartConsumer();
         }
-
+	emit playListDuration( (int) m_mltProducer->get_playtime());
 	m_connectTimer->start( 500 );
 	m_generateScenelist = false;
   
 }
 
+const double Render::fps() const
+{
+    return m_fps;
+}
 
 void Render::connectPlaylist() {
         kDebug()<<"**************  CONNECTING PLAYLIST";
@@ -798,10 +802,19 @@ void Render::sendSeekCommand(GenTime time)
     refresh();
 }
 
+void Render::seekToFrame(int pos)
+{
+    if (!m_mltProducer)
+	return;
+    //kDebug()<<"//////////  KDENLIVE SEEK: "<<(int) (time.frames(m_fps));
+    m_mltProducer->seek(pos);
+    refresh();
+}
+
 void Render::askForRefresh()
 {
     // Use a Timer so that we don't refresh too much
-    refreshTimer->start(200 );
+    refreshTimer->start( 200 );
 }
 
 void Render::refresh()
@@ -848,9 +861,10 @@ const QString & Render::rendererName() const
 
 void Render::emitFrameNumber(double position)
 {
-      kDebug()<<"// POSITON: "<<m_framePosition;
+      //kDebug()<<"// POSITON: "<<m_framePosition;
 	if (m_generateScenelist) return;
 	m_framePosition = position;
+	emit rendererPosition((int) position);
         //if (qApp->activeWindow()) QApplication::postEvent(qApp->activeWindow(), new PositionChangeEvent( GenTime((int) position, m_fps), m_monitorId));
 }
 
@@ -859,6 +873,7 @@ void Render::emitConsumerStopped()
     // This is used to know when the playing stopped
     if (m_mltProducer && !m_generateScenelist) {
 	double pos = m_mltProducer->position();
+	emit rendererStopped((int) pos);
         //if (qApp->activeWindow()) QApplication::postEvent(qApp->activeWindow(), new PositionChangeEvent(GenTime((int) pos, m_fps), m_monitorId + 100));
 	//new QCustomEvent(10002));
     }

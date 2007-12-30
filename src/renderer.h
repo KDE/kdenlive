@@ -73,6 +73,7 @@ class Render:public QObject {
     void createVideoXWindow(WId winid, WId externalMonitor);
 	/** Seeks the renderer clip to the given time. */
     void seek(GenTime time);
+    void seekToFrame(int pos);
     
     static QPixmap getVideoThumbnail(QString file, int frame, int width, int height);
     QPixmap getImageThumbnail(KUrl url, int width, int height);
@@ -148,6 +149,7 @@ class Render:public QObject {
     QDomDocument sceneList() const;
     int resetRendererProfile(char * profile);
     bool isBlocked;
+    const double fps() const;
 
     /** Playlist manipulation */
     void mltInsertClip(int track, GenTime position, QString resource);
@@ -232,6 +234,9 @@ class Render:public QObject {
 	/** Emitted when an error occurs within this renderer. */
     void error(const QString &, const QString &);
     void durationChanged();
+    void playListDuration(int);
+    void rendererPosition(int);
+    void rendererStopped(int);
 
     
     public slots:		// Public slots

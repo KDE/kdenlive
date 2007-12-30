@@ -57,8 +57,8 @@ const int CustomRuler::comboScale[] =
 	{ 1, 2, 5, 10, 25, 50, 125, 250, 500, 725, 1500, 3000, 6000,
 	    12000 };
 
-CustomRuler::CustomRuler(QWidget *parent)
-    : KRuler(parent)
+CustomRuler::CustomRuler(Timecode tc, QWidget *parent)
+    : KRuler(parent), m_timecode(tc)
 {
   slotNewOffset(0);
   setRulerMetricStyle(KRuler::Pixel);
@@ -145,7 +145,10 @@ void CustomRuler::paintEvent(QPaintEvent * /*e*/)
      fend = pixelPerMark()*littleMarkDistance();
      if (fend > 5) for ( f=offsetmin; f<offsetmax; f+=fend ) {
          p.drawLine((int)f, LITTLE_MARK_X1, (int)f, LITTLE_MARK_X2);
-	 if (fend > 30) p.drawText( (int)f + 2, LABEL_SIZE, QString::number((f - offsetmin) / pixelPerMark() / FRAME_SIZE) );
+	 if (fend > 60) {
+	  QString lab = m_timecode.getTimecodeFromFrames((int) ((f - offsetmin) / pixelPerMark() / FRAME_SIZE + 0.5));
+	  p.drawText( (int)f + 2, LABEL_SIZE, lab );
+	 }
      }
    }
    if (showMediumMarks()) {
@@ -153,7 +156,10 @@ void CustomRuler::paintEvent(QPaintEvent * /*e*/)
      fend = pixelPerMark()*mediumMarkDistance();
      if (fend > 5) for ( f=offsetmin; f<offsetmax; f+=fend ) {
          p.drawLine((int)f, MIDDLE_MARK_X1, (int)f, MIDDLE_MARK_X2);
-	 if (fend > 30) p.drawText( (int)f + 2, LABEL_SIZE, QString::number((f - offsetmin) / pixelPerMark() / FRAME_SIZE) );
+	 if (fend > 60) {
+	  QString lab = m_timecode.getTimecodeFromFrames((int) ((f - offsetmin) / pixelPerMark() / FRAME_SIZE + 0.5) );
+	  p.drawText( (int)f + 2, LABEL_SIZE, lab );
+	 }
      }
    }
    if (showBigMarks()) {
@@ -161,7 +167,14 @@ void CustomRuler::paintEvent(QPaintEvent * /*e*/)
      fend = pixelPerMark()*bigMarkDistance();
      if (fend > 5) for ( f=offsetmin; f<offsetmax; f+=fend ) {
          p.drawLine((int)f, BIG_MARK_X1, (int)f, BIG_MARK_X2);
-	 if (fend > 30) p.drawText( (int)f + 2, LABEL_SIZE, QString::number((f - offsetmin) / pixelPerMark() / FRAME_SIZE) );
+	 if (fend > 60) {
+	  QString lab = m_timecode.getTimecodeFromFrames((int) ((f - offsetmin) / pixelPerMark() / FRAME_SIZE + 0.5) );
+	  p.drawText( (int)f + 2, LABEL_SIZE, lab );
+	 }
+	 else if (((int) (f - offsetmin)) % ((int)(fend * 5)) == 0) {
+	    QString lab = m_timecode.getTimecodeFromFrames((int) ((f - offsetmin) / pixelPerMark() / FRAME_SIZE + 0.5) );
+	  p.drawText( (int)f + 2, LABEL_SIZE, lab );
+	 }
      }
    }
 /*   if (d->showem) {

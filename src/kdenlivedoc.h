@@ -27,7 +27,7 @@
 #include <kurl.h>
 
 #include "gentime.h"
-
+#include "timecode.h"
 
 class KdenliveDoc:public QObject {
   Q_OBJECT public:
@@ -36,11 +36,20 @@ class KdenliveDoc:public QObject {
     ~KdenliveDoc();
     QString documentName();
     QDomNodeList producersList();
+    double fps();
+    int width();
+    int height();
+    void setProducers(QDomElement doc);
+    Timecode timecode();
 
   private:
     KUrl m_url;
     QDomDocument m_document;
     QString m_projectName;
+    double m_fps;
+    int m_width;
+    int m_height;
+    Timecode m_timecode;
 
   public slots:
     

@@ -27,6 +27,7 @@ set(kdenlive_SRCS
   main.cpp
   mainwindow.cpp
   customruler.cpp
+  smallruler.cpp
   projectlist.cpp
   projectitem.cpp
   monitor.cpp
@@ -36,6 +37,7 @@ set(kdenlive_SRCS
   trackview.cpp
   docclipbase.cpp
   timecode.cpp
+  monitormanager.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

@@ -53,6 +53,7 @@ void ProjectItem::slotSetToolTip()
       break;
     case 4:
       tip.append(i18n("Color clip"));
+      setData(1, DurationRole, Timecode::getEasyTimecode(GenTime(m_element.attribute("out", "250").toInt(), 25), 25));
       break;
     case 5:
       tip.append(i18n("Image clip"));

@@ -29,7 +29,8 @@ Timecode::~Timecode()
 {
 }
 
-int Timecode::getFrameNumber(const QString duration, double fps) const
+
+int Timecode::getFrameCount(const QString duration, double fps) const
 {
     if (m_dropFrame) {
 	// calculate how many frames need to be dropped every minute.

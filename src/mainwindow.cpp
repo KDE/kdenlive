@@ -1,6 +1,7 @@
 
 
 #include <QTextStream>
+#include <QTimer>
  
 #include <KApplication>
 #include <KAction>
@@ -25,7 +26,7 @@
  
 MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent),
-      fileName(QString())
+      fileName(QString()), m_activeDocument(NULL)
 {
   m_timelineArea = new KTabWidget(this);
   m_timelineArea->setHoverCloseButton(true);
@@ -33,26 +34,28 @@ MainWindow::MainWindow(QWidget *parent)
   connect(m_timelineArea, SIGNAL(currentChanged (int)), this, SLOT(activateDocument()));
   setCentralWidget(m_timelineArea);
 
+  m_monitorManager = new MonitorManager();
+
   projectListDock = new QDockWidget(i18n("Project Tree"), this);
   projectListDock->setObjectName("project_tree");
-  m_projectList = new ProjectList(NULL, this);
+  m_projectList = new ProjectList(this);
   projectListDock->setWidget(m_projectList);
   addDockWidget(Qt::TopDockWidgetArea, projectListDock);
 
   effectListDock = new QDockWidget(i18n("Effect List"), this);
-  effectListDock->setObjectName("project_tree");
+  effectListDock->setObjectName("effect_list");
   effectList = new KListWidget(this);
   effectListDock->setWidget(effectList);
   addDockWidget(Qt::TopDockWidgetArea, effectListDock);
   
   effectStackDock = new QDockWidget(i18n("Effect Stack"), this);
-  effectStackDock->setObjectName("project_tree");
+  effectStackDock->setObjectName("effect_stack");
   effectStack = new KListWidget(this);
   effectStackDock->setWidget(effectStack);
   addDockWidget(Qt::TopDockWidgetArea, effectStackDock);
   
   transitionConfigDock = new QDockWidget(i18n("Transition"), this);
-  transitionConfigDock->setObjectName("project_tree");
+  transitionConfigDock->setObjectName("transition");
   transitionConfig = new KListWidget(this);
   transitionConfigDock->setWidget(transitionConfig);
   addDockWidget(Qt::TopDockWidgetArea, transitionConfigDock);
@@ -60,34 +63,56 @@ MainWindow::MainWindow(QWidget *parent)
   Mlt::Factory::init(NULL);
 
   clipMonitorDock = new QDockWidget(i18n("Clip Monitor"), this);
-  clipMonitorDock->setObjectName("project_tree");
-  m_clipMonitor = new Monitor("clip", this);
+  clipMonitorDock->setObjectName("clip_monitor");
+  m_clipMonitor = new Monitor("clip", m_monitorManager, this);
   clipMonitorDock->setWidget(m_clipMonitor);
   addDockWidget(Qt::TopDockWidgetArea, clipMonitorDock);
-
+  
   projectMonitorDock = new QDockWidget(i18n("Project Monitor"), this);
-  projectMonitorDock->setObjectName("project_tree");
-  m_projectMonitor = new Monitor("project", this);
+  projectMonitorDock->setObjectName("project_monitor");
+  m_projectMonitor = new Monitor("project", m_monitorManager, this);
   projectMonitorDock->setWidget(m_projectMonitor);
   addDockWidget(Qt::TopDockWidgetArea, projectMonitorDock);
 
   setupActions();
-  tabifyDockWidget (effectListDock, projectListDock);
-  tabifyDockWidget (effectListDock, effectStackDock);
-  tabifyDockWidget (effectListDock, transitionConfigDock);
+  tabifyDockWidget (projectListDock, effectListDock);
+  tabifyDockWidget (projectListDock, effectStackDock);
+  tabifyDockWidget (projectListDock, transitionConfigDock);
+  projectListDock->raise();
 
   tabifyDockWidget (clipMonitorDock, projectMonitorDock);
 
-  connect(m_projectList, SIGNAL(clipSelected(const QDomElement &)), m_projectMonitor, SLOT(slotSetXml(const QDomElement &)));
+  connect(projectMonitorDock, SIGNAL(visibilityChanged (bool)), m_projectMonitor, SLOT(refreshMonitor(bool)));
+  connect(clipMonitorDock, SIGNAL(visibilityChanged (bool)), m_projectMonitor, SLOT(refreshMonitor(bool)));
 
-  connect(m_projectList, SIGNAL(getFileProperties(const KUrl &, uint)), m_projectMonitor->render, SLOT(getFileProperties(const KUrl &, uint)));
 
-  connect(m_projectMonitor->render, SIGNAL(replyGetImage(const KUrl &, int, const QPixmap &, int, int)), m_projectList, SLOT(slotReplyGetImage(const KUrl &, int, const QPixmap &, int, int)));
+  m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor);
+  connect(m_monitorManager, SIGNAL(connectMonitors ()), this, SLOT(slotConnectMonitors()));
+  connect(m_monitorManager, SIGNAL(raiseClipMonitor (bool)), this, SLOT(slotRaiseMonitor(bool)));
+}
 
-  connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(const QMap < QString, QString > &, const QMap < QString, QString > &)), m_projectList, SLOT(slotReplyGetFileProperties(const QMap < QString, QString > &, const QMap < QString, QString > &)));
+
+void MainWindow::slotRaiseMonitor(bool clipMonitor)
+{
+  if (clipMonitor) clipMonitorDock->raise();
+  else projectMonitorDock->raise();
+}
+
+void MainWindow::slotConnectMonitors()
+{
+
+  m_projectList->setRenderer(m_clipMonitor->render);
+
+  connect(m_projectList, SIGNAL(clipSelected(const QDomElement &)), m_clipMonitor, SLOT(slotSetXml(const QDomElement &)));
+
+  connect(m_projectList, SIGNAL(getFileProperties(const KUrl &, uint)), m_clipMonitor->render, SLOT(getFileProperties(const KUrl &, uint)));
+
+  connect(m_clipMonitor->render, SIGNAL(replyGetImage(const KUrl &, int, const QPixmap &, int, int)), m_projectList, SLOT(slotReplyGetImage(const KUrl &, int, const QPixmap &, int, int)));
+
+  connect(m_clipMonitor->render, SIGNAL(replyGetFileProperties(const QMap < QString, QString > &, const QMap < QString, QString > &)), m_projectList, SLOT(slotReplyGetFileProperties(const QMap < QString, QString > &, const QMap < QString, QString > &)));
 
 }
- 
+
 void MainWindow::setupActions()
 {
   KAction* clearAction = new KAction(this);
@@ -127,6 +152,8 @@ void MainWindow::newFile()
   KdenliveDoc *doc = new KdenliveDoc(KUrl(), 25, 720, 576);
   TrackView *trackView = new TrackView(doc);
   m_timelineArea->addTab(trackView, "New Project");
+  if (m_timelineArea->count() == 1)
+    connectDocument(doc);
 }
 
 void MainWindow::activateDocument()
@@ -183,8 +210,9 @@ void MainWindow::openFile(const QString &inputFileName) //new
 
 void MainWindow::connectDocument(KdenliveDoc *doc) //changed
 {
-  m_projectList->populate(doc->producersList());
-  //connect(doc, SIGNAL(addClip(QDomElement &)), m_projectList, SLOT(slotAddClip(QDomElement &)));
+  if (m_activeDocument) m_activeDocument->setProducers(m_projectList->producersList());
+  m_projectList->setDocument(doc);
+  m_activeDocument = doc;
 }
 
 

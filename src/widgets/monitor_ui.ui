@@ -24,7 +24,20 @@
     </widget>
    </item>
    <item row="1" column="0" colspan="2" >
-    <widget class="KRuler" name="monitor_ruler" />
+    <widget class="QFrame" name="ruler_frame" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Maximum" hsizetype="Preferred" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
    </item>
    <item row="2" column="0" >
     <layout class="QHBoxLayout" >
@@ -82,6 +95,12 @@
          <width>40</width>
          <height>16777215</height>
         </size>
+       </property>
+       <property name="checkable" >
+        <bool>true</bool>
+       </property>
+       <property name="checked" >
+        <bool>false</bool>
        </property>
        <property name="flat" >
         <bool>true</bool>
@@ -290,11 +309,6 @@
    <class>KRestrictedLine</class>
    <extends>KLineEdit</extends>
    <header>krestrictedline.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KRuler</class>
-   <extends>QWidget</extends>
-   <header>kruler.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

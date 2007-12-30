@@ -1,28 +1,30 @@
-#ifndef CUSTOMRULER_H
-#define CUSTOMRULER_H
+#ifndef SMALLRULER_H
+#define SMALLRULER_H
 
 #include <KRuler>
 
-#include <timecode.h>
-
-class CustomRuler : public KRuler
+class SmallRuler : public KRuler
 {
   Q_OBJECT
   
   public:
-    CustomRuler(Timecode tc, QWidget *parent=0);
+    SmallRuler(QWidget *parent=0);
     virtual void mousePressEvent ( QMouseEvent * event );
-    void setPixelPerMark (double rate);
-    static const int comboScale[];
+
+    void setPixelPerMark ( double rate );
+
   protected:
     virtual void paintEvent(QPaintEvent * /*e*/);
 
   private:
     int m_cursorPosition;
-    Timecode m_timecode;
+    double m_scale;
 
   public slots:
     void slotNewValue ( int _value );
+
+  signals:
+    void seekRenderer(int);
 };
 
 #endif
