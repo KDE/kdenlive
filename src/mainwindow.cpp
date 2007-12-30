@@ -1,4 +1,6 @@
 
+
+#include <QTextStream>
  
 #include <KApplication>
 #include <KAction>
@@ -11,12 +13,15 @@
 #include <KIO/NetAccess>
 #include <KSaveFile>
 #include <KRuler>
-#include <QTextStream>
+#include <KConfigDialog>
+
 
 #include <mlt++/Mlt.h>
 
 #include "mainwindow.h"
 #include "trackview.h"
+#include "kdenlivesettings.h"
+#include "ui_configmisc_ui.h"
  
 MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent),
@@ -107,6 +112,12 @@ void MainWindow::setupActions()
  
   KStandardAction::openNew(this, SLOT(newFile()),
                         actionCollection());
+
+  KStandardAction::openNew(this, SLOT(newFile()),
+                        actionCollection());
+
+  KStandardAction::preferences(this, SLOT(slotPreferences()),
+	    actionCollection());
  
   setupGUI();
 }
@@ -174,6 +185,33 @@ void MainWindow::connectDocument(KdenliveDoc *doc) //changed
 {
   m_projectList->populate(doc->producersList());
   //connect(doc, SIGNAL(addClip(QDomElement &)), m_projectList, SLOT(slotAddClip(QDomElement &)));
+}
+
+
+void MainWindow::slotPreferences()
+{
+  //An instance of your dialog could be already created and could be
+  // cached, in which case you want to display the cached dialog
+  // instead of creating another one
+  if ( KConfigDialog::showDialog( "settings" ) )
+    return;
+
+  // KConfigDialog didn't find an instance of this dialog, so lets
+  // create it :
+  KConfigDialog* dialog = new KConfigDialog(this, "settings",
+                                          KdenliveSettings::self());
+
+  QWidget *page1 = new QWidget;
+  Ui::ConfigMisc_UI* confWdg = new Ui::ConfigMisc_UI( );
+  confWdg->setupUi(page1);
+
+  dialog->addPage( page1, i18n("Misc"), "misc" );
+
+  //User edited the configuration - update your local copies of the
+  //configuration data
+  connect( dialog, SIGNAL(settingsChanged()), this, SLOT(updateConfiguration()) );
+
+  dialog->show();
 }
 
 #include "mainwindow.moc"

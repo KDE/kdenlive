@@ -270,7 +270,7 @@ void ProjectList::addProducer(QDomElement producer)
     pix.fill(QColor(colour.left(7)));
     QStringList itemEntry;
     itemEntry.append(QString::null);
-    itemEntry.append(producer.attribute("name"););
+    itemEntry.append(producer.attribute("name"));
     ProjectItem *item = new ProjectItem(listView, itemEntry, producer);
     item->setIcon(0, QIcon(pix));
     item->setData(1, ClipTypeRole, (int) type);

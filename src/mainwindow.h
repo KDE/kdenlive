@@ -51,6 +51,7 @@ class MainWindow : public KXmlGuiWindow
     void saveFile();
     void saveFileAs();
     void saveFileAs(const QString &outputFileName);
+    void slotPreferences();
 };
  
 #endif
