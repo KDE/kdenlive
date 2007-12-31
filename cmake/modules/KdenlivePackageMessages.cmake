@@ -10,7 +10,7 @@
      COMMAND $(MAKE) all # first make sure all generated source exists
         COMMAND ${RM_EXECUTABLE} -f po/*.gmo
         #COMMAND ${XTRACTRC_EXECUTABLE} ${CMAKE_SOURCE_DIR}/kdenlive/*.rc >> ${CMAKE_SOURCE_DIR}/rc.cpp
-        COMMAND ${XTRACTRC_EXECUTABLE} --tag=name --tag=label --context=effectNames ${CMAKE_SOURCE_DIR}/effects/*.xml >> ${CMAKE_SOURCE_DIR}/rc.cpp
+        COMMAND ${XTRACTRC_EXECUTABLE} --tag=name --tag=description --tag=label --context=effectNames ${CMAKE_SOURCE_DIR}/effects/*.xml >> ${CMAKE_SOURCE_DIR}/rc.cpp
         COMMAND ${XGETTEXT_EXECUTABLE} -C
             -ki18n -ktr2i18n -kI18N_NOOP
             -x ${KDE_POT_FILE}
