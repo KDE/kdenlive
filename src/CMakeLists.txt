@@ -38,6 +38,8 @@ set(kdenlive_SRCS
   docclipbase.cpp
   timecode.cpp
   monitormanager.cpp
+  documenttrack.cpp
+  headertrack.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )
