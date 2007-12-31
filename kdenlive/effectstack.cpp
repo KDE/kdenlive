@@ -69,7 +69,9 @@ Effect *EffectStack::selectedItem()
 
 const uint EffectStack::selectedItemIndex() const
 {
-    if (index + 1> count ()) return count() -1;
+    uint max = count();
+    if (max == 0) return 0;
+    if (index + 1 > max) return max -1;
     return index;
 }
 
