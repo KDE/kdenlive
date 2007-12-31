@@ -78,6 +78,14 @@ void CustomRuler::mousePressEvent ( QMouseEvent * event )
   kDebug()<<pos;
 }
 
+// virtual
+void CustomRuler::mouseMoveEvent ( QMouseEvent * event )
+{
+  int pos = event->x();
+  slotNewValue( pos );
+  kDebug()<<pos;
+}
+
 void CustomRuler::slotNewValue ( int _value )
 {
   m_cursorPosition = _value / pixelPerMark();

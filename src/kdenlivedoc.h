@@ -41,6 +41,7 @@ class KdenliveDoc:public QObject {
     int height();
     void setProducers(QDomElement doc);
     Timecode timecode();
+    QDomDocument toXml();
 
   private:
     KUrl m_url;

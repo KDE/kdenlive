@@ -43,7 +43,6 @@ KdenliveDoc::KdenliveDoc(KUrl url, double fps, int width, int height, QWidget *p
       m_document.setContent(&file, false);
       file.close();
       m_projectName = url.fileName();
- 
       KIO::NetAccess::removeTempFile(tmpFile);
     }
     else
@@ -73,7 +72,12 @@ KdenliveDoc::~KdenliveDoc()
 {
 }
 
-Timecode  KdenliveDoc::timecode()
+QDomDocument KdenliveDoc::toXml()
+{
+  return m_document;
+}
+
+Timecode KdenliveDoc::timecode()
 {
   return m_timecode;
 }

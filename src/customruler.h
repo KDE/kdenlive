@@ -12,6 +12,7 @@ class CustomRuler : public KRuler
   public:
     CustomRuler(Timecode tc, QWidget *parent=0);
     virtual void mousePressEvent ( QMouseEvent * event );
+    virtual void mouseMoveEvent ( QMouseEvent * event );
     void setPixelPerMark (double rate);
     static const int comboScale[];
   protected:

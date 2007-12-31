@@ -76,6 +76,7 @@ void Monitor::slotForward()
 void Monitor::slotRewindOneFrame()
 {
   render->play(0);
+  if (m_position < 1) return;
   m_position--;
   render->seekToFrame(m_position);
   ui.monitor_time->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
@@ -84,6 +85,7 @@ void Monitor::slotRewindOneFrame()
 void Monitor::slotForwardOneFrame()
 {
   render->play(0);
+  if (m_position >= m_length) return;
   m_position++;
   render->seekToFrame(m_position);
   ui.monitor_time->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
