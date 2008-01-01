@@ -130,7 +130,7 @@ void initEffects::parseEffectFile(EffectDescriptionList *effectList, QString nam
     }
 
     // Parse effect file
-    if (filtersList.findIndex(tag) != -1 && ladspaOk) {
+    if ((filtersList.findIndex(tag) != -1 || producersList.findIndex(tag) != -1) && ladspaOk) {
 	// kdDebug()<<"++ ADDING EFFECT: "<<tag<<endl;
     	QDomNode n = documentElement.firstChild();
 	QString id, effectName, effectTag, paramType;
