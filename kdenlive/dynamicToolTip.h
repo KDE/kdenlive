@@ -28,6 +28,7 @@ class KTrackView;
 class DynamicToolTip:public QToolTip {
   public:
     DynamicToolTip(QWidget * parent);
+    virtual ~DynamicToolTip();
 
   protected:
     void maybeTip(const QPoint &);

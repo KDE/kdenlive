@@ -61,13 +61,11 @@ namespace Command {
 	for (uint count = 0; count < document->numTracks(); ++count) {
 	    DocTrackBase *track = document->track(count);
 	    DocClipRef *clip = track->getClipAt(time);
-	    if (clip) {
-		if (track->clipSelected(clip)) {
+	    if (clip && track->clipSelected(clip)) {
 		    KCommand *razorCommand = new Command::KRazorClipsCommand(app, document, *track, time);
 			//razorClipAt(document, *track, time);
 		    if (razorCommand)
 			command->addCommand(razorCommand);
-		}
 	    }
 	}
 
@@ -78,15 +76,14 @@ namespace Command {
 	DocTrackBase & track, const GenTime & time) {
 	KMacroCommand *command = 0;
 	DocClipRef *clip = track.getClipAt(time);
-	if (clip) document->renderer()->mltCutClip(clip->playlistTrackNum(), time);
 	
 	if (clip) {
+
 	    // disallow the creation of clips with 0 length.
 	    if ((clip->trackStart() == time) || (clip->trackEnd() == time))
 		return 0;
 
 	    command = new KMacroCommand(i18n("Razor clip"));
-
 	    DocClipRef *clone = clip->clone(document);
 	    if (clone) {
 		
@@ -107,9 +104,12 @@ namespace Command {
 		clip->setTrackEnd(time);
 
 		clone->referencedClip()->addReference();
-		document->projectClip().track(clone->trackNum())->addClip(clone, true);
+		document->projectClip().track(clip->trackNum())->addClip(clone, true);
         	document->projectClip().slotClipReferenceChanged();
 		command->addCommand(Command::KSelectClipCommand::selectNone(document));
+
+	    	document->renderer()->mltCutClip(clip->playlistTrackNum(), time);
+
 		/*Command::KResizeCommand * resizeCommand = new Command::KResizeCommand(document, *clip);
 		resizeCommand->setEndTrackEnd(time);
 		command->addCommand(resizeCommand);

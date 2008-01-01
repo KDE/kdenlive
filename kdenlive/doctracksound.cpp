@@ -17,6 +17,7 @@
 
 #include "doctracksound.h"
 #include "docclipavfile.h"
+#include "kdebug.h"
 
 DocTrackSound::DocTrackSound(DocClipProject * project):
 DocTrackBase(project)
@@ -36,13 +37,10 @@ bool DocTrackSound::canAddClip(DocClipRef * clip) const
 	return false;
 
     QPtrListIterator < DocClipRef > u_itt(m_unselectedClipList);
-
     for (; (search = u_itt.current()) != 0; ++u_itt) {
-	if (search->trackStart() + search->cropDuration() <=
-	    clip->trackStart())
+	if (search->trackEnd() <= clip->trackStart())
 	    continue;
-	if (search->trackStart() <
-	    clip->trackStart() + clip->cropDuration()) {
+	if (search->trackStart() < clip->trackEnd()) {
 	    return false;
 	}
 	// we can safely break here, as the clips are sorted in order - if search->trackStart is already past
@@ -50,15 +48,19 @@ bool DocTrackSound::canAddClip(DocClipRef * clip) const
 	break;
     }
 
-    QPtrListIterator < DocClipRef > s_itt(m_unselectedClipList);
-
+    // repeated for selected clips
+    QPtrListIterator < DocClipRef > s_itt(m_selectedClipList);
     for (; (search = s_itt.current()) != 0; ++s_itt) {
-	if (search->trackStart() + search->cropDuration() <=
-	    clip->trackStart())
+	if (search->trackEnd() <= clip->trackStart())
 	    continue;
-	if (search->trackStart() <
-	    clip->trackStart() + clip->cropDuration())
+	if (search->trackStart() < clip->trackEnd()) {
+	    kdDebug() << "Cannot add clip at " << clip->trackStart().
+		seconds() << " to " << clip->trackEnd().seconds() << endl;
+	    kdDebug() << "Because of clip " << search->trackStart().
+		seconds() << " to " << search->trackEnd().
+		seconds() << endl;
 	    return false;
+	}
 	// we can safely break here, as the clips are sorted in order - if search->trackStart is already past
 	// the clip that we was looking at, then we are ok.
 	break;

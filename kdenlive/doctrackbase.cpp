@@ -39,6 +39,7 @@ DocTrackBase::DocTrackBase(DocClipProject * project)
     m_project = project;
     m_selectedClipList.setAutoDelete(false);
     m_unselectedClipList.setAutoDelete(false);
+    m_trackLength = GenTime();
 }
 
 DocTrackBase::~DocTrackBase()

@@ -33,6 +33,9 @@ DynamicToolTip::DynamicToolTip(QWidget * parent):QToolTip(parent)
     // no explicit initialization needed
 }
 
+DynamicToolTip::~DynamicToolTip()
+{
+}
 
 void DynamicToolTip::maybeTip(const QPoint & pos)
 {

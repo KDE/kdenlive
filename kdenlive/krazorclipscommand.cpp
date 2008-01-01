@@ -49,20 +49,20 @@ namespace Command {
 
 /** Executes this command */
     void KRazorClipsCommand::execute() {
-	m_doc->renderer()->mltCutClip(m_playlistTrackNum, m_splitTime);
 	DocClipRef *clip = m_doc->track(m_trackNum)->getClipAt(m_splitTime);
 	if (clip) {
 	    // disallow the creation of clips with 0 length.
 	    if ((clip->trackStart() == m_splitTime) || (clip->trackEnd() == m_splitTime))
 		return;
 
+	    m_doc->renderer()->mltCutClip(m_playlistTrackNum, m_splitTime);
 	    KMacroCommand *command = new KMacroCommand(i18n("Razor clip"));
 
 	    DocClipRef *clone = clip->clone(m_doc);
 	    if (clone) {
-		
+		clip->setTrackEnd(m_splitTime);
 	        clone->moveCropStartTime(clip->cropStartTime() + (m_splitTime - clip->trackStart()));
-	        clone->setTrackStart(m_splitTime);	
+	        clone->setTrackStart(m_splitTime);
 	        // Remove original clip's transitions that are after the cut
 	        TransitionStack transitionStack = clip->clipTransitions();
 	        if (!transitionStack.isEmpty()) {
@@ -75,7 +75,7 @@ namespace Command {
         	        ++itt;
     		    }
 	     	}
-		clip->setTrackEnd(m_splitTime);
+		
 
 		clone->referencedClip()->addReference();
 		m_doc->projectClip().track(clone->trackNum())->addClip(clone, true);
