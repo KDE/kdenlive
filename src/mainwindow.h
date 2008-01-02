@@ -12,6 +12,7 @@
 #include "monitor.h"
 #include "monitormanager.h"
 #include "kdenlivedoc.h"
+#include "trackview.h"
 
 class MainWindow : public KXmlGuiWindow
 {
@@ -49,7 +50,7 @@ class MainWindow : public KXmlGuiWindow
   private slots:
     void newFile();
     void activateDocument();
-    void connectDocument(KdenliveDoc*);
+    void connectDocument(TrackView*, KdenliveDoc*);
     void openFile();
     void saveFile();
     void saveFileAs();

@@ -10,10 +10,48 @@
 
 #include "documenttrack.h"
 
-DocumentTrack::DocumentTrack(QWidget *parent)
-    : QWidget(parent)
+DocumentTrack::DocumentTrack(QDomElement xml, TrackView * view, QWidget *parent)
+    : QWidget(parent), m_xml(xml), m_trackDuration(0)
 {
   setFixedHeight(50);
+  parseXml();
+}
+
+
+void DocumentTrack::parseXml()
+{
+  m_clipList.clear();
+  int position = 0;
+  for(QDomNode n = m_xml.firstChild(); !n.isNull(); n = n.nextSibling())
+  {
+    QDomElement elem = n.toElement();
+   if (elem.tagName() == "blank") {
+    position += elem.attribute("length", 0).toInt();
+   }
+   else if (elem.tagName() == "entry") {
+    TrackViewClip clip;
+    clip.startTime = position;
+    int in = elem.attribute("in", 0).toInt();
+    int out = elem.attribute("out", 0).toInt() - in;
+    clip.cropTime = in;
+    clip.duration = out;
+    position += out;
+    clip.producer = elem.attribute("producer", QString::null);
+    kDebug()<<"++++++++++++++\n\n / / /ADDING CLIP: "<<clip.cropTime<<", out: "<<clip.duration<<", Producer: "<<clip.producer<<"\n\n++++++++++++++++++++";
+    m_clipList.append(clip);
+   }
+  }
+  m_trackDuration = position;
+}
+
+int DocumentTrack::duration()
+{
+  return m_trackDuration;
+}
+
+QList <TrackViewClip> DocumentTrack::clipList()
+{
+  return m_clipList;
 }
 
 // virtual

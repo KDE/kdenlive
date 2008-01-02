@@ -144,8 +144,10 @@ void Render::createVideoXWindow(WId winid, WId externalMonitor)
     m_mltConsumer->set("frequency", 48000);
 
     m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
+    //m_mltConsumer->start();
+    initSceneList();
 
-    QTimer::singleShot(500, this, SLOT(initSceneList()));
+    //QTimer::singleShot(500, this, SLOT(initSceneList()));
     //initSceneList();
 //  m_mltConsumer->listen("consumer-stopped", this, (mlt_listener) consumer_stopped);
 //  m_mltConsumer->set("buffer", 25);
@@ -369,7 +371,7 @@ int Render::getLength()
 
     if (m_mltProducer) 
     {
-	kDebug()<<"//////  LENGTH: "<<mlt_producer_get_playtime(m_mltProducer->get_producer());
+	// kDebug()<<"//////  LENGTH: "<<mlt_producer_get_playtime(m_mltProducer->get_producer());
 	return mlt_producer_get_playtime(m_mltProducer->get_producer());
     }
     return 0;
@@ -515,7 +517,7 @@ void Render::initSceneList()
     multitrack.appendChild(playlist5);
     tractor.appendChild(multitrack);
     westley.appendChild(tractor);
-    kDebug()<<doc.toString();
+    // kDebug()<<doc.toString();
 /*
    QString tmp = QString("<westley><producer resource=\"colour\" colour=\"red\" id=\"red\" /><tractor><multitrack><playlist></playlist><playlist></playlist><playlist /><playlist /><playlist></playlist></multitrack></tractor></westley>");*/
     setSceneList(doc, 0);
@@ -525,14 +527,14 @@ void Render::initSceneList()
 /** Create the producer from the Westley QDomDocument */
 void Render::setSceneList(QDomDocument list, int position)
 {
-    if (!m_winid == -1) return;
+    if (m_winid == -1) return;
     m_generateScenelist = true;
 
     kWarning()<<"//////  RENDER, SET SCENE LIST";
 
     Mlt::Playlist track;
     char *tmp = decodedString(list.toString());
-   kDebug()<<" / / /STRING rESULT-----------: "<<tmp;
+   
     Mlt::Producer clip("westley-xml", tmp);
     delete[] tmp;
 
@@ -709,13 +711,14 @@ void Render::stop()
 	m_mltConsumer->set("refresh", 0);
 	m_mltConsumer->stop();
     }
-
+    kDebug()<<"/////////////   RENDER STOP2-------";
     isBlocked = true;
 
     if (m_mltProducer) {
 	m_mltProducer->set_speed(0.0);
 	m_mltProducer->set("out", m_mltProducer->get_length() - 1);
     }
+    kDebug()<<"/////////////   RENDER STOP3-------";
 }
 
 void Render::stop(const GenTime & startTime)

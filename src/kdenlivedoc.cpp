@@ -33,7 +33,8 @@
 
 #include "kdenlivedoc.h"
 
-KdenliveDoc::KdenliveDoc(KUrl url, double fps, int width, int height, QWidget *parent):QObject(parent), m_url(url), m_fps(fps), m_width(width), m_height(height), m_projectName(NULL)
+
+KdenliveDoc::KdenliveDoc(KUrl url, double fps, int width, int height, QWidget *parent):QObject(parent), m_render(NULL), m_url(url), m_fps(fps), m_width(width), m_height(height), m_projectName(NULL)
 {
   if (!url.isEmpty()) {
     QString tmpFile;
@@ -52,7 +53,7 @@ KdenliveDoc::KdenliveDoc(KUrl url, double fps, int width, int height, QWidget *p
   }
   else {
     // Creating new document
-    QDomElement westley = m_document.createElement("westley");
+    /*QDomElement westley = m_document.createElement("westley");
     m_document.appendChild(westley);
     QDomElement doc = m_document.createElement("kdenlivedoc");
     doc.setAttribute("version", "0.6");
@@ -61,7 +62,36 @@ KdenliveDoc::KdenliveDoc(KUrl url, double fps, int width, int height, QWidget *p
     doc.setAttribute("width", m_width);
     doc.setAttribute("height", m_height);
     doc.setAttribute("projectfps", m_fps);
-    doc.appendChild(props);
+    doc.appendChild(props);*/
+
+
+    QDomElement westley = m_document.createElement("westley");
+    m_document.appendChild(westley);
+    QDomElement prod = m_document.createElement("producer");
+    prod.setAttribute("resource", "colour");
+    prod.setAttribute("colour", "red");
+    prod.setAttribute("id", "black");
+    prod.setAttribute("in", "0");
+    prod.setAttribute("out", "0");
+
+    QDomElement tractor = m_document.createElement("tractor");
+    QDomElement multitrack = m_document.createElement("multitrack");
+
+    QDomElement playlist1 = m_document.createElement("playlist");
+    playlist1.appendChild(prod);
+    multitrack.appendChild(playlist1);
+    QDomElement playlist2 = m_document.createElement("playlist");
+    multitrack.appendChild(playlist2);
+    QDomElement playlist3 = m_document.createElement("playlist");
+    multitrack.appendChild(playlist3);
+    QDomElement playlist4 = m_document.createElement("playlist");
+    playlist4.setAttribute("hide", "video");
+    multitrack.appendChild(playlist4);
+    QDomElement playlist5 = m_document.createElement("playlist");
+    playlist5.setAttribute("hide", "video");
+    multitrack.appendChild(playlist5);
+    tractor.appendChild(multitrack);
+    westley.appendChild(tractor);
     
   }
   if (fps == 30000.0 / 1001.0 ) m_timecode.setFormat(30, true);
@@ -70,6 +100,20 @@ KdenliveDoc::KdenliveDoc(KUrl url, double fps, int width, int height, QWidget *p
 
 KdenliveDoc::~KdenliveDoc()
 {
+}
+
+void KdenliveDoc::setRenderer(Render *render)
+{
+  m_render = render;
+  if (m_render) m_render->setSceneList(m_document);
+}
+
+QDomDocument KdenliveDoc::generateSceneList()
+{
+    QDomDocument doc;
+    QDomElement westley = doc.createElement("westley");
+    doc.appendChild(westley);
+    QDomElement prod = doc.createElement("producer");
 }
 
 QDomDocument KdenliveDoc::toXml()

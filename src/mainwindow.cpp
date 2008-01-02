@@ -20,7 +20,6 @@
 #include <mlt++/Mlt.h>
 
 #include "mainwindow.h"
-#include "trackview.h"
 #include "kdenlivesettings.h"
 #include "ui_configmisc_ui.h"
  
@@ -83,12 +82,12 @@ MainWindow::MainWindow(QWidget *parent)
   tabifyDockWidget (clipMonitorDock, projectMonitorDock);
 
   connect(projectMonitorDock, SIGNAL(visibilityChanged (bool)), m_projectMonitor, SLOT(refreshMonitor(bool)));
-  connect(clipMonitorDock, SIGNAL(visibilityChanged (bool)), m_projectMonitor, SLOT(refreshMonitor(bool)));
-
-
-  m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor);
+  connect(clipMonitorDock, SIGNAL(visibilityChanged (bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
   connect(m_monitorManager, SIGNAL(connectMonitors ()), this, SLOT(slotConnectMonitors()));
   connect(m_monitorManager, SIGNAL(raiseClipMonitor (bool)), this, SLOT(slotRaiseMonitor(bool)));
+  m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor);
+
+  newFile();
 }
 
 
@@ -153,14 +152,14 @@ void MainWindow::newFile()
   TrackView *trackView = new TrackView(doc);
   m_timelineArea->addTab(trackView, "New Project");
   if (m_timelineArea->count() == 1)
-    connectDocument(doc);
+    connectDocument(trackView, doc);
 }
 
 void MainWindow::activateDocument()
 {
   TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
   KdenliveDoc *currentDoc = currentTab->document();
-  connectDocument(currentDoc);
+  connectDocument(currentTab, currentDoc);
 }
  
 void MainWindow::saveFileAs(const QString &outputFileName)
@@ -204,15 +203,20 @@ void MainWindow::openFile(const QString &inputFileName) //new
   KdenliveDoc *doc = new KdenliveDoc(KUrl(inputFileName), 25, 720, 576);
   TrackView *trackView = new TrackView(doc);
   m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, QIcon(), doc->documentName()));
-  connectDocument(doc);
+  connectDocument(trackView, doc);
   
 }
 
-void MainWindow::connectDocument(KdenliveDoc *doc) //changed
+void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //changed
 {
-  if (m_activeDocument) m_activeDocument->setProducers(m_projectList->producersList());
+  //m_projectMonitor->stop();
+  if (m_activeDocument) {
+    m_activeDocument->setProducers(m_projectList->producersList());
+    m_activeDocument->setRenderer(NULL);
+  }
   m_projectList->setDocument(doc);
   m_monitorManager->setTimecode(doc->timecode());
+  doc->setRenderer(m_projectMonitor->render);
   m_activeDocument = doc;
 }
 

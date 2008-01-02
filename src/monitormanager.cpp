@@ -24,13 +24,16 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor)
 {
   m_clipMonitor = clipMonitor;
   m_projectMonitor = projectMonitor;
-  QTimer::singleShot(750, this, SLOT(initClipMonitor()));
+  //QTimer::singleShot(750, this, SLOT(initClipMonitor()));
+  initClipMonitor();
+  //initProjectMonitor();
 }
 
 void MonitorManager::initClipMonitor()
 {
   m_clipMonitor->initMonitor();
-  QTimer::singleShot(1500, this, SLOT(initProjectMonitor()));
+//  initProjectMonitor();
+  //QTimer::singleShot(1500, this, SLOT(initProjectMonitor()));
 }
 
 void MonitorManager::initProjectMonitor()

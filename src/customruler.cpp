@@ -50,8 +50,7 @@
 #define END_LABEL_X 4
 #define END_LABEL_Y (END_LABEL_X + LABEL_SIZE - 2)
 
-#define FRAME_SIZE 90
-
+#include "definitions.h"
 
 const int CustomRuler::comboScale[] =
 	{ 1, 2, 5, 10, 25, 50, 125, 250, 500, 725, 1500, 3000, 6000,

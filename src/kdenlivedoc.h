@@ -28,6 +28,7 @@
 
 #include "gentime.h"
 #include "timecode.h"
+#include "renderer.h"
 
 class KdenliveDoc:public QObject {
   Q_OBJECT public:
@@ -42,6 +43,7 @@ class KdenliveDoc:public QObject {
     void setProducers(QDomElement doc);
     Timecode timecode();
     QDomDocument toXml();
+    void setRenderer(Render *render);
 
   private:
     KUrl m_url;
@@ -51,6 +53,8 @@ class KdenliveDoc:public QObject {
     int m_width;
     int m_height;
     Timecode m_timecode;
+    Render *m_render;
+    QDomDocument generateSceneList();
 
   public slots:
     

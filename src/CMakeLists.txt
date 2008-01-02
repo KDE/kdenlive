@@ -39,6 +39,8 @@ set(kdenlive_SRCS
   timecode.cpp
   monitormanager.cpp
   documenttrack.cpp
+  documentvideotrack.cpp
+  documentaudiotrack.cpp
   headertrack.cpp
 )
 
