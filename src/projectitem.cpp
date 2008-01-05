@@ -21,11 +21,13 @@ ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, QDom
 {
   setSizeHint(0, QSize(65, 45));
   setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
-  if (m_element.isNull()) m_element.setAttribute("id", clipId);
-  QString cType = m_element.attribute("type", 0);
-  if (!cType.isEmpty()) {
-    m_clipType = (DocClipBase::CLIPTYPE) cType.toInt();
-    slotSetToolTip();
+  if (!m_element.isNull()) {
+    m_element.setAttribute("id", clipId);
+    QString cType = m_element.attribute("type", QString::null);
+    if (!cType.isEmpty()) {
+      m_clipType = (DocClipBase::CLIPTYPE) cType.toInt();
+      slotSetToolTip();
+    }
   }
   
 }
@@ -107,7 +109,9 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
 
 
 	//extend attributes -reh
-	if (attributes.contains("type")) {
+
+	if (m_clipType == DocClipBase::NONE) {
+	  if (attributes.contains("type")) {
 	    if (attributes["type"] == "audio")
 		m_clipType = DocClipBase::AUDIO;
 	    else if (attributes["type"] == "video")
@@ -116,8 +120,9 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
 		m_clipType = DocClipBase::AV;
 	    else if (attributes["type"] == "playlist")
 		m_clipType = DocClipBase::PLAYLIST;
-	} else {
+	  } else {
 	    m_clipType = DocClipBase::AV;
+	  }
 	}
 	slotSetToolTip();
 

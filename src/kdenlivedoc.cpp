@@ -55,7 +55,7 @@ KdenliveDoc::KdenliveDoc(KUrl url, double fps, int width, int height, QWidget *p
   }
   else {
     // Creating new document
-    /*QDomElement westley = m_document.createElement("westley");
+    QDomElement westley = m_document.createElement("westley");
     m_document.appendChild(westley);
     QDomElement doc = m_document.createElement("kdenlivedoc");
     doc.setAttribute("version", "0.6");
@@ -64,11 +64,11 @@ KdenliveDoc::KdenliveDoc(KUrl url, double fps, int width, int height, QWidget *p
     doc.setAttribute("width", m_width);
     doc.setAttribute("height", m_height);
     doc.setAttribute("projectfps", m_fps);
-    doc.appendChild(props);*/
+    doc.appendChild(props);
 
 
-    QDomElement westley = m_document.createElement("westley");
-    m_document.appendChild(westley);
+    /*QDomElement westley = m_document.createElement("westley");
+    m_document.appendChild(westley);*/
     QDomElement prod = m_document.createElement("producer");
     prod.setAttribute("resource", "colour");
     prod.setAttribute("colour", "red");
@@ -93,7 +93,7 @@ KdenliveDoc::KdenliveDoc(KUrl url, double fps, int width, int height, QWidget *p
     playlist5.setAttribute("hide", "video");
     multitrack.appendChild(playlist5);
     tractor.appendChild(multitrack);
-    westley.appendChild(tractor);
+    doc.appendChild(tractor);
     
   }
   if (fps == 30000.0 / 1001.0 ) m_timecode.setFormat(30, true);
@@ -150,8 +150,8 @@ void KdenliveDoc::setProducers(QDomElement doc)
   QDomNodeList list = m_document.elementsByTagName("producer");
   int ct = list.count();
     kDebug()<<"DELETING CHILD PRODUCERS: "<<ct;
-  for (int i = 0; i < ct; i++) {
-    kdenlivedocument.removeChild(list.item(0));
+  for (int i = ct; i > 0; i--) {
+    kdenlivedocument.removeChild(list.item(i));
    }
 
   QDomNode n = doc.firstChild();

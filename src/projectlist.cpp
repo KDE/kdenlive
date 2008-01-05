@@ -169,6 +169,7 @@ void ProjectList::selectItemById(const int clipId)
 
 void ProjectList::addClip(const QStringList &name, const QDomElement &elem, const int clipId, const KUrl &url)
 {
+  kDebug()<<"/////////  ADDING VCLIP=: "<<name;
   ProjectItem *item = new ProjectItem(listView, name, elem, clipId);
   if (!url.isEmpty()) {
     item->setData(1, FullPathRole, url.path());
@@ -270,10 +271,14 @@ void ProjectList::setDocument(KdenliveDoc *doc)
   m_timecode = doc->timecode();
   m_commandStack = doc->commandStack();
   QDomNodeList prods = doc->producersList();
+  int ct = prods.count();
+  kDebug()<<"////////////  SETTING DOC, FOUND CLIPS: "<<prods.count();
   listView->clear();
-  for (int i = 0; i <  prods.count () ; i++)
+  for (int i = 0; i <  ct ; i++)
   {
-    addProducer(prods.item(i).toElement());
+    QDomElement e = prods.item(i).cloneNode().toElement();
+    kDebug()<<"// IMPORT: "<<i<<", :"<<e.attribute("id", "non")<<", NAME: "<<e.attribute("name", "non");
+    if (!e.isNull()) addProducer(e);
   }
   QTreeWidgetItem *first = listView->topLevelItem(0);
   if (first) listView->setCurrentItem(first);
@@ -293,7 +298,7 @@ QDomElement ProjectList::producersList()
   {
     QTreeWidgetItem *item =
       parent ? parent->child(i) : listView->topLevelItem(i);
-    prods.appendChild(doc.importNode(((ProjectItem *)item)->toXml(), true));
+      prods.appendChild(doc.importNode(((ProjectItem *)item)->toXml(), true));
   }
 
   return prods;
@@ -343,12 +348,13 @@ void ProjectList::addProducer(QDomElement producer)
 {
   DocClipBase::CLIPTYPE type = (DocClipBase::CLIPTYPE) producer.attribute("type").toInt();
 
-    QDomDocument doc;
+    /*QDomDocument doc;
     QDomElement prods = doc.createElement("list");
-    prods.appendChild(doc.importNode(producer, true));
+    doc.appendChild(prods);
+    prods.appendChild(doc.importNode(producer, true));*/
     
 
-  kDebug()<<"//////  ADDING PRODUCER:\n "<<doc.toString()<<"\n+++++++++++++++++";
+  //kDebug()<<"//////  ADDING PRODUCER:\n "<<doc.toString()<<"\n+++++++++++++++++";
   int id = producer.attribute("id").toInt();
   if (id >= m_clipIdCounter) m_clipIdCounter = id + 1;
 
