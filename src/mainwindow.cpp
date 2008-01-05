@@ -75,10 +75,17 @@ MainWindow::MainWindow(QWidget *parent)
   projectMonitorDock->setWidget(m_projectMonitor);
   addDockWidget(Qt::TopDockWidgetArea, projectMonitorDock);
 
+  undoViewDock = new QDockWidget(i18n("Undo History"), this);
+  undoViewDock->setObjectName("undo_history");
+  m_undoView = new QUndoView(this);
+  undoViewDock->setWidget(m_undoView);
+  addDockWidget(Qt::TopDockWidgetArea, undoViewDock);
+
   setupActions();
   tabifyDockWidget (projectListDock, effectListDock);
   tabifyDockWidget (projectListDock, effectStackDock);
   tabifyDockWidget (projectListDock, transitionConfigDock);
+  tabifyDockWidget (projectListDock, undoViewDock);
   projectListDock->raise();
 
   tabifyDockWidget (clipMonitorDock, projectMonitorDock);
@@ -244,6 +251,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //chang
     w->addAction(undo);
     w->addAction(redo);
   }
+  m_undoView->setStack(m_commandStack);
   
   m_activeDocument = doc;
 }

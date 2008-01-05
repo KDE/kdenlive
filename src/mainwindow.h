@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
  
 #include <QDockWidget>
+#include <QUndoView>
 
 #include <KXmlGuiWindow>
 #include <KTextEdit>
@@ -48,6 +49,8 @@ class MainWindow : public KXmlGuiWindow
     QDockWidget *projectMonitorDock;
     Monitor *m_projectMonitor;
 
+    QDockWidget *undoViewDock;
+    QUndoView *m_undoView;
     KUndoStack *m_commandStack;
     QAction *m_undo;
     QAction *m_redo;
