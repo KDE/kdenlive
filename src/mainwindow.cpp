@@ -2,6 +2,7 @@
 
 #include <QTextStream>
 #include <QTimer>
+#include <QAction>
 
 #include <KApplication>
 #include <KAction>
@@ -15,7 +16,7 @@
 #include <KSaveFile>
 #include <KRuler>
 #include <KConfigDialog>
-
+#include <KXMLGUIFactory>
 
 #include <mlt++/Mlt.h>
 
@@ -34,12 +35,11 @@ MainWindow::MainWindow(QWidget *parent)
   setCentralWidget(m_timelineArea);
 
   m_monitorManager = new MonitorManager();
-
   m_commandStack = new KUndoStack(this);
 
   projectListDock = new QDockWidget(i18n("Project Tree"), this);
   projectListDock->setObjectName("project_tree");
-  m_projectList = new ProjectList(m_commandStack, this);
+  m_projectList = new ProjectList(this);
   projectListDock->setWidget(m_projectList);
   addDockWidget(Qt::TopDockWidgetArea, projectListDock);
 
@@ -108,8 +108,6 @@ void MainWindow::slotConnectMonitors()
 
   connect(m_projectList, SIGNAL(getFileProperties(const QDomElement &, int)), m_clipMonitor->render, SLOT(getFileProperties(const QDomElement &, int)));
 
-  //connect(m_projectList, SIGNAL(getFileProperties(const KUrl &, uint)), m_clipMonitor->render, SLOT(getFileProperties(const KUrl &, uint)));
-
   connect(m_clipMonitor->render, SIGNAL(replyGetImage(int, int, const QPixmap &, int, int)), m_projectList, SLOT(slotReplyGetImage(int, int, const QPixmap &, int, int)));
 
   connect(m_clipMonitor->render, SIGNAL(replyGetFileProperties(int, const QMap < QString, QString > &, const QMap < QString, QString > &)), m_projectList, SLOT(slotReplyGetFileProperties(int, const QMap < QString, QString > &, const QMap < QString, QString > &)));
@@ -150,10 +148,12 @@ void MainWindow::setupActions()
   KStandardAction::preferences(this, SLOT(slotPreferences()),
 	    actionCollection());
 
-  QAction * redo = m_commandStack->createRedoAction(actionCollection());
-  QAction * undo = m_commandStack->createUndoAction(actionCollection());
+  /*m_redo = m_commandStack->createRedoAction(actionCollection());
+  m_undo = m_commandStack->createUndoAction(actionCollection());*/
 
   setupGUI();
+
+
 }
  
 void MainWindow::newFile()
@@ -227,6 +227,24 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //chang
   m_projectList->setDocument(doc);
   m_monitorManager->setTimecode(doc->timecode());
   doc->setRenderer(m_projectMonitor->render);
+  m_commandStack = doc->commandStack();
+
+  QAction *redo = m_commandStack->createRedoAction(actionCollection());
+  QAction *undo = m_commandStack->createUndoAction(actionCollection());
+
+  QWidget* w = factory()->container("mainToolBar", this);
+  if(w) {
+    if (actionCollection()->action("undo"))
+      delete actionCollection()->action("undo");
+    if(actionCollection()->action("redo"))
+      delete actionCollection()->action("redo");
+
+    actionCollection()->addAction("undo", undo);
+    actionCollection()->addAction("redo", redo);
+    w->addAction(undo);
+    w->addAction(redo);
+  }
+  
   m_activeDocument = doc;
 }
 

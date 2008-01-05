@@ -36,6 +36,8 @@
 
 KdenliveDoc::KdenliveDoc(KUrl url, double fps, int width, int height, QWidget *parent):QObject(parent), m_render(NULL), m_url(url), m_fps(fps), m_width(width), m_height(height), m_projectName(NULL)
 {
+
+  m_commandStack = new KUndoStack(this);
   if (!url.isEmpty()) {
     QString tmpFile;
     if(KIO::NetAccess::download(url.path(), tmpFile, parent))
@@ -100,6 +102,11 @@ KdenliveDoc::KdenliveDoc(KUrl url, double fps, int width, int height, QWidget *p
 
 KdenliveDoc::~KdenliveDoc()
 {
+}
+
+KUndoStack *KdenliveDoc::commandStack()
+{
+  return m_commandStack;
 }
 
 void KdenliveDoc::setRenderer(Render *render)

@@ -18,7 +18,7 @@ class ProjectList : public QWidget
   Q_OBJECT
   
   public:
-    ProjectList(KUndoStack *commandStack, QWidget *parent=0);
+    ProjectList(QWidget *parent=0);
 
     QDomElement producersList();
     void setRenderer(Render *projectRender);
@@ -42,6 +42,7 @@ class ProjectList : public QWidget
     QToolBar *m_toolbar;
     KUndoStack *m_commandStack;
     int m_clipIdCounter;
+    void selectItemById(const int clipId);
 
   private slots:
     void slotAddClip();

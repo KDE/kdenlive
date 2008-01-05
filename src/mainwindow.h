@@ -49,6 +49,8 @@ class MainWindow : public KXmlGuiWindow
     Monitor *m_projectMonitor;
 
     KUndoStack *m_commandStack;
+    QAction *m_undo;
+    QAction *m_redo;
  
   private slots:
     void newFile();

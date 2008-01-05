@@ -24,6 +24,7 @@
 #include <QList>
 #include <QObject>
 
+#include <KUndoStack>
 #include <kurl.h>
 
 #include "gentime.h"
@@ -44,6 +45,7 @@ class KdenliveDoc:public QObject {
     Timecode timecode();
     QDomDocument toXml();
     void setRenderer(Render *render);
+    KUndoStack *commandStack();
 
   private:
     KUrl m_url;
@@ -54,6 +56,7 @@ class KdenliveDoc:public QObject {
     int m_height;
     Timecode m_timecode;
     Render *m_render;
+    KUndoStack *m_commandStack;
     QDomDocument generateSceneList();
 
   public slots:

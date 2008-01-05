@@ -57,4 +57,4 @@ target_link_libraries(kdenlive
  
 install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
 install( FILES kdenliveui.rc DESTINATION  ${DATA_INSTALL_DIR}/kdenlive )
-install (FILES kdenlive.kcfg DESTINATION share/config.kcfg)
+install (FILES kdenlivesettings.kcfg DESTINATION share/config.kcfg)

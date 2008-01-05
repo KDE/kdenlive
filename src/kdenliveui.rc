@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="3">
+<gui name="kdenlive" version="4">
   <ToolBar name="mainToolBar" >
     <text>Main Toolbar</text>
     <Action name="clear" />

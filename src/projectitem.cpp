@@ -21,6 +21,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, QDom
 {
   setSizeHint(0, QSize(65, 45));
   setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
+  if (m_element.isNull()) m_element.setAttribute("id", clipId);
   QString cType = m_element.attribute("type", 0);
   if (!cType.isEmpty()) {
     m_clipType = (DocClipBase::CLIPTYPE) cType.toInt();

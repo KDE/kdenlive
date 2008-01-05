@@ -67,8 +67,8 @@ void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIn
 };
 
 
-ProjectList::ProjectList(KUndoStack *commandStack, QWidget *parent)
-    : QWidget(parent), m_render(NULL), m_fps(-1), m_commandStack(commandStack)
+ProjectList::ProjectList(QWidget *parent)
+    : QWidget(parent), m_render(NULL), m_fps(-1), m_commandStack(NULL)
 {
 
   QWidget *vbox = new QWidget;
@@ -150,6 +150,23 @@ void ProjectList::slotRemoveClip()
 
 }
 
+void ProjectList::selectItemById(const int clipId)
+{
+  QTreeWidgetItem *parent = 0;
+  int count =
+    parent ? parent->childCount() : listView->topLevelItemCount();
+
+  for (int i = 0; i < count; i++)
+  {
+    QTreeWidgetItem *item =
+      parent ? parent->child(i) : listView->topLevelItem(i);
+    if (((ProjectItem *)item)->clipId() == clipId) {
+      listView->setCurrentItem(item);
+      break;
+    }
+  }
+}
+
 void ProjectList::addClip(const QStringList &name, const QDomElement &elem, const int clipId, const KUrl &url)
 {
   ProjectItem *item = new ProjectItem(listView, name, elem, clipId);
@@ -163,6 +180,7 @@ void ProjectList::addClip(const QStringList &name, const QDomElement &elem, cons
     emit getFileProperties(element, clipId);
   }
   else emit getFileProperties(elem, clipId);
+  selectItemById(clipId);
 }
 
 void ProjectList::deleteClip(const int clipId)
@@ -250,7 +268,7 @@ void ProjectList::setDocument(KdenliveDoc *doc)
 {
   m_fps = doc->fps();
   m_timecode = doc->timecode();
-
+  m_commandStack = doc->commandStack();
   QDomNodeList prods = doc->producersList();
   listView->clear();
   for (int i = 0; i <  prods.count () ; i++)
@@ -277,7 +295,7 @@ QDomElement ProjectList::producersList()
       parent ? parent->child(i) : listView->topLevelItem(i);
     prods.appendChild(doc.importNode(((ProjectItem *)item)->toXml(), true));
   }
-  //kDebug()<<"PRODUCERS: \n"<<doc.toString();
+
   return prods;
 }
 
@@ -324,7 +342,16 @@ void ProjectList::slotReplyGetImage(int clipId, int pos, const QPixmap &pix, int
 void ProjectList::addProducer(QDomElement producer)
 {
   DocClipBase::CLIPTYPE type = (DocClipBase::CLIPTYPE) producer.attribute("type").toInt();
-  
+
+    QDomDocument doc;
+    QDomElement prods = doc.createElement("list");
+    prods.appendChild(doc.importNode(producer, true));
+    
+
+  kDebug()<<"//////  ADDING PRODUCER:\n "<<doc.toString()<<"\n+++++++++++++++++";
+  int id = producer.attribute("id").toInt();
+  if (id >= m_clipIdCounter) m_clipIdCounter = id + 1;
+
   if (type == DocClipBase::AUDIO || type == DocClipBase::VIDEO || type == DocClipBase::AV)
   {
     KUrl resource = KUrl(producer.attribute("resource"));
@@ -332,9 +359,10 @@ void ProjectList::addProducer(QDomElement producer)
       QStringList itemEntry;
       itemEntry.append(QString::null);
       itemEntry.append(resource.fileName());
+      addClip(itemEntry, producer, id, resource);
+      /*AddClipCommand *command = new AddClipCommand(this, itemEntry, producer, id, resource, true);
+      m_commandStack->push(command);*/
 
-      AddClipCommand *command = new AddClipCommand(this, itemEntry, producer, producer.attribute("id").toInt(), resource, true);
-      m_commandStack->push(command);
 
       /*ProjectItem *item = new ProjectItem(listView, itemEntry, producer);
       item->setData(1, FullPathRole, resource.path());
@@ -350,9 +378,9 @@ void ProjectList::addProducer(QDomElement producer)
     QStringList itemEntry;
     itemEntry.append(QString::null);
     itemEntry.append(producer.attribute("name"));
-
-    AddClipCommand *command = new AddClipCommand(this, itemEntry, producer, producer.attribute("id").toInt(), KUrl(), true);
-    m_commandStack->push(command);
+    addClip(itemEntry, producer, id, KUrl());
+    /*AddClipCommand *command = new AddClipCommand(this, itemEntry, producer, id, KUrl(), true);
+    m_commandStack->push(command);*/
     //ProjectItem *item = new ProjectItem(listView, itemEntry, producer);
     /*item->setIcon(0, QIcon(pix));
     item->setData(1, ClipTypeRole, (int) type);*/
