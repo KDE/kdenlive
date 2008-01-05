@@ -79,18 +79,19 @@ class Render:public QObject {
     QPixmap getImageThumbnail(KUrl url, int width, int height);
 
 	/** Return thumbnail for color clip */
-    void getImage(int id, QString color, QPoint size);
+    //void getImage(int id, QString color, QPoint size);
 
     static QPixmap frameThumbnail(Mlt::Frame *frame, int width, int height, bool border = false);
     
     /** Return thumbnail for image clip */
-    void getImage(KUrl url, QPoint size);
+    //void getImage(KUrl url, QPoint size);
 
 	/** Requests a particular frame from the given file. 
 	 * 
 	 * The pixmap will be returned by emitting the replyGetImage() signal.
 	 * */
-    void getImage(KUrl url, int frame, QPoint size);
+    //void getImage(KUrl url, int frame, QPoint size);
+
 
 	/** Wraps the VEML command of the same name. Sets the current scene list to
 	be list. */
@@ -215,10 +216,10 @@ class Render:public QObject {
 	/** This signal is emitted once a reply to createVideoXWidow() has been recieved. */
     void replyCreateVideoXWindow(WId);
 	/** emitted when the renderer recieves a reply to a getFileProperties request. */
-    void replyGetFileProperties(const QMap < QString, QString > &, const QMap < QString, QString > &);
+    void replyGetFileProperties(int clipId, const QMap < QString, QString > &, const QMap < QString, QString > &);
 
 	/** emitted when the renderer recieves a reply to a getImage request. */
-    void replyGetImage(const KUrl &, int, const QPixmap &, int, int);
+    void replyGetImage(int , int, const QPixmap &, int, int);
     void replyGetImage(int, const QPixmap &, int, int);
 
 	/** Emitted when the renderer stops, either playing or rendering. */
@@ -252,7 +253,7 @@ class Render:public QObject {
     	/** Wraps the VEML command of the same name. Requests the file properties
     for the specified url from the renderer. Upon return, the result will be emitted
     via replyGetFileProperties(). */
-    void getFileProperties(const KUrl &url, uint framenb = 0);
+    void getFileProperties(const QDomElement &xml, int clipId);
     
     void exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime);
     static char *decodedString(QString str);

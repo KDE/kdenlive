@@ -29,8 +29,8 @@ class ProjectList : public QWidget
   public slots:
     void setDocument(KdenliveDoc *doc);
     void addProducer(QDomElement producer);
-    void slotReplyGetImage(const KUrl &url, int pos, const QPixmap &pix, int w, int h);
-    void slotReplyGetFileProperties(const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata);
+    void slotReplyGetImage(int clipId, int pos, const QPixmap &pix, int w, int h);
+    void slotReplyGetFileProperties(int clipId, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata);
 
 
   private:
@@ -52,7 +52,7 @@ class ProjectList : public QWidget
 
   signals:
     void clipSelected(const QDomElement &);
-    void getFileProperties(const KUrl &, uint);
+    void getFileProperties(const QDomElement&, int);
 };
 
 #endif

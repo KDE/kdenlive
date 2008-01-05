@@ -155,8 +155,14 @@ void ProjectList::addClip(const QStringList &name, const QDomElement &elem, cons
   ProjectItem *item = new ProjectItem(listView, name, elem, clipId);
   if (!url.isEmpty()) {
     item->setData(1, FullPathRole, url.path());
-    emit getFileProperties(url, elem.attribute("frame_thumbnail", 0).toInt());
   }
+  if (elem.isNull() ) {
+    QDomDocument doc;
+    QDomElement element = doc.createElement("producer");
+    element.setAttribute("resource", url.path());
+    emit getFileProperties(element, clipId);
+  }
+  else emit getFileProperties(elem, clipId);
 }
 
 void ProjectList::deleteClip(const int clipId)
@@ -275,7 +281,8 @@ QDomElement ProjectList::producersList()
   return prods;
 }
 
-void ProjectList::slotReplyGetFileProperties(const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata)
+
+void ProjectList::slotReplyGetFileProperties(int clipId, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata)
 {
   QTreeWidgetItem *parent = 0;
   int count =
@@ -286,7 +293,7 @@ void ProjectList::slotReplyGetFileProperties(const QMap < QString, QString > &pr
     QTreeWidgetItem *item =
       parent ? parent->child(i) : listView->topLevelItem(i);
 
-    if (item->data(1, FullPathRole).toString() == properties["filename"]) {
+    if (((ProjectItem *)item)->clipId() == clipId) {
       ((ProjectItem *) item)->setProperties(properties, metadata);
       break;
     }
@@ -294,7 +301,8 @@ void ProjectList::slotReplyGetFileProperties(const QMap < QString, QString > &pr
 }
 
 
-void ProjectList::slotReplyGetImage(const KUrl &url, int pos, const QPixmap &pix, int w, int h)
+
+void ProjectList::slotReplyGetImage(int clipId, int pos, const QPixmap &pix, int w, int h)
 {
   QTreeWidgetItem *parent = 0;
   int count =
@@ -305,12 +313,11 @@ void ProjectList::slotReplyGetImage(const KUrl &url, int pos, const QPixmap &pix
     QTreeWidgetItem *item =
       parent ? parent->child(i) : listView->topLevelItem(i);
 
-    if (item->data(1, FullPathRole).toString() == url.path()) {
-      item->setIcon(0, pix);
+      if (((ProjectItem *)item)->clipId() == clipId) {
+	item->setIcon(0, pix);
       break;
     }
   }
-
 }
 
 

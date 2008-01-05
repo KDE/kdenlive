@@ -292,7 +292,7 @@ QPixmap Render::getVideoThumbnail(QString file, int frame_position, int width, i
     return pix;
 }
 
-
+/*
 void Render::getImage(KUrl url, int frame_position, QPoint size)
 {
     char *tmp = decodedString(url.path());
@@ -313,10 +313,10 @@ void Render::getImage(KUrl url, int frame_position, QPoint size)
 	delete frame;
 	emit replyGetImage(url, frame_position, pix, size.x(), size.y());
     }
-}
+}*/
 
 /* Create thumbnail for color */
-void Render::getImage(int id, QString color, QPoint size)
+/*void Render::getImage(int id, QString color, QPoint size)
 {
     QPixmap pixmap(size.x() - 2, size.y() - 2);
     color = color.replace(0, 2, "#");
@@ -327,10 +327,10 @@ void Render::getImage(int id, QString color, QPoint size)
     //copyBlt(&result, 1, 1, &pixmap, 0, 0, size.x() - 2, size.y() - 2);
     emit replyGetImage(id, result, size.x(), size.y());
 
-}
+}*/
 
 /* Create thumbnail for image */
-void Render::getImage(KUrl url, QPoint size)
+/*void Render::getImage(KUrl url, QPoint size)
 {
     QImage im;
     QPixmap pixmap;
@@ -356,7 +356,7 @@ void Render::getImage(KUrl url, QPoint size)
     result.fill(Qt::black);
     //copyBlt(&result, 1, 1, &pixmap, 0, 0, size.x() - 2, size.y() - 2);
     emit replyGetImage(url, 1, result, size.x(), size.y());
-}
+}*/
 
 
 double Render::consumerRatio() const
@@ -388,26 +388,34 @@ bool Render::isValid(KUrl url)
     return true;
 }
 
-
-void Render::getFileProperties(const KUrl &url, uint framenb)
+void Render::getFileProperties(const QDomElement &xml, int clipId)
 {
         int height = 40;
         int width = height * 16/9.0; //KdenliveSettings::displayratio();
-	char *tmp = decodedString(url.path());
-	Mlt::Producer producer(tmp);
+	QDomDocument doc;
+	QDomElement westley = doc.createElement("westley");
+	doc.appendChild(westley);
+	westley.appendChild(doc.importNode(xml, true));
+	kDebug()<<"////////////\n"<<doc.toString()<<"////////////////\n";
+	char *tmp = decodedString(doc.toString());
+
+	Mlt::Producer producer("westley-xml", tmp);
 	delete[] tmp;
+
     	if (producer.is_blank()) {
 	    return;
     	}
-	producer.seek( framenb );
+	int frameNumber = xml.attribute( "frame_thumbnail", 0).toInt();
+	if ( frameNumber != 0 ) producer.seek( frameNumber );
 	mlt_properties properties = MLT_PRODUCER_PROPERTIES( producer.get_producer() );
 
 	QMap < QString, QString > filePropertyMap;
         QMap < QString, QString > metadataPropertyMap;
 
+	KUrl url = xml.attribute("resource", QString::null);
 	filePropertyMap["filename"] = url.path();
 	filePropertyMap["duration"] = QString::number(producer.get_playtime());
-        
+
         Mlt::Filter m_convert("avcolour_space");
         m_convert.set("forced", mlt_image_rgb24a);
         producer.attach(m_convert);
@@ -470,15 +478,15 @@ void Render::getFileProperties(const KUrl &url, uint framenb)
                 // Generate thumbnail for this frame
 		QPixmap pixmap = frameThumbnail(frame, width, height, true);
 
-                emit replyGetImage(url, 0, pixmap, width, height);
+                emit replyGetImage(clipId, 0, pixmap, width, height);
 
 	    } else if (frame->get_int("test_audio") == 0) {
                 QPixmap pixmap(KStandardDirs::locate("appdata", "graphics/music.png"));
-                emit replyGetImage(url, 0, pixmap, width, height);
+                emit replyGetImage(clipId, 0, pixmap, width, height);
 		filePropertyMap["type"] = "audio";
             }
 	}
-	emit replyGetFileProperties(filePropertyMap, metadataPropertyMap);
+	emit replyGetFileProperties(clipId, filePropertyMap, metadataPropertyMap);
 	kDebug()<<"REquested fuile info for: "<<url.path();
 	delete frame;
 }
