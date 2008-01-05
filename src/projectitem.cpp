@@ -16,8 +16,8 @@
   const int FullPathRole = NameRole + 2;
   const int ClipTypeRole = NameRole + 3;
 
-ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, QDomElement xml, int type)
-    : QTreeWidgetItem(parent, strings, type), m_element(xml), m_clipType(DocClipBase::NONE)
+ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, QDomElement xml, int clipId)
+    : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_element(xml), m_clipType(DocClipBase::NONE), m_clipId(clipId)
 {
   setSizeHint(0, QSize(65, 45));
   setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
@@ -31,6 +31,20 @@ ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, QDom
 
 ProjectItem::~ProjectItem()
 {
+}
+
+int ProjectItem::clipId()
+{
+  return m_clipId;
+}
+
+QStringList ProjectItem::names()
+{
+  QStringList result;
+  result.append(text(0));
+  result.append(text(1));
+  result.append(text(2));
+  return result;
 }
 
 QDomElement ProjectItem::toXml()

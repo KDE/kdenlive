@@ -3,8 +3,9 @@
 
 #include <QDomNodeList>
 #include <QToolBar>
-
 #include <QTreeWidget>
+
+#include <KUndoStack>
 #include <KTreeWidgetSearchLine>
 
 #include "docclipbase.h"
@@ -17,10 +18,13 @@ class ProjectList : public QWidget
   Q_OBJECT
   
   public:
-    ProjectList(QWidget *parent=0);
+    ProjectList(KUndoStack *commandStack, QWidget *parent=0);
 
     QDomElement producersList();
     void setRenderer(Render *projectRender);
+
+    void addClip(const QStringList &name, const QDomElement &elem, const int clipId, const KUrl &url = KUrl());
+    void deleteClip(const int clipId);
 
   public slots:
     void setDocument(KdenliveDoc *doc);
@@ -36,6 +40,8 @@ class ProjectList : public QWidget
     Timecode m_timecode;
     double m_fps;
     QToolBar *m_toolbar;
+    KUndoStack *m_commandStack;
+    int m_clipIdCounter;
 
   private slots:
     void slotAddClip();

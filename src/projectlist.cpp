@@ -15,6 +15,8 @@
 #include "kdenlivesettings.h"
 #include "ui_colorclip_ui.h"
 
+#include "addclipcommand.h"
+
 #include <QtGui>
 
   const int NameRole = Qt::UserRole;
@@ -65,13 +67,14 @@ void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIn
 };
 
 
-ProjectList::ProjectList(QWidget *parent)
-    : QWidget(parent), m_render(NULL), m_fps(-1)
+ProjectList::ProjectList(KUndoStack *commandStack, QWidget *parent)
+    : QWidget(parent), m_render(NULL), m_fps(-1), m_commandStack(commandStack)
 {
 
   QWidget *vbox = new QWidget;
   listView = new QTreeWidget(this);;
   QVBoxLayout *layout = new QVBoxLayout;
+  m_clipIdCounter = 0;
 
   // setup toolbar
   searchView = new KTreeWidgetSearchLine (this);
@@ -140,9 +143,37 @@ void ProjectList::slotEditClip()
 
 void ProjectList::slotRemoveClip()
 {
-  kDebug()<<"//////////  SLOT REMOVE";
   if (!listView->currentItem()) return;
-  delete listView->currentItem();
+  ProjectItem *item = ((ProjectItem *)listView->currentItem());
+  AddClipCommand *command = new AddClipCommand(this, item->names(), item->toXml(), item->clipId(), KUrl(item->data(1, FullPathRole).toString()), false);
+  m_commandStack->push(command);
+
+}
+
+void ProjectList::addClip(const QStringList &name, const QDomElement &elem, const int clipId, const KUrl &url)
+{
+  ProjectItem *item = new ProjectItem(listView, name, elem, clipId);
+  if (!url.isEmpty()) {
+    item->setData(1, FullPathRole, url.path());
+    emit getFileProperties(url, elem.attribute("frame_thumbnail", 0).toInt());
+  }
+}
+
+void ProjectList::deleteClip(const int clipId)
+{
+  QTreeWidgetItem *parent = 0;
+  int count =
+    parent ? parent->childCount() : listView->topLevelItemCount();
+
+  for (int i = 0; i < count; i++)
+  {
+    QTreeWidgetItem *item =
+      parent ? parent->child(i) : listView->topLevelItem(i);
+    if (((ProjectItem *)item)->clipId() == clipId) {
+      delete item;
+      break;
+    }
+  }
 }
 
 void ProjectList::slotAddClip()
@@ -152,17 +183,18 @@ void ProjectList::slotAddClip()
   if (list.isEmpty()) return;
   KUrl::List::Iterator it;
   KUrl url;
-  ProjectItem *item;
+//  ProjectItem *item;
 
   for (it = list.begin(); it != list.end(); it++) {
       QStringList itemEntry;
       itemEntry.append(QString::null);
       itemEntry.append((*it).fileName());
-      item = new ProjectItem(listView, itemEntry, QDomElement());
-      item->setData(1, FullPathRole, (*it).path());
-      emit getFileProperties((*it), 0);
+      AddClipCommand *command = new AddClipCommand(this, itemEntry, QDomElement(), m_clipIdCounter++, *it, true);
+      m_commandStack->push(command);
+      //item = new ProjectItem(listView, itemEntry, QDomElement());
+      //item->setData(1, FullPathRole, (*it).path());
   }
-  listView->setCurrentItem(item);
+  //listView->setCurrentItem(item);
 }
 
 void ProjectList::slotAddColorClip()
@@ -187,11 +219,13 @@ void ProjectList::slotAddColorClip()
     QStringList itemEntry;
     itemEntry.append(QString::null);
     itemEntry.append(dia_ui->clip_name->text());
-    ProjectItem *item = new ProjectItem(listView, itemEntry, element);
-    QPixmap pix(60, 40);
+    AddClipCommand *command = new AddClipCommand(this, itemEntry, element, m_clipIdCounter++, KUrl(), true);
+    m_commandStack->push(command);
+    //ProjectItem *item = new ProjectItem(listView, itemEntry, element);
+    /*QPixmap pix(60, 40);
     pix.fill(dia_ui->clip_color->color());
-    item->setIcon(0, QIcon(pix));
-    listView->setCurrentItem(item);
+    item->setIcon(0, QIcon(pix));*/
+    //listView->setCurrentItem(item);
     
   }
   delete dia_ui;
@@ -262,7 +296,7 @@ void ProjectList::slotReplyGetFileProperties(const QMap < QString, QString > &pr
 
 void ProjectList::slotReplyGetImage(const KUrl &url, int pos, const QPixmap &pix, int w, int h)
 {
-   QTreeWidgetItem *parent = 0;
+  QTreeWidgetItem *parent = 0;
   int count =
     parent ? parent->childCount() : listView->topLevelItemCount();
 
@@ -272,7 +306,7 @@ void ProjectList::slotReplyGetImage(const KUrl &url, int pos, const QPixmap &pix
       parent ? parent->child(i) : listView->topLevelItem(i);
 
     if (item->data(1, FullPathRole).toString() == url.path()) {
-      item->setIcon(0,pix);
+      item->setIcon(0, pix);
       break;
     }
   }
@@ -291,10 +325,14 @@ void ProjectList::addProducer(QDomElement producer)
       QStringList itemEntry;
       itemEntry.append(QString::null);
       itemEntry.append(resource.fileName());
-      ProjectItem *item = new ProjectItem(listView, itemEntry, producer);
+
+      AddClipCommand *command = new AddClipCommand(this, itemEntry, producer, producer.attribute("id").toInt(), resource, true);
+      m_commandStack->push(command);
+
+      /*ProjectItem *item = new ProjectItem(listView, itemEntry, producer);
       item->setData(1, FullPathRole, resource.path());
-      item->setData(1, ClipTypeRole, (int) type);
-      emit getFileProperties(resource, producer.attribute("frame_thumbnail", 0).toInt());
+      item->setData(1, ClipTypeRole, (int) type);*/
+      
     }
   }
   else if (type == DocClipBase::COLOR) {
@@ -305,9 +343,12 @@ void ProjectList::addProducer(QDomElement producer)
     QStringList itemEntry;
     itemEntry.append(QString::null);
     itemEntry.append(producer.attribute("name"));
-    ProjectItem *item = new ProjectItem(listView, itemEntry, producer);
-    item->setIcon(0, QIcon(pix));
-    item->setData(1, ClipTypeRole, (int) type);
+
+    AddClipCommand *command = new AddClipCommand(this, itemEntry, producer, producer.attribute("id").toInt(), KUrl(), true);
+    m_commandStack->push(command);
+    //ProjectItem *item = new ProjectItem(listView, itemEntry, producer);
+    /*item->setIcon(0, QIcon(pix));
+    item->setData(1, ClipTypeRole, (int) type);*/
   }
       
 }

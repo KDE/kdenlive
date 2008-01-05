@@ -479,6 +479,7 @@ void Render::getFileProperties(const KUrl &url, uint framenb)
             }
 	}
 	emit replyGetFileProperties(filePropertyMap, metadataPropertyMap);
+	kDebug()<<"REquested fuile info for: "<<url.path();
 	delete frame;
 }
 
@@ -709,7 +710,7 @@ void Render::stop()
     kDebug()<<"/////////////   RENDER STOP-------";
     if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
 	m_mltConsumer->set("refresh", 0);
-	m_mltConsumer->stop();
+	// m_mltConsumer->stop();
     }
     kDebug()<<"/////////////   RENDER STOP2-------";
     isBlocked = true;

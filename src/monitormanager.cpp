@@ -32,15 +32,15 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor)
 void MonitorManager::initClipMonitor()
 {
   m_clipMonitor->initMonitor();
-//  initProjectMonitor();
+  initProjectMonitor();
   //QTimer::singleShot(1500, this, SLOT(initProjectMonitor()));
 }
 
 void MonitorManager::initProjectMonitor()
 {
   m_clipMonitor->stop();
-  m_projectMonitor->initMonitor();
-  activateMonitor("project");
+  // m_projectMonitor->initMonitor();
+  // activateMonitor("project");
   emit connectMonitors();
 }
 

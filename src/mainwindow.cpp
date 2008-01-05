@@ -2,7 +2,7 @@
 
 #include <QTextStream>
 #include <QTimer>
- 
+
 #include <KApplication>
 #include <KAction>
 #include <KLocale>
@@ -35,9 +35,11 @@ MainWindow::MainWindow(QWidget *parent)
 
   m_monitorManager = new MonitorManager();
 
+  m_commandStack = new KUndoStack(this);
+
   projectListDock = new QDockWidget(i18n("Project Tree"), this);
   projectListDock->setObjectName("project_tree");
-  m_projectList = new ProjectList(this);
+  m_projectList = new ProjectList(m_commandStack, this);
   projectListDock->setWidget(m_projectList);
   addDockWidget(Qt::TopDockWidgetArea, projectListDock);
 
@@ -137,12 +139,18 @@ void MainWindow::setupActions()
   KStandardAction::openNew(this, SLOT(newFile()),
                         actionCollection());
 
-  KStandardAction::openNew(this, SLOT(newFile()),
+  /*KStandardAction::undo(this, SLOT(undo()),
                         actionCollection());
+
+  KStandardAction::redo(this, SLOT(redo()),
+                        actionCollection());*/
 
   KStandardAction::preferences(this, SLOT(slotPreferences()),
 	    actionCollection());
- 
+
+  QAction * redo = m_commandStack->createRedoAction(actionCollection());
+  QAction * undo = m_commandStack->createUndoAction(actionCollection());
+
   setupGUI();
 }
  
@@ -175,7 +183,7 @@ void MainWindow::saveFileAs(const QString &outputFileName)
   
   fileName = outputFileName;
 }
- 
+
 void MainWindow::saveFileAs()
 {
   saveFileAs(KFileDialog::getSaveFileName());

@@ -7,6 +7,7 @@
 #include <KTextEdit>
 #include <KListWidget>
 #include <KTabWidget>
+#include <KUndoStack>
 
 #include "projectlist.h"
 #include "monitor.h"
@@ -46,6 +47,8 @@ class MainWindow : public KXmlGuiWindow
 
     QDockWidget *projectMonitorDock;
     Monitor *m_projectMonitor;
+
+    KUndoStack *m_commandStack;
  
   private slots:
     void newFile();
