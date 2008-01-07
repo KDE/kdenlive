@@ -220,14 +220,15 @@ void MainWindow::openFile(const QString &inputFileName) //new
   KdenliveDoc *doc = new KdenliveDoc(KUrl(inputFileName), 25, 720, 576);
   TrackView *trackView = new TrackView(doc);
   m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, QIcon(), doc->documentName()));
+  m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());
   connectDocument(trackView, doc);
-  
 }
 
 void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //changed
 {
   //m_projectMonitor->stop();
   if (m_activeDocument) {
+    if (m_activeDocument == doc) return;
     m_activeDocument->setProducers(m_projectList->producersList());
     m_activeDocument->setRenderer(NULL);
   }

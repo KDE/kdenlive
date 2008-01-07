@@ -13,6 +13,8 @@
 #include "renderer.h"
 #include "timecode.h"
 
+class ProjectItem;
+
 class ProjectList : public QWidget
 {
   Q_OBJECT
@@ -43,6 +45,7 @@ class ProjectList : public QWidget
     KUndoStack *m_commandStack;
     int m_clipIdCounter;
     void selectItemById(const int clipId);
+    ProjectItem *getItemById(int id);
 
   private slots:
     void slotAddClip();

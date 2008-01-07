@@ -87,8 +87,8 @@ ProjectList::ProjectList(QWidget *parent)
   addButton->setPopupMode(QToolButton::MenuButtonPopup);
   m_toolbar->addWidget (addButton);
   
-  QAction *addClip = addMenu->addAction (KIcon("document-new"), i18n("Add Clip"));
-  connect(addClip, SIGNAL(triggered()), this, SLOT(slotAddClip()));
+  QAction *addClipButton = addMenu->addAction (KIcon("document-new"), i18n("Add Clip"));
+  connect(addClipButton, SIGNAL(triggered()), this, SLOT(slotAddClip()));
 
   QAction *addColorClip = addMenu->addAction (KIcon("document-new"), i18n("Add Color Clip"));
   connect(addColorClip, SIGNAL(triggered()), this, SLOT(slotAddColorClip()));
@@ -99,7 +99,7 @@ ProjectList::ProjectList(QWidget *parent)
   QAction *editClip = m_toolbar->addAction (KIcon("document-properties"), i18n("Edit Clip"));
   connect(editClip, SIGNAL(triggered()), this, SLOT(slotEditClip()));
 
-  addButton->setDefaultAction( addClip );
+  addButton->setDefaultAction( addClipButton );
 
   layout->addWidget( m_toolbar );
   layout->addWidget( listView );
@@ -109,7 +109,7 @@ ProjectList::ProjectList(QWidget *parent)
   searchView->setTreeWidget(listView);
   listView->setColumnCount(3);
   listView->setDragEnabled(true);
-  listView->setDragDropMode(QAbstractItemView::DragOnly);
+  listView->setDragDropMode(QAbstractItemView::DragDrop);
   QStringList headers;
   headers<<i18n("Thumbnail")<<i18n("Filename")<<i18n("Description");
   listView->setHeaderLabels(headers);
@@ -133,7 +133,7 @@ void ProjectList::setRenderer(Render *projectRender)
 void ProjectList::slotClipSelected()
 {
   ProjectItem *item = (ProjectItem*) listView->currentItem();
-  if (item) emit clipSelected(item->toXml());
+  if (item && !item->isGroup()) emit clipSelected(item->toXml());
 }
 
 void ProjectList::slotEditClip()
@@ -152,25 +152,29 @@ void ProjectList::slotRemoveClip()
 
 void ProjectList::selectItemById(const int clipId)
 {
-  QTreeWidgetItem *parent = 0;
-  int count =
-    parent ? parent->childCount() : listView->topLevelItemCount();
-
-  for (int i = 0; i < count; i++)
-  {
-    QTreeWidgetItem *item =
-      parent ? parent->child(i) : listView->topLevelItem(i);
-    if (((ProjectItem *)item)->clipId() == clipId) {
-      listView->setCurrentItem(item);
-      break;
-    }
-  }
+  ProjectItem *item = getItemById(clipId);
+  if (item) listView->setCurrentItem(item);
 }
 
 void ProjectList::addClip(const QStringList &name, const QDomElement &elem, const int clipId, const KUrl &url)
 {
   kDebug()<<"/////////  ADDING VCLIP=: "<<name;
-  ProjectItem *item = new ProjectItem(listView, name, elem, clipId);
+  ProjectItem *item;
+  QString group = elem.attribute("group", QString::null);
+  if (!group.isEmpty()) {
+    // Clip is in a group
+    QList<QTreeWidgetItem *> groupList = listView->findItems(group, Qt::MatchExactly, 1);
+    ProjectItem *groupItem;
+    if (groupList.isEmpty())  {
+	QStringList groupName;
+	groupName<<QString::null<<group;
+	kDebug()<<"-------  CREATING NEW GRP: "<<groupName;
+	groupItem = new ProjectItem(listView, groupName);
+    }
+    else groupItem = (ProjectItem *) groupList.first();
+    item = new ProjectItem(groupItem, name, elem, clipId);
+  }
+  else item = new ProjectItem(listView, name, elem, clipId);
   if (!url.isEmpty()) {
     item->setData(1, FullPathRole, url.path());
   }
@@ -186,19 +190,8 @@ void ProjectList::addClip(const QStringList &name, const QDomElement &elem, cons
 
 void ProjectList::deleteClip(const int clipId)
 {
-  QTreeWidgetItem *parent = 0;
-  int count =
-    parent ? parent->childCount() : listView->topLevelItemCount();
-
-  for (int i = 0; i < count; i++)
-  {
-    QTreeWidgetItem *item =
-      parent ? parent->child(i) : listView->topLevelItem(i);
-    if (((ProjectItem *)item)->clipId() == clipId) {
-      delete item;
-      break;
-    }
-  }
+  ProjectItem *item = getItemById(clipId);
+  if (item) delete item;
 }
 
 void ProjectList::slotAddClip()
@@ -255,14 +248,6 @@ void ProjectList::slotAddColorClip()
   }
   delete dia_ui;
   delete dia;
-  /*for (it = list.begin(); it != list.end(); it++) {
-      QStringList itemEntry;
-      itemEntry.append(QString::null);
-      itemEntry.append((*it).fileName());
-      ProjectItem *item = new ProjectItem(listView, itemEntry, QDomElement());
-      item->setData(1, FullPathRole, (*it).path());
-      emit getFileProperties((*it), 0);
-  }*/
 }
 
 void ProjectList::setDocument(KdenliveDoc *doc)
@@ -276,7 +261,7 @@ void ProjectList::setDocument(KdenliveDoc *doc)
   listView->clear();
   for (int i = 0; i <  ct ; i++)
   {
-    QDomElement e = prods.item(i).cloneNode().toElement();
+    QDomElement e = prods.item(i).toElement();
     kDebug()<<"// IMPORT: "<<i<<", :"<<e.attribute("id", "non")<<", NAME: "<<e.attribute("name", "non");
     if (!e.isNull()) addProducer(e);
   }
@@ -290,57 +275,40 @@ QDomElement ProjectList::producersList()
   QDomDocument doc;
   QDomElement prods = doc.createElement("producerlist");
   doc.appendChild(prods);
-  QTreeWidgetItem *parent = 0;
-  int count =
-    parent ? parent->childCount() : listView->topLevelItemCount();
 
-  for (int i = 0; i < count; i++)
-  {
-    QTreeWidgetItem *item =
-      parent ? parent->child(i) : listView->topLevelItem(i);
-      prods.appendChild(doc.importNode(((ProjectItem *)item)->toXml(), true));
-  }
-
+    QTreeWidgetItemIterator it(listView);
+     while (*it) {
+         if (!((ProjectItem *)(*it))->isGroup())
+	  prods.appendChild(doc.importNode(((ProjectItem *)(*it))->toXml(), true));
+         ++it;
+     }
   return prods;
 }
 
 
 void ProjectList::slotReplyGetFileProperties(int clipId, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata)
 {
-  QTreeWidgetItem *parent = 0;
-  int count =
-    parent ? parent->childCount() : listView->topLevelItemCount();
-
-  for (int i = 0; i < count; i++)
-  {
-    QTreeWidgetItem *item =
-      parent ? parent->child(i) : listView->topLevelItem(i);
-
-    if (((ProjectItem *)item)->clipId() == clipId) {
-      ((ProjectItem *) item)->setProperties(properties, metadata);
-      break;
-    }
-  }
+  ProjectItem *item = getItemById(clipId);
+  if (item) item->setProperties(properties, metadata);
 }
 
 
 
 void ProjectList::slotReplyGetImage(int clipId, int pos, const QPixmap &pix, int w, int h)
 {
-  QTreeWidgetItem *parent = 0;
-  int count =
-    parent ? parent->childCount() : listView->topLevelItemCount();
+  ProjectItem *item = getItemById(clipId);
+  if (item) item->setIcon(0, pix);
+}
 
-  for (int i = 0; i < count; i++)
-  {
-    QTreeWidgetItem *item =
-      parent ? parent->child(i) : listView->topLevelItem(i);
-
-      if (((ProjectItem *)item)->clipId() == clipId) {
-	item->setIcon(0, pix);
-      break;
-    }
-  }
+ProjectItem *ProjectList::getItemById(int id)
+{
+    QTreeWidgetItemIterator it(listView);
+     while (*it) {
+         if (((ProjectItem *)(*it))->clipId() == id)
+	  break;
+         ++it;
+     }
+  return ((ProjectItem *)(*it));
 }
 
 

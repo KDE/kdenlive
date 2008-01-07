@@ -183,5 +183,10 @@ int KdenliveDoc::height()
   return m_height;
 }
 
+KUrl KdenliveDoc::url()
+{
+  return m_url;
+}
+
 #include "kdenlivedoc.moc"
 

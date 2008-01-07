@@ -6,6 +6,7 @@
 
 #include <KDebug>
 #include <KLocale>
+#include <KIcon>
 
 
 #include "projectitem.h"
@@ -17,8 +18,9 @@
   const int ClipTypeRole = NameRole + 3;
 
 ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, QDomElement xml, int clipId)
-    : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_element(xml), m_clipType(DocClipBase::NONE), m_clipId(clipId)
+    : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_clipType(DocClipBase::NONE), m_clipId(clipId), m_isGroup(false)
 {
+  m_element = xml.cloneNode().toElement();
   setSizeHint(0, QSize(65, 45));
   setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
   if (!m_element.isNull()) {
@@ -29,7 +31,30 @@ ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, QDom
       slotSetToolTip();
     }
   }
-  
+}
+
+ProjectItem::ProjectItem(QTreeWidgetItem * parent, const QStringList & strings, QDomElement xml, int clipId)
+    : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_clipType(DocClipBase::NONE), m_clipId(clipId), m_isGroup(false)
+{
+  m_element = xml.cloneNode().toElement();
+  setSizeHint(0, QSize(65, 45));
+  setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
+  if (!m_element.isNull()) {
+    m_element.setAttribute("id", clipId);
+    QString cType = m_element.attribute("type", QString::null);
+    if (!cType.isEmpty()) {
+      m_clipType = (DocClipBase::CLIPTYPE) cType.toInt();
+      slotSetToolTip();
+    }
+  }
+}
+
+ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings)
+    : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_element(QDomElement()), m_clipType(DocClipBase::NONE), m_clipId(-1), m_isGroup(true)
+{
+  setSizeHint(0, QSize(65, 45));
+  setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
+  setIcon(0, KIcon("folder"));
 }
 
 ProjectItem::~ProjectItem()
@@ -40,6 +65,12 @@ int ProjectItem::clipId()
 {
   return m_clipId;
 }
+
+bool ProjectItem::isGroup()
+{
+  return m_isGroup;
+}
+
 
 QStringList ProjectItem::names()
 {
