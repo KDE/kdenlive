@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="4">
-  <ToolBar name="mainToolBar" >
-    <text>Main Toolbar</text>
+<gui name="kdenlive" version="5">
+  <ToolBar name="extraToolBar" >
+    <text>Extra Toolbar</text>
     <Action name="clear" />
   </ToolBar>
 

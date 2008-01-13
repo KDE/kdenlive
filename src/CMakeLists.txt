@@ -38,6 +38,7 @@ set(kdenlive_SRCS
   gentime.cpp
   renderer.cpp
   kdenlivedoc.cpp
+  projectlistview.cpp
   trackview.cpp
   docclipbase.cpp
   timecode.cpp

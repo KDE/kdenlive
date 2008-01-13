@@ -41,7 +41,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, QDom
 {
   m_element = xml.cloneNode().toElement();
   setSizeHint(0, QSize(65, 45));
-  setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
+  setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
   if (!m_element.isNull()) {
     m_element.setAttribute("id", clipId);
     QString cType = m_element.attribute("type", QString::null);
@@ -57,7 +57,7 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, const QStringList & strings, 
 {
   m_element = xml.cloneNode().toElement();
   setSizeHint(0, QSize(65, 45));
-  setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
+  setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
   if (!m_element.isNull()) {
     m_element.setAttribute("id", clipId);
     QString cType = m_element.attribute("type", QString::null);
@@ -72,7 +72,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings)
     : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_element(QDomElement()), m_clipType(DocClipBase::NONE), m_clipId(-1), m_isGroup(true)
 {
   setSizeHint(0, QSize(65, 45));
-  setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
+  setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
   setIcon(0, KIcon("folder"));
 }
 

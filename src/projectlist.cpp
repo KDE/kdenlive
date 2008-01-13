@@ -93,7 +93,7 @@ ProjectList::ProjectList(QWidget *parent)
 {
 
   QWidget *vbox = new QWidget;
-  listView = new QTreeWidget(this);;
+  listView = new ProjectListView(this);;
   QVBoxLayout *layout = new QVBoxLayout;
   m_clipIdCounter = 0;
 
@@ -114,11 +114,11 @@ ProjectList::ProjectList(QWidget *parent)
   QAction *addColorClip = addMenu->addAction (KIcon("document-new"), i18n("Add Color Clip"));
   connect(addColorClip, SIGNAL(triggered()), this, SLOT(slotAddColorClip()));
 
-  QAction *deleteClip = m_toolbar->addAction (KIcon("edit-delete"), i18n("Delete Clip"));
-  connect(deleteClip, SIGNAL(triggered()), this, SLOT(slotRemoveClip()));
+  m_deleteAction = m_toolbar->addAction (KIcon("edit-delete"), i18n("Delete Clip"));
+  connect(m_deleteAction, SIGNAL(triggered()), this, SLOT(slotRemoveClip()));
 
-  QAction *editClip = m_toolbar->addAction (KIcon("document-properties"), i18n("Edit Clip"));
-  connect(editClip, SIGNAL(triggered()), this, SLOT(slotEditClip()));
+  m_editAction = m_toolbar->addAction (KIcon("document-properties"), i18n("Edit Clip"));
+  connect(m_editAction, SIGNAL(triggered()), this, SLOT(slotEditClip()));
 
   addButton->setDefaultAction( addClipButton );
 
@@ -136,14 +136,27 @@ ProjectList::ProjectList(QWidget *parent)
   listView->setHeaderLabels(headers);
   listView->sortByColumn(1, Qt::AscendingOrder);
 
+  m_menu = new QMenu();	
+  m_menu->addAction(addClipButton);
+  m_menu->addAction(addColorClip);
+  m_menu->addAction(m_editAction);
+  m_menu->addAction(m_deleteAction);
+  m_menu->insertSeparator(m_deleteAction);
+
   connect(listView, SIGNAL(itemSelectionChanged()), this, SLOT(slotClipSelected()));
-  //connect(listView, SIGNAL(itemDoubleClicked ( QTreeWidgetItem *, int )), this, SLOT(slotEditClip(QTreeWidgetItem *, int)));
+  connect(listView, SIGNAL(requestMenu ( const QPoint &, QTreeWidgetItem * )), this, SLOT(slotContextMenu(const QPoint &, QTreeWidgetItem *)));
 
 
   listView->setItemDelegate(new ItemDelegate(listView));
   listView->setIconSize(QSize(60, 40));
   listView->setSortingEnabled (true);
 
+}
+
+ProjectList::~ProjectList()
+{
+  delete m_menu;
+  delete m_toolbar;
 }
 
 void ProjectList::setRenderer(Render *projectRender)
@@ -159,7 +172,25 @@ void ProjectList::slotClipSelected()
 
 void ProjectList::slotEditClip()
 {
+  kDebug()<<"////////////////////////////////////////   DBL CLK";
+}
 
+
+void ProjectList::slotEditClip(QTreeWidgetItem *item, int column)
+{
+  kDebug()<<"////////////////////////////////////////   DBL CLK";
+}
+
+void ProjectList::slotContextMenu( const QPoint &pos, QTreeWidgetItem *item )
+{
+  bool enable = false;
+  if (item) {
+    enable = true;
+  }
+  m_editAction->setEnabled(enable);
+  m_deleteAction->setEnabled(enable);
+
+  m_menu->popup(pos);
 }
 
 void ProjectList::slotRemoveClip()

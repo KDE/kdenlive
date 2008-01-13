@@ -19,7 +19,7 @@ int main (int argc, char *argv[])
   KCmdLineArgs::addCmdLineOptions(options); //new
  
   KApplication app;
- 
+
   MainWindow* window = new MainWindow();
   window->show();
  

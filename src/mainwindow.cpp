@@ -51,7 +51,6 @@ MainWindow::MainWindow(QWidget *parent)
   m_timelineArea->setHoverCloseButton(true);
   m_timelineArea->setTabReorderingEnabled(true);
   connect(m_timelineArea, SIGNAL(currentChanged (int)), this, SLOT(activateDocument()));
-  setCentralWidget(m_timelineArea);
 
   m_monitorManager = new MonitorManager();
 
@@ -108,6 +107,8 @@ MainWindow::MainWindow(QWidget *parent)
   projectListDock->raise();
 
   tabifyDockWidget (clipMonitorDock, projectMonitorDock);
+  setCentralWidget(m_timelineArea);
+  setupGUI(Default, "kdenliveui.rc");
 
   connect(projectMonitorDock, SIGNAL(visibilityChanged (bool)), m_projectMonitor, SLOT(refreshMonitor(bool)));
   connect(clipMonitorDock, SIGNAL(visibilityChanged (bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
@@ -115,9 +116,9 @@ MainWindow::MainWindow(QWidget *parent)
   connect(m_monitorManager, SIGNAL(raiseClipMonitor (bool)), this, SLOT(slotRaiseMonitor(bool)));
   m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor);
 
+  setAutoSaveSettings();
   newFile();
 }
-
 
 void MainWindow::slotRaiseMonitor(bool clipMonitor)
 {
@@ -176,10 +177,6 @@ void MainWindow::setupActions()
 
   /*m_redo = m_commandStack->createRedoAction(actionCollection());
   m_undo = m_commandStack->createUndoAction(actionCollection());*/
-
-  setupGUI();
-
-
 }
  
 void MainWindow::newFile()

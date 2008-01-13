@@ -32,6 +32,7 @@
 #include "kdenlivedoc.h"
 #include "renderer.h"
 #include "timecode.h"
+#include "projectlistview.h"
 
 class ProjectItem;
 
@@ -41,6 +42,7 @@ class ProjectList : public QWidget
   
   public:
     ProjectList(QWidget *parent=0);
+    virtual ~ProjectList();
 
     QDomElement producersList();
     void setRenderer(Render *projectRender);
@@ -56,16 +58,19 @@ class ProjectList : public QWidget
 
 
   private:
-    QTreeWidget *listView;
+    ProjectListView *listView;
     KTreeWidgetSearchLine *searchView;
     Render *m_render;
     Timecode m_timecode;
     double m_fps;
     QToolBar *m_toolbar;
+    QMenu *m_menu;
     KUndoStack *m_commandStack;
     int m_clipIdCounter;
     void selectItemById(const int clipId);
     ProjectItem *getItemById(int id);
+    QAction *m_editAction;
+    QAction *m_deleteAction;
 
   private slots:
     void slotAddClip();
@@ -73,6 +78,11 @@ class ProjectList : public QWidget
     void slotEditClip();
     void slotClipSelected();
     void slotAddColorClip();
+    void slotEditClip(QTreeWidgetItem *, int);
+    void slotContextMenu( const QPoint &pos, QTreeWidgetItem * );
+    //void slotShowMenu(const QPoint &pos);
+
+
 
   signals:
     void clipSelected(const QDomElement &);
