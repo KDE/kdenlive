@@ -14,9 +14,29 @@ DocumentTrack::DocumentTrack(QDomElement xml, TrackView * view, QWidget *parent)
     : QWidget(parent), m_xml(xml), m_trackDuration(0)
 {
   setFixedHeight(50);
+  addFunctionDecorator("move", "move");
   parseXml();
 }
 
+int DocumentTrack::documentTrackIndex()
+{
+  return 0;
+}
+
+TrackViewClip *DocumentTrack::getClipAt(GenTime pos)
+{
+  return 0;
+}
+
+void DocumentTrack::addFunctionDecorator(const QString & mode, const QString & function) 
+{
+  m_trackPanelFunctions[mode].append(function);
+}
+
+QStringList DocumentTrack::applicableFunctions(const QString & mode) 
+{
+  return m_trackPanelFunctions[mode];
+}
 
 void DocumentTrack::parseXml()
 {

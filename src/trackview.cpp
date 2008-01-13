@@ -10,10 +10,12 @@
 #include "documentaudiotrack.h"
 #include "headertrack.h"
 #include "trackview.h"
+#include "trackpanelclipmovefunction.h"
 
 TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
-    : QWidget(parent), m_doc(doc), m_scale(1.0)
+    : QWidget(parent), m_doc(doc), m_scale(1.0), m_panelUnderMouse(NULL), m_function(NULL)
 {
+  setMouseTracking(true);
   view = new Ui::TimeLine_UI();
   view->setupUi(this);
   m_ruler = new CustomRuler(doc->timecode());
@@ -49,7 +51,16 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
 
   parseDocument(doc->toXml());
 
+  TrackPanelClipMoveFunction *m_moveFunction = new TrackPanelClipMoveFunction(this);
+  registerFunction("move", m_moveFunction);
+  setEditMode("move");
+
   connect(view->horizontalSlider, SIGNAL(valueChanged ( int )), this, SLOT(slotChangeZoom( int )));
+}
+
+void TrackView::registerFunction(const QString & name, TrackPanelFunction * function) 
+{
+  m_factory.registerFunction(name, function);
 }
 
 void TrackView::parseDocument(QDomDocument doc)
@@ -89,6 +100,11 @@ const double TrackView::zoomFactor() const
   return m_scale * FRAME_SIZE;
 }
 
+const int TrackView::mapLocalToValue(int x) const
+{
+  return (int) x * zoomFactor();
+}
+
 KdenliveDoc *TrackView::document()
 {
   return m_doc;
@@ -115,5 +131,81 @@ int TrackView::slotAddVideoTrack(int ix, QDomElement xml)
   return track->duration();
   //track->show();
 }
+
+DocumentTrack *TrackView::panelAt(int y)
+{
+  return NULL;
+}
+
+void TrackView::setEditMode(const QString & editMode)
+{
+  m_editMode = editMode;
+}
+
+const QString & TrackView::editMode() const
+{
+  return m_editMode;
+}
+
+/** This event occurs when the mouse has been moved. */
+    void TrackView::mouseMoveEvent(QMouseEvent * event) {
+    kDebug()<<"--------  TRACKVIEW MOUSE MOVE EVENT -----";
+	if (m_panelUnderMouse) {
+	    if (event->buttons() & Qt::LeftButton) {
+		bool result = false;
+		if (m_function)
+		    result =
+			m_function->mouseMoved(m_panelUnderMouse, event);
+		if (!result) {
+		    m_panelUnderMouse = 0;
+		    m_function = 0;
+		}
+	    } else {
+		if (m_function) {
+		    m_function->mouseReleased(m_panelUnderMouse, event);
+		    m_function = 0;
+		}
+		m_panelUnderMouse = 0;
+	    }
+	} else {
+	    DocumentTrack *panel = panelAt(event->y());
+	    if (panel) {
+		QCursor result(Qt::ArrowCursor);
+
+		TrackPanelFunction *function =
+		    getApplicableFunction(panel, editMode(),
+		    event);
+		if (function)
+		    result = function->getMouseCursor(panel, event);
+
+		setCursor(result);
+	    } else {
+		setCursor(QCursor(Qt::ArrowCursor));
+	    }
+	}
+    }
+
+    TrackPanelFunction *TrackView::getApplicableFunction(DocumentTrack *
+	panel, const QString & editMode, QMouseEvent * event) {
+	TrackPanelFunction *function = 0;
+
+	QStringList list = panel->applicableFunctions(editMode);
+	QStringList::iterator itt = list.begin();
+
+	while (itt != list.end()) {
+	    TrackPanelFunction *testFunction = m_factory.function(*itt);
+	    if (testFunction) {
+		if (testFunction->mouseApplies(panel, event)) {
+		    function = testFunction;
+		    break;
+		}
+	    }
+
+	    ++itt;
+	}
+
+	return function;
+    }
+
 
 #include "trackview.moc"

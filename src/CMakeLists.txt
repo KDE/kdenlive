@@ -1,18 +1,21 @@
 
 add_subdirectory( widgets )
 
+find_package(Nepomuk REQUIRED)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/src/widgets
     ${LIBMLT_INCLUDE_DIR}
     ${LIBMLTPLUS_INCLUDE_DIR}
     ${LIBFFMPEG_INCLUDE_DIR}
+    ${NEPOMUK_INCLUDES}
 )
 
 LINK_DIRECTORIES(
 ${LIBMLT_LIBRARY}
 ${LIBMLTPLUS_LIBRARY}
 ${LIBFFMPEG_LIBRARY}
+${NEPOMUK_LIBRARIES}
 )
 
 
@@ -24,6 +27,7 @@ kde4_add_ui_files(kdenlive_UI
 )
  
 set(kdenlive_SRCS 
+  addclipcommand.cpp
   main.cpp
   mainwindow.cpp
   customruler.cpp
@@ -42,6 +46,9 @@ set(kdenlive_SRCS
   documentvideotrack.cpp
   documentaudiotrack.cpp
   headertrack.cpp
+  trackpanelfunctionfactory.cpp
+  trackpanelfunction.cpp
+  trackpanelclipmovefunction.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )
@@ -53,6 +60,7 @@ target_link_libraries(kdenlive
   ${KDE4_KIO_LIBS} 
   ${LIBMLTPLUS_LIBRARY}
   ${LIBMLT_LIBRARY}
+  ${NEPOMUK_LIBRARIES}
 )
  
 install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})

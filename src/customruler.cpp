@@ -110,8 +110,7 @@ void CustomRuler::paintEvent(QPaintEvent * /*e*/)
    int value  = this->value(),
      minval = minimum(),
      maxval;
-     maxval = maximum()
-     + offset() - endOffset();
+     maxval = maximum() + offset() - endOffset();
 
      //ioffsetval = value-offset;
      //    pixelpm = (int)ppm;
@@ -121,11 +120,15 @@ void CustomRuler::paintEvent(QPaintEvent * /*e*/)
      offsetmin=(double)(minval-offset()),
      offsetmax=(double)(maxval-offset()),
      fontOffset = (((double)minval)>offsetmin)?(double)minval:offsetmin;
- 
+   QRect bg = QRect(offsetmin, 0, offsetmax, height());
+
+   QPalette palette;
+   //p.fillRect(bg, palette.light());
    // draw labels
    QFont font = p.font();
    font.setPointSize(LABEL_SIZE);
    p.setFont( font );
+   p.setPen(palette.dark().color());
    // draw littlemarklabel
  
    // draw mediummarklabel

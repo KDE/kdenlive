@@ -1,3 +1,22 @@
+/***************************************************************************
+ *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ ***************************************************************************/
+
 
 
 #include <QTextStream>
@@ -26,7 +45,7 @@
  
 MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent),
-      fileName(QString()), m_activeDocument(NULL)
+      fileName(QString()), m_activeDocument(NULL), m_commandStack(NULL)
 {
   m_timelineArea = new KTabWidget(this);
   m_timelineArea->setHoverCloseButton(true);
@@ -35,7 +54,6 @@ MainWindow::MainWindow(QWidget *parent)
   setCentralWidget(m_timelineArea);
 
   m_monitorManager = new MonitorManager();
-  m_commandStack = new KUndoStack(this);
 
   projectListDock = new QDockWidget(i18n("Project Tree"), this);
   projectListDock->setObjectName("project_tree");
@@ -79,6 +97,7 @@ MainWindow::MainWindow(QWidget *parent)
   undoViewDock->setObjectName("undo_history");
   m_undoView = new QUndoView(this);
   undoViewDock->setWidget(m_undoView);
+  m_undoView->setStack(m_commandStack);
   addDockWidget(Qt::TopDockWidgetArea, undoViewDock);
 
   setupActions();
@@ -212,7 +231,7 @@ void MainWindow::saveFile()
  
 void MainWindow::openFile() //changed
 {
-  openFile(KFileDialog::getOpenFileName(KUrl(), "application/vnd.kde.kdenlive"));
+  openFile(KFileDialog::getOpenFileName(KUrl(), "application/vnd.kde.kdenlive,*.kdenlive"));
 }
  
 void MainWindow::openFile(const QString &inputFileName) //new
@@ -221,7 +240,7 @@ void MainWindow::openFile(const QString &inputFileName) //new
   TrackView *trackView = new TrackView(doc);
   m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, QIcon(), doc->documentName()));
   m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());
-  connectDocument(trackView, doc);
+  //connectDocument(trackView, doc);
 }
 
 void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //changed
@@ -235,6 +254,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //chang
   m_projectList->setDocument(doc);
   m_monitorManager->setTimecode(doc->timecode());
   doc->setRenderer(m_projectMonitor->render);
+  //m_undoView->setStack(0);
   m_commandStack = doc->commandStack();
 
   QAction *redo = m_commandStack->createRedoAction(actionCollection());
@@ -252,8 +272,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //chang
     w->addAction(undo);
     w->addAction(redo);
   }
-  m_undoView->setStack(m_commandStack);
-  
+  m_undoView->setStack(doc->commandStack());
   m_activeDocument = doc;
 }
 

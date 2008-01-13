@@ -17,54 +17,30 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include "addclipcommand.h"
 
-#ifndef KDENLIVEDOC_H
-#define KDENLIVEDOC_H
+AddClipCommand::AddClipCommand(ProjectList *list, const QStringList &names, const QDomElement &xml, const int id, const KUrl &url, bool doIt)
+         : m_list(list), m_names(names), m_xml(xml), m_id(id), m_url(url), m_doIt(doIt) {
+	    if (doIt) setText(i18n("Add clip"));
+	    else setText(i18n("Delete clip"));
+	  }
 
-#include <qdom.h>
-#include <qstring.h>
-#include <qmap.h>
-#include <QList>
-#include <QObject>
 
-#include <KUndoStack>
-#include <kurl.h>
+// virtual 
+void AddClipCommand::undo()
+{
+  if (!m_list) kDebug()<<"----  ERROR, NO LIST FOR undoing action";
+kDebug()<<"----  undoing action";
+  if (m_doIt) m_list->deleteClip(m_id);
+  else m_list->addClip(m_names, m_xml, m_id, m_url);
+}
+// virtual 
+void AddClipCommand::redo()
+{
+  if (!m_list) kDebug()<<"----  ERROR, NO LIST FOR redoing action";
+kDebug()<<"----  redoing action";
+  if (m_doIt) m_list->addClip(m_names, m_xml, m_id, m_url);
+  else m_list->deleteClip(m_id);
+}
 
-#include "gentime.h"
-#include "timecode.h"
-#include "renderer.h"
-
-class KdenliveDoc:public QObject {
-  Q_OBJECT public:
-
-    KdenliveDoc(KUrl url, double fps, int width, int height, QWidget *parent = 0);
-    ~KdenliveDoc();
-    QString documentName();
-    QDomNodeList producersList();
-    double fps();
-    int width();
-    int height();
-    KUrl url();
-    void setProducers(QDomElement doc);
-    Timecode timecode();
-    QDomDocument toXml();
-    void setRenderer(Render *render);
-    KUndoStack *commandStack();
-
-  private:
-    KUrl m_url;
-    QDomDocument m_document;
-    QString m_projectName;
-    double m_fps;
-    int m_width;
-    int m_height;
-    Timecode m_timecode;
-    Render *m_render;
-    KUndoStack *m_commandStack;
-    QDomDocument generateSceneList();
-
-  public slots:
-    
-};
-
-#endif
+#include "addclipcommand.moc"

@@ -1,3 +1,22 @@
+/***************************************************************************
+ *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ ***************************************************************************/
+
 
 #include <QMouseEvent>
 #include <QStylePainter>
@@ -9,6 +28,8 @@
 #include <KAction>
 #include <KLocale>
 #include <KFileDialog>
+#include <nepomuk/resourcemanager.h>
+#include <kio/netaccess.h>
 
 #include "projectlist.h"
 #include "projectitem.h"
@@ -143,6 +164,7 @@ void ProjectList::slotEditClip()
 
 void ProjectList::slotRemoveClip()
 {
+  if (!m_commandStack) kDebug()<<"!!!!!!!!!!!!!!!!  NO CMD STK";
   if (!listView->currentItem()) return;
   ProjectItem *item = ((ProjectItem *)listView->currentItem());
   AddClipCommand *command = new AddClipCommand(this, item->names(), item->toXml(), item->clipId(), KUrl(item->data(1, FullPathRole).toString()), false);
@@ -156,15 +178,19 @@ void ProjectList::selectItemById(const int clipId)
   if (item) listView->setCurrentItem(item);
 }
 
-void ProjectList::addClip(const QStringList &name, const QDomElement &elem, const int clipId, const KUrl &url)
+void ProjectList::addClip(const QStringList &name, const QDomElement &elem, const int clipId, const KUrl &url, int parentId)
 {
   kDebug()<<"/////////  ADDING VCLIP=: "<<name;
   ProjectItem *item;
+  ProjectItem *groupItem = NULL;
   QString group = elem.attribute("group", QString::null);
-  if (!group.isEmpty()) {
+  if (parentId != -1) {
+    groupItem = getItemById(parentId);
+  }
+  else if (!group.isEmpty()) {
     // Clip is in a group
     QList<QTreeWidgetItem *> groupList = listView->findItems(group, Qt::MatchExactly, 1);
-    ProjectItem *groupItem;
+
     if (groupList.isEmpty())  {
 	QStringList groupName;
 	groupName<<QString::null<<group;
@@ -172,12 +198,40 @@ void ProjectList::addClip(const QStringList &name, const QDomElement &elem, cons
 	groupItem = new ProjectItem(listView, groupName);
     }
     else groupItem = (ProjectItem *) groupList.first();
-    item = new ProjectItem(groupItem, name, elem, clipId);
   }
+  if (groupItem) item = new ProjectItem(groupItem, name, elem, clipId);
   else item = new ProjectItem(listView, name, elem, clipId);
   if (!url.isEmpty()) {
     item->setData(1, FullPathRole, url.path());
+/*    Nepomuk::File f( url.path() );
+    QString annotation = f.getAnnotation();
+    if (!annotation.isEmpty()) item->setText(2, annotation);*/
+    QString resource = url.path();
+    if (resource.endsWith("westley") || resource.endsWith("kdenlive")) {
+	QString tmpfile;
+	QDomDocument doc;
+	if (KIO::NetAccess::download(url, tmpfile, 0)) {
+	    QFile file(tmpfile);
+	    if (file.open(QIODevice::ReadOnly)) {
+	      doc.setContent(&file, false);
+	      file.close();
+	    }
+	    KIO::NetAccess::removeTempFile(tmpfile);
+
+	    QDomNodeList subProds = doc.elementsByTagName("producer");
+	    int ct = subProds.count();
+	    for (int i = 0; i <  ct ; i++)
+	    {
+	      QDomElement e = subProds.item(i).toElement();
+	      if (!e.isNull()) {
+		addProducer(e, clipId);
+	      }
+	    }  
+	  }
+    }
+
   }
+
   if (elem.isNull() ) {
     QDomDocument doc;
     QDomElement element = doc.createElement("producer");
@@ -196,7 +250,7 @@ void ProjectList::deleteClip(const int clipId)
 
 void ProjectList::slotAddClip()
 {
-   
+  if (!m_commandStack) kDebug()<<"!!!!!!!!!!!!!!!!  NO CMD STK";
   KUrl::List list = KFileDialog::getOpenUrls( KUrl(), "application/vnd.kde.kdenlive application/vnd.westley.scenelist application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg video/x-ms-wmv audio/x-mp3 audio/x-wav application/ogg *.m2t *.dv video/mp4 video/quicktime image/gif image/jpeg image/png image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr");
   if (list.isEmpty()) return;
   KUrl::List::Iterator it;
@@ -217,6 +271,7 @@ void ProjectList::slotAddClip()
 
 void ProjectList::slotAddColorClip()
 {
+  if (!m_commandStack) kDebug()<<"!!!!!!!!!!!!!!!!  NO CMD STK";
   QDialog *dia = new QDialog;
   Ui::ColorClip_UI *dia_ui = new Ui::ColorClip_UI();
   dia_ui->setupUi(dia);
@@ -239,7 +294,7 @@ void ProjectList::slotAddColorClip()
     itemEntry.append(dia_ui->clip_name->text());
     AddClipCommand *command = new AddClipCommand(this, itemEntry, element, m_clipIdCounter++, KUrl(), true);
     m_commandStack->push(command);
-    //ProjectItem *item = new ProjectItem(listView, itemEntry, element);
+    // ProjectItem *item = new ProjectItem(listView, itemEntry, element, m_clipIdCounter++);
     /*QPixmap pix(60, 40);
     pix.fill(dia_ui->clip_color->color());
     item->setIcon(0, QIcon(pix));*/
@@ -275,7 +330,7 @@ QDomElement ProjectList::producersList()
   QDomDocument doc;
   QDomElement prods = doc.createElement("producerlist");
   doc.appendChild(prods);
-
+  kDebug()<<"////////////  PRO LIST BUILD PRDSLIST ";
     QTreeWidgetItemIterator it(listView);
      while (*it) {
          if (!((ProjectItem *)(*it))->isGroup())
@@ -312,8 +367,9 @@ ProjectItem *ProjectList::getItemById(int id)
 }
 
 
-void ProjectList::addProducer(QDomElement producer)
+void ProjectList::addProducer(QDomElement producer, int parentId)
 {
+  if (!m_commandStack) kDebug()<<"!!!!!!!!!!!!!!!!  NO CMD STK";
   DocClipBase::CLIPTYPE type = (DocClipBase::CLIPTYPE) producer.attribute("type").toInt();
 
     /*QDomDocument doc;
@@ -325,15 +381,16 @@ void ProjectList::addProducer(QDomElement producer)
   //kDebug()<<"//////  ADDING PRODUCER:\n "<<doc.toString()<<"\n+++++++++++++++++";
   int id = producer.attribute("id").toInt();
   if (id >= m_clipIdCounter) m_clipIdCounter = id + 1;
+  else if (id == 0) id = m_clipIdCounter++;
 
-  if (type == DocClipBase::AUDIO || type == DocClipBase::VIDEO || type == DocClipBase::AV)
+  if (type == DocClipBase::AUDIO || type == DocClipBase::VIDEO || type == DocClipBase::AV || type == DocClipBase::IMAGE  || type == DocClipBase::PLAYLIST)
   {
     KUrl resource = KUrl(producer.attribute("resource"));
     if (!resource.isEmpty()) {
       QStringList itemEntry;
       itemEntry.append(QString::null);
       itemEntry.append(resource.fileName());
-      addClip(itemEntry, producer, id, resource);
+      addClip(itemEntry, producer, id, resource, parentId);
       /*AddClipCommand *command = new AddClipCommand(this, itemEntry, producer, id, resource, true);
       m_commandStack->push(command);*/
 
@@ -351,8 +408,8 @@ void ProjectList::addProducer(QDomElement producer)
     pix.fill(QColor(colour.left(7)));
     QStringList itemEntry;
     itemEntry.append(QString::null);
-    itemEntry.append(producer.attribute("name"));
-    addClip(itemEntry, producer, id, KUrl());
+    itemEntry.append(producer.attribute("name", i18n("Color clip")));
+    addClip(itemEntry, producer, id, KUrl(), parentId);
     /*AddClipCommand *command = new AddClipCommand(this, itemEntry, producer, id, KUrl(), true);
     m_commandStack->push(command);*/
     //ProjectItem *item = new ProjectItem(listView, itemEntry, producer);
