@@ -34,6 +34,7 @@ class ProjectListView : public QTreeWidget
 
   protected:
     virtual void contextMenuEvent ( QContextMenuEvent * event );
+    virtual void mouseDoubleClickEvent ( QMouseEvent * event );
 
   public slots:
 
@@ -45,6 +46,7 @@ class ProjectListView : public QTreeWidget
 
   signals:
     void requestMenu(const QPoint &, QTreeWidgetItem *);
+    void addClip();
 };
 
 #endif

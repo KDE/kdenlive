@@ -30,9 +30,16 @@ ProjectListView::~ProjectListView()
 {
 }
 
+// virtual
 void ProjectListView::contextMenuEvent ( QContextMenuEvent * event )
 {
     emit requestMenu(event->globalPos(), itemAt(event->pos()));
+}
+
+// virtual
+void ProjectListView::mouseDoubleClickEvent ( QMouseEvent * event )
+{
+    if (!itemAt(event->pos())) emit addClip();
 }
 
 

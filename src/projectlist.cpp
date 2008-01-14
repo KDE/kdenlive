@@ -145,6 +145,7 @@ ProjectList::ProjectList(QWidget *parent)
 
   connect(listView, SIGNAL(itemSelectionChanged()), this, SLOT(slotClipSelected()));
   connect(listView, SIGNAL(requestMenu ( const QPoint &, QTreeWidgetItem * )), this, SLOT(slotContextMenu(const QPoint &, QTreeWidgetItem *)));
+  connect(listView, SIGNAL(addClip ()), this, SLOT(slotAddClip()));
 
 
   listView->setItemDelegate(new ItemDelegate(listView));
