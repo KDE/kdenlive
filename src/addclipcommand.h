@@ -29,7 +29,7 @@
 class AddClipCommand : public QUndoCommand
  {
  public:
-     AddClipCommand(ProjectList *list, const QStringList &names, const QDomElement &xml, const int id, const KUrl &url, bool doIt);
+     AddClipCommand(ProjectList *list, const QStringList &names, const QDomElement &xml, const int id, const KUrl &url, const QString &group, bool doIt);
 
     virtual void undo();
     virtual void redo();
@@ -41,6 +41,7 @@ class AddClipCommand : public QUndoCommand
      int m_id;
      KUrl m_url;
      bool m_doIt;
+     QString m_group;
  };
 
 #endif

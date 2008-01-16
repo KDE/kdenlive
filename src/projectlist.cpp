@@ -28,6 +28,7 @@
 #include <KAction>
 #include <KLocale>
 #include <KFileDialog>
+#include <KInputDialog>
 #include <nepomuk/resourcemanager.h>
 #include <kio/netaccess.h>
 
@@ -107,7 +108,7 @@ ProjectList::ProjectList(QWidget *parent)
   addButton->setMenu( addMenu );
   addButton->setPopupMode(QToolButton::MenuButtonPopup);
   m_toolbar->addWidget (addButton);
-  
+
   QAction *addClipButton = addMenu->addAction (KIcon("document-new"), i18n("Add Clip"));
   connect(addClipButton, SIGNAL(triggered()), this, SLOT(slotAddClip()));
 
@@ -120,6 +121,9 @@ ProjectList::ProjectList(QWidget *parent)
   m_editAction = m_toolbar->addAction (KIcon("document-properties"), i18n("Edit Clip"));
   connect(m_editAction, SIGNAL(triggered()), this, SLOT(slotEditClip()));
 
+  QAction *addFolderButton = addMenu->addAction (KIcon("folder-new"), i18n("Create Folder"));
+  connect(addFolderButton, SIGNAL(triggered()), this, SLOT(slotAddFolder()));
+
   addButton->setDefaultAction( addClipButton );
 
   layout->addWidget( m_toolbar );
@@ -129,8 +133,6 @@ ProjectList::ProjectList(QWidget *parent)
 
   searchView->setTreeWidget(listView);
   listView->setColumnCount(3);
-  listView->setDragEnabled(true);
-  listView->setDragDropMode(QAbstractItemView::DragDrop);
   QStringList headers;
   headers<<i18n("Thumbnail")<<i18n("Filename")<<i18n("Description");
   listView->setHeaderLabels(headers);
@@ -141,11 +143,13 @@ ProjectList::ProjectList(QWidget *parent)
   m_menu->addAction(addColorClip);
   m_menu->addAction(m_editAction);
   m_menu->addAction(m_deleteAction);
+  m_menu->addAction(addFolderButton);
   m_menu->insertSeparator(m_deleteAction);
 
   connect(listView, SIGNAL(itemSelectionChanged()), this, SLOT(slotClipSelected()));
   connect(listView, SIGNAL(requestMenu ( const QPoint &, QTreeWidgetItem * )), this, SLOT(slotContextMenu(const QPoint &, QTreeWidgetItem *)));
   connect(listView, SIGNAL(addClip ()), this, SLOT(slotAddClip()));
+  connect(listView, SIGNAL(addClip (QUrl, const QString &)), this, SLOT(slotAddClip(QUrl, const QString &)));
 
 
   listView->setItemDelegate(new ItemDelegate(listView));
@@ -199,7 +203,7 @@ void ProjectList::slotRemoveClip()
   if (!m_commandStack) kDebug()<<"!!!!!!!!!!!!!!!!  NO CMD STK";
   if (!listView->currentItem()) return;
   ProjectItem *item = ((ProjectItem *)listView->currentItem());
-  AddClipCommand *command = new AddClipCommand(this, item->names(), item->toXml(), item->clipId(), KUrl(item->data(1, FullPathRole).toString()), false);
+  AddClipCommand *command = new AddClipCommand(this, item->names(), item->toXml(), item->clipId(), KUrl(item->data(1, FullPathRole).toString()), item->groupName(), false);
   m_commandStack->push(command);
 
 }
@@ -210,24 +214,36 @@ void ProjectList::selectItemById(const int clipId)
   if (item) listView->setCurrentItem(item);
 }
 
-void ProjectList::addClip(const QStringList &name, const QDomElement &elem, const int clipId, const KUrl &url, int parentId)
+void ProjectList::addClip(const QStringList &name, const QDomElement &elem, const int clipId, const KUrl &url, const QString &group, int parentId)
 {
   kDebug()<<"/////////  ADDING VCLIP=: "<<name;
   ProjectItem *item;
   ProjectItem *groupItem = NULL;
-  QString group = elem.attribute("group", QString::null);
+  QString groupName;
+  if (group.isEmpty()) groupName = elem.attribute("group", QString::null);
+  else groupName = group;
+  if (elem.isNull() && url.isEmpty()) {
+    // this is a folder
+    groupName = name.at(1);
+    QList<QTreeWidgetItem *> groupList = listView->findItems(groupName, Qt::MatchExactly, 1);
+    if (groupList.isEmpty())  {
+	(void) new ProjectItem(listView, name, clipId);
+    }
+    return;
+  }
+
   if (parentId != -1) {
     groupItem = getItemById(parentId);
   }
-  else if (!group.isEmpty()) {
+  else if (!groupName.isEmpty()) {
     // Clip is in a group
-    QList<QTreeWidgetItem *> groupList = listView->findItems(group, Qt::MatchExactly, 1);
+    QList<QTreeWidgetItem *> groupList = listView->findItems(groupName, Qt::MatchExactly, 1);
 
     if (groupList.isEmpty())  {
-	QStringList groupName;
-	groupName<<QString::null<<group;
-	kDebug()<<"-------  CREATING NEW GRP: "<<groupName;
-	groupItem = new ProjectItem(listView, groupName);
+	QStringList itemName;
+	itemName<<QString::null<<groupName;
+	kDebug()<<"-------  CREATING NEW GRP: "<<itemName;
+	groupItem = new ProjectItem(listView, itemName, m_clipIdCounter++);
     }
     else groupItem = (ProjectItem *) groupList.first();
   }
@@ -280,10 +296,24 @@ void ProjectList::deleteClip(const int clipId)
   if (item) delete item;
 }
 
-void ProjectList::slotAddClip()
+void ProjectList::slotAddFolder()
+{
+  QString folderName = KInputDialog::getText(i18n("New Folder"), i18n("Enter new folder name: "));
+  if (folderName.isEmpty()) return;
+  QStringList itemEntry;
+  itemEntry.append(QString::null);
+  itemEntry.append(folderName);
+  AddClipCommand *command = new AddClipCommand(this, itemEntry, QDomElement(), m_clipIdCounter++, KUrl(), folderName, true);
+  m_commandStack->push(command);
+}
+
+void ProjectList::slotAddClip(QUrl givenUrl, const QString &group)
 {
   if (!m_commandStack) kDebug()<<"!!!!!!!!!!!!!!!!  NO CMD STK";
-  KUrl::List list = KFileDialog::getOpenUrls( KUrl(), "application/vnd.kde.kdenlive application/vnd.westley.scenelist application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg video/x-ms-wmv audio/x-mp3 audio/x-wav application/ogg *.m2t *.dv video/mp4 video/quicktime image/gif image/jpeg image/png image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr");
+  KUrl::List list;
+  if (givenUrl.isEmpty())
+    list = KFileDialog::getOpenUrls( KUrl(), "application/vnd.kde.kdenlive application/vnd.westley.scenelist application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg video/x-ms-wmv audio/x-mp3 audio/x-wav application/ogg *.m2t *.dv video/mp4 video/quicktime image/gif image/jpeg image/png image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr");
+  else list.append(givenUrl);
   if (list.isEmpty()) return;
   KUrl::List::Iterator it;
   KUrl url;
@@ -293,7 +323,7 @@ void ProjectList::slotAddClip()
       QStringList itemEntry;
       itemEntry.append(QString::null);
       itemEntry.append((*it).fileName());
-      AddClipCommand *command = new AddClipCommand(this, itemEntry, QDomElement(), m_clipIdCounter++, *it, true);
+      AddClipCommand *command = new AddClipCommand(this, itemEntry, QDomElement(), m_clipIdCounter++, *it, group, true);
       m_commandStack->push(command);
       //item = new ProjectItem(listView, itemEntry, QDomElement());
       //item->setData(1, FullPathRole, (*it).path());
@@ -324,7 +354,7 @@ void ProjectList::slotAddColorClip()
     QStringList itemEntry;
     itemEntry.append(QString::null);
     itemEntry.append(dia_ui->clip_name->text());
-    AddClipCommand *command = new AddClipCommand(this, itemEntry, element, m_clipIdCounter++, KUrl(), true);
+    AddClipCommand *command = new AddClipCommand(this, itemEntry, element, m_clipIdCounter++, KUrl(), QString::null, true);
     m_commandStack->push(command);
     // ProjectItem *item = new ProjectItem(listView, itemEntry, element, m_clipIdCounter++);
     /*QPixmap pix(60, 40);
@@ -412,6 +442,7 @@ void ProjectList::addProducer(QDomElement producer, int parentId)
 
   //kDebug()<<"//////  ADDING PRODUCER:\n "<<doc.toString()<<"\n+++++++++++++++++";
   int id = producer.attribute("id").toInt();
+  QString groupName = producer.attribute("group");
   if (id >= m_clipIdCounter) m_clipIdCounter = id + 1;
   else if (id == 0) id = m_clipIdCounter++;
 
@@ -422,7 +453,7 @@ void ProjectList::addProducer(QDomElement producer, int parentId)
       QStringList itemEntry;
       itemEntry.append(QString::null);
       itemEntry.append(resource.fileName());
-      addClip(itemEntry, producer, id, resource, parentId);
+      addClip(itemEntry, producer, id, resource, groupName, parentId);
       /*AddClipCommand *command = new AddClipCommand(this, itemEntry, producer, id, resource, true);
       m_commandStack->push(command);*/
 
@@ -441,7 +472,7 @@ void ProjectList::addProducer(QDomElement producer, int parentId)
     QStringList itemEntry;
     itemEntry.append(QString::null);
     itemEntry.append(producer.attribute("name", i18n("Color clip")));
-    addClip(itemEntry, producer, id, KUrl(), parentId);
+    addClip(itemEntry, producer, id, KUrl(), groupName, parentId);
     /*AddClipCommand *command = new AddClipCommand(this, itemEntry, producer, id, KUrl(), true);
     m_commandStack->push(command);*/
     //ProjectItem *item = new ProjectItem(listView, itemEntry, producer);

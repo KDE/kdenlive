@@ -19,8 +19,8 @@
 
 #include "addclipcommand.h"
 
-AddClipCommand::AddClipCommand(ProjectList *list, const QStringList &names, const QDomElement &xml, const int id, const KUrl &url, bool doIt)
-         : m_list(list), m_names(names), m_xml(xml), m_id(id), m_url(url), m_doIt(doIt) {
+AddClipCommand::AddClipCommand(ProjectList *list, const QStringList &names, const QDomElement &xml, const int id, const KUrl &url, const QString &group, bool doIt)
+         : m_list(list), m_names(names), m_xml(xml), m_id(id), m_url(url), m_group(group), m_doIt(doIt) {
 	    if (doIt) setText(i18n("Add clip"));
 	    else setText(i18n("Delete clip"));
 	  }
@@ -32,14 +32,14 @@ void AddClipCommand::undo()
   if (!m_list) kDebug()<<"----  ERROR, NO LIST FOR undoing action";
 kDebug()<<"----  undoing action";
   if (m_doIt) m_list->deleteClip(m_id);
-  else m_list->addClip(m_names, m_xml, m_id, m_url);
+  else m_list->addClip(m_names, m_xml, m_id, m_url, m_group);
 }
 // virtual 
 void AddClipCommand::redo()
 {
   if (!m_list) kDebug()<<"----  ERROR, NO LIST FOR redoing action";
 kDebug()<<"----  redoing action";
-  if (m_doIt) m_list->addClip(m_names, m_xml, m_id, m_url);
+  if (m_doIt) m_list->addClip(m_names, m_xml, m_id, m_url, m_group);
   else m_list->deleteClip(m_id);
 }
 

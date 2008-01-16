@@ -34,14 +34,16 @@ class ProjectItem : public QTreeWidgetItem
   public:
     ProjectItem(QTreeWidget * parent, const QStringList & strings, QDomElement xml, int clipId);
     ProjectItem(QTreeWidgetItem * parent, const QStringList & strings, QDomElement xml, int clipId);
-    ProjectItem(QTreeWidget * parent, const QStringList & strings);
+    ProjectItem(QTreeWidget * parent, const QStringList & strings, int clipId);
     virtual ~ProjectItem();
-    QDomElement toXml();
+    QDomElement toXml() const;
 
     void setProperties(const QMap < QString, QString > &attributes, const QMap < QString, QString > &metadata);
-    int clipId();
-    QStringList names();
-    bool isGroup();
+    int clipId() const;
+    QStringList names() const;
+    bool isGroup() const;
+    const QString &groupName() const;
+    virtual ProjectItem *clone() const;
 
   private:
     QDomElement m_element;

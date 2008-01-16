@@ -47,7 +47,7 @@ class ProjectList : public QWidget
     QDomElement producersList();
     void setRenderer(Render *projectRender);
 
-    void addClip(const QStringList &name, const QDomElement &elem, const int clipId, const KUrl &url = KUrl(), int parentId = -1);
+    void addClip(const QStringList &name, const QDomElement &elem, const int clipId, const KUrl &url = KUrl(), const QString &group = QString::null, int parentId = -1);
     void deleteClip(const int clipId);
 
   public slots:
@@ -73,13 +73,14 @@ class ProjectList : public QWidget
     QAction *m_deleteAction;
 
   private slots:
-    void slotAddClip();
+    void slotAddClip(QUrl givenUrl = QUrl(), const QString &group = QString::null);
     void slotRemoveClip();
     void slotEditClip();
     void slotClipSelected();
     void slotAddColorClip();
     void slotEditClip(QTreeWidgetItem *, int);
     void slotContextMenu( const QPoint &pos, QTreeWidgetItem * );
+    void slotAddFolder();
     //void slotShowMenu(const QPoint &pos);
 
 

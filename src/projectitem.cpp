@@ -68,8 +68,8 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, const QStringList & strings, 
   }
 }
 
-ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings)
-    : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_element(QDomElement()), m_clipType(DocClipBase::NONE), m_clipId(-1), m_isGroup(true)
+ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, int clipId)
+    : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_element(QDomElement()), m_clipType(DocClipBase::NONE), m_clipId(clipId), m_isGroup(true)
 {
   setSizeHint(0, QSize(65, 45));
   setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
@@ -80,18 +80,39 @@ ProjectItem::~ProjectItem()
 {
 }
 
-int ProjectItem::clipId()
+ProjectItem *ProjectItem::clone() const
+{
+  ProjectItem *item = (ProjectItem *) this->QTreeWidgetItem::clone();
+  /*if (isGroup())
+  {
+    item = new ProjectItem(new QTreeWidget(), names(), clipId());
+  }  
+  else {
+    if (parent())
+      item = new ProjectItem(new QTreeWidgetItem(), names(), toXml().cloneNode().toElement(), clipId());
+    else 
+      item = new ProjectItem(new QTreeWidget(), names(), toXml().cloneNode().toElement(), clipId());
+  }*/
+  return item;
+}
+
+int ProjectItem::clipId() const
 {
   return m_clipId;
 }
 
-bool ProjectItem::isGroup()
+bool ProjectItem::isGroup() const
 {
   return m_isGroup;
 }
 
+const QString &ProjectItem::groupName() const
+{
+  if (isGroup()) return text(1);
+  else return QString::null;
+}
 
-QStringList ProjectItem::names()
+QStringList ProjectItem::names() const
 {
   QStringList result;
   result.append(text(0));
@@ -100,7 +121,7 @@ QStringList ProjectItem::names()
   return result;
 }
 
-QDomElement ProjectItem::toXml()
+QDomElement ProjectItem::toXml() const
 {
     return m_element;
 }

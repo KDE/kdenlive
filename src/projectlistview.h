@@ -35,18 +35,27 @@ class ProjectListView : public QTreeWidget
   protected:
     virtual void contextMenuEvent ( QContextMenuEvent * event );
     virtual void mouseDoubleClickEvent ( QMouseEvent * event );
+    virtual void mousePressEvent(QMouseEvent *event);
+    virtual void mouseMoveEvent(QMouseEvent *event);
+    virtual void dragEnterEvent(QDragEnterEvent *event);
+    virtual void dropEvent(QDropEvent *event);
+    virtual QStringList mimeTypes() const;
+    virtual Qt::DropActions supportedDropActions () const;
+    virtual void dragMoveEvent(QDragMoveEvent * event);
 
   public slots:
 
 
   private:
-
+    bool m_dragStarted;
+    QPoint m_DragStartPosition;
 
   private slots:
 
   signals:
     void requestMenu(const QPoint &, QTreeWidgetItem *);
     void addClip();
+    void addClip(QUrl, const QString &);
 };
 
 #endif
