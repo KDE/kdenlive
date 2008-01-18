@@ -1,0 +1,13 @@
+<!DOCTYPE kpartgui>
+<effect tag="dust">
+	<name>Dust</name>
+	<description>Dust Particles on the Film</description>
+        <author>Marco Gittler</author>
+	<properties id="dust" tag="dust" />
+	<parameter type="constant" name="maxdiameter" max="255" min="0" default="10">
+		<name>Diameter</name>
+	</parameter>
+	<parameter type="constant" name="maxcount" max="255" min="0" default="10">
+		<name>Count</name>
+	</parameter>
+</effect>

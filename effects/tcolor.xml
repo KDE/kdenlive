@@ -1,0 +1,13 @@
+<!DOCTYPE kpartgui>
+<effect tag="tcolor">
+	<name>Technicolor</name>
+	<description>Oversaturate Colors</description>
+        <author>Marco Gittler</author>
+	<properties id="tcolor" tag="tcolor" />
+	<parameter type="constant" name="oversaturate_cb" max="255" min="-255" default="190">
+		<name>oversaturate_cb</name>
+	</parameter>
+	<parameter type="constant" name="oversaturate_cr" max="255" min="-255" default="190">
+		<name>oversaturate_cr</name>
+	</parameter>
+</effect>

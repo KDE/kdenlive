@@ -35,5 +35,10 @@ speed.xml
 threshold.xml
 volume.xml
 wave.xml
+oldfilm.xml
+tcolor.xml
+lines.xml
+dust.xml
+grain.xml
 
 DESTINATION share/apps/kdenlive/effects)
