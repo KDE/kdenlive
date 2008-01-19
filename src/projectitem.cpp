@@ -37,7 +37,7 @@
   const int ClipTypeRole = NameRole + 3;
 
 ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, QDomElement xml, int clipId)
-    : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_clipType(DocClipBase::NONE), m_clipId(clipId), m_isGroup(false)
+    : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_clipType(DocClipBase::NONE), m_clipId(clipId), m_isGroup(false), m_groupName(QString::null)
 {
   m_element = xml.cloneNode().toElement();
   setSizeHint(0, QSize(65, 45));
@@ -53,7 +53,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, QDom
 }
 
 ProjectItem::ProjectItem(QTreeWidgetItem * parent, const QStringList & strings, QDomElement xml, int clipId)
-    : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_clipType(DocClipBase::NONE), m_clipId(clipId), m_isGroup(false)
+    : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_clipType(DocClipBase::NONE), m_clipId(clipId), m_isGroup(false), m_groupName(QString::null)
 {
   m_element = xml.cloneNode().toElement();
   setSizeHint(0, QSize(65, 45));
@@ -69,7 +69,7 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, const QStringList & strings, 
 }
 
 ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, int clipId)
-    : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_element(QDomElement()), m_clipType(DocClipBase::NONE), m_clipId(clipId), m_isGroup(true)
+    : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_element(QDomElement()), m_clipType(DocClipBase::NONE), m_clipId(clipId), m_isGroup(true), m_groupName(strings.at(1))
 {
   setSizeHint(0, QSize(65, 45));
   setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
@@ -78,22 +78,6 @@ ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, int 
 
 ProjectItem::~ProjectItem()
 {
-}
-
-ProjectItem *ProjectItem::clone() const
-{
-  ProjectItem *item = (ProjectItem *) this->QTreeWidgetItem::clone();
-  /*if (isGroup())
-  {
-    item = new ProjectItem(new QTreeWidget(), names(), clipId());
-  }  
-  else {
-    if (parent())
-      item = new ProjectItem(new QTreeWidgetItem(), names(), toXml().cloneNode().toElement(), clipId());
-    else 
-      item = new ProjectItem(new QTreeWidget(), names(), toXml().cloneNode().toElement(), clipId());
-  }*/
-  return item;
 }
 
 int ProjectItem::clipId() const
@@ -106,10 +90,9 @@ bool ProjectItem::isGroup() const
   return m_isGroup;
 }
 
-const QString &ProjectItem::groupName() const
+const QString ProjectItem::groupName() const
 {
-  if (isGroup()) return text(1);
-  else return QString::null;
+  return m_groupName;
 }
 
 QStringList ProjectItem::names() const
@@ -125,6 +108,14 @@ QDomElement ProjectItem::toXml() const
 {
     return m_element;
 }
+
+const KUrl ProjectItem::clipUrl() const
+{
+    if (m_clipType != DocClipBase::COLOR && m_clipType != DocClipBase::VIRTUAL && m_clipType != DocClipBase::NONE)
+      return KUrl(m_element.attribute("resouce"));
+    else return KUrl();
+}
+
 
 void ProjectItem::slotSetToolTip()
 {

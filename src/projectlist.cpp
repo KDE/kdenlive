@@ -31,6 +31,7 @@
 #include <KInputDialog>
 #include <nepomuk/resourcemanager.h>
 #include <kio/netaccess.h>
+#include <KMessageBox>
 
 #include "projectlist.h"
 #include "projectitem.h"
@@ -203,9 +204,10 @@ void ProjectList::slotRemoveClip()
   if (!m_commandStack) kDebug()<<"!!!!!!!!!!!!!!!!  NO CMD STK";
   if (!listView->currentItem()) return;
   ProjectItem *item = ((ProjectItem *)listView->currentItem());
-  AddClipCommand *command = new AddClipCommand(this, item->names(), item->toXml(), item->clipId(), KUrl(item->data(1, FullPathRole).toString()), item->groupName(), false);
+  if (!item) kDebug()<<"///////////////  ERROR NOT FOUND";
+  if (KMessageBox::questionYesNo(this, i18n("Delete clip <b>%1</b> ?").arg(item->names().at(1)), i18n("Delete Clip")) != KMessageBox::Yes) return;
+  AddClipCommand *command = new AddClipCommand(this, item->names(), item->toXml(), item->clipId(), item->clipUrl(), item->groupName(), false);
   m_commandStack->push(command);
-
 }
 
 void ProjectList::selectItemById(const int clipId)
@@ -446,6 +448,10 @@ void ProjectList::addProducer(QDomElement producer, int parentId)
   if (id >= m_clipIdCounter) m_clipIdCounter = id + 1;
   else if (id == 0) id = m_clipIdCounter++;
 
+  if (parentId != -1) {
+    // item is a westley playlist, adjust subproducers ids 
+    id = (parentId + 1) * 10000 + id;
+  }
   if (type == DocClipBase::AUDIO || type == DocClipBase::VIDEO || type == DocClipBase::AV || type == DocClipBase::IMAGE  || type == DocClipBase::PLAYLIST)
   {
     KUrl resource = KUrl(producer.attribute("resource"));

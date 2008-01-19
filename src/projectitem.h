@@ -42,8 +42,8 @@ class ProjectItem : public QTreeWidgetItem
     int clipId() const;
     QStringList names() const;
     bool isGroup() const;
-    const QString &groupName() const;
-    virtual ProjectItem *clone() const;
+    const QString groupName() const;
+    const KUrl clipUrl() const;
 
   private:
     QDomElement m_element;
@@ -53,6 +53,7 @@ class ProjectItem : public QTreeWidgetItem
     int m_clipId;
     void slotSetToolTip();
     bool m_isGroup;
+    QString m_groupName;
 };
 
 #endif

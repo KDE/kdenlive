@@ -86,13 +86,13 @@ void ProjectListView::dropEvent(QDropEvent *event)
       if (item->parent()) item = item->parent();
       if (((ProjectItem *) item)->isGroup()) {
       //emit addClip(event->mimeData->text());
-      kDebug()<<"////////////////  DROPPED RIGHT 1";
+      kDebug()<<"////////////////  DROPPED RIGHT 1 ";
       QList <QTreeWidgetItem *> list;
       list = selectedItems ();
       ProjectItem *clone;
       foreach (QTreeWidgetItem *it, list) {
-	// TODO allow dragging of folders
-	if (!((ProjectItem *) it)->isGroup()) {
+	// TODO allow dragging of folders ?
+	if (!((ProjectItem *) it)->isGroup() && ((ProjectItem *) it)->clipId() < 10000) {
 	  if (it->parent()) clone = (ProjectItem* ) it->parent()->takeChild(it->parent()->indexOfChild(it));
 	  else clone = (ProjectItem* ) takeTopLevelItem(indexOfTopLevelItem(it));
 	  if (clone) item->addChild(clone);
@@ -109,7 +109,7 @@ void ProjectListView::dropEvent(QDropEvent *event)
       ProjectItem *clone;
       foreach (QTreeWidgetItem *it, list) {
 	  QTreeWidgetItem *parent = it->parent();
-	  if (parent)  {
+	  if (parent && ((ProjectItem *) it)->clipId() < 10000)  {
 	    kDebug()<<"++ item parent: "<<parent->text(1);
 	    clone = (ProjectItem* ) parent->takeChild(parent->indexOfChild(it));
 	    if (clone) addTopLevelItem(clone);
