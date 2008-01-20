@@ -99,6 +99,12 @@ MainWindow::MainWindow(QWidget *parent)
   m_undoView->setStack(m_commandStack);
   addDockWidget(Qt::TopDockWidgetArea, undoViewDock);
 
+  overviewDock = new QDockWidget(i18n("Project Overview"), this);
+  overviewDock->setObjectName("project_overview");
+  m_overView = new CustomTrackView(NULL, this);
+  overviewDock->setWidget(m_overView);
+  addDockWidget(Qt::TopDockWidgetArea, overviewDock);
+
   setupActions();
   tabifyDockWidget (projectListDock, effectListDock);
   tabifyDockWidget (projectListDock, effectStackDock);
@@ -118,6 +124,21 @@ MainWindow::MainWindow(QWidget *parent)
 
   setAutoSaveSettings();
   newFile();
+}
+
+//virtual
+bool MainWindow::queryClose() 
+{
+  saveOptions();
+  switch ( KMessageBox::warningYesNoCancel( this, i18n("Save changes to document ?")) ) {
+       case KMessageBox::Yes :
+         // save document here. If saving fails, return false;
+         return true;
+       case KMessageBox::No :
+         return true;
+       default: // cancel
+         return false;
+  }
 }
 
 void MainWindow::slotRaiseMonitor(bool clipMonitor)
@@ -156,7 +177,10 @@ void MainWindow::setupActions()
  
   KStandardAction::open(this, SLOT(openFile()),
                         actionCollection());
- 
+
+  m_fileOpenRecent = KStandardAction::openRecent(this, SLOT(openFile(const KUrl &)),
+                        actionCollection());
+
   KStandardAction::save(this, SLOT(saveFile()),
                         actionCollection());
  
@@ -172,11 +196,23 @@ void MainWindow::setupActions()
   KStandardAction::redo(this, SLOT(redo()),
                         actionCollection());*/
 
-  KStandardAction::preferences(this, SLOT(slotPreferences()),
-	    actionCollection());
+  readOptions();  
 
   /*m_redo = m_commandStack->createRedoAction(actionCollection());
   m_undo = m_commandStack->createUndoAction(actionCollection());*/
+}
+
+void MainWindow::saveOptions()
+{
+  KSharedConfigPtr config = KGlobal::config ();
+  m_fileOpenRecent->saveEntries(KConfigGroup (config, "Recent Files"));
+  config->sync(); 
+}
+
+void MainWindow::readOptions()
+{
+  KSharedConfigPtr config = KGlobal::config ();
+  m_fileOpenRecent->loadEntries(KConfigGroup (config, "Recent Files"));
 }
  
 void MainWindow::newFile()
@@ -228,12 +264,15 @@ void MainWindow::saveFile()
  
 void MainWindow::openFile() //changed
 {
-  openFile(KFileDialog::getOpenFileName(KUrl(), "application/vnd.kde.kdenlive,*.kdenlive"));
+    KUrl url = KFileDialog::getOpenUrl(KUrl(), "application/vnd.kde.kdenlive;*.kdenlive");
+    if (url.isEmpty()) return;
+    m_fileOpenRecent->addUrl (url);
+    openFile(url);
 }
  
-void MainWindow::openFile(const QString &inputFileName) //new
+void MainWindow::openFile(const KUrl &url) //new
 {
-  KdenliveDoc *doc = new KdenliveDoc(KUrl(inputFileName), 25, 720, 576);
+  KdenliveDoc *doc = new KdenliveDoc(url, 25, 720, 576);
   TrackView *trackView = new TrackView(doc);
   m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, QIcon(), doc->documentName()));
   m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());
@@ -254,6 +293,9 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //chang
   //m_undoView->setStack(0);
   m_commandStack = doc->commandStack();
 
+  m_overView->setScene(trackView->projectScene());
+  m_overView->scale(m_overView->width() / trackView->duration(), m_overView->height() / (50 * trackView->tracksNumber()));
+  //m_overView->fitInView(m_overView->itemAt(0, 50), Qt::KeepAspectRatio);
   QAction *redo = m_commandStack->createRedoAction(actionCollection());
   QAction *undo = m_commandStack->createUndoAction(actionCollection());
 

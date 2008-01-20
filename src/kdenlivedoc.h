@@ -37,7 +37,7 @@
 class KdenliveDoc:public QObject {
   Q_OBJECT public:
 
-    KdenliveDoc(KUrl url, double fps, int width, int height, QWidget *parent = 0);
+    KdenliveDoc(const KUrl &url, double fps, int width, int height, QWidget *parent = 0);
     ~KdenliveDoc();
     QString documentName();
     QDomNodeList producersList();
@@ -50,6 +50,7 @@ class KdenliveDoc:public QObject {
     QDomDocument toXml();
     void setRenderer(Render *render);
     KUndoStack *commandStack();
+    QString producerName(int id);
 
   private:
     KUrl m_url;

@@ -17,30 +17,47 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "addclipcommand.h"
 
-AddClipCommand::AddClipCommand(ProjectList *list, const QStringList &names, const QDomElement &xml, const int id, const KUrl &url, const QString &group, bool doIt)
-         : m_list(list), m_names(names), m_xml(xml), m_id(id), m_url(url), m_group(group), m_doIt(doIt) {
-	    if (doIt) setText(i18n("Add clip"));
-	    else setText(i18n("Delete clip"));
-	 }
+#ifndef CUSTOMTRACKVIEW_H
+#define CUSTOMTRACKVIEW_H
 
+#include <QGraphicsView>
 
-// virtual 
-void AddClipCommand::undo()
+#include "clipitem.h"
+
+class CustomTrackView : public QGraphicsView
 {
-  if (!m_list) kDebug()<<"----  ERROR, NO LIST FOR undoing action";
-kDebug()<<"----  undoing action";
-  if (m_doIt) m_list->deleteClip(m_id);
-  else m_list->addClip(m_names, m_xml, m_id, m_url, m_group);
-}
-// virtual 
-void AddClipCommand::redo()
-{
-  if (!m_list) kDebug()<<"----  ERROR, NO LIST FOR redoing action";
-kDebug()<<"----  redoing action";
-  if (m_doIt) m_list->addClip(m_names, m_xml, m_id, m_url, m_group);
-  else m_list->deleteClip(m_id);
-}
+  Q_OBJECT
+  
+  public:
+    CustomTrackView(QGraphicsScene * scene, QWidget *parent=0);
+    virtual void mousePressEvent ( QMouseEvent * event );
+    virtual void mouseReleaseEvent ( QMouseEvent * event );
+    virtual void mouseMoveEvent ( QMouseEvent * event );
+    void addTrack();
+    void removeTrack();
+    void setCursorPos(int pos);
+    int cursorPos();
 
-#include "addclipcommand.moc"
+  protected:
+    virtual void drawBackground ( QPainter * painter, const QRectF & rect );
+    virtual void drawForeground ( QPainter * painter, const QRectF & rect );
+    virtual void dragEnterEvent ( QDragEnterEvent * event );
+    virtual void dragMoveEvent(QDragMoveEvent * event);
+    virtual void dragLeaveEvent ( QDragLeaveEvent * event );
+    virtual void dropEvent ( QDropEvent * event );
+    virtual QStringList mimeTypes() const;
+    virtual Qt::DropActions supportedDropActions () const;
+
+  private:
+    int m_tracksCount;
+    int m_cursorPos;
+    ClipItem *m_dropItem;
+    void addItem(QString producer, QPoint pos);
+
+  signals:
+    void cursorMoved(int);
+
+};
+
+#endif

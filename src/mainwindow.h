@@ -23,18 +23,21 @@
  
 #include <QDockWidget>
 #include <QUndoView>
+#include <QLabel>
 
 #include <KXmlGuiWindow>
 #include <KTextEdit>
 #include <KListWidget>
 #include <KTabWidget>
 #include <KUndoStack>
+#include <KRecentFilesAction>
 
 #include "projectlist.h"
 #include "monitor.h"
 #include "monitormanager.h"
 #include "kdenlivedoc.h"
 #include "trackview.h"
+#include "customtrackview.h"
 
 class MainWindow : public KXmlGuiWindow
 {
@@ -42,7 +45,9 @@ class MainWindow : public KXmlGuiWindow
   
   public:
     MainWindow(QWidget *parent=0);
-    void openFile(const QString &inputFileName);
+
+  protected:
+    virtual bool queryClose();
   
   private:
     KTabWidget* m_timelineArea;
@@ -74,7 +79,18 @@ class MainWindow : public KXmlGuiWindow
     KUndoStack *m_commandStack;
     QAction *m_undo;
     QAction *m_redo;
- 
+
+    QDockWidget *overviewDock;
+    CustomTrackView *m_overView;
+
+    KRecentFilesAction *m_fileOpenRecent;
+    void readOptions();
+    void saveOptions();
+
+  public slots:
+    void openFile(const KUrl &url);
+
+
   private slots:
     void newFile();
     void activateDocument();

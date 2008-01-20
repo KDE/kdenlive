@@ -28,7 +28,7 @@
 #include "kdenlivedoc.h"
 
 
-KdenliveDoc::KdenliveDoc(KUrl url, double fps, int width, int height, QWidget *parent):QObject(parent), m_render(NULL), m_url(url), m_fps(fps), m_width(width), m_height(height), m_projectName(NULL)
+KdenliveDoc::KdenliveDoc(const KUrl &url, double fps, int width, int height, QWidget *parent):QObject(parent), m_render(NULL), m_url(url), m_fps(fps), m_width(width), m_height(height), m_projectName(NULL)
 {
 
   m_commandStack = new KUndoStack();
@@ -108,6 +108,23 @@ void KdenliveDoc::setRenderer(Render *render)
 {
   m_render = render;
   if (m_render) m_render->setSceneList(m_document);
+}
+
+QString KdenliveDoc::producerName(int id)
+{
+  QString result = "unnamed";
+  QDomNodeList prods = producersList();
+  int ct = prods.count();
+  for (int i = 0; i <  ct ; i++)
+  {
+    QDomElement e = prods.item(i).toElement();
+    if (e.attribute("id") != "black" && e.attribute("id").toInt() == id) {
+      result = e.attribute("name");
+      if (result.isEmpty()) result = KUrl(e.attribute("resource")).fileName();
+      break;
+    }
+  }
+  return result;
 }
 
 QDomDocument KdenliveDoc::generateSceneList()

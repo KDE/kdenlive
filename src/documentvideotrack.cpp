@@ -17,6 +17,7 @@ DocumentVideoTrack::DocumentVideoTrack(QDomElement xml, TrackView * view, QWidge
 }
 
 // virtual
+/*
 void DocumentVideoTrack::paintEvent(QPaintEvent *e )
 {
     QList <TrackViewClip> trackClipList = clipList();
@@ -39,6 +40,6 @@ void DocumentVideoTrack::paintEvent(QPaintEvent *e )
       painter.drawText(clipRect, Qt::AlignCenter, trackClipList.at(i).producer);
     }
 }
-
+*/
 
 #include "documentvideotrack.moc"

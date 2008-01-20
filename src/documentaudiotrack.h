@@ -12,7 +12,7 @@ class DocumentAudioTrack : public DocumentTrack
     DocumentAudioTrack(QDomElement xml, TrackView * view, QWidget *parent=0);
 
   protected:
-    virtual void paintEvent(QPaintEvent * /*e*/);
+    //virtual void paintEvent(QPaintEvent * /*e*/);
 
   private:
     TrackView *m_trackView;

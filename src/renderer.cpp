@@ -197,10 +197,6 @@ QPixmap Render::frameThumbnail(Mlt::Frame *frame, int width, int height, bool bo
     QPixmap pix(width, height);
 
     mlt_image_format format = mlt_image_rgb24a;
-    /*if (border) {
-	width = width -2;
-	height = height -2;
-    }*/
     uint8_t *thumb = frame->get_image(format, width, height);
     QImage image(thumb, width, height, QImage::Format_ARGB32);
   
@@ -210,12 +206,6 @@ QPixmap Render::frameThumbnail(Mlt::Frame *frame, int width, int height, bool bo
 	QPainter painter(&pix);
 	painter.drawRect(0, 0, width - 1, height - 1);
       }
-	/*if (!border) pix = pix.fromImage(image);
-	//bitBlt(&pix, 0, 0, &image, 0, 0, width, height);
-	else {
-		pix.fill(black);
-		bitBlt(&pix, 1, 1, &image, 0, 0, width, height);
-	}*/
     }
     else pix.fill(Qt::black);
     return pix;
@@ -419,7 +409,7 @@ void Render::getFileProperties(const QDomElement &xml, int clipId)
         Mlt::Filter m_convert("avcolour_space");
         m_convert.set("forced", mlt_image_rgb24a);
         producer.attach(m_convert);
-
+	producer.set("profile", "hdv_1080_50i");
 	Mlt::Frame * frame = producer.get_frame();
 
 	if (frame->is_valid()) {

@@ -24,6 +24,9 @@ class CustomRuler : public KRuler
 
   public slots:
     void slotNewValue ( int _value );
+
+  signals:
+    void cursorMoved(int);
 };
 
 #endif

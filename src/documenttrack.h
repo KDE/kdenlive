@@ -30,7 +30,7 @@ class DocumentTrack : public QWidget
     QStringList applicableFunctions(const QString & mode);
 
   protected:
-    virtual void paintEvent(QPaintEvent * /*e*/);
+    //virtual void paintEvent(QPaintEvent * /*e*/);
 
   private:
     QDomElement m_xml;

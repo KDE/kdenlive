@@ -26,7 +26,7 @@ int main (int argc, char *argv[])
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs(); //new
   if(args->count()) //new
   {
-    window->openFile(args->url(0).url()); //new
+    window->openFile(args->url(0)); //new
   }
  
   return app.exec();

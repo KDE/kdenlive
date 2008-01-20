@@ -17,30 +17,37 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "addclipcommand.h"
 
-AddClipCommand::AddClipCommand(ProjectList *list, const QStringList &names, const QDomElement &xml, const int id, const KUrl &url, const QString &group, bool doIt)
-         : m_list(list), m_names(names), m_xml(xml), m_id(id), m_url(url), m_group(group), m_doIt(doIt) {
-	    if (doIt) setText(i18n("Add clip"));
-	    else setText(i18n("Delete clip"));
-	 }
+#ifndef CLIPITEM_H
+#define CLIPITEM_H
 
+#include <QGraphicsRectItem>
+#include <QGraphicsSceneMouseEvent>
 
-// virtual 
-void AddClipCommand::undo()
+#include "labelitem.h"
+
+class ClipItem : public QGraphicsRectItem
 {
-  if (!m_list) kDebug()<<"----  ERROR, NO LIST FOR undoing action";
-kDebug()<<"----  undoing action";
-  if (m_doIt) m_list->deleteClip(m_id);
-  else m_list->addClip(m_names, m_xml, m_id, m_url, m_group);
-}
-// virtual 
-void AddClipCommand::redo()
-{
-  if (!m_list) kDebug()<<"----  ERROR, NO LIST FOR redoing action";
-kDebug()<<"----  redoing action";
-  if (m_doIt) m_list->addClip(m_names, m_xml, m_id, m_url, m_group);
-  else m_list->deleteClip(m_id);
-}
+  
+  public:
+    ClipItem(int clipType, QString name, int producer, const QRectF & rect);
+    virtual void paint(QPainter *painter,
+                           const QStyleOptionGraphicsItem *option,
+                           QWidget *widget);
+    virtual int type () const;
+    void moveTo(double x, double offset);
 
-#include "addclipcommand.moc"
+  protected:
+    virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
+    virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
+    virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
+
+  private:
+    LabelItem *m_label;
+    int m_textWidth;
+    uint m_resizeMode;
+    int m_grabPoint;
+    int m_producer;
+};
+
+#endif

@@ -17,30 +17,21 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "addclipcommand.h"
 
-AddClipCommand::AddClipCommand(ProjectList *list, const QStringList &names, const QDomElement &xml, const int id, const KUrl &url, const QString &group, bool doIt)
-         : m_list(list), m_names(names), m_xml(xml), m_id(id), m_url(url), m_group(group), m_doIt(doIt) {
-	    if (doIt) setText(i18n("Add clip"));
-	    else setText(i18n("Delete clip"));
-	 }
+#ifndef LABELITEM_H
+#define LABELITEM_H
 
+#include <QGraphicsRectItem>
+#include <QGraphicsSimpleTextItem>
+#include <QGraphicsSceneMouseEvent>
 
-// virtual 
-void AddClipCommand::undo()
+class LabelItem : public QGraphicsSimpleTextItem
 {
-  if (!m_list) kDebug()<<"----  ERROR, NO LIST FOR undoing action";
-kDebug()<<"----  undoing action";
-  if (m_doIt) m_list->deleteClip(m_id);
-  else m_list->addClip(m_names, m_xml, m_id, m_url, m_group);
-}
-// virtual 
-void AddClipCommand::redo()
-{
-  if (!m_list) kDebug()<<"----  ERROR, NO LIST FOR redoing action";
-kDebug()<<"----  redoing action";
-  if (m_doIt) m_list->addClip(m_names, m_xml, m_id, m_url, m_group);
-  else m_list->deleteClip(m_id);
-}
+  
+  public:
+    LabelItem(QString text, QGraphicsRectItem *parent = 0);
+    //virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    virtual int type () const;
+};
 
-#include "addclipcommand.moc"
+#endif

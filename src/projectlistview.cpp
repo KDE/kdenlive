@@ -161,8 +161,8 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
       mimeData->setText(doc.toString());
       //mimeData->setImageData(image);
       drag->setMimeData(mimeData);
-      drag->setPixmap(clickItem->icon(0).pixmap(40 *16/9.0, 40));
-      drag->setHotSpot(QPoint(0, 20));
+      drag->setPixmap(clickItem->icon(0).pixmap(50 *16/9.0, 50));
+      drag->setHotSpot(QPoint(0, 50));
       drag->start(Qt::MoveAction);
 
       //Qt::DropAction dropAction;
@@ -199,7 +199,7 @@ QStringList ProjectListView::mimeTypes () const
 Qt::DropActions ProjectListView::supportedDropActions () const
 {
     // returns what actions are supported when dropping
-    return Qt::MoveAction | Qt::MoveAction;
+    return Qt::MoveAction;
 }
 
 #include "projectlistview.moc"

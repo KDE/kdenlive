@@ -160,6 +160,7 @@ void ProjectItem::slotSetToolTip()
 void ProjectItem::setProperties(const QMap < QString, QString > &attributes, const QMap < QString, QString > &metadata)
 {
 	if (attributes.contains("duration")) {
+	    if (m_clipType == DocClipBase::AUDIO || m_clipType == DocClipBase::VIDEO || m_clipType == DocClipBase::AV) m_element.setAttribute("duration", attributes["duration"].toInt());
 	    m_duration = GenTime(attributes["duration"].toInt(), 25);
 	    setData(1, DurationRole, Timecode::getEasyTimecode(m_duration, 25));
 	    m_durationKnown = true;
@@ -191,6 +192,7 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
 	if (m_element.isNull()) {
 	  QDomDocument doc;
 	  m_element = doc.createElement("producer");
+	  m_element.setAttribute("duration", attributes["duration"].toInt());
 	}
 	m_element.setAttribute("resource", attributes["filename"]);
 	m_element.setAttribute("type", (int) m_clipType);

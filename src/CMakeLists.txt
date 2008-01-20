@@ -50,6 +50,9 @@ set(kdenlive_SRCS
   trackpanelfunctionfactory.cpp
   trackpanelfunction.cpp
   trackpanelclipmovefunction.cpp
+  customtrackview.cpp
+  clipitem.cpp
+  labelitem.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

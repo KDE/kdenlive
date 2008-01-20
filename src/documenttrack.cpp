@@ -75,6 +75,7 @@ QList <TrackViewClip> DocumentTrack::clipList()
 }
 
 // virtual
+/*
 void DocumentTrack::paintEvent(QPaintEvent *e )
 {
     QRect region = e->rect();
@@ -83,6 +84,6 @@ void DocumentTrack::paintEvent(QPaintEvent *e )
     painter.fillRect(region, QBrush(Qt::red));
     painter.drawLine(region.bottomLeft (), region.bottomRight ());
 }
-
+*/
 
 #include "documenttrack.moc"

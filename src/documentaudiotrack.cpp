@@ -17,6 +17,7 @@ DocumentAudioTrack::DocumentAudioTrack(QDomElement xml, TrackView * view, QWidge
 }
 
 // virtual
+/*
 void DocumentAudioTrack::paintEvent(QPaintEvent *e )
 {
     QRect region = e->rect();
@@ -24,6 +25,6 @@ void DocumentAudioTrack::paintEvent(QPaintEvent *e )
     painter.fillRect(region, QBrush(Qt::green));
     painter.drawLine(region.bottomLeft (), region.bottomRight ());
 }
-
+*/
 
 #include "documentaudiotrack.moc"
