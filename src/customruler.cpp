@@ -91,7 +91,7 @@ CustomRuler::CustomRuler(Timecode tc, QWidget *parent)
 void CustomRuler::mousePressEvent ( QMouseEvent * event )
 {
   int pos = event->x();
-  slotNewValue( pos );
+  slotNewValue( pos, true );
   kDebug()<<pos;
 }
 
@@ -99,14 +99,14 @@ void CustomRuler::mousePressEvent ( QMouseEvent * event )
 void CustomRuler::mouseMoveEvent ( QMouseEvent * event )
 {
   int pos = event->x();
-  slotNewValue( pos );
+  slotNewValue( pos, true );
   kDebug()<<pos;
 }
 
-void CustomRuler::slotNewValue ( int _value )
+void CustomRuler::slotNewValue ( int _value, bool emitSignal )
 {
   m_cursorPosition = _value / pixelPerMark();
-  emit cursorMoved(m_cursorPosition / FRAME_SIZE);
+  if (emitSignal) emit cursorMoved(m_cursorPosition / FRAME_SIZE);
   KRuler::slotNewValue(_value);
 }
 

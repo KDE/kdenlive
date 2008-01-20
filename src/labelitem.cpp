@@ -27,7 +27,7 @@
 #include "labelitem.h"
 
 LabelItem::LabelItem(QString text, QGraphicsRectItem *parent)
-    : QGraphicsSimpleTextItem(text, parent)
+    : QGraphicsSimpleTextItem(" " + text + " ", parent)
 {
   //setParentItem(parent); 
   setFlags(QGraphicsItem::ItemIgnoresTransformations);
@@ -39,7 +39,7 @@ int LabelItem::type () const
 }
 
 // virtual 
-/*
+
  void LabelItem::paint(QPainter *painter,
                            const QStyleOptionGraphicsItem *option,
                            QWidget *widget)
@@ -56,13 +56,13 @@ int LabelItem::type () const
     //painter->setClipRect( par);
     //painter->fillRect(rect(), Qt::red);
     QPainterPath path;
-    path.addPolygon(mapFromParent(parentItem()->boundingRect()));
+    path.addRoundRect(boundingRect(), 40);
     //painter->fillPath(path, QColor(200, 100, 200, 150));
     //painter->setClipPath(path);
-    painter->fillRect(boundingRect(), QColor(200, 100, 200, 150));
+    painter->fillPath(path, QColor(200, 200, 200, 100));
     painter->drawText(boundingRect(), Qt::AlignCenter, text());
     //painter->drawRect(rect());
     //painter->drawRoundRect(-10, -10, 20, 20);
- }*/
+ }
 
 #include "labelitem.moc"

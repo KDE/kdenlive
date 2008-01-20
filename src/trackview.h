@@ -76,7 +76,7 @@ class TrackView : public QWidget
     QString m_editMode;
     QGraphicsScene *m_scene;
     uint m_currentZoom;
-    QGraphicsLineItem *m_cursorLine;
+
 
     KdenliveDoc *m_doc;
     QVBoxLayout *m_tracksLayout;

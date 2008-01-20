@@ -38,22 +38,25 @@ class CustomTrackView : public QGraphicsView
     void removeTrack();
     void setCursorPos(int pos);
     int cursorPos();
+    void initView();
 
   protected:
     virtual void drawBackground ( QPainter * painter, const QRectF & rect );
-    virtual void drawForeground ( QPainter * painter, const QRectF & rect );
+    //virtual void drawForeground ( QPainter * painter, const QRectF & rect );
     virtual void dragEnterEvent ( QDragEnterEvent * event );
     virtual void dragMoveEvent(QDragMoveEvent * event);
     virtual void dragLeaveEvent ( QDragLeaveEvent * event );
     virtual void dropEvent ( QDropEvent * event );
     virtual QStringList mimeTypes() const;
     virtual Qt::DropActions supportedDropActions () const;
+    virtual void resizeEvent ( QResizeEvent * event );
 
   private:
     int m_tracksCount;
     int m_cursorPos;
     ClipItem *m_dropItem;
     void addItem(QString producer, QPoint pos);
+    QGraphicsLineItem *m_cursorLine;
 
   signals:
     void cursorMoved(int);

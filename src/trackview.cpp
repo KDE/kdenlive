@@ -70,7 +70,7 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
   connect(m_ruler, SIGNAL(cursorMoved ( int )), this, SLOT(slotCursorMoved( int )));
   connect(m_trackview, SIGNAL(cursorMoved ( int )), this, SLOT(slotCursorMoved( int )));
 
-  m_cursorLine = m_scene->addLine(0, 0, 0, 200); //m_trackview->height());
+  m_trackview->initView();
 }
 
 void TrackView::registerFunction(const QString & name, TrackPanelFunction * function) 
@@ -109,10 +109,10 @@ void TrackView::parseDocument(QDomDocument doc)
 
 void TrackView::slotCursorMoved(int pos)
 {
-  kDebug()<<"///// CURSOR: "<<pos;
-  //m_cursorLine->setPos(pos, 0);
+  //kDebug()<<"///// CURSOR: "<<pos;
+  m_ruler->slotNewValue(m_trackview->mapToScene(QPoint(pos, 0)).x());
   m_trackview->setCursorPos(pos);
-  m_trackview->invalidateScene(QRectF(), QGraphicsScene::ForegroundLayer);
+  //m_trackview->invalidateScene(QRectF(), QGraphicsScene::ForegroundLayer);
 }
 
 void TrackView::slotChangeZoom(int factor)

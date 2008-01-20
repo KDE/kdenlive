@@ -30,7 +30,7 @@ class LabelItem : public QGraphicsSimpleTextItem
   
   public:
     LabelItem(QString text, QGraphicsRectItem *parent = 0);
-    //virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     virtual int type () const;
 };
 

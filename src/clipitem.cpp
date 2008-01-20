@@ -51,7 +51,7 @@ int ClipItem::type () const
                            QWidget *widget)
  {
     painter->setClipRect( option->exposedRect );
-    painter->fillRect(rect(), Qt::red);
+    painter->fillRect(rect(), QColor(200, 50, 50, 150));
     //kDebug()<<"ITEM REPAINT RECT: "<<boundingRect().width();
     //painter->drawText(rect(), Qt::AlignCenter, m_name);
     painter->drawRect(rect());

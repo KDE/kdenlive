@@ -23,7 +23,7 @@ class CustomRuler : public KRuler
     Timecode m_timecode;
 
   public slots:
-    void slotNewValue ( int _value );
+    void slotNewValue ( int _value, bool emitSignal = false );
 
   signals:
     void cursorMoved(int);

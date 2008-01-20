@@ -23,6 +23,7 @@
 #include <QDomDocument>
 
 #include <KDebug>
+#include <KLocale>
 #include <KUrl>
 
 #include "customtrackview.h"
@@ -30,10 +31,21 @@
 #include "definitions.h"
 
 CustomTrackView::CustomTrackView(QGraphicsScene * scene, QWidget *parent)
-    : QGraphicsView(scene, parent), m_tracksCount(0), m_cursorPos(0), m_dropItem(NULL)
+    : QGraphicsView(scene, parent), m_tracksCount(0), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL)
 {
   setMouseTracking(true);
   setAcceptDrops(true);
+}
+
+void CustomTrackView::initView()
+{
+  m_cursorLine = scene()->addLine(0, 0, 0, height());
+}
+
+// virtual
+void CustomTrackView::resizeEvent ( QResizeEvent * event )
+{
+  if (m_cursorLine) m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), height());
 }
 
 // virtual 
@@ -45,10 +57,16 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
   else if (event->modifiers() == Qt::ShiftModifier) 
     setDragMode(QGraphicsView::RubberBandDrag);
   else {
-    QGraphicsItem * item = itemAt(event->pos());
+    QList<QGraphicsItem *> itemList = items ( event->pos());
+    int i = 0;
+    QGraphicsItem *item = NULL;
+    for (int i = 0; i < itemList.count(); i++) {
+      if (itemList.at(i)->type() == 70000) {
+	item = itemList.at(i);
+	break;
+      }
+    }
     if (item) {
-      while (item->parentItem()) 
-	item = item->parentItem();
       int cursorPos = event->x();
       QRectF itemRect = item->sceneBoundingRect();
       int itemStart = mapFromScene(itemRect.x(), 0).x();
@@ -175,6 +193,7 @@ void CustomTrackView::removeTrack ()
 void CustomTrackView::setCursorPos(int pos)
 {
   m_cursorPos = pos;
+  m_cursorLine->setPos(pos, 0);
 }
 
 int CustomTrackView::cursorPos()
@@ -191,17 +210,19 @@ void CustomTrackView::mouseReleaseEvent ( QMouseEvent * event )
 void CustomTrackView::drawBackground ( QPainter * painter, const QRectF & rect )  
 {
   //kDebug()<<"/////  DRAWING BG: "<<rect.x()<<", width: "<<rect.width();
-  painter->drawRect(rect);
+  painter->drawLine(rect.x(), 0, rect.x() + rect.width(), 0);
     for (uint i = 0; i < m_tracksCount;i++)
     {
-      painter->drawLine(rect.x(), 50 * i, rect.x() + rect.width(), 50 * i);
+      painter->drawLine(rect.x(), 50 * (i+1), rect.x() + rect.width(), 50 * (i+1));
+      painter->drawText(QRectF(10, 50 * i, 100, 50 * i + 49), Qt::AlignLeft, i18n(" Track ") + QString::number(i));
     }
 }
-
+/*
 void CustomTrackView::drawForeground ( QPainter * painter, const QRectF & rect )  
 {
   //kDebug()<<"/////  DRAWING FB: "<<rect.x()<<", width: "<<rect.width();
+  painter->fillRect(rect, QColor(50, rand() % 250,50,100));
   painter->drawLine(m_cursorPos, rect.y(), m_cursorPos, rect.y() + rect.height());
 }
-
+*/
 #include "customtrackview.moc"
