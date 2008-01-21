@@ -30,6 +30,7 @@
 #include "clipitem.h"
 #include "definitions.h"
 #include "moveclipcommand.h"
+#include "resizeclipcommand.h"
 
 CustomTrackView::CustomTrackView(KUndoStack *commandStack, QGraphicsScene * scene, QWidget *parent)
     : QGraphicsView(scene, parent), m_commandStack(commandStack), m_tracksCount(0), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(0), m_startPos(QPointF()), m_dragItem(NULL)
@@ -94,11 +95,14 @@ void CustomTrackView::mousePressEvent ( QMouseEvent * event )
     setDragMode(QGraphicsView::RubberBandDrag);
   else {
     QGraphicsItem * item = itemAt(event->pos());
-    if (item) {
+    if (item && item->type() != 70000) item = item->parentItem();
+    if (item && item->type() == 70000) {
       m_dragItem = (ClipItem *) item;
-      m_operationMode = m_dragItem->operationMode(item->mapFromScene(event->pos()));
+      m_operationMode = m_dragItem->operationMode(item->mapFromScene(mapToScene(event->pos())));
       if (m_operationMode != 2) m_startPos = QPointF(m_dragItem->rect().x(), m_dragItem->rect().y());
-      else m_startPos = QPointF(rect().x() + rect().width(), rect().y());
+      else m_startPos = QPointF(m_dragItem->rect().x() + m_dragItem->rect().width(), m_dragItem->rect().y());
+
+     kDebug()<<"//////// ITEM CLICKED: "<<m_startPos;
       /*while (item->parentItem()) 
 	item = item->parentItem();
 
@@ -112,6 +116,8 @@ void CustomTrackView::mousePressEvent ( QMouseEvent * event )
 	  ((ClipItem *) item )->setResizeMode(2);
     */}
     else {
+      kDebug()<<"//////// NO ITEM FOUND ON CLICK";
+      m_dragItem = NULL;
       setCursor(Qt::ArrowCursor);
       emit cursorMoved((int) mapToScene(event->x(), 0).x());
     }
@@ -210,10 +216,23 @@ void CustomTrackView::mouseReleaseEvent ( QMouseEvent * event )
 {
   QGraphicsView::mouseReleaseEvent(event);
   setDragMode(QGraphicsView::NoDrag);
-  kDebug()<<"/// MOVING CLIP: "<<m_startPos<<", END: "<<QPoint(m_dragItem->rect().x(),m_dragItem->rect().y());
-  MoveClipCommand *command = new MoveClipCommand(this, m_startPos, QPointF(m_dragItem->rect().x(),m_dragItem->rect().y()), false);
-  m_commandStack->push(command);
-  
+  if (m_dragItem == NULL) return;
+  //kDebug()<<"/// MOVING CLIP: "<<m_startPos<<", END: "<<QPoint(m_dragItem->rect().x(),m_dragItem->rect().y());
+  if (m_operationMode == 0) {
+    // move clip
+    MoveClipCommand *command = new MoveClipCommand(this, m_startPos, QPointF(m_dragItem->rect().x(), m_dragItem->rect().y()), false);
+    m_commandStack->push(command);
+  }
+  else if (m_operationMode == 1) {
+    // resize start
+    ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->rect().x(), m_dragItem->rect().y()), true, false);
+    m_commandStack->push(command);
+  }
+  else if (m_operationMode == 2) {
+    // resize end
+    ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->rect().x() + m_dragItem->rect().width(), m_dragItem->rect().y()), false, false);
+    m_commandStack->push(command);
+  }
 }
 
 void CustomTrackView::moveClip ( const QPointF &startPos, const QPointF &endPos )
@@ -227,6 +246,34 @@ void CustomTrackView::moveClip ( const QPointF &startPos, const QPointF &endPos 
   QList <QGraphicsItem *> childrenList = item->children();
   for (int i = 0; i < childrenList.size(); ++i) {
     childrenList.at(i)->moveBy(endPos.x() - startPos.x() , endPos.y() - startPos.y());
+  }
+}
+
+void CustomTrackView::resizeClip ( const QPointF &startPos, const QPointF &endPos, bool resizeClipStart )
+{
+  int offset;
+  if (resizeClipStart) offset = 1;
+  else offset = -1;
+  ClipItem *item = (ClipItem *) scene()->itemAt(startPos.x() + offset, startPos.y() + 1);
+  if (!item) {
+    kDebug()<<"----------------  ERROR, CANNOT find clip to resize at: "<<startPos;
+    return;
+  }
+  qreal diff = endPos.x() - startPos.x();
+  if (resizeClipStart) {
+    item->setRect(QRectF(endPos.x(), endPos.y(), item->rect().width() - diff, item->rect().height()));
+    QList <QGraphicsItem *> childrenList = item->children();
+    for (int i = 0; i < childrenList.size(); ++i) {
+      childrenList.at(i)->moveBy(diff / 2 , endPos.y() - startPos.y());
+    }
+  }
+  else {
+    //kdDebug()<<"///////  RESIZE CLIP END: "<<item->rect().x()<<", "<<item->rect().width()<<", "<<startPos<<", "<<endPos;
+    item->setRect(QRectF(item->rect().x(), item->rect().y(), endPos.x() - item->rect().x(), item->rect().height()));
+    QList <QGraphicsItem *> childrenList = item->children();
+    for (int i = 0; i < childrenList.size(); ++i) {
+      childrenList.at(i)->moveBy(-diff/2, endPos.y() - startPos.y());
+    }
   }
 }
 

@@ -130,10 +130,18 @@ int ClipItem::operationMode(QPointF pos)
     double originalX = rect().x();
     if (m_resizeMode == 1) {
       setRect(moveX, rect().y(), originalX + rect().width() - moveX, rect().height());
+      QList <QGraphicsItem *> childrenList = children();
+      for (int i = 0; i < childrenList.size(); ++i) {
+	childrenList.at(i)->moveBy((moveX - originalX) / 2 , 0);
+      }
       return;
     }
     if (m_resizeMode == 2) {
       setRect(originalX, rect().y(), moveX - originalX, rect().height());
+      QList <QGraphicsItem *> childrenList = children();
+      for (int i = 0; i < childrenList.size(); ++i) {
+	childrenList.at(i)->moveBy(-(moveX - originalX) / 2 , 0);
+      }
       return;
     }
     int moveTrack = (int) event->scenePos().y() / 50;
