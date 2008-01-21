@@ -118,8 +118,6 @@ int ClipItem::operationMode(QPointF pos)
 	if (offset == 0)
 	{
 	  QRectF other = ((QGraphicsRectItem *)item)->rect();
-	  QPointF pos = mapFromItem(item, other.x()+other.width(), 0);
-	  //mapToItem(collisionList.at(i), collisionList.at(i)->boundingRect()).boundingRect();
 	  if (x < origX) {
 	    kDebug()<<"COLLISION, MOVING TO------";
 	    origX = other.x() + other.width(); 
@@ -154,6 +152,19 @@ int ClipItem::operationMode(QPointF pos)
       m_cropStart -= originalX - moveX;
       kDebug()<<"MOVE CLIP START TO: "<<event->scenePos()<<", CROP: "<<m_cropStart;
       setRect(moveX, rect().y(), originalX + rect().width() - moveX, rect().height());
+
+      QList <QGraphicsItem *> collisionList = collidingItems();
+      for (int i = 0; i < collisionList.size(); ++i) {
+	QGraphicsItem *item = collisionList.at(i);
+	  if (item->type() == 70000)
+	  {
+	    QRectF other = ((QGraphicsRectItem *)item)->rect();
+	    int newStart = other.x() + other.width();
+	    setRect(newStart, rect().y(), rect().x() + rect().width() - newStart, rect().height());
+	    moveX = newStart;
+	    break;
+	  }
+      }
       QList <QGraphicsItem *> childrenList = children();
       for (int i = 0; i < childrenList.size(); ++i) {
 	childrenList.at(i)->moveBy((moveX - originalX) / 2 , 0);
@@ -165,6 +176,19 @@ int ClipItem::operationMode(QPointF pos)
       if (newWidth < 1) newWidth = 2;
       if (newWidth > m_maxDuration) newWidth = m_maxDuration;
       setRect(originalX, rect().y(), newWidth, rect().height());
+
+      QList <QGraphicsItem *> collisionList = collidingItems();
+      for (int i = 0; i < collisionList.size(); ++i) {
+	QGraphicsItem *item = collisionList.at(i);
+	  if (item->type() == 70000)
+	  {
+	    QRectF other = ((QGraphicsRectItem *)item)->rect();
+	    newWidth = other.x() - rect().x();
+	    setRect(rect().x(), rect().y(), newWidth, rect().height());
+	    break;
+	  }
+      }
+
       QList <QGraphicsItem *> childrenList = children();
       for (int i = 0; i < childrenList.size(); ++i) {
 	childrenList.at(i)->moveBy((newWidth - originalWidth) / 2 , 0);
