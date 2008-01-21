@@ -73,7 +73,7 @@ int ClipItem::operationMode(QPointF pos)
  {
     m_resizeMode = operationMode(event->pos());
     if (m_resizeMode == 0) {
-      m_grabPoint = event->pos().x() - rect().x();
+      m_grabPoint = (int) (event->pos().x() - rect().x());
     }
     QGraphicsRectItem::mousePressEvent(event);
  }
@@ -126,9 +126,11 @@ int ClipItem::operationMode(QPointF pos)
 // virtual
  void ClipItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event ) 
  {
-    double moveX = event->scenePos().x();
+    double moveX = (int) event->scenePos().x();
     double originalX = rect().x();
+    double originalWidth = rect().width();
     if (m_resizeMode == 1) {
+      kDebug()<<"MOVE CLIP START TO: "<<event->scenePos();
       setRect(moveX, rect().y(), originalX + rect().width() - moveX, rect().height());
       QList <QGraphicsItem *> childrenList = children();
       for (int i = 0; i < childrenList.size(); ++i) {
@@ -140,7 +142,7 @@ int ClipItem::operationMode(QPointF pos)
       setRect(originalX, rect().y(), moveX - originalX, rect().height());
       QList <QGraphicsItem *> childrenList = children();
       for (int i = 0; i < childrenList.size(); ++i) {
-	childrenList.at(i)->moveBy(-(moveX - originalX) / 2 , 0);
+	childrenList.at(i)->moveBy((moveX - originalX - originalWidth) / 2 , 0);
       }
       return;
     }
