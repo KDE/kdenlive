@@ -147,12 +147,20 @@ void MainWindow::slotRaiseMonitor(bool clipMonitor)
   else projectMonitorDock->raise();
 }
 
+void MainWindow::slotSetClipDuration(int id, int duration)
+{
+  if (!m_activeDocument) return;
+  m_activeDocument->setProducerDuration(id, duration);
+}
+
 void MainWindow::slotConnectMonitors()
 {
 
   m_projectList->setRenderer(m_clipMonitor->render);
 
   connect(m_projectList, SIGNAL(clipSelected(const QDomElement &)), m_clipMonitor, SLOT(slotSetXml(const QDomElement &)));
+
+  connect(m_projectList, SIGNAL(receivedClipDuration(int, int)), this, SLOT(slotSetClipDuration(int, int)));
 
   connect(m_projectList, SIGNAL(getFileProperties(const QDomElement &, int)), m_clipMonitor->render, SLOT(getFileProperties(const QDomElement &, int)));
 

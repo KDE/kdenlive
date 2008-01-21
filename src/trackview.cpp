@@ -181,8 +181,9 @@ int TrackView::slotAddVideoTrack(int ix, QDomElement xml)
     int in = elem.attribute("in", 0).toInt();
     int out = elem.attribute("out", 0).toInt() - in;
     QString clipName = m_doc->producerName(elem.attribute("producer").toInt());
+    int clipMaxDuration = m_doc->getProducerDuration(elem.attribute("producer").toInt());
     //kDebug()<<"++++++++++++++\n\n / / /ADDING CLIP: "<<clip.cropTime<<", out: "<<clip.duration<<", Producer: "<<clip.producer<<"\n\n++++++++++++++++++++";
-    ClipItem *item = new ClipItem(elem.attribute("type").toInt(), clipName, elem.attribute("producer").toInt(), QRectF(position, trackTop + 1, out, 49));
+    ClipItem *item = new ClipItem(elem.attribute("type").toInt(), clipName, elem.attribute("producer").toInt(), clipMaxDuration, QRectF(position, trackTop + 1, out, 49));
     m_scene->addItem(item);
     position += out;
 

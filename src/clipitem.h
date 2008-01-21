@@ -30,7 +30,7 @@ class ClipItem : public QGraphicsRectItem
 {
   
   public:
-    ClipItem(int clipType, QString name, int producer, const QRectF & rect);
+    ClipItem(int clipType, QString name, int producer, int maxDuration, const QRectF & rect);
     virtual void paint(QPainter *painter,
                            const QStyleOptionGraphicsItem *option,
                            QWidget *widget);
@@ -40,6 +40,7 @@ class ClipItem : public QGraphicsRectItem
     int clipProducer();
     int clipType();
     QString clipName();
+    int maxDuration();
 
   protected:
     virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
@@ -54,6 +55,9 @@ class ClipItem : public QGraphicsRectItem
     int m_producer;
     int m_clipType;
     QString m_clipName;
+    int m_maxDuration;
+    int m_cropStart;
+    int m_cropDuration;
 };
 
 #endif

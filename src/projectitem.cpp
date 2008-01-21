@@ -85,6 +85,11 @@ int ProjectItem::clipId() const
   return m_clipId;
 }
 
+int ProjectItem::clipMaxDuration() const
+{
+  return m_element.attribute("duration").toInt();
+}
+
 bool ProjectItem::isGroup() const
 {
   return m_isGroup;

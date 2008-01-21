@@ -88,6 +88,7 @@ class ProjectList : public QWidget
   signals:
     void clipSelected(const QDomElement &);
     void getFileProperties(const QDomElement&, int);
+    void receivedClipDuration(int, int);
 };
 
 #endif

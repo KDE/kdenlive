@@ -19,8 +19,8 @@
 
 #include "addtimelineclipcommand.h"
 
-AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, int clipType, QString clipName, int clipProducer, QRectF rect, bool doIt)
-         : m_view(view), m_clipType(clipType), m_clipName(clipName), m_clipProducer(clipProducer), m_clipRect(rect), m_doIt(doIt) {
+AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, int clipType, QString clipName, int clipProducer, int maxDuration, QRectF rect, bool doIt)
+         : m_view(view), m_clipType(clipType), m_clipName(clipName), m_clipProducer(clipProducer), m_maxDuration(maxDuration), m_clipRect(rect), m_doIt(doIt) {
 	    setText(i18n("Add timeline clip"));
 	 }
 
@@ -36,7 +36,7 @@ void AddTimelineClipCommand::undo()
 void AddTimelineClipCommand::redo()
 {
   //kDebug()<<"----  redoing action";
-  if (m_doIt) m_view->addClip(m_clipType, m_clipName, m_clipProducer, m_clipRect);
+  if (m_doIt) m_view->addClip(m_clipType, m_clipName, m_clipProducer, m_maxDuration, m_clipRect);
   m_doIt = true;
 }
 

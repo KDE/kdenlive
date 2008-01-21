@@ -51,6 +51,8 @@ class KdenliveDoc:public QObject {
     void setRenderer(Render *render);
     KUndoStack *commandStack();
     QString producerName(int id);
+    void setProducerDuration(int id, int duration);
+    int getProducerDuration(int id);
 
   private:
     KUrl m_url;

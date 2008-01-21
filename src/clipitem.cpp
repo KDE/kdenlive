@@ -27,8 +27,8 @@
 
 #include "clipitem.h"
 
-ClipItem::ClipItem(int clipType, QString name, int producer, const QRectF & rect)
-    : QGraphicsRectItem(rect), m_resizeMode(0), m_grabPoint(0), m_clipType(clipType), m_clipName(name), m_producer(producer)
+ClipItem::ClipItem(int clipType, QString name, int producer, int maxDuration, const QRectF & rect)
+    : QGraphicsRectItem(rect), m_resizeMode(0), m_grabPoint(0), m_clipType(clipType), m_clipName(name), m_producer(producer), m_cropStart(0), m_cropDuration(maxDuration), m_maxDuration(maxDuration)
 {
   setToolTip(name);
   //setCursor(Qt::SizeHorCursor);
@@ -57,6 +57,11 @@ QString ClipItem::clipName()
 int ClipItem::clipProducer()
 {
   return m_producer;
+}
+
+int ClipItem::maxDuration()
+{
+  return m_maxDuration;
 }
 
 // virtual 
@@ -144,7 +149,10 @@ int ClipItem::operationMode(QPointF pos)
     double originalX = rect().x();
     double originalWidth = rect().width();
     if (m_resizeMode == 1) {
-      kDebug()<<"MOVE CLIP START TO: "<<event->scenePos();
+      if (m_cropStart - (originalX - moveX) < 0) moveX = originalX - m_cropStart;
+      if (originalX + rect().width() - moveX < 1) moveX = originalX + rect().width() + 2;
+      m_cropStart -= originalX - moveX;
+      kDebug()<<"MOVE CLIP START TO: "<<event->scenePos()<<", CROP: "<<m_cropStart;
       setRect(moveX, rect().y(), originalX + rect().width() - moveX, rect().height());
       QList <QGraphicsItem *> childrenList = children();
       for (int i = 0; i < childrenList.size(); ++i) {
@@ -153,10 +161,13 @@ int ClipItem::operationMode(QPointF pos)
       return;
     }
     if (m_resizeMode == 2) {
-      setRect(originalX, rect().y(), moveX - originalX, rect().height());
+      int newWidth = moveX - originalX;
+      if (newWidth < 1) newWidth = 2;
+      if (newWidth > m_maxDuration) newWidth = m_maxDuration;
+      setRect(originalX, rect().y(), newWidth, rect().height());
       QList <QGraphicsItem *> childrenList = children();
       for (int i = 0; i < childrenList.size(); ++i) {
-	childrenList.at(i)->moveBy((moveX - originalX - originalWidth) / 2 , 0);
+	childrenList.at(i)->moveBy((newWidth - originalWidth) / 2 , 0);
       }
       return;
     }

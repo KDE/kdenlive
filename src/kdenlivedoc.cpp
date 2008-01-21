@@ -127,6 +127,37 @@ QString KdenliveDoc::producerName(int id)
   return result;
 }
 
+void KdenliveDoc::setProducerDuration(int id, int duration)
+{
+  QDomNodeList prods = producersList();
+  int ct = prods.count();
+  for (int i = 0; i <  ct ; i++)
+  {
+    QDomElement e = prods.item(i).toElement();
+    if (e.attribute("id") != "black" && e.attribute("id").toInt() == id) {
+      e.setAttribute("duration", QString::number(duration));
+      break;
+    }
+  }
+}
+
+int KdenliveDoc::getProducerDuration(int id)
+{
+  int result = 0;
+  QDomNodeList prods = producersList();
+  int ct = prods.count();
+  for (int i = 0; i <  ct ; i++)
+  {
+    QDomElement e = prods.item(i).toElement();
+    if (e.attribute("id") != "black" && e.attribute("id").toInt() == id) {
+      result = e.attribute("duration").toInt();
+      break;
+    }
+  }
+  return result;
+}
+
+
 QDomDocument KdenliveDoc::generateSceneList()
 {
     QDomDocument doc;

@@ -408,7 +408,10 @@ QDomElement ProjectList::producersList()
 void ProjectList::slotReplyGetFileProperties(int clipId, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata)
 {
   ProjectItem *item = getItemById(clipId);
-  if (item) item->setProperties(properties, metadata);
+  if (item) {
+    item->setProperties(properties, metadata);
+    emit receivedClipDuration(clipId, item->clipMaxDuration());
+  }
 }
 
 

@@ -44,6 +44,7 @@ class ProjectItem : public QTreeWidgetItem
     bool isGroup() const;
     const QString groupName() const;
     const KUrl clipUrl() const;
+    int clipMaxDuration() const;
 
   private:
     QDomElement m_element;

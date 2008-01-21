@@ -102,6 +102,7 @@ class MainWindow : public KXmlGuiWindow
     void slotPreferences();
     void slotConnectMonitors();
     void slotRaiseMonitor(bool clipMonitor);
+    void slotSetClipDuration(int id, int duration);
 };
  
 #endif

@@ -149,7 +149,7 @@ void CustomTrackView::addItem(QString producer, QPoint pos)
   int trackTop = ((int) mapToScene(pos).y()/50) * 50 + 1;
   QString clipName = elem.attribute("name");
   if (clipName.isEmpty()) clipName = KUrl(elem.attribute("resource")).fileName();
-  m_dropItem = new ClipItem(elem.attribute("type").toInt(), clipName, elem.attribute("id").toInt(), QRectF(mapToScene(pos).x(), trackTop, out, 49));
+  m_dropItem = new ClipItem(elem.attribute("type").toInt(), clipName, elem.attribute("id").toInt(), out, QRectF(mapToScene(pos).x(), trackTop, out, 49));
   scene()->addItem(m_dropItem);
 }
 
@@ -177,7 +177,7 @@ void CustomTrackView::dragLeaveEvent ( QDragLeaveEvent * event ) {
 
 void CustomTrackView::dropEvent ( QDropEvent * event ) {
   if (m_dropItem) {
-    AddTimelineClipCommand *command = new AddTimelineClipCommand(this, m_dropItem->clipType(), m_dropItem->clipName(), m_dropItem->clipProducer(), m_dropItem->rect(), false);
+    AddTimelineClipCommand *command = new AddTimelineClipCommand(this, m_dropItem->clipType(), m_dropItem->clipName(), m_dropItem->clipProducer(), m_dropItem->maxDuration(), m_dropItem->rect(), false);
     m_commandStack->push(command);
   }
   m_dropItem = NULL;
@@ -252,9 +252,9 @@ void CustomTrackView::deleteClip ( const QRectF &rect )
   delete item;
 }
 
-void CustomTrackView::addClip ( int clipType, QString clipName, int clipProducer, const QRectF &rect )
+void CustomTrackView::addClip ( int clipType, QString clipName, int clipProducer, int maxDuration, const QRectF &rect )
 {
-  ClipItem *item = new ClipItem(clipType, clipName, clipProducer, rect);
+  ClipItem *item = new ClipItem(clipType, clipName, clipProducer, maxDuration, rect);
   scene()->addItem(item);
 }
 
