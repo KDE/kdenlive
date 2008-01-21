@@ -18,37 +18,31 @@
  ***************************************************************************/
 
 
-#ifndef CLIPITEM_H
-#define CLIPITEM_H
+#ifndef MOVECLIPCOMMAND_H
+#define MOVECLIPCOMMAND_H
 
-#include <QGraphicsRectItem>
-#include <QGraphicsSceneMouseEvent>
+#include <QUndoCommand>
+#include <QGraphicsView>
+#include <QPointF>
 
-#include "labelitem.h"
+#include <KDebug>
 
-class ClipItem : public QGraphicsRectItem
-{
-  
-  public:
-    ClipItem(int clipType, QString name, int producer, const QRectF & rect);
-    virtual void paint(QPainter *painter,
-                           const QStyleOptionGraphicsItem *option,
-                           QWidget *widget);
-    virtual int type () const;
-    void moveTo(double x, double offset);
-    int operationMode(QPointF pos);
+#include "projectlist.h"
+#include "customtrackview.h"
 
-  protected:
-    virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
-    virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
-    virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
+class MoveClipCommand : public QUndoCommand
+ {
+ public:
+     MoveClipCommand(CustomTrackView *view, const QPointF startPos, const QPointF endPos, bool doIt);
+    virtual void undo();
+    virtual void redo();
 
-  private:
-    LabelItem *m_label;
-    int m_textWidth;
-    uint m_resizeMode;
-    int m_grabPoint;
-    int m_producer;
-};
+ private:
+     CustomTrackView *m_view;
+     QPointF m_startPos;
+     QPointF m_endPos;
+     bool m_doIt;
+ };
 
 #endif
+

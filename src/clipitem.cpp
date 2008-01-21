@@ -58,15 +58,21 @@ int ClipItem::type () const
      //painter->drawRoundRect(-10, -10, 20, 20);
  }
 
+
+int ClipItem::operationMode(QPointF pos)
+{
+    if (abs(pos.x() - rect().x()) < 6)
+      return 1;
+    else if (abs(pos.x() - (rect().x() + rect().width())) < 6)
+      return 2;
+    return 0;
+}
+
 // virtual
  void ClipItem::mousePressEvent ( QGraphicsSceneMouseEvent * event ) 
  {
-    if (abs(event->pos().x() - rect().x()) < 6)
-      m_resizeMode = 1;
-    else if (abs(event->pos().x() - (rect().x() + rect().width())) < 6)
-      m_resizeMode = 2;
-    else  {
-      m_resizeMode = 0;
+    m_resizeMode = operationMode(event->pos());
+    if (m_resizeMode == 0) {
       m_grabPoint = event->pos().x() - rect().x();
     }
     QGraphicsRectItem::mousePressEvent(event);

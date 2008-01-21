@@ -29,9 +29,10 @@
 #include "customtrackview.h"
 #include "clipitem.h"
 #include "definitions.h"
+#include "moveclipcommand.h"
 
-CustomTrackView::CustomTrackView(QGraphicsScene * scene, QWidget *parent)
-    : QGraphicsView(scene, parent), m_tracksCount(0), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL)
+CustomTrackView::CustomTrackView(KUndoStack *commandStack, QGraphicsScene * scene, QWidget *parent)
+    : QGraphicsView(scene, parent), m_commandStack(commandStack), m_tracksCount(0), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(0), m_startPos(QPointF()), m_dragItem(NULL)
 {
   setMouseTracking(true);
   setAcceptDrops(true);
@@ -94,6 +95,10 @@ void CustomTrackView::mousePressEvent ( QMouseEvent * event )
   else {
     QGraphicsItem * item = itemAt(event->pos());
     if (item) {
+      m_dragItem = (ClipItem *) item;
+      m_operationMode = m_dragItem->operationMode(item->mapFromScene(event->pos()));
+      if (m_operationMode != 2) m_startPos = QPointF(m_dragItem->rect().x(), m_dragItem->rect().y());
+      else m_startPos = QPointF(rect().x() + rect().width(), rect().y());
       /*while (item->parentItem()) 
 	item = item->parentItem();
 
@@ -205,7 +210,26 @@ void CustomTrackView::mouseReleaseEvent ( QMouseEvent * event )
 {
   QGraphicsView::mouseReleaseEvent(event);
   setDragMode(QGraphicsView::NoDrag);
+  kDebug()<<"/// MOVING CLIP: "<<m_startPos<<", END: "<<QPoint(m_dragItem->rect().x(),m_dragItem->rect().y());
+  MoveClipCommand *command = new MoveClipCommand(this, m_startPos, QPointF(m_dragItem->rect().x(),m_dragItem->rect().y()), false);
+  m_commandStack->push(command);
+  
 }
+
+void CustomTrackView::moveClip ( const QPointF &startPos, const QPointF &endPos )
+{
+  ClipItem *item = (ClipItem *) scene()->itemAt(startPos.x() + 1, startPos.y() + 1);
+  if (!item) {
+    kDebug()<<"----------------  ERROR, CANNOT find clip to move at: "<<startPos;
+    return;
+  }
+  item->setRect(QRectF(endPos.x(), endPos.y(), item->rect().width(), item->rect().height()));
+  QList <QGraphicsItem *> childrenList = item->children();
+  for (int i = 0; i < childrenList.size(); ++i) {
+    childrenList.at(i)->moveBy(endPos.x() - startPos.x() , endPos.y() - startPos.y());
+  }
+}
+
 
 void CustomTrackView::drawBackground ( QPainter * painter, const QRectF & rect )  
 {

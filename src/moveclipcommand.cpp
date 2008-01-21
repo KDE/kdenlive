@@ -17,38 +17,27 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include "moveclipcommand.h"
 
-#ifndef CLIPITEM_H
-#define CLIPITEM_H
+MoveClipCommand::MoveClipCommand(CustomTrackView *view, const QPointF startPos, const QPointF endPos, bool doIt)
+         : m_view(view), m_startPos(startPos), m_endPos(endPos), m_doIt(doIt) {
+	    setText(i18n("Move clip"));
+	 }
 
-#include <QGraphicsRectItem>
-#include <QGraphicsSceneMouseEvent>
 
-#include "labelitem.h"
-
-class ClipItem : public QGraphicsRectItem
+// virtual 
+void MoveClipCommand::undo()
 {
-  
-  public:
-    ClipItem(int clipType, QString name, int producer, const QRectF & rect);
-    virtual void paint(QPainter *painter,
-                           const QStyleOptionGraphicsItem *option,
-                           QWidget *widget);
-    virtual int type () const;
-    void moveTo(double x, double offset);
-    int operationMode(QPointF pos);
+// kDebug()<<"----  undoing action";
+  m_doIt = true;
+  if (m_doIt) m_view->moveClip(m_endPos, m_startPos);
+}
+// virtual 
+void MoveClipCommand::redo()
+{
+kDebug()<<"----  redoing action";
+  if (m_doIt) m_view->moveClip(m_startPos, m_endPos);
+  m_doIt = true;
+}
 
-  protected:
-    virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
-    virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
-    virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
-
-  private:
-    LabelItem *m_label;
-    int m_textWidth;
-    uint m_resizeMode;
-    int m_grabPoint;
-    int m_producer;
-};
-
-#endif
+#include "moveclipcommand.moc"

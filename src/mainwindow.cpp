@@ -101,7 +101,7 @@ MainWindow::MainWindow(QWidget *parent)
 
   overviewDock = new QDockWidget(i18n("Project Overview"), this);
   overviewDock->setObjectName("project_overview");
-  m_overView = new CustomTrackView(NULL, this);
+  m_overView = new CustomTrackView(NULL, NULL, this);
   overviewDock->setWidget(m_overView);
   addDockWidget(Qt::TopDockWidgetArea, overviewDock);
 

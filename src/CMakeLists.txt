@@ -53,6 +53,7 @@ set(kdenlive_SRCS
   customtrackview.cpp
   clipitem.cpp
   labelitem.cpp
+  moveclipcommand.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

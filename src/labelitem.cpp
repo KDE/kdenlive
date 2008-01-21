@@ -47,13 +47,13 @@ int LabelItem::type () const
     //painter->setClipRect( option->exposedRect );
     QRectF rep = option->exposedRect;
     QGraphicsRectItem *parent = (QGraphicsRectItem *) parentItem();
-    QRectF par = parent->boundingRect();
+    QRectF par = mapFromScene(parent->rect()).boundingRect();
     //kDebug()<<"REPAINT RECT: "<<par.width();
     //kDebug()<<"REPAINT RECT: "<<rep.x()<<", "<<rep.y()<<", "<<rep.width()<<", "<<rep.height();
     //kDebug()<<"PARENT RECT: "<<par.x()<<", "<<par.y()<<", "<<par.width()<<", "<<par.height();
     QRectF parrect = parent->rect();
     //QRectF transRect = deviceTransform(view->viewportTransform()).inverted().mapRect(parrect);
-    //painter->setClipRect( par);
+    painter->setClipRect( par);
     //painter->fillRect(rect(), Qt::red);
     QPainterPath path;
     path.addRoundRect(boundingRect(), 40);

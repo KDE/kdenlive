@@ -22,6 +22,7 @@
 #define CUSTOMTRACKVIEW_H
 
 #include <QGraphicsView>
+#include <KUndoStack>
 
 #include "clipitem.h"
 
@@ -30,7 +31,7 @@ class CustomTrackView : public QGraphicsView
   Q_OBJECT
   
   public:
-    CustomTrackView(QGraphicsScene * scene, QWidget *parent=0);
+    CustomTrackView(KUndoStack *commandStack, QGraphicsScene * scene, QWidget *parent=0);
     virtual void mousePressEvent ( QMouseEvent * event );
     virtual void mouseReleaseEvent ( QMouseEvent * event );
     virtual void mouseMoveEvent ( QMouseEvent * event );
@@ -39,6 +40,7 @@ class CustomTrackView : public QGraphicsView
     void setCursorPos(int pos);
     int cursorPos();
     void initView();
+    void moveClip ( const QPointF &startPos, const QPointF &endPos );
 
   protected:
     virtual void drawBackground ( QPainter * painter, const QRectF & rect );
@@ -57,6 +59,10 @@ class CustomTrackView : public QGraphicsView
     ClipItem *m_dropItem;
     void addItem(QString producer, QPoint pos);
     QGraphicsLineItem *m_cursorLine;
+    QPointF m_startPos;
+    int m_operationMode;
+    ClipItem *m_dragItem;
+    KUndoStack *m_commandStack;
 
   signals:
     void cursorMoved(int);
