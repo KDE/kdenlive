@@ -55,6 +55,7 @@ set(kdenlive_SRCS
   labelitem.cpp
   moveclipcommand.cpp
   resizeclipcommand.cpp
+  addtimelineclipcommand.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

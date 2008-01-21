@@ -42,6 +42,8 @@ class CustomTrackView : public QGraphicsView
     void initView();
     void moveClip ( const QPointF &startPos, const QPointF &endPos );
     void resizeClip ( const QPointF &startPos, const QPointF &endPos, bool resizeClipStart );
+    void addClip ( int clipType, QString clipName, int clipProducer, const QRectF &rect );
+    void deleteClip ( const QRectF &rect );
 
   protected:
     virtual void drawBackground ( QPainter * painter, const QRectF & rect );

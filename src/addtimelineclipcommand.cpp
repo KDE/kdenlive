@@ -17,43 +17,27 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include "addtimelineclipcommand.h"
 
-#ifndef CLIPITEM_H
-#define CLIPITEM_H
+AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, int clipType, QString clipName, int clipProducer, QRectF rect, bool doIt)
+         : m_view(view), m_clipType(clipType), m_clipName(clipName), m_clipProducer(clipProducer), m_clipRect(rect), m_doIt(doIt) {
+	    setText(i18n("Add timeline clip"));
+	 }
 
-#include <QGraphicsRectItem>
-#include <QGraphicsSceneMouseEvent>
 
-#include "labelitem.h"
-
-class ClipItem : public QGraphicsRectItem
+// virtual 
+void AddTimelineClipCommand::undo()
 {
-  
-  public:
-    ClipItem(int clipType, QString name, int producer, const QRectF & rect);
-    virtual void paint(QPainter *painter,
-                           const QStyleOptionGraphicsItem *option,
-                           QWidget *widget);
-    virtual int type () const;
-    void moveTo(double x, double offset);
-    int operationMode(QPointF pos);
-    int clipProducer();
-    int clipType();
-    QString clipName();
+// kDebug()<<"----  undoing action";
+  m_doIt = true;
+  if (m_doIt) m_view->deleteClip(m_clipRect);
+}
+// virtual 
+void AddTimelineClipCommand::redo()
+{
+  //kDebug()<<"----  redoing action";
+  if (m_doIt) m_view->addClip(m_clipType, m_clipName, m_clipProducer, m_clipRect);
+  m_doIt = true;
+}
 
-  protected:
-    virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
-    virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
-    virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
-
-  private:
-    LabelItem *m_label;
-    int m_textWidth;
-    uint m_resizeMode;
-    int m_grabPoint;
-    int m_producer;
-    int m_clipType;
-    QString m_clipName;
-};
-
-#endif
+#include "addtimelineclipcommand.moc"

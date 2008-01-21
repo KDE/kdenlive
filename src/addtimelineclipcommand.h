@@ -18,42 +18,33 @@
  ***************************************************************************/
 
 
-#ifndef CLIPITEM_H
-#define CLIPITEM_H
+#ifndef TIMELINECLIPCOMMAND_H
+#define TIMELINECLIPCOMMAND_H
 
-#include <QGraphicsRectItem>
-#include <QGraphicsSceneMouseEvent>
+#include <QUndoCommand>
+#include <QGraphicsView>
+#include <QPointF>
 
-#include "labelitem.h"
+#include <KDebug>
 
-class ClipItem : public QGraphicsRectItem
-{
-  
-  public:
-    ClipItem(int clipType, QString name, int producer, const QRectF & rect);
-    virtual void paint(QPainter *painter,
-                           const QStyleOptionGraphicsItem *option,
-                           QWidget *widget);
-    virtual int type () const;
-    void moveTo(double x, double offset);
-    int operationMode(QPointF pos);
-    int clipProducer();
-    int clipType();
-    QString clipName();
+#include "projectlist.h"
+#include "customtrackview.h"
 
-  protected:
-    virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
-    virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
-    virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
+class AddTimelineClipCommand : public QUndoCommand
+ {
+ public:
+     AddTimelineClipCommand(CustomTrackView *view, int clipType, QString clipName, int clipProducer, QRectF rect, bool doIt);
+    virtual void undo();
+    virtual void redo();
 
-  private:
-    LabelItem *m_label;
-    int m_textWidth;
-    uint m_resizeMode;
-    int m_grabPoint;
-    int m_producer;
-    int m_clipType;
-    QString m_clipName;
-};
+ private:
+     CustomTrackView *m_view;
+     int m_clipType;
+     QString m_clipName;
+     int m_clipProducer;
+     QRectF m_clipRect;
+     bool m_doIt;
+ };
 
 #endif
+

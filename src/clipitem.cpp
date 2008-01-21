@@ -28,7 +28,7 @@
 #include "clipitem.h"
 
 ClipItem::ClipItem(int clipType, QString name, int producer, const QRectF & rect)
-    : QGraphicsRectItem(rect), m_resizeMode(0), m_grabPoint(0), m_producer(producer)
+    : QGraphicsRectItem(rect), m_resizeMode(0), m_grabPoint(0), m_clipType(clipType), m_clipName(name), m_producer(producer)
 {
   setToolTip(name);
   //setCursor(Qt::SizeHorCursor);
@@ -42,6 +42,21 @@ ClipItem::ClipItem(int clipType, QString name, int producer, const QRectF & rect
 int ClipItem::type () const
 {
   return 70000;
+}
+
+int ClipItem::clipType()
+{
+  return m_clipType;
+}
+
+QString ClipItem::clipName()
+{
+  return m_clipName;
+}
+
+int ClipItem::clipProducer()
+{
+  return m_producer;
 }
 
 // virtual 

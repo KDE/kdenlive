@@ -31,6 +31,7 @@
 #include "definitions.h"
 #include "moveclipcommand.h"
 #include "resizeclipcommand.h"
+#include "addtimelineclipcommand.h"
 
 CustomTrackView::CustomTrackView(KUndoStack *commandStack, QGraphicsScene * scene, QWidget *parent)
     : QGraphicsView(scene, parent), m_commandStack(commandStack), m_tracksCount(0), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(0), m_startPos(QPointF()), m_dragItem(NULL)
@@ -168,11 +169,17 @@ void CustomTrackView::dragMoveEvent(QDragMoveEvent * event) {
 }
 
 void CustomTrackView::dragLeaveEvent ( QDragLeaveEvent * event ) {
-  if (m_dropItem) delete m_dropItem;
-  m_dropItem = NULL;
+  if (m_dropItem) {
+    delete m_dropItem;
+    m_dropItem = NULL;
+  }
 }
 
 void CustomTrackView::dropEvent ( QDropEvent * event ) {
+  if (m_dropItem) {
+    AddTimelineClipCommand *command = new AddTimelineClipCommand(this, m_dropItem->clipType(), m_dropItem->clipName(), m_dropItem->clipProducer(), m_dropItem->rect(), false);
+    m_commandStack->push(command);
+  }
   m_dropItem = NULL;
 }
 
@@ -233,6 +240,22 @@ void CustomTrackView::mouseReleaseEvent ( QMouseEvent * event )
     ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->rect().x() + m_dragItem->rect().width(), m_dragItem->rect().y()), false, false);
     m_commandStack->push(command);
   }
+}
+
+void CustomTrackView::deleteClip ( const QRectF &rect )
+{
+  ClipItem *item = (ClipItem *) scene()->itemAt(rect.x() + 1, rect.y() + 1);
+  if (!item) {
+    kDebug()<<"----------------  ERROR, CANNOT find clip to move at: "<<rect.x();
+    return;
+  }
+  delete item;
+}
+
+void CustomTrackView::addClip ( int clipType, QString clipName, int clipProducer, const QRectF &rect )
+{
+  ClipItem *item = new ClipItem(clipType, clipName, clipProducer, rect);
+  scene()->addItem(item);
 }
 
 void CustomTrackView::moveClip ( const QPointF &startPos, const QPointF &endPos )
