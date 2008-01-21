@@ -33,7 +33,6 @@ ClipItem::ClipItem(int clipType, QString name, int producer, const QRectF & rect
   setToolTip(name);
   //setCursor(Qt::SizeHorCursor);
   setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemClipsChildrenToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-  //producer = "sjis isjisjsi sij ssao sa sao ";
   m_label = new LabelItem( name, this);
   QRectF textRect = m_label->boundingRect();
   m_textWidth = textRect.width();

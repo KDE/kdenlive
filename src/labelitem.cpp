@@ -44,25 +44,21 @@ int LabelItem::type () const
                            const QStyleOptionGraphicsItem *option,
                            QWidget *widget)
  {
-    //painter->setClipRect( option->exposedRect );
+    kDebug()<<"REPAINT LABEL ------------------------";
     QRectF rep = option->exposedRect;
+    painter->setClipRect(rep);
     QGraphicsRectItem *parent = (QGraphicsRectItem *) parentItem();
     QRectF par = mapFromScene(parent->rect()).boundingRect();
     //kDebug()<<"REPAINT RECT: "<<par.width();
     //kDebug()<<"REPAINT RECT: "<<rep.x()<<", "<<rep.y()<<", "<<rep.width()<<", "<<rep.height();
     //kDebug()<<"PARENT RECT: "<<par.x()<<", "<<par.y()<<", "<<par.width()<<", "<<par.height();
-    QRectF parrect = parent->rect();
-    //QRectF transRect = deviceTransform(view->viewportTransform()).inverted().mapRect(parrect);
-    painter->setClipRect( par);
-    //painter->fillRect(rect(), Qt::red);
-    QPainterPath path;
-    path.addRoundRect(boundingRect(), 40);
-    //painter->fillPath(path, QColor(200, 100, 200, 150));
-    //painter->setClipPath(path);
-    painter->fillPath(path, QColor(200, 200, 200, 100));
+    QRectF parrect = option->matrix.map(mapFromScene(par)).boundingRect();
+    painter->setClipRect( parrect, Qt::IntersectClip ); //option->exposedRect );
+    /*QPainterPath path;
+    path.addRoundRect(parrect, 40);
+    painter->fillPath(path, QColor(200, 50, 200, 100));*/
+    //painter->fillRect(parrect, QColor(200, 50, 200, 100));
     painter->drawText(boundingRect(), Qt::AlignCenter, text());
-    //painter->drawRect(rect());
-    //painter->drawRoundRect(-10, -10, 20, 20);
  }
 
 #include "labelitem.moc"
