@@ -69,7 +69,8 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
   connect(view->horizontalSlider, SIGNAL(valueChanged ( int )), this, SLOT(slotChangeZoom( int )));
   connect(m_ruler, SIGNAL(cursorMoved ( int )), this, SLOT(slotCursorMoved( int )));
   connect(m_trackview, SIGNAL(cursorMoved ( int )), this, SLOT(slotCursorMoved( int )));
-
+  connect(m_trackview, SIGNAL(zoomIn ()), this, SLOT(slotZoomIn()));
+  connect(m_trackview, SIGNAL(zoomOut ()), this, SLOT(slotZoomOut()));
   m_trackview->initView();
 }
 
@@ -118,27 +119,25 @@ void TrackView::slotCursorMoved(int pos)
 void TrackView::slotChangeZoom(int factor)
 {
   m_ruler->setPixelPerMark(factor);
-  //m_scale = m_ruler->pixelPerMark();
   m_scale = (double) m_ruler->comboScale[m_currentZoom] / m_ruler->comboScale[factor];
-  //else m_scale = (double) m_ruler->comboScale[m_currentZoom] / m_ruler->comboScale[factor];
   m_currentZoom = factor;
-  kDebug()<<"///// ZOOMING: "<<m_scale;
   m_trackview->scale(m_scale, 1);
   m_trackview->centerOn(QPointF(m_trackview->cursorPos(), 50));
-  /*
-  for (int i = 0; i < documentTracks.count(); i++) {
-    kDebug()<<"------REPAINTING OBJECT";
-    documentTracks.at(i)->update();
-    //documentTracks.at(i)->setFixedWidth(300 * zoomFactor());
-  }
-  m_scrollBox->setFixedWidth(( m_projectDuration + 300) * zoomFactor());*/
-  /*m_scrollArea->horizontalScrollBar()->setMaximum(300 * zoomFactor());
-  m_scrollArea->horizontalScrollBar()->setPageStep(FRAME_SIZE * zoomFactor());*/
 }
 
 const double TrackView::zoomFactor() const
 {
   return m_scale * FRAME_SIZE;
+}
+
+void TrackView::slotZoomIn()
+{
+  view->horizontalSlider->setValue(view->horizontalSlider->value() - 1);
+}
+
+void TrackView::slotZoomOut()
+{
+  view->horizontalSlider->setValue(view->horizontalSlider->value() + 1);
 }
 
 const int TrackView::mapLocalToValue(int x) const

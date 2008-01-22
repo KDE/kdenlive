@@ -21,7 +21,7 @@
 #include <QStylePainter>
 #include <QGraphicsItem>
 #include <QDomDocument>
-
+#include <QScrollBar>
 
 #include <KDebug>
 #include <KLocale>
@@ -58,15 +58,29 @@ void CustomTrackView::resizeEvent ( QResizeEvent * event )
   if (m_cursorLine) m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), height());
 }
 
+// virtual
+void CustomTrackView::wheelEvent ( QWheelEvent * e ) 
+{
+  if (e->modifiers() == Qt::ControlModifier) {
+    if (e->delta() > 0) emit zoomIn();
+    else emit zoomOut();
+  }
+  else {
+    if (e->delta() > 0) horizontalScrollBar()->setValue (horizontalScrollBar()->value() + horizontalScrollBar()->singleStep ());
+    else  horizontalScrollBar()->setValue (horizontalScrollBar()->value() - horizontalScrollBar()->singleStep ());
+  }
+}
+
+
 // virtual 
 void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
 {
   int pos = event->x();
-  if (event->modifiers() == Qt::ControlModifier)
+  /*if (event->modifiers() == Qt::ControlModifier)
     setDragMode(QGraphicsView::ScrollHandDrag);
   else if (event->modifiers() == Qt::ShiftModifier) 
     setDragMode(QGraphicsView::RubberBandDrag);
-  else {
+  else*/ {
 
       if (event->button() == Qt::LeftButton) {
 	// a button was pressed, delete visual tips

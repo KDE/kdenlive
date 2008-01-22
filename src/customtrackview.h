@@ -55,6 +55,7 @@ class CustomTrackView : public QGraphicsView
     virtual void dragMoveEvent(QDragMoveEvent * event);
     virtual void dragLeaveEvent ( QDragLeaveEvent * event );
     virtual void dropEvent ( QDropEvent * event );
+    virtual void wheelEvent ( QWheelEvent * e );
     virtual QStringList mimeTypes() const;
     virtual Qt::DropActions supportedDropActions () const;
     virtual void resizeEvent ( QResizeEvent * event );
@@ -77,6 +78,8 @@ class CustomTrackView : public QGraphicsView
 
   signals:
     void cursorMoved(int);
+    void zoomIn();
+    void zoomOut();
 
 };
 

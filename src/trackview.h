@@ -93,6 +93,8 @@ class TrackView : public QWidget
   private slots:
     void slotChangeZoom(int factor);
     void slotCursorMoved(int pos);
+    void slotZoomIn();
+    void slotZoomOut();
 };
 
 #endif
