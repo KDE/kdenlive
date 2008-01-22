@@ -28,7 +28,7 @@
 #include "clipitem.h"
 
 ClipItem::ClipItem(int clipType, QString name, int producer, int maxDuration, const QRectF & rect)
-    : QGraphicsRectItem(rect), m_resizeMode(0), m_grabPoint(0), m_clipType(clipType), m_clipName(name), m_producer(producer), m_cropStart(0), m_cropDuration(maxDuration), m_maxDuration(maxDuration)
+    : QGraphicsRectItem(rect), m_resizeMode(NONE), m_grabPoint(0), m_clipType(clipType), m_clipName(name), m_producer(producer), m_cropStart(0), m_cropDuration(maxDuration), m_maxDuration(maxDuration)
 {
   setToolTip(name);
   //setCursor(Qt::SizeHorCursor);
@@ -37,6 +37,7 @@ ClipItem::ClipItem(int clipType, QString name, int producer, int maxDuration, co
   QRectF textRect = m_label->boundingRect();
   m_textWidth = textRect.width();
   m_label->setPos(rect.x() + rect.width()/2 - m_textWidth/2, rect.y() + rect.height() / 2 - textRect.height()/2);
+  setBrush(QColor(100, 100, 150));
 }
 
 int ClipItem::type () const
@@ -69,29 +70,54 @@ int ClipItem::maxDuration()
                            const QStyleOptionGraphicsItem *option,
                            QWidget *widget)
  {
-    painter->setClipRect( option->exposedRect );
+
+    //painter->setClipRect( option->exposedRect );
+    /*painter->setRenderHint(QPainter::TextAntialiasing);
     painter->fillRect(rect(), QColor(200, 50, 50, 150));
+    QPointF pos = option->matrix.map(QPointF(1.0, 1.0));
+    //painter->setPen(QPen(Qt::black, 1.0 / option->levelOfDetail));
+    painter->setPen(QPen(Qt::black, 1.0 / pos.x()));
+    double scale = 1.0 / pos.x();
+    //QPointF size = option->matrix.map(QPointF(1, 1));
+    //double off = painter->pen().width();
+    QRectF br = boundingRect();
+    QRectF recta(rect().x(), rect().y(), scale,rect().height());
+    painter->drawRect(recta);
+    //painter->drawLine(rect().x() + 1, rect().y(), rect().x() + 1, rect().y() + rect().height());
+    painter->drawLine(rect().x() + rect().width(), rect().y(), rect().x() + rect().width(), rect().y() + rect().height());
+    painter->setPen(QPen(Qt::black, 1.0 / pos.y()));
+    painter->drawLine(rect().x(), rect().y(), rect().x() + rect().width(), rect().y());
+    painter->drawLine(rect().x(), rect().y() + rect().height(), rect().x() + rect().width(), rect().y() + rect().height());*/
+
+    QGraphicsRectItem::paint(painter, option, widget);
+    //QPen pen(Qt::green, 1.0 / size.x() + 0.5);
+    //painter->setPen(pen);
+    //painter->drawLine(rect().x(), rect().y(), rect().x() + rect().width(), rect().y());*/
     //kDebug()<<"ITEM REPAINT RECT: "<<boundingRect().width();
     //painter->drawText(rect(), Qt::AlignCenter, m_name);
-    painter->drawRect(rect());
+    // painter->drawRect(boundingRect());
      //painter->drawRoundRect(-10, -10, 20, 20);
  }
 
 
-int ClipItem::operationMode(QPointF pos)
+OPERATIONTYPE ClipItem::operationMode(QPointF pos)
 {
-    if (abs(pos.x() - rect().x()) < 6)
-      return 1;
-    else if (abs(pos.x() - (rect().x() + rect().width())) < 6)
-      return 2;
-    return 0;
+    if (abs(pos.x() - rect().x()) < 6) {
+      if (abs(pos.y() - rect().y()) < 6) return FADEIN;
+      return RESIZESTART;
+    }
+    else if (abs(pos.x() - (rect().x() + rect().width())) < 6) {
+      if (abs(pos.y() - rect().y()) < 6) return FADEOUT;
+      return RESIZEEND;
+    }
+    return MOVE;
 }
 
 // virtual
  void ClipItem::mousePressEvent ( QGraphicsSceneMouseEvent * event ) 
  {
     m_resizeMode = operationMode(event->pos());
-    if (m_resizeMode == 0) {
+    if (m_resizeMode == MOVE) {
       m_grabPoint = (int) (event->pos().x() - rect().x());
     }
     QGraphicsRectItem::mousePressEvent(event);
@@ -100,7 +126,7 @@ int ClipItem::operationMode(QPointF pos)
 // virtual
  void ClipItem::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ) 
  {
-    m_resizeMode = 0;
+    m_resizeMode = NONE;
     QGraphicsRectItem::mouseReleaseEvent(event);
  }
 
@@ -110,7 +136,7 @@ int ClipItem::operationMode(QPointF pos)
   double origY = rect().y();
     setRect(x, origY + offset, rect().width(), rect().height());
 
-    QList <QGraphicsItem *> collisionList = collidingItems();
+    QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
     for (int i = 0; i < collisionList.size(); ++i) {
       QGraphicsItem *item = collisionList.at(i);
       if (item->type() == 70000)
@@ -146,14 +172,14 @@ int ClipItem::operationMode(QPointF pos)
     double moveX = (int) event->scenePos().x();
     double originalX = rect().x();
     double originalWidth = rect().width();
-    if (m_resizeMode == 1) {
+    if (m_resizeMode == RESIZESTART) {
       if (m_cropStart - (originalX - moveX) < 0) moveX = originalX - m_cropStart;
       if (originalX + rect().width() - moveX < 1) moveX = originalX + rect().width() + 2;
       m_cropStart -= originalX - moveX;
       kDebug()<<"MOVE CLIP START TO: "<<event->scenePos()<<", CROP: "<<m_cropStart;
       setRect(moveX, rect().y(), originalX + rect().width() - moveX, rect().height());
 
-      QList <QGraphicsItem *> collisionList = collidingItems();
+      QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
       for (int i = 0; i < collisionList.size(); ++i) {
 	QGraphicsItem *item = collisionList.at(i);
 	  if (item->type() == 70000)
@@ -171,13 +197,13 @@ int ClipItem::operationMode(QPointF pos)
       }
       return;
     }
-    if (m_resizeMode == 2) {
+    if (m_resizeMode == RESIZEEND) {
       int newWidth = moveX - originalX;
       if (newWidth < 1) newWidth = 2;
       if (newWidth > m_maxDuration) newWidth = m_maxDuration;
       setRect(originalX, rect().y(), newWidth, rect().height());
 
-      QList <QGraphicsItem *> collisionList = collidingItems();
+      QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
       for (int i = 0; i < collisionList.size(); ++i) {
 	QGraphicsItem *item = collisionList.at(i);
 	  if (item->type() == 70000)
@@ -195,12 +221,13 @@ int ClipItem::operationMode(QPointF pos)
       }
       return;
     }
-    int moveTrack = (int) event->scenePos().y() / 50;
-    int currentTrack = (int) rect().y() / 50;
-    int offset = moveTrack - currentTrack;
-    if (offset != 0) offset = 50 * offset;
-    moveTo(moveX - m_grabPoint, offset);
-    
+    if (m_resizeMode == MOVE) {
+      int moveTrack = (int) event->scenePos().y() / 50;
+      int currentTrack = (int) rect().y() / 50;
+      int offset = moveTrack - currentTrack;
+      if (offset != 0) offset = 50 * offset;
+      moveTo(moveX - m_grabPoint, offset);
+    }
  }
 
 

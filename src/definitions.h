@@ -23,6 +23,8 @@
 
 #define FRAME_SIZE 90
 
+enum OPERATIONTYPE { NONE = 0, MOVE = 1, RESIZESTART = 2, RESIZEEND = 3, FADEIN = 4, FADEOUT = 5};
+
 struct TrackViewClip {
   int startTime;
   int duration;

@@ -25,6 +25,7 @@
 #include <QGraphicsSceneMouseEvent>
 
 #include "labelitem.h"
+#include "definitions.h"
 
 class ClipItem : public QGraphicsRectItem
 {
@@ -36,7 +37,7 @@ class ClipItem : public QGraphicsRectItem
                            QWidget *widget);
     virtual int type () const;
     void moveTo(double x, double offset);
-    int operationMode(QPointF pos);
+    OPERATIONTYPE operationMode(QPointF pos);
     int clipProducer();
     int clipType();
     QString clipName();
@@ -50,7 +51,7 @@ class ClipItem : public QGraphicsRectItem
   private:
     LabelItem *m_label;
     int m_textWidth;
-    uint m_resizeMode;
+    OPERATIONTYPE m_resizeMode;
     int m_grabPoint;
     int m_producer;
     int m_clipType;

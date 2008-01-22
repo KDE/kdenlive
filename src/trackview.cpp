@@ -124,6 +124,7 @@ void TrackView::slotChangeZoom(int factor)
   m_currentZoom = factor;
   kDebug()<<"///// ZOOMING: "<<m_scale;
   m_trackview->scale(m_scale, 1);
+  m_trackview->centerOn(QPointF(m_trackview->cursorPos(), 50));
   /*
   for (int i = 0; i < documentTracks.count(); i++) {
     kDebug()<<"------REPAINTING OBJECT";

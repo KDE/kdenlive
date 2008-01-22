@@ -22,6 +22,9 @@
 #define CUSTOMTRACKVIEW_H
 
 #include <QGraphicsView>
+#include <QGraphicsItemAnimation>
+#include <QTimeLine>
+
 #include <KUndoStack>
 
 #include "clipitem.h"
@@ -63,9 +66,14 @@ class CustomTrackView : public QGraphicsView
     void addItem(QString producer, QPoint pos);
     QGraphicsLineItem *m_cursorLine;
     QPointF m_startPos;
-    int m_operationMode;
+    OPERATIONTYPE m_operationMode;
+    OPERATIONTYPE m_moveOpMode;
     ClipItem *m_dragItem;
     KUndoStack *m_commandStack;
+    QGraphicsItem *m_visualTip;
+    QGraphicsItemAnimation *m_animation;
+    QTimeLine *m_animationTimer;
+    QColor m_tipColor;
 
   signals:
     void cursorMoved(int);

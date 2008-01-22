@@ -51,11 +51,12 @@ int LabelItem::type () const
     QRectF par = mapFromScene(parent->rect()).boundingRect();
     QRectF parrect = option->matrix.map(mapFromScene(par)).boundingRect();
     painter->setClipRect( parrect ); //option->exposedRect );
-    QPainterPath path;
+    QGraphicsSimpleTextItem::paint(painter, option, widget);
+    /*QPainterPath path;
     path.addRoundRect(boundingRect(), 40);
     painter->fillPath(path, QColor(200, 200, 200, 100));
     //painter->fillRect(parrect, QColor(200, 50, 200, 100));
-    painter->drawText(boundingRect(), Qt::AlignCenter, text());
+    painter->drawText(boundingRect(), Qt::AlignCenter, text());*/
  }
 
 #include "labelitem.moc"
