@@ -255,7 +255,8 @@ void CustomTrackView::mousePressEvent ( QMouseEvent * event )
       kDebug()<<"//////// NO ITEM FOUND ON CLICK";
       m_dragItem = NULL;
       setCursor(Qt::ArrowCursor);
-      emit cursorMoved((int) mapToScene(event->x(), 0).x());
+      setCursorPos((int) mapToScene(event->x(), 0).x());
+      emit cursorMoved(cursorPos());
     }
   }
   //kDebug()<<pos;

@@ -91,7 +91,7 @@ CustomRuler::CustomRuler(Timecode tc, QWidget *parent)
 void CustomRuler::mousePressEvent ( QMouseEvent * event )
 {
   int pos = event->x();
-  slotNewValue( pos, true );
+  slotMoveCursor( pos, true );
   kDebug()<<pos;
 }
 
@@ -99,15 +99,31 @@ void CustomRuler::mousePressEvent ( QMouseEvent * event )
 void CustomRuler::mouseMoveEvent ( QMouseEvent * event )
 {
   int pos = event->x();
-  slotNewValue( pos, true );
+  slotMoveCursor( pos, true );
   kDebug()<<pos;
 }
 
+void CustomRuler::slotMoveRuler(int newPos)
+{
+  int diff = offset() - newPos;
+  KRuler::slotNewOffset(newPos);
+  KRuler::slotNewValue(value() + diff);
+}
+
+void CustomRuler::slotMoveCursor( int _value, bool emitSignal )
+{
+  KRuler::slotNewValue(_value );
+  m_cursorPosition= (_value + offset()) / pixelPerMark();
+  if (emitSignal) emit cursorMoved(m_cursorPosition / FRAME_SIZE);
+}
+
+
 void CustomRuler::slotNewValue ( int _value, bool emitSignal )
 {
-  m_cursorPosition = _value / pixelPerMark();
+  kDebug()<<"--------------  SET NEW CURSOR: "<<_value;
+  m_cursorPosition= _value / pixelPerMark();
   if (emitSignal) emit cursorMoved(m_cursorPosition / FRAME_SIZE);
-  KRuler::slotNewValue(_value);
+  KRuler::slotNewValue(_value* pixelPerMark() - offset());
 }
 
 void CustomRuler::setPixelPerMark (double rate)

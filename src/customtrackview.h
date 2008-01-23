@@ -40,13 +40,15 @@ class CustomTrackView : public QGraphicsView
     virtual void mouseMoveEvent ( QMouseEvent * event );
     void addTrack();
     void removeTrack();
-    void setCursorPos(int pos);
     int cursorPos();
     void initView();
     void moveClip ( const QPointF &startPos, const QPointF &endPos );
     void resizeClip ( const QPointF &startPos, const QPointF &endPos, bool resizeClipStart );
     void addClip ( int clipType, QString clipName, int clipProducer, int maxDuration, const QRectF &rect );
     void deleteClip ( const QRectF &rect );
+
+  public slots:
+    void setCursorPos(int pos);
 
   protected:
     virtual void drawBackground ( QPainter * painter, const QRectF & rect );

@@ -21,9 +21,12 @@ class CustomRuler : public KRuler
   private:
     int m_cursorPosition;
     Timecode m_timecode;
+    void slotMoveCursor( int _value, bool emitSignal );
 
   public slots:
     void slotNewValue ( int _value, bool emitSignal = false );
+    void slotMoveRuler (int newPos);
+
 
   signals:
     void cursorMoved(int);

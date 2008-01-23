@@ -67,10 +67,11 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
   view->horizontalSlider->setValue(0);
   m_currentZoom = view->horizontalSlider->value();
   connect(view->horizontalSlider, SIGNAL(valueChanged ( int )), this, SLOT(slotChangeZoom( int )));
-  connect(m_ruler, SIGNAL(cursorMoved ( int )), this, SLOT(slotCursorMoved( int )));
+  connect(m_ruler, SIGNAL(cursorMoved ( int )), m_trackview, SLOT(setCursorPos( int )));
   connect(m_trackview, SIGNAL(cursorMoved ( int )), this, SLOT(slotCursorMoved( int )));
   connect(m_trackview, SIGNAL(zoomIn ()), this, SLOT(slotZoomIn()));
   connect(m_trackview, SIGNAL(zoomOut ()), this, SLOT(slotZoomOut()));
+  connect(m_trackview->horizontalScrollBar(), SIGNAL(sliderMoved( int )), m_ruler, SLOT(slotMoveRuler( int )));
   m_trackview->initView();
 }
 
@@ -110,9 +111,9 @@ void TrackView::parseDocument(QDomDocument doc)
 
 void TrackView::slotCursorMoved(int pos)
 {
-  //kDebug()<<"///// CURSOR: "<<pos;
-  m_ruler->slotNewValue(m_trackview->mapToScene(QPoint(pos, 0)).x());
-  m_trackview->setCursorPos(pos);
+  kDebug()<<"///// CURSOR: "<<pos;
+  m_ruler->slotNewValue(pos * FRAME_SIZE); //(int) m_trackview->mapToScene(QPoint(pos, 0)).x());
+  //m_trackview->setCursorPos(pos);
   //m_trackview->invalidateScene(QRectF(), QGraphicsScene::ForegroundLayer);
 }
 
