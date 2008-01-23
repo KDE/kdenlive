@@ -64,14 +64,15 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
   registerFunction("move", m_moveFunction);
   setEditMode("move");
 
-  view->horizontalSlider->setValue(0);
-  m_currentZoom = view->horizontalSlider->value();
   connect(view->horizontalSlider, SIGNAL(valueChanged ( int )), this, SLOT(slotChangeZoom( int )));
   connect(m_ruler, SIGNAL(cursorMoved ( int )), m_trackview, SLOT(setCursorPos( int )));
   connect(m_trackview, SIGNAL(cursorMoved ( int )), this, SLOT(slotCursorMoved( int )));
   connect(m_trackview, SIGNAL(zoomIn ()), this, SLOT(slotZoomIn()));
   connect(m_trackview, SIGNAL(zoomOut ()), this, SLOT(slotZoomOut()));
   connect(m_trackview->horizontalScrollBar(), SIGNAL(sliderMoved( int )), m_ruler, SLOT(slotMoveRuler( int )));
+
+  view->horizontalSlider->setValue(0);
+  m_currentZoom = view->horizontalSlider->value();
   m_trackview->initView();
 }
 
@@ -92,11 +93,17 @@ int TrackView::tracksNumber()
 
 void TrackView::parseDocument(QDomDocument doc)
 {
+  int cursorPos = 0;
+  QDomNode props = doc.elementsByTagName("properties").item(0);
+  if (!props.isNull()) {
+    cursorPos = props.toElement().attribute("timeline_position").toInt();
+  }
   QDomNodeList tracks = doc.elementsByTagName("playlist");
   m_projectDuration = 300;
   m_projectTracks = tracks.count();
-  int duration;
-  for (int i = 0; i < tracks.count(); i++)
+  int duration = 0;
+  kDebug()<<"//////////// TIMELINE FOUND: "<<m_projectTracks<<" tracks";
+  for (int i = 0; i < m_projectTracks; i++)
   {
     if (tracks.item(i).toElement().attribute("hide", QString::null) == "video") {
       // this is an audio track
@@ -104,15 +111,18 @@ void TrackView::parseDocument(QDomDocument doc)
     }
     else if (!tracks.item(i).toElement().attribute("id", QString::null).isEmpty())
       duration = slotAddVideoTrack(i, tracks.item(i).toElement());
+    kDebug()<<" PRO DUR: "<<m_projectDuration<<", TRACK DUR: "<<duration;
     if (duration > m_projectDuration) m_projectDuration = duration;
   }
+  m_trackview->setDuration(m_projectDuration);
+  slotCursorMoved(cursorPos, true);
   //m_scrollBox->setGeometry(0, 0, 300 * zoomFactor(), m_scrollArea->height());
 }
 
-void TrackView::slotCursorMoved(int pos)
+void TrackView::slotCursorMoved(int pos, bool emitSignal)
 {
   kDebug()<<"///// CURSOR: "<<pos;
-  m_ruler->slotNewValue(pos * FRAME_SIZE); //(int) m_trackview->mapToScene(QPoint(pos, 0)).x());
+  m_ruler->slotNewValue(pos * FRAME_SIZE, emitSignal); //(int) m_trackview->mapToScene(QPoint(pos, 0)).x());
   //m_trackview->setCursorPos(pos);
   //m_trackview->invalidateScene(QRectF(), QGraphicsScene::ForegroundLayer);
 }
@@ -153,13 +163,14 @@ KdenliveDoc *TrackView::document()
 
 int TrackView::slotAddAudioTrack(int ix, QDomElement xml)
 {
+  kDebug()<<"*************  ADD AUDIO TRACK "<<ix;
   m_trackview->addTrack();
   DocumentTrack *track = new DocumentAudioTrack(xml, this, m_trackview);
   HeaderTrack *header = new HeaderTrack();
   //m_tracksAreaLayout->addWidget(track); //, ix, Qt::AlignTop);
   m_headersLayout->addWidget(header); //, ix, Qt::AlignTop);
   documentTracks.insert(ix, track);
-  return track->duration();
+  return 0;
   //track->show();
 }
 
@@ -196,6 +207,7 @@ int TrackView::slotAddVideoTrack(int ix, QDomElement xml)
   //m_tracksAreaLayout->addWidget(track); //, ix, Qt::AlignTop);
   m_headersLayout->addWidget(header); //, ix, Qt::AlignTop);
   documentTracks.insert(ix, track);
+  kDebug()<<"*************  ADD VIDEO TRACK "<<ix<<", DURATION: "<<position;
   return position;
   //track->show();
 }

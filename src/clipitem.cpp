@@ -21,14 +21,14 @@
 
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
-
+#include <QGraphicsScene>
 #include <KDebug>
 
 
 #include "clipitem.h"
 
 ClipItem::ClipItem(int clipType, QString name, int producer, int maxDuration, const QRectF & rect)
-    : QGraphicsRectItem(rect), m_resizeMode(NONE), m_grabPoint(0), m_clipType(clipType), m_clipName(name), m_producer(producer), m_cropStart(0), m_cropDuration(maxDuration), m_maxDuration(maxDuration)
+    : QGraphicsRectItem(rect), m_resizeMode(NONE), m_grabPoint(0), m_clipType(clipType), m_clipName(name), m_producer(producer), m_cropStart(0), m_cropDuration(maxDuration), m_maxDuration(maxDuration), m_maxTrack(0)
 {
   setToolTip(name);
   //setCursor(Qt::SizeHorCursor);
@@ -118,6 +118,7 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
  {
     m_resizeMode = operationMode(event->pos());
     if (m_resizeMode == MOVE) {
+      m_maxTrack = scene()->sceneRect().height();
       m_grabPoint = (int) (event->pos().x() - rect().x());
     }
     QGraphicsRectItem::mousePressEvent(event);
@@ -222,9 +223,14 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
       return;
     }
     if (m_resizeMode == MOVE) {
+      kDebug()<<"///////  MOVE CLIP, EVENT Y: "<<event->scenePos().y()<<", SCENE HEIGHT: "<<scene()->sceneRect().height();
       int moveTrack = (int) event->scenePos().y() / 50;
       int currentTrack = (int) rect().y() / 50;
       int offset = moveTrack - currentTrack;
+      if (event->scenePos().y() >= m_maxTrack || event->scenePos().y() < 0) {
+	offset = 0;
+	kDebug()<<"%%%%%%%%%%%%%%%%%%%%%%%   MAX HEIGHT OVERLOOK";
+      }
       if (offset != 0) offset = 50 * offset;
       moveTo(moveX - m_grabPoint, offset);
     }

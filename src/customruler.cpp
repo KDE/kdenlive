@@ -142,10 +142,9 @@ void CustomRuler::paintEvent(QPaintEvent * /*e*/)
    QStylePainter p(this);
 
  
-   int value  = this->value(),
-     minval = minimum(),
-     maxval;
-     maxval = maximum() + offset() - endOffset();
+   int value  = this->value();
+   int minval = minimum();
+   int maxval = maximum() + offset() - endOffset();
 
      //ioffsetval = value-offset;
      //    pixelpm = (int)ppm;
@@ -235,7 +234,7 @@ void CustomRuler::paintEvent(QPaintEvent * /*e*/)
    }*/
  
    // draw pointer
-   if (showPointer()) {
+   if (showPointer() && value > 0) {
      QPolygon pa(4);
        pa.setPoints(3, value-6, 9, value+6, 9, value/*+0*/, 16);
      p.setBrush( QBrush(Qt::yellow) );

@@ -59,6 +59,7 @@ class ClipItem : public QGraphicsRectItem
     int m_maxDuration;
     int m_cropStart;
     int m_cropDuration;
+    int m_maxTrack;
 };
 
 #endif

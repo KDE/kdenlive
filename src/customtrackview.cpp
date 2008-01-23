@@ -34,8 +34,8 @@
 #include "resizeclipcommand.h"
 #include "addtimelineclipcommand.h"
 
-CustomTrackView::CustomTrackView(KUndoStack *commandStack, QGraphicsScene * scene, QWidget *parent)
-    : QGraphicsView(scene, parent), m_commandStack(commandStack), m_tracksCount(0), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_startPos(QPointF()), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL)
+CustomTrackView::CustomTrackView(KUndoStack *commandStack, QGraphicsScene * projectscene, QWidget *parent)
+    : QGraphicsView(projectscene, parent), m_commandStack(commandStack), m_tracksCount(0), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_startPos(QPointF()), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0)
 {
   setMouseTracking(true);
   setAcceptDrops(true);
@@ -44,18 +44,22 @@ CustomTrackView::CustomTrackView(KUndoStack *commandStack, QGraphicsScene * scen
   m_animationTimer->setUpdateInterval(100);
   m_animationTimer->setLoopCount(0);
   m_tipColor = QColor(230, 50, 0, 150);
+  setContentsMargins(0, 0, 0, 0);
+  if (projectscene) {
+    m_cursorLine = projectscene->addLine(0, 0, 0, 50);
+    m_cursorLine->setZValue(1000);
+  }
 }
 
 void CustomTrackView::initView()
 {
-  m_cursorLine = scene()->addLine(0, 0, 0, height());
-  m_cursorLine->setZValue(1000);
+
 }
 
 // virtual
 void CustomTrackView::resizeEvent ( QResizeEvent * event )
 {
-  if (m_cursorLine) m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), height());
+  QGraphicsView::resizeEvent(event);
 }
 
 // virtual
@@ -334,14 +338,27 @@ Qt::DropActions CustomTrackView::supportedDropActions () const
     return Qt::MoveAction;
 }
 
+void CustomTrackView::setDuration(int duration)
+{
+  kDebug()<<"/////////////  PRO DUR: "<<duration<<", height: "<<50 * m_tracksCount;
+  m_projectDuration = duration;
+  scene()->setSceneRect(0, 0, m_projectDuration + 500, scene()->sceneRect().height()); //50 * m_tracksCount);
+}
+
+
 void CustomTrackView::addTrack ()
 {
   m_tracksCount++;
+  m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), 50 * m_tracksCount);
+  //setSceneRect(0, 0, sceneRect().width(), 50 * m_tracksCount);
+  //verticalScrollBar()->setMaximum(50 * m_tracksCount); 
+  //setFixedHeight(50 * m_tracksCount);
 }
 
 void CustomTrackView::removeTrack ()
 {
   m_tracksCount--;
+  m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), 50 * m_tracksCount);
 }
 
 void CustomTrackView::setCursorPos(int pos)
@@ -439,14 +456,19 @@ void CustomTrackView::resizeClip ( const QPointF &startPos, const QPointF &endPo
 
 void CustomTrackView::drawBackground ( QPainter * painter, const QRectF & rect )  
 {
-  //kDebug()<<"/////  DRAWING BG: "<<rect.x()<<", width: "<<rect.width();
-  painter->setPen(QColor(150, 150, 150, 255));
-  painter->drawLine(rect.x(), 0, rect.x() + rect.width(), 0);
+  kDebug()<<"/////  DRAWING BG TRACKS: "<<m_tracksCount;
+  QColor base = palette().button().color();
+  painter->setPen(base);
+  painter->setClipRect(rect);
+  painter->drawLine(0, 0, rect.width(), 0);
     for (uint i = 0; i < m_tracksCount;i++)
     {
-      painter->drawLine(rect.x(), 50 * (i+1), rect.x() + rect.width(), 50 * (i+1));
-      painter->drawText(QRectF(10, 50 * i, 100, 50 * i + 49), Qt::AlignLeft, i18n(" Track ") + QString::number(i));
+    painter->drawLine(0, 50 * (i+1), rect.width(), 50 * (i+1));
+      //painter->drawText(QRectF(10, 50 * i, 100, 50 * i + 49), Qt::AlignLeft, i18n(" Track ") + QString::number(i));
     }
+  int lowerLimit = 50 * m_tracksCount;
+  if (height() > lowerLimit)
+  painter->fillRect(QRectF(0, lowerLimit - rect.y(), rect.width(), height() - lowerLimit - rect.y()), QBrush(base));
 }
 /*
 void CustomTrackView::drawForeground ( QPainter * painter, const QRectF & rect )  

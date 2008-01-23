@@ -34,7 +34,7 @@ class CustomTrackView : public QGraphicsView
   Q_OBJECT
   
   public:
-    CustomTrackView(KUndoStack *commandStack, QGraphicsScene * scene, QWidget *parent=0);
+    CustomTrackView(KUndoStack *commandStack, QGraphicsScene * projectscene, QWidget *parent=0);
     virtual void mousePressEvent ( QMouseEvent * event );
     virtual void mouseReleaseEvent ( QMouseEvent * event );
     virtual void mouseMoveEvent ( QMouseEvent * event );
@@ -46,6 +46,7 @@ class CustomTrackView : public QGraphicsView
     void resizeClip ( const QPointF &startPos, const QPointF &endPos, bool resizeClipStart );
     void addClip ( int clipType, QString clipName, int clipProducer, int maxDuration, const QRectF &rect );
     void deleteClip ( const QRectF &rect );
+    void setDuration(int duration);
 
   public slots:
     void setCursorPos(int pos);
@@ -64,6 +65,7 @@ class CustomTrackView : public QGraphicsView
 
   private:
     int m_tracksCount;
+    int m_projectDuration;
     int m_cursorPos;
     ClipItem *m_dropItem;
     void addItem(QString producer, QPoint pos);
