@@ -44,9 +44,10 @@ class CustomTrackView : public QGraphicsView
     void initView();
     void moveClip ( const QPointF &startPos, const QPointF &endPos );
     void resizeClip ( const QPointF &startPos, const QPointF &endPos, bool resizeClipStart );
-    void addClip ( int clipType, QString clipName, int clipProducer, int maxDuration, const QRectF &rect );
+    void addClip ( QDomElement xml, int track, int startpos, const QRectF &rect, int duration);
     void deleteClip ( const QRectF &rect );
     void setDuration(int duration);
+    void setScale(double scaleFactor);
 
   public slots:
     void setCursorPos(int pos);
@@ -79,6 +80,8 @@ class CustomTrackView : public QGraphicsView
     QGraphicsItemAnimation *m_animation;
     QTimeLine *m_animationTimer;
     QColor m_tipColor;
+    double m_scale;
+    int m_clickPoint;
 
   signals:
     void cursorMoved(int);

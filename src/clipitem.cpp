@@ -20,29 +20,73 @@
 
 
 #include <QPainter>
+#include <QTimer>
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsScene>
+
+
 #include <KDebug>
 
+#include <mlt++/Mlt.h>
 
 #include "clipitem.h"
+#include "renderer.h"
+#include "kdenlivesettings.h"
 
-ClipItem::ClipItem(int clipType, QString name, int producer, int maxDuration, const QRectF & rect)
-    : QGraphicsRectItem(rect), m_resizeMode(NONE), m_grabPoint(0), m_clipType(clipType), m_clipName(name), m_producer(producer), m_cropStart(0), m_cropDuration(maxDuration), m_maxDuration(maxDuration), m_maxTrack(0)
+ClipItem::ClipItem(QDomElement xml, int track, int startpos, const QRectF & rect, int duration)
+    : QGraphicsRectItem(rect), m_xml(xml), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos)
 {
-  setToolTip(name);
+  //setToolTip(name);
+
+  m_clipName = xml.attribute("name");
+  if (m_clipName.isEmpty()) m_clipName = KUrl(xml.attribute("resource")).fileName();
+
+  m_producer = xml.attribute("id").toInt();
+
+  m_clipType = xml.attribute("type").toInt();
+
+  m_cropStart = xml.attribute("in", 0).toInt();
+  m_maxDuration = xml.attribute("duration", 0).toInt();
+  if (m_maxDuration == 0) m_maxDuration = xml.attribute("out", 0).toInt() - m_cropStart;
+
+  if (duration != -1) m_cropDuration = duration;
+  else m_cropDuration = m_maxDuration;
+
   //setCursor(Qt::SizeHorCursor);
   setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemClipsChildrenToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-  m_label = new LabelItem( name, this);
+  m_label = new LabelItem( m_clipName, this);
   QRectF textRect = m_label->boundingRect();
   m_textWidth = textRect.width();
   m_label->setPos(rect.x() + rect.width()/2 - m_textWidth/2, rect.y() + rect.height() / 2 - textRect.height()/2);
   setBrush(QColor(100, 100, 150));
+  m_thumbProd = new KThumb(KUrl(xml.attribute("resource")));
+  connect(this, SIGNAL(getThumb(int, int, int, int)), m_thumbProd, SLOT(extractImage(int, int, int, int)));
+  connect(m_thumbProd, SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
+  QTimer::singleShot(300, this, SLOT(slotFetchThumbs())); 
+
+  //m_startPix.load("/home/one/Desktop/thumb.jpg");
+}
+
+void ClipItem::slotFetchThumbs()
+{
+  emit getThumb(m_cropStart, m_cropStart + m_cropDuration, 50 * KdenliveSettings::project_display_ratio(), 50);
+}
+
+void ClipItem::slotThumbReady(int frame, QPixmap pix)
+{
+  if (frame == m_cropStart) m_startPix = pix;
+  else m_endPix = pix;
+  update();
 }
 
 int ClipItem::type () const
 {
   return 70000;
+}
+
+QDomElement ClipItem::xml() const
+{
+  return m_xml;
 }
 
 int ClipItem::clipType()
@@ -65,34 +109,64 @@ int ClipItem::maxDuration()
   return m_maxDuration;
 }
 
+int ClipItem::duration()
+{
+  return m_cropDuration;
+}
+
+int ClipItem::startPos()
+{
+  return m_startPos;
+}
+
 // virtual 
  void ClipItem::paint(QPainter *painter,
                            const QStyleOptionGraphicsItem *option,
                            QWidget *widget)
  {
+    QRectF br = rect();
+    painter->setRenderHints(QPainter::Antialiasing);
+    QPainterPath roundRectPath;
+    double roundingY = 20;
+    double roundingX = 20;
+    double offset = 1;
+    painter->setClipRect(option->exposedRect);
+    if (roundingX > br.width() / 2) roundingX = br.width() / 2;
+    //kDebug()<<"-----PAINTING, SCAL: "<<scale<<", height: "<<br.height();
+    roundRectPath.moveTo(br.x() + br .width() - offset, br.y() + roundingY);
+    roundRectPath.arcTo(br.x() + br .width() - roundingX - offset, br.y(), roundingX, roundingY, 0.0, 90.0);
+    roundRectPath.lineTo(br.x() + roundingX, br.y());
+    roundRectPath.arcTo(br.x() + offset, br.y(), roundingX, roundingY, 90.0, 90.0);
+    roundRectPath.lineTo(br.x() + offset, br.y() + br.height() - roundingY);
+    roundRectPath.arcTo(br.x() + offset, br.y() + br.height() - roundingY - offset, roundingX, roundingY, 180.0, 90.0);
+    roundRectPath.lineTo(br.x() + br .width() - roundingX, br.y() + br.height() - offset);
+    roundRectPath.arcTo(br.x() + br .width() - roundingX - offset, br.y() + br.height() - roundingY - offset, roundingX, roundingY, 270.0, 90.0);
+    roundRectPath.closeSubpath();
+    painter->fillPath(roundRectPath, brush()); //, QBrush(QColor(Qt::red)));
+    painter->setClipPath(roundRectPath, Qt::IntersectClip);
+    painter->drawPixmap(QPointF(br.x() + br.width() - m_endPix.width(), br.y()), m_endPix);
+    QLineF l(br.x() + br.width() - m_endPix.width(), br.y(), br.x() + br.width() - m_endPix.width(), br.y() + br.height());
+    painter->drawLine(l);
 
-    //painter->setClipRect( option->exposedRect );
-    /*painter->setRenderHint(QPainter::TextAntialiasing);
-    painter->fillRect(rect(), QColor(200, 50, 50, 150));
-    QPointF pos = option->matrix.map(QPointF(1.0, 1.0));
-    //painter->setPen(QPen(Qt::black, 1.0 / option->levelOfDetail));
-    painter->setPen(QPen(Qt::black, 1.0 / pos.x()));
-    double scale = 1.0 / pos.x();
-    //QPointF size = option->matrix.map(QPointF(1, 1));
-    //double off = painter->pen().width();
-    QRectF br = boundingRect();
-    QRectF recta(rect().x(), rect().y(), scale,rect().height());
+    painter->drawPixmap(QPointF(br.x(), br.y()), m_startPix);
+    QLineF l2(br.x() + m_startPix.width(), br.y(), br.x() + m_startPix.width(), br.y() + br.height());
+    painter->drawLine(l2);
+    painter->setClipRect(option->exposedRect);
+    painter->drawPath(roundRectPath);
+    //painter->fillRect(QRect(br.x(), br.y(), roundingX, roundingY), QBrush(QColor(Qt::green)));
+
+    /*QRectF recta(rect().x(), rect().y(), scale,rect().height());
     painter->drawRect(recta);
-    //painter->drawLine(rect().x() + 1, rect().y(), rect().x() + 1, rect().y() + rect().height());
+    painter->drawLine(rect().x() + 1, rect().y(), rect().x() + 1, rect().y() + rect().height());
     painter->drawLine(rect().x() + rect().width(), rect().y(), rect().x() + rect().width(), rect().y() + rect().height());
-    painter->setPen(QPen(Qt::black, 1.0 / pos.y()));
+    painter->setPen(QPen(Qt::black, 1.0));
     painter->drawLine(rect().x(), rect().y(), rect().x() + rect().width(), rect().y());
     painter->drawLine(rect().x(), rect().y() + rect().height(), rect().x() + rect().width(), rect().y() + rect().height());*/
 
-    QGraphicsRectItem::paint(painter, option, widget);
+    //QGraphicsRectItem::paint(painter, option, widget);
     //QPen pen(Qt::green, 1.0 / size.x() + 0.5);
     //painter->setPen(pen);
-    //painter->drawLine(rect().x(), rect().y(), rect().x() + rect().width(), rect().y());*/
+    //painter->drawLine(rect().x(), rect().y(), rect().x() + rect().width(), rect().y());
     //kDebug()<<"ITEM REPAINT RECT: "<<boundingRect().width();
     //painter->drawText(rect(), Qt::AlignCenter, m_name);
     // painter->drawRect(boundingRect());
@@ -113,6 +187,7 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
     return MOVE;
 }
 
+
 // virtual
  void ClipItem::mousePressEvent ( QGraphicsSceneMouseEvent * event ) 
  {
@@ -131,17 +206,18 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
     QGraphicsRectItem::mouseReleaseEvent(event);
  }
 
- void ClipItem::moveTo(double x, double offset)
+ void ClipItem::moveTo(double x, double scale, double offset, int newTrack)
  {
   double origX = rect().x();
   double origY = rect().y();
-    setRect(x, origY + offset, rect().width(), rect().height());
-
-    QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
-    for (int i = 0; i < collisionList.size(); ++i) {
-      QGraphicsItem *item = collisionList.at(i);
-      if (item->type() == 70000)
-      {
+  bool success = true;
+  setRect(x, origY + offset, rect().width(), rect().height());
+  QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
+  if (collisionList.size() == 0) m_track = newTrack;
+  for (int i = 0; i < collisionList.size(); ++i) {
+    QGraphicsItem *item = collisionList.at(i);
+    if (item->type() == 70000)
+    {
 	if (offset == 0)
 	{
 	  QRectF other = ((QGraphicsRectItem *)item)->rect();
@@ -157,11 +233,15 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
 	setRect(origX, origY, rect().width(), rect().height());
 	offset = 0;
 	origX = rect().x();
+	success = false;
 	break;
       }
     }
-
-    QList <QGraphicsItem *> childrenList = children();
+    if (success) {
+	m_track = newTrack;
+	m_startPos = x / scale;
+    }
+    QList <QGraphicsItem *> childrenList = QGraphicsItem::children();
     for (int i = 0; i < childrenList.size(); ++i) {
       childrenList.at(i)->moveBy(rect().x() - origX , offset);
     }
@@ -192,7 +272,7 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
 	    break;
 	  }
       }
-      QList <QGraphicsItem *> childrenList = children();
+      QList <QGraphicsItem *> childrenList = QGraphicsItem::children();
       for (int i = 0; i < childrenList.size(); ++i) {
 	childrenList.at(i)->moveBy((moveX - originalX) / 2 , 0);
       }
@@ -216,13 +296,13 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
 	  }
       }
 
-      QList <QGraphicsItem *> childrenList = children();
+      QList <QGraphicsItem *> childrenList = QGraphicsItem::children();
       for (int i = 0; i < childrenList.size(); ++i) {
 	childrenList.at(i)->moveBy((newWidth - originalWidth) / 2 , 0);
       }
       return;
     }
-    if (m_resizeMode == MOVE) {
+    /*if (m_resizeMode == MOVE) {
       kDebug()<<"///////  MOVE CLIP, EVENT Y: "<<event->scenePos().y()<<", SCENE HEIGHT: "<<scene()->sceneRect().height();
       int moveTrack = (int) event->scenePos().y() / 50;
       int currentTrack = (int) rect().y() / 50;
@@ -233,8 +313,18 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
       }
       if (offset != 0) offset = 50 * offset;
       moveTo(moveX - m_grabPoint, offset);
-    }
+    }*/
  }
+
+int ClipItem::track()
+{
+  return  m_track;
+}
+
+void ClipItem::setTrack(int track)
+{
+  m_track = track;
+}
 
 
 // virtual 

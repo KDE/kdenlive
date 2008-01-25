@@ -22,26 +22,35 @@
 #define CLIPITEM_H
 
 #include <QGraphicsRectItem>
+#include <QDomElement>
 #include <QGraphicsSceneMouseEvent>
 
 #include "labelitem.h"
 #include "definitions.h"
+#include "kthumb.h"
 
-class ClipItem : public QGraphicsRectItem
+
+class ClipItem : public QObject, public QGraphicsRectItem
 {
-  
+  Q_OBJECT
+
   public:
-    ClipItem(int clipType, QString name, int producer, int maxDuration, const QRectF & rect);
+    ClipItem(QDomElement xml, int track, int startpos, const QRectF & rect, int duration = -1);
     virtual void paint(QPainter *painter,
                            const QStyleOptionGraphicsItem *option,
                            QWidget *widget);
     virtual int type () const;
-    void moveTo(double x, double offset);
+    void moveTo(double x, double scale, double offset, int newTrack);
     OPERATIONTYPE operationMode(QPointF pos);
     int clipProducer();
     int clipType();
     QString clipName();
     int maxDuration();
+    int track();
+    void setTrack(int track);
+    int startPos();
+    int duration();
+    QDomElement xml() const;
 
   protected:
     virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
@@ -49,6 +58,7 @@ class ClipItem : public QGraphicsRectItem
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
 
   private:
+    QDomElement m_xml;
     LabelItem *m_label;
     int m_textWidth;
     OPERATIONTYPE m_resizeMode;
@@ -60,6 +70,19 @@ class ClipItem : public QGraphicsRectItem
     int m_cropStart;
     int m_cropDuration;
     int m_maxTrack;
+    int m_track;
+    int m_startPos;
+    QPixmap m_startPix;
+    QPixmap m_endPix;
+    KThumb *m_thumbProd;
+
+  private slots:
+    void slotThumbReady(int frame, QPixmap pix);
+    void slotFetchThumbs();
+
+  signals:
+    void getThumb(int, int, int, int);
+
 };
 
 #endif

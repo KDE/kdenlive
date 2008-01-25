@@ -30,7 +30,8 @@ LabelItem::LabelItem(QString text, QGraphicsRectItem *parent)
     : QGraphicsSimpleTextItem(" " + text + " ", parent)
 {
   //setParentItem(parent); 
-  setFlags(QGraphicsItem::ItemIgnoresTransformations);
+  //setFlags(QGraphicsItem::ItemIgnoresTransformations);
+  setZValue(200);
 }
 
 int LabelItem::type () const
@@ -44,7 +45,7 @@ int LabelItem::type () const
                            const QStyleOptionGraphicsItem *option,
                            QWidget *widget)
  {
-    kDebug()<<"REPAINT LABEL ------------------------";
+    //kDebug()<<"REPAINT LABEL ------------------------";
     QRectF rep = option->exposedRect;
     //painter->setClipRect(rep);
     QGraphicsRectItem *parent = (QGraphicsRectItem *) parentItem();

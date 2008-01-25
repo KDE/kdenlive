@@ -45,7 +45,7 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
 
   m_scene = new QGraphicsScene();
   m_trackview = new CustomTrackView(m_doc->commandStack(), m_scene, this);
-  m_trackview->scale(FRAME_SIZE, 1);
+  m_trackview->scale(1, 1);
   m_trackview->setAlignment(Qt::AlignLeft | Qt::AlignTop);
   //m_scene->addRect(QRectF(0, 0, 100, 100), QPen(), QBrush(Qt::red));
 
@@ -130,15 +130,15 @@ void TrackView::slotCursorMoved(int pos, bool emitSignal)
 void TrackView::slotChangeZoom(int factor)
 {
   m_ruler->setPixelPerMark(factor);
-  m_scale = (double) m_ruler->comboScale[m_currentZoom] / m_ruler->comboScale[factor];
+  m_scale = (double) FRAME_SIZE / m_ruler->comboScale[factor]; // m_ruler->comboScale[m_currentZoom] / 
   m_currentZoom = factor;
-  m_trackview->scale(m_scale, 1);
+  m_trackview->setScale(m_scale);
   m_trackview->centerOn(QPointF(m_trackview->cursorPos(), 50));
 }
 
 const double TrackView::zoomFactor() const
 {
-  return m_scale * FRAME_SIZE;
+  return m_scale;
 }
 
 void TrackView::slotZoomIn()
@@ -192,10 +192,8 @@ int TrackView::slotAddVideoTrack(int ix, QDomElement xml)
     else if (elem.tagName() == "entry") {
     int in = elem.attribute("in", 0).toInt();
     int out = elem.attribute("out", 0).toInt() - in;
-    QString clipName = m_doc->producerName(elem.attribute("producer").toInt());
-    int clipMaxDuration = m_doc->getProducerDuration(elem.attribute("producer").toInt());
     //kDebug()<<"++++++++++++++\n\n / / /ADDING CLIP: "<<clip.cropTime<<", out: "<<clip.duration<<", Producer: "<<clip.producer<<"\n\n++++++++++++++++++++";
-    ClipItem *item = new ClipItem(elem.attribute("type").toInt(), clipName, elem.attribute("producer").toInt(), clipMaxDuration, QRectF(position, trackTop + 1, out, 49));
+    ClipItem *item = new ClipItem(elem, ix, in, QRectF(position * m_scale, trackTop + 1, out * m_scale, 49), out);
     m_scene->addItem(item);
     position += out;
 
@@ -239,7 +237,6 @@ const QString & TrackView::editMode() const
 
 /** This event occurs when the mouse has been moved. */
     void TrackView::mouseMoveEvent(QMouseEvent * event) {
-    kDebug()<<"--------  TRACKVIEW MOUSE MOVE EVENT -----";
 	if (m_panelUnderMouse) {
 	    if (event->buttons() & Qt::LeftButton) {
 		bool result = false;

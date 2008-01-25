@@ -13,4 +13,11 @@
       <default>00:00:05:00</default>
     </entry>
   </group>
+
+  <group name="unmanaged">
+    <entry name="project_display_ratio" type="Double">
+      <label>Current project display ratio.</label>
+      <default>1.7777778</default>
+    </entry>
+  </group>
 </kcfg>
