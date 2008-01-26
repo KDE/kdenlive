@@ -31,13 +31,14 @@
 #include "projectitem.h"
 #include "timecode.h"
 
+
   const int NameRole = Qt::UserRole;
   const int DurationRole = NameRole + 1;
   const int FullPathRole = NameRole + 2;
   const int ClipTypeRole = NameRole + 3;
 
 ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, QDomElement xml, int clipId)
-    : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_clipType(DocClipBase::NONE), m_clipId(clipId), m_isGroup(false), m_groupName(QString::null)
+    : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_clipType(UNKNOWN), m_clipId(clipId), m_isGroup(false), m_groupName(QString::null)
 {
   m_element = xml.cloneNode().toElement();
   setSizeHint(0, QSize(65, 45));
@@ -46,14 +47,19 @@ ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, QDom
     m_element.setAttribute("id", clipId);
     QString cType = m_element.attribute("type", QString::null);
     if (!cType.isEmpty()) {
-      m_clipType = (DocClipBase::CLIPTYPE) cType.toInt();
+      m_clipType = (CLIPTYPE) cType.toInt();
       slotSetToolTip();
+    }
+
+    if (m_clipType == COLOR || m_clipType == IMAGE) m_element.setAttribute("duration", MAXCLIPDURATION);
+    else if (m_element.attribute("duration").isEmpty() && !m_element.attribute("out").isEmpty()) {
+      m_element.setAttribute("duration", m_element.attribute("out").toInt() - m_element.attribute("in").toInt());
     }
   }
 }
 
 ProjectItem::ProjectItem(QTreeWidgetItem * parent, const QStringList & strings, QDomElement xml, int clipId)
-    : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_clipType(DocClipBase::NONE), m_clipId(clipId), m_isGroup(false), m_groupName(QString::null)
+    : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_clipType(UNKNOWN), m_clipId(clipId), m_isGroup(false), m_groupName(QString::null)
 {
   m_element = xml.cloneNode().toElement();
   setSizeHint(0, QSize(65, 45));
@@ -62,14 +68,14 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, const QStringList & strings, 
     m_element.setAttribute("id", clipId);
     QString cType = m_element.attribute("type", QString::null);
     if (!cType.isEmpty()) {
-      m_clipType = (DocClipBase::CLIPTYPE) cType.toInt();
+      m_clipType = (CLIPTYPE) cType.toInt();
       slotSetToolTip();
     }
   }
 }
 
 ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, int clipId)
-    : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_element(QDomElement()), m_clipType(DocClipBase::NONE), m_clipId(clipId), m_isGroup(true), m_groupName(strings.at(1))
+    : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_element(QDomElement()), m_clipType(UNKNOWN), m_clipId(clipId), m_isGroup(true), m_groupName(strings.at(1))
 {
   setSizeHint(0, QSize(65, 45));
   setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
@@ -116,7 +122,7 @@ QDomElement ProjectItem::toXml() const
 
 const KUrl ProjectItem::clipUrl() const
 {
-    if (m_clipType != DocClipBase::COLOR && m_clipType != DocClipBase::VIRTUAL && m_clipType != DocClipBase::NONE)
+    if (m_clipType != COLOR && m_clipType != VIRTUAL && m_clipType != UNKNOWN)
       return KUrl(m_element.attribute("resouce"));
     else return KUrl();
 }
@@ -165,7 +171,7 @@ void ProjectItem::slotSetToolTip()
 void ProjectItem::setProperties(const QMap < QString, QString > &attributes, const QMap < QString, QString > &metadata)
 {
 	if (attributes.contains("duration")) {
-	    if (m_clipType == DocClipBase::AUDIO || m_clipType == DocClipBase::VIDEO || m_clipType == DocClipBase::AV) m_element.setAttribute("duration", attributes["duration"].toInt());
+	    if (m_clipType == AUDIO || m_clipType == VIDEO || m_clipType == AV) m_element.setAttribute("duration", attributes["duration"].toInt());
 	    m_duration = GenTime(attributes["duration"].toInt(), 25);
 	    setData(1, DurationRole, Timecode::getEasyTimecode(m_duration, 25));
 	    m_durationKnown = true;
@@ -178,18 +184,18 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
 
 	//extend attributes -reh
 
-	if (m_clipType == DocClipBase::NONE) {
+	if (m_clipType == UNKNOWN) {
 	  if (attributes.contains("type")) {
 	    if (attributes["type"] == "audio")
-		m_clipType = DocClipBase::AUDIO;
+		m_clipType = AUDIO;
 	    else if (attributes["type"] == "video")
-		m_clipType = DocClipBase::VIDEO;
+		m_clipType = VIDEO;
 	    else if (attributes["type"] == "av")
-		m_clipType = DocClipBase::AV;
+		m_clipType = AV;
 	    else if (attributes["type"] == "playlist")
-		m_clipType = DocClipBase::PLAYLIST;
+		m_clipType = PLAYLIST;
 	  } else {
-	    m_clipType = DocClipBase::AV;
+	    m_clipType = AV;
 	  }
 	}
 	slotSetToolTip();
@@ -197,8 +203,8 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
 	if (m_element.isNull()) {
 	  QDomDocument doc;
 	  m_element = doc.createElement("producer");
-	  m_element.setAttribute("duration", attributes["duration"].toInt());
 	}
+	if (m_element.attribute("duration") == QString::null) m_element.setAttribute("duration", attributes["duration"].toInt());
 	m_element.setAttribute("resource", attributes["filename"]);
 	m_element.setAttribute("type", (int) m_clipType);
 /*

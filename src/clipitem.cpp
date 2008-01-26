@@ -74,6 +74,9 @@ ClipItem::ClipItem(QDomElement xml, int track, int startpos, const QRectF & rect
     colour = colour.replace(0, 2, "#");
     setBrush(QColor(colour.left(7)));
   }
+  else if (m_clipType == IMAGE) {
+    m_startPix = KThumb::getImage(KUrl(xml.attribute("resource")), 50 * KdenliveSettings::project_display_ratio(), 50);
+  }
   //m_startPix.load("/home/one/Desktop/thumb.jpg");
 }
 
@@ -178,10 +181,18 @@ int ClipItem::endPos()
     //painter->fillPath(roundRectPath, brush()); //, QBrush(QColor(Qt::red)));
     painter->fillRect(br, brush());
     //painter->fillRect(QRectF(br.x() + br.width() - m_endPix.width(), br.y(), m_endPix.width(), br.height()), QBrush(QColor(Qt::black)));
+
+    // draw thumbnails
     if (!m_startPix.isNull()) {
-      painter->drawPixmap(QPointF(br.x() + br.width() - m_endPix.width(), br.y()), m_endPix);
-      QLineF l(br.x() + br.width() - m_endPix.width(), br.y(), br.x() + br.width() - m_endPix.width(), br.y() + br.height());
-      painter->drawLine(l);
+      if (m_clipType == IMAGE) {
+	painter->drawPixmap(QPointF(br.x() + br.width() - m_startPix.width(), br.y()), m_startPix);
+	QLineF l(br.x() + br.width() - m_startPix.width(), br.y(), br.x() + br.width() - m_startPix.width(), br.y() + br.height());
+	painter->drawLine(l);
+      } else {
+	painter->drawPixmap(QPointF(br.x() + br.width() - m_endPix.width(), br.y()), m_endPix);
+	QLineF l(br.x() + br.width() - m_endPix.width(), br.y(), br.x() + br.width() - m_endPix.width(), br.y() + br.height());
+	painter->drawLine(l);
+      }
 
       painter->drawPixmap(QPointF(br.x(), br.y()), m_startPix);
       QLineF l2(br.x() + m_startPix.width(), br.y(), br.x() + m_startPix.width(), br.y() + br.height());
@@ -191,7 +202,8 @@ int ClipItem::endPos()
     QPen pen = painter->pen();
     pen.setColor(Qt::red);
     pen.setStyle(Qt::DashDotDotLine); //Qt::DotLine);
-    
+
+    // Draw clip name
     QRectF txtBounding = painter->boundingRect(br, Qt::AlignCenter, " " + m_clipName + " ");
     painter->fillRect(txtBounding, QBrush(QColor(255,255,255,150)));
     painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);

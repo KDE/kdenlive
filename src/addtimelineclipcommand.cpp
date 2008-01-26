@@ -17,6 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include <KLocale>
+
 #include "addtimelineclipcommand.h"
 
 AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, int track, int startpos, QRectF rect, int duration, bool doIt)

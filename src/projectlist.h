@@ -28,7 +28,7 @@
 #include <KUndoStack>
 #include <KTreeWidgetSearchLine>
 
-#include "docclipbase.h"
+#include "definitions.h"
 #include "kdenlivedoc.h"
 #include "renderer.h"
 #include "timecode.h"

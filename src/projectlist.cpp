@@ -39,6 +39,7 @@
 #include "ui_colorclip_ui.h"
 
 #include "addclipcommand.h"
+#include "definitions.h"
 
 #include <QtGui>
 
@@ -323,9 +324,18 @@ void ProjectList::slotAddClip(QUrl givenUrl, const QString &group)
 
   for (it = list.begin(); it != list.end(); it++) {
       QStringList itemEntry;
+      QDomDocument doc;
+      QDomElement prod = doc.createElement("producer");
+      prod.setAttribute("resource", (*it).path());
       itemEntry.append(QString::null);
       itemEntry.append((*it).fileName());
-      AddClipCommand *command = new AddClipCommand(this, itemEntry, QDomElement(), m_clipIdCounter++, *it, group, true);
+      KMimeType::Ptr type = KMimeType::findByUrl(*it);
+      if (type->name().startsWith("image/")) {
+	prod.setAttribute("type", (int) IMAGE);
+	prod.setAttribute("in", "0");
+	prod.setAttribute("out", m_timecode.getFrameCount(KdenliveSettings::image_duration(), m_fps));
+      }
+      AddClipCommand *command = new AddClipCommand(this, itemEntry, prod, m_clipIdCounter++, *it, group, true);
       m_commandStack->push(command);
       //item = new ProjectItem(listView, itemEntry, QDomElement());
       //item->setData(1, FullPathRole, (*it).path());
@@ -349,7 +359,7 @@ void ProjectList::slotAddColorClip()
     QString color = dia_ui->clip_color->color().name();
     color = color.replace(0, 1, "0x") + "ff";
     element.setAttribute("colour", color);
-    element.setAttribute("type", (int) DocClipBase::COLOR);
+    element.setAttribute("type", (int) COLOR);
     element.setAttribute("in", "0");
     element.setAttribute("out", m_timecode.getFrameCount(dia_ui->clip_duration->text(), m_fps));
     element.setAttribute("name", dia_ui->clip_name->text());
@@ -437,7 +447,7 @@ ProjectItem *ProjectList::getItemById(int id)
 void ProjectList::addProducer(QDomElement producer, int parentId)
 {
   if (!m_commandStack) kDebug()<<"!!!!!!!!!!!!!!!!  NO CMD STK";
-  DocClipBase::CLIPTYPE type = (DocClipBase::CLIPTYPE) producer.attribute("type").toInt();
+  CLIPTYPE type = (CLIPTYPE) producer.attribute("type").toInt();
 
     /*QDomDocument doc;
     QDomElement prods = doc.createElement("list");
@@ -455,7 +465,7 @@ void ProjectList::addProducer(QDomElement producer, int parentId)
     // item is a westley playlist, adjust subproducers ids 
     id = (parentId + 1) * 10000 + id;
   }
-  if (type == DocClipBase::AUDIO || type == DocClipBase::VIDEO || type == DocClipBase::AV || type == DocClipBase::IMAGE  || type == DocClipBase::PLAYLIST)
+  if (type == AUDIO || type == VIDEO || type == AV || type == IMAGE  || type == PLAYLIST)
   {
     KUrl resource = KUrl(producer.attribute("resource"));
     if (!resource.isEmpty()) {
@@ -473,7 +483,7 @@ void ProjectList::addProducer(QDomElement producer, int parentId)
       
     }
   }
-  else if (type == DocClipBase::COLOR) {
+  else if (type == COLOR) {
     QString colour = producer.attribute("colour");
     QPixmap pix(60, 40);
     colour = colour.replace(0, 2, "#");

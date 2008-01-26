@@ -17,6 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include <KLocale>
+
 #include "moveclipcommand.h"
 
 MoveClipCommand::MoveClipCommand(CustomTrackView *view, const QPointF startPos, const QPointF endPos, bool doIt)

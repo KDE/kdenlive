@@ -300,11 +300,11 @@ void CustomTrackView::addItem(QString producer, QPoint pos)
   doc.setContent(producer);
   QDomElement elem = doc.documentElement();
   int in = elem.attribute("in", 0).toInt();
-  int out = elem.attribute("duration", 0).toInt();
-  if (out == 0) out = elem.attribute("out", 0).toInt() - in;
+  int out = elem.attribute("out", 0).toInt() - in;
+  if (out == 0) out = elem.attribute("duration", 0).toInt();
   kDebug()<<"ADDING CLIP: "<<producer<<", OUT: "<<out<<", POS: "<<mapToScene(pos);
   int trackTop = ((int) mapToScene(pos).y()/50) * 50 + 1;
-  m_dropItem = new ClipItem(elem, ((int) mapToScene(pos).y()/50), in, QRectF(mapToScene(pos).x() * m_scale, trackTop, out * m_scale, 49));
+  m_dropItem = new ClipItem(elem, ((int) mapToScene(pos).y()/50), in, QRectF(mapToScene(pos).x() * m_scale, trackTop, out * m_scale, 49), out);
   scene()->addItem(m_dropItem);
 }
 

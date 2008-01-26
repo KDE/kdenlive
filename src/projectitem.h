@@ -25,9 +25,10 @@
 #include <QTreeWidget>
 #include <QDomElement>
 
-#include "gentime.h"
-#include "docclipbase.h"
+#include <KUrl>
 
+#include "gentime.h"
+#include "definitions.h"
 
 class ProjectItem : public QTreeWidgetItem
 {
@@ -50,7 +51,7 @@ class ProjectItem : public QTreeWidgetItem
     QDomElement m_element;
     GenTime m_duration;
     bool m_durationKnown;
-    DocClipBase::CLIPTYPE m_clipType;
+    CLIPTYPE m_clipType;
     int m_clipId;
     void slotSetToolTip();
     bool m_isGroup;
