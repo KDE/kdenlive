@@ -90,20 +90,27 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
       if (m_dragItem) { //event->button() == Qt::LeftButton) {
 	// a button was pressed, delete visual tips
 
-if (m_operationMode == MOVE) {
-      int moveX = mapToScene(event->pos()).x();
-      //kDebug()<<"///////  MOVE CLIP, EVENT Y: "<<event->scenePos().y()<<", SCENE HEIGHT: "<<scene()->sceneRect().height();
-      int moveTrack = (int)  mapToScene(event->pos()).y() / 50;
-      int currentTrack = m_dragItem->track();
+	if (m_operationMode == MOVE) {
+	  int moveX = mapToScene(event->pos()).x();
+	  //kDebug()<<"///////  MOVE CLIP, EVENT Y: "<<event->scenePos().y()<<", SCENE HEIGHT: "<<scene()->sceneRect().height();
+	  int moveTrack = (int)  mapToScene(event->pos()).y() / 50;
+	  int currentTrack = m_dragItem->track();
 
-      if (moveTrack > m_tracksCount - 1) moveTrack = m_tracksCount - 1;
-      else if (moveTrack < 0) moveTrack = 0;
+	  if (moveTrack > m_tracksCount - 1) moveTrack = m_tracksCount - 1;
+	  else if (moveTrack < 0) moveTrack = 0;
 
-      int offset = moveTrack - currentTrack;
-      if (offset != 0) offset = 50 * offset;
-      m_dragItem->moveTo(moveX - m_clickPoint, m_scale, offset, moveTrack);
-  }
-
+	  int offset = moveTrack - currentTrack;
+	  if (offset != 0) offset = 50 * offset;
+	  m_dragItem->moveTo((moveX - m_clickPoint) / m_scale, m_scale, offset, moveTrack);
+	}
+	else if (m_operationMode == RESIZESTART) {
+	  int pos = mapToScene(event->pos()).x();
+	  m_dragItem->resizeStart(pos / m_scale, m_scale);
+	}
+	else if (m_operationMode == RESIZEEND) {
+	  int pos = mapToScene(event->pos()).x();
+	  m_dragItem->resizeEnd(pos / m_scale, m_scale);
+	}
 	if (m_animation) delete m_animation;
 	m_animation = NULL;
 	if (m_visualTip) delete m_visualTip;
@@ -250,29 +257,22 @@ void CustomTrackView::mousePressEvent ( QMouseEvent * event )
   else if (event->modifiers() == Qt::ShiftModifier) 
     setDragMode(QGraphicsView::RubberBandDrag);
   else {
-    QGraphicsItem * item = itemAt(event->pos());
-    if (item && item->type() != 70000) item = item->parentItem();
-    if (item && item->type() == 70000) {
-      m_dragItem = (ClipItem *) item;
-      m_clickPoint = mapToScene(event->pos()).x() - m_dragItem->startPos() * m_scale;
-      m_operationMode = m_dragItem->operationMode(item->mapFromScene(mapToScene(event->pos())));
-      if (m_operationMode == MOVE || m_operationMode == RESIZESTART) m_startPos = QPointF(m_dragItem->startPos(), m_dragItem->track());
-      else if (m_operationMode == RESIZEEND) m_startPos = QPointF(m_dragItem->startPos() + m_dragItem->duration(), m_dragItem->track());
-
-     kDebug()<<"//////// ITEM CLICKED: "<<m_startPos;
-      /*while (item->parentItem()) 
-	item = item->parentItem();
-
-	int cursorPos = event->x();
-	QRectF itemRect = item->sceneBoundingRect();
-	int itemStart = mapFromScene(itemRect.x(), 0).x();
-	int itemEnd = mapFromScene(itemRect.x() + itemRect.width(), 0).x();
-	if (abs(itemStart - cursorPos) < 6)
-	  ((ClipItem *) item )->setResizeMode(1);
-	else if (abs(itemEnd - cursorPos) < 6)
-	  ((ClipItem *) item )->setResizeMode(2);
-    */}
-    else {
+    bool collision = false;
+    QList<QGraphicsItem *> collisionList = items(event->pos());
+    for (int i = 0; i < collisionList.size(); ++i) {
+      QGraphicsItem *item = collisionList.at(i);
+      if (item->type() == 70000) {
+	m_dragItem = (ClipItem *) item;
+	m_clickPoint = mapToScene(event->pos()).x() - m_dragItem->startPos() * m_scale;
+	m_operationMode = m_dragItem->operationMode(item->mapFromScene(mapToScene(event->pos())));
+	if (m_operationMode == MOVE || m_operationMode == RESIZESTART) m_startPos = QPointF(m_dragItem->startPos(), m_dragItem->track());
+	else if (m_operationMode == RESIZEEND) m_startPos = QPointF(m_dragItem->endPos(), m_dragItem->track());
+	kDebug()<<"//////// ITEM CLICKED: "<<m_startPos;
+	collision = true;
+	break;
+      }
+    }
+    if (!collision) {
       kDebug()<<"//////// NO ITEM FOUND ON CLICK";
       m_dragItem = NULL;
       setCursor(Qt::ArrowCursor);
@@ -314,7 +314,7 @@ void CustomTrackView::dragMoveEvent(QDragMoveEvent * event) {
   if (m_dropItem) {
     int track = (int) mapToScene(event->pos()).y()/50; //) * (m_scale * 50) + m_scale;
      kDebug()<<"+++++++++++++   DRAG MOVE, : "<<mapToScene(event->pos()).x()<<", SCAL: "<<m_scale;
-    m_dropItem->moveTo(mapToScene(event->pos()).x(), m_scale, (track - m_dropItem->track()) * 50, track);
+    m_dropItem->moveTo(mapToScene(event->pos()).x() / m_scale, m_scale, (track - m_dropItem->track()) * 50, track);
   }
        //if (item) {
   event->setDropAction(Qt::MoveAction);
@@ -401,12 +401,12 @@ void CustomTrackView::mouseReleaseEvent ( QMouseEvent * event )
   }
   else if (m_operationMode == RESIZESTART) {
     // resize start
-    ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->rect().x(), m_dragItem->rect().y()), true, false);
+    ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->startPos(), m_dragItem->track()), true, false);
     m_commandStack->push(command);
   }
   else if (m_operationMode == RESIZEEND) {
     // resize end
-    ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->rect().x() + m_dragItem->rect().width(), m_dragItem->rect().y()), false, false);
+    ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->endPos(), m_dragItem->track()), false, false);
     m_commandStack->push(command);
   }
   m_dragItem = NULL; 
@@ -437,12 +437,7 @@ void CustomTrackView::moveClip ( const QPointF &startPos, const QPointF &endPos 
     return;
   }
   kDebug()<<"----------------  Move CLIP FROM: "<<startPos.x()<<", END:"<<endPos.x();
-  //item->setRect(QRectF(endPos.x() * m_scale, endPos.y() * 50, item->rect().width(), item->rect().height()));
-  item->moveTo(endPos.x() * m_scale, m_scale, (endPos.y() - startPos.y()) * 50, endPos.y());
-  /*QList <QGraphicsItem *> childrenList = item->children();
-  for (int i = 0; i < childrenList.size(); ++i) {
-    childrenList.at(i)->moveBy((endPos.x() - startPos.x()) * m_scale , (endPos.y() - startPos.y()) * 50);
-  }*/
+  item->moveTo(endPos.x(), m_scale, (endPos.y() - startPos.y()) * 50, endPos.y());
 }
 
 void CustomTrackView::resizeClip ( const QPointF &startPos, const QPointF &endPos, bool resizeClipStart )
@@ -450,26 +445,17 @@ void CustomTrackView::resizeClip ( const QPointF &startPos, const QPointF &endPo
   int offset;
   if (resizeClipStart) offset = 1;
   else offset = -1;
-  ClipItem *item = (ClipItem *) scene()->itemAt(startPos.x() + offset, startPos.y() + 1);
+  ClipItem *item = (ClipItem *) scene()->itemAt((startPos.x() + offset) * m_scale, startPos.y() * 50 + 25);
   if (!item) {
     kDebug()<<"----------------  ERROR, CANNOT find clip to resize at: "<<startPos;
     return;
   }
   qreal diff = endPos.x() - startPos.x();
   if (resizeClipStart) {
-    item->setRect(QRectF(endPos.x(), endPos.y(), item->rect().width() - diff, item->rect().height()));
-    QList <QGraphicsItem *> childrenList = item->QGraphicsItem::children();
-    for (int i = 0; i < childrenList.size(); ++i) {
-      childrenList.at(i)->moveBy(diff / 2 , endPos.y() - startPos.y());
-    }
+    item->resizeStart(endPos.x(), m_scale);
   }
   else {
-    //kdDebug()<<"///////  RESIZE CLIP END: "<<item->rect().x()<<", "<<item->rect().width()<<", "<<startPos<<", "<<endPos;
-    item->setRect(QRectF(item->rect().x(), item->rect().y(), endPos.x() - item->rect().x(), item->rect().height()));
-    QList <QGraphicsItem *> childrenList = item->QGraphicsItem::children();
-    for (int i = 0; i < childrenList.size(); ++i) {
-      childrenList.at(i)->moveBy(-diff/2, endPos.y() - startPos.y());
-    }
+    item->resizeEnd(endPos.x(), m_scale);
   }
 }
 
@@ -486,14 +472,14 @@ void CustomTrackView::setScale(double scaleFactor)
 	ClipItem *clip = (ClipItem *)itemList.at(i);
 	clip->setRect(clip->startPos() * m_scale, clip->rect().y(), clip->duration() * m_scale, clip->rect().height());
       }
-      else if (itemList.at(i)->type() == 70001) {
+      /*else if (itemList.at(i)->type() == 70001) {
 	LabelItem *label = (LabelItem *)itemList.at(i);
 	QGraphicsItem *parent = label->parentItem();
 	QRectF r = label->boundingRect();
 	QRectF p = parent->boundingRect();
 	label->setPos(p.x() + p.width() / 2 - r.width() / 2, p.y() + p.height() / 2 - r.height() / 2);
 	//label->setRect(clip->startPos() * m_scale, clip->rect().y(), clip->duration() * m_scale, clip->rect().height());
-      }
+      }*/
     }
 }
 

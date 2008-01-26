@@ -34,7 +34,7 @@
 #include "kdenlivesettings.h"
 
 ClipItem::ClipItem(QDomElement xml, int track, int startpos, const QRectF & rect, int duration)
-    : QGraphicsRectItem(rect), m_xml(xml), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_thumbProd(NULL)
+    : QGraphicsRectItem(rect), m_xml(xml), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_thumbProd(NULL), startThumbTimer(NULL), endThumbTimer(NULL)
 {
   //setToolTip(name);
 
@@ -52,18 +52,22 @@ ClipItem::ClipItem(QDomElement xml, int track, int startpos, const QRectF & rect
   if (duration != -1) m_cropDuration = duration;
   else m_cropDuration = m_maxDuration;
 
-  //setCursor(Qt::SizeHorCursor);
   setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemClipsChildrenToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-  m_label = new LabelItem( m_clipName, this);
-  QRectF textRect = m_label->boundingRect();
-  m_textWidth = textRect.width();
-  m_label->setPos(rect.x() + rect.width()/2 - m_textWidth/2, rect.y() + rect.height() / 2 - textRect.height()/2);
+
   setBrush(QColor(100, 100, 150));
   if (m_clipType == VIDEO || m_clipType == AV) {
     m_thumbProd = new KThumb(KUrl(xml.attribute("resource")));
     connect(this, SIGNAL(getThumb(int, int, int, int)), m_thumbProd, SLOT(extractImage(int, int, int, int)));
     connect(m_thumbProd, SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
-    QTimer::singleShot(300, this, SLOT(slotFetchThumbs())); 
+    QTimer::singleShot(300, this, SLOT(slotFetchThumbs()));
+
+    startThumbTimer = new QTimer(this);
+    startThumbTimer->setSingleShot(true);
+    connect(startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
+    endThumbTimer = new QTimer(this);
+    endThumbTimer->setSingleShot(true);
+    connect(endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
+
   }
   else if (m_clipType == COLOR) {
     QString colour = xml.attribute("colour");
@@ -73,9 +77,26 @@ ClipItem::ClipItem(QDomElement xml, int track, int startpos, const QRectF & rect
   //m_startPix.load("/home/one/Desktop/thumb.jpg");
 }
 
+ClipItem::~ClipItem()
+{
+  if (startThumbTimer) delete startThumbTimer;
+  if (endThumbTimer) delete endThumbTimer;
+  if (m_thumbProd) delete m_thumbProd;
+}
+
 void ClipItem::slotFetchThumbs()
 {
   emit getThumb(m_cropStart, m_cropStart + m_cropDuration, 50 * KdenliveSettings::project_display_ratio(), 50);
+}
+
+void ClipItem::slotGetStartThumb()
+{
+  emit getThumb(m_cropStart, -1, 50 * KdenliveSettings::project_display_ratio(), 50);
+}
+
+void ClipItem::slotGetEndThumb()
+{
+  emit getThumb(-1, m_cropStart + m_cropDuration, 50 * KdenliveSettings::project_display_ratio(), 50);
 }
 
 void ClipItem::slotThumbReady(int frame, QPixmap pix)
@@ -125,6 +146,11 @@ int ClipItem::startPos()
   return m_startPos;
 }
 
+int ClipItem::endPos()
+{
+  return m_startPos + m_cropDuration;
+}
+
 // virtual 
  void ClipItem::paint(QPainter *painter,
                            const QStyleOptionGraphicsItem *option,
@@ -165,6 +191,11 @@ int ClipItem::startPos()
     QPen pen = painter->pen();
     pen.setColor(Qt::red);
     pen.setStyle(Qt::DashDotDotLine); //Qt::DotLine);
+    
+    QRectF txtBounding = painter->boundingRect(br, Qt::AlignCenter, " " + m_clipName + " ");
+    painter->fillRect(txtBounding, QBrush(QColor(255,255,255,150)));
+    painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
+
     if (isSelected()) painter->setPen(pen);
     painter->drawPath(roundRectPath);
     //painter->fillRect(QRect(br.x(), br.y(), roundingX, roundingY), QBrush(QColor(Qt::green)));
@@ -220,12 +251,12 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
     QGraphicsRectItem::mouseReleaseEvent(event);
  }
 
- void ClipItem::moveTo(double x, double scale, double offset, int newTrack)
+ void ClipItem::moveTo(int x, double scale, double offset, int newTrack)
  {
   double origX = rect().x();
   double origY = rect().y();
   bool success = true;
-  setRect(x, origY + offset, rect().width(), rect().height());
+  setRect(x * scale, origY + offset, rect().width(), rect().height());
   QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
   if (collisionList.size() == 0) m_track = newTrack;
   for (int i = 0; i < collisionList.size(); ++i) {
@@ -235,13 +266,15 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
 	if (offset == 0)
 	{
 	  QRectF other = ((QGraphicsRectItem *)item)->rect();
-	  if (x < origX) {
+	  if (x < m_startPos) {
 	    kDebug()<<"COLLISION, MOVING TO------";
-	    origX = other.x() + other.width(); 
+	    m_startPos = ((ClipItem *)item)->endPos() + 1;
+	    origX = m_startPos * scale; 
 	  }
-	  else if (x > origX) {
+	  else {
 	    kDebug()<<"COLLISION, MOVING TO+++";
-	    origX = other.x() - rect().width(); 
+	    m_startPos = ((ClipItem *)item)->startPos() - m_cropDuration;
+	    origX = m_startPos * scale; 
 	  }
 	}
 	setRect(origX, origY, rect().width(), rect().height());
@@ -253,81 +286,75 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
     }
     if (success) {
 	m_track = newTrack;
-	m_startPos = x / scale;
+	m_startPos = x;
     }
-    QList <QGraphicsItem *> childrenList = QGraphicsItem::children();
+/*    QList <QGraphicsItem *> childrenList = QGraphicsItem::children();
     for (int i = 0; i < childrenList.size(); ++i) {
       childrenList.at(i)->moveBy(rect().x() - origX , offset);
-    }
+    }*/
  }
+
+void ClipItem::resizeStart(int posx, double scale)
+{
+    int durationDiff = posx - m_startPos;
+    if (durationDiff == 0) return;
+    kDebug()<<"-- RESCALE: CROP="<<m_cropStart<<", DIFF = "<<durationDiff;
+    if (m_cropStart + durationDiff < 0) {
+      durationDiff = -m_cropStart;
+    }
+    else if (durationDiff >= m_cropDuration) {
+      durationDiff = m_cropDuration - 3;
+    }
+    m_startPos += durationDiff;
+    m_cropStart += durationDiff;
+    m_cropDuration -= durationDiff;
+    setRect(m_startPos * scale, rect().y(), m_cropDuration * scale, rect().height());
+    QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
+    for (int i = 0; i < collisionList.size(); ++i) {
+      QGraphicsItem *item = collisionList.at(i);
+      if (item->type() == 70000)
+      {
+	int diff = ((ClipItem *)item)->endPos() + 1 - m_startPos;
+	setRect((m_startPos + diff) * scale, rect().y(), (m_cropDuration - diff) * scale, rect().height());
+	m_startPos += diff;
+	m_cropStart += diff;
+	m_cropDuration -= diff;
+	break;
+      }
+    }
+    if (m_thumbProd) startThumbTimer->start(100);
+}
+
+void ClipItem::resizeEnd(int posx, double scale)
+{
+    int durationDiff = posx - endPos();
+    if (durationDiff == 0) return;
+    kDebug()<<"-- RESCALE: CROP="<<m_cropStart<<", DIFF = "<<durationDiff;
+    if (m_cropDuration + durationDiff <= 0) {
+      durationDiff = - (m_cropDuration - 3);
+    }
+    else if (m_cropDuration + durationDiff >= m_maxDuration) {
+      durationDiff = m_maxDuration - m_cropDuration;
+    }
+    m_cropDuration += durationDiff;
+    setRect(m_startPos * scale, rect().y(), m_cropDuration * scale, rect().height());
+    QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
+    for (int i = 0; i < collisionList.size(); ++i) {
+      QGraphicsItem *item = collisionList.at(i);
+      if (item->type() == 70000)
+      {
+	int diff = ((ClipItem *)item)->startPos() - 1 - startPos();
+	m_cropDuration = diff;
+	setRect(m_startPos * scale, rect().y(), m_cropDuration * scale, rect().height());
+	break;
+      }
+    }
+    if (m_thumbProd) endThumbTimer->start(100);
+}
 
 // virtual
  void ClipItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event ) 
  {
-    double moveX = (int) event->scenePos().x();
-    double originalX = rect().x();
-    double originalWidth = rect().width();
-    if (m_resizeMode == RESIZESTART) {
-      if (m_cropStart - (originalX - moveX) < 0) moveX = originalX - m_cropStart;
-      if (originalX + rect().width() - moveX < 1) moveX = originalX + rect().width() + 2;
-      m_cropStart -= originalX - moveX;
-      kDebug()<<"MOVE CLIP START TO: "<<event->scenePos()<<", CROP: "<<m_cropStart;
-      setRect(moveX, rect().y(), originalX + rect().width() - moveX, rect().height());
-
-      QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
-      for (int i = 0; i < collisionList.size(); ++i) {
-	QGraphicsItem *item = collisionList.at(i);
-	  if (item->type() == 70000)
-	  {
-	    QRectF other = ((QGraphicsRectItem *)item)->rect();
-	    int newStart = other.x() + other.width();
-	    setRect(newStart, rect().y(), rect().x() + rect().width() - newStart, rect().height());
-	    moveX = newStart;
-	    break;
-	  }
-      }
-      QList <QGraphicsItem *> childrenList = QGraphicsItem::children();
-      for (int i = 0; i < childrenList.size(); ++i) {
-	childrenList.at(i)->moveBy((moveX - originalX) / 2 , 0);
-      }
-      return;
-    }
-    if (m_resizeMode == RESIZEEND) {
-      int newWidth = moveX - originalX;
-      if (newWidth < 1) newWidth = 2;
-      if (newWidth > m_maxDuration) newWidth = m_maxDuration;
-      setRect(originalX, rect().y(), newWidth, rect().height());
-
-      QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
-      for (int i = 0; i < collisionList.size(); ++i) {
-	QGraphicsItem *item = collisionList.at(i);
-	  if (item->type() == 70000)
-	  {
-	    QRectF other = ((QGraphicsRectItem *)item)->rect();
-	    newWidth = other.x() - rect().x();
-	    setRect(rect().x(), rect().y(), newWidth, rect().height());
-	    break;
-	  }
-      }
-
-      QList <QGraphicsItem *> childrenList = QGraphicsItem::children();
-      for (int i = 0; i < childrenList.size(); ++i) {
-	childrenList.at(i)->moveBy((newWidth - originalWidth) / 2 , 0);
-      }
-      return;
-    }
-    /*if (m_resizeMode == MOVE) {
-      kDebug()<<"///////  MOVE CLIP, EVENT Y: "<<event->scenePos().y()<<", SCENE HEIGHT: "<<scene()->sceneRect().height();
-      int moveTrack = (int) event->scenePos().y() / 50;
-      int currentTrack = (int) rect().y() / 50;
-      int offset = moveTrack - currentTrack;
-      if (event->scenePos().y() >= m_maxTrack || event->scenePos().y() < 0) {
-	offset = 0;
-	kDebug()<<"%%%%%%%%%%%%%%%%%%%%%%%   MAX HEIGHT OVERLOOK";
-      }
-      if (offset != 0) offset = 50 * offset;
-      moveTo(moveX - m_grabPoint, offset);
-    }*/
  }
 
 int ClipItem::track()

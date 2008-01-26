@@ -153,33 +153,31 @@ void KThumb::extractImage(int frame, int frame2, int width, int height)
 	emit thumbReady(frame, pix);
 	return;
     }
-
+    Mlt::Frame * m_frame;
     mlt_image_format format = mlt_image_rgb24a;
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     m_producer.attach(m_convert);
-    m_producer.seek(frame);
-    Mlt::Frame * m_frame = m_producer.get_frame();
-
-    if (m_frame && m_frame->is_valid()) {
-      uint8_t *thumb = m_frame->get_image(format, width, height);
-      QImage image(thumb, width, height, QImage::Format_ARGB32);
-  
-      if (!image.isNull()) {
-	pix = pix.fromImage(image);
+    if (frame != -1) {
+      m_producer.seek(frame);
+      m_frame = m_producer.get_frame();
+      if (m_frame && m_frame->is_valid()) {
+	uint8_t *thumb = m_frame->get_image(format, width, height);
+	QImage image(thumb, width, height, QImage::Format_ARGB32);
+	if (!image.isNull()) {
+	  pix = pix.fromImage(image);
+	}
+	else pix.fill(Qt::black);
       }
-      else pix.fill(Qt::black);
+      if (m_frame) delete m_frame;
+      emit thumbReady(frame, pix);
     }
-    if (m_frame) delete m_frame;
-    emit thumbReady(frame, pix);
-
     if (frame2 == -1) return;
     m_producer.seek(frame2);
     m_frame = m_producer.get_frame();
     if (m_frame && m_frame->is_valid()) {
       uint8_t *thumb = m_frame->get_image(format, width, height);
       QImage image(thumb, width, height, QImage::Format_ARGB32);
-  
       if (!image.isNull()) {
 	pix = pix.fromImage(image);
       }

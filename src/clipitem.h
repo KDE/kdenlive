@@ -25,7 +25,6 @@
 #include <QDomElement>
 #include <QGraphicsSceneMouseEvent>
 
-#include "labelitem.h"
 #include "definitions.h"
 #include "kthumb.h"
 
@@ -36,11 +35,14 @@ class ClipItem : public QObject, public QGraphicsRectItem
 
   public:
     ClipItem(QDomElement xml, int track, int startpos, const QRectF & rect, int duration = -1);
+    virtual ~ ClipItem();
     virtual void paint(QPainter *painter,
                            const QStyleOptionGraphicsItem *option,
                            QWidget *widget);
     virtual int type () const;
-    void moveTo(double x, double scale, double offset, int newTrack);
+    void moveTo(int x, double scale, double offset, int newTrack);
+    void resizeStart(int posx, double scale);
+    void resizeEnd(int posx, double scale);
     OPERATIONTYPE operationMode(QPointF pos);
     int clipProducer();
     int clipType();
@@ -49,6 +51,7 @@ class ClipItem : public QObject, public QGraphicsRectItem
     int track();
     void setTrack(int track);
     int startPos();
+    int endPos();
     int duration();
     QDomElement xml() const;
 
@@ -59,7 +62,6 @@ class ClipItem : public QObject, public QGraphicsRectItem
 
   private:
     QDomElement m_xml;
-    LabelItem *m_label;
     int m_textWidth;
     OPERATIONTYPE m_resizeMode;
     int m_grabPoint;
@@ -75,10 +77,14 @@ class ClipItem : public QObject, public QGraphicsRectItem
     QPixmap m_startPix;
     QPixmap m_endPix;
     KThumb *m_thumbProd;
+    QTimer *startThumbTimer;
+    QTimer *endThumbTimer;
 
   private slots:
     void slotThumbReady(int frame, QPixmap pix);
     void slotFetchThumbs();
+    void slotGetStartThumb();
+    void slotGetEndThumb();
 
   signals:
     void getThumb(int, int, int, int);
