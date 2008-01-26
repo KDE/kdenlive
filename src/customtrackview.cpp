@@ -111,6 +111,15 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
 	  int pos = mapToScene(event->pos()).x();
 	  m_dragItem->resizeEnd(pos / m_scale, m_scale);
 	}
+	else if (m_operationMode == FADEIN) {
+	  int pos = mapToScene(event->pos()).x() / m_scale;
+	  m_dragItem->setFadeIn(pos - m_dragItem->startPos(), m_scale);
+	}
+	else if (m_operationMode == FADEOUT) {
+	  int pos = mapToScene(event->pos()).x() / m_scale;
+	  m_dragItem->setFadeOut(m_dragItem->endPos() - pos, m_scale);
+	}
+
 	if (m_animation) delete m_animation;
 	m_animation = NULL;
 	if (m_visualTip) delete m_visualTip;
@@ -131,7 +140,7 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
     if (item) {
       ClipItem *clip = (ClipItem*) item;
       double size = mapToScene(QPoint(8, 0)).x();
-      OPERATIONTYPE opMode = clip->operationMode(mapToScene(event->pos()));
+      OPERATIONTYPE opMode = clip->operationMode(mapToScene(event->pos()), m_scale);
       if (opMode == m_moveOpMode) {
 	QGraphicsView::mouseMoveEvent(event);
 	return;
@@ -193,7 +202,7 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
       }
       else if (opMode == FADEIN) {
 	if (m_visualTip == NULL) {
-	  m_visualTip = new QGraphicsEllipseItem(clip->rect().x() - size, clip->rect().y() - 8, size * 2, 16);
+	  m_visualTip = new QGraphicsEllipseItem(clip->rect().x() + clip->fadeIn() * m_scale - size, clip->rect().y() - 8, size * 2, 16);
 	  ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
 	  ((QGraphicsEllipseItem*) m_visualTip)->setPen(QPen(Qt::transparent));
 	  m_visualTip->setZValue (100);
@@ -203,7 +212,7 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
 	  m_visualTip->setPos(0, 0);
 	  double scale = 2.0;
 	  m_animation->setScaleAt(.5, scale, scale);
-	  m_animation->setPosAt(.5, QPointF(clip->rect().x() - clip->rect().x() * scale, clip->rect().y() - clip->rect().y() * scale));
+	  m_animation->setPosAt(.5, QPointF(clip->rect().x() - clip->rect().x() * scale -  clip->fadeIn() * m_scale, clip->rect().y() - clip->rect().y() * scale));
 	  scale = 1.0;
 	  m_animation->setScaleAt(1, scale, scale);
 	  m_animation->setPosAt(1, QPointF(clip->rect().x() - clip->rect().x() * scale, clip->rect().y() - clip->rect().y() * scale));
@@ -214,7 +223,7 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
       }
       else if (opMode == FADEOUT) {
 	if (m_visualTip == NULL) {
-	  m_visualTip = new QGraphicsEllipseItem(clip->rect().x() + clip->rect().width() - size, clip->rect().y() - 8, size*2, 16);
+	  m_visualTip = new QGraphicsEllipseItem(clip->rect().x() + clip->rect().width() - clip->fadeOut() * m_scale - size, clip->rect().y() - 8, size*2, 16);
 	  ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
 	  ((QGraphicsEllipseItem*) m_visualTip)->setPen(QPen(Qt::transparent));
 	  m_visualTip->setZValue (100);
@@ -224,7 +233,7 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
 	  m_visualTip->setPos(0, 0);
 	  double scale = 2.0;
 	  m_animation->setScaleAt(.5, scale, scale);	  
-	  m_animation->setPosAt(.5, QPointF(clip->rect().x() - clip->rect().x() * scale - clip->rect().width(), clip->rect().y() - clip->rect().y() * scale));
+	  m_animation->setPosAt(.5, QPointF(clip->rect().x() - clip->rect().x() * scale - clip->rect().width() + clip->fadeOut() * m_scale, clip->rect().y() - clip->rect().y() * scale));
 	  scale = 1.0;
 	  m_animation->setScaleAt(1, scale, scale);
 	  m_animation->setPosAt(1, QPointF(clip->rect().x() - clip->rect().x() * scale, clip->rect().y() - clip->rect().y() * scale));
@@ -264,7 +273,7 @@ void CustomTrackView::mousePressEvent ( QMouseEvent * event )
       if (item->type() == 70000) {
 	m_dragItem = (ClipItem *) item;
 	m_clickPoint = mapToScene(event->pos()).x() - m_dragItem->startPos() * m_scale;
-	m_operationMode = m_dragItem->operationMode(item->mapFromScene(mapToScene(event->pos())));
+	m_operationMode = m_dragItem->operationMode(item->mapFromScene(mapToScene(event->pos())), m_scale);
 	if (m_operationMode == MOVE || m_operationMode == RESIZESTART) m_startPos = QPointF(m_dragItem->startPos(), m_dragItem->track());
 	else if (m_operationMode == RESIZEEND) m_startPos = QPointF(m_dragItem->endPos(), m_dragItem->track());
 	kDebug()<<"//////// ITEM CLICKED: "<<m_startPos;
@@ -409,6 +418,7 @@ void CustomTrackView::mouseReleaseEvent ( QMouseEvent * event )
     ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->endPos(), m_dragItem->track()), false, false);
     m_commandStack->push(command);
   }
+  m_operationMode = NONE;
   m_dragItem = NULL; 
 }
 

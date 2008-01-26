@@ -34,7 +34,7 @@
 #include "kdenlivesettings.h"
 
 ClipItem::ClipItem(QDomElement xml, int track, int startpos, const QRectF & rect, int duration)
-    : QGraphicsRectItem(rect), m_xml(xml), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_thumbProd(NULL), startThumbTimer(NULL), endThumbTimer(NULL)
+    : QGraphicsRectItem(rect), m_xml(xml), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_thumbProd(NULL), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0)
 {
   //setToolTip(name);
 
@@ -198,6 +198,40 @@ int ClipItem::endPos()
       QLineF l2(br.x() + m_startPix.width(), br.y(), br.x() + m_startPix.width(), br.y() + br.height());
       painter->drawLine(l2);
     }
+
+    // draw start / end fades
+    double scale = br.width() / m_cropDuration;
+    QBrush fades;
+    if (isSelected()) {
+      fades = QBrush(QColor(200, 50, 50, 150));
+    }
+    else fades = QBrush(QColor(200, 200, 200, 150));
+
+    if (m_startFade != 0) {
+      QPainterPath fadeInPath;
+      fadeInPath.moveTo(br.x() - offset, br.y());
+      fadeInPath.lineTo(br.x() - offset, br.y() + br.height());
+      fadeInPath.lineTo(br.x() + m_startFade * scale, br.y());
+      fadeInPath.closeSubpath();
+      painter->fillPath(fadeInPath, fades);
+      if (isSelected()) {
+	QLineF l(br.x() + m_startFade * scale, br.y(), br.x(), br.y() + br.height());
+	painter->drawLine(l);
+      }
+    }
+    if (m_endFade != 0) {
+      QPainterPath fadeOutPath;
+      fadeOutPath.moveTo(br.x() + br.width(), br.y());
+      fadeOutPath.lineTo(br.x() + br.width(), br.y() + br.height());
+      fadeOutPath.lineTo(br.x() + br.width() - m_endFade * scale, br.y());
+      fadeOutPath.closeSubpath();
+      painter->fillPath(fadeOutPath, fades);
+      if (isSelected()) {
+	QLineF l(br.x() + br.width() - m_endFade * scale, br.y(), br.x() + br.width(), br.y() + br.height());
+	painter->drawLine(l);
+      }
+    }
+
     painter->setClipRect(option->exposedRect);
     QPen pen = painter->pen();
     pen.setColor(Qt::red);
@@ -231,28 +265,55 @@ int ClipItem::endPos()
  }
 
 
-OPERATIONTYPE ClipItem::operationMode(QPointF pos)
+OPERATIONTYPE ClipItem::operationMode(QPointF pos, double scale)
 {
-    if (abs(pos.x() - rect().x()) < 6) {
-      if (abs(pos.y() - rect().y()) < 6) return FADEIN;
-      return RESIZESTART;
-    }
-    else if (abs(pos.x() - (rect().x() + rect().width())) < 6) {
-      if (abs(pos.y() - rect().y()) < 6) return FADEOUT;
-      return RESIZEEND;
-    }
+    if (abs(pos.x() - (rect().x() + scale * m_startFade)) < 6 && abs(pos.y() - rect().y()) < 6) return FADEIN;
+    else if (abs(pos.x() - rect().x()) < 6) return RESIZESTART;
+    else if (abs(pos.x() - (rect().x() + rect().width() - scale * m_endFade)) < 6 && abs(pos.y() - rect().y()) < 6) return FADEOUT;
+    else if (abs(pos.x() - (rect().x() + rect().width())) < 6) return RESIZEEND;
     return MOVE;
+}
+
+int ClipItem::fadeIn() const
+{
+  return m_startFade;
+}
+
+int ClipItem::fadeOut() const
+{
+  return m_endFade;
+}
+
+void ClipItem::setFadeIn(int pos, double scale)
+{
+  int oldIn = m_startFade;
+  if (pos < 0) pos = 0;
+  if (pos > m_cropDuration) pos = m_cropDuration / 2;
+  m_startFade = pos;
+  if (oldIn > pos) update(rect().x(), rect().y(), oldIn * scale, rect().height()); 
+  else update(rect().x(), rect().y(), pos * scale, rect().height());
+}
+
+void ClipItem::setFadeOut(int pos, double scale)
+{
+  int oldOut = m_endFade;
+  if (pos < 0) pos = 0;
+  if (pos > m_cropDuration) pos = m_cropDuration / 2;
+  m_endFade = pos;
+  if (oldOut > pos) update(rect().x() + rect().width() - pos * scale, rect().y(), pos * scale, rect().height()); 
+  else update(rect().x() + rect().width() - oldOut * scale, rect().y(), oldOut * scale, rect().height());
+
 }
 
 
 // virtual
  void ClipItem::mousePressEvent ( QGraphicsSceneMouseEvent * event ) 
  {
-    m_resizeMode = operationMode(event->pos());
+    /*m_resizeMode = operationMode(event->pos());
     if (m_resizeMode == MOVE) {
       m_maxTrack = scene()->sceneRect().height();
       m_grabPoint = (int) (event->pos().x() - rect().x());
-    }
+    }*/
     QGraphicsRectItem::mousePressEvent(event);
  }
 

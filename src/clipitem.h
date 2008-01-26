@@ -43,7 +43,7 @@ class ClipItem : public QObject, public QGraphicsRectItem
     void moveTo(int x, double scale, double offset, int newTrack);
     void resizeStart(int posx, double scale);
     void resizeEnd(int posx, double scale);
-    OPERATIONTYPE operationMode(QPointF pos);
+    OPERATIONTYPE operationMode(QPointF pos, double scale);
     int clipProducer();
     int clipType();
     QString clipName();
@@ -54,6 +54,10 @@ class ClipItem : public QObject, public QGraphicsRectItem
     int endPos();
     int duration();
     QDomElement xml() const;
+    int fadeIn() const;
+    int fadeOut() const;
+    void setFadeOut(int pos, double scale);
+    void setFadeIn(int pos, double scale);
 
   protected:
     virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
@@ -79,6 +83,8 @@ class ClipItem : public QObject, public QGraphicsRectItem
     KThumb *m_thumbProd;
     QTimer *startThumbTimer;
     QTimer *endThumbTimer;
+    uint m_startFade;
+    uint m_endFade;
 
   private slots:
     void slotThumbReady(int frame, QPixmap pix);
