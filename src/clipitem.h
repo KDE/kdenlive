@@ -64,7 +64,7 @@ class ClipItem : public QObject, public QGraphicsRectItem
     OPERATIONTYPE m_resizeMode;
     int m_grabPoint;
     int m_producer;
-    int m_clipType;
+    CLIPTYPE m_clipType;
     QString m_clipName;
     int m_maxDuration;
     int m_cropStart;

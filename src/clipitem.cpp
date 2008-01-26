@@ -34,7 +34,7 @@
 #include "kdenlivesettings.h"
 
 ClipItem::ClipItem(QDomElement xml, int track, int startpos, const QRectF & rect, int duration)
-    : QGraphicsRectItem(rect), m_xml(xml), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos)
+    : QGraphicsRectItem(rect), m_xml(xml), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_thumbProd(NULL)
 {
   //setToolTip(name);
 
@@ -43,7 +43,7 @@ ClipItem::ClipItem(QDomElement xml, int track, int startpos, const QRectF & rect
 
   m_producer = xml.attribute("id").toInt();
 
-  m_clipType = xml.attribute("type").toInt();
+  m_clipType = (CLIPTYPE) xml.attribute("type").toInt();
 
   m_cropStart = xml.attribute("in", 0).toInt();
   m_maxDuration = xml.attribute("duration", 0).toInt();
@@ -59,11 +59,17 @@ ClipItem::ClipItem(QDomElement xml, int track, int startpos, const QRectF & rect
   m_textWidth = textRect.width();
   m_label->setPos(rect.x() + rect.width()/2 - m_textWidth/2, rect.y() + rect.height() / 2 - textRect.height()/2);
   setBrush(QColor(100, 100, 150));
-  m_thumbProd = new KThumb(KUrl(xml.attribute("resource")));
-  connect(this, SIGNAL(getThumb(int, int, int, int)), m_thumbProd, SLOT(extractImage(int, int, int, int)));
-  connect(m_thumbProd, SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
-  QTimer::singleShot(300, this, SLOT(slotFetchThumbs())); 
-
+  if (m_clipType == VIDEO || m_clipType == AV) {
+    m_thumbProd = new KThumb(KUrl(xml.attribute("resource")));
+    connect(this, SIGNAL(getThumb(int, int, int, int)), m_thumbProd, SLOT(extractImage(int, int, int, int)));
+    connect(m_thumbProd, SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
+    QTimer::singleShot(300, this, SLOT(slotFetchThumbs())); 
+  }
+  else if (m_clipType == COLOR) {
+    QString colour = xml.attribute("colour");
+    colour = colour.replace(0, 2, "#");
+    setBrush(QColor(colour.left(7)));
+  }
   //m_startPix.load("/home/one/Desktop/thumb.jpg");
 }
 
@@ -142,16 +148,24 @@ int ClipItem::startPos()
     roundRectPath.lineTo(br.x() + br .width() - roundingX, br.y() + br.height() - offset);
     roundRectPath.arcTo(br.x() + br .width() - roundingX - offset, br.y() + br.height() - roundingY - offset, roundingX, roundingY, 270.0, 90.0);
     roundRectPath.closeSubpath();
-    painter->fillPath(roundRectPath, brush()); //, QBrush(QColor(Qt::red)));
     painter->setClipPath(roundRectPath, Qt::IntersectClip);
-    painter->drawPixmap(QPointF(br.x() + br.width() - m_endPix.width(), br.y()), m_endPix);
-    QLineF l(br.x() + br.width() - m_endPix.width(), br.y(), br.x() + br.width() - m_endPix.width(), br.y() + br.height());
-    painter->drawLine(l);
+    //painter->fillPath(roundRectPath, brush()); //, QBrush(QColor(Qt::red)));
+    painter->fillRect(br, brush());
+    //painter->fillRect(QRectF(br.x() + br.width() - m_endPix.width(), br.y(), m_endPix.width(), br.height()), QBrush(QColor(Qt::black)));
+    if (!m_startPix.isNull()) {
+      painter->drawPixmap(QPointF(br.x() + br.width() - m_endPix.width(), br.y()), m_endPix);
+      QLineF l(br.x() + br.width() - m_endPix.width(), br.y(), br.x() + br.width() - m_endPix.width(), br.y() + br.height());
+      painter->drawLine(l);
 
-    painter->drawPixmap(QPointF(br.x(), br.y()), m_startPix);
-    QLineF l2(br.x() + m_startPix.width(), br.y(), br.x() + m_startPix.width(), br.y() + br.height());
-    painter->drawLine(l2);
+      painter->drawPixmap(QPointF(br.x(), br.y()), m_startPix);
+      QLineF l2(br.x() + m_startPix.width(), br.y(), br.x() + m_startPix.width(), br.y() + br.height());
+      painter->drawLine(l2);
+    }
     painter->setClipRect(option->exposedRect);
+    QPen pen = painter->pen();
+    pen.setColor(Qt::red);
+    pen.setStyle(Qt::DashDotDotLine); //Qt::DotLine);
+    if (isSelected()) painter->setPen(pen);
     painter->drawPath(roundRectPath);
     //painter->fillRect(QRect(br.x(), br.y(), roundingX, roundingY), QBrush(QColor(Qt::green)));
 

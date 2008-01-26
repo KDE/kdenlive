@@ -257,7 +257,7 @@ void CustomTrackView::mousePressEvent ( QMouseEvent * event )
       m_clickPoint = mapToScene(event->pos()).x() - m_dragItem->startPos() * m_scale;
       m_operationMode = m_dragItem->operationMode(item->mapFromScene(mapToScene(event->pos())));
       if (m_operationMode == MOVE || m_operationMode == RESIZESTART) m_startPos = QPointF(m_dragItem->startPos(), m_dragItem->track());
-      else if (m_operationMode == RESIZEEND) m_startPos = QPointF(m_dragItem->rect().x() + m_dragItem->rect().width(), m_dragItem->rect().y());
+      else if (m_operationMode == RESIZEEND) m_startPos = QPointF(m_dragItem->startPos() + m_dragItem->duration(), m_dragItem->track());
 
      kDebug()<<"//////// ITEM CLICKED: "<<m_startPos;
       /*while (item->parentItem()) 
