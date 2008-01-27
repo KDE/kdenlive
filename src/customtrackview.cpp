@@ -81,6 +81,7 @@ void CustomTrackView::wheelEvent ( QWheelEvent * e )
 void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
 {
   int pos = event->x();
+  emit mousePosition(mapToScene(event->pos()).x() / m_scale);
   /*if (event->modifiers() == Qt::ControlModifier)
     setDragMode(QGraphicsView::ScrollHandDrag);
   else if (event->modifiers() == Qt::ShiftModifier) 
@@ -89,9 +90,9 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
 
       if (m_dragItem) { //event->button() == Qt::LeftButton) {
 	// a button was pressed, delete visual tips
-
 	if (m_operationMode == MOVE) {
-	  int moveX = mapToScene(event->pos()).x();
+	  int snappedPos = getSnapPointForPos(mapToScene(event->pos()).x() - m_clickPoint);
+	  int moveX = snappedPos; //mapToScene(event->pos()).x();
 	  //kDebug()<<"///////  MOVE CLIP, EVENT Y: "<<event->scenePos().y()<<", SCENE HEIGHT: "<<scene()->sceneRect().height();
 	  int moveTrack = (int)  mapToScene(event->pos()).y() / 50;
 	  int currentTrack = m_dragItem->track();
@@ -101,7 +102,7 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
 
 	  int offset = moveTrack - currentTrack;
 	  if (offset != 0) offset = 50 * offset;
-	  m_dragItem->moveTo((moveX - m_clickPoint) / m_scale, m_scale, offset, moveTrack);
+	  m_dragItem->moveTo(moveX / m_scale, m_scale, offset, moveTrack);
 	}
 	else if (m_operationMode == RESIZESTART) {
 	  int pos = mapToScene(event->pos()).x();
@@ -261,6 +262,7 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
 void CustomTrackView::mousePressEvent ( QMouseEvent * event )
 {
   int pos = event->x();
+  updateSnapPoints();
   if (event->modifiers() == Qt::ControlModifier) 
     setDragMode(QGraphicsView::ScrollHandDrag);
   else if (event->modifiers() == Qt::ShiftModifier) 
@@ -467,6 +469,31 @@ void CustomTrackView::resizeClip ( const QPointF &startPos, const QPointF &endPo
   else {
     item->resizeEnd(endPos.x(), m_scale);
   }
+}
+
+double CustomTrackView::getSnapPointForPos(double pos)
+{
+  for (int i = 0; i < m_snapPoints.size(); ++i) {
+    if (abs(pos - m_snapPoints.at(i) * m_scale) < 6) return m_snapPoints.at(i) * m_scale;
+    if (m_snapPoints.at(i) > pos) break;
+  }
+  return pos;
+}
+
+void CustomTrackView::updateSnapPoints()
+{
+  m_snapPoints.clear();
+  QList<QGraphicsItem *> itemList = items();
+  for (int i = 0; i < itemList.count(); i++) {
+    if (itemList.at(i)->type() == 70000) {
+      ClipItem *item = (ClipItem *)itemList.at(i);
+      m_snapPoints.append(item->startPos());
+      if (item->fadeIn() != 0) m_snapPoints.append(item->startPos() + item->fadeIn());
+      m_snapPoints.append(item->endPos());
+      if (item->fadeOut() != 0) m_snapPoints.append(item->endPos() - item->fadeOut());      
+    }
+  }
+  qSort(m_snapPoints);
 }
 
 

@@ -70,6 +70,7 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
   connect(m_trackview, SIGNAL(zoomIn ()), this, SLOT(slotZoomIn()));
   connect(m_trackview, SIGNAL(zoomOut ()), this, SLOT(slotZoomOut()));
   connect(m_trackview->horizontalScrollBar(), SIGNAL(sliderMoved( int )), m_ruler, SLOT(slotMoveRuler( int )));
+  connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
 
   view->horizontalSlider->setValue(4);
   m_currentZoom = view->horizontalSlider->value();

@@ -82,11 +82,15 @@ class CustomTrackView : public QGraphicsView
     QColor m_tipColor;
     double m_scale;
     int m_clickPoint;
+    QList <int> m_snapPoints;
+    void updateSnapPoints();
+    double getSnapPointForPos(double pos);
 
   signals:
     void cursorMoved(int);
     void zoomIn();
     void zoomOut();
+    void mousePosition(int);
 
 };
 

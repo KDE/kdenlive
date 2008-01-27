@@ -31,6 +31,7 @@
 #include <KTabWidget>
 #include <KUndoStack>
 #include <KRecentFilesAction>
+#include <KComboBox>
 
 #include "projectlist.h"
 #include "monitor.h"
@@ -80,6 +81,8 @@ class MainWindow : public KXmlGuiWindow
     QAction *m_undo;
     QAction *m_redo;
 
+    KComboBox *m_timecodeFormat;
+
     QDockWidget *overviewDock;
     CustomTrackView *m_overView;
 
@@ -103,6 +106,7 @@ class MainWindow : public KXmlGuiWindow
     void slotConnectMonitors();
     void slotRaiseMonitor(bool clipMonitor);
     void slotSetClipDuration(int id, int duration);
+    void slotUpdateMousePosition(int pos);
 };
  
 #endif

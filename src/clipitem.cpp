@@ -205,7 +205,7 @@ int ClipItem::endPos()
     if (isSelected()) {
       fades = QBrush(QColor(200, 50, 50, 150));
     }
-    else fades = QBrush(QColor(200, 200, 200, 150));
+    else fades = QBrush(QColor(200, 200, 200, 200));
 
     if (m_startFade != 0) {
       QPainterPath fadeInPath;

@@ -36,12 +36,19 @@
 #include <KRuler>
 #include <KConfigDialog>
 #include <KXMLGUIFactory>
+#include <KStatusBar>
 
 #include <mlt++/Mlt.h>
 
 #include "mainwindow.h"
 #include "kdenlivesettings.h"
 #include "ui_configmisc_ui.h"
+
+#define ID_STATUS_MSG 1
+#define ID_EDITMODE_MSG 2
+#define ID_TIMELINE_MSG 3
+#define ID_TIMELINE_POS 4
+#define ID_TIMELINE_FORMAT 5
  
 MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent),
@@ -114,6 +121,13 @@ MainWindow::MainWindow(QWidget *parent)
 
   tabifyDockWidget (clipMonitorDock, projectMonitorDock);
   setCentralWidget(m_timelineArea);
+
+  m_timecodeFormat = new KComboBox(this);
+  m_timecodeFormat->addItem(i18n("hh:mm:ss::ff"));
+  m_timecodeFormat->addItem(i18n("Frames"));
+  statusBar()->insertPermanentFixedItem("00:00:00:00", ID_TIMELINE_POS);
+  statusBar()->insertPermanentWidget(ID_TIMELINE_FORMAT, m_timecodeFormat); 
+
   setupGUI(Default, "kdenliveui.rc");
 
   connect(projectMonitorDock, SIGNAL(visibilityChanged (bool)), m_projectMonitor, SLOT(refreshMonitor(bool)));
@@ -287,6 +301,18 @@ void MainWindow::openFile(const KUrl &url) //new
   //connectDocument(trackView, doc);
 }
 
+void MainWindow::slotUpdateMousePosition(int pos)
+{
+  if (m_activeDocument)
+    switch(m_timecodeFormat->currentIndex()) {
+      case 0:
+	statusBar()->changeItem(m_activeDocument->timecode().getTimecodeFromFrames(pos), ID_TIMELINE_POS);
+	break;
+    default:
+      statusBar()->changeItem(QString::number(pos), ID_TIMELINE_POS);
+    }
+}
+
 void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //changed
 {
   //m_projectMonitor->stop();
@@ -295,6 +321,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //chang
     m_activeDocument->setProducers(m_projectList->producersList());
     m_activeDocument->setRenderer(NULL);
   }
+  connect(trackView, SIGNAL(mousePosition(int)), this, SLOT(slotUpdateMousePosition(int)));
   m_projectList->setDocument(doc);
   m_monitorManager->setTimecode(doc->timecode());
   doc->setRenderer(m_projectMonitor->render);
