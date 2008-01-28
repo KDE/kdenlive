@@ -83,7 +83,7 @@ class CustomTrackView : public QGraphicsView
     double m_scale;
     int m_clickPoint;
     QList <int> m_snapPoints;
-    void updateSnapPoints();
+    void updateSnapPoints(ClipItem *selected);
     double getSnapPointForPos(double pos);
 
   signals:

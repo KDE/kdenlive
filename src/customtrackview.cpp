@@ -91,8 +91,8 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
       if (m_dragItem) { //event->button() == Qt::LeftButton) {
 	// a button was pressed, delete visual tips
 	if (m_operationMode == MOVE) {
-	  int snappedPos = getSnapPointForPos(mapToScene(event->pos()).x() - m_clickPoint);
-	  int moveX = snappedPos; //mapToScene(event->pos()).x();
+	  double snappedPos = getSnapPointForPos(mapToScene(event->pos()).x() - m_clickPoint);
+	  double moveX = snappedPos; //mapToScene(event->pos()).x();
 	  //kDebug()<<"///////  MOVE CLIP, EVENT Y: "<<event->scenePos().y()<<", SCENE HEIGHT: "<<scene()->sceneRect().height();
 	  int moveTrack = (int)  mapToScene(event->pos()).y() / 50;
 	  int currentTrack = m_dragItem->track();
@@ -262,7 +262,6 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
 void CustomTrackView::mousePressEvent ( QMouseEvent * event )
 {
   int pos = event->x();
-  updateSnapPoints();
   if (event->modifiers() == Qt::ControlModifier) 
     setDragMode(QGraphicsView::ScrollHandDrag);
   else if (event->modifiers() == Qt::ShiftModifier) 
@@ -291,6 +290,7 @@ void CustomTrackView::mousePressEvent ( QMouseEvent * event )
       emit cursorMoved(cursorPos());
     }
   }
+  updateSnapPoints(m_dragItem);
   //kDebug()<<pos;
   QGraphicsView::mousePressEvent(event);
 }
@@ -474,26 +474,45 @@ void CustomTrackView::resizeClip ( const QPointF &startPos, const QPointF &endPo
 double CustomTrackView::getSnapPointForPos(double pos)
 {
   for (int i = 0; i < m_snapPoints.size(); ++i) {
-    if (abs(pos - m_snapPoints.at(i) * m_scale) < 6) return m_snapPoints.at(i) * m_scale;
+    //kDebug()<<"SNAP POINT: "<<m_snapPoints.at(i);
+    if (abs(pos - m_snapPoints.at(i) * m_scale) < 6 * m_scale) {
+      //kDebug()<<" FOUND SNAP POINT AT: "<<m_snapPoints.at(i)<<", current pos: "<<pos / m_scale;
+      return m_snapPoints.at(i) * m_scale + 0.5;
+    }
     if (m_snapPoints.at(i) > pos) break;
   }
   return pos;
 }
 
-void CustomTrackView::updateSnapPoints()
+void CustomTrackView::updateSnapPoints(ClipItem *selected)
 {
   m_snapPoints.clear();
+  int offset = 0;
+  if (selected) offset = selected->duration();
   QList<QGraphicsItem *> itemList = items();
   for (int i = 0; i < itemList.count(); i++) {
-    if (itemList.at(i)->type() == 70000) {
+    if (itemList.at(i)->type() == 70000 && itemList.at(i) != selected) {
       ClipItem *item = (ClipItem *)itemList.at(i);
-      m_snapPoints.append(item->startPos());
-      if (item->fadeIn() != 0) m_snapPoints.append(item->startPos() + item->fadeIn());
-      m_snapPoints.append(item->endPos());
-      if (item->fadeOut() != 0) m_snapPoints.append(item->endPos() - item->fadeOut());      
+      int start = item->startPos();
+      int fadein = item->fadeIn() + start;
+      int end = item->endPos();
+      int fadeout = end - item->fadeOut();
+      m_snapPoints.append(start);
+      if (fadein != start) m_snapPoints.append(fadein);
+      m_snapPoints.append(end);
+      if (fadeout != end) m_snapPoints.append(fadeout);
+      if (offset != 0) {
+	m_snapPoints.append(start - offset);
+	if (fadein != start) m_snapPoints.append(fadein - offset);
+	m_snapPoints.append(end - offset);
+	if (fadeout != end) m_snapPoints.append(fadeout - offset);
+      }
     }
   }
+  kDebug()<<" GOT SNAPPOINTS TOTAL: "<<m_snapPoints.count();
   qSort(m_snapPoints);
+  for (int i = 0; i < m_snapPoints.size(); ++i)
+    kDebug()<<"SNAP POINT: "<<m_snapPoints.at(i);
 }
 
 
