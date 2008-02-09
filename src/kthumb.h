@@ -87,7 +87,7 @@ private:
 	QString m_thumbFile;
 	int m_width;
 	int m_height;
-	Mlt::Profile m_profile;
+	Mlt::Profile *m_profile;
 
 signals:
 	void thumbReady(int frame, QPixmap pm);

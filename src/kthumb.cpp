@@ -135,11 +135,12 @@
 KThumb::KThumb(KUrl url, int width, int height, QObject * parent, const char *name):QObject(parent), m_url(url), m_width(width), m_height(height)
 {
   kDebug()<<"+++++++++++  CREATING THMB PROD FOR: "<<url;
-  m_profile = Mlt::Profile((char*) KdenliveSettings::current_profile().data());
+  m_profile = new Mlt::Profile((char*) qstrdup(KdenliveSettings::current_profile().toUtf8()));
 }
 
 KThumb::~KThumb()
 {
+    if (m_profile) delete m_profile;
     //if (thumbProducer.running ()) thumbProducer.exit();
 }
 
@@ -183,7 +184,7 @@ void KThumb::extractImage(int frame, int frame2)
     if (m_url.isEmpty()) return;
     QPixmap pix(m_width, m_height);
     char *tmp = Render::decodedString(m_url.path());
-    Mlt::Producer m_producer(m_profile, tmp);
+    Mlt::Producer m_producer(*m_profile, tmp);
     delete tmp;
 
     if (m_producer.is_blank()) {
@@ -193,7 +194,7 @@ void KThumb::extractImage(int frame, int frame2)
     }
     Mlt::Frame * m_frame;
     mlt_image_format format = mlt_image_rgb24a;
-    Mlt::Filter m_convert(m_profile, "avcolour_space");
+    Mlt::Filter m_convert(*m_profile, "avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     m_producer.attach(m_convert);
     if (frame != -1) {

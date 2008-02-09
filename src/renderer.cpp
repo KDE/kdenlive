@@ -38,6 +38,7 @@ extern "C" {
 #include <KLocale>
 
 #include "renderer.h"
+#include "kdenlivesettings.h"
 
 static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr)
 {
@@ -53,7 +54,8 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
 
 Render::Render(const QString & rendererName, int winid, int extid, QWidget *parent):QObject(parent), m_name(rendererName), m_mltConsumer(NULL), m_mltProducer(NULL), m_mltTextProducer(NULL), m_sceneList(QDomDocument()), m_winid(-1), m_framePosition(0), m_generateScenelist(false), isBlocked(true)
 {
-    m_mltProfile = new Mlt::Profile("pal_dv");
+    kDebug()<<"//////////  USING PROFILE: "<<qstrdup(KdenliveSettings::current_profile().toUtf8());
+    m_mltProfile = new Mlt::Profile((char*) qstrdup(KdenliveSettings::current_profile().toUtf8()));
     refreshTimer = new QTimer( this );
     connect( refreshTimer, SIGNAL(timeout()), this, SLOT( refresh()) );
 
