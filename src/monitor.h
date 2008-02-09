@@ -52,6 +52,7 @@ class Monitor : public QWidget
     SmallRuler *m_ruler;
     KIcon m_playIcon;
     KIcon m_pauseIcon;
+    bool m_isActive;
 
   private slots:
     void slotPlay();

@@ -56,8 +56,8 @@ ClipItem::ClipItem(QDomElement xml, int track, int startpos, const QRectF & rect
 
   setBrush(QColor(100, 100, 150));
   if (m_clipType == VIDEO || m_clipType == AV) {
-    m_thumbProd = new KThumb(KUrl(xml.attribute("resource")));
-    connect(this, SIGNAL(getThumb(int, int, int, int)), m_thumbProd, SLOT(extractImage(int, int, int, int)));
+    m_thumbProd = new KThumb(KUrl(xml.attribute("resource")), KdenliveSettings::track_height() * KdenliveSettings::project_display_ratio(), KdenliveSettings::track_height());
+    connect(this, SIGNAL(getThumb(int, int)), m_thumbProd, SLOT(extractImage(int, int)));
     connect(m_thumbProd, SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
     QTimer::singleShot(300, this, SLOT(slotFetchThumbs()));
 
@@ -77,7 +77,6 @@ ClipItem::ClipItem(QDomElement xml, int track, int startpos, const QRectF & rect
   else if (m_clipType == IMAGE) {
     m_startPix = KThumb::getImage(KUrl(xml.attribute("resource")), 50 * KdenliveSettings::project_display_ratio(), 50);
   }
-  //m_startPix.load("/home/one/Desktop/thumb.jpg");
 }
 
 ClipItem::~ClipItem()
@@ -89,17 +88,17 @@ ClipItem::~ClipItem()
 
 void ClipItem::slotFetchThumbs()
 {
-  emit getThumb(m_cropStart, m_cropStart + m_cropDuration, 50 * KdenliveSettings::project_display_ratio(), 50);
+  emit getThumb(m_cropStart, m_cropStart + m_cropDuration);
 }
 
 void ClipItem::slotGetStartThumb()
 {
-  emit getThumb(m_cropStart, -1, 50 * KdenliveSettings::project_display_ratio(), 50);
+  emit getThumb(m_cropStart, -1);
 }
 
 void ClipItem::slotGetEndThumb()
 {
-  emit getThumb(-1, m_cropStart + m_cropDuration, 50 * KdenliveSettings::project_display_ratio(), 50);
+  emit getThumb(-1, m_cropStart + m_cropDuration);
 }
 
 void ClipItem::slotThumbReady(int frame, QPixmap pix)

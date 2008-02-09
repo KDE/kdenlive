@@ -26,6 +26,7 @@
 #include <QGraphicsSceneMouseEvent>
 
 #include "definitions.h"
+#include "gentime.h"
 #include "kthumb.h"
 
 
@@ -93,7 +94,7 @@ class ClipItem : public QObject, public QGraphicsRectItem
     void slotGetEndThumb();
 
   signals:
-    void getThumb(int, int, int, int);
+    void getThumb(int, int);
 
 };
 

@@ -24,9 +24,11 @@
 #include <QDomNodeList>
 #include <QToolBar>
 #include <QTreeWidget>
+#include <QPainter>
 
 #include <KUndoStack>
 #include <KTreeWidgetSearchLine>
+#include <KExtendableItemDelegate>
 
 #include "definitions.h"
 #include "kdenlivedoc.h"
@@ -35,6 +37,63 @@
 #include "projectlistview.h"
 
 class ProjectItem;
+
+  const int NameRole = Qt::UserRole;
+  const int DurationRole = NameRole + 1;
+  const int FullPathRole = NameRole + 2;
+  const int ClipTypeRole = NameRole + 3;
+
+class ItemDelegate: public KExtendableItemDelegate
+{
+  public:
+    ItemDelegate(QAbstractItemView* parent = 0): KExtendableItemDelegate(parent)
+    {
+    }
+/*
+void expand()
+{
+  QWidget *w = new QWidget;
+  QVBoxLayout *layout = new QVBoxLayout;
+  layout->addWidget( new KColorButton(w)); 
+  w->setLayout( layout );
+  extendItem(w, 
+}
+*/
+
+void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
+  if (index.column() == 1)
+  {
+    const bool hover = option.state & (QStyle::State_Selected|QStyle::State_MouseOver|QStyle::State_HasFocus);
+    QRect r1 = option.rect;
+    painter->save();
+    if (hover) {
+        painter->setPen(option.palette.color(QPalette::HighlightedText));
+        QColor backgroundColor = option.palette.color(QPalette::Highlight);
+        painter->setBrush(QBrush(backgroundColor));
+	painter->fillRect(r1, QBrush(backgroundColor));
+    }
+    QFont font = painter->font();
+    font.setPointSize(font.pointSize() - 1 );
+    font.setBold(true);
+    painter->setFont(font);
+    int mid = (int) ((r1.height() / 2 ));
+    r1.setBottom(r1.y() + mid);
+    QRect r2 = option.rect;
+    r2.setTop(r2.y() + mid);
+    painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom , index.data().toString());
+    //painter->setPen(Qt::green);
+    font.setBold(false);
+    painter->setFont(font);
+    painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , index.data(DurationRole).toString());
+    painter->restore();
+  }
+  else
+  {
+    KExtendableItemDelegate::paint(painter, option, index);
+  }
+}
+};
 
 class ProjectList : public QWidget
 {
@@ -71,6 +130,7 @@ class ProjectList : public QWidget
     ProjectItem *getItemById(int id);
     QAction *m_editAction;
     QAction *m_deleteAction;
+    ItemDelegate *m_listViewDelegate;
 
   private slots:
     void slotAddClip(QUrl givenUrl = QUrl(), const QString &group = QString::null);

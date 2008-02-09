@@ -25,6 +25,7 @@
 
 #include <kurl.h>
 
+#include <mlt++/Mlt.h>
 
 /**KRender encapsulates the client side of the interface to a renderer.
 From Kdenlive's point of view, you treat the KRender object as the
@@ -40,6 +41,7 @@ namespace Mlt {
     class Consumer;
     class Producer;
     class Frame;
+    class Profile;
 };
 
 
@@ -67,11 +69,11 @@ class KThumb:public QObject {
   Q_OBJECT public:
 
 
-     KThumb(KUrl url, QObject * parent = 0, const char *name = 0);
+     KThumb(KUrl url, int width, int height, QObject * parent = 0, const char *name = 0);
     ~KThumb();
 
 public slots:
-	void extractImage( int frame, int frame2, int width, int height);
+	void extractImage( int frame, int frame2);
 	static QPixmap getImage(KUrl url, int width, int height);
 /*	void getImage(KUrl url, int frame, int width, int height);
 	void getThumbs(KUrl url, int startframe, int endframe, int width, int height);
@@ -83,6 +85,9 @@ private:
 //	MyThread thumbProducer;
 	KUrl m_url;
 	QString m_thumbFile;
+	int m_width;
+	int m_height;
+	Mlt::Profile m_profile;
 
 signals:
 	void thumbReady(int frame, QPixmap pm);

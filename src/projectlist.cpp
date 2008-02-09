@@ -29,9 +29,12 @@
 #include <KLocale>
 #include <KFileDialog>
 #include <KInputDialog>
-#include <nepomuk/resourcemanager.h>
 #include <kio/netaccess.h>
 #include <KMessageBox>
+
+#include <nepomuk/global.h>
+#include <nepomuk/resource.h>
+#include <nepomuk/tag.h>
 
 #include "projectlist.h"
 #include "projectitem.h"
@@ -42,54 +45,6 @@
 #include "definitions.h"
 
 #include <QtGui>
-
-  const int NameRole = Qt::UserRole;
-  const int DurationRole = NameRole + 1;
-  const int FullPathRole = NameRole + 2;
-  const int ClipTypeRole = NameRole + 3;
-
-class ItemDelegate: public QItemDelegate
-{
-  public:
-    ItemDelegate(QObject* parent = 0): QItemDelegate(parent)
-    {
-    }
-
-void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
-{
-  if (index.column() == 1)
-  {
-    const bool hover = option.state & (QStyle::State_Selected|QStyle::State_MouseOver|QStyle::State_HasFocus);
-    QRect r1 = option.rect;
-    painter->save();
-    if (hover) {
-        painter->setPen(option.palette.color(QPalette::HighlightedText));
-        QColor backgroundColor = option.palette.color(QPalette::Highlight);
-        painter->setBrush(QBrush(backgroundColor));
-	painter->fillRect(r1, QBrush(backgroundColor));
-    }
-    QFont font = painter->font();
-    font.setPointSize(font.pointSize() - 1 );
-    font.setBold(true);
-    painter->setFont(font);
-    int mid = (int) ((r1.height() / 2 ));
-    r1.setBottom(r1.y() + mid);
-    QRect r2 = option.rect;
-    r2.setTop(r2.y() + mid);
-    painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom , index.data().toString());
-    //painter->setPen(Qt::green);
-    font.setBold(false);
-    painter->setFont(font);
-    painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , index.data(DurationRole).toString());
-    painter->restore();
-  }
-  else
-  {
-    QItemDelegate::paint(painter, option, index);
-  }
-}
-};
-
 
 ProjectList::ProjectList(QWidget *parent)
     : QWidget(parent), m_render(NULL), m_fps(-1), m_commandStack(NULL)
@@ -153,11 +108,10 @@ ProjectList::ProjectList(QWidget *parent)
   connect(listView, SIGNAL(addClip ()), this, SLOT(slotAddClip()));
   connect(listView, SIGNAL(addClip (QUrl, const QString &)), this, SLOT(slotAddClip(QUrl, const QString &)));
 
-
-  listView->setItemDelegate(new ItemDelegate(listView));
+  m_listViewDelegate = new ItemDelegate(listView);
+  listView->setItemDelegate(m_listViewDelegate);
   listView->setIconSize(QSize(60, 40));
   listView->setSortingEnabled (true);
-
 }
 
 ProjectList::~ProjectList()
@@ -192,6 +146,17 @@ void ProjectList::slotContextMenu( const QPoint &pos, QTreeWidgetItem *item )
 {
   bool enable = false;
   if (item) {
+    QFrame *w = new QFrame;
+    w->setFrameShape(QFrame::StyledPanel);
+    w->setLineWidth(2);
+    w->setAutoFillBackground(true);
+    QHBoxLayout *layout = new QHBoxLayout;
+    layout->addWidget( new QLabel(i18n("Color:")));
+    layout->addWidget( new KColorButton());
+    layout->addWidget( new QLabel(i18n("Duration:")));
+    layout->addWidget( new KRestrictedLine());
+    w->setLayout( layout );
+    m_listViewDelegate->extendItem(w, listView->currentIndex());
     enable = true;
   }
   m_editAction->setEnabled(enable);
@@ -254,9 +219,10 @@ void ProjectList::addClip(const QStringList &name, const QDomElement &elem, cons
   else item = new ProjectItem(listView, name, elem, clipId);
   if (!url.isEmpty()) {
     item->setData(1, FullPathRole, url.path());
-/*    Nepomuk::File f( url.path() );
-    QString annotation = f.getAnnotation();
-    if (!annotation.isEmpty()) item->setText(2, annotation);*/
+    // if file has Nepomuk comment, use it
+    Nepomuk::Resource f( url.path() );
+    QString annotation = f.description();
+    if (!annotation.isEmpty()) item->setText(2, annotation);
     QString resource = url.path();
     if (resource.endsWith("westley") || resource.endsWith("kdenlive")) {
 	QString tmpfile;

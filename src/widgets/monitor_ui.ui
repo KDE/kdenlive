@@ -5,24 +5,36 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>320</width>
-    <height>238</height>
+    <width>339</width>
+    <height>216</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Form</string>
   </property>
   <layout class="QGridLayout" >
+   <property name="leftMargin" >
+    <number>0</number>
+   </property>
+   <property name="topMargin" >
+    <number>0</number>
+   </property>
+   <property name="rightMargin" >
+    <number>0</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>0</number>
+   </property>
+   <property name="horizontalSpacing" >
+    <number>0</number>
+   </property>
    <property name="verticalSpacing" >
     <number>0</number>
    </property>
    <item row="0" column="0" colspan="2" >
     <widget class="QFrame" name="video_frame" >
-     <property name="frameShape" >
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Raised</enum>
+     <property name="lineWidth" >
+      <number>0</number>
      </property>
     </widget>
    </item>
@@ -34,11 +46,20 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="frameShape" >
-      <enum>QFrame::StyledPanel</enum>
+     <property name="minimumSize" >
+      <size>
+       <width>16</width>
+       <height>15</height>
+      </size>
      </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Raised</enum>
+     <property name="maximumSize" >
+      <size>
+       <width>16777215</width>
+       <height>15</height>
+      </size>
+     </property>
+     <property name="lineWidth" >
+      <number>0</number>
      </property>
     </widget>
    </item>

@@ -31,6 +31,8 @@
 #include "effectdesc.h"
 #include "effectparamdescfactory.h"*/
 
+#include <mlt++/Mlt.h>
+
 /**Render encapsulates the client side of the interface to a renderer.
 From Kdenlive's point of view, you treat the Render object as the
 renderer, and simply use it as if it was local. Calls are asyncrhonous -
@@ -50,7 +52,7 @@ namespace Mlt {
     class Frame;
     class Producer;
     class Filter;
-
+    class Profile;
     class Multitrack;
 };
 
@@ -63,7 +65,7 @@ class Render:public QObject {
 	APP_NOEXIST
     };
 
-     Render(const QString & rendererName, QWidget *parent = 0);
+     Render(const QString & rendererName, int winid, int extid, QWidget *parent = 0);
     ~Render();
 
 	/** Wraps the VEML command of the same name; requests that the renderer
@@ -75,7 +77,7 @@ class Render:public QObject {
     void seek(GenTime time);
     void seekToFrame(int pos);
     
-    static QPixmap getVideoThumbnail(QString file, int frame, int width, int height);
+    static QPixmap getVideoThumbnail(char *profile, QString file, int frame, int width, int height);
     QPixmap getImageThumbnail(KUrl url, int width, int height);
 
 	/** Return thumbnail for color clip */
@@ -175,6 +177,7 @@ class Render:public QObject {
      Mlt::Producer * m_mltProducer;
      Mlt::Producer *m_mltTextProducer;
      Mlt::Filter *m_osdInfo;
+     Mlt::Profile *m_mltProfile;
      double m_framePosition;
      double m_fps;
      uint m_monitorId;

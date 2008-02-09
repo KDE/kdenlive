@@ -41,6 +41,7 @@
 
 #include "renderer.h"
 #include "kthumb.h"
+#include "kdenlivesettings.h"
 
 /*
     void MyThread::init(KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth)
@@ -131,8 +132,10 @@
 #define _G(y,u,v) (0x2568*(y) - 0x0c92*(v) - 0x1a1e*(u)) /0x2000
 #define _B(y,u,v) (0x2568*(y) + 0x40cf*(v))                                          /0x2000
 */
-KThumb::KThumb(KUrl url, QObject * parent, const char *name):QObject(parent), m_url(url)
+KThumb::KThumb(KUrl url, int width, int height, QObject * parent, const char *name):QObject(parent), m_url(url), m_width(width), m_height(height)
 {
+  kDebug()<<"+++++++++++  CREATING THMB PROD FOR: "<<url;
+  m_profile = Mlt::Profile((char*) KdenliveSettings::current_profile().data());
 }
 
 KThumb::~KThumb()
@@ -146,8 +149,10 @@ QPixmap KThumb::getImage(KUrl url, int width, int height)
 {
     if (url.isEmpty()) return QPixmap();
     QPixmap pix(width, height);
+  kDebug()<<"+++++++++++  GET THMB IMG FOR: "<<url;
     char *tmp = Render::decodedString(url.path());
-    Mlt::Producer m_producer(tmp);
+    Mlt::Profile prof((char*) KdenliveSettings::current_profile().data());
+    Mlt::Producer m_producer(prof, tmp);
     delete tmp;
 
     if (m_producer.is_blank()) {
@@ -156,7 +161,7 @@ QPixmap KThumb::getImage(KUrl url, int width, int height)
     }
     Mlt::Frame * m_frame;
     mlt_image_format format = mlt_image_rgb24a;
-    Mlt::Filter m_convert("avcolour_space");
+    Mlt::Filter m_convert(prof, "avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     m_producer.attach(m_convert);
     //m_producer.seek(frame);
@@ -173,12 +178,12 @@ QPixmap KThumb::getImage(KUrl url, int width, int height)
     return pix;
 }
 
-void KThumb::extractImage(int frame, int frame2, int width, int height)
+void KThumb::extractImage(int frame, int frame2)
 {
     if (m_url.isEmpty()) return;
-    QPixmap pix(width, height);
+    QPixmap pix(m_width, m_height);
     char *tmp = Render::decodedString(m_url.path());
-    Mlt::Producer m_producer(tmp);
+    Mlt::Producer m_producer(m_profile, tmp);
     delete tmp;
 
     if (m_producer.is_blank()) {
@@ -188,15 +193,15 @@ void KThumb::extractImage(int frame, int frame2, int width, int height)
     }
     Mlt::Frame * m_frame;
     mlt_image_format format = mlt_image_rgb24a;
-    Mlt::Filter m_convert("avcolour_space");
+    Mlt::Filter m_convert(m_profile, "avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     m_producer.attach(m_convert);
     if (frame != -1) {
       m_producer.seek(frame);
       m_frame = m_producer.get_frame();
       if (m_frame && m_frame->is_valid()) {
-	uint8_t *thumb = m_frame->get_image(format, width, height);
-	QImage image(thumb, width, height, QImage::Format_ARGB32);
+	uint8_t *thumb = m_frame->get_image(format, m_width, m_height);
+	QImage image(thumb, m_width, m_height, QImage::Format_ARGB32);
 	if (!image.isNull()) {
 	  pix = pix.fromImage(image);
 	}
@@ -209,8 +214,8 @@ void KThumb::extractImage(int frame, int frame2, int width, int height)
     m_producer.seek(frame2);
     m_frame = m_producer.get_frame();
     if (m_frame && m_frame->is_valid()) {
-      uint8_t *thumb = m_frame->get_image(format, width, height);
-      QImage image(thumb, width, height, QImage::Format_ARGB32);
+      uint8_t *thumb = m_frame->get_image(format, m_width, m_height);
+      QImage image(thumb, m_width, m_height, QImage::Format_ARGB32);
       if (!image.isNull()) {
 	pix = pix.fromImage(image);
       }

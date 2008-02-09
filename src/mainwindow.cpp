@@ -59,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent)
   m_timelineArea->setTabReorderingEnabled(true);
   connect(m_timelineArea, SIGNAL(currentChanged (int)), this, SLOT(activateDocument()));
 
+  Mlt::Factory::init(NULL);
   m_monitorManager = new MonitorManager();
 
   projectListDock = new QDockWidget(i18n("Project Tree"), this);
@@ -85,14 +86,14 @@ MainWindow::MainWindow(QWidget *parent)
   transitionConfigDock->setWidget(transitionConfig);
   addDockWidget(Qt::TopDockWidgetArea, transitionConfigDock);
 
-  Mlt::Factory::init(NULL);
 
   clipMonitorDock = new QDockWidget(i18n("Clip Monitor"), this);
   clipMonitorDock->setObjectName("clip_monitor");
   m_clipMonitor = new Monitor("clip", m_monitorManager, this);
   clipMonitorDock->setWidget(m_clipMonitor);
   addDockWidget(Qt::TopDockWidgetArea, clipMonitorDock);
-  
+  //m_clipMonitor->stop();
+
   projectMonitorDock = new QDockWidget(i18n("Project Monitor"), this);
   projectMonitorDock->setObjectName("project_monitor");
   m_projectMonitor = new Monitor("project", m_monitorManager, this);

@@ -22,6 +22,7 @@
 #include <QTimer>
 
 #include "monitormanager.h"
+#include <mlt++/Mlt.h>
 
 MonitorManager::MonitorManager(QWidget *parent)
     : QObject(parent)
@@ -44,7 +45,7 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor)
 {
   m_clipMonitor = clipMonitor;
   m_projectMonitor = projectMonitor;
-  //QTimer::singleShot(750, this, SLOT(initClipMonitor()));
+  //QTimer::singleShot(1750, this, SLOT(initClipMonitor()));
   initClipMonitor();
   //initProjectMonitor();
 }
@@ -52,14 +53,15 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor)
 void MonitorManager::initClipMonitor()
 {
   m_clipMonitor->initMonitor();
-  initProjectMonitor();
+  emit connectMonitors();
+  //initProjectMonitor();
   //QTimer::singleShot(1500, this, SLOT(initProjectMonitor()));
 }
 
 void MonitorManager::initProjectMonitor()
 {
-  m_clipMonitor->stop();
-  // m_projectMonitor->initMonitor();
+  //m_clipMonitor->stop();
+  m_projectMonitor->initMonitor();
   // activateMonitor("project");
   emit connectMonitors();
 }

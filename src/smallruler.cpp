@@ -23,10 +23,10 @@
 
 #include <KDebug>
 
-#define LITTLE_MARK_X2 15
-#define LITTLE_MARK_X1 13
-#define MIDDLE_MARK_X1 9
-#define MIDDLE_MARK_X2 15
+#define LITTLE_MARK_X2 8
+#define LITTLE_MARK_X1 5
+#define MIDDLE_MARK_X1 3
+#define MIDDLE_MARK_X2 8
 
 #define LABEL_SIZE 8
 
@@ -88,13 +88,14 @@ void SmallRuler::slotNewValue ( int _value )
 }
 
 // virtual
-void SmallRuler::paintEvent(QPaintEvent * /*e*/)
+void SmallRuler::paintEvent(QPaintEvent *e)
  {
    //  debug ("KRuler::drawContents, %s",(horizontal==dir)?"horizontal":"vertical");
  
    QStylePainter p(this);
-
+   p.fillRect(e->rect(), QBrush(QColor(Qt::white)));
  
+  
    int value  = this->value(),
      minval = minimum(),
      maxval;
@@ -144,8 +145,8 @@ void SmallRuler::paintEvent(QPaintEvent * /*e*/)
  
    // draw pointer
    if (showPointer()) {
-     QPolygon pa(4);
-       pa.setPoints(3, value-6, 9, value+6, 9, value/*+0*/, 16);
+     QPolygon pa(3);
+       pa.setPoints(3, value-6, 0, value+6, 0, value/*+0*/, 8);
      p.setBrush( QBrush(Qt::yellow) );
      p.drawPolygon( pa );
    }

@@ -63,18 +63,12 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, double fps, int width, int height, QWi
 
     /*QDomElement westley = m_document.createElement("westley");
     m_document.appendChild(westley);*/
-    QDomElement prod = m_document.createElement("producer");
-    prod.setAttribute("resource", "colour");
-    prod.setAttribute("colour", "red");
-    prod.setAttribute("id", "black");
-    prod.setAttribute("in", "0");
-    prod.setAttribute("out", "0");
+
 
     QDomElement tractor = m_document.createElement("tractor");
     QDomElement multitrack = m_document.createElement("multitrack");
 
     QDomElement playlist1 = m_document.createElement("playlist");
-    playlist1.appendChild(prod);
     playlist1.setAttribute("id", "playlist1");
     multitrack.appendChild(playlist1);
     QDomElement playlist2 = m_document.createElement("playlist");

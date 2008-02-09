@@ -261,6 +261,7 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
 // virtual 
 void CustomTrackView::mousePressEvent ( QMouseEvent * event )
 {
+  kDebug()<<"-- TIMELINE MSE PRESSED";
   int pos = event->x();
   if (event->modifiers() == Qt::ControlModifier) 
     setDragMode(QGraphicsView::ScrollHandDrag);

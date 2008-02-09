@@ -40,8 +40,8 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
   view->setupUi(this);
   m_ruler = new CustomRuler(doc->timecode());
   QVBoxLayout *layout = new QVBoxLayout;
-  layout->addWidget(m_ruler);
   view->ruler_frame->setLayout(layout);
+  layout->addWidget(m_ruler);
 
   m_scene = new QGraphicsScene();
   m_trackview = new CustomTrackView(m_doc->commandStack(), m_scene, this);
@@ -59,10 +59,10 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
   tracksLayout->addWidget(m_trackview);
 
   parseDocument(doc->toXml());
-
+/*
   TrackPanelClipMoveFunction *m_moveFunction = new TrackPanelClipMoveFunction(this);
   registerFunction("move", m_moveFunction);
-  setEditMode("move");
+  setEditMode("move");*/
 
   connect(view->horizontalSlider, SIGNAL(valueChanged ( int )), this, SLOT(slotChangeZoom( int )));
   connect(m_ruler, SIGNAL(cursorMoved ( int )), m_trackview, SLOT(setCursorPos( int )));
@@ -166,11 +166,11 @@ int TrackView::slotAddAudioTrack(int ix, QDomElement xml)
 {
   kDebug()<<"*************  ADD AUDIO TRACK "<<ix;
   m_trackview->addTrack();
-  DocumentTrack *track = new DocumentAudioTrack(xml, this, m_trackview);
+  //DocumentTrack *track = new DocumentAudioTrack(xml, this, m_trackview);
   HeaderTrack *header = new HeaderTrack();
   //m_tracksAreaLayout->addWidget(track); //, ix, Qt::AlignTop);
   m_headersLayout->addWidget(header); //, ix, Qt::AlignTop);
-  documentTracks.insert(ix, track);
+  //documentTracks.insert(ix, track);
   return 0;
   //track->show();
 }
@@ -178,7 +178,7 @@ int TrackView::slotAddAudioTrack(int ix, QDomElement xml)
 int TrackView::slotAddVideoTrack(int ix, QDomElement xml)
 {
   m_trackview->addTrack();
-  DocumentTrack *track = new DocumentVideoTrack(xml, this, m_trackview);
+  //DocumentTrack *track = new DocumentVideoTrack(xml, this, m_trackview);
   HeaderTrack *header = new HeaderTrack();
   int trackTop = 50 * ix;
   int trackBottom = trackTop + 50;
@@ -194,7 +194,7 @@ int TrackView::slotAddVideoTrack(int ix, QDomElement xml)
     int in = elem.attribute("in", 0).toInt();
     int out = elem.attribute("out", 0).toInt() - in;
     //kDebug()<<"++++++++++++++\n\n / / /ADDING CLIP: "<<clip.cropTime<<", out: "<<clip.duration<<", Producer: "<<clip.producer<<"\n\n++++++++++++++++++++";
-    ClipItem *item = new ClipItem(elem, ix, in, QRectF(position * m_scale, trackTop + 1, out * m_scale, 49), out);
+    ClipItem *item = new ClipItem(elem, ix, position, QRectF(position * m_scale, trackTop + 1, out * m_scale, 49), out);
     m_scene->addItem(item);
     position += out;
 
@@ -205,7 +205,7 @@ int TrackView::slotAddVideoTrack(int ix, QDomElement xml)
 
   //m_tracksAreaLayout->addWidget(track); //, ix, Qt::AlignTop);
   m_headersLayout->addWidget(header); //, ix, Qt::AlignTop);
-  documentTracks.insert(ix, track);
+  //documentTracks.insert(ix, track);
   kDebug()<<"*************  ADD VIDEO TRACK "<<ix<<", DURATION: "<<position;
   return position;
   //track->show();
