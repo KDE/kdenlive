@@ -74,7 +74,7 @@ public slots:
 	void startRenderer();
 	void stopRenderer();
 	void resetRenderer();
-
+	KRender *renderer();
 	/** Set MLT SDL consumer volume */
         void setVolume(double volume) const;
 

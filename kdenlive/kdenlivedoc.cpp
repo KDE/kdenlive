@@ -43,6 +43,7 @@
 #include "documentgroupnode.h"
 #include "documentbasenode.h"
 #include "docclipvirtual.h"
+#include "kmmmonitor.h"
 
 KdenliveDoc::KdenliveDoc(double fps, int width, int height, Gui::KdenliveApp * app, QWidget * parent, const char *name):
 QObject(parent, name),
@@ -53,7 +54,7 @@ m_documentIsClean(true),
 m_sceneListGeneration(true),
 m_showAllMarkers(KdenliveSettings::showallmarkers()),
 m_thumbSize(QPoint(40 * KdenliveSettings::displayratio(), 40)),
-m_clipHierarch(0), m_render(app->renderManager()->findRenderer("Document")), m_clipManager(m_render, this), m_app(app), m_metadata(NULL)
+m_clipHierarch(0), m_render(app->renderManager()->findRenderer("Document", app->documentRendererWid(), -1)), m_clipManager(m_render, this), m_app(app), m_metadata(NULL)
 {
     if (fps == 30000.0 / 1001.0 ) m_timecode.setFormat(30, true);
     else m_timecode.setFormat(fps);
@@ -78,6 +79,11 @@ KdenliveDoc::~KdenliveDoc()
 	m_projectClip->requestProjectClose();
 	delete m_projectClip;
     }
+}
+
+void KdenliveDoc::setRenderWid(int wid)
+{
+    m_render->setWid(wid);
 }
 
 QPoint KdenliveDoc::thumbSize()

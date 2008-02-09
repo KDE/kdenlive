@@ -156,8 +156,12 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	m_app->activateMonitor(this);
     }
 
-    KRender *KMMMonitor::findRenderer(const char *name) {
-	return m_app->renderManager()->findRenderer(name);
+    int KMMMonitor::monitorWid() {
+	return m_screen->winId();
+    }
+
+    KRender *KMMMonitor::findRenderer(const char *name, int wid, int extid) {
+	return m_app->renderManager()->findRenderer(name, wid, extid);
     }
 
     void KMMMonitor::slotSetActive() const {

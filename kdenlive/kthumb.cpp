@@ -30,8 +30,6 @@
 #include <kmdcodec.h>
 #include <kmessagebox.h>
 
-#include <mlt++/Mlt.h>
-
 #include <qxml.h>
 #include <qimage.h>
 #include <qlabel.h>
@@ -51,6 +49,7 @@
 	stop_me = false;
 	m_isWorking = false;
 	f.setName(target);
+	m_mltProfile = new Mlt::Profile((char *) qstrdup(KdenliveSettings::defaultprojectformat().utf8()));
 	m_url = url;
 	m_frame = frame;
 	m_frameLength = frameLength;
@@ -75,11 +74,11 @@
 		}
 		m_isWorking = true;
 		char *tmp = KRender::decodedString(m_url.path());
-		Mlt::Producer m_producer(tmp);
+		Mlt::Producer m_producer(*m_mltProfile, tmp);
 		delete tmp;
 
 		if (KdenliveSettings::normaliseaudiothumbs()) {
-    		    Mlt::Filter m_convert("volume");
+    		    Mlt::Filter m_convert(*m_mltProfile, "volume");
     		    m_convert.set("gain", "normalise");
     		    m_producer.attach(m_convert);
 		}
@@ -149,14 +148,15 @@ QPixmap KThumb::extractImage(KURL url, int frame, int width, int height)
     if (url.isEmpty()) return QPixmap();
     QPixmap image(width, height);
     char *tmp = KRender::decodedString(url.path());
-    Mlt::Producer m_producer(tmp);
+    Mlt::Profile profile( KdenliveSettings::videoprofile().ascii());
+    Mlt::Producer m_producer(profile, tmp);
     delete tmp;
     image.fill(Qt::black);
 
     if (m_producer.is_blank()) {
 	return QPixmap();
     }
-    Mlt::Filter m_convert("avcolour_space");
+    Mlt::Filter m_convert(profile, "avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     m_producer.attach(m_convert);
     m_producer.seek(frame);
@@ -178,7 +178,8 @@ void KThumb::getImage(KURL url, int frame, int width, int height)
     if (url.isEmpty()) return;
     QPixmap image(width, height);
     char *tmp = KRender::decodedString(url.path());
-    Mlt::Producer m_producer(tmp);
+    Mlt::Profile profile( KdenliveSettings::videoprofile().ascii());
+    Mlt::Producer m_producer(profile, tmp);
     delete tmp;
     image.fill(Qt::black);
 
@@ -186,7 +187,7 @@ void KThumb::getImage(KURL url, int frame, int width, int height)
 	emit thumbReady(frame, image);
 	return;
     }
-    Mlt::Filter m_convert("avcolour_space");
+    Mlt::Filter m_convert(profile, "avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     m_producer.attach(m_convert);
     m_producer.seek(frame);
@@ -208,7 +209,8 @@ void KThumb::getThumbs(KURL url, int startframe, int endframe, int width, int he
     if (url.isEmpty()) return;
     QPixmap image(width, height);
     char *tmp = KRender::decodedString(url.path());
-    Mlt::Producer m_producer(tmp);
+    Mlt::Profile profile( KdenliveSettings::videoprofile().ascii());
+    Mlt::Producer m_producer(profile, tmp);
     delete tmp;
     image.fill(Qt::black);
 
@@ -217,7 +219,7 @@ void KThumb::getThumbs(KURL url, int startframe, int endframe, int width, int he
 	emit thumbReady(endframe, image);
 	return;
     }
-    Mlt::Filter m_convert("avcolour_space");
+    Mlt::Filter m_convert(profile, "avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     m_producer.attach(m_convert);
     m_producer.seek(startframe);

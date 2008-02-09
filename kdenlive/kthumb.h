@@ -25,6 +25,8 @@
 
 #include <kurl.h>
 
+#include <mlt++/Mlt.h>
+
 
 /**KRender encapsulates the client side of the interface to a renderer.
 From Kdenlive's point of view, you treat the KRender object as the
@@ -39,6 +41,7 @@ namespace Mlt {
     class Miracle;
     class Consumer;
     class Producer;
+    class Profile;
     class Frame;
 };
 
@@ -60,6 +63,7 @@ namespace Mlt {
 	int m_channels;
 	int m_arrayWidth;
 	bool m_isWorking;
+	Mlt::Profile *m_mltProfile;
     };
 
 

@@ -28,5 +28,5 @@ FIND_PACKAGE(LIBFFMPEG REQUIRED)
 #SET(CMAKE_C_FLAGS `mlt-config --cflags`)
 
 
-SUBDIRS(kdenlive renderer graphics profiles pgm icons doc effects po)
+SUBDIRS(kdenlive graphics profiles pgm icons doc effects po)
 

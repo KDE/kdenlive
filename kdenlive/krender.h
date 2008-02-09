@@ -26,6 +26,8 @@
 
 #include <kurl.h>
 
+#include <mlt++/Mlt.h>
+
 #include "gentime.h"
 #include "docclipref.h"
 #include "effectdesc.h"
@@ -51,7 +53,7 @@ namespace Mlt {
     class Frame;
     class Producer;
     class Filter;
-
+    class Profile;
     class Multitrack;
 };
 
@@ -73,14 +75,9 @@ class KRender:public QObject {
 	APP_NOEXIST
     };
 
-     KRender(const QString & rendererName, QWidget *parent = 0, const char *name = 0);
+     KRender(const QString & rendererName, QWidget *parent, const char *name, int wid, int extwid);
     ~KRender();
 
-	/** Wraps the VEML command of the same name; requests that the renderer
-	should create a video window. If show is true, then the window should be
-	displayed, otherwise it should be hidden. KRender will emit the signal
-	replyCreateVideoXWindow() once the renderer has replied. */
-    void createVideoXWindow(WId winid, WId externalMonitor);
 	/** Seeks the renderer clip to the given time. */
     void seek(GenTime time);
     
@@ -157,6 +154,9 @@ class KRender:public QObject {
     QDomDocument sceneList() const;
     int resetRendererProfile(char * profile);
     bool isBlocked;
+    int renderWidgetId();
+    int renderExtWidgetId();
+    void setWid(int wid);
 
     /** Playlist manipulation */
     void mltInsertClip(int track, GenTime position, QString resource);
@@ -181,6 +181,7 @@ class KRender:public QObject {
      Mlt::Producer * m_mltProducer;
      Mlt::Producer *m_mltTextProducer;
      Mlt::Filter *m_osdInfo;
+     Mlt::Profile *m_mltProfile;
      double m_framePosition;
      double m_fps;
      uint m_monitorId;
@@ -214,13 +215,10 @@ class KRender:public QObject {
 	/** refresh monitor display */
         void refresh();
 	void slotOsdTimeout();
-	void restartConsumer();
 	void connectPlaylist();
 	void initSceneList();
 
      signals:			// Signals
-	/** This signal is emitted once a reply to createVideoXWidow() has been recieved. */
-    void replyCreateVideoXWindow(WId);
 	/** emitted when the renderer recieves a reply to a getFileProperties request. */
     void replyGetFileProperties(const QMap < QString, QString > &, const QMap < QString, QString > &);
 

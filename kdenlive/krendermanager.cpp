@@ -32,22 +32,22 @@ KRenderManager::~KRenderManager()
 {}
 
 /** Creates a new renderer, guaranteeing it it's own port number, etc. */
-KRender *KRenderManager::createRenderer(const QString &name)
+KRender *KRenderManager::createRenderer(const QString &name, int wid, int extwid)
 {
     if (!m_initialised) {
-	if (Mlt::Factory::init(NULL) != 0) kdWarning()<<"Error initializing MLT, Crash will follow"<<endl;
+	if (Mlt::Factory::init(NULL) == NULL) kdWarning()<<"Error initializing MLT, Crash will follow"<<endl;
 	else {
 	    m_initialised = true;
 	    kdDebug() << "Mlt inited" << endl;
 	}
     }
-    KRender *render = new KRender(name, m_app, name.ascii());
+    KRender *render = new KRender(name, m_app, name.ascii(), wid, extwid);
     m_renderList.append(render);
     return render;
 }
 
 
-KRender *KRenderManager::findRenderer(const QString & name)
+KRender *KRenderManager::findRenderer(const QString & name, int wid, int extwid)
 {
     KRender *result = 0;
     QPtrListIterator < KRender > itt(m_renderList);
@@ -60,7 +60,7 @@ KRender *KRenderManager::findRenderer(const QString & name)
 	}
 	++itt;
     }
-    if (!found) return createRenderer(name);
+    if (!found) return createRenderer(name, wid, extwid);
     return result;
 }
 
@@ -68,15 +68,21 @@ void KRenderManager::resetRenderers()
 {
 
     QStringList renderNames;
+    QStringList renderWid;
+    QStringList renderExtwid;
     QPtrListIterator < KRender > itt(m_renderList);
     while (itt.current()) {
 	renderNames.append(itt.current()->rendererName());
+	renderWid.append(QString::number(itt.current()->renderWidgetId()));
+	renderExtwid.append(QString::number(itt.current()->renderExtWidgetId()));
 	++itt;
     }
     m_renderList.clear();
 
+    uint i = 0;
     for ( QStringList::Iterator it = renderNames.begin(); it != renderNames.end(); ++it ) {
-        createRenderer(*it);
+        createRenderer(*it, QString(*(renderWid.at(i))).toInt(), QString(*(renderExtwid.at(i))).toInt());
+	i++;
     }
 }
 

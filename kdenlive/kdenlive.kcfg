@@ -111,7 +111,7 @@
 
     <entry name="defaultprojectformat" type="String">
       <label>Default video project template</label>
-      <default>pal_dv</default>
+      <default>dv_pal</default>
     </entry>
 
     <entry name="defaultwidth" type="Int">
@@ -154,8 +154,8 @@
     </entry>
 
     <entry name="videoprofile" type="String">
-      <label>Normal or 16:9 profile.</label>
-      <default>dv</default>
+      <label>Current project video profile.</label>
+      <default>dv_pal</default>
     </entry>
 
     <entry name="addnewlysaved" type="Bool">

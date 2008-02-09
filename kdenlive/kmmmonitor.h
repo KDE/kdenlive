@@ -68,8 +68,8 @@ namespace Gui {
 	void clickMonitor();
 	/** This slot is called when the screen changes position. */
 	void screenPositionChanged(const GenTime & time);
-	KRender *findRenderer(const char *name);
-
+	KRender *findRenderer(const char *name, int wid, int extid);
+    	int monitorWid();
 	virtual DocClipRef *clip() const;
 
 	virtual KMMEditPanel *editPanel() const;

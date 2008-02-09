@@ -1509,6 +1509,8 @@ namespace Gui {
 	m_dockEffectStack->setWidget(m_effectStackDialog);
 	m_effectStackDialog->show();
 	m_dockEffectStack->update();
+
+
 	m_monitorManager.deleteMonitors();
 	if (m_workspaceMonitor) delete m_workspaceMonitor;
 	if (m_clipMonitor) delete m_clipMonitor;
@@ -1519,11 +1521,14 @@ namespace Gui {
 	m_dockWorkspaceMonitor->setWidget(m_workspaceMonitor);
 	m_workspaceMonitor->show();
 	m_dockWorkspaceMonitor->update();
+	m_doc->setRenderWid(m_workspaceMonitor->monitorWid());
 
 	m_clipMonitor = m_monitorManager.createMonitor( getDocument(),m_dockClipMonitor, "ClipMonitor");
 	m_dockClipMonitor->setWidget(m_clipMonitor);
 	m_clipMonitor->show();
 	m_dockClipMonitor->update();
+	m_clipMonitor->screen()->renderer()->setWid(m_clipMonitor->screen()->winId());
+	
 	//activateWorkspaceMonitor();
 	//activateClipMonitor();
         if (m_captureMonitor) delete m_captureMonitor;
@@ -1735,6 +1740,11 @@ namespace Gui {
 	m_timeline->trackView()->setReady(true);
 	m_doc->setModified(false);
 	
+    }
+
+    int KdenliveApp::documentRendererWid() {
+	if (m_workspaceMonitor) return m_workspaceMonitor->monitorWid();
+	return -1;
     }
 
     void KdenliveApp::focusTimelineWidget()
@@ -2255,13 +2265,16 @@ namespace Gui {
 	//putenv (m_projectTemplates.values()[ix].normalisation());
 	if (m_transitionPanel) m_transitionPanel->setVideoFormat(projectFormatParameters(m_projectFormat));
 	if (m_exportWidget) m_exportWidget->setVideoFormat(projectFormatParameters(m_projectFormat));
+	//if (m_renderManager) renderManager()->resetRenderers();
 	if (getDocument()) {
 	    if (getDocument()->renderer())
 		getDocument()->renderer()->resetRendererProfile((char*) KdenliveSettings::videoprofile().ascii());
 	    setCaption(m_doc->projectName() + " - " + projectFormatName(m_projectFormat), m_doc->isModified());
 	}
-	if (m_renderManager && m_renderManager->findRenderer("ClipMonitor"))
-	    m_renderManager->findRenderer("ClipMonitor")->resetRendererProfile((char*) KdenliveSettings::videoprofile().ascii());
+	if (m_renderManager && m_clipMonitor) { //m_renderManager->findRenderer("ClipMonitor"))
+		m_clipMonitor->screen()->renderer()->resetRendererProfile((char*) KdenliveSettings::videoprofile().ascii());
+	}
+	    //m_renderManager->findRenderer("ClipMonitor")->resetRendererProfile((char*) KdenliveSettings::videoprofile().ascii());
 	statusBar()->changeItem(profileName, ID_TIMELINE_MSG);
     }
 
@@ -3122,12 +3135,14 @@ namespace Gui {
 	m_workspaceMonitor->setNoSeek(true);
 	m_dockWorkspaceMonitor->setWidget(m_workspaceMonitor);
 	m_workspaceMonitor->show();
+	m_doc->setRenderWid(m_workspaceMonitor->monitorWid());
 	m_dockWorkspaceMonitor->update();
 
 	if (m_clipMonitor) delete m_clipMonitor;
 	m_clipMonitor = m_monitorManager.createMonitor(getDocument(), m_dockClipMonitor, "ClipMonitor");
 	m_dockClipMonitor->setWidget(m_clipMonitor);
 	m_clipMonitor->show();
+	m_clipMonitor->screen()->renderer()->setWid(m_clipMonitor->screen()->winId());
 	m_dockClipMonitor->update();
 	connectMonitors();
 	getDocument()->activateSceneListGeneration( true );
@@ -4198,6 +4213,10 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	if (m_newLumaDialog) delete m_newLumaDialog;
 	m_newLumaDialog = new newLumaStuff("kdenlive/luma", m_transitionPanel);
 	m_newLumaDialog->download();
+    }
+
+    KMMMonitor *KdenliveApp::clipMonitor() {
+	return m_clipMonitor;
     }
 
     void KdenliveApp::activateClipMonitor() {

@@ -31,13 +31,13 @@ namespace Gui {
 	const char *name):QVBox(parent, name), m_monitor(monitor),
         m_clipLength(0), m_name(name)
     {
-	m_render = m_monitor->findRenderer(name);
+	m_render = m_monitor->findRenderer(name, (int) winId(), m_monitor->externalMonitor());
 	//connect(m_render, SIGNAL(replyCreateVideoXWindow(WId)), this, SLOT(embedWindow(WId)));
 	/*connect(m_render, SIGNAL(positionChanged(const GenTime &)), this,
         SIGNAL(seekPositionChanged(const GenTime &)));*/
         /*connect(m_app, SIGNAL(positionChanged(const GenTime &)), this,
         SIGNAL(seekPositionChanged(const GenTime &)));*/
-
+	//m_render->createVideoXWindow(winId(), m_monitor->externalMonitor());
 	 connect(m_render, SIGNAL(playing(double)), m_monitor,
 	    SLOT(slotPlaySpeedChanged(double)));
 
@@ -46,13 +46,16 @@ namespace Gui {
 
 	 connect(m_render, SIGNAL(stopped()), this,
 	    SLOT(slotRendererStopped()));
-	m_render->createVideoXWindow(winId(), m_monitor->externalMonitor());
     } 
     
     KMMScreen::~KMMScreen() {
 	// TODO - the renderer needs to be unregistered from the render manager. We
 	// should not delete it ourselves here.
 	// if(m_render) delete m_render;
+    }
+
+    KRender *KMMScreen::renderer() {
+	return m_render;
     }
 
     void KMMScreen::paintEvent ( QPaintEvent * ) {

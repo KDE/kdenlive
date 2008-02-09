@@ -74,8 +74,9 @@ namespace Gui {
 
     void KTrackView::tip(const QPoint &pos, QRect &rect, QString &tipText) {
 	KTrackPanel *panel = panelAt(pos.y());
+	if (!panel) return;
     	KMMTrackPanel *m_panel = static_cast<KMMTrackPanel*> (panel);
-	if (m_panel->trackType() == KEYFRAMETRACK) return;
+	if (!m_panel || m_panel->trackType() == KEYFRAMETRACK) return;
 	DocClipRef *underMouse = m_panel->getClipAt(pos.x());
 	if (!underMouse) return;
 

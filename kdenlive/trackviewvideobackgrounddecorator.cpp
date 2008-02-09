@@ -23,6 +23,8 @@
 #include "kdenlivedoc.h"
 #include "kdebug.h"
 #include "ktimeline.h"
+#include "kdenlivesettings.h"
+
 #include <qimage.h>
 #include <iostream>
 
@@ -98,14 +100,15 @@ namespace Gui {
 			    uint drawWidth = clip->thumbnail().width();
 			    QPixmap image(width, h);
     			    char *tmp = KRender::decodedString(clip->fileURL().path());
-    			    Mlt::Producer m_producer(tmp);
+    			    Mlt::Profile *profile = new Mlt::Profile( KdenliveSettings::videoprofile().ascii());
+    			    Mlt::Producer m_producer(*profile, tmp);
     			    delete tmp;
 			    if (m_producer.is_blank()) {
 				kdDebug()<<"/*/*/*/*/ ERROR CANOT READ: "<<tmp<<endl;
 				return;
 			    }
 			    m_producer.seek(startFrame);
-			    Mlt::Filter m_convert("avcolour_space");
+			    Mlt::Filter m_convert(*profile, "avcolour_space");
     			    m_convert.set("forced", mlt_image_rgb24a);
     			    m_producer.attach(m_convert);
     			    mlt_image_format format = mlt_image_rgb24a;

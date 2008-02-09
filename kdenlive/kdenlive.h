@@ -156,7 +156,8 @@ namespace Gui {
 	QString projectFormatFromName(QString formatName);
 		/** Adjust document and timeline to current fps */
 	void setFramesPerSecond();
-
+		/** Return document monitor window id */
+	int documentRendererWid();
 		/** Retreive timeline ruler cursor time */
 	GenTime cursorPosition() const;
 
@@ -337,6 +338,7 @@ namespace Gui {
 	void slotSetClipMonitorSource(DocClipRef * clip);
 	void slotSetClipMonitorSource(QDomDocument playlist, GenTime duration);
         void slotSetClipMonitorSourceAndSeek(DocClipRef * clip);
+        KMMMonitor *clipMonitor();
 		/** SLots to Save/Load the current dockwidget layout to/from the layout number specified. */
 	void slotSetRenderProgress(const GenTime &);
 	void slotSetRenderFinished();

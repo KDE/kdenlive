@@ -194,7 +194,7 @@ class KdenliveDoc:public QObject {
 
     bool backupModified() const;
     void setBackupModified(bool state);
-
+    void setRenderWid(int wid);
 
   private:
 	/** The base clip for this document. This must be a project clip, as it lists the tracks within
