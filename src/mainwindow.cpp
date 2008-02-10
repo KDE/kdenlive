@@ -325,7 +325,9 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //chang
     m_activeDocument->setProducers(m_projectList->producersList());
     m_activeDocument->setRenderer(NULL);
   }
+  connect(trackView, SIGNAL(cursorMoved(int)), m_projectMonitor, SLOT(slotSeek(int)));
   connect(trackView, SIGNAL(mousePosition(int)), this, SLOT(slotUpdateMousePosition(int)));
+  connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
   m_projectList->setDocument(doc);
   m_monitorManager->setTimecode(doc->timecode());
   doc->setRenderer(m_projectMonitor->render);

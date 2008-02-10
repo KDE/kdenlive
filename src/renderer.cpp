@@ -965,7 +965,7 @@ void Render::mltCheckLength()
         Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
         duration = Mlt::Producer(trackPlaylist.get_producer()).get_playtime() - 1;
 	m_mltProducer->set("out", duration);
-	emit durationChanged();
+	emit playListDuration(duration);
 	return;
     }
     while (trackNb > 1) {
@@ -1001,7 +1001,7 @@ void Render::mltCheckLength()
 	mltInsertClip(0, GenTime(), black);
 
 	m_mltProducer->set("out", duration);
-	emit durationChanged();
+	emit playListDuration(duration);
     }
 }
 
@@ -1023,7 +1023,7 @@ void Render::mltInsertClip(int track, GenTime position, QDomElement element)
     QDomDocument doc;
     doc.appendChild(doc.importNode(element, true));
     QString resource = doc.toString();
-    kDebug()<<"///////  ADDING CLIP TMLNE: "<<resource;
+    kDebug()<<"///////  ADDING CLIP TMLNE: "<<resource<<" ON TRACK: "<<track;
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
     char *tmp = decodedString(resource);
@@ -1036,7 +1036,7 @@ void Render::mltInsertClip(int track, GenTime position, QDomElement element)
     tractor.refresh();
     if (track != 0) mltCheckLength();
     double duration = Mlt::Producer(trackPlaylist.get_producer()).get_playtime();
-    kDebug()<<"// +  +INSERTING CLIP: "<<resource<<" AT: "<<position.frames(m_fps)<<" on track: "<<track<<", DURATION: "<<duration;
+    //kDebug()<<"// +  +INSERTING CLIP: "<<resource<<" AT: "<<position.frames(m_fps)<<" on track: "<<track<<", DURATION: "<<duration;
 
 
 }

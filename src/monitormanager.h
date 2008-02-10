@@ -32,11 +32,12 @@ class MonitorManager : public QObject
   
   public:
     MonitorManager(QWidget *parent=0);
-
     void initMonitors(Monitor *clipMonitor, Monitor *projectMonitor);
-    void activateMonitor(QString name);
     Timecode timecode();
     void setTimecode(Timecode tc);
+
+  public slots:
+    void activateMonitor(QString name = QString::null);
 
   private:
     Monitor *m_clipMonitor;

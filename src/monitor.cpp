@@ -55,6 +55,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
   connect(render, SIGNAL(playListDuration(int)), this, SLOT(adjustRulerSize(int)));
   connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
   connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
+  if (name != "clip") connect(render, SIGNAL(rendererPosition(int)), this, SIGNAL(renderPosition(int)));
   //render->createVideoXWindow(ui.video_frame->winId(), -1);
   int width = m_ruler->width();
   m_ruler->setLength(width);

@@ -59,7 +59,6 @@ class Monitor : public QWidget
     void adjustRulerSize(int length);
     void seekCursor(int pos);
     void rendererStopped(int pos);
-    void slotSeek(int pos);
     void slotRewindOneFrame();
     void slotForwardOneFrame();
     void slotForward();
@@ -70,8 +69,12 @@ class Monitor : public QWidget
     void slotSetXml(const QDomElement &e);
     void initMonitor();
     void refreshMonitor(bool visible);
+    void slotSeek(int pos);
     void stop();
     void start();
+
+  signals:
+    void renderPosition(int);
 };
 
 #endif

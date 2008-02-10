@@ -349,7 +349,7 @@ void CustomTrackView::dropEvent ( QDropEvent * event ) {
   if (m_dropItem) {
     AddTimelineClipCommand *command = new AddTimelineClipCommand(this, m_dropItem->xml(), m_dropItem->track(), m_dropItem->startPos(), m_dropItem->rect(), m_dropItem->duration(), false);
     m_commandStack->push(command);
-    m_document->renderer()->mltInsertClip(m_dropItem->track(), GenTime(m_dropItem->startPos(), 25), m_dropItem->xml());
+    m_document->renderer()->mltInsertClip(m_tracksCount - m_dropItem->track() + 1, GenTime(m_dropItem->startPos(), 25), m_dropItem->xml());
   }
   m_dropItem = NULL;
 }
@@ -392,12 +392,12 @@ void CustomTrackView::removeTrack ()
   m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), 50 * m_tracksCount);
 }
 
-void CustomTrackView::setCursorPos(int pos)
+void CustomTrackView::setCursorPos(int pos, bool seek)
 {
   m_cursorPos = pos;
   m_cursorLine->setPos(pos, 0);
   int frame = mapToScene(QPoint(pos, 0)).x() / m_scale;
-  m_document->renderer()->seek(GenTime(frame, 25));
+  if (seek) m_document->renderer()->seek(GenTime(frame, 25));
 }
 
 int CustomTrackView::cursorPos()

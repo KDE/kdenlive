@@ -51,7 +51,7 @@ class CustomTrackView : public QGraphicsView
     void setScale(double scaleFactor);
 
   public slots:
-    void setCursorPos(int pos);
+    void setCursorPos(int pos, bool seek = true);
 
   protected:
     virtual void drawBackground ( QPainter * painter, const QRectF & rect );

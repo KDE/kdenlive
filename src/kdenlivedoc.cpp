@@ -65,7 +65,8 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, double fps, int width, int height, QWi
 
     QDomElement tractor = m_document.createElement("tractor");
     QDomElement multitrack = m_document.createElement("multitrack");
-
+    QDomElement playlist = m_document.createElement("playlist");
+    multitrack.appendChild(playlist);
     QDomElement playlist1 = m_document.createElement("playlist");
     playlist1.setAttribute("id", "playlist1");
     multitrack.appendChild(playlist1);

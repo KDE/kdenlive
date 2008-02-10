@@ -122,12 +122,17 @@ void TrackView::parseDocument(QDomDocument doc)
 
 void TrackView::setCursorPos(int pos)
 {
+  emit cursorMoved(pos);
   m_trackview->setCursorPos(pos * m_scale);
+}
+
+void TrackView::moveCursorPos(int pos)
+{
+  m_trackview->setCursorPos(pos * m_scale, false);
 }
 
 void TrackView::slotCursorMoved(int pos, bool emitSignal)
 {
-  kDebug()<<"///// CURSOR: "<<pos;
   m_ruler->slotNewValue(pos * FRAME_SIZE / m_scale, emitSignal); //(int) m_trackview->mapToScene(QPoint(pos, 0)).x());
   //m_trackview->setCursorPos(pos);
   //m_trackview->invalidateScene(QRectF(), QGraphicsScene::ForegroundLayer);
