@@ -78,6 +78,11 @@ void Monitor::wheelEvent ( QWheelEvent * event )
   else slotRewindOneFrame();
 }
 
+void Monitor::activateMonitor()
+{
+  if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+}
+
 void Monitor::slotSeek(int pos)
 {
   if (!m_isActive) m_monitorManager->activateMonitor(m_name);

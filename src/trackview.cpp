@@ -123,7 +123,7 @@ void TrackView::parseDocument(QDomDocument doc)
 
 void TrackView::setCursorPos(int pos)
 {
-  emit cursorMoved(pos);
+  emit cursorMoved();
   m_trackview->setCursorPos(pos * m_scale);
 }
 

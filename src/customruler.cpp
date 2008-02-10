@@ -92,7 +92,6 @@ void CustomRuler::mousePressEvent ( QMouseEvent * event )
 {
   int pos = event->x();
   slotMoveCursor( pos, true );
-  kDebug()<<pos;
 }
 
 // virtual

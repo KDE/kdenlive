@@ -100,7 +100,7 @@ class TrackView : public QWidget
 
   signals:
     void mousePosition(int);
-    void cursorMoved(int);
+    void cursorMoved();
 };
 
 #endif

@@ -72,6 +72,7 @@ class Monitor : public QWidget
     void slotSeek(int pos);
     void stop();
     void start();
+    void activateMonitor();
 
   signals:
     void renderPosition(int);
