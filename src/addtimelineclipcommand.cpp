@@ -32,7 +32,7 @@ void AddTimelineClipCommand::undo()
 {
 // kDebug()<<"----  undoing action";
   m_doIt = true;
-  if (m_doIt) m_view->deleteClip(m_clipRect);
+  if (m_doIt) m_view->deleteClip(m_clipTrack, m_clipPos, m_clipRect);
 }
 // virtual 
 void AddTimelineClipCommand::redo()

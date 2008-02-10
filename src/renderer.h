@@ -68,11 +68,6 @@ class Render:public QObject {
      Render(const QString & rendererName, int winid, int extid, QWidget *parent = 0);
     ~Render();
 
-	/** Wraps the VEML command of the same name; requests that the renderer
-	should create a video window. If show is true, then the window should be
-	displayed, otherwise it should be hidden. Render will emit the signal
-	replyCreateVideoXWindow() once the renderer has replied. */
-    void createVideoXWindow(WId winid, WId externalMonitor);
 	/** Seeks the renderer clip to the given time. */
     void seek(GenTime time);
     void seekToFrame(int pos);
@@ -211,13 +206,10 @@ class Render:public QObject {
 	/** refresh monitor display */
         void refresh();
 	void slotOsdTimeout();
-	void restartConsumer();
 	void connectPlaylist();
 	void initSceneList();
 
      signals:			// Signals
-	/** This signal is emitted once a reply to createVideoXWidow() has been recieved. */
-    void replyCreateVideoXWindow(WId);
 	/** emitted when the renderer recieves a reply to a getFileProperties request. */
     void replyGetFileProperties(int clipId, const QMap < QString, QString > &, const QMap < QString, QString > &);
 

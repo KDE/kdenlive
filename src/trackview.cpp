@@ -95,6 +95,7 @@ int TrackView::tracksNumber()
 void TrackView::parseDocument(QDomDocument doc)
 {
   int cursorPos = 0;
+  kDebug()<<"//// DOCUMENT: "<<doc.toString();
   QDomNode props = doc.elementsByTagName("properties").item(0);
   if (!props.isNull()) {
     cursorPos = props.toElement().attribute("timeline_position").toInt();
@@ -129,6 +130,7 @@ void TrackView::setCursorPos(int pos)
 void TrackView::moveCursorPos(int pos)
 {
   m_trackview->setCursorPos(pos * m_scale, false);
+  //m_ruler->slotNewValue(pos * FRAME_SIZE, false);
 }
 
 void TrackView::slotCursorMoved(int pos, bool emitSignal)

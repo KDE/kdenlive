@@ -100,7 +100,6 @@ void CustomRuler::mouseMoveEvent ( QMouseEvent * event )
 {
   int pos = event->x();
   slotMoveCursor( pos, true );
-  kDebug()<<pos;
 }
 
 void CustomRuler::slotMoveRuler(int newPos)
@@ -120,10 +119,9 @@ void CustomRuler::slotMoveCursor( int _value, bool emitSignal )
 
 void CustomRuler::slotNewValue ( int _value, bool emitSignal )
 {
-  kDebug()<<"--------------  SET NEW CURSOR: "<<_value;
   m_cursorPosition= _value / pixelPerMark();
   if (emitSignal) emit cursorMoved(m_cursorPosition / FRAME_SIZE);
-  KRuler::slotNewValue(_value* pixelPerMark() - offset());
+  KRuler::slotNewValue(_value * pixelPerMark() - offset());
 }
 
 void CustomRuler::setPixelPerMark (double rate)

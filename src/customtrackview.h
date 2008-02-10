@@ -46,7 +46,7 @@ class CustomTrackView : public QGraphicsView
     void moveClip ( const QPointF &startPos, const QPointF &endPos );
     void resizeClip ( const QPointF &startPos, const QPointF &endPos, bool resizeClipStart );
     void addClip ( QDomElement xml, int track, int startpos, const QRectF &rect, int duration);
-    void deleteClip ( const QRectF &rect );
+    void deleteClip ( int track, int startpos, const QRectF &rect );
     void setDuration(int duration);
     void setScale(double scaleFactor);
 

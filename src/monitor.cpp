@@ -85,6 +85,7 @@ void Monitor::slotSeek(int pos)
   int realPos = ((double) pos) / m_scale;
   render->seekToFrame(realPos);
   m_position = realPos;
+  emit renderPosition(m_position);
   ui.monitor_time->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 

@@ -278,8 +278,10 @@ void CustomTrackView::mousePressEvent ( QMouseEvent * event )
 	m_dragItem = (ClipItem *) item;
 	m_clickPoint = mapToScene(event->pos()).x() - m_dragItem->startPos() * m_scale;
 	m_operationMode = m_dragItem->operationMode(item->mapFromScene(mapToScene(event->pos())), m_scale);
-	if (m_operationMode == MOVE || m_operationMode == RESIZESTART) m_startPos = QPointF(m_dragItem->startPos(), m_dragItem->track());
-	else if (m_operationMode == RESIZEEND) m_startPos = QPointF(m_dragItem->endPos(), m_dragItem->track());
+	if (m_operationMode == MOVE || m_operationMode == RESIZESTART) 
+	  m_startPos = QPointF(m_dragItem->startPos(), m_dragItem->track());
+	else if (m_operationMode == RESIZEEND) 
+	  m_startPos = QPointF(m_dragItem->endPos(), m_dragItem->track());
 	kDebug()<<"//////// ITEM CLICKED: "<<m_startPos;
 	collision = true;
 	break;
@@ -349,7 +351,8 @@ void CustomTrackView::dropEvent ( QDropEvent * event ) {
   if (m_dropItem) {
     AddTimelineClipCommand *command = new AddTimelineClipCommand(this, m_dropItem->xml(), m_dropItem->track(), m_dropItem->startPos(), m_dropItem->rect(), m_dropItem->duration(), false);
     m_commandStack->push(command);
-    m_document->renderer()->mltInsertClip(m_tracksCount - m_dropItem->track() + 1, GenTime(m_dropItem->startPos(), 25), m_dropItem->xml());
+    kDebug()<<"IIIIIIIIIIIIIIIIIIIIIIII TRAX CNT: "<<m_tracksCount<<", DROP: "<<m_dropItem->track();
+    m_document->renderer()->mltInsertClip(m_tracksCount - m_dropItem->track(), GenTime(m_dropItem->startPos(), 25), m_dropItem->xml());
   }
   m_dropItem = NULL;
 }
@@ -415,6 +418,7 @@ void CustomTrackView::mouseReleaseEvent ( QMouseEvent * event )
     // move clip
     MoveClipCommand *command = new MoveClipCommand(this, m_startPos, QPointF(m_dragItem->startPos(), m_dragItem->track()), false);
     m_commandStack->push(command);
+    m_document->renderer()->mltMoveClip(m_tracksCount - m_startPos.y(), m_tracksCount - m_dragItem->track(), m_startPos.x(), m_dragItem->startPos());
   }
   else if (m_operationMode == RESIZESTART) {
     // resize start
@@ -430,7 +434,7 @@ void CustomTrackView::mouseReleaseEvent ( QMouseEvent * event )
   m_dragItem = NULL; 
 }
 
-void CustomTrackView::deleteClip ( const QRectF &rect )
+void CustomTrackView::deleteClip (int track, int startpos, const QRectF &rect )
 {
   ClipItem *item = (ClipItem *) scene()->itemAt(rect.x() + 1, rect.y() + 1);
   if (!item) {
@@ -438,6 +442,7 @@ void CustomTrackView::deleteClip ( const QRectF &rect )
     return;
   }
   delete item;
+  m_document->renderer()->mltRemoveClip(m_tracksCount - track, GenTime(startpos, 25));
 }
 
 void CustomTrackView::addClip ( QDomElement xml, int track, int startpos, const QRectF &rect, int duration )
@@ -445,6 +450,7 @@ void CustomTrackView::addClip ( QDomElement xml, int track, int startpos, const 
   QRect r(startpos * m_scale, 50 * track, duration * m_scale, 49); 
   ClipItem *item = new ClipItem(xml, track, startpos, r, duration);
   scene()->addItem(item);
+  m_document->renderer()->mltInsertClip(m_tracksCount - track, GenTime(startpos, 25), xml);
 }
 
 void CustomTrackView::moveClip ( const QPointF &startPos, const QPointF &endPos )
@@ -456,6 +462,7 @@ void CustomTrackView::moveClip ( const QPointF &startPos, const QPointF &endPos 
   }
   kDebug()<<"----------------  Move CLIP FROM: "<<startPos.x()<<", END:"<<endPos.x();
   item->moveTo(endPos.x(), m_scale, (endPos.y() - startPos.y()) * 50, endPos.y());
+  m_document->renderer()->mltMoveClip(m_tracksCount - startPos.y(), m_tracksCount - endPos.y(), startPos.x(), endPos.x());
 }
 
 void CustomTrackView::resizeClip ( const QPointF &startPos, const QPointF &endPos, bool resizeClipStart )
@@ -548,13 +555,13 @@ void CustomTrackView::setScale(double scaleFactor)
 void CustomTrackView::drawBackground ( QPainter * painter, const QRectF & rect )  
 {
   QColor base = palette().button().color();
-  painter->setPen(base);
+  //painter->setPen(base);
   painter->setClipRect(rect);
   painter->drawLine(0, 0, rect.width(), 0);
     for (uint i = 0; i < m_tracksCount;i++)
     {
-    painter->drawLine(0, 50 * (i+1), width(), 50 * (i+1));
-      //painter->drawText(QRectF(10, 50 * i, 100, 50 * i + 49), Qt::AlignLeft, i18n(" Track ") + QString::number(i));
+      painter->drawLine(0, 50 * (i+1), width(), 50 * (i+1));
+      painter->drawText(QRectF(10, 50 * i, 100, 50 * i + 49), Qt::AlignLeft, i18n(" Track ") + QString::number(i + 1));
     }
   int lowerLimit = 50 * m_tracksCount;
   if (height() > lowerLimit)

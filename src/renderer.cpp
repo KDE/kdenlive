@@ -47,7 +47,8 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
     if (mlt_properties_get_double( MLT_FRAME_PROPERTIES( frame_ptr ), "_speed" ) == 0.0) {
         self->emitConsumerStopped();
     }
-    else {
+    else 
+    {
 	self->emitFrameNumber(mlt_frame_get_position(frame_ptr));
     }
 }
@@ -117,72 +118,6 @@ void Render::closeMlt()
     //delete m_osdInfo;
 }
 
- 
-
-
-
-/** Wraps the VEML command of the same name; requests that the renderer
-should create a video window. If show is true, then the window should be
-displayed, otherwise it should be hidden. Render will emit the signal
-replyCreateVideoXWindow() once the renderer has replied. */
-
-void Render::createVideoXWindow(WId winid, WId externalMonitor)
-{
-  return;
-    if (m_mltConsumer) {
-	delete m_mltConsumer;
-    }
-
-    kDebug()<<"///////// INIT MONITOR WID";
-    //Mlt::Profile profile("dv_pal");//hdv_1080_50i");
-    //m_profile = profile;
-    //Mlt::Producer *producer = new Mlt::Producer( profile, "/home/one/Video002.mp4" );
-    Mlt::Consumer *consumer = new Mlt::Consumer( *m_mltProfile , "sdl_preview");
-    //m_mltProducer = producer;
-    m_mltConsumer = consumer;
-    //consumer->set( "rescale", "none" );
-    m_mltConsumer->set("resize", 1);
-    m_mltConsumer->set("window_id", (int) winid);
-    m_mltConsumer->set("terminate_on_pause", 1);
-    m_externalwinid = (int) externalMonitor;
-    m_winid = (int) winid;
-    m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
-    //m_mltProducer->set_speed(0.0);
-    //m_mltConsumer->connect( *m_mltProducer );
-    //m_mltConsumer->start( );
-/*
-    m_mltConsumer = new Mlt::Consumer(m_profile, "sdl_preview");
-    if (!m_mltConsumer || !m_mltConsumer->is_valid()) {
-	KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install.\n Exiting now..."));
-	kError()<<"Sorry, cannot create MLT consumer, check your MLT install you miss SDL libraries support in MLT";
-	exit(1);
-    }
-
-    m_externalwinid = (int) externalMonitor;
-    m_winid = (int) winid;
-    
-    m_mltConsumer->set("window_id", m_winid);
-    m_mltConsumer->set("resize", 1);
-    
-    m_mltConsumer->set("terminate_on_pause", 1);
-    m_mltConsumer->set("progressive", 1);
-    m_mltConsumer->set("audio_buffer", 1024);
-    m_mltConsumer->set("frequency", 48000);
-
-    m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
-*/
-    /*QString aDevice = KdenliveSettings::audiodevice();
-    if (!KdenliveSettings::videodriver().isEmpty()) m_mltConsumer->set("video_driver", KdenliveSettings::videodriver().ascii());
-    if (!KdenliveSettings::audiodriver().isEmpty()) m_mltConsumer->set("audio_driver", KdenliveSettings::audiodriver().ascii());
-    m_mltConsumer->set("audio_device", aDevice.section(";", 1).ascii());*/
-
-   initSceneList();
-
-    //QTimer::singleShot(500, this, SLOT(initSceneList()));
-    //initSceneList();
-//  m_mltConsumer->listen("consumer-stopped", this, (mlt_listener) consumer_stopped);
-//  m_mltConsumer->set("buffer", 25);
-}
 
 
 int Render::resetRendererProfile(char * profile)
@@ -196,11 +131,6 @@ int Render::resetRendererProfile(char * profile)
 //    apply_profile_properties( m_profile, m_mltConsumer->get_consumer(), properties );
     refresh();
     return 1;
-}
-
-void Render::restartConsumer()
-{
-    if (m_winid != -1) createVideoXWindow( m_winid, m_externalwinid);
 }
 
 /** Wraps the VEML command of the same name; Seeks the renderer clip to the given time. */
@@ -619,9 +549,7 @@ void Render::setSceneList(QDomDocument list, int position)
 	}*/
 
 	m_fps = m_mltProducer->get_fps();
-        if (!m_mltConsumer) {
-	    restartConsumer();
-        }
+
 	emit playListDuration(m_mltProducer->get_playtime());
 	//m_connectTimer->start( 500 );
 	connectPlaylist();
@@ -702,9 +630,8 @@ void Render::slotOsdTimeout()
 void Render::start()
 {
     kDebug()<<"-----  STARTING MONITOR: "<<m_name;
-    if (!m_mltConsumer || m_winid == -1) {
+    if (m_winid == -1) {
     kDebug()<<"-----  BROKEN MONITOR: "<<m_name<<", RESTART";
-	restartConsumer();
 	return;
     }
 
@@ -1322,6 +1249,7 @@ void Render::mltMoveClip(int startTrack, int endTrack, GenTime moveStart, GenTim
 
 void Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEnd)
 {
+  kDebug()<<"RENDER MOVE CLIP: "<<startTrack<<"-"<<endTrack<<"-"<<moveStart<<"-"<<moveEnd;
     m_mltConsumer->set("refresh", 0);
     Mlt::Service service(m_mltProducer->parent().get_service());
 
