@@ -34,9 +34,11 @@
 #include "resizeclipcommand.h"
 #include "addtimelineclipcommand.h"
 
-CustomTrackView::CustomTrackView(KUndoStack *commandStack, QGraphicsScene * projectscene, QWidget *parent)
-    : QGraphicsView(projectscene, parent), m_commandStack(commandStack), m_tracksCount(0), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_startPos(QPointF()), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_scale(1.0), m_clickPoint(0)
+CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene, QWidget *parent)
+    : QGraphicsView(projectscene, parent), m_tracksCount(0), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_startPos(QPointF()), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_scale(1.0), m_clickPoint(0), m_document(doc)
 {
+  if (doc) m_commandStack = doc->commandStack();
+  else m_commandStack == NULL;
   setMouseTracking(true);
   setAcceptDrops(true);
   m_animationTimer = new QTimeLine(800);
@@ -347,6 +349,7 @@ void CustomTrackView::dropEvent ( QDropEvent * event ) {
   if (m_dropItem) {
     AddTimelineClipCommand *command = new AddTimelineClipCommand(this, m_dropItem->xml(), m_dropItem->track(), m_dropItem->startPos(), m_dropItem->rect(), m_dropItem->duration(), false);
     m_commandStack->push(command);
+    m_document->renderer()->mltInsertClip(m_dropItem->track(), GenTime(m_dropItem->startPos(), 25), m_dropItem->xml());
   }
   m_dropItem = NULL;
 }
@@ -393,6 +396,8 @@ void CustomTrackView::setCursorPos(int pos)
 {
   m_cursorPos = pos;
   m_cursorLine->setPos(pos, 0);
+  int frame = mapToScene(QPoint(pos, 0)).x() / m_scale;
+  m_document->renderer()->seek(GenTime(frame, 25));
 }
 
 int CustomTrackView::cursorPos()

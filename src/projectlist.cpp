@@ -107,6 +107,7 @@ ProjectList::ProjectList(QWidget *parent)
   connect(listView, SIGNAL(requestMenu ( const QPoint &, QTreeWidgetItem * )), this, SLOT(slotContextMenu(const QPoint &, QTreeWidgetItem *)));
   connect(listView, SIGNAL(addClip ()), this, SLOT(slotAddClip()));
   connect(listView, SIGNAL(addClip (QUrl, const QString &)), this, SLOT(slotAddClip(QUrl, const QString &)));
+  connect(listView, SIGNAL (itemChanged ( QTreeWidgetItem *, int )), this, SLOT(slotUpdateItemDescription(QTreeWidgetItem *, int )));
 
   m_listViewDelegate = new ItemDelegate(listView);
   listView->setItemDelegate(m_listViewDelegate);
@@ -129,6 +130,19 @@ void ProjectList::slotClipSelected()
 {
   ProjectItem *item = (ProjectItem*) listView->currentItem();
   if (item && !item->isGroup()) emit clipSelected(item->toXml());
+}
+
+void ProjectList::slotUpdateItemDescription( QTreeWidgetItem *item, int column)
+{
+  if (column != 2) return;
+  ProjectItem *clip = (ProjectItem*) item;
+  CLIPTYPE type = clip->clipType(); 
+  if (type == AUDIO || type == VIDEO || type == AV || type == IMAGE || type == PLAYLIST) {
+    // Use Nepomuk system to store clip description
+    Nepomuk::Resource f( clip->clipUrl().path() );
+    f.setDescription(item->text(2));
+    kDebug()<<"NEPOMUK, SETTING CLIP: "<<clip->clipUrl().path()<<", TO TEXT: "<<item->text(2);
+  }
 }
 
 void ProjectList::slotEditClip()

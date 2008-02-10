@@ -39,6 +39,11 @@ ProjectListView::~ProjectListView()
 {
 }
 
+void ProjectListView::editItem ( QTreeWidgetItem * item, int column )
+{
+  kDebug()<<"////////////////  EDIT ITEM, COL: "<<column;
+}
+
 // virtual
 void ProjectListView::contextMenuEvent ( QContextMenuEvent * event )
 {
@@ -49,6 +54,7 @@ void ProjectListView::contextMenuEvent ( QContextMenuEvent * event )
 void ProjectListView::mouseDoubleClickEvent ( QMouseEvent * event )
 {
   if (!itemAt(event->pos())) emit addClip();
+  else if (columnAt(event->pos().x()) == 2) QTreeWidget::mouseDoubleClickEvent( event );
 }
 
 // virtual

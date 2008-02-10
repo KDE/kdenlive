@@ -46,6 +46,7 @@ class ProjectItem : public QTreeWidgetItem
     const QString groupName() const;
     const KUrl clipUrl() const;
     int clipMaxDuration() const;
+    CLIPTYPE clipType() const;
 
   private:
     QDomElement m_element;

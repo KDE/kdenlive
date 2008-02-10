@@ -188,13 +188,6 @@ void Monitor::refreshMonitor(bool visible)
   if (visible && render) render->askForRefresh();
 }
 
-void Monitor::slotOpen()
-{
-  if ( render == NULL ) return;
-  render->mltInsertClip(2, GenTime(1, 25), QString("<westley><producer mlt_service=\"colour\" colour=\"red\" in=\"1\" out=\"30\" /></westley>"));
-  render->mltInsertClip(2, GenTime(0, 25), QString("<westley><producer mlt_service=\"avformat\" resource=\"/home/one/.vids/clip3e.mpg\" in=\"1\" out=\"300\" /></westley>"));
-}
-
 void Monitor::slotPlay()
 {
   if ( render == NULL ) return;

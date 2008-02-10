@@ -27,6 +27,7 @@
 
 #include <KUndoStack>
 
+#include "kdenlivedoc.h"
 #include "clipitem.h"
 
 class CustomTrackView : public QGraphicsView
@@ -34,7 +35,7 @@ class CustomTrackView : public QGraphicsView
   Q_OBJECT
   
   public:
-    CustomTrackView(KUndoStack *commandStack, QGraphicsScene * projectscene, QWidget *parent=0);
+    CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene, QWidget *parent=0);
     virtual void mousePressEvent ( QMouseEvent * event );
     virtual void mouseReleaseEvent ( QMouseEvent * event );
     virtual void mouseMoveEvent ( QMouseEvent * event );
@@ -69,6 +70,7 @@ class CustomTrackView : public QGraphicsView
     int m_projectDuration;
     int m_cursorPos;
     ClipItem *m_dropItem;
+    KdenliveDoc *m_document;
     void addItem(QString producer, QPoint pos);
     QGraphicsLineItem *m_cursorLine;
     QPointF m_startPos;

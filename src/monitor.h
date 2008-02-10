@@ -56,7 +56,6 @@ class Monitor : public QWidget
 
   private slots:
     void slotPlay();
-    void slotOpen();
     void adjustRulerSize(int length);
     void seekCursor(int pos);
     void rendererStopped(int pos);

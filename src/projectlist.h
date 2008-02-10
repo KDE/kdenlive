@@ -141,6 +141,8 @@ class ProjectList : public QWidget
     void slotEditClip(QTreeWidgetItem *, int);
     void slotContextMenu( const QPoint &pos, QTreeWidgetItem * );
     void slotAddFolder();
+    /** This is triggered when a clip description has been modified */
+    void slotUpdateItemDescription(QTreeWidgetItem *item, int column);
     //void slotShowMenu(const QPoint &pos);
 
 

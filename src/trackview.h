@@ -95,6 +95,7 @@ class TrackView : public QWidget
     void slotCursorMoved(int pos, bool slotCursorMoved = false);
     void slotZoomIn();
     void slotZoomOut();
+    void setCursorPos(int pos);
 
   signals:
     void mousePosition(int);

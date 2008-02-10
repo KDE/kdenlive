@@ -31,6 +31,7 @@ class ProjectListView : public QTreeWidget
   public:
     ProjectListView(QWidget *parent=0);
     virtual ~ProjectListView();
+    void editItem ( QTreeWidgetItem * item, int column = 0 );
 
   protected:
     virtual void contextMenuEvent ( QContextMenuEvent * event );
@@ -51,6 +52,7 @@ class ProjectListView : public QTreeWidget
     QPoint m_DragStartPosition;
 
   private slots:
+
 
   signals:
     void requestMenu(const QPoint &, QTreeWidgetItem *);

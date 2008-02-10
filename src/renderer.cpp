@@ -986,14 +986,19 @@ void Render::mltCheckLength()
 	blackTrackPlaylist.remove_region( 0, blackDuration );
 	int i = 0;
 	int dur = duration;
-	
+	QDomDocument doc;
+	QDomElement black = doc.createElement("producer");
+	black.setAttribute("mlt_service", "colour");
+	black.setAttribute("colour", "black");
+	black.setAttribute("in", "0");
+	black.setAttribute("out", "13999");
         while (dur > 14000) { // <producer mlt_service=\"colour\" colour=\"black\" in=\"0\" out=\"13999\" />
-	    mltInsertClip(0, GenTime(i * 14000, m_fps), QString("<westley><producer mlt_service=\"colour\" colour=\"black\" in=\"0\" out=\"13999\" /></westley>"));
+	    mltInsertClip(0, GenTime(i * 14000, m_fps), black);
 	    dur = dur - 14000;
 	    i++;
         }
-
-	mltInsertClip(0, GenTime(), QString("<westley><producer mlt_service=\"colour\" colour=\"black\" in=\"0\" out=\"" + QString::number(dur) + "\" /></westley>"));
+	black.setAttribute("out", QString::number(dur));
+	mltInsertClip(0, GenTime(), black);
 
 	m_mltProducer->set("out", duration);
 	emit durationChanged();
@@ -1001,7 +1006,7 @@ void Render::mltCheckLength()
 }
 
 
-void Render::mltInsertClip(int track, GenTime position, QString resource)
+void Render::mltInsertClip(int track, GenTime position, QDomElement element)
 {
     if (!m_mltProducer) {
 	kDebug()<<"PLAYLIST NOT INITIALISED //////";
@@ -1015,6 +1020,10 @@ void Render::mltInsertClip(int track, GenTime position, QString resource)
     Mlt::Service service(parentProd.get_service());
     Mlt::Tractor tractor(service);
 
+    QDomDocument doc;
+    doc.appendChild(doc.importNode(element, true));
+    QString resource = doc.toString();
+    kDebug()<<"///////  ADDING CLIP TMLNE: "<<resource;
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
     char *tmp = decodedString(resource);

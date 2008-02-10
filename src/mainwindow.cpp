@@ -213,6 +213,9 @@ void MainWindow::setupActions()
   KStandardAction::openNew(this, SLOT(newFile()),
                         actionCollection());
 
+  KStandardAction::preferences(this, SLOT(slotPreferences()),
+                        actionCollection());
+
   /*KStandardAction::undo(this, SLOT(undo()),
                         actionCollection());
 

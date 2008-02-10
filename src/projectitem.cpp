@@ -42,7 +42,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, QDom
 {
   m_element = xml.cloneNode().toElement();
   setSizeHint(0, QSize(65, 45));
-  setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
+  setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
   if (!m_element.isNull()) {
     m_element.setAttribute("id", clipId);
     QString cType = m_element.attribute("type", QString::null);
@@ -63,7 +63,7 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, const QStringList & strings, 
 {
   m_element = xml.cloneNode().toElement();
   setSizeHint(0, QSize(65, 45));
-  setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
+  setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
   if (!m_element.isNull()) {
     m_element.setAttribute("id", clipId);
     QString cType = m_element.attribute("type", QString::null);
@@ -78,7 +78,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, int 
     : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_element(QDomElement()), m_clipType(UNKNOWN), m_clipId(clipId), m_isGroup(true), m_groupName(strings.at(1))
 {
   setSizeHint(0, QSize(65, 45));
-  setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
+  setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
   setIcon(0, KIcon("folder"));
 }
 
@@ -89,6 +89,11 @@ ProjectItem::~ProjectItem()
 int ProjectItem::clipId() const
 {
   return m_clipId;
+}
+
+CLIPTYPE ProjectItem::clipType() const
+{
+ return m_clipType;
 }
 
 int ProjectItem::clipMaxDuration() const
@@ -123,7 +128,7 @@ QDomElement ProjectItem::toXml() const
 const KUrl ProjectItem::clipUrl() const
 {
     if (m_clipType != COLOR && m_clipType != VIRTUAL && m_clipType != UNKNOWN)
-      return KUrl(m_element.attribute("resouce"));
+      return KUrl(m_element.attribute("resource"));
     else return KUrl();
 }
 
