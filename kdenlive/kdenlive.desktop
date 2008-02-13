@@ -1,5 +1,6 @@
 # KDE Config File  
 [Desktop Entry]
+GenericName=Video Editor
 Encoding=UTF-8
 Type=Application
 Exec=kdenlive -caption "%c" %i %m  
