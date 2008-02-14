@@ -47,7 +47,7 @@ void initEffects::parseEffectFiles(EffectDescriptionList *effectList)
 
     // Build effects. Retrieve the list of MLT's available effects first.
 
-    QString datFile = KdenliveSettings::mltpath() + "/share/mlt/modules/filters.dat";
+    QString datFile = KdenliveSettings::mltpath() + "/lib/mlt/filters.dat";
 
     QStringList filtersList;
 
@@ -63,7 +63,7 @@ void initEffects::parseEffectFiles(EffectDescriptionList *effectList)
     }
 
     // Build effects. check producers first.
-    datFile = KdenliveSettings::mltpath() + "/share/mlt/modules/producers.dat";
+    datFile = KdenliveSettings::mltpath() + "/lib/mlt/producers.dat";
     QStringList producersList;
 
     file.setName( datFile );
