@@ -781,7 +781,6 @@ void exportWidget::generateScript()
 
     cmdArgs << "\"" + QFile::encodeName(scriptPath + ".westley") + "\"";
 
-    cmdArgs << "real_time=0";
     cmdArgs << "resize=hyper";
 //    *m_exportProcess << "progressive=1";
 
@@ -798,7 +797,6 @@ void exportWidget::generateScript()
     cmdArgs << "-consumer";
     cmdArgs << "avformat:$output_file";
 
-    cmdArgs << "real_time=0";
     cmdArgs << "stats_on=2";
     // workaround until MLT's default qscale value is fixed
     cmdArgs << "qscale=0";
@@ -925,14 +923,12 @@ void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, boo
     //kdDebug()<<" + + DVD EXPORT, PARAMS: "<<encoderParams<<endl;
     *m_exportProcess << "inigo";
     *m_exportProcess << m_tmpFile->name();
-    *m_exportProcess << "real_time=0";
     *m_exportProcess << "resize=hyper";
     //*m_exportProcess << "progressive=1";
     *m_exportProcess << QString("in=%1").arg(start.frames(KdenliveSettings::defaultfps()));
     *m_exportProcess << QString("out=%1").arg(end.frames(KdenliveSettings::defaultfps()));
     *m_exportProcess << "-consumer";
     *m_exportProcess << QString("avformat:%1").arg(file);
-    *m_exportProcess << "real_time=0";
     *m_exportProcess << "stats_on=1";
     // workaround until MLT's default qscale value is fixed
     *m_exportProcess << "qscale=0";
@@ -998,7 +994,6 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
 
     *m_exportProcess << m_tmpFile->name();
 
-    *m_exportProcess << "real_time=0";
     *m_exportProcess << "resize=hyper";
 //    *m_exportProcess << "progressive=1";
 
@@ -1015,7 +1010,6 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
     *m_exportProcess << "-consumer";
     *m_exportProcess << QString("avformat:%1").arg(file);
 
-    *m_exportProcess << "real_time=0";
     *m_exportProcess << "stats_on=1";
     // workaround until MLT's default qscale value is fixed
     *m_exportProcess << "qscale=0";
@@ -1081,12 +1075,10 @@ void exportWidget::doAudioExport(QString src, QString dest)
     *m_exportProcess << "inigo";
 
     *m_exportProcess << m_tmpFile->name();
-    *m_exportProcess << "real_time=0";
     *m_exportProcess << "-consumer";
     *m_exportProcess << QString("avformat:%1").arg(dest);
     *m_exportProcess << "format=wav" << "frequency=48000";
     if (m_format.fps() == 30000.0 / 1001.0) *m_exportProcess << "profile=dv_ntsc";
-    *m_exportProcess << "real_time=0";
     *m_exportProcess << "stats_on=1";
     // workaround until MLT's default qscale value is fixed
     *m_exportProcess << "qscale=0";
