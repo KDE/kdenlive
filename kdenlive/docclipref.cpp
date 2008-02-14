@@ -811,8 +811,8 @@ QDomDocument DocClipRef::generateSceneList(bool, bool)
         return sceneList;
     
     QDomElement producer = producers.item(0).toElement();
-    // producer.setAttribute("in", cropStartTime().frames(framesPerSecond()));
-    // producer.setAttribute("out", (cropStartTime() + cropDuration()).frames(framesPerSecond()));
+    producer.setAttribute("in", cropStartTime().frames(framesPerSecond()));
+    producer.setAttribute("out", (cropStartTime() + cropDuration()).frames(framesPerSecond()));
     // If this clip has a non 1.0 speed, wrap it in a framebuffer service so 
     // that when resizing individual clips with a speed effect, the correct frame 
     // is shown
@@ -864,7 +864,7 @@ QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hide
 		int currentStart = (*it).x();
 		int currentEnd = (*it).y();
 		// kdDebug()<<"// CURRENT TRANSITION IS: "<<transStart<<" - "<<transEnd<<endl;
-		// kdDebug()<<"// CURRENT ANALYSED: "<<currentStart<<" - "<<currentEnd<<endl;
+		// kdDebug()<<"// CURRENT ANALYSED: "<<currentStart<<" - "<<curendStartrentEnd<<endl;
 		if (transStart <= currentEnd && transEnd >= currentStart) {
 		    if (currentStart != transStart) {
 			(*it) = QPoint(currentStart, transStart);
