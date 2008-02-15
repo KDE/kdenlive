@@ -141,7 +141,7 @@ void KRender::setWid(int wid)
     if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     m_winid = wid;
     m_mltConsumer->set("window_id", m_winid);
-    m_mltConsumer->start();
+    m_mltConsumer->stop();
 }
 
 int KRender::renderWidgetId()
