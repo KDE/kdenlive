@@ -142,7 +142,6 @@ namespace Gui {
 	if (!config->readBoolEntry("FirstRun")) {
 	    // This is the first run of Kdenlive, ask user some basic things
 	    firstRun_UI *dia = new firstRun_UI(this);
-
 	    dia->video_format->insertStringList(videoProjectFormats());
 	    dia->exec();
 	    KdenliveSettings::setDefaultprojectformat(projectFormatFromName(dia->video_format->currentText()));
@@ -306,16 +305,20 @@ namespace Gui {
 
     void KdenliveApp::parseProfiles()
     {
-	kdDebug()<<" + + YOUR MLT INSTALL WAS FOUND IN: "<< MLT_PREFIX <<endl;
+	//kdDebug()<<" + + YOUR MLT INSTALL WAS FOUND IN: "<< MLT_PREFIX <<endl;
 	if (KdenliveSettings::mltpath().isEmpty()) {
 	    KdenliveSettings::setMltpath(MLT_PREFIX);
+	}
+	if (KdenliveSettings::rendererpath().isEmpty())
+	{
+	    KdenliveSettings::setRendererpath(KStandardDirs::findExe("inigo"));
 	}
         QString profilePath = KdenliveSettings::mltpath() + "/share/mlt/profiles/";
 	QStringList profilesList = QDir(profilePath).entryList("*", QDir::Files);
 
 	if (profilesList.isEmpty()) {
 	    // Cannot find MLT path, try finding inigo
-	    profilePath = KStandardDirs::findExe("inigo");
+	    profilePath = KdenliveSettings::rendererpath();
 	    if (!profilePath.isEmpty()) {
 		profilePath = profilePath.section('/', 0, -3);
 		KdenliveSettings::setMltpath(profilePath);
@@ -336,6 +339,17 @@ namespace Gui {
 		profilePath.append("/share/mlt/profiles/");
 		QStringList profilesList = QDir(profilePath).entryList("*", QDir::Files);
 	    }
+	}
+
+	if (KdenliveSettings::rendererpath().isEmpty()) {
+	    	// Cannot find the MLT inigo renderer, ask for location
+	    	KURLRequesterDlg *getUrl = new KURLRequesterDlg(KdenliveSettings::mltpath() + "/bin/", i18n("Cannot find the inigo program required for rendering (part of MLT)"), this, "inigo_path");
+		getUrl->fileDialog()->setMode(KFile::File);
+	    	getUrl->exec();
+	    	KURL rendererPath = getUrl->selectedURL();
+	    	delete getUrl;
+	    	if (rendererPath.isEmpty()) exit(1);
+		KdenliveSettings::setRendererpath(rendererPath.path());
 	}
 
 	// Parse MLT profiles to build a list of available video formats
@@ -3194,6 +3208,10 @@ namespace Gui {
     void KdenliveApp::initRenderExport(bool reset) {
 	if (!m_exportWidget) {
             m_exportWidget=new exportWidget(this, m_timeline, projectFormatParameters(m_projectFormat), this,"exporter");
+	    if (!QFile::exists(KdenliveSettings::rendererpath())) {
+		KMessageBox::sorry(this, i18n("Cannot find the inigo binary, please check your Mlt install\n and give the correct location in Kdenlive Settings dialog.\n Export is disabled until you give a correct path and restart Kdenlive"));
+		m_exportWidget->setEnabled(false);
+	    }
 	    m_exportWidget->setMetaData(getDocument()->metadata());
             connect(m_workspaceMonitor->screen(),SIGNAL(exportOver()),m_exportWidget,SLOT(endExport()));
             connect(m_exportWidget,SIGNAL(exportToFirewire(QString, int, GenTime, GenTime)),m_workspaceMonitor->screen(),SLOT(exportToFirewire(QString, int, GenTime, GenTime)));

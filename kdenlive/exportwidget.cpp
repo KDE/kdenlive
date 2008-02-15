@@ -777,7 +777,7 @@ void exportWidget::generateScript()
 
     cmdArgs<< " echo Starting rendering to $output_file...\n";
 
-    cmdArgs << "inigo";
+    cmdArgs << KdenliveSettings::rendererpath();
 
     cmdArgs << "\"" + QFile::encodeName(scriptPath + ".westley") + "\"";
 
@@ -921,7 +921,7 @@ void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, boo
 	encoderParams = QStringList::split(" ",slotEncoderCommand(HQEncoders, "DVD", "PAL").section(":",9));
     }
     //kdDebug()<<" + + DVD EXPORT, PARAMS: "<<encoderParams<<endl;
-    *m_exportProcess << "inigo";
+    *m_exportProcess << KdenliveSettings::rendererpath();
     *m_exportProcess << m_tmpFile->name();
     *m_exportProcess << "resize=hyper";
     //*m_exportProcess << "progressive=1";
@@ -990,7 +990,7 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
     }
 
     m_exportProcess = new KProcess;
-    *m_exportProcess << "inigo";
+    *m_exportProcess << KdenliveSettings::rendererpath();
 
     *m_exportProcess << m_tmpFile->name();
 
@@ -1072,7 +1072,7 @@ void exportWidget::doAudioExport(QString src, QString dest)
     exportButton->setText(i18n("Stop"));
     m_exportProcess = new KProcess;
 
-    *m_exportProcess << "inigo";
+    *m_exportProcess << KdenliveSettings::rendererpath();
 
     *m_exportProcess << m_tmpFile->name();
     *m_exportProcess << "-consumer";

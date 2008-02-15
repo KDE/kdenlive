@@ -202,6 +202,11 @@
       <default></default>
     </entry>
 
+    <entry name="rendererpath" type="String">
+      <label>Path to the inigo binary.</label>
+      <default></default>
+    </entry>
+
     <entry name="userdefinedtmp" type="Bool">
       <label>User defined temporary folder.</label>
       <default>false</default>

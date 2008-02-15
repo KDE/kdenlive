@@ -543,7 +543,7 @@ void ExportDvdDialog::generateMenuMovie() {
 
 	m_menu_movie_file = KdenliveSettings::currenttmpfolder() + "menu.vob";
 	KProcess *p = new KProcess;
-	*p<<"inigo";
+	*p<<KdenliveSettings::rendererpath();
 
 	if (color_background->isChecked()) {
 	    QString color = bg_color->color().name();
