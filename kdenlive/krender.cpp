@@ -604,8 +604,8 @@ void KRender::setSceneList(QDomDocument list, int position)
 
     char *tmp = decodedString(list.toString());
     Mlt::Producer clip(*m_mltProfile, "westley-xml", tmp);
-
-    kdWarning()<<"//////  CLIP DURATION REND: "<<clip.get_playtime()<<endl;
+    if (clip.is_valid())
+    	kdWarning()<<"//////  CLIP DURATION REND: "<<clip.get_playtime()<<endl;
 
     delete[] tmp;
     if (!clip.is_valid()) {
