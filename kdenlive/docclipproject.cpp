@@ -208,7 +208,7 @@ bool DocClipProject::moveSelectedClips(GenTime startOffset,
 
 	destTrackNum = track + trackOffset;
 
-  if ((destTrackNum < 0) || (destTrackNum >= (int) numTracks()))
+  	if ((destTrackNum < 0) || (destTrackNum >= (int) numTracks()))
 	    return false;	// This track will be moving it's clips out of the timeline, so fail automatically.
 
 	destTrack = m_tracks.at(destTrackNum);
@@ -225,7 +225,10 @@ bool DocClipProject::moveSelectedClips(GenTime startOffset,
 		srcClipItt.current()->trackStart() + startOffset;
 	    clipEndTime =
 		clipStartTime + srcClipItt.current()->cropDuration();
-
+	    if (clipStartTime < GenTime()) {
+		blockTrackSignals(false);
+		return false;
+	    }
 	    // Make video clips can only be dropped on video tracks and audio on 
 	    // audio tracks.
 /*			if ((srcClip->clipType() == VIDEO || srcClip->clipType() == AV) && destTrack->clipType() != "Video") return false;

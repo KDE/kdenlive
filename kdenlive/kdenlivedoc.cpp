@@ -699,7 +699,7 @@ QValueVector < GenTime > KdenliveDoc::getSnapTimes(bool includeClipEnds,
     bool includeSnapMarkers, bool includeUnselectedClips, bool includeSelectedClips, bool includeGuides)
 {
     QValueVector < GenTime > list;
-
+    list.append(GenTime());
     for (uint count = 0; count < numTracks(); ++count) {
 	if (includeUnselectedClips) {
 	    QPtrListIterator < DocClipRef > clipItt =
