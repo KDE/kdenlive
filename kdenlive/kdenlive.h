@@ -442,6 +442,7 @@ namespace Gui {
         void slotMultiTrackView();
 	void slotAdjustPreviewQuality();
 	void refreshEffects();
+	void forceTimelineRefresh();
 
       private slots: 
 	void initMonitors();
@@ -491,7 +492,6 @@ namespace Gui {
 	void slotProjectExtractAudio();
 	void slotProjectImportCue();
 	void slotExtractClipAudio(DocClipRef *clip);
-	void forceTimelineRefresh();
 	//void forceDiskTimelineRefresh();
 
         /** Add a transition between the 2 selected clips */

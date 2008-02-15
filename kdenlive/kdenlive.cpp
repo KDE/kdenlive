@@ -2306,6 +2306,7 @@ namespace Gui {
 		setFramesPerSecond();
 		if (m_exportWidget) m_exportWidget->resetValues();
 		initMonitors();
+		forceTimelineRefresh();
 	    }
 	}
 
@@ -4060,7 +4061,14 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 
     void KdenliveApp::forceTimelineRefresh() {
+	if (!m_workspaceMonitor) {
+	    QTimer::singleShot(500, this, SLOT(forceTimelineRefresh()));
+	    return;
+	}
 	getDocument()->forceTimelineRefresh();
+	GenTime dur = getDocument()->projectClip().duration();
+	if (dur <= GenTime()) dur = GenTime(1, getDocument()->framesPerSecond());
+	m_workspaceMonitor->slotSetClip(getDocument()->projectClip().generateSceneList(), dur);
     }
 
     /*void KdenliveApp::forceDiskTimelineRefresh() {

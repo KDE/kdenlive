@@ -684,6 +684,7 @@ void KRender::connectPlaylist() {
 	}
 	else {
 	    refresh();
+	    m_mltConsumer->start();
 	kdDebug()<<" / / /CONNECTING PLAYLIST: - - - 2"<<endl;
 	}
 }

@@ -387,7 +387,6 @@ void KdenliveDoc::hasBeenModified(bool mod)
 {
     if (m_sceneListGeneration) {
 	refreshVirtualClips();
-        if (m_projectClip->producersList.isNull()) generateProducersList();
 	emit documentChanged(m_projectClip);
     }
     if (mod) setModified(mod);
@@ -398,8 +397,7 @@ void KdenliveDoc::forceTimelineRefresh()
 {
 	kdDebug()<<" *********  FORCE REFRSH"<<endl;
 	refreshVirtualClips();
-        if (m_projectClip->producersList.isNull()) generateProducersList();
-	emit documentChanged(m_projectClip);
+	//emit documentChanged(m_projectClip);
 }
 
 

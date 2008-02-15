@@ -362,9 +362,10 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers, bool rendering
     QStringList videoTracks;
     int tracknb = 0;
     uint tracksCounter = 0;
-    if (duration().frames(framesPerSecond()) == 0) return QDomDocument();
-
-    QString projectLastFrame = QString::number(duration().frames(framesPerSecond()) - 1);
+    //if (duration().frames(framesPerSecond()) == 0) return QDomDocument();
+    int dur = duration().frames(framesPerSecond()) - 1;
+    if (dur <= 0) dur = 1;
+    QString projectLastFrame = QString::number(dur);
 
     QDomElement westley = doc.createElement("westley");
     doc.appendChild(westley);
@@ -388,7 +389,7 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers, bool rendering
     // Add black clip as first track, so that empty spaces appear black 
     // (looks like color producer cannot be longer than 15000 frames, so hack around it... 
     QDomElement playlist = doc.createElement("playlist");
-    int dur = duration().frames(framesPerSecond()) - 1;
+
     while (dur > 14000) {
         QDomElement blank = doc.createElement("entry");
         blank.setAttribute("in", "0");
@@ -531,9 +532,9 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers, bool rendering
     }
 
     westley.appendChild(tractor);
-	/* kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
+	kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
          kdDebug() << doc.toString() << endl;
-         kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl; */
+         kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
     return doc;
 }
 
