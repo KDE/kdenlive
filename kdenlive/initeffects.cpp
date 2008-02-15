@@ -48,7 +48,7 @@ initEffects::~initEffects()
 }
 
 //static
-void initEffects::parseEffectFiles(EffectDescriptionList *effectList)
+mlt_repository initEffects::parseEffectFiles(EffectDescriptionList *effectList)
 {
     QStringList::Iterator more;
     QStringList::Iterator it;
@@ -57,11 +57,11 @@ void initEffects::parseEffectFiles(EffectDescriptionList *effectList)
 
 
     // Build effects. Retrieve the list of MLT's available effects first.
-	 mlt_repository repository = mlt_factory_init ( NULL ) ;//(mlt_repository) KRender::m_mlt_repository;
-	 if (repository == NULL ){
-		 kdDebug() << "Repository did not finish init " ;
-		 return;
-	 }
+    mlt_repository repository = mlt_factory_init ( NULL ) ;
+    if (repository == NULL ){
+	 kdDebug() << "Repository did not finish init " ;
+	 return NULL;
+    }
     Mlt::Properties filters ( repository->filters );
     QStringList filtersList;
 
@@ -97,6 +97,7 @@ void initEffects::parseEffectFiles(EffectDescriptionList *effectList)
 	    // kdDebug()<<"//  FOUND EFFECT FILE: "<<itemName<<endl;
 	}
     }
+    return repository;
 }
 
 // static

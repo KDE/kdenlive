@@ -34,14 +34,6 @@ KRenderManager::~KRenderManager()
 /** Creates a new renderer, guaranteeing it it's own port number, etc. */
 KRender *KRenderManager::createRenderer(const QString &name, int wid, int extwid)
 {
-    if (!m_initialised) {
-	//if (Mlt::Factory::init(NULL) == NULL) kdWarning()<<"Error initializing MLT, Crash will follow"<<endl;
-	if ( ( KRender::m_mlt_repository = mlt_factory_init(NULL) ) == NULL) kdWarning()<<"Error initializing MLT, Crash will follow"<<endl;
-	else {
-	    m_initialised = true;
-	    kdDebug() << "Mlt inited" << endl;
-	}
-    }
     KRender *render = new KRender(name, m_app, name.ascii(), wid, extwid);
     m_renderList.append(render);
     return render;

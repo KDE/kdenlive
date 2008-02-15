@@ -172,7 +172,6 @@ class KRender:public QObject {
     void mltChangeTrackState(int track, bool mute, bool blind);
     void mltMoveTransition(QString type, int startTrack, int trackOffset, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut);
     void mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args);
-    static mlt_repository m_mlt_repository;
 
   private:			// Private attributes & methods
 	/** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */

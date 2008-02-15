@@ -20,6 +20,8 @@
 
 #include <klocale.h>
 
+#include <mlt++/Mlt.h>
+
 #include "kdenlivesettings.h"
 #include "effectdesc.h"
 #include "effectdescriptionlist.h"
@@ -35,7 +37,7 @@ class initEffects
         initEffects();
 	~initEffects();
 
-	static void parseEffectFiles(EffectDescriptionList *effectList);
+	static mlt_repository parseEffectFiles(EffectDescriptionList *effectList);
 	static void parseEffectFile(EffectDescriptionList *effectList, QString name, QStringList filtersList, QStringList producersList);
 	static char* ladspaEffectString(int ladspaId, QStringList params);
 	static void ladspaEffectFile(const QString & fname, int ladspaId, QStringList params);
