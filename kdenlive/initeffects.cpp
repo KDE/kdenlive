@@ -4,6 +4,8 @@
     begin                :  Jul 2006
     copyright            : (C) 2006 by Jean-Baptiste Mardelle
     email                : jb@ader.ch
+    copyright            : (C) 2008 Marco Gittler
+    email                : g.marco@freenet.de
  ***************************************************************************/
 
 /***************************************************************************
@@ -28,6 +30,15 @@
 #include "effectparamdesc.h"
 #include "krender.h"
 
+struct mlt_repository_s
+{
+	struct mlt_properties_s parent; // a list of object files
+	mlt_properties consumers; // lists of entry points
+	mlt_properties filters;
+	mlt_properties producers;
+	mlt_properties transitions;
+};
+
 initEffects::initEffects()
 {
 }
@@ -46,37 +57,25 @@ void initEffects::parseEffectFiles(EffectDescriptionList *effectList)
 
 
     // Build effects. Retrieve the list of MLT's available effects first.
-
-    QString datFile = KdenliveSettings::mltpath() + "/lib/mlt/filters.dat";
-
+	 mlt_repository repository = mlt_factory_init ( NULL ) ;//(mlt_repository) KRender::m_mlt_repository;
+	 if (repository == NULL ){
+		 kdDebug() << "Repository did not finish init " ;
+		 return;
+	 }
+    Mlt::Properties filters ( repository->filters );
     QStringList filtersList;
 
-    QFile file( datFile );
-    if ( file.open( IO_ReadOnly ) ) {
-        QTextStream stream( &file );
-        QString line;
-        while ( !stream.atEnd() ) {
-            line = stream.readLine(); // line of text excluding '\n'
-            filtersList<<line.section(QRegExp("\\s+"), 0, 0);
-        }
-        file.close();
+    for (int i=0 ; i <filters.count() ; i++){
+      filtersList << filters.get_name(i);
     }
 
     // Build effects. check producers first.
-    datFile = KdenliveSettings::mltpath() + "/lib/mlt/producers.dat";
+
+    Mlt::Properties producers ( repository->producers );
     QStringList producersList;
-
-    file.setName( datFile );
-    if ( file.open( IO_ReadOnly ) ) {
-        QTextStream stream( &file );
-        QString line;
-        while ( !stream.atEnd() ) {
-            line = stream.readLine(); // line of text excluding '\n'
-            producersList<<line.section(QRegExp("\\s+"), 0, 0);
-        }
-        file.close();
+    for (int i=0 ; i <producers.count() ; i++){
+      producersList << producers.get_name(i);
     }
-
 
     KGlobal::dirs()->addResourceType("ladspa_plugin", "lib/ladspa");
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/lib/ladspa");

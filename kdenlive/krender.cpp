@@ -57,7 +57,7 @@ extern "C" {
 #include "initeffects.h"
 
 static QMutex mutex (true);
-
+mlt_repository KRender::m_mlt_repository = NULL;
 
 static void consumer_frame_show(mlt_consumer, KRender * self, mlt_frame frame_ptr)
 {
@@ -135,7 +135,6 @@ KRender::~KRender()
 {
     closeMlt();
 }
-
 
 void KRender::setWid(int wid)
 {
