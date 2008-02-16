@@ -114,6 +114,7 @@ class ProjectList : public QWidget
     void addProducer(QDomElement producer, int parentId = -1);
     void slotReplyGetImage(int clipId, int pos, const QPixmap &pix, int w, int h);
     void slotReplyGetFileProperties(int clipId, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata);
+    void slotAddClip(DocClipBase *clip);
 
 
   private:
@@ -131,6 +132,7 @@ class ProjectList : public QWidget
     QAction *m_editAction;
     QAction *m_deleteAction;
     ItemDelegate *m_listViewDelegate;
+    KdenliveDoc *m_doc;
 
   private slots:
     void slotAddClip(QUrl givenUrl = QUrl(), const QString &group = QString::null);

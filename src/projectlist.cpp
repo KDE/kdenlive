@@ -41,7 +41,6 @@
 #include "kdenlivesettings.h"
 #include "ui_colorclip_ui.h"
 
-#include "addclipcommand.h"
 #include "definitions.h"
 
 #include <QtGui>
@@ -86,7 +85,7 @@ ProjectList::ProjectList(QWidget *parent)
   layout->addWidget( m_toolbar );
   layout->addWidget( listView );
   setLayout( layout );
-  m_toolbar->setEnabled(false);
+  //m_toolbar->setEnabled(false);
 
   searchView->setTreeWidget(listView);
   listView->setColumnCount(3);
@@ -181,13 +180,14 @@ void ProjectList::slotContextMenu( const QPoint &pos, QTreeWidgetItem *item )
 
 void ProjectList::slotRemoveClip()
 {
+/*
   if (!m_commandStack) kDebug()<<"!!!!!!!!!!!!!!!!  NO CMD STK";
   if (!listView->currentItem()) return;
   ProjectItem *item = ((ProjectItem *)listView->currentItem());
   if (!item) kDebug()<<"///////////////  ERROR NOT FOUND";
   if (KMessageBox::questionYesNo(this, i18n("Delete clip <b>%1</b> ?").arg(item->names().at(1)), i18n("Delete Clip")) != KMessageBox::Yes) return;
   AddClipCommand *command = new AddClipCommand(this, item->names(), item->toXml(), item->clipId(), item->clipUrl(), item->groupName(), false);
-  m_commandStack->push(command);
+  m_commandStack->push(command);*/
 }
 
 void ProjectList::selectItemById(const int clipId)
@@ -281,13 +281,27 @@ void ProjectList::deleteClip(const int clipId)
 
 void ProjectList::slotAddFolder()
 {
+/*
   QString folderName = KInputDialog::getText(i18n("New Folder"), i18n("Enter new folder name: "));
   if (folderName.isEmpty()) return;
   QStringList itemEntry;
   itemEntry.append(QString::null);
   itemEntry.append(folderName);
   AddClipCommand *command = new AddClipCommand(this, itemEntry, QDomElement(), m_clipIdCounter++, KUrl(), folderName, true);
-  m_commandStack->push(command);
+  m_commandStack->push(command);*/
+}
+
+void ProjectList::slotAddClip(DocClipBase *clip)
+{
+  ProjectItem *item = new ProjectItem(listView, clip);
+  listView->setCurrentItem(item);
+  /*
+  if (clip->clipType() != COLOR) {
+    Nepomuk::Resource f( clip->fileURL().path() );
+    QString annotation = f.description();
+    if (!annotation.isEmpty()) item->setText(2, annotation);
+  }*/
+  emit getFileProperties(clip->toXML(), clip->getId());
 }
 
 void ProjectList::slotAddClip(QUrl givenUrl, const QString &group)
@@ -299,28 +313,10 @@ void ProjectList::slotAddClip(QUrl givenUrl, const QString &group)
   else list.append(givenUrl);
   if (list.isEmpty()) return;
   KUrl::List::Iterator it;
-  KUrl url;
-//  ProjectItem *item;
 
   for (it = list.begin(); it != list.end(); it++) {
-      QStringList itemEntry;
-      QDomDocument doc;
-      QDomElement prod = doc.createElement("producer");
-      prod.setAttribute("resource", (*it).path());
-      itemEntry.append(QString::null);
-      itemEntry.append((*it).fileName());
-      KMimeType::Ptr type = KMimeType::findByUrl(*it);
-      if (type->name().startsWith("image/")) {
-	prod.setAttribute("type", (int) IMAGE);
-	prod.setAttribute("in", "0");
-	prod.setAttribute("out", m_timecode.getFrameCount(KdenliveSettings::image_duration(), m_fps));
-      }
-      AddClipCommand *command = new AddClipCommand(this, itemEntry, prod, m_clipIdCounter++, *it, group, true);
-      m_commandStack->push(command);
-      //item = new ProjectItem(listView, itemEntry, QDomElement());
-      //item->setData(1, FullPathRole, (*it).path());
+      m_doc->slotAddClipFile(*it, group);
   }
-  //listView->setCurrentItem(item);
 }
 
 void ProjectList::slotAddColorClip()
@@ -333,27 +329,9 @@ void ProjectList::slotAddColorClip()
   dia_ui->clip_duration->setText(KdenliveSettings::color_duration());
   if (dia->exec() == QDialog::Accepted)
   {
-    QDomDocument doc;
-    QDomElement element = doc.createElement("producer");
-    element.setAttribute("mlt_service", "colour");
     QString color = dia_ui->clip_color->color().name();
     color = color.replace(0, 1, "0x") + "ff";
-    element.setAttribute("colour", color);
-    element.setAttribute("type", (int) COLOR);
-    element.setAttribute("in", "0");
-    element.setAttribute("out", m_timecode.getFrameCount(dia_ui->clip_duration->text(), m_fps));
-    element.setAttribute("name", dia_ui->clip_name->text());
-    QStringList itemEntry;
-    itemEntry.append(QString::null);
-    itemEntry.append(dia_ui->clip_name->text());
-    AddClipCommand *command = new AddClipCommand(this, itemEntry, element, m_clipIdCounter++, KUrl(), QString::null, true);
-    m_commandStack->push(command);
-    // ProjectItem *item = new ProjectItem(listView, itemEntry, element, m_clipIdCounter++);
-    /*QPixmap pix(60, 40);
-    pix.fill(dia_ui->clip_color->color());
-    item->setIcon(0, QIcon(pix));*/
-    //listView->setCurrentItem(item);
-    
+    m_doc->slotAddColorClipFile(dia_ui->clip_name->text(), color, dia_ui->clip_duration->text(), QString::null);
   }
   delete dia_ui;
   delete dia;
@@ -364,6 +342,7 @@ void ProjectList::setDocument(KdenliveDoc *doc)
   m_fps = doc->fps();
   m_timecode = doc->timecode();
   m_commandStack = doc->commandStack();
+  m_doc = doc;
   QDomNodeList prods = doc->producersList();
   int ct = prods.count();
   kDebug()<<"////////////  SETTING DOC, FOUND CLIPS: "<<prods.count();

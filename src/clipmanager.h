@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,30 +17,48 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <KLocale>
+#ifndef CLIPMANAGER_H
+#define CLIPMANAGER_H
 
-#include "addclipcommand.h"
+/**ClipManager manages the list of clips in a document
+  *@author Jean-Baptiste Mardelle
+  */
 
-AddClipCommand::AddClipCommand(KdenliveDoc *doc, const QDomElement &xml, const uint id, bool doIt)
-         : m_doc(doc), m_xml(xml), m_id(id), m_doIt(doIt) {
-	    if (doIt) setText(i18n("Add clip"));
-	    else setText(i18n("Delete clip"));
-	 }
+#include <qdom.h>
+#include <QPixmap>
+#include <QObject>
+
+#include <KUrl>
+#include <KUndoStack>
+#include <klocale.h>
+
+#include "gentime.h"
+#include "definitions.h"
+#include "docclipbase.h"
+
+class KdenliveDoc;
 
 
-// virtual 
-void AddClipCommand::undo()
-{
-kDebug()<<"----  undoing action";
-  if (m_doIt) m_doc->deleteClip(m_id);
-  else m_doc->addClip(m_xml, m_id);
-}
-// virtual 
-void AddClipCommand::redo()
-{
-kDebug()<<"----  redoing action";
-  if (m_doIt) m_doc->addClip(m_xml, m_id);
-  else m_doc->deleteClip(m_id);
-}
+class ClipManager:public QObject {
+  Q_OBJECT public:
 
-#include "addclipcommand.moc"
+
+    ClipManager(KdenliveDoc *doc);
+    virtual ~ ClipManager();
+    void addClip(DocClipBase *clip);
+    DocClipBase *getClipAt(int pos);
+    void deleteClip(uint clipId);
+    void slotAddClipFile(const KUrl url, const QString group);
+    void slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group);
+    DocClipBase *getClipById(int clipId);
+
+  private:			// Private attributes
+    /** the list of clips in the document */
+    QList <DocClipBase*> m_clipList;
+    /** the document undo stack*/
+    KdenliveDoc *m_doc;
+    int m_clipIdCounter;
+
+};
+
+#endif

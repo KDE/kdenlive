@@ -72,6 +72,7 @@ class CustomTrackView : public QGraphicsView
     ClipItem *m_dropItem;
     KdenliveDoc *m_document;
     void addItem(QString producer, QPoint pos);
+    void addItem(DocClipBase *clip, QPoint pos);
     QGraphicsLineItem *m_cursorLine;
     QPointF m_startPos;
     OPERATIONTYPE m_operationMode;

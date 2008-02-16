@@ -320,6 +320,7 @@ void MainWindow::slotUpdateMousePosition(int pos)
 void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //changed
 {
   //m_projectMonitor->stop();
+  kDebug()<<"///////////////////   CONNECTING DOC TO PROJECT VIEW ////////////////";
   if (m_activeDocument) {
     if (m_activeDocument == doc) return;
     m_activeDocument->setProducers(m_projectList->producersList());
@@ -328,6 +329,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //chang
   connect(trackView, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(activateMonitor()));
   connect(trackView, SIGNAL(mousePosition(int)), this, SLOT(slotUpdateMousePosition(int)));
   connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
+  connect(doc, SIGNAL(addProjectClip(DocClipBase *)), m_projectList, SLOT(slotAddClip(DocClipBase *)));
+
   m_projectList->setDocument(doc);
   m_monitorManager->setTimecode(doc->timecode());
   doc->setRenderer(m_projectMonitor->render);

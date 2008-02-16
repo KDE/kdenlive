@@ -29,6 +29,7 @@
 
 #include "gentime.h"
 #include "definitions.h"
+#include "docclipbase.h"
 
 class ProjectItem : public QTreeWidgetItem
 {
@@ -36,6 +37,7 @@ class ProjectItem : public QTreeWidgetItem
     ProjectItem(QTreeWidget * parent, const QStringList & strings, QDomElement xml, int clipId);
     ProjectItem(QTreeWidgetItem * parent, const QStringList & strings, QDomElement xml, int clipId);
     ProjectItem(QTreeWidget * parent, const QStringList & strings, int clipId);
+    ProjectItem(QTreeWidget * parent, DocClipBase *clip);
     virtual ~ProjectItem();
     QDomElement toXml() const;
 
@@ -57,6 +59,7 @@ class ProjectItem : public QTreeWidgetItem
     void slotSetToolTip();
     bool m_isGroup;
     QString m_groupName;
+    DocClipBase *m_clip;
 };
 
 #endif

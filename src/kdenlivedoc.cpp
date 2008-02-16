@@ -27,9 +27,9 @@
 
 #include "kdenlivedoc.h"
 
-
 KdenliveDoc::KdenliveDoc(const KUrl &url, double fps, int width, int height, QWidget *parent):QObject(parent), m_render(NULL), m_url(url), m_fps(fps), m_width(width), m_height(height), m_projectName(NULL), m_commandStack(new KUndoStack())
 {
+  m_clipManager = new ClipManager(this);
   if (!url.isEmpty()) {
     QString tmpFile;
     if(KIO::NetAccess::download(url.path(), tmpFile, parent))
@@ -99,6 +99,12 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, double fps, int width, int height, QWi
 KdenliveDoc::~KdenliveDoc()
 {
   delete m_commandStack;
+  delete m_clipManager;
+}
+
+ClipManager *KdenliveDoc::clipManager()
+{
+  return m_clipManager;
 }
 
 KUndoStack *KdenliveDoc::commandStack()
@@ -115,6 +121,11 @@ void KdenliveDoc::setRenderer(Render *render)
 Render *KdenliveDoc::renderer()
 {
   return m_render;
+}
+
+int KdenliveDoc::getFramePos(QString duration)
+{
+  return m_timecode.getFrameCount(duration, m_fps);
 }
 
 QString KdenliveDoc::producerName(int id)
@@ -236,6 +247,35 @@ int KdenliveDoc::height()
 KUrl KdenliveDoc::url()
 {
   return m_url;
+}
+
+void KdenliveDoc::addClip(const QDomElement &elem, const int clipId)
+{
+  kDebug()<<"/////////  DOCUM, CREATING NEW CLIP, ID:"<<clipId;
+  DocClipBase *clip = new DocClipBase(elem, clipId);
+  m_clipManager->addClip(clip);
+  emit addProjectClip(clip);
+}
+
+void KdenliveDoc::deleteClip(const uint clipId)
+{
+  m_clipManager->deleteClip(clipId);
+}
+
+void KdenliveDoc::slotAddClipFile(const KUrl url, const QString group)
+{
+  kDebug()<<"/////////  DOCUM, ADD CLP: "<<url;
+  m_clipManager->slotAddClipFile(url, group);
+}
+
+DocClipBase *KdenliveDoc::getBaseClip(int clipId)
+{
+  return m_clipManager->getClipById(clipId);
+}
+
+void KdenliveDoc::slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group)
+{
+  m_clipManager->slotAddColorClipFile(name, color, duration, group);
 }
 
 #include "kdenlivedoc.moc"

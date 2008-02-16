@@ -82,6 +82,23 @@ ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, int 
   setIcon(0, KIcon("folder"));
 }
 
+ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
+    : QTreeWidgetItem(parent, QStringList(), QTreeWidgetItem::UserType), m_isGroup(false)
+{
+  setSizeHint(0, QSize(65, 45));
+  setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+  m_clip = clip;
+  m_element = clip->toXML();
+  m_clipId = clip->getId();
+  QString name = m_element.attribute("name");
+  if (name.isEmpty()) name = KUrl(m_element.attribute("resource")).fileName();
+  m_clipType = (CLIPTYPE) m_element.attribute("type").toInt();
+  m_groupName = m_element.attribute("group");
+  setText(1, name);
+  kDebug()<<"PROJECT ITE;. ADDING LCIP: "<< m_clipId;
+}
+
+
 ProjectItem::~ProjectItem()
 {
 }
@@ -175,12 +192,14 @@ void ProjectItem::slotSetToolTip()
 
 void ProjectItem::setProperties(const QMap < QString, QString > &attributes, const QMap < QString, QString > &metadata)
 {
-	if (attributes.contains("duration")) {
-	    if (m_clipType == AUDIO || m_clipType == VIDEO || m_clipType == AV) m_element.setAttribute("duration", attributes["duration"].toInt());
-	    m_duration = GenTime(attributes["duration"].toInt(), 25);
-	    setData(1, DurationRole, Timecode::getEasyTimecode(m_duration, 25));
-	    m_durationKnown = true;
-	} else {
+  if (attributes.contains("duration")) {
+    if (m_clipType == AUDIO || m_clipType == VIDEO || m_clipType == AV) m_element.setAttribute("duration", attributes["duration"].toInt());
+    m_duration = GenTime(attributes["duration"].toInt(), 25);
+    setData(1, DurationRole, Timecode::getEasyTimecode(m_duration, 25));
+    m_durationKnown = true;
+    m_clip->setDuration(m_duration);
+    kDebug()<<"//// LOADED CLIP, DURATION SET TO: "<<m_duration.frames(25);
+  } else {
 	    // No duration known, use an arbitrary one until it is.
 	    m_duration = GenTime(0.0);
 	    m_durationKnown = false;
@@ -189,7 +208,7 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
 
 	//extend attributes -reh
 
-	if (m_clipType == UNKNOWN) {
+  if (m_clipType == UNKNOWN) {
 	  if (attributes.contains("type")) {
 	    if (attributes["type"] == "audio")
 		m_clipType = AUDIO;
@@ -202,6 +221,7 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
 	  } else {
 	    m_clipType = AV;
 	  }
+	m_clip->setClipType(m_clipType);
 	}
 	slotSetToolTip();
 

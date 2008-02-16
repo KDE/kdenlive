@@ -17,21 +17,52 @@
 
 #include <KDebug>
 
+#include "kdenlivesettings.h"
 #include "docclipbase.h"
-/*#include "docclipavfile.h"
-#include "doccliptextfile.h"
-#include "docclipproject.h"
-#include "doctrackbase.h"*/
 
-DocClipBase::DocClipBase():
-m_description(""), m_refcount(0), m_projectThumbFrame(0), audioThumbCreated(false)
+DocClipBase::DocClipBase(QDomElement xml, uint id):
+m_xml(xml), m_id(id), m_description(""), m_refcount(0), m_projectThumbFrame(0), audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL)
 {
-    //thumbCreator = 0;
+  int type = xml.attribute("type").toInt();
+  m_clipType = (CLIPTYPE) type;
+  m_name = xml.attribute("name");
+  m_xml.setAttribute("id", QString::number(id));
+  KUrl url = KUrl(xml.attribute("resource"));
+  int out = xml.attribute("out").toInt();
+  if (out != 0) setDuration(GenTime(out, 25));
+  if (m_name.isEmpty()) m_name = url.fileName();
+  if (!url.isEmpty())
+    m_thumbProd = new KThumb(url, KdenliveSettings::track_height() * KdenliveSettings::project_display_ratio(), KdenliveSettings::track_height());
+}
+
+DocClipBase::DocClipBase(const DocClipBase& clip)
+{
+    m_xml = clip.toXML();
+    m_id = clip.getId();
+    m_clipType = clip.clipType();
+    m_name = clip.name();
+    m_duration = clip.duration();
+}
+
+DocClipBase & DocClipBase::operator=(const DocClipBase & clip)
+{
+    DocClipBase::operator=(clip);
+    m_xml = clip.toXML();
+    m_id = clip.getId();
+    m_clipType = clip.clipType();
+    m_name = clip.name();
+    m_duration = clip.duration();
+    return *this;
 }
 
 DocClipBase::~DocClipBase()
 {
-    //delete thumbCreator;
+  //if (m_thumbProd) delete m_thumbProd;
+}
+
+KThumb *DocClipBase::thumbProducer()
+{
+  return m_thumbProd;
 }
 
 void DocClipBase::setName(const QString name)
@@ -41,6 +72,7 @@ void DocClipBase::setName(const QString name)
 
 const QString & DocClipBase::name() const
 {
+  
     return m_name;
 }
 
@@ -52,6 +84,23 @@ uint DocClipBase::getId() const
 void DocClipBase::setId( const uint &newId)
 {
     m_id = newId;
+}
+
+const CLIPTYPE & DocClipBase::clipType() const
+{
+  return m_clipType;
+}
+
+void DocClipBase::setClipType(CLIPTYPE type)
+{
+  m_clipType = type;
+}
+
+const KUrl & DocClipBase::fileURL() const
+{
+  QString res = m_xml.attribute("resource");
+  if (m_clipType != COLOR && !res.isEmpty()) return KUrl(res);
+  return KUrl();
 }
 
 void DocClipBase::setProjectThumbFrame( const uint &ix)
@@ -74,17 +123,34 @@ const QString & DocClipBase::description() const
     return m_description;
 }
 
-// virtual
-QDomDocument DocClipBase::toXML() const
+void DocClipBase::setDuration(GenTime dur)
 {
+    m_duration = dur;
+}
+
+const GenTime &DocClipBase::duration() const
+{
+    return m_duration;
+}
+
+bool DocClipBase::hasFileSize() const
+{
+  return true;
+}
+
+
+// virtual
+QDomElement DocClipBase::toXML() const
+{
+/*
     QDomDocument doc;
 
     QDomElement clip = doc.createElement("kdenliveclip");
     QDomText text = doc.createTextNode(description());
     clip.appendChild(text);
     doc.appendChild(clip);
-
-    return doc;
+*/
+    return m_xml;
 }
 
 DocClipBase *DocClipBase::

@@ -23,14 +23,15 @@
   */
 
 #include <qdom.h>
-#include <qobject.h>
-#include <qpixmap.h>
+#include <QPixmap>
+#include <QObject>
 
-#include <kurl.h>
+#include <KUrl>
 #include <klocale.h>
 
 #include "gentime.h"
-// #include "kthumb.h"
+#include "definitions.h"
+ #include "kthumb.h"
 
 /*
 class DocTrackBase;
@@ -63,10 +64,10 @@ class DocClipBase:public QObject {
 	 * - e.g. if you can have audio and video seperately, it should be possible to combin the two, as is
 	 *   done here. If a new clip type is added then it should be possible to combine it with both audio
 	 *   and video. */
-    enum CLIPTYPE { NONE = 0, AUDIO = 1, VIDEO = 2, AV = 3, COLOR =
-	    4, IMAGE = 5, TEXT = 6, SLIDESHOW = 7, VIRTUAL = 8, PLAYLIST = 9};
 
-     DocClipBase();
+     DocClipBase(QDomElement xml, uint id);
+     DocClipBase(const DocClipBase& clip);
+     DocClipBase & operator=(const DocClipBase & clip);
      virtual ~ DocClipBase();
 
 	/** sets the name of this clip. */
@@ -89,25 +90,29 @@ class DocClipBase:public QObject {
     bool audioThumbCreated;
     
 	/** returns the duration of this clip */
-    virtual const GenTime & duration() const = 0;
+    const GenTime & duration() const;
+	/** returns the duration of this clip */
+    void setDuration(GenTime dur);
 
 	/** returns clip type (audio, text, image,...) */
-    virtual const DocClipBase::CLIPTYPE & clipType() const = 0;
+    const CLIPTYPE & clipType() const;
+	/** set clip type (audio, text, image,...) */
+    void setClipType(CLIPTYPE type);
 
 	/** remove tmp file if the clip has one (for example text clips) */
-    virtual void removeTmpFile() const = 0;
+    void removeTmpFile() const;
 
 	/** Returns a url to a file describing this clip. Exactly what this url is,
 	whether it is temporary or not, and whether it provokes a render will
 	depend entirely on what the clip consists of. */
-    virtual const KUrl & fileURL() const = 0;
+    const KUrl & fileURL() const;
 
 	/** Returns true if the clip duration is known, false otherwise. */
-    virtual bool durationKnown() const = 0;
+    bool durationKnown() const;
     // Returns the number of frames per second that this clip should play at.
-    virtual double framesPerSecond() const = 0;
+    double framesPerSecond() const;
 
-    virtual bool isDocClipAVFile() const {
+    bool isDocClipAVFile() const {
 	return false;
     } 
     
@@ -133,7 +138,7 @@ class DocClipBase:public QObject {
     
 	/** Returns true if this clip is a project clip, false otherwise. Overridden in DocClipProject,
 	 * where it returns true. */ 
-    virtual bool isProjectClip() const {
+    bool isProjectClip() const {
 	return false;
     }
     // Appends scene times for this clip to the passed vector.
@@ -142,14 +147,14 @@ class DocClipBase:public QObject {
 
 	/** Reads in the element structure and creates a clip out of it.*/
     // Returns an XML document that describes part of the current scene.
-    virtual QDomDocument sceneToXML(const GenTime & startTime,
-	const GenTime & endTime) const = 0;
+    QDomDocument sceneToXML(const GenTime & startTime,
+	const GenTime & endTime) const;
 	/** returns a QString containing all of the XML data required to recreate this clip. */
-    virtual QDomDocument toXML() const;
-    virtual QDomDocument generateSceneList(bool addProducers = true, bool rendering = false) const;
+    QDomElement toXML() const;
+    QDomDocument generateSceneList(bool addProducers = true, bool rendering = false) const;
 
 	/** Returns true if the xml passed matches the values in this clip */
-    virtual bool matchesXML(const QDomElement & element) const = 0;
+    bool matchesXML(const QDomElement & element) const;
 
     void addReference() {
 	++m_refcount;
@@ -161,17 +166,20 @@ class DocClipBase:public QObject {
 	return m_refcount;
     }
 	/** Returns true if this clip has a meaningful filesize. */
-	virtual bool hasFileSize() const = 0;
+	bool hasFileSize() const;
 
 	/** Returns the filesize, or 0 if there is no appropriate filesize. */
-    virtual uint fileSize() const = 0;
+    uint fileSize() const;
 
 	/** Returns true if this clip refers to the clip passed in. A clip refers to another clip if
 	 * it uses it as part of it's own composition. */
-    virtual bool referencesClip(DocClipBase * clip) const = 0;
+    bool referencesClip(DocClipBase * clip) const;
 
 	/** Sets the thumbnail to be used by this clip */
     void setThumbnail(const QPixmap & pixmap);
+
+	/** Returns the thumbnail producer used by this clip */
+    KThumb *thumbProducer();
 
 	/** Returns the thumbnail used by this clip */
     const QPixmap & thumbnail() const;
@@ -193,12 +201,17 @@ class DocClipBase:public QObject {
 	 * that exist. */
     uint m_refcount;
 
+    CLIPTYPE m_clipType;
+
 	/** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
     QList < CommentedTime > m_snapMarkers;
-
+    QDomElement m_xml;
 
 	/** A thumbnail for this clip */
     QPixmap m_thumbnail;
+    GenTime m_duration;
+
+    KThumb *m_thumbProd;
     
     /** a unique numeric id */
     uint m_id;

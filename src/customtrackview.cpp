@@ -303,10 +303,26 @@ void CustomTrackView::mousePressEvent ( QMouseEvent * event )
 void CustomTrackView::dragEnterEvent ( QDragEnterEvent * event )
 {
   if (event->mimeData()->hasText()) {
-    QString clip = event->mimeData()->text();
+    kDebug()<<"///////////////  DRAG ENTERED, TEXT: "<<event->mimeData()->text();
+    QStringList ids = QString(event->mimeData()->text()).split(";");
+    //TODO: drop of several clips
+    for (int i = 0; i < ids.size(); ++i) {
+    }
+    DocClipBase *clip = m_document->getBaseClip(ids.at(0).toInt());
+    if (clip == NULL) kDebug()<<" WARNING))))))))) CLIP NOT FOUND : "<<ids.at(0).toInt();
     addItem(clip, event->pos());
     event->acceptProposedAction();
   }
+}
+
+void CustomTrackView::addItem(DocClipBase *clip, QPoint pos)
+{
+  int in =0;
+  int out = clip->duration().frames(m_document->fps());
+  //kdDebug()<<"- - - -CREATING CLIP, duration = "<<out<<", URL: "<<clip->fileURL();
+  int trackTop = ((int) mapToScene(pos).y()/50) * 50 + 1;
+  m_dropItem = new ClipItem(clip, ((int) mapToScene(pos).y()/50), in, QRectF(mapToScene(pos).x() * m_scale, trackTop, out * m_scale, 49), out);
+  scene()->addItem(m_dropItem);
 }
 
 

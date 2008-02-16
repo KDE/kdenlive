@@ -34,7 +34,7 @@
 #include "kdenlivesettings.h"
 
 ClipItem::ClipItem(QDomElement xml, int track, int startpos, const QRectF & rect, int duration)
-    : QGraphicsRectItem(rect), m_xml(xml), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_thumbProd(NULL), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0)
+    : QGraphicsRectItem(rect), m_xml(xml), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0)
 {
   //setToolTip(name);
 
@@ -56,9 +56,9 @@ ClipItem::ClipItem(QDomElement xml, int track, int startpos, const QRectF & rect
 
   setBrush(QColor(100, 100, 150));
   if (m_clipType == VIDEO || m_clipType == AV) {
-    m_thumbProd = new KThumb(KUrl(xml.attribute("resource")), KdenliveSettings::track_height() * KdenliveSettings::project_display_ratio(), KdenliveSettings::track_height());
-    connect(this, SIGNAL(getThumb(int, int)), m_thumbProd, SLOT(extractImage(int, int)));
-    connect(m_thumbProd, SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
+    m_hasThumbs = true;
+    //connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(extractImage(int, int)));
+    //connect(clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
     QTimer::singleShot(300, this, SLOT(slotFetchThumbs()));
 
     startThumbTimer = new QTimer(this);
@@ -79,11 +79,52 @@ ClipItem::ClipItem(QDomElement xml, int track, int startpos, const QRectF & rect
   }
 }
 
+ClipItem::ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & rect, int duration)
+    : QGraphicsRectItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0)
+{
+  //setToolTip(name);
+  kDebug()<<"*******  CREATING NEW TML CLIP, DUR: "<<duration;
+  m_xml = clip->toXML();
+  m_clipName = clip->name();
+  m_producer = clip->getId();
+  m_clipType = clip->clipType();
+  m_cropStart = 0;
+  m_maxDuration = duration;
+  if (duration != -1) m_cropDuration = duration;
+  else m_cropDuration = m_maxDuration;
+
+  setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemClipsChildrenToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+
+  setBrush(QColor(100, 100, 150));
+  if (m_clipType == VIDEO || m_clipType == AV) {
+    m_hasThumbs = true;
+    connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(extractImage(int, int)));
+    connect(clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
+    QTimer::singleShot(300, this, SLOT(slotFetchThumbs()));
+
+    startThumbTimer = new QTimer(this);
+    startThumbTimer->setSingleShot(true);
+    connect(startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
+    endThumbTimer = new QTimer(this);
+    endThumbTimer->setSingleShot(true);
+    connect(endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
+
+  }
+  else if (m_clipType == COLOR) {
+    QString colour = m_xml.attribute("colour");
+    colour = colour.replace(0, 2, "#");
+    setBrush(QColor(colour.left(7)));
+  }
+  else if (m_clipType == IMAGE) {
+    m_startPix = KThumb::getImage(KUrl(m_xml.attribute("resource")), 50 * KdenliveSettings::project_display_ratio(), 50);
+  }
+}
+
+
 ClipItem::~ClipItem()
 {
   if (startThumbTimer) delete startThumbTimer;
   if (endThumbTimer) delete endThumbTimer;
-  if (m_thumbProd) delete m_thumbProd;
 }
 
 void ClipItem::slotFetchThumbs()
@@ -394,7 +435,7 @@ void ClipItem::resizeStart(int posx, double scale)
 	break;
       }
     }
-    if (m_thumbProd) startThumbTimer->start(100);
+    if (m_hasThumbs) startThumbTimer->start(100);
 }
 
 void ClipItem::resizeEnd(int posx, double scale)
@@ -421,7 +462,7 @@ void ClipItem::resizeEnd(int posx, double scale)
 	break;
       }
     }
-    if (m_thumbProd) endThumbTimer->start(100);
+    if (m_hasThumbs) endThumbTimer->start(100);
 }
 
 // virtual

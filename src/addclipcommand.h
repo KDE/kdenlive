@@ -24,24 +24,21 @@
 #include <QUndoCommand>
 #include <KDebug>
 
-#include "projectlist.h"
+#include "kdenlivedoc.h"
 
 class AddClipCommand : public QUndoCommand
  {
  public:
-     AddClipCommand(ProjectList *list, const QStringList &names, const QDomElement &xml, const int id, const KUrl &url, const QString &group, bool doIt);
+     AddClipCommand(KdenliveDoc *list, const QDomElement &xml, const uint id, bool doIt);
 
     virtual void undo();
     virtual void redo();
 
  private:
-     ProjectList *m_list;
-     QStringList m_names;
+     KdenliveDoc *m_doc;
      QDomElement m_xml;
-     int m_id;
-     KUrl m_url;
+     uint m_id;
      bool m_doIt;
-     QString m_group;
  };
 
 #endif

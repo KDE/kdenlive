@@ -156,15 +156,16 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
       QDomDocument doc;
       QList <QTreeWidgetItem *> list;
       list = selectedItems ();
+      QStringList ids;
       foreach (QTreeWidgetItem *item, list) {
 	// TODO allow dragging of folders
 	if (!((ProjectItem *) item)->isGroup())
-	  doc.appendChild(doc.importNode(((ProjectItem *) item)->toXml(), true));
+	  ids.append(QString::number(((ProjectItem *) item)->clipId()));
       }
       //QByteArray data;
       //data.append(doc.toString().toUtf8());
       //mimeData->setData("kdenlive/westley",data );
-      mimeData->setText(doc.toString());
+      mimeData->setText(ids.join(";")); //doc.toString());
       //mimeData->setImageData(image);
       drag->setMimeData(mimeData);
       drag->setPixmap(clickItem->icon(0).pixmap(50 *16/9.0, 50));

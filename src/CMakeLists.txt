@@ -57,6 +57,7 @@ set(kdenlive_SRCS
   resizeclipcommand.cpp
   addtimelineclipcommand.cpp
   kthumb.cpp
+  clipmanager.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

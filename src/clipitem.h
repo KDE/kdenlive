@@ -27,6 +27,7 @@
 
 #include "definitions.h"
 #include "gentime.h"
+#include "docclipbase.h"
 #include "kthumb.h"
 
 
@@ -36,6 +37,7 @@ class ClipItem : public QObject, public QGraphicsRectItem
 
   public:
     ClipItem(QDomElement xml, int track, int startpos, const QRectF & rect, int duration = -1);
+    ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & rect, int duration);
     virtual ~ ClipItem();
     virtual void paint(QPainter *painter,
                            const QStyleOptionGraphicsItem *option,
@@ -67,6 +69,7 @@ class ClipItem : public QObject, public QGraphicsRectItem
 
   private:
     QDomElement m_xml;
+    DocClipBase *m_clip;
     int m_textWidth;
     OPERATIONTYPE m_resizeMode;
     int m_grabPoint;
@@ -81,7 +84,7 @@ class ClipItem : public QObject, public QGraphicsRectItem
     int m_startPos;
     QPixmap m_startPix;
     QPixmap m_endPix;
-    KThumb *m_thumbProd;
+    bool m_hasThumbs;
     QTimer *startThumbTimer;
     QTimer *endThumbTimer;
     uint m_startFade;

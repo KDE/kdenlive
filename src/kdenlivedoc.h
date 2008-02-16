@@ -33,6 +33,7 @@
 #include "gentime.h"
 #include "timecode.h"
 #include "renderer.h"
+#include "clipmanager.h"
 
 class KdenliveDoc:public QObject {
   Q_OBJECT public:
@@ -54,6 +55,13 @@ class KdenliveDoc:public QObject {
     void setProducerDuration(int id, int duration);
     int getProducerDuration(int id);
     Render *renderer();
+    ClipManager *clipManager();
+    void addClip(const QDomElement &elem, const int clipId);
+    void slotAddClipFile(const KUrl url, const QString group);
+    void slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group);
+    void deleteClip(const uint clipId);
+    int getFramePos(QString duration);
+    DocClipBase *getBaseClip(int clipId);
 
   private:
     KUrl m_url;
@@ -66,9 +74,12 @@ class KdenliveDoc:public QObject {
     Render *m_render;
     KUndoStack *m_commandStack;
     QDomDocument generateSceneList();
+    ClipManager *m_clipManager;
 
   public slots:
     
+  signals:
+    void addProjectClip(DocClipBase *);
 };
 
 #endif
