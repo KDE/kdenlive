@@ -138,6 +138,7 @@ MainWindow::MainWindow(QWidget *parent)
   connect(clipMonitorDock, SIGNAL(visibilityChanged (bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
   connect(m_monitorManager, SIGNAL(connectMonitors ()), this, SLOT(slotConnectMonitors()));
   connect(m_monitorManager, SIGNAL(raiseClipMonitor (bool)), this, SLOT(slotRaiseMonitor(bool)));
+  connect(m_effectList, SIGNAL(addEffect(int, const QString&)), this, SLOT(slotAddEffect(int, const QString &)));
   m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor);
 
   setAutoSaveSettings();
@@ -157,6 +158,20 @@ bool MainWindow::queryClose()
        default: // cancel
          return false;
   }
+}
+
+void MainWindow::slotAddEffect(int effectType, const QString &effectName)
+{
+  if (!m_activeDocument) return;
+  QMap <QString, QString> filter;
+  if (effectType == 0)
+    filter = m_videoEffects.effect(effectName);
+  else if (effectType == 1)
+    filter = m_audioEffects.effect(effectName);
+  else 
+    filter = m_customEffects.effect(effectName);
+  TrackView *currentTimeLine = (TrackView *) m_timelineArea->currentWidget();
+  currentTimeLine->projectView()->slotAddEffect(filter);
 }
 
 void MainWindow::slotRaiseMonitor(bool clipMonitor)

@@ -114,6 +114,7 @@ class MainWindow : public KXmlGuiWindow
     void slotRaiseMonitor(bool clipMonitor);
     void slotSetClipDuration(int id, int duration);
     void slotUpdateMousePosition(int pos);
+    void slotAddEffect(int effectType, const QString &effectName);
 };
  
 #endif

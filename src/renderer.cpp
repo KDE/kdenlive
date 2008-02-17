@@ -1118,6 +1118,11 @@ void Render::mltEditEffect(int track, GenTime position, int index, QString id, Q
     Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
     //int clipIndex = trackPlaylist.get_clip_index_at(position.frames(m_fps));
     Mlt::Producer *clip = trackPlaylist.get_clip_at(position.frames(m_fps));
+    if (!clip) {
+      kDebug()<<"WARINIG, CANNOT FIND CLIP ON track: "<<track<<", AT POS: "<<position.frames(m_fps);
+      m_isBlocked = false;
+      return;
+    }
     Mlt::Service clipService(clip->get_service());
     Mlt::Filter *filter = clipService.filter( index );
 
@@ -1258,10 +1263,7 @@ void Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     Mlt::Producer trackProducer(tractor.track(startTrack));
     Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at(moveStart + 1);
-
-
     mlt_field field = mlt_tractor_field(tractor.get_tractor());
-
     mlt_multitrack multitrack = mlt_field_multitrack(field); //mlt_tractor_multitrack(tractor.get_tractor());
     kDebug()<<" --  CURRENT MULTIOTRACK HAS: "<<mlt_multitrack_count(multitrack)<<" tracks";;
     mlt_service multiprod = mlt_multitrack_service( multitrack );

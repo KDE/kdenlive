@@ -276,6 +276,14 @@ void CustomTrackView::mousePressEvent ( QMouseEvent * event )
     for (int i = 0; i < collisionList.size(); ++i) {
       QGraphicsItem *item = collisionList.at(i);
       if (item->type() == 70000) {
+	// select item
+	if (!item->isSelected()) {
+	  QList<QGraphicsItem *> itemList = items();
+	  for (int i = 0; i < itemList.count(); i++)
+	    itemList.at(i)->setSelected(false);
+	  item->setSelected(true);
+	  update();
+	}
 	m_dragItem = (ClipItem *) item;
 	m_clickPoint = mapToScene(event->pos()).x() - m_dragItem->startPos() * m_scale;
 	m_operationMode = m_dragItem->operationMode(item->mapFromScene(mapToScene(event->pos())), m_scale);
@@ -298,7 +306,7 @@ void CustomTrackView::mousePressEvent ( QMouseEvent * event )
   }
   updateSnapPoints(m_dragItem);
   //kDebug()<<pos;
-  QGraphicsView::mousePressEvent(event);
+  //QGraphicsView::mousePressEvent(event);
 }
 
 void CustomTrackView::dragEnterEvent ( QDragEnterEvent * event )
@@ -456,7 +464,7 @@ void CustomTrackView::mouseReleaseEvent ( QMouseEvent * event )
   setDragMode(QGraphicsView::NoDrag);
   if (m_dragItem == NULL) return;
   //kDebug()<<"/// MOVING CLIP: "<<m_startPos<<", END: "<<QPoint(m_dragItem->rect().x(),m_dragItem->rect().y());
-  if (m_operationMode == MOVE) {
+  if (m_operationMode == MOVE && m_startPos.x() != m_dragItem->startPos()) {
     // move clip
     MoveClipCommand *command = new MoveClipCommand(this, m_startPos, QPointF(m_dragItem->startPos(), m_dragItem->track()), false);
     m_commandStack->push(command);
