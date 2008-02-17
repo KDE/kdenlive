@@ -41,8 +41,9 @@ class EffectsListView : public QWidget
     EffectsList *m_customList;
 
   private slots:
-     void initList();
-    void slotDisplayInfo();
+    void initList(int pos);
+    void slotUpdateInfo();
+    void showInfoPanel(int state);
 
   public slots:
  

@@ -27,39 +27,47 @@ EffectsListView::EffectsListView(EffectsList *audioEffectList, EffectsList *vide
     : QWidget(parent), m_audioList(audioEffectList), m_videoList(videoEffectList), m_customList(customEffectList)
 {
   ui.setupUi(this);
-  initList();
-  connect(ui.video_button, SIGNAL(released()), this, SLOT(initList()));
-  connect(ui.audio_button, SIGNAL(released()), this, SLOT(initList()));
-  connect(ui.custom_button, SIGNAL(released()), this, SLOT(initList()));
-  connect(ui.effectlist, SIGNAL(itemSelectionChanged()), this, SLOT(slotDisplayInfo()));
+  initList(0);
+  connect(ui.type_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(initList(int)));
+  connect(ui.button_info, SIGNAL(stateChanged(int)), this, SLOT(showInfoPanel(int)));
+  connect(ui.effectlist, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateInfo()));
 }
 
-void EffectsListView::initList()
+void EffectsListView::initList(int pos)
 {
   QStringList names;
-  if (ui.video_button->isChecked()) {
-    names = m_videoList->effectNames();
-  }
-  else if (ui.audio_button->isChecked()) {
-    names = m_audioList->effectNames();
-  }
-  if (ui.custom_button->isChecked()) {
-    names = m_customList->effectNames();
+  switch (pos)
+  {
+    case 0:
+      names = m_videoList->effectNames();
+      break;
+    case 1:
+      names = m_audioList->effectNames();
+      break;
+    default:
+      names = m_customList->effectNames();
+      break;
   }
   ui.effectlist->clear();
   ui.effectlist->addItems(names);
 }
 
-void EffectsListView::slotDisplayInfo()
+void EffectsListView::showInfoPanel(int state)
+{
+  if (state == 0) ui.infopanel->hide();
+  else ui.infopanel->show();
+}
+
+void EffectsListView::slotUpdateInfo()
 {
   QString info; 
-  if (ui.video_button->isChecked()) {
+  if (ui.type_combo->currentIndex() == 0) {
     info = m_videoList->getInfo(ui.effectlist->currentItem()->text());
   }
-  else if (ui.audio_button->isChecked()) {
+  else if (ui.type_combo->currentIndex() == 1) {
     info = m_audioList->getInfo(ui.effectlist->currentItem()->text());
   }
-  if (ui.custom_button->isChecked()) {
+  if (ui.type_combo->currentIndex() == 2) {
     info = m_customList->getInfo(ui.effectlist->currentItem()->text());
   }
   ui.infopanel->setText(info);

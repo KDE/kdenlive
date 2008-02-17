@@ -5,38 +5,33 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>260</width>
-    <height>256</height>
+    <width>257</width>
+    <height>280</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout" >
    <property name="margin" >
     <number>0</number>
    </property>
-   <item row="0" column="0" colspan="2" >
+   <item row="0" column="0" >
     <layout class="QHBoxLayout" name="horizontalLayout" >
      <item>
-      <widget class="QRadioButton" name="video_button" >
-       <property name="text" >
-        <string>Video</string>
-       </property>
-       <property name="checked" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="audio_button" >
-       <property name="text" >
-        <string>Audio</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="custom_button" >
-       <property name="text" >
-        <string>Custom</string>
-       </property>
+      <widget class="KComboBox" name="type_combo" >
+       <item>
+        <property name="text" >
+         <string>Video</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>Audio</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>Custom</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item>
@@ -46,33 +41,51 @@
        </property>
        <property name="sizeHint" stdset="0" >
         <size>
-         <width>40</width>
-         <height>20</height>
+         <width>68</width>
+         <height>17</height>
         </size>
        </property>
       </spacer>
      </item>
+     <item>
+      <widget class="QCheckBox" name="button_info" >
+       <property name="text" >
+        <string>Info</string>
+       </property>
+       <property name="checked" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item row="1" column="0" >
-    <widget class="KListWidget" name="effectlist" />
-   </item>
-   <item row="1" column="1" >
-    <widget class="QTextEdit" name="infopanel" >
-     <property name="frameShape" >
-      <enum>QFrame::StyledPanel</enum>
+    <widget class="QSplitter" name="splitter" >
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
      </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Sunken</enum>
-     </property>
-     <property name="readOnly" >
-      <bool>true</bool>
-     </property>
+     <widget class="KListWidget" name="effectlist" />
+     <widget class="QTextEdit" name="infopanel" >
+      <property name="frameShape" >
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow" >
+       <enum>QFrame::Sunken</enum>
+      </property>
+      <property name="readOnly" >
+       <bool>true</bool>
+      </property>
+     </widget>
     </widget>
    </item>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
   <customwidget>
    <class>KListWidget</class>
    <extends>QListWidget</extends>
