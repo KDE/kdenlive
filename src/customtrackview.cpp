@@ -326,12 +326,16 @@ void CustomTrackView::dragEnterEvent ( QDragEnterEvent * event )
 
 void CustomTrackView::addEffect(int track, GenTime pos, QString tag, QMap <QString, QString> args)
 {
-  m_document->renderer()->mltAddEffect(track, pos, tag, args);  
+  m_document->renderer()->mltAddEffect(track, pos, tag, args);
+  ClipItem *clip = getClipItemAt(pos.frames(m_document->fps()) + 1, m_tracksCount - track);
+  if (clip) clip->addEffect(args);
 }
 
 void CustomTrackView::deleteEffect(int track, GenTime pos, QString tag)
 {
   m_document->renderer()->mltRemoveEffect(track, pos, tag, -1);  
+  ClipItem *clip = getClipItemAt(pos.frames(m_document->fps()) + 1, m_tracksCount - track);
+  if (clip) clip->deleteEffect(tag);
 }
 
 void CustomTrackView::slotAddEffect(QMap <QString, QString> filter)
@@ -341,7 +345,7 @@ void CustomTrackView::slotAddEffect(QMap <QString, QString> filter)
     if (itemList.at(i)->type() == 70000 && itemList.at(i)->isSelected()) {
       ClipItem *item = (ClipItem *)itemList.at(i);
       QString tag = filter.value("mlt_service");
-      AddEffectCommand *command = new AddEffectCommand(this, m_tracksCount - item->track(),GenTime(item->startPos(), 25), tag, filter, true);
+      AddEffectCommand *command = new AddEffectCommand(this, m_tracksCount - item->track(),GenTime(item->startPos(), m_document->fps()), tag, filter, true);
       m_commandStack->push(command);    
     }
   }
@@ -387,7 +391,7 @@ void CustomTrackView::dropEvent ( QDropEvent * event ) {
     m_dropItem->baseClip()->addReference();
     m_document->updateClip(m_dropItem->baseClip()->getId());
     kDebug()<<"IIIIIIIIIIIIIIIIIIIIIIII TRAX CNT: "<<m_tracksCount<<", DROP: "<<m_dropItem->track();
-    m_document->renderer()->mltInsertClip(m_tracksCount - m_dropItem->track(), GenTime(m_dropItem->startPos(), 25), m_dropItem->xml());
+    m_document->renderer()->mltInsertClip(m_tracksCount - m_dropItem->track(), GenTime(m_dropItem->startPos(), m_document->fps()), m_dropItem->xml());
   }
   m_dropItem = NULL;
 }
@@ -450,7 +454,7 @@ void CustomTrackView::setCursorPos(int pos, bool seek)
   m_cursorPos = pos;
   m_cursorLine->setPos(pos, 0);
   int frame = mapToScene(QPoint(pos, 0)).x() / m_scale;
-  if (seek) m_document->renderer()->seek(GenTime(frame, 25));
+  if (seek) m_document->renderer()->seek(GenTime(frame, m_document->fps()));
 }
 
 int CustomTrackView::cursorPos()
@@ -474,7 +478,7 @@ void CustomTrackView::mouseReleaseEvent ( QMouseEvent * event )
     // resize start
     ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->startPos(), m_dragItem->track()), true, false);
 
-    m_document->renderer()->mltResizeClipStart(m_tracksCount - m_dragItem->track(), GenTime(m_dragItem->endPos(), 25), GenTime(m_dragItem->startPos(), 25), GenTime(m_startPos.x(), 25), GenTime(m_dragItem->cropStart(), 25), GenTime(m_dragItem->cropStart(), 25) + GenTime(m_dragItem->endPos(), 25) - GenTime(m_dragItem->startPos(), 25));
+    m_document->renderer()->mltResizeClipStart(m_tracksCount - m_dragItem->track(), GenTime(m_dragItem->endPos(), m_document->fps()), GenTime(m_dragItem->startPos(), m_document->fps()), GenTime(m_startPos.x(), m_document->fps()), GenTime(m_dragItem->cropStart(), m_document->fps()), GenTime(m_dragItem->cropStart(), m_document->fps()) + GenTime(m_dragItem->endPos(), m_document->fps()) - GenTime(m_dragItem->startPos(), m_document->fps()));
     m_commandStack->push(command);
     m_document->renderer()->doRefresh();
   }
@@ -482,7 +486,7 @@ void CustomTrackView::mouseReleaseEvent ( QMouseEvent * event )
     // resize end
     ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->endPos(), m_dragItem->track()), false, false);
 
-    m_document->renderer()->mltResizeClipEnd(m_tracksCount - m_dragItem->track(), GenTime(m_dragItem->startPos(), 25), GenTime(m_dragItem->cropStart(), 25), GenTime(m_dragItem->cropStart(), 25) + GenTime(m_dragItem->endPos(), 25) - GenTime(m_dragItem->startPos(), 25));
+    m_document->renderer()->mltResizeClipEnd(m_tracksCount - m_dragItem->track(), GenTime(m_dragItem->startPos(), m_document->fps()), GenTime(m_dragItem->cropStart(), m_document->fps()), GenTime(m_dragItem->cropStart(), m_document->fps()) + GenTime(m_dragItem->endPos(), m_document->fps()) - GenTime(m_dragItem->startPos(), m_document->fps()));
     m_commandStack->push(command);
     m_document->renderer()->doRefresh();
   }
@@ -492,7 +496,7 @@ void CustomTrackView::mouseReleaseEvent ( QMouseEvent * event )
 
 void CustomTrackView::deleteClip (int track, int startpos, const QRectF &rect )
 {
-  ClipItem *item = (ClipItem *) scene()->itemAt(rect.x() + 1, rect.y() + 1);
+  ClipItem *item = getClipItemAt(startpos, track);
   if (!item) {
     kDebug()<<"----------------  ERROR, CANNOT find clip to move at: "<<rect.x();
     return;
@@ -500,7 +504,7 @@ void CustomTrackView::deleteClip (int track, int startpos, const QRectF &rect )
   item->baseClip()->removeReference();
   m_document->updateClip(item->baseClip()->getId());
   delete item;
-  m_document->renderer()->mltRemoveClip(m_tracksCount - track, GenTime(startpos, 25));
+  m_document->renderer()->mltRemoveClip(m_tracksCount - track, GenTime(startpos, m_document->fps()));
   m_document->renderer()->doRefresh();
 }
 
@@ -512,13 +516,18 @@ void CustomTrackView::addClip ( QDomElement xml, int clipId, int track, int star
   scene()->addItem(item);
   baseclip->addReference();
   m_document->updateClip(baseclip->getId());
-  m_document->renderer()->mltInsertClip(m_tracksCount - track, GenTime(startpos, 25), xml);
+  m_document->renderer()->mltInsertClip(m_tracksCount - track, GenTime(startpos, m_document->fps()), xml);
   m_document->renderer()->doRefresh();
+}
+
+ClipItem *CustomTrackView::getClipItemAt(int pos, int track)
+{
+  return (ClipItem *) scene()->itemAt(pos * m_scale, track * 50 + 25);
 }
 
 void CustomTrackView::moveClip ( const QPointF &startPos, const QPointF &endPos )
 {
-  ClipItem *item = (ClipItem *) scene()->itemAt((startPos.x() + 1) * m_scale, startPos.y() * 50 + 25);
+  ClipItem *item = getClipItemAt(startPos.x() + 1, startPos.y());
   if (!item) {
     kDebug()<<"----------------  ERROR, CANNOT find clip to move at: "<<startPos.x() * m_scale * FRAME_SIZE + 1<<", "<<startPos.y() * 50 + 25;
     return;
@@ -533,18 +542,18 @@ void CustomTrackView::resizeClip ( const QPointF &startPos, const QPointF &endPo
   int offset;
   if (resizeClipStart) offset = 1;
   else offset = -1;
-  ClipItem *item = (ClipItem *) scene()->itemAt((startPos.x() + offset) * m_scale, startPos.y() * 50 + 25);
+  ClipItem *item = getClipItemAt(startPos.x() + offset, startPos.y());
   if (!item) {
     kDebug()<<"----------------  ERROR, CANNOT find clip to resize at: "<<startPos;
     return;
   }
   qreal diff = endPos.x() - startPos.x();
   if (resizeClipStart) {
-    m_document->renderer()->mltResizeClipStart(m_tracksCount - item->track(), GenTime(item->endPos(), 25), GenTime(endPos.x(), 25), GenTime(item->startPos(), 25), GenTime(item->cropStart() + diff, 25), GenTime(item->cropStart() + diff, 25) + GenTime(item->endPos(), 25) - GenTime(endPos.x(), 25));
+    m_document->renderer()->mltResizeClipStart(m_tracksCount - item->track(), GenTime(item->endPos(), m_document->fps()), GenTime(endPos.x(), m_document->fps()), GenTime(item->startPos(), m_document->fps()), GenTime(item->cropStart() + diff, m_document->fps()), GenTime(item->cropStart() + diff, m_document->fps()) + GenTime(item->endPos(), m_document->fps()) - GenTime(endPos.x(), m_document->fps()));
     item->resizeStart(endPos.x(), m_scale);
   }
   else {
-    m_document->renderer()->mltResizeClipEnd(m_tracksCount - item->track(), GenTime(item->startPos(), 25), GenTime(item->cropStart(), 25), GenTime(item->cropStart(), 25) + GenTime(endPos.x(), 25) - GenTime(item->startPos(), 25));
+    m_document->renderer()->mltResizeClipEnd(m_tracksCount - item->track(), GenTime(item->startPos(), m_document->fps()), GenTime(item->cropStart(), m_document->fps()), GenTime(item->cropStart(), m_document->fps()) + GenTime(endPos.x(), m_document->fps()) - GenTime(item->startPos(), m_document->fps()));
     item->resizeEnd(endPos.x(), m_scale);
   }
   m_document->renderer()->doRefresh();

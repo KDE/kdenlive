@@ -91,6 +91,7 @@ class CustomTrackView : public QGraphicsView
     QList <int> m_snapPoints;
     void updateSnapPoints(ClipItem *selected);
     double getSnapPointForPos(double pos);
+    ClipItem *getClipItemAt(int pos, int track);
 
   signals:
     void cursorMoved(int);

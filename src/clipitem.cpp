@@ -245,17 +245,33 @@ int ClipItem::endPos()
       }
     }
 
-    painter->setClipRect(option->exposedRect);
     QPen pen = painter->pen();
-    pen.setColor(Qt::red);
-    pen.setStyle(Qt::DashDotDotLine); //Qt::DotLine);
-
+    pen.setColor(Qt::white);
+    //pen.setStyle(Qt::DashDotDotLine); //Qt::DotLine);
     // Draw clip name
+    QString effects = effectNames().join(" / ");
+    if (!effects.isEmpty()) {
+      painter->setPen(pen);
+      QFont font = painter->font();
+      QFont smallFont = font;
+      smallFont.setPointSize(8);
+      painter->setFont(smallFont);
+      QRectF txtBounding = painter->boundingRect(br, Qt::AlignLeft | Qt::AlignTop, " " + effects + " ");
+      painter->fillRect(txtBounding, QBrush(QColor(0,0,0,150)));
+      painter->drawText(txtBounding, Qt::AlignCenter, effects);
+      pen.setColor(Qt::black);
+      painter->setPen(pen);
+      painter->setFont(font);
+    }
+
     QRectF txtBounding = painter->boundingRect(br, Qt::AlignCenter, " " + m_clipName + " ");
     painter->fillRect(txtBounding, QBrush(QColor(255,255,255,150)));
     painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
 
+    pen.setColor(Qt::red);
+    pen.setStyle(Qt::DashDotDotLine); //Qt::DotLine);
     if (isSelected()) painter->setPen(pen);
+    painter->setClipRect(option->exposedRect);
     painter->drawPath(roundRectPath);
     //painter->fillRect(QRect(br.x(), br.y(), roundingX, roundingY), QBrush(QColor(Qt::green)));
 
@@ -452,6 +468,33 @@ int ClipItem::track()
 void ClipItem::setTrack(int track)
 {
   m_track = track;
+}
+
+QStringList ClipItem::effectNames()
+{
+  QStringList result;
+  for (int i = 0; i < m_effectList.size(); ++i) {
+     result.append(m_effectList.at(i).value("name"));
+  }
+  kDebug()<<"///  EFFECT LIST FOR CLIP IS: "<<result;
+  return result;
+}
+
+void ClipItem::addEffect(QMap <QString, QString> args)
+{
+  m_effectList.append(args);
+  update(boundingRect());
+}
+
+void ClipItem::deleteEffect(QString tag)
+{
+  for (int i = 0; i < m_effectList.size(); ++i) {
+    if (m_effectList.at(i).value("mlt_service") == tag) {
+      m_effectList.removeAt(i);
+      break;
+    }
+  }
+  update(boundingRect());
 }
 
 
