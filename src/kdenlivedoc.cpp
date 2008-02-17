@@ -264,6 +264,7 @@ void KdenliveDoc::addClip(const QDomElement &elem, const int clipId)
 
 void KdenliveDoc::deleteClip(const uint clipId)
 {
+  emit deleteProjectClip(clipId);
   m_clipManager->deleteClip(clipId);
 }
 

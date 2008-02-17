@@ -81,6 +81,7 @@ class KdenliveDoc:public QObject {
     
   signals:
     void addProjectClip(DocClipBase *);
+    void deleteProjectClip(int);
     void updateClipDisplay(int);
 };
 

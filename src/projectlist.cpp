@@ -272,7 +272,7 @@ void ProjectList::addClip(const QStringList &name, const QDomElement &elem, cons
   selectItemById(clipId);
 }
 
-void ProjectList::deleteClip(const int clipId)
+void ProjectList::slotDeleteClip( int clipId)
 {
   ProjectItem *item = getItemById(clipId);
   if (item) delete item;

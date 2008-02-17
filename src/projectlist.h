@@ -85,8 +85,8 @@ void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIn
     font.setBold(false);
     painter->setFont(font);
     QString subText = index.data(DurationRole).toString();
-    QString usage = index.data(UsageRole).toString();
-    if (!usage.isEmpty()) subText.append(QString(" (%1)").arg(usage));
+    int usage = index.data(UsageRole).toInt();
+    if (usage != 0) subText.append(QString(" (%1)").arg(usage));
     painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText);
     painter->restore();
   }
@@ -109,7 +109,6 @@ class ProjectList : public QWidget
     void setRenderer(Render *projectRender);
 
     void addClip(const QStringList &name, const QDomElement &elem, const int clipId, const KUrl &url = KUrl(), const QString &group = QString::null, int parentId = -1);
-    void deleteClip(const int clipId);
 
   public slots:
     void setDocument(KdenliveDoc *doc);
@@ -117,6 +116,7 @@ class ProjectList : public QWidget
     void slotReplyGetImage(int clipId, int pos, const QPixmap &pix, int w, int h);
     void slotReplyGetFileProperties(int clipId, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata);
     void slotAddClip(DocClipBase *clip);
+    void slotDeleteClip(int clipId);
     void slotUpdateClip(int id);
 
 
