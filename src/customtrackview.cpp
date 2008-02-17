@@ -483,9 +483,11 @@ void CustomTrackView::resizeClip ( const QPointF &startPos, const QPointF &endPo
   }
   qreal diff = endPos.x() - startPos.x();
   if (resizeClipStart) {
+    m_document->renderer()->mltResizeClipStart(m_tracksCount - item->track(), GenTime(item->endPos(), 25), GenTime(endPos.x(), 25), GenTime(item->startPos(), 25), GenTime(item->cropStart() + diff, 25), GenTime(item->cropStart() + diff, 25) + GenTime(item->endPos(), 25) - GenTime(endPos.x(), 25));
     item->resizeStart(endPos.x(), m_scale);
   }
   else {
+    m_document->renderer()->mltResizeClipEnd(m_tracksCount - item->track(), GenTime(item->startPos(), 25), GenTime(item->cropStart(), 25), GenTime(item->cropStart(), 25) + GenTime(endPos.x(), 25) - GenTime(item->startPos(), 25));
     item->resizeEnd(endPos.x(), m_scale);
   }
 }
