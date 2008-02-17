@@ -43,6 +43,7 @@
 #include "mainwindow.h"
 #include "kdenlivesettings.h"
 #include "ui_configmisc_ui.h"
+#include "initeffects.h"
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
@@ -59,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent)
   m_timelineArea->setTabReorderingEnabled(true);
   connect(m_timelineArea, SIGNAL(currentChanged (int)), this, SLOT(activateDocument()));
 
-  Mlt::Factory::init(NULL);
+  initEffects::parseEffectFiles( &m_audioEffects, &m_videoEffects );
   m_monitorManager = new MonitorManager();
 
   projectListDock = new QDockWidget(i18n("Project Tree"), this);
@@ -70,8 +71,8 @@ MainWindow::MainWindow(QWidget *parent)
 
   effectListDock = new QDockWidget(i18n("Effect List"), this);
   effectListDock->setObjectName("effect_list");
-  effectList = new KListWidget(this);
-  effectListDock->setWidget(effectList);
+  m_effectList = new KListWidget(this);
+  effectListDock->setWidget(m_effectList);
   addDockWidget(Qt::TopDockWidgetArea, effectListDock);
   
   effectStackDock = new QDockWidget(i18n("Effect Stack"), this);
@@ -138,6 +139,7 @@ MainWindow::MainWindow(QWidget *parent)
   m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor);
 
   setAutoSaveSettings();
+  fillEffectsList();
   newFile();
 }
 
@@ -154,6 +156,12 @@ bool MainWindow::queryClose()
        default: // cancel
          return false;
   }
+}
+
+void MainWindow::fillEffectsList()
+{
+  QStringList videoEffects = m_videoEffects.effectNames();
+  m_effectList->addItems(videoEffects);
 }
 
 void MainWindow::slotRaiseMonitor(bool clipMonitor)

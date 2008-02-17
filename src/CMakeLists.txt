@@ -58,6 +58,8 @@ set(kdenlive_SRCS
   addtimelineclipcommand.cpp
   kthumb.cpp
   clipmanager.cpp
+  effectslist.cpp
+  initeffects.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

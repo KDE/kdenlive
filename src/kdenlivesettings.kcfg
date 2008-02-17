@@ -8,9 +8,15 @@
       <label>Default color clip duration.</label>
       <default>00:00:05:00</default>
     </entry>
+
     <entry name="image_duration" type="String">
       <label>Default image clip duration.</label>
       <default>00:00:05:00</default>
+    </entry>
+
+    <entry name="currenttmpfolder" type="String">
+      <label>Default folder for tmp files.</label>
+      <default>/tmp</default>
     </entry>
   </group>
 

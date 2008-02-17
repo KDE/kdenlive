@@ -39,6 +39,7 @@
 #include "kdenlivedoc.h"
 #include "trackview.h"
 #include "customtrackview.h"
+#include "effectslist.h"
 
 class MainWindow : public KXmlGuiWindow
 {
@@ -53,6 +54,7 @@ class MainWindow : public KXmlGuiWindow
   private:
     KTabWidget* m_timelineArea;
     void setupActions();
+    void fillEffectsList();
     QString fileName;
     KdenliveDoc *m_activeDocument;
     MonitorManager *m_monitorManager;
@@ -61,7 +63,7 @@ class MainWindow : public KXmlGuiWindow
     ProjectList *m_projectList;
 
     QDockWidget *effectListDock;
-    KListWidget *effectList;
+    KListWidget *m_effectList;
 
     QDockWidget *effectStackDock;
     KListWidget *effectStack;
@@ -85,6 +87,10 @@ class MainWindow : public KXmlGuiWindow
 
     QDockWidget *overviewDock;
     CustomTrackView *m_overView;
+
+    EffectsList m_videoEffects;
+    EffectsList m_audioEffects;
+    EffectsList m_customEffects;
 
     KRecentFilesAction *m_fileOpenRecent;
     void readOptions();
