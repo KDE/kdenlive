@@ -352,6 +352,8 @@ void CustomTrackView::dropEvent ( QDropEvent * event ) {
   if (m_dropItem) {
     AddTimelineClipCommand *command = new AddTimelineClipCommand(this, m_dropItem->xml(), m_dropItem->clipProducer(), m_dropItem->track(), m_dropItem->startPos(), m_dropItem->rect(), m_dropItem->duration(), false);
     m_commandStack->push(command);
+    m_dropItem->baseClip()->addReference();
+    m_document->updateClip(m_dropItem->baseClip()->getId());
     kDebug()<<"IIIIIIIIIIIIIIIIIIIIIIII TRAX CNT: "<<m_tracksCount<<", DROP: "<<m_dropItem->track();
     m_document->renderer()->mltInsertClip(m_tracksCount - m_dropItem->track(), GenTime(m_dropItem->startPos(), 25), m_dropItem->xml());
   }
@@ -446,6 +448,8 @@ void CustomTrackView::deleteClip (int track, int startpos, const QRectF &rect )
     kDebug()<<"----------------  ERROR, CANNOT find clip to move at: "<<rect.x();
     return;
   }
+  item->baseClip()->removeReference();
+  m_document->updateClip(item->baseClip()->getId());
   delete item;
   m_document->renderer()->mltRemoveClip(m_tracksCount - track, GenTime(startpos, 25));
 }
@@ -456,6 +460,8 @@ void CustomTrackView::addClip ( QDomElement xml, int clipId, int track, int star
   DocClipBase *baseclip = m_document->clipManager()->getClipById(clipId);
   ClipItem *item = new ClipItem(baseclip, track, startpos, r, duration);
   scene()->addItem(item);
+  baseclip->addReference();
+  m_document->updateClip(baseclip->getId());
   m_document->renderer()->mltInsertClip(m_tracksCount - track, GenTime(startpos, 25), xml);
 }
 

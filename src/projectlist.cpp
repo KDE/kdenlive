@@ -232,7 +232,6 @@ void ProjectList::addClip(const QStringList &name, const QDomElement &elem, cons
   if (groupItem) item = new ProjectItem(groupItem, name, elem, clipId);
   else item = new ProjectItem(listView, name, elem, clipId);
   if (!url.isEmpty()) {
-    item->setData(1, FullPathRole, url.path());
     // if file has Nepomuk comment, use it
     Nepomuk::Resource f( url.path() );
     QString annotation = f.description();
@@ -295,13 +294,13 @@ void ProjectList::slotAddClip(DocClipBase *clip)
 {
   ProjectItem *item = new ProjectItem(listView, clip);
   listView->setCurrentItem(item);
-  /*
-  if (clip->clipType() != COLOR) {
-    Nepomuk::Resource f( clip->fileURL().path() );
-    QString annotation = f.description();
-    if (!annotation.isEmpty()) item->setText(2, annotation);
-  }*/
   emit getFileProperties(clip->toXML(), clip->getId());
+}
+
+void ProjectList::slotUpdateClip(int id)
+{
+  ProjectItem *item = getItemById(id);
+  item->setData(1, UsageRole, QString::number(item->numReferences()));
 }
 
 void ProjectList::slotAddClip(QUrl givenUrl, const QString &group)
@@ -431,15 +430,7 @@ void ProjectList::addProducer(QDomElement producer, int parentId)
       QStringList itemEntry;
       itemEntry.append(QString::null);
       itemEntry.append(resource.fileName());
-      addClip(itemEntry, producer, id, resource, groupName, parentId);
-      /*AddClipCommand *command = new AddClipCommand(this, itemEntry, producer, id, resource, true);
-      m_commandStack->push(command);*/
-
-
-      /*ProjectItem *item = new ProjectItem(listView, itemEntry, producer);
-      item->setData(1, FullPathRole, resource.path());
-      item->setData(1, ClipTypeRole, (int) type);*/
-      
+      addClip(itemEntry, producer, id, resource, groupName, parentId);  
     }
   }
   else if (type == COLOR) {
@@ -451,11 +442,6 @@ void ProjectList::addProducer(QDomElement producer, int parentId)
     itemEntry.append(QString::null);
     itemEntry.append(producer.attribute("name", i18n("Color clip")));
     addClip(itemEntry, producer, id, KUrl(), groupName, parentId);
-    /*AddClipCommand *command = new AddClipCommand(this, itemEntry, producer, id, KUrl(), true);
-    m_commandStack->push(command);*/
-    //ProjectItem *item = new ProjectItem(listView, itemEntry, producer);
-    /*item->setIcon(0, QIcon(pix));
-    item->setData(1, ClipTypeRole, (int) type);*/
   }
       
 }

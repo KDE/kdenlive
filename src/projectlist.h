@@ -40,8 +40,7 @@ class ProjectItem;
 
   const int NameRole = Qt::UserRole;
   const int DurationRole = NameRole + 1;
-  const int FullPathRole = NameRole + 2;
-  const int ClipTypeRole = NameRole + 3;
+  const int UsageRole = NameRole + 2;
 
 class ItemDelegate: public KExtendableItemDelegate
 {
@@ -85,7 +84,10 @@ void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIn
     //painter->setPen(Qt::green);
     font.setBold(false);
     painter->setFont(font);
-    painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , index.data(DurationRole).toString());
+    QString subText = index.data(DurationRole).toString();
+    QString usage = index.data(UsageRole).toString();
+    if (!usage.isEmpty()) subText.append(QString(" (%1)").arg(usage));
+    painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText);
     painter->restore();
   }
   else
@@ -115,6 +117,7 @@ class ProjectList : public QWidget
     void slotReplyGetImage(int clipId, int pos, const QPixmap &pix, int w, int h);
     void slotReplyGetFileProperties(int clipId, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata);
     void slotAddClip(DocClipBase *clip);
+    void slotUpdateClip(int id);
 
 
   private:

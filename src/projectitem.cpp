@@ -34,8 +34,8 @@
 
   const int NameRole = Qt::UserRole;
   const int DurationRole = NameRole + 1;
-  const int FullPathRole = NameRole + 2;
-  const int ClipTypeRole = NameRole + 3;
+  const int UsageRole = NameRole + 2;
+
 
 ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, QDomElement xml, int clipId)
     : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_clipType(UNKNOWN), m_clipId(clipId), m_isGroup(false), m_groupName(QString::null)
@@ -101,6 +101,12 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
 
 ProjectItem::~ProjectItem()
 {
+}
+
+int ProjectItem::numReferences() const
+{
+  if (!m_clip) return 0;
+  return m_clip->numReferences();
 }
 
 int ProjectItem::clipId() const

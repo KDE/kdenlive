@@ -40,6 +40,7 @@ class ProjectItem : public QTreeWidgetItem
     ProjectItem(QTreeWidget * parent, DocClipBase *clip);
     virtual ~ProjectItem();
     QDomElement toXml() const;
+    int numReferences() const;
 
     void setProperties(const QMap < QString, QString > &attributes, const QMap < QString, QString > &metadata);
     int clipId() const;
