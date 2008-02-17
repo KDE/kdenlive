@@ -33,52 +33,6 @@
 #include "renderer.h"
 #include "kdenlivesettings.h"
 
-ClipItem::ClipItem(QDomElement xml, int track, int startpos, const QRectF & rect, int duration)
-    : QGraphicsRectItem(rect), m_xml(xml), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0)
-{
-  //setToolTip(name);
-
-  m_clipName = xml.attribute("name");
-  if (m_clipName.isEmpty()) m_clipName = KUrl(xml.attribute("resource")).fileName();
-
-  m_producer = xml.attribute("id").toInt();
-
-  m_clipType = (CLIPTYPE) xml.attribute("type").toInt();
-
-  m_cropStart = xml.attribute("in", 0).toInt();
-  m_maxDuration = xml.attribute("duration", 0).toInt();
-  if (m_maxDuration == 0) m_maxDuration = xml.attribute("out", 0).toInt() - m_cropStart;
-
-  if (duration != -1) m_cropDuration = duration;
-  else m_cropDuration = m_maxDuration;
-
-  setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemClipsChildrenToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-
-  setBrush(QColor(100, 100, 150));
-  if (m_clipType == VIDEO || m_clipType == AV) {
-    m_hasThumbs = true;
-    //connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(extractImage(int, int)));
-    //connect(clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
-    QTimer::singleShot(300, this, SLOT(slotFetchThumbs()));
-
-    startThumbTimer = new QTimer(this);
-    startThumbTimer->setSingleShot(true);
-    connect(startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
-    endThumbTimer = new QTimer(this);
-    endThumbTimer->setSingleShot(true);
-    connect(endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
-
-  }
-  else if (m_clipType == COLOR) {
-    QString colour = xml.attribute("colour");
-    colour = colour.replace(0, 2, "#");
-    setBrush(QColor(colour.left(7)));
-  }
-  else if (m_clipType == IMAGE) {
-    m_startPix = KThumb::getImage(KUrl(xml.attribute("resource")), 50 * KdenliveSettings::project_display_ratio(), 50);
-  }
-}
-
 ClipItem::ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & rect, int duration)
     : QGraphicsRectItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0)
 {
@@ -92,6 +46,15 @@ ClipItem::ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & re
   m_maxDuration = duration;
   if (duration != -1) m_cropDuration = duration;
   else m_cropDuration = m_maxDuration;
+
+/*
+  m_cropStart = xml.attribute("in", 0).toInt();
+  m_maxDuration = xml.attribute("duration", 0).toInt();
+  if (m_maxDuration == 0) m_maxDuration = xml.attribute("out", 0).toInt() - m_cropStart;
+
+  if (duration != -1) m_cropDuration = duration;
+  else m_cropDuration = m_maxDuration;*/
+
 
   setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemClipsChildrenToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 
@@ -154,6 +117,11 @@ int ClipItem::type () const
   return 70000;
 }
 
+DocClipBase *ClipItem::baseClip()
+{
+  return m_clip;
+}
+
 QDomElement ClipItem::xml() const
 {
   return m_xml;
@@ -187,6 +155,11 @@ int ClipItem::duration()
 int ClipItem::startPos()
 {
   return m_startPos;
+}
+
+int ClipItem::cropStart()
+{
+  return m_cropStart;
 }
 
 int ClipItem::endPos()

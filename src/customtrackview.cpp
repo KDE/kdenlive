@@ -326,21 +326,6 @@ void CustomTrackView::addItem(DocClipBase *clip, QPoint pos)
 }
 
 
-void CustomTrackView::addItem(QString producer, QPoint pos)
-{
-  QDomDocument doc;
-  doc.setContent(producer);
-  QDomElement elem = doc.documentElement();
-  int in = elem.attribute("in", 0).toInt();
-  int out = elem.attribute("out", 0).toInt() - in;
-  if (out == 0) out = elem.attribute("duration", 0).toInt();
-  kDebug()<<"ADDING CLIP: "<<producer<<", OUT: "<<out<<", POS: "<<mapToScene(pos);
-  int trackTop = ((int) mapToScene(pos).y()/50) * 50 + 1;
-  m_dropItem = new ClipItem(elem, ((int) mapToScene(pos).y()/50), in, QRectF(mapToScene(pos).x() * m_scale, trackTop, out * m_scale, 49), out);
-  scene()->addItem(m_dropItem);
-}
-
-
 void CustomTrackView::dragMoveEvent(QDragMoveEvent * event) {
   event->setDropAction(Qt::IgnoreAction);
   if (m_dropItem) {
@@ -365,7 +350,7 @@ void CustomTrackView::dragLeaveEvent ( QDragLeaveEvent * event ) {
 
 void CustomTrackView::dropEvent ( QDropEvent * event ) {
   if (m_dropItem) {
-    AddTimelineClipCommand *command = new AddTimelineClipCommand(this, m_dropItem->xml(), m_dropItem->track(), m_dropItem->startPos(), m_dropItem->rect(), m_dropItem->duration(), false);
+    AddTimelineClipCommand *command = new AddTimelineClipCommand(this, m_dropItem->xml(), m_dropItem->clipProducer(), m_dropItem->track(), m_dropItem->startPos(), m_dropItem->rect(), m_dropItem->duration(), false);
     m_commandStack->push(command);
     kDebug()<<"IIIIIIIIIIIIIIIIIIIIIIII TRAX CNT: "<<m_tracksCount<<", DROP: "<<m_dropItem->track();
     m_document->renderer()->mltInsertClip(m_tracksCount - m_dropItem->track(), GenTime(m_dropItem->startPos(), 25), m_dropItem->xml());
@@ -439,11 +424,15 @@ void CustomTrackView::mouseReleaseEvent ( QMouseEvent * event )
   else if (m_operationMode == RESIZESTART) {
     // resize start
     ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->startPos(), m_dragItem->track()), true, false);
+
+    m_document->renderer()->mltResizeClipStart(m_tracksCount - m_dragItem->track(), GenTime(m_dragItem->endPos(), 25), GenTime(m_dragItem->startPos(), 25), GenTime(m_startPos.x(), 25), GenTime(m_dragItem->cropStart(), 25), GenTime(m_dragItem->cropStart(), 25) + GenTime(m_dragItem->endPos(), 25) - GenTime(m_dragItem->startPos(), 25));
     m_commandStack->push(command);
   }
   else if (m_operationMode == RESIZEEND) {
     // resize end
     ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->endPos(), m_dragItem->track()), false, false);
+
+    m_document->renderer()->mltResizeClipEnd(m_tracksCount - m_dragItem->track(), GenTime(m_dragItem->startPos(), 25), GenTime(m_dragItem->cropStart(), 25), GenTime(m_dragItem->cropStart(), 25) + GenTime(m_dragItem->endPos(), 25) - GenTime(m_dragItem->startPos(), 25));
     m_commandStack->push(command);
   }
   m_operationMode = NONE;
@@ -461,10 +450,11 @@ void CustomTrackView::deleteClip (int track, int startpos, const QRectF &rect )
   m_document->renderer()->mltRemoveClip(m_tracksCount - track, GenTime(startpos, 25));
 }
 
-void CustomTrackView::addClip ( QDomElement xml, int track, int startpos, const QRectF &rect, int duration )
+void CustomTrackView::addClip ( QDomElement xml, int clipId, int track, int startpos, const QRectF &rect, int duration )
 {
   QRect r(startpos * m_scale, 50 * track, duration * m_scale, 49); 
-  ClipItem *item = new ClipItem(xml, track, startpos, r, duration);
+  DocClipBase *baseclip = m_document->clipManager()->getClipById(clipId);
+  ClipItem *item = new ClipItem(baseclip, track, startpos, r, duration);
   scene()->addItem(item);
   m_document->renderer()->mltInsertClip(m_tracksCount - track, GenTime(startpos, 25), xml);
 }

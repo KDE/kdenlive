@@ -45,7 +45,7 @@ class CustomTrackView : public QGraphicsView
     void initView();
     void moveClip ( const QPointF &startPos, const QPointF &endPos );
     void resizeClip ( const QPointF &startPos, const QPointF &endPos, bool resizeClipStart );
-    void addClip ( QDomElement xml, int track, int startpos, const QRectF &rect, int duration);
+    void addClip ( QDomElement xml, int clipId, int track, int startpos, const QRectF &rect, int duration);
     void deleteClip ( int track, int startpos, const QRectF &rect );
     void setDuration(int duration);
     void setScale(double scaleFactor);
@@ -71,7 +71,6 @@ class CustomTrackView : public QGraphicsView
     int m_cursorPos;
     ClipItem *m_dropItem;
     KdenliveDoc *m_document;
-    void addItem(QString producer, QPoint pos);
     void addItem(DocClipBase *clip, QPoint pos);
     QGraphicsLineItem *m_cursorLine;
     QPointF m_startPos;

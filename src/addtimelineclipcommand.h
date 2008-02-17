@@ -33,13 +33,14 @@
 class AddTimelineClipCommand : public QUndoCommand
  {
  public:
-     AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, int track, int startpos, QRectF rect, int duration, bool doIt);
+     AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, int clipId, int track, int startpos, QRectF rect, int duration, bool doIt);
     virtual void undo();
     virtual void redo();
 
  private:
      CustomTrackView *m_view;
      int m_clipDuration;
+     int m_clipId;
      QDomElement m_xml;
      int m_clipTrack;
      int m_clipPos;

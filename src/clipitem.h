@@ -36,7 +36,6 @@ class ClipItem : public QObject, public QGraphicsRectItem
   Q_OBJECT
 
   public:
-    ClipItem(QDomElement xml, int track, int startpos, const QRectF & rect, int duration = -1);
     ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & rect, int duration);
     virtual ~ ClipItem();
     virtual void paint(QPainter *painter,
@@ -49,11 +48,13 @@ class ClipItem : public QObject, public QGraphicsRectItem
     OPERATIONTYPE operationMode(QPointF pos, double scale);
     int clipProducer();
     int clipType();
+    DocClipBase *baseClip();
     QString clipName();
     int maxDuration();
     int track();
     void setTrack(int track);
     int startPos();
+    int cropStart();
     int endPos();
     int duration();
     QDomElement xml() const;
