@@ -262,9 +262,15 @@ void KdenliveDoc::addClip(const QDomElement &elem, const int clipId)
   emit addProjectClip(clip);
 }
 
+void KdenliveDoc::deleteProjectClip(const uint clipId)
+{
+  emit deletTimelineClip(clipId);
+  m_clipManager->slotDeleteClip(clipId);
+}
+
 void KdenliveDoc::deleteClip(const uint clipId)
 {
-  emit deleteProjectClip(clipId);
+  emit signalDeleteProjectClip(clipId);
   m_clipManager->deleteClip(clipId);
 }
 

@@ -121,6 +121,11 @@ void TrackView::parseDocument(QDomDocument doc)
   //m_scrollBox->setGeometry(0, 0, 300 * zoomFactor(), m_scrollArea->height());
 }
 
+void TrackView::slotDeleteClip(int clipId)
+{
+  m_trackview->deleteClip(clipId);
+}
+
 void TrackView::setCursorPos(int pos)
 {
   emit cursorMoved();

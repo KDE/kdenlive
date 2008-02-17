@@ -51,6 +51,7 @@ class ClipManager:public QObject {
     void slotAddClipFile(const KUrl url, const QString group);
     void slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group);
     DocClipBase *getClipById(int clipId);
+    void slotDeleteClip(uint clipId);
 
   private:			// Private attributes
     /** the list of clips in the document */

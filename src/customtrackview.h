@@ -49,6 +49,7 @@ class CustomTrackView : public QGraphicsView
     void deleteClip ( int track, int startpos, const QRectF &rect );
     void setDuration(int duration);
     void setScale(double scaleFactor);
+    void deleteClip(int clipId);
 
   public slots:
     void setCursorPos(int pos, bool seek = true);

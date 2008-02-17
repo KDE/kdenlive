@@ -38,11 +38,25 @@ void ClipManager::addClip(DocClipBase *clip)
   m_clipList.append(clip);
 }
 
+void ClipManager::slotDeleteClip(uint clipId)
+{
+  for (int i = 0; i < m_clipList.count(); i++) {
+    if (m_clipList.at(i)->getId() == clipId) {
+      //m_clipList.removeAt(i);
+      AddClipCommand *command = new AddClipCommand(m_doc, m_clipList.at(i)->toXML(), clipId, false);
+      m_doc->commandStack()->push(command);
+      break;
+    }
+  }
+}
+
 void ClipManager::deleteClip(uint clipId)
 {
   for (int i = 0; i < m_clipList.count(); i++) {
-    if (m_clipList.at(i)->getId() == clipId) 
+    if (m_clipList.at(i)->getId() == clipId) {
       m_clipList.removeAt(i);
+      break;
+    }
   }
 }
 

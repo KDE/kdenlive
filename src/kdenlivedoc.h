@@ -63,6 +63,7 @@ class KdenliveDoc:public QObject {
     int getFramePos(QString duration);
     DocClipBase *getBaseClip(int clipId);
     void updateClip(int id);
+    void deleteProjectClip(const uint clipId);
 
   private:
     KUrl m_url;
@@ -81,8 +82,9 @@ class KdenliveDoc:public QObject {
     
   signals:
     void addProjectClip(DocClipBase *);
-    void deleteProjectClip(int);
+    void signalDeleteProjectClip(int);
     void updateClipDisplay(int);
+    void deletTimelineClip(int);
 };
 
 #endif

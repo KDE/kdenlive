@@ -350,7 +350,7 @@ void CustomTrackView::dragLeaveEvent ( QDragLeaveEvent * event ) {
 
 void CustomTrackView::dropEvent ( QDropEvent * event ) {
   if (m_dropItem) {
-    AddTimelineClipCommand *command = new AddTimelineClipCommand(this, m_dropItem->xml(), m_dropItem->clipProducer(), m_dropItem->track(), m_dropItem->startPos(), m_dropItem->rect(), m_dropItem->duration(), false);
+    AddTimelineClipCommand *command = new AddTimelineClipCommand(this, m_dropItem->xml(), m_dropItem->clipProducer(), m_dropItem->track(), m_dropItem->startPos(), m_dropItem->rect(), m_dropItem->duration(), false, false);
     m_commandStack->push(command);
     m_dropItem->baseClip()->addReference();
     m_document->updateClip(m_dropItem->baseClip()->getId());
@@ -396,6 +396,21 @@ void CustomTrackView::removeTrack ()
 {
   m_tracksCount--;
   m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), 50 * m_tracksCount);
+}
+
+void CustomTrackView::deleteClip(int clipId)
+{
+  QList<QGraphicsItem *> itemList = items();
+  for (int i = 0; i < itemList.count(); i++) {
+    if (itemList.at(i)->type() == 70000) {
+      ClipItem *item = (ClipItem *)itemList.at(i);
+      if (item->clipProducer() == clipId) {
+	AddTimelineClipCommand *command = new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->track(), item->startPos(), item->rect(), item->duration(), true, true);
+	m_commandStack->push(command);
+	//delete item;
+      }
+    }
+  }
 }
 
 void CustomTrackView::setCursorPos(int pos, bool seek)

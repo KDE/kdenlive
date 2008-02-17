@@ -180,14 +180,14 @@ void ProjectList::slotContextMenu( const QPoint &pos, QTreeWidgetItem *item )
 
 void ProjectList::slotRemoveClip()
 {
-/*
+
   if (!m_commandStack) kDebug()<<"!!!!!!!!!!!!!!!!  NO CMD STK";
   if (!listView->currentItem()) return;
   ProjectItem *item = ((ProjectItem *)listView->currentItem());
-  if (!item) kDebug()<<"///////////////  ERROR NOT FOUND";
-  if (KMessageBox::questionYesNo(this, i18n("Delete clip <b>%1</b> ?").arg(item->names().at(1)), i18n("Delete Clip")) != KMessageBox::Yes) return;
-  AddClipCommand *command = new AddClipCommand(this, item->names(), item->toXml(), item->clipId(), item->clipUrl(), item->groupName(), false);
-  m_commandStack->push(command);*/
+  if (item->numReferences() > 0) {
+    if (KMessageBox::questionYesNo(this, i18n("Delete clip <b>%1</b> ?<br>This will also remove its %2 clips in timeline").arg(item->names().at(1)).arg(item->numReferences()), i18n("Delete Clip")) != KMessageBox::Yes) return;
+  }
+  m_doc->deleteProjectClip(item->clipId());
 }
 
 void ProjectList::selectItemById(const int clipId)

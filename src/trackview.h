@@ -57,9 +57,10 @@ class TrackView : public QWidget
     CustomTrackView *projectView();
     int duration();
     int tracksNumber();
+    KdenliveDoc *document();
 
   public slots:
-    KdenliveDoc *document();
+    void slotDeleteClip(int clipId);
 
   private:
     Ui::TimeLine_UI *view;
