@@ -45,7 +45,7 @@ namespace Gui {
 	    QPainter & painter, DocClipRef * clip, QRect & rect,
 	    bool selected);
 	void drawChannel(const QByteArray *, int x, int y,
-	    int height, int maxWidth, QPainter & painter);
+	    int height, int maxWidth, QPainter & painter, double sample_width);
 	/*public slots:void setSoundSamples(const KURL & url, int channel,
 	    int frame, double frameLength, const QByteArray & array, int,
 	int, int, int, QPainter &);*/

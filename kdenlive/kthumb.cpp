@@ -104,11 +104,11 @@
 					mlt_audio_format m_audioFormat = mlt_audio_pcm;
 				
 					int16_t* m_pcm = mlt_frame->get_audio(m_audioFormat, m_frequency, m_channels, m_samples ); 
-
+	
 					for (int c=0;c< m_channels;c++){
 						QByteArray m_array(m_arrayWidth);
 						for (uint i = 0; i < m_array.size(); i++){
-							m_array[i] =  QABS((*( m_pcm + c + i * m_samples / m_array.size() ))>>8);
+							m_array[i] =  ( (*( m_pcm + c + i * m_samples / m_array.size() )) >> 9 ) +127/2 ;//val for qfile is not correct for val>127
 						}
 						f.writeBlock(m_array);
 					}
@@ -286,12 +286,12 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 			f.remove();
 			return;
 		}
-		
+
 		for (int z=(int) frame;z<(int) (frame+frameLength);z++) {
 			for (int c=0;c< m_channels;c++){
 				QByteArray m_array(arrayWidth);
 				for (int i = 0; i < arrayWidth; i++)
-					m_array[i] = channelarray[z*arrayWidth*m_channels + c*arrayWidth + i];
+					m_array[i] = (int)channelarray[z*arrayWidth*m_channels + c*arrayWidth + i];
 				storeIn[z][c] = m_array;
 			}
 		}

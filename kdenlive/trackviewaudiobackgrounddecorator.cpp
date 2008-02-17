@@ -129,7 +129,7 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 			QByteArray a=clip->getAudioThumbs(countChannel,
 					RealFrame + timeDiff,
 					FramesInOnePixel, width);
-			drawChannel(&a,(int)i,y + deltaHeight * countChannel,h / channels, ex,painter);
+			drawChannel(&a,(int)i,y + deltaHeight * countChannel,h / channels, ex,painter , (timeline()->mapValueToLocal(1) - timeline()->mapValueToLocal(0)) );
 			}
 	    }
 	}
@@ -139,15 +139,34 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 
 void TrackViewAudioBackgroundDecorator::drawChannel(const QByteArray * ba,
 	int x, int y, int height, int maxWidth,
-	QPainter & painter) {
-		
+	QPainter & painter , double sample_width) {
+	static int ooo=0;
+	int centery= y  + height /2;
+	int val=0, oldval=-1000;
 	for (int a = 0; a < (int)ba->size(); a++) {
-		int val = (*ba)[a] * (height / 2) / 128;
+		val =  ( (int)(*ba)[a] -127/2 )  * (height / 2) / 64;
+
 		if (a + x >= maxWidth || !painter.isActive())
-			return;	
-		painter.drawLine(a + x, y + height / 2 - val, a + x,
-			y + height / 2 + val);
+			return;
+		if (sample_width < 15 ){
+			painter.drawLine(a + x, centery - val, a + x,
+				centery + val);
+			QPen pen=painter.pen();
+			QPen neu=pen;
+			neu.setColor(QColor(255,255,0));
+			painter.setPen(neu);
+			painter.drawPoint(a + x,centery - val );
+			painter.drawPoint(a + x,centery + val );
+			painter.setPen(pen);
+		}else{
+			if (oldval!=-1000){
+				painter.drawLine( a + x -1 , centery + oldval  - 1, a+x , centery + val - 1 );
+			}
+			painter.drawPoint(a + x,centery + val - 1);
+		}
+		oldval=val;
 	}
+	ooo++;
 }
 
 
