@@ -297,7 +297,7 @@ void CustomTrackView::mousePressEvent ( QMouseEvent * event )
   }
   updateSnapPoints(m_dragItem);
   //kDebug()<<pos;
-  QGraphicsView::mousePressEvent(event);
+  //QGraphicsView::mousePressEvent(event);
 }
 
 void CustomTrackView::dragEnterEvent ( QDragEnterEvent * event )
@@ -444,6 +444,7 @@ void CustomTrackView::mouseReleaseEvent ( QMouseEvent * event )
 
     m_document->renderer()->mltResizeClipStart(m_tracksCount - m_dragItem->track(), GenTime(m_dragItem->endPos(), 25), GenTime(m_dragItem->startPos(), 25), GenTime(m_startPos.x(), 25), GenTime(m_dragItem->cropStart(), 25), GenTime(m_dragItem->cropStart(), 25) + GenTime(m_dragItem->endPos(), 25) - GenTime(m_dragItem->startPos(), 25));
     m_commandStack->push(command);
+    m_document->renderer()->doRefresh();
   }
   else if (m_operationMode == RESIZEEND) {
     // resize end
@@ -451,6 +452,7 @@ void CustomTrackView::mouseReleaseEvent ( QMouseEvent * event )
 
     m_document->renderer()->mltResizeClipEnd(m_tracksCount - m_dragItem->track(), GenTime(m_dragItem->startPos(), 25), GenTime(m_dragItem->cropStart(), 25), GenTime(m_dragItem->cropStart(), 25) + GenTime(m_dragItem->endPos(), 25) - GenTime(m_dragItem->startPos(), 25));
     m_commandStack->push(command);
+    m_document->renderer()->doRefresh();
   }
   m_operationMode = NONE;
   m_dragItem = NULL; 
@@ -467,6 +469,7 @@ void CustomTrackView::deleteClip (int track, int startpos, const QRectF &rect )
   m_document->updateClip(item->baseClip()->getId());
   delete item;
   m_document->renderer()->mltRemoveClip(m_tracksCount - track, GenTime(startpos, 25));
+  m_document->renderer()->doRefresh();
 }
 
 void CustomTrackView::addClip ( QDomElement xml, int clipId, int track, int startpos, const QRectF &rect, int duration )
@@ -478,6 +481,7 @@ void CustomTrackView::addClip ( QDomElement xml, int clipId, int track, int star
   baseclip->addReference();
   m_document->updateClip(baseclip->getId());
   m_document->renderer()->mltInsertClip(m_tracksCount - track, GenTime(startpos, 25), xml);
+  m_document->renderer()->doRefresh();
 }
 
 void CustomTrackView::moveClip ( const QPointF &startPos, const QPointF &endPos )
@@ -511,6 +515,7 @@ void CustomTrackView::resizeClip ( const QPointF &startPos, const QPointF &endPo
     m_document->renderer()->mltResizeClipEnd(m_tracksCount - item->track(), GenTime(item->startPos(), 25), GenTime(item->cropStart(), 25), GenTime(item->cropStart(), 25) + GenTime(endPos.x(), 25) - GenTime(item->startPos(), 25));
     item->resizeEnd(endPos.x(), m_scale);
   }
+  m_document->renderer()->doRefresh();
 }
 
 double CustomTrackView::getSnapPointForPos(double pos)

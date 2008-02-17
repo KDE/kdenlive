@@ -342,6 +342,7 @@ void ClipItem::setFadeOut(int pos, double scale)
   double origX = rect().x();
   double origY = rect().y();
   bool success = true;
+  if (x < 0) return;
   setRect(x * scale, origY + offset, rect().width(), rect().height());
   QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
   if (collisionList.size() == 0) m_track = newTrack;

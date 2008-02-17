@@ -53,7 +53,7 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
     }
 }
 
-Render::Render(const QString & rendererName, int winid, int extid, QWidget *parent):QObject(parent), m_name(rendererName), m_mltConsumer(NULL), m_mltProducer(NULL), m_mltTextProducer(NULL), m_sceneList(QDomDocument()), m_winid(-1), m_framePosition(0), m_generateScenelist(false), isBlocked(true)
+Render::Render(const QString & rendererName, int winid, int extid, QWidget *parent):QObject(parent), m_name(rendererName), m_mltConsumer(NULL), m_mltProducer(NULL), m_mltTextProducer(NULL), m_sceneList(QDomDocument()), m_winid(-1), m_framePosition(0), m_generateScenelist(false), m_isBlocked(true)
 {
     kDebug()<<"//////////  USING PROFILE: "<<qstrdup(KdenliveSettings::current_profile().toUtf8());
     m_mltProfile = new Mlt::Profile((char*) qstrdup(KdenliveSettings::current_profile().toUtf8()));
@@ -647,7 +647,7 @@ void Render::start()
 		refresh();
 	}
     }
-    isBlocked = false;
+    m_isBlocked = false;
 }
 
 void Render::clear()
@@ -674,7 +674,7 @@ void Render::stop()
 	m_mltConsumer->stop();
     }
     kDebug()<<"/////////////   RENDER STOP2-------";
-    isBlocked = true;
+    m_isBlocked = true;
 
     if (m_mltProducer) {
 	m_mltProducer->set_speed(0.0);
@@ -782,9 +782,15 @@ void Render::askForRefresh()
     refreshTimer->start( 200 );
 }
 
+void Render::doRefresh()
+{
+    // Use a Timer so that we don't refresh too much
+    refresh();
+}
+
 void Render::refresh()
 {
-    if (!m_mltProducer)
+    if (!m_mltProducer || m_isBlocked)
 	return;
     refreshTimer->stop();
     if (m_mltConsumer) {
@@ -944,6 +950,7 @@ void Render::mltInsertClip(int track, GenTime position, QDomElement element)
 	kDebug()<<"PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
 	return;
     }
+    m_isBlocked = true;
     Mlt::Service service(parentProd.get_service());
     Mlt::Tractor tractor(service);
 
@@ -962,37 +969,27 @@ void Render::mltInsertClip(int track, GenTime position, QDomElement element)
     tractor.multitrack()->refresh();
     tractor.refresh();
     if (track != 0) mltCheckLength();
-    double duration = Mlt::Producer(trackPlaylist.get_producer()).get_playtime();
-    //kDebug()<<"// +  +INSERTING CLIP: "<<resource<<" AT: "<<position.frames(m_fps)<<" on track: "<<track<<", DURATION: "<<duration;
-
-
+    m_isBlocked = false;
 }
 
 void Render::mltCutClip(int track, GenTime position)
 {
+    m_isBlocked = true;
     Mlt::Service service(m_mltProducer->parent().get_service());
-    if (service.type() == playlist_type) kDebug()<<"// PLAYLIST TYPE";
-    if (service.type() == tractor_type) kDebug()<<"// TRACOT TYPE";
-    if (service.type() == multitrack_type) kDebug()<<"// MULTITRACK TYPE";
-    if (service.type() == producer_type) kDebug()<<"// PROD TYPE";
-
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
     trackPlaylist.split_at(position.frames(m_fps));
     trackPlaylist.consolidate_blanks(0);
     kDebug()<<"/ / / /CUTTING CLIP AT: "<<position.frames(m_fps);
+    m_isBlocked = false;
 }
 
 
 void Render::mltRemoveClip(int track, GenTime position)
 {
+    m_isBlocked = true;
     Mlt::Service service(m_mltProducer->parent().get_service());
-    if (service.type() == playlist_type) kDebug()<<"// PLAYLIST TYPE";
-    if (service.type() == tractor_type) kDebug()<<"// TRACOT TYPE";
-    if (service.type() == multitrack_type) kDebug()<<"// MULTITRACK TYPE";
-    if (service.type() == producer_type) kDebug()<<"// PROD TYPE";
-
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
@@ -1002,10 +999,12 @@ void Render::mltRemoveClip(int track, GenTime position)
     trackPlaylist.consolidate_blanks(0);
     if (track != 0) mltCheckLength();
     //emit durationChanged();
+    m_isBlocked = false;
 }
 
 void Render::mltRemoveEffect(int track, GenTime position, QString id, QString tag, int index)
 {
+
     Mlt::Service service(m_mltProducer->parent().get_service());
 
     Mlt::Tractor tractor(service);
@@ -1017,6 +1016,7 @@ void Render::mltRemoveEffect(int track, GenTime position, QString id, QString ta
 	kDebug()<<" / / / CANNOT FIND CLIP TO REMOVE EFFECT";
 	return;
     }
+    m_isBlocked = true;
     Mlt::Service clipService(clip->get_service());
 
     if (tag.startsWith("ladspa")) tag = "ladspa";
@@ -1040,6 +1040,7 @@ void Render::mltRemoveEffect(int track, GenTime position, QString id, QString ta
 	    kDebug()<<"WARINIG, FILTER "<<id<<" NOT FOUND!!!!!";
         }
     }
+    m_isBlocked = false;
     refresh();
 }
 
@@ -1058,7 +1059,7 @@ void Render::mltAddEffect(int track, GenTime position, QString id, QString tag, 
 	return;
     }
     Mlt::Service clipService(clip->get_service());
-
+    m_isBlocked = true;
     // create filter
     kDebug()<<" / / INSERTING EFFECT: "<<id;
     if (tag.startsWith("ladspa")) tag = "ladspa";
@@ -1094,6 +1095,7 @@ void Render::mltAddEffect(int track, GenTime position, QString id, QString tag, 
     // attach filter to the clip
     clipService.attach(*filter);
     delete[] filterId;
+    m_isBlocked = false;
     refresh();
 
 }
@@ -1107,7 +1109,7 @@ void Render::mltEditEffect(int track, GenTime position, int index, QString id, Q
 	mltAddEffect(track, position, id, tag, args);
 	return;
     }
-
+    m_isBlocked = true;
     // create filter
     Mlt::Service service(m_mltProducer->parent().get_service());
 
@@ -1132,6 +1134,7 @@ void Render::mltEditEffect(int track, GenTime position, int index, QString id, Q
     }
     if (!filter) {
 	kDebug()<<"WARINIG, FILTER "<<id<<" NOT FOUND!!!!!";
+	m_isBlocked = false;
 	return;
     }
 
@@ -1143,11 +1146,13 @@ void Render::mltEditEffect(int track, GenTime position, int index, QString id, Q
 	delete[] name;
 	delete[] value;
     }
+    m_isBlocked = false;
     refresh();
 }
 
 void Render::mltResizeClipEnd(int track, GenTime pos, GenTime in, GenTime out)
 {
+    m_isBlocked = true;
     Mlt::Service service(m_mltProducer->parent().get_service());
 
     Mlt::Tractor tractor(service);
@@ -1176,7 +1181,7 @@ void Render::mltResizeClipEnd(int track, GenTime pos, GenTime in, GenTime out)
     tractor.multitrack()->refresh();
     tractor.refresh();
     if (track != 0) mltCheckLength();
-
+    m_isBlocked = false;
 }
 
 void Render::mltChangeTrackState(int track, bool mute, bool blind)
@@ -1203,12 +1208,8 @@ void Render::mltChangeTrackState(int track, bool mute, bool blind)
 
 void Render::mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime moveStart, GenTime in, GenTime out)
 {
+    m_isBlocked = true;
     Mlt::Service service(m_mltProducer->parent().get_service());
-    if (service.type() == playlist_type) kDebug()<<"// PLAYLIST TYPE";
-    if (service.type() == tractor_type) kDebug()<<"// TRACOT TYPE";
-    if (service.type() == multitrack_type) kDebug()<<"// MULTITRACK TYPE";
-    if (service.type() == producer_type) kDebug()<<"// PROD TYPE";
-
     int moveFrame = (moveEnd - moveStart).frames(m_fps);
 
     Mlt::Tractor tractor(service);
@@ -1233,7 +1234,7 @@ void Render::mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime
 	else trackPlaylist.resize_clip(blankIndex, 0, blankLength + moveFrame -1);
     }
     trackPlaylist.consolidate_blanks(0);
-
+    m_isBlocked = false;
     kDebug()<<"-----------------\n"<<"CLIP 0: "<<trackPlaylist.clip_start(0)<<", LENGT: "<<trackPlaylist.clip_length(0);
     kDebug()<<"CLIP 1: "<<trackPlaylist.clip_start(1)<<", LENGT: "<<trackPlaylist.clip_length(1);
     kDebug()<<"CLIP 2: "<<trackPlaylist.clip_start(2)<<", LENGT: "<<trackPlaylist.clip_length(2);
@@ -1249,8 +1250,8 @@ void Render::mltMoveClip(int startTrack, int endTrack, GenTime moveStart, GenTim
 
 void Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEnd)
 {
-  kDebug()<<"RENDER MOVE CLIP: "<<startTrack<<"-"<<endTrack<<"-"<<moveStart<<"-"<<moveEnd;
-    m_mltConsumer->set("refresh", 0);
+    m_isBlocked = true;
+    //m_mltConsumer->set("refresh", 0);
     Mlt::Service service(m_mltProducer->parent().get_service());
 
     Mlt::Tractor tractor(service);
@@ -1267,7 +1268,7 @@ void Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
 
     Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
     trackPlaylist.consolidate_blanks(0);
-    mlt_events_block( MLT_PRODUCER_PROPERTIES(clipProducer.get_producer()), NULL );
+    mlt_events_block( MLT_PRODUCER_PROPERTIES(trackProducer.get_producer()), NULL );
 
     if (endTrack == startTrack) {
 	if (!trackPlaylist.is_blank_at(moveEnd)) {
@@ -1288,11 +1289,14 @@ void Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     }
 
     mltCheckLength();
-    mlt_events_unblock( MLT_PRODUCER_PROPERTIES(clipProducer.get_producer()), NULL );
+    mlt_events_unblock( MLT_PRODUCER_PROPERTIES(trackProducer.get_producer()), NULL );
+    m_isBlocked = false;
+    m_mltConsumer->set("refresh", 1);
 }
 
 void Render::mltMoveTransition(QString type, int startTrack, int trackOffset, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut)
 {
+    m_isBlocked = true;
     m_mltConsumer->set("refresh", 0);
     mlt_service serv = m_mltProducer->parent().get_service();
 
@@ -1326,10 +1330,12 @@ void Render::mltMoveTransition(QString type, int startTrack, int trackOffset, Ge
 	mlt_type = mlt_properties_get( properties, "mlt_type" );
 	resource = mlt_properties_get( properties, "mlt_service" );
     }
+    m_isBlocked = false;
 }
 
 void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args)
 {
+    m_isBlocked = true;
     Mlt::Service service(m_mltProducer->parent().get_service());
 
     Mlt::Tractor tractor(service);
@@ -1355,6 +1361,7 @@ void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
     // attach filter to the clip
     field->plant_transition(*transition, a_track, b_track);
     delete[] transId;
+    m_isBlocked = false;
     refresh();
 
 }

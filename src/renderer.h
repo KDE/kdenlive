@@ -135,8 +135,8 @@ class Render:public QObject {
     /** Gives the aspect ratio of the consumer */
     double consumerRatio() const;
 
-    /** Gives the aspect ratio of the consumer */
     void askForRefresh();
+    void doRefresh();
     
     /** Save current producer frame as image */
     void exportCurrentFrame(KUrl url, bool notify);
@@ -146,7 +146,6 @@ class Render:public QObject {
     /** returns the current scenelist */
     QDomDocument sceneList() const;
     int resetRendererProfile(char * profile);
-    bool isBlocked;
     const double fps() const;
 
     /** Playlist manipulation */
@@ -177,6 +176,7 @@ class Render:public QObject {
      double m_fps;
      uint m_monitorId;
      bool m_generateScenelist;
+     bool m_isBlocked;
 
 	/** Holds the path to on screen display profile */
      QString m_osdProfile;
