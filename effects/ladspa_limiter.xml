@@ -1,0 +1,16 @@
+<!DOCTYPE kpartgui>
+<effect tag="ladspa" library="fast_lookahead_limiter_1913.so">
+	<name>Limiter</name>
+	<description>LADSPA limiter audio effect</description>
+	<author>http://www.ladspa.org</author>
+	<properties id="limiter" tag="ladspa1913" type="audio" />
+	<parameter type="constant" name="gain" max="20" min="-20" default="0">
+		<name>Input gain (db)</name>
+	</parameter>
+	<parameter type="constant" name="limit" max="0" min="-20" default="0">
+		<name>Limit (db)</name>
+	</parameter>
+	<parameter type="constant" name="release" max="200" min="1" default="50" factor="100">
+		<name>Release time (s)</name>
+	</parameter>
+</effect>

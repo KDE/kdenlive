@@ -16,5 +16,5 @@ FIND_PACKAGE(LIBMLT REQUIRED)
 FIND_PACKAGE(LIBMLTPLUS REQUIRED)
 FIND_PACKAGE(LIBFFMPEG REQUIRED)
 
-add_subdirectory(src)
+add_subdirectory(src effects)
  

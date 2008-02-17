@@ -1,0 +1,56 @@
+Effects 
+
+Kdenlive uses MLT for all video/audio effects. Effects in Kdenlive are now built using 
+xml files describing the effect and its parameters.
+
+Here is a sample effect file:
+
+--------------------------------------------------------------------------------------
+
+1  <!DOCTYPE kpartgui>
+2  <effect tag="motion_est">
+3	<name>Auto Mask</name>
+4	<properties id="autotrack_rectangle" tag="autotrack_rectangle" />
+5	<parameter type="geometry" name="geometry" default="100,100:100x100">
+6		<name>Geometry</name>
+7	</parameter>
+8	<parameter type="bool" name="debug" default="1">
+9		<name>Debug</name>
+10	</parameter>
+11	<parameter type="bool" name="obscure" default="0">
+12		<name>Obscure</name>
+13	</parameter>
+14 </effect>
+
+--------------------------------------------------------------------------------------
+
+
+Line 1 is required to have the effect and parameter names added to the translation files
+In line 2, the "tag" is the name of the mlt filter that has to be found in the file 
+/usr/share/mlt/modules/filters.dat for the effect to appear in Kdenlive
+Line 3 is the name of the effect that will appear to the user
+Line 4 holds several effect parameters:
+	id is an internal kdenlive id, can be anything, but must be unique for each effect
+	tag is the "mlt_service" name of the effect
+	type defines if the effect is "audio" or "video". If omitted, effect is considered as video
+
+Then, you have the parameter definitions.
+The parameter entry has the following attributes:
+	type is used by Kdenlive to build the UI for this effect.
+		allowed types are: 
+		- constant = a number, represented by a slider
+		- bool = boolean value, represented as a checkbox
+		- color = a color value, represented by a selectable color button
+		- list = a combobox listing different strings
+		- geometry = 4 different sliders for x, y, width and height values that will end up as x,y:wxh
+		- position = a frame number that can be obtained from current cursor position
+		- double = a number with keyframes
+		- complex = only used in obscure effect, has x, y, width, height and pixellation values
+
+		The integer values can have max, min and default values defined, see effect files in this folder for more examples
+	the "name" parameter is the name that will be passed to MLT
+
+The "name" tag gives the parameter name as it will appear to the user
+
+Kdenlive parses the effect folder at each startup, so that if you have an xml file describing a new effect, just copy it in your ~/.kde/share/apps/kdenlive/effects/ folder and restart Kdenlive to enable the new effect
+

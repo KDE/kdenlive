@@ -1,0 +1,10 @@
+<!DOCTYPE kpartgui>
+<effect tag="ladspa" library="pitch_scale_1193.so">
+	<name>Pitch Scaler</name>
+	<description>LADSPA pitch scale audio effect</description>
+	<author>http://www.ladspa.org</author>
+	<properties id="pitch_scale" tag="ladspa1193" type="audio" />
+	<parameter type="constant" name="coef" max="200" min="50" default="100" factor="100">
+		<name>Co-efficient</name>
+	</parameter>
+</effect>

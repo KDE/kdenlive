@@ -1,0 +1,13 @@
+<!DOCTYPE kpartgui>
+<effect tag="lines">
+	<name>Lines</name>
+	<description>Lines from top to bottom</description>
+        <author>Marco Gittler</author>
+	<properties id="lines" tag="lines" />
+	<parameter type="constant" name="num" max="255" min="0" default="5">
+		<name>Num</name>
+	</parameter>
+	<parameter type="constant" name="width" max="255" min="0" default="4">
+		<name>Width</name>
+	</parameter>
+</effect>

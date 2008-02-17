@@ -1,0 +1,13 @@
+<!DOCTYPE kpartgui>
+<effect tag="ladspa" library="plate_1423.so">
+	<name>Reverb</name>
+	<description>LADSPA reverb audio effect</description>
+	<author>http://www.ladspa.org</author>
+	<properties id="reverb" tag="ladspa1423" type="audio" />
+	<parameter type="constant" name="room" max="85" min="1" default="42" factor="10">
+		<name>Reverb time</name>
+	</parameter>
+	<parameter type="constant" name="damp" max="100" min="0" default="25" factor="100">
+		<name>Damping</name>
+	</parameter>
+</effect>

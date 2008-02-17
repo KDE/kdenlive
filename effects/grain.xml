@@ -1,0 +1,10 @@
+<!DOCTYPE kpartgui>
+<effect tag="grain">
+	<name>Grain</name>
+	<description>Noise on Picture</description>
+        <author>Marco Gittler</author>
+	<properties id="grain" tag="grain" />
+	<parameter type="constant" name="noise" max="255" min="0" default="40">
+		<name>Noise</name>
+	</parameter>
+</effect>
