@@ -1120,7 +1120,7 @@ void KRender::mltAddEffect(int track, GenTime position, QString id, QString tag,
     // create filter
     kdDebug()<<" / / INSERTING EFFECT: "<<id<<endl;
     if (tag.startsWith("ladspa")) tag = "ladspa";
-    char *filterId = decodedString(tag);
+    char *filterId = decodedString(id);
     Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterId);
     filter->set("kdenlive_id", id);
 
@@ -1174,6 +1174,10 @@ void KRender::mltEditEffect(int track, GenTime position, int index, QString id, 
     Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
     //int clipIndex = trackPlaylist.get_clip_index_at(position.frames(m_fps));
     Mlt::Producer *clip = trackPlaylist.get_clip_at(position.frames(m_fps));
+    if (!clip) {
+      kdDebug()<<"WARINIG, CANNOT FIND CLIP ON track: "<<track<<", AT POS: "<<position.frames(m_fps);
+      return;
+    }
     Mlt::Service clipService(clip->get_service());
     Mlt::Filter *filter = clipService.filter( index );
 
