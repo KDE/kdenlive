@@ -35,6 +35,7 @@ class EffectsList:public QList < QDomElement > {
 	/** Returns an XML version of this Effect.*/
   QDomElement getEffectByName(const QString & name);
   QStringList effectNames();
+  QString getInfo(QString effectName);
 
 };
 

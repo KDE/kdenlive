@@ -54,4 +54,14 @@ QStringList EffectsList::effectNames()
   return list;
 }
 
+QString EffectsList::getInfo(QString effectName)
+{
+  QString info;
+  QDomElement effect = getEffectByName(effectName);
+  QDomNode namenode = effect.elementsByTagName("description").item(0);
+  if (!namenode.isNull()) info = i18n(qstrdup(namenode.toElement().text().toUtf8()));
+  namenode = effect.elementsByTagName("author").item(0);
+  if (!namenode.isNull()) info.append(i18n("<br><b>Author:</b> ") + i18n(qstrdup(namenode.toElement().text().toUtf8())));
+  return info;
+}
 

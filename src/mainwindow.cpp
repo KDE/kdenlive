@@ -71,7 +71,9 @@ MainWindow::MainWindow(QWidget *parent)
 
   effectListDock = new QDockWidget(i18n("Effect List"), this);
   effectListDock->setObjectName("effect_list");
-  m_effectList = new KListWidget(this);
+  m_effectList = new EffectsListView(&m_audioEffects, &m_videoEffects, &m_customEffects);
+
+  //m_effectList = new KListWidget(this);
   effectListDock->setWidget(m_effectList);
   addDockWidget(Qt::TopDockWidgetArea, effectListDock);
   
@@ -139,7 +141,6 @@ MainWindow::MainWindow(QWidget *parent)
   m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor);
 
   setAutoSaveSettings();
-  fillEffectsList();
   newFile();
 }
 
@@ -156,12 +157,6 @@ bool MainWindow::queryClose()
        default: // cancel
          return false;
   }
-}
-
-void MainWindow::fillEffectsList()
-{
-  QStringList videoEffects = m_videoEffects.effectNames();
-  m_effectList->addItems(videoEffects);
 }
 
 void MainWindow::slotRaiseMonitor(bool clipMonitor)
