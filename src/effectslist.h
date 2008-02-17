@@ -36,7 +36,7 @@ class EffectsList:public QList < QDomElement > {
   QDomElement getEffectByName(const QString & name);
   QStringList effectNames();
   QString getInfo(QString effectName);
-
+  QMap <QString, QString> effect(const QString & name);
 };
 
 #endif

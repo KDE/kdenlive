@@ -31,6 +31,9 @@ EffectsListView::EffectsListView(EffectsList *audioEffectList, EffectsList *vide
   connect(ui.type_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(initList(int)));
   connect(ui.button_info, SIGNAL(stateChanged(int)), this, SLOT(showInfoPanel(int)));
   connect(ui.effectlist, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateInfo()));
+  connect(ui.effectlist, SIGNAL(doubleClicked(QListWidgetItem *,const QPoint &)), this, SLOT(slotEffectSelected()));
+
+
 }
 
 void EffectsListView::initList(int pos)
@@ -56,6 +59,11 @@ void EffectsListView::showInfoPanel(int state)
 {
   if (state == 0) ui.infopanel->hide();
   else ui.infopanel->show();
+}
+
+void EffectsListView::slotEffectSelected()
+{
+  emit addEffect(ui.type_combo->currentIndex(), ui.effectlist->currentItem()->text());
 }
 
 void EffectsListView::slotUpdateInfo()

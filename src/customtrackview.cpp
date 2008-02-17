@@ -33,6 +33,7 @@
 #include "moveclipcommand.h"
 #include "resizeclipcommand.h"
 #include "addtimelineclipcommand.h"
+#include "addeffectcommand.h"
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene, QWidget *parent)
     : QGraphicsView(projectscene, parent), m_tracksCount(0), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_startPos(QPointF()), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_scale(1.0), m_clickPoint(0), m_document(doc)
@@ -297,7 +298,7 @@ void CustomTrackView::mousePressEvent ( QMouseEvent * event )
   }
   updateSnapPoints(m_dragItem);
   //kDebug()<<pos;
-  //QGraphicsView::mousePressEvent(event);
+  QGraphicsView::mousePressEvent(event);
 }
 
 void CustomTrackView::dragEnterEvent ( QDragEnterEvent * event )
@@ -312,6 +313,29 @@ void CustomTrackView::dragEnterEvent ( QDragEnterEvent * event )
     if (clip == NULL) kDebug()<<" WARNING))))))))) CLIP NOT FOUND : "<<ids.at(0).toInt();
     addItem(clip, event->pos());
     event->acceptProposedAction();
+  }
+}
+
+void CustomTrackView::addEffect(int track, GenTime pos, QString tag, QMap <QString, QString> args)
+{
+  m_document->renderer()->mltAddEffect(track, pos, tag, args);  
+}
+
+void CustomTrackView::deleteEffect(int track, GenTime pos, QString tag)
+{
+  m_document->renderer()->mltRemoveEffect(track, pos, tag, -1);  
+}
+
+void CustomTrackView::slotAddEffect(QMap <QString, QString> filter)
+{
+  QList<QGraphicsItem *> itemList = items();
+  for (int i = 0; i < itemList.count(); i++) {
+    if (itemList.at(i)->type() == 70000 && itemList.at(i)->isSelected()) {
+      ClipItem *item = (ClipItem *)itemList.at(i);
+      QString tag = filter.value("mlt_service");
+      AddEffectCommand *command = new AddEffectCommand(this, m_tracksCount - item->track(),GenTime(item->startPos(), 25), tag, filter, true);
+      m_commandStack->push(command);    
+    }
   }
 }
 

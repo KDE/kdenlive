@@ -17,40 +17,30 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include <KLocale>
 
-#ifndef EFFECTLISTVIEW_H
-#define EFFECTLISTVIEW_H
+#include "addeffectcommand.h"
 
-#include <KIcon>
+AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, GenTime pos, const QString &tag, QMap <QString, QString> args, bool doIt)
+         : m_view(view), m_track(track), m_pos(pos), m_tag(tag), m_args(args), m_doIt(doIt) {
+	    if (doIt) setText(i18n("Add effect"));
+	    else setText(i18n("Delete effect"));
+	 }
 
-#include "ui_effectlist_ui.h"
-#include "effectslist.h"
 
-class EffectsListView : public QWidget
+// virtual 
+void AddEffectCommand::undo()
 {
-  Q_OBJECT
-  
-  public:
-    EffectsListView(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent=0);
-    KListWidget *listView(); 
+kDebug()<<"----  undoing action";
+  if (m_doIt) m_view->deleteEffect(m_track, m_pos, m_tag);
+  else m_view->addEffect(m_track, m_pos, m_tag, m_args);
+}
+// virtual 
+void AddEffectCommand::redo()
+{
+kDebug()<<"----  redoing action";
+  if (m_doIt) m_view->addEffect(m_track, m_pos, m_tag, m_args);
+  else m_view->deleteEffect(m_track, m_pos, m_tag);
+}
 
-  private:
-    Ui::EffectList_UI ui;
-    EffectsList *m_audioList;
-    EffectsList *m_videoList;
-    EffectsList *m_customList;
-
-  private slots:
-    void initList(int pos);
-    void slotUpdateInfo();
-    void showInfoPanel(int state);
-    void slotEffectSelected();
-
-  public slots:
-
-  signals:
-    void addEffect(int, QString);
- 
-};
-
-#endif
+#include "addeffectcommand.moc"

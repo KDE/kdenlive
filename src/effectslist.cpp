@@ -30,6 +30,24 @@ EffectsList::~EffectsList()
 {
 }
 
+QMap <QString, QString> EffectsList::effect(const QString & name)
+{
+  QMap <QString, QString> filter;
+  QString effectName;
+  QDomElement effect;
+  for (int i = 0; i < this->size(); ++i) {
+    effect =  this->at(i);
+    QDomNode namenode = effect.elementsByTagName("name").item(0);
+    if (!namenode.isNull()) {
+      effectName = i18n(qstrdup(namenode.toElement().text().toUtf8()));
+      if (name == effectName) break;
+    }
+  }
+  filter.insert("mlt_service", effect.attribute("tag"));
+  filter.insert("name", name);
+  return filter;
+}
+
 QDomElement EffectsList::getEffectByName(const QString & name)
 {
   QString effectName;

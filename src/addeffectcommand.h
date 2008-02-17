@@ -18,39 +18,30 @@
  ***************************************************************************/
 
 
-#ifndef EFFECTLISTVIEW_H
-#define EFFECTLISTVIEW_H
+#ifndef ADDEFFECTCOMMAND_H
+#define ADDEFFECTCOMMAND_H
 
-#include <KIcon>
+#include <QUndoCommand>
+#include <KDebug>
 
-#include "ui_effectlist_ui.h"
-#include "effectslist.h"
+#include "customtrackview.h"
 
-class EffectsListView : public QWidget
-{
-  Q_OBJECT
-  
-  public:
-    EffectsListView(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent=0);
-    KListWidget *listView(); 
+class AddEffectCommand : public QUndoCommand
+ {
+ public:
+     AddEffectCommand(CustomTrackView *view, const int track, GenTime pos, const QString &tag, QMap <QString, QString> args, bool doIt);
 
-  private:
-    Ui::EffectList_UI ui;
-    EffectsList *m_audioList;
-    EffectsList *m_videoList;
-    EffectsList *m_customList;
+    virtual void undo();
+    virtual void redo();
 
-  private slots:
-    void initList(int pos);
-    void slotUpdateInfo();
-    void showInfoPanel(int state);
-    void slotEffectSelected();
-
-  public slots:
-
-  signals:
-    void addEffect(int, QString);
- 
-};
+ private:
+     CustomTrackView *m_view;
+     int m_track;
+     QString m_tag;
+     GenTime m_pos;
+     QMap <QString, QString> m_args;
+     bool m_doIt;
+ };
 
 #endif
+

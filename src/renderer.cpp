@@ -1002,7 +1002,7 @@ void Render::mltRemoveClip(int track, GenTime position)
     m_isBlocked = false;
 }
 
-void Render::mltRemoveEffect(int track, GenTime position, QString id, QString tag, int index)
+void Render::mltRemoveEffect(int track, GenTime position, QString tag, int index)
 {
 
     Mlt::Service service(m_mltProducer->parent().get_service());
@@ -1025,7 +1025,7 @@ void Render::mltRemoveEffect(int track, GenTime position, QString id, QString ta
 	int ct = 0;
 	Mlt::Filter *filter = clipService.filter( ct );
 	while (filter) {
-	    if (filter->get("mlt_service") == tag && filter->get("kdenlive_id") == id) {
+	    if (filter->get("mlt_service") == tag) {// && filter->get("kdenlive_id") == id) {
 		clipService.detach(*filter);
 		kDebug()<<" / / / DLEETED EFFECT: "<<ct;
 	    }
@@ -1035,9 +1035,9 @@ void Render::mltRemoveEffect(int track, GenTime position, QString id, QString ta
     }
     else {
         Mlt::Filter *filter = clipService.filter( index );
-        if (filter && filter->get("mlt_service") == tag && filter->get("kdenlive_id") == id) clipService.detach(*filter);
+        if (filter && filter->get("mlt_service") == tag /*&& filter->get("kdenlive_id") == id*/) clipService.detach(*filter);
         else {
-	    kDebug()<<"WARINIG, FILTER "<<id<<" NOT FOUND!!!!!";
+	    kDebug()<<"WARINIG, FILTER "<<tag<<" NOT FOUND!!!!!";
         }
     }
     m_isBlocked = false;
@@ -1045,7 +1045,7 @@ void Render::mltRemoveEffect(int track, GenTime position, QString id, QString ta
 }
 
 
-void Render::mltAddEffect(int track, GenTime position, QString id, QString tag, QMap <QString, QString> args)
+void Render::mltAddEffect(int track, GenTime position, QString tag, QMap <QString, QString> args)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
@@ -1061,7 +1061,7 @@ void Render::mltAddEffect(int track, GenTime position, QString id, QString tag, 
     Mlt::Service clipService(clip->get_service());
     m_isBlocked = true;
     // create filter
-    kDebug()<<" / / INSERTING EFFECT: "<<id;
+    //kDebug()<<" / / INSERTING EFFECT: "<<id;
     if (tag.startsWith("ladspa")) tag = "ladspa";
     char *filterId = decodedString(tag);
     Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterId);
@@ -1105,8 +1105,8 @@ void Render::mltEditEffect(int track, GenTime position, int index, QString id, Q
     QMap<QString, QString>::Iterator it = args.begin();
     if (it.key().startsWith("#") || tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle") {
 	// This is a keyframe effect, to edit it, we remove it and re-add it.
-	mltRemoveEffect(track, position, id, tag, -1);
-	mltAddEffect(track, position, id, tag, args);
+	mltRemoveEffect(track, position, tag, -1);
+	mltAddEffect(track, position, tag, args);
 	return;
     }
     m_isBlocked = true;
