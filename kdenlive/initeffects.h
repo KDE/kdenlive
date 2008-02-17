@@ -37,7 +37,7 @@ class initEffects
         initEffects();
 	~initEffects();
 
-	static mlt_repository parseEffectFiles(EffectDescriptionList *effectList);
+	static Mlt::Repository *parseEffectFiles(EffectDescriptionList *effectList);
 	static void parseEffectFile(EffectDescriptionList *effectList, QString name, QStringList filtersList, QStringList producersList);
 	static char* ladspaEffectString(int ladspaId, QStringList params);
 	static void ladspaEffectFile(const QString & fname, int ladspaId, QStringList params);

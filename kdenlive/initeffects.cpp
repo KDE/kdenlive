@@ -30,15 +30,6 @@
 #include "effectparamdesc.h"
 #include "krender.h"
 
-struct mlt_repository_s
-{
-	struct mlt_properties_s parent; // a list of object files
-	mlt_properties consumers; // lists of entry points
-	mlt_properties filters;
-	mlt_properties producers;
-	mlt_properties transitions;
-};
-
 initEffects::initEffects()
 {
 }
@@ -48,7 +39,7 @@ initEffects::~initEffects()
 }
 
 //static
-mlt_repository initEffects::parseEffectFiles(EffectDescriptionList *effectList)
+Mlt::Repository *initEffects::parseEffectFiles(EffectDescriptionList *effectList)
 {
     QStringList::Iterator more;
     QStringList::Iterator it;
@@ -57,25 +48,27 @@ mlt_repository initEffects::parseEffectFiles(EffectDescriptionList *effectList)
 
 
     // Build effects. Retrieve the list of MLT's available effects first.
-    mlt_repository repository = mlt_factory_init ( NULL ) ;
-    if (repository == NULL ){
+    Mlt::Repository *repository = Mlt::Factory::init();
+    if (!repository){
 	 kdDebug() << "Repository did not finish init " ;
 	 return NULL;
     }
-    Mlt::Properties filters ( repository->filters );
+    Mlt::Properties *filters = repository->filters();
     QStringList filtersList;
 
-    for (int i=0 ; i <filters.count() ; i++){
-      filtersList << filters.get_name(i);
+    for (int i=0 ; i <filters->count() ; i++){
+      filtersList << filters->get_name(i);
     }
 
     // Build effects. check producers first.
 
-    Mlt::Properties producers ( repository->producers );
+    Mlt::Properties *producers = repository->producers();
     QStringList producersList;
-    for (int i=0 ; i <producers.count() ; i++){
-      producersList << producers.get_name(i);
+    for (int i=0 ; i <producers->count() ; i++){
+      producersList << producers->get_name(i);
     }
+    delete filters;
+    delete producers;
 
     KGlobal::dirs()->addResourceType("ladspa_plugin", "lib/ladspa");
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/lib/ladspa");
