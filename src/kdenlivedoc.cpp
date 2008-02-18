@@ -89,6 +89,19 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, double fps, int width, int height, QWi
     multitrack.appendChild(playlist5);
     playlist5.setAttribute("id", "playlist5");
     tractor.appendChild(multitrack);
+
+    for (uint i = 2; i < 6 ; i++) {
+      QDomElement transition = m_document.createElement("transition");
+      transition.setAttribute("in", "0");
+      //TODO: Make audio mix last for all project duration
+      transition.setAttribute("out", "15000");
+      transition.setAttribute("a_track", QString::number(1));
+      transition.setAttribute("b_track", QString::number(i));
+      transition.setAttribute("mlt_service", "mix");
+      transition.setAttribute("combine", "1");
+      tractor.appendChild(transition);
+    }
+
     doc.appendChild(tractor);
     
   }
