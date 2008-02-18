@@ -25,6 +25,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/colorclip_ui.ui
   widgets/configmisc_ui.ui
   widgets/effectlist_ui.ui
+  widgets/effectstack_ui.ui
 )
  
 set(kdenlive_SRCS 
@@ -63,6 +64,7 @@ set(kdenlive_SRCS
   initeffects.cpp
   effectslistview.cpp
   addeffectcommand.cpp
+  effectstackview.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )
