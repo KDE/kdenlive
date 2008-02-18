@@ -353,7 +353,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //chang
   connect(doc, SIGNAL(signalDeleteProjectClip(int)), m_projectList, SLOT(slotDeleteClip(int)));
   connect(doc, SIGNAL(updateClipDisplay(int)), m_projectList, SLOT(slotUpdateClip(int)));
   connect(doc, SIGNAL(deletTimelineClip(int)), trackView, SLOT(slotDeleteClip(int)));
-	
+	connect(trackView, SIGNAL(clipItemSelected(ClipItem*)), effectStack, SLOT(slotClipItemSelected(ClipItem*)));
   m_projectList->setDocument(doc);
   m_monitorManager->setTimecode(doc->timecode());
   doc->setRenderer(m_projectMonitor->render);
