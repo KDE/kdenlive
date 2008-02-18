@@ -41,6 +41,7 @@
 #include "customtrackview.h"
 #include "effectslist.h"
 #include "effectslistview.h"
+#include "effectstackview.h"
 
 class MainWindow : public KXmlGuiWindow
 {
@@ -67,7 +68,7 @@ class MainWindow : public KXmlGuiWindow
     //KListWidget *m_effectList;
 
     QDockWidget *effectStackDock;
-    KListWidget *effectStack;
+    EffectStackView *effectStack;
 
     QDockWidget *transitionConfigDock;
     KListWidget *transitionConfig;
@@ -99,7 +100,6 @@ class MainWindow : public KXmlGuiWindow
 
   public slots:
     void openFile(const KUrl &url);
-
 
   private slots:
     void newFile();

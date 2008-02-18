@@ -22,6 +22,8 @@
 #include <QTextStream>
 #include <QTimer>
 #include <QAction>
+#include <QtTest>
+#include <QtCore>
 
 #include <KApplication>
 #include <KAction>
@@ -79,7 +81,7 @@ MainWindow::MainWindow(QWidget *parent)
   
   effectStackDock = new QDockWidget(i18n("Effect Stack"), this);
   effectStackDock->setObjectName("effect_stack");
-  effectStack = new KListWidget(this);
+  effectStack = new EffectStackView(this);
   effectStackDock->setWidget(effectStack);
   addDockWidget(Qt::TopDockWidgetArea, effectStackDock);
   
@@ -140,7 +142,7 @@ MainWindow::MainWindow(QWidget *parent)
   connect(m_monitorManager, SIGNAL(raiseClipMonitor (bool)), this, SLOT(slotRaiseMonitor(bool)));
   connect(m_effectList, SIGNAL(addEffect(int, const QString&)), this, SLOT(slotAddEffect(int, const QString &)));
   m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor);
-
+	
   setAutoSaveSettings();
   newFile();
 }
@@ -351,7 +353,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //chang
   connect(doc, SIGNAL(signalDeleteProjectClip(int)), m_projectList, SLOT(slotDeleteClip(int)));
   connect(doc, SIGNAL(updateClipDisplay(int)), m_projectList, SLOT(slotUpdateClip(int)));
   connect(doc, SIGNAL(deletTimelineClip(int)), trackView, SLOT(slotDeleteClip(int)));
-
+	
   m_projectList->setDocument(doc);
   m_monitorManager->setTimecode(doc->timecode());
   doc->setRenderer(m_projectMonitor->render);
@@ -379,7 +381,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //chang
   m_undoView->setStack(doc->commandStack());
   m_activeDocument = doc;
 }
-
 
 void MainWindow::slotPreferences()
 {

@@ -285,6 +285,7 @@ void CustomTrackView::mousePressEvent ( QMouseEvent * event )
 	  update();
 	}
 	m_dragItem = (ClipItem *) item;
+	emit clipItemSelected(m_dragItem);
 	m_clickPoint = mapToScene(event->pos()).x() - m_dragItem->startPos() * m_scale;
 	m_operationMode = m_dragItem->operationMode(item->mapFromScene(mapToScene(event->pos())), m_scale);
 	if (m_operationMode == MOVE || m_operationMode == RESIZESTART) 

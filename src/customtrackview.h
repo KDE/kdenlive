@@ -98,6 +98,7 @@ class CustomTrackView : public QGraphicsView
     void zoomIn();
     void zoomOut();
     void mousePosition(int);
+    void clipItemSelected(ClipItem*);
 
 };
 

@@ -1,0 +1,51 @@
+<ui version="4.0" >
+ <class>EffectStack_UI</class>
+ <widget class="QWidget" name="EffectStack_UI" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>716</width>
+    <height>430</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" >
+   <item row="0" column="0" >
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QListView" name="listView" />
+     </item>
+     <item>
+      <layout class="QVBoxLayout" >
+       <item>
+        <widget class="QGraphicsView" name="graphicsView" >
+         <property name="autoFillBackground" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox" >
+         <property name="minimumSize" >
+          <size>
+           <width>0</width>
+           <height>74</height>
+          </size>
+         </property>
+         <property name="title" >
+          <string>Parameter-Setup</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
