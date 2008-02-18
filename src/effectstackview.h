@@ -14,7 +14,7 @@ class EffectStackView : public QWidget
 	
 private:
 	Ui::EffectStack_UI ui;
-
+	ClipItem* clipref;
 public slots:
 	void slotClipItemSelected(ClipItem*);
 

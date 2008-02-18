@@ -16,7 +16,7 @@
    <item row="0" column="0" >
     <layout class="QHBoxLayout" >
      <item>
-      <widget class="QListView" name="listView" />
+      <widget class="KListWidget" name="effectlist" />
      </item>
      <item>
       <layout class="QVBoxLayout" >
@@ -46,6 +46,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KListWidget</class>
+   <extends>QListWidget</extends>
+   <header>klistwidget.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

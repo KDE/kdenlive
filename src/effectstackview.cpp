@@ -8,13 +8,20 @@ EffectStackView::EffectStackView( QWidget *parent)
 : QWidget(parent)
 {
 	ui.setupUi(this);
-	
+	clipref=NULL;
 }
 
-void EffectStackView::slotClipItemSelected(ClipItem*)
+void EffectStackView::slotClipItemSelected(ClipItem* c)
 {
-	kDebug() << "selected" ;
-	kDebug() << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+	clipref=c;
+	if (clipref==NULL)
+		return;
+	
+	ui.effectlist->clear();
+
+	ui.effectlist->addItems(clipref->effectNames());
+	
+	
 }
 
 #include "effectstackview.moc"

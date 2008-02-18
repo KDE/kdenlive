@@ -37,6 +37,7 @@
 #include "trackpanelfunctionfactory.h"
 #include "trackpanelfunction.h"
 #include "customtrackview.h"
+class ClipItem;
 
 class TrackView : public QWidget
 {
@@ -98,10 +99,11 @@ class TrackView : public QWidget
     void slotZoomOut();
     void setCursorPos(int pos);
     void moveCursorPos(int pos);
-
+    void slotClipItemSelected(ClipItem*);
   signals:
     void mousePosition(int);
     void cursorMoved();
+    void clipItemSelected(ClipItem*);
 };
 
 #endif

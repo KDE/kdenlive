@@ -329,14 +329,20 @@ void CustomTrackView::addEffect(int track, GenTime pos, QString tag, QMap <QStri
 {
   m_document->renderer()->mltAddEffect(track, pos, tag, args);
   ClipItem *clip = getClipItemAt(pos.frames(m_document->fps()) + 1, m_tracksCount - track);
-  if (clip) clip->addEffect(args);
+	if (clip){ 
+		clip->addEffect(args);
+		emit clipItemSelected(clip);
+	}
 }
 
 void CustomTrackView::deleteEffect(int track, GenTime pos, QString tag)
 {
   m_document->renderer()->mltRemoveEffect(track, pos, tag, -1);  
   ClipItem *clip = getClipItemAt(pos.frames(m_document->fps()) + 1, m_tracksCount - track);
-  if (clip) clip->deleteEffect(tag);
+	if (clip){
+		clip->deleteEffect(tag);
+		emit clipItemSelected(clip);
+	}
 }
 
 void CustomTrackView::slotAddEffect(QMap <QString, QString> filter)

@@ -71,7 +71,7 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
   connect(m_trackview, SIGNAL(zoomOut ()), this, SLOT(slotZoomOut()));
   connect(m_trackview->horizontalScrollBar(), SIGNAL(sliderMoved( int )), m_ruler, SLOT(slotMoveRuler( int )));
   connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
-
+  connect(m_trackview, SIGNAL(clipItemSelected(ClipItem*)),this,SLOT(slotClipItemSelected(ClipItem*)));
   view->horizontalSlider->setValue(4);
   m_currentZoom = view->horizontalSlider->value();
   m_trackview->initView();
@@ -90,6 +90,10 @@ int TrackView::duration()
 int TrackView::tracksNumber()
 {
   return m_projectTracks;
+}
+
+void TrackView::slotClipItemSelected(ClipItem*c){
+	emit clipItemSelected(c);
 }
 
 void TrackView::parseDocument(QDomDocument doc)
