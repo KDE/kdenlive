@@ -46,8 +46,7 @@
 
 #include "mainwindow.h"
 #include "kdenlivesettings.h"
-#include "ui_configmisc_ui.h"
-#include "ui_configenv_ui.h"
+#include "kdenlivesettingsdialog.h"
 #include "initeffects.h"
 #include "profilesdialog.h"
 #include "projectsettings.h"
@@ -481,25 +480,7 @@ void MainWindow::slotPreferences()
 
   // KConfigDialog didn't find an instance of this dialog, so lets
   // create it :
-  KConfigDialog* dialog = new KConfigDialog(this, "settings",
-                                          KdenliveSettings::self());
-
-  QWidget *page1 = new QWidget;
-  Ui::ConfigMisc_UI* confWdg = new Ui::ConfigMisc_UI( );
-  confWdg->setupUi(page1);
-  dialog->addPage( page1, i18n("Misc"), "misc" );
-
-  QWidget *page2 = new QWidget;
-  Ui::ConfigEnv_UI* confWdg2 = new Ui::ConfigEnv_UI( );
-  confWdg2->setupUi(page2);
-  confWdg2->kcfg_mltpath->setMode(KFile::Directory);
-
-  //WARNING: the 2 lines below should not be necessary, but does not work without it...
-  confWdg2->kcfg_mltpath->setPath(KdenliveSettings::mltpath());
-  confWdg2->kcfg_rendererpath->setPath(KdenliveSettings::rendererpath());
-  dialog->addPage( page2, i18n("Environnment"), "env" );
-  //User edited the configuration - update your local copies of the
-  //configuration data
+  KdenliveSettingsDialog* dialog = new KdenliveSettingsDialog(this);
   connect( dialog, SIGNAL(settingsChanged()), this, SLOT(updateConfiguration()) );
 
   dialog->show();

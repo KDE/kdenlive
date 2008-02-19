@@ -5,20 +5,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>316</width>
-    <height>117</height>
+    <width>369</width>
+    <height>241</height>
    </rect>
   </property>
-  <property name="windowTitle" >
-   <string>Form</string>
-  </property>
-  <layout class="QGridLayout" >
+  <layout class="QGridLayout" name="gridLayout_4" >
    <item row="0" column="0" >
     <widget class="QGroupBox" name="groupBox" >
      <property name="title" >
-      <string>Default durations</string>
+      <string>Default Durations</string>
      </property>
-     <layout class="QGridLayout" >
+     <layout class="QGridLayout" name="gridLayout_3" >
       <item row="0" column="0" >
        <widget class="QLabel" name="label" >
         <property name="text" >
@@ -36,14 +33,14 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0" >
+      <item row="0" column="2" >
        <widget class="QLabel" name="label_2" >
         <property name="text" >
          <string>Image clips</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1" >
+      <item row="0" column="3" >
        <widget class="KRestrictedLine" name="kcfg_image_duration" >
         <property name="inputMask" >
          <string>99:99:99:99; </string>
@@ -54,11 +51,97 @@
     </widget>
    </item>
    <item row="1" column="0" >
+    <widget class="QGroupBox" name="properties" >
+     <property name="title" >
+      <string>Default Profile</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2" >
+      <item row="0" column="0" >
+       <widget class="QLabel" name="label_3" >
+        <property name="text" >
+         <string>Profile</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" >
+       <widget class="KComboBox" name="profiles_list" />
+      </item>
+      <item row="1" column="0" colspan="2" >
+       <layout class="QGridLayout" name="gridLayout" >
+        <item row="0" column="0" >
+         <widget class="QLabel" name="label_5" >
+          <property name="text" >
+           <string>Size:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" >
+         <widget class="QLabel" name="p_size" >
+          <property name="text" >
+           <string>720x576</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2" >
+         <widget class="QLabel" name="label_4" >
+          <property name="text" >
+           <string>Frame rate:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3" >
+         <widget class="QLabel" name="p_fps" >
+          <property name="text" >
+           <string>25/1</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" >
+         <widget class="QLabel" name="label_9" >
+          <property name="text" >
+           <string>Aspect ratio:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" >
+         <widget class="QLabel" name="p_aspect" >
+          <property name="text" >
+           <string>59/54</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2" >
+         <widget class="QLabel" name="label_10" >
+          <property name="text" >
+           <string>Display ratio:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3" >
+         <widget class="QLabel" name="p_display" >
+          <property name="text" >
+           <string>4/3</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0" colspan="2" >
+       <widget class="QLabel" name="p_progressive" >
+        <property name="text" >
+         <string>Interlaced</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0" >
     <spacer>
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0" >
       <size>
        <width>20</width>
        <height>40</height>
@@ -69,6 +152,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
   <customwidget>
    <class>KRestrictedLine</class>
    <extends>KLineEdit</extends>
