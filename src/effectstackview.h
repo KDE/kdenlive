@@ -13,11 +13,17 @@ class EffectStackView : public QWidget
 		EffectStackView( QWidget *parent=0);
 	
 private:
+	int activeRow;
+	QStringList effects;
 	Ui::EffectStack_UI ui;
 	ClipItem* clipref;
+	void setupListView(const QStringList& );
 public slots:
 	void slotClipItemSelected(ClipItem*);
-
+	void slotItemSelectionChanged();
+	void slotItemUp();
+	void slotItemDown();
+	void slotItemDel();
 	
 };
 
