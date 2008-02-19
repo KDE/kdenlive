@@ -24,8 +24,10 @@ kde4_add_ui_files(kdenlive_UI
   widgets/monitor_ui.ui
   widgets/colorclip_ui.ui
   widgets/configmisc_ui.ui
+  widgets/configenv_ui.ui
   widgets/effectlist_ui.ui
   widgets/effectstack_ui.ui
+  widgets/profiledialog_ui.ui
 )
  
 set(kdenlive_SRCS 

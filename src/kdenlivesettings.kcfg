@@ -20,6 +20,18 @@
     </entry>
   </group>
 
+  <group name="env">
+    <entry name="mltpath" type="Path">
+      <label>Mlt framework install path.</label>
+      <default></default>
+    </entry>
+
+    <entry name="rendererpath" type="Path">
+      <label>Mlt inigo renderer install path.</label>
+      <default></default>
+    </entry>
+  </group>
+
   <group name="unmanaged">
     <entry name="project_display_ratio" type="Double">
       <label>Current project display ratio.</label>

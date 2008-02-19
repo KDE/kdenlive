@@ -50,6 +50,8 @@ class MainWindow : public KXmlGuiWindow
   public:
     MainWindow(QWidget *parent=0);
 
+    void parseProfiles();
+
   protected:
     virtual bool queryClose();
   
@@ -115,6 +117,7 @@ class MainWindow : public KXmlGuiWindow
     void slotSetClipDuration(int id, int duration);
     void slotUpdateMousePosition(int pos);
     void slotAddEffect(int effectType, const QString &effectName);
+    void slotEditProfiles();
 };
  
 #endif

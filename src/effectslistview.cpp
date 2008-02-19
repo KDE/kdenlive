@@ -28,6 +28,7 @@ EffectsListView::EffectsListView(EffectsList *audioEffectList, EffectsList *vide
 {
   ui.setupUi(this);
   initList(0);
+  ui.search_effect->setListWidget(ui.effectlist);
   connect(ui.type_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(initList(int)));
   connect(ui.button_info, SIGNAL(stateChanged(int)), this, SLOT(showInfoPanel(int)));
   connect(ui.effectlist, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateInfo()));

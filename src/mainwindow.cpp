@@ -39,13 +39,17 @@
 #include <KConfigDialog>
 #include <KXMLGUIFactory>
 #include <KStatusBar>
+#include <kstandarddirs.h>
+#include <KUrlRequesterDialog>
 
 #include <mlt++/Mlt.h>
 
 #include "mainwindow.h"
 #include "kdenlivesettings.h"
 #include "ui_configmisc_ui.h"
+#include "ui_configenv_ui.h"
 #include "initeffects.h"
+#include "ui_profiledialog_ui.h"
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
@@ -57,6 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent),
       fileName(QString()), m_activeDocument(NULL), m_commandStack(NULL)
 {
+  parseProfiles();
   m_timelineArea = new KTabWidget(this);
   m_timelineArea->setHoverCloseButton(true);
   m_timelineArea->setTabReorderingEnabled(true);
@@ -214,6 +219,12 @@ void MainWindow::setupActions()
   actionCollection()->addAction("clear", clearAction);
   /*connect(clearAction, SIGNAL(triggered(bool)),
           textArea, SLOT(clear()));*/
+
+  KAction* profilesAction = new KAction(this);
+  profilesAction->setText(i18n("Manage Profiles"));
+  profilesAction->setIcon(KIcon("document-new"));
+  actionCollection()->addAction("manage_profiles", profilesAction);
+  connect(profilesAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProfiles()));
  
   KStandardAction::quit(kapp, SLOT(quit()),
                         actionCollection());
@@ -325,6 +336,85 @@ void MainWindow::openFile(const KUrl &url) //new
   //connectDocument(trackView, doc);
 }
 
+
+void MainWindow::parseProfiles()
+{
+	//kdDebug()<<" + + YOUR MLT INSTALL WAS FOUND IN: "<< MLT_PREFIX <<endl;
+	if (KdenliveSettings::mltpath().isEmpty()) {
+	    KdenliveSettings::setMltpath(QString(MLT_PREFIX) + QString("/share/mlt/profiles/"));
+	}
+	if (KdenliveSettings::rendererpath().isEmpty())
+	{
+	    KdenliveSettings::setRendererpath(KStandardDirs::findExe("inigo"));
+	}
+	QStringList profilesFilter;
+	profilesFilter<<"*";
+	QStringList profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+
+	if (profilesList.isEmpty()) {
+	    // Cannot find MLT path, try finding inigo
+	    QString profilePath = KdenliveSettings::rendererpath();
+	    if (!profilePath.isEmpty()) {
+		profilePath = profilePath.section('/', 0, -3);
+		KdenliveSettings::setMltpath(profilePath + "/share/mlt/profiles/");
+		QStringList profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+	    }
+
+	    if (profilesList.isEmpty()) {
+	    	// Cannot find the MLT profiles, ask for location
+	    	KUrlRequesterDialog *getUrl = new KUrlRequesterDialog(KdenliveSettings::mltpath(), i18n("Cannot find your Mlt profiles, please give the path"), this);
+		getUrl->fileDialog()->setMode(KFile::Directory);
+	    	getUrl->exec();
+	    	KUrl mltPath = getUrl->selectedUrl ();
+	    	delete getUrl;
+	    	if (mltPath.isEmpty()) exit(1);
+		KdenliveSettings::setMltpath(mltPath.path());
+		QStringList profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+	    }
+	}
+
+	if (KdenliveSettings::rendererpath().isEmpty()) {
+	    	// Cannot find the MLT inigo renderer, ask for location
+	    	KUrlRequesterDialog *getUrl = new KUrlRequesterDialog(KdenliveSettings::mltpath(), i18n("Cannot find the inigo program required for rendering (part of Mlt)"), this);
+	    	getUrl->exec();
+	    	KUrl rendererPath = getUrl->selectedUrl();
+	    	delete getUrl;
+	    	if (rendererPath.isEmpty()) exit(1);
+		KdenliveSettings::setRendererpath(rendererPath.path());
+	}
+
+	kDebug()<<"RESULTING MLT PATH: "<<KdenliveSettings::mltpath();
+
+	// Parse MLT profiles to build a list of available video formats
+	if (profilesList.isEmpty()) parseProfiles();
+/*
+	uint i = 0;
+	for (; i < profilesList.count(); i++) { 
+	    KConfig confFile(profilePath + *profilesList.at(i), true);
+	    QString name = confFile.readEntry("description");
+	    int width = confFile.readNumEntry("width");
+	    int height = confFile.readNumEntry("height");
+	    int aspect_num = confFile.readNumEntry("sample_aspect_num");
+	    int aspect_den = confFile.readNumEntry("sample_aspect_den");
+	    int display_num = confFile.readNumEntry("display_aspect_num");
+	    int display_den = confFile.readNumEntry("display_aspect_den");
+	    int fps_num = confFile.readNumEntry("frame_rate_num");
+	    int fps_den = confFile.readNumEntry("frame_rate_den");
+	    int progressive = confFile.readNumEntry("progressive");
+	    if (!name.isEmpty()) m_projectTemplates[name] = formatTemplate(width, height, fps_num, fps_den, aspect_num, aspect_den, display_num, display_den, progressive, *profilesList.at(i));
+	}*/
+    }
+
+
+void MainWindow::slotEditProfiles()
+{
+  QDialog *w = new QDialog;
+  Ui::ProfilesDialog_UI profilesDialog;
+  profilesDialog.setupUi(w);
+  w->exec();
+}
+
+
 void MainWindow::slotUpdateMousePosition(int pos)
 {
   if (m_activeDocument)
@@ -398,9 +488,17 @@ void MainWindow::slotPreferences()
   QWidget *page1 = new QWidget;
   Ui::ConfigMisc_UI* confWdg = new Ui::ConfigMisc_UI( );
   confWdg->setupUi(page1);
-
   dialog->addPage( page1, i18n("Misc"), "misc" );
 
+  QWidget *page2 = new QWidget;
+  Ui::ConfigEnv_UI* confWdg2 = new Ui::ConfigEnv_UI( );
+  confWdg2->setupUi(page2);
+  confWdg2->kcfg_mltpath->setMode(KFile::Directory);
+
+  //WARNING: the 2 lines below should not be necessary, but does not work without it...
+  confWdg2->kcfg_mltpath->setPath(KdenliveSettings::mltpath());
+  confWdg2->kcfg_rendererpath->setPath(KdenliveSettings::rendererpath());
+  dialog->addPage( page2, i18n("Environnment"), "env" );
   //User edited the configuration - update your local copies of the
   //configuration data
   connect( dialog, SIGNAL(settingsChanged()), this, SLOT(updateConfiguration()) );
