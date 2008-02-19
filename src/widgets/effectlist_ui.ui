@@ -35,17 +35,7 @@
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer" >
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0" >
-        <size>
-         <width>68</width>
-         <height>17</height>
-        </size>
-       </property>
-      </spacer>
+      <widget class="KListWidgetSearchLine" name="search_effect" />
      </item>
      <item>
       <widget class="QCheckBox" name="button_info" >
@@ -90,6 +80,11 @@
    <class>KListWidget</class>
    <extends>QListWidget</extends>
    <header>klistwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KListWidgetSearchLine</class>
+   <extends>KLineEdit</extends>
+   <header>klistwidgetsearchline.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
