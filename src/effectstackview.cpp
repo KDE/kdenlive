@@ -30,6 +30,11 @@ EffectStackView::EffectStackView( QWidget *parent)
 	//ui.effectlist->verticalHeader()->setVisible(false);
 	activeRow=-1;
 	clipref=NULL;
+	
+	ui.buttonNew->setIcon(KIcon("document-new"));
+	ui.buttonUp->setIcon(KIcon("go-up"));
+	ui.buttonDown->setIcon(KIcon("go-down"));
+	ui.buttonDel->setIcon(KIcon("trash-empty"));
 	connect (ui.effectlist, SIGNAL ( itemSelectionChanged()), this , SLOT( slotItemSelectionChanged() ));
 	connect (ui.buttonUp, SIGNAL (clicked()), this, SLOT (slotItemUp()) );
 	connect (ui.buttonDown, SIGNAL (clicked()), this, SLOT (slotItemDown()) );
