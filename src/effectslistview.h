@@ -43,7 +43,7 @@ class EffectsListView : public QWidget
   private slots:
     void initList(int pos);
     void slotUpdateInfo();
-    void showInfoPanel(int state);
+    void showInfoPanel();
     void slotEffectSelected();
 
   public slots:

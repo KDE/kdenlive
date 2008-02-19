@@ -14,42 +14,38 @@
     <number>0</number>
    </property>
    <item row="0" column="0" >
-    <layout class="QHBoxLayout" name="horizontalLayout" >
+    <widget class="KComboBox" name="type_combo" >
      <item>
-      <widget class="KComboBox" name="type_combo" >
-       <item>
-        <property name="text" >
-         <string>Video</string>
-        </property>
-       </item>
-       <item>
-        <property name="text" >
-         <string>Audio</string>
-        </property>
-       </item>
-       <item>
-        <property name="text" >
-         <string>Custom</string>
-        </property>
-       </item>
-      </widget>
+      <property name="text" >
+       <string>Video</string>
+      </property>
      </item>
      <item>
-      <widget class="KListWidgetSearchLine" name="search_effect" />
+      <property name="text" >
+       <string>Audio</string>
+      </property>
      </item>
      <item>
-      <widget class="QCheckBox" name="button_info" >
-       <property name="text" >
-        <string>Info</string>
-       </property>
-       <property name="checked" >
-        <bool>true</bool>
-       </property>
-      </widget>
+      <property name="text" >
+       <string>Custom</string>
+      </property>
      </item>
-    </layout>
+    </widget>
    </item>
-   <item row="1" column="0" >
+   <item row="0" column="1" >
+    <widget class="KListWidgetSearchLine" name="search_effect" />
+   </item>
+   <item row="0" column="2" >
+    <widget class="QToolButton" name="buttonInfo" >
+     <property name="enabled" >
+      <bool>true</bool>
+     </property>
+     <property name="text" >
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="3" >
     <widget class="QSplitter" name="splitter" >
      <property name="orientation" >
       <enum>Qt::Vertical</enum>

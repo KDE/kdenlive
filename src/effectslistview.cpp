@@ -29,12 +29,14 @@ EffectsListView::EffectsListView(EffectsList *audioEffectList, EffectsList *vide
   ui.setupUi(this);
   initList(0);
   ui.search_effect->setListWidget(ui.effectlist);
+  ui.buttonInfo->setIcon(KIcon("help-about"));
+  ui.infopanel->hide();
   connect(ui.type_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(initList(int)));
-  connect(ui.button_info, SIGNAL(stateChanged(int)), this, SLOT(showInfoPanel(int)));
+  connect (ui.buttonInfo, SIGNAL (clicked()), this, SLOT (showInfoPanel()));
   connect(ui.effectlist, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateInfo()));
   connect(ui.effectlist, SIGNAL(doubleClicked(QListWidgetItem *,const QPoint &)), this, SLOT(slotEffectSelected()));
 
-
+  ui.effectlist->setCurrentRow(0); 
 }
 
 void EffectsListView::initList(int pos)
@@ -56,10 +58,16 @@ void EffectsListView::initList(int pos)
   ui.effectlist->addItems(names);
 }
 
-void EffectsListView::showInfoPanel(int state)
+void EffectsListView::showInfoPanel()
 {
-  if (state == 0) ui.infopanel->hide();
-  else ui.infopanel->show();
+  if (ui.infopanel->isVisible()) {
+    ui.infopanel->hide();
+    ui.buttonInfo->setDown(false);
+  }
+  else {
+    ui.infopanel->show();
+    ui.buttonInfo->setDown(true);
+  }
 }
 
 void EffectsListView::slotEffectSelected()
