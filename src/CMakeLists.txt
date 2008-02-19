@@ -28,6 +28,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/effectlist_ui.ui
   widgets/effectstack_ui.ui
   widgets/profiledialog_ui.ui
+  widgets/projectsettings_ui.ui
 )
  
 set(kdenlive_SRCS 
@@ -68,7 +69,8 @@ set(kdenlive_SRCS
   addeffectcommand.cpp
   effectstackview.cpp
   parameterplotter.cpp
-
+  profilesdialog.cpp
+  projectsettings.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

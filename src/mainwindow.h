@@ -118,6 +118,7 @@ class MainWindow : public KXmlGuiWindow
     void slotUpdateMousePosition(int pos);
     void slotAddEffect(int effectType, const QString &effectName);
     void slotEditProfiles();
+    void slotEditProjectSettings();
 };
  
 #endif

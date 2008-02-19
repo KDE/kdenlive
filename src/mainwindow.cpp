@@ -49,7 +49,8 @@
 #include "ui_configmisc_ui.h"
 #include "ui_configenv_ui.h"
 #include "initeffects.h"
-#include "ui_profiledialog_ui.h"
+#include "profilesdialog.h"
+#include "projectsettings.h"
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
@@ -225,6 +226,14 @@ void MainWindow::setupActions()
   profilesAction->setIcon(KIcon("document-new"));
   actionCollection()->addAction("manage_profiles", profilesAction);
   connect(profilesAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProfiles()));
+
+  KAction* projectAction = new KAction(this);
+  projectAction->setText(i18n("Project Settings"));
+  projectAction->setIcon(KIcon("document-new"));
+  actionCollection()->addAction("project_settings", projectAction);
+  connect(projectAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProjectSettings()));
+
+
  
   KStandardAction::quit(kapp, SLOT(quit()),
                         actionCollection());
@@ -387,31 +396,21 @@ void MainWindow::parseProfiles()
 
 	// Parse MLT profiles to build a list of available video formats
 	if (profilesList.isEmpty()) parseProfiles();
-/*
-	uint i = 0;
-	for (; i < profilesList.count(); i++) { 
-	    KConfig confFile(profilePath + *profilesList.at(i), true);
-	    QString name = confFile.readEntry("description");
-	    int width = confFile.readNumEntry("width");
-	    int height = confFile.readNumEntry("height");
-	    int aspect_num = confFile.readNumEntry("sample_aspect_num");
-	    int aspect_den = confFile.readNumEntry("sample_aspect_den");
-	    int display_num = confFile.readNumEntry("display_aspect_num");
-	    int display_den = confFile.readNumEntry("display_aspect_den");
-	    int fps_num = confFile.readNumEntry("frame_rate_num");
-	    int fps_den = confFile.readNumEntry("frame_rate_den");
-	    int progressive = confFile.readNumEntry("progressive");
-	    if (!name.isEmpty()) m_projectTemplates[name] = formatTemplate(width, height, fps_num, fps_den, aspect_num, aspect_den, display_num, display_den, progressive, *profilesList.at(i));
-	}*/
     }
 
 
 void MainWindow::slotEditProfiles()
 {
-  QDialog *w = new QDialog;
-  Ui::ProfilesDialog_UI profilesDialog;
-  profilesDialog.setupUi(w);
+  ProfilesDialog *w = new ProfilesDialog;
   w->exec();
+  delete w;
+}
+
+void MainWindow::slotEditProjectSettings()
+{
+  ProjectSettings *w = new ProjectSettings;
+  w->exec();
+  delete w;
 }
 
 

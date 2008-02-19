@@ -10,11 +10,11 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Dialog</string>
+   <string>Profiles</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2" >
    <item row="0" column="1" >
-    <widget class="KComboBox" name="kcombobox" />
+    <widget class="KComboBox" name="profiles_list" />
    </item>
    <item row="0" column="0" >
     <widget class="QLabel" name="label" >
@@ -24,21 +24,21 @@
     </widget>
    </item>
    <item row="0" column="3" >
-    <widget class="KPushButton" name="kpushbutton" >
+    <widget class="KPushButton" name="button_create" >
      <property name="text" >
       <string>Create</string>
      </property>
     </widget>
    </item>
    <item row="0" column="4" >
-    <widget class="KPushButton" name="kpushbutton_2" >
+    <widget class="KPushButton" name="button_delete" >
      <property name="text" >
       <string>Delete</string>
      </property>
     </widget>
    </item>
    <item row="2" column="0" colspan="2" >
-    <widget class="KPushButton" name="kpushbutton_3" >
+    <widget class="KPushButton" name="button_default" >
      <property name="text" >
       <string>Use as default</string>
      </property>
@@ -68,7 +68,7 @@
     </spacer>
    </item>
    <item row="1" column="0" colspan="5" >
-    <widget class="QGroupBox" name="groupBox" >
+    <widget class="QGroupBox" name="properties" >
      <property name="title" >
       <string>Properties</string>
      </property>
@@ -81,7 +81,7 @@
        </widget>
       </item>
       <item row="0" column="1" colspan="3" >
-       <widget class="KLineEdit" name="klineedit" />
+       <widget class="KLineEdit" name="description" />
       </item>
       <item row="1" column="0" >
        <widget class="QLabel" name="label_5" >
@@ -91,7 +91,11 @@
        </widget>
       </item>
       <item row="1" column="1" >
-       <widget class="KIntSpinBox" name="kintspinbox_3" />
+       <widget class="KIntSpinBox" name="size_w" >
+        <property name="maximum" >
+         <number>10000</number>
+        </property>
+       </widget>
       </item>
       <item row="1" column="2" >
        <widget class="QLabel" name="label_6" >
@@ -107,7 +111,11 @@
        </widget>
       </item>
       <item row="1" column="3" >
-       <widget class="KIntSpinBox" name="kintspinbox_4" />
+       <widget class="KIntSpinBox" name="size_h" >
+        <property name="maximum" >
+         <number>10000</number>
+        </property>
+       </widget>
       </item>
       <item row="2" column="0" >
        <widget class="QLabel" name="label_3" >
@@ -117,7 +125,11 @@
        </widget>
       </item>
       <item row="2" column="1" >
-       <widget class="KIntSpinBox" name="kintspinbox" />
+       <widget class="KIntSpinBox" name="frame_num" >
+        <property name="maximum" >
+         <number>10000</number>
+        </property>
+       </widget>
       </item>
       <item row="2" column="2" >
        <widget class="QLabel" name="label_4" >
@@ -133,7 +145,11 @@
        </widget>
       </item>
       <item row="2" column="3" >
-       <widget class="KIntSpinBox" name="kintspinbox_2" />
+       <widget class="KIntSpinBox" name="frame_den" >
+        <property name="maximum" >
+         <number>10000</number>
+        </property>
+       </widget>
       </item>
       <item row="3" column="0" >
        <widget class="QLabel" name="label_9" >
@@ -143,7 +159,7 @@
        </widget>
       </item>
       <item row="3" column="1" >
-       <widget class="KIntSpinBox" name="kintspinbox_5" />
+       <widget class="KIntSpinBox" name="aspect_num" />
       </item>
       <item row="3" column="2" >
        <widget class="QLabel" name="label_7" >
@@ -159,7 +175,7 @@
        </widget>
       </item>
       <item row="3" column="3" >
-       <widget class="KIntSpinBox" name="kintspinbox_6" />
+       <widget class="KIntSpinBox" name="aspect_den" />
       </item>
       <item row="4" column="0" >
        <widget class="QLabel" name="label_10" >
@@ -169,7 +185,7 @@
        </widget>
       </item>
       <item row="4" column="1" >
-       <widget class="KIntSpinBox" name="kintspinbox_7" />
+       <widget class="KIntSpinBox" name="display_num" />
       </item>
       <item row="4" column="2" >
        <widget class="QLabel" name="label_8" >
@@ -185,7 +201,7 @@
        </widget>
       </item>
       <item row="4" column="3" >
-       <widget class="KIntSpinBox" name="kintspinbox_8" />
+       <widget class="KIntSpinBox" name="display_den" />
       </item>
       <item row="6" column="0" >
        <spacer name="verticalSpacer" >
@@ -201,7 +217,7 @@
        </spacer>
       </item>
       <item row="5" column="0" >
-       <widget class="QCheckBox" name="checkBox" >
+       <widget class="QCheckBox" name="progressive" >
         <property name="text" >
          <string>Progressive</string>
         </property>
@@ -211,14 +227,14 @@
     </widget>
    </item>
   </layout>
-  <zorder>kcombobox</zorder>
+  <zorder>profiles_list</zorder>
   <zorder>label</zorder>
-  <zorder>kpushbutton</zorder>
-  <zorder>kpushbutton_2</zorder>
-  <zorder>kpushbutton_3</zorder>
+  <zorder>button_create</zorder>
+  <zorder>button_delete</zorder>
+  <zorder>button_default</zorder>
   <zorder>buttonBox</zorder>
   <zorder>horizontalSpacer</zorder>
-  <zorder>groupBox</zorder>
+  <zorder>properties</zorder>
  </widget>
  <customwidgets>
   <customwidget>
