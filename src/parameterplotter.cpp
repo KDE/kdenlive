@@ -29,35 +29,59 @@ ParameterPlotter::ParameterPlotter (QWidget *parent):KPlotWidget (parent){
 	setTopPadding(10);
 	setBottomPadding(20);
 	movepoint=NULL;
-	plot=new KPlotObject();
-	plot->setShowLines(true);
+	colors << Qt::white << Qt::red << Qt::green << Qt::blue << Qt::magenta << Qt::gray << Qt::cyan;
+	maxy=0;
 }
 
 void ParameterPlotter::setPointLists(const QList< QPair<QString, QMap< int , QVariant > > >& params,int startframe, int endframe){
 	
 	QListIterator <QPair <QString, QMap< int , QVariant > > > nameit(params);
-	int maxy=0;
-	while (nameit.hasNext() ){
+	int max_y=0;
+	parameterNameList.clear();
 	
+	
+	while (nameit.hasNext() ){	
+		KPlotObject *plot=new KPlotObject(colors[plotobjects.size()%colors.size()]);
+		plot->setShowLines(true);
 		QPair<QString, QMap< int , QVariant > > item=nameit.next();
-		QString name(item.first);
+		parameterNameList << item.first;
+
 		QMapIterator <int,QVariant> pointit=item.second;
 		while (pointit.hasNext()){
 			pointit.next();
-			plot->addPoint(QPointF(pointit.key(),pointit.value().toDouble()),"",1);
+			plot->addPoint(QPointF(pointit.key(),pointit.value().toDouble()),item.first,1);
 			if (pointit.value().toInt() >maxy)
-				maxy=pointit.value().toInt();
+				max_y=pointit.value().toInt();
 		}
-		addPlotObject(plot);
+		plotobjects.append(plot);
+	}
+	maxx=endframe;
+	maxy=max_y;
+	setLimits(0,endframe,0,maxy+10);
+	addPlotObjects(plotobjects);
+}
+
+void ParameterPlotter::createParametersNew(){
+	QList< QPair<QString, QMap<int,QVariant> > > ret;
+	QList<KPlotObject*> plotobjs=plotObjects();
+	if (plotobjs.size() != parameterNameList.size() ){
+		kDebug() << "ERROR size not equal";
 	}
 	
-	setLimits(0,endframe,0,maxy);
+	for (int i=0;i<parameterNameList.size() ;i++){
+		QList<KPlotPoint*> points=plotobjs[i]->points();
+		QMap<int,QVariant> vals;
+		foreach (KPlotPoint *o,points){
+			vals[o->x()]=o->y();
+		}
+		QPair<QString,QMap<int,QVariant> > pair("contrast",vals);
+		ret.append(pair);
+	}
+	
+	emit parameterChanged(ret);
 	
 }
 
-QList< QPair<QString, QMap<int,QVariant> > > ParameterPlotter::getPointLists(){
-	return pointlists;
-}
 
 void ParameterPlotter::mouseMoveEvent ( QMouseEvent * event ) {
 	
@@ -65,18 +89,23 @@ void ParameterPlotter::mouseMoveEvent ( QMouseEvent * event ) {
 		QList<KPlotPoint*> list=   pointsUnderPoint (event->pos()-QPoint(leftPadding(), topPadding() )  ) ;
 		int i=0,j=-1;
 		foreach (KPlotObject *o, plotObjects() ){
-			foreach (KPlotPoint* p, o->points()){
-				if (p==movepoint){
+			QList<KPlotPoint*> points=o->points();
+			for(int p=0;p<points.size();p++){
+				if (points[p]==movepoint){
 					QPoint delta=event->pos()-oldmousepoint;
 					movepoint->setY(movepoint->y()-delta.y()*dataRect().height()/pixRect().height() );
-					
-					movepoint->setX(movepoint->x()+delta.x()*dataRect().width()/pixRect().width() );
+					if (p>0 && p<points.size()-1){
+						double newx=movepoint->x()+delta.x()*dataRect().width()/pixRect().width();
+						if ( newx>points[p-1]->x() && newx<points[p+1]->x() )
+							movepoint->setX(movepoint->x()+delta.x()*dataRect().width()/pixRect().width() );
+					}
 					replacePlotObject(i,o);
 					oldmousepoint=event->pos();
 				}
 			}
 			i++;
 		}
+		createParametersNew();
 	}
 }
 

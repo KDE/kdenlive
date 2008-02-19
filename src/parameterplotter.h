@@ -21,15 +21,22 @@ class ParameterPlotter : public KPlotWidget {
 	Q_OBJECT
 	public:
 		ParameterPlotter (QWidget *parent=0);
-	void setPointLists(const QList< QPair<QString, QMap<int,QVariant> > >&,int,int);
-		QList< QPair<QString, QMap<int,QVariant> > > getPointLists();
+		virtual ~ParameterPlotter(){}
+
 	private:
-		QList< QPair<QString, QMap<int,QVariant> > > pointlists;
 		KPlotPoint* movepoint;
-		KPlotObject *plot;
 		QPoint oldmousepoint;
+		int maxx,maxy;
+		QStringList parameterNameList;
+		void createParametersNew();
+		QList<KPlotObject*> plotobjects;
+		QList<QColor> colors;
 	protected:
 		void mouseMoveEvent ( QMouseEvent * event );
-		void mousePressEvent ( QMouseEvent * event );	
+		void mousePressEvent ( QMouseEvent * event );
+	public slots:
+		void setPointLists(const QList< QPair<QString, QMap<int,QVariant> > >&,int,int);
+	signals:
+		void parameterChanged(QList< QPair<QString, QMap<int,QVariant> > > );
 	
 };

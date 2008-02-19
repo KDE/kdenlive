@@ -40,11 +40,21 @@ EffectStackView::EffectStackView( QWidget *parent)
 	QList< QPair<QString, QMap<int,QVariant> > > points;
 	QMap<int,QVariant> data;
 	data[0]=0.1;
-	data[100]=50;
-	data[255]=100;
-	QPair<QString,QMap<int,QVariant> > testpair("contrast",data);
+	data[100]=30;
+	data[255]=50;
+	data[300]=100;
+	QPair<QString,QMap<int,QVariant> > testpair("gray",data);
 	points.append(testpair);
-	ui.kplotwidget->setPointLists(points,0,300);
+	
+	QMap<int,QVariant> data1;
+	data1[0]=20;
+	data1[10]=70;
+	data1[155]=110;
+	data1[300]=133;
+	QPair<QString,QMap<int,QVariant> > testpair1("dx",data1);
+	points.append(testpair1);
+	
+	ui.kplotwidget->setPointLists(points,0,305);
 	
 }
 
