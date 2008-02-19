@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>716</width>
-    <height>430</height>
+    <width>886</width>
+    <height>622</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -14,35 +14,96 @@
   </property>
   <layout class="QGridLayout" >
    <item row="0" column="0" >
-    <layout class="QHBoxLayout" >
-     <item>
-      <widget class="KListWidget" name="effectlist" />
-     </item>
-     <item>
+    <widget class="QSplitter" name="splitter_2" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <widget class="QWidget" name="layoutWidget" >
       <layout class="QVBoxLayout" >
        <item>
-        <widget class="QGraphicsView" name="graphicsView" >
-         <property name="autoFillBackground" >
-          <bool>true</bool>
-         </property>
-        </widget>
+        <widget class="KListWidget" name="effectlist" />
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox" >
-         <property name="minimumSize" >
-          <size>
-           <width>0</width>
-           <height>74</height>
-          </size>
-         </property>
-         <property name="title" >
-          <string>Parameter-Setup</string>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" >
+         <item>
+          <widget class="QToolButton" name="buttonNew" >
+           <property name="text" >
+            <string>N</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="buttonUp" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
+           <property name="text" >
+            <string>Up</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="buttonDown" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
+           <property name="text" >
+            <string>Dw</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer>
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" >
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QToolButton" name="buttonDel" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
+           <property name="text" >
+            <string>D</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
-     </item>
-    </layout>
+     </widget>
+     <widget class="QSplitter" name="splitter" >
+      <property name="orientation" >
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="KPlotWidget" name="kplotwidget" >
+       <property name="grid" stdset="0" >
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QGroupBox" name="groupBox" >
+       <property name="minimumSize" >
+        <size>
+         <width>0</width>
+         <height>74</height>
+        </size>
+       </property>
+       <property name="title" >
+        <string>Parameter-Setup</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+   </item>
+   <item row="1" column="1" >
+    <widget class="KSeparator" name="kseparator" />
    </item>
   </layout>
  </widget>
@@ -51,6 +112,16 @@
    <class>KListWidget</class>
    <extends>QListWidget</extends>
    <header>klistwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KPlotWidget</class>
+   <extends>QFrame</extends>
+   <header>kplotwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KSeparator</class>
+   <extends>QFrame</extends>
+   <header>kseparator.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
