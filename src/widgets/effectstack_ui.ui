@@ -83,7 +83,7 @@
       <property name="orientation" >
        <enum>Qt::Vertical</enum>
       </property>
-      <widget class="KPlotWidget" name="kplotwidget" >
+      <widget class="ParameterPlotter" name="kplotwidget" >
        <property name="grid" stdset="0" >
         <bool>true</bool>
        </property>
@@ -114,14 +114,14 @@
    <header>klistwidget.h</header>
   </customwidget>
   <customwidget>
-   <class>KPlotWidget</class>
-   <extends>QFrame</extends>
-   <header>kplotwidget.h</header>
-  </customwidget>
-  <customwidget>
    <class>KSeparator</class>
    <extends>QFrame</extends>
    <header>kseparator.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ParameterPlotter</class>
+   <extends>KPlotWidget</extends>
+   <header>parameterplotter.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

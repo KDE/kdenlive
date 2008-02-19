@@ -1,5 +1,5 @@
 /***************************************************************************
-                          effecstackview.h  -  description
+                          parameterplotter.h  -  description
                              -------------------
     begin                : Feb 15 2008
     copyright            : (C) 2008 by Marco Gittler
@@ -15,33 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef EFFECTSTACKVIEW_H
-#define EFFECTSTACKVIEW_H
+#include <KPlotWidget>
 
-#include <KIcon>
-
-#include "ui_effectstack_ui.h"
-#include "clipitem.h"
-class EffectStackView : public QWidget
-{
+class ParameterPlotter : public KPlotWidget {
 	Q_OBJECT
-		
 	public:
-		EffectStackView( QWidget *parent=0);
-	
-private:
-	int activeRow;
-	QStringList effects;
-	Ui::EffectStack_UI ui;
-	ClipItem* clipref;
-	void setupListView(const QStringList& );
-public slots:
-	void slotClipItemSelected(ClipItem*);
-	void slotItemSelectionChanged();
-	void slotItemUp();
-	void slotItemDown();
-	void slotItemDel();
+		ParameterPlotter (QWidget *parent=0);
+	void setPointLists(const QList< QPair<QString, QMap<int,QVariant> > >&,int,int);
+		QList< QPair<QString, QMap<int,QVariant> > > getPointLists();
+	private:
+		QList< QPair<QString, QMap<int,QVariant> > > pointlists;
+		KPlotPoint* movepoint;
+		KPlotObject *plot;
+		QPoint oldmousepoint;
+	protected:
+		void mouseMoveEvent ( QMouseEvent * event );
+		void mousePressEvent ( QMouseEvent * event );	
 	
 };
-
-#endif

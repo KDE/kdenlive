@@ -65,6 +65,8 @@ set(kdenlive_SRCS
   effectslistview.cpp
   addeffectcommand.cpp
   effectstackview.cpp
+  parameterplotter.cpp
+
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

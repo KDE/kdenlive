@@ -1,9 +1,27 @@
+/***************************************************************************
+                          effecstackview.cpp  -  description
+                             -------------------
+    begin                : Feb 15 2008
+    copyright            : (C) 2008 by Marco Gittler
+    email                : g.marco@freenet.de
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
 #include <KDebug>
 #include <KLocale>
 
 #include "effectstackview.h"
 #include "clipitem.h"
 #include <QHeaderView>
+
 EffectStackView::EffectStackView( QWidget *parent)
 : QWidget(parent)
 {
@@ -16,6 +34,18 @@ EffectStackView::EffectStackView( QWidget *parent)
 	connect (ui.buttonUp, SIGNAL (clicked()), this, SLOT (slotItemUp()) );
 	connect (ui.buttonDown, SIGNAL (clicked()), this, SLOT (slotItemDown()) );
 	connect (ui.buttonDel, SIGNAL (clicked()), this, SLOT (slotItemDel()) );
+	
+
+	
+	QList< QPair<QString, QMap<int,QVariant> > > points;
+	QMap<int,QVariant> data;
+	data[0]=0.1;
+	data[100]=50;
+	data[255]=100;
+	QPair<QString,QMap<int,QVariant> > testpair("contrast",data);
+	points.append(testpair);
+	ui.kplotwidget->setPointLists(points,0,300);
+	
 }
 
 void EffectStackView::slotClipItemSelected(ClipItem* c)
