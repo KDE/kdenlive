@@ -1067,7 +1067,12 @@ void Render::mltAddEffect(int track, GenTime position, QString tag, QMap <QStrin
     if (tag.startsWith("ladspa")) tag = "ladspa";
     char *filterId = decodedString(tag);
     Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterId);
+   if (filter && filter->is_valid())
     filter->set("kdenlive_id", filterId);
+   else {
+     kDebug() << "filter is NULL";
+     return;
+   }
 
     QMap<QString, QString>::Iterator it;
     QString keyFrameNumber = "#0";
