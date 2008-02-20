@@ -25,12 +25,14 @@ class ParameterPlotter : public KPlotWidget {
 		void setMoveX(bool);
 		void setMoveY(bool);
 		void setMoveTimeLine(bool);
+		void setNewPoints(bool);
 		bool isMoveX();
 		bool isMoveY();
 		bool isMoveTimeline();
+		bool isNewPoints();
 	private:
 		KPlotPoint* movepoint;
-		bool m_moveX,m_moveY,m_moveTimeline;
+		bool m_moveX,m_moveY,m_moveTimeline,m_newPoints;
 		QPoint oldmousepoint;
 		int maxx,maxy;
 		QStringList parameterNameList;

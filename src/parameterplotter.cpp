@@ -34,6 +34,7 @@ ParameterPlotter::ParameterPlotter (QWidget *parent):KPlotWidget (parent){
 	m_moveX=false;
 	m_moveY=true;
 	m_moveTimeline=true;
+	m_newPoints=false;
 }
 
 void ParameterPlotter::setPointLists(const QList< QPair<QString, QMap< int , QVariant > > >& params,int startframe, int endframe){
@@ -134,6 +135,10 @@ void ParameterPlotter::setMoveTimeLine(bool b){
 	m_moveTimeline=b;
 }
 
+void ParameterPlotter::setNewPoints(bool b){
+	m_newPoints=b;
+}
+
 bool ParameterPlotter::isMoveX(){
 	return m_moveX;
 }
@@ -144,4 +149,8 @@ bool ParameterPlotter::isMoveY(){
 
 bool ParameterPlotter::isMoveTimeline(){
 	return m_moveTimeline;
+}
+
+bool ParameterPlotter::isNewPoints(){
+	return m_newPoints;
 }

@@ -49,9 +49,9 @@ EffectStackView::EffectStackView( QWidget *parent)
 	connect (ui.buttonLeftRight, SIGNAL (clicked()), this , SLOT ( slotSetMoveX() ) );
 	connect (ui.buttonUpDown, SIGNAL (clicked()), this , SLOT ( slotSetMoveY() ) );
 	connect (ui.buttonShowInTimeline, SIGNAL (clicked()), this , SLOT ( slotShowInTimeline() ) );
-	connect (ui.buttonNew, SIGNAL (clicked()), this , SLOT ( slotSetNew() ) );
+	connect (ui.buttonNewPoints, SIGNAL (clicked()), this , SLOT ( slotSetNew() ) );
 	connect (ui.buttonHelp, SIGNAL (clicked()), this , SLOT ( slotSetHelp() ) );
-
+	connect (ui.parameterList, SIGNAL (currentIndexChanged ( const QString &  ) ), this, SLOT( slotParameterChanged(const QString&) ) );
 	ui.infoBox->hide();	
 	updateButtonStatus();
 
@@ -72,6 +72,9 @@ EffectStackView::EffectStackView( QWidget *parent)
 	data1[300]=133;
 	QPair<QString,QMap<int,QVariant> > testpair1("dx",data1);
 	points.append(testpair1);
+	ui.parameterList->addItem("all");
+	ui.parameterList->addItem("gray");
+	ui.parameterList->addItem("dx");
 	
 	ui.kplotwidget->setPointLists(points,0,305);
 	
@@ -152,7 +155,8 @@ void EffectStackView::slotSetMoveY(){
 }
 
 void EffectStackView::slotSetNew(){
-	
+	ui.kplotwidget->setNewPoints(!ui.kplotwidget->isNewPoints());
+	updateButtonStatus();
 }
 
 void EffectStackView::slotSetHelp(){
@@ -173,6 +177,15 @@ void EffectStackView::updateButtonStatus(){
 	
 	ui.buttonShowInTimeline->setEnabled( ui.kplotwidget->isMoveX() || ui.kplotwidget->isMoveY ()  );
 	ui.buttonShowInTimeline->setDown(ui.kplotwidget->isMoveTimeline());
-
+	
+	ui.buttonNewPoints->setEnabled(ui.parameterList->currentText()!="all");
+	ui.buttonNewPoints->setDown(ui.kplotwidget->isNewPoints());
 }
+
+void EffectStackView::slotParameterChanged(const QString& text){
+	
+	//ui.buttonNewPoints->setEnabled(text!="all");
+	updateButtonStatus();
+}
+
 #include "effectstackview.moc"

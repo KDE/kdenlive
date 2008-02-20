@@ -47,6 +47,7 @@ public slots:
 	void slotSetNew();
 	void slotSetHelp();
 	void slotShowInTimeline();
+	void slotParameterChanged(const QString&);
 };
 
 #endif
