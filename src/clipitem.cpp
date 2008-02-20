@@ -507,6 +507,20 @@ QMap <QString, QString> ClipItem::addEffect(QDomElement effect)
   return effectParams;
 }
 
+QMap <QString, QString> ClipItem::getEffectArgs(QDomElement effect)
+{
+  QMap <QString, QString> effectParams;
+  effectParams["kdenlive_ix"] = effect.attribute("kdenlive_ix");
+  effectParams["tag"] = effect.attribute("tag");
+  QDomNodeList params = effect.elementsByTagName("parameter");
+  for (int i = 0; i < params.count(); i++) {
+    QDomElement e = params.item(i).toElement();
+    if (!e.isNull())
+      effectParams[e.attribute("name")] = e.attribute("value");
+  }
+  return effectParams;
+}
+
 void ClipItem::deleteEffect(QString tag)
 {
   for (int i = 0; i < m_effectList.size(); ++i) {

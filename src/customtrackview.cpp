@@ -370,6 +370,14 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, QDomElement effect)
   m_commandStack->push(command);
 }
 
+
+void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, QDomElement effect)
+{
+    QMap <QString, QString> effectParams = clip->getEffectArgs(effect);
+    m_document->renderer()->mltEditEffect(m_tracksCount - clip->track(), GenTime(clip->startPos(), m_document->fps()), effectParams);
+}
+
+
 void CustomTrackView::addItem(DocClipBase *clip, QPoint pos)
 {
   int in =0;

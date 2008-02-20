@@ -64,6 +64,7 @@ class ClipItem : public QObject, public QGraphicsRectItem
     void setFadeIn(int pos, double scale);
     QStringList effectNames();
     QMap <QString, QString> addEffect(QDomElement effect);
+    QMap <QString, QString> getEffectArgs(QDomElement effect);
     void deleteEffect(QString tag);
     int effectsCount();
     QDomElement effectAt(int ix);
