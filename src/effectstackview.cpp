@@ -34,15 +34,24 @@ EffectStackView::EffectStackView(EffectsList *audioEffectList, EffectsList *vide
 	clipref=NULL;
 	
 	ui.buttonNew->setIcon(KIcon("document-new"));
+	ui.buttonNew->setToolTip(i18n("Add new effect"));
 	ui.buttonUp->setIcon(KIcon("go-up"));
+	ui.buttonUp->setToolTip(i18n("Move effect up"));
 	ui.buttonDown->setIcon(KIcon("go-down"));
+	ui.buttonDown->setToolTip(i18n("Move effect down"));
 	ui.buttonDel->setIcon(KIcon("trash-empty"));
+	ui.buttonDel->setToolTip(i18n("Delete effect"));
 	
 	ui.buttonLeftRight->setIcon(KIcon("go-next"));//better icons needed
+	ui.buttonLeftRight->setToolTip(i18n("Allow horizontal moves"));
 	ui.buttonUpDown->setIcon(KIcon("go-up"));
+	ui.buttonUpDown->setToolTip(i18n("Allow vertical moves"));
 	ui.buttonShowInTimeline->setIcon(KIcon("kmplayer"));
+	ui.buttonShowInTimeline->setToolTip(i18n("Show keyframes in timeline"));
 	ui.buttonHelp->setIcon(KIcon("help-about"));
+	ui.buttonHelp->setToolTip(i18n("Parameter info"));
 	ui.buttonNewPoints->setIcon(KIcon("xedit"));
+	ui.buttonNewPoints->setToolTip(i18n("Add keyframe"));
 	
 	ui.effectlist->setDragDropMode(QAbstractItemView::NoDragDrop);//use internal if drop is recognised right
 	
@@ -94,8 +103,11 @@ EffectStackView::EffectStackView(EffectsList *audioEffectList, EffectsList *vide
 void EffectStackView::slotClipItemSelected(ClipItem* c)
 {
 	clipref=c;
-	if (clipref==NULL)
+	if (clipref==NULL) {
+		setEnabled(false);
 		return;
+	}
+	setEnabled(true);
 	effects=clipref->effectNames();
 	setupListView(effects);
 	

@@ -72,7 +72,20 @@ void EffectsListView::showInfoPanel()
 
 void EffectsListView::slotEffectSelected()
 {
-  emit addEffect(ui.type_combo->currentIndex(), ui.effectlist->currentItem()->text());
+  QDomElement effect;
+  switch (ui.type_combo->currentIndex())
+  {
+    case 0:
+      effect = m_videoList->getEffectByName(ui.effectlist->currentItem()->text());
+      break;
+    case 1:
+      effect = m_audioList->getEffectByName(ui.effectlist->currentItem()->text());
+      break;
+    default:
+      effect = m_customList->getEffectByName(ui.effectlist->currentItem()->text());
+      break;
+  }
+  emit addEffect(effect);
 }
 
 void EffectsListView::slotUpdateInfo()
@@ -84,7 +97,7 @@ void EffectsListView::slotUpdateInfo()
   else if (ui.type_combo->currentIndex() == 1) {
     info = m_audioList->getInfo(ui.effectlist->currentItem()->text());
   }
-  if (ui.type_combo->currentIndex() == 2) {
+  else if (ui.type_combo->currentIndex() == 2) {
     info = m_customList->getInfo(ui.effectlist->currentItem()->text());
   }
   ui.infopanel->setText(info);

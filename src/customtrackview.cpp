@@ -301,6 +301,10 @@ void CustomTrackView::mousePressEvent ( QMouseEvent * event )
       kDebug()<<"//////// NO ITEM FOUND ON CLICK";
       m_dragItem = NULL;
       setCursor(Qt::ArrowCursor);
+      QList<QGraphicsItem *> itemList = items();
+      for (int i = 0; i < itemList.count(); i++)
+	itemList.at(i)->setSelected(false);
+      emit clipItemSelected(NULL);
       setCursorPos((int) mapToScene(event->x(), 0).x());
       emit cursorMoved(cursorPos());
     }
@@ -325,34 +329,36 @@ void CustomTrackView::dragEnterEvent ( QDragEnterEvent * event )
   }
 }
 
-void CustomTrackView::addEffect(int track, GenTime pos, QString tag, QMap <QString, QString> args)
+void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
 {
-  m_document->renderer()->mltAddEffect(track, pos, tag, args);
   ClipItem *clip = getClipItemAt(pos.frames(m_document->fps()) + 1, m_tracksCount - track);
-	if (clip){ 
-		clip->addEffect(args);
-		emit clipItemSelected(clip);
-	}
+  if (clip){ 
+    QMap <QString, QString> effectParams = clip->addEffect(effect);
+    m_document->renderer()->mltAddEffect(track, pos, effectParams);
+    emit clipItemSelected(clip);
+  }
 }
 
-void CustomTrackView::deleteEffect(int track, GenTime pos, QString tag)
+void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect)
 {
-  m_document->renderer()->mltRemoveEffect(track, pos, tag, -1);  
+  QString index = effect.attribute("kdenlive_ix");
+  m_document->renderer()->mltRemoveEffect(track, pos, index);  
   ClipItem *clip = getClipItemAt(pos.frames(m_document->fps()) + 1, m_tracksCount - track);
 	if (clip){
-		clip->deleteEffect(tag);
+		clip->deleteEffect(index);
 		emit clipItemSelected(clip);
 	}
 }
 
-void CustomTrackView::slotAddEffect(QMap <QString, QString> filter)
+void CustomTrackView::slotAddEffect(QDomElement effect)
 {
   QList<QGraphicsItem *> itemList = items();
   for (int i = 0; i < itemList.count(); i++) {
     if (itemList.at(i)->type() == 70000 && itemList.at(i)->isSelected()) {
       ClipItem *item = (ClipItem *)itemList.at(i);
-      QString tag = filter.value("mlt_service");
-      AddEffectCommand *command = new AddEffectCommand(this, m_tracksCount - item->track(),GenTime(item->startPos(), m_document->fps()), tag, filter, true);
+      // the kdenlive_ix int is used to identify an effect in the stack and in mlt's playlist
+      effect.setAttribute("kdenlive_ix", QString::number(item->effectsCount()));
+      AddEffectCommand *command = new AddEffectCommand(this, m_tracksCount - item->track(),GenTime(item->startPos(), m_document->fps()), effect, true);
       m_commandStack->push(command);    
     }
   }

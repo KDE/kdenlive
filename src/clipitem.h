@@ -63,8 +63,10 @@ class ClipItem : public QObject, public QGraphicsRectItem
     void setFadeOut(int pos, double scale);
     void setFadeIn(int pos, double scale);
     QStringList effectNames();
-    void addEffect(QMap <QString, QString> args);
+    QMap <QString, QString> addEffect(QDomElement effect);
     void deleteEffect(QString tag);
+    int effectsCount();
+    QDomElement effectAt(int ix);
 
   protected:
     virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
@@ -94,7 +96,7 @@ class ClipItem : public QObject, public QGraphicsRectItem
     uint m_startFade;
     uint m_endFade;
     
-    QList< QMap<QString, QString> > m_effectList;
+    QList< QDomElement > m_effectList;
 
   private slots:
     void slotThumbReady(int frame, QPixmap pix);

@@ -50,9 +50,9 @@ class CustomTrackView : public QGraphicsView
     void setDuration(int duration);
     void setScale(double scaleFactor);
     void deleteClip(int clipId);
-    void slotAddEffect(QMap <QString, QString> filter);
-    void addEffect(int track, GenTime pos, QString tag, QMap <QString, QString> args);
-    void deleteEffect(int track, GenTime pos, QString tag);
+    void slotAddEffect(QDomElement effect);
+    void addEffect(int track, GenTime pos, QDomElement effect);
+    void deleteEffect(int track, GenTime pos, QDomElement effect);
 
   public slots:
     void setCursorPos(int pos, bool seek = true);

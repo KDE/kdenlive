@@ -145,7 +145,7 @@ MainWindow::MainWindow(QWidget *parent)
   connect(clipMonitorDock, SIGNAL(visibilityChanged (bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
   connect(m_monitorManager, SIGNAL(connectMonitors ()), this, SLOT(slotConnectMonitors()));
   connect(m_monitorManager, SIGNAL(raiseClipMonitor (bool)), this, SLOT(slotRaiseMonitor(bool)));
-  connect(m_effectList, SIGNAL(addEffect(int, const QString&)), this, SLOT(slotAddEffect(int, const QString &)));
+  connect(m_effectList, SIGNAL(addEffect(QDomElement)), this, SLOT(slotAddEffect(QDomElement)));
   m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor);
 	
   setAutoSaveSettings();
@@ -167,18 +167,18 @@ bool MainWindow::queryClose()
   }
 }
 
-void MainWindow::slotAddEffect(int effectType, const QString &effectName)
+void MainWindow::slotAddEffect(QDomElement effect)
 {
   if (!m_activeDocument) return;
-  QMap <QString, QString> filter;
+  /*QMap <QString, QString> filter;
   if (effectType == 0)
     filter = m_videoEffects.effect(effectName);
   else if (effectType == 1)
     filter = m_audioEffects.effect(effectName);
   else 
-    filter = m_customEffects.effect(effectName);
+    filter = m_customEffects.effect(effectName);*/
   TrackView *currentTimeLine = (TrackView *) m_timelineArea->currentWidget();
-  currentTimeLine->projectView()->slotAddEffect(filter);
+  currentTimeLine->projectView()->slotAddEffect(effect);
 }
 
 void MainWindow::slotRaiseMonitor(bool clipMonitor)
@@ -441,7 +441,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //chang
   connect(doc, SIGNAL(signalDeleteProjectClip(int)), m_projectList, SLOT(slotDeleteClip(int)));
   connect(doc, SIGNAL(updateClipDisplay(int)), m_projectList, SLOT(slotUpdateClip(int)));
   connect(doc, SIGNAL(deletTimelineClip(int)), trackView, SLOT(slotDeleteClip(int)));
-	connect(trackView, SIGNAL(clipItemSelected(ClipItem*)), effectStack, SLOT(slotClipItemSelected(ClipItem*)));
+  connect(trackView, SIGNAL(clipItemSelected(ClipItem*)), effectStack, SLOT(slotClipItemSelected(ClipItem*)));
   m_projectList->setDocument(doc);
   m_monitorManager->setTimecode(doc->timecode());
   doc->setRenderer(m_projectMonitor->render);

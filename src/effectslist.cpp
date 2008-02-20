@@ -55,7 +55,14 @@ QDomElement EffectsList::getEffectByName(const QString & name)
     QDomElement effect =  this->at(i);
     QDomNode namenode = effect.elementsByTagName("name").item(0);
     if (!namenode.isNull()) effectName = i18n(qstrdup(namenode.toElement().text().toUtf8()));
-    if (name == effectName) return effect;
+    if (name == effectName) {
+      QDomNodeList params = effect.elementsByTagName("parameter");
+      for (int i = 0; i < params.count(); i++) {
+	QDomElement e = params.item(i).toElement();
+	e.setAttribute("value", e.attribute("default"));
+      }
+      return effect;
+    }
   }
 
   return QDomElement();

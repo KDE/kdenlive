@@ -29,7 +29,7 @@
 class AddEffectCommand : public QUndoCommand
  {
  public:
-     AddEffectCommand(CustomTrackView *view, const int track, GenTime pos, const QString &tag, QMap <QString, QString> args, bool doIt);
+     AddEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement effect, bool doIt);
 
     virtual void undo();
     virtual void redo();
@@ -37,9 +37,8 @@ class AddEffectCommand : public QUndoCommand
  private:
      CustomTrackView *m_view;
      int m_track;
-     QString m_tag;
+     QDomElement m_effect;
      GenTime m_pos;
-     QMap <QString, QString> m_args;
      bool m_doIt;
  };
 

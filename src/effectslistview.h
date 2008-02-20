@@ -49,7 +49,7 @@ class EffectsListView : public QWidget
   public slots:
 
   signals:
-    void addEffect(int, QString);
+    void addEffect(QDomElement);
  
 };
 

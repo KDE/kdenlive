@@ -470,26 +470,47 @@ void ClipItem::setTrack(int track)
   m_track = track;
 }
 
+int ClipItem::effectsCount()
+{
+  return m_effectList.size();
+}
+
 QStringList ClipItem::effectNames()
 {
   QStringList result;
   for (int i = 0; i < m_effectList.size(); ++i) {
-     result.append(m_effectList.at(i).value("name"));
+	QDomNode namenode = m_effectList.at(i).elementsByTagName("name").item(0);
+	if (!namenode.isNull()) result.append(namenode.toElement().text());
   }
   kDebug()<<"///  EFFECT LIST FOR CLIP IS: "<<result;
   return result;
 }
 
-void ClipItem::addEffect(QMap <QString, QString> args)
+QDomElement ClipItem::effectAt(int ix)
 {
-  m_effectList.append(args);
+  return m_effectList.at(ix);
+}
+
+QMap <QString, QString> ClipItem::addEffect(QDomElement effect)
+{
+  QMap <QString, QString> effectParams;
+  effectParams["kdenlive_ix"] = QString::number(m_effectList.size());
+  m_effectList.append(effect);
+  effectParams["tag"] = effect.attribute("tag");
+  QDomNodeList params = effect.elementsByTagName("parameter");
+  for (int i = 0; i < params.count(); i++) {
+    QDomElement e = params.item(i).toElement();
+    if (!e.isNull())
+      effectParams[e.attribute("name")] = e.attribute("value");
+  }
   update(boundingRect());
+  return effectParams;
 }
 
 void ClipItem::deleteEffect(QString tag)
 {
   for (int i = 0; i < m_effectList.size(); ++i) {
-    if (m_effectList.at(i).value("mlt_service") == tag) {
+    if (m_effectList.at(i).attribute("kdenlive_ix") == tag) {
       m_effectList.removeAt(i);
       break;
     }

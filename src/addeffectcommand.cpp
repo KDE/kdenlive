@@ -21,8 +21,8 @@
 
 #include "addeffectcommand.h"
 
-AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, GenTime pos, const QString &tag, QMap <QString, QString> args, bool doIt)
-         : m_view(view), m_track(track), m_pos(pos), m_tag(tag), m_args(args), m_doIt(doIt) {
+AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement effect, bool doIt)
+         : m_view(view), m_track(track), m_pos(pos), m_effect(effect), m_doIt(doIt) {
 	    if (doIt) setText(i18n("Add effect"));
 	    else setText(i18n("Delete effect"));
 	 }
@@ -32,15 +32,15 @@ AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, GenTi
 void AddEffectCommand::undo()
 {
 kDebug()<<"----  undoing action";
-  if (m_doIt) m_view->deleteEffect(m_track, m_pos, m_tag);
-  else m_view->addEffect(m_track, m_pos, m_tag, m_args);
+  if (m_doIt) m_view->deleteEffect(m_track, m_pos, m_effect);
+  else m_view->addEffect(m_track, m_pos, m_effect);
 }
 // virtual 
 void AddEffectCommand::redo()
 {
 kDebug()<<"----  redoing action";
-  if (m_doIt) m_view->addEffect(m_track, m_pos, m_tag, m_args);
-  else m_view->deleteEffect(m_track, m_pos, m_tag);
+  if (m_doIt) m_view->addEffect(m_track, m_pos, m_effect);
+  else m_view->deleteEffect(m_track, m_pos, m_effect);
 }
 
 #include "addeffectcommand.moc"

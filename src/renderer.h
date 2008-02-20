@@ -156,8 +156,8 @@ class Render:public QObject {
     void mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart);
     void mltMoveClip(int startTrack, int endTrack, int pos, int moveStart);
     void mltRemoveClip(int track, GenTime position);
-    void mltRemoveEffect(int track, GenTime position, QString tag, int index);
-    void mltAddEffect(int track, GenTime position, QString tag, QMap <QString, QString> args);
+    void mltRemoveEffect(int track, GenTime position, QString index);
+    void mltAddEffect(int track, GenTime position, QMap <QString, QString> args);
     void mltEditEffect(int track, GenTime position, int index, QString id, QString tag, QMap <QString, QString> args);
     void mltChangeTrackState(int track, bool mute, bool blind);
     void mltMoveTransition(QString type, int startTrack, int trackOffset, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut);
