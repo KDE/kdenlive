@@ -198,6 +198,7 @@ void EffectStackView::updateButtonStatus(){
 void EffectStackView::slotParameterChanged(const QString& text){
 	
 	//ui.buttonNewPoints->setEnabled(text!="all");
+	ui.kplotwidget->replot(text);
 	updateButtonStatus();
 }
 

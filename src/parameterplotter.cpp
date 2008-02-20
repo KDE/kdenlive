@@ -35,6 +35,7 @@ ParameterPlotter::ParameterPlotter (QWidget *parent):KPlotWidget (parent){
 	m_moveY=true;
 	m_moveTimeline=true;
 	m_newPoints=false;
+	activeIndexPlot=-1;
 }
 
 void ParameterPlotter::setPointLists(const QList< QPair<QString, QMap< int , QVariant > > >& params,int startframe, int endframe){
@@ -63,6 +64,7 @@ void ParameterPlotter::setPointLists(const QList< QPair<QString, QMap< int , QVa
 	maxy=max_y;
 	setLimits(0,endframe,0,maxy+10);
 	addPlotObjects(plotobjects);
+
 }
 
 void ParameterPlotter::createParametersNew(){
@@ -116,14 +118,49 @@ void ParameterPlotter::mouseMoveEvent ( QMouseEvent * event ) {
 	}
 }
 
+void ParameterPlotter::replot(const QString & name){
+	//removeAllPlotObjects();
+	int i=0;
+	bool drawAll=name.isEmpty() || name=="all";
+	activeIndexPlot=-1;
+	foreach (KPlotObject* p,plotObjects() ){
+		p->setShowPoints(drawAll || parameterNameList[i]==name);
+		p->setShowLines(drawAll || parameterNameList[i]==name);
+		if ( parameterNameList[i]==name )
+			activeIndexPlot = i;
+		replacePlotObject(i++,p);
+	}
+}
+
 void ParameterPlotter::mousePressEvent ( QMouseEvent * event ) {
-	QList<KPlotPoint*> list=   pointsUnderPoint (event->pos()-QPoint(leftPadding(), topPadding() )  ) ;
+	//topPadding and other padding can be wrong and this (i hope) will be correctet in newer kde versions
+	QPoint inPlot=event->pos()-QPoint(leftPadding(), topPadding() );
+	QList<KPlotPoint*> list=   pointsUnderPoint (inPlot ) ;
 	if (list.size() > 0){
 		movepoint=list[0];
 		oldmousepoint=event->pos();
 	}else{
-		if (m_newPoints){
+		if (m_newPoints && activeIndexPlot>=0){
 			//setup new points
+			KPlotObject* p=plotObjects()[activeIndexPlot];
+			QList<KPlotPoint*> points=p->points();
+			QList<QPointF> newpoints;
+			
+			double newx=inPlot.x()*dataRect().width()/pixRect().width();
+			double newy=(height()-inPlot.y()-bottomPadding()-topPadding() )*dataRect().height()/pixRect().height();
+			bool inserted=false;
+			foreach (KPlotPoint* pt,points){
+				if (pt->x() >newx && !inserted){
+					newpoints.append(QPointF(newx,newy));
+					inserted=true;
+				}
+				newpoints.append(QPointF(pt->x(),pt->y()));
+			}
+			p->clearPoints();
+			foreach (QPointF qf, newpoints ){
+				p->addPoint(qf);
+			}
+			replacePlotObject(activeIndexPlot,p);
 		}
 		movepoint=NULL;
 	}

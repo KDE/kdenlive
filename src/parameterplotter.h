@@ -30,8 +30,10 @@ class ParameterPlotter : public KPlotWidget {
 		bool isMoveY();
 		bool isMoveTimeline();
 		bool isNewPoints();
+		void replot(const QString& name="");
 	private:
 		KPlotPoint* movepoint;
+		int activeIndexPlot;
 		bool m_moveX,m_moveY,m_moveTimeline,m_newPoints;
 		QPoint oldmousepoint;
 		int maxx,maxy;
@@ -39,6 +41,7 @@ class ParameterPlotter : public KPlotWidget {
 		void createParametersNew();
 		QList<KPlotObject*> plotobjects;
 		QList<QColor> colors;
+		
 	protected:
 		void mouseMoveEvent ( QMouseEvent * event );
 		void mousePressEvent ( QMouseEvent * event );
