@@ -161,7 +161,9 @@ void EffectStackView::slotItemDown(){
 
 void EffectStackView::slotItemDel(){
 	if (activeRow<effects.size() && activeRow>=0  ){
+		emit removeEffect(clipref, clipref->effectAt(activeRow));
 		effects.removeAt(activeRow);
+
 	}
 	if (effects.size()>0 && activeRow>0)
 	activeRow--;
