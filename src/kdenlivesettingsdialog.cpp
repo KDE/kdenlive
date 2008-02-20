@@ -29,42 +29,47 @@
 KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(parent, "settings", KdenliveSettings::self())
 {
 
-  QWidget *page1 = new QWidget;
-  m_configMisc = new Ui::ConfigMisc_UI( );
-  m_configMisc->setupUi(page1);
-  addPage( page1, i18n("Misc"), "misc" );
+  QWidget *p1 = new QWidget;
+  m_configMisc.setupUi(p1);
+  page1 = addPage( p1, i18n("Misc"), "misc" );
 
-  QWidget *page2 = new QWidget;
-  m_configEnv = new Ui::ConfigEnv_UI( );
-  m_configEnv->setupUi(page2);
-  m_configEnv->kcfg_mltpath->setMode(KFile::Directory);
-
-  //WARNING: the 2 lines below should not be necessary, but does not work without it...
-  m_configEnv->kcfg_mltpath->setPath(KdenliveSettings::mltpath());
-  m_configEnv->kcfg_rendererpath->setPath(KdenliveSettings::rendererpath());
-  addPage( page2, i18n("Environnement"), "env" );
+  QWidget *p2 = new QWidget;
+  m_configEnv.setupUi(p2);
+  m_configEnv.mltpathurl->setMode(KFile::Directory);
+  m_configEnv.mltpathurl->lineEdit()->setObjectName("kcfg_mltpath");
+  m_configEnv.rendererpathurl->lineEdit()->setObjectName("kcfg_rendererpath");
+  page2 = addPage( p2, i18n("Environnement"), "env" );
 
   QStringList profilesNames = ProfilesDialog::getProfileNames();
-  m_configMisc->profiles_list->addItems(profilesNames);
-
-  //User edited the configuration - update your local copies of the
-  //configuration data
+  m_configMisc.profiles_list->addItems(profilesNames);
+  m_defaulfProfile = ProfilesDialog::getSettingsFromFile(KdenliveSettings::default_profile()).value("description");
+  if (profilesNames.contains(m_defaulfProfile)) m_configMisc.profiles_list->setCurrentItem(m_defaulfProfile);
 
   slotUpdateDisplay();
-  connect(m_configMisc->profiles_list, SIGNAL(currentIndexChanged( int )), this, SLOT(slotUpdateDisplay()));
+  connect(m_configMisc.profiles_list, SIGNAL(currentIndexChanged( int )), this, SLOT(slotUpdateDisplay()));
 }
 
+KdenliveSettingsDialog::~KdenliveSettingsDialog()
+{}
+
+
+bool KdenliveSettingsDialog::hasChanged()
+{
+  kDebug()<<"// // // KCONFIG hasChanged called";
+  if (m_configMisc.profiles_list->currentText() != m_defaulfProfile) return true;
+  return KConfigDialog::hasChanged();
+}
 
 void KdenliveSettingsDialog::slotUpdateDisplay()
 {
-  QString currentProfile = m_configMisc->profiles_list->currentText();
+  QString currentProfile = m_configMisc.profiles_list->currentText();
   QMap< QString, QString > values = ProfilesDialog::getSettingsForProfile(currentProfile);
-  m_configMisc->p_size->setText(values.value("width") + "x" + values.value("height"));
-  m_configMisc->p_fps->setText(values.value("frame_rate_num") + "/" + values.value("frame_rate_den"));
-  m_configMisc->p_aspect->setText(values.value("sample_aspect_num") + "/" + values.value("sample_aspect_den"));
-  m_configMisc->p_display->setText(values.value("display_aspect_num") + "/" + values.value("display_aspect_den"));
-  if (values.value("progressive").toInt() == 0) m_configMisc->p_progressive->setText(i18n("Interlaced"));
-  else m_configMisc->p_progressive->setText(i18n("Progressive"));
+  m_configMisc.p_size->setText(values.value("width") + "x" + values.value("height"));
+  m_configMisc.p_fps->setText(values.value("frame_rate_num") + "/" + values.value("frame_rate_den"));
+  m_configMisc.p_aspect->setText(values.value("sample_aspect_num") + "/" + values.value("sample_aspect_den"));
+  m_configMisc.p_display->setText(values.value("display_aspect_num") + "/" + values.value("display_aspect_den"));
+  if (values.value("progressive").toInt() == 0) m_configMisc.p_progressive->setText(i18n("Interlaced"));
+  else m_configMisc.p_progressive->setText(i18n("Progressive"));
 }
 
 

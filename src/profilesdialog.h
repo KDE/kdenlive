@@ -33,7 +33,8 @@ class ProfilesDialog : public QDialog
     ProfilesDialog(QWidget * parent = 0);
 
   static QStringList getProfileNames();
-  static QMap< QString, QString > getSettingsForProfile(const QString path);
+  static QMap< QString, QString > getSettingsForProfile(const QString profileName);
+  static QMap< QString, QString > getSettingsFromFile(const QString path);
 
   private slots:
     void slotUpdateDisplay();

@@ -82,7 +82,38 @@ QStringList ProfilesDialog::getProfileNames()
 }
 
 // static
-QMap< QString, QString > ProfilesDialog::getSettingsForProfile(const QString path)
+QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString path)
+{
+  QStringList profilesNames;
+  QStringList profilesFiles;
+  QStringList profilesFilter;
+  profilesFilter<<"*";
+
+  // List the Mlt profiles
+  profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+  for (int i = 0; i < profilesFiles.size(); ++i) {
+    if (profilesFiles.at(i) == path) {
+      KConfig confFile(KdenliveSettings::mltpath() + "/" + profilesFiles.at(i));
+      return confFile.entryMap();
+    }
+  }
+
+  // List custom profiles
+  QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
+  for (int i = 0; i < customProfiles.size(); ++i) {
+    QStringList profiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
+    for (int i = 0; i < profiles.size(); ++i) {
+      if (profiles.at(i) == path) {
+	KConfig confFile(customProfiles.at(i) + "/" + profiles.at(i));
+	return confFile.entryMap();
+      }
+    }
+  }
+  return QMap< QString, QString >();
+}
+
+// static
+QMap< QString, QString > ProfilesDialog::getSettingsForProfile(const QString profileName)
 {
   QStringList profilesNames;
   QStringList profilesFiles;
@@ -94,7 +125,7 @@ QMap< QString, QString > ProfilesDialog::getSettingsForProfile(const QString pat
   for (int i = 0; i < profilesFiles.size(); ++i) {
     KConfig confFile(KdenliveSettings::mltpath() + "/" + profilesFiles.at(i));
     QMap< QString, QString > values = confFile.entryMap();
-    if (values.value("description") == path) return values;
+    if (values.value("description") == profileName) return values;
   }
 
   // List custom profiles
@@ -104,7 +135,7 @@ QMap< QString, QString > ProfilesDialog::getSettingsForProfile(const QString pat
     for (int i = 0; i < profiles.size(); ++i) {
       KConfig confFile(customProfiles.at(i) + "/" + profiles.at(i));
       QMap< QString, QString > values = confFile.entryMap();
-      if (values.value("description") == path) return values;
+      if (values.value("description") == profileName) return values;
     }
   }
   return QMap< QString, QString >();

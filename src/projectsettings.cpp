@@ -22,7 +22,7 @@
 #include <KStandardDirs>
 #include <KDebug>
 
-
+#include "kdenlivesettings.h"
 #include "profilesdialog.h"
 #include "projectsettings.h"
 
@@ -32,6 +32,8 @@ ProjectSettings::ProjectSettings(QWidget * parent): QDialog(parent), m_isCustomP
 
   QStringList profilesNames = ProfilesDialog::getProfileNames();
   m_view.profiles_list->addItems(profilesNames);
+  QString defaulfProf = ProfilesDialog::getSettingsFromFile(KdenliveSettings::current_profile()).value("description");
+  if (profilesNames.contains(defaulfProf)) m_view.profiles_list->setCurrentItem(defaulfProf);
 
   slotUpdateDisplay();
   connect(m_view.profiles_list, SIGNAL(currentIndexChanged( int )), this, SLOT(slotUpdateDisplay()));

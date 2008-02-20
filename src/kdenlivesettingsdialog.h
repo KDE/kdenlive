@@ -34,16 +34,27 @@ class KdenliveSettingsDialog : public KConfigDialog
   
   public:
     KdenliveSettingsDialog(QWidget * parent = 0);
+    ~KdenliveSettingsDialog();
+
+  protected:
+    virtual bool hasChanged();
 
   private slots:
     void slotUpdateDisplay();
 
   private:
-    Ui::ConfigEnv_UI* m_configEnv;
-    Ui::ConfigMisc_UI* m_configMisc;
+    KPageWidgetItem *page1;
+    KPageWidgetItem *page2;
+    Ui::ConfigEnv_UI m_configEnv;
+    Ui::ConfigMisc_UI m_configMisc;
     QStringList m_mltProfilesList;
     QStringList m_customProfilesList;
     bool m_isCustomProfile;
+    QString m_defaulfProfile;
+
+  signals:
+    void customChanged();
+
 };
 
 
