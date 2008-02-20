@@ -92,6 +92,7 @@ class CustomTrackView : public QGraphicsView
     void updateSnapPoints(ClipItem *selected);
     double getSnapPointForPos(double pos);
     ClipItem *getClipItemAt(int pos, int track);
+    void slotDeleteEffect(ClipItem *clip, QDomElement effect);
 
   signals:
     void cursorMoved(int);
