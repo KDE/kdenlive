@@ -104,6 +104,8 @@ void ParameterPlotter::mouseMoveEvent ( QMouseEvent * event ) {
 						if ( newx>points[p-1]->x() && newx<points[p+1]->x() && m_moveX)
 							movepoint->setX(movepoint->x()+delta.x()*dataRect().width()/pixRect().width() );
 					}
+					if (m_moveTimeline && (m_moveX|| m_moveY) )
+						emit updateFrame(0);
 					replacePlotObject(i,o);
 					oldmousepoint=event->pos();
 				}
@@ -119,8 +121,12 @@ void ParameterPlotter::mousePressEvent ( QMouseEvent * event ) {
 	if (list.size() > 0){
 		movepoint=list[0];
 		oldmousepoint=event->pos();
-	}else
+	}else{
+		if (m_newPoints){
+			//setup new points
+		}
 		movepoint=NULL;
+	}
 }
 
 void ParameterPlotter::setMoveX(bool b){

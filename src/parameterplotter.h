@@ -46,5 +46,6 @@ class ParameterPlotter : public KPlotWidget {
 		void setPointLists(const QList< QPair<QString, QMap<int,QVariant> > >&,int,int);
 	signals:
 		void parameterChanged(QList< QPair<QString, QMap<int,QVariant> > > );
+		void updateFrame(int);
 	
 };

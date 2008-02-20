@@ -22,12 +22,15 @@
 
 #include "ui_effectstack_ui.h"
 #include "clipitem.h"
+class EffectsList;
+
+
 class EffectStackView : public QWidget
 {
 	Q_OBJECT
 		
 	public:
-		EffectStackView( QWidget *parent=0);
+		EffectStackView(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent=0);
 	
 private:
 	int activeRow;
@@ -36,6 +39,8 @@ private:
 	ClipItem* clipref;
 	void setupListView(const QStringList& );
 	void updateButtonStatus();
+	QMap<QString,EffectsList*> effectLists;
+
 public slots:
 	void slotClipItemSelected(ClipItem*);
 	void slotItemSelectionChanged();
@@ -45,9 +50,11 @@ public slots:
 	void slotSetMoveX();
 	void slotSetMoveY();
 	void slotSetNew();
+	void slotNewEffect();
 	void slotSetHelp();
 	void slotShowInTimeline();
 	void slotParameterChanged(const QString&);
+	void itemSelectionChanged();
 };
 
 #endif

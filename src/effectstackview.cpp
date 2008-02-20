@@ -19,10 +19,12 @@
 #include <KLocale>
 
 #include "effectstackview.h"
+#include "effectslist.h"
 #include "clipitem.h"
 #include <QHeaderView>
+#include <QMenu>
 
-EffectStackView::EffectStackView( QWidget *parent)
+EffectStackView::EffectStackView(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent)
 : QWidget(parent)
 {
 	ui.setupUi(this);
@@ -42,7 +44,10 @@ EffectStackView::EffectStackView( QWidget *parent)
 	ui.buttonHelp->setIcon(KIcon("help-about"));
 	ui.buttonNewPoints->setIcon(KIcon("xedit"));
 	
+	ui.effectlist->setDragDropMode(QAbstractItemView::NoDragDrop);//use internal if dropis recognised right
+	
 	connect (ui.effectlist, SIGNAL ( itemSelectionChanged()), this , SLOT( slotItemSelectionChanged() ));
+	connect (ui.buttonNew, SIGNAL (clicked()), this, SLOT (slotNewEffect()) );
 	connect (ui.buttonUp, SIGNAL (clicked()), this, SLOT (slotItemUp()) );
 	connect (ui.buttonDown, SIGNAL (clicked()), this, SLOT (slotItemDown()) );
 	connect (ui.buttonDel, SIGNAL (clicked()), this, SLOT (slotItemDel()) );
@@ -52,9 +57,15 @@ EffectStackView::EffectStackView( QWidget *parent)
 	connect (ui.buttonNewPoints, SIGNAL (clicked()), this , SLOT ( slotSetNew() ) );
 	connect (ui.buttonHelp, SIGNAL (clicked()), this , SLOT ( slotSetHelp() ) );
 	connect (ui.parameterList, SIGNAL (currentIndexChanged ( const QString &  ) ), this, SLOT( slotParameterChanged(const QString&) ) );
+	connect (ui.effectlist, SIGNAL (itemSelectionChanged() ) , this, SLOT ( itemSelectionChanged()));
+	
+	effectLists["audio"]=audioEffectList;
+	effectLists["video"]=videoEffectList;
+	effectLists["custom"]=customEffectList;
+	
 	ui.infoBox->hide();	
 	updateButtonStatus();
-
+	
 	
 	QList< QPair<QString, QMap<int,QVariant> > > points;
 	QMap<int,QVariant> data;
@@ -98,8 +109,10 @@ void EffectStackView::setupListView(const QStringList& effects_list){
 		QListWidgetItem* item=ui.effectlist->item(i);
 		item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsDragEnabled|Qt::ItemIsUserCheckable|Qt::ItemIsEnabled);
 		item->setCheckState(Qt::Checked);
-		if (activeRow==i)
+		if (activeRow==i){
 			item->setSelected(true);
+			ui.effectlist->setCurrentRow(activeRow);
+		}
 	}
 
 }
@@ -188,4 +201,35 @@ void EffectStackView::slotParameterChanged(const QString& text){
 	updateButtonStatus();
 }
 
+void EffectStackView::slotNewEffect(){
+	
+
+	QMenu *displayMenu=new QMenu (this);
+	foreach (QString type, effectLists.keys() ){
+		QAction *a=new QAction(type,displayMenu);
+		EffectsList *list=effectLists[type];
+		
+		QMenu *parts=new QMenu(type,displayMenu);
+		foreach (QString name, list->effectNames()){
+			QAction *entry=new QAction(name,parts);
+			parts->addAction(entry);
+			//QAction
+		}
+		displayMenu->addMenu(parts);
+
+	}
+
+	QAction *result=displayMenu->exec(mapToGlobal(ui.buttonNew->pos()+ui.buttonNew->rect().bottomRight()));
+	
+	if (result)
+		kDebug()<< result->text();
+	else
+		kDebug() << "kein re4sult";
+	delete displayMenu;
+	
+}
+
+void EffectStackView::itemSelectionChanged (){
+	kDebug() << "droP";
+}
 #include "effectstackview.moc"

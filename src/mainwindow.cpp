@@ -86,7 +86,7 @@ MainWindow::MainWindow(QWidget *parent)
   
   effectStackDock = new QDockWidget(i18n("Effect Stack"), this);
   effectStackDock->setObjectName("effect_stack");
-  effectStack = new EffectStackView(this);
+  effectStack = new EffectStackView(&m_audioEffects, &m_videoEffects, &m_customEffects,this);
   effectStackDock->setWidget(effectStack);
   addDockWidget(Qt::TopDockWidgetArea, effectStackDock);
   
