@@ -35,11 +35,25 @@ EffectStackView::EffectStackView( QWidget *parent)
 	ui.buttonUp->setIcon(KIcon("go-up"));
 	ui.buttonDown->setIcon(KIcon("go-down"));
 	ui.buttonDel->setIcon(KIcon("trash-empty"));
+	
+	ui.buttonLeftRight->setIcon(KIcon("go-next"));//better icons needed
+	ui.buttonUpDown->setIcon(KIcon("go-up"));
+	ui.buttonShowInTimeline->setIcon(KIcon("kmplayer"));
+	ui.buttonHelp->setIcon(KIcon("help-about"));
+	ui.buttonNewPoints->setIcon(KIcon("xedit"));
+	
 	connect (ui.effectlist, SIGNAL ( itemSelectionChanged()), this , SLOT( slotItemSelectionChanged() ));
 	connect (ui.buttonUp, SIGNAL (clicked()), this, SLOT (slotItemUp()) );
 	connect (ui.buttonDown, SIGNAL (clicked()), this, SLOT (slotItemDown()) );
 	connect (ui.buttonDel, SIGNAL (clicked()), this, SLOT (slotItemDel()) );
-	
+	connect (ui.buttonLeftRight, SIGNAL (clicked()), this , SLOT ( slotSetMoveX() ) );
+	connect (ui.buttonUpDown, SIGNAL (clicked()), this , SLOT ( slotSetMoveY() ) );
+	connect (ui.buttonShowInTimeline, SIGNAL (clicked()), this , SLOT ( slotShowInTimeline() ) );
+	connect (ui.buttonNew, SIGNAL (clicked()), this , SLOT ( slotSetNew() ) );
+	connect (ui.buttonHelp, SIGNAL (clicked()), this , SLOT ( slotSetHelp() ) );
+
+	ui.infoBox->hide();	
+	updateButtonStatus();
 
 	
 	QList< QPair<QString, QMap<int,QVariant> > > points;
@@ -127,4 +141,38 @@ void EffectStackView::slotItemDel(){
 	
 }
 
+void EffectStackView::slotSetMoveX(){
+	ui.kplotwidget->setMoveX(!ui.kplotwidget->isMoveX());
+	updateButtonStatus();
+}
+
+void EffectStackView::slotSetMoveY(){
+	ui.kplotwidget->setMoveY(!ui.kplotwidget->isMoveY());
+	updateButtonStatus();
+}
+
+void EffectStackView::slotSetNew(){
+	
+}
+
+void EffectStackView::slotSetHelp(){
+	ui.infoBox->setVisible(!ui.infoBox->isVisible());
+	ui.buttonHelp->setDown(ui.infoBox->isVisible());
+}
+
+void EffectStackView::slotShowInTimeline(){
+
+	ui.kplotwidget->setMoveTimeLine(!ui.kplotwidget->isMoveTimeline());
+	updateButtonStatus();
+	
+}
+
+void EffectStackView::updateButtonStatus(){
+	ui.buttonLeftRight->setDown(ui.kplotwidget->isMoveX());
+	ui.buttonUpDown->setDown(ui.kplotwidget->isMoveY());
+	
+	ui.buttonShowInTimeline->setEnabled( ui.kplotwidget->isMoveX() || ui.kplotwidget->isMoveY ()  );
+	ui.buttonShowInTimeline->setDown(ui.kplotwidget->isMoveTimeline());
+
+}
 #include "effectstackview.moc"

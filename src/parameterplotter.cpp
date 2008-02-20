@@ -31,6 +31,9 @@ ParameterPlotter::ParameterPlotter (QWidget *parent):KPlotWidget (parent){
 	movepoint=NULL;
 	colors << Qt::white << Qt::red << Qt::green << Qt::blue << Qt::magenta << Qt::gray << Qt::cyan;
 	maxy=0;
+	m_moveX=false;
+	m_moveY=true;
+	m_moveTimeline=true;
 }
 
 void ParameterPlotter::setPointLists(const QList< QPair<QString, QMap< int , QVariant > > >& params,int startframe, int endframe){
@@ -93,10 +96,11 @@ void ParameterPlotter::mouseMoveEvent ( QMouseEvent * event ) {
 			for(int p=0;p<points.size();p++){
 				if (points[p]==movepoint){
 					QPoint delta=event->pos()-oldmousepoint;
+					if (m_moveY)
 					movepoint->setY(movepoint->y()-delta.y()*dataRect().height()/pixRect().height() );
 					if (p>0 && p<points.size()-1){
 						double newx=movepoint->x()+delta.x()*dataRect().width()/pixRect().width();
-						if ( newx>points[p-1]->x() && newx<points[p+1]->x() )
+						if ( newx>points[p-1]->x() && newx<points[p+1]->x() && m_moveX)
 							movepoint->setX(movepoint->x()+delta.x()*dataRect().width()/pixRect().width() );
 					}
 					replacePlotObject(i,o);
@@ -116,4 +120,28 @@ void ParameterPlotter::mousePressEvent ( QMouseEvent * event ) {
 		oldmousepoint=event->pos();
 	}else
 		movepoint=NULL;
+}
+
+void ParameterPlotter::setMoveX(bool b){
+	m_moveX=b;
+}
+
+void ParameterPlotter::setMoveY(bool b){
+	m_moveY=b;
+}
+
+void ParameterPlotter::setMoveTimeLine(bool b){
+	m_moveTimeline=b;
+}
+
+bool ParameterPlotter::isMoveX(){
+	return m_moveX;
+}
+
+bool ParameterPlotter::isMoveY(){
+	return m_moveY;
+}
+
+bool ParameterPlotter::isMoveTimeline(){
+	return m_moveTimeline;
 }

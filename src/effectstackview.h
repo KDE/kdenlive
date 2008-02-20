@@ -35,13 +35,18 @@ private:
 	Ui::EffectStack_UI ui;
 	ClipItem* clipref;
 	void setupListView(const QStringList& );
+	void updateButtonStatus();
 public slots:
 	void slotClipItemSelected(ClipItem*);
 	void slotItemSelectionChanged();
 	void slotItemUp();
 	void slotItemDown();
 	void slotItemDel();
-	
+	void slotSetMoveX();
+	void slotSetMoveY();
+	void slotSetNew();
+	void slotSetHelp();
+	void slotShowInTimeline();
 };
 
 #endif

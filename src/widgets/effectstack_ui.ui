@@ -5,9 +5,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>886</width>
-    <height>622</height>
+    <width>838</width>
+    <height>636</height>
    </rect>
+  </property>
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle" >
    <string>Form</string>
@@ -15,13 +21,26 @@
   <layout class="QGridLayout" >
    <item row="0" column="0" >
     <widget class="QSplitter" name="splitter_2" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>
      <widget class="QWidget" name="layoutWidget" >
       <layout class="QVBoxLayout" >
        <item>
-        <widget class="KListWidget" name="effectlist" />
+        <widget class="KListWidget" name="effectlist" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" >
@@ -83,31 +102,105 @@
       <property name="orientation" >
        <enum>Qt::Vertical</enum>
       </property>
-      <widget class="ParameterPlotter" name="kplotwidget" >
-       <property name="grid" stdset="0" >
-        <bool>true</bool>
-       </property>
+      <widget class="QWidget" name="layoutWidget" >
+       <layout class="QVBoxLayout" >
+        <item>
+         <widget class="ParameterPlotter" name="kplotwidget" >
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="grid" stdset="0" >
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" >
+          <item>
+           <widget class="QToolButton" name="buttonLeftRight" >
+            <property name="text" >
+             <string>...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="buttonUpDown" >
+            <property name="enabled" >
+             <bool>true</bool>
+            </property>
+            <property name="text" >
+             <string>...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="buttonShowInTimeline" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
+            <property name="text" >
+             <string>...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="buttonNewPoints" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
+            <property name="text" >
+             <string>...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" >
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="KComboBox" name="parameterList" />
+          </item>
+          <item>
+           <widget class="QToolButton" name="buttonHelp" >
+            <property name="enabled" >
+             <bool>true</bool>
+            </property>
+            <property name="text" >
+             <string>...</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
-      <widget class="QGroupBox" name="groupBox" >
-       <property name="minimumSize" >
-        <size>
-         <width>0</width>
-         <height>74</height>
-        </size>
-       </property>
-       <property name="title" >
-        <string>Parameter-Setup</string>
-       </property>
-      </widget>
+      <widget class="KTextEdit" name="infoBox" />
      </widget>
     </widget>
    </item>
-   <item row="1" column="1" >
+   <item row="0" column="1" >
     <widget class="KSeparator" name="kseparator" />
    </item>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
   <customwidget>
    <class>KListWidget</class>
    <extends>QListWidget</extends>
@@ -117,6 +210,11 @@
    <class>KSeparator</class>
    <extends>QFrame</extends>
    <header>kseparator.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>ktextedit.h</header>
   </customwidget>
   <customwidget>
    <class>ParameterPlotter</class>
