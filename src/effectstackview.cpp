@@ -44,7 +44,7 @@ EffectStackView::EffectStackView(EffectsList *audioEffectList, EffectsList *vide
 	ui.buttonHelp->setIcon(KIcon("help-about"));
 	ui.buttonNewPoints->setIcon(KIcon("xedit"));
 	
-	ui.effectlist->setDragDropMode(QAbstractItemView::NoDragDrop);//use internal if dropis recognised right
+	ui.effectlist->setDragDropMode(QAbstractItemView::NoDragDrop);//use internal if drop is recognised right
 	
 	connect (ui.effectlist, SIGNAL ( itemSelectionChanged()), this , SLOT( slotItemSelectionChanged() ));
 	connect (ui.buttonNew, SIGNAL (clicked()), this, SLOT (slotNewEffect()) );
@@ -205,13 +205,18 @@ void EffectStackView::slotNewEffect(){
 	
 
 	QMenu *displayMenu=new QMenu (this);
+	displayMenu->setTitle("Filters");
 	foreach (QString type, effectLists.keys() ){
 		QAction *a=new QAction(type,displayMenu);
 		EffectsList *list=effectLists[type];
-		
+
 		QMenu *parts=new QMenu(type,displayMenu);
+		parts->setTitle(type);
 		foreach (QString name, list->effectNames()){
 			QAction *entry=new QAction(name,parts);
+			entry->setData(name);
+			entry->setToolTip(list->getInfo(name));
+			entry->setStatusTip(list->getInfo(name));
 			parts->addAction(entry);
 			//QAction
 		}
@@ -221,15 +226,16 @@ void EffectStackView::slotNewEffect(){
 
 	QAction *result=displayMenu->exec(mapToGlobal(ui.buttonNew->pos()+ui.buttonNew->rect().bottomRight()));
 	
-	if (result)
-		kDebug()<< result->text();
-	else
-		kDebug() << "kein re4sult";
+	if (result){
+		effects.append(result->data().toString());
+		setupListView(effects);
+		kDebug()<< result->data();
+	}
 	delete displayMenu;
 	
 }
 
 void EffectStackView::itemSelectionChanged (){
-	kDebug() << "droP";
+	//kDebug() << "drop";
 }
 #include "effectstackview.moc"
