@@ -64,6 +64,7 @@ EffectStackView::EffectStackView(EffectsList *audioEffectList, EffectsList *vide
 }
 
 void EffectStackView::slotUpdateEffectParams(const QDomElement& e){
+	effects[activeRow]=e;
 	if (clipref)
 		emit updateClipEffect(clipref, e);
 }
