@@ -31,6 +31,8 @@ kde4_add_ui_files(kdenlive_UI
   widgets/projectsettings_ui.ui
   widgets/keyframewidget_ui.ui
   widgets/constval_ui.ui
+  widgets/listval_ui.ui
+  widgets/boolval_ui.ui
 )
  
 set(kdenlive_SRCS 

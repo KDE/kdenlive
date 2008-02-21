@@ -47,7 +47,7 @@ EffectStackView::EffectStackView(EffectsList *audioEffectList, EffectsList *vide
 	
 	ui.effectlist->setDragDropMode(QAbstractItemView::NoDragDrop);//use internal if drop is recognised right
 	
-	connect (ui.effectlist, SIGNAL ( itemSelectionChanged()), this , SLOT( slotItemSelectionChanged() ));
+	connect (ui.effectlist, SIGNAL ( itemPressed(QListWidgetItem *)), this , SLOT( slotItemSelectionChanged() ));
 	connect (ui.buttonNew, SIGNAL (clicked()), this, SLOT (slotNewEffect()) );
 	connect (ui.buttonUp, SIGNAL (clicked()), this, SLOT (slotItemUp()) );
 	connect (ui.buttonDown, SIGNAL (clicked()), this, SLOT (slotItemDown()) );
