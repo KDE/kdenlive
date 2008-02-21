@@ -37,27 +37,52 @@ ParameterPlotter::ParameterPlotter (QWidget *parent):KPlotWidget (parent){
 	m_newPoints=false;
 	activeIndexPlot=-1;
 }
+/*
+    <name>Lines</name>
+    <description>Lines from top to bottom</description>
+    <author>Marco Gittler</author>
+    <properties tag="lines" id="lines" />
+    <parameter default="5" type="constant" value="5" min="0" name="num" max="255" >
+      <name>Num</name>
+    </parameter>
+    <parameter default="4" type="constant" value="4" min="0" name="width" max="255" >
+      <name>Width</name>
+    </parameter>
+  </effect>
 
-void ParameterPlotter::setPointLists(const QList< QPair<QString, QMap< int , QVariant > > >& params,int startframe, int endframe){
+*/
+void ParameterPlotter::setPointLists(const QDomElement& d,int startframe,int endframe){
 	
-	QListIterator <QPair <QString, QMap< int , QVariant > > > nameit(params);
+	//QListIterator <QPair <QString, QMap< int , QVariant > > > nameit(params);
+	itemParameter=d;
+	QDomNodeList namenode = d.elementsByTagName("parameter");
+	
 	int max_y=0;
+	removeAllPlotObjects ();
 	parameterNameList.clear();
+	plotobjects.clear();
 	
-	
-	while (nameit.hasNext() ){	
+
+	for (int i=0;i< namenode.count() ;i++){
 		KPlotObject *plot=new KPlotObject(colors[plotobjects.size()%colors.size()]);
 		plot->setShowLines(true);
-		QPair<QString, QMap< int , QVariant > > item=nameit.next();
-		parameterNameList << item.first;
-
-		QMapIterator <int,QVariant> pointit=item.second;
+		//QPair<QString, QMap< int , QVariant > > item=nameit.next();
+		QDomNode pa=namenode.item(i);
+		QDomNode na=pa.firstChildElement("name");
+		
+		parameterNameList << na.toElement().text();
+		
+		
+		max_y=pa.attributes().namedItem("max").nodeValue().toInt();
+		int val=pa.attributes().namedItem("value").nodeValue().toInt();
+		plot->addPoint((i+1)*20,val);
+		/*TODO keyframes
 		while (pointit.hasNext()){
 			pointit.next();
 			plot->addPoint(QPointF(pointit.key(),pointit.value().toDouble()),item.first,1);
 			if (pointit.value().toInt() >maxy)
 				max_y=pointit.value().toInt();
-		}
+		}*/
 		plotobjects.append(plot);
 	}
 	maxx=endframe;
@@ -68,23 +93,31 @@ void ParameterPlotter::setPointLists(const QList< QPair<QString, QMap< int , QVa
 }
 
 void ParameterPlotter::createParametersNew(){
-	QList< QPair<QString, QMap<int,QVariant> > > ret;
+	
 	QList<KPlotObject*> plotobjs=plotObjects();
 	if (plotobjs.size() != parameterNameList.size() ){
 		kDebug() << "ERROR size not equal";
 	}
-	
-	for (int i=0;i<parameterNameList.size() ;i++){
+	QDomNodeList namenode = itemParameter.elementsByTagName("parameter");
+	for (int i=0;i<namenode.count() ;i++){
 		QList<KPlotPoint*> points=plotobjs[i]->points();
+		QDomNode pa=namenode.item(i);
+		
+		
+		
+		
+		
+		
 		QMap<int,QVariant> vals;
 		foreach (KPlotPoint *o,points){
-			vals[o->x()]=o->y();
+			//vals[o->x()]=o->y();
+			pa.attributes().namedItem("value").setNodeValue(QString::number(o->y()));
 		}
 		QPair<QString,QMap<int,QVariant> > pair("contrast",vals);
-		ret.append(pair);
+		//ret.append(pair);
 	}
 	
-	emit parameterChanged(ret);
+	emit parameterChanged(itemParameter);
 	
 }
 
@@ -136,33 +169,37 @@ void ParameterPlotter::mousePressEvent ( QMouseEvent * event ) {
 	//topPadding and other padding can be wrong and this (i hope) will be correctet in newer kde versions
 	QPoint inPlot=event->pos()-QPoint(leftPadding(), topPadding() );
 	QList<KPlotPoint*> list=   pointsUnderPoint (inPlot ) ;
-	if (list.size() > 0){
-		movepoint=list[0];
-		oldmousepoint=event->pos();
-	}else{
-		if (m_newPoints && activeIndexPlot>=0){
-			//setup new points
-			KPlotObject* p=plotObjects()[activeIndexPlot];
-			QList<KPlotPoint*> points=p->points();
-			QList<QPointF> newpoints;
-			
-			double newx=inPlot.x()*dataRect().width()/pixRect().width();
-			double newy=(height()-inPlot.y()-bottomPadding()-topPadding() )*dataRect().height()/pixRect().height();
-			bool inserted=false;
-			foreach (KPlotPoint* pt,points){
-				if (pt->x() >newx && !inserted){
-					newpoints.append(QPointF(newx,newy));
-					inserted=true;
+	if (event->button()==Qt::LeftButton){
+		if (list.size() > 0){
+			movepoint=list[0];
+			oldmousepoint=event->pos();
+		}else{
+			if (m_newPoints && activeIndexPlot>=0){
+				//setup new points
+				KPlotObject* p=plotObjects()[activeIndexPlot];
+				QList<KPlotPoint*> points=p->points();
+				QList<QPointF> newpoints;
+				
+				double newx=inPlot.x()*dataRect().width()/pixRect().width();
+				double newy=(height()-inPlot.y()-bottomPadding()-topPadding() )*dataRect().height()/pixRect().height();
+				bool inserted=false;
+				foreach (KPlotPoint* pt,points){
+					if (pt->x() >newx && !inserted){
+						newpoints.append(QPointF(newx,newy));
+						inserted=true;
+					}
+					newpoints.append(QPointF(pt->x(),pt->y()));
 				}
-				newpoints.append(QPointF(pt->x(),pt->y()));
+				p->clearPoints();
+				foreach (QPointF qf, newpoints ){
+					p->addPoint(qf);
+				}
+				replacePlotObject(activeIndexPlot,p);
 			}
-			p->clearPoints();
-			foreach (QPointF qf, newpoints ){
-				p->addPoint(qf);
-			}
-			replacePlotObject(activeIndexPlot,p);
+			movepoint=NULL;
 		}
-		movepoint=NULL;
+	}else if (event->button()==Qt::LeftButton){
+		//menu for deleting or exact setup of point
 	}
 }
 

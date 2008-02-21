@@ -34,10 +34,10 @@ class EffectStackView : public QWidget
 	
 private:
 	int activeRow;
-	QStringList effects;
+	QList<QDomElement> effects;
 	Ui::EffectStack_UI ui;
 	ClipItem* clipref;
-	void setupListView(const QStringList& );
+	void setupListView();
 	void updateButtonStatus();
 	QMap<QString,EffectsList*> effectLists;
 
@@ -55,10 +55,12 @@ public slots:
 	void slotShowInTimeline();
 	void slotParameterChanged(const QString&);
 	void itemSelectionChanged();
-
+	void slotUpdateEffectParams(QDomElement);
 signals:
+	void transferParamDesc(const QDomElement&,int ,int);
 	void removeEffect(ClipItem*, QDomElement);
 	void updateClipEffect(ClipItem*, QDomElement);
+
 };
 
 #endif

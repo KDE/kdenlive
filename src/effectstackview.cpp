@@ -66,8 +66,9 @@ EffectStackView::EffectStackView(EffectsList *audioEffectList, EffectsList *vide
 	connect (ui.buttonNewPoints, SIGNAL (clicked()), this , SLOT ( slotSetNew() ) );
 	connect (ui.buttonHelp, SIGNAL (clicked()), this , SLOT ( slotSetHelp() ) );
 	connect (ui.parameterList, SIGNAL (currentIndexChanged ( const QString &  ) ), this, SLOT( slotParameterChanged(const QString&) ) );
-	connect (ui.effectlist, SIGNAL (itemSelectionChanged() ) , this, SLOT ( itemSelectionChanged()));
-	
+	//connect (ui.effectlist, SIGNAL (itemSelectionChanged() ) , this, SLOT ( itemSelectionChanged()));
+	connect( this,SIGNAL (transferParamDesc(const QDomElement&,int ,int) ), ui.kplotwidget, SLOT(setPointLists(const QDomElement&,int ,int) ));
+	connect(ui.kplotwidget, SIGNAL (parameterChanged(QDomElement ) ), this , SLOT (slotUpdateEffectParams(QDomElement)));
 	effectLists["audio"]=audioEffectList;
 	effectLists["video"]=videoEffectList;
 	effectLists["custom"]=customEffectList;
@@ -75,29 +76,11 @@ EffectStackView::EffectStackView(EffectsList *audioEffectList, EffectsList *vide
 	ui.infoBox->hide();	
 	updateButtonStatus();
 	
-	
-	QList< QPair<QString, QMap<int,QVariant> > > points;
-	QMap<int,QVariant> data;
-	data[0]=0.1;
-	data[100]=30;
-	data[255]=50;
-	data[300]=100;
-	QPair<QString,QMap<int,QVariant> > testpair("gray",data);
-	points.append(testpair);
-	
-	QMap<int,QVariant> data1;
-	data1[0]=20;
-	data1[10]=70;
-	data1[155]=110;
-	data1[300]=133;
-	QPair<QString,QMap<int,QVariant> > testpair1("dx",data1);
-	points.append(testpair1);
-	ui.parameterList->addItem("all");
-	ui.parameterList->addItem("gray");
-	ui.parameterList->addItem("dx");
-	
-	ui.kplotwidget->setPointLists(points,0,305);
-	
+}
+
+void EffectStackView::slotUpdateEffectParams(QDomElement e){
+	if (clipref)
+		emit updateClipEffect(clipref, e);
 }
 
 void EffectStackView::slotClipItemSelected(ClipItem* c)
@@ -108,15 +91,29 @@ void EffectStackView::slotClipItemSelected(ClipItem* c)
 		return;
 	}
 	setEnabled(true);
-	effects=clipref->effectNames();
-	setupListView(effects);
+	//effects=clipref->effectNames();
+	effects.clear();
+	for (int i=0;i<clipref->effectsCount();i++){
+		/*QString outstr;
+		QTextStream str(&outstr);
+		clipref->effectAt(i).save(str,2);
+		kDebug() << outstr;*/
+		effects.append(clipref->effectAt(i));
+	}
+	setupListView();
 	
 }
 
-void EffectStackView::setupListView(const QStringList& effects_list){
+void EffectStackView::setupListView(){
 
 	ui.effectlist->clear();
-	ui.effectlist->addItems(effects);
+	foreach (QDomElement d,effects){
+		
+		QDomNode namenode = d.elementsByTagName("name").item(0);
+		if (!namenode.isNull()) 
+			ui.effectlist->addItem(namenode.toElement().text() );
+	}
+	//ui.effectlist->addItems(effects);
 	for (int i=0;i< ui.effectlist->count();i++){
 		QListWidgetItem* item=ui.effectlist->item(i);
 		item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsDragEnabled|Qt::ItemIsUserCheckable|Qt::ItemIsEnabled);
@@ -133,6 +130,16 @@ void EffectStackView::slotItemSelectionChanged(){
 	
 	if (ui.effectlist->currentItem() && ui.effectlist->currentItem()->isSelected() ){
 		activeRow=ui.effectlist->row( ui.effectlist->currentItem() );
+		ui.parameterList->clear();
+		ui.parameterList->addItem("all");
+		QDomNodeList namenode = effects.at(activeRow).elementsByTagName("parameter");
+		for (int i=0;i<namenode.count();i++){
+			QDomNode pa=namenode.item(i);
+			QDomNode na=pa.firstChildElement("name");
+			ui.parameterList->addItem(na.toElement().text() );
+		}
+		
+		emit transferParamDesc(effects.at(activeRow) ,0,100);//minx max frame
 	}else{
 		activeRow=-1;
 	}
@@ -146,7 +153,7 @@ void EffectStackView::slotItemUp(){
 		effects.swap(activeRow, activeRow-1);
 	}
 	activeRow--;
-	setupListView(effects);
+	setupListView();
 	
 }
 
@@ -155,7 +162,7 @@ void EffectStackView::slotItemDown(){
 		effects.swap(activeRow, activeRow+1);
 	}
 	activeRow++;
-	setupListView(effects);
+	setupListView();
 	
 }
 
@@ -167,7 +174,7 @@ void EffectStackView::slotItemDel(){
 	}
 	if (effects.size()>0 && activeRow>0)
 	activeRow--;
-	setupListView(effects);
+	setupListView();
 	
 }
 
@@ -242,9 +249,15 @@ void EffectStackView::slotNewEffect(){
 	QAction *result=displayMenu->exec(mapToGlobal(ui.buttonNew->pos()+ui.buttonNew->rect().bottomRight()));
 	
 	if (result){
-		effects.append(result->data().toString());
-		setupListView(effects);
-		kDebug()<< result->data();
+		//TODO effects.append(result->data().toString());
+		foreach (EffectsList* e, effectLists.values()){
+			QDomElement dom=e->getEffectByName(result->data().toString());
+			clipref->addEffect(dom);
+			slotClipItemSelected(clipref);
+		}
+		
+		setupListView();
+		//kDebug()<< result->data();
 	}
 	delete displayMenu;
 	

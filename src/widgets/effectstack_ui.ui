@@ -114,22 +114,31 @@
       <widget class="QWidget" name="layoutWidget" >
        <layout class="QVBoxLayout" >
         <item>
-         <widget class="ParameterPlotter" name="kplotwidget" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+         <widget class="QStackedWidget" name="stackedWidget" >
+          <property name="currentIndex" >
+           <number>0</number>
           </property>
-          <property name="grid" stdset="0" >
-           <bool>true</bool>
-          </property>
+          <widget class="QWidget" name="page" >
+           <layout class="QGridLayout" >
+            <item row="0" column="0" >
+             <layout class="QVBoxLayout" >
+              <item>
+               <widget class="ParameterPlotter" name="kplotwidget" />
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page_2" />
          </widget>
         </item>
         <item>
          <layout class="QHBoxLayout" >
           <item>
            <widget class="QToolButton" name="buttonLeftRight" >
+            <property name="toolTip" >
+             <string>move on X axis</string>
+            </property>
             <property name="text" >
              <string>...</string>
             </property>
@@ -139,6 +148,9 @@
            <widget class="QToolButton" name="buttonUpDown" >
             <property name="enabled" >
              <bool>true</bool>
+            </property>
+            <property name="toolTip" >
+             <string>move on Y axis</string>
             </property>
             <property name="text" >
              <string>...</string>
@@ -150,6 +162,9 @@
             <property name="enabled" >
              <bool>false</bool>
             </property>
+            <property name="toolTip" >
+             <string>update values in timeline</string>
+            </property>
             <property name="text" >
              <string>...</string>
             </property>
@@ -159,6 +174,9 @@
            <widget class="QToolButton" name="buttonNewPoints" >
             <property name="enabled" >
              <bool>false</bool>
+            </property>
+            <property name="toolTip" >
+             <string>create new points</string>
             </property>
             <property name="text" >
              <string>...</string>
@@ -179,12 +197,25 @@
            </spacer>
           </item>
           <item>
+           <widget class="QCheckBox" name="checkBox" >
+            <property name="text" >
+             <string>GraphView</string>
+            </property>
+            <property name="checked" >
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="KComboBox" name="parameterList" />
           </item>
           <item>
            <widget class="QToolButton" name="buttonHelp" >
             <property name="enabled" >
              <bool>true</bool>
+            </property>
+            <property name="toolTip" >
+             <string>parameter description</string>
             </property>
             <property name="text" >
              <string>...</string>

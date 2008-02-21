@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <KPlotWidget>
+#include <QDomElement>
 
 class ParameterPlotter : public KPlotWidget {
 	Q_OBJECT
@@ -41,14 +42,14 @@ class ParameterPlotter : public KPlotWidget {
 		void createParametersNew();
 		QList<KPlotObject*> plotobjects;
 		QList<QColor> colors;
-		
+		QDomElement itemParameter;
 	protected:
 		void mouseMoveEvent ( QMouseEvent * event );
 		void mousePressEvent ( QMouseEvent * event );
 	public slots:
-		void setPointLists(const QList< QPair<QString, QMap<int,QVariant> > >&,int,int);
+		void setPointLists(const QDomElement&,int ,int);
 	signals:
-		void parameterChanged(QList< QPair<QString, QMap<int,QVariant> > > );
+		void parameterChanged(QDomElement );
 		void updateFrame(int);
 	
 };
