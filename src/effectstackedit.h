@@ -1,5 +1,5 @@
 /***************************************************************************
-                          effecstackview.h  -  description
+                          effecstackedit.h  -  description
                              -------------------
     begin                : Feb 15 2008
     copyright            : (C) 2008 by Marco Gittler
@@ -15,47 +15,34 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef EFFECTSTACKVIEW_H
-#define EFFECTSTACKVIEW_H
+#ifndef EFFECTSTACKEDIT_H
+#define EFFECTSTACKEDIT_H
 
-#include <KIcon>
-#include "clipitem.h"
-#include "ui_effectstack_ui.h"
-#include "effectstackedit.h"
-class EffectsList;
+#include <QWidget>
+#include <QDomElement>
+#include <QVBoxLayout>
+#include <QList>
+#include <QGroupBox>
+#include <QMap>
 
 
-class EffectStackView : public QWidget
+class EffectStackEdit : public QWidget
 {
 	Q_OBJECT
-		
-	public:
-		EffectStackView(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent=0);
-	
+public:
+	EffectStackEdit(QGroupBox* gbox,QWidget *parent );
 private:
-	int activeRow;
-	QList<QDomElement> effects;
-	Ui::EffectStack_UI ui;
-	ClipItem* clipref;
-	void setupListView();
-	void updateButtonStatus();
-	QMap<QString,EffectsList*> effectLists;
-	EffectStackEdit* effectedit;
-
+	void clearAllItems();
+	QVBoxLayout *vbox;
+	QList<QWidget*> items;
+	QDomElement params;
+	QMap<QString,void*> valueItems;
+	void collectAllParameters();
 public slots:
-	void slotClipItemSelected(ClipItem*);
-	void slotItemSelectionChanged();
-	void slotItemUp();
-	void slotItemDown();
-	void slotItemDel();
-	void slotNewEffect();
-	void itemSelectionChanged();
-	void slotUpdateEffectParams(const QDomElement&);
-signals:
 	void transferParamDesc(const QDomElement&,int ,int);
-	void removeEffect(ClipItem*, QDomElement);
-	void updateClipEffect(ClipItem*, QDomElement);
-
+	void slotSliderMoved(int);
+signals:
+	void parameterChanged(const QDomElement& );
 };
-
+	
 #endif

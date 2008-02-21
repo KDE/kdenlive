@@ -14,11 +14,12 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+#if 0
 #include <KPlotWidget>
 #include <QDomElement>
+#include "ui_keyframewidget_ui.h"
 
-class ParameterPlotter : public KPlotWidget {
+class ParameterPlotter : public QWidget , private Ui::KeyframeWidget_UI {
 	Q_OBJECT
 	public:
 		ParameterPlotter (QWidget *parent=0);
@@ -48,8 +49,16 @@ class ParameterPlotter : public KPlotWidget {
 		void mousePressEvent ( QMouseEvent * event );
 	public slots:
 		void setPointLists(const QDomElement&,int ,int);
+		void slotSetMoveX();
+		void slotSetMoveY();
+		void slotSetNew();
+		void slotSetHelp();
+		void slotShowInTimeline();
+		void slotParameterChanged(const QString&);
 	signals:
 		void parameterChanged(QDomElement );
 		void updateFrame(int);
 	
 };
+
+#endif 
