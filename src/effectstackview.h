@@ -34,14 +34,14 @@ class EffectStackView : public QWidget
 	
 private:
 	int activeRow;
-	QList<QDomElement> effects;
+	QMap<int,QDomElement> effects;
 	Ui::EffectStack_UI ui;
 	ClipItem* clipref;
 	void setupListView();
 	void updateButtonStatus();
 	QMap<QString,EffectsList*> effectLists;
 	EffectStackEdit* effectedit;
-
+	void renumberEffects();
 public slots:
 	void slotClipItemSelected(ClipItem*);
 	void slotItemSelectionChanged();

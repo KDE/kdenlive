@@ -35,12 +35,14 @@ private:
 	void clearAllItems();
 	QVBoxLayout *vbox;
 	QList<QWidget*> items;
+	QList<void*> uiItems;
 	QDomElement params;
 	QMap<QString,void*> valueItems;
-	void collectAllParameters();
+	
 public slots:
 	void transferParamDesc(const QDomElement&,int ,int);
 	void slotSliderMoved(int);
+	void collectAllParameters();
 signals:
 	void parameterChanged(const QDomElement& );
 };

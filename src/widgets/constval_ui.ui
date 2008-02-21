@@ -5,36 +5,97 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>410</width>
-    <height>259</height>
+    <width>312</width>
+    <height>67</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Form</string>
   </property>
   <layout class="QGridLayout" >
+   <property name="leftMargin" >
+    <number>0</number>
+   </property>
+   <property name="topMargin" >
+    <number>0</number>
+   </property>
+   <property name="rightMargin" >
+    <number>0</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>0</number>
+   </property>
+   <property name="horizontalSpacing" >
+    <number>0</number>
+   </property>
+   <property name="verticalSpacing" >
+    <number>0</number>
+   </property>
    <item row="0" column="0" >
     <layout class="QVBoxLayout" >
      <item>
-      <widget class="QLabel" name="title" >
-       <property name="text" >
-        <string>TextLabel</string>
+      <widget class="QGroupBox" name="title" >
+       <property name="font" >
+        <font>
+         <pointsize>8</pointsize>
+        </font>
        </property>
+       <property name="title" >
+        <string>GroupBox</string>
+       </property>
+       <property name="alignment" >
+        <set>Qt::AlignLeading</set>
+       </property>
+       <property name="flat" >
+        <bool>false</bool>
+       </property>
+       <property name="checkable" >
+        <bool>false</bool>
+       </property>
+       <layout class="QGridLayout" >
+        <property name="leftMargin" >
+         <number>0</number>
+        </property>
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
+         <number>0</number>
+        </property>
+        <property name="horizontalSpacing" >
+         <number>0</number>
+        </property>
+        <property name="verticalSpacing" >
+         <number>0</number>
+        </property>
+        <item row="0" column="0" >
+         <layout class="QHBoxLayout" >
+          <item>
+           <widget class="QSlider" name="horizontalSlider" >
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="invertedControls" >
+             <bool>false</bool>
+            </property>
+            <property name="tickPosition" >
+             <enum>QSlider::TicksBelow</enum>
+            </property>
+            <property name="tickInterval" >
+             <number>10</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox" />
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" >
-       <item>
-        <widget class="QSlider" name="horizontalSlider" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="spinBox" />
-       </item>
-      </layout>
      </item>
     </layout>
    </item>
@@ -49,12 +110,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>161</x>
-     <y>138</y>
+     <x>208</x>
+     <y>68</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>261</x>
-     <y>136</y>
+     <x>273</x>
+     <y>66</y>
     </hint>
    </hints>
   </connection>
@@ -65,12 +126,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>257</x>
-     <y>126</y>
+     <x>273</x>
+     <y>66</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>173</x>
-     <y>122</y>
+     <x>208</x>
+     <y>68</y>
     </hint>
    </hints>
   </connection>

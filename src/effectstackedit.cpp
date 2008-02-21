@@ -53,10 +53,14 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d,int ,int){
 		QDomNode na=pa.firstChildElement("name");
 		QDomNamedNodeMap nodeAtts=pa.attributes();
 		QString type=nodeAtts.namedItem("type").nodeValue();
-		QWidget * toFillin=NULL,*labelToFillIn=NULL;
+		QWidget * toFillin=new QWidget;
+		QString value=nodeAtts.namedItem("value").isNull()?
+			nodeAtts.namedItem("default").nodeValue():
+			nodeAtts.namedItem("value").nodeValue();
+		
 		//TODO constant, list, bool, complex , color, geometry, position
 		if (type=="double" || type=="constant"){
-			toFillin=new QWidget;
+			
 			Ui::Constval_UI *ctval=new Ui::Constval_UI;
 			ctval->setupUi(toFillin);
 			
@@ -64,16 +68,14 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d,int ,int){
 			ctval->horizontalSlider->setMaximum(nodeAtts.namedItem("max").nodeValue().toInt());
 			ctval->spinBox->setMinimum(ctval->horizontalSlider->minimum());
 			ctval->spinBox->setMaximum(ctval->horizontalSlider->maximum());
-			if (nodeAtts.namedItem("value").isNull())
-				ctval->horizontalSlider->setValue(nodeAtts.namedItem("default").nodeValue().toInt());
-			else
-				ctval->horizontalSlider->setValue(nodeAtts.namedItem("value").nodeValue().toInt());
+			
+			ctval->horizontalSlider->setValue(value.toInt());
 			ctval->title->setTitle(na.toElement().text() );
 			valueItems[na.toElement().text()]=ctval;
-			connect (ctval->horizontalSlider, SIGNAL(valueChanged(int)) , this, SLOT (slotSliderMoved(int)));
-		}
-		if (type=="list"){
-			toFillin=new QWidget;
+			uiItems.append(ctval);
+			connect (ctval->horizontalSlider, SIGNAL(valueChanged(int)) , this, SLOT (collectAllParameters()));
+		}else if (type=="list"){
+			
 			Ui::Listval_UI *lsval=new Ui::Listval_UI;
 			lsval->setupUi(toFillin);
 			nodeAtts.namedItem("paramlist");
@@ -84,22 +86,22 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d,int ,int){
 			else
 				lsval->list->setCurrentText(nodeAtts.namedItem("value").nodeValue());
 			*/
-			connect (lsval->list, SIGNAL(currentIndexChanged(int)) , this, SLOT (slotSliderMoved(int)));
+			connect (lsval->list, SIGNAL(currentIndexChanged(int)) , this, SLOT (collectAllParameters()));
 			lsval->title->setTitle(na.toElement().text() );
 			valueItems[na.toElement().text()]=lsval;
-		}
-		if (type=="bool"){
-			toFillin=new QWidget;
+			uiItems.append(lsval);
+		}else if (type=="bool"){
 			Ui::Boolval_UI *bval=new Ui::Boolval_UI;
 			bval->setupUi(toFillin);
-			if (nodeAtts.namedItem("value").isNull())
-				bval->checkBox->setCheckState(nodeAtts.namedItem("default").nodeValue()=="0" ? Qt::Unchecked : Qt::Checked);
-			else
-				bval->checkBox->setCheckState(nodeAtts.namedItem("value").nodeValue()=="0" ? Qt::Unchecked : Qt::Checked);		
+			bval->checkBox->setCheckState(value=="0" ? Qt::Unchecked : Qt::Checked);
 			
-			connect (bval->checkBox, SIGNAL(stateChanged(int)) , this, SLOT (slotSliderMoved(int)));
+			connect (bval->checkBox, SIGNAL(stateChanged(int)) , this, SLOT (collectAllParameters()));
 			bval->title->setTitle(na.toElement().text() );
 			valueItems[na.toElement().text()]=bval;
+			uiItems.append(bval);
+		}else{
+			delete toFillin;
+			toFillin=NULL;
 		}
 
 		if (toFillin){
@@ -115,17 +117,21 @@ void EffectStackEdit::collectAllParameters(){
 		QDomNode pa=namenode.item(i);
 		QDomNode na=pa.firstChildElement("name");
 		QString type=pa.attributes().namedItem("type").nodeValue();
+		QString setValue;
 		if (type=="double" || type=="constant"){
 			QSlider* slider=((Ui::Constval_UI*)valueItems[na.toElement().text()])->horizontalSlider;
-			pa.attributes().namedItem("value").setNodeValue(QString::number(slider->value()));
+			setValue=QString::number(slider->value());
 		}
 		if (type=="list"){
 			KComboBox *box=((Ui::Listval_UI*)valueItems[na.toElement().text()])->list;
-			pa.attributes().namedItem("value").setNodeValue(box->currentText());
+			setValue=box->currentText();
 		}
 		if (type=="bool"){
 			QCheckBox *box=((Ui::Boolval_UI*)valueItems[na.toElement().text()])->checkBox;
-			pa.attributes().namedItem("value").setNodeValue(box->checkState() == Qt::Checked ? "1" :"0" );
+			setValue=box->checkState() == Qt::Checked ? "1" :"0" ;
+		}
+		if (!setValue.isEmpty()){
+			pa.attributes().namedItem("value").setNodeValue(setValue);
 		}
 	}
 	emit parameterChanged(params);
@@ -136,10 +142,13 @@ void EffectStackEdit::slotSliderMoved(int){
 
 void EffectStackEdit::clearAllItems(){
 	foreach (QWidget* w,items){
-		kDebug() << "delete" << w;
 		vbox->removeWidget(w);
 		delete w;
 	}
+	foreach(void * p, uiItems){
+		delete p;
+	}
+	uiItems.clear();
 	items.clear();
 	valueItems.clear();
 }

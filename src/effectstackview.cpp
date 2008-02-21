@@ -80,11 +80,10 @@ void EffectStackView::slotClipItemSelected(ClipItem* c)
 	//effects=clipref->effectNames();
 	effects.clear();
 	for (int i=0;i<clipref->effectsCount();i++){
-		QString outstr;
-		QTextStream str(&outstr);
-		clipref->effectAt(i).save(str,2);
-		kDebug() << outstr;
-		effects.append(clipref->effectAt(i));
+
+		QDomElement element=clipref->effectAt(i);
+		effects[element.attribute("kdenlive_ix").toInt()]=element;
+		renumberEffects();
 	}
 	setupListView();
 	
@@ -109,14 +108,14 @@ void EffectStackView::setupListView(){
 			ui.effectlist->setCurrentRow(activeRow);
 		}
 	}
-
+	slotItemSelectionChanged();
 }
 
 void EffectStackView::slotItemSelectionChanged(){
 	
 	if (ui.effectlist->currentItem() && ui.effectlist->currentItem()->isSelected() ){
 		activeRow=ui.effectlist->row( ui.effectlist->currentItem() );
-		emit transferParamDesc(effects.at(activeRow) ,0,100);//minx max frame
+		emit transferParamDesc(effects[activeRow] ,0,100);//minx max frame
 	}else{
 		activeRow=-1;
 	}
@@ -127,7 +126,12 @@ void EffectStackView::slotItemSelectionChanged(){
 
 void EffectStackView::slotItemUp(){
 	if (activeRow>0 && activeRow <effects.size() ){
-		effects.swap(activeRow, activeRow-1);
+		QDomElement act=effects.take(activeRow);
+		QDomElement before=effects.take(activeRow-1);
+		effects[activeRow-1]=act;
+		effects[activeRow]=before;
+		renumberEffects();
+		//effects.swap(activeRow, activeRow-1);
 	}
 	activeRow--;
 	setupListView();
@@ -136,7 +140,12 @@ void EffectStackView::slotItemUp(){
 
 void EffectStackView::slotItemDown(){
 	if (activeRow<effects.size()-1  ){
-		effects.swap(activeRow, activeRow+1);
+		QDomElement act=effects.take(activeRow);
+		QDomElement after=effects.take(activeRow+1);
+		effects[activeRow+1]=act;
+		effects[activeRow]=after;
+		renumberEffects();
+		//effects.swap(activeRow, activeRow+1);
 	}
 	activeRow++;
 	setupListView();
@@ -146,8 +155,9 @@ void EffectStackView::slotItemDown(){
 void EffectStackView::slotItemDel(){
 	if (activeRow<effects.size() && activeRow>=0  ){
 		emit removeEffect(clipref, clipref->effectAt(activeRow));
-		effects.removeAt(activeRow);
-
+		effects.take(activeRow);
+		renumberEffects();
+		//effects.removeAt(activeRow);
 	}
 	if (effects.size()>0 && activeRow>0)
 	activeRow--;
@@ -155,7 +165,28 @@ void EffectStackView::slotItemDel(){
 	
 }
 
-
+void EffectStackView::renumberEffects(){
+	QMap<int,QDomElement> tmplist=effects;
+	QMapIterator<int,QDomElement> it(tmplist);
+	effects.clear();
+	int i=0;
+	
+	while (it.hasNext()){
+		it.next();
+		QDomElement item=it.value();
+		item.attributes().namedItem("kdenlive_ix").setNodeValue(QString::number(i));
+	
+		effects[i]=item;
+		if (clipref)
+			emit updateClipEffect(clipref,item);
+		QString outstr;
+		QTextStream str(&outstr);
+		item.save(str,2);
+		kDebug() << "nummer: " << i << " " << outstr;
+		i++;
+	}
+	
+}
 
 void EffectStackView::slotNewEffect(){
 	
