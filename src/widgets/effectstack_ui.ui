@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>870</width>
-    <height>671</height>
+    <width>489</width>
+    <height>363</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -29,7 +29,7 @@
        <item>
         <widget class="KListWidget" name="effectlist" >
          <property name="sizePolicy" >
-          <sizepolicy vsizetype="Expanding" hsizetype="MinimumExpanding" >
+          <sizepolicy vsizetype="Expanding" hsizetype="Maximum" >
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -80,9 +80,9 @@
             <enum>Qt::Horizontal</enum>
            </property>
            <property name="sizeType" >
-            <enum>QSizePolicy::MinimumExpanding</enum>
+            <enum>QSizePolicy::Expanding</enum>
            </property>
-           <property name="sizeHint" >
+           <property name="sizeHint" stdset="0" >
             <size>
              <width>40</width>
              <height>20</height>
@@ -112,7 +112,14 @@
           <enum>Qt::Vertical</enum>
          </property>
          <widget class="QFrame" name="frame" />
-         <widget class="KTextEdit" name="infoBox" />
+         <widget class="KTextEdit" name="infoBox" >
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Expanding" hsizetype="MinimumExpanding" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
         </widget>
        </item>
        <item>
@@ -120,7 +127,7 @@
          <property name="orientation" >
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" >
+         <property name="sizeHint" stdset="0" >
           <size>
            <width>256</width>
            <height>16</height>
@@ -132,9 +139,6 @@
      </widget>
     </widget>
    </item>
-   <item row="1" column="1" >
-    <widget class="KSeparator" name="kseparator" />
-   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -142,11 +146,6 @@
    <class>KListWidget</class>
    <extends>QListWidget</extends>
    <header>klistwidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KSeparator</class>
-   <extends>QFrame</extends>
-   <header>kseparator.h</header>
   </customwidget>
   <customwidget>
    <class>KTextEdit</class>
