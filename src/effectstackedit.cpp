@@ -26,7 +26,7 @@
 #include "ui_listval_ui.h"
 #include "ui_boolval_ui.h"
 
-EffectStackEdit::EffectStackEdit(QGroupBox* gbox,QWidget *parent): QWidget(parent)
+EffectStackEdit::EffectStackEdit(QGroupBox* gbox,QWidget *parent): QObject(parent)
 {
 	
 	vbox=new QVBoxLayout;

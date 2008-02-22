@@ -26,7 +26,7 @@
 #include <QMap>
 
 
-class EffectStackEdit : public QWidget
+class EffectStackEdit : public QObject
 {
 	Q_OBJECT
 public:
