@@ -49,7 +49,7 @@ public slots:
 	void slotShowInTimeline();
 	void slotParameterChanged(const QString&);
 	void itemSelectionChanged();
-	
+	void setupParam(const QDomElement&,int,int);
 signals:
 	void transferParamDesc(const QDomElement&,int ,int);
 	void removeEffect(ClipItem*, QDomElement);

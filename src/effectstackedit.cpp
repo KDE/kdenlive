@@ -123,6 +123,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d,int ,int){
 				};
 			}
 			ComplexParameter *pl=new ComplexParameter;
+			pl->setupParam(d,0,100);
 			vbox->addWidget(pl);
 			items.append(pl);
 		}else{

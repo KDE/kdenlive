@@ -77,6 +77,7 @@ set(kdenlive_SRCS
   profilesdialog.cpp
   projectsettings.cpp
   kdenlivesettingsdialog.cpp
+  complexparameter.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )
