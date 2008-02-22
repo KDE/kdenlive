@@ -333,10 +333,11 @@ void CustomTrackView::slotRefreshEffects(ClipItem *clip)
 {
   int track = m_tracksCount - clip->track();
   GenTime pos = GenTime(clip->startPos(), m_document->fps());
-  m_document->renderer()->mltRemoveEffect(track, pos, "-1");
+  m_document->renderer()->mltRemoveEffect(track, pos, "-1", false);
   for (int i = 0; i < clip->effectsCount(); i++) {
-    m_document->renderer()->mltAddEffect(track, pos, clip->getEffectArgs(clip->effectAt(i)));
+    m_document->renderer()->mltAddEffect(track, pos, clip->getEffectArgs(clip->effectAt(i)), false);
   }
+  m_document->renderer()->doRefresh();
 }
 
 void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)

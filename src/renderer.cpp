@@ -1004,7 +1004,7 @@ void Render::mltRemoveClip(int track, GenTime position)
     m_isBlocked = false;
 }
 
-void Render::mltRemoveEffect(int track, GenTime position, QString index)
+void Render::mltRemoveEffect(int track, GenTime position, QString index, bool doRefresh)
 {
 
     Mlt::Service service(m_mltProducer->parent().get_service());
@@ -1034,11 +1034,11 @@ void Render::mltRemoveEffect(int track, GenTime position, QString index)
 	    filter = clipService.filter( ct );
 	}
     m_isBlocked = false;
-    refresh();
+    if (doRefresh) refresh();
 }
 
 
-void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> args)
+void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> args, bool doRefresh)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
@@ -1095,7 +1095,7 @@ void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
     clipService.attach(*filter);
     delete[] filterId;
     m_isBlocked = false;
-    refresh();
+    if (doRefresh) refresh();
 
 }
 
