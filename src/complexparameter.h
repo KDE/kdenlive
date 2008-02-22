@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef EFFECTSTACKVIEW_H
-#define EFFECTSTACKVIEW_H
+#ifndef COMPLEXPARAM_H
+#define COMPLEXPARAM_H
 
 #include <KIcon>
 
