@@ -104,19 +104,31 @@
        </item>
       </layout>
      </widget>
-     <widget class="QSplitter" name="splitter" >
-      <property name="orientation" >
-       <enum>Qt::Vertical</enum>
-      </property>
-      <widget class="QFrame" name="frame" >
-       <property name="frameShape" >
-        <enum>QFrame::WinPanel</enum>
-       </property>
-       <property name="frameShadow" >
-        <enum>QFrame::Sunken</enum>
-       </property>
-      </widget>
-      <widget class="KTextEdit" name="infoBox" />
+     <widget class="QWidget" name="layoutWidget" >
+      <layout class="QVBoxLayout" >
+       <item>
+        <widget class="QSplitter" name="splitter" >
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <widget class="QFrame" name="frame" />
+         <widget class="KTextEdit" name="infoBox" />
+        </widget>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>256</width>
+           <height>16</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>

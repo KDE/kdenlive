@@ -27,14 +27,22 @@
 #include "ui_constval_ui.h"
 #include "ui_listval_ui.h"
 #include "ui_boolval_ui.h"
-#include "parameterplotter.h"
+#include "complexparameter.h"
 
 EffectStackEdit::EffectStackEdit(QFrame* frame,QWidget *parent): QObject(parent)
 {
 	QScrollArea *area;
-	QVBoxLayout *vbox1=new QVBoxLayout;
-	frame->setLayout(vbox1);
+	QVBoxLayout *vbox1=new QVBoxLayout(frame);
+	QVBoxLayout *vbox2=new QVBoxLayout(frame);
 	vbox=new QVBoxLayout(frame);
+	vbox1->setContentsMargins (0,0,0,0);
+	vbox1->setSpacing(0);
+	vbox2->setContentsMargins (0,0,0,0);
+	vbox2->setSpacing(0);
+	vbox->setContentsMargins (0,0,0,0);
+	vbox->setSpacing(0);
+	frame->setLayout(vbox1);
+	
 	
 	area=new QScrollArea(frame);
 	QWidget *wid=new QWidget(area);
@@ -44,7 +52,9 @@ EffectStackEdit::EffectStackEdit(QFrame* frame,QWidget *parent): QObject(parent)
 	//area->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::MinimumExpanding));
 
 	vbox1->addWidget(area);
-	wid->setLayout(vbox);
+	wid->setLayout(vbox2);
+	vbox2->addLayout(vbox);
+	vbox2->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding));
 	area->setWidget(wid);
 	area->setWidgetResizable(true);
 	wid->show();
@@ -112,7 +122,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d,int ,int){
 					createSliderItem(names[i],val[i].toInt(),min[i].toInt(),max[i].toInt());
 				};
 			}
-			ParameterPlotter *pl=new ParameterPlotter;
+			ComplexParameter *pl=new ComplexParameter;
 			vbox->addWidget(pl);
 			items.append(pl);
 		}else{

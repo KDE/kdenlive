@@ -22,18 +22,12 @@
 #include <KDebug>
 #include <KPlotPoint>
 
-ParameterPlotter::ParameterPlotter (QWidget *parent):QWidget(parent){
-	setupUi(this);
-	kplotwidget=new PlotWrapper(this);
-	QVBoxLayout *vbox=new QVBoxLayout (this);
-	vbox->addWidget(kplotwidget);
-	widget->setLayout(vbox);
-	
-	kplotwidget->setAntialiasing(true);
-	kplotwidget->setLeftPadding(20);
-	kplotwidget->setRightPadding(10);
-	kplotwidget->setTopPadding(10);
-	kplotwidget->setBottomPadding(20);
+ParameterPlotter::ParameterPlotter (QWidget *parent):KPlotWidget (parent){
+	setAntialiasing(true);
+	setLeftPadding(20);
+	setRightPadding(10);
+	setTopPadding(10);
+	setBottomPadding(20);
 	movepoint=NULL;
 	colors << Qt::white << Qt::red << Qt::green << Qt::blue << Qt::magenta << Qt::gray << Qt::cyan;
 	maxy=0;
@@ -42,24 +36,6 @@ ParameterPlotter::ParameterPlotter (QWidget *parent):QWidget(parent){
 	m_moveTimeline=true;
 	m_newPoints=false;
 	activeIndexPlot=-1;
-	buttonLeftRight->setIcon(KIcon("go-next"));//better icons needed
-	buttonLeftRight->setToolTip(i18n("Allow horizontal moves"));
-	buttonUpDown->setIcon(KIcon("go-up"));
-	buttonUpDown->setToolTip(i18n("Allow vertical moves"));
-	buttonShowInTimeline->setIcon(KIcon("kmplayer"));
-	buttonShowInTimeline->setToolTip(i18n("Show keyframes in timeline"));
-	buttonHelp->setIcon(KIcon("help-about"));
-	buttonHelp->setToolTip(i18n("Parameter info"));
-	buttonNewPoints->setIcon(KIcon("xedit"));
-	buttonNewPoints->setToolTip(i18n("Add keyframe"));
-	infoBox->hide();
-	connect (buttonLeftRight, SIGNAL (clicked()), this , SLOT ( slotSetMoveX() ) );
-	connect (buttonUpDown, SIGNAL (clicked()), this , SLOT ( slotSetMoveY() ) );
-	connect (buttonShowInTimeline, SIGNAL (clicked()), this , SLOT ( slotShowInTimeline() ) );
-	connect (buttonNewPoints, SIGNAL (clicked()), this , SLOT ( slotSetNew() ) );
-	connect (buttonHelp, SIGNAL (clicked()), this , SLOT ( slotSetHelp() ) );
-	connect (parameterList, SIGNAL (currentIndexChanged ( const QString &  ) ), this, SLOT( slotParameterChanged(const QString&) ) );
-	updateButtonStatus();
 }
 /*
     <name>Lines</name>
@@ -82,7 +58,7 @@ void ParameterPlotter::setPointLists(const QDomElement& d,int startframe,int end
 	QDomNodeList namenode = d.elementsByTagName("parameter");
 	
 	int max_y=0;
-	kplotwidget->removeAllPlotObjects ();
+	removeAllPlotObjects ();
 	parameterNameList.clear();
 	plotobjects.clear();
 	
@@ -111,14 +87,14 @@ void ParameterPlotter::setPointLists(const QDomElement& d,int startframe,int end
 	}
 	maxx=endframe;
 	maxy=max_y;
-	kplotwidget->setLimits(0,endframe,0,maxy+10);
-	kplotwidget->addPlotObjects(plotobjects);
+	setLimits(0,endframe,0,maxy+10);
+	addPlotObjects(plotobjects);
 
 }
 
 void ParameterPlotter::createParametersNew(){
 	
-	QList<KPlotObject*> plotobjs=kplotwidget->plotObjects();
+	QList<KPlotObject*> plotobjs=plotObjects();
 	if (plotobjs.size() != parameterNameList.size() ){
 		kDebug() << "ERROR size not equal";
 	}
@@ -149,23 +125,23 @@ void ParameterPlotter::createParametersNew(){
 void ParameterPlotter::mouseMoveEvent ( QMouseEvent * event ) {
 	
 	if (movepoint!=NULL){
-		QList<KPlotPoint*> list=   kplotwidget->pointsUnderPoint (event->pos()-QPoint(kplotwidget->leftPadding(), kplotwidget->topPadding() )  ) ;
+		QList<KPlotPoint*> list=   pointsUnderPoint (event->pos()-QPoint(leftPadding(), topPadding() )  ) ;
 		int i=0,j=-1;
-		foreach (KPlotObject *o, kplotwidget->plotObjects() ){
+		foreach (KPlotObject *o, plotObjects() ){
 			QList<KPlotPoint*> points=o->points();
 			for(int p=0;p<points.size();p++){
 				if (points[p]==movepoint){
 					QPoint delta=event->pos()-oldmousepoint;
 					if (m_moveY)
-						movepoint->setY(movepoint->y()-delta.y()*kplotwidget->dataRect().height()/kplotwidget->pixRect().height() );
+					movepoint->setY(movepoint->y()-delta.y()*dataRect().height()/pixRect().height() );
 					if (p>0 && p<points.size()-1){
-						double newx=movepoint->x()+delta.x()*kplotwidget->dataRect().width()/kplotwidget->pixRect().width();
+						double newx=movepoint->x()+delta.x()*dataRect().width()/pixRect().width();
 						if ( newx>points[p-1]->x() && newx<points[p+1]->x() && m_moveX)
-							movepoint->setX(movepoint->x()+delta.x()*kplotwidget->dataRect().width()/kplotwidget->pixRect().width() );
+							movepoint->setX(movepoint->x()+delta.x()*dataRect().width()/pixRect().width() );
 					}
 					if (m_moveTimeline && (m_moveX|| m_moveY) )
 						emit updateFrame(0);
-					kplotwidget->replacePlotObject(i,o);
+					replacePlotObject(i,o);
 					oldmousepoint=event->pos();
 				}
 			}
@@ -180,19 +156,19 @@ void ParameterPlotter::replot(const QString & name){
 	int i=0;
 	bool drawAll=name.isEmpty() || name=="all";
 	activeIndexPlot=-1;
-	foreach (KPlotObject* p,kplotwidget->plotObjects() ){
+	foreach (KPlotObject* p,plotObjects() ){
 		p->setShowPoints(drawAll || parameterNameList[i]==name);
 		p->setShowLines(drawAll || parameterNameList[i]==name);
 		if ( parameterNameList[i]==name )
 			activeIndexPlot = i;
-		kplotwidget->replacePlotObject(i++,p);
+		replacePlotObject(i++,p);
 	}
 }
 
 void ParameterPlotter::mousePressEvent ( QMouseEvent * event ) {
 	//topPadding and other padding can be wrong and this (i hope) will be correctet in newer kde versions
-	QPoint inPlot=event->pos()-QPoint(kplotwidget->leftPadding(), kplotwidget->topPadding() );
-	QList<KPlotPoint*> list=   kplotwidget->pointsUnderPoint (inPlot ) ;
+	QPoint inPlot=event->pos()-QPoint(leftPadding(), topPadding() );
+	QList<KPlotPoint*> list=   pointsUnderPoint (inPlot ) ;
 	if (event->button()==Qt::LeftButton){
 		if (list.size() > 0){
 			movepoint=list[0];
@@ -200,12 +176,12 @@ void ParameterPlotter::mousePressEvent ( QMouseEvent * event ) {
 		}else{
 			if (m_newPoints && activeIndexPlot>=0){
 				//setup new points
-				KPlotObject* p=kplotwidget->plotObjects()[activeIndexPlot];
+				KPlotObject* p=plotObjects()[activeIndexPlot];
 				QList<KPlotPoint*> points=p->points();
 				QList<QPointF> newpoints;
 				
-				double newx=inPlot.x()*kplotwidget->dataRect().width()/kplotwidget->pixRect().width();
-				double newy=(height()-inPlot.y()-kplotwidget->bottomPadding()-kplotwidget->topPadding() )*kplotwidget->dataRect().height()/kplotwidget->pixRect().height();
+				double newx=inPlot.x()*dataRect().width()/pixRect().width();
+				double newy=(height()-inPlot.y()-bottomPadding()-topPadding() )*dataRect().height()/pixRect().height();
 				bool inserted=false;
 				foreach (KPlotPoint* pt,points){
 					if (pt->x() >newx && !inserted){
@@ -218,7 +194,7 @@ void ParameterPlotter::mousePressEvent ( QMouseEvent * event ) {
 				foreach (QPointF qf, newpoints ){
 					p->addPoint(qf);
 				}
-				kplotwidget->replacePlotObject(activeIndexPlot,p);
+				replacePlotObject(activeIndexPlot,p);
 			}
 			movepoint=NULL;
 		}
@@ -227,57 +203,34 @@ void ParameterPlotter::mousePressEvent ( QMouseEvent * event ) {
 	}
 }
 
-
-void ParameterPlotter::slotSetMoveX(){
-	m_moveX=!m_moveX;
-	updateButtonStatus();
+void ParameterPlotter::setMoveX(bool b){
+	m_moveX=b;
 }
 
-void ParameterPlotter::slotSetMoveY(){
-	m_moveY=!m_moveY;
-	updateButtonStatus();
+void ParameterPlotter::setMoveY(bool b){
+	m_moveY=b;
 }
 
-void ParameterPlotter::slotSetNew(){
-	m_newPoints=!m_newPoints;
-	updateButtonStatus();
+void ParameterPlotter::setMoveTimeLine(bool b){
+	m_moveTimeline=b;
 }
 
-void ParameterPlotter::slotSetHelp(){
-	infoBox->setVisible(!infoBox->isVisible());
-	buttonHelp->setDown(infoBox->isVisible());
+void ParameterPlotter::setNewPoints(bool b){
+	m_newPoints=b;
 }
 
-void ParameterPlotter::slotShowInTimeline(){
-	
-	m_moveTimeline=!m_moveTimeline;
-	updateButtonStatus();
-	
+bool ParameterPlotter::isMoveX(){
+	return m_moveX;
 }
 
-void ParameterPlotter::updateButtonStatus(){
-	buttonLeftRight->setDown(m_moveY);
-	buttonUpDown->setDown(m_moveX);
-	
-	buttonShowInTimeline->setEnabled( m_moveX || m_moveY);
-	buttonShowInTimeline->setDown(m_moveTimeline);
-	
-	///TODO buttonNewPoints->setEnabled(currentText()!="all");
-	buttonNewPoints->setDown(m_newPoints);
+bool ParameterPlotter::isMoveY(){
+	return m_moveY;
 }
 
-void ParameterPlotter::slotParameterChanged(const QString& text){
-	
-	//ui.buttonNewPoints->setEnabled(text!="all");
-	replot(text);
-	updateButtonStatus();
-/*
-ui.parameterList->clear();
-		ui.parameterList->addItem("all");
-		QDomNodeList namenode = effects.at(activeRow).elementsByTagName("parameter");
-		for (int i=0;i<namenode.count();i++){
-			QDomNode pa=namenode.item(i);
-			QDomNode na=pa.firstChildElement("name");
-			ui.parameterList->addItem(na.toElement().text() );
-		}*/
+bool ParameterPlotter::isMoveTimeline(){
+	return m_moveTimeline;
+}
+
+bool ParameterPlotter::isNewPoints(){
+	return m_newPoints;
 }

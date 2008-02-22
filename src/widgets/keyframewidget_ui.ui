@@ -20,11 +20,12 @@
   </property>
   <layout class="QGridLayout" >
    <item row="0" column="0" >
-    <layout class="QVBoxLayout" >
-     <item>
-      <widget class="QWidget" native="1" name="widget" />
-     </item>
-     <item>
+    <widget class="QSplitter" name="splitter" >
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <widget class="ParameterPlotter" name="kplotwidget" />
+     <widget class="QWidget" name="" >
       <layout class="QHBoxLayout" >
        <item>
         <widget class="QToolButton" name="buttonLeftRight" >
@@ -115,11 +116,9 @@
         </widget>
        </item>
       </layout>
-     </item>
-     <item>
-      <widget class="KTextEdit" name="infoBox" />
-     </item>
-    </layout>
+     </widget>
+     <widget class="KTextEdit" name="infoBox" />
+    </widget>
    </item>
   </layout>
  </widget>
@@ -133,6 +132,11 @@
    <class>KTextEdit</class>
    <extends>QTextEdit</extends>
    <header>ktextedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ParameterPlotter</class>
+   <extends>KPlotWidget</extends>
+   <header>parameterplotter.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
