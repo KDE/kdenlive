@@ -58,7 +58,7 @@ EffectStackView::EffectStackView(EffectsList *audioEffectList, EffectsList *vide
 	effectLists["custom"]=customEffectList;
 	
 	ui.infoBox->hide();	
-	
+	setEnabled(false);
 	
 }
 
@@ -211,7 +211,8 @@ void EffectStackView::slotNewEffect(){
 		//TODO effects.append(result->data().toString());
 		foreach (EffectsList* e, effectLists.values()){
 			QDomElement dom=e->getEffectByName(result->data().toString());
-			clipref->addEffect(dom);
+			if (clipref)
+				clipref->addEffect(dom);
 			slotClipItemSelected(clipref);
 		}
 		
