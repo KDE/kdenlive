@@ -502,13 +502,13 @@ void KRender::getFileProperties(KURL url, uint framenb)
 		// Get the video_index
 		int index = mlt_properties_get_int( properties, "video_index" );
 		if (context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name )
-			filePropertyMap["videocodec"] = context->streams[ index ]->codec->codec->name;
+			fcontext->streams && ilePropertyMap["videocodec"] = context->streams[ index ]->codec->codec->name;
 	}
 	context = (AVFormatContext *) mlt_properties_get_data( properties, "audio_context", NULL );
 	if (context != NULL) {
 		// Get the video_index
 		int index = mlt_properties_get_int( properties, "audio_index" );
-		if (context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name )
+		if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name )
 			filePropertyMap["audiocodec"] = context->streams[ index ]->codec->codec->name;
 	}
 
