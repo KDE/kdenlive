@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>411</width>
-    <height>204</height>
+    <width>756</width>
+    <height>698</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -20,126 +20,106 @@
   </property>
   <layout class="QGridLayout" >
    <item row="0" column="0" >
-    <widget class="QSplitter" name="splitter" >
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <widget class="QWidget" name="layoutWidget" >
-      <layout class="QVBoxLayout" >
+    <layout class="QVBoxLayout" >
+     <item>
+      <widget class="QWidget" native="1" name="widget" />
+     </item>
+     <item>
+      <layout class="QHBoxLayout" >
        <item>
-        <widget class="QStackedWidget" name="stackedWidget" >
-         <property name="currentIndex" >
-          <number>0</number>
+        <widget class="QToolButton" name="buttonLeftRight" >
+         <property name="toolTip" >
+          <string>move on X axis</string>
          </property>
-         <widget class="QWidget" name="page" >
-          <layout class="QGridLayout" >
-           <item row="0" column="0" >
-            <layout class="QVBoxLayout" >
-             <item>
-              <widget class="ParameterPlotter" name="kplotwidget" />
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="page_2" />
+         <property name="text" >
+          <string>...</string>
+         </property>
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" >
-         <item>
-          <widget class="QToolButton" name="buttonLeftRight" >
-           <property name="toolTip" >
-            <string>move on X axis</string>
-           </property>
-           <property name="text" >
-            <string>...</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="buttonUpDown" >
-           <property name="enabled" >
-            <bool>true</bool>
-           </property>
-           <property name="toolTip" >
-            <string>move on Y axis</string>
-           </property>
-           <property name="text" >
-            <string>...</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="buttonShowInTimeline" >
-           <property name="enabled" >
-            <bool>false</bool>
-           </property>
-           <property name="toolTip" >
-            <string>update values in timeline</string>
-           </property>
-           <property name="text" >
-            <string>...</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="buttonNewPoints" >
-           <property name="enabled" >
-            <bool>false</bool>
-           </property>
-           <property name="toolTip" >
-            <string>create new points</string>
-           </property>
-           <property name="text" >
-            <string>...</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer>
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" >
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="checkBox" >
-           <property name="text" >
-            <string>GraphView</string>
-           </property>
-           <property name="checked" >
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="KComboBox" name="parameterList" />
-         </item>
-         <item>
-          <widget class="QToolButton" name="buttonHelp" >
-           <property name="enabled" >
-            <bool>true</bool>
-           </property>
-           <property name="toolTip" >
-            <string>parameter description</string>
-           </property>
-           <property name="text" >
-            <string>...</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <widget class="QToolButton" name="buttonUpDown" >
+         <property name="enabled" >
+          <bool>true</bool>
+         </property>
+         <property name="toolTip" >
+          <string>move on Y axis</string>
+         </property>
+         <property name="text" >
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="buttonShowInTimeline" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
+         <property name="toolTip" >
+          <string>update values in timeline</string>
+         </property>
+         <property name="text" >
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="buttonNewPoints" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
+         <property name="toolTip" >
+          <string>create new points</string>
+         </property>
+         <property name="text" >
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox" >
+         <property name="text" >
+          <string>GraphView</string>
+         </property>
+         <property name="checked" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="KComboBox" name="parameterList" />
+       </item>
+       <item>
+        <widget class="QToolButton" name="buttonHelp" >
+         <property name="enabled" >
+          <bool>true</bool>
+         </property>
+         <property name="toolTip" >
+          <string>parameter description</string>
+         </property>
+         <property name="text" >
+          <string>...</string>
+         </property>
+        </widget>
        </item>
       </layout>
-     </widget>
-    </widget>
+     </item>
+     <item>
+      <widget class="KTextEdit" name="infoBox" />
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
@@ -150,9 +130,9 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>ParameterPlotter</class>
-   <extends>KPlotWidget</extends>
-   <header>parameterplotter.h</header>
+   <class>KTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>ktextedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

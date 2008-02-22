@@ -22,15 +22,15 @@
 #include <QDomElement>
 #include <QVBoxLayout>
 #include <QList>
-#include <QGroupBox>
 #include <QMap>
 
+class QFrame;
 
 class EffectStackEdit : public QObject
 {
 	Q_OBJECT
 public:
-	EffectStackEdit(QGroupBox* gbox,QWidget *parent );
+	EffectStackEdit(QFrame* frame,QWidget *parent );
 private:
 	void clearAllItems();
 	QVBoxLayout *vbox;
@@ -38,7 +38,7 @@ private:
 	QList<void*> uiItems;
 	QDomElement params;
 	QMap<QString,void*> valueItems;
-	
+	void createSliderItem(const QString& name, int val ,int min, int max);
 public slots:
 	void transferParamDesc(const QDomElement&,int ,int);
 	void slotSliderMoved(int);

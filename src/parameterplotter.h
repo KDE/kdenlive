@@ -14,27 +14,30 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#if 0
+
 #include <KPlotWidget>
 #include <QDomElement>
 #include "ui_keyframewidget_ui.h"
 
-class ParameterPlotter : public QWidget , private Ui::KeyframeWidget_UI {
+class PlotWrapper : public KPlotWidget {
+	Q_OBJECT
+	public:
+		PlotWrapper (QWidget *parent=0):KPlotWidget(parent){}
+		QList<KPlotPoint*> pointsUnderPoint(const QPoint& p){
+			return KPlotWidget::pointsUnderPoint( p );
+		}
+};
+
+
+class ParameterPlotter : public QWidget , public Ui::KeyframeWidget_UI {
 	Q_OBJECT
 	public:
 		ParameterPlotter (QWidget *parent=0);
 		virtual ~ParameterPlotter(){}
-		void setMoveX(bool);
-		void setMoveY(bool);
-		void setMoveTimeLine(bool);
-		void setNewPoints(bool);
-		bool isMoveX();
-		bool isMoveY();
-		bool isMoveTimeline();
-		bool isNewPoints();
 		void replot(const QString& name="");
 	private:
 		KPlotPoint* movepoint;
+		PlotWrapper* kplotwidget;
 		int activeIndexPlot;
 		bool m_moveX,m_moveY,m_moveTimeline,m_newPoints;
 		QPoint oldmousepoint;
@@ -44,6 +47,7 @@ class ParameterPlotter : public QWidget , private Ui::KeyframeWidget_UI {
 		QList<KPlotObject*> plotobjects;
 		QList<QColor> colors;
 		QDomElement itemParameter;
+		void updateButtonStatus();
 	protected:
 		void mouseMoveEvent ( QMouseEvent * event );
 		void mousePressEvent ( QMouseEvent * event );
@@ -61,4 +65,3 @@ class ParameterPlotter : public QWidget , private Ui::KeyframeWidget_UI {
 	
 };
 
-#endif 

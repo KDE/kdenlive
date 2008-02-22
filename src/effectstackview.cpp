@@ -28,7 +28,7 @@ EffectStackView::EffectStackView(EffectsList *audioEffectList, EffectsList *vide
 : QWidget(parent)
 {
 	ui.setupUi(this);
-	effectedit=new EffectStackEdit(ui.groupBox,this);
+	effectedit=new EffectStackEdit(ui.frame,this);
 	//ui.effectlist->horizontalHeader()->setVisible(false);
 	//ui.effectlist->verticalHeader()->setVisible(false);
 	activeRow=-1;

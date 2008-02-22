@@ -21,12 +21,6 @@
   <layout class="QGridLayout" >
    <item row="0" column="0" >
     <widget class="QSplitter" name="splitter_2" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>
@@ -35,7 +29,7 @@
        <item>
         <widget class="KListWidget" name="effectlist" >
          <property name="sizePolicy" >
-          <sizepolicy vsizetype="Expanding" hsizetype="Minimum" >
+          <sizepolicy vsizetype="Expanding" hsizetype="MinimumExpanding" >
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -86,7 +80,7 @@
             <enum>Qt::Horizontal</enum>
            </property>
            <property name="sizeType" >
-            <enum>QSizePolicy::Expanding</enum>
+            <enum>QSizePolicy::MinimumExpanding</enum>
            </property>
            <property name="sizeHint" >
             <size>
@@ -111,24 +105,15 @@
       </layout>
      </widget>
      <widget class="QSplitter" name="splitter" >
-      <property name="sizePolicy" >
-       <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
       <property name="orientation" >
        <enum>Qt::Vertical</enum>
       </property>
-      <widget class="QGroupBox" name="groupBox" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+      <widget class="QFrame" name="frame" >
+       <property name="frameShape" >
+        <enum>QFrame::WinPanel</enum>
        </property>
-       <property name="title" >
-        <string>GroupBox</string>
+       <property name="frameShadow" >
+        <enum>QFrame::Sunken</enum>
        </property>
       </widget>
       <widget class="KTextEdit" name="infoBox" />

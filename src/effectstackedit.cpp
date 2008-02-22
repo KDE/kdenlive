@@ -21,20 +21,33 @@
 #include <QVBoxLayout>
 #include <QSlider>
 #include <QLabel>
+#include <QPushButton>
 #include <QCheckBox>
+#include <QScrollArea>
 #include "ui_constval_ui.h"
 #include "ui_listval_ui.h"
 #include "ui_boolval_ui.h"
+#include "parameterplotter.h"
 
-EffectStackEdit::EffectStackEdit(QGroupBox* gbox,QWidget *parent): QObject(parent)
+EffectStackEdit::EffectStackEdit(QFrame* frame,QWidget *parent): QObject(parent)
 {
+	QScrollArea *area;
+	QVBoxLayout *vbox1=new QVBoxLayout;
+	frame->setLayout(vbox1);
+	vbox=new QVBoxLayout(frame);
 	
-	vbox=new QVBoxLayout;
-	gbox->setSizePolicy(QSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum));
-	QVBoxLayout *tmpvbox=new QVBoxLayout;
-	tmpvbox->addLayout(vbox);
-	tmpvbox->addItem(new QSpacerItem(0,0,QSizePolicy::Expanding,QSizePolicy::Expanding));
-	gbox->setLayout(tmpvbox);
+	area=new QScrollArea(frame);
+	QWidget *wid=new QWidget(area);
+	area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	area->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+	wid->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::Minimum));
+	//area->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::MinimumExpanding));
+
+	vbox1->addWidget(area);
+	wid->setLayout(vbox);
+	area->setWidget(wid);
+	area->setWidgetResizable(true);
+	wid->show();
 	
 }
 void EffectStackEdit::transferParamDesc(const QDomElement& d,int ,int){
@@ -53,6 +66,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d,int ,int){
 		QDomNode na=pa.firstChildElement("name");
 		QDomNamedNodeMap nodeAtts=pa.attributes();
 		QString type=nodeAtts.namedItem("type").nodeValue();
+		QString paramName=na.toElement().text();
 		QWidget * toFillin=new QWidget;
 		QString value=nodeAtts.namedItem("value").isNull()?
 			nodeAtts.namedItem("default").nodeValue():
@@ -60,35 +74,20 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d,int ,int){
 		
 		//TODO constant, list, bool, complex , color, geometry, position
 		if (type=="double" || type=="constant"){
-			
-			Ui::Constval_UI *ctval=new Ui::Constval_UI;
-			ctval->setupUi(toFillin);
-			
-			ctval->horizontalSlider->setMinimum(nodeAtts.namedItem("min").nodeValue().toInt());
-			ctval->horizontalSlider->setMaximum(nodeAtts.namedItem("max").nodeValue().toInt());
-			ctval->spinBox->setMinimum(ctval->horizontalSlider->minimum());
-			ctval->spinBox->setMaximum(ctval->horizontalSlider->maximum());
-			
-			ctval->horizontalSlider->setValue(value.toInt());
-			ctval->title->setTitle(na.toElement().text() );
-			valueItems[na.toElement().text()]=ctval;
-			uiItems.append(ctval);
-			connect (ctval->horizontalSlider, SIGNAL(valueChanged(int)) , this, SLOT (collectAllParameters()));
+			createSliderItem(paramName,value.toInt(),nodeAtts.namedItem("min").nodeValue().toInt(),nodeAtts.namedItem("max").nodeValue().toInt() );
+			delete toFillin;
+			toFillin=NULL;
 		}else if (type=="list"){
 			
 			Ui::Listval_UI *lsval=new Ui::Listval_UI;
 			lsval->setupUi(toFillin);
 			nodeAtts.namedItem("paramlist");
-			
-			lsval->list->addItems(nodeAtts.namedItem("paramlist").nodeValue().split(","));
-			/*if (nodeAtts.namedItem("value").isNull())
-				lsval->list->setCurrentText(nodeAtts.namedItem("default").nodeValue());
-			else
-				lsval->list->setCurrentText(nodeAtts.namedItem("value").nodeValue());
-			*/
+			QStringList listitems=nodeAtts.namedItem("paramlist").nodeValue().split(",");
+			lsval->list->addItems(listitems);
+			lsval->list->setCurrentIndex(listitems.indexOf(value));;
 			connect (lsval->list, SIGNAL(currentIndexChanged(int)) , this, SLOT (collectAllParameters()));
 			lsval->title->setTitle(na.toElement().text() );
-			valueItems[na.toElement().text()]=lsval;
+			valueItems[paramName]=lsval;
 			uiItems.append(lsval);
 		}else if (type=="bool"){
 			Ui::Boolval_UI *bval=new Ui::Boolval_UI;
@@ -97,8 +96,25 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d,int ,int){
 			
 			connect (bval->checkBox, SIGNAL(stateChanged(int)) , this, SLOT (collectAllParameters()));
 			bval->title->setTitle(na.toElement().text() );
-			valueItems[na.toElement().text()]=bval;
+			valueItems[paramName]=bval;
 			uiItems.append(bval);
+		}else if(type=="complex"){
+			QStringList names=nodeAtts.namedItem("name").nodeValue().split(";");
+			QStringList max=nodeAtts.namedItem("max").nodeValue().split(";");
+			QStringList min=nodeAtts.namedItem("min").nodeValue().split(";");
+			QStringList val=value.split(";");
+			kDebug() << "in complex"<<names.size() << " " << max.size() << " " << min.size() << " " << val.size()  ;
+			if ( (names.size() == max.size() ) && 
+			     (names.size()== min.size()) && 
+			     (names.size()== val.size()) )
+			{
+				for (int i=0;i< names.size();i++){
+					createSliderItem(names[i],val[i].toInt(),min[i].toInt(),max[i].toInt());
+				};
+			}
+			ParameterPlotter *pl=new ParameterPlotter;
+			vbox->addWidget(pl);
+			items.append(pl);
 		}else{
 			delete toFillin;
 			toFillin=NULL;
@@ -136,6 +152,26 @@ void EffectStackEdit::collectAllParameters(){
 	}
 	emit parameterChanged(params);
 }
+
+void EffectStackEdit::createSliderItem(const QString& name, int val ,int min, int max){
+	QWidget* toFillin=new QWidget;
+	Ui::Constval_UI *ctval=new Ui::Constval_UI;
+	ctval->setupUi(toFillin);
+	
+	ctval->horizontalSlider->setMinimum(min);
+	ctval->horizontalSlider->setMaximum(max);
+	ctval->spinBox->setMinimum(min);
+	ctval->spinBox->setMaximum(max);
+	
+	ctval->horizontalSlider->setValue(val);
+	ctval->title->setTitle(name);
+	valueItems[name]=ctval;
+	uiItems.append(ctval);
+	connect (ctval->horizontalSlider, SIGNAL(valueChanged(int)) , this, SLOT (collectAllParameters()));
+	items.append(toFillin);
+	vbox->addWidget(toFillin);
+}
+
 void EffectStackEdit::slotSliderMoved(int){
 	collectAllParameters();
 }
