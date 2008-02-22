@@ -33,8 +33,6 @@ class EffectStackView : public QWidget
 		EffectStackView(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent=0);
 	
 private:
-	int activeRow;
-	QMap<int,QDomElement> effects;
 	Ui::EffectStack_UI ui;
 	ClipItem* clipref;
 	void setupListView();
@@ -54,7 +52,11 @@ public slots:
 signals:
 	void transferParamDesc(const QDomElement&,int ,int);
 	void removeEffect(ClipItem*, QDomElement);
+	/**  Parameters for an effect changed, update the filter in playlist */
 	void updateClipEffect(ClipItem*, QDomElement);
+	/** An effect in stack was moved, we need to regenerate 
+	    all effects for this clip in the playlist */
+	void refreshEffectStack(ClipItem *);
 
 };
 

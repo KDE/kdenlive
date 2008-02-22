@@ -329,6 +329,16 @@ void CustomTrackView::dragEnterEvent ( QDragEnterEvent * event )
   }
 }
 
+void CustomTrackView::slotRefreshEffects(ClipItem *clip)
+{
+  int track = m_tracksCount - clip->track();
+  GenTime pos = GenTime(clip->startPos(), m_document->fps());
+  m_document->renderer()->mltRemoveEffect(track, pos, "-1");
+  for (int i = 0; i < clip->effectsCount(); i++) {
+    m_document->renderer()->mltAddEffect(track, pos, clip->getEffectArgs(clip->effectAt(i)));
+  }
+}
+
 void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect)
 {
   ClipItem *clip = getClipItemAt(pos.frames(m_document->fps()) + 1, m_tracksCount - track);
@@ -356,8 +366,9 @@ void CustomTrackView::slotAddEffect(QDomElement effect)
   for (int i = 0; i < itemList.count(); i++) {
     if (itemList.at(i)->type() == 70000 && itemList.at(i)->isSelected()) {
       ClipItem *item = (ClipItem *)itemList.at(i);
-      // the kdenlive_ix int is used to identify an effect in the stack and in mlt's playlist
-      effect.setAttribute("kdenlive_ix", QString::number(item->effectsCount()));
+      // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
+      // not be changed
+      effect.setAttribute("kdenlive_ix", QString::number(item->effectsCounter()));
       AddEffectCommand *command = new AddEffectCommand(this, m_tracksCount - item->track(),GenTime(item->startPos(), m_document->fps()), effect, true);
       m_commandStack->push(command);    
     }

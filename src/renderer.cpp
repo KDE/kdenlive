@@ -1026,7 +1026,7 @@ void Render::mltRemoveEffect(int track, GenTime position, QString index)
     int ct = 0;
 	Mlt::Filter *filter = clipService.filter( ct );
 	while (filter) {
-	    if (filter->get("kdenlive_ix") == index) {// && filter->get("kdenlive_id") == id) {
+	    if (index == "-1" || filter->get("kdenlive_ix") == index) {// && filter->get("kdenlive_id") == id) {
 		clipService.detach(*filter);
 		kDebug()<<" / / / DLEETED EFFECT: "<<ct;
 	    }
@@ -1124,8 +1124,21 @@ void Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> 
       m_isBlocked = false;
       return;
     }
+
     Mlt::Service clipService(clip->get_service());
-    Mlt::Filter *filter = clipService.filter( index.toInt() );
+
+//    if (tag.startsWith("ladspa")) tag = "ladspa";
+
+    int ct = 0;
+    Mlt::Filter *filter = clipService.filter( ct );
+    while (filter) {
+	if (filter->get("kdenlive_ix") == index) {
+	  break;
+	}
+	ct++;
+	filter = clipService.filter( ct );
+    }
+
 
     if (!filter) {
 	kDebug()<<"WARINIG, FILTER NOT FOUND!!!!!";

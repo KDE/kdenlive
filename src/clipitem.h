@@ -27,6 +27,7 @@
 
 #include "definitions.h"
 #include "gentime.h"
+#include "effectslist.h"
 #include "docclipbase.h"
 #include "kthumb.h"
 
@@ -62,12 +63,22 @@ class ClipItem : public QObject, public QGraphicsRectItem
     int fadeOut() const;
     void setFadeOut(int pos, double scale);
     void setFadeIn(int pos, double scale);
+    /** Give a string list of the clip's effect names */
     QStringList effectNames();
+    /** Add an effect to the clip and return the parameters that will be passed to Mlt */
     QMap <QString, QString> addEffect(QDomElement effect);
+    /** Get the effect parameters that will be passed to Mlt */
     QMap <QString, QString> getEffectArgs(QDomElement effect);
-    void deleteEffect(QString tag);
+    /** Delete effect with id index */
+    void deleteEffect(QString index);
+    /** return the number of effects in that clip */
     int effectsCount();
+    /** return a unique effect id */
+    int effectsCounter();
+    /** return the xml of effect at index ix in stack */
     QDomElement effectAt(int ix);
+    /** Replace effect at pos ix with given value */
+    void setEffectAt(int ix, QDomElement effect);
 
   protected:
     virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
@@ -96,8 +107,10 @@ class ClipItem : public QObject, public QGraphicsRectItem
     QTimer *endThumbTimer;
     uint m_startFade;
     uint m_endFade;
+    /** counter used to provide a unique id to each effect */
+    int m_effectsCounter;
     
-    QList< QDomElement > m_effectList;
+    EffectsList m_effectList;
 
   private slots:
     void slotThumbReady(int frame, QPixmap pix);

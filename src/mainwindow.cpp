@@ -444,7 +444,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //chang
   connect(trackView, SIGNAL(clipItemSelected(ClipItem*)), effectStack, SLOT(slotClipItemSelected(ClipItem*)));
   connect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement)), trackView->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement)));
   connect(effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), trackView->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
-
+  connect(effectStack, SIGNAL(refreshEffectStack(ClipItem*)), trackView->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
 
   m_projectList->setDocument(doc);
   m_monitorManager->setTimecode(doc->timecode());

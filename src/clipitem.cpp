@@ -34,7 +34,7 @@
 #include "kdenlivesettings.h"
 
 ClipItem::ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & rect, int duration)
-    : QGraphicsRectItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0)
+    : QGraphicsRectItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0), m_effectsCounter(0)
 {
   //setToolTip(name);
   kDebug()<<"*******  CREATING NEW TML CLIP, DUR: "<<duration;
@@ -470,6 +470,11 @@ void ClipItem::setTrack(int track)
   m_track = track;
 }
 
+int ClipItem::effectsCounter()
+{
+  return m_effectsCounter++;
+}
+
 int ClipItem::effectsCount()
 {
   return m_effectList.size();
@@ -477,13 +482,7 @@ int ClipItem::effectsCount()
 
 QStringList ClipItem::effectNames()
 {
-  QStringList result;
-  for (int i = 0; i < m_effectList.size(); ++i) {
-	QDomNode namenode = m_effectList.at(i).elementsByTagName("name").item(0);
-	if (!namenode.isNull()) result.append(namenode.toElement().text());
-  }
-  kDebug()<<"///  EFFECT LIST FOR CLIP IS: "<<result;
-  return result;
+  return m_effectList.effectNames();
 }
 
 QDomElement ClipItem::effectAt(int ix)
@@ -491,12 +490,20 @@ QDomElement ClipItem::effectAt(int ix)
   return m_effectList.at(ix);
 }
 
+void ClipItem::setEffectAt(int ix, QDomElement effect)
+{
+  kDebug()<<"CHange EFFECT AT: "<<ix<<", CURR: "<<m_effectList.at(ix).attribute("tag")<<", NEW: "<<effect.attribute("tag");
+  m_effectList.insert(ix, effect);
+  m_effectList.removeAt(ix + 1);
+  update(boundingRect());
+}
+
 QMap <QString, QString> ClipItem::addEffect(QDomElement effect)
 {
   QMap <QString, QString> effectParams;
-  effectParams["kdenlive_ix"] = QString::number(m_effectList.size());
   m_effectList.append(effect);
   effectParams["tag"] = effect.attribute("tag");
+  effectParams["kdenlive_ix"] = effect.attribute("kdenlive_ix");
   QDomNodeList params = effect.elementsByTagName("parameter");
   for (int i = 0; i < params.count(); i++) {
     QDomElement e = params.item(i).toElement();
@@ -510,8 +517,8 @@ QMap <QString, QString> ClipItem::addEffect(QDomElement effect)
 QMap <QString, QString> ClipItem::getEffectArgs(QDomElement effect)
 {
   QMap <QString, QString> effectParams;
-  effectParams["kdenlive_ix"] = effect.attribute("kdenlive_ix");
   effectParams["tag"] = effect.attribute("tag");
+  effectParams["kdenlive_ix"] = effect.attribute("kdenlive_ix");
   QDomNodeList params = effect.elementsByTagName("parameter");
   for (int i = 0; i < params.count(); i++) {
     QDomElement e = params.item(i).toElement();
@@ -521,10 +528,10 @@ QMap <QString, QString> ClipItem::getEffectArgs(QDomElement effect)
   return effectParams;
 }
 
-void ClipItem::deleteEffect(QString tag)
+void ClipItem::deleteEffect(QString index)
 {
   for (int i = 0; i < m_effectList.size(); ++i) {
-    if (m_effectList.at(i).attribute("kdenlive_ix") == tag) {
+    if (m_effectList.at(i).attribute("kdenlive_ix") == index) {
       m_effectList.removeAt(i);
       break;
     }
