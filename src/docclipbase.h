@@ -25,6 +25,7 @@
 #include <qdom.h>
 #include <QPixmap>
 #include <QObject>
+#include <QTimer>
 
 #include <KUrl>
 #include <klocale.h>
@@ -210,7 +211,7 @@ class DocClipBase:public QObject {
 	/** A thumbnail for this clip */
     QPixmap m_thumbnail;
     GenTime m_duration;
-
+	QTimer *m_audioTimer;
     KThumb *m_thumbProd;
     
     /** a unique numeric id */

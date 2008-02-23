@@ -387,6 +387,7 @@ void Render::getFileProperties(const QDomElement &xml, int clipId)
 	// Retrieve audio / video codec name
 
 	// Fetch the video_context
+#if 0 //until the reason for the chrashs is found
 	AVFormatContext *context = (AVFormatContext *) mlt_properties_get_data( properties, "video_context", NULL );
 	if (context != NULL) {
 		// Get the video_index
@@ -401,7 +402,7 @@ void Render::getFileProperties(const QDomElement &xml, int clipId)
 		if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name )
 			filePropertyMap["audiocodec"] = context->streams[ index ]->codec->codec->name;
 	}
-
+#endif
 
 
 	    // metadata
