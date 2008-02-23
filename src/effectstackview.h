@@ -18,7 +18,6 @@
 #ifndef EFFECTSTACKVIEW_H
 #define EFFECTSTACKVIEW_H
 
-#include <KIcon>
 #include "clipitem.h"
 #include "ui_effectstack_ui.h"
 #include "effectstackedit.h"
@@ -35,11 +34,11 @@ class EffectStackView : public QWidget
 private:
 	Ui::EffectStack_UI ui;
 	ClipItem* clipref;
-	void setupListView();
-	void updateButtonStatus();
 	QMap<QString,EffectsList*> effectLists;
 	EffectStackEdit* effectedit;
-	void renumberEffects();
+	void setupListView();
+	void updateButtonStatus();
+
 public slots:
 	void slotClipItemSelected(ClipItem*);
 	void slotItemSelectionChanged();
@@ -49,6 +48,7 @@ public slots:
 	void slotNewEffect();
 	void itemSelectionChanged();
 	void slotUpdateEffectParams(const QDomElement&);
+
 signals:
 	void transferParamDesc(const QDomElement&,int ,int);
 	void removeEffect(ClipItem*, QDomElement);
