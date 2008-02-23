@@ -31,8 +31,17 @@ m_xml(xml), m_id(id), m_description(""), m_refcount(0), m_projectThumbFrame(0), 
   int out = xml.attribute("out").toInt();
   if (out != 0) setDuration(GenTime(out, 25));
   if (m_name.isEmpty()) m_name = url.fileName();
-  if (!url.isEmpty())
+	if (!url.isEmpty()){
     m_thumbProd = new KThumb(url, KdenliveSettings::track_height() * KdenliveSettings::project_display_ratio(), KdenliveSettings::track_height());
+		connect (m_thumbProd, SIGNAL (audioThumbReady(QMap <int, QMap <int, QByteArray> >)), this , SLOT(updateAudioThumbnail(QMap <int, QMap <int, QByteArray> > )));
+		connect (this, SIGNAL (getAudioThumbs()), this , SLOT( slotGetAudioThumbs() ) );
+		
+	}
+	kDebug() << "type is video" << (m_clipType==AV) << " " << m_clipType;
+	
+	if (m_clipType == AV || m_clipType==AUDIO ||m_clipType==UNKNOWN){
+		emit getAudioThumbs();
+	}
 }
 
 DocClipBase::DocClipBase(const DocClipBase& clip)
@@ -386,4 +395,9 @@ QString DocClipBase::getTypeName(CLIPTYPE type)
     return result;
 }
 
+void DocClipBase::slotGetAudioThumbs(){
+	kDebug() << "getting audio data";
+	double lengthInFrames=duration().frames(/*framesPerSecond()*/25);
+	m_thumbProd->getAudioThumbs(fileURL(), 1, 0, lengthInFrames, 20);
+}
 

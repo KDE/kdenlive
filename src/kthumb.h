@@ -45,7 +45,7 @@ namespace Mlt {
 };
 
 
-  class MyThread : public QThread {
+class MyThread : public QThread {
 
     public:
         virtual void run();

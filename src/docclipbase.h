@@ -217,9 +217,10 @@ class DocClipBase:public QObject {
     uint m_id;
     uint m_projectThumbFrame;
     void setAudioThumbCreated(bool isDone);
-
+	
   public slots:
 	void updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data);
+	void slotGetAudioThumbs();
 	QList < CommentedTime > commentedSnapMarkers() const;
 	void setSnapMarkers(QList < CommentedTime > markers);
 	GenTime findNextSnapMarker(const GenTime & currTime);
@@ -232,6 +233,8 @@ class DocClipBase:public QObject {
 	QString markerComment(GenTime t);
 	void setProjectThumbFrame( const uint &ix);
 	uint getProjectThumbFrame() const;
+	signals:
+		void getAudioThumbs();
 };
 
 #endif

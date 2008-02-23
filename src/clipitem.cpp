@@ -174,23 +174,28 @@ int ClipItem::endPos()
  {
     QRectF br = rect();
     painter->setRenderHints(QPainter::Antialiasing);
-    QPainterPath roundRectPath;
+    QPainterPath roundRectPathUpper,roundRectPathLower;
     double roundingY = 20;
     double roundingX = 20;
     double offset = 1;
     painter->setClipRect(option->exposedRect);
     if (roundingX > br.width() / 2) roundingX = br.width() / 2;
     //kDebug()<<"-----PAINTING, SCAL: "<<scale<<", height: "<<br.height();
-    roundRectPath.moveTo(br.x() + br .width() - offset, br.y() + roundingY);
-    roundRectPath.arcTo(br.x() + br .width() - roundingX - offset, br.y(), roundingX, roundingY, 0.0, 90.0);
-    roundRectPath.lineTo(br.x() + roundingX, br.y());
-    roundRectPath.arcTo(br.x() + offset, br.y(), roundingX, roundingY, 90.0, 90.0);
-    roundRectPath.lineTo(br.x() + offset, br.y() + br.height() - roundingY);
-    roundRectPath.arcTo(br.x() + offset, br.y() + br.height() - roundingY - offset, roundingX, roundingY, 180.0, 90.0);
-    roundRectPath.lineTo(br.x() + br .width() - roundingX, br.y() + br.height() - offset);
-    roundRectPath.arcTo(br.x() + br .width() - roundingX - offset, br.y() + br.height() - roundingY - offset, roundingX, roundingY, 270.0, 90.0);
-    roundRectPath.closeSubpath();
-    painter->setClipPath(roundRectPath, Qt::IntersectClip);
+	 roundRectPathUpper.moveTo(br.x() + br .width() - offset, br.y() + br.height()/2 - offset);
+	 roundRectPathUpper.arcTo(br.x() + br .width() - roundingX - offset, br.y(), roundingX, roundingY, 0.0, 90.0);
+	 roundRectPathUpper.lineTo(br.x() + roundingX, br.y());
+	 roundRectPathUpper.arcTo(br.x() + offset, br.y(), roundingX, roundingY, 90.0, 90.0);
+	 roundRectPathUpper.lineTo(br.x() + offset, br.y() + br.height()/2 - offset);
+	 roundRectPathUpper.closeSubpath();
+	 
+	 roundRectPathLower.moveTo(br.x() + offset, br.y() + br.height()/2 - offset);
+	 roundRectPathLower.arcTo(br.x() + offset, br.y() + br.height() - roundingY - offset, roundingX, roundingY, 180.0, 90.0);
+	 roundRectPathLower.lineTo(br.x() + br .width() - roundingX, br.y() + br.height() - offset);
+	 roundRectPathLower.arcTo(br.x() + br .width() - roundingX - offset, br.y() + br.height() - roundingY - offset, roundingX, roundingY, 270.0, 90.0);
+	 roundRectPathLower.lineTo(br.x() + br .width() - offset, br.y()+ br.height()/2 - offset);
+	 roundRectPathLower.closeSubpath();
+	 
+	 painter->setClipPath(roundRectPathUpper.united(roundRectPathLower), Qt::IntersectClip);
     //painter->fillPath(roundRectPath, brush()); //, QBrush(QColor(Qt::red)));
     painter->fillRect(br, brush());
     //painter->fillRect(QRectF(br.x() + br.width() - m_endPix.width(), br.y(), m_endPix.width(), br.height()), QBrush(QColor(Qt::black)));
@@ -211,7 +216,18 @@ int ClipItem::endPos()
       QLineF l2(br.x() + m_startPix.width(), br.y(), br.x() + m_startPix.width(), br.y() + br.height());
       painter->drawLine(l2);
     }
-
+	 if (m_clipType == AV || m_clipType==AUDIO ){
+		 QPainterPath path= m_clipType==AV ? roundRectPathLower : roundRectPathUpper.united(roundRectPathLower);
+		 painter->fillPath(path,QBrush(QColor(200,200,200,127)));
+		 //for test 
+		 int channels=2;
+		 kDebug() << "audio frames=" << baseClip()->audioFrameChache.size() ;
+		 for (int channel=0;channel<channels;channel++){
+			QRectF re=path.boundingRect();
+			int y=re.y()+re.height()*channel/channels+ (re.height()/channels)/2;
+			painter->drawLine(re.x() , y, re.x() + re.width(), y );
+		 }
+	 }
     // draw start / end fades
     double scale = br.width() / m_cropDuration;
     QBrush fades;
@@ -272,7 +288,7 @@ int ClipItem::endPos()
     pen.setStyle(Qt::DashDotDotLine); //Qt::DotLine);
     if (isSelected()) painter->setPen(pen);
     painter->setClipRect(option->exposedRect);
-    painter->drawPath(roundRectPath);
+	 painter->drawPath(roundRectPathUpper.united(roundRectPathLower));
     //painter->fillRect(QRect(br.x(), br.y(), roundingX, roundingY), QBrush(QColor(Qt::green)));
 
     /*QRectF recta(rect().x(), rect().y(), scale,rect().height());
