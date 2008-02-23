@@ -29,7 +29,7 @@
        <item>
         <widget class="KListWidget" name="effectlist" >
          <property name="sizePolicy" >
-          <sizepolicy vsizetype="Expanding" hsizetype="Maximum" >
+          <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
