@@ -404,7 +404,7 @@ void DocClipBase::slotGetAudioThumbs(){
 			m_audioTimer->stop();
 	}else{
 		if (m_audioTimer!=NULL)
-			m_audioTimer->start(5);
+			m_audioTimer->start(2000);
 		double lengthInFrames=duration().frames(/*framesPerSecond()*/25);
 		m_thumbProd->getAudioThumbs(fileURL(), 1, 0, 10 /*must be number of frames*/, 20);
 		
