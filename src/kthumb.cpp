@@ -33,22 +33,21 @@
 
 #include <qxml.h>
 #include <qimage.h>
-#include <qlabel.h>
-#include <qthread.h>
-#include <qapplication.h>
 
+#include <QThread>
+#include <QApplication>
+#include <QCryptographicHash>
 
 
 #include "renderer.h"
 #include "kthumb.h"
 #include "kdenlivesettings.h"
 
-/*
-    void MyThread::init(KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth)
+void MyThread::init(KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth)
     {
 	stop_me = false;
 	m_isWorking = false;
-	f.setName(target);
+	f.setFileName(target);
 	m_url = url;
 	m_frame = frame;
 	m_frameLength = frameLength;
@@ -65,33 +64,33 @@
 
     void MyThread::run()
     {
-		if (!f.open( IO_WriteOnly )) {
-			kdDebug()<<"++++++++  ERROR WRITING TO FILE: "<<f.name()<<endl;
-			kdDebug()<<"++++++++  DISABLING AUDIO THUMBS"<<endl;
-			KdenliveSettings::setAudiothumbnails(false);
+		 if (!f.open( QIODevice::WriteOnly )) {
+			kDebug()<<"++++++++  ERROR WRITING TO FILE: "<<f.fileName()<<endl;
+			kDebug()<<"++++++++  DISABLING AUDIO THUMBS"<<endl;
+			//TODO KdenliveSettings::setAudiothumbnails(false);
 			return;
 		}
 		m_isWorking = true;
-		char *tmp = KRender::decodedString(m_url.path());
-		Mlt::Producer m_producer(tmp);
-		delete tmp;
+		Mlt::Profile prof((char*) KdenliveSettings::current_profile().data());
+		Mlt::Producer m_producer(prof, m_url.path().toAscii().data());
+		
 
-		if (KdenliveSettings::normaliseaudiothumbs()) {
+		/*TODO if (KdenliveSettings::normaliseaudiothumbs()) {
     		    Mlt::Filter m_convert("volume");
     		    m_convert.set("gain", "normalise");
     		    m_producer.attach(m_convert);
-		}
+		}*/
 
-		if (qApp->mainWidget()) 
+		/*TODO if (qApp->mainWidget()) 
 		    QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10005));
-
+	*/
 		int last_val = 0;
 		int val = 0;
 		for (int z=(int) m_frame;z<(int) (m_frame+m_frameLength) && m_producer.is_valid();z++){
 			if (stop_me) break;
 			val=(int)((z-m_frame)/(m_frame+m_frameLength)*100.0);
 			if (last_val!=val & val > 1){
-				QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(val, 10005));
+				//TODO QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(val, 10005));
 				last_val=val;
 			}
 				m_producer.seek( z );
@@ -105,14 +104,15 @@
 					int16_t* m_pcm = mlt_frame->get_audio(m_audioFormat, m_frequency, m_channels, m_samples ); 
 
 					for (int c=0;c< m_channels;c++){
-						QByteArray m_array(m_arrayWidth);
+						QByteArray m_array;
+						m_array.resize(m_arrayWidth);
 						for (uint i = 0; i < m_array.size(); i++){
-							m_array[i] =  QABS((*( m_pcm + c + i * m_samples / m_array.size() ))>>8);
+							m_array[i] =  qAbs((*( m_pcm + c + i * m_samples / m_array.size() ))>>8);
 						}
-						f.writeBlock(m_array);
+						f.write(m_array);
 					}
 				} else{
-					f.writeBlock(QByteArray(m_arrayWidth));
+					f.write(QByteArray(m_arrayWidth,'\x00'));
 				}
 				if (mlt_frame)
 					delete mlt_frame;
@@ -121,9 +121,9 @@
 		m_isWorking = false;
 		if (stop_me) {
 		    f.remove();
-		    QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10005));
+		   //TODO  QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10005));
 		}
-		else QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(0, 10005));
+		//TODO else QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(0, 10005));
     }
 
 
@@ -131,7 +131,7 @@
 #define _R(y,u,v) (0x2568*(y)                          + 0x3343*(u)) /0x2000
 #define _G(y,u,v) (0x2568*(y) - 0x0c92*(v) - 0x1a1e*(u)) /0x2000
 #define _B(y,u,v) (0x2568*(y) + 0x40cf*(v))                                          /0x2000
-*/
+
 KThumb::KThumb(KUrl url, int width, int height, QObject * parent, const char *name):QObject(parent), m_url(url), m_width(width), m_height(height)
 {
   kDebug()<<"+++++++++++  CREATING THMB PROD FOR: "<<url;
@@ -300,10 +300,10 @@ void KThumb::getThumbs(KUrl url, int startframe, int endframe, int width, int he
     if (m_frame) delete m_frame;
     emit thumbReady(endframe, image);
 }
-
+*/
 void KThumb::stopAudioThumbs()
 {
-	if (thumbProducer.running ()) thumbProducer.stop_me = true;
+	if (thumbProducer.isRunning ()) thumbProducer.stop_me = true;
 }
 
 
@@ -316,7 +316,7 @@ void KThumb::removeAudioThumb()
 }
 
 void KThumb::getAudioThumbs(KUrl url, int channel, double frame, double frameLength, int arrayWidth){
-	if ((thumbProducer.running () && thumbProducer.isWorking()) || channel == 0) {
+	if ((thumbProducer.isRunning () && thumbProducer.isWorking()) || channel == 0) {
 	    return;
 	}
 
@@ -326,22 +326,25 @@ void KThumb::getAudioThumbs(KUrl url, int channel, double frame, double frameLen
 	int m_channels = channel;
 	if (m_url != url) {
 		m_url = url;
-		KMD5 context ((KFileItem(m_url,"text/plain", S_IFREG).timeString() + m_url.fileName()).ascii());
-		m_thumbFile = KdenliveSettings::currenttmpfolder() + context.hexDigest().data() + ".thumb";
+		QCryptographicHash context(QCryptographicHash::Sha1);
+		context.addData((KFileItem(m_url,"text/plain", S_IFREG).timeString() + m_url.fileName()).toAscii().data());
+		
+		m_thumbFile = KdenliveSettings::currenttmpfolder() + context.result().toHex() + ".thumb";
 	}
 	QFile f(m_thumbFile);
-	if (f.open( IO_ReadOnly )) {
+	if (f.open( QIODevice::ReadOnly )) {
 		QByteArray channelarray = f.readAll();
 		f.close();
 		if (channelarray.size() != arrayWidth*(frame+frameLength)*m_channels) {
-			kdDebug()<<"--- BROKEN THUMB FOR: "<<m_url.filename()<<" ---------------------- "<<endl;
+			kDebug()<<"--- BROKEN THUMB FOR: "<<m_url.fileName()<<" ---------------------- "<<endl;
 			f.remove();
 			return;
 		}
 		
 		for (int z=(int) frame;z<(int) (frame+frameLength);z++) {
 			for (int c=0;c< m_channels;c++){
-				QByteArray m_array(arrayWidth);
+				QByteArray m_array;
+				m_array.resize(arrayWidth);
 				for (int i = 0; i < arrayWidth; i++)
 					m_array[i] = channelarray[z*arrayWidth*m_channels + c*arrayWidth + i];
 				storeIn[z][c] = m_array;
@@ -350,11 +353,11 @@ void KThumb::getAudioThumbs(KUrl url, int channel, double frame, double frameLen
 		emit audioThumbReady(storeIn);
 	}
 	else {
-		if (thumbProducer.running()) return;
+		if (thumbProducer.isRunning()) return;
 		thumbProducer.init(m_url, m_thumbFile, frame, frameLength, m_frequency, m_channels, arrayWidth);
 		thumbProducer.start(QThread::LowestPriority );
 	}
 }
-*/
+
 
 

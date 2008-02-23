@@ -45,7 +45,7 @@ namespace Mlt {
 };
 
 
-  /*  class MyThread : public QThread {
+  class MyThread : public QThread {
 
     public:
         virtual void run();
@@ -64,7 +64,7 @@ namespace Mlt {
 	bool m_isWorking;
     };
 
-*/
+
 class KThumb:public QObject {
   Q_OBJECT public:
 
@@ -76,13 +76,13 @@ public slots:
 	void extractImage( int frame, int frame2);
 	static QPixmap getImage(KUrl url, int width, int height);
 /*	void getImage(KUrl url, int frame, int width, int height);
-	void getThumbs(KUrl url, int startframe, int endframe, int width, int height);
+	void getThumbs(KUrl url, int startframe, int endframe, int width, int height);*/
 	void stopAudioThumbs();
 	void removeAudioThumb();
 	void getAudioThumbs(KUrl url, int channel, double frame, double frameLength, int arrayWidth);
-*/
+
 private:
-//	MyThread thumbProducer;
+	MyThread thumbProducer;
 	KUrl m_url;
 	QString m_thumbFile;
 	int m_width;
