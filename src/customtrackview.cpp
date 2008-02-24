@@ -671,7 +671,7 @@ void CustomTrackView::drawBackground ( QPainter * painter, const QRectF & rect )
   QColor base = palette().button().color();
   //painter->setPen(base);
   painter->setClipRect(rect);
-  painter->drawLine(0, 0, rect.width(), 0);
+  painter->drawLine(0, 0, width(), 0);
     for (uint i = 0; i < m_tracksCount;i++)
     {
       painter->drawLine(0, 50 * (i+1), width(), 50 * (i+1));
