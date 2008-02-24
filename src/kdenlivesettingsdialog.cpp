@@ -33,11 +33,17 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
   m_configMisc.setupUi(p1);
   page1 = addPage( p1, i18n("Misc"), "misc" );
 
+  QWidget *p3 = new QWidget;
+  m_configDisplay.setupUi(p3);
+  page3 = addPage( p3, i18n("Display"), "display" );
+
   QWidget *p2 = new QWidget;
   m_configEnv.setupUi(p2);
   m_configEnv.mltpathurl->setMode(KFile::Directory);
   m_configEnv.mltpathurl->lineEdit()->setObjectName("kcfg_mltpath");
   m_configEnv.rendererpathurl->lineEdit()->setObjectName("kcfg_rendererpath");
+  m_configEnv.tmppathurl->setMode(KFile::Directory);
+  m_configEnv.tmppathurl->lineEdit()->setObjectName("kcfg_currenttmpfolder");
   page2 = addPage( p2, i18n("Environnement"), "env" );
 
   QStringList profilesNames = ProfilesDialog::getProfileNames();

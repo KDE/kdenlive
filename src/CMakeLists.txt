@@ -25,6 +25,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/colorclip_ui.ui
   widgets/configmisc_ui.ui
   widgets/configenv_ui.ui
+  widgets/configdisplay_ui.ui
   widgets/effectlist_ui.ui
   widgets/effectstack_ui.ui
   widgets/profiledialog_ui.ui

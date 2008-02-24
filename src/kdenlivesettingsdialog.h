@@ -27,6 +27,7 @@
 
 #include "ui_configmisc_ui.h"
 #include "ui_configenv_ui.h"
+#include "ui_configdisplay_ui.h"
 
 class KdenliveSettingsDialog : public KConfigDialog
 {
@@ -45,8 +46,10 @@ class KdenliveSettingsDialog : public KConfigDialog
   private:
     KPageWidgetItem *page1;
     KPageWidgetItem *page2;
+    KPageWidgetItem *page3;
     Ui::ConfigEnv_UI m_configEnv;
     Ui::ConfigMisc_UI m_configMisc;
+    Ui::ConfigDisplay_UI m_configDisplay;
     QStringList m_mltProfilesList;
     QStringList m_customProfilesList;
     bool m_isCustomProfile;

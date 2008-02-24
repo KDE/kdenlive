@@ -13,10 +13,17 @@
       <label>Default image clip duration.</label>
       <default>00:00:05:00</default>
     </entry>
+  </group>
 
-    <entry name="currenttmpfolder" type="Path">
-      <label>Default folder for tmp files.</label>
-      <default>/tmp/</default>
+  <group name="display">
+    <entry name="videothumbnails" type="Bool">
+      <label>Display video thumbnails in timeline.</label>
+      <default>true</default>
+    </entry>
+
+    <entry name="audiothumbnails" type="Bool">
+      <label>Display audio thumbnails in timeline.</label>
+      <default>true</default>
     </entry>
   </group>
 
@@ -29,6 +36,11 @@
     <entry name="rendererpath" type="Path">
       <label>Mlt inigo renderer install path.</label>
       <default></default>
+    </entry>
+
+    <entry name="currenttmpfolder" type="Path">
+      <label>Default folder for tmp files.</label>
+      <default>/tmp/</default>
     </entry>
   </group>
 
