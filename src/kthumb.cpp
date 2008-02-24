@@ -139,6 +139,9 @@ KThumb::KThumb(KUrl url, int width, int height, QObject * parent, const char *na
 {
   kDebug()<<"+++++++++++  CREATING THMB PROD FOR: "<<url;
   m_profile = new Mlt::Profile((char*) qstrdup(KdenliveSettings::current_profile().toUtf8()));
+  QCryptographicHash context(QCryptographicHash::Sha1);
+  context.addData((KFileItem(m_url,"text/plain", S_IFREG).timeString() + m_url.fileName()).toAscii().data());	
+  m_thumbFile = KdenliveSettings::currenttmpfolder() + context.result().toHex() + ".thumb";
 }
 
 KThumb::~KThumb()
@@ -318,7 +321,7 @@ void KThumb::removeAudioThumb()
 	f.remove();
 }
 
-void KThumb::getAudioThumbs(KUrl url, int channel, double frame, double frameLength, int arrayWidth){
+void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int arrayWidth){
 	
 	if ((thumbProducer.isRunning () && thumbProducer.isWorking()) || channel == 0) {
 	    return;
@@ -328,15 +331,6 @@ void KThumb::getAudioThumbs(KUrl url, int channel, double frame, double frameLen
        //FIXME: Hardcoded!!! 
 	int m_frequency = 48000;
 	int m_channels = channel;
-	m_thumbFile="/tmp/testfile";
-	if (m_url != url) {
-		m_url = url;
-		QCryptographicHash context(QCryptographicHash::Sha1);
-		context.addData((KFileItem(m_url,"text/plain", S_IFREG).timeString() + m_url.fileName()).toAscii().data());
-		
-		m_thumbFile = KdenliveSettings::currenttmpfolder() + context.result().toHex() + ".thumb";
-		
-	}
 	
 	QFile f(m_thumbFile);
 	if (f.open( QIODevice::ReadOnly )) {
@@ -362,7 +356,6 @@ void KThumb::getAudioThumbs(KUrl url, int channel, double frame, double frameLen
 		if (thumbProducer.isRunning()) return;
 		thumbProducer.init(m_url, m_thumbFile, frame, frameLength, m_frequency, m_channels, arrayWidth);
 		thumbProducer.start(QThread::LowestPriority );
-		
 	}
 }
 

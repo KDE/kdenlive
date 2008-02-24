@@ -1,5 +1,5 @@
 /***************************************************************************
-                         krender.h  -  description
+                         kthumb.h  -  description
                             -------------------
    begin                : Fri Nov 22 2002
    copyright            : (C) 2002 by Jason Wood
@@ -79,7 +79,7 @@ public slots:
 	void getThumbs(KUrl url, int startframe, int endframe, int width, int height);*/
 	void stopAudioThumbs();
 	void removeAudioThumb();
-	void getAudioThumbs(KUrl url, int channel, double frame, double frameLength, int arrayWidth);
+	void getAudioThumbs(int channel, double frame, double frameLength, int arrayWidth);
 
 private:
 	MyThread thumbProducer;
