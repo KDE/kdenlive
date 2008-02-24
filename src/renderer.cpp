@@ -372,9 +372,10 @@ void Render::getFileProperties(const QDomElement &xml, int clipId)
         producer.attach(m_convert);
 	Mlt::Frame * frame = producer.get_frame();
 
-	if (frame->is_valid()) {
-	    filePropertyMap["fps"] =
-		QString::number(mlt_producer_get_fps( producer.get_producer() ));
+	filePropertyMap["fps"] =
+	    QString::number(mlt_producer_get_fps( producer.get_producer() ));
+
+	if (frame && frame->is_valid()) {
 	    filePropertyMap["width"] =
 		QString::number(frame->get_int("width"));
 	    filePropertyMap["height"] =
@@ -383,6 +384,28 @@ void Render::getFileProperties(const QDomElement &xml, int clipId)
 		QString::number(frame->get_int("frequency"));
 	    filePropertyMap["channels"] =
 		QString::number(frame->get_int("channels"));
+
+	    if (frame->get_int("test_image") == 0) {
+		if (url.path().endsWith(".westley") || url.path().endsWith(".kdenlive")) {
+		    filePropertyMap["type"] = "playlist";
+		    metadataPropertyMap["comment"] = QString::fromUtf8(mlt_properties_get( MLT_SERVICE_PROPERTIES( producer.get_service() ), "title"));
+		}
+		else if (frame->get_int("test_audio") == 0)
+		    filePropertyMap["type"] = "av";
+		else
+		    filePropertyMap["type"] = "video";
+
+                // Generate thumbnail for this frame
+		QPixmap pixmap = frameThumbnail(frame, width, height, true);
+
+                emit replyGetImage(clipId, 0, pixmap, width, height);
+
+	    } else if (frame->get_int("test_audio") == 0) {
+                QPixmap pixmap(KStandardDirs::locate("appdata", "graphics/music.png"));
+                emit replyGetImage(clipId, 0, pixmap, width, height);
+		filePropertyMap["type"] = "audio";
+            }
+	}
 
 	// Retrieve audio / video codec name
 
@@ -418,30 +441,9 @@ void Render::getFileProperties(const QDomElement &xml, int clipId)
 			metadataPropertyMap[ name.section(".", 0, -2) ] = value;
 	    }
 
-	    if (frame->get_int("test_image") == 0) {
-		if (url.path().endsWith(".westley") || url.path().endsWith(".kdenlive")) {
-		    filePropertyMap["type"] = "playlist";
-		    metadataPropertyMap["comment"] = QString::fromUtf8(mlt_properties_get( MLT_SERVICE_PROPERTIES( producer.get_service() ), "title"));
-		}
-		else if (frame->get_int("test_audio") == 0)
-		    filePropertyMap["type"] = "av";
-		else
-		    filePropertyMap["type"] = "video";
-
-                // Generate thumbnail for this frame
-		QPixmap pixmap = frameThumbnail(frame, width, height, true);
-
-                emit replyGetImage(clipId, 0, pixmap, width, height);
-
-	    } else if (frame->get_int("test_audio") == 0) {
-                QPixmap pixmap(KStandardDirs::locate("appdata", "graphics/music.png"));
-                emit replyGetImage(clipId, 0, pixmap, width, height);
-		filePropertyMap["type"] = "audio";
-            }
-	}
 	emit replyGetFileProperties(clipId, filePropertyMap, metadataPropertyMap);
 	kDebug()<<"REquested fuile info for: "<<url.path();
-	delete frame;
+	if (frame) delete frame;
 }
 
 QDomDocument Render::sceneList() const
