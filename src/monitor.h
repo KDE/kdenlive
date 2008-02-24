@@ -76,6 +76,7 @@ class Monitor : public QWidget
 
   signals:
     void renderPosition(int);
+    void durationChanged(int);
 };
 
 #endif

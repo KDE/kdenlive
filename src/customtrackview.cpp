@@ -454,7 +454,7 @@ void CustomTrackView::setDuration(int duration)
 {
   kDebug()<<"/////////////  PRO DUR: "<<duration<<", height: "<<50 * m_tracksCount;
   m_projectDuration = duration;
-  scene()->setSceneRect(0, 0, m_projectDuration + 500, scene()->sceneRect().height()); //50 * m_tracksCount);
+  scene()->setSceneRect(0, 0, (m_projectDuration + 500) * m_scale, scene()->sceneRect().height()); //50 * m_tracksCount);
 }
 
 
@@ -649,6 +649,7 @@ void CustomTrackView::setScale(double scaleFactor)
   m_scale = scaleFactor;
   kDebug()<<" HHHHHHHH  SCALING: "<<m_scale;
   QList<QGraphicsItem *> itemList = items();
+  scene()->setSceneRect(0, 0, (m_projectDuration + 500) * m_scale, scene()->sceneRect().height()); //50 *
 
   for (int i = 0; i < itemList.count(); i++) {
       if (itemList.at(i)->type() == 70000) {
@@ -671,10 +672,11 @@ void CustomTrackView::drawBackground ( QPainter * painter, const QRectF & rect )
   QColor base = palette().button().color();
   //painter->setPen(base);
   painter->setClipRect(rect);
-  painter->drawLine(0, 0, width(), 0);
+  int width = scene()->sceneRect().width();
+  painter->drawLine(0, 0, width, 0);
     for (uint i = 0; i < m_tracksCount;i++)
     {
-      painter->drawLine(0, 50 * (i+1), width(), 50 * (i+1));
+      painter->drawLine(0, 50 * (i+1), width, 50 * (i+1));
       painter->drawText(QRectF(10, 50 * i, 100, 50 * i + 49), Qt::AlignLeft, i18n(" Track ") + QString::number(i + 1));
     }
   int lowerLimit = 50 * m_tracksCount;

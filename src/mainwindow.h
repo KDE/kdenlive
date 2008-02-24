@@ -119,6 +119,7 @@ class MainWindow : public KXmlGuiWindow
     void slotAddEffect(QDomElement effect);
     void slotEditProfiles();
     void slotEditProjectSettings();
+    void slotDisplayActionMessage( QAction *a);
 };
  
 #endif

@@ -261,10 +261,20 @@ void MainWindow::setupActions()
   KStandardAction::redo(this, SLOT(redo()),
                         actionCollection());*/
 
+  connect(actionCollection(), SIGNAL( actionHighlighted( QAction* ) ), 
+    this, SLOT( slotDisplayActionMessage( QAction* ) ) );
+  //connect(actionCollection(), SIGNAL( clearStatusText() ),
+    //statusBar(), SLOT( clear() ) );
+
   readOptions();  
 
   /*m_redo = m_commandStack->createRedoAction(actionCollection());
   m_undo = m_commandStack->createUndoAction(actionCollection());*/
+}
+
+void MainWindow::slotDisplayActionMessage( QAction *a)
+{
+  statusBar()->showMessage(a->data().toString(), 3000);
 }
 
 void MainWindow::saveOptions()
@@ -437,6 +447,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //chang
   connect(trackView, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(activateMonitor()));
   connect(trackView, SIGNAL(mousePosition(int)), this, SLOT(slotUpdateMousePosition(int)));
   connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
+  connect(m_projectMonitor, SIGNAL(durationChanged(int)), trackView->projectView(), SLOT(setDuration(int)));
   connect(doc, SIGNAL(addProjectClip(DocClipBase *)), m_projectList, SLOT(slotAddClip(DocClipBase *)));
   connect(doc, SIGNAL(signalDeleteProjectClip(int)), m_projectList, SLOT(slotDeleteClip(int)));
   connect(doc, SIGNAL(updateClipDisplay(int)), m_projectList, SLOT(slotUpdateClip(int)));

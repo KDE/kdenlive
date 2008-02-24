@@ -229,7 +229,7 @@ class Render:public QObject {
 //    void positionChanged(const GenTime &);
 	/** Emitted when an error occurs within this renderer. */
     void error(const QString &, const QString &);
-    void playListDuration(int);
+    void durationChanged(int);
     void rendererPosition(int);
     void rendererStopped(int);
 

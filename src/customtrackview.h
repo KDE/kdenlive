@@ -47,7 +47,6 @@ class CustomTrackView : public QGraphicsView
     void resizeClip ( const QPointF &startPos, const QPointF &endPos, bool resizeClipStart );
     void addClip ( QDomElement xml, int clipId, int track, int startpos, const QRectF &rect, int duration);
     void deleteClip ( int track, int startpos, const QRectF &rect );
-    void setDuration(int duration);
     void setScale(double scaleFactor);
     void deleteClip(int clipId);
     void slotAddEffect(QDomElement effect);
@@ -59,6 +58,7 @@ class CustomTrackView : public QGraphicsView
     void slotDeleteEffect(ClipItem *clip, QDomElement effect);
     void slotUpdateClipEffect(ClipItem *clip, QDomElement effect);
     void slotRefreshEffects(ClipItem *clip);
+    void setDuration(int duration);
 
   protected:
     virtual void drawBackground ( QPainter * painter, const QRectF & rect );

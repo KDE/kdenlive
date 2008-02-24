@@ -553,7 +553,7 @@ void Render::setSceneList(QDomDocument list, int position)
 
 	m_fps = m_mltProducer->get_fps();
 
-	emit playListDuration(m_mltProducer->get_playtime());
+	emit durationChanged(m_mltProducer->get_playtime());
 	//m_connectTimer->start( 500 );
 	connectPlaylist();
 	m_generateScenelist = false;
@@ -901,7 +901,7 @@ void Render::mltCheckLength()
         Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
         duration = Mlt::Producer(trackPlaylist.get_producer()).get_playtime() - 1;
 	m_mltProducer->set("out", duration);
-	emit playListDuration(duration);
+	emit durationChanged(duration);
 	return;
     }
     while (trackNb > 1) {
@@ -937,7 +937,7 @@ void Render::mltCheckLength()
 	mltInsertClip(0, GenTime(), black);
 
 	m_mltProducer->set("out", duration);
-	emit playListDuration(duration);
+	emit durationChanged(duration);
     }
 }
 
