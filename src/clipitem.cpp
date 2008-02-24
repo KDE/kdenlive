@@ -62,7 +62,8 @@ ClipItem::ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & re
   if (m_clipType == VIDEO || m_clipType == AV) {
     m_hasThumbs = true;
     connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(extractImage(int, int)));
-    connect(clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
+    connect(clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap))); 
+    connect(clip, SIGNAL (gotAudioData()), this, SLOT (slotGotAudioData()));
     QTimer::singleShot(300, this, SLOT(slotFetchThumbs()));
 
     startThumbTimer = new QTimer(this);
@@ -109,6 +110,10 @@ void ClipItem::slotThumbReady(int frame, QPixmap pix)
 {
   if (frame == m_cropStart) m_startPix = pix;
   else m_endPix = pix;
+  update();
+}
+
+void ClipItem::slotGotAudioData(){
   update();
 }
 
@@ -238,11 +243,21 @@ int ClipItem::endPos()
 				}
 			}
 	 }*/
+		QPen audiopen;
+		audiopen.setWidth(0);
+		painter->setPen(audiopen);
 		QRectF re=path.boundingRect();
+
+		QMap<int,QPainterPath > channelPaths;
+		QMap<int,QPainterPath > negativeChannelPaths;
+		for (int i=0;i<channels;i++){
+			channelPaths[i].moveTo(re.x(),re.y()+re.height()*i/channels+ (re.height()/channels)/2);
+			negativeChannelPaths[i].moveTo(re.x(),re.y()+re.height()*i/channels+ (re.height()/channels)/2);
+		}
+		 
 		for (int samples=re.x();samples<re.x()+re.width();samples++){
 			double frame=(double)(samples-re.x())/pixelForOneFrame;
 			int sample=(frame-(int)(frame))*20 ;// AUDIO_FRAME_SIZE
-			
 			if (frame<0 || sample< 0 || sample>19 )
 				continue;
 			QMap<int,QByteArray> frame_channel_data=baseClip()->audioFrameChache[(int)frame];
@@ -250,12 +265,17 @@ int ClipItem::endPos()
 			for (int channel=0;channel<channels && frame_channel_data[channel].size()> 0;channel++){
 				
 				int y=re.y()+re.height()*channel/channels+ (re.height()/channels)/2;
-				painter->drawLine(samples , y+frame_channel_data[channel][sample],samples+1, y+frame_channel_data[channel][sample] );
-				//painter->drawLine(samples , y+samples-10,samples+1, y+samples-10 );
-				
+				channelPaths[channel].lineTo(samples,y+( (int)frame_channel_data[channel][sample] -127/2 )  * (re.height()/channels) / 64 );	
+				negativeChannelPaths[channel].lineTo(samples,y-( (int)frame_channel_data[channel][sample] -127/2 )  * (re.height()/channels) / 64 );
 			}
 		}
+		for (int i=0;i<channels;i++){
+			//painter->drawPath(channelPaths[i].united(negativeChannelPaths[i]));//or singleif looks better
+			painter->drawPath(channelPaths[i]);
+		}
 	 }
+	 
+	 
     // draw start / end fades
     double scale = br.width() / m_cropDuration;
     QBrush fades;

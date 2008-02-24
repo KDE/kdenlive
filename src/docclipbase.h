@@ -238,6 +238,7 @@ class DocClipBase:public QObject {
 	uint getProjectThumbFrame() const;
 	signals:
 		void getAudioThumbs();
+	void gotAudioData();
 };
 
 #endif

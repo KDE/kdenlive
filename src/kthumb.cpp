@@ -89,8 +89,6 @@ void MyThread::init(KUrl url, QString target, double frame, double frameLength, 
 		int val = 0;
 		kDebug() << "for " << m_frame << " " << m_frameLength << " " << m_producer.is_valid();
 		for (int z=(int) m_frame;z<(int) (m_frame+m_frameLength) && m_producer.is_valid();z++){
-			kDebug() << "starting audithumb for frame " << z;
-			
 			if (stop_me) break;
 			val=(int)((z-m_frame)/(m_frame+m_frameLength)*100.0);
 			if (last_val!=val & val > 1){
@@ -111,7 +109,7 @@ void MyThread::init(KUrl url, QString target, double frame, double frameLength, 
 						QByteArray m_array;
 						m_array.resize(m_arrayWidth);
 						for (uint i = 0; i < m_array.size(); i++){
-							m_array[i] =  qAbs((*( m_pcm + c + i * m_samples / m_array.size() ))>>8);
+							m_array[i] =  ( (*( m_pcm + c + i * m_samples / m_array.size() )) >> 9 ) +127/2 ;
 						}
 						f.write(m_array);
 						
@@ -330,9 +328,7 @@ void KThumb::getAudioThumbs(KUrl url, int channel, double frame, double frameLen
        //FIXME: Hardcoded!!! 
 	int m_frequency = 48000;
 	int m_channels = channel;
-
 	m_thumbFile="/tmp/testfile";
-	/*FIXME WHY crash here ??????
 	if (m_url != url) {
 		m_url = url;
 		QCryptographicHash context(QCryptographicHash::Sha1);
@@ -340,7 +336,7 @@ void KThumb::getAudioThumbs(KUrl url, int channel, double frame, double frameLen
 		
 		m_thumbFile = KdenliveSettings::currenttmpfolder() + context.result().toHex() + ".thumb";
 		
-	}*/
+	}
 	
 	QFile f(m_thumbFile);
 	if (f.open( QIODevice::ReadOnly )) {
@@ -363,10 +359,10 @@ void KThumb::getAudioThumbs(KUrl url, int channel, double frame, double frameLen
 		emit audioThumbReady(storeIn);
 	}
 	else {
-		/*if (thumbProducer.isRunning()) return;
+		if (thumbProducer.isRunning()) return;
 		thumbProducer.init(m_url, m_thumbFile, frame, frameLength, m_frequency, m_channels, arrayWidth);
 		thumbProducer.start(QThread::LowestPriority );
-		*/
+		
 	}
 }
 

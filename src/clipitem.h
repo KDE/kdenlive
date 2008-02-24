@@ -117,6 +117,7 @@ class ClipItem : public QObject, public QGraphicsRectItem
     void slotFetchThumbs();
     void slotGetStartThumb();
     void slotGetEndThumb();
+    void slotGotAudioData();
 
   signals:
     void getThumb(int, int);

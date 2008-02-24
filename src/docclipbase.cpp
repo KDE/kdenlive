@@ -241,6 +241,7 @@ void DocClipBase::updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data)
 {
     audioFrameChache = data;
     m_audioThumbCreated = true;
+    emit gotAudioData();
 }
 
 QList < GenTime > DocClipBase::snapMarkers() const
@@ -406,7 +407,7 @@ QString DocClipBase::getTypeName(CLIPTYPE type)
 }
 
 void DocClipBase::slotGetAudioThumbs(){
-	kDebug() << "getting audio data";
+	
 	if (m_audioThumbCreated){
 		if (m_audioTimer!=NULL)
 			m_audioTimer->stop();
@@ -414,7 +415,7 @@ void DocClipBase::slotGetAudioThumbs(){
 		if (m_audioTimer!=NULL)
 			m_audioTimer->start(2000);
 		double lengthInFrames=duration().frames(/*framesPerSecond()*/25);
-		m_thumbProd->getAudioThumbs(fileURL(), 1, 0, lengthInFrames /*must be number of frames*/, 20);	
+		m_thumbProd->getAudioThumbs(fileURL(), 2, 0, lengthInFrames /*must be number of frames*/, 20);	
 	}
 }
 
