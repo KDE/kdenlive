@@ -34,7 +34,7 @@
 #include "kdenlivesettings.h"
 
 ClipItem::ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & rect, int duration)
-    : QGraphicsRectItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0), m_effectsCounter(0)
+: QGraphicsRectItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0), m_effectsCounter(0),audioThumbWasDrawn(false)
 {
   //setToolTip(name);
   kDebug()<<"*******  CREATING NEW TML CLIP, DUR: "<<duration;
@@ -247,33 +247,46 @@ int ClipItem::endPos()
 		audiopen.setWidth(0);
 		painter->setPen(audiopen);
 		QRectF re=path.boundingRect();
+		 if (audioThumbCachePic.isNull() || framePixelWidth!=pixelForOneFrame){
+			audioThumbCachePic=QPixmap(re.width(),re.height());
+			audioThumbCachePic.fill(QColor(200,200,200,127));
+		}
+		 if ( (!audioThumbWasDrawn || framePixelWidth!=pixelForOneFrame ) && !baseClip()->audioFrameChache.isEmpty()){
+			QMap<int,QPainterPath > positiveChannelPaths;
+			QMap<int,QPainterPath > negativeChannelPaths;
+			QPainter pixpainter(&audioThumbCachePic);
+			pixpainter.setRenderHint(QPainter::Antialiasing,true);
+			for (int i=0;i<channels;i++){
 
-		QMap<int,QPainterPath > channelPaths;
-		QMap<int,QPainterPath > negativeChannelPaths;
-		for (int i=0;i<channels;i++){
-			channelPaths[i].moveTo(re.x(),re.y()+re.height()*i/channels+ (re.height()/channels)/2);
-			negativeChannelPaths[i].moveTo(re.x(),re.y()+re.height()*i/channels+ (re.height()/channels)/2);
-		}
-		 
-		for (int samples=re.x();samples<re.x()+re.width();samples++){
-			double frame=(double)(samples-re.x())/pixelForOneFrame;
-			int sample=(frame-(int)(frame))*20 ;// AUDIO_FRAME_SIZE
-			if (frame<0 || sample< 0 || sample>19 )
-				continue;
-			QMap<int,QByteArray> frame_channel_data=baseClip()->audioFrameChache[(int)frame];
-			
-			for (int channel=0;channel<channels && frame_channel_data[channel].size()> 0;channel++){
-				
-				int y=re.y()+re.height()*channel/channels+ (re.height()/channels)/2;
-				channelPaths[channel].lineTo(samples,y+( (int)frame_channel_data[channel][sample] -127/2 )  * (re.height()/channels) / 64 );	
-				negativeChannelPaths[channel].lineTo(samples,y-( (int)frame_channel_data[channel][sample] -127/2 )  * (re.height()/channels) / 64 );
+				positiveChannelPaths[i].moveTo(0,0+audioThumbCachePic.height()*i/channels+ (audioThumbCachePic.height()/channels)/2);
+				negativeChannelPaths[i].moveTo(0,0+audioThumbCachePic.height()*i/channels+ (audioThumbCachePic.height()/channels)/2);
 			}
-		}
-		for (int i=0;i<channels;i++){
-			//painter->drawPath(channelPaths[i].united(negativeChannelPaths[i]));//or singleif looks better
-			painter->drawPath(channelPaths[i]);
-		}
-	 }
+			
+			for (int samples=0;samples<audioThumbCachePic.width();samples++){
+				double frame=(double)(samples-0)/pixelForOneFrame;
+				int sample=(frame-(int)(frame))*20 ;// AUDIO_FRAME_SIZE
+				if (frame<0 || sample< 0 || sample>19 )
+					continue;
+				QMap<int,QByteArray> frame_channel_data=baseClip()->audioFrameChache[(int)frame];
+				
+				for (int channel=0;channel<channels && frame_channel_data[channel].size()> 0;channel++){
+					
+					int y=audioThumbCachePic.height()*channel/channels+ (/*re.height()*/audioThumbCachePic.height()/channels)/2;
+					
+					positiveChannelPaths[channel].lineTo(samples,y+( (int)frame_channel_data[channel][sample] -127/2 )  * (audioThumbCachePic.height()/channels) / 64 );	
+					negativeChannelPaths[channel].lineTo(samples,y-( (int)frame_channel_data[channel][sample] -127/2 )  * (audioThumbCachePic.height()/channels) / 64 );
+				}
+			}
+			for (int i=0;i<channels;i++){
+				pixpainter.fillPath(positiveChannelPaths[i].united(negativeChannelPaths[i]),QBrush(Qt::SolidPattern));//or singleif looks better
+				//pixpainter.drawPath(positiveChannelPaths[i]);
+			}
+			 audioThumbWasDrawn=true;
+			 framePixelWidth=pixelForOneFrame;
+		 }
+		 painter->drawPixmap(re.x(),re.y(),audioThumbCachePic);
+	}
+	 
 	 
 	 
     // draw start / end fades

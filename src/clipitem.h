@@ -111,7 +111,9 @@ class ClipItem : public QObject, public QGraphicsRectItem
     int m_effectsCounter;
     
     EffectsList m_effectList;
-
+    QPixmap audioThumbCachePic;
+    bool audioThumbWasDrawn;
+    double framePixelWidth;
   private slots:
     void slotThumbReady(int frame, QPixmap pix);
     void slotFetchThumbs();
