@@ -42,7 +42,8 @@ m_xml(xml), m_id(id), m_description(""), m_refcount(0), m_projectThumbFrame(0), 
 	if (m_clipType == AV || m_clipType==AUDIO ||m_clipType==UNKNOWN){
 		m_audioTimer = new QTimer( this );
 		connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(slotGetAudioThumbs()));
-		emit getAudioThumbs();
+		//TODO disabled until the crash cause is found 
+		//emit getAudioThumbs();
 	}
 }
 
@@ -407,6 +408,7 @@ void DocClipBase::slotGetAudioThumbs(){
 			m_audioTimer->start(2000);
 		double lengthInFrames=duration().frames(/*framesPerSecond()*/25);
 		m_thumbProd->getAudioThumbs(fileURL(), 1, 0, 10 /*must be number of frames*/, 20);
+		
 		
 	}
 }

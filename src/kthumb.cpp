@@ -330,7 +330,7 @@ void KThumb::getAudioThumbs(KUrl url, int channel, double frame, double frameLen
        //FIXME: Hardcoded!!! 
 	int m_frequency = 48000;
 	int m_channels = channel;
-	
+
 	m_thumbFile="/tmp/testfile";
 	/*FIXME WHY crash here ??????
 	if (m_url != url) {
@@ -351,11 +351,10 @@ void KThumb::getAudioThumbs(KUrl url, int channel, double frame, double frameLen
 			f.remove();
 			return;
 		}
-		
+		kDebug() << "reading audio thumbs from file";
 		for (int z=(int) frame;z<(int) (frame+frameLength);z++) {
 			for (int c=0;c< m_channels;c++){
-				QByteArray m_array;
-				m_array.resize(arrayWidth);
+				QByteArray m_array(arrayWidth,'\x00');
 				for (int i = 0; i < arrayWidth; i++)
 					m_array[i] = channelarray[z*arrayWidth*m_channels + c*arrayWidth + i];
 				storeIn[z][c] = m_array;
@@ -364,9 +363,10 @@ void KThumb::getAudioThumbs(KUrl url, int channel, double frame, double frameLen
 		emit audioThumbReady(storeIn);
 	}
 	else {
-		if (thumbProducer.isRunning()) return;
+		/*if (thumbProducer.isRunning()) return;
 		thumbProducer.init(m_url, m_thumbFile, frame, frameLength, m_frequency, m_channels, arrayWidth);
 		thumbProducer.start(QThread::LowestPriority );
+		*/
 	}
 }
 

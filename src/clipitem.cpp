@@ -220,22 +220,41 @@ int ClipItem::endPos()
 		 QPainterPath path= m_clipType==AV ? roundRectPathLower : roundRectPathUpper.united(roundRectPathLower);
 		 painter->fillPath(path,QBrush(QColor(200,200,200,127)));
 		 //for test 
+		 double pixelForOneFrame=(double)br.width()/duration();
 		 int channels=2;
-		 kDebug() << "audioframes=" << baseClip()->audioFrameChache.size();
-		 for (int frame=0;frame<10 && frame+1< baseClip()->audioFrameChache.size();frame++){
-			QRectF re=path.boundingRect();
-			 
-			 QMap<int,QByteArray> frame_channel_data=baseClip()->audioFrameChache[frame];
-			 kDebug() << "size=" <<frame_channel_data.size()  << " " << frame_channel_data[0].size();;
-			 int audio_frame_samples=frame_channel_data[0].size();
-			 for (int samples=0;samples<audio_frame_samples/*AUDIO_FRAME_SIZE*/;samples++){
-			 	for (int channel=0;channel<channels && frame_channel_data[channel].size()> 0;channel++){
-				 
+
+		 /*for (int frame=m_cropStart;frame<m_cropStart+m_cropDuration && frame< baseClip()->audioFrameChache.size();frame++){
+			
+			QMap<int,QByteArray> frame_channel_data=baseClip()->audioFrameChache[frame];
+			int audio_frame_samples=frame_channel_data[0].size();
+			
+			for (int samples=0;samples<audio_frame_samples;samples++){
+				
+				for (int channel=0;channel<channels && frame_channel_data[channel].size()> 0;channel++){
 					int y=re.y()+re.height()*channel/channels+ (re.height()/channels)/2;
-				 	painter->drawLine(re.x() + frame*audio_frame_samples+samples  , y+frame_channel_data[channel][0], re.x() +frame*audio_frame_samples+samples+1 /*+ re.width()*/, y+frame_channel_data[channel][0] );
+					int x1=re.x() + ((double)frame*pixelForOneFrame*audio_frame_samples+samples)/pixelForOneFrame;
+					kDebug() <<" frame " << frame	<< " " << x1 ;
+					painter->drawLine(x1 , y+frame_channel_data[channel][0],x1+1, y+frame_channel_data[channel][0] );
 				}
-			 }
-		 }
+			}
+	 }*/
+		QRectF re=path.boundingRect();
+		for (int samples=re.x();samples<re.x()+re.width();samples++){
+			double frame=(double)(samples-re.x())/pixelForOneFrame;
+			int sample=(frame-(int)(frame))*20 ;// AUDIO_FRAME_SIZE
+			
+			if (frame<0 || sample< 0 || sample>19 )
+				continue;
+			QMap<int,QByteArray> frame_channel_data=baseClip()->audioFrameChache[(int)frame];
+			
+			for (int channel=0;channel<channels && frame_channel_data[channel].size()> 0;channel++){
+				
+				int y=re.y()+re.height()*channel/channels+ (re.height()/channels)/2;
+				painter->drawLine(samples , y+frame_channel_data[channel][sample],samples+1, y+frame_channel_data[channel][sample] );
+				//painter->drawLine(samples , y+samples-10,samples+1, y+samples-10 );
+				
+			}
+		}
 	 }
     // draw start / end fades
     double scale = br.width() / m_cropDuration;
