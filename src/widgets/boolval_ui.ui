@@ -5,65 +5,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>509</width>
-    <height>259</height>
+    <width>326</width>
+    <height>30</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" >
-   <property name="leftMargin" >
-    <number>0</number>
-   </property>
-   <property name="topMargin" >
-    <number>0</number>
-   </property>
-   <property name="rightMargin" >
-    <number>0</number>
-   </property>
-   <property name="bottomMargin" >
-    <number>0</number>
-   </property>
-   <property name="horizontalSpacing" >
-    <number>0</number>
-   </property>
+  <layout class="QGridLayout" name="gridLayout" >
    <property name="verticalSpacing" >
     <number>0</number>
    </property>
+   <property name="margin" >
+    <number>0</number>
+   </property>
    <item row="0" column="0" >
-    <layout class="QVBoxLayout" >
-     <item>
-      <widget class="QGroupBox" name="title" >
-       <property name="font" >
-        <font>
-         <pointsize>8</pointsize>
-        </font>
-       </property>
-       <property name="title" >
-        <string>GroupBox</string>
-       </property>
-       <property name="alignment" >
-        <set>Qt::AlignLeading</set>
-       </property>
-       <property name="flat" >
-        <bool>false</bool>
-       </property>
-       <property name="checkable" >
-        <bool>false</bool>
-       </property>
-       <layout class="QGridLayout" >
-        <item row="0" column="0" >
-         <widget class="QCheckBox" name="checkBox" >
-          <property name="text" >
-           <string>CheckBox</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-    </layout>
+    <widget class="QCheckBox" name="checkBox" >
+     <property name="text" >
+      <string>CheckBox</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

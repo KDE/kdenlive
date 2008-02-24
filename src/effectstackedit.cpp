@@ -42,7 +42,9 @@ EffectStackEdit::EffectStackEdit(QFrame* frame,QWidget *parent): QObject(parent)
 	vbox->setContentsMargins (0,0,0,0);
 	vbox->setSpacing(0);
 	frame->setLayout(vbox1);
-	
+	QFont widgetFont = frame->font();
+	widgetFont.setPointSize(widgetFont.pointSize() - 2);
+	frame->setFont(widgetFont);
 	
 	area=new QScrollArea(frame);
 	QWidget *wid=new QWidget(area);
@@ -105,7 +107,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d,int ,int){
 			bval->checkBox->setCheckState(value=="0" ? Qt::Unchecked : Qt::Checked);
 			
 			connect (bval->checkBox, SIGNAL(stateChanged(int)) , this, SLOT (collectAllParameters()));
-			bval->title->setTitle(na.toElement().text() );
+			bval->checkBox->setText(na.toElement().text() );
 			valueItems[paramName]=bval;
 			uiItems.append(bval);
 		}else if(type=="complex"){
@@ -173,9 +175,9 @@ void EffectStackEdit::createSliderItem(const QString& name, int val ,int min, in
 	ctval->horizontalSlider->setMaximum(max);
 	ctval->spinBox->setMinimum(min);
 	ctval->spinBox->setMaximum(max);
-	
+	ctval->horizontalSlider->setPageStep((int) (max - min)/10);	
 	ctval->horizontalSlider->setValue(val);
-	ctval->title->setTitle(name);
+	ctval->label->setText(name);
 	valueItems[name]=ctval;
 	uiItems.append(ctval);
 	connect (ctval->horizontalSlider, SIGNAL(valueChanged(int)) , this, SLOT (collectAllParameters()));
