@@ -14,9 +14,9 @@
       <default>00:00:05:00</default>
     </entry>
 
-    <entry name="currenttmpfolder" type="String">
+    <entry name="currenttmpfolder" type="Path">
       <label>Default folder for tmp files.</label>
-      <default>/tmp</default>
+      <default>/tmp/</default>
     </entry>
   </group>
 
@@ -49,5 +49,7 @@
       <label>active project format.</label>
       <default>hdv_1080_50i</default>
     </entry>
+
+
   </group>
 </kcfg>
