@@ -88,7 +88,7 @@ class DocClipBase:public QObject {
     void setId( const uint &newId);
 
     //KThumb *thumbCreator;
-    bool audioThumbCreated;
+    bool audioThumbCreated() const;
     
 	/** returns the duration of this clip */
     const GenTime & duration() const;
@@ -106,7 +106,7 @@ class DocClipBase:public QObject {
 	/** Returns a url to a file describing this clip. Exactly what this url is,
 	whether it is temporary or not, and whether it provokes a render will
 	depend entirely on what the clip consists of. */
-    const KUrl & fileURL() const;
+    KUrl fileURL() const;
 
 	/** Returns true if the clip duration is known, false otherwise. */
     bool durationKnown() const;
@@ -211,8 +211,10 @@ class DocClipBase:public QObject {
 	/** A thumbnail for this clip */
     QPixmap m_thumbnail;
     GenTime m_duration;
-	QTimer *m_audioTimer;
+
+    QTimer *m_audioTimer;
     KThumb *m_thumbProd;
+    bool m_audioThumbCreated;
     
     /** a unique numeric id */
     uint m_id;

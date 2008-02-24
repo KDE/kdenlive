@@ -21,7 +21,7 @@
 #include "docclipbase.h"
 
 DocClipBase::DocClipBase(QDomElement xml, uint id):
-m_xml(xml), m_id(id), m_description(""), m_refcount(0), m_projectThumbFrame(0), audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL)
+m_xml(xml), m_id(id), m_description(""), m_refcount(0), m_projectThumbFrame(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL)
 {
   int type = xml.attribute("type").toInt();
   m_clipType = (CLIPTYPE) type;
@@ -31,20 +31,20 @@ m_xml(xml), m_id(id), m_description(""), m_refcount(0), m_projectThumbFrame(0), 
   int out = xml.attribute("out").toInt();
   if (out != 0) setDuration(GenTime(out, 25));
   if (m_name.isEmpty()) m_name = url.fileName();
-	if (!url.isEmpty()){
+  if (!url.isEmpty()){
     m_thumbProd = new KThumb(url, KdenliveSettings::track_height() * KdenliveSettings::project_display_ratio(), KdenliveSettings::track_height());
-		connect (m_thumbProd, SIGNAL (audioThumbReady(QMap <int, QMap <int, QByteArray> >)), this , SLOT(updateAudioThumbnail(QMap <int, QMap <int, QByteArray> > )));
-		connect (this, SIGNAL (getAudioThumbs()), this , SLOT( slotGetAudioThumbs() ) );
+    connect (m_thumbProd, SIGNAL (audioThumbReady(QMap <int, QMap <int, QByteArray> >)), this , SLOT(updateAudioThumbnail(QMap <int, QMap <int, QByteArray> > )));
+    connect (this, SIGNAL (getAudioThumbs()), this , SLOT( slotGetAudioThumbs() ) );
 		
-	}
-	kDebug() << "type is video" << (m_clipType==AV) << " " << m_clipType;
+  }
+  kDebug() << "type is video" << (m_clipType==AV) << " " << m_clipType;
 	
-	if (m_clipType == AV || m_clipType==AUDIO ||m_clipType==UNKNOWN){
-		m_audioTimer = new QTimer( this );
-		connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(slotGetAudioThumbs()));
-		//TODO disabled until the crash cause is found 
-		//emit getAudioThumbs();
-	}
+  if (m_clipType == AV || m_clipType==AUDIO || m_clipType==UNKNOWN){
+    m_audioTimer = new QTimer( this );
+    connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(slotGetAudioThumbs()));
+    //TODO disabled until the crash cause is found 
+    emit getAudioThumbs();
+  }
 }
 
 DocClipBase::DocClipBase(const DocClipBase& clip)
@@ -54,6 +54,7 @@ DocClipBase::DocClipBase(const DocClipBase& clip)
     m_clipType = clip.clipType();
     m_name = clip.name();
     m_duration = clip.duration();
+    m_audioThumbCreated = clip.audioThumbCreated();
 }
 
 DocClipBase & DocClipBase::operator=(const DocClipBase & clip)
@@ -64,6 +65,7 @@ DocClipBase & DocClipBase::operator=(const DocClipBase & clip)
     m_clipType = clip.clipType();
     m_name = clip.name();
     m_duration = clip.duration();
+    m_audioThumbCreated = clip.audioThumbCreated();
     return *this;
 }
 
@@ -75,6 +77,11 @@ DocClipBase::~DocClipBase()
 KThumb *DocClipBase::thumbProducer()
 {
   return m_thumbProd;
+}
+
+bool DocClipBase::audioThumbCreated() const
+{
+  return m_audioThumbCreated;
 }
 
 void DocClipBase::setName(const QString name)
@@ -108,7 +115,7 @@ void DocClipBase::setClipType(CLIPTYPE type)
   m_clipType = type;
 }
 
-const KUrl & DocClipBase::fileURL() const
+KUrl DocClipBase::fileURL() const
 {
   QString res = m_xml.attribute("resource");
   if (m_clipType != COLOR && !res.isEmpty()) return KUrl(res);
@@ -212,7 +219,7 @@ createClip(KdenliveDoc *doc, const QDomElement & element)
 
 void DocClipBase::setAudioThumbCreated(bool isDone)
 {
-    audioThumbCreated = isDone;
+    m_audioThumbCreated = isDone;
 }
 
 
@@ -233,7 +240,7 @@ const QPixmap & DocClipBase::thumbnail() const
 void DocClipBase::updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data)
 {
     audioFrameChache = data;
-    audioThumbCreated = true;
+    m_audioThumbCreated = true;
 }
 
 QList < GenTime > DocClipBase::snapMarkers() const
@@ -400,16 +407,14 @@ QString DocClipBase::getTypeName(CLIPTYPE type)
 
 void DocClipBase::slotGetAudioThumbs(){
 	kDebug() << "getting audio data";
-	if (audioThumbCreated){
+	if (m_audioThumbCreated){
 		if (m_audioTimer!=NULL)
 			m_audioTimer->stop();
 	}else{
 		if (m_audioTimer!=NULL)
 			m_audioTimer->start(2000);
 		double lengthInFrames=duration().frames(/*framesPerSecond()*/25);
-		m_thumbProd->getAudioThumbs(fileURL(), 1, 0, 10 /*must be number of frames*/, 20);
-		
-		
+		m_thumbProd->getAudioThumbs(fileURL(), 1, 0, lengthInFrames /*must be number of frames*/, 20);	
 	}
 }
 
