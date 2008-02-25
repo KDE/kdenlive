@@ -120,9 +120,10 @@ class ClipItem : public QObject, public QGraphicsRectItem
     void slotGetStartThumb();
     void slotGetEndThumb();
     void slotGotAudioData();
-
+    void slotPrepareAudioThumb(double,QPainterPath);
   signals:
     void getThumb(int, int);
+    void prepareAudioThumb(double,QPainterPath);
 
 };
 
