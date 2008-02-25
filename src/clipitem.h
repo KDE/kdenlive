@@ -114,6 +114,7 @@ class ClipItem : public QObject, public QGraphicsRectItem
     QPixmap audioThumbCachePic;
     bool audioThumbWasDrawn;
     double framePixelWidth;
+    QMap<int,QPainterPath > channelPaths;
   private slots:
     void slotThumbReady(int frame, QPixmap pix);
     void slotFetchThumbs();

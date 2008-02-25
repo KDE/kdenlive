@@ -224,13 +224,62 @@ int ClipItem::endPos()
 	 if (m_clipType == AV || m_clipType==AUDIO ){
 		 QPainterPath path= m_clipType==AV ? roundRectPathLower : roundRectPathUpper.united(roundRectPathLower);
 		 painter->fillPath(path,QBrush(QColor(200,200,200,127)));
-		 //for test 
+		 
+		 int channels=2;
 		 double pixelForOneFrame=(double)br.width()/duration();
-		 if (framePixelWidth!=pixelForOneFrame)
-		 	emit prepareAudioThumb(pixelForOneFrame,path);
+		 if (framePixelWidth!=pixelForOneFrame){
+			 emit prepareAudioThumb(pixelForOneFrame,path);
+	
+			 /* re.x() changeds every time on move, so the path has to be rebuild every time
+				QRectF re=path.boundingRect();
 
-		 if (!audioThumbCachePic.isNull())
+			 if ( !baseClip()->audioFrameChache.isEmpty()){
+
+				 QMap<int,QPainterPath > positiveChannelPaths;
+				 QMap<int,QPainterPath > negativeChannelPaths;
+
+				 QPen audiopen;
+				 audiopen.setWidth(0);
+				 painter->setPen(audiopen);
+
+				 for (int i=0;i<channels;i++){
+					 
+					 positiveChannelPaths[i].moveTo(re.x(),re.y()+re.height()*i/channels+ (re.y()+re.height()/channels)/2);
+					 negativeChannelPaths[i].moveTo(re.x(),re.y()+re.height()*i/channels+ (re.y()+re.height()/channels)/2);
+				 }
+				 
+				 for (int samples=re.x();samples<re.x()+re.width();samples++){
+					 double frame=(double)(samples-re.x())/pixelForOneFrame;
+					 int sample=(frame-(int)(frame))*20 ;// AUDIO_FRAME_SIZE
+					 if (frame<0 || sample< 0 || sample>19 )
+						 continue;
+					 QMap<int,QByteArray> frame_channel_data=baseClip()->audioFrameChache[(int)frame];
+					 
+					 for (int channel=0;channel<channels && frame_channel_data[channel].size()> 0;channel++){
+						 int y=re.y()+re.height()*channel/channels+ (re.height()/channels)/2;
+						 positiveChannelPaths[channel].lineTo(samples,y+( (int)frame_channel_data[channel][sample] -127/2 )  * (re.height()/channels) / 64 );	
+						 negativeChannelPaths[channel].lineTo(samples,y-( (int)frame_channel_data[channel][sample] -127/2 )  * (re.height()/channels) / 64 );
+					 }
+				 }
+				 for (int i=0;i<channels;i++){
+					 if (pixelForOneFrame<10){
+						 channelPaths[i]=positiveChannelPaths[i].united(negativeChannelPaths[i]);
+					 }else{
+						 channelPaths[i]=positiveChannelPaths[i];
+					 }
+				 }
+				 audioThumbWasDrawn=true;
+				 framePixelWidth=pixelForOneFrame;
+			 }
+			 */
+		 }
+
+		 if (!audioThumbCachePic.isNull() )
 		 	painter->drawPixmap(path.boundingRect().x(),path.boundingRect().y(),audioThumbCachePic);
+		/*if ( channelPaths.size() )
+		for (int i=0;i<channels;i++){
+			painter->drawPath(channelPaths[i]);
+		}*/
 	}
 	 
 	 
@@ -359,8 +408,8 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame,QPainterPath path){
 				
 				int y=audioThumbCachePic.height()*channel/channels+ (/*re.height()*/audioThumbCachePic.height()/channels)/2;
 				
-				positiveChannelPaths[channel].lineTo(samples,y+( (int)frame_channel_data[channel][sample] -127/2 )  * (audioThumbCachePic.height()/channels) / 64 );	
-				negativeChannelPaths[channel].lineTo(samples,y-( (int)frame_channel_data[channel][sample] -127/2 )  * (audioThumbCachePic.height()/channels) / 64 );
+				positiveChannelPaths[channel].lineTo(samples,0.1+y+( (int)frame_channel_data[channel][sample] -127/2 )  * (audioThumbCachePic.height()/channels) / 64 );	
+				negativeChannelPaths[channel].lineTo(samples,0.1+y-( (int)frame_channel_data[channel][sample] -127/2 )  * (audioThumbCachePic.height()/channels) / 64 );
 			}
 		}
 		for (int i=0;i<channels;i++){

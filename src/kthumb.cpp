@@ -120,6 +120,7 @@ void MyThread::init(KUrl url, QString target, double frame, double frameLength, 
 				if (mlt_frame)
 					delete mlt_frame;
 		}
+		kDebug() << "done";
 		f.close();
 		m_isWorking = false;
 		if (stop_me) {
