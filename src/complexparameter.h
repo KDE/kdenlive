@@ -31,7 +31,7 @@ class ComplexParameter : public QWidget
 		
 	public:
 		ComplexParameter(QWidget *parent=0);
-	
+		QDomElement getParamDesc();
 private:
 	int activeRow;
 	QList<QDomElement> effects;
@@ -40,7 +40,8 @@ private:
 	void setupListView();
 	void updateButtonStatus();
 	QMap<QString,EffectsList*> effectLists;
-
+	
+	QDomElement param;
 public slots:
 	void slotSetMoveX();
 	void slotSetMoveY();
@@ -50,10 +51,13 @@ public slots:
 	void slotParameterChanged(const QString&);
 	void itemSelectionChanged();
 	void setupParam(const QDomElement&,int,int);
+	void slotUpdateEffectParams(QDomElement e);
+	void slotUpdateParameterList(QStringList);
 signals:
 	void transferParamDesc(const QDomElement&,int ,int);
 	void removeEffect(ClipItem*, QDomElement);
 	void updateClipEffect(ClipItem*, QDomElement);
+	void parameterChanged();
 
 };
 

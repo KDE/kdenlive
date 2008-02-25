@@ -126,8 +126,10 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d,int ,int){
 				};
 			}
 			ComplexParameter *pl=new ComplexParameter;
+			connect (pl, SIGNAL ( parameterChanged()),this, SLOT( collectAllParameters ()) );
 			pl->setupParam(d,0,100);
 			vbox->addWidget(pl);
+			valueItems[paramName+"complex"]=pl;
 			items.append(pl);
 		}else if (type=="color"){
 			Ui::Colorval_UI *cval=new Ui::Colorval_UI;
@@ -152,7 +154,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d,int ,int){
 	}
 }
 void EffectStackEdit::collectAllParameters(){
-	kDebug() << "cklicked";
+	
 	QDomNodeList namenode = params.elementsByTagName("parameter");
 
 	for (int i=0;i< namenode.count() ;i++){
@@ -175,7 +177,11 @@ void EffectStackEdit::collectAllParameters(){
 		if (type=="color"){
 			KColorButton *color=((Ui::Colorval_UI*)valueItems[na.toElement().text()])->kcolorbutton;
 			setValue.sprintf("0x%08x",color->color().rgba());
-		}
+		}else
+			if (type=="complex"){
+				ComplexParameter *complex=((ComplexParameter*)valueItems[na.toElement().text()+"complex"]);
+				namenode.item(i)=complex->getParamDesc();
+			}
 		if (!setValue.isEmpty()){
 			pa.attributes().namedItem("value").setNodeValue(setValue);
 		}

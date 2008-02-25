@@ -57,25 +57,46 @@ void ParameterPlotter::setPointLists(const QDomElement& d,int startframe,int end
 	itemParameter=d;
 	QDomNodeList namenode = d.elementsByTagName("parameter");
 	
-	int max_y=0;
+	int max_y=0,min_y=0;
 	removeAllPlotObjects ();
 	parameterNameList.clear();
 	plotobjects.clear();
 	
+	QString dat;
+	QTextStream stre(&dat);
+	d.save(stre,2);
+	kDebug() << dat;
 
-	for (int i=0;i< namenode.count() ;i++){
-		KPlotObject *plot=new KPlotObject(colors[plotobjects.size()%colors.size()]);
-		plot->setShowLines(true);
-		//QPair<QString, QMap< int , QVariant > > item=nameit.next();
-		QDomNode pa=namenode.item(i);
+	if ( namenode.count() ){
+		
+		
+		QDomNode pa=namenode.item(0);
 		QDomNode na=pa.firstChildElement("name");
 		
-		parameterNameList << na.toElement().text();
+		parameterNameList << pa.attributes().namedItem("name").nodeValue().split(";");
+		emit parameterList(parameterNameList);
 		
+		//max_y=pa.attributes().namedItem("max").nodeValue().toInt();
+		//int val=pa.attributes().namedItem("value").nodeValue().toInt();
+		QStringList defauls=pa.attributes().namedItem("default").nodeValue().split(";");
+		QStringList maxv=pa.attributes().namedItem("max").nodeValue().split(";");
+		QStringList minv=pa.attributes().namedItem("max").nodeValue().split(";");
+		for (int i=0;i<maxv.size();i++){
+			if (max_y< maxv[i].toInt()) max_y=maxv[i].toInt();
+			if (min_y< minv[i].toInt()) min_y=minv[i].toInt();
+		}
 		
-		max_y=pa.attributes().namedItem("max").nodeValue().toInt();
-		int val=pa.attributes().namedItem("value").nodeValue().toInt();
-		plot->addPoint((i+1)*20,val);
+		for (int i=0;i<parameterNameList.count();i++){
+			KPlotObject *plot=new KPlotObject(colors[plotobjects.size()%colors.size()]);
+			plot->setShowLines(true);
+			
+			plot->addPoint(startframe,defauls[i].toInt());
+			//add keyframes here
+			plot->addPoint(endframe,defauls[i].toInt());
+		
+			plotobjects.append(plot);
+		}
+		
 		/*TODO keyframes
 		while (pointit.hasNext()){
 			pointit.next();
@@ -83,11 +104,11 @@ void ParameterPlotter::setPointLists(const QDomElement& d,int startframe,int end
 			if (pointit.value().toInt() >maxy)
 				max_y=pointit.value().toInt();
 		}*/
-		plotobjects.append(plot);
+		
 	}
 	maxx=endframe;
 	maxy=max_y;
-	setLimits(0,endframe,0,maxy+10);
+	setLimits(-1,endframe+1,-1,maxy+10);
 	addPlotObjects(plotobjects);
 
 }

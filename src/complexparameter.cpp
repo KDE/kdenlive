@@ -54,6 +54,7 @@ ComplexParameter::ComplexParameter(QWidget *parent)
 	//connect (ui.effectlist, SIGNAL (itemSelectionChanged() ) , this, SLOT ( itemSelectionChanged()));
 	connect( this,SIGNAL (transferParamDesc(const QDomElement&,int ,int) ), ui.kplotwidget, SLOT(setPointLists(const QDomElement&,int ,int) ));
 	connect(ui.kplotwidget, SIGNAL (parameterChanged(QDomElement ) ), this , SLOT (slotUpdateEffectParams(QDomElement)));
+	connect(ui.kplotwidget, SIGNAL (parameterList(QStringList)), this , SLOT (slotUpdateParameterList(QStringList)));
 	/*ÜeffectLists["audio"]=audioEffectList;
 	effectLists["video"]=videoEffectList;
 	effectLists["custom"]=customEffectList;*/
@@ -111,10 +112,27 @@ void ComplexParameter::slotParameterChanged(const QString& text){
 }
 
 void ComplexParameter::setupParam(const QDomElement& d,int from,int to){
+	param=d;
 	ui.kplotwidget->setPointLists(d,from,to);
 }
 
 void ComplexParameter::itemSelectionChanged (){
 	//kDebug() << "drop";
 }
+
+void ComplexParameter::slotUpdateEffectParams(QDomElement e){
+	param=e;
+	emit parameterChanged();
+}
+
+QDomElement ComplexParameter::getParamDesc(){
+	return param;
+}
+
+void ComplexParameter::slotUpdateParameterList(QStringList l){
+	kDebug() << l ;
+	ui.parameterList->clear();
+	ui.parameterList->addItems(l);
+}
+
 #include "complexparameter.moc"

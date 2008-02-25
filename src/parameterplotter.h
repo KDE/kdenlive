@@ -51,5 +51,6 @@ class ParameterPlotter : public KPlotWidget {
 	signals:
 		void parameterChanged(QDomElement );
 		void updateFrame(int);
+		void parameterList(QStringList);
 	
 };
