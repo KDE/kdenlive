@@ -112,7 +112,7 @@ class ClipItem : public QObject, public QGraphicsRectItem
     
     EffectsList m_effectList;
     QMap<int,QPixmap> audioThumbCachePic;
-    bool audioThumbWasDrawn;
+    bool audioThumbWasDrawn,audioThumbReady;
     double framePixelWidth;
     QMap<int,QPainterPath > channelPaths;
   private slots:

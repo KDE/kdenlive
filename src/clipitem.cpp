@@ -34,7 +34,7 @@
 #include "kdenlivesettings.h"
 
 ClipItem::ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & rect, int duration)
-: QGraphicsRectItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0), m_effectsCounter(0),audioThumbWasDrawn(false)
+: QGraphicsRectItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0), m_effectsCounter(0),audioThumbWasDrawn(false),audioThumbReady(false)
 {
   //setToolTip(name);
   kDebug()<<"*******  CREATING NEW TML CLIP, DUR: "<<duration;
@@ -114,6 +114,7 @@ void ClipItem::slotThumbReady(int frame, QPixmap pix)
 }
 
 void ClipItem::slotGotAudioData(){
+  audioThumbReady=true;
   update();
 }
 
@@ -182,14 +183,17 @@ int ClipItem::endPos()
 	 if (scene()->views().size()>0){ 
 	 	rectInView=scene()->views()[0]->viewport()->rect();
 		rectInView.moveTo(scene()->views()[0]->horizontalScrollBar()->value(),scene()->views()[0]->verticalScrollBar()->value());
-	 	kDebug() << scene()->views()[0]->viewport()->rect() << " " <<  scene()->views()[0]->horizontalScrollBar()->value();
+		rectInView.adjust(-10,-10,10,10);//make view rect 10 pixel greater on each site, or repaint after scroll event
+		 //kDebug() << scene()->views()[0]->viewport()->rect() << " " <<  scene()->views()[0]->horizontalScrollBar()->value();
 	 }
 	 if (rectInView.isNull())
 		 return;
+	 QPainterPath clippath;
+	 clippath.addRect(rectInView);
 	 int startpixel=rectInView.x()-rect().x();//start and endpixel that is viewable from rect()
 	 if (startpixel<0)
 		 startpixel=0;
-	 int endpixel=rectInView.width()-rect().x()+rectInView.x();
+	 int endpixel=rectInView.width()+rectInView.x();
 	 if (endpixel<0)
 		 endpixel=0;
 	 
@@ -215,9 +219,9 @@ int ClipItem::endPos()
 	 roundRectPathLower.lineTo(br.x() + br .width() - offset, br.y()+ br.height()/2 - offset);
 	 roundRectPathLower.closeSubpath();
 	 
-	 painter->setClipPath(roundRectPathUpper.united(roundRectPathLower), Qt::IntersectClip);
+	 painter->setClipPath(roundRectPathUpper.united(roundRectPathLower).intersected(clippath), Qt::IntersectClip);
 	 //painter->fillPath(roundRectPath, brush()); //, QBrush(QColor(Qt::red)));
-	painter->fillRect(br, brush());
+	 painter->fillRect(br.intersected(rectInView), brush());
     //painter->fillRect(QRectF(br.x() + br.width() - m_endPix.width(), br.y(), m_endPix.width(), br.height()), QBrush(QColor(Qt::black)));
 
     // draw thumbnails
@@ -236,67 +240,21 @@ int ClipItem::endPos()
       QLineF l2(br.x() + m_startPix.width(), br.y(), br.x() + m_startPix.width(), br.y() + br.height());
       painter->drawLine(l2);
     }
-	 if (m_clipType == AV || m_clipType==AUDIO ){
+	 if ( ( m_clipType == AV || m_clipType==AUDIO) && audioThumbReady ){
 		 
 		 QPainterPath path= m_clipType==AV ? roundRectPathLower : roundRectPathUpper.united(roundRectPathLower);
 		 painter->fillPath(path,QBrush(QColor(200,200,200,127)));
 		 
 		 int channels=2;
 		 double pixelForOneFrame=(double)br.width()/duration();
-		 if (framePixelWidth!=pixelForOneFrame){
-			 emit prepareAudioThumb(pixelForOneFrame,path,startpixel,endpixel);
-	
-			 /* re.x() changeds every time on move, so the path has to be rebuild every time
-				QRectF re=path.boundingRect();
 
-			 if ( !baseClip()->audioFrameChache.isEmpty()){
+		 emit prepareAudioThumb(pixelForOneFrame,path,startpixel,endpixel);
 
-				 QMap<int,QPainterPath > positiveChannelPaths;
-				 QMap<int,QPainterPath > negativeChannelPaths;
-
-				 QPen audiopen;
-				 audiopen.setWidth(0);
-				 painter->setPen(audiopen);
-
-				 for (int i=0;i<channels;i++){
-					 
-					 positiveChannelPaths[i].moveTo(re.x(),re.y()+re.height()*i/channels+ (re.y()+re.height()/channels)/2);
-					 negativeChannelPaths[i].moveTo(re.x(),re.y()+re.height()*i/channels+ (re.y()+re.height()/channels)/2);
-				 }
-				 
-				 for (int samples=re.x();samples<re.x()+re.width();samples++){
-					 double frame=(double)(samples-re.x())/pixelForOneFrame;
-					 int sample=(frame-(int)(frame))*20 ;// AUDIO_FRAME_SIZE
-					 if (frame<0 || sample< 0 || sample>19 )
-						 continue;
-					 QMap<int,QByteArray> frame_channel_data=baseClip()->audioFrameChache[(int)frame];
-					 
-					 for (int channel=0;channel<channels && frame_channel_data[channel].size()> 0;channel++){
-						 int y=re.y()+re.height()*channel/channels+ (re.height()/channels)/2;
-						 positiveChannelPaths[channel].lineTo(samples,y+( (int)frame_channel_data[channel][sample] -127/2 )  * (re.height()/channels) / 64 );	
-						 negativeChannelPaths[channel].lineTo(samples,y-( (int)frame_channel_data[channel][sample] -127/2 )  * (re.height()/channels) / 64 );
-					 }
-				 }
-				 for (int i=0;i<channels;i++){
-					 if (pixelForOneFrame<10){
-						 channelPaths[i]=positiveChannelPaths[i].united(negativeChannelPaths[i]);
-					 }else{
-						 channelPaths[i]=positiveChannelPaths[i];
-					 }
-				 }
-				 audioThumbWasDrawn=true;
-				 framePixelWidth=pixelForOneFrame;
-			 }
-			 */
-		 }
-		 for (int startCache=startpixel-startpixel%100; startCache < endpixel;startCache+=100){
+		 for (int startCache=startpixel-startpixel%100; startCache+100 < endpixel;startCache+=100){
 			 if (audioThumbCachePic.contains(startCache) && !audioThumbCachePic[startCache].isNull() )
 				 painter->drawPixmap(path.boundingRect().x()+startCache,path.boundingRect().y(),audioThumbCachePic[startCache]);
 		 }
-		/*if ( channelPaths.size() )
-		for (int i=0;i<channels;i++){
-			painter->drawPath(channelPaths[i]);
-		}*/
+
 	}
 	 
 	 
@@ -361,7 +319,8 @@ int ClipItem::endPos()
     pen.setStyle(Qt::DashDotDotLine); //Qt::DotLine);
     if (isSelected()) painter->setPen(pen);
 	 painter->setClipRect(option->exposedRect);
-	 painter->drawPath(roundRectPathUpper.united(roundRectPathLower));
+	 painter->drawPath(roundRectPathUpper.united(roundRectPathLower).intersected(clippath));
+	 //painter->fillRect(startpixel,0,startpixel+endpixel,(int)br.height(),  QBrush(QColor(255,255,255,150)));
     //painter->fillRect(QRect(br.x(), br.y(), roundingX, roundingY), QBrush(QColor(Qt::green)));
 
     /*QRectF recta(rect().x(), rect().y(), scale,rect().height());
@@ -397,9 +356,13 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame,QPainterPath path,i
 	
 	QRectF re=path.boundingRect();
 	
-	if ( (!audioThumbWasDrawn || framePixelWidth!=pixelForOneFrame ) && !baseClip()->audioFrameChache.isEmpty()){
-		for (int startCache=startpixel-startpixel%100;startCache<endpixel ;startCache+=100){
-			
+	//if ( (!audioThumbWasDrawn || framePixelWidth!=pixelForOneFrame ) && !baseClip()->audioFrameChache.isEmpty()){
+	
+		for (int startCache=startpixel-startpixel%100;startCache+100<endpixel ;startCache+=100){
+			//kDebug() << "creating " << startCache;
+			//if (framePixelWidth!=pixelForOneFrame  || 
+			if (framePixelWidth==pixelForOneFrame && audioThumbCachePic.contains(startCache))
+				continue;
 			if (audioThumbCachePic[startCache].isNull() || framePixelWidth!=pixelForOneFrame){
 				audioThumbCachePic[startCache]=QPixmap(100,re.height());
 				audioThumbCachePic[startCache].fill(QColor(200,200,200,127));
@@ -412,13 +375,14 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame,QPainterPath path,i
 			audiopen.setWidth(0);
 			pixpainter.setPen(audiopen);
 			pixpainter.setRenderHint(QPainter::Antialiasing,true);
+			//pixpainter.drawLine(0,0,100,re.height());
 			for (int i=0;i<channels;i++){
 				
 				positiveChannelPaths[i].moveTo(0,0+audioThumbCachePic[startCache].height()*i/channels+ (audioThumbCachePic[startCache].height()/channels)/2);
 				negativeChannelPaths[i].moveTo(0,0+audioThumbCachePic[startCache].height()*i/channels+ (audioThumbCachePic[startCache].height()/channels)/2);
 			}
 			
-			for (int samples=0;samples<100;samples++){
+			for (int samples=0;samples<=100;samples++){
 				double frame=(double)(samples+startCache-0)/pixelForOneFrame;
 				int sample=(frame-(int)(frame))*20 ;// AUDIO_FRAME_SIZE
 				if (frame<0 || sample< 0 || sample>19 )
@@ -445,7 +409,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame,QPainterPath path,i
 		//audioThumbWasDrawn=true;
 		framePixelWidth=pixelForOneFrame;
 			
-	}
+	//}
 }
 
 int ClipItem::fadeIn() const
