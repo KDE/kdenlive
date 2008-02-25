@@ -76,11 +76,11 @@ void MyThread::init(KUrl url, QString target, double frame, double frameLength, 
 		Mlt::Producer m_producer(prof, m_url.path().toAscii().data());
 		
 
-		/*TODO if (KdenliveSettings::normaliseaudiothumbs()) {*/
+		/*TODO if (KdenliveSettings::normaliseaudiothumbs()) {
     		    Mlt::Filter m_convert(prof,"volume");
     		    m_convert.set("gain", "normalise");
     		    m_producer.attach(m_convert);
-		//}
+		}
 
 		/*TODO if (qApp->mainWidget()) 
 		    QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10005));

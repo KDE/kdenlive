@@ -27,6 +27,7 @@
 #include "ui_constval_ui.h"
 #include "ui_listval_ui.h"
 #include "ui_boolval_ui.h"
+#include "ui_colorval_ui.h"
 #include "complexparameter.h"
 
 EffectStackEdit::EffectStackEdit(QFrame* frame,QWidget *parent): QObject(parent)
@@ -128,6 +129,17 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d,int ,int){
 			pl->setupParam(d,0,100);
 			vbox->addWidget(pl);
 			items.append(pl);
+		}else if (type=="color"){
+			Ui::Colorval_UI *cval=new Ui::Colorval_UI;
+			cval->setupUi(toFillin);
+			bool ok;
+			cval->kcolorbutton->setColor (value.toUInt(&ok,16));
+			kDebug() << value.toUInt(&ok,16);
+			
+			connect (cval->kcolorbutton, SIGNAL(clicked()) , this, SLOT (collectAllParameters()));
+			cval->label->setText(na.toElement().text() );
+			valueItems[paramName]=cval;
+			uiItems.append(cval);
 		}else{
 			delete toFillin;
 			toFillin=NULL;
@@ -140,6 +152,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d,int ,int){
 	}
 }
 void EffectStackEdit::collectAllParameters(){
+	kDebug() << "cklicked";
 	QDomNodeList namenode = params.elementsByTagName("parameter");
 
 	for (int i=0;i< namenode.count() ;i++){
@@ -150,14 +163,18 @@ void EffectStackEdit::collectAllParameters(){
 		if (type=="double" || type=="constant"){
 			QSlider* slider=((Ui::Constval_UI*)valueItems[na.toElement().text()])->horizontalSlider;
 			setValue=QString::number(slider->value());
-		}
+		}else 
 		if (type=="list"){
 			KComboBox *box=((Ui::Listval_UI*)valueItems[na.toElement().text()])->list;
 			setValue=box->currentText();
-		}
+		}else 
 		if (type=="bool"){
 			QCheckBox *box=((Ui::Boolval_UI*)valueItems[na.toElement().text()])->checkBox;
 			setValue=box->checkState() == Qt::Checked ? "1" :"0" ;
+		}else
+		if (type=="color"){
+			KColorButton *color=((Ui::Colorval_UI*)valueItems[na.toElement().text()])->kcolorbutton;
+			setValue.sprintf("0x%08x",color->color().rgba());
 		}
 		if (!setValue.isEmpty()){
 			pa.attributes().namedItem("value").setNodeValue(setValue);

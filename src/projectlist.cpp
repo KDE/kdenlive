@@ -42,6 +42,7 @@
 #include "ui_colorclip_ui.h"
 
 #include "definitions.h"
+#include "titlewidget.h"
 
 #include <QtGui>
 
@@ -70,6 +71,9 @@ ProjectList::ProjectList(QWidget *parent)
 
   QAction *addColorClip = addMenu->addAction (KIcon("document-new"), i18n("Add Color Clip"));
   connect(addColorClip, SIGNAL(triggered()), this, SLOT(slotAddColorClip()));
+	
+	QAction *addTitleClip = addMenu->addAction (KIcon("document-new"), i18n("Add Title Clip"));
+	connect(addTitleClip, SIGNAL(triggered()), this, SLOT(slotAddTitleClip()));
 
   m_deleteAction = m_toolbar->addAction (KIcon("edit-delete"), i18n("Delete Clip"));
   connect(m_deleteAction, SIGNAL(triggered()), this, SLOT(slotRemoveClip()));
@@ -97,6 +101,7 @@ ProjectList::ProjectList(QWidget *parent)
   m_menu = new QMenu();	
   m_menu->addAction(addClipButton);
   m_menu->addAction(addColorClip);
+  m_menu->addAction(addTitleClip);
   m_menu->addAction(m_editAction);
   m_menu->addAction(m_deleteAction);
   m_menu->addAction(addFolderButton);
@@ -336,6 +341,26 @@ void ProjectList::slotAddColorClip()
   delete dia;
 }
 
+void ProjectList::slotAddTitleClip()
+{
+#if 0
+	if (!m_commandStack) kDebug()<<"!!!!!!!!!!!!!!!!  NO CMD STK";
+	//QDialog *dia = new QDialog;
+	
+	TitleWidget *dia_ui = new TitleWidget();
+	//dia_ui->setupUi(dia);
+	//dia_ui->clip_name->setText(i18n("Title Clip"));
+	//dia_ui->clip_duration->setText(KdenliveSettings::color_duration());
+	if (dia_ui->exec() == QDialog::Accepted)
+	{
+		//QString color = dia_ui->clip_color->color().name();
+		//color = color.replace(0, 1, "0x") + "ff";
+		//m_doc->slotAddColorClipFile(dia_ui->clip_name->text(), color, dia_ui->clip_duration->text(), QString::null);
+	}
+	delete dia_ui;
+	//delete dia;
+#endif
+}
 void ProjectList::setDocument(KdenliveDoc *doc)
 {
   m_fps = doc->fps();

@@ -28,7 +28,7 @@
 
 #include <KUndoStack>
 #include <KTreeWidgetSearchLine>
-#include <KExtendableItemDelegate>
+#include "kextendableitemdelegate.h"
 
 #include "definitions.h"
 #include "kdenlivedoc.h"
@@ -143,6 +143,7 @@ class ProjectList : public QWidget
     void slotEditClip();
     void slotClipSelected();
     void slotAddColorClip();
+    void slotAddTitleClip();
     void slotEditClip(QTreeWidgetItem *, int);
     void slotContextMenu( const QPoint &pos, QTreeWidgetItem * );
     void slotAddFolder();
