@@ -141,6 +141,8 @@ MainWindow::MainWindow(QWidget *parent)
   statusProgressBar=new QProgressBar(this);
   statusProgressBar->setMinimum(0);
   statusProgressBar->setMaximum(100);
+  statusProgressBar->setMaximumWidth(150);
+  statusProgressBar->setVisible(false);
   statusLabel=new QLabel(this);	
 
   statusBar()->insertPermanentWidget(0,statusProgressBar,1);
@@ -512,11 +514,14 @@ void MainWindow::customEvent ( QEvent * event ){
 	if (event->type()==10005){
 		ProgressEvent* p=(ProgressEvent*) event;
 		statusProgressBar->setValue(p->value());
-		statusProgressBar->setFormat("%p done");
-		if (p->value()>0)
+		if (p->value()>0) {
 			statusLabel->setText(tr("Creating Audio Thumbs"));
-		else
+			statusProgressBar->setVisible(true);
+		}
+		else {
 			statusLabel->setText("");
+			statusProgressBar->setVisible(false);
+		}
 	}
 }
 #include "mainwindow.moc"
