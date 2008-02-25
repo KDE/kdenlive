@@ -111,7 +111,7 @@ class ClipItem : public QObject, public QGraphicsRectItem
     int m_effectsCounter;
     
     EffectsList m_effectList;
-    QPixmap audioThumbCachePic;
+    QMap<int,QPixmap> audioThumbCachePic;
     bool audioThumbWasDrawn;
     double framePixelWidth;
     QMap<int,QPainterPath > channelPaths;
@@ -121,10 +121,10 @@ class ClipItem : public QObject, public QGraphicsRectItem
     void slotGetStartThumb();
     void slotGetEndThumb();
     void slotGotAudioData();
-    void slotPrepareAudioThumb(double,QPainterPath);
+    void slotPrepareAudioThumb(double,QPainterPath,int,int);
   signals:
     void getThumb(int, int);
-    void prepareAudioThumb(double,QPainterPath);
+    void prepareAudioThumb(double,QPainterPath,int,int);
 
 };
 
