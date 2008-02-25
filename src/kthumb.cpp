@@ -42,7 +42,7 @@
 #include "renderer.h"
 #include "kthumb.h"
 #include "kdenlivesettings.h"
-
+#include "events.h"
 void MyThread::init(KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth)
     {
 	stop_me = false;
@@ -80,11 +80,11 @@ void MyThread::init(KUrl url, QString target, double frame, double frameLength, 
     		    Mlt::Filter m_convert(prof,"volume");
     		    m_convert.set("gain", "normalise");
     		    m_producer.attach(m_convert);
-		}
+		}*/
 
-		/*TODO if (qApp->mainWidget()) 
-		    QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10005));
-	*/
+		if (QApplication::activeWindow()) 
+			QApplication::postEvent(QApplication::activeWindow(), new ProgressEvent(-1, (QEvent::Type)10005));
+	
 		int last_val = 0;
 		int val = 0;
 		kDebug() << "for " << m_frame << " " << m_frameLength << " " << m_producer.is_valid();
@@ -92,7 +92,8 @@ void MyThread::init(KUrl url, QString target, double frame, double frameLength, 
 			if (stop_me) break;
 			val=(int)((z-m_frame)/(m_frame+m_frameLength)*100.0);
 			if (last_val!=val & val > 1){
-				//TODO QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(val, 10005));
+				QApplication::postEvent(QApplication::activeWindow(), new ProgressEvent(val, (QEvent::Type)10005));
+				
 				last_val=val;
 			}
 				m_producer.seek( z );
@@ -125,9 +126,11 @@ void MyThread::init(KUrl url, QString target, double frame, double frameLength, 
 		m_isWorking = false;
 		if (stop_me) {
 		    f.remove();
-		   //TODO  QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10005));
+			 QApplication::postEvent(QApplication::activeWindow(), new ProgressEvent(-1, (QEvent::Type)10005));
+		   
 		}
-		//TODO else QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(0, 10005));
+		QApplication::postEvent(QApplication::activeWindow(), new ProgressEvent(0, (QEvent::Type)10005));
+		
     }
 
 

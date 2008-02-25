@@ -24,6 +24,7 @@
 #include <QDockWidget>
 #include <QUndoView>
 #include <QLabel>
+#include <QProgressBar>
 
 #include <KXmlGuiWindow>
 #include <KTextEdit>
@@ -43,6 +44,7 @@
 #include "effectslistview.h"
 #include "effectstackview.h"
 
+
 class MainWindow : public KXmlGuiWindow
 {
   Q_OBJECT
@@ -51,12 +53,14 @@ class MainWindow : public KXmlGuiWindow
     MainWindow(QWidget *parent=0);
 
     void parseProfiles();
-
+    void customEvent ( QEvent * event );
   protected:
     virtual bool queryClose();
   
   private:
     KTabWidget* m_timelineArea;
+    QProgressBar *statusProgressBar;
+    QLabel* statusLabel;
     void setupActions();
     QString fileName;
     KdenliveDoc *m_activeDocument;

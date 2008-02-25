@@ -50,6 +50,7 @@
 #include "initeffects.h"
 #include "profilesdialog.h"
 #include "projectsettings.h"
+#include "events.h"
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
@@ -136,6 +137,14 @@ MainWindow::MainWindow(QWidget *parent)
   m_timecodeFormat = new KComboBox(this);
   m_timecodeFormat->addItem(i18n("hh:mm:ss::ff"));
   m_timecodeFormat->addItem(i18n("Frames"));
+
+  statusProgressBar=new QProgressBar(this);
+  statusProgressBar->setMinimum(0);
+  statusProgressBar->setMaximum(100);
+  statusLabel=new QLabel(this);	
+
+  statusBar()->insertPermanentWidget(0,statusProgressBar,1);
+  statusBar()->insertPermanentWidget(1,statusLabel,1);
   statusBar()->insertPermanentFixedItem("00:00:00:00", ID_TIMELINE_POS);
   statusBar()->insertPermanentWidget(ID_TIMELINE_FORMAT, m_timecodeFormat); 
 
@@ -499,5 +508,15 @@ void MainWindow::slotPreferences()
   //connect( dialog, SIGNAL(settingsChanged()), this, SLOT(updateConfiguration()) );
   dialog->show();
 }
-
+void MainWindow::customEvent ( QEvent * event ){
+	if (event->type()==10005){
+		ProgressEvent* p=(ProgressEvent*) event;
+		statusProgressBar->setValue(p->value());
+		statusProgressBar->setFormat("%p done");
+		if (p->value()>0)
+			statusLabel->setText(tr("Creating Audio Thumbs"));
+		else
+			statusLabel->setText("");
+	}
+}
 #include "mainwindow.moc"
