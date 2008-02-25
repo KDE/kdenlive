@@ -266,10 +266,16 @@ void CustomTrackView::mousePressEvent ( QMouseEvent * event )
 {
   kDebug()<<"-- TIMELINE MSE PRESSED";
   int pos = event->x();
-  if (event->modifiers() == Qt::ControlModifier) 
+  if (event->modifiers() == Qt::ControlModifier) {
     setDragMode(QGraphicsView::ScrollHandDrag);
-  else if (event->modifiers() == Qt::ShiftModifier) 
+    QGraphicsView::mousePressEvent(event);
+    return;
+  }
+  else if (event->modifiers() == Qt::ShiftModifier) {
     setDragMode(QGraphicsView::RubberBandDrag);
+    QGraphicsView::mousePressEvent(event);
+    return;
+  }
   else {
     bool collision = false;
     QList<QGraphicsItem *> collisionList = items(event->pos());
