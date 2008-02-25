@@ -240,7 +240,7 @@ int ClipItem::endPos()
       QLineF l2(br.x() + m_startPix.width(), br.y(), br.x() + m_startPix.width(), br.y() + br.height());
       painter->drawLine(l2);
     }
-	 if ( ( m_clipType == AV || m_clipType==AUDIO) && audioThumbReady ){
+	 if ( ( m_clipType == AV || m_clipType==AUDIO ||true) && audioThumbReady ){
 		 
 		 QPainterPath path= m_clipType==AV ? roundRectPathLower : roundRectPathUpper.united(roundRectPathLower);
 		 painter->fillPath(path,QBrush(QColor(200,200,200,127)));
@@ -248,17 +248,15 @@ int ClipItem::endPos()
 		 int channels=2;
 		 double pixelForOneFrame=(double)br.width()/duration();
 
-		 emit prepareAudioThumb(pixelForOneFrame,path,startpixel,endpixel);
+		 emit prepareAudioThumb(pixelForOneFrame,path,startpixel,endpixel+200);//200 more for less missing parts before repaint after scrolling
 
-		 for (int startCache=startpixel-startpixel%100; startCache+100 < endpixel;startCache+=100){
+		 for (int startCache=startpixel-startpixel%100; startCache < endpixel+300;startCache+=100){
 			 if (audioThumbCachePic.contains(startCache) && !audioThumbCachePic[startCache].isNull() )
 				 painter->drawPixmap(path.boundingRect().x()+startCache,path.boundingRect().y(),audioThumbCachePic[startCache]);
 		 }
 
 	}
-	 
-	 
-	 
+
     // draw start / end fades
     double scale = br.width() / m_cropDuration;
     QBrush fades;
@@ -369,7 +367,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame,QPainterPath path,i
 				audioThumbCachePic[startCache]=QPixmap(100,re.height());
 				audioThumbCachePic[startCache].fill(QColor(200,200,200,127));
 			}
-			
+			bool fullAreaDraw=pixelForOneFrame<10;
 			QMap<int,QPainterPath > positiveChannelPaths;
 			QMap<int,QPainterPath > negativeChannelPaths;
 			QPainter pixpainter(&audioThumbCachePic[startCache]);
@@ -378,10 +376,12 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame,QPainterPath path,i
 			pixpainter.setPen(audiopen);
 			pixpainter.setRenderHint(QPainter::Antialiasing,true);
 			//pixpainter.drawLine(0,0,100,re.height());
+			int channelHeight=audioThumbCachePic[startCache].height()/channels;
+			
 			for (int i=0;i<channels;i++){
 				
-				positiveChannelPaths[i].moveTo(0,0+audioThumbCachePic[startCache].height()*i/channels+ (audioThumbCachePic[startCache].height()/channels)/2);
-				negativeChannelPaths[i].moveTo(0,0+audioThumbCachePic[startCache].height()*i/channels+ (audioThumbCachePic[startCache].height()/channels)/2);
+				positiveChannelPaths[i].moveTo(0,channelHeight*i+ channelHeight/2);
+				negativeChannelPaths[i].moveTo(0,channelHeight*i+ channelHeight/2);
 			}
 			
 			for (int samples=0;samples<=100;samples++){
@@ -393,14 +393,19 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame,QPainterPath path,i
 				
 				for (int channel=0;channel<channels && frame_channel_data[channel].size()> 0;channel++){
 					
-					int y=audioThumbCachePic[startCache].height()*channel/channels+ (/*re.height()*/audioThumbCachePic[startCache].height()/channels)/2;
-					
-					positiveChannelPaths[channel].lineTo(samples,0.1+y+( (int)frame_channel_data[channel][sample] -127/2 )  * (audioThumbCachePic[startCache].height()/channels) / 64 );	
-					negativeChannelPaths[channel].lineTo(samples,0.1+y-( (int)frame_channel_data[channel][sample] -127/2 )  * (audioThumbCachePic[startCache].height()/channels) / 64 );
+					int y=channelHeight*channel+ channelHeight/2;
+					int delta=(int)(frame_channel_data[channel][sample] -127/2 )  * channelHeight/ 64;
+					if (fullAreaDraw){
+						positiveChannelPaths[channel].lineTo(samples,0.1+y+qAbs( delta ));	
+						negativeChannelPaths[channel].lineTo(samples,0.1+y-qAbs( delta ));
+					}else{
+						positiveChannelPaths[channel].lineTo(samples,0.1+y+delta);	
+						negativeChannelPaths[channel].lineTo(samples,0.1+y-delta);
+					}
 				}
 			}
 			for (int i=0;i<channels;i++){
-				if (pixelForOneFrame<10){
+				if (fullAreaDraw){
 					pixpainter.fillPath(positiveChannelPaths[i].united(negativeChannelPaths[i]),QBrush(Qt::SolidPattern));//or singleif looks better
 					pixpainter.setBrush(QBrush(QColor(200,200,100,200)));
 					pixpainter.drawPath(positiveChannelPaths[i].united(negativeChannelPaths[i]));//or singleif looks better
