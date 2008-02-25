@@ -42,7 +42,7 @@
 #include "ui_colorclip_ui.h"
 
 #include "definitions.h"
-#include "titlewidget.h"
+//#include "titlewidget.h"
 
 #include <QtGui>
 
