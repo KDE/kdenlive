@@ -17,6 +17,11 @@
     <widget class="KComboBox" name="type_combo" >
      <item>
       <property name="text" >
+       <string>All</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
        <string>Video</string>
       </property>
      </item>
