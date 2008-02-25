@@ -132,6 +132,7 @@ QDomElement ComplexParameter::getParamDesc(){
 void ComplexParameter::slotUpdateParameterList(QStringList l){
 	kDebug() << l ;
 	ui.parameterList->clear();
+	ui.parameterList->addItem("all");
 	ui.parameterList->addItems(l);
 }
 

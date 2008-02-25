@@ -57,8 +57,10 @@ void ParameterPlotter::setPointLists(const QDomElement& d,int startframe,int end
 	itemParameter=d;
 	QDomNodeList namenode = d.elementsByTagName("parameter");
 	
-	int max_y=0,min_y=0;
+	max_y=0;
+	min_y=0;
 	removeAllPlotObjects ();
+	stretchFactors.clear();
 	parameterNameList.clear();
 	plotobjects.clear();
 	
@@ -83,16 +85,22 @@ void ParameterPlotter::setPointLists(const QDomElement& d,int startframe,int end
 		QStringList minv=pa.attributes().namedItem("max").nodeValue().split(";");
 		for (int i=0;i<maxv.size();i++){
 			if (max_y< maxv[i].toInt()) max_y=maxv[i].toInt();
-			if (min_y< minv[i].toInt()) min_y=minv[i].toInt();
+			if (min_y> minv[i].toInt()) min_y=minv[i].toInt();
 		}
 		
 		for (int i=0;i<parameterNameList.count();i++){
 			KPlotObject *plot=new KPlotObject(colors[plotobjects.size()%colors.size()]);
 			plot->setShowLines(true);
+			if (!stretchFactors.contains(i) ){
+				if ( maxv[i].toInt()!=0)
+					stretchFactors[i]=max_y/maxv[i].toInt();
+				else
+					stretchFactors[i]=1.0;
+			}
 			
-			plot->addPoint(startframe,defauls[i].toInt());
+			plot->addPoint(startframe,defauls[i].toInt()*stretchFactors[i]);
 			//add keyframes here
-			plot->addPoint(endframe,defauls[i].toInt());
+			plot->addPoint(endframe,defauls[i].toInt()*stretchFactors[i]);
 		
 			plotobjects.append(plot);
 		}
@@ -108,7 +116,7 @@ void ParameterPlotter::setPointLists(const QDomElement& d,int startframe,int end
 	}
 	maxx=endframe;
 	maxy=max_y;
-	setLimits(-1,endframe+1,-1,maxy+10);
+	setLimits(-1,endframe+1,min_y-10,maxy+10);
 	addPlotObjects(plotobjects);
 
 }
@@ -153,8 +161,9 @@ void ParameterPlotter::mouseMoveEvent ( QMouseEvent * event ) {
 			for(int p=0;p<points.size();p++){
 				if (points[p]==movepoint){
 					QPoint delta=event->pos()-oldmousepoint;
-					if (m_moveY)
-					movepoint->setY(movepoint->y()-delta.y()*dataRect().height()/pixRect().height() );
+					double newy=movepoint->y()-delta.y()*dataRect().height()/pixRect().height();
+					if (m_moveY && newy>min_y && newy<max_y)
+						movepoint->setY(newy);
 					if (p>0 && p<points.size()-1){
 						double newx=movepoint->x()+delta.x()*dataRect().width()/pixRect().width();
 						if ( newx>points[p-1]->x() && newx<points[p+1]->x() && m_moveX)

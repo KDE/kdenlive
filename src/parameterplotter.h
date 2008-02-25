@@ -17,6 +17,7 @@
 
 #include <KPlotWidget>
 #include <QDomElement>
+#include <QMap>
 
 class ParameterPlotter : public KPlotWidget {
 	Q_OBJECT
@@ -41,8 +42,10 @@ class ParameterPlotter : public KPlotWidget {
 		QStringList parameterNameList;
 		void createParametersNew();
 		QList<KPlotObject*> plotobjects;
+		QMap<int,double> stretchFactors;
 		QList<QColor> colors;
 		QDomElement itemParameter;
+		int max_y,min_y;
 	protected:
 		void mouseMoveEvent ( QMouseEvent * event );
 		void mousePressEvent ( QMouseEvent * event );
