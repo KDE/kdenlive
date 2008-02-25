@@ -311,15 +311,17 @@ int ClipItem::endPos()
       painter->setFont(font);
     }
 
+    pen.setColor(Qt::red);
+    //pen.setStyle(Qt::DashDotDotLine); //Qt::DotLine);
+    if (isSelected()) painter->setPen(pen);
+	 painter->setClipRect(option->exposedRect);
+	 painter->drawPath(roundRectPathUpper.united(roundRectPathLower).intersected(clippath));
+
     QRectF txtBounding = painter->boundingRect(br, Qt::AlignCenter, " " + m_clipName + " ");
     painter->fillRect(txtBounding, QBrush(QColor(255,255,255,150)));
     painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
 
-    pen.setColor(Qt::red);
-    pen.setStyle(Qt::DashDotDotLine); //Qt::DotLine);
-    if (isSelected()) painter->setPen(pen);
-	 painter->setClipRect(option->exposedRect);
-	 painter->drawPath(roundRectPathUpper.united(roundRectPathLower).intersected(clippath));
+
 	 //painter->fillRect(startpixel,0,startpixel+endpixel,(int)br.height(),  QBrush(QColor(255,255,255,150)));
     //painter->fillRect(QRect(br.x(), br.y(), roundingX, roundingY), QBrush(QColor(Qt::green)));
 
