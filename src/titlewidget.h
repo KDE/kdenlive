@@ -7,7 +7,7 @@
 class TitleWidget : public QDialog , public Ui::TitleWidget_UI{
 	Q_OBJECT
 public:
-		TitleWidget(QDialog *parent=0);
+	TitleWidget(QDialog *parent=0);
 public slots:
 	void slotNewText();
 	void slotNewRect();

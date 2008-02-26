@@ -1,5 +1,5 @@
 #include "titlewidget.h"
-#include <QGraphicsScene>
+#include "graphicsscenerectmove.h"
 #include <QGraphicsView>
 #include <KDebug>
 #include <QGraphicsItem>
@@ -12,7 +12,7 @@ TitleWidget::TitleWidget (QDialog *parent):QDialog(parent){
 	connect (horizontalSlider, SIGNAL ( valueChanged(int) ), this, SLOT( slotChangeBackground()) ) ;
 	connect (ktextedit, SIGNAL(textChanged()), this , SLOT (textChanged()));
 	
-	QGraphicsScene *scene=new QGraphicsScene(this);
+	GraphicsSceneRectMove *scene=new GraphicsSceneRectMove(this);
 	
 	
 	
@@ -82,5 +82,7 @@ void TitleWidget::textChanged(){
 		((QGraphicsTextItem*)l[0])->setHtml(ktextedit->toHtml());
 	}
 }
+
+
 #include "moc_titlewidget.cpp"
 
