@@ -51,7 +51,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e){
 		gi->setRect(newrect);
 		gi->setPos(selected->scenePos());
 	}
-	kDebug() << "move";
+	
 	QPointF p=e->scenePos();
 	p+=QPoint(-2,-2);
 	resizeMode=NoResize;

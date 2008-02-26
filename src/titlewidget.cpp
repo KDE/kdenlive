@@ -46,6 +46,7 @@ void TitleWidget::slotNewText(){
 	QGraphicsTextItem *tt=graphicsView->scene()->addText("Text here");
 	tt->setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable);
 	tt->setTextInteractionFlags (Qt::TextEditorInteraction);
+	connect (tt->document(), SIGNAL (contentsChanged()), this, SLOT(selectionChanged()));
 	kDebug() << tt->metaObject()->className();
 	/*QGraphicsRectItem * ri=graphicsView->scene()->addRect(-50,-50,100,100);
 	ri->setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable);*/
@@ -56,7 +57,8 @@ void TitleWidget::selectionChanged(){
 	QList<QGraphicsItem*> l=graphicsView->scene()->selectedItems();
 	if (l.size()>0){
 		kDebug() << (l[0])->type();
-		if ((l[0])->type()==8){
+		if ((l[0])->type()==8  ){
+			if (l[0]->hasFocus() )
 			ktextedit->setHtml(((QGraphicsTextItem*)l[0])->toHtml());
 			toolBox->setCurrentIndex(1);
 		}else
@@ -77,7 +79,7 @@ void TitleWidget::slotChangeBackground(){
 
 void TitleWidget::textChanged(){
 	QList<QGraphicsItem*> l=graphicsView->scene()->selectedItems();
-	if (l.size()>0 && (l[0])->type()==8 /*textitem*/){
+	if (l.size()>0 && (l[0])->type()==8 && ktextedit->hasFocus()/*textitem*/){
 		
 		((QGraphicsTextItem*)l[0])->setHtml(ktextedit->toHtml());
 	}
