@@ -14,6 +14,7 @@ public slots:
 	void slotChangeBackground();
 	void selectionChanged();
 	void textChanged();
+	void rectChanged();
 };
 
 

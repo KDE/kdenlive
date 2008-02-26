@@ -15,7 +15,7 @@ GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent):QGraphicsScene(par
 
 void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e){
 
-	if (selected && selected->type()==3 &&button==1){
+	if (selected && selected->type()==3 && button==1){
 		
 		QGraphicsRectItem *gi=(QGraphicsRectItem*)selected;
 		QRectF newrect=gi->rect();
@@ -84,6 +84,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e){
 			if (resizeMode!=NoResize)
 				selected=gi;
 		}
+		break;
 	}
 	switch (resizeMode){
 		case TopLeft:
