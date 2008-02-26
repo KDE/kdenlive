@@ -42,7 +42,7 @@
 #include "ui_colorclip_ui.h"
 
 #include "definitions.h"
-//#include "titlewidget.h"
+#include "titlewidget.h"
 
 #include <QtGui>
 
@@ -343,7 +343,7 @@ void ProjectList::slotAddColorClip()
 
 void ProjectList::slotAddTitleClip()
 {
-#if 0
+
 	if (!m_commandStack) kDebug()<<"!!!!!!!!!!!!!!!!  NO CMD STK";
 	//QDialog *dia = new QDialog;
 	
@@ -359,7 +359,6 @@ void ProjectList::slotAddTitleClip()
 	}
 	delete dia_ui;
 	//delete dia;
-#endif
 }
 void ProjectList::setDocument(KdenliveDoc *doc)
 {

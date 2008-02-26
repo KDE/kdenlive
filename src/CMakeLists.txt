@@ -35,6 +35,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/listval_ui.ui
   widgets/boolval_ui.ui
   widgets/colorval_ui.ui
+  widgets/titlewidget_ui.ui
 )
  
 set(kdenlive_SRCS 
@@ -80,6 +81,7 @@ set(kdenlive_SRCS
   projectsettings.cpp
   kdenlivesettingsdialog.cpp
   complexparameter.cpp
+  titlewidget.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )
