@@ -7,6 +7,7 @@
 TitleWidget::TitleWidget (QDialog *parent):QDialog(parent){
 	setupUi(this);
 	connect (newTextButton,SIGNAL(clicked()), this, SLOT( slotNewText()));
+	connect (newRectButton,SIGNAL(clicked()), this, SLOT( slotNewRect()));
 	connect (kcolorbutton, SIGNAL ( clicked()), this, SLOT( slotChangeBackground()) ) ;
 	connect (horizontalSlider, SIGNAL ( valueChanged(int) ), this, SLOT( slotChangeBackground()) ) ;
 	connect (ktextedit, SIGNAL(textChanged()), this , SLOT (textChanged()));
@@ -35,22 +36,35 @@ TitleWidget::TitleWidget (QDialog *parent):QDialog(parent){
 	update();
 }
 
-void TitleWidget::slotNewText(){
+void TitleWidget::slotNewRect(){
 	
+	QGraphicsRectItem * ri=graphicsView->scene()->addRect(-50,-50,100,100);
+	ri->setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable);
+
+}
+void TitleWidget::slotNewText(){
 	QGraphicsTextItem *tt=graphicsView->scene()->addText("Text here");
 	tt->setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable);
 	tt->setTextInteractionFlags (Qt::TextEditorInteraction);
 	kDebug() << tt->metaObject()->className();
 	/*QGraphicsRectItem * ri=graphicsView->scene()->addRect(-50,-50,100,100);
 	ri->setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable);*/
-
+	
 }
+
 void TitleWidget::selectionChanged(){
 	QList<QGraphicsItem*> l=graphicsView->scene()->selectedItems();
 	if (l.size()>0){
+		kDebug() << (l[0])->type();
 		if ((l[0])->type()==8){
 			ktextedit->setHtml(((QGraphicsTextItem*)l[0])->toHtml());
 			toolBox->setCurrentIndex(1);
+		}else
+		if ((l[0])->type()==3){
+			
+			toolBox->setCurrentIndex(2);
+		}else{
+			toolBox->setCurrentIndex(0);
 		}
 	}
 }

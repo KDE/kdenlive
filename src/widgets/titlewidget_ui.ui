@@ -16,13 +16,6 @@
    <item row="0" column="0" >
     <layout class="QVBoxLayout" >
      <item>
-      <widget class="QPushButton" name="pushButton" >
-       <property name="text" >
-        <string>PushButton</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <layout class="QHBoxLayout" >
        <item>
         <widget class="QGraphicsView" name="graphicsView" />
@@ -30,15 +23,15 @@
        <item>
         <widget class="QToolBox" name="toolBox" >
          <property name="currentIndex" >
-          <number>1</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="Background" >
           <property name="geometry" >
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>341</width>
-            <height>238</height>
+            <width>94</width>
+            <height>65</height>
            </rect>
           </property>
           <attribute name="label" >
@@ -69,8 +62,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>341</width>
-            <height>238</height>
+            <width>286</width>
+            <height>136</height>
            </rect>
           </property>
           <attribute name="label" >
@@ -167,13 +160,120 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>94</width>
-            <height>24</height>
+            <width>322</width>
+            <height>295</height>
            </rect>
           </property>
           <attribute name="label" >
            <string>Rectangle</string>
           </attribute>
+          <layout class="QGridLayout" >
+           <item row="0" column="0" >
+            <layout class="QVBoxLayout" >
+             <item>
+              <widget class="QPushButton" name="newRectButton" >
+               <property name="text" >
+                <string>New Rect</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QGroupBox" name="groupBox" >
+               <property name="title" >
+                <string>Foreground</string>
+               </property>
+               <layout class="QGridLayout" >
+                <item row="0" column="0" >
+                 <layout class="QGridLayout" >
+                  <item row="0" column="0" >
+                   <widget class="QCheckBox" name="checkBox" >
+                    <property name="text" >
+                     <string>show</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1" colspan="2" >
+                   <widget class="KColorButton" name="kcolorbutton_5" />
+                  </item>
+                  <item row="1" column="0" >
+                   <widget class="QLabel" name="label_3" >
+                    <property name="text" >
+                     <string>Alpha</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item rowspan="2" row="1" column="2" >
+                   <widget class="QLabel" name="label_4" >
+                    <property name="text" >
+                     <string>Linewidth</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item rowspan="2" row="2" column="0" colspan="2" >
+                   <widget class="QSlider" name="horizontalSlider_3" >
+                    <property name="orientation" >
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="2" >
+                   <widget class="QSpinBox" name="spinBox" />
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QGroupBox" name="groupBox_2" >
+               <property name="title" >
+                <string>Background</string>
+               </property>
+               <layout class="QGridLayout" >
+                <item row="0" column="0" >
+                 <layout class="QGridLayout" >
+                  <item row="0" column="0" >
+                   <widget class="QCheckBox" name="checkBox_2" >
+                    <property name="text" >
+                     <string>show</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1" >
+                   <widget class="KColorButton" name="kcolorbutton_6" />
+                  </item>
+                  <item row="1" column="0" >
+                   <widget class="QLabel" name="label" >
+                    <property name="text" >
+                     <string>Alpha:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1" >
+                   <widget class="QLabel" name="label_2" >
+                    <property name="text" >
+                     <string>Linewidth</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0" >
+                   <widget class="QSlider" name="horizontalSlider_4" >
+                    <property name="orientation" >
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1" >
+                   <widget class="QSpinBox" name="spinBox_2" />
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
          </widget>
         </widget>
        </item>

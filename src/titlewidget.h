@@ -10,6 +10,7 @@ public:
 		TitleWidget(QDialog *parent=0);
 public slots:
 	void slotNewText();
+	void slotNewRect();
 	void slotChangeBackground();
 	void selectionChanged();
 	void textChanged();
