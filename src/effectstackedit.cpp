@@ -151,7 +151,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d,int ,int){
 	}
 }
 void EffectStackEdit::collectAllParameters(){
-	
+	QDomElement oldparam = params.cloneNode().toElement();
 	QDomNodeList namenode = params.elementsByTagName("parameter");
 
 	for (int i=0;i< namenode.count() ;i++){
@@ -183,7 +183,7 @@ void EffectStackEdit::collectAllParameters(){
 			pa.attributes().namedItem("value").setNodeValue(setValue);
 		}
 	}
-	emit parameterChanged(params);
+	emit parameterChanged(oldparam, params);
 }
 
 void EffectStackEdit::createSliderItem(const QString& name, int val ,int min, int max){

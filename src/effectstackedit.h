@@ -44,7 +44,7 @@ public slots:
 	void slotSliderMoved(int);
 	void collectAllParameters();
 signals:
-	void parameterChanged(const QDomElement& );
+	void parameterChanged(const QDomElement&, const QDomElement& );
 };
 	
 #endif

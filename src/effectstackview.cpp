@@ -52,7 +52,7 @@ EffectStackView::EffectStackView(EffectsList *audioEffectList, EffectsList *vide
 	connect (ui.buttonDown, SIGNAL (clicked()), this, SLOT (slotItemDown()) );
 	connect (ui.buttonDel, SIGNAL (clicked()), this, SLOT (slotItemDel()) );
 	connect( this, SIGNAL (transferParamDesc(const QDomElement&,int ,int) ), effectedit , SLOT(transferParamDesc(const QDomElement&,int ,int)));
-	connect(effectedit, SIGNAL (parameterChanged(const QDomElement&  ) ), this , SLOT (slotUpdateEffectParams(const QDomElement&)));
+	connect(effectedit, SIGNAL (parameterChanged( const QDomElement&, const QDomElement& ) ), this , SLOT (slotUpdateEffectParams( const QDomElement&, const QDomElement& )));
 	effectLists["audio"]=audioEffectList;
 	effectLists["video"]=videoEffectList;
 	effectLists["custom"]=customEffectList;
@@ -63,9 +63,9 @@ EffectStackView::EffectStackView(EffectsList *audioEffectList, EffectsList *vide
 	
 }
 
-void EffectStackView::slotUpdateEffectParams(const QDomElement& e){
+void EffectStackView::slotUpdateEffectParams(const QDomElement& old, const QDomElement& e){
 	if (clipref)
-		emit updateClipEffect(clipref, e);
+		emit updateClipEffect(clipref, old, e);
 }
 
 void EffectStackView::slotClipItemSelected(ClipItem* c)

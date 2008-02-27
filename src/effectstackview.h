@@ -47,13 +47,13 @@ public slots:
 	void slotItemDel();
 	void slotNewEffect();
 	void itemSelectionChanged();
-	void slotUpdateEffectParams(const QDomElement&);
+	void slotUpdateEffectParams(const QDomElement&, const QDomElement&);
 
 signals:
 	void transferParamDesc(const QDomElement&,int ,int);
 	void removeEffect(ClipItem*, QDomElement);
 	/**  Parameters for an effect changed, update the filter in playlist */
-	void updateClipEffect(ClipItem*, QDomElement);
+	void updateClipEffect(ClipItem*, QDomElement, QDomElement);
 	/** An effect in stack was moved, we need to regenerate 
 	    all effects for this clip in the playlist */
 	void refreshEffectStack(ClipItem *);

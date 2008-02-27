@@ -34,6 +34,7 @@
 #include "resizeclipcommand.h"
 #include "addtimelineclipcommand.h"
 #include "addeffectcommand.h"
+#include "editeffectcommand.h"
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene, QWidget *parent)
     : QGraphicsView(projectscene, parent), m_tracksCount(0), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_startPos(QPointF()), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_scale(1.0), m_clickPoint(0), m_document(doc)
@@ -388,11 +389,20 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, QDomElement effect)
   m_commandStack->push(command);
 }
 
-
-void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, QDomElement effect)
+void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect)
 {
+  ClipItem *clip = getClipItemAt(pos.frames(m_document->fps()) + 1, m_tracksCount - track);
+  if (clip){
     QMap <QString, QString> effectParams = clip->getEffectArgs(effect);
     m_document->renderer()->mltEditEffect(m_tracksCount - clip->track(), GenTime(clip->startPos(), m_document->fps()), effectParams);
+  }
+}
+
+
+void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect, QDomElement effect)
+{
+  EditEffectCommand *command = new EditEffectCommand(this, m_tracksCount - clip->track(), GenTime(clip->startPos(), m_document->fps()), oldeffect, effect, true);
+  m_commandStack->push(command);
 }
 
 

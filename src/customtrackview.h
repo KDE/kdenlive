@@ -52,11 +52,12 @@ class CustomTrackView : public QGraphicsView
     void slotAddEffect(QDomElement effect);
     void addEffect(int track, GenTime pos, QDomElement effect);
     void deleteEffect(int track, GenTime pos, QDomElement effect);
+    void updateEffect(int track, GenTime pos, QDomElement effect);
 
   public slots:
     void setCursorPos(int pos, bool seek = true);
     void slotDeleteEffect(ClipItem *clip, QDomElement effect);
-    void slotUpdateClipEffect(ClipItem *clip, QDomElement effect);
+    void slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect, QDomElement effect);
     void slotRefreshEffects(ClipItem *clip);
     void setDuration(int duration);
 

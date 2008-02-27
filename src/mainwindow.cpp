@@ -464,7 +464,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //chang
   connect(doc, SIGNAL(updateClipDisplay(int)), m_projectList, SLOT(slotUpdateClip(int)));
   connect(doc, SIGNAL(deletTimelineClip(int)), trackView, SLOT(slotDeleteClip(int)));
   connect(trackView, SIGNAL(clipItemSelected(ClipItem*)), effectStack, SLOT(slotClipItemSelected(ClipItem*)));
-  connect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement)), trackView->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement)));
+  connect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement)), trackView->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement)));
   connect(effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), trackView->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
   connect(effectStack, SIGNAL(refreshEffectStack(ClipItem*)), trackView->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
 
