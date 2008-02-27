@@ -378,6 +378,8 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
 				if (paramdesc.get("minimum") ) params.setAttribute("min",paramdesc.get("minimum"));
 				if (QString(paramdesc.get("type"))=="integer" )
 					params.setAttribute("type","constant");
+				if (QString(paramdesc.get("type"))=="boolean" )
+					params.setAttribute("type","bool");
 				if (paramdesc.get("default") ) params.setAttribute("default",paramdesc.get("default"));
 				if (paramdesc.get("value") ) params.setAttribute("value",paramdesc.get("value"));
 				
