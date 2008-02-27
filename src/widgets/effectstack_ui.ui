@@ -75,6 +75,16 @@
           </widget>
          </item>
          <item>
+          <widget class="QToolButton" name="buttonReset" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
+           <property name="text" >
+            <string>R</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer>
            <property name="orientation" >
             <enum>Qt::Horizontal</enum>
@@ -121,19 +131,6 @@
           </property>
          </widget>
         </widget>
-       </item>
-       <item>
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0" >
-          <size>
-           <width>256</width>
-           <height>16</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </widget>

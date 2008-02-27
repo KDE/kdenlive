@@ -41,7 +41,8 @@ EffectStackView::EffectStackView(EffectsList *audioEffectList, EffectsList *vide
 	ui.buttonDown->setToolTip(i18n("Move effect down"));
 	ui.buttonDel->setIcon(KIcon("trash-empty"));
 	ui.buttonDel->setToolTip(i18n("Delete effect"));
-	
+	ui.buttonReset->setIcon(KIcon("view-refresh"));
+	ui.buttonReset->setToolTip(i18n("Reset effect"));	
 
 	
 	ui.effectlist->setDragDropMode(QAbstractItemView::NoDragDrop);//use internal if drop is recognised right
@@ -51,6 +52,7 @@ EffectStackView::EffectStackView(EffectsList *audioEffectList, EffectsList *vide
 	connect (ui.buttonUp, SIGNAL (clicked()), this, SLOT (slotItemUp()) );
 	connect (ui.buttonDown, SIGNAL (clicked()), this, SLOT (slotItemDown()) );
 	connect (ui.buttonDel, SIGNAL (clicked()), this, SLOT (slotItemDel()) );
+	connect (ui.buttonReset, SIGNAL (clicked()), this, SLOT (slotResetEffect()) );
 	connect( this, SIGNAL (transferParamDesc(const QDomElement&,int ,int) ), effectedit , SLOT(transferParamDesc(const QDomElement&,int ,int)));
 	connect(effectedit, SIGNAL (parameterChanged( const QDomElement&, const QDomElement& ) ), this , SLOT (slotUpdateEffectParams( const QDomElement&, const QDomElement& )));
 	effectLists["audio"]=audioEffectList;
@@ -105,6 +107,7 @@ void EffectStackView::slotItemSelectionChanged(){
 		emit transferParamDesc(clipref->effectAt(activeRow), 0, 100);//minx max frame
 	}
 	ui.buttonDel->setEnabled( hasItem );
+	ui.buttonReset->setEnabled( hasItem );
 	ui.buttonUp->setEnabled( activeRow >0 );
 	ui.buttonDown->setEnabled( (activeRow < ui.effectlist->count()-1) && hasItem );
 }
@@ -144,6 +147,21 @@ void EffectStackView::slotItemDel(){
 	}
 }
 
+void EffectStackView::slotResetEffect()
+{
+	int activeRow = ui.effectlist->currentRow();
+	QDomElement old = clipref->effectAt(activeRow).cloneNode().toElement();
+	QDomElement dom;
+	QString effectName = ui.effectlist->currentItem()->text();
+	foreach (QString type, effectLists.keys() ){
+		EffectsList *list=effectLists[type];
+		if (list->effectNames().contains(effectName)) {
+		    dom = list->getEffectByName(effectName);
+		    break;
+		}
+	}
+	if (!dom.isNull()) emit updateClipEffect(clipref, old, dom);
+}
 
 void EffectStackView::slotNewEffect(){
 	

@@ -46,6 +46,7 @@ public slots:
 	void slotItemDown();
 	void slotItemDel();
 	void slotNewEffect();
+	void slotResetEffect();
 	void itemSelectionChanged();
 	void slotUpdateEffectParams(const QDomElement&, const QDomElement&);
 
