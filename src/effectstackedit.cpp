@@ -69,10 +69,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d,int ,int){
 	QDomNodeList namenode = params.elementsByTagName("parameter");
 	
 	clearAllItems();
-		QString outstr;
-		QTextStream str(&outstr);
-		d.save(str,2);
-		kDebug() << outstr;
+
 	for (int i=0;i< namenode.count() ;i++){
 		kDebug() << "in form";
 		QDomNode pa=namenode.item(i);

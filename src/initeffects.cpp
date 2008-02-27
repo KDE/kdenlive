@@ -88,6 +88,11 @@ Mlt::Repository *initEffects::parseEffectFiles(EffectsList *audioEffectList, Eff
 	    // kDebug()<<"//  FOUND EFFECT FILE: "<<itemName<<endl;
 	}
     }
+	foreach(QString filtername,filtersList){
+		QDomDocument doc=createDescriptionFromMlt(repository,"filters",filtername);
+		if (!doc.isNull())
+			videoEffectList->append(doc.documentElement());
+	}
     return repository;
 }
 
@@ -338,4 +343,45 @@ char* initEffects::ladspaPhaserEffectString(QStringList params)
 }
 
 
+QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, const QString& type, const QString& filtername){
+	
+	QDomDocument ret;
+	Mlt::Properties *metadata=repository->metadata(filter_type,filtername.toAscii().data());
+	kDebug() << filtername;
+	if (metadata && metadata->is_valid()){
+		kDebug() << "valid" << metadata->count();
+		for (int i=0;i<metadata->count();i++){
+			if (metadata->get("title") && metadata->get("identifier")){
+				QDomElement eff=ret.createElement("effect");
+				eff.setAttribute("tag",metadata->get("identifier"));
+				
+				QDomElement name=ret.createElement("name");
+				name.appendChild(ret.createTextNode(metadata->get("title")));
+
+				QDomElement desc=ret.createElement("description");
+				desc.appendChild(ret.createTextNode(metadata->get("description")));
+				
+				QDomElement author=ret.createElement("author");
+				author.appendChild(ret.createTextNode(metadata->get("creator")));
+				
+				eff.appendChild(name);
+				eff.appendChild(author);
+				eff.appendChild(desc);
+				
+				/*Mlt::Properties *param_props=(Mlt::Properties*)(metadata->get_data("parameters"));
+				for (int j=0; param_props && j<param_props->count();j++){
+					QDomElement params=ret.createElement("parameter");
+					
+					eff.appendChild(params);
+				}*/
+				ret.appendChild(eff);
+			}
+		}
+	}
+	QString outstr;
+	QTextStream str(&outstr);
+	ret.save(str,2);
+	kDebug() << outstr;
+	return ret;
+}
 
