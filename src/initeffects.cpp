@@ -349,33 +349,46 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
 	Mlt::Properties *metadata=repository->metadata(filter_type,filtername.toAscii().data());
 	kDebug() << filtername;
 	if (metadata && metadata->is_valid()){
-		kDebug() << "valid" << metadata->count();
-		for (int i=0;i<metadata->count();i++){
-			if (metadata->get("title") && metadata->get("identifier")){
-				QDomElement eff=ret.createElement("effect");
-				eff.setAttribute("tag",metadata->get("identifier"));
-				
-				QDomElement name=ret.createElement("name");
-				name.appendChild(ret.createTextNode(metadata->get("title")));
+		if (metadata->get("title") && metadata->get("identifier")){
+			QDomElement eff=ret.createElement("effect");
+			eff.setAttribute("tag",metadata->get("identifier"));
+			
+			QDomElement name=ret.createElement("name");
+			name.appendChild(ret.createTextNode(metadata->get("title")));
 
-				QDomElement desc=ret.createElement("description");
-				desc.appendChild(ret.createTextNode(metadata->get("description")));
+			QDomElement desc=ret.createElement("description");
+			desc.appendChild(ret.createTextNode(metadata->get("description")));
+			
+			QDomElement author=ret.createElement("author");
+			author.appendChild(ret.createTextNode(metadata->get("creator")));
+			
+			eff.appendChild(name);
+			eff.appendChild(author);
+			eff.appendChild(desc);
+
+			Mlt::Properties param_props( (mlt_properties) metadata->get_data("parameters") );
+			for (int j=0; param_props.is_valid() && j<param_props.count();j++){
+				QDomElement params=ret.createElement("parameter");
 				
-				QDomElement author=ret.createElement("author");
-				author.appendChild(ret.createTextNode(metadata->get("creator")));
+				Mlt::Properties paramdesc ( (mlt_properties) param_props.get_data(param_props.get_name(j)));
 				
-				eff.appendChild(name);
-				eff.appendChild(author);
-				eff.appendChild(desc);
+				params.setAttribute("name", paramdesc.get("identifier") );
 				
-				/*Mlt::Properties *param_props=(Mlt::Properties*)(metadata->get_data("parameters"));
-				for (int j=0; param_props && j<param_props->count();j++){
-					QDomElement params=ret.createElement("parameter");
-					
-					eff.appendChild(params);
-				}*/
-				ret.appendChild(eff);
+				if (paramdesc.get("maximum") ) params.setAttribute("max",paramdesc.get("maximum"));
+				if (paramdesc.get("minimum") ) params.setAttribute("min",paramdesc.get("minimum"));
+				if (QString(paramdesc.get("type"))=="integer" )
+					params.setAttribute("type","constant");
+				if (paramdesc.get("default") ) params.setAttribute("default",paramdesc.get("default"));
+				if (paramdesc.get("value") ) params.setAttribute("value",paramdesc.get("value"));
+				
+				
+				QDomElement pname=ret.createElement("name");
+				pname.appendChild(ret.createTextNode(paramdesc.get("title")));
+				params.appendChild(pname);
+				
+				eff.appendChild(params);
 			}
+			ret.appendChild(eff);
 		}
 	}
 	QString outstr;
