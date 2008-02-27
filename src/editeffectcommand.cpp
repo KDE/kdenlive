@@ -27,6 +27,21 @@ EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, Gen
 	    setText(i18n("Edit effect"));
 	 }
 
+// virtual
+int EditEffectCommand::id() const
+{
+  return 1;
+}
+
+// virtual
+bool EditEffectCommand::mergeWith ( const QUndoCommand * other )
+{
+  if (other->id() != id()) return false;
+  if (m_track != static_cast<const EditEffectCommand*>(other)->m_track) return false;
+  if (m_pos != static_cast<const EditEffectCommand*>(other)->m_pos) return false;
+  m_effect = static_cast<const EditEffectCommand*>(other)->m_effect;
+  return true;
+}
 
 // virtual 
 void EditEffectCommand::undo()
