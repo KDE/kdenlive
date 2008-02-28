@@ -20,6 +20,8 @@
 #include <QGraphicsView>
 #include <KDebug>
 #include <QGraphicsItem>
+#include <QGraphicsSvgItem>
+
 int settingUp=false;
 
 TitleWidget::TitleWidget (QDialog *parent):QDialog(parent){
@@ -49,13 +51,16 @@ TitleWidget::TitleWidget (QDialog *parent):QDialog(parent){
 	connect (endViewportY,SIGNAL(valueChanged(int)), this, SLOT( setupViewports()));
 	connect (endViewportSize,SIGNAL(valueChanged(int)), this, SLOT( setupViewports()));	
 	
+	connect (zValue, SIGNAL (valueChanged(int)), this, SLOT (zIndexChanged(int)));
+	connect (svgfilename, SIGNAL (urlSelected(const KUrl&) ), this,SLOT( svgSelected(const KUrl &)) );
+	connect (itemzoom, SIGNAL (valueChanged(int) ), this,SLOT( itemScaled(int)) );
+	connect (itemrotate, SIGNAL (valueChanged(int) ), this,SLOT( itemRotate(int)) );
+	
 	GraphicsSceneRectMove *scene=new GraphicsSceneRectMove(this);
 	
-	
-	
- // a gradient background
+ 	// a gradient background
 	QRadialGradient *gradient=new QRadialGradient(0, 0, 10);
-	gradient->setSpread(QGradient::RepeatSpread);
+	gradient->setSpread(QGradient::ReflectSpread);
 	//scene->setBackgroundBrush(*gradient);
 	
 	graphicsView->setScene(scene);
@@ -66,9 +71,11 @@ TitleWidget::TitleWidget (QDialog *parent):QDialog(parent){
 	graphicsView->setRenderHint(QPainter::Antialiasing);
 	graphicsView->setInteractive(true);
 	graphicsView->resize(400, 300);
-	//update();
+	
+	toolBox->setItemEnabled(2,false);
+	toolBox->setItemEnabled(3,false);
 }
-	       
+
 void TitleWidget::initViewports(){
 	startViewport=new QGraphicsPolygonItem(QPolygonF(QRectF(0,0,0,0)));
 	endViewport=new QGraphicsPolygonItem(QPolygonF(QRectF(0,0,0,0)));
@@ -84,16 +91,22 @@ void TitleWidget::initViewports(){
 	startViewportSize->setValue(40);
 	endViewportSize->setValue(40);
 	
+	startViewport->setZValue(-1000);
+	endViewport->setZValue(-1000);
+	
+	startViewport->setFlags(/*QGraphicsItem::ItemIsMovable|*/QGraphicsItem::ItemIsSelectable);
+	endViewport->setFlags(/*QGraphicsItem::ItemIsMovable|*/QGraphicsItem::ItemIsSelectable);
+	
 	graphicsView->scene()->addItem(startViewport);
 	graphicsView->scene()->addItem(endViewport);
 }
-	       
+
 void TitleWidget::slotNewRect(){
 	
 	QGraphicsRectItem * ri=graphicsView->scene()->addRect(-50,-50,100,100);
 	ri->setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable);
 }
-	       
+
 void TitleWidget::slotNewText(){
 	QGraphicsTextItem *tt=graphicsView->scene()->addText("Text here");
 	tt->setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable);
@@ -105,20 +118,31 @@ void TitleWidget::slotNewText(){
 	
 }
 
+void TitleWidget::zIndexChanged(int v){
+	QList<QGraphicsItem*> l=graphicsView->scene()->selectedItems();
+	if (l.size()>=1){
+		l[0]->setZValue(v);
+	}
+}
+
 void TitleWidget::selectionChanged(){
 	QList<QGraphicsItem*> l=graphicsView->scene()->selectedItems();
+	toolBox->setItemEnabled(2,false);
+	toolBox->setItemEnabled(3,false);
 	if (l.size()==1){
-		kDebug() << (l[0])->type();
+		
 		if ((l[0])->type()==8  ){
 			QGraphicsTextItem* i=((QGraphicsTextItem*)l[0]);
 			if (l[0]->hasFocus() )
 			ktextedit->setHtml(i->toHtml());
-			toolBox->setCurrentIndex(1);
+			toolBox->setCurrentIndex(2);
+			toolBox->setItemEnabled(2,true);
 		}else
 		if ((l[0])->type()==3){
 			settingUp=true;
 			QGraphicsRectItem *rec=((QGraphicsRectItem*)l[0]);
-			toolBox->setCurrentIndex(2);
+			toolBox->setCurrentIndex(3);
+			toolBox->setItemEnabled(3,true);
 			rectFAlpha->setValue(rec->pen().color().alpha());
 			rectBAlpha->setValue(rec->brush().isOpaque() ? rec->brush().color().alpha() : 0);
 			kDebug() << rec->brush().color().alpha();
@@ -134,6 +158,9 @@ void TitleWidget::selectionChanged(){
 		else{
 			//toolBox->setCurrentIndex(0);
 		}
+		zValue->setValue(l[0]->zValue());
+		itemzoom->setValue(transformations[l[0]].scalex*100);
+		itemrotate->setValue(transformations[l[0]].rotate);
 	}
 }
 
@@ -173,6 +200,39 @@ void TitleWidget::fontBold(){
 	}
 }
 
+void TitleWidget::svgSelected(const KUrl& u){
+	QGraphicsSvgItem *svg=new QGraphicsSvgItem(u.toLocalFile());
+	svg->setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable);
+	graphicsView->scene()->addItem(svg);
+}
+
+void TitleWidget::itemScaled(int val) {
+	QList<QGraphicsItem*> l=graphicsView->scene()->selectedItems();
+	if (l.size()==1){
+		Transform x=transformations[l[0]];
+		x.scalex=(double)val/100.0;
+		x.scaley=(double)val/100.0;
+		QTransform qtrans;
+		qtrans.scale(x.scalex,x.scaley);
+		qtrans.rotate(x.rotate);
+		l[0]->setTransform(qtrans);
+		transformations[l[0]]=x;
+	}
+}
+
+void TitleWidget::itemRotate(int val) {
+	QList<QGraphicsItem*> l=graphicsView->scene()->selectedItems();
+	if (l.size()==1){
+		Transform x=transformations[l[0]];
+		x.rotate=(double)val;
+		QTransform qtrans;
+		qtrans.scale(x.scalex,x.scaley);
+		qtrans.rotate(x.rotate);
+		l[0]->setTransform(qtrans);
+		transformations[l[0]]=x;
+	}
+}
+
 void TitleWidget::setupViewports(){
 	double aspect_ratio=4.0/3.0;//read from project
 	
@@ -186,9 +246,6 @@ void TitleWidget::setupViewports(){
 	
 	startViewport->setPolygon(QPolygonF(sp));
 	endViewport->setPolygon(QPolygonF(ep));
-	
-	
-	
 	
 }
 #include "moc_titlewidget.cpp"

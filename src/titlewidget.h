@@ -20,6 +20,18 @@
 
 #include "ui_titlewidget_ui.h"
 #include <QDialog>
+#include <QMap>
+
+class Transform{
+	public:
+		Transform(){
+			scalex=1.0;
+			scaley=1.0;
+			rotate=0.0;
+		}
+		double scalex,scaley;
+		double rotate;
+};
 
 class TitleWidget : public QDialog , public Ui::TitleWidget_UI{
 	Q_OBJECT
@@ -28,6 +40,7 @@ public:
 private:
 	QGraphicsPolygonItem *startViewport,*endViewport;
 	void initViewports();
+	QMap<QGraphicsItem*,Transform > transformations;
 public slots:
 	void slotNewText();
 	void slotNewRect();
@@ -37,6 +50,10 @@ public slots:
 	void rectChanged();
 	void fontBold();
 	void setupViewports();
+	void zIndexChanged(int);
+	void svgSelected(const KUrl&);
+	void itemScaled(int);
+	void itemRotate(int);
 };
 
 
