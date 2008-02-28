@@ -362,10 +362,14 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
 			QDomElement author=ret.createElement("author");
 			author.appendChild(ret.createTextNode(metadata->get("creator")));
 			
+			QDomElement prop=ret.createElement("properties");
+			prop.setAttribute("id",metadata->get("identifier"));
+			prop.setAttribute("tag",metadata->get("identifier"));
 			eff.appendChild(name);
 			eff.appendChild(author);
 			eff.appendChild(desc);
-
+			eff.appendChild(prop);
+			
 			Mlt::Properties param_props( (mlt_properties) metadata->get_data("parameters") );
 			for (int j=0; param_props.is_valid() && j<param_props.count();j++){
 				QDomElement params=ret.createElement("parameter");
