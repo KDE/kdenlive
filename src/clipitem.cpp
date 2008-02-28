@@ -638,6 +638,20 @@ QMap <QString, QString> ClipItem::getEffectArgs(QDomElement effect)
   QDomNodeList params = effect.elementsByTagName("parameter");
   for (int i = 0; i < params.count(); i++) {
     QDomElement e = params.item(i).toElement();
+	  if (e.attribute("name").contains(";")){
+		  QString format=e.attribute("format");
+		  QStringList separators=format.split("%d",QString::SkipEmptyParts);
+		  QStringList values=e.attribute("value").split(QRegExp("[,:;x]"));
+		  QString neu;
+		  QTextStream txtNeu(&neu);
+		  if (values.size()>0)
+			  txtNeu << (int)values[0].toDouble();
+		  for (int i=0;i<separators.size() && i+1<values.size();i++){
+			  txtNeu << separators[i];
+			  txtNeu << (int)(values[i+1].toDouble());
+		  }
+		  effectParams["start"]=neu; 
+	  }else
     if (!e.isNull())
       effectParams[e.attribute("name")] = e.attribute("value");
   }

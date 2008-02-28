@@ -384,8 +384,16 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
 					params.setAttribute("type","constant");
 				if (QString(paramdesc.get("type"))=="boolean" )
 					params.setAttribute("type","bool");
+				if (!QString(paramdesc.get("format")).isEmpty()){
+					params.setAttribute("type","complex");
+					params.setAttribute("format",paramdesc.get("format"));
+				}
 				if (paramdesc.get("default") ) params.setAttribute("default",paramdesc.get("default"));
-				if (paramdesc.get("value") ) params.setAttribute("value",paramdesc.get("value"));
+				if (paramdesc.get("value") ){ 
+					params.setAttribute("value",paramdesc.get("value"));
+				}else{
+					params.setAttribute("value",paramdesc.get("default"));
+				}
 				
 				
 				QDomElement pname=ret.createElement("name");

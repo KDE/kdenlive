@@ -109,7 +109,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d,int ,int){
 			valueItems[paramName]=bval;
 			uiItems.append(bval);
 		}else if(type=="complex"){
-			QStringList names=nodeAtts.namedItem("name").nodeValue().split(";");
+			/*QStringList names=nodeAtts.namedItem("name").nodeValue().split(";");
 			QStringList max=nodeAtts.namedItem("max").nodeValue().split(";");
 			QStringList min=nodeAtts.namedItem("min").nodeValue().split(";");
 			QStringList val=value.split(";");
@@ -121,7 +121,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d,int ,int){
 				for (int i=0;i< names.size();i++){
 					createSliderItem(names[i],val[i].toInt(),min[i].toInt(),max[i].toInt());
 				};
-			}
+			}*/
 			ComplexParameter *pl=new ComplexParameter;
 			connect (pl, SIGNAL ( parameterChanged()),this, SLOT( collectAllParameters ()) );
 			pl->setupParam(d,0,100);

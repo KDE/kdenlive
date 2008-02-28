@@ -80,7 +80,13 @@ void ParameterPlotter::setPointLists(const QDomElement& d,int startframe,int end
 		
 		//max_y=pa.attributes().namedItem("max").nodeValue().toInt();
 		//int val=pa.attributes().namedItem("value").nodeValue().toInt();
-		QStringList defauls=pa.attributes().namedItem("default").nodeValue().split(";");
+		QStringList defaults;
+		if (pa.attributes().namedItem("start").nodeValue().contains(";"))
+			defaults=pa.attributes().namedItem("start").nodeValue().split(";");
+		else if (pa.attributes().namedItem("value").nodeValue().contains(";"))
+			defaults=pa.attributes().namedItem("value").nodeValue().split(";");
+		else if (pa.attributes().namedItem("default").nodeValue().contains(";"))
+			defaults=pa.attributes().namedItem("default").nodeValue().split(";");
 		QStringList maxv=pa.attributes().namedItem("max").nodeValue().split(";");
 		QStringList minv=pa.attributes().namedItem("max").nodeValue().split(";");
 		for (int i=0;i<maxv.size();i++){
@@ -97,10 +103,11 @@ void ParameterPlotter::setPointLists(const QDomElement& d,int startframe,int end
 				else
 					stretchFactors[i]=1.0;
 			}
-			
-			plot->addPoint(startframe,defauls[i].toInt()*stretchFactors[i]);
+			if (defaults[i].toDouble()>max_y)
+				defaults[i]=max_y;
+			plot->addPoint(startframe,defaults[i].toInt()*stretchFactors[i]);
 			//add keyframes here
-			plot->addPoint(endframe,defauls[i].toInt()*stretchFactors[i]);
+			plot->addPoint(endframe,defaults[i].toInt()*stretchFactors[i]);
 		
 			plotobjects.append(plot);
 		}
@@ -128,24 +135,22 @@ void ParameterPlotter::createParametersNew(){
 		kDebug() << "ERROR size not equal";
 	}
 	QDomNodeList namenode = itemParameter.elementsByTagName("parameter");
-	for (int i=0;i<namenode.count() ;i++){
-		QList<KPlotPoint*> points=plotobjs[i]->points();
-		QDomNode pa=namenode.item(i);
-		
-		
-		
-		
-		
-		
-		QMap<int,QVariant> vals;
-		foreach (KPlotPoint *o,points){
-			//vals[o->x()]=o->y();
-			pa.attributes().namedItem("value").setNodeValue(QString::number(o->y()));
+	QString paramlist;
+	QTextStream txtstr(&paramlist);
+	QDomNode pa=namenode.item(0);
+	if (namenode.count()>0){
+		for (int i=0;i<plotobjs.count();i++){
+			QList<KPlotPoint*> points=plotobjs[i]->points();
+			foreach (KPlotPoint *o,points){
+				txtstr << (int)o->y() ;
+				break;//first no keyframes
+			}
+			if (i+1!=plotobjs.count())
+				txtstr<< ";";
 		}
-		QPair<QString,QMap<int,QVariant> > pair("contrast",vals);
-		//ret.append(pair);
 	}
-	
+	pa.attributes().namedItem("value").setNodeValue(paramlist);
+	pa.attributes().namedItem("start").setNodeValue(paramlist);
 	emit parameterChanged(itemParameter);
 	
 }
