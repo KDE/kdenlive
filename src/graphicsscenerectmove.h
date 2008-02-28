@@ -7,10 +7,10 @@ class GraphicsSceneRectMove: public QGraphicsScene {
 public:
 	GraphicsSceneRectMove(QObject* parent=0);
 	void mouseMoveEvent(QGraphicsSceneMouseEvent*);
-	void mousePressEvent(QGraphicsSceneMouseEvent*);
-	void mouseReleaseEvent(QGraphicsSceneMouseEvent*);
+	void wheelEvent ( QGraphicsSceneWheelEvent * wheelEvent );
 private:
 	void setCursor(QCursor);
+	double zoom;
 };
 
 #endif

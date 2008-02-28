@@ -11,11 +11,12 @@ int resizeMode=-1;
 enum resizeMode {NoResize,TopLeft,BottomLeft,TopRight,BottomRight,Left,Right,Up,Down};
 GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent):QGraphicsScene(parent){
 	//grabMouse();	
+	zoom=1.0;
 }
 
 void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e){
-
-	if (selected && selected->type()==3 && button==1){
+	
+	if (selected && selected->type()==3 && e->buttons() & Qt::LeftButton){
 		
 		QGraphicsRectItem *gi=(QGraphicsRectItem*)selected;
 		QRectF newrect=gi->rect();
@@ -111,15 +112,20 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e){
 	
 }
 
-void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e){
-	button=e->button();
-	if (!selected || selected->type()!=3)
-		QGraphicsScene::mousePressEvent(e);
-}
-void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent* e){
-	button=0;
-	if (!selected || selected->type()!=3)
-		QGraphicsScene::mouseReleaseEvent(e);
+void GraphicsSceneRectMove::wheelEvent ( QGraphicsSceneWheelEvent * wheelEvent ){
+	QList<QGraphicsView*> viewlist=views();
+	kDebug() << wheelEvent->delta() << " " << zoom;
+	if (viewlist.size()>0){
+		if (wheelEvent->delta()<0 && zoom<20.0){
+			zoom*=1.1;
+			
+		}else if (wheelEvent->delta()>0 && zoom>.05){
+			zoom/=1.1;
+		}
+		
+		viewlist[0]->resetTransform();
+		viewlist[0]->scale(zoom,zoom);
+	}
 }
 
 void GraphicsSceneRectMove::setCursor(QCursor c){
