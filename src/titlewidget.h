@@ -27,6 +27,7 @@ public:
 	TitleWidget(QDialog *parent=0);
 private:
 	QGraphicsPolygonItem *startViewport,*endViewport;
+	void initViewports();
 public slots:
 	void slotNewText();
 	void slotNewRect();

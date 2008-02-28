@@ -50,14 +50,7 @@ TitleWidget::TitleWidget (QDialog *parent):QDialog(parent){
 	connect (endViewportSize,SIGNAL(valueChanged(int)), this, SLOT( setupViewports()));	
 	
 	GraphicsSceneRectMove *scene=new GraphicsSceneRectMove(this);
-	startViewport=new QGraphicsPolygonItem(QPolygonF(QRectF(0,0,0,0)));
-	endViewport=new QGraphicsPolygonItem(QPolygonF(QRectF(0,0,0,0)));
 	
-	startViewportSize->setValue(40);
-	endViewportSize->setValue(40);
-	
-	scene->addItem(startViewport);
-	scene->addItem(endViewport);
 	
 	
  // a gradient background
@@ -67,6 +60,7 @@ TitleWidget::TitleWidget (QDialog *parent):QDialog(parent){
 	
 	graphicsView->setScene(scene);
 	connect (graphicsView->scene(), SIGNAL (selectionChanged()), this , SLOT( selectionChanged()));
+	initViewports();
 	
 	graphicsView->show();
 	graphicsView->setRenderHint(QPainter::Antialiasing);
@@ -74,12 +68,32 @@ TitleWidget::TitleWidget (QDialog *parent):QDialog(parent){
 	graphicsView->resize(400, 300);
 	//update();
 }
-
+	       
+void TitleWidget::initViewports(){
+	startViewport=new QGraphicsPolygonItem(QPolygonF(QRectF(0,0,0,0)));
+	endViewport=new QGraphicsPolygonItem(QPolygonF(QRectF(0,0,0,0)));
+	
+	QPen startpen(Qt::DotLine);
+	QPen endpen(Qt::DashDotLine);
+	startpen.setColor(QColor(100,200,100,140));
+	endpen.setColor(QColor(200,100,100,140));
+	
+	startViewport->setPen(startpen);
+	endViewport->setPen(endpen);
+	
+	startViewportSize->setValue(40);
+	endViewportSize->setValue(40);
+	
+	graphicsView->scene()->addItem(startViewport);
+	graphicsView->scene()->addItem(endViewport);
+}
+	       
 void TitleWidget::slotNewRect(){
 	
 	QGraphicsRectItem * ri=graphicsView->scene()->addRect(-50,-50,100,100);
 	ri->setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable);
 }
+	       
 void TitleWidget::slotNewText(){
 	QGraphicsTextItem *tt=graphicsView->scene()->addText("Text here");
 	tt->setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable);
