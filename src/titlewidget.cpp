@@ -1,3 +1,20 @@
+/***************************************************************************
+                          titlewidget.h  -  description
+                             -------------------
+    begin                : Feb 28 2008
+    copyright            : (C) 2008 by Marco Gittler
+    email                : g.marco@freenet.de
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
 #include "titlewidget.h"
 #include "graphicsscenerectmove.h"
 #include <QGraphicsView>
@@ -13,6 +30,8 @@ TitleWidget::TitleWidget (QDialog *parent):QDialog(parent){
 	connect (horizontalSlider, SIGNAL ( valueChanged(int) ), this, SLOT( slotChangeBackground()) ) ;
 	connect (ktextedit, SIGNAL(textChanged()), this , SLOT (textChanged()));
 	connect (fontColorButton, SIGNAL ( clicked()), this, SLOT( textChanged()) ) ;
+	//connect (fontBold, SIGNAL ( clicked()), this, SLOT( setBold()) ) ;
+	
 	connect (kfontrequester, SIGNAL ( fontSelected(const QFont &)), this, SLOT( textChanged()) ) ;
 	connect(textAlpha, SIGNAL( valueChanged(int) ), this, SLOT (textChanged()));
 	//connect (ktextedit, SIGNAL(selectionChanged()), this , SLOT (textChanged()));
@@ -22,8 +41,23 @@ TitleWidget::TitleWidget (QDialog *parent):QDialog(parent){
 	connect(rectFColor, SIGNAL( clicked() ), this, SLOT (rectChanged()));
 	connect(rectBColor, SIGNAL( clicked() ), this, SLOT (rectChanged()));
 	connect(rectLineWidth, SIGNAL( valueChanged(int) ), this, SLOT (rectChanged()));
-	GraphicsSceneRectMove *scene=new GraphicsSceneRectMove(this);
 	
+	connect (startViewportX,SIGNAL(valueChanged(int)), this, SLOT( setupViewports()));
+	connect (startViewportY,SIGNAL(valueChanged(int)), this, SLOT( setupViewports()));
+	connect (startViewportSize,SIGNAL(valueChanged(int)), this, SLOT( setupViewports()));
+	connect (endViewportX,SIGNAL(valueChanged(int)), this, SLOT( setupViewports()));
+	connect (endViewportY,SIGNAL(valueChanged(int)), this, SLOT( setupViewports()));
+	connect (endViewportSize,SIGNAL(valueChanged(int)), this, SLOT( setupViewports()));	
+	
+	GraphicsSceneRectMove *scene=new GraphicsSceneRectMove(this);
+	startViewport=new QGraphicsPolygonItem(QPolygonF(QRectF(0,0,0,0)));
+	endViewport=new QGraphicsPolygonItem(QPolygonF(QRectF(0,0,0,0)));
+	
+	startViewportSize->setValue(40);
+	endViewportSize->setValue(40);
+	
+	scene->addItem(startViewport);
+	scene->addItem(endViewport);
 	
 	
  // a gradient background
@@ -36,14 +70,9 @@ TitleWidget::TitleWidget (QDialog *parent):QDialog(parent){
 	
 	graphicsView->show();
 	graphicsView->setRenderHint(QPainter::Antialiasing);
-	//graphicsView->setBackgroundBrush(QPixmap(":/images/cheese.jpg"));
-	//graphicsView->setCacheMode(QGraphicsView::CacheBackground);
-	//graphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
 	graphicsView->setInteractive(true);
-	graphicsView->setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "Colliding Mice"));
 	graphicsView->resize(400, 300);
-	
-	update();
+	//update();
 }
 
 void TitleWidget::slotNewRect(){
@@ -103,9 +132,11 @@ void TitleWidget::slotChangeBackground(){
 void TitleWidget::textChanged(){
 	QList<QGraphicsItem*> l=graphicsView->scene()->selectedItems();
 	if (l.size()==1 && (l[0])->type()==8 && !l[0]->hasFocus()){
+		kDebug() << ktextedit->document()->toHtml();
 		((QGraphicsTextItem*)l[0])->setHtml(ktextedit->toHtml());
 	}
 }
+
 void TitleWidget::rectChanged(){
 	QList<QGraphicsItem*> l=graphicsView->scene()->selectedItems();
 	if (l.size()==1 && (l[0])->type()==3 && !settingUp){
@@ -121,5 +152,30 @@ void TitleWidget::rectChanged(){
 	}
 }
 
+void TitleWidget::fontBold(){
+	QList<QGraphicsItem*> l=graphicsView->scene()->selectedItems();
+	if (l.size()==1 && (l[0])->type()==8 && !l[0]->hasFocus()){
+		//ktextedit->document()->setTextOption();
+	}
+}
+
+void TitleWidget::setupViewports(){
+	double aspect_ratio=4.0/3.0;//read from project
+	
+	QRectF sp(startViewportX->value(), startViewportY->value(),0,0);
+	QRectF ep(endViewportX->value(),endViewportY->value(),0,0);
+	
+	double sv_size=startViewportSize->value();
+	double ev_size=endViewportSize->value();
+	sp.adjust(-sv_size,-sv_size/aspect_ratio,sv_size,sv_size/aspect_ratio);
+	ep.adjust(-ev_size,-ev_size/aspect_ratio,ev_size,ev_size/aspect_ratio);	
+	
+	startViewport->setPolygon(QPolygonF(sp));
+	endViewport->setPolygon(QPolygonF(ep));
+	
+	
+	
+	
+}
 #include "moc_titlewidget.cpp"
 

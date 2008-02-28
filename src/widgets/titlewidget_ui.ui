@@ -32,6 +32,20 @@
         </widget>
        </item>
        <item>
+        <widget class="QPushButton" name="pushButton" >
+         <property name="text" >
+          <string>Load Title</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_2" >
+         <property name="text" >
+          <string>Save Title</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer>
          <property name="orientation" >
           <enum>Qt::Horizontal</enum>
@@ -70,7 +84,7 @@
           </sizepolicy>
          </property>
          <property name="currentIndex" >
-          <number>1</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="Background" >
           <property name="geometry" >
@@ -122,8 +136,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>441</width>
-            <height>366</height>
+            <width>208</width>
+            <height>167</height>
            </rect>
           </property>
           <attribute name="label" >
@@ -190,7 +204,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="toolButton_2" >
+                <widget class="QToolButton" name="fontBold" >
                  <property name="text" >
                   <string>...</string>
                  </property>
@@ -368,8 +382,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>214</width>
-            <height>202</height>
+            <width>441</width>
+            <height>366</height>
            </rect>
           </property>
           <attribute name="label" >
@@ -408,13 +422,34 @@
                    </widget>
                   </item>
                   <item row="1" column="0" >
-                   <widget class="QSpinBox" name="spinBox_3" />
+                   <widget class="QSpinBox" name="startViewportX" >
+                    <property name="minimum" >
+                     <number>-1000</number>
+                    </property>
+                    <property name="maximum" >
+                     <number>1000</number>
+                    </property>
+                   </widget>
                   </item>
                   <item row="1" column="1" >
-                   <widget class="QSpinBox" name="spinBox_4" />
+                   <widget class="QSpinBox" name="startViewportY" >
+                    <property name="minimum" >
+                     <number>-1000</number>
+                    </property>
+                    <property name="maximum" >
+                     <number>1000</number>
+                    </property>
+                   </widget>
                   </item>
                   <item row="1" column="2" >
-                   <widget class="QSpinBox" name="spinBox_5" />
+                   <widget class="QSpinBox" name="startViewportSize" >
+                    <property name="maximum" >
+                     <number>1000</number>
+                    </property>
+                    <property name="singleStep" >
+                     <number>1000</number>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </item>
@@ -453,13 +488,27 @@
                      </widget>
                     </item>
                     <item row="1" column="0" >
-                     <widget class="QSpinBox" name="spinBox_6" />
+                     <widget class="QSpinBox" name="endViewportX" >
+                      <property name="minimum" >
+                       <number>-1000</number>
+                      </property>
+                      <property name="maximum" >
+                       <number>1000</number>
+                      </property>
+                     </widget>
                     </item>
                     <item row="1" column="1" >
-                     <widget class="QSpinBox" name="spinBox_7" />
+                     <widget class="QSpinBox" name="endViewportY" >
+                      <property name="minimum" >
+                       <number>-1000</number>
+                      </property>
+                      <property name="maximum" >
+                       <number>1000</number>
+                      </property>
+                     </widget>
                     </item>
                     <item row="1" column="2" >
-                     <widget class="QSpinBox" name="spinBox_8" />
+                     <widget class="QSpinBox" name="endViewportSize" />
                     </item>
                    </layout>
                   </item>
