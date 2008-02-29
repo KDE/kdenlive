@@ -31,6 +31,7 @@ ProjectListView::ProjectListView(QWidget *parent)
   setSelectionMode(QAbstractItemView::ExtendedSelection);
   setDragDropMode(QAbstractItemView::DragDrop);
   setDropIndicatorShown(true);
+  setAlternatingRowColors(true);
   setDragEnabled(true);
   setAcceptDrops(true);
 }

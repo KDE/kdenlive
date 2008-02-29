@@ -24,6 +24,7 @@
 #include <QGraphicsRectItem>
 #include <QDomElement>
 #include <QGraphicsSceneMouseEvent>
+#include <QTimeLine>
 
 #include "definitions.h"
 #include "gentime.h"
@@ -79,6 +80,7 @@ class ClipItem : public QObject, public QGraphicsRectItem
     QDomElement effectAt(int ix);
     /** Replace effect at pos ix with given value */
     void setEffectAt(int ix, QDomElement effect);
+    void flashClip();
 
   protected:
     virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
@@ -109,12 +111,15 @@ class ClipItem : public QObject, public QGraphicsRectItem
     uint m_endFade;
     /** counter used to provide a unique id to each effect */
     int m_effectsCounter;
+    double m_opacity;
+    QTimeLine *m_timeLine;
     
     EffectsList m_effectList;
     QMap<int,QPixmap> audioThumbCachePic;
     bool audioThumbWasDrawn,audioThumbReady;
     double framePixelWidth;
     QMap<int,QPainterPath > channelPaths;
+
   private slots:
     void slotThumbReady(int frame, QPixmap pix);
     void slotFetchThumbs();
@@ -122,6 +127,8 @@ class ClipItem : public QObject, public QGraphicsRectItem
     void slotGetEndThumb();
     void slotGotAudioData();
     void slotPrepareAudioThumb(double,QPainterPath,int,int);
+    void animate(qreal value);
+
   signals:
     void getThumb(int, int);
     void prepareAudioThumb(double,QPainterPath,int,int);

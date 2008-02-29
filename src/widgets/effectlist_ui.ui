@@ -55,7 +55,14 @@
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
      </property>
-     <widget class="KListWidget" name="effectlist" />
+     <widget class="KListWidget" name="effectlist" >
+      <property name="dragEnabled" >
+       <bool>true</bool>
+      </property>
+      <property name="alternatingRowColors" >
+       <bool>true</bool>
+      </property>
+     </widget>
      <widget class="QTextEdit" name="infopanel" >
       <property name="frameShape" >
        <enum>QFrame::StyledPanel</enum>

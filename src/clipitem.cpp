@@ -34,7 +34,7 @@
 #include "kdenlivesettings.h"
 
 ClipItem::ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & rect, int duration)
-: QGraphicsRectItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0), m_effectsCounter(0),audioThumbWasDrawn(false),audioThumbReady(false)
+: QGraphicsRectItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0), m_effectsCounter(0),audioThumbWasDrawn(false),audioThumbReady(false), m_opacity(1.0), m_timeLine(0)
 {
   //setToolTip(name);
   kDebug()<<"*******  CREATING NEW TML CLIP, DUR: "<<duration;
@@ -46,6 +46,7 @@ ClipItem::ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & re
   m_maxDuration = duration;
   if (duration != -1) m_cropDuration = duration;
   else m_cropDuration = m_maxDuration;
+  setAcceptDrops (true);
 
 /*
   m_cropStart = xml.attribute("in", 0).toInt();
@@ -173,13 +174,29 @@ int ClipItem::endPos()
   return m_startPos + m_cropDuration;
 }
 
+void ClipItem::flashClip()
+{
+  if (m_timeLine == 0) {
+    m_timeLine = new QTimeLine(750, this);
+    connect(m_timeLine, SIGNAL(valueChanged(qreal)), this, SLOT(animate(qreal)));
+  }
+  m_timeLine->start();
+}
+
+void ClipItem::animate(qreal value)
+{
+  m_opacity = value;
+  update();
+}
+
 // virtual 
  void ClipItem::paint(QPainter *painter,
                            const QStyleOptionGraphicsItem *option,
                            QWidget *widget)
  {
+    painter->setOpacity(m_opacity);
     QRectF br = rect();
-	 QRect rectInView;//this is the rect that is visiable by the user
+	 QRect rectInView;//this is the rect that is visible by the user
 	 if (scene()->views().size()>0){ 
 	 	rectInView=scene()->views()[0]->viewport()->rect();
 		rectInView.moveTo(scene()->views()[0]->horizontalScrollBar()->value(),scene()->views()[0]->verticalScrollBar()->value());
@@ -309,11 +326,12 @@ int ClipItem::endPos()
       painter->setFont(font);
     }
 
+    if (isSelected())  painter->fillRect(br.intersected(rectInView), QBrush(QColor(200,20,0,80)));
     pen.setColor(Qt::red);
     //pen.setStyle(Qt::DashDotDotLine); //Qt::DotLine);
     if (isSelected()) painter->setPen(pen);
-	 painter->setClipRect(option->exposedRect);
-	 painter->drawPath(roundRectPathUpper.united(roundRectPathLower).intersected(clippath));
+    painter->setClipRect(option->exposedRect);
+    painter->drawPath(roundRectPathUpper.united(roundRectPathLower).intersected(clippath));
 
     QRectF txtBounding = painter->boundingRect(br, Qt::AlignCenter, " " + m_clipName + " ");
     painter->fillRect(txtBounding, QBrush(QColor(255,255,255,150)));
@@ -626,6 +644,7 @@ QMap <QString, QString> ClipItem::addEffect(QDomElement effect)
     if (!e.isNull())
       effectParams[e.attribute("name")] = e.attribute("value");
   }
+  flashClip();
   update(boundingRect());
   return effectParams;
 }
@@ -666,6 +685,7 @@ void ClipItem::deleteEffect(QString index)
       break;
     }
   }
+  flashClip();
   update(boundingRect());
 }
 
