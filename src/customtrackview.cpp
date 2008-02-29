@@ -321,7 +321,7 @@ void CustomTrackView::mousePressEvent ( QMouseEvent * event )
   //QGraphicsView::mousePressEvent(event);
 }
 
-void CustomTrackView::dragEnterEvent ( QDragEnterEvent * event )
+void CustomTrackView::dragEnterEvent( QDragEnterEvent * event )
 {
   if (event->mimeData()->hasText()) {
     kDebug()<<"///////////////  DRAG ENTERED, TEXT: "<<event->mimeData()->text();
@@ -334,6 +334,7 @@ void CustomTrackView::dragEnterEvent ( QDragEnterEvent * event )
     addItem(clip, event->pos());
     event->acceptProposedAction();
   }
+  else QGraphicsView::dragEnterEvent(event);
 }
 
 void CustomTrackView::slotRefreshEffects(ClipItem *clip)
@@ -429,6 +430,7 @@ void CustomTrackView::dragMoveEvent(QDragMoveEvent * event) {
   if (event->mimeData()->hasText()) {
     event->acceptProposedAction();
   }
+  else QGraphicsView::dragMoveEvent(event);
         //}
 }
 
@@ -437,6 +439,7 @@ void CustomTrackView::dragLeaveEvent ( QDragLeaveEvent * event ) {
     delete m_dropItem;
     m_dropItem = NULL;
   }
+  else QGraphicsView::dragLeaveEvent(event);
 }
 
 void CustomTrackView::dropEvent ( QDropEvent * event ) {
@@ -448,6 +451,7 @@ void CustomTrackView::dropEvent ( QDropEvent * event ) {
     kDebug()<<"IIIIIIIIIIIIIIIIIIIIIIII TRAX CNT: "<<m_tracksCount<<", DROP: "<<m_dropItem->track();
     m_document->renderer()->mltInsertClip(m_tracksCount - m_dropItem->track(), GenTime(m_dropItem->startPos(), m_document->fps()), m_dropItem->xml());
   }
+  else QGraphicsView::dropEvent(event);  
   m_dropItem = NULL;
 }
 
@@ -457,6 +461,7 @@ QStringList CustomTrackView::mimeTypes () const
     QStringList qstrList;
     // list of accepted mime types for drop
     qstrList.append("text/plain");
+    qstrList.append("application/x-qabstractitemmodeldatalist");
     return qstrList;
 }
 
@@ -685,19 +690,24 @@ void CustomTrackView::setScale(double scaleFactor)
 
 void CustomTrackView::drawBackground ( QPainter * painter, const QRectF & rect )  
 {
+  QRect rectInView;//this is the rect that is visible by the user
+  if (scene()->views().size()>0){ 
+    rectInView=scene()->views()[0]->viewport()->rect();
+    rectInView.moveTo(scene()->views()[0]->horizontalScrollBar()->value(),scene()->views()[0]->verticalScrollBar()->value());
+  }
+  if (rectInView.isNull()) return;
+
   QColor base = palette().button().color();
-  //painter->setPen(base);
   painter->setClipRect(rect);
-  int width = scene()->sceneRect().width();
-  painter->drawLine(0, 0, width, 0);
-    for (uint i = 0; i < m_tracksCount;i++)
-    {
-      painter->drawLine(0, 50 * (i+1), width, 50 * (i+1));
-      painter->drawText(QRectF(10, 50 * i, 100, 50 * i + 49), Qt::AlignLeft, i18n(" Track ") + QString::number(i + 1));
-    }
-  int lowerLimit = 50 * m_tracksCount;
+  painter->drawLine(rectInView.left(), 0, rectInView.right(), 0);
+  for (uint i = 0; i < m_tracksCount;i++)
+  {
+    painter->drawLine(rectInView.left(), 50 * (i+1), rectInView.right(), 50 * (i+1));
+    painter->drawText(QRectF(10, 50 * i, 100, 50 * i + 49), Qt::AlignLeft, i18n(" Track ") + QString::number(i + 1));
+  }
+  int lowerLimit = 50 * m_tracksCount + 1;
   if (height() > lowerLimit)
-  painter->fillRect(QRectF(0, lowerLimit, rect.width(), height() - lowerLimit), QBrush(base));
+  painter->fillRect(QRectF(rectInView.left(), lowerLimit, rectInView.width(), height() - lowerLimit), QBrush(base));
 }
 /*
 void CustomTrackView::drawForeground ( QPainter * painter, const QRectF & rect )  
