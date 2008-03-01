@@ -52,7 +52,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
   connect(ui.button_play, SIGNAL(clicked()), this, SLOT(slotPlay()));
   //if ( render ) return;
   render = new Render(m_name, (int) ui.video_frame->winId(), -1, this);
-  connect(render, SIGNAL(playListDuration(int)), this, SLOT(adjustRulerSize(int)));
+  connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
   connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
   connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
   if (name != "clip") {
