@@ -23,70 +23,45 @@
 
 #include "effectslistview.h"
 
-#define EFFECT_VIDEO 1
-#define EFFECT_AUDIO 2
-#define EFFECT_CUSTOM 3
-
 EffectsListView::EffectsListView(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent)
-    : QWidget(parent), m_audioList(audioEffectList), m_videoList(videoEffectList), m_customList(customEffectList)
+    : QWidget(parent)
 {
+  m_effectsList = new EffectsListWidget(audioEffectList, videoEffectList, customEffectList);
+
   ui.setupUi(this);
-  ui.effectlist->setSortingEnabled(true);
-  ui.search_effect->setListWidget(ui.effectlist);
+  QVBoxLayout *lyr = new QVBoxLayout(ui.effectlistframe);
+  lyr->addWidget(m_effectsList);
+  ui.search_effect->setListWidget(m_effectsList);
   ui.buttonInfo->setIcon(KIcon("help-about"));
   ui.infopanel->hide();
 
-  initList();
-
   connect(ui.type_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(filterList(int)));
   connect (ui.buttonInfo, SIGNAL (clicked()), this, SLOT (showInfoPanel()));
-  connect(ui.effectlist, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateInfo()));
-  connect(ui.effectlist, SIGNAL(doubleClicked(QListWidgetItem *,const QPoint &)), this, SLOT(slotEffectSelected()));
+  connect(m_effectsList, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateInfo()));
+  connect(m_effectsList, SIGNAL(doubleClicked(QListWidgetItem *,const QPoint &)), this, SLOT(slotEffectSelected()));
 
-  ui.effectlist->setCurrentRow(0); 
+  m_effectsList->setCurrentRow(0); 
 }
 
-void EffectsListView::initList()
-{
-  ui.effectlist->clear();
-  QStringList names = m_videoList->effectNames();
-  QListWidgetItem *item;
-  foreach (QString str, names) {
-    item = new QListWidgetItem(str, ui.effectlist);
-    item->setData(Qt::UserRole, QString::number((int) EFFECT_VIDEO));
-  }
-
-  names = m_audioList->effectNames();
-  foreach (QString str, names) {
-    item = new QListWidgetItem(str, ui.effectlist);
-    item->setData(Qt::UserRole, QString::number((int) EFFECT_AUDIO));
-  }
-
-  names = m_customList->effectNames();
-  foreach (QString str, names) {
-    item = new QListWidgetItem(str, ui.effectlist);
-    item->setData(Qt::UserRole, QString::number((int) EFFECT_CUSTOM));
-  }
-}
 
 void EffectsListView::filterList(int pos)
 {
   QListWidgetItem *item;
-  for (int i = 0; i < ui.effectlist->count(); i++)
+  for (int i = 0; i < m_effectsList->count(); i++)
   {
-    item = ui.effectlist->item(i);
+    item = m_effectsList->item(i);
     if (pos == 0) item->setHidden(false);
     else if (item->data(Qt::UserRole).toInt() == pos) item->setHidden(false);
     else item->setHidden(true);
   }
-  item = ui.effectlist->currentItem();
+  item = m_effectsList->currentItem();
   if (item) {
     if (item->isHidden()) {
       int i;
-      for (i = 0; i < ui.effectlist->count() && ui.effectlist->item(i)->isHidden(); i++);
-      ui.effectlist->setCurrentRow(i);
+      for (i = 0; i < m_effectsList->count() && m_effectsList->item(i)->isHidden(); i++);
+      m_effectsList->setCurrentRow(i);
     }
-    else ui.effectlist->scrollToItem(item);
+    else m_effectsList->scrollToItem(item);
   }
 }
 
@@ -104,47 +79,19 @@ void EffectsListView::showInfoPanel()
 
 void EffectsListView::slotEffectSelected()
 {
-  QListWidgetItem *item = ui.effectlist->currentItem();
-  if (!item) return;
-  QDomElement effect;
-  switch (item->data(Qt::UserRole).toInt())
-  {
-    case 1:
-      effect = m_videoList->getEffectByName(ui.effectlist->currentItem()->text());
-      break;
-    case 2:
-      effect = m_audioList->getEffectByName(ui.effectlist->currentItem()->text());
-      break;
-    default:
-      effect = m_customList->getEffectByName(ui.effectlist->currentItem()->text());
-      break;
-  }
-  emit addEffect(effect);
+  QDomElement effect = m_effectsList->currentEffect();
+  if (!effect.isNull()) emit addEffect(effect);
 }
 
 void EffectsListView::slotUpdateInfo()
 {
-  QListWidgetItem *item = ui.effectlist->currentItem();
-  if (!item) return;
-  QString info; 
-  switch (item->data(Qt::UserRole).toInt())
-  {
-  case 1:
-    info = m_videoList->getInfo(ui.effectlist->currentItem()->text());
-    break;
-  case 2:
-    info = m_audioList->getInfo(ui.effectlist->currentItem()->text());
-    break;
-  default:
-    info = m_customList->getInfo(ui.effectlist->currentItem()->text());
-    break;
-  }
-  ui.infopanel->setText(info);
+  QString info = m_effectsList->currentInfo(); 
+  if (!info.isEmpty()) ui.infopanel->setText(info);
 }
 
 KListWidget *EffectsListView::listView()
 {
-  return ui.effectlist;
+  return m_effectsList;
 }
 
 #include "effectslistview.moc"

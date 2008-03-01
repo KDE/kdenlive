@@ -49,7 +49,7 @@ class CustomTrackView : public QGraphicsView
     void deleteClip ( int track, int startpos, const QRectF &rect );
     void setScale(double scaleFactor);
     void deleteClip(int clipId);
-    void slotAddEffect(QDomElement effect);
+    void slotAddEffect(QDomElement effect, GenTime pos, int track);
     void addEffect(int track, GenTime pos, QDomElement effect);
     void deleteEffect(int track, GenTime pos, QDomElement effect);
     void updateEffect(int track, GenTime pos, QDomElement effect);

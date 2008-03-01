@@ -10,9 +10,6 @@
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout" >
-   <property name="margin" >
-    <number>0</number>
-   </property>
    <item row="0" column="0" >
     <widget class="KComboBox" name="type_combo" >
      <item>
@@ -51,29 +48,32 @@
     </widget>
    </item>
    <item row="1" column="0" colspan="3" >
-    <widget class="QSplitter" name="splitter" >
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
+    <widget class="QFrame" name="effectlistframe" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-     <widget class="KListWidget" name="effectlist" >
-      <property name="dragEnabled" >
-       <bool>true</bool>
-      </property>
-      <property name="alternatingRowColors" >
-       <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="QTextEdit" name="infopanel" >
-      <property name="frameShape" >
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow" >
-       <enum>QFrame::Sunken</enum>
-      </property>
-      <property name="readOnly" >
-       <bool>true</bool>
-      </property>
-     </widget>
+     <property name="frameShape" >
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="3" >
+    <widget class="QTextEdit" name="infopanel" >
+     <property name="frameShape" >
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="readOnly" >
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
   </layout>
@@ -83,11 +83,6 @@
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KListWidget</class>
-   <extends>QListWidget</extends>
-   <header>klistwidget.h</header>
   </customwidget>
   <customwidget>
    <class>KListWidgetSearchLine</class>

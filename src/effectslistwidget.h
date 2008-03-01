@@ -18,39 +18,36 @@
  ***************************************************************************/
 
 
-#ifndef EFFECTLISTVIEW_H
-#define EFFECTLISTVIEW_H
+#ifndef EFFECTLISTWIDGET_H
+#define EFFECTLISTWIDGET_H
 
-#include <KIcon>
-
-#include "ui_effectlist_ui.h"
-#include "effectslistwidget.h"
-#include "gentime.h"
+#include <KListWidget>
 #include "effectslist.h"
 
-class EffectsListView : public QWidget
+class EffectsListWidget : public KListWidget
 {
   Q_OBJECT
   
   public:
-    EffectsListView(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent=0);
-    KListWidget *listView(); 
-    //void slotAddEffect(GenTime pos, int track, QString name);
+    EffectsListWidget(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent=0);
+    virtual ~EffectsListWidget();
+    QDomElement currentEffect();
+    QString currentInfo();
+    QDomElement itemEffect(QListWidgetItem *item);
+
+  protected:
+    virtual void mousePressEvent(QMouseEvent *event);
+    virtual void mouseMoveEvent(QMouseEvent *event);
+    virtual void dragMoveEvent(QDragMoveEvent *event);
 
   private:
-    Ui::EffectList_UI ui;
-    EffectsListWidget *m_effectsList;
+    bool m_dragStarted;
+    QPoint m_DragStartPosition;
+    EffectsList *m_audioList;
+    EffectsList *m_videoList;
+    EffectsList *m_customList;
+    void initList();
 
-  private slots:
-    void filterList(int pos);
-    void slotUpdateInfo();
-    void showInfoPanel();
-    void slotEffectSelected();
-
-  public slots:
-
-  signals:
-    void addEffect(QDomElement);
-};
+ };
 
 #endif

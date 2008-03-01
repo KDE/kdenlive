@@ -25,12 +25,16 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QScrollBar>
+#include <QMimeData>
+#include <QApplication>
+
 #include <KDebug>
 
 #include <mlt++/Mlt.h>
 
 #include "clipitem.h"
 #include "renderer.h"
+#include "events.h"
 #include "kdenlivesettings.h"
 
 ClipItem::ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & rect, int duration)
@@ -195,6 +199,8 @@ void ClipItem::animate(qreal value)
                            QWidget *widget)
  {
     painter->setOpacity(m_opacity);
+    if (isSelected()) setBrush(QColor(150, 50, 100));
+    else setBrush(QColor(100, 100, 150));
     QRectF br = rect();
 	 QRect rectInView;//this is the rect that is visible by the user
 	 if (scene()->views().size()>0){ 
@@ -326,7 +332,6 @@ void ClipItem::animate(qreal value)
       painter->setFont(font);
     }
 
-    if (isSelected())  painter->fillRect(br.intersected(rectInView), QBrush(QColor(200,20,0,80)));
     pen.setColor(Qt::red);
     //pen.setStyle(Qt::DashDotDotLine); //Qt::DotLine);
     if (isSelected()) painter->setPen(pen);
@@ -689,6 +694,28 @@ void ClipItem::deleteEffect(QString index)
   update(boundingRect());
 }
 
+//virtual
+void ClipItem::dropEvent ( QGraphicsSceneDragDropEvent * event )  
+{
+    QString effects = QString(event->mimeData()->data("kdenlive/effectslist"));
+    QDomDocument doc;
+    doc.setContent(effects, true);
+    QDomElement e = doc.documentElement();
+    if (QApplication::activeWindow()) 
+	QApplication::postEvent(QApplication::activeWindow(), new EffectEvent(GenTime(m_startPos, 25), m_track, e, (QEvent::Type)10010));
+}
+
+//virtual
+void ClipItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
+{
+  kDebug()<<"DRAG EVNET, FORMAT: "<<event->mimeData()->formats();
+  event->setAccepted(event->mimeData()->hasFormat("kdenlive/effectslist"));
+}
+
+void ClipItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
+{
+    Q_UNUSED(event);
+}
 
 // virtual 
 /*

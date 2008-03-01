@@ -120,7 +120,7 @@ class MainWindow : public KXmlGuiWindow
     void slotRaiseMonitor(bool clipMonitor);
     void slotSetClipDuration(int id, int duration);
     void slotUpdateMousePosition(int pos);
-    void slotAddEffect(QDomElement effect);
+    void slotAddEffect(QDomElement effect, GenTime pos = GenTime(), int track = -1);
     void slotEditProfiles();
     void slotEditProjectSettings();
     void slotDisplayActionMessage( QAction *a);

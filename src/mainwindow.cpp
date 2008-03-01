@@ -178,7 +178,7 @@ bool MainWindow::queryClose()
   }
 }
 
-void MainWindow::slotAddEffect(QDomElement effect)
+void MainWindow::slotAddEffect(QDomElement effect, GenTime pos, int track)
 {
   if (!m_activeDocument) return;
   /*QMap <QString, QString> filter;
@@ -188,8 +188,12 @@ void MainWindow::slotAddEffect(QDomElement effect)
     filter = m_audioEffects.effect(effectName);
   else 
     filter = m_customEffects.effect(effectName);*/
+  if (effect.isNull()) {
+    kDebug()<<"--- ERROR, TRYING TO APPEND NULL EFFECT";
+    return;
+  }
   TrackView *currentTimeLine = (TrackView *) m_timelineArea->currentWidget();
-  currentTimeLine->projectView()->slotAddEffect(effect);
+  currentTimeLine->projectView()->slotAddEffect(effect, pos, track);
 }
 
 void MainWindow::slotRaiseMonitor(bool clipMonitor)
@@ -523,5 +527,10 @@ void MainWindow::customEvent ( QEvent * event ){
 			statusProgressBar->setVisible(false);
 		}
 	}
+	if (event->type()==10010){
+		EffectEvent* p=(EffectEvent*) event;
+		slotAddEffect(p->xml(), p->pos(), p->track());
+	}
+
 }
 #include "mainwindow.moc"

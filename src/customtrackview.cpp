@@ -323,9 +323,9 @@ void CustomTrackView::mousePressEvent ( QMouseEvent * event )
 
 void CustomTrackView::dragEnterEvent( QDragEnterEvent * event )
 {
-  if (event->mimeData()->hasText()) {
-    kDebug()<<"///////////////  DRAG ENTERED, TEXT: "<<event->mimeData()->text();
-    QStringList ids = QString(event->mimeData()->text()).split(";");
+  if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
+    kDebug()<<"///////////////  DRAG ENTERED, TEXT: "<<event->mimeData()->data("kdenlive/producerslist");
+    QStringList ids = QString(event->mimeData()->data("kdenlive/producerslist")).split(";");
     //TODO: drop of several clips
     for (int i = 0; i < ids.size(); ++i) {
     }
@@ -369,11 +369,19 @@ void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect)
 	}
 }
 
-void CustomTrackView::slotAddEffect(QDomElement effect)
+void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
 {
-  QList<QGraphicsItem *> itemList = items();
+  QList<QGraphicsItem *> itemList;
+  if (track == -1)
+    itemList = items();
+  else {
+    ClipItem *clip = getClipItemAt(pos.frames(m_document->fps()) + 1, track);
+    if (clip) itemList.append(clip);
+    else kDebug()<<"------   wrning, clip eff not found";
+  }
+  kDebug()<<"// REQUESTING EFFECT ON CLIP: "<<pos.frames(25)<<", TRK: "<<track;
   for (int i = 0; i < itemList.count(); i++) {
-    if (itemList.at(i)->type() == 70000 && itemList.at(i)->isSelected()) {
+    if (itemList.at(i)->type() == 70000 && (itemList.at(i)->isSelected() || track != -1)) {
       ClipItem *item = (ClipItem *)itemList.at(i);
       // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
       // not be changed
@@ -427,7 +435,7 @@ void CustomTrackView::dragMoveEvent(QDragMoveEvent * event) {
   }
        //if (item) {
   event->setDropAction(Qt::MoveAction);
-  if (event->mimeData()->hasText()) {
+  if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
     event->acceptProposedAction();
   }
   else QGraphicsView::dragMoveEvent(event);
@@ -461,7 +469,7 @@ QStringList CustomTrackView::mimeTypes () const
     QStringList qstrList;
     // list of accepted mime types for drop
     qstrList.append("text/plain");
-    qstrList.append("application/x-qabstractitemmodeldatalist");
+    qstrList.append("kdenlive/producerslist");
     return qstrList;
 }
 

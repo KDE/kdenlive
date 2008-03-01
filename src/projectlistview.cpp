@@ -163,10 +163,10 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
 	if (!((ProjectItem *) item)->isGroup())
 	  ids.append(QString::number(((ProjectItem *) item)->clipId()));
       }
-      //QByteArray data;
-      //data.append(doc.toString().toUtf8());
-      //mimeData->setData("kdenlive/westley",data );
-      mimeData->setText(ids.join(";")); //doc.toString());
+      QByteArray data;
+      data.append(ids.join(";").toUtf8()); //doc.toString().toUtf8());
+      mimeData->setData("kdenlive/producerslist",data );
+      //mimeData->setText(ids.join(";")); //doc.toString());
       //mimeData->setImageData(image);
       drag->setMimeData(mimeData);
       drag->setPixmap(clickItem->icon(0).pixmap(50 *16/9.0, 50));
