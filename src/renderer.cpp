@@ -1144,7 +1144,8 @@ void Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> 
 
 
     if (!filter) {
-	kDebug()<<"WARINIG, FILTER NOT FOUND!!!!!";
+	kDebug()<<"WARINIG, FILTER FOR EDITING NOT FOUND, ADDING IT!!!!!";
+	mltAddEffect(track, position, args);
 	m_isBlocked = false;
 	return;
     }

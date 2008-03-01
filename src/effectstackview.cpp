@@ -48,6 +48,7 @@ EffectStackView::EffectStackView(EffectsList *audioEffectList, EffectsList *vide
 	ui.effectlist->setDragDropMode(QAbstractItemView::NoDragDrop);//use internal if drop is recognised right
 	
 	connect (ui.effectlist, SIGNAL ( itemSelectionChanged()), this , SLOT( slotItemSelectionChanged() ));
+	connect (ui.effectlist, SIGNAL(itemChanged ( QListWidgetItem *)), this , SLOT( slotItemChanged(QListWidgetItem *) ));
 	connect (ui.buttonNew, SIGNAL (clicked()), this, SLOT (slotNewEffect()) );
 	connect (ui.buttonUp, SIGNAL (clicked()), this, SLOT (slotItemUp()) );
 	connect (ui.buttonDown, SIGNAL (clicked()), this, SLOT (slotItemDown()) );
@@ -82,6 +83,18 @@ void EffectStackView::slotClipItemSelected(ClipItem* c)
 	
 }
 
+void EffectStackView::slotItemChanged(QListWidgetItem *item)
+{
+    bool disable = true;
+    if (item->checkState() == Qt::Checked) disable = false;
+    int activeRow = ui.effectlist->currentRow();
+    if ( activeRow>=0  ){
+	emit changeEffectState(clipref, clipref->effectAt(activeRow), disable);
+    }
+    kDebug()<<"--- EFFECT CHANGED!!!!!!!!!!!!!!!!!";
+}
+
+
 void EffectStackView::setupListView(){
 
 	ui.effectlist->clear();
@@ -91,7 +104,8 @@ void EffectStackView::setupListView(){
 		if (!namenode.isNull()) {
 			QListWidgetItem* item = new QListWidgetItem(namenode.toElement().text(), ui.effectlist);
 			item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsDragEnabled|Qt::ItemIsUserCheckable|Qt::ItemIsEnabled);
-			item->setCheckState(Qt::Checked);
+			if (d.attribute("disabled") == "1") item->setCheckState(Qt::Unchecked);
+			else item->setCheckState(Qt::Checked);
 		}
 	}
 	if (clipref->effectsCount() == 0)

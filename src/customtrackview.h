@@ -57,6 +57,7 @@ class CustomTrackView : public QGraphicsView
   public slots:
     void setCursorPos(int pos, bool seek = true);
     void slotDeleteEffect(ClipItem *clip, QDomElement effect);
+    void slotChangeEffectState(ClipItem *clip, QDomElement effect, bool disable);
     void slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect, QDomElement effect);
     void slotRefreshEffects(ClipItem *clip);
     void setDuration(int duration);

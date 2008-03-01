@@ -643,6 +643,8 @@ QMap <QString, QString> ClipItem::addEffect(QDomElement effect)
   m_effectList.append(effect);
   effectParams["tag"] = effect.attribute("tag");
   effectParams["kdenlive_ix"] = effect.attribute("kdenlive_ix");
+  QString state = effect.attribute("disabled");
+  if (!state.isEmpty()) effectParams["disabled"] = state;
   QDomNodeList params = effect.elementsByTagName("parameter");
   for (int i = 0; i < params.count(); i++) {
     QDomElement e = params.item(i).toElement();
@@ -659,6 +661,8 @@ QMap <QString, QString> ClipItem::getEffectArgs(QDomElement effect)
   QMap <QString, QString> effectParams;
   effectParams["tag"] = effect.attribute("tag");
   effectParams["kdenlive_ix"] = effect.attribute("kdenlive_ix");
+  QString state = effect.attribute("disabled");
+  if (!state.isEmpty()) effectParams["disabled"] = state;
   QDomNodeList params = effect.elementsByTagName("parameter");
   for (int i = 0; i < params.count(); i++) {
     QDomElement e = params.item(i).toElement();

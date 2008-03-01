@@ -41,6 +41,9 @@ private:
 
 public slots:
 	void slotClipItemSelected(ClipItem*);
+	void slotUpdateEffectParams(const QDomElement&, const QDomElement&);
+
+private slots:
 	void slotItemSelectionChanged();
 	void slotItemUp();
 	void slotItemDown();
@@ -48,7 +51,7 @@ public slots:
 	void slotNewEffect();
 	void slotResetEffect();
 	void itemSelectionChanged();
-	void slotUpdateEffectParams(const QDomElement&, const QDomElement&);
+	void slotItemChanged(QListWidgetItem *item);
 
 signals:
 	void transferParamDesc(const QDomElement&,int ,int);
@@ -58,6 +61,8 @@ signals:
 	/** An effect in stack was moved, we need to regenerate 
 	    all effects for this clip in the playlist */
 	void refreshEffectStack(ClipItem *);
+	/** Enable or disable an effect */
+	void changeEffectState(ClipItem*, QDomElement, bool);
 
 };
 

@@ -403,10 +403,21 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect)
   ClipItem *clip = getClipItemAt(pos.frames(m_document->fps()) + 1, m_tracksCount - track);
   if (clip){
     QMap <QString, QString> effectParams = clip->getEffectArgs(effect);
-    m_document->renderer()->mltEditEffect(m_tracksCount - clip->track(), GenTime(clip->startPos(), m_document->fps()), effectParams);
+    if (effectParams["disabled"] == "1") {
+      QString index = effectParams["kdenlive_ix"];
+      m_document->renderer()->mltRemoveEffect(track, pos, index);  
+    }
+    else m_document->renderer()->mltEditEffect(m_tracksCount - clip->track(), GenTime(clip->startPos(), m_document->fps()), effectParams);
   }
 }
 
+void CustomTrackView::slotChangeEffectState(ClipItem *clip, QDomElement effect, bool disable)
+{
+  QDomElement oldEffect = effect.cloneNode().toElement();
+  effect.setAttribute("disabled", disable);
+  EditEffectCommand *command = new EditEffectCommand(this, m_tracksCount - clip->track(), GenTime(clip->startPos(), m_document->fps()), oldEffect, effect, true);
+  m_commandStack->push(command);
+}
 
 void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect, QDomElement effect)
 {
