@@ -87,11 +87,11 @@ void EffectStackView::slotItemChanged(QListWidgetItem *item)
 {
     bool disable = true;
     if (item->checkState() == Qt::Checked) disable = false;
+    ui.buttonReset->setEnabled( !disable);
     int activeRow = ui.effectlist->currentRow();
     if ( activeRow>=0  ){
 	emit changeEffectState(clipref, clipref->effectAt(activeRow), disable);
     }
-    kDebug()<<"--- EFFECT CHANGED!!!!!!!!!!!!!!!!!";
 }
 
 
@@ -117,11 +117,12 @@ void EffectStackView::setupListView(){
 void EffectStackView::slotItemSelectionChanged(){
 	bool hasItem = ui.effectlist->currentItem();
 	int activeRow = ui.effectlist->currentRow();
+	bool isChecked = ui.effectlist->currentItem()->checkState() == Qt::Checked;
 	if (hasItem && ui.effectlist->currentItem()->isSelected() ){
 		emit transferParamDesc(clipref->effectAt(activeRow), 0, 100);//minx max frame
 	}
 	ui.buttonDel->setEnabled( hasItem );
-	ui.buttonReset->setEnabled( hasItem );
+	ui.buttonReset->setEnabled( hasItem && isChecked);
 	ui.buttonUp->setEnabled( activeRow >0 );
 	ui.buttonDown->setEnabled( (activeRow < ui.effectlist->count()-1) && hasItem );
 }
