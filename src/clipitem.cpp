@@ -199,8 +199,8 @@ void ClipItem::animate(qreal value)
                            QWidget *widget)
  {
     painter->setOpacity(m_opacity);
-    if (isSelected()) setBrush(QColor(150, 50, 100));
-    else setBrush(QColor(100, 100, 150));
+    QBrush paintColor = brush();
+    if (isSelected()) paintColor = QBrush(QColor(150, 50, 100));
     QRectF br = rect();
 	 QRect rectInView;//this is the rect that is visible by the user
 	 if (scene()->views().size()>0){ 
@@ -244,7 +244,7 @@ void ClipItem::animate(qreal value)
 	 
 	 painter->setClipPath(roundRectPathUpper.united(roundRectPathLower).intersected(clippath), Qt::IntersectClip);
 	 //painter->fillPath(roundRectPath, brush()); //, QBrush(QColor(Qt::red)));
-	 painter->fillRect(br.intersected(rectInView), brush());
+	 painter->fillRect(br.intersected(rectInView), paintColor);
     //painter->fillRect(QRectF(br.x() + br.width() - m_endPix.width(), br.y(), m_endPix.width(), br.height()), QBrush(QColor(Qt::black)));
 
     // draw thumbnails
