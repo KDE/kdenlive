@@ -124,6 +124,7 @@ void Monitor::slotRewindOneFrame()
   if (m_position < 1) return;
   m_position--;
   render->seekToFrame(m_position);
+  emit renderPosition(m_position);
   ui.monitor_time->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 
@@ -134,6 +135,7 @@ void Monitor::slotForwardOneFrame()
   if (m_position >= m_length) return;
   m_position++;
   render->seekToFrame(m_position);
+  emit renderPosition(m_position);
   ui.monitor_time->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 
@@ -143,7 +145,7 @@ void Monitor::seekCursor(int pos)
   int rulerPos = (int) (pos * m_scale);
   m_position = pos;
   ui.monitor_time->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
-  //kDebug()<<"seek: "<<pos<<", scale: "<<m_scale<<
+  kDebug()<<"seek: "<<pos<<", scale: "<<m_scale;
   m_ruler->slotNewValue(rulerPos);
 }
 
@@ -151,6 +153,8 @@ void Monitor::rendererStopped(int pos)
 {
   int rulerPos = (int) (pos * m_scale);
   m_ruler->slotNewValue(rulerPos);
+  m_position = pos;
+  ui.monitor_time->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
   ui.button_play->setChecked(false);
   ui.button_play->setIcon(m_playIcon);
 }

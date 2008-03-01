@@ -139,7 +139,7 @@ void TrackView::setCursorPos(int pos)
 void TrackView::moveCursorPos(int pos)
 {
   m_trackview->setCursorPos(pos * m_scale, false);
-  //m_ruler->slotNewValue(pos * FRAME_SIZE, false);
+  m_ruler->slotNewValue(pos * FRAME_SIZE, false);
 }
 
 void TrackView::slotCursorMoved(int pos, bool emitSignal)
@@ -151,10 +151,13 @@ void TrackView::slotCursorMoved(int pos, bool emitSignal)
 
 void TrackView::slotChangeZoom(int factor)
 {
+  double pos = m_trackview->cursorPos() / m_scale;
   m_ruler->setPixelPerMark(factor);
   m_scale = (double) FRAME_SIZE / m_ruler->comboScale[factor]; // m_ruler->comboScale[m_currentZoom] / 
   m_currentZoom = factor;
   m_trackview->setScale(m_scale);
+  m_trackview->setCursorPos(pos * m_scale, false);
+  m_ruler->slotNewValue(pos * FRAME_SIZE, false);
   m_trackview->centerOn(QPointF(m_trackview->cursorPos(), 50));
 }
 

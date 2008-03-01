@@ -142,7 +142,7 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
 	break;
       }
     }
-    if (item) {
+    if (item && event->buttons() == Qt::NoButton) {
       ClipItem *clip = (ClipItem*) item;
       double size = mapToScene(QPoint(8, 0)).x();
       OPERATIONTYPE opMode = clip->operationMode(mapToScene(event->pos()), m_scale);
@@ -250,6 +250,11 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
     }
     else {
       m_moveOpMode = NONE;
+      if (event->buttons() != Qt::NoButton) 
+      {
+	setCursorPos((int) mapToScene(event->pos().x(), 0).x());
+	emit cursorMoved(cursorPos());
+      }
       if (m_visualTip) {
 	if (m_animation) delete m_animation;
 	m_animation = NULL;
@@ -265,7 +270,6 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
 // virtual 
 void CustomTrackView::mousePressEvent ( QMouseEvent * event )
 {
-  kDebug()<<"-- TIMELINE MSE PRESSED";
   int pos = event->x();
   if (event->modifiers() == Qt::ControlModifier) {
     setDragMode(QGraphicsView::ScrollHandDrag);
@@ -439,18 +443,18 @@ void CustomTrackView::addItem(DocClipBase *clip, QPoint pos)
 
 void CustomTrackView::dragMoveEvent(QDragMoveEvent * event) {
   event->setDropAction(Qt::IgnoreAction);
+  //kDebug()<<"+++++++++++++   DRAG MOVE, : "<<mapToScene(event->pos()).x()<<", SCAL: "<<m_scale;
   if (m_dropItem) {
     int track = (int) mapToScene(event->pos()).y()/50; //) * (m_scale * 50) + m_scale;
-     kDebug()<<"+++++++++++++   DRAG MOVE, : "<<mapToScene(event->pos()).x()<<", SCAL: "<<m_scale;
     m_dropItem->moveTo(mapToScene(event->pos()).x() / m_scale, m_scale, (track - m_dropItem->track()) * 50, track);
+    event->setDropAction(Qt::MoveAction);
+    if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
+      event->acceptProposedAction();
+    }
   }
-       //if (item) {
-  event->setDropAction(Qt::MoveAction);
-  if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
-    event->acceptProposedAction();
+  else {
+    QGraphicsView::dragMoveEvent(event);
   }
-  else QGraphicsView::dragMoveEvent(event);
-        //}
 }
 
 void CustomTrackView::dragLeaveEvent ( QDragLeaveEvent * event ) {
@@ -467,7 +471,7 @@ void CustomTrackView::dropEvent ( QDropEvent * event ) {
     m_commandStack->push(command);
     m_dropItem->baseClip()->addReference();
     m_document->updateClip(m_dropItem->baseClip()->getId());
-    kDebug()<<"IIIIIIIIIIIIIIIIIIIIIIII TRAX CNT: "<<m_tracksCount<<", DROP: "<<m_dropItem->track();
+    // kDebug()<<"IIIIIIIIIIIIIIIIIIIIIIII TRAX CNT: "<<m_tracksCount<<", DROP: "<<m_dropItem->track();
     m_document->renderer()->mltInsertClip(m_tracksCount - m_dropItem->track(), GenTime(m_dropItem->startPos(), m_document->fps()), m_dropItem->xml());
   }
   else QGraphicsView::dropEvent(event);  
