@@ -409,7 +409,8 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
       ClipItem *item = (ClipItem *)itemList.at(i);
       // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
       // not be changed
-      effect.setAttribute("kdenlive_ix", QString::number(item->effectsCounter()));
+      if (effect.attribute("kdenlive_ix").toInt() == 0)
+	effect.setAttribute("kdenlive_ix", QString::number(item->effectsCounter()));
       AddEffectCommand *command = new AddEffectCommand(this, m_tracksCount - item->track(),GenTime(item->startPos(), m_document->fps()), effect, true);
       m_commandStack->push(command);    
     }

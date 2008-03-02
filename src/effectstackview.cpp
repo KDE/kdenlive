@@ -176,6 +176,7 @@ void EffectStackView::slotResetEffect()
 		}
 	}
 	if (!dom.isNull()) {
+	    dom.setAttribute("kdenlive_ix", old.attribute("kdenlive_ix"));
 	    emit updateClipEffect(clipref, old, dom);
 	    slotItemSelectionChanged();
 	}
