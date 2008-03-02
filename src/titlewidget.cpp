@@ -18,9 +18,11 @@
 #include "titlewidget.h"
 #include "graphicsscenerectmove.h"
 #include <QGraphicsView>
+#include <QDomDocument>
 #include <KDebug>
 #include <QGraphicsItem>
 #include <QGraphicsSvgItem>
+#include <KFileDialog>
 
 int settingUp=false;
 
@@ -33,6 +35,9 @@ TitleWidget::TitleWidget (QDialog *parent):QDialog(parent){
 	connect (ktextedit, SIGNAL(textChanged()), this , SLOT (textChanged()));
 	connect (fontColorButton, SIGNAL ( clicked()), this, SLOT( textChanged()) ) ;
 	//connect (fontBold, SIGNAL ( clicked()), this, SLOT( setBold()) ) ;
+	connect (loadButton, SIGNAL ( clicked()), this, SLOT( loadTitle() ) ) ;
+	connect (saveButton, SIGNAL ( clicked()), this, SLOT( saveTitle() ) ) ;
+	
 	
 	connect (kfontrequester, SIGNAL ( fontSelected(const QFont &)), this, SLOT( textChanged()) ) ;
 	connect(textAlpha, SIGNAL( valueChanged(int) ), this, SLOT (textChanged()));
@@ -64,6 +69,7 @@ TitleWidget::TitleWidget (QDialog *parent):QDialog(parent){
 	//scene->setBackgroundBrush(*gradient);
 	
 	graphicsView->setScene(scene);
+	m_titledocument.setScene(scene);
 	connect (graphicsView->scene(), SIGNAL (selectionChanged()), this , SLOT( selectionChanged()));
 	initViewports();
 	
@@ -158,9 +164,9 @@ void TitleWidget::selectionChanged(){
 		else{
 			//toolBox->setCurrentIndex(0);
 		}
-		zValue->setValue(l[0]->zValue());
-		itemzoom->setValue(transformations[l[0]].scalex*100);
-		itemrotate->setValue(transformations[l[0]].rotate);
+		zValue->setValue((int)l[0]->zValue());
+		itemzoom->setValue((int)transformations[l[0]].scalex*100);
+		itemrotate->setValue((int)transformations[l[0]].rotate);
 	}
 }
 
@@ -236,17 +242,31 @@ void TitleWidget::itemRotate(int val) {
 void TitleWidget::setupViewports(){
 	double aspect_ratio=4.0/3.0;//read from project
 	
-	QRectF sp(startViewportX->value(), startViewportY->value(),0,0);
-	QRectF ep(endViewportX->value(),endViewportY->value(),0,0);
+	QRectF sp(0,0,0,0);
+	QRectF ep(0,0,0,0);
 	
 	double sv_size=startViewportSize->value();
 	double ev_size=endViewportSize->value();
 	sp.adjust(-sv_size,-sv_size/aspect_ratio,sv_size,sv_size/aspect_ratio);
 	ep.adjust(-ev_size,-ev_size/aspect_ratio,ev_size,ev_size/aspect_ratio);	
 	
+	startViewport->setPos(startViewportX->value(), startViewportY->value());
+	endViewport->setPos(endViewportX->value(),endViewportY->value());
+	
 	startViewport->setPolygon(QPolygonF(sp));
 	endViewport->setPolygon(QPolygonF(ep));
 	
 }
+
+void TitleWidget::loadTitle(){
+	KUrl url= KFileDialog::getOpenUrl( KUrl(), "*.kdenlivetitle",this,tr("Save Title"));
+	m_titledocument.loadDocument(url,startViewport,endViewport);
+}
+
+void TitleWidget::saveTitle(){
+	KUrl url= KFileDialog::getSaveUrl( KUrl(), "*.kdenlivetitle",this,tr("Save Title"));
+	m_titledocument.saveDocument(url,startViewport,endViewport);
+}
+
 #include "moc_titlewidget.cpp"
 

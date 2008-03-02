@@ -1,5 +1,5 @@
 /***************************************************************************
-                          titlewidget.h  -  description
+                          titledocument.h  -  description
                              -------------------
     begin                : Feb 28 2008
     copyright            : (C) 2008 by Marco Gittler
@@ -14,51 +14,28 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifndef TITLEDOCUMENT_H
+#define TITLEDOCUMENT_H
+#include <KUrl>
 
-#ifndef TITLEWIDGET_H
-#define TITLEWIDGET_H
+class QGraphicsScene;
+class QGraphicsPolygonItem;
 
-#include "ui_titlewidget_ui.h"
-#include "titledocument.h"
-#include <QDialog>
-#include <QMap>
-
-class Transform{
+class TitleDocument {
+	QGraphicsScene* scene;
 	public:
-		Transform(){
-			scalex=1.0;
-			scaley=1.0;
-			rotate=0.0;
-		}
-		double scalex,scaley;
-		double rotate;
+		TitleDocument();
+		void setScene(QGraphicsScene* scene);
+		bool saveDocument(const KUrl& url,QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv);
+		bool loadDocument(const KUrl& url,QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv);
+	private:
+		QString colorToString(const QColor&);
+		QString rectFToString(const QRectF&);
+		QRectF stringToRect(const QString &);
+		QColor stringToColor(const QString &);
+		QTransform stringToTransform(const QString &);
 };
-
-class TitleWidget : public QDialog , public Ui::TitleWidget_UI{
-	Q_OBJECT
-public:
-	TitleWidget(QDialog *parent=0);
-private:
-	QGraphicsPolygonItem *startViewport,*endViewport;
-	void initViewports();
-	QMap<QGraphicsItem*,Transform > transformations;
-	TitleDocument m_titledocument;
-public slots:
-	void slotNewText();
-	void slotNewRect();
-	void slotChangeBackground();
-	void selectionChanged();
-	void textChanged();
-	void rectChanged();
-	void fontBold();
-	void setupViewports();
-	void zIndexChanged(int);
-	void svgSelected(const KUrl&);
-	void itemScaled(int);
-	void itemRotate(int);
-	void saveTitle();
-	void loadTitle();
-};
-
 
 #endif
+
+

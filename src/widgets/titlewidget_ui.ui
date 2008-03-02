@@ -38,14 +38,14 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton" >
+        <widget class="QPushButton" name="loadButton" >
          <property name="text" >
           <string>Load Title</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_2" >
+        <widget class="QPushButton" name="saveButton" >
          <property name="text" >
           <string>Save Title</string>
          </property>
@@ -117,14 +117,14 @@
          </sizepolicy>
         </property>
         <property name="currentIndex" >
-         <number>0</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="BasicOperations" >
          <property name="geometry" >
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>339</width>
+           <width>488</width>
            <height>304</height>
           </rect>
          </property>
@@ -233,11 +233,11 @@
          </attribute>
          <layout class="QGridLayout" >
           <item row="0" column="0" >
-           <layout class="QVBoxLayout" >
-            <item>
+           <layout class="QGridLayout" >
+            <item row="0" column="0" >
              <widget class="KColorButton" name="kcolorbutton" />
             </item>
-            <item>
+            <item row="1" column="0" >
              <widget class="QSlider" name="horizontalSlider" >
               <property name="maximum" >
                <number>255</number>
@@ -247,7 +247,7 @@
               </property>
              </widget>
             </item>
-            <item>
+            <item row="2" column="0" >
              <spacer>
               <property name="orientation" >
                <enum>Qt::Vertical</enum>
@@ -272,8 +272,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>208</width>
-           <height>167</height>
+           <width>488</width>
+           <height>304</height>
           </rect>
          </property>
          <attribute name="label" >
@@ -399,8 +399,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>152</width>
-           <height>229</height>
+           <width>488</width>
+           <height>304</height>
           </rect>
          </property>
          <attribute name="label" >

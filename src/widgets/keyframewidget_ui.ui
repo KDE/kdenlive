@@ -20,12 +20,24 @@
   </property>
   <layout class="QGridLayout" >
    <item row="0" column="0" >
-    <widget class="QSplitter" name="splitter" >
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <widget class="ParameterPlotter" name="kplotwidget" />
-     <widget class="QWidget" name="" >
+    <layout class="QVBoxLayout" >
+     <item>
+      <widget class="ParameterPlotter" name="kplotwidget" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize" >
+        <size>
+         <width>150</width>
+         <height>200</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
       <layout class="QHBoxLayout" >
        <item>
         <widget class="QToolButton" name="buttonLeftRight" >
@@ -116,9 +128,11 @@
         </widget>
        </item>
       </layout>
-     </widget>
-     <widget class="KTextEdit" name="infoBox" />
-    </widget>
+     </item>
+     <item>
+      <widget class="KTextEdit" name="infoBox" />
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

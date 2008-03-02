@@ -58,7 +58,7 @@ ComplexParameter::ComplexParameter(QWidget *parent)
 	/*ÜeffectLists["audio"]=audioEffectList;
 	effectLists["video"]=videoEffectList;
 	effectLists["custom"]=customEffectList;*/
-	
+	setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding));
 	ui.infoBox->hide();	
 	updateButtonStatus();
 	

@@ -19,6 +19,7 @@
 #include <QVariant>
 #include <KPlotObject>
 #include <QMouseEvent>
+#include <QPen>
 #include <KDebug>
 #include <KPlotPoint>
 
@@ -105,7 +106,7 @@ void ParameterPlotter::setPointLists(const QDomElement& d,int startframe,int end
 			}
 			if (defaults[i].toDouble()>max_y)
 				defaults[i]=max_y;
-			plot->addPoint(startframe,defaults[i].toInt()*stretchFactors[i]);
+			plot->addPoint(startframe,defaults[i].toInt()*stretchFactors[i],parameterNameList[i]);
 			//add keyframes here
 			plot->addPoint(endframe,defaults[i].toInt()*stretchFactors[i]);
 		
@@ -164,7 +165,7 @@ void ParameterPlotter::mouseMoveEvent ( QMouseEvent * event ) {
 		foreach (KPlotObject *o, plotObjects() ){
 			QList<KPlotPoint*> points=o->points();
 			for(int p=0;p<points.size();p++){
-				if (points[p]==movepoint){
+				if (points[p]==movepoint && (activeIndexPlot==-1 || activeIndexPlot==i ) ){
 					QPoint delta=event->pos()-oldmousepoint;
 					double newy=movepoint->y()-delta.y()*dataRect().height()/pixRect().height();
 					if (m_moveY && newy>min_y && newy<max_y)
@@ -191,9 +192,13 @@ void ParameterPlotter::replot(const QString & name){
 	int i=0;
 	bool drawAll=name.isEmpty() || name=="all";
 	activeIndexPlot=-1;
-	foreach (KPlotObject* p,plotObjects() ){
+	
+	foreach (KPlotObject* p, plotObjects() ){
 		p->setShowPoints(drawAll || parameterNameList[i]==name);
 		p->setShowLines(drawAll || parameterNameList[i]==name);
+		QPen pen=(drawAll || parameterNameList[i]==name ? QPen(Qt::SolidLine) : QPen(Qt::NoPen) );
+		pen.setColor(p->linePen().color());
+		p->setLabelPen(pen);
 		if ( parameterNameList[i]==name )
 			activeIndexPlot = i;
 		replacePlotObject(i++,p);
