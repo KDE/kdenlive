@@ -275,7 +275,8 @@ void ClipItem::animate(qreal value)
 		 
 		 int channels=2;
 		 double pixelForOneFrame=(double)br.width()/duration();
-
+		if (pixelForOneFrame!=framePixelWidth)
+			audioThumbCachePic.clear();
 		 emit prepareAudioThumb(pixelForOneFrame,path,startpixel,endpixel+200);//200 more for less missing parts before repaint after scrolling
 
 		 for (int startCache=startpixel-startpixel%100; startCache < endpixel+300;startCache+=100){
@@ -431,12 +432,13 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame,QPainterPath path,i
 						negativeChannelPaths[channel].lineTo(samples,0.1+y-delta);
 					}
 				}
-				if (fullAreaDraw && samples==100){
-					positiveChannelPaths[channels].lineTo(samples,0);
-					negativeChannelPaths[channels].lineTo(samples,0);
-					positiveChannelPaths[channels].lineTo(0,0);
-					negativeChannelPaths[channels].lineTo(0,0);
-				}
+				for (int channel=0;channel<channels ;channel++)
+					if (fullAreaDraw && samples==100){
+						positiveChannelPaths[channel].lineTo(samples,channelHeight*channel+ channelHeight/2);
+						negativeChannelPaths[channel].lineTo(samples,channelHeight*channel+ channelHeight/2);
+						positiveChannelPaths[channel].lineTo(0,channelHeight*channel+ channelHeight/2);
+						negativeChannelPaths[channel].lineTo(0,channelHeight*channel+ channelHeight/2);
+					}
 					
 			}
 			for (int i=0;i<channels;i++){
