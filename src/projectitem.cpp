@@ -229,15 +229,16 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
 	  }
 	m_clip->setClipType(m_clipType);
 	}
-	slotSetToolTip();
+  slotSetToolTip();
+  if (m_element.isNull()) {
+    QDomDocument doc;
+    m_element = doc.createElement("producer");
+  }
+  if (m_element.attribute("duration") == QString::null) m_element.setAttribute("duration", attributes["duration"].toInt());
+  m_element.setAttribute("resource", attributes["filename"]);
+  m_element.setAttribute("type", (int) m_clipType);
 
-	if (m_element.isNull()) {
-	  QDomDocument doc;
-	  m_element = doc.createElement("producer");
-	}
-	if (m_element.attribute("duration") == QString::null) m_element.setAttribute("duration", attributes["duration"].toInt());
-	m_element.setAttribute("resource", attributes["filename"]);
-	m_element.setAttribute("type", (int) m_clipType);
+  m_clip->slotRequestAudioThumbs();
 /*
 	if (attributes.contains("height")) {
 	    m_height = attributes["height"].toInt();

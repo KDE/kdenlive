@@ -34,10 +34,10 @@
 
 #include "gentime.h"
 #include "definitions.h"
-#include "docclipbase.h"
+
 
 class KdenliveDoc;
-
+class DocClipBase;
 
 class ClipManager:public QObject {
   Q_OBJECT public:
@@ -52,6 +52,7 @@ class ClipManager:public QObject {
     void slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group);
     DocClipBase *getClipById(int clipId);
     void slotDeleteClip(uint clipId);
+    void setThumbsProgress(KUrl url, int progress);
 
   private:			// Private attributes
     /** the list of clips in the document */

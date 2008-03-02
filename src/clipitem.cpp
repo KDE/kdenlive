@@ -33,6 +33,7 @@
 #include <mlt++/Mlt.h>
 
 #include "clipitem.h"
+#include "customtrackview.h"
 #include "renderer.h"
 #include "events.h"
 #include "kdenlivesettings.h"
@@ -86,6 +87,9 @@ ClipItem::ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & re
   }
   else if (m_clipType == IMAGE) {
     m_startPix = KThumb::getImage(KUrl(m_xml.attribute("resource")), 50 * KdenliveSettings::project_display_ratio(), 50);
+  }
+  else if (m_clipType == AUDIO) {
+    connect(clip, SIGNAL (gotAudioData()), this, SLOT (slotGotAudioData()));
   }
 }
 
@@ -705,14 +709,13 @@ void ClipItem::dropEvent ( QGraphicsSceneDragDropEvent * event )
     QDomDocument doc;
     doc.setContent(effects, true);
     QDomElement e = doc.documentElement();
-    if (QApplication::activeWindow()) 
-	QApplication::postEvent(QApplication::activeWindow(), new EffectEvent(GenTime(m_startPos, 25), m_track, e, (QEvent::Type)10010));
+    CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
+    if (view) view->slotAddEffect(e, GenTime(m_startPos, 25), m_track);
 }
 
 //virtual
 void ClipItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
-  kDebug()<<"DRAG EVNET, FORMAT: "<<event->mimeData()->formats();
   event->setAccepted(event->mimeData()->hasFormat("kdenlive/effectslist"));
 }
 

@@ -26,6 +26,7 @@
 
 
 #include "kdenlivedoc.h"
+#include "docclipbase.h"
 
 KdenliveDoc::KdenliveDoc(const KUrl &url, double fps, int width, int height, QWidget *parent):QObject(parent), m_render(NULL), m_url(url), m_fps(fps), m_width(width), m_height(height), m_projectName(NULL), m_commandStack(new KUndoStack())
 {
@@ -118,6 +119,11 @@ KdenliveDoc::~KdenliveDoc()
 ClipManager *KdenliveDoc::clipManager()
 {
   return m_clipManager;
+}
+
+void KdenliveDoc::setThumbsProgress(KUrl url, int progress)
+{
+  emit thumbsProgress(url, progress);
 }
 
 KUndoStack *KdenliveDoc::commandStack()
@@ -270,7 +276,7 @@ KUrl KdenliveDoc::url()
 void KdenliveDoc::addClip(const QDomElement &elem, const int clipId)
 {
   kDebug()<<"/////////  DOCUM, CREATING NEW CLIP, ID:"<<clipId;
-  DocClipBase *clip = new DocClipBase(elem, clipId);
+  DocClipBase *clip = new DocClipBase(m_clipManager, elem, clipId);
   m_clipManager->addClip(clip);
   emit addProjectClip(clip);
 }

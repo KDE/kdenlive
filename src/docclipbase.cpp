@@ -20,7 +20,7 @@
 #include "kdenlivesettings.h"
 #include "docclipbase.h"
 
-DocClipBase::DocClipBase(QDomElement xml, uint id):
+DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, uint id):
 m_xml(xml), m_id(id), m_description(""), m_refcount(0), m_projectThumbFrame(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL)
 {
   int type = xml.attribute("type").toInt();
@@ -32,7 +32,7 @@ m_xml(xml), m_id(id), m_description(""), m_refcount(0), m_projectThumbFrame(0), 
   if (out != 0) setDuration(GenTime(out, 25));
   if (m_name.isEmpty()) m_name = url.fileName();
   if (!url.isEmpty()){
-    m_thumbProd = new KThumb(url, KdenliveSettings::track_height() * KdenliveSettings::project_display_ratio(), KdenliveSettings::track_height());
+    m_thumbProd = new KThumb(clipManager, url, KdenliveSettings::track_height() * KdenliveSettings::project_display_ratio(), KdenliveSettings::track_height());
     connect (m_thumbProd, SIGNAL (audioThumbReady(QMap <int, QMap <int, QByteArray> >)), this , SLOT(updateAudioThumbnail(QMap <int, QMap <int, QByteArray> > )));
     connect (this, SIGNAL (getAudioThumbs()), this , SLOT( slotGetAudioThumbs() ) );
 		
@@ -42,10 +42,10 @@ m_xml(xml), m_id(id), m_description(""), m_refcount(0), m_projectThumbFrame(0), 
   if (m_clipType == AV || m_clipType==AUDIO || m_clipType==UNKNOWN){
     m_audioTimer = new QTimer( this );
     connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(slotGetAudioThumbs()));
-    //TODO disabled until the crash cause is found 
-    emit getAudioThumbs();
   }
 }
+
+
 
 DocClipBase::DocClipBase(const DocClipBase& clip)
 {
@@ -72,6 +72,11 @@ DocClipBase & DocClipBase::operator=(const DocClipBase & clip)
 DocClipBase::~DocClipBase()
 {
   //if (m_thumbProd) delete m_thumbProd;
+}
+
+void DocClipBase::slotRequestAudioThumbs()
+{
+  emit getAudioThumbs();
 }
 
 KThumb *DocClipBase::thumbProducer()
@@ -239,6 +244,7 @@ const QPixmap & DocClipBase::thumbnail() const
 
 void DocClipBase::updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data)
 {
+    kDebug()<<"CLIPBASE RECIEDVED AUDIO DATA*********************************************";
     audioFrameChache = data;
     m_audioThumbCreated = true;
     emit gotAudioData();
@@ -418,4 +424,6 @@ void DocClipBase::slotGetAudioThumbs(){
 		m_thumbProd->getAudioThumbs( 2, 0, lengthInFrames /*must be number of frames*/, 20);	
 	}
 }
+
+
 

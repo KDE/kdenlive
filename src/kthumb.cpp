@@ -38,14 +38,16 @@
 #include <QApplication>
 #include <QCryptographicHash>
 
-
+#include "clipmanager.h"
 #include "renderer.h"
 #include "kthumb.h"
 #include "kdenlivesettings.h"
 #include "events.h"
-void MyThread::init(KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth)
+
+void MyThread::init(QObject *parent, KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth)
     {
 	stop_me = false;
+	m_parent = parent;
 	m_isWorking = false;
 	f.setFileName(target);
 	m_url = url;
@@ -54,7 +56,6 @@ void MyThread::init(KUrl url, QString target, double frame, double frameLength, 
 	m_frequency = frequency;
 	m_channels = channels;
 	m_arrayWidth = arrayWidth;
-
     }
 
     bool MyThread::isWorking()
@@ -72,8 +73,8 @@ void MyThread::init(KUrl url, QString target, double frame, double frameLength, 
 			return;
 		}
 		m_isWorking = true;
-		Mlt::Profile prof((char*) KdenliveSettings::current_profile().data());
-		Mlt::Producer m_producer(prof, m_url.path().toAscii().data());
+		Mlt::Profile prof((char*) qstrdup(KdenliveSettings::current_profile().toUtf8()));
+		Mlt::Producer m_producer(prof, m_url.path().toUtf8().data());
 		
 
 		/*TODO if (KdenliveSettings::normaliseaudiothumbs()) {
@@ -82,8 +83,7 @@ void MyThread::init(KUrl url, QString target, double frame, double frameLength, 
     		    m_producer.attach(m_convert);
 		}*/
 
-		if (QApplication::activeWindow()) 
-			QApplication::postEvent(QApplication::activeWindow(), new ProgressEvent(-1, (QEvent::Type)10005));
+		//QApplication::postEvent(m_parent, new ProgressEvent(-1, (QEvent::Type)10005));
 	
 		int last_val = 0;
 		int val = 0;
@@ -92,13 +92,13 @@ void MyThread::init(KUrl url, QString target, double frame, double frameLength, 
 			if (stop_me) break;
 			val=(int)((z-m_frame)/(m_frame+m_frameLength)*100.0);
 			if (last_val!=val & val > 1){
-				QApplication::postEvent(QApplication::activeWindow(), new ProgressEvent(val, (QEvent::Type)10005));
+				QApplication::postEvent(m_parent, new ProgressEvent(val, (QEvent::Type)10005));
 				
 				last_val=val;
 			}
 				m_producer.seek( z );
 				Mlt::Frame *mlt_frame = m_producer.get_frame();
-				if ( mlt_frame->is_valid() )
+				if ( mlt_frame && mlt_frame->is_valid() )
 				{
 					double m_framesPerSecond = mlt_producer_get_fps( m_producer.get_producer() ); //mlt_frame->get_double( "fps" );
 					int m_samples = mlt_sample_calculator( m_framesPerSecond, m_frequency, mlt_frame_get_position(mlt_frame->get_frame()) );
@@ -126,10 +126,10 @@ void MyThread::init(KUrl url, QString target, double frame, double frameLength, 
 		m_isWorking = false;
 		if (stop_me) {
 		    f.remove();
-			 QApplication::postEvent(QApplication::activeWindow(), new ProgressEvent(-1, (QEvent::Type)10005));
+		    QApplication::postEvent(m_parent, new ProgressEvent(-1, (QEvent::Type)10005));
 		   
 		}
-		QApplication::postEvent(QApplication::activeWindow(), new ProgressEvent(0, (QEvent::Type)10005));
+		QApplication::postEvent(m_parent, new ProgressEvent(0, (QEvent::Type)10005));
 		
     }
 
@@ -139,10 +139,10 @@ void MyThread::init(KUrl url, QString target, double frame, double frameLength, 
 #define _G(y,u,v) (0x2568*(y) - 0x0c92*(v) - 0x1a1e*(u)) /0x2000
 #define _B(y,u,v) (0x2568*(y) + 0x40cf*(v))                                          /0x2000
 
-KThumb::KThumb(KUrl url, int width, int height, QObject * parent, const char *name):QObject(parent), m_url(url), m_width(width), m_height(height)
+KThumb::KThumb(ClipManager *clipManager, KUrl url, int width, int height, QObject * parent, const char *name):QObject(parent), m_clipManager(clipManager), m_url(url), m_width(width), m_height(height)
 {
-  kDebug()<<"+++++++++++  CREATING THMB PROD FOR: "<<url;
-  m_profile = new Mlt::Profile((char*) qstrdup(KdenliveSettings::current_profile().toUtf8()));
+
+  m_profile = new Mlt::Profile((char*) KdenliveSettings::current_profile().data());
   QCryptographicHash context(QCryptographicHash::Sha1);
   context.addData((KFileItem(m_url,"text/plain", S_IFREG).timeString() + m_url.fileName()).toAscii().data());	
   m_thumbFile = KdenliveSettings::currenttmpfolder() + context.result().toHex() + ".thumb";
@@ -328,7 +328,7 @@ void KThumb::removeAudioThumb()
 
 void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int arrayWidth){
 	
-	if ((thumbProducer.isRunning () && thumbProducer.isWorking()) || channel == 0) {
+	if ((thumbProducer.isRunning() && thumbProducer.isWorking()) || channel == 0) {
 	    return;
 	}
 	
@@ -359,10 +359,20 @@ void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int a
 	}
 	else {
 		if (thumbProducer.isRunning()) return;
-		thumbProducer.init(m_url, m_thumbFile, frame, frameLength, m_frequency, m_channels, arrayWidth);
+		thumbProducer.init(this, m_url, m_thumbFile, frame, frameLength, m_frequency, m_channels, arrayWidth);
 		thumbProducer.start(QThread::LowestPriority );
+		kDebug() << "STARTING GENERATE THMB FOR: "<<m_url<<" ................................";
+	}
+}
+
+void KThumb::customEvent ( QEvent * event ){
+	if (event->type()==10005){
+		ProgressEvent* p=(ProgressEvent*) event;
+		m_clipManager->setThumbsProgress(m_url, p->value());
 	}
 }
 
 
+
+#include "kthumb.moc"
 

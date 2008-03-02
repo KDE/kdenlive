@@ -27,6 +27,7 @@
 
 #include <mlt++/Mlt.h>
 
+
 /**KRender encapsulates the client side of the interface to a renderer.
 From Kdenlive's point of view, you treat the KRender object as the
 renderer, and simply use it as if it was local. Calls are asyncrhonous -
@@ -44,12 +45,13 @@ namespace Mlt {
     class Profile;
 };
 
+class ClipManager;
 
 class MyThread : public QThread {
 
     public:
         virtual void run();
-	void init(KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth);
+	void init(QObject *parent, KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth);
 	bool isWorking();
 	bool stop_me;
 
@@ -62,6 +64,7 @@ class MyThread : public QThread {
 	int m_channels;
 	int m_arrayWidth;
 	bool m_isWorking;
+	QObject *m_parent;
     };
 
 
@@ -69,7 +72,7 @@ class KThumb:public QObject {
   Q_OBJECT public:
 
 
-     KThumb(KUrl url, int width, int height, QObject * parent = 0, const char *name = 0);
+     KThumb(ClipManager *clipManager, KUrl url, int width, int height, QObject * parent = 0, const char *name = 0);
     ~KThumb();
 
 public slots:
@@ -81,6 +84,9 @@ public slots:
 	void removeAudioThumb();
 	void getAudioThumbs(int channel, double frame, double frameLength, int arrayWidth);
 
+protected:
+    virtual void customEvent ( QEvent * event );
+
 private:
 	MyThread thumbProducer;
 	KUrl m_url;
@@ -88,6 +94,7 @@ private:
 	int m_width;
 	int m_height;
 	Mlt::Profile *m_profile;
+	ClipManager *m_clipManager;
 
 signals:
 	void thumbReady(int frame, QPixmap pm);

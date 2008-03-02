@@ -33,21 +33,4 @@ private:
 };
 
 
-class EffectEvent : public QEvent {
-public:
-	EffectEvent( GenTime pos, int track, QDomElement xml, QEvent::Type eventType  )
-		: QEvent( eventType ), m_pos( pos ), m_track(track), m_xml(xml) {
-	if (xml.isNull()) kDebug()<<"--- ERROR, TRYING TO APPEND NULL EFFECT EVENT";	
-	if (m_xml.isNull()) kDebug()<<"--- ERROR, TRYING TO APPEND NULL EFFECT EVENT 2";
-	};
-	GenTime pos() const { return m_pos; };
-	int track() const { return m_track; };
-	QDomElement xml() const { return m_xml; };
-private:
-	GenTime m_pos;
-	int m_track;
-	QDomElement m_xml;
-	
-};
-
 #endif

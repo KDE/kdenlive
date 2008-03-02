@@ -64,6 +64,8 @@ class KdenliveDoc:public QObject {
     DocClipBase *getBaseClip(int clipId);
     void updateClip(int id);
     void deleteProjectClip(const uint clipId);
+    /** Inform application of the audio thumbnails generation progress */
+    void setThumbsProgress(KUrl url, int progress);
 
   private:
     KUrl m_url;
@@ -85,6 +87,7 @@ class KdenliveDoc:public QObject {
     void signalDeleteProjectClip(int);
     void updateClipDisplay(int);
     void deletTimelineClip(int);
+    void thumbsProgress(KUrl, int);
 };
 
 #endif

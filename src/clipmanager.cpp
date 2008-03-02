@@ -22,7 +22,7 @@
 #include "addclipcommand.h"
 #include "kdenlivesettings.h"
 #include "clipmanager.h"
-
+#include "docclipbase.h"
 
 ClipManager::ClipManager(KdenliveDoc *doc):m_doc(doc)
 {
@@ -32,6 +32,12 @@ ClipManager::ClipManager(KdenliveDoc *doc):m_doc(doc)
 ClipManager::~ClipManager()
 {
 }
+
+void ClipManager::setThumbsProgress(KUrl url, int progress)
+{
+  m_doc->setThumbsProgress(url, progress);
+}
+
 
 void ClipManager::addClip(DocClipBase *clip)
 {

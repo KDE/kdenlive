@@ -467,6 +467,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) //chang
   connect(doc, SIGNAL(signalDeleteProjectClip(int)), m_projectList, SLOT(slotDeleteClip(int)));
   connect(doc, SIGNAL(updateClipDisplay(int)), m_projectList, SLOT(slotUpdateClip(int)));
   connect(doc, SIGNAL(deletTimelineClip(int)), trackView, SLOT(slotDeleteClip(int)));
+  connect(doc, SIGNAL(thumbsProgress(KUrl, int)), this, SLOT(slotGotProgressInfo(KUrl, int)));
+
   connect(trackView, SIGNAL(clipItemSelected(ClipItem*)), effectStack, SLOT(slotClipItemSelected(ClipItem*)));
   connect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement)), trackView->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement)));
   connect(effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), trackView->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
@@ -515,23 +517,17 @@ void MainWindow::slotPreferences()
   //connect( dialog, SIGNAL(settingsChanged()), this, SLOT(updateConfiguration()) );
   dialog->show();
 }
-void MainWindow::customEvent ( QEvent * event ){
-	if (event->type()==10005){
-		ProgressEvent* p=(ProgressEvent*) event;
-		statusProgressBar->setValue(p->value());
-		if (p->value()>0) {
-			statusLabel->setText(tr("Creating Audio Thumbs"));
-			statusProgressBar->setVisible(true);
-		}
-		else {
-			statusLabel->setText("");
-			statusProgressBar->setVisible(false);
-		}
-	}
-	if (event->type()==10010){
-		EffectEvent* p=(EffectEvent*) event;
-		slotAddEffect(p->xml(), p->pos(), p->track());
-	}
 
+void MainWindow::slotGotProgressInfo( KUrl url, int progress) {
+  statusProgressBar->setValue(progress);
+  if (progress>0) {
+    statusLabel->setText(tr("Creating Audio Thumbs"));
+    statusProgressBar->setVisible(true);
+  }
+  else {
+    statusLabel->setText("");
+    statusProgressBar->setVisible(false);
+  }
 }
+
 #include "mainwindow.moc"

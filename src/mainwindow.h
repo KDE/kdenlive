@@ -53,7 +53,7 @@ class MainWindow : public KXmlGuiWindow
     MainWindow(QWidget *parent=0);
 
     void parseProfiles();
-    void customEvent ( QEvent * event );
+
   protected:
     virtual bool queryClose();
   
@@ -124,6 +124,7 @@ class MainWindow : public KXmlGuiWindow
     void slotEditProfiles();
     void slotEditProjectSettings();
     void slotDisplayActionMessage( QAction *a);
+    void slotGotProgressInfo( KUrl url, int progress);
 };
  
 #endif

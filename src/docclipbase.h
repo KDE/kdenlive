@@ -31,6 +31,7 @@
 #include <klocale.h>
 
 #include "gentime.h"
+#include "clipmanager.h"
 #include "definitions.h"
  #include "kthumb.h"
 
@@ -66,7 +67,7 @@ class DocClipBase:public QObject {
 	 *   done here. If a new clip type is added then it should be possible to combine it with both audio
 	 *   and video. */
 
-     DocClipBase(QDomElement xml, uint id);
+     DocClipBase(ClipManager *clipManager, QDomElement xml, uint id);
      DocClipBase(const DocClipBase& clip);
      DocClipBase & operator=(const DocClipBase & clip);
      virtual ~ DocClipBase();
@@ -193,6 +194,10 @@ class DocClipBase:public QObject {
 	/** return english name for clip type */
     static QString getTypeName(CLIPTYPE type);
 
+      /** Clip is ready to get thumbs */ 
+    void slotRequestAudioThumbs();
+
+
   private:			// Private attributes
 	/** The name of this clip */
     QString m_name;
@@ -236,8 +241,9 @@ class DocClipBase:public QObject {
 	QString markerComment(GenTime t);
 	void setProjectThumbFrame( const uint &ix);
 	uint getProjectThumbFrame() const;
-	signals:
-		void getAudioThumbs();
+
+  signals:
+	void getAudioThumbs();
 	void gotAudioData();
 };
 
