@@ -39,7 +39,7 @@
 #include "kdenlivesettings.h"
 
 ClipItem::ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & rect, int duration)
-: QGraphicsRectItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0), m_effectsCounter(0),audioThumbWasDrawn(false),m_opacity(1.0), m_timeLine(0)
+: QGraphicsRectItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0), m_effectsCounter(0),audioThumbWasDrawn(false),audioThumbReady(false), m_opacity(1.0), m_timeLine(0)
 {
   //setToolTip(name);
   kDebug()<<"*******  CREATING NEW TML CLIP, DUR: "<<duration;
@@ -52,7 +52,6 @@ ClipItem::ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & re
   if (duration != -1) m_cropDuration = duration;
   else m_cropDuration = m_maxDuration;
   setAcceptDrops (true);
-  audioThumbReady = clip->audioThumbCreated();
 
 /*
   m_cropStart = xml.attribute("in", 0).toInt();
@@ -65,6 +64,7 @@ ClipItem::ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & re
 
   setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemClipsChildrenToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
   connect (this , SIGNAL (prepareAudioThumb(double,QPainterPath,int,int)) , this, SLOT (slotPrepareAudioThumb(double,QPainterPath,int,int)));
+  
   setBrush(QColor(100, 100, 150));
   if (m_clipType == VIDEO || m_clipType == AV) {
     m_hasThumbs = true;
@@ -268,7 +268,7 @@ void ClipItem::animate(qreal value)
       QLineF l2(br.x() + m_startPix.width(), br.y(), br.x() + m_startPix.width(), br.y() + br.height());
       painter->drawLine(l2);
     }
-	 if ( ( m_clipType == AV || m_clipType==AUDIO || true) && audioThumbReady ){
+   if ( ( m_clipType == AV || m_clipType==AUDIO || true) && audioThumbReady ){
 		 
 		 QPainterPath path= m_clipType==AV ? roundRectPathLower : roundRectPathUpper.united(roundRectPathLower);
 		 painter->fillPath(path,QBrush(QColor(200,200,200,127)));
@@ -431,8 +431,14 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame,QPainterPath path,i
 						negativeChannelPaths[channel].lineTo(samples,0.1+y-delta);
 					}
 				}
+				if (fullAreaDraw && samples==100){
+					positiveChannelPaths[channels].lineTo(samples,0);
+					negativeChannelPaths[channels].lineTo(samples,0);
+					positiveChannelPaths[channels].lineTo(0,0);
+					negativeChannelPaths[channels].lineTo(0,0);
+				}
+					
 			}
-
 			for (int i=0;i<channels;i++){
 				if (fullAreaDraw){
 					//pixpainter.fillPath(positiveChannelPaths[i].united(negativeChannelPaths[i]),QBrush(Qt::SolidPattern));//or singleif looks better
@@ -654,8 +660,12 @@ QMap <QString, QString> ClipItem::addEffect(QDomElement effect)
   QDomNodeList params = effect.elementsByTagName("parameter");
   for (int i = 0; i < params.count(); i++) {
     QDomElement e = params.item(i).toElement();
-    if (!e.isNull())
+    if (!e.isNull()){
       effectParams[e.attribute("name")] = e.attribute("value");
+    }
+    if (!e.attribute("factor").isEmpty()){
+      effectParams[e.attribute("name")] =  QString::number(effectParams[e.attribute("name")].toDouble()/e.attribute("factor").toDouble());
+    }
   }
   flashClip();
   update(boundingRect());
@@ -686,8 +696,12 @@ QMap <QString, QString> ClipItem::getEffectArgs(QDomElement effect)
 		  }
 		  effectParams["start"]=neu; 
 	  }else
-    if (!e.isNull())
+    if (!e.isNull()){
       effectParams[e.attribute("name")] = e.attribute("value");
+    }
+    if (!e.attribute("factor").isEmpty()){
+      effectParams[e.attribute("name")] =  QString::number(effectParams[e.attribute("name")].toDouble()/e.attribute("factor").toDouble());
+    }
   }
   return effectParams;
 }
