@@ -536,7 +536,7 @@ void CustomTrackView::setCursorPos(int pos, bool seek)
 {
   m_cursorPos = pos;
   m_cursorLine->setPos(pos, 0);
-  int frame = mapToScene(QPoint(pos, 0)).x() / m_scale;
+  int frame =  pos / m_scale;
   if (seek) m_document->renderer()->seek(GenTime(frame, m_document->fps()));
 }
 
