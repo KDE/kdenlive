@@ -175,7 +175,10 @@ void EffectStackView::slotResetEffect()
 		    break;
 		}
 	}
-	if (!dom.isNull()) emit updateClipEffect(clipref, old, dom);
+	if (!dom.isNull()) {
+	    emit updateClipEffect(clipref, old, dom);
+	    slotItemSelectionChanged();
+	}
 }
 
 void EffectStackView::slotNewEffect(){
