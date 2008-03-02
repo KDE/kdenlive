@@ -39,7 +39,7 @@
 #include "kdenlivesettings.h"
 
 ClipItem::ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & rect, int duration)
-: QGraphicsRectItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0), m_effectsCounter(0),audioThumbWasDrawn(false),audioThumbReady(false), m_opacity(1.0), m_timeLine(0)
+: QGraphicsRectItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0), m_effectsCounter(0),audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0)
 {
   //setToolTip(name);
   kDebug()<<"*******  CREATING NEW TML CLIP, DUR: "<<duration;
@@ -52,7 +52,7 @@ ClipItem::ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & re
   if (duration != -1) m_cropDuration = duration;
   else m_cropDuration = m_maxDuration;
   setAcceptDrops (true);
-
+  audioThumbReady = clip->audioThumbCreated();
 /*
   m_cropStart = xml.attribute("in", 0).toInt();
   m_maxDuration = xml.attribute("duration", 0).toInt();
