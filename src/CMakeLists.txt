@@ -85,6 +85,7 @@ set(kdenlive_SRCS
   titlewidget.cpp
   graphicsscenerectmove.cpp
   effectslistwidget.cpp
+  titledocument.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )
