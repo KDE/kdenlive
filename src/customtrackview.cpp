@@ -144,7 +144,7 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
     }
     if (item && event->buttons() == Qt::NoButton) {
       ClipItem *clip = (ClipItem*) item;
-      double size = mapToScene(QPoint(8, 0)).x();
+      double size = 8;
       OPERATIONTYPE opMode = clip->operationMode(mapToScene(event->pos()), m_scale);
       if (opMode == m_moveOpMode) {
 	QGraphicsView::mouseMoveEvent(event);
@@ -154,6 +154,7 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
       if (m_visualTip) {
 	if (m_animation) delete m_animation;
 	m_animation = NULL;
+	m_animationTimer->stop();
 	delete m_visualTip;
 	m_visualTip = NULL;
       }
@@ -257,9 +258,11 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
       }
       if (m_visualTip) {
 	if (m_animation) delete m_animation;
+	m_animationTimer->stop();
 	m_animation = NULL;
 	delete m_visualTip;
 	m_visualTip = NULL;
+
       }
       setCursor(Qt::ArrowCursor);
     }
