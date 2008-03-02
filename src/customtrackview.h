@@ -91,6 +91,7 @@ class CustomTrackView : public QGraphicsView
     QGraphicsItemAnimation *m_animation;
     QTimeLine *m_animationTimer;
     QColor m_tipColor;
+    QPen m_tipPen;
     double m_scale;
     int m_clickPoint;
     QList <int> m_snapPoints;

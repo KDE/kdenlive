@@ -47,7 +47,11 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene
   m_animationTimer->setFrameRange(0, 5);
   m_animationTimer->setUpdateInterval(100);
   m_animationTimer->setLoopCount(0);
-  m_tipColor = QColor(230, 50, 0, 150);
+  m_tipColor = QColor(0, 192, 0, 200);
+  QColor border = QColor(255,255,255,100);
+  m_tipPen.setColor(border);
+  m_tipPen.setWidth(3);
+
   setContentsMargins(0, 0, 0, 0);
   if (projectscene) {
     m_cursorLine = projectscene->addLine(0, 0, 0, 50);
@@ -166,9 +170,15 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
       else if (opMode == RESIZESTART) {
 	kDebug()<<"********  RESIZE CLIP START; WIDTH: "<<size;
 	if (m_visualTip == NULL) {
-	  m_visualTip = new QGraphicsRectItem(clip->rect().x(), clip->rect().y(), size, clip->rect().height());
-	  ((QGraphicsRectItem*) m_visualTip)->setBrush(m_tipColor);
-	  ((QGraphicsRectItem*) m_visualTip)->setPen(QPen(Qt::transparent));
+	  QPolygon polygon;
+	  polygon << QPoint(clip->rect().x(), clip->rect().y() + clip->rect().height() / 2 - size * 2);
+	  polygon << QPoint(clip->rect().x() + size * 2, clip->rect().y() + clip->rect().height() / 2 );
+	  polygon << QPoint(clip->rect().x(), clip->rect().y() + clip->rect().height() / 2 + size * 2);
+	  polygon << QPoint(clip->rect().x(), clip->rect().y() + clip->rect().height() / 2 - size * 2);
+
+	  m_visualTip = new QGraphicsPolygonItem(polygon);
+	  ((QGraphicsPolygonItem*) m_visualTip)->setBrush(m_tipColor);
+	  ((QGraphicsPolygonItem*) m_visualTip)->setPen(m_tipPen);
 	  m_visualTip->setZValue (100);
 	  m_animation = new QGraphicsItemAnimation;
 	  m_animation->setItem(m_visualTip);
@@ -187,9 +197,16 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
       }
       else if (opMode == RESIZEEND) {
 	if (m_visualTip == NULL) {
-	  m_visualTip = new QGraphicsRectItem(clip->rect().x() + clip->rect().width() - size, clip->rect().y(), size, clip->rect().height());
-	  ((QGraphicsRectItem*) m_visualTip)->setBrush(m_tipColor);
-	  ((QGraphicsRectItem*) m_visualTip)->setPen(QPen(Qt::transparent));
+	  QPolygon polygon;
+	  polygon << QPoint(clip->rect().x() + clip->rect().width(), clip->rect().y() + clip->rect().height() / 2 - size * 2);
+	  polygon << QPoint(clip->rect().x() + clip->rect().width() - size * 2, clip->rect().y() + clip->rect().height() / 2 );
+	  polygon << QPoint(clip->rect().x() + clip->rect().width(), clip->rect().y() + clip->rect().height() / 2 + size * 2);
+	  polygon << QPoint(clip->rect().x() + clip->rect().width(), clip->rect().y() + clip->rect().height() / 2 - size * 2);
+
+	  m_visualTip = new QGraphicsPolygonItem(polygon);
+	  ((QGraphicsPolygonItem*) m_visualTip)->setBrush(m_tipColor);
+	  ((QGraphicsPolygonItem*) m_visualTip)->setPen(m_tipPen);
+
 	  m_visualTip->setZValue (100);
 	  m_animation = new QGraphicsItemAnimation;
 	  m_animation->setItem(m_visualTip);
@@ -210,7 +227,7 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
 	if (m_visualTip == NULL) {
 	  m_visualTip = new QGraphicsEllipseItem(clip->rect().x() + clip->fadeIn() * m_scale - size, clip->rect().y() - 8, size * 2, 16);
 	  ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
-	  ((QGraphicsEllipseItem*) m_visualTip)->setPen(QPen(Qt::transparent));
+	  ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
 	  m_visualTip->setZValue (100);
 	  m_animation = new QGraphicsItemAnimation;
 	  m_animation->setItem(m_visualTip);
@@ -231,7 +248,7 @@ void CustomTrackView::mouseMoveEvent ( QMouseEvent * event )
 	if (m_visualTip == NULL) {
 	  m_visualTip = new QGraphicsEllipseItem(clip->rect().x() + clip->rect().width() - clip->fadeOut() * m_scale - size, clip->rect().y() - 8, size*2, 16);
 	  ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
-	  ((QGraphicsEllipseItem*) m_visualTip)->setPen(QPen(Qt::transparent));
+	  ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
 	  m_visualTip->setZValue (100);
 	  m_animation = new QGraphicsItemAnimation;
 	  m_animation->setItem(m_visualTip);

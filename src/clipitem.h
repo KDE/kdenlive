@@ -116,6 +116,7 @@ class ClipItem : public QObject, public QGraphicsRectItem
     int m_effectsCounter;
     double m_opacity;
     QTimeLine *m_timeLine;
+    uint m_thumbsRequested;
     
     EffectsList m_effectList;
     QMap<int,QPixmap> audioThumbCachePic;
