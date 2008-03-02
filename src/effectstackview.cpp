@@ -177,8 +177,8 @@ void EffectStackView::slotResetEffect()
 	}
 	if (!dom.isNull()) {
 	    dom.setAttribute("kdenlive_ix", old.attribute("kdenlive_ix"));
+	    emit transferParamDesc(dom, 0, 100);//minx max frame
 	    emit updateClipEffect(clipref, old, dom);
-	    slotItemSelectionChanged();
 	}
 }
 
@@ -223,7 +223,4 @@ void EffectStackView::slotNewEffect(){
 	
 }
 
-void EffectStackView::itemSelectionChanged (){
-	//kDebug() << "drop";
-}
 #include "effectstackview.moc"

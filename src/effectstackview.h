@@ -50,7 +50,6 @@ private slots:
 	void slotItemDel();
 	void slotNewEffect();
 	void slotResetEffect();
-	void itemSelectionChanged();
 	void slotItemChanged(QListWidgetItem *item);
 
 signals:
