@@ -71,6 +71,7 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, 
                                transform.m11()).arg(transform.m12()).arg(transform.m13()).arg(transform.m21()).arg(transform.m22()).arg(transform.m23()).arg(transform.m31()).arg(transform.m32()).arg(transform.m33())
                        )
                       );
+        e.setAttribute("z-index", item->zValue());
         pos.appendChild(tr);
 
 
@@ -89,6 +90,8 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, 
         startp.setAttribute("y", startv->pos().y());
         startp.setAttribute("size", startv->sceneBoundingRect().width() / 2);
 
+        startp.setAttribute("z-index", startv->zValue());
+        endp.setAttribute("z-index", endv->zValue());
         main.appendChild(startp);
         main.appendChild(endp);
     }
