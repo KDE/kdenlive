@@ -66,10 +66,10 @@ Mlt::Repository *initEffects::parseEffectFiles(EffectsList *audioEffectList, Eff
     delete producers;
 
     KGlobal::dirs()->addResourceType("ladspa_plugin", 0, "lib/ladspa");
-    KGlobal::dirs()->addResourceDir("ladspa_plugin", 0, "/usr/lib/ladspa");
-    KGlobal::dirs()->addResourceDir("ladspa_plugin", 0, "/usr/local/lib/ladspa");
-    KGlobal::dirs()->addResourceDir("ladspa_plugin", 0, "/opt/lib/ladspa");
-    KGlobal::dirs()->addResourceDir("ladspa_plugin", 0, "/opt/local/lib/ladspa");
+    KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/lib/ladspa");
+    KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/local/lib/ladspa");
+    KGlobal::dirs()->addResourceDir("ladspa_plugin", "/opt/lib/ladspa");
+    KGlobal::dirs()->addResourceDir("ladspa_plugin", "/opt/local/lib/ladspa");
 
     kDebug() << "//  INIT EFFECT SEARCH" << endl;
 
