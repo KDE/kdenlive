@@ -1,7 +1,7 @@
 #! /bin/sh
 
-for i in `ls src/*.{cpp,h}`
-do
-	indent -kr -nut -pmt -ss -bad -bap -prs -bap -nbc -nce -cdb -fca $i
-	sed -e "s/} const const/}const/" -i $i
-done
+astyle --indent=spaces=4 --brackets=attach \
+       --indent-labels --unpad=paren \
+       --pad=oper --convert-tabs \
+       --indent-preprocessor \
+       `find -type f -wholename './src/*.cpp'` `find -type f -wholename './src/*.h'`
