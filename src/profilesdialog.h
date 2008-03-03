@@ -32,6 +32,7 @@ public:
     ProfilesDialog(QWidget * parent = 0);
 
     static QStringList getProfileNames();
+    static QString getProfileDescription(QString name);
     static QMap< QString, QString > getSettingsForProfile(const QString profileName);
     static QMap< QString, QString > getSettingsFromFile(const QString path);
 

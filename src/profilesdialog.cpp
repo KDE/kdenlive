@@ -51,6 +51,33 @@ ProfilesDialog::ProfilesDialog(QWidget * parent): QDialog(parent), m_isCustomPro
 
 
 // static
+QString ProfilesDialog::getProfileDescription(QString name) {
+    QStringList profilesNames;
+    QStringList profilesFiles;
+    QStringList profilesFilter;
+    profilesFilter << "*";
+
+    // List the Mlt profiles
+    profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+    if (profilesFiles.contains(name)) {
+        KConfig confFile(KdenliveSettings::mltpath() + "/" + name);
+        return confFile.entryMap().value("description");
+    }
+
+    // List custom profiles
+    QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
+    for (int i = 0; i < customProfiles.size(); ++i) {
+        profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
+        if (profilesFiles.contains(name)) {
+            KConfig confFile(customProfiles.at(i) + "/" + name);
+            return confFile.entryMap().value("description");
+        }
+    }
+
+    return QString();
+}
+
+// static
 QStringList ProfilesDialog::getProfileNames() {
     QStringList profilesNames;
     QStringList profilesFiles;

@@ -65,6 +65,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_timelineArea = new KTabWidget(this);
     m_timelineArea->setHoverCloseButton(true);
     m_timelineArea->setTabReorderingEnabled(true);
+    m_timelineArea->setTabBarHidden(true);
     connect(m_timelineArea, SIGNAL(currentChanged(int)), this, SLOT(activateDocument()));
 
     initEffects::parseEffectFiles(&m_audioEffects, &m_videoEffects);
@@ -296,9 +297,10 @@ void MainWindow::readOptions() {
 void MainWindow::newFile() {
     KdenliveDoc *doc = new KdenliveDoc(KUrl(), 25, 720, 576);
     TrackView *trackView = new TrackView(doc);
-    m_timelineArea->addTab(trackView, "New Project");
+    m_timelineArea->addTab(trackView, i18n("Untitled") + " / " + ProfilesDialog::getProfileDescription(KdenliveSettings::default_profile()));
     if (m_timelineArea->count() == 1)
         connectDocument(trackView, doc);
+    else m_timelineArea->setTabBarHidden(false);
 }
 
 void MainWindow::activateDocument() {
@@ -344,6 +346,7 @@ void MainWindow::openFile(const KUrl &url) { //new
     TrackView *trackView = new TrackView(doc);
     m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, QIcon(), doc->documentName()));
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());
+    if (m_timelineArea->count() > 1) m_timelineArea->setTabBarHidden(false);
     //connectDocument(trackView, doc);
 }
 
