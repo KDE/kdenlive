@@ -30,19 +30,18 @@
 
 class MonitorManager;
 
-class Monitor : public QWidget
-{
-  Q_OBJECT
-  
-  public:
-    Monitor(QString name, MonitorManager *manager, QWidget *parent=0);
-    Render *render;
-    virtual void resizeEvent ( QResizeEvent * event );
-  protected:
-    virtual void mousePressEvent ( QMouseEvent * event );
-    virtual void wheelEvent ( QWheelEvent * event );
+class Monitor : public QWidget {
+    Q_OBJECT
 
-  private:
+public:
+    Monitor(QString name, MonitorManager *manager, QWidget *parent = 0);
+    Render *render;
+    virtual void resizeEvent(QResizeEvent * event);
+protected:
+    virtual void mousePressEvent(QMouseEvent * event);
+    virtual void wheelEvent(QWheelEvent * event);
+
+private:
     Ui::Monitor_UI ui;
     MonitorManager *m_monitorManager;
     QString m_name;
@@ -54,7 +53,7 @@ class Monitor : public QWidget
     KIcon m_pauseIcon;
     bool m_isActive;
 
-  private slots:
+private slots:
     void slotPlay();
     void adjustRulerSize(int length);
     void seekCursor(int pos);
@@ -64,7 +63,7 @@ class Monitor : public QWidget
     void slotForward();
     void slotRewind();
 
-  public slots:
+public slots:
     void slotOpenFile(const QString &);
     void slotSetXml(const QDomElement &e);
     void initMonitor();
@@ -74,7 +73,7 @@ class Monitor : public QWidget
     void start();
     void activateMonitor();
 
-  signals:
+signals:
     void renderPosition(int);
     void durationChanged(int);
 };

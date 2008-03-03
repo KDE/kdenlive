@@ -23,41 +23,41 @@
 #include <QDialog>
 #include <QMap>
 
-class Transform{
-	public:
-		Transform(){
-			scalex=1.0;
-			scaley=1.0;
-			rotate=0.0;
-		}
-		double scalex,scaley;
-		double rotate;
+class Transform {
+public:
+    Transform() {
+        scalex = 1.0;
+        scaley = 1.0;
+        rotate = 0.0;
+    }
+    double scalex, scaley;
+    double rotate;
 };
 
-class TitleWidget : public QDialog , public Ui::TitleWidget_UI{
-	Q_OBJECT
+class TitleWidget : public QDialog , public Ui::TitleWidget_UI {
+    Q_OBJECT
 public:
-	TitleWidget(QDialog *parent=0);
+    TitleWidget(QDialog *parent = 0);
 private:
-	QGraphicsPolygonItem *startViewport,*endViewport;
-	void initViewports();
-	QMap<QGraphicsItem*,Transform > transformations;
-	TitleDocument m_titledocument;
+    QGraphicsPolygonItem *startViewport, *endViewport;
+    void initViewports();
+    QMap<QGraphicsItem*, Transform > transformations;
+    TitleDocument m_titledocument;
 public slots:
-	void slotNewText();
-	void slotNewRect();
-	void slotChangeBackground();
-	void selectionChanged();
-	void textChanged();
-	void rectChanged();
-	void fontBold();
-	void setupViewports();
-	void zIndexChanged(int);
-	void svgSelected(const KUrl&);
-	void itemScaled(int);
-	void itemRotate(int);
-	void saveTitle();
-	void loadTitle();
+    void slotNewText();
+    void slotNewRect();
+    void slotChangeBackground();
+    void selectionChanged();
+    void textChanged();
+    void rectChanged();
+    void fontBold();
+    void setupViewports();
+    void zIndexChanged(int);
+    void svgSelected(const KUrl&);
+    void itemScaled(int);
+    void itemRotate(int);
+    void saveTitle();
+    void loadTitle();
 };
 
 

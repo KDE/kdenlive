@@ -24,44 +24,43 @@
 class EffectsList;
 
 
-class EffectStackView : public QWidget
-{
-	Q_OBJECT
-		
-	public:
-		EffectStackView(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent=0);
-	
+class EffectStackView : public QWidget {
+    Q_OBJECT
+
+public:
+    EffectStackView(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent = 0);
+
 private:
-	Ui::EffectStack_UI ui;
-	ClipItem* clipref;
-	QMap<QString,EffectsList*> effectLists;
-	EffectStackEdit* effectedit;
-	void setupListView();
-	void updateButtonStatus();
+    Ui::EffectStack_UI ui;
+    ClipItem* clipref;
+    QMap<QString, EffectsList*> effectLists;
+    EffectStackEdit* effectedit;
+    void setupListView();
+    void updateButtonStatus();
 
 public slots:
-	void slotClipItemSelected(ClipItem*);
-	void slotUpdateEffectParams(const QDomElement&, const QDomElement&);
+    void slotClipItemSelected(ClipItem*);
+    void slotUpdateEffectParams(const QDomElement&, const QDomElement&);
 
 private slots:
-	void slotItemSelectionChanged();
-	void slotItemUp();
-	void slotItemDown();
-	void slotItemDel();
-	void slotNewEffect();
-	void slotResetEffect();
-	void slotItemChanged(QListWidgetItem *item);
+    void slotItemSelectionChanged();
+    void slotItemUp();
+    void slotItemDown();
+    void slotItemDel();
+    void slotNewEffect();
+    void slotResetEffect();
+    void slotItemChanged(QListWidgetItem *item);
 
 signals:
-	void transferParamDesc(const QDomElement&,int ,int);
-	void removeEffect(ClipItem*, QDomElement);
-	/**  Parameters for an effect changed, update the filter in playlist */
-	void updateClipEffect(ClipItem*, QDomElement, QDomElement);
-	/** An effect in stack was moved, we need to regenerate 
-	    all effects for this clip in the playlist */
-	void refreshEffectStack(ClipItem *);
-	/** Enable or disable an effect */
-	void changeEffectState(ClipItem*, QDomElement, bool);
+    void transferParamDesc(const QDomElement&, int , int);
+    void removeEffect(ClipItem*, QDomElement);
+    /**  Parameters for an effect changed, update the filter in playlist */
+    void updateClipEffect(ClipItem*, QDomElement, QDomElement);
+    /** An effect in stack was moved, we need to regenerate
+        all effects for this clip in the playlist */
+    void refreshEffectStack(ClipItem *);
+    /** Enable or disable an effect */
+    void changeEffectState(ClipItem*, QDomElement, bool);
 
 };
 

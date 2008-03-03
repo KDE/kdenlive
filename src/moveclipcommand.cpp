@@ -22,24 +22,22 @@
 #include "moveclipcommand.h"
 
 MoveClipCommand::MoveClipCommand(CustomTrackView *view, const QPointF startPos, const QPointF endPos, bool doIt)
-         : m_view(view), m_startPos(startPos), m_endPos(endPos), m_doIt(doIt) {
-	    setText(i18n("Move clip"));
-	 }
-
-
-// virtual 
-void MoveClipCommand::undo()
-{
-// kDebug()<<"----  undoing action";
-  m_doIt = true;
-  if (m_doIt) m_view->moveClip(m_endPos, m_startPos);
+        : m_view(view), m_startPos(startPos), m_endPos(endPos), m_doIt(doIt) {
+    setText(i18n("Move clip"));
 }
-// virtual 
-void MoveClipCommand::redo()
-{
-kDebug()<<"----  redoing action";
-  if (m_doIt) m_view->moveClip(m_startPos, m_endPos);
-  m_doIt = true;
+
+
+// virtual
+void MoveClipCommand::undo() {
+// kDebug()<<"----  undoing action";
+    m_doIt = true;
+    if (m_doIt) m_view->moveClip(m_endPos, m_startPos);
+}
+// virtual
+void MoveClipCommand::redo() {
+    kDebug() << "----  redoing action";
+    if (m_doIt) m_view->moveClip(m_startPos, m_endPos);
+    m_doIt = true;
 }
 
 #include "moveclipcommand.moc"

@@ -16,13 +16,11 @@
  ***************************************************************************/
 #include "trackpanelfunction.h"
 
-TrackPanelFunction::TrackPanelFunction()
-{
+TrackPanelFunction::TrackPanelFunction() {
 }
 
 
-TrackPanelFunction::~TrackPanelFunction()
-{
+TrackPanelFunction::~TrackPanelFunction() {
 }
 
 #include "trackpanelfunction.moc"

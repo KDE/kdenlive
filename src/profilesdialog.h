@@ -25,21 +25,20 @@
 
 #include "ui_profiledialog_ui.h"
 
-class ProfilesDialog : public QDialog
-{
-  Q_OBJECT
-  
-  public:
+class ProfilesDialog : public QDialog {
+    Q_OBJECT
+
+public:
     ProfilesDialog(QWidget * parent = 0);
 
-  static QStringList getProfileNames();
-  static QMap< QString, QString > getSettingsForProfile(const QString profileName);
-  static QMap< QString, QString > getSettingsFromFile(const QString path);
+    static QStringList getProfileNames();
+    static QMap< QString, QString > getSettingsForProfile(const QString profileName);
+    static QMap< QString, QString > getSettingsFromFile(const QString path);
 
-  private slots:
+private slots:
     void slotUpdateDisplay();
 
-  private:
+private:
     Ui::ProfilesDialog_UI m_view;
     QStringList m_mltProfilesList;
     QStringList m_customProfilesList;

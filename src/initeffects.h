@@ -29,29 +29,28 @@
   *@author Jean-Baptiste Mardelle
   */
 
-class initEffects
-{
-    public:
-        initEffects();
-	~initEffects();
+class initEffects {
+public:
+    initEffects();
+    ~initEffects();
 
-	static Mlt::Repository *parseEffectFiles(EffectsList *audioEffectList, EffectsList *videoEffectList);
-	static QDomDocument createDescriptionFromMlt(Mlt::Repository* repository,const QString& type, const QString& name);
-	static void parseEffectFile(EffectsList *audioEffectList, EffectsList *videoEffectList, QString name, QStringList filtersList, QStringList producersList);
-	static char* ladspaEffectString(int ladspaId, QStringList params);
-	static void ladspaEffectFile(const QString & fname, int ladspaId, QStringList params);
+    static Mlt::Repository *parseEffectFiles(EffectsList *audioEffectList, EffectsList *videoEffectList);
+    static QDomDocument createDescriptionFromMlt(Mlt::Repository* repository, const QString& type, const QString& name);
+    static void parseEffectFile(EffectsList *audioEffectList, EffectsList *videoEffectList, QString name, QStringList filtersList, QStringList producersList);
+    static char* ladspaEffectString(int ladspaId, QStringList params);
+    static void ladspaEffectFile(const QString & fname, int ladspaId, QStringList params);
 
-	static char* ladspaPitchEffectString(QStringList params);
-	static char* ladspaReverbEffectString(QStringList params);
-	static char* ladspaRoomReverbEffectString(QStringList params);
-	static char* ladspaEqualizerEffectString(QStringList params);
-	static char* ladspaDeclipEffectString(QStringList);
-	static char* ladspaVinylEffectString(QStringList params);
-	static char* ladspaLimiterEffectString(QStringList params);
-	static char* ladspaPitchShifterEffectString(QStringList params);
-	static char* ladspaPhaserEffectString(QStringList params);
-	static char* ladspaRateScalerEffectString(QStringList params);
+    static char* ladspaPitchEffectString(QStringList params);
+    static char* ladspaReverbEffectString(QStringList params);
+    static char* ladspaRoomReverbEffectString(QStringList params);
+    static char* ladspaEqualizerEffectString(QStringList params);
+    static char* ladspaDeclipEffectString(QStringList);
+    static char* ladspaVinylEffectString(QStringList params);
+    static char* ladspaLimiterEffectString(QStringList params);
+    static char* ladspaPitchShifterEffectString(QStringList params);
+    static char* ladspaPhaserEffectString(QStringList params);
+    static char* ladspaRateScalerEffectString(QStringList params);
 };
 
-    
+
 #endif

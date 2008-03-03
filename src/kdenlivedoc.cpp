@@ -28,285 +28,250 @@
 #include "kdenlivedoc.h"
 #include "docclipbase.h"
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, double fps, int width, int height, QWidget *parent):QObject(parent), m_render(NULL), m_url(url), m_fps(fps), m_width(width), m_height(height), m_projectName(NULL), m_commandStack(new KUndoStack())
-{
-  m_clipManager = new ClipManager(this);
-  if (!url.isEmpty()) {
-    QString tmpFile;
-    if(KIO::NetAccess::download(url.path(), tmpFile, parent))
-    {
-      QFile file(tmpFile);
-      m_document.setContent(&file, false);
-      file.close();
-      m_projectName = url.fileName();
-      KIO::NetAccess::removeTempFile(tmpFile);
+KdenliveDoc::KdenliveDoc(const KUrl &url, double fps, int width, int height, QWidget *parent): QObject(parent), m_render(NULL), m_url(url), m_fps(fps), m_width(width), m_height(height), m_projectName(NULL), m_commandStack(new KUndoStack()) {
+    m_clipManager = new ClipManager(this);
+    if (!url.isEmpty()) {
+        QString tmpFile;
+        if (KIO::NetAccess::download(url.path(), tmpFile, parent)) {
+            QFile file(tmpFile);
+            m_document.setContent(&file, false);
+            file.close();
+            m_projectName = url.fileName();
+            KIO::NetAccess::removeTempFile(tmpFile);
+        } else {
+            KMessageBox::error(parent, KIO::NetAccess::lastErrorString());
+        }
+    } else {
+        // Creating new document
+        QDomElement westley = m_document.createElement("westley");
+        m_document.appendChild(westley);
+        QDomElement doc = m_document.createElement("kdenlivedoc");
+        doc.setAttribute("version", "0.6");
+        westley.appendChild(doc);
+        QDomElement props = m_document.createElement("properties");
+        doc.setAttribute("width", m_width);
+        doc.setAttribute("height", m_height);
+        doc.setAttribute("projectfps", m_fps);
+        doc.appendChild(props);
+
+
+        /*QDomElement westley = m_document.createElement("westley");
+        m_document.appendChild(westley);*/
+
+
+        QDomElement tractor = m_document.createElement("tractor");
+        QDomElement multitrack = m_document.createElement("multitrack");
+        QDomElement playlist = m_document.createElement("playlist");
+        QDomElement producer = m_document.createElement("producer");
+        /*producer.setAttribute("mlt_service", "colour");
+        producer.setAttribute("colour", "red");
+        playlist.appendChild(producer);*/
+        multitrack.appendChild(playlist);
+        QDomElement playlist1 = m_document.createElement("playlist");
+        playlist1.setAttribute("id", "playlist1");
+        playlist1.setAttribute("hide", "video");
+        multitrack.appendChild(playlist1);
+        QDomElement playlist2 = m_document.createElement("playlist");
+        playlist2.setAttribute("id", "playlist2");
+        playlist2.setAttribute("hide", "video");
+        multitrack.appendChild(playlist2);
+        QDomElement playlist3 = m_document.createElement("playlist");
+        multitrack.appendChild(playlist3);
+        playlist3.setAttribute("id", "playlist3");
+        QDomElement playlist4 = m_document.createElement("playlist");
+        multitrack.appendChild(playlist4);
+        playlist4.setAttribute("id", "playlist4");
+        QDomElement playlist5 = m_document.createElement("playlist");
+        multitrack.appendChild(playlist5);
+        playlist5.setAttribute("id", "playlist5");
+        tractor.appendChild(multitrack);
+
+        for (uint i = 2; i < 6 ; i++) {
+            QDomElement transition = m_document.createElement("transition");
+            transition.setAttribute("in", "0");
+            //TODO: Make audio mix last for all project duration
+            transition.setAttribute("out", "15000");
+            transition.setAttribute("a_track", QString::number(1));
+            transition.setAttribute("b_track", QString::number(i));
+            transition.setAttribute("mlt_service", "mix");
+            transition.setAttribute("combine", "1");
+            tractor.appendChild(transition);
+        }
+
+        doc.appendChild(tractor);
+
     }
-    else
-    {
-      KMessageBox::error(parent, KIO::NetAccess::lastErrorString());
-    }
-  }
-  else {
-    // Creating new document
-    QDomElement westley = m_document.createElement("westley");
-    m_document.appendChild(westley);
-    QDomElement doc = m_document.createElement("kdenlivedoc");
-    doc.setAttribute("version", "0.6");
-    westley.appendChild(doc);
-    QDomElement props = m_document.createElement("properties");
-    doc.setAttribute("width", m_width);
-    doc.setAttribute("height", m_height);
-    doc.setAttribute("projectfps", m_fps);
-    doc.appendChild(props);
-
-
-    /*QDomElement westley = m_document.createElement("westley");
-    m_document.appendChild(westley);*/
-
-
-    QDomElement tractor = m_document.createElement("tractor");
-    QDomElement multitrack = m_document.createElement("multitrack");
-    QDomElement playlist = m_document.createElement("playlist");
-    QDomElement producer = m_document.createElement("producer");
-    /*producer.setAttribute("mlt_service", "colour");
-    producer.setAttribute("colour", "red");
-    playlist.appendChild(producer);*/
-    multitrack.appendChild(playlist);
-    QDomElement playlist1 = m_document.createElement("playlist");
-    playlist1.setAttribute("id", "playlist1");
-    playlist1.setAttribute("hide", "video");
-    multitrack.appendChild(playlist1);
-    QDomElement playlist2 = m_document.createElement("playlist");
-    playlist2.setAttribute("id", "playlist2");
-    playlist2.setAttribute("hide", "video");
-    multitrack.appendChild(playlist2);
-    QDomElement playlist3 = m_document.createElement("playlist");
-    multitrack.appendChild(playlist3);
-    playlist3.setAttribute("id", "playlist3");
-    QDomElement playlist4 = m_document.createElement("playlist");
-    multitrack.appendChild(playlist4);
-    playlist4.setAttribute("id", "playlist4");
-    QDomElement playlist5 = m_document.createElement("playlist");
-    multitrack.appendChild(playlist5);
-    playlist5.setAttribute("id", "playlist5");
-    tractor.appendChild(multitrack);
-
-    for (uint i = 2; i < 6 ; i++) {
-      QDomElement transition = m_document.createElement("transition");
-      transition.setAttribute("in", "0");
-      //TODO: Make audio mix last for all project duration
-      transition.setAttribute("out", "15000");
-      transition.setAttribute("a_track", QString::number(1));
-      transition.setAttribute("b_track", QString::number(i));
-      transition.setAttribute("mlt_service", "mix");
-      transition.setAttribute("combine", "1");
-      tractor.appendChild(transition);
-    }
-
-    doc.appendChild(tractor);
-    
-  }
-  if (fps == 30000.0 / 1001.0 ) m_timecode.setFormat(30, true);
+    if (fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
     else m_timecode.setFormat((int) fps);
 }
 
-KdenliveDoc::~KdenliveDoc()
-{
-  delete m_commandStack;
-  delete m_clipManager;
+KdenliveDoc::~KdenliveDoc() {
+    delete m_commandStack;
+    delete m_clipManager;
 }
 
-ClipManager *KdenliveDoc::clipManager()
-{
-  return m_clipManager;
+ClipManager *KdenliveDoc::clipManager() {
+    return m_clipManager;
 }
 
-void KdenliveDoc::setThumbsProgress(KUrl url, int progress)
-{
-  emit thumbsProgress(url, progress);
+void KdenliveDoc::setThumbsProgress(KUrl url, int progress) {
+    emit thumbsProgress(url, progress);
 }
 
-KUndoStack *KdenliveDoc::commandStack()
-{
-  return m_commandStack;
+KUndoStack *KdenliveDoc::commandStack() {
+    return m_commandStack;
 }
 
-void KdenliveDoc::setRenderer(Render *render)
-{
-  m_render = render;
-  if (m_render) m_render->setSceneList(m_document);
+void KdenliveDoc::setRenderer(Render *render) {
+    m_render = render;
+    if (m_render) m_render->setSceneList(m_document);
 }
 
-Render *KdenliveDoc::renderer()
-{
-  return m_render;
+Render *KdenliveDoc::renderer() {
+    return m_render;
 }
 
-void KdenliveDoc::updateClip(int id)
-{
-  emit updateClipDisplay(id);
+void KdenliveDoc::updateClip(int id) {
+    emit updateClipDisplay(id);
 }
 
-int KdenliveDoc::getFramePos(QString duration)
-{
-  return m_timecode.getFrameCount(duration, m_fps);
+int KdenliveDoc::getFramePos(QString duration) {
+    return m_timecode.getFrameCount(duration, m_fps);
 }
 
-QString KdenliveDoc::producerName(int id)
-{
-  QString result = "unnamed";
-  QDomNodeList prods = producersList();
-  int ct = prods.count();
-  for (int i = 0; i <  ct ; i++)
-  {
-    QDomElement e = prods.item(i).toElement();
-    if (e.attribute("id") != "black" && e.attribute("id").toInt() == id) {
-      result = e.attribute("name");
-      if (result.isEmpty()) result = KUrl(e.attribute("resource")).fileName();
-      break;
+QString KdenliveDoc::producerName(int id) {
+    QString result = "unnamed";
+    QDomNodeList prods = producersList();
+    int ct = prods.count();
+    for (int i = 0; i <  ct ; i++) {
+        QDomElement e = prods.item(i).toElement();
+        if (e.attribute("id") != "black" && e.attribute("id").toInt() == id) {
+            result = e.attribute("name");
+            if (result.isEmpty()) result = KUrl(e.attribute("resource")).fileName();
+            break;
+        }
     }
-  }
-  return result;
+    return result;
 }
 
-void KdenliveDoc::setProducerDuration(int id, int duration)
-{
-  QDomNodeList prods = producersList();
-  int ct = prods.count();
-  for (int i = 0; i <  ct ; i++)
-  {
-    QDomElement e = prods.item(i).toElement();
-    if (e.attribute("id") != "black" && e.attribute("id").toInt() == id) {
-      e.setAttribute("duration", QString::number(duration));
-      break;
+void KdenliveDoc::setProducerDuration(int id, int duration) {
+    QDomNodeList prods = producersList();
+    int ct = prods.count();
+    for (int i = 0; i <  ct ; i++) {
+        QDomElement e = prods.item(i).toElement();
+        if (e.attribute("id") != "black" && e.attribute("id").toInt() == id) {
+            e.setAttribute("duration", QString::number(duration));
+            break;
+        }
     }
-  }
 }
 
-int KdenliveDoc::getProducerDuration(int id)
-{
-  int result = 0;
-  QDomNodeList prods = producersList();
-  int ct = prods.count();
-  for (int i = 0; i <  ct ; i++)
-  {
-    QDomElement e = prods.item(i).toElement();
-    if (e.attribute("id") != "black" && e.attribute("id").toInt() == id) {
-      result = e.attribute("duration").toInt();
-      break;
+int KdenliveDoc::getProducerDuration(int id) {
+    int result = 0;
+    QDomNodeList prods = producersList();
+    int ct = prods.count();
+    for (int i = 0; i <  ct ; i++) {
+        QDomElement e = prods.item(i).toElement();
+        if (e.attribute("id") != "black" && e.attribute("id").toInt() == id) {
+            result = e.attribute("duration").toInt();
+            break;
+        }
     }
-  }
-  return result;
+    return result;
 }
 
 
-QDomDocument KdenliveDoc::generateSceneList()
-{
+QDomDocument KdenliveDoc::generateSceneList() {
     QDomDocument doc;
     QDomElement westley = doc.createElement("westley");
     doc.appendChild(westley);
     QDomElement prod = doc.createElement("producer");
 }
 
-QDomDocument KdenliveDoc::toXml()
-{
-  return m_document;
+QDomDocument KdenliveDoc::toXml() {
+    return m_document;
 }
 
-Timecode KdenliveDoc::timecode()
-{
-  return m_timecode;
+Timecode KdenliveDoc::timecode() {
+    return m_timecode;
 }
 
-QString KdenliveDoc::documentName()
-{
-  return m_projectName;
+QString KdenliveDoc::documentName() {
+    return m_projectName;
 }
 
-QDomNodeList KdenliveDoc::producersList()
-{
-  return m_document.elementsByTagName("producer");
+QDomNodeList KdenliveDoc::producersList() {
+    return m_document.elementsByTagName("producer");
 }
 
-void KdenliveDoc::setProducers(QDomElement doc)
-{
-  QDomNode kdenlivedocument = m_document.elementsByTagName("kdenlivedoc").item(0);
+void KdenliveDoc::setProducers(QDomElement doc) {
+    QDomNode kdenlivedocument = m_document.elementsByTagName("kdenlivedoc").item(0);
 
-  QDomNodeList list = m_document.elementsByTagName("producer");
-  int ct = list.count();
-    kDebug()<<"DELETING CHILD PRODUCERS: "<<ct;
-  for (int i = ct; i > 0; i--) {
-    kdenlivedocument.removeChild(list.item(i));
-   }
+    QDomNodeList list = m_document.elementsByTagName("producer");
+    int ct = list.count();
+    kDebug() << "DELETING CHILD PRODUCERS: " << ct;
+    for (int i = ct; i > 0; i--) {
+        kdenlivedocument.removeChild(list.item(i));
+    }
 
-  QDomNode n = doc.firstChild();
-  ct = 0;
-  while(!n.isNull()) {
-     QDomElement e = n.toElement(); // try to convert the node to an element.
-     if(!e.isNull() && e.tagName() == "producer") {
-	 kdenlivedocument.appendChild(m_document.importNode(e, true));
-	ct++;
-     }
-     n = n.nextSibling();
-  }
-  kDebug()<<"ADDING CHILD PRODS: "<<ct<<"\n";
-  //kDebug()<<m_document.toString();
+    QDomNode n = doc.firstChild();
+    ct = 0;
+    while (!n.isNull()) {
+        QDomElement e = n.toElement(); // try to convert the node to an element.
+        if (!e.isNull() && e.tagName() == "producer") {
+            kdenlivedocument.appendChild(m_document.importNode(e, true));
+            ct++;
+        }
+        n = n.nextSibling();
+    }
+    kDebug() << "ADDING CHILD PRODS: " << ct << "\n";
+    //kDebug()<<m_document.toString();
 }
 
-double KdenliveDoc::fps()
-{
-  return m_fps;
+double KdenliveDoc::fps() {
+    return m_fps;
 }
 
-int KdenliveDoc::width()
-{
-  return m_width;
+int KdenliveDoc::width() {
+    return m_width;
 }
 
-int KdenliveDoc::height()
-{
-  return m_height;
+int KdenliveDoc::height() {
+    return m_height;
 }
 
-KUrl KdenliveDoc::url()
-{
-  return m_url;
+KUrl KdenliveDoc::url() {
+    return m_url;
 }
 
-void KdenliveDoc::addClip(const QDomElement &elem, const int clipId)
-{
-  kDebug()<<"/////////  DOCUM, CREATING NEW CLIP, ID:"<<clipId;
-  DocClipBase *clip = new DocClipBase(m_clipManager, elem, clipId);
-  m_clipManager->addClip(clip);
-  emit addProjectClip(clip);
+void KdenliveDoc::addClip(const QDomElement &elem, const int clipId) {
+    kDebug() << "/////////  DOCUM, CREATING NEW CLIP, ID:" << clipId;
+    DocClipBase *clip = new DocClipBase(m_clipManager, elem, clipId);
+    m_clipManager->addClip(clip);
+    emit addProjectClip(clip);
 }
 
-void KdenliveDoc::deleteProjectClip(const uint clipId)
-{
-  emit deletTimelineClip(clipId);
-  m_clipManager->slotDeleteClip(clipId);
+void KdenliveDoc::deleteProjectClip(const uint clipId) {
+    emit deletTimelineClip(clipId);
+    m_clipManager->slotDeleteClip(clipId);
 }
 
-void KdenliveDoc::deleteClip(const uint clipId)
-{
-  emit signalDeleteProjectClip(clipId);
-  m_clipManager->deleteClip(clipId);
+void KdenliveDoc::deleteClip(const uint clipId) {
+    emit signalDeleteProjectClip(clipId);
+    m_clipManager->deleteClip(clipId);
 }
 
-void KdenliveDoc::slotAddClipFile(const KUrl url, const QString group)
-{
-  kDebug()<<"/////////  DOCUM, ADD CLP: "<<url;
-  m_clipManager->slotAddClipFile(url, group);
+void KdenliveDoc::slotAddClipFile(const KUrl url, const QString group) {
+    kDebug() << "/////////  DOCUM, ADD CLP: " << url;
+    m_clipManager->slotAddClipFile(url, group);
 }
 
-DocClipBase *KdenliveDoc::getBaseClip(int clipId)
-{
-  return m_clipManager->getClipById(clipId);
+DocClipBase *KdenliveDoc::getBaseClip(int clipId) {
+    return m_clipManager->getClipById(clipId);
 }
 
-void KdenliveDoc::slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group)
-{
-  m_clipManager->slotAddColorClipFile(name, color, duration, group);
+void KdenliveDoc::slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group) {
+    m_clipManager->slotAddColorClipFile(name, color, duration, group);
 }
 
 #include "kdenlivedoc.moc"

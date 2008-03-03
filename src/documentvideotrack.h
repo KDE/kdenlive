@@ -5,19 +5,18 @@
 #include "documenttrack.h"
 #include "trackview.h"
 
-class DocumentVideoTrack : public DocumentTrack
-{
-  Q_OBJECT
-  
-  public:
-    DocumentVideoTrack(QDomElement xml, TrackView * view, QWidget *parent=0);
+class DocumentVideoTrack : public DocumentTrack {
+    Q_OBJECT
 
-  protected:
+public:
+    DocumentVideoTrack(QDomElement xml, TrackView * view, QWidget *parent = 0);
+
+protected:
     //virtual void paintEvent(QPaintEvent * /*e*/);
 
-  private:
+private:
     TrackView *m_trackView;
-  public slots:
+public slots:
 
 };
 

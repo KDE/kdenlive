@@ -33,17 +33,16 @@
 #include "kthumb.h"
 
 
-class ClipItem : public QObject, public QGraphicsRectItem
-{
-  Q_OBJECT
+class ClipItem : public QObject, public QGraphicsRectItem {
+    Q_OBJECT
 
-  public:
+public:
     ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & rect, int duration);
     virtual ~ ClipItem();
     virtual void paint(QPainter *painter,
-                           const QStyleOptionGraphicsItem *option,
-                           QWidget *widget);
-    virtual int type () const;
+                       const QStyleOptionGraphicsItem *option,
+                       QWidget *widget);
+    virtual int type() const;
     void moveTo(int x, double scale, double offset, int newTrack);
     void resizeStart(int posx, double scale);
     void resizeEnd(int posx, double scale);
@@ -82,15 +81,15 @@ class ClipItem : public QObject, public QGraphicsRectItem
     void setEffectAt(int ix, QDomElement effect);
     void flashClip();
 
-  protected:
-    virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
-    virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
-    virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
+protected:
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
     virtual void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     virtual void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
     virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
 
-  private:
+private:
     QDomElement m_xml;
     DocClipBase *m_clip;
     int m_textWidth;
@@ -117,25 +116,25 @@ class ClipItem : public QObject, public QGraphicsRectItem
     double m_opacity;
     QTimeLine *m_timeLine;
     uint m_thumbsRequested;
-    
-    EffectsList m_effectList;
-    QMap<int,QPixmap> audioThumbCachePic;
-    bool audioThumbWasDrawn,audioThumbReady;
-    double framePixelWidth;
-    QMap<int,QPainterPath > channelPaths;
 
-  private slots:
+    EffectsList m_effectList;
+    QMap<int, QPixmap> audioThumbCachePic;
+    bool audioThumbWasDrawn, audioThumbReady;
+    double framePixelWidth;
+    QMap<int, QPainterPath > channelPaths;
+
+private slots:
     void slotThumbReady(int frame, QPixmap pix);
     void slotFetchThumbs();
     void slotGetStartThumb();
     void slotGetEndThumb();
     void slotGotAudioData();
-    void slotPrepareAudioThumb(double,QPainterPath,int,int);
+    void slotPrepareAudioThumb(double, QPainterPath, int, int);
     void animate(qreal value);
 
-  signals:
+signals:
     void getThumb(int, int);
-    void prepareAudioThumb(double,QPainterPath,int,int);
+    void prepareAudioThumb(double, QPainterPath, int, int);
 
 };
 

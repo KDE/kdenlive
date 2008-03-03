@@ -20,7 +20,7 @@
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
- 
+
 #include <QDockWidget>
 #include <QUndoView>
 #include <QLabel>
@@ -45,19 +45,18 @@
 #include "effectstackview.h"
 
 
-class MainWindow : public KXmlGuiWindow
-{
-  Q_OBJECT
-  
-  public:
-    MainWindow(QWidget *parent=0);
+class MainWindow : public KXmlGuiWindow {
+    Q_OBJECT
+
+public:
+    MainWindow(QWidget *parent = 0);
 
     void parseProfiles();
 
-  protected:
+protected:
     virtual bool queryClose();
-  
-  private:
+
+private:
     KTabWidget* m_timelineArea;
     QProgressBar *statusProgressBar;
     QLabel* statusLabel;
@@ -104,10 +103,10 @@ class MainWindow : public KXmlGuiWindow
     void readOptions();
     void saveOptions();
 
-  public slots:
+public slots:
     void openFile(const KUrl &url);
 
-  private slots:
+private slots:
     void newFile();
     void activateDocument();
     void connectDocument(TrackView*, KdenliveDoc*);
@@ -123,8 +122,8 @@ class MainWindow : public KXmlGuiWindow
     void slotAddEffect(QDomElement effect, GenTime pos = GenTime(), int track = -1);
     void slotEditProfiles();
     void slotEditProjectSettings();
-    void slotDisplayActionMessage( QAction *a);
-    void slotGotProgressInfo( KUrl url, int progress);
+    void slotDisplayActionMessage(QAction *a);
+    void slotGotProgressInfo(KUrl url, int progress);
 };
- 
+
 #endif

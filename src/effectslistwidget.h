@@ -24,23 +24,22 @@
 #include <KListWidget>
 #include "effectslist.h"
 
-class EffectsListWidget : public KListWidget
-{
-  Q_OBJECT
-  
-  public:
-    EffectsListWidget(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent=0);
+class EffectsListWidget : public KListWidget {
+    Q_OBJECT
+
+public:
+    EffectsListWidget(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent = 0);
     virtual ~EffectsListWidget();
     QDomElement currentEffect();
     QString currentInfo();
     QDomElement itemEffect(QListWidgetItem *item);
 
-  protected:
+protected:
     virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseMoveEvent(QMouseEvent *event);
     virtual void dragMoveEvent(QDragMoveEvent *event);
 
-  private:
+private:
     bool m_dragStarted;
     QPoint m_DragStartPosition;
     EffectsList *m_audioList;
@@ -48,6 +47,6 @@ class EffectsListWidget : public KListWidget
     EffectsList *m_customList;
     void initList();
 
- };
+};
 
 #endif

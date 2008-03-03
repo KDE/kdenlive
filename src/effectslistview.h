@@ -28,28 +28,27 @@
 #include "gentime.h"
 #include "effectslist.h"
 
-class EffectsListView : public QWidget
-{
-  Q_OBJECT
-  
-  public:
-    EffectsListView(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent=0);
-    KListWidget *listView(); 
+class EffectsListView : public QWidget {
+    Q_OBJECT
+
+public:
+    EffectsListView(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent = 0);
+    KListWidget *listView();
     //void slotAddEffect(GenTime pos, int track, QString name);
 
-  private:
+private:
     Ui::EffectList_UI ui;
     EffectsListWidget *m_effectsList;
 
-  private slots:
+private slots:
     void filterList(int pos);
     void slotUpdateInfo();
     void showInfoPanel();
     void slotEffectSelected();
 
-  public slots:
+public slots:
 
-  signals:
+signals:
     void addEffect(QDomElement);
 };
 

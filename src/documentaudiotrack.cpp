@@ -11,9 +11,8 @@
 #include "documentaudiotrack.h"
 
 DocumentAudioTrack::DocumentAudioTrack(QDomElement xml, TrackView * view, QWidget *parent)
-    : DocumentTrack(xml, view, parent), m_trackView(view)
-{
-  setFixedHeight(50);
+        : DocumentTrack(xml, view, parent), m_trackView(view) {
+    setFixedHeight(50);
 }
 
 // virtual

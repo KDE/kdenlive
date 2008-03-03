@@ -35,8 +35,8 @@
 #include "renderer.h"
 #include "clipmanager.h"
 
-class KdenliveDoc:public QObject {
-  Q_OBJECT public:
+class KdenliveDoc: public QObject {
+Q_OBJECT public:
 
     KdenliveDoc(const KUrl &url, double fps, int width, int height, QWidget *parent = 0);
     ~KdenliveDoc();
@@ -67,7 +67,7 @@ class KdenliveDoc:public QObject {
     /** Inform application of the audio thumbnails generation progress */
     void setThumbsProgress(KUrl url, int progress);
 
-  private:
+private:
     KUrl m_url;
     QDomDocument m_document;
     QString m_projectName;
@@ -80,9 +80,9 @@ class KdenliveDoc:public QObject {
     QDomDocument generateSceneList();
     ClipManager *m_clipManager;
 
-  public slots:
-    
-  signals:
+public slots:
+
+signals:
     void addProjectClip(DocClipBase *);
     void signalDeleteProjectClip(int);
     void updateClipDisplay(int);

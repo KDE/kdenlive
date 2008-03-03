@@ -26,30 +26,28 @@
 #include "profilesdialog.h"
 #include "projectsettings.h"
 
-ProjectSettings::ProjectSettings(QWidget * parent): QDialog(parent), m_isCustomProfile(false)
-{
-  m_view.setupUi(this);
+ProjectSettings::ProjectSettings(QWidget * parent): QDialog(parent), m_isCustomProfile(false) {
+    m_view.setupUi(this);
 
-  QStringList profilesNames = ProfilesDialog::getProfileNames();
-  m_view.profiles_list->addItems(profilesNames);
-  QString defaulfProf = ProfilesDialog::getSettingsFromFile(KdenliveSettings::current_profile()).value("description");
-  if (profilesNames.contains(defaulfProf)) m_view.profiles_list->setCurrentItem(defaulfProf);
+    QStringList profilesNames = ProfilesDialog::getProfileNames();
+    m_view.profiles_list->addItems(profilesNames);
+    QString defaulfProf = ProfilesDialog::getSettingsFromFile(KdenliveSettings::current_profile()).value("description");
+    if (profilesNames.contains(defaulfProf)) m_view.profiles_list->setCurrentItem(defaulfProf);
 
-  slotUpdateDisplay();
-  connect(m_view.profiles_list, SIGNAL(currentIndexChanged( int )), this, SLOT(slotUpdateDisplay()));
+    slotUpdateDisplay();
+    connect(m_view.profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
 }
 
 
-void ProjectSettings::slotUpdateDisplay()
-{
-  QString currentProfile = m_view.profiles_list->currentText();
-  QMap< QString, QString > values = ProfilesDialog::getSettingsForProfile(currentProfile);
-  m_view.p_size->setText(values.value("width") + "x" + values.value("height"));
-  m_view.p_fps->setText(values.value("frame_rate_num") + "/" + values.value("frame_rate_den"));
-  m_view.p_aspect->setText(values.value("sample_aspect_num") + "/" + values.value("sample_aspect_den"));
-  m_view.p_display->setText(values.value("display_aspect_num") + "/" + values.value("display_aspect_den"));
-  if (values.value("progressive").toInt() == 0) m_view.p_progressive->setText(i18n("Interlaced"));
-  else m_view.p_progressive->setText(i18n("Progressive"));
+void ProjectSettings::slotUpdateDisplay() {
+    QString currentProfile = m_view.profiles_list->currentText();
+    QMap< QString, QString > values = ProfilesDialog::getSettingsForProfile(currentProfile);
+    m_view.p_size->setText(values.value("width") + "x" + values.value("height"));
+    m_view.p_fps->setText(values.value("frame_rate_num") + "/" + values.value("frame_rate_den"));
+    m_view.p_aspect->setText(values.value("sample_aspect_num") + "/" + values.value("sample_aspect_den"));
+    m_view.p_display->setText(values.value("display_aspect_num") + "/" + values.value("display_aspect_den"));
+    if (values.value("progressive").toInt() == 0) m_view.p_progressive->setText(i18n("Interlaced"));
+    else m_view.p_progressive->setText(i18n("Progressive"));
 }
 
 

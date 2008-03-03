@@ -30,19 +30,18 @@
 #include "projectlist.h"
 #include "customtrackview.h"
 
-class MoveClipCommand : public QUndoCommand
- {
- public:
-     MoveClipCommand(CustomTrackView *view, const QPointF startPos, const QPointF endPos, bool doIt);
+class MoveClipCommand : public QUndoCommand {
+public:
+    MoveClipCommand(CustomTrackView *view, const QPointF startPos, const QPointF endPos, bool doIt);
     virtual void undo();
     virtual void redo();
 
- private:
-     CustomTrackView *m_view;
-     QPointF m_startPos;
-     QPointF m_endPos;
-     bool m_doIt;
- };
+private:
+    CustomTrackView *m_view;
+    QPointF m_startPos;
+    QPointF m_endPos;
+    bool m_doIt;
+};
 
 #endif
 

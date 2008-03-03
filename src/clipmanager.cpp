@@ -24,69 +24,59 @@
 #include "clipmanager.h"
 #include "docclipbase.h"
 
-ClipManager::ClipManager(KdenliveDoc *doc):m_doc(doc)
-{
-  m_clipIdCounter = 1;
+ClipManager::ClipManager(KdenliveDoc *doc): m_doc(doc) {
+    m_clipIdCounter = 1;
 }
 
-ClipManager::~ClipManager()
-{
+ClipManager::~ClipManager() {
 }
 
-void ClipManager::setThumbsProgress(KUrl url, int progress)
-{
-  m_doc->setThumbsProgress(url, progress);
+void ClipManager::setThumbsProgress(KUrl url, int progress) {
+    m_doc->setThumbsProgress(url, progress);
 }
 
 
-void ClipManager::addClip(DocClipBase *clip)
-{
-  m_clipList.append(clip);
+void ClipManager::addClip(DocClipBase *clip) {
+    m_clipList.append(clip);
 }
 
-void ClipManager::slotDeleteClip(uint clipId)
-{
-  for (int i = 0; i < m_clipList.count(); i++) {
-    if (m_clipList.at(i)->getId() == clipId) {
-      //m_clipList.removeAt(i);
-      AddClipCommand *command = new AddClipCommand(m_doc, m_clipList.at(i)->toXML(), clipId, false);
-      m_doc->commandStack()->push(command);
-      break;
+void ClipManager::slotDeleteClip(uint clipId) {
+    for (int i = 0; i < m_clipList.count(); i++) {
+        if (m_clipList.at(i)->getId() == clipId) {
+            //m_clipList.removeAt(i);
+            AddClipCommand *command = new AddClipCommand(m_doc, m_clipList.at(i)->toXML(), clipId, false);
+            m_doc->commandStack()->push(command);
+            break;
+        }
     }
-  }
 }
 
-void ClipManager::deleteClip(uint clipId)
-{
-  for (int i = 0; i < m_clipList.count(); i++) {
-    if (m_clipList.at(i)->getId() == clipId) {
-      m_clipList.removeAt(i);
-      break;
+void ClipManager::deleteClip(uint clipId) {
+    for (int i = 0; i < m_clipList.count(); i++) {
+        if (m_clipList.at(i)->getId() == clipId) {
+            m_clipList.removeAt(i);
+            break;
+        }
     }
-  }
 }
 
-DocClipBase *ClipManager::getClipAt(int pos)
-{
-  return m_clipList.at(pos);
+DocClipBase *ClipManager::getClipAt(int pos) {
+    return m_clipList.at(pos);
 }
 
-DocClipBase *ClipManager::getClipById(int clipId)
-{
-  kDebug()<<"++++  CLIP MAN, LOOKING FOR CLIP ID: "<<clipId;
-  for (int i = 0; i < m_clipList.count(); i++) {
-    if (m_clipList.at(i)->getId() == clipId)
-    {
-        kDebug()<<"++++  CLIP MAN, FOUND FOR CLIP ID: "<<clipId;
-      return m_clipList.at(i);
+DocClipBase *ClipManager::getClipById(int clipId) {
+    kDebug() << "++++  CLIP MAN, LOOKING FOR CLIP ID: " << clipId;
+    for (int i = 0; i < m_clipList.count(); i++) {
+        if (m_clipList.at(i)->getId() == clipId) {
+            kDebug() << "++++  CLIP MAN, FOUND FOR CLIP ID: " << clipId;
+            return m_clipList.at(i);
+        }
     }
-  }
-  return NULL;
+    return NULL;
 }
 
-void ClipManager::slotAddClipFile(const KUrl url, const QString group)
-{
-    kDebug()<<"/////  CLIP MANAGER, ADDING CLIP: "<<url;
+void ClipManager::slotAddClipFile(const KUrl url, const QString group) {
+    kDebug() << "/////  CLIP MANAGER, ADDING CLIP: " << url;
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
     prod.setAttribute("resource", url.path());
@@ -95,16 +85,15 @@ void ClipManager::slotAddClipFile(const KUrl url, const QString group)
     if (!group.isEmpty()) prod.setAttribute("group", group);
     KMimeType::Ptr type = KMimeType::findByUrl(url);
     if (type->name().startsWith("image/")) {
-      prod.setAttribute("type", (int) IMAGE);
-      prod.setAttribute("in", "0");
-      prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()));
+        prod.setAttribute("type", (int) IMAGE);
+        prod.setAttribute("in", "0");
+        prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()));
     }
     AddClipCommand *command = new AddClipCommand(m_doc, prod, id, true);
     m_doc->commandStack()->push(command);
 }
 
-void ClipManager::slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group)
-{
+void ClipManager::slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group) {
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
     prod.setAttribute("mlt_service", "colour");

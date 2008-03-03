@@ -24,74 +24,65 @@
 #include "effectslistview.h"
 
 EffectsListView::EffectsListView(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent)
-    : QWidget(parent)
-{
-  m_effectsList = new EffectsListWidget(audioEffectList, videoEffectList, customEffectList);
+        : QWidget(parent) {
+    m_effectsList = new EffectsListWidget(audioEffectList, videoEffectList, customEffectList);
 
-  ui.setupUi(this);
-  QVBoxLayout *lyr = new QVBoxLayout(ui.effectlistframe);
-  lyr->addWidget(m_effectsList);
-  ui.search_effect->setListWidget(m_effectsList);
-  ui.buttonInfo->setIcon(KIcon("help-about"));
-  ui.infopanel->hide();
-
-  connect(ui.type_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(filterList(int)));
-  connect (ui.buttonInfo, SIGNAL (clicked()), this, SLOT (showInfoPanel()));
-  connect(m_effectsList, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateInfo()));
-  connect(m_effectsList, SIGNAL(doubleClicked(QListWidgetItem *,const QPoint &)), this, SLOT(slotEffectSelected()));
-
-  m_effectsList->setCurrentRow(0); 
-}
-
-
-void EffectsListView::filterList(int pos)
-{
-  QListWidgetItem *item;
-  for (int i = 0; i < m_effectsList->count(); i++)
-  {
-    item = m_effectsList->item(i);
-    if (pos == 0) item->setHidden(false);
-    else if (item->data(Qt::UserRole).toInt() == pos) item->setHidden(false);
-    else item->setHidden(true);
-  }
-  item = m_effectsList->currentItem();
-  if (item) {
-    if (item->isHidden()) {
-      int i;
-      for (i = 0; i < m_effectsList->count() && m_effectsList->item(i)->isHidden(); i++);
-      m_effectsList->setCurrentRow(i);
-    }
-    else m_effectsList->scrollToItem(item);
-  }
-}
-
-void EffectsListView::showInfoPanel()
-{
-  if (ui.infopanel->isVisible()) {
+    ui.setupUi(this);
+    QVBoxLayout *lyr = new QVBoxLayout(ui.effectlistframe);
+    lyr->addWidget(m_effectsList);
+    ui.search_effect->setListWidget(m_effectsList);
+    ui.buttonInfo->setIcon(KIcon("help-about"));
     ui.infopanel->hide();
-    ui.buttonInfo->setDown(false);
-  }
-  else {
-    ui.infopanel->show();
-    ui.buttonInfo->setDown(true);
-  }
+
+    connect(ui.type_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(filterList(int)));
+    connect(ui.buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
+    connect(m_effectsList, SIGNAL(itemSelectionChanged()), this, SLOT(slotUpdateInfo()));
+    connect(m_effectsList, SIGNAL(doubleClicked(QListWidgetItem *, const QPoint &)), this, SLOT(slotEffectSelected()));
+
+    m_effectsList->setCurrentRow(0);
 }
 
-void EffectsListView::slotEffectSelected()
-{
-  QDomElement effect = m_effectsList->currentEffect();
-  if (!effect.isNull()) emit addEffect(effect);
+
+void EffectsListView::filterList(int pos) {
+    QListWidgetItem *item;
+    for (int i = 0; i < m_effectsList->count(); i++) {
+        item = m_effectsList->item(i);
+        if (pos == 0) item->setHidden(false);
+        else if (item->data(Qt::UserRole).toInt() == pos) item->setHidden(false);
+        else item->setHidden(true);
+    }
+    item = m_effectsList->currentItem();
+    if (item) {
+        if (item->isHidden()) {
+            int i;
+            for (i = 0; i < m_effectsList->count() && m_effectsList->item(i)->isHidden(); i++);
+            m_effectsList->setCurrentRow(i);
+        } else m_effectsList->scrollToItem(item);
+    }
 }
 
-void EffectsListView::slotUpdateInfo()
-{
-  QString info = m_effectsList->currentInfo(); 
-  if (!info.isEmpty()) ui.infopanel->setText(info);
+void EffectsListView::showInfoPanel() {
+    if (ui.infopanel->isVisible()) {
+        ui.infopanel->hide();
+        ui.buttonInfo->setDown(false);
+    } else {
+        ui.infopanel->show();
+        ui.buttonInfo->setDown(true);
+    }
 }
 
-KListWidget *EffectsListView::listView()
-{
-  return m_effectsList;
+void EffectsListView::slotEffectSelected() {
+    QDomElement effect = m_effectsList->currentEffect();
+    if (!effect.isNull()) emit addEffect(effect);
+}
+
+void EffectsListView::slotUpdateInfo() {
+    QString info = m_effectsList->currentInfo();
+    if (!info.isEmpty()) ui.infopanel->setText(info);
+}
+
+KListWidget *EffectsListView::listView() {
+    return m_effectsList;
 }
 
 #include "effectslistview.moc"

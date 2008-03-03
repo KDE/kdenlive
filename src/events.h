@@ -24,12 +24,14 @@
 
 class ProgressEvent : public QEvent {
 public:
-	ProgressEvent( int value, QEvent::Type eventType  )
-		: QEvent( eventType ), m_val( value ) {};
-	int value() const { return m_val; };
+    ProgressEvent(int value, QEvent::Type eventType)
+            : QEvent(eventType), m_val(value) {};
+    int value() const {
+        return m_val;
+    };
 private:
-	int m_val;
-	
+    int m_val;
+
 };
 
 

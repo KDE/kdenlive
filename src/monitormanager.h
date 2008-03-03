@@ -26,30 +26,29 @@
 
 class Monitor;
 
-class MonitorManager : public QObject
-{
-  Q_OBJECT
-  
-  public:
-    MonitorManager(QWidget *parent=0);
+class MonitorManager : public QObject {
+    Q_OBJECT
+
+public:
+    MonitorManager(QWidget *parent = 0);
     void initMonitors(Monitor *clipMonitor, Monitor *projectMonitor);
     Timecode timecode();
     void setTimecode(Timecode tc);
 
-  public slots:
+public slots:
     void activateMonitor(QString name = QString::null);
 
-  private:
+private:
     Monitor *m_clipMonitor;
     Monitor *m_projectMonitor;
     QString m_activeMonitor;
     Timecode m_timecode;
 
-  private slots:
+private slots:
     void initProjectMonitor();
     void initClipMonitor();
 
-  signals:
+signals:
     void connectMonitors();
     void raiseClipMonitor(bool);
 

@@ -20,46 +20,41 @@
 
 #include <KDebug>
 
-TrackPanelFunctionFactory::TrackPanelFunctionFactory()
-{
+TrackPanelFunctionFactory::TrackPanelFunctionFactory() {
 }
 
 
-TrackPanelFunctionFactory::~TrackPanelFunctionFactory()
-{
+TrackPanelFunctionFactory::~TrackPanelFunctionFactory() {
     clearFactory();
 }
 
-void TrackPanelFunctionFactory::clearFactory()
-{
+void TrackPanelFunctionFactory::clearFactory() {
     QMap < QString, TrackPanelFunction * >::iterator itt =
-	m_functionMap.begin();
+        m_functionMap.begin();
 
     while (itt != m_functionMap.end()) {
-	delete(itt.value());
-	itt.value() = 0;
-	++itt;
+        delete(itt.value());
+        itt.value() = 0;
+        ++itt;
     }
     m_functionMap.clear();
 }
 
 void TrackPanelFunctionFactory::registerFunction(const QString & name,
-    TrackPanelFunction * function)
-{
+        TrackPanelFunction * function) {
     if (!m_functionMap.contains(name)) {
-	m_functionMap[name] = function;
+        m_functionMap[name] = function;
     } else {
-	kError() << "Factory already contains a function called " << name;
+        kError() << "Factory already contains a function called " << name;
     }
 }
 
 TrackPanelFunction *TrackPanelFunctionFactory::
-function(const QString & name)
-{
+function(const QString & name) {
     if (m_functionMap.contains(name)) {
-	return m_functionMap[name];
+        return m_functionMap[name];
     } else {
-	kError() << "No function called " << name << " found in factory";
+        kError() << "No function called " << name << " found in factory";
     }
 
     return 0;

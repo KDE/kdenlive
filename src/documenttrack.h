@@ -14,13 +14,12 @@
 class TrackPanelFunction;
 class TrackView;
 
-  
-class DocumentTrack : public QWidget
-{
-  Q_OBJECT
-  
-  public:
-    DocumentTrack(QDomElement xml, TrackView * view, QWidget *parent=0);
+
+class DocumentTrack : public QWidget {
+    Q_OBJECT
+
+public:
+    DocumentTrack(QDomElement xml, TrackView * view, QWidget *parent = 0);
 
     QList <TrackViewClip> clipList();
     int duration();
@@ -29,19 +28,19 @@ class DocumentTrack : public QWidget
     void addFunctionDecorator(const QString & mode, const QString & function);
     QStringList applicableFunctions(const QString & mode);
 
-  protected:
+protected:
     //virtual void paintEvent(QPaintEvent * /*e*/);
 
-  private:
+private:
     QDomElement m_xml;
     QList <TrackViewClip> m_clipList;
     void parseXml();
     int m_trackDuration;
-      /** A map of lists of track panel functions. */
+    /** A map of lists of track panel functions. */
     QMap < QString, QStringList > m_trackPanelFunctions;
 
 
-  public slots:
+public slots:
 
 };
 

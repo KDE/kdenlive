@@ -30,23 +30,22 @@
 #include "kdenlivedoc.h"
 #include "clipitem.h"
 
-class CustomTrackView : public QGraphicsView
-{
-  Q_OBJECT
-  
-  public:
-    CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene, QWidget *parent=0);
-    virtual void mousePressEvent ( QMouseEvent * event );
-    virtual void mouseReleaseEvent ( QMouseEvent * event );
-    virtual void mouseMoveEvent ( QMouseEvent * event );
+class CustomTrackView : public QGraphicsView {
+    Q_OBJECT
+
+public:
+    CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene, QWidget *parent = 0);
+    virtual void mousePressEvent(QMouseEvent * event);
+    virtual void mouseReleaseEvent(QMouseEvent * event);
+    virtual void mouseMoveEvent(QMouseEvent * event);
     void addTrack();
     void removeTrack();
     int cursorPos();
     void initView();
-    void moveClip ( const QPointF &startPos, const QPointF &endPos );
-    void resizeClip ( const QPointF &startPos, const QPointF &endPos, bool resizeClipStart );
-    void addClip ( QDomElement xml, int clipId, int track, int startpos, const QRectF &rect, int duration);
-    void deleteClip ( int track, int startpos, const QRectF &rect );
+    void moveClip(const QPointF &startPos, const QPointF &endPos);
+    void resizeClip(const QPointF &startPos, const QPointF &endPos, bool resizeClipStart);
+    void addClip(QDomElement xml, int clipId, int track, int startpos, const QRectF &rect, int duration);
+    void deleteClip(int track, int startpos, const QRectF &rect);
     void setScale(double scaleFactor);
     void deleteClip(int clipId);
     void slotAddEffect(QDomElement effect, GenTime pos, int track);
@@ -54,7 +53,7 @@ class CustomTrackView : public QGraphicsView
     void deleteEffect(int track, GenTime pos, QDomElement effect);
     void updateEffect(int track, GenTime pos, QDomElement effect);
 
-  public slots:
+public slots:
     void setCursorPos(int pos, bool seek = true);
     void slotDeleteEffect(ClipItem *clip, QDomElement effect);
     void slotChangeEffectState(ClipItem *clip, QDomElement effect, bool disable);
@@ -62,19 +61,19 @@ class CustomTrackView : public QGraphicsView
     void slotRefreshEffects(ClipItem *clip);
     void setDuration(int duration);
 
-  protected:
-    virtual void drawBackground ( QPainter * painter, const QRectF & rect );
+protected:
+    virtual void drawBackground(QPainter * painter, const QRectF & rect);
     //virtual void drawForeground ( QPainter * painter, const QRectF & rect );
-    virtual void dragEnterEvent ( QDragEnterEvent * event );
+    virtual void dragEnterEvent(QDragEnterEvent * event);
     virtual void dragMoveEvent(QDragMoveEvent * event);
-    virtual void dragLeaveEvent ( QDragLeaveEvent * event );
-    virtual void dropEvent ( QDropEvent * event );
-    virtual void wheelEvent ( QWheelEvent * e );
+    virtual void dragLeaveEvent(QDragLeaveEvent * event);
+    virtual void dropEvent(QDropEvent * event);
+    virtual void wheelEvent(QWheelEvent * e);
     virtual QStringList mimeTypes() const;
-    virtual Qt::DropActions supportedDropActions () const;
-    virtual void resizeEvent ( QResizeEvent * event );
+    virtual Qt::DropActions supportedDropActions() const;
+    virtual void resizeEvent(QResizeEvent * event);
 
-  private:
+private:
     int m_tracksCount;
     int m_projectDuration;
     int m_cursorPos;
@@ -100,13 +99,12 @@ class CustomTrackView : public QGraphicsView
     ClipItem *getClipItemAt(int pos, int track);
 
 
-  signals:
+signals:
     void cursorMoved(int);
     void zoomIn();
     void zoomOut();
     void mousePosition(int);
     void clipItemSelected(ClipItem*);
-
 };
 
 #endif

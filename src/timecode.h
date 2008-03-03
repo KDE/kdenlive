@@ -27,32 +27,32 @@ Handles the conversion of a GenTime into a nicely formatted string, taking into 
 @author Jason Wood
 */
 class Timecode {
-  public:
+public:
     enum Formats { HH_MM_SS_FF, HH_MM_SS_HH, Frames, Seconds };
 
-     Timecode(Formats format = HH_MM_SS_FF, int framesPerSecond =
-	25, bool dropFrame = false);
+    Timecode(Formats format = HH_MM_SS_FF, int framesPerSecond =
+                 25, bool dropFrame = false);
 
-	/** Set the current timecode format; this is the output format for this timecode. */
+    /** Set the current timecode format; this is the output format for this timecode. */
     void setFormat(int framesPerSecond, bool dropFrame = false, Formats format = HH_MM_SS_FF) {
-	m_displayedFramesPerSecond = framesPerSecond;
-	m_dropFrame = dropFrame;
-	m_format = format;
-    } 
+        m_displayedFramesPerSecond = framesPerSecond;
+        m_dropFrame = dropFrame;
+        m_format = format;
+    }
 
     Formats format() const {
-	return m_format;
-    } 
+        return m_format;
+    }
 
     ~Timecode();
 
-	/** Returns the timecode for a given time */
+    /** Returns the timecode for a given time */
     QString getTimecode(const GenTime & time, double fps) const;
     int getFrameCount(const QString duration, double fps) const;
     static QString getEasyTimecode(const GenTime & time, const double &fps);
     QString getTimecodeFromFrames(int frames);
 
-  private:
+private:
     Formats m_format;
     bool m_dropFrame;
     int m_displayedFramesPerSecond;

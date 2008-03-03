@@ -25,17 +25,16 @@
 
 #include "ui_projectsettings_ui.h"
 
-class ProjectSettings : public QDialog
-{
-  Q_OBJECT
-  
-  public:
+class ProjectSettings : public QDialog {
+    Q_OBJECT
+
+public:
     ProjectSettings(QWidget * parent = 0);
 
-  private slots:
+private slots:
     void slotUpdateDisplay();
 
-  private:
+private:
     Ui::ProjectSettings_UI m_view;
     QStringList m_mltProfilesList;
     QStringList m_customProfilesList;

@@ -26,20 +26,19 @@
 
 #include "kdenlivedoc.h"
 
-class AddClipCommand : public QUndoCommand
- {
- public:
-     AddClipCommand(KdenliveDoc *list, const QDomElement &xml, const uint id, bool doIt);
+class AddClipCommand : public QUndoCommand {
+public:
+    AddClipCommand(KdenliveDoc *list, const QDomElement &xml, const uint id, bool doIt);
 
     virtual void undo();
     virtual void redo();
 
- private:
-     KdenliveDoc *m_doc;
-     QDomElement m_xml;
-     uint m_id;
-     bool m_doIt;
- };
+private:
+    KdenliveDoc *m_doc;
+    QDomElement m_xml;
+    uint m_id;
+    bool m_doIt;
+};
 
 #endif
 

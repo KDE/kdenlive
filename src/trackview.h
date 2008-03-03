@@ -39,14 +39,13 @@
 #include "customtrackview.h"
 class ClipItem;
 
-class TrackView : public QWidget
-{
-  Q_OBJECT
-  
-  public:
-    TrackView(KdenliveDoc *doc, QWidget *parent=0);
+class TrackView : public QWidget {
+    Q_OBJECT
 
-	/** This event occurs when the mouse has been moved. */
+public:
+    TrackView(KdenliveDoc *doc, QWidget *parent = 0);
+
+    /** This event occurs when the mouse has been moved. */
     void mouseMoveEvent(QMouseEvent * event);
 
     const double zoomFactor() const;
@@ -60,10 +59,10 @@ class TrackView : public QWidget
     int tracksNumber();
     KdenliveDoc *document();
 
-  public slots:
+public slots:
     void slotDeleteClip(int clipId);
 
-  private:
+private:
     Ui::TimeLine_UI *view;
     CustomRuler *m_ruler;
     CustomTrackView *m_trackview;
@@ -73,7 +72,7 @@ class TrackView : public QWidget
     int m_projectTracks;
     TrackPanelFunctionFactory m_factory;
     DocumentTrack *m_panelUnderMouse;
-	/** The currently applied function. This lasts from mousePressed until mouseRelease. */
+    /** The currently applied function. This lasts from mousePressed until mouseRelease. */
     TrackPanelFunction *m_function;
     QString m_editMode;
     QGraphicsScene *m_scene;
@@ -92,7 +91,7 @@ class TrackView : public QWidget
     void registerFunction(const QString & name, TrackPanelFunction * function);
     TrackPanelFunction *getApplicableFunction(DocumentTrack * panel, const QString & editMode, QMouseEvent * event);
 
-  private slots:
+private slots:
     void slotChangeZoom(int factor);
     void slotCursorMoved(int pos, bool slotCursorMoved = false);
     void slotZoomIn();
@@ -100,7 +99,7 @@ class TrackView : public QWidget
     void setCursorPos(int pos);
     void moveCursorPos(int pos);
     void slotClipItemSelected(ClipItem*);
-  signals:
+signals:
     void mousePosition(int);
     void cursorMoved();
     void clipItemSelected(ClipItem*);

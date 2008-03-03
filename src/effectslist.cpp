@@ -22,71 +22,65 @@
 
 
 EffectsList::EffectsList():
-QList < QDomElement > ()
-{
+        QList < QDomElement > () {
 }
 
-EffectsList::~EffectsList()
-{
+EffectsList::~EffectsList() {
 }
 
-QMap <QString, QString> EffectsList::effect(const QString & name)
-{
-  QMap <QString, QString> filter;
-  QString effectName;
-  QDomElement effect;
-  for (int i = 0; i < this->size(); ++i) {
-    effect =  this->at(i);
-    QDomNode namenode = effect.elementsByTagName("name").item(0);
-    if (!namenode.isNull()) {
-      effectName = i18n(qstrdup(namenode.toElement().text().toUtf8()));
-      if (name == effectName) break;
+QMap <QString, QString> EffectsList::effect(const QString & name) {
+    QMap <QString, QString> filter;
+    QString effectName;
+    QDomElement effect;
+    for (int i = 0; i < this->size(); ++i) {
+        effect =  this->at(i);
+        QDomNode namenode = effect.elementsByTagName("name").item(0);
+        if (!namenode.isNull()) {
+            effectName = i18n(qstrdup(namenode.toElement().text().toUtf8()));
+            if (name == effectName) break;
+        }
     }
-  }
-  filter.insert("mlt_service", effect.attribute("tag"));
-  filter.insert("name", name);
-  return filter;
+    filter.insert("mlt_service", effect.attribute("tag"));
+    filter.insert("name", name);
+    return filter;
 }
 
-QDomElement EffectsList::getEffectByName(const QString & name)
-{
-  QString effectName;
-  for (int i = 0; i < this->size(); ++i) {
-    QDomElement effect =  this->at(i);
-    QDomNode namenode = effect.elementsByTagName("name").item(0);
-    if (!namenode.isNull()) effectName = i18n(qstrdup(namenode.toElement().text().toUtf8()));
-    if (name == effectName) {
-      QDomNodeList params = effect.elementsByTagName("parameter");
-      for (int i = 0; i < params.count(); i++) {
-	QDomElement e = params.item(i).toElement();
-	e.setAttribute("value", e.attribute("default"));
-      }
-      return effect;
+QDomElement EffectsList::getEffectByName(const QString & name) {
+    QString effectName;
+    for (int i = 0; i < this->size(); ++i) {
+        QDomElement effect =  this->at(i);
+        QDomNode namenode = effect.elementsByTagName("name").item(0);
+        if (!namenode.isNull()) effectName = i18n(qstrdup(namenode.toElement().text().toUtf8()));
+        if (name == effectName) {
+            QDomNodeList params = effect.elementsByTagName("parameter");
+            for (int i = 0; i < params.count(); i++) {
+                QDomElement e = params.item(i).toElement();
+                e.setAttribute("value", e.attribute("default"));
+            }
+            return effect;
+        }
     }
-  }
 
-  return QDomElement();
+    return QDomElement();
 }
 
-QStringList EffectsList::effectNames()
-{
-  QStringList list;
-  for (int i = 0; i < this->size(); ++i) {
-    QDomElement effect =  this->at(i);
-    QDomNode namenode = effect.elementsByTagName("name").item(0);
-    if (!namenode.isNull()) list.append(i18n(qstrdup(namenode.toElement().text().toUtf8())));
-  }
-  return list;
+QStringList EffectsList::effectNames() {
+    QStringList list;
+    for (int i = 0; i < this->size(); ++i) {
+        QDomElement effect =  this->at(i);
+        QDomNode namenode = effect.elementsByTagName("name").item(0);
+        if (!namenode.isNull()) list.append(i18n(qstrdup(namenode.toElement().text().toUtf8())));
+    }
+    return list;
 }
 
-QString EffectsList::getInfo(QString effectName)
-{
-  QString info;
-  QDomElement effect = getEffectByName(effectName);
-  QDomNode namenode = effect.elementsByTagName("description").item(0);
-  if (!namenode.isNull()) info = i18n(qstrdup(namenode.toElement().text().toUtf8()));
-  namenode = effect.elementsByTagName("author").item(0);
-  if (!namenode.isNull()) info.append(i18n("<br><b>Author:</b> ") + i18n(qstrdup(namenode.toElement().text().toUtf8())));
-  return info;
+QString EffectsList::getInfo(QString effectName) {
+    QString info;
+    QDomElement effect = getEffectByName(effectName);
+    QDomNode namenode = effect.elementsByTagName("description").item(0);
+    if (!namenode.isNull()) info = i18n(qstrdup(namenode.toElement().text().toUtf8()));
+    namenode = effect.elementsByTagName("author").item(0);
+    if (!namenode.isNull()) info.append(i18n("<br><b>Author:</b> ") + i18n(qstrdup(namenode.toElement().text().toUtf8())));
+    return info;
 }
 

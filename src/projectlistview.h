@@ -24,37 +24,36 @@
 #include <QTreeWidget>
 #include <QContextMenuEvent>
 
-class ProjectListView : public QTreeWidget
-{
-  Q_OBJECT
-  
-  public:
-    ProjectListView(QWidget *parent=0);
-    virtual ~ProjectListView();
-    void editItem ( QTreeWidgetItem * item, int column = 0 );
+class ProjectListView : public QTreeWidget {
+    Q_OBJECT
 
-  protected:
-    virtual void contextMenuEvent ( QContextMenuEvent * event );
-    virtual void mouseDoubleClickEvent ( QMouseEvent * event );
+public:
+    ProjectListView(QWidget *parent = 0);
+    virtual ~ProjectListView();
+    void editItem(QTreeWidgetItem * item, int column = 0);
+
+protected:
+    virtual void contextMenuEvent(QContextMenuEvent * event);
+    virtual void mouseDoubleClickEvent(QMouseEvent * event);
     virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseMoveEvent(QMouseEvent *event);
     virtual void dragEnterEvent(QDragEnterEvent *event);
     virtual void dropEvent(QDropEvent *event);
     virtual QStringList mimeTypes() const;
-    virtual Qt::DropActions supportedDropActions () const;
+    virtual Qt::DropActions supportedDropActions() const;
     virtual void dragMoveEvent(QDragMoveEvent * event);
 
-  public slots:
+public slots:
 
 
-  private:
+private:
     bool m_dragStarted;
     QPoint m_DragStartPosition;
 
-  private slots:
+private slots:
 
 
-  signals:
+signals:
     void requestMenu(const QPoint &, QTreeWidgetItem *);
     void addClip();
     void addClip(QUrl, const QString &);

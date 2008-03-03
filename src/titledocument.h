@@ -22,18 +22,18 @@ class QGraphicsScene;
 class QGraphicsPolygonItem;
 
 class TitleDocument {
-	QGraphicsScene* scene;
-	public:
-		TitleDocument();
-		void setScene(QGraphicsScene* scene);
-		bool saveDocument(const KUrl& url,QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv);
-		bool loadDocument(const KUrl& url,QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv);
-	private:
-		QString colorToString(const QColor&);
-		QString rectFToString(const QRectF&);
-		QRectF stringToRect(const QString &);
-		QColor stringToColor(const QString &);
-		QTransform stringToTransform(const QString &);
+    QGraphicsScene* scene;
+public:
+    TitleDocument();
+    void setScene(QGraphicsScene* scene);
+    bool saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv);
+    bool loadDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv);
+private:
+    QString colorToString(const QColor&);
+    QString rectFToString(const QRectF&);
+    QRectF stringToRect(const QString &);
+    QColor stringToColor(const QString &);
+    QTransform stringToTransform(const QString &);
 };
 
 #endif

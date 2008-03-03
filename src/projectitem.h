@@ -31,9 +31,8 @@
 #include "definitions.h"
 #include "docclipbase.h"
 
-class ProjectItem : public QTreeWidgetItem
-{
-  public:
+class ProjectItem : public QTreeWidgetItem {
+public:
     ProjectItem(QTreeWidget * parent, const QStringList & strings, QDomElement xml, int clipId);
     ProjectItem(QTreeWidgetItem * parent, const QStringList & strings, QDomElement xml, int clipId);
     ProjectItem(QTreeWidget * parent, const QStringList & strings, int clipId);
@@ -51,7 +50,7 @@ class ProjectItem : public QTreeWidgetItem
     int clipMaxDuration() const;
     CLIPTYPE clipType() const;
 
-  private:
+private:
     QDomElement m_element;
     GenTime m_duration;
     bool m_durationKnown;

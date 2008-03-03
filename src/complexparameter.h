@@ -25,39 +25,38 @@
 class EffectsList;
 
 
-class ComplexParameter : public QWidget
-{
-	Q_OBJECT
-		
-	public:
-		ComplexParameter(QWidget *parent=0);
-		QDomElement getParamDesc();
+class ComplexParameter : public QWidget {
+    Q_OBJECT
+
+public:
+    ComplexParameter(QWidget *parent = 0);
+    QDomElement getParamDesc();
 private:
-	int activeRow;
-	QList<QDomElement> effects;
-	Ui::KeyframeWidget_UI ui;
-	ClipItem* clipref;
-	void setupListView();
-	void updateButtonStatus();
-	QMap<QString,EffectsList*> effectLists;
-	
-	QDomElement param;
+    int activeRow;
+    QList<QDomElement> effects;
+    Ui::KeyframeWidget_UI ui;
+    ClipItem* clipref;
+    void setupListView();
+    void updateButtonStatus();
+    QMap<QString, EffectsList*> effectLists;
+
+    QDomElement param;
 public slots:
-	void slotSetMoveX();
-	void slotSetMoveY();
-	void slotSetNew();
-	void slotSetHelp();
-	void slotShowInTimeline();
-	void slotParameterChanged(const QString&);
-	void itemSelectionChanged();
-	void setupParam(const QDomElement&,int,int);
-	void slotUpdateEffectParams(QDomElement e);
-	void slotUpdateParameterList(QStringList);
+    void slotSetMoveX();
+    void slotSetMoveY();
+    void slotSetNew();
+    void slotSetHelp();
+    void slotShowInTimeline();
+    void slotParameterChanged(const QString&);
+    void itemSelectionChanged();
+    void setupParam(const QDomElement&, int, int);
+    void slotUpdateEffectParams(QDomElement e);
+    void slotUpdateParameterList(QStringList);
 signals:
-	void transferParamDesc(const QDomElement&,int ,int);
-	void removeEffect(ClipItem*, QDomElement);
-	void updateClipEffect(ClipItem*, QDomElement);
-	void parameterChanged();
+    void transferParamDesc(const QDomElement&, int , int);
+    void removeEffect(ClipItem*, QDomElement);
+    void updateClipEffect(ClipItem*, QDomElement);
+    void parameterChanged();
 
 };
 

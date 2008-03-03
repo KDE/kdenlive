@@ -22,25 +22,23 @@
 #include "addclipcommand.h"
 
 AddClipCommand::AddClipCommand(KdenliveDoc *doc, const QDomElement &xml, const uint id, bool doIt)
-         : m_doc(doc), m_xml(xml), m_id(id), m_doIt(doIt) {
-	    if (doIt) setText(i18n("Add clip"));
-	    else setText(i18n("Delete clip"));
-	 }
-
-
-// virtual 
-void AddClipCommand::undo()
-{
-kDebug()<<"----  undoing action";
-  if (m_doIt) m_doc->deleteClip(m_id);
-  else m_doc->addClip(m_xml, m_id);
+        : m_doc(doc), m_xml(xml), m_id(id), m_doIt(doIt) {
+    if (doIt) setText(i18n("Add clip"));
+    else setText(i18n("Delete clip"));
 }
-// virtual 
-void AddClipCommand::redo()
-{
-kDebug()<<"----  redoing action";
-  if (m_doIt) m_doc->addClip(m_xml, m_id);
-  else m_doc->deleteClip(m_id);
+
+
+// virtual
+void AddClipCommand::undo() {
+    kDebug() << "----  undoing action";
+    if (m_doIt) m_doc->deleteClip(m_id);
+    else m_doc->addClip(m_xml, m_id);
+}
+// virtual
+void AddClipCommand::redo() {
+    kDebug() << "----  redoing action";
+    if (m_doIt) m_doc->addClip(m_xml, m_id);
+    else m_doc->deleteClip(m_id);
 }
 
 #include "addclipcommand.moc"

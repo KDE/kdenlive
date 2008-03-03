@@ -4,19 +4,18 @@
 #include "documenttrack.h"
 #include "trackview.h"
 
-class DocumentAudioTrack : public DocumentTrack
-{
-  Q_OBJECT
-  
-  public:
-    DocumentAudioTrack(QDomElement xml, TrackView * view, QWidget *parent=0);
+class DocumentAudioTrack : public DocumentTrack {
+    Q_OBJECT
 
-  protected:
+public:
+    DocumentAudioTrack(QDomElement xml, TrackView * view, QWidget *parent = 0);
+
+protected:
     //virtual void paintEvent(QPaintEvent * /*e*/);
 
-  private:
+private:
     TrackView *m_trackView;
-  public slots:
+public slots:
 
 };
 

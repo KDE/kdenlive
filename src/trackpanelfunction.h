@@ -30,60 +30,60 @@ Abstract Base Class for track panel functionality decorators. This and it's
 derived classes allow different behaviours to be added to panels as required.
 
 @author Jason Wood
-*/ class TrackPanelFunction:public QObject
-{
-  Q_OBJECT public:
+*/
+class TrackPanelFunction: public QObject {
+Q_OBJECT public:
     TrackPanelFunction();
 
     virtual ~ TrackPanelFunction();
 
-	/**
-	Returns true if the specified position should cause this function to activate,
-	otherwise returns false.
-	*/
+    /**
+    Returns true if the specified position should cause this function to activate,
+    otherwise returns false.
+    */
     virtual bool mouseApplies(DocumentTrack * panel,
-	QMouseEvent * event) const = 0;
+                              QMouseEvent * event) const = 0;
 
-	/**
-	Returns a relevant mouse cursor for the given mouse position
-	*/
+    /**
+    Returns a relevant mouse cursor for the given mouse position
+    */
     virtual QCursor getMouseCursor(DocumentTrack * panel,
-	QMouseEvent * event) = 0;
+                                   QMouseEvent * event) = 0;
 
-	/**
-	A mouse button has been pressed. Returns true if we want to handle this event
-	*/
+    /**
+    A mouse button has been pressed. Returns true if we want to handle this event
+    */
     virtual bool mousePressed(DocumentTrack * panel,
-	QMouseEvent * event) = 0;
+                              QMouseEvent * event) = 0;
 
     virtual bool mouseDoubleClicked(DocumentTrack * panel, QMouseEvent * event) = 0;
 
-	/**
-	Mouse Release Events in the track view area. Returns true if we have finished
-	an operation now.
-	*/
+    /**
+    Mouse Release Events in the track view area. Returns true if we have finished
+    an operation now.
+    */
     virtual bool mouseReleased(DocumentTrack * panel,
-	QMouseEvent * event) = 0;
+                               QMouseEvent * event) = 0;
 
-	/**
-	Processes Mouse Move events in the track view area. Returns true if we are
-	continuing with the drag.*/
+    /**
+    Processes Mouse Move events in the track view area. Returns true if we are
+    continuing with the drag.*/
     virtual bool mouseMoved(DocumentTrack * panel,
-	QMouseEvent * event) = 0;
+                            QMouseEvent * event) = 0;
 
-	/**
-	Process Drag events*/
+    /**
+    Process Drag events*/
     virtual bool dragEntered(DocumentTrack * , QDragEnterEvent *) {
-	return false;
+        return false;
     };
     virtual bool dragMoved(DocumentTrack * , QDragMoveEvent *) {
-	return false;
+        return false;
     };
     virtual bool dragLeft(DocumentTrack * , QDragLeaveEvent *) {
-	return false;
+        return false;
     };
     virtual bool dragDropped(DocumentTrack * , QDropEvent *) {
-	return false;
+        return false;
     };
 
 };

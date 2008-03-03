@@ -26,25 +26,24 @@
 
 class QFrame;
 
-class EffectStackEdit : public QObject
-{
-	Q_OBJECT
+class EffectStackEdit : public QObject {
+    Q_OBJECT
 public:
-	EffectStackEdit(QFrame* frame,QWidget *parent );
+    EffectStackEdit(QFrame* frame, QWidget *parent);
 private:
-	void clearAllItems();
-	QVBoxLayout *vbox;
-	QList<QWidget*> items;
-	QList<void*> uiItems;
-	QDomElement params;
-	QMap<QString,void*> valueItems;
-	void createSliderItem(const QString& name, int val ,int min, int max);
+    void clearAllItems();
+    QVBoxLayout *vbox;
+    QList<QWidget*> items;
+    QList<void*> uiItems;
+    QDomElement params;
+    QMap<QString, void*> valueItems;
+    void createSliderItem(const QString& name, int val , int min, int max);
 public slots:
-	void transferParamDesc(const QDomElement&,int ,int);
-	void slotSliderMoved(int);
-	void collectAllParameters();
+    void transferParamDesc(const QDomElement&, int , int);
+    void slotSliderMoved(int);
+    void collectAllParameters();
 signals:
-	void parameterChanged(const QDomElement&, const QDomElement& );
+    void parameterChanged(const QDomElement&, const QDomElement&);
 };
-	
+
 #endif

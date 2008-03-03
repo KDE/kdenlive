@@ -3,19 +3,18 @@
 
 
 
-class HeaderTrack : public QWidget
-{
-  Q_OBJECT
-  
-  public:
-    HeaderTrack(QWidget *parent=0);
+class HeaderTrack : public QWidget {
+    Q_OBJECT
 
-  protected:
+public:
+    HeaderTrack(QWidget *parent = 0);
+
+protected:
     virtual void paintEvent(QPaintEvent * /*e*/);
 
-  private:
+private:
 
-  public slots:
+public slots:
 
 };
 

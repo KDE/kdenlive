@@ -29,21 +29,20 @@
 #include "ui_configenv_ui.h"
 #include "ui_configdisplay_ui.h"
 
-class KdenliveSettingsDialog : public KConfigDialog
-{
-  Q_OBJECT
-  
-  public:
+class KdenliveSettingsDialog : public KConfigDialog {
+    Q_OBJECT
+
+public:
     KdenliveSettingsDialog(QWidget * parent = 0);
     ~KdenliveSettingsDialog();
 
-  protected:
+protected:
     virtual bool hasChanged();
 
-  private slots:
+private slots:
     void slotUpdateDisplay();
 
-  private:
+private:
     KPageWidgetItem *page1;
     KPageWidgetItem *page2;
     KPageWidgetItem *page3;
@@ -55,7 +54,7 @@ class KdenliveSettingsDialog : public KConfigDialog
     bool m_isCustomProfile;
     QString m_defaulfProfile;
 
-  signals:
+signals:
     void customChanged();
 
 };

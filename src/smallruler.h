@@ -23,27 +23,26 @@
 
 #include <KRuler>
 
-class SmallRuler : public KRuler
-{
-  Q_OBJECT
-  
-  public:
-    SmallRuler(QWidget *parent=0);
-    virtual void mousePressEvent ( QMouseEvent * event );
-    virtual void mouseMoveEvent ( QMouseEvent * event );
-    void setPixelPerMark ( double rate );
+class SmallRuler : public KRuler {
+    Q_OBJECT
 
-  protected:
+public:
+    SmallRuler(QWidget *parent = 0);
+    virtual void mousePressEvent(QMouseEvent * event);
+    virtual void mouseMoveEvent(QMouseEvent * event);
+    void setPixelPerMark(double rate);
+
+protected:
     virtual void paintEvent(QPaintEvent * /*e*/);
 
-  private:
+private:
     int m_cursorPosition;
     double m_scale;
 
-  public slots:
-    void slotNewValue ( int _value );
+public slots:
+    void slotNewValue(int _value);
 
-  signals:
+signals:
     void seekRenderer(int);
 };
 

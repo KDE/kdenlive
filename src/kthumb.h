@@ -38,67 +38,67 @@ relevant signal that get's emitted once the call completes.
 
 
 namespace Mlt {
-    class Miracle;
-    class Consumer;
-    class Producer;
-    class Frame;
-    class Profile;
+class Miracle;
+class Consumer;
+class Producer;
+class Frame;
+class Profile;
 };
 
 class ClipManager;
 
 class MyThread : public QThread {
 
-    public:
-        virtual void run();
-	void init(QObject *parent, KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth);
-	bool isWorking();
-	bool stop_me;
+public:
+    virtual void run();
+    void init(QObject *parent, KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth);
+    bool isWorking();
+    bool stop_me;
 
-    private:
-	QFile f;
-	KUrl m_url;
-	double m_frame;
-	double m_frameLength;
-	int m_frequency;
-	int m_channels;
-	int m_arrayWidth;
-	bool m_isWorking;
-	QObject *m_parent;
-    };
-
-
-class KThumb:public QObject {
-  Q_OBJECT public:
+private:
+    QFile f;
+    KUrl m_url;
+    double m_frame;
+    double m_frameLength;
+    int m_frequency;
+    int m_channels;
+    int m_arrayWidth;
+    bool m_isWorking;
+    QObject *m_parent;
+};
 
 
-     KThumb(ClipManager *clipManager, KUrl url, int width, int height, QObject * parent = 0, const char *name = 0);
+class KThumb: public QObject {
+Q_OBJECT public:
+
+
+    KThumb(ClipManager *clipManager, KUrl url, int width, int height, QObject * parent = 0, const char *name = 0);
     ~KThumb();
 
 public slots:
-	void extractImage( int frame, int frame2);
-	static QPixmap getImage(KUrl url, int width, int height);
-/*	void getImage(KUrl url, int frame, int width, int height);
-	void getThumbs(KUrl url, int startframe, int endframe, int width, int height);*/
-	void stopAudioThumbs();
-	void removeAudioThumb();
-	void getAudioThumbs(int channel, double frame, double frameLength, int arrayWidth);
+    void extractImage(int frame, int frame2);
+    static QPixmap getImage(KUrl url, int width, int height);
+    /* void getImage(KUrl url, int frame, int width, int height);
+     void getThumbs(KUrl url, int startframe, int endframe, int width, int height);*/
+    void stopAudioThumbs();
+    void removeAudioThumb();
+    void getAudioThumbs(int channel, double frame, double frameLength, int arrayWidth);
 
 protected:
-    virtual void customEvent ( QEvent * event );
+    virtual void customEvent(QEvent * event);
 
 private:
-	MyThread thumbProducer;
-	KUrl m_url;
-	QString m_thumbFile;
-	int m_width;
-	int m_height;
-	Mlt::Profile *m_profile;
-	ClipManager *m_clipManager;
+    MyThread thumbProducer;
+    KUrl m_url;
+    QString m_thumbFile;
+    int m_width;
+    int m_height;
+    Mlt::Profile *m_profile;
+    ClipManager *m_clipManager;
 
 signals:
-	void thumbReady(int frame, QPixmap pm);
-	void audioThumbReady(QMap <int, QMap <int, QByteArray> >);
+    void thumbReady(int frame, QPixmap pm);
+    void audioThumbReady(QMap <int, QMap <int, QByteArray> >);
 };
 
 #endif

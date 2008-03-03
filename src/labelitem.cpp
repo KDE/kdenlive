@@ -27,37 +27,34 @@
 #include "labelitem.h"
 
 LabelItem::LabelItem(QString text, QGraphicsRectItem *parent)
-    : QGraphicsSimpleTextItem(" " + text + " ", parent)
-{
-  //setParentItem(parent); 
-  //setFlags(QGraphicsItem::ItemIgnoresTransformations);
-  setZValue(200);
+        : QGraphicsSimpleTextItem(" " + text + " ", parent) {
+    //setParentItem(parent);
+    //setFlags(QGraphicsItem::ItemIgnoresTransformations);
+    setZValue(200);
 }
 
-int LabelItem::type () const
-{
-  return 70001;
+int LabelItem::type() const {
+    return 70001;
 }
 
-// virtual 
+// virtual
 
- void LabelItem::paint(QPainter *painter,
-                           const QStyleOptionGraphicsItem *option,
-                           QWidget *widget)
- {
+void LabelItem::paint(QPainter *painter,
+                      const QStyleOptionGraphicsItem *option,
+                      QWidget *widget) {
     //kDebug()<<"REPAINT LABEL ------------------------";
     QRectF rep = option->exposedRect;
     //painter->setClipRect(rep);
     QGraphicsRectItem *parent = (QGraphicsRectItem *) parentItem();
     QRectF par = mapFromScene(parent->rect()).boundingRect();
     QRectF parrect = option->matrix.map(mapFromScene(par)).boundingRect();
-    painter->setClipRect( parrect ); //option->exposedRect );
+    painter->setClipRect(parrect);   //option->exposedRect );
     QGraphicsSimpleTextItem::paint(painter, option, widget);
     /*QPainterPath path;
     path.addRoundRect(boundingRect(), 40);
     painter->fillPath(path, QColor(200, 200, 200, 100));
     //painter->fillRect(parrect, QColor(200, 50, 200, 100));
     painter->drawText(boundingRect(), Qt::AlignCenter, text());*/
- }
+}
 
 #include "labelitem.moc"

@@ -39,8 +39,8 @@
 class KdenliveDoc;
 class DocClipBase;
 
-class ClipManager:public QObject {
-  Q_OBJECT public:
+class ClipManager: public QObject {
+Q_OBJECT public:
 
 
     ClipManager(KdenliveDoc *doc);
@@ -54,7 +54,7 @@ class ClipManager:public QObject {
     void slotDeleteClip(uint clipId);
     void setThumbsProgress(KUrl url, int progress);
 
-  private:			// Private attributes
+private:   // Private attributes
     /** the list of clips in the document */
     QList <DocClipBase*> m_clipList;
     /** the document undo stack*/

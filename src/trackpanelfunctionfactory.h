@@ -27,19 +27,19 @@ A factory containing all known trackpanel functions.
 @author Jason Wood
 */
 class TrackPanelFunctionFactory {
-  public:
+public:
 
     TrackPanelFunctionFactory();
 
     ~TrackPanelFunctionFactory();
 
     void registerFunction(const QString & name,
-	TrackPanelFunction * function);
+                          TrackPanelFunction * function);
     TrackPanelFunction *function(const QString & name);
     void clearFactory();
 
-  private:
-     QMap < QString, TrackPanelFunction * >m_functionMap;
+private:
+    QMap < QString, TrackPanelFunction * >m_functionMap;
 };
 
 #endif

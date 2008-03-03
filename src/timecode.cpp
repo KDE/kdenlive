@@ -20,79 +20,73 @@
 #include <klocale.h>
 
 Timecode::Timecode(Formats format, int framesPerSecond,
-    bool dropFrame):m_format(format), m_dropFrame(dropFrame),
-m_displayedFramesPerSecond(framesPerSecond)
-{
+                   bool dropFrame): m_format(format), m_dropFrame(dropFrame),
+        m_displayedFramesPerSecond(framesPerSecond) {
 }
 
-Timecode::~Timecode()
-{
+Timecode::~Timecode() {
 }
 
 
-int Timecode::getFrameCount(const QString duration, double fps) const
-{
+int Timecode::getFrameCount(const QString duration, double fps) const {
     if (m_dropFrame) {
-	// calculate how many frames need to be dropped every minute.
-	int frames;
-    	int toDrop = (int) floor (600.0 * (m_displayedFramesPerSecond - fps)  + 0.5);
+        // calculate how many frames need to be dropped every minute.
+        int frames;
+        int toDrop = (int) floor(600.0 * (m_displayedFramesPerSecond - fps)  + 0.5);
 
-    	int perMinute = toDrop / 9;
-    	int tenthMinute = toDrop % 9;
+        int perMinute = toDrop / 9;
+        int tenthMinute = toDrop % 9;
 
-    	// calculate how many frames are in a normal minute, and how many are in a tenth minute.
-    	int normalMinuteFrames = (m_displayedFramesPerSecond * 60) - perMinute;
-    	int tenthMinuteFrames = (m_displayedFramesPerSecond * 60) - tenthMinute;;
+        // calculate how many frames are in a normal minute, and how many are in a tenth minute.
+        int normalMinuteFrames = (m_displayedFramesPerSecond * 60) - perMinute;
+        int tenthMinuteFrames = (m_displayedFramesPerSecond * 60) - tenthMinute;;
 
-    	// Number of actual frames in a 10 minute interval :
-    	int tenMinutes = (normalMinuteFrames * 9) + tenthMinuteFrames;
-	frames = 6 * duration.section(":",0,0).toInt() * tenMinutes;
-	int minutes = duration.section(":",1,1).toInt();
-	frames += ((int) minutes / 10) * tenMinutes;
-	int mins = minutes % 10;
-	if (mins > 0) {
-	    frames += tenthMinuteFrames;
-	    mins--;
-	    if (mins > 0) frames += mins * normalMinuteFrames;
-	}
-	if (minutes % 10 > 0) frames -= perMinute;
-	frames += duration.section(":",2,2).toInt() * m_displayedFramesPerSecond + duration.section(":",3,3).toInt();
-	return frames;	
+        // Number of actual frames in a 10 minute interval :
+        int tenMinutes = (normalMinuteFrames * 9) + tenthMinuteFrames;
+        frames = 6 * duration.section(":", 0, 0).toInt() * tenMinutes;
+        int minutes = duration.section(":", 1, 1).toInt();
+        frames += ((int) minutes / 10) * tenMinutes;
+        int mins = minutes % 10;
+        if (mins > 0) {
+            frames += tenthMinuteFrames;
+            mins--;
+            if (mins > 0) frames += mins * normalMinuteFrames;
+        }
+        if (minutes % 10 > 0) frames -= perMinute;
+        frames += duration.section(":", 2, 2).toInt() * m_displayedFramesPerSecond + duration.section(":", 3, 3).toInt();
+        return frames;
     }
-    return (int) ((duration.section(":",0,0).toInt()*3600.0 + duration.section(":",1,1).toInt()*60.0 + duration.section(":",2,2).toInt()) * fps + duration.section(":",3,3).toInt());
+    return (int)((duration.section(":", 0, 0).toInt()*3600.0 + duration.section(":", 1, 1).toInt()*60.0 + duration.section(":", 2, 2).toInt()) * fps + duration.section(":", 3, 3).toInt());
 }
 
-QString Timecode::getTimecode(const GenTime & time, double fps) const
-{
+QString Timecode::getTimecode(const GenTime & time, double fps) const {
     switch (m_format) {
     case HH_MM_SS_FF:
-	return getTimecodeHH_MM_SS_FF(time, fps);
-	break;
+        return getTimecodeHH_MM_SS_FF(time, fps);
+        break;
     case HH_MM_SS_HH:
-	return getTimecodeHH_MM_SS_HH(time);
-	break;
+        return getTimecodeHH_MM_SS_HH(time);
+        break;
     case Frames:
-	return getTimecodeFrames(time, fps);
-	break;
+        return getTimecodeFrames(time, fps);
+        break;
     case Seconds:
-	return getTimecodeSeconds(time);
-	break;
+        return getTimecodeSeconds(time);
+        break;
     default:
-	kWarning() <<
-	    "Unknown timecode format specified, defaulting to HH_MM_SS_FF"
-	    << endl;
-	return getTimecodeHH_MM_SS_FF(time, fps);
+        kWarning() <<
+        "Unknown timecode format specified, defaulting to HH_MM_SS_FF"
+        << endl;
+        return getTimecodeHH_MM_SS_FF(time, fps);
     }
 }
 
-QString Timecode::getTimecodeFromFrames(int frames)
-{
+QString Timecode::getTimecodeFromFrames(int frames) {
     return getTimecodeHH_MM_SS_FF(frames);
 }
 
-//static 
-QString Timecode::getEasyTimecode(const GenTime & time, const double &fps)
-{
+//static
+QString Timecode::getEasyTimecode(const GenTime & time, const double &fps) {
     // Returns the timecode in an easily read display, like 3 min. 5 sec.
     int frames = (int)time.frames(fps);
     int seconds = frames / (int) floor(fps + 0.5);
@@ -106,48 +100,44 @@ QString Timecode::getEasyTimecode(const GenTime & time, const double &fps)
     QString text;
     bool trim = false;
 
-    if (hours!= 0) {
+    if (hours != 0) {
         text.append(QString::number(hours).rightJustified(2, '0', FALSE));
         text.append(" " + i18n("hour") + " ");
         trim = true;
     }
-    if (minutes!= 0 || trim) {
+    if (minutes != 0 || trim) {
         if (!trim) {
             text.append(QString::number(minutes));
-        }
-        else
+        } else
             text.append(QString::number(minutes).rightJustified(2, '0', FALSE));
         text.append(" " + i18n("min.") + " ");
         trim = true;
     }
-    if (seconds!= 0 || trim) {
+    if (seconds != 0 || trim) {
         if (!trim) {
             text.append(QString::number(seconds));
-        }
-        else 
+        } else
             text.append(QString::number(seconds).rightJustified(2, '0', FALSE));
         text.append(" " + i18n("sec."));
         trim = true;
     }
     if (!trim) {
-            text.append(QString::number(frames));
-            text.append(" " + i18n("frames"));
+        text.append(QString::number(frames));
+        text.append(" " + i18n("frames"));
     }
 
     return text;
 }
 
 
-QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime & time, double fps) const
-{
+QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime & time, double fps) const {
     if (m_dropFrame)
-	return getTimecodeDropFrame(time, fps);
+        return getTimecodeDropFrame(time, fps);
 
     return getTimecodeHH_MM_SS_FF((int)time.frames(fps));
 }
 
-QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const
-{
+QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const {
     int seconds = frames / m_displayedFramesPerSecond;
     frames = frames % m_displayedFramesPerSecond;
 
@@ -169,8 +159,7 @@ QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const
     return text;
 }
 
-QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime & time) const
-{
+QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime & time) const {
     int hundredths = (int)(time.seconds() * 100);
     int seconds = hundredths / 100;
     hundredths = hundredths % 100;
@@ -192,24 +181,21 @@ QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime & time) const
     return text;
 }
 
-QString Timecode::getTimecodeFrames(const GenTime & time, double fps) const
-{
+QString Timecode::getTimecodeFrames(const GenTime & time, double fps) const {
     return QString::number(time.frames(fps));
 }
 
-QString Timecode::getTimecodeSeconds(const GenTime & time) const
-{
+QString Timecode::getTimecodeSeconds(const GenTime & time) const {
     return QString::number(time.seconds());
 }
 
-QString Timecode::getTimecodeDropFrame(const GenTime & time, double fps) const
-{
+QString Timecode::getTimecodeDropFrame(const GenTime & time, double fps) const {
     // Calculate the timecode using dropframes to remove the difference in fps. Note that this algorithm should work
     // for NTSC times, but is untested for any others - it is in no way an "official" algorithm, unless it's by fluke.
     int frames = (int)time.frames(fps);
 
     // calculate how many frames need to be dropped every minute.
-    int toDrop = (int) floor (600.0 * (m_displayedFramesPerSecond - fps)  + 0.5);
+    int toDrop = (int) floor(600.0 * (m_displayedFramesPerSecond - fps)  + 0.5);
 
     int perMinute = toDrop / 9;
     int tenthMinute = toDrop % 9;
@@ -232,13 +218,13 @@ QString Timecode::getTimecodeDropFrame(const GenTime & time, double fps) const
     int numMinutes;
 
     if (frames < tenthMinuteFrames) {
-	// tenth minute logic applies.
-	numMinutes = 0;
+        // tenth minute logic applies.
+        numMinutes = 0;
     } else {
-	// normal minute logic applies.
-	numMinutes = 1 + (frames - tenthMinuteFrames) / normalMinuteFrames;
-	frames = (frames - tenthMinuteFrames) % normalMinuteFrames;
-	frames +=  tenthMinute + perMinute;
+        // normal minute logic applies.
+        numMinutes = 1 + (frames - tenthMinuteFrames) / normalMinuteFrames;
+        frames = (frames - tenthMinuteFrames) % normalMinuteFrames;
+        frames +=  tenthMinute + perMinute;
     }
     // We now have HH:MM:??:??
 

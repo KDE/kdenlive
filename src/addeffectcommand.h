@@ -26,21 +26,20 @@
 
 #include "customtrackview.h"
 
-class AddEffectCommand : public QUndoCommand
- {
- public:
-     AddEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement effect, bool doIt);
+class AddEffectCommand : public QUndoCommand {
+public:
+    AddEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement effect, bool doIt);
 
     virtual void undo();
     virtual void redo();
 
- private:
-     CustomTrackView *m_view;
-     int m_track;
-     QDomElement m_effect;
-     GenTime m_pos;
-     bool m_doIt;
- };
+private:
+    CustomTrackView *m_view;
+    int m_track;
+    QDomElement m_effect;
+    GenTime m_pos;
+    bool m_doIt;
+};
 
 #endif
 
