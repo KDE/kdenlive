@@ -25,6 +25,11 @@
       <label>Display audio thumbnails in timeline.</label>
       <default>true</default>
     </entry>
+
+    <entry name="autoscroll" type="Bool">
+      <label>Auto scroll timeline while playing.</label>
+      <default>true</default>
+    </entry>
   </group>
 
   <group name="env">

@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>354</width>
-    <height>182</height>
+    <width>306</width>
+    <height>107</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2" >
@@ -49,6 +49,13 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item row="1" column="0" colspan="2" >
+       <widget class="QCheckBox" name="kcfg_autoscroll" >
+        <property name="text" >
+         <string>Autoscroll while playing</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

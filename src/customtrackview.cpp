@@ -35,9 +35,10 @@
 #include "addtimelineclipcommand.h"
 #include "addeffectcommand.h"
 #include "editeffectcommand.h"
+#include "kdenlivesettings.h"
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene, QWidget *parent)
-        : QGraphicsView(projectscene, parent), m_tracksCount(0), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_startPos(QPointF()), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_scale(1.0), m_clickPoint(0), m_document(doc) {
+        : QGraphicsView(projectscene, parent), m_tracksCount(0), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_startPos(QPointF()), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_scale(1.0), m_clickPoint(0), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()) {
     if (doc) m_commandStack = doc->commandStack();
     else m_commandStack == NULL;
     setMouseTracking(true);
@@ -59,8 +60,8 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene
     }
 }
 
-void CustomTrackView::initView() {
-
+void CustomTrackView::checkAutoScroll() {
+    m_autoScroll = KdenliveSettings::autoscroll();
 }
 
 // virtual
@@ -518,10 +519,19 @@ void CustomTrackView::setCursorPos(int pos, bool seek) {
     m_cursorLine->setPos(pos, 0);
     int frame =  pos / m_scale;
     if (seek) m_document->renderer()->seek(GenTime(frame, m_document->fps()));
+    else if (m_autoScroll && m_scale < 50) checkScrolling();
 }
 
 int CustomTrackView::cursorPos() {
     return m_cursorPos;
+}
+
+void CustomTrackView::checkScrolling() {
+    QRect rectInView = viewport()->rect();
+    int delta = rectInView.width() / 3;
+    int max = rectInView.right() + horizontalScrollBar()->value() - delta;
+    //kDebug() << "CURSOR POS: "<<m_cursorPos<< "Scale: "<<m_scale;
+    if (m_cursorPos >= max) horizontalScrollBar()->setValue(horizontalScrollBar()->value() + 1 + m_scale);
 }
 
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
@@ -679,12 +689,8 @@ void CustomTrackView::setScale(double scaleFactor) {
 }
 
 void CustomTrackView::drawBackground(QPainter * painter, const QRectF & rect) {
-    QRect rectInView;//this is the rect that is visible by the user
-    if (scene()->views().size() > 0) {
-        rectInView = scene()->views()[0]->viewport()->rect();
-        rectInView.moveTo(scene()->views()[0]->horizontalScrollBar()->value(), scene()->views()[0]->verticalScrollBar()->value());
-    }
-    if (rectInView.isNull()) return;
+    QRect rectInView = viewport()->rect();
+    rectInView.moveTo(horizontalScrollBar()->value(), verticalScrollBar()->value());
 
     QColor base = palette().button().color();
     painter->setClipRect(rect);

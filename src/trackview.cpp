@@ -70,7 +70,6 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
     connect(m_trackview, SIGNAL(clipItemSelected(ClipItem*)), this, SLOT(slotClipItemSelected(ClipItem*)));
     view->horizontalSlider->setValue(4);
     m_currentZoom = view->horizontalSlider->value();
-    m_trackview->initView();
 }
 
 
