@@ -37,6 +37,7 @@ public:
 
 public slots:
     void activateMonitor(QString name = QString::null);
+    void slotPlay();
 
 private:
     Monitor *m_clipMonitor;

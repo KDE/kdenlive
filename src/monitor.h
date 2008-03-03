@@ -54,7 +54,6 @@ private:
     bool m_isActive;
 
 private slots:
-    void slotPlay();
     void adjustRulerSize(int length);
     void seekCursor(int pos);
     void rendererStopped(int pos);
@@ -72,6 +71,7 @@ public slots:
     void stop();
     void start();
     void activateMonitor();
+    void slotPlay();
 
 signals:
     void renderPosition(int);

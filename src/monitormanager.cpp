@@ -75,4 +75,9 @@ void MonitorManager::activateMonitor(QString name) {
     m_activeMonitor = name;
 }
 
+void MonitorManager::slotPlay() {
+    if (m_activeMonitor == "clip") m_clipMonitor->slotPlay();
+    else m_projectMonitor->slotPlay();
+}
+
 #include "monitormanager.moc"
