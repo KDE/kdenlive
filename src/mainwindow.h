@@ -115,6 +115,7 @@ private slots:
     void saveFileAs();
     void saveFileAs(const QString &outputFileName);
     void slotPreferences();
+    void updateConfiguration();
     void slotConnectMonitors();
     void slotRaiseMonitor(bool clipMonitor);
     void slotSetClipDuration(int id, int duration);

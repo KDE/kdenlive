@@ -33,9 +33,6 @@
 #include "ui_timeline_ui.h"
 #include "customruler.h"
 #include "kdenlivedoc.h"
-#include "documenttrack.h"
-#include "trackpanelfunctionfactory.h"
-#include "trackpanelfunction.h"
 #include "customtrackview.h"
 class ClipItem;
 
@@ -45,11 +42,7 @@ class TrackView : public QWidget {
 public:
     TrackView(KdenliveDoc *doc, QWidget *parent = 0);
 
-    /** This event occurs when the mouse has been moved. */
-    void mouseMoveEvent(QMouseEvent * event);
-
     const double zoomFactor() const;
-    DocumentTrack *panelAt(int y);
     const int mapLocalToValue(int x) const;
     void setEditMode(const QString & editMode);
     const QString & editMode() const;
@@ -58,6 +51,7 @@ public:
     int duration();
     int tracksNumber();
     KdenliveDoc *document();
+    void refresh() ;
 
 public slots:
     void slotDeleteClip(int clipId);
@@ -67,13 +61,8 @@ private:
     CustomRuler *m_ruler;
     CustomTrackView *m_trackview;
     double m_scale;
-    QList <DocumentTrack*> documentTracks;
     int m_projectDuration;
     int m_projectTracks;
-    TrackPanelFunctionFactory m_factory;
-    DocumentTrack *m_panelUnderMouse;
-    /** The currently applied function. This lasts from mousePressed until mouseRelease. */
-    TrackPanelFunction *m_function;
     QString m_editMode;
     QGraphicsScene *m_scene;
     uint m_currentZoom;
@@ -88,8 +77,6 @@ private:
     void parseDocument(QDomDocument doc);
     int slotAddAudioTrack(int ix, QDomElement xml);
     int slotAddVideoTrack(int ix, QDomElement xml);
-    void registerFunction(const QString & name, TrackPanelFunction * function);
-    TrackPanelFunction *getApplicableFunction(DocumentTrack * panel, const QString & editMode, QMouseEvent * event);
 
 private slots:
     void slotChangeZoom(int factor);

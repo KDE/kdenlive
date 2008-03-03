@@ -235,7 +235,7 @@ void ClipItem::paint(QPainter *painter,
     //painter->fillRect(QRectF(br.x() + br.width() - m_endPix.width(), br.y(), m_endPix.width(), br.height()), QBrush(QColor(Qt::black)));
 
     // draw thumbnails
-    if (!m_startPix.isNull()) {
+    if (!m_startPix.isNull() && KdenliveSettings::videothumbnails()) {
         if (m_clipType == IMAGE) {
             painter->drawPixmap(QPointF(br.x() + br.width() - m_startPix.width(), br.y()), m_startPix);
             QLineF l(br.x() + br.width() - m_startPix.width(), br.y(), br.x() + br.width() - m_startPix.width(), br.y() + br.height());
@@ -250,7 +250,7 @@ void ClipItem::paint(QPainter *painter,
         QLineF l2(br.x() + m_startPix.width(), br.y(), br.x() + m_startPix.width(), br.y() + br.height());
         painter->drawLine(l2);
     }
-    if ((m_clipType == AV || m_clipType == AUDIO || true) && audioThumbReady) {
+    if ((m_clipType == AV || m_clipType == AUDIO) && audioThumbReady && KdenliveSettings::audiothumbnails()) {
 
         QPainterPath path = m_clipType == AV ? roundRectPathLower : roundRectPathUpper.united(roundRectPathLower);
         painter->fillPath(path, QBrush(QColor(200, 200, 200, 127)));

@@ -25,15 +25,12 @@
 #include <KDebug>
 
 #include "definitions.h"
-#include "documentvideotrack.h"
-#include "documentaudiotrack.h"
 #include "headertrack.h"
 #include "trackview.h"
 #include "clipitem.h"
-#include "trackpanelclipmovefunction.h"
 
 TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
-        : QWidget(parent), m_doc(doc), m_scale(1.0), m_panelUnderMouse(NULL), m_function(NULL), m_projectTracks(0), m_projectDuration(0) {
+        : QWidget(parent), m_doc(doc), m_scale(1.0), m_projectTracks(0), m_projectDuration(0) {
     setMouseTracking(true);
     view = new Ui::TimeLine_UI();
     view->setupUi(this);
@@ -76,9 +73,6 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
     m_trackview->initView();
 }
 
-void TrackView::registerFunction(const QString & name, TrackPanelFunction * function) {
-    m_factory.registerFunction(name, function);
-}
 
 int TrackView::duration() {
     return m_projectDuration;
@@ -169,10 +163,13 @@ KdenliveDoc *TrackView::document() {
     return m_doc;
 }
 
+void TrackView::refresh() {
+    m_trackview->viewport()->update();
+}
+
 int TrackView::slotAddAudioTrack(int ix, QDomElement xml) {
     kDebug() << "*************  ADD AUDIO TRACK " << ix;
     m_trackview->addTrack();
-    //DocumentTrack *track = new DocumentAudioTrack(xml, this, m_trackview);
     HeaderTrack *header = new HeaderTrack();
     //m_tracksAreaLayout->addWidget(track); //, ix, Qt::AlignTop);
     m_headersLayout->addWidget(header); //, ix, Qt::AlignTop);
@@ -183,7 +180,6 @@ int TrackView::slotAddAudioTrack(int ix, QDomElement xml) {
 
 int TrackView::slotAddVideoTrack(int ix, QDomElement xml) {
     m_trackview->addTrack();
-    //DocumentTrack *track = new DocumentVideoTrack(xml, this, m_trackview);
     HeaderTrack *header = new HeaderTrack();
     int trackTop = 50 * ix;
     int trackBottom = trackTop + 50;
@@ -216,10 +212,6 @@ int TrackView::slotAddVideoTrack(int ix, QDomElement xml) {
     //track->show();
 }
 
-DocumentTrack *TrackView::panelAt(int y) {
-    return NULL;
-}
-
 QGraphicsScene *TrackView::projectScene() {
     return m_scene;
 }
@@ -235,65 +227,5 @@ void TrackView::setEditMode(const QString & editMode) {
 const QString & TrackView::editMode() const {
     return m_editMode;
 }
-
-/** This event occurs when the mouse has been moved. */
-void TrackView::mouseMoveEvent(QMouseEvent * event) {
-    if (m_panelUnderMouse) {
-        if (event->buttons() & Qt::LeftButton) {
-            bool result = false;
-            if (m_function)
-                result =
-                    m_function->mouseMoved(m_panelUnderMouse, event);
-            if (!result) {
-                m_panelUnderMouse = 0;
-                m_function = 0;
-            }
-        } else {
-            if (m_function) {
-                m_function->mouseReleased(m_panelUnderMouse, event);
-                m_function = 0;
-            }
-            m_panelUnderMouse = 0;
-        }
-    } else {
-        DocumentTrack *panel = panelAt(event->y());
-        if (panel) {
-            QCursor result(Qt::ArrowCursor);
-
-            TrackPanelFunction *function =
-                getApplicableFunction(panel, editMode(),
-                                      event);
-            if (function)
-                result = function->getMouseCursor(panel, event);
-
-            setCursor(result);
-        } else {
-            setCursor(QCursor(Qt::ArrowCursor));
-        }
-    }
-}
-
-TrackPanelFunction *TrackView::getApplicableFunction(DocumentTrack *
-        panel, const QString & editMode, QMouseEvent * event) {
-    TrackPanelFunction *function = 0;
-
-    QStringList list = panel->applicableFunctions(editMode);
-    QStringList::iterator itt = list.begin();
-
-    while (itt != list.end()) {
-        TrackPanelFunction *testFunction = m_factory.function(*itt);
-        if (testFunction) {
-            if (testFunction->mouseApplies(panel, event)) {
-                function = testFunction;
-                break;
-            }
-        }
-
-        ++itt;
-    }
-
-    return function;
-}
-
 
 #include "trackview.moc"

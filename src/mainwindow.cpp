@@ -480,8 +480,13 @@ void MainWindow::slotPreferences() {
     // KConfigDialog didn't find an instance of this dialog, so lets
     // create it :
     KdenliveSettingsDialog* dialog = new KdenliveSettingsDialog(this);
-    //connect( dialog, SIGNAL(settingsChanged()), this, SLOT(updateConfiguration()) );
+    connect(dialog, SIGNAL(settingsChanged(const QString&)), this, SLOT(updateConfiguration()));
     dialog->show();
+}
+
+void MainWindow::updateConfiguration() {
+    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+    if (currentTab) currentTab->refresh();
 }
 
 void MainWindow::slotGotProgressInfo(KUrl url, int progress) {

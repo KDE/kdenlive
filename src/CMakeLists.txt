@@ -55,13 +55,7 @@ set(kdenlive_SRCS
   docclipbase.cpp
   timecode.cpp
   monitormanager.cpp
-  documenttrack.cpp
-  documentvideotrack.cpp
-  documentaudiotrack.cpp
   headertrack.cpp
-  trackpanelfunctionfactory.cpp
-  trackpanelfunction.cpp
-  trackpanelclipmovefunction.cpp
   customtrackview.cpp
   clipitem.cpp
   labelitem.cpp
