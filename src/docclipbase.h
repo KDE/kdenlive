@@ -200,6 +200,8 @@ Q_OBJECT public:
 
     /** Clip is ready to get thumbs */
     void slotRequestAudioThumbs();
+    /** Free cache data */
+    void slotClearAudioCache();
 
 
 private:   // Private attributes

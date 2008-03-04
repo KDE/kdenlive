@@ -493,10 +493,12 @@ void MainWindow::slotPreferences() {
 }
 
 void MainWindow::updateConfiguration() {
+    //TODO: we should apply settings to all projects, not only the current one
     TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
     if (currentTab) {
         currentTab->refresh();
         currentTab->projectView()->checkAutoScroll();
+        if (m_activeDocument) m_activeDocument->clipManager()->checkAudioThumbs();
     }
 }
 

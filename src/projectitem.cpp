@@ -30,7 +30,7 @@
 
 #include "projectitem.h"
 #include "timecode.h"
-
+#include "kdenlivesettings.h"
 
 const int NameRole = Qt::UserRole;
 const int DurationRole = NameRole + 1;
@@ -222,7 +222,7 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     m_element.setAttribute("resource", attributes["filename"]);
     m_element.setAttribute("type", (int) m_clipType);
 
-    m_clip->slotRequestAudioThumbs();
+    if (KdenliveSettings::audiothumbnails()) m_clip->slotRequestAudioThumbs();
     /*
      if (attributes.contains("height")) {
          m_height = attributes["height"].toInt();

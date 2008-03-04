@@ -26,9 +26,19 @@
 
 ClipManager::ClipManager(KdenliveDoc *doc): m_doc(doc) {
     m_clipIdCounter = 1;
+    m_audioThumbsEnabled = KdenliveSettings::audiothumbnails();
 }
 
 ClipManager::~ClipManager() {
+}
+
+void ClipManager::checkAudioThumbs() {
+    if (m_audioThumbsEnabled == KdenliveSettings::audiothumbnails()) return;
+    m_audioThumbsEnabled = KdenliveSettings::audiothumbnails();
+    for (int i = 0; i < m_clipList.count(); i++) {
+        if (m_audioThumbsEnabled) m_clipList.at(i)->slotRequestAudioThumbs();
+        else m_clipList.at(i)->slotClearAudioCache();
+    }
 }
 
 void ClipManager::setThumbsProgress(KUrl url, int progress) {

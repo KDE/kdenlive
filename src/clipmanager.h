@@ -53,6 +53,7 @@ Q_OBJECT public:
     DocClipBase *getClipById(int clipId);
     void slotDeleteClip(uint clipId);
     void setThumbsProgress(KUrl url, int progress);
+    void checkAudioThumbs();
 
 private:   // Private attributes
     /** the list of clips in the document */
@@ -60,6 +61,7 @@ private:   // Private attributes
     /** the document undo stack*/
     KdenliveDoc *m_doc;
     int m_clipIdCounter;
+    bool m_audioThumbsEnabled;
 
 };
 

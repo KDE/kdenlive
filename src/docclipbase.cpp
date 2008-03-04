@@ -74,6 +74,11 @@ void DocClipBase::slotRequestAudioThumbs() {
     emit getAudioThumbs();
 }
 
+void DocClipBase::slotClearAudioCache() {
+    audioFrameChache.clear();
+    m_audioThumbCreated = false;
+}
+
 KThumb *DocClipBase::thumbProducer() {
     return m_thumbProd;
 }
