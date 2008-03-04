@@ -67,7 +67,7 @@ DocClipBase & DocClipBase::operator=(const DocClipBase & clip) {
 }
 
 DocClipBase::~DocClipBase() {
-    //if (m_thumbProd) delete m_thumbProd;
+    if (m_thumbProd) delete m_thumbProd;
 }
 
 void DocClipBase::slotRequestAudioThumbs() {

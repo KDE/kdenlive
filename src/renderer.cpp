@@ -114,14 +114,16 @@ void Render::closeMlt() {
 
 
 
-int Render::resetRendererProfile(char * profile) {
+int Render::resetProfile(QString profile) {
     if (!m_mltConsumer) return 0;
     if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     m_mltConsumer->set("refresh", 0);
-    //m_mltConsumer->set("profile", profile);
+    //TODO: we should also rebuild filters and delete existing m_mltProfile
+    m_mltProfile = new Mlt::Profile((char*) qstrdup(profile.toUtf8()));
     kDebug() << " + + RESET CONSUMER WITH PROFILE: " << profile;
     mlt_properties properties = MLT_CONSUMER_PROPERTIES(m_mltConsumer->get_consumer());
-//    apply_profile_properties( m_profile, m_mltConsumer->get_consumer(), properties );
+    mlt_properties_set_data(properties, "profile", m_mltProfile->get_profile(), 0, 0, NULL);
+    //apply_profile_properties( m_mltProfile, m_mltConsumer->get_consumer(), properties );
     refresh();
     return 1;
 }

@@ -145,7 +145,7 @@ Q_OBJECT public:
     void refreshDisplay();
     /** returns the current scenelist */
     QDomDocument sceneList() const;
-    int resetRendererProfile(char * profile);
+    int resetProfile(QString profile);
     const double fps() const;
 
     /** Playlist manipulation */

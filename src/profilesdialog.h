@@ -23,6 +23,7 @@
 
 #include <QDialog>
 
+#include "definitions.h"
 #include "ui_profiledialog_ui.h"
 
 class ProfilesDialog : public QDialog {
@@ -35,6 +36,7 @@ public:
     static QString getProfileDescription(QString name);
     static QMap< QString, QString > getSettingsForProfile(const QString profileName);
     static QMap< QString, QString > getSettingsFromFile(const QString path);
+    static MltVideoProfile getVideoProfile(QString name);
 
 private slots:
     void slotUpdateDisplay();

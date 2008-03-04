@@ -220,6 +220,10 @@ void Monitor::slotOpenFile(const QString &file) {
     render->setSceneList(doc, 0);
 }
 
+void Monitor::resetProfile(QString prof) {
+    if (render == NULL) return;
+    render->resetProfile(prof);
+}
 
 
 #include "monitor.moc"

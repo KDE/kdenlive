@@ -49,6 +49,46 @@ ProfilesDialog::ProfilesDialog(QWidget * parent): QDialog(parent), m_isCustomPro
     connect(m_view.profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
 }
 
+// static
+MltVideoProfile ProfilesDialog::getVideoProfile(QString name) {
+    MltVideoProfile result;
+    QStringList profilesNames;
+    QStringList profilesFiles;
+    QStringList profilesFilter;
+    profilesFilter << "*";
+    QString path;
+
+    // List the Mlt profiles
+    profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+    if (profilesFiles.contains(name)) path = KdenliveSettings::mltpath() + "/" + name;
+
+    if (path.isEmpty()) {
+        // List custom profiles
+        QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
+        for (int i = 0; i < customProfiles.size(); ++i) {
+            profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
+            if (profilesFiles.contains(name)) {
+                path = customProfiles.at(i) + "/" + name;
+                break;
+            }
+        }
+    }
+
+    if (path.isEmpty()) return result;
+    KConfig confFile(path);
+    result.path = path;
+    result.description = confFile.entryMap().value("description");
+    result.frame_rate_num = confFile.entryMap().value("frame_rate_num").toInt();
+    result.frame_rate_den = confFile.entryMap().value("frame_rate_den").toInt();
+    result.width = confFile.entryMap().value("width").toInt();
+    result.height = confFile.entryMap().value("height").toInt();
+    result.progressive = confFile.entryMap().value("progressive").toInt();
+    result.sample_aspect_num = confFile.entryMap().value("sample_aspect_num").toInt();
+    result.sample_aspect_den = confFile.entryMap().value("sample_aspect_den").toInt();
+    result.display_aspect_num = confFile.entryMap().value("display_aspect_num").toInt();
+    result.display_aspect_den = confFile.entryMap().value("display_aspect_den").toInt();
+    return result;
+}
 
 // static
 QString ProfilesDialog::getProfileDescription(QString name) {

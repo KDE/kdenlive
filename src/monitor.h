@@ -36,6 +36,8 @@ class Monitor : public QWidget {
 public:
     Monitor(QString name, MonitorManager *manager, QWidget *parent = 0);
     Render *render;
+    void resetProfile(QString prof);
+
     virtual void resizeEvent(QResizeEvent * event);
 protected:
     virtual void mousePressEvent(QMouseEvent * event);

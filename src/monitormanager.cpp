@@ -80,4 +80,9 @@ void MonitorManager::slotPlay() {
     else m_projectMonitor->slotPlay();
 }
 
+void MonitorManager::resetProfiles(QString prof) {
+    m_clipMonitor->resetProfile(prof);
+    m_projectMonitor->resetProfile(prof);
+}
+
 #include "monitormanager.moc"

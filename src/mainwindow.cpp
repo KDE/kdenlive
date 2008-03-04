@@ -295,9 +295,11 @@ void MainWindow::readOptions() {
 }
 
 void MainWindow::newFile() {
-    KdenliveDoc *doc = new KdenliveDoc(KUrl(), 25, 720, 576);
+    MltVideoProfile prof = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
+    if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
+    KdenliveDoc *doc = new KdenliveDoc(KUrl(), prof);
     TrackView *trackView = new TrackView(doc);
-    m_timelineArea->addTab(trackView, i18n("Untitled") + " / " + ProfilesDialog::getProfileDescription(KdenliveSettings::default_profile()));
+    m_timelineArea->addTab(trackView, i18n("Untitled") + " / " + prof.description);
     if (m_timelineArea->count() == 1)
         connectDocument(trackView, doc);
     else m_timelineArea->setTabBarHidden(false);
@@ -342,9 +344,12 @@ void MainWindow::openFile() { //changed
 }
 
 void MainWindow::openFile(const KUrl &url) { //new
-    KdenliveDoc *doc = new KdenliveDoc(url, 25, 720, 576);
+    //TODO: get video profile from url before opening it
+    MltVideoProfile prof = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
+    if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
+    KdenliveDoc *doc = new KdenliveDoc(url, prof);
     TrackView *trackView = new TrackView(doc);
-    m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, QIcon(), doc->documentName()));
+    m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, QIcon(), doc->documentName() + " / " + prof.description));
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());
     if (m_timelineArea->count() > 1) m_timelineArea->setTabBarHidden(false);
     //connectDocument(trackView, doc);
@@ -452,6 +457,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
 
     m_projectList->setDocument(doc);
     m_monitorManager->setTimecode(doc->timecode());
+    m_monitorManager->resetProfiles(doc->profilePath());
     doc->setRenderer(m_projectMonitor->render);
     //m_undoView->setStack(0);
     m_commandStack = doc->commandStack();

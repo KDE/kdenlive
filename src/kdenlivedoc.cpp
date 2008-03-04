@@ -28,7 +28,7 @@
 #include "kdenlivedoc.h"
 #include "docclipbase.h"
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, double fps, int width, int height, QWidget *parent): QObject(parent), m_render(NULL), m_url(url), m_fps(fps), m_width(width), m_height(height), m_projectName(NULL), m_commandStack(new KUndoStack()) {
+KdenliveDoc::KdenliveDoc(const KUrl &url, MltVideoProfile profile, QWidget *parent): QObject(parent), m_render(NULL), m_url(url), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_projectName(NULL), m_commandStack(new KUndoStack()) {
     m_clipManager = new ClipManager(this);
     if (!url.isEmpty()) {
         QString tmpFile;
@@ -101,8 +101,8 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, double fps, int width, int height, QWi
         doc.appendChild(tractor);
 
     }
-    if (fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
-    else m_timecode.setFormat((int) fps);
+    if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
+    else m_timecode.setFormat((int) m_fps);
 }
 
 KdenliveDoc::~KdenliveDoc() {
@@ -112,6 +112,10 @@ KdenliveDoc::~KdenliveDoc() {
 
 ClipManager *KdenliveDoc::clipManager() {
     return m_clipManager;
+}
+
+QString KdenliveDoc::profilePath() {
+    return m_profile.path;
 }
 
 void KdenliveDoc::setThumbsProgress(KUrl url, int progress) {

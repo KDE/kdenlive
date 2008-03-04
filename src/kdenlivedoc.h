@@ -34,11 +34,12 @@
 #include "timecode.h"
 #include "renderer.h"
 #include "clipmanager.h"
+#include "definitions.h"
 
 class KdenliveDoc: public QObject {
 Q_OBJECT public:
 
-    KdenliveDoc(const KUrl &url, double fps, int width, int height, QWidget *parent = 0);
+    KdenliveDoc(const KUrl &url, MltVideoProfile profile, QWidget *parent = 0);
     ~KdenliveDoc();
     QString documentName();
     QDomNodeList producersList();
@@ -66,6 +67,7 @@ Q_OBJECT public:
     void deleteProjectClip(const uint clipId);
     /** Inform application of the audio thumbnails generation progress */
     void setThumbsProgress(KUrl url, int progress);
+    QString profilePath();
 
 private:
     KUrl m_url;
@@ -79,6 +81,7 @@ private:
     KUndoStack *m_commandStack;
     QDomDocument generateSceneList();
     ClipManager *m_clipManager;
+    MltVideoProfile m_profile;
 
 public slots:
 
