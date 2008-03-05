@@ -28,6 +28,7 @@
 #include <kdenlivesettings.h>
 #include <kfileitem.h>
 #include <kmessagebox.h>
+#include <KStandardDirs>
 
 #include <mlt++/Mlt.h>
 
@@ -140,7 +141,7 @@ KThumb::KThumb(ClipManager *clipManager, KUrl url, int width, int height, QObjec
     m_profile = new Mlt::Profile((char*) KdenliveSettings::current_profile().data());
     QCryptographicHash context(QCryptographicHash::Sha1);
     context.addData((KFileItem(m_url, "text/plain", S_IFREG).timeString() + m_url.fileName()).toAscii().data());
-    m_thumbFile = KdenliveSettings::currenttmpfolder() + context.result().toHex() + ".thumb";
+    m_thumbFile = KGlobal::dirs()->saveLocation("tmp" , "kdenlive" ) + context.result().toHex() + ".thumb";
     kDebug() << "thumbfile=" << m_thumbFile;
 }
 
