@@ -101,6 +101,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, MltVideoProfile profile, QWidget *pare
         doc.appendChild(tractor);
 
     }
+    m_scenelist = m_document.toString();
     if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
     else m_timecode.setFormat((int) m_fps);
 }
@@ -128,7 +129,7 @@ KUndoStack *KdenliveDoc::commandStack() {
 
 void KdenliveDoc::setRenderer(Render *render) {
     m_render = render;
-    if (m_render) m_render->setSceneList(m_document);
+    if (m_render) m_render->setSceneList(m_scenelist);
 }
 
 Render *KdenliveDoc::renderer() {
@@ -208,28 +209,8 @@ QDomNodeList KdenliveDoc::producersList() {
     return m_document.elementsByTagName("producer");
 }
 
-void KdenliveDoc::setProducers(QDomElement doc) {
-    QDomNode kdenlivedocument = m_document.elementsByTagName("kdenlivedoc").item(0);
-
-    QDomNodeList list = m_document.elementsByTagName("producer");
-    int ct = list.count();
-    kDebug() << "DELETING CHILD PRODUCERS: " << ct;
-    for (int i = ct; i > 0; i--) {
-        kdenlivedocument.removeChild(list.item(i));
-    }
-
-    QDomNode n = doc.firstChild();
-    ct = 0;
-    while (!n.isNull()) {
-        QDomElement e = n.toElement(); // try to convert the node to an element.
-        if (!e.isNull() && e.tagName() == "producer") {
-            kdenlivedocument.appendChild(m_document.importNode(e, true));
-            ct++;
-        }
-        n = n.nextSibling();
-    }
-    kDebug() << "ADDING CHILD PRODS: " << ct << "\n";
-    //kDebug()<<m_document.toString();
+void KdenliveDoc::backupMltPlaylist() {
+    if (m_render) m_scenelist = m_render->sceneList();
 }
 
 double KdenliveDoc::fps() {

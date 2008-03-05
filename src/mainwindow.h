@@ -63,6 +63,7 @@ private:
     void setupActions();
     QString fileName;
     KdenliveDoc *m_activeDocument;
+    TrackView *m_activeTimeline;
     MonitorManager *m_monitorManager;
 
     QDockWidget *projectListDock;

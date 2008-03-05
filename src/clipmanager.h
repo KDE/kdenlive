@@ -54,6 +54,7 @@ Q_OBJECT public:
     void slotDeleteClip(uint clipId);
     void setThumbsProgress(KUrl url, int progress);
     void checkAudioThumbs();
+    QList <DocClipBase*> documentClipList();
 
 private:   // Private attributes
     /** the list of clips in the document */

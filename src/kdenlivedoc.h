@@ -47,7 +47,7 @@ Q_OBJECT public:
     int width();
     int height();
     KUrl url();
-    void setProducers(QDomElement doc);
+    void backupMltPlaylist();
     Timecode timecode();
     QDomDocument toXml();
     void setRenderer(Render *render);
@@ -82,6 +82,7 @@ private:
     QDomDocument generateSceneList();
     ClipManager *m_clipManager;
     MltVideoProfile m_profile;
+    QString m_scenelist;
 
 public slots:
 

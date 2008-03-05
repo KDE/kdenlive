@@ -45,6 +45,9 @@ void ClipManager::setThumbsProgress(KUrl url, int progress) {
     m_doc->setThumbsProgress(url, progress);
 }
 
+QList <DocClipBase*> ClipManager::documentClipList() {
+    return m_clipList;
+}
 
 void ClipManager::addClip(DocClipBase *clip) {
     m_clipList.append(clip);

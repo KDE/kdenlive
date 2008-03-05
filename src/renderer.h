@@ -93,6 +93,8 @@ Q_OBJECT public:
     /** Wraps the VEML command of the same name. Sets the current scene list to
     be list. */
     void setSceneList(QDomDocument list, int position = 0);
+    void setSceneList(QString playlist, int position = 0);
+    QString sceneList();
 
     /** Wraps the VEML command of the same name. Tells the renderer to
     play the current scene at the speed specified, relative to normal
@@ -143,8 +145,6 @@ Q_OBJECT public:
 
     /** Turn on or off on screen display */
     void refreshDisplay();
-    /** returns the current scenelist */
-    QDomDocument sceneList() const;
     int resetProfile(QString profile);
     const double fps() const;
 
@@ -186,9 +186,6 @@ private:   // Private attributes & methods
     QTimer *m_connectTimer;
     KUrl m_exportedFile;
     int exportDuration, firstExportFrame, lastExportFrame;
-
-    /** Holds the scenelist to be sent, if pending. */
-    QDomDocument m_sceneList;
 
     /** A human-readable description of this renderer. */
     QString m_description;

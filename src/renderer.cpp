@@ -36,6 +36,7 @@ extern "C" {
 #include <KStandardDirs>
 #include <KMessageBox>
 #include <KLocale>
+#include <KTemporaryFile>
 
 #include "renderer.h"
 #include "kdenlivesettings.h"
@@ -50,9 +51,9 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
     }
 }
 
-Render::Render(const QString & rendererName, int winid, int extid, QWidget *parent): QObject(parent), m_name(rendererName), m_mltConsumer(NULL), m_mltProducer(NULL), m_mltTextProducer(NULL), m_sceneList(QDomDocument()), m_winid(-1), m_framePosition(0), m_generateScenelist(false), m_isBlocked(true) {
-    kDebug() << "//////////  USING PROFILE: " << qstrdup(KdenliveSettings::current_profile().toUtf8());
-    m_mltProfile = new Mlt::Profile((char*) qstrdup(KdenliveSettings::current_profile().toUtf8()));
+Render::Render(const QString & rendererName, int winid, int extid, QWidget *parent): QObject(parent), m_name(rendererName), m_mltConsumer(NULL), m_mltProducer(NULL), m_mltTextProducer(NULL), m_winid(-1), m_framePosition(0), m_generateScenelist(false), m_isBlocked(true) {
+    kDebug() << "//////////  USING PROFILE: " << (char *)KdenliveSettings::current_profile().toUtf8().data();
+    m_mltProfile = new Mlt::Profile((char*) KdenliveSettings::current_profile().data());
     refreshTimer = new QTimer(this);
     connect(refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
 
@@ -118,13 +119,19 @@ int Render::resetProfile(QString profile) {
     if (!m_mltConsumer) return 0;
     if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     m_mltConsumer->set("refresh", 0);
+    m_mltConsumer->purge();
     //TODO: we should also rebuild filters and delete existing m_mltProfile
-    m_mltProfile = new Mlt::Profile((char*) qstrdup(profile.toUtf8()));
-    kDebug() << " + + RESET CONSUMER WITH PROFILE: " << profile;
-    mlt_properties properties = MLT_CONSUMER_PROPERTIES(m_mltConsumer->get_consumer());
-    mlt_properties_set_data(properties, "profile", m_mltProfile->get_profile(), 0, 0, NULL);
+
+    //delete m_mltProfile;
+    //m_mltProfile = new Mlt::Profile("pal_dv");//(char*) qstrdup(profile.toUtf8()));
+    kDebug() << " ++++++++++ RESET CONSUMER WITH PROFILE: " << m_mltProfile->width();
+    // mlt_properties properties = MLT_CONSUMER_PROPERTIES(m_mltConsumer->get_consumer());
+    //mlt_profile prof = m_mltProfile->get_profile();
+    //mlt_properties_set_data(properties, "_profile", prof, 0, (mlt_destructor)mlt_profile_close, NULL);
+    //mlt_properties_set(properties, "profile", "hdv_1080_50i");
+    m_mltConsumer->set("profile", (char *) profile.data());
     //apply_profile_properties( m_mltProfile, m_mltConsumer->get_consumer(), properties );
-    refresh();
+    //refresh();
     return 1;
 }
 
@@ -140,7 +147,7 @@ char *Render::decodedString(QString str) {
     char *t = new char[fn.length() + 1];
     strcpy(t, (const char *)fn);*/
 
-    return qstrdup(str.toUtf8().data());   //toLatin1
+    return (char *) qstrdup(str.toUtf8().data());   //toLatin1
 }
 
 //static
@@ -425,10 +432,6 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
     if (frame) delete frame;
 }
 
-QDomDocument Render::sceneList() const {
-    return m_sceneList;
-}
-
 /** Create the producer from the Westley QDomDocument */
 void Render::initSceneList() {
     kDebug() << "--------  INIT SCENE LIST ------_";
@@ -464,13 +467,17 @@ void Render::initSceneList() {
     setSceneList(doc, 0);
 }
 
-
 /** Create the producer from the Westley QDomDocument */
 void Render::setSceneList(QDomDocument list, int position) {
+    setSceneList(list.toString(), position);
+}
+
+/** Create the producer from the Westley QDomDocument */
+void Render::setSceneList(QString playlist, int position) {
     if (m_winid == -1) return;
     m_generateScenelist = true;
 
-    kWarning() << "//////  RENDER, SET SCENE LIST";
+    kWarning() << "//////  RENDER, SET SCENE LIST: " << playlist;
 
 
     /*
@@ -490,7 +497,6 @@ void Render::setSceneList(QDomDocument list, int position) {
 
     if (m_mltProducer) {
         m_mltProducer->set_speed(0.0);
-
         //if (KdenliveSettings::osdtimecode() && m_osdInfo) m_mltProducer->detach(*m_osdInfo);
 
         delete m_mltProducer;
@@ -498,9 +504,7 @@ void Render::setSceneList(QDomDocument list, int position) {
         emit stopped();
     }
 
-    char *tmp = decodedString(list.toString());
-    //Mlt::Producer clip(profile, "westley-xml", tmp);
-
+    char *tmp = decodedString(playlist);
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "westley-xml", tmp);
     delete[] tmp;
     //m_mltProducer->optimise();
@@ -537,6 +541,35 @@ void Render::setSceneList(QDomDocument list, int position) {
     m_generateScenelist = false;
 
 }
+
+/** Create the producer from the Westley QDomDocument */
+QString Render::sceneList() {
+    if (m_winid == -1) return QString();
+    KTemporaryFile temp;
+    QString result;
+
+    if (temp.open()) {
+        QString path = temp.fileName();
+        char *tmppath = decodedString("westley:" + path);
+        Mlt::Consumer westleyConsumer(*m_mltProfile , tmppath);
+        delete[] tmppath;
+        westleyConsumer.set("terminate_on_pause", 1);
+        Mlt::Producer prod(m_mltProducer->get_producer());
+        westleyConsumer.connect(prod);
+        westleyConsumer.start();
+
+        QFile file(path);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+            return QString();
+
+        QTextStream in(&file);
+        while (!in.atEnd()) {
+            result.append(in.readLine());
+        }
+    }
+    return result;
+}
+
 
 const double Render::fps() const {
     return m_fps;

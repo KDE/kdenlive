@@ -337,19 +337,25 @@ void ProjectList::slotAddTitleClip() {
     //delete dia;
 }
 void ProjectList::setDocument(KdenliveDoc *doc) {
+    listView->clear();
+    QList <DocClipBase*> list = doc->clipManager()->documentClipList();
+    for (int i = 0; i < list.count(); i++) {
+        slotAddClip(list.at(i));
+    }
+
     m_fps = doc->fps();
     m_timecode = doc->timecode();
     m_commandStack = doc->commandStack();
     m_doc = doc;
-    QDomNodeList prods = doc->producersList();
-    int ct = prods.count();
-    kDebug() << "////////////  SETTING DOC, FOUND CLIPS: " << prods.count();
-    listView->clear();
-    for (int i = 0; i <  ct ; i++) {
-        QDomElement e = prods.item(i).toElement();
-        kDebug() << "// IMPORT: " << i << ", :" << e.attribute("id", "non") << ", NAME: " << e.attribute("name", "non");
-        if (!e.isNull()) addProducer(e);
-    }
+    /*    QDomNodeList prods = doc->producersList();
+        int ct = prods.count();
+        kDebug() << "////////////  SETTING DOC, FOUND CLIPS: " << prods.count();
+        listView->clear();
+        for (int i = 0; i <  ct ; i++) {
+            QDomElement e = prods.item(i).toElement();
+            kDebug() << "// IMPORT: " << i << ", :" << e.attribute("id", "non") << ", NAME: " << e.attribute("name", "non");
+            if (!e.isNull()) addProducer(e);
+        }*/
     QTreeWidgetItem *first = listView->topLevelItem(0);
     if (first) listView->setCurrentItem(first);
     m_toolbar->setEnabled(true);

@@ -76,9 +76,9 @@ void MyThread::run() {
 
 
     if (KdenliveSettings::normaliseaudiothumbs()) {
-            Mlt::Filter m_convert(prof,"volume");
-            m_convert.set("gain", "normalise");
-            m_producer.attach(m_convert);
+        Mlt::Filter m_convert(prof, "volume");
+        m_convert.set("gain", "normalise");
+        m_producer.attach(m_convert);
     }
 
     //QApplication::postEvent(m_parent, new ProgressEvent(-1, (QEvent::Type)10005));
