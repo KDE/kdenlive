@@ -66,19 +66,19 @@ void MyThread::run() {
     if (!f.open(QIODevice::WriteOnly)) {
         kDebug() << "++++++++  ERROR WRITING TO FILE: " << f.fileName() << endl;
         kDebug() << "++++++++  DISABLING AUDIO THUMBS" << endl;
-        //TODO KdenliveSettings::setAudiothumbnails(false);
+        KdenliveSettings::setAudiothumbnails(false);
         return;
     }
     m_isWorking = true;
-    Mlt::Profile prof((char*) qstrdup(KdenliveSettings::current_profile().toUtf8()));
+    Mlt::Profile prof((char*) KdenliveSettings::current_profile().toUtf8().data());
     Mlt::Producer m_producer(prof, m_url.path().toUtf8().data());
 
 
-    /*TODO if (KdenliveSettings::normaliseaudiothumbs()) {
+    if (KdenliveSettings::normaliseaudiothumbs()) {
             Mlt::Filter m_convert(prof,"volume");
             m_convert.set("gain", "normalise");
             m_producer.attach(m_convert);
-    }*/
+    }
 
     //QApplication::postEvent(m_parent, new ProgressEvent(-1, (QEvent::Type)10005));
 
@@ -158,7 +158,7 @@ QPixmap KThumb::getImage(KUrl url, int width, int height) {
     char *tmp = Render::decodedString(url.path());
     Mlt::Profile prof((char*) KdenliveSettings::current_profile().data());
     Mlt::Producer m_producer(prof, tmp);
-    delete tmp;
+    delete[] tmp;
 
     if (m_producer.is_blank()) {
         pix.fill(Qt::black);
@@ -187,7 +187,7 @@ void KThumb::extractImage(int frame, int frame2) {
     QPixmap pix(m_width, m_height);
     char *tmp = Render::decodedString(m_url.path());
     Mlt::Producer m_producer(*m_profile, tmp);
-    delete tmp;
+    delete[] tmp;
 
     if (m_producer.is_blank()) {
         pix.fill(Qt::black);

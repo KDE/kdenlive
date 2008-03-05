@@ -26,6 +26,11 @@
       <default>true</default>
     </entry>
 
+    <entry name="normaliseaudiothumbs" type="Bool">
+      <label>Normalise audio before creating thumbnails.</label>
+      <default>true</default>
+    </entry>
+
     <entry name="autoscroll" type="Bool">
       <label>Auto scroll timeline while playing.</label>
       <default>true</default>
