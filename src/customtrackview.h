@@ -103,7 +103,7 @@ private:
 
 
 signals:
-    void cursorMoved(int);
+    void cursorMoved(int, int);
     void zoomIn();
     void zoomOut();
     void mousePosition(int);

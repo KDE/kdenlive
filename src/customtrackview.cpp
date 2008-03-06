@@ -256,7 +256,6 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
             m_moveOpMode = NONE;
             if (event->buttons() != Qt::NoButton) {
                 setCursorPos((int) mapToScene(event->pos().x(), 0).x());
-                emit cursorMoved(cursorPos());
             }
             if (m_visualTip) {
                 if (m_animation) delete m_animation;
@@ -319,7 +318,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 itemList.at(i)->setSelected(false);
             emit clipItemSelected(NULL);
             setCursorPos((int) mapToScene(event->x(), 0).x());
-            emit cursorMoved(cursorPos());
         }
     }
     updateSnapPoints(m_dragItem);
@@ -515,6 +513,7 @@ void CustomTrackView::deleteClip(int clipId) {
 }
 
 void CustomTrackView::setCursorPos(int pos, bool seek) {
+    emit cursorMoved(m_cursorPos, pos);
     m_cursorPos = pos;
     m_cursorLine->setPos(pos, 0);
     int frame =  pos / m_scale;

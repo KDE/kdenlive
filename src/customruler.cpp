@@ -74,8 +74,8 @@ const int CustomRuler::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 725,
                                         12000
                                       };
 
-CustomRuler::CustomRuler(Timecode tc, QWidget *parent)
-        : KRuler(parent), m_timecode(tc) {
+CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
+        : KRuler(parent), m_timecode(tc), m_view(parent) {
     slotNewOffset(0);
     setRulerMetricStyle(KRuler::Pixel);
     setLength(1024);
@@ -88,43 +88,29 @@ CustomRuler::CustomRuler(Timecode tc, QWidget *parent)
 
 // virtual
 void CustomRuler::mousePressEvent(QMouseEvent * event) {
-    int pos = event->x();
-    slotMoveCursor(pos, true);
+    int pos = (event->x() + offset());
+    m_view->setCursorPos(pos);
 }
 
 // virtual
 void CustomRuler::mouseMoveEvent(QMouseEvent * event) {
-    int pos = event->x();
-    slotMoveCursor(pos, true);
+    int pos = (event->x() + offset());
+    m_view->setCursorPos(pos);
 }
 
 void CustomRuler::slotMoveRuler(int newPos) {
     int diff = offset() - newPos;
     KRuler::slotNewOffset(newPos);
-    KRuler::slotNewValue(m_cursorPosition * FRAME_SIZE * pixelPerMark() - offset());//value() + diff);
 }
 
-void CustomRuler::slotMoveCursor(int _value, bool emitSignal) {
-    m_cursorPosition = (_value + offset()) / pixelPerMark() / FRAME_SIZE;
-    kDebug() << "RULER FR SZ: " << FRAME_SIZE << ", PPM: " << pixelPerMark();
-    KRuler::slotNewValue(m_cursorPosition * FRAME_SIZE * pixelPerMark() - offset());
-
-    if (emitSignal) emit cursorMoved(m_cursorPosition);
-}
-
-
-void CustomRuler::slotNewValue(int _value, bool emitSignal) {
-    m_cursorPosition = _value / pixelPerMark();
-    if (emitSignal) emit cursorMoved(m_cursorPosition / FRAME_SIZE);
-    KRuler::slotNewValue(_value * pixelPerMark() - offset());
+void CustomRuler::slotCursorMoved(int oldpos, int newpos) {
+    //TODO: optimize (redraw only around cursor positions
+    update();
 }
 
 void CustomRuler::setPixelPerMark(double rate) {
     int scale = comboScale[(int) rate];
-    int newPos = m_cursorPosition * (1.0 / scale);
     KRuler::setPixelPerMark(1.0 / scale);
-    KRuler::slotNewValue(m_cursorPosition * FRAME_SIZE * pixelPerMark() - offset());
-    //KRuler::slotNewValue( newPos );
 }
 
 // virtual
@@ -133,8 +119,7 @@ void CustomRuler::paintEvent(QPaintEvent * /*e*/) {
 
     QStylePainter p(this);
 
-
-    int value  = this->value();
+    int value  = m_view->cursorPos() - offset();
     int minval = minimum();
     int maxval = maximum() + offset() - endOffset();
 

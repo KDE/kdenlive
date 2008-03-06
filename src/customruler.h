@@ -3,13 +3,14 @@
 
 #include <KRuler>
 
-#include <timecode.h>
+#include "customtrackview.h"
+#include "timecode.h"
 
 class CustomRuler : public KRuler {
     Q_OBJECT
 
 public:
-    CustomRuler(Timecode tc, QWidget *parent = 0);
+    CustomRuler(Timecode tc, CustomTrackView *parent);
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
     void setPixelPerMark(double rate);
@@ -20,15 +21,12 @@ protected:
 private:
     int m_cursorPosition;
     Timecode m_timecode;
-    void slotMoveCursor(int _value, bool emitSignal);
+    CustomTrackView *m_view;
 
 public slots:
-    void slotNewValue(int _value, bool emitSignal = false);
     void slotMoveRuler(int newPos);
+    void slotCursorMoved(int oldpos, int newpos);
 
-
-signals:
-    void cursorMoved(int);
 };
 
 #endif
