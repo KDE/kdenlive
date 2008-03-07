@@ -67,6 +67,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_timelineArea->setTabReorderingEnabled(true);
     m_timelineArea->setTabBarHidden(true);
     connect(m_timelineArea, SIGNAL(currentChanged(int)), this, SLOT(activateDocument()));
+    connect(m_timelineArea, SIGNAL(closeRequest(QWidget *)), this, SLOT(closeDocument(QWidget *)));
+
 
     initEffects::parseEffectFiles(&m_audioEffects, &m_videoEffects);
     m_monitorManager = new MonitorManager();
@@ -299,7 +301,7 @@ void MainWindow::newFile() {
     if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
     KdenliveDoc *doc = new KdenliveDoc(KUrl(), prof);
     TrackView *trackView = new TrackView(doc);
-    m_timelineArea->addTab(trackView, i18n("Untitled") + " / " + prof.description);
+    m_timelineArea->addTab(trackView, KIcon("kdenlive"), i18n("Untitled") + " / " + prof.description);
     if (m_timelineArea->count() == 1)
         connectDocument(trackView, doc);
     else m_timelineArea->setTabBarHidden(false);
@@ -309,6 +311,21 @@ void MainWindow::activateDocument() {
     TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
     KdenliveDoc *currentDoc = currentTab->document();
     connectDocument(currentTab, currentDoc);
+}
+
+void MainWindow::closeDocument(QWidget *w) {
+    if (w == m_timelineArea->currentWidget()) {
+        // closing current document
+        int ix = m_timelineArea->currentIndex() + 1;
+        if (ix == m_timelineArea->count()) ix = 0;
+        m_timelineArea->setCurrentIndex(ix);
+    }
+
+    TrackView *tabToClose = (TrackView *) w;
+    KdenliveDoc *docToClose = tabToClose->document();
+    m_timelineArea->removeTab(m_timelineArea->indexOf(w));
+    delete docToClose;
+    delete w;
 }
 
 void MainWindow::saveFileAs(const QString &outputFileName) {
@@ -349,7 +366,7 @@ void MainWindow::openFile(const KUrl &url) { //new
     if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
     KdenliveDoc *doc = new KdenliveDoc(url, prof);
     TrackView *trackView = new TrackView(doc);
-    m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, QIcon(), doc->description()));
+    m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description()));
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());
     if (m_timelineArea->count() > 1) m_timelineArea->setTabBarHidden(false);
     //connectDocument(trackView, doc);

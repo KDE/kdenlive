@@ -110,6 +110,7 @@ public slots:
 private slots:
     void newFile();
     void activateDocument();
+    void closeDocument(QWidget *w);
     void connectDocument(TrackView*, KdenliveDoc*);
     void openFile();
     void saveFile();
