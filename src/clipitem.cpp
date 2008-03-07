@@ -85,7 +85,7 @@ ClipItem::ClipItem(DocClipBase *clip, int track, GenTime startpos, const QRectF 
         colour = colour.replace(0, 2, "#");
         setBrush(QColor(colour.left(7)));
     } else if (m_clipType == IMAGE) {
-        m_startPix = KThumb::getImage(KUrl(m_xml.attribute("resource")), 50 * KdenliveSettings::project_display_ratio(), 50);
+        m_startPix = KThumb::getImage(KUrl(m_xml.attribute("resource")), (int)(50 * KdenliveSettings::project_display_ratio()), 50);
     } else if (m_clipType == AUDIO) {
         connect(clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
     }
@@ -99,17 +99,17 @@ ClipItem::~ClipItem() {
 
 void ClipItem::slotFetchThumbs() {
     m_thumbsRequested += 2;
-    emit getThumb(m_cropStart.frames(m_fps), (m_cropStart + m_cropDuration).frames(m_fps));
+    emit getThumb((int)m_cropStart.frames(m_fps), (int)(m_cropStart + m_cropDuration).frames(m_fps));
 }
 
 void ClipItem::slotGetStartThumb() {
     m_thumbsRequested++;
-    emit getThumb(m_cropStart.frames(m_fps), -1);
+    emit getThumb((int)m_cropStart.frames(m_fps), -1);
 }
 
 void ClipItem::slotGetEndThumb() {
     m_thumbsRequested++;
-    emit getThumb(-1, (m_cropStart + m_cropDuration).frames(m_fps));
+    emit getThumb(-1, (int)(m_cropStart + m_cropDuration).frames(m_fps));
 }
 
 void ClipItem::slotThumbReady(int frame, QPixmap pix) {
@@ -201,7 +201,7 @@ void ClipItem::paint(QPainter *painter,
         return;
     QPainterPath clippath;
     clippath.addRect(rectInView);
-    int startpixel = rectInView.x() - rect().x();//start and endpixel that is viewable from rect()
+    int startpixel = (int)(rectInView.x() - rect().x()); //start and endpixel that is viewable from rect()
     if (startpixel < 0)
         startpixel = 0;
     int endpixel = rectInView.width() + rectInView.x();
@@ -216,18 +216,34 @@ void ClipItem::paint(QPainter *painter,
     painter->setClipRect(option->exposedRect);
     if (roundingX > br.width() / 2) roundingX = br.width() / 2;
     //kDebug()<<"-----PAINTING, SCAL: "<<scale<<", height: "<<br.height();
-    roundRectPathUpper.moveTo(br.x() + br .width() - offset, br.y() + br.height() / 2 - offset);
-    roundRectPathUpper.arcTo(br.x() + br .width() - roundingX - offset, br.y(), roundingX, roundingY, 0.0, 90.0);
-    roundRectPathUpper.lineTo(br.x() + roundingX, br.y());
-    roundRectPathUpper.arcTo(br.x() + offset, br.y(), roundingX, roundingY, 90.0, 90.0);
-    roundRectPathUpper.lineTo(br.x() + offset, br.y() + br.height() / 2 - offset);
+    int br_endx = (int)(br.x() + br .width() - offset);
+    int br_startx = (int)(br.x() + offset);
+    int br_starty = (int)(br.y());
+    int br_halfy = (int)(br.y() + br.height() / 2 - offset);
+    int br_endy = (int)(br.y() + br.height());
+    int left_upper = 0, left_lower = 0, right_upper = 0, right_lower = 0;
+    if (m_hover) {
+        if (!true) /*TRANSITIONSTART to upper clip*/
+            left_upper = 40;
+        if (!false) /*TRANSITIONSTART to lower clip*/
+            left_lower = 40;
+        if (!true) /*TRANSITIONEND to upper clip*/
+            right_upper = 40;
+        if (!false) /*TRANSITIONEND to lower clip*/
+            right_lower = 40;
+    }
+    roundRectPathUpper.moveTo(br_endx - right_upper , br_halfy);
+    roundRectPathUpper.arcTo(br_endx - roundingX - right_upper , br_starty , roundingX, roundingY, 0.0, 90.0);
+    roundRectPathUpper.lineTo(br_startx + roundingX + left_upper, br_starty);
+    roundRectPathUpper.arcTo(br_startx + left_upper, br_starty , roundingX, roundingY, 90.0, 90.0);
+    roundRectPathUpper.lineTo(br_startx + left_upper, br_halfy);
     roundRectPathUpper.closeSubpath();
 
-    roundRectPathLower.moveTo(br.x() + offset, br.y() + br.height() / 2 - offset);
-    roundRectPathLower.arcTo(br.x() + offset, br.y() + br.height() - roundingY - offset, roundingX, roundingY, 180.0, 90.0);
-    roundRectPathLower.lineTo(br.x() + br .width() - roundingX, br.y() + br.height() - offset);
-    roundRectPathLower.arcTo(br.x() + br .width() - roundingX - offset, br.y() + br.height() - roundingY - offset, roundingX, roundingY, 270.0, 90.0);
-    roundRectPathLower.lineTo(br.x() + br .width() - offset, br.y() + br.height() / 2 - offset);
+    roundRectPathLower.moveTo(br_startx + left_lower, br_halfy);
+    roundRectPathLower.arcTo(br_startx + left_lower, br_endy - roundingY , roundingX, roundingY, 180.0, 90.0);
+    roundRectPathLower.lineTo(br_endx - roundingX - right_lower , br_endy);
+    roundRectPathLower.arcTo(br_endx - roundingX - right_lower , br_endy - roundingY, roundingX, roundingY, 270.0, 90.0);
+    roundRectPathLower.lineTo(br_endx - right_lower , br_halfy);
     roundRectPathLower.closeSubpath();
 
     painter->setClipPath(roundRectPathUpper.united(roundRectPathLower).intersected(clippath), Qt::IntersectClip);
@@ -264,7 +280,7 @@ void ClipItem::paint(QPainter *painter,
 
         for (int startCache = startpixel - startpixel % 100; startCache < endpixel + 300;startCache += 100) {
             if (audioThumbCachePic.contains(startCache) && !audioThumbCachePic[startCache].isNull())
-                painter->drawPixmap(path.boundingRect().x() + startCache, path.boundingRect().y(), audioThumbCachePic[startCache]);
+                painter->drawPixmap((int)(roundRectPathUpper.united(roundRectPathLower).boundingRect().x() + startCache), (int)(path.boundingRect().y()), audioThumbCachePic[startCache]);
         }
 
     }
@@ -353,19 +369,19 @@ void ClipItem::paint(QPainter *painter,
     if (m_hover) {
         painter->setPen(QPen(Qt::black));
         painter->setBrush(QBrush(Qt::yellow));
-        painter->drawEllipse(br.x() + 10, br.y() + br.height() / 2 - 5 , 10, 10);
-        painter->drawEllipse(br.x() + br.width() - 20, br.y() + br.height() / 2 - 5, 10, 10);
+        painter->drawEllipse((int)(br.x() + 10), (int)(br.y() + br.height() / 2 - 5) , 10, 10);
+        painter->drawEllipse((int)(br.x() + br.width() - 20), (int)(br.y() + br.height() / 2 - 5), 10, 10);
     }
 }
 
 
 OPERATIONTYPE ClipItem::operationMode(QPointF pos, double scale) {
-    if (abs(pos.x() - (rect().x() + scale * m_startFade)) < 6 && abs(pos.y() - rect().y()) < 6) return FADEIN;
-    else if (abs(pos.x() - rect().x()) < 6) return RESIZESTART;
-    else if (abs(pos.x() - (rect().x() + rect().width() - scale * m_endFade)) < 6 && abs(pos.y() - rect().y()) < 6) return FADEOUT;
-    else if (abs(pos.x() - (rect().x() + rect().width())) < 6) return RESIZEEND;
-    else if (abs(pos.x() - (rect().x() + 10)) < 6 && abs(pos.y() - (rect().y() + rect().height() / 2 - 5)) < 6) return TRANSITIONSTART;
-    else if (abs(pos.x() - (rect().x() + rect().width() - 20)) < 6 && abs(pos.y() - (rect().y() + rect().height() / 2 - 5)) < 6) return TRANSITIONEND;
+    if (abs((int)(pos.x() - (rect().x() + scale * m_startFade))) < 6 && abs((int)(pos.y() - rect().y())) < 6) return FADEIN;
+    else if (abs((int)(pos.x() - rect().x())) < 6) return RESIZESTART;
+    else if (abs((int)(pos.x() - (rect().x() + rect().width() - scale * m_endFade))) < 6 && abs((int)(pos.y() - rect().y())) < 6) return FADEOUT;
+    else if (abs((int)(pos.x() - (rect().x() + rect().width()))) < 6) return RESIZEEND;
+    else if (abs((int)(pos.x() - (rect().x() + 10))) < 6 && abs((int)(pos.y() - (rect().y() + rect().height() / 2 - 5))) < 6) return TRANSITIONSTART;
+    else if (abs((int)(pos.x() - (rect().x() + rect().width() - 20))) < 6 && abs((int)(pos.y() - (rect().y() + rect().height() / 2 - 5))) < 6) return TRANSITIONEND;
     return MOVE;
 }
 
@@ -382,7 +398,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, QPainterPath path,
         if (framePixelWidth == pixelForOneFrame && audioThumbCachePic.contains(startCache))
             continue;
         if (audioThumbCachePic[startCache].isNull() || framePixelWidth != pixelForOneFrame) {
-            audioThumbCachePic[startCache] = QPixmap(100, re.height());
+            audioThumbCachePic[startCache] = QPixmap(100, (int)(re.height()));
             audioThumbCachePic[startCache].fill(QColor(200, 200, 200, 127));
         }
         bool fullAreaDraw = pixelForOneFrame < 10;
@@ -404,7 +420,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, QPainterPath path,
 
         for (int samples = 0;samples <= 100;samples++) {
             double frame = (double)(samples + startCache - 0) / pixelForOneFrame;
-            int sample = (frame - (int)(frame)) * 20 ;// AUDIO_FRAME_SIZE
+            int sample = (int)((frame - (int)(frame)) * 20);   // AUDIO_FRAME_SIZE
             if (frame < 0 || sample < 0 || sample > 19)
                 continue;
             QMap<int, QByteArray> frame_channel_data = baseClip()->audioFrameChache[(int)frame];
@@ -456,7 +472,7 @@ int ClipItem::fadeOut() const {
 void ClipItem::setFadeIn(int pos, double scale) {
     int oldIn = m_startFade;
     if (pos < 0) pos = 0;
-    if (pos > m_cropDuration.frames(m_fps)) pos = m_cropDuration.frames(m_fps) / 2;
+    if (pos > m_cropDuration.frames(m_fps)) pos = (int)(m_cropDuration.frames(m_fps) / 2);
     m_startFade = pos;
     if (oldIn > pos) update(rect().x(), rect().y(), oldIn * scale, rect().height());
     else update(rect().x(), rect().y(), pos * scale, rect().height());
@@ -465,7 +481,7 @@ void ClipItem::setFadeIn(int pos, double scale) {
 void ClipItem::setFadeOut(int pos, double scale) {
     int oldOut = m_endFade;
     if (pos < 0) pos = 0;
-    if (pos > m_cropDuration.frames(m_fps)) pos = m_cropDuration.frames(m_fps) / 2;
+    if (pos > m_cropDuration.frames(m_fps)) pos = (int)(m_cropDuration.frames(m_fps) / 2);
     m_endFade = pos;
     if (oldOut > pos) update(rect().x() + rect().width() - pos * scale, rect().y(), pos * scale, rect().height());
     else update(rect().x() + rect().width() - oldOut * scale, rect().y(), oldOut * scale, rect().height());
