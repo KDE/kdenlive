@@ -181,7 +181,7 @@ void ProjectList::slotRemoveClip() {
     if (!listView->currentItem()) return;
     ProjectItem *item = ((ProjectItem *)listView->currentItem());
     if (item->numReferences() > 0) {
-        if (KMessageBox::questionYesNo(this, i18n("Delete clip <b>%1</b> ?<br>This will also remove its %2 clips in timeline", item->names().at(1), item->numReferences()), i18n("Delete Clip")) != KMessageBox::Yes) return;
+        if (KMessageBox::questionYesNo(this, i18np("Delete clip <b>%2</b> ?<br>This will also remove the clip in timeline", "Delete clip <b>%2</b> ?<br>This will also remove its %1 clips in timeline", item->numReferences(), item->names().at(1)), i18n("Delete Clip")) != KMessageBox::Yes) return;
     }
     m_doc->deleteProjectClip(item->clipId());
 }
