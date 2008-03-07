@@ -41,24 +41,8 @@ Timecode MonitorManager::timecode() {
 void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor) {
     m_clipMonitor = clipMonitor;
     m_projectMonitor = projectMonitor;
-    //QTimer::singleShot(1750, this, SLOT(initClipMonitor()));
-    initClipMonitor();
-    //initProjectMonitor();
 }
 
-void MonitorManager::initClipMonitor() {
-    m_clipMonitor->initMonitor();
-    emit connectMonitors();
-    //initProjectMonitor();
-    //QTimer::singleShot(1500, this, SLOT(initProjectMonitor()));
-}
-
-void MonitorManager::initProjectMonitor() {
-    //m_clipMonitor->stop();
-    m_projectMonitor->initMonitor();
-    // activateMonitor("project");
-    emit connectMonitors();
-}
 
 void MonitorManager::activateMonitor(QString name) {
     if (m_activeMonitor == name) return;
@@ -81,7 +65,7 @@ void MonitorManager::slotPlay() {
 }
 
 void MonitorManager::resetProfiles(QString prof) {
-    m_clipMonitor->resetProfile(prof);
+    //m_clipMonitor->resetProfile(prof);
     m_projectMonitor->resetProfile(prof);
 }
 

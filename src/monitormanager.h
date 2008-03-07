@@ -46,12 +46,7 @@ private:
     QString m_activeMonitor;
     Timecode m_timecode;
 
-private slots:
-    void initProjectMonitor();
-    void initClipMonitor();
-
 signals:
-    void connectMonitors();
     void raiseClipMonitor(bool);
 
 };

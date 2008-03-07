@@ -150,7 +150,6 @@ void Monitor::rendererStopped(int pos) {
 
 void Monitor::initMonitor() {
     kDebug() << "/////// INITING MONITOR, ID: " << ui.video_frame->winId();
-
 }
 
 // virtual
@@ -205,7 +204,6 @@ void Monitor::slotSetXml(const QDomElement &e) {
     ui.monitor_time->setText("00:00:00:00");
     m_position = 0;
 }
-
 
 void Monitor::slotOpenFile(const QString &file) {
     if (render == NULL) return;
