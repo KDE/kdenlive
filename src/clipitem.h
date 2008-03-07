@@ -37,7 +37,7 @@ class ClipItem : public QObject, public QGraphicsRectItem {
     Q_OBJECT
 
 public:
-    ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & rect, int duration);
+    ClipItem(DocClipBase *clip, int track, GenTime startpos, const QRectF & rect, GenTime duration, double fps);
     virtual ~ ClipItem();
     virtual void paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
@@ -51,13 +51,13 @@ public:
     int clipType();
     DocClipBase *baseClip();
     QString clipName();
-    int maxDuration();
+    GenTime maxDuration();
     int track();
     void setTrack(int track);
-    int startPos();
-    int cropStart();
-    int endPos();
-    int duration();
+    GenTime startPos();
+    GenTime cropStart();
+    GenTime endPos();
+    GenTime duration();
     QDomElement xml() const;
     int fadeIn() const;
     int fadeOut() const;
@@ -88,22 +88,23 @@ protected:
     virtual void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     virtual void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
     virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *);
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
 
 private:
     QDomElement m_xml;
     DocClipBase *m_clip;
-    int m_textWidth;
     OPERATIONTYPE m_resizeMode;
     int m_grabPoint;
     int m_producer;
     CLIPTYPE m_clipType;
     QString m_clipName;
-    int m_maxDuration;
-    int m_cropStart;
-    int m_cropDuration;
+    GenTime m_maxDuration;
+    GenTime m_cropStart;
+    GenTime m_cropDuration;
     int m_maxTrack;
     int m_track;
-    int m_startPos;
+    GenTime m_startPos;
     QPixmap m_startPix;
     QPixmap m_endPix;
     bool m_hasThumbs;
@@ -116,6 +117,8 @@ private:
     double m_opacity;
     QTimeLine *m_timeLine;
     uint m_thumbsRequested;
+    double m_fps;
+    bool m_hover;
 
     EffectsList m_effectList;
     QMap<int, QPixmap> audioThumbCachePic;

@@ -27,22 +27,23 @@
 
 #include <KDebug>
 
+#include "gentime.h"
 #include "projectlist.h"
 #include "customtrackview.h"
 
 class AddTimelineClipCommand : public QUndoCommand {
 public:
-    AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, int clipId, int track, int startpos, QRectF rect, int duration, bool doIt, bool doRemove);
+    AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, int clipId, int track, GenTime startpos, QRectF rect, GenTime duration, bool doIt, bool doRemove);
     virtual void undo();
     virtual void redo();
 
 private:
     CustomTrackView *m_view;
-    int m_clipDuration;
+    GenTime m_clipDuration;
     int m_clipId;
     QDomElement m_xml;
     int m_clipTrack;
-    int m_clipPos;
+    GenTime m_clipPos;
     QRectF m_clipRect;
     bool m_doIt;
     bool m_remove;

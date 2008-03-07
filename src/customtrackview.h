@@ -44,8 +44,8 @@ public:
     void checkAutoScroll();
     void moveClip(const QPointF &startPos, const QPointF &endPos);
     void resizeClip(const QPointF &startPos, const QPointF &endPos, bool resizeClipStart);
-    void addClip(QDomElement xml, int clipId, int track, int startpos, const QRectF &rect, int duration);
-    void deleteClip(int track, int startpos, const QRectF &rect);
+    void addClip(QDomElement xml, int clipId, int track, GenTime startpos, const QRectF &rect, GenTime duration);
+    void deleteClip(int track, GenTime startpos, const QRectF &rect);
     void setScale(double scaleFactor);
     void deleteClip(int clipId);
     void slotAddEffect(QDomElement effect, GenTime pos, int track);
@@ -97,6 +97,7 @@ private:
     void updateSnapPoints(ClipItem *selected);
     double getSnapPointForPos(double pos);
     ClipItem *getClipItemAt(int pos, int track);
+    ClipItem *getClipItemAt(GenTime pos, int track);
     void checkScrolling();
     /** Should we auto scroll while playing (keep in sync with KdenliveSettings::autoscroll() */
     bool m_autoScroll;

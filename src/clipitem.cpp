@@ -38,17 +38,17 @@
 #include "events.h"
 #include "kdenlivesettings.h"
 
-ClipItem::ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & rect, int duration)
-        : QGraphicsRectItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_thumbsRequested(0) {
+ClipItem::ClipItem(DocClipBase *clip, int track, GenTime startpos, const QRectF & rect, GenTime duration, double fps)
+        : QGraphicsRectItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_thumbsRequested(0), m_fps(fps), m_hover(false) {
     //setToolTip(name);
-    kDebug() << "*******  CREATING NEW TML CLIP, DUR: " << duration;
+    // kDebug() << "*******  CREATING NEW TML CLIP, DUR: " << duration;
     m_xml = clip->toXML();
     m_clipName = clip->name();
     m_producer = clip->getId();
     m_clipType = clip->clipType();
-    m_cropStart = 0;
+    m_cropStart = GenTime();
     m_maxDuration = duration;
-    if (duration != -1) m_cropDuration = duration;
+    if (duration != GenTime()) m_cropDuration = duration;
     else m_cropDuration = m_maxDuration;
     setAcceptDrops(true);
     audioThumbReady = clip->audioThumbCreated();
@@ -62,6 +62,7 @@ ClipItem::ClipItem(DocClipBase *clip, int track, int startpos, const QRectF & re
 
 
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemClipsChildrenToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    setAcceptsHoverEvents(true);
     connect(this , SIGNAL(prepareAudioThumb(double, QPainterPath, int, int)) , this, SLOT(slotPrepareAudioThumb(double, QPainterPath, int, int)));
 
     setBrush(QColor(100, 100, 150));
@@ -98,22 +99,22 @@ ClipItem::~ClipItem() {
 
 void ClipItem::slotFetchThumbs() {
     m_thumbsRequested += 2;
-    emit getThumb(m_cropStart, m_cropStart + m_cropDuration);
+    emit getThumb(m_cropStart.frames(m_fps), (m_cropStart + m_cropDuration).frames(m_fps));
 }
 
 void ClipItem::slotGetStartThumb() {
     m_thumbsRequested++;
-    emit getThumb(m_cropStart, -1);
+    emit getThumb(m_cropStart.frames(m_fps), -1);
 }
 
 void ClipItem::slotGetEndThumb() {
     m_thumbsRequested++;
-    emit getThumb(-1, m_cropStart + m_cropDuration);
+    emit getThumb(-1, (m_cropStart + m_cropDuration).frames(m_fps));
 }
 
 void ClipItem::slotThumbReady(int frame, QPixmap pix) {
     if (m_thumbsRequested == 0) return;
-    if (frame == m_cropStart) m_startPix = pix;
+    if (frame == m_cropStart.frames(m_fps)) m_startPix = pix;
     else m_endPix = pix;
     update();
     m_thumbsRequested--;
@@ -148,23 +149,23 @@ int ClipItem::clipProducer() {
     return m_producer;
 }
 
-int ClipItem::maxDuration() {
+GenTime ClipItem::maxDuration() {
     return m_maxDuration;
 }
 
-int ClipItem::duration() {
+GenTime ClipItem::duration() {
     return m_cropDuration;
 }
 
-int ClipItem::startPos() {
+GenTime ClipItem::startPos() {
     return m_startPos;
 }
 
-int ClipItem::cropStart() {
+GenTime ClipItem::cropStart() {
     return m_cropStart;
 }
 
-int ClipItem::endPos() {
+GenTime ClipItem::endPos() {
     return m_startPos + m_cropDuration;
 }
 
@@ -256,7 +257,7 @@ void ClipItem::paint(QPainter *painter,
         painter->fillPath(path, QBrush(QColor(200, 200, 200, 127)));
 
         int channels = 2;
-        double pixelForOneFrame = (double)br.width() / duration();
+        double pixelForOneFrame = (double)br.width() / duration().frames(m_fps);
         if (pixelForOneFrame != framePixelWidth)
             audioThumbCachePic.clear();
         emit prepareAudioThumb(pixelForOneFrame, path, startpixel, endpixel + 200);//200 more for less missing parts before repaint after scrolling
@@ -269,7 +270,7 @@ void ClipItem::paint(QPainter *painter,
     }
 
     // draw start / end fades
-    double scale = br.width() / m_cropDuration;
+    double scale = br.width() / m_cropDuration.frames(m_fps);
     QBrush fades;
     if (isSelected()) {
         fades = QBrush(QColor(200, 50, 50, 150));
@@ -349,10 +350,12 @@ void ClipItem::paint(QPainter *painter,
     //painter->drawText(rect(), Qt::AlignCenter, m_name);
     // painter->drawRect(boundingRect());
     //painter->drawRoundRect(-10, -10, 20, 20);
-    painter->setPen(QPen(Qt::black));
-    painter->setBrush(QBrush(Qt::yellow));
-    painter->drawEllipse(br.x() + 10, br.y() + br.height() / 2 - 5 , 10, 10);
-    painter->drawEllipse(br.x() + br.width() - 20, br.y() + br.height() / 2 - 5, 10, 10);
+    if (m_hover) {
+        painter->setPen(QPen(Qt::black));
+        painter->setBrush(QBrush(Qt::yellow));
+        painter->drawEllipse(br.x() + 10, br.y() + br.height() / 2 - 5 , 10, 10);
+        painter->drawEllipse(br.x() + br.width() - 20, br.y() + br.height() / 2 - 5, 10, 10);
+    }
 }
 
 
@@ -453,7 +456,7 @@ int ClipItem::fadeOut() const {
 void ClipItem::setFadeIn(int pos, double scale) {
     int oldIn = m_startFade;
     if (pos < 0) pos = 0;
-    if (pos > m_cropDuration) pos = m_cropDuration / 2;
+    if (pos > m_cropDuration.frames(m_fps)) pos = m_cropDuration.frames(m_fps) / 2;
     m_startFade = pos;
     if (oldIn > pos) update(rect().x(), rect().y(), oldIn * scale, rect().height());
     else update(rect().x(), rect().y(), pos * scale, rect().height());
@@ -462,7 +465,7 @@ void ClipItem::setFadeIn(int pos, double scale) {
 void ClipItem::setFadeOut(int pos, double scale) {
     int oldOut = m_endFade;
     if (pos < 0) pos = 0;
-    if (pos > m_cropDuration) pos = m_cropDuration / 2;
+    if (pos > m_cropDuration.frames(m_fps)) pos = m_cropDuration.frames(m_fps) / 2;
     m_endFade = pos;
     if (oldOut > pos) update(rect().x() + rect().width() - pos * scale, rect().y(), pos * scale, rect().height());
     else update(rect().x() + rect().width() - oldOut * scale, rect().y(), oldOut * scale, rect().height());
@@ -486,6 +489,18 @@ void ClipItem::mouseReleaseEvent(QGraphicsSceneMouseEvent * event) {
     QGraphicsRectItem::mouseReleaseEvent(event);
 }
 
+//virtual
+void ClipItem::hoverEnterEvent(QGraphicsSceneHoverEvent *) {
+    m_hover = true;
+    update();
+}
+
+//virtual
+void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *) {
+    m_hover = false;
+    update();
+}
+
 void ClipItem::moveTo(int x, double scale, double offset, int newTrack) {
     double origX = rect().x();
     double origY = rect().y();
@@ -499,14 +514,14 @@ void ClipItem::moveTo(int x, double scale, double offset, int newTrack) {
         if (item->type() == 70000) {
             if (offset == 0) {
                 QRectF other = ((QGraphicsRectItem *)item)->rect();
-                if (x < m_startPos) {
+                if (x < m_startPos.frames(m_fps)) {
                     kDebug() << "COLLISION, MOVING TO------";
-                    m_startPos = ((ClipItem *)item)->endPos() + 1;
-                    origX = m_startPos * scale;
+                    m_startPos = ((ClipItem *)item)->endPos() + GenTime(1, m_fps);
+                    origX = m_startPos.frames(m_fps) * scale;
                 } else {
                     kDebug() << "COLLISION, MOVING TO+++";
                     m_startPos = ((ClipItem *)item)->startPos() - m_cropDuration;
-                    origX = m_startPos * scale;
+                    origX = m_startPos.frames(m_fps) * scale;
                 }
             }
             setRect(origX, origY, rect().width(), rect().height());
@@ -518,7 +533,7 @@ void ClipItem::moveTo(int x, double scale, double offset, int newTrack) {
     }
     if (success) {
         m_track = newTrack;
-        m_startPos = x;
+        m_startPos = GenTime(x, m_fps);
     }
     /*    QList <QGraphicsItem *> childrenList = QGraphicsItem::children();
         for (int i = 0; i < childrenList.size(); ++i) {
@@ -527,27 +542,27 @@ void ClipItem::moveTo(int x, double scale, double offset, int newTrack) {
 }
 
 void ClipItem::resizeStart(int posx, double scale) {
-    int durationDiff = posx - m_startPos;
-    if (durationDiff == 0) return;
-    kDebug() << "-- RESCALE: CROP=" << m_cropStart << ", DIFF = " << durationDiff;
-    if (m_cropStart + durationDiff < 0) {
-        durationDiff = -m_cropStart;
+    GenTime durationDiff = GenTime(posx, m_fps) - m_startPos;
+    if (durationDiff == GenTime()) return;
+    //kDebug() << "-- RESCALE: CROP=" << m_cropStart << ", DIFF = " << durationDiff;
+    if (m_cropStart + durationDiff < GenTime()) {
+        durationDiff = GenTime() - m_cropStart;
     } else if (durationDiff >= m_cropDuration) {
-        durationDiff = m_cropDuration - 3;
+        durationDiff = m_cropDuration - GenTime(3, m_fps);
     }
     m_startPos += durationDiff;
     m_cropStart += durationDiff;
-    m_cropDuration -= durationDiff;
-    setRect(m_startPos * scale, rect().y(), m_cropDuration * scale, rect().height());
+    m_cropDuration = m_cropDuration - durationDiff;
+    setRect(m_startPos.frames(m_fps) * scale, rect().y(), m_cropDuration.frames(m_fps) * scale, rect().height());
     QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
     for (int i = 0; i < collisionList.size(); ++i) {
         QGraphicsItem *item = collisionList.at(i);
         if (item->type() == 70000) {
-            int diff = ((ClipItem *)item)->endPos() + 1 - m_startPos;
-            setRect((m_startPos + diff) * scale, rect().y(), (m_cropDuration - diff) * scale, rect().height());
+            GenTime diff = ((ClipItem *)item)->endPos() + GenTime(1, m_fps) - m_startPos;
+            setRect((m_startPos + diff).frames(m_fps) * scale, rect().y(), (m_cropDuration - diff).frames(m_fps) * scale, rect().height());
             m_startPos += diff;
             m_cropStart += diff;
-            m_cropDuration -= diff;
+            m_cropDuration = m_cropDuration - diff;
             break;
         }
     }
@@ -555,23 +570,23 @@ void ClipItem::resizeStart(int posx, double scale) {
 }
 
 void ClipItem::resizeEnd(int posx, double scale) {
-    int durationDiff = posx - endPos();
-    if (durationDiff == 0) return;
-    kDebug() << "-- RESCALE: CROP=" << m_cropStart << ", DIFF = " << durationDiff;
-    if (m_cropDuration + durationDiff <= 0) {
-        durationDiff = - (m_cropDuration - 3);
+    GenTime durationDiff = GenTime(posx, m_fps) - endPos();
+    if (durationDiff == GenTime()) return;
+    //kDebug() << "-- RESCALE: CROP=" << m_cropStart << ", DIFF = " << durationDiff;
+    if (m_cropDuration + durationDiff <= GenTime()) {
+        durationDiff = GenTime() - (m_cropDuration - GenTime(3, m_fps));
     } else if (m_cropDuration + durationDiff >= m_maxDuration) {
         durationDiff = m_maxDuration - m_cropDuration;
     }
     m_cropDuration += durationDiff;
-    setRect(m_startPos * scale, rect().y(), m_cropDuration * scale, rect().height());
+    setRect(m_startPos.frames(m_fps) * scale, rect().y(), m_cropDuration.frames(m_fps) * scale, rect().height());
     QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
     for (int i = 0; i < collisionList.size(); ++i) {
         QGraphicsItem *item = collisionList.at(i);
         if (item->type() == 70000) {
-            int diff = ((ClipItem *)item)->startPos() - 1 - startPos();
+            GenTime diff = ((ClipItem *)item)->startPos() - GenTime(1, m_fps) - startPos();
             m_cropDuration = diff;
-            setRect(m_startPos * scale, rect().y(), m_cropDuration * scale, rect().height());
+            setRect(m_startPos.frames(m_fps) * scale, rect().y(), m_cropDuration.frames(m_fps) * scale, rect().height());
             break;
         }
     }
@@ -686,7 +701,7 @@ void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event) {
     doc.setContent(effects, true);
     QDomElement e = doc.documentElement();
     CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
-    if (view) view->slotAddEffect(e, GenTime(m_startPos, 25), m_track);
+    if (view) view->slotAddEffect(e, m_startPos, m_track);
 }
 
 //virtual

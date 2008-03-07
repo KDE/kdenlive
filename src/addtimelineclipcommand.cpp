@@ -21,7 +21,7 @@
 
 #include "addtimelineclipcommand.h"
 
-AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, int clipId, int track, int startpos, QRectF rect, int duration, bool doIt, bool doRemove)
+AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, int clipId, int track, GenTime startpos, QRectF rect, GenTime duration, bool doIt, bool doRemove)
         : m_view(view), m_xml(xml), m_clipId(clipId), m_clipTrack(track), m_clipPos(startpos), m_clipRect(rect), m_clipDuration(duration), m_doIt(doIt), m_remove(doRemove) {
     if (!m_remove) setText(i18n("Add timeline clip"));
     else setText(i18n("Delete timeline clip"));
