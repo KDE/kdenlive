@@ -87,9 +87,7 @@ private:
 
     QDockWidget *undoViewDock;
     QUndoView *m_undoView;
-    KUndoStack *m_commandStack;
-    QAction *m_undo;
-    QAction *m_redo;
+    QUndoGroup *m_commandStack;
 
     KComboBox *m_timecodeFormat;
 
@@ -109,6 +107,8 @@ public slots:
 
 private slots:
     void newFile();
+    void undo();
+    void redo();
     void activateDocument();
     void closeDocument(QWidget *w);
     void connectDocument(TrackView*, KdenliveDoc*);

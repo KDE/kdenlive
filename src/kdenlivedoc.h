@@ -26,6 +26,7 @@
 #include <qmap.h>
 #include <QList>
 #include <QObject>
+#include <QUndoGroup>
 
 #include <KUndoStack>
 #include <kurl.h>
@@ -39,7 +40,7 @@
 class KdenliveDoc: public QObject {
 Q_OBJECT public:
 
-    KdenliveDoc(const KUrl &url, MltVideoProfile profile, QWidget *parent = 0);
+    KdenliveDoc(const KUrl &url, MltVideoProfile profile, QUndoGroup *undoGroup, QWidget *parent = 0);
     ~KdenliveDoc();
     QDomNodeList producersList();
     double fps() const;

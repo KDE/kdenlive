@@ -60,8 +60,10 @@
 
 MainWindow::MainWindow(QWidget *parent)
         : KXmlGuiWindow(parent),
-        fileName(QString()), m_activeDocument(NULL), m_activeTimeline(NULL), m_commandStack(NULL) {
+        fileName(QString()), m_activeDocument(NULL), m_activeTimeline(NULL) {
     parseProfiles();
+
+    m_commandStack = new QUndoGroup;
     m_timelineArea = new KTabWidget(this);
     m_timelineArea->setHoverCloseButton(true);
     m_timelineArea->setTabReorderingEnabled(true);
@@ -116,8 +118,10 @@ MainWindow::MainWindow(QWidget *parent)
     undoViewDock = new QDockWidget(i18n("Undo History"), this);
     undoViewDock->setObjectName("undo_history");
     m_undoView = new QUndoView(this);
+    m_undoView->setCleanIcon(KIcon("edit-clear"));
+    m_undoView->setEmptyLabel(i18n("Clean"));
     undoViewDock->setWidget(m_undoView);
-    m_undoView->setStack(m_commandStack);
+    m_undoView->setGroup(m_commandStack);
     addDockWidget(Qt::TopDockWidgetArea, undoViewDock);
 
     overviewDock = new QDockWidget(i18n("Project Overview"), this);
@@ -264,11 +268,11 @@ void MainWindow::setupActions() {
     KStandardAction::preferences(this, SLOT(slotPreferences()),
                                  actionCollection());
 
-    /*KStandardAction::undo(this, SLOT(undo()),
+    KStandardAction::undo(this, SLOT(undo()),
                           actionCollection());
 
     KStandardAction::redo(this, SLOT(redo()),
-                          actionCollection());*/
+                          actionCollection());
 
     connect(actionCollection(), SIGNAL(actionHighlighted(QAction*)),
             this, SLOT(slotDisplayActionMessage(QAction*)));
@@ -276,9 +280,14 @@ void MainWindow::setupActions() {
     //statusBar(), SLOT( clear() ) );
 
     readOptions();
+}
 
-    /*m_redo = m_commandStack->createRedoAction(actionCollection());
-    m_undo = m_commandStack->createUndoAction(actionCollection());*/
+void MainWindow::undo() {
+    m_commandStack->undo();
+}
+
+void MainWindow::redo() {
+    m_commandStack->redo();
 }
 
 void MainWindow::slotDisplayActionMessage(QAction *a) {
@@ -299,7 +308,7 @@ void MainWindow::readOptions() {
 void MainWindow::newFile() {
     MltVideoProfile prof = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
     if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
-    KdenliveDoc *doc = new KdenliveDoc(KUrl(), prof);
+    KdenliveDoc *doc = new KdenliveDoc(KUrl(), prof, m_commandStack);
     TrackView *trackView = new TrackView(doc);
     m_timelineArea->addTab(trackView, KIcon("kdenlive"), i18n("Untitled") + " / " + prof.description);
     if (m_timelineArea->count() == 1)
@@ -364,7 +373,7 @@ void MainWindow::openFile(const KUrl &url) { //new
     //TODO: get video profile from url before opening it
     MltVideoProfile prof = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
     if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
-    KdenliveDoc *doc = new KdenliveDoc(url, prof);
+    KdenliveDoc *doc = new KdenliveDoc(url, prof, m_commandStack);
     TrackView *trackView = new TrackView(doc);
     m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description()));
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());
@@ -492,28 +501,12 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
 
     m_monitorManager->setTimecode(doc->timecode());
     doc->setRenderer(m_projectMonitor->render);
-    //m_undoView->setStack(0);
-    m_commandStack = doc->commandStack();
+    m_commandStack->setActiveStack(doc->commandStack());
 
     m_overView->setScene(trackView->projectScene());
     m_overView->scale(m_overView->width() / trackView->duration(), m_overView->height() / (50 * trackView->tracksNumber()));
     //m_overView->fitInView(m_overView->itemAt(0, 50), Qt::KeepAspectRatio);
-    QAction *redo = m_commandStack->createRedoAction(actionCollection());
-    QAction *undo = m_commandStack->createUndoAction(actionCollection());
 
-    QWidget* w = factory()->container("mainToolBar", this);
-    if (w) {
-        if (actionCollection()->action("undo"))
-            delete actionCollection()->action("undo");
-        if (actionCollection()->action("redo"))
-            delete actionCollection()->action("redo");
-
-        actionCollection()->addAction("undo", undo);
-        actionCollection()->addAction("redo", redo);
-        w->addAction(undo);
-        w->addAction(redo);
-    }
-    m_undoView->setStack(doc->commandStack());
     setCaption(doc->description());
     m_activeDocument = doc;
 }
