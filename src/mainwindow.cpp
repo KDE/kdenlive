@@ -349,7 +349,7 @@ void MainWindow::openFile(const KUrl &url) { //new
     if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
     KdenliveDoc *doc = new KdenliveDoc(url, prof);
     TrackView *trackView = new TrackView(doc);
-    m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, QIcon(), doc->documentName() + " / " + prof.description));
+    m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, QIcon(), doc->description()));
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());
     if (m_timelineArea->count() > 1) m_timelineArea->setTabBarHidden(false);
     //connectDocument(trackView, doc);
@@ -497,6 +497,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
         w->addAction(redo);
     }
     m_undoView->setStack(doc->commandStack());
+    setCaption(doc->description());
     m_activeDocument = doc;
 }
 

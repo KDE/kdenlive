@@ -41,15 +41,14 @@ Q_OBJECT public:
 
     KdenliveDoc(const KUrl &url, MltVideoProfile profile, QWidget *parent = 0);
     ~KdenliveDoc();
-    QString documentName();
     QDomNodeList producersList();
-    double fps();
-    int width();
-    int height();
-    KUrl url();
+    double fps() const;
+    int width() const;
+    int height() const;
+    KUrl url() const;
     void backupMltPlaylist();
-    Timecode timecode();
-    QDomDocument toXml();
+    Timecode timecode() const;
+    QDomDocument toXml() const;
     void setRenderer(Render *render);
     KUndoStack *commandStack();
     QString producerName(int id);
@@ -67,7 +66,8 @@ Q_OBJECT public:
     void deleteProjectClip(const uint clipId);
     /** Inform application of the audio thumbnails generation progress */
     void setThumbsProgress(KUrl url, int progress);
-    QString profilePath();
+    QString profilePath() const;
+    QString description() const;
 
 private:
     KUrl m_url;

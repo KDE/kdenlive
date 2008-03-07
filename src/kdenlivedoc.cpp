@@ -28,7 +28,7 @@
 #include "kdenlivedoc.h"
 #include "docclipbase.h"
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, MltVideoProfile profile, QWidget *parent): QObject(parent), m_render(NULL), m_url(url), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_projectName(NULL), m_commandStack(new KUndoStack()) {
+KdenliveDoc::KdenliveDoc(const KUrl &url, MltVideoProfile profile, QWidget *parent): QObject(parent), m_render(NULL), m_url(url), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new KUndoStack()) {
     m_clipManager = new ClipManager(this);
     if (!url.isEmpty()) {
         QString tmpFile;
@@ -36,7 +36,6 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, MltVideoProfile profile, QWidget *pare
             QFile file(tmpFile);
             m_document.setContent(&file, false);
             file.close();
-            m_projectName = url.fileName();
             KIO::NetAccess::removeTempFile(tmpFile);
         } else {
             KMessageBox::error(parent, KIO::NetAccess::lastErrorString());
@@ -115,7 +114,7 @@ ClipManager *KdenliveDoc::clipManager() {
     return m_clipManager;
 }
 
-QString KdenliveDoc::profilePath() {
+QString KdenliveDoc::profilePath() const {
     return m_profile.path;
 }
 
@@ -193,16 +192,12 @@ QDomDocument KdenliveDoc::generateSceneList() {
     QDomElement prod = doc.createElement("producer");
 }
 
-QDomDocument KdenliveDoc::toXml() {
+QDomDocument KdenliveDoc::toXml() const {
     return m_document;
 }
 
-Timecode KdenliveDoc::timecode() {
+Timecode KdenliveDoc::timecode() const {
     return m_timecode;
-}
-
-QString KdenliveDoc::documentName() {
-    return m_projectName;
 }
 
 QDomNodeList KdenliveDoc::producersList() {
@@ -213,20 +208,27 @@ void KdenliveDoc::backupMltPlaylist() {
     if (m_render) m_scenelist = m_render->sceneList();
 }
 
-double KdenliveDoc::fps() {
+double KdenliveDoc::fps() const {
     return m_fps;
 }
 
-int KdenliveDoc::width() {
+int KdenliveDoc::width() const {
     return m_width;
 }
 
-int KdenliveDoc::height() {
+int KdenliveDoc::height() const {
     return m_height;
 }
 
-KUrl KdenliveDoc::url() {
+KUrl KdenliveDoc::url() const {
     return m_url;
+}
+
+QString KdenliveDoc::description() const {
+    if (m_url.isEmpty())
+        return i18n("Untitled") + " / " + m_profile.description;
+    else
+        return m_url.fileName() + " / " + m_profile.description;
 }
 
 void KdenliveDoc::addClip(const QDomElement &elem, const int clipId) {
