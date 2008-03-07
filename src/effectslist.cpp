@@ -36,7 +36,7 @@ QMap <QString, QString> EffectsList::effect(const QString & name) {
         effect =  this->at(i);
         QDomNode namenode = effect.elementsByTagName("name").item(0);
         if (!namenode.isNull()) {
-            effectName = i18n(qstrdup(namenode.toElement().text().toUtf8()));
+            effectName = i18n(namenode.toElement().text().toUtf8().data());
             if (name == effectName) break;
         }
     }
@@ -50,7 +50,7 @@ QDomElement EffectsList::getEffectByName(const QString & name) {
     for (int i = 0; i < this->size(); ++i) {
         QDomElement effect =  this->at(i);
         QDomNode namenode = effect.elementsByTagName("name").item(0);
-        if (!namenode.isNull()) effectName = i18n(qstrdup(namenode.toElement().text().toUtf8()));
+        if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());
         if (name == effectName) {
             QDomNodeList params = effect.elementsByTagName("parameter");
             for (int i = 0; i < params.count(); i++) {
@@ -69,7 +69,7 @@ QStringList EffectsList::effectNames() {
     for (int i = 0; i < this->size(); ++i) {
         QDomElement effect =  this->at(i);
         QDomNode namenode = effect.elementsByTagName("name").item(0);
-        if (!namenode.isNull()) list.append(i18n(qstrdup(namenode.toElement().text().toUtf8())));
+        if (!namenode.isNull()) list.append(i18n(namenode.toElement().text().toUtf8().data()));
     }
     return list;
 }
@@ -78,9 +78,9 @@ QString EffectsList::getInfo(QString effectName) {
     QString info;
     QDomElement effect = getEffectByName(effectName);
     QDomNode namenode = effect.elementsByTagName("description").item(0);
-    if (!namenode.isNull()) info = i18n(qstrdup(namenode.toElement().text().toUtf8()));
+    if (!namenode.isNull()) info = i18n(namenode.toElement().text().toUtf8().data());
     namenode = effect.elementsByTagName("author").item(0);
-    if (!namenode.isNull()) info.append(i18n("<br><b>Author:</b> ") + i18n(qstrdup(namenode.toElement().text().toUtf8())));
+    if (!namenode.isNull()) info.append(i18n("<br><b>Author:</b> ") + i18n(namenode.toElement().text().toUtf8().data()));
     return info;
 }
 

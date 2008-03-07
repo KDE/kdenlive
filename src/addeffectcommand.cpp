@@ -23,8 +23,12 @@
 
 AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement effect, bool doIt)
         : m_view(view), m_track(track), m_pos(pos), m_effect(effect), m_doIt(doIt) {
-    if (doIt) setText(i18n("Add effect"));
-    else setText(i18n("Delete effect"));
+    QString effectName;
+    QDomNode namenode = effect.elementsByTagName("name").item(0);
+    if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());
+    else effectName = i18n("effect");
+    if (doIt) setText(i18n("Add %1", effectName));
+    else setText(i18n("Delete %1", effectName));
 }
 
 
