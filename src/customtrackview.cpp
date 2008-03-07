@@ -251,6 +251,42 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                     m_animationTimer->start();
                 }
                 setCursor(Qt::PointingHandCursor);
+            } else if (opMode == TRANSITIONSTART) {
+                if (m_visualTip == NULL) {
+                    m_visualTip = new QGraphicsEllipseItem(-5, -5 , 10, 10);
+                    ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
+                    ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
+                    m_visualTip->setZValue(100);
+                    m_animation = new QGraphicsItemAnimation;
+                    m_animation->setItem(m_visualTip);
+                    m_animation->setTimeLine(m_animationTimer);
+                    m_visualTip->setPos(clip->rect().x() + 15, clip->rect().y() + clip->rect().height() / 2);
+                    double scale = 2.0;
+                    m_animation->setScaleAt(.5, scale, scale);
+                    scale = 1.0;
+                    m_animation->setScaleAt(1, scale, scale);
+                    scene()->addItem(m_visualTip);
+                    m_animationTimer->start();
+                }
+                setCursor(Qt::PointingHandCursor);
+            } else if (opMode == TRANSITIONEND) {
+                if (m_visualTip == NULL) {
+                    m_visualTip = new QGraphicsEllipseItem(-5, -5 , 10, 10);
+                    ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
+                    ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
+                    m_visualTip->setZValue(100);
+                    m_animation = new QGraphicsItemAnimation;
+                    m_animation->setItem(m_visualTip);
+                    m_animation->setTimeLine(m_animationTimer);
+                    m_visualTip->setPos(clip->rect().x() + clip->rect().width() - 15 , clip->rect().y() + clip->rect().height() / 2);
+                    double scale = 2.0;
+                    m_animation->setScaleAt(.5, scale, scale);
+                    scale = 1.0;
+                    m_animation->setScaleAt(1, scale, scale);
+                    scene()->addItem(m_visualTip);
+                    m_animationTimer->start();
+                }
+                setCursor(Qt::PointingHandCursor);
             }
         } else {
             m_moveOpMode = NONE;

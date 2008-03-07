@@ -349,6 +349,10 @@ void ClipItem::paint(QPainter *painter,
     //painter->drawText(rect(), Qt::AlignCenter, m_name);
     // painter->drawRect(boundingRect());
     //painter->drawRoundRect(-10, -10, 20, 20);
+    painter->setPen(QPen(Qt::black));
+    painter->setBrush(QBrush(Qt::yellow));
+    painter->drawEllipse(br.x() + 10, br.y() + br.height() / 2 - 5 , 10, 10);
+    painter->drawEllipse(br.x() + br.width() - 20, br.y() + br.height() / 2 - 5, 10, 10);
 }
 
 
@@ -357,6 +361,8 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos, double scale) {
     else if (abs(pos.x() - rect().x()) < 6) return RESIZESTART;
     else if (abs(pos.x() - (rect().x() + rect().width() - scale * m_endFade)) < 6 && abs(pos.y() - rect().y()) < 6) return FADEOUT;
     else if (abs(pos.x() - (rect().x() + rect().width())) < 6) return RESIZEEND;
+    else if (abs(pos.x() - (rect().x() + 10)) < 6 && abs(pos.y() - (rect().y() + rect().height() / 2 - 5)) < 6) return TRANSITIONSTART;
+    else if (abs(pos.x() - (rect().x() + rect().width() - 20)) < 6 && abs(pos.y() - (rect().y() + rect().height() / 2 - 5)) < 6) return TRANSITIONEND;
     return MOVE;
 }
 
