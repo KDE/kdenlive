@@ -207,6 +207,7 @@ void ClipItem::paint(QPainter *painter,
     clippath.addRect(rectInView);
 
     int startpixel = (int)(rectInView.x() - rect().x()); //start and endpixel that is viewable from rect()
+
     if (startpixel < 0)
         startpixel = 0;
     int endpixel = rectInView.width() + rectInView.x();
@@ -286,10 +287,10 @@ void ClipItem::paint(QPainter *painter,
         if (pixelForOneFrame != framePixelWidth)
             audioThumbCachePic.clear();
         emit prepareAudioThumb(pixelForOneFrame, path, startpixel, endpixel + 200);//200 more for less missing parts before repaint after scrolling
-
+        int cropLeft = (m_cropStart).frames(m_fps) * 10;
         for (int startCache = startpixel - startpixel % 100; startCache < endpixel + 300;startCache += 100) {
             if (audioThumbCachePic.contains(startCache) && !audioThumbCachePic[startCache].isNull())
-                painter->drawPixmap((int)(roundRectPathUpper.united(roundRectPathLower).boundingRect().x() + startCache), (int)(path.boundingRect().y()), audioThumbCachePic[startCache]);
+                painter->drawPixmap((int)(roundRectPathUpper.united(roundRectPathLower).boundingRect().x() + startCache - cropLeft), (int)(path.boundingRect().y()), audioThumbCachePic[startCache]);
         }
 
     }
