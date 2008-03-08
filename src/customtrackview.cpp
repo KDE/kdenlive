@@ -26,6 +26,7 @@
 #include <KDebug>
 #include <KLocale>
 #include <KUrl>
+#include <KCursor>
 
 #include "customtrackview.h"
 #include "clipitem.h"
@@ -158,6 +159,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
             if (opMode == MOVE) {
                 setCursor(Qt::OpenHandCursor);
             } else if (opMode == RESIZESTART) {
+		setCursor(KCursor("left_side", Qt::SizeHorCursor));
                 kDebug() << "********  RESIZE CLIP START; WIDTH: " << size;
                 if (m_visualTip == NULL) {
                     QPolygon polygon;
@@ -183,8 +185,8 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                     scene()->addItem(m_visualTip);
                     m_animationTimer->start();
                 }
-                setCursor(Qt::SizeHorCursor);
             } else if (opMode == RESIZEEND) {
+		setCursor(KCursor("right_side", Qt::SizeHorCursor));
                 if (m_visualTip == NULL) {
                     QPolygon polygon;
                     polygon << QPoint(clip->rect().x() + clip->rect().width(), clip->rect().y() + clip->rect().height() / 2 - size * 2);
@@ -210,7 +212,6 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                     scene()->addItem(m_visualTip);
                     m_animationTimer->start();
                 }
-                setCursor(Qt::SizeHorCursor);
             } else if (opMode == FADEIN) {
                 if (m_visualTip == NULL) {
                     m_visualTip = new QGraphicsEllipseItem(clip->rect().x() + clip->fadeIn() * m_scale - size, clip->rect().y() - 8, size * 2, 16);
