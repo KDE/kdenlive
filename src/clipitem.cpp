@@ -81,10 +81,12 @@ ClipItem::ClipItem(DocClipBase *clip, int track, GenTime startpos, const QRectF 
         connect(endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
 
     } else if (m_clipType == COLOR) {
+	m_maxDuration = GenTime(10000, m_fps);
         QString colour = m_xml.attribute("colour");
         colour = colour.replace(0, 2, "#");
         setBrush(QColor(colour.left(7)));
     } else if (m_clipType == IMAGE) {
+	m_maxDuration = GenTime(10000, m_fps);
         m_startPix = KThumb::getImage(KUrl(m_xml.attribute("resource")), (int)(50 * KdenliveSettings::project_display_ratio()), 50);
     } else if (m_clipType == AUDIO) {
         connect(clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
@@ -645,8 +647,8 @@ void ClipItem::resizeEnd(int posx, double scale) {
     //kDebug() << "-- RESCALE: CROP=" << m_cropStart << ", DIFF = " << durationDiff;
     if (m_cropDuration + durationDiff <= GenTime()) {
         durationDiff = GenTime() - (m_cropDuration - GenTime(3, m_fps));
-    } else if (m_cropDuration + durationDiff >= m_maxDuration) {
-        durationDiff = m_maxDuration - m_cropDuration;
+    } else if (m_cropStart + m_cropDuration + durationDiff >= m_maxDuration) {
+        durationDiff = m_maxDuration - m_cropDuration - m_cropStart;
     }
     m_cropDuration += durationDiff;
     setRect(m_startPos.frames(m_fps) * scale, rect().y(), m_cropDuration.frames(m_fps) * scale, rect().height());
