@@ -61,11 +61,11 @@ ClipItem::ClipItem(DocClipBase *clip, int track, GenTime startpos, const QRectF 
       else m_cropDuration = m_maxDuration;*/
 
 
-    setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemClipsChildrenToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setAcceptsHoverEvents(true);
     connect(this , SIGNAL(prepareAudioThumb(double, QPainterPath, int, int)) , this, SLOT(slotPrepareAudioThumb(double, QPainterPath, int, int)));
 
-    setBrush(QColor(100, 100, 150));
+    setBrush(QColor(141, 166, 215));
     if (m_clipType == VIDEO || m_clipType == AV) {
         m_hasThumbs = true;
         connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(extractImage(int, int)));
@@ -149,24 +149,28 @@ int ClipItem::clipProducer() {
     return m_producer;
 }
 
-GenTime ClipItem::maxDuration() {
+GenTime ClipItem::maxDuration() const {
     return m_maxDuration;
 }
 
-GenTime ClipItem::duration() {
+GenTime ClipItem::duration() const {
     return m_cropDuration;
 }
 
-GenTime ClipItem::startPos() {
+GenTime ClipItem::startPos() const {
     return m_startPos;
 }
 
-GenTime ClipItem::cropStart() {
+GenTime ClipItem::cropStart() const {
     return m_cropStart;
 }
 
-GenTime ClipItem::endPos() {
+GenTime ClipItem::endPos() const {
     return m_startPos + m_cropDuration;
+}
+
+double ClipItem::fps() const {
+    return m_fps;
 }
 
 void ClipItem::flashClip() {
@@ -188,7 +192,7 @@ void ClipItem::paint(QPainter *painter,
                      QWidget *widget) {
     painter->setOpacity(m_opacity);
     QBrush paintColor = brush();
-    if (isSelected()) paintColor = QBrush(QColor(150, 50, 100));
+    if (isSelected()) paintColor = QBrush(QColor(79, 93, 121));
     QRectF br = rect();
     QRect rectInView;//this is the rect that is visible by the user
     if (scene()->views().size() > 0) {
@@ -201,6 +205,7 @@ void ClipItem::paint(QPainter *painter,
         return;
     QPainterPath clippath;
     clippath.addRect(rectInView);
+
     int startpixel = (int)(rectInView.x() - rect().x()); //start and endpixel that is viewable from rect()
     if (startpixel < 0)
         startpixel = 0;
@@ -208,20 +213,22 @@ void ClipItem::paint(QPainter *painter,
     if (endpixel < 0)
         endpixel = 0;
 
-    painter->setRenderHints(QPainter::Antialiasing);
+    //painter->setRenderHints(QPainter::Antialiasing);
+
     QPainterPath roundRectPathUpper, roundRectPathLower;
     double roundingY = 20;
     double roundingX = 20;
     double offset = 1;
     painter->setClipRect(option->exposedRect);
     if (roundingX > br.width() / 2) roundingX = br.width() / 2;
-    //kDebug()<<"-----PAINTING, SCAL: "<<scale<<", height: "<<br.height();
+
     int br_endx = (int)(br.x() + br .width() - offset);
     int br_startx = (int)(br.x() + offset);
     int br_starty = (int)(br.y());
     int br_halfy = (int)(br.y() + br.height() / 2 - offset);
     int br_endy = (int)(br.y() + br.height());
     int left_upper = 0, left_lower = 0, right_upper = 0, right_lower = 0;
+
     if (m_hover) {
         if (!true) /*TRANSITIONSTART to upper clip*/
             left_upper = 40;
@@ -232,19 +239,19 @@ void ClipItem::paint(QPainter *painter,
         if (!false) /*TRANSITIONEND to lower clip*/
             right_lower = 40;
     }
+
+    // build path around clip
     roundRectPathUpper.moveTo(br_endx - right_upper , br_halfy);
     roundRectPathUpper.arcTo(br_endx - roundingX - right_upper , br_starty , roundingX, roundingY, 0.0, 90.0);
     roundRectPathUpper.lineTo(br_startx + roundingX + left_upper, br_starty);
     roundRectPathUpper.arcTo(br_startx + left_upper, br_starty , roundingX, roundingY, 90.0, 90.0);
     roundRectPathUpper.lineTo(br_startx + left_upper, br_halfy);
-    roundRectPathUpper.closeSubpath();
 
     roundRectPathLower.moveTo(br_startx + left_lower, br_halfy);
     roundRectPathLower.arcTo(br_startx + left_lower, br_endy - roundingY , roundingX, roundingY, 180.0, 90.0);
     roundRectPathLower.lineTo(br_endx - roundingX - right_lower , br_endy);
     roundRectPathLower.arcTo(br_endx - roundingX - right_lower , br_endy - roundingY, roundingX, roundingY, 270.0, 90.0);
     roundRectPathLower.lineTo(br_endx - right_lower , br_halfy);
-    roundRectPathLower.closeSubpath();
 
     painter->setClipPath(roundRectPathUpper.united(roundRectPathLower).intersected(clippath), Qt::IntersectClip);
     //painter->fillPath(roundRectPath, brush()); //, QBrush(QColor(Qt::red)));
@@ -267,10 +274,12 @@ void ClipItem::paint(QPainter *painter,
         QLineF l2(br.x() + m_startPix.width(), br.y(), br.x() + m_startPix.width(), br.y() + br.height());
         painter->drawLine(l2);
     }
+
+    // draw audio thumbnails
     if ((m_clipType == AV || m_clipType == AUDIO) && audioThumbReady && KdenliveSettings::audiothumbnails()) {
 
         QPainterPath path = m_clipType == AV ? roundRectPathLower : roundRectPathUpper.united(roundRectPathLower);
-        painter->fillPath(path, QBrush(QColor(200, 200, 200, 127)));
+        if (m_clipType == AV) painter->fillPath(path, QBrush(QColor(200, 200, 200, 140)));
 
         int channels = 2;
         double pixelForOneFrame = (double)br.width() / duration().frames(m_fps);
@@ -320,7 +329,8 @@ void ClipItem::paint(QPainter *painter,
     QPen pen = painter->pen();
     pen.setColor(Qt::white);
     //pen.setStyle(Qt::DashDotDotLine); //Qt::DotLine);
-    // Draw clip name
+
+    // Draw effects names
     QString effects = effectNames().join(" / ");
     if (!effects.isEmpty()) {
         painter->setPen(pen);
@@ -336,15 +346,33 @@ void ClipItem::paint(QPainter *painter,
         painter->setFont(font);
     }
 
+    // For testing puspose only: draw transitions count
+/*    {
+        painter->setPen(pen);
+        QFont font = painter->font();
+        QFont smallFont = font;
+        smallFont.setPointSize(8);
+        painter->setFont(smallFont);
+	QString txt = " Transitions: " + QString::number(m_transitionsList.count()) + " ";
+        QRectF txtBoundin = painter->boundingRect(br, Qt::AlignHCenter | Qt::AlignTop, txt);
+        painter->fillRect(txtBoundin, QBrush(QColor(0, 0, 0, 150)));
+        painter->drawText(txtBoundin, Qt::AlignCenter, txt);
+        pen.setColor(Qt::black);
+        painter->setPen(pen);
+        painter->setFont(font);
+    }*/
+
+    // Draw clip name
+    QRectF txtBounding = painter->boundingRect(br, Qt::AlignHCenter | Qt::AlignTop, " " + m_clipName + " ");
+    painter->fillRect(txtBounding, QBrush(QColor(255, 255, 255, 150)));
+    painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
+
+    // draw frame around clip
     pen.setColor(Qt::red);
-    //pen.setStyle(Qt::DashDotDotLine); //Qt::DotLine);
+    pen.setWidth(2);
     if (isSelected()) painter->setPen(pen);
     painter->setClipRect(option->exposedRect);
     painter->drawPath(roundRectPathUpper.united(roundRectPathLower).intersected(clippath));
-
-    QRectF txtBounding = painter->boundingRect(br, Qt::AlignCenter, " " + m_clipName + " ");
-    painter->fillRect(txtBounding, QBrush(QColor(255, 255, 255, 150)));
-    painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
 
 
     //painter->fillRect(startpixel,0,startpixel+endpixel,(int)br.height(),  QBrush(QColor(255,255,255,150)));
@@ -399,7 +427,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, QPainterPath path,
             continue;
         if (audioThumbCachePic[startCache].isNull() || framePixelWidth != pixelForOneFrame) {
             audioThumbCachePic[startCache] = QPixmap(100, (int)(re.height()));
-            audioThumbCachePic[startCache].fill(QColor(200, 200, 200, 127));
+            audioThumbCachePic[startCache].fill(QColor(200, 200, 200, 0));
         }
         bool fullAreaDraw = pixelForOneFrame < 10;
         QMap<int, QPainterPath > positiveChannelPaths;
@@ -446,10 +474,14 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, QPainterPath path,
                 }
 
         }
+	if (m_clipType != AV) pixpainter.setBrush(QBrush(QColor(200, 200, 100)));
+	else {
+	    pixpainter.setPen(QPen(QColor(0, 0, 0)));
+	    pixpainter.setBrush(QBrush(QColor(60, 60, 60)));
+	}
         for (int i = 0;i < channels;i++) {
             if (fullAreaDraw) {
                 //pixpainter.fillPath(positiveChannelPaths[i].united(negativeChannelPaths[i]),QBrush(Qt::SolidPattern));//or singleif looks better
-                pixpainter.setBrush(QBrush(QColor(200, 200, 100, 200)));
                 pixpainter.drawPath(positiveChannelPaths[i].united(negativeChannelPaths[i]));//or singleif looks better
             } else
                 pixpainter.drawPath(positiveChannelPaths[i]);
@@ -613,7 +645,7 @@ void ClipItem::resizeEnd(int posx, double scale) {
 void ClipItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event) {
 }
 
-int ClipItem::track() {
+int ClipItem::track() const {
     return  m_track;
 }
 
