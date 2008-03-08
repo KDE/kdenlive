@@ -36,6 +36,7 @@ public:
     static QString getProfileDescription(QString name);
     static QMap< QString, QString > getSettingsForProfile(const QString profileName);
     static QMap< QString, QString > getSettingsFromFile(const QString path);
+    static QString getPathFromDescription(const QString profileDesc);
     static MltVideoProfile getVideoProfile(QString name);
 
 private slots:

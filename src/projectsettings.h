@@ -22,6 +22,7 @@
 #define PROJECTSETTINGS_H
 
 #include <QDialog>
+#include <QPushButton>
 
 #include "ui_projectsettings_ui.h"
 
@@ -30,15 +31,18 @@ class ProjectSettings : public QDialog {
 
 public:
     ProjectSettings(QWidget * parent = 0);
+    QString selectedProfile();
 
 private slots:
     void slotUpdateDisplay();
+    void slotUpdateButton(const QString &path);
 
 private:
     Ui::ProjectSettings_UI m_view;
     QStringList m_mltProfilesList;
     QStringList m_customProfilesList;
     bool m_isCustomProfile;
+    QPushButton *buttonOk;
 };
 
 

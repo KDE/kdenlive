@@ -316,7 +316,15 @@ void MainWindow::readOptions() {
 }
 
 void MainWindow::newFile() {
-    MltVideoProfile prof = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
+    QString profileName;
+    if (m_timelineArea->count() == 0) profileName = KdenliveSettings::default_profile();
+    else {
+        ProjectSettings *w = new ProjectSettings;
+        w->exec();
+        profileName = w->selectedProfile();
+        delete w;
+    }
+    MltVideoProfile prof = ProfilesDialog::getVideoProfile(profileName);
     if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
     KdenliveDoc *doc = new KdenliveDoc(KUrl(), prof, m_commandStack);
     TrackView *trackView = new TrackView(doc);

@@ -31,11 +31,16 @@ ProjectSettings::ProjectSettings(QWidget * parent): QDialog(parent), m_isCustomP
 
     QStringList profilesNames = ProfilesDialog::getProfileNames();
     m_view.profiles_list->addItems(profilesNames);
+    m_view.project_folder->setMode(KFile::Directory);
     QString defaulfProf = ProfilesDialog::getSettingsFromFile(KdenliveSettings::current_profile()).value("description");
     if (profilesNames.contains(defaulfProf)) m_view.profiles_list->setCurrentItem(defaulfProf);
-
+    buttonOk = m_view.buttonBox->button(QDialogButtonBox::Ok);
+    //buttonOk->setEnabled(false);
+    m_view.audio_thumbs->setChecked(KdenliveSettings::audiothumbnails());
+    m_view.video_thumbs->setChecked(KdenliveSettings::videothumbnails());
     slotUpdateDisplay();
     connect(m_view.profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
+    connect(m_view.project_folder, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButton(const QString &)));
 }
 
 
@@ -50,6 +55,14 @@ void ProjectSettings::slotUpdateDisplay() {
     else m_view.p_progressive->setText(i18n("Progressive"));
 }
 
+void ProjectSettings::slotUpdateButton(const QString &path) {
+    if (path.isEmpty()) buttonOk->setEnabled(false);
+    else buttonOk->setEnabled(true);
+}
+
+QString ProjectSettings::selectedProfile() {
+    return ProfilesDialog::getPathFromDescription(m_view.profiles_list->currentText());
+}
 
 #include "projectsettings.moc"
 

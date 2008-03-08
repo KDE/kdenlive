@@ -204,6 +204,35 @@ QMap< QString, QString > ProfilesDialog::getSettingsForProfile(const QString pro
     return QMap< QString, QString >();
 }
 
+// static
+QString ProfilesDialog::getPathFromDescription(const QString profileDesc) {
+    QStringList profilesNames;
+    QStringList profilesFiles;
+    QStringList profilesFilter;
+    profilesFilter << "*";
+
+    // List the Mlt profiles
+    profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+    for (int i = 0; i < profilesFiles.size(); ++i) {
+        KConfig confFile(KdenliveSettings::mltpath() + "/" + profilesFiles.at(i));
+        QMap< QString, QString > values = confFile.entryMap();
+        if (values.value("description") == profileDesc) return profilesFiles.at(i);
+    }
+
+    // List custom profiles
+    QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
+    for (int i = 0; i < customProfiles.size(); ++i) {
+        QStringList profiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
+        for (int i = 0; i < profiles.size(); ++i) {
+            KConfig confFile(customProfiles.at(i) + "/" + profiles.at(i));
+            QMap< QString, QString > values = confFile.entryMap();
+            if (values.value("description") == profileDesc) return customProfiles.at(i) + "/" + profiles.at(i);
+        }
+    }
+    return QString();
+}
+
+
 void ProfilesDialog::slotUpdateDisplay() {
     QString currentProfile = m_view.profiles_list->currentText();
     QString currentProfilePath;
