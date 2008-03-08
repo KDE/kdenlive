@@ -342,7 +342,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 else if (m_operationMode == RESIZEEND)
                     m_startPos = QPointF(m_dragItem->endPos().frames(m_document->fps()), m_dragItem->track());
                 else if (m_operationMode == TRANSITIONSTART) {
-                    Transition tra(m_dragItem, LUMA_TRANSITION, m_dragItem->startPos(), GenTime(2.5));
+                    Transition tra(m_dragItem, LUMA_TRANSITION, m_dragItem->startPos(), m_dragItem->startPos() + GenTime(2.5));
                     m_dragItem->addTransition(tra);
                 }
                 kDebug() << "//////// ITEM CLICKED: " << m_startPos;
