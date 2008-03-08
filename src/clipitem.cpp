@@ -230,7 +230,7 @@ void ClipItem::paint(QPainter *painter,
     int br_endy = (int)(br.y() + br.height());
     int left_upper = 0, left_lower = 0, right_upper = 0, right_lower = 0;
 
-    if (m_hover) {
+    if (m_hover && false) {
         if (!true) /*TRANSITIONSTART to upper clip*/
             left_upper = 40;
         if (!false) /*TRANSITIONSTART to lower clip*/
@@ -240,7 +240,21 @@ void ClipItem::paint(QPainter *painter,
         if (!false) /*TRANSITIONEND to lower clip*/
             right_lower = 40;
     }
+    QList<QPainterPath> transitionPath;
+    foreach(Transition* t, m_transitionsList) {
+        QPainterPath t;
+        //t.addRect(br_startx,br.y()+br.height()/2,br.x() + /*t->transitionDuration().frames(m_fps) *pixelForOneFrame*/5 ,br.y()+br.height()*2);
+        int twidth = 40;
+        t.moveTo(br_startx + twidth , br_endy);
+        t.lineTo(br_startx + twidth , br_halfy + roundingY);
 
+        t.arcTo(br_startx + twidth - roundingX , br_halfy , roundingX, roundingY,  0.0, 90.0);
+        t.lineTo(br_startx +  roundingX , br_halfy);
+        t.arcTo(br_startx , br_halfy, roundingX , roundingY,  90.0, 90.0);
+        t.lineTo(br_startx , br_endy);
+        //t.closeSubpath();
+        transitionPath.append(t);
+    }
     // build path around clip
     roundRectPathUpper.moveTo(br_endx - right_upper , br_halfy);
     roundRectPathUpper.arcTo(br_endx - roundingX - right_upper , br_starty , roundingX, roundingY, 0.0, 90.0);
@@ -254,7 +268,11 @@ void ClipItem::paint(QPainter *painter,
     roundRectPathLower.arcTo(br_endx - roundingX - right_lower , br_endy - roundingY, roundingX, roundingY, 270.0, 90.0);
     roundRectPathLower.lineTo(br_endx - right_lower , br_halfy);
 
-    painter->setClipPath(roundRectPathUpper.united(roundRectPathLower).intersected(clippath), Qt::IntersectClip);
+    QPainterPath resultClipPath = roundRectPathUpper.united(roundRectPathLower);
+    foreach(QPainterPath p, transitionPath) {
+        resultClipPath = resultClipPath.united(p);
+    }
+    painter->setClipPath(resultClipPath.intersected(clippath), Qt::IntersectClip);
     //painter->fillPath(roundRectPath, brush()); //, QBrush(QColor(Qt::red)));
     painter->fillRect(br.intersected(rectInView), paintColor);
     //painter->fillRect(QRectF(br.x() + br.width() - m_endPix.width(), br.y(), m_endPix.width(), br.height()), QBrush(QColor(Qt::black)));
@@ -277,7 +295,6 @@ void ClipItem::paint(QPainter *painter,
     }
 
     double scale = br.width() / m_cropDuration.frames(m_fps);
-
     // draw audio thumbnails
     if ((m_clipType == AV || m_clipType == AUDIO) && audioThumbReady && KdenliveSettings::audiothumbnails()) {
 
@@ -285,10 +302,9 @@ void ClipItem::paint(QPainter *painter,
         if (m_clipType == AV) painter->fillPath(path, QBrush(QColor(200, 200, 200, 140)));
 
         int channels = 2;
-        double pixelForOneFrame = (double)br.width() / duration().frames(m_fps);
-        if (pixelForOneFrame != framePixelWidth)
+        if (scale != framePixelWidth)
             audioThumbCachePic.clear();
-        emit prepareAudioThumb(pixelForOneFrame, path, startpixel, endpixel + 200);//200 more for less missing parts before repaint after scrolling
+        emit prepareAudioThumb(scale, path, startpixel, endpixel + 200);//200 more for less missing parts before repaint after scrolling
         int cropLeft = (m_cropStart).frames(m_fps) * scale;
         for (int startCache = startpixel - startpixel % 100; startCache < endpixel + 300;startCache += 100) {
             if (audioThumbCachePic.contains(startCache) && !audioThumbCachePic[startCache].isNull())
@@ -374,8 +390,12 @@ void ClipItem::paint(QPainter *painter,
     pen.setWidth(2);
     if (isSelected()) painter->setPen(pen);
     painter->setClipRect(option->exposedRect);
-    painter->drawPath(roundRectPathUpper.united(roundRectPathLower).intersected(clippath));
+    painter->drawPath(resultClipPath.intersected(clippath));
+    foreach(QPainterPath p, transitionPath) {
 
+        painter->fillPath(p, QBrush(QColor(255, 255, 0, 100)));
+        painter->drawPath(p);
+    }
 
     //painter->fillRect(startpixel,0,startpixel+endpixel,(int)br.height(),  QBrush(QColor(255,255,255,150)));
     //painter->fillRect(QRect(br.x(), br.y(), roundingX, roundingY), QBrush(QColor(Qt::green)));
