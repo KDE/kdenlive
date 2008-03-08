@@ -31,6 +31,7 @@
 #include "effectslist.h"
 #include "docclipbase.h"
 #include "kthumb.h"
+#include "transition.h"
 
 
 class ClipItem : public QObject, public QGraphicsRectItem {
@@ -81,6 +82,7 @@ public:
     /** Replace effect at pos ix with given value */
     void setEffectAt(int ix, QDomElement effect);
     void flashClip();
+    void addTransition(Transition tr);
 
 protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
@@ -122,6 +124,7 @@ private:
     bool m_hover;
 
     EffectsList m_effectList;
+    QList <Transition *> m_transitionsList;
     QMap<int, QPixmap> audioThumbCachePic;
     bool audioThumbWasDrawn, audioThumbReady;
     double framePixelWidth;

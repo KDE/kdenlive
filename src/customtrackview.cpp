@@ -36,6 +36,7 @@
 #include "addeffectcommand.h"
 #include "editeffectcommand.h"
 #include "kdenlivesettings.h"
+#include "transition.h"
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene, QWidget *parent)
         : QGraphicsView(projectscene, parent), m_tracksCount(0), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_startPos(QPointF()), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_scale(1.0), m_clickPoint(0), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()) {
@@ -340,6 +341,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                     m_startPos = QPointF(m_dragItem->startPos().frames(m_document->fps()), m_dragItem->track());
                 else if (m_operationMode == RESIZEEND)
                     m_startPos = QPointF(m_dragItem->endPos().frames(m_document->fps()), m_dragItem->track());
+                else if (m_operationMode == TRANSITIONSTART) {
+                    Transition tra(m_dragItem, LUMA_TRANSITION, m_dragItem->startPos(), GenTime(2.5));
+                    m_dragItem->addTransition(tra);
+                }
                 kDebug() << "//////// ITEM CLICKED: " << m_startPos;
                 collision = true;
                 break;

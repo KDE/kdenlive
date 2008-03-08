@@ -27,6 +27,15 @@
 enum OPERATIONTYPE { NONE = 0, MOVE = 1, RESIZESTART = 2, RESIZEEND = 3, FADEIN = 4, FADEOUT = 5, TRANSITIONSTART = 6, TRANSITIONEND = 7};
 enum CLIPTYPE { UNKNOWN = 0, AUDIO = 1, VIDEO = 2, AV = 3, COLOR = 4, IMAGE = 5, TEXT = 6, SLIDESHOW = 7, VIRTUAL = 8, PLAYLIST = 9};
 
+enum TRANSITIONTYPE {
+    /** TRANSITIONTYPE: between 0-99: video trans, 100-199: video+audio trans, 200-299: audio trans */
+    LUMA_TRANSITION = 0,
+    COMPOSITE_TRANSITION = 1,
+    PIP_TRANSITION = 2,
+    LUMAFILE_TRANSITION = 3,
+    MIX_TRANSITION = 200
+};
+
 struct MltVideoProfile {
     QString path;
     QString description;

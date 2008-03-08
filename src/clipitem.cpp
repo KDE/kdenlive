@@ -347,20 +347,20 @@ void ClipItem::paint(QPainter *painter,
     }
 
     // For testing puspose only: draw transitions count
-/*    {
+    {
         painter->setPen(pen);
         QFont font = painter->font();
         QFont smallFont = font;
         smallFont.setPointSize(8);
         painter->setFont(smallFont);
-	QString txt = " Transitions: " + QString::number(m_transitionsList.count()) + " ";
-        QRectF txtBoundin = painter->boundingRect(br, Qt::AlignHCenter | Qt::AlignTop, txt);
+        QString txt = " Transitions: " + QString::number(m_transitionsList.count()) + " ";
+        QRectF txtBoundin = painter->boundingRect(br, Qt::AlignRight | Qt::AlignTop, txt);
         painter->fillRect(txtBoundin, QBrush(QColor(0, 0, 0, 150)));
         painter->drawText(txtBoundin, Qt::AlignCenter, txt);
         pen.setColor(Qt::black);
         painter->setPen(pen);
         painter->setFont(font);
-    }*/
+    }
 
     // Draw clip name
     QRectF txtBounding = painter->boundingRect(br, Qt::AlignHCenter | Qt::AlignTop, " " + m_clipName + " ");
@@ -474,11 +474,11 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, QPainterPath path,
                 }
 
         }
-	if (m_clipType != AV) pixpainter.setBrush(QBrush(QColor(200, 200, 100)));
-	else {
-	    pixpainter.setPen(QPen(QColor(0, 0, 0)));
-	    pixpainter.setBrush(QBrush(QColor(60, 60, 60)));
-	}
+        if (m_clipType != AV) pixpainter.setBrush(QBrush(QColor(200, 200, 100)));
+        else {
+            pixpainter.setPen(QPen(QColor(0, 0, 0)));
+            pixpainter.setBrush(QBrush(QColor(60, 60, 60)));
+        }
         for (int i = 0;i < channels;i++) {
             if (fullAreaDraw) {
                 //pixpainter.fillPath(positiveChannelPaths[i].united(negativeChannelPaths[i]),QBrush(Qt::SolidPattern));//or singleif looks better
@@ -740,6 +740,11 @@ void ClipItem::deleteEffect(QString index) {
     }
     flashClip();
     update(boundingRect());
+}
+
+void ClipItem::addTransition(Transition tr) {
+    m_transitionsList.append(&tr);
+    update();
 }
 
 //virtual

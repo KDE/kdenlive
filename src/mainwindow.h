@@ -43,7 +43,7 @@
 #include "effectslist.h"
 #include "effectslistview.h"
 #include "effectstackview.h"
-
+#include "ui_timelinebuttons_ui.h"
 
 class MainWindow : public KXmlGuiWindow {
     Q_OBJECT
@@ -98,6 +98,8 @@ private:
     EffectsList m_audioEffects;
     EffectsList m_customEffects;
 
+    Ui::TimelineButtons_UI timeline_buttons_ui;
+
     KRecentFilesAction *m_fileOpenRecent;
     void readOptions();
     void saveOptions();
@@ -127,6 +129,8 @@ private slots:
     void slotEditProjectSettings();
     void slotDisplayActionMessage(QAction *a);
     void slotGotProgressInfo(KUrl url, int progress);
+    void slotSwitchVideoThumbs();
+    void slotSwitchAudioThumbs();
 };
 
 #endif

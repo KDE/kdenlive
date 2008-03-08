@@ -36,6 +36,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/boolval_ui.ui
   widgets/colorval_ui.ui
   widgets/titlewidget_ui.ui
+  widgets/timelinebuttons_ui.ui
 )
  
 set(kdenlive_SRCS 
@@ -80,6 +81,7 @@ set(kdenlive_SRCS
   graphicsscenerectmove.cpp
   effectslistwidget.cpp
   titledocument.cpp
+  transition.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

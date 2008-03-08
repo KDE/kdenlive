@@ -55,8 +55,9 @@
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
 #define ID_TIMELINE_MSG 3
-#define ID_TIMELINE_POS 4
-#define ID_TIMELINE_FORMAT 5
+#define ID_TIMELINE_BUTTONS 4
+#define ID_TIMELINE_POS 5
+#define ID_TIMELINE_FORMAT 6
 
 MainWindow::MainWindow(QWidget *parent)
         : KXmlGuiWindow(parent),
@@ -151,10 +152,24 @@ MainWindow::MainWindow(QWidget *parent)
     statusProgressBar->setVisible(false);
     statusLabel = new QLabel(this);
 
+    QWidget *w = new QWidget;
+    timeline_buttons_ui.setupUi(w);
+    timeline_buttons_ui.buttonVideo->setDown(KdenliveSettings::videothumbnails());
+    timeline_buttons_ui.buttonAudio->setDown(KdenliveSettings::audiothumbnails());
+    connect(timeline_buttons_ui.buttonVideo, SIGNAL(clicked()), this, SLOT(slotSwitchVideoThumbs()));
+    connect(timeline_buttons_ui.buttonAudio, SIGNAL(clicked()), this, SLOT(slotSwitchAudioThumbs()));
+
     statusBar()->insertPermanentWidget(0, statusProgressBar, 1);
     statusBar()->insertPermanentWidget(1, statusLabel, 1);
+    statusBar()->insertPermanentWidget(ID_TIMELINE_BUTTONS, w);
     statusBar()->insertPermanentFixedItem("00:00:00:00", ID_TIMELINE_POS);
     statusBar()->insertPermanentWidget(ID_TIMELINE_FORMAT, m_timecodeFormat);
+    statusBar()->setMaximumHeight(statusBar()->font().pointSize() * 4);
+
+    timeline_buttons_ui.buttonVideo->setIcon(KIcon("display-video"));
+    timeline_buttons_ui.buttonVideo->setToolTip(i18n("Show video thumbnails"));
+    timeline_buttons_ui.buttonAudio->setIcon(KIcon("display-audio"));
+    timeline_buttons_ui.buttonAudio->setToolTip(i18n("Show audio thumbnails"));
 
     setupGUI(Default, "kdenliveui.rc");
 
@@ -530,6 +545,28 @@ void MainWindow::updateConfiguration() {
         currentTab->projectView()->checkAutoScroll();
         if (m_activeDocument) m_activeDocument->clipManager()->checkAudioThumbs();
     }
+    timeline_buttons_ui.buttonAudio->setDown(KdenliveSettings::audiothumbnails());
+    timeline_buttons_ui.buttonVideo->setDown(KdenliveSettings::videothumbnails());
+}
+
+void MainWindow::slotSwitchVideoThumbs() {
+    KdenliveSettings::setVideothumbnails(!KdenliveSettings::videothumbnails());
+    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+    if (currentTab) {
+        currentTab->refresh();
+    }
+    timeline_buttons_ui.buttonVideo->setDown(KdenliveSettings::videothumbnails());
+}
+
+void MainWindow::slotSwitchAudioThumbs() {
+    KdenliveSettings::setAudiothumbnails(!KdenliveSettings::audiothumbnails());
+    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+    if (currentTab) {
+        currentTab->refresh();
+        currentTab->projectView()->checkAutoScroll();
+        if (m_activeDocument) m_activeDocument->clipManager()->checkAudioThumbs();
+    }
+    timeline_buttons_ui.buttonAudio->setDown(KdenliveSettings::audiothumbnails());
 }
 
 void MainWindow::slotGotProgressInfo(KUrl url, int progress) {
