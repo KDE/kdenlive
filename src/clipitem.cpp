@@ -276,6 +276,8 @@ void ClipItem::paint(QPainter *painter,
         painter->drawLine(l2);
     }
 
+    double scale = br.width() / m_cropDuration.frames(m_fps);
+
     // draw audio thumbnails
     if ((m_clipType == AV || m_clipType == AUDIO) && audioThumbReady && KdenliveSettings::audiothumbnails()) {
 
@@ -287,7 +289,7 @@ void ClipItem::paint(QPainter *painter,
         if (pixelForOneFrame != framePixelWidth)
             audioThumbCachePic.clear();
         emit prepareAudioThumb(pixelForOneFrame, path, startpixel, endpixel + 200);//200 more for less missing parts before repaint after scrolling
-        int cropLeft = (m_cropStart).frames(m_fps) * 10;
+        int cropLeft = (m_cropStart).frames(m_fps) * scale;
         for (int startCache = startpixel - startpixel % 100; startCache < endpixel + 300;startCache += 100) {
             if (audioThumbCachePic.contains(startCache) && !audioThumbCachePic[startCache].isNull())
                 painter->drawPixmap((int)(roundRectPathUpper.united(roundRectPathLower).boundingRect().x() + startCache - cropLeft), (int)(path.boundingRect().y()), audioThumbCachePic[startCache]);
@@ -296,7 +298,6 @@ void ClipItem::paint(QPainter *painter,
     }
 
     // draw start / end fades
-    double scale = br.width() / m_cropDuration.frames(m_fps);
     QBrush fades;
     if (isSelected()) {
         fades = QBrush(QColor(200, 50, 50, 150));
