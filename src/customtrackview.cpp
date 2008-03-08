@@ -291,7 +291,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
             }
         } else {
             m_moveOpMode = NONE;
-            if (event->buttons() != Qt::NoButton) {
+            if (event->buttons() != Qt::NoButton && event->modifiers() == Qt::NoModifier) {
                 setCursorPos((int) mapToScene(event->pos().x(), 0).x() / m_scale);
             }
             if (m_visualTip) {
