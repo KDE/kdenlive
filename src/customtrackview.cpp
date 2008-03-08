@@ -337,6 +337,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 emit clipItemSelected(m_dragItem);
                 m_clickPoint = mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps()) * m_scale;
                 m_operationMode = m_dragItem->operationMode(item->mapFromScene(mapToScene(event->pos())), m_scale);
+		if (m_operationMode == MOVE) setCursor(Qt::ClosedHandCursor);
                 if (m_operationMode == MOVE || m_operationMode == RESIZESTART)
                     m_startPos = QPointF(m_dragItem->startPos().frames(m_document->fps()), m_dragItem->track());
                 else if (m_operationMode == RESIZEEND)
@@ -581,7 +582,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
     QGraphicsView::mouseReleaseEvent(event);
     setDragMode(QGraphicsView::NoDrag);
     if (m_dragItem == NULL) return;
-    //kDebug()<<"/// MOVING CLIP: "<<m_startPos<<", END: "<<QPoint(m_dragItem->rect().x(),m_dragItem->rect().y());
+    if (m_operationMode == MOVE) setCursor(Qt::OpenHandCursor);
     if (m_operationMode == MOVE && m_startPos.x() != m_dragItem->startPos().frames(m_document->fps())) {
         // move clip
         MoveClipCommand *command = new MoveClipCommand(this, m_startPos, QPointF(m_dragItem->startPos().frames(m_document->fps()), m_dragItem->track()), false);
