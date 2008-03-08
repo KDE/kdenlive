@@ -94,7 +94,7 @@ private:
     QPen m_tipPen;
     double m_scale;
     int m_clickPoint;
-    QList <int> m_snapPoints;
+    QList <GenTime> m_snapPoints;
     void updateSnapPoints(ClipItem *selected);
     double getSnapPointForPos(double pos);
     ClipItem *getClipItemAt(int pos, int track);
