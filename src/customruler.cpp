@@ -89,13 +89,13 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
 // virtual
 void CustomRuler::mousePressEvent(QMouseEvent * event) {
     int pos = (event->x() + offset());
-    m_view->setCursorPos(pos);
+    m_view->setCursorPos(pos / pixelPerMark() / FRAME_SIZE);
 }
 
 // virtual
 void CustomRuler::mouseMoveEvent(QMouseEvent * event) {
     int pos = (event->x() + offset());
-    m_view->setCursorPos(pos);
+    m_view->setCursorPos(pos / pixelPerMark() / FRAME_SIZE);
 }
 
 void CustomRuler::slotMoveRuler(int newPos) {

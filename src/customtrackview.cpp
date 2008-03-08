@@ -292,7 +292,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
         } else {
             m_moveOpMode = NONE;
             if (event->buttons() != Qt::NoButton) {
-                setCursorPos((int) mapToScene(event->pos().x(), 0).x());
+                setCursorPos((int) mapToScene(event->pos().x(), 0).x() / m_scale);
             }
             if (m_visualTip) {
                 if (m_animation) delete m_animation;
@@ -358,7 +358,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
             for (int i = 0; i < itemList.count(); i++)
                 itemList.at(i)->setSelected(false);
             emit clipItemSelected(NULL);
-            setCursorPos((int) mapToScene(event->x(), 0).x());
+            setCursorPos((int) mapToScene(event->x(), 0).x() / m_scale);
         }
     }
     updateSnapPoints(m_dragItem);
@@ -554,16 +554,19 @@ void CustomTrackView::deleteClip(int clipId) {
 }
 
 void CustomTrackView::setCursorPos(int pos, bool seek) {
-    emit cursorMoved(m_cursorPos, pos);
+    emit cursorMoved(m_cursorPos * m_scale, pos * m_scale);
     m_cursorPos = pos;
-    m_cursorLine->setPos(pos, 0);
-    int frame =  pos / m_scale;
-    if (seek) m_document->renderer()->seek(GenTime(frame, m_document->fps()));
+    m_cursorLine->setPos(pos * m_scale, 0);
+    if (seek) m_document->renderer()->seek(GenTime(pos, m_document->fps()));
     else if (m_autoScroll && m_scale < 50) checkScrolling();
 }
 
+void CustomTrackView::updateCursorPos() {
+    m_cursorLine->setPos(m_cursorPos * m_scale, 0);
+}
+
 int CustomTrackView::cursorPos() {
-    return m_cursorPos;
+    return m_cursorPos * m_scale;
 }
 
 void CustomTrackView::checkScrolling() {
@@ -571,7 +574,7 @@ void CustomTrackView::checkScrolling() {
     int delta = rectInView.width() / 3;
     int max = rectInView.right() + horizontalScrollBar()->value() - delta;
     //kDebug() << "CURSOR POS: "<<m_cursorPos<< "Scale: "<<m_scale;
-    if (m_cursorPos >= max) horizontalScrollBar()->setValue(horizontalScrollBar()->value() + 1 + m_scale);
+    if (m_cursorPos * m_scale >= max) horizontalScrollBar()->setValue(horizontalScrollBar()->value() + 1 + m_scale);
 }
 
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
@@ -711,25 +714,20 @@ void CustomTrackView::updateSnapPoints(ClipItem *selected) {
 
 void CustomTrackView::setScale(double scaleFactor) {
     //scale(scaleFactor, scaleFactor);
+    double pos = cursorPos() / m_scale;
     m_scale = scaleFactor;
     kDebug() << " HHHHHHHH  SCALING: " << m_scale;
     QList<QGraphicsItem *> itemList = items();
-    scene()->setSceneRect(0, 0, (m_projectDuration + 500) * m_scale, scene()->sceneRect().height()); //50 *
 
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == 70000) {
             ClipItem *clip = (ClipItem *)itemList.at(i);
             clip->setRect(clip->startPos().frames(m_document->fps()) * m_scale, clip->rect().y(), clip->duration().frames(m_document->fps()) * m_scale, clip->rect().height());
         }
-        /*else if (itemList.at(i)->type() == 70001) {
-        LabelItem *label = (LabelItem *)itemList.at(i);
-        QGraphicsItem *parent = label->parentItem();
-        QRectF r = label->boundingRect();
-        QRectF p = parent->boundingRect();
-        label->setPos(p.x() + p.width() / 2 - r.width() / 2, p.y() + p.height() / 2 - r.height() / 2);
-        //label->setRect(clip->startPos() * m_scale, clip->rect().y(), clip->duration() * m_scale, clip->rect().height());
-        }*/
     }
+    updateCursorPos();
+    centerOn(QPointF(cursorPos(), 50));
+    scene()->setSceneRect(0, 0, (m_projectDuration + 500) * m_scale, scene()->sceneRect().height());
 }
 
 void CustomTrackView::drawBackground(QPainter * painter, const QRectF & rect) {

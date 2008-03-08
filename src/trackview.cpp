@@ -116,21 +116,19 @@ void TrackView::slotDeleteClip(int clipId) {
 }
 
 void TrackView::setCursorPos(int pos) {
-    m_trackview->setCursorPos(pos * m_scale);
+    m_trackview->setCursorPos(pos);
 }
 
 void TrackView::moveCursorPos(int pos) {
-    m_trackview->setCursorPos(pos * m_scale, false);
+    m_trackview->setCursorPos(pos, false);
 }
 
 void TrackView::slotChangeZoom(int factor) {
-    double pos = m_trackview->cursorPos() / m_scale;
+
     m_ruler->setPixelPerMark(factor);
     m_scale = (double) FRAME_SIZE / m_ruler->comboScale[factor]; // m_ruler->comboScale[m_currentZoom] /
     m_currentZoom = factor;
     m_trackview->setScale(m_scale);
-    m_trackview->setCursorPos(pos * m_scale, false);
-    m_trackview->centerOn(QPointF(m_trackview->cursorPos(), 50));
 }
 
 const double TrackView::zoomFactor() const {
