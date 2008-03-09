@@ -12,6 +12,7 @@
     </Menu>
 
     <Menu name="project" ><text>Project</text>
+      <Action name="project_render" />
       <Action name="project_settings" />
     </Menu>
 

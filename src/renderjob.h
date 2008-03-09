@@ -18,67 +18,41 @@
  ***************************************************************************/
 
 
-#ifndef MONITOR_H
-#define MONITOR_H
+#ifndef RENDERJOB_H
+#define RENDERJOB_H
 
-#include <KIcon>
+#include <KJob>
+#include <KUrl>
+#include <KProcess>
+#include <kio/job.h>
+#include <kio/filejob.h>
 
-#include "ui_monitor_ui.h"
-#include "renderer.h"
-#include "monitormanager.h"
-#include "smallruler.h"
+#include "gentime.h"
+#include "definitions.h"
+#include "docclipbase.h"
 
-class MonitorManager;
-
-class Monitor : public QWidget {
+class RenderJob : public KJob {
     Q_OBJECT
-
 public:
-    Monitor(QString name, MonitorManager *manager, QWidget *parent = 0);
-    Render *render;
-    void resetProfile(QString prof);
+    RenderJob(KUrl scenelist, KUrl dest);
+    ~RenderJob();
 
-    virtual void resizeEvent(QResizeEvent * event);
-protected:
-    virtual void mousePressEvent(QMouseEvent * event);
-    virtual void wheelEvent(QWheelEvent * event);
+    void registerJob(KJob *);
+    void unregisterJob(KJob *);
 
-private:
-    Ui::Monitor_UI ui;
-    MonitorManager *m_monitorManager;
-    QString m_name;
-    double m_scale;
-    int m_length;
-    int m_position;
-    SmallRuler *m_ruler;
-    KIcon m_playIcon;
-    KIcon m_pauseIcon;
-    bool m_isActive;
+    void start();
+    unsigned long percent() const;
 
 private slots:
-    void adjustRulerSize(int length);
-    void seekCursor(int pos);
-    void rendererStopped(int pos);
-    void slotRewindOneFrame();
-    void slotForwardOneFrame();
-    void slotForward();
-    void slotRewind();
+    void update();
+    void slotIsOver(int exitcode, QProcess::ExitStatus status);
+    void receivedStderr();
 
-public slots:
-    void slotOpenFile(const QString &);
-    void slotSetXml(const QDomElement &e);
-    void initMonitor();
-    void refreshMonitor(bool visible);
-    void slotSeek(int pos);
-    void stop();
-    void start();
-    void activateMonitor();
-    void slotPlay();
-    void saveSceneList(QString path);
-
-signals:
-    void renderPosition(int);
-    void durationChanged(int);
+private:
+    KUrl m_scenelist;
+    KUrl m_dest;
+    int m_progress;
+    KProcess *m_renderProcess;
 };
 
 #endif

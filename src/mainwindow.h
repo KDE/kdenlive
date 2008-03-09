@@ -131,6 +131,7 @@ private slots:
     void slotGotProgressInfo(KUrl url, int progress);
     void slotSwitchVideoThumbs();
     void slotSwitchAudioThumbs();
+    void slotRenderProject();
 };
 
 #endif

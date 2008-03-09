@@ -95,6 +95,7 @@ Q_OBJECT public:
     void setSceneList(QDomDocument list, int position = 0);
     void setSceneList(QString playlist, int position = 0);
     QString sceneList();
+    void saveSceneList(QString path);
 
     /** Wraps the VEML command of the same name. Tells the renderer to
     play the current scene at the speed specified, relative to normal
@@ -114,10 +115,6 @@ Q_OBJECT public:
     void play(double speed, const GenTime & startTime);
     void play(double speed, const GenTime & startTime,
               const GenTime & stopTime);
-    /** Wraps the VEML command of the same name - render the currently
-    specified sceneList - set with setSceneList() - to the document
-    name specified. */
-    void render(const KUrl & url);
 
     /** Returns the description of this renderer */
     QString description();

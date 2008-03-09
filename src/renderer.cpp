@@ -123,13 +123,13 @@ int Render::resetProfile(QString profile) {
     //TODO: we should also rebuild filters and delete existing m_mltProfile
 
     //delete m_mltProfile;
-    //m_mltProfile = new Mlt::Profile("pal_dv");//(char*) qstrdup(profile.toUtf8()));
+    m_mltProfile = new Mlt::Profile((char*) profile.toUtf8().data());
     kDebug() << " ++++++++++ RESET CONSUMER WITH PROFILE: " << m_mltProfile->width();
     // mlt_properties properties = MLT_CONSUMER_PROPERTIES(m_mltConsumer->get_consumer());
     //mlt_profile prof = m_mltProfile->get_profile();
     //mlt_properties_set_data(properties, "_profile", prof, 0, (mlt_destructor)mlt_profile_close, NULL);
     //mlt_properties_set(properties, "profile", "hdv_1080_50i");
-    m_mltConsumer->set("profile", (char *) profile.data());
+    m_mltConsumer->set("profile", (char *) profile.toUtf8().data());
     //apply_profile_properties( m_mltProfile, m_mltConsumer->get_consumer(), properties );
     //refresh();
     return 1;
@@ -507,6 +507,7 @@ void Render::setSceneList(QString playlist, int position) {
     char *tmp = decodedString(playlist);
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "westley-xml", tmp);
     delete[] tmp;
+    if (!m_mltProducer || !m_mltProducer->is_valid()) kDebug() << " WARNING - - - - -INVALID PLAYLIST: " << tmp;
     //m_mltProducer->optimise();
     if (position != 0) m_mltProducer->seek(position);
 
@@ -534,7 +535,6 @@ void Render::setSceneList(QString playlist, int position) {
     }*/
 
     m_fps = m_mltProducer->get_fps();
-
     emit durationChanged(m_mltProducer->get_playtime());
     //m_connectTimer->start( 500 );
     connectPlaylist();
@@ -549,16 +549,8 @@ QString Render::sceneList() {
     QString result;
 
     if (temp.open()) {
-        QString path = temp.fileName();
-        char *tmppath = decodedString("westley:" + path);
-        Mlt::Consumer westleyConsumer(*m_mltProfile , tmppath);
-        delete[] tmppath;
-        westleyConsumer.set("terminate_on_pause", 1);
-        Mlt::Producer prod(m_mltProducer->get_producer());
-        westleyConsumer.connect(prod);
-        westleyConsumer.start();
-
-        QFile file(path);
+        saveSceneList(temp.fileName());
+        QFile file(temp.fileName());
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
             return QString();
 
@@ -568,6 +560,16 @@ QString Render::sceneList() {
         }
     }
     return result;
+}
+
+void Render::saveSceneList(QString path) {
+    char *tmppath = decodedString("westley:" + path);
+    Mlt::Consumer westleyConsumer(*m_mltProfile , tmppath);
+    delete[] tmppath;
+    westleyConsumer.set("terminate_on_pause", 1);
+    Mlt::Producer prod(m_mltProducer->get_producer());
+    westleyConsumer.connect(prod);
+    westleyConsumer.start();
 }
 
 
@@ -752,12 +754,6 @@ void Render::play(double speed, const GenTime & startTime,
     refresh();
 }
 
-void Render::render(const KUrl & url) {
-    QDomDocument doc;
-    QDomElement elem = doc.createElement("render");
-    elem.setAttribute("filename", url.path());
-    doc.appendChild(elem);
-}
 
 void Render::sendSeekCommand(GenTime time) {
     if (!m_mltProducer)

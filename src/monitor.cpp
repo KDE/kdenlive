@@ -223,5 +223,9 @@ void Monitor::resetProfile(QString prof) {
     render->resetProfile(prof);
 }
 
+void Monitor::saveSceneList(QString path) {
+    if (render == NULL) return;
+    render->saveSceneList(path);
+}
 
 #include "monitor.moc"

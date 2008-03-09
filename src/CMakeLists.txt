@@ -82,6 +82,7 @@ set(kdenlive_SRCS
   effectslistwidget.cpp
   titledocument.cpp
   transition.cpp
+  renderjob.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

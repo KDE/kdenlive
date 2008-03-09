@@ -41,6 +41,8 @@
 #include <KStatusBar>
 #include <kstandarddirs.h>
 #include <KUrlRequesterDialog>
+#include <KTemporaryFile>
+#include <kuiserverjobtracker.h>
 
 #include <mlt++/Mlt.h>
 
@@ -51,6 +53,7 @@
 #include "profilesdialog.h"
 #include "projectsettings.h"
 #include "events.h"
+#include "renderjob.h"
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
@@ -249,6 +252,12 @@ void MainWindow::setupActions() {
     projectAction->setIcon(KIcon("document-new"));
     actionCollection()->addAction("project_settings", projectAction);
     connect(projectAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProjectSettings()));
+
+    KAction* projectRender = new KAction(this);
+    projectRender->setText(i18n("Render Project"));
+    projectRender->setIcon(KIcon("document-new"));
+    actionCollection()->addAction("project_render", projectRender);
+    connect(projectRender, SIGNAL(triggered(bool)), this, SLOT(slotRenderProject()));
 
     KAction* monitorPlay = new KAction(this);
     monitorPlay->setText(i18n("Play"));
@@ -463,6 +472,18 @@ void MainWindow::slotEditProjectSettings() {
     delete w;
 }
 
+void MainWindow::slotRenderProject() {
+    KUrl exportFile = KUrl(KFileDialog::getSaveFileName());
+    if (exportFile.isEmpty()) return;
+    KTemporaryFile temp;
+    temp.setSuffix(".westley");
+    if (temp.open()) {
+        kDebug() << "///////  STARTING EXPORT: " << temp.fileName() << ", TO: " << exportFile.path();
+        m_projectMonitor->saveSceneList(temp.fileName());
+        RenderJob *rj = new RenderJob(KUrl(temp.fileName()), exportFile);
+        rj->start();
+    }
+}
 
 void MainWindow::slotUpdateMousePosition(int pos) {
     if (m_activeDocument)
