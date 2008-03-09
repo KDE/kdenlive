@@ -21,6 +21,7 @@
 
 #include <KStandardDirs>
 #include <KDebug>
+#include <KMessageBox>
 
 #include "kdenlivesettings.h"
 #include "renderwidget.h"
@@ -38,6 +39,11 @@ void RenderWidget::slotUpdateButtons() {
 }
 
 void RenderWidget::slotExport() {
+    QFile f(m_view.out_file->url().path());
+    if (f.exists()) {
+        if (KMessageBox::warningYesNo(this, i18n("File already exists. Doy you want to overwrite it ?")) != KMessageBox::Yes)
+            return;
+    }
     emit doRender(m_view.out_file->url().path(), QStringList(), m_view.zone_only->isChecked(), m_view.play_after->isChecked());
 }
 
