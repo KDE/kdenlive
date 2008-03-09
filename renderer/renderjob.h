@@ -28,7 +28,7 @@
 class RenderJob : public QObject {
     Q_OBJECT
 public:
-    RenderJob(QString scenelist, QString dest, QString player);
+    RenderJob(QString renderer, QString player, QString scenelist, QString dest, QStringList args);
     ~RenderJob();
     void start();
 

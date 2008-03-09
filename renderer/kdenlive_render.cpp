@@ -41,7 +41,7 @@
 **
 ****************************************************************************/
 
-
+#include <stdio.h>
 #include <QCoreApplication>
 #include <QStringList>
 #include <QString>
@@ -52,12 +52,28 @@ int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
     QStringList args = app.arguments();
-    args.takeFirst();
-    QString player;
-    if (args.count() == 3) player = args.at(2);
-    //fprintf(stderr, "ARGS: %s  %s", qPrintable(args.at(0)), qPrintable(args.at(1)));
-    RenderJob *job = new RenderJob(args.at(0), args.at(1), player);
-    job->start();
-    app.exec();
+    if (!args.isEmpty()) args.takeFirst();
+    if (args.count() >= 4) {
+	QString render = args.at(0);
+	args.takeFirst();
+	QString player = args.at(0);
+	args.takeFirst();
+	QString src = args.at(0);
+	args.takeFirst();
+	QString dest = args.at(0);
+	args.takeFirst();
+	RenderJob *job = new RenderJob(render, player, src, dest, args);
+	job->start();
+	app.exec();
+    }
+    else {
+	fprintf(stderr, "Kdenlive video renderer for MLT.\nUsage: "
+			"kdenlive_render [renderer] [player] [src] [dest] [[arg1] [arg2] ...]\n"
+			"		render: path to inigo rendrer\n"
+			"		player: path to video player to play when rendering is over, use '-' to disable playing\n"
+			"		src: source file (usually westley playlist)\n"
+			"		dest: destination file\n"
+			"		args: space separated libavformat arguments\n");
+    }
 }
 

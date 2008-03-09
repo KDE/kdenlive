@@ -24,14 +24,14 @@
 
 static QDBusConnection connection(QLatin1String(""));
 
-RenderJob::RenderJob(QString scenelist, QString dest, QString player) : QObject() {
+RenderJob::RenderJob(QString renderer, QString player, QString scenelist, QString dest, QStringList args) : QObject() {
     m_scenelist = scenelist;
     m_dest = dest;
     m_player = player;
     m_progress = 0;
     m_renderProcess = new QProcess;
-    m_prog = "inigo";
-    m_args << scenelist << "-consumer" << "avformat:" + m_dest << "progress=1";
+    m_prog = renderer;
+    m_args << scenelist << "-consumer" << "avformat:" + m_dest << "progress=1"<<args;
     connect(m_renderProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotIsOver(int, QProcess::ExitStatus)));
     connect(m_renderProcess, SIGNAL(readyReadStandardError()), this, SLOT(receivedStderr()));
     m_renderProcess->setReadChannel(QProcess::StandardError);
@@ -54,12 +54,11 @@ void RenderJob::receivedStderr() {
 }
 
 void RenderJob::start() {
-    QDBusInterface kuiserver("org.kde.JobViewServer", "/JobViewServer", "org.kde.JobViewServer", QDBusConnection::sessionBus());
-    QDBusReply<QString> reply = kuiserver.call("requestView", "kdenlive", "kdenlive", 1);
-    //kDebug()<<"///// JOB REPLY: "<<reply;
-    QStringList args;
-    m_jobUiserver = new QDBusInterface("org.kde.JobViewServer", "/JobViewServer/JobView_1", "org.kde.JobView", QDBusConnection::sessionBus());
-    reply = m_jobUiserver->call("setInfoMessage", tr("Rendering %1").arg(m_dest));
+    QDBusInterface kuiserver("org.kde.JobViewServer", "/JobViewServer", "org.kde.JobViewServer");
+    QDBusReply<QDBusObjectPath> objectPath = kuiserver.call("requestView", "kdenlive", "kdenlive", 1);
+    QString reply = ((QDBusObjectPath) objectPath).path();
+    m_jobUiserver = new QDBusInterface("org.kde.JobViewServer", reply, "org.kde.JobView");
+    m_jobUiserver->call("setInfoMessage", tr("Rendering %1").arg(m_dest));
     m_renderProcess->start(m_prog, m_args);
 }
 
