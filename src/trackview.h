@@ -52,6 +52,8 @@ public:
     int tracksNumber();
     KdenliveDoc *document();
     void refresh() ;
+    int outPoint();
+    int inPoint();
 
 public slots:
     void slotDeleteClip(int clipId);

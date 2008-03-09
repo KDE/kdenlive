@@ -84,22 +84,48 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
     setLittleMarkDistance(FRAME_SIZE);
     setMediumMarkDistance(FRAME_SIZE * 25);
     setBigMarkDistance(FRAME_SIZE * 25 * 60);
+    m_zoneStart = 50;
+    m_zoneEnd = 250;
 }
 
 // virtual
 void CustomRuler::mousePressEvent(QMouseEvent * event) {
-    int pos = (event->x() + offset());
-    m_view->setCursorPos(pos / pixelPerMark() / FRAME_SIZE);
+    int pos = (event->x() + offset()) / pixelPerMark() / FRAME_SIZE;
+    m_moveCursor = RULER_CURSOR;
+    if (event->y() > 10) {
+        if (abs(pos - m_zoneStart) < 4) m_moveCursor = RULER_START;
+        else if (abs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2)) < 4) m_moveCursor = RULER_MIDDLE;
+        else if (abs(pos - m_zoneEnd) < 4) m_moveCursor = RULER_END;
+    }
+    if (m_moveCursor == RULER_CURSOR)
+        m_view->setCursorPos(pos);
 }
 
 // virtual
 void CustomRuler::mouseMoveEvent(QMouseEvent * event) {
-    int pos = (event->x() + offset());
-    m_view->setCursorPos(pos / pixelPerMark() / FRAME_SIZE);
+    int pos = (event->x() + offset()) / pixelPerMark() / FRAME_SIZE;
+    if (m_moveCursor == RULER_CURSOR) {
+        m_view->setCursorPos(pos);
+        return;
+    } else if (m_moveCursor == RULER_START) m_zoneStart = pos;
+    else if (m_moveCursor == RULER_END) m_zoneEnd = pos;
+    else if (m_moveCursor == RULER_MIDDLE) {
+        int move = pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2);
+        m_zoneStart += move;
+        m_zoneEnd += move;
+    }
+    update();
+}
+
+int CustomRuler::inPoint() {
+    return m_zoneStart;
+}
+
+int CustomRuler::outPoint() {
+    return m_zoneEnd;
 }
 
 void CustomRuler::slotMoveRuler(int newPos) {
-    int diff = offset() - newPos;
     KRuler::slotNewOffset(newPos);
 }
 
@@ -114,12 +140,18 @@ void CustomRuler::setPixelPerMark(double rate) {
 }
 
 // virtual
-void CustomRuler::paintEvent(QPaintEvent * /*e*/) {
+void CustomRuler::paintEvent(QPaintEvent *e) {
     //  debug ("KRuler::drawContents, %s",(horizontal==dir)?"horizontal":"vertical");
 
     QStylePainter p(this);
+    p.setClipRect(e->rect());
+    p.fillRect(e->rect(), QBrush(QColor(255, 255, 255, 80)));
+    //kDebug()<<"RULER ZONE: "<<m_zoneStart<<", OFF: "<<offset()<<", END: "<<m_zoneEnd<<", FACTOR: "<<pixelPerMark() * FRAME_SIZE;
+    int zoneStart = (m_zoneStart) * pixelPerMark() * FRAME_SIZE;
+    int zoneEnd = (m_zoneEnd) * pixelPerMark() * FRAME_SIZE;
+    p.fillRect(QRect(zoneStart - offset(), e->rect().y() + e->rect().height() / 2, zoneEnd - zoneStart, e->rect().height() / 2), QBrush(QColor(133, 255, 143)));
 
-    int value  = m_view->cursorPos() - offset();
+    int value  = m_view->cursorPos() - offset() + 4;
     int minval = minimum();
     int maxval = maximum() + offset() - endOffset();
 
@@ -209,13 +241,34 @@ void CustomRuler::paintEvent(QPaintEvent * /*e*/) {
          }
        }*/
 
+
+    // draw zone cursors
+    int off = offset();
+    if (zoneStart > 0) {
+        QPolygon pa(4);
+        pa.setPoints(4, zoneStart - off + 3, 9, zoneStart - off, 9, zoneStart - off, 18, zoneStart - off + 3, 18);
+        p.drawPolyline(pa);
+    }
+
+    if (zoneEnd > 0) {
+        QRect rec(zoneStart - off + (zoneEnd - zoneStart) / 2 - 4, 9, 8, 9);
+        p.fillRect(rec, QColor(255, 255, 255, 150));
+        p.drawRect(rec);
+
+        QPolygon pa(4);
+        pa.setPoints(4, zoneEnd - off - 3, 9, zoneEnd - off, 9, zoneEnd - off, 18, zoneEnd - off - 3, 18);
+        p.drawPolyline(pa);
+    }
+
     // draw pointer
     if (showPointer() && value > 0) {
-        QPolygon pa(4);
-        pa.setPoints(3, value - 6, 9, value + 6, 9, value/*+0*/, 16);
+        QPolygon pa(3);
+        pa.setPoints(3, value - 6, 7, value + 6, 7, value, 16);
         p.setBrush(QBrush(Qt::yellow));
         p.drawPolygon(pa);
     }
+
+
 
 }
 

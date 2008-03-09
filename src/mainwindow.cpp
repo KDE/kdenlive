@@ -475,6 +475,13 @@ void MainWindow::slotEditProjectSettings() {
 void MainWindow::slotRenderProject() {
     KUrl exportFile = KUrl(KFileDialog::getSaveFileName());
     if (exportFile.isEmpty()) return;
+    int in;
+    int out;
+    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+    if (currentTab) {
+        in = currentTab->inPoint();
+        out = currentTab->outPoint();
+    }
     KTemporaryFile temp;
     temp.setAutoRemove(false);
     temp.setSuffix(".westley");
@@ -483,7 +490,7 @@ void MainWindow::slotRenderProject() {
         m_projectMonitor->saveSceneList(temp.fileName());
         QStringList args;
         args << "-erase";
-        if (0) args << "in=50" << "out=150";
+        args << "in=" + QString::number(in) << "out=" + QString::number(out);
         args << "inigo" << "kmplayer" << temp.fileName() << exportFile.path();
         QProcess::startDetached("kdenlive_render", args);
     }

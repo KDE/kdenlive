@@ -44,6 +44,10 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
     m_ruler = new CustomRuler(doc->timecode(), m_trackview);
     QVBoxLayout *layout = new QVBoxLayout;
     view->ruler_frame->setLayout(layout);
+    int left_margin;
+    int right_margin;
+    layout->getContentsMargins(&left_margin, 0, &right_margin, 0);
+    layout->setContentsMargins(left_margin, 0, right_margin, 0);
     layout->addWidget(m_ruler);
 
     m_headersLayout = new QVBoxLayout;
@@ -79,6 +83,14 @@ int TrackView::duration() {
 
 int TrackView::tracksNumber() {
     return m_projectTracks;
+}
+
+int TrackView::inPoint() {
+    return m_ruler->inPoint();
+}
+
+int TrackView::outPoint() {
+    return m_ruler->outPoint();
 }
 
 void TrackView::slotClipItemSelected(ClipItem*c) {
