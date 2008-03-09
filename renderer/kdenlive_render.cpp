@@ -48,32 +48,36 @@
 
 #include "renderjob.h"
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     QCoreApplication app(argc, argv);
     QStringList args = app.arguments();
     if (!args.isEmpty()) args.takeFirst();
     if (args.count() >= 4) {
-	QString render = args.at(0);
-	args.takeFirst();
-	QString player = args.at(0);
-	args.takeFirst();
-	QString src = args.at(0);
-	args.takeFirst();
-	QString dest = args.at(0);
-	args.takeFirst();
-	RenderJob *job = new RenderJob(render, player, src, dest, args);
-	job->start();
-	app.exec();
-    }
-    else {
-	fprintf(stderr, "Kdenlive video renderer for MLT.\nUsage: "
-			"kdenlive_render [renderer] [player] [src] [dest] [[arg1] [arg2] ...]\n"
-			"		render: path to inigo rendrer\n"
-			"		player: path to video player to play when rendering is over, use '-' to disable playing\n"
-			"		src: source file (usually westley playlist)\n"
-			"		dest: destination file\n"
-			"		args: space separated libavformat arguments\n");
+        bool erase = false;
+        if (args.at(0) == "-erase") {
+            erase = true;
+            args.takeFirst();
+        }
+        QString render = args.at(0);
+        args.takeFirst();
+        QString player = args.at(0);
+        args.takeFirst();
+        QString src = args.at(0);
+        args.takeFirst();
+        QString dest = args.at(0);
+        args.takeFirst();
+        RenderJob *job = new RenderJob(erase, render, player, src, dest, args);
+        job->start();
+        app.exec();
+    } else {
+        fprintf(stderr, "Kdenlive video renderer for MLT.\nUsage: "
+                "kdenlive_render [-erase] [renderer] [player] [src] [dest] [[arg1] [arg2] ...]\n"
+                "  -erase: if that parameter is present, src file will be erased at the end\n"
+                "  render: path to inigo rendrer\n"
+                "  player: path to video player to play when rendering is over, use '-' to disable playing\n"
+                "  src: source file (usually westley playlist)\n"
+                "  dest: destination file\n"
+                "  args: space separated libavformat arguments\n");
     }
 }
 

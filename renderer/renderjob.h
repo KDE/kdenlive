@@ -28,7 +28,7 @@
 class RenderJob : public QObject {
     Q_OBJECT
 public:
-    RenderJob(QString renderer, QString player, QString scenelist, QString dest, QStringList args);
+    RenderJob(bool erase, QString renderer, QString player, QString scenelist, QString dest, QStringList args);
     ~RenderJob();
     void start();
 
@@ -44,6 +44,7 @@ private:
     QString m_prog;
     QString m_player;
     QStringList m_args;
+    bool m_erase;
     QDBusInterface *m_jobUiserver;
 };
 

@@ -159,7 +159,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
             if (opMode == MOVE) {
                 setCursor(Qt::OpenHandCursor);
             } else if (opMode == RESIZESTART) {
-		setCursor(KCursor("left_side", Qt::SizeHorCursor));
+                setCursor(KCursor("left_side", Qt::SizeHorCursor));
                 kDebug() << "********  RESIZE CLIP START; WIDTH: " << size;
                 if (m_visualTip == NULL) {
                     QPolygon polygon;
@@ -186,7 +186,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                     m_animationTimer->start();
                 }
             } else if (opMode == RESIZEEND) {
-		setCursor(KCursor("right_side", Qt::SizeHorCursor));
+                setCursor(KCursor("right_side", Qt::SizeHorCursor));
                 if (m_visualTip == NULL) {
                     QPolygon polygon;
                     polygon << QPoint(clip->rect().x() + clip->rect().width(), clip->rect().y() + clip->rect().height() / 2 - size * 2);
@@ -337,7 +337,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 emit clipItemSelected(m_dragItem);
                 m_clickPoint = mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps()) * m_scale;
                 m_operationMode = m_dragItem->operationMode(item->mapFromScene(mapToScene(event->pos())), m_scale);
-		if (m_operationMode == MOVE) setCursor(Qt::ClosedHandCursor);
+                if (m_operationMode == MOVE) setCursor(Qt::ClosedHandCursor);
                 if (m_operationMode == MOVE || m_operationMode == RESIZESTART)
                     m_startPos = QPointF(m_dragItem->startPos().frames(m_document->fps()), m_dragItem->track());
                 else if (m_operationMode == RESIZEEND)

@@ -58,9 +58,9 @@
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
 #define ID_TIMELINE_MSG 3
-#define ID_TIMELINE_BUTTONS 4
-#define ID_TIMELINE_POS 5
-#define ID_TIMELINE_FORMAT 6
+#define ID_TIMELINE_BUTTONS 5
+#define ID_TIMELINE_POS 6
+#define ID_TIMELINE_FORMAT 7
 
 MainWindow::MainWindow(QWidget *parent)
         : KXmlGuiWindow(parent),
@@ -476,12 +476,14 @@ void MainWindow::slotRenderProject() {
     KUrl exportFile = KUrl(KFileDialog::getSaveFileName());
     if (exportFile.isEmpty()) return;
     KTemporaryFile temp;
+    temp.setAutoRemove(false);
     temp.setSuffix(".westley");
     if (temp.open()) {
         kDebug() << "///////  STARTING EXPORT: " << temp.fileName() << ", TO: " << exportFile.path();
         m_projectMonitor->saveSceneList(temp.fileName());
-        RenderJob *rj = new RenderJob(KUrl(temp.fileName()), exportFile);
-        rj->start();
+        QStringList args;
+        args << "-erase" << "inigo" << "kmplayer" << temp.fileName() << exportFile.path();
+        QProcess::startDetached("kdenlive_render", args);
     }
 }
 

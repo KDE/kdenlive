@@ -24,14 +24,15 @@
 
 static QDBusConnection connection(QLatin1String(""));
 
-RenderJob::RenderJob(QString renderer, QString player, QString scenelist, QString dest, QStringList args) : QObject() {
+RenderJob::RenderJob(bool erase, QString renderer, QString player, QString scenelist, QString dest, QStringList args) : QObject() {
     m_scenelist = scenelist;
     m_dest = dest;
     m_player = player;
     m_progress = 0;
+    m_erase = erase;
     m_renderProcess = new QProcess;
     m_prog = renderer;
-    m_args << scenelist << "-consumer" << "avformat:" + m_dest << "progress=1"<<args;
+    m_args << scenelist << "-consumer" << "avformat:" + m_dest << "progress=1" << args;
     connect(m_renderProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotIsOver(int, QProcess::ExitStatus)));
     connect(m_renderProcess, SIGNAL(readyReadStandardError()), this, SLOT(receivedStderr()));
     m_renderProcess->setReadChannel(QProcess::StandardError);
@@ -49,7 +50,7 @@ void RenderJob::receivedStderr() {
     int pro = result.toInt();
     if (pro > m_progress) {
         m_progress = pro;
-	QDBusReply<QString> reply = m_jobUiserver->call("setPercent", (uint) m_progress);
+        QDBusReply<QString> reply = m_jobUiserver->call("setPercent", (uint) m_progress);
     }
 }
 
@@ -65,10 +66,14 @@ void RenderJob::start() {
 
 void RenderJob::slotIsOver(int exitcode, QProcess::ExitStatus status) {
     QDBusReply<QString> reply = m_jobUiserver->call("terminate", "");
-    if (!m_player.isEmpty()) {
-	QStringList args;
-	args<<m_dest;
-	QProcess::startDetached(m_player, args);
+    if (m_erase) {
+        QFile f(m_scenelist);
+        f.remove();
+    }
+    if (m_player != "-") {
+        QStringList args;
+        args << m_dest;
+        QProcess::startDetached(m_player, args);
     }
     exit(1);
 }
