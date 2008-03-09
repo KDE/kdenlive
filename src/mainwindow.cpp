@@ -482,7 +482,9 @@ void MainWindow::slotRenderProject() {
         kDebug() << "///////  STARTING EXPORT: " << temp.fileName() << ", TO: " << exportFile.path();
         m_projectMonitor->saveSceneList(temp.fileName());
         QStringList args;
-        args << "-erase" << "inigo" << "kmplayer" << temp.fileName() << exportFile.path();
+        args << "-erase";
+        if (0) args << "in=50" << "out=150";
+        args << "inigo" << "kmplayer" << temp.fileName() << exportFile.path();
         QProcess::startDetached("kdenlive_render", args);
     }
 }

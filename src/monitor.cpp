@@ -135,7 +135,7 @@ void Monitor::seekCursor(int pos) {
     int rulerPos = (int)(pos * m_scale);
     m_position = pos;
     ui.monitor_time->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
-    kDebug() << "seek: " << pos << ", scale: " << m_scale;
+    //kDebug() << "seek: " << pos << ", scale: " << m_scale;
     m_ruler->slotNewValue(rulerPos);
 }
 

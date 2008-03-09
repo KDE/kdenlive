@@ -51,11 +51,21 @@
 int main(int argc, char **argv) {
     QCoreApplication app(argc, argv);
     QStringList args = app.arguments();
+    int in = -1;
+    int out = -1;
     if (!args.isEmpty()) args.takeFirst();
     if (args.count() >= 4) {
         bool erase = false;
         if (args.at(0) == "-erase") {
             erase = true;
+            args.takeFirst();
+        }
+        if (args.at(0).startsWith("in=")) {
+            in = args.at(0).section('=', -1).toInt();
+            args.takeFirst();
+        }
+        if (args.at(0).startsWith("out=")) {
+            out = args.at(0).section('=', -1).toInt();
             args.takeFirst();
         }
         QString render = args.at(0);
@@ -66,13 +76,15 @@ int main(int argc, char **argv) {
         args.takeFirst();
         QString dest = args.at(0);
         args.takeFirst();
-        RenderJob *job = new RenderJob(erase, render, player, src, dest, args);
+        RenderJob *job = new RenderJob(erase, render, player, src, dest, args, in, out);
         job->start();
         app.exec();
     } else {
         fprintf(stderr, "Kdenlive video renderer for MLT.\nUsage: "
-                "kdenlive_render [-erase] [renderer] [player] [src] [dest] [[arg1] [arg2] ...]\n"
+                "kdenlive_render [-erase] [in=pos] [out=pos] [renderer] [player] [src] [dest] [[arg1] [arg2] ...]\n"
                 "  -erase: if that parameter is present, src file will be erased at the end\n"
+                "  in=pos: start rendering at frame pos\n"
+                "  out=pos: end rendering at frame pos\n"
                 "  render: path to inigo rendrer\n"
                 "  player: path to video player to play when rendering is over, use '-' to disable playing\n"
                 "  src: source file (usually westley playlist)\n"

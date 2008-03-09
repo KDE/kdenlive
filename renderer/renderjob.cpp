@@ -24,7 +24,7 @@
 
 static QDBusConnection connection(QLatin1String(""));
 
-RenderJob::RenderJob(bool erase, QString renderer, QString player, QString scenelist, QString dest, QStringList args) : QObject() {
+RenderJob::RenderJob(bool erase, QString renderer, QString player, QString scenelist, QString dest, QStringList args, int in, int out) : QObject() {
     m_scenelist = scenelist;
     m_dest = dest;
     m_player = player;
@@ -32,7 +32,10 @@ RenderJob::RenderJob(bool erase, QString renderer, QString player, QString scene
     m_erase = erase;
     m_renderProcess = new QProcess;
     m_prog = renderer;
-    m_args << scenelist << "-consumer" << "avformat:" + m_dest << "progress=1" << args;
+    m_args << scenelist;
+    if (in != -1) m_args << "in=" + QString::number(in);
+    if (out != -1) m_args << "out=" + QString::number(out);
+    m_args << "-consumer" << "avformat:" + m_dest << "progress=1" << args;
     connect(m_renderProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotIsOver(int, QProcess::ExitStatus)));
     connect(m_renderProcess, SIGNAL(readyReadStandardError()), this, SLOT(receivedStderr()));
     m_renderProcess->setReadChannel(QProcess::StandardError);
