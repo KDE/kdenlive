@@ -37,6 +37,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/colorval_ui.ui
   widgets/titlewidget_ui.ui
   widgets/timelinebuttons_ui.ui
+  widgets/renderwidget_ui.ui
 )
  
 set(kdenlive_SRCS 
@@ -83,6 +84,7 @@ set(kdenlive_SRCS
   titledocument.cpp
   transition.cpp
   renderjob.cpp
+  renderwidget.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

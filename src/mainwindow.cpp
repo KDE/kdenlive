@@ -64,7 +64,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
         : KXmlGuiWindow(parent),
-        fileName(QString()), m_activeDocument(NULL), m_activeTimeline(NULL) {
+        fileName(QString()), m_activeDocument(NULL), m_activeTimeline(NULL), m_renderWidget(NULL) {
     parseProfiles();
 
     m_commandStack = new QUndoGroup;
@@ -473,12 +473,22 @@ void MainWindow::slotEditProjectSettings() {
 }
 
 void MainWindow::slotRenderProject() {
-    KUrl exportFile = KUrl(KFileDialog::getSaveFileName());
-    if (exportFile.isEmpty()) return;
+    if (!m_renderWidget) {
+        m_renderWidget = new RenderWidget(this);
+        connect(m_renderWidget, SIGNAL(doRender(const QString&, const QStringList &, bool, bool)), this, SLOT(slotDoRender(const QString&, const QStringList &, bool, bool)));
+    }
+    /*TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+    if (currentTab) m_renderWidget->setTimeline(currentTab);
+    m_renderWidget->setDocument(m_activeDocument);*/
+    m_renderWidget->show();
+}
+
+void MainWindow::slotDoRender(const QString &dest, const QStringList &args, bool zoneOnly, bool playAfter) {
+    if (dest.isEmpty()) return;
     int in;
     int out;
     TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-    if (currentTab) {
+    if (currentTab && zoneOnly) {
         in = currentTab->inPoint();
         out = currentTab->outPoint();
     }
@@ -486,12 +496,13 @@ void MainWindow::slotRenderProject() {
     temp.setAutoRemove(false);
     temp.setSuffix(".westley");
     if (temp.open()) {
-        kDebug() << "///////  STARTING EXPORT: " << temp.fileName() << ", TO: " << exportFile.path();
         m_projectMonitor->saveSceneList(temp.fileName());
         QStringList args;
         args << "-erase";
-        args << "in=" + QString::number(in) << "out=" + QString::number(out);
-        args << "inigo" << "kmplayer" << temp.fileName() << exportFile.path();
+        if (zoneOnly) args << "in=" + QString::number(in) << "out=" + QString::number(out);
+        QString videoPlayer = "-";
+        if (playAfter) videoPlayer = "kmplayer";
+        args << "inigo" << videoPlayer << temp.fileName() << dest;
         QProcess::startDetached("kdenlive_render", args);
     }
 }
