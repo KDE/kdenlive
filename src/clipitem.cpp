@@ -154,10 +154,6 @@ int ClipItem::clipProducer() {
     return m_producer;
 }
 
-GenTime ClipItem::cropStart() const {
-    return m_cropStart;
-}
-
 void ClipItem::flashClip() {
     if (m_timeLine == 0) {
         m_timeLine = new QTimeLine(750, this);

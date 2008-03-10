@@ -60,11 +60,13 @@ void AbstractClipItem::resizeStart(int posx, double scale) {
     GenTime durationDiff = GenTime(posx, m_fps) - m_startPos;
     if (durationDiff == GenTime()) return;
     //kDebug() << "-- RESCALE: CROP=" << m_cropStart << ", DIFF = " << durationDiff;
-    if (m_cropStart + durationDiff < GenTime()) {
+
+    if (m_cropStart + durationDiff < GenTime() && type() == 70000) {
         durationDiff = GenTime() - m_cropStart;
     } else if (durationDiff >= m_cropDuration) {
         durationDiff = m_cropDuration - GenTime(3, m_fps);
     }
+
     m_startPos += durationDiff;
     m_cropStart += durationDiff;
     m_cropDuration = m_cropDuration - durationDiff;

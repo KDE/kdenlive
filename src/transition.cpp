@@ -42,6 +42,7 @@ Transition::Transition(const QRectF& rect , ClipItem * clipa, const TRANSITIONTY
     m_fps = fps;
     m_cropDuration = endTime - startTime;
     m_startPos = startTime;
+    m_maxDuration = GenTime(1000000);
     // Default duration = 2.5 seconds
     GenTime defaultTransitionDuration = GenTime(2.5);
 

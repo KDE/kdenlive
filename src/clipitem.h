@@ -51,8 +51,6 @@ public:
     int clipType();
     DocClipBase *baseClip();
     QString clipName();
-
-    GenTime cropStart() const;
     QDomElement xml() const;
 
     void setFadeOut(int pos, double scale);

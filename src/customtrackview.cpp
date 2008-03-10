@@ -99,7 +99,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
             if (m_operationMode == MOVE) {
                 double snappedPos = getSnapPointForPos(mapToScene(event->pos()).x() - m_clickPoint);
                 kDebug() << "///////  MOVE CLIP, EVENT Y: ";//<<event->scenePos().y()<<", SCENE HEIGHT: "<<scene()->sceneRect().height();
-                int moveTrack = (int)  mapToScene(event->pos()).y() / 50;
+                int moveTrack = (int)  mapToScene(event->pos() - QPoint(0, (m_dragItem->type() == 70001 ? 25 : 0))).y() / 50;
                 int currentTrack = m_dragItem->track();
 
                 if (moveTrack > m_tracksCount - 1) moveTrack = m_tracksCount - 1;
@@ -347,7 +347,12 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 else if (m_operationMode == RESIZEEND)
                     m_startPos = QPointF(m_dragItem->endPos().frames(m_document->fps()), m_dragItem->track());
                 else if (m_operationMode == TRANSITIONSTART) {
-                    Transition *tr = new Transition(QRect(m_dragItem->rect().x() , m_dragItem->rect().height() / 2, (m_dragItem->startPos() + GenTime(2.5)).frames(25.0) ,  m_dragItem->rect().height()), (ClipItem*)m_dragItem, LUMA_TRANSITION, m_dragItem->startPos(), m_dragItem->startPos() + GenTime(2.5), m_document->fps());
+                    Transition *tr = new Transition(
+                        QRect(m_dragItem->startPos().frames(m_document->fps()) *m_scale , m_dragItem->rect().height() / 2,
+                              GenTime(2.5).frames(m_document->fps()) *m_scale ,  m_dragItem->rect().height()
+                             ),
+                        (ClipItem*)m_dragItem, LUMA_TRANSITION, m_dragItem->startPos(), m_dragItem->startPos() + GenTime(2.5), m_document->fps());
+                    tr->setTrack(m_dragItem->track());
                     scene()->addItem(tr);
                     //m_dragItem->addTransition(tra);
                 }
