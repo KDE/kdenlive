@@ -194,8 +194,10 @@ void ClipItem::paint(QPainter *painter,
                      QWidget *widget) {
     painter->setOpacity(m_opacity);
     QBrush paintColor = brush();
+
     if (isSelected()) paintColor = QBrush(QColor(79, 93, 121));
     QRectF br = rect();
+    double scale = br.width() / m_cropDuration.frames(m_fps);
     QRect rectInView;//this is the rect that is visible by the user
     if (scene()->views().size() > 0) {
         rectInView = scene()->views()[0]->viewport()->rect();
@@ -243,10 +245,10 @@ void ClipItem::paint(QPainter *painter,
             right_lower = 40;
     }
     QList<QPainterPath> transitionPath;
-    foreach(Transition* t, m_transitionsList) {
+    foreach(Transition* transition, m_transitionsList) {
         QPainterPath t;
         //t.addRect(br_startx,br.y()+br.height()/2,br.x() + /*t->transitionDuration().frames(m_fps) *pixelForOneFrame*/5 ,br.y()+br.height()*2);
-        int twidth = 40;
+        int twidth = br_startx + transition->transitionDuration().frames(m_fps) *scale;
         t.moveTo(br_startx + twidth , br_endy);
         t.lineTo(br_startx + twidth , br_halfy + roundingY);
 
@@ -296,7 +298,6 @@ void ClipItem::paint(QPainter *painter,
         painter->drawLine(l2);
     }
 
-    double scale = br.width() / m_cropDuration.frames(m_fps);
     // draw audio thumbnails
     if ((m_clipType == AV || m_clipType == AUDIO) && audioThumbReady && KdenliveSettings::audiothumbnails()) {
 
