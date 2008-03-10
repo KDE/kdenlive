@@ -75,10 +75,7 @@ public:
     bool isValid() const;
     GenTime transitionDuration() const;
     const ClipItem *referencedClip() const;
-    GenTime startPos() const;
-    GenTime endPos() const;
-    int track() const;
-    GenTime duration() const;
+
 private:
 
     GenTime m_transitionStart;

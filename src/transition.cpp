@@ -362,18 +362,3 @@ QDomElement Transition::toXML() {
     return effect;
 }
 
-GenTime Transition::startPos() const {
-    return GenTime();
-}
-
-GenTime Transition::endPos() const {
-    return GenTime();
-}
-
-int Transition::track() const {
-    return 0;
-}
-
-GenTime Transition::duration() const {
-    return GenTime();
-}
