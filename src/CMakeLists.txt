@@ -38,6 +38,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/titlewidget_ui.ui
   widgets/timelinebuttons_ui.ui
   widgets/renderwidget_ui.ui
+  widgets/saveprofile_ui.ui
 )
  
 set(kdenlive_SRCS 

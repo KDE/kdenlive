@@ -112,7 +112,11 @@
         </widget>
        </item>
        <item row="2" column="0" colspan="3" >
-        <widget class="KLineEdit" name="advanced_params" />
+        <widget class="KLineEdit" name="advanced_params" >
+         <property name="readOnly" >
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item row="2" column="3" >
         <widget class="QToolButton" name="buttonSave" >

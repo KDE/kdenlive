@@ -69,6 +69,8 @@ Q_OBJECT public:
     void setThumbsProgress(KUrl url, int progress);
     QString profilePath() const;
     QString description() const;
+    /** Returns the document format: PAL or NTSC */
+    QString getDocumentStandard();
 
 private:
     KUrl m_url;

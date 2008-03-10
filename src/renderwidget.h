@@ -32,16 +32,20 @@ class RenderWidget : public QDialog {
 public:
     RenderWidget(QWidget * parent = 0);
     void setDocumentStandard(QString std);
+
 private slots:
     void slotUpdateButtons();
     void slotExport();
     void refreshView();
     void refreshParams();
+    void slotSaveProfile();
+    void slotDeleteProfile();
 
 private:
     Ui::RenderWidget_UI m_view;
     QString m_standard;
     void parseProfiles();
+    void parseFile(QString exportFile, bool editable);
 
 signals:
     void doRender(const QString&, const QStringList &, bool, bool);

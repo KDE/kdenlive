@@ -23,22 +23,35 @@
 #include <KStandardDirs>
 #include <KDebug>
 #include <KMessageBox>
+#include <KComboBox>
 
 #include "kdenlivesettings.h"
 #include "renderwidget.h"
+#include "ui_saveprofile_ui.h"
 
 const int GroupRole = Qt::UserRole;
 const int ExtensionRole = GroupRole + 1;
 const int StandardRole = GroupRole + 2;
 const int RenderRole = GroupRole + 3;
 const int ParamsRole = GroupRole + 4;
+const int EditableRole = GroupRole + 5;
 
 RenderWidget::RenderWidget(QWidget * parent): QDialog(parent), m_standard("PAL") {
     m_view.setupUi(this);
+    m_view.buttonDelete->setIcon(KIcon("trash-empty"));
+    m_view.buttonDelete->setToolTip(i18n("Delete profile"));
+    m_view.buttonDelete->setEnabled(false);
+
+    m_view.buttonSave->setIcon(KIcon("document-new"));
+    m_view.buttonSave->setToolTip(i18n("Create new profile"));
+
+    connect(m_view.buttonSave, SIGNAL(clicked()), this, SLOT(slotSaveProfile()));
+    connect(m_view.buttonDelete, SIGNAL(clicked()), this, SLOT(slotDeleteProfile()));
     connect(m_view.buttonStart, SIGNAL(clicked()), this, SLOT(slotExport()));
     connect(m_view.out_file, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButtons()));
     connect(m_view.format_list, SIGNAL(currentRowChanged(int)), this, SLOT(refreshView()));
     connect(m_view.size_list, SIGNAL(currentRowChanged(int)), this, SLOT(refreshParams()));
+
     m_view.buttonStart->setEnabled(false);
     parseProfiles();
 }
@@ -46,6 +59,121 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent), m_standard("PAL")
 void RenderWidget::slotUpdateButtons() {
     if (m_view.out_file->url().isEmpty()) m_view.buttonStart->setEnabled(false);
     else m_view.buttonStart->setEnabled(true);
+}
+
+void RenderWidget::slotSaveProfile() {
+    Ui::SaveProfile_UI ui;
+    QDialog *d = new QDialog(this);
+    ui.setupUi(d);
+    QString customGroup = i18n("Custom");
+    QStringList groupNames;
+    for (int i = 0; i < m_view.format_list->count(); i++)
+        groupNames.append(m_view.format_list->item(i)->text());
+    if (!groupNames.contains(customGroup)) groupNames.prepend(customGroup);
+    ui.group_name->addItems(groupNames);
+    int pos = ui.group_name->findText(customGroup);
+    ui.group_name->setCurrentIndex(pos);
+
+    ui.parameters->setText(m_view.advanced_params->text());
+    ui.extension->setText(m_view.size_list->currentItem()->data(ExtensionRole).toString());
+    ui.profile_name->setFocus();
+    if (d->exec() == QDialog::Accepted) {
+        QString exportFile = KStandardDirs::locateLocal("data", "kdenlive/export/customprofiles.xml");
+        QDomDocument doc;
+        QFile file(exportFile);
+        doc.setContent(&file, false);
+        file.close();
+
+        QDomElement documentElement;
+        bool groupExists = false;
+        QString groupName;
+        QString newProfileName = ui.profile_name->text();
+        QString newGroupName = ui.group_name->currentText();
+        QDomNodeList groups = doc.elementsByTagName("group");
+        int i = 0;
+        if (groups.count() == 0) {
+            QDomElement profiles = doc.createElement("profiles");
+            doc.appendChild(profiles);
+        } else while (!groups.item(i).isNull()) {
+                documentElement = groups.item(i).toElement();
+                groupName = documentElement.attribute("name");
+                kDebug() << "// SAVE, PARSING FROUP: " << i << ", name: " << groupName << ", LOOK FR: " << newGroupName;
+                if (groupName == newGroupName) {
+                    groupExists = true;
+                    break;
+                }
+                i++;
+            }
+        if (!groupExists) {
+            documentElement = doc.createElement("group");
+            documentElement.setAttribute("name", ui.group_name->currentText());
+            documentElement.setAttribute("renderer", "avformat");
+            doc.documentElement().appendChild(documentElement);
+        }
+        QDomElement profileElement = doc.createElement("profile");
+        profileElement.setAttribute("name", newProfileName);
+        profileElement.setAttribute("extension", ui.extension->text().simplified());
+        profileElement.setAttribute("args", ui.parameters->text().simplified());
+        documentElement.appendChild(profileElement);
+
+        //QCString save = doc.toString().utf8();
+
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            KMessageBox::sorry(this, i18n("Unable to write to file %1", exportFile));
+            delete d;
+            return;
+        }
+        QTextStream out(&file);
+        out << doc.toString();
+        file.close();
+        parseProfiles();
+    }
+    delete d;
+}
+
+void RenderWidget::slotDeleteProfile() {
+    QString currentGroup = m_view.format_list->currentItem()->text();
+    QString currentProfile = m_view.size_list->currentItem()->text();
+
+    QString exportFile = KStandardDirs::locateLocal("data", "kdenlive/export/customprofiles.xml");
+    QDomDocument doc;
+    QFile file(exportFile);
+    doc.setContent(&file, false);
+    file.close();
+
+    QDomElement documentElement;
+    bool groupExists = false;
+    QString groupName;
+    QDomNodeList groups = doc.elementsByTagName("group");
+    int i = 0;
+
+    while (!groups.item(i).isNull()) {
+        documentElement = groups.item(i).toElement();
+        groupName = documentElement.attribute("name");
+        if (groupName == currentGroup) {
+            QDomNodeList children = documentElement.childNodes();
+            for (int j = 0; j < children.count(); j++) {
+                QDomElement pro = children.at(j).toElement();
+                if (pro.attribute("name") == currentProfile) {
+                    groups.item(i).removeChild(children.at(j));
+                    if (groups.item(i).childNodes().isEmpty())
+                        doc.documentElement().removeChild(groups.item(i));
+                    break;
+                }
+            }
+            break;
+        }
+        i++;
+    }
+
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        KMessageBox::sorry(this, i18n("Unable to write to file %1", exportFile));
+        return;
+    }
+    QTextStream out(&file);
+    out << doc.toString();
+    file.close();
+    parseProfiles();
 }
 
 void RenderWidget::slotExport() {
@@ -103,23 +231,35 @@ void RenderWidget::refreshParams() {
     } else {
         m_view.out_file->setUrl(KUrl(QDir::homePath() + "/untitled." + extension));
     }
+
+    if (item->data(EditableRole).toString().isEmpty()) m_view.buttonDelete->setEnabled(false);
+    else m_view.buttonDelete->setEnabled(true);
 }
 
 void RenderWidget::parseProfiles() {
+    m_view.size_list->clear();
+    m_view.format_list->clear();
     QString exportFile = KStandardDirs::locate("data", "kdenlive/export/profiles.xml");
+    parseFile(exportFile, false);
+    exportFile = KStandardDirs::locateLocal("data", "kdenlive/export/customprofiles.xml");
+    parseFile(exportFile, true);
+    refreshView();
+}
+
+void RenderWidget::parseFile(QString exportFile, bool editable) {
     QDomDocument doc;
     QFile file(exportFile);
     doc.setContent(&file, false);
+    file.close();
     QDomElement documentElement;
     QDomElement profileElement;
-
     QDomNodeList groups = doc.elementsByTagName("group");
 
     if (groups.count() == 0) {
         kDebug() << "// Export file: " << exportFile << " IS BROKEN";
         return;
     }
-    kDebug() << "// FOUND FFECT GROUP: " << groups.count() << " IS BROKEN";
+
     int i = 0;
     QString groupName;
     QString profileName;
@@ -134,7 +274,8 @@ void RenderWidget::parseProfiles() {
         groupName = documentElement.attribute("name", QString::null);
         extension = documentElement.attribute("extension", QString::null);
         renderer = documentElement.attribute("renderer", QString::null);
-        new QListWidgetItem(groupName, m_view.format_list);
+        if (m_view.format_list->findItems(groupName, Qt::MatchExactly).isEmpty())
+            new QListWidgetItem(groupName, m_view.format_list);
 
         QDomNode n = groups.item(i).firstChild();
         while (!n.isNull()) {
@@ -150,27 +291,14 @@ void RenderWidget::parseProfiles() {
             item->setData(RenderRole, renderer);
             item->setData(StandardRole, standard);
             item->setData(ParamsRole, params);
+            if (editable) item->setData(EditableRole, "true");
             n = n.nextSibling();
         }
 
         i++;
-        /*
-                bool ladspaOk = true;
-                if (tag == "ladspa") {
-                    QString library = documentElement.attribute("library", QString::null);
-                    if (KStandardDirs::locate("ladspa_plugin", library).isEmpty()) ladspaOk = false;
-                }
-
-                // Parse effect file
-                if ((filtersList.contains(tag) || producersList.contains(tag)) && ladspaOk) {
-                    bool isAudioEffect = false;
-                    QDomNode propsnode = documentElement.elementsByTagName("properties").item(0);
-                    if (!propsnode.isNull()) {
-                        QDomElement propselement = propsnode.toElement();
-        */
     }
-    refreshView();
 }
+
 
 
 #include "renderwidget.moc"

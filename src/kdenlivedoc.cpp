@@ -114,6 +114,12 @@ ClipManager *KdenliveDoc::clipManager() {
     return m_clipManager;
 }
 
+QString KdenliveDoc::getDocumentStandard() {
+    //WARNING: this way to tell the video standard is a bit hackish...
+    if (m_profile.description.contains("pal", Qt::CaseInsensitive) || m_profile.description.contains("25", Qt::CaseInsensitive) || m_profile.description.contains("50", Qt::CaseInsensitive)) return "PAL";
+    return "NTSC";
+}
+
 QString KdenliveDoc::profilePath() const {
     return m_profile.path;
 }
