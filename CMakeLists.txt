@@ -19,4 +19,4 @@ FIND_PACKAGE(LIBFFMPEG REQUIRED)
 add_subdirectory(src src/cmake_bindir)
 add_subdirectory(renderer renderer/cmake_bindir)
 add_subdirectory(effects )
- 
+add_subdirectory(export ) 

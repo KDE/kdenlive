@@ -483,7 +483,7 @@ void MainWindow::slotRenderProject() {
     m_renderWidget->show();
 }
 
-void MainWindow::slotDoRender(const QString &dest, const QStringList &args, bool zoneOnly, bool playAfter) {
+void MainWindow::slotDoRender(const QString &dest, const QStringList &avformat_args, bool zoneOnly, bool playAfter) {
     if (dest.isEmpty()) return;
     int in;
     int out;
@@ -502,7 +502,7 @@ void MainWindow::slotDoRender(const QString &dest, const QStringList &args, bool
         if (zoneOnly) args << "in=" + QString::number(in) << "out=" + QString::number(out);
         QString videoPlayer = "-";
         if (playAfter) videoPlayer = "kmplayer";
-        args << "inigo" << videoPlayer << temp.fileName() << dest;
+        args << "inigo" << videoPlayer << temp.fileName() << dest << avformat_args;
         QProcess::startDetached("kdenlive_render", args);
     }
 }
@@ -561,7 +561,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(effectStack, SIGNAL(changeEffectState(ClipItem*, QDomElement, bool)), trackView->projectView(), SLOT(slotChangeEffectState(ClipItem*, QDomElement, bool)));
     connect(effectStack, SIGNAL(refreshEffectStack(ClipItem*)), trackView->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
     m_activeTimeline = trackView;
-
+    if (m_renderWidget) m_renderWidget->setDocumentStandard(doc->getDocumentStandard());
     m_monitorManager->setTimecode(doc->timecode());
     doc->setRenderer(m_projectMonitor->render);
     m_commandStack->setActiveStack(doc->commandStack());

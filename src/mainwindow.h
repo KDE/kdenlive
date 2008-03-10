@@ -134,7 +134,7 @@ private slots:
     void slotSwitchVideoThumbs();
     void slotSwitchAudioThumbs();
     void slotRenderProject();
-    void slotDoRender(const QString &dest, const QStringList &args, bool zoneOnly, bool playAfter);
+    void slotDoRender(const QString &dest, const QStringList &avformat_args, bool zoneOnly, bool playAfter);
 };
 
 #endif
