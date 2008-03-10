@@ -35,6 +35,7 @@ public:
 private slots:
     void slotIsOver(int exitcode, QProcess::ExitStatus status);
     void receivedStderr();
+    void slotAbort();
 
 private:
     QString m_scenelist;

@@ -43,7 +43,20 @@ RenderJob::RenderJob(bool erase, QString renderer, QString player, QString scene
 
 
 RenderJob::~RenderJob() {
-    delete m_renderProcess;
+    if (m_renderProcess) delete m_renderProcess;
+}
+
+void RenderJob::slotAbort() {
+    fprintf(stderr, "Kdenlive-render: JOB ABORTED BY USER...\n");
+    m_renderProcess->kill();
+    QDBusReply<QString> reply = m_jobUiserver->call("terminate", "");
+    if (m_erase) {
+        QFile f(m_scenelist);
+        f.remove();
+    }
+    QFile f(m_dest);
+    f.remove();
+    exit(1);
 }
 
 void RenderJob::receivedStderr() {
@@ -63,6 +76,9 @@ void RenderJob::start() {
     QString reply = ((QDBusObjectPath) objectPath).path();
     m_jobUiserver = new QDBusInterface("org.kde.JobViewServer", reply, "org.kde.JobView");
     m_jobUiserver->call("setInfoMessage", tr("Rendering %1").arg(m_dest));
+
+    QDBusConnection::sessionBus().connect("org.kde.JobViewServer", reply, "org.kde.JobView",
+                                          "cancelRequested", this, SLOT(slotAbort()));
     m_renderProcess->start(m_prog, m_args);
 }
 
