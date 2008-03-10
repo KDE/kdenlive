@@ -251,10 +251,10 @@ void ClipItem::paint(QPainter *painter,
         QPainterPath t;
         //t.addRect(br_startx,br.y()+br.height()/2,br.x() + /*t->transitionDuration().frames(m_fps) *pixelForOneFrame*/5 ,br.y()+br.height()*2);
         int twidth = br_startx + transition.transitionDuration().frames(m_fps) * scale;
-        t.moveTo(br_startx + twidth , br_endy);
-        t.lineTo(br_startx + twidth , br_halfy + roundingY);
+        t.moveTo(twidth , br_endy);
+        t.lineTo(twidth , br_halfy + roundingY);
 
-        t.arcTo(br_startx + twidth - roundingX , br_halfy , roundingX, roundingY,  0.0, 90.0);
+        t.arcTo(twidth - roundingX , br_halfy , roundingX, roundingY,  0.0, 90.0);
         t.lineTo(br_startx +  roundingX , br_halfy);
         t.arcTo(br_startx , br_halfy, roundingX , roundingY,  90.0, 90.0);
         t.lineTo(br_startx , br_endy);
