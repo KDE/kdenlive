@@ -16,7 +16,7 @@ FIND_PACKAGE(LIBMLT REQUIRED)
 FIND_PACKAGE(LIBMLTPLUS REQUIRED)
 FIND_PACKAGE(LIBFFMPEG REQUIRED)
 
-add_subdirectory(src)
-add_subdirectory(renderer)
-add_subdirectory(effects)
+add_subdirectory(src src/cmake_bindir)
+add_subdirectory(renderer renderer/cmake_bindir)
+add_subdirectory(effects )
  
