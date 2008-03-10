@@ -24,11 +24,13 @@ public:
     virtual double fps() const;
     virtual int fadeIn() const;
     virtual int fadeOut() const;
+    virtual GenTime maxDuration() const;
 protected:
     int m_track;
     GenTime m_cropStart;
     GenTime m_cropDuration;
     GenTime m_startPos;
+    GenTime m_maxDuration;
     double m_fps;
     uint m_startFade;
     uint m_endFade;

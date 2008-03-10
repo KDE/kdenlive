@@ -154,10 +154,6 @@ int ClipItem::clipProducer() {
     return m_producer;
 }
 
-GenTime ClipItem::maxDuration() const {
-    return m_maxDuration;
-}
-
 GenTime ClipItem::cropStart() const {
     return m_cropStart;
 }
@@ -536,54 +532,12 @@ void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *) {
 }
 
 void ClipItem::resizeStart(int posx, double scale) {
-    GenTime durationDiff = GenTime(posx, m_fps) - m_startPos;
-    if (durationDiff == GenTime()) return;
-    //kDebug() << "-- RESCALE: CROP=" << m_cropStart << ", DIFF = " << durationDiff;
-    if (m_cropStart + durationDiff < GenTime()) {
-        durationDiff = GenTime() - m_cropStart;
-    } else if (durationDiff >= m_cropDuration) {
-        durationDiff = m_cropDuration - GenTime(3, m_fps);
-    }
-    m_startPos += durationDiff;
-    m_cropStart += durationDiff;
-    m_cropDuration = m_cropDuration - durationDiff;
-    setRect(m_startPos.frames(m_fps) * scale, rect().y(), m_cropDuration.frames(m_fps) * scale, rect().height());
-    QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
-    for (int i = 0; i < collisionList.size(); ++i) {
-        QGraphicsItem *item = collisionList.at(i);
-        if (item->type() == 70000) {
-            GenTime diff = ((ClipItem *)item)->endPos() + GenTime(1, m_fps) - m_startPos;
-            setRect((m_startPos + diff).frames(m_fps) * scale, rect().y(), (m_cropDuration - diff).frames(m_fps) * scale, rect().height());
-            m_startPos += diff;
-            m_cropStart += diff;
-            m_cropDuration = m_cropDuration - diff;
-            break;
-        }
-    }
+    AbstractClipItem::resizeStart(posx, scale);
     if (m_hasThumbs) startThumbTimer->start(100);
 }
 
 void ClipItem::resizeEnd(int posx, double scale) {
-    GenTime durationDiff = GenTime(posx, m_fps) - endPos();
-    if (durationDiff == GenTime()) return;
-    //kDebug() << "-- RESCALE: CROP=" << m_cropStart << ", DIFF = " << durationDiff;
-    if (m_cropDuration + durationDiff <= GenTime()) {
-        durationDiff = GenTime() - (m_cropDuration - GenTime(3, m_fps));
-    } else if (m_cropStart + m_cropDuration + durationDiff >= m_maxDuration) {
-        durationDiff = m_maxDuration - m_cropDuration - m_cropStart;
-    }
-    m_cropDuration += durationDiff;
-    setRect(m_startPos.frames(m_fps) * scale, rect().y(), m_cropDuration.frames(m_fps) * scale, rect().height());
-    QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
-    for (int i = 0; i < collisionList.size(); ++i) {
-        QGraphicsItem *item = collisionList.at(i);
-        if (item->type() == 70000) {
-            GenTime diff = ((ClipItem *)item)->startPos() - GenTime(1, m_fps) - startPos();
-            m_cropDuration = diff;
-            setRect(m_startPos.frames(m_fps) * scale, rect().y(), m_cropDuration.frames(m_fps) * scale, rect().height());
-            break;
-        }
-    }
+    AbstractClipItem::resizeEnd(posx, scale);
     if (m_hasThumbs) endThumbTimer->start(100);
 }
 

@@ -275,6 +275,8 @@ int Transition::type() const {
     return 70001;
 }
 OPERATIONTYPE Transition::operationMode(QPointF pos, double scale) {
+    if (abs((int)(pos.x() - rect().x())) < 6) return RESIZESTART;
+    else if (abs((int)(pos.x() - (rect().x() + rect().width()))) < 6) return RESIZEEND;
     return MOVE;
 }
 void Transition::resizeTransitionStart(GenTime time) {

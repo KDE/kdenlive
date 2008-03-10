@@ -51,7 +51,7 @@ public:
     int clipType();
     DocClipBase *baseClip();
     QString clipName();
-    GenTime maxDuration() const;
+
     GenTime cropStart() const;
     QDomElement xml() const;
 
@@ -93,7 +93,7 @@ private:
     int m_producer;
     CLIPTYPE m_clipType;
     QString m_clipName;
-    GenTime m_maxDuration;
+
 
     int m_maxTrack;
 
