@@ -44,7 +44,6 @@ public:
                        const QStyleOptionGraphicsItem *option,
                        QWidget *widget);
     virtual int type() const;
-    void moveTo(int x, double scale, double offset, int newTrack);
     void resizeStart(int posx, double scale);
     void resizeEnd(int posx, double scale);
     OPERATIONTYPE operationMode(QPointF pos, double scale);

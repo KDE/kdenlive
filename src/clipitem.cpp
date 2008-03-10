@@ -535,46 +535,6 @@ void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *) {
     update();
 }
 
-void ClipItem::moveTo(int x, double scale, double offset, int newTrack) {
-    double origX = rect().x();
-    double origY = rect().y();
-    bool success = true;
-    if (x < 0) return;
-    setRect(x * scale, origY + offset, rect().width(), rect().height());
-    QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
-    if (collisionList.size() == 0) m_track = newTrack;
-    for (int i = 0; i < collisionList.size(); ++i) {
-        QGraphicsItem *item = collisionList.at(i);
-        if (item->type() == 70000) {
-            if (offset == 0) {
-                QRectF other = ((QGraphicsRectItem *)item)->rect();
-                if (x < m_startPos.frames(m_fps)) {
-                    kDebug() << "COLLISION, MOVING TO------";
-                    m_startPos = ((ClipItem *)item)->endPos() + GenTime(1, m_fps);
-                    origX = m_startPos.frames(m_fps) * scale;
-                } else {
-                    kDebug() << "COLLISION, MOVING TO+++";
-                    m_startPos = ((ClipItem *)item)->startPos() - m_cropDuration;
-                    origX = m_startPos.frames(m_fps) * scale;
-                }
-            }
-            setRect(origX, origY, rect().width(), rect().height());
-            offset = 0;
-            origX = rect().x();
-            success = false;
-            break;
-        }
-    }
-    if (success) {
-        m_track = newTrack;
-        m_startPos = GenTime(x, m_fps);
-    }
-    /*    QList <QGraphicsItem *> childrenList = QGraphicsItem::children();
-        for (int i = 0; i < childrenList.size(); ++i) {
-          childrenList.at(i)->moveBy(rect().x() - origX , offset);
-        }*/
-}
-
 void ClipItem::resizeStart(int posx, double scale) {
     GenTime durationDiff = GenTime(posx, m_fps) - m_startPos;
     if (durationDiff == GenTime()) return;

@@ -347,7 +347,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 else if (m_operationMode == RESIZEEND)
                     m_startPos = QPointF(m_dragItem->endPos().frames(m_document->fps()), m_dragItem->track());
                 else if (m_operationMode == TRANSITIONSTART) {
-                    Transition *tr = new Transition(QRect(10 , 10, 20, 20), (ClipItem*)m_dragItem, LUMA_TRANSITION, m_dragItem->startPos(), m_dragItem->startPos() + GenTime(2.5), m_document->fps());
+                    Transition *tr = new Transition(QRect(m_dragItem->rect().x() , m_dragItem->rect().height() / 2, (m_dragItem->startPos() + GenTime(2.5)).frames(25.0) ,  m_dragItem->rect().height()), (ClipItem*)m_dragItem, LUMA_TRANSITION, m_dragItem->startPos(), m_dragItem->startPos() + GenTime(2.5), m_document->fps());
                     scene()->addItem(tr);
                     //m_dragItem->addTransition(tra);
                 }
@@ -719,8 +719,8 @@ void CustomTrackView::setScale(double scaleFactor) {
     QList<QGraphicsItem *> itemList = items();
 
     for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->type() == 70000) {
-            ClipItem *clip = (ClipItem *)itemList.at(i);
+        if (itemList.at(i)->type() == 70000 || itemList.at(i)->type() == 70001) {
+            AbstractClipItem *clip = (AbstractClipItem *)itemList.at(i);
             clip->setRect(clip->startPos().frames(m_document->fps()) * m_scale, clip->rect().y(), clip->duration().frames(m_document->fps()) * m_scale, clip->rect().height());
         }
     }

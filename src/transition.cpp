@@ -18,6 +18,10 @@
 #include <QBrush>
 #include <qdom.h>
 #include <QPainter>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QScrollBar>
+#include <QStyleOptionGraphicsItem>
 
 #include <kdebug.h>
 #include <KIcon>
@@ -36,8 +40,8 @@ Transition::Transition(const QRectF& rect , ClipItem * clipa, const TRANSITIONTY
     m_transitionType = type;
     m_transitionName = getTransitionName(m_transitionType);
     m_fps = fps;
-    GenTime duration = endTime - startTime;
-
+    m_cropDuration = endTime - startTime;
+    m_startPos = startTime;
     // Default duration = 2.5 seconds
     GenTime defaultTransitionDuration = GenTime(2.5);
 
@@ -46,11 +50,12 @@ Transition::Transition(const QRectF& rect , ClipItem * clipa, const TRANSITIONTY
     else if (startTime > m_referenceClip->endPos()) m_transitionStart = m_referenceClip->duration() - defaultTransitionDuration;
     else m_transitionStart = startTime - m_referenceClip->startPos();
 
-    if (m_transitionStart + duration > m_referenceClip->duration())
+    if (m_transitionStart + m_cropDuration > m_referenceClip->duration())
         m_transitionDuration = m_referenceClip->duration() - m_transitionStart;
-    else m_transitionDuration = duration;
+    else m_transitionDuration = m_cropDuration;
     m_secondClip = 0;
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    setZValue(2);
 }
 
 // create a transition from XML
@@ -218,7 +223,52 @@ GenTime Transition::transitionEndTime() const {
 void Transition::paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
                        QWidget *widget) {
-    painter->fillRect(rect(), QBrush(Qt::green));
+    QRect rectInView;//this is the rect that is visible by the user
+    if (scene()->views().size() > 0) {
+        rectInView = scene()->views()[0]->viewport()->rect();
+        rectInView.moveTo(scene()->views()[0]->horizontalScrollBar()->value(), scene()->views()[0]->verticalScrollBar()->value());
+        rectInView.adjust(-10, -10, 10, 10);//make view rect 10 pixel greater on each site, or repaint after scroll event
+        //kDebug() << scene()->views()[0]->viewport()->rect() << " " <<  scene()->views()[0]->horizontalScrollBar()->value();
+    }
+    if (rectInView.isNull())
+        return;
+    QPainterPath clippath;
+    clippath.addRect(rectInView);
+    QRectF br = rect();
+    QPainterPath roundRectPathUpper, roundRectPathLower;
+    double roundingY = 20;
+    double roundingX = 20;
+    double offset = 1;
+    painter->setClipRect(option->exposedRect);
+    if (roundingX > br.width() / 2) roundingX = br.width() / 2;
+
+    int br_endx = (int)(br.x() + br .width() - offset);
+    int br_startx = (int)(br.x() + offset);
+    int br_starty = (int)(br.y());
+    int br_halfy = (int)(br.y() + br.height() / 2 - offset);
+    int br_endy = (int)(br.y() + br.height());
+
+
+    // build path around clip
+    roundRectPathUpper.moveTo(br_endx , br_halfy);
+    roundRectPathUpper.arcTo(br_endx - roundingX  , br_starty , roundingX, roundingY, 0.0, 90.0);
+    roundRectPathUpper.lineTo(br_startx + roundingX , br_starty);
+    roundRectPathUpper.arcTo(br_startx , br_starty , roundingX, roundingY, 90.0, 90.0);
+    roundRectPathUpper.lineTo(br_startx, br_halfy);
+
+    roundRectPathLower.moveTo(br_startx , br_halfy);
+    roundRectPathLower.arcTo(br_startx , br_endy - roundingY , roundingX, roundingY, 180.0, 90.0);
+    roundRectPathLower.lineTo(br_endx - roundingX , br_endy);
+    roundRectPathLower.arcTo(br_endx - roundingX , br_endy - roundingY, roundingX, roundingY, 270.0, 90.0);
+    roundRectPathLower.lineTo(br_endx , br_halfy);
+
+    QPainterPath resultClipPath = roundRectPathUpper.united(roundRectPathLower);
+
+    painter->setClipPath(resultClipPath.intersected(clippath), Qt::IntersectClip);
+    //painter->fillPath(roundRectPath, brush()); //, QBrush(QColor(Qt::red)));
+    painter->fillRect(br.intersected(rectInView), QBrush(QColor(200, 200, 0, 160)));
+    painter->setClipRect(option->exposedRect);
+    painter->drawPath(resultClipPath.intersected(clippath));
 }
 
 int Transition::type() const {

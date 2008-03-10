@@ -14,7 +14,7 @@ void AbstractClipItem::moveTo(int x, double scale, double offset, int newTrack) 
     if (collisionList.size() == 0) m_track = newTrack;
     for (int i = 0; i < collisionList.size(); ++i) {
         QGraphicsItem *item = collisionList.at(i);
-        if (item->type() == 70000 || item->type() == 70001) {
+        if (item->type() == type()) {
             if (offset == 0) {
                 QRectF other = ((QGraphicsRectItem *)item)->rect();
                 if (x < m_startPos.frames(m_fps)) {
