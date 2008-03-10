@@ -124,7 +124,7 @@ private:
     bool m_hover;
 
     EffectsList m_effectList;
-    QList <Transition *> m_transitionsList;
+    QList <Transition> m_transitionsList;
     QMap<int, QPixmap> audioThumbCachePic;
     bool audioThumbWasDrawn, audioThumbReady;
     double framePixelWidth;

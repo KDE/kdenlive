@@ -81,12 +81,12 @@ ClipItem::ClipItem(DocClipBase *clip, int track, GenTime startpos, const QRectF 
         connect(endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
 
     } else if (m_clipType == COLOR) {
-	m_maxDuration = GenTime(10000, m_fps);
+        m_maxDuration = GenTime(10000, m_fps);
         QString colour = m_xml.attribute("colour");
         colour = colour.replace(0, 2, "#");
         setBrush(QColor(colour.left(7)));
     } else if (m_clipType == IMAGE) {
-	m_maxDuration = GenTime(10000, m_fps);
+        m_maxDuration = GenTime(10000, m_fps);
         m_startPix = KThumb::getImage(KUrl(m_xml.attribute("resource")), (int)(50 * KdenliveSettings::project_display_ratio()), 50);
     } else if (m_clipType == AUDIO) {
         connect(clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
@@ -244,11 +244,13 @@ void ClipItem::paint(QPainter *painter,
         if (!false) /*TRANSITIONEND to lower clip*/
             right_lower = 40;
     }
+
+    // draw transitions
     QList<QPainterPath> transitionPath;
-    foreach(Transition* transition, m_transitionsList) {
+    foreach(Transition transition, m_transitionsList) {
         QPainterPath t;
         //t.addRect(br_startx,br.y()+br.height()/2,br.x() + /*t->transitionDuration().frames(m_fps) *pixelForOneFrame*/5 ,br.y()+br.height()*2);
-        int twidth = br_startx + transition->transitionDuration().frames(m_fps) *scale;
+        int twidth = br_startx + transition.transitionDuration().frames(m_fps) * scale;
         t.moveTo(br_startx + twidth , br_endy);
         t.lineTo(br_startx + twidth , br_halfy + roundingY);
 
@@ -259,6 +261,7 @@ void ClipItem::paint(QPainter *painter,
         //t.closeSubpath();
         transitionPath.append(t);
     }
+
     // build path around clip
     roundRectPathUpper.moveTo(br_endx - right_upper , br_halfy);
     roundRectPathUpper.arcTo(br_endx - roundingX - right_upper , br_starty , roundingX, roundingY, 0.0, 90.0);
@@ -768,7 +771,7 @@ void ClipItem::deleteEffect(QString index) {
 }
 
 void ClipItem::addTransition(Transition tr) {
-    m_transitionsList.append(&tr);
+    m_transitionsList.append(tr);
     update();
 }
 
