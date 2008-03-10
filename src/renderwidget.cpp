@@ -126,7 +126,7 @@ void RenderWidget::slotSaveProfile() {
         QTextStream out(&file);
         out << doc.toString();
         file.close();
-        parseProfiles();
+        parseProfiles(newGroupName, newProfileName);
     }
     delete d;
 }
@@ -173,7 +173,7 @@ void RenderWidget::slotDeleteProfile() {
     QTextStream out(&file);
     out << doc.toString();
     file.close();
-    parseProfiles();
+    parseProfiles(currentGroup);
 }
 
 void RenderWidget::slotExport() {
@@ -236,7 +236,7 @@ void RenderWidget::refreshParams() {
     else m_view.buttonDelete->setEnabled(true);
 }
 
-void RenderWidget::parseProfiles() {
+void RenderWidget::parseProfiles(QString group, QString profile) {
     m_view.size_list->clear();
     m_view.format_list->clear();
     QString exportFile = KStandardDirs::locate("data", "kdenlive/export/profiles.xml");
@@ -244,6 +244,11 @@ void RenderWidget::parseProfiles() {
     exportFile = KStandardDirs::locateLocal("data", "kdenlive/export/customprofiles.xml");
     parseFile(exportFile, true);
     refreshView();
+    QList<QListWidgetItem *> child;
+    child = m_view.format_list->findItems(group, Qt::MatchExactly);
+    if (!child.isEmpty()) m_view.format_list->setCurrentItem(child.at(0));
+    child = m_view.size_list->findItems(profile, Qt::MatchExactly);
+    if (!child.isEmpty()) m_view.size_list->setCurrentItem(child.at(0));
 }
 
 void RenderWidget::parseFile(QString exportFile, bool editable) {
