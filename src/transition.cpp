@@ -17,6 +17,7 @@
 
 #include <QBrush>
 #include <qdom.h>
+#include <QPainter>
 
 #include <kdebug.h>
 #include <KIcon>
@@ -27,14 +28,14 @@
 #include "kdenlivesettings.h"
 
 
-Transition::Transition(ClipItem * clipa, const TRANSITIONTYPE & type, const GenTime &startTime, const GenTime &endTime, bool inverted) {
+Transition::Transition(const QRectF& rect , ClipItem * clipa, const TRANSITIONTYPE & type, const GenTime &startTime, const GenTime &endTime, double fps, bool inverted) : AbstractClipItem(rect) {
     m_invertTransition = inverted;
     m_singleClip = true;
     m_transitionTrack = 0;
     m_secondClip = NULL;
     m_transitionType = type;
     m_transitionName = getTransitionName(m_transitionType);
-
+    m_fps = fps;
     GenTime duration = endTime - startTime;
 
     // Default duration = 2.5 seconds
@@ -49,10 +50,11 @@ Transition::Transition(ClipItem * clipa, const TRANSITIONTYPE & type, const GenT
         m_transitionDuration = m_referenceClip->duration() - m_transitionStart;
     else m_transitionDuration = duration;
     m_secondClip = 0;
+    setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 }
 
 // create a transition from XML
-Transition::Transition(ClipItem * clip, QDomElement transitionElement, GenTime offset) {
+Transition::Transition(const QRectF& rect , ClipItem * clip, QDomElement transitionElement, double fps, GenTime offset) : AbstractClipItem(rect) {
     if (offset == GenTime()) offset = clip->startPos();
     m_referenceClip = clip;
     m_singleClip = true;
@@ -83,6 +85,7 @@ Transition::Transition(ClipItem * clip, QDomElement transitionElement, GenTime o
     // Check if transition is valid (not outside of clip)
     if (m_transitionStart > clip->duration())
         m_transitionDuration = GenTime();
+
 }
 
 Transition::~Transition() {
@@ -212,8 +215,18 @@ GenTime Transition::transitionEndTime() const {
         return m_referenceClip->startPos() + m_transitionStart + m_transitionDuration;
     }
 }
+void Transition::paint(QPainter *painter,
+                       const QStyleOptionGraphicsItem *option,
+                       QWidget *widget) {
+    painter->fillRect(rect(), QBrush(Qt::green));
+}
 
-
+int Transition::type() const {
+    return 70001;
+}
+OPERATIONTYPE Transition::operationMode(QPointF pos, double scale) {
+    return MOVE;
+}
 void Transition::resizeTransitionStart(GenTime time) {
     if (!m_singleClip) return; //cannot resize automatic transitions
     if (time < m_referenceClip->startPos()) time = m_referenceClip->startPos();
@@ -251,7 +264,7 @@ bool Transition::belongsToClip(const ClipItem * clip) const {
 }
 
 Transition *Transition::clone() {
-    return new Transition::Transition(m_referenceClip, this->toXML());
+    return new Transition::Transition(rect(), m_referenceClip, this->toXML() , m_fps);
     /*if (m_singleClip || m_secondClip == 0)
         return new Transition::Transition(m_referenceClip);
     else
@@ -261,7 +274,7 @@ Transition *Transition::clone() {
 }
 
 Transition *Transition::reparent(ClipItem * clip) {
-    return new Transition::Transition(clip, this->toXML(), m_referenceClip->startPos());
+    return new Transition::Transition(rect(), clip, this->toXML(), m_fps, m_referenceClip->startPos());
 }
 
 bool Transition::isValid() const {
@@ -297,3 +310,18 @@ QDomElement Transition::toXML() {
     return effect;
 }
 
+GenTime Transition::startPos() const {
+    return GenTime();
+}
+
+GenTime Transition::endPos() const {
+    return GenTime();
+}
+
+int Transition::track() const {
+    return 0;
+}
+
+GenTime Transition::duration() const {
+    return GenTime();
+}

@@ -85,6 +85,7 @@ set(kdenlive_SRCS
   transition.cpp
   renderjob.cpp
   renderwidget.cpp
+  abstractclipitem.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

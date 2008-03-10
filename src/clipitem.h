@@ -32,9 +32,9 @@
 #include "docclipbase.h"
 #include "kthumb.h"
 #include "transition.h"
+#include "abstractclipitem.h"
 
-
-class ClipItem : public QObject, public QGraphicsRectItem {
+class ClipItem : public AbstractClipItem {
     Q_OBJECT
 
 public:
@@ -53,16 +53,9 @@ public:
     DocClipBase *baseClip();
     QString clipName();
     GenTime maxDuration() const;
-    int track() const;
-    void setTrack(int track);
-    GenTime startPos() const;
     GenTime cropStart() const;
-    GenTime endPos() const;
-    GenTime duration() const;
-    double fps() const;
     QDomElement xml() const;
-    int fadeIn() const;
-    int fadeOut() const;
+
     void setFadeOut(int pos, double scale);
     void setFadeIn(int pos, double scale);
     /** Give a string list of the clip's effect names */
@@ -82,7 +75,6 @@ public:
     /** Replace effect at pos ix with given value */
     void setEffectAt(int ix, QDomElement effect);
     void flashClip();
-    void addTransition(Transition tr);
 
 protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
@@ -103,24 +95,21 @@ private:
     CLIPTYPE m_clipType;
     QString m_clipName;
     GenTime m_maxDuration;
-    GenTime m_cropStart;
-    GenTime m_cropDuration;
+
     int m_maxTrack;
-    int m_track;
-    GenTime m_startPos;
+
+
     QPixmap m_startPix;
     QPixmap m_endPix;
     bool m_hasThumbs;
     QTimer *startThumbTimer;
     QTimer *endThumbTimer;
-    uint m_startFade;
-    uint m_endFade;
+
     /** counter used to provide a unique id to each effect */
     int m_effectsCounter;
     double m_opacity;
     QTimeLine *m_timeLine;
     uint m_thumbsRequested;
-    double m_fps;
     bool m_hover;
 
     EffectsList m_effectList;

@@ -39,9 +39,12 @@
 #include "kdenlivesettings.h"
 
 ClipItem::ClipItem(DocClipBase *clip, int track, GenTime startpos, const QRectF & rect, GenTime duration, double fps)
-        : QGraphicsRectItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_track(track), m_startPos(startpos), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_startFade(0), m_endFade(0), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_thumbsRequested(0), m_fps(fps), m_hover(false) {
+        : AbstractClipItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_thumbsRequested(0), m_hover(false) {
     //setToolTip(name);
     // kDebug() << "*******  CREATING NEW TML CLIP, DUR: " << duration;
+    m_fps = fps;
+    m_startPos = startpos;
+    m_track = track;
     m_xml = clip->toXML();
     m_clipName = clip->name();
     m_producer = clip->getId();
@@ -155,24 +158,8 @@ GenTime ClipItem::maxDuration() const {
     return m_maxDuration;
 }
 
-GenTime ClipItem::duration() const {
-    return m_cropDuration;
-}
-
-GenTime ClipItem::startPos() const {
-    return m_startPos;
-}
-
 GenTime ClipItem::cropStart() const {
     return m_cropStart;
-}
-
-GenTime ClipItem::endPos() const {
-    return m_startPos + m_cropDuration;
-}
-
-double ClipItem::fps() const {
-    return m_fps;
 }
 
 void ClipItem::flashClip() {
@@ -245,23 +232,6 @@ void ClipItem::paint(QPainter *painter,
             right_lower = 40;
     }
 
-    // draw transitions
-    QList<QPainterPath> transitionPath;
-    foreach(Transition transition, m_transitionsList) {
-        QPainterPath t;
-        //t.addRect(br_startx,br.y()+br.height()/2,br.x() + /*t->transitionDuration().frames(m_fps) *pixelForOneFrame*/5 ,br.y()+br.height()*2);
-        int twidth = br_startx + transition.transitionDuration().frames(m_fps) * scale;
-        t.moveTo(twidth , br_endy);
-        t.lineTo(twidth , br_halfy + roundingY);
-
-        t.arcTo(twidth - roundingX , br_halfy , roundingX, roundingY,  0.0, 90.0);
-        t.lineTo(br_startx +  roundingX , br_halfy);
-        t.arcTo(br_startx , br_halfy, roundingX , roundingY,  90.0, 90.0);
-        t.lineTo(br_startx , br_endy);
-        //t.closeSubpath();
-        transitionPath.append(t);
-    }
-
     // build path around clip
     roundRectPathUpper.moveTo(br_endx - right_upper , br_halfy);
     roundRectPathUpper.arcTo(br_endx - roundingX - right_upper , br_starty , roundingX, roundingY, 0.0, 90.0);
@@ -276,9 +246,7 @@ void ClipItem::paint(QPainter *painter,
     roundRectPathLower.lineTo(br_endx - right_lower , br_halfy);
 
     QPainterPath resultClipPath = roundRectPathUpper.united(roundRectPathLower);
-    foreach(QPainterPath p, transitionPath) {
-        resultClipPath = resultClipPath.united(p);
-    }
+
     painter->setClipPath(resultClipPath.intersected(clippath), Qt::IntersectClip);
     //painter->fillPath(roundRectPath, brush()); //, QBrush(QColor(Qt::red)));
     painter->fillRect(br.intersected(rectInView), paintColor);
@@ -397,11 +365,6 @@ void ClipItem::paint(QPainter *painter,
     if (isSelected()) painter->setPen(pen);
     painter->setClipRect(option->exposedRect);
     painter->drawPath(resultClipPath.intersected(clippath));
-    foreach(QPainterPath p, transitionPath) {
-
-        painter->fillPath(p, QBrush(QColor(255, 255, 0, 100)));
-        painter->drawPath(p);
-    }
 
     //painter->fillRect(startpixel,0,startpixel+endpixel,(int)br.height(),  QBrush(QColor(255,255,255,150)));
     //painter->fillRect(QRect(br.x(), br.y(), roundingX, roundingY), QBrush(QColor(Qt::green)));
@@ -438,6 +401,7 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos, double scale) {
     else if (abs((int)(pos.x() - (rect().x() + rect().width()))) < 6) return RESIZEEND;
     else if (abs((int)(pos.x() - (rect().x() + 10))) < 6 && abs((int)(pos.y() - (rect().y() + rect().height() / 2 - 5))) < 6) return TRANSITIONSTART;
     else if (abs((int)(pos.x() - (rect().x() + rect().width() - 20))) < 6 && abs((int)(pos.y() - (rect().y() + rect().height() / 2 - 5))) < 6) return TRANSITIONEND;
+
     return MOVE;
 }
 
@@ -521,13 +485,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, QPainterPath path,
     //}
 }
 
-int ClipItem::fadeIn() const {
-    return m_startFade;
-}
 
-int ClipItem::fadeOut() const {
-    return m_endFade;
-}
 
 void ClipItem::setFadeIn(int pos, double scale) {
     int oldIn = m_startFade;
@@ -673,14 +631,6 @@ void ClipItem::resizeEnd(int posx, double scale) {
 void ClipItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event) {
 }
 
-int ClipItem::track() const {
-    return  m_track;
-}
-
-void ClipItem::setTrack(int track) {
-    m_track = track;
-}
-
 int ClipItem::effectsCounter() {
     return m_effectsCounter++;
 }
@@ -768,11 +718,6 @@ void ClipItem::deleteEffect(QString index) {
     }
     flashClip();
     update(boundingRect());
-}
-
-void ClipItem::addTransition(Transition tr) {
-    m_transitionsList.append(tr);
-    update();
 }
 
 //virtual

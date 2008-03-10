@@ -20,13 +20,13 @@
 
 #include <QString>
 #include <QGraphicsRectItem>
-#include <qpixmap.h>
+#include <QPixmap>
 #include <qdom.h>
-#include <qmap.h>
+#include <QMap>
 
 #include "gentime.h"
 #include "definitions.h"
-
+#include "abstractclipitem.h"
 
 /**Describes a Transition, with a name, parameters keyframes, etc.
   *@author Jean-Baptiste Mardelle
@@ -34,13 +34,17 @@
 
 class ClipItem;
 
-class Transition {
+class Transition : public AbstractClipItem {
+    Q_OBJECT
 public:
 
-    Transition(ClipItem * clipa, const TRANSITIONTYPE & type, const GenTime &startTime, const GenTime &endTime, bool inverted = false);
-    Transition(ClipItem * clip, QDomElement transitionElement, GenTime offset = GenTime());
-    ~Transition();
-
+    Transition(const QRectF&, ClipItem * clipa, const TRANSITIONTYPE & type, const GenTime &startTime, const GenTime &endTime, double fps, bool inverted = false);
+    Transition(const QRectF&, ClipItem * clip, QDomElement transitionElement, double fps, GenTime offset = GenTime());
+    virtual ~Transition();
+    virtual void paint(QPainter *painter,
+                       const QStyleOptionGraphicsItem *option,
+                       QWidget *widget);
+    virtual int type() const;
     /** Returns an XML representation of this transition. */
     QDomElement toXML();
 
@@ -57,6 +61,7 @@ public:
     void moveTransition(GenTime time);
     bool invertTransition() const;
     TRANSITIONTYPE transitionType() const;
+    OPERATIONTYPE operationMode(QPointF pos, double scale);
     QString transitionTag() const;
     QString transitionName() const;
     void setTransitionType(TRANSITIONTYPE newType);
@@ -70,7 +75,10 @@ public:
     bool isValid() const;
     GenTime transitionDuration() const;
     const ClipItem *referencedClip() const;
-
+    GenTime startPos() const;
+    GenTime endPos() const;
+    int track() const;
+    GenTime duration() const;
 private:
 
     GenTime m_transitionStart;

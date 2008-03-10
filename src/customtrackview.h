@@ -85,7 +85,7 @@ private:
     QPointF m_startPos;
     OPERATIONTYPE m_operationMode;
     OPERATIONTYPE m_moveOpMode;
-    ClipItem *m_dragItem;
+    AbstractClipItem *m_dragItem;
     KUndoStack *m_commandStack;
     QGraphicsItem *m_visualTip;
     QGraphicsItemAnimation *m_animation;
@@ -95,7 +95,7 @@ private:
     double m_scale;
     int m_clickPoint;
     QList <GenTime> m_snapPoints;
-    void updateSnapPoints(ClipItem *selected);
+    void updateSnapPoints(AbstractClipItem *selected);
     double getSnapPointForPos(double pos);
     ClipItem *getClipItemAt(int pos, int track);
     ClipItem *getClipItemAt(GenTime pos, int track);

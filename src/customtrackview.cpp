@@ -98,7 +98,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
             // a button was pressed, delete visual tips
             if (m_operationMode == MOVE) {
                 double snappedPos = getSnapPointForPos(mapToScene(event->pos()).x() - m_clickPoint);
-                //kDebug()<<"///////  MOVE CLIP, EVENT Y: "<<event->scenePos().y()<<", SCENE HEIGHT: "<<scene()->sceneRect().height();
+                kDebug() << "///////  MOVE CLIP, EVENT Y: ";//<<event->scenePos().y()<<", SCENE HEIGHT: "<<scene()->sceneRect().height();
                 int moveTrack = (int)  mapToScene(event->pos()).y() / 50;
                 int currentTrack = m_dragItem->track();
 
@@ -132,17 +132,18 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
 
         QList<QGraphicsItem *> itemList = items(event->pos());
         int i = 0;
-        QGraphicsItem *item = NULL;
+        QGraphicsRectItem *item = NULL;
         for (int i = 0; i < itemList.count(); i++) {
-            if (itemList.at(i)->type() == 70000) {
-                item = itemList.at(i);
+            if (itemList.at(i)->type() == 70000 || itemList.at(i)->type() == 70001) {
+                item = (QGraphicsRectItem*) itemList.at(i);
                 break;
             }
         }
         if (item && event->buttons() == Qt::NoButton) {
-            ClipItem *clip = (ClipItem*) item;
+            AbstractClipItem *clip = (AbstractClipItem*) item;
+            OPERATIONTYPE opMode = opMode = clip->operationMode(mapToScene(event->pos()), m_scale);
             double size = 8;
-            OPERATIONTYPE opMode = clip->operationMode(mapToScene(event->pos()), m_scale);
+
             if (opMode == m_moveOpMode) {
                 QGraphicsView::mouseMoveEvent(event);
                 return;
@@ -324,7 +325,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         QList<QGraphicsItem *> collisionList = items(event->pos());
         for (int i = 0; i < collisionList.size(); ++i) {
             QGraphicsItem *item = collisionList.at(i);
-            if (item->type() == 70000) {
+            if (item->type() == 70000 || item->type() == 70001) {
                 // select item
                 if (!item->isSelected()) {
                     QList<QGraphicsItem *> itemList = items();
@@ -333,8 +334,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                     item->setSelected(true);
                     update();
                 }
-                m_dragItem = (ClipItem *) item;
-                emit clipItemSelected(m_dragItem);
+
+                m_dragItem = (AbstractClipItem *) item;
+                if (item->type() == 70000) {
+                    emit clipItemSelected((ClipItem*) m_dragItem);
+                }
                 m_clickPoint = mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps()) * m_scale;
                 m_operationMode = m_dragItem->operationMode(item->mapFromScene(mapToScene(event->pos())), m_scale);
                 if (m_operationMode == MOVE) setCursor(Qt::ClosedHandCursor);
@@ -343,9 +347,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 else if (m_operationMode == RESIZEEND)
                     m_startPos = QPointF(m_dragItem->endPos().frames(m_document->fps()), m_dragItem->track());
                 else if (m_operationMode == TRANSITIONSTART) {
-                    Transition tra(m_dragItem, LUMA_TRANSITION, m_dragItem->startPos(), m_dragItem->startPos() + GenTime(2.5));
-                    m_dragItem->addTransition(tra);
+                    Transition *tr = new Transition(QRect(10 , 10, 20, 20), (ClipItem*)m_dragItem, LUMA_TRANSITION, m_dragItem->startPos(), m_dragItem->startPos() + GenTime(2.5), m_document->fps());
+                    scene()->addItem(tr);
+                    //m_dragItem->addTransition(tra);
                 }
+
                 kDebug() << "//////// ITEM CLICKED: " << m_startPos;
                 collision = true;
                 break;
@@ -681,7 +687,7 @@ double CustomTrackView::getSnapPointForPos(double pos) {
     return pos;
 }
 
-void CustomTrackView::updateSnapPoints(ClipItem *selected) {
+void CustomTrackView::updateSnapPoints(AbstractClipItem *selected) {
     m_snapPoints.clear();
     GenTime offset;
     if (selected) offset = selected->duration();
