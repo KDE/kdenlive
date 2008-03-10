@@ -89,7 +89,12 @@ void RenderJob::slotIsOver(int exitcode, QProcess::ExitStatus status) {
         QFile f(m_scenelist);
         f.remove();
     }
-    if (m_player != "-") {
+    if (status == QProcess::CrashExit) {
+        // rendering crashed
+        QStringList args;
+        args << "--error" << tr("Rendering of %1 aborted, resulting video will probably be corrupted.").arg(m_dest);
+        QProcess::startDetached("kdialog", args);
+    } else if (m_player != "-") {
         QStringList args;
         args << m_dest;
         QProcess::startDetached(m_player, args);
