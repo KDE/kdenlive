@@ -267,13 +267,13 @@ void Transition::paint(QPainter *painter,
 
     painter->setClipPath(resultClipPath.intersected(clippath), Qt::IntersectClip);
     //painter->fillPath(roundRectPath, brush()); //, QBrush(QColor(Qt::red)));
-    painter->fillRect(br.intersected(rectInView), QBrush(QColor(200, 200, 0, 160)));
+    painter->fillRect(br.intersected(rectInView), QBrush(QColor(200, 200, 0, 160)/*,Qt::Dense4Pattern*/));
     painter->setClipRect(option->exposedRect);
     painter->drawPath(resultClipPath.intersected(clippath));
 }
 
 int Transition::type() const {
-    return 70001;
+    return TRANSITIONWIDGET;
 }
 OPERATIONTYPE Transition::operationMode(QPointF pos, double scale) {
     if (abs((int)(pos.x() - rect().x())) < 6) return RESIZESTART;

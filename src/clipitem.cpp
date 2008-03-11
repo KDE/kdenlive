@@ -131,7 +131,7 @@ void ClipItem::slotGotAudioData() {
 }
 
 int ClipItem::type() const {
-    return 70000;
+    return AVWIDGET;
 }
 
 DocClipBase *ClipItem::baseClip() {

@@ -25,6 +25,7 @@
 
 
 #include "labelitem.h"
+#include "definitions.h"
 
 LabelItem::LabelItem(QString text, QGraphicsRectItem *parent)
         : QGraphicsSimpleTextItem(" " + text + " ", parent) {
@@ -34,7 +35,7 @@ LabelItem::LabelItem(QString text, QGraphicsRectItem *parent)
 }
 
 int LabelItem::type() const {
-    return 70001;
+    return LABELWIDGET;
 }
 
 // virtual

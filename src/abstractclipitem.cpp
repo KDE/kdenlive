@@ -61,7 +61,7 @@ void AbstractClipItem::resizeStart(int posx, double scale) {
     if (durationDiff == GenTime()) return;
     //kDebug() << "-- RESCALE: CROP=" << m_cropStart << ", DIFF = " << durationDiff;
 
-    if (m_cropStart + durationDiff < GenTime() && type() == 70000) {
+    if (m_cropStart + durationDiff < GenTime() && type() == AVWIDGET) {
         durationDiff = GenTime() - m_cropStart;
     } else if (durationDiff >= m_cropDuration) {
         durationDiff = m_cropDuration - GenTime(3, m_fps);

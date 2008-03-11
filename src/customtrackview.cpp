@@ -99,7 +99,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
             if (m_operationMode == MOVE) {
                 double snappedPos = getSnapPointForPos(mapToScene(event->pos()).x() - m_clickPoint);
                 kDebug() << "///////  MOVE CLIP, EVENT Y: ";//<<event->scenePos().y()<<", SCENE HEIGHT: "<<scene()->sceneRect().height();
-                int moveTrack = (int)  mapToScene(event->pos() - QPoint(0, (m_dragItem->type() == 70001 ? 25 : 0))).y() / 50;
+                int moveTrack = (int)  mapToScene(event->pos() - QPoint(0, (m_dragItem->type() == TRANSITIONWIDGET ? 25 : 0))).y() / 50;
                 int currentTrack = m_dragItem->track();
 
                 if (moveTrack > m_tracksCount - 1) moveTrack = m_tracksCount - 1;
@@ -134,7 +134,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
         int i = 0;
         QGraphicsRectItem *item = NULL;
         for (int i = 0; i < itemList.count(); i++) {
-            if (itemList.at(i)->type() == 70000 || itemList.at(i)->type() == 70001) {
+            if (itemList.at(i)->type() == AVWIDGET || itemList.at(i)->type() == TRANSITIONWIDGET) {
                 item = (QGraphicsRectItem*) itemList.at(i);
                 break;
             }
@@ -325,7 +325,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         QList<QGraphicsItem *> collisionList = items(event->pos());
         for (int i = 0; i < collisionList.size(); ++i) {
             QGraphicsItem *item = collisionList.at(i);
-            if (item->type() == 70000 || item->type() == 70001) {
+            if (item->type() == AVWIDGET || item->type() == TRANSITIONWIDGET) {
                 // select item
                 if (!item->isSelected()) {
                     QList<QGraphicsItem *> itemList = items();
@@ -336,7 +336,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 }
 
                 m_dragItem = (AbstractClipItem *) item;
-                if (item->type() == 70000) {
+                if (item->type() == AVWIDGET) {
                     emit clipItemSelected((ClipItem*) m_dragItem);
                 }
                 m_clickPoint = mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps()) * m_scale;
@@ -432,7 +432,7 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track) 
     }
     kDebug() << "// REQUESTING EFFECT ON CLIP: " << pos.frames(25) << ", TRK: " << track;
     for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->type() == 70000 && (itemList.at(i)->isSelected() || track != -1)) {
+        if (itemList.at(i)->type() == AVWIDGET && (itemList.at(i)->isSelected() || track != -1)) {
             ClipItem *item = (ClipItem *)itemList.at(i);
             // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
             // not be changed
@@ -554,7 +554,7 @@ void CustomTrackView::removeTrack() {
 void CustomTrackView::deleteClip(int clipId) {
     QList<QGraphicsItem *> itemList = items();
     for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->type() == 70000) {
+        if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = (ClipItem *)itemList.at(i);
             if (item->clipProducer() == clipId) {
                 AddTimelineClipCommand *command = new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->track(), item->startPos(), item->rect(), item->duration(), true, true);
@@ -698,7 +698,7 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected) {
     if (selected) offset = selected->duration();
     QList<QGraphicsItem *> itemList = items();
     for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->type() == 70000 && itemList.at(i) != selected) {
+        if (itemList.at(i)->type() == AVWIDGET && itemList.at(i) != selected) {
             ClipItem *item = (ClipItem *)itemList.at(i);
             GenTime start = item->startPos();
             GenTime end = item->endPos();
@@ -724,7 +724,7 @@ void CustomTrackView::setScale(double scaleFactor) {
     QList<QGraphicsItem *> itemList = items();
 
     for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->type() == 70000 || itemList.at(i)->type() == 70001) {
+        if (itemList.at(i)->type() == AVWIDGET || itemList.at(i)->type() == TRANSITIONWIDGET) {
             AbstractClipItem *clip = (AbstractClipItem *)itemList.at(i);
             clip->setRect(clip->startPos().frames(m_document->fps()) * m_scale, clip->rect().y(), clip->duration().frames(m_document->fps()) * m_scale, clip->rect().height());
         }
