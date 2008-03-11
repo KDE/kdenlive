@@ -228,4 +228,9 @@ void Monitor::saveSceneList(QString path) {
     render->saveSceneList(path);
 }
 
+void Monitor::paintEvent(QPaintEvent * event) {
+    if (render != NULL && m_isActive) render->doRefresh();
+    QWidget::paintEvent(event);
+}
+
 #include "monitor.moc"
