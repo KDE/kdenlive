@@ -48,7 +48,7 @@ private:
     void parseFile(QString exportFile, bool editable);
 
 signals:
-    void doRender(const QString&, const QStringList &, bool, bool);
+    void doRender(const QString&, const QString&, const QStringList &, bool, bool);
 };
 
 

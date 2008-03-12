@@ -475,7 +475,7 @@ void MainWindow::slotEditProjectSettings() {
 void MainWindow::slotRenderProject() {
     if (!m_renderWidget) {
         m_renderWidget = new RenderWidget(this);
-        connect(m_renderWidget, SIGNAL(doRender(const QString&, const QStringList &, bool, bool)), this, SLOT(slotDoRender(const QString&, const QStringList &, bool, bool)));
+        connect(m_renderWidget, SIGNAL(doRender(const QString&, const QString&, const QStringList &, bool, bool)), this, SLOT(slotDoRender(const QString&, const QString&, const QStringList &, bool, bool)));
     }
     /*TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
     if (currentTab) m_renderWidget->setTimeline(currentTab);
@@ -483,7 +483,7 @@ void MainWindow::slotRenderProject() {
     m_renderWidget->show();
 }
 
-void MainWindow::slotDoRender(const QString &dest, const QStringList &avformat_args, bool zoneOnly, bool playAfter) {
+void MainWindow::slotDoRender(const QString &dest, const QString &render, const QStringList &avformat_args, bool zoneOnly, bool playAfter) {
     if (dest.isEmpty()) return;
     int in;
     int out;
@@ -502,7 +502,7 @@ void MainWindow::slotDoRender(const QString &dest, const QStringList &avformat_a
         if (zoneOnly) args << "in=" + QString::number(in) << "out=" + QString::number(out);
         QString videoPlayer = "-";
         if (playAfter) videoPlayer = "kmplayer";
-        args << "inigo" << videoPlayer << temp.fileName() << dest << avformat_args;
+        args << "inigo" << render << videoPlayer << temp.fileName() << dest << avformat_args;
         QProcess::startDetached("kdenlive_render", args);
     }
 }
@@ -537,6 +537,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), m_activeTimeline->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
             disconnect(effectStack, SIGNAL(changeEffectState(ClipItem*, QDomElement, bool)), m_activeTimeline->projectView(), SLOT(slotChangeEffectState(ClipItem*, QDomElement, bool)));
             disconnect(effectStack, SIGNAL(refreshEffectStack(ClipItem*)), m_activeTimeline->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
+            disconnect(m_activeTimeline->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(activateMonitor()));
         }
         m_activeDocument->setRenderer(NULL);
         disconnect(m_projectList, SIGNAL(clipSelected(const QDomElement &)), m_clipMonitor, SLOT(slotSetXml(const QDomElement &)));
@@ -560,6 +561,9 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), trackView->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
     connect(effectStack, SIGNAL(changeEffectState(ClipItem*, QDomElement, bool)), trackView->projectView(), SLOT(slotChangeEffectState(ClipItem*, QDomElement, bool)));
     connect(effectStack, SIGNAL(refreshEffectStack(ClipItem*)), trackView->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
+    connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(activateMonitor()));
+
+
     m_activeTimeline = trackView;
     if (m_renderWidget) m_renderWidget->setDocumentStandard(doc->getDocumentStandard());
     m_monitorManager->setTimecode(doc->timecode());

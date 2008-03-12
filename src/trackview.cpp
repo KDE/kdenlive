@@ -31,7 +31,7 @@
 
 TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
         : QWidget(parent), m_doc(doc), m_scale(1.0), m_projectTracks(0), m_projectDuration(0) {
-    setMouseTracking(true);
+
     view = new Ui::TimeLine_UI();
     view->setupUi(this);
 

@@ -39,6 +39,14 @@
 #include "kdenlivesettings.h"
 #include "transition.h"
 
+//TODO:
+// disable animation if user asked it in KDE's global settings
+// http://lists.kde.org/?l=kde-commits&m=120398724717624&w=2
+// needs something like below (taken from dolphin)
+// #include <kglobalsettings.h>
+// const bool animate = KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects;
+// const int duration = animate ? 1500 : 1;
+
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene, QWidget *parent)
         : QGraphicsView(projectscene, parent), m_tracksCount(0), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_startPos(QPointF()), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_scale(1.0), m_clickPoint(0), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()) {
     if (doc) m_commandStack = doc->commandStack();
@@ -311,6 +319,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
 
 // virtual
 void CustomTrackView::mousePressEvent(QMouseEvent * event) {
+    activateMonitor();
     int pos = event->x();
     if (event->modifiers() == Qt::ControlModifier) {
         setDragMode(QGraphicsView::ScrollHandDrag);
@@ -376,6 +385,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
     updateSnapPoints(m_dragItem);
     //kDebug()<<pos;
     //QGraphicsView::mousePressEvent(event);
+}
+
+void CustomTrackView::activateMonitor() {
+    emit activateDocumentMonitor();
 }
 
 void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {

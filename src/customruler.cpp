@@ -90,6 +90,7 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
 
 // virtual
 void CustomRuler::mousePressEvent(QMouseEvent * event) {
+    m_view->activateMonitor();
     int pos = (event->x() + offset()) / pixelPerMark() / FRAME_SIZE;
     m_moveCursor = RULER_CURSOR;
     if (event->y() > 10) {

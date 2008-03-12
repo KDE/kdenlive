@@ -177,12 +177,14 @@ void RenderWidget::slotDeleteProfile() {
 }
 
 void RenderWidget::slotExport() {
+    QListWidgetItem *item = m_view.size_list->currentItem();
+    if (!item) return;
     QFile f(m_view.out_file->url().path());
     if (f.exists()) {
         if (KMessageBox::warningYesNo(this, i18n("File already exists. Doy you want to overwrite it ?")) != KMessageBox::Yes)
             return;
     }
-    emit doRender(m_view.out_file->url().path(), m_view.advanced_params->text().split(' '), m_view.zone_only->isChecked(), m_view.play_after->isChecked());
+    emit doRender(m_view.out_file->url().path(), item->data(RenderRole).toString(), m_view.advanced_params->text().split(' '), m_view.zone_only->isChecked(), m_view.play_after->isChecked());
 }
 
 void RenderWidget::setDocumentStandard(QString std) {

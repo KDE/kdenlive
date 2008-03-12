@@ -52,6 +52,7 @@ public:
     void addEffect(int track, GenTime pos, QDomElement effect);
     void deleteEffect(int track, GenTime pos, QDomElement effect);
     void updateEffect(int track, GenTime pos, QDomElement effect);
+    void activateMonitor();
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -110,6 +111,7 @@ signals:
     void zoomOut();
     void mousePosition(int);
     void clipItemSelected(ClipItem*);
+    void activateDocumentMonitor();
 };
 
 #endif
