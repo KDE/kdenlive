@@ -95,7 +95,7 @@ Q_OBJECT public:
     void setSceneList(QDomDocument list, int position = 0);
     void setSceneList(QString playlist, int position = 0);
     QString sceneList();
-    void saveSceneList(QString path);
+    void saveSceneList(QString path, QDomElement addedXml = QDomElement());
 
     /** Wraps the VEML command of the same name. Tells the renderer to
     play the current scene at the speed specified, relative to normal

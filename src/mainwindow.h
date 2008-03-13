@@ -62,7 +62,6 @@ private:
     QProgressBar *statusProgressBar;
     QLabel* statusLabel;
     void setupActions();
-    QString fileName;
     KdenliveDoc *m_activeDocument;
     TrackView *m_activeTimeline;
     MonitorManager *m_monitorManager;
@@ -135,6 +134,7 @@ private slots:
     void slotSwitchAudioThumbs();
     void slotRenderProject();
     void slotDoRender(const QString &dest, const QString &render, const QStringList &avformat_args, bool zoneOnly, bool playAfter);
+    void slotFullScreen();
 };
 
 #endif

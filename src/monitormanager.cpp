@@ -59,13 +59,28 @@ void MonitorManager::activateMonitor(QString name) {
     m_activeMonitor = name;
 }
 
+void MonitorManager::switchMonitors() {
+    if (m_activeMonitor == "clip") {
+        m_clipMonitor->stop();
+        m_projectMonitor->start();
+        m_projectMonitor->raise();
+        m_activeMonitor = m_projectMonitor->name();
+        emit raiseClipMonitor(false);
+    } else {
+        m_projectMonitor->stop();
+        m_clipMonitor->start();
+        m_activeMonitor = m_clipMonitor->name();
+        emit raiseClipMonitor(true);
+    }
+}
+
 void MonitorManager::slotPlay() {
     if (m_activeMonitor == "clip") m_clipMonitor->slotPlay();
     else m_projectMonitor->slotPlay();
 }
 
 void MonitorManager::resetProfiles(QString prof) {
-    //m_clipMonitor->resetProfile(prof);
+    m_clipMonitor->resetProfile(prof);
     m_projectMonitor->resetProfile(prof);
 }
 

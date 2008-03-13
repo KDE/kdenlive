@@ -57,26 +57,30 @@ MltVideoProfile ProfilesDialog::getVideoProfile(QString name) {
     QStringList profilesFilter;
     profilesFilter << "*";
     QString path;
+    bool isCustom = false;
+    if (name.contains('/')) isCustom = true;
 
-    // List the Mlt profiles
-    profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
-    if (profilesFiles.contains(name)) path = KdenliveSettings::mltpath() + "/" + name;
-
-    if (path.isEmpty()) {
+    if (!isCustom) {
+        // List the Mlt profiles
+        profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+        if (profilesFiles.contains(name)) path = KdenliveSettings::mltpath() + "/" + name;
+    }
+    if (isCustom  || path.isEmpty()) {
         // List custom profiles
-        QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
-        for (int i = 0; i < customProfiles.size(); ++i) {
-            profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
-            if (profilesFiles.contains(name)) {
-                path = customProfiles.at(i) + "/" + name;
-                break;
-            }
-        }
+        path = name;
+        /*        QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
+                for (int i = 0; i < customProfiles.size(); ++i) {
+                    profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
+                    if (profilesFiles.contains(name)) {
+                        path = customProfiles.at(i) + "/" + name;
+                        break;
+                    }
+                }*/
     }
 
     if (path.isEmpty()) return result;
     KConfig confFile(path);
-    result.path = path;
+    result.path = name;
     result.description = confFile.entryMap().value("description");
     result.frame_rate_num = confFile.entryMap().value("frame_rate_num").toInt();
     result.frame_rate_den = confFile.entryMap().value("frame_rate_den").toInt();

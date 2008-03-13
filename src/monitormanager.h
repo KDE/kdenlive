@@ -35,6 +35,7 @@ public:
     Timecode timecode();
     void setTimecode(Timecode tc);
     void resetProfiles(QString prof);
+    void switchMonitors();
 
 public slots:
     void activateMonitor(QString name = QString::null);

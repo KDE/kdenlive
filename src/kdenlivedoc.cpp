@@ -27,8 +27,10 @@
 
 #include "kdenlivedoc.h"
 #include "docclipbase.h"
+#include "profilesdialog.h"
+#include "kdenlivesettings.h"
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, MltVideoProfile profile, QUndoGroup *undoGroup, QWidget *parent): QObject(parent), m_render(NULL), m_url(url), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new KUndoStack(undoGroup)) {
+KdenliveDoc::KdenliveDoc(const KUrl &url, MltVideoProfile profile, QUndoGroup *undoGroup, QWidget *parent): QObject(parent), m_render(NULL), m_url(url), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new KUndoStack(undoGroup)), m_modified(false) {
     m_clipManager = new ClipManager(this);
     if (!url.isEmpty()) {
         QString tmpFile;
@@ -36,6 +38,12 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, MltVideoProfile profile, QUndoGroup *u
             QFile file(tmpFile);
             m_document.setContent(&file, false);
             file.close();
+            QDomNode infoXmlNode = m_document.elementsByTagName("kdenlive").at(0);
+            if (!infoXmlNode.isNull()) {
+                QDomElement infoXml = infoXmlNode.toElement();
+                QString profilePath = infoXml.attribute("profile");
+                if (!profilePath.isEmpty()) setProfilePath(profilePath);
+            }
             KIO::NetAccess::removeTempFile(tmpFile);
         } else {
             KMessageBox::error(parent, KIO::NetAccess::lastErrorString());
@@ -110,6 +118,15 @@ KdenliveDoc::~KdenliveDoc() {
     delete m_clipManager;
 }
 
+QDomElement KdenliveDoc::documentInfoXml() {
+    QDomDocument doc;
+    QDomElement addedXml = doc.createElement("kdenlive");
+    addedXml.setAttribute("version", "0.7");
+    addedXml.setAttribute("profile", profilePath());
+    return addedXml;
+}
+
+
 ClipManager *KdenliveDoc::clipManager() {
     return m_clipManager;
 }
@@ -122,6 +139,16 @@ QString KdenliveDoc::getDocumentStandard() {
 
 QString KdenliveDoc::profilePath() const {
     return m_profile.path;
+}
+
+void KdenliveDoc::setProfilePath(QString path) {
+    KdenliveSettings::setCurrent_profile(path);
+    m_profile = ProfilesDialog::getVideoProfile(path);
+    m_fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
+    m_width = m_profile.width;
+    m_height = m_profile.height;
+    if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
+    else m_timecode.setFormat((int) m_fps);
 }
 
 void KdenliveDoc::setThumbsProgress(KUrl url, int progress) {
@@ -228,6 +255,11 @@ int KdenliveDoc::height() const {
 
 KUrl KdenliveDoc::url() const {
     return m_url;
+}
+
+void KdenliveDoc::setUrl(KUrl url) {
+    m_url = url;
+    m_modified = false;
 }
 
 QString KdenliveDoc::description() const {

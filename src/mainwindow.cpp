@@ -42,7 +42,7 @@
 #include <kstandarddirs.h>
 #include <KUrlRequesterDialog>
 #include <KTemporaryFile>
-#include <kuiserverjobtracker.h>
+#include <ktogglefullscreenaction.h>
 
 #include <mlt++/Mlt.h>
 
@@ -64,7 +64,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
         : KXmlGuiWindow(parent),
-        fileName(QString()), m_activeDocument(NULL), m_activeTimeline(NULL), m_renderWidget(NULL) {
+        m_activeDocument(NULL), m_activeTimeline(NULL), m_renderWidget(NULL) {
     parseProfiles();
 
     m_commandStack = new QUndoGroup;
@@ -202,6 +202,10 @@ bool MainWindow::queryClose() {
     }
 }
 
+void MainWindow::slotFullScreen() {
+    KToggleFullScreenAction::setFullScreen(this, actionCollection()->action("fullscreen")->isChecked());
+}
+
 void MainWindow::slotAddEffect(QDomElement effect, GenTime pos, int track) {
     if (!m_activeDocument) return;
     if (effect.isNull()) {
@@ -293,7 +297,9 @@ void MainWindow::setupActions() {
     KStandardAction::redo(this, SLOT(redo()),
                           actionCollection());
 
-    connect(actionCollection(), SIGNAL(actionHighlighted(QAction*)),
+    KStandardAction::fullScreen(this, SLOT(slotFullScreen()), this, actionCollection());
+
+    connect(actionCollection(), SIGNAL(actionHovered(QAction*)),
             this, SLOT(slotDisplayActionMessage(QAction*)));
     //connect(actionCollection(), SIGNAL( clearStatusText() ),
     //statusBar(), SLOT( clear() ) );
@@ -365,27 +371,27 @@ void MainWindow::closeDocument(QWidget *w) {
 }
 
 void MainWindow::saveFileAs(const QString &outputFileName) {
-    KSaveFile file(outputFileName);
-    file.open();
-
-    QByteArray outputByteArray;
-    //outputByteArray.append(textArea->toPlainText());
-    file.write(outputByteArray);
-    file.finalize();
-    file.close();
-
-    fileName = outputFileName;
+    m_projectMonitor->saveSceneList(outputFileName, m_activeDocument->documentInfoXml());
+    m_activeDocument->setUrl(KUrl(outputFileName));
+    setCaption(m_activeDocument->description());
+    m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
+    m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), m_activeDocument->url().path());
 }
 
 void MainWindow::saveFileAs() {
-    saveFileAs(KFileDialog::getSaveFileName());
+    QString outputFile = KFileDialog::getSaveFileName();
+    if (QFile::exists(outputFile)) {
+        if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) == KMessageBox::No) return;
+    }
+    saveFileAs(outputFile);
 }
 
 void MainWindow::saveFile() {
-    if (!fileName.isEmpty()) {
-        saveFileAs(fileName);
-    } else {
+    if (!m_activeDocument) return;
+    if (m_activeDocument->url().isEmpty()) {
         saveFileAs();
+    } else {
+        saveFileAs(m_activeDocument->url().path());
     }
 }
 
@@ -468,7 +474,19 @@ void MainWindow::slotEditProfiles() {
 
 void MainWindow::slotEditProjectSettings() {
     ProjectSettings *w = new ProjectSettings;
-    w->exec();
+    if (w->exec() == QDialog::Accepted) {
+        QString profile = w->selectedProfile();
+        m_activeDocument->setProfilePath(profile);
+        m_monitorManager->resetProfiles(profile);
+        setCaption(m_activeDocument->description());
+        KdenliveSettings::setCurrent_profile(m_activeDocument->profilePath());
+        if (m_renderWidget) m_renderWidget->setDocumentStandard(m_activeDocument->getDocumentStandard());
+        m_monitorManager->setTimecode(m_activeDocument->timecode());
+        m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
+
+        // We need to desactivate & reactivate monitors to get a refresh
+        m_monitorManager->switchMonitors();
+    }
     delete w;
 }
 
@@ -565,6 +583,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
 
 
     m_activeTimeline = trackView;
+    KdenliveSettings::setCurrent_profile(doc->profilePath());
     if (m_renderWidget) m_renderWidget->setDocumentStandard(doc->getDocumentStandard());
     m_monitorManager->setTimecode(doc->timecode());
     doc->setRenderer(m_projectMonitor->render);

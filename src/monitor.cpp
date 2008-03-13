@@ -67,6 +67,10 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     kDebug() << "/////// BUILDING MONITOR, ID: " << ui.video_frame->winId();
 }
 
+QString Monitor::name() const {
+    return m_name;
+}
+
 // virtual
 void Monitor::mousePressEvent(QMouseEvent * event) {
     slotPlay();
@@ -223,9 +227,9 @@ void Monitor::resetProfile(QString prof) {
     render->resetProfile(prof);
 }
 
-void Monitor::saveSceneList(QString path) {
+void Monitor::saveSceneList(QString path, QDomElement e) {
     if (render == NULL) return;
-    render->saveSceneList(path);
+    render->saveSceneList(path, e);
 }
 
 void Monitor::paintEvent(QPaintEvent * event) {

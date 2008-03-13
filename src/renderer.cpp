@@ -25,7 +25,7 @@
 // ffmpeg Header files
 
 extern "C" {
-#include <ffmpeg/avformat.h>
+#include <libavformat/avformat.h>
 }
 #include <QTimer>
 #include <QDir>
@@ -76,7 +76,7 @@ Render::Render(const QString & rendererName, int winid, int extid, QWidget *pare
         m_externalwinid = extid;
         m_winid = winid;
         m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
-        Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "westley-xml", "<westley><playlist><producer mlt_service=\"colour\" colour=\"blue\" /></playlist></westley>");
+        Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "westley-xml", "<westley><playlist><producer mlt_service=\"colour\" colour=\"blue\" in=\"0\" out=\"25\" /></playlist></westley>");
         m_mltProducer = producer;
         m_mltConsumer->connect(*m_mltProducer);
         m_mltProducer->set_speed(0.0);
@@ -120,16 +120,35 @@ int Render::resetProfile(QString profile) {
     if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     m_mltConsumer->set("refresh", 0);
     m_mltConsumer->purge();
-    //TODO: we should also rebuild filters and delete existing m_mltProfile
+    delete m_mltConsumer;
+    m_mltConsumer = NULL;
+    QString scene = sceneList();
+    if (m_mltProducer) delete m_mltProducer;
+    m_mltProducer = NULL;
+    if (m_mltProfile) delete m_mltProfile;
+    m_mltProfile = NULL;
+
+    m_mltProfile = new Mlt::Profile((char*) profile.toUtf8().data());
+    m_mltConsumer = new Mlt::Consumer(*m_mltProfile , "sdl_preview"); //consumer;
+    m_mltConsumer->set("resize", 1);
+    m_mltConsumer->set("window_id", m_winid);
+    m_mltConsumer->set("terminate_on_pause", 1);
+    m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
+
+    Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "westley-xml", (char *) scene.toUtf8().data());
+    m_mltProducer = producer;
+    m_mltConsumer->connect(*m_mltProducer);
+    m_mltProducer->set_speed(0.0);
 
     //delete m_mltProfile;
-    m_mltProfile = new Mlt::Profile((char*) profile.toUtf8().data());
-    kDebug() << " ++++++++++ RESET CONSUMER WITH PROFILE: " << m_mltProfile->width();
     // mlt_properties properties = MLT_CONSUMER_PROPERTIES(m_mltConsumer->get_consumer());
     //mlt_profile prof = m_mltProfile->get_profile();
     //mlt_properties_set_data(properties, "_profile", prof, 0, (mlt_destructor)mlt_profile_close, NULL);
     //mlt_properties_set(properties, "profile", "hdv_1080_50i");
-    m_mltConsumer->set("profile", (char *) profile.toUtf8().data());
+    //m_mltConsumer->set("profile", (char *) profile.toUtf8().data());
+    //m_mltProfile = new Mlt::Profile((char*) profile.toUtf8().data());
+    kDebug() << " ++++++++++ RESET CONSUMER WITH PROFILE: " << profile << ", WIDTH: " << m_mltProfile->width();
+
     //apply_profile_properties( m_mltProfile, m_mltConsumer->get_consumer(), properties );
     //refresh();
     return 1;
@@ -489,12 +508,7 @@ void Render::setSceneList(QString playlist, int position) {
 
     if (m_mltConsumer) {
         m_mltConsumer->set("refresh", 0);
-        if (!m_mltConsumer->is_stopped()) {
-            //emitConsumerStopped();
-            m_mltConsumer->stop();
-        }
-    }
-
+    } else return;
     if (m_mltProducer) {
         m_mltProducer->set_speed(0.0);
         //if (KdenliveSettings::osdtimecode() && m_osdInfo) m_mltProducer->detach(*m_osdInfo);
@@ -536,7 +550,7 @@ void Render::setSceneList(QString playlist, int position) {
 
     m_fps = m_mltProducer->get_fps();
     emit durationChanged(m_mltProducer->get_playtime());
-    //m_connectTimer->start( 500 );
+    //m_connectTimer->start( 1000 );
     connectPlaylist();
     m_generateScenelist = false;
 
@@ -544,16 +558,16 @@ void Render::setSceneList(QString playlist, int position) {
 
 /** Create the producer from the Westley QDomDocument */
 QString Render::sceneList() {
-    if (m_winid == -1) return QString();
     KTemporaryFile temp;
     QString result;
 
     if (temp.open()) {
         saveSceneList(temp.fileName());
         QFile file(temp.fileName());
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            kWarning() << "++++++++++++++++   CANNOT READ TMP SCENELIST FILE";
             return QString();
-
+        }
         QTextStream in(&file);
         while (!in.atEnd()) {
             result.append(in.readLine());
@@ -562,7 +576,7 @@ QString Render::sceneList() {
     return result;
 }
 
-void Render::saveSceneList(QString path) {
+void Render::saveSceneList(QString path, QDomElement addedXml) {
     char *tmppath = decodedString("westley:" + path);
     Mlt::Consumer westleyConsumer(*m_mltProfile , tmppath);
     delete[] tmppath;
@@ -570,6 +584,21 @@ void Render::saveSceneList(QString path) {
     Mlt::Producer prod(m_mltProducer->get_producer());
     westleyConsumer.connect(prod);
     westleyConsumer.start();
+    if (!addedXml.isNull()) {
+        // add Kdenlive specific tags
+        QFile file(path);
+        QDomDocument doc;
+        doc.setContent(&file, false);
+        doc.documentElement().appendChild(doc.importNode(addedXml, true));
+        file.close();
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            kWarning() << "//////  ERROR writing to file: " << path;
+            return;
+        }
+        QTextStream out(&file);
+        out << doc.toString();
+        file.close();
+    }
 }
 
 
@@ -578,12 +607,13 @@ const double Render::fps() const {
 }
 
 void Render::connectPlaylist() {
-
+    if (!m_mltConsumer) return;
     m_connectTimer->stop();
+    m_mltConsumer->set("refresh", "0");
     m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0.0);
     m_mltConsumer->start();
-    //refresh();
+    refresh();
     /*
      if (m_mltConsumer->start() == -1) {
           KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));

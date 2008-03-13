@@ -37,6 +37,7 @@ public:
     Monitor(QString name, MonitorManager *manager, QWidget *parent = 0);
     Render *render;
     void resetProfile(QString prof);
+    QString name() const;
 
     virtual void resizeEvent(QResizeEvent * event);
 protected:
@@ -74,7 +75,7 @@ public slots:
     void start();
     void activateMonitor();
     void slotPlay();
-    void saveSceneList(QString path);
+    void saveSceneList(QString path, QDomElement e = QDomElement());
 
 signals:
     void renderPosition(int);

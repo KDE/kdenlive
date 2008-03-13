@@ -71,6 +71,9 @@ Q_OBJECT public:
     QString description() const;
     /** Returns the document format: PAL or NTSC */
     QString getDocumentStandard();
+    void setUrl(KUrl url);
+    QDomElement documentInfoXml();
+    void setProfilePath(QString path);
 
 private:
     KUrl m_url;
@@ -86,6 +89,8 @@ private:
     ClipManager *m_clipManager;
     MltVideoProfile m_profile;
     QString m_scenelist;
+    /** tells whether current doc has been changed since last save event */
+    bool m_modified;
 
 public slots:
 
