@@ -538,6 +538,7 @@ void MainWindow::slotUpdateMousePosition(int pos) {
 }
 
 void MainWindow::slotUpdateDocumentState(bool modified) {
+    setCaption(m_activeDocument->description(), modified);
     if (modified) {
         m_timelineArea->setTabTextColor(m_timelineArea->currentIndex(), palette().color(QPalette::Link));
         m_timelineArea->setTabIcon(m_timelineArea->currentIndex(), KIcon("document-save"));
