@@ -1,4 +1,4 @@
-<profiles>
+<profiles version="0.1">
 <group name="HDV" renderer="avformat" extension="m2t" type="av">
     <profile name="PAL 1080 50i" standard="PAL" args="f=mpegts vcodec=mpeg2video s=1440x1080 b=19700k ab=384000 g=12 ildct=1 ilme=1 profile=hdv_1080_50i" />
     <profile name="PAL 720 25p" standard="PAL" args="f=mpegts vcodec=mpeg2video s=1280x720 b=19700k ab=384000 g=12 profile=hdv_720_25p" />
@@ -17,4 +17,64 @@
     <profile name="NTSC AVI" standard="NTSC" extension="avi" args="f=avi vcodec=dvvideo ildct=1 pix_fmt=yuv411p acodec=pcm_s16le s=720x480 profile=dv_ntsc" />
     <profile name="NTSC AVI DV50" standard="NTSC" extension="avi" args="f=avi vcodec=dvvideo ildct=1 pix_fmt=yuv422p s=720x480 profile=dv_ntsc" />
 </group>
+
+<group name="Mpeg" renderer="avformat" type="av">
+    <profile name="160x120" extension="mpeg" args="f=mpeg minrate=0 b=400k ab=128000 ar=32000 s=160x120 progressive=1" />
+    <profile name="240x180" extension="mpeg" args="f=mpeg minrate=0 b=500k ab=128000 ar=44100 s=240x180 progressive=1" />
+    <profile name="320x200" extension="mpeg" args="f=mpeg minrate=0 b=800k ab=128000 ar=44100 s=320x200 progressive=1" />
+    <profile name="640x480" extension="mpeg" args="f=mpeg minrate=0 b=6000k ab=128000 ar=44100 s=640x480 progressive=1" />
+    <profile name="720x576" standard="PAL" extension="mpeg" args="f=mpeg minrate=0 b=12000k ab=384000 ar=48000 s=720x576 progressive=1" />
+    <profile name="720x480" standard="NTSC" extension="mpeg" args="f=mpeg minrate=0 b=12000k ab=384000 ar=48000 s=720x480 progressive=1" />
+</group>
+
+<group name="Mpeg4" renderer="avformat" type="av">
+    <profile name="160x120" extension="avi" args="f=avi minrate=0 b=600k ab=128000 ar=32000 s=160x120 vcodec=mpeg4 mbd=2 trell=1 mv4=1 progressive=1" />
+    <profile name="240x180" extension="avi" args="f=avi minrate=0 b=900k ab=128000 ar=44100 s=240x180 vcodec=mpeg4 mbd=2 trell=1 mv4=1 progressive=1" />
+    <profile name="320x200" extension="avi" args="f=avi minrate=0 b=1200k ab=128000 ar=44100 s=320x200 vcodec=mpeg4 mbd=2 trell=1 mv4=1 progressive=1" />
+    <profile name="640x480" extension="avi" args="f=avi minrate=0 b=6000k ab=128000 ar=44100 s=640x480 vcodec=mpeg4 mbd=2 trell=1 mv4=1 progressive=1" />
+    <profile name="720x576" standard="PAL" extension="avi" args="f=avi minrate=0 b=8000k ab=384000 ar=48000 s=720x576 vcodec=mpeg4 mbd=2 trell=1 mv4=1 progressive=1" />
+    <profile name="720x480" standard="NTSC" extension="avi" args="f=avi minrate=0 b=8000k ab=384000 ar=48000 s=720x480 vcodec=mpeg4 mbd=2 trell=1 mv4=1 progressive=1" />
+</group>
+
+<group name="Flash" renderer="avformat" type="av">
+    <profile name="160x120" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=800k ab=32000 ar=22050 s=160x120 progressive=1" />
+    <profile name="240x180" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=1000k ab=32000 ar=22050 s=240x180 progressive=1" />
+    <profile name="320x240" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=1200k ab=32000 ar=22050 s=320x240 progressive=1" />
+    <profile name="640x480" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=7000k ab=128000 ar=22050 s=640x480 progressive=1" />
+    <profile name="720x576" standard="PAL" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=12000k ab=128000 ar=22050 s=720x576 progressive=1" />
+    <profile name="720x480" standard="NTSC" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=12000k ab=128000 ar=22050 s=720x480 progressive=1" />
+</group>
+
+<group name="XVid" renderer="avformat" type="av">
+    <profile name="160x120" extension="avi" args="minrate=0 b=800k ab=32000 ar=22050 s=160x120 vcodec=mpeg vtag=XVID acodec=ac3 progressive=1" />
+    <profile name="240x180" extension="avi" args="minrate=0 b=1000k ab=32000 ar=22050 s=240x180 vcodec=mpeg vtag=XVID acodec=ac3 progressive=1" />
+    <profile name="320x200" extension="avi" args="minrate=0 b=1200k ab=32000 ar=22050 s=320x200 vcodec=mpeg vtag=XVID acodec=ac3 progressive=1" />
+    <profile name="720x576" standard="PAL" extension="avi" args="minrate=0 b=7000k ab=64000 ar=22050 s=720x576 vcodec=mpeg vtag=XVID acodec=ac3 progressive=1" />
+    <profile name="720x480" standard="NTSC" extension="avi" args="minrate=0 b=7000k ab=64000 ar=22050 s=720x480 vcodec=mpeg vtag=XVID acodec=ac3 progressive=1" />
+</group>
+
+<group name="RealVideo" renderer="avformat" type="av">
+    <profile name="160x120" extension="rm" args="f=rv10 minrate=0 b=500k ab=128000 ar=32000 s=160x120 g=8 progressive=1" />
+    <profile name="240x180" extension="rm" args="f=rv10 minrate=0 b=800k ab=128000 ar=44100 s=240x180 g=8 progressive=1" />
+    <profile name="320x200" extension="rm" args="f=rv10 minrate=0 b=1000k ab=128000 ar=44100 s=320x200 g=8 progressive=1" />
+    <profile name="640x480" extension="rm" args="f=rv10 minrate=0 b=7000k ab=128000 ar=44100 s=640x480 g=8 progressive=1" />
+    <profile name="720x576" standard="PAL" extension="rm" args="f=rv10 minrate=0 b=12000k ab=384000 ar=48000 s=720x576 g=8 progressive=1" />
+    <profile name="720x480" standard="NTSC" extension="rm" args="f=rv10 minrate=0 b=12000k ab=384000 ar=48000 s=720x480 g=8 progressive=1" />
+</group>
+
+<group name="Theora" renderer="avformat" type="av">
+    <profile name="160x112" extension="ogg" args="vcodec=libtheora acodec=vorbis minrate=0 b=500k ab=128000 ar=32000 s=160x112 progressive=1" />
+    <profile name="320x240" extension="ogg" args="vcodec=libtheora acodec=vorbis minrate=0 b=1200k ab=128000 ar=32000 s=320x240 progressive=1" />
+    <profile name="640x480" extension="ogg" args="vcodec=libtheora acodec=vorbis minrate=0 b=7000k ab=128000 ar=44100 s=640x480 progressive=1" />
+</group>
+
+<group name="Wav" renderer="avformat" type="audio">
+    <profile name="22050" extension="wav" args="f=wav ar=22050" />
+    <profile name="32000" extension="wav" args="f=wav ar=32000" />
+    <profile name="44100" extension="wav" args="f=wav ar=44100" />
+    <profile name="48000" extension="wav" args="f=wav ar=48000" />
+</group>
 </profiles>
+
+
+
