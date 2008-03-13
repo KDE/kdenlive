@@ -376,6 +376,7 @@ void MainWindow::saveFileAs(const QString &outputFileName) {
     setCaption(m_activeDocument->description());
     m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), m_activeDocument->url().path());
+    m_activeDocument->setModified(false);
 }
 
 void MainWindow::saveFileAs() {
@@ -536,6 +537,16 @@ void MainWindow::slotUpdateMousePosition(int pos) {
         }
 }
 
+void MainWindow::slotUpdateDocumentState(bool modified) {
+    if (modified) {
+        m_timelineArea->setTabTextColor(m_timelineArea->currentIndex(), palette().color(QPalette::Link));
+        m_timelineArea->setTabIcon(m_timelineArea->currentIndex(), KIcon("document-save"));
+    } else {
+        m_timelineArea->setTabTextColor(m_timelineArea->currentIndex(), palette().color(QPalette::Text));
+        m_timelineArea->setTabIcon(m_timelineArea->currentIndex(), KIcon("kdenlive"));
+    }
+}
+
 void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //changed
     //m_projectMonitor->stop();
     kDebug() << "///////////////////   CONNECTING DOC TO PROJECT VIEW ////////////////";
@@ -551,6 +562,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(m_activeDocument, SIGNAL(deletTimelineClip(int)), m_activeTimeline, SLOT(slotDeleteClip(int)));
             disconnect(m_activeDocument, SIGNAL(thumbsProgress(KUrl, int)), this, SLOT(slotGotProgressInfo(KUrl, int)));
             disconnect(m_activeTimeline, SIGNAL(clipItemSelected(ClipItem*)), effectStack, SLOT(slotClipItemSelected(ClipItem*)));
+            disconnect(m_activeDocument, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
             disconnect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement)), m_activeTimeline->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement)));
             disconnect(effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), m_activeTimeline->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
             disconnect(effectStack, SIGNAL(changeEffectState(ClipItem*, QDomElement, bool)), m_activeTimeline->projectView(), SLOT(slotChangeEffectState(ClipItem*, QDomElement, bool)));
@@ -573,6 +585,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(doc, SIGNAL(updateClipDisplay(int)), m_projectList, SLOT(slotUpdateClip(int)));
     connect(doc, SIGNAL(deletTimelineClip(int)), trackView, SLOT(slotDeleteClip(int)));
     connect(doc, SIGNAL(thumbsProgress(KUrl, int)), this, SLOT(slotGotProgressInfo(KUrl, int)));
+    connect(doc, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
 
     connect(trackView, SIGNAL(clipItemSelected(ClipItem*)), effectStack, SLOT(slotClipItemSelected(ClipItem*)));
     connect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement)), trackView->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement)));

@@ -74,6 +74,8 @@ Q_OBJECT public:
     void setUrl(KUrl url);
     QDomElement documentInfoXml();
     void setProfilePath(QString path);
+    /** Set to true if document needs saving, false otherwise */
+    void setModified(bool mod);
 
 private:
     KUrl m_url;
@@ -100,6 +102,8 @@ signals:
     void updateClipDisplay(int);
     void deletTimelineClip(int);
     void thumbsProgress(KUrl, int);
+    /** emited when the document state has been modified (= needs saving or not) */
+    void docModified(bool);
 };
 
 #endif

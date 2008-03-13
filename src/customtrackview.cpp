@@ -455,11 +455,13 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track) 
             m_commandStack->push(command);
         }
     }
+    m_document->setModified(true);
 }
 
 void CustomTrackView::slotDeleteEffect(ClipItem *clip, QDomElement effect) {
     AddEffectCommand *command = new AddEffectCommand(this, m_tracksCount - clip->track(), clip->startPos(), effect, false);
     m_commandStack->push(command);
+    m_document->setModified(true);
 }
 
 void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect) {
@@ -471,6 +473,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect) {
             m_document->renderer()->mltRemoveEffect(track, pos, index);
         } else m_document->renderer()->mltEditEffect(m_tracksCount - clip->track(), clip->startPos(), effectParams);
     }
+    m_document->setModified(true);
 }
 
 void CustomTrackView::slotChangeEffectState(ClipItem *clip, QDomElement effect, bool disable) {
@@ -478,6 +481,7 @@ void CustomTrackView::slotChangeEffectState(ClipItem *clip, QDomElement effect, 
     effect.setAttribute("disabled", disable);
     EditEffectCommand *command = new EditEffectCommand(this, m_tracksCount - clip->track(), clip->startPos(), oldEffect, effect, true);
     m_commandStack->push(command);
+    m_document->setModified(true);
 }
 
 void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect, QDomElement effect) {
@@ -526,6 +530,7 @@ void CustomTrackView::dropEvent(QDropEvent * event) {
         m_document->updateClip(m_dropItem->baseClip()->getId());
         // kDebug()<<"IIIIIIIIIIIIIIIIIIIIIIII TRAX CNT: "<<m_tracksCount<<", DROP: "<<m_dropItem->track();
         m_document->renderer()->mltInsertClip(m_tracksCount - m_dropItem->track(), m_dropItem->startPos(), m_dropItem->xml());
+        m_document->setModified(true);
     } else QGraphicsView::dropEvent(event);
     m_dropItem = NULL;
 }
@@ -627,6 +632,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         m_commandStack->push(command);
         m_document->renderer()->doRefresh();
     }
+    m_document->setModified(true);
     m_operationMode = NONE;
     m_dragItem = NULL;
 }

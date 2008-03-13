@@ -259,7 +259,12 @@ KUrl KdenliveDoc::url() const {
 
 void KdenliveDoc::setUrl(KUrl url) {
     m_url = url;
-    m_modified = false;
+}
+
+void KdenliveDoc::setModified(bool mod) {
+    if (mod == m_modified) return;
+    m_modified = mod;
+    emit docModified(m_modified);
 }
 
 QString KdenliveDoc::description() const {
@@ -279,6 +284,7 @@ void KdenliveDoc::addClip(const QDomElement &elem, const int clipId) {
 void KdenliveDoc::deleteProjectClip(const uint clipId) {
     emit deletTimelineClip(clipId);
     m_clipManager->slotDeleteClip(clipId);
+    setModified(true);
 }
 
 void KdenliveDoc::deleteClip(const uint clipId) {
@@ -289,6 +295,7 @@ void KdenliveDoc::deleteClip(const uint clipId) {
 void KdenliveDoc::slotAddClipFile(const KUrl url, const QString group) {
     kDebug() << "/////////  DOCUM, ADD CLP: " << url;
     m_clipManager->slotAddClipFile(url, group);
+    setModified(true);
 }
 
 DocClipBase *KdenliveDoc::getBaseClip(int clipId) {
@@ -297,6 +304,7 @@ DocClipBase *KdenliveDoc::getBaseClip(int clipId) {
 
 void KdenliveDoc::slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group) {
     m_clipManager->slotAddColorClipFile(name, color, duration, group);
+    setModified(true);
 }
 
 #include "kdenlivedoc.moc"
