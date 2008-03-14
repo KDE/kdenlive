@@ -521,7 +521,7 @@ void MainWindow::slotDoRender(const QString &dest, const QString &render, const 
         if (zoneOnly) args << "in=" + QString::number(in) << "out=" + QString::number(out);
         QString videoPlayer = "-";
         if (playAfter) videoPlayer = "kmplayer";
-        args << "inigo" << render << videoPlayer << temp.fileName() << dest << avformat_args;
+        args << "inigo" << m_activeDocument->profilePath() << render << videoPlayer << temp.fileName() << dest << avformat_args;
         QProcess::startDetached("kdenlive_render", args);
     }
 }
@@ -563,6 +563,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(m_activeDocument, SIGNAL(deletTimelineClip(int)), m_activeTimeline, SLOT(slotDeleteClip(int)));
             disconnect(m_activeDocument, SIGNAL(thumbsProgress(KUrl, int)), this, SLOT(slotGotProgressInfo(KUrl, int)));
             disconnect(m_activeTimeline, SIGNAL(clipItemSelected(ClipItem*)), effectStack, SLOT(slotClipItemSelected(ClipItem*)));
+            disconnect(timeline_buttons_ui.zoom_slider, SIGNAL(valueChanged(int)), m_activeTimeline, SLOT(slotChangeZoom(int)));
             disconnect(m_activeDocument, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
             disconnect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement)), m_activeTimeline->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement)));
             disconnect(effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), m_activeTimeline->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
@@ -589,6 +590,10 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(doc, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
 
     connect(trackView, SIGNAL(clipItemSelected(ClipItem*)), effectStack, SLOT(slotClipItemSelected(ClipItem*)));
+    timeline_buttons_ui.zoom_slider->setValue(trackView->currentZoom());
+    connect(timeline_buttons_ui.zoom_slider, SIGNAL(valueChanged(int)), trackView, SLOT(slotChangeZoom(int)));
+    connect(trackView->projectView(), SIGNAL(zoomIn()), this, SLOT(slotZoomIn()));
+    connect(trackView->projectView(), SIGNAL(zoomOut()), this, SLOT(slotZoomOut()));
     connect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement)), trackView->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement)));
     connect(effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), trackView->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
     connect(effectStack, SIGNAL(changeEffectState(ClipItem*, QDomElement, bool)), trackView->projectView(), SLOT(slotChangeEffectState(ClipItem*, QDomElement, bool)));
@@ -655,6 +660,14 @@ void MainWindow::slotSwitchAudioThumbs() {
         if (m_activeDocument) m_activeDocument->clipManager()->checkAudioThumbs();
     }
     timeline_buttons_ui.buttonAudio->setDown(KdenliveSettings::audiothumbnails());
+}
+
+void MainWindow::slotZoomIn() {
+    timeline_buttons_ui.zoom_slider->setValue(timeline_buttons_ui.zoom_slider->value() - 1);
+}
+
+void MainWindow::slotZoomOut() {
+    timeline_buttons_ui.zoom_slider->setValue(timeline_buttons_ui.zoom_slider->value() + 1);
 }
 
 void MainWindow::slotGotProgressInfo(KUrl url, int progress) {

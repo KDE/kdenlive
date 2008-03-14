@@ -104,7 +104,6 @@ private:
     /** Should we auto scroll while playing (keep in sync with KdenliveSettings::autoscroll() */
     bool m_autoScroll;
 
-
 signals:
     void cursorMoved(int, int);
     void zoomIn();

@@ -61,7 +61,6 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene
     QColor border = QColor(255, 255, 255, 100);
     m_tipPen.setColor(border);
     m_tipPen.setWidth(3);
-
     setContentsMargins(0, 0, 0, 0);
     if (projectscene) {
         m_cursorLine = projectscene->addLine(0, 0, 0, 50);
@@ -762,7 +761,7 @@ void CustomTrackView::drawBackground(QPainter * painter, const QRectF & rect) {
     painter->drawLine(rectInView.left(), 0, rectInView.right(), 0);
     for (uint i = 0; i < m_tracksCount;i++) {
         painter->drawLine(rectInView.left(), 50 * (i + 1), rectInView.right(), 50 * (i + 1));
-        painter->drawText(QRectF(10, 50 * i, 100, 50 * i + 49), Qt::AlignLeft, i18n(" Track ") + QString::number(i + 1));
+        //painter->drawText(QRectF(10, 50 * i, 100, 50 * i + 49), Qt::AlignLeft, i18n(" Track ") + QString::number(i + 1));
     }
     int lowerLimit = 50 * m_tracksCount + 1;
     if (height() > lowerLimit)

@@ -136,6 +136,8 @@ private slots:
     void slotDoRender(const QString &dest, const QString &render, const QStringList &avformat_args, bool zoneOnly, bool playAfter);
     void slotFullScreen();
     void slotUpdateDocumentState(bool modified);
+    void slotZoomIn();
+    void slotZoomOut();
 };
 
 #endif

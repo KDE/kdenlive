@@ -20,6 +20,8 @@
 
 #include <QMouseEvent>
 #include <QStylePainter>
+#include <QMenu>
+#include <QToolButton>
 
 #include <KDebug>
 #include <KLocale>
@@ -35,21 +37,50 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(m_ruler);
     ui.ruler_frame->setLayout(layout);
-    //m_ruler->setPixelPerMark(3);
+
+    m_toolbar = new QToolBar(name, this);
+    QVBoxLayout *layout2 = new QVBoxLayout;
+
     m_playIcon = KIcon("media-playback-start");
     m_pauseIcon = KIcon("media-playback-pause");
-    ui.button_play->setIcon(m_playIcon);
-    ui.button_rew1->setIcon(KIcon("media-skip-backward"));
-    ui.button_rew->setIcon(KIcon("media-seek-backward"));
-    ui.button_fwd1->setIcon(KIcon("media-skip-forward"));
-    ui.button_fwd->setIcon(KIcon("media-seek-forward"));
-    connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
-    connect(ui.button_rew, SIGNAL(clicked()), this, SLOT(slotRewind()));
-    connect(ui.button_rew1, SIGNAL(clicked()), this, SLOT(slotRewindOneFrame()));
-    connect(ui.button_fwd, SIGNAL(clicked()), this, SLOT(slotForward()));
-    connect(ui.button_fwd1, SIGNAL(clicked()), this, SLOT(slotForwardOneFrame()));
-    connect(ui.button_play, SIGNAL(clicked()), this, SLOT(slotPlay()));
-    //if ( render ) return;
+
+    QAction *m_rewAction = m_toolbar->addAction(KIcon("media-seek-backward"), i18n("Rewind"));
+    connect(m_rewAction, SIGNAL(triggered()), this, SLOT(slotRewind()));
+    QAction *m_rew1Action = m_toolbar->addAction(KIcon("media-skip-backward"), i18n("Rewind 1 frame"));
+    connect(m_rew1Action, SIGNAL(triggered()), this, SLOT(slotRewindOneFrame()));
+
+    QToolButton *playButton = new QToolButton(m_toolbar);
+    QMenu *playMenu = new QMenu(this);
+    playButton->setMenu(playMenu);
+    playButton->setPopupMode(QToolButton::MenuButtonPopup);
+    m_toolbar->addWidget(playButton);
+
+    m_playAction = playMenu->addAction(m_playIcon, i18n("Play"));
+    m_playAction->setCheckable(true);
+    connect(m_playAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
+    QAction *m_playSectionAction = playMenu->addAction(m_playIcon, i18n("Play Section"));
+    connect(m_playSectionAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
+    QAction *m_loopSectionAction = playMenu->addAction(m_playIcon, i18n("Loop Section"));
+    connect(m_loopSectionAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
+
+    QAction *m_fwd1Action = m_toolbar->addAction(KIcon("media-skip-forward"), i18n("Forward 1 frame"));
+    connect(m_fwd1Action, SIGNAL(triggered()), this, SLOT(slotForwardOneFrame()));
+    QAction *m_fwdAction = m_toolbar->addAction(KIcon("media-seek-forward"), i18n("Forward"));
+    connect(m_fwdAction, SIGNAL(triggered()), this, SLOT(slotForward()));
+
+    playButton->setDefaultAction(m_playAction);
+
+    m_timePos = new KRestrictedLine(this);
+    m_timePos->setInputMask("99:99:99:99");
+    m_toolbar->addWidget(m_timePos);
+
+    layout2->addWidget(m_toolbar);
+    ui.button_frame->setLayout(layout2);
+
+    //m_ruler->setPixelPerMark(3);
+
+
+    ui.video_frame->setAttribute(Qt::WA_PaintOnScreen);
     render = new Render(m_name, (int) ui.video_frame->winId(), -1, this);
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
@@ -93,7 +124,7 @@ void Monitor::slotSeek(int pos) {
     render->seekToFrame(realPos);
     m_position = realPos;
     emit renderPosition(m_position);
-    ui.monitor_time->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
+    m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 
 void Monitor::slotRewind() {
@@ -101,8 +132,8 @@ void Monitor::slotRewind() {
     double speed = render->playSpeed();
     if (speed >= 0) render->play(-2);
     else render->play(speed * 2);
-    ui.button_play->setChecked(true);
-    ui.button_play->setIcon(m_pauseIcon);
+    m_playAction->setChecked(true);
+    m_playAction->setIcon(m_pauseIcon);
 }
 
 void Monitor::slotForward() {
@@ -110,8 +141,8 @@ void Monitor::slotForward() {
     double speed = render->playSpeed();
     if (speed <= 1) render->play(2);
     else render->play(speed * 2);
-    ui.button_play->setChecked(true);
-    ui.button_play->setIcon(m_pauseIcon);
+    m_playAction->setChecked(true);
+    m_playAction->setIcon(m_pauseIcon);
 }
 
 void Monitor::slotRewindOneFrame() {
@@ -121,7 +152,7 @@ void Monitor::slotRewindOneFrame() {
     m_position--;
     render->seekToFrame(m_position);
     emit renderPosition(m_position);
-    ui.monitor_time->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
+    m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 
 void Monitor::slotForwardOneFrame() {
@@ -131,14 +162,14 @@ void Monitor::slotForwardOneFrame() {
     m_position++;
     render->seekToFrame(m_position);
     emit renderPosition(m_position);
-    ui.monitor_time->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
+    m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 
 void Monitor::seekCursor(int pos) {
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);
     int rulerPos = (int)(pos * m_scale);
     m_position = pos;
-    ui.monitor_time->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
+    m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
     //kDebug() << "seek: " << pos << ", scale: " << m_scale;
     m_ruler->slotNewValue(rulerPos);
 }
@@ -147,9 +178,9 @@ void Monitor::rendererStopped(int pos) {
     int rulerPos = (int)(pos * m_scale);
     m_ruler->slotNewValue(rulerPos);
     m_position = pos;
-    ui.monitor_time->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
-    ui.button_play->setChecked(false);
-    ui.button_play->setIcon(m_playIcon);
+    m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
+    m_playAction->setChecked(false);
+    m_playAction->setIcon(m_playIcon);
 }
 
 void Monitor::initMonitor() {
@@ -158,8 +189,10 @@ void Monitor::initMonitor() {
 
 // virtual
 void Monitor::resizeEvent(QResizeEvent * event) {
+    QWidget::resizeEvent(event);
     adjustRulerSize(-1);
-    if (render) render->askForRefresh();
+    if (render && m_isActive) render->doRefresh();
+    //
 }
 
 void Monitor::adjustRulerSize(int length) {
@@ -185,15 +218,18 @@ void Monitor::start() {
 }
 
 void Monitor::refreshMonitor(bool visible) {
-    if (visible && render) render->askForRefresh();
+    if (visible && render) {
+        if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+        render->askForRefresh();
+    }
 }
 
 void Monitor::slotPlay() {
     if (render == NULL) return;
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);
     render->switchPlay();
-    ui.button_play->setChecked(true);
-    ui.button_play->setIcon(m_pauseIcon);
+    m_playAction->setChecked(true);
+    m_playAction->setIcon(m_pauseIcon);
 }
 
 void Monitor::slotSetXml(const QDomElement &e) {
@@ -205,7 +241,7 @@ void Monitor::slotSetXml(const QDomElement &e) {
     westley.appendChild(e);
     render->setSceneList(doc, 0);
     m_ruler->slotNewValue(0);
-    ui.monitor_time->setText("00:00:00:00");
+    m_timePos->setText("00:00:00:00");
     m_position = 0;
 }
 
@@ -232,9 +268,11 @@ void Monitor::saveSceneList(QString path, QDomElement e) {
     render->saveSceneList(path, e);
 }
 
+/*  Commented out, takes huge CPU resources
+
 void Monitor::paintEvent(QPaintEvent * event) {
     if (render != NULL && m_isActive) render->doRefresh();
     QWidget::paintEvent(event);
-}
+}*/
 
 #include "monitor.moc"

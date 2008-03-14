@@ -30,7 +30,7 @@
 #include "clipitem.h"
 
 TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
-        : QWidget(parent), m_doc(doc), m_scale(1.0), m_projectTracks(0), m_projectDuration(0) {
+        : QWidget(parent), m_doc(doc), m_scale(1.0), m_projectTracks(0), m_projectDuration(0), m_currentZoom(4) {
 
     view = new Ui::TimeLine_UI();
     view->setupUi(this);
@@ -42,7 +42,7 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
     //m_scene->addRect(QRectF(0, 0, 100, 100), QPen(), QBrush(Qt::red));
 
     m_ruler = new CustomRuler(doc->timecode(), m_trackview);
-    QVBoxLayout *layout = new QVBoxLayout;
+    QHBoxLayout *layout = new QHBoxLayout;
     view->ruler_frame->setLayout(layout);
     int left_margin;
     int right_margin;
@@ -50,46 +50,50 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
     layout->setContentsMargins(left_margin, 0, right_margin, 0);
     layout->addWidget(m_ruler);
 
-    m_headersLayout = new QVBoxLayout;
-    m_headersLayout->setContentsMargins(0, 0, 0, 0);
-    view->headers_frame->setLayout(m_headersLayout);
-
-    QVBoxLayout *tracksLayout = new QVBoxLayout;
+    QHBoxLayout *tracksLayout = new QHBoxLayout;
     tracksLayout->setContentsMargins(0, 0, 0, 0);
     view->tracks_frame->setLayout(tracksLayout);
+
+    view->headers_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    view->headers_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    m_headersLayout = new QVBoxLayout;
+    m_headersLayout->setContentsMargins(0, 0, 0, 0);
+    m_headersLayout->setSpacing(0);
+    view->headers_container->setLayout(m_headersLayout);
+
+    connect(view->headers_area->verticalScrollBar(), SIGNAL(valueChanged(int)), m_trackview->verticalScrollBar(), SLOT(setValue(int)));
+
     tracksLayout->addWidget(m_trackview);
 
-    parseDocument(doc->toXml());
-    /*
-      TrackPanelClipMoveFunction *m_moveFunction = new TrackPanelClipMoveFunction(this);
-      registerFunction("move", m_moveFunction);
-      setEditMode("move");*/
+    connect(m_trackview->verticalScrollBar(), SIGNAL(valueChanged(int)), view->headers_area->verticalScrollBar(), SLOT(setValue(int)));
 
-    connect(view->horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(slotChangeZoom(int)));
+    parseDocument(doc->toXml());
+
     connect(m_trackview, SIGNAL(cursorMoved(int, int)), m_ruler, SLOT(slotCursorMoved(int, int)));
-    connect(m_trackview, SIGNAL(zoomIn()), this, SLOT(slotZoomIn()));
-    connect(m_trackview, SIGNAL(zoomOut()), this, SLOT(slotZoomOut()));
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
     connect(m_trackview, SIGNAL(clipItemSelected(ClipItem*)), this, SLOT(slotClipItemSelected(ClipItem*)));
-    view->horizontalSlider->setValue(4);
-    m_currentZoom = view->horizontalSlider->value();
+    slotChangeZoom(m_currentZoom);
 }
 
+int TrackView::currentZoom() const {
+    return m_currentZoom;
+}
 
-int TrackView::duration() {
+int TrackView::duration() const {
     return m_projectDuration;
 }
 
-int TrackView::tracksNumber() {
+int TrackView::tracksNumber() const {
     return m_projectTracks;
 }
 
-int TrackView::inPoint() {
+int TrackView::inPoint() const {
     return m_ruler->inPoint();
 }
 
-int TrackView::outPoint() {
+int TrackView::outPoint() const {
     return m_ruler->outPoint();
 }
 
@@ -147,14 +151,6 @@ const double TrackView::zoomFactor() const {
     return m_scale;
 }
 
-void TrackView::slotZoomIn() {
-    view->horizontalSlider->setValue(view->horizontalSlider->value() - 1);
-}
-
-void TrackView::slotZoomOut() {
-    view->horizontalSlider->setValue(view->horizontalSlider->value() + 1);
-}
-
 const int TrackView::mapLocalToValue(int x) const {
     return (int) x * zoomFactor();
 }
@@ -170,9 +166,10 @@ void TrackView::refresh() {
 int TrackView::slotAddAudioTrack(int ix, QDomElement xml) {
     kDebug() << "*************  ADD AUDIO TRACK " << ix;
     m_trackview->addTrack();
-    HeaderTrack *header = new HeaderTrack();
+    HeaderTrack *header = new HeaderTrack(ix);
     //m_tracksAreaLayout->addWidget(track); //, ix, Qt::AlignTop);
     m_headersLayout->addWidget(header); //, ix, Qt::AlignTop);
+    view->headers_container->adjustSize();
     //documentTracks.insert(ix, track);
     return 0;
     //track->show();
@@ -180,7 +177,7 @@ int TrackView::slotAddAudioTrack(int ix, QDomElement xml) {
 
 int TrackView::slotAddVideoTrack(int ix, QDomElement xml) {
     m_trackview->addTrack();
-    HeaderTrack *header = new HeaderTrack();
+    HeaderTrack *header = new HeaderTrack(ix);
     int trackTop = 50 * ix;
     int trackBottom = trackTop + 50;
     // parse track
@@ -206,6 +203,7 @@ int TrackView::slotAddVideoTrack(int ix, QDomElement xml) {
 
     //m_tracksAreaLayout->addWidget(track); //, ix, Qt::AlignTop);
     m_headersLayout->addWidget(header); //, ix, Qt::AlignTop);
+    view->headers_container->adjustSize();
     //documentTracks.insert(ix, track);
     kDebug() << "*************  ADD VIDEO TRACK " << ix << ", DURATION: " << position;
     return position;

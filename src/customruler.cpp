@@ -118,11 +118,11 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event) {
     update();
 }
 
-int CustomRuler::inPoint() {
+int CustomRuler::inPoint() const {
     return m_zoneStart;
 }
 
-int CustomRuler::outPoint() {
+int CustomRuler::outPoint() const {
     return m_zoneEnd;
 }
 

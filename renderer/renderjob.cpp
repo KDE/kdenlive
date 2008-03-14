@@ -24,7 +24,7 @@
 
 static QDBusConnection connection(QLatin1String(""));
 
-RenderJob::RenderJob(bool erase, QString renderer, QString rendermodule, QString player, QString scenelist, QString dest, QStringList args, int in, int out) : QObject() {
+RenderJob::RenderJob(bool erase, QString renderer, QString profile, QString rendermodule, QString player, QString scenelist, QString dest, QStringList args, int in, int out) : QObject() {
     m_scenelist = scenelist;
     m_dest = dest;
     m_player = player;
@@ -32,7 +32,7 @@ RenderJob::RenderJob(bool erase, QString renderer, QString rendermodule, QString
     m_erase = erase;
     m_renderProcess = new QProcess;
     m_prog = renderer;
-    m_args << scenelist;
+    m_args << "-profile" << profile << scenelist;
     if (in != -1) m_args << "in=" + QString::number(in);
     if (out != -1) m_args << "out=" + QString::number(out);
     m_args << "-consumer" << rendermodule + ":" + m_dest << "progress=1" << args;
@@ -75,7 +75,7 @@ void RenderJob::start() {
     QDBusReply<QDBusObjectPath> objectPath = kuiserver.call("requestView", "kdenlive", "kdenlive", 1);
     QString reply = ((QDBusObjectPath) objectPath).path();
     m_jobUiserver = new QDBusInterface("org.kde.JobViewServer", reply, "org.kde.JobView");
-    m_jobUiserver->call("setInfoMessage", tr("Rendering %1").arg(m_dest));
+    m_jobUiserver->call("setInfoMessage", tr("Rendering %1").arg(m_dest.section('/', -1)));
 
     QDBusConnection::sessionBus().connect("org.kde.JobViewServer", reply, "org.kde.JobView",
                                           "cancelRequested", this, SLOT(slotAbort()));

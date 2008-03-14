@@ -48,15 +48,17 @@ public:
     const QString & editMode() const;
     QGraphicsScene *projectScene();
     CustomTrackView *projectView();
-    int duration();
-    int tracksNumber();
+    int duration() const;
+    int tracksNumber() const;
     KdenliveDoc *document();
     void refresh() ;
-    int outPoint();
-    int inPoint();
+    int outPoint() const;
+    int inPoint() const;
+    int currentZoom() const;
 
 public slots:
     void slotDeleteClip(int clipId);
+    void slotChangeZoom(int factor);
 
 private:
     Ui::TimeLine_UI *view;
@@ -69,7 +71,6 @@ private:
     QGraphicsScene *m_scene;
     uint m_currentZoom;
 
-
     KdenliveDoc *m_doc;
     QVBoxLayout *m_tracksLayout;
     QVBoxLayout *m_headersLayout;
@@ -81,12 +82,10 @@ private:
     int slotAddVideoTrack(int ix, QDomElement xml);
 
 private slots:
-    void slotChangeZoom(int factor);
-    void slotZoomIn();
-    void slotZoomOut();
     void setCursorPos(int pos);
     void moveCursorPos(int pos);
     void slotClipItemSelected(ClipItem*);
+
 signals:
     void mousePosition(int);
     void cursorMoved();

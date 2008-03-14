@@ -46,6 +46,8 @@ int main(int argc, char **argv) {
         }
         QString render = args.at(0);
         args.takeFirst();
+        QString profile = args.at(0);
+        args.takeFirst();
         QString rendermodule = args.at(0);
         args.takeFirst();
         QString player = args.at(0);
@@ -54,7 +56,7 @@ int main(int argc, char **argv) {
         args.takeFirst();
         QString dest = args.at(0);
         args.takeFirst();
-        RenderJob *job = new RenderJob(erase, render, rendermodule, player, src, dest, args, in, out);
+        RenderJob *job = new RenderJob(erase, render, profile, rendermodule, player, src, dest, args, in, out);
         job->start();
         app.exec();
     } else {
@@ -64,6 +66,7 @@ int main(int argc, char **argv) {
                 "  in=pos: start rendering at frame pos\n"
                 "  out=pos: end rendering at frame pos\n"
                 "  render: path to inigo rendrer\n"
+                "  profile: the MLT video profile\n"
                 "  rendermodule: the MLT consumer used for rendering, usually it is avformat\n"
                 "  player: path to video player to play when rendering is over, use '-' to disable playing\n"
                 "  src: source file (usually westley playlist)\n"

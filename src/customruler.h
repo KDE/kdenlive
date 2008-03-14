@@ -17,8 +17,8 @@ public:
     virtual void mouseMoveEvent(QMouseEvent * event);
     void setPixelPerMark(double rate);
     static const int comboScale[];
-    int outPoint();
-    int inPoint();
+    int outPoint() const;
+    int inPoint() const;
 
 protected:
     virtual void paintEvent(QPaintEvent * /*e*/);

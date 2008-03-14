@@ -7,12 +7,14 @@ class HeaderTrack : public QWidget {
     Q_OBJECT
 
 public:
-    HeaderTrack(QWidget *parent = 0);
+    HeaderTrack(int index, QWidget *parent = 0);
 
 protected:
     virtual void paintEvent(QPaintEvent * /*e*/);
 
 private:
+    int m_index;
+    QString m_label;
 
 public slots:
 

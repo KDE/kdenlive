@@ -21,7 +21,10 @@
 #ifndef MONITOR_H
 #define MONITOR_H
 
+#include <QToolBar>
 #include <KIcon>
+#include <KAction>
+#include <KRestrictedLine>
 
 #include "ui_monitor_ui.h"
 #include "renderer.h"
@@ -39,11 +42,13 @@ public:
     void resetProfile(QString prof);
     QString name() const;
 
-    virtual void resizeEvent(QResizeEvent * event);
+
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void wheelEvent(QWheelEvent * event);
-    virtual void paintEvent(QPaintEvent * event);
+    virtual void resizeEvent(QResizeEvent * event);
+//    virtual void paintEvent(QPaintEvent * event);
+
 private:
     Ui::Monitor_UI ui;
     MonitorManager *m_monitorManager;
@@ -55,6 +60,9 @@ private:
     KIcon m_playIcon;
     KIcon m_pauseIcon;
     bool m_isActive;
+    QToolBar *m_toolbar;
+    KRestrictedLine *m_timePos;
+    QAction *m_playAction;
 
 private slots:
     void adjustRulerSize(int length);
