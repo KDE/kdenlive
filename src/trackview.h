@@ -35,6 +35,7 @@
 #include "kdenlivedoc.h"
 #include "customtrackview.h"
 class ClipItem;
+class Transition;
 
 class TrackView : public QWidget {
     Q_OBJECT
@@ -86,11 +87,13 @@ private slots:
     void setCursorPos(int pos);
     void moveCursorPos(int pos);
     void slotClipItemSelected(ClipItem*);
+    void slotTransitionItemSelected(Transition*);
 
 signals:
     void mousePosition(int);
     void cursorMoved();
     void clipItemSelected(ClipItem*);
+    void transitionItemSelected(Transition*);
 };
 
 #endif

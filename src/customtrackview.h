@@ -118,6 +118,7 @@ signals:
     void zoomOut();
     void mousePosition(int);
     void clipItemSelected(ClipItem*);
+    void transitionItemSelected(Transition*);
     void activateDocumentMonitor();
 };
 

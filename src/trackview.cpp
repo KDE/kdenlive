@@ -74,6 +74,7 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
     connect(m_trackview, SIGNAL(clipItemSelected(ClipItem*)), this, SLOT(slotClipItemSelected(ClipItem*)));
+    connect(m_trackview, SIGNAL(transitionItemSelected(Transition*)), this, SLOT(slotTransitionItemSelected(Transition*)));
     slotChangeZoom(m_currentZoom);
 }
 
@@ -99,6 +100,10 @@ int TrackView::outPoint() const {
 
 void TrackView::slotClipItemSelected(ClipItem*c) {
     emit clipItemSelected(c);
+}
+
+void TrackView::slotTransitionItemSelected(Transition *t) {
+    emit transitionItemSelected(t);
 }
 
 void TrackView::setDuration(int dur) {

@@ -43,6 +43,7 @@
 #include "effectslist.h"
 #include "effectslistview.h"
 #include "effectstackview.h"
+#include "transitionsettings.h"
 #include "ui_timelinebuttons_ui.h"
 #include "renderwidget.h"
 
@@ -77,7 +78,7 @@ private:
     EffectStackView *effectStack;
 
     QDockWidget *transitionConfigDock;
-    KListWidget *transitionConfig;
+    TransitionSettings *transitionConfig;
 
     QDockWidget *clipMonitorDock;
     Monitor *m_clipMonitor;
