@@ -554,6 +554,9 @@ void CustomTrackView::setDuration(int duration) {
     scene()->setSceneRect(0, 0, (m_projectDuration + 500) * m_scale, scene()->sceneRect().height()); //50 * m_tracksCount);
 }
 
+int CustomTrackView::duration() const {
+    return m_projectDuration;
+}
 
 void CustomTrackView::addTrack() {
     m_tracksCount++;

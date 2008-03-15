@@ -113,7 +113,6 @@ private slots:
     void undo();
     void redo();
     void activateDocument();
-    void closeDocument(QWidget *w);
     void connectDocument(TrackView*, KdenliveDoc*);
     void openFile();
     void saveFile();
@@ -138,6 +137,8 @@ private slots:
     void slotUpdateDocumentState(bool modified);
     void slotZoomIn();
     void slotZoomOut();
+    void slotFitZoom();
+    void slotRemoveTab();
 };
 
 #endif

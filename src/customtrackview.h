@@ -53,6 +53,7 @@ public:
     void deleteEffect(int track, GenTime pos, QDomElement effect);
     void updateEffect(int track, GenTime pos, QDomElement effect);
     void activateMonitor();
+    int duration() const;
 
 public slots:
     void setCursorPos(int pos, bool seek = true);

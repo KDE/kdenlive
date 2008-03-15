@@ -30,7 +30,7 @@
 #include "clipitem.h"
 
 TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
-        : QWidget(parent), m_doc(doc), m_scale(1.0), m_projectTracks(0), m_projectDuration(0), m_currentZoom(4) {
+        : QWidget(parent), m_doc(doc), m_scale(1.0), m_projectTracks(0), m_currentZoom(4) {
 
     view = new Ui::TimeLine_UI();
     view->setupUi(this);
@@ -82,7 +82,7 @@ int TrackView::currentZoom() const {
 }
 
 int TrackView::duration() const {
-    return m_projectDuration;
+    return m_trackview->duration();
 }
 
 int TrackView::tracksNumber() const {
@@ -101,6 +101,11 @@ void TrackView::slotClipItemSelected(ClipItem*c) {
     emit clipItemSelected(c);
 }
 
+void TrackView::setDuration(int dur) {
+    m_trackview->setDuration(dur);
+    m_ruler->setDuration(dur);
+}
+
 void TrackView::parseDocument(QDomDocument doc) {
     int cursorPos = 0;
     kDebug() << "//// DOCUMENT: " << doc.toString();
@@ -109,20 +114,20 @@ void TrackView::parseDocument(QDomDocument doc) {
         cursorPos = props.toElement().attribute("timeline_position").toInt();
     }
     QDomNodeList tracks = doc.elementsByTagName("playlist");
-    m_projectDuration = 300;
+    int duration = 300;
     m_projectTracks = tracks.count();
-    int duration = 0;
+    int trackduration = 0;
     kDebug() << "//////////// TIMELINE FOUND: " << m_projectTracks << " tracks";
     for (int i = 0; i < m_projectTracks; i++) {
         if (tracks.item(i).toElement().attribute("hide", QString::null) == "video") {
             // this is an audio track
-            duration = slotAddAudioTrack(i, tracks.item(i).toElement());
+            trackduration = slotAddAudioTrack(i, tracks.item(i).toElement());
         } else if (!tracks.item(i).toElement().attribute("id", QString::null).isEmpty())
-            duration = slotAddVideoTrack(i, tracks.item(i).toElement());
-        kDebug() << " PRO DUR: " << m_projectDuration << ", TRACK DUR: " << duration;
-        if (duration > m_projectDuration) m_projectDuration = duration;
+            trackduration = slotAddVideoTrack(i, tracks.item(i).toElement());
+        kDebug() << " PRO DUR: " << trackduration << ", TRACK DUR: " << duration;
+        if (trackduration > duration) duration = trackduration;
     }
-    m_trackview->setDuration(m_projectDuration);
+    m_trackview->setDuration(duration);
     //m_trackview->setCursorPos(cursorPos);
     //m_scrollBox->setGeometry(0, 0, 300 * zoomFactor(), m_scrollArea->height());
 }
@@ -145,6 +150,14 @@ void TrackView::slotChangeZoom(int factor) {
     m_scale = (double) FRAME_SIZE / m_ruler->comboScale[factor]; // m_ruler->comboScale[m_currentZoom] /
     m_currentZoom = factor;
     m_trackview->setScale(m_scale);
+}
+
+int TrackView::fitZoom() const {
+    int zoom = (duration() + 20 / m_scale) * FRAME_SIZE / m_trackview->width();
+    int i;
+    for (i = 0; i < 13; i++)
+        if (m_ruler->comboScale[i] > zoom) break;
+    return i;
 }
 
 const double TrackView::zoomFactor() const {

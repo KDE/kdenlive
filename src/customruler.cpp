@@ -75,7 +75,7 @@ const int CustomRuler::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 725,
                                       };
 
 CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
-        : KRuler(parent), m_timecode(tc), m_view(parent) {
+        : KRuler(parent), m_timecode(tc), m_view(parent), m_duration(0) {
     slotNewOffset(0);
     setRulerMetricStyle(KRuler::Pixel);
     setLength(1024);
@@ -140,16 +140,27 @@ void CustomRuler::setPixelPerMark(double rate) {
     KRuler::setPixelPerMark(1.0 / scale);
 }
 
+void CustomRuler::setDuration(int d) {
+    m_duration = d;
+    update();
+}
+
 // virtual
 void CustomRuler::paintEvent(QPaintEvent *e) {
     //  debug ("KRuler::drawContents, %s",(horizontal==dir)?"horizontal":"vertical");
 
     QStylePainter p(this);
     p.setClipRect(e->rect());
-    p.fillRect(e->rect(), QBrush(QColor(255, 255, 255, 80)));
+
+    //p.fillRect(e->rect(), QBrush(QColor(200, 200, 200)));
     //kDebug()<<"RULER ZONE: "<<m_zoneStart<<", OFF: "<<offset()<<", END: "<<m_zoneEnd<<", FACTOR: "<<pixelPerMark() * FRAME_SIZE;
-    int zoneStart = (m_zoneStart) * pixelPerMark() * FRAME_SIZE;
-    int zoneEnd = (m_zoneEnd) * pixelPerMark() * FRAME_SIZE;
+    int projectEnd = m_duration * pixelPerMark() * FRAME_SIZE;
+    p.fillRect(QRect(- offset(), e->rect().y(), projectEnd, e->rect().height()), QBrush(QColor(245, 245, 245)));
+
+
+    int zoneStart = m_zoneStart * pixelPerMark() * FRAME_SIZE;
+    int zoneEnd = m_zoneEnd * pixelPerMark() * FRAME_SIZE;
+
     p.fillRect(QRect(zoneStart - offset(), e->rect().y() + e->rect().height() / 2, zoneEnd - zoneStart, e->rect().height() / 2), QBrush(QColor(133, 255, 143)));
 
     int value  = m_view->cursorPos() - offset() + 4;

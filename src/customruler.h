@@ -19,6 +19,7 @@ public:
     static const int comboScale[];
     int outPoint() const;
     int inPoint() const;
+    void setDuration(int d);
 
 protected:
     virtual void paintEvent(QPaintEvent * /*e*/);
@@ -29,6 +30,7 @@ private:
     CustomTrackView *m_view;
     int m_zoneStart;
     int m_zoneEnd;
+    int m_duration;
     RULER_MOVE m_moveCursor;
 
 public slots:

@@ -69,11 +69,16 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_commandStack = new QUndoGroup;
     m_timelineArea = new KTabWidget(this);
-    m_timelineArea->setHoverCloseButton(true);
     m_timelineArea->setTabReorderingEnabled(true);
     m_timelineArea->setTabBarHidden(true);
+
+    QToolButton *closeTabButton = new QToolButton;
+    connect(closeTabButton, SIGNAL(clicked()), this, SLOT(slotRemoveTab()));
+    closeTabButton->setIcon(KIcon("tab-close"));
+    closeTabButton->adjustSize();
+    closeTabButton->setToolTip(i18n("Close the current tab"));
+    m_timelineArea->setCornerWidget(closeTabButton);
     connect(m_timelineArea, SIGNAL(currentChanged(int)), this, SLOT(activateDocument()));
-    connect(m_timelineArea, SIGNAL(closeRequest(QWidget *)), this, SLOT(closeDocument(QWidget *)));
 
 
     initEffects::parseEffectFiles(&m_audioEffects, &m_videoEffects);
@@ -161,6 +166,7 @@ MainWindow::MainWindow(QWidget *parent)
     timeline_buttons_ui.buttonAudio->setDown(KdenliveSettings::audiothumbnails());
     connect(timeline_buttons_ui.buttonVideo, SIGNAL(clicked()), this, SLOT(slotSwitchVideoThumbs()));
     connect(timeline_buttons_ui.buttonAudio, SIGNAL(clicked()), this, SLOT(slotSwitchAudioThumbs()));
+    connect(timeline_buttons_ui.buttonFitZoom, SIGNAL(clicked()), this, SLOT(slotFitZoom()));
 
     statusBar()->insertPermanentWidget(0, statusProgressBar, 1);
     statusBar()->insertPermanentWidget(1, statusLabel, 1);
@@ -169,10 +175,12 @@ MainWindow::MainWindow(QWidget *parent)
     statusBar()->insertPermanentWidget(ID_TIMELINE_FORMAT, m_timecodeFormat);
     statusBar()->setMaximumHeight(statusBar()->font().pointSize() * 4);
 
-    timeline_buttons_ui.buttonVideo->setIcon(KIcon("display-video"));
+    timeline_buttons_ui.buttonVideo->setIcon(KIcon("video-mpeg"));
     timeline_buttons_ui.buttonVideo->setToolTip(i18n("Show video thumbnails"));
-    timeline_buttons_ui.buttonAudio->setIcon(KIcon("display-audio"));
+    timeline_buttons_ui.buttonAudio->setIcon(KIcon("audio-mpeg"));
     timeline_buttons_ui.buttonAudio->setToolTip(i18n("Show audio thumbnails"));
+    timeline_buttons_ui.buttonFitZoom->setIcon(KIcon("zoom-fit-best"));
+    timeline_buttons_ui.buttonFitZoom->setToolTip(i18n("Fit zoom to project"));
 
     setupGUI(Default, "kdenliveui.rc");
 
@@ -355,17 +363,16 @@ void MainWindow::activateDocument() {
     connectDocument(currentTab, currentDoc);
 }
 
-void MainWindow::closeDocument(QWidget *w) {
-    if (w == m_timelineArea->currentWidget()) {
-        // closing current document
-        int ix = m_timelineArea->currentIndex() + 1;
-        if (ix == m_timelineArea->count()) ix = 0;
-        m_timelineArea->setCurrentIndex(ix);
-    }
-
+void MainWindow::slotRemoveTab() {
+    QWidget *w = m_timelineArea->currentWidget();
+    // closing current document
+    int ix = m_timelineArea->currentIndex() + 1;
+    if (ix == m_timelineArea->count()) ix = 0;
+    m_timelineArea->setCurrentIndex(ix);
     TrackView *tabToClose = (TrackView *) w;
     KdenliveDoc *docToClose = tabToClose->document();
     m_timelineArea->removeTab(m_timelineArea->indexOf(w));
+    if (m_timelineArea->count() == 1) m_timelineArea->setTabBarHidden(true);
     delete docToClose;
     delete w;
 }
@@ -556,7 +563,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
         m_activeDocument->backupMltPlaylist();
         if (m_activeTimeline) {
             disconnect(m_projectMonitor, SIGNAL(renderPosition(int)), m_activeTimeline, SLOT(moveCursorPos(int)));
-            disconnect(m_projectMonitor, SIGNAL(durationChanged(int)), m_activeTimeline->projectView(), SLOT(setDuration(int)));
+            disconnect(m_projectMonitor, SIGNAL(durationChanged(int)), m_activeTimeline, SLOT(setDuration(int)));
             disconnect(m_activeDocument, SIGNAL(addProjectClip(DocClipBase *)), m_projectList, SLOT(slotAddClip(DocClipBase *)));
             disconnect(m_activeDocument, SIGNAL(signalDeleteProjectClip(int)), m_projectList, SLOT(slotDeleteClip(int)));
             disconnect(m_activeDocument, SIGNAL(updateClipDisplay(int)), m_projectList, SLOT(slotUpdateClip(int)));
@@ -581,7 +588,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(trackView, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(activateMonitor()));
     connect(trackView, SIGNAL(mousePosition(int)), this, SLOT(slotUpdateMousePosition(int)));
     connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
-    connect(m_projectMonitor, SIGNAL(durationChanged(int)), trackView->projectView(), SLOT(setDuration(int)));
+    connect(m_projectMonitor, SIGNAL(durationChanged(int)), trackView, SLOT(setDuration(int)));
     connect(doc, SIGNAL(addProjectClip(DocClipBase *)), m_projectList, SLOT(slotAddClip(DocClipBase *)));
     connect(doc, SIGNAL(signalDeleteProjectClip(int)), m_projectList, SLOT(slotDeleteClip(int)));
     connect(doc, SIGNAL(updateClipDisplay(int)), m_projectList, SLOT(slotUpdateClip(int)));
@@ -609,7 +616,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     m_commandStack->setActiveStack(doc->commandStack());
 
     m_overView->setScene(trackView->projectScene());
-    m_overView->scale(m_overView->width() / trackView->duration(), m_overView->height() / (50 * trackView->tracksNumber()));
+    //m_overView->scale(m_overView->width() / trackView->duration(), m_overView->height() / (50 * trackView->tracksNumber()));
     //m_overView->fitInView(m_overView->itemAt(0, 50), Qt::KeepAspectRatio);
 
     setCaption(doc->description());
@@ -668,6 +675,13 @@ void MainWindow::slotZoomIn() {
 
 void MainWindow::slotZoomOut() {
     timeline_buttons_ui.zoom_slider->setValue(timeline_buttons_ui.zoom_slider->value() + 1);
+}
+
+void MainWindow::slotFitZoom() {
+    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+    if (currentTab) {
+        timeline_buttons_ui.zoom_slider->setValue(currentTab->fitZoom());
+    }
 }
 
 void MainWindow::slotGotProgressInfo(KUrl url, int progress) {

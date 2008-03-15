@@ -55,17 +55,18 @@ public:
     int outPoint() const;
     int inPoint() const;
     int currentZoom() const;
+    int fitZoom() const;
 
 public slots:
     void slotDeleteClip(int clipId);
     void slotChangeZoom(int factor);
+    void setDuration(int dur);
 
 private:
     Ui::TimeLine_UI *view;
     CustomRuler *m_ruler;
     CustomTrackView *m_trackview;
     double m_scale;
-    int m_projectDuration;
     int m_projectTracks;
     QString m_editMode;
     QGraphicsScene *m_scene;
