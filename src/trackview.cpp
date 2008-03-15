@@ -36,7 +36,7 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
     view->setupUi(this);
 
     m_scene = new QGraphicsScene();
-    m_trackview = new CustomTrackView(doc, m_scene, this);
+    m_trackview = new CustomTrackView(doc, m_scene, parent);
     m_trackview->scale(1, 1);
     m_trackview->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     //m_scene->addRect(QRectF(0, 0, 100, 100), QPen(), QBrush(Qt::red));

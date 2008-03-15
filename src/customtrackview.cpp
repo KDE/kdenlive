@@ -27,6 +27,8 @@
 #include <KLocale>
 #include <KUrl>
 #include <KCursor>
+#include <KXmlGuiWindow>
+#include <KActionCollection>
 
 #include "customtrackview.h"
 #include "clipitem.h"
@@ -67,6 +69,9 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene
         m_cursorLine->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIgnoresTransformations);
         m_cursorLine->setZValue(1000);
     }
+    m_timelineContextClipMenu = new QMenu(this);
+    QAction *delClip = static_cast<KXmlGuiWindow*>(parent)->actionCollection()->action("delete_timeline_clip");
+    if (delClip) m_timelineContextClipMenu->addAction(delClip);
 }
 
 void CustomTrackView::checkAutoScroll() {
@@ -138,7 +143,6 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
         }
 
         QList<QGraphicsItem *> itemList = items(event->pos());
-        int i = 0;
         QGraphicsRectItem *item = NULL;
         for (int i = 0; i < itemList.count(); i++) {
             if (itemList.at(i)->type() == AVWIDGET || itemList.at(i)->type() == TRANSITIONWIDGET) {
@@ -364,7 +368,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                     scene()->addItem(tr);
                     //m_dragItem->addTransition(tra);
                 }
-
+                updateSnapPoints(m_dragItem);
                 kDebug() << "//////// ITEM CLICKED: " << m_startPos;
                 collision = true;
                 break;
@@ -378,12 +382,21 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
             for (int i = 0; i < itemList.count(); i++)
                 itemList.at(i)->setSelected(false);
             emit clipItemSelected(NULL);
-            setCursorPos((int) mapToScene(event->x(), 0).x() / m_scale);
+            if (event->button() == Qt::RightButton) {
+                displayContextMenu(event->globalPos());
+            } else setCursorPos((int) mapToScene(event->x(), 0).x() / m_scale);
+        } else if (event->button() == Qt::RightButton) {
+            m_operationMode = NONE;
+            displayContextMenu(event->globalPos(), (ClipItem *) m_dragItem);
+            m_dragItem = NULL;
         }
     }
-    updateSnapPoints(m_dragItem);
     //kDebug()<<pos;
     //QGraphicsView::mousePressEvent(event);
+}
+
+void CustomTrackView::displayContextMenu(QPoint pos, ClipItem *clip) {
+    m_timelineContextClipMenu->popup(pos);
 }
 
 void CustomTrackView::activateMonitor() {
@@ -650,6 +663,17 @@ void CustomTrackView::deleteClip(int track, GenTime startpos, const QRectF &rect
     delete item;
     m_document->renderer()->mltRemoveClip(m_tracksCount - track, startpos);
     m_document->renderer()->doRefresh();
+}
+
+void CustomTrackView::deleteSelectedClips() {
+    QList<QGraphicsItem *> itemList = items();
+    for (int i = 0; i < itemList.count(); i++) {
+        if (itemList.at(i)->type() == AVWIDGET && itemList.at(i)->isSelected()) {
+            ClipItem *item = (ClipItem *) itemList.at(i);
+            AddTimelineClipCommand *command = new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->track(), item->startPos(), item->rect(), item->duration(), true, true);
+            m_commandStack->push(command);
+        }
+    }
 }
 
 void CustomTrackView::addClip(QDomElement xml, int clipId, int track, GenTime startpos, const QRectF &rect, GenTime duration) {

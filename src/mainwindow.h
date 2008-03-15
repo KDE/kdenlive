@@ -139,6 +139,7 @@ private slots:
     void slotZoomOut();
     void slotFitZoom();
     void slotRemoveTab();
+    void slotDeleteTimelineClip();
 };
 
 #endif

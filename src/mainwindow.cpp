@@ -278,6 +278,13 @@ void MainWindow::setupActions() {
     actionCollection()->addAction("monitor_play", monitorPlay);
     connect(monitorPlay, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotPlay()));
 
+    KAction* deleteTimelineClip = new KAction(this);
+    deleteTimelineClip->setText(i18n("Delete Clip"));
+    deleteTimelineClip->setShortcut(Qt::Key_Delete);
+    deleteTimelineClip->setIcon(KIcon("edit-delete"));
+    actionCollection()->addAction("delete_timeline_clip", deleteTimelineClip);
+    connect(deleteTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotDeleteTimelineClip()));
+
     KStandardAction::quit(kapp, SLOT(quit()),
                           actionCollection());
 
@@ -350,7 +357,7 @@ void MainWindow::newFile() {
     MltVideoProfile prof = ProfilesDialog::getVideoProfile(profileName);
     if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
     KdenliveDoc *doc = new KdenliveDoc(KUrl(), prof, m_commandStack);
-    TrackView *trackView = new TrackView(doc);
+    TrackView *trackView = new TrackView(doc, this);
     m_timelineArea->addTab(trackView, KIcon("kdenlive"), i18n("Untitled") + " / " + prof.description);
     if (m_timelineArea->count() == 1)
         connectDocument(trackView, doc);
@@ -415,7 +422,7 @@ void MainWindow::openFile(const KUrl &url) { //new
     MltVideoProfile prof = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
     if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
     KdenliveDoc *doc = new KdenliveDoc(url, prof, m_commandStack);
-    TrackView *trackView = new TrackView(doc);
+    TrackView *trackView = new TrackView(doc, this);
     m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description()));
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());
     if (m_timelineArea->count() > 1) m_timelineArea->setTabBarHidden(false);
@@ -614,6 +621,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     m_monitorManager->setTimecode(doc->timecode());
     doc->setRenderer(m_projectMonitor->render);
     m_commandStack->setActiveStack(doc->commandStack());
+    if (m_commandStack->isClean()) kDebug() << "////////////  UNDO STACK IS CLEAN";
+    else  kDebug() << "////////////  UNDO STACK IS NOT CLEAN*******************";
 
     m_overView->setScene(trackView->projectScene());
     //m_overView->scale(m_overView->width() / trackView->duration(), m_overView->height() / (50 * trackView->tracksNumber()));
@@ -667,6 +676,13 @@ void MainWindow::slotSwitchAudioThumbs() {
         if (m_activeDocument) m_activeDocument->clipManager()->checkAudioThumbs();
     }
     timeline_buttons_ui.buttonAudio->setDown(KdenliveSettings::audiothumbnails());
+}
+
+void MainWindow::slotDeleteTimelineClip() {
+    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+    if (currentTab) {
+        currentTab->projectView()->deleteSelectedClips();
+    }
 }
 
 void MainWindow::slotZoomIn() {

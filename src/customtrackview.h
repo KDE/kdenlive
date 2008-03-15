@@ -24,6 +24,7 @@
 #include <QGraphicsView>
 #include <QGraphicsItemAnimation>
 #include <QTimeLine>
+#include <QMenu>
 
 #include <KUndoStack>
 
@@ -54,6 +55,7 @@ public:
     void updateEffect(int track, GenTime pos, QDomElement effect);
     void activateMonitor();
     int duration() const;
+    void deleteSelectedClips();
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -104,6 +106,10 @@ private:
     void checkScrolling();
     /** Should we auto scroll while playing (keep in sync with KdenliveSettings::autoscroll() */
     bool m_autoScroll;
+    void displayContextMenu(QPoint pos, ClipItem *clip = NULL);
+    QMenu *m_timelineContextMenu;
+    QMenu *m_timelineContextClipMenu;
+    QMenu *m_timelineContextTransitionMenu;
 
 signals:
     void cursorMoved(int, int);
