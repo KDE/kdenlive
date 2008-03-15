@@ -98,6 +98,10 @@ private:
     EffectsList m_audioEffects;
     EffectsList m_customEffects;
 
+    QMenu *m_timelineContextMenu;
+    QMenu *m_timelineContextClipMenu;
+    QMenu *m_timelineContextTransitionMenu;
+
     RenderWidget *m_renderWidget;
     Ui::TimelineButtons_UI timeline_buttons_ui;
 
@@ -140,6 +144,9 @@ private slots:
     void slotFitZoom();
     void slotRemoveTab();
     void slotDeleteTimelineClip();
+    void slotAddVideoEffect(QAction *result);
+    void slotAddAudioEffect(QAction *result);
+    void slotAddCustomEffect(QAction *result);
 };
 
 #endif

@@ -42,6 +42,8 @@
 #include <kstandarddirs.h>
 #include <KUrlRequesterDialog>
 #include <KTemporaryFile>
+#include <KActionMenu>
+#include <KMenu>
 #include <ktogglefullscreenaction.h>
 
 #include <mlt++/Mlt.h>
@@ -183,6 +185,44 @@ MainWindow::MainWindow(QWidget *parent)
     timeline_buttons_ui.buttonFitZoom->setToolTip(i18n("Fit zoom to project"));
 
     setupGUI(Default, "kdenliveui.rc");
+
+    // build effects menus
+    QAction *action;
+    QMenu *videoEffectsMenu = (QMenu*)(factory()->container("video_effects_menu", this));
+    QStringList effects = m_videoEffects.effectNames();
+    foreach(QString name, effects) {
+        action = new QAction(name, this);
+        action->setData(name);
+        videoEffectsMenu->addAction(action);
+    }
+    QMenu *audioEffectsMenu = (QMenu*)(factory()->container("audio_effects_menu", this));
+    effects = m_audioEffects.effectNames();
+    foreach(QString name, effects) {
+        action = new QAction(name, this);
+        action->setData(name);
+        audioEffectsMenu->addAction(action);
+    }
+    QMenu *customEffectsMenu = (QMenu*)(factory()->container("custom_effects_menu", this));
+    effects = m_customEffects.effectNames();
+    foreach(QString name, effects) {
+        action = new QAction(name, this);
+        action->setData(name);
+        customEffectsMenu->addAction(action);
+    }
+
+    connect(videoEffectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddVideoEffect(QAction *)));
+    connect(audioEffectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddAudioEffect(QAction *)));
+    connect(customEffectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddCustomEffect(QAction *)));
+
+    m_timelineContextMenu = new QMenu(this);
+    m_timelineContextClipMenu = new QMenu(this);
+    m_timelineContextTransitionMenu = new QMenu(this);
+
+    action = actionCollection()->action("delete_timeline_clip");
+    m_timelineContextClipMenu->addAction(action);
+    m_timelineContextClipMenu->addMenu(videoEffectsMenu);
+    m_timelineContextClipMenu->addMenu(audioEffectsMenu);
+    m_timelineContextClipMenu->addMenu(customEffectsMenu);
 
     connect(projectMonitorDock, SIGNAL(visibilityChanged(bool)), m_projectMonitor, SLOT(refreshMonitor(bool)));
     connect(clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
@@ -613,8 +653,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(effectStack, SIGNAL(changeEffectState(ClipItem*, QDomElement, bool)), trackView->projectView(), SLOT(slotChangeEffectState(ClipItem*, QDomElement, bool)));
     connect(effectStack, SIGNAL(refreshEffectStack(ClipItem*)), trackView->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(activateMonitor()));
-
-
+    trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu);
     m_activeTimeline = trackView;
     KdenliveSettings::setCurrent_profile(doc->profilePath());
     if (m_renderWidget) m_renderWidget->setDocumentStandard(doc->getDocumentStandard());
@@ -683,6 +722,24 @@ void MainWindow::slotDeleteTimelineClip() {
     if (currentTab) {
         currentTab->projectView()->deleteSelectedClips();
     }
+}
+
+void MainWindow::slotAddVideoEffect(QAction *result) {
+    if (!result) return;
+    QDomElement effect = m_videoEffects.getEffectByName(result->data().toString());
+    slotAddEffect(effect);
+}
+
+void MainWindow::slotAddAudioEffect(QAction *result) {
+    if (!result) return;
+    QDomElement effect = m_audioEffects.getEffectByName(result->data().toString());
+    slotAddEffect(effect);
+}
+
+void MainWindow::slotAddCustomEffect(QAction *result) {
+    if (!result) return;
+    QDomElement effect = m_customEffects.getEffectByName(result->data().toString());
+    slotAddEffect(effect);
 }
 
 void MainWindow::slotZoomIn() {

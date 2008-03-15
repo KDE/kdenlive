@@ -56,6 +56,7 @@ public:
     void activateMonitor();
     int duration() const;
     void deleteSelectedClips();
+    void setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition);
 
 public slots:
     void setCursorPos(int pos, bool seek = true);

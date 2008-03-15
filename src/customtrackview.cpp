@@ -27,8 +27,6 @@
 #include <KLocale>
 #include <KUrl>
 #include <KCursor>
-#include <KXmlGuiWindow>
-#include <KActionCollection>
 
 #include "customtrackview.h"
 #include "clipitem.h"
@@ -69,9 +67,12 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene
         m_cursorLine->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIgnoresTransformations);
         m_cursorLine->setZValue(1000);
     }
-    m_timelineContextClipMenu = new QMenu(this);
-    QAction *delClip = static_cast<KXmlGuiWindow*>(parent)->actionCollection()->action("delete_timeline_clip");
-    if (delClip) m_timelineContextClipMenu->addAction(delClip);
+}
+
+void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition) {
+    m_timelineContextMenu = timeline;
+    m_timelineContextClipMenu = clip;
+    m_timelineContextTransitionMenu = transition;
 }
 
 void CustomTrackView::checkAutoScroll() {
