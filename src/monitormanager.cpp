@@ -79,6 +79,26 @@ void MonitorManager::slotPlay() {
     else m_projectMonitor->slotPlay();
 }
 
+void MonitorManager::slotRewind() {
+    if (m_activeMonitor == "clip") m_clipMonitor->slotRewind();
+    else m_projectMonitor->slotRewind();
+}
+
+void MonitorManager::slotForward() {
+    if (m_activeMonitor == "clip") m_clipMonitor->slotForward();
+    else m_projectMonitor->slotForward();
+}
+
+void MonitorManager::slotRewindOneFrame() {
+    if (m_activeMonitor == "clip") m_clipMonitor->slotRewindOneFrame();
+    else m_projectMonitor->slotRewindOneFrame();
+}
+
+void MonitorManager::slotForwardOneFrame() {
+    if (m_activeMonitor == "clip") m_clipMonitor->slotForwardOneFrame();
+    else m_projectMonitor->slotForwardOneFrame();
+}
+
 void MonitorManager::resetProfiles(QString prof) {
     m_clipMonitor->resetProfile(prof);
     m_projectMonitor->resetProfile(prof);

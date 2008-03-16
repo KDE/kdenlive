@@ -40,6 +40,10 @@ public:
 public slots:
     void activateMonitor(QString name = QString::null);
     void slotPlay();
+    void slotRewind();
+    void slotForward();
+    void slotRewindOneFrame();
+    void slotForwardOneFrame();
 
 private:
     Monitor *m_clipMonitor;

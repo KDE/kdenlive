@@ -66,10 +66,7 @@ private slots:
     void adjustRulerSize(int length);
     void seekCursor(int pos);
     void rendererStopped(int pos);
-    void slotRewindOneFrame();
-    void slotForwardOneFrame();
-    void slotForward();
-    void slotRewind();
+    
 
 public slots:
     void slotOpenFile(const QString &);
@@ -81,6 +78,10 @@ public slots:
     void start();
     void activateMonitor();
     void slotPlay();
+    void slotForward();
+    void slotRewind();
+    void slotRewindOneFrame();
+    void slotForwardOneFrame();
     void saveSceneList(QString path, QDomElement e = QDomElement());
 
 signals:

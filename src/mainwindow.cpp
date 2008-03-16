@@ -259,7 +259,7 @@ bool MainWindow::queryClose() {
 }
 
 void MainWindow::slotFullScreen() {
-    KToggleFullScreenAction::setFullScreen(this, actionCollection()->action("fullscreen")->isChecked());
+    //KToggleFullScreenAction::setFullScreen(this, actionCollection()->action("fullscreen")->isChecked());
 }
 
 void MainWindow::slotAddEffect(QDomElement effect, GenTime pos, int track) {
@@ -325,6 +325,34 @@ void MainWindow::setupActions() {
     monitorPlay->setShortcut(Qt::Key_Space);
     actionCollection()->addAction("monitor_play", monitorPlay);
     connect(monitorPlay, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotPlay()));
+
+    KAction* monitorSeekBackward = new KAction(this);
+    monitorSeekBackward->setText(i18n("Rewind"));
+    monitorSeekBackward->setIcon(KIcon("media-seek-backward"));
+    monitorSeekBackward->setShortcut(Qt::Key_J);
+    actionCollection()->addAction("monitor_seek_backward", monitorSeekBackward);
+    connect(monitorSeekBackward, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotRewind()));
+
+    KAction* monitorSeekBackwardOneFrame = new KAction(this);
+    monitorSeekBackwardOneFrame->setText(i18n("Rewind 1 Frame"));
+    monitorSeekBackwardOneFrame->setIcon(KIcon("media-skip-backward"));
+    monitorSeekBackwardOneFrame->setShortcut(Qt::Key_Left);
+    actionCollection()->addAction("monitor_seek_backward-one-frame", monitorSeekBackwardOneFrame);
+    connect(monitorSeekBackwardOneFrame, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotRewindOneFrame()));
+
+    KAction* monitorSeekForward = new KAction(this);
+    monitorSeekForward->setText(i18n("Forward"));
+    monitorSeekForward->setIcon(KIcon("media-seek-forward"));
+    monitorSeekForward->setShortcut(Qt::Key_L);
+    actionCollection()->addAction("monitor_seek_forward", monitorSeekForward);
+    connect(monitorSeekForward, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotForward()));
+
+    KAction* monitorSeekForwardOneFrame = new KAction(this);
+    monitorSeekForwardOneFrame->setText(i18n("Forward 1 Frame"));
+    monitorSeekForwardOneFrame->setIcon(KIcon("media-skip-forward"));
+    monitorSeekForwardOneFrame->setShortcut(Qt::Key_Right);
+    actionCollection()->addAction("monitor_seek_forward-one-frame", monitorSeekForwardOneFrame);
+    connect(monitorSeekForwardOneFrame, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotForwardOneFrame()));
 
     KAction* deleteTimelineClip = new KAction(this);
     deleteTimelineClip->setText(i18n("Delete Clip"));
