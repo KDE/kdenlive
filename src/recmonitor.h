@@ -53,18 +53,32 @@ private:
 
 
     KUrl m_captureFile;
+    KIcon m_playIcon;
+    KIcon m_pauseIcon;
 
     QProcess *captureProcess;
     QProcess *displayProcess;
     QTimer *m_initTimer;
     bool m_isCapturing;
+    bool m_isPlaying;
     QStringList m_captureArgs;
     QStringList m_displayArgs;
+    QAction *m_recAction;
+    QAction *m_playAction;
+    QAction *m_fwdAction;
+    QAction *m_rewAction;
+    QAction *m_stopAction;
+    QAction *m_discAction;
 
 private slots:
-    void slotSwitchCapture();
-    void slotCapture();
+    void slotStartCapture(bool play = true);
+    void slotStopCapture();
+    void slotRecord();
     void slotProcessStatus(QProcess::ProcessState status);
+    void slotVideoDeviceChanged(int ix);
+    void slotRewind();
+    void slotForward();
+    void slotDisconnect();
 
 public slots:
     void refreshRecMonitor(bool visible);

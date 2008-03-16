@@ -22,6 +22,7 @@
 #include <QStylePainter>
 #include <QMenu>
 #include <QToolButton>
+#include <QToolBar>
 
 #include <KDebug>
 #include <KLocale>
@@ -38,22 +39,22 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     layout->addWidget(m_ruler);
     ui.ruler_frame->setLayout(layout);
 
-    m_toolbar = new QToolBar(name, this);
+    QToolBar *toolbar = new QToolBar(name, this);
     QVBoxLayout *layout2 = new QVBoxLayout;
 
     m_playIcon = KIcon("media-playback-start");
     m_pauseIcon = KIcon("media-playback-pause");
 
-    QAction *m_rewAction = m_toolbar->addAction(KIcon("media-seek-backward"), i18n("Rewind"));
+    QAction *m_rewAction = toolbar->addAction(KIcon("media-seek-backward"), i18n("Rewind"));
     connect(m_rewAction, SIGNAL(triggered()), this, SLOT(slotRewind()));
-    QAction *m_rew1Action = m_toolbar->addAction(KIcon("media-skip-backward"), i18n("Rewind 1 frame"));
+    QAction *m_rew1Action = toolbar->addAction(KIcon("media-skip-backward"), i18n("Rewind 1 frame"));
     connect(m_rew1Action, SIGNAL(triggered()), this, SLOT(slotRewindOneFrame()));
 
-    QToolButton *playButton = new QToolButton(m_toolbar);
+    QToolButton *playButton = new QToolButton(toolbar);
     QMenu *playMenu = new QMenu(this);
     playButton->setMenu(playMenu);
     playButton->setPopupMode(QToolButton::MenuButtonPopup);
-    m_toolbar->addWidget(playButton);
+    toolbar->addWidget(playButton);
 
     m_playAction = playMenu->addAction(m_playIcon, i18n("Play"));
     m_playAction->setCheckable(true);
@@ -63,18 +64,18 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     QAction *m_loopSectionAction = playMenu->addAction(m_playIcon, i18n("Loop Section"));
     connect(m_loopSectionAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
 
-    QAction *m_fwd1Action = m_toolbar->addAction(KIcon("media-skip-forward"), i18n("Forward 1 frame"));
+    QAction *m_fwd1Action = toolbar->addAction(KIcon("media-skip-forward"), i18n("Forward 1 frame"));
     connect(m_fwd1Action, SIGNAL(triggered()), this, SLOT(slotForwardOneFrame()));
-    QAction *m_fwdAction = m_toolbar->addAction(KIcon("media-seek-forward"), i18n("Forward"));
+    QAction *m_fwdAction = toolbar->addAction(KIcon("media-seek-forward"), i18n("Forward"));
     connect(m_fwdAction, SIGNAL(triggered()), this, SLOT(slotForward()));
 
     playButton->setDefaultAction(m_playAction);
 
     m_timePos = new KRestrictedLine(this);
     m_timePos->setInputMask("99:99:99:99");
-    m_toolbar->addWidget(m_timePos);
+    toolbar->addWidget(m_timePos);
 
-    layout2->addWidget(m_toolbar);
+    layout2->addWidget(toolbar);
     ui.button_frame->setLayout(layout2);
 
     //m_ruler->setPixelPerMark(3);

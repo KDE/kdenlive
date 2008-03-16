@@ -21,7 +21,6 @@
 #ifndef MONITOR_H
 #define MONITOR_H
 
-#include <QToolBar>
 #include <KIcon>
 #include <KAction>
 #include <KRestrictedLine>
@@ -60,7 +59,6 @@ private:
     KIcon m_playIcon;
     KIcon m_pauseIcon;
     bool m_isActive;
-    QToolBar *m_toolbar;
     KRestrictedLine *m_timePos;
     QAction *m_playAction;
 
