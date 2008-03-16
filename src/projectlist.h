@@ -131,7 +131,7 @@ private:
     KdenliveDoc *m_doc;
 
 private slots:
-    void slotAddClip(QUrl givenUrl = QUrl(), const QString &group = QString::null);
+    void slotAddClip(QUrl givenUrl = QUrl(), const QString &group = QString());
     void slotRemoveClip();
     void slotEditClip();
     void slotClipSelected();

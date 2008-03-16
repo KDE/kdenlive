@@ -126,6 +126,14 @@ MainWindow::MainWindow(QWidget *parent)
     projectMonitorDock->setWidget(m_projectMonitor);
     addDockWidget(Qt::TopDockWidgetArea, projectMonitorDock);
 
+    recMonitorDock = new QDockWidget(i18n("Record Monitor"), this);
+    recMonitorDock->setObjectName("record_monitor");
+    m_recMonitor = new RecMonitor("record", this);
+    recMonitorDock->setWidget(m_recMonitor);
+    addDockWidget(Qt::TopDockWidgetArea, recMonitorDock);
+
+    connect(m_recMonitor, SIGNAL(addProjectClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
+
     undoViewDock = new QDockWidget(i18n("Undo History"), this);
     undoViewDock->setObjectName("undo_history");
     m_undoView = new QUndoView(this);
@@ -724,6 +732,11 @@ void MainWindow::slotDeleteTimelineClip() {
     if (currentTab) {
         currentTab->projectView()->deleteSelectedClips();
     }
+}
+
+void MainWindow::slotAddProjectClip(KUrl url) {
+    if (m_activeDocument)
+        m_activeDocument->slotAddClipFile(url, QString());
 }
 
 void MainWindow::slotAddVideoEffect(QAction *result) {

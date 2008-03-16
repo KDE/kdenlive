@@ -30,7 +30,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
 
     QWidget *p1 = new QWidget;
     m_configMisc.setupUi(p1);
-    page1 = addPage(p1, i18n("Misc"), "misc");
+    page1 = addPage(p1, i18n("Misc"), "configure");
 
     QWidget *p3 = new QWidget;
     m_configDisplay.setupUi(p3);
@@ -43,7 +43,13 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
     m_configEnv.rendererpathurl->lineEdit()->setObjectName("kcfg_rendererpath");
     m_configEnv.tmppathurl->setMode(KFile::Directory);
     m_configEnv.tmppathurl->lineEdit()->setObjectName("kcfg_currenttmpfolder");
-    page2 = addPage(p2, i18n("Environnement"), "env");
+    page2 = addPage(p2, i18n("Environnement"), "terminal");
+
+    QWidget *p4 = new QWidget;
+    m_configCapture.setupUi(p4);
+    m_configCapture.capturefolderurl->setMode(KFile::Directory);
+    m_configCapture.capturefolderurl->lineEdit()->setObjectName("kcfg_capturefolder");
+    page4 = addPage(p4, i18n("Capture"), "audio-card");
 
     QStringList profilesNames = ProfilesDialog::getProfileNames();
     m_configMisc.profiles_list->addItems(profilesNames);

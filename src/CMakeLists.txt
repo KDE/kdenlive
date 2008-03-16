@@ -19,13 +19,16 @@ ${NEPOMUK_LIBRARIES}
 )
 
 
+
 kde4_add_ui_files(kdenlive_UI
   widgets/timeline_ui.ui
   widgets/monitor_ui.ui
+  widgets/recmonitor_ui.ui
   widgets/colorclip_ui.ui
   widgets/configmisc_ui.ui
   widgets/configenv_ui.ui
   widgets/configdisplay_ui.ui
+  widgets/configcapture_ui.ui
   widgets/effectlist_ui.ui
   widgets/effectstack_ui.ui
   widgets/profiledialog_ui.ui
@@ -89,6 +92,7 @@ set(kdenlive_SRCS
   renderwidget.cpp
   abstractclipitem.cpp
   transitionsettings.cpp
+  recmonitor.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

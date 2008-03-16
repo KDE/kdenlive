@@ -1,0 +1,231 @@
+<ui version="4.0" >
+ <class>ConfigCapture_UI</class>
+ <widget class="QWidget" name="ConfigCapture_UI" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>422</width>
+    <height>339</height>
+   </rect>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_3" >
+   <item row="0" column="0" >
+    <widget class="QLabel" name="label" >
+     <property name="text" >
+      <string>Default capture device</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" >
+    <widget class="KComboBox" name="kcfg_defaultcapture" >
+     <item>
+      <property name="text" >
+       <string> Firewire (DV / HDV)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Video4Linux (webcam)</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2" >
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="title" >
+      <string>Firewire config</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2" >
+      <item row="0" column="0" >
+       <widget class="QLabel" name="label_2" >
+        <property name="text" >
+         <string>Default format</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" >
+       <widget class="KComboBox" name="kcfg_firewireformat" >
+        <item>
+         <property name="text" >
+          <string>DV Raw</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>DV AVI type 1</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>DV AVI type 2</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>HDV</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2" >
+    <widget class="QGroupBox" name="groupBox_2" >
+     <property name="title" >
+      <string>Video4Linux</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout" >
+      <item row="0" column="0" colspan="2" >
+       <widget class="QLabel" name="label_7" >
+        <property name="text" >
+         <string>Video device</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2" colspan="2" >
+       <widget class="KLineEdit" name="kcfg_video4vdevice" >
+        <property name="text" >
+         <string>/dev/video0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4" >
+       <widget class="QLabel" name="label_3" >
+        <property name="text" >
+         <string>Format</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5" >
+       <widget class="KLineEdit" name="kcfg_video4vformat" >
+        <property name="text" >
+         <string>m4v</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2" >
+       <widget class="QLabel" name="label_8" >
+        <property name="text" >
+         <string>Audio device</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2" colspan="2" >
+       <widget class="KLineEdit" name="kcfg_video4adevice" >
+        <property name="text" >
+         <string>/dev/dsp</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4" >
+       <widget class="QLabel" name="label_9" >
+        <property name="text" >
+         <string>Format</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5" >
+       <widget class="KLineEdit" name="kcfg_video4aformat" >
+        <property name="text" >
+         <string>oss</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" >
+       <widget class="QLabel" name="label_4" >
+        <property name="text" >
+         <string>Image width</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1" colspan="2" >
+       <widget class="QSpinBox" name="kcfg_video4width" >
+        <property name="maximum" >
+         <number>2000</number>
+        </property>
+        <property name="value" >
+         <number>320</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3" >
+       <widget class="QLabel" name="label_5" >
+        <property name="text" >
+         <string>Image height</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="4" colspan="2" >
+       <widget class="QSpinBox" name="kcfg_video4height" >
+        <property name="maximum" >
+         <number>2000</number>
+        </property>
+        <property name="value" >
+         <number>240</number>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" >
+       <widget class="QLabel" name="label_6" >
+        <property name="text" >
+         <string>Frame rate</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1" colspan="2" >
+       <widget class="QSpinBox" name="kcfg_video4rate" >
+        <property name="value" >
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="2" >
+    <spacer name="verticalSpacer" >
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>20</width>
+       <height>56</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0" >
+    <widget class="QLabel" name="label_10" >
+     <property name="text" >
+      <string>Capture folder</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" >
+    <widget class="KUrlRequester" name="capturefolderurl" />
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

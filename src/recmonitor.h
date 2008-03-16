@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,50 +18,65 @@
  ***************************************************************************/
 
 
-#ifndef KDENLIVESETTINGSDIALOG_H
-#define KDENLIVESETTINGSDIALOG_H
+#ifndef RECMONITOR_H
+#define RECMONITOR_H
 
-#include <QDialog>
+#include <QToolBar>
+#include <QTimer>
+#include <QProcess>
+#include <QImage>
 
-#include <KConfigDialog>
+#include <KIcon>
+#include <KAction>
+#include <KRestrictedLine>
 
-#include "ui_configmisc_ui.h"
-#include "ui_configenv_ui.h"
-#include "ui_configdisplay_ui.h"
-#include "ui_configcapture_ui.h"
+#include "ui_recmonitor_ui.h"
+#include "smallruler.h"
 
-class KdenliveSettingsDialog : public KConfigDialog {
+class RecMonitor : public QWidget {
     Q_OBJECT
 
 public:
-    KdenliveSettingsDialog(QWidget * parent = 0);
-    ~KdenliveSettingsDialog();
+    RecMonitor(QString name, QWidget *parent = 0);
+    QString name() const;
+
 
 protected:
-    virtual bool hasChanged();
-
-private slots:
-    void slotUpdateDisplay();
+    virtual void mousePressEvent(QMouseEvent * event);
 
 private:
-    KPageWidgetItem *page1;
-    KPageWidgetItem *page2;
-    KPageWidgetItem *page3;
-    KPageWidgetItem *page4;
-    Ui::ConfigEnv_UI m_configEnv;
-    Ui::ConfigMisc_UI m_configMisc;
-    Ui::ConfigDisplay_UI m_configDisplay;
-    Ui::ConfigCapture_UI m_configCapture;
-    QStringList m_mltProfilesList;
-    QStringList m_customProfilesList;
-    bool m_isCustomProfile;
-    QString m_defaulfProfile;
+    Ui::RecMonitor_UI ui;
+    QString m_tmpFolder;
+    QString m_name;
+
+    bool m_isActive;
+
+
+    KUrl m_captureFile;
+
+    QProcess *captureProcess;
+    QProcess *displayProcess;
+    QTimer *m_initTimer;
+    bool m_isCapturing;
+    QStringList m_captureArgs;
+    QStringList m_displayArgs;
+
+private slots:
+    void slotSwitchCapture();
+    void slotCapture();
+    void slotProcessStatus(QProcess::ProcessState status);
+
+public slots:
+    void refreshRecMonitor(bool visible);
+    void stop();
+    void start();
+    void activateRecMonitor();
+    void slotPlay();
 
 signals:
-    void customChanged();
-
+    void renderPosition(int);
+    void durationChanged(int);
+    void addProjectClip(KUrl);
 };
 
-
 #endif
-

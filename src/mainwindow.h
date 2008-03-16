@@ -36,6 +36,7 @@
 
 #include "projectlist.h"
 #include "monitor.h"
+#include "recmonitor.h"
 #include "monitormanager.h"
 #include "kdenlivedoc.h"
 #include "trackview.h"
@@ -85,6 +86,9 @@ private:
 
     QDockWidget *projectMonitorDock;
     Monitor *m_projectMonitor;
+
+    QDockWidget *recMonitorDock;
+    RecMonitor *m_recMonitor;
 
     QDockWidget *undoViewDock;
     QUndoView *m_undoView;
@@ -148,6 +152,7 @@ private slots:
     void slotAddVideoEffect(QAction *result);
     void slotAddAudioEffect(QAction *result);
     void slotAddCustomEffect(QAction *result);
+    void slotAddProjectClip(KUrl url);
 };
 
 #endif

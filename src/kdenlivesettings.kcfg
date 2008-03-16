@@ -54,6 +54,58 @@
     </entry>
   </group>
 
+  <group name="capture">
+    <entry name="defaultcapture" type="UInt">
+      <label>Default video capture system.</label>
+      <default>0</default>
+    </entry>
+
+    <entry name="capturefolder" type="Path">
+      <label>Default folder for captured files.</label>
+      <default>$HOME</default>
+    </entry>
+
+    <entry name="firewireformat" type="UInt">
+      <label>Default firewire capture format.</label>
+      <default>0</default>
+    </entry>
+
+    <entry name="video4vformat" type="String">
+      <label>Default video4linux capture format.</label>
+      <default>m4v</default>
+    </entry>
+
+    <entry name="video4vdevice" type="String">
+      <label>Default video4linux capture format.</label>
+      <default>/dev/video0</default>
+    </entry>
+
+    <entry name="video4aformat" type="String">
+      <label>Default video4linux capture format.</label>
+      <default>oss</default>
+    </entry>
+
+    <entry name="video4adevice" type="String">
+      <label>Default video4linux capture format.</label>
+      <default>/dev/dsp</default>
+    </entry>
+
+    <entry name="video4width" type="Int">
+      <label>Default video4linux capture format.</label>
+      <default>320</default>
+    </entry>
+
+    <entry name="video4height" type="Int">
+      <label>Default video4linux capture format.</label>
+      <default>240</default>
+    </entry>
+
+    <entry name="video4rate" type="Int">
+      <label>Default video4linux capture format.</label>
+      <default>15</default>
+    </entry>
+  </group>
+
   <group name="unmanaged">
     <entry name="project_display_ratio" type="Double">
       <label>Current project display ratio.</label>
