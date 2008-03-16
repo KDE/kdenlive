@@ -137,6 +137,7 @@ void RecMonitor::slotCapture() {
             else if (i < 100) num.prepend("00");
             else num.prepend("0");
             path = KdenliveSettings::capturefolder() + "/capture" + num + ".mpg";
+	    i++;
         }
 
         m_captureFile = KUrl(path);
