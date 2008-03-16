@@ -42,6 +42,7 @@ protected:
 
 private slots:
     void slotUpdateDisplay();
+    void rebuildVideo4Commands();
 
 private:
     KPageWidgetItem *page1;

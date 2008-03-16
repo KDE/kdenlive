@@ -51,6 +51,15 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
     m_configCapture.capturefolderurl->lineEdit()->setObjectName("kcfg_capturefolder");
     page4 = addPage(p4, i18n("Capture"), "audio-card");
 
+    connect(m_configCapture.kcfg_video4vdevice, SIGNAL(editingFinished ()), this, SLOT(rebuildVideo4Commands()));
+    connect(m_configCapture.kcfg_video4adevice, SIGNAL(editingFinished ()), this, SLOT(rebuildVideo4Commands()));
+    connect(m_configCapture.kcfg_video4vformat, SIGNAL(editingFinished ()), this, SLOT(rebuildVideo4Commands()));
+    connect(m_configCapture.kcfg_video4aformat, SIGNAL(editingFinished ()), this, SLOT(rebuildVideo4Commands()));
+    connect(m_configCapture.kcfg_video4vencoding, SIGNAL(editingFinished ()), this, SLOT(rebuildVideo4Commands()));
+    connect(m_configCapture.kcfg_video4aencoding, SIGNAL(editingFinished ()), this, SLOT(rebuildVideo4Commands()));
+    connect(m_configCapture.kcfg_video4size, SIGNAL(editingFinished ()), this, SLOT(rebuildVideo4Commands()));
+    connect(m_configCapture.kcfg_video4rate, SIGNAL(editingFinished ()), this, SLOT(rebuildVideo4Commands()));
+
     QStringList profilesNames = ProfilesDialog::getProfileNames();
     m_configMisc.profiles_list->addItems(profilesNames);
     m_defaulfProfile = ProfilesDialog::getSettingsFromFile(KdenliveSettings::default_profile()).value("description");
@@ -62,6 +71,18 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
 
 KdenliveSettingsDialog::~KdenliveSettingsDialog() {}
 
+
+void KdenliveSettingsDialog::rebuildVideo4Commands() {
+    QString captureCommand;
+	if (!m_configCapture.kcfg_video4adevice->text().isEmpty()) captureCommand = "-f " + m_configCapture.kcfg_video4aformat->text() + " -i " + m_configCapture.kcfg_video4adevice->text();
+
+	captureCommand +=  " -f " + m_configCapture.kcfg_video4vformat->text() + " -s " + m_configCapture.kcfg_video4size->text() + " -r " + QString::number(m_configCapture.kcfg_video4rate->value()) + " -i " + m_configCapture.kcfg_video4vdevice->text() + " -f " + m_configCapture.kcfg_video4vencoding->text();
+	m_configCapture.kcfg_video4capture->setText(captureCommand);
+
+	QString playbackCommand;
+	playbackCommand =  "-f " + m_configCapture.kcfg_video4vencoding->text();
+	m_configCapture.kcfg_video4playback->setText(playbackCommand);
+}
 
 bool KdenliveSettingsDialog::hasChanged() {
     kDebug() << "// // // KCONFIG hasChanged called";

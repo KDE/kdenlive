@@ -72,7 +72,7 @@
 
     <entry name="video4vformat" type="String">
       <label>Default video4linux capture format.</label>
-      <default>m4v</default>
+      <default>video4linux2</default>
     </entry>
 
     <entry name="video4vdevice" type="String">
@@ -90,19 +90,34 @@
       <default>/dev/dsp</default>
     </entry>
 
-    <entry name="video4width" type="Int">
+    <entry name="video4size" type="String">
       <label>Default video4linux capture format.</label>
-      <default>320</default>
+      <default>320x240</default>
     </entry>
 
-    <entry name="video4height" type="Int">
+    <entry name="video4vencoding" type="String">
       <label>Default video4linux capture format.</label>
-      <default>240</default>
+      <default>m4v</default>
+    </entry>
+
+    <entry name="video4aencoding" type="String">
+      <label>Default video4linux capture format.</label>
+      <default></default>
     </entry>
 
     <entry name="video4rate" type="Int">
       <label>Default video4linux capture format.</label>
       <default>15</default>
+    </entry>
+
+    <entry name="video4capture" type="String">
+      <label>ffmpeg arguments for video capture.</label>
+      <default></default>
+    </entry>
+
+    <entry name="video4playback" type="String">
+      <label>ffplay arguments for video playback.</label>
+      <default></default>
     </entry>
   </group>
 
