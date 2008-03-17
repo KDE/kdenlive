@@ -129,7 +129,7 @@
 
     <entry name="shuttledevice" type="String">
       <label>Path to shuttle device.</label>
-      <default>/dev/input/event0</default>
+      <default></default>
     </entry>
 
     <entry name="shuttle1" type="UInt">

@@ -18,9 +18,16 @@
  ***************************************************************************/
 
 #include <QDir>
+#include <QTimer>
 
 #include <KStandardDirs>
 #include <KDebug>
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <linux/input.h>
 
 #include "profilesdialog.h"
 #include "kdenlivesettings.h"
@@ -53,6 +60,9 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
 
     QWidget *p5 = new QWidget;
     m_configShuttle.setupUi(p5);
+    connect(m_configShuttle.kcfg_enableshuttle, SIGNAL(stateChanged(int)), this, SLOT(slotCheckShuttle(int)));
+    connect(m_configShuttle.shuttledevicelist, SIGNAL(activated(int)), this, SLOT(slotUpdateShuttleDevice(int)));
+    slotCheckShuttle(KdenliveSettings::enableshuttle());
     page5 = addPage(p5, i18n("JogShuttle"), "input-mouse");
 
     QStringList actions;
@@ -78,13 +88,39 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
     m_configMisc.profiles_list->addItems(profilesNames);
     m_defaulfProfile = ProfilesDialog::getSettingsFromFile(KdenliveSettings::default_profile()).value("description");
     if (profilesNames.contains(m_defaulfProfile)) m_configMisc.profiles_list->setCurrentItem(m_defaulfProfile);
-
     slotUpdateDisplay();
     connect(m_configMisc.profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
 }
 
 KdenliveSettingsDialog::~KdenliveSettingsDialog() {}
 
+
+void KdenliveSettingsDialog::slotCheckShuttle(int state) {
+    m_configShuttle.config_group->setEnabled(state);
+    if (m_configShuttle.shuttledevicelist->count() == 0) {
+        // parse devices
+        QString baseName = "/dev/input/event";
+        int fd;
+        for (int i = 0; i < 30; i++) {
+            QString filename = baseName + QString::number(i);
+            kDebug() << "/// CHECKING OFR: " << filename;
+
+            char name[256] = "unknown";
+            fd = ::open((char *) filename.toUtf8().data(), O_RDONLY);
+            if (fd >= 0 && ioctl(fd, EVIOCGNAME(sizeof(name)), name) >= 0) {
+                m_configShuttle.shuttledevicelist->addItem(name, filename);
+            }
+            ::close(fd);
+        }
+        if (KdenliveSettings::shuttledevice().isEmpty()) QTimer::singleShot(1500, this, SLOT(slotUpdateShuttleDevice()));
+    }
+}
+
+void KdenliveSettingsDialog::slotUpdateShuttleDevice(int ix) {
+    QString device = m_configShuttle.shuttledevicelist->itemData(ix).toString();
+    //KdenliveSettings::setShuttledevice(device);
+    m_configShuttle.kcfg_shuttledevice->setText(device);
+}
 
 void KdenliveSettingsDialog::rebuildVideo4Commands() {
     QString captureCommand;

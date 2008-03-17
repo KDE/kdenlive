@@ -54,27 +54,22 @@
 #define JOG_STOP 10009
 
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-
-#include <QFile>
-#include <QTextStream>
 #include <QApplication>
 #include <QEvent>
 
 #include <KDebug>
 
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <linux/input.h>
+
+
 
 #include "jogshuttle.h"
 
-
-/*unsigned short  jogvalue = 0xffff;
-int   shuttlevalue = 0xffff;
-struct timeval  last_shuttle;
-int   need_synthetic_shuttle;
-*/
 
 void ShuttleThread::init(QObject *parent, QString device) {
     m_parent = parent;
@@ -92,18 +87,23 @@ bool ShuttleThread::isWorking() {
 void ShuttleThread::run() {
     kDebug() << "-------  STARTING SHUTTLE: " << m_device;
 
+    const int fd = open((char *) m_device.toUtf8().data(), O_RDONLY);
+    if (fd < 0) {
+        fprintf(stderr, "Can't open Jog Shuttle FILE DESCRIPTOR\n");
+        return;;
+    }
     EV ev;
-    FILE * fd = fopen((char *) m_device.toUtf8().data(), "r");
 
-    if (!fd) {
-        fprintf(stderr, "Can't open file\n");
-        exit(1);
+    if (ioctl(fd, EVIOCGRAB, 1) < 0) {
+        fprintf(stderr, "Can't get exclusive access on  Jog Shuttle FILE DESCRIPTOR\n");
+        return;;
     }
 
     while (!stop_me) {
-        while (fread(&ev, sizeof(ev), 1, fd) == 1) handle_event(ev);
+        read(fd, &ev, sizeof(ev));
+        handle_event(ev);
     }
-
+    close(fd);
 
 }
 

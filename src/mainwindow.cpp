@@ -295,7 +295,7 @@ void MainWindow::slotShuttleButton(int code) {
 void MainWindow::slotShuttleAction(int code) {
     switch (code) {
     case 0:
-	return;
+        return;
     case 1:
         m_monitorManager->slotPlay();
         break;

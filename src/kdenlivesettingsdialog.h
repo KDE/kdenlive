@@ -44,6 +44,8 @@ protected:
 private slots:
     void slotUpdateDisplay();
     void rebuildVideo4Commands();
+    void slotCheckShuttle(int state = 0);
+    void slotUpdateShuttleDevice(int ix = 0);
 
 private:
     KPageWidgetItem *page1;
