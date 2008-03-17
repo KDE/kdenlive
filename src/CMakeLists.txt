@@ -43,6 +43,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/renderwidget_ui.ui
   widgets/saveprofile_ui.ui
   widgets/transitionsettings_ui.ui
+  widgets/configjogshuttle_ui.ui
 )
  
 set(kdenlive_SRCS 
@@ -93,6 +94,7 @@ set(kdenlive_SRCS
   abstractclipitem.cpp
   transitionsettings.cpp
   recmonitor.cpp
+  jogshuttle.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

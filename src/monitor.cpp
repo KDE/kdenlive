@@ -133,20 +133,24 @@ void Monitor::slotSeek(int pos) {
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 
-void Monitor::slotRewind() {
+void Monitor::slotRewind(double speed) {
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);
-    double speed = render->playSpeed();
-    if (speed >= 0) render->play(-2);
-    else render->play(speed * 2);
+    if (speed == 0) {
+        double currentspeed = render->playSpeed();
+        if (currentspeed >= 0) render->play(-2);
+        else render->play(currentspeed * 2);
+    } else render->play(speed);
     m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
 }
 
-void Monitor::slotForward() {
+void Monitor::slotForward(double speed) {
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);
-    double speed = render->playSpeed();
-    if (speed <= 1) render->play(2);
-    else render->play(speed * 2);
+    if (speed == 0) {
+        double currentspeed = render->playSpeed();
+        if (currentspeed <= 1) render->play(2);
+        else render->play(currentspeed * 2);
+    } else render->play(speed);
     m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
 }

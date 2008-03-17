@@ -31,17 +31,7 @@
      </item>
     </widget>
    </item>
-   <item row="1" column="0" >
-    <widget class="QLabel" name="label_10" >
-     <property name="text" >
-      <string>Capture folder</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1" >
-    <widget class="KUrlRequester" name="capturefolderurl" />
-   </item>
-   <item row="2" column="0" colspan="2" >
+   <item row="1" column="0" colspan="2" >
     <widget class="QTabWidget" name="tabWidget" >
      <property name="minimumSize" >
       <size>
@@ -137,6 +127,19 @@
        <string>Video4Linux2 / FFmpeg</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout" >
+       <item row="1" column="1" colspan="3" >
+        <widget class="KLineEdit" name="kcfg_video4vdevice" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string>/dev/video0</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0" >
         <widget class="QLabel" name="label_7" >
          <property name="text" >
@@ -148,26 +151,6 @@
         <widget class="Line" name="line" >
          <property name="orientation" >
           <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" >
-        <widget class="QLabel" name="label_14" >
-         <property name="text" >
-          <string>Device</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1" colspan="3" >
-        <widget class="KLineEdit" name="kcfg_video4vdevice" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text" >
-          <string>/dev/video0</string>
          </property>
         </widget>
        </item>
@@ -184,19 +167,6 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="5" colspan="2" >
-        <widget class="KLineEdit" name="kcfg_video4vformat" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text" >
-          <string>video4linux2</string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="7" colspan="2" >
         <widget class="QLabel" name="label_5" >
          <property name="sizePolicy" >
@@ -207,6 +177,19 @@
          </property>
          <property name="text" >
           <string>Encoding</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="5" colspan="2" >
+        <widget class="KLineEdit" name="kcfg_video4vformat" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string>video4linux2</string>
          </property>
         </widget>
        </item>
@@ -223,24 +206,20 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="2" >
-        <widget class="QLabel" name="label_15" >
-         <property name="text" >
-          <string>Audio</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2" colspan="8" >
-        <widget class="Line" name="line_2" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" >
-        <widget class="QLabel" name="label_16" >
+       <item row="1" column="0" >
+        <widget class="QLabel" name="label_14" >
          <property name="text" >
           <string>Device</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="9" >
+        <widget class="KLineEdit" name="kcfg_video4aencoding" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
         </widget>
        </item>
@@ -248,6 +227,13 @@
         <widget class="KLineEdit" name="kcfg_video4adevice" >
          <property name="text" >
           <string>/dev/dsp</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2" colspan="8" >
+        <widget class="Line" name="line_2" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
@@ -264,16 +250,17 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="5" colspan="2" >
-        <widget class="KLineEdit" name="kcfg_video4aformat" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+       <item row="3" column="0" >
+        <widget class="QLabel" name="label_16" >
          <property name="text" >
-          <string>oss</string>
+          <string>Device</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2" >
+        <widget class="QLabel" name="label_15" >
+         <property name="text" >
+          <string>Audio</string>
          </property>
         </widget>
        </item>
@@ -287,16 +274,6 @@
          </property>
          <property name="text" >
           <string>Encoding</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="9" >
-        <widget class="KLineEdit" name="kcfg_video4aencoding" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
          </property>
         </widget>
        </item>
@@ -314,13 +291,6 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="3" colspan="3" >
-        <widget class="KLineEdit" name="kcfg_video4size" >
-         <property name="text" >
-          <string>320x240</string>
-         </property>
-        </widget>
-       </item>
        <item row="5" column="6" colspan="2" >
         <widget class="QLabel" name="label_6" >
          <property name="text" >
@@ -328,10 +298,10 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="8" colspan="2" >
-        <widget class="QSpinBox" name="kcfg_video4rate" >
-         <property name="value" >
-          <number>15</number>
+       <item row="5" column="3" colspan="3" >
+        <widget class="KLineEdit" name="kcfg_video4size" >
+         <property name="text" >
+          <string>320x240</string>
          </property>
         </widget>
        </item>
@@ -342,8 +312,18 @@
          </property>
         </widget>
        </item>
+       <item row="5" column="8" colspan="2" >
+        <widget class="QSpinBox" name="kcfg_video4rate" >
+         <property name="value" >
+          <number>15</number>
+         </property>
+        </widget>
+       </item>
        <item row="6" column="3" colspan="7" >
         <widget class="KLineEdit" name="kcfg_video4capture" />
+       </item>
+       <item row="7" column="3" colspan="7" >
+        <widget class="KLineEdit" name="kcfg_video4playback" />
        </item>
        <item row="7" column="0" colspan="3" >
         <widget class="QLabel" name="label_12" >
@@ -352,8 +332,18 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="3" colspan="7" >
-        <widget class="KLineEdit" name="kcfg_video4playback" />
+       <item row="3" column="5" colspan="2" >
+        <widget class="KLineEdit" name="kcfg_video4aformat" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string>oss</string>
+         </property>
+        </widget>
        </item>
       </layout>
       <zorder>kcfg_video4vdevice</zorder>
@@ -384,7 +374,7 @@
      </widget>
     </widget>
    </item>
-   <item row="3" column="1" >
+   <item row="2" column="1" >
     <spacer name="verticalSpacer" >
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
@@ -409,11 +399,6 @@
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KUrlRequester</class>
-   <extends>QFrame</extends>
-   <header>kurlrequester.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

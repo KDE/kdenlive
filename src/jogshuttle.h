@@ -1,5 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Based on code by Arendt David <admin@prnet.org>                       *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,43 +18,59 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#ifndef SHUTTLE_H
+#define SHUTTLE_H
 
-#ifndef MONITORMANAGER_H
-#define MONITORMANAGER_H
+#include <qthread.h>
+#include <QObject>
 
-#include "monitor.h"
-#include "timecode.h"
+#include <linux/input.h>
 
-class Monitor;
 
-class MonitorManager : public QObject {
-    Q_OBJECT
+typedef struct input_event EV;
+
+class ShuttleThread : public QThread {
 
 public:
-    MonitorManager(QWidget *parent = 0);
-    void initMonitors(Monitor *clipMonitor, Monitor *projectMonitor);
-    Timecode timecode();
-    void setTimecode(Timecode tc);
-    void resetProfiles(QString prof);
-    void switchMonitors();
-
-public slots:
-    void activateMonitor(QString name = QString::null);
-    void slotPlay();
-    void slotRewind(double speed = 0);
-    void slotForward(double speed = 0);
-    void slotRewindOneFrame();
-    void slotForwardOneFrame();
+    virtual void run();
+    void init(QObject *parent, QString device);
+    QObject *m_parent;
+    int shuttlevalue;
+    unsigned short jogvalue;
+    bool isWorking();
+    bool stop_me;
 
 private:
-    Monitor *m_clipMonitor;
-    Monitor *m_projectMonitor;
-    QString m_activeMonitor;
-    Timecode m_timecode;
+    QString m_device;
+    bool m_isWorking;
+    void handle_event(EV ev);
+    void jogshuttle(unsigned short code, unsigned int value);
+    void jog(unsigned int value);
+    void shuttle(int value);
+    void key(unsigned short code, unsigned int value);
+};
+
+
+class JogShuttle: public QObject {
+Q_OBJECT public:
+    JogShuttle(QString device, QObject * parent = 0);
+    ~JogShuttle();
+    void stopDevice();
+    void initDevice(QString device);
+
+protected:
+    virtual void customEvent(QEvent * e);
+
+private:
+    ShuttleThread m_shuttleProcess;
 
 signals:
-    void raiseClipMonitor(bool);
-
+    void rewind1();
+    void forward1();
+    void rewind(double);
+    void forward(double);
+    void stop();
+    void button(int);
 };
 
 #endif

@@ -52,17 +52,17 @@
       <label>Default folder for tmp files.</label>
       <default>/tmp/</default>
     </entry>
+
+    <entry name="capturefolder" type="Path">
+      <label>Default folder for captured files.</label>
+      <default>$HOME</default>
+    </entry>
   </group>
 
   <group name="capture">
     <entry name="defaultcapture" type="UInt">
       <label>Default video capture system.</label>
       <default>0</default>
-    </entry>
-
-    <entry name="capturefolder" type="Path">
-      <label>Default folder for captured files.</label>
-      <default>$HOME</default>
     </entry>
 
     <entry name="firewireformat" type="UInt">
@@ -120,6 +120,44 @@
       <default></default>
     </entry>
   </group>
+
+  <group name="shuttle">
+    <entry name="enableshuttle" type="Bool">
+      <label>Enable jog shuttle device.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="shuttledevice" type="String">
+      <label>Path to shuttle device.</label>
+      <default>/dev/input/event0</default>
+    </entry>
+
+    <entry name="shuttle1" type="UInt">
+      <label>Action for shuttle button 1.</label>
+      <default>1</default>
+    </entry>
+
+    <entry name="shuttle2" type="UInt">
+      <label>Action for shuttle button 2.</label>
+      <default>2</default>
+    </entry>
+
+    <entry name="shuttle3" type="UInt">
+      <label>Action for shuttle button 3.</label>
+      <default>0</default>
+    </entry>
+
+    <entry name="shuttle4" type="UInt">
+      <label>Action for shuttle button 4.</label>
+      <default>0</default>
+    </entry>
+
+    <entry name="shuttle5" type="UInt">
+      <label>Action for shuttle button 5.</label>
+      <default>0</default>
+    </entry>
+  </group>
+
 
   <group name="unmanaged">
     <entry name="project_display_ratio" type="Double">

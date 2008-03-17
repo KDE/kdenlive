@@ -29,6 +29,7 @@
 #include "ui_configenv_ui.h"
 #include "ui_configdisplay_ui.h"
 #include "ui_configcapture_ui.h"
+#include "ui_configjogshuttle_ui.h"
 
 class KdenliveSettingsDialog : public KConfigDialog {
     Q_OBJECT
@@ -49,10 +50,12 @@ private:
     KPageWidgetItem *page2;
     KPageWidgetItem *page3;
     KPageWidgetItem *page4;
+    KPageWidgetItem *page5;
     Ui::ConfigEnv_UI m_configEnv;
     Ui::ConfigMisc_UI m_configMisc;
     Ui::ConfigDisplay_UI m_configDisplay;
     Ui::ConfigCapture_UI m_configCapture;
+    Ui::ConfigJogShuttle_UI m_configShuttle;
     QStringList m_mltProfilesList;
     QStringList m_customProfilesList;
     bool m_isCustomProfile;

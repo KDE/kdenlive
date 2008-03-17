@@ -56,12 +56,12 @@
     <widget class="KComboBox" name="device_selector" >
      <item>
       <property name="text" >
-       <string>Firewire / dvgrab</string>
+       <string>Firewire</string>
       </property>
      </item>
      <item>
       <property name="text" >
-       <string>Video4Linux / ffmpeg</string>
+       <string>Video4Linux</string>
       </property>
      </item>
     </widget>

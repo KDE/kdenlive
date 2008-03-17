@@ -89,8 +89,8 @@ public slots:
     void start();
     void activateMonitor();
     void slotPlay();
-    void slotForward();
-    void slotRewind();
+    void slotForward(double speed = 0);
+    void slotRewind(double speed = 0);
     void slotRewindOneFrame();
     void slotForwardOneFrame();
     void saveSceneList(QString path, QDomElement e = QDomElement());

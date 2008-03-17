@@ -43,22 +43,36 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
     m_configEnv.rendererpathurl->lineEdit()->setObjectName("kcfg_rendererpath");
     m_configEnv.tmppathurl->setMode(KFile::Directory);
     m_configEnv.tmppathurl->lineEdit()->setObjectName("kcfg_currenttmpfolder");
+    m_configEnv.capturefolderurl->setMode(KFile::Directory);
+    m_configEnv.capturefolderurl->lineEdit()->setObjectName("kcfg_capturefolder");
     page2 = addPage(p2, i18n("Environnement"), "terminal");
 
     QWidget *p4 = new QWidget;
     m_configCapture.setupUi(p4);
-    m_configCapture.capturefolderurl->setMode(KFile::Directory);
-    m_configCapture.capturefolderurl->lineEdit()->setObjectName("kcfg_capturefolder");
     page4 = addPage(p4, i18n("Capture"), "audio-card");
 
-    connect(m_configCapture.kcfg_video4vdevice, SIGNAL(editingFinished ()), this, SLOT(rebuildVideo4Commands()));
-    connect(m_configCapture.kcfg_video4adevice, SIGNAL(editingFinished ()), this, SLOT(rebuildVideo4Commands()));
-    connect(m_configCapture.kcfg_video4vformat, SIGNAL(editingFinished ()), this, SLOT(rebuildVideo4Commands()));
-    connect(m_configCapture.kcfg_video4aformat, SIGNAL(editingFinished ()), this, SLOT(rebuildVideo4Commands()));
-    connect(m_configCapture.kcfg_video4vencoding, SIGNAL(editingFinished ()), this, SLOT(rebuildVideo4Commands()));
-    connect(m_configCapture.kcfg_video4aencoding, SIGNAL(editingFinished ()), this, SLOT(rebuildVideo4Commands()));
-    connect(m_configCapture.kcfg_video4size, SIGNAL(editingFinished ()), this, SLOT(rebuildVideo4Commands()));
-    connect(m_configCapture.kcfg_video4rate, SIGNAL(editingFinished ()), this, SLOT(rebuildVideo4Commands()));
+    QWidget *p5 = new QWidget;
+    m_configShuttle.setupUi(p5);
+    page5 = addPage(p5, i18n("JogShuttle"), "input-mouse");
+
+    QStringList actions;
+    actions << i18n("Do nothing");
+    actions << i18n("Play / Pause");
+    actions << i18n("Cut");
+    m_configShuttle.kcfg_shuttle1->addItems(actions);
+    m_configShuttle.kcfg_shuttle2->addItems(actions);
+    m_configShuttle.kcfg_shuttle3->addItems(actions);
+    m_configShuttle.kcfg_shuttle4->addItems(actions);
+    m_configShuttle.kcfg_shuttle5->addItems(actions);
+
+    connect(m_configCapture.kcfg_video4vdevice, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
+    connect(m_configCapture.kcfg_video4adevice, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
+    connect(m_configCapture.kcfg_video4vformat, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
+    connect(m_configCapture.kcfg_video4aformat, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
+    connect(m_configCapture.kcfg_video4vencoding, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
+    connect(m_configCapture.kcfg_video4aencoding, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
+    connect(m_configCapture.kcfg_video4size, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
+    connect(m_configCapture.kcfg_video4rate, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
 
     QStringList profilesNames = ProfilesDialog::getProfileNames();
     m_configMisc.profiles_list->addItems(profilesNames);
@@ -74,14 +88,14 @@ KdenliveSettingsDialog::~KdenliveSettingsDialog() {}
 
 void KdenliveSettingsDialog::rebuildVideo4Commands() {
     QString captureCommand;
-	if (!m_configCapture.kcfg_video4adevice->text().isEmpty()) captureCommand = "-f " + m_configCapture.kcfg_video4aformat->text() + " -i " + m_configCapture.kcfg_video4adevice->text();
+    if (!m_configCapture.kcfg_video4adevice->text().isEmpty()) captureCommand = "-f " + m_configCapture.kcfg_video4aformat->text() + " -i " + m_configCapture.kcfg_video4adevice->text();
 
-	captureCommand +=  " -f " + m_configCapture.kcfg_video4vformat->text() + " -s " + m_configCapture.kcfg_video4size->text() + " -r " + QString::number(m_configCapture.kcfg_video4rate->value()) + " -i " + m_configCapture.kcfg_video4vdevice->text() + " -f " + m_configCapture.kcfg_video4vencoding->text();
-	m_configCapture.kcfg_video4capture->setText(captureCommand);
+    captureCommand +=  " -f " + m_configCapture.kcfg_video4vformat->text() + " -s " + m_configCapture.kcfg_video4size->text() + " -r " + QString::number(m_configCapture.kcfg_video4rate->value()) + " -i " + m_configCapture.kcfg_video4vdevice->text() + " -f " + m_configCapture.kcfg_video4vencoding->text();
+    m_configCapture.kcfg_video4capture->setText(captureCommand);
 
-	QString playbackCommand;
-	playbackCommand =  "-f " + m_configCapture.kcfg_video4vencoding->text();
-	m_configCapture.kcfg_video4playback->setText(playbackCommand);
+    QString playbackCommand;
+    playbackCommand =  "-f " + m_configCapture.kcfg_video4vencoding->text();
+    m_configCapture.kcfg_video4playback->setText(playbackCommand);
 }
 
 bool KdenliveSettingsDialog::hasChanged() {

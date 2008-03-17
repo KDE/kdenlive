@@ -66,7 +66,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
         : KXmlGuiWindow(parent),
-        m_activeDocument(NULL), m_activeTimeline(NULL), m_renderWidget(NULL) {
+        m_activeDocument(NULL), m_activeTimeline(NULL), m_renderWidget(NULL), m_jogProcess(NULL) {
     parseProfiles();
 
     m_commandStack = new QUndoGroup;
@@ -81,7 +81,6 @@ MainWindow::MainWindow(QWidget *parent)
     closeTabButton->setToolTip(i18n("Close the current tab"));
     m_timelineArea->setCornerWidget(closeTabButton);
     connect(m_timelineArea, SIGNAL(currentChanged(int)), this, SLOT(activateDocument()));
-
 
     initEffects::parseEffectFiles(&m_audioEffects, &m_videoEffects);
     m_monitorManager = new MonitorManager();
@@ -242,6 +241,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     setAutoSaveSettings();
     newFile();
+
+    activateShuttleDevice();
 }
 
 //virtual
@@ -255,6 +256,52 @@ bool MainWindow::queryClose() {
         return true;
     default: // cancel
         return false;
+    }
+}
+
+void MainWindow::activateShuttleDevice() {
+    if (m_jogProcess) delete m_jogProcess;
+    m_jogProcess = NULL;
+    if (KdenliveSettings::enableshuttle() == false) return;
+    m_jogProcess = new JogShuttle(KdenliveSettings::shuttledevice());
+    connect(m_jogProcess, SIGNAL(rewind1()), m_monitorManager, SLOT(slotRewindOneFrame()));
+    connect(m_jogProcess, SIGNAL(forward1()), m_monitorManager, SLOT(slotForwardOneFrame()));
+    connect(m_jogProcess, SIGNAL(rewind(double)), m_monitorManager, SLOT(slotRewind(double)));
+    connect(m_jogProcess, SIGNAL(forward(double)), m_monitorManager, SLOT(slotForward(double)));
+    connect(m_jogProcess, SIGNAL(stop()), m_monitorManager, SLOT(slotPlay()));
+    connect(m_jogProcess, SIGNAL(button(int)), this, SLOT(slotShuttleButton(int)));
+}
+
+void MainWindow::slotShuttleButton(int code) {
+    switch (code) {
+    case 5:
+        slotShuttleAction(KdenliveSettings::shuttle1());
+        break;
+    case 6:
+        slotShuttleAction(KdenliveSettings::shuttle2());
+        break;
+    case 7:
+        slotShuttleAction(KdenliveSettings::shuttle3());
+        break;
+    case 8:
+        slotShuttleAction(KdenliveSettings::shuttle4());
+        break;
+    case 9:
+        slotShuttleAction(KdenliveSettings::shuttle5());
+        break;
+    }
+}
+
+void MainWindow::slotShuttleAction(int code) {
+    switch (code) {
+    case 0:
+	return;
+    case 1:
+        m_monitorManager->slotPlay();
+        break;
+    default:
+        m_monitorManager->slotPlay();
+        break;
     }
 }
 
@@ -733,6 +780,7 @@ void MainWindow::updateConfiguration() {
     }
     timeline_buttons_ui.buttonAudio->setDown(KdenliveSettings::audiothumbnails());
     timeline_buttons_ui.buttonVideo->setDown(KdenliveSettings::videothumbnails());
+    activateShuttleDevice();
 }
 
 void MainWindow::slotSwitchVideoThumbs() {
@@ -810,5 +858,13 @@ void MainWindow::slotGotProgressInfo(KUrl url, int progress) {
         statusProgressBar->setVisible(false);
     }
 }
+
+void MainWindow::customEvent(QEvent* e) {
+    if (e->type() == QEvent::User) {
+        // The timeline playing position changed...
+        kDebug() << "RECIEVED JOG EVEMNT!!!";
+    }
+}
+
 
 #include "mainwindow.moc"

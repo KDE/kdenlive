@@ -79,14 +79,14 @@ void MonitorManager::slotPlay() {
     else m_projectMonitor->slotPlay();
 }
 
-void MonitorManager::slotRewind() {
-    if (m_activeMonitor == "clip") m_clipMonitor->slotRewind();
-    else m_projectMonitor->slotRewind();
+void MonitorManager::slotRewind(double speed) {
+    if (m_activeMonitor == "clip") m_clipMonitor->slotRewind(speed);
+    else m_projectMonitor->slotRewind(speed);
 }
 
-void MonitorManager::slotForward() {
-    if (m_activeMonitor == "clip") m_clipMonitor->slotForward();
-    else m_projectMonitor->slotForward();
+void MonitorManager::slotForward(double speed) {
+    if (m_activeMonitor == "clip") m_clipMonitor->slotForward(speed);
+    else m_projectMonitor->slotForward(speed);
 }
 
 void MonitorManager::slotRewindOneFrame() {

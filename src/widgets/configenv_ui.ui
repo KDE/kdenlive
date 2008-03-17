@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>394</width>
-    <height>203</height>
+    <width>416</width>
+    <height>238</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_3" >
@@ -54,6 +54,16 @@
       </item>
       <item row="0" column="1" >
        <widget class="KUrlRequester" name="tmppathurl" />
+      </item>
+      <item row="1" column="0" >
+       <widget class="QLabel" name="label_10" >
+        <property name="text" >
+         <string>Capture folder</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" >
+       <widget class="KUrlRequester" name="capturefolderurl" />
       </item>
      </layout>
     </widget>

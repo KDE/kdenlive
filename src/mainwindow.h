@@ -25,6 +25,7 @@
 #include <QUndoView>
 #include <QLabel>
 #include <QProgressBar>
+#include <QEvent>
 
 #include <KXmlGuiWindow>
 #include <KTextEdit>
@@ -47,6 +48,7 @@
 #include "transitionsettings.h"
 #include "ui_timelinebuttons_ui.h"
 #include "renderwidget.h"
+#include "jogshuttle.h"
 
 class MainWindow : public KXmlGuiWindow {
     Q_OBJECT
@@ -58,6 +60,7 @@ public:
 
 protected:
     virtual bool queryClose();
+    virtual void customEvent(QEvent * e);
 
 private:
     KTabWidget* m_timelineArea;
@@ -110,9 +113,13 @@ private:
     RenderWidget *m_renderWidget;
     Ui::TimelineButtons_UI timeline_buttons_ui;
 
+    JogShuttle *m_jogProcess;
+
     KRecentFilesAction *m_fileOpenRecent;
     void readOptions();
     void saveOptions();
+    void activateShuttleDevice();
+    void slotShuttleAction(int code);
 
 public slots:
     void openFile(const KUrl &url);
@@ -153,6 +160,7 @@ private slots:
     void slotAddAudioEffect(QAction *result);
     void slotAddCustomEffect(QAction *result);
     void slotAddProjectClip(KUrl url);
+    void slotShuttleButton(int code);
 };
 
 #endif
