@@ -98,7 +98,7 @@ private:
     QColor m_tipColor;
     QPen m_tipPen;
     double m_scale;
-    int m_clickPoint;
+    QPoint m_clickPoint;
     QList <GenTime> m_snapPoints;
     void updateSnapPoints(AbstractClipItem *selected);
     double getSnapPointForPos(double pos);

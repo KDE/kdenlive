@@ -48,7 +48,7 @@
 // const int duration = animate ? 1500 : 1;
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene, QWidget *parent)
-        : QGraphicsView(projectscene, parent), m_tracksCount(0), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_startPos(QPointF()), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_scale(1.0), m_clickPoint(0), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()) {
+        : QGraphicsView(projectscene, parent), m_tracksCount(0), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_startPos(QPointF()), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_scale(1.0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()) {
     if (doc) m_commandStack = doc->commandStack();
     else m_commandStack == NULL;
     setMouseTracking(true);
@@ -110,9 +110,9 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
         if (m_dragItem) { //event->button() == Qt::LeftButton) {
             // a button was pressed, delete visual tips
             if (m_operationMode == MOVE) {
-                double snappedPos = getSnapPointForPos(mapToScene(event->pos()).x() - m_clickPoint);
-                kDebug() << "///////  MOVE CLIP, EVENT Y: ";//<<event->scenePos().y()<<", SCENE HEIGHT: "<<scene()->sceneRect().height();
-                int moveTrack = (int)  mapToScene(event->pos() - QPoint(0, (m_dragItem->type() == TRANSITIONWIDGET ? 25 : 0))).y() / 50;
+                double snappedPos = getSnapPointForPos(mapToScene(event->pos()).x() - m_clickPoint.x());
+                //kDebug() << "///////  MOVE CLIP, EVENT Y: "<<m_clickPoint.y();//<<event->scenePos().y()<<", SCENE HEIGHT: "<<scene()->sceneRect().height();
+                int moveTrack = (int)  mapToScene(event->pos() + QPoint(0, (m_dragItem->type() == TRANSITIONWIDGET ? 50 - m_clickPoint.y() : 0))).y() / 50;
                 int currentTrack = m_dragItem->track();
 
                 if (moveTrack > m_tracksCount - 1) moveTrack = m_tracksCount - 1;
@@ -355,7 +355,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 } else if (item->type() == TRANSITIONWIDGET) {
                     transitionItem = m_dragItem;
                 }
-                m_clickPoint = mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps()) * m_scale;
+                m_clickPoint = QPoint(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps()) * m_scale, event->pos().y() - m_dragItem->rect().top());
                 m_operationMode = m_dragItem->operationMode(item->mapFromScene(mapToScene(event->pos())), m_scale);
                 if (m_operationMode == MOVE) setCursor(Qt::ClosedHandCursor);
                 if (m_operationMode == MOVE || m_operationMode == RESIZESTART)
