@@ -32,6 +32,16 @@
 
 class MonitorManager;
 
+class MonitorRefresh : public QWidget {
+    Q_OBJECT
+public:
+    MonitorRefresh(QWidget* parent);
+    virtual void paintEvent(QPaintEvent * event);
+    void setRenderer(Render* render);
+private:
+    Render *m_renderer;
+};
+
 class Monitor : public QWidget {
     Q_OBJECT
 
@@ -51,6 +61,7 @@ protected:
 private:
     Ui::Monitor_UI ui;
     MonitorManager *m_monitorManager;
+    MonitorRefresh *m_monitorRefresh;
     QString m_name;
     double m_scale;
     int m_length;
@@ -66,7 +77,7 @@ private slots:
     void adjustRulerSize(int length);
     void seekCursor(int pos);
     void rendererStopped(int pos);
-    
+
 
 public slots:
     void slotOpenFile(const QString &);

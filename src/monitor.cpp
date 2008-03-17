@@ -81,8 +81,13 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     //m_ruler->setPixelPerMark(3);
 
 
-    ui.video_frame->setAttribute(Qt::WA_PaintOnScreen);
-    render = new Render(m_name, (int) ui.video_frame->winId(), -1, this);
+    QVBoxLayout *rendererBox = new QVBoxLayout(ui.video_frame);
+    m_monitorRefresh = new MonitorRefresh(ui.video_frame);
+    rendererBox->addWidget(m_monitorRefresh);
+    m_monitorRefresh->setAttribute(Qt::WA_PaintOnScreen);
+    render = new Render(m_name, (int) m_monitorRefresh->winId(), -1, this);
+    m_monitorRefresh->setRenderer(render);
+
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
@@ -269,11 +274,16 @@ void Monitor::saveSceneList(QString path, QDomElement e) {
     render->saveSceneList(path, e);
 }
 
-/*  Commented out, takes huge CPU resources
+MonitorRefresh::MonitorRefresh(QWidget* parent): QWidget(parent), m_renderer(NULL) {
 
-void Monitor::paintEvent(QPaintEvent * event) {
-    if (render != NULL && m_isActive) render->doRefresh();
-    QWidget::paintEvent(event);
-}*/
+}
+
+void MonitorRefresh::setRenderer(Render* render) {
+    m_renderer = render;
+}
+
+void MonitorRefresh::paintEvent(QPaintEvent * event) {
+    if (m_renderer != NULL) m_renderer->doRefresh();
+}
 
 #include "monitor.moc"
