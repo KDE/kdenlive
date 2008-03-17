@@ -1,0 +1,2 @@
+FILE(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/*.svg*")
+install( FILES ${files} DESTINATION ${ICON_INSTALL_DIR} )
