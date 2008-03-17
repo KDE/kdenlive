@@ -47,6 +47,7 @@ Transition::Transition(const QRectF& rect , ClipItem * clipa, const TRANSITIONTY
     GenTime defaultTransitionDuration = GenTime(2.5);
 
     m_referenceClip = clipa;
+    m_referenceClip->addTransition(this);
     if (startTime < m_referenceClip->startPos()) m_transitionStart = GenTime(0.0);
     else if (startTime > m_referenceClip->endPos()) m_transitionStart = m_referenceClip->duration() - defaultTransitionDuration;
     else m_transitionStart = startTime - m_referenceClip->startPos();
@@ -269,6 +270,7 @@ void Transition::paint(QPainter *painter,
     //painter->fillPath(roundRectPath, brush()); //, QBrush(QColor(Qt::red)));
     painter->fillRect(br.intersected(rectInView), QBrush(QColor(200, 200, 0, 160)/*,Qt::Dense4Pattern*/));
     painter->setClipRect(option->exposedRect);
+    painter->drawPixmap(br_startx + 10, br_starty + 10, transitionPixmap());
     painter->drawPath(resultClipPath.intersected(clippath));
 }
 

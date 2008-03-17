@@ -364,7 +364,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                     m_startPos = QPointF(m_dragItem->endPos().frames(m_document->fps()), m_dragItem->track());
                 else if (m_operationMode == TRANSITIONSTART) {
                     Transition *tr = new Transition(
-                        QRect(m_dragItem->startPos().frames(m_document->fps()) *m_scale , m_dragItem->rect().height() / 2,
+                        QRect(m_dragItem->startPos().frames(m_document->fps()) *m_scale , m_dragItem->rect().y() + m_dragItem->rect().height() / 2,
                               GenTime(2.5).frames(m_document->fps()) *m_scale ,  m_dragItem->rect().height()
                              ),
                         (ClipItem*)m_dragItem, LUMA_TRANSITION, m_dragItem->startPos(), m_dragItem->startPos() + GenTime(2.5), m_document->fps());
