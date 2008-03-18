@@ -650,6 +650,10 @@ void ClipItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event) {
 }
 void ClipItem::addTransition(Transition* t) {
     m_transitionsList.append(t);
+    CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
+    QDomDocument doc;
+    QDomElement e = doc.documentElement();
+    if (view) view->slotAddTransition(this, QDomElement() , t->startPos(), m_track);
 }
 // virtual
 /*

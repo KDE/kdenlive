@@ -36,6 +36,7 @@
 #include "addtimelineclipcommand.h"
 #include "addeffectcommand.h"
 #include "editeffectcommand.h"
+#include "addtransitioncommand.h"
 #include "kdenlivesettings.h"
 #include "transition.h"
 
@@ -507,6 +508,25 @@ void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect
     m_commandStack->push(command);
 }
 
+void CustomTrackView::slotAddTransition(ClipItem* clip , QDomElement transition, GenTime startTime , int startTrack) {
+    AddTransitionCommand* command = new AddTransitionCommand(this, startTrack, transition, startTime, true);
+    m_commandStack->push(command);
+}
+
+void CustomTrackView::addTransition(int startTrack, GenTime startPos , QDomElement) {
+    QMap < QString, QString> map;
+    map["combine"] = "1";
+    map["valign"] = "1";
+    map["progressive"] = "1";
+    map["fill"] = "1";
+    map["halign"] = "1";
+    m_document->renderer()->mltAddTransition("composite", startTrack, startTrack + 1 , startPos, startPos + GenTime(2.5), map);
+    m_document->setModified(true);
+}
+
+void CustomTrackView::deleteTransition(int, GenTime, QDomElement) {
+
+}
 
 void CustomTrackView::addItem(DocClipBase *clip, QPoint pos) {
     int in = 0;

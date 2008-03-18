@@ -53,6 +53,8 @@ public:
     void addEffect(int track, GenTime pos, QDomElement effect);
     void deleteEffect(int track, GenTime pos, QDomElement effect);
     void updateEffect(int track, GenTime pos, QDomElement effect);
+    void addTransition(int track, GenTime pos, QDomElement transition);
+    void deleteTransition(int track, GenTime pos, QDomElement transition);
     void activateMonitor();
     int duration() const;
     void deleteSelectedClips();
@@ -66,6 +68,7 @@ public slots:
     void slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect, QDomElement effect);
     void slotRefreshEffects(ClipItem *clip);
     void setDuration(int duration);
+    void slotAddTransition(ClipItem* clip , QDomElement transition, GenTime startTime , int startTrack);
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
@@ -123,3 +126,4 @@ signals:
 };
 
 #endif
+
