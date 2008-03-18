@@ -95,6 +95,7 @@ set(kdenlive_SRCS
   transitionsettings.cpp
   recmonitor.cpp
   jogshuttle.cpp
+  addtransitioncommand.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )
