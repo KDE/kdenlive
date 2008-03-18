@@ -515,12 +515,9 @@ void CustomTrackView::slotAddTransition(ClipItem* clip , QDomElement transition,
 
 void CustomTrackView::addTransition(int startTrack, GenTime startPos , QDomElement) {
     QMap < QString, QString> map;
-    map["combine"] = "1";
-    map["valign"] = "1";
-    map["progressive"] = "1";
-    map["fill"] = "1";
-    map["halign"] = "1";
-    m_document->renderer()->mltAddTransition("composite", startTrack, startTrack + 1 , startPos, startPos + GenTime(2.5), map);
+    /*map["start"] = "0.0";
+    map["end"] = "1.0";*/
+    m_document->renderer()->mltAddTransition("luma", startTrack+4, startTrack + 5 , startPos, startPos + GenTime(2.5), map);
     m_document->setModified(true);
 }
 
