@@ -637,19 +637,19 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         // move clip
         MoveClipCommand *command = new MoveClipCommand(this, m_startPos, QPointF(m_dragItem->startPos().frames(m_document->fps()), m_dragItem->track()), false);
         m_commandStack->push(command);
-        m_document->renderer()->mltMoveClip(m_tracksCount - m_startPos.y(), m_tracksCount - m_dragItem->track(), m_startPos.x(), m_dragItem->startPos().frames(m_document->fps()));
+        if (m_dragItem->type() == AVWIDGET) m_document->renderer()->mltMoveClip(m_tracksCount - m_startPos.y(), m_tracksCount - m_dragItem->track(), m_startPos.x(), m_dragItem->startPos().frames(m_document->fps()));
     } else if (m_operationMode == RESIZESTART) {
         // resize start
         ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->startPos().frames(m_document->fps()), m_dragItem->track()), true, false);
 
-        m_document->renderer()->mltResizeClipStart(m_tracksCount - m_dragItem->track(), m_dragItem->endPos(), m_dragItem->startPos(), GenTime(m_startPos.x(), m_document->fps()), m_dragItem->cropStart(), m_dragItem->cropStart() + m_dragItem->endPos() - m_dragItem->startPos());
+        if (m_dragItem->type() == AVWIDGET) m_document->renderer()->mltResizeClipStart(m_tracksCount - m_dragItem->track(), m_dragItem->endPos(), m_dragItem->startPos(), GenTime(m_startPos.x(), m_document->fps()), m_dragItem->cropStart(), m_dragItem->cropStart() + m_dragItem->endPos() - m_dragItem->startPos());
         m_commandStack->push(command);
         m_document->renderer()->doRefresh();
     } else if (m_operationMode == RESIZEEND) {
         // resize end
         ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->endPos().frames(m_document->fps()), m_dragItem->track()), false, false);
 
-        m_document->renderer()->mltResizeClipEnd(m_tracksCount - m_dragItem->track(), m_dragItem->startPos(), m_dragItem->cropStart(), m_dragItem->cropStart() + m_dragItem->endPos() - m_dragItem->startPos());
+        if (m_dragItem->type() == AVWIDGET) m_document->renderer()->mltResizeClipEnd(m_tracksCount - m_dragItem->track(), m_dragItem->startPos(), m_dragItem->cropStart(), m_dragItem->cropStart() + m_dragItem->endPos() - m_dragItem->startPos());
         m_commandStack->push(command);
         m_document->renderer()->doRefresh();
     }
