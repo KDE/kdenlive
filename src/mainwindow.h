@@ -105,6 +105,7 @@ private:
     EffectsList m_videoEffects;
     EffectsList m_audioEffects;
     EffectsList m_customEffects;
+    EffectsList m_transitions;
 
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;

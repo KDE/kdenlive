@@ -18,9 +18,12 @@
 #include "transitionsettings.h"
 #include <KDebug>
 
-TransitionSettings::TransitionSettings(QWidget* parent): QWidget(parent) {
+TransitionSettings::TransitionSettings(EffectsList *transitions, QWidget* parent): QWidget(parent) {
     ui.setupUi(this);
     setEnabled(false);
+    m_transitions = transitions;
+    ui.listWidget->addItems(transitions->effectNames());
+    kDebug() << transitions->effectNames().size() << " -" << transitions->size();
 }
 
 void TransitionSettings::slotTransitionItemSelected(Transition* t) {

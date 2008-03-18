@@ -38,7 +38,7 @@ class Transition : public AbstractClipItem {
     Q_OBJECT
 public:
 
-    Transition(const QRectF&, ClipItem * clipa, const TRANSITIONTYPE & type, const GenTime &startTime, const GenTime &endTime, double fps, bool inverted = false);
+    Transition(const QRectF&, ClipItem * clipa, const QString& type, const GenTime &startTime, const GenTime &endTime, double fps, bool inverted = false);
     Transition(const QRectF&, ClipItem * clip, QDomElement transitionElement, double fps, GenTime offset = GenTime());
     virtual ~Transition();
     virtual void paint(QPainter *painter,
@@ -60,11 +60,9 @@ public:
     void resizeTransitionStart(GenTime time);
     void moveTransition(GenTime time);
     bool invertTransition() const;
-    TRANSITIONTYPE transitionType() const;
-    OPERATIONTYPE operationMode(QPointF pos, double scale);
-    QString transitionTag() const;
     QString transitionName() const;
-    void setTransitionType(TRANSITIONTYPE newType);
+    OPERATIONTYPE operationMode(QPointF pos, double scale);
+    void setTransitionType(QString newType);
     const QMap < QString, QString > transitionParameters() const;
     void setTransitionParameters(const QMap < QString, QString > parameters);
     void setTransitionDirection(bool inv);
@@ -81,9 +79,6 @@ private:
     GenTime m_transitionStart;
     GenTime m_transitionDuration;
     QMap < QString, QString > m_transitionParameters;
-
-    /** The name of the transition used by mlt (composite, luma,...)*/
-    TRANSITIONTYPE m_transitionType;
 
     /** The name of the transition to be displayed to user */
     QString m_transitionName;

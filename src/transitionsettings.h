@@ -17,15 +17,17 @@
 #ifndef TRANSITIONSETTINGS_H
 #define TRANSITIONSETTINGS_H
 #include "ui_transitionsettings_ui.h"
+#include "effectslist.h"
 
 class Transition;
 
 class TransitionSettings : public QWidget  {
     Q_OBJECT
 public:
-    TransitionSettings(QWidget* parent = 0);
+    TransitionSettings(EffectsList *, QWidget* parent = 0);
 private:
     Ui::TransitionSettings_UI ui;
+    EffectsList *m_transitions;
 public slots:
     void slotTransitionItemSelected(Transition*);
 };

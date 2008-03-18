@@ -368,7 +368,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                         QRect(m_dragItem->startPos().frames(m_document->fps()) *m_scale , m_dragItem->rect().y() + m_dragItem->rect().height() / 2,
                               GenTime(2.5).frames(m_document->fps()) *m_scale ,  m_dragItem->rect().height()
                              ),
-                        (ClipItem*)m_dragItem, LUMA_TRANSITION, m_dragItem->startPos(), m_dragItem->startPos() + GenTime(2.5), m_document->fps());
+                        (ClipItem*)m_dragItem, "luma" , m_dragItem->startPos(), m_dragItem->startPos() + GenTime(2.5), m_document->fps());
                     tr->setTrack(m_dragItem->track());
                     scene()->addItem(tr);
                     //m_dragItem->addTransition(tra);
@@ -513,11 +513,26 @@ void CustomTrackView::slotAddTransition(ClipItem* clip , QDomElement transition,
     m_commandStack->push(command);
 }
 
-void CustomTrackView::addTransition(int startTrack, GenTime startPos , QDomElement) {
+void CustomTrackView::addTransition(int startTrack, GenTime startPos , QDomElement e) {
     QMap < QString, QString> map;
     /*map["start"] = "0.0";
     map["end"] = "1.0";*/
-    m_document->renderer()->mltAddTransition("luma", startTrack+4, startTrack + 5 , startPos, startPos + GenTime(2.5), map);
+    QDomDocument d("tes");
+    d.appendChild(e);
+    kDebug() << d.toString();
+    QDomNamedNodeMap attribs = e.attributes();
+    for (int i = 0;i < attribs.count();i++) {
+        if (attribs.item(i).nodeName() != "type" &&
+                attribs.item(i).nodeName() != "start" &&
+                attribs.item(i).nodeName() != "end"
+           )
+            map[attribs.item(i).nodeName()] = attribs.item(i).nodeValue();
+    }
+    m_document->renderer()->mltAddTransition(e.attribute("type"), 4 - e.attribute("transition_track").toInt(), 5 - e.attribute("transition_track").toInt() ,
+            GenTime(e.attribute("start").toInt(), m_document->renderer()->fps()),
+            GenTime(e.attribute("end").toInt(), m_document->renderer()->fps()),
+            map);
+
     m_document->setModified(true);
 }
 

@@ -34,8 +34,9 @@ public:
     initEffects();
     ~initEffects();
 
-    static Mlt::Repository *parseEffectFiles(EffectsList *audioEffectList, EffectsList *videoEffectList);
+    static Mlt::Repository *parseEffectFiles(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *transitions);
     static QDomDocument createDescriptionFromMlt(Mlt::Repository* repository, const QString& type, const QString& name);
+    static void fillTransitionsList(Mlt::Repository *, EffectsList* transitions, QStringList names);
     static void parseEffectFile(EffectsList *audioEffectList, EffectsList *videoEffectList, QString name, QStringList filtersList, QStringList producersList);
     static char* ladspaEffectString(int ladspaId, QStringList params);
     static void ladspaEffectFile(const QString & fname, int ladspaId, QStringList params);

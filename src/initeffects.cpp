@@ -35,7 +35,7 @@ initEffects::~initEffects() {
 }
 
 //static
-Mlt::Repository *initEffects::parseEffectFiles(EffectsList *audioEffectList, EffectsList *videoEffectList) {
+Mlt::Repository *initEffects::parseEffectFiles(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList* transitionsList) {
     QStringList::Iterator more;
     QStringList::Iterator it;
     QStringList fileList;
@@ -64,6 +64,14 @@ Mlt::Repository *initEffects::parseEffectFiles(EffectsList *audioEffectList, Eff
     }
     delete filters;
     delete producers;
+
+    Mlt::Properties *transitions = repository->transitions();
+    QStringList transitionsItemList;
+    for (int i = 0 ; i < transitions->count() ; i++) {
+        transitionsItemList << transitions->get_name(i);
+    }
+    delete transitions;
+    fillTransitionsList(repository, transitionsList, transitionsItemList);
 
     KGlobal::dirs()->addResourceType("ladspa_plugin", 0, "lib/ladspa");
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/lib/ladspa");
@@ -394,3 +402,79 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
     return ret;
 }
 
+void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList* transitions, QStringList names) {
+    foreach(QString name, names) {
+        QDomDocument ret;
+        Mlt::Properties *metadata = repository->metadata(transition_type, name.toAscii().data());
+        //kDebug() << filtername;
+        if (metadata && metadata->is_valid()) {
+            QDomElement ktrans = ret.createElement("ktransition");
+            ret.appendChild(ktrans);
+            if (metadata->get("title") && metadata->get("identifier")) {
+                ktrans.setAttribute("tag", name);
+                QDomElement tname = ret.createElement("name");
+                tname.appendChild(ret.createTextNode(metadata->get("title")));
+                ktrans.appendChild(tname);
+            }
+            transitions->append(ret.documentElement());
+            kDebug() << ret.toString();
+        } else {
+            if (name == "luma") {
+                QDomDocument ret;
+                QDomElement ktrans = ret.createElement("ktransition");
+                ret.appendChild(ktrans);
+                ktrans.setAttribute("tag", name);
+                QDomElement tname = ret.createElement("name");
+                tname.appendChild(ret.createTextNode("Luma"));
+                ktrans.appendChild(tname);
+                transitions->append(ret.documentElement());
+
+                QDomDocument ret1;
+                QDomElement ktrans1 = ret1.createElement("ktransition");
+                ret1.appendChild(ktrans1);
+                ktrans1.setAttribute("tag", name);
+                QDomElement tname1 = ret.createElement("name");
+                tname1.appendChild(ret1.createTextNode("Lumafile"));
+                ktrans1.appendChild(tname1);
+                transitions->append(ret1.documentElement());
+            } else if (name == "composite") {
+                QDomDocument ret;
+                QDomElement ktrans = ret.createElement("ktransition");
+                ret.appendChild(ktrans);
+                ktrans.setAttribute("tag", name);
+                QDomElement tname = ret.createElement("name");
+                tname.appendChild(ret.createTextNode("Composite"));
+                ktrans.appendChild(tname);
+                transitions->append(ret.documentElement());
+
+                QDomDocument ret1;
+                QDomElement ktrans1 = ret1.createElement("ktransition");
+                ret1.appendChild(ktrans1);
+                ktrans1.setAttribute("tag", name);
+                QDomElement tname1 = ret.createElement("name");
+                tname1.appendChild(ret1.createTextNode("PIP"));
+                ktrans1.appendChild(tname1);
+                transitions->append(ret1.documentElement());
+            } else if (name == "mix") {
+                QDomDocument ret;
+                QDomElement ktrans = ret.createElement("ktransition");
+                ret.appendChild(ktrans);
+                ktrans.setAttribute("tag", name);
+                QDomElement tname = ret.createElement("name");
+                tname.appendChild(ret.createTextNode("Mix"));
+                ktrans.appendChild(tname);
+                transitions->append(ret.documentElement());
+            } else if (name == "affine") {
+                QDomDocument ret;
+                QDomElement ktrans = ret.createElement("ktransition");
+                ret.appendChild(ktrans);
+                ktrans.setAttribute("tag", name);
+                QDomElement tname = ret.createElement("name");
+                tname.appendChild(ret.createTextNode("Affine"));
+                ktrans.appendChild(tname);
+                transitions->append(ret.documentElement());
+            }
+        }
+
+    }
+}

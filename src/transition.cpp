@@ -32,13 +32,12 @@
 #include "kdenlivesettings.h"
 
 
-Transition::Transition(const QRectF& rect , ClipItem * clipa, const TRANSITIONTYPE & type, const GenTime &startTime, const GenTime &endTime, double fps, bool inverted) : AbstractClipItem(rect) {
+Transition::Transition(const QRectF& rect , ClipItem * clipa, const QString & type, const GenTime &startTime, const GenTime &endTime, double fps, bool inverted) : AbstractClipItem(rect) {
     m_invertTransition = inverted;
     m_singleClip = true;
     m_transitionTrack = 0;
     m_secondClip = NULL;
-    m_transitionType = type;
-    m_transitionName = getTransitionName(m_transitionType);
+    m_transitionName = type;
     m_fps = fps;
     m_cropDuration = endTime - startTime;
     m_startPos = startTime;
@@ -47,7 +46,7 @@ Transition::Transition(const QRectF& rect , ClipItem * clipa, const TRANSITIONTY
     GenTime defaultTransitionDuration = GenTime(2.5);
 
     m_referenceClip = clipa;
-    m_referenceClip->addTransition(this);
+
     if (startTime < m_referenceClip->startPos()) m_transitionStart = GenTime(0.0);
     else if (startTime > m_referenceClip->endPos()) m_transitionStart = m_referenceClip->duration() - defaultTransitionDuration;
     else m_transitionStart = startTime - m_referenceClip->startPos();
@@ -58,6 +57,7 @@ Transition::Transition(const QRectF& rect , ClipItem * clipa, const TRANSITIONTY
     m_secondClip = 0;
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setZValue(2);
+    m_referenceClip->addTransition(this);
 }
 
 // create a transition from XML
@@ -72,12 +72,7 @@ Transition::Transition(const QRectF& rect , ClipItem * clip, QDomElement transit
     m_transitionStart = m_transitionStart - offset;
 
     m_invertTransition = transitionElement.attribute("inverted", "0").toInt();
-    uint transType = transitionElement.attribute("type", "0").toInt();
-    if (transType == LUMA_TRANSITION) m_transitionType = LUMA_TRANSITION;
-    else if (transType == COMPOSITE_TRANSITION) m_transitionType = COMPOSITE_TRANSITION;
-    else if (transType == PIP_TRANSITION) m_transitionType = PIP_TRANSITION;
-    else if (transType == LUMAFILE_TRANSITION) m_transitionType = LUMAFILE_TRANSITION;
-    else if (transType == MIX_TRANSITION) m_transitionType = MIX_TRANSITION;
+    m_transitionName = transitionElement.attribute("type" , "luma");
 
     // load transition parameters
     typedef QMap<QString, QString> ParamMap;
@@ -97,45 +92,6 @@ Transition::Transition(const QRectF& rect , ClipItem * clip, QDomElement transit
 
 Transition::~Transition() {
 }
-
-void Transition::setTransitionType(TRANSITIONTYPE newType) {
-    m_transitionType = newType;
-    m_transitionName = getTransitionName(m_transitionType);
-}
-
-TRANSITIONTYPE Transition::transitionType() const {
-    return m_transitionType;
-}
-
-QString Transition::transitionTag()const {
-    switch (m_transitionType) {
-    case COMPOSITE_TRANSITION:
-        return "composite";
-    case PIP_TRANSITION:
-        return "composite";
-    case MIX_TRANSITION:
-        return "mix";
-    default:
-        return "luma";
-
-    }
-}
-
-QString Transition::getTransitionName(const TRANSITIONTYPE & type) {
-    if (type == COMPOSITE_TRANSITION) return i18n("Push");
-    else if (type == PIP_TRANSITION) return i18n("Pip");
-    else if (type == LUMAFILE_TRANSITION) return i18n("Wipe");
-    else if (type == MIX_TRANSITION) return i18n("Audio Fade");
-    return i18n("Crossfade");
-}
-
-TRANSITIONTYPE Transition::getTransitionForName(const QString & type) {
-    if (type == i18n("Push")) return COMPOSITE_TRANSITION;
-    else if (type == i18n("Pip")) return PIP_TRANSITION;
-    else if (type == i18n("Wipe")) return LUMAFILE_TRANSITION;
-    return LUMA_TRANSITION;
-}
-
 
 QString Transition::transitionName() const {
     return m_transitionName;
@@ -159,12 +115,12 @@ bool Transition::invertTransition() const {
 
 QPixmap Transition::transitionPixmap() const {
     KIcon icon;
-    if (m_transitionType == LUMA_TRANSITION) {
-        if (invertTransition()) icon = KIcon("kdenlive_trans_down");
-        else icon = KIcon("kdenlive_trans_up");
-    } else if (m_transitionType == COMPOSITE_TRANSITION) {
+    if (m_transitionName == "luma") {
+        if (invertTransition()) icon = KIcon("kdenlive_trans_up");
+        else icon = KIcon("kdenlive_trans_down");
+    } else if (m_transitionName == "composite") {
         icon = KIcon("kdenlive_trans_wiper");
-    } else if (m_transitionType == LUMAFILE_TRANSITION) {
+    } else if (m_transitionName == "lumafile") {
         icon = KIcon("kdenlive_trans_luma");
     } else icon = KIcon("kdenlive_trans_pip");
     return icon.pixmap(QSize(15, 15));
@@ -343,7 +299,7 @@ const ClipItem *Transition::referencedClip() const {
 QDomElement Transition::toXML() {
     QDomDocument doc;
     QDomElement effect = doc.createElement("ktransition");
-    effect.setAttribute("type", transitionType());
+    effect.setAttribute("type", m_transitionName);
     effect.setAttribute("inverted", invertTransition());
     effect.setAttribute("transition_track", m_transitionTrack);
     effect.setAttribute("start", transitionStartTime().frames(m_referenceClip->fps()));

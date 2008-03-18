@@ -28,6 +28,7 @@
 #include <KApplication>
 #include <KAction>
 #include <KLocale>
+#include <KGlobal>
 #include <KActionCollection>
 #include <KStandardAction>
 #include <KFileDialog>
@@ -82,7 +83,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_timelineArea->setCornerWidget(closeTabButton);
     connect(m_timelineArea, SIGNAL(currentChanged(int)), this, SLOT(activateDocument()));
 
-    initEffects::parseEffectFiles(&m_audioEffects, &m_videoEffects);
+    initEffects::parseEffectFiles(&m_audioEffects, &m_videoEffects, &m_transitions);
     m_monitorManager = new MonitorManager();
 
     projectListDock = new QDockWidget(i18n("Project Tree"), this);
@@ -107,7 +108,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     transitionConfigDock = new QDockWidget(i18n("Transition"), this);
     transitionConfigDock->setObjectName("transition");
-    transitionConfig = new TransitionSettings(this);
+    transitionConfig = new TransitionSettings(&m_transitions, this);
     transitionConfigDock->setWidget(transitionConfig);
     addDockWidget(Qt::TopDockWidgetArea, transitionConfigDock);
 
