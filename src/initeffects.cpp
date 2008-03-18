@@ -329,7 +329,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
 
     QDomDocument ret;
     Mlt::Properties *metadata = repository->metadata(filter_type, filtername.toAscii().data());
-    kDebug() << filtername;
+    //kDebug() << filtername;
     if (metadata && metadata->is_valid()) {
         if (metadata->get("title") && metadata->get("identifier")) {
             QDomElement eff = ret.createElement("effect");
@@ -387,10 +387,10 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
             ret.appendChild(eff);
         }
     }
-    QString outstr;
-    QTextStream str(&outstr);
-    ret.save(str, 2);
-    kDebug() << outstr;
+    /* QString outstr;
+     QTextStream str(&outstr);
+     ret.save(str, 2);
+     kDebug() << outstr;*/
     return ret;
 }
 

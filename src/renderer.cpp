@@ -40,6 +40,7 @@ extern "C" {
 
 #include "renderer.h"
 #include "kdenlivesettings.h"
+#include "kthumb.h"
 
 static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr) {
     // detect if the producer has finished playing. Is there a better way to do it ?
@@ -402,7 +403,7 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
                 filePropertyMap["type"] = "video";
 
             // Generate thumbnail for this frame
-            QPixmap pixmap = frameThumbnail(frame, width, height, true);
+            QPixmap pixmap = KThumb::getImage(url, 0, width, height);
 
             emit replyGetImage(clipId, 0, pixmap, width, height);
 

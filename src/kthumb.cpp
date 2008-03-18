@@ -154,7 +154,7 @@ KThumb::~KThumb() {
 //static
 QPixmap KThumb::getImage(KUrl url, int width, int height) {
     if (url.isEmpty()) return QPixmap();
-    QPixmap pix(width, height);
+    /*QPixmap pix(width, height);
     kDebug() << "+++++++++++  GET THMB IMG FOR: " << url;
     char *tmp = Render::decodedString(url.path());
     Mlt::Profile prof((char*) KdenliveSettings::current_profile().data());
@@ -180,51 +180,71 @@ QPixmap KThumb::getImage(KUrl url, int width, int height) {
         } else pix.fill(Qt::black);
     }
     if (m_frame) delete m_frame;
-    return pix;
+    return pix;*/
+    return getImage(url, 0, width, height);
 }
 
 void KThumb::extractImage(int frame, int frame2) {
     if (m_url.isEmpty()) return;
-    QPixmap pix(m_width, m_height);
+
     char *tmp = Render::decodedString(m_url.path());
     Mlt::Producer m_producer(*m_profile, tmp);
     delete[] tmp;
 
+    QPixmap pix(m_width, m_height);
     if (m_producer.is_blank()) {
+        QPixmap pix(m_width, m_height);
         pix.fill(Qt::black);
         emit thumbReady(frame, pix);
         return;
     }
-    Mlt::Frame * m_frame;
-    mlt_image_format format = mlt_image_rgb24a;
-    Mlt::Filter m_convert(*m_profile, "avcolour_space");
-    m_convert.set("forced", mlt_image_rgb24a);
-    m_producer.attach(m_convert);
     if (frame != -1) {
-        m_producer.seek(frame);
-        m_frame = m_producer.get_frame();
-        if (m_frame && m_frame->is_valid()) {
-            uint8_t *thumb = m_frame->get_image(format, m_width, m_height);
-            QImage image(thumb, m_width, m_height, QImage::Format_ARGB32);
-            if (!image.isNull()) {
-                pix = pix.fromImage(image);
-            } else pix.fill(Qt::black);
-        }
-        if (m_frame) delete m_frame;
+        QPixmap pix = getFrame(&m_producer, frame, m_width, m_height);
         emit thumbReady(frame, pix);
     }
-    if (frame2 == -1) return;
-    m_producer.seek(frame2);
-    m_frame = m_producer.get_frame();
+    if (frame2 != -1) {
+        QPixmap pix = getFrame(&m_producer, frame2, m_width, m_height);
+        emit thumbReady(frame2, pix);
+    }
+
+}
+
+QPixmap KThumb::getImage(KUrl url, int frame, int width, int height) {
+    Mlt::Profile profile((char*) KdenliveSettings::current_profile().data());
+    QPixmap pix(width, height);
+    if (url.isEmpty()) return pix;
+    char *tmp = Render::decodedString(url.path());
+    Mlt::Producer producer(profile, tmp);
+    delete[] tmp;
+
+    if (producer.is_blank()) {
+
+        pix.fill(Qt::black);
+        return pix;
+    }
+    return getFrame(&producer, frame, width, height);
+
+}
+
+QPixmap KThumb::getFrame(Mlt::Producer* producer, int frame, int width, int height) {
+    Mlt::Profile profile((char*) KdenliveSettings::current_profile().data());
+    Mlt::Filter m_convert(profile, "avcolour_space");
+    m_convert.set("forced", mlt_image_rgb24a);
+    producer->attach(m_convert);
+
+    producer->seek(frame);
+    Mlt::Frame * m_frame = producer->get_frame();
+    mlt_image_format format = mlt_image_rgb24a;
+    QPixmap pix(width, height);
     if (m_frame && m_frame->is_valid()) {
-        uint8_t *thumb = m_frame->get_image(format, m_width, m_height);
-        QImage image(thumb, m_width, m_height, QImage::Format_ARGB32);
+        uint8_t *thumb = m_frame->get_image(format, width, height);
+        QImage image(thumb, width, height, QImage::Format_ARGB32);
         if (!image.isNull()) {
             pix = pix.fromImage(image);
         } else pix.fill(Qt::black);
     }
     if (m_frame) delete m_frame;
-    emit thumbReady(frame2, pix);
+    return pix;
 
 }
 /*
