@@ -25,7 +25,7 @@
 // ffmpeg Header files
 
 extern "C" {
-#include <libavformat/avformat.h>
+//#include <libavformat/avformat.h>
 }
 #include <QTimer>
 #include <QDir>
@@ -171,7 +171,7 @@ char *Render::decodedString(QString str) {
 }
 
 //static
-QPixmap Render::frameThumbnail(Mlt::Frame *frame, int width, int height, bool border) {
+/*QPixmap Render::frameThumbnail(Mlt::Frame *frame, int width, int height, bool border) {
     QPixmap pix(width, height);
 
     mlt_image_format format = mlt_image_rgb24a;
@@ -187,7 +187,7 @@ QPixmap Render::frameThumbnail(Mlt::Frame *frame, int width, int height, bool bo
     } else pix.fill(Qt::black);
     return pix;
 }
-
+*/
 
 QPixmap Render::extractFrame(int frame_position, int width, int height) {
     QPixmap pix(width, height);
@@ -196,7 +196,8 @@ QPixmap Render::extractFrame(int frame_position, int width, int height) {
         return pix;
     }
     Mlt::Producer *mlt_producer = m_mltProducer->cut(frame_position, frame_position + 1);
-    Mlt::Filter m_convert(*m_mltProfile, "avcolour_space");
+    return KThumb::getFrame(m_mltProducer, -1, width, height);
+    /*Mlt::Filter m_convert(*m_mltProfile, "avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     mlt_producer->attach(m_convert);
     Mlt::Frame *frame = mlt_producer->get_frame();
@@ -206,7 +207,7 @@ QPixmap Render::extractFrame(int frame_position, int width, int height) {
         delete frame;
     } else pix.fill(Qt::black);
     delete mlt_producer;
-    return pix;
+    return pix;*/
 }
 
 QPixmap Render::getImageThumbnail(KUrl url, int width, int height) {
@@ -230,7 +231,7 @@ QPixmap Render::getImageThumbnail(KUrl url, int width, int height) {
     //pixmap = im.scaled(width, height);
     return pixmap;
 }
-
+/*
 //static
 QPixmap Render::getVideoThumbnail(char *profile, QString file, int frame_position, int width, int height) {
     QPixmap pix(width, height);
@@ -255,7 +256,7 @@ QPixmap Render::getVideoThumbnail(char *profile, QString file, int frame_positio
     if (prof) delete prof;
     return pix;
 }
-
+*/
 /*
 void Render::getImage(KUrl url, int frame_position, QPoint size)
 {
@@ -881,17 +882,18 @@ void Render::exportCurrentFrame(KUrl url, bool notify) {
 
     int height = 1080;//KdenliveSettings::defaultheight();
     int width = 1940; //KdenliveSettings::displaywidth();
-
-    QPixmap pix(width, height);
-    Mlt::Filter m_convert(*m_mltProfile, "avcolour_space");
-    m_convert.set("forced", mlt_image_rgb24a);
-    m_mltProducer->attach(m_convert);
-    Mlt::Frame * frame = m_mltProducer->get_frame();
-    m_mltProducer->detach(m_convert);
-    if (frame) {
-        pix = frameThumbnail(frame, width, height);
-        delete frame;
-    }
+    QPixmap pix = KThumb::getFrame(m_mltProducer, -1, width, height);
+    /*
+       QPixmap pix(width, height);
+       Mlt::Filter m_convert(*m_mltProfile, "avcolour_space");
+       m_convert.set("forced", mlt_image_rgb24a);
+       m_mltProducer->attach(m_convert);
+       Mlt::Frame * frame = m_mltProducer->get_frame();
+       m_mltProducer->detach(m_convert);
+       if (frame) {
+           pix = frameThumbnail(frame, width, height);
+           delete frame;
+       }*/
     pix.save(url.path(), "PNG");
     //if (notify) QApplication::postEvent(qApp->activeWindow(), new UrlEvent(url, 10003));
 }

@@ -72,13 +72,13 @@ Q_OBJECT public:
     void seek(GenTime time);
     void seekToFrame(int pos);
 
-    static QPixmap getVideoThumbnail(char *profile, QString file, int frame, int width, int height);
+    //static QPixmap getVideoThumbnail(char *profile, QString file, int frame, int width, int height);
     QPixmap getImageThumbnail(KUrl url, int width, int height);
 
     /** Return thumbnail for color clip */
     //void getImage(int id, QString color, QPoint size);
 
-    static QPixmap frameThumbnail(Mlt::Frame *frame, int width, int height, bool border = false);
+    // static QPixmap frameThumbnail(Mlt::Frame *frame, int width, int height, bool border = false);
 
     /** Return thumbnail for image clip */
     //void getImage(KUrl url, QPoint size);
