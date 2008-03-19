@@ -515,11 +515,7 @@ void CustomTrackView::slotAddTransition(ClipItem* clip , QDomElement transition,
 
 void CustomTrackView::addTransition(int startTrack, GenTime startPos , QDomElement e) {
     QMap < QString, QString> map;
-    /*map["start"] = "0.0";
-    map["end"] = "1.0";*/
-    QDomDocument d("tes");
-    d.appendChild(e);
-    kDebug() << d.toString();
+
     QDomNamedNodeMap attribs = e.attributes();
     for (int i = 0;i < attribs.count();i++) {
         if (attribs.item(i).nodeName() != "type" &&
@@ -536,8 +532,14 @@ void CustomTrackView::addTransition(int startTrack, GenTime startPos , QDomEleme
     m_document->setModified(true);
 }
 
-void CustomTrackView::deleteTransition(int, GenTime, QDomElement) {
-
+void CustomTrackView::deleteTransition(int, GenTime, QDomElement e) {
+    QMap < QString, QString> map;
+    QDomNamedNodeMap attribs = e.attributes();
+    m_document->renderer()->mltDeleteTransition(e.attribute("type"), 4 - e.attribute("transition_track").toInt(), 5 - e.attribute("transition_track").toInt() ,
+            GenTime(e.attribute("start").toInt(), m_document->renderer()->fps()),
+            GenTime(e.attribute("end").toInt(), m_document->renderer()->fps()),
+            map);
+    m_document->setModified(true);
 }
 
 void CustomTrackView::addItem(DocClipBase *clip, QPoint pos) {

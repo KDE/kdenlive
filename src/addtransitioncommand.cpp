@@ -26,7 +26,7 @@ AddTransitionCommand::AddTransitionCommand(CustomTrackView *view, int track, QDo
 
 // virtual
 void AddTransitionCommand::undo() {
-    if (!m_doIt) m_view->deleteTransition(m_track, m_pos, m_xml);
+    if (m_doIt) m_view->deleteTransition(m_track, m_pos, m_xml);
     else m_view->addTransition(m_track , m_pos, m_xml);
 }
 // virtual
