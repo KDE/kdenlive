@@ -123,6 +123,15 @@ void CustomTrackView::wheelEvent(QWheelEvent * e) {
     }
 }
 
+int CustomTrackView::getPreviousVideoTrack(int track) {
+    track = m_tracksList.count() - track - 1;
+    int videoTracksCount = 0;
+    track --;
+    for (int i = track; i > -1; i--) {
+        if (m_tracksList.at(i) == VIDEOTRACK) return i + 1;
+    }
+    return 0;
+}
 
 // virtual
 void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
@@ -550,8 +559,8 @@ void CustomTrackView::addTransition(int startTrack, GenTime startPos , QDomEleme
             map[attribs.item(i).nodeName()] = attribs.item(i).nodeValue();
     }
 
-    kDebug() << "---- ADDING transition " << e.attribute("type") << ", on tracks " << m_tracksList.count() - e.attribute("transition_track").toInt();
-    m_document->renderer()->mltAddTransition(e.attribute("type"), m_tracksList.count() - e.attribute("transition_track").toInt() - 1, m_tracksList.count() - e.attribute("transition_track").toInt() ,
+    kDebug() << "---- ADDING transition " << e.attribute("type") << ", on tracks " << m_tracksList.count() - e.attribute("transition_track").toInt() << " / " << getPreviousVideoTrack(e.attribute("transition_track").toInt());
+    m_document->renderer()->mltAddTransition(e.attribute("type"), getPreviousVideoTrack(e.attribute("transition_track").toInt()), m_tracksList.count() - e.attribute("transition_track").toInt() ,
             GenTime(e.attribute("start").toInt(), m_document->renderer()->fps()),
             GenTime(e.attribute("end").toInt(), m_document->renderer()->fps()),
             map);

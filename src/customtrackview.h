@@ -119,6 +119,8 @@ private:
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
     QList <TRACKTYPE> m_tracksList;
+    /** Get the index of the video track that is just below current track */
+    int getPreviousVideoTrack(int track);
 
 
 signals:
