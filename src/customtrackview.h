@@ -31,6 +31,8 @@
 #include "kdenlivedoc.h"
 #include "clipitem.h"
 
+
+
 class CustomTrackView : public QGraphicsView {
     Q_OBJECT
 
@@ -39,7 +41,7 @@ public:
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseReleaseEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
-    void addTrack();
+    void addTrack(TRACKTYPE type);
     void removeTrack();
     int cursorPos();
     void checkAutoScroll();
@@ -59,6 +61,8 @@ public:
     int duration() const;
     void deleteSelectedClips();
     void setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition);
+    void checkTrackHeight();
+    QList <TRACKTYPE> tracksList() const;
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -83,7 +87,7 @@ protected:
     virtual void resizeEvent(QResizeEvent * event);
 
 private:
-    int m_tracksCount;
+    uint m_tracksHeight;
     int m_projectDuration;
     int m_cursorPos;
     ClipItem *m_dropItem;
@@ -114,6 +118,8 @@ private:
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
+    QList <TRACKTYPE> m_tracksList;
+
 
 signals:
     void cursorMoved(int, int);
@@ -123,6 +129,7 @@ signals:
     void clipItemSelected(ClipItem*);
     void transitionItemSelected(Transition*);
     void activateDocumentMonitor();
+    void trackHeightChanged();
 };
 
 #endif

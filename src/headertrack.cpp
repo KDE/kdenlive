@@ -7,11 +7,13 @@
 
 #include <KLocale>
 #include <KDebug>
+
+#include "kdenlivesettings.h"
 #include "headertrack.h"
 
-HeaderTrack::HeaderTrack(int index, QWidget *parent)
-        : QWidget(parent), m_index(index) {
-    setFixedHeight(50);
+HeaderTrack::HeaderTrack(int index, TRACKTYPE type, QWidget *parent)
+        : QWidget(parent), m_index(index), m_type(type) {
+    setFixedHeight(KdenliveSettings::trackheight());
     //setFixedWidth(30);
     m_label = QString::number(m_index);
 }
@@ -22,7 +24,8 @@ void HeaderTrack::paintEvent(QPaintEvent *e) {
     region.setTopLeft(QPoint(region.left() + 1, region.top() + 1));
     region.setBottomRight(QPoint(region.right() - 1, region.bottom() - 1));
     QPainter painter(this);
-    painter.fillRect(region, QBrush(QColor(255, 255, 255)));
+    if (m_type == AUDIOTRACK) painter.fillRect(region, QBrush(QColor(240, 240, 255)));
+    else painter.fillRect(region, QBrush(QColor(255, 255, 255)));
     painter.drawText(region, Qt::AlignCenter, m_label);
 }
 

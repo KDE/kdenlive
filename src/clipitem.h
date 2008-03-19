@@ -73,6 +73,8 @@ public:
     void setEffectAt(int ix, QDomElement effect);
     void flashClip();
     void addTransition(Transition*);
+    /** regenerate audio and video thumbnails */
+    void resetThumbs();
 
 protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);

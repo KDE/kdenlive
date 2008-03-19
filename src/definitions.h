@@ -37,6 +37,8 @@ enum TRANSITIONTYPE {
     MIX_TRANSITION = 200
 };
 
+enum TRACKTYPE { AUDIOTRACK = 0, VIDEOTRACK = 1 };
+
 struct MltVideoProfile {
     QString path;
     QString description;

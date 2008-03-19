@@ -20,8 +20,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qapplication.h>
-
 #include <kio/netaccess.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -136,7 +134,7 @@ void MyThread::run() {
 #define _G(y,u,v) (0x2568*(y) - 0x0c92*(v) - 0x1a1e*(u)) /0x2000
 #define _B(y,u,v) (0x2568*(y) + 0x40cf*(v))                                          /0x2000
 
-KThumb::KThumb(ClipManager *clipManager, KUrl url, int width, int height, QObject * parent, const char *name): QObject(parent), m_clipManager(clipManager), m_url(url), m_width(width), m_height(height) {
+KThumb::KThumb(ClipManager *clipManager, KUrl url, QObject * parent, const char *name): QObject(parent), m_clipManager(clipManager), m_url(url) {
 
     m_profile = new Mlt::Profile((char*) KdenliveSettings::current_profile().data());
     QCryptographicHash context(QCryptographicHash::Sha1);
@@ -191,19 +189,18 @@ void KThumb::extractImage(int frame, int frame2) {
     Mlt::Producer m_producer(*m_profile, tmp);
     delete[] tmp;
 
-    QPixmap pix(m_width, m_height);
     if (m_producer.is_blank()) {
-        QPixmap pix(m_width, m_height);
+        QPixmap pix(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio(), KdenliveSettings::trackheight());
         pix.fill(Qt::black);
         emit thumbReady(frame, pix);
         return;
     }
     if (frame != -1) {
-        QPixmap pix = getFrame(&m_producer, frame, m_width, m_height);
+        QPixmap pix = getFrame(&m_producer, frame, KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio(), KdenliveSettings::trackheight());
         emit thumbReady(frame, pix);
     }
     if (frame2 != -1) {
-        QPixmap pix = getFrame(&m_producer, frame2, m_width, m_height);
+        QPixmap pix = getFrame(&m_producer, frame2, KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio(), KdenliveSettings::trackheight());
         emit thumbReady(frame2, pix);
     }
 

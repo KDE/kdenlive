@@ -35,7 +35,7 @@
 Transition::Transition(const QRectF& rect , ClipItem * clipa, const QString & type, const GenTime &startTime, const GenTime &endTime, double fps, bool inverted) : AbstractClipItem(rect) {
     m_invertTransition = inverted;
     m_singleClip = true;
-    m_transitionTrack = 0;
+    m_transitionTrack = clipa->track();
     m_secondClip = NULL;
     m_transitionName = type;
     m_fps = fps;

@@ -5,12 +5,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>348</width>
-    <height>187</height>
+    <width>335</width>
+    <height>188</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2" >
-   <item row="0" column="0" >
+   <item row="0" column="0" colspan="3" >
     <widget class="QGroupBox" name="groupBox" >
      <property name="title" >
       <string>Thumbnails</string>
@@ -53,7 +53,7 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0" >
+   <item row="1" column="0" colspan="3" >
     <widget class="QCheckBox" name="kcfg_autoscroll" >
      <property name="text" >
       <string>Autoscroll while playing</string>
@@ -61,6 +61,29 @@
     </widget>
    </item>
    <item row="2" column="0" >
+    <widget class="QLabel" name="label" >
+     <property name="text" >
+      <string>Track height</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1" >
+    <widget class="QSpinBox" name="kcfg_trackheight" />
+   </item>
+   <item row="2" column="2" >
+    <spacer name="horizontalSpacer_2" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>166</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="3" column="1" >
     <spacer name="verticalSpacer" >
      <property name="orientation" >
       <enum>Qt::Vertical</enum>

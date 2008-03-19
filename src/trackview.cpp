@@ -28,6 +28,7 @@
 #include "headertrack.h"
 #include "trackview.h"
 #include "clipitem.h"
+#include "kdenlivesettings.h"
 
 TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
         : QWidget(parent), m_doc(doc), m_scale(1.0), m_projectTracks(0), m_currentZoom(4) {
@@ -67,6 +68,7 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
     tracksLayout->addWidget(m_trackview);
 
     connect(m_trackview->verticalScrollBar(), SIGNAL(valueChanged(int)), view->headers_area->verticalScrollBar(), SLOT(setValue(int)));
+    connect(m_trackview, SIGNAL(trackHeightChanged()), this, SLOT(slotRebuildTrackHeaders()));
 
     parseDocument(doc->toXml());
 
@@ -133,6 +135,7 @@ void TrackView::parseDocument(QDomDocument doc) {
         if (trackduration > duration) duration = trackduration;
     }
     m_trackview->setDuration(duration);
+    slotRebuildTrackHeaders();
     //m_trackview->setCursorPos(cursorPos);
     //m_scrollBox->setGeometry(0, 0, 300 * zoomFactor(), m_scrollArea->height());
 }
@@ -181,23 +184,31 @@ void TrackView::refresh() {
     m_trackview->viewport()->update();
 }
 
+void TrackView::slotRebuildTrackHeaders() {
+    QList <TRACKTYPE> list = m_trackview->tracksList();
+    QList<HeaderTrack *> widgets = this->findChildren<HeaderTrack *>();
+    for (int i = 0; i < widgets.count(); i++)
+        delete widgets.at(i);
+    int max = list.count();
+    for (int i = 0; i < max; i++) {
+        HeaderTrack *header = new HeaderTrack(i, list.at(max - i - 1), this);
+        m_headersLayout->addWidget(header);
+    }
+    view->headers_container->adjustSize();
+}
+
 int TrackView::slotAddAudioTrack(int ix, QDomElement xml) {
     kDebug() << "*************  ADD AUDIO TRACK " << ix;
-    m_trackview->addTrack();
-    HeaderTrack *header = new HeaderTrack(ix);
-    //m_tracksAreaLayout->addWidget(track); //, ix, Qt::AlignTop);
-    m_headersLayout->addWidget(header); //, ix, Qt::AlignTop);
-    view->headers_container->adjustSize();
+    m_trackview->addTrack(AUDIOTRACK);
     //documentTracks.insert(ix, track);
     return 0;
     //track->show();
 }
 
 int TrackView::slotAddVideoTrack(int ix, QDomElement xml) {
-    m_trackview->addTrack();
-    HeaderTrack *header = new HeaderTrack(ix);
-    int trackTop = 50 * ix;
-    int trackBottom = trackTop + 50;
+    m_trackview->addTrack(VIDEOTRACK);
+
+    int trackTop = KdenliveSettings::trackheight() * ix;
     // parse track
     int position = 0;
     for (QDomNode n = xml.firstChild(); !n.isNull(); n = n.nextSibling()) {
@@ -210,7 +221,7 @@ int TrackView::slotAddVideoTrack(int ix, QDomElement xml) {
             DocClipBase *clip = m_doc->clipManager()->getClipById(id);
             int out = elem.attribute("out", 0).toInt() - in;
             //kDebug()<<"++++++++++++++\n\n / / /ADDING CLIP: "<<clip.cropTime<<", out: "<<clip.duration<<", Producer: "<<clip.producer<<"\n\n++++++++++++++++++++";
-            ClipItem *item = new ClipItem(clip, ix, GenTime(position, m_doc->fps()), QRectF(position * m_scale, trackTop + 1, out * m_scale, 49), GenTime(out, m_doc->fps()), m_doc->fps());
+            ClipItem *item = new ClipItem(clip, ix, GenTime(position, m_doc->fps()), QRectF(position * m_scale, trackTop + 1, out * m_scale, KdenliveSettings::trackheight() - 1), GenTime(out, m_doc->fps()), m_doc->fps());
             m_scene->addItem(item);
             position += out;
 
@@ -219,9 +230,7 @@ int TrackView::slotAddVideoTrack(int ix, QDomElement xml) {
     }
     //m_trackDuration = position;
 
-    //m_tracksAreaLayout->addWidget(track); //, ix, Qt::AlignTop);
-    m_headersLayout->addWidget(header); //, ix, Qt::AlignTop);
-    view->headers_container->adjustSize();
+
     //documentTracks.insert(ix, track);
     kDebug() << "*************  ADD VIDEO TRACK " << ix << ", DURATION: " << position;
     return position;

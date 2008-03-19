@@ -72,7 +72,7 @@ class KThumb: public QObject {
 Q_OBJECT public:
 
 
-    KThumb(ClipManager *clipManager, KUrl url, int width, int height, QObject * parent = 0, const char *name = 0);
+    KThumb(ClipManager *clipManager, KUrl url, QObject * parent = 0, const char *name = 0);
     ~KThumb();
 
 public slots:
@@ -92,8 +92,6 @@ private:
     MyThread thumbProducer;
     KUrl m_url;
     QString m_thumbFile;
-    int m_width;
-    int m_height;
     Mlt::Profile *m_profile;
     ClipManager *m_clipManager;
 

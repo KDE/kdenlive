@@ -31,7 +31,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, uint id):
     if (out != 0) setDuration(GenTime(out, 25));
     if (m_name.isEmpty()) m_name = url.fileName();
     if (!url.isEmpty()) {
-        m_thumbProd = new KThumb(clipManager, url, KdenliveSettings::track_height() * KdenliveSettings::project_display_ratio(), KdenliveSettings::track_height());
+        m_thumbProd = new KThumb(clipManager, url);
         connect(m_thumbProd, SIGNAL(audioThumbReady(QMap <int, QMap <int, QByteArray> >)), this , SLOT(updateAudioThumbnail(QMap <int, QMap <int, QByteArray> >)));
         connect(this, SIGNAL(getAudioThumbs()), this , SLOT(slotGetAudioThumbs()));
 

@@ -777,11 +777,13 @@ void MainWindow::updateConfiguration() {
     if (currentTab) {
         currentTab->refresh();
         currentTab->projectView()->checkAutoScroll();
+        currentTab->projectView()->checkTrackHeight();
         if (m_activeDocument) m_activeDocument->clipManager()->checkAudioThumbs();
     }
     timeline_buttons_ui.buttonAudio->setDown(KdenliveSettings::audiothumbnails());
     timeline_buttons_ui.buttonVideo->setDown(KdenliveSettings::videothumbnails());
     activateShuttleDevice();
+
 }
 
 void MainWindow::slotSwitchVideoThumbs() {

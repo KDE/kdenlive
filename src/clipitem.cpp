@@ -102,6 +102,11 @@ ClipItem::~ClipItem() {
     if (endThumbTimer) delete endThumbTimer;
 }
 
+void ClipItem::resetThumbs() {
+    slotFetchThumbs();
+    audioThumbCachePic.clear();
+}
+
 void ClipItem::slotFetchThumbs() {
     m_thumbsRequested += 2;
     emit getThumb((int)m_cropStart.frames(m_fps), (int)(m_cropStart + m_cropDuration).frames(m_fps));

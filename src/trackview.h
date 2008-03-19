@@ -88,6 +88,7 @@ private slots:
     void moveCursorPos(int pos);
     void slotClipItemSelected(ClipItem*);
     void slotTransitionItemSelected(Transition*);
+    void slotRebuildTrackHeaders();
 
 signals:
     void mousePosition(int);
