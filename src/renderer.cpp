@@ -1488,7 +1488,7 @@ void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
         int clipindex = trackPlaylist.get_clip_index_at(in.frames(m_fps));
-        if (clipindex != 0) {
+        if (clipindex != 0 && track == 5) {
             Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, decodedString(tag));
             if (!transition || !transition->get_transition())
                 return;
@@ -1496,7 +1496,7 @@ void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
             QMap<QString, QString>::Iterator it;
             QString key;
 
-            kDebug() << " ------  ADDING TRANSITION PARAMs: " << args.count();
+            kDebug() << " ------  ADDING TRANSITION PARAMs: " << args.count() << "on track " << track;
 
             for (it = args.begin(); it != args.end(); ++it) {
                 key = it.key();
@@ -1514,9 +1514,18 @@ void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
             Mlt::Tractor mixer;
             Mlt::Playlist track0;
             mixer.set_track(track0, 0);
-            Mlt::Producer *out_frame = left->cut(left->get_in() + left->get_playtime() - 1, left->get_in() + left->get_playtime() - 1);
-            track0.append(*out_frame);
-            track0.repeat(0, 20);
+            /** read from track down */
+            Mlt::Producer *trackprod2 = tractor.track(4);
+            Mlt::Producer trackProducer2(trackprod2);
+            Mlt::Playlist trackPlaylist2((mlt_playlist) trackProducer2.get_service());
+
+            int clipindex2 = trackPlaylist2.get_clip_index_at(in.frames(m_fps));
+            kDebug() << clipindex2;
+            left = trackPlaylist2.get_clip(clipindex2);
+            //left->cut(40,left->get_playtime() );
+            Mlt::Producer *lastleft = left->cut(left->get_in() + left->get_playtime() - 20, left->get_in() + left->get_playtime());
+            mixer.set_track(*lastleft, 0);
+            //track0.repeat(0, 20);
             mixer.set_track(*right, 1);
             transition->set_in_and_out(0, 20 - 1);
             mixer.plant_transition(transition);
