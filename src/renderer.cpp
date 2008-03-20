@@ -1355,7 +1355,48 @@ typedef struct {
 mlt_service_base;
 
 void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args) {
+    Mlt::Service service(m_mltProducer->parent().get_service());
 
+    Mlt::Tractor tractor(service);
+    for (int track = 0;track < 10;track++) {
+        Mlt::Producer *trackprod = tractor.track(track);
+        if (!trackprod)
+            continue;
+        Mlt::Producer trackProducer(trackprod);
+        Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+        Mlt::Producer *prod = NULL;
+        int g = 0;
+        do {
+            prod = trackPlaylist.get_clip(g++);
+            if (prod) {
+
+                for (int j = 0;j < prod->count();j++) {
+
+                    kDebug() << prod->get_name(j) << " " << prod->get(j);
+                }
+                Mlt::Producer parprod = prod->parent();
+                for (int j = 0;j < parprod.count();j++) {
+
+                    kDebug() << "  " << parprod.get_name(j) << " " << parprod.get(j);
+                }
+                Mlt::Tractor tractor(parprod);
+                if (tractor.is_valid()) {
+                    kDebug() << "---------ja";
+                }
+            }
+            kDebug() << "track=" << track << " " << g << " " << prod;
+
+            /*Mlt::Tractor parent(prod->parent());
+             if (!parent.get_tractor())
+              continue;
+             Mlt::Producer *prod1=parent.track(1);
+             if (!prod1)
+              continue;*/
+        } while (g < 10);
+    }
+
+#if 0
+    return;
     m_isBlocked = true;
     m_mltConsumer->set("refresh", 0);
     mlt_service serv = m_mltProducer->parent().get_service();
@@ -1364,6 +1405,7 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
     Mlt::Tractor tractor(service);
     mlt_service nextservice = mlt_service_get_producer(serv);
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
+
     QString mlt_type = mlt_properties_get(properties, "mlt_type");
     QString resource = mlt_properties_get(properties, "mlt_service");
     int old_pos = (in.frames(m_fps) + out.frames(m_fps)) / 2;
@@ -1381,6 +1423,10 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
         if (/*resource == type &&*/ b_track == currentTrack && currentIn <= old_pos && currentOut >= old_pos) {
             kDebug() << "found transition that matches" << resource;
             //mlt_transition_set_in_and_out(tr, new_in, new_out);
+            Mlt::Field *field = tractor.field();
+            Mlt::Transition tt(*m_mltProfile, "mix");
+            field->plant_transition(tt, a_track, b_track);
+#if 0
             mlt_service service = MLT_TRANSITION_SERVICE(tr);
             mlt_service_base *base = (mlt_service_base*)service->local;
             for (int i = 0;i < base->count;i++) {
@@ -1393,13 +1439,19 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
                 if (base1->in[i] == (mlt_service_s*)tr) {
                     mlt_service_lock(MLT_SERVICE_PROPERTIES(tr));
                     //mlt_properties_dec_ref( MLT_SERVICE_PROPERTIES( tr ) );
-                    mlt_service_unlock(MLT_SERVICE_PROPERTIES(tr));
+                    /*mlt_service_unlock(MLT_SERVICE_PROPERTIES(tr));
 
 
                     mlt_events_disconnect(properties, nextservice);
                     mlt_transition_close(tr);
                     //base1->in[i]=NULL;
-                    base1->out = NULL;
+                    base1->out = NULL;*/
+                    base1->in[i] = NULL;
+
+                    base1->count--;
+                    mlt_service_base *basetr = (mlt_service_base*)service1->local;
+                    basetr->out = NULL;
+                    return;
                 }
             }
 
@@ -1411,6 +1463,7 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
             //mlt_properties_set_int(properties, "a_track", mlt_transition_get_a_track(tr) + trackOffset);
             //mlt_properties_set_int(properties, "b_track", mlt_transition_get_b_track(tr) + trackOffset);
             //}
+#endif
             break;
         }
         nextservice = mlt_service_producer(nextservice);
@@ -1419,10 +1472,60 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
         resource = mlt_properties_get(properties, "mlt_service");
     }
     m_isBlocked = false;
-
+#endif
 }
 
 void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args) {
+#if 1
+    Mlt::Service service(m_mltProducer->parent().get_service());
+
+    Mlt::Tractor tractor(service);
+    for (int track = 0;track < 10;track++) {
+        Mlt::Producer *trackprod = tractor.track(track);
+        if (!trackprod)
+            continue;
+        Mlt::Producer trackProducer(trackprod);
+        Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+
+        int clipindex = trackPlaylist.get_clip_index_at(in.frames(m_fps));
+        if (clipindex != 0) {
+            Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, decodedString(tag));
+            if (!transition || !transition->get_transition())
+                return;
+            transition->set_in_and_out((int) in.frames(m_fps), (int) out.frames(m_fps));
+            QMap<QString, QString>::Iterator it;
+            QString key;
+
+            kDebug() << " ------  ADDING TRANSITION PARAMs: " << args.count();
+
+            for (it = args.begin(); it != args.end(); ++it) {
+                key = it.key();
+                char *name = decodedString(key);
+                char *value = decodedString(it.value());
+                transition->set(name, value);
+                kDebug() << " ------  ADDING TRANS PARAM: " << name << ": " << value;
+                //filter->set("kdenlive_id", id);
+                delete[] name;
+                delete[] value;
+            }
+            Mlt::Producer *left = trackPlaylist.get_clip(clipindex - 1);
+            Mlt::Producer *right = trackPlaylist.get_clip(clipindex);
+            kDebug() << "left=" << left << " right=" << right;
+            Mlt::Tractor mixer;
+            Mlt::Playlist track0;
+            mixer.set_track(track0, 0);
+            Mlt::Producer *out_frame = left->cut(left->get_in() + left->get_playtime() - 1, left->get_in() + left->get_playtime() - 1);
+            track0.append(*out_frame);
+            track0.repeat(0, 20);
+            mixer.set_track(*right, 1);
+            transition->set_in_and_out(0, 20 - 1);
+            mixer.plant_transition(transition);
+            trackPlaylist.insert(mixer, clipindex, 0, mixer.get_playtime());
+            trackPlaylist.remove(clipindex + 1);
+        }
+    }
+    mltSavePlaylist();
+#else
     m_isBlocked = true;
     Mlt::Service service(m_mltProducer->parent().get_service());
 
@@ -1453,13 +1556,13 @@ void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
     delete[] transId;
     m_isBlocked = false;
     refresh();
-
+#endif
 }
 
 void Render::mltSavePlaylist() {
     kWarning() << "// UPDATING PLAYLIST TO DISK++++++++++++++++";
     Mlt::Consumer *fileConsumer = new Mlt::Consumer(*m_mltProfile, "westley");
-    fileConsumer->set("resource", "/home/one/playlist.xml");
+    fileConsumer->set("resource", "/tmp/playlist.westley");
 
     Mlt::Service service(m_mltProducer->get_service());
     Mlt::Tractor tractor(service);
