@@ -192,7 +192,8 @@ MainWindow::MainWindow(QWidget *parent)
     timeline_buttons_ui.buttonFitZoom->setIcon(KIcon("zoom-fit-best"));
     timeline_buttons_ui.buttonFitZoom->setToolTip(i18n("Fit zoom to project"));
 
-    setupGUI(Default, "kdenliveui.rc");
+    setupGUI(Default, NULL /*"kdenliveui.rc"*/);
+    kDebug() << factory() << " " << factory()->container("video_effects_menu", this);
 
     // build effects menus
     QAction *action;
@@ -708,6 +709,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), m_activeTimeline->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
             disconnect(effectStack, SIGNAL(changeEffectState(ClipItem*, QDomElement, bool)), m_activeTimeline->projectView(), SLOT(slotChangeEffectState(ClipItem*, QDomElement, bool)));
             disconnect(effectStack, SIGNAL(refreshEffectStack(ClipItem*)), m_activeTimeline->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
+            disconnect(transitionConfig, SIGNAL(transitionUpdated(QDomElement, QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(QDomElement, QDomElement)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(activateMonitor()));
         }
         m_activeDocument->setRenderer(NULL);
@@ -738,6 +740,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), trackView->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
     connect(effectStack, SIGNAL(changeEffectState(ClipItem*, QDomElement, bool)), trackView->projectView(), SLOT(slotChangeEffectState(ClipItem*, QDomElement, bool)));
     connect(effectStack, SIGNAL(refreshEffectStack(ClipItem*)), trackView->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
+    connect(transitionConfig, SIGNAL(transitionUpdated(QDomElement, QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(QDomElement, QDomElement)));
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(activateMonitor()));
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu);
     m_activeTimeline = trackView;

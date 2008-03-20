@@ -37,6 +37,7 @@
 #include "addeffectcommand.h"
 #include "editeffectcommand.h"
 #include "addtransitioncommand.h"
+#include "edittransitioncommand.h"
 #include "kdenlivesettings.h"
 #include "transition.h"
 
@@ -545,6 +546,7 @@ void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect
 void CustomTrackView::slotAddTransition(ClipItem* clip , QDomElement transition, GenTime startTime , int startTrack) {
     AddTransitionCommand* command = new AddTransitionCommand(this, startTrack, transition, startTime, true);
     m_commandStack->push(command);
+    m_document->setModified(true);
 }
 
 void CustomTrackView::addTransition(int startTrack, GenTime startPos , QDomElement e) {
@@ -574,6 +576,29 @@ void CustomTrackView::deleteTransition(int, GenTime, QDomElement e) {
     m_document->renderer()->mltDeleteTransition(e.attribute("type"), m_tracksList.count() - 1  - e.attribute("transition_track").toInt(), m_tracksList.count() - e.attribute("transition_track").toInt() ,
             GenTime(e.attribute("start").toInt(), m_document->renderer()->fps()),
             GenTime(e.attribute("end").toInt(), m_document->renderer()->fps()),
+            map);
+    m_document->setModified(true);
+}
+
+void CustomTrackView::slotTransitionUpdated(QDomElement old, QDomElement newEffect) {
+    EditTransitionCommand *command = new EditTransitionCommand(this, newEffect.attribute("a_track").toInt(), GenTime(newEffect.attribute("start").toInt(), m_document->renderer()->fps()) , old, newEffect , true);
+    m_commandStack->push(command);
+    m_document->setModified(true);
+}
+
+void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement transition) {
+    QMap < QString, QString> map;
+    QDomNamedNodeMap attribs = transition.attributes();
+    for (int i = 0;i < attribs.count();i++) {
+        if (attribs.item(i).nodeName() != "type" &&
+                attribs.item(i).nodeName() != "start" &&
+                attribs.item(i).nodeName() != "end"
+           )
+            map[attribs.item(i).nodeName()] = attribs.item(i).nodeValue();
+    }
+    m_document->renderer()->mltUpdateTransition(transition.attribute("type"), m_tracksList.count() - 1  - transition.attribute("transition_track").toInt(), m_tracksList.count() - transition.attribute("transition_track").toInt() ,
+            GenTime(transition.attribute("start").toInt(), m_document->renderer()->fps()),
+            GenTime(transition.attribute("end").toInt(), m_document->renderer()->fps()),
             map);
     m_document->setModified(true);
 }

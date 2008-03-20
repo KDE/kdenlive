@@ -228,8 +228,8 @@ QPixmap KThumb::getFrame(Mlt::Producer* producer, int frame, int width, int heig
     Mlt::Filter m_convert(profile, "avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     producer->attach(m_convert);
-
-    producer->seek(frame);
+    if (frame > -1)
+        producer->seek(frame);
     Mlt::Frame * m_frame = producer->get_frame();
     mlt_image_format format = mlt_image_rgb24a;
     QPixmap pix(width, height);

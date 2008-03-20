@@ -473,8 +473,20 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 tname.appendChild(ret.createTextNode("Affine"));
                 ktrans.appendChild(tname);
                 transitions->append(ret.documentElement());
+            } else if (name == "region") {
+                QDomDocument ret;
+                QDomElement ktrans = ret.createElement("ktransition");
+                ret.appendChild(ktrans);
+                ktrans.setAttribute("tag", name);
+                QDomElement tname = ret.createElement("name");
+                tname.appendChild(ret.createTextNode("Region"));
+                ktrans.appendChild(tname);
+                transitions->append(ret.documentElement());
             }
         }
+        /*
 
+         <transition fill="1" in="11" a_track="1" out="73" mlt_service="luma" b_track="2" softness="0" resource="/home/marco/Projekte/kdenlive/install_cmake/share/apps/kdenlive/pgm/PAL/square2.pgm" />
+        */
     }
 }

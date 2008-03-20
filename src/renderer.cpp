@@ -1335,8 +1335,59 @@ void Render::mltMoveTransition(QString type, int startTrack, int trackOffset, Ge
     m_isBlocked = false;
 }
 
+void Render::mltUpdateTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args) {
+    kDebug() << "update transition"  << tag;
+    QList<QString> li = args.keys();
+    for (int i = 0;i < li.size();i++) {
+        kDebug() << li[i] << " " << args[li[i]];
+    }
+    m_isBlocked = true;
+    m_mltConsumer->set("refresh", 0);
+    mlt_service serv = m_mltProducer->parent().get_service();
+
+    mlt_service nextservice = mlt_service_get_producer(serv);
+    mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
+    QString mlt_type = mlt_properties_get(properties, "mlt_type");
+    QString resource = mlt_properties_get(properties, "mlt_service");
+    int old_pos = (in.frames(m_fps) + out.frames(m_fps)) / 2;
+    int trackOffset = 0;
+    int new_in = in.frames(m_fps);
+    int new_out = out.frames(m_fps) - 1;
+    while (mlt_type == "transition") {
+        mlt_transition tr = (mlt_transition) nextservice;
+        int currentTrack = mlt_transition_get_b_track(tr);
+        int currentIn = (int) mlt_transition_get_in(tr);
+        int currentOut = (int) mlt_transition_get_out(tr);
+        kDebug() << "// FOUND EXISTING TRANS, IN: " << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack;
+        //kDebug()<<"// LOOKING FOR IN: "<<old_in<<", OUT: "<<old_out;
+        kDebug() << "// OLD IN: " << in.frames(m_fps) << " // OLD OUT: " << out.frames(m_fps) << ", TRACK: " << a_track << ", MID POS: " << old_pos;
+        if (/*resource == type &&*/ b_track == currentTrack && currentIn <= old_pos && currentOut >= old_pos) {
+            kDebug() << "found transition that matches" << resource;
+            //mlt_transition_set_in_and_out(tr, new_in, new_out);
+            //mlt_service old=_mlt_transition_servcie(tr);
+            //mlt_transition_init((mlt_transition_s*)tr->child,tag.toAscii().data());
+            //tr->child=tag.toAscii().data();
+
+
+
+            mlt_properties properties = MLT_TRANSITION_PROPERTIES(tr);
+            //mlt_events_disconnect(properties, nextservice);
+            mlt_events_fire(MLT_SERVICE_PROPERTIES(nextservice), "service-changed", NULL);
+            //mlt_properties_set_int(properties, "a_track", mlt_transition_get_a_track(tr) + trackOffset);
+            //mlt_properties_set_int(properties, "b_track", mlt_transition_get_b_track(tr) + trackOffset);
+            //}
+            break;
+        }
+        nextservice = mlt_service_producer(nextservice);
+        properties = MLT_SERVICE_PROPERTIES(nextservice);
+        mlt_type = mlt_properties_get(properties, "mlt_type");
+        resource = mlt_properties_get(properties, "mlt_service");
+    }
+    m_isBlocked = false;
+}
+
 void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args) {
-    kDebug() << "ja";
+
     m_isBlocked = true;
     m_mltConsumer->set("refresh", 0);
     mlt_service serv = m_mltProducer->parent().get_service();

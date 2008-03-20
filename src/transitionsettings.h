@@ -28,8 +28,12 @@ public:
 private:
     Ui::TransitionSettings_UI ui;
     EffectsList *m_transitions;
+    Transition* m_usedTransition;
 public slots:
     void slotTransitionItemSelected(Transition*);
+    void slotTransitionChanged();
+signals:
+    void transitionUpdated(QDomElement, QDomElement);
 };
 
 #endif

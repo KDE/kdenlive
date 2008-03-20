@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "transitionsettings.h"
+#include "transition.h"
 #include <KDebug>
 
 TransitionSettings::TransitionSettings(EffectsList *transitions, QWidget* parent): QWidget(parent) {
@@ -24,9 +25,18 @@ TransitionSettings::TransitionSettings(EffectsList *transitions, QWidget* parent
     m_transitions = transitions;
     ui.listWidget->addItems(transitions->effectNames());
     kDebug() << transitions->effectNames().size() << " -" << transitions->size();
+    connect(ui.listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(slotTransitionChanged()));
+}
+
+void TransitionSettings::slotTransitionChanged() {
+    QDomElement e = m_usedTransition->toXML();
+    QDomElement newElement = e.cloneNode().toElement();
+    newElement.setAttribute("type", ui.listWidget->currentItem()->text());
+    emit transitionUpdated(e, newElement);
 }
 
 void TransitionSettings::slotTransitionItemSelected(Transition* t) {
     setEnabled(t != NULL);
+    m_usedTransition = t;
 }
 
