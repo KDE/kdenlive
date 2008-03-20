@@ -586,7 +586,7 @@ void CustomTrackView::slotTransitionUpdated(QDomElement old, QDomElement newEffe
     m_document->setModified(true);
 }
 
-void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement transition) {
+void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTransition, QDomElement transition) {
     QMap < QString, QString> map;
     QDomNamedNodeMap attribs = transition.attributes();
     for (int i = 0;i < attribs.count();i++) {
@@ -596,7 +596,7 @@ void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement trans
            )
             map[attribs.item(i).nodeName()] = attribs.item(i).nodeValue();
     }
-    m_document->renderer()->mltUpdateTransition(transition.attribute("type"), m_tracksList.count() - 1  - transition.attribute("transition_track").toInt(), m_tracksList.count() - transition.attribute("transition_track").toInt() ,
+    m_document->renderer()->mltUpdateTransition(oldTransition.attribute("type"),transition.attribute("type"), m_tracksList.count() - 1  - transition.attribute("transition_track").toInt(), m_tracksList.count() - transition.attribute("transition_track").toInt() ,
             GenTime(transition.attribute("start").toInt(), m_document->renderer()->fps()),
             GenTime(transition.attribute("end").toInt(), m_document->renderer()->fps()),
             map);

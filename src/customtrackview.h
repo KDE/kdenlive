@@ -57,7 +57,7 @@ public:
     void updateEffect(int track, GenTime pos, QDomElement effect);
     void addTransition(int track, GenTime pos, QDomElement transition);
     void deleteTransition(int track, GenTime pos, QDomElement transition);
-    void updateTransition(int track, GenTime pos, QDomElement transition);
+    void updateTransition(int track, GenTime pos,  QDomElement oldTransition, QDomElement transition);
     void activateMonitor();
     int duration() const;
     void deleteSelectedClips();
