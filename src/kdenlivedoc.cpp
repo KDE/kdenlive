@@ -67,6 +67,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, MltVideoProfile profile, QUndoGroup *u
 
 
         QDomElement tractor = m_document.createElement("tractor");
+        tractor.setAttribute("id", "maintractor");
         QDomElement multitrack = m_document.createElement("multitrack");
         QDomElement playlist = m_document.createElement("playlist");
         QDomElement producer = m_document.createElement("producer");
@@ -104,11 +105,19 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, MltVideoProfile profile, QUndoGroup *u
             transition.setAttribute("combine", "1");
             tractor.appendChild(transition);
         }
-
+        QDomElement playlistmain = m_document.createElement("playlist");
+        playlistmain.setAttribute("id", "playlistmain");
+        QDomElement playentry = m_document.createElement("entry");
+        playentry.setAttribute("producer", "maintractor");
+        playentry.setAttribute("in", "0");
+        playentry.setAttribute("out", "15000");
+        playlistmain.appendChild(playentry);
         doc.appendChild(tractor);
+        doc.appendChild(playlistmain);
 
     }
     m_scenelist = m_document.toString();
+    kDebug() << "scenelist" << m_scenelist;
     if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
     else m_timecode.setFormat((int) m_fps);
 }
@@ -119,11 +128,12 @@ KdenliveDoc::~KdenliveDoc() {
 }
 
 QDomElement KdenliveDoc::documentInfoXml() {
-    QDomDocument doc;
-    QDomElement addedXml = doc.createElement("kdenlive");
+    //QDomDocument doc;
+    QDomElement addedXml = m_document.createElement("kdenlive");
     addedXml.setAttribute("version", "0.7");
     addedXml.setAttribute("profile", profilePath());
-    return addedXml;
+    kDebug() << m_document.toString();
+    return m_document.documentElement();
 }
 
 

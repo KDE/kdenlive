@@ -197,13 +197,13 @@ private:   // Private attributes & methods
     void setDescription(const QString & description);
     void closeMlt();
     void mltCheckLength();
-
+    mlt_tractor getTractor();
 private slots:  // Private slots
     /** refresh monitor display */
     void refresh();
     void slotOsdTimeout();
     void connectPlaylist();
-    void initSceneList();
+    //void initSceneList();
 
 signals:   // Signals
     /** emitted when the renderer recieves a reply to a getFileProperties request. */

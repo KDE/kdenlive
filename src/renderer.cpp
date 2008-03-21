@@ -195,8 +195,8 @@ QPixmap Render::extractFrame(int frame_position, int width, int height) {
         pix.fill(Qt::black);
         return pix;
     }
-    Mlt::Producer *mlt_producer = m_mltProducer->cut(frame_position, frame_position + 1);
-    return KThumb::getFrame(m_mltProducer, -1, width, height);
+    //Mlt::Producer *mlt_producer = m_mltProducer->cut(frame_position, frame_position + 1);
+    return KThumb::getFrame(m_mltProducer, frame_position, width, height);
     /*Mlt::Filter m_convert(*m_mltProfile, "avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     mlt_producer->attach(m_convert);
@@ -454,6 +454,7 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
 }
 
 /** Create the producer from the Westley QDomDocument */
+#if 0
 void Render::initSceneList() {
     kDebug() << "--------  INIT SCENE LIST ------_";
     QDomDocument doc;
@@ -487,7 +488,7 @@ void Render::initSceneList() {
        QString tmp = QString("<westley><producer resource=\"colour\" colour=\"red\" id=\"red\" /><tractor><multitrack><playlist></playlist><playlist></playlist><playlist /><playlist /><playlist></playlist></multitrack></tractor></westley>");*/
     setSceneList(doc, 0);
 }
-
+#endif
 /** Create the producer from the Westley QDomDocument */
 void Render::setSceneList(QDomDocument list, int position) {
     setSceneList(list.toString(), position);
@@ -720,6 +721,7 @@ void Render::stop() {
     if (m_mltProducer) {
         m_mltProducer->set_speed(0.0);
         m_mltProducer->set("out", m_mltProducer->get_length() - 1);
+        kDebug() << m_mltProducer->get_length();
     }
     kDebug() << "/////////////   RENDER STOP3-------";
 }
@@ -776,7 +778,7 @@ void Render::play(double speed, const GenTime & startTime) {
 
 void Render::play(double speed, const GenTime & startTime,
                   const GenTime & stopTime) {
-    kDebug() << "/////////////   RENDER PLAY3-------" << speed;
+    kDebug() << "/////////////   RENDER PLAY3-------" << speed << stopTime.frames(m_fps);
     if (!m_mltProducer)
         return;
     m_mltProducer->set("out", stopTime.frames(m_fps));
@@ -903,8 +905,7 @@ void Render::exportCurrentFrame(KUrl url, bool notify) {
 
 void Render::mltCheckLength() {
     //kDebug()<<"checking track length: "<<track<<"..........";
-    Mlt::Service service(m_mltProducer->get_service());
-    Mlt::Tractor tractor(service);
+    Mlt::Tractor tractor(getTractor());
 
     int trackNb = tractor.count();
     double duration = 0;
@@ -913,6 +914,7 @@ void Render::mltCheckLength() {
         Mlt::Producer trackProducer(tractor.track(0));
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
         duration = Mlt::Producer(trackPlaylist.get_producer()).get_playtime() - 1;
+        kDebug() << trackNb << " " << duration;
         m_mltProducer->set("out", duration);
         emit durationChanged(duration);
         return;
@@ -954,6 +956,15 @@ void Render::mltCheckLength() {
     }
 }
 
+mlt_tractor Render::getTractor() {
+    Mlt::Service s1(m_mltProducer->get_service());
+    Mlt::Playlist pl(s1);
+
+    Mlt::Producer srv(pl.get_clip(0)->parent());
+    Mlt::Tractor tractor(srv);
+    return tractor.get_tractor();
+
+}
 
 void Render::mltInsertClip(int track, GenTime position, QDomElement element) {
     if (!m_mltProducer) {
@@ -966,14 +977,19 @@ void Render::mltInsertClip(int track, GenTime position, QDomElement element) {
         return;
     }
     m_isBlocked = true;
-    Mlt::Service service(parentProd.get_service());
-    Mlt::Tractor tractor(service);
+    // Mlt::Service service(parentProd.get_service());
+    //Mlt::Tractor tractor(service);
 
     QDomDocument doc;
     doc.appendChild(doc.importNode(element, true));
     QString resource = doc.toString();
+    Mlt::Tractor tractor(getTractor());
+
+
     kDebug() << "///////  ADDING CLIP TMLNE: " << resource << " ON TRACK: " << track;
-    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Producer *ptmp = tractor.track(track);
+    kDebug() << ptmp->get("mlt_type") << ptmp->get("id");
+    Mlt::Producer trackProducer(*ptmp);
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     char *tmp = decodedString(resource);
     Mlt::Producer clip(*m_mltProfile, "westley-xml", tmp);
@@ -989,8 +1005,7 @@ void Render::mltInsertClip(int track, GenTime position, QDomElement element) {
 
 void Render::mltCutClip(int track, GenTime position) {
     m_isBlocked = true;
-    Mlt::Service service(m_mltProducer->parent().get_service());
-    Mlt::Tractor tractor(service);
+    Mlt::Tractor tractor(getTractor());
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     trackPlaylist.split_at(position.frames(m_fps));
@@ -1002,8 +1017,7 @@ void Render::mltCutClip(int track, GenTime position) {
 
 void Render::mltRemoveClip(int track, GenTime position) {
     m_isBlocked = true;
-    Mlt::Service service(m_mltProducer->parent().get_service());
-    Mlt::Tractor tractor(service);
+    Mlt::Tractor tractor(getTractor());
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at(position.frames(m_fps));
@@ -1017,9 +1031,7 @@ void Render::mltRemoveClip(int track, GenTime position) {
 
 void Render::mltRemoveEffect(int track, GenTime position, QString index, bool doRefresh) {
 
-    Mlt::Service service(m_mltProducer->parent().get_service());
-
-    Mlt::Tractor tractor(service);
+    Mlt::Tractor tractor(getTractor());
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     //int clipIndex = trackPlaylist.get_clip_index_at(position.frames(m_fps));
@@ -1048,8 +1060,8 @@ void Render::mltRemoveEffect(int track, GenTime position, QString index, bool do
 
 
 void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> args, bool doRefresh) {
-    Mlt::Service service(m_mltProducer->parent().get_service());
-    Mlt::Tractor tractor(service);
+
+    Mlt::Tractor tractor(getTractor());
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
@@ -1118,9 +1130,8 @@ void Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> 
     }
     m_isBlocked = true;
     // create filter
-    Mlt::Service service(m_mltProducer->parent().get_service());
 
-    Mlt::Tractor tractor(service);
+    Mlt::Tractor tractor(getTractor());
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     //int clipIndex = trackPlaylist.get_clip_index_at(position.frames(m_fps));
@@ -1167,9 +1178,8 @@ void Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> 
 
 void Render::mltResizeClipEnd(int track, GenTime pos, GenTime in, GenTime out) {
     m_isBlocked = true;
-    Mlt::Service service(m_mltProducer->parent().get_service());
 
-    Mlt::Tractor tractor(service);
+    Mlt::Tractor tractor(getTractor());
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     if (trackPlaylist.is_blank_at(pos.frames(m_fps) + 1))
@@ -1198,9 +1208,8 @@ void Render::mltResizeClipEnd(int track, GenTime pos, GenTime in, GenTime out) {
 }
 
 void Render::mltChangeTrackState(int track, bool mute, bool blind) {
-    Mlt::Service service(m_mltProducer->parent().get_service());
 
-    Mlt::Tractor tractor(service);
+    Mlt::Tractor tractor(getTractor());
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     if (mute) {
@@ -1218,10 +1227,10 @@ void Render::mltChangeTrackState(int track, bool mute, bool blind) {
 
 void Render::mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime moveStart, GenTime in, GenTime out) {
     m_isBlocked = true;
-    Mlt::Service service(m_mltProducer->parent().get_service());
+
     int moveFrame = (moveEnd - moveStart).frames(m_fps);
 
-    Mlt::Tractor tractor(service);
+    Mlt::Tractor tractor(getTractor());
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     if (trackPlaylist.is_blank_at(pos.frames(m_fps) - 1))
@@ -1259,9 +1268,7 @@ void Render::mltMoveClip(int startTrack, int endTrack, GenTime moveStart, GenTim
 void Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEnd) {
     m_isBlocked = true;
     //m_mltConsumer->set("refresh", 0);
-    Mlt::Service service(m_mltProducer->parent().get_service());
-
-    Mlt::Tractor tractor(service);
+    Mlt::Tractor tractor(getTractor());
     Mlt::Producer trackProducer(tractor.track(startTrack));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at(moveStart + 1);
@@ -1355,9 +1362,8 @@ typedef struct {
 mlt_service_base;
 
 void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args) {
-    Mlt::Service service(m_mltProducer->parent().get_service());
 
-    Mlt::Tractor tractor(service);
+    Mlt::Tractor tractor(getTractor());
     for (int track = 0;track < 10;track++) {
         Mlt::Producer *trackprod = tractor.track(track);
         if (!trackprod)
@@ -1476,10 +1482,9 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
 }
 
 void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args) {
-#if 1
-    Mlt::Service service(m_mltProducer->parent().get_service());
+#if 0
 
-    Mlt::Tractor tractor(service);
+    Mlt::Tractor tractor(getTractor());
     for (int track = 0;track < 10;track++) {
         Mlt::Producer *trackprod = tractor.track(track);
         if (!trackprod)
@@ -1536,9 +1541,7 @@ void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
     mltSavePlaylist();
 #else
     m_isBlocked = true;
-    Mlt::Service service(m_mltProducer->parent().get_service());
-
-    Mlt::Tractor tractor(service);
+    Mlt::Tractor tractor(getTractor());
     Mlt::Field *field = tractor.field();
     char *transId = decodedString(tag);
     Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, transId);
@@ -1565,6 +1568,7 @@ void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
     delete[] transId;
     m_isBlocked = false;
     refresh();
+    mltSavePlaylist();
 #endif
 }
 
@@ -1574,8 +1578,6 @@ void Render::mltSavePlaylist() {
     fileConsumer->set("resource", "/tmp/playlist.westley");
 
     Mlt::Service service(m_mltProducer->get_service());
-    Mlt::Tractor tractor(service);
-
     fileConsumer->connect(service);
     fileConsumer->start();
 
