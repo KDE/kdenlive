@@ -31,7 +31,10 @@ TransitionSettings::TransitionSettings(EffectsList *transitions, QWidget* parent
 void TransitionSettings::slotTransitionChanged() {
     QDomElement e = m_usedTransition->toXML();
     QDomElement newElement = e.cloneNode().toElement();
-    newElement.setAttribute("type", ui.listWidget->currentItem()->text());
+
+    QDomElement desc = m_transitions->getEffectByName(ui.listWidget->currentItem()->text());
+
+    newElement.setAttribute("type", desc.attribute("tag"));
     emit transitionUpdated(e, newElement);
 }
 
