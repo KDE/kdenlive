@@ -81,7 +81,7 @@ void CustomTrackView::checkAutoScroll() {
     m_autoScroll = KdenliveSettings::autoscroll();
 }
 
-QList <TRACKTYPE> CustomTrackView::tracksList() const {
+QList <TrackInfo> CustomTrackView::tracksList() const {
     return m_tracksList;
 }
 
@@ -129,7 +129,7 @@ int CustomTrackView::getPreviousVideoTrack(int track) {
     int videoTracksCount = 0;
     track --;
     for (int i = track; i > -1; i--) {
-        if (m_tracksList.at(i) == VIDEOTRACK) return i + 1;
+        if (m_tracksList.at(i).type == VIDEOTRACK) return i + 1;
     }
     return 0;
 }
@@ -573,7 +573,7 @@ void CustomTrackView::addTransition(int startTrack, GenTime startPos , QDomEleme
 void CustomTrackView::deleteTransition(int, GenTime, QDomElement e) {
     QMap < QString, QString> map;
     QDomNamedNodeMap attribs = e.attributes();
-    m_document->renderer()->mltDeleteTransition(e.attribute("type"), m_tracksList.count() - 1  - e.attribute("transition_track").toInt(), m_tracksList.count() - e.attribute("transition_track").toInt() ,
+    m_document->renderer()->mltDeleteTransition(e.attribute("type"), getPreviousVideoTrack(e.attribute("transition_track").toInt()), m_tracksList.count() - e.attribute("transition_track").toInt() ,
             GenTime(e.attribute("start").toInt(), m_document->renderer()->fps()),
             GenTime(e.attribute("end").toInt(), m_document->renderer()->fps()),
             map);
@@ -596,7 +596,7 @@ void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTr
            )
             map[attribs.item(i).nodeName()] = attribs.item(i).nodeValue();
     }
-    m_document->renderer()->mltUpdateTransition(oldTransition.attribute("type"),transition.attribute("type"), m_tracksList.count() - 1  - transition.attribute("transition_track").toInt(), m_tracksList.count() - transition.attribute("transition_track").toInt() ,
+    m_document->renderer()->mltUpdateTransition(oldTransition.attribute("type"), transition.attribute("type"), m_tracksList.count() - 1  - transition.attribute("transition_track").toInt(), m_tracksList.count() - transition.attribute("transition_track").toInt() ,
             GenTime(transition.attribute("start").toInt(), m_document->renderer()->fps()),
             GenTime(transition.attribute("end").toInt(), m_document->renderer()->fps()),
             map);
@@ -663,16 +663,17 @@ Qt::DropActions CustomTrackView::supportedDropActions() const {
 }
 
 void CustomTrackView::setDuration(int duration) {
-    //kDebug() << "/////////////  PRO DUR: " << duration << ", height: " << 50 * m_tracksList.count();
+    kDebug() << "/////////////  PRO DUR: " << duration << ", SCALE. " << m_scale << ", height: " << 50 * m_tracksList.count();
     m_projectDuration = duration;
     scene()->setSceneRect(0, 0, (m_projectDuration + 500) * m_scale, scene()->sceneRect().height()); //50 * m_tracksCount);
+    horizontalScrollBar()->setMaximum((m_projectDuration + 500) * m_scale);
 }
 
 int CustomTrackView::duration() const {
     return m_projectDuration;
 }
 
-void CustomTrackView::addTrack(TRACKTYPE type) {
+void CustomTrackView::addTrack(TrackInfo type) {
     m_tracksList << type;
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), m_tracksHeight * m_tracksList.count());
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_tracksList.count());
@@ -684,6 +685,20 @@ void CustomTrackView::removeTrack() {
     // TODO: implement track deletion
     //m_tracksCount--;
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), m_tracksHeight * m_tracksList.count());
+}
+
+
+void CustomTrackView::slotSwitchTrackAudio(int ix) {
+    int tracknumber = m_tracksList.count() - ix;
+    kDebug() << "/////  MUTING TRK: " << ix << "; PL NUM: " << tracknumber;
+    m_tracksList[tracknumber - 1].isMute = !m_tracksList.at(tracknumber - 1).isMute;
+    m_document->renderer()->mltChangeTrackState(tracknumber, m_tracksList.at(tracknumber - 1).isMute, m_tracksList.at(tracknumber - 1).isBlind);
+}
+
+void CustomTrackView::slotSwitchTrackVideo(int ix) {
+    int tracknumber = m_tracksList.count() - ix;
+    m_tracksList[tracknumber - 1].isBlind = !m_tracksList.at(tracknumber - 1).isBlind;
+    m_document->renderer()->mltChangeTrackState(tracknumber, m_tracksList.at(tracknumber - 1).isMute, m_tracksList.at(tracknumber - 1).isBlind);
 }
 
 void CustomTrackView::deleteClip(int clipId) {
@@ -890,7 +905,7 @@ void CustomTrackView::drawBackground(QPainter * painter, const QRectF & rect) {
     painter->drawLine(rectInView.left(), 0, rectInView.right(), 0);
     uint max = m_tracksList.count();
     for (uint i = 0; i < max;i++) {
-        if (m_tracksList.at(max - i - 1) == AUDIOTRACK) painter->fillRect(rectInView.left(), m_tracksHeight * i + 1, rectInView.right() - rectInView.left() + 1, m_tracksHeight - 1, QBrush(QColor(240, 240, 255)));
+        if (m_tracksList.at(max - i - 1).type == AUDIOTRACK) painter->fillRect(rectInView.left(), m_tracksHeight * i + 1, rectInView.right() - rectInView.left() + 1, m_tracksHeight - 1, QBrush(QColor(240, 240, 255)));
         painter->drawLine(rectInView.left(), m_tracksHeight * (i + 1), rectInView.right(), m_tracksHeight * (i + 1));
         //painter->drawText(QRectF(10, 50 * i, 100, 50 * i + 49), Qt::AlignLeft, i18n(" Track ") + QString::number(i + 1));
     }

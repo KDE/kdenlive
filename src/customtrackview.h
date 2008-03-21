@@ -41,7 +41,7 @@ public:
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseReleaseEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
-    void addTrack(TRACKTYPE type);
+    void addTrack(TrackInfo type);
     void removeTrack();
     int cursorPos();
     void checkAutoScroll();
@@ -63,7 +63,7 @@ public:
     void deleteSelectedClips();
     void setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition);
     void checkTrackHeight();
-    QList <TRACKTYPE> tracksList() const;
+    QList <TrackInfo> tracksList() const;
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -75,6 +75,8 @@ public slots:
     void setDuration(int duration);
     void slotAddTransition(ClipItem* clip , QDomElement transition, GenTime startTime , int startTrack);
     void slotTransitionUpdated(QDomElement, QDomElement);
+    void slotSwitchTrackAudio(int ix);
+    void slotSwitchTrackVideo(int ix);
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
@@ -120,7 +122,7 @@ private:
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
-    QList <TRACKTYPE> m_tracksList;
+    QList <TrackInfo> m_tracksList;
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
 

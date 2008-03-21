@@ -185,13 +185,15 @@ void TrackView::refresh() {
 }
 
 void TrackView::slotRebuildTrackHeaders() {
-    QList <TRACKTYPE> list = m_trackview->tracksList();
+    QList <TrackInfo> list = m_trackview->tracksList();
     QList<HeaderTrack *> widgets = this->findChildren<HeaderTrack *>();
     for (int i = 0; i < widgets.count(); i++)
         delete widgets.at(i);
     int max = list.count();
     for (int i = 0; i < max; i++) {
         HeaderTrack *header = new HeaderTrack(i, list.at(max - i - 1), this);
+        connect(header, SIGNAL(switchTrackVideo(int)), m_trackview, SLOT(slotSwitchTrackVideo(int)));
+        connect(header, SIGNAL(switchTrackAudio(int)), m_trackview, SLOT(slotSwitchTrackAudio(int)));
         m_headersLayout->addWidget(header);
     }
     view->headers_container->adjustSize();
@@ -199,14 +201,22 @@ void TrackView::slotRebuildTrackHeaders() {
 
 int TrackView::slotAddAudioTrack(int ix, QDomElement xml) {
     kDebug() << "*************  ADD AUDIO TRACK " << ix;
-    m_trackview->addTrack(AUDIOTRACK);
+    TrackInfo info;
+    info.type = AUDIOTRACK;
+    info.isMute = false;
+    info.isBlind = false;
+    m_trackview->addTrack(info);
     //documentTracks.insert(ix, track);
     return 0;
     //track->show();
 }
 
 int TrackView::slotAddVideoTrack(int ix, QDomElement xml) {
-    m_trackview->addTrack(VIDEOTRACK);
+    TrackInfo info;
+    info.type = VIDEOTRACK;
+    info.isMute = false;
+    info.isBlind = false;
+    m_trackview->addTrack(info);
 
     int trackTop = KdenliveSettings::trackheight() * ix;
     // parse track

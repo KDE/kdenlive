@@ -39,6 +39,12 @@ enum TRANSITIONTYPE {
 
 enum TRACKTYPE { AUDIOTRACK = 0, VIDEOTRACK = 1 };
 
+struct TrackInfo {
+    TRACKTYPE type;
+    bool isMute;
+    bool isBlind;
+};
+
 struct MltVideoProfile {
     QString path;
     QString description;

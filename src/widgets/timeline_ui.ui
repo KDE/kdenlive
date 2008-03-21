@@ -70,18 +70,24 @@
     <widget class="QScrollArea" name="headers_area" >
      <property name="minimumSize" >
       <size>
-       <width>50</width>
+       <width>60</width>
        <height>0</height>
       </size>
      </property>
      <property name="maximumSize" >
       <size>
-       <width>50</width>
+       <width>60</width>
        <height>16777215</height>
       </size>
      </property>
      <property name="focusPolicy" >
       <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="verticalScrollBarPolicy" >
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="horizontalScrollBarPolicy" >
+      <enum>Qt::ScrollBarAlwaysOff</enum>
      </property>
      <property name="widgetResizable" >
       <bool>true</bool>
@@ -94,7 +100,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>44</width>
+        <width>54</width>
         <height>173</height>
        </rect>
       </property>
