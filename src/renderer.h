@@ -198,6 +198,8 @@ private:   // Private attributes & methods
     void closeMlt();
     void mltCheckLength();
     mlt_tractor getTractor();
+    mlt_playlist getPlaylist(int track);
+
 private slots:  // Private slots
     /** refresh monitor display */
     void refresh();
