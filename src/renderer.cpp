@@ -1407,6 +1407,7 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
 
     replaceTimelineTractor(newTractor);
     m_mltProducer->seek(old_position);
+
     refresh();
 
 }
@@ -1442,18 +1443,19 @@ void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
     field->plant_transition(transition, a_track, b_track);
     delete[] transId;
     m_isBlocked = false;
+    mltSavePlaylist();
     refresh();
 }
 
 void Render::mltSavePlaylist() {
     kWarning() << "// UPDATING PLAYLIST TO DISK++++++++++++++++";
-    Mlt::Consumer *fileConsumer = new Mlt::Consumer(*m_mltProfile, "westley");
-    fileConsumer->set("resource", "/tmp/playlist.westley");
+    Mlt::Consumer fileConsumer(*m_mltProfile, "westley");
+    fileConsumer.set("resource", "/tmp/playlist.westley");
 
     Mlt::Service service(m_mltProducer->get_service());
 
-    fileConsumer->connect(service);
-    fileConsumer->start();
+    fileConsumer.connect(service);
+    fileConsumer.start();
 
 }
 

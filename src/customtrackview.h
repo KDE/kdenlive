@@ -29,9 +29,10 @@
 #include <KUndoStack>
 
 #include "kdenlivedoc.h"
-#include "clipitem.h"
 
-
+class ClipItem;
+class AbstractClipItem;
+class Transition;
 
 class CustomTrackView : public QGraphicsView {
     Q_OBJECT

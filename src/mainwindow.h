@@ -35,20 +35,21 @@
 #include <KRecentFilesAction>
 #include <KComboBox>
 
-#include "projectlist.h"
-#include "monitor.h"
-#include "recmonitor.h"
-#include "monitormanager.h"
-#include "kdenlivedoc.h"
-#include "trackview.h"
-#include "customtrackview.h"
-#include "effectslist.h"
-#include "effectslistview.h"
-#include "effectstackview.h"
-#include "transitionsettings.h"
 #include "ui_timelinebuttons_ui.h"
-#include "renderwidget.h"
-#include "jogshuttle.h"
+#include "effectslist.h"
+#include "gentime.h"
+class KdenliveDoc;
+class TrackView;
+class MonitorManager;
+class ProjectList;
+class EffectsListView;
+class EffectStackView;
+class TransitionSettings;
+class Monitor;
+class RecMonitor;
+class CustomTrackView;
+class RenderWidget;
+class JogShuttle;
 
 class MainWindow : public KXmlGuiWindow {
     Q_OBJECT

@@ -23,8 +23,9 @@
 
 #include <QUndoCommand>
 #include <KDebug>
+#include <QDomElement>
 
-#include "kdenlivedoc.h"
+class KdenliveDoc;
 
 class AddClipCommand : public QUndoCommand {
 public:

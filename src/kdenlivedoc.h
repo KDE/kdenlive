@@ -33,9 +33,11 @@
 
 #include "gentime.h"
 #include "timecode.h"
-#include "renderer.h"
-#include "clipmanager.h"
 #include "definitions.h"
+
+class Render;
+class ClipManager;
+class DocClipBase;
 
 class KdenliveDoc: public QObject {
 Q_OBJECT public:

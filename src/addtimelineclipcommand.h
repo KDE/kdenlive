@@ -24,12 +24,12 @@
 #include <QUndoCommand>
 #include <QGraphicsView>
 #include <QPointF>
-
+#include <QDomElement>
 #include <KDebug>
 
 #include "gentime.h"
-#include "projectlist.h"
-#include "customtrackview.h"
+
+class CustomTrackView;
 
 class AddTimelineClipCommand : public QUndoCommand {
 public:

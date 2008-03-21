@@ -31,9 +31,7 @@
 #include <klocale.h>
 
 #include "gentime.h"
-#include "clipmanager.h"
 #include "definitions.h"
-#include "kthumb.h"
 
 /*
 class DocTrackBase;
@@ -42,6 +40,8 @@ class DocClipTextFile;
 class DocClipVirtual;
 class EffectDescriptionList;*/
 class KdenliveDoc;
+class KThumb;
+class ClipManager;
 
 class CommentedTime {
 public:

@@ -19,6 +19,8 @@
 
 #include "kdenlivesettings.h"
 #include "docclipbase.h"
+#include "kthumb.h"
+#include "clipmanager.h"
 
 DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, uint id):
         m_xml(xml), m_id(id), m_description(""), m_refcount(0), m_projectThumbFrame(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL) {

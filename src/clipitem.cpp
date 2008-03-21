@@ -35,8 +35,11 @@
 #include "clipitem.h"
 #include "customtrackview.h"
 #include "renderer.h"
+#include "docclipbase.h"
+#include "transition.h"
 #include "events.h"
 #include "kdenlivesettings.h"
+#include "kthumb.h"
 
 ClipItem::ClipItem(DocClipBase *clip, int track, GenTime startpos, const QRectF & rect, GenTime duration, double fps)
         : AbstractClipItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_thumbsRequested(0), m_hover(false) {

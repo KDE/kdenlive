@@ -22,6 +22,8 @@
 #include <KLocale>
 
 #include "effectslistview.h"
+#include "effectslistwidget.h"
+#include "effectslist.h"
 
 EffectsListView::EffectsListView(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent)
         : QWidget(parent) {

@@ -57,6 +57,19 @@
 #include "projectsettings.h"
 #include "events.h"
 #include "renderjob.h"
+#include "clipmanager.h"
+#include "projectlist.h"
+#include "monitor.h"
+#include "recmonitor.h"
+#include "monitormanager.h"
+#include "kdenlivedoc.h"
+#include "trackview.h"
+#include "customtrackview.h"
+#include "effectslistview.h"
+#include "effectstackview.h"
+#include "transitionsettings.h"
+#include "renderwidget.h"
+#include "jogshuttle.h"
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2

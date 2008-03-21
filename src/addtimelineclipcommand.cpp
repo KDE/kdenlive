@@ -20,6 +20,7 @@
 #include <KLocale>
 
 #include "addtimelineclipcommand.h"
+#include "customtrackview.h"
 
 AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, int clipId, int track, GenTime startpos, QRectF rect, GenTime duration, bool doIt, bool doRemove)
         : m_view(view), m_xml(xml), m_clipId(clipId), m_clipTrack(track), m_clipPos(startpos), m_clipRect(rect), m_clipDuration(duration), m_doIt(doIt), m_remove(doRemove) {

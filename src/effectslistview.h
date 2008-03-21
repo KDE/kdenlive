@@ -24,9 +24,12 @@
 #include <KIcon>
 
 #include "ui_effectlist_ui.h"
-#include "effectslistwidget.h"
 #include "gentime.h"
-#include "effectslist.h"
+#include <QDomElement>
+
+class EffectsList;
+class EffectsListWidget;
+class KListWidget;
 
 class EffectsListView : public QWidget {
     Q_OBJECT

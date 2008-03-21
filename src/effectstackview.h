@@ -18,11 +18,10 @@
 #ifndef EFFECTSTACKVIEW_H
 #define EFFECTSTACKVIEW_H
 
-#include "clipitem.h"
 #include "ui_effectstack_ui.h"
 #include "effectstackedit.h"
 class EffectsList;
-
+class ClipItem;
 
 class EffectStackView : public QWidget {
     Q_OBJECT

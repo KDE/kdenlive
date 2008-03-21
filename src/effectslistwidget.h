@@ -22,7 +22,9 @@
 #define EFFECTLISTWIDGET_H
 
 #include <KListWidget>
-#include "effectslist.h"
+#include <QDomElement>
+
+class EffectsList;
 
 class EffectsListWidget : public KListWidget {
     Q_OBJECT

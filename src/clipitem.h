@@ -29,10 +29,10 @@
 #include "definitions.h"
 #include "gentime.h"
 #include "effectslist.h"
-#include "docclipbase.h"
-#include "kthumb.h"
-#include "transition.h"
 #include "abstractclipitem.h"
+
+class DocClipBase;
+class Transition;
 
 class ClipItem : public AbstractClipItem {
     Q_OBJECT

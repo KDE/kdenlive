@@ -23,8 +23,10 @@
 
 #include <QUndoCommand>
 #include <KDebug>
+#include <QDomElement>
+#include "gentime.h"
 
-#include "customtrackview.h"
+class CustomTrackView;
 
 class AddEffectCommand : public QUndoCommand {
 public:

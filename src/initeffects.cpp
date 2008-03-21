@@ -27,6 +27,8 @@
 #include <KStandardDirs>
 
 #include "initeffects.h"
+#include "kdenlivesettings.h"
+#include "effectslist.h"
 
 initEffects::initEffects() {
 }
@@ -405,6 +407,8 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
 void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList* transitions, QStringList names) {
     foreach(QString name, names) {
         QDomDocument ret;
+
+
         Mlt::Properties *metadata = repository->metadata(transition_type, name.toAscii().data());
         //kDebug() << filtername;
         if (metadata && metadata->is_valid()) {
@@ -417,9 +421,11 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 ktrans.appendChild(tname);
             }
             transitions->append(ret.documentElement());
-            kDebug() << ret.toString();
+            //kDebug() << ret.toString();
         } else {
+
             if (name == "luma") {
+
                 QDomDocument ret;
                 QDomElement ktrans = ret.createElement("ktransition");
                 ret.appendChild(ktrans);
@@ -436,6 +442,18 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 QDomElement tname1 = ret.createElement("name");
                 tname1.appendChild(ret1.createTextNode("Lumafile"));
                 ktrans1.appendChild(tname1);
+
+                QString path(mlt_environment("MLT_DATA"));
+                path.append("/lumas/").append(mlt_environment("MLT_NORMALISATION"));
+                Mlt::Properties entries;
+                mlt_properties_dir_list(entries.get_properties(), path.toAscii().data(), "*.*", 1);
+                kDebug() << path << entries.count();
+                for (int i = 0;i < entries.count();i++) {
+                    kDebug() << "luma:" << entries.get(i);
+                }
+
+
+
                 transitions->append(ret1.documentElement());
             } else if (name == "composite") {
                 QDomDocument ret;

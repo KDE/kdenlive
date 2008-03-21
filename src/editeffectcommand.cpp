@@ -20,6 +20,7 @@
 #include <KLocale>
 
 #include "editeffectcommand.h"
+#include "customtrackview.h"
 
 EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, bool doIt)
         : m_view(view), m_track(track), m_pos(pos), m_oldeffect(oldeffect), m_doIt(doIt) {

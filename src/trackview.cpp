@@ -29,6 +29,7 @@
 #include "trackview.h"
 #include "clipitem.h"
 #include "kdenlivesettings.h"
+#include "clipmanager.h"
 
 TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
         : QWidget(parent), m_doc(doc), m_scale(1.0), m_projectTracks(0), m_currentZoom(4) {

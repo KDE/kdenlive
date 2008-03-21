@@ -23,6 +23,7 @@
 #include "kdenlivesettings.h"
 #include "clipmanager.h"
 #include "docclipbase.h"
+#include "kdenlivedoc.h"
 
 ClipManager::ClipManager(KdenliveDoc *doc): m_doc(doc) {
     m_clipIdCounter = 1;

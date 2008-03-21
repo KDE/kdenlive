@@ -19,15 +19,15 @@
 #define InitEffects_H
 
 #include <klocale.h>
-
+#include <QDomDocument>
 #include <mlt++/Mlt.h>
 
-#include "kdenlivesettings.h"
-#include "effectslist.h"
 
 /**Init the MLT effects
   *@author Jean-Baptiste Mardelle
   */
+
+class EffectsList;
 
 class initEffects {
 public:

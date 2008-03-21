@@ -21,9 +21,9 @@
 #include <KIcon>
 
 #include "ui_keyframewidget_ui.h"
-#include "clipitem.h"
-class EffectsList;
 
+class EffectsList;
+class ClipItem;
 
 class ComplexParameter : public QWidget {
     Q_OBJECT

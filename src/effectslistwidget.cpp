@@ -23,6 +23,7 @@
 #include "KDebug"
 
 #include "effectslistwidget.h"
+#include "effectslist.h"
 
 #define EFFECT_VIDEO 1
 #define EFFECT_AUDIO 2

@@ -43,7 +43,7 @@
 
 #include "definitions.h"
 #include "titlewidget.h"
-
+#include "clipmanager.h"
 #include <QtGui>
 
 ProjectList::ProjectList(QWidget *parent)

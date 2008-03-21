@@ -20,6 +20,7 @@
 #include <KLocale>
 
 #include "addclipcommand.h"
+#include "kdenlivedoc.h"
 
 AddClipCommand::AddClipCommand(KdenliveDoc *doc, const QDomElement &xml, const uint id, bool doIt)
         : m_doc(doc), m_xml(xml), m_id(id), m_doIt(doIt) {

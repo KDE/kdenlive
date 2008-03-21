@@ -29,6 +29,8 @@
 #include "docclipbase.h"
 #include "profilesdialog.h"
 #include "kdenlivesettings.h"
+#include "renderer.h"
+#include "clipmanager.h"
 
 KdenliveDoc::KdenliveDoc(const KUrl &url, MltVideoProfile profile, QUndoGroup *undoGroup, QWidget *parent): QObject(parent), m_render(NULL), m_url(url), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new KUndoStack(undoGroup)), m_modified(false) {
     m_clipManager = new ClipManager(this);

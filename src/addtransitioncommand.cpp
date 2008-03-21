@@ -17,6 +17,7 @@
 #include <KLocale>
 
 #include "addtransitioncommand.h"
+#include "customtrackview.h"
 
 AddTransitionCommand::AddTransitionCommand(CustomTrackView *view, int track, QDomElement xml, GenTime pos, bool doIt) : m_view(view), m_track(track), m_xml(xml), m_pos(pos), m_doIt(doIt) {
     if (m_doIt) setText(i18n("Add transition to clip"));

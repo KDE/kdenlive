@@ -29,6 +29,7 @@
 #include <KCursor>
 
 #include "customtrackview.h"
+#include "docclipbase.h"
 #include "clipitem.h"
 #include "definitions.h"
 #include "moveclipcommand.h"
@@ -40,7 +41,9 @@
 #include "edittransitioncommand.h"
 #include "kdenlivesettings.h"
 #include "transition.h"
-
+#include "clipitem.h"
+#include "customtrackview.h"
+#include "clipmanager.h"
 //TODO:
 // disable animation if user asked it in KDE's global settings
 // http://lists.kde.org/?l=kde-commits&m=120398724717624&w=2
@@ -560,7 +563,7 @@ void CustomTrackView::addTransition(int startTrack, GenTime startPos , QDomEleme
            )
             map[attribs.item(i).nodeName()] = attribs.item(i).nodeValue();
     }
-
+    map["resource"] = "%luma12.pgm";
     kDebug() << "---- ADDING transition " << e.attribute("type") << ", on tracks " << m_tracksList.count() - e.attribute("transition_track").toInt() << " / " << getPreviousVideoTrack(e.attribute("transition_track").toInt());
     m_document->renderer()->mltAddTransition(e.attribute("type"), getPreviousVideoTrack(e.attribute("transition_track").toInt()), m_tracksList.count() - e.attribute("transition_track").toInt() ,
             GenTime(e.attribute("start").toInt(), m_document->renderer()->fps()),
