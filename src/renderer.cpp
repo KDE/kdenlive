@@ -1370,7 +1370,7 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
     Mlt::Tractor newTractor;
     mlt_service service = tractor.get_service();
     mlt_service nextservice = mlt_service_get_producer(service);
-
+    int old_position = m_mltProducer->position();
     for (int track = 0;track < 10;track++) {
         Mlt::Producer *trackprod = tractor.track(track);
         if (!trackprod)
@@ -1386,7 +1386,7 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
     }
     while (nextservice != NULL) {
         mlt_properties prop = MLT_SERVICE_PROPERTIES(nextservice);
-        kDebug() << mlt_properties_get(prop, "mlt_type") << mlt_properties_get(prop, "id");
+        //kDebug() << mlt_properties_get(prop, "mlt_type") << mlt_properties_get(prop, "id");
         if (QString(mlt_properties_get(prop, "mlt_type")) == "transition" && QString(mlt_properties_get(prop, "internal_added")) != "237") {
 
             mlt_transition tr = (mlt_transition) nextservice;
@@ -1394,11 +1394,11 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
             int current_a_track = mlt_transition_get_a_track(tr);
             int current_b_track = mlt_transition_get_b_track(tr);
             int currentIn = (int) mlt_transition_get_in(tr);
-            int currentOut = (int) mlt_transition_get_in(tr);
+            int currentOut = (int) mlt_transition_get_out(tr);
             int old_pos = (int)((in.frames(m_fps) + out.frames(m_fps)) / 2);
-
+            //kDebug() << current_a_track << current_b_track << a_track << b_track << currentIn << currentOut << old_pos << mlt_properties_get(prop,"mlt_service");
             if (current_a_track == a_track &&  b_track == current_b_track && currentIn <= old_pos && currentOut >= old_pos) {
-
+                //kDebug() << "removing " << mlt_properties_get(prop,"mlt_service");
             } else
                 newTractor.plant_transition(transition, current_a_track, current_b_track);
         }
@@ -1406,6 +1406,8 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
     }
 
     replaceTimelineTractor(newTractor);
+    m_mltProducer->seek(old_position);
+    refresh();
 
 }
 
@@ -1415,12 +1417,12 @@ void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
     Mlt::Tractor tractor(getTractor());
     Mlt::Field *field = tractor.field();
     char *transId = decodedString(tag);
-    Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, transId);
-    if (!transition || !transition->get_transition()) {
-        kDebug() << "NO transition is " << transition << "requested was " << tag << a_track << b_track << in.frames(m_fps) << out.frames(m_fps);
+    Mlt::Transition transition(*m_mltProfile, transId);
+    if (!transition.get_transition()) {
+        kDebug() << "NO transition is " << transition.get_transition() << "requested was " << tag << a_track << b_track << in.frames(m_fps) << out.frames(m_fps);
         return;
     }
-    transition->set_in_and_out((int) in.frames(m_fps), (int) out.frames(m_fps));
+    transition.set_in_and_out((int) in.frames(m_fps), (int) out.frames(m_fps));
     QMap<QString, QString>::Iterator it;
     QString key;
 
@@ -1430,14 +1432,14 @@ void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
         key = it.key();
         char *name = decodedString(key);
         char *value = decodedString(it.value());
-        transition->set(name, value);
+        transition.set(name, value);
         kDebug() << " ------  ADDING TRANS PARAM: " << name << ": " << value;
         //filter->set("kdenlive_id", id);
         delete[] name;
         delete[] value;
     }
     // attach filter to the clip
-    field->plant_transition(*transition, a_track, b_track);
+    field->plant_transition(transition, a_track, b_track);
     delete[] transId;
     m_isBlocked = false;
     refresh();

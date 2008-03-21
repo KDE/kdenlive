@@ -199,7 +199,7 @@ private:   // Private attributes & methods
     void mltCheckLength();
     mlt_tractor getTractor();
     mlt_playlist getPlaylist(int track);
-
+    void replaceTimelineTractor(Mlt::Tractor t);
 private slots:  // Private slots
     /** refresh monitor display */
     void refresh();
