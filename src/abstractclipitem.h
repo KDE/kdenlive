@@ -34,7 +34,9 @@ protected:
     double m_fps;
     uint m_startFade;
     uint m_endFade;
-
+    QPainterPath upperRectPart(QRectF);
+    QPainterPath lowerRectPart(QRectF);
+    QRect visibleRect();
 };
 
 #endif

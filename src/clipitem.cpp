@@ -182,13 +182,8 @@ void ClipItem::paint(QPainter *painter,
     if (isSelected()) paintColor = QBrush(QColor(79, 93, 121));
     QRectF br = rect();
     double scale = br.width() / m_cropDuration.frames(m_fps);
-    QRect rectInView;//this is the rect that is visible by the user
-    if (scene()->views().size() > 0) {
-        rectInView = scene()->views()[0]->viewport()->rect();
-        rectInView.moveTo(scene()->views()[0]->horizontalScrollBar()->value(), scene()->views()[0]->verticalScrollBar()->value());
-        rectInView.adjust(-10, -10, 10, 10);//make view rect 10 pixel greater on each site, or repaint after scroll event
-        //kDebug() << scene()->views()[0]->viewport()->rect() << " " <<  scene()->views()[0]->horizontalScrollBar()->value();
-    }
+    QRect rectInView = visibleRect();//this is the rect that is visible by the user
+
     if (rectInView.isNull())
         return;
     QPainterPath clippath;
@@ -204,43 +199,11 @@ void ClipItem::paint(QPainter *painter,
 
     //painter->setRenderHints(QPainter::Antialiasing);
 
-    QPainterPath roundRectPathUpper, roundRectPathLower;
-    double roundingY = 20;
-    double roundingX = 20;
-    double offset = 1;
+    QPainterPath roundRectPathUpper = upperRectPart(br), roundRectPathLower = lowerRectPart(br);
+
     painter->setClipRect(option->exposedRect);
-    if (roundingX > br.width() / 2) roundingX = br.width() / 2;
-
-    int br_endx = (int)(br.x() + br .width() - offset);
-    int br_startx = (int)(br.x() + offset);
-    int br_starty = (int)(br.y());
-    int br_halfy = (int)(br.y() + br.height() / 2 - offset);
-    int br_endy = (int)(br.y() + br.height());
-    int left_upper = 0, left_lower = 0, right_upper = 0, right_lower = 0;
-
-    if (m_hover && false) {
-        if (!true) /*TRANSITIONSTART to upper clip*/
-            left_upper = 40;
-        if (!false) /*TRANSITIONSTART to lower clip*/
-            left_lower = 40;
-        if (!true) /*TRANSITIONEND to upper clip*/
-            right_upper = 40;
-        if (!false) /*TRANSITIONEND to lower clip*/
-            right_lower = 40;
-    }
 
     // build path around clip
-    roundRectPathUpper.moveTo(br_endx - right_upper , br_halfy);
-    roundRectPathUpper.arcTo(br_endx - roundingX - right_upper , br_starty , roundingX, roundingY, 0.0, 90.0);
-    roundRectPathUpper.lineTo(br_startx + roundingX + left_upper, br_starty);
-    roundRectPathUpper.arcTo(br_startx + left_upper, br_starty , roundingX, roundingY, 90.0, 90.0);
-    roundRectPathUpper.lineTo(br_startx + left_upper, br_halfy);
-
-    roundRectPathLower.moveTo(br_startx + left_lower, br_halfy);
-    roundRectPathLower.arcTo(br_startx + left_lower, br_endy - roundingY , roundingX, roundingY, 180.0, 90.0);
-    roundRectPathLower.lineTo(br_endx - roundingX - right_lower , br_endy);
-    roundRectPathLower.arcTo(br_endx - roundingX - right_lower , br_endy - roundingY, roundingX, roundingY, 270.0, 90.0);
-    roundRectPathLower.lineTo(br_endx - right_lower , br_halfy);
 
     QPainterPath resultClipPath = roundRectPathUpper.united(roundRectPathLower);
 
@@ -292,8 +255,8 @@ void ClipItem::paint(QPainter *painter,
 
     if (m_startFade != 0) {
         QPainterPath fadeInPath;
-        fadeInPath.moveTo(br.x() - offset, br.y());
-        fadeInPath.lineTo(br.x() - offset, br.y() + br.height());
+        fadeInPath.moveTo(br.x() , br.y());
+        fadeInPath.lineTo(br.x() , br.y() + br.height());
         fadeInPath.lineTo(br.x() + m_startFade * scale, br.y());
         fadeInPath.closeSubpath();
         painter->fillPath(fadeInPath, fades);
@@ -357,9 +320,14 @@ void ClipItem::paint(QPainter *painter,
     painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
 
     // draw frame around clip
-    pen.setColor(Qt::red);
-    pen.setWidth(2);
-    if (isSelected()) painter->setPen(pen);
+    if (isSelected()) {
+        pen.setColor(Qt::red);
+        pen.setWidth(2);
+    } else {
+        pen.setColor(Qt::black);
+        pen.setWidth(1);
+    }
+    painter->setPen(pen);
     painter->setClipRect(option->exposedRect);
     painter->drawPath(resultClipPath.intersected(clippath));
 

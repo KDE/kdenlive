@@ -1,5 +1,8 @@
 #include "abstractclipitem.h"
 #include <KDebug>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QScrollBar>
 
 AbstractClipItem::AbstractClipItem(const QRectF& rect): QGraphicsRectItem(rect), m_startFade(0), m_endFade(0) {
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
@@ -142,4 +145,64 @@ int AbstractClipItem::fadeOut() const {
 
 GenTime AbstractClipItem::maxDuration() const {
     return m_maxDuration;
+}
+
+QPainterPath AbstractClipItem::upperRectPart(QRectF br) {
+    QPainterPath roundRectPathUpper;
+    double roundingY = 20;
+    double roundingX = 20;
+    double offset = 1;
+
+    while (roundingX > br.width() / 2) {
+        roundingX = roundingX / 2;
+        roundingY = roundingY / 2;
+    }
+    int br_endx = (int)(br.x() + br .width() - offset);
+    int br_startx = (int)(br.x() + offset);
+    int br_starty = (int)(br.y());
+    int br_halfy = (int)(br.y() + br.height() / 2 - offset);
+    int br_endy = (int)(br.y() + br.height());
+
+    roundRectPathUpper.moveTo(br_endx  , br_halfy);
+    roundRectPathUpper.arcTo(br_endx - roundingX , br_starty , roundingX, roundingY, 0.0, 90.0);
+    roundRectPathUpper.lineTo(br_startx + roundingX , br_starty);
+    roundRectPathUpper.arcTo(br_startx , br_starty , roundingX, roundingY, 90.0, 90.0);
+    roundRectPathUpper.lineTo(br_startx , br_halfy);
+
+    return roundRectPathUpper;
+}
+
+QPainterPath AbstractClipItem::lowerRectPart(QRectF br) {
+    QPainterPath roundRectPathLower;
+    double roundingY = 20;
+    double roundingX = 20;
+    double offset = 1;
+
+    int br_endx = (int)(br.x() + br .width() - offset);
+    int br_startx = (int)(br.x() + offset);
+    int br_starty = (int)(br.y());
+    int br_halfy = (int)(br.y() + br.height() / 2 - offset);
+    int br_endy = (int)(br.y() + br.height() - 1);
+
+    while (roundingX > br.width() / 2) {
+        roundingX = roundingX / 2;
+        roundingY = roundingY / 2;
+    }
+    roundRectPathLower.moveTo(br_startx, br_halfy);
+    roundRectPathLower.arcTo(br_startx , br_endy - roundingY , roundingX, roundingY, 180.0, 90.0);
+    roundRectPathLower.lineTo(br_endx - roundingX  , br_endy);
+    roundRectPathLower.arcTo(br_endx - roundingX , br_endy - roundingY, roundingX, roundingY, 270.0, 90.0);
+    roundRectPathLower.lineTo(br_endx  , br_halfy);
+    return roundRectPathLower;
+}
+
+QRect AbstractClipItem::visibleRect() {
+    QRect rectInView;
+    if (scene()->views().size() > 0) {
+        rectInView = scene()->views()[0]->viewport()->rect();
+        rectInView.moveTo(scene()->views()[0]->horizontalScrollBar()->value(), scene()->views()[0]->verticalScrollBar()->value());
+        rectInView.adjust(-10, -10, 10, 10);//make view rect 10 pixel greater on each site, or repaint after scroll event
+        //kDebug() << scene()->views()[0]->viewport()->rect() << " " <<  scene()->views()[0]->horizontalScrollBar()->value();
+    }
+    return rectInView;
 }

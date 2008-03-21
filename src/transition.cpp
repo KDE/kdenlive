@@ -181,44 +181,14 @@ GenTime Transition::transitionEndTime() const {
 void Transition::paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
                        QWidget *widget) {
-    QRect rectInView;//this is the rect that is visible by the user
-    if (scene()->views().size() > 0) {
-        rectInView = scene()->views()[0]->viewport()->rect();
-        rectInView.moveTo(scene()->views()[0]->horizontalScrollBar()->value(), scene()->views()[0]->verticalScrollBar()->value());
-        rectInView.adjust(-10, -10, 10, 10);//make view rect 10 pixel greater on each site, or repaint after scroll event
-        //kDebug() << scene()->views()[0]->viewport()->rect() << " " <<  scene()->views()[0]->horizontalScrollBar()->value();
-    }
+    QRect rectInView = visibleRect();//this is the rect that is visible by the user
+
     if (rectInView.isNull())
         return;
     QPainterPath clippath;
     clippath.addRect(rectInView);
     QRectF br = rect();
-    QPainterPath roundRectPathUpper, roundRectPathLower;
-    double roundingY = 20;
-    double roundingX = 20;
-    double offset = 1;
-    painter->setClipRect(option->exposedRect);
-    if (roundingX > br.width() / 2) roundingX = br.width() / 2;
-
-    int br_endx = (int)(br.x() + br .width() - offset);
-    int br_startx = (int)(br.x() + offset);
-    int br_starty = (int)(br.y());
-    int br_halfy = (int)(br.y() + br.height() / 2 - offset);
-    int br_endy = (int)(br.y() + br.height());
-
-
-    // build path around clip
-    roundRectPathUpper.moveTo(br_endx , br_halfy);
-    roundRectPathUpper.arcTo(br_endx - roundingX  , br_starty , roundingX, roundingY, 0.0, 90.0);
-    roundRectPathUpper.lineTo(br_startx + roundingX , br_starty);
-    roundRectPathUpper.arcTo(br_startx , br_starty , roundingX, roundingY, 90.0, 90.0);
-    roundRectPathUpper.lineTo(br_startx, br_halfy);
-
-    roundRectPathLower.moveTo(br_startx , br_halfy);
-    roundRectPathLower.arcTo(br_startx , br_endy - roundingY , roundingX, roundingY, 180.0, 90.0);
-    roundRectPathLower.lineTo(br_endx - roundingX , br_endy);
-    roundRectPathLower.arcTo(br_endx - roundingX , br_endy - roundingY, roundingX, roundingY, 270.0, 90.0);
-    roundRectPathLower.lineTo(br_endx , br_halfy);
+    QPainterPath roundRectPathUpper = upperRectPart(br), roundRectPathLower = lowerRectPart(br);
 
     QPainterPath resultClipPath = roundRectPathUpper.united(roundRectPathLower);
 
@@ -226,7 +196,19 @@ void Transition::paint(QPainter *painter,
     //painter->fillPath(roundRectPath, brush()); //, QBrush(QColor(Qt::red)));
     painter->fillRect(br.intersected(rectInView), QBrush(QColor(200, 200, 0, 160)/*,Qt::Dense4Pattern*/));
     painter->setClipRect(option->exposedRect);
-    painter->drawPixmap(br_startx + 10, br_starty + 10, transitionPixmap());
+    painter->drawPixmap(br.x() + 10, br.y() + 10, transitionPixmap());
+    painter->drawPath(resultClipPath.intersected(clippath));
+
+    QPen pen = painter->pen();
+    if (isSelected()) {
+        pen.setColor(Qt::red);
+        pen.setWidth(2);
+    } else {
+        pen.setColor(Qt::black);
+        pen.setWidth(1);
+    }
+    painter->setPen(pen);
+    painter->setClipRect(option->exposedRect);
     painter->drawPath(resultClipPath.intersected(clippath));
 }
 
