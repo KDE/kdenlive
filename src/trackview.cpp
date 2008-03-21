@@ -126,13 +126,15 @@ void TrackView::parseDocument(QDomDocument doc) {
     int trackduration = 0;
     kDebug() << "//////////// TIMELINE FOUND: " << m_projectTracks << " tracks";
     for (int i = 0; i < m_projectTracks; i++) {
-        if (tracks.item(i).toElement().attribute("hide", QString::null) == "video") {
-            // this is an audio track
-            trackduration = slotAddAudioTrack(i, tracks.item(i).toElement());
-        } else if (!tracks.item(i).toElement().attribute("id", QString::null).isEmpty())
-            trackduration = slotAddVideoTrack(i, tracks.item(i).toElement());
-        kDebug() << " PRO DUR: " << trackduration << ", TRACK DUR: " << duration;
-        if (trackduration > duration) duration = trackduration;
+        if (tracks.item(i).toElement().attribute("id") != "playlistmain") {
+            if (tracks.item(i).toElement().attribute("hide", QString::null) == "video") {
+                // this is an audio track
+                trackduration = slotAddAudioTrack(i, tracks.item(i).toElement());
+            } else if (!tracks.item(i).toElement().attribute("id", QString::null).isEmpty())
+                trackduration = slotAddVideoTrack(i, tracks.item(i).toElement());
+            kDebug() << " PRO DUR: " << trackduration << ", TRACK DUR: " << duration;
+            if (trackduration > duration) duration = trackduration;
+        }
     }
     m_trackview->setDuration(duration);
     slotRebuildTrackHeaders();
