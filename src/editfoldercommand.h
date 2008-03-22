@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,54 +17,28 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef CLIPMANAGER_H
-#define CLIPMANAGER_H
 
-/**ClipManager manages the list of clips in a document
-  *@author Jean-Baptiste Mardelle
-  */
+#ifndef EDITFOLDERCOMMAND_H
+#define EDITFOLDERCOMMAND_H
 
-#include <qdom.h>
-#include <QPixmap>
-#include <QObject>
-
-#include <KUrl>
-#include <KUndoStack>
-#include <klocale.h>
-
-#include "gentime.h"
-#include "definitions.h"
-
+#include <QUndoCommand>
 
 class KdenliveDoc;
-class DocClipBase;
 
-class ClipManager: public QObject {
-Q_OBJECT public:
+class EditFolderCommand : public QUndoCommand {
+public:
+    EditFolderCommand(KdenliveDoc *doc, const QString newfolderName, const QString oldfolderName, int clipId, bool doIt);
 
+    virtual void undo();
+    virtual void redo();
 
-    ClipManager(KdenliveDoc *doc);
-    virtual ~ ClipManager();
-    void addClip(DocClipBase *clip);
-    DocClipBase *getClipAt(int pos);
-    void deleteClip(uint clipId);
-    void slotAddClipFile(const KUrl url, const QString group, const int groupId);
-    void slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const int groupId);
-    DocClipBase *getClipById(int clipId);
-    void slotDeleteClip(uint clipId);
-    void setThumbsProgress(KUrl url, int progress);
-    void checkAudioThumbs();
-    QList <DocClipBase*> documentClipList();
-    int getFreeClipId();
-
-private:   // Private attributes
-    /** the list of clips in the document */
-    QList <DocClipBase*> m_clipList;
-    /** the document undo stack*/
+private:
     KdenliveDoc *m_doc;
-    int m_clipIdCounter;
-    bool m_audioThumbsEnabled;
-
+    QString m_name;
+    QString m_oldname;
+    int m_id;
+    bool m_doIt;
 };
 
 #endif
+

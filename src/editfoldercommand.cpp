@@ -17,46 +17,24 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include <KLocale>
 
-#ifndef DEFINITIONS_H
-#define DEFINITIONS_H
+#include "editfoldercommand.h"
+#include "kdenlivedoc.h"
 
-#define FRAME_SIZE 90
-#define MAXCLIPDURATION 15000
+EditFolderCommand::EditFolderCommand(KdenliveDoc *doc, const QString newfolderName, const QString oldfolderName, int clipId, bool doIt)
+        : m_doc(doc), m_name(newfolderName), m_oldname(oldfolderName), m_id(clipId), m_doIt(doIt) {
+    setText(i18n("Rename folder"));
+}
 
-enum OPERATIONTYPE { NONE = 0, MOVE = 1, RESIZESTART = 2, RESIZEEND = 3, FADEIN = 4, FADEOUT = 5, TRANSITIONSTART = 6, TRANSITIONEND = 7};
-enum CLIPTYPE { UNKNOWN = 0, AUDIO = 1, VIDEO = 2, AV = 3, COLOR = 4, IMAGE = 5, TEXT = 6, SLIDESHOW = 7, VIRTUAL = 8, PLAYLIST = 9, FOLDER = 10};
-enum GRAPHICSRECTITEM { AVWIDGET = 70000 , LABELWIDGET , TRANSITIONWIDGET };
+// virtual
+void EditFolderCommand::undo() {
+    m_doc->addFolder(m_oldname, m_id, true);
+}
+// virtual
+void EditFolderCommand::redo() {
+    if (m_doIt) m_doc->addFolder(m_name, m_id, true);
+    m_doIt = true;
+}
 
-enum TRANSITIONTYPE {
-    /** TRANSITIONTYPE: between 0-99: video trans, 100-199: video+audio trans, 200-299: audio trans */
-    LUMA_TRANSITION = 0,
-    COMPOSITE_TRANSITION = 1,
-    PIP_TRANSITION = 2,
-    LUMAFILE_TRANSITION = 3,
-    MIX_TRANSITION = 200
-};
-
-enum TRACKTYPE { AUDIOTRACK = 0, VIDEOTRACK = 1 };
-
-struct TrackInfo {
-    TRACKTYPE type;
-    bool isMute;
-    bool isBlind;
-};
-
-struct MltVideoProfile {
-    QString path;
-    QString description;
-    int frame_rate_num;
-    int frame_rate_den;
-    int width;
-    int height;
-    bool progressive;
-    int sample_aspect_num;
-    int sample_aspect_den;
-    int display_aspect_num;
-    int display_aspect_den;
-};
-
-#endif
+#include "editfoldercommand.moc"

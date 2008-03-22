@@ -61,7 +61,7 @@ public:
 
     void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
         if (index.column() == 1) {
-            const bool hover = option.state & (QStyle::State_Selected | QStyle::State_MouseOver | QStyle::State_HasFocus);
+            const bool hover = option.state & (QStyle::State_Selected);
             QRect r1 = option.rect;
             painter->save();
             if (hover) {
@@ -133,7 +133,7 @@ private:
     KdenliveDoc *m_doc;
 
 private slots:
-    void slotAddClip(QUrl givenUrl = QUrl(), const QString &group = QString());
+    void slotAddClip(QUrl givenUrl = QUrl(), QString group = QString());
     void slotRemoveClip();
     void slotEditClip();
     void slotClipSelected();
@@ -142,6 +142,7 @@ private slots:
     void slotEditClip(QTreeWidgetItem *, int);
     void slotContextMenu(const QPoint &pos, QTreeWidgetItem *);
     void slotAddFolder();
+    void slotAddFolder(const QString foldername, int clipId, bool remove, bool edit);
     /** This is triggered when a clip description has been modified */
     void slotUpdateItemDescription(QTreeWidgetItem *item, int column);
     //void slotShowMenu(const QPoint &pos);

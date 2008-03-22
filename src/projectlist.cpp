@@ -132,19 +132,22 @@ void ProjectList::setRenderer(Render *projectRender) {
 }
 
 void ProjectList::slotClipSelected() {
-    ProjectItem *item = (ProjectItem*) listView->currentItem();
+    ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
     if (item && !item->isGroup()) emit clipSelected(item->toXml());
 }
 
 void ProjectList::slotUpdateItemDescription(QTreeWidgetItem *item, int column) {
-    if (column != 2) return;
-    ProjectItem *clip = (ProjectItem*) item;
+    ProjectItem *clip = static_cast <ProjectItem*>(item);
     CLIPTYPE type = clip->clipType();
-    if (type == AUDIO || type == VIDEO || type == AV || type == IMAGE || type == PLAYLIST) {
-        // Use Nepomuk system to store clip description
-        Nepomuk::Resource f(clip->clipUrl().path());
-        f.setDescription(item->text(2));
-        kDebug() << "NEPOMUK, SETTING CLIP: " << clip->clipUrl().path() << ", TO TEXT: " << item->text(2);
+    if (column == 2) {
+        if (type == AUDIO || type == VIDEO || type == AV || type == IMAGE || type == PLAYLIST) {
+            // Use Nepomuk system to store clip description
+            Nepomuk::Resource f(clip->clipUrl().path());
+            f.setDescription(item->text(2));
+            kDebug() << "NEPOMUK, SETTING CLIP: " << clip->clipUrl().path() << ", TO TEXT: " << item->text(2);
+        }
+    } else if (column == 1 && type == FOLDER) {
+        m_doc->slotEditFolder(item->text(1), clip->groupName(), clip->clipId());
     }
 }
 
@@ -180,14 +183,24 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item) {
 }
 
 void ProjectList::slotRemoveClip() {
-
-    if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!!  NO CMD STK";
     if (!listView->currentItem()) return;
-    ProjectItem *item = ((ProjectItem *)listView->currentItem());
+    ProjectItem *item = static_cast <ProjectItem *>(listView->currentItem());
+    QList <int> ids;
+    QMap <QString, int> folderids;
+    if (item->clipType() == FOLDER) folderids[item->groupName()] = item->clipId();
+    else ids << item->clipId();
     if (item->numReferences() > 0) {
         if (KMessageBox::questionYesNo(this, i18np("Delete clip <b>%2</b> ?<br>This will also remove the clip in timeline", "Delete clip <b>%2</b> ?<br>This will also remove its %1 clips in timeline", item->numReferences(), item->names().at(1)), i18n("Delete Clip")) != KMessageBox::Yes) return;
+    } else if (item->clipType() == FOLDER && item->childCount() > 0) {
+        int children = item->childCount();
+        if (KMessageBox::questionYesNo(this, i18n("Delete folder <b>%2</b> ?<br>This will also remove the %1 clips in that folder", children, item->names().at(1)), i18n("Delete Folder")) != KMessageBox::Yes) return;
+        for (int i = 0; i < children; ++i) {
+            ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
+            ids << child->clipId();
+        }
     }
-    m_doc->deleteProjectClip(item->clipId());
+    if (!ids.isEmpty()) m_doc->deleteProjectClip(ids);
+    if (!folderids.isEmpty()) m_doc->deleteProjectFolder(folderids);
 }
 
 void ProjectList::selectItemById(const int clipId) {
@@ -200,14 +213,14 @@ void ProjectList::addClip(const QStringList &name, const QDomElement &elem, cons
     ProjectItem *item;
     ProjectItem *groupItem = NULL;
     QString groupName;
-    if (group.isEmpty()) groupName = elem.attribute("group", QString::null);
+    if (group.isEmpty()) groupName = elem.attribute("groupname", QString::null);
     else groupName = group;
     if (elem.isNull() && url.isEmpty()) {
         // this is a folder
         groupName = name.at(1);
         QList<QTreeWidgetItem *> groupList = listView->findItems(groupName, Qt::MatchExactly, 1);
         if (groupList.isEmpty())  {
-            (void) new ProjectItem(listView, name, clipId);
+            (void) new ProjectItem(listView, name, m_doc->getFreeClipId());
         }
         return;
     }
@@ -222,7 +235,7 @@ void ProjectList::addClip(const QStringList &name, const QDomElement &elem, cons
             QStringList itemName;
             itemName << QString::null << groupName;
             kDebug() << "-------  CREATING NEW GRP: " << itemName;
-            groupItem = new ProjectItem(listView, itemName, m_clipIdCounter++);
+            groupItem = new ProjectItem(listView, itemName, m_doc->getFreeClipId());
         } else groupItem = (ProjectItem *) groupList.first();
     }
     if (groupItem) item = new ProjectItem(groupItem, name, elem, clipId);
@@ -267,23 +280,59 @@ void ProjectList::addClip(const QStringList &name, const QDomElement &elem, cons
 }
 
 void ProjectList::slotDeleteClip(int clipId) {
+    kDebug() << "///////  DELETE CLIP: " << clipId;
     ProjectItem *item = getItemById(clipId);
     if (item) delete item;
 }
 
 void ProjectList::slotAddFolder() {
-    /*
-      QString folderName = KInputDialog::getText(i18n("New Folder"), i18n("Enter new folder name: "));
-      if (folderName.isEmpty()) return;
-      QStringList itemEntry;
-      itemEntry.append(QString::null);
-      itemEntry.append(folderName);
-      AddClipCommand *command = new AddClipCommand(this, itemEntry, QDomElement(), m_clipIdCounter++, KUrl(), folderName, true);
-      m_commandStack->push(command);*/
+
+    // QString folderName = KInputDialog::getText(i18n("New Folder"), i18n("Enter new folder name: "));
+    // if (folderName.isEmpty()) return;
+    m_doc->slotAddFolder(i18n("Folder")); //folderName);
+}
+
+void ProjectList::slotAddFolder(const QString foldername, int clipId, bool remove, bool edit) {
+    if (remove) {
+        ProjectItem *item;
+        QTreeWidgetItemIterator it(listView);
+        while (*it) {
+            item = static_cast <ProjectItem *>(*it);
+            if (item->clipType() == FOLDER && item->clipId() == clipId) {
+                delete item;
+                break;
+            }
+            ++it;
+        }
+    } else {
+        if (edit) {
+            disconnect(listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotUpdateItemDescription(QTreeWidgetItem *, int)));
+            ProjectItem *item;
+            QTreeWidgetItemIterator it(listView);
+            while (*it) {
+                item = static_cast <ProjectItem *>(*it);
+                if (item->clipType() == FOLDER && item->clipId() == clipId) {
+                    item->setText(1, foldername);
+                    break;
+                }
+                ++it;
+            }
+            connect(listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotUpdateItemDescription(QTreeWidgetItem *, int)));
+        } else {
+            QStringList text;
+            text << QString() << foldername;
+            (void) new ProjectItem(listView, text, clipId);
+        }
+    }
 }
 
 void ProjectList::slotAddClip(DocClipBase *clip) {
-    ProjectItem *item = new ProjectItem(listView, clip);
+    const int parent = clip->toXML().attribute("groupid").toInt();
+    if (parent != 0) {
+        ProjectItem *parentitem = getItemById(parent);
+        if (parentitem)(void) new ProjectItem(parentitem, clip);
+        else (void) new ProjectItem(listView, clip);
+    } else (void) new ProjectItem(listView, clip);
     emit getFileProperties(clip->toXML(), clip->getId());
 }
 
@@ -292,7 +341,7 @@ void ProjectList::slotUpdateClip(int id) {
     item->setData(1, UsageRole, QString::number(item->numReferences()));
 }
 
-void ProjectList::slotAddClip(QUrl givenUrl, const QString &group) {
+void ProjectList::slotAddClip(QUrl givenUrl, QString group) {
     if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!!  NO CMD STK";
     KUrl::List list;
     if (givenUrl.isEmpty())
@@ -300,9 +349,22 @@ void ProjectList::slotAddClip(QUrl givenUrl, const QString &group) {
     else list.append(givenUrl);
     if (list.isEmpty()) return;
     KUrl::List::Iterator it;
-
+    int groupId = -1;
+    if (group.isEmpty()) {
+        ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
+        if (item && item->clipType() != FOLDER) {
+            while (item->parent()) {
+                item = static_cast <ProjectItem*>(item->parent());
+                if (item->clipType() == FOLDER) break;
+            }
+        }
+        if (item && item->clipType() == FOLDER) {
+            group = item->groupName();
+            groupId = item->clipId();
+        }
+    }
     for (it = list.begin(); it != list.end(); it++) {
-        m_doc->slotAddClipFile(*it, group);
+        m_doc->slotAddClipFile(*it, group, groupId);
     }
 }
 
@@ -316,7 +378,22 @@ void ProjectList::slotAddColorClip() {
     if (dia->exec() == QDialog::Accepted) {
         QString color = dia_ui->clip_color->color().name();
         color = color.replace(0, 1, "0x") + "ff";
-        m_doc->slotAddColorClipFile(dia_ui->clip_name->text(), color, dia_ui->clip_duration->text(), QString::null);
+
+        QString group = QString();
+        int groupId = -1;
+        ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
+        if (item && item->clipType() != FOLDER) {
+            while (item->parent()) {
+                item = static_cast <ProjectItem*>(item->parent());
+                if (item->clipType() == FOLDER) break;
+            }
+        }
+        if (item && item->clipType() == FOLDER) {
+            group = item->groupName();
+            groupId = item->clipId();
+        }
+
+        m_doc->slotAddColorClipFile(dia_ui->clip_name->text(), color, dia_ui->clip_duration->text(), group, groupId);
     }
     delete dia_ui;
     delete dia;
@@ -402,7 +479,8 @@ ProjectItem *ProjectList::getItemById(int id) {
             break;
         ++it;
     }
-    return ((ProjectItem *)(*it));
+    if (*it) return ((ProjectItem *)(*it));
+    return NULL;
 }
 
 
@@ -418,7 +496,7 @@ void ProjectList::addProducer(QDomElement producer, int parentId) {
 
     //kDebug()<<"//////  ADDING PRODUCER:\n "<<doc.toString()<<"\n+++++++++++++++++";
     int id = producer.attribute("id").toInt();
-    QString groupName = producer.attribute("group");
+    QString groupName = producer.attribute("groupname");
     if (id >= m_clipIdCounter) m_clipIdCounter = id + 1;
     else if (id == 0) id = m_clipIdCounter++;
 

@@ -60,13 +60,19 @@ Q_OBJECT public:
     Render *renderer();
     ClipManager *clipManager();
     void addClip(const QDomElement &elem, const int clipId);
-    void slotAddClipFile(const KUrl url, const QString group);
-    void slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group);
+    void addFolder(const QString foldername, int clipId, bool edit);
+    void deleteFolder(const QString foldername, int clipId);
+    void slotAddClipFile(const KUrl url, const QString group, const int groupId = -1);
+    void slotAddFolder(const QString folderName);
+    void slotDeleteFolder(const QString folderName, const int id);
+    void slotEditFolder(const QString folderName, const QString oldfolderName, int clipId);
+    void slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const int groupId = -1);
     void deleteClip(const uint clipId);
     int getFramePos(QString duration);
     DocClipBase *getBaseClip(int clipId);
     void updateClip(int id);
-    void deleteProjectClip(const uint clipId);
+    void deleteProjectClip(QList <int> ids);
+    void deleteProjectFolder(QMap <QString, int> map);
     /** Inform application of the audio thumbnails generation progress */
     void setThumbsProgress(KUrl url, int progress);
     QString profilePath() const;
@@ -78,6 +84,7 @@ Q_OBJECT public:
     void setProfilePath(QString path);
     /** Set to true if document needs saving, false otherwise */
     void setModified(bool mod);
+    int getFreeClipId();
 
 private:
     KUrl m_url;
@@ -100,6 +107,7 @@ public slots:
 
 signals:
     void addProjectClip(DocClipBase *);
+    void addProjectFolder(const QString, int, bool, bool edit = false);
     void signalDeleteProjectClip(int);
     void updateClipDisplay(int);
     void deletTimelineClip(int);

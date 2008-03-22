@@ -31,6 +31,8 @@
 #include "kdenlivesettings.h"
 #include "renderer.h"
 #include "clipmanager.h"
+#include "addfoldercommand.h"
+#include "editfoldercommand.h"
 
 KdenliveDoc::KdenliveDoc(const KUrl &url, MltVideoProfile profile, QUndoGroup *undoGroup, QWidget *parent): QObject(parent), m_render(NULL), m_url(url), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new KUndoStack(undoGroup)), m_modified(false) {
     m_clipManager = new ClipManager(this);
@@ -287,15 +289,34 @@ QString KdenliveDoc::description() const {
 }
 
 void KdenliveDoc::addClip(const QDomElement &elem, const int clipId) {
-    kDebug() << "/////////  DOCUM, CREATING NEW CLIP, ID:" << clipId;
     DocClipBase *clip = new DocClipBase(m_clipManager, elem, clipId);
+    kDebug() << "/////////  DOCUM, CREATING NEW CLIP, ID:" << clipId << ", PAR ID:" << elem.attribute("groupid");
     m_clipManager->addClip(clip);
     emit addProjectClip(clip);
 }
 
-void KdenliveDoc::deleteProjectClip(const uint clipId) {
-    emit deletTimelineClip(clipId);
-    m_clipManager->slotDeleteClip(clipId);
+void KdenliveDoc::addFolder(const QString foldername, int clipId, bool edit) {
+    emit addProjectFolder(foldername, clipId, false, edit);
+}
+
+void KdenliveDoc::deleteFolder(const QString foldername, int clipId) {
+    emit addProjectFolder(foldername, clipId, true);
+}
+
+void KdenliveDoc::deleteProjectClip(QList <int> ids) {
+    for (int i = 0; i < ids.size(); ++i) {
+        emit deletTimelineClip(ids.at(i));
+        m_clipManager->slotDeleteClip(ids.at(i));
+    }
+    setModified(true);
+}
+
+void KdenliveDoc::deleteProjectFolder(QMap <QString, int> map) {
+    QMapIterator<QString, int> i(map);
+    while (i.hasNext()) {
+        i.next();
+        slotDeleteFolder(i.key(), i.value());
+    }
     setModified(true);
 }
 
@@ -304,18 +325,40 @@ void KdenliveDoc::deleteClip(const uint clipId) {
     m_clipManager->deleteClip(clipId);
 }
 
-void KdenliveDoc::slotAddClipFile(const KUrl url, const QString group) {
+void KdenliveDoc::slotAddClipFile(const KUrl url, const QString group, const int groupId) {
     kDebug() << "/////////  DOCUM, ADD CLP: " << url;
-    m_clipManager->slotAddClipFile(url, group);
+    m_clipManager->slotAddClipFile(url, group, groupId);
     setModified(true);
+}
+
+void KdenliveDoc::slotAddFolder(const QString folderName) {
+    AddFolderCommand *command = new AddFolderCommand(this, folderName, m_clipManager->getFreeClipId(), true);
+    commandStack()->push(command);
+    setModified(true);
+}
+
+void KdenliveDoc::slotDeleteFolder(const QString folderName, const int id) {
+    AddFolderCommand *command = new AddFolderCommand(this, folderName, id, false);
+    commandStack()->push(command);
+    setModified(true);
+}
+
+void KdenliveDoc::slotEditFolder(const QString newfolderName, const QString oldfolderName, int clipId) {
+    EditFolderCommand *command = new EditFolderCommand(this, newfolderName, oldfolderName, clipId, false);
+    commandStack()->push(command);
+    setModified(true);
+}
+
+int KdenliveDoc::getFreeClipId() {
+    return m_clipManager->getFreeClipId();
 }
 
 DocClipBase *KdenliveDoc::getBaseClip(int clipId) {
     return m_clipManager->getClipById(clipId);
 }
 
-void KdenliveDoc::slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group) {
-    m_clipManager->slotAddColorClipFile(name, color, duration, group);
+void KdenliveDoc::slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const int groupId) {
+    m_clipManager->slotAddColorClipFile(name, color, duration, group, groupId);
     setModified(true);
 }
 

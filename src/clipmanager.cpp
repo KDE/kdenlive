@@ -57,7 +57,6 @@ void ClipManager::addClip(DocClipBase *clip) {
 void ClipManager::slotDeleteClip(uint clipId) {
     for (int i = 0; i < m_clipList.count(); i++) {
         if (m_clipList.at(i)->getId() == clipId) {
-            //m_clipList.removeAt(i);
             AddClipCommand *command = new AddClipCommand(m_doc, m_clipList.at(i)->toXML(), clipId, false);
             m_doc->commandStack()->push(command);
             break;
@@ -89,14 +88,17 @@ DocClipBase *ClipManager::getClipById(int clipId) {
     return NULL;
 }
 
-void ClipManager::slotAddClipFile(const KUrl url, const QString group) {
+void ClipManager::slotAddClipFile(const KUrl url, const QString group, const int groupId) {
     kDebug() << "/////  CLIP MANAGER, ADDING CLIP: " << url;
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
     prod.setAttribute("resource", url.path());
     uint id = m_clipIdCounter++;
     prod.setAttribute("id", QString::number(id));
-    if (!group.isEmpty()) prod.setAttribute("group", group);
+    if (!group.isEmpty()) {
+        prod.setAttribute("groupname", group);
+        prod.setAttribute("groupid", groupId);
+    }
     KMimeType::Ptr type = KMimeType::findByUrl(url);
     if (type->name().startsWith("image/")) {
         prod.setAttribute("type", (int) IMAGE);
@@ -107,7 +109,7 @@ void ClipManager::slotAddClipFile(const KUrl url, const QString group) {
     m_doc->commandStack()->push(command);
 }
 
-void ClipManager::slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group) {
+void ClipManager::slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const int groupId) {
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
     prod.setAttribute("mlt_service", "colour");
@@ -118,7 +120,16 @@ void ClipManager::slotAddColorClipFile(const QString name, const QString color, 
     prod.setAttribute("in", "0");
     prod.setAttribute("out", m_doc->getFramePos(duration));
     prod.setAttribute("name", name);
+    if (!group.isEmpty()) {
+        prod.setAttribute("groupname", group);
+        prod.setAttribute("groupid", groupId);
+    }
     AddClipCommand *command = new AddClipCommand(m_doc, prod, id, true);
     m_doc->commandStack()->push(command);
 }
+
+int ClipManager::getFreeClipId() {
+    return m_clipIdCounter++;
+}
+
 

@@ -39,7 +39,7 @@ const int UsageRole = NameRole + 2;
 
 
 ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, QDomElement xml, int clipId)
-        : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_clipType(UNKNOWN), m_clipId(clipId), m_isGroup(false), m_groupName(QString::null) {
+        : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_clipType(UNKNOWN), m_clipId(clipId) {
     m_element = xml.cloneNode().toElement();
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
@@ -59,7 +59,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, QDom
 }
 
 ProjectItem::ProjectItem(QTreeWidgetItem * parent, const QStringList & strings, QDomElement xml, int clipId)
-        : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_clipType(UNKNOWN), m_clipId(clipId), m_isGroup(false), m_groupName(QString::null) {
+        : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_clipType(UNKNOWN), m_clipId(clipId) {
     m_element = xml.cloneNode().toElement();
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
@@ -73,15 +73,16 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, const QStringList & strings, 
     }
 }
 
+// folder
 ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, int clipId)
-        : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_element(QDomElement()), m_clipType(UNKNOWN), m_clipId(clipId), m_isGroup(true), m_groupName(strings.at(1)) {
+        : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_element(QDomElement()), m_clipType(FOLDER), m_groupName(strings.at(1)), m_clipId(clipId), m_clip(NULL) {
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     setIcon(0, KIcon("folder"));
 }
 
 ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
-        : QTreeWidgetItem(parent, QStringList(), QTreeWidgetItem::UserType), m_isGroup(false) {
+        : QTreeWidgetItem(parent, QStringList(), QTreeWidgetItem::UserType) {
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     m_clip = clip;
@@ -90,7 +91,20 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
     QString name = m_element.attribute("name");
     if (name.isEmpty()) name = KUrl(m_element.attribute("resource")).fileName();
     m_clipType = (CLIPTYPE) m_element.attribute("type").toInt();
-    m_groupName = m_element.attribute("group");
+    setText(1, name);
+    kDebug() << "PROJECT ITE;. ADDING LCIP: " << m_clipId;
+}
+
+ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip)
+        : QTreeWidgetItem(parent, QStringList(), QTreeWidgetItem::UserType) {
+    setSizeHint(0, QSize(65, 45));
+    setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    m_clip = clip;
+    m_element = clip->toXML();
+    m_clipId = clip->getId();
+    QString name = m_element.attribute("name");
+    if (name.isEmpty()) name = KUrl(m_element.attribute("resource")).fileName();
+    m_clipType = (CLIPTYPE) m_element.attribute("type").toInt();
     setText(1, name);
     kDebug() << "PROJECT ITE;. ADDING LCIP: " << m_clipId;
 }
@@ -117,11 +131,19 @@ int ProjectItem::clipMaxDuration() const {
 }
 
 bool ProjectItem::isGroup() const {
-    return m_isGroup;
+    return m_clipType == FOLDER;
 }
 
 const QString ProjectItem::groupName() const {
     return m_groupName;
+}
+
+void ProjectItem::setGroupName(const QString name) {
+    m_groupName = name;
+}
+
+void ProjectItem::setGroup(const QString name, const QString id) {
+    if (m_clip) m_clip->setGroup(name, id);
 }
 
 QStringList ProjectItem::names() const {

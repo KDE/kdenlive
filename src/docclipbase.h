@@ -202,6 +202,8 @@ Q_OBJECT public:
     void slotRequestAudioThumbs();
     /** Free cache data */
     void slotClearAudioCache();
+    /** puts the clip in a group (used for folder grouping) */
+    void setGroup(const QString name, const QString id);
 
 
 private:   // Private attributes

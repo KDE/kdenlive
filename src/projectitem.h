@@ -35,8 +35,10 @@ class ProjectItem : public QTreeWidgetItem {
 public:
     ProjectItem(QTreeWidget * parent, const QStringList & strings, QDomElement xml, int clipId);
     ProjectItem(QTreeWidgetItem * parent, const QStringList & strings, QDomElement xml, int clipId);
+    /** Create folder item */
     ProjectItem(QTreeWidget * parent, const QStringList & strings, int clipId);
     ProjectItem(QTreeWidget * parent, DocClipBase *clip);
+    ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip);
     virtual ~ProjectItem();
     QDomElement toXml() const;
     int numReferences() const;
@@ -46,19 +48,20 @@ public:
     QStringList names() const;
     bool isGroup() const;
     const QString groupName() const;
+    void setGroupName(const QString name);
     const KUrl clipUrl() const;
     int clipMaxDuration() const;
     CLIPTYPE clipType() const;
+    void setGroup(const QString name, const QString id);
 
 private:
     QDomElement m_element;
     GenTime m_duration;
+    QString m_groupName;
     bool m_durationKnown;
     CLIPTYPE m_clipType;
     int m_clipId;
     void slotSetToolTip();
-    bool m_isGroup;
-    QString m_groupName;
     DocClipBase *m_clip;
 };
 

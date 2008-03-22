@@ -711,6 +711,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(m_projectMonitor, SIGNAL(renderPosition(int)), m_activeTimeline, SLOT(moveCursorPos(int)));
             disconnect(m_projectMonitor, SIGNAL(durationChanged(int)), m_activeTimeline, SLOT(setDuration(int)));
             disconnect(m_activeDocument, SIGNAL(addProjectClip(DocClipBase *)), m_projectList, SLOT(slotAddClip(DocClipBase *)));
+            disconnect(m_activeDocument, SIGNAL(addProjectFolder(const QString, int, bool, bool)), m_projectList, SLOT(slotAddFolder(const QString, int, bool, bool)));
             disconnect(m_activeDocument, SIGNAL(signalDeleteProjectClip(int)), m_projectList, SLOT(slotDeleteClip(int)));
             disconnect(m_activeDocument, SIGNAL(updateClipDisplay(int)), m_projectList, SLOT(slotUpdateClip(int)));
             disconnect(m_activeDocument, SIGNAL(deletTimelineClip(int)), m_activeTimeline, SLOT(slotDeleteClip(int)));
@@ -738,6 +739,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
     connect(m_projectMonitor, SIGNAL(durationChanged(int)), trackView, SLOT(setDuration(int)));
     connect(doc, SIGNAL(addProjectClip(DocClipBase *)), m_projectList, SLOT(slotAddClip(DocClipBase *)));
+    connect(doc, SIGNAL(addProjectFolder(const QString, int, bool, bool)), m_projectList, SLOT(slotAddFolder(const QString, int, bool, bool)));
     connect(doc, SIGNAL(signalDeleteProjectClip(int)), m_projectList, SLOT(slotDeleteClip(int)));
     connect(doc, SIGNAL(updateClipDisplay(int)), m_projectList, SLOT(slotUpdateClip(int)));
     connect(doc, SIGNAL(deletTimelineClip(int)), trackView, SLOT(slotDeleteClip(int)));

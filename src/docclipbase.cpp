@@ -81,6 +81,11 @@ void DocClipBase::slotClearAudioCache() {
     m_audioThumbCreated = false;
 }
 
+void DocClipBase::setGroup(const QString name, const QString id) {
+    m_xml.setAttribute("groupname", name);
+    m_xml.setAttribute("groupid", id);
+}
+
 KThumb *DocClipBase::thumbProducer() {
     return m_thumbProd;
 }

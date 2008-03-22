@@ -98,6 +98,8 @@ set(kdenlive_SRCS
   jogshuttle.cpp
   addtransitioncommand.cpp
   edittransitioncommand.cpp
+  addfoldercommand.cpp
+  editfoldercommand.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

@@ -49,8 +49,9 @@ void ProjectListView::contextMenuEvent(QContextMenuEvent * event) {
 
 // virtual
 void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event) {
-    if (!itemAt(event->pos())) emit addClip();
-    else if (columnAt(event->pos().x()) == 2) QTreeWidget::mouseDoubleClickEvent(event);
+    ProjectItem *item = static_cast <ProjectItem *>(itemAt(event->pos()));
+    if (!item) emit addClip();
+    else if ((item->clipType() == FOLDER && columnAt(event->pos().x()) == 1) || columnAt(event->pos().x()) == 2) QTreeWidget::mouseDoubleClickEvent(event);
 }
 
 // virtual
@@ -78,22 +79,26 @@ void ProjectListView::dropEvent(QDropEvent *event) {
             emit addClip(url, groupName);
         }
 
-    } else if (event->mimeData()->hasText()) {
-        QTreeWidgetItem *item = itemAt(event->pos());
+    } else if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
+        ProjectItem *item = static_cast <ProjectItem *>(itemAt(event->pos()));
         if (item) {
-            if (item->parent()) item = item->parent();
-            if (((ProjectItem *) item)->isGroup()) {
+            if (item->parent()) item = static_cast <ProjectItem *>(item->parent());
+            if (item->isGroup()) {
                 //emit addClip(event->mimeData->text());
                 kDebug() << "////////////////  DROPPED RIGHT 1 ";
                 QList <QTreeWidgetItem *> list;
                 list = selectedItems();
                 ProjectItem *clone;
+                int parentId = item->clipId();
                 foreach(QTreeWidgetItem *it, list) {
                     // TODO allow dragging of folders ?
                     if (!((ProjectItem *) it)->isGroup() && ((ProjectItem *) it)->clipId() < 10000) {
                         if (it->parent()) clone = (ProjectItem*) it->parent()->takeChild(it->parent()->indexOfChild(it));
                         else clone = (ProjectItem*) takeTopLevelItem(indexOfTopLevelItem(it));
-                        if (clone) item->addChild(clone);
+                        if (clone) {
+                            item->addChild(clone);
+                            clone->setGroup(item->groupName(), QString::number(parentId));
+                        }
                     }
                 }
             } else item = NULL;
@@ -147,8 +152,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event) {
             QStringList ids;
             foreach(QTreeWidgetItem *item, list) {
                 // TODO allow dragging of folders
-                if (!((ProjectItem *) item)->isGroup())
-                    ids.append(QString::number(((ProjectItem *) item)->clipId()));
+                ids.append(QString::number(((ProjectItem *) item)->clipId()));
             }
             QByteArray data;
             data.append(ids.join(";").toUtf8()); //doc.toString().toUtf8());
@@ -183,9 +187,11 @@ void ProjectListView::dragMoveEvent(QDragMoveEvent * event) {
 
 QStringList ProjectListView::mimeTypes() const {
     QStringList qstrList;
+    qstrList << QTreeWidget::mimeTypes();
     // list of accepted mime types for drop
     qstrList.append("text/uri-list");
     qstrList.append("text/plain");
+    qstrList.append("kdenlive/producerslist");
     return qstrList;
 }
 
