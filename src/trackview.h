@@ -27,15 +27,16 @@
 #include <QGroupBox>
 #include <QGraphicsScene>
 #include <QGraphicsLineItem>
-
+#include <QDomElement>
 #define FRAME_SIZE 90
 
 #include "ui_timeline_ui.h"
-#include "customruler.h"
-#include "kdenlivedoc.h"
-#include "customtrackview.h"
+
 class ClipItem;
 class Transition;
+class CustomTrackView;
+class KdenliveDoc;
+class CustomRuler;
 
 class TrackView : public QWidget {
     Q_OBJECT

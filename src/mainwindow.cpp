@@ -69,6 +69,7 @@
 #include "effectstackview.h"
 #include "transitionsettings.h"
 #include "renderwidget.h"
+#include "renderer.h"
 #include "jogshuttle.h"
 
 #define ID_STATUS_MSG 1

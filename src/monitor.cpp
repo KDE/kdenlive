@@ -29,6 +29,9 @@
 
 #include "gentime.h"
 #include "monitor.h"
+#include "renderer.h"
+#include "monitormanager.h"
+#include "smallruler.h"
 
 Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
         : QWidget(parent), render(NULL), m_monitorManager(manager), m_name(name), m_isActive(false) {

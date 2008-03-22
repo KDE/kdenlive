@@ -44,6 +44,10 @@
 #include "definitions.h"
 #include "titlewidget.h"
 #include "clipmanager.h"
+#include "docclipbase.h"
+#include "kdenlivedoc.h"
+#include "renderer.h"
+#include "projectlistview.h"
 #include <QtGui>
 
 ProjectList::ProjectList(QWidget *parent)

@@ -20,7 +20,7 @@
 #include <KLocale>
 
 #include "moveclipcommand.h"
-
+#include "customtrackview.h"
 MoveClipCommand::MoveClipCommand(CustomTrackView *view, const QPointF startPos, const QPointF endPos, bool doIt)
         : m_view(view), m_startPos(startPos), m_endPos(endPos), m_doIt(doIt) {
     setText(i18n("Move clip"));

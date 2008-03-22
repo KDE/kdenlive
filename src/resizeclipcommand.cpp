@@ -20,7 +20,7 @@
 #include <KLocale>
 
 #include "resizeclipcommand.h"
-
+#include "customtrackview.h"
 ResizeClipCommand::ResizeClipCommand(CustomTrackView *view, const QPointF startPos, const QPointF endPos, bool resizeClipStart, bool doIt)
         : m_view(view), m_startPos(startPos), m_endPos(endPos), m_resizeClipStart(resizeClipStart), m_doIt(doIt) {
     setText(i18n("Resize clip"));

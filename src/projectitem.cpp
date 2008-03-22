@@ -31,6 +31,7 @@
 #include "projectitem.h"
 #include "timecode.h"
 #include "kdenlivesettings.h"
+#include "docclipbase.h"
 
 const int NameRole = Qt::UserRole;
 const int DurationRole = NameRole + 1;

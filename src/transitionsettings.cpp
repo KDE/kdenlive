@@ -18,6 +18,7 @@
 #include "transitionsettings.h"
 #include "transition.h"
 #include <KDebug>
+#include "effectslist.h"
 
 TransitionSettings::TransitionSettings(EffectsList *transitions, QWidget* parent): QWidget(parent) {
     ui.setupUi(this);

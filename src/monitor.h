@@ -24,13 +24,13 @@
 #include <KIcon>
 #include <KAction>
 #include <KRestrictedLine>
+#include <QDomElement>
 
 #include "ui_monitor_ui.h"
-#include "renderer.h"
-#include "monitormanager.h"
-#include "smallruler.h"
 
 class MonitorManager;
+class Render;
+class SmallRuler;
 
 class MonitorRefresh : public QWidget {
     Q_OBJECT

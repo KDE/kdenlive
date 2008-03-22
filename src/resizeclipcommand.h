@@ -27,8 +27,7 @@
 
 #include <KDebug>
 
-#include "projectlist.h"
-#include "customtrackview.h"
+class CustomTrackView;
 
 class ResizeClipCommand : public QUndoCommand {
 public:

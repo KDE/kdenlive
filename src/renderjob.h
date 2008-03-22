@@ -29,7 +29,6 @@
 
 #include "gentime.h"
 #include "definitions.h"
-#include "docclipbase.h"
 
 class RenderJob : public KJob {
     Q_OBJECT

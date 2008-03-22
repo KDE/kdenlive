@@ -29,14 +29,16 @@
 #include <KUndoStack>
 #include <KTreeWidgetSearchLine>
 #include "kextendableitemdelegate.h"
+#include <KUrl>
 
 #include "definitions.h"
-#include "kdenlivedoc.h"
-#include "renderer.h"
 #include "timecode.h"
-#include "projectlistview.h"
 
 class ProjectItem;
+class ProjectListView;
+class Render;
+class KdenliveDoc;
+class DocClipBase;
 
 const int NameRole = Qt::UserRole;
 const int DurationRole = NameRole + 1;

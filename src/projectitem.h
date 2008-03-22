@@ -29,8 +29,8 @@
 
 #include "gentime.h"
 #include "definitions.h"
-#include "docclipbase.h"
 
+class DocClipBase;
 class ProjectItem : public QTreeWidgetItem {
 public:
     ProjectItem(QTreeWidget * parent, const QStringList & strings, QDomElement xml, int clipId);

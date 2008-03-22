@@ -17,9 +17,10 @@
 #ifndef TRANSITIONSETTINGS_H
 #define TRANSITIONSETTINGS_H
 #include "ui_transitionsettings_ui.h"
-#include "effectslist.h"
+#include <QDomElement>
 
 class Transition;
+class EffectsList;
 
 class TransitionSettings : public QWidget  {
     Q_OBJECT

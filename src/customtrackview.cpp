@@ -44,6 +44,7 @@
 #include "clipitem.h"
 #include "customtrackview.h"
 #include "clipmanager.h"
+#include "renderer.h"
 //TODO:
 // disable animation if user asked it in KDE's global settings
 // http://lists.kde.org/?l=kde-commits&m=120398724717624&w=2
