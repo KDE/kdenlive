@@ -564,7 +564,7 @@ void CustomTrackView::addTransition(int startTrack, GenTime startPos , QDomEleme
            )
             map[attribs.item(i).nodeName()] = attribs.item(i).nodeValue();
     }
-    map["resource"] = "%luma12.pgm";
+    //map["resource"] = "%luma12.pgm";
     kDebug() << "---- ADDING transition " << e.attribute("type") << ", on tracks " << m_tracksList.count() - e.attribute("transition_track").toInt() << " / " << getPreviousVideoTrack(e.attribute("transition_track").toInt());
     m_document->renderer()->mltAddTransition(e.attribute("type"), getPreviousVideoTrack(e.attribute("transition_track").toInt()), m_tracksList.count() - e.attribute("transition_track").toInt() ,
             GenTime(e.attribute("start").toInt(), m_document->renderer()->fps()),

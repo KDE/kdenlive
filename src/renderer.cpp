@@ -41,6 +41,7 @@ extern "C" {
 #include "renderer.h"
 #include "kdenlivesettings.h"
 #include "kthumb.h"
+#include <ffmpeg/avformat.h>
 
 static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr) {
     // detect if the producer has finished playing. Is there a better way to do it ?
@@ -404,7 +405,7 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
                 filePropertyMap["type"] = "video";
 
             // Generate thumbnail for this frame
-            QPixmap pixmap = KThumb::getImage(url, 0, width, height);
+            QPixmap pixmap = KThumb::getFrame(&producer, 0, width, height);
 
             emit replyGetImage(clipId, 0, pixmap, width, height);
 
@@ -418,7 +419,7 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
     // Retrieve audio / video codec name
 
     // Fetch the video_context
-#if 0 //until the reason for the chrashs is found
+#if 1
     AVFormatContext *context = (AVFormatContext *) mlt_properties_get_data(properties, "video_context", NULL);
     if (context != NULL) {
         // Get the video_index
@@ -434,8 +435,6 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
             filePropertyMap["audiocodec"] = context->streams[ index ]->codec->codec->name;
     }
 #endif
-
-
     // metadata
 
     mlt_properties metadata = mlt_properties_new();
@@ -510,6 +509,7 @@ void Render::setSceneList(QString playlist, int position) {
         }*/
 
     if (m_mltConsumer) {
+        m_mltConsumer->stop();
         m_mltConsumer->set("refresh", 0);
     } else return;
     if (m_mltProducer) {

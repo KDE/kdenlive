@@ -284,7 +284,6 @@ void ProjectList::slotAddFolder() {
 
 void ProjectList::slotAddClip(DocClipBase *clip) {
     ProjectItem *item = new ProjectItem(listView, clip);
-    listView->setCurrentItem(item);
     emit getFileProperties(clip->toXML(), clip->getId());
 }
 
@@ -384,6 +383,7 @@ void ProjectList::slotReplyGetFileProperties(int clipId, const QMap < QString, Q
     ProjectItem *item = getItemById(clipId);
     if (item) {
         item->setProperties(properties, metadata);
+        listView->setCurrentItem(item);
         emit receivedClipDuration(clipId, item->clipMaxDuration());
     }
 }
