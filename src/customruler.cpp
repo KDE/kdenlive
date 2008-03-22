@@ -91,7 +91,7 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
 // virtual
 void CustomRuler::mousePressEvent(QMouseEvent * event) {
     m_view->activateMonitor();
-    int pos = (event->x() + offset()) / pixelPerMark() / FRAME_SIZE;
+    int pos = (int)((event->x() + offset()) / pixelPerMark() / FRAME_SIZE);
     m_moveCursor = RULER_CURSOR;
     if (event->y() > 10) {
         if (abs(pos - m_zoneStart) < 4) m_moveCursor = RULER_START;
@@ -104,7 +104,7 @@ void CustomRuler::mousePressEvent(QMouseEvent * event) {
 
 // virtual
 void CustomRuler::mouseMoveEvent(QMouseEvent * event) {
-    int pos = (event->x() + offset()) / pixelPerMark() / FRAME_SIZE;
+    int pos = (int)((event->x() + offset()) / pixelPerMark() / FRAME_SIZE);
     if (m_moveCursor == RULER_CURSOR) {
         m_view->setCursorPos(pos);
         return;
@@ -154,12 +154,12 @@ void CustomRuler::paintEvent(QPaintEvent *e) {
 
     //p.fillRect(e->rect(), QBrush(QColor(200, 200, 200)));
     //kDebug()<<"RULER ZONE: "<<m_zoneStart<<", OFF: "<<offset()<<", END: "<<m_zoneEnd<<", FACTOR: "<<pixelPerMark() * FRAME_SIZE;
-    int projectEnd = m_duration * pixelPerMark() * FRAME_SIZE;
+    int projectEnd = (int)(m_duration * pixelPerMark() * FRAME_SIZE);
     p.fillRect(QRect(- offset(), e->rect().y(), projectEnd, e->rect().height()), QBrush(QColor(245, 245, 245)));
 
 
-    int zoneStart = m_zoneStart * pixelPerMark() * FRAME_SIZE;
-    int zoneEnd = m_zoneEnd * pixelPerMark() * FRAME_SIZE;
+    int zoneStart = (int)(m_zoneStart * pixelPerMark() * FRAME_SIZE);
+    int zoneEnd = (int)(m_zoneEnd * pixelPerMark() * FRAME_SIZE);
 
     p.fillRect(QRect(zoneStart - offset(), e->rect().y() + e->rect().height() / 2, zoneEnd - zoneStart, e->rect().height() / 2), QBrush(QColor(133, 255, 143)));
 
@@ -175,7 +175,7 @@ void CustomRuler::paintEvent(QPaintEvent *e) {
     offsetmin = (double)(minval - offset()),
                 offsetmax = (double)(maxval - offset()),
                             fontOffset = (((double)minval) > offsetmin) ? (double)minval : offsetmin;
-    QRect bg = QRect(offsetmin, 0, offsetmax, height());
+    QRect bg = QRect((int)offsetmin, 0, (int)offsetmax, height());
 
     QPalette palette;
     //p.fillRect(bg, palette.light());

@@ -196,7 +196,7 @@ void Transition::paint(QPainter *painter,
     //painter->fillPath(roundRectPath, brush()); //, QBrush(QColor(Qt::red)));
     painter->fillRect(br.intersected(rectInView), QBrush(QColor(200, 200, 0, 160)/*,Qt::Dense4Pattern*/));
     painter->setClipRect(option->exposedRect);
-    painter->drawPixmap(br.x() + 10, br.y() + 10, transitionPixmap());
+    painter->drawPixmap((int)(br.x() + 10), (int)(br.y() + 10), transitionPixmap());
     painter->drawPath(resultClipPath.intersected(clippath));
 
     QPen pen = painter->pen();

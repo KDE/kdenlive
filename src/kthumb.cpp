@@ -188,19 +188,19 @@ void KThumb::extractImage(int frame, int frame2) {
     char *tmp = Render::decodedString(m_url.path());
     Mlt::Producer m_producer(*m_profile, tmp);
     delete[] tmp;
-
+    int twidth = (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio());
     if (m_producer.is_blank()) {
-        QPixmap pix(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio(), KdenliveSettings::trackheight());
+        QPixmap pix(twidth, KdenliveSettings::trackheight());
         pix.fill(Qt::black);
         emit thumbReady(frame, pix);
         return;
     }
     if (frame != -1) {
-        QPixmap pix = getFrame(&m_producer, frame, KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio(), KdenliveSettings::trackheight());
+        QPixmap pix = getFrame(&m_producer, frame, twidth, KdenliveSettings::trackheight());
         emit thumbReady(frame, pix);
     }
     if (frame2 != -1) {
-        QPixmap pix = getFrame(&m_producer, frame2, KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio(), KdenliveSettings::trackheight());
+        QPixmap pix = getFrame(&m_producer, frame2, twidth , KdenliveSettings::trackheight());
         emit thumbReady(frame2, pix);
     }
 

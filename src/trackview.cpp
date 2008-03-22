@@ -167,7 +167,7 @@ void TrackView::slotChangeZoom(int factor) {
 }
 
 int TrackView::fitZoom() const {
-    int zoom = (duration() + 20 / m_scale) * FRAME_SIZE / m_trackview->width();
+    int zoom = (int)((duration() + 20 / m_scale) * FRAME_SIZE / m_trackview->width());
     int i;
     for (i = 0; i < 13; i++)
         if (m_ruler->comboScale[i] > zoom) break;
@@ -179,7 +179,7 @@ const double TrackView::zoomFactor() const {
 }
 
 const int TrackView::mapLocalToValue(int x) const {
-    return (int) x * zoomFactor();
+    return (int)(x * zoomFactor());
 }
 
 KdenliveDoc *TrackView::document() {

@@ -129,7 +129,7 @@ void Monitor::activateMonitor() {
 void Monitor::slotSeek(int pos) {
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);
     if (render == NULL) return;
-    int realPos = ((double) pos) / m_scale;
+    int realPos = (int)(((double) pos) / m_scale);
     render->seekToFrame(realPos);
     m_position = realPos;
     emit renderPosition(m_position);

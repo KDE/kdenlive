@@ -156,7 +156,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event) {
             //mimeData->setText(ids.join(";")); //doc.toString());
             //mimeData->setImageData(image);
             drag->setMimeData(mimeData);
-            drag->setPixmap(clickItem->icon(0).pixmap(50 *16 / 9.0, 50));
+            drag->setPixmap(clickItem->icon(0).pixmap((int)(50 *16 / 9.0), 50));
             drag->setHotSpot(QPoint(0, 50));
             drag->start(Qt::MoveAction);
 

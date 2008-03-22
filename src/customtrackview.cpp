@@ -141,7 +141,7 @@ int CustomTrackView::getPreviousVideoTrack(int track) {
 // virtual
 void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
     int pos = event->x();
-    emit mousePosition(mapToScene(event->pos()).x() / m_scale);
+    emit mousePosition((int)(mapToScene(event->pos()).x() / m_scale));
     /*if (event->modifiers() == Qt::ControlModifier)
       setDragMode(QGraphicsView::ScrollHandDrag);
     else if (event->modifiers() == Qt::ShiftModifier)
@@ -162,7 +162,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
 
                 int offset = moveTrack - currentTrack;
                 if (offset != 0) offset = m_tracksHeight * offset;
-                m_dragItem->moveTo(snappedPos / m_scale, m_scale, offset, moveTrack);
+                m_dragItem->moveTo((int)(snappedPos / m_scale), m_scale, offset, moveTrack);
             } else if (m_operationMode == RESIZESTART) {
                 double snappedPos = getSnapPointForPos(mapToScene(event->pos()).x());
                 m_dragItem->resizeStart(snappedPos / m_scale, m_scale);
