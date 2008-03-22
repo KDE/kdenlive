@@ -42,6 +42,7 @@ extern "C" {
 #include "kdenlivesettings.h"
 #include "kthumb.h"
 #include <ffmpeg/avformat.h>
+#include <mlt++/Mlt.h>
 
 static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr) {
     // detect if the producer has finished playing. Is there a better way to do it ?
@@ -917,13 +918,13 @@ void Render::mltCheckLength() {
     prod.insert(tr, 0);
 
 
-    Mlt::Tractor tractor(getTractor());
+    Mlt::Tractor *tractor = getTractor();
 
-    int trackNb = tractor.count();
+    int trackNb = tractor->count();
     double duration = 0;
     double trackDuration;
     if (trackNb == 1) {
-        Mlt::Producer trackProducer(tractor.track(0));
+        Mlt::Producer trackProducer(tractor->track(0));
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
         duration = Mlt::Producer(trackPlaylist.get_producer()).get_playtime() - 1;
         kDebug() << trackNb << " " << duration;
@@ -932,7 +933,7 @@ void Render::mltCheckLength() {
         return;
     }
     while (trackNb > 1) {
-        Mlt::Producer trackProducer(tractor.track(trackNb - 1));
+        Mlt::Producer trackProducer(tractor->track(trackNb - 1));
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
         trackDuration = Mlt::Producer(trackPlaylist.get_producer()).get_playtime() - 1;
 
@@ -941,7 +942,7 @@ void Render::mltCheckLength() {
         trackNb--;
     }
 
-    Mlt::Producer blackTrackProducer(tractor.track(0));
+    Mlt::Producer blackTrackProducer(tractor->track(0));
     Mlt::Playlist blackTrackPlaylist((mlt_playlist) blackTrackProducer.get_service());
     double blackDuration = Mlt::Producer(blackTrackPlaylist.get_producer()).get_playtime() - 1;
     kDebug() << " / / /DURATON FOR TRACK 0 = " << blackDuration;
@@ -966,24 +967,31 @@ void Render::mltCheckLength() {
         m_mltProducer->set("out", duration);
         emit durationChanged((int)duration);
     }
+    if (tractor)
+        delete tractor;
 }
 
-mlt_tractor Render::getTractor() {
+Mlt::Tractor* Render::getTractor() {
     Mlt::Service s1(m_mltProducer->get_service());
     Mlt::Playlist pl(s1);
-
     Mlt::Producer srv(pl.get_clip(0)->parent());
-
-    Mlt::Tractor tractor(srv);
-
-    return tractor.get_tractor();
-
+    Mlt::Tractor *tractor = new Mlt::Tractor(srv);
+    return tractor;
 }
 
-mlt_playlist Render::getPlaylist(int track) {
-    Mlt::Tractor tractor(getTractor());
-    Mlt::Producer trackProducer(tractor.track(track));
-    return (mlt_playlist) trackProducer.get_service();
+Mlt::Playlist* Render::getPlaylist(int track) {
+    Mlt::Tractor *tractor = getTractor();
+
+    if (tractor) {
+
+        Mlt::Producer trackProducer(tractor->track(track));
+        Mlt::Service playlistservice(trackProducer.get_service());
+        delete tractor;
+        return new Mlt::Playlist(playlistservice);
+
+    }
+    return NULL;
+
 }
 void Render::mltInsertClip(int track, GenTime position, QDomElement element) {
     if (!m_mltProducer) {
@@ -1004,125 +1012,144 @@ void Render::mltInsertClip(int track, GenTime position, QDomElement element) {
     QString resource = doc.toString();
 
     kDebug() << "///////  ADDING CLIP TMLNE: " << resource << " ON TRACK: " << track;
-    Mlt::Tractor tractor(getTractor());
-    Mlt::Playlist trackPlaylist(getPlaylist(track));
-    char *tmp = decodedString(resource);
-    Mlt::Producer clip(*m_mltProfile, "westley-xml", tmp);
-    //clip.set_in_and_out(in.frames(m_fps), out.frames(m_fps));
-    delete[] tmp;
+    Mlt::Tractor *tractor = getTractor();
+    if (tractor) {
+        Mlt::Playlist *trackPlaylist = getPlaylist(track);
+        if (trackPlaylist) {
+            char *tmp = decodedString(resource);
+            Mlt::Producer clip(*m_mltProfile, "westley-xml", tmp);
+            //clip.set_in_and_out(in.frames(m_fps), out.frames(m_fps));
+            delete[] tmp;
 
-    trackPlaylist.insert_at((int)position.frames(m_fps), clip, 1);
-    tractor.multitrack()->refresh();
-    tractor.refresh();
-    if (track != 0) mltCheckLength();
+            trackPlaylist->insert_at((int)position.frames(m_fps), clip, 1);
+            tractor->multitrack()->refresh();
+            tractor->refresh();
+            if (track != 0) mltCheckLength();
 
-    mltSavePlaylist();
+
+
+            delete trackPlaylist;
+            mltSavePlaylist();
+        }
+        delete tractor;
+    }
     m_isBlocked = false;
 }
 
 void Render::mltCutClip(int track, GenTime position) {
     m_isBlocked = true;
-    Mlt::Playlist trackPlaylist(getPlaylist(track));
-    trackPlaylist.split_at((int)position.frames(m_fps));
-    trackPlaylist.consolidate_blanks(0);
-    kDebug() << "/ / / /CUTTING CLIP AT: " << position.frames(m_fps);
+    Mlt::Playlist *trackPlaylist = getPlaylist(track);
+    if (trackPlaylist) {
+        trackPlaylist->split_at((int)position.frames(m_fps));
+        trackPlaylist->consolidate_blanks(0);
+        kDebug() << "/ / / /CUTTING CLIP AT: " << position.frames(m_fps);
+        delete trackPlaylist;
+    }
     m_isBlocked = false;
 }
 
 
 void Render::mltRemoveClip(int track, GenTime position) {
     m_isBlocked = true;
-    Mlt::Playlist trackPlaylist(getPlaylist(track));
-    int clipIndex = trackPlaylist.get_clip_index_at((int)position.frames(m_fps));
-    //trackPlaylist.remove(clipIndex);
-    trackPlaylist.replace_with_blank(clipIndex);
-    trackPlaylist.consolidate_blanks(0);
-    if (track != 0) mltCheckLength();
+    Mlt::Playlist *trackPlaylist = getPlaylist(track);
+    if (trackPlaylist) {
+        int clipIndex = trackPlaylist->get_clip_index_at((int)position.frames(m_fps));
+        //trackPlaylist.remove(clipIndex);
+        trackPlaylist->replace_with_blank(clipIndex);
+        trackPlaylist->consolidate_blanks(0);
+        if (track != 0) mltCheckLength();
+        delete trackPlaylist;
+    }
     //emit durationChanged();
     m_isBlocked = false;
 }
 
 void Render::mltRemoveEffect(int track, GenTime position, QString index, bool doRefresh) {
-    Mlt::Playlist trackPlaylist(getPlaylist(track));
-    //int clipIndex = trackPlaylist.get_clip_index_at(position.frames(m_fps));
-    Mlt::Producer *clip = trackPlaylist.get_clip_at((int)position.frames(m_fps));
-    if (!clip) {
-        kDebug() << " / / / CANNOT FIND CLIP TO REMOVE EFFECT";
-        return;
-    }
-    m_isBlocked = true;
-    Mlt::Service clipService(clip->get_service());
+    Mlt::Playlist *trackPlaylist = getPlaylist(track);
+    if (trackPlaylist) {
+        //int clipIndex = trackPlaylist.get_clip_index_at(position.frames(m_fps));
+        Mlt::Producer *clip = trackPlaylist->get_clip_at((int)position.frames(m_fps));
+        if (!clip) {
+            kDebug() << " / / / CANNOT FIND CLIP TO REMOVE EFFECT";
+            return;
+        }
+        m_isBlocked = true;
+        Mlt::Service clipService(clip->get_service());
 
 //    if (tag.startsWith("ladspa")) tag = "ladspa";
 
-    int ct = 0;
-    Mlt::Filter *filter = clipService.filter(ct);
-    while (filter) {
-        if (index == "-1" || filter->get("kdenlive_ix") == index) {// && filter->get("kdenlive_id") == id) {
-            clipService.detach(*filter);
-            kDebug() << " / / / DLEETED EFFECT: " << ct;
-        } else ct++;
-        filter = clipService.filter(ct);
+        int ct = 0;
+        Mlt::Filter *filter = clipService.filter(ct);
+        while (filter) {
+            if (index == "-1" || filter->get("kdenlive_ix") == index) {// && filter->get("kdenlive_id") == id) {
+                clipService.detach(*filter);
+                kDebug() << " / / / DLEETED EFFECT: " << ct;
+            } else ct++;
+            filter = clipService.filter(ct);
+        }
+        m_isBlocked = false;
+        if (doRefresh) refresh();
+        delete trackPlaylist;
     }
-    m_isBlocked = false;
-    if (doRefresh) refresh();
 }
 
 
 void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> args, bool doRefresh) {
 
-    Mlt::Playlist trackPlaylist(getPlaylist(track));
+    Mlt::Playlist *trackPlaylist = getPlaylist(track);
+    if (trackPlaylist) {
+        Mlt::Producer *clip = trackPlaylist->get_clip_at((int)position.frames(m_fps));
 
-    Mlt::Producer *clip = trackPlaylist.get_clip_at((int)position.frames(m_fps));
+        if (!clip) {
+            kDebug() << "**********  CANNOT FIND CLIP TO APPLY EFFECT-----------";
+            return;
+        }
+        Mlt::Service clipService(clip->get_service());
+        m_isBlocked = true;
+        // create filter
+        QString tag = args.value("tag");
+        //kDebug()<<" / / INSERTING EFFECT: "<<id;
+        if (tag.startsWith("ladspa")) tag = "ladspa";
+        char *filterId = decodedString(tag);
+        Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterId);
+        if (filter && filter->is_valid())
+            filter->set("kdenlive_id", filterId);
+        else {
+            kDebug() << "filter is NULL";
+            return;
+        }
 
-    if (!clip) {
-        kDebug() << "**********  CANNOT FIND CLIP TO APPLY EFFECT-----------";
-        return;
+        QMap<QString, QString>::Iterator it;
+        QString keyFrameNumber = "#0";
+
+        for (it = args.begin(); it != args.end(); ++it) {
+            //kDebug()<<" / / INSERTING EFFECT ARGS: "<<it.key()<<": "<<it.data();
+            QString key;
+            QString currentKeyFrameNumber;
+            if (it.key().startsWith("#")) {
+                currentKeyFrameNumber = it.key().section(":", 0, 0);
+                if (currentKeyFrameNumber != keyFrameNumber) {
+                    // attach filter to the clip
+                    clipService.attach(*filter);
+                    filter = new Mlt::Filter(*m_mltProfile, filterId);
+                    filter->set("kdenlive_id", filterId);
+                    keyFrameNumber = currentKeyFrameNumber;
+                }
+                key = it.key().section(":", 1);
+            } else key = it.key();
+            char *name = decodedString(key);
+            char *value = decodedString(it.value());
+            filter->set(name, value);
+            delete[] name;
+            delete[] value;
+        }
+        // attach filter to the clip
+        clipService.attach(*filter);
+        delete[] filterId;
+        m_isBlocked = false;
+        if (doRefresh) refresh();
+        delete trackPlaylist;
     }
-    Mlt::Service clipService(clip->get_service());
-    m_isBlocked = true;
-    // create filter
-    QString tag = args.value("tag");
-    //kDebug()<<" / / INSERTING EFFECT: "<<id;
-    if (tag.startsWith("ladspa")) tag = "ladspa";
-    char *filterId = decodedString(tag);
-    Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterId);
-    if (filter && filter->is_valid())
-        filter->set("kdenlive_id", filterId);
-    else {
-        kDebug() << "filter is NULL";
-        return;
-    }
-
-    QMap<QString, QString>::Iterator it;
-    QString keyFrameNumber = "#0";
-
-    for (it = args.begin(); it != args.end(); ++it) {
-        //kDebug()<<" / / INSERTING EFFECT ARGS: "<<it.key()<<": "<<it.data();
-        QString key;
-        QString currentKeyFrameNumber;
-        if (it.key().startsWith("#")) {
-            currentKeyFrameNumber = it.key().section(":", 0, 0);
-            if (currentKeyFrameNumber != keyFrameNumber) {
-                // attach filter to the clip
-                clipService.attach(*filter);
-                filter = new Mlt::Filter(*m_mltProfile, filterId);
-                filter->set("kdenlive_id", filterId);
-                keyFrameNumber = currentKeyFrameNumber;
-            }
-            key = it.key().section(":", 1);
-        } else key = it.key();
-        char *name = decodedString(key);
-        char *value = decodedString(it.value());
-        filter->set(name, value);
-        delete[] name;
-        delete[] value;
-    }
-    // attach filter to the clip
-    clipService.attach(*filter);
-    delete[] filterId;
-    m_isBlocked = false;
-    if (doRefresh) refresh();
 
 }
 
@@ -1139,94 +1166,106 @@ void Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> 
     m_isBlocked = true;
     // create filter
 
-    Mlt::Playlist trackPlaylist(getPlaylist(track));
+    Mlt::Playlist *trackPlaylist = getPlaylist(track);
     //int clipIndex = trackPlaylist.get_clip_index_at(position.frames(m_fps));
-    Mlt::Producer *clip = trackPlaylist.get_clip_at((int)position.frames(m_fps));
-    if (!clip) {
-        kDebug() << "WARINIG, CANNOT FIND CLIP ON track: " << track << ", AT POS: " << position.frames(m_fps);
-        m_isBlocked = false;
-        return;
-    }
+    if (trackPlaylist) {
+        Mlt::Producer *clip = trackPlaylist->get_clip_at((int)position.frames(m_fps));
+        if (!clip) {
+            kDebug() << "WARINIG, CANNOT FIND CLIP ON track: " << track << ", AT POS: " << position.frames(m_fps);
+            m_isBlocked = false;
+            return;
+        }
 
-    Mlt::Service clipService(clip->get_service());
+        Mlt::Service clipService(clip->get_service());
 
 //    if (tag.startsWith("ladspa")) tag = "ladspa";
 
-    int ct = 0;
-    Mlt::Filter *filter = clipService.filter(ct);
-    while (filter) {
-        if (filter->get("kdenlive_ix") == index) {
-            break;
+        int ct = 0;
+        Mlt::Filter *filter = clipService.filter(ct);
+        while (filter) {
+            if (filter->get("kdenlive_ix") == index) {
+                break;
+            }
+            ct++;
+            filter = clipService.filter(ct);
         }
-        ct++;
-        filter = clipService.filter(ct);
-    }
 
 
-    if (!filter) {
-        kDebug() << "WARINIG, FILTER FOR EDITING NOT FOUND, ADDING IT!!!!!";
-        mltAddEffect(track, position, args);
+        if (!filter) {
+            kDebug() << "WARINIG, FILTER FOR EDITING NOT FOUND, ADDING IT!!!!!";
+            mltAddEffect(track, position, args);
+            m_isBlocked = false;
+            return;
+        }
+
+        for (it = args.begin(); it != args.end(); ++it) {
+            kDebug() << " / / EDITING EFFECT ARGS: " << it.key() << ": " << it.value();
+            char *name = decodedString(it.key());
+            char *value = decodedString(it.value());
+            filter->set(name, value);
+            delete[] name;
+            delete[] value;
+        }
         m_isBlocked = false;
-        return;
+        refresh();
+        delete trackPlaylist;
     }
-
-    for (it = args.begin(); it != args.end(); ++it) {
-        kDebug() << " / / EDITING EFFECT ARGS: " << it.key() << ": " << it.value();
-        char *name = decodedString(it.key());
-        char *value = decodedString(it.value());
-        filter->set(name, value);
-        delete[] name;
-        delete[] value;
-    }
-    m_isBlocked = false;
-    refresh();
 }
 
 void Render::mltResizeClipEnd(int track, GenTime pos, GenTime in, GenTime out) {
     m_isBlocked = true;
-    Mlt::Tractor tractor(getTractor());
-    Mlt::Playlist trackPlaylist(getPlaylist(track));
-    if (trackPlaylist.is_blank_at((int)pos.frames(m_fps) + 1))
-        kDebug() << "////////  ERROR RSIZING BLANK CLIP!!!!!!!!!!!";
-    int clipIndex = trackPlaylist.get_clip_index_at((int)pos.frames(m_fps) + 1);
 
-    int previousDuration = trackPlaylist.clip_length(clipIndex) - 1;
-    int newDuration = (int)(out.frames(m_fps) - 1);
+    Mlt::Playlist *trackPlaylist = getPlaylist(track);
+    if (trackPlaylist) {
+        Mlt::Tractor *tractor = getTractor();
+        if (trackPlaylist->is_blank_at((int)pos.frames(m_fps) + 1))
+            kDebug() << "////////  ERROR RSIZING BLANK CLIP!!!!!!!!!!!";
+        int clipIndex = trackPlaylist->get_clip_index_at((int)pos.frames(m_fps) + 1);
 
-    kDebug() << " ** RESIZING CLIP END:" << clipIndex << " on track:" << track << ", mid pos: " << pos.frames(25) << ", in: " << in.frames(25) << ", out: " << out.frames(25) << ", PREVIOUS duration: " << previousDuration;
-    trackPlaylist.resize_clip(clipIndex, (int)in.frames(m_fps), newDuration);
-    trackPlaylist.consolidate_blanks(0);
-    if (previousDuration < newDuration) {
-        // clip was made longer, trim next blank if there is one.
-        if (trackPlaylist.is_blank(clipIndex + 1)) {
-            trackPlaylist.split(clipIndex + 1, newDuration - previousDuration);
-            trackPlaylist.remove(clipIndex + 1);
-        }
-    } else trackPlaylist.insert_blank(clipIndex + 1, previousDuration - newDuration - 1);
+        int previousDuration = trackPlaylist->clip_length(clipIndex) - 1;
+        int newDuration = (int)(out.frames(m_fps) - 1);
 
-    trackPlaylist.consolidate_blanks(0);
-    tractor.multitrack()->refresh();
-    tractor.refresh();
-    if (track != 0) mltCheckLength();
-    m_isBlocked = false;
+        kDebug() << " ** RESIZING CLIP END:" << clipIndex << " on track:" << track << ", mid pos: " << pos.frames(25) << ", in: " << in.frames(25) << ", out: " << out.frames(25) << ", PREVIOUS duration: " << previousDuration;
+        trackPlaylist->resize_clip(clipIndex, (int)in.frames(m_fps), newDuration);
+        trackPlaylist->consolidate_blanks(0);
+        if (previousDuration < newDuration) {
+            // clip was made longer, trim next blank if there is one.
+            if (trackPlaylist->is_blank(clipIndex + 1)) {
+                trackPlaylist->split(clipIndex + 1, newDuration - previousDuration);
+                trackPlaylist->remove(clipIndex + 1);
+            }
+        } else trackPlaylist->insert_blank(clipIndex + 1, previousDuration - newDuration - 1);
+
+        trackPlaylist->consolidate_blanks(0);
+        tractor->multitrack()->refresh();
+        tractor->refresh();
+        if (track != 0) mltCheckLength();
+        if (tractor)
+            delete tractor;
+        m_isBlocked = false;
+        delete trackPlaylist;
+    }
 }
 
 void Render::mltChangeTrackState(int track, bool mute, bool blind) {
 
-    Mlt::Tractor tractor(getTractor());
-    Mlt::Producer trackProducer(tractor.track(track));
-    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    if (mute) {
-        if (blind) trackProducer.set("hide", 3);
-        else trackProducer.set("hide", 2);
-    } else if (blind) {
-        trackProducer.set("hide", 1);
-    } else {
-        trackProducer.set("hide", 0);
+    Mlt::Tractor *tractor = getTractor();
+    if (tractor) {
+        Mlt::Producer trackProducer(tractor->track(track));
+        Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+        if (mute) {
+            if (blind) trackProducer.set("hide", 3);
+            else trackProducer.set("hide", 2);
+        } else if (blind) {
+            trackProducer.set("hide", 1);
+        } else {
+            trackProducer.set("hide", 0);
+        }
+        tractor->multitrack()->refresh();
+        tractor->refresh();
+        delete tractor;
+        refresh();
     }
-    tractor.multitrack()->refresh();
-    tractor.refresh();
-    refresh();
 }
 
 void Render::mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime moveStart, GenTime in, GenTime out) {
@@ -1234,34 +1273,36 @@ void Render::mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime
 
     int moveFrame = (int)((moveEnd - moveStart).frames(m_fps));
 
-    Mlt::Tractor tractor(getTractor());
-    Mlt::Producer trackProducer(tractor.track(track));
-    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    if (trackPlaylist.is_blank_at((int)pos.frames(m_fps) - 1))
-        kDebug() << "////////  ERROR RSIZING BLANK CLIP!!!!!!!!!!!";
-    int clipIndex = trackPlaylist.get_clip_index_at((int)pos.frames(m_fps) - 1);
-    kDebug() << " ** RESIZING CLIP START:" << clipIndex << " on track:" << track << ", mid pos: " << pos.frames(25) << ", moving: " << moveFrame << ", in: " << in.frames(25) << ", out: " << out.frames(25);
+    Mlt::Playlist *trackPlaylist = getPlaylist(track);
+    if (trackPlaylist) {
+        if (trackPlaylist->is_blank_at((int)pos.frames(m_fps) - 1))
+            kDebug() << "////////  ERROR RSIZING BLANK CLIP!!!!!!!!!!!";
+        int clipIndex = trackPlaylist->get_clip_index_at((int)pos.frames(m_fps) - 1);
+        kDebug() << " ** RESIZING CLIP START:" << clipIndex << " on track:" << track << ", mid pos: " << pos.frames(25) << ", moving: " << moveFrame << ", in: " << in.frames(25) << ", out: " << out.frames(25);
 
-    trackPlaylist.resize_clip(clipIndex, (int) in.frames(m_fps), (int)out.frames(m_fps));
-    if (moveFrame > 0) trackPlaylist.insert_blank(clipIndex, moveFrame - 1);
-    else {
-        int midpos = (int)moveStart.frames(m_fps) - 1; //+ (moveFrame / 2)
-        int blankIndex = trackPlaylist.get_clip_index_at(midpos);
-        int blankLength = trackPlaylist.clip_length(blankIndex);
+        trackPlaylist->resize_clip(clipIndex, (int) in.frames(m_fps), (int)out.frames(m_fps));
+        if (moveFrame > 0) trackPlaylist->insert_blank(clipIndex, moveFrame - 1);
+        else {
+            int midpos = (int)moveStart.frames(m_fps) - 1; //+ (moveFrame / 2)
+            int blankIndex = trackPlaylist->get_clip_index_at(midpos);
+            int blankLength = trackPlaylist->clip_length(blankIndex);
 
-        kDebug() << " + resizing blank: " << blankIndex << ", Mid: " << midpos << ", Length: " << blankLength << ", SIZE DIFF: " << moveFrame;
+            kDebug() << " + resizing blank: " << blankIndex << ", Mid: " << midpos << ", Length: " << blankLength << ", SIZE DIFF: " << moveFrame;
 
 
-        if (blankLength + moveFrame == 0) trackPlaylist.remove(blankIndex);
-        else trackPlaylist.resize_clip(blankIndex, 0, blankLength + moveFrame - 1);
+            if (blankLength + moveFrame == 0) trackPlaylist->remove(blankIndex);
+            else trackPlaylist->resize_clip(blankIndex, 0, blankLength + moveFrame - 1);
+        }
+        trackPlaylist->consolidate_blanks(0);
+        m_isBlocked = false;
+        kDebug() << "-----------------\n" << "CLIP 0: " << trackPlaylist->clip_start(0) << ", LENGT: " << trackPlaylist->clip_length(0);
+        kDebug() << "CLIP 1: " << trackPlaylist->clip_start(1) << ", LENGT: " << trackPlaylist->clip_length(1);
+        kDebug() << "CLIP 2: " << trackPlaylist->clip_start(2) << ", LENGT: " << trackPlaylist->clip_length(2);
+        kDebug() << "CLIP 3: " << trackPlaylist->clip_start(3) << ", LENGT: " << trackPlaylist->clip_length(3);
+        kDebug() << "CLIP 4: " << trackPlaylist->clip_start(4) << ", LENGT: " << trackPlaylist->clip_length(4);
+
+        delete trackPlaylist;
     }
-    trackPlaylist.consolidate_blanks(0);
-    m_isBlocked = false;
-    kDebug() << "-----------------\n" << "CLIP 0: " << trackPlaylist.clip_start(0) << ", LENGT: " << trackPlaylist.clip_length(0);
-    kDebug() << "CLIP 1: " << trackPlaylist.clip_start(1) << ", LENGT: " << trackPlaylist.clip_length(1);
-    kDebug() << "CLIP 2: " << trackPlaylist.clip_start(2) << ", LENGT: " << trackPlaylist.clip_length(2);
-    kDebug() << "CLIP 3: " << trackPlaylist.clip_start(3) << ", LENGT: " << trackPlaylist.clip_length(3);
-    kDebug() << "CLIP 4: " << trackPlaylist.clip_start(4) << ", LENGT: " << trackPlaylist.clip_length(4);
 }
 
 void Render::mltMoveClip(int startTrack, int endTrack, GenTime moveStart, GenTime moveEnd) {
@@ -1272,40 +1313,43 @@ void Render::mltMoveClip(int startTrack, int endTrack, GenTime moveStart, GenTim
 void Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEnd) {
     m_isBlocked = true;
     //m_mltConsumer->set("refresh", 0);
-    Mlt::Tractor tractor(getTractor());
-    Mlt::Producer trackProducer(tractor.track(startTrack));
-    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    int clipIndex = trackPlaylist.get_clip_index_at(moveStart + 1);
-    mlt_field field = mlt_tractor_field(tractor.get_tractor());
-    mlt_multitrack multitrack = mlt_field_multitrack(field); //mlt_tractor_multitrack(tractor.get_tractor());
-    kDebug() << " --  CURRENT MULTIOTRACK HAS: " << mlt_multitrack_count(multitrack) << " tracks";;
-    mlt_service multiprod = mlt_multitrack_service(multitrack);
+    Mlt::Tractor *tractor = getTractor();
+    if (tractor) {
+        Mlt::Producer trackProducer(tractor->track(startTrack));
+        Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+        int clipIndex = trackPlaylist.get_clip_index_at(moveStart + 1);
+        mlt_field field = mlt_tractor_field(tractor->get_tractor());
+        mlt_multitrack multitrack = mlt_field_multitrack(field); //mlt_tractor_multitrack(tractor.get_tractor());
+        kDebug() << " --  CURRENT MULTIOTRACK HAS: " << mlt_multitrack_count(multitrack) << " tracks";;
+        mlt_service multiprod = mlt_multitrack_service(multitrack);
 
-    Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
-    trackPlaylist.consolidate_blanks(0);
-    mlt_events_block(MLT_PRODUCER_PROPERTIES(trackProducer.get_producer()), NULL);
+        Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
+        trackPlaylist.consolidate_blanks(0);
+        mlt_events_block(MLT_PRODUCER_PROPERTIES(trackProducer.get_producer()), NULL);
 
-    if (endTrack == startTrack) {
-        if (!trackPlaylist.is_blank_at(moveEnd)) {
-            kWarning() << "// ERROR, CLIP COLLISION----------";
-            int ix = trackPlaylist.get_clip_index_at(moveEnd);
-            kDebug() << "BAD CLIP STARTS AT: " << trackPlaylist.clip_start(ix) << ", LENGT: " << trackPlaylist.clip_length(ix);
+        if (endTrack == startTrack) {
+            if (!trackPlaylist.is_blank_at(moveEnd)) {
+                kWarning() << "// ERROR, CLIP COLLISION----------";
+                int ix = trackPlaylist.get_clip_index_at(moveEnd);
+                kDebug() << "BAD CLIP STARTS AT: " << trackPlaylist.clip_start(ix) << ", LENGT: " << trackPlaylist.clip_length(ix);
+            }
+            trackPlaylist.insert_at(moveEnd, clipProducer, 1);
+            trackPlaylist.consolidate_blanks(0);
+        } else {
+            trackPlaylist.consolidate_blanks(0);
+            Mlt::Producer destTrackProducer(tractor->track(endTrack));
+            Mlt::Playlist destTrackPlaylist((mlt_playlist) destTrackProducer.get_service());
+            destTrackPlaylist.consolidate_blanks(1);
+            destTrackPlaylist.insert_at(moveEnd, clipProducer, 1);
+            destTrackPlaylist.consolidate_blanks(0);
         }
-        trackPlaylist.insert_at(moveEnd, clipProducer, 1);
-        trackPlaylist.consolidate_blanks(0);
-    } else {
-        trackPlaylist.consolidate_blanks(0);
-        Mlt::Producer destTrackProducer(tractor.track(endTrack));
-        Mlt::Playlist destTrackPlaylist((mlt_playlist) destTrackProducer.get_service());
-        destTrackPlaylist.consolidate_blanks(1);
-        destTrackPlaylist.insert_at(moveEnd, clipProducer, 1);
-        destTrackPlaylist.consolidate_blanks(0);
-    }
 
-    mltCheckLength();
-    mlt_events_unblock(MLT_PRODUCER_PROPERTIES(trackProducer.get_producer()), NULL);
-    m_isBlocked = false;
-    m_mltConsumer->set("refresh", 1);
+        mltCheckLength();
+        mlt_events_unblock(MLT_PRODUCER_PROPERTIES(trackProducer.get_producer()), NULL);
+        m_isBlocked = false;
+        m_mltConsumer->set("refresh", 1);
+        delete tractor;
+    }
 }
 
 void Render::mltMoveTransition(QString type, int startTrack, int trackOffset, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut) {
@@ -1365,86 +1409,90 @@ void Render::replaceTimelineTractor(Mlt::Tractor t) {
 
 void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args) {
 
-    Mlt::Tractor tractor(getTractor());
-
-    Mlt::Tractor newTractor;
-    mlt_service service = tractor.get_service();
-    mlt_service nextservice = mlt_service_get_producer(service);
-    int old_position = m_mltProducer->position();
-    for (int track = 0;track < 10;track++) {
-        Mlt::Producer *trackprod = tractor.track(track);
-        if (!trackprod)
-            continue;
-        newTractor.multitrack()->connect(*trackprod, track);
-    }
-    for (int i = 2;i <= 5;i++) {
-        Mlt::Transition tr(*m_mltProfile, "mix");
-        tr.set("combine", 1);
-        tr.set("internal_added", 237);
-        tr.set_in_and_out(0, 15000);
-        newTractor.plant_transition(tr, 1, i);
-    }
-    while (nextservice != NULL) {
-        mlt_properties prop = MLT_SERVICE_PROPERTIES(nextservice);
-        //kDebug() << mlt_properties_get(prop, "mlt_type") << mlt_properties_get(prop, "id");
-        if (QString(mlt_properties_get(prop, "mlt_type")) == "transition" && QString(mlt_properties_get(prop, "internal_added")) != "237") {
-
-            mlt_transition tr = (mlt_transition) nextservice;
-            Mlt::Transition transition(tr);
-            int current_a_track = mlt_transition_get_a_track(tr);
-            int current_b_track = mlt_transition_get_b_track(tr);
-            int currentIn = (int) mlt_transition_get_in(tr);
-            int currentOut = (int) mlt_transition_get_out(tr);
-            int old_pos = (int)((in.frames(m_fps) + out.frames(m_fps)) / 2);
-            //kDebug() << current_a_track << current_b_track << a_track << b_track << currentIn << currentOut << old_pos << mlt_properties_get(prop,"mlt_service");
-            if (current_a_track == a_track &&  b_track == current_b_track && currentIn <= old_pos && currentOut >= old_pos) {
-                //kDebug() << "removing " << mlt_properties_get(prop,"mlt_service");
-            } else
-                newTractor.plant_transition(transition, current_a_track, current_b_track);
+    Mlt::Tractor *tractor = getTractor();
+    if (tractor) {
+        Mlt::Tractor newTractor;
+        mlt_service service = tractor->get_service();
+        mlt_service nextservice = mlt_service_get_producer(service);
+        int old_position = m_mltProducer->position();
+        for (int track = 0;track < 10;track++) {
+            Mlt::Producer *trackprod = tractor->track(track);
+            if (!trackprod)
+                continue;
+            newTractor.multitrack()->connect(*trackprod, track);
         }
-        nextservice = mlt_service_producer(nextservice);
+        for (int i = 2;i <= 5;i++) {
+            Mlt::Transition tr(*m_mltProfile, "mix");
+            tr.set("combine", 1);
+            tr.set("internal_added", 237);
+            tr.set_in_and_out(0, 15000);
+            newTractor.plant_transition(tr, 1, i);
+        }
+        while (nextservice != NULL) {
+            mlt_properties prop = MLT_SERVICE_PROPERTIES(nextservice);
+            //kDebug() << mlt_properties_get(prop, "mlt_type") << mlt_properties_get(prop, "id");
+            if (QString(mlt_properties_get(prop, "mlt_type")) == "transition" && QString(mlt_properties_get(prop, "internal_added")) != "237") {
+
+                mlt_transition tr = (mlt_transition) nextservice;
+                Mlt::Transition transition(tr);
+                int current_a_track = mlt_transition_get_a_track(tr);
+                int current_b_track = mlt_transition_get_b_track(tr);
+                int currentIn = (int) mlt_transition_get_in(tr);
+                int currentOut = (int) mlt_transition_get_out(tr);
+                int old_pos = (int)((in.frames(m_fps) + out.frames(m_fps)) / 2);
+                //kDebug() << current_a_track << current_b_track << a_track << b_track << currentIn << currentOut << old_pos << mlt_properties_get(prop,"mlt_service");
+                if (current_a_track == a_track &&  b_track == current_b_track && currentIn <= old_pos && currentOut >= old_pos) {
+                    //kDebug() << "removing " << mlt_properties_get(prop,"mlt_service");
+                } else
+                    newTractor.plant_transition(transition, current_a_track, current_b_track);
+            }
+            nextservice = mlt_service_producer(nextservice);
+        }
+
+        replaceTimelineTractor(newTractor);
+        m_mltProducer->seek(old_position);
+        delete tractor;
+        refresh();
     }
-
-    replaceTimelineTractor(newTractor);
-    m_mltProducer->seek(old_position);
-
-    refresh();
 
 }
 
 void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args) {
 
     m_isBlocked = true;
-    Mlt::Tractor tractor(getTractor());
-    Mlt::Field *field = tractor.field();
-    char *transId = decodedString(tag);
-    Mlt::Transition transition(*m_mltProfile, transId);
-    if (!transition.get_transition()) {
-        kDebug() << "NO transition is " << transition.get_transition() << "requested was " << tag << a_track << b_track << in.frames(m_fps) << out.frames(m_fps);
-        return;
-    }
-    transition.set_in_and_out((int) in.frames(m_fps), (int) out.frames(m_fps));
-    QMap<QString, QString>::Iterator it;
-    QString key;
+    Mlt::Tractor *tractor = getTractor();
+    if (tractor) {
+        Mlt::Field *field = tractor->field();
+        char *transId = decodedString(tag);
+        Mlt::Transition transition(*m_mltProfile, transId);
+        if (!transition.get_transition()) {
+            kDebug() << "NO transition is " << transition.get_transition() << "requested was " << tag << a_track << b_track << in.frames(m_fps) << out.frames(m_fps);
+            return;
+        }
+        transition.set_in_and_out((int) in.frames(m_fps), (int) out.frames(m_fps));
+        QMap<QString, QString>::Iterator it;
+        QString key;
 
-    kDebug() << " ------  ADDING TRANSITION PARAMs: " << args.count();
+        kDebug() << " ------  ADDING TRANSITION PARAMs: " << args.count();
 
-    for (it = args.begin(); it != args.end(); ++it) {
-        key = it.key();
-        char *name = decodedString(key);
-        char *value = decodedString(it.value());
-        transition.set(name, value);
-        kDebug() << " ------  ADDING TRANS PARAM: " << name << ": " << value;
-        //filter->set("kdenlive_id", id);
-        delete[] name;
-        delete[] value;
+        for (it = args.begin(); it != args.end(); ++it) {
+            key = it.key();
+            char *name = decodedString(key);
+            char *value = decodedString(it.value());
+            transition.set(name, value);
+            kDebug() << " ------  ADDING TRANS PARAM: " << name << ": " << value;
+            //filter->set("kdenlive_id", id);
+            delete[] name;
+            delete[] value;
+        }
+        // attach filter to the clip
+        field->plant_transition(transition, a_track, b_track);
+        delete[] transId;
+        m_isBlocked = false;
+        mltSavePlaylist();
+        refresh();
+        delete tractor;
     }
-    // attach filter to the clip
-    field->plant_transition(transition, a_track, b_track);
-    delete[] transId;
-    m_isBlocked = false;
-    mltSavePlaylist();
-    refresh();
 }
 
 void Render::mltSavePlaylist() {

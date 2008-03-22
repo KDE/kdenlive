@@ -31,8 +31,6 @@
 #include "effectdesc.h"
 #include "effectparamdescfactory.h"*/
 
-#include <mlt++/Mlt.h>
-
 /**Render encapsulates the client side of the interface to a renderer.
 From Kdenlive's point of view, you treat the Render object as the
 renderer, and simply use it as if it was local. Calls are asyncrhonous -
@@ -197,8 +195,8 @@ private:   // Private attributes & methods
     void setDescription(const QString & description);
     void closeMlt();
     void mltCheckLength();
-    mlt_tractor getTractor();
-    mlt_playlist getPlaylist(int track);
+    Mlt::Tractor* getTractor();
+    Mlt::Playlist* getPlaylist(int track);
     void replaceTimelineTractor(Mlt::Tractor t);
 private slots:  // Private slots
     /** refresh monitor display */

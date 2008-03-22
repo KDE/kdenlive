@@ -30,8 +30,6 @@
 
 #include <KDebug>
 
-#include <mlt++/Mlt.h>
-
 #include "clipitem.h"
 #include "customtrackview.h"
 #include "renderer.h"
