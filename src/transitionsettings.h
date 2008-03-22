@@ -21,6 +21,7 @@
 
 class Transition;
 class EffectsList;
+class EffectStackEdit;
 
 class TransitionSettings : public QWidget  {
     Q_OBJECT
@@ -29,12 +30,15 @@ public:
 private:
     Ui::TransitionSettings_UI ui;
     EffectsList *m_transitions;
+    EffectStackEdit *effectEdit;
     Transition* m_usedTransition;
 public slots:
     void slotTransitionItemSelected(Transition*);
     void slotTransitionChanged();
+    void slotUpdateEffectParams(const QDomElement&, const QDomElement&);
 signals:
     void transitionUpdated(QDomElement, QDomElement);
+    void transferParamDesc(const QDomElement&, int , int);
 };
 
 #endif

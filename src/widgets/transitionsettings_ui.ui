@@ -19,9 +19,12 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <widget class="QListWidget" name="listWidget" />
-     <widget class="QGroupBox" name="groupBox" >
-      <property name="title" >
-       <string>GroupBox</string>
+     <widget class="QFrame" name="frame" >
+      <property name="frameShape" >
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow" >
+       <enum>QFrame::Raised</enum>
       </property>
      </widget>
     </widget>

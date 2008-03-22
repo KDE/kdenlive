@@ -1012,27 +1012,27 @@ void Render::mltInsertClip(int track, GenTime position, QDomElement element) {
     QString resource = doc.toString();
 
     kDebug() << "///////  ADDING CLIP TMLNE: " << resource << " ON TRACK: " << track;
-    Mlt::Tractor *tractor = getTractor();
-    if (tractor) {
-        Mlt::Playlist *trackPlaylist = getPlaylist(track);
-        if (trackPlaylist) {
-            char *tmp = decodedString(resource);
-            Mlt::Producer clip(*m_mltProfile, "westley-xml", tmp);
-            //clip.set_in_and_out(in.frames(m_fps), out.frames(m_fps));
-            delete[] tmp;
+    //Mlt::Tractor *tractor = getTractor();
+    //if (tractor) {
+    Mlt::Playlist *trackPlaylist = getPlaylist(track);
+    if (trackPlaylist) {
+        char *tmp = decodedString(resource);
+        Mlt::Producer clip(*m_mltProfile, "westley-xml", tmp);
+        //clip.set_in_and_out(in.frames(m_fps), out.frames(m_fps));
+        delete[] tmp;
 
-            trackPlaylist->insert_at((int)position.frames(m_fps), clip, 1);
-            tractor->multitrack()->refresh();
-            tractor->refresh();
-            if (track != 0) mltCheckLength();
+        trackPlaylist->insert_at((int)position.frames(m_fps), clip, 1);
+        //tractor->multitrack()->refresh();
+        //tractor->refresh();
+        if (track != 0) mltCheckLength();
 
 
 
-            delete trackPlaylist;
-            mltSavePlaylist();
-        }
-        delete tractor;
+        delete trackPlaylist;
+        mltSavePlaylist();
     }
+    //delete tractor;
+    //}
     m_isBlocked = false;
 }
 
@@ -1217,7 +1217,7 @@ void Render::mltResizeClipEnd(int track, GenTime pos, GenTime in, GenTime out) {
 
     Mlt::Playlist *trackPlaylist = getPlaylist(track);
     if (trackPlaylist) {
-        Mlt::Tractor *tractor = getTractor();
+        //Mlt::Tractor *tractor = getTractor();
         if (trackPlaylist->is_blank_at((int)pos.frames(m_fps) + 1))
             kDebug() << "////////  ERROR RSIZING BLANK CLIP!!!!!!!!!!!";
         int clipIndex = trackPlaylist->get_clip_index_at((int)pos.frames(m_fps) + 1);
@@ -1237,11 +1237,11 @@ void Render::mltResizeClipEnd(int track, GenTime pos, GenTime in, GenTime out) {
         } else trackPlaylist->insert_blank(clipIndex + 1, previousDuration - newDuration - 1);
 
         trackPlaylist->consolidate_blanks(0);
-        tractor->multitrack()->refresh();
-        tractor->refresh();
+        //tractor->multitrack()->refresh();
+        //tractor->refresh();
         if (track != 0) mltCheckLength();
-        if (tractor)
-            delete tractor;
+        //if (tractor)
+        //    delete tractor;
         m_isBlocked = false;
         delete trackPlaylist;
     }
@@ -1252,7 +1252,6 @@ void Render::mltChangeTrackState(int track, bool mute, bool blind) {
     Mlt::Tractor *tractor = getTractor();
     if (tractor) {
         Mlt::Producer trackProducer(tractor->track(track));
-        Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
         if (mute) {
             if (blind) trackProducer.set("hide", 3);
             else trackProducer.set("hide", 2);
@@ -1261,10 +1260,12 @@ void Render::mltChangeTrackState(int track, bool mute, bool blind) {
         } else {
             trackProducer.set("hide", 0);
         }
-        tractor->multitrack()->refresh();
-        tractor->refresh();
-        delete tractor;
+        //tractor->multitrack()->refresh();
+        //tractor->refresh();
+        //delete tractor;
         refresh();
+        delete tractor;
+
     }
 }
 
