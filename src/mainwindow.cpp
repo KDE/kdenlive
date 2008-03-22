@@ -208,7 +208,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     setupGUI(Default, NULL /*"kdenliveui.rc"*/);
     kDebug() << factory() << " " << factory()->container("video_effects_menu", this);
-#if 0
+
     // build effects menus
     QAction *action;
     QMenu *videoEffectsMenu = (QMenu*)(factory()->container("video_effects_menu", this));
@@ -246,7 +246,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_timelineContextClipMenu->addMenu(videoEffectsMenu);
     m_timelineContextClipMenu->addMenu(audioEffectsMenu);
     m_timelineContextClipMenu->addMenu(customEffectsMenu);
-#endif
+
     connect(projectMonitorDock, SIGNAL(visibilityChanged(bool)), m_projectMonitor, SLOT(refreshMonitor(bool)));
     connect(clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
     //connect(m_monitorManager, SIGNAL(connectMonitors()), this, SLOT(slotConnectMonitors()));
