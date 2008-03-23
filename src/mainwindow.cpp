@@ -893,7 +893,7 @@ void MainWindow::slotGotProgressInfo(KUrl url, int progress) {
 }
 
 void MainWindow::slotShowClipProperties(DocClipBase *clip) {
-    ClipProperties dia(clip);
+    ClipProperties dia(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
     dia.exec();
 }
 

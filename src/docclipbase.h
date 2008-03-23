@@ -230,8 +230,10 @@ private:   // Private attributes
     uint m_id;
     uint m_projectThumbFrame;
     void setAudioThumbCreated(bool isDone);
-
+    /** Holds clip infos like fps, size,... */
     QMap <QString, QString> m_properties;
+    /** Create connections for audio thumbnails */
+    void slotCreateAudioTimer();
 
 public slots:
     void updateAudioThumbnail(QMap<int, QMap<int, QByteArray> > data);

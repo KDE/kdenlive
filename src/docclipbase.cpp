@@ -32,18 +32,12 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, uint id):
     int out = xml.attribute("out").toInt();
     if (out != 0) setDuration(GenTime(out, 25));
     if (m_name.isEmpty()) m_name = url.fileName();
+
     if (!url.isEmpty()) {
         m_thumbProd = new KThumb(clipManager, url);
-        connect(m_thumbProd, SIGNAL(audioThumbReady(QMap <int, QMap <int, QByteArray> >)), this , SLOT(updateAudioThumbnail(QMap <int, QMap <int, QByteArray> >)));
-        connect(this, SIGNAL(getAudioThumbs()), this , SLOT(slotGetAudioThumbs()));
-
+        if (m_clipType == AV || m_clipType == AUDIO) slotCreateAudioTimer();
     }
-    kDebug() << "type is video" << (m_clipType == AV) << " " << m_clipType;
-
-    if (m_clipType == AV || m_clipType == AUDIO || m_clipType == UNKNOWN) {
-        m_audioTimer = new QTimer(this);
-        connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(slotGetAudioThumbs()));
-    }
+    //kDebug() << "type is video" << (m_clipType == AV) << " " << m_clipType;
 }
 
 
@@ -70,6 +64,13 @@ DocClipBase & DocClipBase::operator=(const DocClipBase & clip) {
 
 DocClipBase::~DocClipBase() {
     if (m_thumbProd) delete m_thumbProd;
+}
+
+void DocClipBase::slotCreateAudioTimer() {
+    connect(m_thumbProd, SIGNAL(audioThumbReady(QMap <int, QMap <int, QByteArray> >)), this , SLOT(updateAudioThumbnail(QMap <int, QMap <int, QByteArray> >)));
+    connect(this, SIGNAL(getAudioThumbs()), this , SLOT(slotGetAudioThumbs()));
+    m_audioTimer = new QTimer(this);
+    connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(slotGetAudioThumbs()));
 }
 
 void DocClipBase::slotRequestAudioThumbs() {
@@ -117,6 +118,8 @@ const CLIPTYPE & DocClipBase::clipType() const {
 
 void DocClipBase::setClipType(CLIPTYPE type) {
     m_clipType = type;
+    if (m_audioTimer == NULL && (m_clipType == AV || m_clipType == AUDIO))
+        slotCreateAudioTimer();
 }
 
 KUrl DocClipBase::fileURL() const {

@@ -25,13 +25,14 @@
 
 #include "definitions.h"
 #include "docclipbase.h"
+#include "timecode.h"
 #include "ui_clipproperties_ui.h"
 
 class ClipProperties : public QDialog {
     Q_OBJECT
 
 public:
-    ClipProperties(DocClipBase *clip, QWidget * parent = 0);
+    ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent = 0);
 
 
 private slots:
@@ -40,7 +41,8 @@ private slots:
 private:
     Ui::ClipProperties_UI m_view;
     DocClipBase *m_clip;
-
+    Timecode m_tc;
+    double m_fps;
 };
 
 
