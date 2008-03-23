@@ -11,6 +11,7 @@ void AbstractClipItem::moveTo(int x, double scale, double offset, int newTrack) 
     double origX = rect().x();
     double origY = rect().y();
     bool success = true;
+
     if (x < 0) return;
     setRect(x * scale, origY + offset, rect().width(), rect().height());
     QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);

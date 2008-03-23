@@ -625,8 +625,8 @@ void CustomTrackView::dragMoveEvent(QDragMoveEvent * event) {
     event->setDropAction(Qt::IgnoreAction);
     //kDebug()<<"+++++++++++++   DRAG MOVE, : "<<mapToScene(event->pos()).x()<<", SCAL: "<<m_scale;
     if (m_dropItem) {
-        int track = (int) mapToScene(event->pos()).y() / m_tracksHeight; //) * (m_scale * 50) + m_scale;
-        m_dropItem->moveTo(mapToScene(event->pos()).x() / m_scale, m_scale, (track - m_dropItem->track()) * m_tracksHeight, track);
+        int track = (int)(event->pos().y() / m_tracksHeight);  //) * (m_scale * 50) + m_scale;
+        m_dropItem->moveTo(mapToScene(event->pos()).x() / m_scale, m_scale, (double)(track - m_dropItem->track()) * m_tracksHeight, track);
         event->setDropAction(Qt::MoveAction);
         if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
             event->acceptProposedAction();
@@ -671,10 +671,9 @@ Qt::DropActions CustomTrackView::supportedDropActions() const {
 }
 
 void CustomTrackView::setDuration(int duration) {
-    kDebug() << "/////////////  PRO DUR: " << duration << ", SCALE. " << m_scale << ", height: " << 50 * m_tracksList.count();
+    kDebug() << "/////////////  PRO DUR: " << duration << ", SCALE. " << (m_projectDuration + 500) * m_scale << ", height: " << 50 * m_tracksList.count();
     m_projectDuration = duration;
-    scene()->setSceneRect(0, 0, (m_projectDuration + 500) * m_scale, scene()->sceneRect().height()); //50 * m_tracksCount);
-    horizontalScrollBar()->setMaximum((m_projectDuration + 500) * m_scale);
+    setSceneRect(0, 0, (m_projectDuration + 100) * m_scale, sceneRect().height());
 }
 
 int CustomTrackView::duration() const {
@@ -901,7 +900,7 @@ void CustomTrackView::setScale(double scaleFactor) {
     }
     updateCursorPos();
     centerOn(QPointF(cursorPos(), m_tracksHeight));
-    scene()->setSceneRect(0, 0, (m_projectDuration + 500) * m_scale, scene()->sceneRect().height());
+    setSceneRect(0, 0, (m_projectDuration + 100) * m_scale, sceneRect().height());
 }
 
 void CustomTrackView::drawBackground(QPainter * painter, const QRectF & rect) {
