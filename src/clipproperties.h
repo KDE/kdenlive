@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,47 +18,31 @@
  ***************************************************************************/
 
 
-#ifndef PRJECTLISTVIEW_H
-#define PRJECTLISTVIEW_H
+#ifndef CLIPPROPSDIALOG_H
+#define CLIPPROPSDIALOG_H
 
-#include <QTreeWidget>
-#include <QContextMenuEvent>
-#include <QPainter>
+#include <QDialog>
 
+#include "definitions.h"
+#include "docclipbase.h"
+#include "ui_clipproperties_ui.h"
 
-class ProjectListView : public QTreeWidget {
+class ClipProperties : public QDialog {
     Q_OBJECT
 
 public:
-    ProjectListView(QWidget *parent = 0);
-    virtual ~ProjectListView();
+    ClipProperties(DocClipBase *clip, QWidget * parent = 0);
 
-protected:
-    virtual void contextMenuEvent(QContextMenuEvent * event);
-    virtual void mouseDoubleClickEvent(QMouseEvent * event);
-    virtual void mousePressEvent(QMouseEvent *event);
-    virtual void mouseMoveEvent(QMouseEvent *event);
-    virtual void dragEnterEvent(QDragEnterEvent *event);
-    virtual void dropEvent(QDropEvent *event);
-    virtual QStringList mimeTypes() const;
-    virtual Qt::DropActions supportedDropActions() const;
-    virtual void dragMoveEvent(QDragMoveEvent * event);
 
-public slots:
+private slots:
 
 
 private:
-    bool m_dragStarted;
-    QPoint m_DragStartPosition;
+    Ui::ClipProperties_UI m_view;
+    DocClipBase *m_clip;
 
-private slots:
-    void configureColumns(const QPoint& pos);
-
-signals:
-    void requestMenu(const QPoint &, QTreeWidgetItem *);
-    void addClip();
-    void addClip(QUrl, const QString &);
-    void showProperties(DocClipBase *);
 };
 
+
 #endif
+

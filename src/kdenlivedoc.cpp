@@ -281,6 +281,10 @@ void KdenliveDoc::setModified(bool mod) {
     emit docModified(m_modified);
 }
 
+bool KdenliveDoc::isModified() {
+    return m_modified;
+}
+
 QString KdenliveDoc::description() const {
     if (m_url.isEmpty())
         return i18n("Untitled") + " / " + m_profile.description;

@@ -71,6 +71,7 @@
 #include "renderwidget.h"
 #include "renderer.h"
 #include "jogshuttle.h"
+#include "clipproperties.h"
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
@@ -261,18 +262,26 @@ MainWindow::MainWindow(QWidget *parent)
     activateShuttleDevice();
 }
 
+void MainWindow::queryQuit() {
+    kDebug() << "----- SAVING CONFUIG";
+    if (queryClose()) kapp->quit();
+}
+
 //virtual
 bool MainWindow::queryClose() {
     saveOptions();
-    switch (KMessageBox::warningYesNoCancel(this, i18n("Save changes to document ?"))) {
-    case KMessageBox::Yes :
-        // save document here. If saving fails, return false;
-        return true;
-    case KMessageBox::No :
-        return true;
-    default: // cancel
-        return false;
+    if (m_activeDocument && m_activeDocument->isModified()) {
+        switch (KMessageBox::warningYesNoCancel(this, i18n("Save changes to document ?"))) {
+        case KMessageBox::Yes :
+            // save document here. If saving fails, return false;
+            return true;
+        case KMessageBox::No :
+            return true;
+        default: // cancel
+            return false;
+        }
     }
+    return true;
 }
 
 void MainWindow::activateShuttleDevice() {
@@ -350,6 +359,7 @@ void MainWindow::slotConnectMonitors() {
     m_projectList->setRenderer(m_clipMonitor->render);
     connect(m_projectList, SIGNAL(clipSelected(const QDomElement &)), m_clipMonitor, SLOT(slotSetXml(const QDomElement &)));
     connect(m_projectList, SIGNAL(receivedClipDuration(int, int)), this, SLOT(slotSetClipDuration(int, int)));
+    connect(m_projectList, SIGNAL(showClipProperties(DocClipBase *)), this, SLOT(slotShowClipProperties(DocClipBase *)));
     connect(m_projectList, SIGNAL(getFileProperties(const QDomElement &, int)), m_clipMonitor->render, SLOT(getFileProperties(const QDomElement &, int)));
     connect(m_clipMonitor->render, SIGNAL(replyGetImage(int, int, const QPixmap &, int, int)), m_projectList, SLOT(slotReplyGetImage(int, int, const QPixmap &, int, int)));
     connect(m_clipMonitor->render, SIGNAL(replyGetFileProperties(int, const QMap < QString, QString > &, const QMap < QString, QString > &)), m_projectList, SLOT(slotReplyGetFileProperties(int, const QMap < QString, QString > &, const QMap < QString, QString > &)));
@@ -424,7 +434,7 @@ void MainWindow::setupActions() {
     actionCollection()->addAction("delete_timeline_clip", deleteTimelineClip);
     connect(deleteTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotDeleteTimelineClip()));
 
-    KStandardAction::quit(kapp, SLOT(quit()),
+    KStandardAction::quit(this, SLOT(queryQuit()),
                           actionCollection());
 
     KStandardAction::open(this, SLOT(openFile()),
@@ -474,6 +484,7 @@ void MainWindow::slotDisplayActionMessage(QAction *a) {
 }
 
 void MainWindow::saveOptions() {
+    KdenliveSettings::self()->writeConfig();
     KSharedConfigPtr config = KGlobal::config();
     m_fileOpenRecent->saveEntries(KConfigGroup(config, "Recent Files"));
     config->sync();
@@ -879,6 +890,11 @@ void MainWindow::slotGotProgressInfo(KUrl url, int progress) {
         statusLabel->setText("");
         statusProgressBar->setVisible(false);
     }
+}
+
+void MainWindow::slotShowClipProperties(DocClipBase *clip) {
+    ClipProperties dia(clip);
+    dia.exec();
 }
 
 void MainWindow::customEvent(QEvent* e) {

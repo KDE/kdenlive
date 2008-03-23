@@ -383,18 +383,14 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
     producer.attach(m_convert);
     Mlt::Frame * frame = producer.get_frame();
 
-    filePropertyMap["fps"] =
-        QString::number(mlt_producer_get_fps(producer.get_producer()));
+    //filePropertyMap["fps"] = QString::number(mlt_producer_get_fps(producer.get_producer()));
+    filePropertyMap["fps"] = producer.get("source_fps");
 
     if (frame && frame->is_valid()) {
-        filePropertyMap["width"] =
-            QString::number(frame->get_int("width"));
-        filePropertyMap["height"] =
-            QString::number(frame->get_int("height"));
-        filePropertyMap["frequency"] =
-            QString::number(frame->get_int("frequency"));
-        filePropertyMap["channels"] =
-            QString::number(frame->get_int("channels"));
+        filePropertyMap["frame_size"] = QString::number(frame->get_int("width")) + "x" + QString::number(frame->get_int("height"));
+        filePropertyMap["frequency"] = QString::number(frame->get_int("frequency"));
+        filePropertyMap["channels"] = QString::number(frame->get_int("channels"));
+        filePropertyMap["aspect_ratio"] = frame->get("aspect_ratio");
 
         if (frame->get_int("test_image") == 0) {
             if (url.path().endsWith(".westley") || url.path().endsWith(".kdenlive")) {

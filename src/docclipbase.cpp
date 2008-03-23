@@ -347,43 +347,14 @@ QString DocClipBase::markerComment(GenTime t) {
     return QString::null;
 }
 
-//static
-QString DocClipBase::getTypeName(CLIPTYPE type) {
-    QString result;
-    switch (type) {
-    case AV:
-        result = i18n("Video Clip");
-        break;
-    case COLOR:
-        result = i18n("Color Clip");
-        break;
-    case PLAYLIST:
-        result = i18n("Playlist Clip");
-        break;
-    case IMAGE:
-        result = i18n("Image Clip");
-        break;
-    case SLIDESHOW:
-        result = i18n("Slideshow Clip");
-        break;
-    case VIRTUAL:
-        result = i18n("Virtual Clip");
-        break;
-    case AUDIO:
-        result = i18n("Audio Clip");
-        break;
-    case VIDEO:
-        result = i18n("Mute Video Clip");
-        break;
-    case TEXT:
-        result = i18n("Text Clip");
-        break;
-    default:
-        result = i18n("None");
-        break;
-    }
-    return result;
+void DocClipBase::setProperties(QMap <QString, QString> properties) {
+    m_properties = properties;
 }
+
+QMap <QString, QString> DocClipBase::properties() {
+    return m_properties;
+}
+
 
 void DocClipBase::slotGetAudioThumbs() {
 

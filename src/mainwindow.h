@@ -50,13 +50,13 @@ class RecMonitor;
 class CustomTrackView;
 class RenderWidget;
 class JogShuttle;
+class DocClipBase;
 
 class MainWindow : public KXmlGuiWindow {
     Q_OBJECT
 
 public:
     MainWindow(QWidget *parent = 0);
-
     void parseProfiles();
 
 protected:
@@ -130,6 +130,7 @@ private slots:
     void newFile();
     void undo();
     void redo();
+    void queryQuit();
     void activateDocument();
     void connectDocument(TrackView*, KdenliveDoc*);
     void openFile();
@@ -163,6 +164,7 @@ private slots:
     void slotAddCustomEffect(QAction *result);
     void slotAddProjectClip(KUrl url);
     void slotShuttleButton(int code);
+    void slotShowClipProperties(DocClipBase *clip);
 };
 
 #endif

@@ -195,9 +195,6 @@ Q_OBJECT public:
     /** format is frame -> channel ->bytes */
     QMap<int, QMap<int, QByteArray> > audioFrameChache;
 
-    /** return english name for clip type */
-    static QString getTypeName(CLIPTYPE type);
-
     /** Clip is ready to get thumbs */
     void slotRequestAudioThumbs();
     /** Free cache data */
@@ -234,6 +231,8 @@ private:   // Private attributes
     uint m_projectThumbFrame;
     void setAudioThumbCreated(bool isDone);
 
+    QMap <QString, QString> m_properties;
+
 public slots:
     void updateAudioThumbnail(QMap<int, QMap<int, QByteArray> > data);
     void slotGetAudioThumbs();
@@ -249,6 +248,8 @@ public slots:
     QString markerComment(GenTime t);
     void setProjectThumbFrame(const uint &ix);
     uint getProjectThumbFrame() const;
+    void setProperties(QMap <QString, QString> properties);
+    QMap <QString, QString> properties();
 
 signals:
     void getAudioThumbs();

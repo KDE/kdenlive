@@ -17,12 +17,17 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "QApplication"
+#include <QApplication>
+#include <QHeaderView>
+#include <QAction>
 
-#include "KDebug"
+#include <KDebug>
+#include <KMenu>
+#include <KLocale>
 
 #include "projectitem.h"
 #include "projectlistview.h"
+#include "kdenlivesettings.h"
 
 
 ProjectListView::ProjectListView(QWidget *parent)
@@ -33,13 +38,69 @@ ProjectListView::ProjectListView(QWidget *parent)
     setAlternatingRowColors(true);
     setDragEnabled(true);
     setAcceptDrops(true);
+
+    setColumnCount(4);
+    QStringList headers;
+    headers << i18n("Thumbnail") << i18n("Filename") << i18n("Description") << i18n("Rating");
+    setHeaderLabels(headers);
+    sortByColumn(1, Qt::AscendingOrder);
+
+    QHeaderView* headerView = header();
+    headerView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(headerView, SIGNAL(customContextMenuRequested(const QPoint&)),
+            this, SLOT(configureColumns(const QPoint&)));
+
+    connect(this, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)), this, SLOT(slotFocusOut(QTreeWidgetItem *, QTreeWidgetItem *)));
+
+    if (!KdenliveSettings::showdescriptioncolumn()) hideColumn(2);
+    if (!KdenliveSettings::showratingcolumn()) hideColumn(3);
+
+    setIconSize(QSize(60, 40));
+    setSortingEnabled(true);
 }
 
 ProjectListView::~ProjectListView() {
 }
 
-void ProjectListView::editItem(QTreeWidgetItem * item, int column) {
-    kDebug() << "////////////////  EDIT ITEM, COL: " << column;
+
+void ProjectListView::configureColumns(const QPoint& pos) {
+    KMenu popup(this);
+    popup.addTitle(i18nc("@title:menu", "Columns"));
+
+    QHeaderView* headerView = header();
+    for (int i = 2; i < headerView->count(); ++i) {
+        const int logicalIndex = headerView->logicalIndex(i);
+        const QString text = model()->headerData(i, Qt::Horizontal).toString();
+        QAction* action = popup.addAction(text);
+        action->setCheckable(true);
+        action->setChecked(!headerView->isSectionHidden(logicalIndex));
+        action->setData(i);
+    }
+
+    QAction* activatedAction = popup.exec(header()->mapToGlobal(pos));
+    if (activatedAction != 0) {
+        const bool show = activatedAction->isChecked();
+
+        // remember the changed column visibility in the settings
+        const int columnIndex = activatedAction->data().toInt();
+        switch (columnIndex) {
+        case 2:
+            KdenliveSettings::setShowdescriptioncolumn(show);
+            break;
+        case 3:
+            KdenliveSettings::setShowratingcolumn(show);
+            break;
+        default:
+            break;
+        }
+
+        // apply the changed column visibility
+        if (show) {
+            showColumn(columnIndex);
+        } else {
+            hideColumn(columnIndex);
+        }
+    }
 }
 
 // virtual
@@ -52,6 +113,7 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event) {
     ProjectItem *item = static_cast <ProjectItem *>(itemAt(event->pos()));
     if (!item) emit addClip();
     else if ((item->clipType() == FOLDER && columnAt(event->pos().x()) == 1) || columnAt(event->pos().x()) == 2) QTreeWidget::mouseDoubleClickEvent(event);
+    else emit showProperties(item->referencedClip());
 }
 
 // virtual

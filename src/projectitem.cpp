@@ -75,14 +75,15 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, const QStringList & strings, 
 
 // folder
 ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, int clipId)
-        : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_element(QDomElement()), m_clipType(FOLDER), m_groupName(strings.at(1)), m_clipId(clipId), m_clip(NULL) {
+        : QTreeWidgetItem(parent, strings), m_element(QDomElement()), m_clipType(FOLDER), m_groupName(strings.at(1)), m_clipId(clipId), m_clip(NULL) {
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     setIcon(0, KIcon("folder"));
+    setToolTip(1, "<qt><b>" + i18n("Folder"));
 }
 
 ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
-        : QTreeWidgetItem(parent, QStringList(), QTreeWidgetItem::UserType) {
+        : QTreeWidgetItem(parent) {
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     m_clip = clip;
@@ -96,7 +97,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
 }
 
 ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip)
-        : QTreeWidgetItem(parent, QStringList(), QTreeWidgetItem::UserType) {
+        : QTreeWidgetItem(parent) {
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     m_clip = clip;
@@ -164,25 +165,40 @@ const KUrl ProjectItem::clipUrl() const {
     else return KUrl();
 }
 
+void ProjectItem::changeDuration(int frames) {
+    m_element.setAttribute("duration", frames);
+    m_duration = GenTime(frames, 25);
+    setData(1, DurationRole, Timecode::getEasyTimecode(m_duration, 25));
+    m_durationKnown = true;
+    m_clip->setDuration(m_duration);
+}
+
+void ProjectItem::setDescription(const QString &desc) {
+    m_clip->setDescription(desc);
+}
+
+DocClipBase *ProjectItem::referencedClip() {
+    return m_clip;
+}
 
 void ProjectItem::slotSetToolTip() {
     QString tip = "<qt><b>";
     switch (m_clipType) {
     case 1:
-        tip.append(i18n("Audio clip"));
+        tip.append(i18n("Audio clip") + "</b><br />" + clipUrl().path());
         break;
     case 2:
-        tip.append(i18n("Mute video clip"));
+        tip.append(i18n("Mute video clip") + "</b><br />" + clipUrl().path());
         break;
     case 3:
-        tip.append(i18n("Video clip"));
+        tip.append(i18n("Video clip") + "</b><br />" + clipUrl().path());
         break;
     case 4:
         tip.append(i18n("Color clip"));
         setData(1, DurationRole, Timecode::getEasyTimecode(GenTime(m_element.attribute("out", "250").toInt(), 25), 25));
         break;
     case 5:
-        tip.append(i18n("Image clip"));
+        tip.append(i18n("Image clip") + "</b><br />" + clipUrl().path());
         break;
     case 6:
         tip.append(i18n("Text clip"));
@@ -194,7 +210,7 @@ void ProjectItem::slotSetToolTip() {
         tip.append(i18n("Virtual clip"));
         break;
     case 9:
-        tip.append(i18n("Playlist clip"));
+        tip.append(i18n("Playlist clip") + "</b><br />" + clipUrl().path());
         break;
     default:
         tip.append(i18n("Unknown clip"));
@@ -246,66 +262,17 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     m_element.setAttribute("type", (int) m_clipType);
 
     if (KdenliveSettings::audiothumbnails()) m_clip->slotRequestAudioThumbs();
+
+    m_clip->setProperties(attributes);
     /*
-     if (attributes.contains("height")) {
-         m_height = attributes["height"].toInt();
-     } else {
-         m_height = 0;
-     }
-     if (attributes.contains("width")) {
-         m_width = attributes["width"].toInt();
-     } else {
-         m_width = 0;
-     }
-     //decoder name
-     if (attributes.contains("name")) {
-         m_decompressor = attributes["name"];
-     } else {
-         m_decompressor = "n/a";
-     }
-     //video type ntsc/pal
-     if (attributes.contains("system")) {
-         m_system = attributes["system"];
-     } else {
-         m_system = "n/a";
-     }
-     if (attributes.contains("fps")) {
-         m_framesPerSecond = attributes["fps"].toInt();
-     } else {
-         // No frame rate known.
-         m_framesPerSecond = 0;
-     }
-     //audio attributes -reh
-     if (attributes.contains("channels")) {
-         m_channels = attributes["channels"].toInt();
-     } else {
-         m_channels = 0;
-     }
-     if (attributes.contains("format")) {
-         m_format = attributes["format"];
-     } else {
-         m_format = "n/a";
-     }
-     if (attributes.contains("frequency")) {
-         m_frequency = attributes["frequency"].toInt();
-     } else {
-         m_frequency = 0;
-     }
-     if (attributes.contains("videocodec")) {
-         m_videoCodec = attributes["videocodec"];
-     }
-     if (attributes.contains("audiocodec")) {
-         m_audioCodec = attributes["audiocodec"];
-     }
+         m_metadata = metadata;
 
-     m_metadata = metadata;
-
-     if (m_metadata.contains("description")) {
-         setDescription (m_metadata["description"]);
-     }
-     else if (m_metadata.contains("comment")) {
-         setDescription (m_metadata["comment"]);
-     }
+         if (m_metadata.contains("description")) {
+             setDescription (m_metadata["description"]);
+         }
+         else if (m_metadata.contains("comment")) {
+             setDescription (m_metadata["comment"]);
+         }
     */
 
 }

@@ -85,6 +85,8 @@ Q_OBJECT public:
     /** Set to true if document needs saving, false otherwise */
     void setModified(bool mod);
     int getFreeClipId();
+    /** does the document need saving */
+    bool isModified();
 
 private:
     KUrl m_url;

@@ -25,10 +25,10 @@
 #include <QToolBar>
 #include <QTreeWidget>
 #include <QPainter>
+#include <QItemDelegate>
 
 #include <KUndoStack>
 #include <KTreeWidgetSearchLine>
-#include "kextendableitemdelegate.h"
 #include <KUrl>
 
 #include "definitions.h"
@@ -44,11 +44,13 @@ const int NameRole = Qt::UserRole;
 const int DurationRole = NameRole + 1;
 const int UsageRole = NameRole + 2;
 
-class ItemDelegate: public KExtendableItemDelegate {
+class ItemDelegate: public QItemDelegate {
 public:
-    ItemDelegate(QAbstractItemView* parent = 0): KExtendableItemDelegate(parent) {
+    ItemDelegate(QAbstractItemView* parent = 0): QItemDelegate(parent) {
     }
     /*
+    static_cast<ProjectItem *>( index.internalPointer() );
+
     void expand()
     {
       QWidget *w = new QWidget;
@@ -88,7 +90,7 @@ public:
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText);
             painter->restore();
         } else {
-            KExtendableItemDelegate::paint(painter, option, index);
+            QItemDelegate::paint(painter, option, index);
         }
     }
 };
@@ -129,17 +131,15 @@ private:
     ProjectItem *getItemById(int id);
     QAction *m_editAction;
     QAction *m_deleteAction;
-    ItemDelegate *m_listViewDelegate;
     KdenliveDoc *m_doc;
+    ItemDelegate *m_listViewDelegate;
 
 private slots:
     void slotAddClip(QUrl givenUrl = QUrl(), QString group = QString());
     void slotRemoveClip();
-    void slotEditClip();
     void slotClipSelected();
     void slotAddColorClip();
     void slotAddTitleClip();
-    void slotEditClip(QTreeWidgetItem *, int);
     void slotContextMenu(const QPoint &pos, QTreeWidgetItem *);
     void slotAddFolder();
     void slotAddFolder(const QString foldername, int clipId, bool remove, bool edit);
@@ -153,6 +153,7 @@ signals:
     void clipSelected(const QDomElement &);
     void getFileProperties(const QDomElement&, int);
     void receivedClipDuration(int, int);
+    void showClipProperties(DocClipBase *);
 };
 
 #endif

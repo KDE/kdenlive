@@ -591,10 +591,10 @@ void CustomTrackView::slotTransitionUpdated(QDomElement old, QDomElement newEffe
 }
 
 void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTransition, QDomElement transition) {
-	QString s;
-	QTextStream tx(&s);
-	transition.save(tx,2);
-	kDebug() << "in" << s;
+    QString s;
+    QTextStream tx(&s);
+    transition.save(tx, 2);
+    kDebug() << "in" << s;
     QMap < QString, QString> map;
     QDomNamedNodeMap attribs = transition.attributes();
     for (int i = 0;i < attribs.count();i++) {

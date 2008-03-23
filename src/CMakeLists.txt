@@ -45,6 +45,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/transitionsettings_ui.ui
   widgets/configjogshuttle_ui.ui
   widgets/trackheader_ui.ui
+  widgets/clipproperties_ui.ui
 )
  
 set(kdenlive_SRCS 
@@ -100,6 +101,7 @@ set(kdenlive_SRCS
   edittransitioncommand.cpp
   addfoldercommand.cpp
   editfoldercommand.cpp
+  clipproperties.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

@@ -95,11 +95,6 @@ ProjectList::ProjectList(QWidget *parent)
     //m_toolbar->setEnabled(false);
 
     searchView->setTreeWidget(listView);
-    listView->setColumnCount(3);
-    QStringList headers;
-    headers << i18n("Thumbnail") << i18n("Filename") << i18n("Description");
-    listView->setHeaderLabels(headers);
-    listView->sortByColumn(1, Qt::AscendingOrder);
 
     m_menu = new QMenu();
     m_menu->addAction(addClipButton);
@@ -115,17 +110,18 @@ ProjectList::ProjectList(QWidget *parent)
     connect(listView, SIGNAL(addClip()), this, SLOT(slotAddClip()));
     connect(listView, SIGNAL(addClip(QUrl, const QString &)), this, SLOT(slotAddClip(QUrl, const QString &)));
     connect(listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotUpdateItemDescription(QTreeWidgetItem *, int)));
+    connect(listView, SIGNAL(showProperties(DocClipBase *)), this, SIGNAL(showClipProperties(DocClipBase *)));
 
     m_listViewDelegate = new ItemDelegate(listView);
     listView->setItemDelegate(m_listViewDelegate);
-    listView->setIconSize(QSize(60, 40));
-    listView->setSortingEnabled(true);
 }
 
 ProjectList::~ProjectList() {
     delete m_menu;
     delete m_toolbar;
 }
+
+
 
 void ProjectList::setRenderer(Render *projectRender) {
     m_render = projectRender;
@@ -143,7 +139,8 @@ void ProjectList::slotUpdateItemDescription(QTreeWidgetItem *item, int column) {
         if (type == AUDIO || type == VIDEO || type == AV || type == IMAGE || type == PLAYLIST) {
             // Use Nepomuk system to store clip description
             Nepomuk::Resource f(clip->clipUrl().path());
-            f.setDescription(item->text(2));
+            if (f.isValid()) f.setDescription(item->text(2));
+            clip->setDescription(item->text(2));
             kDebug() << "NEPOMUK, SETTING CLIP: " << clip->clipUrl().path() << ", TO TEXT: " << item->text(2);
         }
     } else if (column == 1 && type == FOLDER) {
@@ -151,29 +148,9 @@ void ProjectList::slotUpdateItemDescription(QTreeWidgetItem *item, int column) {
     }
 }
 
-void ProjectList::slotEditClip() {
-    kDebug() << "////////////////////////////////////////   DBL CLK";
-}
-
-
-void ProjectList::slotEditClip(QTreeWidgetItem *item, int column) {
-    kDebug() << "////////////////////////////////////////   DBL CLK";
-}
-
 void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item) {
     bool enable = false;
     if (item) {
-        QFrame *w = new QFrame;
-        w->setFrameShape(QFrame::StyledPanel);
-        w->setLineWidth(2);
-        w->setAutoFillBackground(true);
-        QHBoxLayout *layout = new QHBoxLayout;
-        layout->addWidget(new QLabel(i18n("Color:")));
-        layout->addWidget(new KColorButton());
-        layout->addWidget(new QLabel(i18n("Duration:")));
-        layout->addWidget(new KRestrictedLine());
-        w->setLayout(layout);
-        m_listViewDelegate->extendItem(w, listView->currentIndex());
         enable = true;
     }
     m_editAction->setEnabled(enable);
@@ -243,7 +220,9 @@ void ProjectList::addClip(const QStringList &name, const QDomElement &elem, cons
     if (!url.isEmpty()) {
         // if file has Nepomuk comment, use it
         Nepomuk::Resource f(url.path());
-        QString annotation = f.description();
+        QString annotation;
+        if (f.isValid()) annotation = f.description();
+
         if (!annotation.isEmpty()) item->setText(2, annotation);
         QString resource = url.path();
         if (resource.endsWith("westley") || resource.endsWith("kdenlive")) {
@@ -280,9 +259,12 @@ void ProjectList::addClip(const QStringList &name, const QDomElement &elem, cons
 }
 
 void ProjectList::slotDeleteClip(int clipId) {
-    kDebug() << "///////  DELETE CLIP: " << clipId;
     ProjectItem *item = getItemById(clipId);
-    if (item) delete item;
+    QTreeWidgetItem *p = item->parent();
+    if (p) {
+        kDebug() << "///////  DELETEED CLIP HAS A PARENT... " << p->indexOfChild(item);
+        QTreeWidgetItem *clone = p->takeChild(p->indexOfChild(item));
+    } else if (item) delete item;
 }
 
 void ProjectList::slotAddFolder() {
@@ -328,11 +310,26 @@ void ProjectList::slotAddFolder(const QString foldername, int clipId, bool remov
 
 void ProjectList::slotAddClip(DocClipBase *clip) {
     const int parent = clip->toXML().attribute("groupid").toInt();
+    ProjectItem *item = NULL;
     if (parent != 0) {
         ProjectItem *parentitem = getItemById(parent);
-        if (parentitem)(void) new ProjectItem(parentitem, clip);
-        else (void) new ProjectItem(listView, clip);
-    } else (void) new ProjectItem(listView, clip);
+        if (parentitem) item = new ProjectItem(parentitem, clip);
+    }
+    if (item == NULL) item = new ProjectItem(listView, clip);
+
+    KUrl url = clip->fileURL();
+    if (!url.isEmpty()) {
+        // if file has Nepomuk comment, use it
+        Nepomuk::Resource f(url.path());
+        QString annotation;
+        if (f.isValid()) {
+            annotation = f.description();
+            /*
+            Nepomuk::Tag tag("test");
+            f.addTag(tag);*/
+        } else kDebug() << "---  CANNOT CONTACT NEPOMUK";
+        if (!annotation.isEmpty()) item->setText(2, annotation);
+    }
     emit getFileProperties(clip->toXML(), clip->getId());
 }
 

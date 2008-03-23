@@ -53,6 +53,9 @@ public:
     int clipMaxDuration() const;
     CLIPTYPE clipType() const;
     void setGroup(const QString name, const QString id);
+    void changeDuration(int frames);
+    DocClipBase *referencedClip();
+    void setDescription(const QString &desc);
 
 private:
     QDomElement m_element;

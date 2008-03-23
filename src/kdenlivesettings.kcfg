@@ -178,6 +178,14 @@
       <default>hdv_1080_50i</default>
     </entry>
 
+    <entry name="showdescriptioncolumn" type="Bool">
+      <label>Show descriptions in project tree view.</label>
+      <default>true</default>
+    </entry>
+    <entry name="showratingcolumn" type="Bool">
+      <label>Show ratings in project tree view.</label>
+      <default>false</default>
+    </entry>
 
   </group>
 </kcfg>
