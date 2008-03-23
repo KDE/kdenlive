@@ -21,7 +21,7 @@
 #include <QStylePainter>
 
 #include <KDebug>
-
+#include <KGlobalSettings>
 
 #include "customruler.h"
 
@@ -46,9 +46,9 @@
 #define INIT_LENGTH_FIX true
 #define INIT_END_OFFSET 0
 
-#define FIX_WIDTH 20 /* widget width in pixel */
+#define FIX_WIDTH 24 /* widget width in pixel */
 #define LINE_END (FIX_WIDTH - 3)
-#define END_MARK_LENGTH (FIX_WIDTH - 6)
+#define END_MARK_LENGTH (FIX_WIDTH - 8)
 #define END_MARK_X2 LINE_END
 #define END_MARK_X1 (END_MARK_X2 - END_MARK_LENGTH)
 #define BIG_MARK_LENGTH (END_MARK_LENGTH*3/4)
@@ -64,28 +64,27 @@
 #define BASE_MARK_X2 LINE_END
 #define BASE_MARK_X1 (BASE_MARK_X2 - 3) //BASE_MARK_LENGTH
 
-#define LABEL_SIZE 8
+#define LABEL_SIZE 9
 #define END_LABEL_X 4
 #define END_LABEL_Y (END_LABEL_X + LABEL_SIZE - 2)
 
 #include "definitions.h"
 
-const int CustomRuler::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 725, 1500, 3000, 6000,
-                                        12000
-                                      };
+const int CustomRuler::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 725, 1500, 3000, 6000, 12000};
 
 CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
         : KRuler(parent), m_timecode(tc), m_view(parent), m_duration(0) {
+    setFont(KGlobalSettings::toolBarFont());
     slotNewOffset(0);
     setRulerMetricStyle(KRuler::Pixel);
     setLength(1024);
     setMaximum(1024);
     setPixelPerMark(3);
     setLittleMarkDistance(FRAME_SIZE);
-    setMediumMarkDistance(FRAME_SIZE * 25);
-    setBigMarkDistance(FRAME_SIZE * 25 * 60);
-    m_zoneStart = 50;
-    m_zoneEnd = 250;
+    setMediumMarkDistance(FRAME_SIZE * m_timecode.fps());
+    setBigMarkDistance(FRAME_SIZE * m_timecode.fps() * 60);
+    m_zoneStart = 2 * m_timecode.fps();
+    m_zoneEnd = 10 * m_timecode.fps();
 }
 
 // virtual
@@ -138,6 +137,41 @@ void CustomRuler::slotCursorMoved(int oldpos, int newpos) {
 void CustomRuler::setPixelPerMark(double rate) {
     int scale = comboScale[(int) rate];
     KRuler::setPixelPerMark(1.0 / scale);
+    double fend = pixelPerMark() * littleMarkDistance();
+    switch ((int) rate) {
+    case 0:
+        m_textSpacing = fend;
+        break;
+    case 1:
+        m_textSpacing = fend * 5;
+        break;
+    case 2:
+    case 3:
+    case 4:
+        m_textSpacing = fend * m_timecode.fps();
+        break;
+    case 5:
+        m_textSpacing = fend * m_timecode.fps() * 5;
+        break;
+    case 6:
+        m_textSpacing = fend * m_timecode.fps() * 10;
+        break;
+    case 7:
+        m_textSpacing = fend * m_timecode.fps() * 30;
+        break;
+    case 8:
+    case 9:
+    case 10:
+        m_textSpacing = fend * m_timecode.fps() * 60;
+        break;
+    case 11:
+    case 12:
+        m_textSpacing = fend * m_timecode.fps() * 300;
+        break;
+    case 13:
+        m_textSpacing = fend * m_timecode.fps() * 600;
+        break;
+    }
 }
 
 void CustomRuler::setDuration(int d) {
@@ -180,9 +214,6 @@ void CustomRuler::paintEvent(QPaintEvent *e) {
     QPalette palette;
     //p.fillRect(bg, palette.light());
     // draw labels
-    QFont font = p.font();
-    font.setPointSize(LABEL_SIZE);
-    p.setFont(font);
     p.setPen(palette.dark().color());
     // draw littlemarklabel
 
@@ -205,41 +236,29 @@ void CustomRuler::paintEvent(QPaintEvent *e) {
           p.drawLine((int)f, BASE_MARK_X1, (int)f, BASE_MARK_X2);
       }
     }*/
+
+    for (f = offsetmin; f < offsetmax; f += m_textSpacing) {
+        QString lab = m_timecode.getTimecodeFromFrames((int)((f - offsetmin) / pixelPerMark() / FRAME_SIZE + 0.5));
+        p.drawText((int)f + 2, LABEL_SIZE, lab);
+    }
+
     if (showLittleMarks()) {
         // draw the little marks
         fend = pixelPerMark() * littleMarkDistance();
-        if (fend > 5) for (f = offsetmin; f < offsetmax; f += fend) {
+        if (fend > 5) for (f = offsetmin; f < offsetmax; f += fend)
                 p.drawLine((int)f, LITTLE_MARK_X1, (int)f, LITTLE_MARK_X2);
-                if (fend > 60) {
-                    QString lab = m_timecode.getTimecodeFromFrames((int)((f - offsetmin) / pixelPerMark() / FRAME_SIZE + 0.5));
-                    p.drawText((int)f + 2, LABEL_SIZE, lab);
-                }
-            }
     }
     if (showMediumMarks()) {
         // draw medium marks
         fend = pixelPerMark() * mediumMarkDistance();
-        if (fend > 5) for (f = offsetmin; f < offsetmax; f += fend) {
+        if (fend > 5) for (f = offsetmin; f < offsetmax; f += fend)
                 p.drawLine((int)f, MIDDLE_MARK_X1, (int)f, MIDDLE_MARK_X2);
-                if (fend > 60) {
-                    QString lab = m_timecode.getTimecodeFromFrames((int)((f - offsetmin) / pixelPerMark() / FRAME_SIZE + 0.5));
-                    p.drawText((int)f + 2, LABEL_SIZE, lab);
-                }
-            }
     }
     if (showBigMarks()) {
         // draw big marks
         fend = pixelPerMark() * bigMarkDistance();
-        if (fend > 5) for (f = offsetmin; f < offsetmax; f += fend) {
+        if (fend > 5) for (f = offsetmin; f < offsetmax; f += fend)
                 p.drawLine((int)f, BIG_MARK_X1, (int)f, BIG_MARK_X2);
-                if (fend > 60) {
-                    QString lab = m_timecode.getTimecodeFromFrames((int)((f - offsetmin) / pixelPerMark() / FRAME_SIZE + 0.5));
-                    p.drawText((int)f + 2, LABEL_SIZE, lab);
-                } else if (((int)(f - offsetmin)) % ((int)(fend * 5)) == 0) {
-                    QString lab = m_timecode.getTimecodeFromFrames((int)((f - offsetmin) / pixelPerMark() / FRAME_SIZE + 0.5));
-                    p.drawText((int)f + 2, LABEL_SIZE, lab);
-                }
-            }
     }
     /*   if (d->showem) {
          // draw end marks

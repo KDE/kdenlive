@@ -27,6 +27,10 @@ Timecode::Timecode(Formats format, int framesPerSecond,
 Timecode::~Timecode() {
 }
 
+int Timecode::fps() {
+    return m_displayedFramesPerSecond;
+}
+
 
 int Timecode::getFrameCount(const QString duration, double fps) const {
     if (m_dropFrame) {

@@ -33,7 +33,7 @@
      <property name="maximumSize" >
       <size>
        <width>50</width>
-       <height>20</height>
+       <height>24</height>
       </size>
      </property>
      <property name="frameShadow" >
@@ -55,7 +55,7 @@
      <property name="maximumSize" >
       <size>
        <width>16777215</width>
-       <height>20</height>
+       <height>24</height>
       </size>
      </property>
      <property name="frameShadow" >

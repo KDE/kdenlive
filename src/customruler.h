@@ -31,6 +31,7 @@ private:
     int m_zoneStart;
     int m_zoneEnd;
     int m_duration;
+    double m_textSpacing;
     RULER_MOVE m_moveCursor;
 
 public slots:
