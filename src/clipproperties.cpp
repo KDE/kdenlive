@@ -28,6 +28,7 @@
 #include "kthumb.h"
 
 ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent): QDialog(parent), m_tc(tc), m_clip(clip), m_fps(fps) {
+    setFont(KGlobalSettings::toolBarFont());
     m_view.setupUi(this);
     KUrl url = m_clip->fileURL();
     m_view.clip_path->setText(url.path());
@@ -64,6 +65,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     KFileItem f(KFileItem::Unknown, KFileItem::Unknown, url, true);
     m_view.clip_filesize->setText(KIO::convertSize(f.size()));
     m_view.clip_duration->setText(tc.getTimecode(m_clip->duration(), m_fps));
+    adjustSize();
 }
 
 #include "clipproperties.moc"

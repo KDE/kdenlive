@@ -84,7 +84,7 @@ MainWindow::MainWindow(QWidget *parent)
         : KXmlGuiWindow(parent),
         m_activeDocument(NULL), m_activeTimeline(NULL), m_renderWidget(NULL), m_jogProcess(NULL) {
     parseProfiles();
-
+    setFont(KGlobalSettings::toolBarFont());
     m_commandStack = new QUndoGroup;
     m_timelineArea = new KTabWidget(this);
     m_timelineArea->setTabReorderingEnabled(true);
