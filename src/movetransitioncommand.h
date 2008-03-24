@@ -28,7 +28,7 @@ class CustomTrackView;
 
 class MoveTransitionCommand : public QUndoCommand {
 public:
-    MoveTransitionCommand(CustomTrackView *view, const QPointF startPos, const QPointF endPos, bool doIt);
+    MoveTransitionCommand(CustomTrackView *view, const QPointF startPos, const QPointF endPos,int startTrack, int endTrack, bool doIt);
     virtual void undo();
     virtual void redo();
 
