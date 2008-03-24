@@ -437,12 +437,19 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 Mlt::Properties entries;
                 mlt_properties_dir_list(entries.get_properties(), path.toAscii().data(), "*.*", 1);
                 kDebug() << path << entries.count();
+                QString imagefiles;
                 for (int i = 0;i < entries.count();i++) {
-                    kDebug() << "luma:" << entries.get(i);
+                    //if (!imagefiles.isEmpty()) // add empty entry too
+                    imagefiles.append(",");
+                    imagefiles.append(entries.get(i));
                 }
+                paramList.append(quickParameterFill(ret, "Softness", "softness", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Invert", "invert", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, "ImageFile", "resource", "list", "", "", "", imagefiles));
+
 
             } else if (name == "composite") {
-
+                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "0%,0%:100%x100%", "0%,0%:100%x100%", "0%,0%:100%x100%"));
                 tname.appendChild(ret.createTextNode("Composite"));
 
                 QDomDocument ret1;
@@ -470,7 +477,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 paramList.append(quickParameterFill(ret, "Fix Shear Z", "fix_shear_z", "double", "0", "0", "360"));
                 paramList.append(quickParameterFill(ret, "Mirror", "mirror_off", "bool", "0", "0", "1"));
                 paramList.append(quickParameterFill(ret, "Repeat", "repeat_off", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "0%,0%:100%x100%", "0,0:100%x100%0", "0,0:100%x100%1"));
+                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "0%,0%:100%x100%", "0,0:100%x100%", "0,0:100%x100%"));
             } else if (name == "region") {
                 tname.appendChild(ret.createTextNode("Region"));
             }
@@ -492,7 +499,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
         */
     }
 }
-QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def, QString min, QString max) {
+QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def, QString min, QString max, QString list) {
     QDomElement parameter = doc.createElement("parameter");
     parameter.setAttribute("tag", tag);
     parameter.setAttribute("default", def);
@@ -500,6 +507,8 @@ QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QS
     parameter.setAttribute("name", tag);
     parameter.setAttribute("max", max);
     parameter.setAttribute("min", min);
+    if (!list.isEmpty())
+        parameter.setAttribute("paramlist", list);
     QDomElement pname = doc.createElement("name");
     pname.appendChild(doc.createTextNode(name));
     parameter.appendChild(pname);

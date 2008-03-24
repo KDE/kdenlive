@@ -30,6 +30,8 @@
 #include "ui_colorval_ui.h"
 #include "complexparameter.h"
 
+static QMap<QString, QIcon> iconCache;
+
 EffectStackEdit::EffectStackEdit(QFrame* frame, QWidget *parent): QObject(parent) {
     QScrollArea *area;
     QVBoxLayout *vbox1 = new QVBoxLayout(frame);
@@ -93,7 +95,18 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
             nodeAtts.namedItem("paramlist");
             QStringList listitems = nodeAtts.namedItem("paramlist").nodeValue().split(",");
             lsval->list->addItems(listitems);
-            lsval->list->setCurrentIndex(listitems.indexOf(value));;
+            lsval->list->setCurrentIndex(listitems.indexOf(value));
+            for (int i = 0;i < lsval->list->count();i++) {
+                QString entry = lsval->list->itemText(i);
+                if (!entry.isEmpty() && (entry.endsWith(".png") || entry.endsWith(".pnm"))) {
+                    if (!iconCache.contains(entry)) {
+                        QPixmap pix(entry);
+                        iconCache[entry] = pix.scaled(30, 30);
+                    }
+                    lsval->list->setIconSize(QSize(30, 30));
+                    lsval->list->setItemIcon(i, iconCache[entry]);
+                }
+            }
             connect(lsval->list, SIGNAL(currentIndexChanged(int)) , this, SLOT(collectAllParameters()));
             lsval->title->setTitle(na.toElement().text());
             valueItems[paramName] = lsval;
