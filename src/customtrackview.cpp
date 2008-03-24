@@ -503,7 +503,7 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track) 
     }
     kDebug() << "// REQUESTING EFFECT ON CLIP: " << pos.frames(25) << ", TRK: " << track;
     for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->type() == AVWIDGET && (itemList.at(i)->isSelected() || track != -1)) {
+        if (itemList.at(i)->type() == AVWIDGET && itemList.at(i)->isSelected()) {
             ClipItem *item = (ClipItem *)itemList.at(i);
             // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
             // not be changed
@@ -791,11 +791,27 @@ void CustomTrackView::addClip(QDomElement xml, int clipId, int track, GenTime st
 }
 
 ClipItem *CustomTrackView::getClipItemAt(int pos, int track) {
-    return (ClipItem *) scene()->itemAt(pos * m_scale, track * m_tracksHeight + m_tracksHeight / 2);
+    QList<QGraphicsItem *> list = scene()->items(QPointF(pos * m_scale, track * m_tracksHeight + m_tracksHeight / 2));
+    ClipItem *clip = NULL;
+    for (int i = 0; i < list.size(); ++i) {
+	if (list.at(i)->type() == AVWIDGET) {
+	    clip = static_cast <ClipItem *> (list.at(i));
+	    break;
+	}
+    }
+    return clip;
 }
 
 ClipItem *CustomTrackView::getClipItemAt(GenTime pos, int track) {
-    return (ClipItem *) scene()->itemAt(pos.frames(m_document->fps()) * m_scale, track * m_tracksHeight + m_tracksHeight / 2);
+    QList<QGraphicsItem *> list = scene()->items(QPointF(pos.frames(m_document->fps()) * m_scale, track * m_tracksHeight + m_tracksHeight / 2));
+    ClipItem *clip = NULL;
+    for (int i = 0; i < list.size(); ++i) {
+	if (list.at(i)->type() == AVWIDGET) {
+	    clip = static_cast <ClipItem *> (list.at(i));
+	    break;
+	}
+    }
+    return clip;
 }
 
 void CustomTrackView::moveClip(const QPointF &startPos, const QPointF &endPos) {
