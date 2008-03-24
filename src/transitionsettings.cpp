@@ -41,7 +41,7 @@ void TransitionSettings::slotTransitionChanged() {
     QDomElement desc = m_transitions->getEffectByName(ui.listWidget->currentItem()->text());
     if (m_usedTransition)
         m_usedTransition->setTransitionParameters(desc);
-    emit transitionUpdated(e, desc);
+    emit transitionUpdated(e, m_usedTransition->toXML());
     emit transferParamDesc(desc, 0, 0);
 }
 

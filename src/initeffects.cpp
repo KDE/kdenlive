@@ -456,21 +456,21 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 tname.appendChild(ret.createTextNode("Mix"));
             } else if (name == "affine") {
                 tname.appendChild(ret.createTextNode("Affine"));
-                paramList.append(quickParameterFill(ret, "Rotate Y", "rotate_y", "double", "1", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Rotate X", "rotate_x", "double", "1", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Rotate Z", "rotate_z", "double", "1", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Fix Rotate Y", "fix_rotate_y", "double", "1", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Fix Rotate X", "fix_rotate_x", "double", "1", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Fix Rotate Z", "fix_rotate_z", "double", "1", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Shear Y", "shear_y", "double", "1", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Shear X", "shear_x", "double", "1", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Shear Z", "shear_z", "double", "1", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Fix Shear Y", "fix_shear_y", "double", "1", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Fix Shear X", "fix_shear_x", "double", "1", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Fix Shear Z", "fix_shear_z", "double", "1", "0", "360"));
-                paramList.append(quickParameterFill(ret, "Mirror", "mirror_off", "bool", "1", "0", "1"));
-                paramList.append(quickParameterFill(ret, "Repeat", "repeat_off", "bool", "1", "0", "1"));
-                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "0,0:100%x100%", "0,0:100%x100%0", "0,0:100%x100%1"));
+                paramList.append(quickParameterFill(ret, "Rotate Y", "rotate_y", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Rotate X", "rotate_x", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Rotate Z", "rotate_z", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Fix Rotate Y", "fix_rotate_y", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Fix Rotate X", "fix_rotate_x", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Fix Rotate Z", "fix_rotate_z", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Shear Y", "shear_y", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Shear X", "shear_x", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Shear Z", "shear_z", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Fix Shear Y", "fix_shear_y", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Fix Shear X", "fix_shear_x", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Fix Shear Z", "fix_shear_z", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Mirror", "mirror_off", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, "Repeat", "repeat_off", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "0%,0%:100%x100%", "0,0:100%x100%0", "0,0:100%x100%1"));
             } else if (name == "region") {
                 tname.appendChild(ret.createTextNode("Region"));
             }

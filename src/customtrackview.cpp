@@ -165,16 +165,16 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                 m_dragItem->moveTo((int)(snappedPos / m_scale), m_scale, offset, moveTrack);
             } else if (m_operationMode == RESIZESTART) {
                 double snappedPos = getSnapPointForPos(mapToScene(event->pos()).x());
-                m_dragItem->resizeStart(snappedPos / m_scale, m_scale);
+                m_dragItem->resizeStart((int)(snappedPos / m_scale), m_scale);
             } else if (m_operationMode == RESIZEEND) {
                 double snappedPos = getSnapPointForPos(mapToScene(event->pos()).x());
-                m_dragItem->resizeEnd(snappedPos / m_scale, m_scale);
+                m_dragItem->resizeEnd((int)(snappedPos / m_scale), m_scale);
             } else if (m_operationMode == FADEIN) {
-                int pos = mapToScene(event->pos()).x() / m_scale;
-                m_dragItem->setFadeIn(pos - m_dragItem->startPos().frames(m_document->fps()), m_scale);
+                int pos = (int)(mapToScene(event->pos()).x() / m_scale);
+                m_dragItem->setFadeIn((int)(pos - m_dragItem->startPos().frames(m_document->fps())), m_scale);
             } else if (m_operationMode == FADEOUT) {
-                int pos = mapToScene(event->pos()).x() / m_scale;
-                m_dragItem->setFadeOut(m_dragItem->endPos().frames(m_document->fps()) - pos, m_scale);
+                int pos = (int)(mapToScene(event->pos()).x() / m_scale);
+                m_dragItem->setFadeOut((int)(m_dragItem->endPos().frames(m_document->fps()) - pos), m_scale);
             }
 
             if (m_animation) delete m_animation;
@@ -218,10 +218,10 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                 kDebug() << "********  RESIZE CLIP START; WIDTH: " << size;
                 if (m_visualTip == NULL) {
                     QPolygon polygon;
-                    polygon << QPoint(clip->rect().x(), clip->rect().y() + clip->rect().height() / 2 - size * 2);
-                    polygon << QPoint(clip->rect().x() + size * 2, clip->rect().y() + clip->rect().height() / 2);
-                    polygon << QPoint(clip->rect().x(), clip->rect().y() + clip->rect().height() / 2 + size * 2);
-                    polygon << QPoint(clip->rect().x(), clip->rect().y() + clip->rect().height() / 2 - size * 2);
+                    polygon << QPoint((int)clip->rect().x(), (int)(clip->rect().y() + clip->rect().height() / 2 - size * 2));
+                    polygon << QPoint((int)(clip->rect().x() + size * 2), (int)(clip->rect().y() + clip->rect().height() / 2));
+                    polygon << QPoint((int)clip->rect().x(), (int)(clip->rect().y() + clip->rect().height() / 2 + size * 2));
+                    polygon << QPoint((int)clip->rect().x(), (int)(clip->rect().y() + clip->rect().height() / 2 - size * 2));
 
                     m_visualTip = new QGraphicsPolygonItem(polygon);
                     ((QGraphicsPolygonItem*) m_visualTip)->setBrush(m_tipColor);
@@ -244,10 +244,10 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                 setCursor(KCursor("right_side", Qt::SizeHorCursor));
                 if (m_visualTip == NULL) {
                     QPolygon polygon;
-                    polygon << QPoint(clip->rect().x() + clip->rect().width(), clip->rect().y() + clip->rect().height() / 2 - size * 2);
-                    polygon << QPoint(clip->rect().x() + clip->rect().width() - size * 2, clip->rect().y() + clip->rect().height() / 2);
-                    polygon << QPoint(clip->rect().x() + clip->rect().width(), clip->rect().y() + clip->rect().height() / 2 + size * 2);
-                    polygon << QPoint(clip->rect().x() + clip->rect().width(), clip->rect().y() + clip->rect().height() / 2 - size * 2);
+                    polygon << QPoint((int)(clip->rect().x() + clip->rect().width()), (int)(clip->rect().y() + clip->rect().height() / 2 - size * 2));
+                    polygon << QPoint((int)(clip->rect().x() + clip->rect().width() - size * 2), (int)(clip->rect().y() + clip->rect().height() / 2));
+                    polygon << QPoint((int)(clip->rect().x() + clip->rect().width()), (int)(clip->rect().y() + clip->rect().height() / 2 + size * 2));
+                    polygon << QPoint((int)(clip->rect().x() + clip->rect().width()), (int)(clip->rect().y() + clip->rect().height() / 2 - size * 2));
 
                     m_visualTip = new QGraphicsPolygonItem(polygon);
                     ((QGraphicsPolygonItem*) m_visualTip)->setBrush(m_tipColor);
@@ -347,7 +347,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
         } else {
             m_moveOpMode = NONE;
             if (event->buttons() != Qt::NoButton && event->modifiers() == Qt::NoModifier) {
-                setCursorPos((int) mapToScene(event->pos().x(), 0).x() / m_scale);
+                setCursorPos((int)(mapToScene(event->pos().x(), 0).x() / m_scale));
             }
             if (m_visualTip) {
                 if (m_animation) delete m_animation;
@@ -395,7 +395,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 } else if (item->type() == TRANSITIONWIDGET) {
                     transitionItem = m_dragItem;
                 }
-                m_clickPoint = QPoint(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps()) * m_scale, event->pos().y() - m_dragItem->rect().top());
+                m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps()) * m_scale), (int)(event->pos().y() - m_dragItem->rect().top()));
                 m_operationMode = m_dragItem->operationMode(item->mapFromScene(mapToScene(event->pos())), m_scale);
                 if (m_operationMode == MOVE) setCursor(Qt::ClosedHandCursor);
                 if (m_operationMode == MOVE || m_operationMode == RESIZESTART)
@@ -404,8 +404,8 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                     m_startPos = QPointF(m_dragItem->endPos().frames(m_document->fps()), m_dragItem->track());
                 else if (m_operationMode == TRANSITIONSTART) {
                     Transition *tr = new Transition(
-                        QRect(m_dragItem->startPos().frames(m_document->fps()) *m_scale , m_dragItem->rect().y() + m_dragItem->rect().height() / 2,
-                              GenTime(2.5).frames(m_document->fps()) *m_scale ,  m_dragItem->rect().height()
+                        QRect((int)(m_dragItem->startPos().frames(m_document->fps()) *m_scale) , (int)(m_dragItem->rect().y() + m_dragItem->rect().height() / 2),
+                              (int)(GenTime(2.5).frames(m_document->fps()) *m_scale) , (int)(m_dragItem->rect().height())
                              ),
                         (ClipItem*)m_dragItem, "luma" , m_dragItem->startPos(), m_dragItem->startPos() + GenTime(2.5), m_document->fps());
                     tr->setTrack(m_dragItem->track());
@@ -430,7 +430,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
             //emit clipItemSelected(NULL);
             if (event->button() == Qt::RightButton) {
                 displayContextMenu(event->globalPos());
-            } else setCursorPos((int) mapToScene(event->x(), 0).x() / m_scale);
+            } else setCursorPos((int)(mapToScene(event->x(), 0).x() / m_scale));
         } else if (event->button() == Qt::RightButton) {
             m_operationMode = NONE;
             displayContextMenu(event->globalPos(), (ClipItem *) m_dragItem);
@@ -474,7 +474,7 @@ void CustomTrackView::slotRefreshEffects(ClipItem *clip) {
 }
 
 void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect) {
-    ClipItem *clip = getClipItemAt(pos.frames(m_document->fps()) + 1, m_tracksList.count() - track);
+    ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_tracksList.count() - track);
     if (clip) {
         QMap <QString, QString> effectParams = clip->addEffect(effect);
         m_document->renderer()->mltAddEffect(track, pos, effectParams);
@@ -485,7 +485,7 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect) {
 void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect) {
     QString index = effect.attribute("kdenlive_ix");
     m_document->renderer()->mltRemoveEffect(track, pos, index);
-    ClipItem *clip = getClipItemAt(pos.frames(m_document->fps()) + 1, m_tracksList.count() - track);
+    ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_tracksList.count() - track);
     if (clip) {
         clip->deleteEffect(index);
         emit clipItemSelected(clip);
@@ -497,7 +497,7 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track) 
     if (track == -1)
         itemList = items();
     else {
-        ClipItem *clip = getClipItemAt(pos.frames(m_document->fps()) + 1, track);
+        ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, track);
         if (clip) itemList.append(clip);
         else kDebug() << "------   wrning, clip eff not found";
     }
@@ -523,7 +523,7 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, QDomElement effect) {
 }
 
 void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect) {
-    ClipItem *clip = getClipItemAt(pos.frames(m_document->fps()) + 1, m_tracksList.count() - track);
+    ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_tracksList.count() - track);
     if (clip) {
         QMap <QString, QString> effectParams = clip->getEffectArgs(effect);
         if (effectParams["disabled"] == "1") {
@@ -617,6 +617,7 @@ void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTr
             GenTime(transition.attribute("start").toInt(), m_document->renderer()->fps()),
             GenTime(transition.attribute("end").toInt(), m_document->renderer()->fps()),
             map);
+    repaint();
     m_document->setModified(true);
 }
 
@@ -635,7 +636,7 @@ void CustomTrackView::dragMoveEvent(QDragMoveEvent * event) {
     //kDebug()<<"+++++++++++++   DRAG MOVE, : "<<mapToScene(event->pos()).x()<<", SCAL: "<<m_scale;
     if (m_dropItem) {
         int track = (int)(event->pos().y() / m_tracksHeight);  //) * (m_scale * 50) + m_scale;
-        m_dropItem->moveTo(mapToScene(event->pos()).x() / m_scale, m_scale, (double)(track - m_dropItem->track()) * m_tracksHeight, track);
+        m_dropItem->moveTo((int)(mapToScene(event->pos()).x() / m_scale), m_scale, (double)(track - m_dropItem->track()) * m_tracksHeight, track);
         event->setDropAction(Qt::MoveAction);
         if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
             event->acceptProposedAction();
@@ -732,7 +733,7 @@ void CustomTrackView::deleteClip(int clipId) {
 }
 
 void CustomTrackView::setCursorPos(int pos, bool seek) {
-    emit cursorMoved(m_cursorPos * m_scale, pos * m_scale);
+    emit cursorMoved((int)(m_cursorPos * m_scale), (int)(pos * m_scale));
     m_cursorPos = pos;
     m_cursorLine->setPos(pos * m_scale, 0);
     if (seek) m_document->renderer()->seek(GenTime(pos, m_document->fps()));
@@ -744,7 +745,7 @@ void CustomTrackView::updateCursorPos() {
 }
 
 int CustomTrackView::cursorPos() {
-    return m_cursorPos * m_scale;
+    return (int)(m_cursorPos * m_scale);
 }
 
 void CustomTrackView::checkScrolling() {
@@ -752,7 +753,7 @@ void CustomTrackView::checkScrolling() {
     int delta = rectInView.width() / 3;
     int max = rectInView.right() + horizontalScrollBar()->value() - delta;
     //kDebug() << "CURSOR POS: "<<m_cursorPos<< "Scale: "<<m_scale;
-    if (m_cursorPos * m_scale >= max) horizontalScrollBar()->setValue(horizontalScrollBar()->value() + 1 + m_scale);
+    if (m_cursorPos * m_scale >= max) horizontalScrollBar()->setValue((int)(horizontalScrollBar()->value() + 1 + m_scale));
 }
 
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
@@ -764,12 +765,12 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         // move clip
         MoveClipCommand *command = new MoveClipCommand(this, m_startPos, QPointF(m_dragItem->startPos().frames(m_document->fps()), m_dragItem->track()), false);
         m_commandStack->push(command);
-        if (m_dragItem->type() == AVWIDGET) m_document->renderer()->mltMoveClip(m_tracksList.count() - m_startPos.y(), m_tracksList.count() - m_dragItem->track(), m_startPos.x(), m_dragItem->startPos().frames(m_document->fps()));
+        if (m_dragItem->type() == AVWIDGET) m_document->renderer()->mltMoveClip((int)(m_tracksList.count() - m_startPos.y()), (int)(m_tracksList.count() - m_dragItem->track()), (int) m_startPos.x(), (int)(m_dragItem->startPos().frames(m_document->fps())));
     } else if (m_operationMode == RESIZESTART) {
         // resize start
         ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->startPos().frames(m_document->fps()), m_dragItem->track()), true, false);
 
-        if (m_dragItem->type() == AVWIDGET) m_document->renderer()->mltResizeClipStart(m_tracksList.count() - m_dragItem->track(), m_dragItem->endPos(), m_dragItem->startPos(), GenTime(m_startPos.x(), m_document->fps()), m_dragItem->cropStart(), m_dragItem->cropStart() + m_dragItem->endPos() - m_dragItem->startPos());
+        if (m_dragItem->type() == AVWIDGET) m_document->renderer()->mltResizeClipStart(m_tracksList.count() - m_dragItem->track(), m_dragItem->endPos(), m_dragItem->startPos(), GenTime((int)m_startPos.x(), m_document->fps()), m_dragItem->cropStart(), m_dragItem->cropStart() + m_dragItem->endPos() - m_dragItem->startPos());
         m_commandStack->push(command);
         m_document->renderer()->doRefresh();
     } else if (m_operationMode == RESIZEEND) {
@@ -810,7 +811,7 @@ void CustomTrackView::deleteSelectedClips() {
 }
 
 void CustomTrackView::addClip(QDomElement xml, int clipId, int track, GenTime startpos, const QRectF &rect, GenTime duration) {
-    QRect r(startpos.frames(m_document->fps()) * m_scale, m_tracksHeight * track, duration.frames(m_document->fps()) * m_scale, m_tracksHeight - 1);
+    QRect r((int)(startpos.frames(m_document->fps()) * m_scale), m_tracksHeight * track, (int)(duration.frames(m_document->fps()) * m_scale), m_tracksHeight - 1);
     DocClipBase *baseclip = m_document->clipManager()->getClipById(clipId);
     ClipItem *item = new ClipItem(baseclip, track, startpos, r, duration, m_document->fps());
     scene()->addItem(item);
@@ -829,39 +830,39 @@ ClipItem *CustomTrackView::getClipItemAt(GenTime pos, int track) {
 }
 
 void CustomTrackView::moveClip(const QPointF &startPos, const QPointF &endPos) {
-    ClipItem *item = getClipItemAt(startPos.x() + 1, startPos.y());
+    ClipItem *item = getClipItemAt((int)startPos.x() + 1, (int)startPos.y());
     if (!item) {
         kDebug() << "----------------  ERROR, CANNOT find clip to move at: " << startPos.x() * m_scale * FRAME_SIZE + 1 << ", " << startPos.y() * m_tracksHeight + m_tracksHeight / 2;
         return;
     }
     kDebug() << "----------------  Move CLIP FROM: " << startPos.x() << ", END:" << endPos.x();
-    item->moveTo(endPos.x(), m_scale, (endPos.y() - startPos.y()) * m_tracksHeight, endPos.y());
-    m_document->renderer()->mltMoveClip(m_tracksList.count() - startPos.y(), m_tracksList.count() - endPos.y(), startPos.x(), endPos.x());
+    item->moveTo((int)endPos.x(), m_scale, (endPos.y() - startPos.y()) * m_tracksHeight, (int)endPos.y());
+    m_document->renderer()->mltMoveClip((int)(m_tracksList.count() - startPos.y()), (int)(m_tracksList.count() - endPos.y()), (int) startPos.x(), (int)endPos.x());
 }
 
 void CustomTrackView::resizeClip(const QPointF &startPos, const QPointF &endPos, bool resizeClipStart) {
     int offset;
     if (resizeClipStart) offset = 1;
     else offset = -1;
-    ClipItem *item = getClipItemAt(startPos.x() + offset, startPos.y());
+    ClipItem *item = getClipItemAt((int)(startPos.x() + offset), (int) startPos.y());
     if (!item) {
         kDebug() << "----------------  ERROR, CANNOT find clip to resize at: " << startPos;
         return;
     }
     qreal diff = endPos.x() - startPos.x();
     if (resizeClipStart) {
-        m_document->renderer()->mltResizeClipStart(m_tracksList.count() - item->track(), item->endPos(), GenTime(endPos.x(), m_document->fps()), item->startPos(), item->cropStart() + GenTime(diff, m_document->fps()), item->cropStart() + GenTime(diff, m_document->fps()) + item->endPos() - GenTime(endPos.x(), m_document->fps()));
-        item->resizeStart(endPos.x(), m_scale);
+        m_document->renderer()->mltResizeClipStart(m_tracksList.count() - item->track(), item->endPos(), GenTime((int)endPos.x(), m_document->fps()), item->startPos(), item->cropStart() + GenTime((int)diff, m_document->fps()), item->cropStart() + GenTime((int)diff, m_document->fps()) + item->endPos() - GenTime((int)endPos.x(), m_document->fps()));
+        item->resizeStart((int)endPos.x(), m_scale);
     } else {
-        m_document->renderer()->mltResizeClipEnd(m_tracksList.count() - item->track(), item->startPos(), item->cropStart(), item->cropStart() + GenTime(endPos.x(), m_document->fps()) - item->startPos());
-        item->resizeEnd(endPos.x(), m_scale);
+        m_document->renderer()->mltResizeClipEnd(m_tracksList.count() - item->track(), item->startPos(), item->cropStart(), item->cropStart() + GenTime((int)endPos.x(), m_document->fps()) - item->startPos());
+        item->resizeEnd((int)endPos.x(), m_scale);
     }
     m_document->renderer()->doRefresh();
 }
 
 double CustomTrackView::getSnapPointForPos(double pos) {
     for (int i = 0; i < m_snapPoints.size(); ++i) {
-        if (abs(pos - m_snapPoints.at(i).frames(m_document->fps()) * m_scale) < 10) {
+        if (abs((int)(pos - m_snapPoints.at(i).frames(m_document->fps()) * m_scale)) < 10) {
             //kDebug()<<" FOUND SNAP POINT AT: "<<m_snapPoints.at(i)<<", current pos: "<<pos / m_scale;
             return m_snapPoints.at(i).frames(m_document->fps()) * m_scale + 0.5;
         }

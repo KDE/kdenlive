@@ -1390,7 +1390,7 @@ void Render::mltMoveTransition(QString type, int startTrack, int trackOffset, Ge
 void Render::mltUpdateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args) {
     kDebug() << "update transition"  << tag;
 
-    mltDeleteTransition(oldTag, a_track, b_track, in, out, args);
+    mltDeleteTransition(oldTag, a_track, b_track, in, out, args, false);
     mltAddTransition(tag, a_track, b_track, in, out, args);
     mltSavePlaylist();
 }
@@ -1404,7 +1404,7 @@ void Render::replaceTimelineTractor(Mlt::Tractor t) {
     kDebug() << "newTractor inserted";
 }
 
-void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args) {
+void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args, bool do_refresh) {
 
     Mlt::Tractor *tractor = getTractor();
     if (tractor) {
@@ -1437,9 +1437,9 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
                 int currentIn = (int) mlt_transition_get_in(tr);
                 int currentOut = (int) mlt_transition_get_out(tr);
                 int old_pos = (int)((in.frames(m_fps) + out.frames(m_fps)) / 2);
-                //kDebug() << current_a_track << current_b_track << a_track << b_track << currentIn << currentOut << old_pos << mlt_properties_get(prop,"mlt_service");
+                kDebug() << current_a_track << current_b_track << a_track << b_track << currentIn << currentOut << old_pos << mlt_properties_get(prop, "mlt_service");
                 if (current_a_track == a_track &&  b_track == current_b_track && currentIn <= old_pos && currentOut >= old_pos) {
-                    //kDebug() << "removing " << mlt_properties_get(prop,"mlt_service");
+                    kDebug() << "removing " << mlt_properties_get(prop, "mlt_service");
                 } else
                     newTractor.plant_transition(transition, current_a_track, current_b_track);
             }
@@ -1449,14 +1449,13 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
         replaceTimelineTractor(newTractor);
         m_mltProducer->seek(old_position);
         delete tractor;
-        refresh();
+        if (do_refresh) refresh();
     }
 
 }
 
-void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args) {
+void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args, bool do_refresh) {
 
-    m_isBlocked = true;
     Mlt::Tractor *tractor = getTractor();
     if (tractor) {
         Mlt::Field *field = tractor->field();
@@ -1485,9 +1484,8 @@ void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
         // attach filter to the clip
         field->plant_transition(transition, a_track, b_track);
         delete[] transId;
-        m_isBlocked = false;
         mltSavePlaylist();
-        refresh();
+        if (do_refresh) refresh();
         delete tractor;
     }
 }
