@@ -423,25 +423,14 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
             transitions->append(ret.documentElement());
             //kDebug() << ret.toString();
         } else {
-
+            QDomDocument ret;
+            QDomElement ktrans = ret.createElement("ktransition");
+            ret.appendChild(ktrans);
+            ktrans.setAttribute("tag", name);
+            QDomElement tname = ret.createElement("name");
             if (name == "luma") {
 
-                QDomDocument ret;
-                QDomElement ktrans = ret.createElement("ktransition");
-                ret.appendChild(ktrans);
-                ktrans.setAttribute("tag", name);
-                QDomElement tname = ret.createElement("name");
                 tname.appendChild(ret.createTextNode("Luma"));
-                ktrans.appendChild(tname);
-                transitions->append(ret.documentElement());
-
-                QDomDocument ret1;
-                QDomElement ktrans1 = ret1.createElement("ktransition");
-                ret1.appendChild(ktrans1);
-                ktrans1.setAttribute("tag", name);
-                QDomElement tname1 = ret.createElement("name");
-                tname1.appendChild(ret1.createTextNode("Lumafile"));
-                ktrans1.appendChild(tname1);
 
                 QString path(mlt_environment("MLT_DATA"));
                 path.append("/lumas/").append(mlt_environment("MLT_NORMALISATION"));
@@ -452,18 +441,9 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                     kDebug() << "luma:" << entries.get(i);
                 }
 
-
-
-                transitions->append(ret1.documentElement());
             } else if (name == "composite") {
-                QDomDocument ret;
-                QDomElement ktrans = ret.createElement("ktransition");
-                ret.appendChild(ktrans);
-                ktrans.setAttribute("tag", name);
-                QDomElement tname = ret.createElement("name");
+
                 tname.appendChild(ret.createTextNode("Composite"));
-                ktrans.appendChild(tname);
-                transitions->append(ret.documentElement());
 
                 QDomDocument ret1;
                 QDomElement ktrans1 = ret1.createElement("ktransition");
@@ -471,36 +451,26 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 ktrans1.setAttribute("tag", name);
                 QDomElement tname1 = ret.createElement("name");
                 tname1.appendChild(ret1.createTextNode("PIP"));
-                ktrans1.appendChild(tname1);
-                transitions->append(ret1.documentElement());
+
             } else if (name == "mix") {
-                QDomDocument ret;
-                QDomElement ktrans = ret.createElement("ktransition");
-                ret.appendChild(ktrans);
-                ktrans.setAttribute("tag", name);
-                QDomElement tname = ret.createElement("name");
                 tname.appendChild(ret.createTextNode("Mix"));
-                ktrans.appendChild(tname);
-                transitions->append(ret.documentElement());
             } else if (name == "affine") {
-                QDomDocument ret;
-                QDomElement ktrans = ret.createElement("ktransition");
-                ret.appendChild(ktrans);
-                ktrans.setAttribute("tag", name);
-                QDomElement tname = ret.createElement("name");
                 tname.appendChild(ret.createTextNode("Affine"));
-                ktrans.appendChild(tname);
-                transitions->append(ret.documentElement());
             } else if (name == "region") {
-                QDomDocument ret;
-                QDomElement ktrans = ret.createElement("ktransition");
-                ret.appendChild(ktrans);
-                ktrans.setAttribute("tag", name);
-                QDomElement tname = ret.createElement("name");
                 tname.appendChild(ret.createTextNode("Region"));
-                ktrans.appendChild(tname);
-                transitions->append(ret.documentElement());
             }
+            QDomElement parameter = ret.createElement("parameter");
+            parameter.setAttribute("tag", "reverse");
+            parameter.setAttribute("default", "0");
+            parameter.setAttribute("type", "bool");
+            parameter.setAttribute("name", "reverse");
+            QDomElement pname = ret.createElement("name");
+            pname.appendChild(ret.createTextNode("Reverse Transition"));
+            parameter.appendChild(pname);
+
+            ktrans.appendChild(tname);
+            ktrans.appendChild(parameter);
+            transitions->append(ret.documentElement());
         }
         /*
 

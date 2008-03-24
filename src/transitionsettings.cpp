@@ -36,23 +36,22 @@ TransitionSettings::TransitionSettings(EffectsList *transitions, QWidget* parent
 
 void TransitionSettings::slotTransitionChanged() {
     QDomElement e = m_usedTransition->toXML();
-    QDomElement newElement = e.cloneNode().toElement();
 
+    //set old values from e in <ktransition> to desc (like reverse and so )
     QDomElement desc = m_transitions->getEffectByName(ui.listWidget->currentItem()->text());
-
-    newElement.setAttribute("type", desc.attribute("tag"));
-    newElement.setAttribute("invert", "1");
-
-    emit transitionUpdated(e, newElement);
+    if (m_usedTransition)
+        m_usedTransition->setTransitionParameters(desc);
+    emit transitionUpdated(e, desc);
     emit transferParamDesc(desc, 0, 0);
 }
 
 void TransitionSettings::slotTransitionItemSelected(Transition* t) {
     setEnabled(t != NULL);
     m_usedTransition = t;
+
 }
 
 void TransitionSettings::slotUpdateEffectParams(const QDomElement& oldparam, const QDomElement& param) {
 
-    //emit transitionUpdated(oldparam, param);
+    emit transitionUpdated(oldparam, param);
 }

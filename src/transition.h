@@ -63,8 +63,8 @@ public:
     QString transitionName() const;
     OPERATIONTYPE operationMode(QPointF pos, double scale);
     void setTransitionType(QString newType);
-    const QMap < QString, QString > transitionParameters() const;
-    void setTransitionParameters(const QMap < QString, QString > parameters);
+    //const QMap < QString, QString > transitionParameters() const;
+    void setTransitionParameters(const QDomElement&);
     void setTransitionDirection(bool inv);
     int transitionTrack() const;
     void setTransitionTrack(int track);
@@ -78,7 +78,7 @@ private:
 
     GenTime m_transitionStart;
     GenTime m_transitionDuration;
-    QMap < QString, QString > m_transitionParameters;
+    QDomElement m_transitionParameters;
 
     /** The name of the transition to be displayed to user */
     QString m_transitionName;

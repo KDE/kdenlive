@@ -555,18 +555,24 @@ void CustomTrackView::slotAddTransition(ClipItem* clip , QDomElement transition,
 
 void CustomTrackView::addTransition(int startTrack, GenTime startPos , QDomElement e) {
     QMap < QString, QString> map;
+    QString s;
+    QTextStream tx(&s);
+    e.save(tx, 2);
+    kDebug() << "in" << s;
 
-    QDomNamedNodeMap attribs = e.attributes();
+    QDomNodeList attribs = e.elementsByTagName("parameter");
     for (int i = 0;i < attribs.count();i++) {
-        if (attribs.item(i).nodeName() != "type" &&
-                attribs.item(i).nodeName() != "start" &&
-                attribs.item(i).nodeName() != "end"
-           )
-            map[attribs.item(i).nodeName()] = attribs.item(i).nodeValue();
+        QDomNamedNodeMap atts = attribs.item(i).attributes();
+        if (!atts.namedItem("value").nodeValue().isEmpty()) {
+            map[atts.namedItem("name").nodeValue()] = atts.namedItem("value").nodeValue();
+        } else {
+            map[atts.namedItem("name").nodeValue()] = atts.namedItem("default").nodeValue();
+        }
+
     }
     //map["resource"] = "%luma12.pgm";
-    kDebug() << "---- ADDING transition " << e.attribute("type") << ", on tracks " << m_tracksList.count() - e.attribute("transition_track").toInt() << " / " << getPreviousVideoTrack(e.attribute("transition_track").toInt());
-    m_document->renderer()->mltAddTransition(e.attribute("type"), getPreviousVideoTrack(e.attribute("transition_track").toInt()), m_tracksList.count() - e.attribute("transition_track").toInt() ,
+    kDebug() << "---- ADDING transition " << e.attribute("tag") << ", on tracks " << m_tracksList.count() - e.attribute("transition_track").toInt() << " / " << getPreviousVideoTrack(e.attribute("transition_track").toInt());
+    m_document->renderer()->mltAddTransition(e.attribute("tag"), getPreviousVideoTrack(e.attribute("transition_track").toInt()), m_tracksList.count() - e.attribute("transition_track").toInt() ,
             GenTime(e.attribute("start").toInt(), m_document->renderer()->fps()),
             GenTime(e.attribute("end").toInt(), m_document->renderer()->fps()),
             map);
@@ -577,7 +583,7 @@ void CustomTrackView::addTransition(int startTrack, GenTime startPos , QDomEleme
 void CustomTrackView::deleteTransition(int, GenTime, QDomElement e) {
     QMap < QString, QString> map;
     QDomNamedNodeMap attribs = e.attributes();
-    m_document->renderer()->mltDeleteTransition(e.attribute("type"), getPreviousVideoTrack(e.attribute("transition_track").toInt()), m_tracksList.count() - e.attribute("transition_track").toInt() ,
+    m_document->renderer()->mltDeleteTransition(e.attribute("tag"), getPreviousVideoTrack(e.attribute("transition_track").toInt()), m_tracksList.count() - e.attribute("transition_track").toInt() ,
             GenTime(e.attribute("start").toInt(), m_document->renderer()->fps()),
             GenTime(e.attribute("end").toInt(), m_document->renderer()->fps()),
             map);
@@ -596,15 +602,18 @@ void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTr
     transition.save(tx, 2);
     kDebug() << "in" << s;
     QMap < QString, QString> map;
-    QDomNamedNodeMap attribs = transition.attributes();
+
+    QDomNodeList attribs = transition.elementsByTagName("parameter");
     for (int i = 0;i < attribs.count();i++) {
-        if (attribs.item(i).nodeName() != "type" &&
-                attribs.item(i).nodeName() != "start" &&
-                attribs.item(i).nodeName() != "end"
-           )
-            map[attribs.item(i).nodeName()] = attribs.item(i).nodeValue();
+        QDomNamedNodeMap atts = attribs.item(i).attributes();
+        if (!atts.namedItem("value").nodeValue().isEmpty()) {
+            map[atts.namedItem("name").nodeValue()] = atts.namedItem("value").nodeValue();
+        } else {
+            map[atts.namedItem("name").nodeValue()] = atts.namedItem("default").nodeValue();
+        }
+
     }
-    m_document->renderer()->mltUpdateTransition(oldTransition.attribute("type"), transition.attribute("type"), m_tracksList.count() - 1  - transition.attribute("transition_track").toInt(), m_tracksList.count() - transition.attribute("transition_track").toInt() ,
+    m_document->renderer()->mltUpdateTransition(oldTransition.attribute("tag"), transition.attribute("tag"), m_tracksList.count() - 1  - transition.attribute("transition_track").toInt(), m_tracksList.count() - transition.attribute("transition_track").toInt() ,
             GenTime(transition.attribute("start").toInt(), m_document->renderer()->fps()),
             GenTime(transition.attribute("end").toInt(), m_document->renderer()->fps()),
             map);

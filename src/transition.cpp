@@ -57,6 +57,18 @@ Transition::Transition(const QRectF& rect , ClipItem * clipa, const QString & ty
     m_secondClip = 0;
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setZValue(2);
+
+    QDomDocument doc;
+    doc.setContent(QString("<ktransition tag=\"luma\">\n\
+                           <name>Luma</name>\n\
+                           <description>Luma Transitions</description>\n\
+                           <properties id=\"luma\" tag=\"luma\" />\n\
+                           <parameter type=\"bool\" name=\"reverse\" max=\"1\" min=\"0\" default=\"1\" factor=\"1\">\n\
+                           <name>Reverse</name>\n\
+                           </parameter>\n\
+                           </ktransition>"));
+    m_transitionParameters = doc.documentElement();
+
     m_referenceClip->addTransition(this);
 }
 
@@ -82,7 +94,7 @@ Transition::Transition(const QRectF& rect , ClipItem * clip, QDomElement transit
         params[paramElement.tagName()] = paramElement.attribute("value", QString::null);
     }
     if (m_invertTransition) params["reverse"] = "1";
-    if (!params.isEmpty()) setTransitionParameters(params);
+    //if (!params.isEmpty()) setTransitionParameters(params);
 
     // Check if transition is valid (not outside of clip)
     if (m_transitionStart > clip->duration())
@@ -97,12 +109,8 @@ QString Transition::transitionName() const {
     return m_transitionName;
 }
 
-void Transition::setTransitionParameters(const QMap < QString, QString > parameters) {
-    m_transitionParameters = parameters;
-}
-
-const QMap < QString, QString > Transition::transitionParameters() const {
-    return m_transitionParameters;
+void Transition::setTransitionParameters(const QDomElement & elem) {
+    m_transitionParameters = elem;
 }
 
 bool Transition::invertTransition() const {
@@ -279,27 +287,25 @@ const ClipItem *Transition::referencedClip() const {
 }
 
 QDomElement Transition::toXML() {
-    QDomDocument doc;
-    QDomElement effect = doc.createElement("ktransition");
-    effect.setAttribute("type", m_transitionName);
-    effect.setAttribute("inverted", invertTransition());
-    effect.setAttribute("transition_track", m_transitionTrack);
-    effect.setAttribute("start", transitionStartTime().frames(m_referenceClip->fps()));
-    effect.setAttribute("end", transitionEndTime().frames(m_referenceClip->fps()));
+    m_transitionParameters.setAttribute("type", m_transitionName);
+    //m_transitionParameters.setAttribute("inverted", invertTransition());
+    m_transitionParameters.setAttribute("transition_track", m_transitionTrack);
+    m_transitionParameters.setAttribute("start", transitionStartTime().frames(m_referenceClip->fps()));
+    m_transitionParameters.setAttribute("end", transitionEndTime().frames(m_referenceClip->fps()));
 
     if (m_secondClip) {
-        effect.setAttribute("clipb_starttime", m_secondClip->startPos().frames(m_referenceClip->fps()));
-        effect.setAttribute("clipb_track", transitionEndTrack());
+        m_transitionParameters.setAttribute("clipb_starttime", m_secondClip->startPos().frames(m_referenceClip->fps()));
+        m_transitionParameters.setAttribute("clipb_track", transitionEndTrack());
     }
 
 
-    QMap<QString, QString>::Iterator it;
-    for (it = m_transitionParameters.begin(); it != m_transitionParameters.end(); ++it) {
-        QDomElement param = doc.createElement(it.key());
-        param.setAttribute("value", it.value());
-        effect.appendChild(param);
-    }
+    /* QMap<QString, QString>::Iterator it;
+     for (it = m_transitionParameters.begin(); it != m_transitionParameters.end(); ++it) {
+         QDomElement param = doc.createElement(it.key());
+         param.setAttribute("value", it.value());
+         effect.appendChild(param);
+     }*/
 
-    return effect;
+    return m_transitionParameters;
 }
 
