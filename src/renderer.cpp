@@ -1352,39 +1352,44 @@ void Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
 void Render::mltMoveTransition(QString type, int startTrack, int trackOffset, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut) {
     m_isBlocked = true;
     m_mltConsumer->set("refresh", 0);
-    mlt_service serv = m_mltProducer->parent().get_service();
 
-    mlt_service nextservice = mlt_service_get_producer(serv);
-    mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
-    QString mlt_type = mlt_properties_get(properties, "mlt_type");
-    QString resource = mlt_properties_get(properties, "mlt_service");
-    int old_pos = (int)(oldIn.frames(m_fps) + oldOut.frames(m_fps)) / 2;
+    Mlt::Tractor *tractor = getTractor();
+    if (tractor) {
+        Mlt::Tractor newTractor;
+        mlt_service service = tractor->get_service();
+        mlt_service nextservice = mlt_service_get_producer(service);
+        mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
+        QString mlt_type = mlt_properties_get(properties, "mlt_type");
+        QString resource = mlt_properties_get(properties, "mlt_service");
+        int old_pos = (int)(oldIn.frames(m_fps) + oldOut.frames(m_fps)) / 2;
 
-    int new_in = (int)newIn.frames(m_fps);
-    int new_out = (int)newOut.frames(m_fps) - 1;
-    while (mlt_type == "transition") {
-        mlt_transition tr = (mlt_transition) nextservice;
-        int currentTrack = mlt_transition_get_b_track(tr);
-        int currentIn = (int) mlt_transition_get_in(tr);
-        int currentOut = (int) mlt_transition_get_out(tr);
-        kDebug() << "// FOUND EXISTING TRANS, IN: " << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack;
-        //kDebug()<<"// LOOKING FOR IN: "<<old_in<<", OUT: "<<old_out;
-        kDebug() << "// OLD IN: " << oldIn.frames(m_fps) << " // OLD OUT: " << oldOut.frames(m_fps) << ", TRACK: " << startTrack << ", MID POS: " << old_pos;
-        if (resource == type && startTrack == currentTrack && currentIn <= old_pos && currentOut >= old_pos) {
-            mlt_transition_set_in_and_out(tr, new_in, new_out);
-            if (trackOffset != 0) {
-                mlt_properties properties = MLT_TRANSITION_PROPERTIES(tr);
-                mlt_properties_set_int(properties, "a_track", mlt_transition_get_a_track(tr) + trackOffset);
-                mlt_properties_set_int(properties, "b_track", mlt_transition_get_b_track(tr) + trackOffset);
+        int new_in = (int)newIn.frames(m_fps);
+        int new_out = (int)newOut.frames(m_fps) - 1;
+        while (mlt_type == "transition") {
+            mlt_transition tr = (mlt_transition) nextservice;
+            int currentTrack = mlt_transition_get_b_track(tr);
+            int currentIn = (int) mlt_transition_get_in(tr);
+            int currentOut = (int) mlt_transition_get_out(tr);
+            kDebug() << "// FOUND EXISTING TRANS, IN: " << type << resource << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack;
+            //kDebug()<<"// LOOKING FOR IN: "<<old_in<<", OUT: "<<old_out;
+            kDebug() << "// OLD IN: " << oldIn.frames(m_fps) << " // OLD OUT: " << oldOut.frames(m_fps) << ", TRACK: " << startTrack << ", MID POS: " << old_pos;
+            if (resource == type && startTrack == currentTrack && currentIn <= old_pos && currentOut >= old_pos) {
+                mlt_transition_set_in_and_out(tr, new_in, new_out);
+                if (trackOffset != 0) {
+                    mlt_properties properties = MLT_TRANSITION_PROPERTIES(tr);
+                    mlt_properties_set_int(properties, "a_track", mlt_transition_get_a_track(tr) + trackOffset);
+                    mlt_properties_set_int(properties, "b_track", mlt_transition_get_b_track(tr) + trackOffset);
+						  kDebug() << "set new start & end :" << new_in << new_out;
+                }
+                break;
             }
-            break;
+            nextservice = mlt_service_producer(nextservice);
+            properties = MLT_SERVICE_PROPERTIES(nextservice);
+            mlt_type = mlt_properties_get(properties, "mlt_type");
+            resource = mlt_properties_get(properties, "mlt_service");
         }
-        nextservice = mlt_service_producer(nextservice);
-        properties = MLT_SERVICE_PROPERTIES(nextservice);
-        mlt_type = mlt_properties_get(properties, "mlt_type");
-        resource = mlt_properties_get(properties, "mlt_service");
+        m_isBlocked = false;
     }
-    m_isBlocked = false;
 }
 
 void Render::mltUpdateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml) {

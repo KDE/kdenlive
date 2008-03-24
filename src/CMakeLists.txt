@@ -102,6 +102,7 @@ set(kdenlive_SRCS
   addfoldercommand.cpp
   editfoldercommand.cpp
   clipproperties.cpp
+  movetransitioncommand.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

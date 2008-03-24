@@ -590,6 +590,10 @@ void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTr
     m_document->setModified(true);
 }
 
+void CustomTrackView::moveTransition(GenTime oldpos, GenTime newpos) {
+    kDebug() << "move";
+}
+
 void CustomTrackView::addItem(DocClipBase *clip, QPoint pos) {
     int in = 0;
     GenTime out = clip->duration();
@@ -735,6 +739,17 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         MoveClipCommand *command = new MoveClipCommand(this, m_startPos, QPointF(m_dragItem->startPos().frames(m_document->fps()), m_dragItem->track()), false);
         m_commandStack->push(command);
         if (m_dragItem->type() == AVWIDGET) m_document->renderer()->mltMoveClip((int)(m_tracksList.count() - m_startPos.y()), (int)(m_tracksList.count() - m_dragItem->track()), (int) m_startPos.x(), (int)(m_dragItem->startPos().frames(m_document->fps())));
+        if (m_dragItem->type() == TRANSITIONWIDGET) {
+            Transition* transition = (Transition*)m_dragItem;
+            GenTime oldin = transition->transitionStartTime();
+            GenTime oldout = transition->transitionEndTime();
+            GenTime newin = m_dragItem->startPos();
+            GenTime newout = newin + (oldout - oldin);
+            m_document->renderer()->mltMoveTransition(transition->transitionName(),
+                    (int)(m_tracksList.count() - m_dragItem->track()), 0,
+                    oldin, oldout, newin, newout);
+        }
+
     } else if (m_operationMode == RESIZESTART) {
         // resize start
         ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->startPos().frames(m_document->fps()), m_dragItem->track()), true, false);
@@ -794,10 +809,10 @@ ClipItem *CustomTrackView::getClipItemAt(int pos, int track) {
     QList<QGraphicsItem *> list = scene()->items(QPointF(pos * m_scale, track * m_tracksHeight + m_tracksHeight / 2));
     ClipItem *clip = NULL;
     for (int i = 0; i < list.size(); ++i) {
-	if (list.at(i)->type() == AVWIDGET) {
-	    clip = static_cast <ClipItem *> (list.at(i));
-	    break;
-	}
+        if (list.at(i)->type() == AVWIDGET) {
+            clip = static_cast <ClipItem *>(list.at(i));
+            break;
+        }
     }
     return clip;
 }
@@ -806,10 +821,10 @@ ClipItem *CustomTrackView::getClipItemAt(GenTime pos, int track) {
     QList<QGraphicsItem *> list = scene()->items(QPointF(pos.frames(m_document->fps()) * m_scale, track * m_tracksHeight + m_tracksHeight / 2));
     ClipItem *clip = NULL;
     for (int i = 0; i < list.size(); ++i) {
-	if (list.at(i)->type() == AVWIDGET) {
-	    clip = static_cast <ClipItem *> (list.at(i));
-	    break;
-	}
+        if (list.at(i)->type() == AVWIDGET) {
+            clip = static_cast <ClipItem *>(list.at(i));
+            break;
+        }
     }
     return clip;
 }
@@ -863,7 +878,7 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected) {
     QList<QGraphicsItem *> itemList = items();
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET && itemList.at(i) != selected) {
-            ClipItem *item = static_cast <ClipItem *> (itemList.at(i));
+            ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             GenTime start = item->startPos();
             GenTime end = item->endPos();
             m_snapPoints.append(start);
@@ -872,18 +887,17 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected) {
                 if (start > offset) m_snapPoints.append(start - offset);
                 if (end > offset) m_snapPoints.append(end - offset);
             }
-        }
-	else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
-	    Transition *transition = static_cast <Transition*> (itemList.at(i));
-	    GenTime start = transition->transitionStartTime();
+        } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
+            Transition *transition = static_cast <Transition*>(itemList.at(i));
+            GenTime start = transition->transitionStartTime();
             GenTime end = transition->transitionEndTime();
             m_snapPoints.append(start);
             m_snapPoints.append(end);
             if (offset != GenTime()) {
                 if (start > offset) m_snapPoints.append(start - offset);
                 if (end > offset) m_snapPoints.append(end - offset);
-            }	    
-	}
+            }
+        }
     }
     qSort(m_snapPoints);
     //for (int i = 0; i < m_snapPoints.size(); ++i)

@@ -59,6 +59,7 @@ public:
     void addTransition(int track, GenTime pos, QDomElement transition);
     void deleteTransition(int track, GenTime pos, QDomElement transition);
     void updateTransition(int track, GenTime pos,  QDomElement oldTransition, QDomElement transition);
+    void moveTransition(GenTime oldpos,GenTime newpos);
     void activateMonitor();
     int duration() const;
     void deleteSelectedClips();

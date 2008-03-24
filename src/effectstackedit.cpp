@@ -98,7 +98,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
             lsval->list->setCurrentIndex(listitems.indexOf(value));
             for (int i = 0;i < lsval->list->count();i++) {
                 QString entry = lsval->list->itemText(i);
-                if (!entry.isEmpty() && (entry.endsWith(".png") || entry.endsWith(".pnm"))) {
+                if (!entry.isEmpty() && (entry.endsWith(".png") || entry.endsWith(".pgm"))) {
                     if (!iconCache.contains(entry)) {
                         QPixmap pix(entry);
                         iconCache[entry] = pix.scaled(30, 30);
