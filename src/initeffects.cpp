@@ -411,7 +411,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
         ret.appendChild(ktrans);
         ktrans.setAttribute("tag", name);
         QDomElement tname = ret.createElement("name");
-
+        QList<QDomElement> paramList;
         Mlt::Properties *metadata = repository->metadata(transition_type, name.toAscii().data());
         //kDebug() << filtername;
         if (metadata && metadata->is_valid()) {
@@ -456,27 +456,53 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 tname.appendChild(ret.createTextNode("Mix"));
             } else if (name == "affine") {
                 tname.appendChild(ret.createTextNode("Affine"));
+                paramList.append(quickParameterFill(ret, "Rotate Y", "rotate_y", "double", "1", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Rotate X", "rotate_x", "double", "1", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Rotate Z", "rotate_z", "double", "1", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Fix Rotate Y", "fix_rotate_y", "double", "1", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Fix Rotate X", "fix_rotate_x", "double", "1", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Fix Rotate Z", "fix_rotate_z", "double", "1", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Shear Y", "shear_y", "double", "1", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Shear X", "shear_x", "double", "1", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Shear Z", "shear_z", "double", "1", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Fix Shear Y", "fix_shear_y", "double", "1", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Fix Shear X", "fix_shear_x", "double", "1", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Fix Shear Z", "fix_shear_z", "double", "1", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Mirror", "mirror_off", "bool", "1", "0", "1"));
+                paramList.append(quickParameterFill(ret, "Repeat", "repeat_off", "bool", "1", "0", "1"));
+                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "0,0:100%x100%", "0,0:100%x100%0", "0,0:100%x100%1"));
             } else if (name == "region") {
                 tname.appendChild(ret.createTextNode("Region"));
             }
 
 
         }
-        QDomElement parameter = ret.createElement("parameter");
-        parameter.setAttribute("tag", "reverse");
-        parameter.setAttribute("default", "0");
-        parameter.setAttribute("type", "bool");
-        parameter.setAttribute("name", "reverse");
-        QDomElement pname = ret.createElement("name");
-        pname.appendChild(ret.createTextNode("Reverse Transition"));
-        parameter.appendChild(pname);
-
+        paramList.append(quickParameterFill(ret, "Reverse Transition", "reverse", "bool", "1", "0", "1"));
         ktrans.appendChild(tname);
-        ktrans.appendChild(parameter);
+
+        foreach(QDomElement e, paramList) {
+            ktrans.appendChild(e);
+        }
+
+
         transitions->append(ret.documentElement());
         /*
 
          <transition fill="1" in="11" a_track="1" out="73" mlt_service="luma" b_track="2" softness="0" resource="/home/marco/Projekte/kdenlive/install_cmake/share/apps/kdenlive/pgm/PAL/square2.pgm" />
         */
     }
+}
+QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def, QString min, QString max) {
+    QDomElement parameter = doc.createElement("parameter");
+    parameter.setAttribute("tag", tag);
+    parameter.setAttribute("default", def);
+    parameter.setAttribute("type", type);
+    parameter.setAttribute("name", tag);
+    parameter.setAttribute("max", max);
+    parameter.setAttribute("min", min);
+    QDomElement pname = doc.createElement("name");
+    pname.appendChild(doc.createTextNode(name));
+    parameter.appendChild(pname);
+
+    return parameter;
 }
