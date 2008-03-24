@@ -863,7 +863,7 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected) {
     QList<QGraphicsItem *> itemList = items();
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET && itemList.at(i) != selected) {
-            ClipItem *item = (ClipItem *)itemList.at(i);
+            ClipItem *item = static_cast <ClipItem *> (itemList.at(i));
             GenTime start = item->startPos();
             GenTime end = item->endPos();
             m_snapPoints.append(start);
@@ -873,6 +873,17 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected) {
                 if (end > offset) m_snapPoints.append(end - offset);
             }
         }
+	else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
+	    Transition *transition = static_cast <Transition*> (itemList.at(i));
+	    GenTime start = transition->transitionStartTime();
+            GenTime end = transition->transitionEndTime();
+            m_snapPoints.append(start);
+            m_snapPoints.append(end);
+            if (offset != GenTime()) {
+                if (start > offset) m_snapPoints.append(start - offset);
+                if (end > offset) m_snapPoints.append(end - offset);
+            }	    
+	}
     }
     qSort(m_snapPoints);
     //for (int i = 0; i < m_snapPoints.size(); ++i)
