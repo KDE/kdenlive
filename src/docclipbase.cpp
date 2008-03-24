@@ -23,14 +23,23 @@
 #include "clipmanager.h"
 
 DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, uint id):
-        m_xml(xml), m_id(id), m_description(""), m_refcount(0), m_projectThumbFrame(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL) {
+        m_id(id), m_description(QString()), m_refcount(0), m_projectThumbFrame(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL) {
     int type = xml.attribute("type").toInt();
     m_clipType = (CLIPTYPE) type;
     m_name = xml.attribute("name");
-    m_xml.setAttribute("id", QString::number(id));
+    m_id = id;
+
+    QDomNamedNodeMap attributes = xml.attributes();
+    for (unsigned int i = 0; i < attributes.count(); i++) {
+        m_properties.insert(attributes.item(i).nodeName(), attributes.item(i).nodeValue());
+    }
+
     KUrl url = KUrl(xml.attribute("resource"));
     int out = xml.attribute("out").toInt();
-    if (out != 0) setDuration(GenTime(out, 25));
+    if (out != 0) {
+        setDuration(GenTime(out, 25));
+        //m_properties.insert("out", QString::number(out));
+    }
     if (m_name.isEmpty()) m_name = url.fileName();
 
     if (!url.isEmpty()) {
@@ -43,22 +52,22 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, uint id):
 
 
 DocClipBase::DocClipBase(const DocClipBase& clip) {
-    m_xml = clip.toXML();
     m_id = clip.getId();
     m_clipType = clip.clipType();
     m_name = clip.name();
     m_duration = clip.duration();
     m_audioThumbCreated = clip.audioThumbCreated();
+    m_properties = clip.properties();
 }
 
 DocClipBase & DocClipBase::operator=(const DocClipBase & clip) {
     DocClipBase::operator=(clip);
-    m_xml = clip.toXML();
     m_id = clip.getId();
     m_clipType = clip.clipType();
     m_name = clip.name();
     m_duration = clip.duration();
     m_audioThumbCreated = clip.audioThumbCreated();
+    m_properties = clip.properties();
     return *this;
 }
 
@@ -80,11 +89,6 @@ void DocClipBase::slotRequestAudioThumbs() {
 void DocClipBase::slotClearAudioCache() {
     audioFrameChache.clear();
     m_audioThumbCreated = false;
-}
-
-void DocClipBase::setGroup(const QString name, const QString id) {
-    m_xml.setAttribute("groupname", name);
-    m_xml.setAttribute("groupid", id);
 }
 
 KThumb *DocClipBase::thumbProducer() {
@@ -123,7 +127,7 @@ void DocClipBase::setClipType(CLIPTYPE type) {
 }
 
 KUrl DocClipBase::fileURL() const {
-    QString res = m_xml.attribute("resource");
+    QString res = m_properties.value("resource");
     if (m_clipType != COLOR && !res.isEmpty()) return KUrl(res);
     return KUrl();
 }
@@ -136,12 +140,8 @@ uint DocClipBase::getProjectThumbFrame() const {
     return m_projectThumbFrame;
 }
 
-void DocClipBase::setDescription(const QString & description) {
-    m_description = description;
-}
-
-const QString & DocClipBase::description() const {
-    return m_description;
+const QString DocClipBase::description() const {
+    return m_properties.value("description");
 }
 
 void DocClipBase::setDuration(GenTime dur) {
@@ -159,15 +159,18 @@ bool DocClipBase::hasFileSize() const {
 
 // virtual
 QDomElement DocClipBase::toXML() const {
-    /*
-        QDomDocument doc;
+    QDomDocument doc;
 
-        QDomElement clip = doc.createElement("kdenliveclip");
-        QDomText text = doc.createTextNode(description());
-        clip.appendChild(text);
-        doc.appendChild(clip);
-    */
-    return m_xml;
+    QDomElement clip = doc.createElement("producer");
+
+    QMapIterator<QString, QString> i(m_properties);
+    while (i.hasNext()) {
+        i.next();
+        if (!i.value().isEmpty()) clip.setAttribute(i.key(), i.value());
+    }
+    //doc.appendChild(clip);
+    //kDebug()<<"/// CLIP XML: "<<doc.toString();
+    return clip;
 }
 
 DocClipBase *DocClipBase::
@@ -208,7 +211,9 @@ createClip(KdenliveDoc *doc, const QDomElement & element) {
         endl;
     } else {
         // setup DocClipBase specifics of the clip.
-        clip->setDescription(description);
+        QMap <QString, QString> props;
+        props.insert("description", description);
+        clip->setProperties(props);
         clip->setAudioThumbCreated(false);
     }
     return clip;
@@ -351,10 +356,14 @@ QString DocClipBase::markerComment(GenTime t) {
 }
 
 void DocClipBase::setProperties(QMap <QString, QString> properties) {
-    m_properties = properties;
+    QMapIterator<QString, QString> i(properties);
+    while (i.hasNext()) {
+        i.next();
+        m_properties.insert(i.key(), i.value());
+    }
 }
 
-QMap <QString, QString> DocClipBase::properties() {
+QMap <QString, QString> DocClipBase::properties() const {
     return m_properties;
 }
 

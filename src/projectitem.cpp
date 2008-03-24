@@ -143,10 +143,6 @@ void ProjectItem::setGroupName(const QString name) {
     m_groupName = name;
 }
 
-void ProjectItem::setGroup(const QString name, const QString id) {
-    if (m_clip) m_clip->setGroup(name, id);
-}
-
 QStringList ProjectItem::names() const {
     QStringList result;
     result.append(text(0));
@@ -173,8 +169,8 @@ void ProjectItem::changeDuration(int frames) {
     m_clip->setDuration(m_duration);
 }
 
-void ProjectItem::setDescription(const QString &desc) {
-    m_clip->setDescription(desc);
+void ProjectItem::setProperties(QMap <QString, QString> props) {
+    m_clip->setProperties(props);
 }
 
 DocClipBase *ProjectItem::referencedClip() {

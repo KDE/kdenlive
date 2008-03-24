@@ -52,10 +52,9 @@ public:
     const KUrl clipUrl() const;
     int clipMaxDuration() const;
     CLIPTYPE clipType() const;
-    void setGroup(const QString name, const QString id);
     void changeDuration(int frames);
     DocClipBase *referencedClip();
-    void setDescription(const QString &desc);
+    void setProperties(QMap <QString, QString> props);
 
 private:
     QDomElement m_element;

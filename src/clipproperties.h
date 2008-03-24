@@ -33,7 +33,8 @@ class ClipProperties : public QDialog {
 
 public:
     ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent = 0);
-
+    QMap <QString, QString> properties();
+    int clipId();
 
 private slots:
 

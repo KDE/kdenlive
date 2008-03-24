@@ -159,7 +159,10 @@ void ProjectListView::dropEvent(QDropEvent *event) {
                         else clone = (ProjectItem*) takeTopLevelItem(indexOfTopLevelItem(it));
                         if (clone) {
                             item->addChild(clone);
-                            clone->setGroup(item->groupName(), QString::number(parentId));
+                            QMap <QString, QString> props;
+                            props.insert("groupname", item->groupName());
+                            props.insert("groupid", QString::number(parentId));
+                            clone->setProperties(props);
                         }
                     }
                 }

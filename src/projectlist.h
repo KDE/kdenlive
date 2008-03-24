@@ -106,6 +106,7 @@ public:
     void setRenderer(Render *projectRender);
 
     void addClip(const QStringList &name, const QDomElement &elem, const int clipId, const KUrl &url = KUrl(), const QString &group = QString::null, int parentId = -1);
+    void slotUpdateClipProperties(int id, QMap <QString, QString> properties);
 
 public slots:
     void setDocument(KdenliveDoc *doc);
@@ -144,7 +145,8 @@ private slots:
     void slotAddFolder();
     void slotAddFolder(const QString foldername, int clipId, bool remove, bool edit);
     /** This is triggered when a clip description has been modified */
-    void slotUpdateItemDescription(QTreeWidgetItem *item, int column);
+    void slotItemEdited(QTreeWidgetItem *item, int column);
+    void slotUpdateClipProperties(ProjectItem *item, QMap <QString, QString> properties);
     //void slotShowMenu(const QPoint &pos);
 
 

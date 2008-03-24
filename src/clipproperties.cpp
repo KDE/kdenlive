@@ -68,6 +68,16 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     adjustSize();
 }
 
+int ClipProperties::clipId() {
+    return m_clip->getId();
+}
+
+QMap <QString, QString> ClipProperties::properties() {
+    QMap <QString, QString> props;
+    props["description"] = m_view.clip_description->text();
+    return props;
+}
+
 #include "clipproperties.moc"
 
 

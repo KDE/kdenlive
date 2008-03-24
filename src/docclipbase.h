@@ -82,11 +82,8 @@ Q_OBJECT public:
     /** returns the name of this clip. */
     const QString & name() const;
 
-    /** Sets the description for this clip. */
-    void setDescription(const QString & descripton);
-
     /** Returns the description of this clip. */
-    const QString & description() const;
+    const QString description() const;
 
     /** Returns the internal unique id of the clip. */
     uint getId() const;
@@ -199,9 +196,6 @@ Q_OBJECT public:
     void slotRequestAudioThumbs();
     /** Free cache data */
     void slotClearAudioCache();
-    /** puts the clip in a group (used for folder grouping) */
-    void setGroup(const QString name, const QString id);
-
 
 private:   // Private attributes
     /** The name of this clip */
@@ -216,7 +210,6 @@ private:   // Private attributes
 
     /** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
     QList < CommentedTime > m_snapMarkers;
-    QDomElement m_xml;
 
     /** A thumbnail for this clip */
     QPixmap m_thumbnail;
@@ -251,7 +244,7 @@ public slots:
     void setProjectThumbFrame(const uint &ix);
     uint getProjectThumbFrame() const;
     void setProperties(QMap <QString, QString> properties);
-    QMap <QString, QString> properties();
+    QMap <QString, QString> properties() const;
 
 signals:
     void getAudioThumbs();

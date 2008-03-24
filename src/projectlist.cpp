@@ -109,7 +109,7 @@ ProjectList::ProjectList(QWidget *parent)
     connect(listView, SIGNAL(requestMenu(const QPoint &, QTreeWidgetItem *)), this, SLOT(slotContextMenu(const QPoint &, QTreeWidgetItem *)));
     connect(listView, SIGNAL(addClip()), this, SLOT(slotAddClip()));
     connect(listView, SIGNAL(addClip(QUrl, const QString &)), this, SLOT(slotAddClip(QUrl, const QString &)));
-    connect(listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotUpdateItemDescription(QTreeWidgetItem *, int)));
+    connect(listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemEdited(QTreeWidgetItem *, int)));
     connect(listView, SIGNAL(showProperties(DocClipBase *)), this, SIGNAL(showClipProperties(DocClipBase *)));
 
     m_listViewDelegate = new ItemDelegate(listView);
@@ -132,18 +132,32 @@ void ProjectList::slotClipSelected() {
     if (item && !item->isGroup()) emit clipSelected(item->toXml());
 }
 
-void ProjectList::slotUpdateItemDescription(QTreeWidgetItem *item, int column) {
-    ProjectItem *clip = static_cast <ProjectItem*>(item);
-    CLIPTYPE type = clip->clipType();
-    if (column == 2) {
+void ProjectList::slotUpdateClipProperties(int id, QMap <QString, QString> properties) {
+    ProjectItem *item = getItemById(id);
+    if (item) slotUpdateClipProperties(item, properties);
+}
+
+void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QString> properties) {
+    if (!clip) return;
+    clip->setProperties(properties);
+    if (properties.contains("description")) {
+        CLIPTYPE type = clip->clipType();
+        clip->setText(2, properties.value("description"));
         if (type == AUDIO || type == VIDEO || type == AV || type == IMAGE || type == PLAYLIST) {
             // Use Nepomuk system to store clip description
             Nepomuk::Resource f(clip->clipUrl().path());
-            if (f.isValid()) f.setDescription(item->text(2));
-            clip->setDescription(item->text(2));
-            kDebug() << "NEPOMUK, SETTING CLIP: " << clip->clipUrl().path() << ", TO TEXT: " << item->text(2);
+            if (f.isValid()) f.setDescription(properties.value("description"));
         }
-    } else if (column == 1 && type == FOLDER) {
+    }
+}
+
+void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column) {
+    ProjectItem *clip = static_cast <ProjectItem*>(item);
+    if (column == 2) {
+        QMap <QString, QString> props;
+        props["description"] = item->text(2);
+        slotUpdateClipProperties(clip, props);
+    } else if (column == 1 && clip->clipType() == FOLDER) {
         m_doc->slotEditFolder(item->text(1), clip->groupName(), clip->clipId());
     }
 }

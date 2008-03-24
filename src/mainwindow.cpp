@@ -894,7 +894,9 @@ void MainWindow::slotGotProgressInfo(KUrl url, int progress) {
 
 void MainWindow::slotShowClipProperties(DocClipBase *clip) {
     ClipProperties dia(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
-    dia.exec();
+    if (dia.exec() == QDialog::Accepted) {
+        m_projectList->slotUpdateClipProperties(dia.clipId(), dia.properties());
+    }
 }
 
 void MainWindow::customEvent(QEvent* e) {
