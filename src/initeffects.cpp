@@ -407,12 +407,15 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
 void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList* transitions, QStringList names) {
     foreach(QString name, names) {
         QDomDocument ret;
-
+        QDomElement ktrans = ret.createElement("ktransition");
+        ret.appendChild(ktrans);
+        ktrans.setAttribute("tag", name);
+        QDomElement tname = ret.createElement("name");
 
         Mlt::Properties *metadata = repository->metadata(transition_type, name.toAscii().data());
         //kDebug() << filtername;
         if (metadata && metadata->is_valid()) {
-            QDomElement ktrans = ret.createElement("ktransition");
+
             ret.appendChild(ktrans);
             if (metadata->get("title") && metadata->get("identifier")) {
                 ktrans.setAttribute("tag", name);
@@ -420,14 +423,11 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 tname.appendChild(ret.createTextNode(metadata->get("title")));
                 ktrans.appendChild(tname);
             }
-            transitions->append(ret.documentElement());
+
             //kDebug() << ret.toString();
         } else {
-            QDomDocument ret;
-            QDomElement ktrans = ret.createElement("ktransition");
-            ret.appendChild(ktrans);
-            ktrans.setAttribute("tag", name);
-            QDomElement tname = ret.createElement("name");
+
+
             if (name == "luma") {
 
                 tname.appendChild(ret.createTextNode("Luma"));
@@ -459,19 +459,21 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
             } else if (name == "region") {
                 tname.appendChild(ret.createTextNode("Region"));
             }
-            QDomElement parameter = ret.createElement("parameter");
-            parameter.setAttribute("tag", "reverse");
-            parameter.setAttribute("default", "0");
-            parameter.setAttribute("type", "bool");
-            parameter.setAttribute("name", "reverse");
-            QDomElement pname = ret.createElement("name");
-            pname.appendChild(ret.createTextNode("Reverse Transition"));
-            parameter.appendChild(pname);
 
-            ktrans.appendChild(tname);
-            ktrans.appendChild(parameter);
-            transitions->append(ret.documentElement());
+
         }
+        QDomElement parameter = ret.createElement("parameter");
+        parameter.setAttribute("tag", "reverse");
+        parameter.setAttribute("default", "0");
+        parameter.setAttribute("type", "bool");
+        parameter.setAttribute("name", "reverse");
+        QDomElement pname = ret.createElement("name");
+        pname.appendChild(ret.createTextNode("Reverse Transition"));
+        parameter.appendChild(pname);
+
+        ktrans.appendChild(tname);
+        ktrans.appendChild(parameter);
+        transitions->append(ret.documentElement());
         /*
 
          <transition fill="1" in="11" a_track="1" out="73" mlt_service="luma" b_track="2" softness="0" resource="/home/marco/Projekte/kdenlive/install_cmake/share/apps/kdenlive/pgm/PAL/square2.pgm" />

@@ -111,6 +111,7 @@ QString Transition::transitionName() const {
 
 void Transition::setTransitionParameters(const QDomElement & elem) {
     m_transitionParameters = elem;
+    m_transitionName = elem.attribute("tag");
 }
 
 bool Transition::invertTransition() const {
