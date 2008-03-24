@@ -1387,11 +1387,11 @@ void Render::mltMoveTransition(QString type, int startTrack, int trackOffset, Ge
     m_isBlocked = false;
 }
 
-void Render::mltUpdateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args) {
+void Render::mltUpdateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml) {
     kDebug() << "update transition"  << tag;
 
-    mltDeleteTransition(oldTag, a_track, b_track, in, out, args, false);
-    mltAddTransition(tag, a_track, b_track, in, out, args);
+    mltDeleteTransition(oldTag, a_track, b_track, in, out, xml, false);
+    mltAddTransition(tag, a_track, b_track, in, out, xml);
     mltSavePlaylist();
 }
 
@@ -1404,7 +1404,7 @@ void Render::replaceTimelineTractor(Mlt::Tractor t) {
     kDebug() << "newTractor inserted";
 }
 
-void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args, bool do_refresh) {
+void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool do_refresh) {
 
     Mlt::Tractor *tractor = getTractor();
     if (tractor) {
@@ -1454,7 +1454,24 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
 
 }
 
-void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args, bool do_refresh) {
+void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool do_refresh) {
+
+    QDomNodeList attribs = xml.elementsByTagName("parameter");
+    QMap<QString, QString> map;
+    for (int i = 0;i < attribs.count();i++) {
+        QDomNamedNodeMap atts = attribs.item(i).attributes();
+        QString name = atts.namedItem("name").nodeValue();
+        map[name] = atts.namedItem("default").nodeValue();
+        if (!atts.namedItem("value").nodeValue().isEmpty()) {
+            map[name] = atts.namedItem("value").nodeValue();
+        }
+        if (!atts.namedItem("factor").nodeValue().isEmpty() && atts.namedItem("factor").nodeValue().toDouble() > 0) {
+            map[name] = QString::number(map[name].toDouble() / atts.namedItem("factor").nodeValue().toDouble());
+            //map[name]=map[name].replace(".",","); //FIXME how to solve locale conversion of . ,
+        }
+
+
+    }
 
     Mlt::Tractor *tractor = getTractor();
     if (tractor) {
@@ -1469,9 +1486,9 @@ void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
         QMap<QString, QString>::Iterator it;
         QString key;
 
-        kDebug() << " ------  ADDING TRANSITION PARAMs: " << args.count();
+        kDebug() << " ------  ADDING TRANSITION PARAMs: " << map.count();
 
-        for (it = args.begin(); it != args.end(); ++it) {
+        for (it = map.begin(); it != map.end(); ++it) {
             key = it.key();
             char *name = decodedString(key);
             char *value = decodedString(it.value());

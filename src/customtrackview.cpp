@@ -554,28 +554,12 @@ void CustomTrackView::slotAddTransition(ClipItem* clip , QDomElement transition,
 }
 
 void CustomTrackView::addTransition(int startTrack, GenTime startPos , QDomElement e) {
-    QMap < QString, QString> map;
-    QString s;
-    QTextStream tx(&s);
-    e.save(tx, 2);
-    kDebug() << "in" << s;
 
-    QDomNodeList attribs = e.elementsByTagName("parameter");
-    for (int i = 0;i < attribs.count();i++) {
-        QDomNamedNodeMap atts = attribs.item(i).attributes();
-        if (!atts.namedItem("value").nodeValue().isEmpty()) {
-            map[atts.namedItem("name").nodeValue()] = atts.namedItem("value").nodeValue();
-        } else {
-            map[atts.namedItem("name").nodeValue()] = atts.namedItem("default").nodeValue();
-        }
-
-    }
-    //map["resource"] = "%luma12.pgm";
     kDebug() << "---- ADDING transition " << e.attribute("tag") << ", on tracks " << m_tracksList.count() - e.attribute("transition_track").toInt() << " / " << getPreviousVideoTrack(e.attribute("transition_track").toInt());
     m_document->renderer()->mltAddTransition(e.attribute("tag"), getPreviousVideoTrack(e.attribute("transition_track").toInt()), m_tracksList.count() - e.attribute("transition_track").toInt() ,
             GenTime(e.attribute("start").toInt(), m_document->renderer()->fps()),
             GenTime(e.attribute("end").toInt(), m_document->renderer()->fps()),
-            map);
+            e);
 
     m_document->setModified(true);
 }
@@ -586,7 +570,7 @@ void CustomTrackView::deleteTransition(int, GenTime, QDomElement e) {
     m_document->renderer()->mltDeleteTransition(e.attribute("tag"), getPreviousVideoTrack(e.attribute("transition_track").toInt()), m_tracksList.count() - e.attribute("transition_track").toInt() ,
             GenTime(e.attribute("start").toInt(), m_document->renderer()->fps()),
             GenTime(e.attribute("end").toInt(), m_document->renderer()->fps()),
-            map);
+            e);
     m_document->setModified(true);
 }
 
@@ -597,26 +581,11 @@ void CustomTrackView::slotTransitionUpdated(QDomElement old, QDomElement newEffe
 }
 
 void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTransition, QDomElement transition) {
-    QString s;
-    QTextStream tx(&s);
-    transition.save(tx, 2);
-    kDebug() << "in" << s;
-    QMap < QString, QString> map;
 
-    QDomNodeList attribs = transition.elementsByTagName("parameter");
-    for (int i = 0;i < attribs.count();i++) {
-        QDomNamedNodeMap atts = attribs.item(i).attributes();
-        if (!atts.namedItem("value").nodeValue().isEmpty()) {
-            map[atts.namedItem("name").nodeValue()] = atts.namedItem("value").nodeValue();
-        } else {
-            map[atts.namedItem("name").nodeValue()] = atts.namedItem("default").nodeValue();
-        }
-
-    }
     m_document->renderer()->mltUpdateTransition(oldTransition.attribute("tag"), transition.attribute("tag"), m_tracksList.count() - 1  - transition.attribute("transition_track").toInt(), m_tracksList.count() - transition.attribute("transition_track").toInt() ,
             GenTime(transition.attribute("start").toInt(), m_document->renderer()->fps()),
             GenTime(transition.attribute("end").toInt(), m_document->renderer()->fps()),
-            map);
+            transition);
     repaint();
     m_document->setModified(true);
 }

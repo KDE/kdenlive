@@ -443,7 +443,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                     imagefiles.append(",");
                     imagefiles.append(entries.get(i));
                 }
-                paramList.append(quickParameterFill(ret, "Softness", "softness", "double", "0", "0", "360"));
+                paramList.append(quickParameterFill(ret, "Softness", "softness", "double", "0", "0", "100", "", "100"));
                 paramList.append(quickParameterFill(ret, "Invert", "invert", "bool", "0", "0", "1"));
                 paramList.append(quickParameterFill(ret, "ImageFile", "resource", "list", "", "", "", imagefiles));
 
@@ -499,7 +499,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
         */
     }
 }
-QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def, QString min, QString max, QString list) {
+QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def, QString min, QString max, QString list, QString factor) {
     QDomElement parameter = doc.createElement("parameter");
     parameter.setAttribute("tag", tag);
     parameter.setAttribute("default", def);
@@ -509,6 +509,8 @@ QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QS
     parameter.setAttribute("min", min);
     if (!list.isEmpty())
         parameter.setAttribute("paramlist", list);
+    if (!factor.isEmpty())
+        parameter.setAttribute("factor", factor);
     QDomElement pname = doc.createElement("name");
     pname.appendChild(doc.createTextNode(name));
     parameter.appendChild(pname);

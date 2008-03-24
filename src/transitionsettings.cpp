@@ -39,10 +39,13 @@ void TransitionSettings::slotTransitionChanged() {
 
     //set old values from e in <ktransition> to desc (like reverse and so )
     QDomElement desc = m_transitions->getEffectByName(ui.listWidget->currentItem()->text());
-    if (m_usedTransition)
+    if (m_usedTransition) {
         m_usedTransition->setTransitionParameters(desc);
+        m_usedTransition->update();
+    }
     emit transitionUpdated(e, m_usedTransition->toXML());
     emit transferParamDesc(desc, 0, 0);
+
 }
 
 void TransitionSettings::slotTransitionItemSelected(Transition* t) {

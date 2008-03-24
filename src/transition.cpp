@@ -207,7 +207,10 @@ void Transition::paint(QPainter *painter,
     painter->setClipRect(option->exposedRect);
     painter->drawPixmap((int)(br.x() + 10), (int)(br.y() + 10), transitionPixmap());
     painter->drawPath(resultClipPath.intersected(clippath));
-
+    painter->setPen(QColor(0, 0, 0, 180));
+    painter->drawText((int)br.x() + 31, (int)br.y() + 21, transitionName());
+    painter->setPen(QColor(255, 255, 255, 180));
+    painter->drawText((int)br.x() + 30, (int)br.y() + 20, transitionName());
     QPen pen = painter->pen();
     if (isSelected()) {
         pen.setColor(Qt::red);
@@ -298,14 +301,6 @@ QDomElement Transition::toXML() {
         m_transitionParameters.setAttribute("clipb_starttime", m_secondClip->startPos().frames(m_referenceClip->fps()));
         m_transitionParameters.setAttribute("clipb_track", transitionEndTrack());
     }
-
-
-    /* QMap<QString, QString>::Iterator it;
-     for (it = m_transitionParameters.begin(); it != m_transitionParameters.end(); ++it) {
-         QDomElement param = doc.createElement(it.key());
-         param.setAttribute("value", it.value());
-         effect.appendChild(param);
-     }*/
 
     return m_transitionParameters;
 }

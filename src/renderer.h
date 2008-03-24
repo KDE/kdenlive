@@ -156,9 +156,9 @@ Q_OBJECT public:
     void mltEditEffect(int track, GenTime position, QMap <QString, QString> args);
     void mltChangeTrackState(int track, bool mute, bool blind);
     void mltMoveTransition(QString type, int startTrack, int trackOffset, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut);
-    void mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args, bool refresh = true);
-    void mltDeleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args, bool refresh = true);
-    void mltUpdateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QMap <QString, QString> args);
+    void mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
+    void mltDeleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
+    void mltUpdateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml);
 
 
 private:   // Private attributes & methods
