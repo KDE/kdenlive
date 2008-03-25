@@ -376,9 +376,13 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
                     params.setAttribute("type", "constant");
                 if (QString(paramdesc.get("type")) == "boolean")
                     params.setAttribute("type", "bool");
-                if (!QString(paramdesc.get("format")).isEmpty()) {
+                if (!QString(paramdesc.get("format")).isEmpty() && QString(paramdesc.get("type")) != "geometry") {
                     params.setAttribute("type", "complex");
                     params.setAttribute("format", paramdesc.get("format"));
+                }
+                if (!QString(paramdesc.get("format")).isEmpty() && QString(paramdesc.get("type")) == "geometry") {
+                    params.setAttribute("type", "geometry");
+                    //params.setAttribute("format", paramdesc.get("format"));
                 }
                 if (paramdesc.get("default")) params.setAttribute("default", paramdesc.get("default"));
                 if (paramdesc.get("value")) {
@@ -415,6 +419,41 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
         Mlt::Properties *metadata = repository->metadata(transition_type, name.toAscii().data());
         //kDebug() << filtername;
         if (metadata && metadata->is_valid()) {
+            Mlt::Properties param_props((mlt_properties) metadata->get_data("parameters"));
+            for (int j = 0; param_props.is_valid() && j < param_props.count();j++) {
+                QDomElement params = ret.createElement("parameter");
+
+                Mlt::Properties paramdesc((mlt_properties) param_props.get_data(param_props.get_name(j)));
+
+                params.setAttribute("name", paramdesc.get("identifier"));
+
+                if (paramdesc.get("maximum")) params.setAttribute("max", paramdesc.get("maximum"));
+                if (paramdesc.get("minimum")) params.setAttribute("min", paramdesc.get("minimum"));
+                if (QString(paramdesc.get("type")) == "integer") {
+                    params.setAttribute("type", "constant");
+                    params.setAttribute("factor", "100");
+                }
+                if (QString(paramdesc.get("type")) == "boolean")
+                    params.setAttribute("type", "bool");
+                if (!QString(paramdesc.get("format")).isEmpty()) {
+                    params.setAttribute("type", "complex");
+                    params.setAttribute("format", paramdesc.get("format"));
+
+                }
+                if (paramdesc.get("default")) params.setAttribute("default", paramdesc.get("default"));
+                if (paramdesc.get("value")) {
+                    params.setAttribute("value", paramdesc.get("value"));
+                } else {
+                    params.setAttribute("value", paramdesc.get("default"));
+                }
+
+
+                QDomElement pname = ret.createElement("name");
+                pname.appendChild(ret.createTextNode(paramdesc.get("title")));
+                params.appendChild(pname);
+
+                ktrans.appendChild(params);
+            }
 
             ret.appendChild(ktrans);
             if (metadata->get("title") && metadata->get("identifier")) {
@@ -477,7 +516,8 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 paramList.append(quickParameterFill(ret, "Fix Shear Z", "fix_shear_z", "double", "0", "0", "360"));
                 paramList.append(quickParameterFill(ret, "Mirror", "mirror_off", "bool", "0", "0", "1"));
                 paramList.append(quickParameterFill(ret, "Repeat", "repeat_off", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "0%,0%:100%x100%", "0,0:100%x100%", "0,0:100%x100%"));
+                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "0%,0%:100%x100%", "0%,0%:100%x100%", "0%,0%:100%x100%"));
+                tname.appendChild(ret.createTextNode("Composite"));
             } else if (name == "region") {
                 tname.appendChild(ret.createTextNode("Region"));
             }
@@ -499,7 +539,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
         */
     }
 }
-QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def, QString min, QString max, QString list, QString factor) {
+QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def, QString min, QString max, QString list, QString factor, QString namedesc, QString format) {
     QDomElement parameter = doc.createElement("parameter");
     parameter.setAttribute("tag", tag);
     parameter.setAttribute("default", def);
@@ -511,6 +551,10 @@ QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QS
         parameter.setAttribute("paramlist", list);
     if (!factor.isEmpty())
         parameter.setAttribute("factor", factor);
+    if (!namedesc.isEmpty())
+        parameter.setAttribute("namedesc", namedesc);
+    if (!format.isEmpty())
+        parameter.setAttribute("format", format);
     QDomElement pname = doc.createElement("name");
     pname.appendChild(doc.createTextNode(name));
     parameter.appendChild(pname);

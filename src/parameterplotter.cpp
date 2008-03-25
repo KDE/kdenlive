@@ -52,9 +52,10 @@ ParameterPlotter::ParameterPlotter(QWidget *parent): KPlotWidget(parent) {
   </effect>
 
 */
-void ParameterPlotter::setPointLists(const QDomElement& d, int startframe, int endframe) {
+void ParameterPlotter::setPointLists(const QDomElement& d, const QString& paramName, int startframe, int endframe) {
 
     //QListIterator <QPair <QString, QMap< int , QVariant > > > nameit(params);
+    m_paramName = paramName;
     itemParameter = d;
     QDomNodeList namenode = d.elementsByTagName("parameter");
 
@@ -69,28 +70,30 @@ void ParameterPlotter::setPointLists(const QDomElement& d, int startframe, int e
     QTextStream stre(&dat);
     d.save(stre, 2);
     kDebug() << dat;
-
+    int i = 0;
+    while (!namenode.item(i).isNull() && namenode.item(i).toElement().attribute("name") != m_paramName)
+        i++;
     if (namenode.count()) {
 
 
-        QDomNode pa = namenode.item(0);
+        QDomElement pa = namenode.item(i).toElement();
         QDomNode na = pa.firstChildElement("name");
 
-        parameterNameList << pa.attributes().namedItem("name").nodeValue().split(";");
+        parameterNameList << pa.attribute("namedesc").split(";");
         emit parameterList(parameterNameList);
 
         //max_y=pa.attributes().namedItem("max").nodeValue().toInt();
         //int val=pa.attributes().namedItem("value").nodeValue().toInt();
         QStringList defaults;
-        if (pa.attributes().namedItem("start").nodeValue().contains(";"))
-            defaults = pa.attributes().namedItem("start").nodeValue().split(";");
-        else if (pa.attributes().namedItem("value").nodeValue().contains(";"))
-            defaults = pa.attributes().namedItem("value").nodeValue().split(";");
-        else if (pa.attributes().namedItem("default").nodeValue().contains(";"))
-            defaults = pa.attributes().namedItem("default").nodeValue().split(";");
-        QStringList maxv = pa.attributes().namedItem("max").nodeValue().split(";");
-        QStringList minv = pa.attributes().namedItem("max").nodeValue().split(";");
-        for (int i = 0;i < maxv.size();i++) {
+        if (pa.attribute("start").contains(";"))
+            defaults = pa.attribute("start").split(";");
+        else if (pa.attribute("value").contains(";"))
+            defaults = pa.attribute("value").split(";");
+        else if (pa.attribute("default").contains(";"))
+            defaults = pa.attribute("default").split(";");
+        QStringList maxv = pa.attribute("max").split(";");
+        QStringList minv = pa.attribute("max").split(";");
+        for (int i = 0;i < maxv.size() && i < minv.size();i++) {
             if (max_y < maxv[i].toInt()) max_y = maxv[i].toInt();
             if (min_y > minv[i].toInt()) min_y = minv[i].toInt();
         }
@@ -98,17 +101,23 @@ void ParameterPlotter::setPointLists(const QDomElement& d, int startframe, int e
         for (int i = 0;i < parameterNameList.count();i++) {
             KPlotObject *plot = new KPlotObject(colors[plotobjects.size()%colors.size()]);
             plot->setShowLines(true);
-            if (!stretchFactors.contains(i)) {
+            if (!stretchFactors.contains(i) && i < maxv.size()) {
                 if (maxv[i].toInt() != 0)
                     stretchFactors[i] = max_y / maxv[i].toInt();
                 else
                     stretchFactors[i] = 1.0;
             }
-            if (defaults[i].toDouble() > max_y)
+            if (i < defaults.size() && defaults[i].toDouble() > max_y)
                 defaults[i] = max_y;
-            plot->addPoint(startframe, defaults[i].toInt()*stretchFactors[i], parameterNameList[i]);
+            int def = 0;
+            if (i < defaults.size())
+                def = (int)(defaults[i].toInt() * stretchFactors[i]);
+            QString name = "";
+            if (i < parameterNameList.size())
+                name = parameterNameList[i];
+            plot->addPoint(startframe, def, name);
             //add keyframes here
-            plot->addPoint(endframe, defaults[i].toInt()*stretchFactors[i]);
+            plot->addPoint(endframe, def);
 
             plotobjects.append(plot);
         }
@@ -125,12 +134,12 @@ void ParameterPlotter::setPointLists(const QDomElement& d, int startframe, int e
     maxx = endframe;
     maxy = max_y;
     setLimits(-1, endframe + 1, min_y - 10, maxy + 10);
+
     addPlotObjects(plotobjects);
 
 }
 
 void ParameterPlotter::createParametersNew() {
-
     QList<KPlotObject*> plotobjs = plotObjects();
     if (plotobjs.size() != parameterNameList.size()) {
         kDebug() << "ERROR size not equal";
@@ -188,18 +197,23 @@ void ParameterPlotter::mouseMoveEvent(QMouseEvent * event) {
 }
 
 void ParameterPlotter::replot(const QString & name) {
+
     //removeAllPlotObjects();
     int i = 0;
     bool drawAll = name.isEmpty() || name == "all";
     activeIndexPlot = -1;
 
+
     foreach(KPlotObject* p, plotObjects()) {
-        p->setShowPoints(drawAll || parameterNameList[i] == name);
-        p->setShowLines(drawAll || parameterNameList[i] == name);
-        QPen pen = (drawAll || parameterNameList[i] == name ? QPen(Qt::SolidLine) : QPen(Qt::NoPen));
+        QString selectedName = "none";
+        if (i < parameterNameList.size())
+            selectedName = parameterNameList[i];
+        p->setShowPoints(drawAll || selectedName == name);
+        p->setShowLines(drawAll || selectedName == name);
+        QPen pen = (drawAll || selectedName == name ? QPen(Qt::SolidLine) : QPen(Qt::NoPen));
         pen.setColor(p->linePen().color());
         p->setLabelPen(pen);
-        if (parameterNameList[i] == name)
+        if (selectedName == name)
             activeIndexPlot = i;
         replacePlotObject(i++, p);
     }

@@ -1379,7 +1379,7 @@ void Render::mltMoveTransition(QString type, int startTrack, int trackOffset, Ge
                     mlt_properties properties = MLT_TRANSITION_PROPERTIES(tr);
                     mlt_properties_set_int(properties, "a_track", mlt_transition_get_a_track(tr) + trackOffset);
                     mlt_properties_set_int(properties, "b_track", mlt_transition_get_b_track(tr) + trackOffset);
-						  kDebug() << "set new start & end :" << new_in << new_out;
+                    kDebug() << "set new start & end :" << new_in << new_out;
                 }
                 break;
             }
@@ -1464,17 +1464,31 @@ void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
     QDomNodeList attribs = xml.elementsByTagName("parameter");
     QMap<QString, QString> map;
     for (int i = 0;i < attribs.count();i++) {
-        QDomNamedNodeMap atts = attribs.item(i).attributes();
-        QString name = atts.namedItem("name").nodeValue();
-        map[name] = atts.namedItem("default").nodeValue();
-        if (!atts.namedItem("value").nodeValue().isEmpty()) {
-            map[name] = atts.namedItem("value").nodeValue();
+        QDomElement e = attribs.item(i).toElement();
+        QString name = e.attribute("name");
+        map[name] = e.attribute("default");
+        if (!e.attribute("value").isEmpty()) {
+            map[name] = e.attribute("value");
         }
-        if (!atts.namedItem("factor").nodeValue().isEmpty() && atts.namedItem("factor").nodeValue().toDouble() > 0) {
-            map[name] = QString::number(map[name].toDouble() / atts.namedItem("factor").nodeValue().toDouble());
+        if (!e.attribute("factor").isEmpty() && e.attribute("factor").toDouble() > 0) {
+            map[name] = QString::number(map[name].toDouble() / e.attribute("factor").toDouble());
             //map[name]=map[name].replace(".",","); //FIXME how to solve locale conversion of . ,
         }
 
+        if (e.attribute("namedesc").contains(";")) {
+            QString format = e.attribute("format");
+            QStringList separators = format.split("%d", QString::SkipEmptyParts);
+            QStringList values = e.attribute("value").split(QRegExp("[,:;x]"));
+            QString neu;
+            QTextStream txtNeu(&neu);
+            if (values.size() > 0)
+                txtNeu << (int)values[0].toDouble();
+            for (int i = 0;i < separators.size() && i + 1 < values.size();i++) {
+                txtNeu << separators[i];
+                txtNeu << (int)(values[i+1].toDouble());
+            }
+            map[e.attribute("name")] = neu;
+        }
 
     }
 

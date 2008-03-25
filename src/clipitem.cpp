@@ -569,7 +569,7 @@ QMap <QString, QString> ClipItem::getEffectArgs(QDomElement effect) {
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
-        if (e.attribute("name").contains(";")) {
+        if (e.attribute("namedesc").contains(";")) {
             QString format = e.attribute("format");
             QStringList separators = format.split("%d", QString::SkipEmptyParts);
             QStringList values = e.attribute("value").split(QRegExp("[,:;x]"));

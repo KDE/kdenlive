@@ -73,27 +73,33 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
 
     for (int i = 0;i < namenode.count() ;i++) {
         kDebug() << "in form";
-        QDomNode pa = namenode.item(i);
+        QDomElement pa = namenode.item(i).toElement();
         QDomNode na = pa.firstChildElement("name");
-        QDomNamedNodeMap nodeAtts = pa.attributes();
-        QString type = nodeAtts.namedItem("type").nodeValue();
+        QString type = pa.attribute("type");
         QString paramName = na.toElement().text();
         QWidget * toFillin = new QWidget;
-        QString value = nodeAtts.namedItem("value").isNull() ?
-                        nodeAtts.namedItem("default").nodeValue() :
-                        nodeAtts.namedItem("value").nodeValue();
+        QString value = pa.attribute("value").isNull() ?
+                        pa.attribute("default") : pa.attribute("value");
+        if (type == "geometry") {
+            pa.setAttribute("namedesc", "X;Y;W;H");
+            pa.setAttribute("format", "%d,%d:%dx%d");
+            pa.setAttribute("min", "-100;-100;0;0");
+            pa.setAttribute("max", "0;0;100;100");
+        }
+        if (type == "complex") {
+            //pa.setAttribute("namedesc",pa.attribute("name"));
 
+        }
         //TODO constant, list, bool, complex , color, geometry, position
         if (type == "double" || type == "constant") {
-            createSliderItem(paramName, value.toInt(), nodeAtts.namedItem("min").nodeValue().toInt(), nodeAtts.namedItem("max").nodeValue().toInt());
+            createSliderItem(paramName, value.toInt(), pa.attribute("min").toInt(), pa.attribute("max").toInt());
             delete toFillin;
             toFillin = NULL;
         } else if (type == "list") {
 
             Ui::Listval_UI *lsval = new Ui::Listval_UI;
             lsval->setupUi(toFillin);
-            nodeAtts.namedItem("paramlist");
-            QStringList listitems = nodeAtts.namedItem("paramlist").nodeValue().split(",");
+            QStringList listitems = pa.attribute("paramlist").split(",");
             lsval->list->addItems(listitems);
             lsval->list->setCurrentIndex(listitems.indexOf(value));
             for (int i = 0;i < lsval->list->count();i++) {
@@ -120,7 +126,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
             bval->checkBox->setText(na.toElement().text());
             valueItems[paramName] = bval;
             uiItems.append(bval);
-        } else if (type == "complex") {
+        } else if (type == "complex" || type == "geometry") {
             /*QStringList names=nodeAtts.namedItem("name").nodeValue().split(";");
             QStringList max=nodeAtts.namedItem("max").nodeValue().split(";");
             QStringList min=nodeAtts.namedItem("min").nodeValue().split(";");
@@ -136,7 +142,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
             }*/
             ComplexParameter *pl = new ComplexParameter;
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
-            pl->setupParam(d, 0, 100);
+            pl->setupParam(d, pa.attribute("name"), 0, 100);
             vbox->addWidget(pl);
             valueItems[paramName+"complex"] = pl;
             items.append(pl);
@@ -187,11 +193,11 @@ void EffectStackEdit::collectAllParameters() {
                         KColorButton *color = ((Ui::Colorval_UI*)valueItems[na.toElement().text()])->kcolorbutton;
                         setValue.sprintf("0x%08x", color->color().rgba());
                     } else
-                        if (type == "complex") {
+                        if (type == "complex" || type == "geometry") {
                             ComplexParameter *complex = ((ComplexParameter*)valueItems[na.toElement().text()+"complex"]);
                             namenode.item(i) = complex->getParamDesc();
                         }
-        if (!setValue.isEmpty()) {
+        if (!setValue.isNull()) {
             pa.attributes().namedItem("value").setNodeValue(setValue);
         }
     }

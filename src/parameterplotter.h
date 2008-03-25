@@ -46,11 +46,12 @@ private:
     QList<QColor> colors;
     QDomElement itemParameter;
     int max_y, min_y;
+    QString m_paramName;
 protected:
     void mouseMoveEvent(QMouseEvent * event);
     void mousePressEvent(QMouseEvent * event);
 public slots:
-    void setPointLists(const QDomElement&, int , int);
+    void setPointLists(const QDomElement&, const QString& paramName, int , int);
 signals:
     void parameterChanged(QDomElement);
     void updateFrame(int);
