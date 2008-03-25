@@ -11,6 +11,7 @@ int main(int argc, char *argv[]) {
                          ki18n("A simple text area which can load and save."),
                          KAboutData::License_GPL,
                          ki18n("Copyright (c) 2007 Developer"));
+    aboutData.addAuthor(ki18n("Marco Gittler"), ki18n("MltConnection, Transition, Effect, Timeline Developer"), "g.marco@freenet.de");
     KCmdLineArgs::init(argc, argv, &aboutData);
 
     KCmdLineOptions options; //new

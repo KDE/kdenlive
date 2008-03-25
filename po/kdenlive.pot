@@ -1,0 +1,878 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-03-25 20:59+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid " Firewire (DV / HDV)"
+msgstr ""
+
+msgid " Track "
+msgstr ""
+
+msgid "&Cancel"
+msgstr ""
+
+msgid "&OK"
+msgstr ""
+
+msgid "*.svg *.svgz"
+msgstr ""
+
+msgid "..."
+msgstr ""
+
+msgid "/"
+msgstr ""
+
+msgid "/dev/dsp"
+msgstr ""
+
+msgid "/dev/video0"
+msgstr ""
+
+msgid "0"
+msgstr ""
+
+msgid "25/1"
+msgstr ""
+
+msgid "320x240"
+msgstr ""
+
+msgid "4/3"
+msgstr ""
+
+msgid "59/54"
+msgstr ""
+
+msgid "720x576"
+msgstr ""
+
+msgid "99:99:99:99; "
+msgstr ""
+
+msgid ":::"
+msgstr ""
+
+msgid "<br><b>Author:</b> "
+msgstr ""
+
+msgid "A"
+msgstr ""
+
+#, kde-format
+msgid "Add %1"
+msgstr ""
+
+msgid "Add Audio Effect"
+msgstr ""
+
+msgid "Add Clip"
+msgstr ""
+
+msgid "Add Color Clip"
+msgstr ""
+
+msgid "Add Custom Effect"
+msgstr ""
+
+msgid "Add Title Clip"
+msgstr ""
+
+msgid "Add Video Effect"
+msgstr ""
+
+msgid "Add clip"
+msgstr ""
+
+msgid "Add folder"
+msgstr ""
+
+msgid "Add keyframe"
+msgstr ""
+
+msgid "Add new effect"
+msgstr ""
+
+msgid "Add timeline clip"
+msgstr ""
+
+msgid "Add transition to clip"
+msgstr ""
+
+msgid "Advanced"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "Allow horizontal moves"
+msgstr ""
+
+msgid "Allow vertical moves"
+msgstr ""
+
+msgid "Alpha"
+msgstr ""
+
+msgid "Alpha:"
+msgstr ""
+
+msgid "Aspect ratio"
+msgstr ""
+
+msgid "Aspect ratio:"
+msgstr ""
+
+msgid "Audio"
+msgstr ""
+
+msgid "Audio clip"
+msgstr ""
+
+msgid "Audio codec"
+msgstr ""
+
+msgid "Audio index"
+msgstr ""
+
+msgid "Auto add"
+msgstr ""
+
+msgid "Autoscroll while playing"
+msgstr ""
+
+msgid "Background"
+msgstr ""
+
+msgid "BasicOperations"
+msgstr ""
+
+msgid "Border"
+msgstr ""
+
+msgid "Button 1"
+msgstr ""
+
+msgid "Button 2"
+msgstr ""
+
+msgid "Button 3"
+msgstr ""
+
+msgid "Button 4"
+msgstr ""
+
+msgid "Button 5"
+msgstr ""
+
+msgid "Cannot find the inigo program required for rendering (part of Mlt)"
+msgstr ""
+
+msgid "Cannot find your Mlt profiles, please give the path"
+msgstr ""
+
+msgid "Capture"
+msgstr ""
+
+msgid "Capture folder"
+msgstr ""
+
+msgid "Capture params"
+msgstr ""
+
+msgid "Channels"
+msgstr ""
+
+msgid "CheckBox"
+msgstr ""
+
+msgid "Clean"
+msgstr ""
+
+msgid "Clear"
+msgstr ""
+
+msgid "Clip Color"
+msgstr ""
+
+msgid "Clip Monitor"
+msgstr ""
+
+msgid "Clip Properties"
+msgstr ""
+
+msgid "Close the current tab"
+msgstr ""
+
+msgid "Color"
+msgstr ""
+
+msgid "Color Clip"
+msgstr ""
+
+msgid "Color clip"
+msgstr ""
+
+msgid "Color clips"
+msgstr ""
+
+msgid "Connect"
+msgstr ""
+
+msgid ""
+"Could not create the video preview window.\n"
+"There is something wrong with your Kdenlive install or your driver settings, "
+"please fix it."
+msgstr ""
+
+msgid "Create"
+msgstr ""
+
+msgid "Create Folder"
+msgstr ""
+
+msgid "Create new profile"
+msgstr ""
+
+msgid "Custom"
+msgstr ""
+
+msgid "Cut"
+msgstr ""
+
+msgid "D"
+msgstr ""
+
+msgid "DV AVI type 1"
+msgstr ""
+
+msgid "DV AVI type 2"
+msgstr ""
+
+msgid "DV Raw"
+msgstr ""
+
+msgid "Decoding threads"
+msgstr ""
+
+msgid "Default Durations"
+msgstr ""
+
+msgid "Default Profile"
+msgstr ""
+
+msgid "Default capture device"
+msgstr ""
+
+msgid "Default folders"
+msgstr ""
+
+msgid "Default format"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+#, kde-format
+msgid "Delete %1"
+msgstr ""
+
+msgid "Delete Clip"
+msgstr ""
+
+msgid "Delete Folder"
+msgstr ""
+
+msgid "Delete clip"
+msgstr ""
+
+msgid "Delete effect"
+msgstr ""
+
+msgid "Delete folder"
+msgstr ""
+
+#, kde-format
+msgid ""
+"Delete folder <b>%2</b> ?<br>This will also remove the %1 clips in that "
+"folder"
+msgstr ""
+
+msgid "Delete profile"
+msgstr ""
+
+msgid "Delete timeline clip"
+msgstr ""
+
+msgid "Delete transition from clip"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Device"
+msgstr ""
+
+msgid "Device configuration"
+msgstr ""
+
+msgid "Dialog"
+msgstr ""
+
+msgid "Disonnect"
+msgstr ""
+
+msgid "Display"
+msgstr ""
+
+msgid "Display ratio"
+msgstr ""
+
+msgid "Display ratio:"
+msgstr ""
+
+msgid "Do nothing"
+msgstr ""
+
+msgid "Duration"
+msgstr ""
+
+msgid "Dw"
+msgstr ""
+
+msgid "Edit Clip"
+msgstr ""
+
+#, kde-format
+msgid "Edit effect %1"
+msgstr ""
+
+#, kde-format
+msgid "Edit transition %1"
+msgstr ""
+
+msgid "Effect List"
+msgstr ""
+
+msgid "Effect Stack"
+msgstr ""
+
+msgid "Enable Jog Shuttle device"
+msgstr ""
+
+msgid "Encoding"
+msgstr ""
+
+msgid "EndViewport"
+msgstr ""
+
+msgid "Environnement"
+msgstr ""
+
+msgid "Extension"
+msgstr ""
+
+msgid "Extra Toolbar"
+msgstr ""
+
+msgid "Extra parameters"
+msgstr ""
+
+msgid ""
+"File already exists.\n"
+"Do you want to overwrite it ?"
+msgstr ""
+
+msgid "File already exists. Doy you want to overwrite it ?"
+msgstr ""
+
+msgid "File size"
+msgstr ""
+
+msgid "Filename"
+msgstr ""
+
+msgid "Filename:"
+msgstr ""
+
+msgid "Firewire"
+msgstr ""
+
+msgid "Firewire / dvgrab"
+msgstr ""
+
+msgid ""
+"Firewire is not enabled on your system.\n"
+" Please install Libiec61883 and recompile Kdenlive"
+msgstr ""
+
+msgid "Fit zoom to project"
+msgstr ""
+
+msgid "Folder"
+msgstr ""
+
+msgid "Force aspect ratio"
+msgstr ""
+
+msgid "Form"
+msgstr ""
+
+msgid "Format"
+msgstr ""
+
+msgid "Forward"
+msgstr ""
+
+msgid "Forward 1 Frame"
+msgstr ""
+
+msgid "Forward 1 frame"
+msgstr ""
+
+msgid "Frame rate"
+msgstr ""
+
+msgid "Frame rate:"
+msgstr ""
+
+msgid "Frame size"
+msgstr ""
+
+msgid "Frames"
+msgstr ""
+
+msgid "Frequency"
+msgstr ""
+
+msgid "GraphView"
+msgstr ""
+
+msgid "Group"
+msgstr ""
+
+msgid "GroupBox"
+msgstr ""
+
+msgid "HDV"
+msgstr ""
+
+msgid "Height"
+msgstr ""
+
+msgid "Image clip"
+msgstr ""
+
+msgid "Image clips"
+msgstr ""
+
+msgid "Image preview"
+msgstr ""
+
+msgid "Image size"
+msgstr ""
+
+msgid "Inigo path"
+msgstr ""
+
+msgid "Initialising..."
+msgstr ""
+
+msgid "Interlaced"
+msgstr ""
+
+msgid "JogShuttle"
+msgstr ""
+
+msgid "Linewidth"
+msgstr ""
+
+msgid "Load Title"
+msgstr ""
+
+msgid "Loop Section"
+msgstr ""
+
+msgid "Manage Profiles"
+msgstr ""
+
+msgid "Marker"
+msgstr ""
+
+msgid "Misc"
+msgstr ""
+
+msgid "Mlt environnement"
+msgstr ""
+
+msgid "Mlt profiles folder"
+msgstr ""
+
+msgid "Monitor"
+msgstr ""
+
+msgid "Move clip"
+msgstr ""
+
+msgid "Move effect down"
+msgstr ""
+
+msgid "Move effect up"
+msgstr ""
+
+msgid "Move transition"
+msgstr ""
+
+msgid "Mute video clip"
+msgstr ""
+
+msgid "N"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Name:"
+msgstr ""
+
+msgid "New Rect"
+msgstr ""
+
+msgid "New Text"
+msgstr ""
+
+msgid "Normalise audio for thumbnails"
+msgstr ""
+
+msgid "Not connected"
+msgstr ""
+
+msgid "Output file"
+msgstr ""
+
+msgid "Param"
+msgstr ""
+
+msgid "Parameter info"
+msgstr ""
+
+msgid "Parameters"
+msgstr ""
+
+msgid "Path"
+msgstr ""
+
+msgid "Play"
+msgstr ""
+
+msgid "Play / Pause"
+msgstr ""
+
+msgid "Play Section"
+msgstr ""
+
+msgid "Play after render"
+msgstr ""
+
+msgid "Playback params"
+msgstr ""
+
+msgid "Playlist clip"
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "Profile"
+msgstr ""
+
+msgid "Profile name"
+msgstr ""
+
+msgid "Profiles"
+msgstr ""
+
+msgid "Progressive"
+msgstr ""
+
+msgid "Project"
+msgstr ""
+
+msgid "Project Monitor"
+msgstr ""
+
+msgid "Project Overview"
+msgstr ""
+
+msgid "Project Settings"
+msgstr ""
+
+msgid "Project Tree"
+msgstr ""
+
+msgid "Project folder"
+msgstr ""
+
+msgid "Properties"
+msgstr ""
+
+msgid "R"
+msgstr ""
+
+msgid "Rating"
+msgstr ""
+
+msgid "Record"
+msgstr ""
+
+msgid "Record Monitor"
+msgstr ""
+
+msgid "Rectangle"
+msgstr ""
+
+msgid "Rename folder"
+msgstr ""
+
+msgid "Render Project"
+msgstr ""
+
+msgid "Rendering"
+msgstr ""
+
+msgid "Reset effect"
+msgstr ""
+
+msgid "Resize clip"
+msgstr ""
+
+msgid "Rewind"
+msgstr ""
+
+msgid "Rewind 1 Frame"
+msgstr ""
+
+msgid "Rewind 1 frame"
+msgstr ""
+
+msgid "Rotate:"
+msgstr ""
+
+msgid "S"
+msgstr ""
+
+msgid "SVG"
+msgstr ""
+
+msgid "Save Profile"
+msgstr ""
+
+msgid "Save Title"
+msgstr ""
+
+msgid "Save changes to document ?"
+msgstr ""
+
+msgid "Selected zone only"
+msgstr ""
+
+msgid "Show audio thumbnails"
+msgstr ""
+
+msgid "Show keyframes in timeline"
+msgstr ""
+
+msgid "Show video thumbnails"
+msgstr ""
+
+msgid "Size"
+msgstr ""
+
+msgid "Size:"
+msgstr ""
+
+msgid "Slideshow clip"
+msgstr ""
+
+msgid "Start"
+msgstr ""
+
+msgid "Start-/EndViewport"
+msgstr ""
+
+msgid "StartViewport"
+msgstr ""
+
+msgid "Stop"
+msgstr ""
+
+msgid "Templates"
+msgstr ""
+
+msgid "Temporary files"
+msgstr ""
+
+msgid "Text"
+msgstr ""
+
+msgid "Text clip"
+msgstr ""
+
+msgid "TextLabel"
+msgstr ""
+
+msgid "There is no clip, cannot extract frame."
+msgstr ""
+
+msgid "Thumbnail"
+msgstr ""
+
+msgid "Thumbnails"
+msgstr ""
+
+msgid "Thumbnails:"
+msgstr ""
+
+msgid "Timeline"
+msgstr ""
+
+msgid "Titler"
+msgstr ""
+
+msgid "Track height"
+msgstr ""
+
+msgid "Transition"
+msgstr ""
+
+msgid "Transparent bac&kground"
+msgstr ""
+
+#, kde-format
+msgid "Unable to write to file %1"
+msgstr ""
+
+msgid "Undo History"
+msgstr ""
+
+msgid "Unknown clip"
+msgstr ""
+
+msgid "Untitled"
+msgstr ""
+
+msgid "Up"
+msgstr ""
+
+msgid "Use as default"
+msgstr ""
+
+msgid "V"
+msgstr ""
+
+msgid "Video"
+msgstr ""
+
+msgid "Video Profile"
+msgstr ""
+
+msgid "Video clip"
+msgstr ""
+
+msgid "Video codec"
+msgstr ""
+
+msgid "Video index"
+msgstr ""
+
+msgid "Video4Linux"
+msgstr ""
+
+msgid "Video4Linux (webcam)"
+msgstr ""
+
+msgid "Video4Linux2 / FFmpeg"
+msgstr ""
+
+msgid "Virtual clip"
+msgstr ""
+
+msgid "Width"
+msgstr ""
+
+msgid "X"
+msgstr ""
+
+msgid "X:"
+msgstr ""
+
+msgid "Y"
+msgstr ""
+
+msgid "Y:"
+msgstr ""
+
+msgid "Z-Index:"
+msgstr ""
+
+msgid "Zoom:"
+msgstr ""
+
+msgid "create new points"
+msgstr ""
+
+msgid "effect"
+msgstr ""
+
+msgid "frames"
+msgstr ""
+
+msgid "hh:mm:ss::ff"
+msgstr ""
+
+msgid "hour"
+msgstr ""
+
+msgid "min."
+msgstr ""
+
+msgid "move on X axis"
+msgstr ""
+
+msgid "move on Y axis"
+msgstr ""
+
+msgid "ogg"
+msgstr ""
+
+msgid "oss"
+msgstr ""
+
+msgid "parameter description"
+msgstr ""
+
+msgid "sec."
+msgstr ""
+
+msgid "update values in timeline"
+msgstr ""
+
+msgid "video4linux2"
+msgstr ""
+
+msgid "x"
+msgstr ""
