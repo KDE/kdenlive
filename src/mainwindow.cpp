@@ -45,6 +45,7 @@
 #include <KTemporaryFile>
 #include <KActionMenu>
 #include <KMenu>
+#include <locale.h>
 #include <ktogglefullscreenaction.h>
 
 #include <mlt++/Mlt.h>
@@ -83,6 +84,7 @@
 MainWindow::MainWindow(QWidget *parent)
         : KXmlGuiWindow(parent),
         m_activeDocument(NULL), m_activeTimeline(NULL), m_renderWidget(NULL), m_jogProcess(NULL) {
+    setlocale(LC_NUMERIC, "POSIX");
     parseProfiles();
     setFont(KGlobalSettings::toolBarFont());
     m_commandStack = new QUndoGroup;
