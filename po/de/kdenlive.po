@@ -81,7 +81,7 @@ msgid "Add Audio Effect"
 msgstr "Audioeffekt hinzufügen"
 
 msgid "Add Clip"
-msgstr "Mediendatei hinzufügen"
+msgstr "Datei hinzufügen"
 
 msgid "Add Color Clip"
 msgstr "Farbeclip hinzufügen"
@@ -102,10 +102,10 @@ msgid "Add folder"
 msgstr "Ordner hinzufügen"
 
 msgid "Add keyframe"
-msgstr ""
+msgstr "Keyframe hinzufügen"
 
 msgid "Add new effect"
-msgstr ""
+msgstr "Neuen Effekt hinzufügen"
 
 msgid "Add timeline clip"
 msgstr ""
@@ -114,10 +114,10 @@ msgid "Add transition to clip"
 msgstr "Übergang zu Clip hinzufügen"
 
 msgid "Advanced"
-msgstr ""
+msgstr "Erweitert"
 
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 msgid "Allow horizontal moves"
 msgstr ""
@@ -138,7 +138,7 @@ msgid "Aspect ratio:"
 msgstr ""
 
 msgid "Audio"
-msgstr "Ton"
+msgstr ""
 
 msgid "Audio clip"
 msgstr "Musikstück"
@@ -165,19 +165,19 @@ msgid "Border"
 msgstr ""
 
 msgid "Button 1"
-msgstr ""
+msgstr "Knopf 1"
 
 msgid "Button 2"
-msgstr ""
+msgstr "Knopf 2"
 
 msgid "Button 3"
-msgstr ""
+msgstr "Knopf 3"
 
 msgid "Button 4"
-msgstr ""
+msgstr "Knopf 4"
 
 msgid "Button 5"
-msgstr ""
+msgstr "Knopf 5"
 
 msgid "Cannot find the inigo program required for rendering (part of Mlt)"
 msgstr ""
@@ -222,13 +222,13 @@ msgid "Color"
 msgstr "Farbe"
 
 msgid "Color Clip"
-msgstr "Farb-Clip"
+msgstr "Farbclip"
 
 msgid "Color clip"
-msgstr "Farbeclip"
+msgstr "Farbclip"
 
 msgid "Color clips"
-msgstr "Farbeclips"
+msgstr "Farbclips"
 
 msgid "Connect"
 msgstr ""
@@ -243,7 +243,7 @@ msgstr ""
 "Einstellungen nicht. Bitte beheben Sie dieses Problem."
 
 msgid "Create"
-msgstr ""
+msgstr "Erstellen"
 
 msgid "Create Folder"
 msgstr "Verzeichnis erstellen"
@@ -273,26 +273,26 @@ msgid "Decoding threads"
 msgstr ""
 
 msgid "Default Durations"
-msgstr ""
+msgstr "Standarddauer"
 
 msgid "Default Profile"
 msgstr "Standardprofil"
 
 msgid "Default capture device"
-msgstr ""
+msgstr "Standardaufnahmegerät"
 
 msgid "Default folders"
-msgstr ""
+msgstr "Standardverzeichnis"
 
 msgid "Default format"
-msgstr ""
+msgstr "Standardformat"
 
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #, kde-format
 msgid "Delete %1"
-msgstr ""
+msgstr "Lösche %1"
 
 msgid "Delete Clip"
 msgstr "Clip löschen"
@@ -316,19 +316,19 @@ msgid ""
 msgstr ""
 
 msgid "Delete profile"
-msgstr ""
+msgstr "Profil löschen"
 
 msgid "Delete timeline clip"
-msgstr ""
+msgstr "Datei aus Zeitleiste entfernen"
 
 msgid "Delete transition from clip"
-msgstr ""
+msgstr "Übergang von Datei löschen"
 
 msgid "Description"
 msgstr "Beschreibung"
 
 msgid "Device"
-msgstr ""
+msgstr "Gerät"
 
 msgid "Device configuration"
 msgstr ""
@@ -337,10 +337,10 @@ msgid "Dialog"
 msgstr ""
 
 msgid "Disonnect"
-msgstr ""
+msgstr "Trennen"
 
 msgid "Display"
-msgstr ""
+msgstr "Anzeige"
 
 msgid "Display ratio"
 msgstr ""
@@ -434,7 +434,7 @@ msgid "Folder"
 msgstr "Verzeichnis"
 
 msgid "Force aspect ratio"
-msgstr ""
+msgstr "Seitenverhältnis erzwingen"
 
 msgid "Form"
 msgstr ""
@@ -629,7 +629,7 @@ msgid "Project Settings"
 msgstr "Projekteinstellungen"
 
 msgid "Project Tree"
-msgstr "Projekt Baum"
+msgstr "Projektinhalt"
 
 msgid "Project folder"
 msgstr "Projektverzeichnis"
@@ -695,7 +695,7 @@ msgid "Save changes to document ?"
 msgstr "Änderungen des Dokumentes speichern"
 
 msgid "Selected zone only"
-msgstr "Teilstück markieren"
+msgstr "nur markiertes Teilstück"
 
 msgid "Show audio thumbnails"
 msgstr "zeige Tonspur"
@@ -746,13 +746,13 @@ msgid "There is no clip, cannot extract frame."
 msgstr "Kein Clip vorhanden, kann kein Frame extrahieren."
 
 msgid "Thumbnail"
-msgstr "Mini-Bild"
+msgstr "Vorschau"
 
 msgid "Thumbnails"
-msgstr "Mini-Bilder"
+msgstr "Vorschau"
 
 msgid "Thumbnails:"
-msgstr "Mini-Bilder:"
+msgstr "Vorschau:"
 
 msgid "Timeline"
 msgstr "Zeitleiste"

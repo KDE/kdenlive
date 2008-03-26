@@ -20,6 +20,7 @@
 
 #include <klocale.h>
 #include <QDomDocument>
+#include <QThread>
 #include <mlt++/Mlt.h>
 
 
@@ -29,7 +30,19 @@
 
 class EffectsList;
 
-class initEffects {
+class initEffectsThumbnailer : public QThread {
+    Q_OBJECT
+public:
+    initEffectsThumbnailer();
+    void prepareThumbnailsCall(const QStringList&);
+    void run();
+private :
+    QStringList m_list;
+
+};
+
+class initEffects : public QObject {
+
 public:
     initEffects();
     ~initEffects();
@@ -52,6 +65,8 @@ public:
     static char* ladspaPitchShifterEffectString(QStringList params);
     static char* ladspaPhaserEffectString(QStringList params);
     static char* ladspaRateScalerEffectString(QStringList params);
+private:
+    static initEffectsThumbnailer thumbnailer;
 };
 
 

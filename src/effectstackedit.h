@@ -30,6 +30,7 @@ class EffectStackEdit : public QObject {
     Q_OBJECT
 public:
     EffectStackEdit(QFrame* frame, QWidget *parent);
+    static QMap<QString, QImage> iconCache;
 private:
     void clearAllItems();
     QVBoxLayout *vbox;

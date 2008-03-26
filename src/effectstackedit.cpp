@@ -30,7 +30,7 @@
 #include "ui_colorval_ui.h"
 #include "complexparameter.h"
 
-static QMap<QString, QIcon> iconCache;
+QMap<QString, QImage> EffectStackEdit::iconCache;
 
 EffectStackEdit::EffectStackEdit(QFrame* frame, QWidget *parent): QObject(parent) {
     QScrollArea *area;
@@ -105,12 +105,12 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
             for (int i = 0;i < lsval->list->count();i++) {
                 QString entry = lsval->list->itemText(i);
                 if (!entry.isEmpty() && (entry.endsWith(".png") || entry.endsWith(".pgm"))) {
-                    if (!iconCache.contains(entry)) {
-                        QPixmap pix(entry);
-                        iconCache[entry] = pix.scaled(30, 30);
-                    }
+                    /*if (!EffectStackEdit::iconCache.contains(entry)) {
+                           QPixmap pix(entry);
+                        EffectStackEdit::iconCache[entry] = pix.scaled(30, 30);
+                       }*/
                     lsval->list->setIconSize(QSize(30, 30));
-                    lsval->list->setItemIcon(i, iconCache[entry]);
+                    lsval->list->setItemIcon(i, QPixmap::fromImage(iconCache[entry]));
                 }
             }
             connect(lsval->list, SIGNAL(currentIndexChanged(int)) , this, SLOT(collectAllParameters()));

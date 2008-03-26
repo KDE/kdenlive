@@ -21,6 +21,7 @@
 #include <QFile>
 #include <qregexp.h>
 #include <QDir>
+#include <QIcon>
 
 #include <KDebug>
 #include <kglobal.h>
@@ -29,8 +30,36 @@
 #include "initeffects.h"
 #include "kdenlivesettings.h"
 #include "effectslist.h"
+#include "effectstackedit.h"
+
+initEffectsThumbnailer::initEffectsThumbnailer() {
+    connect(this, SIGNAL(prepareThumbnails(const QStringList&)), this, SLOT(slotPrepareThumbnails(const QStringList&)), Qt::QueuedConnection);
+}
+
+void initEffectsThumbnailer::prepareThumbnailsCall(const QStringList& list) {
+    m_list = list;
+    start();
+    kDebug() << "done";
+}
+
+void initEffectsThumbnailer::run() {
+    foreach(QString entry, m_list) {
+        kDebug() << entry;
+        if (!entry.isEmpty() && (entry.endsWith(".png") || entry.endsWith(".pgm"))) {
+            if (!EffectStackEdit::iconCache.contains(entry)) {
+                QImage pix(entry);
+                //if (!pix.isNull())
+                EffectStackEdit::iconCache[entry] = pix.scaled(30, 30);
+                kDebug() << "stored";
+            }
+        }
+    }
+}
+
+initEffectsThumbnailer initEffects::thumbnailer;
 
 initEffects::initEffects() {
+
 }
 
 initEffects::~initEffects() {
@@ -477,15 +506,17 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 mlt_properties_dir_list(entries.get_properties(), path.toAscii().data(), "*.*", 1);
                 kDebug() << path << entries.count();
                 QString imagefiles;
+                QStringList imagelist;
                 for (int i = 0;i < entries.count();i++) {
                     //if (!imagefiles.isEmpty()) // add empty entry too
                     imagefiles.append(",");
                     imagefiles.append(entries.get(i));
+                    imagelist << entries.get(i);
                 }
                 paramList.append(quickParameterFill(ret, "Softness", "softness", "double", "0", "0", "100", "", "100"));
                 paramList.append(quickParameterFill(ret, "Invert", "invert", "bool", "0", "0", "1"));
                 paramList.append(quickParameterFill(ret, "ImageFile", "resource", "list", "", "", "", imagefiles));
-
+                thumbnailer.prepareThumbnailsCall(imagelist);
 
             } else if (name == "composite") {
                 paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "0%,0%:100%x100%", "0%,0%:100%x100%", "0%,0%:100%x100%"));
