@@ -753,17 +753,40 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
 
     } else if (m_operationMode == RESIZESTART) {
         // resize start
-        ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->startPos().frames(m_document->fps()), m_dragItem->track()), true, false);
+        if (m_dragItem->type() == AVWIDGET) {
+            m_document->renderer()->mltResizeClipStart(m_tracksList.count() - m_dragItem->track(), m_dragItem->endPos(), m_dragItem->startPos(), GenTime((int)m_startPos.x(), m_document->fps()), m_dragItem->cropStart(), m_dragItem->cropStart() + m_dragItem->endPos() - m_dragItem->startPos());
+            ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->startPos().frames(m_document->fps()), m_dragItem->track()), true, false);
+            m_commandStack->push(command);
+        } else if (m_dragItem->type() == TRANSITIONWIDGET) {
+            Transition* transition = (Transition*)m_dragItem;
+            GenTime oldin = transition->transitionStartTime();
+            GenTime oldout = transition->transitionEndTime();
+            GenTime newin = m_dragItem->startPos();
+            GenTime newout = m_dragItem->endPos();
+            transition->resizeTransitionStart(newin);
+            MoveTransitionCommand *command = new MoveTransitionCommand(this, QPointF(oldin.frames(m_document->fps()), oldout.frames(m_document->fps())), QPointF(newin.frames(m_document->fps()), newout.frames(m_document->fps())), (int) m_startPos.y(), (int)(m_dragItem->track()), false);
+            m_commandStack->push(command);
+            m_document->renderer()->mltMoveTransition(transition->transitionName(), (int)(m_tracksList.count() - m_startPos.y()), 0, oldin, oldout, newin, newout);
+        }
 
-        if (m_dragItem->type() == AVWIDGET) m_document->renderer()->mltResizeClipStart(m_tracksList.count() - m_dragItem->track(), m_dragItem->endPos(), m_dragItem->startPos(), GenTime((int)m_startPos.x(), m_document->fps()), m_dragItem->cropStart(), m_dragItem->cropStart() + m_dragItem->endPos() - m_dragItem->startPos());
-        m_commandStack->push(command);
         m_document->renderer()->doRefresh();
     } else if (m_operationMode == RESIZEEND) {
         // resize end
-        ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->endPos().frames(m_document->fps()), m_dragItem->track()), false, false);
-
-        if (m_dragItem->type() == AVWIDGET) m_document->renderer()->mltResizeClipEnd(m_tracksList.count() - m_dragItem->track(), m_dragItem->startPos(), m_dragItem->cropStart(), m_dragItem->cropStart() + m_dragItem->endPos() - m_dragItem->startPos());
-        m_commandStack->push(command);
+        if (m_dragItem->type() == AVWIDGET) {
+            ResizeClipCommand *command = new ResizeClipCommand(this, m_startPos, QPointF(m_dragItem->endPos().frames(m_document->fps()), m_dragItem->track()), false, false);
+            m_document->renderer()->mltResizeClipEnd(m_tracksList.count() - m_dragItem->track(), m_dragItem->startPos(), m_dragItem->cropStart(), m_dragItem->cropStart() + m_dragItem->endPos() - m_dragItem->startPos());
+            m_commandStack->push(command);
+        } else if (m_dragItem->type() == TRANSITIONWIDGET) {
+            Transition* transition = (Transition*)m_dragItem;
+            GenTime oldin = transition->transitionStartTime();
+            GenTime oldout = transition->transitionEndTime();
+            GenTime newin = m_dragItem->startPos();
+            GenTime newout = m_dragItem->endPos();
+            transition->resizeTransitionEnd(newout);
+            MoveTransitionCommand *command = new MoveTransitionCommand(this, QPointF(oldin.frames(m_document->fps()), oldout.frames(m_document->fps())), QPointF(newin.frames(m_document->fps()), newout.frames(m_document->fps())), (int) m_startPos.y(), (int)(m_dragItem->track()), false);
+            m_commandStack->push(command);
+            m_document->renderer()->mltMoveTransition(transition->transitionName(), (int)(m_tracksList.count() - m_startPos.y()), 0, oldin, oldout, newin, newout);
+        }
         m_document->renderer()->doRefresh();
     }
     m_document->setModified(true);
@@ -857,8 +880,22 @@ void CustomTrackView::moveTransition(const QPointF &startPos, const QPointF &end
         kDebug() << "----------------  ERROR, CANNOT find transition to move at: " << startPos.x() * m_scale * FRAME_SIZE + 1 << ", " << startPos.y() * m_tracksHeight + m_tracksHeight / 2;
         return;
     }
-    kDebug() << "----------------  Move TRANSITION FROM: " << startPos.x() << ", END:" << endPos.x() << ",TRACKS: " << oldtrack << " TO " << newtrack;
-    item->moveTo((int)endPos.x(), m_scale, (newtrack - oldtrack) * m_tracksHeight, newtrack);
+    //kDebug() << "----------------  Move TRANSITION FROM: " << startPos.x() << ", END:" << endPos.x() << ",TRACKS: " << oldtrack << " TO " << newtrack;
+
+    //kDebug()<<"///  RESIZE TRANS START: ("<< startPos.x()<<"x"<< startPos.y()<<") / ("<<endPos.x()<<"x"<< endPos.y()<<")";
+    if (endPos.y() - endPos.x() == startPos.y() - startPos.x()) {
+        // Transition was moved
+        item->moveTo((int)endPos.x(), m_scale, (newtrack - oldtrack) * m_tracksHeight, newtrack);
+        item->moveTransition(GenTime((int)(endPos.x() - startPos.x()), m_document->fps()));
+    } else if (endPos.y() == startPos.y()) {
+        // Transition start resize
+        item->resizeStart((int)endPos.x(), m_scale);
+        item->resizeTransitionStart(GenTime((int) endPos.x(), m_document->fps()));
+    } else {
+        // Transition end resize;
+        item->resizeEnd((int)endPos.y(), m_scale);
+        item->resizeTransitionEnd(GenTime((int) endPos.y(), m_document->fps()));
+    }
     //item->moveTransition(GenTime((int) (endPos.x() - startPos.x()), m_document->fps()));
     m_document->renderer()->mltMoveTransition(item->transitionName(), m_tracksList.count() - oldtrack, oldtrack - newtrack, GenTime((int) startPos.x(), m_document->fps()), GenTime((int) startPos.y(), m_document->fps()), GenTime((int) endPos.x(), m_document->fps()), GenTime((int) endPos.y(), m_document->fps()));
 }
