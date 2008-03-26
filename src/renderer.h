@@ -124,7 +124,7 @@ Q_OBJECT public:
     not playing anything. */
     double playSpeed();
     /** Returns the current seek position of the renderer. */
-    const GenTime & seekPosition() const;
+    GenTime seekPosition() const;
 
     void emitFrameNumber(double position);
     void emitConsumerStopped();

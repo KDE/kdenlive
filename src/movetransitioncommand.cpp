@@ -19,7 +19,7 @@
 #include "movetransitioncommand.h"
 #include "customtrackview.h"
 MoveTransitionCommand::MoveTransitionCommand(CustomTrackView *view, const QPointF startPos, const QPointF endPos, int startTrack, int endTrack, bool doIt)
-        : m_view(view), m_startPos(startPos), m_endPos(endPos), m_doIt(doIt) {
+        : m_view(view), m_startPos(startPos), m_endPos(endPos), m_startTrack(startTrack), m_endTrack(endTrack), m_doIt(doIt) {
     setText(i18n("Move transition"));
 }
 
@@ -28,12 +28,12 @@ MoveTransitionCommand::MoveTransitionCommand(CustomTrackView *view, const QPoint
 void MoveTransitionCommand::undo() {
 // kDebug()<<"----  undoing action";
     m_doIt = true;
-    //if (m_doIt) m_view->moveTransition(m_endPos, m_startPos);
+    m_view->moveTransition(m_endPos, m_startPos, m_endTrack, m_startTrack);
 }
 // virtual
 void MoveTransitionCommand::redo() {
     kDebug() << "----  redoing action";
-    //if (m_doIt) m_view->moveTransition(m_startPos, m_endPos);
+    if (m_doIt) m_view->moveTransition(m_startPos, m_endPos, m_startTrack, m_endTrack);
     m_doIt = true;
 }
 

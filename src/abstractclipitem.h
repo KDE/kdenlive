@@ -14,7 +14,7 @@ public:
     virtual void setTrack(int track);
     virtual GenTime endPos() const ;
     virtual int track() const ;
-    virtual void moveTo(int x, double scale, double offset, int newTrack);
+    virtual void moveTo(int x, double scale, int offset, int newTrack);
     virtual GenTime cropStart() const ;
     virtual  void resizeStart(int posx, double scale);
     virtual void resizeEnd(int posx, double scale);

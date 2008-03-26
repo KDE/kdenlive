@@ -837,7 +837,7 @@ double Render::playSpeed() {
     return 0.0;
 }
 
-const GenTime & Render::seekPosition() const {
+GenTime Render::seekPosition() const {
     if (m_mltProducer) return GenTime((int) m_mltProducer->position(), m_fps);
     else return GenTime();
 }
@@ -1370,16 +1370,16 @@ void Render::mltMoveTransition(QString type, int startTrack, int trackOffset, Ge
             int currentTrack = mlt_transition_get_b_track(tr);
             int currentIn = (int) mlt_transition_get_in(tr);
             int currentOut = (int) mlt_transition_get_out(tr);
-            kDebug() << "// FOUND EXISTING TRANS, IN: " << type << resource << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack;
-            //kDebug()<<"// LOOKING FOR IN: "<<old_in<<", OUT: "<<old_out;
-            kDebug() << "// OLD IN: " << oldIn.frames(m_fps) << " // OLD OUT: " << oldOut.frames(m_fps) << ", TRACK: " << startTrack << ", MID POS: " << old_pos;
+
+            //kDebug() << "// OLD IN: " << oldIn.frames(m_fps) << " // OLD OUT: " << oldOut.frames(m_fps) << ", TRACK: " << startTrack << ", CURR TRANS: " <<currentIn<<", MID:"<< old_pos<<currentOut;
             if (resource == type && startTrack == currentTrack && currentIn <= old_pos && currentOut >= old_pos) {
+                //kDebug() << "// FOUND EXISTING TRANS, IN: " << type << resource << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack;
                 mlt_transition_set_in_and_out(tr, new_in, new_out);
                 if (trackOffset != 0) {
                     mlt_properties properties = MLT_TRANSITION_PROPERTIES(tr);
                     mlt_properties_set_int(properties, "a_track", mlt_transition_get_a_track(tr) + trackOffset);
                     mlt_properties_set_int(properties, "b_track", mlt_transition_get_b_track(tr) + trackOffset);
-                    kDebug() << "set new start & end :" << new_in << new_out;
+                    //kDebug() << "set new start & end :" << new_in << new_out<< "TR OFFSET: "<<trackOffset<<", TRACKS: "<<mlt_transition_get_a_track(tr)<<"x"<<mlt_transition_get_b_track(tr);
                 }
                 break;
             }
@@ -1389,7 +1389,9 @@ void Render::mltMoveTransition(QString type, int startTrack, int trackOffset, Ge
             resource = mlt_properties_get(properties, "mlt_service");
         }
         m_isBlocked = false;
+        delete tractor;
     }
+    m_mltConsumer->set("refresh", 1);
 }
 
 void Render::mltUpdateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml) {

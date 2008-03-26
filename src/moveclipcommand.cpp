@@ -31,12 +31,13 @@ MoveClipCommand::MoveClipCommand(CustomTrackView *view, const QPointF startPos, 
 void MoveClipCommand::undo() {
 // kDebug()<<"----  undoing action";
     m_doIt = true;
-    if (m_doIt) m_view->moveClip(m_endPos, m_startPos);
+    m_view->moveClip(m_endPos, m_startPos);
 }
 // virtual
 void MoveClipCommand::redo() {
     kDebug() << "----  redoing action";
-    if (m_doIt) m_view->moveClip(m_startPos, m_endPos);
+    if (m_doIt)
+        m_view->moveClip(m_startPos, m_endPos);
     m_doIt = true;
 }
 

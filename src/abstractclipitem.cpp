@@ -7,11 +7,10 @@
 AbstractClipItem::AbstractClipItem(const QRectF& rect): QGraphicsRectItem(rect), m_startFade(0), m_endFade(0) {
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 }
-void AbstractClipItem::moveTo(int x, double scale, double offset, int newTrack) {
+void AbstractClipItem::moveTo(int x, double scale, int offset, int newTrack) {
     double origX = rect().x();
     double origY = rect().y();
     bool success = true;
-
     if (x < 0) return;
     setRect(x * scale, origY + offset, rect().width(), rect().height());
     QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
