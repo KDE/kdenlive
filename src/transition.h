@@ -21,7 +21,7 @@
 #include <QString>
 #include <QGraphicsRectItem>
 #include <QPixmap>
-#include <qdom.h>
+#include <QDomElement>
 #include <QMap>
 
 #include "gentime.h"
@@ -38,59 +38,40 @@ class Transition : public AbstractClipItem {
     Q_OBJECT
 public:
 
-    Transition(const QRectF&, ClipItem * clipa, const QString& type, const GenTime &startTime, const GenTime &endTime, double fps, bool inverted = false);
-    Transition(const QRectF&, ClipItem * clip, QDomElement transitionElement, double fps, GenTime offset = GenTime());
+    Transition(const ItemInfo info, int transitiontrack, double scale, double fps, QMap <QString, QString> desc, QDomElement params = QDomElement());
     virtual ~Transition();
     virtual void paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
                        QWidget *widget);
     virtual int type() const;
     /** Returns an XML representation of this transition. */
-    QDomElement toXML();
+    //QDomElement toXML();
 
-    GenTime transitionStartTime() const;
-    GenTime transitionEndTime() const;
     /** Return the track number of transition in the playlist*/
-    int transitionStartTrack() const;
     int transitionEndTrack() const;
     Transition *clone();
     bool hasClip(const ClipItem * clip) const;
     bool belongsToClip(const ClipItem * clip) const;
-    void resizeTransitionEnd(GenTime time);
-    void resizeTransitionStart(GenTime time);
-    void moveTransition(GenTime time);
-    bool invertTransition() const;
+    bool invertedTransition() const;
     QString transitionName() const;
+    QString transitionTag() const;
     OPERATIONTYPE operationMode(QPointF pos, double scale);
-    void setTransitionType(QString newType);
     //const QMap < QString, QString > transitionParameters() const;
-    void setTransitionParameters(const QDomElement&);
+    void setTransitionParameters(const QDomElement params);
     void setTransitionDirection(bool inv);
-    int transitionTrack() const;
     void setTransitionTrack(int track);
     QPixmap transitionPixmap() const;
-    Transition *reparent(ClipItem * clip);
+    //Transition *reparent(ClipItem * clip);
     bool isValid() const;
-    GenTime transitionDuration() const;
+
     const ClipItem *referencedClip() const;
 
 private:
-
-    GenTime m_transitionStart;
-    GenTime m_transitionDuration;
-    QDomElement m_transitionParameters;
-
-    /** The name of the transition to be displayed to user */
-    QString m_transitionName;
-
-    /** Should the transition be reversed */
-    bool m_invertTransition;
-
     bool m_singleClip;
-
-    /** The track to which the transition is attached*/
-    int m_track;
-
+    /** contains the transition description (name, tag, description) */
+    QMap <QString, QString> m_description;
+    /** contains the transition parameters */
+    QDomElement m_parameters;
     /** The clip to which the transition is attached */
     ClipItem *m_referenceClip;
 

@@ -27,19 +27,20 @@
 
 #include <KDebug>
 
+#include "definitions.h"
+
 class CustomTrackView;
 
 class ResizeClipCommand : public QUndoCommand {
 public:
-    ResizeClipCommand(CustomTrackView *view, const QPointF startPos, const QPointF endPos, bool resizeClipStart, bool doIt);
+    ResizeClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt);
     virtual void undo();
     virtual void redo();
 
 private:
     CustomTrackView *m_view;
-    QPointF m_startPos;
-    QPointF m_endPos;
-    bool m_resizeClipStart;
+    ItemInfo m_startPos;
+    ItemInfo m_endPos;
     bool m_doIt;
 };
 

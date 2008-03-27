@@ -22,8 +22,8 @@
 #include "addtimelineclipcommand.h"
 #include "customtrackview.h"
 
-AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, int clipId, int track, GenTime startpos, QRectF rect, GenTime duration, bool doIt, bool doRemove)
-        : m_view(view), m_xml(xml), m_clipId(clipId), m_clipTrack(track), m_clipPos(startpos), m_clipRect(rect), m_clipDuration(duration), m_doIt(doIt), m_remove(doRemove) {
+AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, int clipId, ItemInfo info, bool doIt, bool doRemove)
+        : m_view(view), m_xml(xml), m_clipId(clipId), m_clipInfo(info), m_doIt(doIt), m_remove(doRemove) {
     if (!m_remove) setText(i18n("Add timeline clip"));
     else setText(i18n("Delete timeline clip"));
 }
@@ -31,14 +31,14 @@ AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, QDomElemen
 
 // virtual
 void AddTimelineClipCommand::undo() {
-    if (!m_remove) m_view->deleteClip(m_clipTrack, m_clipPos, m_clipRect);
-    else m_view->addClip(m_xml, m_clipId, m_clipTrack, m_clipPos, m_clipRect, m_clipDuration);
+    if (!m_remove) m_view->deleteClip(m_clipInfo);
+    else m_view->addClip(m_xml, m_clipId, m_clipInfo);
 }
 // virtual
 void AddTimelineClipCommand::redo() {
     if (m_doIt) {
-        if (!m_remove) m_view->addClip(m_xml, m_clipId, m_clipTrack, m_clipPos, m_clipRect, m_clipDuration);
-        else m_view->deleteClip(m_clipTrack, m_clipPos, m_clipRect);
+        if (!m_remove) m_view->addClip(m_xml, m_clipId, m_clipInfo);
+        else m_view->deleteClip(m_clipInfo);
     }
     m_doIt = true;
 }

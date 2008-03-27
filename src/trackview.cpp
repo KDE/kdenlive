@@ -235,9 +235,14 @@ int TrackView::slotAddVideoTrack(int ix, QDomElement xml) {
             int in = elem.attribute("in", 0).toInt();
             int id = elem.attribute("producer", 0).toInt();
             DocClipBase *clip = m_doc->clipManager()->getClipById(id);
-            int out = elem.attribute("out", 0).toInt() - in;
-            //kDebug()<<"++++++++++++++\n\n / / /ADDING CLIP: "<<clip.cropTime<<", out: "<<clip.duration<<", Producer: "<<clip.producer<<"\n\n++++++++++++++++++++";
-            ClipItem *item = new ClipItem(clip, ix, GenTime(position, m_doc->fps()), QRectF(position * m_scale, trackTop + 1, out * m_scale, KdenliveSettings::trackheight() - 1), GenTime(out, m_doc->fps()), m_doc->fps());
+            int out = elem.attribute("out", 0).toInt();
+
+            ItemInfo info;
+            info.startPos = GenTime(position, m_doc->fps());
+            info.endPos = GenTime(out, m_doc->fps());
+            info.track = ix;
+
+            ClipItem *item = new ClipItem(clip, info, m_scale, m_doc->fps());
             m_scene->addItem(item);
             position += out;
 

@@ -46,20 +46,20 @@ public:
     void removeTrack();
     int cursorPos();
     void checkAutoScroll();
-    void moveClip(const QPointF &startPos, const QPointF &endPos);
+    void moveClip(const ItemInfo start, const ItemInfo end);
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
-    void moveTransition(const QPointF &startPos, const QPointF &endPos, int oldtrack, int newtrack);
-    void resizeClip(const QPointF &startPos, const QPointF &endPos, bool resizeClipStart);
-    void addClip(QDomElement xml, int clipId, int track, GenTime startpos, const QRectF &rect, GenTime duration);
-    void deleteClip(int track, GenTime startpos, const QRectF &rect);
+    void moveTransition(const ItemInfo start, const ItemInfo end);
+    void resizeClip(const ItemInfo start, const ItemInfo end);
+    void addClip(QDomElement xml, int clipId, ItemInfo info);
+    void deleteClip(ItemInfo info);
     void setScale(double scaleFactor);
     void deleteClip(int clipId);
     void slotAddEffect(QDomElement effect, GenTime pos, int track);
     void addEffect(int track, GenTime pos, QDomElement effect);
     void deleteEffect(int track, GenTime pos, QDomElement effect);
     void updateEffect(int track, GenTime pos, QDomElement effect);
-    void addTransition(int track, GenTime pos, QDomElement transition);
-    void deleteTransition(int track, GenTime pos, QDomElement transition);
+    void addTransition(ItemInfo transitionInfo, int endTrack, QMap <QString, QString> desc, QDomElement params);
+    void deleteTransition(ItemInfo transitionInfo, int endTrack, QMap <QString, QString> desc, QDomElement params);
     void updateTransition(int track, GenTime pos,  QDomElement oldTransition, QDomElement transition);
     void moveTransition(GenTime oldpos, GenTime newpos);
     void activateMonitor();
@@ -77,7 +77,8 @@ public slots:
     void slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect, QDomElement effect);
     void slotRefreshEffects(ClipItem *clip);
     void setDuration(int duration);
-    void slotAddTransition(ClipItem* clip , QDomElement transition, GenTime startTime , int startTrack);
+    void slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack,
+                           QMap <QString, QString> desc, QDomElement transition = QDomElement());
     void slotTransitionUpdated(QDomElement, QDomElement);
     void slotSwitchTrackAudio(int ix);
     void slotSwitchTrackVideo(int ix);
@@ -102,7 +103,7 @@ private:
     KdenliveDoc *m_document;
     void addItem(DocClipBase *clip, QPoint pos);
     QGraphicsLineItem *m_cursorLine;
-    QPointF m_startPos;
+    ItemInfo m_dragItemInfo;
     OPERATIONTYPE m_operationMode;
     OPERATIONTYPE m_moveOpMode;
     AbstractClipItem *m_dragItem;

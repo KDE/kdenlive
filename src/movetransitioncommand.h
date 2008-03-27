@@ -24,21 +24,21 @@
 
 #include <KDebug>
 
+#include "definitions.h"
+
 class CustomTrackView;
 
 class MoveTransitionCommand : public QUndoCommand {
 public:
-    MoveTransitionCommand(CustomTrackView *view, const QPointF startPos, const QPointF endPos, int startTrack, int endTrack, bool doIt);
+    MoveTransitionCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt);
     virtual void undo();
     virtual void redo();
 
 private:
     CustomTrackView *m_view;
-    QPointF m_startPos;
-    QPointF m_endPos;
+    ItemInfo m_startPos;
+    ItemInfo m_endPos;
     bool m_doIt;
-    int m_startTrack;
-    int m_endTrack;
 };
 
 #endif

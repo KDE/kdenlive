@@ -21,8 +21,9 @@
 
 #include "resizeclipcommand.h"
 #include "customtrackview.h"
-ResizeClipCommand::ResizeClipCommand(CustomTrackView *view, const QPointF startPos, const QPointF endPos, bool resizeClipStart, bool doIt)
-        : m_view(view), m_startPos(startPos), m_endPos(endPos), m_resizeClipStart(resizeClipStart), m_doIt(doIt) {
+
+ResizeClipCommand::ResizeClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt)
+        : m_view(view), m_startPos(start), m_endPos(end), m_doIt(doIt) {
     setText(i18n("Resize clip"));
 }
 
@@ -31,12 +32,12 @@ ResizeClipCommand::ResizeClipCommand(CustomTrackView *view, const QPointF startP
 void ResizeClipCommand::undo() {
 // kDebug()<<"----  undoing action";
     m_doIt = true;
-    if (m_doIt) m_view->resizeClip(m_endPos, m_startPos, m_resizeClipStart);
+    if (m_doIt) m_view->resizeClip(m_endPos, m_startPos);
 }
 // virtual
 void ResizeClipCommand::redo() {
     kDebug() << "----  redoing action";
-    if (m_doIt) m_view->resizeClip(m_startPos, m_endPos, m_resizeClipStart);
+    if (m_doIt) m_view->resizeClip(m_startPos, m_endPos);
     m_doIt = true;
 }
 

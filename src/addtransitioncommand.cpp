@@ -19,7 +19,7 @@
 #include "addtransitioncommand.h"
 #include "customtrackview.h"
 
-AddTransitionCommand::AddTransitionCommand(CustomTrackView *view, int track, QDomElement xml, GenTime pos, bool doIt) : m_view(view), m_track(track), m_xml(xml), m_pos(pos), m_doIt(doIt) {
+AddTransitionCommand::AddTransitionCommand(CustomTrackView *view, ItemInfo info, int transitiontrack, QMap <QString, QString> desc, QDomElement params, bool doIt) : m_view(view), m_info(info), m_track(transitiontrack), m_desc(desc), m_params(params), m_doIt(doIt) {
     if (m_doIt) setText(i18n("Add transition to clip"));
     else setText(i18n("Delete transition from clip"));
 }
@@ -27,13 +27,13 @@ AddTransitionCommand::AddTransitionCommand(CustomTrackView *view, int track, QDo
 
 // virtual
 void AddTransitionCommand::undo() {
-    if (m_doIt) m_view->deleteTransition(m_track, m_pos, m_xml);
-    else m_view->addTransition(m_track , m_pos, m_xml);
+    if (m_doIt) m_view->deleteTransition(m_info, m_track, m_desc, m_params);
+    else m_view->addTransition(m_info, m_track, m_desc, m_params);
 }
 // virtual
 void AddTransitionCommand::redo() {
-    if (m_doIt) m_view->addTransition(m_track , m_pos, m_xml);
-    else m_view->deleteTransition(m_track, m_pos, m_xml);
+    if (m_doIt) m_view->addTransition(m_info, m_track, m_desc, m_params);
+    else m_view->deleteTransition(m_info, m_track, m_desc, m_params);
     m_doIt = true;
 }
 

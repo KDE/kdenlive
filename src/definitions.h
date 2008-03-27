@@ -21,6 +21,8 @@
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 
+#include "gentime.h"
+
 #define FRAME_SIZE 90
 #define MAXCLIPDURATION 15000
 
@@ -43,6 +45,12 @@ struct TrackInfo {
     TRACKTYPE type;
     bool isMute;
     bool isBlind;
+};
+
+struct ItemInfo {
+    GenTime startPos;
+    GenTime endPos;
+    int track;
 };
 
 struct MltVideoProfile {

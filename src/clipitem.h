@@ -38,7 +38,7 @@ class ClipItem : public AbstractClipItem {
     Q_OBJECT
 
 public:
-    ClipItem(DocClipBase *clip, int track, GenTime startpos, const QRectF & rect, GenTime duration, double fps);
+    ClipItem(DocClipBase *clip, ItemInfo info, double scale, double fps);
     virtual ~ ClipItem();
     virtual void paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
@@ -97,7 +97,6 @@ private:
 
 
     int m_maxTrack;
-
 
     QPixmap m_startPix;
     QPixmap m_endPix;

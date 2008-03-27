@@ -39,21 +39,19 @@
 #include "kdenlivesettings.h"
 #include "kthumb.h"
 
-ClipItem::ClipItem(DocClipBase *clip, int track, GenTime startpos, const QRectF & rect, GenTime duration, double fps)
-        : AbstractClipItem(rect), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_thumbsRequested(0), m_hover(false) {
-    //setToolTip(name);
-    // kDebug() << "*******  CREATING NEW TML CLIP, DUR: " << duration;
+ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double scale, double fps)
+        : AbstractClipItem(info, QRectF()), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_thumbsRequested(0), m_hover(false) {
+    QRectF rect((double) info.startPos.frames(fps) * scale, (double)(info.track * KdenliveSettings::trackheight() + 1), (double)(info.endPos - info.startPos).frames(fps) * scale, (double)(KdenliveSettings::trackheight() - 1));
+    setRect(rect);
+    kDebug() << "/////  NEW CLIP RECT: " << rect;
     m_fps = fps;
-    m_startPos = startpos;
-    m_track = track;
     m_xml = clip->toXML();
     m_clipName = clip->name();
     m_producer = clip->getId();
     m_clipType = clip->clipType();
     m_cropStart = GenTime();
-    m_maxDuration = duration;
-    if (duration != GenTime()) m_cropDuration = duration;
-    else m_cropDuration = m_maxDuration;
+
+    m_cropDuration = m_maxDuration;
     setAcceptDrops(true);
     audioThumbReady = clip->audioThumbCreated();
     /*
@@ -611,7 +609,7 @@ void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event) {
     doc.setContent(effects, true);
     QDomElement e = doc.documentElement();
     CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
-    if (view) view->slotAddEffect(e, m_startPos, m_track);
+    if (view) view->slotAddEffect(e, m_startPos, track());
 }
 
 //virtual
@@ -627,7 +625,7 @@ void ClipItem::addTransition(Transition* t) {
     CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
     QDomDocument doc;
     QDomElement e = doc.documentElement();
-    if (view) view->slotAddTransition(this, t->toXML() , t->startPos(), track());
+    //if (view) view->slotAddTransition(this, t->toXML() , t->startPos(), track());
 }
 // virtual
 /*

@@ -26,19 +26,20 @@
 #include <QPointF>
 
 #include <KDebug>
+#include "definitions.h"
 
 class CustomTrackView;
 
 class MoveClipCommand : public QUndoCommand {
 public:
-    MoveClipCommand(CustomTrackView *view, const QPointF startPos, const QPointF endPos, bool doIt);
+    MoveClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt);
     virtual void undo();
     virtual void redo();
 
 private:
     CustomTrackView *m_view;
-    QPointF m_startPos;
-    QPointF m_endPos;
+    ItemInfo m_startPos;
+    ItemInfo m_endPos;
     bool m_doIt;
 };
 

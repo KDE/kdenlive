@@ -25,20 +25,21 @@
 #include <KDebug>
 
 #include "gentime.h"
-
+#include "definitions.h"
 class CustomTrackView;
 
 
 class AddTransitionCommand : public QUndoCommand {
 public:
-    AddTransitionCommand(CustomTrackView *view, int track, QDomElement xml , GenTime pos, bool doIt);
+    AddTransitionCommand(CustomTrackView *view, ItemInfo info, int transitiontrack, QMap <QString, QString> desc, QDomElement params, bool doIt);
     virtual void undo();
     virtual void redo();
 
 private:
     CustomTrackView *m_view;
-    GenTime m_pos;
-    QDomElement m_xml;
+    ItemInfo m_info;
+    QMap <QString, QString> m_desc;
+    QDomElement m_params;
     int m_track;
     bool m_doIt;
 };

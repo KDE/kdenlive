@@ -4,8 +4,11 @@
 #include <QGraphicsView>
 #include <QScrollBar>
 
-AbstractClipItem::AbstractClipItem(const QRectF& rect): QGraphicsRectItem(rect), m_startFade(0), m_endFade(0) {
+AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect): QGraphicsRectItem(rect), m_startFade(0), m_endFade(0) {
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    setTrack(info.track);
+    m_startPos = info.startPos;
+    m_maxDuration = info.endPos - info.startPos;
 }
 void AbstractClipItem::moveTo(int x, double scale, int offset, int newTrack) {
     double origX = rect().x();
@@ -64,14 +67,14 @@ void AbstractClipItem::resizeStart(int posx, double scale) {
     if (durationDiff == GenTime()) return;
     //kDebug() << "-- RESCALE: CROP=" << m_cropStart << ", DIFF = " << durationDiff;
 
-    if (m_cropStart + durationDiff < GenTime() && type() == AVWIDGET) {
+    if (type() == AVWIDGET && m_cropStart + durationDiff < GenTime()) {
         durationDiff = GenTime() - m_cropStart;
     } else if (durationDiff >= m_cropDuration) {
         durationDiff = m_cropDuration - GenTime(3, m_fps);
     }
 
     m_startPos += durationDiff;
-    m_cropStart += durationDiff;
+    if (type() == AVWIDGET) m_cropStart += durationDiff;
     m_cropDuration = m_cropDuration - durationDiff;
     setRect(m_startPos.frames(m_fps) * scale, rect().y(), m_cropDuration.frames(m_fps) * scale, rect().height());
     QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
@@ -81,7 +84,7 @@ void AbstractClipItem::resizeStart(int posx, double scale) {
             GenTime diff = ((AbstractClipItem *)item)->endPos() + GenTime(1, m_fps) - m_startPos;
             setRect((m_startPos + diff).frames(m_fps) * scale, rect().y(), (m_cropDuration - diff).frames(m_fps) * scale, rect().height());
             m_startPos += diff;
-            m_cropStart += diff;
+            if (type() == AVWIDGET) m_cropStart += diff;
             m_cropDuration = m_cropDuration - diff;
             break;
         }
