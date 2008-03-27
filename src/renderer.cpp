@@ -76,6 +76,10 @@ Render::Render(const QString & rendererName, int winid, int extid, QWidget *pare
         m_mltConsumer->set("resize", 1);
         m_mltConsumer->set("window_id", winid);
         m_mltConsumer->set("terminate_on_pause", 1);
+	m_mltConsumer->set("rescale", "nearest");
+	m_mltConsumer->set("progressive", 1);
+	m_mltConsumer->set("audio_buffer", 1024);
+	m_mltConsumer->set("frequency", 48000);
         m_externalwinid = extid;
         m_winid = winid;
         m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
@@ -83,6 +87,7 @@ Render::Render(const QString & rendererName, int winid, int extid, QWidget *pare
         m_mltProducer = producer;
         m_mltConsumer->connect(*m_mltProducer);
         m_mltProducer->set_speed(0.0);
+
         //m_mltConsumer->start();
         //refresh();
         //initSceneList();
@@ -137,6 +142,10 @@ int Render::resetProfile(QString profile) {
     m_mltConsumer->set("window_id", m_winid);
     m_mltConsumer->set("terminate_on_pause", 1);
     m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
+    m_mltConsumer->set("rescale", "nearest");
+    m_mltConsumer->set("progressive", 1);
+    m_mltConsumer->set("audio_buffer", 1024);
+    m_mltConsumer->set("frequency", 48000);
 
     Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "westley-xml", (char *) scene.toUtf8().data());
     m_mltProducer = producer;
@@ -1462,12 +1471,13 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
 }
 
 void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool do_refresh) {
-
+    //kDebug() << "-- ADDING TRANSITION: " << tag << ", ON TRACKS: " << a_track << ", " << b_track;
     QDomNodeList attribs = xml.elementsByTagName("parameter");
     QMap<QString, QString> map;
     for (int i = 0;i < attribs.count();i++) {
         QDomElement e = attribs.item(i).toElement();
         QString name = e.attribute("name");
+	//kDebug()<<"-- TRANSITION PARAM: "<<name<<" = "<< e.attribute("name")<<" / " << e.attribute("value");
         map[name] = e.attribute("default");
         if (!e.attribute("value").isEmpty()) {
             map[name] = e.attribute("value");
