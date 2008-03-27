@@ -58,8 +58,8 @@ public:
     void addEffect(int track, GenTime pos, QDomElement effect);
     void deleteEffect(int track, GenTime pos, QDomElement effect);
     void updateEffect(int track, GenTime pos, QDomElement effect);
-    void addTransition(ItemInfo transitionInfo, int endTrack, QMap <QString, QString> desc, QDomElement params);
-    void deleteTransition(ItemInfo transitionInfo, int endTrack, QMap <QString, QString> desc, QDomElement params);
+    void addTransition(ItemInfo transitionInfo, int endTrack, QDomElement params);
+    void deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement params);
     void updateTransition(int track, GenTime pos,  QDomElement oldTransition, QDomElement transition);
     void moveTransition(GenTime oldpos, GenTime newpos);
     void activateMonitor();
@@ -77,8 +77,7 @@ public slots:
     void slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect, QDomElement effect);
     void slotRefreshEffects(ClipItem *clip);
     void setDuration(int duration);
-    void slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack,
-                           QMap <QString, QString> desc, QDomElement transition = QDomElement());
+    void slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QDomElement transition = QDomElement());
     void slotTransitionUpdated(QDomElement, QDomElement);
     void slotSwitchTrackAudio(int ix);
     void slotSwitchTrackVideo(int ix);

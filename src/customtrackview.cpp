@@ -406,7 +406,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                     info.endPos = info.startPos + GenTime(2.5);
                     info.track = m_dragItem->track();
                     int transitiontrack = getPreviousVideoTrack(info.track);
-                    slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack, QMap<QString, QString>());
+                    slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack);
                 }
                 if (m_operationMode == TRANSITIONEND) {
                     ItemInfo info;
@@ -414,7 +414,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                     info.startPos = info.endPos - GenTime(2.5);
                     info.track = m_dragItem->track();
                     int transitiontrack = info.track - 1;
-                    slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack, QMap<QString, QString>());
+                    slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack);
                 }
                 updateSnapPoints(m_dragItem);
                 collision = true;
@@ -550,38 +550,36 @@ void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect
     m_commandStack->push(command);
 }
 
-void CustomTrackView::slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QMap <QString, QString> desc, QDomElement transition) {
-    AddTransitionCommand* command = new AddTransitionCommand(this, transitionInfo, endTrack, desc, transition, true);
+void CustomTrackView::slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QDomElement transition) {
+    AddTransitionCommand* command = new AddTransitionCommand(this, transitionInfo, endTrack, transition, true);
     m_commandStack->push(command);
     m_document->setModified(true);
 }
 
-void CustomTrackView::addTransition(ItemInfo transitionInfo, int endTrack, QMap <QString, QString> desc, QDomElement params) {
-    Transition *tr = new Transition(transitionInfo, endTrack, m_scale, m_document->fps(), desc, params);
+void CustomTrackView::addTransition(ItemInfo transitionInfo, int endTrack, QDomElement params) {
+    Transition *tr = new Transition(transitionInfo, endTrack, m_scale, m_document->fps(), params);
     scene()->addItem(tr);
 
     //kDebug() << "---- ADDING transition " << e.attribute("tag") << ", on tracks " << m_tracksList.count() - e.attribute("transition_track").toInt() << " / " << getPreviousVideoTrack(e.attribute("transition_track").toInt());
-    m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_tracksList.count() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, params);
+    m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_tracksList.count() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, tr->toXML());
     m_document->setModified(true);
 }
 
-void CustomTrackView::deleteTransition(ItemInfo transitionInfo, int endTrack, QMap <QString, QString> desc, QDomElement params) {
+void CustomTrackView::deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement params) {
     Transition *item = getTransitionItemAt((int)transitionInfo.startPos.frames(m_document->fps()) + 1, transitionInfo.track);
-    QMap < QString, QString> map;
-    m_document->renderer()->mltDeleteTransition(item->transitionTag(), endTrack, m_tracksList.count() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, params);
+    m_document->renderer()->mltDeleteTransition(item->transitionTag(), endTrack, m_tracksList.count() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, item->toXML());
     delete item;
     m_document->setModified(true);
 }
 
 void CustomTrackView::slotTransitionUpdated(QDomElement old, QDomElement newEffect) {
-    /*EditTransitionCommand *command = new EditTransitionCommand(this, newEffect.attribute("a_track").toInt(), GenTime(newEffect.attribute("start").toInt(), m_document->renderer()->fps()) , old, newEffect , true);
+    EditTransitionCommand *command = new EditTransitionCommand(this, newEffect.attribute("a_track").toInt(), GenTime(newEffect.attribute("start").toInt(), m_document->fps()) , old, newEffect , true);
     m_commandStack->push(command);
-    m_document->setModified(true);*/
+    m_document->setModified(true);
 }
 
 void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTransition, QDomElement transition) {
-
-    m_document->renderer()->mltUpdateTransition(oldTransition.attribute("tag"), transition.attribute("tag"), m_tracksList.count() - 1  - transition.attribute("transition_track").toInt(), m_tracksList.count() - transition.attribute("transition_track").toInt() ,
+    m_document->renderer()->mltUpdateTransition(oldTransition.attribute("tag"), transition.attribute("tag"), transition.attribute("transitionb_track").toInt(), m_tracksList.count() - transition.attribute("transition_atrack").toInt() ,
             GenTime(transition.attribute("start").toInt(), m_document->renderer()->fps()),
             GenTime(transition.attribute("end").toInt(), m_document->renderer()->fps()),
             transition);

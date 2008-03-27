@@ -37,7 +37,7 @@ TransitionSettings::TransitionSettings(EffectsList *transitions, QWidget* parent
 
 
 void TransitionSettings::slotTransitionChanged() {
-    /*
+    
         QDomElement e = m_usedTransition->toXML();
 
         //set old values from e in <ktransition> to desc (like reverse and so )
@@ -48,7 +48,6 @@ void TransitionSettings::slotTransitionChanged() {
         }
         emit transitionUpdated(e, m_usedTransition->toXML());
         emit transferParamDesc(desc, 0, 0);
-    */
 }
 
 void TransitionSettings::slotTransitionItemSelected(Transition* t) {

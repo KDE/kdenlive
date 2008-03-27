@@ -32,7 +32,7 @@
 #include "kdenlivesettings.h"
 
 
-Transition::Transition(const ItemInfo info, int transitiontrack, double scale, double fps, QMap <QString, QString> desc, QDomElement params) : AbstractClipItem(info, QRectF(info.startPos.frames(fps) *scale , info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 2, (info.endPos - info.startPos).frames(fps) * scale , KdenliveSettings::trackheight() - 1)) {
+Transition::Transition(const ItemInfo info, int transitiontrack, double scale, double fps, QDomElement params) : AbstractClipItem(info, QRectF(info.startPos.frames(fps) *scale , info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 2, (info.endPos - info.startPos).frames(fps) * scale , KdenliveSettings::trackheight() - 1)) {
     m_singleClip = true;
     m_transitionTrack = transitiontrack;
     m_secondClip = NULL;
@@ -40,17 +40,15 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double scale, d
     m_fps = fps;
     m_cropDuration = m_maxDuration;
     //m_referenceClip = clipa;
-    if (desc.isEmpty()) {
-        m_description.insert("tag", "luma");
-        m_description.insert("name", "Luma");
-        m_description.insert("description", "Luma Transitions");
-        QDomDocument doc;
-        m_parameters = doc.createElement("ktransition");
+    if (params.isNull()) {
+	QDomDocument doc;
+	doc.setContent(QString("<ktransition tag=\"luma\"><name>Luma</name><description>Luma Transitions</description><properties id=\"luma\" tag=\"luma\" /><parameter type=\"bool\" name=\"reverse\" max=\"1\" min=\"0\" default=\"1\" factor=\"1\"><name>Reverse</name></parameter></ktransition>"));
+	m_parameters = doc.documentElement();
     } else {
-        m_description = desc;
         m_parameters = params;
     }
 
+    m_name = m_parameters.elementsByTagName("name").item(0).toElement().text();
     m_secondClip = 0;
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setZValue(2);
@@ -62,15 +60,16 @@ Transition::~Transition() {
 }
 
 QString Transition::transitionName() const {
-    return m_description.value("name");
+    return m_name;
 }
 
 QString Transition::transitionTag() const {
-    return m_description.value("tag");
+    return m_parameters.attribute("tag");
 }
 
 void Transition::setTransitionParameters(const QDomElement params) {
     m_parameters = params;
+    m_name = m_parameters.elementsByTagName("name").item(0).toElement().text();
 }
 
 
@@ -80,12 +79,13 @@ bool Transition::invertedTransition() const {
 
 QPixmap Transition::transitionPixmap() const {
     KIcon icon;
-    if (transitionTag() == "luma") {
+    QString tag = transitionTag();
+    if ( tag == "luma") {
         if (invertedTransition()) icon = KIcon("kdenlive_trans_up");
         else icon = KIcon("kdenlive_trans_down");
-    } else if (transitionTag() == "composite") {
+    } else if ( tag == "composite") {
         icon = KIcon("kdenlive_trans_wiper");
-    } else if (transitionTag() == "lumafile") {
+    } else if ( tag == "lumafile") {
         icon = KIcon("kdenlive_trans_luma");
     } else icon = KIcon("kdenlive_trans_pip");
     return icon.pixmap(QSize(15, 15));
@@ -175,19 +175,19 @@ const ClipItem *Transition::referencedClip() const {
     return m_referenceClip;
 }
 
-/*
 QDomElement Transition::toXML() {
-    m_transitionParameters.setAttribute("type", transitionTag);
+    m_parameters.setAttribute("type", transitionTag());
     //m_transitionParameters.setAttribute("inverted", invertTransition());
-    m_transitionParameters.setAttribute("transition_track", m_transitionTrack);
-    m_transitionParameters.setAttribute("start", transitionStartTime().frames(m_referenceClip->fps()));
-    m_transitionParameters.setAttribute("end", transitionEndTime().frames(m_referenceClip->fps()));
+    m_parameters.setAttribute("transition_atrack", track());
+    m_parameters.setAttribute("transition_btrack", m_transitionTrack);
+    m_parameters.setAttribute("start", startPos().frames(m_fps));
+    m_parameters.setAttribute("end", endPos().frames(m_fps));
 
     if (m_secondClip) {
-        m_transitionParameters.setAttribute("clipb_starttime", m_secondClip->startPos().frames(m_referenceClip->fps()));
-        m_transitionParameters.setAttribute("clipb_track", transitionEndTrack());
+        m_parameters.setAttribute("clipb_starttime", m_secondClip->startPos().frames(m_referenceClip->fps()));
+        m_parameters.setAttribute("clipb_track", transitionEndTrack());
     }
 
-    return m_transitionParameters;
-}*/
+    return m_parameters;
+}
 
