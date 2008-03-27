@@ -753,7 +753,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
             m_commandStack->push(command);
             //kDebug()<<"/// MOVING TRS FROM: "<<(int)(m_tracksList.count() - m_startPos.y())<<", OFFSET: "<<(int) (m_dragItem->track() - m_startPos.y());
             Transition *transition = (Transition *) m_dragItem;
-            m_document->renderer()->mltMoveTransition(transition->transitionName(), (int)(m_tracksList.count() - m_dragItemInfo.track), (int)(m_dragItemInfo.track - m_dragItem->track()), m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos);
+            m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_tracksList.count() - m_dragItemInfo.track), (int)(m_dragItemInfo.track - m_dragItem->track()), m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos);
         }
 
     } else if (m_operationMode == RESIZESTART) {
@@ -766,7 +766,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
             MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
             m_commandStack->push(command);
             Transition *transition = (Transition *) m_dragItem;
-            m_document->renderer()->mltMoveTransition(transition->transitionName(), (int)(m_tracksList.count() - m_dragItemInfo.track), 0, m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos);
+            m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_tracksList.count() - m_dragItemInfo.track), 0, m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos);
         }
 
         m_document->renderer()->doRefresh();
@@ -781,7 +781,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
             MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
             m_commandStack->push(command);
             Transition *transition = (Transition *) m_dragItem;
-            m_document->renderer()->mltMoveTransition(transition->transitionName(), (int)(m_tracksList.count() - m_dragItemInfo.track), 0, m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos);
+            m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_tracksList.count() - m_dragItemInfo.track), 0, m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos);
         }
         m_document->renderer()->doRefresh();
     }
@@ -893,7 +893,7 @@ void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end) {
         item->resizeEnd((int) end.endPos.frames(m_document->fps()), m_scale);
     }
     //item->moveTransition(GenTime((int) (endPos.x() - startPos.x()), m_document->fps()));
-    m_document->renderer()->mltMoveTransition(item->transitionName(), m_tracksList.count() - start.track, start.track - end.track, start.startPos, start.endPos, end.startPos, end.endPos);
+    m_document->renderer()->mltMoveTransition(item->transitionTag(), m_tracksList.count() - start.track, start.track - end.track, start.startPos, start.endPos, end.startPos, end.endPos);
 }
 
 void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end) {
