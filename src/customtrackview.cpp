@@ -378,6 +378,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         return;
     } else {
         bool collision = false;
+	m_dragItem = NULL;
         QList<QGraphicsItem *> collisionList = items(event->pos());
         for (int i = 0; i < collisionList.size(); ++i) {
             QGraphicsItem *item = collisionList.at(i);
@@ -420,9 +421,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 collision = true;
                 break;
             }
+        }
+	if (m_dragItem) {
 	    if (m_dragItem->type() == AVWIDGET) emit clipItemSelected((ClipItem*) m_dragItem);
 	    else emit transitionItemSelected((Transition*) m_dragItem);
-        }
+	}
         if (!collision) {
             kDebug() << "//////// NO ITEM FOUND ON CLICK";
             m_dragItem = NULL;
