@@ -40,6 +40,7 @@ public:
 
 protected:
     virtual bool hasChanged();
+    virtual void updateSettings();
 
 private slots:
     void slotUpdateDisplay();
@@ -61,7 +62,8 @@ private:
     QStringList m_mltProfilesList;
     QStringList m_customProfilesList;
     bool m_isCustomProfile;
-    QString m_defaulfProfile;
+    QString m_defaultProfile;
+    QString m_defaultPath;
 
 signals:
     void customChanged();

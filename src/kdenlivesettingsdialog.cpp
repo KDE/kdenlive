@@ -84,12 +84,18 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
     connect(m_configCapture.kcfg_video4size, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
     connect(m_configCapture.kcfg_video4rate, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
 
+
     QStringList profilesNames = ProfilesDialog::getProfileNames();
-    m_configMisc.profiles_list->addItems(profilesNames);
-    m_defaulfProfile = ProfilesDialog::getSettingsFromFile(KdenliveSettings::default_profile()).value("description");
-    if (profilesNames.contains(m_defaulfProfile)) m_configMisc.profiles_list->setCurrentItem(m_defaulfProfile);
+    m_configMisc.kcfg_profiles_list->addItems(profilesNames);
+    m_defaultProfile = ProfilesDialog::getSettingsFromFile(KdenliveSettings::default_profile()).value("description");
+    if (profilesNames.contains(m_defaultProfile)) {
+        m_configMisc.kcfg_profiles_list->setCurrentItem(m_defaultProfile);
+        KdenliveSettings::setProfiles_list(profilesNames.indexOf(m_defaultProfile));
+    }
+
     slotUpdateDisplay();
-    connect(m_configMisc.profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
+
+    connect(m_configMisc.kcfg_profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
 }
 
 KdenliveSettingsDialog::~KdenliveSettingsDialog() {}
@@ -135,13 +141,20 @@ void KdenliveSettingsDialog::rebuildVideo4Commands() {
 }
 
 bool KdenliveSettingsDialog::hasChanged() {
-    kDebug() << "// // // KCONFIG hasChanged called";
-    if (m_configMisc.profiles_list->currentText() != m_defaulfProfile) return true;
+    kDebug() << "// // // KCONFIG hasChanged called: " << m_configMisc.kcfg_profiles_list->currentText() << ", " << m_defaultProfile;
+    if (m_configMisc.kcfg_profiles_list->currentText() != m_defaultProfile) return true;
     return KConfigDialog::hasChanged();
 }
 
+void KdenliveSettingsDialog::updateSettings() {
+    kDebug() << "// // // KCONFIG UPDATE called";
+    m_defaultProfile = m_configMisc.kcfg_profiles_list->currentText();
+    KdenliveSettings::setDefault_profile(m_defaultPath);
+    KConfigDialog::updateSettings();
+}
+
 void KdenliveSettingsDialog::slotUpdateDisplay() {
-    QString currentProfile = m_configMisc.profiles_list->currentText();
+    QString currentProfile = m_configMisc.kcfg_profiles_list->currentText();
     QMap< QString, QString > values = ProfilesDialog::getSettingsForProfile(currentProfile);
     m_configMisc.p_size->setText(values.value("width") + "x" + values.value("height"));
     m_configMisc.p_fps->setText(values.value("frame_rate_num") + "/" + values.value("frame_rate_den"));
@@ -149,6 +162,7 @@ void KdenliveSettingsDialog::slotUpdateDisplay() {
     m_configMisc.p_display->setText(values.value("display_aspect_num") + "/" + values.value("display_aspect_den"));
     if (values.value("progressive").toInt() == 0) m_configMisc.p_progressive->setText(i18n("Interlaced"));
     else m_configMisc.p_progressive->setText(i18n("Progressive"));
+    m_defaultPath = values.value("path");
 }
 
 

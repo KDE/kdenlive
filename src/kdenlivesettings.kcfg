@@ -178,6 +178,11 @@
       <default>hdv_1080_50i</default>
     </entry>
 
+    <entry name="profiles_list" type="UInt">
+      <label>active project format.</label>
+      <default></default>
+    </entry>
+
     <entry name="showdescriptioncolumn" type="Bool">
       <label>Show descriptions in project tree view.</label>
       <default>true</default>

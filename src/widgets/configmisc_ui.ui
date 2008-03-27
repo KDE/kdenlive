@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>369</width>
-    <height>241</height>
+    <height>245</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_4" >
@@ -64,7 +64,7 @@
        </widget>
       </item>
       <item row="0" column="1" >
-       <widget class="KComboBox" name="profiles_list" />
+       <widget class="KComboBox" name="kcfg_profiles_list" />
       </item>
       <item row="1" column="0" colspan="2" >
        <layout class="QGridLayout" name="gridLayout" >

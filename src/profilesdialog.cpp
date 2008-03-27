@@ -192,7 +192,10 @@ QMap< QString, QString > ProfilesDialog::getSettingsForProfile(const QString pro
     for (int i = 0; i < profilesFiles.size(); ++i) {
         KConfig confFile(KdenliveSettings::mltpath() + "/" + profilesFiles.at(i));
         QMap< QString, QString > values = confFile.entryMap();
-        if (values.value("description") == profileName) return values;
+        if (values.value("description") == profileName) {
+            values.insert("path", profilesFiles.at(i));
+            return values;
+        }
     }
 
     // List custom profiles
@@ -202,7 +205,10 @@ QMap< QString, QString > ProfilesDialog::getSettingsForProfile(const QString pro
         for (int i = 0; i < profiles.size(); ++i) {
             KConfig confFile(customProfiles.at(i) + "/" + profiles.at(i));
             QMap< QString, QString > values = confFile.entryMap();
-            if (values.value("description") == profileName) return values;
+            if (values.value("description") == profileName) {
+                values.insert("path", customProfiles.at(i) + "/" + profiles.at(i));
+                return values;
+            }
         }
     }
     return QMap< QString, QString >();
