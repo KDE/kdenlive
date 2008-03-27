@@ -115,8 +115,15 @@ void Transition::paint(QPainter *painter,
     QPainterPath resultClipPath = roundRectPathUpper.united(roundRectPathLower);
 
     painter->setClipPath(resultClipPath.intersected(clippath), Qt::IntersectClip);
-    //painter->fillPath(roundRectPath, brush()); //, QBrush(QColor(Qt::red)));
+#if 0
+    QRadialGradient radialGrad(QPointF(br.x() + 50, br.y() + 20), 70);
+    radialGrad.setColorAt(0, QColor(200, 200, 0, 100));
+    radialGrad.setColorAt(0.5, QColor(150, 150, 0, 100));
+    radialGrad.setColorAt(1, QColor(100, 100, 0, 100));
+    painter->fillRect(br.intersected(rectInView), QBrush(radialGrad)/*,Qt::Dense4Pattern*/);
+#else
     painter->fillRect(br.intersected(rectInView), QBrush(QColor(200, 200, 0, 160)/*,Qt::Dense4Pattern*/));
+#endif
     painter->setClipRect(option->exposedRect);
     painter->drawPixmap((int)(br.x() + 10), (int)(br.y() + 10), transitionPixmap());
     painter->drawPath(resultClipPath.intersected(clippath));

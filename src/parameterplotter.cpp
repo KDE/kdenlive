@@ -92,12 +92,11 @@ void ParameterPlotter::setPointLists(const QDomElement& d, const QString& paramN
         else if (pa.attribute("default").contains(";"))
             defaults = pa.attribute("default").split(";");
         QStringList maxv = pa.attribute("max").split(";");
-        QStringList minv = pa.attribute("max").split(";");
+        QStringList minv = pa.attribute("min").split(";");
         for (int i = 0;i < maxv.size() && i < minv.size();i++) {
             if (max_y < maxv[i].toInt()) max_y = maxv[i].toInt();
             if (min_y > minv[i].toInt()) min_y = minv[i].toInt();
         }
-
         for (int i = 0;i < parameterNameList.count();i++) {
             KPlotObject *plot = new KPlotObject(colors[plotobjects.size()%colors.size()]);
             plot->setShowLines(true);

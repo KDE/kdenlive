@@ -61,8 +61,6 @@ EffectStackView::EffectStackView(EffectsList *audioEffectList, EffectsList *vide
 
     ui.infoBox->hide();
     setEnabled(false);
-    setEnabled(false);
-
 }
 
 void EffectStackView::slotUpdateEffectParams(const QDomElement& old, const QDomElement& e) {

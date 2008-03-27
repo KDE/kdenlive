@@ -84,7 +84,7 @@ msgid "Add Clip"
 msgstr "Datei hinzufügen"
 
 msgid "Add Color Clip"
-msgstr "Farbeclip hinzufügen"
+msgstr "Farbclip hinzufügen"
 
 msgid "Add Custom Effect"
 msgstr "Benutzerdefinierten Effekt hinzufügen"
@@ -207,7 +207,7 @@ msgid "Clear"
 msgstr ""
 
 msgid "Clip Color"
-msgstr "Farbeclip"
+msgstr "Farbclip"
 
 msgid "Clip Monitor"
 msgstr "Clip-Monitor"

@@ -81,10 +81,10 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
         QString value = pa.attribute("value").isNull() ?
                         pa.attribute("default") : pa.attribute("value");
         if (type == "geometry") {
-            pa.setAttribute("namedesc", "X;Y;W;H");
-            pa.setAttribute("format", "%d,%d:%dx%d");
-            pa.setAttribute("min", "-100;-100;0;0");
-            pa.setAttribute("max", "0;0;100;100");
+            pa.setAttribute("namedesc", "X;Y;W;H;M");
+            pa.setAttribute("format", "%d%,%d%:%d%x%d%:%d%");
+            pa.setAttribute("min", "-200;-20;0;0;0");
+            pa.setAttribute("max", "200;200;100;100;100");
         }
         if (type == "complex") {
             //pa.setAttribute("namedesc",pa.attribute("name"));
@@ -105,10 +105,10 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
             for (int i = 0;i < lsval->list->count();i++) {
                 QString entry = lsval->list->itemText(i);
                 if (!entry.isEmpty() && (entry.endsWith(".png") || entry.endsWith(".pgm"))) {
-                    /*if (!EffectStackEdit::iconCache.contains(entry)) {
-                           QPixmap pix(entry);
+                    if (!EffectStackEdit::iconCache.contains(entry)) {
+                        QImage pix(entry);
                         EffectStackEdit::iconCache[entry] = pix.scaled(30, 30);
-                       }*/
+                    }
                     lsval->list->setIconSize(QSize(30, 30));
                     lsval->list->setItemIcon(i, QPixmap::fromImage(iconCache[entry]));
                 }

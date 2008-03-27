@@ -350,10 +350,28 @@ void ClipItem::paint(QPainter *painter,
     // painter->drawRect(boundingRect());
     //painter->drawRoundRect(-10, -10, 20, 20);
     if (m_hover) {
+        int pointy = (int)(br.y() + br.height() / 2 - 5);
+        int pointx1 = (int)(br.x() + 10);
+        int pointx2 = (int)(br.x() + br.width() - 20);
+#if 0
         painter->setPen(QPen(Qt::black));
-        painter->setBrush(QBrush(Qt::yellow));
-        painter->drawEllipse((int)(br.x() + 10), (int)(br.y() + br.height() / 2 - 5) , 10, 10);
-        painter->drawEllipse((int)(br.x() + br.width() - 20), (int)(br.y() + br.height() / 2 - 5), 10, 10);
+        painter->setBrush(QBrush(QColor(50, 50, 0)));
+#else
+        QRadialGradient gradient(pointx1 + 5, pointy + 5 , 5, 2, 2);
+        gradient.setColorAt(0.2, Qt::white);
+        gradient.setColorAt(0.8, Qt::yellow);
+        gradient.setColorAt(1, Qt::black);
+        painter->setBrush(gradient);
+#endif
+        painter->drawEllipse(pointx1, pointy , 10, 10);
+
+        QRadialGradient gradient1(pointx2 + 5, pointy + 5 , 5, 2, 2);
+        gradient1.setColorAt(0.2, Qt::white);
+        gradient1.setColorAt(0.8, Qt::yellow);
+        gradient1.setColorAt(1, Qt::black);
+        painter->setBrush(gradient1);
+        painter->drawEllipse(pointx2, pointy, 10, 10);
+
     }
 }
 
