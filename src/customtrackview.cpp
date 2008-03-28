@@ -378,7 +378,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         return;
     } else {
         bool collision = false;
-	m_dragItem = NULL;
+        m_dragItem = NULL;
         QList<QGraphicsItem *> collisionList = items(event->pos());
         for (int i = 0; i < collisionList.size(); ++i) {
             QGraphicsItem *item = collisionList.at(i);
@@ -422,10 +422,9 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 break;
             }
         }
-	if (m_dragItem) {
-	    if (m_dragItem->type() == AVWIDGET) emit clipItemSelected((ClipItem*) m_dragItem);
-	    else emit transitionItemSelected((Transition*) m_dragItem);
-	}
+        emit clipItemSelected((m_dragItem && m_dragItem->type() == AVWIDGET) ? (ClipItem*) m_dragItem : NULL);
+        emit transitionItemSelected((m_dragItem && m_dragItem->type() == TRANSITIONWIDGET) ? (Transition*) m_dragItem : NULL);
+
         if (!collision) {
             kDebug() << "//////// NO ITEM FOUND ON CLICK";
             m_dragItem = NULL;
@@ -743,8 +742,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
     info.endPos = m_dragItem->endPos();
     info.track = m_dragItem->track();
 
-    if (m_operationMode == MOVE) setCursor(Qt::OpenHandCursor);
     if (m_operationMode == MOVE) {// && m_startPos.x() != m_dragItem->startPos().frames(m_document->fps())) {
+        setCursor(Qt::OpenHandCursor);
         // move clip
         if (m_dragItem->type() == AVWIDGET) {
             MoveClipCommand *command = new MoveClipCommand(this, m_dragItemInfo, info, false);
