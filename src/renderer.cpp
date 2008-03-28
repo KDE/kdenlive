@@ -76,10 +76,10 @@ Render::Render(const QString & rendererName, int winid, int extid, QWidget *pare
         m_mltConsumer->set("resize", 1);
         m_mltConsumer->set("window_id", winid);
         m_mltConsumer->set("terminate_on_pause", 1);
-	m_mltConsumer->set("rescale", "nearest");
-	m_mltConsumer->set("progressive", 1);
-	m_mltConsumer->set("audio_buffer", 1024);
-	m_mltConsumer->set("frequency", 48000);
+        m_mltConsumer->set("rescale", "nearest");
+        m_mltConsumer->set("progressive", 1);
+        m_mltConsumer->set("audio_buffer", 1024);
+        m_mltConsumer->set("frequency", 48000);
         m_externalwinid = extid;
         m_winid = winid;
         m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
@@ -1404,11 +1404,63 @@ void Render::mltMoveTransition(QString type, int startTrack, int trackOffset, Ge
 }
 
 void Render::mltUpdateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml) {
-    kDebug() << "update transition"  << tag;
-
-    mltDeleteTransition(oldTag, a_track, b_track, in, out, xml, false);
-    mltAddTransition(tag, a_track, b_track, in, out, xml);
+    //kDebug() << "update transition"  << tag;
+    if (oldTag == tag) mltUpdateTransitionParams(tag, a_track, b_track, in, out, xml);
+    else {
+        mltDeleteTransition(oldTag, a_track, b_track, in, out, xml, false);
+        mltAddTransition(tag, a_track, b_track, in, out, xml);
+    }
     mltSavePlaylist();
+}
+
+void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml) {
+    m_isBlocked = true;
+    m_mltConsumer->set("refresh", 0);
+
+    Mlt::Tractor *tractor = getTractor();
+    if (tractor) {
+        Mlt::Tractor newTractor;
+        mlt_service service = tractor->get_service();
+        mlt_service nextservice = mlt_service_get_producer(service);
+        mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
+        QString mlt_type = mlt_properties_get(properties, "mlt_type");
+        QString resource = mlt_properties_get(properties, "mlt_service");
+        int in_pos = (int) in.frames(m_fps);
+        int out_pos = (int) out.frames(m_fps);
+
+        while (mlt_type == "transition") {
+            mlt_transition tr = (mlt_transition) nextservice;
+            int currentTrack = mlt_transition_get_b_track(tr);
+            int currentIn = (int) mlt_transition_get_in(tr);
+            int currentOut = (int) mlt_transition_get_out(tr);
+            kDebug() << "TRACK: " << b_track << " / " << currentTrack << ", CURR TRANS: " << currentIn << "x" << currentOut << ", LOOKING OFR: " << in_pos << "x" << out_pos;
+            if (resource == type && b_track == currentTrack && currentIn == in_pos && currentOut == out_pos) {
+                QMap<QString, QString> map = mltGetTransitionParamsFromXml(xml);
+                QMap<QString, QString>::Iterator it;
+                QString key;
+                mlt_properties transproperties = MLT_TRANSITION_PROPERTIES(tr);
+
+                for (it = map.begin(); it != map.end(); ++it) {
+                    key = it.key();
+                    char *name = decodedString(key);
+                    char *value = decodedString(it.value());
+                    mlt_properties_set(transproperties, name, value);
+                    kDebug() << " ------  UPDATING TRANS PARAM: " << name << ": " << value;
+                    //filter->set("kdenlive_id", id);
+                    delete[] name;
+                    delete[] value;
+                }
+                break;
+            }
+            nextservice = mlt_service_producer(nextservice);
+            properties = MLT_SERVICE_PROPERTIES(nextservice);
+            mlt_type = mlt_properties_get(properties, "mlt_type");
+            resource = mlt_properties_get(properties, "mlt_service");
+        }
+        m_isBlocked = false;
+        delete tractor;
+    }
+    m_mltConsumer->set("refresh", 1);
 }
 
 void Render::replaceTimelineTractor(Mlt::Tractor t) {
@@ -1470,14 +1522,13 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
 
 }
 
-void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool do_refresh) {
-    //kDebug() << "-- ADDING TRANSITION: " << tag << ", ON TRACKS: " << a_track << ", " << b_track;
+QMap<QString, QString> Render::mltGetTransitionParamsFromXml(QDomElement xml) {
     QDomNodeList attribs = xml.elementsByTagName("parameter");
     QMap<QString, QString> map;
     for (int i = 0;i < attribs.count();i++) {
         QDomElement e = attribs.item(i).toElement();
         QString name = e.attribute("name");
-	//kDebug()<<"-- TRANSITION PARAM: "<<name<<" = "<< e.attribute("name")<<" / " << e.attribute("value");
+        //kDebug()<<"-- TRANSITION PARAM: "<<name<<" = "<< e.attribute("name")<<" / " << e.attribute("value");
         map[name] = e.attribute("default");
         if (!e.attribute("value").isEmpty()) {
             map[name] = e.attribute("value");
@@ -1503,6 +1554,12 @@ void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
         }
 
     }
+    return map;
+}
+
+void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool do_refresh) {
+    //kDebug() << "-- ADDING TRANSITION: " << tag << ", ON TRACKS: " << a_track << ", " << b_track;
+    QMap<QString, QString> map = mltGetTransitionParamsFromXml(xml);
 
     Mlt::Tractor *tractor = getTractor();
     if (tractor) {

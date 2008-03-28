@@ -159,6 +159,7 @@ Q_OBJECT public:
     void mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
     void mltDeleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);
     void mltUpdateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml);
+    void mltUpdateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml);
 
 
 private:   // Private attributes & methods
@@ -198,6 +199,8 @@ private:   // Private attributes & methods
     Mlt::Tractor* getTractor();
     Mlt::Playlist* getPlaylist(int track);
     void replaceTimelineTractor(Mlt::Tractor t);
+    QMap<QString, QString> mltGetTransitionParamsFromXml(QDomElement xml);
+
 private slots:  // Private slots
     /** refresh monitor display */
     void refresh();
