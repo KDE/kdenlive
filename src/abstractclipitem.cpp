@@ -8,7 +8,7 @@ AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect): QGr
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setTrack(info.track);
     m_startPos = info.startPos;
-    m_maxDuration = info.endPos - info.startPos;
+    m_cropDuration = info.endPos - info.startPos;
 }
 void AbstractClipItem::moveTo(int x, double scale, int offset, int newTrack) {
     double origX = rect().x();

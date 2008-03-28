@@ -38,7 +38,7 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double scale, d
     m_secondClip = NULL;
     m_cropStart = GenTime();
     m_fps = fps;
-    m_cropDuration = m_maxDuration;
+    m_maxDuration = GenTime(10000, fps);
     //m_referenceClip = clipa;
     if (params.isNull()) {
 	QDomDocument doc;
