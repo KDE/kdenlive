@@ -37,17 +37,17 @@ TransitionSettings::TransitionSettings(EffectsList *transitions, QWidget* parent
 
 
 void TransitionSettings::slotTransitionChanged() {
-    
-        QDomElement e = m_usedTransition->toXML();
 
-        //set old values from e in <ktransition> to desc (like reverse and so )
-        QDomElement desc = m_transitions->getEffectByName(ui.listWidget->currentItem()->text());
-        if (m_usedTransition) {
-            m_usedTransition->setTransitionParameters(desc);
-            m_usedTransition->update();
-        }
-        emit transitionUpdated(e, m_usedTransition->toXML());
-        emit transferParamDesc(desc, 0, 0);
+    QDomElement e = m_usedTransition->toXML();
+
+    //set old values from e in <ktransition> to desc (like reverse and so )
+    QDomElement desc = m_transitions->getEffectByName(ui.listWidget->currentItem()->text());
+    if (m_usedTransition) {
+        m_usedTransition->setTransitionParameters(desc);
+        m_usedTransition->update();
+    }
+    emit transitionUpdated(e, m_usedTransition->toXML());
+    emit transferParamDesc(desc, 0, 0);
 }
 
 void TransitionSettings::slotTransitionItemSelected(Transition* t) {
@@ -57,6 +57,10 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t) {
 }
 
 void TransitionSettings::slotUpdateEffectParams(const QDomElement& oldparam, const QDomElement& param) {
-
-    emit transitionUpdated(oldparam, param);
+    if (m_usedTransition) {
+        m_usedTransition->setTransitionParameters(param);
+        m_usedTransition->update();
+    }
+//oldparam must be also first given to Transition and then return the toXML()
+    emit transitionUpdated(oldparam, m_usedTransition->toXML());
 }
