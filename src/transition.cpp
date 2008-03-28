@@ -41,9 +41,10 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double scale, d
     m_maxDuration = GenTime(10000, fps);
     //m_referenceClip = clipa;
     if (params.isNull()) {
-	QDomDocument doc;
-	doc.setContent(QString("<ktransition tag=\"luma\"><name>Luma</name><description>Luma Transitions</description><properties id=\"luma\" tag=\"luma\" /><parameter type=\"bool\" name=\"reverse\" max=\"1\" min=\"0\" default=\"1\" factor=\"1\"><name>Reverse</name></parameter></ktransition>"));
-	m_parameters = doc.documentElement();
+        //FIXME we need to setup here the right luma xml file !!!
+        QDomDocument doc;
+        doc.setContent(QString("<ktransition tag=\"luma\"><name>Luma</name><description>Luma Transitions</description><properties id=\"luma\" tag=\"luma\" /><parameter type=\"bool\" name=\"reverse\" max=\"1\" min=\"0\" default=\"1\" factor=\"1\"><name>Reverse</name></parameter></ktransition>"));
+        m_parameters = doc.documentElement();
     } else {
         m_parameters = params;
     }
@@ -80,12 +81,12 @@ bool Transition::invertedTransition() const {
 QPixmap Transition::transitionPixmap() const {
     KIcon icon;
     QString tag = transitionTag();
-    if ( tag == "luma") {
+    if (tag == "luma") {
         if (invertedTransition()) icon = KIcon("kdenlive_trans_up");
         else icon = KIcon("kdenlive_trans_down");
-    } else if ( tag == "composite") {
+    } else if (tag == "composite") {
         icon = KIcon("kdenlive_trans_wiper");
-    } else if ( tag == "lumafile") {
+    } else if (tag == "lumafile") {
         icon = KIcon("kdenlive_trans_luma");
     } else icon = KIcon("kdenlive_trans_pip");
     return icon.pixmap(QSize(15, 15));

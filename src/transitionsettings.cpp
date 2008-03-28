@@ -30,6 +30,7 @@ TransitionSettings::TransitionSettings(EffectsList *transitions, QWidget* parent
     m_transitions = transitions;
     ui.listWidget->addItems(transitions->effectNames());
     kDebug() << transitions->effectNames().size() << " -" << transitions->size();
+    ui.listWidget->setCurrentRow(0);
     connect(ui.listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(slotTransitionChanged()));
     connect(this, SIGNAL(transferParamDesc(const QDomElement&, int , int)), effectEdit , SLOT(transferParamDesc(const QDomElement&, int , int)));
     connect(effectEdit, SIGNAL(parameterChanged(const QDomElement&, const QDomElement&)), this , SLOT(slotUpdateEffectParams(const QDomElement&, const QDomElement&)));
@@ -41,18 +42,28 @@ void TransitionSettings::slotTransitionChanged() {
     QDomElement e = m_usedTransition->toXML();
 
     //set old values from e in <ktransition> to desc (like reverse and so )
-    QDomElement desc = m_transitions->getEffectByName(ui.listWidget->currentItem()->text());
-    if (m_usedTransition) {
-        m_usedTransition->setTransitionParameters(desc);
-        m_usedTransition->update();
-    }
-    emit transitionUpdated(e, m_usedTransition->toXML());
-    emit transferParamDesc(desc, 0, 0);
+    /* QDomElement desc = m_transitions->getEffectByName(ui.listWidget->currentItem()->text());
+     if (m_usedTransition) {
+         m_usedTransition->setTransitionParameters(desc);
+         m_usedTransition->update();
+     }
+     emit transitionUpdated(e, m_usedTransition->toXML());*/
+    if (m_usedTransition && m_usedTransition->transitionName() == ui.listWidget->currentItem()->text() && !e.attribute("tag").isNull()) {
+        slotUpdateEffectParams(e, e);
+    } else
+        slotUpdateEffectParams(e, m_transitions->getEffectByName(ui.listWidget->currentItem()->text()));
+    emit transferParamDesc(m_usedTransition->toXML(), 0, 0);
 }
 
 void TransitionSettings::slotTransitionItemSelected(Transition* t) {
     setEnabled(t != NULL);
     m_usedTransition = t;
+    if (m_usedTransition) {
+        QList<QListWidgetItem*> list = ui.listWidget->findItems(m_usedTransition->transitionName(), Qt::MatchExactly);
+        if (list.size() > 0) {
+            ui.listWidget->setCurrentItem(list[0]);
+        }
+    }
 
 }
 
@@ -61,6 +72,11 @@ void TransitionSettings::slotUpdateEffectParams(const QDomElement& oldparam, con
         m_usedTransition->setTransitionParameters(param);
         m_usedTransition->update();
     }
+    QString test;
+    QTextStream str(&test);
+    oldparam.save(str, 2);
+    m_usedTransition->toXML().save(str, 2);
+    kDebug() << test;
 //oldparam must be also first given to Transition and then return the toXML()
     emit transitionUpdated(oldparam, m_usedTransition->toXML());
 }
