@@ -968,6 +968,7 @@ void CustomTrackView::setScale(double scaleFactor) {
     //scale(scaleFactor, scaleFactor);
     double pos = cursorPos() / m_scale;
     m_scale = scaleFactor;
+    int vert = verticalScrollBar()->value();
     kDebug() << " HHHHHHHH  SCALING: " << m_scale;
     QList<QGraphicsItem *> itemList = items();
 
@@ -980,6 +981,7 @@ void CustomTrackView::setScale(double scaleFactor) {
     updateCursorPos();
     centerOn(QPointF(cursorPos(), m_tracksHeight));
     setSceneRect(0, 0, (m_projectDuration + 100) * m_scale, sceneRect().height());
+    verticalScrollBar()->setValue(vert);
 }
 
 void CustomTrackView::drawBackground(QPainter * painter, const QRectF & rect) {
