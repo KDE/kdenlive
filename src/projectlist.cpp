@@ -381,7 +381,7 @@ void ProjectList::slotAddClip(QUrl givenUrl, QString group) {
 
 void ProjectList::slotAddColorClip() {
     if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!!  NO CMD STK";
-    QDialog *dia = new QDialog;
+    QDialog *dia = new QDialog(this);
     Ui::ColorClip_UI *dia_ui = new Ui::ColorClip_UI();
     dia_ui->setupUi(dia);
     dia_ui->clip_name->setText(i18n("Color Clip"));

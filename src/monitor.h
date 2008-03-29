@@ -72,12 +72,13 @@ private:
     bool m_isActive;
     KRestrictedLine *m_timePos;
     QAction *m_playAction;
+    QMenu *m_contextMenu;
 
 private slots:
     void adjustRulerSize(int length);
     void seekCursor(int pos);
     void rendererStopped(int pos);
-
+    void slotExtractCurrentFrame();
 
 public slots:
     void slotOpenFile(const QString &);

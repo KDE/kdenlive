@@ -201,6 +201,10 @@ char *Render::decodedString(QString str) {
 */
 
 QPixmap Render::extractFrame(int frame_position, int width, int height) {
+    if (width == -1) {
+        width = m_mltProfile->width();
+        height = m_mltProfile->height();
+    }
     QPixmap pix(width, height);
     if (!m_mltProducer) {
         pix.fill(Qt::black);

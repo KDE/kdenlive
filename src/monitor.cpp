@@ -26,6 +26,7 @@
 
 #include <KDebug>
 #include <KLocale>
+#include <KFileDialog>
 
 #include "gentime.h"
 #include "monitor.h"
@@ -54,7 +55,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     connect(m_rew1Action, SIGNAL(triggered()), this, SLOT(slotRewindOneFrame()));
 
     QToolButton *playButton = new QToolButton(toolbar);
-    QMenu *playMenu = new QMenu(this);
+    QMenu *playMenu = new QMenu(i18n("Play..."), this);
     playButton->setMenu(playMenu);
     playButton->setPopupMode(QToolButton::MenuButtonPopup);
     toolbar->addWidget(playButton);
@@ -87,7 +88,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     QVBoxLayout *rendererBox = new QVBoxLayout(ui.video_frame);
     m_monitorRefresh = new MonitorRefresh(ui.video_frame);
     rendererBox->addWidget(m_monitorRefresh);
-    m_monitorRefresh->setAttribute(Qt::WA_PaintOnScreen);
+    //m_monitorRefresh->setAttribute(Qt::WA_PaintOnScreen);
     render = new Render(m_name, (int) m_monitorRefresh->winId(), -1, this);
     m_monitorRefresh->setRenderer(render);
 
@@ -104,6 +105,11 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     m_ruler->setMaximum(width);
     m_length = 0;
 
+    m_contextMenu = new QMenu(this);
+    m_contextMenu->addMenu(playMenu);
+    QAction *extractFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Extract frame"));
+    connect(extractFrame, SIGNAL(triggered()), this, SLOT(slotExtractCurrentFrame()));
+
     kDebug() << "/////// BUILDING MONITOR, ID: " << ui.video_frame->winId();
 }
 
@@ -113,13 +119,20 @@ QString Monitor::name() const {
 
 // virtual
 void Monitor::mousePressEvent(QMouseEvent * event) {
-    slotPlay();
+    if (event->button() != Qt::RightButton) slotPlay();
+    else m_contextMenu->popup(event->globalPos());
 }
 
 // virtual
 void Monitor::wheelEvent(QWheelEvent * event) {
     if (event->delta() > 0) slotForwardOneFrame();
     else slotRewindOneFrame();
+}
+
+void Monitor::slotExtractCurrentFrame() {
+    QPixmap frame = render->extractFrame(m_position);
+    QString outputFile = KFileDialog::getSaveFileName(KUrl(), "image/png");
+    if (!outputFile.isEmpty()) frame.save(outputFile);
 }
 
 void Monitor::activateMonitor() {
