@@ -37,7 +37,7 @@ public slots:
     void slotTransitionChanged();
     void slotUpdateEffectParams(const QDomElement&, const QDomElement&);
 signals:
-    void transitionUpdated(QDomElement, QDomElement);
+    void transitionUpdated(Transition *, QDomElement);
     void transferParamDesc(const QDomElement&, int , int);
 };
 
