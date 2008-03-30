@@ -107,6 +107,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, MltVideoProfile profile, QUndoGroup *u
             transition.setAttribute("b_track", QString::number(i));
             transition.setAttribute("mlt_service", "mix");
             transition.setAttribute("combine", "1");
+            transition.setAttribute("internal_added", "237");
             tractor.appendChild(transition);
         }
         QDomElement playlistmain = m_document.createElement("playlist");
