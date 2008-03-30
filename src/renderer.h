@@ -195,7 +195,7 @@ private:   // Private attributes & methods
     /** Sets the description of this renderer to desc. */
     void setDescription(const QString & description);
     void closeMlt();
-    void mltCheckLength();
+    void mltCheckLength(bool reload = true);
     Mlt::Tractor* getTractor();
     Mlt::Playlist* getPlaylist(int track);
     void replaceTimelineTractor(Mlt::Tractor t);

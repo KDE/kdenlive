@@ -913,25 +913,25 @@ void Render::exportCurrentFrame(KUrl url, bool notify) {
 /** MLT PLAYLIST DIRECT MANIPULATON  **/
 
 
-void Render::mltCheckLength() {
+void Render::mltCheckLength(bool reload) {
     //kDebug()<<"checking track length: "<<track<<"..........";
 
-    //reinsert main tractorin playlist so that the producer can take the new length ( not automatic done)
-    Mlt::Service service(m_mltProducer->get_service());
-    Mlt::Playlist prod(service);
-    Mlt::Service service_playlist(prod.get_clip(0)->get_service());
-    Mlt::Producer producer_playlist(service_playlist);
+    if (reload) {
+        //reinsert main tractorin playlist so that the producer can take the new length ( not automatic done)
+        Mlt::Service service(m_mltProducer->get_service());
+        Mlt::Playlist prod(service);
+        Mlt::Service service_playlist(prod.get_clip(0)->get_service());
+        Mlt::Producer producer_playlist(service_playlist);
 
-    Mlt::Tractor tr(producer_playlist.parent());
-    prod.remove(0);
-    prod.insert(tr, 0);
-
-
+        Mlt::Tractor tr(producer_playlist.parent());
+        prod.remove(0);
+        prod.insert(tr, 0);
+    }
     Mlt::Tractor *tractor = getTractor();
 
     int trackNb = tractor->count();
     double duration = 0;
-    double trackDuration;
+    double trackDuration = 0;
     if (trackNb == 1) {
         Mlt::Producer trackProducer(tractor->track(0));
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
@@ -1354,7 +1354,7 @@ void Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             destTrackPlaylist.consolidate_blanks(0);
         }
 
-        mltCheckLength();
+        mltCheckLength(false);
         mlt_events_unblock(MLT_PRODUCER_PROPERTIES(trackProducer.get_producer()), NULL);
         m_isBlocked = false;
         m_mltConsumer->set("refresh", 1);
