@@ -63,6 +63,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t) {
         if (list.size() > 0) {
             disconnect(ui.listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(slotTransitionChanged()));
             ui.listWidget->setCurrentItem(list[0]);
+            slotTransitionChanged();
             connect(ui.listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(slotTransitionChanged()));
         }
     }
