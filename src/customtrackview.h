@@ -78,7 +78,7 @@ public slots:
     void slotRefreshEffects(ClipItem *clip);
     void setDuration(int duration);
     void slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QDomElement transition = QDomElement());
-    void slotTransitionUpdated(QDomElement, QDomElement);
+    void slotTransitionUpdated(Transition *, QDomElement);
     void slotSwitchTrackAudio(int ix);
     void slotSwitchTrackVideo(int ix);
 
