@@ -24,13 +24,14 @@
 
 #include "effectslistwidget.h"
 #include "effectslist.h"
+#include "mainwindow.h"
 
 #define EFFECT_VIDEO 1
 #define EFFECT_AUDIO 2
 #define EFFECT_CUSTOM 3
 
-EffectsListWidget::EffectsListWidget(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent)
-        : KListWidget(parent), m_audioList(audioEffectList), m_videoList(videoEffectList), m_customList(customEffectList) {
+EffectsListWidget::EffectsListWidget(QWidget *parent)
+        : KListWidget(parent) {
     //setSelectionMode(QAbstractItemView::ExtendedSelection);
     //setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(true);
@@ -46,20 +47,20 @@ EffectsListWidget::~EffectsListWidget() {
 
 void EffectsListWidget::initList() {
     clear();
-    QStringList names = m_videoList->effectNames();
+    QStringList names = MainWindow::videoEffects.effectNames();
     QListWidgetItem *item;
     foreach(QString str, names) {
         item = new QListWidgetItem(str, this);
         item->setData(Qt::UserRole, QString::number((int) EFFECT_VIDEO));
     }
 
-    names = m_audioList->effectNames();
+    names = MainWindow::audioEffects.effectNames();
     foreach(QString str, names) {
         item = new QListWidgetItem(str, this);
         item->setData(Qt::UserRole, QString::number((int) EFFECT_AUDIO));
     }
 
-    names = m_customList->effectNames();
+    names = MainWindow::customEffects.effectNames();
     foreach(QString str, names) {
         item = new QListWidgetItem(str, this);
         item->setData(Qt::UserRole, QString::number((int) EFFECT_CUSTOM));
@@ -75,13 +76,13 @@ QDomElement EffectsListWidget::itemEffect(QListWidgetItem *item) {
     if (!item) return effect;
     switch (item->data(Qt::UserRole).toInt()) {
     case 1:
-        effect = m_videoList->getEffectByName(item->text());
+        effect =  MainWindow::videoEffects.getEffectByName(item->text());
         break;
     case 2:
-        effect = m_audioList->getEffectByName(item->text());
+        effect = MainWindow::audioEffects.getEffectByName(item->text());
         break;
     default:
-        effect = m_customList->getEffectByName(item->text());
+        effect = MainWindow::customEffects.getEffectByName(item->text());
         break;
     }
     return effect;
@@ -94,13 +95,13 @@ QString EffectsListWidget::currentInfo() {
     QString info;
     switch (item->data(Qt::UserRole).toInt()) {
     case 1:
-        info = m_videoList->getInfo(item->text());
+        info = MainWindow::videoEffects.getInfo(item->text());
         break;
     case 2:
-        info = m_audioList->getInfo(item->text());
+        info = MainWindow::audioEffects.getInfo(item->text());
         break;
     default:
-        info = m_customList->getInfo(item->text());
+        info = MainWindow::customEffects.getInfo(item->text());
         break;
     }
     return info;

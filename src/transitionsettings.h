@@ -26,10 +26,9 @@ class EffectStackEdit;
 class TransitionSettings : public QWidget  {
     Q_OBJECT
 public:
-    TransitionSettings(EffectsList *, QWidget* parent = 0);
+    TransitionSettings(QWidget* parent = 0);
 private:
     Ui::TransitionSettings_UI ui;
-    EffectsList *m_transitions;
     EffectStackEdit *effectEdit;
     Transition* m_usedTransition;
 public slots:

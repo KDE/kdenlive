@@ -81,6 +81,11 @@
 #define ID_TIMELINE_POS 6
 #define ID_TIMELINE_FORMAT 7
 
+EffectsList MainWindow::videoEffects;
+EffectsList MainWindow::audioEffects;
+EffectsList MainWindow::customEffects;
+EffectsList MainWindow::transitions;
+
 MainWindow::MainWindow(QWidget *parent)
         : KXmlGuiWindow(parent),
         m_activeDocument(NULL), m_activeTimeline(NULL), m_renderWidget(NULL), m_jogProcess(NULL) {
@@ -100,7 +105,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_timelineArea->setCornerWidget(closeTabButton);
     connect(m_timelineArea, SIGNAL(currentChanged(int)), this, SLOT(activateDocument()));
 
-    initEffects::parseEffectFiles(&m_audioEffects, &m_videoEffects, &m_transitions);
+    initEffects::parseEffectFiles();
     m_monitorManager = new MonitorManager();
 
     projectListDock = new QDockWidget(i18n("Project Tree"), this);
@@ -111,7 +116,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     effectListDock = new QDockWidget(i18n("Effect List"), this);
     effectListDock->setObjectName("effect_list");
-    m_effectList = new EffectsListView(&m_audioEffects, &m_videoEffects, &m_customEffects);
+    m_effectList = new EffectsListView();
 
     //m_effectList = new KListWidget(this);
     effectListDock->setWidget(m_effectList);
@@ -119,13 +124,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     effectStackDock = new QDockWidget(i18n("Effect Stack"), this);
     effectStackDock->setObjectName("effect_stack");
-    effectStack = new EffectStackView(&m_audioEffects, &m_videoEffects, &m_customEffects, this);
+    effectStack = new EffectStackView(this);
     effectStackDock->setWidget(effectStack);
     addDockWidget(Qt::TopDockWidgetArea, effectStackDock);
 
     transitionConfigDock = new QDockWidget(i18n("Transition"), this);
     transitionConfigDock->setObjectName("transition");
-    transitionConfig = new TransitionSettings(&m_transitions, this);
+    transitionConfig = new TransitionSettings(this);
     transitionConfigDock->setWidget(transitionConfig);
     addDockWidget(Qt::TopDockWidgetArea, transitionConfigDock);
 
@@ -215,21 +220,21 @@ MainWindow::MainWindow(QWidget *parent)
     // build effects menus
     QAction *action;
     QMenu *videoEffectsMenu = (QMenu*)(factory()->container("video_effects_menu", this));
-    QStringList effects = m_videoEffects.effectNames();
+    QStringList effects = videoEffects.effectNames();
     foreach(QString name, effects) {
         action = new QAction(name, this);
         action->setData(name);
         videoEffectsMenu->addAction(action);
     }
     QMenu *audioEffectsMenu = (QMenu*)(factory()->container("audio_effects_menu", this));
-    effects = m_audioEffects.effectNames();
+    effects = audioEffects.effectNames();
     foreach(QString name, effects) {
         action = new QAction(name, this);
         action->setData(name);
         audioEffectsMenu->addAction(action);
     }
     QMenu *customEffectsMenu = (QMenu*)(factory()->container("custom_effects_menu", this));
-    effects = m_customEffects.effectNames();
+    effects = customEffects.effectNames();
     foreach(QString name, effects) {
         action = new QAction(name, this);
         action->setData(name);
@@ -852,19 +857,19 @@ void MainWindow::slotAddProjectClip(KUrl url) {
 
 void MainWindow::slotAddVideoEffect(QAction *result) {
     if (!result) return;
-    QDomElement effect = m_videoEffects.getEffectByName(result->data().toString());
+    QDomElement effect = videoEffects.getEffectByName(result->data().toString());
     slotAddEffect(effect);
 }
 
 void MainWindow::slotAddAudioEffect(QAction *result) {
     if (!result) return;
-    QDomElement effect = m_audioEffects.getEffectByName(result->data().toString());
+    QDomElement effect = audioEffects.getEffectByName(result->data().toString());
     slotAddEffect(effect);
 }
 
 void MainWindow::slotAddCustomEffect(QAction *result) {
     if (!result) return;
-    QDomElement effect = m_customEffects.getEffectByName(result->data().toString());
+    QDomElement effect = customEffects.getEffectByName(result->data().toString());
     slotAddEffect(effect);
 }
 

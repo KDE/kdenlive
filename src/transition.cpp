@@ -30,7 +30,7 @@
 #include "transition.h"
 #include "clipitem.h"
 #include "kdenlivesettings.h"
-
+#include "mainwindow.h"
 
 Transition::Transition(const ItemInfo info, int transitiontrack, double scale, double fps, QDomElement params) : AbstractClipItem(info, QRectF(info.startPos.frames(fps) *scale , info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 2, (info.endPos - info.startPos).frames(fps) * scale , KdenliveSettings::trackheight() - 1)) {
     m_singleClip = true;
@@ -41,10 +41,7 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double scale, d
     m_maxDuration = GenTime(10000, fps);
     //m_referenceClip = clipa;
     if (params.isNull()) {
-        //FIXME we need to setup here the right luma xml file !!!
-        QDomDocument doc;
-        doc.setContent(QString("<ktransition tag=\"luma\"><name>Luma</name><description>Luma Transitions</description><properties id=\"luma\" tag=\"luma\" /><parameter type=\"bool\" name=\"reverse\" max=\"1\" min=\"0\" default=\"1\" factor=\"1\"><name>Reverse</name></parameter></ktransition>"));
-        m_parameters = doc.documentElement();
+        m_parameters = MainWindow::transitions.getEffectByName("Luma");
     } else {
         m_parameters = params;
     }

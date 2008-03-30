@@ -31,6 +31,7 @@
 #include "kdenlivesettings.h"
 #include "effectslist.h"
 #include "effectstackedit.h"
+#include "mainwindow.h"
 
 initEffectsThumbnailer::initEffectsThumbnailer() {
 
@@ -66,7 +67,7 @@ initEffects::~initEffects() {
 }
 
 //static
-Mlt::Repository *initEffects::parseEffectFiles(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList* transitionsList) {
+Mlt::Repository *initEffects::parseEffectFiles() {
     QStringList::Iterator more;
     QStringList::Iterator it;
     QStringList fileList;
@@ -102,7 +103,7 @@ Mlt::Repository *initEffects::parseEffectFiles(EffectsList *audioEffectList, Eff
         transitionsItemList << transitions->get_name(i);
     }
     delete transitions;
-    fillTransitionsList(repository, transitionsList, transitionsItemList);
+    fillTransitionsList(repository, &MainWindow::transitions, transitionsItemList);
 
     KGlobal::dirs()->addResourceType("ladspa_plugin", 0, "lib/ladspa");
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/lib/ladspa");
@@ -120,14 +121,14 @@ Mlt::Repository *initEffects::parseEffectFiles(EffectsList *audioEffectList, Eff
         fileList = directory.entryList(QDir::Files);
         for (it = fileList.begin() ; it != fileList.end() ; ++it) {
             itemName = KUrl(*more + *it).path();
-            parseEffectFile(audioEffectList, videoEffectList, itemName, filtersList, producersList);
+            parseEffectFile(&MainWindow::audioEffects, &MainWindow::videoEffects, itemName, filtersList, producersList);
             // kDebug()<<"//  FOUND EFFECT FILE: "<<itemName<<endl;
         }
     }
     foreach(QString filtername, filtersList) {
         QDomDocument doc = createDescriptionFromMlt(repository, "filters", filtername);
         if (!doc.isNull())
-            videoEffectList->append(doc.documentElement());
+            MainWindow::videoEffects.append(doc.documentElement());
     }
     return repository;
 }

@@ -59,6 +59,10 @@ public:
     MainWindow(QWidget *parent = 0);
     void parseProfiles();
 
+    static EffectsList videoEffects;
+    static EffectsList audioEffects;
+    static EffectsList customEffects;
+    static EffectsList transitions;
 protected:
     virtual bool queryClose();
     virtual void customEvent(QEvent * e);
@@ -102,11 +106,6 @@ private:
 
     QDockWidget *overviewDock;
     CustomTrackView *m_overView;
-
-    EffectsList m_videoEffects;
-    EffectsList m_audioEffects;
-    EffectsList m_customEffects;
-    EffectsList m_transitions;
 
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;

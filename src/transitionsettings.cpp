@@ -22,14 +22,14 @@
 #include "transition.h"
 #include "effectslist.h"
 #include "effectstackedit.h"
+#include "mainwindow.h"
 
-TransitionSettings::TransitionSettings(EffectsList *transitions, QWidget* parent): QWidget(parent) {
+TransitionSettings::TransitionSettings(QWidget* parent): QWidget(parent) {
     ui.setupUi(this);
     effectEdit = new EffectStackEdit(ui.frame, this);
     setEnabled(false);
-    m_transitions = transitions;
-    ui.listWidget->addItems(transitions->effectNames());
-    kDebug() << transitions->effectNames().size() << " -" << transitions->size();
+    ui.listWidget->addItems(MainWindow::transitions.effectNames());
+    kDebug() << MainWindow::transitions.effectNames().size();
     ui.listWidget->setCurrentRow(0);
     connect(ui.listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(slotTransitionChanged()));
     connect(this, SIGNAL(transferParamDesc(const QDomElement&, int , int)), effectEdit , SLOT(transferParamDesc(const QDomElement&, int , int)));
@@ -51,7 +51,7 @@ void TransitionSettings::slotTransitionChanged() {
     if (m_usedTransition && m_usedTransition->transitionName() == ui.listWidget->currentItem()->text() && !e.attribute("tag").isNull()) {
         slotUpdateEffectParams(e, e);
     } else
-        slotUpdateEffectParams(e, m_transitions->getEffectByName(ui.listWidget->currentItem()->text()));
+        slotUpdateEffectParams(e, MainWindow::transitions.getEffectByName(ui.listWidget->currentItem()->text()));
     emit transferParamDesc(m_usedTransition->toXML(), 0, 0);
 }
 

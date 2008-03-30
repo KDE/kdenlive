@@ -30,7 +30,7 @@ class EffectsListWidget : public KListWidget {
     Q_OBJECT
 
 public:
-    EffectsListWidget(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent = 0);
+    EffectsListWidget(QWidget *parent = 0);
     virtual ~EffectsListWidget();
     QDomElement currentEffect();
     QString currentInfo();
@@ -44,9 +44,6 @@ protected:
 private:
     bool m_dragStarted;
     QPoint m_DragStartPosition;
-    EffectsList *m_audioList;
-    EffectsList *m_videoList;
-    EffectsList *m_customList;
     void initList();
 
 };

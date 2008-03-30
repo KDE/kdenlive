@@ -27,7 +27,7 @@ class EffectStackView : public QWidget {
     Q_OBJECT
 
 public:
-    EffectStackView(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent = 0);
+    EffectStackView(QWidget *parent = 0);
 
 private:
     Ui::EffectStack_UI ui;

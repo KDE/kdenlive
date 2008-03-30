@@ -25,9 +25,9 @@
 #include "effectslistwidget.h"
 #include "effectslist.h"
 
-EffectsListView::EffectsListView(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent)
+EffectsListView::EffectsListView(QWidget *parent)
         : QWidget(parent) {
-    m_effectsList = new EffectsListWidget(audioEffectList, videoEffectList, customEffectList);
+    m_effectsList = new EffectsListWidget();
 
     ui.setupUi(this);
     QVBoxLayout *lyr = new QVBoxLayout(ui.effectlistframe);

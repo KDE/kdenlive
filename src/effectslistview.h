@@ -35,7 +35,7 @@ class EffectsListView : public QWidget {
     Q_OBJECT
 
 public:
-    EffectsListView(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent = 0);
+    EffectsListView(QWidget *parent = 0);
     KListWidget *listView();
     //void slotAddEffect(GenTime pos, int track, QString name);
 

@@ -25,7 +25,7 @@
 // ffmpeg Header files
 
 extern "C" {
-//#include <libavformat/avformat.h>
+#include <libavformat/avformat.h>
 }
 #include <QTimer>
 #include <QDir>
@@ -41,7 +41,7 @@ extern "C" {
 #include "renderer.h"
 #include "kdenlivesettings.h"
 #include "kthumb.h"
-#include <ffmpeg/avformat.h>
+//#include <ffmpeg/avformat.h>
 #include <mlt++/Mlt.h>
 
 static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr) {
@@ -590,6 +590,7 @@ QString Render::sceneList() {
 }
 
 void Render::saveSceneList(QString path, QDomElement addedXml) {
+
     char *tmppath = decodedString("westley:" + path);
     Mlt::Consumer westleyConsumer(*m_mltProfile , tmppath);
     delete[] tmppath;
@@ -601,8 +602,8 @@ void Render::saveSceneList(QString path, QDomElement addedXml) {
         // add Kdenlive specific tags
         QFile file(path);
         QDomDocument doc;
-        doc.setContent(&file, false);
-        doc.documentElement().appendChild(doc.importNode(addedXml, true));
+        //doc.setContent(&file, false);
+        doc.appendChild(doc.importNode(addedXml, true));
         file.close();
         if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
             kWarning() << "//////  ERROR writing to file: " << path;
@@ -1404,6 +1405,7 @@ void Render::mltMoveTransition(QString type, int startTrack, int trackOffset, Ge
         m_isBlocked = false;
         delete tractor;
     }
+    mltSavePlaylist();
     m_mltConsumer->set("refresh", 1);
 }
 
@@ -1550,10 +1552,13 @@ QMap<QString, QString> Render::mltGetTransitionParamsFromXml(QDomElement xml) {
             QTextStream txtNeu(&neu);
             if (values.size() > 0)
                 txtNeu << (int)values[0].toDouble();
-            for (int i = 0;i < separators.size() && i + 1 < values.size();i++) {
+            int i = 0;
+            for (i = 0;i < separators.size() && i + 1 < values.size();i++) {
                 txtNeu << separators[i];
                 txtNeu << (int)(values[i+1].toDouble());
             }
+            if (i < separators.size())
+                txtNeu << separators[i];
             map[e.attribute("name")] = neu;
         }
 

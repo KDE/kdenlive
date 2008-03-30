@@ -21,10 +21,11 @@
 #include "effectstackview.h"
 #include "effectslist.h"
 #include "clipitem.h"
+#include "mainwindow.h"
 #include <QHeaderView>
 #include <QMenu>
 
-EffectStackView::EffectStackView(EffectsList *audioEffectList, EffectsList *videoEffectList, EffectsList *customEffectList, QWidget *parent)
+EffectStackView::EffectStackView(QWidget *parent)
         : QWidget(parent) {
     ui.setupUi(this);
     effectedit = new EffectStackEdit(ui.frame, this);
@@ -55,9 +56,9 @@ EffectStackView::EffectStackView(EffectsList *audioEffectList, EffectsList *vide
     connect(ui.buttonReset, SIGNAL(clicked()), this, SLOT(slotResetEffect()));
     connect(this, SIGNAL(transferParamDesc(const QDomElement&, int , int)), effectedit , SLOT(transferParamDesc(const QDomElement&, int , int)));
     connect(effectedit, SIGNAL(parameterChanged(const QDomElement&, const QDomElement&)), this , SLOT(slotUpdateEffectParams(const QDomElement&, const QDomElement&)));
-    effectLists["audio"] = audioEffectList;
-    effectLists["video"] = videoEffectList;
-    effectLists["custom"] = customEffectList;
+    effectLists["audio"] = &MainWindow::audioEffects;
+    effectLists["video"] = &MainWindow::videoEffects;
+    effectLists["custom"] = &MainWindow::customEffects;
 
     ui.infoBox->hide();
     setEnabled(false);
