@@ -22,6 +22,7 @@
 #include <QGraphicsItem>
 #include <QDomDocument>
 #include <QScrollBar>
+#include <QApplication>
 
 #include <KDebug>
 #include <KLocale>
@@ -152,7 +153,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
 
         if (m_dragItem) { //event->button() == Qt::LeftButton) {
             // a button was pressed, delete visual tips
-            if (m_operationMode == MOVE) {
+            if (m_operationMode == MOVE && (event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance()) {
                 double snappedPos = getSnapPointForPos(mapToScene(event->pos()).x() - m_clickPoint.x());
                 //kDebug() << "///////  MOVE CLIP, EVENT Y: "<<m_clickPoint.y();//<<event->scenePos().y()<<", SCENE HEIGHT: "<<scene()->sceneRect().height();
                 int moveTrack = (int)  mapToScene(event->pos() + QPoint(0, (m_dragItem->type() == TRANSITIONWIDGET ? m_tracksHeight - m_clickPoint.y() : 0))).y() / m_tracksHeight;
@@ -367,7 +368,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
 // virtual
 void CustomTrackView::mousePressEvent(QMouseEvent * event) {
     activateMonitor();
-    int pos = event->x();
+    m_clickEvent = event->pos();
     if (event->modifiers() == Qt::ControlModifier) {
         setDragMode(QGraphicsView::ScrollHandDrag);
         QGraphicsView::mousePressEvent(event);
@@ -740,7 +741,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
     info.endPos = m_dragItem->endPos();
     info.track = m_dragItem->track();
 
-    if (m_operationMode == MOVE) {// && m_startPos.x() != m_dragItem->startPos().frames(m_document->fps())) {
+    if (m_operationMode == MOVE && m_dragItemInfo.startPos != info.startPos) {
         setCursor(Qt::OpenHandCursor);
         // move clip
         if (m_dragItem->type() == AVWIDGET) {
