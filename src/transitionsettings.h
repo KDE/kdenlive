@@ -27,6 +27,7 @@ class TransitionSettings : public QWidget  {
     Q_OBJECT
 public:
     TransitionSettings(QWidget* parent = 0);
+    void raiseWindow(QWidget*);
 private:
     Ui::TransitionSettings_UI ui;
     EffectStackEdit *effectEdit;

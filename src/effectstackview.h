@@ -28,7 +28,7 @@ class EffectStackView : public QWidget {
 
 public:
     EffectStackView(QWidget *parent = 0);
-
+    void raiseWindow(QWidget*);
 private:
     Ui::EffectStack_UI ui;
     ClipItem* clipref;

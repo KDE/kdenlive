@@ -82,3 +82,10 @@ void TransitionSettings::slotUpdateEffectParams(const QDomElement& oldparam, con
     //oldparam must be also first given to Transition and then return the toXML()
     emit transitionUpdated(m_usedTransition, oldparam);
 }
+
+void TransitionSettings::raiseWindow(QWidget* dock) {
+    if (dock && m_usedTransition)
+        dock->raise();
+
+}
+

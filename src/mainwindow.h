@@ -164,6 +164,8 @@ private slots:
     void slotAddProjectClip(KUrl url);
     void slotShuttleButton(int code);
     void slotShowClipProperties(DocClipBase *clip);
+    void slotActivateEffectStackView();
+    void slotActivateTransitionView();
 };
 
 #endif

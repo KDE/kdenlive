@@ -218,4 +218,9 @@ void EffectStackView::slotNewEffect() {
 
 }
 
+void EffectStackView::raiseWindow(QWidget* dock) {
+    if (clipref && dock)
+        dock->raise();
+}
+
 #include "effectstackview.moc"
