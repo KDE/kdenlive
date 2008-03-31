@@ -42,7 +42,6 @@
 #include "ui_colorclip_ui.h"
 
 #include "definitions.h"
-#include "titlewidget.h"
 #include "clipmanager.h"
 #include "docclipbase.h"
 #include "kdenlivedoc.h"
@@ -411,21 +410,21 @@ void ProjectList::slotAddColorClip() {
 }
 
 void ProjectList::slotAddTitleClip() {
-
-    if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!!  NO CMD STK";
-    //QDialog *dia = new QDialog;
-
-    TitleWidget *dia_ui = new TitleWidget(m_render, this);
-    //dia_ui->setupUi(dia);
-    //dia_ui->clip_name->setText(i18n("Title Clip"));
-    //dia_ui->clip_duration->setText(KdenliveSettings::color_duration());
-    if (dia_ui->exec() == QDialog::Accepted) {
-        //QString color = dia_ui->clip_color->color().name();
-        //color = color.replace(0, 1, "0x") + "ff";
-        //m_doc->slotAddColorClipFile(dia_ui->clip_name->text(), color, dia_ui->clip_duration->text(), QString::null);
+    QString group = QString();
+    int groupId = -1;
+    ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
+    if (item && item->clipType() != FOLDER) {
+	while (item->parent()) {
+	    item = static_cast <ProjectItem*>(item->parent());
+            if (item->clipType() == FOLDER) break;
+        }
     }
-    delete dia_ui;
-    //delete dia;
+    if (item && item->clipType() == FOLDER) {
+        group = item->groupName();
+        groupId = item->clipId();
+    }
+
+    m_doc->slotCreateTextClip(group, groupId);
 }
 void ProjectList::setDocument(KdenliveDoc *doc) {
     listView->clear();

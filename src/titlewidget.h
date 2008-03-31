@@ -78,6 +78,7 @@ private slots:
     void slotZoom(bool up);
     void slotAdjustZoom();
     void slotZoomOneToOne();
+    void slotUpdateText();
 };
 
 

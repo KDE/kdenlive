@@ -106,6 +106,7 @@ private:
     bool m_modified;
 
 public slots:
+    void slotCreateTextClip(QString group, int groupId);
 
 signals:
     void addProjectClip(DocClipBase *);

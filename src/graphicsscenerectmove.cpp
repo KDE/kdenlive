@@ -91,7 +91,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e) {
             }
         }
     }
-    if (!hasSelected) QGraphicsScene::mousePressEvent(e);
+    QGraphicsScene::mousePressEvent(e);
 
     kDebug() << "//////  MOUSE CLICK, RESIZE MODE: " << resizeMode;
 
@@ -170,15 +170,13 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
         QPointF p = e->scenePos();
         p += QPoint(-2, -2);
         resizeMode = NoResize;
-
+	bool itemFound = false;
         foreach(QGraphicsItem* g, items(QRectF(p , QSizeF(4, 4)).toRect())) {
-
             if (g->type() == 3) {
-
                 QGraphicsRectItem *gi = (QGraphicsRectItem*)g;
                 QRectF r = gi->rect();
                 r.translate(gi->scenePos());
-
+		itemFound = true;
                 if ((r.toRect().topLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
                     setCursor(QCursor(Qt::SizeFDiagCursor));
                 } else if ((r.toRect().bottomLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
@@ -196,8 +194,9 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
                 } else if (qAbs(r.toRect().bottom() - e->scenePos().toPoint().y()) < 3 / zoom) {
                     setCursor(Qt::SizeVerCursor);
                 } else setCursor(QCursor(Qt::ArrowCursor));
+		break;
             }
-            break;
+	    if (!itemFound) setCursor(QCursor(Qt::ArrowCursor));
         }
         QGraphicsScene::mouseMoveEvent(e);
     }

@@ -33,6 +33,7 @@
 #include "clipmanager.h"
 #include "addfoldercommand.h"
 #include "editfoldercommand.h"
+#include "titlewidget.h"
 
 KdenliveDoc::KdenliveDoc(const KUrl &url, MltVideoProfile profile, QUndoGroup *undoGroup, QWidget *parent): QObject(parent), m_render(NULL), m_url(url), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new KUndoStack(undoGroup)), m_modified(false) {
     m_clipManager = new ClipManager(this);
@@ -366,6 +367,14 @@ void KdenliveDoc::slotAddColorClipFile(const QString name, const QString color, 
     m_clipManager->slotAddColorClipFile(name, color, duration, group, groupId);
     setModified(true);
 }
+
+void KdenliveDoc::slotCreateTextClip(QString group, int groupId) {
+    TitleWidget *dia_ui = new TitleWidget(m_render, 0);
+    if (dia_ui->exec() == QDialog::Accepted) {
+    }
+    delete dia_ui;
+}
+
 
 #include "kdenlivedoc.moc"
 
