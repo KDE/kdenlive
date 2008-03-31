@@ -156,10 +156,11 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
             if (m_operationMode == MOVE && (event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance()) {
                 double snappedPos = getSnapPointForPos(mapToScene(event->pos()).x() - m_clickPoint.x());
                 //kDebug() << "///////  MOVE CLIP, EVENT Y: "<<m_clickPoint.y();//<<event->scenePos().y()<<", SCENE HEIGHT: "<<scene()->sceneRect().height();
-                int moveTrack = (int)  mapToScene(event->pos() + QPoint(0, (m_dragItem->type() == TRANSITIONWIDGET ? m_tracksHeight - m_clickPoint.y() : 0))).y() / m_tracksHeight;
+                int moveTrack = (int)  mapToScene(event->pos() + QPoint(0, (m_dragItem->type() == TRANSITIONWIDGET ?/* m_tracksHeight*/ - m_clickPoint.y() : 0))).y() / m_tracksHeight;
                 int currentTrack = m_dragItem->track();
 
-                if (moveTrack > m_tracksList.count() - 1) moveTrack = m_tracksList.count() - 1;
+                if (moveTrack > 1000)moveTrack = 0;
+                else if (moveTrack > m_tracksList.count() - 1) moveTrack = m_tracksList.count() - 1;
                 else if (moveTrack < 0) moveTrack = 0;
 
                 int offset = moveTrack - currentTrack;
