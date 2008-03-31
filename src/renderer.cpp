@@ -199,11 +199,18 @@ char *Render::decodedString(QString str) {
     return pix;
 }
 */
+const int Render::renderWidth() const {
+    return (int)(m_mltProfile->height() * m_mltProfile->dar());
+}
+
+const int Render::renderHeight() const {
+    return m_mltProfile->height();
+}
 
 QPixmap Render::extractFrame(int frame_position, int width, int height) {
     if (width == -1) {
-        width = m_mltProfile->width();
-        height = m_mltProfile->height();
+        width = renderWidth();
+        height = renderHeight();
     }
     QPixmap pix(width, height);
     if (!m_mltProducer) {

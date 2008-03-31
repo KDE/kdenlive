@@ -18,10 +18,14 @@
 #ifndef TITLEWIDGET_H
 #define TITLEWIDGET_H
 
-#include "ui_titlewidget_ui.h"
-#include "titledocument.h"
+
 #include <QDialog>
 #include <QMap>
+
+#include "ui_titlewidget_ui.h"
+#include "titledocument.h"
+#include "renderer.h"
+#include "graphicsscenerectmove.h"
 
 class Transform {
 public:
@@ -37,12 +41,21 @@ public:
 class TitleWidget : public QDialog , public Ui::TitleWidget_UI {
     Q_OBJECT
 public:
-    TitleWidget(QDialog *parent = 0);
+    TitleWidget(Render *render, QWidget *parent = 0);
+
+protected:
+    virtual void resizeEvent(QResizeEvent * event);
+
 private:
     QGraphicsPolygonItem *startViewport, *endViewport;
+    GraphicsSceneRectMove *m_scene;
     void initViewports();
     QMap<QGraphicsItem*, Transform > transformations;
     TitleDocument m_titledocument;
+    QGraphicsRectItem *m_frameBorder;
+    int m_frameWidth;
+    int m_frameHeight;
+
 public slots:
     void slotNewText();
     void slotNewRect();

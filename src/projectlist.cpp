@@ -415,7 +415,7 @@ void ProjectList::slotAddTitleClip() {
     if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!!  NO CMD STK";
     //QDialog *dia = new QDialog;
 
-    TitleWidget *dia_ui = new TitleWidget();
+    TitleWidget *dia_ui = new TitleWidget(m_render, this);
     //dia_ui->setupUi(dia);
     //dia_ui->clip_name->setText(i18n("Title Clip"));
     //dia_ui->clip_duration->setText(KdenliveSettings::color_duration());

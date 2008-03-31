@@ -142,6 +142,8 @@ Q_OBJECT public:
     void refreshDisplay();
     int resetProfile(QString profile);
     const double fps() const;
+    const int renderWidth() const;
+    const int renderHeight() const;
 
     /** Playlist manipulation */
     void mltInsertClip(int track, GenTime position, QDomElement element);

@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "titlewidget.h"
-#include "graphicsscenerectmove.h"
+
+
 #include <QGraphicsView>
 #include <QDomDocument>
 #include <KDebug>
@@ -24,9 +24,12 @@
 #include <QGraphicsSvgItem>
 #include <KFileDialog>
 
+#include "titlewidget.h"
+
+
 int settingUp = false;
 
-TitleWidget::TitleWidget(QDialog *parent): QDialog(parent) {
+TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent) {
     setupUi(this);
     connect(newTextButton, SIGNAL(clicked()), this, SLOT(slotNewText()));
     connect(newRectButton, SIGNAL(clicked()), this, SLOT(slotNewRect()));
@@ -61,25 +64,52 @@ TitleWidget::TitleWidget(QDialog *parent): QDialog(parent) {
     connect(itemzoom, SIGNAL(valueChanged(int)), this, SLOT(itemScaled(int)));
     connect(itemrotate, SIGNAL(valueChanged(int)), this, SLOT(itemRotate(int)));
 
-    GraphicsSceneRectMove *scene = new GraphicsSceneRectMove(this);
+    m_scene = new GraphicsSceneRectMove(this);
 
     // a gradient background
     QRadialGradient *gradient = new QRadialGradient(0, 0, 10);
     gradient->setSpread(QGradient::ReflectSpread);
     //scene->setBackgroundBrush(*gradient);
 
-    graphicsView->setScene(scene);
-    m_titledocument.setScene(scene);
+
+    graphicsView->setScene(m_scene);
+    m_titledocument.setScene(m_scene);
     connect(graphicsView->scene(), SIGNAL(selectionChanged()), this , SLOT(selectionChanged()));
+
+    QPen framepen(Qt::DotLine);
+    framepen.setColor(Qt::red);
+    m_frameWidth = render->renderWidth();
+    m_frameHeight = render->renderHeight();
+    m_frameBorder = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
+    m_frameBorder->setPen(framepen);
+    m_frameBorder->setZValue(-1000);
+    m_frameBorder->setFlags(QGraphicsItem::ItemClipsToShape);
+    graphicsView->scene()->addItem(m_frameBorder);
     initViewports();
 
     graphicsView->show();
     graphicsView->setRenderHint(QPainter::Antialiasing);
     graphicsView->setInteractive(true);
     graphicsView->resize(400, 300);
+    kDebug() << "// TITLE WIDGWT: " << graphicsView->viewport()->width() << "x" << graphicsView->viewport()->height();
+
+    graphicsView->centerOn(m_frameBorder);
 
     toolBox->setItemEnabled(2, false);
     toolBox->setItemEnabled(3, false);
+}
+
+
+//virtual
+void TitleWidget::resizeEvent(QResizeEvent * event) {
+    kDebug() << "// TITLE WIDGET:-- " << graphicsView->width() << "x" << graphicsView->height();
+    kDebug() << "// FRAME WIDGET:-- " << graphicsView->mapFromScene(QPointF(m_frameBorder->rect().width() + 50, 0)).x() << "x" << graphicsView->mapFromScene(QPointF(m_frameBorder->rect().height() + 50, 0)).x();
+    double scalex = graphicsView->width() / (double) graphicsView->mapFromScene(QPointF(m_frameBorder->rect().width() + 50, 0)).x();
+    double scaley = graphicsView->height() / (double)graphicsView->mapFromScene(QPointF(m_frameBorder->rect().height() + 50, 0)).x();
+    kDebug() << "-- SCALES: " << scalex << "x" << scaley;
+    if (scalex < scaley) m_scene->setScale(scalex);
+    else m_scene->setScale(scaley);
+    graphicsView->centerOn(m_frameBorder);
 }
 
 void TitleWidget::initViewports() {
@@ -109,14 +139,24 @@ void TitleWidget::initViewports() {
 
 void TitleWidget::slotNewRect() {
 
-    QGraphicsRectItem * ri = graphicsView->scene()->addRect(-50, -50, 100, 100);
+    QGraphicsRectItem * ri = graphicsView->scene()->addRect(m_frameWidth / 2, m_frameHeight / 2, 100, 100);
     ri->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    QColor f = rectFColor->color();
+    f.setAlpha(rectFAlpha->value());
+    QPen penf(f);
+    penf.setWidth(rectLineWidth->value());
+    ri->setPen(penf);
+    QColor b = rectBColor->color();
+    b.setAlpha(rectBAlpha->value());
+    ri->setBrush(QBrush(b));
 }
 
 void TitleWidget::slotNewText() {
     QGraphicsTextItem *tt = graphicsView->scene()->addText("Text here");
     tt->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-    tt->setTextInteractionFlags(Qt::TextEditorInteraction);
+    tt->setTextInteractionFlags(Qt::NoTextInteraction);
+    tt->setPos(m_frameWidth / 2, m_frameHeight / 2);
+    tt->setFont(kfontrequester->font());
     connect(tt->document(), SIGNAL(contentsChanged()), this, SLOT(selectionChanged()));
     kDebug() << tt->metaObject()->className();
     /*QGraphicsRectItem * ri=graphicsView->scene()->addRect(-50,-50,100,100);
@@ -136,7 +176,6 @@ void TitleWidget::selectionChanged() {
     toolBox->setItemEnabled(2, false);
     toolBox->setItemEnabled(3, false);
     if (l.size() == 1) {
-
         if ((l[0])->type() == 8) {
             QGraphicsTextItem* i = ((QGraphicsTextItem*)l[0]);
             if (l[0]->hasFocus())
@@ -150,7 +189,7 @@ void TitleWidget::selectionChanged() {
                 toolBox->setCurrentIndex(3);
                 toolBox->setItemEnabled(3, true);
                 rectFAlpha->setValue(rec->pen().color().alpha());
-                rectBAlpha->setValue(rec->brush().isOpaque() ? rec->brush().color().alpha() : 0);
+                rectBAlpha->setValue(rec->brush().color().alpha());
                 kDebug() << rec->brush().color().alpha();
                 QColor fcol = rec->pen().color();
                 QColor bcol = rec->brush().color();
@@ -237,6 +276,7 @@ void TitleWidget::itemRotate(int val) {
         transformations[l[0]] = x;
     }
 }
+
 
 void TitleWidget::setupViewports() {
     double aspect_ratio = 4.0 / 3.0;//read from project
