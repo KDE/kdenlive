@@ -64,6 +64,11 @@ EffectStackEdit::EffectStackEdit(QFrame* frame, QWidget *parent): QObject(parent
     wid->show();
 
 }
+
+EffectStackEdit::~EffectStackEdit() {
+    iconCache.clear();
+}
+
 void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
     kDebug() << "in";
     params = d;

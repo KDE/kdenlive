@@ -30,6 +30,7 @@ class EffectStackEdit : public QObject {
     Q_OBJECT
 public:
     EffectStackEdit(QFrame* frame, QWidget *parent);
+    ~EffectStackEdit();
     static QMap<QString, QImage> iconCache;
 private:
     void clearAllItems();
