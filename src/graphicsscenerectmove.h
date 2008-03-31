@@ -6,10 +6,12 @@
 enum resizeModes {NoResize, TopLeft, BottomLeft, TopRight, BottomRight, Left, Right, Up, Down};
 
 class GraphicsSceneRectMove: public QGraphicsScene {
+    Q_OBJECT
 public:
     GraphicsSceneRectMove(QObject* parent = 0);
 
     void setScale(double s);
+    void setZoom(double s);
 
     virtual void mousePressEvent(QGraphicsSceneMouseEvent*);
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e);
@@ -23,6 +25,10 @@ private:
     QGraphicsItem* m_selectedItem;
     resizeModes resizeMode;
     QPointF m_clickPoint;
+
+signals:
+    void itemMoved();
+    void sceneZoom(bool);
 };
 
 #endif

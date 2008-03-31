@@ -71,6 +71,13 @@ public slots:
     void itemRotate(int);
     void saveTitle();
     void loadTitle();
+
+private slots:
+    void slotAdjustSelectedItem();
+    void slotUpdateZoom(int pos);
+    void slotZoom(bool up);
+    void slotAdjustZoom();
+    void slotZoomOneToOne();
 };
 
 

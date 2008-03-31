@@ -20,17 +20,20 @@
 #include <QGraphicsView>
 #include <QDomDocument>
 #include <KDebug>
+#include <KGlobalSettings>
 #include <QGraphicsItem>
 #include <QGraphicsSvgItem>
 #include <KFileDialog>
 
 #include "titlewidget.h"
-
+#include "kdenlivesettings.h"
 
 int settingUp = false;
 
 TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent) {
     setupUi(this);
+    frame_properties->setFont(KGlobalSettings::toolBarFont());
+    frame_properties->setEnabled(false);
     connect(newTextButton, SIGNAL(clicked()), this, SLOT(slotNewText()));
     connect(newRectButton, SIGNAL(clicked()), this, SLOT(slotNewRect()));
     connect(kcolorbutton, SIGNAL(clicked()), this, SLOT(slotChangeBackground())) ;
@@ -64,6 +67,15 @@ TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent) {
     connect(itemzoom, SIGNAL(valueChanged(int)), this, SLOT(itemScaled(int)));
     connect(itemrotate, SIGNAL(valueChanged(int)), this, SLOT(itemRotate(int)));
 
+    connect(value_x, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
+    connect(value_y, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
+    connect(value_w, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
+    connect(value_h, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
+    connect(buttonFitZoom, SIGNAL(clicked()), this, SLOT(slotAdjustZoom()));
+    connect(buttonRealSize, SIGNAL(clicked()), this, SLOT(slotZoomOneToOne()));
+
+    buttonFitZoom->setIcon(KIcon("zoom-fit-best"));
+    buttonRealSize->setIcon(KIcon("zoom-original"));
     m_scene = new GraphicsSceneRectMove(this);
 
     // a gradient background
@@ -75,6 +87,10 @@ TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent) {
     graphicsView->setScene(m_scene);
     m_titledocument.setScene(m_scene);
     connect(graphicsView->scene(), SIGNAL(selectionChanged()), this , SLOT(selectionChanged()));
+    connect(m_scene, SIGNAL(itemMoved()), this , SLOT(selectionChanged()));
+    connect(m_scene, SIGNAL(sceneZoom(bool)), this , SLOT(slotZoom(bool)));
+    connect(zoom_slider, SIGNAL(valueChanged(int)), this , SLOT(slotUpdateZoom(int)));
+
 
     QPen framepen(Qt::DotLine);
     framepen.setColor(Qt::red);
@@ -90,11 +106,9 @@ TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent) {
     graphicsView->show();
     graphicsView->setRenderHint(QPainter::Antialiasing);
     graphicsView->setInteractive(true);
-    graphicsView->resize(400, 300);
+    slotAdjustZoom();
+    //graphicsView->resize(400, 300);
     kDebug() << "// TITLE WIDGWT: " << graphicsView->viewport()->width() << "x" << graphicsView->viewport()->height();
-
-    graphicsView->centerOn(m_frameBorder);
-
     toolBox->setItemEnabled(2, false);
     toolBox->setItemEnabled(3, false);
 }
@@ -102,14 +116,7 @@ TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent) {
 
 //virtual
 void TitleWidget::resizeEvent(QResizeEvent * event) {
-    kDebug() << "// TITLE WIDGET:-- " << graphicsView->width() << "x" << graphicsView->height();
-    kDebug() << "// FRAME WIDGET:-- " << graphicsView->mapFromScene(QPointF(m_frameBorder->rect().width() + 50, 0)).x() << "x" << graphicsView->mapFromScene(QPointF(m_frameBorder->rect().height() + 50, 0)).x();
-    double scalex = graphicsView->width() / (double) graphicsView->mapFromScene(QPointF(m_frameBorder->rect().width() + 50, 0)).x();
-    double scaley = graphicsView->height() / (double)graphicsView->mapFromScene(QPointF(m_frameBorder->rect().height() + 50, 0)).x();
-    kDebug() << "-- SCALES: " << scalex << "x" << scaley;
-    if (scalex < scaley) m_scene->setScale(scalex);
-    else m_scene->setScale(scaley);
-    graphicsView->centerOn(m_frameBorder);
+    //slotAdjustZoom();
 }
 
 void TitleWidget::initViewports() {
@@ -137,10 +144,36 @@ void TitleWidget::initViewports() {
     graphicsView->scene()->addItem(endViewport);
 }
 
-void TitleWidget::slotNewRect() {
+void TitleWidget::slotUpdateZoom(int pos) {
+    m_scene->setZoom((double) pos / 7);
+    zoom_label->setText("x" + QString::number((double) pos / 7, 'g', 2));
+}
 
-    QGraphicsRectItem * ri = graphicsView->scene()->addRect(m_frameWidth / 2, m_frameHeight / 2, 100, 100);
+void TitleWidget::slotZoom(bool up) {
+    int pos = zoom_slider->value();
+    if (up) pos++;
+    else pos--;
+    zoom_slider->setValue(pos);
+}
+
+void TitleWidget::slotAdjustZoom() {
+    double scalex = graphicsView->width() / (double)(m_frameWidth * 1.2);
+    double scaley = graphicsView->height() / (double)(m_frameHeight * 1.2);
+    if (scalex > scaley) scalex = scaley;
+    int zoompos = (int)(scalex * 7 + 0.5);
+    zoom_slider->setValue(zoompos);
+    graphicsView->centerOn(m_frameBorder);
+}
+
+void TitleWidget::slotZoomOneToOne() {
+    zoom_slider->setValue(7);
+    graphicsView->centerOn(m_frameBorder);
+}
+
+void TitleWidget::slotNewRect() {
+    QGraphicsRectItem * ri = graphicsView->scene()->addRect(0, 0, 100, 100);
     ri->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    ri->setPos(m_frameWidth / 2, m_frameHeight / 2);
     QColor f = rectFColor->color();
     f.setAlpha(rectFAlpha->value());
     QPen penf(f);
@@ -175,6 +208,10 @@ void TitleWidget::selectionChanged() {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     toolBox->setItemEnabled(2, false);
     toolBox->setItemEnabled(3, false);
+    value_x->blockSignals(true);
+    value_y->blockSignals(true);
+    value_w->blockSignals(true);
+    value_h->blockSignals(true);
     if (l.size() == 1) {
         if ((l[0])->type() == 8) {
             QGraphicsTextItem* i = ((QGraphicsTextItem*)l[0]);
@@ -182,6 +219,13 @@ void TitleWidget::selectionChanged() {
                 ktextedit->setHtml(i->toHtml());
             toolBox->setCurrentIndex(2);
             toolBox->setItemEnabled(2, true);
+            value_x->setValue((int) i->pos().x());
+            value_y->setValue((int) i->pos().y());
+            value_w->setValue((int) i->boundingRect().width());
+            value_h->setValue((int) i->boundingRect().height());
+            frame_properties->setEnabled(true);
+            value_w->setEnabled(false);
+            value_h->setEnabled(false);
         } else
             if ((l[0])->type() == 3) {
                 settingUp = true;
@@ -199,12 +243,40 @@ void TitleWidget::selectionChanged() {
                 rectBColor->setColor(bcol);
                 settingUp = false;
                 rectLineWidth->setValue(rec->pen().width());
+                value_x->setValue((int) rec->pos().x());
+                value_y->setValue((int) rec->pos().y());
+                value_w->setValue((int) rec->rect().width());
+                value_h->setValue((int) rec->rect().height());
+                frame_properties->setEnabled(true);
+                value_w->setEnabled(true);
+                value_h->setEnabled(true);
             } else {
                 //toolBox->setCurrentIndex(0);
+                frame_properties->setEnabled(false);
             }
         zValue->setValue((int)l[0]->zValue());
         itemzoom->setValue((int)transformations[l[0]].scalex*100);
         itemrotate->setValue((int)transformations[l[0]].rotate);
+        value_x->blockSignals(false);
+        value_y->blockSignals(false);
+        value_w->blockSignals(false);
+        value_h->blockSignals(false);
+    }
+}
+
+void TitleWidget::slotAdjustSelectedItem() {
+    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    if (l.size() >= 1) {
+        if (l[0]->type() == 3) {
+            //rect item
+            QGraphicsRectItem *rec = ((QGraphicsRectItem*)l[0]);
+            rec->setPos(value_x->value(), value_y->value());
+            rec->setRect(QRect(0, 0, value_w->value(), value_h->value()));
+        } else if (l[0]->type() == 8) {
+            //text item
+            QGraphicsTextItem *rec = ((QGraphicsTextItem*)l[0]);
+            rec->setPos(value_x->value(), value_y->value());
+        }
     }
 }
 
