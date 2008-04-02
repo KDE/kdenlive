@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>771</width>
-    <height>510</height>
+    <height>612</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -19,7 +19,7 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_4" >
-   <item row="0" column="0" colspan="5" >
+   <item row="0" column="0" colspan="6" >
     <layout class="QHBoxLayout" >
      <item>
       <widget class="QPushButton" name="newRectButton" >
@@ -71,7 +71,7 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="0" colspan="5" >
+   <item row="1" column="0" colspan="6" >
     <widget class="QFrame" name="frame_properties" >
      <property name="frameShape" >
       <enum>QFrame::StyledPanel</enum>
@@ -183,10 +183,68 @@
        </layout>
       </item>
      </layout>
-     <zorder>splitter</zorder>
     </widget>
    </item>
-   <item row="2" column="0" colspan="5" >
+   <item row="3" column="0" >
+    <widget class="QToolButton" name="buttonFitZoom" >
+     <property name="text" >
+      <string>V</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" >
+    <widget class="QToolButton" name="buttonRealSize" >
+     <property name="text" >
+      <string>V</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2" >
+    <widget class="QSlider" name="zoom_slider" >
+     <property name="minimumSize" >
+      <size>
+       <width>100</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize" >
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="minimum" >
+      <number>1</number>
+     </property>
+     <property name="maximum" >
+      <number>10</number>
+     </property>
+     <property name="pageStep" >
+      <number>2</number>
+     </property>
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3" >
+    <widget class="QLabel" name="zoom_label" >
+     <property name="text" >
+      <string>x1</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="5" >
+    <widget class="QDialogButtonBox" name="buttonBox" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons" >
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="6" >
     <widget class="QSplitter" name="splitter" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
@@ -207,8 +265,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>297</width>
-         <height>185</height>
+         <width>395</width>
+         <height>279</height>
         </rect>
        </property>
        <attribute name="label" >
@@ -307,8 +365,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>297</width>
-         <height>185</height>
+         <width>395</width>
+         <height>279</height>
         </rect>
        </property>
        <attribute name="label" >
@@ -355,8 +413,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>267</width>
-         <height>177</height>
+         <width>395</width>
+         <height>279</height>
         </rect>
        </property>
        <attribute name="label" >
@@ -366,59 +424,41 @@
         <item row="0" column="0" >
          <widget class="QFontComboBox" name="font_family" />
         </item>
-        <item row="1" column="0" >
-         <layout class="QHBoxLayout" name="horizontalLayout" >
-          <item>
-           <widget class="QSpinBox" name="font_size" >
-            <property name="minimum" >
-             <number>8</number>
-            </property>
-            <property name="maximum" >
-             <number>1000</number>
-            </property>
-            <property name="value" >
-             <number>20</number>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="KColorButton" name="fontColorButton" />
-          </item>
-          <item>
-           <widget class="QSlider" name="textAlpha" >
-            <property name="maximum" >
-             <number>255</number>
-            </property>
-            <property name="value" >
-             <number>255</number>
-            </property>
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-         </layout>
+        <item row="3" column="0" >
+         <widget class="KTextEdit" name="ktextedit" />
         </item>
         <item row="2" column="0" >
          <layout class="QHBoxLayout" name="horizontalLayout_2" >
           <item>
-           <widget class="QToolButton" name="toolButton_6" >
+           <widget class="QToolButton" name="buttonBold" >
             <property name="text" >
              <string>...</string>
+            </property>
+            <property name="checkable" >
+             <bool>true</bool>
+            </property>
+            <property name="checked" >
+             <bool>false</bool>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="toolButton_5" >
+           <widget class="QToolButton" name="buttonItalic" >
             <property name="text" >
              <string>...</string>
+            </property>
+            <property name="checkable" >
+             <bool>true</bool>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="toolButton_4" >
+           <widget class="QToolButton" name="buttonUnder" >
             <property name="text" >
              <string>...</string>
+            </property>
+            <property name="checkable" >
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -458,8 +498,51 @@
           </item>
          </layout>
         </item>
-        <item row="3" column="0" >
-         <widget class="KTextEdit" name="ktextedit" />
+        <item row="1" column="0" >
+         <layout class="QHBoxLayout" name="horizontalLayout" >
+          <item>
+           <widget class="QSpinBox" name="font_size" >
+            <property name="minimum" >
+             <number>8</number>
+            </property>
+            <property name="maximum" >
+             <number>1000</number>
+            </property>
+            <property name="value" >
+             <number>20</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="KColorButton" name="fontColorButton" />
+          </item>
+          <item>
+           <widget class="QSlider" name="textAlpha" >
+            <property name="maximum" >
+             <number>255</number>
+            </property>
+            <property name="value" >
+             <number>255</number>
+            </property>
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="4" column="0" >
+         <spacer name="verticalSpacer" >
+          <property name="orientation" >
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0" >
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
@@ -468,8 +551,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>278</width>
-         <height>249</height>
+         <width>395</width>
+         <height>279</height>
         </rect>
        </property>
        <attribute name="label" >
@@ -599,8 +682,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>297</width>
-         <height>185</height>
+         <width>395</width>
+         <height>279</height>
         </rect>
        </property>
        <attribute name="label" >
@@ -654,8 +737,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>278</width>
-         <height>224</height>
+         <width>395</width>
+         <height>279</height>
         </rect>
        </property>
        <attribute name="label" >
@@ -824,62 +907,10 @@
      </widget>
     </widget>
    </item>
-   <item row="3" column="0" >
-    <widget class="QToolButton" name="buttonFitZoom" >
-     <property name="text" >
-      <string>V</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1" >
-    <widget class="QToolButton" name="buttonRealSize" >
-     <property name="text" >
-      <string>V</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="2" >
-    <widget class="QSlider" name="zoom_slider" >
-     <property name="minimumSize" >
-      <size>
-       <width>100</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize" >
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="minimum" >
-      <number>1</number>
-     </property>
-     <property name="maximum" >
-      <number>10</number>
-     </property>
-     <property name="pageStep" >
-      <number>2</number>
-     </property>
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="3" >
-    <widget class="QLabel" name="zoom_label" >
-     <property name="text" >
-      <string>x1</string>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="4" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons" >
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+    <widget class="QCheckBox" name="displayBg" >
+     <property name="text" >
+      <string>Show background</string>
      </property>
     </widget>
    </item>

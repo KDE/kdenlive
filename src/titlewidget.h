@@ -20,6 +20,7 @@
 
 
 #include <QDialog>
+
 #include <QMap>
 
 #include "ui_titlewidget_ui.h"
@@ -53,8 +54,11 @@ private:
     QMap<QGraphicsItem*, Transform > transformations;
     TitleDocument m_titledocument;
     QGraphicsRectItem *m_frameBorder;
+    QGraphicsPixmapItem *m_frameImage;
     int m_frameWidth;
     int m_frameHeight;
+    Render *m_render;
+    int m_count;
 
 public slots:
     void slotNewText();
@@ -79,6 +83,8 @@ private slots:
     void slotAdjustZoom();
     void slotZoomOneToOne();
     void slotUpdateText();
+    void displayBackgroundFrame();
+    void setCurrentItem(QGraphicsItem *item);
 };
 
 

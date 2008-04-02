@@ -10,9 +10,12 @@ class GraphicsSceneRectMove: public QGraphicsScene {
 public:
     GraphicsSceneRectMove(QObject* parent = 0);
 
+    void setSelectedItem(QGraphicsItem *item);
     void setScale(double s);
     void setZoom(double s);
 
+protected:
+    virtual void keyPressEvent(QKeyEvent * keyEvent);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent*);
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent*);

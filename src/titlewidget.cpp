@@ -33,7 +33,7 @@
 
 int settingUp = false;
 
-TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent) {
+TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent), m_frameImage(NULL), m_render(render), m_count(0) {
     setupUi(this);
     frame_properties->setFont(KGlobalSettings::toolBarFont());
     toolBox->setFont(KGlobalSettings::toolBarFont());
@@ -49,8 +49,8 @@ TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent) {
 
     ktextedit->setHidden(true);
     connect(fontColorButton, SIGNAL(clicked()), this, SLOT(slotUpdateText())) ;
-    connect(font_family, SIGNAL(currentFontChanged (const QFont &)), this, SLOT(slotUpdateText())) ;
-    connect(font_size, SIGNAL(valueChanged (int)), this, SLOT(slotUpdateText())) ;
+    connect(font_family, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(slotUpdateText())) ;
+    connect(font_size, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText())) ;
     connect(textAlpha, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText()));
     //connect (ktextedit, SIGNAL(selectionChanged()), this , SLOT (textChanged()));
 
@@ -78,9 +78,17 @@ TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent) {
     connect(value_h, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
     connect(buttonFitZoom, SIGNAL(clicked()), this, SLOT(slotAdjustZoom()));
     connect(buttonRealSize, SIGNAL(clicked()), this, SLOT(slotZoomOneToOne()));
+    connect(buttonBold, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
+    connect(buttonItalic, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
+    connect(buttonUnder, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
+    connect(displayBg, SIGNAL(stateChanged(int)), this, SLOT(displayBackgroundFrame()));
 
     buttonFitZoom->setIcon(KIcon("zoom-fit-best"));
     buttonRealSize->setIcon(KIcon("zoom-original"));
+    buttonBold->setIcon(KIcon("format-text-bold"));
+    buttonItalic->setIcon(KIcon("format-text-italic"));
+    buttonUnder->setIcon(KIcon("format-text-underline"));
+
     m_scene = new GraphicsSceneRectMove(this);
 
     // a gradient background
@@ -101,12 +109,7 @@ TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent) {
     framepen.setColor(Qt::red);
     m_frameWidth = render->renderWidth();
     m_frameHeight = render->renderHeight();
-    QPixmap bg = render->extractFrame((int) render->seekPosition().frames(render->fps()), m_frameWidth, m_frameHeight);
 
-    QGraphicsPixmapItem *fb = new QGraphicsPixmapItem(bg);
-    fb->setZValue(-1000);
-    fb->setFlags(QGraphicsItem::ItemClipsToShape);
-    graphicsView->scene()->addItem(fb);
 
     m_frameBorder = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
     m_frameBorder->setPen(framepen);
@@ -132,6 +135,20 @@ TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent) {
 //virtual
 void TitleWidget::resizeEvent(QResizeEvent * event) {
     //slotAdjustZoom();
+}
+
+void TitleWidget::displayBackgroundFrame() {
+    if (m_frameImage) delete m_frameImage;
+    m_frameImage = NULL;
+    if (!displayBg->isChecked()) return;
+    QPixmap bg = m_render->extractFrame((int) m_render->seekPosition().frames(m_render->fps()), m_frameWidth / 2, m_frameHeight / 2);
+    m_frameImage = new QGraphicsPixmapItem(bg);
+    QTransform qtrans;
+    qtrans.scale(2.0, 2.0);
+    m_frameImage->setTransform(qtrans);
+    m_frameImage->setZValue(-1100);
+    m_frameImage->setFlags(QGraphicsItem::ItemClipsToShape);
+    graphicsView->scene()->addItem(m_frameImage);
 }
 
 void TitleWidget::initViewports() {
@@ -197,6 +214,9 @@ void TitleWidget::slotNewRect() {
     QColor b = rectBColor->color();
     b.setAlpha(rectBAlpha->value());
     ri->setBrush(QBrush(b));
+    ri->setZValue(m_count++);
+    setCurrentItem(ri);
+    graphicsView->setFocus();
 }
 
 void TitleWidget::slotNewText() {
@@ -205,13 +225,24 @@ void TitleWidget::slotNewText() {
     tt->setTextInteractionFlags(Qt::NoTextInteraction);
     tt->setPos(m_frameWidth / 2, m_frameHeight / 2);
     QFont font = font_family->currentFont();
-    font.setPointSize (font_size->value());
+    font.setPointSize(font_size->value());
     tt->setFont(font);
-    connect(tt->document(), SIGNAL(contentsChanged()), this, SLOT(selectionChanged()));
+    tt->setZValue(m_count++);
+    setCurrentItem(tt);
+    graphicsView->setFocus();
+    //connect(tt->document(), SIGNAL(contentsChanged()), this, SLOT(selectionChanged()));
     kDebug() << tt->metaObject()->className();
     /*QGraphicsRectItem * ri=graphicsView->scene()->addRect(-50,-50,100,100);
     ri->setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable);*/
 
+}
+
+void TitleWidget::setCurrentItem(QGraphicsItem *item) {
+    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    if (l.size() >= 1) {
+        l[0]->setSelected(false);
+    }
+    m_scene->setSelectedItem(item);
 }
 
 void TitleWidget::zIndexChanged(int v) {
@@ -236,6 +267,19 @@ void TitleWidget::selectionChanged() {
                 ktextedit->setHtml(i->toHtml());
             toolBox->setCurrentIndex(2);
             toolBox->setItemEnabled(2, true);
+
+
+            QFont font = i->font();
+            font_family->setCurrentFont(font);
+            font_size->setValue(font.pointSize());
+            buttonBold->setChecked(font.bold());
+            buttonItalic->setChecked(font.italic());
+            buttonUnder->setChecked(font.underline());
+
+            QColor color = i->defaultTextColor();
+            fontColorButton->setColor(color);
+            textAlpha->setValue(color.alpha());
+
             value_x->setValue((int) i->pos().x());
             value_y->setValue((int) i->pos().y());
             value_w->setValue((int) i->boundingRect().width());
@@ -313,24 +357,27 @@ void TitleWidget::textChanged() {
 
 void TitleWidget::slotUpdateText() {
     QFont font = font_family->currentFont();
-    font.setPointSize (font_size->value());
+    font.setPointSize(font_size->value());
+    font.setBold(buttonBold->isChecked());
+    font.setItalic(buttonItalic->isChecked());
+    font.setUnderline(buttonUnder->isChecked());
     QColor color = fontColorButton->color();
     color.setAlpha(textAlpha->value());
 
     QGraphicsTextItem* item = NULL;
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1 && (l[0])->type() == 8) {
-	item = (QGraphicsTextItem*)l[0];
+        item = (QGraphicsTextItem*)l[0];
     }
     if (!item) return;
-    if (item->textCursor().selection ().isEmpty()) 
+    //if (item->textCursor().selection ().isEmpty())
     {
-	item->setFont(font);
-	item->setDefaultTextColor(color);
+        item->setFont(font);
+        item->setDefaultTextColor(color);
     }
     /*else {
-	QTextDocumentFragment selec = item->textCursor().selection ();
-	selec.set
+    QTextDocumentFragment selec = item->textCursor().selection ();
+    selec.set
     }*/
     //if (ktextedit->textCursor().selectedText().isEmpty()) ktextedit->selectAll();
 
@@ -338,8 +385,8 @@ void TitleWidget::slotUpdateText() {
     //ktextedit->setTextColor(color);
     /*QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1 && (l[0])->type() == 8 && l[0]->hasFocus()) {
-	QGraphicsTextItem* item = static_cast <QGraphicsTextItem*> (l[0]);
-	//item-
+    QGraphicsTextItem* item = static_cast <QGraphicsTextItem*> (l[0]);
+    //item-
     }*/
 }
 

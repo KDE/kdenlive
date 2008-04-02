@@ -414,8 +414,8 @@ void ProjectList::slotAddTitleClip() {
     int groupId = -1;
     ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
     if (item && item->clipType() != FOLDER) {
-	while (item->parent()) {
-	    item = static_cast <ProjectItem*>(item->parent());
+        while (item->parent()) {
+            item = static_cast <ProjectItem*>(item->parent());
             if (item->clipType() == FOLDER) break;
         }
     }

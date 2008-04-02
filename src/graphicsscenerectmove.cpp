@@ -5,12 +5,45 @@
 #include <QGraphicsView>
 #include <QCursor>
 #include <QList>
+#include <QKeyEvent>
 
 #include "graphicsscenerectmove.h"
 
 GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent): QGraphicsScene(parent), m_selectedItem(NULL), resizeMode(NoResize) {
     //grabMouse();
     zoom = 1.0;
+}
+
+void GraphicsSceneRectMove::setSelectedItem(QGraphicsItem *item) {
+    m_selectedItem = item;
+    item->setSelected(true);
+}
+
+//virtual
+void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent) {
+    if (m_selectedItem == NULL) {
+        QGraphicsScene::keyPressEvent(keyEvent);
+        return;
+    }
+    int diff = 1;
+    if (keyEvent->modifiers() & Qt::ControlModifier) diff = 10;
+    switch (keyEvent->key()) {
+    case Qt::Key_Left:
+        m_selectedItem->setPos(m_selectedItem->pos() - QPointF(diff, 0));
+        break;
+    case Qt::Key_Right:
+        m_selectedItem->setPos(m_selectedItem->pos() + QPointF(diff, 0));
+        break;
+    case Qt::Key_Up:
+        m_selectedItem->setPos(m_selectedItem->pos() - QPointF(0, diff));
+        break;
+    case Qt::Key_Down:
+        m_selectedItem->setPos(m_selectedItem->pos() + QPointF(0, diff));
+        break;
+    default:
+        QGraphicsScene::keyPressEvent(keyEvent);
+    }
+    emit itemMoved();
 }
 
 //virtual
@@ -170,13 +203,13 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
         QPointF p = e->scenePos();
         p += QPoint(-2, -2);
         resizeMode = NoResize;
-	bool itemFound = false;
+        bool itemFound = false;
         foreach(QGraphicsItem* g, items(QRectF(p , QSizeF(4, 4)).toRect())) {
             if (g->type() == 3) {
                 QGraphicsRectItem *gi = (QGraphicsRectItem*)g;
                 QRectF r = gi->rect();
                 r.translate(gi->scenePos());
-		itemFound = true;
+                itemFound = true;
                 if ((r.toRect().topLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
                     setCursor(QCursor(Qt::SizeFDiagCursor));
                 } else if ((r.toRect().bottomLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
@@ -194,9 +227,9 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
                 } else if (qAbs(r.toRect().bottom() - e->scenePos().toPoint().y()) < 3 / zoom) {
                     setCursor(Qt::SizeVerCursor);
                 } else setCursor(QCursor(Qt::ArrowCursor));
-		break;
+                break;
             }
-	    if (!itemFound) setCursor(QCursor(Qt::ArrowCursor));
+            if (!itemFound) setCursor(QCursor(Qt::ArrowCursor));
         }
         QGraphicsScene::mouseMoveEvent(e);
     }
