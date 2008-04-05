@@ -27,7 +27,7 @@ public:
     TitleDocument();
     void setScene(QGraphicsScene* scene);
     bool saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv);
-    bool loadDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv);
+    int loadDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv);
 private:
     QString colorToString(const QColor&);
     QString rectFToString(const QRectF&);

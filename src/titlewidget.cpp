@@ -35,19 +35,20 @@ int settingUp = false;
 
 TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent), m_frameImage(NULL), m_render(render), m_count(0) {
     setupUi(this);
-    frame_properties->setFont(KGlobalSettings::toolBarFont());
-    toolBox->setFont(KGlobalSettings::toolBarFont());
+    //frame_properties->
+    setFont(KGlobalSettings::toolBarFont());
+    //toolBox->setFont(KGlobalSettings::toolBarFont());
     frame_properties->setEnabled(false);
-    connect(newTextButton, SIGNAL(clicked()), this, SLOT(slotNewText()));
-    connect(newRectButton, SIGNAL(clicked()), this, SLOT(slotNewRect()));
+    //connect(newTextButton, SIGNAL(clicked()), this, SLOT(slotNewText()));
+    //connect(newRectButton, SIGNAL(clicked()), this, SLOT(slotNewRect()));
     connect(kcolorbutton, SIGNAL(clicked()), this, SLOT(slotChangeBackground())) ;
     connect(horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(slotChangeBackground())) ;
-    connect(ktextedit, SIGNAL(textChanged()), this , SLOT(textChanged()));
+    //connect(ktextedit, SIGNAL(textChanged()), this , SLOT(textChanged()));
     //connect (fontBold, SIGNAL ( clicked()), this, SLOT( setBold()) ) ;
-    connect(loadButton, SIGNAL(clicked()), this, SLOT(loadTitle())) ;
-    connect(saveButton, SIGNAL(clicked()), this, SLOT(saveTitle())) ;
+    connect(buttonLoad, SIGNAL(clicked()), this, SLOT(loadTitle())) ;
+    connect(buttonSave, SIGNAL(clicked()), this, SLOT(saveTitle())) ;
 
-    ktextedit->setHidden(true);
+    //ktextedit->setHidden(true);
     connect(fontColorButton, SIGNAL(clicked()), this, SLOT(slotUpdateText())) ;
     connect(font_family, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(slotUpdateText())) ;
     connect(font_size, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText())) ;
@@ -89,6 +90,20 @@ TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent), m_fr
     buttonItalic->setIcon(KIcon("format-text-italic"));
     buttonUnder->setIcon(KIcon("format-text-underline"));
 
+    buttonRect->setIcon(KIcon("insert-rect"));
+    buttonText->setIcon(KIcon("insert-text"));
+    buttonImage->setIcon(KIcon("insert-image"));
+    buttonCursor->setIcon(KIcon("select-rectangular"));
+    buttonSave->setIcon(KIcon("document-save"));
+    buttonLoad->setIcon(KIcon("document-open"));
+
+    connect(buttonRect,  SIGNAL(clicked()), this, SLOT(slotRectTool()));
+    connect(buttonText,  SIGNAL(clicked()), this, SLOT(slotTextTool()));
+    connect(buttonImage,  SIGNAL(clicked()), this, SLOT(slotImageTool()));
+    connect(buttonCursor,  SIGNAL(clicked()), this, SLOT(slotSelectTool()));
+
+    text_properties->setHidden(true);
+
     m_scene = new GraphicsSceneRectMove(this);
 
     // a gradient background
@@ -96,30 +111,32 @@ TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent), m_fr
     gradient->setSpread(QGradient::ReflectSpread);
     //scene->setBackgroundBrush(*gradient);
 
+    connect(m_scene, SIGNAL(selectionChanged()), this , SLOT(selectionChanged()));
+    connect(m_scene, SIGNAL(itemMoved()), this , SLOT(selectionChanged()));
+    connect(m_scene, SIGNAL(sceneZoom(bool)), this , SLOT(slotZoom(bool)));
+    connect(m_scene, SIGNAL(actionFinished()), this , SLOT(slotSelectTool()));
+    connect(m_scene, SIGNAL(actionFinished()), this , SLOT(selectionChanged()));
+    connect(m_scene, SIGNAL(newRect(QGraphicsRectItem *)), this , SLOT(slotNewRect(QGraphicsRectItem *)));
+    connect(m_scene, SIGNAL(newText(QGraphicsTextItem *)), this , SLOT(slotNewText(QGraphicsTextItem *)));
+    connect(zoom_slider, SIGNAL(valueChanged(int)), this , SLOT(slotUpdateZoom(int)));
 
     graphicsView->setScene(m_scene);
     m_titledocument.setScene(m_scene);
-    connect(graphicsView->scene(), SIGNAL(selectionChanged()), this , SLOT(selectionChanged()));
-    connect(m_scene, SIGNAL(itemMoved()), this , SLOT(selectionChanged()));
-    connect(m_scene, SIGNAL(sceneZoom(bool)), this , SLOT(slotZoom(bool)));
-    connect(zoom_slider, SIGNAL(valueChanged(int)), this , SLOT(slotUpdateZoom(int)));
-
 
     QPen framepen(Qt::DotLine);
     framepen.setColor(Qt::red);
     m_frameWidth = render->renderWidth();
     m_frameHeight = render->renderHeight();
-
+    slotRectTool();
 
     m_frameBorder = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
     m_frameBorder->setPen(framepen);
-    m_frameBorder->setZValue(-1000);
+    m_frameBorder->setZValue(-1100);
+    m_frameBorder->setBrush(QColor(0, 0, 0, 0));
     m_frameBorder->setFlags(QGraphicsItem::ItemClipsToShape);
     graphicsView->scene()->addItem(m_frameBorder);
 
     initViewports();
-
-
 
     graphicsView->show();
     graphicsView->setRenderHint(QPainter::Antialiasing);
@@ -137,6 +154,32 @@ void TitleWidget::resizeEvent(QResizeEvent * event) {
     //slotAdjustZoom();
 }
 
+void TitleWidget::slotTextTool() {
+    rect_properties->setHidden(true);
+    text_properties->setHidden(false);
+    m_scene->setTool(TITLE_TEXT);
+    buttonRect->setChecked(false);
+    buttonCursor->setChecked(false);
+    buttonImage->setChecked(false);
+}
+
+void TitleWidget::slotRectTool() {
+    rect_properties->setHidden(false);
+    text_properties->setHidden(true);
+    m_scene->setTool(TITLE_RECTANGLE);
+    buttonText->setChecked(false);
+    buttonCursor->setChecked(false);
+    buttonImage->setChecked(false);
+}
+
+void TitleWidget::slotSelectTool() {
+    m_scene->setTool(TITLE_SELECT);
+    buttonCursor->setChecked(true);
+    buttonText->setChecked(false);
+    buttonRect->setChecked(false);
+    buttonImage->setChecked(false);
+}
+
 void TitleWidget::displayBackgroundFrame() {
     if (m_frameImage) delete m_frameImage;
     m_frameImage = NULL;
@@ -146,7 +189,7 @@ void TitleWidget::displayBackgroundFrame() {
     QTransform qtrans;
     qtrans.scale(2.0, 2.0);
     m_frameImage->setTransform(qtrans);
-    m_frameImage->setZValue(-1100);
+    m_frameImage->setZValue(-1200);
     m_frameImage->setFlags(QGraphicsItem::ItemClipsToShape);
     graphicsView->scene()->addItem(m_frameImage);
 }
@@ -202,46 +245,32 @@ void TitleWidget::slotZoomOneToOne() {
     graphicsView->centerOn(m_frameBorder);
 }
 
-void TitleWidget::slotNewRect() {
-    QGraphicsRectItem * ri = graphicsView->scene()->addRect(0, 0, 100, 100);
-    ri->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-    ri->setPos(m_frameWidth / 2, m_frameHeight / 2);
+void TitleWidget::slotNewRect(QGraphicsRectItem * rect) {
     QColor f = rectFColor->color();
     f.setAlpha(rectFAlpha->value());
     QPen penf(f);
     penf.setWidth(rectLineWidth->value());
-    ri->setPen(penf);
+    rect->setPen(penf);
     QColor b = rectBColor->color();
     b.setAlpha(rectBAlpha->value());
-    ri->setBrush(QBrush(b));
-    ri->setZValue(m_count++);
-    setCurrentItem(ri);
-    graphicsView->setFocus();
+    rect->setBrush(QBrush(b));
+    rect->setZValue(m_count++);
+    //setCurrentItem(rect);
+    //graphicsView->setFocus();
 }
 
-void TitleWidget::slotNewText() {
-    QGraphicsTextItem *tt = graphicsView->scene()->addText("Text here");
-    tt->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-    tt->setTextInteractionFlags(Qt::NoTextInteraction);
-    tt->setPos(m_frameWidth / 2, m_frameHeight / 2);
+void TitleWidget::slotNewText(QGraphicsTextItem *tt) {
     QFont font = font_family->currentFont();
     font.setPointSize(font_size->value());
     tt->setFont(font);
+    QColor color = fontColorButton->color();
+    color.setAlpha(textAlpha->value());
+    tt->setDefaultTextColor(color);
     tt->setZValue(m_count++);
     setCurrentItem(tt);
-    graphicsView->setFocus();
-    //connect(tt->document(), SIGNAL(contentsChanged()), this, SLOT(selectionChanged()));
-    kDebug() << tt->metaObject()->className();
-    /*QGraphicsRectItem * ri=graphicsView->scene()->addRect(-50,-50,100,100);
-    ri->setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable);*/
-
 }
 
 void TitleWidget::setCurrentItem(QGraphicsItem *item) {
-    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    if (l.size() >= 1) {
-        l[0]->setSelected(false);
-    }
     m_scene->setSelectedItem(item);
 }
 
@@ -253,21 +282,31 @@ void TitleWidget::zIndexChanged(int v) {
 }
 
 void TitleWidget::selectionChanged() {
+    if (m_scene->tool() != TITLE_SELECT) return;
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    toolBox->setItemEnabled(2, false);
-    toolBox->setItemEnabled(3, false);
+    //toolBox->setItemEnabled(2, false);
+    //toolBox->setItemEnabled(3, false);
     value_x->blockSignals(true);
     value_y->blockSignals(true);
     value_w->blockSignals(true);
     value_h->blockSignals(true);
+    kDebug() << "////////  SELECTION CHANGED; ITEMS: " << l.size();
     if (l.size() == 1) {
         if ((l[0])->type() == 8) {
+            rect_properties->setHidden(true);
+            text_properties->setHidden(false);
             QGraphicsTextItem* i = ((QGraphicsTextItem*)l[0]);
-            if (l[0]->hasFocus())
-                ktextedit->setHtml(i->toHtml());
-            toolBox->setCurrentIndex(2);
-            toolBox->setItemEnabled(2, true);
-
+            //if (l[0]->hasFocus())
+            //ktextedit->setHtml(i->toHtml());
+            toolBox->setCurrentIndex(0);
+            //toolBox->setItemEnabled(2, true);
+            font_size->blockSignals(true);
+            font_family->blockSignals(true);
+            buttonBold->blockSignals(true);
+            buttonItalic->blockSignals(true);
+            buttonUnder->blockSignals(true);
+            fontColorButton->blockSignals(true);
+            textAlpha->blockSignals(true);
 
             QFont font = i->font();
             font_family->setCurrentFont(font);
@@ -280,6 +319,14 @@ void TitleWidget::selectionChanged() {
             fontColorButton->setColor(color);
             textAlpha->setValue(color.alpha());
 
+            font_size->blockSignals(false);
+            font_family->blockSignals(false);
+            buttonBold->blockSignals(false);
+            buttonItalic->blockSignals(false);
+            buttonUnder->blockSignals(false);
+            fontColorButton->blockSignals(false);
+            textAlpha->blockSignals(false);
+
             value_x->setValue((int) i->pos().x());
             value_y->setValue((int) i->pos().y());
             value_w->setValue((int) i->boundingRect().width());
@@ -287,34 +334,35 @@ void TitleWidget::selectionChanged() {
             frame_properties->setEnabled(true);
             value_w->setEnabled(false);
             value_h->setEnabled(false);
-        } else
-            if ((l[0])->type() == 3) {
-                settingUp = true;
-                QGraphicsRectItem *rec = ((QGraphicsRectItem*)l[0]);
-                toolBox->setCurrentIndex(3);
-                toolBox->setItemEnabled(3, true);
-                rectFAlpha->setValue(rec->pen().color().alpha());
-                rectBAlpha->setValue(rec->brush().color().alpha());
-                kDebug() << rec->brush().color().alpha();
-                QColor fcol = rec->pen().color();
-                QColor bcol = rec->brush().color();
-                //fcol.setAlpha(255);
-                //bcol.setAlpha(255);
-                rectFColor->setColor(fcol);
-                rectBColor->setColor(bcol);
-                settingUp = false;
-                rectLineWidth->setValue(rec->pen().width());
-                value_x->setValue((int) rec->pos().x());
-                value_y->setValue((int) rec->pos().y());
-                value_w->setValue((int) rec->rect().width());
-                value_h->setValue((int) rec->rect().height());
-                frame_properties->setEnabled(true);
-                value_w->setEnabled(true);
-                value_h->setEnabled(true);
-            } else {
-                //toolBox->setCurrentIndex(0);
-                frame_properties->setEnabled(false);
-            }
+        } else if ((l[0])->type() == 3) {
+            rect_properties->setHidden(false);
+            text_properties->setHidden(true);
+            settingUp = true;
+            QGraphicsRectItem *rec = ((QGraphicsRectItem*)l[0]);
+            toolBox->setCurrentIndex(0);
+            //toolBox->setItemEnabled(3, true);
+            rectFAlpha->setValue(rec->pen().color().alpha());
+            rectBAlpha->setValue(rec->brush().color().alpha());
+            kDebug() << rec->brush().color().alpha();
+            QColor fcol = rec->pen().color();
+            QColor bcol = rec->brush().color();
+            //fcol.setAlpha(255);
+            //bcol.setAlpha(255);
+            rectFColor->setColor(fcol);
+            rectBColor->setColor(bcol);
+            settingUp = false;
+            rectLineWidth->setValue(rec->pen().width());
+            value_x->setValue((int) rec->pos().x());
+            value_y->setValue((int) rec->pos().y());
+            value_w->setValue((int) rec->rect().width());
+            value_h->setValue((int) rec->rect().height());
+            frame_properties->setEnabled(true);
+            value_w->setEnabled(true);
+            value_h->setEnabled(true);
+        } else {
+            //toolBox->setCurrentIndex(0);
+            frame_properties->setEnabled(false);
+        }
         zValue->setValue((int)l[0]->zValue());
         itemzoom->setValue((int)transformations[l[0]].scalex*100);
         itemrotate->setValue((int)transformations[l[0]].rotate);
@@ -322,7 +370,7 @@ void TitleWidget::selectionChanged() {
         value_y->blockSignals(false);
         value_w->blockSignals(false);
         value_h->blockSignals(false);
-    }
+    } else frame_properties->setEnabled(false);
 }
 
 void TitleWidget::slotAdjustSelectedItem() {
@@ -350,8 +398,8 @@ void TitleWidget::slotChangeBackground() {
 void TitleWidget::textChanged() {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1 && (l[0])->type() == 8 && !l[0]->hasFocus()) {
-        kDebug() << ktextedit->document()->toHtml();
-        ((QGraphicsTextItem*)l[0])->setHtml(ktextedit->toHtml());
+        //kDebug() << ktextedit->document()->toHtml();
+        //((QGraphicsTextItem*)l[0])->setHtml(ktextedit->toHtml());
     }
 }
 
@@ -467,12 +515,41 @@ void TitleWidget::setupViewports() {
 
 void TitleWidget::loadTitle() {
     KUrl url = KFileDialog::getOpenUrl(KUrl(), "*.kdenlivetitle", this, tr("Save Title"));
-    m_titledocument.loadDocument(url, startViewport, endViewport);
+    if (!url.isEmpty()) {
+        QList<QGraphicsItem *> items = m_scene->items();
+        for (int i = 0; i < items.size(); i++) {
+            if (items.at(i)->zValue() > -1000) delete items.at(i);
+        }
+        m_count = m_titledocument.loadDocument(url, startViewport, endViewport) + 1;
+        slotSelectTool();
+    }
 }
 
 void TitleWidget::saveTitle() {
     KUrl url = KFileDialog::getSaveUrl(KUrl(), "*.kdenlivetitle", this, tr("Save Title"));
     m_titledocument.saveDocument(url, startViewport, endViewport);
+}
+
+QPixmap TitleWidget::renderedPixmap() {
+    QPixmap pix(m_frameWidth, m_frameHeight);
+    pix.fill(Qt::transparent);
+    QPainter painter(&pix);
+
+    m_scene->clearSelection();
+    QPen framepen = m_frameBorder->pen();
+    m_frameBorder->setPen(Qt::NoPen);
+    QPen startpen = startViewport->pen();
+    QPen endpen = endViewport->pen();
+    startViewport->setPen(Qt::NoPen);
+    endViewport->setPen(Qt::NoPen);
+    if (m_frameImage) delete m_frameImage;
+    m_frameImage = NULL;
+    m_scene->render(&painter, QRectF(), QRectF(0, 0, m_frameWidth, m_frameHeight));
+    m_frameBorder->setPen(framepen);
+    startViewport->setPen(startpen);
+    endViewport->setPen(endpen);
+    displayBackgroundFrame();
+    return pix;
 }
 
 #include "moc_titlewidget.cpp"

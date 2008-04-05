@@ -371,6 +371,9 @@ void KdenliveDoc::slotAddColorClipFile(const QString name, const QString color, 
 void KdenliveDoc::slotCreateTextClip(QString group, int groupId) {
     TitleWidget *dia_ui = new TitleWidget(m_render, 0);
     if (dia_ui->exec() == QDialog::Accepted) {
+        QPixmap p = dia_ui->renderedPixmap();
+        p.save("/tmp/kdenlivetitle.png");
+        slotAddClipFile(KUrl("/tmp/kdenlivetitle.png"), QString(), -1);
     }
     delete dia_ui;
 }

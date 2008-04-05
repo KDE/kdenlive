@@ -28,6 +28,8 @@
 #include "renderer.h"
 #include "graphicsscenerectmove.h"
 
+
+
 class Transform {
 public:
     Transform() {
@@ -61,8 +63,8 @@ private:
     int m_count;
 
 public slots:
-    void slotNewText();
-    void slotNewRect();
+    void slotNewText(QGraphicsTextItem *tt);
+    void slotNewRect(QGraphicsRectItem *rect);
     void slotChangeBackground();
     void selectionChanged();
     void textChanged();
@@ -75,6 +77,7 @@ public slots:
     void itemRotate(int);
     void saveTitle();
     void loadTitle();
+    QPixmap renderedPixmap();
 
 private slots:
     void slotAdjustSelectedItem();
@@ -85,6 +88,9 @@ private slots:
     void slotUpdateText();
     void displayBackgroundFrame();
     void setCurrentItem(QGraphicsItem *item);
+    void slotTextTool();
+    void slotRectTool();
+    void slotSelectTool();
 };
 
 

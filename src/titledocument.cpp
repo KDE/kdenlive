@@ -23,6 +23,7 @@
 #include <QGraphicsTextItem>
 #include <KDebug>
 #include <QFile>
+#include <KTemporaryFile>
 #include <kio/netaccess.h>
 
 TitleDocument::TitleDocument() {
@@ -45,6 +46,8 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, 
     foreach(QGraphicsItem* item, scene->items()) {
         QDomElement e = doc.createElement("item");
         QDomElement content = doc.createElement("content");
+        QFont font;
+        QGraphicsTextItem *t;
 
         switch (item->type()) {
         case 3:
@@ -56,7 +59,16 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, 
             break;
         case 8:
             e.setAttribute("type", "QGraphicsTextItem");
-            content.appendChild(doc.createTextNode(((QGraphicsTextItem*)item)->toHtml()));
+            t = static_cast<QGraphicsTextItem *>(item);
+            //content.appendChild(doc.createTextNode(((QGraphicsTextItem*)item)->toHtml()));
+            content.appendChild(doc.createTextNode(t->toPlainText()));
+            font = t->font();
+            e.setAttribute("font", font.family());
+            e.setAttribute("font-bold", font.bold());
+            e.setAttribute("font-size", font.pointSize());
+            e.setAttribute("font-italic", font.italic());
+            e.setAttribute("font-underline", font.underline());
+            e.setAttribute("font-color", colorToString(t->defaultTextColor()));
             break;
         default:
             continue;
@@ -77,7 +89,7 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, 
 
         e.appendChild(pos);
         e.appendChild(content);
-        main.appendChild(e);
+        if (item->zValue() > -1100) main.appendChild(e);
     }
     if (startv && endv) {
         QDomElement endp = doc.createElement("endviewport");
@@ -96,23 +108,34 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, 
         main.appendChild(endp);
     }
     QDomElement backgr = doc.createElement("background");
-    backgr.setAttribute("color", colorToString(scene->backgroundBrush().color()));
+    QList<QGraphicsItem *> items = scene->items();
+    QColor color(0, 0, 0, 0);
+    for (int i = 0; i < items.size(); i++) {
+        if (items.at(i)->zValue() == -1100) {
+            color = ((QGraphicsRectItem *)items.at(i))->brush().color();
+            break;
+        }
+    }
+    backgr.setAttribute("color", colorToString(color));
     main.appendChild(backgr);
 
-    QString tmpfile = "/tmp/newtitle";
-    QFile xmlf(tmpfile);
+    KTemporaryFile tmpfile;
+    if (!tmpfile.open()) kWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
+    QFile xmlf(tmpfile.fileName());
     xmlf.open(QIODevice::WriteOnly);
     xmlf.write(doc.toString().toAscii());
     xmlf.close();
-    kDebug() << KIO::NetAccess::upload(tmpfile, url, 0);
+    kDebug() << KIO::NetAccess::upload(tmpfile.fileName(), url, 0);
+
 }
 
-bool TitleDocument::loadDocument(const KUrl& url , QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv) {
+int TitleDocument::loadDocument(const KUrl& url , QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv) {
     QString tmpfile;
     QDomDocument doc;
+    int maxZValue = 0;
     double aspect_ratio = 4.0 / 3.0;
     if (!scene)
-        return false;
+        return -1;
 
     if (KIO::NetAccess::download(url, tmpfile, 0)) {
         QFile file(tmpfile);
@@ -120,7 +143,7 @@ bool TitleDocument::loadDocument(const KUrl& url , QGraphicsPolygonItem* startv,
             doc.setContent(&file, false);
             file.close();
         } else
-            return false;
+            return -1;
         KIO::NetAccess::removeTempFile(tmpfile);
         QDomNodeList titles = doc.elementsByTagName("kdenlivetitle");
         if (titles.size()) {
@@ -129,30 +152,51 @@ bool TitleDocument::loadDocument(const KUrl& url , QGraphicsPolygonItem* startv,
             for (int i = 0;i < items.count();i++) {
                 QGraphicsItem *gitem = NULL;
                 kDebug() << items.item(i).attributes().namedItem("type").nodeValue();
-                if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsTextItem") {
-                    QGraphicsTextItem *txt = scene->addText("");
-                    txt->setHtml(items.item(i).namedItem("content").firstChild().nodeValue());
-                    gitem = txt;
-                } else
-                    if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsRectItem") {
-                        QString rect = items.item(i).namedItem("content").attributes().namedItem("rect").nodeValue();
-                        QString br_str = items.item(i).namedItem("content").attributes().namedItem("brushcolor").nodeValue();
-                        QString pen_str = items.item(i).namedItem("content").attributes().namedItem("pencolor").nodeValue();
-                        double penwidth = items.item(i).namedItem("content").attributes().namedItem("penwidth").nodeValue().toDouble();
-                        QGraphicsRectItem *rec = scene->addRect(stringToRect(rect), QPen(QBrush(stringToColor(pen_str)), penwidth), QBrush(stringToColor(br_str)));
-                        gitem = rec;
-                    }
+                int zValue = items.item(i).attributes().namedItem("z-index").nodeValue().toInt();
+                if (zValue > -1000)
+                    if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsTextItem") {
+                        QFont font(items.item(i).attributes().namedItem("font").nodeValue());
+                        font.setBold(items.item(i).attributes().namedItem("font-bold").nodeValue().toInt());
+                        font.setItalic(items.item(i).attributes().namedItem("font-italic").nodeValue().toInt());
+                        font.setUnderline(items.item(i).attributes().namedItem("font-underline").nodeValue().toInt());
+                        font.setPointSize(items.item(i).attributes().namedItem("font-size").nodeValue().toInt());
+                        QColor col(stringToColor(items.item(i).attributes().namedItem("font-color").nodeValue()));
+                        QGraphicsTextItem *txt = scene->addText(items.item(i).namedItem("content").firstChild().nodeValue(), font);
+                        txt->setDefaultTextColor(col);
+                        txt->setTextInteractionFlags(Qt::NoTextInteraction);
+                        gitem = txt;
+                    } else
+                        if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsRectItem") {
+                            QString rect = items.item(i).namedItem("content").attributes().namedItem("rect").nodeValue();
+                            QString br_str = items.item(i).namedItem("content").attributes().namedItem("brushcolor").nodeValue();
+                            QString pen_str = items.item(i).namedItem("content").attributes().namedItem("pencolor").nodeValue();
+                            double penwidth = items.item(i).namedItem("content").attributes().namedItem("penwidth").nodeValue().toDouble();
+                            QGraphicsRectItem *rec = scene->addRect(stringToRect(rect), QPen(QBrush(stringToColor(pen_str)), penwidth), QBrush(stringToColor(br_str)));
+                            gitem = rec;
+                        }
                 //pos and transform
                 if (gitem) {
                     QPointF p(items.item(i).namedItem("position").attributes().namedItem("x").nodeValue().toDouble(),
                               items.item(i).namedItem("position").attributes().namedItem("y").nodeValue().toDouble());
                     gitem->setPos(p);
                     gitem->setTransform(stringToTransform(items.item(i).namedItem("position").firstChild().firstChild().nodeValue()));
+                    int zValue = items.item(i).attributes().namedItem("z-index").nodeValue().toInt();
+                    if (zValue > maxZValue) maxZValue = zValue;
+                    gitem->setZValue(zValue);
+                    gitem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
                 }
                 if (items.item(i).nodeName() == "background") {
                     kDebug() << items.item(i).attributes().namedItem("color").nodeValue();
-                    scene->setBackgroundBrush(QBrush(stringToColor(items.item(i).attributes().namedItem("color").nodeValue())));
-                } else if (items.item(i).nodeName() == "startviewport" && startv) {
+                    QColor color = QColor(stringToColor(items.item(i).attributes().namedItem("color").nodeValue()));
+                    //color.setAlpha(items.item(i).attributes().namedItem("alpha").nodeValue().toInt());
+                    QList<QGraphicsItem *> items = scene->items();
+                    for (int i = 0; i < items.size(); i++) {
+                        if (items.at(i)->zValue() == -1100) {
+                            ((QGraphicsRectItem *)items.at(i))->setBrush(QBrush(color));
+                            break;
+                        }
+                    }
+                } /*else if (items.item(i).nodeName() == "startviewport" && startv) {
                     QPointF p(items.item(i).attributes().namedItem("x").nodeValue().toDouble(), items.item(i).attributes().namedItem("y").nodeValue().toDouble());
                     double width = items.item(i).attributes().namedItem("size").nodeValue().toDouble();
                     QRectF rect(-width, -width / aspect_ratio, width*2.0, width / aspect_ratio*2.0);
@@ -166,16 +210,11 @@ bool TitleDocument::loadDocument(const KUrl& url , QGraphicsPolygonItem* startv,
                     kDebug() << width << rect;
                     endv->setPolygon(rect);
                     endv->setPos(p);
-                }
-
+                }*/
             }
-
-
         }
-
-
     }
-    return true;
+    return maxZValue;
 }
 
 QString TitleDocument::colorToString(const QColor& c) {

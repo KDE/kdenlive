@@ -6,17 +6,39 @@
 #include <QCursor>
 #include <QList>
 #include <QKeyEvent>
+#include <QApplication>
 
 #include "graphicsscenerectmove.h"
 
-GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent): QGraphicsScene(parent), m_selectedItem(NULL), resizeMode(NoResize) {
+GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent): QGraphicsScene(parent), m_selectedItem(NULL), resizeMode(NoResize), m_tool(TITLE_RECTANGLE) {
     //grabMouse();
     zoom = 1.0;
+    setBackgroundBrush(QBrush(QColor(0, 0, 0, 0)));
 }
 
 void GraphicsSceneRectMove::setSelectedItem(QGraphicsItem *item) {
+    clearSelection();
     m_selectedItem = item;
     item->setSelected(true);
+    update();
+}
+
+TITLETOOL GraphicsSceneRectMove::tool() {
+    return m_tool;
+}
+
+void GraphicsSceneRectMove::setTool(TITLETOOL tool) {
+    m_tool = tool;
+    switch (m_tool) {
+    case TITLE_RECTANGLE:
+        setCursor(Qt::CrossCursor);
+        break;
+    case TITLE_TEXT:
+        setCursor(Qt::IBeamCursor);
+        break;
+    default:
+        setCursor(Qt::ArrowCursor);
+    }
 }
 
 //virtual
@@ -30,20 +52,28 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent) {
     switch (keyEvent->key()) {
     case Qt::Key_Left:
         m_selectedItem->setPos(m_selectedItem->pos() - QPointF(diff, 0));
+        emit itemMoved();
         break;
     case Qt::Key_Right:
         m_selectedItem->setPos(m_selectedItem->pos() + QPointF(diff, 0));
+        emit itemMoved();
         break;
     case Qt::Key_Up:
         m_selectedItem->setPos(m_selectedItem->pos() - QPointF(0, diff));
+        emit itemMoved();
         break;
     case Qt::Key_Down:
         m_selectedItem->setPos(m_selectedItem->pos() + QPointF(0, diff));
+        emit itemMoved();
+        break;
+    case Qt::Key_Delete:
+    case Qt::Key_Backspace:
+        delete m_selectedItem;
+        emit selectionChanged();
         break;
     default:
         QGraphicsScene::keyPressEvent(keyEvent);
     }
-    emit itemMoved();
 }
 
 //virtual
@@ -62,6 +92,12 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e) {
     QGraphicsScene::mouseDoubleClickEvent(e);
 }
 
+void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
+    if (m_tool == TITLE_RECTANGLE && m_selectedItem) setSelectedItem(m_selectedItem);
+    emit actionFinished();
+    QGraphicsScene::mouseReleaseEvent(e);
+}
+
 void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e) {
     QPointF p = e->scenePos();
     p += QPoint(-2, -2);
@@ -69,70 +105,81 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e) {
     QList <QGraphicsItem *> list = items(QRectF(p , QSizeF(4, 4)).toRect());
     QGraphicsItem *item = NULL;
     bool hasSelected = false;
-    foreach(QGraphicsItem* g, list) {
-        // check is there is a selected item in list
-        if (g->zValue() > -1000 && g->isSelected()) {
-            hasSelected = true;
-            item = g;
-            break;
-        }
-    }
-    if (item == NULL) {
-        if (m_selectedItem && m_selectedItem->type() == 8) {
-            // disable text editing
-            QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(m_selectedItem);
-            t->setTextInteractionFlags(Qt::NoTextInteraction);
-        }
-        m_selectedItem = NULL;
+
+    if (m_tool == TITLE_SELECT) {
         foreach(QGraphicsItem* g, list) {
-            if (g->zValue() > -1000) {
+            kDebug() << " - - CHECKING ITEM Z:" << g->zValue() << ", TYPE: " << g->type();
+            // check is there is a selected item in list
+            if (g->zValue() > -1000 && g->isSelected()) {
+                hasSelected = true;
                 item = g;
                 break;
             }
         }
-    }
-    if (item != NULL) {
-        m_clickPoint = e->scenePos();
-        m_selectedItem = item;
-        if (item->type() == 8) {
-            QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(item);
-            if (t->textInteractionFlags() == Qt::TextEditorInteraction) {
-                QGraphicsScene::mousePressEvent(e);
-                return;
+        if (item == NULL) {
+            if (m_selectedItem && m_selectedItem->type() == 8) {
+                // disable text editing
+                QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(m_selectedItem);
+                t->setTextInteractionFlags(Qt::NoTextInteraction);
             }
-            t->setTextInteractionFlags(Qt::NoTextInteraction);
-        } else if (item->type() == 3) {
-            QGraphicsRectItem *gi = (QGraphicsRectItem*)item;
-            QRectF r = gi->rect();
-            r.translate(gi->scenePos());
-            if ((r.toRect().topLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
-                resizeMode = TopLeft;
-            } else if ((r.toRect().bottomLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
-                resizeMode = BottomLeft;
-            } else if ((r.toRect().topRight() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
-                resizeMode = TopRight;
-            } else if ((r.toRect().bottomRight() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
-                resizeMode = BottomRight;
-            } else if (qAbs(r.toRect().left() - e->scenePos().toPoint().x()) < 3 / zoom) {
-                resizeMode = Left;
-            } else if (qAbs(r.toRect().right() - e->scenePos().toPoint().x()) < 3 / zoom) {
-                resizeMode = Right;
-            } else if (qAbs(r.toRect().top() - e->scenePos().toPoint().y()) < 3 / zoom) {
-                resizeMode = Up;
-            } else if (qAbs(r.toRect().bottom() - e->scenePos().toPoint().y()) < 3 / zoom) {
-                resizeMode = Down;
+            m_selectedItem = NULL;
+            foreach(QGraphicsItem* g, list) {
+                if (g->zValue() > -1000) {
+                    item = g;
+                    break;
+                }
             }
         }
+        if (item != NULL) {
+            m_clickPoint = e->scenePos();
+            m_selectedItem = item;
+            kDebug() << "/////////  ITEM TYPE: " << item->type();
+            if (item->type() == 8) {
+                QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(item);
+                if (t->textInteractionFlags() == Qt::TextEditorInteraction) {
+                    QGraphicsScene::mousePressEvent(e);
+                    return;
+                }
+                t->setTextInteractionFlags(Qt::NoTextInteraction);
+                setCursor(Qt::ClosedHandCursor);
+            } else if (item->type() == 3) {
+                QGraphicsRectItem *gi = (QGraphicsRectItem*)item;
+                QRectF r = gi->rect();
+                r.translate(gi->scenePos());
+                if ((r.toRect().topLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
+                    resizeMode = TopLeft;
+                } else if ((r.toRect().bottomLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
+                    resizeMode = BottomLeft;
+                } else if ((r.toRect().topRight() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
+                    resizeMode = TopRight;
+                } else if ((r.toRect().bottomRight() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
+                    resizeMode = BottomRight;
+                } else if (qAbs(r.toRect().left() - e->scenePos().toPoint().x()) < 3 / zoom) {
+                    resizeMode = Left;
+                } else if (qAbs(r.toRect().right() - e->scenePos().toPoint().x()) < 3 / zoom) {
+                    resizeMode = Right;
+                } else if (qAbs(r.toRect().top() - e->scenePos().toPoint().y()) < 3 / zoom) {
+                    resizeMode = Up;
+                } else if (qAbs(r.toRect().bottom() - e->scenePos().toPoint().y()) < 3 / zoom) {
+                    resizeMode = Down;
+                } else setCursor(Qt::ClosedHandCursor);
+            }
+        }
+        QGraphicsScene::mousePressEvent(e);
+    } else if (m_tool == TITLE_RECTANGLE) {
+        m_clickPoint = e->scenePos();
+        m_selectedItem = NULL;
+    } else if (m_tool == TITLE_TEXT) {
+        m_selectedItem = addText(QString());
+        emit newText((QGraphicsTextItem *) m_selectedItem);
+        m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+        ((QGraphicsTextItem *)m_selectedItem)->setTextInteractionFlags(Qt::TextEditorInteraction);
+        m_selectedItem->setPos(e->scenePos());
+        QGraphicsScene::mousePressEvent(e);
     }
-    QGraphicsScene::mousePressEvent(e);
 
     kDebug() << "//////  MOUSE CLICK, RESIZE MODE: " << resizeMode;
 
-}
-
-//virtual
-void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent* e) {
-    //m_selectedItem = NULL;
 }
 
 
@@ -198,14 +245,14 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
             m_selectedItem->moveBy(diff.x(), diff.y());
         }
         emit itemMoved();
-    } else {
+    } else if (m_tool == TITLE_SELECT) {
 
         QPointF p = e->scenePos();
         p += QPoint(-2, -2);
         resizeMode = NoResize;
         bool itemFound = false;
         foreach(QGraphicsItem* g, items(QRectF(p , QSizeF(4, 4)).toRect())) {
-            if (g->type() == 3) {
+            if (g->type() == 3 && g->zValue() > -1000) {
                 QGraphicsRectItem *gi = (QGraphicsRectItem*)g;
                 QRectF r = gi->rect();
                 r.translate(gi->scenePos());
@@ -226,12 +273,22 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
                     setCursor(Qt::SizeVerCursor);
                 } else if (qAbs(r.toRect().bottom() - e->scenePos().toPoint().y()) < 3 / zoom) {
                     setCursor(Qt::SizeVerCursor);
-                } else setCursor(QCursor(Qt::ArrowCursor));
+                } else setCursor(Qt::OpenHandCursor);
                 break;
             }
-            if (!itemFound) setCursor(QCursor(Qt::ArrowCursor));
+            if (!itemFound) setCursor(Qt::ArrowCursor);
         }
         QGraphicsScene::mouseMoveEvent(e);
+    } else if (m_tool == TITLE_RECTANGLE && e->buttons() & Qt::LeftButton) {
+        if (m_selectedItem == NULL && (m_clickPoint.toPoint() - e->scenePos().toPoint()).manhattanLength() >= QApplication::startDragDistance()) {
+            // create new rect item
+            m_selectedItem = addRect(0, 0, e->scenePos().x() - m_clickPoint.x(), e->scenePos().y() - m_clickPoint.y());
+            emit newRect((QGraphicsRectItem *) m_selectedItem);
+            m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+            m_selectedItem->setPos(m_clickPoint);
+            resizeMode = BottomRight;
+            QGraphicsScene::mouseMoveEvent(e);
+        }
     }
 }
 
