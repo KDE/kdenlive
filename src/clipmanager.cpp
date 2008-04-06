@@ -128,6 +128,27 @@ void ClipManager::slotAddColorClipFile(const QString name, const QString color, 
     m_doc->commandStack()->push(command);
 }
 
+
+
+void ClipManager::slotAddTextClipFile(const QString path, const QString group, const int groupId) {
+    kDebug() << "/////  CLIP MANAGER, ADDING CLIP: " << path;
+    QDomDocument doc;
+    QDomElement prod = doc.createElement("producer");
+    prod.setAttribute("resource", path + ".png");
+    prod.setAttribute("xml", path);
+    uint id = m_clipIdCounter++;
+    prod.setAttribute("id", QString::number(id));
+    if (!group.isEmpty()) {
+        prod.setAttribute("groupname", group);
+        prod.setAttribute("groupid", groupId);
+    }
+    prod.setAttribute("type", (int) TEXT);
+    prod.setAttribute("in", "0");
+    prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()));
+    AddClipCommand *command = new AddClipCommand(m_doc, prod, id, true);
+    m_doc->commandStack()->push(command);
+}
+
 int ClipManager::getFreeClipId() {
     return m_clipIdCounter++;
 }

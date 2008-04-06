@@ -31,7 +31,8 @@ class ProjectSettings : public QDialog {
 
 public:
     ProjectSettings(QWidget * parent = 0);
-    QString selectedProfile();
+    QString selectedProfile() const;
+    KUrl selectedFolder() const;
 
 private slots:
     void slotUpdateDisplay();

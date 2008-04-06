@@ -116,6 +116,7 @@ public slots:
     void slotAddClip(DocClipBase *clip);
     void slotDeleteClip(int clipId);
     void slotUpdateClip(int id);
+    void slotRefreshClipThumbnail(int clipId);
 
 
 private:

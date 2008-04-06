@@ -60,8 +60,12 @@ void ProjectSettings::slotUpdateButton(const QString &path) {
     else buttonOk->setEnabled(true);
 }
 
-QString ProjectSettings::selectedProfile() {
+QString ProjectSettings::selectedProfile() const {
     return ProfilesDialog::getPathFromDescription(m_view.profiles_list->currentText());
+}
+
+KUrl ProjectSettings::selectedFolder() const {
+    return m_view.project_folder->url();
 }
 
 #include "projectsettings.moc"

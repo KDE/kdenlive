@@ -23,6 +23,7 @@
 #include <QPixmap>
 #include <QIcon>
 #include <QDialog>
+#include <QtGui>
 
 #include <KDebug>
 #include <KAction>
@@ -46,8 +47,8 @@
 #include "docclipbase.h"
 #include "kdenlivedoc.h"
 #include "renderer.h"
+#include "kthumb.h"
 #include "projectlistview.h"
-#include <QtGui>
 
 ProjectList::ProjectList(QWidget *parent)
         : QWidget(parent), m_render(NULL), m_fps(-1), m_commandStack(NULL) {
@@ -465,6 +466,15 @@ QDomElement ProjectList::producersList() {
     return prods;
 }
 
+void ProjectList::slotRefreshClipThumbnail(int clipId) {
+    ProjectItem *item = getItemById(clipId);
+    if (item) {
+        int height = 40;
+        int width = (int)(height  * (double) m_render->renderWidth() / m_render->renderHeight());
+        QPixmap pix = KThumb::getImage(item->clipUrl(), item->referencedClip()->getProjectThumbFrame(), width, height);
+        item->setIcon(0, pix);
+    }
+}
 
 void ProjectList::slotReplyGetFileProperties(int clipId, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata) {
     ProjectItem *item = getItemById(clipId);
@@ -474,8 +484,6 @@ void ProjectList::slotReplyGetFileProperties(int clipId, const QMap < QString, Q
         emit receivedClipDuration(clipId, item->clipMaxDuration());
     }
 }
-
-
 
 void ProjectList::slotReplyGetImage(int clipId, int pos, const QPixmap &pix, int w, int h) {
     ProjectItem *item = getItemById(clipId);

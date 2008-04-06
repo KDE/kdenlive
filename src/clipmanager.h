@@ -49,6 +49,7 @@ Q_OBJECT public:
     DocClipBase *getClipAt(int pos);
     void deleteClip(uint clipId);
     void slotAddClipFile(const KUrl url, const QString group, const int groupId);
+    void slotAddTextClipFile(const QString path, const QString group, const int groupId);
     void slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const int groupId);
     DocClipBase *getClipById(int clipId);
     void slotDeleteClip(uint clipId);

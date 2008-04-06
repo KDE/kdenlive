@@ -87,9 +87,10 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double scale, double fps)
         QString colour = m_xml.attribute("colour");
         colour = colour.replace(0, 2, "#");
         setBrush(QColor(colour.left(7)));
-    } else if (m_clipType == IMAGE) {
+    } else if (m_clipType == IMAGE || m_clipType == TEXT) {
         m_maxDuration = GenTime(10000, m_fps);
         m_startPix = KThumb::getImage(KUrl(m_xml.attribute("resource")), (int)(50 * KdenliveSettings::project_display_ratio()), 50);
+        m_endPix = m_startPix;
     } else if (m_clipType == AUDIO) {
         connect(clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
     }

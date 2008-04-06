@@ -35,7 +35,7 @@
 #include "editfoldercommand.h"
 #include "titlewidget.h"
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, MltVideoProfile profile, QUndoGroup *undoGroup, QWidget *parent): QObject(parent), m_render(NULL), m_url(url), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new KUndoStack(undoGroup)), m_modified(false) {
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoProfile profile, QUndoGroup *undoGroup, QWidget *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new KUndoStack(undoGroup)), m_modified(false) {
     m_clipManager = new ClipManager(this);
     if (!url.isEmpty()) {
         QString tmpFile;
@@ -145,6 +145,11 @@ QDomElement KdenliveDoc::documentInfoXml() {
 
 ClipManager *KdenliveDoc::clipManager() {
     return m_clipManager;
+}
+
+KUrl KdenliveDoc::projectFolder() const {
+    if (m_projectFolder.isEmpty()) return KUrl(KStandardDirs::locateLocal("appdata", "/projects/"));
+    return m_projectFolder;
 }
 
 QString KdenliveDoc::getDocumentStandard() {
@@ -283,7 +288,7 @@ void KdenliveDoc::setModified(bool mod) {
     emit docModified(m_modified);
 }
 
-bool KdenliveDoc::isModified() {
+bool KdenliveDoc::isModified() const {
     return m_modified;
 }
 
@@ -337,6 +342,12 @@ void KdenliveDoc::slotAddClipFile(const KUrl url, const QString group, const int
     setModified(true);
 }
 
+void KdenliveDoc::slotAddTextClipFile(const QString path, const QString group, const int groupId) {
+    kDebug() << "/////////  DOCUM, ADD TXT CLP: " << path;
+    m_clipManager->slotAddTextClipFile(path, group, groupId);
+    setModified(true);
+}
+
 void KdenliveDoc::slotAddFolder(const QString folderName) {
     AddFolderCommand *command = new AddFolderCommand(this, folderName, m_clipManager->getFreeClipId(), true);
     commandStack()->push(command);
@@ -369,11 +380,33 @@ void KdenliveDoc::slotAddColorClipFile(const QString name, const QString color, 
 }
 
 void KdenliveDoc::slotCreateTextClip(QString group, int groupId) {
-    TitleWidget *dia_ui = new TitleWidget(m_render, 0);
+    QString titlesFolder = projectFolder().path() + "/titles/";
+    KStandardDirs::makeDir(titlesFolder);
+    TitleWidget *dia_ui = new TitleWidget(KUrl(), titlesFolder, m_render, 0);
     if (dia_ui->exec() == QDialog::Accepted) {
-        QPixmap p = dia_ui->renderedPixmap();
-        p.save("/tmp/kdenlivetitle.png");
-        slotAddClipFile(KUrl("/tmp/kdenlivetitle.png"), QString(), -1);
+        QString titleName = "title";
+        int counter = 0;
+        QString path = titlesFolder + titleName + QString::number(counter).rightJustified(3, '0', false);
+        while (QFile::exists(path + ".kdenlivetitle")) {
+            counter++;
+            path = titlesFolder + titleName + QString::number(counter).rightJustified(3, '0', false);
+        }
+        QPixmap pix = dia_ui->renderedPixmap();
+        pix.save(path + ".png");
+        dia_ui->saveTitle(path + ".kdenlivetitle");
+        slotAddTextClipFile(path, QString(), -1);
+    }
+    delete dia_ui;
+}
+
+void KdenliveDoc::editTextClip(QString path, int id) {
+    TitleWidget *dia_ui = new TitleWidget(KUrl(path + ".kdenlivetitle"), path, m_render, 0);
+    if (dia_ui->exec() == QDialog::Accepted) {
+        QPixmap pix = dia_ui->renderedPixmap();
+        pix.save(path + ".png");
+        dia_ui->saveTitle(path + ".kdenlivetitle");
+        //slotAddClipFile(KUrl("/tmp/kdenlivetitle.png"), QString(), -1);
+        emit refreshClipThumbnail(id);
     }
     delete dia_ui;
 }

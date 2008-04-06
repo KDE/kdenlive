@@ -504,16 +504,18 @@ void MainWindow::readOptions() {
 
 void MainWindow::newFile() {
     QString profileName;
+    KUrl projectFolder;
     if (m_timelineArea->count() == 0) profileName = KdenliveSettings::default_profile();
     else {
         ProjectSettings *w = new ProjectSettings;
-        w->exec();
+        if (w->exec() != QDialog::Accepted) return;
         profileName = w->selectedProfile();
+        projectFolder = w->selectedFolder();
         delete w;
     }
     MltVideoProfile prof = ProfilesDialog::getVideoProfile(profileName);
     if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
-    KdenliveDoc *doc = new KdenliveDoc(KUrl(), prof, m_commandStack);
+    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, prof, m_commandStack);
     TrackView *trackView = new TrackView(doc, this);
     m_timelineArea->addTab(trackView, KIcon("kdenlive"), i18n("Untitled") + " / " + prof.description);
     if (m_timelineArea->count() == 1)
@@ -578,7 +580,7 @@ void MainWindow::openFile(const KUrl &url) { //new
     //TODO: get video profile from url before opening it
     MltVideoProfile prof = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
     if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
-    KdenliveDoc *doc = new KdenliveDoc(url, prof, m_commandStack);
+    KdenliveDoc *doc = new KdenliveDoc(url, KUrl(), prof, m_commandStack);
     TrackView *trackView = new TrackView(doc, this);
     m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description()));
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());
@@ -589,6 +591,8 @@ void MainWindow::openFile(const KUrl &url) { //new
 
 void MainWindow::parseProfiles() {
     //kdDebug()<<" + + YOUR MLT INSTALL WAS FOUND IN: "<< MLT_PREFIX <<endl;
+
+    //KdenliveSettings::setDefaulttmpfolder();
     if (KdenliveSettings::mltpath().isEmpty()) {
         KdenliveSettings::setMltpath(QString(MLT_PREFIX) + QString("/share/mlt/profiles/"));
     }
@@ -732,6 +736,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(m_activeDocument, SIGNAL(addProjectFolder(const QString, int, bool, bool)), m_projectList, SLOT(slotAddFolder(const QString, int, bool, bool)));
             disconnect(m_activeDocument, SIGNAL(signalDeleteProjectClip(int)), m_projectList, SLOT(slotDeleteClip(int)));
             disconnect(m_activeDocument, SIGNAL(updateClipDisplay(int)), m_projectList, SLOT(slotUpdateClip(int)));
+            disconnect(m_activeDocument, SIGNAL(refreshClipThumbnail(int)), m_projectList, SLOT(slotRefreshClipThumbnail(int)));
             disconnect(m_activeDocument, SIGNAL(deletTimelineClip(int)), m_activeTimeline, SLOT(slotDeleteClip(int)));
             disconnect(m_activeDocument, SIGNAL(thumbsProgress(KUrl, int)), this, SLOT(slotGotProgressInfo(KUrl, int)));
             disconnect(m_activeTimeline, SIGNAL(clipItemSelected(ClipItem*)), effectStack, SLOT(slotClipItemSelected(ClipItem*)));
@@ -762,9 +767,13 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(doc, SIGNAL(addProjectFolder(const QString, int, bool, bool)), m_projectList, SLOT(slotAddFolder(const QString, int, bool, bool)));
     connect(doc, SIGNAL(signalDeleteProjectClip(int)), m_projectList, SLOT(slotDeleteClip(int)));
     connect(doc, SIGNAL(updateClipDisplay(int)), m_projectList, SLOT(slotUpdateClip(int)));
+    connect(doc, SIGNAL(refreshClipThumbnail(int)), m_projectList, SLOT(slotRefreshClipThumbnail(int)));
+
     connect(doc, SIGNAL(deletTimelineClip(int)), trackView, SLOT(slotDeleteClip(int)));
     connect(doc, SIGNAL(thumbsProgress(KUrl, int)), this, SLOT(slotGotProgressInfo(KUrl, int)));
     connect(doc, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
+
+
 
     connect(trackView, SIGNAL(clipItemSelected(ClipItem*)), effectStack, SLOT(slotClipItemSelected(ClipItem*)));
     connect(trackView, SIGNAL(clipItemSelected(ClipItem*)), this, SLOT(slotActivateEffectStackView()));
@@ -904,6 +913,10 @@ void MainWindow::slotGotProgressInfo(KUrl url, int progress) {
 }
 
 void MainWindow::slotShowClipProperties(DocClipBase *clip) {
+    if (clip->clipType() == TEXT) {
+        m_activeDocument->editTextClip(clip->getProperty("xml"), clip->getId());
+        return;
+    }
     ClipProperties dia(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
     if (dia.exec() == QDialog::Accepted) {
         m_projectList->slotUpdateClipProperties(dia.clipId(), dia.properties());

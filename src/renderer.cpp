@@ -373,7 +373,7 @@ bool Render::isValid(KUrl url) {
 
 void Render::getFileProperties(const QDomElement &xml, int clipId) {
     int height = 40;
-    int width = (int)(height * 16 / 9.0);   //KdenliveSettings::displayratio();
+    int width = (int)(height  * m_mltProfile->dar());
     QDomDocument doc;
     QDomElement westley = doc.createElement("westley");
     doc.appendChild(westley);

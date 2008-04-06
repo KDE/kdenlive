@@ -42,7 +42,7 @@ class DocClipBase;
 class KdenliveDoc: public QObject {
 Q_OBJECT public:
 
-    KdenliveDoc(const KUrl &url, MltVideoProfile profile, QUndoGroup *undoGroup, QWidget *parent = 0);
+    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoProfile profile, QUndoGroup *undoGroup, QWidget *parent = 0);
     ~KdenliveDoc();
     QDomNodeList producersList();
     double fps() const;
@@ -63,6 +63,8 @@ Q_OBJECT public:
     void addFolder(const QString foldername, int clipId, bool edit);
     void deleteFolder(const QString foldername, int clipId);
     void slotAddClipFile(const KUrl url, const QString group, const int groupId = -1);
+    void slotAddTextClipFile(const QString path, const QString group, const int groupId = -1);
+    void editTextClip(QString path, int id);
     void slotAddFolder(const QString folderName);
     void slotDeleteFolder(const QString folderName, const int id);
     void slotEditFolder(const QString folderName, const QString oldfolderName, int clipId);
@@ -86,7 +88,9 @@ Q_OBJECT public:
     void setModified(bool mod);
     int getFreeClipId();
     /** does the document need saving */
-    bool isModified();
+    bool isModified() const;
+    /** Returns project folder, used to store project files (titles, effects,...) */
+    KUrl projectFolder() const;
 
 private:
     KUrl m_url;
@@ -104,6 +108,8 @@ private:
     QString m_scenelist;
     /** tells whether current doc has been changed since last save event */
     bool m_modified;
+    /** Project folder, used to store project files (titles, effects,...) */
+    KUrl m_projectFolder;
 
 public slots:
     void slotCreateTextClip(QString group, int groupId);
@@ -117,6 +123,7 @@ signals:
     void thumbsProgress(KUrl, int);
     /** emited when the document state has been modified (= needs saving or not) */
     void docModified(bool);
+    void refreshClipThumbnail(int);
 };
 
 #endif

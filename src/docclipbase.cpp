@@ -144,6 +144,10 @@ const QString DocClipBase::description() const {
     return m_properties.value("description");
 }
 
+const QString DocClipBase::getProperty(const QString prop) const {
+    return m_properties.value(prop);
+}
+
 void DocClipBase::setDuration(GenTime dur) {
     m_duration = dur;
 }

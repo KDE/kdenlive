@@ -35,7 +35,7 @@
 
 int settingUp = false;
 
-TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent), m_render(render), m_count(0) {
+TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget *parent): QDialog(parent), m_render(render), m_count(0), m_projectPath(projectPath) {
     setupUi(this);
     //frame_properties->
     setFont(KGlobalSettings::toolBarFont());
@@ -155,7 +155,6 @@ TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent), m_re
 
     QPen framepen(Qt::DotLine);
     framepen.setColor(Qt::red);
-    slotRectTool();
 
     m_frameBorder = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
     m_frameBorder->setPen(framepen);
@@ -174,6 +173,10 @@ TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent), m_re
     kDebug() << "// TITLE WIDGWT: " << graphicsView->viewport()->width() << "x" << graphicsView->viewport()->height();
     toolBox->setItemEnabled(2, false);
     toolBox->setItemEnabled(3, false);
+    if (!url.isEmpty()) {
+        m_count = m_titledocument.loadDocument(url, startViewport, endViewport) + 1;
+        slotSelectTool();
+    } else slotRectTool();
 }
 
 
@@ -549,7 +552,7 @@ void TitleWidget::setupViewports() {
 }
 
 void TitleWidget::loadTitle() {
-    KUrl url = KFileDialog::getOpenUrl(KUrl(), "*.kdenlivetitle", this, tr("Save Title"));
+    KUrl url = KFileDialog::getOpenUrl(KUrl(m_projectPath), "*.kdenlivetitle", this, tr("Save Title"));
     if (!url.isEmpty()) {
         QList<QGraphicsItem *> items = m_scene->items();
         for (int i = 0; i < items.size(); i++) {
@@ -560,9 +563,9 @@ void TitleWidget::loadTitle() {
     }
 }
 
-void TitleWidget::saveTitle() {
-    KUrl url = KFileDialog::getSaveUrl(KUrl(), "*.kdenlivetitle", this, tr("Save Title"));
-    m_titledocument.saveDocument(url, startViewport, endViewport);
+void TitleWidget::saveTitle(KUrl url) {
+    if (url.isEmpty()) KUrl url = KFileDialog::getSaveUrl(KUrl(m_projectPath), "*.kdenlivetitle", this, tr("Save Title"));
+    if (!url.isEmpty()) m_titledocument.saveDocument(url, startViewport, endViewport);
 }
 
 QPixmap TitleWidget::renderedPixmap() {

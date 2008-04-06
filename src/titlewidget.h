@@ -44,7 +44,7 @@ public:
 class TitleWidget : public QDialog , public Ui::TitleWidget_UI {
     Q_OBJECT
 public:
-    TitleWidget(Render *render, QWidget *parent = 0);
+    TitleWidget(KUrl url, QString projectPath, Render *render, QWidget *parent = 0);
 
 protected:
     virtual void resizeEvent(QResizeEvent * event);
@@ -67,6 +67,8 @@ private:
     QAction *m_buttonCursor;
     QAction *m_buttonSave;
     QAction *m_buttonLoad;
+    /** project path for storing title clips */
+    QString m_projectPath;
 
 public slots:
     void slotNewText(QGraphicsTextItem *tt);
@@ -81,7 +83,7 @@ public slots:
     void svgSelected(const KUrl&);
     void itemScaled(int);
     void itemRotate(int);
-    void saveTitle();
+    void saveTitle(KUrl url = KUrl());
     void loadTitle();
     QPixmap renderedPixmap();
 

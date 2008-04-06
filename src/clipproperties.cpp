@@ -55,12 +55,12 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
 
         QPixmap pix = m_clip->thumbProducer()->getImage(url, 240, 180);
         m_view.clip_thumb->setPixmap(pix);
-        if (t == IMAGE || t == VIDEO) m_view.tabWidget->removeTab(1);
+        if (t == IMAGE || t == VIDEO || t == COLOR) m_view.tabWidget->removeTab(1);
     } else {
         m_view.tabWidget->removeTab(0);
         m_view.clip_thumb->setHidden(true);
     }
-    if (t != IMAGE && t != COLOR) m_view.clip_duration->setReadOnly(true);
+    if (t != IMAGE && t != COLOR && t != TEXT) m_view.clip_duration->setReadOnly(true);
 
     KFileItem f(KFileItem::Unknown, KFileItem::Unknown, url, true);
     m_view.clip_filesize->setText(KIO::convertSize(f.size()));
