@@ -61,6 +61,12 @@ private:
     int m_frameHeight;
     Render *m_render;
     int m_count;
+    QAction *m_buttonRect;
+    QAction *m_buttonText;
+    QAction *m_buttonImage;
+    QAction *m_buttonCursor;
+    QAction *m_buttonSave;
+    QAction *m_buttonLoad;
 
 public slots:
     void slotNewText(QGraphicsTextItem *tt);

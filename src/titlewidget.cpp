@@ -21,8 +21,10 @@
 #include <QDomDocument>
 #include <QGraphicsItem>
 #include <QGraphicsSvgItem>
-#include <QTextDocumentFragment>
 #include <QTimer>
+
+#include <QToolBar>
+#include <QMenu>
 
 #include <KDebug>
 #include <KGlobalSettings>
@@ -45,8 +47,7 @@ TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent), m_fr
     connect(horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(slotChangeBackground())) ;
     //connect(ktextedit, SIGNAL(textChanged()), this , SLOT(textChanged()));
     //connect (fontBold, SIGNAL ( clicked()), this, SLOT( setBold()) ) ;
-    connect(buttonLoad, SIGNAL(clicked()), this, SLOT(loadTitle())) ;
-    connect(buttonSave, SIGNAL(clicked()), this, SLOT(saveTitle())) ;
+
 
     //ktextedit->setHidden(true);
     connect(fontColorButton, SIGNAL(clicked()), this, SLOT(slotUpdateText())) ;
@@ -90,18 +91,36 @@ TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent), m_fr
     buttonItalic->setIcon(KIcon("format-text-italic"));
     buttonUnder->setIcon(KIcon("format-text-underline"));
 
-    buttonRect->setIcon(KIcon("insert-rect"));
-    buttonText->setIcon(KIcon("insert-text"));
-    buttonImage->setIcon(KIcon("insert-image"));
-    buttonCursor->setIcon(KIcon("select-rectangular"));
-    buttonSave->setIcon(KIcon("document-save"));
-    buttonLoad->setIcon(KIcon("document-open"));
+    QHBoxLayout *layout = new QHBoxLayout;
+    frame_toolbar->setLayout(layout);
 
-    connect(buttonRect,  SIGNAL(clicked()), this, SLOT(slotRectTool()));
-    connect(buttonText,  SIGNAL(clicked()), this, SLOT(slotTextTool()));
-    connect(buttonImage,  SIGNAL(clicked()), this, SLOT(slotImageTool()));
-    connect(buttonCursor,  SIGNAL(clicked()), this, SLOT(slotSelectTool()));
+    QToolBar *m_toolbar = new QToolBar("titleToolBar", this);
 
+    m_buttonRect = m_toolbar->addAction(KIcon("insert-rect"), i18n("Add Rectangle"));
+    m_buttonRect->setCheckable(true);
+    connect(m_buttonRect, SIGNAL(triggered()), this, SLOT(slotRectTool()));
+
+    m_buttonText = m_toolbar->addAction(KIcon("insert-text"), i18n("Add Text"));
+    m_buttonText->setCheckable(true);
+    connect(m_buttonText, SIGNAL(triggered()), this, SLOT(slotTextTool()));
+
+    m_buttonImage = m_toolbar->addAction(KIcon("insert-image"), i18n("Add Image"));
+    m_buttonImage->setCheckable(true);
+    connect(m_buttonImage, SIGNAL(triggered()), this, SLOT(slotImageTool()));
+
+    m_buttonCursor = m_toolbar->addAction(KIcon("select-rectangular"), i18n("Selection Tool"));
+    m_buttonCursor->setCheckable(true);
+    connect(m_buttonCursor, SIGNAL(triggered()), this, SLOT(slotSelectTool()));
+
+    m_buttonLoad = m_toolbar->addAction(KIcon("document-open"), i18n("Open Document"));
+    m_buttonLoad->setCheckable(false);
+    connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));
+
+    m_buttonSave = m_toolbar->addAction(KIcon("document-save-as"), i18n("Save As"));
+    m_buttonSave->setCheckable(false);
+    connect(m_buttonSave, SIGNAL(triggered()), this, SLOT(saveTitle()));
+
+    layout->addWidget(m_toolbar);
     text_properties->setHidden(true);
 
     m_scene = new GraphicsSceneRectMove(this);
@@ -158,26 +177,26 @@ void TitleWidget::slotTextTool() {
     rect_properties->setHidden(true);
     text_properties->setHidden(false);
     m_scene->setTool(TITLE_TEXT);
-    buttonRect->setChecked(false);
-    buttonCursor->setChecked(false);
-    buttonImage->setChecked(false);
+    m_buttonRect->setChecked(false);
+    m_buttonCursor->setChecked(false);
+    m_buttonImage->setChecked(false);
 }
 
 void TitleWidget::slotRectTool() {
-    rect_properties->setHidden(false);
     text_properties->setHidden(true);
+    rect_properties->setHidden(false);
     m_scene->setTool(TITLE_RECTANGLE);
-    buttonText->setChecked(false);
-    buttonCursor->setChecked(false);
-    buttonImage->setChecked(false);
+    m_buttonText->setChecked(false);
+    m_buttonCursor->setChecked(false);
+    m_buttonImage->setChecked(false);
 }
 
 void TitleWidget::slotSelectTool() {
     m_scene->setTool(TITLE_SELECT);
-    buttonCursor->setChecked(true);
-    buttonText->setChecked(false);
-    buttonRect->setChecked(false);
-    buttonImage->setChecked(false);
+    m_buttonCursor->setChecked(true);
+    m_buttonText->setChecked(false);
+    m_buttonRect->setChecked(false);
+    m_buttonImage->setChecked(false);
 }
 
 void TitleWidget::displayBackgroundFrame() {

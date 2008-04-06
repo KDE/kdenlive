@@ -69,6 +69,7 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent) {
     case Qt::Key_Delete:
     case Qt::Key_Backspace:
         delete m_selectedItem;
+        m_selectedItem = NULL;
         emit selectionChanged();
         break;
     default:
