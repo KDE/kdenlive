@@ -72,7 +72,6 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     connect(endViewportSize, SIGNAL(valueChanged(int)), this, SLOT(setupViewports()));
 
     connect(zValue, SIGNAL(valueChanged(int)), this, SLOT(zIndexChanged(int)));
-    connect(svgfilename, SIGNAL(urlSelected(const KUrl&)), this, SLOT(svgSelected(const KUrl &)));
     connect(itemzoom, SIGNAL(valueChanged(int)), this, SLOT(itemScaled(int)));
     connect(itemrotate, SIGNAL(valueChanged(int)), this, SLOT(itemRotate(int)));
 
@@ -107,7 +106,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     connect(m_buttonText, SIGNAL(triggered()), this, SLOT(slotTextTool()));
 
     m_buttonImage = m_toolbar->addAction(KIcon("insert-image"), i18n("Add Image"));
-    m_buttonImage->setCheckable(true);
+    m_buttonImage->setCheckable(false);
     connect(m_buttonImage, SIGNAL(triggered()), this, SLOT(slotImageTool()));
 
     m_buttonCursor = m_toolbar->addAction(KIcon("select-rectangular"), i18n("Selection Tool"));
@@ -172,7 +171,6 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     //graphicsView->resize(400, 300);
     kDebug() << "// TITLE WIDGWT: " << graphicsView->viewport()->width() << "x" << graphicsView->viewport()->height();
     toolBox->setItemEnabled(2, false);
-    toolBox->setItemEnabled(3, false);
     if (!url.isEmpty()) {
         m_count = m_titledocument.loadDocument(url, startViewport, endViewport) + 1;
         slotSelectTool();
@@ -191,7 +189,6 @@ void TitleWidget::slotTextTool() {
     m_scene->setTool(TITLE_TEXT);
     m_buttonRect->setChecked(false);
     m_buttonCursor->setChecked(false);
-    m_buttonImage->setChecked(false);
 }
 
 void TitleWidget::slotRectTool() {
@@ -200,7 +197,6 @@ void TitleWidget::slotRectTool() {
     m_scene->setTool(TITLE_RECTANGLE);
     m_buttonText->setChecked(false);
     m_buttonCursor->setChecked(false);
-    m_buttonImage->setChecked(false);
 }
 
 void TitleWidget::slotSelectTool() {
@@ -208,7 +204,31 @@ void TitleWidget::slotSelectTool() {
     m_buttonCursor->setChecked(true);
     m_buttonText->setChecked(false);
     m_buttonRect->setChecked(false);
-    m_buttonImage->setChecked(false);
+}
+
+void TitleWidget::slotImageTool() {
+    KUrl url = KFileDialog::getOpenUrl(KUrl(), "*.svg *.png *.jpg *.jpeg *.gif *.raw", this, i18n("Load Image"));
+    if (!url.isEmpty()) {
+        if (url.path().endsWith(".svg")) {
+            QGraphicsSvgItem *svg = new QGraphicsSvgItem(url.toLocalFile());
+            svg->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+            svg->setZValue(m_count++);
+            svg->setData(Qt::UserRole, url.path());
+            graphicsView->scene()->addItem(svg);
+        } else {
+            QPixmap pix(url.path());
+            QGraphicsPixmapItem *image = new QGraphicsPixmapItem(pix);
+            image->setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
+            image->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+            image->setData(Qt::UserRole, url.path());
+            image->setZValue(m_count++);
+            graphicsView->scene()->addItem(image);
+        }
+    }
+    m_scene->setTool(TITLE_SELECT);
+    m_buttonRect->setChecked(false);
+    m_buttonCursor->setChecked(true);
+    m_buttonText->setChecked(false);
 }
 
 void TitleWidget::displayBackgroundFrame() {
@@ -402,8 +422,8 @@ void TitleWidget::selectionChanged() {
             frame_properties->setEnabled(false);
         }
         zValue->setValue((int)l[0]->zValue());
-        itemzoom->setValue((int)transformations[l[0]].scalex*100);
-        itemrotate->setValue((int)transformations[l[0]].rotate);
+        itemzoom->setValue((int)(transformations[l[0]].scalex * 100));
+        itemrotate->setValue((int)(transformations[l[0]].rotate));
         value_x->blockSignals(false);
         value_y->blockSignals(false);
         value_w->blockSignals(false);
@@ -498,12 +518,6 @@ void TitleWidget::fontBold() {
     }
 }
 
-void TitleWidget::svgSelected(const KUrl& u) {
-    QGraphicsSvgItem *svg = new QGraphicsSvgItem(u.toLocalFile());
-    svg->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-    graphicsView->scene()->addItem(svg);
-}
-
 void TitleWidget::itemScaled(int val) {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
@@ -552,7 +566,7 @@ void TitleWidget::setupViewports() {
 }
 
 void TitleWidget::loadTitle() {
-    KUrl url = KFileDialog::getOpenUrl(KUrl(m_projectPath), "*.kdenlivetitle", this, tr("Save Title"));
+    KUrl url = KFileDialog::getOpenUrl(KUrl(m_projectPath), "*.kdenlivetitle", this, i18n("Load Title"));
     if (!url.isEmpty()) {
         QList<QGraphicsItem *> items = m_scene->items();
         for (int i = 0; i < items.size(); i++) {
@@ -564,7 +578,7 @@ void TitleWidget::loadTitle() {
 }
 
 void TitleWidget::saveTitle(KUrl url) {
-    if (url.isEmpty()) KUrl url = KFileDialog::getSaveUrl(KUrl(m_projectPath), "*.kdenlivetitle", this, tr("Save Title"));
+    if (url.isEmpty()) url = KFileDialog::getSaveUrl(KUrl(m_projectPath), "*.kdenlivetitle", this, i18n("Save Title"));
     if (!url.isEmpty()) m_titledocument.saveDocument(url, startViewport, endViewport);
 }
 

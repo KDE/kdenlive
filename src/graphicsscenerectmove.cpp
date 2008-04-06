@@ -2,6 +2,7 @@
 #include <KDebug>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsRectItem>
+#include <QGraphicsSvgItem>
 #include <QGraphicsView>
 #include <QCursor>
 #include <QList>
@@ -143,10 +144,9 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e) {
                 }
                 t->setTextInteractionFlags(Qt::NoTextInteraction);
                 setCursor(Qt::ClosedHandCursor);
-            } else if (item->type() == 3) {
-                QGraphicsRectItem *gi = (QGraphicsRectItem*)item;
-                QRectF r = gi->rect();
-                r.translate(gi->scenePos());
+            } else if (item->type() == 3 || item->type() == 13 || item->type() == 7) {
+                QRectF r = item->boundingRect();
+                r.translate(item->scenePos());
                 if ((r.toRect().topLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
                     resizeMode = TopLeft;
                 } else if ((r.toRect().bottomLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
@@ -188,48 +188,57 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e) {
 void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
 
     if (m_selectedItem && e->buttons() & Qt::LeftButton) {
-        if (m_selectedItem->type() == 3) {
-            QGraphicsRectItem *gi = (QGraphicsRectItem*)m_selectedItem;
-            QRectF newrect = gi->rect();
+        if (m_selectedItem->type() == 3 || m_selectedItem->type() == 13 || m_selectedItem->type() == 7) {
+            QRectF newrect = m_selectedItem->boundingRect();
             QPointF newpoint = e->scenePos();
             //newpoint -= m_selectedItem->scenePos();
             switch (resizeMode) {
             case TopLeft:
-                newrect.setBottomRight(newrect.bottomRight() + gi->pos() - newpoint);
-                gi->setPos(newpoint);
+                newrect.setBottomRight(newrect.bottomRight() + m_selectedItem->pos() - newpoint);
+                m_selectedItem->setPos(newpoint);
                 break;
             case BottomLeft:
-                newrect.setBottomRight(QPointF(newrect.bottomRight().x() + gi->pos().x() - newpoint.x(), newpoint.y() - gi->pos().y()));
-                gi->setPos(QPointF(newpoint.x(), gi->pos().y()));
+                newrect.setBottomRight(QPointF(newrect.bottomRight().x() + m_selectedItem->pos().x() - newpoint.x(), newpoint.y() - m_selectedItem->pos().y()));
+                m_selectedItem->setPos(QPointF(newpoint.x(), m_selectedItem->pos().y()));
                 break;
             case TopRight:
-                newrect.setBottomRight(QPointF(newpoint.x() - gi->pos().x(), newrect.bottom() + gi->pos().y() - newpoint.y()));
-                gi->setPos(QPointF(gi->pos().x(), newpoint.y()));
+                newrect.setBottomRight(QPointF(newpoint.x() - m_selectedItem->pos().x(), newrect.bottom() + m_selectedItem->pos().y() - newpoint.y()));
+                m_selectedItem->setPos(QPointF(m_selectedItem->pos().x(), newpoint.y()));
                 break;
             case BottomRight:
-                newrect.setBottomRight(newpoint - gi->pos());
+                newrect.setBottomRight(newpoint - m_selectedItem->pos());
                 break;
             case Left:
-                newrect.setRight(gi->pos().x() + newrect.width() - newpoint.x());
-                gi->setPos(QPointF(newpoint.x(), gi->pos().y()));
+                newrect.setRight(m_selectedItem->pos().x() + newrect.width() - newpoint.x());
+                m_selectedItem->setPos(QPointF(newpoint.x(), m_selectedItem->pos().y()));
                 break;
             case Right:
-                newrect.setRight(newpoint.x() - gi->pos().x());
+                newrect.setRight(newpoint.x() - m_selectedItem->pos().x());
                 break;
             case Up:
-                newrect.setBottom(gi->pos().y() + newrect.bottom() - newpoint.y());
-                gi->setPos(QPointF(gi->pos().x(), newpoint.y()));
+                newrect.setBottom(m_selectedItem->pos().y() + newrect.bottom() - newpoint.y());
+                m_selectedItem->setPos(QPointF(m_selectedItem->pos().x(), newpoint.y()));
                 break;
             case Down:
-                newrect.setBottom(newpoint.y() - gi->pos().y());
+                newrect.setBottom(newpoint.y() - m_selectedItem->pos().y());
                 break;
             default:
                 QPointF diff = e->scenePos() - m_clickPoint;
                 m_clickPoint = e->scenePos();
-                gi->moveBy(diff.x(), diff.y());
+                m_selectedItem->moveBy(diff.x(), diff.y());
                 break;
             }
-            gi->setRect(newrect);
+            if (m_selectedItem->type() == 3) {
+                QGraphicsRectItem *gi = (QGraphicsRectItem*)m_selectedItem;
+                gi->setRect(newrect);
+            }
+            /*else {
+            qreal s;
+            if (resizeMode == Left || resizeMode == Right ) s = m_selectedItem->boundingRect().width() / newrect.width();
+            else s = m_selectedItem->boundingRect().height() / newrect.height();
+            m_selectedItem->scale( 1 / s, 1 / s );
+            kDebug()<<"/// SCALING SVG, RESIZE MODE: "<<resizeMode<<", RECT:"<<m_selectedItem->boundingRect();
+            }*/
             //gi->setPos(m_selectedItem->scenePos());
             /*if (resizeMode == NoResize) {
                 QGraphicsScene::mouseMoveEvent(e);
@@ -253,10 +262,13 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
         resizeMode = NoResize;
         bool itemFound = false;
         foreach(QGraphicsItem* g, items(QRectF(p , QSizeF(4, 4)).toRect())) {
-            if (g->type() == 3 && g->zValue() > -1000) {
-                QGraphicsRectItem *gi = (QGraphicsRectItem*)g;
-                QRectF r = gi->rect();
-                r.translate(gi->scenePos());
+            if ((g->type() == 13 || g->type() == 7) && g->zValue() > -1000) {
+                // image or svg item
+                setCursor(Qt::OpenHandCursor);
+                break;
+            } else if (g->type() == 3 && g->zValue() > -1000) {
+                QRectF r = g->boundingRect();
+                r.translate(g->scenePos());
                 itemFound = true;
                 if ((r.toRect().topLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
                     setCursor(QCursor(Qt::SizeFDiagCursor));

@@ -80,7 +80,6 @@ public slots:
     void fontBold();
     void setupViewports();
     void zIndexChanged(int);
-    void svgSelected(const KUrl&);
     void itemScaled(int);
     void itemRotate(int);
     void saveTitle(KUrl url = KUrl());
@@ -99,6 +98,7 @@ private slots:
     void slotTextTool();
     void slotRectTool();
     void slotSelectTool();
+    void slotImageTool();
 };
 
 

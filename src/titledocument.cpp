@@ -21,6 +21,7 @@
 #include <QGraphicsItem>
 #include <QGraphicsRectItem>
 #include <QGraphicsTextItem>
+#include <QGraphicsSvgItem>
 #include <KDebug>
 #include <QFile>
 #include <KTemporaryFile>
@@ -50,6 +51,14 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, 
         QGraphicsTextItem *t;
 
         switch (item->type()) {
+        case 7:
+            e.setAttribute("type", "QGraphicsPixmapItem");
+            content.setAttribute("url", item->data(Qt::UserRole).toString());
+            break;
+        case 13:
+            e.setAttribute("type", "QGraphicsSvgItem");
+            content.setAttribute("url", item->data(Qt::UserRole).toString());
+            break;
         case 3:
             e.setAttribute("type", "QGraphicsRectItem");
             content.setAttribute("rect", rectFToString(((QGraphicsRectItem*)item)->rect()));
@@ -63,12 +72,12 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, 
             //content.appendChild(doc.createTextNode(((QGraphicsTextItem*)item)->toHtml()));
             content.appendChild(doc.createTextNode(t->toPlainText()));
             font = t->font();
-            e.setAttribute("font", font.family());
-            e.setAttribute("font-bold", font.bold());
-            e.setAttribute("font-size", font.pointSize());
-            e.setAttribute("font-italic", font.italic());
-            e.setAttribute("font-underline", font.underline());
-            e.setAttribute("font-color", colorToString(t->defaultTextColor()));
+            content.setAttribute("font", font.family());
+            content.setAttribute("font-bold", font.bold());
+            content.setAttribute("font-size", font.pointSize());
+            content.setAttribute("font-italic", font.italic());
+            content.setAttribute("font-underline", font.underline());
+            content.setAttribute("font-color", colorToString(t->defaultTextColor()));
             break;
         default:
             continue;
@@ -155,12 +164,12 @@ int TitleDocument::loadDocument(const KUrl& url , QGraphicsPolygonItem* startv, 
                 int zValue = items.item(i).attributes().namedItem("z-index").nodeValue().toInt();
                 if (zValue > -1000)
                     if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsTextItem") {
-                        QFont font(items.item(i).attributes().namedItem("font").nodeValue());
-                        font.setBold(items.item(i).attributes().namedItem("font-bold").nodeValue().toInt());
-                        font.setItalic(items.item(i).attributes().namedItem("font-italic").nodeValue().toInt());
-                        font.setUnderline(items.item(i).attributes().namedItem("font-underline").nodeValue().toInt());
-                        font.setPointSize(items.item(i).attributes().namedItem("font-size").nodeValue().toInt());
-                        QColor col(stringToColor(items.item(i).attributes().namedItem("font-color").nodeValue()));
+                        QFont font(items.item(i).namedItem("content").attributes().namedItem("font").nodeValue());
+                        font.setBold(items.item(i).namedItem("content").attributes().namedItem("font-bold").nodeValue().toInt());
+                        font.setItalic(items.item(i).namedItem("content").attributes().namedItem("font-italic").nodeValue().toInt());
+                        font.setUnderline(items.item(i).namedItem("content").attributes().namedItem("font-underline").nodeValue().toInt());
+                        font.setPointSize(items.item(i).namedItem("content").attributes().namedItem("font-size").nodeValue().toInt());
+                        QColor col(stringToColor(items.item(i).namedItem("content").attributes().namedItem("font-color").nodeValue()));
                         QGraphicsTextItem *txt = scene->addText(items.item(i).namedItem("content").firstChild().nodeValue(), font);
                         txt->setDefaultTextColor(col);
                         txt->setTextInteractionFlags(Qt::NoTextInteraction);
@@ -173,7 +182,21 @@ int TitleDocument::loadDocument(const KUrl& url , QGraphicsPolygonItem* startv, 
                             double penwidth = items.item(i).namedItem("content").attributes().namedItem("penwidth").nodeValue().toDouble();
                             QGraphicsRectItem *rec = scene->addRect(stringToRect(rect), QPen(QBrush(stringToColor(pen_str)), penwidth), QBrush(stringToColor(br_str)));
                             gitem = rec;
-                        }
+                        } else
+                            if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsPixmapItem") {
+                                QString url = items.item(i).namedItem("content").attributes().namedItem("url").nodeValue();
+                                QPixmap pix(url);
+                                QGraphicsPixmapItem *rec = scene->addPixmap(pix);
+                                rec->setData(Qt::UserRole, url);
+                                gitem = rec;
+                            } else
+                                if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsSvgItem") {
+                                    QString url = items.item(i).namedItem("content").attributes().namedItem("url").nodeValue();
+                                    QGraphicsSvgItem *rec = new QGraphicsSvgItem(url);
+                                    scene->addItem(rec);
+                                    rec->setData(Qt::UserRole, url);
+                                    gitem = rec;
+                                }
                 //pos and transform
                 if (gitem) {
                     QPointF p(items.item(i).namedItem("position").attributes().namedItem("x").nodeValue().toDouble(),

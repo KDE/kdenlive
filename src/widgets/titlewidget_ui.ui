@@ -233,7 +233,7 @@
      <widget class="QGraphicsView" name="graphicsView" />
      <widget class="QToolBox" name="toolBox" >
       <property name="currentIndex" >
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="BasicOperations" >
        <property name="geometry" >
@@ -241,7 +241,7 @@
          <x>0</x>
          <y>0</y>
          <width>309</width>
-         <height>108</height>
+         <height>140</height>
         </rect>
        </property>
        <attribute name="label" >
@@ -340,8 +340,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>381</width>
-         <height>157</height>
+         <width>309</width>
+         <height>140</height>
         </rect>
        </property>
        <attribute name="label" >
@@ -383,67 +383,12 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="SVG" >
-       <property name="geometry" >
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>381</width>
-         <height>157</height>
-        </rect>
-       </property>
-       <attribute name="label" >
-        <string>SVG</string>
-       </attribute>
-       <layout class="QGridLayout" >
-        <item row="0" column="0" >
-         <layout class="QVBoxLayout" >
-          <item>
-           <widget class="QLabel" name="label_13" >
-            <property name="sizePolicy" >
-             <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text" >
-             <string>Filename:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="KUrlRequester" name="svgfilename" >
-            <property name="filter" >
-             <string>*.svg *.svgz</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer>
-            <property name="orientation" >
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType" >
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
-            <property name="sizeHint" stdset="0" >
-             <size>
-              <width>20</width>
-              <height>151</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
       <widget class="QWidget" name="Seite" >
        <property name="geometry" >
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>362</width>
+         <width>273</width>
          <height>224</height>
         </rect>
        </property>
@@ -827,11 +772,6 @@
    <class>KIntSpinBox</class>
    <extends>QSpinBox</extends>
    <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KUrlRequester</class>
-   <extends>QFrame</extends>
-   <header>kurlrequester.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
