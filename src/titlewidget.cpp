@@ -35,12 +35,14 @@
 
 int settingUp = false;
 
-TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent), m_frameImage(NULL), m_render(render), m_count(0) {
+TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent), m_render(render), m_count(0) {
     setupUi(this);
     //frame_properties->
     setFont(KGlobalSettings::toolBarFont());
     //toolBox->setFont(KGlobalSettings::toolBarFont());
     frame_properties->setEnabled(false);
+    m_frameWidth = render->renderWidth();
+    m_frameHeight = render->renderHeight();
     //connect(newTextButton, SIGNAL(clicked()), this, SLOT(slotNewText()));
     //connect(newRectButton, SIGNAL(clicked()), this, SLOT(slotNewRect()));
     connect(kcolorbutton, SIGNAL(clicked()), this, SLOT(slotChangeBackground())) ;
@@ -123,12 +125,24 @@ TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent), m_fr
     layout->addWidget(m_toolbar);
     text_properties->setHidden(true);
 
+    // initialize graphic scene
     m_scene = new GraphicsSceneRectMove(this);
+    graphicsView->setScene(m_scene);
+    m_titledocument.setScene(m_scene);
 
     // a gradient background
     QRadialGradient *gradient = new QRadialGradient(0, 0, 10);
     gradient->setSpread(QGradient::ReflectSpread);
     //scene->setBackgroundBrush(*gradient);
+
+    m_frameImage = new QGraphicsPixmapItem();
+    QTransform qtrans;
+    qtrans.scale(2.0, 2.0);
+    m_frameImage->setTransform(qtrans);
+    m_frameImage->setZValue(-1200);
+    m_frameImage->setFlags(QGraphicsItem::ItemClipsToShape);
+    displayBackgroundFrame();
+    graphicsView->scene()->addItem(m_frameImage);
 
     connect(m_scene, SIGNAL(selectionChanged()), this , SLOT(selectionChanged()));
     connect(m_scene, SIGNAL(itemMoved()), this , SLOT(selectionChanged()));
@@ -139,13 +153,8 @@ TitleWidget::TitleWidget(Render *render, QWidget *parent): QDialog(parent), m_fr
     connect(m_scene, SIGNAL(newText(QGraphicsTextItem *)), this , SLOT(slotNewText(QGraphicsTextItem *)));
     connect(zoom_slider, SIGNAL(valueChanged(int)), this , SLOT(slotUpdateZoom(int)));
 
-    graphicsView->setScene(m_scene);
-    m_titledocument.setScene(m_scene);
-
     QPen framepen(Qt::DotLine);
     framepen.setColor(Qt::red);
-    m_frameWidth = render->renderWidth();
-    m_frameHeight = render->renderHeight();
     slotRectTool();
 
     m_frameBorder = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
@@ -200,17 +209,24 @@ void TitleWidget::slotSelectTool() {
 }
 
 void TitleWidget::displayBackgroundFrame() {
-    if (m_frameImage) delete m_frameImage;
-    m_frameImage = NULL;
-    if (!displayBg->isChecked()) return;
-    QPixmap bg = m_render->extractFrame((int) m_render->seekPosition().frames(m_render->fps()), m_frameWidth / 2, m_frameHeight / 2);
-    m_frameImage = new QGraphicsPixmapItem(bg);
-    QTransform qtrans;
-    qtrans.scale(2.0, 2.0);
-    m_frameImage->setTransform(qtrans);
-    m_frameImage->setZValue(-1200);
-    m_frameImage->setFlags(QGraphicsItem::ItemClipsToShape);
-    graphicsView->scene()->addItem(m_frameImage);
+    if (!displayBg->isChecked()) {
+        QPixmap bg(m_frameWidth / 2, m_frameHeight / 2);
+        QPixmap pattern(20, 20);
+        pattern.fill();
+        QPainter p;
+        p.begin(&pattern);
+        p.fillRect(QRect(0, 0, 10, 10), QColor(210, 210, 210));
+        p.fillRect(QRect(10, 10, 20, 20), QColor(210, 210, 210));
+        p.end();
+        QBrush br(pattern);
+
+        p.begin(&bg);
+        p.fillRect(bg.rect(), br);
+        p.end();
+        m_frameImage->setPixmap(bg);
+    } else {
+        m_frameImage->setPixmap(m_render->extractFrame((int) m_render->seekPosition().frames(m_render->fps()), m_frameWidth / 2, m_frameHeight / 2));
+    }
 }
 
 void TitleWidget::initViewports() {
@@ -557,17 +573,15 @@ QPixmap TitleWidget::renderedPixmap() {
     m_scene->clearSelection();
     QPen framepen = m_frameBorder->pen();
     m_frameBorder->setPen(Qt::NoPen);
-    QPen startpen = startViewport->pen();
-    QPen endpen = endViewport->pen();
-    startViewport->setPen(Qt::NoPen);
-    endViewport->setPen(Qt::NoPen);
-    if (m_frameImage) delete m_frameImage;
-    m_frameImage = NULL;
+    startViewport->setVisible(false);
+    endViewport->setVisible(false);
+    m_frameImage->setVisible(false);
+
     m_scene->render(&painter, QRectF(), QRectF(0, 0, m_frameWidth, m_frameHeight));
     m_frameBorder->setPen(framepen);
-    startViewport->setPen(startpen);
-    endViewport->setPen(endpen);
-    displayBackgroundFrame();
+    startViewport->setVisible(true);
+    endViewport->setVisible(true);
+    m_frameImage->setVisible(true);
     return pix;
 }
 
