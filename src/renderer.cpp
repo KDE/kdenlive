@@ -1342,7 +1342,7 @@ void Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
         mlt_service multiprod = mlt_multitrack_service(multitrack);
 
         Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
-        trackPlaylist.consolidate_blanks(0);
+        trackPlaylist.consolidate_blanks(1);
         mlt_events_block(MLT_PRODUCER_PROPERTIES(trackProducer.get_producer()), NULL);
 
         if (endTrack == startTrack) {
@@ -1362,7 +1362,7 @@ void Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             destTrackPlaylist.consolidate_blanks(0);
         }
 
-        mltCheckLength(false);
+        mltCheckLength();
         mlt_events_unblock(MLT_PRODUCER_PROPERTIES(trackProducer.get_producer()), NULL);
         m_isBlocked = false;
         m_mltConsumer->set("refresh", 1);

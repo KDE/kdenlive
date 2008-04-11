@@ -10,6 +10,7 @@ AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect): QGr
     m_startPos = info.startPos;
     m_cropDuration = info.endPos - info.startPos;
 }
+
 void AbstractClipItem::moveTo(int x, double scale, int offset, int newTrack) {
     double origX = rect().x();
     double origY = rect().y();
@@ -25,10 +26,10 @@ void AbstractClipItem::moveTo(int x, double scale, int offset, int newTrack) {
                 QRectF other = ((QGraphicsRectItem *)item)->rect();
                 if (x < m_startPos.frames(m_fps)) {
                     kDebug() << "COLLISION, MOVING TO------";
-                    m_startPos = ((AbstractClipItem *)item)->endPos() + GenTime(1, m_fps);
+                    m_startPos = ((AbstractClipItem *)item)->endPos();
                     origX = m_startPos.frames(m_fps) * scale;
-                } else {
-                    kDebug() << "COLLISION, MOVING TO+++";
+                } else if (x > m_startPos.frames(m_fps)) {
+                    //kDebug() << "COLLISION, MOVING TO+++: "<<x<<", CLIP CURR POS: "<<m_startPos.frames(m_fps)<<", COLLIDING START: "<<((AbstractClipItem *)item)->startPos().frames(m_fps);
                     m_startPos = ((AbstractClipItem *)item)->startPos() - m_cropDuration;
                     origX = m_startPos.frames(m_fps) * scale;
                 }
@@ -112,7 +113,7 @@ void AbstractClipItem::resizeEnd(int posx, double scale) {
         if (item->type() == type()) {
             GenTime diff = ((AbstractClipItem *)item)->startPos() - GenTime(1, m_fps) - startPos();
             m_cropDuration = diff;
-            setRect(m_startPos.frames(m_fps) * scale, rect().y(), m_cropDuration.frames(m_fps) * scale, rect().height());
+            setRect(m_startPos.frames(m_fps) * scale, rect().y(), (m_cropDuration.frames(m_fps)) * scale, rect().height());
             break;
         }
     }

@@ -587,7 +587,7 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut) {
         newPos.track = info.track;
         ClipItem *dup = new ClipItem(item->baseClip(), newPos, m_scale, m_document->fps());
         dup->setCropStart(dup->cropStart() + (cutTime - info.startPos));
-        item->resizeEnd(cutPos - 1, m_scale);
+        item->resizeEnd(cutPos, m_scale);
         scene()->addItem(dup);
         m_document->renderer()->mltCutClip(m_tracksList.count() - info.track, cutTime);
     } else {
