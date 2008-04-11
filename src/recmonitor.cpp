@@ -270,10 +270,7 @@ void RecMonitor::slotRecord() {
         QString path = KdenliveSettings::capturefolder() + "/capture0000.mpg";
         int i = 1;
         while (QFile::exists(path)) {
-            QString num = QString::number(i);
-            if (i < 10) num.prepend("000");
-            else if (i < 100) num.prepend("00");
-            else num.prepend("0");
+            QString num = QString::number(i).rightJustified(4, '0', false);
             path = KdenliveSettings::capturefolder() + "/capture" + num + ".mpg";
             i++;
         }
