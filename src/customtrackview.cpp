@@ -651,7 +651,7 @@ void CustomTrackView::dragMoveEvent(QDragMoveEvent * event) {
     event->setDropAction(Qt::IgnoreAction);
     kDebug() << "+++++++++++++   DRAG MOVE, : " << mapToScene(event->pos()).x() << ", SCAL: " << m_scale;
     if (m_dropItem) {
-        int track = (int)(event->pos().y() / m_tracksHeight);  //) * (m_scale * 50) + m_scale;
+        int track = (int)(mapToScene(event->pos()).y() / m_tracksHeight);  //) * (m_scale * 50) + m_scale;
         m_dropItem->moveTo((int)(mapToScene(event->pos()).x() / m_scale), m_scale, (int)((track - m_dropItem->track()) * m_tracksHeight), track);
         event->setDropAction(Qt::MoveAction);
         if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
