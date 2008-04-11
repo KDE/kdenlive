@@ -181,39 +181,6 @@ MainWindow::MainWindow(QWidget *parent)
     tabifyDockWidget(clipMonitorDock, projectMonitorDock);
     setCentralWidget(m_timelineArea);
 
-    m_timecodeFormat = new KComboBox(this);
-    m_timecodeFormat->addItem(i18n("hh:mm:ss::ff"));
-    m_timecodeFormat->addItem(i18n("Frames"));
-
-    statusProgressBar = new QProgressBar(this);
-    statusProgressBar->setMinimum(0);
-    statusProgressBar->setMaximum(100);
-    statusProgressBar->setMaximumWidth(150);
-    statusProgressBar->setVisible(false);
-    statusLabel = new QLabel(this);
-
-    QWidget *w = new QWidget;
-    timeline_buttons_ui.setupUi(w);
-    timeline_buttons_ui.buttonVideo->setDown(KdenliveSettings::videothumbnails());
-    timeline_buttons_ui.buttonAudio->setDown(KdenliveSettings::audiothumbnails());
-    connect(timeline_buttons_ui.buttonVideo, SIGNAL(clicked()), this, SLOT(slotSwitchVideoThumbs()));
-    connect(timeline_buttons_ui.buttonAudio, SIGNAL(clicked()), this, SLOT(slotSwitchAudioThumbs()));
-    connect(timeline_buttons_ui.buttonFitZoom, SIGNAL(clicked()), this, SLOT(slotFitZoom()));
-
-    statusBar()->insertPermanentWidget(0, statusProgressBar, 1);
-    statusBar()->insertPermanentWidget(1, statusLabel, 1);
-    statusBar()->insertPermanentWidget(ID_TIMELINE_BUTTONS, w);
-    statusBar()->insertPermanentFixedItem("00:00:00:00", ID_TIMELINE_POS);
-    statusBar()->insertPermanentWidget(ID_TIMELINE_FORMAT, m_timecodeFormat);
-    statusBar()->setMaximumHeight(statusBar()->font().pointSize() * 4);
-
-    timeline_buttons_ui.buttonVideo->setIcon(KIcon("video-mpeg"));
-    timeline_buttons_ui.buttonVideo->setToolTip(i18n("Show video thumbnails"));
-    timeline_buttons_ui.buttonAudio->setIcon(KIcon("audio-mpeg"));
-    timeline_buttons_ui.buttonAudio->setToolTip(i18n("Show audio thumbnails"));
-    timeline_buttons_ui.buttonFitZoom->setIcon(KIcon("zoom-fit-best"));
-    timeline_buttons_ui.buttonFitZoom->setToolTip(i18n("Fit zoom to project"));
-
     setupGUI(Default, NULL /*"kdenliveui.rc"*/);
     kDebug() << factory() << " " << factory()->container("video_effects_menu", this);
 
@@ -373,6 +340,74 @@ void MainWindow::slotConnectMonitors() {
 }
 
 void MainWindow::setupActions() {
+
+    m_timecodeFormat = new KComboBox(this);
+    m_timecodeFormat->addItem(i18n("hh:mm:ss::ff"));
+    m_timecodeFormat->addItem(i18n("Frames"));
+
+    statusProgressBar = new QProgressBar(this);
+    statusProgressBar->setMinimum(0);
+    statusProgressBar->setMaximum(100);
+    statusProgressBar->setMaximumWidth(150);
+    statusProgressBar->setVisible(false);
+    statusLabel = new QLabel(this);
+
+    QWidget *w = new QWidget;
+
+    QHBoxLayout *layout = new QHBoxLayout;
+    w->setLayout(layout);
+    layout->setContentsMargins(5, 0, 5, 0);
+    QToolBar *toolbar = new QToolBar("statusToolBar", this);
+    w->setMinimumHeight(34);
+
+    m_toolGroup = new QActionGroup(this);
+
+    m_buttonSelectTool = toolbar->addAction(KIcon("kdenlive-select-tool"), i18n("Selection tool"));
+    m_buttonSelectTool->setCheckable(true);
+    m_buttonSelectTool->setChecked(true);
+
+    m_buttonRazorTool = toolbar->addAction(KIcon("edit-cut"), i18n("Razor tool"));
+    m_buttonRazorTool->setCheckable(true);
+    m_buttonRazorTool->setChecked(false);
+
+    m_toolGroup->addAction(m_buttonSelectTool);
+    m_toolGroup->addAction(m_buttonRazorTool);
+    m_toolGroup->setExclusive(true);
+    connect(m_toolGroup, SIGNAL(triggered(QAction *)), this, SLOT(slotChangeTool(QAction *)));
+
+    toolbar->addSeparator();
+    m_buttonFitZoom = toolbar->addAction(KIcon("zoom-fit-best"), i18n("Fit zoom to project"));
+    m_buttonFitZoom->setCheckable(false);
+    connect(m_buttonFitZoom, SIGNAL(triggered()), this, SLOT(slotFitZoom()));
+
+    m_zoomSlider = new QSlider(Qt::Horizontal, this);
+    m_zoomSlider->setMaximum(13);
+    m_zoomSlider->setMaximumHeight(34);
+    m_zoomSlider->setMaximumWidth(150);
+    m_zoomSlider->setMinimumWidth(100);
+    toolbar->addWidget(m_zoomSlider);
+
+    m_buttonVideoThumbs = toolbar->addAction(KIcon("video-mpeg"), i18n("Show videoo thumbnails"));
+    m_buttonVideoThumbs->setCheckable(true);
+    m_buttonVideoThumbs->setChecked(KdenliveSettings::audiothumbnails());
+    connect(m_buttonVideoThumbs, SIGNAL(triggered()), this, SLOT(slotSwitchVideoThumbs()));
+
+    m_buttonAudioThumbs = toolbar->addAction(KIcon("audio-mpeg"), i18n("Show audio thumbnails"));
+    m_buttonAudioThumbs->setCheckable(true);
+    m_buttonAudioThumbs->setChecked(KdenliveSettings::videothumbnails());
+    connect(m_buttonAudioThumbs, SIGNAL(triggered()), this, SLOT(slotSwitchAudioThumbs()));
+    layout->addWidget(toolbar);
+
+    statusBar()->insertPermanentWidget(0, statusProgressBar, 1);
+    statusBar()->insertPermanentWidget(1, statusLabel, 1);
+    statusBar()->insertPermanentWidget(ID_TIMELINE_BUTTONS, w);
+    statusBar()->insertPermanentFixedItem("00:00:00:00", ID_TIMELINE_POS);
+    statusBar()->insertPermanentWidget(ID_TIMELINE_FORMAT, m_timecodeFormat);
+    statusBar()->setMaximumHeight(statusBar()->font().pointSize() * 4);
+
+    actionCollection()->addAction("select_tool", m_buttonSelectTool);
+    actionCollection()->addAction("razor_tool", m_buttonRazorTool);
+
     KAction* clearAction = new KAction(this);
     clearAction->setText(i18n("Clear"));
     clearAction->setIcon(KIcon("document-new"));
@@ -434,12 +469,15 @@ void MainWindow::setupActions() {
     actionCollection()->addAction("monitor_seek_forward-one-frame", monitorSeekForwardOneFrame);
     connect(monitorSeekForwardOneFrame, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotForwardOneFrame()));
 
-    KAction* deleteTimelineClip = new KAction(this);
-    deleteTimelineClip->setText(i18n("Delete Clip"));
+    KAction* deleteTimelineClip = new KAction(KIcon("edit-delete"), i18n("Delete Clip"), this);
     deleteTimelineClip->setShortcut(Qt::Key_Delete);
-    deleteTimelineClip->setIcon(KIcon("edit-delete"));
     actionCollection()->addAction("delete_timeline_clip", deleteTimelineClip);
     connect(deleteTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotDeleteTimelineClip()));
+
+    KAction* cutTimelineClip = new KAction(KIcon("edit-cut"), i18n("Cut Clip"), this);
+    cutTimelineClip->setShortcut(Qt::SHIFT + Qt::Key_R);
+    actionCollection()->addAction("cut_timeline_clip", cutTimelineClip);
+    connect(cutTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotCutTimelineClip()));
 
     KStandardAction::quit(this, SLOT(queryQuit()),
                           actionCollection());
@@ -743,7 +781,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(trackView, SIGNAL(clipItemSelected(ClipItem*)), this, SLOT(slotActivateEffectStackView()));
             disconnect(m_activeTimeline, SIGNAL(transitionItemSelected(Transition*)), transitionConfig, SLOT(slotTransitionItemSelected(Transition*)));
             disconnect(trackView, SIGNAL(transitionItemSelected(Transition*)), this, SLOT(slotActivateTransitionView()));
-            disconnect(timeline_buttons_ui.zoom_slider, SIGNAL(valueChanged(int)), m_activeTimeline, SLOT(slotChangeZoom(int)));
+            disconnect(m_zoomSlider, SIGNAL(valueChanged(int)), m_activeTimeline, SLOT(slotChangeZoom(int)));
             disconnect(m_activeDocument, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
             disconnect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement)), m_activeTimeline->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement)));
             disconnect(effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), m_activeTimeline->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
@@ -779,8 +817,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(trackView, SIGNAL(clipItemSelected(ClipItem*)), this, SLOT(slotActivateEffectStackView()));
     connect(trackView, SIGNAL(transitionItemSelected(Transition*)), transitionConfig, SLOT(slotTransitionItemSelected(Transition*)));
     connect(trackView, SIGNAL(transitionItemSelected(Transition*)), this, SLOT(slotActivateTransitionView()));
-    timeline_buttons_ui.zoom_slider->setValue(trackView->currentZoom());
-    connect(timeline_buttons_ui.zoom_slider, SIGNAL(valueChanged(int)), trackView, SLOT(slotChangeZoom(int)));
+    m_zoomSlider->setValue(trackView->currentZoom());
+    connect(m_zoomSlider, SIGNAL(valueChanged(int)), trackView, SLOT(slotChangeZoom(int)));
     connect(trackView->projectView(), SIGNAL(zoomIn()), this, SLOT(slotZoomIn()));
     connect(trackView->projectView(), SIGNAL(zoomOut()), this, SLOT(slotZoomOut()));
     connect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement)), trackView->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement)));
@@ -830,8 +868,8 @@ void MainWindow::updateConfiguration() {
         currentTab->projectView()->checkTrackHeight();
         if (m_activeDocument) m_activeDocument->clipManager()->checkAudioThumbs();
     }
-    timeline_buttons_ui.buttonAudio->setDown(KdenliveSettings::audiothumbnails());
-    timeline_buttons_ui.buttonVideo->setDown(KdenliveSettings::videothumbnails());
+    m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
+    m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
     activateShuttleDevice();
 
 }
@@ -842,7 +880,7 @@ void MainWindow::slotSwitchVideoThumbs() {
     if (currentTab) {
         currentTab->refresh();
     }
-    timeline_buttons_ui.buttonVideo->setDown(KdenliveSettings::videothumbnails());
+    m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
 }
 
 void MainWindow::slotSwitchAudioThumbs() {
@@ -853,13 +891,20 @@ void MainWindow::slotSwitchAudioThumbs() {
         currentTab->projectView()->checkAutoScroll();
         if (m_activeDocument) m_activeDocument->clipManager()->checkAudioThumbs();
     }
-    timeline_buttons_ui.buttonAudio->setDown(KdenliveSettings::audiothumbnails());
+    m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
 }
 
 void MainWindow::slotDeleteTimelineClip() {
     TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
     if (currentTab) {
         currentTab->projectView()->deleteSelectedClips();
+    }
+}
+
+void MainWindow::slotCutTimelineClip() {
+    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+    if (currentTab) {
+        currentTab->projectView()->cutSelectedClips();
     }
 }
 
@@ -887,17 +932,17 @@ void MainWindow::slotAddCustomEffect(QAction *result) {
 }
 
 void MainWindow::slotZoomIn() {
-    timeline_buttons_ui.zoom_slider->setValue(timeline_buttons_ui.zoom_slider->value() - 1);
+    m_zoomSlider->setValue(m_zoomSlider->value() - 1);
 }
 
 void MainWindow::slotZoomOut() {
-    timeline_buttons_ui.zoom_slider->setValue(timeline_buttons_ui.zoom_slider->value() + 1);
+    m_zoomSlider->setValue(m_zoomSlider->value() + 1);
 }
 
 void MainWindow::slotFitZoom() {
     TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
     if (currentTab) {
-        timeline_buttons_ui.zoom_slider->setValue(currentTab->fitZoom());
+        m_zoomSlider->setValue(currentTab->fitZoom());
     }
 }
 
@@ -936,4 +981,18 @@ void MainWindow::slotActivateEffectStackView() {
 void MainWindow::slotActivateTransitionView() {
     transitionConfig->raiseWindow(transitionConfigDock);
 }
+
+void MainWindow::slotChangeTool(QAction * action) {
+    if (action == m_buttonSelectTool) slotSetTool(SELECTTOOL);
+    else if (action == m_buttonRazorTool) slotSetTool(RAZORTOOL);
+}
+
+void MainWindow::slotSetTool(PROJECTTOOL tool) {
+    if (m_activeDocument) {
+        //m_activeDocument->setTool(tool);
+        TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+        currentTab->projectView()->setTool(tool);
+    }
+}
+
 #include "mainwindow.moc"

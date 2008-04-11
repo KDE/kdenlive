@@ -62,6 +62,10 @@ GenTime AbstractClipItem::cropStart() const {
     return m_cropStart;
 }
 
+void AbstractClipItem::setCropStart(GenTime pos) {
+    m_cropStart = pos;
+}
+
 void AbstractClipItem::resizeStart(int posx, double scale) {
     GenTime durationDiff = GenTime(posx, m_fps) - m_startPos;
     if (durationDiff == GenTime()) return;

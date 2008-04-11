@@ -27,6 +27,7 @@
 #include <KDebug>
 #include <KLocale>
 #include <KUrl>
+#include <KIcon>
 #include <KCursor>
 
 #include "customtrackview.h"
@@ -41,6 +42,7 @@
 #include "editeffectcommand.h"
 #include "addtransitioncommand.h"
 #include "edittransitioncommand.h"
+#include "razorclipcommand.h"
 #include "kdenlivesettings.h"
 #include "transition.h"
 #include "clipitem.h"
@@ -56,7 +58,7 @@
 // const int duration = animate ? 1500 : 1;
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene, QWidget *parent)
-        : QGraphicsView(projectscene, parent), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_scale(1.0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()), m_tracksHeight(KdenliveSettings::trackheight()) {
+        : QGraphicsView(projectscene, parent), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_scale(1.0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()), m_tracksHeight(KdenliveSettings::trackheight()), m_tool(SELECTTOOL) {
     if (doc) m_commandStack = doc->commandStack();
     else m_commandStack == NULL;
     setMouseTracking(true);
@@ -75,6 +77,9 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene
         m_cursorLine->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIgnoresTransformations);
         m_cursorLine->setZValue(1000);
     }
+
+    KIcon razorIcon("edit-cut");
+    m_razorCursor = QCursor(razorIcon.pixmap(22, 22));
 }
 
 void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition) {
@@ -150,8 +155,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
       setDragMode(QGraphicsView::RubberBandDrag);
     else*/
     {
-
-        if (m_dragItem) { //event->button() == Qt::LeftButton) {
+        if (m_dragItem && m_tool == SELECTTOOL) { //event->button() == Qt::LeftButton) {
             // a button was pressed, delete visual tips
             if (m_operationMode == MOVE && (event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance()) {
                 double snappedPos = getSnapPointForPos(mapToScene(event->pos()).x() - m_clickPoint.x());
@@ -196,6 +200,12 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                 break;
             }
         }
+        if (m_tool == RAZORTOOL) {
+            setCursor(m_razorCursor);
+            QGraphicsView::mouseMoveEvent(event);
+            return;
+        }
+
         if (item && event->buttons() == Qt::NoButton) {
             AbstractClipItem *clip = (AbstractClipItem*) item;
             OPERATIONTYPE opMode = opMode = clip->operationMode(mapToScene(event->pos()), m_scale);
@@ -385,6 +395,18 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         for (int i = 0; i < collisionList.size(); ++i) {
             QGraphicsItem *item = collisionList.at(i);
             if (item->type() == AVWIDGET || item->type() == TRANSITIONWIDGET) {
+                if (m_tool == RAZORTOOL) {
+                    if (item->type() == TRANSITIONWIDGET) return;
+                    AbstractClipItem *clip = (AbstractClipItem *) item;
+                    ItemInfo info;
+                    info.startPos = clip->startPos();
+                    info.endPos = clip->endPos();
+                    info.track = clip->track();
+                    RazorClipCommand* command = new RazorClipCommand(this, info, GenTime((int)(mapToScene(event->pos()).x() / m_scale), m_document->fps()), true);
+                    m_commandStack->push(command);
+                    m_document->setModified(true);
+                    return;
+                }
                 // select item
                 if (!item->isSelected()) {
                     QList<QGraphicsItem *> itemList = items();
@@ -552,6 +574,31 @@ void CustomTrackView::slotChangeEffectState(ClipItem *clip, QDomElement effect, 
 void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect, QDomElement effect) {
     EditEffectCommand *command = new EditEffectCommand(this, m_tracksList.count() - clip->track(), clip->startPos(), oldeffect, effect, true);
     m_commandStack->push(command);
+}
+
+void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut) {
+    if (cut) {
+        // cut clip
+        ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
+        int cutPos = (int) cutTime.frames(m_document->fps());
+        ItemInfo newPos;
+        newPos.startPos = cutTime;
+        newPos.endPos = info.endPos;
+        newPos.track = info.track;
+        ClipItem *dup = new ClipItem(item->baseClip(), newPos, m_scale, m_document->fps());
+        dup->setCropStart(dup->cropStart() + (cutTime - info.startPos));
+        item->resizeEnd(cutPos - 1, m_scale);
+        scene()->addItem(dup);
+        m_document->renderer()->mltCutClip(m_tracksList.count() - info.track, cutTime);
+    } else {
+        // uncut clip
+        ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
+        ClipItem *dup = getClipItemAt((int) cutTime.frames(m_document->fps()), info.track);
+        delete dup;
+        item->resizeEnd((int) info.endPos.frames(m_document->fps()), m_scale);
+        m_document->renderer()->mltRemoveClip(m_tracksList.count() - info.track, cutTime);
+        m_document->renderer()->mltResizeClipEnd(m_tracksList.count() - info.track, info.startPos, item->cropStart(), item->cropStart() + info.endPos - info.startPos);
+    }
 }
 
 void CustomTrackView::slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QDomElement transition) {
@@ -820,6 +867,24 @@ void CustomTrackView::deleteSelectedClips() {
     }
 }
 
+void CustomTrackView::cutSelectedClips() {
+    QList<QGraphicsItem *> itemList = items();
+    GenTime currentPos = GenTime(m_cursorPos, m_document->fps());
+    for (int i = 0; i < itemList.count(); i++) {
+        if (itemList.at(i)->type() == AVWIDGET && itemList.at(i)->isSelected()) {
+            ClipItem *item = (ClipItem *) itemList.at(i);
+            ItemInfo info;
+            info.startPos = item->startPos();
+            info.endPos = item->endPos();
+            if (currentPos > info.startPos && currentPos <  info.endPos) {
+                info.track = item->track();
+                RazorClipCommand *command = new RazorClipCommand(this, info, currentPos, true);
+                m_commandStack->push(command);
+            }
+        }
+    }
+}
+
 void CustomTrackView::addClip(QDomElement xml, int clipId, ItemInfo info) {
     DocClipBase *baseclip = m_document->clipManager()->getClipById(clipId);
     ClipItem *item = new ClipItem(baseclip, info, m_scale, m_document->fps());
@@ -963,6 +1028,9 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected) {
     //    kDebug() << "SNAP POINT: " << m_snapPoints.at(i).frames(25);
 }
 
+void CustomTrackView::setTool(PROJECTTOOL tool) {
+    m_tool = tool;
+}
 
 void CustomTrackView::setScale(double scaleFactor) {
     //scale(scaleFactor, scaleFactor);

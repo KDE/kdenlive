@@ -25,6 +25,7 @@ public:
     virtual int fadeIn() const;
     virtual int fadeOut() const;
     virtual GenTime maxDuration() const;
+    virtual void setCropStart(GenTime pos);
 protected:
     int m_track;
     GenTime m_cropStart;

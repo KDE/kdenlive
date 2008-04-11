@@ -71,6 +71,7 @@ set(kdenlive_SRCS
   labelitem.cpp
   moveclipcommand.cpp
   resizeclipcommand.cpp
+  razorclipcommand.cpp
   addtimelineclipcommand.cpp
   kthumb.cpp
   clipmanager.cpp

@@ -35,9 +35,10 @@
 #include <KRecentFilesAction>
 #include <KComboBox>
 
-#include "ui_timelinebuttons_ui.h"
 #include "effectslist.h"
 #include "gentime.h"
+#include "definitions.h"
+
 class KdenliveDoc;
 class TrackView;
 class MonitorManager;
@@ -112,11 +113,19 @@ private:
     QMenu *m_timelineContextTransitionMenu;
 
     RenderWidget *m_renderWidget;
-    Ui::TimelineButtons_UI timeline_buttons_ui;
 
     JogShuttle *m_jogProcess;
 
     KRecentFilesAction *m_fileOpenRecent;
+
+    QAction *m_buttonAudioThumbs;
+    QAction *m_buttonVideoThumbs;
+    QAction *m_buttonFitZoom;
+    QAction *m_buttonSelectTool;
+    QAction *m_buttonRazorTool;
+    QActionGroup *m_toolGroup;
+    QSlider *m_zoomSlider;
+
     void readOptions();
     void saveOptions();
     void activateShuttleDevice();
@@ -158,6 +167,7 @@ private slots:
     void slotFitZoom();
     void slotRemoveTab();
     void slotDeleteTimelineClip();
+    void slotCutTimelineClip();
     void slotAddVideoEffect(QAction *result);
     void slotAddAudioEffect(QAction *result);
     void slotAddCustomEffect(QAction *result);
@@ -166,6 +176,8 @@ private slots:
     void slotShowClipProperties(DocClipBase *clip);
     void slotActivateEffectStackView();
     void slotActivateTransitionView();
+    void slotChangeTool(QAction * action);
+    void slotSetTool(PROJECTTOOL tool);
 };
 
 #endif

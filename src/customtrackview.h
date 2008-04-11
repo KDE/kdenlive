@@ -65,9 +65,12 @@ public:
     void activateMonitor();
     int duration() const;
     void deleteSelectedClips();
+    void cutSelectedClips();
     void setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition);
     void checkTrackHeight();
     QList <TrackInfo> tracksList() const;
+    void setTool(PROJECTTOOL tool);
+    void cutClip(ItemInfo info, GenTime cutTime, bool cut);
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -130,6 +133,8 @@ private:
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
     QList <TrackInfo> m_tracksList;
+    PROJECTTOOL m_tool;
+    QCursor m_razorCursor;
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
 
