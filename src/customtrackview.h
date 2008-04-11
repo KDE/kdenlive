@@ -74,6 +74,7 @@ public:
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
+    void moveCursorPos(int delta);
     void updateCursorPos();
     void slotDeleteEffect(ClipItem *clip, QDomElement effect);
     void slotChangeEffectState(ClipItem *clip, QDomElement effect, bool disable);

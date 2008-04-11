@@ -117,6 +117,15 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event) {
     update();
 }
 
+
+// virtual
+void CustomRuler::wheelEvent(QWheelEvent * e) {
+    int delta = 1;
+    if (e->modifiers() == Qt::ControlModifier) delta = m_timecode.fps();
+    if (e->delta() < 0) delta = 0 - delta;
+    m_view->moveCursorPos(delta);
+}
+
 int CustomRuler::inPoint() const {
     return m_zoneStart;
 }

@@ -13,8 +13,6 @@ class CustomRuler : public KRuler {
 
 public:
     CustomRuler(Timecode tc, CustomTrackView *parent);
-    virtual void mousePressEvent(QMouseEvent * event);
-    virtual void mouseMoveEvent(QMouseEvent * event);
     void setPixelPerMark(double rate);
     static const int comboScale[];
     int outPoint() const;
@@ -23,6 +21,9 @@ public:
 
 protected:
     virtual void paintEvent(QPaintEvent * /*e*/);
+    virtual void wheelEvent(QWheelEvent * e);
+    virtual void mousePressEvent(QMouseEvent * event);
+    virtual void mouseMoveEvent(QMouseEvent * event);
 
 private:
     int m_cursorPosition;

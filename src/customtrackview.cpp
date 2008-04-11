@@ -772,6 +772,14 @@ int CustomTrackView::cursorPos() {
     return (int)(m_cursorPos * m_scale);
 }
 
+void CustomTrackView::moveCursorPos(int delta) {
+    emit cursorMoved((int)(m_cursorPos * m_scale), (int)((m_cursorPos + delta) * m_scale));
+    m_cursorPos += delta;
+    m_cursorLine->setPos(m_cursorPos * m_scale, 0);
+    m_document->renderer()->seek(GenTime(m_cursorPos, m_document->fps()));
+    //if (m_autoScroll && m_scale < 50) checkScrolling();
+}
+
 void CustomTrackView::checkScrolling() {
     QRect rectInView = viewport()->rect();
     int delta = rectInView.width() / 3;

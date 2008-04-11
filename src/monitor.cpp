@@ -125,8 +125,14 @@ void Monitor::mousePressEvent(QMouseEvent * event) {
 
 // virtual
 void Monitor::wheelEvent(QWheelEvent * event) {
-    if (event->delta() > 0) slotForwardOneFrame();
-    else slotRewindOneFrame();
+    if (event->modifiers() == Qt::ControlModifier) {
+        int delta = m_monitorManager->timecode().fps();
+        if (event->delta() < 0) delta = 0 - delta;
+        slotSeek(m_position + delta);
+    } else {
+        if (event->delta() > 0) slotForwardOneFrame();
+        else slotRewindOneFrame();
+    }
 }
 
 void Monitor::slotExtractCurrentFrame() {
@@ -142,9 +148,8 @@ void Monitor::activateMonitor() {
 void Monitor::slotSeek(int pos) {
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);
     if (render == NULL) return;
-    int realPos = (int)(((double) pos) / m_scale);
-    render->seekToFrame(realPos);
-    m_position = realPos;
+    render->seekToFrame(pos);
+    m_position = pos;
     emit renderPosition(m_position);
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
