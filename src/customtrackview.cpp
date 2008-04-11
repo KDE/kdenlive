@@ -1036,6 +1036,33 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected) {
     //    kDebug() << "SNAP POINT: " << m_snapPoints.at(i).frames(25);
 }
 
+void CustomTrackView::slotSeekToPreviousSnap() {
+    updateSnapPoints(NULL);
+    GenTime pos = GenTime(m_cursorPos, m_document->fps());
+    GenTime res = GenTime();
+    for (int i = 0; i < m_snapPoints.size(); ++i) {
+        if (m_snapPoints.at(i) >= pos) {
+            if (i == 0) i = 1;
+            res = m_snapPoints.at(i - 1);
+            break;
+        }
+    }
+    setCursorPos((int) res.frames(m_document->fps()));
+}
+
+void CustomTrackView::slotSeekToNextSnap() {
+    updateSnapPoints(NULL);
+    GenTime pos = GenTime(m_cursorPos, m_document->fps());
+    GenTime res = GenTime(m_projectDuration, m_document->fps());
+    for (int i = 0; i < m_snapPoints.size(); ++i) {
+        if (m_snapPoints.at(i) > pos) {
+            res = m_snapPoints.at(i);
+            break;
+        }
+    }
+    setCursorPos((int) res.frames(m_document->fps()));
+}
+
 void CustomTrackView::setTool(PROJECTTOOL tool) {
     m_tool = tool;
 }

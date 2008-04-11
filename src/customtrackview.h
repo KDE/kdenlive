@@ -71,6 +71,8 @@ public:
     QList <TrackInfo> tracksList() const;
     void setTool(PROJECTTOOL tool);
     void cutClip(ItemInfo info, GenTime cutTime, bool cut);
+    void slotSeekToPreviousSnap();
+    void slotSeekToNextSnap();
 
 public slots:
     void setCursorPos(int pos, bool seek = true);

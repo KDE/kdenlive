@@ -36,6 +36,7 @@ public:
     void setTimecode(Timecode tc);
     void resetProfiles(QString prof);
     void switchMonitors();
+    bool projectMonitorFocused();
 
 public slots:
     void activateMonitor(QString name = QString::null);

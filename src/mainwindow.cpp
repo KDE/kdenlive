@@ -408,66 +408,58 @@ void MainWindow::setupActions() {
     actionCollection()->addAction("select_tool", m_buttonSelectTool);
     actionCollection()->addAction("razor_tool", m_buttonRazorTool);
 
-    KAction* clearAction = new KAction(this);
-    clearAction->setText(i18n("Clear"));
-    clearAction->setIcon(KIcon("document-new"));
+    KAction* clearAction = new KAction(KIcon("document-new"), i18n("Clear"), this);
     clearAction->setShortcut(Qt::CTRL + Qt::Key_W);
     actionCollection()->addAction("clear", clearAction);
     /*connect(clearAction, SIGNAL(triggered(bool)),
             textArea, SLOT(clear()));*/
 
-    KAction* profilesAction = new KAction(this);
-    profilesAction->setText(i18n("Manage Profiles"));
-    profilesAction->setIcon(KIcon("document-new"));
+    KAction* profilesAction = new KAction(KIcon("document-new"), i18n("Manage Profiles"), this);
     actionCollection()->addAction("manage_profiles", profilesAction);
     connect(profilesAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProfiles()));
 
-    KAction* projectAction = new KAction(this);
-    projectAction->setText(i18n("Project Settings"));
-    projectAction->setIcon(KIcon("document-new"));
+    KAction* projectAction = new KAction(KIcon("document-new"), i18n("Project Settings"), this);
     actionCollection()->addAction("project_settings", projectAction);
     connect(projectAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProjectSettings()));
 
-    KAction* projectRender = new KAction(this);
-    projectRender->setText(i18n("Render Project"));
-    projectRender->setIcon(KIcon("document-new"));
+    KAction* projectRender = new KAction(KIcon("document-new"), i18n("Render Project"), this);
     actionCollection()->addAction("project_render", projectRender);
     connect(projectRender, SIGNAL(triggered(bool)), this, SLOT(slotRenderProject()));
 
-    KAction* monitorPlay = new KAction(this);
-    monitorPlay->setText(i18n("Play"));
-    monitorPlay->setIcon(KIcon("media-playback-start"));
+    KAction* monitorPlay = new KAction(KIcon("media-playback-start"), i18n("Play"), this);
     monitorPlay->setShortcut(Qt::Key_Space);
     actionCollection()->addAction("monitor_play", monitorPlay);
     connect(monitorPlay, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotPlay()));
 
-    KAction* monitorSeekBackward = new KAction(this);
-    monitorSeekBackward->setText(i18n("Rewind"));
-    monitorSeekBackward->setIcon(KIcon("media-seek-backward"));
+    KAction* monitorSeekBackward = new KAction(KIcon("media-seek-backward"), i18n("Rewind"), this);
     monitorSeekBackward->setShortcut(Qt::Key_J);
     actionCollection()->addAction("monitor_seek_backward", monitorSeekBackward);
     connect(monitorSeekBackward, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotRewind()));
 
-    KAction* monitorSeekBackwardOneFrame = new KAction(this);
-    monitorSeekBackwardOneFrame->setText(i18n("Rewind 1 Frame"));
-    monitorSeekBackwardOneFrame->setIcon(KIcon("media-skip-backward"));
+    KAction* monitorSeekBackwardOneFrame = new KAction(KIcon("media-skip-backward"), i18n("Rewind 1 Frame"), this);
     monitorSeekBackwardOneFrame->setShortcut(Qt::Key_Left);
     actionCollection()->addAction("monitor_seek_backward-one-frame", monitorSeekBackwardOneFrame);
     connect(monitorSeekBackwardOneFrame, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotRewindOneFrame()));
 
-    KAction* monitorSeekForward = new KAction(this);
-    monitorSeekForward->setText(i18n("Forward"));
-    monitorSeekForward->setIcon(KIcon("media-seek-forward"));
+    KAction* monitorSeekSnapBackward = new KAction(KIcon("media-seek-backward"), i18n("Go to Previous Snap Point"), this);
+    monitorSeekSnapBackward->setShortcut(Qt::ALT + Qt::Key_Left);
+    actionCollection()->addAction("monitor_seek_snap_backward", monitorSeekSnapBackward);
+    connect(monitorSeekSnapBackward, SIGNAL(triggered(bool)), this, SLOT(slotSnapRewind()));
+
+    KAction* monitorSeekForward = new KAction(KIcon("media-seek-forward"), i18n("Forward"), this);
     monitorSeekForward->setShortcut(Qt::Key_L);
     actionCollection()->addAction("monitor_seek_forward", monitorSeekForward);
     connect(monitorSeekForward, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotForward()));
 
-    KAction* monitorSeekForwardOneFrame = new KAction(this);
-    monitorSeekForwardOneFrame->setText(i18n("Forward 1 Frame"));
-    monitorSeekForwardOneFrame->setIcon(KIcon("media-skip-forward"));
+    KAction* monitorSeekForwardOneFrame = new KAction(KIcon("media-skip-forward"), i18n("Forward 1 Frame"), this);
     monitorSeekForwardOneFrame->setShortcut(Qt::Key_Right);
     actionCollection()->addAction("monitor_seek_forward-one-frame", monitorSeekForwardOneFrame);
     connect(monitorSeekForwardOneFrame, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotForwardOneFrame()));
+
+    KAction* monitorSeekSnapForward = new KAction(KIcon("media-seek-forward"), i18n("Go to Next Snap Point"), this);
+    monitorSeekSnapForward->setShortcut(Qt::ALT + Qt::Key_Right);
+    actionCollection()->addAction("monitor_seek_snap_forward", monitorSeekSnapForward);
+    connect(monitorSeekSnapForward, SIGNAL(triggered(bool)), this, SLOT(slotSnapForward()));
 
     KAction* deleteTimelineClip = new KAction(KIcon("edit-delete"), i18n("Delete Clip"), this);
     deleteTimelineClip->setShortcut(Qt::Key_Delete);
@@ -980,6 +972,20 @@ void MainWindow::slotActivateEffectStackView() {
 
 void MainWindow::slotActivateTransitionView() {
     transitionConfig->raiseWindow(transitionConfigDock);
+}
+
+void MainWindow::slotSnapRewind() {
+    if (m_monitorManager->projectMonitorFocused()) {
+        TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+        currentTab->projectView()->slotSeekToPreviousSnap();
+    }
+}
+
+void MainWindow::slotSnapForward() {
+    if (m_monitorManager->projectMonitorFocused()) {
+        TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+        currentTab->projectView()->slotSeekToNextSnap();
+    }
 }
 
 void MainWindow::slotChangeTool(QAction * action) {

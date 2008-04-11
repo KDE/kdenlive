@@ -178,6 +178,8 @@ private slots:
     void slotActivateTransitionView();
     void slotChangeTool(QAction * action);
     void slotSetTool(PROJECTTOOL tool);
+    void slotSnapForward();
+    void slotSnapRewind();
 };
 
 #endif
