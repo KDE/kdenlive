@@ -25,7 +25,7 @@
 // ffmpeg Header files
 
 extern "C" {
-#include <libavformat/avformat.h>
+#include <avformat.h>
 }
 #include <QTimer>
 #include <QDir>

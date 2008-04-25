@@ -3,8 +3,8 @@
 #
 
 FIND_PATH(LIBFFMPEG_INCLUDE_DIR 
-  NAMES ffmpeg/avformat.h
-  PATHS ${MLT_PATH}/include /usr/local/include /usr/include
+  NAMES avformat.h
+  PATHS ${MLT_PATH}/include /usr/local/include/libavformat /usr/local/include/ffmpeg /usr/include/libavformat /usr/include/ffmpeg
   NO_DEFAULT_PATH
 )
 
