@@ -40,7 +40,9 @@
 #include "projectlist.h"
 #include "projectitem.h"
 #include "kdenlivesettings.h"
+#include "slideshowclip.h"
 #include "ui_colorclip_ui.h"
+
 
 #include "definitions.h"
 #include "clipmanager.h"
@@ -74,6 +76,9 @@ ProjectList::ProjectList(QWidget *parent)
 
     QAction *addColorClip = addMenu->addAction(KIcon("document-new"), i18n("Add Color Clip"));
     connect(addColorClip, SIGNAL(triggered()), this, SLOT(slotAddColorClip()));
+
+    QAction *addSlideClip = addMenu->addAction(KIcon("document-new"), i18n("Add Slideshow Clip"));
+    connect(addSlideClip, SIGNAL(triggered()), this, SLOT(slotAddSlideshowClip()));
 
     QAction *addTitleClip = addMenu->addAction(KIcon("document-new"), i18n("Add Title Clip"));
     connect(addTitleClip, SIGNAL(triggered()), this, SLOT(slotAddTitleClip()));
@@ -134,7 +139,10 @@ void ProjectList::slotClipSelected() {
 
 void ProjectList::slotUpdateClipProperties(int id, QMap <QString, QString> properties) {
     ProjectItem *item = getItemById(id);
-    if (item) slotUpdateClipProperties(item, properties);
+    if (item) {
+      slotUpdateClipProperties(item, properties);
+      if (properties.contains("colour")) slotRefreshClipThumbnail(item);
+  }
 }
 
 void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QString> properties) {
@@ -410,6 +418,31 @@ void ProjectList::slotAddColorClip() {
     delete dia;
 }
 
+
+void ProjectList::slotAddSlideshowClip() {
+    if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!!  NO CMD STK";
+    SlideshowClip *dia = new SlideshowClip();
+
+    if (dia->exec() == QDialog::Accepted) {
+
+        QString group = QString();
+        int groupId = -1;
+        ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
+        if (item && item->clipType() != FOLDER) {
+            while (item->parent()) {
+                item = static_cast <ProjectItem*>(item->parent());
+                if (item->clipType() == FOLDER) break;
+            }
+        }
+        if (item && item->clipType() == FOLDER) {
+            group = item->groupName();
+            groupId = item->clipId();
+        }
+
+        m_doc->slotAddSlideshowClipFile(dia->clipName(), dia->selectedPath(), dia->imageCount(), dia->clipDuration(), dia->loop(), group, groupId);
+    }
+    delete dia;
+}
 void ProjectList::slotAddTitleClip() {
     QString group = QString();
     int groupId = -1;
@@ -427,6 +460,7 @@ void ProjectList::slotAddTitleClip() {
 
     m_doc->slotCreateTextClip(group, groupId);
 }
+
 void ProjectList::setDocument(KdenliveDoc *doc) {
     listView->clear();
     QList <DocClipBase*> list = doc->clipManager()->documentClipList();
@@ -468,10 +502,15 @@ QDomElement ProjectList::producersList() {
 
 void ProjectList::slotRefreshClipThumbnail(int clipId) {
     ProjectItem *item = getItemById(clipId);
+    if (item) slotRefreshClipThumbnail(item);
+}
+
+void ProjectList::slotRefreshClipThumbnail(ProjectItem *item) {
     if (item) {
         int height = 40;
         int width = (int)(height  * (double) m_render->renderWidth() / m_render->renderHeight());
-        QPixmap pix = KThumb::getImage(item->clipUrl(), item->referencedClip()->getProjectThumbFrame(), width, height);
+        QPixmap pix = KThumb::getImage(item->toXml(), item->referencedClip()->getProjectThumbFrame(), width, height);
+	//QPixmap pix = KThumb::getFrame(item->toXml()), 0, width, height);
         item->setIcon(0, pix);
     }
 }

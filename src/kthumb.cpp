@@ -220,7 +220,25 @@ QPixmap KThumb::getImage(KUrl url, int frame, int width, int height) {
         return pix;
     }
     return getFrame(&producer, frame, width, height);
+}
 
+QPixmap KThumb::getImage(QDomElement xml, int frame, int width, int height) {
+    Mlt::Profile profile((char*) KdenliveSettings::current_profile().data());
+    QPixmap pix(width, height);
+    QDomDocument doc;
+    QDomElement westley = doc.createElement("westley");
+    doc.appendChild(westley);
+    westley.appendChild(doc.importNode(xml, true));
+    char *tmp = Render::decodedString(doc.toString());
+    kDebug()<<" - - - UPDATING THMB, XML: "<<doc.toString();
+    Mlt::Producer producer(profile, "westley-xml", tmp);
+    delete[] tmp;
+
+    if (producer.is_blank()) {
+        pix.fill(Qt::black);
+        return pix;
+    }
+    return getFrame(&producer, frame, width, height);
 }
 
 QPixmap KThumb::getFrame(Mlt::Producer* producer, int frame, int width, int height) {

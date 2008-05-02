@@ -87,6 +87,7 @@ Q_OBJECT public:
 
     /** Returns any property of this clip. */
     const QString getProperty(const QString prop) const;
+    void setProperty(QString key, QString value);
 
     /** Returns the internal unique id of the clip. */
     uint getId() const;
@@ -97,6 +98,7 @@ Q_OBJECT public:
 
     /** returns the duration of this clip */
     const GenTime & duration() const;
+    const GenTime &maxDuration() const;
     /** returns the duration of this clip */
     void setDuration(GenTime dur);
 

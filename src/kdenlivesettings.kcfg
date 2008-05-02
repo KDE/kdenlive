@@ -169,6 +169,10 @@
       <label>Current project display ratio.</label>
       <default>1.7777778</default>
     </entry>
+    <entry name="project_fps" type="Double">
+      <label>Current project fps.</label>
+      <default>25</default>
+    </entry>
     <entry name="default_profile" type="String">
       <label>Default project format.</label>
       <default>hdv_1080_50i</default>

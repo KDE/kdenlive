@@ -379,6 +379,11 @@ void KdenliveDoc::slotAddColorClipFile(const QString name, const QString color, 
     setModified(true);
 }
 
+void KdenliveDoc::slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, bool loop, const QString group, const int groupId) {
+    m_clipManager->slotAddSlideshowClipFile(name, path, count, duration, loop, group, groupId);
+    setModified(true);
+}
+
 void KdenliveDoc::slotCreateTextClip(QString group, int groupId) {
     QString titlesFolder = projectFolder().path() + "/titles/";
     KStandardDirs::makeDir(titlesFolder);

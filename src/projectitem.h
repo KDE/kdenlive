@@ -57,7 +57,6 @@ public:
     void setProperties(QMap <QString, QString> props);
 
 private:
-    QDomElement m_element;
     GenTime m_duration;
     QString m_groupName;
     bool m_durationKnown;

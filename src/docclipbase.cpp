@@ -156,6 +156,14 @@ const GenTime &DocClipBase::duration() const {
     return m_duration;
 }
 
+const GenTime &DocClipBase::maxDuration() const {
+    if (m_clipType == COLOR || m_clipType == IMAGE || m_clipType == TEXT || (m_clipType == SLIDESHOW &&  m_properties.value("loop") == "1")) {
+	GenTime dur(10000, KdenliveSettings::project_fps());
+	return dur;
+    }
+    return m_duration;
+}
+
 bool DocClipBase::hasFileSize() const {
     return true;
 }
@@ -367,10 +375,13 @@ void DocClipBase::setProperties(QMap <QString, QString> properties) {
     }
 }
 
+void DocClipBase::setProperty(QString key, QString value) {
+    m_properties.insert(key, value);
+}
+
 QMap <QString, QString> DocClipBase::properties() const {
     return m_properties;
 }
-
 
 void DocClipBase::slotGetAudioThumbs() {
 

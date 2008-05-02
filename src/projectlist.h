@@ -117,6 +117,7 @@ public slots:
     void slotDeleteClip(int clipId);
     void slotUpdateClip(int id);
     void slotRefreshClipThumbnail(int clipId);
+    void slotRefreshClipThumbnail(ProjectItem *item);
 
 
 private:
@@ -141,6 +142,7 @@ private slots:
     void slotRemoveClip();
     void slotClipSelected();
     void slotAddColorClip();
+    void slotAddSlideshowClip();
     void slotAddTitleClip();
     void slotContextMenu(const QPoint &pos, QTreeWidgetItem *);
     void slotAddFolder();

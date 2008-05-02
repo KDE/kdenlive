@@ -78,6 +78,7 @@ Q_OBJECT public:
 public slots:
     void extractImage(int frame, int frame2);
     static QPixmap getImage(KUrl url, int width, int height);
+    static QPixmap getImage(QDomElement xml, int frame, int width, int height);
     /* void getImage(KUrl url, int frame, int width, int height);
      void getThumbs(KUrl url, int startframe, int endframe, int width, int height);*/
     void stopAudioThumbs();

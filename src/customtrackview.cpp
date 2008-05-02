@@ -903,6 +903,20 @@ void CustomTrackView::addClip(QDomElement xml, int clipId, ItemInfo info) {
     m_document->renderer()->doRefresh();
 }
 
+void CustomTrackView::slotUpdateClip(int clipId) {
+    QList<QGraphicsItem *> list = scene()->items();
+    ClipItem *clip = NULL;
+    for (int i = 0; i < list.size(); ++i) {
+        if (list.at(i)->type() == AVWIDGET) {
+            clip = static_cast <ClipItem *>(list.at(i));
+	    if (clip->clipProducer() == clipId) {
+		clip->refreshClip();
+		m_document->renderer()->mltUpdateClip(m_tracksList.count() - clip->track(), clip->startPos(), clip->xml());
+	    }
+        }
+    }
+}
+
 ClipItem *CustomTrackView::getClipItemAt(int pos, int track) {
     QList<QGraphicsItem *> list = scene()->items(QPointF(pos * m_scale, track * m_tracksHeight + m_tracksHeight / 2));
     ClipItem *clip = NULL;

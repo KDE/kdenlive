@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>310</width>
-    <height>459</height>
+    <width>283</width>
+    <height>435</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -78,15 +78,15 @@
    <item row="6" column="0" colspan="4" >
     <widget class="QTabWidget" name="tabWidget" >
      <property name="currentIndex" >
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab_video" >
       <property name="geometry" >
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>290</width>
-        <height>171</height>
+        <width>263</width>
+        <height>159</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -165,19 +165,20 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tab_audio" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>263</width>
+        <height>159</height>
+       </rect>
+      </property>
       <attribute name="title" >
        <string>Audio</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4" >
        <item row="0" column="1" colspan="2" >
         <widget class="KLineEdit" name="clip_acodec" >
-         <property name="readOnly" >
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1" colspan="2" >
-        <widget class="KLineEdit" name="clip_channels" >
          <property name="readOnly" >
           <bool>true</bool>
          </property>
@@ -203,6 +204,13 @@
          </property>
         </spacer>
        </item>
+       <item row="1" column="1" colspan="2" >
+        <widget class="KLineEdit" name="clip_channels" >
+         <property name="readOnly" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0" >
         <widget class="QLabel" name="label_9" >
          <property name="text" >
@@ -225,7 +233,6 @@
         </widget>
        </item>
       </layout>
-      <zorder>ClipProperties_2</zorder>
       <zorder>clip_acodec</zorder>
       <zorder>clip_frequency</zorder>
       <zorder>verticalSpacer_3</zorder>
@@ -234,13 +241,127 @@
       <zorder>label_11</zorder>
       <zorder>label_10</zorder>
      </widget>
+     <widget class="QWidget" name="tab" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>263</width>
+        <height>159</height>
+       </rect>
+      </property>
+      <attribute name="title" >
+       <string>Color</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_5" >
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label_13" >
+         <property name="text" >
+          <string>Color</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" >
+        <widget class="KColorButton" name="clip_color" />
+       </item>
+       <item row="1" column="1" >
+        <spacer name="verticalSpacer_5" >
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>122</width>
+           <height>118</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>263</width>
+        <height>159</height>
+       </rect>
+      </property>
+      <attribute name="title" >
+       <string>Slideshow</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_6" >
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label_14" >
+         <property name="text" >
+          <string>Image type</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" >
+        <widget class="KComboBox" name="image_type" />
+       </item>
+       <item row="1" column="0" >
+        <widget class="QLabel" name="clip_filesize_4" >
+         <property name="text" >
+          <string>Frame duration</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" >
+        <widget class="KRestrictedLine" name="slide_duration" >
+         <property name="inputMask" >
+          <string>99:99:99:99; </string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <widget class="QCheckBox" name="slide_fade" >
+         <property name="text" >
+          <string>Crossfade</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" >
+        <widget class="QCheckBox" name="slide_luma" >
+         <property name="text" >
+          <string>Luma file</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1" >
+        <widget class="KComboBox" name="luma_file" />
+       </item>
+       <item row="4" column="1" >
+        <spacer name="verticalSpacer_6" >
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>20</width>
+           <height>15</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="1" >
+        <widget class="QCheckBox" name="slide_loop" >
+         <property name="text" >
+          <string>Loop</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="tab_advanced" >
       <property name="geometry" >
        <rect>
         <x>0</x>
         <y>0</y>
         <width>263</width>
-        <height>171</height>
+        <height>159</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -345,6 +466,16 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>KColorButton</class>
+   <extends>QPushButton</extends>
+   <header>kcolorbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
   <customwidget>
    <class>KDoubleNumInput</class>
    <extends>QWidget</extends>

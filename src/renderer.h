@@ -147,6 +147,7 @@ Q_OBJECT public:
 
     /** Playlist manipulation */
     void mltInsertClip(int track, GenTime position, QDomElement element);
+    void mltUpdateClip(int track, GenTime position, QDomElement element);
     void mltCutClip(int track, GenTime position);
     void mltResizeClipEnd(int track, GenTime pos, GenTime in, GenTime out);
     void mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime moveStart, GenTime in, GenTime out);

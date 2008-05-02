@@ -45,13 +45,12 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double scale, double fps)
     setRect(rect);
     kDebug() << "/////  NEW CLIP RECT: " << rect;
     m_fps = fps;
-    m_xml = clip->toXML();
     m_clipName = clip->name();
     m_producer = clip->getId();
     m_clipType = clip->clipType();
     m_cropStart = GenTime();
 
-    m_maxDuration = m_cropDuration;
+    m_maxDuration = clip->maxDuration();
     setAcceptDrops(true);
     audioThumbReady = clip->audioThumbCreated();
     /*
@@ -68,7 +67,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double scale, double fps)
     connect(this , SIGNAL(prepareAudioThumb(double, QPainterPath, int, int)) , this, SLOT(slotPrepareAudioThumb(double, QPainterPath, int, int)));
 
     setBrush(QColor(141, 166, 215));
-    if (m_clipType == VIDEO || m_clipType == AV) {
+    if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW) {
         m_hasThumbs = true;
         connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(extractImage(int, int)));
         connect(clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
@@ -81,15 +80,12 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double scale, double fps)
         endThumbTimer = new QTimer(this);
         endThumbTimer->setSingleShot(true);
         connect(endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
-
     } else if (m_clipType == COLOR) {
-        m_maxDuration = GenTime(10000, m_fps);
-        QString colour = m_xml.attribute("colour");
+        QString colour = clip->getProperty("colour");
         colour = colour.replace(0, 2, "#");
         setBrush(QColor(colour.left(7)));
     } else if (m_clipType == IMAGE || m_clipType == TEXT) {
-        m_maxDuration = GenTime(10000, m_fps);
-        m_startPix = KThumb::getImage(KUrl(m_xml.attribute("resource")), (int)(50 * KdenliveSettings::project_display_ratio()), 50);
+        m_startPix = KThumb::getImage(KUrl(clip->getProperty("resource")), (int)(50 * KdenliveSettings::project_display_ratio()), 50);
         m_endPix = m_startPix;
     } else if (m_clipType == AUDIO) {
         connect(clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
@@ -105,6 +101,20 @@ ClipItem::~ClipItem() {
 void ClipItem::resetThumbs() {
     slotFetchThumbs();
     audioThumbCachePic.clear();
+}
+
+
+void ClipItem::refreshClip() {
+    m_maxDuration = m_clip->maxDuration();
+    if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW) slotFetchThumbs();
+    else if (m_clipType == COLOR) {
+        QString colour = m_clip->getProperty("colour");
+        colour = colour.replace(0, 2, "#");
+        setBrush(QColor(colour.left(7)));
+    } else if (m_clipType == IMAGE || m_clipType == TEXT) {
+        m_startPix = KThumb::getImage(KUrl(m_clip->getProperty("resource")), (int)(50 * KdenliveSettings::project_display_ratio()), 50);
+        m_endPix = m_startPix;
+    }
 }
 
 void ClipItem::slotFetchThumbs() {
@@ -144,7 +154,7 @@ DocClipBase *ClipItem::baseClip() {
 }
 
 QDomElement ClipItem::xml() const {
-    return m_xml;
+    return m_clip->toXML();
 }
 
 int ClipItem::clipType() {

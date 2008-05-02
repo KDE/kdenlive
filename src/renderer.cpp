@@ -378,7 +378,7 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
     QDomElement westley = doc.createElement("westley");
     doc.appendChild(westley);
     westley.appendChild(doc.importNode(xml, true));
-    kDebug() << "////////////\n" << doc.toString() << "////////////////\n";
+    //kDebug() << "////////////\n" << doc.toString() << "////////////////\n";
     char *tmp = decodedString(doc.toString());
 
     Mlt::Producer producer(*m_mltProfile, "westley-xml", tmp);
@@ -1063,6 +1063,12 @@ void Render::mltCutClip(int track, GenTime position) {
         delete trackPlaylist;
     }
     m_isBlocked = false;
+}
+
+void Render::mltUpdateClip(int track, GenTime position, QDomElement element) {
+    // TODO: optimize
+    mltCutClip(track, position);
+    mltInsertClip(track, position, element);
 }
 
 

@@ -75,6 +75,8 @@ public:
     void addTransition(Transition*);
     /** regenerate audio and video thumbnails */
     void resetThumbs();
+    /** update clip properties from base clip */
+    void refreshClip();
 
 protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
@@ -87,7 +89,6 @@ protected:
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
 
 private:
-    QDomElement m_xml;
     DocClipBase *m_clip;
     OPERATIONTYPE m_resizeMode;
     int m_grabPoint;

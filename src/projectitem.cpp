@@ -40,32 +40,32 @@ const int UsageRole = NameRole + 2;
 
 ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, QDomElement xml, int clipId)
         : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_clipType(UNKNOWN), m_clipId(clipId) {
-    m_element = xml.cloneNode().toElement();
+    QDomElement element = xml.cloneNode().toElement();
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
-    if (!m_element.isNull()) {
-        m_element.setAttribute("id", clipId);
-        QString cType = m_element.attribute("type", QString::null);
+    if (!element.isNull()) {
+        element.setAttribute("id", clipId);
+        QString cType = element.attribute("type", QString::null);
         if (!cType.isEmpty()) {
             m_clipType = (CLIPTYPE) cType.toInt();
             slotSetToolTip();
         }
 
-        if (m_clipType == COLOR || m_clipType == IMAGE) m_element.setAttribute("duration", MAXCLIPDURATION);
-        else if (m_element.attribute("duration").isEmpty() && !m_element.attribute("out").isEmpty()) {
-            m_element.setAttribute("duration", m_element.attribute("out").toInt() - m_element.attribute("in").toInt());
+        if (m_clipType == COLOR || m_clipType == IMAGE) element.setAttribute("duration", MAXCLIPDURATION);
+        else if (element.attribute("duration").isEmpty() && !element.attribute("out").isEmpty()) {
+            element.setAttribute("duration", element.attribute("out").toInt() - element.attribute("in").toInt());
         }
     }
 }
 
 ProjectItem::ProjectItem(QTreeWidgetItem * parent, const QStringList & strings, QDomElement xml, int clipId)
         : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_clipType(UNKNOWN), m_clipId(clipId) {
-    m_element = xml.cloneNode().toElement();
+    QDomElement element = xml.cloneNode().toElement();
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
-    if (!m_element.isNull()) {
-        m_element.setAttribute("id", clipId);
-        QString cType = m_element.attribute("type", QString::null);
+    if (!element.isNull()) {
+        element.setAttribute("id", clipId);
+        QString cType = element.attribute("type", QString::null);
         if (!cType.isEmpty()) {
             m_clipType = (CLIPTYPE) cType.toInt();
             slotSetToolTip();
@@ -75,7 +75,7 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, const QStringList & strings, 
 
 // folder
 ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, int clipId)
-        : QTreeWidgetItem(parent, strings), m_element(QDomElement()), m_clipType(FOLDER), m_groupName(strings.at(1)), m_clipId(clipId), m_clip(NULL) {
+        : QTreeWidgetItem(parent, strings), m_clipType(FOLDER), m_groupName(strings.at(1)), m_clipId(clipId), m_clip(NULL) {
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     setIcon(0, KIcon("folder"));
@@ -87,11 +87,10 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     m_clip = clip;
-    m_element = clip->toXML();
     m_clipId = clip->getId();
-    QString name = m_element.attribute("name");
-    if (name.isEmpty()) name = KUrl(m_element.attribute("resource")).fileName();
-    m_clipType = (CLIPTYPE) m_element.attribute("type").toInt();
+    QString name = m_clip->getProperty("name");
+    if (name.isEmpty()) name = KUrl(m_clip->getProperty("resource")).fileName();
+    m_clipType = (CLIPTYPE) m_clip->getProperty("type").toInt();
     setText(1, name);
     kDebug() << "PROJECT ITE;. ADDING LCIP: " << m_clipId;
 }
@@ -101,11 +100,10 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip)
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     m_clip = clip;
-    m_element = clip->toXML();
     m_clipId = clip->getId();
-    QString name = m_element.attribute("name");
-    if (name.isEmpty()) name = KUrl(m_element.attribute("resource")).fileName();
-    m_clipType = (CLIPTYPE) m_element.attribute("type").toInt();
+    QString name = m_clip->getProperty("name");
+    if (name.isEmpty()) name = KUrl(m_clip->getProperty("resource")).fileName();
+    m_clipType = (CLIPTYPE) m_clip->getProperty("type").toInt();
     setText(1, name);
     kDebug() << "PROJECT ITE;. ADDING LCIP: " << m_clipId;
 }
@@ -128,7 +126,7 @@ CLIPTYPE ProjectItem::clipType() const {
 }
 
 int ProjectItem::clipMaxDuration() const {
-    return m_element.attribute("duration").toInt();
+    return m_clip->getProperty("duration").toInt();
 }
 
 bool ProjectItem::isGroup() const {
@@ -152,17 +150,17 @@ QStringList ProjectItem::names() const {
 }
 
 QDomElement ProjectItem::toXml() const {
-    return m_element;
+    return m_clip->toXML();
 }
 
 const KUrl ProjectItem::clipUrl() const {
-    if (m_clipType != COLOR && m_clipType != VIRTUAL && m_clipType != UNKNOWN)
-        return KUrl(m_element.attribute("resource"));
+    if (m_clipType != COLOR && m_clipType != VIRTUAL && m_clipType != UNKNOWN && m_clipType != FOLDER)
+        return KUrl(m_clip->getProperty("resource"));
     else return KUrl();
 }
 
 void ProjectItem::changeDuration(int frames) {
-    m_element.setAttribute("duration", frames);
+    m_clip->setProperty("duration", QString::number(frames));
     m_duration = GenTime(frames, 25);
     setData(1, DurationRole, Timecode::getEasyTimecode(m_duration, 25));
     m_durationKnown = true;
@@ -191,7 +189,7 @@ void ProjectItem::slotSetToolTip() {
         break;
     case 4:
         tip.append(i18n("Color clip"));
-        setData(1, DurationRole, Timecode::getEasyTimecode(GenTime(m_element.attribute("out", "250").toInt(), 25), 25));
+        setData(1, DurationRole, Timecode::getEasyTimecode(GenTime(m_clip->getProperty("out").toInt(), 25), 25));
         break;
     case 5:
         tip.append(i18n("Image clip") + "</b><br />" + clipUrl().path());
@@ -218,7 +216,7 @@ void ProjectItem::slotSetToolTip() {
 
 void ProjectItem::setProperties(const QMap < QString, QString > &attributes, const QMap < QString, QString > &metadata) {
     if (attributes.contains("duration")) {
-        if (m_clipType == AUDIO || m_clipType == VIDEO || m_clipType == AV) m_element.setAttribute("duration", attributes["duration"].toInt());
+        if (m_clipType == AUDIO || m_clipType == VIDEO || m_clipType == AV) m_clip->setProperty("duration", attributes["duration"]);
         m_duration = GenTime(attributes["duration"].toInt(), 25);
         setData(1, DurationRole, Timecode::getEasyTimecode(m_duration, 25));
         m_durationKnown = true;
@@ -249,14 +247,6 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
         m_clip->setClipType(m_clipType);
     }
     slotSetToolTip();
-    if (m_element.isNull()) {
-        QDomDocument doc;
-        m_element = doc.createElement("producer");
-    }
-    if (m_element.attribute("duration") == QString::null) m_element.setAttribute("duration", attributes["duration"].toInt());
-    m_element.setAttribute("resource", attributes["filename"]);
-    m_element.setAttribute("type", (int) m_clipType);
-
     if (KdenliveSettings::audiothumbnails()) m_clip->slotRequestAudioThumbs();
 
     m_clip->setProperties(attributes);

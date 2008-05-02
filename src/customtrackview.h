@@ -87,6 +87,7 @@ public slots:
     void slotTransitionUpdated(Transition *, QDomElement);
     void slotSwitchTrackAudio(int ix);
     void slotSwitchTrackVideo(int ix);
+    void slotUpdateClip(int clipId);
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
