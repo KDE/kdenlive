@@ -57,9 +57,7 @@ public:
     void setProperties(QMap <QString, QString> props);
 
 private:
-    GenTime m_duration;
     QString m_groupName;
-    bool m_durationKnown;
     CLIPTYPE m_clipType;
     int m_clipId;
     void slotSetToolTip();

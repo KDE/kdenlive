@@ -37,7 +37,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, uint id):
     KUrl url = KUrl(xml.attribute("resource"));
     int out = xml.attribute("out").toInt();
     if (out != 0) {
-        setDuration(GenTime(out, 25));
+        setDuration(GenTime(out, KdenliveSettings::project_fps()));
         //m_properties.insert("out", QString::number(out));
     }
     if (m_name.isEmpty()) m_name = url.fileName();
@@ -158,8 +158,8 @@ const GenTime &DocClipBase::duration() const {
 
 const GenTime &DocClipBase::maxDuration() const {
     if (m_clipType == COLOR || m_clipType == IMAGE || m_clipType == TEXT || (m_clipType == SLIDESHOW &&  m_properties.value("loop") == "1")) {
-	GenTime dur(10000, KdenliveSettings::project_fps());
-	return dur;
+        GenTime dur(10000, KdenliveSettings::project_fps());
+        return dur;
     }
     return m_duration;
 }
@@ -372,11 +372,15 @@ void DocClipBase::setProperties(QMap <QString, QString> properties) {
     while (i.hasNext()) {
         i.next();
         m_properties.insert(i.key(), i.value());
+        if (i.key() == "resource") m_thumbProd->updateClipUrl(KUrl(i.value()));
+        else if (i.key() == "out") setDuration(GenTime(i.value().toInt(), KdenliveSettings::project_fps()));
     }
 }
 
 void DocClipBase::setProperty(QString key, QString value) {
     m_properties.insert(key, value);
+    if (key == "resource") m_thumbProd->updateClipUrl(KUrl(value));
+    else if (key == "out") setDuration(GenTime(value.toInt(), KdenliveSettings::project_fps()));
 }
 
 QMap <QString, QString> DocClipBase::properties() const {

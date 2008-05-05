@@ -957,10 +957,11 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip) {
     ClipProperties dia(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
     if (dia.exec() == QDialog::Accepted) {
         m_projectList->slotUpdateClipProperties(dia.clipId(), dia.properties());
-	// update clip in timeline
-        TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-        currentTab->projectView()->slotUpdateClip(dia.clipId());
-	
+        if (dia.needsTimelineRefresh()) {
+            // update clip occurences in timeline
+            TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+            currentTab->projectView()->slotUpdateClip(dia.clipId());
+        }
     }
 }
 

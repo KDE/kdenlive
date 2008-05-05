@@ -148,6 +148,9 @@ KThumb::~KThumb() {
     if (thumbProducer.isRunning()) thumbProducer.exit();
 }
 
+void KThumb::updateClipUrl(KUrl url) {
+    m_url = url;
+}
 
 //static
 QPixmap KThumb::getImage(KUrl url, int width, int height) {
@@ -230,7 +233,7 @@ QPixmap KThumb::getImage(QDomElement xml, int frame, int width, int height) {
     doc.appendChild(westley);
     westley.appendChild(doc.importNode(xml, true));
     char *tmp = Render::decodedString(doc.toString());
-    kDebug()<<" - - - UPDATING THMB, XML: "<<doc.toString();
+    kDebug() << " - - - UPDATING THMB, XML: " << doc.toString();
     Mlt::Producer producer(profile, "westley-xml", tmp);
     delete[] tmp;
 

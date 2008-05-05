@@ -34,16 +34,20 @@ class ClipProperties : public QDialog {
 public:
     ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent = 0);
     QMap <QString, QString> properties();
-    int clipId();
+    int clipId() const;
+    bool needsTimelineRefresh() const;
 
 private slots:
-
+    void parseFolder();
 
 private:
     Ui::ClipProperties_UI m_view;
     DocClipBase *m_clip;
     Timecode m_tc;
     double m_fps;
+    /** used to count images in slideshow clip */
+    int m_count;
+    bool m_clipNeedsRefresh;
 };
 
 

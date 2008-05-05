@@ -33,66 +33,70 @@
 
 SlideshowClip::SlideshowClip(QWidget * parent): QDialog(parent), m_count(0) {
     setFont(KGlobalSettings::toolBarFont());
-    //wsetCaption(i18n("Add Slideshow Clip"));
+    setWindowTitle(i18n("Add Slideshow Clip"));
     m_view.setupUi(this);
     m_view.clip_name->setText(i18n("Slideshow Clip"));
     m_view.folder_url->setMode(KFile::Directory);
     m_view.icon_list->setIconSize(QSize(50, 50));
     connect(m_view.folder_url, SIGNAL(textChanged(const QString &)), this, SLOT(parseFolder()));
-    connect(m_view.image_type, SIGNAL(currentIndexChanged ( int )), this, SLOT(parseFolder()));
+    connect(m_view.image_type, SIGNAL(currentIndexChanged(int)), this, SLOT(parseFolder()));
     m_view.image_type->addItem("JPG");
     m_view.image_type->addItem("PNG");
     m_view.image_type->addItem("BMP");
     m_view.image_type->addItem("GIF");
     m_view.clip_duration->setText("00:00:03:00");
+    m_view.folder_url->setUrl(QDir::homePath());
     adjustSize();
 }
 
 void SlideshowClip::parseFolder() {
     m_view.icon_list->clear();
     QDir dir(m_view.folder_url->url().path());
+
     QStringList filters;
     switch (m_view.image_type->currentIndex()) {
-	case TYPE_PNG:
-	    filters << "*.png";	
-	    break;
-	case TYPE_BMP:
-	    filters << "*.bmp";	
-	    break;
-	case TYPE_GIF:
-	    filters << "*.gif";	
-	    break;
-	default:
-	    filters << "*.jpg" << "*.jpeg";	
-	    break;
+    case TYPE_PNG:
+        filters << "*.png";
+        break;
+    case TYPE_BMP:
+        filters << "*.bmp";
+        break;
+    case TYPE_GIF:
+        filters << "*.gif";
+        break;
+    default:
+        filters << "*.jpg" << "*.jpeg";
+        break;
     }
 
     dir.setNameFilters(filters);
     QStringList result = dir.entryList(QDir::Files);
     m_count = result.count();
+    if (m_count == 0) m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+    else m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
     m_view.label_info->setText(i18n("%1 images found", m_count));
-    foreach (QString path, result) {
-	QIcon icon(dir.filePath(path));
-	QListWidgetItem *item = new QListWidgetItem(icon, KUrl(path).fileName());
-	m_view.icon_list->addItem(item);
+    foreach(QString path, result) {
+        QIcon icon(dir.filePath(path));
+        QListWidgetItem *item = new QListWidgetItem(icon, KUrl(path).fileName());
+        m_view.icon_list->addItem(item);
     }
 }
 
 QString SlideshowClip::selectedPath() const {
     QString extension;
     switch (m_view.image_type->currentIndex()) {
-	case TYPE_PNG:
-	    extension = "/.all.png";	
-	    break;
-	case TYPE_BMP:
-	    extension = "/.all.bmp";	
-	    break;
-	case TYPE_GIF:
-	    extension = "/.all.gif";	
-	    break;
-	default:
-	    extension = "/.all.jpg";	
-	    break;
+    case TYPE_PNG:
+        extension = "/.all.png";
+        break;
+    case TYPE_BMP:
+        extension = "/.all.bmp";
+        break;
+    case TYPE_GIF:
+        extension = "/.all.gif";
+        break;
+    default:
+        extension = "/.all.jpg";
+        break;
     }
     return m_view.folder_url->url().path() + extension;
 }

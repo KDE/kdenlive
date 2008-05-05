@@ -160,11 +160,7 @@ const KUrl ProjectItem::clipUrl() const {
 }
 
 void ProjectItem::changeDuration(int frames) {
-    m_clip->setProperty("duration", QString::number(frames));
-    m_duration = GenTime(frames, 25);
-    setData(1, DurationRole, Timecode::getEasyTimecode(m_duration, 25));
-    m_durationKnown = true;
-    m_clip->setDuration(m_duration);
+    setData(1, DurationRole, Timecode::getEasyTimecode(GenTime(frames, KdenliveSettings::project_fps()), KdenliveSettings::project_fps()));
 }
 
 void ProjectItem::setProperties(QMap <QString, QString> props) {
@@ -214,18 +210,16 @@ void ProjectItem::slotSetToolTip() {
     setToolTip(1, tip);
 }
 
+
 void ProjectItem::setProperties(const QMap < QString, QString > &attributes, const QMap < QString, QString > &metadata) {
     if (attributes.contains("duration")) {
         if (m_clipType == AUDIO || m_clipType == VIDEO || m_clipType == AV) m_clip->setProperty("duration", attributes["duration"]);
-        m_duration = GenTime(attributes["duration"].toInt(), 25);
-        setData(1, DurationRole, Timecode::getEasyTimecode(m_duration, 25));
-        m_durationKnown = true;
-        m_clip->setDuration(m_duration);
-        kDebug() << "//// LOADED CLIP, DURATION SET TO: " << m_duration.frames(25);
+        GenTime duration = GenTime(attributes["duration"].toInt(), KdenliveSettings::project_fps());
+        setData(1, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
+        m_clip->setDuration(duration);
+        kDebug() << "//// LOADED CLIP, DURATION SET TO: " << duration.frames(KdenliveSettings::project_fps());
     } else {
         // No duration known, use an arbitrary one until it is.
-        m_duration = GenTime(0.0);
-        m_durationKnown = false;
     }
 
 

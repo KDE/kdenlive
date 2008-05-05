@@ -909,10 +909,10 @@ void CustomTrackView::slotUpdateClip(int clipId) {
     for (int i = 0; i < list.size(); ++i) {
         if (list.at(i)->type() == AVWIDGET) {
             clip = static_cast <ClipItem *>(list.at(i));
-	    if (clip->clipProducer() == clipId) {
-		clip->refreshClip();
-		m_document->renderer()->mltUpdateClip(m_tracksList.count() - clip->track(), clip->startPos(), clip->xml());
-	    }
+            if (clip->clipProducer() == clipId) {
+                clip->refreshClip();
+                m_document->renderer()->mltUpdateClip(m_tracksList.count() - clip->track(), clip->startPos(), clip->xml());
+            }
         }
     }
 }

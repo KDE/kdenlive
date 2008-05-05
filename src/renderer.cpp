@@ -27,6 +27,7 @@
 extern "C" {
 #include <avformat.h>
 }
+
 #include <QTimer>
 #include <QDir>
 #include <QApplication>
@@ -1067,7 +1068,7 @@ void Render::mltCutClip(int track, GenTime position) {
 
 void Render::mltUpdateClip(int track, GenTime position, QDomElement element) {
     // TODO: optimize
-    mltCutClip(track, position);
+    mltRemoveClip(track, position);
     mltInsertClip(track, position, element);
 }
 
