@@ -25,7 +25,7 @@
 // ffmpeg Header files
 
 extern "C" {
-#include <ffmpeg/avformat.h>
+#include <avformat.h>
 }
 
 #include <iostream>
