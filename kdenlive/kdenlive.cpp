@@ -333,7 +333,7 @@ namespace Gui {
 	    	getUrl->exec();
 	    	KURL mltPath = getUrl->selectedURL ();
 	    	delete getUrl;
-	    	if (mltPath.isEmpty()) exit(1);
+	    	if (mltPath.isEmpty()) qApp->quit();
 		profilePath = mltPath.path();
 		KdenliveSettings::setMltpath(profilePath);
 		profilePath.append("/share/mlt/profiles/");
@@ -348,7 +348,7 @@ namespace Gui {
 	    	getUrl->exec();
 	    	KURL rendererPath = getUrl->selectedURL();
 	    	delete getUrl;
-	    	if (rendererPath.isEmpty()) exit(1);
+	    	if (rendererPath.isEmpty()) qApp->quit();
 		KdenliveSettings::setRendererpath(rendererPath.path());
 	}
 
@@ -2360,7 +2360,7 @@ namespace Gui {
 		    newProjectDialog->videoTracks->setValue(*videoTracks);
 		    if (!exitMode) newProjectDialog->buttonQuit->setText(i18n("Cancel"));
 		    if (newProjectDialog->exec() == QDialog::Rejected) {
-			if (exitMode) exit(1);
+			if (exitMode) qApp->quit();
 			return false;
 		    }
 
