@@ -93,9 +93,9 @@ void CustomRuler::mousePressEvent(QMouseEvent * event) {
     int pos = (int)((event->x() + offset()) / pixelPerMark() / FRAME_SIZE);
     m_moveCursor = RULER_CURSOR;
     if (event->y() > 10) {
-        if (abs(pos - m_zoneStart) < 4) m_moveCursor = RULER_START;
-        else if (abs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2)) < 4) m_moveCursor = RULER_MIDDLE;
-        else if (abs(pos - m_zoneEnd) < 4) m_moveCursor = RULER_END;
+        if (qAbs(pos - m_zoneStart) < 4) m_moveCursor = RULER_START;
+        else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2)) < 4) m_moveCursor = RULER_MIDDLE;
+        else if (qAbs(pos - m_zoneEnd) < 4) m_moveCursor = RULER_END;
     }
     if (m_moveCursor == RULER_CURSOR)
         m_view->setCursorPos(pos);

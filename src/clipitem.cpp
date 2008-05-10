@@ -388,12 +388,12 @@ void ClipItem::paint(QPainter *painter,
 
 
 OPERATIONTYPE ClipItem::operationMode(QPointF pos, double scale) {
-    if (abs((int)(pos.x() - (rect().x() + scale * m_startFade))) < 6 && abs((int)(pos.y() - rect().y())) < 6) return FADEIN;
-    else if (abs((int)(pos.x() - rect().x())) < 6) return RESIZESTART;
-    else if (abs((int)(pos.x() - (rect().x() + rect().width() - scale * m_endFade))) < 6 && abs((int)(pos.y() - rect().y())) < 6) return FADEOUT;
-    else if (abs((int)(pos.x() - (rect().x() + rect().width()))) < 6) return RESIZEEND;
-    else if (abs((int)(pos.x() - (rect().x() + 10))) < 6 && abs((int)(pos.y() - (rect().y() + rect().height() / 2 - 5))) < 6) return TRANSITIONSTART;
-    else if (abs((int)(pos.x() - (rect().x() + rect().width() - 20))) < 6 && abs((int)(pos.y() - (rect().y() + rect().height() / 2 - 5))) < 6) return TRANSITIONEND;
+    if (qAbs((int)(pos.x() - (rect().x() + scale * m_startFade))) < 6 && qAbs((int)(pos.y() - rect().y())) < 6) return FADEIN;
+    else if (qAbs((int)(pos.x() - rect().x())) < 6) return RESIZESTART;
+    else if (qAbs((int)(pos.x() - (rect().x() + rect().width() - scale * m_endFade))) < 6 && qAbs((int)(pos.y() - rect().y())) < 6) return FADEOUT;
+    else if (qAbs((int)(pos.x() - (rect().x() + rect().width()))) < 6) return RESIZEEND;
+    else if (qAbs((int)(pos.x() - (rect().x() + 10))) < 6 && qAbs((int)(pos.y() - (rect().y() + rect().height() / 2 - 5))) < 6) return TRANSITIONSTART;
+    else if (qAbs((int)(pos.x() - (rect().x() + rect().width() - 20))) < 6 && qAbs((int)(pos.y() - (rect().y() + rect().height() / 2 - 5))) < 6) return TRANSITIONEND;
 
     return MOVE;
 }

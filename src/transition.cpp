@@ -147,8 +147,8 @@ int Transition::type() const {
 }
 
 OPERATIONTYPE Transition::operationMode(QPointF pos, double scale) {
-    if (abs((int)(pos.x() - rect().x())) < 6) return RESIZESTART;
-    else if (abs((int)(pos.x() - (rect().x() + rect().width()))) < 6) return RESIZEEND;
+    if (qAbs((int)(pos.x() - rect().x())) < 6) return RESIZESTART;
+    else if (qAbs((int)(pos.x() - (rect().x() + rect().width()))) < 6) return RESIZEEND;
     return MOVE;
 }
 
