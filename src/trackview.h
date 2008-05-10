@@ -81,8 +81,7 @@ private:
     QFrame *m_scrollBox;
     QVBoxLayout *m_tracksAreaLayout;
     void parseDocument(QDomDocument doc);
-    int slotAddAudioTrack(int ix, QDomElement xml);
-    int slotAddVideoTrack(int ix, QDomElement xml);
+    int slotAddProjectTrack(int ix, QDomElement xml, bool videotrack);
 
 private slots:
     void setCursorPos(int pos);

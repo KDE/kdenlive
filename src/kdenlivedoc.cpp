@@ -48,7 +48,18 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
                 QDomElement infoXml = infoXmlNode.toElement();
                 QString profilePath = infoXml.attribute("profile");
                 if (!profilePath.isEmpty()) setProfilePath(profilePath);
-            }
+                QDomNodeList producers = infoXmlNode.childNodes();
+                QDomElement e;
+                for (int i = 0; i < producers.count(); i++) {
+                    e = producers.item(i).cloneNode().toElement();
+                    if (!e.isNull() && e.tagName() == "kdenlive_producer") {
+                        e.setTagName("producer");
+                        addClip(e, e.attribute("id").toInt());
+                    }
+                }
+                m_document.removeChild(infoXmlNode);
+                kDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
+            } else kWarning() << "  NO KDENLIVE INFO FOUND IN FILE: " << url.path();
             KIO::NetAccess::removeTempFile(tmpFile);
         } else {
             KMessageBox::error(parent, KIO::NetAccess::lastErrorString());
@@ -57,49 +68,46 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
         // Creating new document
         QDomElement westley = m_document.createElement("westley");
         m_document.appendChild(westley);
-        QDomElement doc = m_document.createElement("kdenlivedoc");
-        doc.setAttribute("version", "0.6");
-        westley.appendChild(doc);
-        QDomElement props = m_document.createElement("properties");
-        doc.setAttribute("width", m_width);
-        doc.setAttribute("height", m_height);
-        doc.setAttribute("projectfps", m_fps);
-        doc.appendChild(props);
-
-
-        /*QDomElement westley = m_document.createElement("westley");
-        m_document.appendChild(westley);*/
-
 
         QDomElement tractor = m_document.createElement("tractor");
         tractor.setAttribute("id", "maintractor");
         QDomElement multitrack = m_document.createElement("multitrack");
         QDomElement playlist = m_document.createElement("playlist");
-        QDomElement producer = m_document.createElement("producer");
-        /*producer.setAttribute("mlt_service", "colour");
-        producer.setAttribute("colour", "red");
-        playlist.appendChild(producer);*/
-        multitrack.appendChild(playlist);
-        QDomElement playlist1 = m_document.createElement("playlist");
-        playlist1.setAttribute("id", "playlist1");
-        playlist1.setAttribute("hide", "video");
-        multitrack.appendChild(playlist1);
-        QDomElement playlist2 = m_document.createElement("playlist");
-        playlist2.setAttribute("id", "playlist2");
-        playlist2.setAttribute("hide", "video");
-        multitrack.appendChild(playlist2);
-        QDomElement playlist3 = m_document.createElement("playlist");
-        multitrack.appendChild(playlist3);
-        playlist3.setAttribute("id", "playlist3");
-        QDomElement playlist4 = m_document.createElement("playlist");
-        multitrack.appendChild(playlist4);
-        playlist4.setAttribute("id", "playlist4");
-        QDomElement playlist5 = m_document.createElement("playlist");
-        multitrack.appendChild(playlist5);
-        playlist5.setAttribute("id", "playlist5");
-        tractor.appendChild(multitrack);
+        playlist.setAttribute("id", "black_track");
+        westley.appendChild(playlist);
 
-        for (uint i = 2; i < 6 ; i++) {
+
+        // create playlists
+        int audiotracks = 2;
+        int videotracks = 3;
+        int total = audiotracks + videotracks + 1;
+
+        for (int i = 1; i < total; i++) {
+            QDomElement playlist = m_document.createElement("playlist");
+            playlist.setAttribute("id", "playlist" + QString::number(i));
+            westley.appendChild(playlist);
+        }
+
+        QDomElement track0 = m_document.createElement("track");
+        track0.setAttribute("producer", "black_track");
+        tractor.appendChild(track0);
+
+        // create audio tracks
+        for (int i = 1; i < audiotracks + 1; i++) {
+            QDomElement track = m_document.createElement("track");
+            track.setAttribute("producer", "playlist" + QString::number(i));
+            track.setAttribute("hide", "video");
+            tractor.appendChild(track);
+        }
+
+        // create video tracks
+        for (int i = audiotracks + 1; i < total; i++) {
+            QDomElement track = m_document.createElement("track");
+            track.setAttribute("producer", "playlist" + QString::number(i));
+            tractor.appendChild(track);
+        }
+
+        for (uint i = 2; i < total ; i++) {
             QDomElement transition = m_document.createElement("transition");
             transition.setAttribute("in", "0");
             //TODO: Make audio mix last for all project duration
@@ -111,19 +119,10 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
             transition.setAttribute("internal_added", "237");
             tractor.appendChild(transition);
         }
-        QDomElement playlistmain = m_document.createElement("playlist");
-        playlistmain.setAttribute("id", "playlistmain");
-        QDomElement playentry = m_document.createElement("entry");
-        playentry.setAttribute("producer", "maintractor");
-        playentry.setAttribute("in", "0");
-        playentry.setAttribute("out", "15000");
-        playlistmain.appendChild(playentry);
-        doc.appendChild(tractor);
-        doc.appendChild(playlistmain);
-
+        westley.appendChild(tractor);
     }
     m_scenelist = m_document.toString();
-    kDebug() << "scenelist" << m_scenelist;
+    // kDebug() << "scenelist" << m_scenelist;
     if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
     else m_timecode.setFormat((int) m_fps);
 }
@@ -134,12 +133,20 @@ KdenliveDoc::~KdenliveDoc() {
 }
 
 QDomElement KdenliveDoc::documentInfoXml() {
-    //QDomDocument doc;
-    QDomElement addedXml = m_document.createElement("kdenlive");
+    QDomDocument doc;
+    QDomElement e;
+    QDomElement addedXml = doc.createElement("kdenlive");
     addedXml.setAttribute("version", "0.7");
     addedXml.setAttribute("profile", profilePath());
-    kDebug() << m_document.toString();
-    return m_document.documentElement();
+    QList <DocClipBase*> list = m_clipManager->documentClipList();
+    for (int i = 0; i < list.count(); i++) {
+        e = list.at(i)->toXML();
+        e.setTagName("kdenlive_producer");
+        addedXml.appendChild(doc.importNode(e, true));
+    }
+
+    //kDebug() << m_document.toString();
+    return addedXml;
 }
 
 

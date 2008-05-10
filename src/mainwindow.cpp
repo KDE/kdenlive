@@ -167,8 +167,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     overviewDock = new QDockWidget(i18n("Project Overview"), this);
     overviewDock->setObjectName("project_overview");
-    m_overView = new CustomTrackView(NULL, NULL, this);
-    overviewDock->setWidget(m_overView);
+    //m_overView = new CustomTrackView(NULL, NULL, this);
+    //overviewDock->setWidget(m_overView);
     addDockWidget(Qt::TopDockWidgetArea, overviewDock);
 
     setupActions();
@@ -829,7 +829,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     if (m_commandStack->isClean()) kDebug() << "////////////  UNDO STACK IS CLEAN";
     else  kDebug() << "////////////  UNDO STACK IS NOT CLEAN*******************";
 
-    m_overView->setScene(trackView->projectScene());
+    //m_overView->setScene(trackView->projectScene());
     //m_overView->scale(m_overView->width() / trackView->duration(), m_overView->height() / (50 * trackView->tracksNumber()));
     //m_overView->fitInView(m_overView->itemAt(0, 50), Qt::KeepAspectRatio);
 

@@ -368,6 +368,8 @@ QString DocClipBase::markerComment(GenTime t) {
 }
 
 void DocClipBase::setProperties(QMap <QString, QString> properties) {
+    // changing clip type is not allowed
+    properties.remove("type");
     QMapIterator<QString, QString> i(properties);
     while (i.hasNext()) {
         i.next();

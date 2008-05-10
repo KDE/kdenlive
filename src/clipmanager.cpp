@@ -52,6 +52,8 @@ QList <DocClipBase*> ClipManager::documentClipList() {
 
 void ClipManager::addClip(DocClipBase *clip) {
     m_clipList.append(clip);
+    int id = clip->getId();
+    if (id >= m_clipIdCounter) m_clipIdCounter = id + 1;
 }
 
 void ClipManager::slotDeleteClip(uint clipId) {
@@ -78,10 +80,10 @@ DocClipBase *ClipManager::getClipAt(int pos) {
 }
 
 DocClipBase *ClipManager::getClipById(int clipId) {
-    kDebug() << "++++  CLIP MAN, LOOKING FOR CLIP ID: " << clipId;
+    //kDebug() << "++++  CLIP MAN, LOOKING FOR CLIP ID: " << clipId;
     for (int i = 0; i < m_clipList.count(); i++) {
         if (m_clipList.at(i)->getId() == clipId) {
-            kDebug() << "++++  CLIP MAN, FOUND FOR CLIP ID: " << clipId;
+            //kDebug() << "++++  CLIP MAN, FOUND FOR CLIP ID: " << clipId;
             return m_clipList.at(i);
         }
     }

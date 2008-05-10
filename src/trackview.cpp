@@ -119,26 +119,37 @@ void TrackView::setDuration(int dur) {
 
 void TrackView::parseDocument(QDomDocument doc) {
     int cursorPos = 0;
-    kDebug() << "//// DOCUMENT: " << doc.toString();
+    //kDebug() << "//// DOCUMENT: " << doc.toString();
     QDomNode props = doc.elementsByTagName("properties").item(0);
     if (!props.isNull()) {
         cursorPos = props.toElement().attribute("timeline_position").toInt();
     }
-    QDomNodeList tracks = doc.elementsByTagName("playlist");
+    QDomNodeList tracks = doc.elementsByTagName("track");
+    QDomNodeList playlists = doc.elementsByTagName("playlist");
     int duration = 300;
     m_projectTracks = tracks.count();
     int trackduration = 0;
+    QDomElement e;
+    QDomElement p;
+    bool videotrack;
     kDebug() << "//////////// TIMELINE FOUND: " << m_projectTracks << " tracks";
+    int pos = m_projectTracks - 1;
     for (int i = 0; i < m_projectTracks; i++) {
-        if (tracks.item(i).toElement().attribute("id") != "playlistmain") {
-            if (tracks.item(i).toElement().attribute("hide", QString::null) == "video") {
-                // this is an audio track
-                trackduration = slotAddAudioTrack(i, tracks.item(i).toElement());
-            } else if (!tracks.item(i).toElement().attribute("id", QString::null).isEmpty())
-                trackduration = slotAddVideoTrack(i, tracks.item(i).toElement());
+        e = tracks.item(i).toElement();
+        QString playlist_name = e.attribute("producer");
+        if (playlist_name != "black_track" && playlist_name != "playlistmain") {
+            // find playlist related to this track
+            p = QDomElement();
+            for (int j = 0; j < m_projectTracks; j++) {
+                p = playlists.item(j).toElement();
+                if (p.attribute("id") == playlist_name) break;
+            }
+            videotrack = (e.attribute("hide") != "video");
+            trackduration = slotAddProjectTrack(pos, p, videotrack);
+            pos--;
             kDebug() << " PRO DUR: " << trackduration << ", TRACK DUR: " << duration;
             if (trackduration > duration) duration = trackduration;
-        }
+        } else pos--;
     }
     m_trackview->setDuration(duration);
     slotRebuildTrackHeaders();
@@ -205,47 +216,44 @@ void TrackView::slotRebuildTrackHeaders() {
     view->headers_container->adjustSize();
 }
 
-int TrackView::slotAddAudioTrack(int ix, QDomElement xml) {
-    kDebug() << "*************  ADD AUDIO TRACK " << ix;
+int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
     TrackInfo info;
-    info.type = AUDIOTRACK;
-    info.isMute = false;
-    info.isBlind = false;
-    m_trackview->addTrack(info);
-    //documentTracks.insert(ix, track);
-    return 0;
-    //track->show();
-}
+    if (videotrack) {
+        info.type = VIDEOTRACK;
+        info.isMute = false;
+        info.isBlind = false;
+    } else {
+        info.type = AUDIOTRACK;
+        info.isMute = false;
+        info.isBlind = false;
+    }
 
-int TrackView::slotAddVideoTrack(int ix, QDomElement xml) {
-    TrackInfo info;
-    info.type = VIDEOTRACK;
-    info.isMute = false;
-    info.isBlind = false;
     m_trackview->addTrack(info);
 
     int trackTop = KdenliveSettings::trackheight() * ix;
     // parse track
     int position = 0;
+
     for (QDomNode n = xml.firstChild(); !n.isNull(); n = n.nextSibling()) {
         QDomElement elem = n.toElement();
         if (elem.tagName() == "blank") {
-            position += elem.attribute("length", 0).toInt();
+            position += elem.attribute("length").toInt();
         } else if (elem.tagName() == "entry") {
-            int in = elem.attribute("in", 0).toInt();
-            int id = elem.attribute("producer", 0).toInt();
+            int in = elem.attribute("in").toInt();
+            int id = elem.attribute("producer").toInt();
             DocClipBase *clip = m_doc->clipManager()->getClipById(id);
-            int out = elem.attribute("out", 0).toInt();
+            if (clip != NULL) {
+                int out = elem.attribute("out").toInt();
 
-            ItemInfo info;
-            info.startPos = GenTime(position, m_doc->fps());
-            info.endPos = GenTime(out, m_doc->fps());
-            info.track = ix;
-
-            ClipItem *item = new ClipItem(clip, info, m_scale, m_doc->fps());
-            m_scene->addItem(item);
-            position += out;
-
+                ItemInfo clipinfo;
+                clipinfo.startPos = GenTime(position, m_doc->fps());
+                clipinfo.endPos = GenTime(out, m_doc->fps());
+                clipinfo.track = ix;
+                kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
+                ClipItem *item = new ClipItem(clip, clipinfo, m_scale, m_doc->fps());
+                m_scene->addItem(item);
+                position += out;
+            } else kWarning() << "CANNOT INSERT CLIP " << id;
             //m_clipList.append(clip);
         }
     }
@@ -253,7 +261,7 @@ int TrackView::slotAddVideoTrack(int ix, QDomElement xml) {
 
 
     //documentTracks.insert(ix, track);
-    kDebug() << "*************  ADD VIDEO TRACK " << ix << ", DURATION: " << position;
+    kDebug() << "*************  ADD DOC TRACK " << ix << ", DURATION: " << position;
     return position;
     //track->show();
 }

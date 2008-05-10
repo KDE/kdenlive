@@ -294,9 +294,9 @@ void Monitor::resetProfile(QString prof) {
     render->resetProfile(prof);
 }
 
-void Monitor::saveSceneList(QString path, QDomElement e) {
+void Monitor::saveSceneList(QString path, QDomElement info) {
     if (render == NULL) return;
-    render->saveSceneList(path, e);
+    render->saveSceneList(path, info);
 }
 
 MonitorRefresh::MonitorRefresh(QWidget* parent): QWidget(parent), m_renderer(NULL) {

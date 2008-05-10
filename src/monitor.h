@@ -94,7 +94,7 @@ public slots:
     void slotRewind(double speed = 0);
     void slotRewindOneFrame();
     void slotForwardOneFrame();
-    void saveSceneList(QString path, QDomElement e = QDomElement());
+    void saveSceneList(QString path, QDomElement info = QDomElement());
 
 signals:
     void renderPosition(int);
