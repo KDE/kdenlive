@@ -36,7 +36,7 @@ class EffectParameter;
 
 class Effect {
   public:
-    Effect(const EffectDesc & desc, const QString & id, const QString & id = NULL);
+    Effect(const EffectDesc & desc, const QString & id, const QString & group = NULL);
 
     ~Effect();
 
