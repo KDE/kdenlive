@@ -467,7 +467,7 @@ namespace Gui {
 	int value;
 	for (uint i = 1; i<4; i++) {
 	    value = (int) mapValueToLocal(getSliderValue(i));
-	    if (abs (pos.x() - value) < 7 ) {
+	    if (QABS (pos.x() - value) < 7 ) {
 	    	rect.setRect( value -7, y(), 15, height());
 		if (i != 3) tipText = m_rulerModel->mapValueToText(getSliderValue(i));
 		else tipText = i18n("Duration:") + m_rulerModel->mapValueToText(getSliderValue(2) - getSliderValue(1));
@@ -478,7 +478,7 @@ namespace Gui {
 	uint ct = 0;
         for ( itt = m_guides.begin(); itt != m_guides.end(); ++itt ) {
 	    value = (int) mapValueToLocal((*itt).guidePosition());
-	    if (abs (pos.x() - value) < 7 ) { 
+	    if (QABS (pos.x() - value) < 7 ) { 
 		rect.setRect( value -7, y(), 15, height());
 		tipText = (*itt).guideComment();
 		break;
@@ -624,7 +624,7 @@ namespace Gui {
             for ( itt = m_guides.begin(); itt != m_guides.end(); ++itt ) {
 	        int pos = (int) mapValueToLocal((*itt).guidePosition());
 		int sliderpos = (int) mapValueToLocal(actValue);
-	        if (abs(pos - sliderpos) < 10) {
+	        if (QABS(pos - sliderpos) < 10) {
 		    actValue = (*itt).guidePosition();
 		    break;
 		}
@@ -1091,7 +1091,7 @@ namespace Gui {
 	bool isChapter = false;
         QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
-	    if (abs((int) mapValueToLocal((*it).guidePosition()) - localTime) < 10)
+	    if (QABS((int) mapValueToLocal((*it).guidePosition()) - localTime) < 10)
 	    	break;
 	    ct++;
         }
@@ -1128,7 +1128,7 @@ namespace Gui {
 	uint ct = 0;
         QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
-	    if (abs((int) mapValueToLocal((*it).guidePosition() - localTime)) < 10)
+	    if (QABS((int) mapValueToLocal((*it).guidePosition() - localTime)) < 10)
 	    	break;
 	    ct++;
         }
@@ -1201,7 +1201,7 @@ namespace Gui {
 	uint ct = 0;
         QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
-	    if (abs((int) mapValueToLocal((*it).guidePosition()) - localTime) < 10)
+	    if (QABS((int) mapValueToLocal((*it).guidePosition()) - localTime) < 10)
 	    	break;
 	    ct++;
         }

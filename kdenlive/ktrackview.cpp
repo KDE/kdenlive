@@ -86,7 +86,7 @@ namespace Gui {
 	int trackHeight = m_panel->height();
 	while (itt != markers.end()) {
 	    int x = m_panel->getLocalValue((*itt).time());
-	    if ( fabs(x - pos.x()) < 5) {
+	    if ( QABS(x - pos.x()) < 5) {
 	    	rect.setRect(x -7, revativeOffset + trackHeight/4, 15, trackHeight*3/4);
 		tipText = (*itt).comment();
 		return;
@@ -94,7 +94,7 @@ namespace Gui {
 	    ++itt;
     	}
 
-	rect.setRect(m_panel->getLocalValue(underMouse->trackStart()), revativeOffset, abs(m_panel->getLocalValue(underMouse->duration()) - m_panel->getLocalValue(GenTime(0))), 20);
+	rect.setRect(m_panel->getLocalValue(underMouse->trackStart()), revativeOffset, QABS(m_panel->getLocalValue(underMouse->duration()) - m_panel->getLocalValue(GenTime(0))), 20);
 	tipText = underMouse->description();
 	if (tipText.isEmpty()) tipText = underMouse->name();
 	Timecode timecode;
