@@ -96,7 +96,7 @@ KRender::KRender(const QString & rendererName, QWidget *parent, const char *name
     if (!m_mltConsumer || !m_mltConsumer->is_valid()) {
 	KMessageBox::error(qApp->mainWidget(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install.\n Exiting now..."));
 	kdError()<<"Sorry, cannot create MLT consumer, check your MLT install you miss SDL libraries support in MLT"<<endl;
-	exit(1);
+	qApp->quit();
     }
 
     if (KdenliveSettings::useexternalmonitor()) {
@@ -205,7 +205,7 @@ int KRender::resetRendererProfile(char * profile)
     if (!m_mltConsumer || !m_mltConsumer->is_valid()) {
 	KMessageBox::error(qApp->mainWidget(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install.\n Exiting now..."));
 	kdError()<<"Sorry, cannot create MLT consumer, check your MLT install you miss SDL libraries support in MLT"<<endl;
-	exit(1);
+	qApp->quit();
     }
 
     if (KdenliveSettings::useexternalmonitor()) {
