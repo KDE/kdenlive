@@ -42,11 +42,11 @@ extern "C" {
 #include "renderer.h"
 #include "kdenlivesettings.h"
 #include "kthumb.h"
-//#include <ffmpeg/avformat.h>
+
 #include <mlt++/Mlt.h>
 
 #if LIBAVCODEC_VERSION_MAJOR > 51 || (LIBAVCODEC_VERSION_MAJOR > 50 && LIBAVCODEC_VERSION_MINOR > 54)
-    // long_name was added in FFmpeg avcoded version 51.55
+    // long_name was added in FFmpeg avcodec version 51.55
     #define ENABLE_FFMPEG_CODEC_DESCRIPTION 1
 #endif
 
@@ -427,10 +427,14 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
             else
                 filePropertyMap["type"] = "video";
 
-            // Generate thumbnail for this frame
-            QPixmap pixmap = KThumb::getFrame(&producer, 0, width, height);
-
-            emit replyGetImage(clipId, 0, pixmap, width, height);
+	    QPixmap pix(width, height);
+	    mlt_image_format format = mlt_image_rgb24a;
+	    const uint8_t *thumb = frame->get_image(format, width, height);
+	    QImage image(thumb, width, height, QImage::Format_ARGB32 );
+	    if (!image.isNull()) {
+		pix = pix.fromImage(image);
+	    } else pix.fill(Qt::black);
+            emit replyGetImage(clipId, 0, pix, width, height);
 
         } else if (frame->get_int("test_audio") == 0) {
             QPixmap pixmap(KStandardDirs::locate("appdata", "graphics/music.png"));
@@ -1442,7 +1446,7 @@ void Render::mltMoveTransition(QString type, int startTrack, int trackOffset, Ge
     int old_pos = (int)(oldIn.frames(m_fps) + oldOut.frames(m_fps)) / 2;
 
     int new_in = (int)newIn.frames(m_fps);
-    int new_out = (int)newOut.frames(m_fps) - 1;
+    int new_out = (int)newOut.frames(m_fps);
 
     while (mlt_type == "transition") {
         mlt_transition tr = (mlt_transition) nextservice;
@@ -1502,6 +1506,8 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
         int currentTrack = mlt_transition_get_b_track(tr);
         int currentIn = (int) mlt_transition_get_in(tr);
         int currentOut = (int) mlt_transition_get_out(tr);
+
+	// kDebug()<<"Looking for transition : " << currentIn <<"x"<<currentOut<< ", OLD oNE: "<<in_pos<<"x"<<out_pos;
 
         if (resource == type && b_track == currentTrack && currentIn == in_pos && currentOut == out_pos) {
             QMap<QString, QString> map = mltGetTransitionParamsFromXml(xml);
