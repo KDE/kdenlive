@@ -45,6 +45,11 @@ extern "C" {
 //#include <ffmpeg/avformat.h>
 #include <mlt++/Mlt.h>
 
+#if LIBAVCODEC_VERSION_MAJOR > 51 || (LIBAVCODEC_VERSION_MAJOR > 50 && LIBAVCODEC_VERSION_MINOR > 54)
+    // long_name was added in FFmpeg avcoded version 51.55
+    #define ENABLE_FFMPEG_CODEC_DESCRIPTION 1
+#endif
+
 static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr) {
     // detect if the producer has finished playing. Is there a better way to do it ?
     //if (self->isBlocked) return;
@@ -442,15 +447,27 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
     if (context != NULL) {
         // Get the video_index
         int index = mlt_properties_get_int(properties, "video_index");
-        if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name)
-            filePropertyMap["videocodec"] = context->streams[ index ]->codec->codec->name;
+
+#if ENABLE_FFMPEG_CODEC_DESCRIPTION
+        if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->long_name)
+            filePropertyMap["videocodec"] = context->streams[ index ]->codec->codec->long_name;
+	    else 
+#endif
+		if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name)
+		filePropertyMap["videocodec"] = context->streams[ index ]->codec->codec->name;
     }
     context = (AVFormatContext *) mlt_properties_get_data(properties, "audio_context", NULL);
     if (context != NULL) {
         // Get the video_index
         int index = mlt_properties_get_int(properties, "audio_index");
-        if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name)
-            filePropertyMap["audiocodec"] = context->streams[ index ]->codec->codec->name;
+
+#if ENABLE_FFMPEG_CODEC_DESCRIPTION
+        if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->long_name)
+            filePropertyMap["audiocodec"] = context->streams[ index ]->codec->codec->long_name;
+	    else 
+#endif
+		if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name) 
+		filePropertyMap["audiocodec"] = context->streams[ index ]->codec->codec->name;
     }
 #endif
     // metadata
