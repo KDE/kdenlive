@@ -58,7 +58,7 @@ public:
     /** Give a string list of the clip's effect names */
     QStringList effectNames();
     /** Add an effect to the clip and return the parameters that will be passed to Mlt */
-    QMap <QString, QString> addEffect(QDomElement effect);
+    QMap <QString, QString> addEffect(QDomElement effect, bool animate = true);
     /** Get the effect parameters that will be passed to Mlt */
     QMap <QString, QString> getEffectArgs(QDomElement effect);
     /** Delete effect with id index */

@@ -565,8 +565,11 @@ void ClipItem::setEffectAt(int ix, QDomElement effect) {
     update(boundingRect());
 }
 
-QMap <QString, QString> ClipItem::addEffect(QDomElement effect) {
+QMap <QString, QString> ClipItem::addEffect(QDomElement effect, bool animate) {
     QMap <QString, QString> effectParams;
+    /*QDomDocument doc;
+    doc.appendChild(doc.importNode(effect, true));
+    kDebug() << "///////  CLIP ADD EFFECT: "<< doc.toString();*/
     m_effectList.append(effect);
     effectParams["tag"] = effect.attribute("tag");
     effectParams["kdenlive_ix"] = effect.attribute("kdenlive_ix");
@@ -582,7 +585,7 @@ QMap <QString, QString> ClipItem::addEffect(QDomElement effect) {
             effectParams[e.attribute("name")] =  QString::number(effectParams[e.attribute("name")].toDouble() / e.attribute("factor").toDouble());
         }
     }
-    flashClip();
+    if (animate) flashClip();
     update(boundingRect());
     return effectParams;
 }

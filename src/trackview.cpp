@@ -32,6 +32,7 @@
 #include "clipmanager.h"
 #include "customruler.h"
 #include "kdenlivedoc.h"
+#include "mainwindow.h"
 #include "customtrackview.h"
 
 TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
@@ -218,6 +219,7 @@ void TrackView::slotRebuildTrackHeaders() {
 
 int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
     TrackInfo info;
+
     if (videotrack) {
         info.type = VIDEOTRACK;
         info.isMute = false;
@@ -233,12 +235,12 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
     int trackTop = KdenliveSettings::trackheight() * ix;
     // parse track
     int position = 0;
-
     for (QDomNode n = xml.firstChild(); !n.isNull(); n = n.nextSibling()) {
         QDomElement elem = n.toElement();
         if (elem.tagName() == "blank") {
             position += elem.attribute("length").toInt();
         } else if (elem.tagName() == "entry") {
+	    // Found a clip
             int in = elem.attribute("in").toInt();
             int id = elem.attribute("producer").toInt();
             DocClipBase *clip = m_doc->clipManager()->getClipById(id);
@@ -253,6 +255,52 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                 ClipItem *item = new ClipItem(clip, clipinfo, m_scale, m_doc->fps());
                 m_scene->addItem(item);
                 position += out;
+
+		// parse clip effects
+		for (QDomNode n2 = elem.firstChild(); !n2.isNull(); n2 = n2.nextSibling()) {
+		    QDomElement effect = n2.toElement();
+		    if (effect.tagName() == "filter") {
+			// add effect to clip
+			QString effecttag;
+			QString effectindex;
+			// Get effect tag & index
+			for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
+			    // parse effect parameters
+			    QDomElement effectparam = n3.toElement();
+			    if (effectparam.attribute("name") == "tag") {
+				effecttag = effectparam.text();
+			    }
+			    if (effectparam.attribute("name") == "kdenlive_ix") {
+				effectindex = effectparam.text();
+			    }
+			}
+
+			// get effect standard tags
+			QDomElement clipeffect = MainWindow::videoEffects.getEffectByTag(effecttag);
+			clipeffect.setAttribute("kdenlive_ix",effectindex);
+			QDomNodeList clipeffectparams = clipeffect.childNodes();
+
+			// adjust effect parameters
+			for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
+			    // parse effect parameters
+			    QDomElement effectparam = n3.toElement();
+			    QString paramname = effectparam.attribute("name");
+			    QString paramvalue = effectparam.text();
+
+			    // try to find this parameter in the effect xml
+			    QDomElement e;
+			    for (int k = 0; k < clipeffectparams.count(); k++) {
+				e = clipeffectparams.item(k).toElement();
+				if (!e.isNull() && e.tagName() == "parameter" && e.attribute("name") == paramname) {
+				    e.setAttribute("value", paramvalue);
+				    break;
+				}
+			    }
+			}
+			item->addEffect(clipeffect, false);
+		    }
+		}
+
             } else kWarning() << "CANNOT INSERT CLIP " << id;
             //m_clipList.append(clip);
         }

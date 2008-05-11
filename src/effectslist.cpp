@@ -45,13 +45,30 @@ QMap <QString, QString> EffectsList::effect(const QString & name) {
     return filter;
 }
 
-QDomElement EffectsList::getEffectByName(const QString & name) {
+QDomElement EffectsList::getEffectByName(const QString & name) const {
     QString effectName;
     for (int i = 0; i < this->size(); ++i) {
         QDomElement effect =  this->at(i);
         QDomNode namenode = effect.elementsByTagName("name").item(0);
         if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());
         if (name == effectName) {
+            QDomNodeList params = effect.elementsByTagName("parameter");
+            for (int i = 0; i < params.count(); i++) {
+                QDomElement e = params.item(i).toElement();
+                e.setAttribute("value", e.attribute("default"));
+            }
+            return effect;
+        }
+    }
+
+    return QDomElement();
+}
+
+QDomElement EffectsList::getEffectByTag(const QString & tag) const {
+    QString effectName;
+    for (int i = 0; i < this->size(); ++i) {
+        QDomElement effect =  this->at(i);
+        if (effect.attribute("tag") == tag) {
             QDomNodeList params = effect.elementsByTagName("parameter");
             for (int i = 0; i < params.count(); i++) {
                 QDomElement e = params.item(i).toElement();
