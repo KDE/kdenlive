@@ -40,6 +40,7 @@
 #include "addtimelineclipcommand.h"
 #include "addeffectcommand.h"
 #include "editeffectcommand.h"
+#include "moveeffectcommand.h"
 #include "addtransitioncommand.h"
 #include "edittransitioncommand.h"
 #include "razorclipcommand.h"
@@ -555,10 +556,18 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect) {
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_tracksList.count() - track);
     if (clip) {
         QMap <QString, QString> effectParams = clip->getEffectArgs(effect);
-        if (effectParams["disabled"] == "1") {
-            QString index = effectParams["kdenlive_ix"];
+        if (effectParams.value("disabled") == "1") {
+            QString index = effectParams.value("kdenlive_ix");
             m_document->renderer()->mltRemoveEffect(track, pos, index);
         } else m_document->renderer()->mltEditEffect(m_tracksList.count() - clip->track(), clip->startPos(), effectParams);
+    }
+    m_document->setModified(true);
+}
+
+void CustomTrackView::moveEffect(int track, GenTime pos, int oldPos, int newPos) {
+    ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_tracksList.count() - track);
+    if (clip) {
+        m_document->renderer()->mltMoveEffect(track, pos, oldPos, newPos);
     }
     m_document->setModified(true);
 }
@@ -567,6 +576,12 @@ void CustomTrackView::slotChangeEffectState(ClipItem *clip, QDomElement effect, 
     QDomElement oldEffect = effect.cloneNode().toElement();
     effect.setAttribute("disabled", disable);
     EditEffectCommand *command = new EditEffectCommand(this, m_tracksList.count() - clip->track(), clip->startPos(), oldEffect, effect, true);
+    m_commandStack->push(command);
+    m_document->setModified(true);
+}
+
+void CustomTrackView::slotChangeEffectPosition(ClipItem *clip, int currentPos, int newPos) {
+    MoveEffectCommand *command = new MoveEffectCommand(this, m_tracksList.count() - clip->track(), clip->startPos(), currentPos, newPos, true);
     m_commandStack->push(command);
     m_document->setModified(true);
 }

@@ -778,6 +778,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement)), m_activeTimeline->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement)));
             disconnect(effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), m_activeTimeline->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
             disconnect(effectStack, SIGNAL(changeEffectState(ClipItem*, QDomElement, bool)), m_activeTimeline->projectView(), SLOT(slotChangeEffectState(ClipItem*, QDomElement, bool)));
+	    disconnect(effectStack, SIGNAL(changeEffectPosition(ClipItem*, int, int)), trackView->projectView(), SLOT(slotChangeEffectPosition(ClipItem*, int, int)));
             disconnect(effectStack, SIGNAL(refreshEffectStack(ClipItem*)), m_activeTimeline->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
             disconnect(transitionConfig, SIGNAL(transitionUpdated(Transition *, QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(Transition *, QDomElement)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(activateMonitor()));
@@ -816,6 +817,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement)), trackView->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement)));
     connect(effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), trackView->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
     connect(effectStack, SIGNAL(changeEffectState(ClipItem*, QDomElement, bool)), trackView->projectView(), SLOT(slotChangeEffectState(ClipItem*, QDomElement, bool)));
+    connect(effectStack, SIGNAL(changeEffectPosition(ClipItem*, int, int)), trackView->projectView(), SLOT(slotChangeEffectPosition(ClipItem*, int, int)));
     connect(effectStack, SIGNAL(refreshEffectStack(ClipItem*)), trackView->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
     connect(transitionConfig, SIGNAL(transitionUpdated(Transition *, QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(Transition *, QDomElement)));
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(activateMonitor()));

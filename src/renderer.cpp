@@ -1182,13 +1182,14 @@ void Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> 
 	filter = clipService.filter(ct);
 	QList <Mlt::Filter *> filtersList;
 	while (filter) {
-	    if (filter->get("kdenlive_ix") > index) {
+	    if (QString(filter->get("kdenlive_ix")).toInt() > index.toInt()) {
 		filtersList.append(filter);
 		clipService.detach(*filter);
 	    } else ct++;
 	    filter = clipService.filter(ct);
 	}
         mltAddEffect(track, position, args);
+
 	for (int i = 0; i < filtersList.count(); i++) {
 	    clipService.attach(*(filtersList.at(i)));
 	}
@@ -1205,6 +1206,78 @@ void Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> 
         delete[] name;
         delete[] value;
     }
+    m_isBlocked = false;
+    refresh();
+}
+
+void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos) {
+
+    kDebug() << "MOVING EFFECT FROM " << oldPos<< ", TO: " << newPos;
+    Mlt::Service service(m_mltProducer->parent().get_service());
+
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+    //int clipIndex = trackPlaylist.get_clip_index_at(position.frames(m_fps));
+    Mlt::Producer *clip = trackPlaylist.get_clip_at((int) position.frames(m_fps));
+    if (!clip) {
+        kDebug() << "WARINIG, CANNOT FIND CLIP ON track: " << track << ", AT POS: " << position.frames(m_fps);
+        return;
+    }
+    Mlt::Service clipService(clip->get_service());
+    m_isBlocked = true;
+    int ct = 0;
+    QList <Mlt::Filter *> filtersList;
+    Mlt::Filter *filter = clipService.filter(ct);
+    bool found = false;
+    if (newPos > oldPos) {
+	while (filter) {
+	    if (!found && QString(filter->get("kdenlive_ix")).toInt() == oldPos) {
+		filter->set("kdenlive_ix", newPos);
+		filtersList.append(filter);
+		clipService.detach(*filter);
+		filter = clipService.filter(ct);
+		while (filter && QString(filter->get("kdenlive_ix")).toInt() <= newPos) {
+		    filter->set("kdenlive_ix", QString(filter->get("kdenlive_ix")).toInt() - 1);
+		    ct++;
+		    filter = clipService.filter(ct);
+		}
+		found = true;
+	    }
+	    if (filter && QString(filter->get("kdenlive_ix")).toInt() > newPos) {
+		filtersList.append(filter);
+		clipService.detach(*filter);
+	    } else ct++;
+	    filter = clipService.filter(ct);
+	}
+    }
+    else {
+	while (filter) {
+	    if (QString(filter->get("kdenlive_ix")).toInt() == oldPos) {
+		filter->set("kdenlive_ix", newPos);
+		filtersList.append(filter);
+		clipService.detach(*filter);
+	    } else ct++;
+	    filter = clipService.filter(ct);
+	}
+
+	ct = 0;
+	filter = clipService.filter(ct);
+	while (filter) {
+	    int pos = QString(filter->get("kdenlive_ix")).toInt();
+	    if (pos >= newPos) {
+		if (pos < oldPos) filter->set("kdenlive_ix", QString(filter->get("kdenlive_ix")).toInt() + 1);
+		filtersList.append(filter);
+		clipService.detach(*filter);
+	    } else ct++;
+	    filter = clipService.filter(ct);
+	}
+    }
+    
+    for (int i = 0; i < filtersList.count(); i++) {
+	clipService.attach(*(filtersList.at(i)));
+    }
+
     m_isBlocked = false;
     refresh();
 }

@@ -60,6 +60,8 @@ signals:
     void refreshEffectStack(ClipItem *);
     /** Enable or disable an effect */
     void changeEffectState(ClipItem*, QDomElement, bool);
+    /** An effect in stack was moved */
+    void changeEffectPosition(ClipItem*, int, int);
 
 };
 

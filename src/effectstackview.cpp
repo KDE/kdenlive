@@ -134,7 +134,7 @@ void EffectStackView::slotItemUp() {
     QListWidgetItem *item = ui.effectlist->takeItem(activeRow);
     ui.effectlist->insertItem(activeRow - 1, item);
     ui.effectlist->setCurrentItem(item);
-    emit refreshEffectStack(clipref);
+    emit changeEffectPosition(clipref, activeRow + 1, activeRow);
 }
 
 void EffectStackView::slotItemDown() {
@@ -148,7 +148,7 @@ void EffectStackView::slotItemDown() {
     QListWidgetItem *item = ui.effectlist->takeItem(activeRow);
     ui.effectlist->insertItem(activeRow + 1, item);
     ui.effectlist->setCurrentItem(item);
-    emit refreshEffectStack(clipref);
+    emit changeEffectPosition(clipref, activeRow + 1, activeRow + 2);
 }
 
 void EffectStackView::slotItemDel() {

@@ -157,6 +157,7 @@ Q_OBJECT public:
     void mltRemoveEffect(int track, GenTime position, QString index, bool doRefresh = true);
     void mltAddEffect(int track, GenTime position, QMap <QString, QString> args, bool doRefresh = true);
     void mltEditEffect(int track, GenTime position, QMap <QString, QString> args);
+    void mltMoveEffect(int track, GenTime position, int oldPos, int newPos);
     void mltChangeTrackState(int track, bool mute, bool blind);
     void mltMoveTransition(QString type, int startTrack, int trackOffset, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut);
     void mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool refresh = true);

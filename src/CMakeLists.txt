@@ -81,6 +81,7 @@ set(kdenlive_SRCS
   effectslistview.cpp
   addeffectcommand.cpp
   editeffectcommand.cpp
+  moveeffectcommand.cpp
   effectstackview.cpp
   effectstackedit.cpp
   parameterplotter.cpp

@@ -58,6 +58,7 @@ public:
     void addEffect(int track, GenTime pos, QDomElement effect);
     void deleteEffect(int track, GenTime pos, QDomElement effect);
     void updateEffect(int track, GenTime pos, QDomElement effect);
+    void moveEffect(int track, GenTime pos, int oldPos, int newPos);
     void addTransition(ItemInfo transitionInfo, int endTrack, QDomElement params);
     void deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement params);
     void updateTransition(int track, GenTime pos,  QDomElement oldTransition, QDomElement transition);
@@ -80,6 +81,7 @@ public slots:
     void updateCursorPos();
     void slotDeleteEffect(ClipItem *clip, QDomElement effect);
     void slotChangeEffectState(ClipItem *clip, QDomElement effect, bool disable);
+    void slotChangeEffectPosition(ClipItem *clip, int currentPos, int newPos);
     void slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect, QDomElement effect);
     void slotRefreshEffects(ClipItem *clip);
     void setDuration(int duration);
