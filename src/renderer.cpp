@@ -516,7 +516,7 @@ void Render::setSceneList(QString playlist, int position) {
     if (m_winid == -1) return;
     m_generateScenelist = true;
 
-    kWarning() << "//////  RENDER, SET SCENE LIST: " << playlist;
+    //kWarning() << "//////  RENDER, SET SCENE LIST: " << playlist;
 
 
     /*
@@ -1177,7 +1177,22 @@ void Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> 
 
     if (!filter) {
         kDebug() << "WARINIG, FILTER FOR EDITING NOT FOUND, ADDING IT!!!!!";
+	// filter was not found, it was probably a disabled filter, so add it to the correct place...
+	int ct = 0;
+	filter = clipService.filter(ct);
+	QList <Mlt::Filter *> filtersList;
+	while (filter) {
+	    if (filter->get("kdenlive_ix") > index) {
+		filtersList.append(filter);
+		clipService.detach(*filter);
+	    } else ct++;
+	    filter = clipService.filter(ct);
+	}
         mltAddEffect(track, position, args);
+	for (int i = 0; i < filtersList.count(); i++) {
+	    clipService.attach(*(filtersList.at(i)));
+	}
+
         m_isBlocked = false;
         return;
     }
