@@ -42,7 +42,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, uint id):
     }
     if (m_name.isEmpty()) m_name = url.fileName();
 
-    if (!url.isEmpty()) {
+    if (!url.isEmpty() && QFile::exists(url.path())) {
         m_thumbProd = new KThumb(clipManager, url);
         if (m_clipType == AV || m_clipType == AUDIO) slotCreateAudioTimer();
     }
@@ -87,6 +87,8 @@ void DocClipBase::slotRequestAudioThumbs() {
 }
 
 void DocClipBase::slotClearAudioCache() {
+    if (m_thumbProd) m_thumbProd->stopAudioThumbs();
+    if (m_audioTimer != NULL) m_audioTimer->stop();
     audioFrameChache.clear();
     m_audioThumbCreated = false;
 }
@@ -122,7 +124,7 @@ const CLIPTYPE & DocClipBase::clipType() const {
 
 void DocClipBase::setClipType(CLIPTYPE type) {
     m_clipType = type;
-    if (m_audioTimer == NULL && (m_clipType == AV || m_clipType == AUDIO))
+    if (m_thumbProd && m_audioTimer == NULL && (m_clipType == AV || m_clipType == AUDIO))
         slotCreateAudioTimer();
 }
 
@@ -390,7 +392,7 @@ QMap <QString, QString> DocClipBase::properties() const {
 }
 
 void DocClipBase::slotGetAudioThumbs() {
-
+    if (m_thumbProd == NULL) return;
     if (m_audioThumbCreated) {
         if (m_audioTimer != NULL)
             m_audioTimer->stop();
