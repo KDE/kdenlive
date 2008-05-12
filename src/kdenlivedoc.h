@@ -111,6 +111,7 @@ private:
     bool m_modified;
     /** Project folder, used to store project files (titles, effects,...) */
     KUrl m_projectFolder;
+    void convertDocument(double version);
 
 public slots:
     void slotCreateTextClip(QString group, int groupId);

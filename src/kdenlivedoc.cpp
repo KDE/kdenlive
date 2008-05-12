@@ -43,10 +43,12 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
             QFile file(tmpFile);
             m_document.setContent(&file, false);
             file.close();
-            QDomNode infoXmlNode = m_document.elementsByTagName("kdenlive").at(0);
+            QDomNode infoXmlNode = m_document.elementsByTagName("kdenlivedoc").at(0);
             if (!infoXmlNode.isNull()) {
                 QDomElement infoXml = infoXmlNode.toElement();
                 QString profilePath = infoXml.attribute("profile");
+                double version = infoXml.attribute("version").toDouble();
+                if (version < 0.7) convertDocument(version);
                 if (!profilePath.isEmpty()) setProfilePath(profilePath);
                 QDomNodeList producers = infoXmlNode.childNodes();
                 QDomElement e;
@@ -157,10 +159,68 @@ KdenliveDoc::~KdenliveDoc() {
     delete m_clipManager;
 }
 
+void KdenliveDoc::convertDocument(double version) {
+    // Opening a old Kdenlive document
+    QDomNode westley = m_document.elementsByTagName("westley").at(1);
+    QDomNode tractor = m_document.elementsByTagName("tractor").at(0);
+    QDomNode kdenlivedoc = m_document.elementsByTagName("kdenlivedoc").at(0);
+    QDomNode multitrack = m_document.elementsByTagName("multitrack").at(0);
+    QDomNodeList playlists = m_document.elementsByTagName("playlist");
+
+    // move playlists outside of tractor and add the tracks instead
+    int max = playlists.count();
+    for (int i = 0; i < max; i++) {
+        QDomNode n = playlists.at(i);
+        westley.insertBefore(n, QDomNode());
+        QDomElement track = m_document.createElement("track");
+        QString playlist_id =  n.toElement().attribute("id");
+        if (playlist_id.isEmpty()) {
+            playlist_id = "black_track";
+            n.toElement().setAttribute("id", playlist_id);
+        }
+        track.setAttribute("producer", playlist_id);
+        tractor.appendChild(track);
+    }
+    tractor.removeChild(multitrack);
+
+    // audio track mixing transitions should not be added to track view, so add required attribute
+    QDomNodeList transitions = m_document.elementsByTagName("transition");
+    max = transitions.count();
+    for (int i = 0; i < max; i++) {
+        QDomElement tr = transitions.at(i).toElement();
+        if (tr.attribute("combine") == "1" && tr.attribute("mlt_service") == "mix") {
+            QDomElement property = m_document.createElement("property");
+            property.setAttribute("name", "internal_added");
+            QDomText value = m_document.createTextNode("237");
+            property.appendChild(value);
+            tr.appendChild(property);
+        }
+    }
+
+    // move transitions after tracks
+    for (int i = 0; i < max; i++) {
+        tractor.insertAfter(transitions.at(0), QDomNode());
+    }
+
+    // change producer names
+    QDomNodeList producers = m_document.elementsByTagName("producer");
+    max = producers.count();
+    for (int i = 0; i < max; i++) {
+        QDomNode prod = producers.at(i);
+        prod.toElement().setTagName("kdenlive_producer");
+        //kdenlivedoc.insertBefore(prod, QDomNode());
+    }
+
+
+    kDebug() << "/////////////////  CONVERTED DOC:";
+    kDebug() << m_document.toString();
+    kDebug() << "/////////////////  END CONVERTED DOC:";
+}
+
 QDomElement KdenliveDoc::documentInfoXml() {
     QDomDocument doc;
     QDomElement e;
-    QDomElement addedXml = doc.createElement("kdenlive");
+    QDomElement addedXml = doc.createElement("kdenlivedoc");
     addedXml.setAttribute("version", "0.7");
     addedXml.setAttribute("profile", profilePath());
     QList <DocClipBase*> list = m_clipManager->documentClipList();
