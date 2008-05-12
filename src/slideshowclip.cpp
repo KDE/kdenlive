@@ -75,7 +75,7 @@ void SlideshowClip::parseFolder() {
     if (m_count == 0) m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     else m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
     m_view.label_info->setText(i18n("%1 images found", m_count));
-    foreach(QString path, result) {
+    foreach(const QString &path, result) {
         QIcon icon(dir.filePath(path));
         QListWidgetItem *item = new QListWidgetItem(icon, KUrl(path).fileName());
         m_view.icon_list->addItem(item);

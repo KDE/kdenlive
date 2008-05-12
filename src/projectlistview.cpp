@@ -137,7 +137,7 @@ void ProjectListView::dropEvent(QDropEvent *event) {
         }
         QList <QUrl> list;
         list = event->mimeData()->urls();
-        foreach(QUrl url, list) {
+        foreach(const QUrl &url, list) {
             emit addClip(url, groupName);
         }
 
@@ -215,7 +215,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event) {
             QList <QTreeWidgetItem *> list;
             list = selectedItems();
             QStringList ids;
-            foreach(QTreeWidgetItem *item, list) {
+            foreach(const QTreeWidgetItem *item, list) {
                 // TODO allow dragging of folders
                 ids.append(QString::number(((ProjectItem *) item)->clipId()));
             }

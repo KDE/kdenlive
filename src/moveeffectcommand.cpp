@@ -24,11 +24,11 @@
 
 MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, GenTime pos, int oldPos, int newPos, bool doIt)
         : m_view(view), m_track(track), m_pos(pos), m_oldindex(oldPos), m_newindex(newPos), m_doIt(doIt) {
-/*    QString effectName;
-    QDomNode namenode = effect.elementsByTagName("name").item(0);
-    if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());
-    else effectName = i18n("effect");
-    setText(i18n("Move effect %1", effectName));*/
+    /*    QString effectName;
+        QDomNode namenode = effect.elementsByTagName("name").item(0);
+        if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());
+        else effectName = i18n("effect");
+        setText(i18n("Move effect %1", effectName));*/
     setText(i18n("Move effect"));
 }
 

@@ -150,7 +150,7 @@ void ParameterPlotter::createParametersNew() {
     if (namenode.count() > 0) {
         for (int i = 0;i < plotobjs.count();i++) {
             QList<KPlotPoint*> points = plotobjs[i]->points();
-            foreach(KPlotPoint *o, points) {
+            foreach(const KPlotPoint *o, points) {
                 txtstr << (int)o->y() ;
                 break;//first no keyframes
             }
@@ -236,7 +236,7 @@ void ParameterPlotter::mousePressEvent(QMouseEvent * event) {
                 double newx = inPlot.x() * dataRect().width() / pixRect().width();
                 double newy = (height() - inPlot.y() - bottomPadding() - topPadding()) * dataRect().height() / pixRect().height();
                 bool inserted = false;
-                foreach(KPlotPoint* pt, points) {
+                foreach(const KPlotPoint* pt, points) {
                     if (pt->x() > newx && !inserted) {
                         newpoints.append(QPointF(newx, newy));
                         inserted = true;
@@ -244,7 +244,7 @@ void ParameterPlotter::mousePressEvent(QMouseEvent * event) {
                     newpoints.append(QPointF(pt->x(), pt->y()));
                 }
                 p->clearPoints();
-                foreach(QPointF qf, newpoints) {
+                foreach(const QPointF qf, newpoints) {
                     p->addPoint(qf);
                 }
                 replacePlotObject(activeIndexPlot, p);

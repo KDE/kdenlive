@@ -90,8 +90,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
             pa.setAttribute("format", "%d%,%d%:%d%x%d%:%d%");
             pa.setAttribute("min", "-200;-20;0;0;0");
             pa.setAttribute("max", "200;200;100;100;100");
-        }
-        else if (type == "complex") {
+        } else if (type == "complex") {
             //pa.setAttribute("namedesc",pa.attribute("name"));
 
         }
@@ -235,11 +234,11 @@ void EffectStackEdit::slotSliderMoved(int) {
 }
 
 void EffectStackEdit::clearAllItems() {
-    foreach(QWidget* w, items) {
+    foreach(QWidget *w, items) {
         vbox->removeWidget(w);
         delete w;
     }
-    foreach(void * p, uiItems) {
+    foreach(void *p, uiItems) {
         delete p;
     }
     uiItems.clear();

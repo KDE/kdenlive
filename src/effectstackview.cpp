@@ -163,7 +163,7 @@ void EffectStackView::slotResetEffect() {
     QDomElement old = clipref->effectAt(activeRow).cloneNode().toElement();
     QDomElement dom;
     QString effectName = ui.effectlist->currentItem()->text();
-    foreach(QString type, effectLists.keys()) {
+    foreach(const QString &type, effectLists.keys()) {
         EffectsList *list = effectLists[type];
         if (list->effectNames().contains(effectName)) {
             dom = list->getEffectByName(effectName);
@@ -182,13 +182,13 @@ void EffectStackView::slotNewEffect() {
 
     QMenu *displayMenu = new QMenu(this);
     displayMenu->setTitle("Filters");
-    foreach(QString type, effectLists.keys()) {
+    foreach(const QString &type, effectLists.keys()) {
         QAction *a = new QAction(type, displayMenu);
         EffectsList *list = effectLists[type];
 
         QMenu *parts = new QMenu(type, displayMenu);
         parts->setTitle(type);
-        foreach(QString name, list->effectNames()) {
+        foreach(const QString &name, list->effectNames()) {
             QAction *entry = new QAction(name, parts);
             entry->setData(name);
             entry->setToolTip(list->getInfo(name));
@@ -204,7 +204,7 @@ void EffectStackView::slotNewEffect() {
 
     if (result) {
         //TODO effects.append(result->data().toString());
-        foreach(EffectsList* e, effectLists.values()) {
+        foreach(const EffectsList *e, effectLists.values()) {
             QDomElement dom = e->getEffectByName(result->data().toString());
             if (clipref)
                 clipref->addEffect(dom);

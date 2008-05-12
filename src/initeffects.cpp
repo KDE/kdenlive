@@ -44,7 +44,7 @@ void initEffectsThumbnailer::prepareThumbnailsCall(const QStringList& list) {
 }
 
 void initEffectsThumbnailer::run() {
-    foreach(QString entry, m_list) {
+    foreach(const QString &entry, m_list) {
         kDebug() << entry;
         if (!entry.isEmpty() && (entry.endsWith(".png") || entry.endsWith(".pgm"))) {
             if (!EffectStackEdit::iconCache.contains(entry)) {
@@ -125,7 +125,7 @@ Mlt::Repository *initEffects::parseEffectFiles() {
             // kDebug()<<"//  FOUND EFFECT FILE: "<<itemName<<endl;
         }
     }
-    foreach(QString filtername, filtersList) {
+    foreach(const QString &filtername, filtersList) {
         QDomDocument doc = createDescriptionFromMlt(repository, "filters", filtername);
         if (!doc.isNull())
             MainWindow::videoEffects.append(doc.documentElement());
@@ -262,7 +262,7 @@ char* initEffects::ladspaEffectString(int ladspaId, QStringList params) {
         return ladspaEqualizerEffectString(params);
     else {
         kDebug() << "++++++++++  ASKING FOR UNKNOWN LADSPA EFFECT: " << ladspaId << endl;
-        return("<jackrack></jackrack>");
+        return (char *) "<jackrack></jackrack>";
     }
 }
 
@@ -439,7 +439,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
 }
 
 void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList* transitions, QStringList names) {
-    foreach(QString name, names) {
+    foreach(const QString &name, names) {
         QDomDocument ret;
         QDomElement ktrans = ret.createElement("ktransition");
         ret.appendChild(ktrans);
@@ -559,7 +559,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
         paramList.append(quickParameterFill(ret, "Reverse Transition", "reverse", "bool", "1", "0", "1"));
         ktrans.appendChild(tname);
 
-        foreach(QDomElement e, paramList) {
+        foreach(const QDomElement &e, paramList) {
             ktrans.appendChild(e);
         }
 

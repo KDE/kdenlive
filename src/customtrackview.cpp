@@ -822,12 +822,12 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
             m_commandStack->push(command);
             m_document->renderer()->mltMoveClip((int)(m_tracksList.count() - m_dragItemInfo.track), (int)(m_tracksList.count() - m_dragItem->track()), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(m_dragItem->startPos().frames(m_document->fps())));
         }
-        if (m_dragItem->type() == TRANSITIONWIDGET && ( m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track )) {
+        if (m_dragItem->type() == TRANSITIONWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
             MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
             m_commandStack->push(command);
             //kDebug()<<"/// MOVING TRS FROM: "<<(int)(m_tracksList.count() - m_startPos.y())<<", OFFSET: "<<(int) (m_dragItem->track() - m_startPos.y());
             Transition *transition = (Transition *) m_dragItem;
-	    transition->updateTransitionEndTrack(getPreviousVideoTrack(m_dragItem->track()));
+            transition->updateTransitionEndTrack(getPreviousVideoTrack(m_dragItem->track()));
             m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_tracksList.count() - m_dragItemInfo.track), (int)(m_tracksList.count() - m_dragItem->track()), transition->transitionEndTrack(), m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos);
         }
 

@@ -48,7 +48,7 @@ void TransitionSettings::slotTransitionChanged() {
          m_usedTransition->update();
      }
      emit transitionUpdated(e, m_usedTransition->toXML());*/
-    /*QDomDocument doc;    
+    /*QDomDocument doc;
     doc.appendChild(doc.importNode(e, true));
     kDebug()<<"///////////  TRANSITION CHANGED: "<<doc.toString();
     kDebug()<<"///////////  TRANSITION CHANGED END...";*/

@@ -49,19 +49,19 @@ void EffectsListWidget::initList() {
     clear();
     QStringList names = MainWindow::videoEffects.effectNames();
     QListWidgetItem *item;
-    foreach(QString str, names) {
+    foreach(const QString &str, names) {
         item = new QListWidgetItem(str, this);
         item->setData(Qt::UserRole, QString::number((int) EFFECT_VIDEO));
     }
 
     names = MainWindow::audioEffects.effectNames();
-    foreach(QString str, names) {
+    foreach(const QString &str, names) {
         item = new QListWidgetItem(str, this);
         item->setData(Qt::UserRole, QString::number((int) EFFECT_AUDIO));
     }
 
     names = MainWindow::customEffects.effectNames();
-    foreach(QString str, names) {
+    foreach(const QString &str, names) {
         item = new QListWidgetItem(str, this);
         item->setData(Qt::UserRole, QString::number((int) EFFECT_CUSTOM));
     }

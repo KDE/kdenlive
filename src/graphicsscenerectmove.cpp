@@ -109,7 +109,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e) {
     bool hasSelected = false;
 
     if (m_tool == TITLE_SELECT) {
-        foreach(QGraphicsItem* g, list) {
+        foreach(QGraphicsItem *g, list) {
             kDebug() << " - - CHECKING ITEM Z:" << g->zValue() << ", TYPE: " << g->type();
             // check is there is a selected item in list
             if (g->zValue() > -1000 && g->isSelected()) {
@@ -261,7 +261,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
         p += QPoint(-2, -2);
         resizeMode = NoResize;
         bool itemFound = false;
-        foreach(QGraphicsItem* g, items(QRectF(p , QSizeF(4, 4)).toRect())) {
+        foreach(const QGraphicsItem* g, items(QRectF(p , QSizeF(4, 4)).toRect())) {
             if ((g->type() == 13 || g->type() == 7) && g->zValue() > -1000) {
                 // image or svg item
                 setCursor(Qt::OpenHandCursor);

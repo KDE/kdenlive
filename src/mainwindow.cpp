@@ -188,21 +188,21 @@ MainWindow::MainWindow(QWidget *parent)
     QAction *action;
     QMenu *videoEffectsMenu = (QMenu*)(factory()->container("video_effects_menu", this));
     QStringList effects = videoEffects.effectNames();
-    foreach(QString name, effects) {
+    foreach(const QString &name, effects) {
         action = new QAction(name, this);
         action->setData(name);
         videoEffectsMenu->addAction(action);
     }
     QMenu *audioEffectsMenu = (QMenu*)(factory()->container("audio_effects_menu", this));
     effects = audioEffects.effectNames();
-    foreach(QString name, effects) {
+    foreach(const QString &name, effects) {
         action = new QAction(name, this);
         action->setData(name);
         audioEffectsMenu->addAction(action);
     }
     QMenu *customEffectsMenu = (QMenu*)(factory()->container("custom_effects_menu", this));
     effects = customEffects.effectNames();
-    foreach(QString name, effects) {
+    foreach(const QString &name, effects) {
         action = new QAction(name, this);
         action->setData(name);
         customEffectsMenu->addAction(action);
