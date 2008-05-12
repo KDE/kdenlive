@@ -46,8 +46,8 @@ extern "C" {
 #include <mlt++/Mlt.h>
 
 #if LIBAVCODEC_VERSION_MAJOR > 51 || (LIBAVCODEC_VERSION_MAJOR > 50 && LIBAVCODEC_VERSION_MINOR > 54)
-    // long_name was added in FFmpeg avcodec version 51.55
-    #define ENABLE_FFMPEG_CODEC_DESCRIPTION 1
+// long_name was added in FFmpeg avcodec version 51.55
+#define ENABLE_FFMPEG_CODEC_DESCRIPTION 1
 #endif
 
 static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr) {
@@ -427,13 +427,13 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
             else
                 filePropertyMap["type"] = "video";
 
-	    QPixmap pix(width, height);
-	    mlt_image_format format = mlt_image_rgb24a;
-	    const uint8_t *thumb = frame->get_image(format, width, height);
-	    QImage image(thumb, width, height, QImage::Format_ARGB32 );
-	    if (!image.isNull()) {
-		pix = pix.fromImage(image);
-	    } else pix.fill(Qt::black);
+            QPixmap pix(width, height);
+            mlt_image_format format = mlt_image_rgb24a;
+            const uint8_t *thumb = frame->get_image(format, width, height);
+            QImage image(thumb, width, height, QImage::Format_ARGB32);
+            if (!image.isNull()) {
+                pix = pix.fromImage(image);
+            } else pix.fill(Qt::black);
             emit replyGetImage(clipId, 0, pix, width, height);
 
         } else if (frame->get_int("test_audio") == 0) {
@@ -455,10 +455,10 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
 #if ENABLE_FFMPEG_CODEC_DESCRIPTION
         if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->long_name)
             filePropertyMap["videocodec"] = context->streams[ index ]->codec->codec->long_name;
-	    else 
+        else
 #endif
-		if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name)
-		filePropertyMap["videocodec"] = context->streams[ index ]->codec->codec->name;
+            if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name)
+                filePropertyMap["videocodec"] = context->streams[ index ]->codec->codec->name;
     }
     context = (AVFormatContext *) mlt_properties_get_data(properties, "audio_context", NULL);
     if (context != NULL) {
@@ -468,10 +468,10 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
 #if ENABLE_FFMPEG_CODEC_DESCRIPTION
         if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->long_name)
             filePropertyMap["audiocodec"] = context->streams[ index ]->codec->codec->long_name;
-	    else 
+        else
 #endif
-		if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name) 
-		filePropertyMap["audiocodec"] = context->streams[ index ]->codec->codec->name;
+            if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name)
+                filePropertyMap["audiocodec"] = context->streams[ index ]->codec->codec->name;
     }
 #endif
     // metadata
@@ -1198,22 +1198,22 @@ void Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> 
 
     if (!filter) {
         kDebug() << "WARINIG, FILTER FOR EDITING NOT FOUND, ADDING IT!!!!!";
-	// filter was not found, it was probably a disabled filter, so add it to the correct place...
-	int ct = 0;
-	filter = clipService.filter(ct);
-	QList <Mlt::Filter *> filtersList;
-	while (filter) {
-	    if (QString(filter->get("kdenlive_ix")).toInt() > index.toInt()) {
-		filtersList.append(filter);
-		clipService.detach(*filter);
-	    } else ct++;
-	    filter = clipService.filter(ct);
-	}
+        // filter was not found, it was probably a disabled filter, so add it to the correct place...
+        int ct = 0;
+        filter = clipService.filter(ct);
+        QList <Mlt::Filter *> filtersList;
+        while (filter) {
+            if (QString(filter->get("kdenlive_ix")).toInt() > index.toInt()) {
+                filtersList.append(filter);
+                clipService.detach(*filter);
+            } else ct++;
+            filter = clipService.filter(ct);
+        }
         mltAddEffect(track, position, args);
 
-	for (int i = 0; i < filtersList.count(); i++) {
-	    clipService.attach(*(filtersList.at(i)));
-	}
+        for (int i = 0; i < filtersList.count(); i++) {
+            clipService.attach(*(filtersList.at(i)));
+        }
 
         m_isBlocked = false;
         return;
@@ -1233,7 +1233,7 @@ void Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> 
 
 void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos) {
 
-    kDebug() << "MOVING EFFECT FROM " << oldPos<< ", TO: " << newPos;
+    kDebug() << "MOVING EFFECT FROM " << oldPos << ", TO: " << newPos;
     Mlt::Service service(m_mltProducer->parent().get_service());
 
     Mlt::Tractor tractor(service);
@@ -1252,51 +1252,50 @@ void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos) 
     Mlt::Filter *filter = clipService.filter(ct);
     bool found = false;
     if (newPos > oldPos) {
-	while (filter) {
-	    if (!found && QString(filter->get("kdenlive_ix")).toInt() == oldPos) {
-		filter->set("kdenlive_ix", newPos);
-		filtersList.append(filter);
-		clipService.detach(*filter);
-		filter = clipService.filter(ct);
-		while (filter && QString(filter->get("kdenlive_ix")).toInt() <= newPos) {
-		    filter->set("kdenlive_ix", QString(filter->get("kdenlive_ix")).toInt() - 1);
-		    ct++;
-		    filter = clipService.filter(ct);
-		}
-		found = true;
-	    }
-	    if (filter && QString(filter->get("kdenlive_ix")).toInt() > newPos) {
-		filtersList.append(filter);
-		clipService.detach(*filter);
-	    } else ct++;
-	    filter = clipService.filter(ct);
-	}
-    }
-    else {
-	while (filter) {
-	    if (QString(filter->get("kdenlive_ix")).toInt() == oldPos) {
-		filter->set("kdenlive_ix", newPos);
-		filtersList.append(filter);
-		clipService.detach(*filter);
-	    } else ct++;
-	    filter = clipService.filter(ct);
-	}
+        while (filter) {
+            if (!found && QString(filter->get("kdenlive_ix")).toInt() == oldPos) {
+                filter->set("kdenlive_ix", newPos);
+                filtersList.append(filter);
+                clipService.detach(*filter);
+                filter = clipService.filter(ct);
+                while (filter && QString(filter->get("kdenlive_ix")).toInt() <= newPos) {
+                    filter->set("kdenlive_ix", QString(filter->get("kdenlive_ix")).toInt() - 1);
+                    ct++;
+                    filter = clipService.filter(ct);
+                }
+                found = true;
+            }
+            if (filter && QString(filter->get("kdenlive_ix")).toInt() > newPos) {
+                filtersList.append(filter);
+                clipService.detach(*filter);
+            } else ct++;
+            filter = clipService.filter(ct);
+        }
+    } else {
+        while (filter) {
+            if (QString(filter->get("kdenlive_ix")).toInt() == oldPos) {
+                filter->set("kdenlive_ix", newPos);
+                filtersList.append(filter);
+                clipService.detach(*filter);
+            } else ct++;
+            filter = clipService.filter(ct);
+        }
 
-	ct = 0;
-	filter = clipService.filter(ct);
-	while (filter) {
-	    int pos = QString(filter->get("kdenlive_ix")).toInt();
-	    if (pos >= newPos) {
-		if (pos < oldPos) filter->set("kdenlive_ix", QString(filter->get("kdenlive_ix")).toInt() + 1);
-		filtersList.append(filter);
-		clipService.detach(*filter);
-	    } else ct++;
-	    filter = clipService.filter(ct);
-	}
+        ct = 0;
+        filter = clipService.filter(ct);
+        while (filter) {
+            int pos = QString(filter->get("kdenlive_ix")).toInt();
+            if (pos >= newPos) {
+                if (pos < oldPos) filter->set("kdenlive_ix", QString(filter->get("kdenlive_ix")).toInt() + 1);
+                filtersList.append(filter);
+                clipService.detach(*filter);
+            } else ct++;
+            filter = clipService.filter(ct);
+        }
     }
-    
+
     for (int i = 0; i < filtersList.count(); i++) {
-	clipService.attach(*(filtersList.at(i)));
+        clipService.attach(*(filtersList.at(i)));
     }
 
     m_isBlocked = false;
@@ -1430,15 +1429,17 @@ void Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     //mlt_events_unblock( MLT_PRODUCER_PROPERTIES(clipProducer.get_producer()), NULL );
 }
 
-void Render::mltMoveTransition(QString type, int startTrack, int trackOffset, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut) {
-    m_isBlocked = true;
+void Render::mltMoveTransition(QString type, int startTrack, int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut) {
+
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
     Mlt::Field *field = tractor.field();
 
+    mlt_service_lock(service.get_service());
     m_mltConsumer->set("refresh", 0);
-    mlt_service serv = m_mltProducer->parent().get_service();
+    m_isBlocked = true;
 
+    mlt_service serv = m_mltProducer->parent().get_service();
     mlt_service nextservice = mlt_service_get_producer(serv);
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
     QString mlt_type = mlt_properties_get(properties, "mlt_type");
@@ -1456,21 +1457,24 @@ void Render::mltMoveTransition(QString type, int startTrack, int trackOffset, Ge
 
         if (resource == type && startTrack == currentTrack && currentIn <= old_pos && currentOut >= old_pos) {
             mlt_transition_set_in_and_out(tr, new_in, new_out);
-            if (trackOffset != 0) {
+            if (newTrack - startTrack != 0) {
+                kDebug() << "///// TRANSITION CHANGE TRACK. CUrrent (b): " << currentTrack << "x" << mlt_transition_get_a_track(tr) << ", NEw: " << newTrack << "x" << newTransitionTrack;
+
                 mlt_properties properties = MLT_TRANSITION_PROPERTIES(tr);
-                mlt_properties_set_int(properties, "a_track", mlt_transition_get_a_track(tr) + trackOffset);
-                mlt_properties_set_int(properties, "b_track", mlt_transition_get_b_track(tr) + trackOffset);
+                mlt_properties_set_int(properties, "a_track", newTransitionTrack);
+                mlt_properties_set_int(properties, "b_track", newTrack);
                 //kDebug() << "set new start & end :" << new_in << new_out<< "TR OFFSET: "<<trackOffset<<", TRACKS: "<<mlt_transition_get_a_track(tr)<<"x"<<mlt_transition_get_b_track(tr);
             }
-
             break;
         }
         nextservice = mlt_service_producer(nextservice);
+        if (nextservice == NULL) break;
         properties = MLT_SERVICE_PROPERTIES(nextservice);
         mlt_type = mlt_properties_get(properties, "mlt_type");
         resource = mlt_properties_get(properties, "mlt_service");
     }
     m_isBlocked = false;
+    mlt_service_unlock(service.get_service());
     m_mltConsumer->set("refresh", 1);
 }
 
@@ -1507,7 +1511,7 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
         int currentIn = (int) mlt_transition_get_in(tr);
         int currentOut = (int) mlt_transition_get_out(tr);
 
-	// kDebug()<<"Looking for transition : " << currentIn <<"x"<<currentOut<< ", OLD oNE: "<<in_pos<<"x"<<out_pos;
+        // kDebug()<<"Looking for transition : " << currentIn <<"x"<<currentOut<< ", OLD oNE: "<<in_pos<<"x"<<out_pos;
 
         if (resource == type && b_track == currentTrack && currentIn == in_pos && currentOut == out_pos) {
             QMap<QString, QString> map = mltGetTransitionParamsFromXml(xml);
@@ -1528,6 +1532,7 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
             break;
         }
         nextservice = mlt_service_producer(nextservice);
+        if (nextservice == NULL) break;
         properties = MLT_SERVICE_PROPERTIES(nextservice);
         mlt_type = mlt_properties_get(properties, "mlt_type");
         resource = mlt_properties_get(properties, "mlt_service");
@@ -1563,6 +1568,7 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
             break;
         }
         nextservice = mlt_service_producer(nextservice);
+        if (nextservice == NULL) break;
         properties = MLT_SERVICE_PROPERTIES(nextservice);
         mlt_type = mlt_properties_get(properties, "mlt_type");
         resource = mlt_properties_get(properties, "mlt_service");
