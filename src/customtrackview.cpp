@@ -138,7 +138,6 @@ void CustomTrackView::wheelEvent(QWheelEvent * e) {
 
 int CustomTrackView::getPreviousVideoTrack(int track) {
     track = m_tracksList.count() - track - 1;
-    int videoTracksCount = 0;
     track --;
     for (int i = track; i > -1; i--) {
         if (m_tracksList.at(i).type == VIDEOTRACK) return i + 1;

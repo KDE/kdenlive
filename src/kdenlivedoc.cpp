@@ -112,11 +112,36 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
             transition.setAttribute("in", "0");
             //TODO: Make audio mix last for all project duration
             transition.setAttribute("out", "15000");
-            transition.setAttribute("a_track", QString::number(1));
-            transition.setAttribute("b_track", QString::number(i));
-            transition.setAttribute("mlt_service", "mix");
-            transition.setAttribute("combine", "1");
-            transition.setAttribute("internal_added", "237");
+
+            QDomElement property = m_document.createElement("property");
+            property.setAttribute("name", "a_track");
+            QDomText value = m_document.createTextNode(QString::number(1));
+            property.appendChild(value);
+            transition.appendChild(property);
+
+            property = m_document.createElement("property");
+            property.setAttribute("name", "b_track");
+            value = m_document.createTextNode(QString::number(i));
+            property.appendChild(value);
+            transition.appendChild(property);
+
+            property = m_document.createElement("property");
+            property.setAttribute("name", "mlt_service");
+            value = m_document.createTextNode("mix");
+            property.appendChild(value);
+            transition.appendChild(property);
+
+            property = m_document.createElement("property");
+            property.setAttribute("name", "combine");
+            value = m_document.createTextNode("1");
+            property.appendChild(value);
+            transition.appendChild(property);
+
+            property = m_document.createElement("property");
+            property.setAttribute("name", "internal_added");
+            value = m_document.createTextNode("237");
+            property.appendChild(value);
+            transition.appendChild(property);
             tractor.appendChild(transition);
         }
         westley.appendChild(tractor);

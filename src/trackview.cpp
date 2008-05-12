@@ -28,6 +28,7 @@
 #include "headertrack.h"
 #include "trackview.h"
 #include "clipitem.h"
+#include "transition.h"
 #include "kdenlivesettings.h"
 #include "clipmanager.h"
 #include "customruler.h"
@@ -125,6 +126,8 @@ void TrackView::parseDocument(QDomDocument doc) {
     if (!props.isNull()) {
         cursorPos = props.toElement().attribute("timeline_position").toInt();
     }
+
+    // parse project tracks
     QDomNodeList tracks = doc.elementsByTagName("track");
     QDomNodeList playlists = doc.elementsByTagName("playlist");
     int duration = 300;
@@ -152,6 +155,44 @@ void TrackView::parseDocument(QDomDocument doc) {
             if (trackduration > duration) duration = trackduration;
         } else pos--;
     }
+
+
+    // parse transitions
+    QDomNodeList transitions = doc.elementsByTagName("transition");
+    int projectTransitions = transitions.count();
+    kDebug() << "//////////// TIMELINE FOUND: " << projectTransitions << " transitions";
+    for (int i = 0; i < projectTransitions; i++) {
+        e = transitions.item(i).toElement();
+        QDomNodeList transitionparams = e.childNodes();
+        bool transitionAdd = true;
+        int a_track = 0;
+        int b_track = 0;
+        QString mlt_service;
+        for (int k = 0; k < transitionparams.count(); k++) {
+            p = transitionparams.item(k).toElement();
+            if (!p.isNull()) {
+                // do not add audio mixing transitions
+                if (p.attribute("name") == "internal_added" && p.text() == "237") {
+                    transitionAdd = false;
+                    kDebug() << "//  TRANSITRION " << i << " IS NOT VALID (INTERN ADDED)";
+                    break;
+                } else if (p.attribute("name") == "a_track") a_track = p.text().toInt();
+                else if (p.attribute("name") == "b_track") b_track = m_projectTracks - 1 - p.text().toInt();
+                else if (p.attribute("name") == "mlt_service") mlt_service = p.text().toInt();
+            }
+        }
+        if (transitionAdd) {
+            // Transition should be added to the scene
+            ItemInfo transitionInfo;
+            transitionInfo.startPos = GenTime(e.attribute("in").toInt(), m_doc->fps());
+            transitionInfo.endPos = GenTime(e.attribute("out").toInt(), m_doc->fps());
+            transitionInfo.track = b_track;
+            Transition *tr = new Transition(transitionInfo, a_track, m_scale, m_doc->fps(), QDomElement());
+            m_scene->addItem(tr);
+        }
+    }
+
+
     m_trackview->setDuration(duration);
     slotRebuildTrackHeaders();
     //m_trackview->setCursorPos(cursorPos);
@@ -240,7 +281,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
         if (elem.tagName() == "blank") {
             position += elem.attribute("length").toInt();
         } else if (elem.tagName() == "entry") {
-	    // Found a clip
+            // Found a clip
             int in = elem.attribute("in").toInt();
             int id = elem.attribute("producer").toInt();
             DocClipBase *clip = m_doc->clipManager()->getClipById(id);
@@ -256,50 +297,50 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                 m_scene->addItem(item);
                 position += out;
 
-		// parse clip effects
-		for (QDomNode n2 = elem.firstChild(); !n2.isNull(); n2 = n2.nextSibling()) {
-		    QDomElement effect = n2.toElement();
-		    if (effect.tagName() == "filter") {
-			// add effect to clip
-			QString effecttag;
-			QString effectindex;
-			// Get effect tag & index
-			for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
-			    // parse effect parameters
-			    QDomElement effectparam = n3.toElement();
-			    if (effectparam.attribute("name") == "tag") {
-				effecttag = effectparam.text();
-			    }
-			    if (effectparam.attribute("name") == "kdenlive_ix") {
-				effectindex = effectparam.text();
-			    }
-			}
+                // parse clip effects
+                for (QDomNode n2 = elem.firstChild(); !n2.isNull(); n2 = n2.nextSibling()) {
+                    QDomElement effect = n2.toElement();
+                    if (effect.tagName() == "filter") {
+                        // add effect to clip
+                        QString effecttag;
+                        QString effectindex;
+                        // Get effect tag & index
+                        for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
+                            // parse effect parameters
+                            QDomElement effectparam = n3.toElement();
+                            if (effectparam.attribute("name") == "tag") {
+                                effecttag = effectparam.text();
+                            }
+                            if (effectparam.attribute("name") == "kdenlive_ix") {
+                                effectindex = effectparam.text();
+                            }
+                        }
 
-			// get effect standard tags
-			QDomElement clipeffect = MainWindow::videoEffects.getEffectByTag(effecttag);
-			clipeffect.setAttribute("kdenlive_ix",effectindex);
-			QDomNodeList clipeffectparams = clipeffect.childNodes();
+                        // get effect standard tags
+                        QDomElement clipeffect = MainWindow::videoEffects.getEffectByTag(effecttag);
+                        clipeffect.setAttribute("kdenlive_ix", effectindex);
+                        QDomNodeList clipeffectparams = clipeffect.childNodes();
 
-			// adjust effect parameters
-			for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
-			    // parse effect parameters
-			    QDomElement effectparam = n3.toElement();
-			    QString paramname = effectparam.attribute("name");
-			    QString paramvalue = effectparam.text();
+                        // adjust effect parameters
+                        for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
+                            // parse effect parameters
+                            QDomElement effectparam = n3.toElement();
+                            QString paramname = effectparam.attribute("name");
+                            QString paramvalue = effectparam.text();
 
-			    // try to find this parameter in the effect xml
-			    QDomElement e;
-			    for (int k = 0; k < clipeffectparams.count(); k++) {
-				e = clipeffectparams.item(k).toElement();
-				if (!e.isNull() && e.tagName() == "parameter" && e.attribute("name") == paramname) {
-				    e.setAttribute("value", paramvalue);
-				    break;
-				}
-			    }
-			}
-			item->addEffect(clipeffect, false);
-		    }
-		}
+                            // try to find this parameter in the effect xml
+                            QDomElement e;
+                            for (int k = 0; k < clipeffectparams.count(); k++) {
+                                e = clipeffectparams.item(k).toElement();
+                                if (!e.isNull() && e.tagName() == "parameter" && e.attribute("name") == paramname) {
+                                    e.setAttribute("value", paramvalue);
+                                    break;
+                                }
+                            }
+                        }
+                        item->addEffect(clipeffect, false);
+                    }
+                }
 
             } else kWarning() << "CANNOT INSERT CLIP " << id;
             //m_clipList.append(clip);
