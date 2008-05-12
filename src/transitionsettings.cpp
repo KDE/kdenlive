@@ -48,23 +48,29 @@ void TransitionSettings::slotTransitionChanged() {
          m_usedTransition->update();
      }
      emit transitionUpdated(e, m_usedTransition->toXML());*/
+    /*QDomDocument doc;    
+    doc.appendChild(doc.importNode(e, true));
+    kDebug()<<"///////////  TRANSITION CHANGED: "<<doc.toString();
+    kDebug()<<"///////////  TRANSITION CHANGED END...";*/
+
     if (m_usedTransition && m_usedTransition->transitionName() == ui.listWidget->currentItem()->text() && !e.attribute("tag").isNull()) {
         slotUpdateEffectParams(e, e);
     } else
         slotUpdateEffectParams(e, MainWindow::transitions.getEffectByName(ui.listWidget->currentItem()->text()));
-    emit transferParamDesc(m_usedTransition->toXML(), 0, 0);
+    emit transferParamDesc(e, 0, 0);
 }
 
 void TransitionSettings::slotTransitionItemSelected(Transition* t) {
     setEnabled(t != NULL);
+    if (t == m_usedTransition) return;
     m_usedTransition = t;
     if (m_usedTransition) {
         QList<QListWidgetItem*> list = ui.listWidget->findItems(m_usedTransition->transitionName(), Qt::MatchExactly);
         if (list.size() > 0) {
-            disconnect(ui.listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(slotTransitionChanged()));
+            ui.listWidget->blockSignals(true);
             ui.listWidget->setCurrentItem(list[0]);
             slotTransitionChanged();
-            connect(ui.listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(slotTransitionChanged()));
+            ui.listWidget->blockSignals(false);
         }
     }
 
@@ -79,7 +85,7 @@ void TransitionSettings::slotUpdateEffectParams(const QDomElement& oldparam, con
     QTextStream str(&test);
     oldparam.save(str, 2);
     m_usedTransition->toXML().save(str, 2);
-    kDebug() << test;
+    //kDebug() << test;
     //oldparam must be also first given to Transition and then return the toXML()
     emit transitionUpdated(m_usedTransition, oldparam);
 }

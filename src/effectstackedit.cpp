@@ -91,10 +91,12 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
             pa.setAttribute("min", "-200;-20;0;0;0");
             pa.setAttribute("max", "200;200;100;100;100");
         }
-        if (type == "complex") {
+        else if (type == "complex") {
             //pa.setAttribute("namedesc",pa.attribute("name"));
 
         }
+
+
         //TODO constant, list, bool, complex , color, geometry, position
         if (type == "double" || type == "constant") {
             createSliderItem(paramName, value.toInt(), pa.attribute("min").toInt(), pa.attribute("max").toInt());

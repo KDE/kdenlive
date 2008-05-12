@@ -63,6 +63,8 @@ public:
     QPixmap transitionPixmap() const;
     //Transition *reparent(ClipItem * clip);
     bool isValid() const;
+    /** Transition should be linked to another track */
+    void updateTransitionEndTrack(int newtrack);
 
     const ClipItem *referencedClip() const;
 

@@ -98,6 +98,10 @@ int Transition::transitionEndTrack() const {
     return m_transitionTrack;
 }
 
+void Transition::updateTransitionEndTrack(int newtrack) {
+    m_transitionTrack = newtrack;
+}
+
 void Transition::paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
                        QWidget *widget) {
