@@ -461,7 +461,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
             } else setCursorPos((int)(mapToScene(event->x(), 0).x() / m_scale));
         } else if (event->button() == Qt::RightButton) {
             m_operationMode = NONE;
-            displayContextMenu(event->globalPos(), (ClipItem *) m_dragItem);
+            displayContextMenu(event->globalPos(), m_dragItem);
             m_dragItem = NULL;
         }
     }
@@ -469,8 +469,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
     //QGraphicsView::mousePressEvent(event);
 }
 
-void CustomTrackView::displayContextMenu(QPoint pos, ClipItem *clip) {
-    m_timelineContextClipMenu->popup(pos);
+void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip) {
+    if (clip == NULL) m_timelineContextMenu->popup(pos);
+    else if (clip->type() == AVWIDGET) m_timelineContextClipMenu->popup(pos);
+    else if (clip->type() == TRANSITIONWIDGET) m_timelineContextTransitionMenu->popup(pos);
 }
 
 void CustomTrackView::activateMonitor() {
@@ -615,7 +617,7 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut) {
 }
 
 void CustomTrackView::slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QDomElement transition) {
-    AddTransitionCommand* command = new AddTransitionCommand(this, transitionInfo, endTrack, transition, true);
+    AddTransitionCommand* command = new AddTransitionCommand(this, transitionInfo, endTrack, transition, false, true);
     m_commandStack->push(command);
     m_document->setModified(true);
 }
@@ -882,14 +884,24 @@ void CustomTrackView::deleteClip(ItemInfo info) {
 void CustomTrackView::deleteSelectedClips() {
     QList<QGraphicsItem *> itemList = items();
     for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->type() == AVWIDGET && itemList.at(i)->isSelected()) {
-            ClipItem *item = (ClipItem *) itemList.at(i);
-            ItemInfo info;
-            info.startPos = item->startPos();
-            info.endPos = item->endPos();
-            info.track = item->track();
-            AddTimelineClipCommand *command = new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), info, true, true);
-            m_commandStack->push(command);
+        if (itemList.at(i)->isSelected()) {
+            if (itemList.at(i)->type() == AVWIDGET) {
+                ClipItem *item = (ClipItem *) itemList.at(i);
+                ItemInfo info;
+                info.startPos = item->startPos();
+                info.endPos = item->endPos();
+                info.track = item->track();
+                AddTimelineClipCommand *command = new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), info, true, true);
+                m_commandStack->push(command);
+            } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
+                Transition *item = (Transition *) itemList.at(i);
+                ItemInfo info;
+                info.startPos = item->startPos();
+                info.endPos = item->endPos();
+                info.track = item->track();
+                AddTransitionCommand *command = new AddTransitionCommand(this, info, item->transitionEndTrack(), QDomElement(), true, true);
+                m_commandStack->push(command);
+            }
         }
     }
 }

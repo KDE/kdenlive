@@ -222,6 +222,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_timelineContextClipMenu->addMenu(audioEffectsMenu);
     m_timelineContextClipMenu->addMenu(customEffectsMenu);
 
+    m_timelineContextTransitionMenu->addAction(action);
+
     connect(projectMonitorDock, SIGNAL(visibilityChanged(bool)), m_projectMonitor, SLOT(refreshMonitor(bool)));
     connect(clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
     //connect(m_monitorManager, SIGNAL(connectMonitors()), this, SLOT(slotConnectMonitors()));
@@ -358,9 +360,11 @@ void MainWindow::setupActions() {
     w->setLayout(layout);
     layout->setContentsMargins(5, 0, 5, 0);
     QToolBar *toolbar = new QToolBar("statusToolBar", this);
-    w->setMinimumHeight(34);
+
 
     m_toolGroup = new QActionGroup(this);
+
+    QString style1 = "QToolButton { background-color: rgba(230, 230, 230, 20); border-style: inset; border:1px solid #666666;border-radius: 3px;margin: 0px 3px} QToolButton:checked { background-color: rgba(224, 0, 0, 100); border-style: inset; border:1px solid #666666;border-radius: 3px;}";
 
     m_buttonSelectTool = toolbar->addAction(KIcon("kdenlive-select-tool"), i18n("Selection tool"));
     m_buttonSelectTool->setCheckable(true);
@@ -373,6 +377,7 @@ void MainWindow::setupActions() {
     m_toolGroup->addAction(m_buttonSelectTool);
     m_toolGroup->addAction(m_buttonRazorTool);
     m_toolGroup->setExclusive(true);
+    toolbar->setStyleSheet(style1);
     connect(m_toolGroup, SIGNAL(triggered(QAction *)), this, SLOT(slotChangeTool(QAction *)));
 
     toolbar->addSeparator();
@@ -382,9 +387,20 @@ void MainWindow::setupActions() {
 
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
     m_zoomSlider->setMaximum(13);
-    m_zoomSlider->setMaximumHeight(34);
+
     m_zoomSlider->setMaximumWidth(150);
     m_zoomSlider->setMinimumWidth(100);
+
+    const int contentHeight = QFontMetrics(w->font()).height() + 3;
+    QString style = "QSlider::groove:horizontal { border: 1px solid #999999;height: 8px }";
+    style.append("QSlider::handle:horizontal {  background-color: white; border: 1px solid #999999;width: 8px;margin: -2px 0;border-radius: 3px; }");
+    m_zoomSlider->setStyleSheet(style);
+
+    //m_zoomSlider->setMaximumHeight(contentHeight);
+    //m_zoomSlider->height() + 5;
+    statusBar()->setMinimumHeight(contentHeight + 5);
+
+
     toolbar->addWidget(m_zoomSlider);
 
     m_buttonVideoThumbs = toolbar->addAction(KIcon("video-mpeg"), i18n("Show videoo thumbnails"));
@@ -461,7 +477,7 @@ void MainWindow::setupActions() {
     actionCollection()->addAction("monitor_seek_snap_forward", monitorSeekSnapForward);
     connect(monitorSeekSnapForward, SIGNAL(triggered(bool)), this, SLOT(slotSnapForward()));
 
-    KAction* deleteTimelineClip = new KAction(KIcon("edit-delete"), i18n("Delete Clip"), this);
+    KAction* deleteTimelineClip = new KAction(KIcon("edit-delete"), i18n("Delete Selected Item"), this);
     deleteTimelineClip->setShortcut(Qt::Key_Delete);
     actionCollection()->addAction("delete_timeline_clip", deleteTimelineClip);
     connect(deleteTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotDeleteTimelineClip()));

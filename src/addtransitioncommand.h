@@ -31,7 +31,7 @@ class CustomTrackView;
 
 class AddTransitionCommand : public QUndoCommand {
 public:
-    AddTransitionCommand(CustomTrackView *view, ItemInfo info, int transitiontrack, QDomElement params, bool doIt);
+    AddTransitionCommand(CustomTrackView *view, ItemInfo info, int transitiontrack, QDomElement params, bool remove, bool doIt);
     virtual void undo();
     virtual void redo();
 
@@ -41,6 +41,7 @@ private:
     QDomElement m_params;
     int m_track;
     bool m_doIt;
+    bool m_remove;
 };
 
 #endif

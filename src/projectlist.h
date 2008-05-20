@@ -73,7 +73,7 @@ public:
                 painter->fillRect(r1, QBrush(backgroundColor));
             }
             QFont font = painter->font();
-            font.setPointSize(font.pointSize() - 1);
+            font.setPointSize(font.pointSize());
             font.setBold(true);
             painter->setFont(font);
             int mid = (int)((r1.height() / 2));

@@ -257,37 +257,38 @@ void ClipItem::paint(QPainter *painter,
 
     }
 
-    // draw start / end fades
-    QBrush fades;
-    if (isSelected()) {
-        fades = QBrush(QColor(200, 50, 50, 150));
-    } else fades = QBrush(QColor(200, 200, 200, 200));
+    /*
+      // draw start / end fades
+      QBrush fades;
+      if (isSelected()) {
+          fades = QBrush(QColor(200, 50, 50, 150));
+      } else fades = QBrush(QColor(200, 200, 200, 200));
 
-    if (m_startFade != 0) {
-        QPainterPath fadeInPath;
-        fadeInPath.moveTo(br.x() , br.y());
-        fadeInPath.lineTo(br.x() , br.y() + br.height());
-        fadeInPath.lineTo(br.x() + m_startFade * scale, br.y());
-        fadeInPath.closeSubpath();
-        painter->fillPath(fadeInPath, fades);
-        if (isSelected()) {
-            QLineF l(br.x() + m_startFade * scale, br.y(), br.x(), br.y() + br.height());
-            painter->drawLine(l);
-        }
-    }
-    if (m_endFade != 0) {
-        QPainterPath fadeOutPath;
-        fadeOutPath.moveTo(br.x() + br.width(), br.y());
-        fadeOutPath.lineTo(br.x() + br.width(), br.y() + br.height());
-        fadeOutPath.lineTo(br.x() + br.width() - m_endFade * scale, br.y());
-        fadeOutPath.closeSubpath();
-        painter->fillPath(fadeOutPath, fades);
-        if (isSelected()) {
-            QLineF l(br.x() + br.width() - m_endFade * scale, br.y(), br.x() + br.width(), br.y() + br.height());
-            painter->drawLine(l);
-        }
-    }
-
+      if (m_startFade != 0) {
+          QPainterPath fadeInPath;
+          fadeInPath.moveTo(br.x() , br.y());
+          fadeInPath.lineTo(br.x() , br.y() + br.height());
+          fadeInPath.lineTo(br.x() + m_startFade * scale, br.y());
+          fadeInPath.closeSubpath();
+          painter->fillPath(fadeInPath, fades);
+          if (isSelected()) {
+              QLineF l(br.x() + m_startFade * scale, br.y(), br.x(), br.y() + br.height());
+              painter->drawLine(l);
+          }
+      }
+      if (m_endFade != 0) {
+          QPainterPath fadeOutPath;
+          fadeOutPath.moveTo(br.x() + br.width(), br.y());
+          fadeOutPath.lineTo(br.x() + br.width(), br.y() + br.height());
+          fadeOutPath.lineTo(br.x() + br.width() - m_endFade * scale, br.y());
+          fadeOutPath.closeSubpath();
+          painter->fillPath(fadeOutPath, fades);
+          if (isSelected()) {
+              QLineF l(br.x() + br.width() - m_endFade * scale, br.y(), br.x() + br.width(), br.y() + br.height());
+              painter->drawLine(l);
+          }
+      }
+      */
     QPen pen = painter->pen();
     pen.setColor(Qt::white);
     //pen.setStyle(Qt::DashDotDotLine); //Qt::DotLine);
@@ -308,21 +309,23 @@ void ClipItem::paint(QPainter *painter,
         painter->setFont(font);
     }
 
-    // For testing puspose only: draw transitions count
-    {
-        painter->setPen(pen);
-        QFont font = painter->font();
-        QFont smallFont = font;
-        smallFont.setPointSize(8);
-        painter->setFont(smallFont);
-        QString txt = " Transitions: " + QString::number(m_transitionsList.count()) + " ";
-        QRectF txtBoundin = painter->boundingRect(br, Qt::AlignRight | Qt::AlignTop, txt);
-        painter->fillRect(txtBoundin, QBrush(QColor(0, 0, 0, 150)));
-        painter->drawText(txtBoundin, Qt::AlignCenter, txt);
-        pen.setColor(Qt::black);
-        painter->setPen(pen);
-        painter->setFont(font);
-    }
+    /*
+      // For testing puspose only: draw transitions count
+      {
+          painter->setPen(pen);
+          QFont font = painter->font();
+          QFont smallFont = font;
+          smallFont.setPointSize(8);
+          painter->setFont(smallFont);
+          QString txt = " Transitions: " + QString::number(m_transitionsList.count()) + " ";
+          QRectF txtBoundin = painter->boundingRect(br, Qt::AlignRight | Qt::AlignTop, txt);
+          painter->fillRect(txtBoundin, QBrush(QColor(0, 0, 0, 150)));
+          painter->drawText(txtBoundin, Qt::AlignCenter, txt);
+          pen.setColor(Qt::black);
+          painter->setPen(pen);
+          painter->setFont(font);
+      }
+    */
 
     // Draw clip name
     QRectF txtBounding = painter->boundingRect(br, Qt::AlignHCenter | Qt::AlignTop, " " + m_clipName + " ");

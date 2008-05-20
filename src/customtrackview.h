@@ -134,7 +134,7 @@ private:
     void checkScrolling();
     /** Should we auto scroll while playing (keep in sync with KdenliveSettings::autoscroll() */
     bool m_autoScroll;
-    void displayContextMenu(QPoint pos, ClipItem *clip = NULL);
+    void displayContextMenu(QPoint pos, AbstractClipItem *clip = NULL);
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
