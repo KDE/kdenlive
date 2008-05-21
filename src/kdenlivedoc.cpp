@@ -60,6 +60,20 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
                     }
                 }
                 m_document.removeChild(infoXmlNode);
+				QDomNode markers = m_document.elementsByTagName("markers").at(0);
+				if (!markers.isNull()) {
+					QDomNodeList markerslist = markers.childNodes();
+					int maxchild = markerslist.count();
+					for (int k = 0; k < maxchild; k++) {
+						e = markerslist.item(k).toElement();
+						if (e.tagName() == "marker") {
+							int id = e.attribute("id").toInt();
+							m_clipManager->getClipById(id)->addSnapMarker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"));
+						}
+					}
+					m_document.removeChild(markers);
+				}
+
                 kDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
             } else kWarning() << "  NO KDENLIVE INFO FOUND IN FILE: " << url.path();
             KIO::NetAccess::removeTempFile(tmpFile);
@@ -169,6 +183,7 @@ void KdenliveDoc::convertDocument(double version) {
 
     QDomNode props = m_document.elementsByTagName("properties").at(0).toElement();
     QString profile = props.toElement().attribute("videoprofile");
+	if (profile == "dv_wide") profile = "dv_pal_wide";
     if (!profile.isEmpty()) {
         setProfilePath(profile);
     } else setProfilePath("dv_pal");
@@ -221,19 +236,31 @@ void KdenliveDoc::convertDocument(double version) {
         tractor.insertAfter(transitions.at(0), QDomNode());
     }
 
+	QDomElement markers = m_document.createElement("markers");
 
     // change producer names
     QDomNodeList producers = m_document.elementsByTagName("producer");
     max = producers.count();
-
     for (int i = 0; i < max; i++) {
         QDomElement prod = producers.at(0).toElement();
+		QDomNode m = prod.firstChild();
+		if (!m.isNull() && m.toElement().tagName() == "markers") {
+			QDomNodeList prodchilds = m.childNodes();
+			int maxchild = prodchilds.count();
+			for (int k = 0; k < maxchild; k++) {
+				QDomElement mark = prodchilds.at(0).toElement();
+				mark.setAttribute("id", prod.attribute("id"));
+				markers.insertAfter(mark, QDomNode());
+			}
+			prod.removeChild(m);
+		}
         int duration = prod.attribute("duration").toInt();
         if (duration > 0) prod.setAttribute("out", QString::number(duration));
         westley.insertBefore(prod, QDomNode());
     }
 
     QDomNode westley0 = m_document.elementsByTagName("westley").at(0);
+	if (!markers.firstChild().isNull()) westley0.appendChild(markers);
     westley0.removeChild(kdenlivedoc);
 
     QDomNodeList elements = westley.childNodes();
