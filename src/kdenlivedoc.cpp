@@ -47,15 +47,15 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
             if (!infoXmlNode.isNull()) {
                 QDomElement infoXml = infoXmlNode.toElement();
                 QString profilePath = infoXml.attribute("profile");
+                if (!profilePath.isEmpty()) setProfilePath(profilePath);
                 double version = infoXml.attribute("version").toDouble();
                 if (version < 0.7) convertDocument(version);
-                if (!profilePath.isEmpty()) setProfilePath(profilePath);
-                QDomNodeList producers = infoXmlNode.childNodes();
+                QDomNodeList producers = m_document.elementsByTagName("producer"); //infoXmlNode.childNodes();
                 QDomElement e;
                 for (int i = 0; i < producers.count(); i++) {
                     e = producers.item(i).cloneNode().toElement();
-                    if (!e.isNull() && e.tagName() == "kdenlive_producer") {
-                        e.setTagName("producer");
+                    if (!e.isNull() && e.attribute("id") != "black") {
+                        //e.setTagName("producer");
                         addClip(e, e.attribute("id").toInt());
                     }
                 }
@@ -167,6 +167,12 @@ void KdenliveDoc::convertDocument(double version) {
     QDomNode multitrack = m_document.elementsByTagName("multitrack").at(0);
     QDomNodeList playlists = m_document.elementsByTagName("playlist");
 
+    QDomNode props = m_document.elementsByTagName("properties").at(0).toElement();
+    QString profile = props.toElement().attribute("videoprofile");
+    if (!profile.isEmpty()) {
+        setProfilePath(profile);
+    } else setProfilePath("dv_pal");
+
     // move playlists outside of tractor and add the tracks instead
     int max = playlists.count();
     for (int i = 0; i < max; i++) {
@@ -194,6 +200,19 @@ void KdenliveDoc::convertDocument(double version) {
             QDomText value = m_document.createTextNode("237");
             property.appendChild(value);
             tr.appendChild(property);
+        } else {
+            // convert transition
+            QDomNamedNodeMap attrs = tr.attributes();
+            for (unsigned int j = 0; j < attrs.count(); j++) {
+                QString attrName = attrs.item(j).nodeName();
+                if (attrName != "in" && attrName != "out" && attrName != "id") {
+                    QDomElement property = m_document.createElement("property");
+                    property.setAttribute("name", attrName);
+                    QDomText value = m_document.createTextNode(attrs.item(j).nodeValue());
+                    property.appendChild(value);
+                    tr.appendChild(property);
+                }
+            }
         }
     }
 
@@ -202,15 +221,29 @@ void KdenliveDoc::convertDocument(double version) {
         tractor.insertAfter(transitions.at(0), QDomNode());
     }
 
+
     // change producer names
     QDomNodeList producers = m_document.elementsByTagName("producer");
     max = producers.count();
+
     for (int i = 0; i < max; i++) {
-        QDomNode prod = producers.at(i);
-        prod.toElement().setTagName("kdenlive_producer");
-        //kdenlivedoc.insertBefore(prod, QDomNode());
+        QDomElement prod = producers.at(0).toElement();
+        int duration = prod.attribute("duration").toInt();
+        if (duration > 0) prod.setAttribute("out", QString::number(duration));
+        westley.insertBefore(prod, QDomNode());
     }
 
+    QDomNode westley0 = m_document.elementsByTagName("westley").at(0);
+    westley0.removeChild(kdenlivedoc);
+
+    QDomNodeList elements = westley.childNodes();
+    max = elements.count();
+    for (int i = 0; i < max; i++) {
+        QDomElement prod = elements.at(0).toElement();
+        westley0.insertAfter(prod, QDomNode());
+    }
+
+    westley0.removeChild(westley);
 
     kDebug() << "/////////////////  CONVERTED DOC:";
     kDebug() << m_document.toString();

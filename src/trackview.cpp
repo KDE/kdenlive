@@ -178,7 +178,7 @@ void TrackView::parseDocument(QDomDocument doc) {
                     break;
                 } else if (p.attribute("name") == "a_track") a_track = p.text().toInt();
                 else if (p.attribute("name") == "b_track") b_track = m_projectTracks - 1 - p.text().toInt();
-                else if (p.attribute("name") == "mlt_service") mlt_service = p.text().toInt();
+                else if (p.attribute("name") == "mlt_service") mlt_service = p.text();
             }
         }
         if (transitionAdd) {
@@ -187,6 +187,7 @@ void TrackView::parseDocument(QDomDocument doc) {
             transitionInfo.startPos = GenTime(e.attribute("in").toInt(), m_doc->fps());
             transitionInfo.endPos = GenTime(e.attribute("out").toInt(), m_doc->fps());
             transitionInfo.track = b_track;
+            kDebug() << "///////////////   +++++++++++  ADDING TRANSITION ON TRACK: " << b_track << ", TOTAL TRKA: " << m_projectTracks;
             Transition *tr = new Transition(transitionInfo, a_track, m_scale, m_doc->fps(), QDomElement());
             m_scene->addItem(tr);
         }
@@ -194,6 +195,7 @@ void TrackView::parseDocument(QDomDocument doc) {
 
 
     m_trackview->setDuration(duration);
+    kDebug() << "///////////  TOTAL PROJECT DURATION: " << duration;
     slotRebuildTrackHeaders();
     //m_trackview->setCursorPos(cursorPos);
     //m_scrollBox->setGeometry(0, 0, 300 * zoomFactor(), m_scrollArea->height());
@@ -290,7 +292,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
 
                 ItemInfo clipinfo;
                 clipinfo.startPos = GenTime(position, m_doc->fps());
-                clipinfo.endPos = GenTime(out, m_doc->fps());
+                clipinfo.endPos = clipinfo.startPos + GenTime(out, m_doc->fps());
                 clipinfo.track = ix;
                 kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
                 ClipItem *item = new ClipItem(clip, clipinfo, m_scale, m_doc->fps());
