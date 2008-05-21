@@ -24,6 +24,7 @@
     <Menu name="timeline" ><text>Timeline</text>
       <Action name="cut_timeline_clip" />
       <Action name="delete_timeline_clip" />
+      <Action name="add_clip_marker" />
       <Menu name="video_effects_menu" ><text>Add Video Effect</text>
       </Menu>
       <Menu name="audio_effects_menu" ><text>Add Audio Effect</text>

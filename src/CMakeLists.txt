@@ -74,6 +74,7 @@ set(kdenlive_SRCS
   resizeclipcommand.cpp
   razorclipcommand.cpp
   addtimelineclipcommand.cpp
+  addmarkercommand.cpp
   kthumb.cpp
   clipmanager.cpp
   effectslist.cpp

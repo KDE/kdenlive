@@ -120,6 +120,7 @@ private:
 
     QAction *m_buttonAudioThumbs;
     QAction *m_buttonVideoThumbs;
+    QAction *m_buttonShowMarkers;
     QAction *m_buttonFitZoom;
     QAction *m_buttonSelectTool;
     QAction *m_buttonRazorTool;
@@ -158,6 +159,7 @@ private slots:
     void slotGotProgressInfo(KUrl url, int progress);
     void slotSwitchVideoThumbs();
     void slotSwitchAudioThumbs();
+    void slotSwitchMarkersComments();
     void slotRenderProject();
     void slotDoRender(const QString &dest, const QString &render, const QStringList &avformat_args, bool zoneOnly, bool playAfter);
     void slotFullScreen();
@@ -167,6 +169,7 @@ private slots:
     void slotFitZoom();
     void slotRemoveTab();
     void slotDeleteTimelineClip();
+    void slotAddClipMarker();
     void slotCutTimelineClip();
     void slotAddVideoEffect(QAction *result);
     void slotAddAudioEffect(QAction *result);

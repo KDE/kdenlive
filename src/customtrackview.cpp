@@ -23,6 +23,7 @@
 #include <QDomDocument>
 #include <QScrollBar>
 #include <QApplication>
+#include <QInputDialog>
 
 #include <KDebug>
 #include <KLocale>
@@ -43,6 +44,7 @@
 #include "moveeffectcommand.h"
 #include "addtransitioncommand.h"
 #include "edittransitioncommand.h"
+#include "addmarkercommand.h"
 #include "razorclipcommand.h"
 #include "kdenlivesettings.h"
 #include "transition.h"
@@ -523,7 +525,7 @@ void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect) {
 }
 
 void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track) {
-    QList<QGraphicsItem *> itemList;
+    QList<QGraphicsItem *> itemList = scene()->selectedItems();
     if (track == -1)
         itemList = items();
     else {
@@ -533,7 +535,7 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track) 
     }
     kDebug() << "// REQUESTING EFFECT ON CLIP: " << pos.frames(25) << ", TRK: " << track;
     for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->type() == AVWIDGET && itemList.at(i)->isSelected()) {
+        if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = (ClipItem *)itemList.at(i);
             // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
             // not be changed
@@ -882,35 +884,33 @@ void CustomTrackView::deleteClip(ItemInfo info) {
 }
 
 void CustomTrackView::deleteSelectedClips() {
-    QList<QGraphicsItem *> itemList = items();
+    QList<QGraphicsItem *> itemList = scene()->selectedItems();
     for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->isSelected()) {
-            if (itemList.at(i)->type() == AVWIDGET) {
-                ClipItem *item = (ClipItem *) itemList.at(i);
-                ItemInfo info;
-                info.startPos = item->startPos();
-                info.endPos = item->endPos();
-                info.track = item->track();
-                AddTimelineClipCommand *command = new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), info, true, true);
-                m_commandStack->push(command);
-            } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
-                Transition *item = (Transition *) itemList.at(i);
-                ItemInfo info;
-                info.startPos = item->startPos();
-                info.endPos = item->endPos();
-                info.track = item->track();
-                AddTransitionCommand *command = new AddTransitionCommand(this, info, item->transitionEndTrack(), QDomElement(), true, true);
-                m_commandStack->push(command);
-            }
+        if (itemList.at(i)->type() == AVWIDGET) {
+            ClipItem *item = (ClipItem *) itemList.at(i);
+            ItemInfo info;
+            info.startPos = item->startPos();
+            info.endPos = item->endPos();
+            info.track = item->track();
+            AddTimelineClipCommand *command = new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), info, true, true);
+            m_commandStack->push(command);
+        } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
+            Transition *item = (Transition *) itemList.at(i);
+            ItemInfo info;
+            info.startPos = item->startPos();
+            info.endPos = item->endPos();
+            info.track = item->track();
+            AddTransitionCommand *command = new AddTransitionCommand(this, info, item->transitionEndTrack(), QDomElement(), true, true);
+            m_commandStack->push(command);
         }
     }
 }
 
 void CustomTrackView::cutSelectedClips() {
-    QList<QGraphicsItem *> itemList = items();
+    QList<QGraphicsItem *> itemList = scene()->selectedItems();
     GenTime currentPos = GenTime(m_cursorPos, m_document->fps());
     for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->type() == AVWIDGET && itemList.at(i)->isSelected()) {
+        if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = (ClipItem *) itemList.at(i);
             ItemInfo info;
             info.startPos = item->startPos();
@@ -1107,6 +1107,31 @@ void CustomTrackView::slotSeekToNextSnap() {
         }
     }
     setCursorPos((int) res.frames(m_document->fps()));
+}
+
+void CustomTrackView::slotAddClipMarker() {
+    QList<QGraphicsItem *> itemList = scene()->selectedItems();
+    if (itemList.count() != 1) {
+        kDebug() << "// CANNOT ADD MARKER IF MORE TAN ONE CLIP IS SELECTED....";
+        return;
+    }
+    AbstractClipItem *item = (AbstractClipItem *)itemList.at(0);
+    if (item->type() != AVWIDGET) return;
+    GenTime pos = GenTime(m_cursorPos, m_document->fps());
+    if (item->startPos() > pos || item->endPos() < pos) return;
+    ClipItem *clip = (ClipItem *) item;
+    int id = clip->baseClip()->getId();
+    GenTime position = pos - item->startPos() + item->cropStart();
+    QString comment = QInputDialog::getText(this, i18n("Add Marker"), i18n("Enter text for marker on clip <b>%1</b>", clip->clipName()), QLineEdit::Normal, i18n("marker"));
+    if (comment.isEmpty()) return;
+    AddMarkerCommand *command = new AddMarkerCommand(this, QString(), comment, id, position, true);
+    m_commandStack->push(command);
+}
+
+void CustomTrackView::addMarker(const int id, const GenTime &pos, const QString comment) {
+    DocClipBase *base = m_document->clipManager()->getClipById(id);
+    if (!comment.isEmpty()) base->addSnapMarker(pos, comment);
+	else base->deleteSnapMarker(pos);
 }
 
 void CustomTrackView::setTool(PROJECTTOOL tool) {

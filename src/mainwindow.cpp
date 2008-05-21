@@ -218,6 +218,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     action = actionCollection()->action("delete_timeline_clip");
     m_timelineContextClipMenu->addAction(action);
+    action = actionCollection()->action("add_clip_marker");
+    m_timelineContextClipMenu->addAction(action);
     m_timelineContextClipMenu->addMenu(videoEffectsMenu);
     m_timelineContextClipMenu->addMenu(audioEffectsMenu);
     m_timelineContextClipMenu->addMenu(customEffectsMenu);
@@ -412,6 +414,11 @@ void MainWindow::setupActions() {
     m_buttonAudioThumbs->setCheckable(true);
     m_buttonAudioThumbs->setChecked(KdenliveSettings::videothumbnails());
     connect(m_buttonAudioThumbs, SIGNAL(triggered()), this, SLOT(slotSwitchAudioThumbs()));
+
+    m_buttonShowMarkers = toolbar->addAction(KIcon("audio-mpeg"), i18n("Show markers comments"));
+    m_buttonShowMarkers->setCheckable(true);
+    m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
+    connect(m_buttonShowMarkers, SIGNAL(triggered()), this, SLOT(slotSwitchMarkersComments()));
     layout->addWidget(toolbar);
 
     statusBar()->insertPermanentWidget(0, statusProgressBar, 1);
@@ -486,6 +493,10 @@ void MainWindow::setupActions() {
     cutTimelineClip->setShortcut(Qt::SHIFT + Qt::Key_R);
     actionCollection()->addAction("cut_timeline_clip", cutTimelineClip);
     connect(cutTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotCutTimelineClip()));
+
+    KAction* addClipMarker = new KAction(KIcon("edit-delete"), i18n("Add Marker to Clip"), this);
+    actionCollection()->addAction("add_clip_marker", addClipMarker);
+    connect(addClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotAddClipMarker()));
 
     KStandardAction::quit(this, SLOT(queryQuit()),
                           actionCollection());
@@ -904,10 +915,29 @@ void MainWindow::slotSwitchAudioThumbs() {
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
 }
 
+void MainWindow::slotSwitchMarkersComments() {
+    KdenliveSettings::setShowmarkers(!KdenliveSettings::showmarkers());
+    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+    if (currentTab) {
+        currentTab->refresh();
+    }
+    m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
+}
+
+
+
+
 void MainWindow::slotDeleteTimelineClip() {
     TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
     if (currentTab) {
         currentTab->projectView()->deleteSelectedClips();
+    }
+}
+
+void MainWindow::slotAddClipMarker() {
+    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+    if (currentTab) {
+        currentTab->projectView()->slotAddClipMarker();
     }
 }
 

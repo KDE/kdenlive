@@ -210,7 +210,6 @@ void ClipItem::paint(QPainter *painter,
     //painter->setRenderHints(QPainter::Antialiasing);
 
     QPainterPath roundRectPathUpper = upperRectPart(br), roundRectPathLower = lowerRectPart(br);
-
     painter->setClipRect(option->exposedRect);
 
     // build path around clip
@@ -254,8 +253,40 @@ void ClipItem::paint(QPainter *painter,
             if (audioThumbCachePic.contains(startCache) && !audioThumbCachePic[startCache].isNull())
                 painter->drawPixmap((int)(roundRectPathUpper.united(roundRectPathLower).boundingRect().x() + startCache - cropLeft), (int)(path.boundingRect().y()), audioThumbCachePic[startCache]);
         }
-
     }
+
+    // draw markers
+    QList < CommentedTime > markers = baseClip()->commentedSnapMarkers();
+    QList < CommentedTime >::Iterator it = markers.begin();
+    GenTime pos;
+    double framepos;
+    const int markerwidth = 4;
+    QBrush markerBrush;
+    markerBrush = QBrush(QColor(120, 120, 0, 100));
+    QPen pen = painter->pen();
+    pen.setColor(QColor(255, 255, 255, 200));
+    pen.setStyle(Qt::DotLine);
+    painter->setPen(pen);
+    for (; it != markers.end(); ++it) {
+        pos = (*it).time() - cropStart();
+        if (pos > GenTime()) {
+            if (pos > duration()) break;
+            framepos = scale * pos.frames(m_fps);
+            QLineF l(br.x() + framepos, br.y() + 5, br.x() + framepos, br.y() + br.height() - 5);
+            painter->drawLine(l);
+            if (KdenliveSettings::showmarkers()) {
+                const QRectF txtBounding = painter->boundingRect(br.x() + framepos + 1, br.y() + 5, br.width() - framepos - 2, br.height() - 10, Qt::AlignLeft | Qt::AlignTop, " " + (*it).comment() + " ");
+                QPainterPath path;
+                path.addRoundedRect(txtBounding, 3, 3);
+                painter->fillPath(path, markerBrush);
+                painter->drawText(txtBounding, Qt::AlignCenter, (*it).comment());
+            }
+            //painter->fillRect(QRect(br.x() + framepos, br.y(), 10, br.height()), QBrush(QColor(0, 0, 0, 150)));
+        }
+    }
+    pen.setColor(Qt::black);
+    pen.setStyle(Qt::SolidLine);
+
 
     /*
       // draw start / end fades
@@ -289,8 +320,7 @@ void ClipItem::paint(QPainter *painter,
           }
       }
       */
-    QPen pen = painter->pen();
-    pen.setColor(Qt::white);
+
     //pen.setStyle(Qt::DashDotDotLine); //Qt::DotLine);
 
     // Draw effects names
@@ -501,7 +531,6 @@ void ClipItem::setFadeOut(int pos, double scale) {
     else update(rect().x() + rect().width() - oldOut * scale, rect().y(), oldOut * scale, rect().height());
 
 }
-
 
 // virtual
 void ClipItem::mousePressEvent(QGraphicsSceneMouseEvent * event) {
