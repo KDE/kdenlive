@@ -1132,6 +1132,8 @@ void CustomTrackView::addMarker(const int id, const GenTime &pos, const QString 
     DocClipBase *base = m_document->clipManager()->getClipById(id);
     if (!comment.isEmpty()) base->addSnapMarker(pos, comment);
 	else base->deleteSnapMarker(pos);
+	m_document->setModified(true);
+	viewport()->update();
 }
 
 void CustomTrackView::setTool(PROJECTTOOL tool) {
