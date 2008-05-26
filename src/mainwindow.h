@@ -131,9 +131,11 @@ private:
     void saveOptions();
     void activateShuttleDevice();
     void slotShuttleAction(int code);
+	void connectDocumentInfo(KdenliveDoc *doc);
 
 public slots:
     void openFile(const KUrl &url);
+    void slotGotProgressInfo(const QString &message, int progress);
 
 private slots:
     void newFile();
@@ -156,7 +158,6 @@ private slots:
     void slotEditProfiles();
     void slotEditProjectSettings();
     void slotDisplayActionMessage(QAction *a);
-    void slotGotProgressInfo(KUrl url, int progress);
     void slotSwitchVideoThumbs();
     void slotSwitchAudioThumbs();
     void slotSwitchMarkersComments();

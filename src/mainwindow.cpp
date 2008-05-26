@@ -572,17 +572,20 @@ void MainWindow::newFile() {
     }
     MltVideoProfile prof = ProfilesDialog::getVideoProfile(profileName);
     if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
-    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, prof, m_commandStack);
+    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, prof, m_commandStack, this);
     TrackView *trackView = new TrackView(doc, this);
     m_timelineArea->addTab(trackView, KIcon("kdenlive"), i18n("Untitled") + " / " + prof.description);
-    if (m_timelineArea->count() == 1)
+    if (m_timelineArea->count() == 1) {
+		connectDocumentInfo(doc);
         connectDocument(trackView, doc);
+	}
     else m_timelineArea->setTabBarHidden(false);
 }
 
 void MainWindow::activateDocument() {
     TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
     KdenliveDoc *currentDoc = currentTab->document();
+	connectDocumentInfo(currentDoc);
     connectDocument(currentTab, currentDoc);
 }
 
@@ -627,7 +630,7 @@ void MainWindow::saveFile() {
 }
 
 void MainWindow::openFile() { //changed
-    KUrl url = KFileDialog::getOpenUrl(KUrl(), "application/vnd.kde.kdenlive;*.kdenlive");
+    KUrl url = KFileDialog::getOpenUrl(KUrl(), "*.kdenlive|Kdenlive project files (*.kdenlive)\n*.westley|MLT project files (*.westley)");
     if (url.isEmpty()) return;
     m_fileOpenRecent->addUrl(url);
     openFile(url);
@@ -637,11 +640,13 @@ void MainWindow::openFile(const KUrl &url) { //new
     //TODO: get video profile from url before opening it
     MltVideoProfile prof = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
     if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
-    KdenliveDoc *doc = new KdenliveDoc(url, KUrl(), prof, m_commandStack);
+    KdenliveDoc *doc = new KdenliveDoc(url, KUrl(), prof, m_commandStack, this);
+	connectDocumentInfo(doc);
     TrackView *trackView = new TrackView(doc, this);
     m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description()));
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());
     if (m_timelineArea->count() > 1) m_timelineArea->setTabBarHidden(false);
+	slotGotProgressInfo(QString(), -1);
     //connectDocument(trackView, doc);
 }
 
@@ -780,6 +785,14 @@ void MainWindow::slotUpdateDocumentState(bool modified) {
     }
 }
 
+void MainWindow::connectDocumentInfo(KdenliveDoc *doc) {
+    if (m_activeDocument) {
+        if (m_activeDocument == doc) return;
+        disconnect(m_activeDocument, SIGNAL(progressInfo(const QString &, int)), this, SLOT(slotGotProgressInfo(const QString &, int)));
+	}
+	connect(doc, SIGNAL(progressInfo(const QString &, int)), this, SLOT(slotGotProgressInfo(const QString &, int)));
+}
+
 void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //changed
     //m_projectMonitor->stop();
     kDebug() << "///////////////////   CONNECTING DOC TO PROJECT VIEW ////////////////";
@@ -795,7 +808,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(m_activeDocument, SIGNAL(updateClipDisplay(int)), m_projectList, SLOT(slotUpdateClip(int)));
             disconnect(m_activeDocument, SIGNAL(refreshClipThumbnail(int)), m_projectList, SLOT(slotRefreshClipThumbnail(int)));
             disconnect(m_activeDocument, SIGNAL(deletTimelineClip(int)), m_activeTimeline, SLOT(slotDeleteClip(int)));
-            disconnect(m_activeDocument, SIGNAL(thumbsProgress(KUrl, int)), this, SLOT(slotGotProgressInfo(KUrl, int)));
             disconnect(m_activeTimeline, SIGNAL(clipItemSelected(ClipItem*)), effectStack, SLOT(slotClipItemSelected(ClipItem*)));
             disconnect(trackView, SIGNAL(clipItemSelected(ClipItem*)), this, SLOT(slotActivateEffectStackView()));
             disconnect(m_activeTimeline, SIGNAL(transitionItemSelected(Transition*)), transitionConfig, SLOT(slotTransitionItemSelected(Transition*)));
@@ -828,7 +840,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(doc, SIGNAL(refreshClipThumbnail(int)), m_projectList, SLOT(slotRefreshClipThumbnail(int)));
 
     connect(doc, SIGNAL(deletTimelineClip(int)), trackView, SLOT(slotDeleteClip(int)));
-    connect(doc, SIGNAL(thumbsProgress(KUrl, int)), this, SLOT(slotGotProgressInfo(KUrl, int)));
     connect(doc, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
 
 
@@ -986,13 +997,13 @@ void MainWindow::slotFitZoom() {
     }
 }
 
-void MainWindow::slotGotProgressInfo(KUrl url, int progress) {
+void MainWindow::slotGotProgressInfo(const QString &message, int progress) {
     statusProgressBar->setValue(progress);
-    if (progress > 0) {
-        statusLabel->setText(tr("Creating Audio Thumbs"));
+    if (progress >= 0) {
+        if (!message.isEmpty()) statusLabel->setText(message);
         statusProgressBar->setVisible(true);
     } else {
-        statusLabel->setText("");
+        statusLabel->setText(QString());
         statusProgressBar->setVisible(false);
     }
 }

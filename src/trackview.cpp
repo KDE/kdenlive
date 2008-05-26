@@ -136,8 +136,9 @@ void TrackView::parseDocument(QDomDocument doc) {
     QDomElement e;
     QDomElement p;
     bool videotrack;
-    kDebug() << "//////////// TIMELINE FOUND: " << m_projectTracks << " tracks";
+    
     int pos = m_projectTracks - 1;
+
     for (int i = 0; i < m_projectTracks; i++) {
         e = tracks.item(i).toElement();
         QString playlist_name = e.attribute("producer");
@@ -153,9 +154,15 @@ void TrackView::parseDocument(QDomDocument doc) {
             pos--;
             kDebug() << " PRO DUR: " << trackduration << ", TRACK DUR: " << duration;
             if (trackduration > duration) duration = trackduration;
-        } else pos--;
+        } else {
+			// background black track
+			int black_clips = e.childNodes().count();
+			for (int i = 0; i < black_clips; i++)
+				m_doc->loadingProgressed();
+			qApp->processEvents();
+			pos--;
+		}
     }
-
 
     // parse transitions
     QDomNodeList transitions = doc.elementsByTagName("transition");
@@ -283,6 +290,8 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
         if (elem.tagName() == "blank") {
             position += elem.attribute("length").toInt();
         } else if (elem.tagName() == "entry") {
+			m_doc->loadingProgressed();
+			qApp->processEvents();
             // Found a clip
             int in = elem.attribute("in").toInt();
             int id = elem.attribute("producer").toInt();

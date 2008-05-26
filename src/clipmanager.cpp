@@ -42,8 +42,8 @@ void ClipManager::checkAudioThumbs() {
     }
 }
 
-void ClipManager::setThumbsProgress(KUrl url, int progress) {
-    m_doc->setThumbsProgress(url, progress);
+void ClipManager::setThumbsProgress(const QString &message, int progress) {
+    m_doc->setThumbsProgress(message, progress);
 }
 
 QList <DocClipBase*> ClipManager::documentClipList() {
