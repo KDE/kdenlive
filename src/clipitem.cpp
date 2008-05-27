@@ -39,7 +39,7 @@
 #include "kdenlivesettings.h"
 #include "kthumb.h"
 
-ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double scale, double fps)
+ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, GenTime cropStart, double scale, double fps)
         : AbstractClipItem(info, QRectF()), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_thumbsRequested(0), m_hover(false) {
     QRectF rect((double) info.startPos.frames(fps) * scale, (double)(info.track * KdenliveSettings::trackheight() + 1), (double)(info.endPos - info.startPos).frames(fps) * scale, (double)(KdenliveSettings::trackheight() - 1));
     setRect(rect);
@@ -48,7 +48,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double scale, double fps)
     m_clipName = clip->name();
     m_producer = clip->getId();
     m_clipType = clip->clipType();
-    m_cropStart = GenTime();
+    m_cropStart = cropStart;
 
     m_maxDuration = clip->maxDuration();
     setAcceptDrops(true);

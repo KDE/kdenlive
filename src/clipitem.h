@@ -38,7 +38,7 @@ class ClipItem : public AbstractClipItem {
     Q_OBJECT
 
 public:
-    ClipItem(DocClipBase *clip, ItemInfo info, double scale, double fps);
+    ClipItem(DocClipBase *clip, ItemInfo info, GenTime cropStart, double scale, double fps);
     virtual ~ ClipItem();
     virtual void paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,

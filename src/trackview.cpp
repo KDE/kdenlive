@@ -308,7 +308,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                 clipinfo.endPos = clipinfo.startPos + GenTime(out - in, m_doc->fps());
                 clipinfo.track = ix;
                 //kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
-                ClipItem *item = new ClipItem(clip, clipinfo, m_scale, m_doc->fps());
+                ClipItem *item = new ClipItem(clip, clipinfo, GenTime(in, m_doc->fps()), m_scale, m_doc->fps());
                 m_scene->addItem(item);
                 position += (out - in);
 

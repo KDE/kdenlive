@@ -602,7 +602,7 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut) {
         newPos.startPos = cutTime;
         newPos.endPos = info.endPos;
         newPos.track = info.track;
-        ClipItem *dup = new ClipItem(item->baseClip(), newPos, m_scale, m_document->fps());
+        ClipItem *dup = new ClipItem(item->baseClip(), newPos, item->cropStart(), m_scale, m_document->fps());
         dup->setCropStart(dup->cropStart() + (cutTime - info.startPos));
         item->resizeEnd(cutPos, m_scale);
         scene()->addItem(dup);
@@ -663,7 +663,7 @@ void CustomTrackView::addItem(DocClipBase *clip, QPoint pos) {
     info.endPos = info.startPos + clip->duration();
     info.track = (int)(pos.y() / m_tracksHeight);
     //kDebug()<<"------------  ADDING CLIP ITEM----: "<<info.startPos.frames(25)<<", "<<info.endPos.frames(25)<<", "<<info.track;
-    m_dropItem = new ClipItem(clip, info, m_scale, m_document->fps());
+    m_dropItem = new ClipItem(clip, info, GenTime(), m_scale, m_document->fps());
     scene()->addItem(m_dropItem);
 }
 
@@ -926,7 +926,8 @@ void CustomTrackView::cutSelectedClips() {
 
 void CustomTrackView::addClip(QDomElement xml, int clipId, ItemInfo info) {
     DocClipBase *baseclip = m_document->clipManager()->getClipById(clipId);
-    ClipItem *item = new ClipItem(baseclip, info, m_scale, m_document->fps());
+	int crop = xml.attribute("in").toInt();
+    ClipItem *item = new ClipItem(baseclip, info, GenTime(crop, m_document->fps()), m_scale, m_document->fps());
     scene()->addItem(item);
     baseclip->addReference();
     m_document->updateClip(baseclip->getId());
