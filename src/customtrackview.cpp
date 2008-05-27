@@ -926,7 +926,7 @@ void CustomTrackView::cutSelectedClips() {
 
 void CustomTrackView::addClip(QDomElement xml, int clipId, ItemInfo info) {
     DocClipBase *baseclip = m_document->clipManager()->getClipById(clipId);
-	int crop = xml.attribute("in").toInt();
+    int crop = xml.attribute("in").toInt();
     ClipItem *item = new ClipItem(baseclip, info, GenTime(crop, m_document->fps()), m_scale, m_document->fps());
     scene()->addItem(item);
     baseclip->addReference();
@@ -1132,9 +1132,9 @@ void CustomTrackView::slotAddClipMarker() {
 void CustomTrackView::addMarker(const int id, const GenTime &pos, const QString comment) {
     DocClipBase *base = m_document->clipManager()->getClipById(id);
     if (!comment.isEmpty()) base->addSnapMarker(pos, comment);
-	else base->deleteSnapMarker(pos);
-	m_document->setModified(true);
-	viewport()->update();
+    else base->deleteSnapMarker(pos);
+    m_document->setModified(true);
+    viewport()->update();
 }
 
 void CustomTrackView::setTool(PROJECTTOOL tool) {

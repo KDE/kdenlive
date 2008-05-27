@@ -93,8 +93,8 @@ Q_OBJECT public:
     bool isModified() const;
     /** Returns project folder, used to store project files (titles, effects,...) */
     KUrl projectFolder() const;
-	/** Used to inform main app of the current document loading progress */
-	void loadingProgressed();
+    /** Used to inform main app of the current document loading progress */
+    void loadingProgressed();
 private:
     KUrl m_url;
     QDomDocument m_document;
@@ -113,8 +113,8 @@ private:
     bool m_modified;
     /** Project folder, used to store project files (titles, effects,...) */
     KUrl m_projectFolder;
-	double m_documentLoadingStep;
-	double m_documentLoadingProgress;
+    double m_documentLoadingStep;
+    double m_documentLoadingProgress;
     void convertDocument(double version);
 
 public slots:

@@ -136,7 +136,7 @@ void TrackView::parseDocument(QDomDocument doc) {
     QDomElement e;
     QDomElement p;
     bool videotrack;
-    
+
     int pos = m_projectTracks - 1;
 
     for (int i = 0; i < m_projectTracks; i++) {
@@ -155,17 +155,17 @@ void TrackView::parseDocument(QDomDocument doc) {
             //kDebug() << " PRO DUR: " << trackduration << ", TRACK DUR: " << duration;
             if (trackduration > duration) duration = trackduration;
         } else {
-			// background black track
+            // background black track
             for (int j = 0; j < m_projectTracks; j++) {
                 p = playlists.item(j).toElement();
                 if (p.attribute("id") == playlist_name) break;
             }
-			int black_clips = p.childNodes().count();
-			for (int i = 0; i < black_clips; i++)
-				m_doc->loadingProgressed();
-			qApp->processEvents();
-			pos--;
-		}
+            int black_clips = p.childNodes().count();
+            for (int i = 0; i < black_clips; i++)
+                m_doc->loadingProgressed();
+            qApp->processEvents();
+            pos--;
+        }
     }
 
     // parse transitions
@@ -294,8 +294,8 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
         if (elem.tagName() == "blank") {
             position += elem.attribute("length").toInt();
         } else if (elem.tagName() == "entry") {
-			m_doc->loadingProgressed();
-			qApp->processEvents();
+            m_doc->loadingProgressed();
+            qApp->processEvents();
             // Found a clip
             int in = elem.attribute("in").toInt();
             int id = elem.attribute("producer").toInt();

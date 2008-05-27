@@ -576,16 +576,15 @@ void MainWindow::newFile() {
     TrackView *trackView = new TrackView(doc, this);
     m_timelineArea->addTab(trackView, KIcon("kdenlive"), i18n("Untitled") + " / " + prof.description);
     if (m_timelineArea->count() == 1) {
-		connectDocumentInfo(doc);
+        connectDocumentInfo(doc);
         connectDocument(trackView, doc);
-	}
-    else m_timelineArea->setTabBarHidden(false);
+    } else m_timelineArea->setTabBarHidden(false);
 }
 
 void MainWindow::activateDocument() {
     TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
     KdenliveDoc *currentDoc = currentTab->document();
-	connectDocumentInfo(currentDoc);
+    connectDocumentInfo(currentDoc);
     connectDocument(currentTab, currentDoc);
 }
 
@@ -641,12 +640,12 @@ void MainWindow::openFile(const KUrl &url) { //new
     MltVideoProfile prof = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
     if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
     KdenliveDoc *doc = new KdenliveDoc(url, KUrl(), prof, m_commandStack, this);
-	connectDocumentInfo(doc);
+    connectDocumentInfo(doc);
     TrackView *trackView = new TrackView(doc, this);
     m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description()));
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());
     if (m_timelineArea->count() > 1) m_timelineArea->setTabBarHidden(false);
-	slotGotProgressInfo(QString(), -1);
+    slotGotProgressInfo(QString(), -1);
     //connectDocument(trackView, doc);
 }
 
@@ -789,8 +788,8 @@ void MainWindow::connectDocumentInfo(KdenliveDoc *doc) {
     if (m_activeDocument) {
         if (m_activeDocument == doc) return;
         disconnect(m_activeDocument, SIGNAL(progressInfo(const QString &, int)), this, SLOT(slotGotProgressInfo(const QString &, int)));
-	}
-	connect(doc, SIGNAL(progressInfo(const QString &, int)), this, SLOT(slotGotProgressInfo(const QString &, int)));
+    }
+    connect(doc, SIGNAL(progressInfo(const QString &, int)), this, SLOT(slotGotProgressInfo(const QString &, int)));
 }
 
 void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //changed

@@ -131,7 +131,7 @@ private:
     void saveOptions();
     void activateShuttleDevice();
     void slotShuttleAction(int code);
-	void connectDocumentInfo(KdenliveDoc *doc);
+    void connectDocumentInfo(KdenliveDoc *doc);
 
 public slots:
     void openFile(const KUrl &url);
