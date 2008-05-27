@@ -34,8 +34,9 @@
 #include "addfoldercommand.h"
 #include "editfoldercommand.h"
 #include "titlewidget.h"
+#include "mainwindow.h"
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoProfile profile, QUndoGroup *undoGroup, QWidget *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new KUndoStack(undoGroup)), m_modified(false) {
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoProfile profile, QUndoGroup *undoGroup, MainWindow *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new KUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0) {
     m_clipManager = new ClipManager(this);
     if (!url.isEmpty()) {
         QString tmpFile;
@@ -50,12 +51,22 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
                 if (!profilePath.isEmpty()) setProfilePath(profilePath);
                 double version = infoXml.attribute("version").toDouble();
                 if (version < 0.7) convertDocument(version);
-                QDomNodeList producers = m_document.elementsByTagName("producer"); //infoXmlNode.childNodes();
+                QDomNodeList producers = m_document.elementsByTagName("producer");
                 QDomElement e;
-                for (int i = 0; i < producers.count(); i++) {
+				const int max = producers.count();
+				if (max > 0) {
+					m_documentLoadingStep = 100.0 / (max + m_document.elementsByTagName("entry").count());
+					parent->slotGotProgressInfo(i18n("Loading project clips"), (int) m_documentLoadingProgress);
+				}
+
+                for (int i = 0; i < max; i++) {
                     e = producers.item(i).cloneNode().toElement();
+					if (m_documentLoadingStep > 0) {
+						m_documentLoadingProgress += m_documentLoadingStep;
+						parent->slotGotProgressInfo(QString(), (int) m_documentLoadingProgress);
+						qApp->processEvents();
+					}
                     if (!e.isNull() && e.attribute("id") != "black") {
-                        //e.setTagName("producer");
                         addClip(e, e.attribute("id").toInt());
                     }
                 }
@@ -273,8 +284,8 @@ void KdenliveDoc::convertDocument(double version) {
     westley0.removeChild(westley);
 
     kDebug() << "/////////////////  CONVERTED DOC:";
-    kDebug() << m_document.toString();
-    kDebug() << "/////////////////  END CONVERTED DOC:";
+    //kDebug() << m_document.toString();
+    //kDebug() << "/////////////////  END CONVERTED DOC:";
 }
 
 QDomElement KdenliveDoc::documentInfoXml() {
@@ -324,8 +335,13 @@ void KdenliveDoc::setProfilePath(QString path) {
     else m_timecode.setFormat((int) m_fps);
 }
 
-void KdenliveDoc::setThumbsProgress(KUrl url, int progress) {
-    emit thumbsProgress(url, progress);
+void KdenliveDoc::setThumbsProgress(const QString &message, int progress) {
+    emit progressInfo(message, progress);
+}
+
+void KdenliveDoc::loadingProgressed() {
+	m_documentLoadingProgress += m_documentLoadingStep;
+	emit progressInfo(QString(), (int) m_documentLoadingProgress);
 }
 
 KUndoStack *KdenliveDoc::commandStack() {

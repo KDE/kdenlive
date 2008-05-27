@@ -38,11 +38,12 @@
 class Render;
 class ClipManager;
 class DocClipBase;
+class MainWindow;
 
 class KdenliveDoc: public QObject {
 Q_OBJECT public:
 
-    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoProfile profile, QUndoGroup *undoGroup, QWidget *parent = 0);
+    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoProfile profile, QUndoGroup *undoGroup, MainWindow *parent = 0);
     ~KdenliveDoc();
     QDomNodeList producersList();
     double fps() const;
@@ -77,7 +78,7 @@ Q_OBJECT public:
     void deleteProjectClip(QList <int> ids);
     void deleteProjectFolder(QMap <QString, int> map);
     /** Inform application of the audio thumbnails generation progress */
-    void setThumbsProgress(KUrl url, int progress);
+    void setThumbsProgress(const QString &message, int progress);
     QString profilePath() const;
     QString description() const;
     /** Returns the document format: PAL or NTSC */
@@ -92,7 +93,8 @@ Q_OBJECT public:
     bool isModified() const;
     /** Returns project folder, used to store project files (titles, effects,...) */
     KUrl projectFolder() const;
-
+	/** Used to inform main app of the current document loading progress */
+	void loadingProgressed();
 private:
     KUrl m_url;
     QDomDocument m_document;
@@ -111,6 +113,8 @@ private:
     bool m_modified;
     /** Project folder, used to store project files (titles, effects,...) */
     KUrl m_projectFolder;
+	double m_documentLoadingStep;
+	double m_documentLoadingProgress;
     void convertDocument(double version);
 
 public slots:
@@ -122,7 +126,7 @@ signals:
     void signalDeleteProjectClip(int);
     void updateClipDisplay(int);
     void deletTimelineClip(int);
-    void thumbsProgress(KUrl, int);
+    void progressInfo(const QString &, int);
     /** emited when the document state has been modified (= needs saving or not) */
     void docModified(bool);
     void refreshClipThumbnail(int);

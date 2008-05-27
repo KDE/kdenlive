@@ -152,11 +152,15 @@ void TrackView::parseDocument(QDomDocument doc) {
             videotrack = (e.attribute("hide") != "video");
             trackduration = slotAddProjectTrack(pos, p, videotrack);
             pos--;
-            kDebug() << " PRO DUR: " << trackduration << ", TRACK DUR: " << duration;
+            //kDebug() << " PRO DUR: " << trackduration << ", TRACK DUR: " << duration;
             if (trackduration > duration) duration = trackduration;
         } else {
 			// background black track
-			int black_clips = e.childNodes().count();
+            for (int j = 0; j < m_projectTracks; j++) {
+                p = playlists.item(j).toElement();
+                if (p.attribute("id") == playlist_name) break;
+            }
+			int black_clips = p.childNodes().count();
 			for (int i = 0; i < black_clips; i++)
 				m_doc->loadingProgressed();
 			qApp->processEvents();
@@ -167,7 +171,7 @@ void TrackView::parseDocument(QDomDocument doc) {
     // parse transitions
     QDomNodeList transitions = doc.elementsByTagName("transition");
     int projectTransitions = transitions.count();
-    kDebug() << "//////////// TIMELINE FOUND: " << projectTransitions << " transitions";
+    //kDebug() << "//////////// TIMELINE FOUND: " << projectTransitions << " transitions";
     for (int i = 0; i < projectTransitions; i++) {
         e = transitions.item(i).toElement();
         QDomNodeList transitionparams = e.childNodes();
@@ -181,7 +185,7 @@ void TrackView::parseDocument(QDomDocument doc) {
                 // do not add audio mixing transitions
                 if (p.attribute("name") == "internal_added" && p.text() == "237") {
                     transitionAdd = false;
-                    kDebug() << "//  TRANSITRION " << i << " IS NOT VALID (INTERN ADDED)";
+                    //kDebug() << "//  TRANSITRION " << i << " IS NOT VALID (INTERN ADDED)";
                     break;
                 } else if (p.attribute("name") == "a_track") a_track = p.text().toInt();
                 else if (p.attribute("name") == "b_track") b_track = m_projectTracks - 1 - p.text().toInt();
@@ -194,7 +198,7 @@ void TrackView::parseDocument(QDomDocument doc) {
             transitionInfo.startPos = GenTime(e.attribute("in").toInt(), m_doc->fps());
             transitionInfo.endPos = GenTime(e.attribute("out").toInt(), m_doc->fps());
             transitionInfo.track = b_track;
-            kDebug() << "///////////////   +++++++++++  ADDING TRANSITION ON TRACK: " << b_track << ", TOTAL TRKA: " << m_projectTracks;
+            //kDebug() << "///////////////   +++++++++++  ADDING TRANSITION ON TRACK: " << b_track << ", TOTAL TRKA: " << m_projectTracks;
             Transition *tr = new Transition(transitionInfo, a_track, m_scale, m_doc->fps(), QDomElement());
             m_scene->addItem(tr);
         }
@@ -301,12 +305,12 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
 
                 ItemInfo clipinfo;
                 clipinfo.startPos = GenTime(position, m_doc->fps());
-                clipinfo.endPos = clipinfo.startPos + GenTime(out, m_doc->fps());
+                clipinfo.endPos = clipinfo.startPos + GenTime(out - in, m_doc->fps());
                 clipinfo.track = ix;
-                kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
+                //kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
                 ClipItem *item = new ClipItem(clip, clipinfo, m_scale, m_doc->fps());
                 m_scene->addItem(item);
-                position += out;
+                position += (out - in);
 
                 // parse clip effects
                 for (QDomNode n2 = elem.firstChild(); !n2.isNull(); n2 = n2.nextSibling()) {
