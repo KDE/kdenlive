@@ -427,13 +427,15 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
             else
                 filePropertyMap["type"] = "video";
 
+
             QPixmap pix(width, height);
             mlt_image_format format = mlt_image_rgb24a;
             const uint8_t *thumb = frame->get_image(format, width, height);
             QImage image(thumb, width, height, QImage::Format_ARGB32);
             if (!image.isNull()) {
                 pix = pix.fromImage(image);
-            } else pix.fill(Qt::black);
+            } else
+                pix.fill(Qt::black);
             emit replyGetImage(clipId, 0, pix, width, height);
 
         } else if (frame->get_int("test_audio") == 0) {
@@ -537,7 +539,7 @@ void Render::setSceneList(QString playlist, int position) {
     if (m_winid == -1) return;
     m_generateScenelist = true;
 
-    //kWarning() << "//////  RENDER, SET SCENE LIST: " << playlist;
+    // kWarning() << "//////  RENDER, SET SCENE LIST: " << playlist;
 
 
     /*
@@ -977,7 +979,7 @@ void Render::mltCheckLength(bool reload) {
     Mlt::Producer blackTrackProducer(tractor.track(0));
     Mlt::Playlist blackTrackPlaylist((mlt_playlist) blackTrackProducer.get_service());
     double blackDuration = Mlt::Producer(blackTrackPlaylist.get_producer()).get_playtime() - 1;
-    kDebug() << " / / /DURATON FOR TRACK 0 = " << blackDuration;
+
     if (blackDuration != duration) {
         blackTrackPlaylist.remove_region(0, (int)blackDuration);
         int i = 0;
@@ -986,17 +988,19 @@ void Render::mltCheckLength(bool reload) {
         QDomElement black = doc.createElement("producer");
         black.setAttribute("mlt_service", "colour");
         black.setAttribute("colour", "black");
+        //black.setAttribute("id", "black");
         black.setAttribute("in", "0");
         black.setAttribute("out", "13999");
-        while (dur > 14000) { // <producer mlt_service=\"colour\" colour=\"black\" in=\"0\" out=\"13999\" />
+        while (dur > 14000) {
             mltInsertClip(0, GenTime(i * 14000, m_fps), black);
             dur = dur - 14000;
             i++;
         }
-        black.setAttribute("out", QString::number(dur));
-        mltInsertClip(0, GenTime(), black);
-
-        m_mltProducer->set("out", duration);
+        if (dur > 0) {
+            black.setAttribute("out", QString::number(dur));
+            mltInsertClip(0, GenTime(i * 14000, m_fps), black);
+        }
+        //m_mltProducer->set("out", duration);
         emit durationChanged((int)duration);
     }
 }
@@ -1011,9 +1015,10 @@ void Render::mltInsertClip(int track, GenTime position, QDomElement element) {
         kDebug() << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
         return;
     }
+
     Mlt::Service service(parentProd.get_service());
     Mlt::Tractor tractor(service);
-
+    mlt_service_lock(service.get_service());
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
@@ -1024,11 +1029,11 @@ void Render::mltInsertClip(int track, GenTime position, QDomElement element) {
     Mlt::Producer clip(*m_mltProfile, "westley-xml", tmp);
     //clip.set_in_and_out(in.frames(m_fps), out.frames(m_fps));
     delete[] tmp;
-
     trackPlaylist.insert_at((int) position.frames(m_fps), clip, 1);
+    mlt_service_unlock(service.get_service());
     if (track != 0) mltCheckLength();
-    tractor.multitrack()->refresh();
-    tractor.refresh();
+    //tractor.multitrack()->refresh();
+    //tractor.refresh();
 }
 
 void Render::mltCutClip(int track, GenTime position) {
@@ -1396,7 +1401,7 @@ void Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
 
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";
-
+    mlt_service_lock(service.get_service());
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(startTrack));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
@@ -1423,6 +1428,7 @@ void Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
         destTrackPlaylist.consolidate_blanks(0);
     }
 
+    mlt_service_unlock(service.get_service());
     mltCheckLength();
     m_isBlocked = false;
     m_mltConsumer->set("refresh", 1);
