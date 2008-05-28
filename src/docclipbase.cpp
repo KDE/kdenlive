@@ -195,8 +195,7 @@ createClip(KdenliveDoc *doc, const QDomElement & element) {
     node.normalize();
     if (element.tagName() != "kdenliveclip") {
         kWarning() <<
-        "DocClipBase::createClip() element has unknown tagName : " <<
-        element.tagName() << endl;
+        "DocClipBase::createClip() element has unknown tagName : " << element.tagName();
         return 0;
     }
 
@@ -221,8 +220,7 @@ createClip(KdenliveDoc *doc, const QDomElement & element) {
         n = n.nextSibling();
     }
     if (clip == 0) {
-        kWarning() << "DocClipBase::createClip() unable to create clip" <<
-        endl;
+        kWarning() << "DocClipBase::createClip() unable to create clip";
     } else {
         // setup DocClipBase specifics of the clip.
         QMap <QString, QString> props;
@@ -282,9 +280,8 @@ void DocClipBase::addSnapMarker(const GenTime & time, QString comment) {
     }
 
     if ((it != m_snapMarkers.end()) && ((*it).time() == time)) {
-        kError() <<
-        "trying to add Snap Marker that already exists, this will cause inconsistancies with undo/redo"
-        << endl;
+        (*it).setComment(comment);
+        //kError() << "trying to add Snap Marker that already exists, this will cause inconsistancies with undo/redo";
     } else {
         CommentedTime t(time, comment);
         m_snapMarkers.insert(it, t);
@@ -301,8 +298,7 @@ void DocClipBase::editSnapMarker(const GenTime & time, QString comment) {
     if (it != m_snapMarkers.end()) {
         (*it).setComment(comment);
     } else {
-        kError() <<
-        "trying to edit Snap Marker that does not already exists"  << endl;
+        kError() << "trying to edit Snap Marker that does not already exists";
     }
 }
 

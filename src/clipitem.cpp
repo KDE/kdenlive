@@ -188,7 +188,6 @@ void ClipItem::paint(QPainter *painter,
                      QWidget *widget) {
     painter->setOpacity(m_opacity);
     QBrush paintColor = brush();
-
     if (isSelected()) paintColor = QBrush(QColor(79, 93, 121));
     QRectF br = rect();
     double scale = br.width() / m_cropDuration.frames(m_fps);
@@ -429,6 +428,22 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos, double scale) {
     else if (qAbs((int)(pos.x() - (rect().x() + rect().width() - 20))) < 6 && qAbs((int)(pos.y() - (rect().y() + rect().height() / 2 - 5))) < 6) return TRANSITIONEND;
 
     return MOVE;
+}
+
+QList <GenTime> ClipItem::snapMarkers() {
+    QList < GenTime > snaps;
+    QList < GenTime > markers = baseClip()->snapMarkers();
+    GenTime pos;
+    double framepos;
+
+    for (int i = 0; i < markers.size(); i++) {
+        pos = markers.at(i) - cropStart();
+        if (pos > GenTime()) {
+            if (pos > duration()) break;
+            else snaps.append(pos + startPos());
+        }
+    }
+    return snaps;
 }
 
 void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, QPainterPath path, int startpixel, int endpixel) {

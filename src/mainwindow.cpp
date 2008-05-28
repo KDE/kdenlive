@@ -218,8 +218,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     action = actionCollection()->action("delete_timeline_clip");
     m_timelineContextClipMenu->addAction(action);
-    action = actionCollection()->action("add_clip_marker");
-    m_timelineContextClipMenu->addAction(action);
+    QMenu *markersMenu = (QMenu*)(factory()->container("marker_menu", this));
+    m_timelineContextClipMenu->addMenu(markersMenu);
     m_timelineContextClipMenu->addMenu(videoEffectsMenu);
     m_timelineContextClipMenu->addMenu(audioEffectsMenu);
     m_timelineContextClipMenu->addMenu(customEffectsMenu);
@@ -497,6 +497,14 @@ void MainWindow::setupActions() {
     KAction* addClipMarker = new KAction(KIcon("edit-delete"), i18n("Add Marker to Clip"), this);
     actionCollection()->addAction("add_clip_marker", addClipMarker);
     connect(addClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotAddClipMarker()));
+
+    KAction* deleteClipMarker = new KAction(KIcon("edit-delete"), i18n("Delete Marker from Clip"), this);
+    actionCollection()->addAction("delete_clip_marker", deleteClipMarker);
+    connect(deleteClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotDeleteClipMarker()));
+
+    KAction* editClipMarker = new KAction(KIcon("edit-delete"), i18n("Edit Marker"), this);
+    actionCollection()->addAction("edit_clip_marker", editClipMarker);
+    connect(editClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotEditClipMarker()));
 
     KStandardAction::quit(this, SLOT(queryQuit()),
                           actionCollection());
@@ -948,6 +956,20 @@ void MainWindow::slotAddClipMarker() {
     TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
     if (currentTab) {
         currentTab->projectView()->slotAddClipMarker();
+    }
+}
+
+void MainWindow::slotDeleteClipMarker() {
+    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+    if (currentTab) {
+        currentTab->projectView()->slotDeleteClipMarker();
+    }
+}
+
+void MainWindow::slotEditClipMarker() {
+    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+    if (currentTab) {
+        currentTab->projectView()->slotEditClipMarker();
     }
 }
 

@@ -1062,6 +1062,12 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected) {
             GenTime end = item->endPos();
             m_snapPoints.append(start);
             m_snapPoints.append(end);
+            QList < GenTime > markers = item->snapMarkers();
+            for (int i = 0; i < markers.size(); ++i) {
+                GenTime t = markers.at(i);
+                m_snapPoints.append(t);
+                if (t > offset) m_snapPoints.append(t - offset);
+            }
             if (offset != GenTime()) {
                 if (start > offset) m_snapPoints.append(start - offset);
                 if (end > offset) m_snapPoints.append(end - offset);
@@ -1126,6 +1132,46 @@ void CustomTrackView::slotAddClipMarker() {
     QString comment = QInputDialog::getText(this, i18n("Add Marker"), i18n("Enter text for marker on clip <b>%1</b>", clip->clipName()), QLineEdit::Normal, i18n("marker"));
     if (comment.isEmpty()) return;
     AddMarkerCommand *command = new AddMarkerCommand(this, QString(), comment, id, position, true);
+    m_commandStack->push(command);
+}
+
+void CustomTrackView::slotDeleteClipMarker() {
+    QList<QGraphicsItem *> itemList = scene()->selectedItems();
+    if (itemList.count() != 1) {
+        kDebug() << "// CANNOT DELETE MARKER IF MORE TAN ONE CLIP IS SELECTED....";
+        return;
+    }
+    AbstractClipItem *item = (AbstractClipItem *)itemList.at(0);
+    if (item->type() != AVWIDGET) return;
+    GenTime pos = GenTime(m_cursorPos, m_document->fps());
+    if (item->startPos() > pos || item->endPos() < pos) return;
+    ClipItem *clip = (ClipItem *) item;
+    int id = clip->baseClip()->getId();
+    GenTime position = pos - item->startPos() + item->cropStart();
+    QString comment = clip->baseClip()->markerComment(position);
+    if (comment.isEmpty()) return;
+    AddMarkerCommand *command = new AddMarkerCommand(this, comment, QString(), id, position, true);
+    m_commandStack->push(command);
+}
+
+void CustomTrackView::slotEditClipMarker() {
+    QList<QGraphicsItem *> itemList = scene()->selectedItems();
+    if (itemList.count() != 1) {
+        kDebug() << "// CANNOT DELETE MARKER IF MORE TAN ONE CLIP IS SELECTED....";
+        return;
+    }
+    AbstractClipItem *item = (AbstractClipItem *)itemList.at(0);
+    if (item->type() != AVWIDGET) return;
+    GenTime pos = GenTime(m_cursorPos, m_document->fps());
+    if (item->startPos() > pos || item->endPos() < pos) return;
+    ClipItem *clip = (ClipItem *) item;
+    int id = clip->baseClip()->getId();
+    GenTime position = pos - item->startPos() + item->cropStart();
+    QString oldcomment = clip->baseClip()->markerComment(position);
+    if (oldcomment.isEmpty()) return;
+    QString comment = QInputDialog::getText(this, i18n("Add Marker"), i18n("Enter text for marker on clip <b>%1</b>", clip->clipName()), QLineEdit::Normal, oldcomment);
+    if (comment.isEmpty()) return;
+    AddMarkerCommand *command = new AddMarkerCommand(this, oldcomment, comment, id, position, true);
     m_commandStack->push(command);
 }
 

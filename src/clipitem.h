@@ -77,6 +77,8 @@ public:
     void resetThumbs();
     /** update clip properties from base clip */
     void refreshClip();
+    /** Returns a list of times for this clip's markers */
+    QList <GenTime> snapMarkers();
 
 protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);

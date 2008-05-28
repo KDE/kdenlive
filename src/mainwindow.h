@@ -171,6 +171,8 @@ private slots:
     void slotRemoveTab();
     void slotDeleteTimelineClip();
     void slotAddClipMarker();
+    void slotDeleteClipMarker();
+    void slotEditClipMarker();
     void slotCutTimelineClip();
     void slotAddVideoEffect(QAction *result);
     void slotAddAudioEffect(QAction *result);

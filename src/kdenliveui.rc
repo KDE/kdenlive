@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="15">
+<gui name="kdenlive" version="16">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
     <Action name="clear" />
@@ -24,7 +24,11 @@
     <Menu name="timeline" ><text>Timeline</text>
       <Action name="cut_timeline_clip" />
       <Action name="delete_timeline_clip" />
-      <Action name="add_clip_marker" />
+      <Menu name="marker_menu" ><text>Markers</text>
+		<Action name="add_clip_marker" />
+		<Action name="edit_clip_marker" />
+		<Action name="delete_clip_marker" />
+      </Menu>
       <Menu name="video_effects_menu" ><text>Add Video Effect</text>
       </Menu>
       <Menu name="audio_effects_menu" ><text>Add Audio Effect</text>

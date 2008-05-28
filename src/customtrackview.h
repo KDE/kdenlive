@@ -53,6 +53,8 @@ public:
     void addClip(QDomElement xml, int clipId, ItemInfo info);
     void deleteClip(ItemInfo info);
     void slotAddClipMarker();
+    void slotEditClipMarker();
+    void slotDeleteClipMarker();
     void addMarker(const int id, const GenTime &pos, const QString comment);
     void setScale(double scaleFactor);
     void deleteClip(int clipId);
