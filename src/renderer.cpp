@@ -434,8 +434,7 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
             QImage image(thumb, width, height, QImage::Format_ARGB32);
             if (!image.isNull()) {
                 pix = pix.fromImage(image);
-            } else
-                pix.fill(Qt::black);
+            } else pix.fill(Qt::black);
             emit replyGetImage(clipId, 0, pix, width, height);
 
         } else if (frame->get_int("test_audio") == 0) {
@@ -1401,17 +1400,16 @@ void Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
 
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";
-    mlt_service_lock(service.get_service());
+
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(startTrack));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at(moveStart + 1);
 
-    Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
-    trackPlaylist.consolidate_blanks(0);
-    //mlt_events_block( MLT_PRODUCER_PROPERTIES(clipProducer.get_producer()), NULL );
-
     if (endTrack == startTrack) {
+        mlt_service_lock(service.get_service());
+        Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
+        trackPlaylist.consolidate_blanks(0);
         if (!trackPlaylist.is_blank_at(moveEnd)) {
             kWarning() << "// ERROR, CLIP COLLISION----------";
             int ix = trackPlaylist.get_clip_index_at(moveEnd);
@@ -1419,20 +1417,20 @@ void Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
         }
         trackPlaylist.insert_at(moveEnd, clipProducer, 1);
         trackPlaylist.consolidate_blanks(0);
+        mlt_service_unlock(service.get_service());
     } else {
+        Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
         trackPlaylist.consolidate_blanks(0);
+
         Mlt::Producer destTrackProducer(tractor.track(endTrack));
         Mlt::Playlist destTrackPlaylist((mlt_playlist) destTrackProducer.get_service());
         destTrackPlaylist.consolidate_blanks(1);
         destTrackPlaylist.insert_at(moveEnd, clipProducer, 1);
         destTrackPlaylist.consolidate_blanks(0);
     }
-
-    mlt_service_unlock(service.get_service());
     mltCheckLength();
     m_isBlocked = false;
     m_mltConsumer->set("refresh", 1);
-    //mlt_events_unblock( MLT_PRODUCER_PROPERTIES(clipProducer.get_producer()), NULL );
 }
 
 void Render::mltMoveTransition(QString type, int startTrack, int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut) {
