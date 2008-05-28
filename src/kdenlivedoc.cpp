@@ -224,11 +224,14 @@ void KdenliveDoc::convertDocument(double version) {
     for (int i = 0; i < max; i++) {
         QDomNode n = playlists.at(i);
         westley.insertBefore(n, QDomNode());
+        QDomElement pl = n.toElement();
         QDomElement track = m_document.createElement("track");
-        QString playlist_id =  n.toElement().attribute("id");
+        QString trackType = pl.attribute("hide");
+        if (!trackType.isEmpty()) track.setAttribute("hide", trackType);
+        QString playlist_id =  pl.attribute("id");
         if (playlist_id.isEmpty()) {
             playlist_id = "black_track";
-            n.toElement().setAttribute("id", playlist_id);
+            pl.setAttribute("id", playlist_id);
         }
         track.setAttribute("producer", playlist_id);
         tractor.appendChild(track);
@@ -379,7 +382,10 @@ KUndoStack *KdenliveDoc::commandStack() {
 
 void KdenliveDoc::setRenderer(Render *render) {
     m_render = render;
+    emit progressInfo(i18n("Loading playlist..."), 0);
+    qApp->processEvents();
     if (m_render) m_render->setSceneList(m_scenelist);
+    emit progressInfo(QString(), -1);
 }
 
 Render *KdenliveDoc::renderer() {
