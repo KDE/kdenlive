@@ -40,11 +40,10 @@
 #include "kthumb.h"
 
 ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, GenTime cropStart, double scale, double fps)
-        : AbstractClipItem(info, QRectF()), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_thumbsRequested(0), m_hover(false) {
+        : AbstractClipItem(info, QRectF(), fps), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_thumbsRequested(0), m_hover(false) {
     QRectF rect((double) info.startPos.frames(fps) * scale, (double)(info.track * KdenliveSettings::trackheight() + 1), (double)(info.endPos - info.startPos).frames(fps) * scale, (double)(KdenliveSettings::trackheight() - 1));
     setRect(rect);
-    //kDebug() << "/////  NEW CLIP RECT: " << rect;
-    m_fps = fps;
+
     m_clipName = clip->name();
     m_producer = clip->getId();
     m_clipType = clip->clipType();
@@ -358,9 +357,12 @@ void ClipItem::paint(QPainter *painter,
 
     // Draw clip name
     QRectF txtBounding = painter->boundingRect(br, Qt::AlignHCenter | Qt::AlignTop, " " + m_clipName + " ");
-    painter->fillRect(txtBounding, QBrush(QColor(255, 255, 255, 150)));
+    //painter->fillRect(txtBounding, QBrush(QColor(255, 255, 255, 150)));
+    painter->setPen(QColor(0, 0, 0, 180));
     painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
-
+    txtBounding.translate(QPointF(1, 1));
+    painter->setPen(QColor(255, 255, 255, 255));
+    painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
     // draw frame around clip
     if (isSelected()) {
         pen.setColor(Qt::red);

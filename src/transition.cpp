@@ -32,12 +32,11 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 
-Transition::Transition(const ItemInfo info, int transitiontrack, double scale, double fps, QDomElement params) : AbstractClipItem(info, QRectF(info.startPos.frames(fps) *scale , info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 2, (info.endPos - info.startPos).frames(fps) * scale , KdenliveSettings::trackheight() - 1)) {
+Transition::Transition(const ItemInfo info, int transitiontrack, double scale, double fps, QDomElement params) : AbstractClipItem(info, QRectF(info.startPos.frames(fps) *scale , info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 2, (info.endPos - info.startPos).frames(fps) * scale , KdenliveSettings::trackheight() - 1), fps) {
     m_singleClip = true;
     m_transitionTrack = transitiontrack;
     m_secondClip = NULL;
     m_cropStart = GenTime();
-    m_fps = fps;
     m_maxDuration = GenTime(10000, fps);
     //m_referenceClip = clipa;
     if (params.isNull()) {

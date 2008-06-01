@@ -8,7 +8,7 @@
 class AbstractClipItem : public QObject , public QGraphicsRectItem {
     Q_OBJECT
 public:
-    AbstractClipItem(const ItemInfo info, const QRectF& rect);
+    AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps);
     virtual  OPERATIONTYPE operationMode(QPointF pos, double scale) = 0;
     virtual GenTime startPos() const ;
     virtual void setTrack(int track);
@@ -26,6 +26,7 @@ public:
     virtual int fadeOut() const;
     virtual GenTime maxDuration() const;
     virtual void setCropStart(GenTime pos);
+
 protected:
     int m_track;
     GenTime m_cropStart;
