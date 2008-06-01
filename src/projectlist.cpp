@@ -126,6 +126,13 @@ ProjectList::~ProjectList() {
     delete m_toolbar;
 }
 
+void ProjectList::slotEditClip()
+{
+    ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
+    if (item && !item->isGroup()) emit clipSelected(item->toXml());
+    emit showClipProperties(item->referencedClip());
+}
+
 
 
 void ProjectList::setRenderer(Render *projectRender) {

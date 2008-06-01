@@ -216,8 +216,9 @@ MainWindow::MainWindow(QWidget *parent)
     m_timelineContextClipMenu = new QMenu(this);
     m_timelineContextTransitionMenu = new QMenu(this);
 
-    action = actionCollection()->action("delete_timeline_clip");
-    m_timelineContextClipMenu->addAction(action);
+    m_timelineContextClipMenu->addAction(actionCollection()->action("delete_timeline_clip"));
+    m_timelineContextClipMenu->addAction(actionCollection()->action("cut_timeline_clip"));
+
     QMenu *markersMenu = (QMenu*)(factory()->container("marker_menu", this));
     m_timelineContextClipMenu->addMenu(markersMenu);
     m_timelineContextClipMenu->addMenu(videoEffectsMenu);
@@ -494,7 +495,7 @@ void MainWindow::setupActions() {
     actionCollection()->addAction("cut_timeline_clip", cutTimelineClip);
     connect(cutTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotCutTimelineClip()));
 
-    KAction* addClipMarker = new KAction(KIcon("edit-delete"), i18n("Add Marker to Clip"), this);
+    KAction* addClipMarker = new KAction(KIcon("bookmark-new"), i18n("Add Marker to Clip"), this);
     actionCollection()->addAction("add_clip_marker", addClipMarker);
     connect(addClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotAddClipMarker()));
 
@@ -502,7 +503,7 @@ void MainWindow::setupActions() {
     actionCollection()->addAction("delete_clip_marker", deleteClipMarker);
     connect(deleteClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotDeleteClipMarker()));
 
-    KAction* editClipMarker = new KAction(KIcon("edit-delete"), i18n("Edit Marker"), this);
+    KAction* editClipMarker = new KAction(KIcon("document-properties"), i18n("Edit Marker"), this);
     actionCollection()->addAction("edit_clip_marker", editClipMarker);
     connect(editClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotEditClipMarker()));
 

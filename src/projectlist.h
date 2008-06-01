@@ -140,6 +140,7 @@ private:
 private slots:
     void slotAddClip(QUrl givenUrl = QUrl(), QString group = QString());
     void slotRemoveClip();
+    void slotEditClip();
     void slotClipSelected();
     void slotAddColorClip();
     void slotAddSlideshowClip();
