@@ -1035,12 +1035,14 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip) {
         m_activeDocument->editTextClip(clip->getProperty("xml"), clip->getId());
         return;
     }
+    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
     ClipProperties dia(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
+    connect(&dia, SIGNAL(addMarker(int, GenTime, QString)), currentTab->projectView(), SLOT(slotAddClipMarker(int, GenTime, QString)));
     if (dia.exec() == QDialog::Accepted) {
         m_projectList->slotUpdateClipProperties(dia.clipId(), dia.properties());
         if (dia.needsTimelineRefresh()) {
             // update clip occurences in timeline
-            TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+
             currentTab->projectView()->slotUpdateClip(dia.clipId());
         }
     }

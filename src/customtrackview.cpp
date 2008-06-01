@@ -1131,7 +1131,12 @@ void CustomTrackView::slotAddClipMarker() {
     GenTime position = pos - item->startPos() + item->cropStart();
     QString comment = QInputDialog::getText(this, i18n("Add Marker"), i18n("Enter text for marker on clip <b>%1</b>", clip->clipName()), QLineEdit::Normal, i18n("marker"));
     if (comment.isEmpty()) return;
-    AddMarkerCommand *command = new AddMarkerCommand(this, QString(), comment, id, position, true);
+    slotAddClipMarker(id, position, comment);
+}
+
+void CustomTrackView::slotAddClipMarker(int id, GenTime t, QString c) {
+    QString oldcomment = m_document->clipManager()->getClipById(id)->markerComment(t);
+    AddMarkerCommand *command = new AddMarkerCommand(this, oldcomment, c, id, t, true);
     m_commandStack->push(command);
 }
 

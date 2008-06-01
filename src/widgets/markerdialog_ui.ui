@@ -1,0 +1,150 @@
+<ui version="4.0" >
+ <class>MarkerDialog_UI</class>
+ <widget class="QDialog" name="MarkerDialog_UI" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>331</width>
+    <height>109</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Marker</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout" >
+   <item rowspan="3" row="0" column="0" >
+    <widget class="QLabel" name="clip_thumb" >
+     <property name="frameShape" >
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="text" >
+      <string>Image preview</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item rowspan="2" row="0" column="1" >
+    <widget class="QLabel" name="clip_filesize_2" >
+     <property name="text" >
+      <string>Position</string>
+     </property>
+    </widget>
+   </item>
+   <item rowspan="2" row="0" column="2" colspan="2" >
+    <widget class="KRestrictedLine" name="marker_position" >
+     <property name="inputMask" >
+      <string>99:99:99:99; </string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="4" >
+    <widget class="KArrowButton" name="position_up" />
+   </item>
+   <item row="1" column="4" >
+    <widget class="KArrowButton" name="position_down" >
+     <property name="arrowType" stdset="0" >
+      <number>2</number>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1" >
+    <widget class="QLabel" name="clip_filesize_3" >
+     <property name="text" >
+      <string>Comment</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" colspan="3" >
+    <spacer name="verticalSpacer" >
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>218</width>
+       <height>2</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="0" colspan="5" >
+    <widget class="QDialogButtonBox" name="buttonBox" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons" >
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2" colspan="3" >
+    <widget class="KLineEdit" name="marker_comment" />
+   </item>
+  </layout>
+  <zorder>buttonBox</zorder>
+  <zorder>marker_position</zorder>
+  <zorder>dial</zorder>
+  <zorder>position_up</zorder>
+  <zorder>position_down</zorder>
+  <zorder>clip_filesize_3</zorder>
+  <zorder>verticalSpacer</zorder>
+  <zorder>clip_thumb</zorder>
+  <zorder>clip_filesize_2</zorder>
+  <zorder>marker_comment</zorder>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KArrowButton</class>
+   <extends>QPushButton</extends>
+   <header>karrowbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KRestrictedLine</class>
+   <extends>KLineEdit</extends>
+   <header>krestrictedline.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>MarkerDialog_UI</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>MarkerDialog_UI</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

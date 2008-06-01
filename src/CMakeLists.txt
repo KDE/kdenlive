@@ -47,6 +47,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/configjogshuttle_ui.ui
   widgets/trackheader_ui.ui
   widgets/clipproperties_ui.ui
+  widgets/markerdialog_ui.ui
 )
  
 set(kdenlive_SRCS 
@@ -108,6 +109,7 @@ set(kdenlive_SRCS
   clipproperties.cpp
   movetransitioncommand.cpp
   slideshowclip.cpp
+  markerdialog.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

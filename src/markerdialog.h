@@ -18,43 +18,31 @@
  ***************************************************************************/
 
 
-#ifndef CLIPPROPSDIALOG_H
-#define CLIPPROPSDIALOG_H
+#ifndef MARKERDIALOG_H
+#define MARKERDIALOG_H
 
 #include <QDialog>
 
-#include "definitions.h"
-#include "timecode.h"
 #include "docclipbase.h"
-#include "ui_clipproperties_ui.h"
+#include "timecode.h"
+#include "ui_markerdialog_ui.h"
 
-class ClipProperties : public QDialog {
+class MarkerDialog : public QDialog {
     Q_OBJECT
 
 public:
-    ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent = 0);
-    QMap <QString, QString> properties();
-    int clipId() const;
-    bool needsTimelineRefresh() const;
-
+    MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, QWidget * parent = 0);
+    CommentedTime newMarker();
 private slots:
-    void parseFolder();
-    void slotAddMarker();
-    void slotEditMarker();
-    void slotDeleteMarker();
-    void slotFillMarkersList();
+    void slotTimeUp();
+    void slotTimeDown();
 
 private:
-    Ui::ClipProperties_UI m_view;
+    Ui::MarkerDialog_UI m_view;
     DocClipBase *m_clip;
+    CommentedTime m_marker;
     Timecode m_tc;
     double m_fps;
-    /** used to count images in slideshow clip */
-    int m_count;
-    bool m_clipNeedsRefresh;
-
-signals:
-    void addMarker(int, GenTime, QString);
 };
 
 

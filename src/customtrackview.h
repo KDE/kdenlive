@@ -29,6 +29,7 @@
 #include <KUndoStack>
 
 #include "kdenlivedoc.h"
+#include "docclipbase.h"
 
 class ClipItem;
 class AbstractClipItem;
@@ -94,6 +95,7 @@ public slots:
     void slotSwitchTrackAudio(int ix);
     void slotSwitchTrackVideo(int ix);
     void slotUpdateClip(int clipId);
+    void slotAddClipMarker(int id, GenTime t, QString c);
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);

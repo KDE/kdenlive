@@ -86,7 +86,7 @@
         <x>0</x>
         <y>0</y>
         <width>284</width>
-        <height>172</height>
+        <height>204</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -170,7 +170,7 @@
         <x>0</x>
         <y>0</y>
         <width>284</width>
-        <height>172</height>
+        <height>204</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -247,7 +247,7 @@
         <x>0</x>
         <y>0</y>
         <width>284</width>
-        <height>172</height>
+        <height>204</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -285,7 +285,7 @@
         <x>0</x>
         <y>0</y>
         <width>284</width>
-        <height>172</height>
+        <height>204</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -363,11 +363,19 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tab_3" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>284</width>
+        <height>204</height>
+       </rect>
+      </property>
       <attribute name="title" >
        <string>Markers</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_7" >
-       <item row="0" column="0" >
+       <item row="0" column="0" colspan="4" >
         <widget class="QTreeWidget" name="markers_list" >
          <property name="alternatingRowColors" >
           <bool>true</bool>
@@ -396,6 +404,40 @@
          </column>
         </widget>
        </item>
+       <item row="1" column="0" >
+        <widget class="QToolButton" name="marker_new" >
+         <property name="text" >
+          <string>N</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" >
+        <widget class="QToolButton" name="marker_edit" >
+         <property name="text" >
+          <string>E</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2" >
+        <widget class="QToolButton" name="marker_delete" >
+         <property name="text" >
+          <string>D</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3" >
+        <spacer name="horizontalSpacer" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>177</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tab_advanced" >
@@ -404,7 +446,7 @@
         <x>0</x>
         <y>0</y>
         <width>284</width>
-        <height>172</height>
+        <height>204</height>
        </rect>
       </property>
       <attribute name="title" >

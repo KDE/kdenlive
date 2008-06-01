@@ -26,6 +26,7 @@
 #include "kdenlivesettings.h"
 #include "clipproperties.h"
 #include "kthumb.h"
+#include "markerdialog.h"
 
 #define VIDEOTAB 0
 #define AUDIOTAB 1
@@ -104,17 +105,64 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     m_view.clip_filesize->setText(KIO::convertSize(f.size()));
     m_view.clip_duration->setText(tc.getTimecode(m_clip->duration(), m_fps));
 
-    QList < CommentedTime > marks = m_clip->commentedSnapMarkers();
+    // markers
+    m_view.marker_new->setIcon(KIcon("document-new"));
+    m_view.marker_new->setToolTip(i18n("Add marker"));
+    m_view.marker_edit->setIcon(KIcon("document-properties"));
+    m_view.marker_edit->setToolTip(i18n("Edit marker"));
+    m_view.marker_delete->setIcon(KIcon("trash-empty"));
+    m_view.marker_delete->setToolTip(i18n("Delete marker"));
 
-    for (uint count = 0; count < marks.count(); ++count) {
-	QString time = m_tc.getTimecode(marks[count].time(), m_tc.fps());
-	QStringList itemtext;
-	itemtext << time << marks[count].comment();
-	(void) new QTreeWidgetItem(m_view.markers_list, itemtext);
-    }
-    
+    slotFillMarkersList();
+    connect(m_view.marker_new, SIGNAL(clicked()), this, SLOT(slotAddMarker()));
+    connect(m_view.marker_edit, SIGNAL(clicked()), this, SLOT(slotEditMarker()));
+    connect(m_view.marker_delete, SIGNAL(clicked()), this, SLOT(slotDeleteMarker()));
+    connect(m_view.markers_list, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(slotEditMarker()));
 
     adjustSize();
+}
+
+void ClipProperties::slotFillMarkersList() {
+    m_view.markers_list->clear();
+    QList < CommentedTime > marks = m_clip->commentedSnapMarkers();
+    for (uint count = 0; count < marks.count(); ++count) {
+        QString time = m_tc.getTimecode(marks[count].time(), m_tc.fps());
+        QStringList itemtext;
+        itemtext << time << marks[count].comment();
+        (void) new QTreeWidgetItem(m_view.markers_list, itemtext);
+    }
+}
+
+void ClipProperties::slotAddMarker() {
+    CommentedTime marker(GenTime(), i18n("Marker"));
+    MarkerDialog d(m_clip, marker, m_tc, this);
+    if (d.exec() == QDialog::Accepted) {
+        int id = m_clip->getId();
+        emit addMarker(id, d.newMarker().time(), d.newMarker().comment());
+    }
+    QTimer::singleShot(500, this, SLOT(slotFillMarkersList()));
+}
+
+void ClipProperties::slotEditMarker() {
+    QList < CommentedTime > marks = m_clip->commentedSnapMarkers();
+    int pos = m_view.markers_list->currentIndex().row();
+    if (pos < 0 || pos > marks.count() - 1) return;
+    MarkerDialog d(m_clip, marks.at(pos), m_tc, this);
+    if (d.exec() == QDialog::Accepted) {
+        int id = m_clip->getId();
+        emit addMarker(id, d.newMarker().time(), d.newMarker().comment());
+    }
+    QTimer::singleShot(500, this, SLOT(slotFillMarkersList()));
+}
+
+void ClipProperties::slotDeleteMarker() {
+    QList < CommentedTime > marks = m_clip->commentedSnapMarkers();
+    int pos = m_view.markers_list->currentIndex().row();
+    if (pos < 0 || pos > marks.count() - 1) return;
+    int id = m_clip->getId();
+    emit addMarker(id, marks.at(pos).time(), QString());
+
+    QTimer::singleShot(500, this, SLOT(slotFillMarkersList()));
 }
 
 int ClipProperties::clipId() const {
