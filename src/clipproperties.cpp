@@ -103,6 +103,17 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     KFileItem f(KFileItem::Unknown, KFileItem::Unknown, url, true);
     m_view.clip_filesize->setText(KIO::convertSize(f.size()));
     m_view.clip_duration->setText(tc.getTimecode(m_clip->duration(), m_fps));
+
+    QList < CommentedTime > marks = m_clip->commentedSnapMarkers();
+
+    for (uint count = 0; count < marks.count(); ++count) {
+	QString time = m_tc.getTimecode(marks[count].time(), m_tc.fps());
+	QStringList itemtext;
+	itemtext << time << marks[count].comment();
+	(void) new QTreeWidgetItem(m_view.markers_list, itemtext);
+    }
+    
+
     adjustSize();
 }
 
