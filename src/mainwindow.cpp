@@ -689,7 +689,7 @@ void MainWindow::parseProfiles() {
             getUrl->exec();
             KUrl mltPath = getUrl->selectedUrl();
             delete getUrl;
-            if (mltPath.isEmpty()) exit(1);
+            if (mltPath.isEmpty()) kapp->quit();
             KdenliveSettings::setMltpath(mltPath.path());
             QStringList profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
         }
@@ -701,7 +701,7 @@ void MainWindow::parseProfiles() {
         getUrl->exec();
         KUrl rendererPath = getUrl->selectedUrl();
         delete getUrl;
-        if (rendererPath.isEmpty()) exit(1);
+        if (rendererPath.isEmpty()) kapp->quit();
         KdenliveSettings::setRendererpath(rendererPath.path());
     }
 
