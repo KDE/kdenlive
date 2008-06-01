@@ -25,7 +25,7 @@
 
 static QDBusConnection connection(QLatin1String(""));
 
-RenderJob::RenderJob(bool erase, QString renderer, QString profile, QString rendermodule, QString player, QString scenelist, QString dest, QStringList args, int in, int out) {
+RenderJob::RenderJob(bool erase, QString renderer, QString profile, QString rendermodule, QString player, QString scenelist, QString dest, QStringList args, int in, int out) : QObject() {
     m_scenelist = scenelist;
     m_dest = dest;
     m_player = player;
