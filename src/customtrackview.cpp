@@ -527,15 +527,14 @@ void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect) {
 }
 
 void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track) {
-    QList<QGraphicsItem *> itemList = scene()->selectedItems();
-    if (track == -1)
-        itemList = items();
-    else {
+    QList<QGraphicsItem *> itemList;
+	if (track == -1) itemList = scene()->selectedItems();
+    if (itemList.isEmpty()) {
         ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, track);
         if (clip) itemList.append(clip);
         else kDebug() << "------   wrning, clip eff not found";
     }
-    kDebug() << "// REQUESTING EFFECT ON CLIP: " << pos.frames(25) << ", TRK: " << track;
+    kDebug() << "// REQUESTING EFFECT ON CLIP: " << pos.frames(25) << ", TRK: " << track << "SELECTED ITEMS: "<<itemList.count();
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = (ClipItem *)itemList.at(i);
