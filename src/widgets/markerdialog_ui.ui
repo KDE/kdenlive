@@ -33,17 +33,17 @@
      </property>
     </widget>
    </item>
-   <item rowspan="2" row="0" column="2" colspan="2" >
+   <item rowspan="2" row="0" column="2" >
     <widget class="KRestrictedLine" name="marker_position" >
      <property name="inputMask" >
       <string>99:99:99:99; </string>
      </property>
     </widget>
    </item>
-   <item row="0" column="4" >
+   <item row="0" column="3" >
     <widget class="KArrowButton" name="position_up" />
    </item>
-   <item row="1" column="4" >
+   <item row="1" column="3" >
     <widget class="KArrowButton" name="position_down" >
      <property name="arrowType" stdset="0" >
       <number>2</number>
@@ -57,7 +57,10 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="1" colspan="3" >
+   <item row="2" column="2" colspan="2" >
+    <widget class="KLineEdit" name="marker_comment" />
+   </item>
+   <item row="3" column="1" colspan="2" >
     <spacer name="verticalSpacer" >
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
@@ -70,7 +73,7 @@
      </property>
     </spacer>
    </item>
-   <item row="4" column="0" colspan="5" >
+   <item row="4" column="0" colspan="4" >
     <widget class="QDialogButtonBox" name="buttonBox" >
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
@@ -80,20 +83,16 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="2" colspan="3" >
-    <widget class="KLineEdit" name="marker_comment" />
-   </item>
   </layout>
   <zorder>buttonBox</zorder>
   <zorder>marker_position</zorder>
-  <zorder>dial</zorder>
   <zorder>position_up</zorder>
   <zorder>position_down</zorder>
   <zorder>clip_filesize_3</zorder>
   <zorder>verticalSpacer</zorder>
   <zorder>clip_thumb</zorder>
-  <zorder>clip_filesize_2</zorder>
   <zorder>marker_comment</zorder>
+  <zorder>clip_filesize_2</zorder>
  </widget>
  <customwidgets>
   <customwidget>
