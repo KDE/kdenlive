@@ -121,7 +121,7 @@ void TrackView::setDuration(int dur) {
 
 void TrackView::parseDocument(QDomDocument doc) {
     int cursorPos = 0;
-    //kDebug() << "//// DOCUMENT: " << doc.toString();
+    // kDebug() << "//// DOCUMENT: " << doc.toString();
     QDomNode props = doc.elementsByTagName("properties").item(0);
     if (!props.isNull()) {
         cursorPos = props.toElement().attribute("timeline_position").toInt();
@@ -182,24 +182,55 @@ void TrackView::parseDocument(QDomDocument doc) {
         for (int k = 0; k < transitionparams.count(); k++) {
             p = transitionparams.item(k).toElement();
             if (!p.isNull()) {
+				QString paramName = p.attribute("name");
                 // do not add audio mixing transitions
-                if (p.attribute("name") == "internal_added" && p.text() == "237") {
+                if (paramName == "internal_added" && p.text() == "237") {
                     transitionAdd = false;
                     //kDebug() << "//  TRANSITRION " << i << " IS NOT VALID (INTERN ADDED)";
                     break;
-                } else if (p.attribute("name") == "a_track") a_track = p.text().toInt();
-                else if (p.attribute("name") == "b_track") b_track = m_projectTracks - 1 - p.text().toInt();
-                else if (p.attribute("name") == "mlt_service") mlt_service = p.text();
+                } else if (paramName == "a_track") a_track = p.text().toInt();
+                else if (paramName == "b_track") b_track = m_projectTracks - 1 - p.text().toInt();
+                else if (paramName == "mlt_service") mlt_service = p.text();
             }
         }
         if (transitionAdd) {
             // Transition should be added to the scene
             ItemInfo transitionInfo;
+			QDomElement base = MainWindow::transitions.getEffectByTag(mlt_service);
+
+			for (int k = 0; k < transitionparams.count(); k++) {
+				p = transitionparams.item(k).toElement();
+				if (!p.isNull()) {
+					QString paramName = p.attribute("name");
+					QString paramValue = p.text();
+
+					QDomNodeList params = base.elementsByTagName("parameter");
+					for (int i = 0; i < params.count(); i++) {
+						QDomElement e = params.item(i).toElement();
+						if (!e.isNull() && e.attribute("tag") == paramName) {
+							if (e.attribute("type") == "double") {
+								QString factor = e.attribute("factor");
+								if (!factor.isEmpty()) {
+									double val = paramValue.toDouble() * factor.toDouble();
+									paramValue = QString::number(val);
+								}
+							}
+							e.setAttribute("value", paramValue);
+							break;
+						}
+					}
+				}
+			}
+
+			/*QDomDocument doc;
+			doc.appendChild(doc.importNode(base, true));
+			kDebug() << "///////  TRANSITION XML: "<< doc.toString();*/
+			
             transitionInfo.startPos = GenTime(e.attribute("in").toInt(), m_doc->fps());
             transitionInfo.endPos = GenTime(e.attribute("out").toInt(), m_doc->fps());
             transitionInfo.track = b_track;
             //kDebug() << "///////////////   +++++++++++  ADDING TRANSITION ON TRACK: " << b_track << ", TOTAL TRKA: " << m_projectTracks;
-            Transition *tr = new Transition(transitionInfo, a_track, m_scale, m_doc->fps(), QDomElement());
+            Transition *tr = new Transition(transitionInfo, a_track, m_scale, m_doc->fps(), base);
             m_scene->addItem(tr);
         }
     }
