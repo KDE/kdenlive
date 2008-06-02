@@ -365,10 +365,10 @@ void ClipItem::paint(QPainter *painter,
     // draw frame around clip
     if (isSelected()) {
         pen.setColor(Qt::red);
-        pen.setWidth(2);
+        //pen.setWidth(2);
     } else {
         pen.setColor(Qt::black);
-        pen.setWidth(1);
+        //pen.setWidth(1);
     }
     painter->setPen(pen);
     painter->setClipRect(option->exposedRect);

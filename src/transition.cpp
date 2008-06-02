@@ -32,12 +32,16 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 
-Transition::Transition(const ItemInfo info, int transitiontrack, double scale, double fps, QDomElement params) : AbstractClipItem(info, QRectF(info.startPos.frames(fps) *scale , info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 2, (info.endPos - info.startPos).frames(fps) * scale , KdenliveSettings::trackheight() - 1), fps) {
+Transition::Transition(const ItemInfo info, int transitiontrack, double scale, double fps, QDomElement params) : AbstractClipItem(info, QRectF(info.startPos.frames(fps) *scale , info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2, (info.endPos - info.startPos).frames(fps) * scale , KdenliveSettings::trackheight() / 3 * 2 - 1), fps) {
     m_singleClip = true;
     m_transitionTrack = transitiontrack;
     m_secondClip = NULL;
     m_cropStart = GenTime();
     m_maxDuration = GenTime(10000, fps);
+
+    m_gradient.setColorAt(0, QColor(200, 200, 0, 150));
+    m_gradient.setColorAt(1, QColor(200, 200, 200, 120));
+
     //m_referenceClip = clipa;
     if (params.isNull()) {
         m_parameters = MainWindow::transitions.getEffectByName("Luma");
@@ -123,22 +127,26 @@ void Transition::paint(QPainter *painter,
     radialGrad.setColorAt(1, QColor(100, 100, 0, 100));
     painter->fillRect(br.intersected(rectInView), QBrush(radialGrad)/*,Qt::Dense4Pattern*/);
 #else
-    painter->fillRect(br.intersected(rectInView), QBrush(QColor(200, 200, 0, 160)/*,Qt::Dense4Pattern*/));
+	m_gradient.setStart(0, br.y());
+	m_gradient.setFinalStop(0, br.bottom());
+    painter->fillRect(br.intersected(rectInView), m_gradient);
 #endif
     painter->setClipRect(option->exposedRect);
-    painter->drawPixmap((int)(br.x() + 10), (int)(br.y() + 10), transitionPixmap());
+	int top = (int)(br.y() + br.height() / 2 - 7);
+    painter->drawPixmap((int)(br.x() + 10), top, transitionPixmap());
     painter->drawPath(resultClipPath.intersected(clippath));
     painter->setPen(QColor(0, 0, 0, 180));
-    painter->drawText((int)br.x() + 31, (int)br.y() + 21, transitionName());
+	top += painter->fontInfo().pixelSize();
+    painter->drawText((int)br.x() + 31, top + 1, transitionName());
     painter->setPen(QColor(255, 255, 255, 180));
-    painter->drawText((int)br.x() + 30, (int)br.y() + 20, transitionName());
+    painter->drawText((int)br.x() + 30, top, transitionName());
     QPen pen = painter->pen();
     if (isSelected()) {
         pen.setColor(Qt::red);
-        pen.setWidth(2);
+        //pen.setWidth(2);
     } else {
         pen.setColor(Qt::black);
-        pen.setWidth(1);
+        //pen.setWidth(1);
     }
     painter->setPen(pen);
     painter->setClipRect(option->exposedRect);
