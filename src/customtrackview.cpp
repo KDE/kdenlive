@@ -638,6 +638,7 @@ void CustomTrackView::deleteTransition(ItemInfo transitionInfo, int endTrack, QD
     Transition *item = getTransitionItemAt((int)transitionInfo.startPos.frames(m_document->fps()) + 1, transitionInfo.track);
     m_document->renderer()->mltDeleteTransition(item->transitionTag(), endTrack, m_tracksList.count() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, item->toXML());
     delete item;
+	emit transitionItemSelected(NULL);
     m_document->setModified(true);
 }
 
@@ -968,7 +969,7 @@ ClipItem *CustomTrackView::getClipItemAt(GenTime pos, int track) {
 }
 
 Transition *CustomTrackView::getTransitionItemAt(int pos, int track) {
-    QList<QGraphicsItem *> list = scene()->items(QPointF(pos * m_scale, track * m_tracksHeight + m_tracksHeight / 2));
+    QList<QGraphicsItem *> list = scene()->items(QPointF(pos * m_scale, ( track + 1 ) * m_tracksHeight));
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); ++i) {
         if (list.at(i)->type() == TRANSITIONWIDGET) {
