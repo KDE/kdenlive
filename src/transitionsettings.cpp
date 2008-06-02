@@ -37,39 +37,31 @@ TransitionSettings::TransitionSettings(QWidget* parent): QWidget(parent) {
 }
 
 
-void TransitionSettings::slotTransitionChanged() {
-
-    QDomElement e = m_usedTransition->toXML();
-
-    //set old values from e in <ktransition> to desc (like reverse and so )
-    /* QDomElement desc = m_transitions->getEffectByName(ui.listWidget->currentItem()->text());
-     if (m_usedTransition) {
-         m_usedTransition->setTransitionParameters(desc);
-         m_usedTransition->update();
-     }
-     emit transitionUpdated(e, m_usedTransition->toXML());*/
-    /*QDomDocument doc;
-    doc.appendChild(doc.importNode(e, true));
-    kDebug()<<"///////////  TRANSITION CHANGED: "<<doc.toString();
-    kDebug()<<"///////////  TRANSITION CHANGED END...";*/
-
-    if (m_usedTransition && m_usedTransition->transitionName() == ui.listWidget->currentItem()->text() && !e.attribute("tag").isNull()) {
-        slotUpdateEffectParams(e, e);
-    } else
-        slotUpdateEffectParams(e, MainWindow::transitions.getEffectByName(ui.listWidget->currentItem()->text()));
-    emit transferParamDesc(e, 0, 0);
+void TransitionSettings::slotTransitionChanged(bool reinit) {
+    QDomElement e = m_usedTransition->toXML().cloneNode().toElement();
+	if (reinit) {
+		QDomElement newTransition = MainWindow::transitions.getEffectByName(ui.listWidget->currentItem()->text());
+		slotUpdateEffectParams(e, newTransition);
+		emit transferParamDesc(newTransition, 0, 0);
+	}
+	else {
+		//slotUpdateEffectParams(e, e);
+		emit transferParamDesc(e, 0, 0);
+	}
 }
 
 void TransitionSettings::slotTransitionItemSelected(Transition* t) {
     setEnabled(t != NULL);
-    if (t == m_usedTransition) return;
+    if (t == m_usedTransition) {
+		return;
+	}
     m_usedTransition = t;
     if (m_usedTransition) {
         QList<QListWidgetItem*> list = ui.listWidget->findItems(m_usedTransition->transitionName(), Qt::MatchExactly);
         if (list.size() > 0) {
             ui.listWidget->blockSignals(true);
             ui.listWidget->setCurrentItem(list[0]);
-            slotTransitionChanged();
+            slotTransitionChanged(false);
             ui.listWidget->blockSignals(false);
         }
     }

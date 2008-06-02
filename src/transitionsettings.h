@@ -32,10 +32,12 @@ private:
     Ui::TransitionSettings_UI ui;
     EffectStackEdit *effectEdit;
     Transition* m_usedTransition;
+
 public slots:
     void slotTransitionItemSelected(Transition*);
-    void slotTransitionChanged();
+    void slotTransitionChanged(bool reinit = true);
     void slotUpdateEffectParams(const QDomElement&, const QDomElement&);
+
 signals:
     void transitionUpdated(Transition *, QDomElement);
     void transferParamDesc(const QDomElement&, int , int);
