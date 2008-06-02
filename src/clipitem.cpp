@@ -273,7 +273,7 @@ void ClipItem::paint(QPainter *painter,
             QLineF l(br.x() + framepos, br.y() + 5, br.x() + framepos, br.y() + br.height() - 5);
             painter->drawLine(l);
             if (KdenliveSettings::showmarkers()) {
-                const QRectF txtBounding = painter->boundingRect(br.x() + framepos + 1, br.y() + 5, br.width() - framepos - 2, br.height() - 10, Qt::AlignLeft | Qt::AlignTop, " " + (*it).comment() + " ");
+                const QRectF txtBounding = painter->boundingRect(br.x() + framepos + 1, br.y() + 10, br.width() - framepos - 2, br.height() - 10, Qt::AlignLeft | Qt::AlignTop, " " + (*it).comment() + " ");
                 QPainterPath path;
                 path.addRoundedRect(txtBounding, 3, 3);
                 painter->fillPath(path, markerBrush);
@@ -324,16 +324,15 @@ void ClipItem::paint(QPainter *painter,
     // Draw effects names
     QString effects = effectNames().join(" / ");
     if (!effects.isEmpty()) {
-        painter->setPen(pen);
         QFont font = painter->font();
         QFont smallFont = font;
         smallFont.setPointSize(8);
         painter->setFont(smallFont);
         QRectF txtBounding = painter->boundingRect(br, Qt::AlignLeft | Qt::AlignTop, " " + effects + " ");
+        painter->setPen(Qt::white);
         painter->fillRect(txtBounding, QBrush(QColor(0, 0, 0, 150)));
         painter->drawText(txtBounding, Qt::AlignCenter, effects);
-        pen.setColor(Qt::black);
-        painter->setPen(pen);
+        painter->setPen(Qt::black);
         painter->setFont(font);
     }
 
