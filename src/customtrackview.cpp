@@ -52,6 +52,8 @@
 #include "customtrackview.h"
 #include "clipmanager.h"
 #include "renderer.h"
+#include "markerdialog.h"
+
 //TODO:
 // disable animation if user asked it in KDE's global settings
 // http://lists.kde.org/?l=kde-commits&m=120398724717624&w=2
@@ -1129,9 +1131,11 @@ void CustomTrackView::slotAddClipMarker() {
     ClipItem *clip = (ClipItem *) item;
     int id = clip->baseClip()->getId();
     GenTime position = pos - item->startPos() + item->cropStart();
-    QString comment = QInputDialog::getText(this, i18n("Add Marker"), i18n("Enter text for marker on clip <b>%1</b>", clip->clipName()), QLineEdit::Normal, i18n("marker"));
-    if (comment.isEmpty()) return;
-    slotAddClipMarker(id, position, comment);
+    CommentedTime marker(position, i18n("Marker"));
+    MarkerDialog d(clip->baseClip(), marker, m_document->timecode(), this);
+    if (d.exec() == QDialog::Accepted) {
+        slotAddClipMarker(id, d.newMarker().time(), d.newMarker().comment());
+    }
 }
 
 void CustomTrackView::slotAddClipMarker(int id, GenTime t, QString c) {
@@ -1174,10 +1178,22 @@ void CustomTrackView::slotEditClipMarker() {
     GenTime position = pos - item->startPos() + item->cropStart();
     QString oldcomment = clip->baseClip()->markerComment(position);
     if (oldcomment.isEmpty()) return;
-    QString comment = QInputDialog::getText(this, i18n("Add Marker"), i18n("Enter text for marker on clip <b>%1</b>", clip->clipName()), QLineEdit::Normal, oldcomment);
-    if (comment.isEmpty()) return;
-    AddMarkerCommand *command = new AddMarkerCommand(this, oldcomment, comment, id, position, true);
-    m_commandStack->push(command);
+
+    CommentedTime marker(position, oldcomment);
+    MarkerDialog d(clip->baseClip(), marker, m_document->timecode(), this);
+    if (d.exec() == QDialog::Accepted) {
+        if (d.newMarker().time() == position) {
+            // marker position was not changed, only text
+            AddMarkerCommand *command = new AddMarkerCommand(this, oldcomment, d.newMarker().comment(), id, position, true);
+            m_commandStack->push(command);
+        } else {
+            // marker text and position were changed, remove previous marker and add new one
+            AddMarkerCommand *command1 = new AddMarkerCommand(this, oldcomment, QString(), id, position, true);
+            AddMarkerCommand *command2 = new AddMarkerCommand(this, QString(), d.newMarker().comment(), id, d.newMarker().time(), true);
+            m_commandStack->push(command1);
+            m_commandStack->push(command2);
+        }
+    }
 }
 
 void CustomTrackView::addMarker(const int id, const GenTime &pos, const QString comment) {
