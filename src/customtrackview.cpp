@@ -814,7 +814,10 @@ void CustomTrackView::checkScrolling() {
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
     QGraphicsView::mouseReleaseEvent(event);
     setDragMode(QGraphicsView::NoDrag);
-    if (m_dragItem == NULL) return;
+    if (m_dragItem == NULL) {
+		emit transitionItemSelected(NULL);
+		return;
+	}
     ItemInfo info;
     info.startPos = m_dragItem->startPos();
     info.endPos = m_dragItem->endPos();
