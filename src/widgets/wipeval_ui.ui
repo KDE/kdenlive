@@ -23,7 +23,13 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_3" >
       <item row="2" column="1" colspan="2" >
-       <widget class="QSlider" name="horizontalSlider_2" >
+       <widget class="QSlider" name="end_transp" >
+        <property name="maximum" >
+         <number>100</number>
+        </property>
+        <property name="value" >
+         <number>100</number>
+        </property>
         <property name="orientation" >
          <enum>Qt::Horizontal</enum>
         </property>
@@ -171,7 +177,13 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_2" >
       <item row="2" column="3" colspan="2" >
-       <widget class="QSlider" name="horizontalSlider" >
+       <widget class="QSlider" name="start_transp" >
+        <property name="maximum" >
+         <number>100</number>
+        </property>
+        <property name="value" >
+         <number>100</number>
+        </property>
         <property name="orientation" >
          <enum>Qt::Horizontal</enum>
         </property>

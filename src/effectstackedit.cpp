@@ -206,6 +206,8 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
                 wpval->end_center->setChecked(true);
                 break;
             }
+            wpval->start_transp->setValue(w.startTransparency);
+            wpval->end_transp->setValue(w.endTransparency);
 
             connect(wpval->end_up, SIGNAL(clicked()), this, SLOT(collectAllParameters()));
             connect(wpval->end_down, SIGNAL(clicked()), this, SLOT(collectAllParameters()));
@@ -217,7 +219,8 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
             connect(wpval->start_left, SIGNAL(clicked()), this, SLOT(collectAllParameters()));
             connect(wpval->start_right, SIGNAL(clicked()), this, SLOT(collectAllParameters()));
             connect(wpval->start_center, SIGNAL(clicked()), this, SLOT(collectAllParameters()));
-
+            connect(wpval->start_transp, SIGNAL(valueChanged(int)), this, SLOT(collectAllParameters()));
+            connect(wpval->end_transp, SIGNAL(valueChanged(int)), this, SLOT(collectAllParameters()));
             //wpval->title->setTitle(na.toElement().text());
             valueItems[paramName] = wpval;
             uiItems.append(wpval);
@@ -242,13 +245,16 @@ wipeInfo EffectStackEdit::getWipeInfo(QString value) {
     else if (start.startsWith("0%,100%")) info.start = DOWN;
     else if (start.startsWith("0%,-100%")) info.start = UP;
     else if (start.startsWith("0%,0%")) info.start = CENTER;
+    if (start.count(':') == 2) info.startTransparency = start.section(':', -1).toInt();
+    else info.startTransparency = 100;
 
     if (end.startsWith("-100%,0")) info.end = LEFT;
     else if (end.startsWith("100%,0")) info.end = RIGHT;
     else if (end.startsWith("0%,100%")) info.end = DOWN;
     else if (end.startsWith("0%,-100%")) info.end = UP;
     else if (end.startsWith("0%,0%")) info.end = CENTER;
-
+    if (end.count(':') == 2) info.endTransparency = end.section(':', -1).toInt();
+    else info.endTransparency = 100;
     return info;
 }
 
@@ -273,6 +279,8 @@ QString EffectStackEdit::getWipeString(wipeInfo info) {
         start = "0%,0%:100%x100%";
         break;
     }
+    start.append(":" + QString::number(info.startTransparency));
+
     switch (info.end) {
     case LEFT:
         end = "-100%,0%:100%x100%";
@@ -290,6 +298,7 @@ QString EffectStackEdit::getWipeString(wipeInfo info) {
         end = "0%,0%:100%x100%";
         break;
     }
+    end.append(":" + QString::number(info.endTransparency));
     return QString(start + ";-1=" + end);
 }
 
@@ -325,13 +334,13 @@ void EffectStackEdit::collectAllParameters() {
             else if (wp->start_up->isChecked()) info.start = UP;
             else if (wp->start_down->isChecked()) info.start = DOWN;
             else if (wp->start_center->isChecked()) info.start = CENTER;
-
+            info.startTransparency = wp->start_transp->value();
             if (wp->end_left->isChecked()) info.end = LEFT;
             else if (wp->end_right->isChecked()) info.end = RIGHT;
             else if (wp->end_up->isChecked()) info.end = UP;
             else if (wp->end_down->isChecked()) info.end = DOWN;
             else if (wp->end_center->isChecked()) info.end = CENTER;
-
+            info.endTransparency = wp->end_transp->value();
             setValue = getWipeString(info);
         }
 
