@@ -49,6 +49,13 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent) {
         return;
     }
     int diff = 1;
+    if (m_selectedItem->type() == 8) {
+		QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(m_selectedItem);
+		if (t->textInteractionFlags() & Qt::TextEditorInteraction) {
+			QGraphicsScene::keyPressEvent(keyEvent);
+			return;
+		}
+    }
     if (keyEvent->modifiers() & Qt::ControlModifier) diff = 10;
     switch (keyEvent->key()) {
     case Qt::Key_Left:
@@ -69,9 +76,9 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent) {
         break;
     case Qt::Key_Delete:
     case Qt::Key_Backspace:
-        delete m_selectedItem;
-        m_selectedItem = NULL;
-        emit selectionChanged();
+		delete m_selectedItem;
+		m_selectedItem = NULL;
+		emit selectionChanged();
         break;
     default:
         QGraphicsScene::keyPressEvent(keyEvent);
