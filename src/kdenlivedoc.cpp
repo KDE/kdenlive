@@ -49,6 +49,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
             if (!infoXmlNode.isNull()) {
                 QDomElement infoXml = infoXmlNode.toElement();
                 QString profilePath = infoXml.attribute("profile");
+                m_startPos = infoXml.attribute("position").toInt();
                 if (!profilePath.isEmpty()) setProfilePath(profilePath);
                 double version = infoXml.attribute("version").toDouble();
                 if (version < 0.7) convertDocument(version);
@@ -318,6 +319,7 @@ QDomElement KdenliveDoc::documentInfoXml() {
     QDomElement markers = doc.createElement("markers");
     addedXml.setAttribute("version", "0.7");
     addedXml.setAttribute("profile", profilePath());
+    addedXml.setAttribute("position", m_render->seekPosition().frames(m_fps));
     QList <DocClipBase*> list = m_clipManager->documentClipList();
     for (int i = 0; i < list.count(); i++) {
         e = list.at(i)->toXML();
@@ -384,7 +386,7 @@ void KdenliveDoc::setRenderer(Render *render) {
     m_render = render;
     emit progressInfo(i18n("Loading playlist..."), 0);
     qApp->processEvents();
-    if (m_render) m_render->setSceneList(m_scenelist);
+    if (m_render) m_render->setSceneList(m_scenelist, m_startPos);
     emit progressInfo(QString(), -1);
 }
 

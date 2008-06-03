@@ -621,7 +621,7 @@ void MainWindow::saveFileAs(const QString &outputFileName) {
 }
 
 void MainWindow::saveFileAs() {
-    QString outputFile = KFileDialog::getSaveFileName();
+    QString outputFile = KFileDialog::getSaveFileName(KUrl(), "*.kdenlive|Kdenlive project files (*.kdenlive)");
     if (QFile::exists(outputFile)) {
         if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) == KMessageBox::No) return;
     }

@@ -127,16 +127,16 @@ void Transition::paint(QPainter *painter,
     radialGrad.setColorAt(1, QColor(100, 100, 0, 100));
     painter->fillRect(br.intersected(rectInView), QBrush(radialGrad)/*,Qt::Dense4Pattern*/);
 #else
-	m_gradient.setStart(0, br.y());
-	m_gradient.setFinalStop(0, br.bottom());
+    m_gradient.setStart(0, br.y());
+    m_gradient.setFinalStop(0, br.bottom());
     painter->fillRect(br.intersected(rectInView), m_gradient);
 #endif
     painter->setClipRect(option->exposedRect);
-	int top = (int)(br.y() + br.height() / 2 - 7);
+    int top = (int)(br.y() + br.height() / 2 - 7);
     painter->drawPixmap((int)(br.x() + 10), top, transitionPixmap());
     painter->drawPath(resultClipPath.intersected(clippath));
     painter->setPen(QColor(0, 0, 0, 180));
-	top += painter->fontInfo().pixelSize();
+    top += painter->fontInfo().pixelSize();
     painter->drawText((int)br.x() + 31, top + 1, transitionName());
     painter->setPen(QColor(255, 255, 255, 180));
     painter->drawText((int)br.x() + 30, top, transitionName());

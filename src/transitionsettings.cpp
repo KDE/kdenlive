@@ -39,22 +39,21 @@ TransitionSettings::TransitionSettings(QWidget* parent): QWidget(parent) {
 
 void TransitionSettings::slotTransitionChanged(bool reinit) {
     QDomElement e = m_usedTransition->toXML().cloneNode().toElement();
-	if (reinit) {
-		QDomElement newTransition = MainWindow::transitions.getEffectByName(ui.listWidget->currentItem()->text());
-		slotUpdateEffectParams(e, newTransition);
-		emit transferParamDesc(newTransition, 0, 0);
-	}
-	else {
-		//slotUpdateEffectParams(e, e);
-		emit transferParamDesc(e, 0, 0);
-	}
+    if (reinit) {
+        QDomElement newTransition = MainWindow::transitions.getEffectByName(ui.listWidget->currentItem()->text());
+        slotUpdateEffectParams(e, newTransition);
+        emit transferParamDesc(newTransition, 0, 0);
+    } else {
+        //slotUpdateEffectParams(e, e);
+        emit transferParamDesc(e, 0, 0);
+    }
 }
 
 void TransitionSettings::slotTransitionItemSelected(Transition* t) {
     setEnabled(t != NULL);
     if (t == m_usedTransition) {
-		return;
-	}
+        return;
+    }
     m_usedTransition = t;
     if (m_usedTransition) {
         QList<QListWidgetItem*> list = ui.listWidget->findItems(m_usedTransition->transitionName(), Qt::MatchExactly);

@@ -100,6 +100,8 @@ private:
     QDomDocument m_document;
     QString m_projectName;
     double m_fps;
+    /** Cursor position at document opening */
+    int m_startPos;
     int m_width;
     int m_height;
     Timecode m_timecode;

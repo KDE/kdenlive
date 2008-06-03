@@ -70,7 +70,7 @@ public:
 
 private:
     bool m_singleClip;
-	QLinearGradient m_gradient;
+    QLinearGradient m_gradient;
     QString m_name;
     /** contains the transition parameters */
     QDomElement m_parameters;

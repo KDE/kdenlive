@@ -528,13 +528,13 @@ void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect) {
 
 void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track) {
     QList<QGraphicsItem *> itemList;
-	if (track == -1) itemList = scene()->selectedItems();
+    if (track == -1) itemList = scene()->selectedItems();
     if (itemList.isEmpty()) {
         ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, track);
         if (clip) itemList.append(clip);
         else kDebug() << "------   wrning, clip eff not found";
     }
-    kDebug() << "// REQUESTING EFFECT ON CLIP: " << pos.frames(25) << ", TRK: " << track << "SELECTED ITEMS: "<<itemList.count();
+    kDebug() << "// REQUESTING EFFECT ON CLIP: " << pos.frames(25) << ", TRK: " << track << "SELECTED ITEMS: " << itemList.count();
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = (ClipItem *)itemList.at(i);
@@ -638,7 +638,7 @@ void CustomTrackView::deleteTransition(ItemInfo transitionInfo, int endTrack, QD
     Transition *item = getTransitionItemAt((int)transitionInfo.startPos.frames(m_document->fps()) + 1, transitionInfo.track);
     m_document->renderer()->mltDeleteTransition(item->transitionTag(), endTrack, m_tracksList.count() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, item->toXML());
     delete item;
-	emit transitionItemSelected(NULL);
+    emit transitionItemSelected(NULL);
     m_document->setModified(true);
 }
 
@@ -815,9 +815,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
     QGraphicsView::mouseReleaseEvent(event);
     setDragMode(QGraphicsView::NoDrag);
     if (m_dragItem == NULL) {
-		emit transitionItemSelected(NULL);
-		return;
-	}
+        emit transitionItemSelected(NULL);
+        return;
+    }
     ItemInfo info;
     info.startPos = m_dragItem->startPos();
     info.endPos = m_dragItem->endPos();
@@ -972,7 +972,7 @@ ClipItem *CustomTrackView::getClipItemAt(GenTime pos, int track) {
 }
 
 Transition *CustomTrackView::getTransitionItemAt(int pos, int track) {
-    QList<QGraphicsItem *> list = scene()->items(QPointF(pos * m_scale, ( track + 1 ) * m_tracksHeight));
+    QList<QGraphicsItem *> list = scene()->items(QPointF(pos * m_scale, (track + 1) * m_tracksHeight));
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); ++i) {
         if (list.at(i)->type() == TRANSITIONWIDGET) {

@@ -566,7 +566,6 @@ void Render::setSceneList(QString playlist, int position) {
     delete[] tmp;
     if (!m_mltProducer || !m_mltProducer->is_valid()) kDebug() << " WARNING - - - - -INVALID PLAYLIST: " << tmp;
     //m_mltProducer->optimise();
-    if (position != 0) m_mltProducer->seek(position);
 
     /*if (KdenliveSettings::osdtimecode()) {
     // Attach filter for on screen display of timecode
@@ -595,6 +594,10 @@ void Render::setSceneList(QString playlist, int position) {
     emit durationChanged(m_mltProducer->get_playtime());
     //m_connectTimer->start( 1000 );
     connectPlaylist();
+    if (position != 0) {
+        m_mltProducer->seek(position);
+        emit rendererPosition((int) position);
+    }
     m_generateScenelist = false;
 
 }
@@ -987,7 +990,7 @@ void Render::mltCheckLength(bool reload) {
         QDomElement black = doc.createElement("producer");
         black.setAttribute("mlt_service", "colour");
         black.setAttribute("colour", "black");
-        //black.setAttribute("id", "black");
+        black.setAttribute("id", "black");
         black.setAttribute("in", "0");
         black.setAttribute("out", "13999");
         while (dur > 14000) {

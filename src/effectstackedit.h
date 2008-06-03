@@ -24,6 +24,15 @@
 #include <QList>
 #include <QMap>
 
+enum WIPE_DIRECTON { UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, CENTER = 4 };
+
+struct wipeInfo {
+    WIPE_DIRECTON start;
+    WIPE_DIRECTON end;
+    int startTransparency;
+    int endTransparency;
+};
+
 class QFrame;
 
 class EffectStackEdit : public QObject {
@@ -32,6 +41,7 @@ public:
     EffectStackEdit(QFrame* frame, QWidget *parent);
     ~EffectStackEdit();
     static QMap<QString, QImage> iconCache;
+
 private:
     void clearAllItems();
     QVBoxLayout *vbox;
@@ -40,10 +50,14 @@ private:
     QDomElement params;
     QMap<QString, void*> valueItems;
     void createSliderItem(const QString& name, int val , int min, int max);
+    wipeInfo getWipeInfo(QString value);
+    QString getWipeString(wipeInfo info);
+
 public slots:
     void transferParamDesc(const QDomElement&, int , int);
     void slotSliderMoved(int);
     void collectAllParameters();
+
 signals:
     void parameterChanged(const QDomElement&, const QDomElement&);
 };

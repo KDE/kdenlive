@@ -28,6 +28,7 @@
 #include "ui_listval_ui.h"
 #include "ui_boolval_ui.h"
 #include "ui_colorval_ui.h"
+#include "ui_wipeval_ui.h"
 #include "complexparameter.h"
 
 QMap<QString, QImage> EffectStackEdit::iconCache;
@@ -102,14 +103,18 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
             delete toFillin;
             toFillin = NULL;
         } else if (type == "list") {
-
             Ui::Listval_UI *lsval = new Ui::Listval_UI;
             lsval->setupUi(toFillin);
             QStringList listitems = pa.attribute("paramlist").split(",");
-            lsval->list->addItems(listitems);
+            QStringList listitemsdisplay = pa.attribute("paramlistdisplay").split(",");
+            if (listitemsdisplay.count() != listitems.count()) listitemsdisplay = listitems;
+            //lsval->list->addItems(listitems);
+            for (int i = 0;i < listitems.count();i++) {
+                lsval->list->addItem(listitemsdisplay.at(i), listitems.at(i));
+            }
             lsval->list->setCurrentIndex(listitems.indexOf(value));
             for (int i = 0;i < lsval->list->count();i++) {
-                QString entry = lsval->list->itemText(i);
+                QString entry = lsval->list->itemData(i).toString();
                 if (!entry.isEmpty() && (entry.endsWith(".png") || entry.endsWith(".pgm"))) {
                     if (!EffectStackEdit::iconCache.contains(entry)) {
                         QImage pix(entry);
@@ -163,6 +168,59 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
             cval->label->setText(na.toElement().text());
             valueItems[paramName] = cval;
             uiItems.append(cval);
+        } else if (type == "wipe") {
+            Ui::Wipeval_UI *wpval = new Ui::Wipeval_UI;
+            wpval->setupUi(toFillin);
+            wipeInfo w = getWipeInfo(value);
+            switch (w.start) {
+            case UP:
+                wpval->start_up->setChecked(true);
+                break;
+            case DOWN:
+                wpval->start_down->setChecked(true);
+                break;
+            case RIGHT:
+                wpval->start_right->setChecked(true);
+                break;
+            case LEFT:
+                wpval->start_left->setChecked(true);
+                break;
+            default:
+                wpval->start_center->setChecked(true);
+                break;
+            }
+            switch (w.end) {
+            case UP:
+                wpval->end_up->setChecked(true);
+                break;
+            case DOWN:
+                wpval->end_down->setChecked(true);
+                break;
+            case RIGHT:
+                wpval->end_right->setChecked(true);
+                break;
+            case LEFT:
+                wpval->end_left->setChecked(true);
+                break;
+            default:
+                wpval->end_center->setChecked(true);
+                break;
+            }
+
+            connect(wpval->end_up, SIGNAL(clicked()), this, SLOT(collectAllParameters()));
+            connect(wpval->end_down, SIGNAL(clicked()), this, SLOT(collectAllParameters()));
+            connect(wpval->end_left, SIGNAL(clicked()), this, SLOT(collectAllParameters()));
+            connect(wpval->end_right, SIGNAL(clicked()), this, SLOT(collectAllParameters()));
+            connect(wpval->end_center, SIGNAL(clicked()), this, SLOT(collectAllParameters()));
+            connect(wpval->start_up, SIGNAL(clicked()), this, SLOT(collectAllParameters()));
+            connect(wpval->start_down, SIGNAL(clicked()), this, SLOT(collectAllParameters()));
+            connect(wpval->start_left, SIGNAL(clicked()), this, SLOT(collectAllParameters()));
+            connect(wpval->start_right, SIGNAL(clicked()), this, SLOT(collectAllParameters()));
+            connect(wpval->start_center, SIGNAL(clicked()), this, SLOT(collectAllParameters()));
+
+            //wpval->title->setTitle(na.toElement().text());
+            valueItems[paramName] = wpval;
+            uiItems.append(wpval);
         } else {
             delete toFillin;
             toFillin = NULL;
@@ -174,6 +232,67 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
         }
     }
 }
+
+wipeInfo EffectStackEdit::getWipeInfo(QString value) {
+    wipeInfo info;
+    QString start = value.section(";", 0, 0);
+    QString end = value.section(";", 1, 1).section("=", 1, 1);
+    if (start.startsWith("-100%,0")) info.start = LEFT;
+    else if (start.startsWith("100%,0")) info.start = RIGHT;
+    else if (start.startsWith("0%,100%")) info.start = DOWN;
+    else if (start.startsWith("0%,-100%")) info.start = UP;
+    else if (start.startsWith("0%,0%")) info.start = CENTER;
+
+    if (end.startsWith("-100%,0")) info.end = LEFT;
+    else if (end.startsWith("100%,0")) info.end = RIGHT;
+    else if (end.startsWith("0%,100%")) info.end = DOWN;
+    else if (end.startsWith("0%,-100%")) info.end = UP;
+    else if (end.startsWith("0%,0%")) info.end = CENTER;
+
+    return info;
+}
+
+QString EffectStackEdit::getWipeString(wipeInfo info) {
+
+    QString start;
+    QString end;
+    switch (info.start) {
+    case LEFT:
+        start = "-100%,0%:100%x100%";
+        break;
+    case RIGHT:
+        start = "100%,0%:100%x100%";
+        break;
+    case DOWN:
+        start = "0%,100%:100%x100%";
+        break;
+    case UP:
+        start = "0%,-100%:100%x100%";
+        break;
+    default:
+        start = "0%,0%:100%x100%";
+        break;
+    }
+    switch (info.end) {
+    case LEFT:
+        end = "-100%,0%:100%x100%";
+        break;
+    case RIGHT:
+        end = "100%,0%:100%x100%";
+        break;
+    case DOWN:
+        end = "0%,100%:100%x100%";
+        break;
+    case UP:
+        end = "0%,-100%:100%x100%";
+        break;
+    default:
+        end = "0%,0%:100%x100%";
+        break;
+    }
+    return QString(start + ";-1=" + end);
+}
+
 void EffectStackEdit::collectAllParameters() {
     QDomElement oldparam = params.cloneNode().toElement();
     QDomNodeList namenode = params.elementsByTagName("parameter");
@@ -186,23 +305,36 @@ void EffectStackEdit::collectAllParameters() {
         if (type == "double" || type == "constant") {
             QSlider* slider = ((Ui::Constval_UI*)valueItems[na.toElement().text()])->horizontalSlider;
             setValue = QString::number(slider->value());
-        } else
-            if (type == "list") {
-                KComboBox *box = ((Ui::Listval_UI*)valueItems[na.toElement().text()])->list;
-                setValue = box->currentText();
-            } else
-                if (type == "bool") {
-                    QCheckBox *box = ((Ui::Boolval_UI*)valueItems[na.toElement().text()])->checkBox;
-                    setValue = box->checkState() == Qt::Checked ? "1" : "0" ;
-                } else
-                    if (type == "color") {
-                        KColorButton *color = ((Ui::Colorval_UI*)valueItems[na.toElement().text()])->kcolorbutton;
-                        setValue.sprintf("0x%08x", color->color().rgba());
-                    } else
-                        if (type == "complex" || type == "geometry") {
-                            ComplexParameter *complex = ((ComplexParameter*)valueItems[na.toElement().text()+"complex"]);
-                            namenode.item(i) = complex->getParamDesc();
-                        }
+        } else if (type == "list") {
+            KComboBox *box = ((Ui::Listval_UI*)valueItems[na.toElement().text()])->list;
+            setValue = box->itemData(box->currentIndex()).toString();
+        } else if (type == "bool") {
+            QCheckBox *box = ((Ui::Boolval_UI*)valueItems[na.toElement().text()])->checkBox;
+            setValue = box->checkState() == Qt::Checked ? "1" : "0" ;
+        } else if (type == "color") {
+            KColorButton *color = ((Ui::Colorval_UI*)valueItems[na.toElement().text()])->kcolorbutton;
+            setValue.sprintf("0x%08x", color->color().rgba());
+        } else if (type == "complex" || type == "geometry") {
+            ComplexParameter *complex = ((ComplexParameter*)valueItems[na.toElement().text()+"complex"]);
+            namenode.item(i) = complex->getParamDesc();
+        } else if (type == "wipe") {
+            Ui::Wipeval_UI *wp = (Ui::Wipeval_UI*)valueItems[na.toElement().text()];
+            wipeInfo info;
+            if (wp->start_left->isChecked()) info.start = LEFT;
+            else if (wp->start_right->isChecked()) info.start = RIGHT;
+            else if (wp->start_up->isChecked()) info.start = UP;
+            else if (wp->start_down->isChecked()) info.start = DOWN;
+            else if (wp->start_center->isChecked()) info.start = CENTER;
+
+            if (wp->end_left->isChecked()) info.end = LEFT;
+            else if (wp->end_right->isChecked()) info.end = RIGHT;
+            else if (wp->end_up->isChecked()) info.end = UP;
+            else if (wp->end_down->isChecked()) info.end = DOWN;
+            else if (wp->end_center->isChecked()) info.end = CENTER;
+
+            setValue = getWipeString(info);
+        }
+
         if (!setValue.isNull()) {
             pa.attributes().namedItem("value").setNodeValue(setValue);
         }

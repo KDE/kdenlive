@@ -495,8 +495,6 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
 
             //kDebug() << ret.toString();
         } else {
-
-
             if (name == "luma") {
 
                 tname.appendChild(ret.createTextNode("Luma"));
@@ -507,16 +505,19 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 mlt_properties_dir_list(entries.get_properties(), path.toAscii().data(), "*.*", 1);
                 kDebug() << path << entries.count();
                 QString imagefiles;
-                QStringList imagelist;
+                //QStringList imagelist;
+                QString imagenamelist;
                 for (int i = 0;i < entries.count();i++) {
                     //if (!imagefiles.isEmpty()) // add empty entry too
                     imagefiles.append(",");
                     imagefiles.append(entries.get(i));
-                    imagelist << entries.get(i);
+                    //imagelist << entries.get(i);
+                    imagenamelist.append(",");
+                    imagenamelist.append(KUrl(entries.get(i)).fileName());
                 }
-                paramList.append(quickParameterFill(ret, "Softness", "softness", "double", "0", "0", "100", "", "100"));
+                paramList.append(quickParameterFill(ret, "Softness", "softness", "double", "0", "0", "100", "", "", "100"));
                 paramList.append(quickParameterFill(ret, "Invert", "invert", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, "ImageFile", "resource", "list", "", "", "", imagefiles));
+                paramList.append(quickParameterFill(ret, "ImageFile", "resource", "list", "", "", "", imagefiles, imagenamelist));
                 //thumbnailer.prepareThumbnailsCall(imagelist);
 
             } else if (name == "composite") {
@@ -556,7 +557,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
 
 
         }
-        paramList.append(quickParameterFill(ret, "Reverse Transition", "reverse", "bool", "1", "0", "1"));
+        paramList.append(quickParameterFill(ret, "Reverse Transition", "reverse", "bool", "0", "0", "1"));
         ktrans.appendChild(tname);
 
         foreach(const QDomElement &e, paramList) {
@@ -565,13 +566,20 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
 
 
         transitions->append(ret.documentElement());
+        kDebug() << "//// ////  TRANSITON XML";
+        kDebug() << ret.toString();
         /*
 
          <transition fill="1" in="11" a_track="1" out="73" mlt_service="luma" b_track="2" softness="0" resource="/home/marco/Projekte/kdenlive/install_cmake/share/apps/kdenlive/pgm/PAL/square2.pgm" />
         */
     }
+
+    QString wipetrans = "<ktransition tag=\"composite\" ><name>Wipe</name> <parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>Direction</name>                                               </parameter><parameter tag=\"reverse\" default=\"0\" type=\"bool\" min=\"0\" name=\"reverse\" max=\"1\" ><name>Reverse Transition</name></parameter></ktransition>";
+    QDomDocument ret;
+    ret.setContent(wipetrans);
+    transitions->append(ret.documentElement());
 }
-QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def, QString min, QString max, QString list, QString factor, QString namedesc, QString format) {
+QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def, QString min, QString max, QString list, QString listdisplaynames, QString factor, QString namedesc, QString format) {
     QDomElement parameter = doc.createElement("parameter");
     parameter.setAttribute("tag", tag);
     parameter.setAttribute("default", def);
@@ -581,6 +589,8 @@ QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QS
     parameter.setAttribute("min", min);
     if (!list.isEmpty())
         parameter.setAttribute("paramlist", list);
+    if (!listdisplaynames.isEmpty())
+        parameter.setAttribute("paramlistdisplay", listdisplaynames);
     if (!factor.isEmpty())
         parameter.setAttribute("factor", factor);
     if (!namedesc.isEmpty())

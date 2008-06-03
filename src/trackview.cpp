@@ -182,7 +182,7 @@ void TrackView::parseDocument(QDomDocument doc) {
         for (int k = 0; k < transitionparams.count(); k++) {
             p = transitionparams.item(k).toElement();
             if (!p.isNull()) {
-				QString paramName = p.attribute("name");
+                QString paramName = p.attribute("name");
                 // do not add audio mixing transitions
                 if (paramName == "internal_added" && p.text() == "237") {
                     transitionAdd = false;
@@ -196,36 +196,36 @@ void TrackView::parseDocument(QDomDocument doc) {
         if (transitionAdd) {
             // Transition should be added to the scene
             ItemInfo transitionInfo;
-			QDomElement base = MainWindow::transitions.getEffectByTag(mlt_service);
+            QDomElement base = MainWindow::transitions.getEffectByTag(mlt_service);
 
-			for (int k = 0; k < transitionparams.count(); k++) {
-				p = transitionparams.item(k).toElement();
-				if (!p.isNull()) {
-					QString paramName = p.attribute("name");
-					QString paramValue = p.text();
+            for (int k = 0; k < transitionparams.count(); k++) {
+                p = transitionparams.item(k).toElement();
+                if (!p.isNull()) {
+                    QString paramName = p.attribute("name");
+                    QString paramValue = p.text();
 
-					QDomNodeList params = base.elementsByTagName("parameter");
-					for (int i = 0; i < params.count(); i++) {
-						QDomElement e = params.item(i).toElement();
-						if (!e.isNull() && e.attribute("tag") == paramName) {
-							if (e.attribute("type") == "double") {
-								QString factor = e.attribute("factor");
-								if (!factor.isEmpty()) {
-									double val = paramValue.toDouble() * factor.toDouble();
-									paramValue = QString::number(val);
-								}
-							}
-							e.setAttribute("value", paramValue);
-							break;
-						}
-					}
-				}
-			}
+                    QDomNodeList params = base.elementsByTagName("parameter");
+                    if (paramName != "a_track" && paramName != "b_track") for (int i = 0; i < params.count(); i++) {
+                            QDomElement e = params.item(i).toElement();
+                            if (!e.isNull() && e.attribute("tag") == paramName) {
+                                if (e.attribute("type") == "double") {
+                                    QString factor = e.attribute("factor");
+                                    if (!factor.isEmpty()) {
+                                        double val = paramValue.toDouble() * factor.toDouble();
+                                        paramValue = QString::number(val);
+                                    }
+                                }
+                                e.setAttribute("value", paramValue);
+                                break;
+                            }
+                        }
+                }
+            }
 
-			/*QDomDocument doc;
-			doc.appendChild(doc.importNode(base, true));
-			kDebug() << "///////  TRANSITION XML: "<< doc.toString();*/
-			
+            /*QDomDocument doc;
+            doc.appendChild(doc.importNode(base, true));
+            kDebug() << "///////  TRANSITION XML: "<< doc.toString();*/
+
             transitionInfo.startPos = GenTime(e.attribute("in").toInt(), m_doc->fps());
             transitionInfo.endPos = GenTime(e.attribute("out").toInt(), m_doc->fps());
             transitionInfo.track = b_track;
