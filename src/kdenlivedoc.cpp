@@ -23,7 +23,7 @@
 #include <KLocale>
 #include <KFileDialog>
 #include <KIO/NetAccess>
-
+#include <KApplication>
 
 #include "kdenlivedoc.h"
 #include "docclipbase.h"
@@ -592,7 +592,7 @@ void KdenliveDoc::slotAddSlideshowClipFile(const QString name, const QString pat
 void KdenliveDoc::slotCreateTextClip(QString group, int groupId) {
     QString titlesFolder = projectFolder().path() + "/titles/";
     KStandardDirs::makeDir(titlesFolder);
-    TitleWidget *dia_ui = new TitleWidget(KUrl(), titlesFolder, m_render, 0);
+    TitleWidget *dia_ui = new TitleWidget(KUrl(), titlesFolder, m_render, kapp->activeWindow());
     if (dia_ui->exec() == QDialog::Accepted) {
         QString titleName = "title";
         int counter = 0;
@@ -610,7 +610,7 @@ void KdenliveDoc::slotCreateTextClip(QString group, int groupId) {
 }
 
 void KdenliveDoc::editTextClip(QString path, int id) {
-    TitleWidget *dia_ui = new TitleWidget(KUrl(path + ".kdenlivetitle"), path, m_render, 0);
+    TitleWidget *dia_ui = new TitleWidget(KUrl(path + ".kdenlivetitle"), path, m_render, kapp->activeWindow());
     if (dia_ui->exec() == QDialog::Accepted) {
         QPixmap pix = dia_ui->renderedPixmap();
         pix.save(path + ".png");

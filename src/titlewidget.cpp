@@ -74,6 +74,8 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     connect(zValue, SIGNAL(valueChanged(int)), this, SLOT(zIndexChanged(int)));
     connect(itemzoom, SIGNAL(valueChanged(int)), this, SLOT(itemScaled(int)));
     connect(itemrotate, SIGNAL(valueChanged(int)), this, SLOT(itemRotate(int)));
+    connect(itemhcenter, SIGNAL(clicked()), this, SLOT(itemHCenter()));
+    connect(itemvcenter, SIGNAL(clicked()), this, SLOT(itemVCenter()));
 
     connect(value_x, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
     connect(value_y, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
@@ -545,6 +547,33 @@ void TitleWidget::itemRotate(int val) {
     }
 }
 
+void TitleWidget::itemHCenter() {
+    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    if (l.size() == 1) {
+        QGraphicsItem *item = l[0];
+        QRectF br;
+        if (item->type() == 3) {
+            br = ((QGraphicsRectItem*)item)->rect();
+        } else br = item->boundingRect();
+        int width = (int) br.width();
+        int newPos = (int)((m_frameWidth - width) / 2);
+        item->setPos(newPos, item->pos().y());
+    }
+}
+
+void TitleWidget::itemVCenter() {
+    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    if (l.size() == 1) {
+        QGraphicsItem *item = l[0];
+        QRectF br;
+        if (item->type() == 3) {
+            br = ((QGraphicsRectItem*)item)->rect();
+        } else br = item->boundingRect();
+        int height = (int) br.height();
+        int newPos = (int)((m_frameHeight - height) / 2);
+        item->setPos(item->pos().x(), newPos);
+    }
+}
 
 void TitleWidget::setupViewports() {
     double aspect_ratio = 4.0 / 3.0;//read from project

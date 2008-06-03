@@ -82,6 +82,8 @@ public slots:
     void zIndexChanged(int);
     void itemScaled(int);
     void itemRotate(int);
+    void itemHCenter();
+    void itemVCenter();
     void saveTitle(KUrl url = KUrl());
     void loadTitle();
     QPixmap renderedPixmap();

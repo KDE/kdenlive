@@ -145,7 +145,11 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e) {
                 t->setTextInteractionFlags(Qt::NoTextInteraction);
                 setCursor(Qt::ClosedHandCursor);
             } else if (item->type() == 3 || item->type() == 13 || item->type() == 7) {
-                QRectF r = item->boundingRect();
+                QRectF r;
+                if (m_selectedItem->type() == 3) {
+                    r = ((QGraphicsRectItem*)m_selectedItem)->rect();
+                } else r = m_selectedItem->boundingRect();
+
                 r.translate(item->scenePos());
                 if ((r.toRect().topLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
                     resizeMode = TopLeft;
@@ -189,7 +193,11 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
 
     if (m_selectedItem && e->buttons() & Qt::LeftButton) {
         if (m_selectedItem->type() == 3 || m_selectedItem->type() == 13 || m_selectedItem->type() == 7) {
-            QRectF newrect = m_selectedItem->boundingRect();
+            QRectF newrect;
+            if (m_selectedItem->type() == 3) {
+                newrect = ((QGraphicsRectItem*)m_selectedItem)->rect();
+            } else newrect = m_selectedItem->boundingRect();
+
             QPointF newpoint = e->scenePos();
             //newpoint -= m_selectedItem->scenePos();
             switch (resizeMode) {
@@ -228,7 +236,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
                 m_selectedItem->moveBy(diff.x(), diff.y());
                 break;
             }
-            if (m_selectedItem->type() == 3) {
+            if (m_selectedItem->type() == 3 && resizeMode != NoResize) {
                 QGraphicsRectItem *gi = (QGraphicsRectItem*)m_selectedItem;
                 gi->setRect(newrect);
             }
@@ -267,7 +275,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
                 setCursor(Qt::OpenHandCursor);
                 break;
             } else if (g->type() == 3 && g->zValue() > -1000) {
-                QRectF r = g->boundingRect();
+                QRectF r = ((QGraphicsRectItem*)g)->rect();
                 r.translate(g->scenePos());
                 itemFound = true;
                 if ((r.toRect().topLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
