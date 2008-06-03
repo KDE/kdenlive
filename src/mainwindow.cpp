@@ -216,16 +216,27 @@ MainWindow::MainWindow(QWidget *parent)
     m_timelineContextClipMenu = new QMenu(this);
     m_timelineContextTransitionMenu = new QMenu(this);
 
+
+    QMenu *transitionsMenu = new QMenu(i18n("Add Transition"), this);
+    effects = transitions.effectNames();
+    foreach(const QString &name, effects) {
+        action = new QAction(name, this);
+        action->setData(name);
+        transitionsMenu->addAction(action);
+    }
+    connect(transitionsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddTransition(QAction *)));
+
     m_timelineContextClipMenu->addAction(actionCollection()->action("delete_timeline_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("cut_timeline_clip"));
 
     QMenu *markersMenu = (QMenu*)(factory()->container("marker_menu", this));
     m_timelineContextClipMenu->addMenu(markersMenu);
+    m_timelineContextClipMenu->addMenu(transitionsMenu);
     m_timelineContextClipMenu->addMenu(videoEffectsMenu);
     m_timelineContextClipMenu->addMenu(audioEffectsMenu);
     m_timelineContextClipMenu->addMenu(customEffectsMenu);
 
-    m_timelineContextTransitionMenu->addAction(action);
+    m_timelineContextTransitionMenu->addAction(actionCollection()->action("delete_timeline_clip"));
 
     connect(projectMonitorDock, SIGNAL(visibilityChanged(bool)), m_projectMonitor, SLOT(refreshMonitor(bool)));
     connect(clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
@@ -978,6 +989,15 @@ void MainWindow::slotCutTimelineClip() {
 void MainWindow::slotAddProjectClip(KUrl url) {
     if (m_activeDocument)
         m_activeDocument->slotAddClipFile(url, QString());
+}
+
+void MainWindow::slotAddTransition(QAction *result) {
+    if (!result) return;
+    QDomElement effect = transitions.getEffectByName(result->data().toString());
+    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+    if (currentTab) {
+        currentTab->projectView()->slotAddTransitionToSelectedClips(effect);
+    }
 }
 
 void MainWindow::slotAddVideoEffect(QAction *result) {

@@ -177,6 +177,7 @@ private slots:
     void slotAddVideoEffect(QAction *result);
     void slotAddAudioEffect(QAction *result);
     void slotAddCustomEffect(QAction *result);
+    void slotAddTransition(QAction *result);
     void slotAddProjectClip(KUrl url);
     void slotShuttleButton(int code);
     void slotShowClipProperties(DocClipBase *clip);
