@@ -432,21 +432,15 @@ void MainWindow::setupActions() {
     actionCollection()->addAction("select_tool", m_buttonSelectTool);
     actionCollection()->addAction("razor_tool", m_buttonRazorTool);
 
-    KAction* clearAction = new KAction(KIcon("document-new"), i18n("Clear"), this);
-    clearAction->setShortcut(Qt::CTRL + Qt::Key_W);
-    actionCollection()->addAction("clear", clearAction);
-    /*connect(clearAction, SIGNAL(triggered(bool)),
-            textArea, SLOT(clear()));*/
-
     KAction* profilesAction = new KAction(KIcon("document-new"), i18n("Manage Profiles"), this);
     actionCollection()->addAction("manage_profiles", profilesAction);
     connect(profilesAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProfiles()));
 
-    KAction* projectAction = new KAction(KIcon("document-new"), i18n("Project Settings"), this);
+    KAction* projectAction = new KAction(KIcon("configure"), i18n("Project Settings"), this);
     actionCollection()->addAction("project_settings", projectAction);
     connect(projectAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProjectSettings()));
 
-    KAction* projectRender = new KAction(KIcon("document-new"), i18n("Render Project"), this);
+    KAction* projectRender = new KAction(KIcon("media-record"), i18n("Render"), this);
     actionCollection()->addAction("project_render", projectRender);
     connect(projectRender, SIGNAL(triggered(bool)), this, SLOT(slotRenderProject()));
 

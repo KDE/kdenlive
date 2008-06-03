@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="16">
+<gui name="kdenlive" version="17">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
-    <Action name="clear" />
+	<Action name="project_render" />
   </ToolBar>
 
   <MenuBar>
