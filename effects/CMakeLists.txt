@@ -35,5 +35,7 @@ speed.xml
 threshold.xml
 volume.xml
 wave.xml
+fadein.xml
+fadeout.xml
 
 DESTINATION share/apps/kdenlive/effects)
