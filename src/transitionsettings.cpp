@@ -34,6 +34,8 @@ TransitionSettings::TransitionSettings(QWidget* parent): QWidget(parent) {
     connect(ui.listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(slotTransitionChanged()));
     connect(this, SIGNAL(transferParamDesc(const QDomElement&, int , int)), effectEdit , SLOT(transferParamDesc(const QDomElement&, int , int)));
     connect(effectEdit, SIGNAL(parameterChanged(const QDomElement&, const QDomElement&)), this , SLOT(slotUpdateEffectParams(const QDomElement&, const QDomElement&)));
+    ui.splitter->setStretchFactor(0, 1);
+    ui.splitter->setStretchFactor(1, 10);
 }
 
 

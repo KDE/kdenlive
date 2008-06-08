@@ -53,6 +53,8 @@
 #include "clipmanager.h"
 #include "renderer.h"
 #include "markerdialog.h"
+#include "mainwindow.h"
+
 
 //TODO:
 // disable animation if user asked it in KDE's global settings
@@ -182,10 +184,10 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                 m_dragItem->resizeEnd((int)(snappedPos / m_scale), m_scale);
             } else if (m_operationMode == FADEIN) {
                 int pos = (int)(mapToScene(event->pos()).x() / m_scale);
-                m_dragItem->setFadeIn((int)(pos - m_dragItem->startPos().frames(m_document->fps())), m_scale);
+                ((ClipItem*) m_dragItem)->setFadeIn((int)(pos - m_dragItem->startPos().frames(m_document->fps())), m_scale);
             } else if (m_operationMode == FADEOUT) {
                 int pos = (int)(mapToScene(event->pos()).x() / m_scale);
-                m_dragItem->setFadeOut((int)(m_dragItem->endPos().frames(m_document->fps()) - pos), m_scale);
+                ((ClipItem*) m_dragItem)->setFadeOut((int)(m_dragItem->endPos().frames(m_document->fps()) - pos), m_scale);
             }
 
             if (m_animation) delete m_animation;
@@ -286,7 +288,8 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                 }
             } else if (opMode == FADEIN) {
                 if (m_visualTip == NULL) {
-                    m_visualTip = new QGraphicsEllipseItem(clip->rect().x() + clip->fadeIn() * m_scale - size, clip->rect().y() - 8, size * 2, 16);
+                    ClipItem *item = (ClipItem *) clip;
+                    m_visualTip = new QGraphicsEllipseItem(item->rect().x() + item->fadeIn() * m_scale - size, item->rect().y() - 8, size * 2, 16);
                     ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
                     ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
                     m_visualTip->setZValue(100);
@@ -296,17 +299,18 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                     m_visualTip->setPos(0, 0);
                     double scale = 2.0;
                     m_animation->setScaleAt(.5, scale, scale);
-                    m_animation->setPosAt(.5, QPointF(clip->rect().x() - clip->rect().x() * scale -  clip->fadeIn() * m_scale, clip->rect().y() - clip->rect().y() * scale));
+                    m_animation->setPosAt(.5, QPointF(item->rect().x() - item->rect().x() * scale -  item->fadeIn() * m_scale, item->rect().y() - item->rect().y() * scale));
                     scale = 1.0;
                     m_animation->setScaleAt(1, scale, scale);
-                    m_animation->setPosAt(1, QPointF(clip->rect().x() - clip->rect().x() * scale, clip->rect().y() - clip->rect().y() * scale));
+                    m_animation->setPosAt(1, QPointF(item->rect().x() - item->rect().x() * scale, item->rect().y() - item->rect().y() * scale));
                     scene()->addItem(m_visualTip);
                     m_animationTimer->start();
                 }
                 setCursor(Qt::PointingHandCursor);
             } else if (opMode == FADEOUT) {
                 if (m_visualTip == NULL) {
-                    m_visualTip = new QGraphicsEllipseItem(clip->rect().x() + clip->rect().width() - clip->fadeOut() * m_scale - size, clip->rect().y() - 8, size*2, 16);
+                    ClipItem *item = (ClipItem *) clip;
+                    m_visualTip = new QGraphicsEllipseItem(item->rect().x() + item->rect().width() - item->fadeOut() * m_scale - size, item->rect().y() - 8, size*2, 16);
                     ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
                     ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
                     m_visualTip->setZValue(100);
@@ -316,10 +320,10 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                     m_visualTip->setPos(0, 0);
                     double scale = 2.0;
                     m_animation->setScaleAt(.5, scale, scale);
-                    m_animation->setPosAt(.5, QPointF(clip->rect().x() - clip->rect().x() * scale - clip->rect().width() + clip->fadeOut() * m_scale, clip->rect().y() - clip->rect().y() * scale));
+                    m_animation->setPosAt(.5, QPointF(item->rect().x() - item->rect().x() * scale - item->rect().width() + item->fadeOut() * m_scale, item->rect().y() - item->rect().y() * scale));
                     scale = 1.0;
                     m_animation->setScaleAt(1, scale, scale);
-                    m_animation->setPosAt(1, QPointF(clip->rect().x() - clip->rect().x() * scale, clip->rect().y() - clip->rect().y() * scale));
+                    m_animation->setPosAt(1, QPointF(item->rect().x() - item->rect().x() * scale, item->rect().y() - item->rect().y() * scale));
                     scene()->addItem(m_visualTip);
                     m_animationTimer->start();
                 }
@@ -860,6 +864,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         // resize start
         if (m_dragItem->type() == AVWIDGET) {
             m_document->renderer()->mltResizeClipStart(m_tracksList.count() - m_dragItem->track(), m_dragItem->endPos(), m_dragItem->startPos(), m_dragItemInfo.startPos, m_dragItem->cropStart(), m_dragItem->cropStart() + m_dragItem->endPos() - m_dragItem->startPos());
+            updateClipFade((ClipItem *) m_dragItem);
             ResizeClipCommand *command = new ResizeClipCommand(this, m_dragItemInfo, info, false);
             m_commandStack->push(command);
         } else if (m_dragItem->type() == TRANSITIONWIDGET) {
@@ -877,14 +882,64 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
             m_document->renderer()->mltResizeClipEnd(m_tracksList.count() - m_dragItem->track(), m_dragItem->startPos(), m_dragItem->cropStart(), m_dragItem->cropStart() + m_dragItem->endPos() - m_dragItem->startPos());
             m_commandStack->push(command);
         } else if (m_dragItem->type() == TRANSITIONWIDGET) {
-
             MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
             m_commandStack->push(command);
             Transition *transition = (Transition *) m_dragItem;
             m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_tracksList.count() - m_dragItemInfo.track), (int)(m_tracksList.count() - m_dragItemInfo.track), 0, m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos);
         }
         //m_document->renderer()->doRefresh();
+    } else if (m_operationMode == FADEIN) {
+        // resize fade in effect
+        ClipItem * item = (ClipItem *) m_dragItem;
+        QStringList clipeffects = item->effectNames();
+        if (clipeffects.contains(i18n("Fade in"))) {
+            QDomElement oldeffect = item->effectAt(clipeffects.indexOf("Fade in"));
+            int start = item->cropStart().frames(m_document->fps());
+            int end = item->fadeIn();
+            if (end == 0) {
+                slotDeleteEffect(item, oldeffect);
+            } else {
+                end += start;
+                QDomElement effect = MainWindow::audioEffects.getEffectByName("Fade in");
+                EffectsList::setParameter(effect, "in", QString::number(start));
+                EffectsList::setParameter(effect, "out", QString::number(end));
+                slotUpdateClipEffect(item, oldeffect, effect);
+            }
+        } else {
+            QDomElement effect = MainWindow::audioEffects.getEffectByName("Fade in");
+            int start = item->cropStart().frames(m_document->fps());
+            int end = item->fadeIn() + start;
+            EffectsList::setParameter(effect, "in", QString::number(start));
+            EffectsList::setParameter(effect, "out", QString::number(end));
+            slotAddEffect(effect, m_dragItem->startPos(), m_dragItem->track());
+        }
+    } else if (m_operationMode == FADEOUT) {
+        // resize fade in effect
+        ClipItem * item = (ClipItem *) m_dragItem;
+        QStringList clipeffects = item->effectNames();
+        if (clipeffects.contains(i18n("Fade out"))) {
+            QDomElement oldeffect = item->effectAt(clipeffects.indexOf("Fade out"));
+            int end = (item->duration() + item->cropStart()).frames(m_document->fps());
+            int start = item->fadeOut();
+            if (start == 0) {
+                slotDeleteEffect(item, oldeffect);
+            } else {
+                start = end - start;
+                QDomElement effect = MainWindow::audioEffects.getEffectByName("Fade out");
+                EffectsList::setParameter(effect, "in", QString::number(start));
+                EffectsList::setParameter(effect, "out", QString::number(end));
+                slotUpdateClipEffect(item, oldeffect, effect);
+            }
+        } else {
+            QDomElement effect = MainWindow::audioEffects.getEffectByName("Fade out");
+            int end = (item->duration() + item->cropStart()).frames(m_document->fps());
+            int start = end - item->fadeOut();
+            EffectsList::setParameter(effect, "in", QString::number(start));
+            EffectsList::setParameter(effect, "out", QString::number(end));
+            slotAddEffect(effect, m_dragItem->startPos(), m_dragItem->track());
+        }
     }
+
     emit transitionItemSelected((m_dragItem && m_dragItem->type() == TRANSITIONWIDGET) ? (Transition*) m_dragItem : NULL);
     m_document->setModified(true);
     m_operationMode = NONE;
@@ -897,6 +952,7 @@ void CustomTrackView::deleteClip(ItemInfo info) {
         kDebug() << "----------------  ERROR, CANNOT find clip to move at...";// << rect.x();
         return;
     }
+    if (item->isSelected()) emit clipItemSelected(NULL);
     item->baseClip()->removeReference();
     m_document->updateClip(item->baseClip()->getId());
     delete item;
@@ -1053,11 +1109,43 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end) {
     if (resizeClipStart) {
         m_document->renderer()->mltResizeClipStart(m_tracksList.count() - item->track(), item->endPos(), end.startPos, item->startPos(), item->cropStart() + end.startPos - start.startPos, item->cropStart() + end.startPos - start.startPos + item->endPos() - end.startPos);
         item->resizeStart((int) end.startPos.frames(m_document->fps()), m_scale);
+        updateClipFade(item);
     } else {
         m_document->renderer()->mltResizeClipEnd(m_tracksList.count() - item->track(), item->startPos(), item->cropStart(), item->cropStart() + end.startPos - item->startPos());
         item->resizeEnd((int) end.startPos.frames(m_document->fps()), m_scale);
+        updateClipFade(item, true);
     }
     m_document->renderer()->doRefresh();
+}
+
+void CustomTrackView::updateClipFade(ClipItem * item, bool updateFadeOut) {
+    if (!updateFadeOut) {
+        int end = item->fadeIn();
+        if (end != 0) {
+            // there is a fade in effect
+            QStringList clipeffects = item->effectNames();
+            QDomElement oldeffect = item->effectAt(clipeffects.indexOf("Fade in"));
+            int start = item->cropStart().frames(m_document->fps());
+            end += start;
+            EffectsList::setParameter(oldeffect, "in", QString::number(start));
+            EffectsList::setParameter(oldeffect, "out", QString::number(end));
+            QMap <QString, QString> effectParams = item->getEffectArgs(oldeffect);
+            m_document->renderer()->mltEditEffect(m_tracksList.count() - item->track(), item->startPos(), effectParams);
+        }
+    } else {
+        int start = item->fadeOut();
+        if (start != 0) {
+            // there is a fade in effect
+            QStringList clipeffects = item->effectNames();
+            QDomElement oldeffect = item->effectAt(clipeffects.indexOf("Fade out"));
+            int end = (item->duration() - item->cropStart()).frames(m_document->fps());
+            start = end - start;
+            EffectsList::setParameter(oldeffect, "in", QString::number(start));
+            EffectsList::setParameter(oldeffect, "out", QString::number(end));
+            QMap <QString, QString> effectParams = item->getEffectArgs(oldeffect);
+            m_document->renderer()->mltEditEffect(m_tracksList.count() - item->track(), item->startPos(), effectParams);
+        }
+    }
 }
 
 double CustomTrackView::getSnapPointForPos(double pos) {

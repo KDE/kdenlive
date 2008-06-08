@@ -40,7 +40,7 @@
 #include "kthumb.h"
 
 ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, GenTime cropStart, double scale, double fps)
-        : AbstractClipItem(info, QRectF(), fps), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_thumbsRequested(0), m_hover(false) {
+        : AbstractClipItem(info, QRectF(), fps), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_thumbsRequested(0), m_startFade(0), m_endFade(0), m_hover(false) {
     QRectF rect((double) info.startPos.frames(fps) * scale, (double)(info.track * KdenliveSettings::trackheight() + 1), (double)(info.endPos - info.startPos).frames(fps) * scale, (double)(KdenliveSettings::trackheight() - 1));
     setRect(rect);
 
@@ -171,13 +171,14 @@ int ClipItem::clipProducer() {
 void ClipItem::flashClip() {
     if (m_timeLine == 0) {
         m_timeLine = new QTimeLine(750, this);
+        m_timeLine->setCurveShape(QTimeLine::EaseInOutCurve);
         connect(m_timeLine, SIGNAL(valueChanged(qreal)), this, SLOT(animate(qreal)));
     }
     m_timeLine->start();
 }
 
 void ClipItem::animate(qreal value) {
-    m_opacity = value;
+    //m_opacity = value;
     update();
 }
 
@@ -286,54 +287,54 @@ void ClipItem::paint(QPainter *painter,
     pen.setStyle(Qt::SolidLine);
 
 
-    /*
-      // draw start / end fades
-      QBrush fades;
-      if (isSelected()) {
-          fades = QBrush(QColor(200, 50, 50, 150));
-      } else fades = QBrush(QColor(200, 200, 200, 200));
 
-      if (m_startFade != 0) {
-          QPainterPath fadeInPath;
-          fadeInPath.moveTo(br.x() , br.y());
-          fadeInPath.lineTo(br.x() , br.y() + br.height());
-          fadeInPath.lineTo(br.x() + m_startFade * scale, br.y());
-          fadeInPath.closeSubpath();
-          painter->fillPath(fadeInPath, fades);
-          if (isSelected()) {
-              QLineF l(br.x() + m_startFade * scale, br.y(), br.x(), br.y() + br.height());
-              painter->drawLine(l);
-          }
-      }
-      if (m_endFade != 0) {
-          QPainterPath fadeOutPath;
-          fadeOutPath.moveTo(br.x() + br.width(), br.y());
-          fadeOutPath.lineTo(br.x() + br.width(), br.y() + br.height());
-          fadeOutPath.lineTo(br.x() + br.width() - m_endFade * scale, br.y());
-          fadeOutPath.closeSubpath();
-          painter->fillPath(fadeOutPath, fades);
-          if (isSelected()) {
-              QLineF l(br.x() + br.width() - m_endFade * scale, br.y(), br.x() + br.width(), br.y() + br.height());
-              painter->drawLine(l);
-          }
-      }
-      */
+    // draw start / end fades
+    QBrush fades;
+    if (isSelected()) {
+        fades = QBrush(QColor(200, 50, 50, 150));
+    } else fades = QBrush(QColor(200, 200, 200, 200));
 
-    //pen.setStyle(Qt::DashDotDotLine); //Qt::DotLine);
+    if (m_startFade != 0) {
+        QPainterPath fadeInPath;
+        fadeInPath.moveTo(br.x() , br.y());
+        fadeInPath.lineTo(br.x() , br.y() + br.height());
+        fadeInPath.lineTo(br.x() + m_startFade * scale, br.y());
+        fadeInPath.closeSubpath();
+        painter->fillPath(fadeInPath, fades);
+        if (isSelected()) {
+            QLineF l(br.x() + m_startFade * scale, br.y(), br.x(), br.y() + br.height());
+            painter->drawLine(l);
+        }
+    }
+    if (m_endFade != 0) {
+        QPainterPath fadeOutPath;
+        fadeOutPath.moveTo(br.x() + br.width(), br.y());
+        fadeOutPath.lineTo(br.x() + br.width(), br.y() + br.height());
+        fadeOutPath.lineTo(br.x() + br.width() - m_endFade * scale, br.y());
+        fadeOutPath.closeSubpath();
+        painter->fillPath(fadeOutPath, fades);
+        if (isSelected()) {
+            QLineF l(br.x() + br.width() - m_endFade * scale, br.y(), br.x() + br.width(), br.y() + br.height());
+            painter->drawLine(l);
+        }
+    }
 
     // Draw effects names
-    QString effects = effectNames().join(" / ");
-    if (!effects.isEmpty()) {
-        QFont font = painter->font();
-        QFont smallFont = font;
-        smallFont.setPointSize(8);
-        painter->setFont(smallFont);
-        QRectF txtBounding = painter->boundingRect(br, Qt::AlignLeft | Qt::AlignTop, " " + effects + " ");
+    if (!m_effectNames.isEmpty()) {
+        QRectF txtBounding = painter->boundingRect(br, Qt::AlignLeft | Qt::AlignTop, m_effectNames);
+        txtBounding.setRight(txtBounding.right() + 15);
         painter->setPen(Qt::white);
-        painter->fillRect(txtBounding, QBrush(QColor(0, 0, 0, 150)));
-        painter->drawText(txtBounding, Qt::AlignCenter, effects);
+        QBrush markerBrush(Qt::SolidPattern);
+        if (m_timeLine && m_timeLine->state() == QTimeLine::Running) {
+            qreal value = m_timeLine->currentValue();
+            txtBounding.setWidth(txtBounding.width() * value);
+            markerBrush.setColor(QColor(50 + 200 * (1.0 - value), 50, 50, 100 + 50 * value));
+        } else markerBrush.setColor(QColor(50, 50, 50, 150));
+        QPainterPath path;
+        path.addRoundedRect(txtBounding, 4, 4);
+        painter->fillPath(path, markerBrush);
+        painter->drawText(txtBounding, Qt::AlignCenter, m_effectNames);
         painter->setPen(Qt::black);
-        painter->setFont(font);
     }
 
     /*
@@ -527,6 +528,13 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, QPainterPath path,
     //}
 }
 
+uint ClipItem::fadeIn() const {
+    return m_startFade;
+}
+
+uint ClipItem::fadeOut() const {
+    return m_endFade;
+}
 
 
 void ClipItem::setFadeIn(int pos, double scale) {
@@ -610,6 +618,7 @@ void ClipItem::setEffectAt(int ix, QDomElement effect) {
     kDebug() << "CHange EFFECT AT: " << ix << ", CURR: " << m_effectList.at(ix).attribute("tag") << ", NEW: " << effect.attribute("tag");
     m_effectList.insert(ix, effect);
     m_effectList.removeAt(ix + 1);
+    m_effectNames = m_effectList.effectNames().join(" / ");
     update(boundingRect());
 }
 
@@ -620,20 +629,36 @@ QMap <QString, QString> ClipItem::addEffect(QDomElement effect, bool animate) {
     kDebug() << "///////  CLIP ADD EFFECT: "<< doc.toString();*/
     m_effectList.append(effect);
     effectParams["tag"] = effect.attribute("tag");
+    QString effectId = effect.attribute("id");
     effectParams["kdenlive_ix"] = effect.attribute("kdenlive_ix");
     QString state = effect.attribute("disabled");
     if (!state.isEmpty()) effectParams["disabled"] = state;
     QDomNodeList params = effect.elementsByTagName("parameter");
+    int fade = 0;
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull()) {
-            effectParams[e.attribute("name")] = e.attribute("value");
-        }
-        if (!e.attribute("factor").isEmpty()) {
-            effectParams[e.attribute("name")] =  QString::number(effectParams[e.attribute("name")].toDouble() / e.attribute("factor").toDouble());
+            if (e.attribute("factor").isEmpty()) {
+                effectParams[e.attribute("name")] = e.attribute("value");
+                // check if it is a fade effect
+                if (effectId == "fadein") {
+                    if (e.attribute("name") == "out") fade += e.attribute("value").toInt();
+                    else if (e.attribute("name") == "in") fade -= e.attribute("value").toInt();
+                } else if (effectId == "fadeout") {
+                    if (e.attribute("name") == "out") fade -= e.attribute("value").toInt();
+                    else if (e.attribute("name") == "in") fade += e.attribute("value").toInt();
+                }
+            } else {
+                effectParams[e.attribute("name")] =  QString::number(effectParams[e.attribute("name")].toDouble() / e.attribute("factor").toDouble());
+            }
         }
     }
-    if (animate) flashClip();
+    m_effectNames = m_effectList.effectNames().join(" / ");
+    if (fade > 0) m_startFade = fade;
+    else if (fade < 0) m_endFade = -fade;
+    if (animate) {
+        flashClip();
+    }
     update(boundingRect());
     return effectParams;
 }
@@ -674,10 +699,13 @@ QMap <QString, QString> ClipItem::getEffectArgs(QDomElement effect) {
 void ClipItem::deleteEffect(QString index) {
     for (int i = 0; i < m_effectList.size(); ++i) {
         if (m_effectList.at(i).attribute("kdenlive_ix") == index) {
+            if (m_effectList.at(i).attribute("id") == "fadein") m_startFade = 0;
+            else if (m_effectList.at(i).attribute("id") == "fadeout") m_endFade = 0;
             m_effectList.removeAt(i);
             break;
         }
     }
+    m_effectNames = m_effectList.effectNames().join(" / ");
     flashClip();
     update(boundingRect());
 }

@@ -38,6 +38,8 @@ public:
     QStringList effectNames();
     QString getInfo(QString effectName);
     QMap <QString, QString> effect(const QString & name);
+
+    static void setParameter(QDomElement effect, QString name, QString value);
 };
 
 #endif

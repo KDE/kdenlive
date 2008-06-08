@@ -101,3 +101,15 @@ QString EffectsList::getInfo(QString effectName) {
     return info;
 }
 
+// static
+void EffectsList::setParameter(QDomElement effect, QString name, QString value) {
+    QDomNodeList params = effect.elementsByTagName("parameter");
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        if (e.attribute("name") == name) {
+            e.setAttribute("value", value);
+            break;
+        }
+    }
+}
+

@@ -4,7 +4,7 @@
 #include <QGraphicsView>
 #include <QScrollBar>
 
-AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps): QGraphicsRectItem(rect), m_startFade(0), m_endFade(0), m_track(0), m_fps(fps) {
+AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps): QGraphicsRectItem(rect), m_track(0), m_fps(fps) {
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setTrack(info.track);
     m_startPos = info.startPos;
@@ -119,14 +119,6 @@ void AbstractClipItem::resizeEnd(int posx, double scale) {
     }
 }
 
-void AbstractClipItem::setFadeOut(int pos, double scale) {
-
-}
-
-void AbstractClipItem::setFadeIn(int pos, double scale) {
-
-}
-
 GenTime AbstractClipItem::duration() const {
     return m_cropDuration;
 }
@@ -141,14 +133,6 @@ void AbstractClipItem::setTrack(int track) {
 
 double AbstractClipItem::fps() const {
     return m_fps;
-}
-
-int AbstractClipItem::fadeIn() const {
-    return m_startFade;
-}
-
-int AbstractClipItem::fadeOut() const {
-    return m_endFade;
 }
 
 GenTime AbstractClipItem::maxDuration() const {

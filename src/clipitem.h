@@ -79,6 +79,8 @@ public:
     void refreshClip();
     /** Returns a list of times for this clip's markers */
     QList <GenTime> snapMarkers();
+    uint fadeIn() const;
+    uint fadeOut() const;
 
 protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
@@ -97,7 +99,9 @@ private:
     int m_producer;
     CLIPTYPE m_clipType;
     QString m_clipName;
-
+    QString m_effectNames;
+    uint m_startFade;
+    uint m_endFade;
 
     int m_maxTrack;
 

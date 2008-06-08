@@ -18,12 +18,8 @@ public:
     virtual GenTime cropStart() const ;
     virtual  void resizeStart(int posx, double scale);
     virtual void resizeEnd(int posx, double scale);
-    virtual void setFadeOut(int pos, double scale);
-    virtual void setFadeIn(int pos, double scale);
     virtual GenTime duration() const;
     virtual double fps() const;
-    virtual int fadeIn() const;
-    virtual int fadeOut() const;
     virtual GenTime maxDuration() const;
     virtual void setCropStart(GenTime pos);
 
@@ -34,8 +30,6 @@ protected:
     GenTime m_startPos;
     GenTime m_maxDuration;
     double m_fps;
-    uint m_startFade;
-    uint m_endFade;
     QPainterPath upperRectPart(QRectF);
     QPainterPath lowerRectPart(QRectF);
     QRect visibleRect();

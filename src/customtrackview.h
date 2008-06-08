@@ -150,7 +150,7 @@ private:
     QCursor m_razorCursor;
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
-
+    void updateClipFade(ClipItem * item, bool updateFadeOut = false);
 
 signals:
     void cursorMoved(int, int);

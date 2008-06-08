@@ -98,7 +98,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
 
 
         //TODO constant, list, bool, complex , color, geometry, position
-        if (type == "double" || type == "constant") {
+        if (type == "double") {
             createSliderItem(paramName, value.toInt(), pa.attribute("min").toInt(), pa.attribute("max").toInt());
             delete toFillin;
             toFillin = NULL;
@@ -311,7 +311,7 @@ void EffectStackEdit::collectAllParameters() {
         QDomNode na = pa.firstChildElement("name");
         QString type = pa.attributes().namedItem("type").nodeValue();
         QString setValue;
-        if (type == "double" || type == "constant") {
+        if (type == "double") {
             QSlider* slider = ((Ui::Constval_UI*)valueItems[na.toElement().text()])->horizontalSlider;
             setValue = QString::number(slider->value());
         } else if (type == "list") {

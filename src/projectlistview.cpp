@@ -50,7 +50,7 @@ ProjectListView::ProjectListView(QWidget *parent)
     connect(headerView, SIGNAL(customContextMenuRequested(const QPoint&)),
             this, SLOT(configureColumns(const QPoint&)));
 
-    connect(this, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)), this, SLOT(slotFocusOut(QTreeWidgetItem *, QTreeWidgetItem *)));
+    //connect(this, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)), this, SLOT(slotFocusOut(QTreeWidgetItem *, QTreeWidgetItem *)));
 
     if (!KdenliveSettings::showdescriptioncolumn()) hideColumn(2);
     if (!KdenliveSettings::showratingcolumn()) hideColumn(3);

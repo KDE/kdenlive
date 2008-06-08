@@ -65,10 +65,10 @@ void EffectsListView::filterList(int pos) {
 
 void EffectsListView::showInfoPanel() {
     if (ui.infopanel->isVisible()) {
-        ui.infopanel->hide();
+        ui.infopanel->setVisible(false);
         ui.buttonInfo->setDown(false);
     } else {
-        ui.infopanel->show();
+        ui.infopanel->setVisible(true);
         ui.buttonInfo->setDown(true);
     }
 }
