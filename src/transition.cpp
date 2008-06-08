@@ -108,18 +108,13 @@ void Transition::updateTransitionEndTrack(int newtrack) {
 void Transition::paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
                        QWidget *widget) {
-    QRect rectInView = visibleRect();//this is the rect that is visible by the user
 
-    if (rectInView.isNull())
-        return;
-    QPainterPath clippath;
-    clippath.addRect(rectInView);
+    painter->setClipRect(option->exposedRect);
     QRectF br = rect();
     QPainterPath roundRectPathUpper = upperRectPart(br), roundRectPathLower = lowerRectPart(br);
-
     QPainterPath resultClipPath = roundRectPathUpper.united(roundRectPathLower);
 
-    painter->setClipPath(resultClipPath.intersected(clippath), Qt::IntersectClip);
+
 #if 0
     QRadialGradient radialGrad(QPointF(br.x() + 50, br.y() + 20), 70);
     radialGrad.setColorAt(0, QColor(200, 200, 0, 100));
@@ -129,12 +124,11 @@ void Transition::paint(QPainter *painter,
 #else
     m_gradient.setStart(0, br.y());
     m_gradient.setFinalStop(0, br.bottom());
-    painter->fillRect(br.intersected(rectInView), m_gradient);
+    painter->fillPath(resultClipPath, m_gradient);
 #endif
-    painter->setClipRect(option->exposedRect);
+
     int top = (int)(br.y() + br.height() / 2 - 7);
     painter->drawPixmap((int)(br.x() + 10), top, transitionPixmap());
-    painter->drawPath(resultClipPath.intersected(clippath));
     painter->setPen(QColor(0, 0, 0, 180));
     top += painter->fontInfo().pixelSize();
     painter->drawText((int)br.x() + 31, top + 1, transitionName());
@@ -149,8 +143,7 @@ void Transition::paint(QPainter *painter,
         //pen.setWidth(1);
     }
     painter->setPen(pen);
-    painter->setClipRect(option->exposedRect);
-    painter->drawPath(resultClipPath.intersected(clippath));
+    painter->drawPath(resultClipPath);
 }
 
 int Transition::type() const {
