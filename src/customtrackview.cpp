@@ -152,21 +152,18 @@ int CustomTrackView::getPreviousVideoTrack(int track) {
 }
 
 // virtual
+
 void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
     int pos = event->x();
     emit mousePosition((int)(mapToScene(event->pos()).x() / m_scale));
-    /*if (event->modifiers() == Qt::ControlModifier)
-      setDragMode(QGraphicsView::ScrollHandDrag);
-    else if (event->modifiers() == Qt::ShiftModifier)
-      setDragMode(QGraphicsView::RubberBandDrag);
-    else*/
+	if (event->buttons() & Qt::MidButton) return;
     {
         if (m_dragItem && m_tool == SELECTTOOL) { //event->button() == Qt::LeftButton) {
             // a button was pressed, delete visual tips
             if (m_operationMode == MOVE && (event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance()) {
                 double snappedPos = getSnapPointForPos(mapToScene(event->pos()).x() - m_clickPoint.x());
                 //kDebug() << "///////  MOVE CLIP, EVENT Y: "<<m_clickPoint.y();//<<event->scenePos().y()<<", SCENE HEIGHT: "<<scene()->sceneRect().height();
-                int moveTrack = (int)  mapToScene(event->pos() + QPoint(0, (m_dragItem->type() == TRANSITIONWIDGET ?/* m_tracksHeight*/ - m_clickPoint.y() : 0))).y() / m_tracksHeight;
+                int moveTrack = (int)  mapToScene(event->pos() + QPoint(0, (m_dragItem->type() == TRANSITIONWIDGET ? - m_clickPoint.y() : 0))).y() / m_tracksHeight;
                 int currentTrack = m_dragItem->track();
 
                 if (moveTrack > 1000)moveTrack = 0;
