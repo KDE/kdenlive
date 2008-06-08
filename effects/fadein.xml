@@ -10,10 +10,10 @@
 	<parameter type="position" name="out" max="15000" min="0" default="75">
 		<name>Duration</name>
 	</parameter>
-	<parameter type="constant" name="gain" max="0" min="0" default="0">
+	<parameter type="fixed" name="gain" max="0" min="0" default="0">
 		<name>Start Gain</name>
 	</parameter>
-	<parameter type="constant" name="end" max="1" min="1" default="1">
+	<parameter type="fixed" name="end" max="1" min="1" default="1">
 		<name>End Gain</name>
 	</parameter>
 </effect>
