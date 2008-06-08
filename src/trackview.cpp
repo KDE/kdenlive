@@ -18,8 +18,6 @@
  ***************************************************************************/
 
 
-#include <QMouseEvent>
-#include <QStylePainter>
 #include <QScrollBar>
 
 #include <KDebug>

@@ -437,17 +437,28 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 if (m_operationMode == TRANSITIONSTART) {
                     ItemInfo info;
                     info.startPos = m_dragItem->startPos();
-                    info.endPos = info.startPos + GenTime(2.5);
                     info.track = m_dragItem->track();
-                    int transitiontrack = getPreviousVideoTrack(info.track);
+					int transitiontrack = getPreviousVideoTrack(info.track);
+					ClipItem *transitionClip = NULL;
+					if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.startPos.frames(m_document->fps()), m_tracksList.count() - transitiontrack);
+					if (transitionClip && transitionClip->endPos() < m_dragItem->endPos()) {
+						info.endPos = transitionClip->endPos();
+					}
+                    else info.endPos = info.startPos + GenTime(2.5);
+                    
                     slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack);
                 }
                 if (m_operationMode == TRANSITIONEND) {
                     ItemInfo info;
                     info.endPos = m_dragItem->endPos();
-                    info.startPos = info.endPos - GenTime(2.5);
                     info.track = m_dragItem->track();
                     int transitiontrack = getPreviousVideoTrack(info.track);
+					ClipItem *transitionClip = NULL;
+					if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.endPos.frames(m_document->fps()), m_tracksList.count() - transitiontrack);
+					if (transitionClip && transitionClip->startPos() > m_dragItem->startPos()) {
+						info.startPos = transitionClip->startPos();
+					}
+                    else info.startPos = info.endPos - GenTime(2.5);
                     slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack);
                 }
                 updateSnapPoints(m_dragItem);
