@@ -64,8 +64,20 @@ QDomElement EffectsList::getEffectByName(const QString & name) const {
     return QDomElement();
 }
 
-QDomElement EffectsList::getEffectByTag(const QString & tag) const {
-    QString effectName;
+QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id) const {
+
+    if (!id.isEmpty()) for (int i = 0; i < this->size(); ++i) {
+            QDomElement effect =  this->at(i);
+            if (effect.attribute("id") == id) {
+                QDomNodeList params = effect.elementsByTagName("parameter");
+                for (int i = 0; i < params.count(); i++) {
+                    QDomElement e = params.item(i).toElement();
+                    e.setAttribute("value", e.attribute("default"));
+                }
+                return effect;
+            }
+        }
+
     for (int i = 0; i < this->size(); ++i) {
         QDomElement effect =  this->at(i);
         if (effect.attribute("tag") == tag) {

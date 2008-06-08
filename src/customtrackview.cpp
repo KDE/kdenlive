@@ -337,7 +337,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                     m_animation = new QGraphicsItemAnimation;
                     m_animation->setItem(m_visualTip);
                     m_animation->setTimeLine(m_animationTimer);
-                    m_visualTip->setPos(clip->rect().x() + 15, clip->rect().y() + clip->rect().height() / 2);
+                    m_visualTip->setPos(clip->rect().x() + 10, clip->rect().y() + clip->rect().height() / 2 + 12);
                     double scale = 2.0;
                     m_animation->setScaleAt(.5, scale, scale);
                     scale = 1.0;
@@ -355,7 +355,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                     m_animation = new QGraphicsItemAnimation;
                     m_animation->setItem(m_visualTip);
                     m_animation->setTimeLine(m_animationTimer);
-                    m_visualTip->setPos(clip->rect().x() + clip->rect().width() - 15 , clip->rect().y() + clip->rect().height() / 2);
+                    m_visualTip->setPos(clip->rect().x() + clip->rect().width() - 10 , clip->rect().y() + clip->rect().height() / 2 + 12);
                     double scale = 2.0;
                     m_animation->setScaleAt(.5, scale, scale);
                     scale = 1.0;
@@ -388,6 +388,10 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
 void CustomTrackView::mousePressEvent(QMouseEvent * event) {
     activateMonitor();
     m_clickEvent = event->pos();
+    if (event->button() == Qt::MidButton) {
+        m_document->renderer()->switchPlay();
+        return;
+    }
     if (event->modifiers() == Qt::ControlModifier) {
         setDragMode(QGraphicsView::ScrollHandDrag);
         QGraphicsView::mousePressEvent(event);
@@ -832,6 +836,9 @@ void CustomTrackView::checkScrolling() {
 }
 
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
+    if (event->button() == Qt::MidButton) {
+        return;
+    }
     QGraphicsView::mouseReleaseEvent(event);
     setDragMode(QGraphicsView::NoDrag);
     if (m_dragItem == NULL) {
@@ -905,7 +912,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 EffectsList::setParameter(effect, "out", QString::number(end));
                 slotUpdateClipEffect(item, oldeffect, effect);
             }
-        } else {
+        } else if (item->fadeIn() != 0) {
             QDomElement effect = MainWindow::audioEffects.getEffectByName("Fade in");
             int start = item->cropStart().frames(m_document->fps());
             int end = item->fadeIn() + start;
@@ -930,7 +937,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 EffectsList::setParameter(effect, "out", QString::number(end));
                 slotUpdateClipEffect(item, oldeffect, effect);
             }
-        } else {
+        } else if (item->fadeOut() != 0) {
             QDomElement effect = MainWindow::audioEffects.getEffectByName("Fade out");
             int end = (item->duration() + item->cropStart()).frames(m_document->fps());
             int start = end - item->fadeOut();

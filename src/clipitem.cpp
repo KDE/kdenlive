@@ -337,24 +337,6 @@ void ClipItem::paint(QPainter *painter,
         painter->setPen(Qt::black);
     }
 
-    /*
-      // For testing puspose only: draw transitions count
-      {
-          painter->setPen(pen);
-          QFont font = painter->font();
-          QFont smallFont = font;
-          smallFont.setPointSize(8);
-          painter->setFont(smallFont);
-          QString txt = " Transitions: " + QString::number(m_transitionsList.count()) + " ";
-          QRectF txtBoundin = painter->boundingRect(br, Qt::AlignRight | Qt::AlignTop, txt);
-          painter->fillRect(txtBoundin, QBrush(QColor(0, 0, 0, 150)));
-          painter->drawText(txtBoundin, Qt::AlignCenter, txt);
-          pen.setColor(Qt::black);
-          painter->setPen(pen);
-          painter->setFont(font);
-      }
-    */
-
     // Draw clip name
     QRectF txtBounding = painter->boundingRect(br, Qt::AlignHCenter | Qt::AlignTop, " " + m_clipName + " ");
     //painter->fillRect(txtBounding, QBrush(QColor(255, 255, 255, 150)));
@@ -395,28 +377,47 @@ void ClipItem::paint(QPainter *painter,
     // painter->drawRect(boundingRect());
     //painter->drawRoundRect(-10, -10, 20, 20);
     if (m_hover) {
-        int pointy = (int)(br.y() + br.height() / 2 - 5);
+        painter->setBrush(QColor(180, 180, 50, 180)); //gradient);
+
+        // draw transitions handles
+        QPainterPath transitionHandle;
+        const int handle_size = 4;
+        transitionHandle.moveTo(0, 0);
+        transitionHandle.lineTo(handle_size, handle_size);
+        transitionHandle.lineTo(handle_size * 2, 0);
+        transitionHandle.lineTo(handle_size * 3, handle_size);
+        transitionHandle.lineTo(handle_size * 2, handle_size * 2);
+        transitionHandle.lineTo(handle_size * 3, handle_size * 3);
+        transitionHandle.lineTo(0, handle_size * 3);
+        transitionHandle.closeSubpath();
+        int pointy = (int)(br.y() + br.height() / 2);
         int pointx1 = (int)(br.x() + 10);
-        int pointx2 = (int)(br.x() + br.width() - 20);
+        int pointx2 = (int)(br.x() + br.width() - (10 + handle_size * 3));
 #if 0
         painter->setPen(QPen(Qt::black));
         painter->setBrush(QBrush(QColor(50, 50, 0)));
 #else
-        QRadialGradient gradient(pointx1 + 5, pointy + 5 , 5, 2, 2);
+        /*QRadialGradient gradient(pointx1 + 5, pointy + 5 , 5, 2, 2);
         gradient.setColorAt(0.2, Qt::white);
         gradient.setColorAt(0.8, Qt::yellow);
-        gradient.setColorAt(1, Qt::black);
-        painter->setBrush(gradient);
+        gradient.setColorAt(1, Qt::black);*/
+
 #endif
-        painter->drawEllipse(pointx1, pointy , 10, 10);
+        painter->translate(pointx1, pointy);
+        painter->drawPath(transitionHandle); //Ellipse(0, 0 , 10, 10);
+        painter->translate(-pointx1, -pointy);
 
-        QRadialGradient gradient1(pointx2 + 5, pointy + 5 , 5, 2, 2);
-        gradient1.setColorAt(0.2, Qt::white);
-        gradient1.setColorAt(0.8, Qt::yellow);
-        gradient1.setColorAt(1, Qt::black);
-        painter->setBrush(gradient1);
-        painter->drawEllipse(pointx2, pointy, 10, 10);
-
+        /*        QRadialGradient gradient1(pointx2 + 5, pointy + 5 , 5, 2, 2);
+                gradient1.setColorAt(0.2, Qt::white);
+                gradient1.setColorAt(0.8, Qt::yellow);
+                gradient1.setColorAt(1, Qt::black);
+                painter->setBrush(gradient1);*/
+        QMatrix m;
+        m.scale(-1.0, 1.0);
+        painter->setMatrix(m);
+        painter->translate(-pointx2 - handle_size * 3, pointy);
+        painter->drawPath(transitionHandle); // Ellipse(0, 0, 10, 10);
+        painter->translate(pointx2, -pointy);
     }
 }
 
@@ -426,8 +427,8 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos, double scale) {
     else if (qAbs((int)(pos.x() - rect().x())) < 6) return RESIZESTART;
     else if (qAbs((int)(pos.x() - (rect().x() + rect().width() - scale * m_endFade))) < 6 && qAbs((int)(pos.y() - rect().y())) < 6) return FADEOUT;
     else if (qAbs((int)(pos.x() - (rect().x() + rect().width()))) < 6) return RESIZEEND;
-    else if (qAbs((int)(pos.x() - (rect().x() + 10))) < 6 && qAbs((int)(pos.y() - (rect().y() + rect().height() / 2 - 5))) < 6) return TRANSITIONSTART;
-    else if (qAbs((int)(pos.x() - (rect().x() + rect().width() - 20))) < 6 && qAbs((int)(pos.y() - (rect().y() + rect().height() / 2 - 5))) < 6) return TRANSITIONEND;
+    else if (qAbs((int)(pos.x() - (rect().x() + 16))) < 10 && qAbs((int)(pos.y() - (rect().y() + rect().height() / 2 + 5))) < 8) return TRANSITIONSTART;
+    else if (qAbs((int)(pos.x() - (rect().x() + rect().width() - 21))) < 10 && qAbs((int)(pos.y() - (rect().y() + rect().height() / 2 + 5))) < 8) return TRANSITIONEND;
 
     return MOVE;
 }
@@ -630,6 +631,8 @@ QMap <QString, QString> ClipItem::addEffect(QDomElement effect, bool animate) {
     m_effectList.append(effect);
     effectParams["tag"] = effect.attribute("tag");
     QString effectId = effect.attribute("id");
+    if (effectId.isEmpty()) effectId = effect.attribute("tag");
+    effectParams["id"] = effectId;
     effectParams["kdenlive_ix"] = effect.attribute("kdenlive_ix");
     QString state = effect.attribute("disabled");
     if (!state.isEmpty()) effectParams["disabled"] = state;
@@ -667,6 +670,7 @@ QMap <QString, QString> ClipItem::getEffectArgs(QDomElement effect) {
     QMap <QString, QString> effectParams;
     effectParams["tag"] = effect.attribute("tag");
     effectParams["kdenlive_ix"] = effect.attribute("kdenlive_ix");
+    effectParams["id"] = effect.attribute("id");
     QString state = effect.attribute("disabled");
     if (!state.isEmpty()) effectParams["disabled"] = state;
     QDomNodeList params = effect.elementsByTagName("parameter");
@@ -685,12 +689,10 @@ QMap <QString, QString> ClipItem::getEffectArgs(QDomElement effect) {
                 txtNeu << (int)(values[i+1].toDouble());
             }
             effectParams["start"] = neu;
-        } else
-            if (!e.isNull()) {
-                effectParams[e.attribute("name")] = e.attribute("value");
-            }
-        if (!e.attribute("factor").isEmpty()) {
-            effectParams[e.attribute("name")] =  QString::number(effectParams[e.attribute("name")].toDouble() / e.attribute("factor").toDouble());
+        } else if (!e.isNull()) {
+            if (!e.attribute("factor").isEmpty())
+                effectParams[e.attribute("name")] =  QString::number(effectParams[e.attribute("name")].toDouble() / e.attribute("factor").toDouble());
+            else effectParams[e.attribute("name")] = e.attribute("value");
         }
     }
     return effectParams;

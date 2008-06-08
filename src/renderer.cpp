@@ -384,7 +384,6 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
     QDomElement westley = doc.createElement("westley");
     doc.appendChild(westley);
     westley.appendChild(doc.importNode(xml, true));
-    //kDebug() << "////////////\n" << doc.toString() << "////////////////\n";
     char *tmp = decodedString(doc.toString());
 
     Mlt::Producer producer(*m_mltProfile, "westley-xml", tmp);
@@ -427,14 +426,17 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
             else
                 filePropertyMap["type"] = "video";
 
-
             QPixmap pix(width, height);
             mlt_image_format format = mlt_image_rgb24a;
-            const uint8_t *thumb = frame->get_image(format, width, height);
-            QImage image(thumb, width, height, QImage::Format_ARGB32);
+            uint8_t* data = frame->get_image(format, width, height);
+            QImage image(data, width, height, QImage::Format_ARGB32);
             if (!image.isNull()) {
                 pix = pix.fromImage(image);
             } else pix.fill(Qt::black);
+            QPixmap copy = pix;
+            copy.detach();
+            pix = copy;
+
             emit replyGetImage(clipId, 0, pix, width, height);
 
         } else if (frame->get_int("test_audio") == 0) {
@@ -1126,8 +1128,9 @@ void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
     QString tag = args.value("tag");
     //kDebug()<<" / / INSERTING EFFECT: "<<id;
     if (tag.startsWith("ladspa")) tag = "ladspa";
-    char *filterId = decodedString(tag);
-    Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterId);
+    char *filterTag = decodedString(tag);
+    char *filterId = decodedString(args.value("id"));
+    Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterTag);
     if (filter && filter->is_valid())
         filter->set("kdenlive_id", filterId);
     else {
@@ -1148,7 +1151,7 @@ void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
             if (currentKeyFrameNumber != keyFrameNumber) {
                 // attach filter to the clip
                 clipService.attach(*filter);
-                filter = new Mlt::Filter(*m_mltProfile, filterId);
+                filter = new Mlt::Filter(*m_mltProfile, filterTag);
                 filter->set("kdenlive_id", filterId);
                 keyFrameNumber = currentKeyFrameNumber;
             }
@@ -1163,6 +1166,7 @@ void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
     // attach filter to the clip
     clipService.attach(*filter);
     delete[] filterId;
+    delete[] filterTag;
     m_isBlocked = false;
     if (doRefresh) refresh();
 }

@@ -196,7 +196,7 @@ void TrackView::parseDocument(QDomDocument doc) {
         if (transitionAdd) {
             // Transition should be added to the scene
             ItemInfo transitionInfo;
-            QDomElement base = MainWindow::transitions.getEffectByTag(mlt_service);
+            QDomElement base = MainWindow::transitions.getEffectByTag(mlt_service, QString());
 
             for (int k = 0; k < transitionparams.count(); k++) {
                 p = transitionparams.item(k).toElement();
@@ -349,6 +349,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                     if (effect.tagName() == "filter") {
                         // add effect to clip
                         QString effecttag;
+                        QString effectid;
                         QString effectindex;
                         // Get effect tag & index
                         for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
@@ -357,13 +358,18 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                             if (effectparam.attribute("name") == "tag") {
                                 effecttag = effectparam.text();
                             }
+                            if (effectparam.attribute("name") == "kdenlive_id") {
+                                effectid = effectparam.text();
+                            }
                             if (effectparam.attribute("name") == "kdenlive_ix") {
                                 effectindex = effectparam.text();
                             }
                         }
 
                         // get effect standard tags
-                        QDomElement clipeffect = MainWindow::videoEffects.getEffectByTag(effecttag);
+                        QDomElement clipeffect = MainWindow::videoEffects.getEffectByTag(effecttag, effectid);
+                        if (clipeffect.isNull()) clipeffect = MainWindow::audioEffects.getEffectByTag(effecttag, effectid);
+                        if (clipeffect.isNull()) clipeffect = MainWindow::customEffects.getEffectByTag(effecttag, effectid);
                         clipeffect.setAttribute("kdenlive_ix", effectindex);
                         QDomNodeList clipeffectparams = clipeffect.childNodes();
 

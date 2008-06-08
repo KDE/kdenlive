@@ -34,7 +34,7 @@ public:
     ~EffectsList();
     /** Returns an XML version of this Effect.*/
     QDomElement getEffectByName(const QString & name) const;
-    QDomElement getEffectByTag(const QString & tag) const;
+    QDomElement getEffectByTag(const QString & tag, const QString & id) const;
     QStringList effectNames();
     QString getInfo(QString effectName);
     QMap <QString, QString> effect(const QString & name);
