@@ -419,10 +419,12 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 // select item
                 if (!item->isSelected()) {
                     QList<QGraphicsItem *> itemList = items();
-                    for (int i = 0; i < itemList.count(); i++)
+                    for (int i = 0; i < itemList.count(); i++) {
                         itemList.at(i)->setSelected(false);
+						itemList.at(i)->update();
+					}
                     item->setSelected(true);
-                    update();
+                    item->update();
                 }
 
                 m_dragItem = (AbstractClipItem *) item;

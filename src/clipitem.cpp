@@ -244,7 +244,7 @@ void ClipItem::paint(QPainter *painter,
     }
 
     // draw audio thumbnails
-    if (KdenliveSettings::audiothumbnails() && ((m_clipType == AV && option->exposedRect.height() > br.height() / 2) || m_clipType == AUDIO) && audioThumbReady) {
+    if (KdenliveSettings::audiothumbnails() && ((m_clipType == AV && option->exposedRect.bottom() > br.height() / 2) || m_clipType == AUDIO) && audioThumbReady) {
 
         QPainterPath path = m_clipType == AV ? roundRectPathLower : resultClipPath;
         if (m_clipType == AV) painter->fillPath(path, QBrush(QColor(200, 200, 200, 140)));
@@ -292,7 +292,6 @@ void ClipItem::paint(QPainter *painter,
     pen.setColor(Qt::black);
     pen.setStyle(Qt::SolidLine);
     painter->setPen(pen);
-
 
     // draw start / end fades
     QBrush fades;
