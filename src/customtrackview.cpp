@@ -81,7 +81,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene
     setContentsMargins(0, 0, 0, 0);
     if (projectscene) {
         m_cursorLine = projectscene->addLine(0, 0, 0, m_tracksHeight);
-        m_cursorLine->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIgnoresTransformations);
+        m_cursorLine->setFlags(QGraphicsItem::ItemIsMovable);
         m_cursorLine->setZValue(1000);
     }
 
@@ -1209,6 +1209,9 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected) {
             }
         }
     }
+    GenTime pos = GenTime(m_cursorPos, m_document->fps());
+	m_snapPoints.append(pos);
+	if (offset != GenTime()) m_snapPoints.append(pos - offset);
     qSort(m_snapPoints);
     //for (int i = 0; i < m_snapPoints.size(); ++i)
     //    kDebug() << "SNAP POINT: " << m_snapPoints.at(i).frames(25);

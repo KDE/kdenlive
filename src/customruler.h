@@ -34,10 +34,14 @@ private:
     int m_duration;
     double m_textSpacing;
     RULER_MOVE m_moveCursor;
+	QMenu *m_contextMenu;
 
 public slots:
     void slotMoveRuler(int newPos);
     void slotCursorMoved(int oldpos, int newpos);
+
+private slots:
+	void slotAddGuide();
 
 };
 

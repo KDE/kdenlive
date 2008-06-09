@@ -21,6 +21,7 @@
 #include <QStylePainter>
 
 #include <KDebug>
+#include <KIcon>
 #include <KGlobalSettings>
 
 #include "customruler.h"
@@ -85,20 +86,27 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
     setBigMarkDistance(FRAME_SIZE * m_timecode.fps() * 60);
     m_zoneStart = 2 * m_timecode.fps();
     m_zoneEnd = 10 * m_timecode.fps();
+	m_contextMenu = new QMenu(this);
+    QAction *addGuide = m_contextMenu->addAction(KIcon("document-new"), i18n("Add Guide"));
+    connect(addGuide, SIGNAL(triggered()), this, SLOT(slotAddGuide()));
 }
 
 // virtual
 void CustomRuler::mousePressEvent(QMouseEvent * event) {
+	if (event->button() == Qt::RightButton) {
+		
+		return;
+	}
     m_view->activateMonitor();
-    int pos = (int)((event->x() + offset()) / pixelPerMark() / FRAME_SIZE);
+    int pos = (int)((event->x() + offset()));
     m_moveCursor = RULER_CURSOR;
     if (event->y() > 10) {
-        if (qAbs(pos - m_zoneStart) < 4) m_moveCursor = RULER_START;
-        else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2)) < 4) m_moveCursor = RULER_MIDDLE;
-        else if (qAbs(pos - m_zoneEnd) < 4) m_moveCursor = RULER_END;
+        if (qAbs(pos - m_zoneStart * pixelPerMark() * FRAME_SIZE) < 4) m_moveCursor = RULER_START;
+        else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2) * pixelPerMark() * FRAME_SIZE) < 4) m_moveCursor = RULER_MIDDLE;
+        else if (qAbs(pos - m_zoneEnd * pixelPerMark() * FRAME_SIZE) < 4) m_moveCursor = RULER_END;
     }
     if (m_moveCursor == RULER_CURSOR)
-        m_view->setCursorPos(pos);
+        m_view->setCursorPos((int) pos / pixelPerMark() / FRAME_SIZE);
 }
 
 // virtual
@@ -139,8 +147,12 @@ void CustomRuler::slotMoveRuler(int newPos) {
 }
 
 void CustomRuler::slotCursorMoved(int oldpos, int newpos) {
-    //TODO: optimize (redraw only around cursor positions
-    update();
+    update(oldpos - offset() -6, 2, 17, 16);
+    update(newpos - offset() - 6, 2, 17, 16);
+}
+
+void CustomRuler::slotAddGuide() {
+
 }
 
 void CustomRuler::setPixelPerMark(double rate) {
