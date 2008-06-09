@@ -687,7 +687,6 @@ void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTr
         return;
     }
     m_document->renderer()->mltUpdateTransition(oldTransition.attribute("tag"), transition.attribute("tag"), transition.attribute("transition_btrack").toInt(), m_tracksList.count() - transition.attribute("transition_atrack").toInt(), item->startPos(), item->endPos(), transition);
-    repaint();
     m_document->setModified(true);
 }
 
