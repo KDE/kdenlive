@@ -86,17 +86,17 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
     setBigMarkDistance(FRAME_SIZE * m_timecode.fps() * 60);
     m_zoneStart = 2 * m_timecode.fps();
     m_zoneEnd = 10 * m_timecode.fps();
-	m_contextMenu = new QMenu(this);
+    m_contextMenu = new QMenu(this);
     QAction *addGuide = m_contextMenu->addAction(KIcon("document-new"), i18n("Add Guide"));
-    connect(addGuide, SIGNAL(triggered()), this, SLOT(slotAddGuide()));
+    connect(addGuide, SIGNAL(triggered()), m_view, SLOT(slotAddGuide()));
 }
 
 // virtual
 void CustomRuler::mousePressEvent(QMouseEvent * event) {
-	if (event->button() == Qt::RightButton) {
-		
-		return;
-	}
+    if (event->button() == Qt::RightButton) {
+        m_contextMenu->exec(event->globalPos());
+        return;
+    }
     m_view->activateMonitor();
     int pos = (int)((event->x() + offset()));
     m_moveCursor = RULER_CURSOR;
@@ -147,12 +147,8 @@ void CustomRuler::slotMoveRuler(int newPos) {
 }
 
 void CustomRuler::slotCursorMoved(int oldpos, int newpos) {
-    update(oldpos - offset() -6, 2, 17, 16);
+    update(oldpos - offset() - 6, 2, 17, 16);
     update(newpos - offset() - 6, 2, 17, 16);
-}
-
-void CustomRuler::slotAddGuide() {
-
 }
 
 void CustomRuler::setPixelPerMark(double rate) {

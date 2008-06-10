@@ -111,6 +111,7 @@ set(kdenlive_SRCS
   movetransitioncommand.cpp
   slideshowclip.cpp
   markerdialog.cpp
+  guide.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

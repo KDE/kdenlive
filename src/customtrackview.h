@@ -30,6 +30,7 @@
 
 #include "kdenlivedoc.h"
 #include "docclipbase.h"
+#include "guide.h"
 
 class ClipItem;
 class AbstractClipItem;
@@ -40,6 +41,7 @@ class CustomTrackView : public QGraphicsView {
 
 public:
     CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene, QWidget *parent = 0);
+    virtual ~ CustomTrackView();
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseReleaseEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
@@ -97,6 +99,7 @@ public slots:
     void slotSwitchTrackVideo(int ix);
     void slotUpdateClip(int clipId);
     void slotAddClipMarker(int id, GenTime t, QString c);
+    void slotAddGuide();
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
@@ -132,6 +135,7 @@ private:
     QPoint m_clickPoint;
     QPoint m_clickEvent;
     QList <GenTime> m_snapPoints;
+    QList <Guide *> m_guides;
     void updateSnapPoints(AbstractClipItem *selected);
     double getSnapPointForPos(double pos);
     ClipItem *getClipItemAt(int pos, int track);

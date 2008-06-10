@@ -134,28 +134,26 @@ void ClipItem::slotGetEndThumb() {
 void ClipItem::slotThumbReady(int frame, QPixmap pix) {
     if (m_thumbsRequested == 0) return;
     if (frame == m_cropStart.frames(m_fps)) {
-		m_startPix = pix;
-		QRectF r = boundingRect();
-		r.setRight(pix.width() + 2);
-		update(r);
-	}
-    else {
-		m_endPix = pix;
-		QRectF r = boundingRect();
-		r.setLeft(r.right() - pix.width() - 2);
-		update(r);
-	}
+        m_startPix = pix;
+        QRectF r = boundingRect();
+        r.setRight(pix.width() + 2);
+        update(r);
+    } else {
+        m_endPix = pix;
+        QRectF r = boundingRect();
+        r.setLeft(r.right() - pix.width() - 2);
+        update(r);
+    }
     m_thumbsRequested--;
 }
 
 void ClipItem::slotGotAudioData() {
     audioThumbReady = true;
-	if (m_clipType == AV) {
-		QRectF r = boundingRect();
-		r.setTop(r.top() + r.height() / 2 - 1);
-		update(r);
-	}
-    else update();
+    if (m_clipType == AV) {
+        QRectF r = boundingRect();
+        r.setTop(r.top() + r.height() / 2 - 1);
+        update(r);
+    } else update();
 }
 
 int ClipItem::type() const {
@@ -184,17 +182,17 @@ int ClipItem::clipProducer() {
 
 void ClipItem::flashClip() {
     if (m_timeLine == 0) {
-		m_timeLine = new QTimeLine(750, this);
-		m_timeLine->setCurveShape(QTimeLine::EaseInOutCurve);
-		connect(m_timeLine, SIGNAL(valueChanged(qreal)), this, SLOT(animate(qreal)));
-	}
+        m_timeLine = new QTimeLine(750, this);
+        m_timeLine->setCurveShape(QTimeLine::EaseInOutCurve);
+        connect(m_timeLine, SIGNAL(valueChanged(qreal)), this, SLOT(animate(qreal)));
+    }
     m_timeLine->start();
 }
 
 void ClipItem::animate(qreal value) {
-	QRectF r = boundingRect();
-	r.setHeight(20);
-	update(r);
+    QRectF r = boundingRect();
+    r.setHeight(20);
+    update(r);
 }
 
 // virtual
@@ -207,8 +205,8 @@ void ClipItem::paint(QPainter *painter,
     QRectF br = rect();
     double scale = br.width() / m_cropDuration.frames(m_fps);
 
-	// kDebug()<<"///   EXPOSED RECT: "<<option->exposedRect.x()<<" X "<<option->exposedRect.right();
-	painter->setClipRect(option->exposedRect);
+    // kDebug()<<"///   EXPOSED RECT: "<<option->exposedRect.x()<<" X "<<option->exposedRect.right();
+    painter->setClipRect(option->exposedRect);
     int startpixel = (int)option->exposedRect.x() - rect().x();
 
     if (startpixel < 0)
@@ -220,7 +218,7 @@ void ClipItem::paint(QPainter *painter,
     //painter->setRenderHints(QPainter::Antialiasing);
 
     QPainterPath roundRectPathUpper = upperRectPart(br), roundRectPathLower = lowerRectPart(br);
-    
+
 
     // build path around clip
     QPainterPath resultClipPath = roundRectPathUpper.united(roundRectPathLower);
@@ -561,8 +559,8 @@ void ClipItem::mouseReleaseEvent(QGraphicsSceneMouseEvent * event) {
 //virtual
 void ClipItem::hoverEnterEvent(QGraphicsSceneHoverEvent *) {
     m_hover = true;
-	QRectF r = boundingRect();
-	qreal width = qMin(25.0, r.width());
+    QRectF r = boundingRect();
+    qreal width = qMin(25.0, r.width());
     update(r.x(), r.y(), width, r.height());
     update(r.right() - width, r.y(), width, r.height());
 }
@@ -570,8 +568,8 @@ void ClipItem::hoverEnterEvent(QGraphicsSceneHoverEvent *) {
 //virtual
 void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *) {
     m_hover = false;
-	QRectF r = boundingRect();
-	qreal width = qMin(25.0, r.width());
+    QRectF r = boundingRect();
+    qreal width = qMin(25.0, r.width());
     update(r.x(), r.y(), width, r.height());
     update(r.right() - width, r.y(), width, r.height());
 }
@@ -611,17 +609,17 @@ void ClipItem::setEffectAt(int ix, QDomElement effect) {
     m_effectList.insert(ix, effect);
     m_effectList.removeAt(ix + 1);
     m_effectNames = m_effectList.effectNames().join(" / ");
-	if (effect.attribute("id") == "fadein" || effect.attribute("id") == "fadeout") update(boundingRect());
-	else {
-		QRectF r = boundingRect();
-		r.setHeight(20);
-		update(r);
-	}
+    if (effect.attribute("id") == "fadein" || effect.attribute("id") == "fadeout") update(boundingRect());
+    else {
+        QRectF r = boundingRect();
+        r.setHeight(20);
+        update(r);
+    }
 }
 
 QMap <QString, QString> ClipItem::addEffect(QDomElement effect, bool animate) {
     QMap <QString, QString> effectParams;
-	bool needRepaint = false;
+    bool needRepaint = false;
     /*QDomDocument doc;
     doc.appendChild(doc.importNode(effect, true));
     kDebug() << "///////  CLIP ADD EFFECT: "<< doc.toString();*/
@@ -642,11 +640,11 @@ QMap <QString, QString> ClipItem::addEffect(QDomElement effect, bool animate) {
                 effectParams[e.attribute("name")] = e.attribute("value");
                 // check if it is a fade effect
                 if (effectId == "fadein") {
-					needRepaint = true;
+                    needRepaint = true;
                     if (e.attribute("name") == "out") fade += e.attribute("value").toInt();
                     else if (e.attribute("name") == "in") fade -= e.attribute("value").toInt();
                 } else if (effectId == "fadeout") {
-					needRepaint = true;
+                    needRepaint = true;
                     if (e.attribute("name") == "out") fade -= e.attribute("value").toInt();
                     else if (e.attribute("name") == "in") fade += e.attribute("value").toInt();
                 }
@@ -658,14 +656,14 @@ QMap <QString, QString> ClipItem::addEffect(QDomElement effect, bool animate) {
     m_effectNames = m_effectList.effectNames().join(" / ");
     if (fade > 0) m_startFade = fade;
     else if (fade < 0) m_endFade = -fade;
-	if (needRepaint) update(boundingRect());
+    if (needRepaint) update(boundingRect());
     if (animate) {
         flashClip();
     } else if (!needRepaint) {
-		QRectF r = boundingRect();
-		r.setHeight(20);
-		update(r);
-	}
+        QRectF r = boundingRect();
+        r.setHeight(20);
+        update(r);
+    }
     return effectParams;
 }
 
@@ -702,23 +700,22 @@ QMap <QString, QString> ClipItem::getEffectArgs(QDomElement effect) {
 }
 
 void ClipItem::deleteEffect(QString index) {
-	bool needRepaint = false;
+    bool needRepaint = false;
     for (int i = 0; i < m_effectList.size(); ++i) {
         if (m_effectList.at(i).attribute("kdenlive_ix") == index) {
             if (m_effectList.at(i).attribute("id") == "fadein") {
-				m_startFade = 0;
-				needRepaint = true;
-			}
-            else if (m_effectList.at(i).attribute("id") == "fadeout") {
-				m_endFade = 0;
-				needRepaint = true;
-			}
+                m_startFade = 0;
+                needRepaint = true;
+            } else if (m_effectList.at(i).attribute("id") == "fadeout") {
+                m_endFade = 0;
+                needRepaint = true;
+            }
             m_effectList.removeAt(i);
             break;
         }
     }
     m_effectNames = m_effectList.effectNames().join(" / ");
-	if (needRepaint) update(boundingRect());
+    if (needRepaint) update(boundingRect());
     flashClip();
 }
 

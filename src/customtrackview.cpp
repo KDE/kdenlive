@@ -89,6 +89,11 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene
     m_razorCursor = QCursor(razorIcon.pixmap(22, 22));
 }
 
+CustomTrackView::~CustomTrackView() {
+    qDeleteAll(m_guides);
+}
+
+
 void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition) {
     m_timelineContextMenu = timeline;
     m_timelineContextClipMenu = clip;
@@ -121,6 +126,11 @@ void CustomTrackView::checkTrackHeight() {
         }
     }
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), m_tracksHeight * m_tracksList.count());
+
+    for (int i = 0; i < m_guides.count(); i++) {
+        m_guides.at(i)->updatePosition(m_scale, m_tracksHeight * m_tracksList.count());
+    }
+
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_tracksList.count());
     verticalScrollBar()->setMaximum(m_tracksHeight * m_tracksList.count());
     update();
@@ -156,7 +166,7 @@ int CustomTrackView::getPreviousVideoTrack(int track) {
 void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
     int pos = event->x();
     emit mousePosition((int)(mapToScene(event->pos()).x() / m_scale));
-	if (event->buttons() & Qt::MidButton) return;
+    if (event->buttons() & Qt::MidButton) return;
     {
         if (m_dragItem && m_tool == SELECTTOOL) { //event->button() == Qt::LeftButton) {
             // a button was pressed, delete visual tips
@@ -421,8 +431,8 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                     QList<QGraphicsItem *> itemList = items();
                     for (int i = 0; i < itemList.count(); i++) {
                         itemList.at(i)->setSelected(false);
-						itemList.at(i)->update();
-					}
+                        itemList.at(i)->update();
+                    }
                     item->setSelected(true);
                     item->update();
                 }
@@ -440,14 +450,13 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                     ItemInfo info;
                     info.startPos = m_dragItem->startPos();
                     info.track = m_dragItem->track();
-					int transitiontrack = getPreviousVideoTrack(info.track);
-					ClipItem *transitionClip = NULL;
-					if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.startPos.frames(m_document->fps()), m_tracksList.count() - transitiontrack);
-					if (transitionClip && transitionClip->endPos() < m_dragItem->endPos()) {
-						info.endPos = transitionClip->endPos();
-					}
-                    else info.endPos = info.startPos + GenTime(2.5);
-                    
+                    int transitiontrack = getPreviousVideoTrack(info.track);
+                    ClipItem *transitionClip = NULL;
+                    if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.startPos.frames(m_document->fps()), m_tracksList.count() - transitiontrack);
+                    if (transitionClip && transitionClip->endPos() < m_dragItem->endPos()) {
+                        info.endPos = transitionClip->endPos();
+                    } else info.endPos = info.startPos + GenTime(2.5);
+
                     slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack);
                 }
                 if (m_operationMode == TRANSITIONEND) {
@@ -455,12 +464,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                     info.endPos = m_dragItem->endPos();
                     info.track = m_dragItem->track();
                     int transitiontrack = getPreviousVideoTrack(info.track);
-					ClipItem *transitionClip = NULL;
-					if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.endPos.frames(m_document->fps()), m_tracksList.count() - transitiontrack);
-					if (transitionClip && transitionClip->startPos() > m_dragItem->startPos()) {
-						info.startPos = transitionClip->startPos();
-					}
-                    else info.startPos = info.endPos - GenTime(2.5);
+                    ClipItem *transitionClip = NULL;
+                    if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.endPos.frames(m_document->fps()), m_tracksList.count() - transitiontrack);
+                    if (transitionClip && transitionClip->startPos() > m_dragItem->startPos()) {
+                        info.startPos = transitionClip->startPos();
+                    } else info.startPos = info.endPos - GenTime(2.5);
                     slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack);
                 }
                 updateSnapPoints(m_dragItem);
@@ -1209,9 +1217,18 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected) {
             }
         }
     }
+
+	// add cursor position
     GenTime pos = GenTime(m_cursorPos, m_document->fps());
-	m_snapPoints.append(pos);
-	if (offset != GenTime()) m_snapPoints.append(pos - offset);
+    m_snapPoints.append(pos);
+    if (offset != GenTime()) m_snapPoints.append(pos - offset);
+
+	// add guides
+    for (int i = 0; i < m_guides.count(); i++) {
+		m_snapPoints.append(m_guides.at(i)->position());
+		if (offset != GenTime()) m_snapPoints.append(m_guides.at(i)->position() - offset);
+    }
+
     qSort(m_snapPoints);
     //for (int i = 0; i < m_snapPoints.size(); ++i)
     //    kDebug() << "SNAP POINT: " << m_snapPoints.at(i).frames(25);
@@ -1330,6 +1347,12 @@ void CustomTrackView::addMarker(const int id, const GenTime &pos, const QString 
     viewport()->update();
 }
 
+void CustomTrackView::slotAddGuide() {
+    Guide *g = new Guide(GenTime(m_cursorPos, m_document->fps()), i18n("guide"), m_scale, m_document->fps(), m_tracksHeight * m_tracksList.count());
+    scene()->addItem(g);
+    m_guides.append(g);
+}
+
 void CustomTrackView::setTool(PROJECTTOOL tool) {
     m_tool = tool;
 }
@@ -1341,13 +1364,17 @@ void CustomTrackView::setScale(double scaleFactor) {
     int vert = verticalScrollBar()->value();
     kDebug() << " HHHHHHHH  SCALING: " << m_scale;
     QList<QGraphicsItem *> itemList = items();
-
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET || itemList.at(i)->type() == TRANSITIONWIDGET) {
             AbstractClipItem *clip = (AbstractClipItem *)itemList.at(i);
             clip->setRect(clip->startPos().frames(m_document->fps()) * m_scale, clip->rect().y(), clip->duration().frames(m_document->fps()) * m_scale, clip->rect().height());
         }
     }
+
+    for (int i = 0; i < m_guides.count(); i++) {
+        m_guides.at(i)->updatePosition(m_scale, m_tracksHeight * m_tracksList.count());
+    }
+
     updateCursorPos();
     centerOn(QPointF(cursorPos(), m_tracksHeight));
     setSceneRect(0, 0, (m_projectDuration + 100) * m_scale, sceneRect().height());
