@@ -31,6 +31,7 @@ ClipManager::ClipManager(KdenliveDoc *doc): m_doc(doc) {
 }
 
 ClipManager::~ClipManager() {
+    qDeleteAll(m_clipList);
 }
 
 void ClipManager::checkAudioThumbs() {
