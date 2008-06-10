@@ -80,8 +80,7 @@ QVariant Guide::itemChange(GraphicsItemChange change, const QVariant &value) {
         // value is the new position.
         QPointF newPos = value.toPointF();
         newPos.setY(0);
-        const double offset = m_position.frames(m_fps) * m_scale;
-        newPos.setX(m_view->getSnapPointForPos(offset + newPos.x()) - offset);
+        newPos.setX(m_view->getSnapPointForPos(newPos.x()));
         return newPos;
     }
     return QGraphicsItem::itemChange(change, value);

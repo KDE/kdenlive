@@ -1448,6 +1448,15 @@ void CustomTrackView::setTool(PROJECTTOOL tool) {
 
 void CustomTrackView::setScale(double scaleFactor) {
     //scale(scaleFactor, scaleFactor);
+	m_animationTimer->stop();
+    if (m_visualTip) {
+		delete m_visualTip;
+        m_visualTip = NULL;
+	}
+	if (m_animation) {
+		delete m_animation;
+		m_animation = NULL;
+	}
     double pos = cursorPos() / m_scale;
     m_scale = scaleFactor;
     int vert = verticalScrollBar()->value();
