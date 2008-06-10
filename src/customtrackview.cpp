@@ -1464,9 +1464,9 @@ void CustomTrackView::setScale(double scaleFactor) {
         m_guides.at(i)->updatePosition(m_scale);
     }
 
+    setSceneRect(0, 0, (m_projectDuration + 100) * m_scale, sceneRect().height());
     updateCursorPos();
     centerOn(QPointF(cursorPos(), m_tracksHeight));
-    setSceneRect(0, 0, (m_projectDuration + 100) * m_scale, sceneRect().height());
     verticalScrollBar()->setValue(vert);
 }
 
