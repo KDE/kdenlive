@@ -112,6 +112,7 @@ set(kdenlive_SRCS
   slideshowclip.cpp
   markerdialog.cpp
   guide.cpp
+  editguidecommand.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

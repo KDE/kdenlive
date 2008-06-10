@@ -48,7 +48,6 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, GenTime cropStart, double s
     m_producer = clip->getId();
     m_clipType = clip->clipType();
     m_cropStart = cropStart;
-
     m_maxDuration = clip->maxDuration();
     setAcceptDrops(true);
     audioThumbReady = clip->audioThumbCreated();

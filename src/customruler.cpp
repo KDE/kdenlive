@@ -89,6 +89,8 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
     m_contextMenu = new QMenu(this);
     QAction *addGuide = m_contextMenu->addAction(KIcon("document-new"), i18n("Add Guide"));
     connect(addGuide, SIGNAL(triggered()), m_view, SLOT(slotAddGuide()));
+    QAction *delGuide = m_contextMenu->addAction(KIcon("document-new"), i18n("Delete Guide"));
+    connect(delGuide, SIGNAL(triggered()), m_view, SLOT(slotDeleteGuide()));
 }
 
 // virtual

@@ -38,6 +38,7 @@
 #include "moveclipcommand.h"
 #include "movetransitioncommand.h"
 #include "resizeclipcommand.h"
+#include "editguidecommand.h"
 #include "addtimelineclipcommand.h"
 #include "addeffectcommand.h"
 #include "editeffectcommand.h"
@@ -65,7 +66,7 @@
 // const int duration = animate ? 1500 : 1;
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene, QWidget *parent)
-        : QGraphicsView(projectscene, parent), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_scale(1.0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()), m_tracksHeight(KdenliveSettings::trackheight()), m_tool(SELECTTOOL) {
+        : QGraphicsView(projectscene, parent), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_scale(1.0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()), m_tracksHeight(KdenliveSettings::trackheight()), m_tool(SELECTTOOL), m_dragGuide(NULL) {
     if (doc) m_commandStack = doc->commandStack();
     else m_commandStack == NULL;
     setMouseTracking(true);
@@ -128,7 +129,9 @@ void CustomTrackView::checkTrackHeight() {
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), m_tracksHeight * m_tracksList.count());
 
     for (int i = 0; i < m_guides.count(); i++) {
-        m_guides.at(i)->updatePosition(m_scale, m_tracksHeight * m_tracksList.count());
+        QLineF l = m_guides.at(i)->line();
+        l.setP2(QPointF(l.x2(), m_tracksHeight * m_tracksList.count()));
+        m_guides.at(i)->setLine(l);
     }
 
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_tracksList.count());
@@ -203,25 +206,37 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
             m_visualTip = NULL;
             QGraphicsView::mouseMoveEvent(event);
             return;
+        } else if (m_operationMode == MOVEGUIDE) {
+            if (m_animation) delete m_animation;
+            m_animation = NULL;
+            if (m_visualTip) delete m_visualTip;
+            m_visualTip = NULL;
+            QGraphicsView::mouseMoveEvent(event);
+            return;
         }
 
-        QList<QGraphicsItem *> itemList = items(event->pos());
-        QGraphicsRectItem *item = NULL;
-        for (int i = 0; i < itemList.count(); i++) {
-            if (itemList.at(i)->type() == AVWIDGET || itemList.at(i)->type() == TRANSITIONWIDGET) {
-                item = (QGraphicsRectItem*) itemList.at(i);
-                break;
-            }
-        }
         if (m_tool == RAZORTOOL) {
             setCursor(m_razorCursor);
             QGraphicsView::mouseMoveEvent(event);
             return;
         }
 
+        QList<QGraphicsItem *> itemList = items(event->pos());
+        QGraphicsRectItem *item = NULL;
+        OPERATIONTYPE opMode = NONE;
+
+        if (itemList.count() == 1 && itemList.at(0)->type() == GUIDEITEM) {
+            opMode = MOVEGUIDE;
+        } else for (int i = 0; i < itemList.count(); i++) {
+                if (itemList.at(i)->type() == AVWIDGET || itemList.at(i)->type() == TRANSITIONWIDGET) {
+                    item = (QGraphicsRectItem*) itemList.at(i);
+                    break;
+                }
+            }
+
         if (item && event->buttons() == Qt::NoButton) {
             AbstractClipItem *clip = (AbstractClipItem*) item;
-            OPERATIONTYPE opMode = opMode = clip->operationMode(mapToScene(event->pos()), m_scale);
+            opMode = clip->operationMode(mapToScene(event->pos()), m_scale);
             double size = 8;
 
             if (opMode == m_moveOpMode) {
@@ -237,6 +252,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                 }
             }
             m_moveOpMode = opMode;
+
             if (opMode == MOVE) {
                 setCursor(Qt::OpenHandCursor);
             } else if (opMode == RESIZESTART) {
@@ -372,6 +388,9 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                 }
                 setCursor(Qt::PointingHandCursor);
             }
+        } else if (opMode == MOVEGUIDE) {
+            m_moveOpMode = opMode;
+            setCursor(Qt::SplitHCursor);
         } else {
             m_moveOpMode = NONE;
             if (event->buttons() != Qt::NoButton && event->modifiers() == Qt::NoModifier) {
@@ -411,71 +430,83 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         bool collision = false;
         m_dragItem = NULL;
         QList<QGraphicsItem *> collisionList = items(event->pos());
-        for (int i = 0; i < collisionList.size(); ++i) {
-            QGraphicsItem *item = collisionList.at(i);
-            if (item->type() == AVWIDGET || item->type() == TRANSITIONWIDGET) {
-                if (m_tool == RAZORTOOL) {
-                    if (item->type() == TRANSITIONWIDGET) return;
-                    AbstractClipItem *clip = (AbstractClipItem *) item;
-                    ItemInfo info;
-                    info.startPos = clip->startPos();
-                    info.endPos = clip->endPos();
-                    info.track = clip->track();
-                    RazorClipCommand* command = new RazorClipCommand(this, info, GenTime((int)(mapToScene(event->pos()).x() / m_scale), m_document->fps()), true);
-                    m_commandStack->push(command);
-                    m_document->setModified(true);
-                    return;
-                }
-                // select item
-                if (!item->isSelected()) {
-                    QList<QGraphicsItem *> itemList = items();
-                    for (int i = 0; i < itemList.count(); i++) {
-                        itemList.at(i)->setSelected(false);
-                        itemList.at(i)->update();
+        if (collisionList.count() == 1 && collisionList.at(0)->type() == GUIDEITEM) {
+            // a guide item was pressed
+            collisionList.at(0)->setFlag(QGraphicsItem::ItemIsMovable, true);
+            m_dragItem = NULL;
+            m_dragGuide = (Guide *) collisionList.at(0);
+            collision = true;
+            m_operationMode = MOVEGUIDE;
+            // deselect all clips so that only the guide will move
+            QList<QGraphicsItem *> clips = scene()->selectedItems();
+            for (int i = 0; i < clips.count(); ++i)
+                clips.at(i)->setSelected(false);
+            updateSnapPoints(NULL);
+            QGraphicsView::mousePressEvent(event);
+        } else for (int i = 0; i < collisionList.count(); ++i) {
+                QGraphicsItem *item = collisionList.at(i);
+                if (item->type() == AVWIDGET || item->type() == TRANSITIONWIDGET) {
+                    if (m_tool == RAZORTOOL) {
+                        if (item->type() == TRANSITIONWIDGET) return;
+                        AbstractClipItem *clip = (AbstractClipItem *) item;
+                        ItemInfo info;
+                        info.startPos = clip->startPos();
+                        info.endPos = clip->endPos();
+                        info.track = clip->track();
+                        RazorClipCommand* command = new RazorClipCommand(this, info, GenTime((int)(mapToScene(event->pos()).x() / m_scale), m_document->fps()), true);
+                        m_commandStack->push(command);
+                        m_document->setModified(true);
+                        return;
                     }
-                    item->setSelected(true);
-                    item->update();
+                    // select item
+                    if (!item->isSelected()) {
+                        QList<QGraphicsItem *> itemList = items();
+                        for (int i = 0; i < itemList.count(); i++) {
+                            itemList.at(i)->setSelected(false);
+                            itemList.at(i)->update();
+                        }
+                        item->setSelected(true);
+                        item->update();
+                    }
+
+                    m_dragItem = (AbstractClipItem *) item;
+
+                    m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps()) * m_scale), (int)(event->pos().y() - m_dragItem->rect().top()));
+                    m_dragItemInfo.startPos = m_dragItem->startPos();
+                    m_dragItemInfo.endPos = m_dragItem->endPos();
+                    m_dragItemInfo.track = m_dragItem->track();
+
+                    m_operationMode = m_dragItem->operationMode(item->mapFromScene(mapToScene(event->pos())), m_scale);
+                    if (m_operationMode == MOVE) setCursor(Qt::ClosedHandCursor);
+                    else if (m_operationMode == TRANSITIONSTART) {
+                        ItemInfo info;
+                        info.startPos = m_dragItem->startPos();
+                        info.track = m_dragItem->track();
+                        int transitiontrack = getPreviousVideoTrack(info.track);
+                        ClipItem *transitionClip = NULL;
+                        if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.startPos.frames(m_document->fps()), m_tracksList.count() - transitiontrack);
+                        if (transitionClip && transitionClip->endPos() < m_dragItem->endPos()) {
+                            info.endPos = transitionClip->endPos();
+                        } else info.endPos = info.startPos + GenTime(2.5);
+
+                        slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack);
+                    } else if (m_operationMode == TRANSITIONEND) {
+                        ItemInfo info;
+                        info.endPos = m_dragItem->endPos();
+                        info.track = m_dragItem->track();
+                        int transitiontrack = getPreviousVideoTrack(info.track);
+                        ClipItem *transitionClip = NULL;
+                        if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.endPos.frames(m_document->fps()), m_tracksList.count() - transitiontrack);
+                        if (transitionClip && transitionClip->startPos() > m_dragItem->startPos()) {
+                            info.startPos = transitionClip->startPos();
+                        } else info.startPos = info.endPos - GenTime(2.5);
+                        slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack);
+                    }
+                    updateSnapPoints(m_dragItem);
+                    collision = true;
+                    break;
                 }
-
-                m_dragItem = (AbstractClipItem *) item;
-
-                m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps()) * m_scale), (int)(event->pos().y() - m_dragItem->rect().top()));
-                m_dragItemInfo.startPos = m_dragItem->startPos();
-                m_dragItemInfo.endPos = m_dragItem->endPos();
-                m_dragItemInfo.track = m_dragItem->track();
-
-                m_operationMode = m_dragItem->operationMode(item->mapFromScene(mapToScene(event->pos())), m_scale);
-                if (m_operationMode == MOVE) setCursor(Qt::ClosedHandCursor);
-                if (m_operationMode == TRANSITIONSTART) {
-                    ItemInfo info;
-                    info.startPos = m_dragItem->startPos();
-                    info.track = m_dragItem->track();
-                    int transitiontrack = getPreviousVideoTrack(info.track);
-                    ClipItem *transitionClip = NULL;
-                    if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.startPos.frames(m_document->fps()), m_tracksList.count() - transitiontrack);
-                    if (transitionClip && transitionClip->endPos() < m_dragItem->endPos()) {
-                        info.endPos = transitionClip->endPos();
-                    } else info.endPos = info.startPos + GenTime(2.5);
-
-                    slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack);
-                }
-                if (m_operationMode == TRANSITIONEND) {
-                    ItemInfo info;
-                    info.endPos = m_dragItem->endPos();
-                    info.track = m_dragItem->track();
-                    int transitiontrack = getPreviousVideoTrack(info.track);
-                    ClipItem *transitionClip = NULL;
-                    if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.endPos.frames(m_document->fps()), m_tracksList.count() - transitiontrack);
-                    if (transitionClip && transitionClip->startPos() > m_dragItem->startPos()) {
-                        info.startPos = transitionClip->startPos();
-                    } else info.startPos = info.endPos - GenTime(2.5);
-                    slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack);
-                }
-                updateSnapPoints(m_dragItem);
-                collision = true;
-                break;
             }
-        }
         emit clipItemSelected((m_dragItem && m_dragItem->type() == AVWIDGET) ? (ClipItem*) m_dragItem : NULL);
 
         if (!collision) {
@@ -858,6 +889,17 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
     }
     QGraphicsView::mouseReleaseEvent(event);
     setDragMode(QGraphicsView::NoDrag);
+    if (m_operationMode == MOVEGUIDE) {
+        setCursor(Qt::ArrowCursor);
+        m_operationMode = NONE;
+        m_dragGuide->setFlag(QGraphicsItem::ItemIsMovable, false);
+        EditGuideCommand *command = new EditGuideCommand(this, m_dragGuide->position(), m_dragGuide->label(), GenTime(m_dragGuide->pos().x() / m_scale, m_document->fps()), m_dragGuide->label(), false);
+        m_commandStack->push(command);
+        m_dragGuide->update(GenTime(m_dragGuide->pos().x() / m_scale, m_document->fps()));
+        m_dragGuide = NULL;
+        m_dragItem = NULL;
+        return;
+    }
     if (m_dragItem == NULL) {
         emit transitionItemSelected(NULL);
         return;
@@ -963,6 +1005,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
             slotAddEffect(effect, m_dragItem->startPos(), m_dragItem->track());
         }
     }
+
 
     emit transitionItemSelected((m_dragItem && m_dragItem->type() == TRANSITIONWIDGET) ? (Transition*) m_dragItem : NULL);
     m_document->setModified(true);
@@ -1218,15 +1261,15 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected) {
         }
     }
 
-	// add cursor position
+    // add cursor position
     GenTime pos = GenTime(m_cursorPos, m_document->fps());
     m_snapPoints.append(pos);
     if (offset != GenTime()) m_snapPoints.append(pos - offset);
 
-	// add guides
+    // add guides
     for (int i = 0; i < m_guides.count(); i++) {
-		m_snapPoints.append(m_guides.at(i)->position());
-		if (offset != GenTime()) m_snapPoints.append(m_guides.at(i)->position() - offset);
+        m_snapPoints.append(m_guides.at(i)->position());
+        if (offset != GenTime()) m_snapPoints.append(m_guides.at(i)->position() - offset);
     }
 
     qSort(m_snapPoints);
@@ -1347,10 +1390,56 @@ void CustomTrackView::addMarker(const int id, const GenTime &pos, const QString 
     viewport()->update();
 }
 
-void CustomTrackView::slotAddGuide() {
-    Guide *g = new Guide(GenTime(m_cursorPos, m_document->fps()), i18n("guide"), m_scale, m_document->fps(), m_tracksHeight * m_tracksList.count());
+
+
+void CustomTrackView::editGuide(const GenTime oldPos, const GenTime pos, const QString &comment) {
+    if (oldPos != GenTime() && pos != GenTime()) {
+        // move guide
+        for (int i = 0; i < m_guides.count(); i++) {
+            kDebug() << "// LOOKING FOR GUIDE (" << i << "): " << m_guides.at(i)->position().frames(25) << ", LOOK: " << oldPos.frames(25) << "x" << pos.frames(25);
+            if (m_guides.at(i)->position() == oldPos) {
+                Guide *item = m_guides.at(i);
+                item->update(pos, comment);
+                item->updatePosition(m_scale);
+                break;
+            }
+        }
+    } else if (pos != GenTime()) addGuide(pos, comment);
+    else {
+        // remove guide
+        for (int i = 0; i < m_guides.count(); i++) {
+            if (m_guides.at(i)->position() == oldPos) {
+                Guide *item = m_guides.takeAt(i);
+                delete item;
+                break;
+            }
+        }
+
+    }
+}
+
+void CustomTrackView::addGuide(const GenTime pos, const QString &comment) {
+    Guide *g = new Guide(this, pos, comment, m_scale, m_document->fps(), m_tracksHeight * m_tracksList.count());
     scene()->addItem(g);
     m_guides.append(g);
+}
+
+void CustomTrackView::slotAddGuide() {
+    addGuide(GenTime(m_cursorPos, m_document->fps()), i18n("guide"));
+    EditGuideCommand *command = new EditGuideCommand(this, GenTime(), QString(), GenTime(m_cursorPos, m_document->fps()), i18n("guide"), false);
+    m_commandStack->push(command);
+
+}
+
+void CustomTrackView::slotDeleteGuide() {
+	GenTime pos = GenTime(m_cursorPos, m_document->fps());
+	for (int i = 0; i < m_guides.count(); i++) {
+		if (m_guides.at(i)->position() == pos) {
+			EditGuideCommand *command = new EditGuideCommand(this, m_guides.at(i)->position(), m_guides.at(i)->label(), GenTime(), QString(), true);
+			m_commandStack->push(command);
+            break;
+        }
+	}
 }
 
 void CustomTrackView::setTool(PROJECTTOOL tool) {
@@ -1372,7 +1461,7 @@ void CustomTrackView::setScale(double scaleFactor) {
     }
 
     for (int i = 0; i < m_guides.count(); i++) {
-        m_guides.at(i)->updatePosition(m_scale, m_tracksHeight * m_tracksList.count());
+        m_guides.at(i)->updatePosition(m_scale);
     }
 
     updateCursorPos();

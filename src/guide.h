@@ -24,17 +24,31 @@
 
 #include "gentime.h"
 
+#define GUIDEITEM 8000
+
+class CustomTrackView;
+
 class Guide : public QGraphicsLineItem {
 
 public:
-    Guide(GenTime pos, QString label, double scale, double fps, double height);
-    void updatePosition(double scale, double height);
-	GenTime position();
+    Guide(CustomTrackView *view, GenTime pos, QString label, double scale, double fps, double height);
+    void updatePosition(double scale);
+    GenTime position() const;
+    void update(const GenTime newPos, const QString &comment = QString());
+    QString label() const;
+    virtual int type() const;
+
+protected:
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *);
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
     GenTime m_position;
     QString m_label;
+    double m_scale;
     double m_fps;
+    CustomTrackView *m_view;
 };
 
 #endif

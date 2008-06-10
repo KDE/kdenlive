@@ -81,6 +81,7 @@ public:
     void cutClip(ItemInfo info, GenTime cutTime, bool cut);
     void slotSeekToPreviousSnap();
     void slotSeekToNextSnap();
+    double getSnapPointForPos(double pos);
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -100,6 +101,8 @@ public slots:
     void slotUpdateClip(int clipId);
     void slotAddClipMarker(int id, GenTime t, QString c);
     void slotAddGuide();
+	void slotDeleteGuide();
+    void editGuide(const GenTime oldPos, const GenTime pos, const QString &comment);
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
@@ -125,6 +128,7 @@ private:
     OPERATIONTYPE m_operationMode;
     OPERATIONTYPE m_moveOpMode;
     AbstractClipItem *m_dragItem;
+    Guide *m_dragGuide;
     KUndoStack *m_commandStack;
     QGraphicsItem *m_visualTip;
     QGraphicsItemAnimation *m_animation;
@@ -137,7 +141,6 @@ private:
     QList <GenTime> m_snapPoints;
     QList <Guide *> m_guides;
     void updateSnapPoints(AbstractClipItem *selected);
-    double getSnapPointForPos(double pos);
     ClipItem *getClipItemAt(int pos, int track);
     ClipItem *getClipItemAt(GenTime pos, int track);
     Transition *getTransitionItemAt(int pos, int track);
@@ -155,6 +158,7 @@ private:
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
     void updateClipFade(ClipItem * item, bool updateFadeOut = false);
+    void addGuide(const GenTime pos, const QString &comment);
 
 signals:
     void cursorMoved(int, int);

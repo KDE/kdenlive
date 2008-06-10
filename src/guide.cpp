@@ -19,27 +19,71 @@
 
 
 #include <QPen>
+#include <QBrush>
 
 #include <KDebug>
 
 #include "guide.h"
+#include "customtrackview.h"
 
-Guide::Guide(GenTime pos, QString label, double scale, double fps, double height)
-        : QGraphicsLineItem(), m_position(pos), m_label(label), m_fps(fps) {
-
-    setLine(m_position.frames(m_fps) * scale, 0, m_position.frames(m_fps) * scale, height);
-    setPen(QPen(QColor(0, 0, 200, 180)));
+Guide::Guide(CustomTrackView *view, GenTime pos, QString label, double scale, double fps, double height)
+        : QGraphicsLineItem(), m_view(view), m_position(pos), m_label(label), m_scale(scale), m_fps(fps) {
+    setFlags(QGraphicsItem::ItemIsMovable);
+    setToolTip(label);
+    setLine(0, 0, 0, height);
+    setPos(m_position.frames(m_fps) * scale, 0);
+    setPen(QPen(QBrush(QColor(0, 0, 200, 180)), 2));
     setZValue(999);
+    setAcceptsHoverEvents(true);
 }
 
 
-void Guide::updatePosition(double scale, double height) {
-    setLine(m_position.frames(m_fps) * scale, 0, m_position.frames(m_fps) * scale, height);
+void Guide::updatePosition(double scale) {
+    setPos(m_position.frames(m_fps) * scale, 0);
+    m_scale = scale;
 }
 
-GenTime Guide::position() {
-	return m_position;
+QString Guide::label() const {
+    return m_label;
 }
 
+GenTime Guide::position() const {
+    return m_position;
+}
 
+void Guide::update(const GenTime newPos, const QString &comment) {
+    m_position = newPos;
+    if (comment != QString()) {
+        m_label = comment;
+        setToolTip(m_label);
+    }
+}
+
+//virtual
+int Guide::type() const {
+    return GUIDEITEM;
+}
+
+//virtual
+void Guide::hoverEnterEvent(QGraphicsSceneHoverEvent *) {
+    setPen(QPen(QBrush(QColor(200, 0, 0, 180)), 2));
+}
+
+//virtual
+void Guide::hoverLeaveEvent(QGraphicsSceneHoverEvent *) {
+    setPen(QPen(QBrush(QColor(0, 0, 200, 180)), 2));
+}
+
+//virtual
+QVariant Guide::itemChange(GraphicsItemChange change, const QVariant &value) {
+    if (change == ItemPositionChange && scene()) {
+        // value is the new position.
+        QPointF newPos = value.toPointF();
+        newPos.setY(0);
+        const double offset = m_position.frames(m_fps) * m_scale;
+        newPos.setX(m_view->getSnapPointForPos(offset + newPos.x()) - offset);
+        return newPos;
+    }
+    return QGraphicsItem::itemChange(change, value);
+}
 
