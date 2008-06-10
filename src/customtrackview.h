@@ -82,6 +82,7 @@ public:
     void slotSeekToPreviousSnap();
     void slotSeekToNextSnap();
     double getSnapPointForPos(double pos);
+	QDomElement xmlInfo();
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -100,6 +101,7 @@ public slots:
     void slotSwitchTrackVideo(int ix);
     void slotUpdateClip(int clipId);
     void slotAddClipMarker(int id, GenTime t, QString c);
+    void addGuide(const GenTime pos, const QString &comment);
     void slotAddGuide();
 	void slotDeleteGuide();
     void editGuide(const GenTime oldPos, const GenTime pos, const QString &comment);
@@ -158,7 +160,6 @@ private:
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
     void updateClipFade(ClipItem * item, bool updateFadeOut = false);
-    void addGuide(const GenTime pos, const QString &comment);
 
 signals:
     void cursorMoved(int, int);

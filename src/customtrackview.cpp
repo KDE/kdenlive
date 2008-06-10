@@ -1487,6 +1487,20 @@ void CustomTrackView::drawBackground(QPainter * painter, const QRectF & rect) {
     if (height() > lowerLimit)
         painter->fillRect(QRectF(rectInView.left(), lowerLimit, rectInView.width(), height() - lowerLimit), QBrush(base));
 }
+
+QDomElement CustomTrackView::xmlInfo() {
+    QDomDocument doc;
+    QDomElement e;
+    QDomElement guides = doc.createElement("guides");
+    for (int i = 0; i < m_guides.count(); i++) {
+        e = doc.createElement("guide");
+        e.setAttribute("time", m_guides.at(i)->position().ms() / 1000);
+        e.setAttribute("comment", m_guides.at(i)->label());
+        guides.appendChild(e);
+    }
+	return guides;
+}
+
 /*
 void CustomTrackView::drawForeground ( QPainter * painter, const QRectF & rect )
 {

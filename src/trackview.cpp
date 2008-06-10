@@ -233,6 +233,15 @@ void TrackView::parseDocument(QDomDocument doc) {
         }
     }
 
+	// Add guides
+    QDomNodeList guides = doc.elementsByTagName("guide");
+    kDebug() << "//////////// OPENING PRJECT FILE, FOUND: " << guides.count() << " GUIDES$$$$$$$$$";
+    for (int i = 0; i < guides.count(); i++) {
+        e = guides.item(i).toElement();
+		const QString comment = e.attribute("comment");
+		const GenTime pos = GenTime(e.attribute("time").toDouble());
+		m_trackview->addGuide(pos, comment);
+	}
 
     m_trackview->setDuration(duration);
     kDebug() << "///////////  TOTAL PROJECT DURATION: " << duration;

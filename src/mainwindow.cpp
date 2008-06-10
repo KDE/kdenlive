@@ -617,7 +617,7 @@ void MainWindow::slotRemoveTab() {
 }
 
 void MainWindow::saveFileAs(const QString &outputFileName) {
-    m_projectMonitor->saveSceneList(outputFileName, m_activeDocument->documentInfoXml());
+    m_projectMonitor->saveSceneList(outputFileName, m_activeDocument->documentInfoXml(m_activeTimeline->projectView()->xmlInfo()));
     m_activeDocument->setUrl(KUrl(outputFileName));
     setCaption(m_activeDocument->description());
     m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());

@@ -84,7 +84,7 @@ Q_OBJECT public:
     /** Returns the document format: PAL or NTSC */
     QString getDocumentStandard();
     void setUrl(KUrl url);
-    QDomElement documentInfoXml();
+    QDomElement documentInfoXml(QDomElement timelineInfo);
     void setProfilePath(QString path);
     /** Set to true if document needs saving, false otherwise */
     void setModified(bool mod);

@@ -312,7 +312,7 @@ void KdenliveDoc::convertDocument(double version) {
     //kDebug() << "/////////////////  END CONVERTED DOC:";
 }
 
-QDomElement KdenliveDoc::documentInfoXml() {
+QDomElement KdenliveDoc::documentInfoXml(QDomElement timelineInfo) {
     QDomDocument doc;
     QDomElement e;
     QDomElement addedXml = doc.createElement("kdenlivedoc");
@@ -335,6 +335,7 @@ QDomElement KdenliveDoc::documentInfoXml() {
         }
     }
     addedXml.appendChild(markers);
+    addedXml.appendChild(doc.importNode(timelineInfo, true));
     //kDebug() << m_document.toString();
     return addedXml;
 }
