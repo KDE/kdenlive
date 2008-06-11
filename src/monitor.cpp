@@ -88,7 +88,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     QVBoxLayout *rendererBox = new QVBoxLayout(ui.video_frame);
     m_monitorRefresh = new MonitorRefresh(ui.video_frame);
     rendererBox->addWidget(m_monitorRefresh);
-    //m_monitorRefresh->setAttribute(Qt::WA_PaintOnScreen);
+    m_monitorRefresh->setAttribute(Qt::WA_PaintOnScreen);
     render = new Render(m_name, (int) m_monitorRefresh->winId(), -1, this);
     m_monitorRefresh->setRenderer(render);
 
