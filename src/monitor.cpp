@@ -266,6 +266,7 @@ void Monitor::slotPlay() {
 void Monitor::slotSetXml(const QDomElement &e) {
     if (render == NULL) return;
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    if (e.isNull()) return;
     QDomDocument doc;
     QDomElement westley = doc.createElement("westley");
     doc.appendChild(westley);

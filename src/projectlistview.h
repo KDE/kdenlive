@@ -59,6 +59,7 @@ signals:
     void addClip();
     void addClip(QUrl, const QString &);
     void showProperties(DocClipBase *);
+    void focusMonitor();
 };
 
 #endif

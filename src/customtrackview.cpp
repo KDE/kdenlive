@@ -1432,14 +1432,14 @@ void CustomTrackView::slotAddGuide() {
 }
 
 void CustomTrackView::slotDeleteGuide() {
-	GenTime pos = GenTime(m_cursorPos, m_document->fps());
-	for (int i = 0; i < m_guides.count(); i++) {
-		if (m_guides.at(i)->position() == pos) {
-			EditGuideCommand *command = new EditGuideCommand(this, m_guides.at(i)->position(), m_guides.at(i)->label(), GenTime(), QString(), true);
-			m_commandStack->push(command);
+    GenTime pos = GenTime(m_cursorPos, m_document->fps());
+    for (int i = 0; i < m_guides.count(); i++) {
+        if (m_guides.at(i)->position() == pos) {
+            EditGuideCommand *command = new EditGuideCommand(this, m_guides.at(i)->position(), m_guides.at(i)->label(), GenTime(), QString(), true);
+            m_commandStack->push(command);
             break;
         }
-	}
+    }
 }
 
 void CustomTrackView::setTool(PROJECTTOOL tool) {
@@ -1448,15 +1448,15 @@ void CustomTrackView::setTool(PROJECTTOOL tool) {
 
 void CustomTrackView::setScale(double scaleFactor) {
     //scale(scaleFactor, scaleFactor);
-	m_animationTimer->stop();
+    m_animationTimer->stop();
     if (m_visualTip) {
-		delete m_visualTip;
+        delete m_visualTip;
         m_visualTip = NULL;
-	}
-	if (m_animation) {
-		delete m_animation;
-		m_animation = NULL;
-	}
+    }
+    if (m_animation) {
+        delete m_animation;
+        m_animation = NULL;
+    }
     double pos = cursorPos() / m_scale;
     m_scale = scaleFactor;
     int vert = verticalScrollBar()->value();
@@ -1507,7 +1507,7 @@ QDomElement CustomTrackView::xmlInfo() {
         e.setAttribute("comment", m_guides.at(i)->label());
         guides.appendChild(e);
     }
-	return guides;
+    return guides;
 }
 
 /*

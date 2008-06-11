@@ -53,7 +53,7 @@
 #include "projectlistview.h"
 
 ProjectList::ProjectList(QWidget *parent)
-        : QWidget(parent), m_render(NULL), m_fps(-1), m_commandStack(NULL) {
+        : QWidget(parent), m_render(NULL), m_fps(-1), m_commandStack(NULL), m_selectedItem(NULL) {
 
     QWidget *vbox = new QWidget;
     listView = new ProjectListView(this);;
@@ -111,6 +111,7 @@ ProjectList::ProjectList(QWidget *parent)
     m_menu->insertSeparator(m_deleteAction);
 
     connect(listView, SIGNAL(itemSelectionChanged()), this, SLOT(slotClipSelected()));
+    connect(listView, SIGNAL(focusMonitor()), this, SLOT(slotClipSelected()));
     connect(listView, SIGNAL(requestMenu(const QPoint &, QTreeWidgetItem *)), this, SLOT(slotContextMenu(const QPoint &, QTreeWidgetItem *)));
     connect(listView, SIGNAL(addClip()), this, SLOT(slotAddClip()));
     connect(listView, SIGNAL(addClip(QUrl, const QString &)), this, SLOT(slotAddClip(QUrl, const QString &)));
@@ -140,7 +141,15 @@ void ProjectList::setRenderer(Render *projectRender) {
 
 void ProjectList::slotClipSelected() {
     ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
-    if (item && !item->isGroup()) emit clipSelected(item->toXml());
+    if (item && !item->isGroup()) {
+        if (item == m_selectedItem) {
+            // if user clicked on the active clip item, just focus monitor, don't update it.
+            emit clipSelected(QDomElement());
+            return;
+        }
+        m_selectedItem = item;
+        emit clipSelected(item->toXml());
+    }
 }
 
 void ProjectList::slotUpdateClipProperties(int id, QMap <QString, QString> properties) {
@@ -214,78 +223,6 @@ void ProjectList::selectItemById(const int clipId) {
     if (item) listView->setCurrentItem(item);
 }
 
-void ProjectList::addClip(const QStringList &name, const QDomElement &elem, const int clipId, const KUrl &url, const QString &group, int parentId) {
-    kDebug() << "/////////  ADDING VCLIP=: " << name;
-    ProjectItem *item;
-    ProjectItem *groupItem = NULL;
-    QString groupName;
-    if (group.isEmpty()) groupName = elem.attribute("groupname", QString::null);
-    else groupName = group;
-    if (elem.isNull() && url.isEmpty()) {
-        // this is a folder
-        groupName = name.at(1);
-        QList<QTreeWidgetItem *> groupList = listView->findItems(groupName, Qt::MatchExactly, 1);
-        if (groupList.isEmpty())  {
-            (void) new ProjectItem(listView, name, m_doc->getFreeClipId());
-        }
-        return;
-    }
-
-    if (parentId != -1) {
-        groupItem = getItemById(parentId);
-    } else if (!groupName.isEmpty()) {
-        // Clip is in a group
-        QList<QTreeWidgetItem *> groupList = listView->findItems(groupName, Qt::MatchExactly, 1);
-
-        if (groupList.isEmpty())  {
-            QStringList itemName;
-            itemName << QString::null << groupName;
-            kDebug() << "-------  CREATING NEW GRP: " << itemName;
-            groupItem = new ProjectItem(listView, itemName, m_doc->getFreeClipId());
-        } else groupItem = (ProjectItem *) groupList.first();
-    }
-    if (groupItem) item = new ProjectItem(groupItem, name, elem, clipId);
-    else item = new ProjectItem(listView, name, elem, clipId);
-    if (!url.isEmpty()) {
-        // if file has Nepomuk comment, use it
-        Nepomuk::Resource f(url.path());
-        QString annotation;
-        if (f.isValid()) annotation = f.description();
-
-        if (!annotation.isEmpty()) item->setText(2, annotation);
-        QString resource = url.path();
-        if (resource.endsWith("westley") || resource.endsWith("kdenlive")) {
-            QString tmpfile;
-            QDomDocument doc;
-            if (KIO::NetAccess::download(url, tmpfile, 0)) {
-                QFile file(tmpfile);
-                if (file.open(QIODevice::ReadOnly)) {
-                    doc.setContent(&file, false);
-                    file.close();
-                }
-                KIO::NetAccess::removeTempFile(tmpfile);
-
-                QDomNodeList subProds = doc.elementsByTagName("producer");
-                int ct = subProds.count();
-                for (int i = 0; i <  ct ; i++) {
-                    QDomElement e = subProds.item(i).toElement();
-                    if (!e.isNull()) {
-                        addProducer(e, clipId);
-                    }
-                }
-            }
-        }
-
-    }
-
-    if (elem.isNull()) {
-        QDomDocument doc;
-        QDomElement element = doc.createElement("producer");
-        element.setAttribute("resource", url.path());
-        emit getFileProperties(element, clipId);
-    } else emit getFileProperties(elem, clipId);
-    selectItemById(clipId);
-}
 
 void ProjectList::slotDeleteClip(int clipId) {
     ProjectItem *item = getItemById(clipId);
@@ -293,7 +230,9 @@ void ProjectList::slotDeleteClip(int clipId) {
     if (p) {
         kDebug() << "///////  DELETEED CLIP HAS A PARENT... " << p->indexOfChild(item);
         QTreeWidgetItem *clone = p->takeChild(p->indexOfChild(item));
-    } else if (item) delete item;
+    } else if (item) {
+        delete item;
+    }
 }
 
 void ProjectList::slotAddFolder() {
@@ -479,15 +418,6 @@ void ProjectList::setDocument(KdenliveDoc *doc) {
     m_timecode = doc->timecode();
     m_commandStack = doc->commandStack();
     m_doc = doc;
-    /*    QDomNodeList prods = doc->producersList();
-        int ct = prods.count();
-        kDebug() << "////////////  SETTING DOC, FOUND CLIPS: " << prods.count();
-        listView->clear();
-        for (int i = 0; i <  ct ; i++) {
-            QDomElement e = prods.item(i).toElement();
-            kDebug() << "// IMPORT: " << i << ", :" << e.attribute("id", "non") << ", NAME: " << e.attribute("name", "non");
-            if (!e.isNull()) addProducer(e);
-        }*/
     QTreeWidgetItem *first = listView->topLevelItem(0);
     if (first) listView->setCurrentItem(first);
     m_toolbar->setEnabled(true);
@@ -545,48 +475,6 @@ ProjectItem *ProjectList::getItemById(int id) {
     }
     if (*it) return ((ProjectItem *)(*it));
     return NULL;
-}
-
-
-void ProjectList::addProducer(QDomElement producer, int parentId) {
-    if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!!  NO CMD STK";
-    CLIPTYPE type = (CLIPTYPE) producer.attribute("type").toInt();
-
-    /*QDomDocument doc;
-    QDomElement prods = doc.createElement("list");
-    doc.appendChild(prods);
-    prods.appendChild(doc.importNode(producer, true));*/
-
-
-    //kDebug()<<"//////  ADDING PRODUCER:\n "<<doc.toString()<<"\n+++++++++++++++++";
-    int id = producer.attribute("id").toInt();
-    QString groupName = producer.attribute("groupname");
-    if (id >= m_clipIdCounter) m_clipIdCounter = id + 1;
-    else if (id == 0) id = m_clipIdCounter++;
-
-    if (parentId != -1) {
-        // item is a westley playlist, adjust subproducers ids
-        id = (parentId + 1) * 10000 + id;
-    }
-    if (type == AUDIO || type == VIDEO || type == AV || type == IMAGE  || type == PLAYLIST) {
-        KUrl resource = KUrl(producer.attribute("resource"));
-        if (!resource.isEmpty()) {
-            QStringList itemEntry;
-            itemEntry.append(QString::null);
-            itemEntry.append(resource.fileName());
-            addClip(itemEntry, producer, id, resource, groupName, parentId);
-        }
-    } else if (type == COLOR) {
-        QString colour = producer.attribute("colour");
-        QPixmap pix(60, 40);
-        colour = colour.replace(0, 2, "#");
-        pix.fill(QColor(colour.left(7)));
-        QStringList itemEntry;
-        itemEntry.append(QString::null);
-        itemEntry.append(producer.attribute("name", i18n("Color clip")));
-        addClip(itemEntry, producer, id, KUrl(), groupName, parentId);
-    }
-
 }
 
 #include "projectlist.moc"

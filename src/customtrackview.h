@@ -82,7 +82,7 @@ public:
     void slotSeekToPreviousSnap();
     void slotSeekToNextSnap();
     double getSnapPointForPos(double pos);
-	QDomElement xmlInfo();
+    QDomElement xmlInfo();
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -103,7 +103,7 @@ public slots:
     void slotAddClipMarker(int id, GenTime t, QString c);
     void addGuide(const GenTime pos, const QString &comment);
     void slotAddGuide();
-	void slotDeleteGuide();
+    void slotDeleteGuide();
     void editGuide(const GenTime oldPos, const GenTime pos, const QString &comment);
 
 protected:

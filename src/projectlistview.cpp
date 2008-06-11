@@ -192,6 +192,8 @@ void ProjectListView::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         this->m_DragStartPosition = event->pos();
         m_dragStarted = true;
+        QTreeWidgetItem *underMouse = itemAt(event->pos());
+        if (underMouse && underMouse->isSelected()) emit focusMonitor();
     }
     QTreeWidget::mousePressEvent(event);
 }

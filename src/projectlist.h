@@ -104,13 +104,10 @@ public:
 
     QDomElement producersList();
     void setRenderer(Render *projectRender);
-
-    void addClip(const QStringList &name, const QDomElement &elem, const int clipId, const KUrl &url = KUrl(), const QString &group = QString::null, int parentId = -1);
     void slotUpdateClipProperties(int id, QMap <QString, QString> properties);
 
 public slots:
     void setDocument(KdenliveDoc *doc);
-    void addProducer(QDomElement producer, int parentId = -1);
     void slotReplyGetImage(int clipId, int pos, const QPixmap &pix, int w, int h);
     void slotReplyGetFileProperties(int clipId, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata);
     void slotAddClip(DocClipBase *clip);
@@ -136,6 +133,7 @@ private:
     QAction *m_deleteAction;
     KdenliveDoc *m_doc;
     ItemDelegate *m_listViewDelegate;
+    ProjectItem *m_selectedItem;
 
 private slots:
     void slotAddClip(QUrl givenUrl = QUrl(), QString group = QString());
