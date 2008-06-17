@@ -1140,9 +1140,10 @@ void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
     char *filterTag = decodedString(tag);
     char *filterId = decodedString(args.value("id"));
     QMap<QString, QString>::Iterator it;
-    kDebug() << "KFR: " << args.value("keyframes");
-    QStringList keyFrames = args.value("keyframes").split(";");
-    if (!keyFrames.isEmpty()) {
+    QString kfr = args.value("keyframes");
+    
+    if (!kfr.isEmpty()) {
+		QStringList keyFrames = kfr.split(";");
         kDebug() << "// ADDING KEYFRAME EFFECT: " << args.value("keyframes");
         char *starttag = decodedString(args.value("starttag"));
         char *endtag = decodedString(args.value("endtag", "end"));
