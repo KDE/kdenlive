@@ -69,6 +69,7 @@ Q_OBJECT public:
     /** Seeks the renderer clip to the given time. */
     void seek(GenTime time);
     void seekToFrame(int pos);
+    bool m_isBlocked;
 
     //static QPixmap getVideoThumbnail(char *profile, QString file, int frame, int width, int height);
     QPixmap getImageThumbnail(KUrl url, int width, int height);
@@ -178,7 +179,6 @@ private:   // Private attributes & methods
     double m_fps;
     uint m_monitorId;
     bool m_generateScenelist;
-    bool m_isBlocked;
 
     /** Holds the path to on screen display profile */
     QString m_osdProfile;

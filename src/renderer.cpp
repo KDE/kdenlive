@@ -42,6 +42,7 @@ extern "C" {
 #include "renderer.h"
 #include "kdenlivesettings.h"
 #include "kthumb.h"
+#include "definitions.h"
 
 #include <mlt++/Mlt.h>
 
@@ -52,7 +53,7 @@ extern "C" {
 
 static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr) {
     // detect if the producer has finished playing. Is there a better way to do it ?
-    //if (self->isBlocked) return;
+    if (self->m_isBlocked) return;
     if (mlt_properties_get_double(MLT_FRAME_PROPERTIES(frame_ptr), "_speed") == 0.0) {
         self->emitConsumerStopped();
     } else {
@@ -223,8 +224,8 @@ QPixmap Render::extractFrame(int frame_position, int width, int height) {
         pix.fill(Qt::black);
         return pix;
     }
-    //Mlt::Producer *mlt_producer = m_mltProducer->cut(frame_position, frame_position + 1);
-    return KThumb::getFrame(m_mltProducer, frame_position, width, height);
+    //TODO: rewrite
+    return pix; //KThumb::getFrame(m_mltProducer, frame_position, width, height);
     /*Mlt::Filter m_convert(*m_mltProfile, "avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     mlt_producer->attach(m_convert);
@@ -378,8 +379,11 @@ bool Render::isValid(KUrl url) {
 }
 
 void Render::getFileProperties(const QDomElement &xml, int clipId) {
-    int height = 40;
+    int height = 50;
     int width = (int)(height  * m_mltProfile->dar());
+    QMap < QString, QString > filePropertyMap;
+    QMap < QString, QString > metadataPropertyMap;
+
     QDomDocument doc;
     QDomElement westley = doc.createElement("westley");
     QDomElement play = doc.createElement("playlist");
@@ -387,29 +391,24 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
     westley.appendChild(play);
     play.appendChild(doc.importNode(xml, true));
     char *tmp = decodedString(doc.toString());
-
     Mlt::Producer producer(*m_mltProfile, "westley-xml", tmp);
     delete[] tmp;
 
     if (producer.is_blank()) {
         return;
     }
+
     int frameNumber = xml.attribute("frame_thumbnail", "0").toInt();
     if (frameNumber != 0) producer.seek(frameNumber);
     mlt_properties properties = MLT_PRODUCER_PROPERTIES(producer.get_producer());
 
-    QMap < QString, QString > filePropertyMap;
-    QMap < QString, QString > metadataPropertyMap;
-
     KUrl url = xml.attribute("resource", QString::null);
     filePropertyMap["filename"] = url.path();
     filePropertyMap["duration"] = QString::number(producer.get_playtime());
-    kDebug() << "///////  PRODUCER: " << url.path() << " IS: " << producer.get_playtime();
-    Mlt::Filter m_convert(*m_mltProfile, "avcolour_space");
-    m_convert.set("forced", mlt_image_rgb24a);
-    producer.attach(m_convert);
-    Mlt::Frame * frame = producer.get_frame();
+    //kDebug() << "///////  PRODUCER: " << url.path() << " IS: " << producer.get_playtime();
 
+    Mlt::Frame * frame = producer.get_frame();
+    //frame->set("rescale", "nearest");
     //filePropertyMap["fps"] = QString::number(mlt_producer_get_fps(producer.get_producer()));
     filePropertyMap["fps"] = producer.get("source_fps");
 
@@ -428,18 +427,21 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
             else
                 filePropertyMap["type"] = "video";
 
+            mlt_image_format format = mlt_image_yuv422;
+            uint8_t* data;
+            int frame_width = 0;
+            int frame_height = 0;
+            mlt_frame_get_image(frame->get_frame(), &data, &format, &frame_width, &frame_height, 0);
+
             QPixmap pix(width, height);
-			//uchar *data = frame->fetch_image( mlt_image_rgb24, width, height, 1 );
-			mlt_image_format format = mlt_image_rgb24a;
-            uint8_t* data = frame->get_image(format, width, height);
-            QImage image(data, width, height, QImage::Format_ARGB32);
+            uint8_t *new_image = (uint8_t *)mlt_pool_alloc(frame_width * (frame_height + 1) * 4);
+            mlt_convert_yuv422_to_rgb24a((uint8_t *)data, new_image, frame_width * frame_height);
+            QImage image((uchar *)new_image, frame_width, frame_height, QImage::Format_ARGB32);
 
             if (!image.isNull()) {
-                pix = pix.fromImage(image);
+                QImage scale = image.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation).rgbSwapped();
+                pix = pix.fromImage(scale);
             } else pix.fill(Qt::black);
-            QPixmap copy = pix;
-            copy.detach();
-            pix = copy;
 
             emit replyGetImage(clipId, 0, pix, width, height);
 
@@ -544,7 +546,7 @@ void Render::setSceneList(QString playlist, int position) {
     if (m_winid == -1) return;
     m_generateScenelist = true;
 
-    // kWarning() << "//////  RENDER, SET SCENE LIST: " << playlist;
+    kWarning() << "//////  RENDER, SET SCENE LIST: " << playlist;
 
 
     /*
@@ -597,12 +599,13 @@ void Render::setSceneList(QString playlist, int position) {
     }*/
 
     m_fps = m_mltProducer->get_fps();
+    kDebug() << "// NEW SCENE LIST DURATION SET TO: " << m_mltProducer->get_playtime();
     emit durationChanged(m_mltProducer->get_playtime());
     //m_connectTimer->start( 1000 );
     connectPlaylist();
     if (position != 0) {
         m_mltProducer->seek(position);
-        emit rendererPosition((int) position);
+        emit rendererPosition(position);
     }
     m_generateScenelist = false;
 
@@ -742,6 +745,7 @@ void Render::start() {
             return;
         } else {
             kDebug() << "-----  MONITOR: " << m_name << " REFRESH";
+            m_isBlocked = false;
             refresh();
         }
     }
@@ -794,9 +798,11 @@ void Render::switchPlay() {
         return;
     if (m_mltProducer->get_speed() == 0.0) m_mltProducer->set_speed(1.0);
     else {
+        m_isBlocked = true;
         m_mltProducer->set_speed(0.0);
-        kDebug() << "// POSITON: " << m_framePosition;
+        m_mltConsumer->set("refresh", 0);
         m_mltProducer->seek((int) m_framePosition);
+        m_isBlocked = false;
     }
 
     /*if (speed == 0.0) {
@@ -809,7 +815,7 @@ void Render::switchPlay() {
 void Render::play(double speed) {
     if (!m_mltProducer)
         return;
-    if (speed == 0.0) m_mltProducer->set("out", m_mltProducer->get_length() - 1);
+    // if (speed == 0.0) m_mltProducer->set("out", m_mltProducer->get_length() - 1);
     m_mltProducer->set_speed(speed);
     /*if (speed == 0.0) {
     m_mltProducer->seek((int) m_framePosition + 1);
@@ -906,7 +912,6 @@ const QString & Render::rendererName() const {
 
 
 void Render::emitFrameNumber(double position) {
-    //kDebug()<<"// POSITON: "<<m_framePosition;
     if (m_generateScenelist) return;
     m_framePosition = position;
     emit rendererPosition((int) position);
@@ -938,7 +943,8 @@ void Render::exportCurrentFrame(KUrl url, bool notify) {
 
     int height = 1080;//KdenliveSettings::defaultheight();
     int width = 1940; //KdenliveSettings::displaywidth();
-    QPixmap pix = KThumb::getFrame(m_mltProducer, -1, width, height);
+    //TODO: rewrite
+    QPixmap pix; // = KThumb::getFrame(m_mltProducer, -1, width, height);
     /*
        QPixmap pix(width, height);
        Mlt::Filter m_convert(*m_mltProfile, "avcolour_space");
@@ -1008,7 +1014,7 @@ void Render::mltCheckLength(bool reload) {
             black.setAttribute("out", QString::number(dur));
             mltInsertClip(0, GenTime(i * 14000, m_fps), black);
         }
-        //m_mltProducer->set("out", duration);
+        m_mltProducer->set("out", duration);
         emit durationChanged((int)duration);
     }
 }
@@ -1121,7 +1127,6 @@ void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
     Mlt::Producer *clip = trackPlaylist.get_clip_at((int) position.frames(m_fps));
-
     if (!clip) {
         kDebug() << "**********  CANNOT FIND CLIP TO APPLY EFFECT-----------";
         return;
@@ -1130,45 +1135,70 @@ void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
     m_isBlocked = true;
     // create filter
     QString tag = args.value("tag");
-    //kDebug()<<" / / INSERTING EFFECT: "<<id;
+    kDebug() << " / / INSERTING EFFECT: " << tag;
     if (tag.startsWith("ladspa")) tag = "ladspa";
     char *filterTag = decodedString(tag);
     char *filterId = decodedString(args.value("id"));
-    Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterTag);
-    if (filter && filter->is_valid())
-        filter->set("kdenlive_id", filterId);
-    else {
-        kDebug() << "filter is NULL";
-        m_isBlocked = false;
-        return;
-    }
-
     QMap<QString, QString>::Iterator it;
-    QString keyFrameNumber = "#0";
+    kDebug() << "KFR: " << args.value("keyframes");
+    QStringList keyFrames = args.value("keyframes").split(";");
+    if (!keyFrames.isEmpty()) {
+        kDebug() << "// ADDING KEYFRAME EFFECT: " << args.value("keyframes");
+        char *starttag = decodedString(args.value("starttag"));
+        char *endtag = decodedString(args.value("endtag", "end"));
+        int duration = clip->get_playtime();
+        int max = args.value("max").toInt();
+        int min = args.value("min").toInt();
+        int factor = args.value("factor").toInt();
+        args.remove("starttag");
+        args.remove("endtag");
+        args.remove("keyframes");
+        for (int i = 0; i < keyFrames.size() - 1; ++i) {
+            Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterTag);
+            filter->set("kdenlive_id", filterId);
+            int x1 = keyFrames.at(i).section(":", 0, 0).toInt();
+            int y1 = keyFrames.at(i).section(":", 1, 1).toInt();
+            int x2 = keyFrames.at(i + 1).section(":", 0, 0).toInt();
+            int y2 = keyFrames.at(i + 1).section(":", 1, 1).toInt();
 
-    for (it = args.begin(); it != args.end(); ++it) {
-        //kDebug()<<" / / INSERTING EFFECT ARGS: "<<it.key()<<": "<<it.data();
-        QString key;
-        QString currentKeyFrameNumber;
-        if (it.key().startsWith("#")) {
-            currentKeyFrameNumber = it.key().section(":", 0, 0);
-            if (currentKeyFrameNumber != keyFrameNumber) {
-                // attach filter to the clip
-                clipService.attach(*filter);
-                filter = new Mlt::Filter(*m_mltProfile, filterTag);
-                filter->set("kdenlive_id", filterId);
-                keyFrameNumber = currentKeyFrameNumber;
+            for (it = args.begin(); it != args.end(); ++it) {
+                char *name = decodedString(it.key());
+                char *value = decodedString(it.value());
+                filter->set(name, value);
+                delete[] name;
+                delete[] value;
             }
-            key = it.key().section(":", 1);
-        } else key = it.key();
-        char *name = decodedString(key);
-        char *value = decodedString(it.value());
-        filter->set(name, value);
-        delete[] name;
-        delete[] value;
+
+            filter->set("in", duration / 100 * x1);
+            filter->set("out", duration / 100 * x2);
+            filter->set(starttag, (min + y1 * 100 / (max - min)) / factor);
+            filter->set(endtag, (min + y2 * 100 / (max - min)) / factor);
+            kDebug() << "// SETTING FILT VALS: " << duration / 100 * x1 << " to " << duration / 100 * x2 << ", STAT:" << (min + y1 * 100 / (max - min)) / factor << "end: " << (min + y2 * 100 / (max - min)) / factor;
+            clipService.attach(*filter);
+
+        }
+        delete[] starttag;
+        delete[] endtag;
+    } else {
+        Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterTag);
+        if (filter && filter->is_valid())
+            filter->set("kdenlive_id", filterId);
+        else {
+            kDebug() << "filter is NULL";
+            m_isBlocked = false;
+            return;
+        }
+
+        for (it = args.begin(); it != args.end(); ++it) {
+            char *name = decodedString(it.key());
+            char *value = decodedString(it.value());
+            filter->set(name, value);
+            delete[] name;
+            delete[] value;
+        }
+        // attach filter to the clip
+        clipService.attach(*filter);
     }
-    // attach filter to the clip
-    clipService.attach(*filter);
     delete[] filterId;
     delete[] filterTag;
     m_isBlocked = false;
@@ -1179,7 +1209,7 @@ void Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> 
     QString index = args.value("kdenlive_ix");
     QString tag =  args.value("tag");
     QMap<QString, QString>::Iterator it = args.begin();
-    if (it.key().startsWith("#") || tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle") {
+    if (!args.value("keyframes").isEmpty() || /*it.key().startsWith("#") || */tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle") {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
         mltRemoveEffect(track, position, index);
         mltAddEffect(track, position, args);
@@ -1408,7 +1438,7 @@ void Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     m_isBlocked = true;
 
     m_mltConsumer->set("refresh", 0);
-	mlt_service_lock(m_mltConsumer->get_service());
+    mlt_service_lock(m_mltConsumer->get_service());
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";
 
@@ -1440,7 +1470,7 @@ void Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
         destTrackPlaylist.consolidate_blanks(0);
     }
     mltCheckLength();
-	mlt_service_unlock(m_mltConsumer->get_service());
+    mlt_service_unlock(m_mltConsumer->get_service());
     m_isBlocked = false;
     m_mltConsumer->set("refresh", 1);
 }

@@ -121,10 +121,8 @@ void MyThread::run() {
     m_isWorking = false;
     if (stop_me) {
         f.remove();
-        QApplication::postEvent(m_parent, new ProgressEvent(-1, (QEvent::Type)10005));
-
     }
-    QApplication::postEvent(m_parent, new ProgressEvent(0, (QEvent::Type)10005));
+    QApplication::postEvent(m_parent, new ProgressEvent(-1, (QEvent::Type)10005));
 
 }
 
@@ -155,67 +153,43 @@ void KThumb::updateClipUrl(KUrl url) {
 //static
 QPixmap KThumb::getImage(KUrl url, int width, int height) {
     if (url.isEmpty()) return QPixmap();
-    /*QPixmap pix(width, height);
-    kDebug() << "+++++++++++  GET THMB IMG FOR: " << url;
-    char *tmp = Render::decodedString(url.path());
-    Mlt::Profile prof((char*) KdenliveSettings::current_profile().data());
-    Mlt::Producer m_producer(prof, tmp);
-    delete[] tmp;
-
-    if (m_producer.is_blank()) {
-        pix.fill(Qt::black);
-        return pix;
-    }
-    Mlt::Frame * m_frame;
-    mlt_image_format format = mlt_image_rgb24a;
-    Mlt::Filter m_convert(prof, "avcolour_space");
-    m_convert.set("forced", mlt_image_rgb24a);
-    m_producer.attach(m_convert);
-    //m_producer.seek(frame);
-    m_frame = m_producer.get_frame();
-    if (m_frame && m_frame->is_valid()) {
-        uint8_t *thumb = m_frame->get_image(format, width, height);
-        QImage image(thumb, width, height, QImage::Format_ARGB32);
-        if (!image.isNull()) {
-            pix = pix.fromImage(image);
-        } else pix.fill(Qt::black);
-    }
-    if (m_frame) delete m_frame;
-    return pix;*/
     return getImage(url, 0, width, height);
 }
 
 void KThumb::extractImage(int frame, int frame2) {
     if (m_url.isEmpty()) return;
-
-    char *tmp = Render::decodedString(m_url.path());
-    Mlt::Producer m_producer(*m_profile, tmp);
+    char *tmp = Render::decodedString("<westley><playlist><producer resource=\"" + m_url.path() + "\" /></playlist></westley>");
+    Mlt::Producer producer(*m_profile, "westley-xml", tmp);
     delete[] tmp;
+
     int twidth = (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio());
-    if (m_producer.is_blank()) {
+    if (producer.is_blank()) {
         QPixmap pix(twidth, KdenliveSettings::trackheight());
         pix.fill(Qt::black);
         emit thumbReady(frame, pix);
         return;
     }
     if (frame != -1) {
-        QPixmap pix = getFrame(&m_producer, frame, twidth, KdenliveSettings::trackheight());
+        QPixmap pix = getFrame(&producer, frame, twidth, KdenliveSettings::trackheight());
         emit thumbReady(frame, pix);
     }
     if (frame2 != -1) {
-        QPixmap pix = getFrame(&m_producer, frame2, twidth , KdenliveSettings::trackheight());
+        QPixmap pix = getFrame(&producer, frame2, twidth , KdenliveSettings::trackheight());
         emit thumbReady(frame2, pix);
     }
 
 }
 
+//static
 QPixmap KThumb::getImage(KUrl url, int frame, int width, int height) {
     Mlt::Profile profile((char*) KdenliveSettings::current_profile().data());
     QPixmap pix(width, height);
     if (url.isEmpty()) return pix;
-    char *tmp = Render::decodedString(url.path());
-    Mlt::Producer producer(profile, tmp);
+
+    char *tmp = Render::decodedString("<westley><playlist><producer resource=\"" + url.path() + "\" /></playlist></westley>");
+    Mlt::Producer producer(profile, "westley-xml", tmp);
     delete[] tmp;
+
 
     if (producer.is_blank()) {
 
@@ -225,15 +199,17 @@ QPixmap KThumb::getImage(KUrl url, int frame, int width, int height) {
     return getFrame(&producer, frame, width, height);
 }
 
+//static
 QPixmap KThumb::getImage(QDomElement xml, int frame, int width, int height) {
     Mlt::Profile profile((char*) KdenliveSettings::current_profile().data());
     QPixmap pix(width, height);
     QDomDocument doc;
     QDomElement westley = doc.createElement("westley");
+    QDomElement play = doc.createElement("playlist");
     doc.appendChild(westley);
-    westley.appendChild(doc.importNode(xml, true));
+    westley.appendChild(play);
+    play.appendChild(doc.importNode(xml, true));
     char *tmp = Render::decodedString(doc.toString());
-    kDebug() << " - - - UPDATING THMB, XML: " << doc.toString();
     Mlt::Producer producer(profile, "westley-xml", tmp);
     delete[] tmp;
 
@@ -244,26 +220,28 @@ QPixmap KThumb::getImage(QDomElement xml, int frame, int width, int height) {
     return getFrame(&producer, frame, width, height);
 }
 
-QPixmap KThumb::getFrame(Mlt::Producer* producer, int frame, int width, int height) {
-    Mlt::Profile profile((char*) KdenliveSettings::current_profile().data());
-    Mlt::Filter m_convert(profile, "avcolour_space");
-    m_convert.set("forced", mlt_image_rgb24a);
-    producer->attach(m_convert);
-    if (frame > -1)
-        producer->seek(frame);
-    Mlt::Frame * m_frame = producer->get_frame();
-    mlt_image_format format = mlt_image_rgb24a;
-    QPixmap pix(width, height);
-    if (m_frame && m_frame->is_valid()) {
-        uint8_t *thumb = m_frame->get_image(format, width, height);
-        QImage image(thumb, width, height, QImage::Format_ARGB32);
-        if (!image.isNull()) {
-            pix = pix.fromImage(image);
-        } else pix.fill(Qt::black);
-    }
-    if (m_frame) delete m_frame;
-    return pix;
+//static
+QPixmap KThumb::getFrame(Mlt::Producer* producer, int framepos, int width, int height) {
+    if (framepos > 0)
+        producer->seek(framepos);
+    Mlt::Frame *frame = producer->get_frame();
 
+    mlt_image_format format = mlt_image_yuv422;
+    uint8_t* data;
+    int frame_width = 0;
+    int frame_height = 0;
+    mlt_frame_get_image(frame->get_frame(), &data, &format, &frame_width, &frame_height, 0);
+    QPixmap pix(width, height);
+    uint8_t *new_image = (uint8_t *)mlt_pool_alloc(frame_width * (frame_height + 1) * 4);
+    mlt_convert_yuv422_to_rgb24a((uint8_t *)data, new_image, frame_width * frame_height);
+    QImage image((uchar *)new_image, frame_width, frame_height, QImage::Format_ARGB32);
+
+    if (!image.isNull()) {
+        QImage scale = image.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation).rgbSwapped();
+        pix = pix.fromImage(scale);
+    } else pix.fill(Qt::black);
+    if (frame) delete frame;
+    return pix;
 }
 /*
 void KThumb::getImage(KUrl url, int frame, int width, int height)
