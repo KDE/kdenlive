@@ -240,6 +240,7 @@ QPixmap KThumb::getFrame(Mlt::Producer* producer, int framepos, int width, int h
         QImage scale = image.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation).rgbSwapped();
         pix = pix.fromImage(scale);
     } else pix.fill(Qt::black);
+	mlt_pool_release(new_image);
     if (frame) delete frame;
     return pix;
 }

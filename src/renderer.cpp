@@ -442,7 +442,7 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
                 QImage scale = image.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation).rgbSwapped();
                 pix = pix.fromImage(scale);
             } else pix.fill(Qt::black);
-
+			mlt_pool_release(new_image);
             emit replyGetImage(clipId, 0, pix, width, height);
 
         } else if (frame->get_int("test_audio") == 0) {

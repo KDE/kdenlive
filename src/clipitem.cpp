@@ -692,12 +692,12 @@ void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *) {
 
 void ClipItem::resizeStart(int posx, double scale) {
     AbstractClipItem::resizeStart(posx, scale);
-    if (m_hasThumbs) startThumbTimer->start(100);
+    if (m_hasThumbs && KdenliveSettings::videothumbnails()) startThumbTimer->start(100);
 }
 
 void ClipItem::resizeEnd(int posx, double scale) {
     AbstractClipItem::resizeEnd(posx, scale);
-    if (m_hasThumbs) endThumbTimer->start(100);
+    if (m_hasThumbs && KdenliveSettings::videothumbnails()) endThumbTimer->start(100);
 }
 
 // virtual
