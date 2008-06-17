@@ -378,6 +378,10 @@ bool Render::isValid(KUrl url) {
     return true;
 }
 
+const double Render::dar() const {
+	return m_mltProfile->dar();
+}
+
 void Render::getFileProperties(const QDomElement &xml, int clipId) {
     int height = 50;
     int width = (int)(height  * m_mltProfile->dar());
@@ -394,6 +398,10 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
     Mlt::Producer producer(*m_mltProfile, "westley-xml", tmp);
     delete[] tmp;
 
+/*	Mlt::Filter filter(*m_mltProfile, "rescale");
+	producer.attach(filter);*/
+    //mlt_properties_set_int( MLT_FILTER_PROPERTIES( filter ), "_fezzik", 1 );
+
     if (producer.is_blank()) {
         return;
     }
@@ -408,8 +416,6 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
     //kDebug() << "///////  PRODUCER: " << url.path() << " IS: " << producer.get_playtime();
 
     Mlt::Frame * frame = producer.get_frame();
-    //frame->set("rescale", "nearest");
-    //filePropertyMap["fps"] = QString::number(mlt_producer_get_fps(producer.get_producer()));
     filePropertyMap["fps"] = producer.get("source_fps");
 
     if (frame && frame->is_valid()) {
@@ -431,16 +437,19 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
             uint8_t* data;
             int frame_width = 0;
             int frame_height = 0;
+			//frame->set("rescale.interp", "hyper");
+			frame->set("normalised_height", height);
+			frame->set("normalised_width", width);
             mlt_frame_get_image(frame->get_frame(), &data, &format, &frame_width, &frame_height, 0);
-
+			//kDebug()<<"/// GOT TUMB, SIZE: "<<frame_width<<"x"<<frame_height;
             QPixmap pix(width, height);
             uint8_t *new_image = (uint8_t *)mlt_pool_alloc(frame_width * (frame_height + 1) * 4);
             mlt_convert_yuv422_to_rgb24a((uint8_t *)data, new_image, frame_width * frame_height);
             QImage image((uchar *)new_image, frame_width, frame_height, QImage::Format_ARGB32);
 
             if (!image.isNull()) {
-                QImage scale = image.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation).rgbSwapped();
-                pix = pix.fromImage(scale);
+                image = image.rgbSwapped();// = image.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation).rgbSwapped();
+                pix = pix.fromImage(image);
             } else pix.fill(Qt::black);
 			mlt_pool_release(new_image);
             emit replyGetImage(clipId, 0, pix, width, height);

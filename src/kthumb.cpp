@@ -230,6 +230,9 @@ QPixmap KThumb::getFrame(Mlt::Producer* producer, int framepos, int width, int h
     uint8_t* data;
     int frame_width = 0;
     int frame_height = 0;
+	//frame->set("rescale.interp", "nearest");
+	frame->set("normalised_height", height);
+	frame->set("normalised_width", width);
     mlt_frame_get_image(frame->get_frame(), &data, &format, &frame_width, &frame_height, 0);
     QPixmap pix(width, height);
     uint8_t *new_image = (uint8_t *)mlt_pool_alloc(frame_width * (frame_height + 1) * 4);
@@ -237,8 +240,9 @@ QPixmap KThumb::getFrame(Mlt::Producer* producer, int framepos, int width, int h
     QImage image((uchar *)new_image, frame_width, frame_height, QImage::Format_ARGB32);
 
     if (!image.isNull()) {
-        QImage scale = image.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation).rgbSwapped();
-        pix = pix.fromImage(scale);
+        //QImage scale = image.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation).rgbSwapped();
+		image = image.rgbSwapped();
+        pix = pix.fromImage(image);
     } else pix.fill(Qt::black);
 	mlt_pool_release(new_image);
     if (frame) delete frame;

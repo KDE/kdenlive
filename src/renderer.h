@@ -145,6 +145,8 @@ Q_OBJECT public:
     const double fps() const;
     const int renderWidth() const;
     const int renderHeight() const;
+	/** get display aspect ratio */
+    const double dar() const;
 
     /** Playlist manipulation */
     void mltInsertClip(int track, GenTime position, QDomElement element);
