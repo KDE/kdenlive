@@ -70,14 +70,20 @@ void EffectStackView::slotUpdateEffectParams(const QDomElement& old, const QDomE
 }
 
 void EffectStackView::slotClipItemSelected(ClipItem* c) {
-    clipref = c;
+    int ix = 0;
+    if (c && c == clipref) {
+        ix = ui.effectlist->currentRow();
+    } else {
+        clipref = c;
+        if (c) ix = c->selectedEffectIndex();
+    }
     if (clipref == NULL) {
+        ui.effectlist->clear();
         setEnabled(false);
         return;
     }
     setEnabled(true);
-    setupListView();
-
+    setupListView(ix);
 }
 
 void EffectStackView::slotItemChanged(QListWidgetItem *item) {
@@ -91,8 +97,7 @@ void EffectStackView::slotItemChanged(QListWidgetItem *item) {
 }
 
 
-void EffectStackView::setupListView() {
-
+void EffectStackView::setupListView(int ix) {
     ui.effectlist->clear();
     for (int i = 0;i < clipref->effectsCount();i++) {
         QDomElement d = clipref->effectAt(i);
@@ -106,8 +111,8 @@ void EffectStackView::setupListView() {
     }
     if (clipref->effectsCount() == 0)
         emit transferParamDesc(QDomElement(), 0, 100);
-    ui.effectlist->setCurrentRow(0);
-
+    if (ix < 0) ix = 0;
+    ui.effectlist->setCurrentRow(ix);
 }
 
 void EffectStackView::slotItemSelectionChanged() {
@@ -117,6 +122,7 @@ void EffectStackView::slotItemSelectionChanged() {
     if (hasItem && ui.effectlist->currentItem()->isSelected()) {
         emit transferParamDesc(clipref->effectAt(activeRow), 0, 100);//minx max frame
     }
+    if (clipref) clipref->setSelectedEffect(activeRow);
     ui.buttonDel->setEnabled(hasItem);
     ui.buttonReset->setEnabled(hasItem && isChecked);
     ui.buttonUp->setEnabled(activeRow > 0);
@@ -178,8 +184,7 @@ void EffectStackView::slotResetEffect() {
 }
 
 void EffectStackView::slotNewEffect() {
-
-
+    int ix = ui.effectlist->currentRow();
     QMenu *displayMenu = new QMenu(this);
     displayMenu->setTitle("Filters");
     foreach(const QString &type, effectLists.keys()) {
@@ -211,7 +216,7 @@ void EffectStackView::slotNewEffect() {
             slotClipItemSelected(clipref);
         }
 
-        setupListView();
+        setupListView(ix);
         //kDebug()<< result->data();
     }
     delete displayMenu;

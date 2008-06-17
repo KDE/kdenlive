@@ -1,10 +1,32 @@
-#include "abstractclipitem.h"
+/***************************************************************************
+ *   Copyright (C) 2008 by Marco Gittler (g.marco@freenet.de)              *
+ *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ ***************************************************************************/
+
 #include <KDebug>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QScrollBar>
+#include <QToolTip>
 
-AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps): QGraphicsRectItem(rect), m_track(0), m_fps(fps) {
+#include "abstractclipitem.h"
+
+AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps): QGraphicsRectItem(rect), m_track(0), m_fps(fps), m_editedKeyframe(-1), m_selectedKeyframe(0) {
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setTrack(info.track);
     m_startPos = info.startPos;
@@ -186,6 +208,119 @@ QPainterPath AbstractClipItem::lowerRectPart(QRectF br) {
     roundRectPathLower.arcTo(br_endx - roundingX , br_endy - roundingY, roundingX, roundingY, 270.0, 90.0);
     roundRectPathLower.lineTo(br_endx  , br_halfy);
     return roundRectPathLower;
+}
+
+void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF exposedRect) {
+    QRectF br = rect();
+    double maxw = br.width() / 100.0;
+    double maxh = br.height() / 100.0;
+    if (m_keyframes.count() > 1) {
+        QMap<int, int>::const_iterator i = m_keyframes.constBegin();
+        double x1;
+        double y1;
+        double x2;
+        double y2;
+        QColor color(Qt::blue);
+        x1 = br.x() + maxw * i.key();
+        y1 = br.bottom() - i.value() * maxh;
+        while (i != m_keyframes.constEnd()) {
+            if (i.key() == m_selectedKeyframe) color = QColor(Qt::red);
+            else color = QColor(Qt::blue);
+            ++i;
+            if (i == m_keyframes.constEnd()) break;
+            x2 = br.x() + maxw * i.key();
+            y2 = br.bottom() - i.value() * maxh;
+            QLineF l(x1, y1, x2, y2);
+            painter->drawLine(l);
+            if (isSelected()) {
+                painter->fillRect(x1 - 3, y1 - 3, 6, 6, QBrush(color));
+            }
+            x1 = x2;
+            y1 = y2;
+        }
+        if (isSelected()) painter->fillRect(x1 - 3, y1 - 3, 6, 6, QBrush(color));
+    }
+}
+
+int AbstractClipItem::mouseOverKeyFrames(QPointF pos) {
+    QRectF br = rect();
+    double maxw = br.width() / 100.0;
+    double maxh = br.height() / 100.0;
+    if (m_keyframes.count() > 1) {
+        QMap<int, int>::const_iterator i = m_keyframes.constBegin();
+        double x1;
+        double y1;
+        while (i != m_keyframes.constEnd()) {
+            x1 = br.x() + maxw * i.key();
+            y1 = br.bottom() - i.value() * maxh;
+            if (qAbs(pos.x() - x1) < 6 && qAbs(pos.y() - y1) < 6) {
+                setToolTip("[" + QString::number(i.key()) + "x" + QString::number(i.value()) + "]");
+                return i.key();
+            } else if (x1 > pos.x()) break;
+            ++i;
+        }
+    }
+    setToolTip(QString());
+    return -1;
+}
+
+void AbstractClipItem::updateSelectedKeyFrame() {
+    if (m_editedKeyframe == -1) return;
+    QRectF br = rect();
+    double maxw = br.width() / 100.0;
+    double maxh = br.height() / 100.0;
+    update(br.x() + maxw * m_selectedKeyframe - 3, br.bottom() - m_keyframes[m_selectedKeyframe] * maxh - 3, 12, 12);
+    m_selectedKeyframe = m_editedKeyframe;
+    update(br.x() + maxw * m_selectedKeyframe - 3, br.bottom() - m_keyframes[m_selectedKeyframe] * maxh - 3, 12, 12);
+}
+
+void AbstractClipItem::updateKeyFramePos(const QPoint pos) {
+    if (m_selectedKeyframe == -1) return;
+    QRectF br = rect();
+    double maxw = br.width() / 100.0;
+    double maxh = br.height() / 100.0;
+    int newval = (int)((br.bottom() - pos.y()) / maxh);
+    int newpos = (int)((pos.x() - br.x()) / maxw);
+    if (newval < -50 && m_selectedKeyframe != 0 && m_selectedKeyframe != 100) {
+        // remove kexframe if it is dragged outside
+        m_keyframes.remove(m_selectedKeyframe);
+        m_selectedKeyframe = -1;
+        update();
+        return;
+    }
+    if (newval > 150 && m_selectedKeyframe != 0 && m_selectedKeyframe != 100) {
+        // remove kexframe if it is dragged outside
+        m_keyframes.remove(m_selectedKeyframe);
+        m_selectedKeyframe = -1;
+        update();
+        return;
+    }
+    if (newval < 0) newval = 0;
+    else if (newval > 100) newval = 100;
+    if (m_selectedKeyframe == 0 || m_selectedKeyframe == 100) {
+        // start and end keyframes should stay in place
+        m_keyframes[m_selectedKeyframe] = newval;
+    } else {
+        m_keyframes.remove(m_selectedKeyframe);
+        m_keyframes[newpos] = newval;
+        m_selectedKeyframe = newpos;
+    }
+    update();
+}
+
+void AbstractClipItem::addKeyFrame(const QPoint pos) {
+    QRectF br = rect();
+    double maxw = br.width() / 100.0;
+    double maxh = br.height() / 100.0;
+    int newval = (int)((br.bottom() - pos.y()) / maxh);
+    int newpos = (int)((pos.x() - br.x()) / maxw);
+    m_keyframes[newpos] = newval;
+    m_selectedKeyframe = newpos;
+    update();
+}
+
+bool AbstractClipItem::hasKeyFrames() {
+    return !m_keyframes.isEmpty();
 }
 
 QRect AbstractClipItem::visibleRect() {

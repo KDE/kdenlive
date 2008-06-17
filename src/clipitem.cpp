@@ -40,7 +40,7 @@
 #include "kthumb.h"
 
 ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, GenTime cropStart, double scale, double fps)
-        : AbstractClipItem(info, QRectF(), fps), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_thumbsRequested(0), m_startFade(0), m_endFade(0), m_hover(false) {
+        : AbstractClipItem(info, QRectF(), fps), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_thumbsRequested(0), m_startFade(0), m_endFade(0), m_hover(false), m_selectedEffect(-1) {
     QRectF rect((double) info.startPos.frames(fps) * scale, (double)(info.track * KdenliveSettings::trackheight() + 1), (double)(info.endPos - info.startPos).frames(fps) * scale, (double)(KdenliveSettings::trackheight() - 1));
     setRect(rect);
 
@@ -51,6 +51,10 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, GenTime cropStart, double s
     m_maxDuration = clip->maxDuration();
     setAcceptDrops(true);
     audioThumbReady = clip->audioThumbCreated();
+    /*m_keyframes[0] = 50;
+    m_keyframes[30] = 20;
+    m_keyframes[70] = 90;
+    m_keyframes[100] = 10;*/
     /*
       m_cropStart = xml.attribute("in", 0).toInt();
       m_maxDuration = xml.attribute("duration", 0).toInt();
@@ -94,6 +98,92 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, GenTime cropStart, double s
 ClipItem::~ClipItem() {
     if (startThumbTimer) delete startThumbTimer;
     if (endThumbTimer) delete endThumbTimer;
+}
+
+int ClipItem::selectedEffectIndex() const {
+    return m_selectedEffect;
+}
+
+void ClipItem::setSelectedEffect(int ix) {
+    //if (ix == m_selectedEffect) return;
+    m_selectedEffect = ix;
+    QDomElement effect = effectAt(m_selectedEffect);
+    QDomNodeList params = effect.elementsByTagName("parameter");
+
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        if (!e.isNull() && e.attribute("type") == "keyframe") {
+            int max = e.attribute("max").toInt();
+            int min = e.attribute("min").toInt();
+            int def = e.attribute("default").toInt();
+            int factor = e.attribute("factor").toInt();
+            if (factor == 0) factor = 1;
+
+            // Effect has a keyframe type parameter, we need to set the values
+            if (e.attribute("keyframes").isEmpty()) {
+                // no keyframes defined, set up 2 keyframes (start and end) with default value.
+                m_keyframes[0] = 100 * def / (max - min);
+                m_keyframes[100] = 100 * def / (max - min);
+            } else {
+                // parse keyframes
+                QStringList keyframes = e.attribute("keyframes").split(";");
+                foreach(QString str, keyframes) {
+                    if (!str.isEmpty()) {
+                        int pos = str.section(":", 0, 0).toInt();
+                        int val = str.section(":", 1, 1).toInt();
+                        /*int frame = (int) (pos * 100 / m_cropDuration.frames(m_fps));
+                        int value = (int) (((val * factor) - min) * 100 * factor / (max - min));*/
+                        m_keyframes[pos] = val;
+                    }
+                }
+            }
+            update();
+            return;
+        }
+    }
+    if (!m_keyframes.isEmpty()) {
+        m_keyframes.clear();
+        update();
+    }
+}
+
+void ClipItem::updateKeyframeEffect() {
+    QDomElement effect = effectAt(m_selectedEffect);
+    QDomNodeList params = effect.elementsByTagName("parameter");
+
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        if (!e.isNull() && e.attribute("type") == "keyframe") {
+            int max = e.attribute("max").toInt();
+            int min = e.attribute("min").toInt();
+            int def = e.attribute("default").toInt();
+            int factor = e.attribute("factor").toInt();
+            if (factor == 0) factor = 1;
+            QString keyframes;
+
+            if (m_keyframes.count() > 1) {
+                QMap<int, int>::const_iterator i = m_keyframes.constBegin();
+                double x1;
+                double y1;
+                while (i != m_keyframes.constEnd()) {
+                    keyframes.append(QString::number(i.key()) + ":" + QString::number(i.value()) + ";");
+                    /*x1 = m_cropDuration.frames(m_fps) * i.key() / 100.0;
+                    y1 = (min + i.value() * (max - min) / 100.0) / factor;
+                    keyframes.append(QString::number(x1) + ":" + QString::number(y1) + ";");*/
+                    ++i;
+                }
+            }
+            // Effect has a keyframe type parameter, we need to set the values
+            kDebug() << ":::::::::::::::   SETTING EFFECT KEYFRAMES: " << keyframes;
+            e.setAttribute("keyframes", keyframes);
+            break;
+        }
+    }
+}
+
+QDomElement ClipItem::selectedEffect() {
+    if (m_selectedEffect == -1 || m_effectList.isEmpty()) return QDomElement();
+    return effectAt(m_selectedEffect);
 }
 
 void ClipItem::resetThumbs() {
@@ -159,7 +249,7 @@ int ClipItem::type() const {
     return AVWIDGET;
 }
 
-DocClipBase *ClipItem::baseClip() {
+DocClipBase *ClipItem::baseClip() const {
     return m_clip;
 }
 
@@ -167,15 +257,15 @@ QDomElement ClipItem::xml() const {
     return m_clip->toXML();
 }
 
-int ClipItem::clipType() {
+int ClipItem::clipType() const {
     return m_clipType;
 }
 
-QString ClipItem::clipName() {
+QString ClipItem::clipName() const {
     return m_clipName;
 }
 
-int ClipItem::clipProducer() {
+int ClipItem::clipProducer() const {
     return m_producer;
 }
 
@@ -197,7 +287,7 @@ void ClipItem::animate(qreal value) {
 // virtual
 void ClipItem::paint(QPainter *painter,
                      const QStyleOptionGraphicsItem *option,
-                     QWidget *widget) {
+                     QWidget *) {
     painter->setOpacity(m_opacity);
     QBrush paintColor = brush();
     if (isSelected()) paintColor = QBrush(QColor(79, 93, 121));
@@ -205,7 +295,7 @@ void ClipItem::paint(QPainter *painter,
     double scale = br.width() / m_cropDuration.frames(m_fps);
 
     // kDebug()<<"///   EXPOSED RECT: "<<option->exposedRect.x()<<" X "<<option->exposedRect.right();
-    painter->setClipRect(option->exposedRect);
+
     int startpixel = (int)option->exposedRect.x() - rect().x();
 
     if (startpixel < 0)
@@ -217,26 +307,27 @@ void ClipItem::paint(QPainter *painter,
     //painter->setRenderHints(QPainter::Antialiasing);
 
     QPainterPath roundRectPathUpper = upperRectPart(br), roundRectPathLower = lowerRectPart(br);
-
+    painter->setClipRect(option->exposedRect);
 
     // build path around clip
     QPainterPath resultClipPath = roundRectPathUpper.united(roundRectPathLower);
     painter->fillPath(resultClipPath, paintColor);
 
+    painter->setClipPath(resultClipPath, Qt::IntersectClip);
     // draw thumbnails
     if (!m_startPix.isNull() && KdenliveSettings::videothumbnails()) {
         if (m_clipType == IMAGE) {
-            painter->drawPixmap(QPointF(br.x() + br.width() - m_startPix.width(), br.y()), m_startPix);
-            QLineF l(br.x() + br.width() - m_startPix.width(), br.y(), br.x() + br.width() - m_startPix.width(), br.y() + br.height());
+            painter->drawPixmap(QPointF(br.right() - m_startPix.width(), br.y()), m_startPix);
+            QLine l(br.right() - m_startPix.width(), br.y(), br.right() - m_startPix.width(), br.y() + br.height());
             painter->drawLine(l);
         } else {
-            painter->drawPixmap(QPointF(br.x() + br.width() - m_endPix.width(), br.y()), m_endPix);
-            QLineF l(br.x() + br.width() - m_endPix.width(), br.y(), br.x() + br.width() - m_endPix.width(), br.y() + br.height());
+            painter->drawPixmap(QPointF(br.right() - m_endPix.width(), br.y()), m_endPix);
+            QLine l(br.right() - m_endPix.width(), br.y(), br.right() - m_endPix.width(), br.y() + br.height());
             painter->drawLine(l);
         }
 
         painter->drawPixmap(QPointF(br.x(), br.y()), m_startPix);
-        QLineF l2(br.x() + m_startPix.width(), br.y(), br.x() + m_startPix.width(), br.y() + br.height());
+        QLine l2(br.x() + m_startPix.width(), br.y(), br.x() + m_startPix.width(), br.y() + br.height());
         painter->drawLine(l2);
     }
 
@@ -302,7 +393,7 @@ void ClipItem::paint(QPainter *painter,
         fadeInPath.lineTo(br.x() , br.bottom());
         fadeInPath.lineTo(br.x() + m_startFade * scale, br.y());
         fadeInPath.closeSubpath();
-        painter->fillPath(fadeInPath.intersected(resultClipPath), fades);
+        painter->fillPath(fadeInPath/*.intersected(resultClipPath)*/, fades);
         if (isSelected()) {
             QLineF l(br.x() + m_startFade * scale, br.y(), br.x(), br.bottom());
             painter->drawLine(l);
@@ -314,7 +405,7 @@ void ClipItem::paint(QPainter *painter,
         fadeOutPath.lineTo(br.right(), br.bottom());
         fadeOutPath.lineTo(br.right() - m_endFade * scale, br.y());
         fadeOutPath.closeSubpath();
-        painter->fillPath(fadeOutPath.intersected(resultClipPath), fades);
+        painter->fillPath(fadeOutPath/*.intersected(resultClipPath)*/, fades);
         if (isSelected()) {
             QLineF l(br.right() - m_endFade * scale, br.y(), br.x() + br.width(), br.bottom());
             painter->drawLine(l);
@@ -334,7 +425,7 @@ void ClipItem::paint(QPainter *painter,
         } else markerBrush.setColor(QColor(50, 50, 50, 150));
         QPainterPath path;
         path.addRoundedRect(txtBounding, 4, 4);
-        painter->fillPath(path.intersected(resultClipPath), markerBrush);
+        painter->fillPath(path/*.intersected(resultClipPath)*/, markerBrush);
         painter->drawText(txtBounding, Qt::AlignCenter, m_effectNames);
         painter->setPen(Qt::black);
     }
@@ -355,6 +446,13 @@ void ClipItem::paint(QPainter *painter,
         pen.setColor(Qt::black);
         //pen.setWidth(1);
     }
+
+
+    // draw effect or transition keyframes
+    if (br.width() > 20) drawKeyFrames(painter, option->exposedRect);
+
+    // draw clip border
+    painter->setClipRect(option->exposedRect);
     painter->setPen(pen);
     //painter->setClipRect(option->exposedRect);
     painter->drawPath(resultClipPath);
@@ -407,17 +505,36 @@ void ClipItem::paint(QPainter *painter,
 
 
 OPERATIONTYPE ClipItem::operationMode(QPointF pos, double scale) {
-    if (qAbs((int)(pos.x() - (rect().x() + scale * m_startFade))) < 6 && qAbs((int)(pos.y() - rect().y())) < 6) return FADEIN;
-    else if (qAbs((int)(pos.x() - rect().x())) < 6) return RESIZESTART;
-    else if (qAbs((int)(pos.x() - (rect().x() + rect().width() - scale * m_endFade))) < 6 && qAbs((int)(pos.y() - rect().y())) < 6) return FADEOUT;
-    else if (qAbs((int)(pos.x() - (rect().x() + rect().width()))) < 6) return RESIZEEND;
-    else if (qAbs((int)(pos.x() - (rect().x() + 16))) < 10 && qAbs((int)(pos.y() - (rect().y() + rect().height() / 2 + 5))) < 8) return TRANSITIONSTART;
-    else if (qAbs((int)(pos.x() - (rect().x() + rect().width() - 21))) < 10 && qAbs((int)(pos.y() - (rect().y() + rect().height() / 2 + 5))) < 8) return TRANSITIONEND;
-
+    if (isSelected()) {
+        m_editedKeyframe = mouseOverKeyFrames(pos);
+        if (m_editedKeyframe != -1) return KEYFRAME;
+    }
+    if (qAbs((int)(pos.x() - (rect().x() + scale * m_startFade))) < 6 && qAbs((int)(pos.y() - rect().y())) < 6) {
+        if (m_startFade == 0) setToolTip(i18n("Add audio fade"));
+        else setToolTip(i18n("Audio fade duration: %1s", GenTime(m_startFade, m_fps).seconds()));
+        return FADEIN;
+    } else if (qAbs((int)(pos.x() - rect().x())) < 6) {
+        setToolTip(i18n("Crop from start: %1s", cropStart().seconds()));
+        return RESIZESTART;
+    } else if (qAbs((int)(pos.x() - (rect().x() + rect().width() - scale * m_endFade))) < 6 && qAbs((int)(pos.y() - rect().y())) < 6) {
+        if (m_endFade == 0) setToolTip(i18n("Add audio fade"));
+        else setToolTip(i18n("Audio fade duration: %1s", GenTime(m_endFade, m_fps).seconds()));
+        return FADEOUT;
+    } else if (qAbs((int)(pos.x() - (rect().x() + rect().width()))) < 6) {
+        setToolTip(i18n("Clip duration: %1s", duration().seconds()));
+        return RESIZEEND;
+    } else if (qAbs((int)(pos.x() - (rect().x() + 16))) < 10 && qAbs((int)(pos.y() - (rect().y() + rect().height() / 2 + 5))) < 8) {
+        setToolTip(i18n("Add transition"));
+        return TRANSITIONSTART;
+    } else if (qAbs((int)(pos.x() - (rect().x() + rect().width() - 21))) < 10 && qAbs((int)(pos.y() - (rect().y() + rect().height() / 2 + 5))) < 8) {
+        setToolTip(i18n("Add transition"));
+        return TRANSITIONEND;
+    }
+    setToolTip(QString());
     return MOVE;
 }
 
-QList <GenTime> ClipItem::snapMarkers() {
+QList <GenTime> ClipItem::snapMarkers() const {
     QList < GenTime > snaps;
     QList < GenTime > markers = baseClip()->snapMarkers();
     GenTime pos;
@@ -584,8 +701,8 @@ void ClipItem::resizeEnd(int posx, double scale) {
 }
 
 // virtual
-void ClipItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event) {
-}
+/*void ClipItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event) {
+}*/
 
 int ClipItem::effectsCounter() {
     return m_effectsCounter++;
@@ -600,6 +717,7 @@ QStringList ClipItem::effectNames() {
 }
 
 QDomElement ClipItem::effectAt(int ix) {
+    if (ix > m_effectList.count() - 1 || ix < 0) return QDomElement();
     return m_effectList.at(ix);
 }
 
@@ -676,7 +794,16 @@ QMap <QString, QString> ClipItem::getEffectArgs(QDomElement effect) {
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
-        if (e.attribute("namedesc").contains(";")) {
+        kDebug() << "/ / / /SENDING EFFECT PARAM: " << e.attribute("type") << ", NAME_ " << e.attribute("tag");
+        if (e.attribute("type") == "keyframe") {
+            kDebug() << "/ / / /SENDING KEYFR EFFECT TYPE";
+            effectParams["keyframes"] = e.attribute("keyframes");
+            effectParams["max"] = e.attribute("max");
+            effectParams["min"] = e.attribute("min");
+            effectParams["factor"] = e.attribute("factor");
+            effectParams["starttag"] = e.attribute("starttag");
+            effectParams["endtag"] = e.attribute("endtag");
+        } else if (e.attribute("namedesc").contains(";")) {
             QString format = e.attribute("format");
             QStringList separators = format.split("%d", QString::SkipEmptyParts);
             QStringList values = e.attribute("value").split(QRegExp("[,:;x]"));
@@ -691,7 +818,7 @@ QMap <QString, QString> ClipItem::getEffectArgs(QDomElement effect) {
             effectParams["start"] = neu;
         } else if (!e.isNull()) {
             if (!e.attribute("factor").isEmpty())
-                effectParams[e.attribute("name")] =  QString::number(effectParams[e.attribute("name")].toDouble() / e.attribute("factor").toDouble());
+                effectParams[e.attribute("name")] =  QString::number(effectParams[e.attribute("value")].toDouble() / e.attribute("factor").toDouble());
             else effectParams[e.attribute("name")] = e.attribute("value");
         }
     }

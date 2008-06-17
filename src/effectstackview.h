@@ -34,7 +34,7 @@ private:
     ClipItem* clipref;
     QMap<QString, EffectsList*> effectLists;
     EffectStackEdit* effectedit;
-    void setupListView();
+    void setupListView(int ix);
     void updateButtonStatus();
 
 public slots:

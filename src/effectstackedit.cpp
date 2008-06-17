@@ -87,10 +87,10 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
         QString value = pa.attribute("value").isNull() ?
                         pa.attribute("default") : pa.attribute("value");
         if (type == "geometry") {
-            pa.setAttribute("namedesc", "X;Y;W;H;M");
-            pa.setAttribute("format", "%d%,%d%:%d%x%d%:%d%");
-            pa.setAttribute("min", "-200;-20;0;0;0");
-            pa.setAttribute("max", "200;200;100;100;100");
+            pa.setAttribute("namedesc", "X;Y;Width;Height;Transparency");
+            pa.setAttribute("format", "%d%,%d%:%d%x%d%:%d");
+            pa.setAttribute("min", "-500;-500;0;0;0");
+            pa.setAttribute("max", "500;500;200;200;100");
         } else if (type == "complex") {
             //pa.setAttribute("namedesc",pa.attribute("name"));
 
@@ -375,10 +375,7 @@ void EffectStackEdit::slotSliderMoved(int) {
 }
 
 void EffectStackEdit::clearAllItems() {
-    foreach(QWidget *w, items) {
-        vbox->removeWidget(w);
-        delete w;
-    }
+    qDeleteAll(items);
     foreach(void *p, uiItems) {
         delete p;
     }

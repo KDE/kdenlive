@@ -170,7 +170,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
     int pos = event->x();
     emit mousePosition((int)(mapToScene(event->pos()).x() / m_scale));
     if (event->buttons() & Qt::MidButton) return;
-    {
+    if (event->buttons() != Qt::NoButton) {
         if (m_dragItem && m_tool == SELECTTOOL) { //event->button() == Qt::LeftButton) {
             // a button was pressed, delete visual tips
             if (m_operationMode == MOVE && (event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance()) {
@@ -198,6 +198,8 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
             } else if (m_operationMode == FADEOUT) {
                 int pos = (int)(mapToScene(event->pos()).x() / m_scale);
                 ((ClipItem*) m_dragItem)->setFadeOut((int)(m_dragItem->endPos().frames(m_document->fps()) - pos), m_scale);
+            } else if (m_operationMode == KEYFRAME) {
+                m_dragItem->updateKeyFramePos(event->pos());
             }
 
             if (m_animation) delete m_animation;
@@ -214,198 +216,198 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
             QGraphicsView::mouseMoveEvent(event);
             return;
         }
+    }
 
-        if (m_tool == RAZORTOOL) {
-            setCursor(m_razorCursor);
+    if (m_tool == RAZORTOOL) {
+        setCursor(m_razorCursor);
+        QGraphicsView::mouseMoveEvent(event);
+        return;
+    }
+
+    QList<QGraphicsItem *> itemList = items(event->pos());
+    QGraphicsRectItem *item = NULL;
+    OPERATIONTYPE opMode = NONE;
+
+    if (itemList.count() == 1 && itemList.at(0)->type() == GUIDEITEM) {
+        opMode = MOVEGUIDE;
+    } else for (int i = 0; i < itemList.count(); i++) {
+            if (itemList.at(i)->type() == AVWIDGET || itemList.at(i)->type() == TRANSITIONWIDGET) {
+                item = (QGraphicsRectItem*) itemList.at(i);
+                break;
+            }
+        }
+
+    if (item && event->buttons() == Qt::NoButton) {
+        AbstractClipItem *clip = (AbstractClipItem*) item;
+        opMode = clip->operationMode(mapToScene(event->pos()), m_scale);
+        double size = 8;
+        if (opMode == m_moveOpMode) {
             QGraphicsView::mouseMoveEvent(event);
             return;
-        }
-
-        QList<QGraphicsItem *> itemList = items(event->pos());
-        QGraphicsRectItem *item = NULL;
-        OPERATIONTYPE opMode = NONE;
-
-        if (itemList.count() == 1 && itemList.at(0)->type() == GUIDEITEM) {
-            opMode = MOVEGUIDE;
-        } else for (int i = 0; i < itemList.count(); i++) {
-                if (itemList.at(i)->type() == AVWIDGET || itemList.at(i)->type() == TRANSITIONWIDGET) {
-                    item = (QGraphicsRectItem*) itemList.at(i);
-                    break;
-                }
-            }
-
-        if (item && event->buttons() == Qt::NoButton) {
-            AbstractClipItem *clip = (AbstractClipItem*) item;
-            opMode = clip->operationMode(mapToScene(event->pos()), m_scale);
-            double size = 8;
-
-            if (opMode == m_moveOpMode) {
-                QGraphicsView::mouseMoveEvent(event);
-                return;
-            } else {
-                if (m_visualTip) {
-                    if (m_animation) delete m_animation;
-                    m_animation = NULL;
-                    m_animationTimer->stop();
-                    delete m_visualTip;
-                    m_visualTip = NULL;
-                }
-            }
-            m_moveOpMode = opMode;
-
-            if (opMode == MOVE) {
-                setCursor(Qt::OpenHandCursor);
-            } else if (opMode == RESIZESTART) {
-                setCursor(KCursor("left_side", Qt::SizeHorCursor));
-                kDebug() << "********  RESIZE CLIP START; WIDTH: " << size;
-                if (m_visualTip == NULL) {
-                    QPolygon polygon;
-                    polygon << QPoint((int)clip->rect().x(), (int)(clip->rect().y() + clip->rect().height() / 2 - size * 2));
-                    polygon << QPoint((int)(clip->rect().x() + size * 2), (int)(clip->rect().y() + clip->rect().height() / 2));
-                    polygon << QPoint((int)clip->rect().x(), (int)(clip->rect().y() + clip->rect().height() / 2 + size * 2));
-                    polygon << QPoint((int)clip->rect().x(), (int)(clip->rect().y() + clip->rect().height() / 2 - size * 2));
-
-                    m_visualTip = new QGraphicsPolygonItem(polygon);
-                    ((QGraphicsPolygonItem*) m_visualTip)->setBrush(m_tipColor);
-                    ((QGraphicsPolygonItem*) m_visualTip)->setPen(m_tipPen);
-                    m_visualTip->setZValue(100);
-                    m_animation = new QGraphicsItemAnimation;
-                    m_animation->setItem(m_visualTip);
-                    m_animation->setTimeLine(m_animationTimer);
-                    m_visualTip->setPos(0, 0);
-                    double scale = 2.0;
-                    m_animation->setScaleAt(.5, scale, 1);
-                    m_animation->setPosAt(.5, QPointF(clip->rect().x() - clip->rect().x() * scale, 0));
-                    scale = 1.0;
-                    m_animation->setScaleAt(1, scale, 1);
-                    m_animation->setPosAt(1, QPointF(clip->rect().x() - clip->rect().x() * scale, 0));
-                    scene()->addItem(m_visualTip);
-                    m_animationTimer->start();
-                }
-            } else if (opMode == RESIZEEND) {
-                setCursor(KCursor("right_side", Qt::SizeHorCursor));
-                if (m_visualTip == NULL) {
-                    QPolygon polygon;
-                    polygon << QPoint((int)(clip->rect().x() + clip->rect().width()), (int)(clip->rect().y() + clip->rect().height() / 2 - size * 2));
-                    polygon << QPoint((int)(clip->rect().x() + clip->rect().width() - size * 2), (int)(clip->rect().y() + clip->rect().height() / 2));
-                    polygon << QPoint((int)(clip->rect().x() + clip->rect().width()), (int)(clip->rect().y() + clip->rect().height() / 2 + size * 2));
-                    polygon << QPoint((int)(clip->rect().x() + clip->rect().width()), (int)(clip->rect().y() + clip->rect().height() / 2 - size * 2));
-
-                    m_visualTip = new QGraphicsPolygonItem(polygon);
-                    ((QGraphicsPolygonItem*) m_visualTip)->setBrush(m_tipColor);
-                    ((QGraphicsPolygonItem*) m_visualTip)->setPen(m_tipPen);
-
-                    m_visualTip->setZValue(100);
-                    m_animation = new QGraphicsItemAnimation;
-                    m_animation->setItem(m_visualTip);
-                    m_animation->setTimeLine(m_animationTimer);
-                    m_visualTip->setPos(0, 0);
-                    double scale = 2.0;
-                    m_animation->setScaleAt(.5, scale, 1);
-                    m_animation->setPosAt(.5, QPointF(clip->rect().x() - clip->rect().x() * scale - clip->rect().width(), 0));
-                    scale = 1.0;
-                    m_animation->setScaleAt(1, scale, 1);
-                    m_animation->setPosAt(1, QPointF(clip->rect().x() - clip->rect().x() * scale, 0));
-                    scene()->addItem(m_visualTip);
-                    m_animationTimer->start();
-                }
-            } else if (opMode == FADEIN) {
-                if (m_visualTip == NULL) {
-                    ClipItem *item = (ClipItem *) clip;
-                    m_visualTip = new QGraphicsEllipseItem(item->rect().x() + item->fadeIn() * m_scale - size, item->rect().y() - 8, size * 2, 16);
-                    ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
-                    ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
-                    m_visualTip->setZValue(100);
-                    m_animation = new QGraphicsItemAnimation;
-                    m_animation->setItem(m_visualTip);
-                    m_animation->setTimeLine(m_animationTimer);
-                    m_visualTip->setPos(0, 0);
-                    double scale = 2.0;
-                    m_animation->setScaleAt(.5, scale, scale);
-                    m_animation->setPosAt(.5, QPointF(item->rect().x() - item->rect().x() * scale -  item->fadeIn() * m_scale, item->rect().y() - item->rect().y() * scale));
-                    scale = 1.0;
-                    m_animation->setScaleAt(1, scale, scale);
-                    m_animation->setPosAt(1, QPointF(item->rect().x() - item->rect().x() * scale, item->rect().y() - item->rect().y() * scale));
-                    scene()->addItem(m_visualTip);
-                    m_animationTimer->start();
-                }
-                setCursor(Qt::PointingHandCursor);
-            } else if (opMode == FADEOUT) {
-                if (m_visualTip == NULL) {
-                    ClipItem *item = (ClipItem *) clip;
-                    m_visualTip = new QGraphicsEllipseItem(item->rect().x() + item->rect().width() - item->fadeOut() * m_scale - size, item->rect().y() - 8, size*2, 16);
-                    ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
-                    ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
-                    m_visualTip->setZValue(100);
-                    m_animation = new QGraphicsItemAnimation;
-                    m_animation->setItem(m_visualTip);
-                    m_animation->setTimeLine(m_animationTimer);
-                    m_visualTip->setPos(0, 0);
-                    double scale = 2.0;
-                    m_animation->setScaleAt(.5, scale, scale);
-                    m_animation->setPosAt(.5, QPointF(item->rect().x() - item->rect().x() * scale - item->rect().width() + item->fadeOut() * m_scale, item->rect().y() - item->rect().y() * scale));
-                    scale = 1.0;
-                    m_animation->setScaleAt(1, scale, scale);
-                    m_animation->setPosAt(1, QPointF(item->rect().x() - item->rect().x() * scale, item->rect().y() - item->rect().y() * scale));
-                    scene()->addItem(m_visualTip);
-                    m_animationTimer->start();
-                }
-                setCursor(Qt::PointingHandCursor);
-            } else if (opMode == TRANSITIONSTART) {
-                if (m_visualTip == NULL) {
-                    m_visualTip = new QGraphicsEllipseItem(-5, -5 , 10, 10);
-                    ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
-                    ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
-                    m_visualTip->setZValue(100);
-                    m_animation = new QGraphicsItemAnimation;
-                    m_animation->setItem(m_visualTip);
-                    m_animation->setTimeLine(m_animationTimer);
-                    m_visualTip->setPos(clip->rect().x() + 10, clip->rect().y() + clip->rect().height() / 2 + 12);
-                    double scale = 2.0;
-                    m_animation->setScaleAt(.5, scale, scale);
-                    scale = 1.0;
-                    m_animation->setScaleAt(1, scale, scale);
-                    scene()->addItem(m_visualTip);
-                    m_animationTimer->start();
-                }
-                setCursor(Qt::PointingHandCursor);
-            } else if (opMode == TRANSITIONEND) {
-                if (m_visualTip == NULL) {
-                    m_visualTip = new QGraphicsEllipseItem(-5, -5 , 10, 10);
-                    ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
-                    ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
-                    m_visualTip->setZValue(100);
-                    m_animation = new QGraphicsItemAnimation;
-                    m_animation->setItem(m_visualTip);
-                    m_animation->setTimeLine(m_animationTimer);
-                    m_visualTip->setPos(clip->rect().x() + clip->rect().width() - 10 , clip->rect().y() + clip->rect().height() / 2 + 12);
-                    double scale = 2.0;
-                    m_animation->setScaleAt(.5, scale, scale);
-                    scale = 1.0;
-                    m_animation->setScaleAt(1, scale, scale);
-                    scene()->addItem(m_visualTip);
-                    m_animationTimer->start();
-                }
-                setCursor(Qt::PointingHandCursor);
-            }
-        } else if (opMode == MOVEGUIDE) {
-            m_moveOpMode = opMode;
-            setCursor(Qt::SplitHCursor);
         } else {
-            m_moveOpMode = NONE;
-            if (event->buttons() != Qt::NoButton && event->modifiers() == Qt::NoModifier) {
-                setCursorPos((int)(mapToScene(event->pos().x(), 0).x() / m_scale));
-            }
             if (m_visualTip) {
                 if (m_animation) delete m_animation;
-                m_animationTimer->stop();
                 m_animation = NULL;
+                m_animationTimer->stop();
                 delete m_visualTip;
                 m_visualTip = NULL;
-
             }
-            setCursor(Qt::ArrowCursor);
         }
+        m_moveOpMode = opMode;
+        if (opMode == MOVE) {
+            setCursor(Qt::OpenHandCursor);
+        } else if (opMode == RESIZESTART) {
+            setCursor(KCursor("left_side", Qt::SizeHorCursor));
+            if (m_visualTip == NULL) {
+                QPolygon polygon;
+                polygon << QPoint((int)clip->rect().x(), (int)(clip->rect().y() + clip->rect().height() / 2 - size * 2));
+                polygon << QPoint((int)(clip->rect().x() + size * 2), (int)(clip->rect().y() + clip->rect().height() / 2));
+                polygon << QPoint((int)clip->rect().x(), (int)(clip->rect().y() + clip->rect().height() / 2 + size * 2));
+                polygon << QPoint((int)clip->rect().x(), (int)(clip->rect().y() + clip->rect().height() / 2 - size * 2));
+
+                m_visualTip = new QGraphicsPolygonItem(polygon);
+                ((QGraphicsPolygonItem*) m_visualTip)->setBrush(m_tipColor);
+                ((QGraphicsPolygonItem*) m_visualTip)->setPen(m_tipPen);
+                m_visualTip->setZValue(100);
+                m_animation = new QGraphicsItemAnimation;
+                m_animation->setItem(m_visualTip);
+                m_animation->setTimeLine(m_animationTimer);
+                m_visualTip->setPos(0, 0);
+                double scale = 2.0;
+                m_animation->setScaleAt(.5, scale, 1);
+                m_animation->setPosAt(.5, QPointF(clip->rect().x() - clip->rect().x() * scale, 0));
+                scale = 1.0;
+                m_animation->setScaleAt(1, scale, 1);
+                m_animation->setPosAt(1, QPointF(clip->rect().x() - clip->rect().x() * scale, 0));
+                scene()->addItem(m_visualTip);
+                m_animationTimer->start();
+            }
+        } else if (opMode == RESIZEEND) {
+            setCursor(KCursor("right_side", Qt::SizeHorCursor));
+            if (m_visualTip == NULL) {
+                QPolygon polygon;
+                polygon << QPoint((int)(clip->rect().x() + clip->rect().width()), (int)(clip->rect().y() + clip->rect().height() / 2 - size * 2));
+                polygon << QPoint((int)(clip->rect().x() + clip->rect().width() - size * 2), (int)(clip->rect().y() + clip->rect().height() / 2));
+                polygon << QPoint((int)(clip->rect().x() + clip->rect().width()), (int)(clip->rect().y() + clip->rect().height() / 2 + size * 2));
+                polygon << QPoint((int)(clip->rect().x() + clip->rect().width()), (int)(clip->rect().y() + clip->rect().height() / 2 - size * 2));
+
+                m_visualTip = new QGraphicsPolygonItem(polygon);
+                ((QGraphicsPolygonItem*) m_visualTip)->setBrush(m_tipColor);
+                ((QGraphicsPolygonItem*) m_visualTip)->setPen(m_tipPen);
+
+                m_visualTip->setZValue(100);
+                m_animation = new QGraphicsItemAnimation;
+                m_animation->setItem(m_visualTip);
+                m_animation->setTimeLine(m_animationTimer);
+                m_visualTip->setPos(0, 0);
+                double scale = 2.0;
+                m_animation->setScaleAt(.5, scale, 1);
+                m_animation->setPosAt(.5, QPointF(clip->rect().x() - clip->rect().x() * scale - clip->rect().width(), 0));
+                scale = 1.0;
+                m_animation->setScaleAt(1, scale, 1);
+                m_animation->setPosAt(1, QPointF(clip->rect().x() - clip->rect().x() * scale, 0));
+                scene()->addItem(m_visualTip);
+                m_animationTimer->start();
+            }
+        } else if (opMode == FADEIN) {
+            if (m_visualTip == NULL) {
+                ClipItem *item = (ClipItem *) clip;
+                m_visualTip = new QGraphicsEllipseItem(item->rect().x() + item->fadeIn() * m_scale - size, item->rect().y() - 8, size * 2, 16);
+                ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
+                ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
+                m_visualTip->setZValue(100);
+                m_animation = new QGraphicsItemAnimation;
+                m_animation->setItem(m_visualTip);
+                m_animation->setTimeLine(m_animationTimer);
+                m_visualTip->setPos(0, 0);
+                double scale = 2.0;
+                m_animation->setScaleAt(.5, scale, scale);
+                m_animation->setPosAt(.5, QPointF(item->rect().x() - item->rect().x() * scale -  item->fadeIn() * m_scale, item->rect().y() - item->rect().y() * scale));
+                scale = 1.0;
+                m_animation->setScaleAt(1, scale, scale);
+                m_animation->setPosAt(1, QPointF(item->rect().x() - item->rect().x() * scale, item->rect().y() - item->rect().y() * scale));
+                scene()->addItem(m_visualTip);
+                m_animationTimer->start();
+            }
+            setCursor(Qt::PointingHandCursor);
+        } else if (opMode == FADEOUT) {
+            if (m_visualTip == NULL) {
+                ClipItem *item = (ClipItem *) clip;
+                m_visualTip = new QGraphicsEllipseItem(item->rect().x() + item->rect().width() - item->fadeOut() * m_scale - size, item->rect().y() - 8, size*2, 16);
+                ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
+                ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
+                m_visualTip->setZValue(100);
+                m_animation = new QGraphicsItemAnimation;
+                m_animation->setItem(m_visualTip);
+                m_animation->setTimeLine(m_animationTimer);
+                m_visualTip->setPos(0, 0);
+                double scale = 2.0;
+                m_animation->setScaleAt(.5, scale, scale);
+                m_animation->setPosAt(.5, QPointF(item->rect().x() - item->rect().x() * scale - item->rect().width() + item->fadeOut() * m_scale, item->rect().y() - item->rect().y() * scale));
+                scale = 1.0;
+                m_animation->setScaleAt(1, scale, scale);
+                m_animation->setPosAt(1, QPointF(item->rect().x() - item->rect().x() * scale, item->rect().y() - item->rect().y() * scale));
+                scene()->addItem(m_visualTip);
+                m_animationTimer->start();
+            }
+            setCursor(Qt::PointingHandCursor);
+        } else if (opMode == TRANSITIONSTART) {
+            if (m_visualTip == NULL) {
+                m_visualTip = new QGraphicsEllipseItem(-5, -5 , 10, 10);
+                ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
+                ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
+                m_visualTip->setZValue(100);
+                m_animation = new QGraphicsItemAnimation;
+                m_animation->setItem(m_visualTip);
+                m_animation->setTimeLine(m_animationTimer);
+                m_visualTip->setPos(clip->rect().x() + 10, clip->rect().y() + clip->rect().height() / 2 + 12);
+                double scale = 2.0;
+                m_animation->setScaleAt(.5, scale, scale);
+                scale = 1.0;
+                m_animation->setScaleAt(1, scale, scale);
+                scene()->addItem(m_visualTip);
+                m_animationTimer->start();
+            }
+            setCursor(Qt::PointingHandCursor);
+        } else if (opMode == TRANSITIONEND) {
+            if (m_visualTip == NULL) {
+                m_visualTip = new QGraphicsEllipseItem(-5, -5 , 10, 10);
+                ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
+                ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
+                m_visualTip->setZValue(100);
+                m_animation = new QGraphicsItemAnimation;
+                m_animation->setItem(m_visualTip);
+                m_animation->setTimeLine(m_animationTimer);
+                m_visualTip->setPos(clip->rect().x() + clip->rect().width() - 10 , clip->rect().y() + clip->rect().height() / 2 + 12);
+                double scale = 2.0;
+                m_animation->setScaleAt(.5, scale, scale);
+                scale = 1.0;
+                m_animation->setScaleAt(1, scale, scale);
+                scene()->addItem(m_visualTip);
+                m_animationTimer->start();
+            }
+            setCursor(Qt::PointingHandCursor);
+        } else if (opMode == KEYFRAME) {
+            setCursor(Qt::PointingHandCursor);
+        }
+    } // no clip under mouse
+    else if (opMode == MOVEGUIDE) {
+        m_moveOpMode = opMode;
+        setCursor(Qt::SplitHCursor);
+    } else {
+        m_moveOpMode = NONE;
+        if (event->buttons() != Qt::NoButton && event->modifiers() == Qt::NoModifier) {
+            setCursorPos((int)(mapToScene(event->pos().x(), 0).x() / m_scale));
+        }
+        if (m_visualTip) {
+            if (m_animation) delete m_animation;
+            m_animationTimer->stop();
+            m_animation = NULL;
+            delete m_visualTip;
+            m_visualTip = NULL;
+
+        }
+        setCursor(Qt::ArrowCursor);
     }
     QGraphicsView::mouseMoveEvent(event);
 }
@@ -428,7 +430,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         return;
     } else {
         bool collision = false;
-        m_dragItem = NULL;
         QList<QGraphicsItem *> collisionList = items(event->pos());
         if (collisionList.count() == 1 && collisionList.at(0)->type() == GUIDEITEM) {
             // a guide item was pressed
@@ -477,7 +478,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                     m_dragItemInfo.track = m_dragItem->track();
 
                     m_operationMode = m_dragItem->operationMode(item->mapFromScene(mapToScene(event->pos())), m_scale);
-                    if (m_operationMode == MOVE) setCursor(Qt::ClosedHandCursor);
+                    if (m_operationMode == KEYFRAME) {
+                        m_dragItem->updateSelectedKeyFrame();
+                        return;
+                    } else if (m_operationMode == MOVE) setCursor(Qt::ClosedHandCursor);
                     else if (m_operationMode == TRANSITIONSTART) {
                         ItemInfo info;
                         info.startPos = m_dragItem->startPos();
@@ -507,8 +511,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                     break;
                 }
             }
-        emit clipItemSelected((m_dragItem && m_dragItem->type() == AVWIDGET) ? (ClipItem*) m_dragItem : NULL);
-
         if (!collision) {
             kDebug() << "//////// NO ITEM FOUND ON CLICK";
             m_dragItem = NULL;
@@ -525,9 +527,20 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
             displayContextMenu(event->globalPos(), m_dragItem);
             m_dragItem = NULL;
         }
+        if (m_dragItem && m_dragItem->type() == AVWIDGET) emit clipItemSelected((ClipItem*) m_dragItem);
+        else emit clipItemSelected(NULL);
     }
     //kDebug()<<pos;
     //QGraphicsView::mousePressEvent(event);
+}
+
+void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event) {
+    if (m_dragItem && m_dragItem->hasKeyFrames()) {
+        m_dragItem->addKeyFrame(event->pos());
+        ClipItem * item = (ClipItem *) m_dragItem;
+        item->updateKeyframeEffect();
+        updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect());
+    }
 }
 
 void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip) {
@@ -1004,13 +1017,16 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
             EffectsList::setParameter(effect, "out", QString::number(end));
             slotAddEffect(effect, m_dragItem->startPos(), m_dragItem->track());
         }
+    } else if (m_operationMode == KEYFRAME) {
+        // update the MLT effect
+        ClipItem * item = (ClipItem *) m_dragItem;
+        item->updateKeyframeEffect();
+        updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect());
     }
-
 
     emit transitionItemSelected((m_dragItem && m_dragItem->type() == TRANSITIONWIDGET) ? (Transition*) m_dragItem : NULL);
     m_document->setModified(true);
     m_operationMode = NONE;
-    m_dragItem = NULL;
 }
 
 void CustomTrackView::deleteClip(ItemInfo info) {

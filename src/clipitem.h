@@ -42,15 +42,15 @@ public:
     virtual ~ ClipItem();
     virtual void paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
-                       QWidget *widget);
+                       QWidget *);
     virtual int type() const;
     void resizeStart(int posx, double scale);
     void resizeEnd(int posx, double scale);
     OPERATIONTYPE operationMode(QPointF pos, double scale);
-    int clipProducer();
-    int clipType();
-    DocClipBase *baseClip();
-    QString clipName();
+    int clipProducer() const;
+    int clipType() const;
+    DocClipBase *baseClip() const;
+    QString clipName() const;
     QDomElement xml() const;
 
     void setFadeOut(int pos, double scale);
@@ -78,12 +78,16 @@ public:
     /** update clip properties from base clip */
     void refreshClip();
     /** Returns a list of times for this clip's markers */
-    QList <GenTime> snapMarkers();
+    QList <GenTime> snapMarkers() const;
     uint fadeIn() const;
     uint fadeOut() const;
+    void setSelectedEffect(int ix);
+    void updateKeyframeEffect();
+    QDomElement selectedEffect();
+    int selectedEffectIndex() const;
 
 protected:
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
+    //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
     virtual void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
@@ -113,6 +117,7 @@ private:
 
     /** counter used to provide a unique id to each effect */
     int m_effectsCounter;
+    int m_selectedEffect;
     double m_opacity;
     QTimeLine *m_timeLine;
     uint m_thumbsRequested;
