@@ -604,7 +604,7 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track) 
     if (itemList.isEmpty()) {
         ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, track);
         if (clip) itemList.append(clip);
-        else kDebug() << "------   wrning, clip eff not found";
+        else emit displayMessage(i18n("Select a clip if you want to apply an effect"), ErrorMessage);
     }
     kDebug() << "// REQUESTING EFFECT ON CLIP: " << pos.frames(25) << ", TRK: " << track << "SELECTED ITEMS: " << itemList.count();
     for (int i = 0; i < itemList.count(); i++) {
@@ -756,7 +756,6 @@ void CustomTrackView::addItem(DocClipBase *clip, QPoint pos) {
 
 void CustomTrackView::dragMoveEvent(QDragMoveEvent * event) {
     event->setDropAction(Qt::IgnoreAction);
-    kDebug() << "+++++++++++++   DRAG MOVE, : " << mapToScene(event->pos()).x() << ", SCAL: " << m_scale;
     if (m_dropItem) {
         int track = (int)(mapToScene(event->pos()).y() / m_tracksHeight);  //) * (m_scale * 50) + m_scale;
         m_dropItem->moveTo((int)(mapToScene(event->pos()).x() / m_scale), m_scale, (int)((track - m_dropItem->track()) * m_tracksHeight), track);
@@ -924,7 +923,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
     if (m_operationMode == MOVE) {
         setCursor(Qt::OpenHandCursor);
         // move clip
-        if (m_dragItem->type() == AVWIDGET && m_dragItemInfo.startPos != info.startPos) {
+        if (m_dragItem->type() == AVWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
             MoveClipCommand *command = new MoveClipCommand(this, m_dragItemInfo, info, false);
             m_commandStack->push(command);
             m_document->renderer()->mltMoveClip((int)(m_tracksList.count() - m_dragItemInfo.track), (int)(m_tracksList.count() - m_dragItem->track()), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(m_dragItem->startPos().frames(m_document->fps())));
@@ -932,13 +931,12 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         if (m_dragItem->type() == TRANSITIONWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
             MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
             m_commandStack->push(command);
-            //kDebug()<<"/// MOVING TRS FROM: "<<(int)(m_tracksList.count() - m_startPos.y())<<", OFFSET: "<<(int) (m_dragItem->track() - m_startPos.y());
             Transition *transition = (Transition *) m_dragItem;
             transition->updateTransitionEndTrack(getPreviousVideoTrack(m_dragItem->track()));
             m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_tracksList.count() - m_dragItemInfo.track), (int)(m_tracksList.count() - m_dragItem->track()), transition->transitionEndTrack(), m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos);
         }
 
-    } else if (m_operationMode == RESIZESTART) {
+    } else if (m_operationMode == RESIZESTART && m_dragItem->startPos() != m_dragItemInfo.startPos) {
         // resize start
         if (m_dragItem->type() == AVWIDGET) {
             m_document->renderer()->mltResizeClipStart(m_tracksList.count() - m_dragItem->track(), m_dragItem->endPos(), m_dragItem->startPos(), m_dragItemInfo.startPos, m_dragItem->cropStart(), m_dragItem->cropStart() + m_dragItem->endPos() - m_dragItem->startPos());
@@ -953,7 +951,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         }
 
         //m_document->renderer()->doRefresh();
-    } else if (m_operationMode == RESIZEEND) {
+    } else if (m_operationMode == RESIZEEND && m_dragItem->endPos() != m_dragItemInfo.endPos) {
         // resize end
         if (m_dragItem->type() == AVWIDGET) {
             ResizeClipCommand *command = new ResizeClipCommand(this, m_dragItemInfo, info, false);
@@ -1145,6 +1143,7 @@ Transition *CustomTrackView::getTransitionItemAt(GenTime pos, int track) {
 void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
     ClipItem *item = getClipItemAt((int) start.startPos.frames(m_document->fps()) + 1, start.track);
     if (!item) {
+        emit displayMessage(i18n("Cannot move clip at time: %1s on track %2", start.startPos.seconds(), start.track), ErrorMessage);
         kDebug() << "----------------  ERROR, CANNOT find clip to move at.. ";// << startPos.x() * m_scale * FRAME_SIZE + 1 << ", " << startPos.y() * m_tracksHeight + m_tracksHeight / 2;
         return;
     }
@@ -1156,6 +1155,7 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
 void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end) {
     Transition *item = getTransitionItemAt((int)start.startPos.frames(m_document->fps()) + 1, start.track);
     if (!item) {
+        emit displayMessage(i18n("Cannot move transition at time: %1s on track %2", start.startPos.seconds(), start.track), ErrorMessage);
         kDebug() << "----------------  ERROR, CANNOT find transition to move... ";// << startPos.x() * m_scale * FRAME_SIZE + 1 << ", " << startPos.y() * m_tracksHeight + m_tracksHeight / 2;
         return;
     }
@@ -1185,6 +1185,7 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end) {
     else offset = -1;
     ClipItem *item = getClipItemAt((int)(start.startPos.frames(m_document->fps()) + offset), start.track);
     if (!item) {
+        emit displayMessage(i18n("Cannot move clip at time: %1s on track %2", start.startPos.seconds(), start.track), ErrorMessage);
         kDebug() << "----------------  ERROR, CANNOT find clip to resize at... "; // << startPos;
         return;
     }
@@ -1322,6 +1323,7 @@ void CustomTrackView::slotSeekToNextSnap() {
 void CustomTrackView::slotAddClipMarker() {
     QList<QGraphicsItem *> itemList = scene()->selectedItems();
     if (itemList.count() != 1) {
+        emit displayMessage(i18n("Cannot add marker if more than one clip is selected"), ErrorMessage);
         kDebug() << "// CANNOT ADD MARKER IF MORE TAN ONE CLIP IS SELECTED....";
         return;
     }
@@ -1348,6 +1350,7 @@ void CustomTrackView::slotAddClipMarker(int id, GenTime t, QString c) {
 void CustomTrackView::slotDeleteClipMarker() {
     QList<QGraphicsItem *> itemList = scene()->selectedItems();
     if (itemList.count() != 1) {
+        emit displayMessage(i18n("Cannot delete marker if more than one clip is selected"), ErrorMessage);
         kDebug() << "// CANNOT DELETE MARKER IF MORE TAN ONE CLIP IS SELECTED....";
         return;
     }
@@ -1367,6 +1370,7 @@ void CustomTrackView::slotDeleteClipMarker() {
 void CustomTrackView::slotEditClipMarker() {
     QList<QGraphicsItem *> itemList = scene()->selectedItems();
     if (itemList.count() != 1) {
+        emit displayMessage(i18n("Cannot edit marker if more than one clip is selected"), ErrorMessage);
         kDebug() << "// CANNOT DELETE MARKER IF MORE TAN ONE CLIP IS SELECTED....";
         return;
     }

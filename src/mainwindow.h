@@ -38,6 +38,7 @@
 #include "effectslist.h"
 #include "gentime.h"
 #include "definitions.h"
+#include "statusbarmessagelabel.h"
 
 class KdenliveDoc;
 class TrackView;
@@ -71,7 +72,6 @@ protected:
 private:
     KTabWidget* m_timelineArea;
     QProgressBar *statusProgressBar;
-    QLabel* statusLabel;
     void setupActions();
     KdenliveDoc *m_activeDocument;
     TrackView *m_activeTimeline;
@@ -126,6 +126,7 @@ private:
     QAction *m_buttonRazorTool;
     QActionGroup *m_toolGroup;
     QSlider *m_zoomSlider;
+    StatusBarMessageLabel *m_messageLabel;
 
     void readOptions();
     void saveOptions();

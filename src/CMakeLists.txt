@@ -113,6 +113,7 @@ set(kdenlive_SRCS
   markerdialog.cpp
   guide.cpp
   editguidecommand.cpp
+  statusbarmessagelabel.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

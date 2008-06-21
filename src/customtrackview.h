@@ -171,6 +171,7 @@ signals:
     void transitionItemSelected(Transition*);
     void activateDocumentMonitor();
     void trackHeightChanged();
+    void displayMessage(const QString, MessageType);
 };
 
 #endif

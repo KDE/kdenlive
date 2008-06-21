@@ -375,7 +375,7 @@ void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int a
 void KThumb::customEvent(QEvent * event) {
     if (event->type() == 10005) {
         ProgressEvent* p = (ProgressEvent*) event;
-        m_clipManager->setThumbsProgress(m_url.path(), p->value());
+        m_clipManager->setThumbsProgress(i18n("Creating thumbnail for %1", m_url.fileName()), p->value());
     }
 }
 

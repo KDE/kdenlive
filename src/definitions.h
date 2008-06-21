@@ -41,6 +41,13 @@ enum TRANSITIONTYPE {
     MIX_TRANSITION = 200
 };
 
+enum MessageType {
+    DefaultMessage,
+    OperationCompletedMessage,
+    InformationMessage,
+    ErrorMessage
+};
+
 enum TRACKTYPE { AUDIOTRACK = 0, VIDEOTRACK = 1 };
 
 struct TrackInfo {

@@ -209,7 +209,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event) {
         return;
 
     {
-        ProjectItem *clickItem = (ProjectItem *) itemAt(event->pos());
+        ProjectItem *clickItem = (ProjectItem *) itemAt(m_DragStartPosition); //event->pos());
         if (clickItem) {
             QDrag *drag = new QDrag(this);
             QMimeData *mimeData = new QMimeData;

@@ -365,7 +365,6 @@ void MainWindow::setupActions() {
     statusProgressBar->setMaximum(100);
     statusProgressBar->setMaximumWidth(150);
     statusProgressBar->setVisible(false);
-    statusLabel = new QLabel(this);
 
     QWidget *w = new QWidget;
 
@@ -404,14 +403,14 @@ void MainWindow::setupActions() {
     m_zoomSlider->setMaximumWidth(150);
     m_zoomSlider->setMinimumWidth(100);
 
-    const int contentHeight = QFontMetrics(w->font()).height() + 3;
+    const int contentHeight = QFontMetrics(w->font()).height() + 8;
     QString style = "QSlider::groove:horizontal { border: 1px solid #999999;height: 8px }";
     style.append("QSlider::handle:horizontal {  background-color: white; border: 1px solid #999999;width: 8px;margin: -2px 0;border-radius: 3px; }");
     m_zoomSlider->setStyleSheet(style);
 
     //m_zoomSlider->setMaximumHeight(contentHeight);
     //m_zoomSlider->height() + 5;
-    statusBar()->setMinimumHeight(contentHeight + 5);
+    statusBar()->setMinimumHeight(contentHeight);
 
 
     toolbar->addWidget(m_zoomSlider);
@@ -432,12 +431,17 @@ void MainWindow::setupActions() {
     connect(m_buttonShowMarkers, SIGNAL(triggered()), this, SLOT(slotSwitchMarkersComments()));
     layout->addWidget(toolbar);
 
-    statusBar()->insertPermanentWidget(0, statusProgressBar, 1);
-    statusBar()->insertPermanentWidget(1, statusLabel, 1);
+    m_messageLabel = new StatusBarMessageLabel(this);
+    m_messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    m_messageLabel->setMinimumTextHeight(contentHeight);
+
+    statusBar()->addWidget(m_messageLabel, 10);
+    statusBar()->addWidget(statusProgressBar, 0);
     statusBar()->insertPermanentWidget(ID_TIMELINE_BUTTONS, w);
     statusBar()->insertPermanentFixedItem("00:00:00:00", ID_TIMELINE_POS);
     statusBar()->insertPermanentWidget(ID_TIMELINE_FORMAT, m_timecodeFormat);
     statusBar()->setMaximumHeight(statusBar()->font().pointSize() * 4);
+    m_messageLabel->hide();
 
     actionCollection()->addAction("select_tool", m_buttonSelectTool);
     actionCollection()->addAction("razor_tool", m_buttonRazorTool);
@@ -825,6 +829,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(m_activeTimeline, SIGNAL(transitionItemSelected(Transition*)), transitionConfig, SLOT(slotTransitionItemSelected(Transition*)));
             disconnect(trackView, SIGNAL(transitionItemSelected(Transition*)), this, SLOT(slotActivateTransitionView()));
             disconnect(m_zoomSlider, SIGNAL(valueChanged(int)), m_activeTimeline, SLOT(slotChangeZoom(int)));
+            disconnect(trackView->projectView(), SIGNAL(displayMessage(const QString&, MessageType)), m_messageLabel, SLOT(setMessage(const QString&, MessageType)));
             disconnect(m_activeDocument, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
             disconnect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement)), m_activeTimeline->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement)));
             disconnect(effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), m_activeTimeline->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
@@ -864,6 +869,9 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(m_zoomSlider, SIGNAL(valueChanged(int)), trackView, SLOT(slotChangeZoom(int)));
     connect(trackView->projectView(), SIGNAL(zoomIn()), this, SLOT(slotZoomIn()));
     connect(trackView->projectView(), SIGNAL(zoomOut()), this, SLOT(slotZoomOut()));
+    connect(trackView->projectView(), SIGNAL(displayMessage(const QString&, MessageType)), m_messageLabel, SLOT(setMessage(const QString&, MessageType)));
+
+
     connect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement)), trackView->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement)));
     connect(effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), trackView->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
     connect(effectStack, SIGNAL(changeEffectState(ClipItem*, QDomElement, bool)), trackView->projectView(), SLOT(slotChangeEffectState(ClipItem*, QDomElement, bool)));
@@ -1035,10 +1043,10 @@ void MainWindow::slotFitZoom() {
 void MainWindow::slotGotProgressInfo(const QString &message, int progress) {
     statusProgressBar->setValue(progress);
     if (progress >= 0) {
-        if (!message.isEmpty()) statusLabel->setText(message);
+        if (!message.isEmpty()) m_messageLabel->setMessage(message, InformationMessage);//statusLabel->setText(message);
         statusProgressBar->setVisible(true);
     } else {
-        statusLabel->setText(QString());
+        m_messageLabel->setMessage(QString(), DefaultMessage);
         statusProgressBar->setVisible(false);
     }
 }
