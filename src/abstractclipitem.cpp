@@ -275,35 +275,35 @@ void AbstractClipItem::updateSelectedKeyFrame() {
 }
 
 void AbstractClipItem::updateKeyFramePos(const GenTime pos, const int value) {
-    if (m_selectedKeyframe == -1) return;
+    if (!m_keyframes.contains(m_selectedKeyframe)) return;
     QRectF br = rect();
     double maxh = br.height() / 100.0;
     double newval = (br.bottom() - value) / maxh;
     int newpos = (int) pos.frames(m_fps);
-    if (newval < -50 && m_selectedKeyframe != m_cropStart.frames(m_fps) && m_selectedKeyframe != (m_cropStart + m_cropDuration).frames(m_fps)) {
+    int start = m_cropStart.frames(m_fps);
+    int end = (m_cropStart + m_cropDuration).frames(m_fps);
+    newpos = qMax(newpos, start);
+    newpos = qMin(newpos, end);
+    if (newval < -50 && m_selectedKeyframe != start && m_selectedKeyframe != end) {
         // remove kexframe if it is dragged outside
         m_keyframes.remove(m_selectedKeyframe);
         m_selectedKeyframe = -1;
         update();
         return;
     }
-    if (newval > 150 && m_selectedKeyframe != m_cropStart.frames(m_fps) && m_selectedKeyframe != (m_cropStart + m_cropDuration).frames(m_fps)) {
+    if (newval > 150 && m_selectedKeyframe != start && m_selectedKeyframe != end) {
         // remove kexframe if it is dragged outside
         m_keyframes.remove(m_selectedKeyframe);
         m_selectedKeyframe = -1;
         update();
         return;
     }
-    if (newval < 0) newval = 0;
-    else if (newval > 100) newval = 100;
-    if (m_selectedKeyframe == m_cropStart.frames(m_fps) || m_selectedKeyframe == (m_cropStart + m_cropDuration).frames(m_fps)) {
-        // start and end keyframes should stay in place
-        m_keyframes[m_selectedKeyframe] = newval;
-    } else {
-        m_keyframes.remove(m_selectedKeyframe);
-        m_keyframes[newpos] = newval;
-        m_selectedKeyframe = newpos;
-    }
+    newval = qMax(newval, 0.0);
+    newval = qMin(newval, 100.0);
+
+    if (m_selectedKeyframe != newpos) m_keyframes.remove(m_selectedKeyframe);
+    m_keyframes[newpos] = newval;
+    m_selectedKeyframe = newpos;
     update();
 }
 

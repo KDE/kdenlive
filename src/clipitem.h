@@ -129,7 +129,8 @@ private:
     bool audioThumbWasDrawn, audioThumbReady;
     double framePixelWidth;
     QMap<int, QPainterPath > channelPaths;
-
+    /** Called when clip start is resized, adjust keyframes values */
+    void checkEffectsKeyframesPos(const int previous, const int current, bool fromStart);
 private slots:
     void slotThumbReady(int frame, QPixmap pix);
     void slotFetchThumbs();

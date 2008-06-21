@@ -110,10 +110,10 @@ void ClipItem::setSelectedEffect(int ix) {
     m_selectedEffect = ix;
     QDomElement effect = effectAt(m_selectedEffect);
     QDomNodeList params = effect.elementsByTagName("parameter");
-
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull() && e.attribute("type") == "keyframe") {
+            m_keyframes.clear();
             int max = e.attribute("max").toInt();
             int min = e.attribute("min").toInt();
             int def = e.attribute("default").toInt();
@@ -164,9 +164,6 @@ void ClipItem::updateKeyframeEffect() {
                 double y1;
                 while (i != m_keyframes.constEnd()) {
                     keyframes.append(QString::number(i.key()) + ":" + QString::number(i.value()) + ";");
-                    /*x1 = m_cropDuration.frames(m_fps) * i.key() / 100.0;
-                    y1 = (min + i.value() * (max - min) / 100.0) / factor;
-                    keyframes.append(QString::number(x1) + ":" + QString::number(y1) + ";");*/
                     ++i;
                 }
             }
@@ -688,14 +685,53 @@ void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *) {
 }
 
 void ClipItem::resizeStart(int posx, double scale) {
+    const int previous = cropStart().frames(m_fps);
     AbstractClipItem::resizeStart(posx, scale);
+    checkEffectsKeyframesPos(previous, cropStart().frames(m_fps), true);
     if (m_hasThumbs && KdenliveSettings::videothumbnails()) startThumbTimer->start(100);
 }
 
 void ClipItem::resizeEnd(int posx, double scale) {
+    const int previous = (cropStart() + duration()).frames(m_fps);
     AbstractClipItem::resizeEnd(posx, scale);
+    checkEffectsKeyframesPos(previous, (cropStart() + duration()).frames(m_fps), false);
     if (m_hasThumbs && KdenliveSettings::videothumbnails()) endThumbTimer->start(100);
 }
+
+
+void ClipItem::checkEffectsKeyframesPos(const int previous, const int current, bool fromStart) {
+    for (int i = 0; i < m_effectList.size(); i++) {
+        QDomElement effect = m_effectList.at(i);
+        QDomNodeList params = effect.elementsByTagName("parameter");
+        for (int j = 0; j < params.count(); j++) {
+            QDomElement e = params.item(i).toElement();
+            if (e.attribute("type") == "keyframe") {
+                // parse keyframes and adjust values
+                QStringList keyframes = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
+                QMap <int, double> kfr;
+                foreach(QString str, keyframes) {
+                    int pos = str.section(":", 0, 0).toInt();
+                    double val = str.section(":", 1, 1).toDouble();
+                    if (pos == previous) kfr[current] = val;
+                    else {
+                        if (fromStart && pos >= current) kfr[pos] = val;
+                        else if (!fromStart && pos <= current) kfr[pos] = val;
+                    }
+                }
+                QString newkfr;
+                QMap<int, double>::const_iterator k = kfr.constBegin();
+                while (k != kfr.constEnd()) {
+                    newkfr.append(QString::number(k.key()) + ":" + QString::number(k.value()) + ";");
+                    ++k;
+                }
+                e.setAttribute("keyframes", newkfr);
+                break;
+            }
+        }
+    }
+    setSelectedEffect(m_selectedEffect);
+}
+
 
 // virtual
 /*void ClipItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event) {

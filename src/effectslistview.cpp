@@ -74,7 +74,7 @@ void EffectsListView::showInfoPanel() {
 }
 
 void EffectsListView::slotEffectSelected() {
-    QDomElement effect = m_effectsList->currentEffect();
+    QDomElement effect = m_effectsList->currentEffect().cloneNode().toElement();
     if (!effect.isNull()) emit addEffect(effect);
 }
 
