@@ -117,8 +117,7 @@ void ClipItem::setSelectedEffect(int ix) {
             int max = e.attribute("max").toInt();
             int min = e.attribute("min").toInt();
             int def = e.attribute("default").toInt();
-            int factor = e.attribute("factor").toInt();
-            if (factor == 0) factor = 1;
+            double factor = e.attribute("factor", "1").toDouble();
 
             // Effect has a keyframe type parameter, we need to set the values
             if (e.attribute("keyframes").isEmpty()) {
@@ -154,8 +153,7 @@ void ClipItem::updateKeyframeEffect() {
             int max = e.attribute("max").toInt();
             int min = e.attribute("min").toInt();
             int def = e.attribute("default").toInt();
-            int factor = e.attribute("factor").toInt();
-            if (factor == 0) factor = 1;
+            double factor = e.attribute("factor", "1").toDouble();
             QString keyframes;
 
             if (m_keyframes.count() > 1) {
@@ -786,7 +784,8 @@ QMap <QString, QString> ClipItem::addEffect(QDomElement effect, bool animate) {
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull()) {
-            if (e.attribute("factor").isEmpty()) {
+			double f = e.attribute("factor", "1").toDouble();
+            if (f == 1) {
                 effectParams[e.attribute("name")] = e.attribute("value");
                 // check if it is a fade effect
                 if (effectId == "fadein") {
@@ -799,7 +798,7 @@ QMap <QString, QString> ClipItem::addEffect(QDomElement effect, bool animate) {
                     else if (e.attribute("name") == "in") fade += e.attribute("value").toInt();
                 }
             } else {
-                effectParams[e.attribute("name")] =  QString::number(effectParams[e.attribute("name")].toDouble() / e.attribute("factor").toDouble());
+                effectParams[e.attribute("name")] =  QString::number(effectParams[e.attribute("name")].toDouble() / f);
             }
         }
     }
@@ -833,7 +832,7 @@ QMap <QString, QString> ClipItem::getEffectArgs(QDomElement effect) {
             effectParams["keyframes"] = e.attribute("keyframes");
             effectParams["max"] = e.attribute("max");
             effectParams["min"] = e.attribute("min");
-            effectParams["factor"] = e.attribute("factor");
+            effectParams["factor"] = e.attribute("factor", "1");
             effectParams["starttag"] = e.attribute("starttag", "start");
             effectParams["endtag"] = e.attribute("endtag", "end");
         } else if (e.attribute("namedesc").contains(";")) {
@@ -849,9 +848,9 @@ QMap <QString, QString> ClipItem::getEffectArgs(QDomElement effect) {
                 txtNeu << (int)(values[i+1].toDouble());
             }
             effectParams["start"] = neu;
-        } else if (!e.isNull()) {
-            if (!e.attribute("factor").isEmpty())
-                effectParams[e.attribute("name")] =  QString::number(effectParams[e.attribute("value")].toDouble() / e.attribute("factor").toDouble());
+        } else {
+            if (e.attribute("factor", "1") != "1")
+                effectParams[e.attribute("name")] =  QString::number(e.attribute("value").toDouble() / e.attribute("factor").toDouble());
             else effectParams[e.attribute("name")] = e.attribute("value");
         }
     }
