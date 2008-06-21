@@ -379,7 +379,7 @@ bool Render::isValid(KUrl url) {
 }
 
 const double Render::dar() const {
-	return m_mltProfile->dar();
+    return m_mltProfile->dar();
 }
 
 void Render::getFileProperties(const QDomElement &xml, int clipId) {
@@ -397,10 +397,6 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
     char *tmp = decodedString(doc.toString());
     Mlt::Producer producer(*m_mltProfile, "westley-xml", tmp);
     delete[] tmp;
-
-/*	Mlt::Filter filter(*m_mltProfile, "rescale");
-	producer.attach(filter);*/
-    //mlt_properties_set_int( MLT_FILTER_PROPERTIES( filter ), "_fezzik", 1 );
 
     if (producer.is_blank()) {
         return;
@@ -434,24 +430,24 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
                 filePropertyMap["type"] = "video";
 
             mlt_image_format format = mlt_image_yuv422;
-            uint8_t* data;
             int frame_width = 0;
             int frame_height = 0;
-			//frame->set("rescale.interp", "hyper");
-			frame->set("normalised_height", height);
-			frame->set("normalised_width", width);
-            mlt_frame_get_image(frame->get_frame(), &data, &format, &frame_width, &frame_height, 0);
-			//kDebug()<<"/// GOT TUMB, SIZE: "<<frame_width<<"x"<<frame_height;
+            //frame->set("rescale.interp", "hyper");
+            frame->set("normalised_height", height);
+            frame->set("normalised_width", width);
             QPixmap pix(width, height);
+
+            uint8_t *data = frame->get_image(format, frame_width, frame_height, 0);
             uint8_t *new_image = (uint8_t *)mlt_pool_alloc(frame_width * (frame_height + 1) * 4);
             mlt_convert_yuv422_to_rgb24a((uint8_t *)data, new_image, frame_width * frame_height);
             QImage image((uchar *)new_image, frame_width, frame_height, QImage::Format_ARGB32);
 
             if (!image.isNull()) {
-                image = image.rgbSwapped();// = image.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation).rgbSwapped();
-                pix = pix.fromImage(image);
-            } else pix.fill(Qt::black);
-			mlt_pool_release(new_image);
+                pix = pix.fromImage(image.rgbSwapped());
+            } else
+                pix.fill(Qt::black);
+
+            mlt_pool_release(new_image);
             emit replyGetImage(clipId, 0, pix, width, height);
 
         } else if (frame->get_int("test_audio") == 0) {
@@ -1150,16 +1146,17 @@ void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
     char *filterId = decodedString(args.value("id"));
     QMap<QString, QString>::Iterator it;
     QString kfr = args.value("keyframes");
-    
+
     if (!kfr.isEmpty()) {
-		QStringList keyFrames = kfr.split(";");
+        QStringList keyFrames = kfr.split(";", QString::SkipEmptyParts);
         kDebug() << "// ADDING KEYFRAME EFFECT: " << args.value("keyframes");
         char *starttag = decodedString(args.value("starttag"));
         char *endtag = decodedString(args.value("endtag", "end"));
+        kDebug() << "// ADDING KEYFRAME TAGS: " << starttag << ", " << endtag;
         int duration = clip->get_playtime();
         int max = args.value("max").toInt();
         int min = args.value("min").toInt();
-        int factor = args.value("factor").toInt();
+        int factor = args.value("factor", "1").toInt();
         args.remove("starttag");
         args.remove("endtag");
         args.remove("keyframes");
@@ -1167,10 +1164,10 @@ void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterTag);
             filter->set("kdenlive_id", filterId);
             int x1 = keyFrames.at(i).section(":", 0, 0).toInt();
-            int y1 = keyFrames.at(i).section(":", 1, 1).toInt();
+            double y1 = keyFrames.at(i).section(":", 1, 1).toDouble();
             int x2 = keyFrames.at(i + 1).section(":", 0, 0).toInt();
-            int y2 = keyFrames.at(i + 1).section(":", 1, 1).toInt();
-
+            double y2 = keyFrames.at(i + 1).section(":", 1, 1).toDouble();
+            if (x2 == -1) x2 = duration;
             for (it = args.begin(); it != args.end(); ++it) {
                 char *name = decodedString(it.key());
                 char *value = decodedString(it.value());
@@ -1179,11 +1176,11 @@ void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
                 delete[] value;
             }
 
-            filter->set("in", duration / 100 * x1);
-            filter->set("out", duration / 100 * x2);
-            filter->set(starttag, (min + y1 * 100 / (max - min)) / factor);
-            filter->set(endtag, (min + y2 * 100 / (max - min)) / factor);
-            kDebug() << "// SETTING FILT VALS: " << duration / 100 * x1 << " to " << duration / 100 * x2 << ", STAT:" << (min + y1 * 100 / (max - min)) / factor << "end: " << (min + y2 * 100 / (max - min)) / factor;
+            filter->set("in", x1);
+            filter->set("out", x2);
+            //kDebug() << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
+            filter->set(starttag, QString::number((min + y1 * (max - min) / 100.0) / factor).toUtf8().data());
+            filter->set(endtag, QString::number((min + y2 * (max - min) / 100.0) / factor).toUtf8().data());
             clipService.attach(*filter);
 
         }

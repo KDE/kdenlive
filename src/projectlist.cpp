@@ -444,8 +444,8 @@ void ProjectList::slotRefreshClipThumbnail(int clipId) {
 
 void ProjectList::slotRefreshClipThumbnail(ProjectItem *item) {
     if (item) {
-		int height = 50;
-		int width = (int)(height  * m_render->dar());
+        int height = 50;
+        int width = (int)(height  * m_render->dar());
         QPixmap pix = KThumb::getImage(item->toXml(), item->referencedClip()->getProjectThumbFrame(), width, height);
         //QPixmap pix = KThumb::getFrame(item->toXml()), 0, width, height);
         item->setIcon(0, pix);

@@ -104,6 +104,7 @@ int ClipItem::selectedEffectIndex() const {
     return m_selectedEffect;
 }
 
+
 void ClipItem::setSelectedEffect(int ix) {
     //if (ix == m_selectedEffect) return;
     m_selectedEffect = ix;
@@ -122,19 +123,15 @@ void ClipItem::setSelectedEffect(int ix) {
             // Effect has a keyframe type parameter, we need to set the values
             if (e.attribute("keyframes").isEmpty()) {
                 // no keyframes defined, set up 2 keyframes (start and end) with default value.
-                m_keyframes[0] = 100 * def / (max - min);
-                m_keyframes[100] = 100 * def / (max - min);
+                m_keyframes[m_cropStart.frames(m_fps)] = 100 * def / (max - min);
+                m_keyframes[(m_cropStart + m_cropDuration).frames(m_fps)] = 100 * def / (max - min);
             } else {
                 // parse keyframes
-                QStringList keyframes = e.attribute("keyframes").split(";");
+                QStringList keyframes = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
                 foreach(QString str, keyframes) {
-                    if (!str.isEmpty()) {
-                        int pos = str.section(":", 0, 0).toInt();
-                        int val = str.section(":", 1, 1).toInt();
-                        /*int frame = (int) (pos * 100 / m_cropDuration.frames(m_fps));
-                        int value = (int) (((val * factor) - min) * 100 * factor / (max - min));*/
-                        m_keyframes[pos] = val;
-                    }
+                    int pos = str.section(":", 0, 0).toInt();
+                    double val = str.section(":", 1, 1).toDouble();
+                    m_keyframes[pos] = val;
                 }
             }
             update();
@@ -162,7 +159,7 @@ void ClipItem::updateKeyframeEffect() {
             QString keyframes;
 
             if (m_keyframes.count() > 1) {
-                QMap<int, int>::const_iterator i = m_keyframes.constBegin();
+                QMap<int, double>::const_iterator i = m_keyframes.constBegin();
                 double x1;
                 double y1;
                 while (i != m_keyframes.constEnd()) {
@@ -801,8 +798,8 @@ QMap <QString, QString> ClipItem::getEffectArgs(QDomElement effect) {
             effectParams["max"] = e.attribute("max");
             effectParams["min"] = e.attribute("min");
             effectParams["factor"] = e.attribute("factor");
-            effectParams["starttag"] = e.attribute("starttag");
-            effectParams["endtag"] = e.attribute("endtag");
+            effectParams["starttag"] = e.attribute("starttag", "start");
+            effectParams["endtag"] = e.attribute("endtag", "end");
         } else if (e.attribute("namedesc").contains(";")) {
             QString format = e.attribute("format");
             QStringList separators = format.split("%d", QString::SkipEmptyParts);

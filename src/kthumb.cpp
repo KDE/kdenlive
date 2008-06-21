@@ -162,7 +162,7 @@ void KThumb::extractImage(int frame, int frame2) {
     Mlt::Producer producer(*m_profile, "westley-xml", tmp);
     delete[] tmp;
 
-    int twidth = (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio());
+    int twidth = (int)(KdenliveSettings::trackheight() * m_profile->dar());
     if (producer.is_blank()) {
         QPixmap pix(twidth, KdenliveSettings::trackheight());
         pix.fill(Qt::black);
@@ -170,14 +170,13 @@ void KThumb::extractImage(int frame, int frame2) {
         return;
     }
     if (frame != -1) {
-        QPixmap pix = getFrame(&producer, frame, twidth, KdenliveSettings::trackheight());
+        QPixmap pix = getFrame(producer, frame, twidth, KdenliveSettings::trackheight());
         emit thumbReady(frame, pix);
     }
     if (frame2 != -1) {
-        QPixmap pix = getFrame(&producer, frame2, twidth , KdenliveSettings::trackheight());
+        QPixmap pix = getFrame(producer, frame2, twidth , KdenliveSettings::trackheight());
         emit thumbReady(frame2, pix);
     }
-
 }
 
 //static
@@ -196,7 +195,7 @@ QPixmap KThumb::getImage(KUrl url, int frame, int width, int height) {
         pix.fill(Qt::black);
         return pix;
     }
-    return getFrame(&producer, frame, width, height);
+    return getFrame(producer, frame, width, height);
 }
 
 //static
@@ -217,35 +216,35 @@ QPixmap KThumb::getImage(QDomElement xml, int frame, int width, int height) {
         pix.fill(Qt::black);
         return pix;
     }
-    return getFrame(&producer, frame, width, height);
+    return getFrame(producer, frame, width, height);
 }
 
 //static
-QPixmap KThumb::getFrame(Mlt::Producer* producer, int framepos, int width, int height) {
+QPixmap KThumb::getFrame(Mlt::Producer producer, int framepos, int width, int height) {
     if (framepos > 0)
-        producer->seek(framepos);
-    Mlt::Frame *frame = producer->get_frame();
+        producer.seek(framepos);
 
+    Mlt::Frame *frame = producer.get_frame();
     mlt_image_format format = mlt_image_yuv422;
-    uint8_t* data;
     int frame_width = 0;
     int frame_height = 0;
-	//frame->set("rescale.interp", "nearest");
-	frame->set("normalised_height", height);
-	frame->set("normalised_width", width);
-    mlt_frame_get_image(frame->get_frame(), &data, &format, &frame_width, &frame_height, 0);
+    frame->set("normalised_height", height);
+    frame->set("normalised_width", width);
     QPixmap pix(width, height);
+
+    uint8_t *data = frame->get_image(format, frame_width, frame_height, 0);
     uint8_t *new_image = (uint8_t *)mlt_pool_alloc(frame_width * (frame_height + 1) * 4);
     mlt_convert_yuv422_to_rgb24a((uint8_t *)data, new_image, frame_width * frame_height);
     QImage image((uchar *)new_image, frame_width, frame_height, QImage::Format_ARGB32);
 
     if (!image.isNull()) {
-        //QImage scale = image.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation).rgbSwapped();
-		image = image.rgbSwapped();
-        pix = pix.fromImage(image);
-    } else pix.fill(Qt::black);
-	mlt_pool_release(new_image);
-    if (frame) delete frame;
+        pix = pix.fromImage(image.rgbSwapped());
+    } else
+        pix.fill(Qt::black);
+
+    mlt_pool_release(new_image);
+    delete frame;
+
     return pix;
 }
 /*

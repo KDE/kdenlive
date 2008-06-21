@@ -199,7 +199,8 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                 int pos = (int)(mapToScene(event->pos()).x() / m_scale);
                 ((ClipItem*) m_dragItem)->setFadeOut((int)(m_dragItem->endPos().frames(m_document->fps()) - pos), m_scale);
             } else if (m_operationMode == KEYFRAME) {
-                m_dragItem->updateKeyFramePos(event->pos());
+                GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x() / m_scale), m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
+                m_dragItem->updateKeyFramePos(keyFramePos, mapToScene(event->pos()).toPoint().y());
             }
 
             if (m_animation) delete m_animation;
@@ -536,7 +537,8 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
 
 void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event) {
     if (m_dragItem && m_dragItem->hasKeyFrames()) {
-        m_dragItem->addKeyFrame(event->pos());
+        GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x() / m_scale), m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
+        m_dragItem->addKeyFrame(keyFramePos, mapToScene(event->pos()).toPoint().y());
         ClipItem * item = (ClipItem *) m_dragItem;
         item->updateKeyframeEffect();
         updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect());

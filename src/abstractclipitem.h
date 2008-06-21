@@ -30,9 +30,9 @@ class AbstractClipItem : public QObject , public QGraphicsRectItem {
 public:
     AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps);
     void updateSelectedKeyFrame();
-    void updateKeyFramePos(const QPoint pos);
-    void addKeyFrame(const QPoint pos);
-    bool hasKeyFrames();
+    void updateKeyFramePos(const GenTime pos, const int value);
+    void addKeyFrame(const GenTime pos, const int value);
+    bool hasKeyFrames() const;
 
     virtual  OPERATIONTYPE operationMode(QPointF pos, double scale) = 0;
     virtual GenTime startPos() const ;
@@ -41,7 +41,7 @@ public:
     virtual int track() const ;
     virtual void moveTo(int x, double scale, int offset, int newTrack);
     virtual GenTime cropStart() const ;
-    virtual  void resizeStart(int posx, double scale);
+    virtual void resizeStart(int posx, double scale);
     virtual void resizeEnd(int posx, double scale);
     virtual GenTime duration() const;
     virtual double fps() const;
@@ -56,7 +56,7 @@ protected:
     GenTime m_cropDuration;
     GenTime m_startPos;
     GenTime m_maxDuration;
-    QMap <int, int> m_keyframes;
+    QMap <int, double> m_keyframes;
     double m_fps;
     QPainterPath upperRectPart(QRectF);
     QPainterPath lowerRectPart(QRectF);
