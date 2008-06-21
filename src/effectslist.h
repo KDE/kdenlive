@@ -38,7 +38,7 @@ public:
     QStringList effectNames();
     QString getInfo(QString effectName);
     QMap <QString, QString> effect(const QString & name);
-
+    static bool hasKeyFrames(QDomElement effect);
     static void setParameter(QDomElement effect, QString name, QString value);
 };
 

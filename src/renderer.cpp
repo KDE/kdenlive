@@ -1150,17 +1150,20 @@ void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
     if (!kfr.isEmpty()) {
         QStringList keyFrames = kfr.split(";", QString::SkipEmptyParts);
         kDebug() << "// ADDING KEYFRAME EFFECT: " << args.value("keyframes");
-        char *starttag = decodedString(args.value("starttag"));
+        char *starttag = decodedString(args.value("starttag", "start"));
         char *endtag = decodedString(args.value("endtag", "end"));
         kDebug() << "// ADDING KEYFRAME TAGS: " << starttag << ", " << endtag;
         int duration = clip->get_playtime();
-        int max = args.value("max").toInt();
-        int min = args.value("min").toInt();
+        double max = args.value("max").toDouble();
+        double min = args.value("min").toDouble();
         double factor = args.value("factor", "1").toDouble();
         args.remove("starttag");
         args.remove("endtag");
         args.remove("keyframes");
-		int offset = 0;
+        args.remove("min");
+        args.remove("max");
+        args.remove("factor");
+        int offset = 0;
         for (int i = 0; i < keyFrames.size() - 1; ++i) {
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterTag);
             filter->set("kdenlive_id", filterId);
@@ -1183,7 +1186,7 @@ void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
             filter->set(starttag, QString::number((min + y1 * (max - min) / 100.0) / factor).toUtf8().data());
             filter->set(endtag, QString::number((min + y2 * (max - min) / 100.0) / factor).toUtf8().data());
             clipService.attach(*filter);
-			offset = 1;
+            offset = 1;
         }
         delete[] starttag;
         delete[] endtag;

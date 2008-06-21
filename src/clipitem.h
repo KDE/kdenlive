@@ -85,6 +85,7 @@ public:
     void updateKeyframeEffect();
     QDomElement selectedEffect();
     int selectedEffectIndex() const;
+    void initEffect(QDomElement effect);
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);

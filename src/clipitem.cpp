@@ -104,6 +104,32 @@ int ClipItem::selectedEffectIndex() const {
     return m_selectedEffect;
 }
 
+void ClipItem::initEffect(QDomElement effect) {
+    // the kdenlive_ix int is used to identify an effect in mlt's playlist, should
+    // not be changed
+    if (effect.attribute("kdenlive_ix").toInt() == 0)
+        effect.setAttribute("kdenlive_ix", QString::number(effectsCounter()));
+    // init keyframes if required
+    QDomNodeList params = effect.elementsByTagName("parameter");
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        if (!e.isNull() && e.attribute("type") == "keyframe") {
+            double max = e.attribute("max").toDouble();
+            double min = e.attribute("min").toDouble();
+            double def = e.attribute("default").toDouble();
+            double factor = e.attribute("factor", "1").toDouble();
+
+            // Effect has a keyframe type parameter, we need to set the values
+            if (e.attribute("keyframes").isEmpty()) {
+                // no keyframes defined, set up 2 keyframes (start and end) with default value.
+                e.setAttribute("keyframes", QString::number(m_cropStart.frames(m_fps)) + ":" + QString::number(100 * def / (max - min)) + ";" + QString::number((m_cropStart + m_cropDuration).frames(m_fps)) + ":" + QString::number(100 * def / (max - min)));
+                //kDebug() << "///// EFFECT KEYFRAMES INITED: " << e.attribute("keyframes");
+                break;
+            }
+        }
+    }
+}
+
 
 void ClipItem::setSelectedEffect(int ix) {
     //if (ix == m_selectedEffect) return;
@@ -114,24 +140,25 @@ void ClipItem::setSelectedEffect(int ix) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull() && e.attribute("type") == "keyframe") {
             m_keyframes.clear();
-            int max = e.attribute("max").toInt();
-            int min = e.attribute("min").toInt();
-            int def = e.attribute("default").toInt();
+            double max = e.attribute("max").toDouble();
+            double min = e.attribute("min").toDouble();
+            double def = e.attribute("default").toDouble();
             double factor = e.attribute("factor", "1").toDouble();
 
             // Effect has a keyframe type parameter, we need to set the values
-            if (e.attribute("keyframes").isEmpty()) {
+            /*if (e.attribute("keyframes").isEmpty()) {
                 // no keyframes defined, set up 2 keyframes (start and end) with default value.
                 m_keyframes[m_cropStart.frames(m_fps)] = 100 * def / (max - min);
                 m_keyframes[(m_cropStart + m_cropDuration).frames(m_fps)] = 100 * def / (max - min);
-            } else {
-                // parse keyframes
-                QStringList keyframes = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
-                foreach(QString str, keyframes) {
-                    int pos = str.section(":", 0, 0).toInt();
-                    double val = str.section(":", 1, 1).toDouble();
-                    m_keyframes[pos] = val;
-                }
+            e.setAttribute("keyframes", QString::number(m_cropStart.frames(m_fps)) + ":" + QString::number(100 * def / (max - min)) + ";" + QString::number((m_cropStart + m_cropDuration).frames(m_fps)) + ":" + QString::number(100 * def / (max - min)));
+            } else {*/
+            // parse keyframes
+            QStringList keyframes = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
+            foreach(QString str, keyframes) {
+                int pos = str.section(":", 0, 0).toInt();
+                double val = str.section(":", 1, 1).toDouble();
+                m_keyframes[pos] = val;
+                //}
             }
             update();
             return;
@@ -784,7 +811,17 @@ QMap <QString, QString> ClipItem::addEffect(QDomElement effect, bool animate) {
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull()) {
-			double f = e.attribute("factor", "1").toDouble();
+            if (e.attribute("type") == "keyframe") {
+                effectParams["keyframes"] = e.attribute("keyframes");
+                effectParams["min"] = e.attribute("min");
+                effectParams["max"] = e.attribute("max");
+                effectParams["factor"] = e.attribute("factor", "1");
+                effectParams["starttag"] = e.attribute("starttag", "start");
+                effectParams["endtag"] = e.attribute("endtag", "end");
+            }
+
+            double f = e.attribute("factor", "1").toDouble();
+
             if (f == 1) {
                 effectParams[e.attribute("name")] = e.attribute("value");
                 // check if it is a fade effect
