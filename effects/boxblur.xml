@@ -4,7 +4,7 @@
 	<description>Blur image with keyframes</description>
 	<author>Leny Grisel</author>
 	<properties id="boxblur" tag="boxblur" />
-	<parameter type="double" name="blur" max="100" min="0" default="5">
+	<parameter type="keyframe" name="blur" max="100" min="0" default="5">
 		<name>Blur factor</name>
 	</parameter>
 	<parameter type="constant" name="hori" max="50" min="1" default="1">

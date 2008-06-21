@@ -4,7 +4,7 @@
 	<description>Make waves on your clip with keyframes</description>
 	<author>Leny Grisel</author>
 	<properties id="wave" tag="wave" />
-	<parameter type="double" name="start" max="100" min="0" default="5">
+	<parameter type="keyframe" name="start" max="100" min="0" default="5">
 		<name>Amplitude</name>
 	</parameter>
 	<parameter type="constant" name="deformX" max="100" min="0" default="1">
