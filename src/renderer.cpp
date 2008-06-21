@@ -1156,14 +1156,15 @@ void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
         int duration = clip->get_playtime();
         int max = args.value("max").toInt();
         int min = args.value("min").toInt();
-        int factor = args.value("factor", "1").toInt();
+        double factor = args.value("factor", "1").toDouble();
         args.remove("starttag");
         args.remove("endtag");
         args.remove("keyframes");
+		int offset = 0;
         for (int i = 0; i < keyFrames.size() - 1; ++i) {
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterTag);
             filter->set("kdenlive_id", filterId);
-            int x1 = keyFrames.at(i).section(":", 0, 0).toInt();
+            int x1 = keyFrames.at(i).section(":", 0, 0).toInt() + offset;
             double y1 = keyFrames.at(i).section(":", 1, 1).toDouble();
             int x2 = keyFrames.at(i + 1).section(":", 0, 0).toInt();
             double y2 = keyFrames.at(i + 1).section(":", 1, 1).toDouble();
@@ -1182,7 +1183,7 @@ void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
             filter->set(starttag, QString::number((min + y1 * (max - min) / 100.0) / factor).toUtf8().data());
             filter->set(endtag, QString::number((min + y2 * (max - min) / 100.0) / factor).toUtf8().data());
             clipService.attach(*filter);
-
+			offset = 1;
         }
         delete[] starttag;
         delete[] endtag;
