@@ -18,11 +18,13 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <KDebug>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QScrollBar>
 #include <QToolTip>
+
+#include <KDebug>
+#include <KLocale>
 
 #include "abstractclipitem.h"
 
@@ -269,7 +271,7 @@ int AbstractClipItem::mouseOverKeyFrames(QPointF pos) {
             x1 = br.x() + maxw * (i.key() - m_cropStart.frames(m_fps));
             y1 = br.bottom() - i.value() * maxh;
             if (qAbs(pos.x() - x1) < 6 && qAbs(pos.y() - y1) < 6) {
-                setToolTip("[" + QString::number(i.key()) + " frames, " + QString::number(i.value(), 'f', 1) + "%]");
+                setToolTip("[" + QString::number((GenTime(i.key(), m_fps) - m_cropStart).seconds(), 'f', 2) + i18n("seconds") + ", " + QString::number(i.value(), 'f', 1) + "%]");
                 return i.key();
             } else if (x1 > pos.x()) break;
             ++i;
