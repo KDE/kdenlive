@@ -55,6 +55,7 @@
 #include "renderer.h"
 #include "markerdialog.h"
 #include "mainwindow.h"
+#include "ui_keyframedialog_ui.h"
 
 
 //TODO:
@@ -200,7 +201,11 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                 ((ClipItem*) m_dragItem)->setFadeOut((int)(m_dragItem->endPos().frames(m_document->fps()) - pos), m_scale);
             } else if (m_operationMode == KEYFRAME) {
                 GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x() / m_scale), m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
-                m_dragItem->updateKeyFramePos(keyFramePos, mapToScene(event->pos()).toPoint().y());
+                double pos = mapToScene(event->pos()).toPoint().y();
+                QRectF br = m_dragItem->rect();
+                double maxh = 100.0 / br.height();
+                pos = (br.bottom() - pos) * maxh;
+                m_dragItem->updateKeyFramePos(keyFramePos, pos);
             }
 
             if (m_animation) delete m_animation;
@@ -539,6 +544,19 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event) {
     if (m_dragItem && m_dragItem->hasKeyFrames()) {
         if (m_moveOpMode == KEYFRAME) {
             // user double clicked on a keyframe, open edit dialog
+            QDialog d(parentWidget());
+            Ui::KeyFrameDialog_UI view;
+            view.setupUi(&d);
+            view.kfr_position->setText(m_document->timecode().getTimecode(GenTime(m_dragItem->selectedKeyFramePos(), m_document->fps()), m_document->fps()));
+            view.kfr_value->setValue(m_dragItem->selectedKeyFrameValue());
+            view.kfr_value->setFocus();
+            if (d.exec() == QDialog::Accepted) {
+                int pos = m_document->timecode().getFrameCount(view.kfr_position->text(), m_document->fps());
+                m_dragItem->updateKeyFramePos(GenTime(pos, m_document->fps()), (double) view.kfr_value->value() * m_dragItem->keyFrameFactor());
+                ClipItem *item = (ClipItem *)m_dragItem;
+                item->updateKeyframeEffect();
+                updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect());
+            }
 
         } else  {
             // add keyframe

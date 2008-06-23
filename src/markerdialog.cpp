@@ -91,7 +91,6 @@ MarkerDialog::~MarkerDialog() {
 void MarkerDialog::slotUpdateThumb() {
     m_previewTimer->stop();
     int pos = m_tc.getFrameCount(m_view.marker_position->text(), m_fps);
-    kDebug() << "// getting thumb for: " << pos;
     QPixmap p = KThumb::getFrame(*m_producer, pos, (int)(100 * m_dar), 100);
     if (!p.isNull()) m_view.clip_thumb->setPixmap(p);
     else kDebug() << "!!!!!!!!!!!  ERROR CREATING THUMB";

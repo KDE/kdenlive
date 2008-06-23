@@ -30,9 +30,12 @@ class AbstractClipItem : public QObject , public QGraphicsRectItem {
 public:
     AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps);
     void updateSelectedKeyFrame();
-    void updateKeyFramePos(const GenTime pos, const int value);
-    void addKeyFrame(const GenTime pos, const int value);
+    void updateKeyFramePos(const GenTime pos, const double value);
+    void addKeyFrame(const GenTime pos, const double value);
     bool hasKeyFrames() const;
+    int selectedKeyFramePos() const;
+    double selectedKeyFrameValue() const;
+    double keyFrameFactor() const;
 
     virtual  OPERATIONTYPE operationMode(QPointF pos, double scale) = 0;
     virtual GenTime startPos() const ;

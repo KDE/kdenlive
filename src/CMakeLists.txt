@@ -49,6 +49,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/trackheader_ui.ui
   widgets/clipproperties_ui.ui
   widgets/markerdialog_ui.ui
+  widgets/keyframedialog_ui.ui
 )
  
 set(kdenlive_SRCS 

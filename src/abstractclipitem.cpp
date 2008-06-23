@@ -26,7 +26,7 @@
 
 #include "abstractclipitem.h"
 
-AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps): QGraphicsRectItem(rect), m_track(0), m_fps(fps), m_editedKeyframe(-1), m_selectedKeyframe(0) {
+AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps): QGraphicsRectItem(rect), m_track(0), m_fps(fps), m_editedKeyframe(-1), m_selectedKeyframe(0), m_keyframeFactor(1) {
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setTrack(info.track);
     m_startPos = info.startPos;
@@ -289,31 +289,36 @@ void AbstractClipItem::updateSelectedKeyFrame() {
     update(br.x() + maxw * (m_selectedKeyframe - m_cropStart.frames(m_fps)) - 3, br.bottom() - m_keyframes[m_selectedKeyframe] * maxh - 3, 12, 12);
 }
 
-void AbstractClipItem::updateKeyFramePos(const GenTime pos, const int value) {
+int AbstractClipItem::selectedKeyFramePos() const {
+    return m_editedKeyframe;
+}
+
+double AbstractClipItem::selectedKeyFrameValue() const {
+    return m_keyframes[m_editedKeyframe];
+}
+
+void AbstractClipItem::updateKeyFramePos(const GenTime pos, const double value) {
     if (!m_keyframes.contains(m_selectedKeyframe)) return;
-    QRectF br = rect();
-    double maxh = 100.0 / br.height();
-    double newval = (br.bottom() - value) * maxh;
     int newpos = (int) pos.frames(m_fps);
     int start = m_cropStart.frames(m_fps);
     int end = (m_cropStart + m_cropDuration).frames(m_fps);
     newpos = qMax(newpos, start);
     newpos = qMin(newpos, end);
-    if (newval < -50 && m_selectedKeyframe != start && m_selectedKeyframe != end) {
+    if (value < -50 && m_selectedKeyframe != start && m_selectedKeyframe != end) {
         // remove kexframe if it is dragged outside
         m_keyframes.remove(m_selectedKeyframe);
         m_selectedKeyframe = -1;
         update();
         return;
     }
-    if (newval > 150 && m_selectedKeyframe != start && m_selectedKeyframe != end) {
+    if (value > 150 && m_selectedKeyframe != start && m_selectedKeyframe != end) {
         // remove kexframe if it is dragged outside
         m_keyframes.remove(m_selectedKeyframe);
         m_selectedKeyframe = -1;
         update();
         return;
     }
-    newval = qMax(newval, 0.0);
+    double newval = qMax(value, 0.0);
     newval = qMin(newval, 100.0);
     newval = newval / m_keyframeFactor;
     if (m_selectedKeyframe != newpos) m_keyframes.remove(m_selectedKeyframe);
@@ -322,7 +327,11 @@ void AbstractClipItem::updateKeyFramePos(const GenTime pos, const int value) {
     update();
 }
 
-void AbstractClipItem::addKeyFrame(const GenTime pos, const int value) {
+double AbstractClipItem::keyFrameFactor() const {
+    return m_keyframeFactor;
+}
+
+void AbstractClipItem::addKeyFrame(const GenTime pos, const double value) {
     QRectF br = rect();
     double maxh = 100.0 / br.height() / m_keyframeFactor;
     double newval = (br.bottom() - value) * maxh;
