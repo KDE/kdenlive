@@ -31,6 +31,7 @@
 class MonitorManager;
 class Render;
 class SmallRuler;
+class DocClipBase;
 
 class MonitorRefresh : public QWidget {
     Q_OBJECT
@@ -73,6 +74,7 @@ private:
     KRestrictedLine *m_timePos;
     QAction *m_playAction;
     QMenu *m_contextMenu;
+	DocClipBase *m_currentClip;
 
 private slots:
     void adjustRulerSize(int length);
@@ -82,7 +84,7 @@ private slots:
 
 public slots:
     void slotOpenFile(const QString &);
-    void slotSetXml(const QDomElement &e);
+    void slotSetXml(DocClipBase *clip, const int position = -1);
     void initMonitor();
     void refreshMonitor(bool visible);
     void slotSeek(int pos);

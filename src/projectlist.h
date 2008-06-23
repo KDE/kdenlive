@@ -154,7 +154,7 @@ private slots:
 
 
 signals:
-    void clipSelected(const QDomElement &);
+    void clipSelected(DocClipBase *);
     void getFileProperties(const QDomElement&, int);
     void receivedClipDuration(int, int);
     void showClipProperties(DocClipBase *);

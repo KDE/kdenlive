@@ -33,9 +33,10 @@
 #include "renderer.h"
 #include "monitormanager.h"
 #include "smallruler.h"
+#include "docclipbase.h"
 
 Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
-        : QWidget(parent), render(NULL), m_monitorManager(manager), m_name(name), m_isActive(false) {
+        : QWidget(parent), render(NULL), m_monitorManager(manager), m_name(name), m_isActive(false), m_currentClip(NULL) {
     ui.setupUi(this);
     m_scale = 1;
     m_ruler = new SmallRuler();
@@ -263,18 +264,22 @@ void Monitor::slotPlay() {
     m_playAction->setIcon(m_pauseIcon);
 }
 
-void Monitor::slotSetXml(const QDomElement &e) {
+void Monitor::slotSetXml(DocClipBase *clip, const int position) {
     if (render == NULL) return;
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);
-    if (e.isNull()) return;
-    QDomDocument doc;
-    QDomElement westley = doc.createElement("westley");
-    doc.appendChild(westley);
-    westley.appendChild(e);
-    render->setSceneList(doc, 0);
-    m_ruler->slotNewValue(0);
-    m_timePos->setText("00:00:00:00");
-    m_position = 0;
+    if (!clip) return;
+	if (clip != m_currentClip) {
+		m_currentClip = clip;
+		QDomDocument doc;
+		QDomElement westley = doc.createElement("westley");
+		doc.appendChild(westley);
+		westley.appendChild(doc.importNode(m_currentClip->toXML(), true));
+		render->setSceneList(doc, 0);
+		m_ruler->slotNewValue(0);
+		m_timePos->setText("00:00:00:00");
+		m_position = 0;
+	}
+	if (position != -1) render->seek(GenTime(position, render->fps()));
 }
 
 void Monitor::slotOpenFile(const QString &file) {

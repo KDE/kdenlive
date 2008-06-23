@@ -129,7 +129,7 @@ ProjectList::~ProjectList() {
 
 void ProjectList::slotEditClip() {
     ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
-    if (item && !item->isGroup()) emit clipSelected(item->toXml());
+    if (item && !item->isGroup()) emit clipSelected(item->referencedClip());
     emit showClipProperties(item->referencedClip());
 }
 
@@ -144,11 +144,11 @@ void ProjectList::slotClipSelected() {
     if (item && !item->isGroup()) {
         if (item == m_selectedItem) {
             // if user clicked on the active clip item, just focus monitor, don't update it.
-            emit clipSelected(QDomElement());
+            emit clipSelected(NULL);
             return;
         }
         m_selectedItem = item;
-        emit clipSelected(item->toXml());
+        emit clipSelected(item->referencedClip());
     }
 }
 

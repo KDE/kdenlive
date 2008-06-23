@@ -226,8 +226,8 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
 
     if (m_tool == RAZORTOOL) {
         setCursor(m_razorCursor);
-        QGraphicsView::mouseMoveEvent(event);
-        return;
+        //QGraphicsView::mouseMoveEvent(event);
+        //return;
     }
 
     QList<QGraphicsItem *> itemList = items(event->pos());
@@ -245,6 +245,14 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
 
     if (item && event->buttons() == Qt::NoButton) {
         AbstractClipItem *clip = (AbstractClipItem*) item;
+		if (m_tool == RAZORTOOL) {
+			// razor tool over a clip, display current frame in monitor
+			if (item->type() == AVWIDGET) {
+				emit showClipFrame(((ClipItem *) item)->baseClip(), mapToScene(event->pos()).x() / m_scale - (clip->startPos() - clip->cropStart()).frames(m_document->fps()));
+			}
+			QGraphicsView::mouseMoveEvent(event);
+			return;
+		}
         opMode = clip->operationMode(mapToScene(event->pos()), m_scale);
         double size = 8;
         if (opMode == m_moveOpMode) {
@@ -454,7 +462,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 QGraphicsItem *item = collisionList.at(i);
                 if (item->type() == AVWIDGET || item->type() == TRANSITIONWIDGET) {
                     if (m_tool == RAZORTOOL) {
-                        if (item->type() == TRANSITIONWIDGET) return;
+                        if (item->type() == TRANSITIONWIDGET) {
+							emit displayMessage(i18n("Cannot cut a transition"), ErrorMessage);
+							return;
+						}
                         AbstractClipItem *clip = (AbstractClipItem *) item;
                         ItemInfo info;
                         info.startPos = clip->startPos();
