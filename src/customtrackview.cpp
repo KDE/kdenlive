@@ -1379,14 +1379,23 @@ void CustomTrackView::slotDeleteClipMarker() {
         return;
     }
     AbstractClipItem *item = (AbstractClipItem *)itemList.at(0);
-    if (item->type() != AVWIDGET) return;
+    if (item->type() != AVWIDGET) {
+		emit displayMessage(i18n("No clip at cursor time"), ErrorMessage);
+		return;
+	}
     GenTime pos = GenTime(m_cursorPos, m_document->fps());
-    if (item->startPos() > pos || item->endPos() < pos) return;
+    if (item->startPos() > pos || item->endPos() < pos) {
+		emit displayMessage(i18n("No selected clip at cursor time"), ErrorMessage);
+		return;
+	}
     ClipItem *clip = (ClipItem *) item;
     int id = clip->baseClip()->getId();
     GenTime position = pos - item->startPos() + item->cropStart();
     QString comment = clip->baseClip()->markerComment(position);
-    if (comment.isEmpty()) return;
+    if (comment.isEmpty()) {
+		emit displayMessage(i18n("No marker found at cursor time"), ErrorMessage);
+		return;
+	}
     AddMarkerCommand *command = new AddMarkerCommand(this, comment, QString(), id, position, true);
     m_commandStack->push(command);
 }
@@ -1399,14 +1408,23 @@ void CustomTrackView::slotEditClipMarker() {
         return;
     }
     AbstractClipItem *item = (AbstractClipItem *)itemList.at(0);
-    if (item->type() != AVWIDGET) return;
+    if (item->type() != AVWIDGET) {
+		emit displayMessage(i18n("No clip at cursor time"), ErrorMessage);
+		return;
+	}
     GenTime pos = GenTime(m_cursorPos, m_document->fps());
-    if (item->startPos() > pos || item->endPos() < pos) return;
+    if (item->startPos() > pos || item->endPos() < pos) {
+		emit displayMessage(i18n("No selected clip at cursor time"), ErrorMessage);
+		return;
+	}
     ClipItem *clip = (ClipItem *) item;
     int id = clip->baseClip()->getId();
     GenTime position = pos - item->startPos() + item->cropStart();
     QString oldcomment = clip->baseClip()->markerComment(position);
-    if (oldcomment.isEmpty()) return;
+    if (oldcomment.isEmpty()) {
+		emit displayMessage(i18n("No marker found at cursor time"), ErrorMessage);
+		return;
+	}
 
     CommentedTime marker(position, oldcomment);
     MarkerDialog d(clip->baseClip(), marker, m_document->timecode(), this);
@@ -1450,14 +1468,16 @@ void CustomTrackView::editGuide(const GenTime oldPos, const GenTime pos, const Q
     } else if (pos != GenTime()) addGuide(pos, comment);
     else {
         // remove guide
+		bool found = false;
         for (int i = 0; i < m_guides.count(); i++) {
             if (m_guides.at(i)->position() == oldPos) {
                 Guide *item = m_guides.takeAt(i);
                 delete item;
+				found = true;
                 break;
             }
         }
-
+		if (!found) emit displayMessage(i18n("No guide at cursor time"), ErrorMessage);
     }
 }
 
@@ -1476,13 +1496,16 @@ void CustomTrackView::slotAddGuide() {
 
 void CustomTrackView::slotDeleteGuide() {
     GenTime pos = GenTime(m_cursorPos, m_document->fps());
+	bool found = false;
     for (int i = 0; i < m_guides.count(); i++) {
         if (m_guides.at(i)->position() == pos) {
             EditGuideCommand *command = new EditGuideCommand(this, m_guides.at(i)->position(), m_guides.at(i)->label(), GenTime(), QString(), true);
             m_commandStack->push(command);
+			found = true;
             break;
         }
     }
+	if (!found) emit displayMessage(i18n("No guide at cursor time"), ErrorMessage);
 }
 
 void CustomTrackView::setTool(PROJECTTOOL tool) {
