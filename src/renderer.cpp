@@ -143,7 +143,9 @@ int Render::resetProfile(QString profile) {
     if (m_mltProfile) delete m_mltProfile;
     m_mltProfile = NULL;
 
-    m_mltProfile = new Mlt::Profile((char*) profile.toUtf8().data());
+    char *tmp = decodedString(profile);
+    m_mltProfile = new Mlt::Profile(tmp);
+    delete[] tmp;
     m_mltConsumer = new Mlt::Consumer(*m_mltProfile , "sdl_preview"); //consumer;
     m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("window_id", m_winid);
@@ -154,7 +156,9 @@ int Render::resetProfile(QString profile) {
     m_mltConsumer->set("audio_buffer", 1024);
     m_mltConsumer->set("frequency", 48000);
 
-    Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "westley-xml", (char *) scene.toUtf8().data());
+    tmp = decodedString(scene);
+    Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "westley-xml", tmp);
+    delete[] tmp;
     m_mltProducer = producer;
     m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0.0);
@@ -1183,8 +1187,8 @@ void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
             filter->set("in", x1);
             filter->set("out", x2);
             //kDebug() << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
-            filter->set(starttag, QString::number((min + y1 * (max - min) / 100.0) / factor).toUtf8().data());
-            filter->set(endtag, QString::number((min + y2 * (max - min) / 100.0) / factor).toUtf8().data());
+            filter->set(starttag, QString::number((min + y1) / factor).toUtf8().data());
+            filter->set(endtag, QString::number((min + y2) / factor).toUtf8().data());
             clipService.attach(*filter);
             offset = 1;
         }
@@ -1536,7 +1540,7 @@ void Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
 }
 
 void Render::mltUpdateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml) {
-    //kDebug() << "update transition"  << tag;
+    // kDebug() << "update transition"  << tag << " at pos " << in.frames(25);
     if (oldTag == tag) mltUpdateTransitionParams(tag, a_track, b_track, in, out, xml);
     else {
         mltDeleteTransition(oldTag, a_track, b_track, in, out, xml, false);
@@ -1621,6 +1625,7 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
         kDebug() << "// FOUND EXISTING TRANS, IN: " << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack;
 
         if (resource == tag && b_track == currentTrack && currentIn <= old_pos && currentOut >= old_pos) {
+            //kDebug() << " / / / / /DELETE TRANS DOOOMNE";
             mlt_field_disconnect_service(field->get_field(), nextservice);
             break;
         }

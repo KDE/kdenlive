@@ -381,8 +381,6 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                         if (MainWindow::videoEffects.hasKeyFrames(clipeffect)) {
                             kDebug() << " * * * * * * * * * * ** CLIP EFF WITH KFR FND  * * * * * * * * * * *";
                             // effect is key-framable, read all effects to retrieve keyframes
-                            double min;
-                            double max;
                             double factor;
                             QString starttag;
                             QString endtag;
@@ -392,8 +390,6 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                                 if (e.attribute("type") == "keyframe") {
                                     starttag = e.attribute("starttag", "start");
                                     endtag = e.attribute("endtag", "end");
-                                    min = e.attribute("min").toDouble();
-                                    max = e.attribute("max").toDouble();
                                     factor = e.attribute("factor", "1").toDouble();
                                     break;
                                 }
@@ -407,9 +403,9 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                                 // parse effect parameters
                                 QDomElement effectparam = n3.toElement();
                                 if (effectparam.attribute("name") == starttag)
-                                    startvalue = effectparam.text().toDouble() * factor / (max - min) * 100;
+                                    startvalue = effectparam.text().toDouble() * factor;
                                 if (effectparam.attribute("name") == endtag)
-                                    endvalue = effectparam.text().toDouble() * factor / (max - min) * 100;
+                                    endvalue = effectparam.text().toDouble() * factor;
                             }
                             // add first keyframe
                             keyframes.append(QString::number(in + effectin) + ":" + QString::number(startvalue) + ";" + QString::number(in + effectout) + ":" + QString::number(endvalue) + ";");
@@ -430,7 +426,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                                         continueParsing = false;
                                         break;
                                     } else if (subeffectparam.attribute("name") == endtag) {
-                                        endvalue = subeffectparam.text().toDouble() * factor / (max - min) * 100;
+                                        endvalue = subeffectparam.text().toDouble() * factor;
                                         break;
                                     }
                                 }

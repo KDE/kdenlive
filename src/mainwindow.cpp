@@ -415,14 +415,14 @@ void MainWindow::setupActions() {
 
     toolbar->addWidget(m_zoomSlider);
 
-    m_buttonVideoThumbs = toolbar->addAction(KIcon("video-mpeg"), i18n("Show videoo thumbnails"));
+    m_buttonVideoThumbs = toolbar->addAction(KIcon("video-mpeg"), i18n("Show video thumbnails"));
     m_buttonVideoThumbs->setCheckable(true);
-    m_buttonVideoThumbs->setChecked(KdenliveSettings::audiothumbnails());
+    m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
     connect(m_buttonVideoThumbs, SIGNAL(triggered()), this, SLOT(slotSwitchVideoThumbs()));
 
     m_buttonAudioThumbs = toolbar->addAction(KIcon("audio-mpeg"), i18n("Show audio thumbnails"));
     m_buttonAudioThumbs->setCheckable(true);
-    m_buttonAudioThumbs->setChecked(KdenliveSettings::videothumbnails());
+    m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
     connect(m_buttonAudioThumbs, SIGNAL(triggered()), this, SLOT(slotSwitchAudioThumbs()));
 
     m_buttonShowMarkers = toolbar->addAction(KIcon("audio-mpeg"), i18n("Show markers comments"));
@@ -432,8 +432,7 @@ void MainWindow::setupActions() {
     layout->addWidget(toolbar);
 
     m_messageLabel = new StatusBarMessageLabel(this);
-    m_messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    m_messageLabel->setMinimumTextHeight(contentHeight);
+    m_messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
 
     statusBar()->addWidget(m_messageLabel, 10);
     statusBar()->addWidget(statusProgressBar, 0);

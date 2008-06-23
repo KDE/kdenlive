@@ -57,6 +57,8 @@ protected:
     GenTime m_startPos;
     GenTime m_maxDuration;
     QMap <int, double> m_keyframes;
+    double m_keyframeFactor;
+    double m_keyframeDefault;
     double m_fps;
     QPainterPath upperRectPart(QRectF);
     QPainterPath lowerRectPart(QRectF);

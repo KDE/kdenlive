@@ -537,11 +537,17 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
 
 void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event) {
     if (m_dragItem && m_dragItem->hasKeyFrames()) {
-        GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x() / m_scale), m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
-        m_dragItem->addKeyFrame(keyFramePos, mapToScene(event->pos()).toPoint().y());
-        ClipItem * item = (ClipItem *) m_dragItem;
-        item->updateKeyframeEffect();
-        updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect());
+        if (m_moveOpMode == KEYFRAME) {
+            // user double clicked on a keyframe, open edit dialog
+
+        } else  {
+            // add keyframe
+            GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x() / m_scale), m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
+            m_dragItem->addKeyFrame(keyFramePos, mapToScene(event->pos()).toPoint().y());
+            ClipItem * item = (ClipItem *) m_dragItem;
+            item->updateKeyframeEffect();
+            updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect());
+        }
     }
 }
 

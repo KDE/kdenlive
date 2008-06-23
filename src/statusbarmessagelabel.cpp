@@ -114,7 +114,7 @@ void StatusBarMessageLabel::setMessage(const QString& text,
     }
 
     m_pixmap = (iconName == 0) ? QPixmap() : SmallIcon(iconName);
-    QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
+    //QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
     show(); //update();
 }
 
@@ -122,9 +122,9 @@ void StatusBarMessageLabel::setMinimumTextHeight(int min) {
     if (min != m_minTextHeight) {
         m_minTextHeight = min;
         setMinimumHeight(min);
-        if (m_closeButton->height() > min) {
+        /*if (m_closeButton->height() > min) {
             m_closeButton->setFixedHeight(min);
-        }
+        }*/
     }
 }
 
@@ -149,23 +149,23 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */) {
     }
     painter.setBrush(backgroundColor);
     painter.setPen(Qt::NoPen);
-    painter.drawRect(QRect(0, 0, width(), height()));
+    painter.drawRect(0, 0, width(), height());
 
     // draw pixmap
     int x = BorderGap;
-    int y = (m_minTextHeight - m_pixmap.height()) / 2;
+    int y = (height() - m_pixmap.height()) / 2;
 
     if (!m_pixmap.isNull()) {
         painter.drawPixmap(x, y, m_pixmap);
-        x += m_pixmap.width() + BorderGap;
+        x += m_pixmap.width() + BorderGap * 2;
     }
 
     // draw text
     painter.setPen(palette().windowText().color());
     int flags = Qt::AlignVCenter;
-    if (height() > m_minTextHeight) {
+    /*if (height() > m_minTextHeight) {
         flags = flags | Qt::TextWordWrap;
-    }
+    }*/
     painter.drawText(QRect(x, 0, availableTextWidth(), height()), flags, m_text);
     painter.end();
 }
@@ -173,14 +173,14 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */) {
 void StatusBarMessageLabel::resizeEvent(QResizeEvent* event) {
     QWidget::resizeEvent(event);
     //updateCloseButtonPosition();
-    QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
+    //QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
 }
 
 void StatusBarMessageLabel::timerDone() {
     switch (m_state) {
     case Illuminate: {
         // increase the illumination
-        const int illumination_max = 224;
+        const int illumination_max = 128;
         if (m_illumination < illumination_max) {
             m_illumination += 32;
             if (m_illumination > illumination_max) {

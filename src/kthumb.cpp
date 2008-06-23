@@ -221,9 +221,8 @@ QPixmap KThumb::getImage(QDomElement xml, int frame, int width, int height) {
 
 //static
 QPixmap KThumb::getFrame(Mlt::Producer producer, int framepos, int width, int height) {
-    if (framepos > 0)
-        producer.seek(framepos);
 
+    producer.seek(framepos);
     Mlt::Frame *frame = producer.get_frame();
     mlt_image_format format = mlt_image_yuv422;
     int frame_width = 0;
@@ -244,7 +243,6 @@ QPixmap KThumb::getFrame(Mlt::Producer producer, int framepos, int width, int he
 
     mlt_pool_release(new_image);
     delete frame;
-
     return pix;
 }
 /*

@@ -51,10 +51,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, GenTime cropStart, double s
     m_maxDuration = clip->maxDuration();
     setAcceptDrops(true);
     audioThumbReady = clip->audioThumbCreated();
-    /*m_keyframes[0] = 50;
-    m_keyframes[30] = 20;
-    m_keyframes[70] = 90;
-    m_keyframes[100] = 10;*/
+
     /*
       m_cropStart = xml.attribute("in", 0).toInt();
       m_maxDuration = xml.attribute("duration", 0).toInt();
@@ -114,15 +111,10 @@ void ClipItem::initEffect(QDomElement effect) {
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull() && e.attribute("type") == "keyframe") {
-            double max = e.attribute("max").toDouble();
-            double min = e.attribute("min").toDouble();
-            double def = e.attribute("default").toDouble();
-            double factor = e.attribute("factor", "1").toDouble();
-
+            QString def = e.attribute("default");
             // Effect has a keyframe type parameter, we need to set the values
             if (e.attribute("keyframes").isEmpty()) {
-                // no keyframes defined, set up 2 keyframes (start and end) with default value.
-                e.setAttribute("keyframes", QString::number(m_cropStart.frames(m_fps)) + ":" + QString::number(100 * def / (max - min)) + ";" + QString::number((m_cropStart + m_cropDuration).frames(m_fps)) + ":" + QString::number(100 * def / (max - min)));
+                e.setAttribute("keyframes", QString::number(m_cropStart.frames(m_fps)) + ":" + def + ";" + QString::number((m_cropStart + m_cropDuration).frames(m_fps)) + ":" + def);
                 //kDebug() << "///// EFFECT KEYFRAMES INITED: " << e.attribute("keyframes");
                 break;
             }
@@ -132,7 +124,7 @@ void ClipItem::initEffect(QDomElement effect) {
 
 
 void ClipItem::setSelectedEffect(int ix) {
-    //if (ix == m_selectedEffect) return;
+
     m_selectedEffect = ix;
     QDomElement effect = effectAt(m_selectedEffect);
     QDomNodeList params = effect.elementsByTagName("parameter");
@@ -142,23 +134,14 @@ void ClipItem::setSelectedEffect(int ix) {
             m_keyframes.clear();
             double max = e.attribute("max").toDouble();
             double min = e.attribute("min").toDouble();
-            double def = e.attribute("default").toDouble();
-            double factor = e.attribute("factor", "1").toDouble();
-
-            // Effect has a keyframe type parameter, we need to set the values
-            /*if (e.attribute("keyframes").isEmpty()) {
-                // no keyframes defined, set up 2 keyframes (start and end) with default value.
-                m_keyframes[m_cropStart.frames(m_fps)] = 100 * def / (max - min);
-                m_keyframes[(m_cropStart + m_cropDuration).frames(m_fps)] = 100 * def / (max - min);
-            e.setAttribute("keyframes", QString::number(m_cropStart.frames(m_fps)) + ":" + QString::number(100 * def / (max - min)) + ";" + QString::number((m_cropStart + m_cropDuration).frames(m_fps)) + ":" + QString::number(100 * def / (max - min)));
-            } else {*/
+            m_keyframeFactor = 100.0 / (max - min);
+            m_keyframeDefault = e.attribute("default").toDouble();
             // parse keyframes
             QStringList keyframes = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
             foreach(QString str, keyframes) {
                 int pos = str.section(":", 0, 0).toInt();
                 double val = str.section(":", 1, 1).toDouble();
                 m_keyframes[pos] = val;
-                //}
             }
             update();
             return;
@@ -171,18 +154,14 @@ void ClipItem::setSelectedEffect(int ix) {
 }
 
 void ClipItem::updateKeyframeEffect() {
+    // regenerate xml parameter from the clip keyframes
     QDomElement effect = effectAt(m_selectedEffect);
     QDomNodeList params = effect.elementsByTagName("parameter");
 
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull() && e.attribute("type") == "keyframe") {
-            int max = e.attribute("max").toInt();
-            int min = e.attribute("min").toInt();
-            int def = e.attribute("default").toInt();
-            double factor = e.attribute("factor", "1").toDouble();
             QString keyframes;
-
             if (m_keyframes.count() > 1) {
                 QMap<int, double>::const_iterator i = m_keyframes.constBegin();
                 double x1;
@@ -193,7 +172,7 @@ void ClipItem::updateKeyframeEffect() {
                 }
             }
             // Effect has a keyframe type parameter, we need to set the values
-            kDebug() << ":::::::::::::::   SETTING EFFECT KEYFRAMES: " << keyframes;
+            //kDebug() << ":::::::::::::::   SETTING EFFECT KEYFRAMES: " << keyframes;
             e.setAttribute("keyframes", keyframes);
             break;
         }
