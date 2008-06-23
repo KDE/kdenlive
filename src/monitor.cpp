@@ -110,7 +110,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     m_contextMenu->addMenu(playMenu);
     QAction *extractFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Extract frame"));
     connect(extractFrame, SIGNAL(triggered()), this, SLOT(slotExtractCurrentFrame()));
-
+	connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
     kDebug() << "/////// BUILDING MONITOR, ID: " << ui.video_frame->winId();
 }
 
@@ -199,16 +199,16 @@ void Monitor::slotForwardOneFrame() {
 
 void Monitor::seekCursor(int pos) {
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);
-    int rulerPos = (int)(pos * m_scale);
+    //int rulerPos = (int)(pos * m_scale);
     m_position = pos;
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
     //kDebug() << "seek: " << pos << ", scale: " << m_scale;
-    m_ruler->slotNewValue(rulerPos);
+    m_ruler->slotNewValue(pos); //rulerPos);
 }
 
 void Monitor::rendererStopped(int pos) {
-    int rulerPos = (int)(pos * m_scale);
-    m_ruler->slotNewValue(rulerPos);
+    //int rulerPos = (int)(pos * m_scale);
+    m_ruler->slotNewValue(pos);
     m_position = pos;
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
     m_playAction->setChecked(false);

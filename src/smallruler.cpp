@@ -61,23 +61,19 @@ void SmallRuler::setPixelPerMark(double rate) {
 
 // virtual
 void SmallRuler::mousePressEvent(QMouseEvent * event) {
-    int pos = event->x();
-    //slotNewValue( pos );
-    emit seekRenderer(pos);
-    kDebug() << pos;
+    double pos = event->x() / pixelPerMark();
+    emit seekRenderer((int) pos);
 }
 
 // virtual
 void SmallRuler::mouseMoveEvent(QMouseEvent * event) {
-    int pos = event->x();
-    //slotNewValue( pos );
-    emit seekRenderer(pos);
-    kDebug() << pos;
+    double pos = event->x() / pixelPerMark();
+    emit seekRenderer((int) pos);
 }
 
 void SmallRuler::slotNewValue(int _value) {
-    m_cursorPosition = (int)(_value / pixelPerMark());
-    KRuler::slotNewValue(_value);
+    m_cursorPosition = (int)(_value ); /// pixelPerMark());
+    KRuler::slotNewValue(_value * pixelPerMark());
 }
 
 // virtual
