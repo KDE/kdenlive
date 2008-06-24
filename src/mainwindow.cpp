@@ -376,7 +376,7 @@ void MainWindow::setupActions() {
 
     m_toolGroup = new QActionGroup(this);
 
-    QString style1 = "QToolButton { background-color: rgba(230, 230, 230, 20); border-style: inset; border:1px solid #666666;border-radius: 3px;margin: 0px 3px} QToolButton:checked { background-color: rgba(224, 0, 0, 100); border-style: inset; border:1px solid #666666;border-radius: 3px;}";
+    QString style1 = "QToolButton {background-color: rgba(230, 230, 230, 220); border-style: inset; border:1px solid #999999;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton:checked { background-color: rgba(224, 224, 0, 100); border-style: inset; border:1px solid #cc6666;border-radius: 3px;}";
 
     m_buttonSelectTool = toolbar->addAction(KIcon("kdenlive-select-tool"), i18n("Selection tool"));
     m_buttonSelectTool->setCheckable(true);
@@ -389,6 +389,17 @@ void MainWindow::setupActions() {
     m_toolGroup->addAction(m_buttonSelectTool);
     m_toolGroup->addAction(m_buttonRazorTool);
     m_toolGroup->setExclusive(true);
+	toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+
+	QWidget * actionWidget;
+	actionWidget = toolbar->widgetForAction( m_buttonSelectTool );
+	actionWidget->setMaximumWidth(24);
+	actionWidget->setMinimumHeight(18);
+
+	actionWidget = toolbar->widgetForAction( m_buttonRazorTool );
+	actionWidget->setMaximumWidth(24);
+	actionWidget->setMinimumHeight(18);
+
     toolbar->setStyleSheet(style1);
     connect(m_toolGroup, SIGNAL(triggered(QAction *)), this, SLOT(slotChangeTool(QAction *)));
 
@@ -415,21 +426,43 @@ void MainWindow::setupActions() {
 
     toolbar->addWidget(m_zoomSlider);
 
-    m_buttonVideoThumbs = toolbar->addAction(KIcon("video-mpeg"), i18n("Show video thumbnails"));
+    m_buttonVideoThumbs = toolbar->addAction(KIcon("kdenlive-show-videothumb"), i18n("Show video thumbnails"));
     m_buttonVideoThumbs->setCheckable(true);
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
     connect(m_buttonVideoThumbs, SIGNAL(triggered()), this, SLOT(slotSwitchVideoThumbs()));
 
-    m_buttonAudioThumbs = toolbar->addAction(KIcon("audio-mpeg"), i18n("Show audio thumbnails"));
+    m_buttonAudioThumbs = toolbar->addAction(KIcon("kdenlive-show-audiothumb"), i18n("Show audio thumbnails"));
     m_buttonAudioThumbs->setCheckable(true);
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
     connect(m_buttonAudioThumbs, SIGNAL(triggered()), this, SLOT(slotSwitchAudioThumbs()));
 
-    m_buttonShowMarkers = toolbar->addAction(KIcon("audio-mpeg"), i18n("Show markers comments"));
+    m_buttonShowMarkers = toolbar->addAction(KIcon("kdenlive-show-markers"), i18n("Show markers comments"));
     m_buttonShowMarkers->setCheckable(true);
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
     connect(m_buttonShowMarkers, SIGNAL(triggered()), this, SLOT(slotSwitchMarkersComments()));
+
+    m_buttonSnap = toolbar->addAction(KIcon("kdenlive-snap"), i18n("Snap"));
+    m_buttonSnap->setCheckable(true);
+    m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
+    connect(m_buttonSnap, SIGNAL(triggered()), this, SLOT(slotSwitchSnap()));
     layout->addWidget(toolbar);
+
+
+	actionWidget = toolbar->widgetForAction( m_buttonVideoThumbs );
+	actionWidget->setMaximumWidth(24);
+	actionWidget->setMinimumHeight(18);
+
+	actionWidget = toolbar->widgetForAction( m_buttonAudioThumbs );
+	actionWidget->setMaximumWidth(24);
+	actionWidget->setMinimumHeight(18);
+
+	actionWidget = toolbar->widgetForAction( m_buttonShowMarkers );
+	actionWidget->setMaximumWidth(24);
+	actionWidget->setMinimumHeight(18);
+
+	actionWidget = toolbar->widgetForAction( m_buttonSnap );
+	actionWidget->setMaximumWidth(24);
+	actionWidget->setMinimumHeight(18);
 
     m_messageLabel = new StatusBarMessageLabel(this);
     m_messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
@@ -958,7 +991,10 @@ void MainWindow::slotSwitchMarkersComments() {
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
 }
 
-
+void MainWindow::slotSwitchSnap() {
+    KdenliveSettings::setSnaptopoints(!KdenliveSettings::snaptopoints());
+    m_buttonShowMarkers->setChecked(KdenliveSettings::snaptopoints());
+}
 
 
 void MainWindow::slotDeleteTimelineClip() {

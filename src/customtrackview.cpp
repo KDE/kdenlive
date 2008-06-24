@@ -405,6 +405,10 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
             setCursor(Qt::PointingHandCursor);
         }
     } // no clip under mouse
+	else if (m_tool == RAZORTOOL) {
+		QGraphicsView::mouseMoveEvent(event);
+		return;
+	}
     else if (opMode == MOVEGUIDE) {
         m_moveOpMode = opMode;
         setCursor(Qt::SplitHCursor);
@@ -959,9 +963,17 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         setCursor(Qt::OpenHandCursor);
         // move clip
         if (m_dragItem->type() == AVWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
-            MoveClipCommand *command = new MoveClipCommand(this, m_dragItemInfo, info, false);
-            m_commandStack->push(command);
-            m_document->renderer()->mltMoveClip((int)(m_tracksList.count() - m_dragItemInfo.track), (int)(m_tracksList.count() - m_dragItem->track()), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(m_dragItem->startPos().frames(m_document->fps())));
+            bool success = m_document->renderer()->mltMoveClip((int)(m_tracksList.count() - m_dragItemInfo.track), (int)(m_tracksList.count() - m_dragItem->track()), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(m_dragItem->startPos().frames(m_document->fps())));
+			if (success) {
+				MoveClipCommand *command = new MoveClipCommand(this, m_dragItemInfo, info, false);
+				m_commandStack->push(command);
+			}
+			else {
+				// undo last move and emit error message
+				MoveClipCommand *command = new MoveClipCommand(this, info, m_dragItemInfo, true);
+				m_commandStack->push(command);
+				emit displayMessage(i18n("Cannot move clip to requested position"), ErrorMessage);
+			}
         }
         if (m_dragItem->type() == TRANSITIONWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
             MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
@@ -1183,8 +1195,15 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
         return;
     }
     //kDebug() << "----------------  Move CLIP FROM: " << startPos.x() << ", END:" << endPos.x() << ",TRACKS: " << startPos.y() << " TO " << endPos.y();
-    item->moveTo((int) end.startPos.frames(m_document->fps()), m_scale, (int)((end.track - start.track) * m_tracksHeight), end.track);
-    m_document->renderer()->mltMoveClip((int)(m_tracksList.count() - start.track), (int)(m_tracksList.count() - end.track), (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()));
+    
+    bool success = m_document->renderer()->mltMoveClip((int)(m_tracksList.count() - start.track), (int)(m_tracksList.count() - end.track), (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()));
+	if (success) {
+		item->moveTo((int) end.startPos.frames(m_document->fps()), m_scale, (int)((end.track - start.track) * m_tracksHeight), end.track);
+	}
+	else {
+		// undo last move and emit error message
+		emit displayMessage(i18n("Cannot move clip to requested position"), ErrorMessage);
+	}
 }
 
 void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end) {
@@ -1279,6 +1298,7 @@ double CustomTrackView::getSnapPointForPos(double pos) {
 
 void CustomTrackView::updateSnapPoints(AbstractClipItem *selected) {
     m_snapPoints.clear();
+	if (!KdenliveSettings::snaptopoints()) return;
     GenTime offset;
     if (selected) offset = selected->duration();
     QList<QGraphicsItem *> itemList = items();

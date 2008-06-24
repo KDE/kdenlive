@@ -154,8 +154,8 @@ Q_OBJECT public:
     void mltCutClip(int track, GenTime position);
     void mltResizeClipEnd(int track, GenTime pos, GenTime in, GenTime out);
     void mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime moveStart, GenTime in, GenTime out);
-    void mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart);
-    void mltMoveClip(int startTrack, int endTrack, int pos, int moveStart);
+    bool mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart);
+    bool mltMoveClip(int startTrack, int endTrack, int pos, int moveStart);
     void mltRemoveClip(int track, GenTime position);
     void mltRemoveEffect(int track, GenTime position, QString index, bool doRefresh = true);
     void mltAddEffect(int track, GenTime position, QMap <QString, QString> args, bool doRefresh = true);

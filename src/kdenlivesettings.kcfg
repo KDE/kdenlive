@@ -201,5 +201,10 @@
       <default>false</default>
     </entry>
 
+    <entry name="snaptopoints" type="Bool">
+      <label>Snap movements to clips, guides and markers.</label>
+      <default>true</default>
+    </entry>
+
   </group>
 </kcfg>
