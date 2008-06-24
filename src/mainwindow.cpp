@@ -394,11 +394,11 @@ void MainWindow::setupActions() {
 	QWidget * actionWidget;
 	actionWidget = toolbar->widgetForAction( m_buttonSelectTool );
 	actionWidget->setMaximumWidth(24);
-	actionWidget->setMinimumHeight(18);
+	actionWidget->setMinimumHeight(17);
 
 	actionWidget = toolbar->widgetForAction( m_buttonRazorTool );
 	actionWidget->setMaximumWidth(24);
-	actionWidget->setMinimumHeight(18);
+	actionWidget->setMinimumHeight(17);
 
     toolbar->setStyleSheet(style1);
     connect(m_toolGroup, SIGNAL(triggered(QAction *)), this, SLOT(slotChangeTool(QAction *)));
@@ -408,6 +408,10 @@ void MainWindow::setupActions() {
     m_buttonFitZoom->setCheckable(false);
     connect(m_buttonFitZoom, SIGNAL(triggered()), this, SLOT(slotFitZoom()));
 
+	actionWidget = toolbar->widgetForAction( m_buttonFitZoom );
+	actionWidget->setMaximumWidth(24);
+	actionWidget->setMinimumHeight(17);
+
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
     m_zoomSlider->setMaximum(13);
 
@@ -415,8 +419,8 @@ void MainWindow::setupActions() {
     m_zoomSlider->setMinimumWidth(100);
 
     const int contentHeight = QFontMetrics(w->font()).height() + 8;
-    QString style = "QSlider::groove:horizontal { border: 1px solid #999999;height: 8px }";
-    style.append("QSlider::handle:horizontal {  background-color: white; border: 1px solid #999999;width: 8px;margin: -2px 0;border-radius: 3px; }");
+    QString style = "QSlider::groove:horizontal { background-color: rgba(230, 230, 230, 220);border: 1px solid #999999;height: 8px;border-radius: 3px;margin-top:3px }";
+    style.append("QSlider::handle:horizontal {  background-color: white; border: 1px solid #999999;width: 9px;margin: -2px 0;border-radius: 3px; }");
     m_zoomSlider->setStyleSheet(style);
 
     //m_zoomSlider->setMaximumHeight(contentHeight);
@@ -450,19 +454,19 @@ void MainWindow::setupActions() {
 
 	actionWidget = toolbar->widgetForAction( m_buttonVideoThumbs );
 	actionWidget->setMaximumWidth(24);
-	actionWidget->setMinimumHeight(18);
+	actionWidget->setMinimumHeight(17);
 
 	actionWidget = toolbar->widgetForAction( m_buttonAudioThumbs );
 	actionWidget->setMaximumWidth(24);
-	actionWidget->setMinimumHeight(18);
+	actionWidget->setMinimumHeight(17);
 
 	actionWidget = toolbar->widgetForAction( m_buttonShowMarkers );
 	actionWidget->setMaximumWidth(24);
-	actionWidget->setMinimumHeight(18);
+	actionWidget->setMinimumHeight(17);
 
 	actionWidget = toolbar->widgetForAction( m_buttonSnap );
 	actionWidget->setMaximumWidth(24);
-	actionWidget->setMinimumHeight(18);
+	actionWidget->setMinimumHeight(17);
 
     m_messageLabel = new StatusBarMessageLabel(this);
     m_messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
