@@ -19,9 +19,11 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent)
     if (m_type == VIDEOTRACK) {
         view.frame->setBackgroundRole(QPalette::AlternateBase);
         view.frame->setAutoFillBackground(true);
+		view.buttonVideo->setIcon(KIcon("kdenlive-show-video"));
     } else {
         view.buttonVideo->setHidden(true);
     }
+	view.buttonAudio->setIcon(KIcon("kdenlive-show-audio"));
     view.buttonVideo->setChecked(!info.isBlind);
     view.buttonAudio->setChecked(!info.isMute);
     connect(view.buttonVideo, SIGNAL(clicked()), this, SLOT(switchVideo()));
