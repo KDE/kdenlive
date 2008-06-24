@@ -71,16 +71,16 @@ ProjectList::ProjectList(QWidget *parent)
     addButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->addWidget(addButton);
 
-    QAction *addClipButton = addMenu->addAction(KIcon("document-new"), i18n("Add Clip"));
+    QAction *addClipButton = addMenu->addAction(KIcon("kdenlive-add-clip"), i18n("Add Clip"));
     connect(addClipButton, SIGNAL(triggered()), this, SLOT(slotAddClip()));
 
-    QAction *addColorClip = addMenu->addAction(KIcon("document-new"), i18n("Add Color Clip"));
+    QAction *addColorClip = addMenu->addAction(KIcon("kdenlive-add-color-clip"), i18n("Add Color Clip"));
     connect(addColorClip, SIGNAL(triggered()), this, SLOT(slotAddColorClip()));
 
-    QAction *addSlideClip = addMenu->addAction(KIcon("document-new"), i18n("Add Slideshow Clip"));
+    QAction *addSlideClip = addMenu->addAction(KIcon("kdenlive-add-slide-clip"), i18n("Add Slideshow Clip"));
     connect(addSlideClip, SIGNAL(triggered()), this, SLOT(slotAddSlideshowClip()));
 
-    QAction *addTitleClip = addMenu->addAction(KIcon("document-new"), i18n("Add Title Clip"));
+    QAction *addTitleClip = addMenu->addAction(KIcon("kdenlive-add-text-clip"), i18n("Add Title Clip"));
     connect(addTitleClip, SIGNAL(triggered()), this, SLOT(slotAddTitleClip()));
 
     m_deleteAction = m_toolbar->addAction(KIcon("edit-delete"), i18n("Delete Clip"));
@@ -104,6 +104,7 @@ ProjectList::ProjectList(QWidget *parent)
     m_menu = new QMenu();
     m_menu->addAction(addClipButton);
     m_menu->addAction(addColorClip);
+    m_menu->addAction(addSlideClip);
     m_menu->addAction(addTitleClip);
     m_menu->addAction(m_editAction);
     m_menu->addAction(m_deleteAction);
