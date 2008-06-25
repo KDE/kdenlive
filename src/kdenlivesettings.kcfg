@@ -125,6 +125,26 @@
       <default></default>
     </entry>
 
+    <entry name="screengrabcapture" type="String">
+      <label>ffmpeg arguments for x11 grab capture.</label>
+      <default>-f x11grab -r 15 -s %size -i :0.0%offset</default>
+    </entry>
+
+    <entry name="screengrabencoding" type="String">
+      <label>ffmpeg arguments for x11 capture encoding.</label>
+      <default>-vcodec mpeg4</default>
+    </entry>
+
+    <entry name="screengrabextension" type="String">
+      <label>file extension for captured file.</label>
+      <default>avi</default>
+    </entry>
+
+    <entry name="fullscreengrab" type="Bool">
+      <label>Capture full screen.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="video4playback" type="String">
       <label>ffplay arguments for video playback.</label>
       <default></default>

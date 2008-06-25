@@ -29,6 +29,11 @@
        <string>Video4Linux (webcam)</string>
       </property>
      </item>
+     <item>
+      <property name="text" >
+       <string>Screen Grab</string>
+      </property>
+     </item>
     </widget>
    </item>
    <item row="1" column="0" colspan="2" >
@@ -47,8 +52,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>482</width>
-        <height>233</height>
+        <width>486</width>
+        <height>270</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -119,8 +124,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>482</width>
-        <height>233</height>
+        <width>486</width>
+        <height>270</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -346,31 +351,103 @@
         </widget>
        </item>
       </layout>
-      <zorder>kcfg_video4vdevice</zorder>
-      <zorder>label_7</zorder>
-      <zorder>line</zorder>
-      <zorder>label_3</zorder>
-      <zorder>label_5</zorder>
-      <zorder>kcfg_video4vformat</zorder>
-      <zorder>kcfg_video4vencoding</zorder>
-      <zorder>label_14</zorder>
-      <zorder>kcfg_video4aencoding</zorder>
-      <zorder>kcfg_video4adevice</zorder>
-      <zorder>line_2</zorder>
-      <zorder>label_9</zorder>
-      <zorder>label_16</zorder>
-      <zorder>label_15</zorder>
-      <zorder>label_13</zorder>
-      <zorder>line_3</zorder>
-      <zorder>label_4</zorder>
-      <zorder>label_6</zorder>
-      <zorder>kcfg_video4size</zorder>
-      <zorder>label_11</zorder>
-      <zorder>kcfg_video4rate</zorder>
-      <zorder>kcfg_video4capture</zorder>
-      <zorder>kcfg_video4playback</zorder>
-      <zorder>label_12</zorder>
-      <zorder>kcfg_video4aformat</zorder>
+     </widget>
+     <widget class="QWidget" name="tab_3" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>486</width>
+        <height>270</height>
+       </rect>
+      </property>
+      <attribute name="title" >
+       <string>Screen Grab / FFmpeg</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_4" >
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label_17" >
+         <property name="text" >
+          <string>Capture params</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" >
+        <widget class="KLineEdit" name="kcfg_screengrabcapture" />
+       </item>
+       <item row="1" column="0" >
+        <widget class="QLabel" name="label_8" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Preferred" hsizetype="Maximum" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string>Encoding parameters</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" >
+        <widget class="KLineEdit" name="kcfg_screengrabencoding" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <widget class="QLabel" name="label_10" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Preferred" hsizetype="Maximum" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string>File extension</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" >
+        <widget class="KLineEdit" name="kcfg_screengrabextension" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2" >
+        <widget class="QCheckBox" name="kcfg_fullscreengrab" >
+         <property name="text" >
+          <string>Full screen capture</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1" >
+        <spacer name="verticalSpacer_3" >
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>383</width>
+           <height>160</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>

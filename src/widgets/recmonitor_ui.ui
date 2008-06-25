@@ -64,6 +64,11 @@
        <string>Video4Linux</string>
       </property>
      </item>
+     <item>
+      <property name="text" >
+       <string>Screen grab</string>
+      </property>
+     </item>
     </widget>
    </item>
   </layout>

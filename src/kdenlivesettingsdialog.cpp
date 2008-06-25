@@ -57,6 +57,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
     QWidget *p4 = new QWidget;
     m_configCapture.setupUi(p4);
     page4 = addPage(p4, i18n("Capture"), "audio-card");
+	m_configCapture.tabWidget->setCurrentIndex(KdenliveSettings::defaultcapture());
 
     QWidget *p5 = new QWidget;
     m_configShuttle.setupUi(p5);

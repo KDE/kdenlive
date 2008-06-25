@@ -32,6 +32,7 @@
 
 #include "ui_recmonitor_ui.h"
 #include "smallruler.h"
+#include "regiongrabber.h"
 
 class RecMonitor : public QWidget {
     Q_OBJECT
@@ -40,6 +41,7 @@ public:
     RecMonitor(QString name, QWidget *parent = 0);
     QString name() const;
 
+enum CAPTUREDEVICE {FIREWIRE = 0, VIDEO4LINUX = 1, SCREENGRAB =2};
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
@@ -48,7 +50,7 @@ private:
     Ui::RecMonitor_UI ui;
     QString m_tmpFolder;
     QString m_name;
-
+	RegionGrabber *rgnGrab;
     bool m_isActive;
 
 
@@ -79,6 +81,7 @@ private slots:
     void slotRewind();
     void slotForward();
     void slotDisconnect();
+	void slotStartGrab(const QRect &rect);
 
 public slots:
     void refreshRecMonitor(bool visible);

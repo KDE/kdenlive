@@ -630,7 +630,9 @@ void MainWindow::newFile() {
         projectFolder = w->selectedFolder();
         delete w;
     }
-    MltVideoProfile prof = ProfilesDialog::getVideoProfile(profileName);
+    MltVideoProfile prof;
+	if (!profileName.isEmpty()) prof = ProfilesDialog::getVideoProfile(profileName);
+	else prof = ProfilesDialog::getVideoProfile("dv_pal");
     if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
     KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, prof, m_commandStack, this);
     TrackView *trackView = new TrackView(doc, this);
