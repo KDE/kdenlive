@@ -176,7 +176,7 @@ void RecMonitor::slotStopCapture() {
 		if (m_isCapturing && ui.autoaddbox->isChecked()) emit addProjectClip(m_captureFile);
 		break;
     case SCREENGRAB:
-        captureProcess->kill();
+		QTimer::singleShot(1000, captureProcess, SLOT(kill()));
 		if (m_isCapturing && ui.autoaddbox->isChecked()) emit addProjectClip(m_captureFile);
 		break;
 	default:
@@ -290,8 +290,9 @@ void RecMonitor::slotRecord() {
             QTimer::singleShot(1000, this, SLOT(slotStartCapture()));
 			break;
         case SCREENGRAB:
-            slotStopCapture();
-            m_isCapturing = false;
+			captureProcess->write("q\n", 3);
+			// in case ffmpeg doesn't exit with the 'q' command, kill it one second later
+			QTimer::singleShot(1000, captureProcess, SLOT(kill()));
 			break;
         }
         return;
@@ -385,16 +386,19 @@ void RecMonitor::slotStartGrab(const QRect &rect)
 
 void RecMonitor::slotProcessStatus(QProcess::ProcessState status) {
     if (status == QProcess::NotRunning) {
+		if (m_isCapturing && ui.device_selector->currentIndex() == SCREENGRAB) {
+			if (ui.autoaddbox->isChecked()) emit addProjectClip(m_captureFile);
+		}
         m_isCapturing = false;
         m_isPlaying = false;
         m_playAction->setIcon(m_playIcon);
         m_recAction->setChecked(false);
         m_stopAction->setEnabled(false);
         ui.device_selector->setEnabled(true);
-		/*if (captureProcess && captureProcess->exitStatus() == QProcess::CrashExit) {
+		if (captureProcess && captureProcess->exitStatus() == QProcess::CrashExit) {
 			ui.video_frame->setText(i18n("Capture crashed, please check your parameters"));
 		}
-        else*/ ui.video_frame->setText(i18n("Not connected"));
+        else ui.video_frame->setText(i18n("Not connected"));
     } else {
         m_stopAction->setEnabled(true);
         ui.device_selector->setEnabled(false);
