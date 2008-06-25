@@ -482,6 +482,13 @@ void MainWindow::setupActions() {
     actionCollection()->addAction("select_tool", m_buttonSelectTool);
     actionCollection()->addAction("razor_tool", m_buttonRazorTool);
 
+    actionCollection()->addAction("show_video_thumbs", m_buttonVideoThumbs);
+    actionCollection()->addAction("show_audio_thumbs", m_buttonAudioThumbs);
+	actionCollection()->addAction("show_markers", m_buttonShowMarkers);
+	actionCollection()->addAction("snap", m_buttonSnap);
+    actionCollection()->addAction("zoom_fit", m_buttonFitZoom);
+
+
     KAction* profilesAction = new KAction(KIcon("document-new"), i18n("Manage Profiles"), this);
     actionCollection()->addAction("manage_profiles", profilesAction);
     connect(profilesAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProfiles()));
