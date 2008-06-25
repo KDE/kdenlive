@@ -1485,7 +1485,7 @@ void CustomTrackView::addMarker(const int id, const GenTime &pos, const QString 
 
 
 void CustomTrackView::editGuide(const GenTime oldPos, const GenTime pos, const QString &comment) {
-    if (oldPos != GenTime() && pos != GenTime()) {
+    if (oldPos > GenTime() && pos > GenTime()) {
         // move guide
         for (int i = 0; i < m_guides.count(); i++) {
             kDebug() << "// LOOKING FOR GUIDE (" << i << "): " << m_guides.at(i)->position().frames(25) << ", LOOK: " << oldPos.frames(25) << "x" << pos.frames(25);
@@ -1496,7 +1496,7 @@ void CustomTrackView::editGuide(const GenTime oldPos, const GenTime pos, const Q
                 break;
             }
         }
-    } else if (pos != GenTime()) addGuide(pos, comment);
+    } else if (pos > GenTime()) addGuide(pos, comment);
     else {
         // remove guide
 		bool found = false;
@@ -1512,17 +1512,24 @@ void CustomTrackView::editGuide(const GenTime oldPos, const GenTime pos, const Q
     }
 }
 
-void CustomTrackView::addGuide(const GenTime pos, const QString &comment) {
+bool CustomTrackView::addGuide(const GenTime pos, const QString &comment) {
+    for (int i = 0; i < m_guides.count(); i++) {
+		if (m_guides.at(i)->position() == pos) {
+			emit displayMessage(i18n("A guide already exists at that position"), ErrorMessage);
+			return false;
+		}
+    }
     Guide *g = new Guide(this, pos, comment, m_scale, m_document->fps(), m_tracksHeight * m_tracksList.count());
     scene()->addItem(g);
     m_guides.append(g);
+	return true;
 }
 
 void CustomTrackView::slotAddGuide() {
-    addGuide(GenTime(m_cursorPos, m_document->fps()), i18n("guide"));
-    EditGuideCommand *command = new EditGuideCommand(this, GenTime(), QString(), GenTime(m_cursorPos, m_document->fps()), i18n("guide"), false);
-    m_commandStack->push(command);
-
+    if (addGuide(GenTime(m_cursorPos, m_document->fps()), i18n("guide"))) {
+		EditGuideCommand *command = new EditGuideCommand(this, GenTime(), QString(), GenTime(m_cursorPos, m_document->fps()), i18n("guide"), false);
+		m_commandStack->push(command);
+	}
 }
 
 void CustomTrackView::slotDeleteGuide() {

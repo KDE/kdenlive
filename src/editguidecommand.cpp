@@ -22,6 +22,7 @@
 EditGuideCommand::EditGuideCommand(CustomTrackView *view, const GenTime oldPos, const QString &oldcomment, const GenTime pos, const QString &comment, bool doIt) : m_view(view), m_oldPos(oldPos), m_oldcomment(oldcomment), m_pos(pos), m_comment(comment), m_doIt(doIt) {
     if (m_oldcomment.isEmpty()) setText(i18n("Add guide"));
     else if (m_oldPos == m_pos) setText(i18n("Edit guide"));
+	else if (m_pos <= GenTime()) setText(i18n("Delete guide"));
     else setText(i18n("Move guide"));
     kDebug() << "///  CREATE GUIDE COMMAND, TIMES: " << m_oldPos.frames(25) << "x" << m_pos.frames(25);
 }

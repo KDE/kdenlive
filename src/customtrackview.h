@@ -102,7 +102,7 @@ public slots:
     void slotSwitchTrackVideo(int ix);
     void slotUpdateClip(int clipId);
     void slotAddClipMarker(int id, GenTime t, QString c);
-    void addGuide(const GenTime pos, const QString &comment);
+    bool addGuide(const GenTime pos, const QString &comment);
     void slotAddGuide();
     void slotDeleteGuide();
     void editGuide(const GenTime oldPos, const GenTime pos, const QString &comment);
