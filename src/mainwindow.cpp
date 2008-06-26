@@ -169,16 +169,17 @@ MainWindow::MainWindow(QWidget *parent)
     overviewDock->setObjectName("project_overview");
     //m_overView = new CustomTrackView(NULL, NULL, this);
     //overviewDock->setWidget(m_overView);
-    addDockWidget(Qt::TopDockWidgetArea, overviewDock);
+    //addDockWidget(Qt::TopDockWidgetArea, overviewDock);
 
     setupActions();
-    tabifyDockWidget(projectListDock, effectListDock);
+    //tabifyDockWidget(projectListDock, effectListDock);
     tabifyDockWidget(projectListDock, effectStackDock);
     tabifyDockWidget(projectListDock, transitionConfigDock);
-    tabifyDockWidget(projectListDock, undoViewDock);
+    //tabifyDockWidget(projectListDock, undoViewDock);
     projectListDock->raise();
 
     tabifyDockWidget(clipMonitorDock, projectMonitorDock);
+	tabifyDockWidget(clipMonitorDock, recMonitorDock);
     setCentralWidget(m_timelineArea);
 
     setupGUI(Default, NULL /*"kdenliveui.rc"*/);
