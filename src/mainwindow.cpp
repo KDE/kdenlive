@@ -165,8 +165,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_undoView->setGroup(m_commandStack);
     addDockWidget(Qt::TopDockWidgetArea, undoViewDock);
 
-    overviewDock = new QDockWidget(i18n("Project Overview"), this);
-    overviewDock->setObjectName("project_overview");
+    //overviewDock = new QDockWidget(i18n("Project Overview"), this);
+    //overviewDock->setObjectName("project_overview");
     //m_overView = new CustomTrackView(NULL, NULL, this);
     //overviewDock->setWidget(m_overView);
     //addDockWidget(Qt::TopDockWidgetArea, overviewDock);
