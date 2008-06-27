@@ -124,6 +124,7 @@ const CLIPTYPE & DocClipBase::clipType() const {
 
 void DocClipBase::setClipType(CLIPTYPE type) {
     m_clipType = type;
+    m_properties.insert("type", QString::number((int) type));
     if (m_thumbProd && m_audioTimer == NULL && (m_clipType == AV || m_clipType == AUDIO))
         slotCreateAudioTimer();
 }
