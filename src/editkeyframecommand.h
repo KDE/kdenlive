@@ -1,9 +1,9 @@
 /***************************************************************************
-                          edittransitioncommand.h  -  description
+                          editkeyframecommand.h  -  description
                              -------------------
     begin                : 2008
-    copyright            : (C) 2008 by Marco Gittler
-    email                : g.marco@freenet.de
+    copyright            : (C) 2008 by Jean-Baptiste Mardelle
+    email                : jb@kdenlive.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,30 +15,32 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef EDITTRANSITIONCOMMAND_H
-#define EDITTRANSITIONCOMMAND_H
+#ifndef KEYFRAMECOMMAND_H
+#define KEYFRAMECOMMAND_H
 
 #include <QUndoCommand>
-#include <KDebug>
+#include <QGraphicsView>
+#include <QPointF>
 #include <QDomElement>
-#include "gentime.h"
+#include <KDebug>
 
+#include "gentime.h"
+#include "definitions.h"
 class CustomTrackView;
 
-class EditTransitionCommand : public QUndoCommand {
-public:
-    EditTransitionCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, bool doIt);
 
-    virtual int id() const;
-    virtual bool mergeWith(const QUndoCommand * command);
+class EditKeyFrameCommand : public QUndoCommand {
+public:
+    EditKeyFrameCommand(CustomTrackView *view, const int track, GenTime pos, const int effectIndex, const QString& oldkeyframes, const QString& newkeyframes, bool doIt);
     virtual void undo();
     virtual void redo();
 
 private:
     CustomTrackView *m_view;
+    const QString m_oldkfr;
+    const QString m_newkfr;
     const int m_track;
-    QDomElement m_effect;
-    QDomElement m_oldeffect;
+    const int m_index;
     const GenTime m_pos;
     bool m_doIt;
 };

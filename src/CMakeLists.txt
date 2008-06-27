@@ -116,6 +116,7 @@ set(kdenlive_SRCS
   editguidecommand.cpp
   statusbarmessagelabel.cpp
   regiongrabber.cpp
+  editkeyframecommand.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

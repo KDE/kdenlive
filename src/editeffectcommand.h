@@ -39,10 +39,10 @@ public:
 
 private:
     CustomTrackView *m_view;
-    int m_track;
+    const int m_track;
     QDomElement m_effect;
     QDomElement m_oldeffect;
-    GenTime m_pos;
+    const GenTime m_pos;
     bool m_doIt;
 };
 

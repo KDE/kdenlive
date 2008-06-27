@@ -45,6 +45,7 @@
 #include "moveeffectcommand.h"
 #include "addtransitioncommand.h"
 #include "edittransitioncommand.h"
+#include "editkeyframecommand.h"
 #include "addmarkercommand.h"
 #include "razorclipcommand.h"
 #include "kdenlivesettings.h"
@@ -569,7 +570,11 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event) {
                 int pos = m_document->timecode().getFrameCount(view.kfr_position->text(), m_document->fps());
                 m_dragItem->updateKeyFramePos(GenTime(pos, m_document->fps()) + m_dragItem->cropStart(), (double) view.kfr_value->value() * m_dragItem->keyFrameFactor());
                 ClipItem *item = (ClipItem *)m_dragItem;
-                item->updateKeyframeEffect();
+		QString previous = item->keyframes(item->selectedEffectIndex());
+		item->updateKeyframeEffect();
+		QString next = item->keyframes(item->selectedEffectIndex());
+		EditKeyFrameCommand *command = new EditKeyFrameCommand(this, item->track(), item->startPos(), item->selectedEffectIndex(), previous, next, false);
+		m_commandStack->push(command);
                 updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect());
             }
 
@@ -578,11 +583,26 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event) {
             GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x() / m_scale), m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
             m_dragItem->addKeyFrame(keyFramePos, mapToScene(event->pos()).toPoint().y());
             ClipItem * item = (ClipItem *) m_dragItem;
+	    QString previous = item->keyframes(item->selectedEffectIndex());
             item->updateKeyframeEffect();
+	    QString next = item->keyframes(item->selectedEffectIndex());
+	    EditKeyFrameCommand *command = new EditKeyFrameCommand(this, m_dragItem->track(), m_dragItem->startPos(), item->selectedEffectIndex(), previous, next, false);
+	    m_commandStack->push(command);
             updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect());
         }
     }
 }
+
+
+void CustomTrackView::editKeyFrame(const GenTime pos, const int track, const int index, const QString keyframes) {
+    ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), track);
+    if (clip) {
+      clip->setKeyframes(index, keyframes);
+      updateEffect(m_tracksList.count() - clip->track(), clip->startPos(), clip->effectAt(index));      
+    }
+    else emit displayMessage(i18n("Cannot find clip with keyframe"), ErrorMessage);
+}
+
 
 void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip) {
     if (clip == NULL) m_timelineContextMenu->popup(pos);
@@ -1064,7 +1084,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
     } else if (m_operationMode == KEYFRAME) {
         // update the MLT effect
         ClipItem * item = (ClipItem *) m_dragItem;
+	QString previous = item->keyframes(item->selectedEffectIndex());
         item->updateKeyframeEffect();
+	QString next = item->keyframes(item->selectedEffectIndex());
+	EditKeyFrameCommand *command = new EditKeyFrameCommand(this, item->track(), item->startPos(), item->selectedEffectIndex(), previous, next, false);
+	m_commandStack->push(command);
         updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect());
     }
 

@@ -81,11 +81,13 @@ public:
     QList <GenTime> snapMarkers() const;
     uint fadeIn() const;
     uint fadeOut() const;
-    void setSelectedEffect(int ix);
+    void setSelectedEffect(const int ix);
     void updateKeyframeEffect();
     QDomElement selectedEffect();
     int selectedEffectIndex() const;
     void initEffect(QDomElement effect);
+    QString keyframes(const int index);
+    void setKeyframes(const int ix, const QString keyframes);
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);

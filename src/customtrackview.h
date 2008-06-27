@@ -84,6 +84,7 @@ public:
     void slotSeekToNextSnap();
     double getSnapPointForPos(double pos);
     QDomElement xmlInfo();
+    void editKeyFrame(const GenTime pos, const int track, const int index, const QString keyframes);
 
 public slots:
     void setCursorPos(int pos, bool seek = true);

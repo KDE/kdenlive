@@ -38,8 +38,8 @@ public:
 
 private:
     CustomTrackView *m_view;
-    ItemInfo m_startPos;
-    ItemInfo m_endPos;
+    const ItemInfo m_startPos;
+    const ItemInfo m_endPos;
     bool m_doIt;
 };
 
