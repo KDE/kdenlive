@@ -631,10 +631,15 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
 void CustomTrackView::slotRefreshEffects(ClipItem *clip) {
     int track = m_tracksList.count() - clip->track();
     GenTime pos = clip->startPos();
-    m_document->renderer()->mltRemoveEffect(track, pos, "-1", false);
-    for (int i = 0; i < clip->effectsCount(); i++) {
-        m_document->renderer()->mltAddEffect(track, pos, clip->getEffectArgs(clip->effectAt(i)), false);
+    if (!m_document->renderer()->mltRemoveEffect(track, pos, "-1", false)) {
+	emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
+	return;
     }
+    bool success = true;
+    for (int i = 0; i < clip->effectsCount(); i++) {
+        if (!m_document->renderer()->mltAddEffect(track, pos, clip->getEffectArgs(clip->effectAt(i)), false)) success = false;
+    }
+    if (!success) emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
     m_document->renderer()->doRefresh();
 }
 
@@ -642,14 +647,19 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect) {
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_tracksList.count() - track);
     if (clip) {
         QMap <QString, QString> effectParams = clip->addEffect(effect);
-        m_document->renderer()->mltAddEffect(track, pos, effectParams);
+        if (!m_document->renderer()->mltAddEffect(track, pos, effectParams))
+	    emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
         emit clipItemSelected(clip);
     }
+    else emit displayMessage(i18n("Cannot find clip to add effect"), ErrorMessage);
 }
 
 void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect) {
     QString index = effect.attribute("kdenlive_ix");
-    m_document->renderer()->mltRemoveEffect(track, pos, index);
+    if (!m_document->renderer()->mltRemoveEffect(track, pos, index)) {
+	emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
+	return;
+    }
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_tracksList.count() - track);
     if (clip) {
         clip->deleteEffect(index);
@@ -689,8 +699,10 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect) {
         QMap <QString, QString> effectParams = clip->getEffectArgs(effect);
         if (effectParams.value("disabled") == "1") {
             QString index = effectParams.value("kdenlive_ix");
-            m_document->renderer()->mltRemoveEffect(track, pos, index);
-        } else m_document->renderer()->mltEditEffect(m_tracksList.count() - clip->track(), clip->startPos(), effectParams);
+            if (!m_document->renderer()->mltRemoveEffect(track, pos, index))
+		emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
+        } else if (!m_document->renderer()->mltEditEffect(m_tracksList.count() - clip->track(), clip->startPos(), effectParams))
+	    emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
     }
     m_document->setModified(true);
 }
@@ -1291,7 +1303,8 @@ void CustomTrackView::updateClipFade(ClipItem * item, bool updateFadeOut) {
             EffectsList::setParameter(oldeffect, "in", QString::number(start));
             EffectsList::setParameter(oldeffect, "out", QString::number(end));
             QMap <QString, QString> effectParams = item->getEffectArgs(oldeffect);
-            m_document->renderer()->mltEditEffect(m_tracksList.count() - item->track(), item->startPos(), effectParams);
+            if (!m_document->renderer()->mltEditEffect(m_tracksList.count() - item->track(), item->startPos(), effectParams))
+		emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
         }
     } else {
         int start = item->fadeOut();
@@ -1304,7 +1317,8 @@ void CustomTrackView::updateClipFade(ClipItem * item, bool updateFadeOut) {
             EffectsList::setParameter(oldeffect, "in", QString::number(start));
             EffectsList::setParameter(oldeffect, "out", QString::number(end));
             QMap <QString, QString> effectParams = item->getEffectArgs(oldeffect);
-            m_document->renderer()->mltEditEffect(m_tracksList.count() - item->track(), item->startPos(), effectParams);
+            if (m_document->renderer()->mltEditEffect(m_tracksList.count() - item->track(), item->startPos(), effectParams))
+		emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
         }
     }
 }

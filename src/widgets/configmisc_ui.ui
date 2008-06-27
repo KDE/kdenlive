@@ -6,11 +6,11 @@
     <x>0</x>
     <y>0</y>
     <width>369</width>
-    <height>245</height>
+    <height>258</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_4" >
-   <item row="0" column="0" >
+   <item row="1" column="0" >
     <widget class="QGroupBox" name="groupBox" >
      <property name="title" >
       <string>Default Durations</string>
@@ -50,7 +50,7 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0" >
+   <item row="2" column="0" >
     <widget class="QGroupBox" name="properties" >
      <property name="title" >
       <string>Default Profile</string>
@@ -136,7 +136,7 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="0" >
+   <item row="3" column="0" >
     <spacer>
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
@@ -148,6 +148,13 @@
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="0" column="0" >
+    <widget class="QCheckBox" name="kcfg_openlastproject" >
+     <property name="text" >
+      <string>Open last project on startup</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

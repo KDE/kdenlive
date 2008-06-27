@@ -248,7 +248,13 @@ MainWindow::MainWindow(QWidget *parent)
     slotConnectMonitors();
 
     setAutoSaveSettings();
-    newFile();
+
+    if (KdenliveSettings::openlastproject()) {
+      KSharedConfigPtr config = KGlobal::config();
+      QString Lastproject = config->group("Recent Files").readPathEntry("File1", QString());
+      openFile(KUrl(Lastproject));
+
+    } else newFile();
 
     activateShuttleDevice();
 }

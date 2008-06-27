@@ -1096,10 +1096,10 @@ void Render::mltRemoveClip(int track, GenTime position) {
     m_isBlocked = false;
 }
 
-void Render::mltRemoveEffect(int track, GenTime position, QString index, bool doRefresh) {
+bool Render::mltRemoveEffect(int track, GenTime position, QString index, bool doRefresh) {
 
     Mlt::Service service(m_mltProducer->parent().get_service());
-
+    bool success = false;
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
@@ -1107,7 +1107,7 @@ void Render::mltRemoveEffect(int track, GenTime position, QString index, bool do
     Mlt::Producer *clip = trackPlaylist.get_clip_at((int) position.frames(m_fps));
     if (!clip) {
         kDebug() << " / / / CANNOT FIND CLIP TO REMOVE EFFECT";
-        return;
+        return success;
     }
     Mlt::Service clipService(clip->get_service());
 //    if (tag.startsWith("ladspa")) tag = "ladspa";
@@ -1116,17 +1116,18 @@ void Render::mltRemoveEffect(int track, GenTime position, QString index, bool do
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
         if (index == "-1" || filter->get("kdenlive_ix") == index) {// && filter->get("kdenlive_id") == id) {
-            clipService.detach(*filter);
+            if (clipService.detach(*filter) == 0) success = true;
             kDebug() << " / / / DLEETED EFFECT: " << ct;
         } else ct++;
         filter = clipService.filter(ct);
     }
     m_isBlocked = false;
     if (doRefresh) refresh();
+    return success;
 }
 
 
-void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> args, bool doRefresh) {
+bool Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> args, bool doRefresh) {
 
     Mlt::Service service(m_mltProducer->parent().get_service());
 
@@ -1136,8 +1137,7 @@ void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
 
     Mlt::Producer *clip = trackPlaylist.get_clip_at((int) position.frames(m_fps));
     if (!clip) {
-        kDebug() << "**********  CANNOT FIND CLIP TO APPLY EFFECT-----------";
-        return;
+        return false;
     }
     Mlt::Service clipService(clip->get_service());
     m_isBlocked = true;
@@ -1200,7 +1200,7 @@ void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
         else {
             kDebug() << "filter is NULL";
             m_isBlocked = false;
-            return;
+            return false;
         }
 
         for (it = args.begin(); it != args.end(); ++it) {
@@ -1217,17 +1217,18 @@ void Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
     delete[] filterTag;
     m_isBlocked = false;
     if (doRefresh) refresh();
+    return true;
 }
 
-void Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> args) {
+bool Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> args) {
     QString index = args.value("kdenlive_ix");
     QString tag =  args.value("tag");
     QMap<QString, QString>::Iterator it = args.begin();
     if (!args.value("keyframes").isEmpty() || /*it.key().startsWith("#") || */tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle") {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
-        mltRemoveEffect(track, position, index);
-        mltAddEffect(track, position, args);
-        return;
+	bool success = mltRemoveEffect(track, position, index);
+        if (success) success = mltAddEffect(track, position, args);
+	return success;
     }
 
     // create filter
@@ -1240,7 +1241,7 @@ void Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> 
     Mlt::Producer *clip = trackPlaylist.get_clip_at((int) position.frames(m_fps));
     if (!clip) {
         kDebug() << "WARINIG, CANNOT FIND CLIP ON track: " << track << ", AT POS: " << position.frames(m_fps);
-        return;
+        return false;
     }
     Mlt::Service clipService(clip->get_service());
     m_isBlocked = true;
@@ -1253,7 +1254,6 @@ void Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> 
         ct++;
         filter = clipService.filter(ct);
     }
-
 
     if (!filter) {
         kDebug() << "WARINIG, FILTER FOR EDITING NOT FOUND, ADDING IT!!!!!";
@@ -1268,14 +1268,14 @@ void Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> 
             } else ct++;
             filter = clipService.filter(ct);
         }
-        mltAddEffect(track, position, args);
+        bool success = mltAddEffect(track, position, args);
 
         for (int i = 0; i < filtersList.count(); i++) {
             clipService.attach(*(filtersList.at(i)));
         }
 
         m_isBlocked = false;
-        return;
+        return success;
     }
 
     for (it = args.begin(); it != args.end(); ++it) {
@@ -1288,6 +1288,7 @@ void Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> 
     }
     m_isBlocked = false;
     refresh();
+    return true;
 }
 
 void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos) {

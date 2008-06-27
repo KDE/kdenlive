@@ -4,6 +4,11 @@
 <kcfg>
   <kcfgfile/>
   <group name="misc">
+    <entry name="openlastproject" type="Bool">
+      <label>Open last project on startup.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="color_duration" type="String">
       <label>Default color clip duration.</label>
       <default>00:00:05:00</default>
