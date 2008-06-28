@@ -38,7 +38,9 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, uint id):
     int out = xml.attribute("out").toInt();
     if (out != 0) {
         setDuration(GenTime(out, KdenliveSettings::project_fps()));
-        //m_properties.insert("out", QString::number(out));
+    } else {
+        out = xml.attribute("duration").toInt();
+        if (out != 0) setDuration(GenTime(out, KdenliveSettings::project_fps()));
     }
     if (m_name.isEmpty()) m_name = url.fileName();
 

@@ -735,21 +735,32 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut) {
     if (cut) {
         // cut clip
         ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
+        if (!item) {
+            emit displayMessage(i18n("Cannot find clip to cut"), ErrorMessage);
+            return;
+        }
         int cutPos = (int) cutTime.frames(m_document->fps());
         ItemInfo newPos;
         newPos.startPos = cutTime;
         newPos.endPos = info.endPos;
         newPos.track = info.track;
-        ClipItem *dup = new ClipItem(item->baseClip(), newPos, item->cropStart(), m_scale, m_document->fps());
-        dup->setCropStart(dup->cropStart() + (cutTime - info.startPos));
         item->resizeEnd(cutPos, m_scale);
+        ClipItem *dup = new ClipItem(item->baseClip(), newPos, item->cropStart() + (cutTime - info.startPos), m_scale, m_document->fps());
         scene()->addItem(dup);
         m_document->renderer()->mltCutClip(m_tracksList.count() - info.track, cutTime);
+        item->baseClip()->addReference();
+        m_document->updateClip(item->baseClip()->getId());
     } else {
         // uncut clip
         ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
         ClipItem *dup = getClipItemAt((int) cutTime.frames(m_document->fps()), info.track);
+        if (!item || !dup) {
+            emit displayMessage(i18n("Cannot find clip to uncut"), ErrorMessage);
+            return;
+        }
         delete dup;
+        item->baseClip()->removeReference();
+        m_document->updateClip(item->baseClip()->getId());
         item->resizeEnd((int) info.endPos.frames(m_document->fps()), m_scale);
         m_document->renderer()->mltRemoveClip(m_tracksList.count() - info.track, cutTime);
         m_document->renderer()->mltResizeClipEnd(m_tracksList.count() - info.track, info.startPos, item->cropStart(), item->cropStart() + info.endPos - info.startPos);

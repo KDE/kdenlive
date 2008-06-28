@@ -95,6 +95,8 @@ Q_OBJECT public:
     KUrl projectFolder() const;
     /** Used to inform main app of the current document loading progress */
     void loadingProgressed();
+    void updateAllProjectClips();
+
 private:
     KUrl m_url;
     QDomDocument m_document;

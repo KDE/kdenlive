@@ -943,6 +943,9 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     m_monitorManager->setTimecode(doc->timecode());
     doc->setRenderer(m_projectMonitor->render);
     m_commandStack->setActiveStack(doc->commandStack());
+
+    doc->updateAllProjectClips();
+
     if (m_commandStack->isClean()) kDebug() << "////////////  UNDO STACK IS CLEAN";
     else  kDebug() << "////////////  UNDO STACK IS NOT CLEAN*******************";
 

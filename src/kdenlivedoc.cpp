@@ -401,6 +401,12 @@ void KdenliveDoc::updateClip(int id) {
     emit updateClipDisplay(id);
 }
 
+void KdenliveDoc::updateAllProjectClips() {
+    QList <DocClipBase*> list = m_clipManager->documentClipList();
+    for (int i = 0; i < list.count(); i++)
+        emit updateClipDisplay(list.at(i)->getId());
+}
+
 int KdenliveDoc::getFramePos(QString duration) {
     return m_timecode.getFrameCount(duration, m_fps);
 }

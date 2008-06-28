@@ -60,7 +60,6 @@ public:
       extendItem(w,
     }
     */
-
     void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
         if (index.column() == 1) {
             const bool hover = option.state & (QStyle::State_Selected);
@@ -73,7 +72,6 @@ public:
                 painter->fillRect(r1, QBrush(backgroundColor));
             }
             QFont font = painter->font();
-            font.setPointSize(font.pointSize());
             font.setBold(true);
             painter->setFont(font);
             int mid = (int)((r1.height() / 2));
@@ -87,6 +85,7 @@ public:
             QString subText = index.data(DurationRole).toString();
             int usage = index.data(UsageRole).toInt();
             if (usage != 0) subText.append(QString(" (%1)").arg(usage));
+            painter->setPen(option.palette.color(QPalette::Mid));
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText);
             painter->restore();
         } else {

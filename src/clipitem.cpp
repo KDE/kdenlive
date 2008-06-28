@@ -776,7 +776,7 @@ void ClipItem::checkEffectsKeyframesPos(const int previous, const int current, b
             }
         }
     }
-    setSelectedEffect(m_selectedEffect);
+    if (m_selectedEffect >= 0) setSelectedEffect(m_selectedEffect);
 }
 
 
