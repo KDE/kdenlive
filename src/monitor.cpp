@@ -93,12 +93,22 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     render = new Render(m_name, (int) m_monitorRefresh->winId(), -1, this);
     m_monitorRefresh->setRenderer(render);
 
+
+    m_contextMenu = new QMenu(this);
+    m_contextMenu->addMenu(playMenu);
+    QAction *extractFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Extract frame"));
+    connect(extractFrame, SIGNAL(triggered()), this, SLOT(slotExtractCurrentFrame()));
+    connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
+
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
     if (name != "clip") {
         connect(render, SIGNAL(rendererPosition(int)), this, SIGNAL(renderPosition(int)));
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
+    } else {
+        QAction *setThumbFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Set current image as thumbnail"));
+        connect(setThumbFrame, SIGNAL(triggered()), this, SLOT(slotSetThumbFrame()));
     }
     //render->createVideoXWindow(ui.video_frame->winId(), -1);
     int width = m_ruler->width();
@@ -106,11 +116,6 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     m_ruler->setMaximum(width);
     m_length = 0;
 
-    m_contextMenu = new QMenu(this);
-    m_contextMenu->addMenu(playMenu);
-    QAction *extractFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Extract frame"));
-    connect(extractFrame, SIGNAL(triggered()), this, SLOT(slotExtractCurrentFrame()));
-    connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
     kDebug() << "/////// BUILDING MONITOR, ID: " << ui.video_frame->winId();
 }
 
@@ -134,6 +139,14 @@ void Monitor::wheelEvent(QWheelEvent * event) {
         if (event->delta() > 0) slotForwardOneFrame();
         else slotRewindOneFrame();
     }
+}
+
+void Monitor::slotSetThumbFrame() {
+    if (m_currentClip == NULL) {
+        return;
+    }
+    m_currentClip->setClipThumbFrame((uint) m_position);
+    emit refreshClipThumbnail(m_currentClip->getId());
 }
 
 void Monitor::slotExtractCurrentFrame() {

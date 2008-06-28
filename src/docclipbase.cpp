@@ -23,7 +23,7 @@
 #include "clipmanager.h"
 
 DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, uint id):
-        m_id(id), m_description(QString()), m_refcount(0), m_projectThumbFrame(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL) {
+        m_id(id), m_description(QString()), m_refcount(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL) {
     int type = xml.attribute("type").toInt();
     m_clipType = (CLIPTYPE) type;
     m_name = xml.attribute("name");
@@ -135,12 +135,12 @@ KUrl DocClipBase::fileURL() const {
     return KUrl();
 }
 
-void DocClipBase::setProjectThumbFrame(const uint &ix) {
-    m_projectThumbFrame = ix;
+void DocClipBase::setClipThumbFrame(const uint &ix) {
+    m_properties.insert("thumbnail", QString::number((int) ix));
 }
 
-uint DocClipBase::getProjectThumbFrame() const {
-    return m_projectThumbFrame;
+uint DocClipBase::getClipThumbFrame() const {
+    return (uint) m_properties.value("thumbnail").toInt();
 }
 
 const QString DocClipBase::description() const {
@@ -161,7 +161,7 @@ const GenTime &DocClipBase::duration() const {
 
 const GenTime &DocClipBase::maxDuration() const {
     if (m_clipType == COLOR || m_clipType == IMAGE || m_clipType == TEXT || (m_clipType == SLIDESHOW &&  m_properties.value("loop") == "1")) {
-        GenTime dur(10000, KdenliveSettings::project_fps());
+        const GenTime dur(10000, KdenliveSettings::project_fps());
         return dur;
     }
     return m_duration;

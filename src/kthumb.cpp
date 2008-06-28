@@ -189,7 +189,6 @@ QPixmap KThumb::getImage(KUrl url, int frame, int width, int height) {
     Mlt::Producer producer(profile, "westley-xml", tmp);
     delete[] tmp;
 
-
     if (producer.is_blank()) {
 
         pix.fill(Qt::black);

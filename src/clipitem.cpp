@@ -873,8 +873,8 @@ QMap <QString, QString> ClipItem::addEffect(QDomElement effect, bool animate) {
         update(r);
     }
     if (m_selectedEffect == -1) {
-      m_selectedEffect = 0;
-      setSelectedEffect(m_selectedEffect);
+        m_selectedEffect = 0;
+        setSelectedEffect(m_selectedEffect);
     }
     return effectParams;
 }

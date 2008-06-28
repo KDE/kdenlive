@@ -403,10 +403,11 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
     delete[] tmp;
 
     if (producer.is_blank()) {
+        kDebug() << " / / / / / / / /ERRROR / / / / // CANNOT LOAD PRODUCER: " << doc.toString();
         return;
     }
 
-    int frameNumber = xml.attribute("frame_thumbnail", "0").toInt();
+    int frameNumber = xml.attribute("thumbnail", "0").toInt();
     if (frameNumber != 0) producer.seek(frameNumber);
     mlt_properties properties = MLT_PRODUCER_PROPERTIES(producer.get_producer());
 
@@ -469,15 +470,15 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
     if (context != NULL) {
         // Get the video_index
         int index = mlt_properties_get_int(properties, "video_index");
-
 #if ENABLE_FFMPEG_CODEC_DESCRIPTION
-        if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->long_name)
+        if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->long_name) {
             filePropertyMap["videocodec"] = context->streams[ index ]->codec->codec->long_name;
-        else
+        } else
 #endif
-            if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name)
+            if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name) {
                 filePropertyMap["videocodec"] = context->streams[ index ]->codec->codec->name;
-    }
+            }
+    } else kDebug() << " / / / / /WARNING, VIDEO CONTEXT IS NULL!!!!!!!!!!!!!!";
     context = (AVFormatContext *) mlt_properties_get_data(properties, "audio_context", NULL);
     if (context != NULL) {
         // Get the video_index

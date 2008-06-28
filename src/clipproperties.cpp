@@ -90,7 +90,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         if (props.contains("aspect_ratio"))
             m_view.clip_ratio->setText(props.value("aspect_ratio"));
 
-        QPixmap pix = m_clip->thumbProducer()->getImage(url, 240, 180);
+        QPixmap pix = m_clip->thumbProducer()->getImage(url, m_clip->getClipThumbFrame(), 240, 180);
         m_view.clip_thumb->setPixmap(pix);
         if (t == IMAGE || t == VIDEO) m_view.tabWidget->removeTab(AUDIOTAB);
     } else {

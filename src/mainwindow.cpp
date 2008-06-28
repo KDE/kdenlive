@@ -359,6 +359,7 @@ void MainWindow::slotConnectMonitors() {
     connect(m_projectList, SIGNAL(getFileProperties(const QDomElement &, int)), m_clipMonitor->render, SLOT(getFileProperties(const QDomElement &, int)));
     connect(m_clipMonitor->render, SIGNAL(replyGetImage(int, int, const QPixmap &, int, int)), m_projectList, SLOT(slotReplyGetImage(int, int, const QPixmap &, int, int)));
     connect(m_clipMonitor->render, SIGNAL(replyGetFileProperties(int, const QMap < QString, QString > &, const QMap < QString, QString > &)), m_projectList, SLOT(slotReplyGetFileProperties(int, const QMap < QString, QString > &, const QMap < QString, QString > &)));
+    connect(m_clipMonitor, SIGNAL(refreshClipThumbnail(int)), m_projectList, SLOT(slotRefreshClipThumbnail(int)));
 }
 
 void MainWindow::setupActions() {

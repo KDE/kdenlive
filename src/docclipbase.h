@@ -226,7 +226,6 @@ private:   // Private attributes
 
     /** a unique numeric id */
     uint m_id;
-    uint m_projectThumbFrame;
     void setAudioThumbCreated(bool isDone);
     /** Holds clip infos like fps, size,... */
     QMap <QString, QString> m_properties;
@@ -246,8 +245,8 @@ public slots:
     void addSnapMarker(const GenTime & time, QString comment);
     QList < GenTime > snapMarkers() const;
     QString markerComment(GenTime t);
-    void setProjectThumbFrame(const uint &ix);
-    uint getProjectThumbFrame() const;
+    void setClipThumbFrame(const uint &ix);
+    uint getClipThumbFrame() const;
     void setProperties(QMap <QString, QString> properties);
     QMap <QString, QString> properties() const;
 

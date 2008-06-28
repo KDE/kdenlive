@@ -81,6 +81,7 @@ private slots:
     void seekCursor(int pos);
     void rendererStopped(int pos);
     void slotExtractCurrentFrame();
+    void slotSetThumbFrame();
 
 public slots:
     void slotOpenFile(const QString &);
@@ -101,6 +102,7 @@ public slots:
 signals:
     void renderPosition(int);
     void durationChanged(int);
+    void refreshClipThumbnail(int);
 };
 
 #endif
