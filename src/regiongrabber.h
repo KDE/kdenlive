@@ -31,8 +31,7 @@ class QPaintEvent;
 class QResizeEvent;
 class QMouseEvent;
 
-class RegionGrabber : public QWidget
-{
+class RegionGrabber : public QWidget {
     Q_OBJECT
 public:
     RegionGrabber();
@@ -43,19 +42,19 @@ protected slots:
     void displayHelp();
 
 signals:
-    void regionGrabbed( const QRect & );
+    void regionGrabbed(const QRect &);
 
 protected:
-    void paintEvent( QPaintEvent* e );
-    void resizeEvent( QResizeEvent* e );
-    void mousePressEvent( QMouseEvent* e );
-    void mouseMoveEvent( QMouseEvent* e );
-    void mouseReleaseEvent( QMouseEvent* e );
-    void mouseDoubleClickEvent( QMouseEvent* );
-    void keyPressEvent( QKeyEvent* e );
+    void paintEvent(QPaintEvent* e);
+    void resizeEvent(QResizeEvent* e);
+    void mousePressEvent(QMouseEvent* e);
+    void mouseMoveEvent(QMouseEvent* e);
+    void mouseReleaseEvent(QMouseEvent* e);
+    void mouseDoubleClickEvent(QMouseEvent*);
+    void keyPressEvent(QKeyEvent* e);
     void updateHandles();
     QRegion handleMask() const;
-    QPoint limitPointToRect( const QPoint &p, const QRect &r ) const;
+    QPoint limitPointToRect(const QPoint &p, const QRect &r) const;
     void grabRect();
 
     QRect selection;

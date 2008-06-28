@@ -41,7 +41,7 @@ public:
     RecMonitor(QString name, QWidget *parent = 0);
     QString name() const;
 
-enum CAPTUREDEVICE {FIREWIRE = 0, VIDEO4LINUX = 1, SCREENGRAB =2};
+    enum CAPTUREDEVICE {FIREWIRE = 0, VIDEO4LINUX = 1, SCREENGRAB = 2};
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
@@ -50,7 +50,7 @@ private:
     Ui::RecMonitor_UI ui;
     QString m_tmpFolder;
     QString m_name;
-	RegionGrabber *rgnGrab;
+    RegionGrabber *rgnGrab;
     bool m_isActive;
 
 
@@ -71,6 +71,7 @@ private:
     QAction *m_rewAction;
     QAction *m_stopAction;
     QAction *m_discAction;
+    void checkDeviceAvailability();
 
 private slots:
     void slotStartCapture(bool play = true);
@@ -81,7 +82,7 @@ private slots:
     void slotRewind();
     void slotForward();
     void slotDisconnect();
-	void slotStartGrab(const QRect &rect);
+    void slotStartGrab(const QRect &rect);
 
 public slots:
     void refreshRecMonitor(bool visible);

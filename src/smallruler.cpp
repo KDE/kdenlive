@@ -72,7 +72,7 @@ void SmallRuler::mouseMoveEvent(QMouseEvent * event) {
 }
 
 void SmallRuler::slotNewValue(int _value) {
-    m_cursorPosition = (int)(_value ); /// pixelPerMark());
+    m_cursorPosition = (int)(_value);  /// pixelPerMark());
     KRuler::slotNewValue(_value * pixelPerMark());
 }
 

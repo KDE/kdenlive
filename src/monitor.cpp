@@ -110,7 +110,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     m_contextMenu->addMenu(playMenu);
     QAction *extractFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Extract frame"));
     connect(extractFrame, SIGNAL(triggered()), this, SLOT(slotExtractCurrentFrame()));
-	connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
+    connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
     kDebug() << "/////// BUILDING MONITOR, ID: " << ui.video_frame->winId();
 }
 
@@ -268,18 +268,18 @@ void Monitor::slotSetXml(DocClipBase *clip, const int position) {
     if (render == NULL) return;
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);
     if (!clip) return;
-	if (clip != m_currentClip) {
-		m_currentClip = clip;
-		QDomDocument doc;
-		QDomElement westley = doc.createElement("westley");
-		doc.appendChild(westley);
-		westley.appendChild(doc.importNode(m_currentClip->toXML(), true));
-		render->setSceneList(doc, 0);
-		m_ruler->slotNewValue(0);
-		m_timePos->setText("00:00:00:00");
-		m_position = 0;
-	}
-	if (position != -1) render->seek(GenTime(position, render->fps()));
+    if (clip != m_currentClip) {
+        m_currentClip = clip;
+        QDomDocument doc;
+        QDomElement westley = doc.createElement("westley");
+        doc.appendChild(westley);
+        westley.appendChild(doc.importNode(m_currentClip->toXML(), true));
+        render->setSceneList(doc, 0);
+        m_ruler->slotNewValue(0);
+        m_timePos->setText("00:00:00:00");
+        m_position = 0;
+    }
+    if (position != -1) render->seek(GenTime(position, render->fps()));
 }
 
 void Monitor::slotOpenFile(const QString &file) {

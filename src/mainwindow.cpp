@@ -179,7 +179,7 @@ MainWindow::MainWindow(QWidget *parent)
     projectListDock->raise();
 
     tabifyDockWidget(clipMonitorDock, projectMonitorDock);
-	tabifyDockWidget(clipMonitorDock, recMonitorDock);
+    tabifyDockWidget(clipMonitorDock, recMonitorDock);
     setCentralWidget(m_timelineArea);
 
     setupGUI(Default, NULL /*"kdenliveui.rc"*/);
@@ -250,9 +250,9 @@ MainWindow::MainWindow(QWidget *parent)
     setAutoSaveSettings();
 
     if (KdenliveSettings::openlastproject()) {
-      KSharedConfigPtr config = KGlobal::config();
-      QString Lastproject = config->group("Recent Files").readPathEntry("File1", QString());
-      openFile(KUrl(Lastproject));
+        KSharedConfigPtr config = KGlobal::config();
+        QString Lastproject = config->group("Recent Files").readPathEntry("File1", QString());
+        openFile(KUrl(Lastproject));
 
     } else newFile();
 
@@ -396,16 +396,16 @@ void MainWindow::setupActions() {
     m_toolGroup->addAction(m_buttonSelectTool);
     m_toolGroup->addAction(m_buttonRazorTool);
     m_toolGroup->setExclusive(true);
-	toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 
-	QWidget * actionWidget;
-	actionWidget = toolbar->widgetForAction( m_buttonSelectTool );
-	actionWidget->setMaximumWidth(24);
-	actionWidget->setMinimumHeight(17);
+    QWidget * actionWidget;
+    actionWidget = toolbar->widgetForAction(m_buttonSelectTool);
+    actionWidget->setMaximumWidth(24);
+    actionWidget->setMinimumHeight(17);
 
-	actionWidget = toolbar->widgetForAction( m_buttonRazorTool );
-	actionWidget->setMaximumWidth(24);
-	actionWidget->setMinimumHeight(17);
+    actionWidget = toolbar->widgetForAction(m_buttonRazorTool);
+    actionWidget->setMaximumWidth(24);
+    actionWidget->setMinimumHeight(17);
 
     toolbar->setStyleSheet(style1);
     connect(m_toolGroup, SIGNAL(triggered(QAction *)), this, SLOT(slotChangeTool(QAction *)));
@@ -415,9 +415,9 @@ void MainWindow::setupActions() {
     m_buttonFitZoom->setCheckable(false);
     connect(m_buttonFitZoom, SIGNAL(triggered()), this, SLOT(slotFitZoom()));
 
-	actionWidget = toolbar->widgetForAction( m_buttonFitZoom );
-	actionWidget->setMaximumWidth(24);
-	actionWidget->setMinimumHeight(17);
+    actionWidget = toolbar->widgetForAction(m_buttonFitZoom);
+    actionWidget->setMaximumWidth(24);
+    actionWidget->setMinimumHeight(17);
 
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
     m_zoomSlider->setMaximum(13);
@@ -459,21 +459,21 @@ void MainWindow::setupActions() {
     layout->addWidget(toolbar);
 
 
-	actionWidget = toolbar->widgetForAction( m_buttonVideoThumbs );
-	actionWidget->setMaximumWidth(24);
-	actionWidget->setMinimumHeight(17);
+    actionWidget = toolbar->widgetForAction(m_buttonVideoThumbs);
+    actionWidget->setMaximumWidth(24);
+    actionWidget->setMinimumHeight(17);
 
-	actionWidget = toolbar->widgetForAction( m_buttonAudioThumbs );
-	actionWidget->setMaximumWidth(24);
-	actionWidget->setMinimumHeight(17);
+    actionWidget = toolbar->widgetForAction(m_buttonAudioThumbs);
+    actionWidget->setMaximumWidth(24);
+    actionWidget->setMinimumHeight(17);
 
-	actionWidget = toolbar->widgetForAction( m_buttonShowMarkers );
-	actionWidget->setMaximumWidth(24);
-	actionWidget->setMinimumHeight(17);
+    actionWidget = toolbar->widgetForAction(m_buttonShowMarkers);
+    actionWidget->setMaximumWidth(24);
+    actionWidget->setMinimumHeight(17);
 
-	actionWidget = toolbar->widgetForAction( m_buttonSnap );
-	actionWidget->setMaximumWidth(24);
-	actionWidget->setMinimumHeight(17);
+    actionWidget = toolbar->widgetForAction(m_buttonSnap);
+    actionWidget->setMaximumWidth(24);
+    actionWidget->setMinimumHeight(17);
 
     m_messageLabel = new StatusBarMessageLabel(this);
     m_messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
@@ -491,8 +491,8 @@ void MainWindow::setupActions() {
 
     actionCollection()->addAction("show_video_thumbs", m_buttonVideoThumbs);
     actionCollection()->addAction("show_audio_thumbs", m_buttonAudioThumbs);
-	actionCollection()->addAction("show_markers", m_buttonShowMarkers);
-	actionCollection()->addAction("snap", m_buttonSnap);
+    actionCollection()->addAction("show_markers", m_buttonShowMarkers);
+    actionCollection()->addAction("snap", m_buttonSnap);
     actionCollection()->addAction("zoom_fit", m_buttonFitZoom);
 
 
@@ -638,8 +638,8 @@ void MainWindow::newFile() {
         delete w;
     }
     MltVideoProfile prof;
-	if (!profileName.isEmpty()) prof = ProfilesDialog::getVideoProfile(profileName);
-	else prof = ProfilesDialog::getVideoProfile("dv_pal");
+    if (!profileName.isEmpty()) prof = ProfilesDialog::getVideoProfile(profileName);
+    else prof = ProfilesDialog::getVideoProfile("dv_pal");
     if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
     KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, prof, m_commandStack, this);
     TrackView *trackView = new TrackView(doc, this);
@@ -882,7 +882,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(trackView, SIGNAL(transitionItemSelected(Transition*)), this, SLOT(slotActivateTransitionView()));
             disconnect(m_zoomSlider, SIGNAL(valueChanged(int)), m_activeTimeline, SLOT(slotChangeZoom(int)));
             disconnect(trackView->projectView(), SIGNAL(displayMessage(const QString&, MessageType)), m_messageLabel, SLOT(setMessage(const QString&, MessageType)));
-			disconnect(trackView->projectView(), SIGNAL(showClipFrame(DocClipBase *, const int)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *, const int)));
+            disconnect(trackView->projectView(), SIGNAL(showClipFrame(DocClipBase *, const int)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *, const int)));
 
             disconnect(m_activeDocument, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
             disconnect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement)), m_activeTimeline->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement)));

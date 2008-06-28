@@ -461,7 +461,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                             }
                         }
                         item->addEffect(clipeffect, false);
-			item->effectsCounter();
+                        item->effectsCounter();
                     }
                 }
 

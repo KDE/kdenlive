@@ -173,7 +173,7 @@ signals:
     void activateDocumentMonitor();
     void trackHeightChanged();
     void displayMessage(const QString, MessageType);
-	void showClipFrame(DocClipBase *, const int);
+    void showClipFrame(DocClipBase *, const int);
 };
 
 #endif

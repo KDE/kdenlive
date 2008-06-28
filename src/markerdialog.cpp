@@ -52,7 +52,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, QWid
 
     m_view.marker_comment->selectAll();
     m_view.marker_comment->setFocus();
-    QPixmap p((int) (100 * m_dar), 100);
+    QPixmap p((int)(100 * m_dar), 100);
     QString colour = clip->getProperty("colour");
     switch (m_clip->clipType()) {
     case VIDEO:

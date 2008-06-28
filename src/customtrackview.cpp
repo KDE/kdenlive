@@ -246,14 +246,14 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
 
     if (item && event->buttons() == Qt::NoButton) {
         AbstractClipItem *clip = (AbstractClipItem*) item;
-		if (m_tool == RAZORTOOL) {
-			// razor tool over a clip, display current frame in monitor
-			if (item->type() == AVWIDGET) {
-				emit showClipFrame(((ClipItem *) item)->baseClip(), mapToScene(event->pos()).x() / m_scale - (clip->startPos() - clip->cropStart()).frames(m_document->fps()));
-			}
-			QGraphicsView::mouseMoveEvent(event);
-			return;
-		}
+        if (m_tool == RAZORTOOL) {
+            // razor tool over a clip, display current frame in monitor
+            if (item->type() == AVWIDGET) {
+                emit showClipFrame(((ClipItem *) item)->baseClip(), mapToScene(event->pos()).x() / m_scale - (clip->startPos() - clip->cropStart()).frames(m_document->fps()));
+            }
+            QGraphicsView::mouseMoveEvent(event);
+            return;
+        }
         opMode = clip->operationMode(mapToScene(event->pos()), m_scale);
         double size = 8;
         if (opMode == m_moveOpMode) {
@@ -406,11 +406,10 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
             setCursor(Qt::PointingHandCursor);
         }
     } // no clip under mouse
-	else if (m_tool == RAZORTOOL) {
-		QGraphicsView::mouseMoveEvent(event);
-		return;
-	}
-    else if (opMode == MOVEGUIDE) {
+    else if (m_tool == RAZORTOOL) {
+        QGraphicsView::mouseMoveEvent(event);
+        return;
+    } else if (opMode == MOVEGUIDE) {
         m_moveOpMode = opMode;
         setCursor(Qt::SplitHCursor);
     } else {
@@ -468,9 +467,9 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 if (item->type() == AVWIDGET || item->type() == TRANSITIONWIDGET) {
                     if (m_tool == RAZORTOOL) {
                         if (item->type() == TRANSITIONWIDGET) {
-							emit displayMessage(i18n("Cannot cut a transition"), ErrorMessage);
-							return;
-						}
+                            emit displayMessage(i18n("Cannot cut a transition"), ErrorMessage);
+                            return;
+                        }
                         AbstractClipItem *clip = (AbstractClipItem *) item;
                         ItemInfo info;
                         info.startPos = clip->startPos();
@@ -570,11 +569,11 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event) {
                 int pos = m_document->timecode().getFrameCount(view.kfr_position->text(), m_document->fps());
                 m_dragItem->updateKeyFramePos(GenTime(pos, m_document->fps()) + m_dragItem->cropStart(), (double) view.kfr_value->value() * m_dragItem->keyFrameFactor());
                 ClipItem *item = (ClipItem *)m_dragItem;
-		QString previous = item->keyframes(item->selectedEffectIndex());
-		item->updateKeyframeEffect();
-		QString next = item->keyframes(item->selectedEffectIndex());
-		EditKeyFrameCommand *command = new EditKeyFrameCommand(this, item->track(), item->startPos(), item->selectedEffectIndex(), previous, next, false);
-		m_commandStack->push(command);
+                QString previous = item->keyframes(item->selectedEffectIndex());
+                item->updateKeyframeEffect();
+                QString next = item->keyframes(item->selectedEffectIndex());
+                EditKeyFrameCommand *command = new EditKeyFrameCommand(this, item->track(), item->startPos(), item->selectedEffectIndex(), previous, next, false);
+                m_commandStack->push(command);
                 updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect());
             }
 
@@ -583,11 +582,11 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event) {
             GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x() / m_scale), m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
             m_dragItem->addKeyFrame(keyFramePos, mapToScene(event->pos()).toPoint().y());
             ClipItem * item = (ClipItem *) m_dragItem;
-	    QString previous = item->keyframes(item->selectedEffectIndex());
+            QString previous = item->keyframes(item->selectedEffectIndex());
             item->updateKeyframeEffect();
-	    QString next = item->keyframes(item->selectedEffectIndex());
-	    EditKeyFrameCommand *command = new EditKeyFrameCommand(this, m_dragItem->track(), m_dragItem->startPos(), item->selectedEffectIndex(), previous, next, false);
-	    m_commandStack->push(command);
+            QString next = item->keyframes(item->selectedEffectIndex());
+            EditKeyFrameCommand *command = new EditKeyFrameCommand(this, m_dragItem->track(), m_dragItem->startPos(), item->selectedEffectIndex(), previous, next, false);
+            m_commandStack->push(command);
             updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect());
         }
     }
@@ -597,10 +596,9 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event) {
 void CustomTrackView::editKeyFrame(const GenTime pos, const int track, const int index, const QString keyframes) {
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), track);
     if (clip) {
-      clip->setKeyframes(index, keyframes);
-      updateEffect(m_tracksList.count() - clip->track(), clip->startPos(), clip->effectAt(index));      
-    }
-    else emit displayMessage(i18n("Cannot find clip with keyframe"), ErrorMessage);
+        clip->setKeyframes(index, keyframes);
+        updateEffect(m_tracksList.count() - clip->track(), clip->startPos(), clip->effectAt(index));
+    } else emit displayMessage(i18n("Cannot find clip with keyframe"), ErrorMessage);
 }
 
 
@@ -632,8 +630,8 @@ void CustomTrackView::slotRefreshEffects(ClipItem *clip) {
     int track = m_tracksList.count() - clip->track();
     GenTime pos = clip->startPos();
     if (!m_document->renderer()->mltRemoveEffect(track, pos, "-1", false)) {
-	emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
-	return;
+        emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
+        return;
     }
     bool success = true;
     for (int i = 0; i < clip->effectsCount(); i++) {
@@ -648,17 +646,16 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect) {
     if (clip) {
         QMap <QString, QString> effectParams = clip->addEffect(effect);
         if (!m_document->renderer()->mltAddEffect(track, pos, effectParams))
-	    emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
+            emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
         emit clipItemSelected(clip);
-    }
-    else emit displayMessage(i18n("Cannot find clip to add effect"), ErrorMessage);
+    } else emit displayMessage(i18n("Cannot find clip to add effect"), ErrorMessage);
 }
 
 void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect) {
     QString index = effect.attribute("kdenlive_ix");
     if (!m_document->renderer()->mltRemoveEffect(track, pos, index)) {
-	emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
-	return;
+        emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
+        return;
     }
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_tracksList.count() - track);
     if (clip) {
@@ -700,9 +697,9 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect) {
         if (effectParams.value("disabled") == "1") {
             QString index = effectParams.value("kdenlive_ix");
             if (!m_document->renderer()->mltRemoveEffect(track, pos, index))
-		emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
+                emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
         } else if (!m_document->renderer()->mltEditEffect(m_tracksList.count() - clip->track(), clip->startPos(), effectParams))
-	    emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+            emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
     }
     m_document->setModified(true);
 }
@@ -996,16 +993,15 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         // move clip
         if (m_dragItem->type() == AVWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
             bool success = m_document->renderer()->mltMoveClip((int)(m_tracksList.count() - m_dragItemInfo.track), (int)(m_tracksList.count() - m_dragItem->track()), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(m_dragItem->startPos().frames(m_document->fps())));
-			if (success) {
-				MoveClipCommand *command = new MoveClipCommand(this, m_dragItemInfo, info, false);
-				m_commandStack->push(command);
-			}
-			else {
-				// undo last move and emit error message
-				MoveClipCommand *command = new MoveClipCommand(this, info, m_dragItemInfo, true);
-				m_commandStack->push(command);
-				emit displayMessage(i18n("Cannot move clip to requested position"), ErrorMessage);
-			}
+            if (success) {
+                MoveClipCommand *command = new MoveClipCommand(this, m_dragItemInfo, info, false);
+                m_commandStack->push(command);
+            } else {
+                // undo last move and emit error message
+                MoveClipCommand *command = new MoveClipCommand(this, info, m_dragItemInfo, true);
+                m_commandStack->push(command);
+                emit displayMessage(i18n("Cannot move clip to requested position"), ErrorMessage);
+            }
         }
         if (m_dragItem->type() == TRANSITIONWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
             MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
@@ -1096,11 +1092,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
     } else if (m_operationMode == KEYFRAME) {
         // update the MLT effect
         ClipItem * item = (ClipItem *) m_dragItem;
-	QString previous = item->keyframes(item->selectedEffectIndex());
+        QString previous = item->keyframes(item->selectedEffectIndex());
         item->updateKeyframeEffect();
-	QString next = item->keyframes(item->selectedEffectIndex());
-	EditKeyFrameCommand *command = new EditKeyFrameCommand(this, item->track(), item->startPos(), item->selectedEffectIndex(), previous, next, false);
-	m_commandStack->push(command);
+        QString next = item->keyframes(item->selectedEffectIndex());
+        EditKeyFrameCommand *command = new EditKeyFrameCommand(this, item->track(), item->startPos(), item->selectedEffectIndex(), previous, next, false);
+        m_commandStack->push(command);
         updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect());
     }
 
@@ -1231,15 +1227,14 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
         return;
     }
     //kDebug() << "----------------  Move CLIP FROM: " << startPos.x() << ", END:" << endPos.x() << ",TRACKS: " << startPos.y() << " TO " << endPos.y();
-    
+
     bool success = m_document->renderer()->mltMoveClip((int)(m_tracksList.count() - start.track), (int)(m_tracksList.count() - end.track), (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()));
-	if (success) {
-		item->moveTo((int) end.startPos.frames(m_document->fps()), m_scale, (int)((end.track - start.track) * m_tracksHeight), end.track);
-	}
-	else {
-		// undo last move and emit error message
-		emit displayMessage(i18n("Cannot move clip to requested position"), ErrorMessage);
-	}
+    if (success) {
+        item->moveTo((int) end.startPos.frames(m_document->fps()), m_scale, (int)((end.track - start.track) * m_tracksHeight), end.track);
+    } else {
+        // undo last move and emit error message
+        emit displayMessage(i18n("Cannot move clip to requested position"), ErrorMessage);
+    }
 }
 
 void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end) {
@@ -1304,7 +1299,7 @@ void CustomTrackView::updateClipFade(ClipItem * item, bool updateFadeOut) {
             EffectsList::setParameter(oldeffect, "out", QString::number(end));
             QMap <QString, QString> effectParams = item->getEffectArgs(oldeffect);
             if (!m_document->renderer()->mltEditEffect(m_tracksList.count() - item->track(), item->startPos(), effectParams))
-		emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+                emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
         }
     } else {
         int start = item->fadeOut();
@@ -1318,7 +1313,7 @@ void CustomTrackView::updateClipFade(ClipItem * item, bool updateFadeOut) {
             EffectsList::setParameter(oldeffect, "out", QString::number(end));
             QMap <QString, QString> effectParams = item->getEffectArgs(oldeffect);
             if (m_document->renderer()->mltEditEffect(m_tracksList.count() - item->track(), item->startPos(), effectParams))
-		emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+                emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
         }
     }
 }
@@ -1336,7 +1331,7 @@ double CustomTrackView::getSnapPointForPos(double pos) {
 
 void CustomTrackView::updateSnapPoints(AbstractClipItem *selected) {
     m_snapPoints.clear();
-	if (!KdenliveSettings::snaptopoints()) return;
+    if (!KdenliveSettings::snaptopoints()) return;
     GenTime offset;
     if (selected) offset = selected->duration();
     QList<QGraphicsItem *> itemList = items();
@@ -1449,22 +1444,22 @@ void CustomTrackView::slotDeleteClipMarker() {
     }
     AbstractClipItem *item = (AbstractClipItem *)itemList.at(0);
     if (item->type() != AVWIDGET) {
-		emit displayMessage(i18n("No clip at cursor time"), ErrorMessage);
-		return;
-	}
+        emit displayMessage(i18n("No clip at cursor time"), ErrorMessage);
+        return;
+    }
     GenTime pos = GenTime(m_cursorPos, m_document->fps());
     if (item->startPos() > pos || item->endPos() < pos) {
-		emit displayMessage(i18n("No selected clip at cursor time"), ErrorMessage);
-		return;
-	}
+        emit displayMessage(i18n("No selected clip at cursor time"), ErrorMessage);
+        return;
+    }
     ClipItem *clip = (ClipItem *) item;
     int id = clip->baseClip()->getId();
     GenTime position = pos - item->startPos() + item->cropStart();
     QString comment = clip->baseClip()->markerComment(position);
     if (comment.isEmpty()) {
-		emit displayMessage(i18n("No marker found at cursor time"), ErrorMessage);
-		return;
-	}
+        emit displayMessage(i18n("No marker found at cursor time"), ErrorMessage);
+        return;
+    }
     AddMarkerCommand *command = new AddMarkerCommand(this, comment, QString(), id, position, true);
     m_commandStack->push(command);
 }
@@ -1478,22 +1473,22 @@ void CustomTrackView::slotEditClipMarker() {
     }
     AbstractClipItem *item = (AbstractClipItem *)itemList.at(0);
     if (item->type() != AVWIDGET) {
-		emit displayMessage(i18n("No clip at cursor time"), ErrorMessage);
-		return;
-	}
+        emit displayMessage(i18n("No clip at cursor time"), ErrorMessage);
+        return;
+    }
     GenTime pos = GenTime(m_cursorPos, m_document->fps());
     if (item->startPos() > pos || item->endPos() < pos) {
-		emit displayMessage(i18n("No selected clip at cursor time"), ErrorMessage);
-		return;
-	}
+        emit displayMessage(i18n("No selected clip at cursor time"), ErrorMessage);
+        return;
+    }
     ClipItem *clip = (ClipItem *) item;
     int id = clip->baseClip()->getId();
     GenTime position = pos - item->startPos() + item->cropStart();
     QString oldcomment = clip->baseClip()->markerComment(position);
     if (oldcomment.isEmpty()) {
-		emit displayMessage(i18n("No marker found at cursor time"), ErrorMessage);
-		return;
-	}
+        emit displayMessage(i18n("No marker found at cursor time"), ErrorMessage);
+        return;
+    }
 
     CommentedTime marker(position, oldcomment);
     MarkerDialog d(clip->baseClip(), marker, m_document->timecode(), this);
@@ -1537,51 +1532,51 @@ void CustomTrackView::editGuide(const GenTime oldPos, const GenTime pos, const Q
     } else if (pos > GenTime()) addGuide(pos, comment);
     else {
         // remove guide
-		bool found = false;
+        bool found = false;
         for (int i = 0; i < m_guides.count(); i++) {
             if (m_guides.at(i)->position() == oldPos) {
                 Guide *item = m_guides.takeAt(i);
                 delete item;
-				found = true;
+                found = true;
                 break;
             }
         }
-		if (!found) emit displayMessage(i18n("No guide at cursor time"), ErrorMessage);
+        if (!found) emit displayMessage(i18n("No guide at cursor time"), ErrorMessage);
     }
 }
 
 bool CustomTrackView::addGuide(const GenTime pos, const QString &comment) {
     for (int i = 0; i < m_guides.count(); i++) {
-		if (m_guides.at(i)->position() == pos) {
-			emit displayMessage(i18n("A guide already exists at that position"), ErrorMessage);
-			return false;
-		}
+        if (m_guides.at(i)->position() == pos) {
+            emit displayMessage(i18n("A guide already exists at that position"), ErrorMessage);
+            return false;
+        }
     }
     Guide *g = new Guide(this, pos, comment, m_scale, m_document->fps(), m_tracksHeight * m_tracksList.count());
     scene()->addItem(g);
     m_guides.append(g);
-	return true;
+    return true;
 }
 
 void CustomTrackView::slotAddGuide() {
     if (addGuide(GenTime(m_cursorPos, m_document->fps()), i18n("guide"))) {
-		EditGuideCommand *command = new EditGuideCommand(this, GenTime(), QString(), GenTime(m_cursorPos, m_document->fps()), i18n("guide"), false);
-		m_commandStack->push(command);
-	}
+        EditGuideCommand *command = new EditGuideCommand(this, GenTime(), QString(), GenTime(m_cursorPos, m_document->fps()), i18n("guide"), false);
+        m_commandStack->push(command);
+    }
 }
 
 void CustomTrackView::slotDeleteGuide() {
     GenTime pos = GenTime(m_cursorPos, m_document->fps());
-	bool found = false;
+    bool found = false;
     for (int i = 0; i < m_guides.count(); i++) {
         if (m_guides.at(i)->position() == pos) {
             EditGuideCommand *command = new EditGuideCommand(this, m_guides.at(i)->position(), m_guides.at(i)->label(), GenTime(), QString(), true);
             m_commandStack->push(command);
-			found = true;
+            found = true;
             break;
         }
     }
-	if (!found) emit displayMessage(i18n("No guide at cursor time"), ErrorMessage);
+    if (!found) emit displayMessage(i18n("No guide at cursor time"), ErrorMessage);
 }
 
 void CustomTrackView::setTool(PROJECTTOOL tool) {

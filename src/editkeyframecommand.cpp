@@ -36,7 +36,7 @@ void EditKeyFrameCommand::undo() {
 // virtual
 void EditKeyFrameCommand::redo() {
     if (m_doIt) {
-    m_view->editKeyFrame(m_pos, m_track, m_index, m_newkfr);
+        m_view->editKeyFrame(m_pos, m_track, m_index, m_newkfr);
     }
     m_doIt = true;
 }

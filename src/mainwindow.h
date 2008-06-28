@@ -163,7 +163,7 @@ private slots:
     void slotSwitchVideoThumbs();
     void slotSwitchAudioThumbs();
     void slotSwitchMarkersComments();
-	void slotSwitchSnap();
+    void slotSwitchSnap();
     void slotRenderProject();
     void slotDoRender(const QString &dest, const QString &render, const QStringList &avformat_args, bool zoneOnly, bool playAfter);
     void slotFullScreen();

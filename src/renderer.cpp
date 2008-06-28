@@ -808,7 +808,7 @@ void Render::switchPlay() {
     if (m_mltProducer->get_speed() == 0.0) m_mltProducer->set_speed(1.0);
     else {
         m_isBlocked = true;
-		m_mltProducer->set_speed(0.0);
+        m_mltProducer->set_speed(0.0);
         //m_mltConsumer->set("refresh", 0);
         m_mltProducer->seek((int) m_framePosition);
         m_isBlocked = false;
@@ -1226,9 +1226,9 @@ bool Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> 
     QMap<QString, QString>::Iterator it = args.begin();
     if (!args.value("keyframes").isEmpty() || /*it.key().startsWith("#") || */tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle") {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
-	bool success = mltRemoveEffect(track, position, index);
+        bool success = mltRemoveEffect(track, position, index);
         if (success) success = mltAddEffect(track, position, args);
-	return success;
+        return success;
     }
 
     // create filter
@@ -1467,39 +1467,37 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
         Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
         trackPlaylist.consolidate_blanks(0);
         if (!trackPlaylist.is_blank_at(moveEnd)) {
-			// error, destination is not empty
+            // error, destination is not empty
             //int ix = trackPlaylist.get_clip_index_at(moveEnd);
-			mlt_service_unlock(m_mltConsumer->get_service());
-			m_isBlocked = false;
-			return false;
+            mlt_service_unlock(m_mltConsumer->get_service());
+            m_isBlocked = false;
+            return false;
+        } else {
+            trackPlaylist.insert_at(moveEnd, clipProducer, 1);
+            trackPlaylist.consolidate_blanks(0);
         }
-		else {
-			trackPlaylist.insert_at(moveEnd, clipProducer, 1);
-			trackPlaylist.consolidate_blanks(0);
-		}
         //mlt_service_unlock(service.get_service());
     } else {
         Mlt::Producer destTrackProducer(tractor.track(endTrack));
         Mlt::Playlist destTrackPlaylist((mlt_playlist) destTrackProducer.get_service());
-		if (!destTrackPlaylist.is_blank_at(moveEnd)) {
-			// error, destination is not empty
-			mlt_service_unlock(m_mltConsumer->get_service());
-			m_isBlocked = false;
-			return false;
-		}
-		else {
-			Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
-			trackPlaylist.consolidate_blanks(0);
-			destTrackPlaylist.consolidate_blanks(1);
-			destTrackPlaylist.insert_at(moveEnd, clipProducer, 1);
-			destTrackPlaylist.consolidate_blanks(0);
-		}
+        if (!destTrackPlaylist.is_blank_at(moveEnd)) {
+            // error, destination is not empty
+            mlt_service_unlock(m_mltConsumer->get_service());
+            m_isBlocked = false;
+            return false;
+        } else {
+            Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
+            trackPlaylist.consolidate_blanks(0);
+            destTrackPlaylist.consolidate_blanks(1);
+            destTrackPlaylist.insert_at(moveEnd, clipProducer, 1);
+            destTrackPlaylist.consolidate_blanks(0);
+        }
     }
     mltCheckLength();
     mlt_service_unlock(m_mltConsumer->get_service());
     m_isBlocked = false;
     m_mltConsumer->set("refresh", 1);
-	return true;
+    return true;
 }
 
 void Render::mltMoveTransition(QString type, int startTrack, int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut) {
@@ -1638,7 +1636,7 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
         if (resource == tag && b_track == currentTrack && currentIn <= old_pos && currentOut >= old_pos) {
             //kDebug() << " / / / / /DELETE TRANS DOOOMNE";
             mlt_field_disconnect_service(field->get_field(), nextservice);
-			mlt_service_close(nextservice);
+            mlt_service_close(nextservice);
             break;
         }
         nextservice = mlt_service_producer(nextservice);

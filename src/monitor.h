@@ -74,7 +74,7 @@ private:
     KRestrictedLine *m_timePos;
     QAction *m_playAction;
     QMenu *m_contextMenu;
-	DocClipBase *m_currentClip;
+    DocClipBase *m_currentClip;
 
 private slots:
     void adjustRulerSize(int length);

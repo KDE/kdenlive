@@ -37,7 +37,7 @@
 #include "mainwindow.h"
 
 KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoProfile profile, QUndoGroup *undoGroup, MainWindow *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new KUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0) {
-	kDebug()<<"// init profile, ratnum: "<<profile.frame_rate_num<<", "<<profile.frame_rate_num<<", width: "<<profile.width;
+    kDebug() << "// init profile, ratnum: " << profile.frame_rate_num << ", " << profile.frame_rate_num << ", width: " << profile.width;
     m_clipManager = new ClipManager(this);
     if (!url.isEmpty()) {
         QString tmpFile;
@@ -196,7 +196,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
         westley.appendChild(tractor);
     }
     m_scenelist = m_document.toString();
-    kDebug() << "KDEnnlive document, init timecode: "<<m_fps;
+    kDebug() << "KDEnnlive document, init timecode: " << m_fps;
     if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
     else m_timecode.setFormat((int) m_fps);
 }
@@ -367,7 +367,7 @@ void KdenliveDoc::setProfilePath(QString path) {
     m_fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
     m_width = m_profile.width;
     m_height = m_profile.height;
-    kDebug() << "KDEnnlive document, init timecode from path: "<<path<<",  "<<m_fps;
+    kDebug() << "KDEnnlive document, init timecode from path: " << path << ",  " << m_fps;
     if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
     else m_timecode.setFormat((int) m_fps);
 }
