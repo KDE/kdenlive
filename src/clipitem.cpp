@@ -153,7 +153,6 @@ void ClipItem::setKeyframes(const int ix, const QString keyframes) {
 
 
 void ClipItem::setSelectedEffect(const int ix) {
-
     m_selectedEffect = ix;
     QDomElement effect = effectAt(m_selectedEffect);
     QDomNodeList params = effect.elementsByTagName("parameter");
@@ -872,6 +871,10 @@ QMap <QString, QString> ClipItem::addEffect(QDomElement effect, bool animate) {
         QRectF r = boundingRect();
         r.setHeight(20);
         update(r);
+    }
+    if (m_selectedEffect == -1) {
+      m_selectedEffect = 0;
+      setSelectedEffect(m_selectedEffect);
     }
     return effectParams;
 }
