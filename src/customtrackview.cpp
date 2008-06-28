@@ -57,6 +57,7 @@
 #include "markerdialog.h"
 #include "mainwindow.h"
 #include "ui_keyframedialog_ui.h"
+#include "clipdurationdialog.h"
 
 
 //TODO:
@@ -589,6 +590,42 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event) {
             m_commandStack->push(command);
             updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect());
         }
+    } else {
+        ClipDurationDialog d(m_dragItem, m_document->timecode(), this);
+        if (d.exec() == QDialog::Accepted) {
+            if (d.startPos() != m_dragItem->startPos()) {
+                if (m_dragItem->type() == AVWIDGET) {
+                    ItemInfo startInfo;
+                    startInfo.startPos = m_dragItem->startPos();
+                    startInfo.endPos = m_dragItem->endPos();
+                    startInfo.track = m_dragItem->track();
+                    ItemInfo endInfo;
+                    endInfo.startPos = d.startPos();
+                    endInfo.endPos = m_dragItem->endPos() + (endInfo.startPos - startInfo.startPos);
+                    endInfo.track = m_dragItem->track();
+                    MoveClipCommand *command = new MoveClipCommand(this, startInfo, endInfo, true);
+                    m_commandStack->push(command);
+                } else {
+                    //TODO: move transition
+                }
+            }
+            if (d.duration() != m_dragItem->duration()) {
+                if (m_dragItem->type() == AVWIDGET) {
+                    ItemInfo startInfo;
+                    startInfo.startPos = m_dragItem->startPos();
+                    startInfo.endPos = m_dragItem->endPos();
+                    startInfo.track = m_dragItem->track();
+                    ItemInfo endInfo;
+                    endInfo.startPos = startInfo.startPos;
+                    endInfo.endPos = endInfo.startPos + d.duration();
+                    endInfo.track = m_dragItem->track();
+                    ResizeClipCommand *command = new ResizeClipCommand(this, startInfo, endInfo, true);
+                    m_commandStack->push(command);
+                } else {
+                    //TODO: resize transition
+                }
+            }
+        }
     }
 }
 
@@ -1011,7 +1048,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 // undo last move and emit error message
                 MoveClipCommand *command = new MoveClipCommand(this, info, m_dragItemInfo, true);
                 m_commandStack->push(command);
-                emit displayMessage(i18n("Cannot move clip to requested position"), ErrorMessage);
+                emit displayMessage(i18n("Cannot move clip to position %1seconds", QString::number(m_dragItemInfo.startPos.seconds(), 'g', 2)), ErrorMessage);
             }
         }
         if (m_dragItem->type() == TRANSITIONWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
@@ -1233,7 +1270,7 @@ Transition *CustomTrackView::getTransitionItemAt(GenTime pos, int track) {
 void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
     ClipItem *item = getClipItemAt((int) start.startPos.frames(m_document->fps()) + 1, start.track);
     if (!item) {
-        emit displayMessage(i18n("Cannot move clip at time: %1s on track %2", start.startPos.seconds(), start.track), ErrorMessage);
+        emit displayMessage(i18n("Cannot move clip at time: %1s on track %2", QString::number(start.startPos.seconds(), 'g', 2), start.track), ErrorMessage);
         kDebug() << "----------------  ERROR, CANNOT find clip to move at.. ";// << startPos.x() * m_scale * FRAME_SIZE + 1 << ", " << startPos.y() * m_tracksHeight + m_tracksHeight / 2;
         return;
     }
@@ -1244,7 +1281,7 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
         item->moveTo((int) end.startPos.frames(m_document->fps()), m_scale, (int)((end.track - start.track) * m_tracksHeight), end.track);
     } else {
         // undo last move and emit error message
-        emit displayMessage(i18n("Cannot move clip to requested position"), ErrorMessage);
+        emit displayMessage(i18n("Cannot move clip to position %1seconds", QString::number(end.startPos.seconds(), 'g', 2)), ErrorMessage);
     }
 }
 
@@ -1274,11 +1311,11 @@ void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end) {
 }
 
 void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end) {
-    int offset;
+    int offset = 0;
     bool resizeClipStart = true;
     if (start.startPos == end.startPos) resizeClipStart = false;
-    if (resizeClipStart) offset = 1;
-    else offset = -1;
+    /*if (resizeClipStart) offset = 1;
+    else offset = -1;*/
     ClipItem *item = getClipItemAt((int)(start.startPos.frames(m_document->fps()) + offset), start.track);
     if (!item) {
         emit displayMessage(i18n("Cannot move clip at time: %1s on track %2", start.startPos.seconds(), start.track), ErrorMessage);
@@ -1290,8 +1327,8 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end) {
         item->resizeStart((int) end.startPos.frames(m_document->fps()), m_scale);
         updateClipFade(item);
     } else {
-        m_document->renderer()->mltResizeClipEnd(m_tracksList.count() - item->track(), item->startPos(), item->cropStart(), item->cropStart() + end.startPos - item->startPos());
-        item->resizeEnd((int) end.startPos.frames(m_document->fps()), m_scale);
+        m_document->renderer()->mltResizeClipEnd(m_tracksList.count() - item->track(), item->startPos(), item->cropStart(), item->cropStart() + end.endPos - item->startPos());
+        item->resizeEnd((int) end.endPos.frames(m_document->fps()), m_scale);
         updateClipFade(item, true);
     }
     m_document->renderer()->doRefresh();

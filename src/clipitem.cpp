@@ -63,7 +63,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, GenTime cropStart, double s
 
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setAcceptsHoverEvents(true);
-    connect(this , SIGNAL(prepareAudioThumb(double, QPainterPath, int, int)) , this, SLOT(slotPrepareAudioThumb(double, QPainterPath, int, int)));
+    connect(this , SIGNAL(prepareAudioThumb(double, QPainterPath, int, int, int)) , this, SLOT(slotPrepareAudioThumb(double, QPainterPath, int, int, int)));
 
     setBrush(QColor(141, 166, 215));
     if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW) {
@@ -373,15 +373,15 @@ void ClipItem::paint(QPainter *painter,
     }
 
     // draw audio thumbnails
-    if (KdenliveSettings::audiothumbnails() && ((m_clipType == AV && option->exposedRect.bottom() > br.height() / 2) || m_clipType == AUDIO) && audioThumbReady) {
+    if (KdenliveSettings::audiothumbnails() && ((m_clipType == AV && option->exposedRect.bottom() > (br.y() + br.height() / 2)) || m_clipType == AUDIO) && audioThumbReady) {
 
         QPainterPath path = m_clipType == AV ? roundRectPathLower : resultClipPath;
         if (m_clipType == AV) painter->fillPath(path, QBrush(QColor(200, 200, 200, 140)));
 
-        int channels = 2;
+        int channels = baseClip()->getProperty("channels").toInt();
         if (scale != framePixelWidth)
             audioThumbCachePic.clear();
-        emit prepareAudioThumb(scale, path, startpixel, endpixel + 200);//200 more for less missing parts before repaint after scrolling
+        emit prepareAudioThumb(scale, path, startpixel, endpixel + 200, channels);//200 more for less missing parts before repaint after scrolling
         int cropLeft = (int)((m_cropStart).frames(m_fps) * scale);
         for (int startCache = startpixel - startpixel % 100; startCache < endpixel + 300;startCache += 100) {
             if (audioThumbCachePic.contains(startCache) && !audioThumbCachePic[startCache].isNull())
@@ -591,11 +591,10 @@ QList <GenTime> ClipItem::snapMarkers() const {
     return snaps;
 }
 
-void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, QPainterPath path, int startpixel, int endpixel) {
-    int channels = 2;
+void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, QPainterPath path, int startpixel, int endpixel, int channels) {
 
     QRectF re = path.boundingRect();
-
+    //kDebug() << "// PREP AUDIO THMB FRMO : " << startpixel << ", to: " << endpixel;
     //if ( (!audioThumbWasDrawn || framePixelWidth!=pixelForOneFrame ) && !baseClip()->audioFrameChache.isEmpty()){
 
     for (int startCache = startpixel - startpixel % 100;startCache + 100 < endpixel ;startCache += 100) {

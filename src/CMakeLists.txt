@@ -50,6 +50,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/clipproperties_ui.ui
   widgets/markerdialog_ui.ui
   widgets/keyframedialog_ui.ui
+  widgets/clipdurationdialog_ui.ui
 )
  
 set(kdenlive_SRCS 
@@ -117,6 +118,7 @@ set(kdenlive_SRCS
   statusbarmessagelabel.cpp
   regiongrabber.cpp
   editkeyframecommand.cpp
+  clipdurationdialog.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

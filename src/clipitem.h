@@ -140,13 +140,12 @@ private slots:
     void slotGetStartThumb();
     void slotGetEndThumb();
     void slotGotAudioData();
-    void slotPrepareAudioThumb(double, QPainterPath, int, int);
+    void slotPrepareAudioThumb(double pixelForOneFrame, QPainterPath path, int startpixel, int endpixel, int channels);
     void animate(qreal value);
 
 signals:
     void getThumb(int, int);
-    void prepareAudioThumb(double, QPainterPath, int, int);
-
+    void prepareAudioThumb(double, QPainterPath, int, int, int);
 };
 
 #endif
