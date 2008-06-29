@@ -38,6 +38,8 @@ public:
     GenTime cropStart() const;
     GenTime duration() const;
 
+protected:
+    void wheelEvent(QWheelEvent * event);
 private slots:
     void slotPosUp();
     void slotPosDown();

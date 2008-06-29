@@ -22,6 +22,7 @@
 
 #include "clipdurationdialog.h"
 #include "kdenlivesettings.h"
+#include <QWheelEvent>
 
 ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, QWidget * parent): QDialog(parent), m_tc(tc), m_clip(clip) {
     setFont(KGlobalSettings::toolBarFont());
@@ -108,6 +109,26 @@ GenTime ClipDurationDialog::cropStart() const {
 GenTime ClipDurationDialog::duration() const {
     int pos = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
     return GenTime(pos, m_fps);
+}
+
+void ClipDurationDialog::wheelEvent(QWheelEvent * event) {
+    kDebug() << "jaa";
+    if (m_view.clip_position->underMouse()) {
+        if (event->delta() > 0)
+            slotPosUp();
+        else
+            slotPosDown();
+    } else if (m_view.clip_duration->underMouse()) {
+        if (event->delta() > 0)
+            slotDurUp();
+        else
+            slotDurDown();
+    } else if (m_view.crop_position->underMouse()) {
+        if (event->delta() > 0)
+            slotCropUp();
+        else
+            slotCropDown();
+    }
 }
 
 #include "clipdurationdialog.moc"
