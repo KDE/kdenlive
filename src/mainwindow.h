@@ -121,6 +121,7 @@ private:
 
     KRecentFilesAction *m_fileOpenRecent;
     KAction *m_projectSearch;
+    KAction *m_projectSearchNext;
 
     QAction *m_buttonAudioThumbs;
     QAction *m_buttonVideoThumbs;
@@ -201,6 +202,7 @@ private slots:
     void slotSnapRewind();
     void slotFind();
     void findTimeout();
+    void slotFindNext();
 };
 
 #endif

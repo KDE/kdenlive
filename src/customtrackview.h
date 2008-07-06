@@ -86,6 +86,7 @@ public:
     QDomElement xmlInfo();
     void editKeyFrame(const GenTime pos, const int track, const int index, const QString keyframes);
     bool findString(const QString &text);
+    bool findNextString(const QString &text);
     void initSearchStrings();
     void clearSearchStrings();
 
@@ -162,6 +163,7 @@ private:
     QMenu *m_timelineContextTransitionMenu;
     QList <TrackInfo> m_tracksList;
     QList <CommentedTime> m_searchStrings;
+    int m_findIndex;
     PROJECTTOOL m_tool;
     QCursor m_razorCursor;
     /** Get the index of the video track that is just below current track */

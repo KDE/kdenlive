@@ -69,7 +69,7 @@
 // const int duration = animate ? 1500 : 1;
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene, QWidget *parent)
-        : QGraphicsView(projectscene, parent), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_scale(1.0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()), m_tracksHeight(KdenliveSettings::trackheight()), m_tool(SELECTTOOL), m_dragGuide(NULL) {
+        : QGraphicsView(projectscene, parent), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_scale(1.0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()), m_tracksHeight(KdenliveSettings::trackheight()), m_tool(SELECTTOOL), m_dragGuide(NULL), m_findIndex(0) {
     if (doc) m_commandStack = doc->commandStack();
     else m_commandStack == NULL;
     setMouseTracking(true);
@@ -1711,12 +1711,30 @@ bool CustomTrackView::findString(const QString &text) {
         marker = m_searchPoints.at(i).comment();
         if (marker.contains(text, Qt::CaseInsensitive)) {
             setCursorPos(m_searchPoints.at(i).time().frames(m_document->fps()), true);
-	    int vert = verticalScrollBar()->value();
-	    int hor = cursorPos();
-	    ensureVisible(hor, vert + 10, 2, 2, 50, 0);
+            int vert = verticalScrollBar()->value();
+            int hor = cursorPos();
+            ensureVisible(hor, vert + 10, 2, 2, 50, 0);
+            m_findIndex = i;
             return true;
         }
     }
+    return false;
+}
+
+bool CustomTrackView::findNextString(const QString &text) {
+    QString marker;
+    for (int i = m_findIndex + 1; i < m_searchPoints.size(); ++i) {
+        marker = m_searchPoints.at(i).comment();
+        if (marker.contains(text, Qt::CaseInsensitive)) {
+            setCursorPos(m_searchPoints.at(i).time().frames(m_document->fps()), true);
+            int vert = verticalScrollBar()->value();
+            int hor = cursorPos();
+            ensureVisible(hor, vert + 10, 2, 2, 50, 0);
+            m_findIndex = i;
+            return true;
+        }
+    }
+    m_findIndex = -1;
     return false;
 }
 
@@ -1739,7 +1757,7 @@ void CustomTrackView::initSearchStrings() {
 
 void CustomTrackView::clearSearchStrings() {
     m_searchPoints.clear();
-
+    m_findIndex = 0;
 }
 
 /*

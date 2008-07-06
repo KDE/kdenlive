@@ -505,6 +505,12 @@ void MainWindow::setupActions() {
     connect(m_projectSearch, SIGNAL(triggered(bool)), this, SLOT(slotFind()));
     m_projectSearch->setShortcut(Qt::Key_Slash);
 
+    m_projectSearchNext = new KAction(KIcon("go-down-search"), i18n("Find Next"), this);
+    actionCollection()->addAction("project_find_next", m_projectSearchNext);
+    connect(m_projectSearchNext, SIGNAL(triggered(bool)), this, SLOT(slotFindNext()));
+    m_projectSearchNext->setShortcut(Qt::Key_F3);
+    m_projectSearchNext->setEnabled(false);
+
     KAction* profilesAction = new KAction(KIcon("document-new"), i18n("Manage Profiles"), this);
     actionCollection()->addAction("manage_profiles", profilesAction);
     connect(profilesAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProfiles()));
@@ -1192,13 +1198,29 @@ void MainWindow::slotFind() {
     qApp->installEventFilter(this);
 }
 
+void MainWindow::slotFindNext() {
+    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+    if (currentTab->projectView()->findNextString(m_findString)) {
+        statusBar()->showMessage(i18n("Found : %1", m_findString));
+    } else {
+        statusBar()->showMessage(i18n("Reached end of project"));
+    }
+    m_findTimer.start(4000);
+}
+
 void MainWindow::findAhead() {
     TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-    if (currentTab->projectView()->findString(m_findString)) statusBar()->showMessage(i18n("Found : %1", m_findString));
-    else statusBar()->showMessage(i18n("Not found : %1", m_findString));
+    if (currentTab->projectView()->findString(m_findString)) {
+        m_projectSearchNext->setEnabled(true);
+        statusBar()->showMessage(i18n("Found : %1", m_findString));
+    } else {
+        m_projectSearchNext->setEnabled(false);
+        statusBar()->showMessage(i18n("Not found : %1", m_findString));
+    }
 }
 
 void MainWindow::findTimeout() {
+    m_projectSearchNext->setEnabled(false);
     m_findActivated = false;
     m_findString = QString();
     statusBar()->showMessage(i18n("Find stopped"), 3000);
@@ -1242,6 +1264,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
     if (m_findActivated) {
         if (event->type() == QEvent::ShortcutOverride) {
             QKeyEvent* ke = (QKeyEvent*) event;
+            if (ke->text().trimmed().isEmpty()) return false;
             ke->accept();
             return true;
         } else return false;
