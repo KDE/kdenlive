@@ -30,7 +30,7 @@ class CustomTrackView;
 
 class EditEffectCommand : public QUndoCommand {
 public:
-    EditEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, bool doIt);
+    EditEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, int stackPos, bool doIt);
 
     virtual int id() const;
     virtual bool mergeWith(const QUndoCommand * command);
@@ -43,6 +43,7 @@ private:
     QDomElement m_effect;
     QDomElement m_oldeffect;
     const GenTime m_pos;
+    int m_stackPos;
     bool m_doIt;
 };
 

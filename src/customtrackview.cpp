@@ -575,7 +575,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event) {
                 QString next = item->keyframes(item->selectedEffectIndex());
                 EditKeyFrameCommand *command = new EditKeyFrameCommand(this, item->track(), item->startPos(), item->selectedEffectIndex(), previous, next, false);
                 m_commandStack->push(command);
-                updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect());
+                updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect(), item->selectedEffectIndex());
             }
 
         } else  {
@@ -588,7 +588,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event) {
             QString next = item->keyframes(item->selectedEffectIndex());
             EditKeyFrameCommand *command = new EditKeyFrameCommand(this, m_dragItem->track(), m_dragItem->startPos(), item->selectedEffectIndex(), previous, next, false);
             m_commandStack->push(command);
-            updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect());
+            updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect(), item->selectedEffectIndex());
         }
     } else {
         ClipDurationDialog d(m_dragItem, m_document->timecode(), this);
@@ -634,7 +634,7 @@ void CustomTrackView::editKeyFrame(const GenTime pos, const int track, const int
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()), track);
     if (clip) {
         clip->setKeyframes(index, keyframes);
-        updateEffect(m_tracksList.count() - clip->track(), clip->startPos(), clip->effectAt(index));
+        updateEffect(m_tracksList.count() - clip->track(), clip->startPos(), clip->effectAt(index), index);
     } else emit displayMessage(i18n("Cannot find clip with keyframe"), ErrorMessage);
 }
 
@@ -727,16 +727,19 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, QDomElement effect) {
     m_document->setModified(true);
 }
 
-void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect) {
+void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, int ix) {
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_tracksList.count() - track);
     if (clip) {
         QMap <QString, QString> effectParams = clip->getEffectArgs(effect);
         if (effectParams.value("disabled") == "1") {
-            QString index = effectParams.value("kdenlive_ix");
-            if (!m_document->renderer()->mltRemoveEffect(track, pos, index))
-                emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
+            if (m_document->renderer()->mltRemoveEffect(track, pos, effectParams.value("kdenlive_ix"))) {
+                kDebug() << "//////  DISABLING EFFECT: " << index << ", CURRENTLA: " << clip->selectedEffectIndex();
+            } else emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
         } else if (!m_document->renderer()->mltEditEffect(m_tracksList.count() - clip->track(), clip->startPos(), effectParams))
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+        if (ix == clip->selectedEffectIndex()) {
+            clip->setSelectedEffect(clip->selectedEffectIndex());
+        }
     }
     m_document->setModified(true);
 }
@@ -749,10 +752,11 @@ void CustomTrackView::moveEffect(int track, GenTime pos, int oldPos, int newPos)
     m_document->setModified(true);
 }
 
-void CustomTrackView::slotChangeEffectState(ClipItem *clip, QDomElement effect, bool disable) {
+void CustomTrackView::slotChangeEffectState(ClipItem *clip, int effectPos, bool disable) {
+    QDomElement effect = clip->effectAt(effectPos);
     QDomElement oldEffect = effect.cloneNode().toElement();
     effect.setAttribute("disabled", disable);
-    EditEffectCommand *command = new EditEffectCommand(this, m_tracksList.count() - clip->track(), clip->startPos(), oldEffect, effect, true);
+    EditEffectCommand *command = new EditEffectCommand(this, m_tracksList.count() - clip->track(), clip->startPos(), oldEffect, effect, effectPos, true);
     m_commandStack->push(command);
     m_document->setModified(true);
 }
@@ -763,8 +767,8 @@ void CustomTrackView::slotChangeEffectPosition(ClipItem *clip, int currentPos, i
     m_document->setModified(true);
 }
 
-void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect, QDomElement effect) {
-    EditEffectCommand *command = new EditEffectCommand(this, m_tracksList.count() - clip->track(), clip->startPos(), oldeffect, effect, true);
+void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect, QDomElement effect, int ix) {
+    EditEffectCommand *command = new EditEffectCommand(this, m_tracksList.count() - clip->track(), clip->startPos(), oldeffect, effect, ix, true);
     m_commandStack->push(command);
 }
 
@@ -1003,11 +1007,15 @@ void CustomTrackView::moveCursorPos(int delta) {
 }
 
 void CustomTrackView::checkScrolling() {
-    QRect rectInView = viewport()->rect();
+    int vert = verticalScrollBar()->value();
+    int hor = cursorPos();
+    ensureVisible(hor, vert + 10, 2, 2, 50, 0);
+    //centerOn(QPointF(cursorPos(), m_tracksHeight));
+    /*QRect rectInView = viewport()->rect();
     int delta = rectInView.width() / 3;
     int max = rectInView.right() + horizontalScrollBar()->value() - delta;
     //kDebug() << "CURSOR POS: "<<m_cursorPos<< "Scale: "<<m_scale;
-    if (m_cursorPos * m_scale >= max) horizontalScrollBar()->setValue((int)(horizontalScrollBar()->value() + 1 + m_scale));
+    if (m_cursorPos * m_scale >= max) horizontalScrollBar()->setValue((int)(horizontalScrollBar()->value() + 1 + m_scale));*/
 }
 
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
@@ -1092,7 +1100,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         ClipItem * item = (ClipItem *) m_dragItem;
         QStringList clipeffects = item->effectNames();
         if (clipeffects.contains(i18n("Fade in"))) {
-            QDomElement oldeffect = item->effectAt(clipeffects.indexOf("Fade in"));
+            int ix = clipeffects.indexOf(i18n("Fade in"));
+            QDomElement oldeffect = item->effectAt(ix);
             int start = item->cropStart().frames(m_document->fps());
             int end = item->fadeIn();
             if (end == 0) {
@@ -1102,7 +1111,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 QDomElement effect = MainWindow::audioEffects.getEffectByName("Fade in");
                 EffectsList::setParameter(effect, "in", QString::number(start));
                 EffectsList::setParameter(effect, "out", QString::number(end));
-                slotUpdateClipEffect(item, oldeffect, effect);
+                slotUpdateClipEffect(item, oldeffect, effect, ix);
             }
         } else if (item->fadeIn() != 0) {
             QDomElement effect = MainWindow::audioEffects.getEffectByName("Fade in");
@@ -1117,7 +1126,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         ClipItem * item = (ClipItem *) m_dragItem;
         QStringList clipeffects = item->effectNames();
         if (clipeffects.contains(i18n("Fade out"))) {
-            QDomElement oldeffect = item->effectAt(clipeffects.indexOf("Fade out"));
+            int ix = clipeffects.indexOf(i18n("Fade out"));
+            QDomElement oldeffect = item->effectAt(ix);
             int end = (item->duration() + item->cropStart()).frames(m_document->fps());
             int start = item->fadeOut();
             if (start == 0) {
@@ -1127,7 +1137,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 QDomElement effect = MainWindow::audioEffects.getEffectByName("Fade out");
                 EffectsList::setParameter(effect, "in", QString::number(start));
                 EffectsList::setParameter(effect, "out", QString::number(end));
-                slotUpdateClipEffect(item, oldeffect, effect);
+                slotUpdateClipEffect(item, oldeffect, effect, ix);
             }
         } else if (item->fadeOut() != 0) {
             QDomElement effect = MainWindow::audioEffects.getEffectByName("Fade out");
@@ -1145,7 +1155,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         QString next = item->keyframes(item->selectedEffectIndex());
         EditKeyFrameCommand *command = new EditKeyFrameCommand(this, item->track(), item->startPos(), item->selectedEffectIndex(), previous, next, false);
         m_commandStack->push(command);
-        updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect());
+        updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect(), item->selectedEffectIndex());
     }
 
     emit transitionItemSelected((m_dragItem && m_dragItem->type() == TRANSITIONWIDGET) ? (Transition*) m_dragItem : NULL);
@@ -1693,6 +1703,43 @@ QDomElement CustomTrackView::xmlInfo() {
         guides.appendChild(e);
     }
     return guides;
+}
+
+bool CustomTrackView::findString(const QString &text) {
+    QString marker;
+    for (int i = 0; i < m_searchPoints.size(); ++i) {
+        marker = m_searchPoints.at(i).comment();
+        if (marker.contains(text, Qt::CaseInsensitive)) {
+            setCursorPos(m_searchPoints.at(i).time().frames(m_document->fps()), true);
+	    int vert = verticalScrollBar()->value();
+	    int hor = cursorPos();
+	    ensureVisible(hor, vert + 10, 2, 2, 50, 0);
+            return true;
+        }
+    }
+    return false;
+}
+
+void CustomTrackView::initSearchStrings() {
+    m_searchPoints.clear();
+
+    QList<QGraphicsItem *> itemList = items();
+    for (int i = 0; i < itemList.count(); i++) {
+        if (itemList.at(i)->type() == AVWIDGET) {
+            ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
+            GenTime start = item->startPos();
+            CommentedTime t(start, item->clipName());
+            m_searchPoints.append(t);
+
+            QList < CommentedTime > markers = item->commentedSnapMarkers();
+            m_searchPoints += markers;
+        }
+    }
+}
+
+void CustomTrackView::clearSearchStrings() {
+    m_searchPoints.clear();
+
 }
 
 /*

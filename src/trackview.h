@@ -28,6 +28,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsLineItem>
 #include <QDomElement>
+
 #define FRAME_SIZE 90
 
 #include "ui_timeline_ui.h"
@@ -59,6 +60,7 @@ public:
     int currentZoom() const;
     int fitZoom() const;
 
+
 public slots:
     void slotDeleteClip(int clipId);
     void slotChangeZoom(int factor);
@@ -89,6 +91,7 @@ private slots:
     void slotClipItemSelected(ClipItem*);
     void slotTransitionItemSelected(Transition*);
     void slotRebuildTrackHeaders();
+
 
 signals:
     void mousePosition(int);

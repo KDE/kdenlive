@@ -21,6 +21,8 @@
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 
+#include <KLocale>
+
 #include "gentime.h"
 
 #define FRAME_SIZE 90
@@ -76,4 +78,23 @@ struct MltVideoProfile {
     int display_aspect_den;
 };
 
+class CommentedTime {
+public:
+    CommentedTime(): t(GenTime(0)) {}
+    CommentedTime(const GenTime time, QString comment)
+            : t(time), c(comment) { }
+
+    QString comment()   const          {
+        return (c.isEmpty() ? i18n("Marker") : c);
+    }
+    GenTime time() const          {
+        return t;
+    }
+    void    setComment(QString comm) {
+        c = comm;
+    }
+private:
+    GenTime t;
+    QString c;
+};
 #endif

@@ -79,6 +79,7 @@ public:
     void refreshClip();
     /** Returns a list of times for this clip's markers */
     QList <GenTime> snapMarkers() const;
+    QList <CommentedTime> commentedSnapMarkers() const;
     uint fadeIn() const;
     uint fadeOut() const;
     void setSelectedEffect(const int ix);

@@ -24,6 +24,7 @@
 #include <QAction>
 #include <QtTest>
 #include <QtCore>
+#include <QKeyEvent>
 
 #include <KApplication>
 #include <KAction>
@@ -88,7 +89,7 @@ EffectsList MainWindow::transitions;
 
 MainWindow::MainWindow(QWidget *parent)
         : KXmlGuiWindow(parent),
-        m_activeDocument(NULL), m_activeTimeline(NULL), m_renderWidget(NULL), m_jogProcess(NULL) {
+        m_activeDocument(NULL), m_activeTimeline(NULL), m_renderWidget(NULL), m_jogProcess(NULL), m_findActivated(false) {
     setlocale(LC_NUMERIC, "POSIX");
     parseProfiles();
     setFont(KGlobalSettings::toolBarFont());
@@ -104,6 +105,9 @@ MainWindow::MainWindow(QWidget *parent)
     closeTabButton->setToolTip(i18n("Close the current tab"));
     m_timelineArea->setCornerWidget(closeTabButton);
     connect(m_timelineArea, SIGNAL(currentChanged(int)), this, SLOT(activateDocument()));
+
+    connect(&m_findTimer, SIGNAL(timeout()), this, SLOT(findTimeout()));
+    m_findTimer.setSingleShot(true);
 
     initEffects::parseEffectFiles();
     m_monitorManager = new MonitorManager();
@@ -496,6 +500,10 @@ void MainWindow::setupActions() {
     actionCollection()->addAction("snap", m_buttonSnap);
     actionCollection()->addAction("zoom_fit", m_buttonFitZoom);
 
+    m_projectSearch = new KAction(KIcon("edit-find"), i18n("Find"), this);
+    actionCollection()->addAction("project_find", m_projectSearch);
+    connect(m_projectSearch, SIGNAL(triggered(bool)), this, SLOT(slotFind()));
+    m_projectSearch->setShortcut(Qt::Key_Slash);
 
     KAction* profilesAction = new KAction(KIcon("document-new"), i18n("Manage Profiles"), this);
     actionCollection()->addAction("manage_profiles", profilesAction);
@@ -878,17 +886,17 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(m_activeDocument, SIGNAL(refreshClipThumbnail(int)), m_projectList, SLOT(slotRefreshClipThumbnail(int)));
             disconnect(m_activeDocument, SIGNAL(deletTimelineClip(int)), m_activeTimeline, SLOT(slotDeleteClip(int)));
             disconnect(m_activeTimeline, SIGNAL(clipItemSelected(ClipItem*)), effectStack, SLOT(slotClipItemSelected(ClipItem*)));
-            disconnect(trackView, SIGNAL(clipItemSelected(ClipItem*)), this, SLOT(slotActivateEffectStackView()));
+            disconnect(m_activeTimeline, SIGNAL(clipItemSelected(ClipItem*)), this, SLOT(slotActivateEffectStackView()));
             disconnect(m_activeTimeline, SIGNAL(transitionItemSelected(Transition*)), transitionConfig, SLOT(slotTransitionItemSelected(Transition*)));
-            disconnect(trackView, SIGNAL(transitionItemSelected(Transition*)), this, SLOT(slotActivateTransitionView()));
+            disconnect(m_activeTimeline, SIGNAL(transitionItemSelected(Transition*)), this, SLOT(slotActivateTransitionView()));
             disconnect(m_zoomSlider, SIGNAL(valueChanged(int)), m_activeTimeline, SLOT(slotChangeZoom(int)));
-            disconnect(trackView->projectView(), SIGNAL(displayMessage(const QString&, MessageType)), m_messageLabel, SLOT(setMessage(const QString&, MessageType)));
-            disconnect(trackView->projectView(), SIGNAL(showClipFrame(DocClipBase *, const int)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *, const int)));
+            disconnect(m_activeTimeline->projectView(), SIGNAL(displayMessage(const QString&, MessageType)), m_messageLabel, SLOT(setMessage(const QString&, MessageType)));
+            disconnect(m_activeTimeline->projectView(), SIGNAL(showClipFrame(DocClipBase *, const int)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *, const int)));
 
             disconnect(m_activeDocument, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
-            disconnect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement)), m_activeTimeline->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement)));
+            disconnect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement, int)), m_activeTimeline->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement, int)));
             disconnect(effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), m_activeTimeline->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
-            disconnect(effectStack, SIGNAL(changeEffectState(ClipItem*, QDomElement, bool)), m_activeTimeline->projectView(), SLOT(slotChangeEffectState(ClipItem*, QDomElement, bool)));
+            disconnect(effectStack, SIGNAL(changeEffectState(ClipItem*, int, bool)), m_activeTimeline->projectView(), SLOT(slotChangeEffectState(ClipItem*, int, bool)));
             disconnect(effectStack, SIGNAL(changeEffectPosition(ClipItem*, int, int)), trackView->projectView(), SLOT(slotChangeEffectPosition(ClipItem*, int, int)));
             disconnect(effectStack, SIGNAL(refreshEffectStack(ClipItem*)), m_activeTimeline->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
             disconnect(transitionConfig, SIGNAL(transitionUpdated(Transition *, QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(Transition *, QDomElement)));
@@ -929,9 +937,9 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(trackView->projectView(), SIGNAL(showClipFrame(DocClipBase *, const int)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *, const int)));
 
 
-    connect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement)), trackView->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement)));
+    connect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement, int)), trackView->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement, int)));
     connect(effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), trackView->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
-    connect(effectStack, SIGNAL(changeEffectState(ClipItem*, QDomElement, bool)), trackView->projectView(), SLOT(slotChangeEffectState(ClipItem*, QDomElement, bool)));
+    connect(effectStack, SIGNAL(changeEffectState(ClipItem*, int, bool)), trackView->projectView(), SLOT(slotChangeEffectState(ClipItem*, int, bool)));
     connect(effectStack, SIGNAL(changeEffectPosition(ClipItem*, int, int)), trackView->projectView(), SLOT(slotChangeEffectPosition(ClipItem*, int, int)));
     connect(effectStack, SIGNAL(refreshEffectStack(ClipItem*)), trackView->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
     connect(transitionConfig, SIGNAL(transitionUpdated(Transition *, QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(Transition *, QDomElement)));
@@ -1170,6 +1178,76 @@ void MainWindow::slotSetTool(PROJECTTOOL tool) {
         //m_activeDocument->setTool(tool);
         TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
         currentTab->projectView()->setTool(tool);
+    }
+}
+
+void MainWindow::slotFind() {
+    m_projectSearch->setEnabled(false);
+    m_findActivated = true;
+    m_findString = QString();
+    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+    currentTab->projectView()->initSearchStrings();
+    statusBar()->showMessage(i18n("Starting -- find text as you type"));
+    m_findTimer.start(5000);
+    qApp->installEventFilter(this);
+}
+
+void MainWindow::findAhead() {
+    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+    if (currentTab->projectView()->findString(m_findString)) statusBar()->showMessage(i18n("Found : %1", m_findString));
+    else statusBar()->showMessage(i18n("Not found : %1", m_findString));
+}
+
+void MainWindow::findTimeout() {
+    m_findActivated = false;
+    m_findString = QString();
+    statusBar()->showMessage(i18n("Find stopped"), 3000);
+    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+    currentTab->projectView()->clearSearchStrings();
+    m_projectSearch->setEnabled(true);
+    removeEventFilter(this);
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *ke) {
+    if (m_findActivated) {
+        if (ke->key() == Qt::Key_Backspace) {
+            m_findString = m_findString.left(m_findString.length() - 1);
+
+            if (!m_findString.isEmpty()) {
+                findAhead();
+            } else {
+                findTimeout();
+            }
+
+            m_findTimer.start(4000);
+            ke->accept();
+            return;
+        } else if (ke->key() == Qt::Key_Escape) {
+            findTimeout();
+            ke->accept();
+            return;
+        } else if (ke->key() == Qt::Key_Space || !ke->text().trimmed().isEmpty()) {
+            m_findString += ke->text();
+
+            findAhead();
+
+            m_findTimer.start(4000);
+            ke->accept();
+            return;
+        }
+    } else KXmlGuiWindow::keyPressEvent(ke);
+}
+
+bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
+    if (m_findActivated) {
+        if (event->type() == QEvent::ShortcutOverride) {
+            QKeyEvent* ke = (QKeyEvent*) event;
+            ke->accept();
+            return true;
+        } else return false;
+    } else {
+        // pass the event on to the parent class
+        return QMainWindow::eventFilter(obj, event);
     }
 }
 

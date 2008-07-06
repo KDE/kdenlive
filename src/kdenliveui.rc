@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="18">
+<gui name="kdenlive" version="19">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
   </ToolBar>
 
   <MenuBar>
-    <Menu name="file" >
-      <Action name="clear" />
+    <Menu name="edit" >
+      <Action name="project_find" />
     </Menu>
-
+    
     <Menu name="project" ><text>Project</text>
       <Action name="project_render" />
       <Action name="project_settings" />

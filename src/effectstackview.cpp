@@ -66,7 +66,7 @@ EffectStackView::EffectStackView(QWidget *parent)
 
 void EffectStackView::slotUpdateEffectParams(const QDomElement& old, const QDomElement& e) {
     if (clipref)
-        emit updateClipEffect(clipref, old, e);
+        emit updateClipEffect(clipref, old, e, ui.effectlist->currentRow());
 }
 
 void EffectStackView::slotClipItemSelected(ClipItem* c) {
@@ -92,7 +92,7 @@ void EffectStackView::slotItemChanged(QListWidgetItem *item) {
     ui.buttonReset->setEnabled(!disable);
     int activeRow = ui.effectlist->currentRow();
     if (activeRow >= 0) {
-        emit changeEffectState(clipref, clipref->effectAt(activeRow), disable);
+        emit changeEffectState(clipref, activeRow, disable);
     }
 }
 
@@ -179,7 +179,7 @@ void EffectStackView::slotResetEffect() {
     if (!dom.isNull()) {
         dom.setAttribute("kdenlive_ix", old.attribute("kdenlive_ix"));
         emit transferParamDesc(dom, 0, 100);//minx max frame
-        emit updateClipEffect(clipref, old, dom);
+        emit updateClipEffect(clipref, old, dom, activeRow);
     }
 }
 

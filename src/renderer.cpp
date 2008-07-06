@@ -1227,8 +1227,8 @@ bool Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> 
     QMap<QString, QString>::Iterator it = args.begin();
     if (!args.value("keyframes").isEmpty() || /*it.key().startsWith("#") || */tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle") {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
-        bool success = mltRemoveEffect(track, position, index);
-        if (success) success = mltAddEffect(track, position, args);
+        mltRemoveEffect(track, position, index);
+        bool success = mltAddEffect(track, position, args);
         return success;
     }
 

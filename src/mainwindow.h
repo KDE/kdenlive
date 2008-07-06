@@ -26,6 +26,7 @@
 #include <QLabel>
 #include <QProgressBar>
 #include <QEvent>
+#include <QTimer>
 
 #include <KXmlGuiWindow>
 #include <KTextEdit>
@@ -68,6 +69,8 @@ public:
 protected:
     virtual bool queryClose();
     virtual void customEvent(QEvent * e);
+    virtual void keyPressEvent(QKeyEvent *ke);
+    bool eventFilter(QObject *obj, QEvent *ev);
 
 private:
     KTabWidget* m_timelineArea;
@@ -117,6 +120,7 @@ private:
     JogShuttle *m_jogProcess;
 
     KRecentFilesAction *m_fileOpenRecent;
+    KAction *m_projectSearch;
 
     QAction *m_buttonAudioThumbs;
     QAction *m_buttonVideoThumbs;
@@ -129,11 +133,16 @@ private:
     QSlider *m_zoomSlider;
     StatusBarMessageLabel *m_messageLabel;
 
+    bool m_findActivated;
+    QString m_findString;
+    QTimer m_findTimer;
+
     void readOptions();
     void saveOptions();
     void activateShuttleDevice();
     void slotShuttleAction(int code);
     void connectDocumentInfo(KdenliveDoc *doc);
+    void findAhead();
 
 public slots:
     void openFile(const KUrl &url);
@@ -190,6 +199,8 @@ private slots:
     void slotSetTool(PROJECTTOOL tool);
     void slotSnapForward();
     void slotSnapRewind();
+    void slotFind();
+    void findTimeout();
 };
 
 #endif

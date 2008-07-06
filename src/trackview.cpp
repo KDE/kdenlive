@@ -495,4 +495,6 @@ const QString & TrackView::editMode() const {
     return m_editMode;
 }
 
+
+
 #include "trackview.moc"

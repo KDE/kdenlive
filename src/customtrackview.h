@@ -65,7 +65,7 @@ public:
     void slotAddEffect(QDomElement effect, GenTime pos, int track);
     void addEffect(int track, GenTime pos, QDomElement effect);
     void deleteEffect(int track, GenTime pos, QDomElement effect);
-    void updateEffect(int track, GenTime pos, QDomElement effect);
+    void updateEffect(int track, GenTime pos, QDomElement effect, int ix);
     void moveEffect(int track, GenTime pos, int oldPos, int newPos);
     void addTransition(ItemInfo transitionInfo, int endTrack, QDomElement params);
     void deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement params);
@@ -85,15 +85,18 @@ public:
     double getSnapPointForPos(double pos);
     QDomElement xmlInfo();
     void editKeyFrame(const GenTime pos, const int track, const int index, const QString keyframes);
+    bool findString(const QString &text);
+    void initSearchStrings();
+    void clearSearchStrings();
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
     void moveCursorPos(int delta);
     void updateCursorPos();
     void slotDeleteEffect(ClipItem *clip, QDomElement effect);
-    void slotChangeEffectState(ClipItem *clip, QDomElement effect, bool disable);
+    void slotChangeEffectState(ClipItem *clip, int effectPos, bool disable);
     void slotChangeEffectPosition(ClipItem *clip, int currentPos, int newPos);
-    void slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect, QDomElement effect);
+    void slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect, QDomElement effect, int ix);
     void slotRefreshEffects(ClipItem *clip);
     void setDuration(int duration);
     void slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QDomElement transition = QDomElement());
@@ -143,6 +146,7 @@ private:
     QPoint m_clickPoint;
     QPoint m_clickEvent;
     QList <GenTime> m_snapPoints;
+    QList <CommentedTime> m_searchPoints;
     QList <Guide *> m_guides;
     void updateSnapPoints(AbstractClipItem *selected);
     ClipItem *getClipItemAt(int pos, int track);
@@ -157,6 +161,7 @@ private:
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
     QList <TrackInfo> m_tracksList;
+    QList <CommentedTime> m_searchStrings;
     PROJECTTOOL m_tool;
     QCursor m_razorCursor;
     /** Get the index of the video track that is just below current track */

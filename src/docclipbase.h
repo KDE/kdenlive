@@ -28,7 +28,6 @@
 #include <QTimer>
 
 #include <KUrl>
-#include <klocale.h>
 
 #include "gentime.h"
 #include "definitions.h"
@@ -43,25 +42,7 @@ class KdenliveDoc;
 class KThumb;
 class ClipManager;
 
-class CommentedTime {
-public:
-    CommentedTime(): t(GenTime(0)) {}
-    CommentedTime(const GenTime time, QString comment)
-            : t(time), c(comment) { }
 
-    QString comment()   const          {
-        return (c.isEmpty() ? i18n("Marker") : c);
-    }
-    GenTime time() const          {
-        return t;
-    }
-    void    setComment(QString comm) {
-        c = comm;
-    }
-private:
-    GenTime t;
-    QString c;
-};
 
 
 class DocClipBase: public QObject {

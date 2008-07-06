@@ -124,6 +124,7 @@ void ClipItem::initEffect(QDomElement effect) {
 
 void ClipItem::setKeyframes(const int ix, const QString keyframes) {
     QDomElement effect = effectAt(ix);
+    if (effect.attribute("disabled") == "1") return;
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
@@ -148,7 +149,6 @@ void ClipItem::setKeyframes(const int ix, const QString keyframes) {
             break;
         }
     }
-
 }
 
 
@@ -156,25 +156,26 @@ void ClipItem::setSelectedEffect(const int ix) {
     m_selectedEffect = ix;
     QDomElement effect = effectAt(m_selectedEffect);
     QDomNodeList params = effect.elementsByTagName("parameter");
-    for (int i = 0; i < params.count(); i++) {
-        QDomElement e = params.item(i).toElement();
-        if (!e.isNull() && e.attribute("type") == "keyframe") {
-            m_keyframes.clear();
-            double max = e.attribute("max").toDouble();
-            double min = e.attribute("min").toDouble();
-            m_keyframeFactor = 100.0 / (max - min);
-            m_keyframeDefault = e.attribute("default").toDouble();
-            // parse keyframes
-            QStringList keyframes = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
-            foreach(QString str, keyframes) {
-                int pos = str.section(":", 0, 0).toInt();
-                double val = str.section(":", 1, 1).toDouble();
-                m_keyframes[pos] = val;
+    if (effect.attribute("disabled") != "1")
+        for (int i = 0; i < params.count(); i++) {
+            QDomElement e = params.item(i).toElement();
+            if (!e.isNull() && e.attribute("type") == "keyframe") {
+                m_keyframes.clear();
+                double max = e.attribute("max").toDouble();
+                double min = e.attribute("min").toDouble();
+                m_keyframeFactor = 100.0 / (max - min);
+                m_keyframeDefault = e.attribute("default").toDouble();
+                // parse keyframes
+                QStringList keyframes = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
+                foreach(QString str, keyframes) {
+                    int pos = str.section(":", 0, 0).toInt();
+                    double val = str.section(":", 1, 1).toDouble();
+                    m_keyframes[pos] = val;
+                }
+                update();
+                return;
             }
-            update();
-            return;
         }
-    }
     if (!m_keyframes.isEmpty()) {
         m_keyframes.clear();
         update();
@@ -199,6 +200,7 @@ QString ClipItem::keyframes(const int index) {
 void ClipItem::updateKeyframeEffect() {
     // regenerate xml parameter from the clip keyframes
     QDomElement effect = effectAt(m_selectedEffect);
+    if (effect.attribute("disabled") == "1") return;
     QDomNodeList params = effect.elementsByTagName("parameter");
 
     for (int i = 0; i < params.count(); i++) {
@@ -586,6 +588,22 @@ QList <GenTime> ClipItem::snapMarkers() const {
         if (pos > GenTime()) {
             if (pos > duration()) break;
             else snaps.append(pos + startPos());
+        }
+    }
+    return snaps;
+}
+
+QList <CommentedTime> ClipItem::commentedSnapMarkers() const {
+    QList < CommentedTime > snaps;
+    QList < CommentedTime > markers = baseClip()->commentedSnapMarkers();
+    GenTime pos;
+    double framepos;
+
+    for (int i = 0; i < markers.size(); i++) {
+        pos = markers.at(i).time() - cropStart();
+        if (pos > GenTime()) {
+            if (pos > duration()) break;
+            else snaps.append(CommentedTime(pos + startPos(), markers.at(i).comment()));
         }
     }
     return snaps;

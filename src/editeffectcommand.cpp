@@ -22,8 +22,8 @@
 #include "editeffectcommand.h"
 #include "customtrackview.h"
 
-EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, bool doIt)
-        : m_view(view), m_track(track), m_pos(pos), m_oldeffect(oldeffect), m_doIt(doIt) {
+EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, int stackPos, bool doIt)
+        : m_view(view), m_track(track), m_pos(pos), m_oldeffect(oldeffect), m_stackPos(stackPos), m_doIt(doIt) {
     m_effect = effect.cloneNode().toElement();
     QString effectName;
     QDomNode namenode = effect.elementsByTagName("name").item(0);
@@ -49,12 +49,12 @@ bool EditEffectCommand::mergeWith(const QUndoCommand * other) {
 // virtual
 void EditEffectCommand::undo() {
     kDebug() << "----  undoing action";
-    m_view->updateEffect(m_track, m_pos, m_oldeffect);
+    m_view->updateEffect(m_track, m_pos, m_oldeffect, m_stackPos);
 }
 // virtual
 void EditEffectCommand::redo() {
     kDebug() << "----  redoing action";
-    m_view->updateEffect(m_track, m_pos, m_effect);
+    m_view->updateEffect(m_track, m_pos, m_effect, m_stackPos);
 }
 
 #include "editeffectcommand.moc"
