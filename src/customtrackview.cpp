@@ -91,6 +91,8 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene
 
     KIcon razorIcon("edit-cut");
     m_razorCursor = QCursor(razorIcon.pixmap(22, 22));
+    verticalScrollBar()->setTracking(true);
+    connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(slotRefreshGuides()));
 }
 
 CustomTrackView::~CustomTrackView() {
@@ -590,7 +592,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event) {
             m_commandStack->push(command);
             updateEffect(m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect(), item->selectedEffectIndex());
         }
-    } else {
+    } else if (m_dragItem) {
         ClipDurationDialog d(m_dragItem, m_document->timecode(), this);
         if (d.exec() == QDialog::Accepted) {
             if (d.startPos() != m_dragItem->startPos()) {
@@ -625,6 +627,12 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event) {
                     //TODO: resize transition
                 }
             }
+        }
+    } else {
+        QList<QGraphicsItem *> collisionList = items(event->pos());
+        if (collisionList.count() == 1 && collisionList.at(0)->type() == GUIDEITEM) {
+            Guide *editGuide = (Guide *) collisionList.at(0);
+            if (editGuide) slotEditGuide(editGuide->info());
         }
     }
 }
@@ -999,6 +1007,7 @@ int CustomTrackView::cursorPos() {
 }
 
 void CustomTrackView::moveCursorPos(int delta) {
+    if (m_cursorPos + delta < 0) delta = 0 - m_cursorPos;
     emit cursorMoved((int)(m_cursorPos * m_scale), (int)((m_cursorPos + delta) * m_scale));
     m_cursorPos += delta;
     m_cursorLine->setPos(m_cursorPos * m_scale, 0);
@@ -1030,7 +1039,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         m_dragGuide->setFlag(QGraphicsItem::ItemIsMovable, false);
         EditGuideCommand *command = new EditGuideCommand(this, m_dragGuide->position(), m_dragGuide->label(), GenTime(m_dragGuide->pos().x() / m_scale, m_document->fps()), m_dragGuide->label(), false);
         m_commandStack->push(command);
-        m_dragGuide->update(GenTime(m_dragGuide->pos().x() / m_scale, m_document->fps()));
+        m_dragGuide->updateGuide(GenTime(m_dragGuide->pos().x() / m_scale, m_document->fps()));
         m_dragGuide = NULL;
         m_dragItem = NULL;
         return;
@@ -1579,11 +1588,9 @@ void CustomTrackView::editGuide(const GenTime oldPos, const GenTime pos, const Q
     if (oldPos > GenTime() && pos > GenTime()) {
         // move guide
         for (int i = 0; i < m_guides.count(); i++) {
-            kDebug() << "// LOOKING FOR GUIDE (" << i << "): " << m_guides.at(i)->position().frames(25) << ", LOOK: " << oldPos.frames(25) << "x" << pos.frames(25);
             if (m_guides.at(i)->position() == oldPos) {
                 Guide *item = m_guides.at(i);
-                item->update(pos, comment);
-                item->updatePosition(m_scale);
+                item->updateGuide(pos, comment);
                 break;
             }
         }
@@ -1617,11 +1624,36 @@ bool CustomTrackView::addGuide(const GenTime pos, const QString &comment) {
 }
 
 void CustomTrackView::slotAddGuide() {
-    if (addGuide(GenTime(m_cursorPos, m_document->fps()), i18n("guide"))) {
-        EditGuideCommand *command = new EditGuideCommand(this, GenTime(), QString(), GenTime(m_cursorPos, m_document->fps()), i18n("guide"), false);
+    CommentedTime marker(GenTime(m_cursorPos, m_document->fps()), i18n("Guide"));
+    MarkerDialog d(NULL, marker, m_document->timecode(), this);
+    if (d.exec() != QDialog::Accepted) return;
+    if (addGuide(d.newMarker().time(), d.newMarker().comment())) {
+        EditGuideCommand *command = new EditGuideCommand(this, GenTime(), QString(), d.newMarker().time(), d.newMarker().comment(), false);
         m_commandStack->push(command);
     }
 }
+
+void CustomTrackView::slotEditGuide() {
+    GenTime pos = GenTime(m_cursorPos, m_document->fps());
+    bool found = false;
+    for (int i = 0; i < m_guides.count(); i++) {
+        if (m_guides.at(i)->position() == pos) {
+            slotEditGuide(m_guides.at(i)->info());
+            found = true;
+            break;
+        }
+    }
+    if (!found) emit displayMessage(i18n("No guide at cursor time"), ErrorMessage);
+}
+
+void CustomTrackView::slotEditGuide(CommentedTime guide) {
+    MarkerDialog d(NULL, guide, m_document->timecode(), this);
+    if (d.exec() == QDialog::Accepted) {
+        EditGuideCommand *command = new EditGuideCommand(this, guide.time(), guide.comment(), d.newMarker().time(), d.newMarker().comment(), true);
+        m_commandStack->push(command);
+    }
+}
+
 
 void CustomTrackView::slotDeleteGuide() {
     GenTime pos = GenTime(m_cursorPos, m_document->fps());
@@ -1672,6 +1704,15 @@ void CustomTrackView::setScale(double scaleFactor) {
     updateCursorPos();
     centerOn(QPointF(cursorPos(), m_tracksHeight));
     verticalScrollBar()->setValue(vert);
+}
+
+void CustomTrackView::slotRefreshGuides() {
+    if (KdenliveSettings::showmarkers()) {
+        kDebug() << "// refresh GUIDES";
+        for (int i = 0; i < m_guides.count(); i++) {
+            m_guides.at(i)->update();
+        }
+    }
 }
 
 void CustomTrackView::drawBackground(QPainter * painter, const QRectF & rect) {
@@ -1740,19 +1781,26 @@ bool CustomTrackView::findNextString(const QString &text) {
 
 void CustomTrackView::initSearchStrings() {
     m_searchPoints.clear();
-
     QList<QGraphicsItem *> itemList = items();
     for (int i = 0; i < itemList.count(); i++) {
+        // parse all clip names
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             GenTime start = item->startPos();
             CommentedTime t(start, item->clipName());
             m_searchPoints.append(t);
-
+            // add all clip markers
             QList < CommentedTime > markers = item->commentedSnapMarkers();
             m_searchPoints += markers;
         }
     }
+
+    // add guides
+    for (int i = 0; i < m_guides.count(); i++) {
+        m_searchPoints.append(m_guides.at(i)->info());
+    }
+
+    qSort(m_searchPoints);
 }
 
 void CustomTrackView::clearSearchStrings() {

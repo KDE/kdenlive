@@ -91,6 +91,8 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
     connect(addGuide, SIGNAL(triggered()), m_view, SLOT(slotAddGuide()));
     QAction *delGuide = m_contextMenu->addAction(KIcon("document-new"), i18n("Delete Guide"));
     connect(delGuide, SIGNAL(triggered()), m_view, SLOT(slotDeleteGuide()));
+    QAction *editGuide = m_contextMenu->addAction(KIcon("document-new"), i18n("Edit Guide"));
+    connect(editGuide, SIGNAL(triggered()), m_view, SLOT(slotEditGuide()));
 }
 
 // virtual
@@ -114,6 +116,7 @@ void CustomRuler::mousePressEvent(QMouseEvent * event) {
 // virtual
 void CustomRuler::mouseMoveEvent(QMouseEvent * event) {
     int pos = (int)((event->x() + offset()) / pixelPerMark() / FRAME_SIZE);
+    if (pos < 0) pos = 0;
     if (m_moveCursor == RULER_CURSOR) {
         m_view->setCursorPos(pos);
         return;
@@ -216,7 +219,7 @@ void CustomRuler::paintEvent(QPaintEvent *e) {
 
     p.fillRect(QRect(zoneStart - offset(), e->rect().y() + e->rect().height() / 2, zoneEnd - zoneStart, e->rect().height() / 2), QBrush(QColor(133, 255, 143)));
 
-    int value  = m_view->cursorPos() - offset() + 4;
+    int value  = m_view->cursorPos() - offset();
     int minval = minimum();
     int maxval = maximum() + offset() - endOffset();
 
@@ -311,7 +314,7 @@ void CustomRuler::paintEvent(QPaintEvent *e) {
     }
 
     // draw pointer
-    if (showPointer() && value > 0) {
+    if (showPointer() && value >= 0) {
         QPolygon pa(3);
         pa.setPoints(3, value - 6, 7, value + 6, 7, value, 16);
         p.setBrush(QBrush(Qt::yellow));

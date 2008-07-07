@@ -93,8 +93,36 @@ public:
     void    setComment(QString comm) {
         c = comm;
     }
+
+    /* Implementation of > operator; Works identically as with basic types. */
+    bool operator>(CommentedTime op) const {
+        return t > op.time();
+    }
+    /* Implementation of < operator; Works identically as with basic types. */
+    bool operator<(CommentedTime op) const {
+        return t < op.time();
+    }
+    /* Implementation of >= operator; Works identically as with basic types. */
+    bool operator>=(CommentedTime op) const {
+        return t >= op.time();
+    }
+    /* Implementation of <= operator; Works identically as with basic types. */
+    bool operator<=(CommentedTime op) const {
+        return t <= op.time();
+    }
+    /* Implementation of == operator; Works identically as with basic types. */
+    bool operator==(CommentedTime op) const {
+        return t == op.time();
+    }
+    /* Implementation of != operator; Works identically as with basic types. */
+    bool operator!=(CommentedTime op) const {
+        return t != op.time();
+    }
+
 private:
     GenTime t;
     QString c;
+
+
 };
 #endif

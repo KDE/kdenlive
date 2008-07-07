@@ -109,6 +109,8 @@ public slots:
     void slotAddClipMarker(int id, GenTime t, QString c);
     bool addGuide(const GenTime pos, const QString &comment);
     void slotAddGuide();
+    void slotEditGuide(CommentedTime guide);
+    void slotEditGuide();
     void slotDeleteGuide();
     void editGuide(const GenTime oldPos, const GenTime pos, const QString &comment);
 
@@ -169,6 +171,9 @@ private:
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
     void updateClipFade(ClipItem * item, bool updateFadeOut = false);
+
+private slots:
+    void slotRefreshGuides();
 
 signals:
     void cursorMoved(int, int);

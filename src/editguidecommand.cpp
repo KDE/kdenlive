@@ -24,7 +24,6 @@ EditGuideCommand::EditGuideCommand(CustomTrackView *view, const GenTime oldPos, 
     else if (m_oldPos == m_pos) setText(i18n("Edit guide"));
     else if (m_pos <= GenTime()) setText(i18n("Delete guide"));
     else setText(i18n("Move guide"));
-    kDebug() << "///  CREATE GUIDE COMMAND, TIMES: " << m_oldPos.frames(25) << "x" << m_pos.frames(25);
 }
 
 

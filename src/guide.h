@@ -23,6 +23,7 @@
 #include <QGraphicsLineItem>
 
 #include "gentime.h"
+#include "definitions.h"
 
 #define GUIDEITEM 8000
 
@@ -34,9 +35,12 @@ public:
     Guide(CustomTrackView *view, GenTime pos, QString label, double scale, double fps, double height);
     void updatePosition(double scale);
     GenTime position() const;
-    void update(const GenTime newPos, const QString &comment = QString());
+    void updateGuide(const GenTime newPos, const QString &comment = QString());
     QString label() const;
+    CommentedTime info() const;
     virtual int type() const;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w);
+    virtual QRectF boundingRect() const;
 
 protected:
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *);
@@ -49,6 +53,7 @@ private:
     double m_scale;
     double m_fps;
     CustomTrackView *m_view;
+    int m_width;
 };
 
 #endif
