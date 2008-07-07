@@ -74,10 +74,10 @@ void TransitionSettings::slotUpdateEffectParams(const QDomElement& oldparam, con
         m_usedTransition->setTransitionParameters(param);
         m_usedTransition->update();
     }
-    QString test;
+    /*QString test;
     QTextStream str(&test);
     oldparam.save(str, 2);
-    m_usedTransition->toXML().save(str, 2);
+    m_usedTransition->toXML().save(str, 2);*/
     //kDebug() << test;
     //oldparam must be also first given to Transition and then return the toXML()
     emit transitionUpdated(m_usedTransition, oldparam);

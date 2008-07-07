@@ -71,6 +71,7 @@ QString Transition::transitionTag() const {
 void Transition::setTransitionParameters(const QDomElement params) {
     m_parameters = params;
     m_name = m_parameters.elementsByTagName("name").item(0).toElement().text();
+    update();
 }
 
 
