@@ -1460,6 +1460,7 @@ void CustomTrackView::slotSeekToPreviousSnap() {
         }
     }
     setCursorPos((int) res.frames(m_document->fps()));
+    checkScrolling();
 }
 
 void CustomTrackView::slotSeekToNextSnap() {
@@ -1473,6 +1474,31 @@ void CustomTrackView::slotSeekToNextSnap() {
         }
     }
     setCursorPos((int) res.frames(m_document->fps()));
+    checkScrolling();
+}
+
+void CustomTrackView::clipStart() {
+    QList<QGraphicsItem *> itemList = scene()->selectedItems();
+    for (int i = 0; i < itemList.count(); i++) {
+        if (itemList.at(i)->type() == AVWIDGET) {
+            ClipItem *item = (ClipItem *) itemList.at(i);
+            setCursorPos((int) item->startPos().frames(m_document->fps()));
+            checkScrolling();
+            break;
+        }
+    }
+}
+
+void CustomTrackView::clipEnd() {
+    QList<QGraphicsItem *> itemList = scene()->selectedItems();
+    for (int i = 0; i < itemList.count(); i++) {
+        if (itemList.at(i)->type() == AVWIDGET) {
+            ClipItem *item = (ClipItem *) itemList.at(i);
+            setCursorPos((int) item->endPos().frames(m_document->fps()));
+            checkScrolling();
+            break;
+        }
+    }
 }
 
 void CustomTrackView::slotAddClipMarker() {

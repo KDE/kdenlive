@@ -548,6 +548,26 @@ void MainWindow::setupActions() {
     actionCollection()->addAction("monitor_seek_forward", monitorSeekForward);
     connect(monitorSeekForward, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotForward()));
 
+    KAction* clipStart = new KAction(KIcon("media-seek-backward"), i18n("Go to Clip Start"), this);
+    clipStart->setShortcut(Qt::Key_Home);
+    actionCollection()->addAction("seek_clip_start", clipStart);
+    connect(clipStart, SIGNAL(triggered(bool)), this, SLOT(slotClipStart()));
+
+    KAction* clipEnd = new KAction(KIcon("media-seek-forward"), i18n("Go to Clip End"), this);
+    clipEnd->setShortcut(Qt::Key_End);
+    actionCollection()->addAction("seek_clip_end", clipEnd);
+    connect(clipEnd, SIGNAL(triggered(bool)), this, SLOT(slotClipEnd()));
+
+    KAction* projectStart = new KAction(KIcon("media-seek-backward"), i18n("Go to Project Start"), this);
+    projectStart->setShortcut(Qt::CTRL + Qt::Key_Home);
+    actionCollection()->addAction("seek_start", projectStart);
+    connect(projectStart, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotStart()));
+
+    KAction* projectEnd = new KAction(KIcon("media-seek-forward"), i18n("Go to Project End"), this);
+    projectEnd->setShortcut(Qt::CTRL + Qt::Key_End);
+    actionCollection()->addAction("seek_end", projectEnd);
+    connect(projectEnd, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotEnd()));
+
     KAction* monitorSeekForwardOneFrame = new KAction(KIcon("media-skip-forward"), i18n("Forward 1 Frame"), this);
     monitorSeekForwardOneFrame->setShortcut(Qt::Key_Right);
     actionCollection()->addAction("monitor_seek_forward-one-frame", monitorSeekForwardOneFrame);
@@ -1171,6 +1191,20 @@ void MainWindow::slotSnapForward() {
     if (m_monitorManager->projectMonitorFocused()) {
         TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
         currentTab->projectView()->slotSeekToNextSnap();
+    }
+}
+
+void MainWindow::slotClipStart() {
+    if (m_monitorManager->projectMonitorFocused()) {
+        TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+        currentTab->projectView()->clipStart();
+    }
+}
+
+void MainWindow::slotClipEnd() {
+    if (m_monitorManager->projectMonitorFocused()) {
+        TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
+        currentTab->projectView()->clipEnd();
     }
 }
 

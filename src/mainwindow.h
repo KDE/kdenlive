@@ -200,6 +200,8 @@ private slots:
     void slotSetTool(PROJECTTOOL tool);
     void slotSnapForward();
     void slotSnapRewind();
+    void slotClipStart();
+    void slotClipEnd();
     void slotFind();
     void findTimeout();
     void slotFindNext();

@@ -45,6 +45,8 @@ public slots:
     void slotForward(double speed = 0);
     void slotRewindOneFrame();
     void slotForwardOneFrame();
+    void slotStart();
+    void slotEnd();
 
 private:
     Monitor *m_clipMonitor;

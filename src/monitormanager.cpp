@@ -101,6 +101,16 @@ void MonitorManager::slotForwardOneFrame() {
     else m_projectMonitor->slotForwardOneFrame();
 }
 
+void MonitorManager::slotStart() {
+    if (m_activeMonitor == "clip") m_clipMonitor->slotStart();
+    else m_projectMonitor->slotStart();
+}
+
+void MonitorManager::slotEnd() {
+    if (m_activeMonitor == "clip") m_clipMonitor->slotEnd();
+    else m_projectMonitor->slotEnd();
+}
+
 void MonitorManager::resetProfiles(QString prof) {
     m_clipMonitor->resetProfile(prof);
     m_projectMonitor->resetProfile(prof);

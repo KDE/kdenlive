@@ -89,6 +89,8 @@ public:
     bool findNextString(const QString &text);
     void initSearchStrings();
     void clearSearchStrings();
+    void clipStart();
+    void clipEnd();
 
 public slots:
     void setCursorPos(int pos, bool seek = true);

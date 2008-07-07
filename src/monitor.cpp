@@ -168,6 +168,24 @@ void Monitor::slotSeek(int pos) {
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 
+void Monitor::slotStart() {
+    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    render->play(0);
+    m_position = 0;
+    render->seekToFrame(m_position);
+    emit renderPosition(m_position);
+    m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
+}
+
+void Monitor::slotEnd() {
+    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    render->play(0);
+    m_position = render->getLength();
+    render->seekToFrame(m_position);
+    emit renderPosition(m_position);
+    m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
+}
+
 void Monitor::slotRewind(double speed) {
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);
     if (speed == 0) {

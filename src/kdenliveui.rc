@@ -46,7 +46,18 @@
     </Menu>
     <Menu name="monitor" ><text>Monitor</text>
       <Action name="monitor_play" />
-    </Menu>
+      <Separator />      
+      <Action name="seek_start" />
+      <Action name="monitor_seek_snap_backward" />
+      <Action name="seek_clip_start" />     
+      <Action name="monitor_seek_backward" />
+      <Action name="monitor_seek_backward-one-frame" />
+      <Action name="monitor_seek_forward-one-frame" />
+      <Action name="monitor_seek_forward" />
+      <Action name="seek_clip_end" />
+      <Action name="monitor_seek_snap_forward" />
+      <Action name="seek_end" />
+</Menu>
 
     <Menu name="settings" >
       <Action name="manage_profiles" />
