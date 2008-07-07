@@ -228,19 +228,7 @@ QPixmap Render::extractFrame(int frame_position, int width, int height) {
         pix.fill(Qt::black);
         return pix;
     }
-    //TODO: rewrite
-    return pix; //KThumb::getFrame(m_mltProducer, frame_position, width, height);
-    /*Mlt::Filter m_convert(*m_mltProfile, "avcolour_space");
-    m_convert.set("forced", mlt_image_rgb24a);
-    mlt_producer->attach(m_convert);
-    Mlt::Frame *frame = mlt_producer->get_frame();
-
-    if (frame) {
-        pix = frameThumbnail(frame, width, height);
-        delete frame;
-    } else pix.fill(Qt::black);
-    delete mlt_producer;
-    return pix;*/
+    return KThumb::getFrame(*m_mltProducer, frame_position, width, height);
 }
 
 QPixmap Render::getImageThumbnail(KUrl url, int width, int height) {
@@ -1618,7 +1606,7 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
     Mlt::Tractor tractor(service);
     Mlt::Field *field = tractor.field();
 
-    m_mltConsumer->set("refresh", 0);
+    if (do_refresh) m_mltConsumer->set("refresh", 0);
     mlt_service serv = m_mltProducer->parent().get_service();
 
     mlt_service nextservice = mlt_service_get_producer(serv);
@@ -1637,7 +1625,6 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
         if (resource == tag && b_track == currentTrack && currentIn <= old_pos && currentOut >= old_pos) {
             //kDebug() << " / / / / /DELETE TRANS DOOOMNE";
             mlt_field_disconnect_service(field->get_field(), nextservice);
-            mlt_service_close(nextservice);
             break;
         }
         nextservice = mlt_service_producer(nextservice);
@@ -1646,7 +1633,7 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
         mlt_type = mlt_properties_get(properties, "mlt_type");
         resource = mlt_properties_get(properties, "mlt_service");
     }
-    m_mltConsumer->set("refresh", 1);
+    if (do_refresh) m_mltConsumer->set("refresh", 1);
 }
 
 QMap<QString, QString> Render::mltGetTransitionParamsFromXml(QDomElement xml) {
