@@ -860,7 +860,10 @@ void MainWindow::slotDoRender(const QString &dest, const QString &render, const 
         args << "-erase";
         if (zoneOnly) args << "in=" + QString::number(in) << "out=" + QString::number(out);
         QString videoPlayer = "-";
-        if (playAfter) videoPlayer = "kmplayer";
+        if (playAfter) {
+            videoPlayer = KdenliveSettings::defaultplayerapp();
+            if (videoPlayer.isEmpty()) KMessageBox::sorry(this, i18n("Cannot play video after rendering because the default video player application is not set.\nPlease define it in Kdenlive settings dialog."));
+        }
         args << "inigo" << m_activeDocument->profilePath() << render << videoPlayer << temp.fileName() << dest << avformat_args;
         QProcess::startDetached("kdenlive_render", args);
     }

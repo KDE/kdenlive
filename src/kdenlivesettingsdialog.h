@@ -47,6 +47,9 @@ private slots:
     void rebuildVideo4Commands();
     void slotCheckShuttle(int state = 0);
     void slotUpdateShuttleDevice(int ix = 0);
+    void slotEditImageApplication();
+    void slotEditAudioApplication();
+    void slotEditVideoApplication();
 
 private:
     KPageWidgetItem *page1;

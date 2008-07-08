@@ -22,6 +22,7 @@
 
 #include <KStandardDirs>
 #include <KDebug>
+#include <kopenwithdialog.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -85,6 +86,9 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
     connect(m_configCapture.kcfg_video4size, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
     connect(m_configCapture.kcfg_video4rate, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
 
+    connect(m_configEnv.kp_image, SIGNAL(clicked()), this, SLOT(slotEditImageApplication()));
+    connect(m_configEnv.kp_audio, SIGNAL(clicked()), this, SLOT(slotEditAudioApplication()));
+    connect(m_configEnv.kp_player, SIGNAL(clicked()), this, SLOT(slotEditVideoApplication()));
 
     QStringList profilesNames = ProfilesDialog::getProfileNames();
     m_configMisc.kcfg_profiles_list->addItems(profilesNames);
@@ -101,6 +105,36 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
 
 KdenliveSettingsDialog::~KdenliveSettingsDialog() {}
 
+
+void KdenliveSettingsDialog::slotEditVideoApplication() {
+    KService::Ptr service;
+    KOpenWithDialog dlg(KUrl::List(), i18n("Select default video player"), m_configEnv.kcfg_defaultplayerapp->text(), this);
+    if (dlg.exec() != QDialog::Accepted)
+        return;
+
+    service = dlg.service();
+    m_configEnv.kcfg_defaultplayerapp->setText(service->exec());
+}
+
+void KdenliveSettingsDialog::slotEditAudioApplication() {
+    KService::Ptr service;
+    KOpenWithDialog dlg(KUrl::List(), i18n("Select default audio editor"), m_configEnv.kcfg_defaultaudioapp->text(), this);
+    if (dlg.exec() != QDialog::Accepted)
+        return;
+
+    service = dlg.service();
+    m_configEnv.kcfg_defaultaudioapp->setText(service->exec());
+}
+
+void KdenliveSettingsDialog::slotEditImageApplication() {
+    KService::Ptr service;
+    KOpenWithDialog dlg(KUrl::List(), i18n("Select default image editor"), m_configEnv.kcfg_defaultimageapp->text(), this);
+    if (dlg.exec() != QDialog::Accepted)
+        return;
+
+    service = dlg.service();
+    m_configEnv.kcfg_defaultimageapp->setText(service->exec());
+}
 
 void KdenliveSettingsDialog::slotCheckShuttle(int state) {
     m_configShuttle.config_group->setEnabled(state);

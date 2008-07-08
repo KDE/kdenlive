@@ -72,7 +72,24 @@
       <label>Default folder for captured files.</label>
       <default>$HOME</default>
     </entry>
+
+    <entry name="defaultimageapp" type="String">
+      <label>Default image editing application.</label>
+      <default></default>
+    </entry>
+
+    <entry name="defaultaudioapp" type="String">
+      <label>Default audio editing application.</label>
+      <default></default>
+    </entry>
+
+    <entry name="defaultplayerapp" type="String">
+      <label>Default video player application.</label>
+      <default></default>
+    </entry>
+
   </group>
+
 
   <group name="capture">
     <entry name="defaultcapture" type="UInt">

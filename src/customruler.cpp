@@ -118,27 +118,26 @@ void CustomRuler::mousePressEvent(QMouseEvent * event) {
 // virtual
 void CustomRuler::mouseMoveEvent(QMouseEvent * event) {
     if (event->buttons() == Qt::LeftButton) {
-	int pos = (int)((event->x() + offset()) / pixelPerMark() / FRAME_SIZE);
-	if (pos < 0) pos = 0;
-	if (m_moveCursor == RULER_CURSOR) {
-	    m_view->setCursorPos(pos);
-	    return;
-	} else if (m_moveCursor == RULER_START) m_zoneStart = pos;
-	else if (m_moveCursor == RULER_END) m_zoneEnd = pos;
-	else if (m_moveCursor == RULER_MIDDLE) {
-	    int move = pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2);
-	    m_zoneStart += move;
-	    m_zoneEnd += move;
-	}
-	update();
-    }
-    else {
-	int pos = (int)((event->x() + offset()));
-	if (event->y() <= 10) setCursor(Qt::ArrowCursor);
-	else if (qAbs(pos - m_zoneStart * pixelPerMark() * FRAME_SIZE) < 4) setCursor(KCursor("left_side", Qt::SizeHorCursor));
-	else if (qAbs(pos - m_zoneEnd * pixelPerMark() * FRAME_SIZE) < 4) setCursor(KCursor("right_side", Qt::SizeHorCursor));
-	else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2) * pixelPerMark() * FRAME_SIZE) < 4) setCursor(Qt::SizeHorCursor);
-	else setCursor(Qt::ArrowCursor);
+        int pos = (int)((event->x() + offset()) / pixelPerMark() / FRAME_SIZE);
+        if (pos < 0) pos = 0;
+        if (m_moveCursor == RULER_CURSOR) {
+            m_view->setCursorPos(pos);
+            return;
+        } else if (m_moveCursor == RULER_START) m_zoneStart = pos;
+        else if (m_moveCursor == RULER_END) m_zoneEnd = pos;
+        else if (m_moveCursor == RULER_MIDDLE) {
+            int move = pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2);
+            m_zoneStart += move;
+            m_zoneEnd += move;
+        }
+        update();
+    } else {
+        int pos = (int)((event->x() + offset()));
+        if (event->y() <= 10) setCursor(Qt::ArrowCursor);
+        else if (qAbs(pos - m_zoneStart * pixelPerMark() * FRAME_SIZE) < 4) setCursor(KCursor("left_side", Qt::SizeHorCursor));
+        else if (qAbs(pos - m_zoneEnd * pixelPerMark() * FRAME_SIZE) < 4) setCursor(KCursor("right_side", Qt::SizeHorCursor));
+        else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2) * pixelPerMark() * FRAME_SIZE) < 4) setCursor(Qt::SizeHorCursor);
+        else setCursor(Qt::ArrowCursor);
     }
 }
 
