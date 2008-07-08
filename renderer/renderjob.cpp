@@ -25,7 +25,7 @@
 
 static QDBusConnection connection(QLatin1String(""));
 
-RenderJob::RenderJob(bool erase, QString renderer, QString profile, QString rendermodule, QString player, QString scenelist, QString dest, QStringList args, int in, int out) : QObject() {
+RenderJob::RenderJob(bool erase, QString renderer, QString profile, QString rendermodule, QString player, QString scenelist, QString dest, QStringList args, int in, int out) : QObject(), m_jobUiserver(NULL) {
     m_scenelist = scenelist;
     m_dest = dest;
     m_player = player;
@@ -50,7 +50,7 @@ RenderJob::~RenderJob() {
 void RenderJob::slotAbort() {
     qDebug() << "Kdenlive-render: JOB ABORTED BY USER...";
     m_renderProcess->kill();
-    QDBusReply<QString> reply = m_jobUiserver->call("terminate", "");
+    if (m_jobUiserver) QDBusReply<QString> reply = m_jobUiserver->call("terminate", "");
     if (m_erase) {
         QFile f(m_scenelist);
         f.remove();
@@ -67,25 +67,28 @@ void RenderJob::receivedStderr() {
     int pro = result.toInt();
     if (pro > m_progress) {
         m_progress = pro;
-        QDBusReply<QString> reply = m_jobUiserver->call("setPercent", (uint) m_progress);
+        if (m_jobUiserver) QDBusReply<QString> reply = m_jobUiserver->call("setPercent", (uint) m_progress);
     }
 }
 
 void RenderJob::start() {
-    QDBusInterface kuiserver("org.kde.JobViewServer", "/JobViewServer", "org.kde.JobViewServer");
-    QDBusReply<QDBusObjectPath> objectPath = kuiserver.call("requestView", "kdenlive", "kdenlive", 1);
-    QString reply = ((QDBusObjectPath) objectPath).path();
-    m_jobUiserver = new QDBusInterface("org.kde.JobViewServer", reply, "org.kde.JobView");
-    m_jobUiserver->call("setInfoMessage", tr("Rendering %1").arg(m_dest.section('/', -1)));
+    QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
+    if (interface && interface->isServiceRegistered("org.kde.JobViewServer")) {
+	QDBusInterface kuiserver("org.kde.JobViewServer", "/JobViewServer", "org.kde.JobViewServer");
+	QDBusReply<QDBusObjectPath> objectPath = kuiserver.call("requestView", "kdenlive", "kdenlive", 1);
+	QString reply = ((QDBusObjectPath) objectPath).path();
+	m_jobUiserver = new QDBusInterface("org.kde.JobViewServer", reply, "org.kde.JobView");
+	m_jobUiserver->call("setInfoMessage", tr("Rendering %1").arg(m_dest.section('/', -1)));
 
-    QDBusConnection::sessionBus().connect("org.kde.JobViewServer", reply, "org.kde.JobView",
+	QDBusConnection::sessionBus().connect("org.kde.JobViewServer", reply, "org.kde.JobView",
                                           "cancelRequested", this, SLOT(slotAbort()));
+    }
     m_renderProcess->start(m_prog, m_args);
 }
 
 
 void RenderJob::slotIsOver(int exitcode, QProcess::ExitStatus status) {
-    QDBusReply<QString> reply = m_jobUiserver->call("terminate", "");
+    if (m_jobUiserver) QDBusReply<QString> reply = m_jobUiserver->call("terminate", "");
     if (m_erase) {
         QFile f(m_scenelist);
         f.remove();
@@ -96,7 +99,7 @@ void RenderJob::slotIsOver(int exitcode, QProcess::ExitStatus status) {
         args << "--error" << tr("Rendering of %1 aborted, resulting video will probably be corrupted.").arg(m_dest);
         QProcess::startDetached("kdialog", args);
     } else {
-		QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
+	QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
         if (interface && interface->isServiceRegistered("org.kde.VisualNotifications")) {
 			QDBusMessage m = QDBusMessage::createMethodCall("org.kde.VisualNotifications",
                                               "/VisualNotifications",
@@ -104,7 +107,7 @@ void RenderJob::slotIsOver(int exitcode, QProcess::ExitStatus status) {
                                               "Notify");
 			QList<QVariant> args;
 			uint id = 0;
-			int timeout = 5;
+			int timeout = 5000;
 			args.append( QString("kdenlive") ); // app_name
 			args.append( id ); // replaces_id
 			args.append( QString("kdenlive") ); // app_icon
