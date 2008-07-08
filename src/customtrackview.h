@@ -59,6 +59,7 @@ public:
     void slotAddClipMarker();
     void slotEditClipMarker();
     void slotDeleteClipMarker();
+    void slotDeleteAllClipMarkers();
     void addMarker(const int id, const GenTime &pos, const QString comment);
     void setScale(double scaleFactor);
     void deleteClip(int clipId);
@@ -114,6 +115,7 @@ public slots:
     void slotEditGuide(CommentedTime guide);
     void slotEditGuide();
     void slotDeleteGuide();
+    void slotDeleteAllGuides();
     void editGuide(const GenTime oldPos, const GenTime pos, const QString &comment);
 
 protected:

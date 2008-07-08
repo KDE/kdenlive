@@ -1188,6 +1188,10 @@ void CustomTrackView::deleteClip(ItemInfo info) {
 }
 
 void CustomTrackView::deleteSelectedClips() {
+
+    QUndoCommand *deleteSelected = new QUndoCommand();
+    deleteSelected->setText("Delete selected items");
+
     QList<QGraphicsItem *> itemList = scene()->selectedItems();
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
@@ -1196,18 +1200,17 @@ void CustomTrackView::deleteSelectedClips() {
             info.startPos = item->startPos();
             info.endPos = item->endPos();
             info.track = item->track();
-            AddTimelineClipCommand *command = new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), info, true, true);
-            m_commandStack->push(command);
+            new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), info, true, true, deleteSelected);
         } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
             Transition *item = (Transition *) itemList.at(i);
             ItemInfo info;
             info.startPos = item->startPos();
             info.endPos = item->endPos();
             info.track = item->track();
-            AddTransitionCommand *command = new AddTransitionCommand(this, info, item->transitionEndTrack(), QDomElement(), true, true);
-            m_commandStack->push(command);
+            new AddTransitionCommand(this, info, item->transitionEndTrack(), QDomElement(), true, true, deleteSelected);
         }
     }
+    m_commandStack->push(deleteSelected);
 }
 
 void CustomTrackView::cutSelectedClips() {
@@ -1538,7 +1541,7 @@ void CustomTrackView::slotDeleteClipMarker() {
     }
     AbstractClipItem *item = (AbstractClipItem *)itemList.at(0);
     if (item->type() != AVWIDGET) {
-        emit displayMessage(i18n("No clip at cursor time"), ErrorMessage);
+        emit displayMessage(i18n("No clip selected"), ErrorMessage);
         return;
     }
     GenTime pos = GenTime(m_cursorPos, m_document->fps());
@@ -1556,6 +1559,36 @@ void CustomTrackView::slotDeleteClipMarker() {
     }
     AddMarkerCommand *command = new AddMarkerCommand(this, comment, QString(), id, position, true);
     m_commandStack->push(command);
+}
+
+void CustomTrackView::slotDeleteAllClipMarkers() {
+    QList<QGraphicsItem *> itemList = scene()->selectedItems();
+    if (itemList.count() != 1) {
+        emit displayMessage(i18n("Cannot delete marker if more than one clip is selected"), ErrorMessage);
+        kDebug() << "// CANNOT DELETE MARKER IF MORE TAN ONE CLIP IS SELECTED....";
+        return;
+    }
+    AbstractClipItem *item = (AbstractClipItem *)itemList.at(0);
+    if (item->type() != AVWIDGET) {
+        emit displayMessage(i18n("No clip selected"), ErrorMessage);
+        return;
+    }
+
+    ClipItem *clip = static_cast <ClipItem *>(item);
+    QList <CommentedTime> markers = clip->baseClip()->commentedSnapMarkers();
+
+    if (markers.isEmpty()) {
+        emit displayMessage(i18n("Clip has no markers"), ErrorMessage);
+        return;
+    }
+    int id = clip->baseClip()->getId();
+    QUndoCommand *deleteMarkers = new QUndoCommand();
+    deleteMarkers->setText("Delete clip markers");
+
+    for (int i = 0; i < markers.size(); i++) {
+        new AddMarkerCommand(this, markers.at(i).comment(), QString(), id, markers.at(i).time(), true, deleteMarkers);
+    }
+    m_commandStack->push(deleteMarkers);
 }
 
 void CustomTrackView::slotEditClipMarker() {
@@ -1694,6 +1727,15 @@ void CustomTrackView::slotDeleteGuide() {
         }
     }
     if (!found) emit displayMessage(i18n("No guide at cursor time"), ErrorMessage);
+}
+
+void CustomTrackView::slotDeleteAllGuides() {
+    QUndoCommand *deleteAll = new QUndoCommand();
+    deleteAll->setText("Delete all guides");
+    for (int i = 0; i < m_guides.count(); i++) {
+        EditGuideCommand *command = new EditGuideCommand(this, m_guides.at(i)->position(), m_guides.at(i)->label(), GenTime(), QString(), true, deleteAll);
+    }
+    m_commandStack->push(deleteAll);
 }
 
 void CustomTrackView::setTool(PROJECTTOOL tool) {

@@ -34,7 +34,7 @@ class CustomTrackView;
 
 class AddTimelineClipCommand : public QUndoCommand {
 public:
-    AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, int clipId, ItemInfo info, bool doIt, bool doRemove);
+    AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, int clipId, ItemInfo info, bool doIt, bool doRemove, QUndoCommand * parent = 0);
     virtual void undo();
     virtual void redo();
 

@@ -19,7 +19,7 @@
 #include "addmarkercommand.h"
 #include "customtrackview.h"
 
-AddMarkerCommand::AddMarkerCommand(CustomTrackView *view, const QString &oldcomment, const QString &comment, const int id, const GenTime &pos, bool doIt) : m_view(view), m_oldcomment(oldcomment), m_comment(comment), m_id(id), m_pos(pos), m_doIt(doIt) {
+AddMarkerCommand::AddMarkerCommand(CustomTrackView *view, const QString &oldcomment, const QString &comment, const int id, const GenTime &pos, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_oldcomment(oldcomment), m_comment(comment), m_id(id), m_pos(pos), m_doIt(doIt) {
     if (m_comment.isEmpty()) setText(i18n("Delete marker"));
     else if (m_oldcomment.isEmpty()) setText(i18n("Add marker"));
     else setText(i18n("Edit marker"));

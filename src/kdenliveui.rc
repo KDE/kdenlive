@@ -29,7 +29,15 @@
 		<Action name="add_clip_marker" />
 		<Action name="edit_clip_marker" />
 		<Action name="delete_clip_marker" />
+		<Action name="delete_all_clip_markers" />
       </Menu>
+      <Menu name="guide_menu" ><text>Guides</text>
+		<Action name="add_guide" />
+		<Action name="edit_guide" />
+		<Action name="delete_guide" />
+		<Action name="delete_all_guides" />
+      </Menu>
+      <Separator />
       <Menu name="video_effects_menu" ><text>Add Video Effect</text>
       </Menu>
       <Menu name="audio_effects_menu" ><text>Add Audio Effect</text>

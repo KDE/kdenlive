@@ -90,10 +90,12 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
     m_contextMenu = new QMenu(this);
     QAction *addGuide = m_contextMenu->addAction(KIcon("document-new"), i18n("Add Guide"));
     connect(addGuide, SIGNAL(triggered()), m_view, SLOT(slotAddGuide()));
-    QAction *delGuide = m_contextMenu->addAction(KIcon("document-new"), i18n("Delete Guide"));
-    connect(delGuide, SIGNAL(triggered()), m_view, SLOT(slotDeleteGuide()));
-    QAction *editGuide = m_contextMenu->addAction(KIcon("document-new"), i18n("Edit Guide"));
+    QAction *editGuide = m_contextMenu->addAction(KIcon("document-properties"), i18n("Edit Guide"));
     connect(editGuide, SIGNAL(triggered()), m_view, SLOT(slotEditGuide()));
+    QAction *delGuide = m_contextMenu->addAction(KIcon("edit-delete"), i18n("Delete Guide"));
+    connect(delGuide, SIGNAL(triggered()), m_view, SLOT(slotDeleteGuide()));
+    QAction *delAllGuides = m_contextMenu->addAction(KIcon("edit-delete"), i18n("Delete All Guides"));
+    connect(delAllGuides, SIGNAL(triggered()), m_view, SLOT(slotDeleteAllGuides()));
     setMouseTracking(true);
 }
 

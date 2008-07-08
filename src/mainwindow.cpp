@@ -596,9 +596,29 @@ void MainWindow::setupActions() {
     actionCollection()->addAction("delete_clip_marker", deleteClipMarker);
     connect(deleteClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotDeleteClipMarker()));
 
+    KAction* deleteAllClipMarkers = new KAction(KIcon("edit-delete"), i18n("Delete All Markers from Clip"), this);
+    actionCollection()->addAction("delete_all_clip_markers", deleteAllClipMarkers);
+    connect(deleteAllClipMarkers, SIGNAL(triggered(bool)), this, SLOT(slotDeleteAllClipMarkers()));
+
     KAction* editClipMarker = new KAction(KIcon("document-properties"), i18n("Edit Marker"), this);
     actionCollection()->addAction("edit_clip_marker", editClipMarker);
     connect(editClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotEditClipMarker()));
+
+    KAction *addGuide = new KAction(KIcon("document-new"), i18n("Add Guide"), this);
+    actionCollection()->addAction("add_guide", addGuide);
+    connect(addGuide, SIGNAL(triggered()), this, SLOT(slotAddGuide()));
+
+    QAction *delGuide = new KAction(KIcon("edit-delete"), i18n("Delete Guide"), this);
+    actionCollection()->addAction("delete_guide", delGuide);
+    connect(delGuide, SIGNAL(triggered()), this, SLOT(slotDeleteGuide()));
+
+    QAction *editGuide = new KAction(KIcon("document-properties"), i18n("Edit Guide"), this);
+    actionCollection()->addAction("edit_guide", editGuide);
+    connect(editGuide, SIGNAL(triggered()), this, SLOT(slotEditGuide()));
+
+    QAction *delAllGuides = new KAction(KIcon("edit-delete"), i18n("Delete All Guides"), this);
+    actionCollection()->addAction("delete_all_guides", delAllGuides);
+    connect(delAllGuides, SIGNAL(triggered()), this, SLOT(slotDeleteAllGuides()));
 
     KStandardAction::quit(this, SLOT(queryQuit()),
                           actionCollection());
@@ -1010,11 +1030,10 @@ void MainWindow::slotPreferences() {
 
 void MainWindow::updateConfiguration() {
     //TODO: we should apply settings to all projects, not only the current one
-    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-    if (currentTab) {
-        currentTab->refresh();
-        currentTab->projectView()->checkAutoScroll();
-        currentTab->projectView()->checkTrackHeight();
+    if (m_activeTimeline) {
+        m_activeTimeline->refresh();
+        m_activeTimeline->projectView()->checkAutoScroll();
+        m_activeTimeline->projectView()->checkTrackHeight();
         if (m_activeDocument) m_activeDocument->clipManager()->checkAudioThumbs();
     }
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
@@ -1025,19 +1044,17 @@ void MainWindow::updateConfiguration() {
 
 void MainWindow::slotSwitchVideoThumbs() {
     KdenliveSettings::setVideothumbnails(!KdenliveSettings::videothumbnails());
-    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-    if (currentTab) {
-        currentTab->refresh();
+    if (m_activeTimeline) {
+        m_activeTimeline->refresh();
     }
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
 }
 
 void MainWindow::slotSwitchAudioThumbs() {
     KdenliveSettings::setAudiothumbnails(!KdenliveSettings::audiothumbnails());
-    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-    if (currentTab) {
-        currentTab->refresh();
-        currentTab->projectView()->checkAutoScroll();
+    if (m_activeTimeline) {
+        m_activeTimeline->refresh();
+        m_activeTimeline->projectView()->checkAutoScroll();
         if (m_activeDocument) m_activeDocument->clipManager()->checkAudioThumbs();
     }
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
@@ -1045,9 +1062,8 @@ void MainWindow::slotSwitchAudioThumbs() {
 
 void MainWindow::slotSwitchMarkersComments() {
     KdenliveSettings::setShowmarkers(!KdenliveSettings::showmarkers());
-    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-    if (currentTab) {
-        currentTab->refresh();
+    if (m_activeTimeline) {
+        m_activeTimeline->refresh();
     }
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
 }
@@ -1059,37 +1075,58 @@ void MainWindow::slotSwitchSnap() {
 
 
 void MainWindow::slotDeleteTimelineClip() {
-    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-    if (currentTab) {
-        currentTab->projectView()->deleteSelectedClips();
+    if (m_activeTimeline) {
+        m_activeTimeline->projectView()->deleteSelectedClips();
     }
 }
 
 void MainWindow::slotAddClipMarker() {
-    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-    if (currentTab) {
-        currentTab->projectView()->slotAddClipMarker();
+    if (m_activeTimeline) {
+        m_activeTimeline->projectView()->slotAddClipMarker();
     }
 }
 
 void MainWindow::slotDeleteClipMarker() {
-    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-    if (currentTab) {
-        currentTab->projectView()->slotDeleteClipMarker();
+    if (m_activeTimeline) {
+        m_activeTimeline->projectView()->slotDeleteClipMarker();
+    }
+}
+
+void MainWindow::slotDeleteAllClipMarkers() {
+    if (m_activeTimeline) {
+        m_activeTimeline->projectView()->slotDeleteAllClipMarkers();
     }
 }
 
 void MainWindow::slotEditClipMarker() {
-    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-    if (currentTab) {
-        currentTab->projectView()->slotEditClipMarker();
+    if (m_activeTimeline) {
+        m_activeTimeline->projectView()->slotEditClipMarker();
     }
 }
 
+void MainWindow::slotAddGuide() {
+    if (m_activeTimeline)
+        m_activeTimeline->projectView()->slotAddGuide();
+}
+
+void MainWindow::slotEditGuide() {
+    if (m_activeTimeline)
+        m_activeTimeline->projectView()->slotEditGuide();
+}
+
+void MainWindow::slotDeleteGuide() {
+    if (m_activeTimeline)
+        m_activeTimeline->projectView()->slotDeleteGuide();
+}
+
+void MainWindow::slotDeleteAllGuides() {
+    if (m_activeTimeline)
+        m_activeTimeline->projectView()->slotDeleteAllGuides();
+}
+
 void MainWindow::slotCutTimelineClip() {
-    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-    if (currentTab) {
-        currentTab->projectView()->cutSelectedClips();
+    if (m_activeTimeline) {
+        m_activeTimeline->projectView()->cutSelectedClips();
     }
 }
 
@@ -1101,9 +1138,8 @@ void MainWindow::slotAddProjectClip(KUrl url) {
 void MainWindow::slotAddTransition(QAction *result) {
     if (!result) return;
     QDomElement effect = transitions.getEffectByName(result->data().toString());
-    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-    if (currentTab) {
-        currentTab->projectView()->slotAddTransitionToSelectedClips(effect);
+    if (m_activeTimeline) {
+        m_activeTimeline->projectView()->slotAddTransitionToSelectedClips(effect);
     }
 }
 
@@ -1134,9 +1170,8 @@ void MainWindow::slotZoomOut() {
 }
 
 void MainWindow::slotFitZoom() {
-    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-    if (currentTab) {
-        m_zoomSlider->setValue(currentTab->fitZoom());
+    if (m_activeTimeline) {
+        m_zoomSlider->setValue(m_activeTimeline->fitZoom());
     }
 }
 
@@ -1156,15 +1191,13 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip) {
         m_activeDocument->editTextClip(clip->getProperty("xml"), clip->getId());
         return;
     }
-    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
     ClipProperties dia(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
-    connect(&dia, SIGNAL(addMarker(int, GenTime, QString)), currentTab->projectView(), SLOT(slotAddClipMarker(int, GenTime, QString)));
+    connect(&dia, SIGNAL(addMarker(int, GenTime, QString)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(int, GenTime, QString)));
     if (dia.exec() == QDialog::Accepted) {
         m_projectList->slotUpdateClipProperties(dia.clipId(), dia.properties());
         if (dia.needsTimelineRefresh()) {
             // update clip occurences in timeline
-
-            currentTab->projectView()->slotUpdateClip(dia.clipId());
+            m_activeTimeline->projectView()->slotUpdateClip(dia.clipId());
         }
     }
 }
@@ -1185,29 +1218,29 @@ void MainWindow::slotActivateTransitionView() {
 
 void MainWindow::slotSnapRewind() {
     if (m_monitorManager->projectMonitorFocused()) {
-        TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-        currentTab->projectView()->slotSeekToPreviousSnap();
+        if (m_activeTimeline)
+            m_activeTimeline->projectView()->slotSeekToPreviousSnap();
     }
 }
 
 void MainWindow::slotSnapForward() {
     if (m_monitorManager->projectMonitorFocused()) {
-        TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-        currentTab->projectView()->slotSeekToNextSnap();
+        if (m_activeTimeline)
+            m_activeTimeline->projectView()->slotSeekToNextSnap();
     }
 }
 
 void MainWindow::slotClipStart() {
     if (m_monitorManager->projectMonitorFocused()) {
-        TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-        currentTab->projectView()->clipStart();
+        if (m_activeTimeline)
+            m_activeTimeline->projectView()->clipStart();
     }
 }
 
 void MainWindow::slotClipEnd() {
     if (m_monitorManager->projectMonitorFocused()) {
-        TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-        currentTab->projectView()->clipEnd();
+        if (m_activeTimeline)
+            m_activeTimeline->projectView()->clipEnd();
     }
 }
 
@@ -1217,10 +1250,9 @@ void MainWindow::slotChangeTool(QAction * action) {
 }
 
 void MainWindow::slotSetTool(PROJECTTOOL tool) {
-    if (m_activeDocument) {
+    if (m_activeDocument && m_activeTimeline) {
         //m_activeDocument->setTool(tool);
-        TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-        currentTab->projectView()->setTool(tool);
+        m_activeTimeline->projectView()->setTool(tool);
     }
 }
 
@@ -1236,8 +1268,7 @@ void MainWindow::slotFind() {
 }
 
 void MainWindow::slotFindNext() {
-    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-    if (currentTab->projectView()->findNextString(m_findString)) {
+    if (m_activeTimeline && m_activeTimeline->projectView()->findNextString(m_findString)) {
         statusBar()->showMessage(i18n("Found : %1", m_findString));
     } else {
         statusBar()->showMessage(i18n("Reached end of project"));
@@ -1246,8 +1277,7 @@ void MainWindow::slotFindNext() {
 }
 
 void MainWindow::findAhead() {
-    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-    if (currentTab->projectView()->findString(m_findString)) {
+    if (m_activeTimeline && m_activeTimeline->projectView()->findString(m_findString)) {
         m_projectSearchNext->setEnabled(true);
         statusBar()->showMessage(i18n("Found : %1", m_findString));
     } else {
@@ -1261,8 +1291,7 @@ void MainWindow::findTimeout() {
     m_findActivated = false;
     m_findString = QString();
     statusBar()->showMessage(i18n("Find stopped"), 3000);
-    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-    currentTab->projectView()->clearSearchStrings();
+    if (m_activeTimeline) m_activeTimeline->projectView()->clearSearchStrings();
     m_projectSearch->setEnabled(true);
     removeEventFilter(this);
 }
