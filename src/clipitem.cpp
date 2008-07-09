@@ -343,7 +343,7 @@ void ClipItem::paint(QPainter *painter,
 
     if (startpixel < 0)
         startpixel = 0;
-    int endpixel = (int)option->exposedRect.right() - rect().x();
+    int endpixel = (int)option->exposedRect.right();
     if (endpixel < 0)
         endpixel = 0;
 
