@@ -28,6 +28,8 @@
 #include "definitions.h"
 #include "abstractclipitem.h"
 
+class QLinearGradient;
+
 /**Describes a Transition, with a name, parameters keyframes, etc.
   *@author Jean-Baptiste Mardelle
   */

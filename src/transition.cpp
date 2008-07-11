@@ -16,10 +16,11 @@
  ***************************************************************************/
 
 #include <QBrush>
-#include <qdom.h>
+#include <QDomElement>
 #include <QPainter>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QLinearGradient>
 #include <QScrollBar>
 #include <QStyleOptionGraphicsItem>
 
