@@ -33,9 +33,10 @@ RenderJob::RenderJob(bool erase, QString renderer, QString profile, QString rend
     m_erase = erase;
     m_renderProcess = new QProcess;
     m_prog = renderer;
-    m_args << "-profile" << profile << scenelist;
+    m_args << scenelist;
     if (in != -1) m_args << "in=" + QString::number(in);
     if (out != -1) m_args << "out=" + QString::number(out);
+    m_args << "-profile" << profile;
     m_args << "-consumer" << rendermodule + ":" + m_dest << "progress=1" << args;
     connect(m_renderProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotIsOver(int, QProcess::ExitStatus)));
     connect(m_renderProcess, SIGNAL(readyReadStandardError()), this, SLOT(receivedStderr()));
