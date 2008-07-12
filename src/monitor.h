@@ -56,7 +56,7 @@ public:
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void wheelEvent(QWheelEvent * event);
-    virtual void resizeEvent(QResizeEvent * event);
+//    virtual void resizeEvent(QResizeEvent * event);
 //    virtual void paintEvent(QPaintEvent * event);
 
 private:

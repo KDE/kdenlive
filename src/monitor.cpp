@@ -89,10 +89,8 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     QVBoxLayout *rendererBox = new QVBoxLayout(ui.video_frame);
     m_monitorRefresh = new MonitorRefresh(ui.video_frame);
     rendererBox->addWidget(m_monitorRefresh);
-    m_monitorRefresh->setAttribute(Qt::WA_PaintOnScreen);
     render = new Render(m_name, (int) m_monitorRefresh->winId(), -1, this);
     m_monitorRefresh->setRenderer(render);
-
 
     m_contextMenu = new QMenu(this);
     m_contextMenu->addMenu(playMenu);
@@ -115,7 +113,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     m_ruler->setLength(width);
     m_ruler->setMaximum(width);
     m_length = 0;
-
+    m_monitorRefresh->show();
     kDebug() << "/////// BUILDING MONITOR, ID: " << ui.video_frame->winId();
 }
 
@@ -251,12 +249,12 @@ void Monitor::initMonitor() {
 }
 
 // virtual
-void Monitor::resizeEvent(QResizeEvent * event) {
+/*void Monitor::resizeEvent(QResizeEvent * event) {
     QWidget::resizeEvent(event);
     adjustRulerSize(-1);
     if (render && m_isActive) render->doRefresh();
     //
-}
+}*/
 
 void Monitor::adjustRulerSize(int length) {
     int width = m_ruler->width();
@@ -273,11 +271,13 @@ void Monitor::adjustRulerSize(int length) {
 void Monitor::stop() {
     m_isActive = false;
     if (render) render->stop();
+    //kDebug()<<"/// MONITOR RENDER STOP";
 }
 
 void Monitor::start() {
     m_isActive = true;
     if (render) render->start();
+    //kDebug()<<"/// MONITOR RENDER START";
 }
 
 void Monitor::refreshMonitor(bool visible) {
@@ -337,7 +337,8 @@ void Monitor::saveSceneList(QString path, QDomElement info) {
 }
 
 MonitorRefresh::MonitorRefresh(QWidget* parent): QWidget(parent), m_renderer(NULL) {
-
+    setAttribute(Qt::WA_PaintOnScreen);
+    setAttribute(Qt::WA_OpaquePaintEvent); //Qt::WA_NoSystemBackground);
 }
 
 void MonitorRefresh::setRenderer(Render* render) {
@@ -345,7 +346,7 @@ void MonitorRefresh::setRenderer(Render* render) {
 }
 
 void MonitorRefresh::paintEvent(QPaintEvent * event) {
-    if (m_renderer != NULL) m_renderer->doRefresh();
+    if (m_renderer) m_renderer->doRefresh();
 }
 
 #include "monitor.moc"
