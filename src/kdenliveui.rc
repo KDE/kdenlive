@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="20">
+<gui name="kdenlive" version="21">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -65,8 +65,9 @@
       <Action name="seek_clip_end" />
       <Action name="monitor_seek_snap_forward" />
       <Action name="seek_end" />
-</Menu>
-
+    </Menu>
+    <Menu name="dockwindows" ><text>View</text>
+    </Menu>
     <Menu name="settings" >
       <Action name="manage_profiles" />
     </Menu>

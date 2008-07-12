@@ -191,27 +191,31 @@ MainWindow::MainWindow(QWidget *parent)
 
     // build effects menus
     QAction *action;
-    QMenu *videoEffectsMenu = (QMenu*)(factory()->container("video_effects_menu", this));
+    QMenu *videoEffectsMenu = static_cast<QMenu*>(factory()->container("video_effects_menu", this));
     QStringList effects = videoEffects.effectNames();
     foreach(const QString &name, effects) {
         action = new QAction(name, this);
         action->setData(name);
         videoEffectsMenu->addAction(action);
     }
-    QMenu *audioEffectsMenu = (QMenu*)(factory()->container("audio_effects_menu", this));
+    QMenu *audioEffectsMenu = static_cast<QMenu*>(factory()->container("audio_effects_menu", this));
     effects = audioEffects.effectNames();
     foreach(const QString &name, effects) {
         action = new QAction(name, this);
         action->setData(name);
         audioEffectsMenu->addAction(action);
     }
-    QMenu *customEffectsMenu = (QMenu*)(factory()->container("custom_effects_menu", this));
+    QMenu *customEffectsMenu = static_cast<QMenu*>(factory()->container("custom_effects_menu", this));
     effects = customEffects.effectNames();
     foreach(const QString &name, effects) {
         action = new QAction(name, this);
         action->setData(name);
         customEffectsMenu->addAction(action);
     }
+
+    QMenu *viewMenu = static_cast<QMenu*> (factory()->container("dockwindows", this));
+    const QList<QAction *> viewActions = createPopupMenu()->actions();
+    viewMenu->insertActions(NULL, viewActions);
 
     connect(videoEffectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddVideoEffect(QAction *)));
     connect(audioEffectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddAudioEffect(QAction *)));
