@@ -33,7 +33,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 
-Transition::Transition(const ItemInfo info, int transitiontrack, double scale, double fps, QDomElement params) : AbstractClipItem(info, QRectF(info.startPos.frames(fps) *scale , info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2, (info.endPos - info.startPos).frames(fps) * scale , KdenliveSettings::trackheight() / 3 * 2 - 1), fps) {
+Transition::Transition(const ItemInfo info, int transitiontrack, double scale, double fps, QDomElement params) : AbstractClipItem(info, QRectF(info.startPos.frames(fps) *scale , info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2, (info.endPos - info.startPos).frames(fps) * scale , KdenliveSettings::trackheight() / 3 * 2 - 1), fps), m_gradient(QLinearGradient(0, 0, 0, 0)) {
     m_singleClip = true;
     m_transitionTrack = transitiontrack;
     m_secondClip = NULL;
