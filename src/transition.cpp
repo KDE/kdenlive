@@ -20,7 +20,6 @@
 #include <QPainter>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QLinearGradient>
 #include <QScrollBar>
 #include <QStyleOptionGraphicsItem>
 
