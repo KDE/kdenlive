@@ -45,6 +45,9 @@ private slots:
     void slotTimeDown();
     void slotUpdateThumb();
 
+protected:
+    void wheelEvent(QWheelEvent * event);
+
 private:
     Mlt::Producer *m_producer;
     Mlt::Profile *m_profile;

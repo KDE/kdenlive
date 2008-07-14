@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
+#include <QWheelEvent>
 #include <KDebug>
 
 #include "markerdialog.h"
@@ -114,6 +114,15 @@ void MarkerDialog::slotTimeDown() {
 
 CommentedTime MarkerDialog::newMarker() {
     return CommentedTime(GenTime(m_tc.getFrameCount(m_view.marker_position->text(), m_fps), m_fps), m_view.marker_comment->text());
+}
+
+void MarkerDialog::wheelEvent(QWheelEvent * event) {
+    if (m_view.marker_position->underMouse() || m_view.clip_thumb->underMouse()) {
+        if (event->delta() > 0)
+            slotTimeUp();
+        else
+            slotTimeDown();
+    }
 }
 
 #include "markerdialog.moc"
