@@ -100,7 +100,7 @@ void MarkerDialog::slotUpdateThumb() {
 
 void MarkerDialog::slotTimeUp() {
     int duration = m_tc.getFrameCount(m_view.marker_position->text(), m_fps);
-    if (duration >= m_clip->duration().frames(m_fps)) return;
+    if (m_clip && duration >= m_clip->duration().frames(m_fps)) return;
     duration ++;
     m_view.marker_position->setText(m_tc.getTimecode(GenTime(duration, m_fps), m_fps));
 }
