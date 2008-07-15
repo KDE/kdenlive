@@ -154,7 +154,7 @@
 
     <entry name="screengrabencoding" type="String">
       <label>ffmpeg arguments for x11 capture encoding.</label>
-      <default>-vcodec mpeg4</default>
+      <default>-vcodec mpeg4 -acodec NULL</default>
     </entry>
 
     <entry name="screengrabextension" type="String">
