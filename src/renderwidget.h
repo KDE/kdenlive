@@ -39,6 +39,7 @@ private slots:
     void refreshView();
     void refreshParams();
     void slotSaveProfile();
+    void slotEditProfile();
     void slotDeleteProfile();
 
 private:

@@ -42,10 +42,15 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent), m_standard("PAL")
     m_view.buttonDelete->setToolTip(i18n("Delete profile"));
     m_view.buttonDelete->setEnabled(false);
 
+    m_view.buttonEdit->setIcon(KIcon("document-properties"));
+    m_view.buttonEdit->setToolTip(i18n("Edit profile"));
+    m_view.buttonEdit->setEnabled(false);
+
     m_view.buttonSave->setIcon(KIcon("document-new"));
     m_view.buttonSave->setToolTip(i18n("Create new profile"));
 
     connect(m_view.buttonSave, SIGNAL(clicked()), this, SLOT(slotSaveProfile()));
+    connect(m_view.buttonEdit, SIGNAL(clicked()), this, SLOT(slotEditProfile()));
     connect(m_view.buttonDelete, SIGNAL(clicked()), this, SLOT(slotDeleteProfile()));
     connect(m_view.buttonStart, SIGNAL(clicked()), this, SLOT(slotExport()));
     connect(m_view.out_file, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButtons()));
@@ -78,6 +83,85 @@ void RenderWidget::slotSaveProfile() {
     ui.extension->setText(m_view.size_list->currentItem()->data(ExtensionRole).toString());
     ui.profile_name->setFocus();
     if (d->exec() == QDialog::Accepted) {
+        QString exportFile = KStandardDirs::locateLocal("data", "kdenlive/export/customprofiles.xml");
+        QDomDocument doc;
+        QFile file(exportFile);
+        doc.setContent(&file, false);
+        file.close();
+
+        QDomElement documentElement;
+        bool groupExists = false;
+        QString groupName;
+        QString newProfileName = ui.profile_name->text();
+        QString newGroupName = ui.group_name->currentText();
+        QDomNodeList groups = doc.elementsByTagName("group");
+        int i = 0;
+        if (groups.count() == 0) {
+            QDomElement profiles = doc.createElement("profiles");
+            doc.appendChild(profiles);
+        } else while (!groups.item(i).isNull()) {
+                documentElement = groups.item(i).toElement();
+                groupName = documentElement.attribute("name");
+                kDebug() << "// SAVE, PARSING FROUP: " << i << ", name: " << groupName << ", LOOK FR: " << newGroupName;
+                if (groupName == newGroupName) {
+                    groupExists = true;
+                    break;
+                }
+                i++;
+            }
+        if (!groupExists) {
+            documentElement = doc.createElement("group");
+            documentElement.setAttribute("name", ui.group_name->currentText());
+            documentElement.setAttribute("renderer", "avformat");
+            doc.documentElement().appendChild(documentElement);
+        }
+        QDomElement profileElement = doc.createElement("profile");
+        profileElement.setAttribute("name", newProfileName);
+        profileElement.setAttribute("extension", ui.extension->text().simplified());
+        profileElement.setAttribute("args", ui.parameters->text().simplified());
+        documentElement.appendChild(profileElement);
+
+        //QCString save = doc.toString().utf8();
+
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            KMessageBox::sorry(this, i18n("Unable to write to file %1", exportFile));
+            delete d;
+            return;
+        }
+        QTextStream out(&file);
+        out << doc.toString();
+        file.close();
+        parseProfiles(newGroupName, newProfileName);
+    }
+    delete d;
+}
+
+void RenderWidget::slotEditProfile() {
+    QListWidgetItem *item = m_view.size_list->currentItem();
+    if (!item) return;
+    QString currentGroup = m_view.format_list->currentItem()->text();
+
+    QString params = item->data(ParamsRole).toString();
+    QString extension = item->data(ExtensionRole).toString();
+    QString currentProfile = item->text();
+
+    Ui::SaveProfile_UI ui;
+    QDialog *d = new QDialog(this);
+    ui.setupUi(d);
+    QStringList groupNames;
+    for (int i = 0; i < m_view.format_list->count(); i++)
+        groupNames.append(m_view.format_list->item(i)->text());
+    if (!groupNames.contains(currentGroup)) groupNames.prepend(currentGroup);
+    ui.group_name->addItems(groupNames);
+    int pos = ui.group_name->findText(currentGroup);
+    ui.group_name->setCurrentIndex(pos);
+    ui.profile_name->setText(currentProfile);
+    ui.extension->setText(extension);
+    ui.parameters->setText(params);
+    ui.profile_name->setFocus();
+
+    if (d->exec() == QDialog::Accepted) {
+	slotDeleteProfile();
         QString exportFile = KStandardDirs::locateLocal("data", "kdenlive/export/customprofiles.xml");
         QDomDocument doc;
         QFile file(exportFile);
@@ -234,8 +318,14 @@ void RenderWidget::refreshParams() {
         m_view.out_file->setUrl(KUrl(QDir::homePath() + "/untitled." + extension));
     }
 
-    if (item->data(EditableRole).toString().isEmpty()) m_view.buttonDelete->setEnabled(false);
-    else m_view.buttonDelete->setEnabled(true);
+    if (item->data(EditableRole).toString().isEmpty()) {
+	m_view.buttonDelete->setEnabled(false);
+	m_view.buttonEdit->setEnabled(false);
+    }
+    else {
+	m_view.buttonDelete->setEnabled(true);
+	m_view.buttonEdit->setEnabled(true);
+    }
 }
 
 void RenderWidget::parseProfiles(QString group, QString profile) {
