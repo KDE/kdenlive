@@ -36,13 +36,14 @@ public:
     int selectedKeyFramePos() const;
     double selectedKeyFrameValue() const;
     double keyFrameFactor() const;
+    ItemInfo info() const;
 
     virtual  OPERATIONTYPE operationMode(QPointF pos, double scale) = 0;
     virtual GenTime startPos() const ;
     virtual void setTrack(int track);
     virtual GenTime endPos() const ;
     virtual int track() const ;
-    virtual void moveTo(int x, double scale, int offset, int newTrack);
+    virtual void moveTo(int x, double scale, int offset, int newTrack, bool checkCollision = true);
     virtual GenTime cropStart() const ;
     virtual void resizeStart(int posx, double scale);
     virtual void resizeEnd(int posx, double scale);

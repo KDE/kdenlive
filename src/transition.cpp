@@ -60,6 +60,12 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double scale, d
 Transition::~Transition() {
 }
 
+Transition *Transition::clone(double scale) {
+    QDomElement xml = toXML().cloneNode().toElement();
+    Transition *tr = new Transition(info(), transitionEndTrack(), scale, m_fps, xml);
+    return tr;
+}
+
 QString Transition::transitionName() const {
     return m_name;
 }

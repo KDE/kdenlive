@@ -97,6 +97,16 @@ ClipItem::~ClipItem() {
     if (endThumbTimer) delete endThumbTimer;
 }
 
+ClipItem *ClipItem::clone(double scale) const {
+    ClipItem *duplicate = new ClipItem(m_clip, info(), cropStart(), scale, m_fps);
+    duplicate->setEffectList(m_effectList);
+    return duplicate;
+}
+
+void ClipItem::setEffectList(const EffectsList effectList) {
+    //m_effectList = effectList.clone();
+}
+
 int ClipItem::selectedEffectIndex() const {
     return m_selectedEffect;
 }

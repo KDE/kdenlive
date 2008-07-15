@@ -71,6 +71,18 @@ protected:
     virtual void customEvent(QEvent * e);
     virtual void keyPressEvent(QKeyEvent *ke);
     bool eventFilter(QObject *obj, QEvent *ev);
+    /**
+     * This function is called when it is time for the app to save its
+     * properties for session management purposes.
+     */
+    void saveProperties(KConfig *);
+
+    /**
+     * This function is called when this app is restored.  The KConfig
+     * object points to the session management config file that was saved
+     * with @ref saveProperties
+     */
+    void readProperties(KConfig *);
 
 private:
     KTabWidget* m_timelineArea;
@@ -137,6 +149,7 @@ private:
     bool m_findActivated;
     QString m_findString;
     QTimer m_findTimer;
+    bool m_initialized;
 
     void readOptions();
     void saveOptions();
@@ -157,6 +170,7 @@ private slots:
     void activateDocument();
     void connectDocument(TrackView*, KdenliveDoc*);
     void openFile();
+    void openLastFile();
     void saveFile();
     void saveFileAs();
     void saveFileAs(const QString &outputFileName);
@@ -211,6 +225,9 @@ private slots:
     void slotEditGuide();
     void slotDeleteGuide();
     void slotDeleteAllGuides();
+
+    void slotCopy();
+    void slotPaste();
 };
 
 

@@ -52,6 +52,7 @@ public:
     DocClipBase *baseClip() const;
     QString clipName() const;
     QDomElement xml() const;
+    ClipItem *clone(double scale) const;
 
     void setFadeOut(int pos, double scale);
     void setFadeIn(int pos, double scale);
@@ -89,6 +90,7 @@ public:
     void initEffect(QDomElement effect);
     QString keyframes(const int index);
     void setKeyframes(const int ix, const QString keyframes);
+    void setEffectList(const EffectsList effectList);
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
@@ -135,6 +137,7 @@ private:
     QMap<int, QPainterPath > channelPaths;
     /** Called when clip start is resized, adjust keyframes values */
     void checkEffectsKeyframesPos(const int previous, const int current, bool fromStart);
+
 private slots:
     void slotThumbReady(int frame, QPixmap pix);
     void slotFetchThumbs();

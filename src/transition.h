@@ -67,9 +67,8 @@ public:
     bool isValid() const;
     /** Transition should be linked to another track */
     void updateTransitionEndTrack(int newtrack);
-
     const ClipItem *referencedClip() const;
-
+    Transition *clone(double scale);
 private:
     bool m_singleClip;
     QLinearGradient m_gradient;

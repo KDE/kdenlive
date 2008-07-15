@@ -89,7 +89,7 @@ EffectsList MainWindow::transitions;
 
 MainWindow::MainWindow(QWidget *parent)
         : KXmlGuiWindow(parent),
-        m_activeDocument(NULL), m_activeTimeline(NULL), m_renderWidget(NULL), m_jogProcess(NULL), m_findActivated(false) {
+        m_activeDocument(NULL), m_activeTimeline(NULL), m_renderWidget(NULL), m_jogProcess(NULL), m_findActivated(false), m_initialized(false) {
     setlocale(LC_NUMERIC, "POSIX");
     parseProfiles();
     setFont(KGlobalSettings::toolBarFont());
@@ -213,7 +213,7 @@ MainWindow::MainWindow(QWidget *parent)
         customEffectsMenu->addAction(action);
     }
 
-    QMenu *viewMenu = static_cast<QMenu*> (factory()->container("dockwindows", this));
+    QMenu *viewMenu = static_cast<QMenu*>(factory()->container("dockwindows", this));
     const QList<QAction *> viewActions = createPopupMenu()->actions();
     viewMenu->insertActions(NULL, viewActions);
 
@@ -235,8 +235,11 @@ MainWindow::MainWindow(QWidget *parent)
     }
     connect(transitionsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddTransition(QAction *)));
 
+    m_timelineContextMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Paste)));
+
     m_timelineContextClipMenu->addAction(actionCollection()->action("delete_timeline_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("cut_timeline_clip"));
+    m_timelineContextClipMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
 
     QMenu *markersMenu = (QMenu*)(factory()->container("marker_menu", this));
     m_timelineContextClipMenu->addMenu(markersMenu);
@@ -246,6 +249,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_timelineContextClipMenu->addMenu(customEffectsMenu);
 
     m_timelineContextTransitionMenu->addAction(actionCollection()->action("delete_timeline_clip"));
+    m_timelineContextTransitionMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
 
     connect(projectMonitorDock, SIGNAL(visibilityChanged(bool)), m_projectMonitor, SLOT(refreshMonitor(bool)));
     connect(clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
@@ -258,10 +262,7 @@ MainWindow::MainWindow(QWidget *parent)
     setAutoSaveSettings();
 
     if (KdenliveSettings::openlastproject()) {
-        KSharedConfigPtr config = KGlobal::config();
-        QString Lastproject = config->group("Recent Files").readPathEntry("File1", QString());
-        openFile(KUrl(Lastproject));
-
+        openLastFile();
     } else newFile();
 
     activateShuttleDevice();
@@ -287,6 +288,18 @@ bool MainWindow::queryClose() {
         }
     }
     return true;
+}
+
+void MainWindow::saveProperties(KConfig*) {
+    // save properties here,used by session management
+    saveFile();
+}
+
+
+void MainWindow::readProperties(KConfig *config) {
+    // read properties here,used by session management
+    QString Lastproject = config->group("Recent Files").readPathEntry("File1", QString());
+    openFile(KUrl(Lastproject));
 }
 
 void MainWindow::activateShuttleDevice() {
@@ -645,6 +658,12 @@ void MainWindow::setupActions() {
     KStandardAction::preferences(this, SLOT(slotPreferences()),
                                  actionCollection());
 
+    KStandardAction::copy(this, SLOT(slotCopy()),
+                          actionCollection());
+
+    KStandardAction::paste(this, SLOT(slotPaste()),
+                           actionCollection());
+
     KStandardAction::undo(this, SLOT(undo()),
                           actionCollection());
 
@@ -737,6 +756,7 @@ void MainWindow::saveFileAs(const QString &outputFileName) {
     m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), m_activeDocument->url().path());
     m_activeDocument->setModified(false);
+    m_fileOpenRecent->addUrl(KUrl(outputFileName));
 }
 
 void MainWindow::saveFileAs() {
@@ -763,6 +783,12 @@ void MainWindow::openFile() { //changed
     openFile(url);
 }
 
+void MainWindow::openLastFile() {
+    KSharedConfigPtr config = KGlobal::config();
+    QString Lastproject = config->group("Recent Files").readPathEntry("File1", QString());
+    openFile(KUrl(Lastproject));
+}
+
 void MainWindow::openFile(const KUrl &url) { //new
     //TODO: get video profile from url before opening it
     MltVideoProfile prof = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
@@ -774,6 +800,7 @@ void MainWindow::openFile(const KUrl &url) { //new
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());
     if (m_timelineArea->count() > 1) m_timelineArea->setTabBarHidden(false);
     slotGotProgressInfo(QString(), -1);
+    m_projectMonitor->refreshMonitor(true);
     //connectDocument(trackView, doc);
 }
 
@@ -1260,12 +1287,22 @@ void MainWindow::slotSetTool(PROJECTTOOL tool) {
     }
 }
 
+void MainWindow::slotCopy() {
+    if (!m_activeDocument || !m_activeTimeline) return;
+    m_activeTimeline->projectView()->copyClip();
+}
+
+void MainWindow::slotPaste() {
+    if (!m_activeDocument || !m_activeTimeline) return;
+    m_activeTimeline->projectView()->pasteClip();
+}
+
 void MainWindow::slotFind() {
+    if (!m_activeDocument || !m_activeTimeline) return;
     m_projectSearch->setEnabled(false);
     m_findActivated = true;
     m_findString = QString();
-    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-    currentTab->projectView()->initSearchStrings();
+    m_activeTimeline->projectView()->initSearchStrings();
     statusBar()->showMessage(i18n("Starting -- find text as you type"));
     m_findTimer.start(5000);
     qApp->installEventFilter(this);

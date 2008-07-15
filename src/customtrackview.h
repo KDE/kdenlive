@@ -117,6 +117,8 @@ public slots:
     void slotDeleteGuide();
     void slotDeleteAllGuides();
     void editGuide(const GenTime oldPos, const GenTime pos, const QString &comment);
+    void copyClip();
+    void pasteClip();
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
@@ -172,9 +174,18 @@ private:
     int m_findIndex;
     PROJECTTOOL m_tool;
     QCursor m_razorCursor;
+    /** list containing items currently copied in the timeline */
+    QList<AbstractClipItem *> m_copiedItems;
+    QList<AbstractClipItem *> m_selectedClipList;
+    /** Used to get the point in timeline where a context menu was opened */
+    QPoint m_menuPosition;
+
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
     void updateClipFade(ClipItem * item, bool updateFadeOut = false);
+    bool canBePastedTo(ItemInfo info, int type) const;
+    bool canBePasted(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
+    bool canBeMoved(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
 
 private slots:
     void slotRefreshGuides();

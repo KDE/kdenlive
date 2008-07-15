@@ -35,7 +35,15 @@ AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, doub
     m_cropDuration = info.endPos - info.startPos;
 }
 
-void AbstractClipItem::moveTo(int x, double scale, int offset, int newTrack) {
+ItemInfo AbstractClipItem::info() const {
+    ItemInfo itemInfo;
+    itemInfo.startPos = startPos();
+    itemInfo.endPos = endPos();
+    itemInfo.track = track();
+    return itemInfo;
+}
+
+void AbstractClipItem::moveTo(int x, double scale, int offset, int newTrack, bool checkCollision) {
     double origX = rect().x();
     double origY = rect().y();
     bool success = true;
@@ -43,28 +51,29 @@ void AbstractClipItem::moveTo(int x, double scale, int offset, int newTrack) {
     setRect(x * scale, origY + offset, rect().width(), rect().height());
     QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
     if (collisionList.size() == 0) m_track = newTrack;
-    for (int i = 0; i < collisionList.size(); ++i) {
-        QGraphicsItem *item = collisionList.at(i);
-        if (item->type() == type()) {
-            if (offset == 0) {
-                QRectF other = ((QGraphicsRectItem *)item)->rect();
-                if (x < m_startPos.frames(m_fps)) {
-                    kDebug() << "COLLISION, MOVING TO------";
-                    m_startPos = ((AbstractClipItem *)item)->endPos();
-                    origX = m_startPos.frames(m_fps) * scale;
-                } else if (x > m_startPos.frames(m_fps)) {
-                    //kDebug() << "COLLISION, MOVING TO+++: "<<x<<", CLIP CURR POS: "<<m_startPos.frames(m_fps)<<", COLLIDING START: "<<((AbstractClipItem *)item)->startPos().frames(m_fps);
-                    m_startPos = ((AbstractClipItem *)item)->startPos() - m_cropDuration;
-                    origX = m_startPos.frames(m_fps) * scale;
+    if (checkCollision)
+        for (int i = 0; i < collisionList.size(); ++i) {
+            QGraphicsItem *item = collisionList.at(i);
+            if (item->type() == type()) {
+                if (offset == 0) {
+                    QRectF other = ((QGraphicsRectItem *)item)->rect();
+                    if (x < m_startPos.frames(m_fps)) {
+                        kDebug() << "COLLISION, MOVING TO------";
+                        m_startPos = ((AbstractClipItem *)item)->endPos();
+                        origX = m_startPos.frames(m_fps) * scale;
+                    } else if (x > m_startPos.frames(m_fps)) {
+                        //kDebug() << "COLLISION, MOVING TO+++: "<<x<<", CLIP CURR POS: "<<m_startPos.frames(m_fps)<<", COLLIDING START: "<<((AbstractClipItem *)item)->startPos().frames(m_fps);
+                        m_startPos = ((AbstractClipItem *)item)->startPos() - m_cropDuration;
+                        origX = m_startPos.frames(m_fps) * scale;
+                    }
                 }
+                setRect(origX, origY, rect().width(), rect().height());
+                offset = 0;
+                origX = rect().x();
+                success = false;
+                break;
             }
-            setRect(origX, origY, rect().width(), rect().height());
-            offset = 0;
-            origX = rect().x();
-            success = false;
-            break;
         }
-    }
     if (success) {
         m_track = newTrack;
         m_startPos = GenTime(x, m_fps);
