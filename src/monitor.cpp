@@ -43,7 +43,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(m_ruler);
     ui.ruler_frame->setLayout(layout);
-
+    setMinimumHeight(200);
     QToolBar *toolbar = new QToolBar(name, this);
     QVBoxLayout *layout2 = new QVBoxLayout;
 
@@ -283,7 +283,7 @@ void Monitor::start() {
 void Monitor::refreshMonitor(bool visible) {
     if (visible && render) {
         if (!m_isActive) m_monitorManager->activateMonitor(m_name);
-        render->askForRefresh();
+        render->doRefresh(); //askForRefresh();
     }
 }
 

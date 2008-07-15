@@ -39,7 +39,7 @@
 #include "kdenlivesettings.h"
 #include "kthumb.h"
 
-ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, GenTime cropStart, double scale, double fps)
+ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double scale, double fps)
         : AbstractClipItem(info, QRectF(), fps), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_thumbsRequested(0), m_startFade(0), m_endFade(0), m_hover(false), m_selectedEffect(-1) {
     QRectF rect((double) info.startPos.frames(fps) * scale, (double)(info.track * KdenliveSettings::trackheight() + 1), (double)(info.endPos - info.startPos).frames(fps) * scale, (double)(KdenliveSettings::trackheight() - 1));
     setRect(rect);
@@ -47,7 +47,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, GenTime cropStart, double s
     m_clipName = clip->name();
     m_producer = clip->getId();
     m_clipType = clip->clipType();
-    m_cropStart = cropStart;
+    m_cropStart = info.cropStart;
     m_maxDuration = clip->maxDuration();
     setAcceptDrops(true);
     audioThumbReady = clip->audioThumbCreated();
@@ -98,7 +98,7 @@ ClipItem::~ClipItem() {
 }
 
 ClipItem *ClipItem::clone(double scale) const {
-    ClipItem *duplicate = new ClipItem(m_clip, info(), cropStart(), scale, m_fps);
+    ClipItem *duplicate = new ClipItem(m_clip, info(), scale, m_fps);
     duplicate->setEffectList(m_effectList);
     return duplicate;
 }

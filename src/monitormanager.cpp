@@ -112,8 +112,11 @@ void MonitorManager::slotEnd() {
 }
 
 void MonitorManager::resetProfiles(QString prof) {
+    activateMonitor("clip");
     m_clipMonitor->resetProfile(prof);
+    activateMonitor("project");
     m_projectMonitor->resetProfile(prof);
+    //m_projectMonitor->refreshMonitor(true);
 }
 
 #include "monitormanager.moc"

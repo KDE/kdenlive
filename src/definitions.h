@@ -61,6 +61,7 @@ struct TrackInfo {
 struct ItemInfo {
     GenTime startPos;
     GenTime endPos;
+    GenTime cropStart;
     int track;
 };
 

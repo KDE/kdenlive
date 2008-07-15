@@ -39,6 +39,7 @@ ItemInfo AbstractClipItem::info() const {
     ItemInfo itemInfo;
     itemInfo.startPos = startPos();
     itemInfo.endPos = endPos();
+    itemInfo.cropStart = cropStart();
     itemInfo.track = track();
     return itemInfo;
 }

@@ -149,8 +149,8 @@ Q_OBJECT public:
     const double dar() const;
 
     /** Playlist manipulation */
-    void mltInsertClip(int track, GenTime position, QDomElement element);
-    void mltUpdateClip(int track, GenTime position, QDomElement element);
+    void mltInsertClip(int track, GenTime position, GenTime crop, QDomElement element);
+    void mltUpdateClip(int track, GenTime position, GenTime crop, QDomElement element);
     void mltCutClip(int track, GenTime position);
     void mltResizeClipEnd(int track, GenTime pos, GenTime in, GenTime out);
     void mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime moveStart, GenTime in, GenTime out);
@@ -187,7 +187,6 @@ private:   // Private attributes & methods
 
     QTimer *refreshTimer;
     QTimer *osdTimer;
-    QTimer *m_connectTimer;
     KUrl m_exportedFile;
     int exportDuration, firstExportFrame, lastExportFrame;
 
