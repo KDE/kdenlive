@@ -161,7 +161,7 @@ void RenderWidget::slotEditProfile() {
     ui.profile_name->setFocus();
 
     if (d->exec() == QDialog::Accepted) {
-	slotDeleteProfile();
+        slotDeleteProfile();
         QString exportFile = KStandardDirs::locateLocal("data", "kdenlive/export/customprofiles.xml");
         QDomDocument doc;
         QFile file(exportFile);
@@ -319,12 +319,11 @@ void RenderWidget::refreshParams() {
     }
 
     if (item->data(EditableRole).toString().isEmpty()) {
-	m_view.buttonDelete->setEnabled(false);
-	m_view.buttonEdit->setEnabled(false);
-    }
-    else {
-	m_view.buttonDelete->setEnabled(true);
-	m_view.buttonEdit->setEnabled(true);
+        m_view.buttonDelete->setEnabled(false);
+        m_view.buttonEdit->setEnabled(false);
+    } else {
+        m_view.buttonDelete->setEnabled(true);
+        m_view.buttonEdit->setEnabled(true);
     }
 }
 

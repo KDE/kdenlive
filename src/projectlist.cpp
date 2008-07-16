@@ -310,9 +310,13 @@ void ProjectList::slotUpdateClip(int id) {
 void ProjectList::slotAddClip(QUrl givenUrl, QString group) {
     if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!!  NO CMD STK";
     KUrl::List list;
-    if (givenUrl.isEmpty())
-        list = KFileDialog::getOpenUrls(KUrl(), "application/vnd.kde.kdenlive application/vnd.westley.scenelist application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg video/x-ms-wmv audio/mpeg audio/x-mp3 audio/x-wav application/ogg *.m2t *.mts *.dv video/mp4 video/quicktime image/gif image/jpeg image/png image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr");
-    else list.append(givenUrl);
+    if (givenUrl.isEmpty()) {
+        KFileDialog d(KUrl("kfiledialog:///clipfolder"), "application/x-kdenlive application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg video/x-ms-wmv audio/mpeg audio/x-mp3 audio/x-wav application/ogg video/mp4 video/quicktime image/gif image/jpeg image/png image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr", this);
+        d.setFilter(d.currentFilter() + "\n*.m2t *.mts|HDV video\n*.dv|DV video");
+        if (d.exec() == QDialog::Accepted)
+            list = d.selectedUrls();
+        /*list = KFileDialog::getOpenUrls(KUrl("kfiledialog:///clipfolder"), "application/vnd.kde.kdenlive application/vnd.westley.scenelist application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg video/x-ms-wmv audio/mpeg audio/x-mp3 audio/x-wav application/ogg video/mp4 video/quicktime image/gif image/jpeg image/png image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr\n*.m2t *.mts|HDV video\n*.dv|DV video");*/
+    } else list.append(givenUrl);
     if (list.isEmpty()) return;
     KUrl::List::Iterator it;
     int groupId = -1;

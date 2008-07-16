@@ -48,6 +48,7 @@
 #include <KMenu>
 #include <locale.h>
 #include <ktogglefullscreenaction.h>
+#include <KFileItem>
 
 #include <mlt++/Mlt.h>
 
@@ -280,6 +281,7 @@ bool MainWindow::queryClose() {
         switch (KMessageBox::warningYesNoCancel(this, i18n("Save changes to document ?"))) {
         case KMessageBox::Yes :
             // save document here. If saving fails, return false;
+            saveFile();
             return true;
         case KMessageBox::No :
             return true;
@@ -750,7 +752,7 @@ void MainWindow::slotRemoveTab() {
 }
 
 void MainWindow::saveFileAs(const QString &outputFileName) {
-    m_projectMonitor->saveSceneList(outputFileName, m_activeDocument->documentInfoXml(m_activeTimeline->projectView()->xmlInfo()));
+    m_projectMonitor->saveSceneList(outputFileName, m_activeDocument->documentInfoXml());
     m_activeDocument->setUrl(KUrl(outputFileName));
     setCaption(m_activeDocument->description());
     m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
@@ -776,7 +778,7 @@ void MainWindow::saveFile() {
     }
 }
 
-void MainWindow::openFile() { //changed
+void MainWindow::openFile() {
     KUrl url = KFileDialog::getOpenUrl(KUrl(), "*.kdenlive|Kdenlive project files (*.kdenlive)\n*.westley|MLT project files (*.westley)");
     if (url.isEmpty()) return;
     m_fileOpenRecent->addUrl(url);
@@ -789,11 +791,32 @@ void MainWindow::openLastFile() {
     openFile(KUrl(Lastproject));
 }
 
-void MainWindow::openFile(const KUrl &url) { //new
+void MainWindow::openFile(const KUrl &url) {
+    // Check for backup file
+    bool recovery = false;
+    QString directory = url.directory();
+    QString fileName = url.fileName();
+    KUrl recoveryUrl;
+    recoveryUrl.setDirectory(directory);
+    recoveryUrl.setFileName("~" + fileName);
+    if (KIO::NetAccess::exists(recoveryUrl, KIO::NetAccess::SourceSide, this)) {
+        KFileItem bkup(KFileItem::Unknown, KFileItem::Unknown, recoveryUrl, true);
+        KFileItem src(KFileItem::Unknown, KFileItem::Unknown, url, true);
+        if (bkup.time(KFileItem::ModificationTime) > src.time(KFileItem::ModificationTime)) {
+            // Backup file is more recent than source file, ask user for recovery
+            if (KMessageBox::questionYesNo(this, i18n("A newer recovery file exists for <b>%1</b>\nOpen recovery file ?", url.fileName())) == KMessageBox::Yes) recovery = true;
+        }
+    }
+
     //TODO: get video profile from url before opening it
     MltVideoProfile prof = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
     if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
-    KdenliveDoc *doc = new KdenliveDoc(url, KUrl(), prof, m_commandStack, this);
+    KdenliveDoc *doc;
+    if (recovery) {
+        doc = new KdenliveDoc(recoveryUrl, KUrl(), prof, m_commandStack, this);
+        doc->setUrl(url);
+        doc->setModified(true);
+    } else doc = new KdenliveDoc(url, KUrl(), prof, m_commandStack, this);
     connectDocumentInfo(doc);
     TrackView *trackView = new TrackView(doc, this);
     m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description()));

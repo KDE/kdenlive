@@ -27,6 +27,7 @@
 #include <QList>
 #include <QObject>
 #include <QUndoGroup>
+#include <QTimer>
 
 #include <KUndoStack>
 #include <kurl.h>
@@ -34,6 +35,7 @@
 #include "gentime.h"
 #include "timecode.h"
 #include "definitions.h"
+#include "guide.h"
 
 class Render;
 class ClipManager;
@@ -59,6 +61,7 @@ Q_OBJECT public:
     void setProducerDuration(int id, int duration);
     int getProducerDuration(int id);
     Render *renderer();
+    QDomElement m_guidesXml;
     ClipManager *clipManager();
     void addClip(const QDomElement &elem, const int clipId);
     void addFolder(const QString foldername, int clipId, bool edit);
@@ -84,7 +87,7 @@ Q_OBJECT public:
     /** Returns the document format: PAL or NTSC */
     QString getDocumentStandard();
     void setUrl(KUrl url);
-    QDomElement documentInfoXml(QDomElement timelineInfo);
+    QDomElement documentInfoXml();
     void setProfilePath(QString path);
     /** Set to true if document needs saving, false otherwise */
     void setModified(bool mod);
@@ -96,9 +99,11 @@ Q_OBJECT public:
     /** Used to inform main app of the current document loading progress */
     void loadingProgressed();
     void updateAllProjectClips();
+    void syncGuides(QList <Guide *> guides);
 
 private:
     KUrl m_url;
+    KUrl m_recoveryUrl;
     QDomDocument m_document;
     QString m_projectName;
     double m_fps;
@@ -113,6 +118,7 @@ private:
     ClipManager *m_clipManager;
     MltVideoProfile m_profile;
     QString m_scenelist;
+    QTimer *m_autoSaveTimer;
     /** tells whether current doc has been changed since last save event */
     bool m_modified;
     /** Project folder, used to store project files (titles, effects,...) */
@@ -123,6 +129,9 @@ private:
 
 public slots:
     void slotCreateTextClip(QString group, int groupId);
+
+private slots:
+    void slotAutoSave();
 
 signals:
     void addProjectClip(DocClipBase *);

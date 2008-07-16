@@ -84,7 +84,6 @@ public:
     void slotSeekToPreviousSnap();
     void slotSeekToNextSnap();
     double getSnapPointForPos(double pos);
-    QDomElement xmlInfo();
     void editKeyFrame(const GenTime pos, const int track, const int index, const QString keyframes);
     bool findString(const QString &text);
     bool findNextString(const QString &text);

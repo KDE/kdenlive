@@ -27,9 +27,7 @@
 #include <kurl.h>
 
 #include "gentime.h"
-/*#include "docclipref.h"
-#include "effectdesc.h"
-#include "effectparamdescfactory.h"*/
+#include "definitions.h"
 
 /**Render encapsulates the client side of the interface to a renderer.
 From Kdenlive's point of view, you treat the Render object as the
@@ -149,8 +147,8 @@ Q_OBJECT public:
     const double dar() const;
 
     /** Playlist manipulation */
-    void mltInsertClip(int track, GenTime position, GenTime crop, QDomElement element);
-    void mltUpdateClip(int track, GenTime position, GenTime crop, QDomElement element);
+    void mltInsertClip(ItemInfo info, QDomElement element);
+    void mltUpdateClip(ItemInfo info, QDomElement element);
     void mltCutClip(int track, GenTime position);
     void mltResizeClipEnd(int track, GenTime pos, GenTime in, GenTime out);
     void mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime moveStart, GenTime in, GenTime out);
@@ -182,6 +180,9 @@ private:   // Private attributes & methods
     uint m_monitorId;
     bool m_generateScenelist;
 
+    QList <Mlt::Producer *> m_producersList;
+    Mlt::Producer *getProducerById(const QString &id);
+    void parsePlaylistForClips();
     /** Holds the path to on screen display profile */
     QString m_osdProfile;
 

@@ -121,6 +121,7 @@ void Render::closeMlt() {
         delete m_mltConsumer;
     if (m_mltProducer)
         delete m_mltProducer;
+    while (! m_producersList.isEmpty()) delete m_producersList.takeFirst();
     //delete m_osdInfo;
 }
 
@@ -161,6 +162,7 @@ int Render::resetProfile(QString profile) {
     Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "westley-xml", tmp);
     delete[] tmp;
     m_mltProducer = producer;
+    m_mltProducer->optimise();
     m_mltProducer->set_speed(0);
     connectPlaylist();
 
@@ -382,29 +384,35 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
     QMap < QString, QString > metadataPropertyMap;
 
     KUrl url = KUrl(xml.attribute("resource", QString::null));
+    bool newProducer = false;
 
-    Mlt::Producer *producer;
+    Mlt::Producer *producer = getProducerById(QString::number(clipId));
+    if (producer == NULL) {
+        if (url.isEmpty()) {
+            QDomDocument doc;
+            QDomElement westley = doc.createElement("westley");
+            QDomElement play = doc.createElement("playlist");
+            doc.appendChild(westley);
+            westley.appendChild(play);
+            play.appendChild(doc.importNode(xml, true));
+            char *tmp = decodedString(doc.toString());
+            producer = new Mlt::Producer(*m_mltProfile, "westley-xml", tmp);
+            delete[] tmp;
+        } else {
+            char *tmp = decodedString(url.path());
+            producer = new Mlt::Producer(*m_mltProfile, tmp);
+            delete[] tmp;
+        }
 
-    if (url.isEmpty()) {
-        QDomDocument doc;
-        QDomElement westley = doc.createElement("westley");
-        QDomElement play = doc.createElement("playlist");
-        doc.appendChild(westley);
-        westley.appendChild(play);
-        play.appendChild(doc.importNode(xml, true));
-        char *tmp = decodedString(doc.toString());
-        producer = new Mlt::Producer(*m_mltProfile, "westley-xml", tmp);
-        delete[] tmp;
-    } else {
-        char *tmp = decodedString(url.path());
-        producer = new Mlt::Producer(*m_mltProfile, tmp);
-        delete[] tmp;
+        if (producer->is_blank()) {
+            kDebug() << " / / / / / / / /ERRROR / / / / // CANNOT LOAD PRODUCER: ";
+            return;
+        }
+        m_producersList.append(producer);
+        newProducer = true;
     }
 
-    if (producer->is_blank()) {
-        kDebug() << " / / / / / / / /ERRROR / / / / // CANNOT LOAD PRODUCER: ";
-        return;
-    }
+
 
     int frameNumber = xml.attribute("thumbnail", "0").toInt();
     if (frameNumber != 0) producer->seek(frameNumber);
@@ -508,7 +516,7 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
     emit replyGetFileProperties(clipId, filePropertyMap, metadataPropertyMap);
     kDebug() << "REquested fuile info for: " << url.path();
     if (frame) delete frame;
-    if (producer) delete producer;
+    if (!newProducer && producer) delete producer;
 }
 
 /** Create the producer from the Westley QDomDocument */
@@ -585,7 +593,7 @@ void Render::setSceneList(QString playlist, int position) {
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "westley-xml", tmp);
     delete[] tmp;
     if (!m_mltProducer || !m_mltProducer->is_valid()) kDebug() << " WARNING - - - - -INVALID PLAYLIST: " << tmp;
-    //m_mltProducer->optimise();
+    m_mltProducer->optimise();
 
     /*if (KdenliveSettings::osdtimecode()) {
     // Attach filter for on screen display of timecode
@@ -645,6 +653,7 @@ void Render::saveSceneList(QString path, QDomElement kdenliveData) {
 
     char *tmppath = decodedString("westley:" + path);
     Mlt::Consumer westleyConsumer(*m_mltProfile , tmppath);
+    m_mltProducer->optimise();
     delete[] tmppath;
     westleyConsumer.set("terminate_on_pause", 1);
     Mlt::Producer prod(m_mltProducer->get_producer());
@@ -682,6 +691,7 @@ void Render::connectPlaylist() {
     m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0);
     m_mltConsumer->start();
+    parsePlaylistForClips();
     emit durationChanged(m_mltProducer->get_playtime());
     //refresh();
     /*
@@ -1029,23 +1039,26 @@ void Render::mltCheckLength(bool reload) {
         black.setAttribute("mlt_service", "colour");
         black.setAttribute("colour", "black");
         black.setAttribute("id", "black");
-        black.setAttribute("in", "0");
-        black.setAttribute("out", "13999");
+        ItemInfo info;
+        info.track = 0;
         while (dur > 14000) {
-            mltInsertClip(0, GenTime(i * 14000, m_fps), GenTime(), black);
+            info.startPos = GenTime(i * 14000, m_fps);
+            info.endPos = info.startPos + GenTime(13999, m_fps);
+            mltInsertClip(info, black);
             dur = dur - 14000;
             i++;
         }
         if (dur > 0) {
-            black.setAttribute("out", QString::number(dur));
-            mltInsertClip(0, GenTime(i * 14000, m_fps), GenTime(), black);
+            info.startPos = GenTime(i * 14000, m_fps);
+            info.endPos = info.startPos + GenTime(dur, m_fps);
+            mltInsertClip(info, black);
         }
         m_mltProducer->set("out", duration);
         emit durationChanged((int)duration);
     }
 }
 
-void Render::mltInsertClip(int track, GenTime position, GenTime crop, QDomElement element) {
+void Render::mltInsertClip(ItemInfo info, QDomElement element) {
     if (!m_mltProducer) {
         kDebug() << "PLAYLIST NOT INITIALISED //////";
         return;
@@ -1059,22 +1072,66 @@ void Render::mltInsertClip(int track, GenTime position, GenTime crop, QDomElemen
     Mlt::Service service(parentProd.get_service());
     Mlt::Tractor tractor(service);
     mlt_service_lock(service.get_service());
-    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Producer trackProducer(tractor.track(info.track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
-    QDomDocument doc;
-    doc.appendChild(doc.importNode(element, true));
-    QString resource = doc.toString();
-    char *tmp = decodedString(resource);
-    Mlt::Producer clip(*m_mltProfile, "westley-xml", tmp);
-    clip.set("in", crop.frames(m_fps));
-    //clip.set_in_and_out(in.frames(m_fps), out.frames(m_fps));
-    delete[] tmp;
-    trackPlaylist.insert_at((int) position.frames(m_fps), clip, 1);
+    Mlt::Producer *prod = getProducerById(element.attribute("id"));
+    if (prod == NULL) {
+        // clip was never used yet
+        QDomDocument doc;
+        doc.appendChild(doc.importNode(element, true));
+        QString resource = doc.toString();
+        kDebug() << "// INSERTING CLIP: " << resource;
+        char *tmp = decodedString(resource);
+        prod = new Mlt::Producer(*m_mltProfile, "westley-xml", tmp);
+        delete[] tmp;
+        m_producersList.append(prod);
+    }
+
+    Mlt::Producer *clip = prod->cut(info.cropStart.frames(m_fps), (info.endPos - info.startPos).frames(m_fps));
+    trackPlaylist.insert_at((int) info.startPos.frames(m_fps), *clip, 1);
+
     mlt_service_unlock(service.get_service());
-    if (track != 0) mltCheckLength();
+
+    if (info.track != 0) mltCheckLength();
     //tractor.multitrack()->refresh();
     //tractor.refresh();
+}
+
+Mlt::Producer *Render::getProducerById(const QString &id) {
+    for (int i = 0; i < m_producersList.count(); i++) {
+        if (m_producersList.at(i)->get("id") == id) return m_producersList.at(i);
+    }
+    return NULL;
+}
+
+void Render::parsePlaylistForClips() {
+    // clear current producers list
+    while (! m_producersList.isEmpty()) delete m_producersList.takeFirst();
+
+    //parse entire playlists to find all the different clips
+    Mlt::Producer parentProd(m_mltProducer->parent());
+    if (parentProd.get_producer() == NULL) {
+        kDebug() << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
+        return;
+    }
+    Mlt::Service service(parentProd.get_service());
+    if (service.type() != tractor_type) return;
+    Mlt::Tractor tractor(service);
+    mlt_service_lock(service.get_service());
+    for (int i = 0; i < tractor.count(); i++) {
+        Mlt::Producer trackProducer(tractor.track(i));
+        Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+        for (int j = 0; j < trackPlaylist.count(); j++) {
+            if (!trackPlaylist.is_blank(j)) {
+                Mlt::Producer *clip = trackPlaylist.get_clip(j);
+                if (clip) {
+                    if (getProducerById(clip->get("id")) == NULL)
+                        m_producersList.append(new Mlt::Producer(clip->get_parent()));
+                }
+            }
+        }
+    }
 }
 
 void Render::mltCutClip(int track, GenTime position) {
@@ -1091,10 +1148,10 @@ void Render::mltCutClip(int track, GenTime position) {
     m_isBlocked = false;
 }
 
-void Render::mltUpdateClip(int track, GenTime position, GenTime crop, QDomElement element) {
+void Render::mltUpdateClip(ItemInfo info, QDomElement element) {
     // TODO: optimize
-    mltRemoveClip(track, position);
-    mltInsertClip(track, position, crop, element);
+    mltRemoveClip(info.track, info.startPos);
+    mltInsertClip(info, element);
 }
 
 
@@ -1575,7 +1632,7 @@ void Render::mltUpdateTransition(QString oldTag, QString tag, int a_track, int b
         mltDeleteTransition(oldTag, a_track, b_track, in, out, xml, false);
         mltAddTransition(tag, a_track, b_track, in, out, xml);
     }
-    mltSavePlaylist();
+    //mltSavePlaylist();
 }
 
 void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml) {

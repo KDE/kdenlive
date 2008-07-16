@@ -932,8 +932,11 @@ void CustomTrackView::dropEvent(QDropEvent * event) {
         m_commandStack->push(command);
         m_dropItem->baseClip()->addReference();
         m_document->updateClip(m_dropItem->baseClip()->getId());
+        ItemInfo info;
+        info = m_dropItem->info();
+        info.track = m_tracksList.count() - m_dropItem->track();
         // kDebug()<<"IIIIIIIIIIIIIIIIIIIIIIII TRAX CNT: "<<m_tracksList.count()<<", DROP: "<<m_dropItem->track();
-        m_document->renderer()->mltInsertClip(m_tracksList.count() - m_dropItem->track(), m_dropItem->startPos(), m_dropItem->cropStart(), m_dropItem->xml());
+        m_document->renderer()->mltInsertClip(info, m_dropItem->xml());
         m_document->setModified(true);
     } else QGraphicsView::dropEvent(event);
     m_dropItem = NULL;
@@ -1125,7 +1128,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                     if (item->type() == AVWIDGET) {
                         ClipItem *clip = static_cast <ClipItem*>(item);
                         new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), item->info(), false, false, moveClips);
-                        m_document->renderer()->mltInsertClip(m_tracksList.count() - item->track(), item->startPos(), item->cropStart(), clip->xml());
+                        ItemInfo info = item->info();
+                        info.track = m_tracksList.count() - item->track();
+                        m_document->renderer()->mltInsertClip(info, clip->xml());
                     } else {
                         Transition *tr = static_cast <Transition*>(item);
                         ItemInfo transitionInfo = tr->info();
@@ -1257,10 +1262,10 @@ void CustomTrackView::deleteSelectedClips() {
     deleteSelected->setText("Delete selected items");
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
-            ClipItem *item = static_cast <ClipItem *> (itemList.at(i));
+            ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), true, true, deleteSelected);
         } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
-            Transition *item = static_cast <Transition *> (itemList.at(i));
+            Transition *item = static_cast <Transition *>(itemList.at(i));
             ItemInfo info;
             info.startPos = item->startPos();
             info.endPos = item->endPos();
@@ -1295,7 +1300,8 @@ void CustomTrackView::addClip(QDomElement xml, int clipId, ItemInfo info) {
     scene()->addItem(item);
     baseclip->addReference();
     m_document->updateClip(baseclip->getId());
-    m_document->renderer()->mltInsertClip(m_tracksList.count() - info.track, info.startPos, info.cropStart, xml);
+    info.track = m_tracksList.count() - info.track;
+    m_document->renderer()->mltInsertClip(info, xml);
     m_document->renderer()->doRefresh();
 }
 
@@ -1307,7 +1313,9 @@ void CustomTrackView::slotUpdateClip(int clipId) {
             clip = static_cast <ClipItem *>(list.at(i));
             if (clip->clipProducer() == clipId) {
                 clip->refreshClip();
-                m_document->renderer()->mltUpdateClip(m_tracksList.count() - clip->track(), clip->startPos(), clip->cropStart(), clip->xml());
+                ItemInfo info = clip->info();
+                info.track = m_tracksList.count() - clip->track();
+                m_document->renderer()->mltUpdateClip(info, clip->xml());
             }
         }
     }
@@ -1725,6 +1733,7 @@ void CustomTrackView::editGuide(const GenTime oldPos, const GenTime pos, const Q
         }
         if (!found) emit displayMessage(i18n("No guide at cursor time"), ErrorMessage);
     }
+    m_document->syncGuides(m_guides);
 }
 
 bool CustomTrackView::addGuide(const GenTime pos, const QString &comment) {
@@ -1737,6 +1746,7 @@ bool CustomTrackView::addGuide(const GenTime pos, const QString &comment) {
     Guide *g = new Guide(this, pos, comment, m_scale, m_document->fps(), m_tracksHeight * m_tracksList.count());
     scene()->addItem(g);
     m_guides.append(g);
+    m_document->syncGuides(m_guides);
     return true;
 }
 
@@ -1857,19 +1867,6 @@ void CustomTrackView::drawBackground(QPainter * painter, const QRectF & rect) {
     int lowerLimit = m_tracksHeight * m_tracksList.count() + 1;
     if (height() > lowerLimit)
         painter->fillRect(QRectF(rectInView.left(), lowerLimit, rectInView.width(), height() - lowerLimit), QBrush(base));
-}
-
-QDomElement CustomTrackView::xmlInfo() {
-    QDomDocument doc;
-    QDomElement e;
-    QDomElement guides = doc.createElement("guides");
-    for (int i = 0; i < m_guides.count(); i++) {
-        e = doc.createElement("guide");
-        e.setAttribute("time", m_guides.at(i)->position().ms() / 1000);
-        e.setAttribute("comment", m_guides.at(i)->label());
-        guides.appendChild(e);
-    }
-    return guides;
 }
 
 bool CustomTrackView::findString(const QString &text) {

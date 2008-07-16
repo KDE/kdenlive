@@ -36,6 +36,7 @@
 #include "titlewidget.h"
 #include "mainwindow.h"
 
+
 KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoProfile profile, QUndoGroup *undoGroup, MainWindow *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new KUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0) {
     kDebug() << "// init profile, ratnum: " << profile.frame_rate_num << ", " << profile.frame_rate_num << ", width: " << profile.width;
     m_clipManager = new ClipManager(this);
@@ -199,11 +200,44 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
     kDebug() << "KDEnnlive document, init timecode: " << m_fps;
     if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
     else m_timecode.setFormat((int) m_fps);
+
+    m_autoSaveTimer = new QTimer(this);
+    m_autoSaveTimer->setSingleShot(true);
+    QString directory = m_url.directory();
+    QString fileName = m_url.fileName();
+    m_recoveryUrl.setDirectory(directory);
+    m_recoveryUrl.setFileName("~" + fileName);
+    connect(m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
 }
 
 KdenliveDoc::~KdenliveDoc() {
     delete m_commandStack;
     delete m_clipManager;
+    delete m_autoSaveTimer;
+    if (!m_url.isEmpty()) {
+        // remove backup file
+        if (KIO::NetAccess::exists(m_recoveryUrl, KIO::NetAccess::SourceSide, NULL))
+            KIO::NetAccess::del(m_recoveryUrl, NULL);
+    }
+}
+
+void KdenliveDoc::syncGuides(QList <Guide *> guides) {
+    QDomDocument doc;
+    QDomElement e;
+    m_guidesXml.clear();
+    m_guidesXml = doc.createElement("guides");
+    for (int i = 0; i < guides.count(); i++) {
+        e = doc.createElement("guide");
+        e.setAttribute("time", guides.at(i)->position().ms() / 1000);
+        e.setAttribute("comment", guides.at(i)->label());
+        m_guidesXml.appendChild(e);
+    }
+}
+
+void KdenliveDoc::slotAutoSave() {
+    if (m_render)
+        m_render->saveSceneList(m_recoveryUrl.path(), documentInfoXml());
+
 }
 
 void KdenliveDoc::convertDocument(double version) {
@@ -313,7 +347,7 @@ void KdenliveDoc::convertDocument(double version) {
     //kDebug() << "/////////////////  END CONVERTED DOC:";
 }
 
-QDomElement KdenliveDoc::documentInfoXml(QDomElement timelineInfo) {
+QDomElement KdenliveDoc::documentInfoXml() {
     QDomDocument doc;
     QDomElement e;
     QDomElement addedXml = doc.createElement("kdenlivedoc");
@@ -336,7 +370,7 @@ QDomElement KdenliveDoc::documentInfoXml(QDomElement timelineInfo) {
         }
     }
     addedXml.appendChild(markers);
-    addedXml.appendChild(doc.importNode(timelineInfo, true));
+    if (!m_guidesXml.isNull()) addedXml.appendChild(doc.importNode(m_guidesXml, true));
     //kDebug() << m_document.toString();
     return addedXml;
 }
@@ -494,9 +528,16 @@ KUrl KdenliveDoc::url() const {
 
 void KdenliveDoc::setUrl(KUrl url) {
     m_url = url;
+    QString directory = m_url.directory();
+    QString fileName = m_url.fileName();
+    m_recoveryUrl.setDirectory(directory);
+    m_recoveryUrl.setFileName("~" + fileName);
 }
 
 void KdenliveDoc::setModified(bool mod) {
+    if (!m_url.isEmpty() && mod && KdenliveSettings::crashrecovery()) {
+        m_autoSaveTimer->start(3000);
+    }
     if (mod == m_modified) return;
     m_modified = mod;
     emit docModified(m_modified);
