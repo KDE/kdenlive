@@ -35,7 +35,7 @@
 #include "customtrackview.h"
 
 TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
-        : QWidget(parent), m_doc(doc), m_scale(1.0), m_projectTracks(0), m_currentZoom(4) {
+        : QWidget(parent), m_doc(doc), m_scale(1.0), m_projectTracks(0) {
 
     view = new Ui::TimeLine_UI();
     view->setupUi(this);
@@ -74,19 +74,16 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
     connect(m_trackview->verticalScrollBar(), SIGNAL(valueChanged(int)), view->headers_area->verticalScrollBar(), SLOT(setValue(int)));
     connect(m_trackview, SIGNAL(trackHeightChanged()), this, SLOT(slotRebuildTrackHeaders()));
 
-    parseDocument(doc->toXml());
+    parseDocument(m_doc->toXml());
 
     connect(m_trackview, SIGNAL(cursorMoved(int, int)), m_ruler, SLOT(slotCursorMoved(int, int)));
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
     connect(m_trackview, SIGNAL(clipItemSelected(ClipItem*)), this, SLOT(slotClipItemSelected(ClipItem*)));
     connect(m_trackview, SIGNAL(transitionItemSelected(Transition*)), this, SLOT(slotTransitionItemSelected(Transition*)));
-    slotChangeZoom(m_currentZoom);
+    slotChangeZoom(m_doc->zoom());
 }
 
-int TrackView::currentZoom() const {
-    return m_currentZoom;
-}
 
 int TrackView::duration() const {
     return m_trackview->duration();
@@ -262,10 +259,9 @@ void TrackView::moveCursorPos(int pos) {
 }
 
 void TrackView::slotChangeZoom(int factor) {
-
+    m_doc->setZoom(factor);
     m_ruler->setPixelPerMark(factor);
     m_scale = (double) FRAME_SIZE / m_ruler->comboScale[factor]; // m_ruler->comboScale[m_currentZoom] /
-    m_currentZoom = factor;
     m_trackview->setScale(m_scale);
 }
 

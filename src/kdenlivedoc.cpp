@@ -37,7 +37,7 @@
 #include "mainwindow.h"
 
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoProfile profile, QUndoGroup *undoGroup, MainWindow *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new KUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0) {
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoProfile profile, QUndoGroup *undoGroup, MainWindow *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new KUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(4) {
     kDebug() << "// init profile, ratnum: " << profile.frame_rate_num << ", " << profile.frame_rate_num << ", width: " << profile.width;
     m_clipManager = new ClipManager(this);
     if (!url.isEmpty()) {
@@ -52,6 +52,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
                 QDomElement infoXml = infoXmlNode.toElement();
                 QString profilePath = infoXml.attribute("profile");
                 m_startPos = infoXml.attribute("position").toInt();
+                m_zoom = infoXml.attribute("zoom").toInt();
                 if (!profilePath.isEmpty()) setProfilePath(profilePath);
                 double version = infoXml.attribute("version").toDouble();
                 if (version < 0.7) convertDocument(version);
@@ -240,6 +241,14 @@ void KdenliveDoc::slotAutoSave() {
 
 }
 
+void KdenliveDoc::setZoom(int factor) {
+    m_zoom = factor;
+}
+
+int KdenliveDoc::zoom() const {
+    return m_zoom;
+}
+
 void KdenliveDoc::convertDocument(double version) {
     // Opening a old Kdenlive document
     QDomNode westley = m_document.elementsByTagName("westley").at(1);
@@ -355,6 +364,7 @@ QDomElement KdenliveDoc::documentInfoXml() {
     addedXml.setAttribute("version", "0.7");
     addedXml.setAttribute("profile", profilePath());
     addedXml.setAttribute("position", m_render->seekPosition().frames(m_fps));
+    addedXml.setAttribute("zoom", m_zoom);
     QList <DocClipBase*> list = m_clipManager->documentClipList();
     for (int i = 0; i < list.count(); i++) {
         e = list.at(i)->toXML();

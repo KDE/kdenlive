@@ -57,7 +57,6 @@ public:
     void refresh() ;
     int outPoint() const;
     int inPoint() const;
-    int currentZoom() const;
     int fitZoom() const;
 
 
@@ -74,7 +73,6 @@ private:
     int m_projectTracks;
     QString m_editMode;
     QGraphicsScene *m_scene;
-    uint m_currentZoom;
 
     KdenliveDoc *m_doc;
     QVBoxLayout *m_tracksLayout;

@@ -100,6 +100,8 @@ Q_OBJECT public:
     void loadingProgressed();
     void updateAllProjectClips();
     void syncGuides(QList <Guide *> guides);
+    void setZoom(int factor);
+    int zoom() const;
 
 private:
     KUrl m_url;
@@ -107,6 +109,7 @@ private:
     QDomDocument m_document;
     QString m_projectName;
     double m_fps;
+    int m_zoom;
     /** Cursor position at document opening */
     int m_startPos;
     int m_width;
