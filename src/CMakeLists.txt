@@ -1,5 +1,6 @@
 
 add_subdirectory( widgets )
+add_subdirectory( mimetypes )
 
 find_package(Nepomuk REQUIRED)
 
@@ -138,4 +139,6 @@ install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
 install( FILES kdenliveui.rc DESTINATION  ${DATA_INSTALL_DIR}/kdenlive )
 install (FILES kdenlivesettings.kcfg DESTINATION share/config.kcfg)
 install (FILES kdenlive.desktop DESTINATION share/applications/kde)
+install (FILES application-x-kdenlive.svgz DESTINATION share/icons/oxygen/scalable/mimetypes)
+
 

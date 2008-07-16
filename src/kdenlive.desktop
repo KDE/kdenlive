@@ -11,5 +11,5 @@ Comment[de]=
 Terminal=0
 Name=Kdenlive
 Name[de]=Kdenlive
-MimeType=application/vnd.kde.kdenlive;
+MimeType=application/x-kdenlive;
 Categories=Qt;KDE;AudioVideo;
