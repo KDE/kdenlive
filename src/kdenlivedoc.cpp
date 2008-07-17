@@ -40,6 +40,7 @@
 KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoProfile profile, QUndoGroup *undoGroup, MainWindow *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new KUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(4) {
     kDebug() << "// init profile, ratnum: " << profile.frame_rate_num << ", " << profile.frame_rate_num << ", width: " << profile.width;
     m_clipManager = new ClipManager(this);
+    KdenliveSettings::setProject_fps(m_fps);
     if (!url.isEmpty()) {
         QString tmpFile;
         if (KIO::NetAccess::download(url.path(), tmpFile, parent)) {
@@ -411,6 +412,7 @@ void KdenliveDoc::setProfilePath(QString path) {
     m_fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
     m_width = m_profile.width;
     m_height = m_profile.height;
+    KdenliveSettings::setProject_fps(m_fps);
     kDebug() << "KDEnnlive document, init timecode from path: " << path << ",  " << m_fps;
     if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
     else m_timecode.setFormat((int) m_fps);
@@ -607,9 +609,9 @@ void KdenliveDoc::slotAddClipFile(const KUrl url, const QString group, const int
     setModified(true);
 }
 
-void KdenliveDoc::slotAddTextClipFile(const QString path, const QString group, const int groupId) {
+void KdenliveDoc::slotAddTextClipFile(const QString path, const QString xml, const QString group, const int groupId) {
     kDebug() << "/////////  DOCUM, ADD TXT CLP: " << path;
-    m_clipManager->slotAddTextClipFile(path, group, groupId);
+    m_clipManager->slotAddTextClipFile(path, xml, group, groupId);
     setModified(true);
 }
 
@@ -663,18 +665,23 @@ void KdenliveDoc::slotCreateTextClip(QString group, int groupId) {
         }
         QPixmap pix = dia_ui->renderedPixmap();
         pix.save(path + ".png");
-        dia_ui->saveTitle(path + ".kdenlivetitle");
-        slotAddTextClipFile(path, QString(), -1);
+        //dia_ui->saveTitle(path + ".kdenlivetitle");
+        slotAddTextClipFile(path, dia_ui->xml().toString(), QString(), -1);
     }
     delete dia_ui;
 }
 
 void KdenliveDoc::editTextClip(QString path, int id) {
-    TitleWidget *dia_ui = new TitleWidget(KUrl(path + ".kdenlivetitle"), path, m_render, kapp->activeWindow());
+    DocClipBase *clip = m_clipManager->getClipById(id);
+    if (!clip) return;
+    TitleWidget *dia_ui = new TitleWidget(KUrl()/*path + ".kdenlivetitle")*/, path, m_render, kapp->activeWindow());
+    QDomDocument doc;
+    doc.setContent(clip->getProperty("xmldata"));
+    dia_ui->setXml(doc);
     if (dia_ui->exec() == QDialog::Accepted) {
         QPixmap pix = dia_ui->renderedPixmap();
         pix.save(path + ".png");
-        dia_ui->saveTitle(path + ".kdenlivetitle");
+        //dia_ui->saveTitle(path + ".kdenlivetitle");
         //slotAddClipFile(KUrl("/tmp/kdenlivetitle.png"), QString(), -1);
         emit refreshClipThumbnail(id);
     }

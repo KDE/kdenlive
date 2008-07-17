@@ -45,6 +45,8 @@ class TitleWidget : public QDialog , public Ui::TitleWidget_UI {
     Q_OBJECT
 public:
     TitleWidget(KUrl url, QString projectPath, Render *render, QWidget *parent = 0);
+    QDomDocument xml();
+    void setXml(QDomDocument doc);
 
 protected:
     virtual void resizeEvent(QResizeEvent * event);

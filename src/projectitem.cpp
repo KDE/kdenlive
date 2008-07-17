@@ -51,7 +51,8 @@ ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, QDom
             slotSetToolTip();
         }
 
-        if (m_clipType == COLOR || m_clipType == IMAGE) element.setAttribute("duration", MAXCLIPDURATION);
+        if (m_clipType == COLOR || m_clipType == IMAGE || m_clipType == SLIDESHOW || m_clipType == TEXT)
+            element.setAttribute("duration", MAXCLIPDURATION);
         else if (element.attribute("duration").isEmpty() && !element.attribute("out").isEmpty()) {
             element.setAttribute("duration", element.attribute("out").toInt() - element.attribute("in").toInt());
         }
@@ -213,12 +214,13 @@ void ProjectItem::slotSetToolTip() {
 
 void ProjectItem::setProperties(const QMap < QString, QString > &attributes, const QMap < QString, QString > &metadata) {
     if (attributes.contains("duration")) {
-        if (m_clipType == AUDIO || m_clipType == VIDEO || m_clipType == AV) m_clip->setProperty("duration", attributes["duration"]);
+        //if (m_clipType == AUDIO || m_clipType == VIDEO || m_clipType == AV)
+        //m_clip->setProperty("duration", attributes["duration"]);
         GenTime duration = GenTime(attributes["duration"].toInt(), KdenliveSettings::project_fps());
         setData(1, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
         m_clip->setDuration(duration);
-        kDebug() << "//// LOADED CLIP, DURATION SET TO: " << duration.frames(KdenliveSettings::project_fps());
-    } else {
+        //kDebug() << "//// LOADED CLIP, DURATION SET TO: " << duration.frames(KdenliveSettings::project_fps());
+    } else  {
         // No duration known, use an arbitrary one until it is.
     }
 

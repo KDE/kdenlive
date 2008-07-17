@@ -1010,6 +1010,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
         disconnect(m_projectList, SIGNAL(clipSelected(DocClipBase *)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *)));
         m_clipMonitor->stop();
     }
+    KdenliveSettings::setProject_fps(doc->fps());
     m_monitorManager->resetProfiles(doc->profilePath());
     m_projectList->setDocument(doc);
     connect(m_projectList, SIGNAL(clipSelected(DocClipBase *)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *)));

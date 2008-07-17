@@ -388,7 +388,7 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
 
     Mlt::Producer *producer = getProducerById(QString::number(clipId));
     if (producer == NULL) {
-        if (url.isEmpty()) {
+        if (true /*url.isEmpty()*/) {
             QDomDocument doc;
             QDomElement westley = doc.createElement("westley");
             QDomElement play = doc.createElement("playlist");

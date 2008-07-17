@@ -67,7 +67,7 @@ Q_OBJECT public:
     void addFolder(const QString foldername, int clipId, bool edit);
     void deleteFolder(const QString foldername, int clipId);
     void slotAddClipFile(const KUrl url, const QString group, const int groupId = -1);
-    void slotAddTextClipFile(const QString path, const QString group, const int groupId = -1);
+    void slotAddTextClipFile(const QString path, const QString xml, const QString group, const int groupId = -1);
     void editTextClip(QString path, int id);
     void slotAddFolder(const QString folderName);
     void slotDeleteFolder(const QString folderName, const int id);

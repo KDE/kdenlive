@@ -16,6 +16,9 @@
  ***************************************************************************/
 #ifndef TITLEDOCUMENT_H
 #define TITLEDOCUMENT_H
+
+#include <QDomDocument>
+
 #include <KUrl>
 
 class QGraphicsScene;
@@ -28,6 +31,9 @@ public:
     void setScene(QGraphicsScene* scene);
     bool saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv);
     int loadDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv);
+    QDomDocument xml(QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv);
+    int loadFromXml(QDomDocument doc, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv);
+
 private:
     QString colorToString(const QColor&);
     QString rectFToString(const QRectF&);

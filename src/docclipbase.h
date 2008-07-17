@@ -140,7 +140,6 @@ Q_OBJECT public:
                             const GenTime & endTime) const;
     /** returns a QString containing all of the XML data required to recreate this clip. */
     QDomElement toXML() const;
-    QDomDocument generateSceneList(bool addProducers = true, bool rendering = false) const;
 
     /** Returns true if the xml passed matches the values in this clip */
     bool matchesXML(const QDomElement & element) const;

@@ -153,12 +153,13 @@ void ClipManager::slotAddSlideshowClipFile(const QString name, const QString pat
 
 
 
-void ClipManager::slotAddTextClipFile(const QString path, const QString group, const int groupId) {
+void ClipManager::slotAddTextClipFile(const QString path, const QString xml, const QString group, const int groupId) {
     kDebug() << "/////  CLIP MANAGER, ADDING CLIP: " << path;
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
     prod.setAttribute("resource", path + ".png");
     prod.setAttribute("xml", path);
+    prod.setAttribute("xmldata", xml);
     uint id = m_clipIdCounter++;
     prod.setAttribute("id", QString::number(id));
     if (!group.isEmpty()) {

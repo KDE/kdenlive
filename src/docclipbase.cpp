@@ -155,6 +155,7 @@ const QString DocClipBase::getProperty(const QString prop) const {
 
 void DocClipBase::setDuration(GenTime dur) {
     m_duration = dur;
+    m_properties.insert("duration", QString::number((int) dur.frames(KdenliveSettings::project_fps())));
 }
 
 const GenTime &DocClipBase::duration() const {
@@ -238,9 +239,6 @@ void DocClipBase::setAudioThumbCreated(bool isDone) {
     m_audioThumbCreated = isDone;
 }
 
-
-QDomDocument DocClipBase::generateSceneList(bool, bool) const {
-}
 
 void DocClipBase::setThumbnail(const QPixmap & pixmap) {
     m_thumbnail = pixmap;

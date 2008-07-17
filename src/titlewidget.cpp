@@ -199,6 +199,7 @@ void TitleWidget::slotRectTool() {
     m_scene->setTool(TITLE_RECTANGLE);
     m_buttonText->setChecked(false);
     m_buttonCursor->setChecked(false);
+    m_buttonRect->setChecked(true);
 }
 
 void TitleWidget::slotSelectTool() {
@@ -609,6 +610,15 @@ void TitleWidget::loadTitle() {
 void TitleWidget::saveTitle(KUrl url) {
     if (url.isEmpty()) url = KFileDialog::getSaveUrl(KUrl(m_projectPath), "*.kdenlivetitle", this, i18n("Save Title"));
     if (!url.isEmpty()) m_titledocument.saveDocument(url, startViewport, endViewport);
+}
+
+QDomDocument TitleWidget::xml() {
+    return m_titledocument.xml(startViewport, endViewport);
+}
+
+void TitleWidget::setXml(QDomDocument doc) {
+    m_titledocument.loadFromXml(doc, startViewport, endViewport);
+    slotSelectTool();
 }
 
 QPixmap TitleWidget::renderedPixmap() {
