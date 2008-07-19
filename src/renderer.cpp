@@ -61,7 +61,7 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
     }
 }
 
-Render::Render(const QString & rendererName, int winid, int extid, QWidget *parent): QObject(parent), m_name(rendererName), m_mltConsumer(NULL), m_mltProducer(NULL), m_mltTextProducer(NULL), m_winid(-1), m_framePosition(0), m_generateScenelist(false), m_isBlocked(true) {
+Render::Render(const QString & rendererName, int winid, int extid, QWidget *parent): QObject(parent), m_name(rendererName), m_mltConsumer(NULL), m_mltProducer(NULL), m_mltTextProducer(NULL), m_winid(-1), m_framePosition(0), m_generateScenelist(false), m_isBlocked(true), m_blackClip(NULL) {
     kDebug() << "//////////  USING PROFILE: " << (char *)KdenliveSettings::current_profile().toUtf8().data();
     m_mltProfile = new Mlt::Profile((char*) KdenliveSettings::current_profile().data());
     refreshTimer = new QTimer(this);
@@ -89,6 +89,8 @@ Render::Render(const QString & rendererName, int winid, int extid, QWidget *pare
         m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
         Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "westley-xml", "<westley><playlist><producer mlt_service=\"colour\" colour=\"blue\" in=\"0\" out=\"25\" /></playlist></westley>");
         m_mltProducer = producer;
+        if (m_blackClip) delete m_blackClip;
+        m_blackClip = new Mlt::Producer(*m_mltProfile , "colour", "black");
         m_mltConsumer->connect(*m_mltProducer);
         m_mltProducer->set_speed(0.0);
 
@@ -121,7 +123,7 @@ void Render::closeMlt() {
         delete m_mltConsumer;
     if (m_mltProducer)
         delete m_mltProducer;
-    while (! m_producersList.isEmpty()) delete m_producersList.takeFirst();
+    if (m_blackClip) delete m_blackClip;
     //delete m_osdInfo;
 }
 
@@ -162,6 +164,8 @@ int Render::resetProfile(QString profile) {
     Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "westley-xml", tmp);
     delete[] tmp;
     m_mltProducer = producer;
+    if (m_blackClip) delete m_blackClip;
+    m_blackClip = new Mlt::Producer(*m_mltProfile , "colour", "black");
     m_mltProducer->optimise();
     m_mltProducer->set_speed(0);
     connectPlaylist();
@@ -384,36 +388,34 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
     QMap < QString, QString > metadataPropertyMap;
 
     KUrl url = KUrl(xml.attribute("resource", QString::null));
-    bool newProducer = false;
-
-    Mlt::Producer *producer = getProducerById(QString::number(clipId));
-    if (producer == NULL) {
-        if (true /*url.isEmpty()*/) {
-            QDomDocument doc;
-            QDomElement westley = doc.createElement("westley");
-            QDomElement play = doc.createElement("playlist");
-            doc.appendChild(westley);
-            westley.appendChild(play);
-            play.appendChild(doc.importNode(xml, true));
-            char *tmp = decodedString(doc.toString());
-            producer = new Mlt::Producer(*m_mltProfile, "westley-xml", tmp);
-            delete[] tmp;
-        } else {
-            char *tmp = decodedString(url.path());
-            producer = new Mlt::Producer(*m_mltProfile, tmp);
-            delete[] tmp;
-        }
-
-        if (producer->is_blank()) {
-            kDebug() << " / / / / / / / /ERRROR / / / / // CANNOT LOAD PRODUCER: ";
-            return;
-        }
-        m_producersList.append(producer);
-        newProducer = true;
+    Mlt::Producer *producer;
+    if (xml.attribute("type").toInt() == COLOR) {
+        char *tmp = decodedString("colour:" + xml.attribute("colour"));
+        producer = new Mlt::Producer(*m_mltProfile, "fezzik", tmp);
+        producer->set_in_and_out(xml.attribute("in").toInt(), xml.attribute("out").toInt());
+        delete[] tmp;
+    } else if (url.isEmpty()) {
+        QDomDocument doc;
+        QDomElement westley = doc.createElement("westley");
+        QDomElement play = doc.createElement("playlist");
+        doc.appendChild(westley);
+        westley.appendChild(play);
+        play.appendChild(doc.importNode(xml, true));
+        kDebug() << "/ / / / /CLIP XML: " << doc.toString();
+        char *tmp = decodedString(doc.toString());
+        producer = new Mlt::Producer(*m_mltProfile, "westley-xml", tmp);
+        delete[] tmp;
+    } else {
+        char *tmp = decodedString(url.path());
+        producer = new Mlt::Producer(*m_mltProfile, tmp);
+        if (!xml.attribute("out").isEmpty()) producer->set_in_and_out(xml.attribute("in").toInt(), xml.attribute("out").toInt());
+        delete[] tmp;
     }
-
-
-
+    if (producer->is_blank()) {
+        kDebug() << " / / / / / / / /ERRROR / / / / // CANNOT LOAD PRODUCER: ";
+        return;
+    }
+    producer->set("id", clipId);
     int frameNumber = xml.attribute("thumbnail", "0").toInt();
     if (frameNumber != 0) producer->seek(frameNumber);
     mlt_properties properties = MLT_PRODUCER_PROPERTIES(producer->get_producer());
@@ -513,10 +515,10 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
             metadataPropertyMap[ name.section(".", 0, -2)] = value;
     }
 
-    emit replyGetFileProperties(clipId, filePropertyMap, metadataPropertyMap);
+    emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap);
     kDebug() << "REquested fuile info for: " << url.path();
     if (frame) delete frame;
-    if (!newProducer && producer) delete producer;
+    //if (producer) delete producer;
 }
 
 /** Create the producer from the Westley QDomDocument */
@@ -555,6 +557,40 @@ void Render::initSceneList() {
     setSceneList(doc, 0);
 }
 #endif
+
+
+
+/** Create the producer from the Westley QDomDocument */
+void Render::setProducer(Mlt::Producer *producer, int position) {
+    if (m_winid == -1) return;
+    m_generateScenelist = true;
+
+    if (m_mltConsumer) {
+        m_mltConsumer->stop();
+    } else return;
+
+    if (m_mltProducer) {
+        m_mltProducer->set_speed(0);
+        delete m_mltProducer;
+        m_mltProducer = NULL;
+        emit stopped();
+    }
+    if (producer) m_mltProducer = new Mlt::Producer(producer->get_producer());
+    else m_mltProducer = new Mlt::Producer();
+    if (!m_mltProducer || !m_mltProducer->is_valid()) kDebug() << " WARNING - - - - -INVALID PLAYLIST: ";
+    m_mltProducer->optimise();
+
+    m_fps = m_mltProducer->get_fps();
+    connectPlaylist();
+    if (position != 0) {
+        m_mltProducer->seek(position);
+        emit rendererPosition(position);
+    }
+    m_generateScenelist = false;
+}
+
+
+
 /** Create the producer from the Westley QDomDocument */
 void Render::setSceneList(QDomDocument list, int position) {
     setSceneList(list.toString(), position);
@@ -592,6 +628,8 @@ void Render::setSceneList(QString playlist, int position) {
     char *tmp = decodedString(playlist);
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "westley-xml", tmp);
     delete[] tmp;
+    if (m_blackClip) delete m_blackClip;
+    m_blackClip = new Mlt::Producer(*m_mltProfile , "colour", "black");
     if (!m_mltProducer || !m_mltProducer->is_valid()) kDebug() << " WARNING - - - - -INVALID PLAYLIST: " << tmp;
     m_mltProducer->optimise();
 
@@ -691,7 +729,6 @@ void Render::connectPlaylist() {
     m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0);
     m_mltConsumer->start();
-    parsePlaylistForClips();
     emit durationChanged(m_mltProducer->get_playtime());
     //refresh();
     /*
@@ -1044,21 +1081,21 @@ void Render::mltCheckLength(bool reload) {
         while (dur > 14000) {
             info.startPos = GenTime(i * 14000, m_fps);
             info.endPos = info.startPos + GenTime(13999, m_fps);
-            mltInsertClip(info, black);
+            mltInsertClip(info, black, m_blackClip);
             dur = dur - 14000;
             i++;
         }
         if (dur > 0) {
             info.startPos = GenTime(i * 14000, m_fps);
             info.endPos = info.startPos + GenTime(dur, m_fps);
-            mltInsertClip(info, black);
+            mltInsertClip(info, black, m_blackClip);
         }
         m_mltProducer->set("out", duration);
         emit durationChanged((int)duration);
     }
 }
 
-void Render::mltInsertClip(ItemInfo info, QDomElement element) {
+void Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod) {
     if (!m_mltProducer) {
         kDebug() << "PLAYLIST NOT INITIALISED //////";
         return;
@@ -1075,8 +1112,7 @@ void Render::mltInsertClip(ItemInfo info, QDomElement element) {
     Mlt::Producer trackProducer(tractor.track(info.track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
-    Mlt::Producer *prod = getProducerById(element.attribute("id"));
-    if (prod == NULL) {
+    /*if (prod == NULL) {
         // clip was never used yet
         QDomDocument doc;
         doc.appendChild(doc.importNode(element, true));
@@ -1085,8 +1121,7 @@ void Render::mltInsertClip(ItemInfo info, QDomElement element) {
         char *tmp = decodedString(resource);
         prod = new Mlt::Producer(*m_mltProfile, "westley-xml", tmp);
         delete[] tmp;
-        m_producersList.append(prod);
-    }
+    }*/
 
     Mlt::Producer *clip = prod->cut(info.cropStart.frames(m_fps), (info.endPos - info.startPos).frames(m_fps));
     trackPlaylist.insert_at((int) info.startPos.frames(m_fps), *clip, 1);
@@ -1098,41 +1133,6 @@ void Render::mltInsertClip(ItemInfo info, QDomElement element) {
     //tractor.refresh();
 }
 
-Mlt::Producer *Render::getProducerById(const QString &id) {
-    for (int i = 0; i < m_producersList.count(); i++) {
-        if (m_producersList.at(i)->get("id") == id) return m_producersList.at(i);
-    }
-    return NULL;
-}
-
-void Render::parsePlaylistForClips() {
-    // clear current producers list
-    while (! m_producersList.isEmpty()) delete m_producersList.takeFirst();
-
-    //parse entire playlists to find all the different clips
-    Mlt::Producer parentProd(m_mltProducer->parent());
-    if (parentProd.get_producer() == NULL) {
-        kDebug() << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
-        return;
-    }
-    Mlt::Service service(parentProd.get_service());
-    if (service.type() != tractor_type) return;
-    Mlt::Tractor tractor(service);
-    mlt_service_lock(service.get_service());
-    for (int i = 0; i < tractor.count(); i++) {
-        Mlt::Producer trackProducer(tractor.track(i));
-        Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-        for (int j = 0; j < trackPlaylist.count(); j++) {
-            if (!trackPlaylist.is_blank(j)) {
-                Mlt::Producer *clip = trackPlaylist.get_clip(j);
-                if (clip) {
-                    if (getProducerById(clip->get("id")) == NULL)
-                        m_producersList.append(new Mlt::Producer(clip->get_parent()));
-                }
-            }
-        }
-    }
-}
 
 void Render::mltCutClip(int track, GenTime position) {
     m_isBlocked = true;
@@ -1148,10 +1148,10 @@ void Render::mltCutClip(int track, GenTime position) {
     m_isBlocked = false;
 }
 
-void Render::mltUpdateClip(ItemInfo info, QDomElement element) {
+void Render::mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *prod) {
     // TODO: optimize
     mltRemoveClip(info.track, info.startPos);
-    mltInsertClip(info, element);
+    mltInsertClip(info, element, prod);
 }
 
 

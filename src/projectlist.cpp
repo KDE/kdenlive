@@ -453,13 +453,14 @@ void ProjectList::slotRefreshClipThumbnail(ProjectItem *item) {
     }
 }
 
-void ProjectList::slotReplyGetFileProperties(int clipId, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata) {
+void ProjectList::slotReplyGetFileProperties(int clipId, Mlt::Producer *producer, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata) {
     ProjectItem *item = getItemById(clipId);
     if (item) {
         item->setProperties(properties, metadata);
+        item->referencedClip()->setProducer(producer);
         listView->setCurrentItem(item);
         emit receivedClipDuration(clipId, item->clipMaxDuration());
-    }
+    } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
 }
 
 void ProjectList::slotReplyGetImage(int clipId, int pos, const QPixmap &pix, int w, int h) {

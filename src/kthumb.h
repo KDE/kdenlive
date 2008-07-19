@@ -74,6 +74,7 @@ Q_OBJECT public:
 
     KThumb(ClipManager *clipManager, KUrl url, QObject * parent = 0, const char *name = 0);
     ~KThumb();
+    void setProducer(Mlt::Producer *producer);
 
 public slots:
     void extractImage(int frame, int frame2);
@@ -96,6 +97,7 @@ private:
     KUrl m_url;
     QString m_thumbFile;
     Mlt::Profile *m_profile;
+    Mlt::Producer *m_producer;
     ClipManager *m_clipManager;
 
 signals:

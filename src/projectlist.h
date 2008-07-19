@@ -34,6 +34,10 @@
 #include "definitions.h"
 #include "timecode.h"
 
+namespace Mlt {
+class Producer;
+};
+
 class ProjectItem;
 class ProjectListView;
 class Render;
@@ -108,7 +112,7 @@ public:
 public slots:
     void setDocument(KdenliveDoc *doc);
     void slotReplyGetImage(int clipId, int pos, const QPixmap &pix, int w, int h);
-    void slotReplyGetFileProperties(int clipId, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata);
+    void slotReplyGetFileProperties(int clipId, Mlt::Producer *producer, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata);
     void slotAddClip(DocClipBase *clip);
     void slotDeleteClip(int clipId);
     void slotUpdateClip(int id);

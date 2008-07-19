@@ -132,7 +132,7 @@ void MyThread::run() {
 #define _G(y,u,v) (0x2568*(y) - 0x0c92*(v) - 0x1a1e*(u)) /0x2000
 #define _B(y,u,v) (0x2568*(y) + 0x40cf*(v))                                          /0x2000
 
-KThumb::KThumb(ClipManager *clipManager, KUrl url, QObject * parent, const char *name): QObject(parent), m_clipManager(clipManager), m_url(url) {
+KThumb::KThumb(ClipManager *clipManager, KUrl url, QObject * parent, const char *name): QObject(parent), m_clipManager(clipManager), m_url(url), m_producer(NULL) {
 
     m_profile = new Mlt::Profile((char*) KdenliveSettings::current_profile().data());
     QCryptographicHash context(QCryptographicHash::Sha1);
@@ -144,6 +144,10 @@ KThumb::KThumb(ClipManager *clipManager, KUrl url, QObject * parent, const char 
 KThumb::~KThumb() {
     if (m_profile) delete m_profile;
     if (thumbProducer.isRunning()) thumbProducer.exit();
+}
+
+void KThumb::setProducer(Mlt::Producer *producer) {
+    m_producer = producer;
 }
 
 void KThumb::updateClipUrl(KUrl url) {
@@ -158,23 +162,24 @@ QPixmap KThumb::getImage(KUrl url, int width, int height) {
 
 void KThumb::extractImage(int frame, int frame2) {
     if (m_url.isEmpty()) return;
-    char *tmp = Render::decodedString("<westley><playlist><producer resource=\"" + m_url.path() + "\" /></playlist></westley>");
+    if (m_producer == NULL) return;
+    /*char *tmp = Render::decodedString("<westley><playlist><producer resource=\"" + m_url.path() + "\" /></playlist></westley>");
     Mlt::Producer producer(*m_profile, "westley-xml", tmp);
-    delete[] tmp;
+    delete[] tmp;*/
 
     int twidth = (int)(KdenliveSettings::trackheight() * m_profile->dar());
-    if (producer.is_blank()) {
+    if (m_producer->is_blank()) {
         QPixmap pix(twidth, KdenliveSettings::trackheight());
         pix.fill(Qt::black);
         emit thumbReady(frame, pix);
         return;
     }
     if (frame != -1) {
-        QPixmap pix = getFrame(producer, frame, twidth, KdenliveSettings::trackheight());
+        QPixmap pix = getFrame(*m_producer, frame, twidth, KdenliveSettings::trackheight());
         emit thumbReady(frame, pix);
     }
     if (frame2 != -1) {
-        QPixmap pix = getFrame(producer, frame2, twidth , KdenliveSettings::trackheight());
+        QPixmap pix = getFrame(*m_producer, frame2, twidth , KdenliveSettings::trackheight());
         emit thumbReady(frame2, pix);
     }
 }

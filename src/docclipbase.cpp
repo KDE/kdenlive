@@ -23,7 +23,7 @@
 #include "clipmanager.h"
 
 DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, uint id):
-        m_id(id), m_description(QString()), m_refcount(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL) {
+        m_id(id), m_description(QString()), m_refcount(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL), m_clipProducer(NULL) {
     int type = xml.attribute("type").toInt();
     m_clipType = (CLIPTYPE) type;
     m_name = xml.attribute("name");
@@ -51,18 +51,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, uint id):
     //kDebug() << "type is video" << (m_clipType == AV) << " " << m_clipType;
 }
 
-
-
-DocClipBase::DocClipBase(const DocClipBase& clip) {
-    m_id = clip.getId();
-    m_clipType = clip.clipType();
-    m_name = clip.name();
-    m_duration = clip.duration();
-    m_audioThumbCreated = clip.audioThumbCreated();
-    m_properties = clip.properties();
-}
-
-DocClipBase & DocClipBase::operator=(const DocClipBase & clip) {
+/*DocClipBase & DocClipBase::operator=(const DocClipBase & clip) {
     DocClipBase::operator=(clip);
     m_id = clip.getId();
     m_clipType = clip.clipType();
@@ -71,10 +60,11 @@ DocClipBase & DocClipBase::operator=(const DocClipBase & clip) {
     m_audioThumbCreated = clip.audioThumbCreated();
     m_properties = clip.properties();
     return *this;
-}
+}*/
 
 DocClipBase::~DocClipBase() {
     if (m_thumbProd) delete m_thumbProd;
+    if (m_clipProducer) delete m_clipProducer;
 }
 
 void DocClipBase::slotCreateAudioTimer() {
@@ -364,6 +354,15 @@ QString DocClipBase::markerComment(GenTime t) {
         ++itt;
     }
     return QString::null;
+}
+
+void DocClipBase::setProducer(Mlt::Producer *producer) {
+    m_clipProducer = producer;
+    if (m_thumbProd) m_thumbProd->setProducer(producer);
+}
+
+Mlt::Producer *DocClipBase::producer() {
+    return m_clipProducer;
 }
 
 void DocClipBase::setProperties(QMap <QString, QString> properties) {

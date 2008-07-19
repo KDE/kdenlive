@@ -83,6 +83,10 @@
 #define ID_TIMELINE_POS 6
 #define ID_TIMELINE_FORMAT 7
 
+namespace Mlt {
+class Producer;
+};
+
 EffectsList MainWindow::videoEffects;
 EffectsList MainWindow::audioEffects;
 EffectsList MainWindow::customEffects;
@@ -381,7 +385,7 @@ void MainWindow::slotConnectMonitors() {
     connect(m_projectList, SIGNAL(showClipProperties(DocClipBase *)), this, SLOT(slotShowClipProperties(DocClipBase *)));
     connect(m_projectList, SIGNAL(getFileProperties(const QDomElement &, int)), m_clipMonitor->render, SLOT(getFileProperties(const QDomElement &, int)));
     connect(m_clipMonitor->render, SIGNAL(replyGetImage(int, int, const QPixmap &, int, int)), m_projectList, SLOT(slotReplyGetImage(int, int, const QPixmap &, int, int)));
-    connect(m_clipMonitor->render, SIGNAL(replyGetFileProperties(int, const QMap < QString, QString > &, const QMap < QString, QString > &)), m_projectList, SLOT(slotReplyGetFileProperties(int, const QMap < QString, QString > &, const QMap < QString, QString > &)));
+    connect(m_clipMonitor->render, SIGNAL(replyGetFileProperties(int, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &)), m_projectList, SLOT(slotReplyGetFileProperties(int, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &)));
     connect(m_clipMonitor, SIGNAL(refreshClipThumbnail(int)), m_projectList, SLOT(slotRefreshClipThumbnail(int)));
 }
 

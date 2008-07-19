@@ -42,7 +42,9 @@ class KdenliveDoc;
 class KThumb;
 class ClipManager;
 
-
+namespace Mlt {
+class Producer;
+};
 
 
 class DocClipBase: public QObject {
@@ -53,8 +55,7 @@ Q_OBJECT public:
      *   and video. */
 
     DocClipBase(ClipManager *clipManager, QDomElement xml, uint id);
-    DocClipBase(const DocClipBase& clip);
-    DocClipBase & operator=(const DocClipBase & clip);
+//    DocClipBase & operator=(const DocClipBase & clip);
     virtual ~ DocClipBase();
 
     /** sets the name of this clip. */
@@ -104,6 +105,9 @@ Q_OBJECT public:
     bool isDocClipAVFile() const {
         return false;
     }
+
+    void setProducer(Mlt::Producer *producer);
+    Mlt::Producer *producer();
 
     /*virtual DocClipAVFile *toDocClipAVFile() {
     return 0;
@@ -190,7 +194,7 @@ private:   // Private attributes
     /** The number of times this clip is used in the project - the number of references to this clip
      * that exist. */
     uint m_refcount;
-
+    Mlt::Producer *m_clipProducer;
     CLIPTYPE m_clipType;
 
     /** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */

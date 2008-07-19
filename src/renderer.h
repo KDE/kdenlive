@@ -91,6 +91,7 @@ Q_OBJECT public:
     be list. */
     void setSceneList(QDomDocument list, int position = 0);
     void setSceneList(QString playlist, int position = 0);
+    void setProducer(Mlt::Producer *producer, int position);
     QString sceneList();
     void saveSceneList(QString path, QDomElement kdenliveData = QDomElement());
 
@@ -147,8 +148,8 @@ Q_OBJECT public:
     const double dar() const;
 
     /** Playlist manipulation */
-    void mltInsertClip(ItemInfo info, QDomElement element);
-    void mltUpdateClip(ItemInfo info, QDomElement element);
+    void mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod);
+    void mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *prod);
     void mltCutClip(int track, GenTime position);
     void mltResizeClipEnd(int track, GenTime pos, GenTime in, GenTime out);
     void mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime moveStart, GenTime in, GenTime out);
@@ -180,9 +181,7 @@ private:   // Private attributes & methods
     uint m_monitorId;
     bool m_generateScenelist;
 
-    QList <Mlt::Producer *> m_producersList;
-    Mlt::Producer *getProducerById(const QString &id);
-    void parsePlaylistForClips();
+    Mlt::Producer *m_blackClip;
     /** Holds the path to on screen display profile */
     QString m_osdProfile;
 
@@ -213,7 +212,7 @@ private slots:  // Private slots
 
 signals:   // Signals
     /** emitted when the renderer recieves a reply to a getFileProperties request. */
-    void replyGetFileProperties(int clipId, const QMap < QString, QString > &, const QMap < QString, QString > &);
+    void replyGetFileProperties(int clipId, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &);
 
     /** emitted when the renderer recieves a reply to a getImage request. */
     void replyGetImage(int , int, const QPixmap &, int, int);

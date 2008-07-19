@@ -301,11 +301,7 @@ void Monitor::slotSetXml(DocClipBase *clip, const int position) {
     if (!clip) return;
     if (clip != m_currentClip) {
         m_currentClip = clip;
-        QDomDocument doc;
-        QDomElement westley = doc.createElement("westley");
-        doc.appendChild(westley);
-        westley.appendChild(doc.importNode(m_currentClip->toXML(), true));
-        render->setSceneList(doc, 0);
+        render->setProducer(clip->producer(), 0);
         m_ruler->slotNewValue(0);
         m_timePos->setText("00:00:00:00");
         m_position = 0;

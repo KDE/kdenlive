@@ -936,7 +936,7 @@ void CustomTrackView::dropEvent(QDropEvent * event) {
         info = m_dropItem->info();
         info.track = m_tracksList.count() - m_dropItem->track();
         // kDebug()<<"IIIIIIIIIIIIIIIIIIIIIIII TRAX CNT: "<<m_tracksList.count()<<", DROP: "<<m_dropItem->track();
-        m_document->renderer()->mltInsertClip(info, m_dropItem->xml());
+        m_document->renderer()->mltInsertClip(info, m_dropItem->xml(), m_dropItem->baseClip()->producer());
         m_document->setModified(true);
     } else QGraphicsView::dropEvent(event);
     m_dropItem = NULL;
@@ -1130,7 +1130,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                         new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), item->info(), false, false, moveClips);
                         ItemInfo info = item->info();
                         info.track = m_tracksList.count() - item->track();
-                        m_document->renderer()->mltInsertClip(info, clip->xml());
+                        m_document->renderer()->mltInsertClip(info, clip->xml(), clip->baseClip()->producer());
                     } else {
                         Transition *tr = static_cast <Transition*>(item);
                         ItemInfo transitionInfo = tr->info();
@@ -1301,7 +1301,7 @@ void CustomTrackView::addClip(QDomElement xml, int clipId, ItemInfo info) {
     baseclip->addReference();
     m_document->updateClip(baseclip->getId());
     info.track = m_tracksList.count() - info.track;
-    m_document->renderer()->mltInsertClip(info, xml);
+    m_document->renderer()->mltInsertClip(info, xml, baseclip->producer());
     m_document->renderer()->doRefresh();
 }
 
@@ -1315,7 +1315,7 @@ void CustomTrackView::slotUpdateClip(int clipId) {
                 clip->refreshClip();
                 ItemInfo info = clip->info();
                 info.track = m_tracksList.count() - clip->track();
-                m_document->renderer()->mltUpdateClip(info, clip->xml());
+                m_document->renderer()->mltUpdateClip(info, clip->xml(), clip->baseClip()->producer());
             }
         }
     }
