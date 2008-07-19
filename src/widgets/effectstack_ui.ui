@@ -101,6 +101,16 @@
           </spacer>
          </item>
          <item>
+          <widget class="QToolButton" name="buttonSave" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
+           <property name="text" >
+            <string>E</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QToolButton" name="buttonDel" >
            <property name="enabled" >
             <bool>false</bool>
