@@ -817,6 +817,7 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut) {
         newPos.track = info.track;
         item->resizeEnd(cutPos, m_scale);
         ClipItem *dup = new ClipItem(item->baseClip(), newPos, m_scale, m_document->fps());
+        dup->setEffectList(item->effectList());
         scene()->addItem(dup);
         m_document->renderer()->mltCutClip(m_tracksList.count() - info.track, cutTime);
         item->baseClip()->addReference();
@@ -928,7 +929,7 @@ void CustomTrackView::dragLeaveEvent(QDragLeaveEvent * event) {
 
 void CustomTrackView::dropEvent(QDropEvent * event) {
     if (m_dropItem) {
-        AddTimelineClipCommand *command = new AddTimelineClipCommand(this, m_dropItem->xml(), m_dropItem->clipProducer(), m_dropItem->info(), false, false);
+        AddTimelineClipCommand *command = new AddTimelineClipCommand(this, m_dropItem->xml(), m_dropItem->clipProducer(), m_dropItem->info(), m_dropItem->effectList(), false, false);
         m_commandStack->push(command);
         m_dropItem->baseClip()->addReference();
         m_document->updateClip(m_dropItem->baseClip()->getId());
@@ -1000,7 +1001,7 @@ void CustomTrackView::deleteClip(int clipId) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = (ClipItem *)itemList.at(i);
             if (item->clipProducer() == clipId) {
-                AddTimelineClipCommand *command = new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), true, true);
+                AddTimelineClipCommand *command = new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), true, true);
                 m_commandStack->push(command);
                 //delete item;
             }
@@ -1113,7 +1114,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                     info.track = info.track - trackOffset;
                     if (item->type() == AVWIDGET) {
                         ClipItem *clip = static_cast <ClipItem*>(item);
-                        new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), info, false, true, moveClips);
+                        new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), info, clip->effectList(), false, true, moveClips);
                         m_document->renderer()->mltRemoveClip(m_tracksList.count() - info.track, info.startPos);
                     } else {
                         Transition *tr = static_cast <Transition*>(item);
@@ -1127,7 +1128,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                     AbstractClipItem *item = m_selectedClipList.at(i);
                     if (item->type() == AVWIDGET) {
                         ClipItem *clip = static_cast <ClipItem*>(item);
-                        new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), item->info(), false, false, moveClips);
+                        new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), item->info(), clip->effectList(), false, false, moveClips);
                         ItemInfo info = item->info();
                         info.track = m_tracksList.count() - item->track();
                         m_document->renderer()->mltInsertClip(info, clip->xml(), clip->baseClip()->producer());
@@ -1263,7 +1264,7 @@ void CustomTrackView::deleteSelectedClips() {
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
-            new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), true, true, deleteSelected);
+            new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), true, true, deleteSelected);
         } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
             Transition *item = static_cast <Transition *>(itemList.at(i));
             ItemInfo info;
@@ -1294,14 +1295,18 @@ void CustomTrackView::cutSelectedClips() {
     }
 }
 
-void CustomTrackView::addClip(QDomElement xml, int clipId, ItemInfo info) {
+void CustomTrackView::addClip(QDomElement xml, int clipId, ItemInfo info, EffectsList effects) {
     DocClipBase *baseclip = m_document->clipManager()->getClipById(clipId);
     ClipItem *item = new ClipItem(baseclip, info, m_scale, m_document->fps());
+    item->setEffectList(effects);
     scene()->addItem(item);
     baseclip->addReference();
     m_document->updateClip(baseclip->getId());
     info.track = m_tracksList.count() - info.track;
     m_document->renderer()->mltInsertClip(info, xml, baseclip->producer());
+    for (int i = 0; i < item->effectsCount(); i++) {
+        m_document->renderer()->mltAddEffect(info.track, info.startPos, item->getEffectArgs(item->effectAt(i)), false);
+    }
     m_document->renderer()->doRefresh();
 }
 
@@ -2029,7 +2034,7 @@ void CustomTrackView::pasteClip() {
             info.cropStart = clip->cropStart();
             info.track = clip->track() + trackOffset;
             if (canBePastedTo(info, AVWIDGET)) {
-                new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), info, true, false, pasteClips);
+                new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), info, clip->effectList(), true, false, pasteClips);
             } else emit displayMessage(i18n("Cannot paste clip to selected place"), ErrorMessage);
         } else if (m_copiedItems.at(i) && m_copiedItems.at(i)->type() == TRANSITIONWIDGET) {
             Transition *tr = static_cast <Transition *>(m_copiedItems.at(i));

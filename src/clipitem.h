@@ -53,7 +53,7 @@ public:
     QString clipName() const;
     QDomElement xml() const;
     ClipItem *clone(double scale) const;
-
+    const EffectsList effectList();
     void setFadeOut(int pos, double scale);
     void setFadeIn(int pos, double scale);
     /** Give a string list of the clip's effect names */

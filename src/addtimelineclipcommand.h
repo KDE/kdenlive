@@ -29,18 +29,20 @@
 
 #include "gentime.h"
 #include "definitions.h"
+#include "effectslist.h"
 
 class CustomTrackView;
 
 class AddTimelineClipCommand : public QUndoCommand {
 public:
-    AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, int clipId, ItemInfo info, bool doIt, bool doRemove, QUndoCommand * parent = 0);
+    AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, int clipId, ItemInfo info, EffectsList effects, bool doIt, bool doRemove, QUndoCommand * parent = 0);
     virtual void undo();
     virtual void redo();
 
 private:
     CustomTrackView *m_view;
     ItemInfo m_clipInfo;
+    EffectsList m_effects;
     int m_clipId;
     QDomElement m_xml;
     bool m_doIt;

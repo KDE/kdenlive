@@ -31,6 +31,7 @@
 #include "kdenlivedoc.h"
 #include "docclipbase.h"
 #include "guide.h"
+#include "effectslist.h"
 
 class ClipItem;
 class AbstractClipItem;
@@ -54,7 +55,7 @@ public:
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo start, const ItemInfo end);
     void resizeClip(const ItemInfo start, const ItemInfo end);
-    void addClip(QDomElement xml, int clipId, ItemInfo info);
+    void addClip(QDomElement xml, int clipId, ItemInfo info, EffectsList list = EffectsList());
     void deleteClip(ItemInfo info);
     void slotAddClipMarker();
     void slotEditClipMarker();

@@ -45,6 +45,7 @@ QMap <QString, QString> EffectsList::effect(const QString & name) {
     return filter;
 }
 
+
 QDomElement EffectsList::getEffectByName(const QString & name) const {
     QString effectName;
     for (int i = 0; i < this->size(); ++i) {

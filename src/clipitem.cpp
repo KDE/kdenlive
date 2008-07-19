@@ -104,7 +104,12 @@ ClipItem *ClipItem::clone(double scale) const {
 }
 
 void ClipItem::setEffectList(const EffectsList effectList) {
-    //m_effectList = effectList.clone();
+    m_effectList = effectList;
+    m_effectNames = m_effectList.effectNames().join(" / ");
+}
+
+const EffectsList ClipItem::effectList() {
+    return m_effectList;
 }
 
 int ClipItem::selectedEffectIndex() const {

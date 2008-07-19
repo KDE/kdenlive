@@ -1145,7 +1145,19 @@ void Render::mltCutClip(int track, GenTime position) {
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     trackPlaylist.split_at((int) position.frames(m_fps));
     trackPlaylist.consolidate_blanks(0);
-    m_isBlocked = false;
+    // duplicate effects
+    Mlt::Producer *original = trackPlaylist.get_clip_at((int) position.frames(m_fps) - 1);
+    Mlt::Producer *clip = trackPlaylist.get_clip_at((int) position.frames(m_fps) + 1);
+    Mlt::Service clipService(original->get_service());
+    Mlt::Service dupService(clip->get_service());
+    int ct = 0;
+    Mlt::Filter *filter = clipService.filter(ct);
+    while (filter) {
+        Mlt::Filter *dup = new Mlt::Filter(filter->get_filter());
+        dupService.attach(*dup);
+        ct++;
+        filter = clipService.filter(ct);
+    }
 }
 
 void Render::mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *prod) {
