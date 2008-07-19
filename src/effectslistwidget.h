@@ -30,22 +30,23 @@ class EffectsListWidget : public KListWidget {
     Q_OBJECT
 
 public:
-    EffectsListWidget(QWidget *parent = 0);
+    EffectsListWidget(QMenu *menu, QWidget *parent = 0);
     virtual ~EffectsListWidget();
     QDomElement currentEffect();
     QString currentInfo();
     QDomElement itemEffect(QListWidgetItem *item);
+    void initList();
 
 protected:
     virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseMoveEvent(QMouseEvent *event);
     virtual void dragMoveEvent(QDragMoveEvent *event);
+    virtual void contextMenuEvent(QContextMenuEvent * event);
 
 private:
     bool m_dragStarted;
     QPoint m_DragStartPosition;
-    void initList();
-
+    QMenu *m_menu;
 };
 
 #endif

@@ -123,6 +123,7 @@ private:
     QDockWidget *overviewDock;
     CustomTrackView *m_overView;
 
+    QMenu *m_customEffectsMenu;
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
@@ -229,6 +230,8 @@ private slots:
     void slotCopy();
     void slotPaste();
     void slotPasteEffects();
+    void slotReloadEffects();
+
 };
 
 

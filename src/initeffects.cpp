@@ -121,7 +121,8 @@ Mlt::Repository *initEffects::parseEffectFiles() {
         fileList = directory.entryList(QDir::Files);
         for (it = fileList.begin() ; it != fileList.end() ; ++it) {
             itemName = KUrl(*more + *it).path();
-            parseEffectFile(&MainWindow::audioEffects, &MainWindow::videoEffects, itemName, filtersList, producersList);
+            if (itemName.endsWith(".xml"))
+                parseEffectFile(&MainWindow::customEffects, &MainWindow::audioEffects, &MainWindow::videoEffects, itemName, filtersList, producersList);
             // kDebug()<<"//  FOUND EFFECT FILE: "<<itemName<<endl;
         }
     }
@@ -134,10 +135,36 @@ Mlt::Repository *initEffects::parseEffectFiles() {
 }
 
 // static
-void initEffects::parseEffectFile(EffectsList *audioEffectList, EffectsList *videoEffectList, QString name, QStringList filtersList, QStringList producersList) {
+void initEffects::parseCustomEffectsFile() {
+    MainWindow::customEffects.clear();
+    QString path = KStandardDirs::locateLocal("data", "kdenlive/effects/", true);
+    QDir directory = QDir(path);
+    QStringList fileList = directory.entryList(QDir::Files);
+    QString itemName;
+    foreach(QString filename, fileList) {
+        itemName = KUrl(path + filename).path();
+        if (itemName.endsWith(".xml")) {
+            QDomDocument doc;
+            QFile file(itemName);
+            doc.setContent(&file, false);
+            file.close();
+            QDomNodeList effects = doc.elementsByTagName("effect");
+            if (effects.count() != 1) {
+                kDebug() << "More than one effect in file " << itemName << ", NOT SUPPORTED YET";
+            } else {
+                QDomElement e = effects.item(0).toElement();
+                MainWindow::customEffects.append(e);
+            }
+        }
+    }
+}
+
+// static
+void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, QString name, QStringList filtersList, QStringList producersList) {
     QDomDocument doc;
     QFile file(name);
     doc.setContent(&file, false);
+    file.close();
     QDomElement documentElement = doc.documentElement();
     QDomNodeList effects = doc.elementsByTagName("effect");
 
@@ -167,14 +194,11 @@ void initEffects::parseEffectFile(EffectsList *audioEffectList, EffectsList *vid
             QDomNode propsnode = documentElement.elementsByTagName("properties").item(0);
             if (!propsnode.isNull()) {
                 QDomElement propselement = propsnode.toElement();
-//     id = propselement.attribute("id", QString::null);
-//     effectTag = propselement.attribute("tag", QString::null);
-                if (propselement.attribute("type", QString::null) == "audio") isAudioEffect = true;
-                //else if (propselement.attribute("type", QString::null) == "custom") type = CUSTOMEFFECT;
-                //else type = VIDEOEFFECT;
-            }
-            if (isAudioEffect) audioEffectList->append(documentElement);
-            else videoEffectList->append(documentElement);
+                QString type = propselement.attribute("type", QString::null);
+                if (type == "audio") audioEffectList->append(documentElement);
+                else if (type == "custom") customEffectList->append(documentElement);
+                else videoEffectList->append(documentElement);
+            } else videoEffectList->append(documentElement);
         }
 
         /*
@@ -521,7 +545,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 //thumbnailer.prepareThumbnailsCall(imagelist);
 
             } else if (name == "composite") {
-                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "0;0;100;100;100", "0;0;100;100;100", "0;0;100;100;100"));
+                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "0;0;100;100;100", "-500;-500;-500;-500;0", "500;500;500;500;100"));
                 tname.appendChild(ret.createTextNode("Composite"));
 
                 QDomDocument ret1;
@@ -574,11 +598,12 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
         */
     }
 
-    QString wipetrans = "<ktransition tag=\"composite\" ><name>Wipe</name> <parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>Direction</name>                                               </parameter><parameter tag=\"reverse\" default=\"0\" type=\"bool\" min=\"0\" name=\"reverse\" max=\"1\" ><name>Reverse Transition</name></parameter></ktransition>";
+    QString wipetrans = "<ktransition tag=\"composite\" ><name>Wipe</name><parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>Direction</name>                                               </parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>Align</name></parameter></ktransition>";
     QDomDocument ret;
     ret.setContent(wipetrans);
     transitions->append(ret.documentElement());
 }
+
 QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def, QString min, QString max, QString list, QString listdisplaynames, QString factor, QString namedesc, QString format) {
     QDomElement parameter = doc.createElement("parameter");
     parameter.setAttribute("tag", tag);

@@ -17,9 +17,13 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include <QMenu>
+#include <QMenu>
+#include <QDir>
 
 #include <KDebug>
 #include <KLocale>
+#include <KStandardDirs>
 
 #include "effectslistview.h"
 #include "effectslistwidget.h"
@@ -27,14 +31,17 @@
 
 EffectsListView::EffectsListView(QWidget *parent)
         : QWidget(parent) {
-    m_effectsList = new EffectsListWidget();
-
     ui.setupUi(this);
+
+    QMenu *menu = new QMenu(this);
+    m_effectsList = new EffectsListWidget(menu);
     QVBoxLayout *lyr = new QVBoxLayout(ui.effectlistframe);
     lyr->addWidget(m_effectsList);
+    lyr->setContentsMargins(0, 0, 0, 0);
     ui.search_effect->setListWidget(m_effectsList);
     ui.buttonInfo->setIcon(KIcon("help-about"));
     ui.infopanel->hide();
+    menu->addAction(KIcon("edit-delete"), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
 
     connect(ui.type_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(filterList(int)));
     connect(ui.buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
@@ -85,6 +92,40 @@ void EffectsListView::slotUpdateInfo() {
 
 KListWidget *EffectsListView::listView() {
     return m_effectsList;
+}
+
+void EffectsListView::reloadEffectList() {
+    m_effectsList->initList();
+}
+
+void EffectsListView::slotRemoveEffect() {
+    QListWidgetItem *item = m_effectsList->currentItem();
+    QString effectId = item->text();
+    QString path = KStandardDirs::locateLocal("data", "kdenlive/effects/", true);
+
+    QDir directory = QDir(path);
+    QStringList fileList = directory.entryList(QDir::Files);
+    QString itemName;
+    foreach(QString filename, fileList) {
+        itemName = KUrl(path + filename).path();
+        if (itemName.endsWith(".xml")) {
+            QDomDocument doc;
+            QFile file(itemName);
+            doc.setContent(&file, false);
+            file.close();
+            QDomNodeList effects = doc.elementsByTagName("effect");
+            if (effects.count() != 1) {
+                kDebug() << "More than one effect in file " << itemName << ", NOT SUPPORTED YET";
+            } else {
+                QDomElement e = effects.item(0).toElement();
+                if (e.attribute("id") == effectId) {
+                    QFile::remove(itemName);
+                    break;
+                }
+            }
+        }
+    }
+    emit reloadEffects();
 }
 
 #include "effectslistview.moc"

@@ -51,7 +51,8 @@ public:
     static QDomDocument createDescriptionFromMlt(Mlt::Repository* repository, const QString& type, const QString& name);
     static void fillTransitionsList(Mlt::Repository *, EffectsList* transitions, QStringList names);
     static QDomElement quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def = QString(), QString min = QString(), QString max = QString(), QString list = QString(), QString listdisplaynames = QString(), QString factor = QString(), QString namedesc = QString(), QString format = QString());
-    static void parseEffectFile(EffectsList *audioEffectList, EffectsList *videoEffectList, QString name, QStringList filtersList, QStringList producersList);
+    static void parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, QString name, QStringList filtersList, QStringList producersList);
+    static void parseCustomEffectsFile();
     static char* ladspaEffectString(int ladspaId, QStringList params);
     static void ladspaEffectFile(const QString & fname, int ladspaId, QStringList params);
 

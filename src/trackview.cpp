@@ -370,9 +370,10 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                         }
 
                         // get effect standard tags
-                        QDomElement clipeffect = MainWindow::videoEffects.getEffectByTag(effecttag, effectid);
+                        QDomElement clipeffect = MainWindow::customEffects.getEffectByTag(QString(), effectid);
+                        if (clipeffect.isNull()) clipeffect = MainWindow::videoEffects.getEffectByTag(effecttag, effectid);
                         if (clipeffect.isNull()) clipeffect = MainWindow::audioEffects.getEffectByTag(effecttag, effectid);
-                        if (clipeffect.isNull()) clipeffect = MainWindow::customEffects.getEffectByTag(effecttag, effectid);
+
                         clipeffect.setAttribute("kdenlive_ix", effectindex);
                         QDomNodeList clipeffectparams = clipeffect.childNodes();
 

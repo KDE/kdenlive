@@ -15,15 +15,22 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QHeaderView>
+#include <QMenu>
+#include <QInputDialog>
+#include <QTextStream>
+#include <QFile>
+
 #include <KDebug>
 #include <KLocale>
+#include <KMessageBox>
+#include <KStandardDirs>
 
 #include "effectstackview.h"
 #include "effectslist.h"
 #include "clipitem.h"
 #include "mainwindow.h"
-#include <QHeaderView>
-#include <QMenu>
+
 
 EffectStackView::EffectStackView(QWidget *parent)
         : QWidget(parent) {
@@ -41,6 +48,8 @@ EffectStackView::EffectStackView(QWidget *parent)
     ui.buttonDown->setToolTip(i18n("Move effect down"));
     ui.buttonDel->setIcon(KIcon("trash-empty"));
     ui.buttonDel->setToolTip(i18n("Delete effect"));
+    ui.buttonSave->setIcon(KIcon("document-save"));
+    ui.buttonSave->setToolTip(i18n("Save effect"));
     ui.buttonReset->setIcon(KIcon("view-refresh"));
     ui.buttonReset->setToolTip(i18n("Reset effect"));
 
@@ -53,6 +62,7 @@ EffectStackView::EffectStackView(QWidget *parent)
     connect(ui.buttonUp, SIGNAL(clicked()), this, SLOT(slotItemUp()));
     connect(ui.buttonDown, SIGNAL(clicked()), this, SLOT(slotItemDown()));
     connect(ui.buttonDel, SIGNAL(clicked()), this, SLOT(slotItemDel()));
+    connect(ui.buttonSave, SIGNAL(clicked()), this, SLOT(slotSaveEffect()));
     connect(ui.buttonReset, SIGNAL(clicked()), this, SLOT(slotResetEffect()));
     connect(this, SIGNAL(transferParamDesc(const QDomElement&, int , int)), effectedit , SLOT(transferParamDesc(const QDomElement&, int , int)));
     connect(effectedit, SIGNAL(parameterChanged(const QDomElement&, const QDomElement&)), this , SLOT(slotUpdateEffectParams(const QDomElement&, const QDomElement&)));
@@ -62,6 +72,40 @@ EffectStackView::EffectStackView(QWidget *parent)
 
     ui.infoBox->hide();
     setEnabled(false);
+}
+
+void EffectStackView::slotSaveEffect() {
+    QString name = QInputDialog::getText(this, i18n("Save Effect"), i18n("Name for saved effect: "));
+    if (name.isEmpty()) return;
+    QString path = KStandardDirs::locateLocal("data", "kdenlive/effects/", true);
+    path = path + name + ".xml";
+    if (QFile::exists(path)) if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) == KMessageBox::No) return;
+
+    int i = ui.effectlist->currentRow();
+    QDomDocument doc;
+    QDomElement effect = clipref->effectAt(i).cloneNode().toElement();
+    doc.appendChild(doc.importNode(effect, true));
+    effect = doc.firstChild().toElement();
+    effect.removeAttribute("kdenlive_ix");
+    effect.setAttribute("id", name);
+    QDomElement effectname = effect.firstChildElement("name");
+    effect.removeChild(effectname);
+    effectname = doc.createElement("name");
+    QDomText nametext = doc.createTextNode(name);
+    effectname.appendChild(nametext);
+    effect.insertBefore(effectname, QDomNode());
+    QDomElement effectprops = effect.firstChildElement("properties");
+    effectprops.setAttribute("id", name);
+    effectprops.setAttribute("type", "custom");
+
+
+    QFile file(path);
+    if (file.open(QFile::WriteOnly | QFile::Truncate)) {
+        QTextStream out(&file);
+        out << doc.toString();
+    }
+    file.close();
+    emit reloadEffects();
 }
 
 void EffectStackView::slotUpdateEffectParams(const QDomElement& old, const QDomElement& e) {
@@ -109,21 +153,35 @@ void EffectStackView::setupListView(int ix) {
             else item->setCheckState(Qt::Checked);
         }
     }
-    if (clipref->effectsCount() == 0)
+    if (clipref->effectsCount() == 0) {
         emit transferParamDesc(QDomElement(), 0, 100);
-    if (ix < 0) ix = 0;
-    ui.effectlist->setCurrentRow(ix);
+        ui.buttonDel->setEnabled(false);
+        ui.buttonSave->setEnabled(false);
+        ui.buttonReset->setEnabled(false);
+        ui.buttonUp->setEnabled(false);
+        ui.buttonDown->setEnabled(false);
+    } else {
+        if (ix < 0) ix = 0;
+        ui.effectlist->setCurrentRow(ix);
+        ui.buttonDel->setEnabled(true);
+        ui.buttonSave->setEnabled(true);
+        ui.buttonReset->setEnabled(true);
+        ui.buttonUp->setEnabled(ix > 0);
+        ui.buttonDown->setEnabled(ix < clipref->effectsCount() - 1);
+    }
 }
 
 void EffectStackView::slotItemSelectionChanged() {
     bool hasItem = ui.effectlist->currentItem();
     int activeRow = ui.effectlist->currentRow();
-    bool isChecked = ui.effectlist->currentItem()->checkState() == Qt::Checked;
+    bool isChecked = false;
+    if (hasItem && ui.effectlist->currentItem()->checkState() == Qt::Checked) isChecked = true;
     if (hasItem && ui.effectlist->currentItem()->isSelected()) {
         emit transferParamDesc(clipref->effectAt(activeRow), 0, 100);//minx max frame
     }
     if (clipref) clipref->setSelectedEffect(activeRow);
     ui.buttonDel->setEnabled(hasItem);
+    ui.buttonSave->setEnabled(hasItem);
     ui.buttonReset->setEnabled(hasItem && isChecked);
     ui.buttonUp->setEnabled(activeRow > 0);
     ui.buttonDown->setEnabled((activeRow < ui.effectlist->count() - 1) && hasItem);
@@ -166,6 +224,7 @@ void EffectStackView::slotItemDel() {
 
 void EffectStackView::slotResetEffect() {
     int activeRow = ui.effectlist->currentRow();
+    if (activeRow < 0) return;
     QDomElement old = clipref->effectAt(activeRow).cloneNode().toElement();
     QDomElement dom;
     QString effectName = ui.effectlist->currentItem()->text();

@@ -2055,7 +2055,7 @@ void CustomTrackView::pasteClipEffects() {
         emit displayMessage(i18n("You must copy exactly one clip before pasting effects"), ErrorMessage);
         return;
     }
-    ClipItem *clip = static_cast < ClipItem *> (m_copiedItems.at(0));
+    ClipItem *clip = static_cast < ClipItem *>(m_copiedItems.at(0));
     EffectsList effects = clip->effectList();
 
     QUndoCommand *paste = new QUndoCommand();
@@ -2063,12 +2063,12 @@ void CustomTrackView::pasteClipEffects() {
 
     QList<QGraphicsItem *> clips = scene()->selectedItems();
     for (int i = 0; i < clips.count(); ++i) {
-	if (clips.at(i)->type() == AVWIDGET) {
-	    ClipItem *item = static_cast < ClipItem *> (clips.at(i));
-	    for (int i = 0; i < clip->effectsCount(); i++) {
-		new AddEffectCommand(this, m_tracksList.count() - item->track(), item->startPos(), clip->effectAt(i), true, paste);
-	    }
-	}
+        if (clips.at(i)->type() == AVWIDGET) {
+            ClipItem *item = static_cast < ClipItem *>(clips.at(i));
+            for (int i = 0; i < clip->effectsCount(); i++) {
+                new AddEffectCommand(this, m_tracksList.count() - item->track(), item->startPos(), clip->effectAt(i), true, paste);
+            }
+        }
     }
     m_commandStack->push(paste);
 }

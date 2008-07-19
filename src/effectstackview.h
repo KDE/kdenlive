@@ -35,7 +35,7 @@ private:
     QMap<QString, EffectsList*> effectLists;
     EffectStackEdit* effectedit;
     void setupListView(int ix);
-    void updateButtonStatus();
+    //void updateButtonStatus();
 
 public slots:
     void slotClipItemSelected(ClipItem*);
@@ -49,6 +49,7 @@ private slots:
     void slotNewEffect();
     void slotResetEffect();
     void slotItemChanged(QListWidgetItem *item);
+    void slotSaveEffect();
 
 signals:
     void transferParamDesc(const QDomElement&, int , int);
@@ -62,6 +63,8 @@ signals:
     void changeEffectState(ClipItem*, int, bool);
     /** An effect in stack was moved */
     void changeEffectPosition(ClipItem*, int, int);
+    /** an effect was saved, reload list */
+    void reloadEffects();
 
 };
 

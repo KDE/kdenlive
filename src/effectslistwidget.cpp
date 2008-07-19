@@ -19,6 +19,7 @@
 
 #include "QApplication"
 #include "QMouseEvent"
+#include <QMenu>
 
 #include "KDebug"
 
@@ -30,8 +31,8 @@
 #define EFFECT_AUDIO 2
 #define EFFECT_CUSTOM 3
 
-EffectsListWidget::EffectsListWidget(QWidget *parent)
-        : KListWidget(parent) {
+EffectsListWidget::EffectsListWidget(QMenu *menu, QWidget *parent)
+        : KListWidget(parent), m_menu(menu) {
     //setSelectionMode(QAbstractItemView::ExtendedSelection);
     //setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(true);
@@ -157,6 +158,10 @@ void EffectsListWidget::dragMoveEvent(QDragMoveEvent * event) {
     //}
 }
 
-
+//virtual
+void EffectsListWidget::contextMenuEvent(QContextMenuEvent * event) {
+    QListWidgetItem *item = itemAt(event->pos());
+    if (item && item->data(Qt::UserRole).toInt() == EFFECT_CUSTOM) m_menu->popup(event->globalPos());
+}
 
 #include "effectslistwidget.moc"

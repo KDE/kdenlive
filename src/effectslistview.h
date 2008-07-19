@@ -37,6 +37,7 @@ class EffectsListView : public QWidget {
 public:
     EffectsListView(QWidget *parent = 0);
     KListWidget *listView();
+    void reloadEffectList();
     //void slotAddEffect(GenTime pos, int track, QString name);
 
 private:
@@ -48,11 +49,13 @@ private slots:
     void slotUpdateInfo();
     void showInfoPanel();
     void slotEffectSelected();
+    void slotRemoveEffect();
 
 public slots:
 
 signals:
     void addEffect(QDomElement);
+    void reloadEffects();
 };
 
 #endif

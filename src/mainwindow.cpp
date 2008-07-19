@@ -210,12 +210,12 @@ MainWindow::MainWindow(QWidget *parent)
         action->setData(name);
         audioEffectsMenu->addAction(action);
     }
-    QMenu *customEffectsMenu = static_cast<QMenu*>(factory()->container("custom_effects_menu", this));
+    m_customEffectsMenu = static_cast<QMenu*>(factory()->container("custom_effects_menu", this));
     effects = customEffects.effectNames();
     foreach(const QString &name, effects) {
         action = new QAction(name, this);
         action->setData(name);
-        customEffectsMenu->addAction(action);
+        m_customEffectsMenu->addAction(action);
     }
 
     QMenu *viewMenu = static_cast<QMenu*>(factory()->container("dockwindows", this));
@@ -224,7 +224,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(videoEffectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddVideoEffect(QAction *)));
     connect(audioEffectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddAudioEffect(QAction *)));
-    connect(customEffectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddCustomEffect(QAction *)));
+    connect(m_customEffectsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddCustomEffect(QAction *)));
 
     m_timelineContextMenu = new QMenu(this);
     m_timelineContextClipMenu = new QMenu(this);
@@ -252,7 +252,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_timelineContextClipMenu->addMenu(transitionsMenu);
     m_timelineContextClipMenu->addMenu(videoEffectsMenu);
     m_timelineContextClipMenu->addMenu(audioEffectsMenu);
-    m_timelineContextClipMenu->addMenu(customEffectsMenu);
+    m_timelineContextClipMenu->addMenu(m_customEffectsMenu);
 
     m_timelineContextTransitionMenu->addAction(actionCollection()->action("delete_timeline_clip"));
     m_timelineContextTransitionMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
@@ -262,6 +262,8 @@ MainWindow::MainWindow(QWidget *parent)
     //connect(m_monitorManager, SIGNAL(connectMonitors()), this, SLOT(slotConnectMonitors()));
     connect(m_monitorManager, SIGNAL(raiseClipMonitor(bool)), this, SLOT(slotRaiseMonitor(bool)));
     connect(m_effectList, SIGNAL(addEffect(QDomElement)), this, SLOT(slotAddEffect(QDomElement)));
+    connect(m_effectList, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
+
     m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor);
     slotConnectMonitors();
 
@@ -307,6 +309,19 @@ void MainWindow::readProperties(KConfig *config) {
     // read properties here,used by session management
     QString Lastproject = config->group("Recent Files").readPathEntry("File1", QString());
     openFile(KUrl(Lastproject));
+}
+
+void MainWindow::slotReloadEffects() {
+    initEffects::parseCustomEffectsFile();
+    m_customEffectsMenu->clear();
+    QStringList effects = customEffects.effectNames();
+    QAction *action;
+    foreach(const QString &name, effects) {
+        action = new QAction(name, this);
+        action->setData(name);
+        m_customEffectsMenu->addAction(action);
+    }
+    m_effectList->reloadEffectList();
 }
 
 void MainWindow::activateShuttleDevice() {
@@ -1012,6 +1027,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(effectStack, SIGNAL(changeEffectState(ClipItem*, int, bool)), m_activeTimeline->projectView(), SLOT(slotChangeEffectState(ClipItem*, int, bool)));
             disconnect(effectStack, SIGNAL(changeEffectPosition(ClipItem*, int, int)), trackView->projectView(), SLOT(slotChangeEffectPosition(ClipItem*, int, int)));
             disconnect(effectStack, SIGNAL(refreshEffectStack(ClipItem*)), m_activeTimeline->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
+            disconnect(effectStack, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
             disconnect(transitionConfig, SIGNAL(transitionUpdated(Transition *, QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(Transition *, QDomElement)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(activateMonitor()));
         }
@@ -1057,6 +1073,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(effectStack, SIGNAL(changeEffectPosition(ClipItem*, int, int)), trackView->projectView(), SLOT(slotChangeEffectPosition(ClipItem*, int, int)));
     connect(effectStack, SIGNAL(refreshEffectStack(ClipItem*)), trackView->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
     connect(transitionConfig, SIGNAL(transitionUpdated(Transition *, QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(Transition *, QDomElement)));
+    connect(effectStack, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
+
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(activateMonitor()));
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu);
     m_activeTimeline = trackView;

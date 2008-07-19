@@ -56,7 +56,8 @@ QDomElement EffectsList::getEffectByName(const QString & name) const {
             QDomNodeList params = effect.elementsByTagName("parameter");
             for (int i = 0; i < params.count(); i++) {
                 QDomElement e = params.item(i).toElement();
-                e.setAttribute("value", e.attribute("default"));
+                if (!e.hasAttribute("value"))
+                    e.setAttribute("value", e.attribute("default"));
             }
             return effect;
         }
@@ -73,23 +74,25 @@ QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id)
                 QDomNodeList params = effect.elementsByTagName("parameter");
                 for (int i = 0; i < params.count(); i++) {
                     QDomElement e = params.item(i).toElement();
-                    e.setAttribute("value", e.attribute("default"));
+                    if (!e.hasAttribute("value"))
+                        e.setAttribute("value", e.attribute("default"));
                 }
                 return effect;
             }
         }
 
-    for (int i = 0; i < this->size(); ++i) {
-        QDomElement effect =  this->at(i);
-        if (effect.attribute("tag") == tag) {
-            QDomNodeList params = effect.elementsByTagName("parameter");
-            for (int i = 0; i < params.count(); i++) {
-                QDomElement e = params.item(i).toElement();
-                e.setAttribute("value", e.attribute("default"));
+    if (!tag.isEmpty()) for (int i = 0; i < this->size(); ++i) {
+            QDomElement effect =  this->at(i);
+            if (effect.attribute("tag") == tag) {
+                QDomNodeList params = effect.elementsByTagName("parameter");
+                for (int i = 0; i < params.count(); i++) {
+                    QDomElement e = params.item(i).toElement();
+                    if (!e.hasAttribute("value"))
+                        e.setAttribute("value", e.attribute("default"));
+                }
+                return effect;
             }
-            return effect;
         }
-    }
 
     return QDomElement();
 }
