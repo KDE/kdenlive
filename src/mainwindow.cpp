@@ -245,6 +245,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_timelineContextClipMenu->addAction(actionCollection()->action("delete_timeline_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("cut_timeline_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
+    m_timelineContextClipMenu->addAction(actionCollection()->action("paste_effects"));
 
     QMenu *markersMenu = (QMenu*)(factory()->container("marker_menu", this));
     m_timelineContextClipMenu->addMenu(markersMenu);
@@ -643,6 +644,10 @@ void MainWindow::setupActions() {
     QAction *delAllGuides = new KAction(KIcon("edit-delete"), i18n("Delete All Guides"), this);
     actionCollection()->addAction("delete_all_guides", delAllGuides);
     connect(delAllGuides, SIGNAL(triggered()), this, SLOT(slotDeleteAllGuides()));
+
+    QAction *pasteEffects = new KAction(KIcon("edit-paste"), i18n("Paste Effects"), this);
+    actionCollection()->addAction("paste_effects", pasteEffects);
+    connect(pasteEffects , SIGNAL(triggered()), this, SLOT(slotPasteEffects()));
 
     KStandardAction::quit(this, SLOT(queryQuit()),
                           actionCollection());
@@ -1324,6 +1329,11 @@ void MainWindow::slotCopy() {
 void MainWindow::slotPaste() {
     if (!m_activeDocument || !m_activeTimeline) return;
     m_activeTimeline->projectView()->pasteClip();
+}
+
+void MainWindow::slotPasteEffects() {
+    if (!m_activeDocument || !m_activeTimeline) return;
+    m_activeTimeline->projectView()->pasteClipEffects();
 }
 
 void MainWindow::slotFind() {

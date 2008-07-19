@@ -228,6 +228,7 @@ private slots:
 
     void slotCopy();
     void slotPaste();
+    void slotPasteEffects();
 };
 
 

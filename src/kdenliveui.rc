@@ -8,6 +8,7 @@
 
   <MenuBar>
     <Menu name="edit" >
+      <Action name="paste_effects" />
       <Action name="project_find" />
       <Action name="project_find_next" />
     </Menu>

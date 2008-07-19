@@ -119,6 +119,7 @@ public slots:
     void editGuide(const GenTime oldPos, const GenTime pos, const QString &comment);
     void copyClip();
     void pasteClip();
+    void pasteClipEffects();
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);

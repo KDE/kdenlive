@@ -22,8 +22,7 @@
 #include "addeffectcommand.h"
 #include "customtrackview.h"
 
-AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement effect, bool doIt)
-        : m_view(view), m_track(track), m_pos(pos), m_effect(effect), m_doIt(doIt) {
+AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement effect, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_track(track), m_pos(pos), m_effect(effect), m_doIt(doIt) {
     QString effectName;
     QDomNode namenode = effect.elementsByTagName("name").item(0);
     if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());
