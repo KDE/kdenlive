@@ -437,6 +437,10 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
                 char *tmp = decodedString(xml.attribute("luma_file"));
                 filter->set("luma.resource", tmp);
                 delete[] tmp;
+		if (xml.hasAttribute("softness")) {
+		    int soft = xml.attribute("softness").toInt();
+		    filter->set("luma.softness", (double) soft / 100.0);
+		}
             }
             Mlt::Service clipService(producer->get_service());
             clipService.attach(*filter);

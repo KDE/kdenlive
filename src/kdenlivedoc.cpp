@@ -646,8 +646,8 @@ void KdenliveDoc::slotAddColorClipFile(const QString name, const QString color, 
     setModified(true);
 }
 
-void KdenliveDoc::slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const QString group, const int groupId) {
-    m_clipManager->slotAddSlideshowClipFile(name, path, count, duration, loop, fade, luma_duration, luma_file, group, groupId);
+void KdenliveDoc::slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const int softness, const QString group, const int groupId) {
+    m_clipManager->slotAddSlideshowClipFile(name, path, count, duration, loop, fade, luma_duration, luma_file, softness, group, groupId);
     setModified(true);
 }
 

@@ -83,6 +83,8 @@ void SlideshowClip::slotEnableLumaFile(int state) {
     bool enable = false;
     if (state == Qt::Checked) enable = true;
     m_view.luma_file->setEnabled(enable);
+    m_view.luma_softness->setEnabled(enable);
+    m_view.label_softness->setEnabled(enable);
 }
 
 void SlideshowClip::parseFolder() {
@@ -148,6 +150,10 @@ QString SlideshowClip::clipDuration() const {
 
 int SlideshowClip::imageCount() const {
     return m_count;
+}
+
+int SlideshowClip::softness() const {
+    return m_view.luma_softness->value();
 }
 
 bool SlideshowClip::loop() const {

@@ -42,6 +42,7 @@ public:
     bool loop() const;
     bool fade() const;
     QString lumaFile() const;
+    int softness() const;
 
 private slots:
     void parseFolder();

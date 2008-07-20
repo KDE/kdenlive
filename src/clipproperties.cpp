@@ -72,6 +72,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.image_type->addItems(types);
         m_view.slide_loop->setChecked(props.value("loop").toInt());
         m_view.slide_fade->setChecked(props.value("fade").toInt());
+        m_view.luma_softness->setValue(props.value("softness").toInt());
         QString path = props.value("resource");
         if (path.endsWith("png")) m_view.image_type->setCurrentIndex(TYPE_PNG);
         else if (path.endsWith("bmp")) m_view.image_type->setCurrentIndex(TYPE_BMP);

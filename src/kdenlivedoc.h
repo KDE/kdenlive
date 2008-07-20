@@ -73,7 +73,7 @@ Q_OBJECT public:
     void slotDeleteFolder(const QString folderName, const int id);
     void slotEditFolder(const QString folderName, const QString oldfolderName, int clipId);
     void slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const int groupId = -1);
-    void slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const QString group, const int groupId = -1);
+    void slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const int softness, const QString group, const int groupId = -1);
     void deleteClip(const uint clipId);
     int getFramePos(QString duration);
     DocClipBase *getBaseClip(int clipId);

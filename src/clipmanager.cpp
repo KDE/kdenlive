@@ -131,7 +131,7 @@ void ClipManager::slotAddColorClipFile(const QString name, const QString color, 
     m_doc->commandStack()->push(command);
 }
 
-void ClipManager::slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, QString group, const int groupId) {
+void ClipManager::slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const int softness, QString group, const int groupId) {
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
     prod.setAttribute("resource", path);
@@ -145,6 +145,7 @@ void ClipManager::slotAddSlideshowClipFile(const QString name, const QString pat
     prod.setAttribute("name", name);
     prod.setAttribute("loop", loop);
     prod.setAttribute("fade", fade);
+    prod.setAttribute("softness", QString::number(softness));
     prod.setAttribute("luma_file", luma_file);
     if (!group.isEmpty()) {
         prod.setAttribute("groupname", group);

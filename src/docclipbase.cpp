@@ -398,6 +398,10 @@ void DocClipBase::slotRefreshProducer() {
                 char *tmp = (char *) qstrdup(resource.toUtf8().data());
                 filter->set("luma.resource", tmp);
                 delete[] tmp;
+		if (getProperty("softness") != QString()) {
+		    int soft = getProperty("softness").toInt();
+		    filter->set("luma.softness", (double) soft / 100.0);
+		}
             } else {
                 // filter does not exist, create it...
                 Mlt::Filter *filter = new Mlt::Filter(*(m_clipProducer->profile()), "luma");
@@ -407,6 +411,10 @@ void DocClipBase::slotRefreshProducer() {
                 char *tmp = (char *) qstrdup(resource.toUtf8().data());
                 filter->set("luma.resource", tmp);
                 delete[] tmp;
+		if (getProperty("softness") != QString()) {
+		    int soft = getProperty("softness").toInt();
+		    filter->set("luma.softness", (double) soft / 100.0);
+		}
                 clipService.attach(*filter);
             }
         } else {
@@ -430,7 +438,7 @@ void DocClipBase::setProperties(QMap <QString, QString> properties) {
     QMapIterator<QString, QString> i(properties);
     bool refreshProducer = false;
     QStringList keys;
-    keys << "luma_duration" << "luma_file" << "fade" << "ttl";
+    keys << "luma_duration" << "luma_file" << "fade" << "ttl" << "softness";
     while (i.hasNext()) {
         i.next();
         m_properties.insert(i.key(), i.value());

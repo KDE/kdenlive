@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>315</width>
-    <height>440</height>
+    <height>469</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -108,8 +108,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>288</width>
-        <height>210</height>
+        <width>299</width>
+        <height>223</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -192,8 +192,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>288</width>
-        <height>210</height>
+        <width>299</width>
+        <height>223</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -269,8 +269,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>288</width>
-        <height>210</height>
+        <width>299</width>
+        <height>223</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -308,7 +308,7 @@
         <x>0</x>
         <y>0</y>
         <width>299</width>
-        <height>194</height>
+        <height>223</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -370,14 +370,14 @@
        <item row="4" column="1" >
         <widget class="KComboBox" name="luma_file" />
        </item>
-       <item row="5" column="0" colspan="2" >
+       <item row="6" column="0" colspan="2" >
         <widget class="QLabel" name="slide_info" >
          <property name="text" >
           <string>No image found</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="1" >
+       <item row="7" column="1" >
         <spacer name="verticalSpacer_6" >
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
@@ -390,6 +390,23 @@
          </property>
         </spacer>
        </item>
+       <item row="5" column="1" >
+        <widget class="QSlider" name="luma_softness" >
+         <property name="maximum" >
+          <number>100</number>
+         </property>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" >
+        <widget class="QLabel" name="label_15" >
+         <property name="text" >
+          <string>Softness</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tab_3" >
@@ -397,8 +414,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>288</width>
-        <height>210</height>
+        <width>299</width>
+        <height>223</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -475,8 +492,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>288</width>
-        <height>210</height>
+        <width>299</width>
+        <height>223</height>
        </rect>
       </property>
       <attribute name="title" >
