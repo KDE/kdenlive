@@ -365,16 +365,80 @@ Mlt::Producer *DocClipBase::producer() {
     return m_clipProducer;
 }
 
+void DocClipBase::slotRefreshProducer() {
+    if (m_clipProducer == NULL) return;
+    kDebug() << "////////////   REFRESH CLIP !!!!!!!!!!!!!!!!";
+    if (m_clipType == SLIDESHOW) {
+        /*char *tmp = (char *) qstrdup(getProperty("resource").toUtf8().data());
+               Mlt::Producer producer(*(m_clipProducer->profile()), tmp);
+               delete[] tmp;
+        delete m_clipProducer;
+        m_clipProducer = new Mlt::Producer(producer.get_producer());
+        if (!getProperty("out").isEmpty()) m_clipProducer->set_in_and_out(getProperty("in").toInt(), getProperty("out").toInt());*/
+        m_clipProducer->set("ttl", getProperty("ttl").toInt());
+        //m_clipProducer->set("id", getProperty("id"));
+        if (getProperty("fade") == "1") {
+            // we want a fade filter effect
+            kDebug() << "////////////   FADE WANTED";
+            Mlt::Service clipService(m_clipProducer->get_service());
+            int ct = 0;
+            Mlt::Filter *filter = clipService.filter(ct);
+            while (filter) {
+                if (filter->get("mlt_service") == "luma") {
+                    break;
+                }
+                ct++;
+                filter = clipService.filter(ct);
+            }
+
+            if (filter && filter->get("mlt_service") == "luma") {
+                filter->set("period", getProperty("ttl").toInt() - 1);
+                filter->set("luma.out", getProperty("luma_duration").toInt());
+                QString resource = getProperty("luma_file");
+                char *tmp = (char *) qstrdup(resource.toUtf8().data());
+                filter->set("luma.resource", tmp);
+                delete[] tmp;
+            } else {
+                // filter does not exist, create it...
+                Mlt::Filter *filter = new Mlt::Filter(*(m_clipProducer->profile()), "luma");
+                filter->set("period", getProperty("ttl").toInt() - 1);
+                filter->set("luma.out", getProperty("luma_duration").toInt());
+                QString resource = getProperty("luma_file");
+                char *tmp = (char *) qstrdup(resource.toUtf8().data());
+                filter->set("luma.resource", tmp);
+                delete[] tmp;
+                clipService.attach(*filter);
+            }
+        } else {
+            kDebug() << "////////////   FADE NOT WANTED!!!";
+            Mlt::Service clipService(m_clipProducer->get_service());
+            int ct = 0;
+            Mlt::Filter *filter = clipService.filter(0);
+            while (filter) {
+                if (filter->get("mlt_service") == "luma") {
+                    clipService.detach(*filter);
+                } else ct++;
+                filter = clipService.filter(ct);
+            }
+        }
+    }
+}
+
 void DocClipBase::setProperties(QMap <QString, QString> properties) {
     // changing clip type is not allowed
     properties.remove("type");
     QMapIterator<QString, QString> i(properties);
+    bool refreshProducer = false;
+    QStringList keys;
+    keys << "luma_duration" << "luma_file" << "fade" << "ttl";
     while (i.hasNext()) {
         i.next();
         m_properties.insert(i.key(), i.value());
         if (i.key() == "resource") m_thumbProd->updateClipUrl(KUrl(i.value()));
         else if (i.key() == "out") setDuration(GenTime(i.value().toInt(), KdenliveSettings::project_fps()));
+        else if (m_clipType == SLIDESHOW && keys.contains(i.key())) refreshProducer = true;
     }
+    if (refreshProducer) slotRefreshProducer();
 }
 
 void DocClipBase::setProperty(QString key, QString value) {

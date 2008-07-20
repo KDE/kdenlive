@@ -303,6 +303,7 @@ void Monitor::slotSetXml(DocClipBase *clip, const int position) {
         m_currentClip = clip;
         render->setProducer(clip->producer(), 0);
         m_ruler->slotNewValue(0);
+        //adjustRulerSize(clip->producer()->get_playtime());
         m_timePos->setText("00:00:00:00");
         m_position = 0;
     }

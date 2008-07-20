@@ -71,12 +71,38 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         types << "JPG" << "PNG" << "BMP" << "GIF";
         m_view.image_type->addItems(types);
         m_view.slide_loop->setChecked(props.value("loop").toInt());
+        m_view.slide_fade->setChecked(props.value("fade").toInt());
         QString path = props.value("resource");
         if (path.endsWith("png")) m_view.image_type->setCurrentIndex(TYPE_PNG);
         else if (path.endsWith("bmp")) m_view.image_type->setCurrentIndex(TYPE_BMP);
         else if (path.endsWith("gif")) m_view.image_type->setCurrentIndex(TYPE_GIF);
         m_view.slide_duration->setText(tc.getTimecodeFromFrames(props.value("ttl").toInt()));
         parseFolder();
+
+        m_view.luma_duration->setText(tc.getTimecodeFromFrames(props.value("luma_duration").toInt()));
+        QString lumaFile = props.value("luma_file");
+        QString profilePath = KdenliveSettings::mltpath();
+        profilePath = profilePath.section('/', 0, -3);
+        profilePath += "/lumas/PAL/";
+
+        QDir dir(profilePath);
+        QStringList result = dir.entryList(QDir::Files);
+        QStringList imagefiles;
+        QStringList imagenamelist;
+        int current;
+        foreach(QString file, result) {
+            if (file.endsWith(".pgm")) {
+                m_view.luma_file->addItem(KIcon(profilePath + file), file, profilePath + file);
+                if (!lumaFile.isEmpty() && lumaFile == QString(profilePath + file))
+                    current = m_view.luma_file->count() - 1;
+            }
+        }
+
+        if (!lumaFile.isEmpty()) {
+            m_view.slide_luma->setChecked(true);
+            m_view.luma_file->setCurrentIndex(current);
+        }
+
         connect(m_view.image_type, SIGNAL(currentIndexChanged(int)), this, SLOT(parseFolder()));
     } else if (t != AUDIO) {
         m_view.tabWidget->removeTab(SLIDETAB);
@@ -182,8 +208,12 @@ QMap <QString, QString> ClipProperties::properties() {
             props["colour"] = "0x" + new_color.right(6) + "ff";
         }
     } else if (t == SLIDESHOW) {
-        props["loop"] = QString::number((int) m_view.slide_loop->isChecked());
         QMap <QString, QString> old_props = m_clip->properties();
+        QString value = QString::number((int) m_view.slide_loop->isChecked());
+        if (old_props.value("loop") != value) props["loop"] = value;
+        value = QString::number((int) m_view.slide_fade->isChecked());
+        if (old_props.value("fade") != value) props["fade"] = value;
+
         QString extension;
         switch (m_view.image_type->currentIndex()) {
         case TYPE_PNG:
@@ -214,6 +244,24 @@ QMap <QString, QString> ClipProperties::properties() {
         if (duration * m_count != old_props.value("out").toInt()) {
             m_clipNeedsRefresh = true;
             props["out"] = QString::number(duration * m_count);
+        }
+        if (m_view.slide_fade->isChecked()) {
+            int luma_duration = m_tc.getFrameCount(m_view.luma_duration->text(), m_fps);
+            if (luma_duration != old_props.value("luma_duration").toInt()) {
+                m_clipNeedsRefresh = true;
+                props["luma_duration"] = QString::number(luma_duration);
+            }
+            QString lumaFile;
+            if (m_view.slide_luma->isChecked())
+                lumaFile = m_view.luma_file->itemData(m_view.luma_file->currentIndex()).toString();
+            if (lumaFile != old_props.value("luma_file")) {
+                m_clipNeedsRefresh = true;
+                props["luma_file"] = lumaFile;
+            }
+        } else {
+            if (old_props.value("luma_file") != QString()) {
+                props["luma_file"] = QString();
+            }
         }
 
     }

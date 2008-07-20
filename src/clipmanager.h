@@ -51,7 +51,7 @@ Q_OBJECT public:
     void slotAddClipFile(const KUrl url, const QString group, const int groupId);
     void slotAddTextClipFile(const QString path, const QString xml, const QString group, const int groupId);
     void slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const int groupId);
-    void slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, bool loop, const QString group, const int groupId);
+    void slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const QString group, const int groupId);
     DocClipBase *getClipById(int clipId);
     void slotDeleteClip(uint clipId);
     void setThumbsProgress(const QString &message, int progress);

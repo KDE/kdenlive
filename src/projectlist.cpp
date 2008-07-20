@@ -386,7 +386,7 @@ void ProjectList::slotAddSlideshowClip() {
             groupId = item->clipId();
         }
 
-        m_doc->slotAddSlideshowClipFile(dia->clipName(), dia->selectedPath(), dia->imageCount(), dia->clipDuration(), dia->loop(), group, groupId);
+        m_doc->slotAddSlideshowClipFile(dia->clipName(), dia->selectedPath(), dia->imageCount(), dia->clipDuration(), dia->loop(), dia->fade(), dia->lumaDuration(), dia->lumaFile(), group, groupId);
     }
     delete dia;
 }

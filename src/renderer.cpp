@@ -392,7 +392,6 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
     if (xml.attribute("type").toInt() == COLOR) {
         char *tmp = decodedString("colour:" + xml.attribute("colour"));
         producer = new Mlt::Producer(*m_mltProfile, "fezzik", tmp);
-        producer->set_in_and_out(xml.attribute("in").toInt(), xml.attribute("out").toInt());
         delete[] tmp;
     } else if (url.isEmpty()) {
         QDomDocument doc;
@@ -408,10 +407,10 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
     } else {
         char *tmp = decodedString(url.path());
         producer = new Mlt::Producer(*m_mltProfile, tmp);
-        if (!xml.attribute("out").isEmpty()) producer->set_in_and_out(xml.attribute("in").toInt(), xml.attribute("out").toInt());
-	if (!xml.attribute("ttl").isEmpty()) producer->set("ttl", xml.attribute("ttl").toInt());
         delete[] tmp;
     }
+    if (xml.hasAttribute("out")) producer->set_in_and_out(xml.attribute("in").toInt(), xml.attribute("out").toInt());
+
     if (producer->is_blank()) {
         kDebug() << " / / / / / / / /ERRROR / / / / // CANNOT LOAD PRODUCER: ";
         return;
@@ -426,6 +425,25 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
     //kDebug() << "///////  PRODUCER: " << url.path() << " IS: " << producer.get_playtime();
 
     Mlt::Frame * frame = producer->get_frame();
+
+    if (xml.attribute("type").toInt() == SLIDESHOW) {
+        if (xml.hasAttribute("ttl")) producer->set("ttl", xml.attribute("ttl").toInt());
+        if (xml.attribute("fade") == "1") {
+            // user wants a fade effect to slideshow
+            Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, "luma");
+            if (xml.hasAttribute("ttl")) filter->set("period", xml.attribute("ttl").toInt() - 1);
+            if (xml.hasAttribute("luma_duration") && !xml.attribute("luma_duration").isEmpty()) filter->set("luma.out", xml.attribute("luma_duration").toInt());
+            if (xml.hasAttribute("luma_file") && !xml.attribute("luma_file").isEmpty()) {
+                char *tmp = decodedString(xml.attribute("luma_file"));
+                filter->set("luma.resource", tmp);
+                delete[] tmp;
+            }
+            Mlt::Service clipService(producer->get_service());
+            clipService.attach(*filter);
+        }
+    }
+
+
     filePropertyMap["fps"] = producer->get("source_fps");
 
     if (frame && frame->is_valid()) {
@@ -857,7 +875,7 @@ void Render::switchPlay() {
     if (!m_mltProducer)
         return;
     if (m_mltProducer->get_speed() == 0.0) {
-        m_isBlocked = false;
+        //m_isBlocked = false;
         m_mltProducer->set_speed(1.0);
         m_mltConsumer->set("refresh", 1);
         kDebug() << " *********  RENDER PLAY: " << m_mltProducer->get_speed();
@@ -865,7 +883,7 @@ void Render::switchPlay() {
         //m_isBlocked = true;
         m_mltConsumer->set("refresh", 0);
         m_mltProducer->set_speed(0.0);
-        m_isBlocked = true;
+        //m_isBlocked = true;
         m_mltProducer->seek((int) m_framePosition);
         //kDebug()<<" *********  RENDER PAUSE: "<<m_mltProducer->get_speed();
         //m_mltConsumer->set("refresh", 0);
@@ -934,7 +952,6 @@ void Render::seekToFrame(int pos) {
     //kDebug()<<" *********  RENDER SEEK TO POS";
     if (!m_mltProducer)
         return;
-    //kDebug()<<"//////////  KDENLIVE SEEK: "<<(int) (time.frames(m_fps));
     m_mltProducer->seek(pos);
     refresh();
 }

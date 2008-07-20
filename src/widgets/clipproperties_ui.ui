@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>304</width>
-    <height>456</height>
+    <width>315</width>
+    <height>440</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -75,18 +75,41 @@
      </property>
     </widget>
    </item>
+   <item row="7" column="1" colspan="2" >
+    <spacer name="verticalSpacer_4" >
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>20</width>
+       <height>17</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="8" column="0" colspan="4" >
+    <widget class="QDialogButtonBox" name="buttonBox" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons" >
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
    <item row="6" column="0" colspan="4" >
     <widget class="QTabWidget" name="tabWidget" >
      <property name="currentIndex" >
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab_video" >
       <property name="geometry" >
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>284</width>
-        <height>204</height>
+        <width>288</width>
+        <height>210</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -169,8 +192,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>284</width>
-        <height>204</height>
+        <width>288</width>
+        <height>210</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -246,8 +269,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>284</width>
-        <height>204</height>
+        <width>288</width>
+        <height>210</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -284,8 +307,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>284</width>
-        <height>204</height>
+        <width>299</width>
+        <height>194</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -317,23 +340,44 @@
         </widget>
        </item>
        <item row="2" column="0" >
+        <widget class="QCheckBox" name="slide_loop" >
+         <property name="text" >
+          <string>Loop</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" >
         <widget class="QCheckBox" name="slide_fade" >
          <property name="text" >
           <string>Crossfade</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0" >
+       <item row="3" column="1" >
+        <widget class="KRestrictedLine" name="luma_duration" >
+         <property name="inputMask" >
+          <string>99:99:99:99; </string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" >
         <widget class="QCheckBox" name="slide_luma" >
          <property name="text" >
           <string>Luma file</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1" >
+       <item row="4" column="1" >
         <widget class="KComboBox" name="luma_file" />
        </item>
-       <item row="5" column="1" >
+       <item row="5" column="0" colspan="2" >
+        <widget class="QLabel" name="slide_info" >
+         <property name="text" >
+          <string>No image found</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1" >
         <spacer name="verticalSpacer_6" >
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
@@ -346,20 +390,6 @@
          </property>
         </spacer>
        </item>
-       <item row="2" column="1" >
-        <widget class="QCheckBox" name="slide_loop" >
-         <property name="text" >
-          <string>Loop</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="2" >
-        <widget class="QLabel" name="slide_info" >
-         <property name="text" >
-          <string>No image found</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tab_3" >
@@ -367,8 +397,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>284</width>
-        <height>204</height>
+        <width>288</width>
+        <height>210</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -445,8 +475,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>284</width>
-        <height>204</height>
+        <width>288</width>
+        <height>210</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -525,30 +555,18 @@
      </widget>
     </widget>
    </item>
-   <item row="7" column="1" colspan="2" >
-    <spacer name="verticalSpacer_4" >
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0" >
-      <size>
-       <width>20</width>
-       <height>17</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="8" column="0" colspan="4" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons" >
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
   </layout>
+  <zorder>clip_thumb</zorder>
+  <zorder>label_5</zorder>
+  <zorder>clip_path</zorder>
+  <zorder>label_3</zorder>
+  <zorder>clip_description</zorder>
+  <zorder>clip_filesize_2</zorder>
+  <zorder>clip_duration</zorder>
+  <zorder>clip_filesize_3</zorder>
+  <zorder>clip_filesize</zorder>
+  <zorder>buttonBox</zorder>
+  <zorder>tabWidget</zorder>
  </widget>
  <customwidgets>
   <customwidget>

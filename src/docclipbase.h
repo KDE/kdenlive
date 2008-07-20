@@ -215,6 +215,7 @@ private:   // Private attributes
     QMap <QString, QString> m_properties;
     /** Create connections for audio thumbnails */
     void slotCreateAudioTimer();
+    void slotRefreshProducer();
 
 public slots:
     void updateAudioThumbnail(QMap<int, QMap<int, QByteArray> > data);

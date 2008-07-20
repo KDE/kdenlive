@@ -37,11 +37,16 @@ public:
     QString selectedPath() const;
     QString clipName() const;
     QString clipDuration() const;
+    QString lumaDuration() const;
     int imageCount() const;
     bool loop() const;
+    bool fade() const;
+    QString lumaFile() const;
 
 private slots:
     void parseFolder();
+    void slotEnableLuma(int state);
+    void slotEnableLumaFile(int state);
 
 private:
     Ui::SlideshowClip_UI m_view;
