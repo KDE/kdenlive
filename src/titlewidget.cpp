@@ -94,12 +94,17 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     buttonItalic->setIcon(KIcon("format-text-italic"));
     buttonUnder->setIcon(KIcon("format-text-underline"));
 
+    itemhcenter->setIcon(KIcon("kdenlive-align-hor"));
+    itemhcenter->setToolTip(i18n("Align item horizontally"));
+    itemvcenter->setIcon(KIcon("kdenlive-align-vert"));
+    itemvcenter->setToolTip(i18n("Align item vertically"));
+
     QHBoxLayout *layout = new QHBoxLayout;
     frame_toolbar->setLayout(layout);
 
     QToolBar *m_toolbar = new QToolBar("titleToolBar", this);
 
-    m_buttonRect = m_toolbar->addAction(KIcon("insert-rect"), i18n("Add Rectangle"));
+    m_buttonRect = m_toolbar->addAction(KIcon("kdenlive-insert-rect"), i18n("Add Rectangle"));
     m_buttonRect->setCheckable(true);
     connect(m_buttonRect, SIGNAL(triggered()), this, SLOT(slotRectTool()));
 
@@ -111,7 +116,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     m_buttonImage->setCheckable(false);
     connect(m_buttonImage, SIGNAL(triggered()), this, SLOT(slotImageTool()));
 
-    m_buttonCursor = m_toolbar->addAction(KIcon("select-rectangular"), i18n("Selection Tool"));
+    m_buttonCursor = m_toolbar->addAction(KIcon("transform-move"), i18n("Selection Tool"));
     m_buttonCursor->setCheckable(true);
     connect(m_buttonCursor, SIGNAL(triggered()), this, SLOT(slotSelectTool()));
 
