@@ -214,6 +214,8 @@ QMap <QString, QString> ClipProperties::properties() {
         if (old_props.value("loop") != value) props["loop"] = value;
         value = QString::number((int) m_view.slide_fade->isChecked());
         if (old_props.value("fade") != value) props["fade"] = value;
+        value = QString::number((int) m_view.luma_softness->value());
+        if (old_props.value("softness") != value) props["softness"] = value;
 
         QString extension;
         switch (m_view.image_type->currentIndex()) {
