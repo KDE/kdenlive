@@ -162,6 +162,7 @@ void EffectStackView::setupListView(int ix) {
         ui.buttonDown->setEnabled(false);
     } else {
         if (ix < 0) ix = 0;
+	if (ix > ui.effectlist->count() - 1) ix = ui.effectlist->count() - 1;
         ui.effectlist->setCurrentRow(ix);
         ui.buttonDel->setEnabled(true);
         ui.buttonSave->setEnabled(true);

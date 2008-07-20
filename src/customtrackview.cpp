@@ -719,7 +719,7 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect) {
 
 void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect) {
     QString index = effect.attribute("kdenlive_ix");
-    if (!m_document->renderer()->mltRemoveEffect(track, pos, index)) {
+    if (effect.attribute("disabled") != "1" && !m_document->renderer()->mltRemoveEffect(track, pos, index)) {
         emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
         return;
     }
