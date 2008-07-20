@@ -409,6 +409,7 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
         char *tmp = decodedString(url.path());
         producer = new Mlt::Producer(*m_mltProfile, tmp);
         if (!xml.attribute("out").isEmpty()) producer->set_in_and_out(xml.attribute("in").toInt(), xml.attribute("out").toInt());
+	if (!xml.attribute("ttl").isEmpty()) producer->set("ttl", xml.attribute("ttl").toInt());
         delete[] tmp;
     }
     if (producer->is_blank()) {
