@@ -551,7 +551,7 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
             emit replyGetImage(clipId, 0, pix, width, height);
 
         } else if (frame->get_int("test_audio") == 0) {
-            QPixmap pixmap(KStandardDirs::locate("appdata", "graphics/music.png"));
+            QPixmap pixmap = KIcon("audio-x-generic").pixmap(QSize(width, height));
             emit replyGetImage(clipId, 0, pixmap, width, height);
             filePropertyMap["type"] = "audio";
         }
