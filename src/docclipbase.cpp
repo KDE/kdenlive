@@ -139,6 +139,10 @@ const QString DocClipBase::description() const {
     return m_properties.value("description");
 }
 
+bool DocClipBase::isTransparent() const {
+    return (m_properties.value("transparency") == "1");
+}
+
 const QString DocClipBase::getProperty(const QString prop) const {
     return m_properties.value(prop);
 }
@@ -358,6 +362,7 @@ QString DocClipBase::markerComment(GenTime t) {
 
 void DocClipBase::setProducer(Mlt::Producer *producer) {
     m_clipProducer = producer;
+    m_clipProducer->set("transparency", m_properties.value("transparency").toInt());
     if (m_thumbProd) m_thumbProd->setProducer(producer);
 }
 
@@ -445,6 +450,7 @@ void DocClipBase::setProperties(QMap <QString, QString> properties) {
         if (i.key() == "resource") m_thumbProd->updateClipUrl(KUrl(i.value()));
         else if (i.key() == "out") setDuration(GenTime(i.value().toInt(), KdenliveSettings::project_fps()));
         else if (m_clipType == SLIDESHOW && keys.contains(i.key())) refreshProducer = true;
+        else if (i.key() == "transparency") m_clipProducer->set("transparency", i.value().toInt());
     }
     if (refreshProducer) slotRefreshProducer();
 }
@@ -453,6 +459,7 @@ void DocClipBase::setProperty(QString key, QString value) {
     m_properties.insert(key, value);
     if (key == "resource") m_thumbProd->updateClipUrl(KUrl(value));
     else if (key == "out") setDuration(GenTime(value.toInt(), KdenliveSettings::project_fps()));
+    else if (key == "transparency") m_clipProducer->set("transparency", value.toInt());
 }
 
 QMap <QString, QString> DocClipBase::properties() const {

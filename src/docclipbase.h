@@ -66,6 +66,8 @@ Q_OBJECT public:
 
     /** Returns the description of this clip. */
     const QString description() const;
+    /** Does this clip need a transparent background (e.g. for titles). */
+    bool isTransparent() const;
 
     /** Returns any property of this clip. */
     const QString getProperty(const QString prop) const;

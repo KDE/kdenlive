@@ -900,7 +900,7 @@ void CustomTrackView::addItem(DocClipBase *clip, QPoint pos) {
     info.startPos = GenTime((int)(mapToScene(pos).x() / m_scale), m_document->fps());
     info.endPos = info.startPos + clip->duration();
     info.track = (int)(pos.y() / m_tracksHeight);
-    //kDebug()<<"------------  ADDING CLIP ITEM----: "<<info.startPos.frames(25)<<", "<<info.endPos.frames(25)<<", "<<info.track;
+    kDebug() << "------------  ADDING CLIP ITEM----: " << info.startPos.frames(25) << ", " << info.endPos.frames(25) << ", " << info.track;
     m_dropItem = new ClipItem(clip, info, m_scale, m_document->fps());
     scene()->addItem(m_dropItem);
 }
@@ -936,8 +936,10 @@ void CustomTrackView::dropEvent(QDropEvent * event) {
         ItemInfo info;
         info = m_dropItem->info();
         info.track = m_tracksList.count() - m_dropItem->track();
-        // kDebug()<<"IIIIIIIIIIIIIIIIIIIIIIII TRAX CNT: "<<m_tracksList.count()<<", DROP: "<<m_dropItem->track();
+        //kDebug()<<"IIIIIIIIIIIIIIIIIIIIIIII TRAX CNT: "<<m_tracksList.count()<<", DROP: "<<m_dropItem->track();
         m_document->renderer()->mltInsertClip(info, m_dropItem->xml(), m_dropItem->baseClip()->producer());
+        //if (m_dropItem->baseClip()->isTransparent()) m_document->renderer()->mltAddClipTransparency(info, getPreviousVideoTrack(m_dropItem->track()), m_dropItem->baseClip()->getId());
+        m_dropItem = NULL;
         m_document->setModified(true);
     } else QGraphicsView::dropEvent(event);
     m_dropItem = NULL;

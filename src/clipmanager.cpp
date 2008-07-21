@@ -171,6 +171,7 @@ void ClipManager::slotAddTextClipFile(const QString path, const QString xml, con
         prod.setAttribute("groupid", groupId);
     }
     prod.setAttribute("type", (int) TEXT);
+    prod.setAttribute("transparency", "1");
     prod.setAttribute("in", "0");
     prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
     AddClipCommand *command = new AddClipCommand(m_doc, prod, id, true);

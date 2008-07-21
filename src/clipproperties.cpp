@@ -32,7 +32,9 @@
 #define AUDIOTAB 1
 #define COLORTAB 2
 #define SLIDETAB 3
-#define ADVANCEDTAB 4
+#define IMAGETAB 4
+#define MARKERTAB 5
+#define ADVANCEDTAB 6
 
 #define TYPE_JPEG 0
 #define TYPE_PNG 1
@@ -55,8 +57,18 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.clip_channels->setText(props.value("channels"));
 
     CLIPTYPE t = m_clip->clipType();
-    if (t == COLOR) {
+    if (t == IMAGE) {
+        m_view.tabWidget->removeTab(SLIDETAB);
+        m_view.tabWidget->removeTab(COLORTAB);
+        m_view.tabWidget->removeTab(AUDIOTAB);
+        m_view.tabWidget->removeTab(VIDEOTAB);
+        if (props.contains("frame_size"))
+            m_view.image_size->setText(props.value("frame_size"));
+        if (props.contains("transparency"))
+            m_view.image_transparency->setChecked(props.value("transparency").toInt());
+    } else if (t == COLOR) {
         m_view.clip_path->setEnabled(false);
+        m_view.tabWidget->removeTab(IMAGETAB);
         m_view.tabWidget->removeTab(SLIDETAB);
         m_view.tabWidget->removeTab(AUDIOTAB);
         m_view.tabWidget->removeTab(VIDEOTAB);
@@ -64,6 +76,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.clip_color->setColor(QColor("#" + props.value("colour").right(8).left(6)));
     } else if (t == SLIDESHOW) {
         m_view.clip_path->setText(url.directory());
+        m_view.tabWidget->removeTab(IMAGETAB);
         m_view.tabWidget->removeTab(COLORTAB);
         m_view.tabWidget->removeTab(AUDIOTAB);
         m_view.tabWidget->removeTab(VIDEOTAB);
@@ -106,6 +119,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
 
         connect(m_view.image_type, SIGNAL(currentIndexChanged(int)), this, SLOT(parseFolder()));
     } else if (t != AUDIO) {
+        m_view.tabWidget->removeTab(IMAGETAB);
         m_view.tabWidget->removeTab(SLIDETAB);
         m_view.tabWidget->removeTab(COLORTAB);
         if (props.contains("frame_size"))
@@ -121,6 +135,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.clip_thumb->setPixmap(pix);
         if (t == IMAGE || t == VIDEO) m_view.tabWidget->removeTab(AUDIOTAB);
     } else {
+        m_view.tabWidget->removeTab(IMAGETAB);
         m_view.tabWidget->removeTab(SLIDETAB);
         m_view.tabWidget->removeTab(COLORTAB);
         m_view.tabWidget->removeTab(VIDEOTAB);
@@ -207,6 +222,12 @@ QMap <QString, QString> ClipProperties::properties() {
         if (new_color != QString("#" + old_props.value("colour").right(8).left(6))) {
             m_clipNeedsRefresh = true;
             props["colour"] = "0x" + new_color.right(6) + "ff";
+        }
+    } else if (t == IMAGE) {
+        QMap <QString, QString> old_props = m_clip->properties();
+        if ((int) m_view.image_transparency->isChecked() != old_props.value("transparency").toInt()) {
+            props["transparency"] = QString::number((int)m_view.image_transparency->isChecked());
+            m_clipNeedsRefresh = true;
         }
     } else if (t == SLIDESHOW) {
         QMap <QString, QString> old_props = m_clip->properties();

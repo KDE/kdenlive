@@ -1204,6 +1204,9 @@ void Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
     Mlt::Producer *clip = prod->cut(info.cropStart.frames(m_fps), (info.endPos - info.startPos).frames(m_fps) - 1);
     trackPlaylist.insert_at((int) info.startPos.frames(m_fps), *clip, 1);
 
+    if (QString(prod->get("transparency")).toInt() == 1)
+        mltAddClipTransparency(info, info.track - 1, QString(prod->get("id")).toInt());
+
     mlt_service_unlock(service.get_service());
 
     if (info.track != 0) mltCheckLength();
@@ -1255,6 +1258,9 @@ void Render::mltRemoveClip(int track, GenTime position) {
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at((int) position.frames(m_fps));
+    Mlt::Producer clip(trackPlaylist.get_clip(clipIndex));
+    if (QString(clip.parent().get("transparency")).toInt() == 1)
+        mltDeleteTransparency((int) position.frames(m_fps), track, QString(clip.parent().get("id")).toInt());
     trackPlaylist.replace_with_blank(clipIndex);
     trackPlaylist.consolidate_blanks(0);
     if (track != 0) mltCheckLength();
@@ -1539,11 +1545,10 @@ void Render::mltResizeClipEnd(int track, GenTime pos, GenTime in, GenTime out) {
     if (trackPlaylist.is_blank_at((int) pos.frames(m_fps) + 1))
         kDebug() << "////////  ERROR RSIZING BLANK CLIP!!!!!!!!!!!";
     int clipIndex = trackPlaylist.get_clip_index_at((int) pos.frames(m_fps) + 1);
-
+    Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
+    int previousStart = trackPlaylist.clip_start(clipIndex);
     int previousDuration = trackPlaylist.clip_length(clipIndex) - 1;
     int newDuration = (int) out.frames(m_fps) - 1;
-
-    kDebug() << " ** RESIZING CLIP END:" << clipIndex << " on track:" << track << ", mid pos: " << pos.frames(25) << ", in: " << in.frames(25) << ", out: " << out.frames(25) << ", PREVIOUS duration: " << previousDuration;
     trackPlaylist.resize_clip(clipIndex, (int) in.frames(m_fps), newDuration);
     trackPlaylist.consolidate_blanks(0);
     if (previousDuration < newDuration) {
@@ -1555,9 +1560,19 @@ void Render::mltResizeClipEnd(int track, GenTime pos, GenTime in, GenTime out) {
     } else trackPlaylist.insert_blank(clipIndex + 1, previousDuration - newDuration - 1);
 
     trackPlaylist.consolidate_blanks(0);
-    tractor.multitrack()->refresh();
-    tractor.refresh();
+
+    //tractor.multitrack()->refresh();
+    //tractor.refresh();
     if (track != 0) mltCheckLength();
+    if (QString(clip->parent().get("transparency")).toInt() == 1) {
+        //mltResizeTransparency(previousStart, previousStart, previousStart + newDuration, track, QString(clip->parent().get("id")).toInt());
+        mltDeleteTransparency(previousStart, track, QString(clip->parent().get("id")).toInt());
+        ItemInfo info;
+        info.startPos = pos;
+        info.endPos = pos + out - in;
+        info.track = track;
+        mltAddClipTransparency(info, info.track - 1, QString(clip->parent().get("id")).toInt());
+    }
     m_isBlocked = false;
 }
 
@@ -1592,8 +1607,9 @@ void Render::mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime
     if (trackPlaylist.is_blank_at((int) pos.frames(m_fps) - 1))
         kDebug() << "////////  ERROR RSIZING BLANK CLIP!!!!!!!!!!!";
     int clipIndex = trackPlaylist.get_clip_index_at((int) pos.frames(m_fps) - 1);
-    kDebug() << " ** RESIZING CLIP START:" << clipIndex << " on track:" << track << ", mid pos: " << pos.frames(25) << ", moving: " << moveFrame << ", in: " << in.frames(25) << ", out: " << out.frames(25);
-
+    int previousStart = trackPlaylist.clip_start(clipIndex);
+    //kDebug() << " ** RESIZING CLIP START:" << clipIndex << " on track:" << track << ", mid pos: " << pos.frames(25) << ", moving: " << moveFrame << ", in: " << in.frames(25) << ", out: " << out.frames(25);
+    Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
     trackPlaylist.resize_clip(clipIndex, (int) in.frames(m_fps), (int) out.frames(m_fps));
     if (moveFrame > 0) trackPlaylist.insert_blank(clipIndex, moveFrame - 1);
     else {
@@ -1607,6 +1623,15 @@ void Render::mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime
         else trackPlaylist.resize_clip(blankIndex, 0, blankLength + moveFrame - 1);
     }
     trackPlaylist.consolidate_blanks(0);
+    if (QString(clip->parent().get("transparency")).toInt() == 1) {
+        //mltResizeTransparency(previousStart, (int) moveEnd.frames(m_fps), (int) (moveEnd + out - in).frames(m_fps), track, QString(clip->parent().get("id")).toInt());
+        mltDeleteTransparency(previousStart, track, QString(clip->parent().get("id")).toInt());
+        ItemInfo info;
+        info.startPos = moveEnd;
+        info.endPos = moveEnd + out - in;
+        info.track = track;
+        mltAddClipTransparency(info, info.track - 1, QString(clip->parent().get("id")).toInt());
+    }
     m_isBlocked = false;
 }
 
@@ -1635,13 +1660,16 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
         if (!trackPlaylist.is_blank_at(moveEnd)) {
             // error, destination is not empty
             //int ix = trackPlaylist.get_clip_index_at(moveEnd);
-	    kDebug()<<"// ERROR MOVING CLIP TO : "<<moveEnd;
+            kDebug() << "// ERROR MOVING CLIP TO : " << moveEnd;
             mlt_service_unlock(m_mltConsumer->get_service());
             m_isBlocked = false;
             return false;
         } else {
             trackPlaylist.insert_at(moveEnd, clipProducer, 1);
             trackPlaylist.consolidate_blanks(0);
+            if (QString(clipProducer.parent().get("transparency")).toInt() == 1) {
+                mltMoveTransparency(moveStart, moveEnd, startTrack, endTrack, QString(clipProducer.parent().get("id")).toInt());
+            }
         }
         //mlt_service_unlock(service.get_service());
     } else {
@@ -1658,6 +1686,10 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             destTrackPlaylist.consolidate_blanks(1);
             destTrackPlaylist.insert_at(moveEnd, clipProducer, 1);
             destTrackPlaylist.consolidate_blanks(0);
+            if (QString(clipProducer.parent().get("transparency")).toInt() == 1) {
+                kDebug() << "//////// moving clip transparency";
+                mltMoveTransparency(moveStart, moveEnd, startTrack, endTrack, QString(clipProducer.parent().get("id")).toInt());
+            }
         }
     }
     mltCheckLength();
@@ -1851,6 +1883,141 @@ QMap<QString, QString> Render::mltGetTransitionParamsFromXml(QDomElement xml) {
     }
     return map;
 }
+
+void Render::mltAddClipTransparency(ItemInfo info, int transitiontrack, int id) {
+    kDebug() << "/////////  ADDING CLIP TRANSPARENCY AT: " << info.startPos.frames(25);
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    Mlt::Tractor tractor(service);
+    Mlt::Field *field = tractor.field();
+
+    Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, "composite");
+    transition->set_in_and_out((int) info.startPos.frames(m_fps), (int) info.endPos.frames(m_fps) - 1);
+    transition->set("transparency", id);
+    transition->set("fill", 1);
+    transition->set("internal_added", 237);
+    field->plant_transition(*transition, transitiontrack, info.track);
+    refresh();
+}
+
+void Render::mltDeleteTransparency(int pos, int track, int id) {
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    Mlt::Tractor tractor(service);
+    Mlt::Field *field = tractor.field();
+
+    //if (do_refresh) m_mltConsumer->set("refresh", 0);
+    mlt_service serv = m_mltProducer->parent().get_service();
+
+    mlt_service nextservice = mlt_service_get_producer(serv);
+    mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
+    QString mlt_type = mlt_properties_get(properties, "mlt_type");
+    QString resource = mlt_properties_get(properties, "mlt_service");
+
+    while (mlt_type == "transition") {
+        mlt_transition tr = (mlt_transition) nextservice;
+        int currentTrack = mlt_transition_get_b_track(tr);
+        int currentIn = (int) mlt_transition_get_in(tr);
+        int currentOut = (int) mlt_transition_get_out(tr);
+        int transitionId = QString(mlt_properties_get(properties, "transparency")).toInt();
+        kDebug() << "// FOUND EXISTING TRANS, IN: " << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack;
+
+        if (resource == "composite" && track == currentTrack && currentIn == pos && transitionId == id) {
+            //kDebug() << " / / / / /DELETE TRANS DOOOMNE";
+            mlt_field_disconnect_service(field->get_field(), nextservice);
+            break;
+        }
+        nextservice = mlt_service_producer(nextservice);
+        if (nextservice == NULL) break;
+        properties = MLT_SERVICE_PROPERTIES(nextservice);
+        mlt_type = mlt_properties_get(properties, "mlt_type");
+        resource = mlt_properties_get(properties, "mlt_service");
+    }
+    //if (do_refresh) m_mltConsumer->set("refresh", 1);
+}
+
+void Render::mltResizeTransparency(int oldStart, int newStart, int newEnd, int track, int id) {
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    Mlt::Tractor tractor(service);
+    Mlt::Field *field = tractor.field();
+
+    mlt_service_lock(service.get_service());
+    m_mltConsumer->set("refresh", 0);
+    m_isBlocked = true;
+
+    mlt_service serv = m_mltProducer->parent().get_service();
+    mlt_service nextservice = mlt_service_get_producer(serv);
+    mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
+    QString mlt_type = mlt_properties_get(properties, "mlt_type");
+    QString resource = mlt_properties_get(properties, "mlt_service");
+    kDebug() << "// resize transpar from: " << oldStart << ", TO: " << newStart << "x" << newEnd << ", " << track << ", " << id;
+    while (mlt_type == "transition") {
+        mlt_transition tr = (mlt_transition) nextservice;
+        int currentTrack = mlt_transition_get_b_track(tr);
+        int currentIn = (int) mlt_transition_get_in(tr);
+        //mlt_properties props = MLT_TRANSITION_PROPERTIES(tr);
+        int transitionId = QString(mlt_properties_get(properties, "transparency")).toInt();
+        kDebug() << "// resize transpar current in: " << currentIn << ", Track: " << currentTrack << ", id: " << id << "x" << transitionId ;
+        if (resource == "composite" && track == currentTrack && currentIn == oldStart && transitionId == id) {
+            kDebug() << " / / / / /RESIZE TRANS TO: " << newStart << "x" << newEnd;
+            mlt_transition_set_in_and_out(tr, newStart, newEnd);
+            break;
+        }
+        nextservice = mlt_service_producer(nextservice);
+        if (nextservice == NULL) break;
+        properties = MLT_SERVICE_PROPERTIES(nextservice);
+        mlt_type = mlt_properties_get(properties, "mlt_type");
+        resource = mlt_properties_get(properties, "mlt_service");
+    }
+    m_isBlocked = false;
+    mlt_service_unlock(service.get_service());
+    m_mltConsumer->set("refresh", 1);
+
+}
+
+void Render::mltMoveTransparency(int startTime, int endTime, int startTrack, int endTrack, int id) {
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    Mlt::Tractor tractor(service);
+    Mlt::Field *field = tractor.field();
+
+    mlt_service_lock(service.get_service());
+    m_mltConsumer->set("refresh", 0);
+    m_isBlocked = true;
+
+    mlt_service serv = m_mltProducer->parent().get_service();
+    mlt_service nextservice = mlt_service_get_producer(serv);
+    mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
+    QString mlt_type = mlt_properties_get(properties, "mlt_type");
+    QString resource = mlt_properties_get(properties, "mlt_service");
+
+    while (mlt_type == "transition") {
+        mlt_transition tr = (mlt_transition) nextservice;
+        int currentTrack = mlt_transition_get_b_track(tr);
+        int currentaTrack = mlt_transition_get_a_track(tr);
+        int currentIn = (int) mlt_transition_get_in(tr);
+        int currentOut = (int) mlt_transition_get_out(tr);
+        //mlt_properties properties = MLT_TRANSITION_PROPERTIES(tr);
+        int transitionId = QString(mlt_properties_get(properties, "transparency")).toInt();
+        //kDebug()<<" + TRANSITION "<<id<<" == "<<transitionId<<", START TMIE: "<<currentIn<<", LOOK FR: "<<startTime<<", TRACK: "<<currentTrack<<"x"<<startTrack;
+        if (resource == "composite" && transitionId == id && startTime == currentIn && startTrack == currentTrack) {
+            kDebug() << "//////MOVING";
+            mlt_transition_set_in_and_out(tr, endTime, endTime + currentOut - currentIn);
+            if (endTrack != startTrack) {
+                mlt_properties properties = MLT_TRANSITION_PROPERTIES(tr);
+                mlt_properties_set_int(properties, "a_track", currentaTrack + endTrack - currentTrack);
+                mlt_properties_set_int(properties, "b_track", endTrack);
+            }
+            break;
+        }
+        nextservice = mlt_service_producer(nextservice);
+        if (nextservice == NULL) break;
+        properties = MLT_SERVICE_PROPERTIES(nextservice);
+        mlt_type = mlt_properties_get(properties, "mlt_type");
+        resource = mlt_properties_get(properties, "mlt_service");
+    }
+    m_isBlocked = false;
+    mlt_service_unlock(service.get_service());
+    m_mltConsumer->set("refresh", 1);
+}
+
 
 void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool do_refresh) {
 

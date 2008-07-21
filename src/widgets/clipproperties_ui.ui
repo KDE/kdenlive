@@ -13,6 +13,19 @@
    <string>Clip Properties</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2" >
+   <item row="7" column="1" colspan="2" >
+    <spacer name="verticalSpacer_4" >
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>20</width>
+       <height>17</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
    <item row="0" column="0" colspan="4" >
     <widget class="QLabel" name="clip_thumb" >
      <property name="text" >
@@ -75,19 +88,6 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="1" colspan="2" >
-    <spacer name="verticalSpacer_4" >
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0" >
-      <size>
-       <width>20</width>
-       <height>17</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
    <item row="8" column="0" colspan="4" >
     <widget class="QDialogButtonBox" name="buttonBox" >
      <property name="orientation" >
@@ -101,7 +101,7 @@
    <item row="6" column="0" colspan="4" >
     <widget class="QTabWidget" name="tabWidget" >
      <property name="currentIndex" >
-      <number>3</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="tab_video" >
       <property name="geometry" >
@@ -409,6 +409,47 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tab_4" >
+      <attribute name="title" >
+       <string>Image</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_8" >
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label_16" >
+         <property name="text" >
+          <string>Image size</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" >
+        <widget class="KLineEdit" name="image_size" >
+         <property name="readOnly" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2" >
+        <widget class="QCheckBox" name="image_transparency" >
+         <property name="text" >
+          <string>Transparent background</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <spacer name="verticalSpacer_7" >
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>20</width>
+           <height>151</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="tab_3" >
       <property name="geometry" >
        <rect>
@@ -573,17 +614,6 @@
     </widget>
    </item>
   </layout>
-  <zorder>clip_thumb</zorder>
-  <zorder>label_5</zorder>
-  <zorder>clip_path</zorder>
-  <zorder>label_3</zorder>
-  <zorder>clip_description</zorder>
-  <zorder>clip_filesize_2</zorder>
-  <zorder>clip_duration</zorder>
-  <zorder>clip_filesize_3</zorder>
-  <zorder>clip_filesize</zorder>
-  <zorder>buttonBox</zorder>
-  <zorder>tabWidget</zorder>
  </widget>
  <customwidgets>
   <customwidget>
