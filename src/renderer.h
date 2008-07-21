@@ -180,6 +180,8 @@ private:   // Private attributes & methods
     double m_fps;
     uint m_monitorId;
     bool m_generateScenelist;
+    /** true when monitor is in split view (several tracks at the same time) */
+    bool m_isSplitView;
 
     Mlt::Producer *m_blackClip;
     /** Holds the path to on screen display profile */

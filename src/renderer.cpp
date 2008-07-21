@@ -61,7 +61,7 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
     }
 }
 
-Render::Render(const QString & rendererName, int winid, int extid, QWidget *parent): QObject(parent), m_name(rendererName), m_mltConsumer(NULL), m_mltProducer(NULL), m_mltTextProducer(NULL), m_winid(-1), m_framePosition(0), m_generateScenelist(false), m_isBlocked(true), m_blackClip(NULL) {
+Render::Render(const QString & rendererName, int winid, int extid, QWidget *parent): QObject(parent), m_name(rendererName), m_mltConsumer(NULL), m_mltProducer(NULL), m_mltTextProducer(NULL), m_winid(-1), m_framePosition(0), m_generateScenelist(false), m_isBlocked(true), m_blackClip(NULL), m_isSplitView(false) {
     kDebug() << "//////////  USING PROFILE: " << (char *)KdenliveSettings::current_profile().toUtf8().data();
     m_mltProfile = new Mlt::Profile((char*) KdenliveSettings::current_profile().data());
     refreshTimer = new QTimer(this);
@@ -131,8 +131,8 @@ void Render::closeMlt() {
 
 int Render::resetProfile(QString profile) {
 
-
     if (!m_mltConsumer) return 0;
+    if (m_isSplitView) slotSplitView(false);
     if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     m_mltConsumer->purge();
     delete m_mltConsumer;
@@ -382,8 +382,10 @@ const double Render::dar() const {
 }
 
 void Render::slotSplitView(bool doit) {
+    m_isSplitView = doit;
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
+    if (service.type() != tractor_type || tractor.count() < 2) return;
     Mlt::Field *field = tractor.field();
     if (doit) {
         int screen = 0;
@@ -422,9 +424,7 @@ void Render::slotSplitView(bool doit) {
         }
         m_mltConsumer->set("refresh", 1);
     } else {
-
         mlt_service serv = m_mltProducer->parent().get_service();
-
         mlt_service nextservice = mlt_service_get_producer(serv);
         mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
         QString mlt_type = mlt_properties_get(properties, "mlt_type");
@@ -443,7 +443,6 @@ void Render::slotSplitView(bool doit) {
             m_mltConsumer->set("refresh", 1);
         }
     }
-
 }
 
 void Render::getFileProperties(const QDomElement &xml, int clipId) {
@@ -783,6 +782,8 @@ void Render::saveSceneList(QString path, QDomElement kdenliveData) {
     delete[] tmppath;
     westleyConsumer.set("terminate_on_pause", 1);
     Mlt::Producer prod(m_mltProducer->get_producer());
+    bool split = m_isSplitView;
+    if (split) slotSplitView(false);
     westleyConsumer.connect(prod);
     //prod.set("title", "kdenlive document");
     //westleyConsumer.listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
@@ -804,6 +805,7 @@ void Render::saveSceneList(QString path, QDomElement kdenliveData) {
         out << doc.toString();
         file.close();
     }
+    if (split) slotSplitView(true);
 }
 
 
