@@ -338,14 +338,14 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
 
                 ItemInfo clipinfo;
                 clipinfo.startPos = GenTime(position, m_doc->fps());
-                clipinfo.endPos = clipinfo.startPos + GenTime(out - in, m_doc->fps());
+                clipinfo.endPos = clipinfo.startPos + GenTime(out - in + 1, m_doc->fps());
                 clipinfo.cropStart = GenTime(in, m_doc->fps());
                 clipinfo.track = ix;
                 //kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
                 ClipItem *item = new ClipItem(clip, clipinfo, m_scale, m_doc->fps());
                 m_scene->addItem(item);
                 clip->addReference();
-                position += (out - in);
+                position += (out - in + 1);
 
                 // parse clip effects
                 for (QDomNode n2 = elem.firstChild(); !n2.isNull(); n2 = n2.nextSibling()) {
