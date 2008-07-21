@@ -106,7 +106,7 @@ void ClipManager::slotAddClipFile(const KUrl url, const QString group, const int
     if (type->name().startsWith("image/")) {
         prod.setAttribute("type", (int) IMAGE);
         prod.setAttribute("in", "0");
-        prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()));
+        prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
     }
     AddClipCommand *command = new AddClipCommand(m_doc, prod, id, true);
     m_doc->commandStack()->push(command);
@@ -121,7 +121,7 @@ void ClipManager::slotAddColorClipFile(const QString name, const QString color, 
     uint id = m_clipIdCounter++;
     prod.setAttribute("id", QString::number(id));
     prod.setAttribute("in", "0");
-    prod.setAttribute("out", m_doc->getFramePos(duration));
+    prod.setAttribute("out", m_doc->getFramePos(duration) - 1);
     prod.setAttribute("name", name);
     if (!group.isEmpty()) {
         prod.setAttribute("groupname", group);
@@ -139,7 +139,7 @@ void ClipManager::slotAddSlideshowClipFile(const QString name, const QString pat
     uint id = m_clipIdCounter++;
     prod.setAttribute("id", QString::number(id));
     prod.setAttribute("in", "0");
-    prod.setAttribute("out", m_doc->getFramePos(duration) * count);
+    prod.setAttribute("out", m_doc->getFramePos(duration) * count - 1);
     prod.setAttribute("ttl", m_doc->getFramePos(duration));
     prod.setAttribute("luma_duration", m_doc->getFramePos(luma_duration));
     prod.setAttribute("name", name);
@@ -172,7 +172,7 @@ void ClipManager::slotAddTextClipFile(const QString path, const QString xml, con
     }
     prod.setAttribute("type", (int) TEXT);
     prod.setAttribute("in", "0");
-    prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()));
+    prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
     AddClipCommand *command = new AddClipCommand(m_doc, prod, id, true);
     m_doc->commandStack()->push(command);
 }

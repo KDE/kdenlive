@@ -1201,18 +1201,7 @@ void Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
     Mlt::Producer trackProducer(tractor.track(info.track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
-    /*if (prod == NULL) {
-        // clip was never used yet
-        QDomDocument doc;
-        doc.appendChild(doc.importNode(element, true));
-        QString resource = doc.toString();
-        kDebug() << "// INSERTING CLIP: " << resource;
-        char *tmp = decodedString(resource);
-        prod = new Mlt::Producer(*m_mltProfile, "westley-xml", tmp);
-        delete[] tmp;
-    }*/
-
-    Mlt::Producer *clip = prod->cut(info.cropStart.frames(m_fps), (info.endPos - info.startPos).frames(m_fps));
+    Mlt::Producer *clip = prod->cut(info.cropStart.frames(m_fps), (info.endPos - info.startPos).frames(m_fps) - 1);
     trackPlaylist.insert_at((int) info.startPos.frames(m_fps), *clip, 1);
 
     mlt_service_unlock(service.get_service());
@@ -1638,14 +1627,15 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     Mlt::Producer trackProducer(tractor.track(startTrack));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at(moveStart + 1);
-
     if (endTrack == startTrack) {
         //mlt_service_lock(service.get_service());
         Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
         trackPlaylist.consolidate_blanks(0);
+
         if (!trackPlaylist.is_blank_at(moveEnd)) {
             // error, destination is not empty
             //int ix = trackPlaylist.get_clip_index_at(moveEnd);
+	    kDebug()<<"// ERROR MOVING CLIP TO : "<<moveEnd;
             mlt_service_unlock(m_mltConsumer->get_service());
             m_isBlocked = false;
             return false;
