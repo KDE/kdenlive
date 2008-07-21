@@ -381,6 +381,71 @@ const double Render::dar() const {
     return m_mltProfile->dar();
 }
 
+void Render::slotSplitView(bool doit) {
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    Mlt::Tractor tractor(service);
+    Mlt::Field *field = tractor.field();
+    if (doit) {
+        int screen = 0;
+        for (int i = 1; i < tractor.count() && screen < 4; i++) {
+            Mlt::Producer trackProducer(tractor.track(i));
+            kDebug() << "// TRACK: " << i << ", HIDE: " << trackProducer.get("hide");
+            if (QString(trackProducer.get("hide")).toInt() != 1) {
+                kDebug() << "// ADIDNG TRACK: " << i;
+                Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, "composite");
+                transition->set("mlt_service", "composite");
+                transition->set("a_track", 0);
+                transition->set("b_track", i);
+                transition->set("distort", 1);
+                transition->set("internal_added", "200");
+                char *tmp;
+                switch (screen) {
+                case 0:
+                    tmp = "0,0:50%x50%";
+                    break;
+                case 1:
+                    tmp = "50%,0:50%x50%";
+                    break;
+                case 2:
+                    tmp = "0,50%:50%x50%";
+                    break;
+                case 3:
+                    tmp = "50%,50%:50%x50%";
+                    break;
+                }
+                transition->set("geometry", tmp);
+                transition->set("always_active", "1");
+                field->plant_transition(*transition, 0, i);
+                //delete[] tmp;
+                screen++;
+            }
+        }
+        m_mltConsumer->set("refresh", 1);
+    } else {
+
+        mlt_service serv = m_mltProducer->parent().get_service();
+
+        mlt_service nextservice = mlt_service_get_producer(serv);
+        mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
+        QString mlt_type = mlt_properties_get(properties, "mlt_type");
+        QString resource = mlt_properties_get(properties, "mlt_service");
+
+        while (mlt_type == "transition") {
+            QString added = mlt_properties_get(MLT_SERVICE_PROPERTIES(nextservice), "internal_added");
+            if (added == "200") {
+                mlt_field_disconnect_service(field->get_field(), nextservice);
+            }
+            nextservice = mlt_service_producer(nextservice);
+            if (nextservice == NULL) break;
+            properties = MLT_SERVICE_PROPERTIES(nextservice);
+            mlt_type = mlt_properties_get(properties, "mlt_type");
+            resource = mlt_properties_get(properties, "mlt_service");
+            m_mltConsumer->set("refresh", 1);
+        }
+    }
+
+}
+
 void Render::getFileProperties(const QDomElement &xml, int clipId) {
     int height = 50;
     int width = (int)(height  * m_mltProfile->dar());
@@ -437,10 +502,10 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
                 char *tmp = decodedString(xml.attribute("luma_file"));
                 filter->set("luma.resource", tmp);
                 delete[] tmp;
-		if (xml.hasAttribute("softness")) {
-		    int soft = xml.attribute("softness").toInt();
-		    filter->set("luma.softness", (double) soft / 100.0);
-		}
+                if (xml.hasAttribute("softness")) {
+                    int soft = xml.attribute("softness").toInt();
+                    filter->set("luma.softness", (double) soft / 100.0);
+                }
             }
             Mlt::Service clipService(producer->get_service());
             clipService.attach(*filter);
@@ -1796,9 +1861,8 @@ QMap<QString, QString> Render::mltGetTransitionParamsFromXml(QDomElement xml) {
 }
 
 void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool do_refresh) {
+
     QMap<QString, QString> args = mltGetTransitionParamsFromXml(xml);
-
-
     Mlt::Service service(m_mltProducer->parent().get_service());
 
     Mlt::Tractor tractor(service);
@@ -1806,7 +1870,8 @@ void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
 
     char *transId = decodedString(tag);
     Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, transId);
-    transition->set_in_and_out((int) in.frames(m_fps), (int) out.frames(m_fps));
+    if (out != GenTime())
+        transition->set_in_and_out((int) in.frames(m_fps), (int) out.frames(m_fps));
     QMap<QString, QString>::Iterator it;
     QString key;
 

@@ -104,6 +104,9 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     if (name != "clip") {
         connect(render, SIGNAL(rendererPosition(int)), this, SIGNAL(renderPosition(int)));
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
+        QAction *splitView = m_contextMenu->addAction(KIcon("document-new"), i18n("Split view"));
+        splitView->setCheckable(true);
+        connect(splitView, SIGNAL(toggled(bool)), render, SLOT(slotSplitView(bool)));
     } else {
         QAction *setThumbFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Set current image as thumbnail"));
         connect(setThumbFrame, SIGNAL(triggered()), this, SLOT(slotSetThumbFrame()));

@@ -161,9 +161,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
 
         for (uint i = 2; i < total ; i++) {
             QDomElement transition = m_document.createElement("transition");
-            transition.setAttribute("in", "0");
-            //TODO: Make audio mix last for all project duration
-            transition.setAttribute("out", "15000");
+            transition.setAttribute("always_active", "1");
 
             QDomElement property = m_document.createElement("property");
             property.setAttribute("name", "a_track");

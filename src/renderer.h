@@ -253,6 +253,7 @@ public slots:  // Public slots
     void exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime);
     static char *decodedString(QString str);
     void mltSavePlaylist();
+    void slotSplitView(bool doit);
 };
 
 #endif
