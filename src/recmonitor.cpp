@@ -48,7 +48,7 @@ RecMonitor::RecMonitor(QString name, QWidget *parent)
 
     QToolBar *toolbar = new QToolBar(name, this);
     QHBoxLayout *layout = new QHBoxLayout;
-
+    layout->setContentsMargins(0, 0, 0, 0);
     m_playIcon = KIcon("media-playback-start");
     m_pauseIcon = KIcon("media-playback-pause");
 
@@ -70,6 +70,12 @@ RecMonitor::RecMonitor(QString name, QWidget *parent)
     m_recAction = toolbar->addAction(KIcon("media-record"), i18n("Record"));
     connect(m_recAction, SIGNAL(triggered()), this, SLOT(slotRecord()));
     m_recAction->setCheckable(true);
+
+    toolbar->addSeparator();
+
+    QAction *configAction = toolbar->addAction(KIcon("configure"), i18n("Configure"));
+    connect(configAction, SIGNAL(triggered()), this, SLOT(slotConfigure()));
+    configAction->setCheckable(false);
 
     layout->addWidget(toolbar);
     ui.control_frame_firewire->setLayout(layout);
@@ -104,6 +110,10 @@ QString RecMonitor::name() const {
     return m_name;
 }
 
+void RecMonitor::slotConfigure() {
+    emit showConfigDialog(4, ui.device_selector->currentIndex());
+}
+
 void RecMonitor::slotVideoDeviceChanged(int ix) {
     switch (ix) {
     case SCREENGRAB:
@@ -113,7 +123,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix) {
         m_recAction->setEnabled(true);
         m_stopAction->setEnabled(false);
         m_playAction->setEnabled(false);
-	ui.video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture")));
+        ui.video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", KdenliveSettings::capturefolder())));
         //ui.video_frame->setText(i18n("Press record button\nto start screen capture"));
         break;
     case VIDEO4LINUX:
@@ -133,23 +143,23 @@ void RecMonitor::slotVideoDeviceChanged(int ix) {
         m_rewAction->setEnabled(false);
         m_fwdAction->setEnabled(false);
         //ui.video_frame->setText(i18n("Plug your camcorder and\npress connect button\nto initialize connection"));
-	ui.video_frame->setPixmap(mergeSideBySide(KIcon("network-connect").pixmap(QSize(50, 50)), i18n("Plug your camcorder and\npress connect button\nto initialize connection")));
+        ui.video_frame->setPixmap(mergeSideBySide(KIcon("network-connect").pixmap(QSize(50, 50)), i18n("Plug your camcorder and\npress connect button\nto initialize connection\nFiles will be saved in:\n%1", KdenliveSettings::capturefolder())));
         break;
     }
 }
 
-QPixmap RecMonitor::mergeSideBySide( const QPixmap& pix, const QString txt )
-{
+QPixmap RecMonitor::mergeSideBySide(const QPixmap& pix, const QString txt) {
     QPainter p;
-    int strWidth = p.fontMetrics().boundingRect( QRect(0, 0, ui.video_frame->width(), ui.video_frame->height()), Qt::AlignLeft, txt ).width();
-    int strHeight = p.fontMetrics().height();
+    QRect r = p.fontMetrics().boundingRect(QRect(0, 0, ui.video_frame->width(), ui.video_frame->height()), Qt::AlignLeft, txt);
+    int strWidth = r.width();
+    int strHeight = r.height();
     int pixWidth = pix.width();
     int pixHeight = pix.height();
-    QPixmap res( strWidth + 8 + pixWidth, qMax( strHeight, pixHeight ) );
+    QPixmap res(strWidth + 8 + pixWidth, qMax(strHeight, pixHeight));
     res.fill(Qt::transparent);
-    p.begin( &res );
-    p.drawPixmap(0,0, pix );
-    p.drawText( QRect( pixWidth +8, 0, strWidth, pixHeight), 0, txt );
+    p.begin(&res);
+    p.drawPixmap(0, 0, pix);
+    p.drawText(QRect(pixWidth + 8, 0, strWidth, strHeight), 0, txt);
     p.end();
     return res;
 }
@@ -159,10 +169,10 @@ void RecMonitor::checkDeviceAvailability() {
     if (!KIO::NetAccess::exists(KUrl(KdenliveSettings::video4vdevice()), KIO::NetAccess::SourceSide , this)) {
         m_playAction->setEnabled(false);
         m_recAction->setEnabled(false);
-	ui.video_frame->setPixmap(mergeSideBySide(KIcon("camera-web").pixmap(QSize(50, 50)), i18n("Cannot read from device %1\nPlease check drivers and access rights.", KdenliveSettings::video4vdevice())));
+        ui.video_frame->setPixmap(mergeSideBySide(KIcon("camera-web").pixmap(QSize(50, 50)), i18n("Cannot read from device %1\nPlease check drivers and access rights.", KdenliveSettings::video4vdevice())));
         //ui.video_frame->setText(i18n("Cannot read from device %1\nPlease check drivers and access rights.", KdenliveSettings::video4vdevice()));
     } else //ui.video_frame->setText(i18n("Press play or record button\nto start video capture"));
-	ui.video_frame->setPixmap(mergeSideBySide(KIcon("camera-web").pixmap(QSize(50, 50)), i18n("Press play or record button\nto start video capture")));
+        ui.video_frame->setPixmap(mergeSideBySide(KIcon("camera-web").pixmap(QSize(50, 50)), i18n("Press play or record button\nto start video capture\nFiles will be saved in:\n%1", KdenliveSettings::capturefolder())));
 }
 
 void RecMonitor::slotDisconnect() {
@@ -363,10 +373,10 @@ void RecMonitor::slotRecord() {
                 const QRect rect = QApplication::desktop()->screenGeometry();
                 args = KdenliveSettings::screengrabcapture().replace("%size", QString::number(rect.width()) + "x" + QString::number(rect.height())).replace("%offset", QString());
                 kDebug() << "// capture params: " << args;
-		if (KdenliveSettings::screengrabenableaudio()) {
-		    // also capture audio
-		    m_captureArgs << KdenliveSettings::screengrabaudiocapture().simplified().split(' ');
-		}
+                if (KdenliveSettings::screengrabenableaudio()) {
+                    // also capture audio
+                    m_captureArgs << KdenliveSettings::screengrabaudiocapture().simplified().split(' ');
+                }
                 m_captureArgs << args.simplified().split(' ') << KdenliveSettings::screengrabencoding().simplified().split(' ') << m_captureFile.path();
                 ui.video_frame->setText(i18n("Capturing..."));
                 m_isCapturing = true;
@@ -407,8 +417,8 @@ void RecMonitor::slotStartGrab(const QRect &rect) {
     QString args = KdenliveSettings::screengrabcapture().replace("%size", QString::number(width) + "x" + QString::number(height)).replace("%offset", "+" + QString::number(rect.x()) + "," + QString::number(rect.y()));
     kDebug() << "// capture params: " << args;
     if (KdenliveSettings::screengrabenableaudio()) {
-	// also capture audio
-	m_captureArgs << KdenliveSettings::screengrabaudiocapture().simplified().split(' ');
+        // also capture audio
+        m_captureArgs << KdenliveSettings::screengrabaudiocapture().simplified().split(' ');
     }
     m_captureArgs << args.simplified().split(' ') << KdenliveSettings::screengrabencoding().simplified().split(' ') << m_captureFile.path();
     m_isCapturing = true;
@@ -427,8 +437,8 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status) {
             m_playAction->setEnabled(false);
             m_rewAction->setEnabled(false);
             m_fwdAction->setEnabled(false);
+            m_recAction->setEnabled(false);
         }
-        m_isCapturing = false;
         m_isPlaying = false;
         m_playAction->setIcon(m_playIcon);
         m_recAction->setChecked(false);
@@ -436,7 +446,13 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status) {
         ui.device_selector->setEnabled(true);
         if (captureProcess && captureProcess->exitStatus() == QProcess::CrashExit) {
             ui.video_frame->setText(i18n("Capture crashed, please check your parameters"));
-        } else ui.video_frame->setText(i18n("Not connected"));
+        } else {
+            ui.video_frame->setText(i18n("Not connected"));
+            if (m_isCapturing && ui.device_selector->currentIndex() == FIREWIRE) {
+                //TODO: show dialog asking user confirmation for captured files
+            }
+        }
+        m_isCapturing = false;
     } else {
         if (ui.device_selector->currentIndex() != SCREENGRAB) m_stopAction->setEnabled(true);
         ui.device_selector->setEnabled(false);

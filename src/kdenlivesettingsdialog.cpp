@@ -105,6 +105,27 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
 
 KdenliveSettingsDialog::~KdenliveSettingsDialog() {}
 
+void KdenliveSettingsDialog::showPage(int page, int option) {
+    switch (page) {
+    case 1:
+        setCurrentPage(page1);
+        break;
+    case 2:
+        setCurrentPage(page2);
+        break;
+    case 3:
+        setCurrentPage(page3);
+        break;
+    case 4:
+        setCurrentPage(page4);
+        m_configCapture.tabWidget->setCurrentIndex(option);
+        break;
+    case 5:
+        setCurrentPage(page5);
+        break;
+
+    }
+}
 
 void KdenliveSettingsDialog::slotEditVideoApplication() {
     KService::Ptr service;

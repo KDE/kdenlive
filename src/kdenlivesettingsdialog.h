@@ -37,6 +37,7 @@ class KdenliveSettingsDialog : public KConfigDialog {
 public:
     KdenliveSettingsDialog(QWidget * parent = 0);
     ~KdenliveSettingsDialog();
+    void showPage(int page, int option);
 
 protected:
     virtual bool hasChanged();

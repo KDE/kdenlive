@@ -72,7 +72,7 @@ private:
     QAction *m_stopAction;
     QAction *m_discAction;
     void checkDeviceAvailability();
-    QPixmap mergeSideBySide( const QPixmap& pix, const QString txt );
+    QPixmap mergeSideBySide(const QPixmap& pix, const QString txt);
 
 private slots:
     void slotStartCapture(bool play = true);
@@ -84,6 +84,7 @@ private slots:
     void slotForward();
     void slotDisconnect();
     void slotStartGrab(const QRect &rect);
+    void slotConfigure();
 
 public slots:
     void refreshRecMonitor(bool visible);
@@ -96,6 +97,7 @@ signals:
     void renderPosition(int);
     void durationChanged(int);
     void addProjectClip(KUrl);
+    void showConfigDialog(int, int);
 };
 
 #endif

@@ -164,6 +164,7 @@ MainWindow::MainWindow(QWidget *parent)
     addDockWidget(Qt::TopDockWidgetArea, recMonitorDock);
 
     connect(m_recMonitor, SIGNAL(addProjectClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
+    connect(m_recMonitor, SIGNAL(showConfigDialog(int, int)), this, SLOT(slotPreferences(int, int)));
 
     undoViewDock = new QDockWidget(i18n("Undo History"), this);
     undoViewDock->setObjectName("undo_history");
@@ -1097,18 +1098,21 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     m_activeDocument = doc;
 }
 
-void MainWindow::slotPreferences() {
+void MainWindow::slotPreferences(int page, int option) {
     //An instance of your dialog could be already created and could be
     // cached, in which case you want to display the cached dialog
     // instead of creating another one
-    if (KConfigDialog::showDialog("settings"))
+    if (KConfigDialog::showDialog("settings")) {
+        if (page != -1) static_cast <KdenliveSettingsDialog*>(KConfigDialog::exists("settings"))->showPage(page, option);
         return;
+    }
 
     // KConfigDialog didn't find an instance of this dialog, so lets
     // create it :
     KdenliveSettingsDialog* dialog = new KdenliveSettingsDialog(this);
     connect(dialog, SIGNAL(settingsChanged(const QString&)), this, SLOT(updateConfiguration()));
     dialog->show();
+    if (page != -1) dialog->showPage(page, option);
 }
 
 void MainWindow::updateConfiguration() {

@@ -175,7 +175,7 @@ private slots:
     void saveFile();
     void saveFileAs();
     void saveFileAs(const QString &outputFileName);
-    void slotPreferences();
+    void slotPreferences(int page = -1, int option = -1);
     void updateConfiguration();
     void slotConnectMonitors();
     void slotRaiseMonitor(bool clipMonitor);
