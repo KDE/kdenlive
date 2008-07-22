@@ -342,6 +342,10 @@ void RecMonitor::slotRecord() {
                 const QRect rect = QApplication::desktop()->screenGeometry();
                 args = KdenliveSettings::screengrabcapture().replace("%size", QString::number(rect.width()) + "x" + QString::number(rect.height())).replace("%offset", QString());
                 kDebug() << "// capture params: " << args;
+		if (KdenliveSettings::screengrabenableaudio()) {
+		    // also capture audio
+		    m_captureArgs << KdenliveSettings::screengrabaudiocapture().simplified().split(' ');
+		}
                 m_captureArgs << args.simplified().split(' ') << KdenliveSettings::screengrabencoding().simplified().split(' ') << m_captureFile.path();
                 ui.video_frame->setText(i18n("Capturing..."));
                 m_isCapturing = true;
@@ -381,6 +385,10 @@ void RecMonitor::slotStartGrab(const QRect &rect) {
     if (height % 2 != 0) height--;
     QString args = KdenliveSettings::screengrabcapture().replace("%size", QString::number(width) + "x" + QString::number(height)).replace("%offset", "+" + QString::number(rect.x()) + "," + QString::number(rect.y()));
     kDebug() << "// capture params: " << args;
+    if (KdenliveSettings::screengrabenableaudio()) {
+	// also capture audio
+	m_captureArgs << KdenliveSettings::screengrabaudiocapture().simplified().split(' ');
+    }
     m_captureArgs << args.simplified().split(' ') << KdenliveSettings::screengrabencoding().simplified().split(' ') << m_captureFile.path();
     m_isCapturing = true;
     ui.video_frame->setText(i18n("Capturing..."));

@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>502</width>
-    <height>374</height>
+    <width>446</width>
+    <height>312</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_3" >
@@ -45,7 +45,7 @@
       </size>
      </property>
      <property name="currentIndex" >
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab" >
       <property name="geometry" >
@@ -357,8 +357,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>486</width>
-        <height>270</height>
+        <width>430</width>
+        <height>238</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -366,16 +366,26 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4" >
        <item row="0" column="0" >
-        <widget class="QLabel" name="label_17" >
+        <widget class="QCheckBox" name="kcfg_screengrabenableaudio" >
          <property name="text" >
-          <string>Capture params</string>
+          <string>Capture audio</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1" >
+       <item row="0" column="2" >
+        <widget class="KLineEdit" name="kcfg_screengrabaudiocapture" />
+       </item>
+       <item row="1" column="0" colspan="2" >
+        <widget class="QLabel" name="label_17" >
+         <property name="text" >
+          <string>Video capture params</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2" >
         <widget class="KLineEdit" name="kcfg_screengrabcapture" />
        </item>
-       <item row="1" column="0" >
+       <item row="2" column="0" >
         <widget class="QLabel" name="label_8" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Preferred" hsizetype="Maximum" >
@@ -388,7 +398,7 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1" >
+       <item row="2" column="2" >
         <widget class="KLineEdit" name="kcfg_screengrabencoding" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
@@ -401,7 +411,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0" >
+       <item row="3" column="0" >
         <widget class="QLabel" name="label_10" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Preferred" hsizetype="Maximum" >
@@ -414,7 +424,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1" >
+       <item row="3" column="2" >
         <widget class="KLineEdit" name="kcfg_screengrabextension" >
          <property name="sizePolicy" >
           <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
@@ -427,14 +437,14 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="2" >
+       <item row="4" column="0" colspan="3" >
         <widget class="QCheckBox" name="kcfg_fullscreengrab" >
          <property name="text" >
           <string>Full screen capture</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="1" >
+       <item row="5" column="1" colspan="2" >
         <spacer name="verticalSpacer_3" >
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
@@ -451,20 +461,10 @@
      </widget>
     </widget>
    </item>
-   <item row="2" column="1" >
-    <spacer name="verticalSpacer" >
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0" >
-      <size>
-       <width>20</width>
-       <height>56</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
   </layout>
+  <zorder>label</zorder>
+  <zorder>kcfg_defaultcapture</zorder>
+  <zorder>tabWidget</zorder>
  </widget>
  <customwidgets>
   <customwidget>

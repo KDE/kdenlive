@@ -152,6 +152,16 @@
       <default></default>
     </entry>
 
+    <entry name="screengrabenableaudio" type="Bool">
+      <label>ffmpeg arguments for x11 grab capture.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="screengrabaudiocapture" type="String">
+      <label>ffmpeg arguments for x11 grab capture.</label>
+      <default>-f oss -i /dev/dsp</default>
+    </entry>
+
     <entry name="screengrabcapture" type="String">
       <label>ffmpeg arguments for x11 grab capture.</label>
       <default>-f x11grab -r 15 -s %size -i :0.0%offset</default>
@@ -159,7 +169,7 @@
 
     <entry name="screengrabencoding" type="String">
       <label>ffmpeg arguments for x11 capture encoding.</label>
-      <default>-vcodec mpeg4 -acodec NULL</default>
+      <default>-vcodec mpeg4</default>
     </entry>
 
     <entry name="screengrabextension" type="String">
