@@ -399,7 +399,7 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status) {
     if (status == QProcess::NotRunning) {
         displayProcess->kill();
         if (m_isCapturing && ui.device_selector->currentIndex() != FIREWIRE)
-            if (ui.autoaddbox->isChecked()) emit addProjectClip(m_captureFile);
+            if (ui.autoaddbox->isChecked() && QFile::exists(m_captureFile.path())) emit addProjectClip(m_captureFile);
         if (ui.device_selector->currentIndex() == FIREWIRE) {
             m_discAction->setIcon(KIcon("network-connect"));
             m_discAction->setText(i18n("Connect"));
