@@ -176,13 +176,13 @@ void RecMonitor::slotStopCapture() {
         m_isPlaying = false;
         break;
     case VIDEO4LINUX:
-        QTimer::singleShot(1000, captureProcess, SLOT(kill()));
         captureProcess->write("q\n", 3);
+        QTimer::singleShot(1000, captureProcess, SLOT(kill()));
 
         break;
     case SCREENGRAB:
+        captureProcess->write("q\n", 3);
         QTimer::singleShot(1000, captureProcess, SLOT(kill()));
-        if (m_isCapturing && ui.autoaddbox->isChecked()) emit addProjectClip(m_captureFile);
         break;
     default:
         break;
@@ -395,8 +395,6 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status) {
         if (ui.device_selector->currentIndex() == FIREWIRE) {
             m_discAction->setIcon(KIcon("network-connect"));
             m_discAction->setText(i18n("Connect"));
-            m_recAction->setEnabled(false);
-            m_stopAction->setEnabled(false);
             m_playAction->setEnabled(false);
             m_rewAction->setEnabled(false);
             m_fwdAction->setEnabled(false);
@@ -411,7 +409,7 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status) {
             ui.video_frame->setText(i18n("Capture crashed, please check your parameters"));
         } else ui.video_frame->setText(i18n("Not connected"));
     } else {
-        m_stopAction->setEnabled(true);
+        if (ui.device_selector->currentIndex() != SCREENGRAB) m_stopAction->setEnabled(true);
         ui.device_selector->setEnabled(false);
     }
 }
