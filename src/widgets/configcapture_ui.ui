@@ -45,15 +45,15 @@
       </size>
      </property>
      <property name="currentIndex" >
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab" >
       <property name="geometry" >
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>486</width>
-        <height>270</height>
+        <width>430</width>
+        <height>238</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -63,11 +63,11 @@
        <item row="0" column="0" >
         <widget class="QLabel" name="label_2" >
          <property name="text" >
-          <string>Default format</string>
+          <string>Capture format</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1" colspan="2" >
+       <item row="0" column="1" >
         <widget class="KComboBox" name="kcfg_firewireformat" >
          <item>
           <property name="text" >
@@ -91,7 +91,7 @@
          </item>
         </widget>
        </item>
-       <item row="0" column="3" >
+       <item row="0" column="2" >
         <spacer name="horizontalSpacer" >
          <property name="orientation" >
           <enum>Qt::Horizontal</enum>
@@ -104,7 +104,21 @@
          </property>
         </spacer>
        </item>
-       <item row="1" column="2" >
+       <item row="1" column="0" colspan="3" >
+        <widget class="QCheckBox" name="kcfg_firewireautosplit" >
+         <property name="text" >
+          <string>Automatically start a new file on scene cut</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="3" >
+        <widget class="QCheckBox" name="kcfg_firewiretimestamp" >
+         <property name="text" >
+          <string>Add recording time to captured file name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1" >
         <spacer name="verticalSpacer_2" >
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
@@ -124,8 +138,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>486</width>
-        <height>270</height>
+        <width>430</width>
+        <height>238</height>
        </rect>
       </property>
       <attribute name="title" >
@@ -462,9 +476,6 @@
     </widget>
    </item>
   </layout>
-  <zorder>label</zorder>
-  <zorder>kcfg_defaultcapture</zorder>
-  <zorder>tabWidget</zorder>
  </widget>
  <customwidgets>
   <customwidget>

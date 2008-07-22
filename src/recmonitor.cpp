@@ -31,13 +31,15 @@
 #include <KStandardDirs>
 #include <KComboBox>
 #include <KIO/NetAccess>
+#include <KFileItem>
 
 #include "gentime.h"
 #include "kdenlivesettings.h"
+#include "managecapturesdialog.h"
 #include "recmonitor.h"
 
 RecMonitor::RecMonitor(QString name, QWidget *parent)
-        : QWidget(parent), m_name(name), m_isActive(false), m_isCapturing(false), m_isPlaying(false) {
+        : QWidget(parent), m_name(name), m_isActive(false), m_isCapturing(false), m_isPlaying(false), m_didCapture(false) {
     ui.setupUi(this);
 
     ui.video_frame->setAttribute(Qt::WA_PaintOnScreen);
@@ -177,6 +179,9 @@ void RecMonitor::checkDeviceAvailability() {
 
 void RecMonitor::slotDisconnect() {
     if (captureProcess->state() == QProcess::NotRunning) {
+        m_captureTime = KDateTime::currentLocalDateTime();
+        kDebug() << "CURRENT TIME: " << m_captureTime.toString();
+        m_didCapture = false;
         slotStartCapture(false);
         m_discAction->setIcon(KIcon("network-disconnect"));
         m_discAction->setText(i18n("Disonnect"));
@@ -187,6 +192,9 @@ void RecMonitor::slotDisconnect() {
         m_fwdAction->setEnabled(true);
     } else {
         captureProcess->write("q", 1);
+        QTimer::singleShot(1000, captureProcess, SLOT(kill()));
+        if (m_didCapture) manageCapturedFiles();
+        m_didCapture = false;
     }
 }
 
@@ -281,8 +289,33 @@ void RecMonitor::slotStartCapture(bool play) {
 
     switch (ui.device_selector->currentIndex()) {
     case FIREWIRE:
-        m_captureArgs << "--format" << "hdv" << "-i" << "capture" << "-";
-        m_displayArgs << "-f" << "mpegts" << "-x" << QString::number(ui.video_frame->width()) << "-y" << QString::number(ui.video_frame->height()) << "-";
+        switch (KdenliveSettings::firewireformat()) {
+        case 0:
+            // RAW DV CAPTURE
+            m_captureArgs << "--format" << "raw";
+            m_displayArgs << "-f" << "dv";
+            break;
+        case 1:
+            // DV type 1
+            m_captureArgs << "--format" << "dv1";
+            m_displayArgs << "-f" << "dv";
+            break;
+        case 2:
+            // DV type 2
+            m_captureArgs << "--format" << "dv2";
+            m_displayArgs << "-f" << "dv";
+            break;
+        case 3:
+            // HDV CAPTURE
+            m_captureArgs << "--format" << "hdv";
+            m_displayArgs << "-f" << "mpegts";
+            break;
+        }
+        if (KdenliveSettings::firewireautosplit()) m_captureArgs << "--autosplit";
+        if (KdenliveSettings::firewiretimestamp()) m_captureArgs << "--timestamp";
+        m_captureArgs << "-i" << "capture" << "-";
+        m_displayArgs << "-x" << QString::number(ui.video_frame->width()) << "-y" << QString::number(ui.video_frame->height()) << "-";
+
         captureProcess->setStandardOutputProcess(displayProcess);
         captureProcess->setWorkingDirectory(KdenliveSettings::capturefolder());
         captureProcess->start("dvgrab", m_captureArgs);
@@ -334,6 +367,7 @@ void RecMonitor::slotRecord() {
         return;
     } else if (ui.device_selector->currentIndex() == FIREWIRE) {
         m_isCapturing = true;
+        m_didCapture = true;
         captureProcess->write("c\n", 3);
         return;
     }
@@ -448,14 +482,52 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status) {
             ui.video_frame->setText(i18n("Capture crashed, please check your parameters"));
         } else {
             ui.video_frame->setText(i18n("Not connected"));
-            if (m_isCapturing && ui.device_selector->currentIndex() == FIREWIRE) {
-                //TODO: show dialog asking user confirmation for captured files
-            }
         }
         m_isCapturing = false;
     } else {
         if (ui.device_selector->currentIndex() != SCREENGRAB) m_stopAction->setEnabled(true);
         ui.device_selector->setEnabled(false);
+    }
+}
+
+void RecMonitor::manageCapturedFiles() {
+    QString extension;
+    switch (KdenliveSettings::firewireformat()) {
+    case 0:
+        extension = ".dv";
+        break;
+    case 1:
+    case 2:
+        extension = ".avi";
+        break;
+    case 3:
+        extension = ".m2t";
+        break;
+    }
+    QDir dir(KdenliveSettings::capturefolder());
+    QStringList filters;
+    filters << "capture*" + extension;
+    QStringList result = dir.entryList(filters, QDir::Files, QDir::Time);
+    KUrl::List capturedFiles;
+    foreach(QString name, result) {
+        KUrl url = KUrl(dir.filePath(name));
+        if (KIO::NetAccess::exists(url, KIO::NetAccess::SourceSide, this)) {
+            KFileItem file(KFileItem::Unknown, KFileItem::Unknown, url, true);
+            if (file.time(KFileItem::ModificationTime) > m_captureTime) capturedFiles.append(url);
+        }
+    }
+    kDebug() << "Found : " << capturedFiles.count() << " new capture files";
+    kDebug() << capturedFiles;
+
+    if (capturedFiles.count() > 0) {
+        ManageCapturesDialog *d = new ManageCapturesDialog(capturedFiles, this);
+        if (d->exec() == QDialog::Accepted) {
+            capturedFiles = d->importFiles();
+            foreach(KUrl url, capturedFiles) {
+                emit addProjectClip(url);
+            }
+        }
+        delete d;
     }
 }
 

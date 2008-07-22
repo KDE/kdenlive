@@ -29,6 +29,7 @@
 #include <KIcon>
 #include <KAction>
 #include <KRestrictedLine>
+#include <KDateTime>
 
 #include "ui_recmonitor_ui.h"
 #include "smallruler.h"
@@ -52,7 +53,7 @@ private:
     QString m_name;
     RegionGrabber *rgnGrab;
     bool m_isActive;
-
+    KDateTime m_captureTime;
 
     KUrl m_captureFile;
     KIcon m_playIcon;
@@ -62,6 +63,8 @@ private:
     QProcess *displayProcess;
     QTimer *m_initTimer;
     bool m_isCapturing;
+    /** did the user capture something ? */
+    bool m_didCapture;
     bool m_isPlaying;
     QStringList m_captureArgs;
     QStringList m_displayArgs;
@@ -73,6 +76,7 @@ private:
     QAction *m_discAction;
     void checkDeviceAvailability();
     QPixmap mergeSideBySide(const QPixmap& pix, const QString txt);
+    void manageCapturedFiles();
 
 private slots:
     void slotStartCapture(bool play = true);

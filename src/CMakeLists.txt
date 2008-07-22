@@ -53,6 +53,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/markerdialog_ui.ui
   widgets/keyframedialog_ui.ui
   widgets/clipdurationdialog_ui.ui
+  widgets/managecaptures_ui.ui
 )
  
 set(kdenlive_SRCS 
@@ -121,6 +122,7 @@ set(kdenlive_SRCS
   regiongrabber.cpp
   editkeyframecommand.cpp
   clipdurationdialog.cpp
+  managecapturesdialog.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

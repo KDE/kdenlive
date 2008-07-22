@@ -107,6 +107,16 @@
       <default>0</default>
     </entry>
 
+    <entry name="firewireautosplit" type="Bool">
+      <label>Create new capture file on scene cut.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="firewiretimestamp" type="Bool">
+      <label>Add record time to captured file name.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="video4vformat" type="String">
       <label>Default video4linux capture format.</label>
       <default>video4linux2</default>

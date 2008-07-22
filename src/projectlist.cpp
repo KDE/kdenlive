@@ -314,7 +314,7 @@ void ProjectList::slotAddClip(QUrl givenUrl, QString group) {
         list = KFileDialog::getOpenUrls(KUrl("kfiledialog:///clipfolder"), "application/vnd.kde.kdenlive application/vnd.westley.scenelist application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg video/x-ms-wmv audio/mpeg audio/x-mp3 audio/x-wav application/ogg video/mp4 video/quicktime image/gif image/jpeg image/png image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr\n*.m2t *.mts|HDV video\n*.dv|DV video");
     } else list.append(givenUrl);
     if (list.isEmpty()) return;
-    KUrl::List::Iterator it;
+
     int groupId = -1;
     if (group.isEmpty()) {
         ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
@@ -329,8 +329,8 @@ void ProjectList::slotAddClip(QUrl givenUrl, QString group) {
             groupId = item->clipId();
         }
     }
-    for (it = list.begin(); it != list.end(); it++) {
-        m_doc->slotAddClipFile(*it, group, groupId);
+    foreach(const KUrl file, list) {
+        m_doc->slotAddClipFile(file, group, groupId);
     }
 }
 
