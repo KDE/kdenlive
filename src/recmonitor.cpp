@@ -113,7 +113,8 @@ void RecMonitor::slotVideoDeviceChanged(int ix) {
         m_recAction->setEnabled(true);
         m_stopAction->setEnabled(false);
         m_playAction->setEnabled(false);
-        ui.video_frame->setText(i18n("Press record button\nto start screen capture"));
+	ui.video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture")));
+        //ui.video_frame->setText(i18n("Press record button\nto start screen capture"));
         break;
     case VIDEO4LINUX:
         m_discAction->setEnabled(false);
@@ -131,17 +132,37 @@ void RecMonitor::slotVideoDeviceChanged(int ix) {
         m_playAction->setEnabled(false);
         m_rewAction->setEnabled(false);
         m_fwdAction->setEnabled(false);
-        ui.video_frame->setText(i18n("Press connect button\nto initialize connection"));
+        //ui.video_frame->setText(i18n("Plug your camcorder and\npress connect button\nto initialize connection"));
+	ui.video_frame->setPixmap(mergeSideBySide(KIcon("network-connect").pixmap(QSize(50, 50)), i18n("Plug your camcorder and\npress connect button\nto initialize connection")));
         break;
     }
 }
+
+QPixmap RecMonitor::mergeSideBySide( const QPixmap& pix, const QString txt )
+{
+    QPainter p;
+    int strWidth = p.fontMetrics().boundingRect( QRect(0, 0, ui.video_frame->width(), ui.video_frame->height()), Qt::AlignLeft, txt ).width();
+    int strHeight = p.fontMetrics().height();
+    int pixWidth = pix.width();
+    int pixHeight = pix.height();
+    QPixmap res( strWidth + 8 + pixWidth, qMax( strHeight, pixHeight ) );
+    res.fill(Qt::transparent);
+    p.begin( &res );
+    p.drawPixmap(0,0, pix );
+    p.drawText( QRect( pixWidth +8, 0, strWidth, pixHeight), 0, txt );
+    p.end();
+    return res;
+}
+
 
 void RecMonitor::checkDeviceAvailability() {
     if (!KIO::NetAccess::exists(KUrl(KdenliveSettings::video4vdevice()), KIO::NetAccess::SourceSide , this)) {
         m_playAction->setEnabled(false);
         m_recAction->setEnabled(false);
-        ui.video_frame->setText(i18n("Cannot read from device %1\nPlease check drivers and access rights.", KdenliveSettings::video4vdevice()));
-    } else ui.video_frame->setText(i18n("Press play or record button\nto start video capture"));
+	ui.video_frame->setPixmap(mergeSideBySide(KIcon("camera-web").pixmap(QSize(50, 50)), i18n("Cannot read from device %1\nPlease check drivers and access rights.", KdenliveSettings::video4vdevice())));
+        //ui.video_frame->setText(i18n("Cannot read from device %1\nPlease check drivers and access rights.", KdenliveSettings::video4vdevice()));
+    } else //ui.video_frame->setText(i18n("Press play or record button\nto start video capture"));
+	ui.video_frame->setPixmap(mergeSideBySide(KIcon("camera-web").pixmap(QSize(50, 50)), i18n("Press play or record button\nto start video capture")));
 }
 
 void RecMonitor::slotDisconnect() {

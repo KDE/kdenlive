@@ -72,6 +72,7 @@ private:
     QAction *m_stopAction;
     QAction *m_discAction;
     void checkDeviceAvailability();
+    QPixmap mergeSideBySide( const QPixmap& pix, const QString txt );
 
 private slots:
     void slotStartCapture(bool play = true);
