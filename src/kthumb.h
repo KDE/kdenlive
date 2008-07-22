@@ -18,12 +18,12 @@
 #ifndef KTHUMB_H
 #define KTHUMB_H
 
-#include <qobject.h>
-#include <qpixmap.h>
-#include <qfile.h>
-#include <qthread.h>
+#include <QPixmap>
+#include <QFile>
+#include <QThread>
+#include <QDomElement>
 
-#include <kurl.h>
+#include <KUrl>
 
 #include <mlt++/Mlt.h>
 

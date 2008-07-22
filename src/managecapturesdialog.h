@@ -41,6 +41,7 @@ private slots:
     void slotRefreshButtons();
     void slotDeleteCurrent();
     void slotToggle();
+    void slotCheckItemIcon();
 
 protected:
     //void wheelEvent(QWheelEvent * event);

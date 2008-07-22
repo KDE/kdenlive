@@ -20,6 +20,9 @@
 #include <QTreeWidgetItem>
 #include <QFile>
 #include <QHeaderView>
+#include <QIcon>
+#include <QPixmap>
+#include <QTimer>
 
 #include <KDebug>
 #include <KGlobalSettings>
@@ -27,6 +30,7 @@
 #include <KIO/NetAccess>
 
 #include "managecapturesdialog.h"
+#include "kthumb.h"
 
 
 ManageCapturesDialog::ManageCapturesDialog(KUrl::List files, QWidget * parent): QDialog(parent) {
@@ -34,6 +38,7 @@ ManageCapturesDialog::ManageCapturesDialog(KUrl::List files, QWidget * parent): 
     m_view.setupUi(this);
     m_importButton = m_view.buttonBox->button(QDialogButtonBox::Ok);
     m_importButton->setText(i18n("import"));
+    m_view.treeWidget->setIconSize(QSize(70, 50));
     foreach(const KUrl url, files) {
         QStringList text;
         text << url.fileName();
@@ -50,11 +55,32 @@ ManageCapturesDialog::ManageCapturesDialog(KUrl::List files, QWidget * parent): 
     connect(m_view.toggleButton, SIGNAL(pressed()), this, SLOT(slotToggle()));
     QTreeWidgetItem *item = m_view.treeWidget->topLevelItem(0);
     if (item) m_view.treeWidget->setCurrentItem(item);
-    m_view.treeWidget->header()->setResizeMode(0, QHeaderView::Stretch);
+    connect(m_view.treeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckItemIcon()));
+    QTimer::singleShot(500, this, SLOT(slotCheckItemIcon()));
+    m_view.treeWidget->resizeColumnToContents(0);
+    m_view.treeWidget->setEnabled(false);
     adjustSize();
 }
 
 ManageCapturesDialog::~ManageCapturesDialog() {
+}
+
+void ManageCapturesDialog::slotCheckItemIcon() {
+    int ct = 0;
+    int count = m_view.treeWidget->topLevelItemCount();
+    while (ct < count) {
+	QTreeWidgetItem *item = m_view.treeWidget->topLevelItem(ct);
+	//QTreeWidgetItem *item = m_view.treeWidget->currentItem();
+	if (item->icon(0).isNull()) {
+	    QPixmap p = KThumb::getImage(KUrl(item->data(0, Qt::UserRole).toString()), 0, 70, 50);
+	    item->setIcon(0, QIcon(p));
+	    m_view.treeWidget->resizeColumnToContents(0);
+	    repaint();
+	    //QTimer::singleShot(400, this, SLOT(slotCheckItemIcon()));	
+	}
+	ct++;
+    }
+    m_view.treeWidget->setEnabled(true);
 }
 
 void ManageCapturesDialog::slotRefreshButtons() {
