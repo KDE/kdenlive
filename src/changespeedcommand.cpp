@@ -19,25 +19,24 @@
 
 #include <KLocale>
 
-#include "resizeclipcommand.h"
+#include "changespeedcommand.h"
 #include "customtrackview.h"
 
-ResizeClipCommand::ResizeClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_startPos(start), m_endPos(end), m_doIt(doIt) {
-    setText(i18n("Resize clip"));
+ChangeSpeedCommand::ChangeSpeedCommand(CustomTrackView *view, ItemInfo info, double old_speed, double new_speed, int clipId, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_clipInfo(info), m_old_speed(old_speed), m_new_speed(new_speed), m_clipId(clipId), m_doIt(doIt) {
+    setText(i18n("Adjust clip length"));
 }
 
 
 // virtual
-void ResizeClipCommand::undo() {
-// kDebug()<<"----  undoing action";
-    m_doIt = true;
-    if (m_doIt) m_view->resizeClip(m_endPos, m_startPos);
+void ChangeSpeedCommand::undo() {
+    m_view->doChangeClipSpeed(m_clipInfo, m_old_speed, m_clipId);
 }
 // virtual
-void ResizeClipCommand::redo() {
-    kDebug() << "----  redoing action";
-    if (m_doIt) m_view->resizeClip(m_startPos, m_endPos);
+void ChangeSpeedCommand::redo() {
+    if (m_doIt) {
+        m_view->doChangeClipSpeed(m_clipInfo, m_new_speed, m_clipId);
+    }
     m_doIt = true;
 }
 
-#include "resizeclipcommand.moc"
+#include "changespeedcommand.moc"

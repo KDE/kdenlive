@@ -40,7 +40,7 @@
 #include "kthumb.h"
 
 ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double scale, double fps)
-        : AbstractClipItem(info, QRectF(), fps), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_thumbsRequested(0), m_startFade(0), m_endFade(0), m_hover(false), m_selectedEffect(-1) {
+        : AbstractClipItem(info, QRectF(), fps), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_thumbsRequested(0), m_startFade(0), m_endFade(0), m_hover(false), m_selectedEffect(-1), m_speed(1.0) {
     QRectF rect((double) info.startPos.frames(fps) * scale, (double)(info.track * KdenliveSettings::trackheight() + 1), (double)(info.endPos - info.startPos).frames(fps) * scale, (double)(KdenliveSettings::trackheight() - 1));
     setRect(rect);
 
@@ -970,6 +970,17 @@ void ClipItem::deleteEffect(QString index) {
     m_effectNames = m_effectList.effectNames().join(" / ");
     if (needRepaint) update(boundingRect());
     flashClip();
+}
+
+double ClipItem::speed() const {
+    return m_speed;
+}
+
+void ClipItem::setSpeed(const double speed) {
+    m_speed = speed;
+    if (m_speed == 1.0) m_clipName = baseClip()->name();
+    else m_clipName = baseClip()->name() + " - " + QString::number(speed * 100, 'f', 0) + "%";
+    update();
 }
 
 //virtual

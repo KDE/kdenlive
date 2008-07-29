@@ -118,8 +118,8 @@ Mlt::Repository *initEffects::parseEffectFiles() {
     QDir directory;
     for (more = direc.begin() ; more != direc.end() ; ++more) {
         directory = QDir(*more);
-	QStringList filter;
-	filter << "*.xml";
+        QStringList filter;
+        filter << "*.xml";
         fileList = directory.entryList(filter, QDir::Files);
         for (it = fileList.begin() ; it != fileList.end() ; ++it) {
             itemName = KUrl(*more + *it).path();

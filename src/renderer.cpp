@@ -91,7 +91,7 @@ Render::Render(const QString & rendererName, int winid, int extid, QWidget *pare
         m_mltProducer = producer;
         if (m_blackClip) delete m_blackClip;
         m_blackClip = new Mlt::Producer(*m_mltProfile , "colour", "black");
-	m_blackClip->set("id", "black");
+        m_blackClip->set("id", "black");
         m_mltConsumer->connect(*m_mltProducer);
         m_mltProducer->set_speed(0.0);
 
@@ -248,11 +248,11 @@ QPixmap Render::getImageThumbnail(KUrl url, int width, int height) {
         QStringList::Iterator it;
 
         QDir dir(url.directory());
-	QStringList filter;
-	filter << "*." + fileType;
-	filter << "*." + fileType.toUpper();
+        QStringList filter;
+        filter << "*." + fileType;
+        filter << "*." + fileType.toUpper();
         more = dir.entryList(filter, QDir::Files);
-	im.load(url.directory() + "/" + more.at(0));
+        im.load(url.directory() + "/" + more.at(0));
     } else im.load(url.path());
     //pixmap = im.scaled(width, height);
     return pixmap;
@@ -475,7 +475,7 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
 
     if (producer->is_blank()) {
         kDebug() << " / / / / / / / /ERRROR / / / / // CANNOT LOAD PRODUCER: ";
-	emit removeInvalidClip(clipId);
+        emit removeInvalidClip(clipId);
         return;
     }
     producer->set("id", clipId);
@@ -1266,6 +1266,69 @@ void Render::mltRemoveClip(int track, GenTime position) {
     if (track != 0) mltCheckLength();
     //emit durationChanged();
     m_isBlocked = false;
+}
+
+int Render::mltChangeClipSpeed(ItemInfo info, double speed, Mlt::Producer *prod) {
+    m_isBlocked = true;
+    int newLength = 0;
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";
+
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(info.track));
+    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+    int clipIndex = trackPlaylist.get_clip_index_at((int) info.startPos.frames(m_fps));
+    Mlt::Producer clip(trackPlaylist.get_clip(clipIndex));
+    QString serv = clip.parent().get("mlt_service");
+    QString id = clip.parent().get("id");
+    kDebug() << "CLIP SERVICE: " << clip.parent().get("mlt_service");
+    if (serv == "avformat" && speed != 1.0) {
+        mlt_service_lock(service.get_service());
+        QString url = clip.parent().get("resource");
+        url.append(":" + QString::number(speed));
+        char *tmp = decodedString(url);
+        Mlt::Producer *slow = new Mlt::Producer(*m_mltProfile, "framebuffer", tmp);
+        delete[] tmp;
+        tmp = decodedString(id);
+        slow->set("id", tmp);
+        delete[] tmp;
+        slow->set_in_and_out(info.cropStart.frames(m_fps), (info.endPos - info.startPos).frames(m_fps));
+        newLength = slow->get_length();
+        trackPlaylist.replace_with_blank(clipIndex);
+        trackPlaylist.consolidate_blanks(0);
+        trackPlaylist.insert_at((int) info.startPos.frames(m_fps), *slow, 1);
+        mlt_service_unlock(service.get_service());
+        kDebug() << "AVFORMAT CLIP!!!:";
+    } else if (speed == 1.0) {
+        mlt_service_lock(service.get_service());
+        Mlt::Producer *cut = prod->cut(info.cropStart.frames(m_fps), (info.endPos - info.startPos).frames(m_fps) - 1);
+        trackPlaylist.replace_with_blank(clipIndex);
+        newLength = cut->get_length();
+        trackPlaylist.consolidate_blanks(0);
+        trackPlaylist.insert_at((int) info.startPos.frames(m_fps), *cut, 1);
+        mlt_service_unlock(service.get_service());
+    } else if (serv == "framebuffer") {
+        mlt_service_lock(service.get_service());
+        QString url = clip.parent().get("resource");
+        url = url.section(":", 0, -1);
+        url.append(":" + QString::number(speed));
+        char *tmp = decodedString(url);
+        Mlt::Producer *slow = new Mlt::Producer(*m_mltProfile, "framebuffer", tmp);
+        delete[] tmp;
+        tmp = decodedString(id);
+        slow->set("id", tmp);
+        delete[] tmp;
+        slow->set_in_and_out(info.cropStart.frames(m_fps), (info.endPos - info.startPos).frames(m_fps));
+        newLength = slow->get_length();
+        trackPlaylist.replace_with_blank(clipIndex);
+        trackPlaylist.consolidate_blanks(0);
+        trackPlaylist.insert_at((int) info.startPos.frames(m_fps), *slow, 1);
+        mlt_service_unlock(service.get_service());
+        kDebug() << "AVFORMAT CLIP!!!:";
+    }
+
+    m_isBlocked = false;
+    return newLength;
 }
 
 bool Render::mltRemoveEffect(int track, GenTime position, QString index, bool doRefresh) {

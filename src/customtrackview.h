@@ -92,6 +92,8 @@ public:
     void clearSearchStrings();
     void clipStart();
     void clipEnd();
+    void changeClipSpeed();
+    void doChangeClipSpeed(ItemInfo info, double speed, int id);
 
 public slots:
     void setCursorPos(int pos, bool seek = true);

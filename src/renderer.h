@@ -170,6 +170,7 @@ Q_OBJECT public:
     void mltMoveTransparency(int startTime, int endTime, int startTrack, int endTrack, int id);
     void mltDeleteTransparency(int pos, int track, int id);
     void mltResizeTransparency(int oldStart, int newStart, int newEnd, int track, int id);
+    int mltChangeClipSpeed(ItemInfo info, double speed, Mlt::Producer *prod);
 
 private:   // Private attributes & methods
     /** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */

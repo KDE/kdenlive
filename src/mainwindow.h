@@ -231,6 +231,7 @@ private slots:
     void slotPaste();
     void slotPasteEffects();
     void slotReloadEffects();
+    void slotChangeClipSpeed();
 
 };
 

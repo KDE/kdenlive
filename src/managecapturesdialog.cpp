@@ -68,16 +68,16 @@ void ManageCapturesDialog::slotCheckItemIcon() {
     int ct = 0;
     int count = m_view.treeWidget->topLevelItemCount();
     while (ct < count) {
-	QTreeWidgetItem *item = m_view.treeWidget->topLevelItem(ct);
-	//QTreeWidgetItem *item = m_view.treeWidget->currentItem();
-	if (item->icon(0).isNull()) {
-	    QPixmap p = KThumb::getImage(KUrl(item->data(0, Qt::UserRole).toString()), 0, 70, 50);
-	    item->setIcon(0, QIcon(p));
-	    m_view.treeWidget->resizeColumnToContents(0);
-	    repaint();
-	    //QTimer::singleShot(400, this, SLOT(slotCheckItemIcon()));	
-	}
-	ct++;
+        QTreeWidgetItem *item = m_view.treeWidget->topLevelItem(ct);
+        //QTreeWidgetItem *item = m_view.treeWidget->currentItem();
+        if (item->icon(0).isNull()) {
+            QPixmap p = KThumb::getImage(KUrl(item->data(0, Qt::UserRole).toString()), 0, 70, 50);
+            item->setIcon(0, QIcon(p));
+            m_view.treeWidget->resizeColumnToContents(0);
+            repaint();
+            //QTimer::singleShot(400, this, SLOT(slotCheckItemIcon()));
+        }
+        ct++;
     }
     m_view.treeWidget->setEnabled(true);
 }

@@ -17,27 +17,33 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <KLocale>
 
-#include "resizeclipcommand.h"
-#include "customtrackview.h"
+#ifndef CHANGESPEEDCOMMAND_H
+#define CHANGESPEEDCOMMAND_H
 
-ResizeClipCommand::ResizeClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_startPos(start), m_endPos(end), m_doIt(doIt) {
-    setText(i18n("Resize clip"));
-}
+#include <QUndoCommand>
+#include <QGraphicsView>
+#include <KDebug>
 
+#include "gentime.h"
+#include "definitions.h"
 
-// virtual
-void ResizeClipCommand::undo() {
-// kDebug()<<"----  undoing action";
-    m_doIt = true;
-    if (m_doIt) m_view->resizeClip(m_endPos, m_startPos);
-}
-// virtual
-void ResizeClipCommand::redo() {
-    kDebug() << "----  redoing action";
-    if (m_doIt) m_view->resizeClip(m_startPos, m_endPos);
-    m_doIt = true;
-}
+class CustomTrackView;
 
-#include "resizeclipcommand.moc"
+class ChangeSpeedCommand : public QUndoCommand {
+public:
+    ChangeSpeedCommand(CustomTrackView *view, ItemInfo info, double old_speed, double new_speed, int clipId, bool doIt, QUndoCommand * parent = 0);
+    virtual void undo();
+    virtual void redo();
+
+private:
+    CustomTrackView *m_view;
+    ItemInfo m_clipInfo;
+    int m_clipId;
+    bool m_doIt;
+    double m_old_speed;
+    double m_new_speed;
+};
+
+#endif
+

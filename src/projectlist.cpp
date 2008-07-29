@@ -325,8 +325,8 @@ void ProjectList::slotAddClip(QUrl givenUrl, QString group) {
         }
     }
     foreach(const KUrl file, list) {
-	if (KIO::NetAccess::exists(file, KIO::NetAccess::SourceSide, NULL))
-	    m_doc->slotAddClipFile(file, group, groupId);
+        if (KIO::NetAccess::exists(file, KIO::NetAccess::SourceSide, NULL))
+            m_doc->slotAddClipFile(file, group, groupId);
     }
 }
 
@@ -334,8 +334,8 @@ void ProjectList::slotRemoveInvalidClip(int id) {
     ProjectItem *item = getItemById(id);
     if (item) {
         QString path = item->referencedClip()->fileURL().path();
-	if (!path.isEmpty()) KMessageBox::sorry(this, i18n("<qt>Clip <b>%1</b><br>is invalid, will be removed from project.", path));
-	
+        if (!path.isEmpty()) KMessageBox::sorry(this, i18n("<qt>Clip <b>%1</b><br>is invalid, will be removed from project.", path));
+
     }
     QList <int> ids;
     ids << id;

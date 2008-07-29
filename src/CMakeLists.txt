@@ -123,6 +123,7 @@ set(kdenlive_SRCS
   editkeyframecommand.cpp
   clipdurationdialog.cpp
   managecapturesdialog.cpp
+  changespeedcommand.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

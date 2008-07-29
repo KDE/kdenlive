@@ -26,6 +26,7 @@
     <Menu name="timeline" ><text>Timeline</text>
       <Action name="cut_timeline_clip" />
       <Action name="delete_timeline_clip" />
+      <Action name="change_clip_speed" />
       <Menu name="marker_menu" ><text>Markers</text>
 		<Action name="add_clip_marker" />
 		<Action name="edit_clip_marker" />

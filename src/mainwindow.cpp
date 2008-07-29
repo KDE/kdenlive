@@ -244,6 +244,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_timelineContextMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Paste)));
 
     m_timelineContextClipMenu->addAction(actionCollection()->action("delete_timeline_clip"));
+    m_timelineContextClipMenu->addAction(actionCollection()->action("change_clip_speed"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("cut_timeline_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
     m_timelineContextClipMenu->addAction(actionCollection()->action("paste_effects"));
@@ -626,6 +627,10 @@ void MainWindow::setupActions() {
     deleteTimelineClip->setShortcut(Qt::Key_Delete);
     actionCollection()->addAction("delete_timeline_clip", deleteTimelineClip);
     connect(deleteTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotDeleteTimelineClip()));
+
+    KAction* editTimelineClipSpeed = new KAction(KIcon("edit-delete"), i18n("Change Clip Speed"), this);
+    actionCollection()->addAction("change_clip_speed", editTimelineClipSpeed);
+    connect(editTimelineClipSpeed, SIGNAL(triggered(bool)), this, SLOT(slotChangeClipSpeed()));
 
     KAction* cutTimelineClip = new KAction(KIcon("edit-cut"), i18n("Cut Clip"), this);
     cutTimelineClip->setShortcut(Qt::SHIFT + Qt::Key_R);
@@ -1167,6 +1172,12 @@ void MainWindow::slotSwitchSnap() {
 void MainWindow::slotDeleteTimelineClip() {
     if (m_activeTimeline) {
         m_activeTimeline->projectView()->deleteSelectedClips();
+    }
+}
+
+void MainWindow::slotChangeClipSpeed() {
+    if (m_activeTimeline) {
+        m_activeTimeline->projectView()->changeClipSpeed();
     }
 }
 

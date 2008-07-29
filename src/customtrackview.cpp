@@ -46,6 +46,7 @@
 #include "addtransitioncommand.h"
 #include "edittransitioncommand.h"
 #include "editkeyframecommand.h"
+#include "changespeedcommand.h"
 #include "addmarkercommand.h"
 #include "razorclipcommand.h"
 #include "kdenlivesettings.h"
@@ -1277,6 +1278,43 @@ void CustomTrackView::deleteSelectedClips() {
         }
     }
     m_commandStack->push(deleteSelected);
+}
+
+void CustomTrackView::changeClipSpeed() {
+    QList<QGraphicsItem *> itemList = scene()->selectedItems();
+    if (itemList.count() == 0) {
+        emit displayMessage(i18n("Select clip to change speed"), ErrorMessage);
+        return;
+    }
+    QUndoCommand *changeSelected = new QUndoCommand();
+    changeSelected->setText("Edit clip speed");
+    for (int i = 0; i < itemList.count(); i++) {
+        if (itemList.at(i)->type() == AVWIDGET) {
+            ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
+            ItemInfo info = item->info();
+            int percent = QInputDialog::getInteger(this, i18n("Edit Clip Speed"), i18n("New speed (percents)"), 100, 1, 300);
+            double speed = (double) percent / 100.0;
+            new ChangeSpeedCommand(this, info, item->speed(), speed, item->clipProducer(), true, changeSelected);
+        }
+    }
+    m_commandStack->push(changeSelected);
+}
+
+void CustomTrackView::doChangeClipSpeed(ItemInfo info, double speed, int id) {
+    DocClipBase *baseclip = m_document->clipManager()->getClipById(id);
+    ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()) + 1, info.track);
+    info.track = m_tracksList.count() - item->track();
+    int newLength = m_document->renderer()->mltChangeClipSpeed(info, speed, baseclip->producer());
+    GenTime maxDuration(newLength, m_document->fps());
+    item->setMaxDuration(maxDuration);
+    item->setSpeed(speed);
+    if (maxDuration < item->duration()) {
+        info = item->info();
+        ItemInfo endInfo = info;
+        endInfo.endPos = info.startPos + maxDuration;
+        ResizeClipCommand *command = new ResizeClipCommand(this, info, endInfo, true);
+        m_commandStack->push(command);
+    }
 }
 
 void CustomTrackView::cutSelectedClips() {

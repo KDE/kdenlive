@@ -53,7 +53,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
                 QDomElement infoXml = infoXmlNode.toElement();
                 QString profilePath = infoXml.attribute("profile");
                 m_startPos = infoXml.attribute("position").toInt();
-                m_zoom = infoXml.attribute("zoom").toInt();
+                m_zoom = infoXml.attribute("zoom", "4").toInt();
                 if (!profilePath.isEmpty()) setProfilePath(profilePath);
                 double version = infoXml.attribute("version").toDouble();
                 if (version < 0.7) convertDocument(version);
@@ -255,6 +255,8 @@ void KdenliveDoc::convertDocument(double version) {
     QDomNode kdenlivedoc = m_document.elementsByTagName("kdenlivedoc").at(0);
     QDomNode multitrack = m_document.elementsByTagName("multitrack").at(0);
     QDomNodeList playlists = m_document.elementsByTagName("playlist");
+
+    m_startPos = kdenlivedoc.toElement().attribute("timeline_position").toInt();
 
     QDomNode props = m_document.elementsByTagName("properties").at(0).toElement();
     QString profile = props.toElement().attribute("videoprofile");

@@ -91,6 +91,8 @@ public:
     QString keyframes(const int index);
     void setKeyframes(const int ix, const QString keyframes);
     void setEffectList(const EffectsList effectList);
+    void setSpeed(const double speed);
+    double speed() const;
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
@@ -128,6 +130,7 @@ private:
     QTimeLine *m_timeLine;
     uint m_thumbsRequested;
     bool m_hover;
+    double m_speed;
 
     EffectsList m_effectList;
     QList <Transition*> m_transitionsList;
