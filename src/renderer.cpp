@@ -667,7 +667,7 @@ void Render::setProducer(Mlt::Producer *producer, int position) {
 
     m_fps = m_mltProducer->get_fps();
     connectPlaylist();
-    if (position != 0) {
+    if (position != -1) {
         m_mltProducer->seek(position);
         emit rendererPosition(position);
     }

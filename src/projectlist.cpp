@@ -143,11 +143,6 @@ void ProjectList::setRenderer(Render *projectRender) {
 void ProjectList::slotClipSelected() {
     ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
     if (item && !item->isGroup()) {
-        if (item == m_selectedItem) {
-            // if user clicked on the active clip item, just focus monitor, don't update it.
-            emit clipSelected(NULL);
-            return;
-        }
         m_selectedItem = item;
         emit clipSelected(item->referencedClip());
     }
