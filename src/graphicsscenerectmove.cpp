@@ -111,7 +111,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e) {
     QPointF p = e->scenePos();
     p += QPoint(-2, -2);
     resizeMode = NoResize;
-    QList <QGraphicsItem *> list = items(QRectF(p , QSizeF(4, 4)).toRect());
+    const QList <QGraphicsItem *> list = items(QRectF(p , QSizeF(4, 4)).toRect());
     QGraphicsItem *item = NULL;
     bool hasSelected = false;
 
@@ -353,7 +353,7 @@ void GraphicsSceneRectMove::setZoom(double s) {
 }
 
 void GraphicsSceneRectMove::setCursor(QCursor c) {
-    QList<QGraphicsView*> l = views();
+    const QList<QGraphicsView*> l = views();
     foreach(QGraphicsView* v, l) {
         v->setCursor(c);
     }

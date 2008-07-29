@@ -118,11 +118,12 @@ Mlt::Repository *initEffects::parseEffectFiles() {
     QDir directory;
     for (more = direc.begin() ; more != direc.end() ; ++more) {
         directory = QDir(*more);
-        fileList = directory.entryList(QDir::Files);
+	QStringList filter;
+	filter << "*.xml";
+        fileList = directory.entryList(filter, QDir::Files);
         for (it = fileList.begin() ; it != fileList.end() ; ++it) {
             itemName = KUrl(*more + *it).path();
-            if (itemName.endsWith(".xml"))
-                parseEffectFile(&MainWindow::customEffects, &MainWindow::audioEffects, &MainWindow::videoEffects, itemName, filtersList, producersList);
+            parseEffectFile(&MainWindow::customEffects, &MainWindow::audioEffects, &MainWindow::videoEffects, itemName, filtersList, producersList);
             // kDebug()<<"//  FOUND EFFECT FILE: "<<itemName<<endl;
         }
     }
@@ -139,22 +140,22 @@ void initEffects::parseCustomEffectsFile() {
     MainWindow::customEffects.clear();
     QString path = KStandardDirs::locateLocal("data", "kdenlive/effects/", true);
     QDir directory = QDir(path);
-    QStringList fileList = directory.entryList(QDir::Files);
+    QStringList filter;
+    filter << "*.xml";
+    const QStringList fileList = directory.entryList(filter, QDir::Files);
     QString itemName;
-    foreach(QString filename, fileList) {
+    foreach(const QString filename, fileList) {
         itemName = KUrl(path + filename).path();
-        if (itemName.endsWith(".xml")) {
-            QDomDocument doc;
-            QFile file(itemName);
-            doc.setContent(&file, false);
-            file.close();
-            QDomNodeList effects = doc.elementsByTagName("effect");
-            if (effects.count() != 1) {
-                kDebug() << "More than one effect in file " << itemName << ", NOT SUPPORTED YET";
-            } else {
-                QDomElement e = effects.item(0).toElement();
-                MainWindow::customEffects.append(e);
-            }
+        QDomDocument doc;
+        QFile file(itemName);
+        doc.setContent(&file, false);
+        file.close();
+        QDomNodeList effects = doc.elementsByTagName("effect");
+        if (effects.count() != 1) {
+            kDebug() << "More than one effect in file " << itemName << ", NOT SUPPORTED YET";
+        } else {
+            QDomElement e = effects.item(0).toElement();
+            MainWindow::customEffects.append(e);
         }
     }
 }

@@ -100,16 +100,16 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         profilePath += "/lumas/PAL/";
 
         QDir dir(profilePath);
-        QStringList result = dir.entryList(QDir::Files);
+	QStringList filter;
+	filter << "*.pgm";
+        const QStringList result = dir.entryList(filter, QDir::Files);
         QStringList imagefiles;
         QStringList imagenamelist;
         int current;
-        foreach(QString file, result) {
-            if (file.endsWith(".pgm")) {
+        foreach(const QString file, result) {
                 m_view.luma_file->addItem(KIcon(profilePath + file), file, profilePath + file);
                 if (!lumaFile.isEmpty() && lumaFile == QString(profilePath + file))
                     current = m_view.luma_file->count() - 1;
-            }
         }
 
         if (!lumaFile.isEmpty()) {

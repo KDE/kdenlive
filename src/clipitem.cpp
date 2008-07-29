@@ -152,8 +152,8 @@ void ClipItem::setKeyframes(const int ix, const QString keyframes) {
                 m_keyframeFactor = 100.0 / (max - min);
                 m_keyframeDefault = e.attribute("default").toDouble();
                 // parse keyframes
-                QStringList keyframes = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
-                foreach(QString str, keyframes) {
+                const QStringList keyframes = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
+                foreach(const QString str, keyframes) {
                     int pos = str.section(":", 0, 0).toInt();
                     double val = str.section(":", 1, 1).toDouble();
                     m_keyframes[pos] = val;
@@ -181,8 +181,8 @@ void ClipItem::setSelectedEffect(const int ix) {
                 m_keyframeFactor = 100.0 / (max - min);
                 m_keyframeDefault = e.attribute("default").toDouble();
                 // parse keyframes
-                QStringList keyframes = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
-                foreach(QString str, keyframes) {
+                const QStringList keyframes = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
+                foreach(const QString str, keyframes) {
                     int pos = str.section(":", 0, 0).toInt();
                     double val = str.section(":", 1, 1).toDouble();
                     m_keyframes[pos] = val;
@@ -786,9 +786,9 @@ void ClipItem::checkEffectsKeyframesPos(const int previous, const int current, b
             QDomElement e = params.item(i).toElement();
             if (e.attribute("type") == "keyframe") {
                 // parse keyframes and adjust values
-                QStringList keyframes = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
+                const QStringList keyframes = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
                 QMap <int, double> kfr;
-                foreach(QString str, keyframes) {
+                foreach(const QString str, keyframes) {
                     int pos = str.section(":", 0, 0).toInt();
                     double val = str.section(":", 1, 1).toDouble();
                     if (pos == previous) kfr[current] = val;

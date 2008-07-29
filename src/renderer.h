@@ -238,7 +238,7 @@ signals:   // Signals
     void durationChanged(int);
     void rendererPosition(int);
     void rendererStopped(int);
-
+    void removeInvalidClip(int);
 
 public slots:  // Public slots
     /** Start Consumer */

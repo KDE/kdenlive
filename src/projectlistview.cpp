@@ -135,8 +135,7 @@ void ProjectListView::dropEvent(QDropEvent *event) {
             else if (item->parent() && ((ProjectItem *) item->parent())->isGroup())
                 groupName = item->parent()->text(1);
         }
-        QList <QUrl> list;
-        list = event->mimeData()->urls();
+        const QList <QUrl> list = event->mimeData()->urls();
         foreach(const QUrl &url, list) {
             emit addClip(url, groupName);
         }
@@ -148,8 +147,7 @@ void ProjectListView::dropEvent(QDropEvent *event) {
             if (item->isGroup()) {
                 //emit addClip(event->mimeData->text());
                 kDebug() << "////////////////  DROPPED RIGHT 1 ";
-                QList <QTreeWidgetItem *> list;
-                list = selectedItems();
+                const QList <QTreeWidgetItem *> list = selectedItems();
                 ProjectItem *clone;
                 int parentId = item->clipId();
                 foreach(QTreeWidgetItem *it, list) {
@@ -171,8 +169,7 @@ void ProjectListView::dropEvent(QDropEvent *event) {
         if (!item) {
             kDebug() << "////////////////  DROPPED ON EMPTY ZONE";
             // item dropped in empty zone, move it to top level
-            QList <QTreeWidgetItem *> list;
-            list = selectedItems();
+            const QList <QTreeWidgetItem *> list = selectedItems();
             ProjectItem *clone;
             foreach(QTreeWidgetItem *it, list) {
                 QTreeWidgetItem *parent = it->parent();
@@ -214,8 +211,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event) {
             QDrag *drag = new QDrag(this);
             QMimeData *mimeData = new QMimeData;
             QDomDocument doc;
-            QList <QTreeWidgetItem *> list;
-            list = selectedItems();
+            const QList <QTreeWidgetItem *> list = selectedItems();
             QStringList ids;
             foreach(const QTreeWidgetItem *item, list) {
                 // TODO allow dragging of folders

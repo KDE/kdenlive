@@ -118,7 +118,7 @@ public slots:
     void slotUpdateClip(int id);
     void slotRefreshClipThumbnail(int clipId);
     void slotRefreshClipThumbnail(ProjectItem *item);
-
+    void slotRemoveInvalidClip(int id);
 
 private:
     ProjectListView *listView;

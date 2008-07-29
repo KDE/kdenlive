@@ -129,8 +129,7 @@ void EffectsListWidget::mouseMoveEvent(QMouseEvent *event) {
         if (clickItem) {
             QDrag *drag = new QDrag(this);
             QMimeData *mimeData = new QMimeData;
-            QList <QListWidgetItem *> list;
-            list = selectedItems();
+            const QList <QListWidgetItem *>list = selectedItems();
             QDomDocument doc;
             foreach(QListWidgetItem *item, list) {
                 doc.appendChild(doc.importNode(itemEffect(item), true));

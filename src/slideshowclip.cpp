@@ -58,13 +58,13 @@ SlideshowClip::SlideshowClip(QWidget * parent): QDialog(parent), m_count(0) {
     profilePath += "/lumas/PAL/";
 
     QDir dir(profilePath);
-    QStringList result = dir.entryList(QDir::Files);
+    QStringList filter;
+    filter << "*.pgm";
+    const QStringList result = dir.entryList(filter, QDir::Files);
     QStringList imagefiles;
     QStringList imagenamelist;
-    foreach(QString file, result) {
-        if (file.endsWith(".pgm")) {
-            m_view.luma_file->addItem(KIcon(profilePath + file), file, profilePath + file);
-        }
+    foreach(const QString file, result) {
+        m_view.luma_file->addItem(KIcon(profilePath + file), file, profilePath + file);
     }
 
     adjustSize();
@@ -108,7 +108,7 @@ void SlideshowClip::parseFolder() {
     }
 
     dir.setNameFilters(filters);
-    QStringList result = dir.entryList(QDir::Files);
+    const QStringList result = dir.entryList(QDir::Files);
     m_count = result.count();
     if (m_count == 0) m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     else m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);

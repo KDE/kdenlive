@@ -247,14 +247,11 @@ QPixmap Render::getImageThumbnail(KUrl url, int width, int height) {
         QStringList::Iterator it;
 
         QDir dir(url.directory());
-        more = dir.entryList(QDir::Files);
-
-        for (it = more.begin() ; it != more.end() ; ++it) {
-            if ((*it).endsWith("." + fileType, Qt::CaseInsensitive)) {
-                im.load(url.directory() + "/" + *it);
-                break;
-            }
-        }
+	QStringList filter;
+	filter << "*." + fileType;
+	filter << "*." + fileType.toUpper();
+        more = dir.entryList(filter, QDir::Files);
+	im.load(url.directory() + "/" + more.at(0));
     } else im.load(url.path());
     //pixmap = im.scaled(width, height);
     return pixmap;
@@ -477,6 +474,7 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
 
     if (producer->is_blank()) {
         kDebug() << " / / / / / / / /ERRROR / / / / // CANNOT LOAD PRODUCER: ";
+	emit removeInvalidClip(clipId);
         return;
     }
     producer->set("id", clipId);

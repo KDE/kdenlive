@@ -104,24 +104,24 @@ void EffectsListView::slotRemoveEffect() {
     QString path = KStandardDirs::locateLocal("data", "kdenlive/effects/", true);
 
     QDir directory = QDir(path);
-    QStringList fileList = directory.entryList(QDir::Files);
+    QStringList filter;
+    filter << "*.xml";
+    const QStringList fileList = directory.entryList(filter, QDir::Files);
     QString itemName;
-    foreach(QString filename, fileList) {
+    foreach(const QString filename, fileList) {
         itemName = KUrl(path + filename).path();
-        if (itemName.endsWith(".xml")) {
-            QDomDocument doc;
-            QFile file(itemName);
-            doc.setContent(&file, false);
-            file.close();
-            QDomNodeList effects = doc.elementsByTagName("effect");
-            if (effects.count() != 1) {
-                kDebug() << "More than one effect in file " << itemName << ", NOT SUPPORTED YET";
-            } else {
-                QDomElement e = effects.item(0).toElement();
-                if (e.attribute("id") == effectId) {
-                    QFile::remove(itemName);
-                    break;
-                }
+        QDomDocument doc;
+        QFile file(itemName);
+        doc.setContent(&file, false);
+        file.close();
+        QDomNodeList effects = doc.elementsByTagName("effect");
+        if (effects.count() != 1) {
+            kDebug() << "More than one effect in file " << itemName << ", NOT SUPPORTED YET";
+        } else {
+            QDomElement e = effects.item(0).toElement();
+            if (e.attribute("id") == effectId) {
+                QFile::remove(itemName);
+                break;
             }
         }
     }

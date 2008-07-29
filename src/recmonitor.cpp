@@ -507,7 +507,7 @@ void RecMonitor::manageCapturedFiles() {
     QDir dir(KdenliveSettings::capturefolder());
     QStringList filters;
     filters << "capture*" + extension;
-    QStringList result = dir.entryList(filters, QDir::Files, QDir::Time);
+    const QStringList result = dir.entryList(filters, QDir::Files, QDir::Time);
     KUrl::List capturedFiles;
     foreach(QString name, result) {
         KUrl url = KUrl(dir.filePath(name));

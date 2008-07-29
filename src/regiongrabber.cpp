@@ -308,7 +308,7 @@ void RegionGrabber::updateHandles() {
 QRegion RegionGrabber::handleMask() const {
     // note: not normalized QRects are bad here, since they will not be drawn
     QRegion mask;
-    foreach(QRect* rect, handles) mask += QRegion(*rect);
+    foreach(const QRect* rect, handles) mask += QRegion(*rect);
     return mask;
 }
 
