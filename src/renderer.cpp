@@ -91,6 +91,7 @@ Render::Render(const QString & rendererName, int winid, int extid, QWidget *pare
         m_mltProducer = producer;
         if (m_blackClip) delete m_blackClip;
         m_blackClip = new Mlt::Producer(*m_mltProfile , "colour", "black");
+	m_blackClip->set("id", "black");
         m_mltConsumer->connect(*m_mltProducer);
         m_mltProducer->set_speed(0.0);
 
@@ -715,6 +716,7 @@ void Render::setSceneList(QString playlist, int position) {
     delete[] tmp;
     if (m_blackClip) delete m_blackClip;
     m_blackClip = new Mlt::Producer(*m_mltProfile , "colour", "black");
+    m_blackClip->set("id", "black");
     if (!m_mltProducer || !m_mltProducer->is_valid()) kDebug() << " WARNING - - - - -INVALID PLAYLIST: " << tmp;
     m_mltProducer->optimise();
 
