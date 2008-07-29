@@ -96,7 +96,7 @@ private:
     MyThread thumbProducer;
     KUrl m_url;
     QString m_thumbFile;
-    Mlt::Profile *m_profile;
+    double m_dar;
     Mlt::Producer *m_producer;
     ClipManager *m_clipManager;
 

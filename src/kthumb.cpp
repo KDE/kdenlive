@@ -132,9 +132,7 @@ void MyThread::run() {
 #define _G(y,u,v) (0x2568*(y) - 0x0c92*(v) - 0x1a1e*(u)) /0x2000
 #define _B(y,u,v) (0x2568*(y) + 0x40cf*(v))                                          /0x2000
 
-KThumb::KThumb(ClipManager *clipManager, KUrl url, QObject * parent, const char *name): QObject(parent), m_clipManager(clipManager), m_url(url), m_producer(NULL) {
-
-    m_profile = new Mlt::Profile((char*) KdenliveSettings::current_profile().data());
+KThumb::KThumb(ClipManager *clipManager, KUrl url, QObject * parent, const char *name): QObject(parent), m_clipManager(clipManager), m_url(url), m_producer(NULL), m_dar(1) {
     QCryptographicHash context(QCryptographicHash::Sha1);
     context.addData((KFileItem(m_url, "text/plain", S_IFREG).timeString() + m_url.fileName()).toAscii().data());
     m_thumbFile = KGlobal::dirs()->saveLocation("tmp" , "kdenlive") + context.result().toHex() + ".thumb";
@@ -142,12 +140,12 @@ KThumb::KThumb(ClipManager *clipManager, KUrl url, QObject * parent, const char 
 }
 
 KThumb::~KThumb() {
-    if (m_profile) delete m_profile;
     if (thumbProducer.isRunning()) thumbProducer.exit();
 }
 
 void KThumb::setProducer(Mlt::Producer *producer) {
     m_producer = producer;
+    m_dar = producer->profile()->dar();
 }
 
 void KThumb::updateClipUrl(KUrl url) {
@@ -167,7 +165,7 @@ void KThumb::extractImage(int frame, int frame2) {
     Mlt::Producer producer(*m_profile, "westley-xml", tmp);
     delete[] tmp;*/
 
-    int twidth = (int)(KdenliveSettings::trackheight() * m_profile->dar());
+    int twidth = (int)(KdenliveSettings::trackheight() * m_dar);
     if (m_producer->is_blank()) {
         QPixmap pix(twidth, KdenliveSettings::trackheight());
         pix.fill(Qt::black);
