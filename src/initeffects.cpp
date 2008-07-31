@@ -429,6 +429,12 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
                 if (paramdesc.get("minimum")) params.setAttribute("min", paramdesc.get("minimum"));
                 if (QString(paramdesc.get("type")) == "integer")
                     params.setAttribute("type", "constant");
+                if (QString(paramdesc.get("type")) == "float") {
+                    params.setAttribute("type", "constant");
+                    params.setAttribute("factor", "1000");
+                    if (paramdesc.get("maximum")) params.setAttribute("max", QString(paramdesc.get("maximum")).toFloat()*1000.0);
+                    if (paramdesc.get("minimum")) params.setAttribute("min", QString(paramdesc.get("minimum")).toFloat()*1000.0);
+                }
                 if (QString(paramdesc.get("type")) == "boolean")
                     params.setAttribute("type", "bool");
                 if (!QString(paramdesc.get("format")).isEmpty() && QString(paramdesc.get("type")) != "geometry") {
