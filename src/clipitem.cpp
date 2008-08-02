@@ -97,9 +97,10 @@ ClipItem::~ClipItem() {
     if (endThumbTimer) delete endThumbTimer;
 }
 
-ClipItem *ClipItem::clone(double scale) const {
-    ClipItem *duplicate = new ClipItem(m_clip, info(), scale, m_fps);
+ClipItem *ClipItem::clone(double scale, ItemInfo info) const {
+    ClipItem *duplicate = new ClipItem(m_clip, info, scale, m_fps);
     duplicate->setEffectList(m_effectList);
+    duplicate->setSpeed(m_speed);
     return duplicate;
 }
 
@@ -981,6 +982,10 @@ void ClipItem::setSpeed(const double speed) {
     if (m_speed == 1.0) m_clipName = baseClip()->name();
     else m_clipName = baseClip()->name() + " - " + QString::number(speed * 100, 'f', 0) + "%";
     update();
+}
+
+GenTime ClipItem::maxDuration() const {
+    return m_maxDuration / m_speed;
 }
 
 //virtual

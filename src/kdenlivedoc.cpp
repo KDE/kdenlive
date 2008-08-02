@@ -37,7 +37,7 @@
 #include "mainwindow.h"
 
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoProfile profile, QUndoGroup *undoGroup, MainWindow *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new KUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(4) {
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoProfile profile, QUndoGroup *undoGroup, MainWindow *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new KUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(7) {
     kDebug() << "// init profile, ratnum: " << profile.frame_rate_num << ", " << profile.frame_rate_num << ", width: " << profile.width;
     m_clipManager = new ClipManager(this);
     KdenliveSettings::setProject_fps(m_fps);
@@ -53,7 +53,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
                 QDomElement infoXml = infoXmlNode.toElement();
                 QString profilePath = infoXml.attribute("profile");
                 m_startPos = infoXml.attribute("position").toInt();
-                m_zoom = infoXml.attribute("zoom", "4").toInt();
+                m_zoom = infoXml.attribute("zoom", "7").toInt();
                 if (!profilePath.isEmpty()) setProfilePath(profilePath);
                 double version = infoXml.attribute("version").toDouble();
                 if (version < 0.7) convertDocument(version);
@@ -64,8 +64,9 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
                     int pos = 0;
                     for (int i = 0; i < maxprod; i++) {
                         QDomNode m = prods.at(pos);
-                        if (m.toElement().attribute("id") == "black")
-                            pos = 1;
+			QString prodId = m.toElement().attribute("id");
+                        if (prodId == "black" || prodId.startsWith("slowmotion"))
+                            pos++;
                         else westley.removeChild(m);
                     }
                     prods = m_document.elementsByTagName("kdenlive_producer");
@@ -90,7 +91,8 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
                         parent->slotGotProgressInfo(QString(), (int) m_documentLoadingProgress);
                         qApp->processEvents();
                     }
-                    if (!e.isNull() && e.attribute("id") != "black") {
+		    QString prodId = e.attribute("id");
+                    if (!e.isNull() && prodId != "black" && prodId.toInt() > 0) {
                         addClip(e, e.attribute("id").toInt());
                     }
                 }

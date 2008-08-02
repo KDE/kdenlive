@@ -152,7 +152,7 @@ Q_OBJECT public:
     void mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *prod);
     void mltCutClip(int track, GenTime position);
     void mltResizeClipEnd(int track, GenTime pos, GenTime in, GenTime out);
-    void mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime moveStart, GenTime in, GenTime out);
+    bool mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime moveStart, GenTime in, GenTime out);
     bool mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart);
     bool mltMoveClip(int startTrack, int endTrack, int pos, int moveStart);
     void mltRemoveClip(int track, GenTime position);
@@ -170,6 +170,12 @@ Q_OBJECT public:
     void mltMoveTransparency(int startTime, int endTime, int startTrack, int endTrack, int id);
     void mltDeleteTransparency(int pos, int track, int id);
     void mltResizeTransparency(int oldStart, int newStart, int newEnd, int track, int id);
+
+    /** Change speed of a clip in playlist. To do this, we create a new "framebuffer" producer.
+	This new producer must have its "resource" param set to: video.mpg?0.6 where video.mpg is the path
+	to the clip and 0.6 is the speed in percents. The newly created producer will have it's
+	"id" parameter set to: "slowmotion:parentid:speed", where parentid is the id of the original clip
+	in the ClipManager list and speed is the current speed */
     int mltChangeClipSpeed(ItemInfo info, double speed, Mlt::Producer *prod);
 
 private:   // Private attributes & methods
@@ -208,6 +214,7 @@ private:   // Private attributes & methods
     void closeMlt();
     void mltCheckLength(bool reload = true);
     QMap<QString, QString> mltGetTransitionParamsFromXml(QDomElement xml);
+    QMap<QString, Mlt::Producer *> m_slowmotionProducers;
 
 private slots:  // Private slots
     /** refresh monitor display */

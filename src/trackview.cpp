@@ -116,6 +116,7 @@ void TrackView::setDuration(int dur) {
 
 void TrackView::parseDocument(QDomDocument doc) {
     int cursorPos = 0;
+
     // kDebug() << "//// DOCUMENT: " << doc.toString();
     QDomNode props = doc.elementsByTagName("properties").item(0);
     if (!props.isNull()) {
@@ -133,6 +134,7 @@ void TrackView::parseDocument(QDomDocument doc) {
     bool videotrack;
 
     int pos = m_projectTracks - 1;
+
 
     for (int i = 0; i < m_projectTracks; i++) {
         e = tracks.item(i).toElement();
@@ -331,7 +333,15 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
             qApp->processEvents();
             // Found a clip
             int in = elem.attribute("in").toInt();
-            int id = elem.attribute("producer").toInt();
+            QString idString = elem.attribute("producer");
+	    int id = idString.toInt();
+	    bool hasSpeedAttribute = false;
+	    double speed;
+	    if (idString.startsWith("slowmotion")) {
+		hasSpeedAttribute = true;
+		id = idString.section(":", 1, 1).toInt();
+		speed = idString.section(":", 2, 2).toDouble();
+	    }
             DocClipBase *clip = m_doc->clipManager()->getClipById(id);
             if (clip != NULL) {
                 int out = elem.attribute("out").toInt();
@@ -343,6 +353,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                 clipinfo.track = ix;
                 //kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
                 ClipItem *item = new ClipItem(clip, clipinfo, m_scale, m_doc->fps());
+		if (hasSpeedAttribute) item->setSpeed(speed);
                 m_scene->addItem(item);
                 clip->addReference();
                 position += (out - in + 1);

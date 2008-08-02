@@ -1119,6 +1119,7 @@ void MainWindow::slotPreferences(int page, int option) {
     // create it :
     KdenliveSettingsDialog* dialog = new KdenliveSettingsDialog(this);
     connect(dialog, SIGNAL(settingsChanged(const QString&)), this, SLOT(updateConfiguration()));
+    connect(dialog, SIGNAL(doResetProfile()), this, SLOT(resetProfiles()));
     dialog->show();
     if (page != -1) dialog->showPage(page, option);
 }
@@ -1135,6 +1136,10 @@ void MainWindow::updateConfiguration() {
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
     activateShuttleDevice();
 
+}
+
+void MainWindow::resetProfiles() {
+    m_monitorManager->resetProfiles(m_activeDocument->profilePath());
 }
 
 void MainWindow::slotSwitchVideoThumbs() {

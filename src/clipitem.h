@@ -52,7 +52,7 @@ public:
     DocClipBase *baseClip() const;
     QString clipName() const;
     QDomElement xml() const;
-    ClipItem *clone(double scale) const;
+    ClipItem *clone(double scale, ItemInfo info) const;
     const EffectsList effectList();
     void setFadeOut(int pos, double scale);
     void setFadeIn(int pos, double scale);
@@ -93,6 +93,7 @@ public:
     void setEffectList(const EffectsList effectList);
     void setSpeed(const double speed);
     double speed() const;
+    GenTime maxDuration() const;
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);

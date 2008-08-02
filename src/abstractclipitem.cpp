@@ -136,8 +136,8 @@ void AbstractClipItem::resizeEnd(int posx, double scale) {
     //kDebug() << "-- RESCALE: CROP=" << m_cropStart << ", DIFF = " << durationDiff;
     if (m_cropDuration + durationDiff <= GenTime()) {
         durationDiff = GenTime() - (m_cropDuration - GenTime(3, m_fps));
-    } else if (m_cropStart + m_cropDuration + durationDiff >= m_maxDuration) {
-        durationDiff = m_maxDuration - m_cropDuration - m_cropStart;
+    } else if (m_cropStart + m_cropDuration + durationDiff >= maxDuration()) {
+        durationDiff = maxDuration() - m_cropDuration - m_cropStart;
     }
     m_cropDuration += durationDiff;
     setRect(m_startPos.frames(m_fps) * scale, rect().y(), m_cropDuration.frames(m_fps) * scale, rect().height());

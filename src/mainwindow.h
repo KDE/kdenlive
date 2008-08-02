@@ -232,7 +232,7 @@ private slots:
     void slotPasteEffects();
     void slotReloadEffects();
     void slotChangeClipSpeed();
-
+    void resetProfiles();
 };
 
 

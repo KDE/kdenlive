@@ -31,6 +31,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/configmisc_ui.ui
   widgets/configenv_ui.ui
   widgets/configdisplay_ui.ui
+  widgets/configsdl_ui.ui
   widgets/configcapture_ui.ui
   widgets/effectlist_ui.ui
   widgets/effectstack_ui.ui

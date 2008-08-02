@@ -55,6 +55,37 @@
       <label>Tracks height in pixel.</label>
       <default>50</default>
     </entry>
+
+    <entry name="audio_device" type="UInt">
+      <label>Audio device used for sound output.</label>
+      <default>0</default>
+    </entry>
+
+    <entry name="audio_driver" type="UInt">
+      <label>Audio driver used for sound output.</label>
+      <default>0</default>
+    </entry>
+
+    <entry name="video_driver" type="UInt">
+      <label>Video driver used for output.</label>
+      <default>0</default>
+    </entry>
+
+    <entry name="audiodevicename" type="String">
+      <label>Audio device used for sound output.</label>
+      <default></default>
+    </entry>
+
+    <entry name="audiodrivername" type="String">
+      <label>Audio driver used for sound output.</label>
+      <default></default>
+    </entry>
+
+    <entry name="videodrivername" type="String">
+      <label>Video driver used for output.</label>
+      <default></default>
+    </entry>
+
   </group>
 
   <group name="env">
