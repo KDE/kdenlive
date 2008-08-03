@@ -30,6 +30,7 @@
 #include "ui_colorval_ui.h"
 #include "ui_wipeval_ui.h"
 #include "complexparameter.h"
+#include "geometryval.h"
 
 QMap<QString, QImage> EffectStackEdit::iconCache;
 
@@ -137,7 +138,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
             bval->checkBox->setText(na.toElement().text());
             valueItems[paramName] = bval;
             uiItems.append(bval);
-        } else if (type == "complex" || type == "geometry") {
+        } else if (type == "complex") {
             /*QStringList names=nodeAtts.namedItem("name").nodeValue().split(";");
             QStringList max=nodeAtts.namedItem("max").nodeValue().split(";");
             QStringList min=nodeAtts.namedItem("min").nodeValue().split(";");
@@ -157,6 +158,13 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
             vbox->addWidget(pl);
             valueItems[paramName+"complex"] = pl;
             items.append(pl);
+        } else if (type == "geometry") {
+            Geometryval *geo = new Geometryval;
+            connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
+            geo->setupParam(d, pa.attribute("name"), 0, 100);
+            vbox->addWidget(geo);
+            valueItems[paramName+"geometry"] = geo;
+            items.append(geo);
         } else if (type == "color") {
             Ui::Colorval_UI *cval = new Ui::Colorval_UI;
             cval->setupUi(toFillin);
@@ -323,9 +331,12 @@ void EffectStackEdit::collectAllParameters() {
         } else if (type == "color") {
             KColorButton *color = ((Ui::Colorval_UI*)valueItems[na.toElement().text()])->kcolorbutton;
             setValue.sprintf("0x%08x", color->color().rgba());
-        } else if (type == "complex" || type == "geometry") {
+        } else if (type == "complex") {
             ComplexParameter *complex = ((ComplexParameter*)valueItems[na.toElement().text()+"complex"]);
             namenode.item(i) = complex->getParamDesc();
+        } else if (type == "geometry") {
+            Geometryval *geom = ((Geometryval*)valueItems[na.toElement().text()+"geometry"]);
+            namenode.item(i) = geom->getParamDesc();
         } else if (type == "wipe") {
             Ui::Wipeval_UI *wp = (Ui::Wipeval_UI*)valueItems[na.toElement().text()];
             wipeInfo info;

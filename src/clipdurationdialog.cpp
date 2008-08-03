@@ -112,7 +112,6 @@ GenTime ClipDurationDialog::duration() const {
 }
 
 void ClipDurationDialog::wheelEvent(QWheelEvent * event) {
-    kDebug() << "jaa";
     if (m_view.clip_position->underMouse()) {
         if (event->delta() > 0)
             slotPosUp();
