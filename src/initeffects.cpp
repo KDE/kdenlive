@@ -438,7 +438,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
                 if (QString(paramdesc.get("type")) == "boolean")
                     params.setAttribute("type", "bool");
                 if (!QString(paramdesc.get("format")).isEmpty() && QString(paramdesc.get("type")) != "geometry") {
-                    params.setAttribute("type", "complex");
+                    params.setAttribute("type", "geometry");
                     params.setAttribute("format", paramdesc.get("format"));
                 }
                 if (!QString(paramdesc.get("format")).isEmpty() && QString(paramdesc.get("type")) == "geometry") {

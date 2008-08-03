@@ -172,10 +172,10 @@ Q_OBJECT public:
     void mltResizeTransparency(int oldStart, int newStart, int newEnd, int track, int id);
 
     /** Change speed of a clip in playlist. To do this, we create a new "framebuffer" producer.
-	This new producer must have its "resource" param set to: video.mpg?0.6 where video.mpg is the path
-	to the clip and 0.6 is the speed in percents. The newly created producer will have it's
-	"id" parameter set to: "slowmotion:parentid:speed", where parentid is the id of the original clip
-	in the ClipManager list and speed is the current speed */
+    This new producer must have its "resource" param set to: video.mpg?0.6 where video.mpg is the path
+    to the clip and 0.6 is the speed in percents. The newly created producer will have it's
+    "id" parameter set to: "slowmotion:parentid:speed", where parentid is the id of the original clip
+    in the ClipManager list and speed is the current speed */
     int mltChangeClipSpeed(ItemInfo info, double speed, Mlt::Producer *prod);
 
 private:   // Private attributes & methods

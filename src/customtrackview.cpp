@@ -1149,15 +1149,14 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         // resize start
         if (m_dragItem->type() == AVWIDGET) {
             bool success = m_document->renderer()->mltResizeClipStart(m_tracksList.count() - m_dragItem->track(), m_dragItem->endPos(), m_dragItem->startPos(), m_dragItemInfo.startPos, m_dragItem->cropStart(), m_dragItem->cropStart() + m_dragItem->endPos() - m_dragItem->startPos());
-	    if (success) {
-		updateClipFade((ClipItem *) m_dragItem);
-		ResizeClipCommand *command = new ResizeClipCommand(this, m_dragItemInfo, info, false);
-		m_commandStack->push(command);
-	    }
-	    else {
-		m_dragItem->resizeStart((int) m_dragItemInfo.startPos.frames(m_document->fps()), m_scale);
-		emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
-	    }
+            if (success) {
+                updateClipFade((ClipItem *) m_dragItem);
+                ResizeClipCommand *command = new ResizeClipCommand(this, m_dragItemInfo, info, false);
+                m_commandStack->push(command);
+            } else {
+                m_dragItem->resizeStart((int) m_dragItemInfo.startPos.frames(m_document->fps()), m_scale);
+                emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
+            }
         } else if (m_dragItem->type() == TRANSITIONWIDGET) {
             MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
             m_commandStack->push(command);
@@ -1299,8 +1298,8 @@ void CustomTrackView::changeClipSpeed() {
             ItemInfo info = item->info();
             int percent = QInputDialog::getInteger(this, i18n("Edit Clip Speed"), i18n("New speed (percents)"), 100, 1, 300);
             double speed = (double) percent / 100.0;
-	    if (item->speed() != speed)
-		new ChangeSpeedCommand(this, info, item->speed(), speed, item->clipProducer(), true, changeSelected);
+            if (item->speed() != speed)
+                new ChangeSpeedCommand(this, info, item->speed(), speed, item->clipProducer(), true, changeSelected);
         }
     }
     m_commandStack->push(changeSelected);
@@ -1463,10 +1462,9 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end) {
     if (resizeClipStart) {
         bool success = m_document->renderer()->mltResizeClipStart(m_tracksList.count() - item->track(), item->endPos(), end.startPos, item->startPos(), item->cropStart() + end.startPos - start.startPos, item->cropStart() + end.startPos - start.startPos + item->endPos() - end.startPos);
         if (success) {
-	    item->resizeStart((int) end.startPos.frames(m_document->fps()), m_scale);
-	    updateClipFade(item);
-	}
-	else emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
+            item->resizeStart((int) end.startPos.frames(m_document->fps()), m_scale);
+            updateClipFade(item);
+        } else emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
     } else {
         m_document->renderer()->mltResizeClipEnd(m_tracksList.count() - item->track(), item->startPos(), item->cropStart(), item->cropStart() + end.endPos - item->startPos());
         item->resizeEnd((int) end.endPos.frames(m_document->fps()), m_scale);

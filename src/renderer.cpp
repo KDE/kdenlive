@@ -82,28 +82,28 @@ Render::Render(const QString & rendererName, int winid, int extid, QWidget *pare
         m_mltConsumer->set("terminate_on_pause", 1);
         m_mltConsumer->set("rescale", "nearest");
         m_mltConsumer->set("progressive", 1);
-	char *tmp;
+        char *tmp;
 
-	QString audioDevice = KdenliveSettings::audiodevicename();
-	if (!audioDevice.isEmpty()) {
-	    tmp = decodedString(audioDevice);
-	    m_mltConsumer->set("audio_device", tmp);
-	    delete[] tmp;
-	}
+        QString audioDevice = KdenliveSettings::audiodevicename();
+        if (!audioDevice.isEmpty()) {
+            tmp = decodedString(audioDevice);
+            m_mltConsumer->set("audio_device", tmp);
+            delete[] tmp;
+        }
 
-	QString videoDriver = KdenliveSettings::videodrivername();
-	if (!videoDriver.isEmpty()) {
-	    tmp = decodedString(videoDriver);
-	    m_mltConsumer->set("video_driver", tmp);
-	    delete[] tmp;
-	}
+        QString videoDriver = KdenliveSettings::videodrivername();
+        if (!videoDriver.isEmpty()) {
+            tmp = decodedString(videoDriver);
+            m_mltConsumer->set("video_driver", tmp);
+            delete[] tmp;
+        }
 
-	QString audioDriver = KdenliveSettings::audiodrivername();
-	if (!audioDriver.isEmpty()) {
-	    tmp = decodedString(audioDriver);
-	    m_mltConsumer->set("audio_driver", tmp);
-	    delete[] tmp;
-	}
+        QString audioDriver = KdenliveSettings::audiodrivername();
+        if (!audioDriver.isEmpty()) {
+            tmp = decodedString(audioDriver);
+            m_mltConsumer->set("audio_driver", tmp);
+            delete[] tmp;
+        }
 
         m_mltConsumer->set("audio_buffer", 1024);
         m_mltConsumer->set("frequency", 48000);
@@ -180,25 +180,25 @@ int Render::resetProfile(QString profile) {
 
     QString audioDevice = KdenliveSettings::audiodevicename();
     if (!audioDevice.isEmpty()) {
-	tmp = decodedString(audioDevice);
-	m_mltConsumer->set("audio_device", tmp);
-	delete[] tmp;
+        tmp = decodedString(audioDevice);
+        m_mltConsumer->set("audio_device", tmp);
+        delete[] tmp;
     }
 
     QString videoDriver = KdenliveSettings::videodrivername();
     if (!videoDriver.isEmpty()) {
-	tmp = decodedString(videoDriver);
-	m_mltConsumer->set("video_driver", tmp);
-	delete[] tmp;
+        tmp = decodedString(videoDriver);
+        m_mltConsumer->set("video_driver", tmp);
+        delete[] tmp;
     }
 
     QString audioDriver = KdenliveSettings::audiodrivername();
     if (!audioDriver.isEmpty()) {
-	tmp = decodedString(audioDriver);
-	m_mltConsumer->set("audio_driver", tmp);
-	delete[] tmp;
+        tmp = decodedString(audioDriver);
+        m_mltConsumer->set("audio_driver", tmp);
+        delete[] tmp;
     }
-    
+
 
     m_mltConsumer->set("progressive", 1);
     m_mltConsumer->set("audio_buffer", 1024);
@@ -1320,7 +1320,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, Mlt::Producer *prod)
     int newLength = 0;
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";
-    kDebug()<<"Changing clip speed, set in and out: "<<info.cropStart.frames(m_fps)<<" to "<<(info.endPos - info.startPos).frames(m_fps) - 1;
+    kDebug() << "Changing clip speed, set in and out: " << info.cropStart.frames(m_fps) << " to " << (info.endPos - info.startPos).frames(m_fps) - 1;
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(info.track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
@@ -1333,18 +1333,18 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, Mlt::Producer *prod)
         mlt_service_lock(service.get_service());
         QString url = clip.parent().get("resource");
         url.append("?" + QString::number(speed));
-	Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
-	if (!slowprod || slowprod->get_producer() == NULL) {
-	    char *tmp = decodedString(url);
-	    slowprod = new Mlt::Producer(*m_mltProfile, "framebuffer", tmp);
-	    delete[] tmp;
-	    QString producerid = "slowmotion:" + id + ":" + QString::number(speed);
-	    tmp = decodedString(producerid);
-	    slowprod->set("id", tmp);
-	    delete[] tmp;
-	    m_slowmotionProducers.insert(url, slowprod);
-	}
-	Mlt::Producer *cut = slowprod->cut(info.cropStart.frames(m_fps), (info.endPos - info.startPos).frames(m_fps) - 1);
+        Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
+        if (!slowprod || slowprod->get_producer() == NULL) {
+            char *tmp = decodedString(url);
+            slowprod = new Mlt::Producer(*m_mltProfile, "framebuffer", tmp);
+            delete[] tmp;
+            QString producerid = "slowmotion:" + id + ":" + QString::number(speed);
+            tmp = decodedString(producerid);
+            slowprod->set("id", tmp);
+            delete[] tmp;
+            m_slowmotionProducers.insert(url, slowprod);
+        }
+        Mlt::Producer *cut = slowprod->cut(info.cropStart.frames(m_fps), (info.endPos - info.startPos).frames(m_fps) - 1);
         newLength = cut->get_length();
         trackPlaylist.replace_with_blank(clipIndex);
         trackPlaylist.consolidate_blanks(0);
@@ -1363,18 +1363,18 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, Mlt::Producer *prod)
         QString url = clip.parent().get("resource");
         url = url.section("?", 0, 0);
         url.append("?" + QString::number(speed));
-	Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
-	if (!slowprod || slowprod->get_producer() == NULL) {
-	    char *tmp = decodedString(url);
-	    slowprod = new Mlt::Producer(*m_mltProfile, "framebuffer", tmp);
-	    delete[] tmp;
-	    QString producerid = "slowmotion:" + id.section(":", 1, 1) + ":" + QString::number(speed);
-	    tmp = decodedString(producerid);
-	    slowprod->set("id", tmp);
-	    delete[] tmp;
-	    m_slowmotionProducers.insert(url, slowprod);
-	}
-	Mlt::Producer *cut = slowprod->cut(info.cropStart.frames(m_fps), (info.endPos - info.startPos).frames(m_fps) - 1);
+        Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
+        if (!slowprod || slowprod->get_producer() == NULL) {
+            char *tmp = decodedString(url);
+            slowprod = new Mlt::Producer(*m_mltProfile, "framebuffer", tmp);
+            delete[] tmp;
+            QString producerid = "slowmotion:" + id.section(":", 1, 1) + ":" + QString::number(speed);
+            tmp = decodedString(producerid);
+            slowprod->set("id", tmp);
+            delete[] tmp;
+            m_slowmotionProducers.insert(url, slowprod);
+        }
+        Mlt::Producer *cut = slowprod->cut(info.cropStart.frames(m_fps), (info.endPos - info.startPos).frames(m_fps) - 1);
         newLength = cut->get_length();
         trackPlaylist.replace_with_blank(clipIndex);
         trackPlaylist.consolidate_blanks(0);
@@ -1721,14 +1721,14 @@ bool Render::mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     if (trackPlaylist.is_blank_at((int) pos.frames(m_fps) - 1)) {
         kDebug() << "////////  ERROR RSIZING BLANK CLIP!!!!!!!!!!!";
-	return false;
+        return false;
     }
     int clipIndex = trackPlaylist.get_clip_index_at((int) pos.frames(m_fps) - 1);
     int previousStart = trackPlaylist.clip_start(clipIndex);
     //kDebug() << " ** RESIZING CLIP START:" << clipIndex << " on track:" << track << ", mid pos: " << pos.frames(25) << ", moving: " << moveFrame << ", in: " << in.frames(25) << ", out: " << out.frames(25);
     Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
     if (clip == NULL) {
-	return false;
+        return false;
     }
     m_isBlocked = true;
     trackPlaylist.resize_clip(clipIndex, (int) in.frames(m_fps), (int) out.frames(m_fps));

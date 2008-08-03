@@ -110,8 +110,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
 
 KdenliveSettingsDialog::~KdenliveSettingsDialog() {}
 
-void KdenliveSettingsDialog::initDevices()
-{
+void KdenliveSettingsDialog::initDevices() {
     // Fill audio drivers
     m_configSdl.kcfg_audio_driver->addItem(i18n("Automatic"), QString());
     m_configSdl.kcfg_audio_driver->addItem(i18n("OSS"), "dsp");
@@ -121,12 +120,12 @@ void KdenliveSettingsDialog::initDevices()
     m_configSdl.kcfg_audio_driver->addItem(i18n("ARTS daemon"), "artsc");
 
     /*if (!KdenliveSettings::audiodriver().isEmpty())
-	for (uint i = 1;i < m_configDisplay.kcfg_audio_driver->count(); i++) {
-	    if (m_configDisplay.kcfg_audio_driver->itemData(i).toString() == KdenliveSettings::audiodriver())
-		m_configDisplay.kcfg_audio_driver->setCurrentIndex(i);
-	}*/
- 
-	// Fill video drivers
+    for (uint i = 1;i < m_configDisplay.kcfg_audio_driver->count(); i++) {
+     if (m_configDisplay.kcfg_audio_driver->itemData(i).toString() == KdenliveSettings::audiodriver())
+    m_configDisplay.kcfg_audio_driver->setCurrentIndex(i);
+    }*/
+
+    // Fill video drivers
     m_configSdl.kcfg_video_driver->addItem(i18n("Automatic"), QString());
     m_configSdl.kcfg_video_driver->addItem(i18n("X11"), "x11");
     m_configSdl.kcfg_video_driver->addItem(i18n("XFREE86 DGA 2.0"), "dga");
@@ -137,46 +136,44 @@ void KdenliveSettingsDialog::initDevices()
     m_configSdl.kcfg_video_driver->addItem(i18n("General graphics interface"), "ggi");
     m_configSdl.kcfg_video_driver->addItem(i18n("Ascii art library"), "aalib");
 
-	// Fill the list of audio playback devices
+    // Fill the list of audio playback devices
     m_configSdl.kcfg_audio_device->addItem(i18n("Default"), QString());
     if (KStandardDirs::findExe("aplay") != QString::null) {
-	m_readProcess.setOutputChannelMode(KProcess::OnlyStdoutChannel);
-	m_readProcess.setProgram("aplay", QStringList() << "-l");
-	connect(&m_readProcess, SIGNAL(readyReadStandardOutput()) ,this, SLOT(slotReadAudioDevices()));
-	m_readProcess.execute(5000);
-    }
-    else {
-	// If aplay is not installed on the system, parse the /proc/asound/pcm file
-	QFile file("/proc/asound/pcm");
-	if ( file.open( QIODevice::ReadOnly ) ) {
-	    QTextStream stream( &file );
-	    QString line;
-	    while ( !stream.atEnd() ) {
+        m_readProcess.setOutputChannelMode(KProcess::OnlyStdoutChannel);
+        m_readProcess.setProgram("aplay", QStringList() << "-l");
+        connect(&m_readProcess, SIGNAL(readyReadStandardOutput()) , this, SLOT(slotReadAudioDevices()));
+        m_readProcess.execute(5000);
+    } else {
+        // If aplay is not installed on the system, parse the /proc/asound/pcm file
+        QFile file("/proc/asound/pcm");
+        if (file.open(QIODevice::ReadOnly)) {
+            QTextStream stream(&file);
+            QString line;
+            while (!stream.atEnd()) {
                 line = stream.readLine();
-		if (line.contains("playback")) {
-		QString deviceId = line.section(":", 0, 0);
-		m_configSdl.kcfg_audio_device->addItem(line.section(":", 1, 1), "plughw:" + QString::number(deviceId.section("-", 0, 0).toInt()) + "," + QString::number(deviceId.section("-", 1, 1).toInt()));
-		}
-	    }
+                if (line.contains("playback")) {
+                    QString deviceId = line.section(":", 0, 0);
+                    m_configSdl.kcfg_audio_device->addItem(line.section(":", 1, 1), "plughw:" + QString::number(deviceId.section("-", 0, 0).toInt()) + "," + QString::number(deviceId.section("-", 1, 1).toInt()));
+                }
+            }
             file.close();
-	}
+        }
     }
 }
 
 
-void KdenliveSettingsDialog::slotReadAudioDevices()
-{
+void KdenliveSettingsDialog::slotReadAudioDevices() {
     QString result = QString(m_readProcess.readAllStandardOutput());
-    kDebug()<<"// / / / / / READING APLAY: ";
-    kDebug()<< result;
+    kDebug() << "// / / / / / READING APLAY: ";
+    kDebug() << result;
     QStringList lines = result.split('\n');
-    foreach (QString data, lines) {
-	kDebug()<<"// READING LINE: "<<data;
-	if (data.simplified().startsWith("card")) {
-	    QString card = data.section(":", 0, 0).section(" ", -1);
-	    QString device = data.section(":", 1, 1).section(" ", -1);
-	    m_configSdl.kcfg_audio_device->addItem(data.section(":", -1), "plughw:" + card + "," + device);
-	}
+    foreach(QString data, lines) {
+        kDebug() << "// READING LINE: " << data;
+        if (data.simplified().startsWith("card")) {
+            QString card = data.section(":", 0, 0).section(" ", -1);
+            QString device = data.section(":", 1, 1).section(" ", -1);
+            m_configSdl.kcfg_audio_device->addItem(data.section(":", -1), "plughw:" + card + "," + device);
+        }
     }
 }
 
@@ -293,20 +290,20 @@ void KdenliveSettingsDialog::updateSettings() {
     bool resetProfile = false;
     QString value = m_configSdl.kcfg_audio_device->itemData(m_configSdl.kcfg_audio_device->currentIndex()).toString();
     if (value != KdenliveSettings::audiodevicename()) {
-	KdenliveSettings::setAudiodevicename(value);
-	resetProfile = true;
+        KdenliveSettings::setAudiodevicename(value);
+        resetProfile = true;
     }
 
     value = m_configSdl.kcfg_audio_driver->itemData(m_configSdl.kcfg_audio_driver->currentIndex()).toString();
     if (value != KdenliveSettings::audiodrivername()) {
-	KdenliveSettings::setAudiodrivername(value);
-	resetProfile = true;
+        KdenliveSettings::setAudiodrivername(value);
+        resetProfile = true;
     }
 
     value = m_configSdl.kcfg_video_driver->itemData(m_configSdl.kcfg_video_driver->currentIndex()).toString();
     if (value != KdenliveSettings::videodrivername()) {
-	KdenliveSettings::setVideodrivername(value);
-	resetProfile = true;
+        KdenliveSettings::setVideodrivername(value);
+        resetProfile = true;
     }
 
     KConfigDialog::updateSettings();

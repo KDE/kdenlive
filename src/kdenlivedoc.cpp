@@ -64,7 +64,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
                     int pos = 0;
                     for (int i = 0; i < maxprod; i++) {
                         QDomNode m = prods.at(pos);
-			QString prodId = m.toElement().attribute("id");
+                        QString prodId = m.toElement().attribute("id");
                         if (prodId == "black" || prodId.startsWith("slowmotion"))
                             pos++;
                         else westley.removeChild(m);
@@ -91,7 +91,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
                         parent->slotGotProgressInfo(QString(), (int) m_documentLoadingProgress);
                         qApp->processEvents();
                     }
-		    QString prodId = e.attribute("id");
+                    QString prodId = e.attribute("id");
                     if (!e.isNull() && prodId != "black" && prodId.toInt() > 0) {
                         addClip(e, e.attribute("id").toInt());
                     }

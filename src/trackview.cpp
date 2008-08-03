@@ -334,14 +334,14 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
             // Found a clip
             int in = elem.attribute("in").toInt();
             QString idString = elem.attribute("producer");
-	    int id = idString.toInt();
-	    bool hasSpeedAttribute = false;
-	    double speed;
-	    if (idString.startsWith("slowmotion")) {
-		hasSpeedAttribute = true;
-		id = idString.section(":", 1, 1).toInt();
-		speed = idString.section(":", 2, 2).toDouble();
-	    }
+            int id = idString.toInt();
+            bool hasSpeedAttribute = false;
+            double speed;
+            if (idString.startsWith("slowmotion")) {
+                hasSpeedAttribute = true;
+                id = idString.section(":", 1, 1).toInt();
+                speed = idString.section(":", 2, 2).toDouble();
+            }
             DocClipBase *clip = m_doc->clipManager()->getClipById(id);
             if (clip != NULL) {
                 int out = elem.attribute("out").toInt();
@@ -353,7 +353,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                 clipinfo.track = ix;
                 //kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
                 ClipItem *item = new ClipItem(clip, clipinfo, m_scale, m_doc->fps());
-		if (hasSpeedAttribute) item->setSpeed(speed);
+                if (hasSpeedAttribute) item->setSpeed(speed);
                 m_scene->addItem(item);
                 clip->addReference();
                 position += (out - in + 1);

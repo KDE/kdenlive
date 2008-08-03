@@ -630,7 +630,7 @@ QPixmap TitleWidget::renderedPixmap() {
     QPixmap pix(m_frameWidth, m_frameHeight);
     pix.fill(Qt::transparent);
     QPainter painter(&pix);
-
+    //painter.setRenderHint( QPainter::Antialiasing );
     m_scene->clearSelection();
     QPen framepen = m_frameBorder->pen();
     m_frameBorder->setPen(Qt::NoPen);
