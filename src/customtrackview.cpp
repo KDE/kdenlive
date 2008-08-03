@@ -70,7 +70,7 @@
 // const int duration = animate ? 1500 : 1;
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene, QWidget *parent)
-        : QGraphicsView(projectscene, parent), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_scale(1.0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()), m_tracksHeight(KdenliveSettings::trackheight()), m_tool(SELECTTOOL), m_dragGuide(NULL), m_findIndex(0), m_menuPosition(QPoint()) {
+        : QGraphicsView(projectscene, parent), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_scale(1.0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()), m_tracksHeight(KdenliveSettings::trackheight()), m_tool(SELECTTOOL), m_dragGuide(NULL), m_findIndex(0), m_menuPosition(QPoint()), m_blockRefresh(false) {
     if (doc) m_commandStack = doc->commandStack();
     else m_commandStack == NULL;
     setMouseTracking(true);
@@ -258,13 +258,13 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
         }
 
     if (item && event->buttons() == Qt::NoButton) {
-        AbstractClipItem *clip = (AbstractClipItem*) item;
+        AbstractClipItem *clip = static_cast <AbstractClipItem*>(item);
         if (m_tool == RAZORTOOL) {
             // razor tool over a clip, display current frame in monitor
-            if (item->type() == AVWIDGET) {
+            if (!m_blockRefresh && item->type() == AVWIDGET) {
                 emit showClipFrame(((ClipItem *) item)->baseClip(), mapToScene(event->pos()).x() / m_scale - (clip->startPos() - clip->cropStart()).frames(m_document->fps()));
             }
-            QGraphicsView::mouseMoveEvent(event);
+            event->accept();
             return;
         }
         opMode = clip->operationMode(mapToScene(event->pos()), m_scale);
@@ -420,7 +420,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
         }
     } // no clip under mouse
     else if (m_tool == RAZORTOOL) {
-        QGraphicsView::mouseMoveEvent(event);
+        event->accept();
         return;
     } else if (opMode == MOVEGUIDE) {
         m_moveOpMode = opMode;
@@ -446,20 +446,24 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
 // virtual
 void CustomTrackView::mousePressEvent(QMouseEvent * event) {
     m_menuPosition = QPoint();
-    activateMonitor();
+    m_blockRefresh = true;
+    if (m_tool != RAZORTOOL) activateMonitor();
     m_clickEvent = event->pos();
     QList<QGraphicsItem *> collisionList = items(event->pos());
     if (event->button() == Qt::MidButton) {
         m_document->renderer()->switchPlay();
+        m_blockRefresh = false;
         return;
     }
     if (event->modifiers() == Qt::ControlModifier && collisionList.count() == 0) {
         setDragMode(QGraphicsView::ScrollHandDrag);
         QGraphicsView::mousePressEvent(event);
+        m_blockRefresh = false;
         return;
     } else if (event->modifiers() == Qt::ShiftModifier && collisionList.count() == 0) {
         setDragMode(QGraphicsView::RubberBandDrag);
         QGraphicsView::mousePressEvent(event);
+        m_blockRefresh = false;
         return;
     } else {
         bool collision = false;
@@ -480,18 +484,17 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 QGraphicsItem *item = collisionList.at(i);
                 if (item->type() == AVWIDGET || item->type() == TRANSITIONWIDGET) {
                     if (m_tool == RAZORTOOL) {
+                        m_dragItem = NULL;
                         if (item->type() == TRANSITIONWIDGET) {
                             emit displayMessage(i18n("Cannot cut a transition"), ErrorMessage);
+                            event->accept();
                             return;
                         }
-                        AbstractClipItem *clip = (AbstractClipItem *) item;
-                        ItemInfo info;
-                        info.startPos = clip->startPos();
-                        info.endPos = clip->endPos();
-                        info.track = clip->track();
-                        RazorClipCommand* command = new RazorClipCommand(this, info, GenTime((int)(mapToScene(event->pos()).x() / m_scale), m_document->fps()), true);
+                        AbstractClipItem *clip = static_cast <AbstractClipItem *>(item);
+                        RazorClipCommand* command = new RazorClipCommand(this, clip->info(), GenTime((int)(mapToScene(event->pos()).x() / m_scale), m_document->fps()), true);
                         m_commandStack->push(command);
                         m_document->setModified(true);
+                        event->accept(); //QGraphicsView::mousePressEvent(event);
                         return;
                     }
                     // select item
@@ -525,6 +528,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                     m_operationMode = m_dragItem->operationMode(item->mapFromScene(mapToScene(event->pos())), m_scale);
                     if (m_operationMode == KEYFRAME) {
                         m_dragItem->updateSelectedKeyFrame();
+                        m_blockRefresh = false;
                         return;
                     } else if (m_operationMode == MOVE) setCursor(Qt::ClosedHandCursor);
                     else if (m_operationMode == TRANSITIONSTART) {
@@ -576,6 +580,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         if (m_dragItem && m_dragItem->type() == AVWIDGET) emit clipItemSelected((ClipItem*) m_dragItem);
         else emit clipItemSelected(NULL);
     }
+    m_blockRefresh = false;
     //kDebug()<<pos;
     //QGraphicsView::mousePressEvent(event);
 }
@@ -806,10 +811,13 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut) {
     if (cut) {
         // cut clip
         ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
-        if (!item) {
+        if (!item || cutTime >= item->endPos() || cutTime <= item->startPos()) {
             emit displayMessage(i18n("Cannot find clip to cut"), ErrorMessage);
+            kDebug() << "/////////  ERROR CUTTING CLIP : (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << "-" << info.endPos.frames(25) << ")" << ", CUT: " << cutTime.frames(25);
+            m_blockRefresh = false;
             return;
         }
+        m_document->renderer()->mltCutClip(m_tracksList.count() - info.track, cutTime);
         int cutPos = (int) cutTime.frames(m_document->fps());
         ItemInfo newPos;
         newPos.startPos = cutTime;
@@ -819,26 +827,36 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut) {
         item->resizeEnd(cutPos, m_scale);
         ClipItem *dup = item->clone(m_scale, newPos);
         scene()->addItem(dup);
-        m_document->renderer()->mltCutClip(m_tracksList.count() - info.track, cutTime);
         item->baseClip()->addReference();
         m_document->updateClip(item->baseClip()->getId());
+        kDebug() << "//  CUTTING CLIP dONE";
     } else {
         // uncut clip
         ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
         ClipItem *dup = getClipItemAt((int) cutTime.frames(m_document->fps()), info.track);
         if (!item || !dup) {
             emit displayMessage(i18n("Cannot find clip to uncut"), ErrorMessage);
+            m_blockRefresh = false;
             return;
         }
-        delete dup;
-        item->baseClip()->removeReference();
-        m_document->updateClip(item->baseClip()->getId());
-        item->resizeEnd((int) info.endPos.frames(m_document->fps()), m_scale);
-        m_document->renderer()->mltRemoveClip(m_tracksList.count() - info.track, cutTime);
-        m_document->renderer()->mltResizeClipEnd(m_tracksList.count() - info.track, info.startPos, item->cropStart(), item->cropStart() + info.endPos - info.startPos);
+        /*kDebug() << "// UNCUTTING CLIPS: " << item->startPos().frames(25) << ", SECOND: " << dup->startPos().frames(25);
+        kDebug() << "// UNCUTTING CLIPS, SEC END " << dup->endPos().frames(25) << ", CUT: " << cutTime.frames(25);
+        kDebug() << "// UNCUTTING CLIPS, INFO " << info.endPos.frames(25) << ", start: " << info.startPos.frames(25);*/
+        deleteClip(dup->info());
+        ItemInfo clipinfo = item->info();
+        clipinfo.track = m_tracksList.count() - clipinfo.track;
+        bool success = m_document->renderer()->mltResizeClipEnd(clipinfo, info.endPos - info.startPos);
+        if (success) {
+            item->resizeEnd((int) info.endPos.frames(m_document->fps()), m_scale);
+        } else
+            emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
     }
+    QTimer::singleShot(3000, this, SLOT(slotEnableRefresh()));
 }
 
+void CustomTrackView::slotEnableRefresh() {
+    m_blockRefresh = false;
+}
 
 void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition) {
     QList<QGraphicsItem *> itemList = scene()->selectedItems();
@@ -1049,10 +1067,10 @@ void CustomTrackView::checkScrolling() {
 }
 
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
+    QGraphicsView::mouseReleaseEvent(event);
     if (event->button() == Qt::MidButton) {
         return;
     }
-    QGraphicsView::mouseReleaseEvent(event);
     setDragMode(QGraphicsView::NoDrag);
     if (m_operationMode == MOVEGUIDE) {
         setCursor(Qt::ArrowCursor);
@@ -1069,10 +1087,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         emit transitionItemSelected(NULL);
         return;
     }
-    ItemInfo info;
-    info.startPos = m_dragItem->startPos();
-    info.endPos = m_dragItem->endPos();
-    info.track = m_dragItem->track();
+    ItemInfo info = m_dragItem->info();
 
     if (m_operationMode == MOVE) {
         setCursor(Qt::OpenHandCursor);
@@ -1148,7 +1163,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
     } else if (m_operationMode == RESIZESTART && m_dragItem->startPos() != m_dragItemInfo.startPos) {
         // resize start
         if (m_dragItem->type() == AVWIDGET) {
-            bool success = m_document->renderer()->mltResizeClipStart(m_tracksList.count() - m_dragItem->track(), m_dragItem->endPos(), m_dragItem->startPos(), m_dragItemInfo.startPos, m_dragItem->cropStart(), m_dragItem->cropStart() + m_dragItem->endPos() - m_dragItem->startPos());
+            ItemInfo resizeinfo = m_dragItemInfo;
+            resizeinfo.track = m_tracksList.count() - resizeinfo.track;
+            bool success = m_document->renderer()->mltResizeClipStart(resizeinfo, m_dragItem->startPos() - m_dragItemInfo.startPos);
             if (success) {
                 updateClipFade((ClipItem *) m_dragItem);
                 ResizeClipCommand *command = new ResizeClipCommand(this, m_dragItemInfo, info, false);
@@ -1168,14 +1185,21 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
     } else if (m_operationMode == RESIZEEND && m_dragItem->endPos() != m_dragItemInfo.endPos) {
         // resize end
         if (m_dragItem->type() == AVWIDGET) {
-            ResizeClipCommand *command = new ResizeClipCommand(this, m_dragItemInfo, info, false);
-            m_document->renderer()->mltResizeClipEnd(m_tracksList.count() - m_dragItem->track(), m_dragItem->startPos(), m_dragItem->cropStart(), m_dragItem->cropStart() + m_dragItem->endPos() - m_dragItem->startPos());
-            m_commandStack->push(command);
+            ItemInfo resizeinfo = info;
+            resizeinfo.track = m_tracksList.count() - resizeinfo.track;
+            bool success = m_document->renderer()->mltResizeClipEnd(resizeinfo, resizeinfo.endPos - resizeinfo.startPos);
+            if (success) {
+                ResizeClipCommand *command = new ResizeClipCommand(this, m_dragItemInfo, info, false);
+                m_commandStack->push(command);
+            } else {
+                m_dragItem->resizeEnd((int) m_dragItemInfo.endPos.frames(m_document->fps()), m_scale);
+                emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
+            }
         } else if (m_dragItem->type() == TRANSITIONWIDGET) {
             MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
             m_commandStack->push(command);
             Transition *transition = (Transition *) m_dragItem;
-            m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_tracksList.count() - m_dragItemInfo.track), (int)(m_tracksList.count() - m_dragItemInfo.track), 0, m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos);
+//             m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_tracksList.count() - m_dragItemInfo.track), (int)(m_tracksList.count() - m_dragItemInfo.track), 0, m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos);
         }
         //m_document->renderer()->doRefresh();
     } else if (m_operationMode == FADEIN) {
@@ -1327,12 +1351,8 @@ void CustomTrackView::cutSelectedClips() {
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = (ClipItem *) itemList.at(i);
-            ItemInfo info;
-            info.startPos = item->startPos();
-            info.endPos = item->endPos();
-            if (currentPos > info.startPos && currentPos <  info.endPos) {
-                info.track = item->track();
-                RazorClipCommand *command = new RazorClipCommand(this, info, currentPos, true);
+            if (currentPos > item->startPos() && currentPos <  item->endPos()) {
+                RazorClipCommand *command = new RazorClipCommand(this, item->info(), currentPos, true);
                 m_commandStack->push(command);
             }
         }
@@ -1460,15 +1480,21 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end) {
         return;
     }
     if (resizeClipStart) {
-        bool success = m_document->renderer()->mltResizeClipStart(m_tracksList.count() - item->track(), item->endPos(), end.startPos, item->startPos(), item->cropStart() + end.startPos - start.startPos, item->cropStart() + end.startPos - start.startPos + item->endPos() - end.startPos);
+        ItemInfo clipinfo = item->info();
+        clipinfo.track = m_tracksList.count() - clipinfo.track;
+        bool success = m_document->renderer()->mltResizeClipStart(clipinfo, item->startPos() - end.startPos);
         if (success) {
             item->resizeStart((int) end.startPos.frames(m_document->fps()), m_scale);
             updateClipFade(item);
         } else emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
     } else {
-        m_document->renderer()->mltResizeClipEnd(m_tracksList.count() - item->track(), item->startPos(), item->cropStart(), item->cropStart() + end.endPos - item->startPos());
-        item->resizeEnd((int) end.endPos.frames(m_document->fps()), m_scale);
-        updateClipFade(item, true);
+        ItemInfo clipinfo = item->info();
+        clipinfo.track = m_tracksList.count() - clipinfo.track;
+        bool success = m_document->renderer()->mltResizeClipEnd(clipinfo, end.endPos - clipinfo.startPos);
+        if (success) {
+            item->resizeEnd((int) end.endPos.frames(m_document->fps()), m_scale);
+            updateClipFade(item, true);
+        } else emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
     }
     m_document->renderer()->doRefresh();
 }

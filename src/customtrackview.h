@@ -182,6 +182,7 @@ private:
     QList<AbstractClipItem *> m_selectedClipList;
     /** Used to get the point in timeline where a context menu was opened */
     QPoint m_menuPosition;
+    bool m_blockRefresh;
 
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
@@ -192,6 +193,7 @@ private:
 
 private slots:
     void slotRefreshGuides();
+    void slotEnableRefresh();
 
 signals:
     void cursorMoved(int, int);

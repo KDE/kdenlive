@@ -22,10 +22,9 @@
 #include "razorclipcommand.h"
 #include "customtrackview.h"
 
-RazorClipCommand::RazorClipCommand(CustomTrackView *view, const ItemInfo info, const GenTime cutTime, bool doIt) : m_view(view), m_info(info), m_cutTime(cutTime), m_doIt(doIt) {
+RazorClipCommand::RazorClipCommand(CustomTrackView *view, const ItemInfo info, const GenTime cutTime, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_info(info), m_cutTime(cutTime), m_doIt(doIt) {
     setText(i18n("Razor clip"));
 }
-
 
 // virtual
 void RazorClipCommand::undo() {

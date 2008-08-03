@@ -20,6 +20,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qxml.h>
+#include <QImage>
+#include <QApplication>
+#include <QCryptographicHash>
+
 #include <kio/netaccess.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -30,18 +35,12 @@
 
 #include <mlt++/Mlt.h>
 
-#include <qxml.h>
-#include <qimage.h>
-
-#include <QThread>
-#include <QApplication>
-#include <QCryptographicHash>
-
 #include "clipmanager.h"
 #include "renderer.h"
 #include "kthumb.h"
 #include "kdenlivesettings.h"
 #include "events.h"
+
 
 void MyThread::init(QObject *parent, KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth) {
     stop_me = false;
@@ -159,11 +158,7 @@ QPixmap KThumb::getImage(KUrl url, int width, int height) {
 }
 
 void KThumb::extractImage(int frame, int frame2) {
-    if (m_url.isEmpty()) return;
-    if (m_producer == NULL) return;
-    /*char *tmp = Render::decodedString("<westley><playlist><producer resource=\"" + m_url.path() + "\" /></playlist></westley>");
-    Mlt::Producer producer(*m_profile, "westley-xml", tmp);
-    delete[] tmp;*/
+    if (m_url.isEmpty() || !KdenliveSettings::videothumbnails() || m_producer == NULL) return;
 
     int twidth = (int)(KdenliveSettings::trackheight() * m_dar);
     if (m_producer->is_blank()) {
@@ -223,7 +218,6 @@ QPixmap KThumb::getImage(QDomElement xml, int frame, int width, int height) {
 
 //static
 QPixmap KThumb::getFrame(Mlt::Producer producer, int framepos, int width, int height) {
-
     producer.seek(framepos);
     Mlt::Frame *frame = producer.get_frame();
     mlt_image_format format = mlt_image_yuv422;

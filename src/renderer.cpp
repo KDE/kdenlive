@@ -51,6 +51,8 @@ extern "C" {
 #define ENABLE_FFMPEG_CODEC_DESCRIPTION 1
 #endif
 
+
+
 static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr) {
     // detect if the producer has finished playing. Is there a better way to do it ?
     if (self->m_isBlocked) return;
@@ -710,7 +712,6 @@ void Render::setProducer(Mlt::Producer *producer, int position) {
     if (producer) m_mltProducer = new Mlt::Producer(producer->get_producer());
     else m_mltProducer = new Mlt::Producer();
     if (!m_mltProducer || !m_mltProducer->is_valid()) kDebug() << " WARNING - - - - -INVALID PLAYLIST: ";
-    m_mltProducer->optimise();
 
     m_fps = m_mltProducer->get_fps();
     connectPlaylist();
@@ -1061,7 +1062,6 @@ void Render::sendSeekCommand(GenTime time) {
         return;
     //kDebug()<<"//////////  KDENLIVE SEEK: "<<(int) (time.frames(m_fps));
     m_mltProducer->seek((int)(time.frames(m_fps)));
-    m_mltConsumer->set("refresh", 1);
     refresh();
 }
 
@@ -1248,20 +1248,21 @@ void Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
     Mlt::Producer *clip = prod->cut(info.cropStart.frames(m_fps), (info.endPos - info.startPos).frames(m_fps) - 1);
-    trackPlaylist.insert_at((int) info.startPos.frames(m_fps), *clip, 1);
+    int newIndex = trackPlaylist.insert_at((int) info.startPos.frames(m_fps), *clip, 1);
 
     if (QString(prod->get("transparency")).toInt() == 1)
         mltAddClipTransparency(info, info.track - 1, QString(prod->get("id")).toInt());
 
     mlt_service_unlock(service.get_service());
 
-    if (info.track != 0) mltCheckLength();
+    if (info.track != 0 && (newIndex + 1 == trackPlaylist.count())) mltCheckLength();
     //tractor.multitrack()->refresh();
     //tractor.refresh();
 }
 
 
 void Render::mltCutClip(int track, GenTime position) {
+
     m_isBlocked = true;
 
     Mlt::Service service(m_mltProducer->parent().get_service());
@@ -1270,21 +1271,64 @@ void Render::mltCutClip(int track, GenTime position) {
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    trackPlaylist.split_at((int) position.frames(m_fps));
-    trackPlaylist.consolidate_blanks(0);
+
+
+    /* // Display playlist info
+    kDebug()<<"////////////  BEFORE";
+    for (int i = 0; i < trackPlaylist.count(); i++) {
+    int blankStart = trackPlaylist.clip_start(i);
+    int blankDuration = trackPlaylist.clip_length(i) - 1;
+    QString blk;
+    if (trackPlaylist.is_blank(i)) blk = "(blank)";
+    kDebug()<<"CLIP "<<i<<": ("<<blankStart<<"x"<<blankStart + blankDuration<<")"<<blk;
+    }*/
+
+    int cutPos = (int) position.frames(m_fps);
+
+    int clipIndex = trackPlaylist.get_clip_index_at(cutPos);
+    if (trackPlaylist.is_blank(clipIndex)) {
+        kDebug() << "// WARMNING, TRYING TO CUT A BLANK";
+        m_isBlocked = false;
+        return;
+    }
+    mlt_service_lock(service.get_service());
+    int clipStart = trackPlaylist.clip_start(clipIndex);
+    trackPlaylist.split(clipIndex, cutPos - clipStart - 1);
+
     // duplicate effects
-    Mlt::Producer *original = trackPlaylist.get_clip_at((int) position.frames(m_fps) - 1);
-    Mlt::Producer *clip = trackPlaylist.get_clip_at((int) position.frames(m_fps) + 1);
+    Mlt::Producer *original = trackPlaylist.get_clip_at(clipStart);
+    Mlt::Producer *clip = trackPlaylist.get_clip_at(cutPos);
+
+    if (original == NULL || clip == NULL) {
+        kDebug() << "// ERROR GRABBING CLIP AFTER SPLIT";
+    }
     Mlt::Service clipService(original->get_service());
     Mlt::Service dupService(clip->get_service());
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
-        Mlt::Filter *dup = new Mlt::Filter(filter->get_filter());
-        dupService.attach(*dup);
+        if (filter->get("kdenlive_id") != "") {
+            kDebug() << "++ ADDING FILTER: " << filter->get("kdenlive_id");
+            Mlt::Filter *dup = new Mlt::Filter(filter->get_filter());
+            dup->set("kdenlive_ix", filter->get("kdenlive_ix"));
+            dup->set("kdenlive_id", filter->get("kdenlive_id"));
+            dupService.attach(*dup);
+        }
         ct++;
         filter = clipService.filter(ct);
     }
+    mlt_service_unlock(service.get_service());
+
+    /* // Display playlist info
+    kDebug()<<"////////////  AFTER";
+    for (int i = 0; i < trackPlaylist.count(); i++) {
+    int blankStart = trackPlaylist.clip_start(i);
+    int blankDuration = trackPlaylist.clip_length(i) - 1;
+    QString blk;
+    if (trackPlaylist.is_blank(i)) blk = "(blank)";
+    kDebug()<<"CLIP "<<i<<": ("<<blankStart<<"x"<<blankStart + blankDuration<<")"<<blk;
+    }*/
+
     m_isBlocked = false;
 }
 
@@ -1295,9 +1339,7 @@ void Render::mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
 }
 
 
-void Render::mltRemoveClip(int track, GenTime position) {
-    m_isBlocked = true;
-
+bool Render::mltRemoveClip(int track, GenTime position) {
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";
 
@@ -1305,14 +1347,41 @@ void Render::mltRemoveClip(int track, GenTime position) {
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at((int) position.frames(m_fps));
+
+    /* // Display playlist info
+    kDebug()<<"////  BEFORE";
+    for (int i = 0; i < trackPlaylist.count(); i++) {
+    int blankStart = trackPlaylist.clip_start(i);
+    int blankDuration = trackPlaylist.clip_length(i) - 1;
+    QString blk;
+    if (trackPlaylist.is_blank(i)) blk = "(blank)";
+    kDebug()<<"CLIP "<<i<<": ("<<blankStart<<"x"<<blankStart + blankDuration<<")"<<blk;
+    }*/
+
+    if (trackPlaylist.is_blank(clipIndex)) {
+        kDebug() << "// WARMNING, TRYING TO REMOVE A BLANK: " << clipIndex << ", AT: " << position.frames(25);
+        return false;
+    }
+    m_isBlocked = true;
     Mlt::Producer clip(trackPlaylist.get_clip(clipIndex));
-    if (QString(clip.parent().get("transparency")).toInt() == 1)
-        mltDeleteTransparency((int) position.frames(m_fps), track, QString(clip.parent().get("id")).toInt());
     trackPlaylist.replace_with_blank(clipIndex);
     trackPlaylist.consolidate_blanks(0);
-    if (track != 0) mltCheckLength();
-    //emit durationChanged();
+    if (QString(clip.parent().get("transparency")).toInt() == 1)
+        mltDeleteTransparency((int) position.frames(m_fps), track, QString(clip.parent().get("id")).toInt());
+
+    /* // Display playlist info
+    kDebug()<<"////  AFTER";
+    for (int i = 0; i < trackPlaylist.count(); i++) {
+    int blankStart = trackPlaylist.clip_start(i);
+    int blankDuration = trackPlaylist.clip_length(i) - 1;
+    QString blk;
+    if (trackPlaylist.is_blank(i)) blk = "(blank)";
+    kDebug()<<"CLIP "<<i<<": ("<<blankStart<<"x"<<blankStart + blankDuration<<")"<<blk;
+    }*/
+
+    if (track != 0 && trackPlaylist.count() > clipIndex) mltCheckLength();
     m_isBlocked = false;
+    return true;
 }
 
 int Render::mltChangeClipSpeed(ItemInfo info, double speed, Mlt::Producer *prod) {
@@ -1406,7 +1475,7 @@ bool Render::mltRemoveEffect(int track, GenTime position, QString index, bool do
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
-        if (index == "-1" || filter->get("kdenlive_ix") == index) {// && filter->get("kdenlive_id") == id) {
+        if ((index == "-1" && filter->get("kdenlive_id") != "")  || filter->get("kdenlive_ix") == index) {// && filter->get("kdenlive_id") == id) {
             if (clipService.detach(*filter) == 0) success = true;
             kDebug() << " / / / DLEETED EFFECT: " << ct;
         } else ct++;
@@ -1653,46 +1722,81 @@ void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos) 
     refresh();
 }
 
-void Render::mltResizeClipEnd(int track, GenTime pos, GenTime in, GenTime out) {
+bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration) {
     m_isBlocked = true;
 
     Mlt::Service service(m_mltProducer->parent().get_service());
 
     Mlt::Tractor tractor(service);
-    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Producer trackProducer(tractor.track(info.track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    if (trackPlaylist.is_blank_at((int) pos.frames(m_fps) + 1))
+
+    /* // Display playlist info
+    kDebug()<<"////////////  BEFORE RESIZE";
+    for (int i = 0; i < trackPlaylist.count(); i++) {
+    int blankStart = trackPlaylist.clip_start(i);
+    int blankDuration = trackPlaylist.clip_length(i) - 1;
+    QString blk;
+    if (trackPlaylist.is_blank(i)) blk = "(blank)";
+    kDebug()<<"CLIP "<<i<<": ("<<blankStart<<"x"<<blankStart + blankDuration<<")"<<blk;
+    }*/
+
+    if (trackPlaylist.is_blank_at((int) info.startPos.frames(m_fps))) {
         kDebug() << "////////  ERROR RSIZING BLANK CLIP!!!!!!!!!!!";
-    int clipIndex = trackPlaylist.get_clip_index_at((int) pos.frames(m_fps) + 1);
+        m_isBlocked = false;
+        return false;
+    }
+    int clipIndex = trackPlaylist.get_clip_index_at((int) info.startPos.frames(m_fps));
+    kDebug() << "// SELECTED CLIP START: " << trackPlaylist.clip_start(clipIndex);
     Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
-    int previousStart = trackPlaylist.clip_start(clipIndex);
+    int previousStart = clip->get_in();
     int previousDuration = trackPlaylist.clip_length(clipIndex) - 1;
-    int newDuration = (int) out.frames(m_fps) - 1;
-    trackPlaylist.resize_clip(clipIndex, (int) in.frames(m_fps), newDuration);
-    trackPlaylist.consolidate_blanks(0);
-    if (previousDuration < newDuration) {
+    int newDuration = (int) clipDuration.frames(m_fps) - 1;
+    trackPlaylist.resize_clip(clipIndex, previousStart, newDuration + previousStart);
+    //trackPlaylist.consolidate_blanks(0);
+    // skip to next clip
+    clipIndex++;
+    int diff = newDuration - previousDuration;
+    kDebug() << "////////  RESIZE CLIP: " << clipIndex << "( pos: " << info.startPos.frames(25) << "), DIFF: " << diff << ", CURRENT DUR: " << previousDuration << ", NEW DUR: " << newDuration;
+    if (diff > 0) {
         // clip was made longer, trim next blank if there is one.
-        if (trackPlaylist.is_blank(clipIndex + 1)) {
-            trackPlaylist.split(clipIndex + 1, newDuration - previousDuration);
-            trackPlaylist.remove(clipIndex + 1);
+        if (trackPlaylist.is_blank(clipIndex)) {
+            int blankStart = trackPlaylist.clip_start(clipIndex);
+            int blankDuration = trackPlaylist.clip_length(clipIndex) - 1;
+            if (diff - blankDuration == 1) {
+                trackPlaylist.remove(clipIndex);
+            } else trackPlaylist.resize_clip(clipIndex, blankStart, blankStart + blankDuration - diff);
+        } else {
+            kDebug() << "/// RESIZE ERROR, NXT CLIP IS NOT BLK: " << clipIndex;
         }
-    } else trackPlaylist.insert_blank(clipIndex + 1, previousDuration - newDuration - 1);
+    } else trackPlaylist.insert_blank(clipIndex, 0 - diff - 1);
 
     trackPlaylist.consolidate_blanks(0);
+
+    /* // Display playlist info
+    kDebug()<<"////////////  AFTER RESIZE";
+    for (int i = 0; i < trackPlaylist.count(); i++) {
+    int blankStart = trackPlaylist.clip_start(i);
+    int blankDuration = trackPlaylist.clip_length(i) - 1;
+    QString blk;
+    if (trackPlaylist.is_blank(i)) blk = "(blank)";
+    kDebug()<<"CLIP "<<i<<": ("<<blankStart<<"x"<<blankStart + blankDuration<<")"<<blk;
+    }*/
 
     //tractor.multitrack()->refresh();
     //tractor.refresh();
-    if (track != 0) mltCheckLength();
+    if (info.track != 0 && clipIndex == trackPlaylist.count()) mltCheckLength();
     if (QString(clip->parent().get("transparency")).toInt() == 1) {
         //mltResizeTransparency(previousStart, previousStart, previousStart + newDuration, track, QString(clip->parent().get("id")).toInt());
-        mltDeleteTransparency(previousStart, track, QString(clip->parent().get("id")).toInt());
-        ItemInfo info;
-        info.startPos = pos;
-        info.endPos = pos + out - in;
-        info.track = track;
-        mltAddClipTransparency(info, info.track - 1, QString(clip->parent().get("id")).toInt());
+        mltDeleteTransparency(info.startPos.frames(m_fps), info.track, QString(clip->parent().get("id")).toInt());
+        ItemInfo transpinfo;
+        transpinfo.startPos = info.startPos;
+        transpinfo.endPos = info.startPos + clipDuration;
+        transpinfo.track = info.track;
+        mltAddClipTransparency(transpinfo, info.track - 1, QString(clip->parent().get("id")).toInt());
     }
     m_isBlocked = false;
+    return true;
 }
 
 void Render::mltChangeTrackState(int track, bool mute, bool blind) {
@@ -1713,47 +1817,55 @@ void Render::mltChangeTrackState(int track, bool mute, bool blind) {
     refresh();
 }
 
-bool Render::mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime moveStart, GenTime in, GenTime out) {
+bool Render::mltResizeClipStart(ItemInfo info, GenTime diff) {
     Mlt::Service service(m_mltProducer->parent().get_service());
-    int moveFrame = (int)(moveEnd - moveStart).frames(m_fps);
+    int moveFrame = (int) diff.frames(m_fps);
     Mlt::Tractor tractor(service);
-    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Producer trackProducer(tractor.track(info.track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    if (trackPlaylist.is_blank_at((int) pos.frames(m_fps) - 1)) {
+    if (trackPlaylist.is_blank_at(info.startPos.frames(m_fps))) {
         kDebug() << "////////  ERROR RSIZING BLANK CLIP!!!!!!!!!!!";
         return false;
     }
-    int clipIndex = trackPlaylist.get_clip_index_at((int) pos.frames(m_fps) - 1);
-    int previousStart = trackPlaylist.clip_start(clipIndex);
+    int clipIndex = trackPlaylist.get_clip_index_at(info.startPos.frames(m_fps));
+    /*int previousStart = trackPlaylist.clip_start(clipIndex);
+    int previousDuration = trackPlaylist.clip_length(clipIndex) - 1;*/
     //kDebug() << " ** RESIZING CLIP START:" << clipIndex << " on track:" << track << ", mid pos: " << pos.frames(25) << ", moving: " << moveFrame << ", in: " << in.frames(25) << ", out: " << out.frames(25);
     Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
     if (clip == NULL) {
+        kDebug() << "////////  ERROR RSIZING NULL CLIP!!!!!!!!!!!";
         return false;
     }
+    m_mltConsumer->set("refresh", 0);
+    int previousStart = clip->get_in();
+    int previousDuration = trackPlaylist.clip_length(clipIndex) - 1;
     m_isBlocked = true;
-    trackPlaylist.resize_clip(clipIndex, (int) in.frames(m_fps), (int) out.frames(m_fps));
+    kDebug() << "RESIZE, old start: " << previousStart << ", PREV DUR: " << previousDuration << ", DIFF: " << moveFrame;
+    trackPlaylist.resize_clip(clipIndex, previousStart + moveFrame, previousStart + previousDuration);
     if (moveFrame > 0) trackPlaylist.insert_blank(clipIndex, moveFrame - 1);
     else {
-        int midpos = (int)moveStart.frames(m_fps) - 1; //+ (moveFrame / 2)
-        int blankIndex = trackPlaylist.get_clip_index_at(midpos);
+        //int midpos = info.startPos.frames(m_fps) + moveFrame - 1;
+        int blankIndex = clipIndex - 1;
         int blankLength = trackPlaylist.clip_length(blankIndex);
-
-        kDebug() << " + resizing blank: " << blankIndex << ", Mid: " << midpos << ", Length: " << blankLength << ", SIZE DIFF: " << moveFrame;
-
+        kDebug() << " + resizing blank length " <<  blankLength << ", SIZE DIFF: " << moveFrame;
+        if (! trackPlaylist.is_blank(blankIndex)) {
+            kDebug() << "WARNING, CLIP TO RESIZE IS NOT BLANK";
+        }
         if (blankLength + moveFrame == 0) trackPlaylist.remove(blankIndex);
         else trackPlaylist.resize_clip(blankIndex, 0, blankLength + moveFrame - 1);
     }
     trackPlaylist.consolidate_blanks(0);
     if (QString(clip->parent().get("transparency")).toInt() == 1) {
         //mltResizeTransparency(previousStart, (int) moveEnd.frames(m_fps), (int) (moveEnd + out - in).frames(m_fps), track, QString(clip->parent().get("id")).toInt());
-        mltDeleteTransparency(previousStart, track, QString(clip->parent().get("id")).toInt());
-        ItemInfo info;
-        info.startPos = moveEnd;
-        info.endPos = moveEnd + out - in;
-        info.track = track;
-        mltAddClipTransparency(info, info.track - 1, QString(clip->parent().get("id")).toInt());
+        mltDeleteTransparency(info.startPos.frames(m_fps), info.track, QString(clip->parent().get("id")).toInt());
+        ItemInfo transpinfo;
+        transpinfo.startPos = info.startPos + diff;
+        transpinfo.endPos = info.startPos + diff + (info.endPos - info.startPos);
+        transpinfo.track = info.track;
+        mltAddClipTransparency(transpinfo, info.track - 1, QString(clip->parent().get("id")).toInt());
     }
     m_isBlocked = false;
+    m_mltConsumer->set("refresh", 1);
     return true;
 }
 
@@ -1774,6 +1886,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     Mlt::Producer trackProducer(tractor.track(startTrack));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at(moveStart + 1);
+    bool checkLength = false;
     if (endTrack == startTrack) {
         //mlt_service_lock(service.get_service());
         Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
@@ -1787,10 +1900,11 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             return false;
         } else {
             trackPlaylist.consolidate_blanks(0);
-            trackPlaylist.insert_at(moveEnd, clipProducer, 1);
+            int newIndex = trackPlaylist.insert_at(moveEnd, clipProducer, 1);
             if (QString(clipProducer.parent().get("transparency")).toInt() == 1) {
                 mltMoveTransparency(moveStart, moveEnd, startTrack, endTrack, QString(clipProducer.parent().get("id")).toInt());
             }
+            if (newIndex + 1 == trackPlaylist.count()) checkLength = true;
         }
         //mlt_service_unlock(service.get_service());
     } else {
@@ -1805,15 +1919,18 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
             trackPlaylist.consolidate_blanks(0);
             destTrackPlaylist.consolidate_blanks(1);
-            destTrackPlaylist.insert_at(moveEnd, clipProducer, 1);
+            int newIndex = destTrackPlaylist.insert_at(moveEnd, clipProducer, 1);
             destTrackPlaylist.consolidate_blanks(0);
             if (QString(clipProducer.parent().get("transparency")).toInt() == 1) {
                 kDebug() << "//////// moving clip transparency";
                 mltMoveTransparency(moveStart, moveEnd, startTrack, endTrack, QString(clipProducer.parent().get("id")).toInt());
             }
+            if (clipIndex > trackPlaylist.count()) checkLength = true;
+            else if (newIndex + 1 == destTrackPlaylist.count()) checkLength = true;
         }
     }
-    mltCheckLength();
+
+    if (checkLength) mltCheckLength();
     mlt_service_unlock(m_mltConsumer->get_service());
     m_isBlocked = false;
     m_mltConsumer->set("refresh", 1);

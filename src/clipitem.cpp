@@ -95,6 +95,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double scale, double fps)
 ClipItem::~ClipItem() {
     if (startThumbTimer) delete startThumbTimer;
     if (endThumbTimer) delete endThumbTimer;
+    if (m_timeLine) m_timeLine;
 }
 
 ClipItem *ClipItem::clone(double scale, ItemInfo info) const {
@@ -265,7 +266,7 @@ void ClipItem::refreshClip() {
 }
 
 void ClipItem::slotFetchThumbs() {
-    m_thumbsRequested += 2;
+    m_thumbsRequested = 2;
     emit getThumb((int)m_cropStart.frames(m_fps), (int)(m_cropStart + m_cropDuration).frames(m_fps));
 }
 
@@ -280,19 +281,20 @@ void ClipItem::slotGetEndThumb() {
 }
 
 void ClipItem::slotThumbReady(int frame, QPixmap pix) {
-    if (m_thumbsRequested == 0) return;
+    //if (m_thumbsRequested == 0) return;
     if (frame == m_cropStart.frames(m_fps)) {
         m_startPix = pix;
         QRectF r = boundingRect();
         r.setRight(pix.width() + 2);
         update(r);
-    } else {
+        m_thumbsRequested--;
+    } else if (frame == (m_cropStart + m_cropDuration).frames(m_fps)) {
         m_endPix = pix;
         QRectF r = boundingRect();
         r.setLeft(r.right() - pix.width() - 2);
         update(r);
+        m_thumbsRequested--;
     }
-    m_thumbsRequested--;
 }
 
 void ClipItem::slotGotAudioData() {

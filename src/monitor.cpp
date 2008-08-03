@@ -304,13 +304,12 @@ void Monitor::slotSetXml(DocClipBase *clip, const int position) {
     if (!clip) return;
     if (clip != m_currentClip || m_currentClip->producer() == NULL) {
         m_currentClip = clip;
-        render->setProducer(clip->producer(), 0);
-        m_ruler->slotNewValue(0);
+        render->setProducer(clip->producer(), position);
+        //m_ruler->slotNewValue(0);
         //adjustRulerSize(clip->producer()->get_playtime());
-        m_timePos->setText("00:00:00:00");
-        m_position = 0;
-    }
-    if (position != -1) render->seek(GenTime(position, render->fps()));
+        //m_timePos->setText("00:00:00:00");
+        m_position = position;
+    } else if (position != -1) render->seek(GenTime(position, render->fps()));
 }
 
 void Monitor::slotOpenFile(const QString &file) {
