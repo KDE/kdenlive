@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-25 20:59+0100\n"
+"POT-Creation-Date: 2008-08-03 12:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,16 +19,14 @@ msgstr ""
 msgid " Firewire (DV / HDV)"
 msgstr ""
 
-msgid " Track "
+#, kde-format
+msgid "%1 images found"
 msgstr ""
 
 msgid "&Cancel"
 msgstr ""
 
 msgid "&OK"
-msgstr ""
-
-msgid "*.svg *.svgz"
 msgstr ""
 
 msgid "..."
@@ -70,7 +68,26 @@ msgstr ""
 msgid "<br><b>Author:</b> "
 msgstr ""
 
+#, kde-format
+msgid "<qt>Clip <b>%1</b><br>is invalid, will be removed from project."
+msgstr ""
+
 msgid "A"
+msgstr ""
+
+msgid "A guide already exists at that position"
+msgstr ""
+
+#, kde-format
+msgid ""
+"A newer recovery file exists for <b>%1</b>\n"
+"Open recovery file ?"
+msgstr ""
+
+msgid "ALSA"
+msgstr ""
+
+msgid "ARTS daemon"
 msgstr ""
 
 #, kde-format
@@ -89,10 +106,34 @@ msgstr ""
 msgid "Add Custom Effect"
 msgstr ""
 
+msgid "Add Guide"
+msgstr ""
+
+msgid "Add Image"
+msgstr ""
+
+msgid "Add Marker to Clip"
+msgstr ""
+
+msgid "Add Rectangle"
+msgstr ""
+
+msgid "Add Slideshow Clip"
+msgstr ""
+
+msgid "Add Text"
+msgstr ""
+
 msgid "Add Title Clip"
 msgstr ""
 
+msgid "Add Transition"
+msgstr ""
+
 msgid "Add Video Effect"
+msgstr ""
+
+msgid "Add audio fade"
 msgstr ""
 
 msgid "Add clip"
@@ -101,19 +142,40 @@ msgstr ""
 msgid "Add folder"
 msgstr ""
 
+msgid "Add guide"
+msgstr ""
+
 msgid "Add keyframe"
+msgstr ""
+
+msgid "Add marker"
 msgstr ""
 
 msgid "Add new effect"
 msgstr ""
 
+msgid "Add recording time to captured file name"
+msgstr ""
+
 msgid "Add timeline clip"
+msgstr ""
+
+msgid "Add transition"
 msgstr ""
 
 msgid "Add transition to clip"
 msgstr ""
 
+msgid "Adjust clip length"
+msgstr ""
+
 msgid "Advanced"
+msgstr ""
+
+msgid "Align item horizontally"
+msgstr ""
+
+msgid "Align item vertically"
 msgstr ""
 
 msgid "All"
@@ -125,10 +187,7 @@ msgstr ""
 msgid "Allow vertical moves"
 msgstr ""
 
-msgid "Alpha"
-msgstr ""
-
-msgid "Alpha:"
+msgid "Ascii art library"
 msgstr ""
 
 msgid "Aspect ratio"
@@ -146,10 +205,29 @@ msgstr ""
 msgid "Audio codec"
 msgstr ""
 
+msgid "Audio device:"
+msgstr ""
+
+msgid "Audio driver:"
+msgstr ""
+
+msgid "Audio editing"
+msgstr ""
+
+#, c-format, kde-format
+msgid "Audio fade duration: %1s"
+msgstr ""
+
 msgid "Audio index"
 msgstr ""
 
 msgid "Auto add"
+msgstr ""
+
+msgid "Automatic"
+msgstr ""
+
+msgid "Automatically start a new file on scene cut"
 msgstr ""
 
 msgid "Autoscroll while playing"
@@ -161,7 +239,7 @@ msgstr ""
 msgid "BasicOperations"
 msgstr ""
 
-msgid "Border"
+msgid "Border color"
 msgstr ""
 
 msgid "Button 1"
@@ -179,19 +257,97 @@ msgstr ""
 msgid "Button 5"
 msgstr ""
 
+msgid "Cannot add marker if more than one clip is selected"
+msgstr ""
+
+msgid "Cannot cut a transition"
+msgstr ""
+
+msgid "Cannot delete marker if more than one clip is selected"
+msgstr ""
+
+msgid "Cannot edit marker if more than one clip is selected"
+msgstr ""
+
+msgid "Cannot find clip to add effect"
+msgstr ""
+
+msgid "Cannot find clip to cut"
+msgstr ""
+
+msgid "Cannot find clip to uncut"
+msgstr ""
+
+msgid "Cannot find clip with keyframe"
+msgstr ""
+
 msgid "Cannot find the inigo program required for rendering (part of Mlt)"
 msgstr ""
 
 msgid "Cannot find your Mlt profiles, please give the path"
 msgstr ""
 
+#, kde-format
+msgid "Cannot move clip at time: %1s on track %2"
+msgstr ""
+
+#, c-format, kde-format
+msgid "Cannot move clip to position %1seconds"
+msgstr ""
+
+#, kde-format
+msgid "Cannot move transition at time: %1s on track %2"
+msgstr ""
+
+msgid "Cannot paste clip to selected place"
+msgstr ""
+
+msgid "Cannot paste selected clips"
+msgstr ""
+
+msgid "Cannot paste transition to selected place"
+msgstr ""
+
+msgid ""
+"Cannot play video after rendering because the default video player "
+"application is not set.\n"
+"Please define it in Kdenlive settings dialog."
+msgstr ""
+
+#, kde-format
+msgid ""
+"Cannot read from device %1\n"
+"Please check drivers and access rights."
+msgstr ""
+
 msgid "Capture"
+msgstr ""
+
+msgid "Capture audio"
+msgstr ""
+
+msgid "Capture crashed, please check your parameters"
 msgstr ""
 
 msgid "Capture folder"
 msgstr ""
 
+msgid "Capture format"
+msgstr ""
+
 msgid "Capture params"
+msgstr ""
+
+msgid "Captured files"
+msgstr ""
+
+msgid "Capturing..."
+msgstr ""
+
+msgid "Change"
+msgstr ""
+
+msgid "Change Clip Speed"
 msgstr ""
 
 msgid "Channels"
@@ -203,9 +359,6 @@ msgstr ""
 msgid "Clean"
 msgstr ""
 
-msgid "Clear"
-msgstr ""
-
 msgid "Clip Color"
 msgstr ""
 
@@ -213,6 +366,13 @@ msgid "Clip Monitor"
 msgstr ""
 
 msgid "Clip Properties"
+msgstr ""
+
+#, c-format, kde-format
+msgid "Clip duration: %1s"
+msgstr ""
+
+msgid "Clip has no markers"
 msgstr ""
 
 msgid "Close the current tab"
@@ -230,6 +390,12 @@ msgstr ""
 msgid "Color clips"
 msgstr ""
 
+msgid "Comment"
+msgstr ""
+
+msgid "Configure"
+msgstr ""
+
 msgid "Connect"
 msgstr ""
 
@@ -237,6 +403,9 @@ msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install or your driver settings, "
 "please fix it."
+msgstr ""
+
+msgid "Crash recovery (automatic backup)"
 msgstr ""
 
 msgid "Create"
@@ -248,10 +417,27 @@ msgstr ""
 msgid "Create new profile"
 msgstr ""
 
+#, kde-format
+msgid "Creating thumbnail for %1"
+msgstr ""
+
+#, c-format, kde-format
+msgid "Crop from start: %1s"
+msgstr ""
+
+msgid "Crop start"
+msgstr ""
+
+msgid "Crossfade"
+msgstr ""
+
 msgid "Custom"
 msgstr ""
 
 msgid "Cut"
+msgstr ""
+
+msgid "Cut Clip"
 msgstr ""
 
 msgid "D"
@@ -269,19 +455,22 @@ msgstr ""
 msgid "Decoding threads"
 msgstr ""
 
+msgid "Default"
+msgstr ""
+
 msgid "Default Durations"
 msgstr ""
 
 msgid "Default Profile"
 msgstr ""
 
+msgid "Default apps"
+msgstr ""
+
 msgid "Default capture device"
 msgstr ""
 
 msgid "Default folders"
-msgstr ""
-
-msgid "Default format"
 msgstr ""
 
 msgid "Delete"
@@ -291,13 +480,31 @@ msgstr ""
 msgid "Delete %1"
 msgstr ""
 
+msgid "Delete All Guides"
+msgstr ""
+
+msgid "Delete All Markers from Clip"
+msgstr ""
+
 msgid "Delete Clip"
 msgstr ""
 
 msgid "Delete Folder"
 msgstr ""
 
+msgid "Delete Guide"
+msgstr ""
+
+msgid "Delete Marker from Clip"
+msgstr ""
+
+msgid "Delete Selected Item"
+msgstr ""
+
 msgid "Delete clip"
+msgstr ""
+
+msgid "Delete current file"
 msgstr ""
 
 msgid "Delete effect"
@@ -310,6 +517,15 @@ msgstr ""
 msgid ""
 "Delete folder <b>%2</b> ?<br>This will also remove the %1 clips in that "
 "folder"
+msgstr ""
+
+msgid "Delete guide"
+msgstr ""
+
+msgid "Delete keyframe"
+msgstr ""
+
+msgid "Delete marker"
 msgstr ""
 
 msgid "Delete profile"
@@ -333,10 +549,16 @@ msgstr ""
 msgid "Dialog"
 msgstr ""
 
+msgid "Direct FB"
+msgstr ""
+
 msgid "Disonnect"
 msgstr ""
 
 msgid "Display"
+msgstr ""
+
+msgid "Display clip markers comments"
 msgstr ""
 
 msgid "Display ratio"
@@ -354,11 +576,38 @@ msgstr ""
 msgid "Dw"
 msgstr ""
 
+msgid "E"
+msgstr ""
+
 msgid "Edit Clip"
+msgstr ""
+
+msgid "Edit Clip Speed"
+msgstr ""
+
+msgid "Edit Guide"
+msgstr ""
+
+msgid "Edit Keyframe"
+msgstr ""
+
+msgid "Edit Marker"
 msgstr ""
 
 #, kde-format
 msgid "Edit effect %1"
+msgstr ""
+
+msgid "Edit guide"
+msgstr ""
+
+msgid "Edit keyframe"
+msgstr ""
+
+msgid "Edit marker"
+msgstr ""
+
+msgid "Edit profile"
 msgstr ""
 
 #, kde-format
@@ -377,10 +626,22 @@ msgstr ""
 msgid "Encoding"
 msgstr ""
 
+msgid "Encoding parameters"
+msgstr ""
+
+msgid "End"
+msgstr ""
+
 msgid "EndViewport"
 msgstr ""
 
-msgid "Environnement"
+msgid "Environment"
+msgstr ""
+
+msgid "Error when resizing clip"
+msgstr ""
+
+msgid "Esound daemon"
 msgstr ""
 
 msgid "Extension"
@@ -392,6 +653,15 @@ msgstr ""
 msgid "Extra parameters"
 msgstr ""
 
+msgid "Extract frame"
+msgstr ""
+
+msgid "Fade in"
+msgstr ""
+
+msgid "Fade out"
+msgstr ""
+
 msgid ""
 "File already exists.\n"
 "Do you want to overwrite it ?"
@@ -400,13 +670,28 @@ msgstr ""
 msgid "File already exists. Doy you want to overwrite it ?"
 msgstr ""
 
+msgid "File extension"
+msgstr ""
+
+msgid "File name"
+msgstr ""
+
 msgid "File size"
 msgstr ""
 
 msgid "Filename"
 msgstr ""
 
-msgid "Filename:"
+msgid "Fill color"
+msgstr ""
+
+msgid "Find"
+msgstr ""
+
+msgid "Find Next"
+msgstr ""
+
+msgid "Find stopped"
 msgstr ""
 
 msgid "Firewire"
@@ -444,6 +729,16 @@ msgstr ""
 msgid "Forward 1 frame"
 msgstr ""
 
+#, kde-format
+msgid "Found : %1"
+msgstr ""
+
+msgid "Frame Duration"
+msgstr ""
+
+msgid "Frame duration"
+msgstr ""
+
 msgid "Frame rate"
 msgstr ""
 
@@ -453,10 +748,40 @@ msgstr ""
 msgid "Frame size"
 msgstr ""
 
+msgid "Framebuffer console"
+msgstr ""
+
 msgid "Frames"
 msgstr ""
 
 msgid "Frequency"
+msgstr ""
+
+msgid "Full screen capture"
+msgstr ""
+
+msgid "General graphics interface"
+msgstr ""
+
+msgid "Geometry"
+msgstr ""
+
+msgid "Go to Clip End"
+msgstr ""
+
+msgid "Go to Clip Start"
+msgstr ""
+
+msgid "Go to Next Snap Point"
+msgstr ""
+
+msgid "Go to Previous Snap Point"
+msgstr ""
+
+msgid "Go to Project End"
+msgstr ""
+
+msgid "Go to Project Start"
 msgstr ""
 
 msgid "GraphView"
@@ -468,10 +793,25 @@ msgstr ""
 msgid "GroupBox"
 msgstr ""
 
+msgid "Guide"
+msgstr ""
+
+msgid "Guides"
+msgstr ""
+
+msgid "H"
+msgstr ""
+
 msgid "HDV"
 msgstr ""
 
 msgid "Height"
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "Image Type"
 msgstr ""
 
 msgid "Image clip"
@@ -480,10 +820,16 @@ msgstr ""
 msgid "Image clips"
 msgstr ""
 
+msgid "Image editing"
+msgstr ""
+
 msgid "Image preview"
 msgstr ""
 
 msgid "Image size"
+msgstr ""
+
+msgid "Image type"
 msgstr ""
 
 msgid "Inigo path"
@@ -498,13 +844,31 @@ msgstr ""
 msgid "JogShuttle"
 msgstr ""
 
-msgid "Linewidth"
+msgid "Keyframe"
+msgstr ""
+
+msgid "Load Image"
 msgstr ""
 
 msgid "Load Title"
 msgstr ""
 
+msgid "Loading playlist..."
+msgstr ""
+
+msgid "Loading project clips"
+msgstr ""
+
+msgid "Loop"
+msgstr ""
+
 msgid "Loop Section"
+msgstr ""
+
+msgid "Luma File"
+msgstr ""
+
+msgid "Luma file"
 msgstr ""
 
 msgid "Manage Profiles"
@@ -513,10 +877,13 @@ msgstr ""
 msgid "Marker"
 msgstr ""
 
+msgid "Markers"
+msgstr ""
+
 msgid "Misc"
 msgstr ""
 
-msgid "Mlt environnement"
+msgid "Mlt environment"
 msgstr ""
 
 msgid "Mlt profiles folder"
@@ -528,10 +895,16 @@ msgstr ""
 msgid "Move clip"
 msgstr ""
 
+msgid "Move effect"
+msgstr ""
+
 msgid "Move effect down"
 msgstr ""
 
 msgid "Move effect up"
+msgstr ""
+
+msgid "Move guide"
 msgstr ""
 
 msgid "Move transition"
@@ -546,19 +919,59 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
+msgid "Name for saved effect: "
+msgstr ""
+
 msgid "Name:"
 msgstr ""
 
-msgid "New Rect"
+msgid "Nano X"
 msgstr ""
 
-msgid "New Text"
+msgid "New speed (percents)"
+msgstr ""
+
+msgid "No clip at cursor time"
+msgstr ""
+
+msgid "No clip copied"
+msgstr ""
+
+msgid "No clip selected"
+msgstr ""
+
+msgid "No guide at cursor time"
+msgstr ""
+
+msgid "No image found"
+msgstr ""
+
+msgid "No marker found at cursor time"
+msgstr ""
+
+msgid "No selected clip at cursor time"
 msgstr ""
 
 msgid "Normalise audio for thumbnails"
 msgstr ""
 
 msgid "Not connected"
+msgstr ""
+
+#, kde-format
+msgid "Not found : %1"
+msgstr ""
+
+msgid "OSS"
+msgstr ""
+
+msgid "OSS with DMA access"
+msgstr ""
+
+msgid "Open Document"
+msgstr ""
+
+msgid "Open last project on startup"
 msgstr ""
 
 msgid "Output file"
@@ -571,6 +984,9 @@ msgid "Parameter info"
 msgstr ""
 
 msgid "Parameters"
+msgstr ""
+
+msgid "Paste Effects"
 msgstr ""
 
 msgid "Path"
@@ -588,13 +1004,53 @@ msgstr ""
 msgid "Play after render"
 msgstr ""
 
+msgid "Play..."
+msgstr ""
+
+msgid "Playback"
+msgstr ""
+
 msgid "Playback params"
 msgstr ""
 
 msgid "Playlist clip"
 msgstr ""
 
-msgid "Preview"
+#, kde-format
+msgid ""
+"Plug your camcorder and\n"
+"press connect button\n"
+"to initialize connection\n"
+"Files will be saved in:\n"
+"%1"
+msgstr ""
+
+msgid "Position"
+msgstr ""
+
+#, kde-format
+msgid ""
+"Press play or record button\n"
+"to start video capture\n"
+"Files will be saved in:\n"
+"%1"
+msgstr ""
+
+#, kde-format
+msgid ""
+"Press record button\n"
+"to start screen capture\n"
+"Files will be saved in:\n"
+"%1"
+msgstr ""
+
+msgid "Problem adding effect to clip"
+msgstr ""
+
+msgid "Problem deleting effect"
+msgstr ""
+
+msgid "Problem editing effect"
 msgstr ""
 
 msgid "Profile"
@@ -615,9 +1071,6 @@ msgstr ""
 msgid "Project Monitor"
 msgstr ""
 
-msgid "Project Overview"
-msgstr ""
-
 msgid "Project Settings"
 msgstr ""
 
@@ -636,19 +1089,25 @@ msgstr ""
 msgid "Rating"
 msgstr ""
 
+msgid "Razor clip"
+msgstr ""
+
+msgid "Razor tool"
+msgstr ""
+
+msgid "Reached end of project"
+msgstr ""
+
 msgid "Record"
 msgstr ""
 
 msgid "Record Monitor"
 msgstr ""
 
-msgid "Rectangle"
-msgstr ""
-
 msgid "Rename folder"
 msgstr ""
 
-msgid "Render Project"
+msgid "Render"
 msgstr ""
 
 msgid "Rendering"
@@ -675,7 +1134,13 @@ msgstr ""
 msgid "S"
 msgstr ""
 
-msgid "SVG"
+msgid "SVGAlib"
+msgstr ""
+
+msgid "Save As"
+msgstr ""
+
+msgid "Save Effect"
 msgstr ""
 
 msgid "Save Profile"
@@ -687,13 +1152,69 @@ msgstr ""
 msgid "Save changes to document ?"
 msgstr ""
 
+msgid "Save effect"
+msgstr ""
+
+msgid "Screen Grab"
+msgstr ""
+
+msgid "Screen Grab / FFmpeg"
+msgstr ""
+
+msgid "Screen grab"
+msgstr ""
+
+msgid "Select a clip before copying"
+msgstr ""
+
+msgid "Select a clip if you want to apply an effect"
+msgstr ""
+
+msgid ""
+"Select a region using the mouse. To take the snapshot, press the Enter key. "
+"Press Esc to quit."
+msgstr ""
+
+msgid "Select clip to change speed"
+msgstr ""
+
+msgid "Select clip to delete"
+msgstr ""
+
+msgid "Select default audio editor"
+msgstr ""
+
+msgid "Select default image editor"
+msgstr ""
+
+msgid "Select default video player"
+msgstr ""
+
+msgid "Select region..."
+msgstr ""
+
 msgid "Selected zone only"
+msgstr ""
+
+msgid "Selection Tool"
+msgstr ""
+
+msgid "Selection tool"
+msgstr ""
+
+msgid "Set current image as thumbnail"
 msgstr ""
 
 msgid "Show audio thumbnails"
 msgstr ""
 
+msgid "Show background"
+msgstr ""
+
 msgid "Show keyframes in timeline"
+msgstr ""
+
+msgid "Show markers comments"
 msgstr ""
 
 msgid "Show video thumbnails"
@@ -705,7 +1226,22 @@ msgstr ""
 msgid "Size:"
 msgstr ""
 
+msgid "Slideshow"
+msgstr ""
+
+msgid "Slideshow Clip"
+msgstr ""
+
 msgid "Slideshow clip"
+msgstr ""
+
+msgid "Snap"
+msgstr ""
+
+msgid "Softness"
+msgstr ""
+
+msgid "Split view"
 msgstr ""
 
 msgid "Start"
@@ -717,6 +1253,9 @@ msgstr ""
 msgid "StartViewport"
 msgstr ""
 
+msgid "Starting -- find text as you type"
+msgstr ""
+
 msgid "Stop"
 msgstr ""
 
@@ -724,9 +1263,6 @@ msgid "Templates"
 msgstr ""
 
 msgid "Temporary files"
-msgstr ""
-
-msgid "Text"
 msgstr ""
 
 msgid "Text clip"
@@ -747,10 +1283,22 @@ msgstr ""
 msgid "Thumbnails:"
 msgstr ""
 
+msgid "Time"
+msgstr ""
+
 msgid "Timeline"
 msgstr ""
 
+msgid "Title Clip"
+msgstr ""
+
 msgid "Titler"
+msgstr ""
+
+msgid "Toggle selection"
+msgstr ""
+
+msgid "Tool"
 msgstr ""
 
 msgid "Track height"
@@ -759,7 +1307,13 @@ msgstr ""
 msgid "Transition"
 msgstr ""
 
+msgid "Transparency"
+msgstr ""
+
 msgid "Transparent bac&kground"
+msgstr ""
+
+msgid "Transparent background"
 msgstr ""
 
 #, kde-format
@@ -784,10 +1338,16 @@ msgstr ""
 msgid "V"
 msgstr ""
 
+msgid "Value"
+msgstr ""
+
 msgid "Video"
 msgstr ""
 
 msgid "Video Profile"
+msgstr ""
+
+msgid "Video capture params"
 msgstr ""
 
 msgid "Video clip"
@@ -796,7 +1356,13 @@ msgstr ""
 msgid "Video codec"
 msgstr ""
 
+msgid "Video driver:"
+msgstr ""
+
 msgid "Video index"
+msgstr ""
+
+msgid "Video player"
 msgstr ""
 
 msgid "Video4Linux"
@@ -808,7 +1374,18 @@ msgstr ""
 msgid "Video4Linux2 / FFmpeg"
 msgstr ""
 
+msgid "View"
+msgstr ""
+
 msgid "Virtual clip"
+msgstr ""
+
+msgid "W"
+msgstr ""
+
+msgid ""
+"Warning: changes to the drivers and devices can make Kdenlive unstable. "
+"Change only if you know what you do."
 msgstr ""
 
 msgid "Width"
@@ -817,13 +1394,22 @@ msgstr ""
 msgid "X"
 msgstr ""
 
+msgid "X11"
+msgstr ""
+
 msgid "X:"
+msgstr ""
+
+msgid "XFREE86 DGA 2.0"
 msgstr ""
 
 msgid "Y"
 msgstr ""
 
 msgid "Y:"
+msgstr ""
+
+msgid "You must copy exactly one clip before pasting effects"
 msgstr ""
 
 msgid "Z-Index:"
@@ -847,6 +1433,9 @@ msgstr ""
 msgid "hour"
 msgstr ""
 
+msgid "import"
+msgstr ""
+
 msgid "min."
 msgstr ""
 
@@ -868,6 +1457,9 @@ msgstr ""
 msgid "sec."
 msgstr ""
 
+msgid "seconds"
+msgstr ""
+
 msgid "update values in timeline"
 msgstr ""
 
@@ -875,4 +1467,7 @@ msgid "video4linux2"
 msgstr ""
 
 msgid "x"
+msgstr ""
+
+msgid "x1"
 msgstr ""
