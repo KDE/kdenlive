@@ -54,11 +54,30 @@ Geometryval::Geometryval(QWidget* parent): QWidget(parent) {
     scene->addItem(paramRect);
 
     scene->setSceneRect(-100.0*aspect, -100, 300.0*aspect, 300);
+    connect(scene , SIGNAL(itemMoved()) , this , SLOT(moveEvent()));
 }
 
-void Geometryval::mouseMoveEvent(QMouseEvent *event) {
+void Geometryval::moveEvent() {
     //if (event->button())
-    kDebug() << paramRect->rect();
+
+    QDomNodeList namenode = param.elementsByTagName("parameter");
+    QDomNode pa = namenode.item(0);
+    QRectF rec = paramRect->rect().translated(paramRect->pos());
+    pa.attributes().namedItem("value").setNodeValue(
+        QString("%1;%2;%3;%4;%5").arg(
+            (int)rec.x()).arg(
+            (int)rec.y()).arg(
+            (int)(rec.x() + rec.width())).arg(
+            (int)(rec.y() + rec.height())).arg(
+            "100"
+        )
+    );
+    //pa.attributes().namedItem("start").setNodeValue("50");
+    QString dat;
+    QTextStream stre(&dat);
+    param.save(stre, 2);
+    kDebug() << dat;
+    emit parameterChanged();
 }
 
 QDomElement Geometryval::getParamDesc() {
@@ -67,5 +86,6 @@ QDomElement Geometryval::getParamDesc() {
 
 void Geometryval::setupParam(const QDomElement& par, const QString& paramName, int minFrame, int maxFrame) {
     param = par;
+    //read param her and set rect
     ui.frame->setRange(minFrame, maxFrame);
 }

@@ -29,6 +29,7 @@ class QGraphicsRectItem;
 class QMouseEvent;
 
 class Geometryval : public QWidget {
+    Q_OBJECT
 public:
     Geometryval(QWidget* parent = 0);
     QDomElement getParamDesc();
@@ -40,8 +41,7 @@ private:
     QGraphicsRectItem *paramRect;
 public slots:
     void setupParam(const QDomElement&, const QString& paramName, int, int);
-protected:
-    virtual void mouseMoveEvent(QMouseEvent *event);
+    void moveEvent();
 signals:
     void parameterChanged();
 };
