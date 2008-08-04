@@ -821,8 +821,9 @@ void MainWindow::openFile() {
 
 void MainWindow::openLastFile() {
     KSharedConfigPtr config = KGlobal::config();
-    QString Lastproject = config->group("Recent Files").readPathEntry("File1", QString());
-    openFile(KUrl(Lastproject));
+    KUrl::List urls = m_fileOpenRecent->urls();
+    if (urls.isEmpty()) newFile();
+    else openFile(urls.last());
 }
 
 void MainWindow::openFile(const KUrl &url) {
