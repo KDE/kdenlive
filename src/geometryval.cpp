@@ -22,13 +22,15 @@
 #include <QGraphicsScene>
 #include "graphicsscenerectmove.h"
 #include <QGraphicsRectItem>
+#include <QMouseEvent>
+#include <KDebug>
 
 Geometryval::Geometryval(QWidget* parent): QWidget(parent) {
     ui.setupUi(this);
     QVBoxLayout* vbox = new QVBoxLayout(this);
     ui.widget->setLayout(vbox);
     QGraphicsView *view = new QGraphicsView(this);
-    //view->setBackgroundBrush(QBrush(QColor(0,0,0)));
+    view->setBackgroundBrush(QBrush(QColor(0, 0, 0)));
     vbox->addWidget(view);
 
     ui.frame->setTickPosition(QSlider::TicksBelow);
@@ -36,22 +38,34 @@ Geometryval::Geometryval(QWidget* parent): QWidget(parent) {
     scene = new GraphicsSceneRectMove(this);
     scene->setTool(TITLE_SELECT);
     view->setScene(scene);
-
-    QGraphicsRectItem *m_frameBorder = new QGraphicsRectItem(QRectF(-40, -30, 40, 30));
+    double aspect = 4.0 / 3.0; //change to project val
+    QGraphicsRectItem *m_frameBorder = new QGraphicsRectItem(QRectF(0, 0, 100.0*aspect, 100));
     m_frameBorder->setZValue(-1100);
-    m_frameBorder->setBrush(QColor(255, 255, 255, 0));
-
+    //m_frameBorder->setBrush(QColor(255, 255, 0, 255));
+    m_frameBorder->setPen(QPen(QBrush(QColor(255, 255, 255, 255)), 1.0, Qt::DashLine));
     scene->addItem(m_frameBorder);
 
-    QGraphicsRectItem *m_frameBorder1 = new QGraphicsRectItem(QRectF(-30, -20, 30, 20));
+    paramRect = new QGraphicsRectItem(QRectF(20.0*aspect, 20, 80*aspect, 80));
 
-    m_frameBorder1->setZValue(0);
-    m_frameBorder1->setBrush(QColor(255, 0, 0, 0));
+    paramRect->setZValue(0);
+    //m_frameBorder1->setBrush(QColor(255, 0, 0, 0));
+    paramRect->setPen(QPen(QBrush(QColor(255, 0, 0, 255)), 1.0));
 
-    scene->addItem(m_frameBorder1);
+    scene->addItem(paramRect);
 
-    scene->setSceneRect(-80, -60, 80, 60);
+    scene->setSceneRect(-100.0*aspect, -100, 300.0*aspect, 300);
 }
-QDomElement Geometryval::getParamDesc() {}
 
-void Geometryval::setupParam(const QDomElement&, const QString& paramName, int, int) {}
+void Geometryval::mouseMoveEvent(QMouseEvent *event) {
+    //if (event->button())
+    kDebug() << paramRect->rect();
+}
+
+QDomElement Geometryval::getParamDesc() {
+    return param;
+}
+
+void Geometryval::setupParam(const QDomElement& par, const QString& paramName, int minFrame, int maxFrame) {
+    param = par;
+    ui.frame->setRange(minFrame, maxFrame);
+}

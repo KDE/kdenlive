@@ -25,6 +25,9 @@
 
 //class QGraphicsScene;
 class GraphicsSceneRectMove;
+class QGraphicsRectItem;
+class QMouseEvent;
+
 class Geometryval : public QWidget {
 public:
     Geometryval(QWidget* parent = 0);
@@ -33,8 +36,12 @@ private:
     Ui::Geometryval ui;
     //QGraphicsScene* scene;
     GraphicsSceneRectMove *scene;
+    QDomElement param;
+    QGraphicsRectItem *paramRect;
 public slots:
     void setupParam(const QDomElement&, const QString& paramName, int, int);
+protected:
+    virtual void mouseMoveEvent(QMouseEvent *event);
 signals:
     void parameterChanged();
 };
