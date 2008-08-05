@@ -125,11 +125,13 @@ void CustomTrackView::checkTrackHeight() {
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             item = (ClipItem*) itemList.at(i);
-            item->setRect(item->rect().x(), item->track() * m_tracksHeight, item->rect().width(), m_tracksHeight - 1);
+            item->setRect(0, 0, item->rect().width(), m_tracksHeight - 1);
+            item->setPos((qreal) item->startPos().frames(m_document->fps()) * m_scale, (qreal) item->track() * m_tracksHeight);
             item->resetThumbs();
         } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
             transitionitem = (Transition*) itemList.at(i);
-            transitionitem->setRect(transitionitem->rect().x(), transitionitem->track() * m_tracksHeight + m_tracksHeight / 2, transitionitem->rect().width(), m_tracksHeight - 1);
+            transitionitem->setRect(0, 0, transitionitem->rect().width(), m_tracksHeight / 3 * 2 - 1);
+            transitionitem->setPos((qreal) transitionitem->startPos().frames(m_document->fps()) * m_scale, (qreal) transitionitem->track() * m_tracksHeight + m_tracksHeight / 3 * 2);
         }
     }
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), m_tracksHeight * m_tracksList.count());
@@ -216,7 +218,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
             } else if (m_operationMode == KEYFRAME) {
                 GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x() / m_scale), m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
                 double pos = mapToScene(event->pos()).toPoint().y();
-                QRectF br = m_dragItem->rect();
+                QRectF br = m_dragItem->sceneBoundingRect();
                 double maxh = 100.0 / br.height();
                 pos = (br.bottom() - pos) * maxh;
                 m_dragItem->updateKeyFramePos(keyFramePos, pos);
@@ -287,11 +289,12 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
         } else if (opMode == RESIZESTART) {
             setCursor(KCursor("left_side", Qt::SizeHorCursor));
             if (m_visualTip == NULL) {
+                QRectF rect = clip->sceneBoundingRect();
                 QPolygon polygon;
-                polygon << QPoint((int)clip->rect().x(), (int)(clip->rect().y() + clip->rect().height() / 2 - size * 2));
-                polygon << QPoint((int)(clip->rect().x() + size * 2), (int)(clip->rect().y() + clip->rect().height() / 2));
-                polygon << QPoint((int)clip->rect().x(), (int)(clip->rect().y() + clip->rect().height() / 2 + size * 2));
-                polygon << QPoint((int)clip->rect().x(), (int)(clip->rect().y() + clip->rect().height() / 2 - size * 2));
+                polygon << QPoint((int)rect.x(), (int)(rect.y() + rect.height() / 2 - size * 2));
+                polygon << QPoint((int)(rect.x() + size * 2), (int)(rect.y() + rect.height() / 2));
+                polygon << QPoint((int)rect.x(), (int)(rect.y() + rect.height() / 2 + size * 2));
+                polygon << QPoint((int)rect.x(), (int)(rect.y() + rect.height() / 2 - size * 2));
 
                 m_visualTip = new QGraphicsPolygonItem(polygon);
                 ((QGraphicsPolygonItem*) m_visualTip)->setBrush(m_tipColor);
@@ -303,21 +306,22 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                 m_visualTip->setPos(0, 0);
                 double scale = 2.0;
                 m_animation->setScaleAt(.5, scale, 1);
-                m_animation->setPosAt(.5, QPointF(clip->rect().x() - clip->rect().x() * scale, 0));
+                m_animation->setPosAt(.5, QPointF(rect.x() - rect.x() * scale, 0));
                 scale = 1.0;
                 m_animation->setScaleAt(1, scale, 1);
-                m_animation->setPosAt(1, QPointF(clip->rect().x() - clip->rect().x() * scale, 0));
+                m_animation->setPosAt(1, QPointF(rect.x() - rect.x() * scale, 0));
                 scene()->addItem(m_visualTip);
                 m_animationTimer->start();
             }
         } else if (opMode == RESIZEEND) {
             setCursor(KCursor("right_side", Qt::SizeHorCursor));
             if (m_visualTip == NULL) {
+                QRectF rect = clip->sceneBoundingRect();
                 QPolygon polygon;
-                polygon << QPoint((int)(clip->rect().x() + clip->rect().width()), (int)(clip->rect().y() + clip->rect().height() / 2 - size * 2));
-                polygon << QPoint((int)(clip->rect().x() + clip->rect().width() - size * 2), (int)(clip->rect().y() + clip->rect().height() / 2));
-                polygon << QPoint((int)(clip->rect().x() + clip->rect().width()), (int)(clip->rect().y() + clip->rect().height() / 2 + size * 2));
-                polygon << QPoint((int)(clip->rect().x() + clip->rect().width()), (int)(clip->rect().y() + clip->rect().height() / 2 - size * 2));
+                polygon << QPoint((int)(rect.x() + rect.width()), (int)(rect.y() + rect.height() / 2 - size * 2));
+                polygon << QPoint((int)(rect.x() + rect.width() - size * 2), (int)(rect.y() + rect.height() / 2));
+                polygon << QPoint((int)(rect.x() + rect.width()), (int)(rect.y() + rect.height() / 2 + size * 2));
+                polygon << QPoint((int)(rect.x() + rect.width()), (int)(rect.y() + rect.height() / 2 - size * 2));
 
                 m_visualTip = new QGraphicsPolygonItem(polygon);
                 ((QGraphicsPolygonItem*) m_visualTip)->setBrush(m_tipColor);
@@ -330,17 +334,17 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                 m_visualTip->setPos(0, 0);
                 double scale = 2.0;
                 m_animation->setScaleAt(.5, scale, 1);
-                m_animation->setPosAt(.5, QPointF(clip->rect().x() - clip->rect().x() * scale - clip->rect().width(), 0));
+                m_animation->setPosAt(.5, QPointF(rect.x() - rect.x() * scale - rect.width(), 0));
                 scale = 1.0;
                 m_animation->setScaleAt(1, scale, 1);
-                m_animation->setPosAt(1, QPointF(clip->rect().x() - clip->rect().x() * scale, 0));
+                m_animation->setPosAt(1, QPointF(rect.x() - rect.x() * scale, 0));
                 scene()->addItem(m_visualTip);
                 m_animationTimer->start();
             }
         } else if (opMode == FADEIN) {
             if (m_visualTip == NULL) {
                 ClipItem *item = (ClipItem *) clip;
-                m_visualTip = new QGraphicsEllipseItem(item->rect().x() + item->fadeIn() * m_scale - size, item->rect().y() - 8, size * 2, 16);
+                m_visualTip = new QGraphicsEllipseItem(item->pos().x() + item->fadeIn() * m_scale - size, item->pos().y() - 8, size * 2, 16);
                 ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
                 ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
                 m_visualTip->setZValue(100);
@@ -350,10 +354,10 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                 m_visualTip->setPos(0, 0);
                 double scale = 2.0;
                 m_animation->setScaleAt(.5, scale, scale);
-                m_animation->setPosAt(.5, QPointF(item->rect().x() - item->rect().x() * scale -  item->fadeIn() * m_scale, item->rect().y() - item->rect().y() * scale));
+                m_animation->setPosAt(.5, QPointF(item->pos().x() - item->pos().x() * scale -  item->fadeIn() * m_scale, item->pos().y() - item->pos().y() * scale));
                 scale = 1.0;
                 m_animation->setScaleAt(1, scale, scale);
-                m_animation->setPosAt(1, QPointF(item->rect().x() - item->rect().x() * scale, item->rect().y() - item->rect().y() * scale));
+                m_animation->setPosAt(1, QPointF(item->pos().x() - item->pos().x() * scale, item->pos().y() - item->pos().y() * scale));
                 scene()->addItem(m_visualTip);
                 m_animationTimer->start();
             }
@@ -361,7 +365,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
         } else if (opMode == FADEOUT) {
             if (m_visualTip == NULL) {
                 ClipItem *item = (ClipItem *) clip;
-                m_visualTip = new QGraphicsEllipseItem(item->rect().x() + item->rect().width() - item->fadeOut() * m_scale - size, item->rect().y() - 8, size*2, 16);
+                m_visualTip = new QGraphicsEllipseItem(item->pos().x() + item->rect().width() - item->fadeOut() * m_scale - size, item->pos().y() - 8, size*2, 16);
                 ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
                 ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
                 m_visualTip->setZValue(100);
@@ -371,16 +375,17 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                 m_visualTip->setPos(0, 0);
                 double scale = 2.0;
                 m_animation->setScaleAt(.5, scale, scale);
-                m_animation->setPosAt(.5, QPointF(item->rect().x() - item->rect().x() * scale - item->rect().width() + item->fadeOut() * m_scale, item->rect().y() - item->rect().y() * scale));
+                m_animation->setPosAt(.5, QPointF(item->pos().x() - item->pos().x() * scale - item->rect().width() + item->fadeOut() * m_scale, item->pos().y() - item->pos().y() * scale));
                 scale = 1.0;
                 m_animation->setScaleAt(1, scale, scale);
-                m_animation->setPosAt(1, QPointF(item->rect().x() - item->rect().x() * scale, item->rect().y() - item->rect().y() * scale));
+                m_animation->setPosAt(1, QPointF(item->pos().x() - item->pos().x() * scale, item->pos().y() - item->pos().y() * scale));
                 scene()->addItem(m_visualTip);
                 m_animationTimer->start();
             }
             setCursor(Qt::PointingHandCursor);
         } else if (opMode == TRANSITIONSTART) {
             if (m_visualTip == NULL) {
+                QRectF rect = clip->sceneBoundingRect();
                 m_visualTip = new QGraphicsEllipseItem(-5, -5 , 10, 10);
                 ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
                 ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
@@ -388,7 +393,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                 m_animation = new QGraphicsItemAnimation;
                 m_animation->setItem(m_visualTip);
                 m_animation->setTimeLine(m_animationTimer);
-                m_visualTip->setPos(clip->rect().x() + 10, clip->rect().y() + clip->rect().height() / 2 + 12);
+                m_visualTip->setPos(rect.x() + 10, rect.y() + rect.height() / 2 + 12);
                 double scale = 2.0;
                 m_animation->setScaleAt(.5, scale, scale);
                 scale = 1.0;
@@ -399,6 +404,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
             setCursor(Qt::PointingHandCursor);
         } else if (opMode == TRANSITIONEND) {
             if (m_visualTip == NULL) {
+                QRectF rect = clip->sceneBoundingRect();
                 m_visualTip = new QGraphicsEllipseItem(-5, -5 , 10, 10);
                 ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
                 ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
@@ -406,7 +412,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                 m_animation = new QGraphicsItemAnimation;
                 m_animation->setItem(m_visualTip);
                 m_animation->setTimeLine(m_animationTimer);
-                m_visualTip->setPos(clip->rect().x() + clip->rect().width() - 10 , clip->rect().y() + clip->rect().height() / 2 + 12);
+                m_visualTip->setPos(rect.x() + rect.width() - 10 , rect.y() + rect.height() / 2 + 12);
                 double scale = 2.0;
                 m_animation->setScaleAt(.5, scale, scale);
                 scale = 1.0;
@@ -513,7 +519,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
 
                     m_dragItem = (AbstractClipItem *) item;
 
-                    m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps()) * m_scale), (int)(event->pos().y() - m_dragItem->rect().top()));
+                    m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps()) * m_scale), (int)(event->pos().y() - m_dragItem->pos().y()));
                     m_dragItemInfo.startPos = m_dragItem->startPos();
                     m_dragItemInfo.endPos = m_dragItem->endPos();
                     m_dragItemInfo.track = m_dragItem->track();
@@ -525,7 +531,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                             m_selectedClipList.append(static_cast <AbstractClipItem *>(selected.at(i)));
                     }
 
-                    m_operationMode = m_dragItem->operationMode(item->mapFromScene(mapToScene(event->pos())), m_scale);
+                    m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()), m_scale);
                     if (m_operationMode == KEYFRAME) {
                         m_dragItem->updateSelectedKeyFrame();
                         m_blockRefresh = false;
@@ -810,13 +816,15 @@ void CustomTrackView::slotUpdateClipEffect(ClipItem *clip, QDomElement oldeffect
 void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut) {
     if (cut) {
         // cut clip
-        ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
+        ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()) + 1, info.track);
         if (!item || cutTime >= item->endPos() || cutTime <= item->startPos()) {
             emit displayMessage(i18n("Cannot find clip to cut"), ErrorMessage);
             kDebug() << "/////////  ERROR CUTTING CLIP : (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << "-" << info.endPos.frames(25) << ")" << ", CUT: " << cutTime.frames(25);
             m_blockRefresh = false;
             return;
         }
+        kDebug() << "/////////  CUTTING CLIP : (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << "-" << info.endPos.frames(25) << ")" << ", CUT: " << cutTime.frames(25);
+
         m_document->renderer()->mltCutClip(m_tracksList.count() - info.track, cutTime);
         int cutPos = (int) cutTime.frames(m_document->fps());
         ItemInfo newPos;
@@ -824,25 +832,38 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut) {
         newPos.endPos = info.endPos;
         newPos.cropStart = item->cropStart() + (cutTime - info.startPos);
         newPos.track = info.track;
-        item->resizeEnd(cutPos, m_scale);
         ClipItem *dup = item->clone(m_scale, newPos);
+        kDebug() << "// REsizing item to: " << cutPos;
+        item->resizeEnd(cutPos, m_scale);
         scene()->addItem(dup);
         item->baseClip()->addReference();
         m_document->updateClip(item->baseClip()->getId());
+        kDebug() << "/////////  CUTTING CLIP RESULT: (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), DUP: (" << dup->startPos().frames(25) << "-" << dup->endPos().frames(25) << ")" << ", CUT: " << cutTime.frames(25);
         kDebug() << "//  CUTTING CLIP dONE";
     } else {
         // uncut clip
+
         ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
-        ClipItem *dup = getClipItemAt((int) cutTime.frames(m_document->fps()), info.track);
-        if (!item || !dup) {
+        ClipItem *dup = getClipItemAt((int) cutTime.frames(m_document->fps()) + 1, info.track);
+        if (!item || !dup || item == dup) {
             emit displayMessage(i18n("Cannot find clip to uncut"), ErrorMessage);
             m_blockRefresh = false;
             return;
         }
-        /*kDebug() << "// UNCUTTING CLIPS: " << item->startPos().frames(25) << ", SECOND: " << dup->startPos().frames(25);
-        kDebug() << "// UNCUTTING CLIPS, SEC END " << dup->endPos().frames(25) << ", CUT: " << cutTime.frames(25);
-        kDebug() << "// UNCUTTING CLIPS, INFO " << info.endPos.frames(25) << ", start: " << info.startPos.frames(25);*/
-        deleteClip(dup->info());
+
+        kDebug() << "// UNCUTTING CLIPS: ITEM 1 (" << item->startPos().frames(25) << "x" << item->endPos().frames(25) << ")";
+        kDebug() << "// UNCUTTING CLIPS: ITEM 2 (" << dup->startPos().frames(25) << "x" << dup->endPos().frames(25) << ")";
+        kDebug() << "// UNCUTTING CLIPS, INFO (" << info.startPos.frames(25) << "x" << info.endPos.frames(25) << ") , CUT: " << cutTime.frames(25);;
+        //deleteClip(dup->info());
+
+
+        if (dup->isSelected()) emit clipItemSelected(NULL);
+        dup->baseClip()->removeReference();
+        m_document->updateClip(dup->baseClip()->getId());
+        scene()->removeItem(dup);
+        delete dup;
+        m_document->renderer()->mltRemoveClip(m_tracksList.count() - info.track, cutTime);
+
         ItemInfo clipinfo = item->info();
         clipinfo.track = m_tracksList.count() - clipinfo.track;
         bool success = m_document->renderer()->mltResizeClipEnd(clipinfo, info.endPos - info.startPos);
@@ -850,6 +871,7 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut) {
             item->resizeEnd((int) info.endPos.frames(m_document->fps()), m_scale);
         } else
             emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
+
     }
     QTimer::singleShot(3000, this, SLOT(slotEnableRefresh()));
 }
@@ -1279,6 +1301,7 @@ void CustomTrackView::deleteClip(ItemInfo info) {
     if (item->isSelected()) emit clipItemSelected(NULL);
     item->baseClip()->removeReference();
     m_document->updateClip(item->baseClip()->getId());
+    scene()->removeItem(item);
     delete item;
     m_document->renderer()->mltRemoveClip(m_tracksList.count() - info.track, info.startPos);
     m_document->renderer()->doRefresh();
@@ -1350,7 +1373,7 @@ void CustomTrackView::cutSelectedClips() {
     GenTime currentPos = GenTime(m_cursorPos, m_document->fps());
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
-            ClipItem *item = (ClipItem *) itemList.at(i);
+            ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             if (currentPos > item->startPos() && currentPos <  item->endPos()) {
                 RazorClipCommand *command = new RazorClipCommand(this, item->info(), currentPos, true);
                 m_commandStack->push(command);
@@ -1905,7 +1928,8 @@ void CustomTrackView::setScale(double scaleFactor) {
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET || itemList.at(i)->type() == TRANSITIONWIDGET) {
             AbstractClipItem *clip = (AbstractClipItem *)itemList.at(i);
-            clip->setRect(clip->startPos().frames(m_document->fps()) * m_scale, clip->rect().y(), clip->duration().frames(m_document->fps()) * m_scale, clip->rect().height());
+            clip->setRect(0, 0, (qreal) clip->duration().frames(m_document->fps()) * m_scale - .5, clip->rect().height());
+            clip->setPos((qreal) clip->startPos().frames(m_document->fps()) * m_scale, clip->pos().y());
         }
     }
 

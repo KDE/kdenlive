@@ -40,9 +40,10 @@
 #include "kthumb.h"
 
 ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double scale, double fps)
-        : AbstractClipItem(info, QRectF(), fps), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_thumbsRequested(0), m_startFade(0), m_endFade(0), m_hover(false), m_selectedEffect(-1), m_speed(1.0) {
-    QRectF rect((double) info.startPos.frames(fps) * scale, (double)(info.track * KdenliveSettings::trackheight() + 1), (double)(info.endPos - info.startPos).frames(fps) * scale, (double)(KdenliveSettings::trackheight() - 1));
-    setRect(rect);
+        : AbstractClipItem(info, QRectF(), fps), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_thumbsRequested(2), m_startFade(0), m_endFade(0), m_hover(false), m_selectedEffect(-1), m_speed(1.0), framePixelWidth(0) {
+    setRect(0, 0, (qreal)(info.endPos - info.startPos).frames(fps) * scale - .5, (qreal)(KdenliveSettings::trackheight() - 1));
+    setPos((qreal) info.startPos.frames(fps) * scale, (qreal)(info.track * KdenliveSettings::trackheight()) + 1);
+    kDebug() << "// ADDing CLIP TRK HGTH: " << KdenliveSettings::trackheight();
 
     m_clipName = clip->name();
     m_producer = clip->getId();
@@ -71,7 +72,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double scale, double fps)
         connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(extractImage(int, int)));
         connect(clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
         connect(clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
-        QTimer::singleShot(300, this, SLOT(slotFetchThumbs()));
+        QTimer::singleShot(200, this, SLOT(slotFetchThumbs()));
 
         startThumbTimer = new QTimer(this);
         startThumbTimer->setSingleShot(true);
@@ -100,6 +101,9 @@ ClipItem::~ClipItem() {
 
 ClipItem *ClipItem::clone(double scale, ItemInfo info) const {
     ClipItem *duplicate = new ClipItem(m_clip, info, scale, m_fps);
+    if (info.cropStart == cropStart()) duplicate->slotThumbReady(info.cropStart.frames(m_fps), m_startPix);
+    if (info.cropStart + (info.endPos - info.startPos) == m_cropStart + m_cropDuration) duplicate->slotThumbReady((m_cropStart + m_cropDuration).frames(m_fps) - 1, m_endPix);
+    kDebug() << "// CLoning clip: " << (info.cropStart + (info.endPos - info.startPos)).frames(m_fps) << ", CURRENT end: " << (cropStart() + duration()).frames(m_fps);
     duplicate->setEffectList(m_effectList);
     duplicate->setSpeed(m_speed);
     return duplicate;
@@ -247,6 +251,9 @@ QDomElement ClipItem::selectedEffect() {
 }
 
 void ClipItem::resetThumbs() {
+    m_startPix = QPixmap();
+    m_endPix = QPixmap();
+    m_thumbsRequested = 2;
     slotFetchThumbs();
     audioThumbCachePic.clear();
 }
@@ -266,34 +273,39 @@ void ClipItem::refreshClip() {
 }
 
 void ClipItem::slotFetchThumbs() {
-    m_thumbsRequested = 2;
-    emit getThumb((int)m_cropStart.frames(m_fps), (int)(m_cropStart + m_cropDuration).frames(m_fps));
+    if (m_endPix.isNull() && m_startPix.isNull()) {
+        emit getThumb((int)m_cropStart.frames(m_fps), (int)(m_cropStart + m_cropDuration).frames(m_fps) - 1);
+    } else {
+        if (m_endPix.isNull()) slotGetEndThumb();
+        if (m_startPix.isNull()) slotGetStartThumb();
+    }
 }
 
 void ClipItem::slotGetStartThumb() {
-    m_thumbsRequested++;
     emit getThumb((int)m_cropStart.frames(m_fps), -1);
 }
 
 void ClipItem::slotGetEndThumb() {
-    m_thumbsRequested++;
-    emit getThumb(-1, (int)(m_cropStart + m_cropDuration).frames(m_fps));
+    emit getThumb(-1, (int)(m_cropStart + m_cropDuration).frames(m_fps) - 1);
 }
 
 void ClipItem::slotThumbReady(int frame, QPixmap pix) {
-    //if (m_thumbsRequested == 0) return;
     if (frame == m_cropStart.frames(m_fps)) {
         m_startPix = pix;
-        QRectF r = boundingRect();
+        QRectF r = sceneBoundingRect();
         r.setRight(pix.width() + 2);
         update(r);
         m_thumbsRequested--;
-    } else if (frame == (m_cropStart + m_cropDuration).frames(m_fps)) {
+    } else if (frame == (m_cropStart + m_cropDuration).frames(m_fps) - 1) {
         m_endPix = pix;
-        QRectF r = boundingRect();
+        QRectF r = sceneBoundingRect();
         r.setLeft(r.right() - pix.width() - 2);
         update(r);
         m_thumbsRequested--;
+    }
+    if (m_thumbsRequested == 0) {
+        // Ok, we have out start and end thumbnails...
+        disconnect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
     }
 }
 
@@ -353,15 +365,18 @@ void ClipItem::paint(QPainter *painter,
     QBrush paintColor = brush();
     if (isSelected()) paintColor = QBrush(QColor(79, 93, 121));
     QRectF br = rect();
-    double scale = br.width() / m_cropDuration.frames(m_fps);
+    const double itemWidth = br.width();
+    const double itemHeight = br.height();
+    kDebug() << "/// ITEM RECT: " << br << ", EPXOSED: " << option->exposedRect;
+    double scale = itemWidth / (double) m_cropDuration.frames(m_fps);
 
     // kDebug()<<"///   EXPOSED RECT: "<<option->exposedRect.x()<<" X "<<option->exposedRect.right();
 
-    int startpixel = (int)option->exposedRect.x() - rect().x();
+    double startpixel = option->exposedRect.x(); // - pos().x();
 
     if (startpixel < 0)
         startpixel = 0;
-    int endpixel = (int)option->exposedRect.right();
+    double endpixel = option->exposedRect.right();
     if (endpixel < 0)
         endpixel = 0;
 
@@ -378,22 +393,22 @@ void ClipItem::paint(QPainter *painter,
     // draw thumbnails
     if (!m_startPix.isNull() && KdenliveSettings::videothumbnails()) {
         if (m_clipType == IMAGE) {
-            painter->drawPixmap(QPointF(br.right() - m_startPix.width(), br.y()), m_startPix);
-            QLine l(br.right() - m_startPix.width(), br.y(), br.right() - m_startPix.width(), br.y() + br.height());
+            painter->drawPixmap(QPointF(itemWidth - m_startPix.width(), 0), m_startPix);
+            QLine l(itemWidth - m_startPix.width(), 0, itemWidth - m_startPix.width(), itemHeight);
             painter->drawLine(l);
         } else {
-            painter->drawPixmap(QPointF(br.right() - m_endPix.width(), br.y()), m_endPix);
-            QLine l(br.right() - m_endPix.width(), br.y(), br.right() - m_endPix.width(), br.y() + br.height());
+            painter->drawPixmap(QPointF(itemWidth - m_endPix.width(), 0), m_endPix);
+            QLine l(itemWidth - m_endPix.width(), 0, itemWidth - m_endPix.width(), itemHeight);
             painter->drawLine(l);
         }
 
-        painter->drawPixmap(QPointF(br.x(), br.y()), m_startPix);
-        QLine l2(br.x() + m_startPix.width(), br.y(), br.x() + m_startPix.width(), br.y() + br.height());
+        painter->drawPixmap(QPointF(0, 0), m_startPix);
+        QLine l2(m_startPix.width(), 0, 0 + m_startPix.width(), itemHeight);
         painter->drawLine(l2);
     }
 
     // draw audio thumbnails
-    if (KdenliveSettings::audiothumbnails() && ((m_clipType == AV && option->exposedRect.bottom() > (br.y() + br.height() / 2)) || m_clipType == AUDIO) && audioThumbReady) {
+    if (KdenliveSettings::audiothumbnails() && ((m_clipType == AV && option->exposedRect.bottom() > (itemHeight / 2)) || m_clipType == AUDIO) && audioThumbReady) {
 
         QPainterPath path = m_clipType == AV ? roundRectPathLower : resultClipPath;
         if (m_clipType == AV) painter->fillPath(path, QBrush(QColor(200, 200, 200, 140)));
@@ -401,11 +416,12 @@ void ClipItem::paint(QPainter *painter,
         int channels = baseClip()->getProperty("channels").toInt();
         if (scale != framePixelWidth)
             audioThumbCachePic.clear();
-        emit prepareAudioThumb(scale, path, startpixel, endpixel + 200, channels);//200 more for less missing parts before repaint after scrolling
-        int cropLeft = (int)((m_cropStart).frames(m_fps) * scale);
-        for (int startCache = startpixel - startpixel % 100; startCache < endpixel + 300;startCache += 100) {
+        double cropLeft = m_cropStart.frames(m_fps) * scale;
+        emit prepareAudioThumb(scale, path, startpixel + cropLeft, endpixel + cropLeft, channels);//200 more for less missing parts before repaint after scrolling
+        int newstart = startpixel + cropLeft;
+        for (int startCache = newstart - (newstart) % 100; startCache < endpixel + cropLeft; startCache += 100) {
             if (audioThumbCachePic.contains(startCache) && !audioThumbCachePic[startCache].isNull())
-                painter->drawPixmap((int)(roundRectPathUpper.united(roundRectPathLower).boundingRect().x() + startCache - cropLeft), (int)(path.boundingRect().y()), audioThumbCachePic[startCache]);
+                painter->drawPixmap((int)(startCache - cropLeft), (int)(path.boundingRect().y()), audioThumbCachePic[startCache]);
         }
     }
 
@@ -426,10 +442,10 @@ void ClipItem::paint(QPainter *painter,
         if (pos > GenTime()) {
             if (pos > duration()) break;
             framepos = scale * pos.frames(m_fps);
-            QLineF l(br.x() + framepos, br.y() + 5, br.x() + framepos, br.y() + br.height() - 5);
+            QLineF l(framepos, 5, framepos, itemHeight - 5);
             painter->drawLine(l);
             if (KdenliveSettings::showmarkers()) {
-                const QRectF txtBounding = painter->boundingRect(br.x() + framepos + 1, br.y() + 10, br.width() - framepos - 2, br.height() - 10, Qt::AlignLeft | Qt::AlignTop, " " + (*it).comment() + " ");
+                const QRectF txtBounding = painter->boundingRect(framepos + 1, 10, itemWidth - framepos - 2, itemHeight - 10, Qt::AlignLeft | Qt::AlignTop, " " + (*it).comment() + " ");
                 QPainterPath path;
                 path.addRoundedRect(txtBounding, 3, 3);
                 painter->fillPath(path, markerBrush);
@@ -450,31 +466,31 @@ void ClipItem::paint(QPainter *painter,
 
     if (m_startFade != 0) {
         QPainterPath fadeInPath;
-        fadeInPath.moveTo(br.x() , br.y());
-        fadeInPath.lineTo(br.x() , br.bottom());
-        fadeInPath.lineTo(br.x() + m_startFade * scale, br.y());
+        fadeInPath.moveTo(0, 0);
+        fadeInPath.lineTo(0, itemHeight);
+        fadeInPath.lineTo(m_startFade * scale, itemHeight);
         fadeInPath.closeSubpath();
         painter->fillPath(fadeInPath/*.intersected(resultClipPath)*/, fades);
         if (isSelected()) {
-            QLineF l(br.x() + m_startFade * scale, br.y(), br.x(), br.bottom());
+            QLineF l(m_startFade * scale, 0, 0, itemHeight);
             painter->drawLine(l);
         }
     }
     if (m_endFade != 0) {
         QPainterPath fadeOutPath;
-        fadeOutPath.moveTo(br.right(), br.y());
-        fadeOutPath.lineTo(br.right(), br.bottom());
-        fadeOutPath.lineTo(br.right() - m_endFade * scale, br.y());
+        fadeOutPath.moveTo(itemWidth, 0);
+        fadeOutPath.lineTo(itemWidth, itemHeight);
+        fadeOutPath.lineTo(itemWidth - m_endFade * scale, 0);
         fadeOutPath.closeSubpath();
         painter->fillPath(fadeOutPath/*.intersected(resultClipPath)*/, fades);
         if (isSelected()) {
-            QLineF l(br.right() - m_endFade * scale, br.y(), br.x() + br.width(), br.bottom());
+            QLineF l(itemWidth - m_endFade * scale, 0, itemWidth, itemHeight);
             painter->drawLine(l);
         }
     }
 
     // Draw effects names
-    if (!m_effectNames.isEmpty() && br.width() > 30) {
+    if (!m_effectNames.isEmpty() && itemWidth > 30) {
         QRectF txtBounding = painter->boundingRect(br, Qt::AlignLeft | Qt::AlignTop, m_effectNames);
         txtBounding.setRight(txtBounding.right() + 15);
         painter->setPen(Qt::white);
@@ -510,7 +526,7 @@ void ClipItem::paint(QPainter *painter,
 
 
     // draw effect or transition keyframes
-    if (br.width() > 20) drawKeyFrames(painter, option->exposedRect);
+    if (itemWidth > 20) drawKeyFrames(painter, option->exposedRect);
 
     // draw clip border
     painter->setClipRect(option->exposedRect);
@@ -518,7 +534,7 @@ void ClipItem::paint(QPainter *painter,
     //painter->setClipRect(option->exposedRect);
     painter->drawPath(resultClipPath);
 
-    if (m_hover && br.width() > 30) {
+    if (m_hover && itemWidth > 30) {
         painter->setBrush(QColor(180, 180, 50, 180)); //gradient);
 
         // draw transitions handles
@@ -532,9 +548,9 @@ void ClipItem::paint(QPainter *painter,
         transitionHandle.lineTo(handle_size * 3, handle_size * 3);
         transitionHandle.lineTo(0, handle_size * 3);
         transitionHandle.closeSubpath();
-        int pointy = (int)(br.y() + br.height() / 2);
-        int pointx1 = (int)(br.x() + 10);
-        int pointx2 = (int)(br.x() + br.width() - (10 + handle_size * 3));
+        int pointy = (int)(itemHeight / 2);
+        int pointx1 = 10;
+        int pointx2 = (int)(itemWidth - (10 + handle_size * 3));
 #if 0
         painter->setPen(QPen(Qt::black));
         painter->setBrush(QBrush(QColor(50, 50, 0)));
@@ -570,24 +586,25 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos, double scale) {
         m_editedKeyframe = mouseOverKeyFrames(pos);
         if (m_editedKeyframe != -1) return KEYFRAME;
     }
-    if (qAbs((int)(pos.x() - (rect().x() + scale * m_startFade))) < 6 && qAbs((int)(pos.y() - rect().y())) < 6) {
+    QRectF rect = sceneBoundingRect();
+    if (qAbs((int)(pos.x() - (rect.x() + scale * m_startFade))) < 6 && qAbs((int)(pos.y() - rect.y())) < 6) {
         if (m_startFade == 0) setToolTip(i18n("Add audio fade"));
         else setToolTip(i18n("Audio fade duration: %1s", GenTime(m_startFade, m_fps).seconds()));
         return FADEIN;
-    } else if (qAbs((int)(pos.x() - rect().x())) < 6) {
+    } else if (qAbs((int)(pos.x() - rect.x())) < 6) {
         setToolTip(i18n("Crop from start: %1s", cropStart().seconds()));
         return RESIZESTART;
-    } else if (qAbs((int)(pos.x() - (rect().x() + rect().width() - scale * m_endFade))) < 6 && qAbs((int)(pos.y() - rect().y())) < 6) {
+    } else if (qAbs((int)(pos.x() - (rect.x() + rect.width() - scale * m_endFade))) < 6 && qAbs((int)(pos.y() - rect.y())) < 6) {
         if (m_endFade == 0) setToolTip(i18n("Add audio fade"));
         else setToolTip(i18n("Audio fade duration: %1s", GenTime(m_endFade, m_fps).seconds()));
         return FADEOUT;
-    } else if (qAbs((int)(pos.x() - (rect().x() + rect().width()))) < 6) {
+    } else if (qAbs((int)(pos.x() - (rect.x() + rect.width()))) < 6) {
         setToolTip(i18n("Clip duration: %1s", duration().seconds()));
         return RESIZEEND;
-    } else if (qAbs((int)(pos.x() - (rect().x() + 16))) < 10 && qAbs((int)(pos.y() - (rect().y() + rect().height() / 2 + 5))) < 8) {
+    } else if (qAbs((int)(pos.x() - (rect.x() + 16))) < 10 && qAbs((int)(pos.y() - (rect.y() + rect.height() / 2 + 5))) < 8) {
         setToolTip(i18n("Add transition"));
         return TRANSITIONSTART;
-    } else if (qAbs((int)(pos.x() - (rect().x() + rect().width() - 21))) < 10 && qAbs((int)(pos.y() - (rect().y() + rect().height() / 2 + 5))) < 8) {
+    } else if (qAbs((int)(pos.x() - (rect.x() + rect.width() - 21))) < 10 && qAbs((int)(pos.y() - (rect.y() + rect.height() / 2 + 5))) < 8) {
         setToolTip(i18n("Add transition"));
         return TRANSITIONEND;
     }
@@ -630,10 +647,10 @@ QList <CommentedTime> ClipItem::commentedSnapMarkers() const {
 void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, QPainterPath path, int startpixel, int endpixel, int channels) {
 
     QRectF re = path.boundingRect();
-    //kDebug() << "// PREP AUDIO THMB FRMO : " << startpixel << ", to: " << endpixel;
+    kDebug() << "// PREP AUDIO THMB FRMO : " << startpixel << ", to: " << endpixel;
     //if ( (!audioThumbWasDrawn || framePixelWidth!=pixelForOneFrame ) && !baseClip()->audioFrameChache.isEmpty()){
 
-    for (int startCache = startpixel - startpixel % 100;startCache + 100 < endpixel ;startCache += 100) {
+    for (int startCache = startpixel - startpixel % 100;startCache + 100 < endpixel + 100;startCache += 100) {
         //kDebug() << "creating " << startCache;
         //if (framePixelWidth!=pixelForOneFrame  ||
         if (framePixelWidth == pixelForOneFrame && audioThumbCachePic.contains(startCache))
@@ -720,7 +737,8 @@ void ClipItem::setFadeIn(int pos, double scale) {
     if (pos < 0) pos = 0;
     if (pos > m_cropDuration.frames(m_fps)) pos = (int)(m_cropDuration.frames(m_fps) / 2);
     m_startFade = pos;
-    update(rect().x(), rect().y(), qMax(oldIn, pos) * scale, rect().height());
+    QRectF rect = boundingRect();
+    update(rect.x(), rect.y(), qMax(oldIn, pos) * scale, rect.height());
 }
 
 void ClipItem::setFadeOut(int pos, double scale) {
@@ -728,7 +746,8 @@ void ClipItem::setFadeOut(int pos, double scale) {
     if (pos < 0) pos = 0;
     if (pos > m_cropDuration.frames(m_fps)) pos = (int)(m_cropDuration.frames(m_fps) / 2);
     m_endFade = pos;
-    update(rect().x() + rect().width() - qMax(oldOut, pos) * scale, rect().y(), pos * scale, rect().height());
+    QRectF rect = boundingRect();
+    update(rect.x() + rect.width() - qMax(oldOut, pos) * scale, rect.y(), pos * scale, rect.height());
 
 }
 
@@ -767,17 +786,31 @@ void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *) {
 }
 
 void ClipItem::resizeStart(int posx, double scale) {
+    const int min = (startPos() - cropStart()).frames(m_fps);
+    if (posx < min) posx = min;
+    if (posx == startPos().frames(m_fps)) return;
     const int previous = cropStart().frames(m_fps);
     AbstractClipItem::resizeStart(posx, scale);
     checkEffectsKeyframesPos(previous, cropStart().frames(m_fps), true);
-    if (m_hasThumbs && KdenliveSettings::videothumbnails()) startThumbTimer->start(100);
+    if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
+        m_thumbsRequested++;
+        connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
+        startThumbTimer->start(100);
+    }
 }
 
 void ClipItem::resizeEnd(int posx, double scale) {
+    const int max = (startPos() - cropStart() + maxDuration()).frames(m_fps) + 1;
+    if (posx > max) posx = max;
+    if (posx == endPos().frames(m_fps)) return;
     const int previous = (cropStart() + duration()).frames(m_fps);
     AbstractClipItem::resizeEnd(posx, scale);
     checkEffectsKeyframesPos(previous, (cropStart() + duration()).frames(m_fps), false);
-    if (m_hasThumbs && KdenliveSettings::videothumbnails()) endThumbTimer->start(100);
+    if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
+        m_thumbsRequested++;
+        connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
+        endThumbTimer->start(100);
+    }
 }
 
 

@@ -143,13 +143,15 @@ private:
     void checkEffectsKeyframesPos(const int previous, const int current, bool fromStart);
 
 private slots:
-    void slotThumbReady(int frame, QPixmap pix);
     void slotFetchThumbs();
     void slotGetStartThumb();
     void slotGetEndThumb();
     void slotGotAudioData();
     void slotPrepareAudioThumb(double pixelForOneFrame, QPainterPath path, int startpixel, int endpixel, int channels);
     void animate(qreal value);
+
+public slots:
+    void slotThumbReady(int frame, QPixmap pix);
 
 signals:
     void getThumb(int, int);

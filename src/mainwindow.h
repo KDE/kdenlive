@@ -165,8 +165,6 @@ public slots:
 
 private slots:
     void newFile();
-    void undo();
-    void redo();
     void queryQuit();
     void activateDocument();
     void connectDocument(TrackView*, KdenliveDoc*);

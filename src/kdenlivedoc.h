@@ -22,15 +22,15 @@
 #define KDENLIVEDOC_H
 
 #include <qdom.h>
-#include <qstring.h>
-#include <qmap.h>
+#include <QString>
+#include <QMap>
 #include <QList>
 #include <QObject>
 #include <QUndoGroup>
+#include <QUndoStack>
 #include <QTimer>
 
-#include <KUndoStack>
-#include <kurl.h>
+#include <KUrl>
 
 #include "gentime.h"
 #include "timecode.h"
@@ -56,7 +56,7 @@ Q_OBJECT public:
     Timecode timecode() const;
     QDomDocument toXml() const;
     void setRenderer(Render *render);
-    KUndoStack *commandStack();
+    QUndoStack *commandStack();
     QString producerName(int id);
     void setProducerDuration(int id, int duration);
     int getProducerDuration(int id);
@@ -116,7 +116,7 @@ private:
     int m_height;
     Timecode m_timecode;
     Render *m_render;
-    KUndoStack *m_commandStack;
+    QUndoStack *m_commandStack;
     QDomDocument generateSceneList();
     ClipManager *m_clipManager;
     MltVideoProfile m_profile;

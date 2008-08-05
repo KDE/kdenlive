@@ -23,7 +23,6 @@
 
 #include <QUndoCommand>
 #include <QGraphicsView>
-#include <QPointF>
 
 #include <KDebug>
 #include "definitions.h"

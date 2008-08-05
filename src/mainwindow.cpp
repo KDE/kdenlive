@@ -700,11 +700,15 @@ void MainWindow::setupActions() {
     KStandardAction::paste(this, SLOT(slotPaste()),
                            actionCollection());
 
-    KStandardAction::undo(this, SLOT(undo()),
-                          actionCollection());
+    KAction *undo = KStandardAction::undo(m_commandStack, SLOT(undo()),
+                                          actionCollection());
+    undo->setEnabled(false);
+    connect(m_commandStack, SIGNAL(canUndoChanged(bool)), undo, SLOT(setEnabled(bool)));
 
-    KStandardAction::redo(this, SLOT(redo()),
-                          actionCollection());
+    KAction *redo = KStandardAction::redo(m_commandStack, SLOT(redo()),
+                                          actionCollection());
+    redo->setEnabled(false);
+    connect(m_commandStack, SIGNAL(canRedoChanged(bool)), redo, SLOT(setEnabled(bool)));
 
     KStandardAction::fullScreen(this, SLOT(slotFullScreen()), this, actionCollection());
 
@@ -714,14 +718,6 @@ void MainWindow::setupActions() {
     //statusBar(), SLOT( clear() ) );
 
     readOptions();
-}
-
-void MainWindow::undo() {
-    m_commandStack->undo();
-}
-
-void MainWindow::redo() {
-    m_commandStack->redo();
 }
 
 void MainWindow::slotDisplayActionMessage(QAction *a) {

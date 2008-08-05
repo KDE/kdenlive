@@ -284,7 +284,7 @@ QPixmap Render::extractFrame(int frame_position, int width, int height) {
         pix.fill(Qt::black);
         return pix;
     }
-    return KThumb::getFrame(*m_mltProducer, frame_position, width, height);
+    return KThumb::getFrame(m_mltProducer, frame_position, width, height);
 }
 
 QPixmap Render::getImageThumbnail(KUrl url, int width, int height) {

@@ -26,8 +26,8 @@
 #include <QTreeWidget>
 #include <QPainter>
 #include <QItemDelegate>
+#include <QUndoStack>
 
-#include <KUndoStack>
 #include <KTreeWidgetSearchLine>
 #include <KUrl>
 
@@ -128,7 +128,7 @@ private:
     double m_fps;
     QToolBar *m_toolbar;
     QMenu *m_menu;
-    KUndoStack *m_commandStack;
+    QUndoStack *m_commandStack;
     int m_clipIdCounter;
     void selectItemById(const int clipId);
     ProjectItem *getItemById(int id);

@@ -78,16 +78,17 @@ Q_OBJECT public:
 
 public slots:
     void extractImage(int frame, int frame2);
+    QPixmap extractImage(int frame, int width, int height);
     void updateClipUrl(KUrl url);
     static QPixmap getImage(KUrl url, int width, int height);
-    static QPixmap getImage(QDomElement xml, int frame, int width, int height);
+//    static QPixmap getImage(QDomElement xml, int frame, int width, int height);
     /* void getImage(KUrl url, int frame, int width, int height);
      void getThumbs(KUrl url, int startframe, int endframe, int width, int height);*/
     void stopAudioThumbs();
     void removeAudioThumb();
     void getAudioThumbs(int channel, double frame, double frameLength, int arrayWidth);
     static QPixmap getImage(KUrl url, int frame, int width, int height);
-    static QPixmap getFrame(Mlt::Producer producer, int framepos, int width, int height);
+    static QPixmap getFrame(Mlt::Producer *producer, int framepos, int width, int height);
 
 protected:
     virtual void customEvent(QEvent * event);

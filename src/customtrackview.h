@@ -25,8 +25,7 @@
 #include <QGraphicsItemAnimation>
 #include <QTimeLine>
 #include <QMenu>
-
-#include <KUndoStack>
+#include <QUndoStack>
 
 #include "kdenlivedoc.h"
 #include "docclipbase.h"
@@ -148,7 +147,7 @@ private:
     OPERATIONTYPE m_moveOpMode;
     AbstractClipItem *m_dragItem;
     Guide *m_dragGuide;
-    KUndoStack *m_commandStack;
+    QUndoStack *m_commandStack;
     QGraphicsItem *m_visualTip;
     QGraphicsItemAnimation *m_animation;
     QTimeLine *m_animationTimer;

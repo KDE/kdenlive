@@ -456,7 +456,7 @@ void ProjectList::slotRefreshClipThumbnail(ProjectItem *item) {
     if (item) {
         int height = 50;
         int width = (int)(height  * m_render->dar());
-        QPixmap pix = KThumb::getImage(item->toXml(), item->referencedClip()->getClipThumbFrame(), width, height);
+        QPixmap pix = item->referencedClip()->thumbProducer()->extractImage(item->referencedClip()->getClipThumbFrame(), width, height);
         item->setIcon(0, pix);
     }
 }

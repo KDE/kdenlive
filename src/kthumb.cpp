@@ -168,13 +168,17 @@ void KThumb::extractImage(int frame, int frame2) {
         return;
     }
     if (frame != -1) {
-        QPixmap pix = getFrame(*m_producer, frame, twidth, KdenliveSettings::trackheight());
+        QPixmap pix = getFrame(m_producer, frame, twidth, KdenliveSettings::trackheight());
         emit thumbReady(frame, pix);
     }
     if (frame2 != -1) {
-        QPixmap pix = getFrame(*m_producer, frame2, twidth , KdenliveSettings::trackheight());
+        QPixmap pix = getFrame(m_producer, frame2, twidth , KdenliveSettings::trackheight());
         emit thumbReady(frame2, pix);
     }
+}
+
+QPixmap KThumb::extractImage(int frame, int width, int height) {
+    return getFrame(m_producer, frame, width, height);
 }
 
 //static
@@ -183,19 +187,24 @@ QPixmap KThumb::getImage(KUrl url, int frame, int width, int height) {
     QPixmap pix(width, height);
     if (url.isEmpty()) return pix;
 
-    char *tmp = Render::decodedString("<westley><playlist><producer resource=\"" + url.path() + "\" /></playlist></westley>");
-    Mlt::Producer producer(profile, "westley-xml", tmp);
+    char *tmp = Render::decodedString(url.path());
+    //"<westley><playlist><producer resource=\"" + url.path() + "\" /></playlist></westley>");
+    //Mlt::Producer producer(profile, "westley-xml", tmp);
+    Mlt::Producer *producer = new Mlt::Producer(profile, tmp);
     delete[] tmp;
 
-    if (producer.is_blank()) {
-
+    if (producer->is_blank()) {
         pix.fill(Qt::black);
+        delete producer;
         return pix;
     }
-    return getFrame(producer, frame, width, height);
+    pix = getFrame(producer, frame, width, height);
+    delete producer;
+    return pix;
 }
 
 //static
+/*
 QPixmap KThumb::getImage(QDomElement xml, int frame, int width, int height) {
     Mlt::Profile profile((char*) KdenliveSettings::current_profile().data());
     QPixmap pix(width, height);
@@ -214,24 +223,34 @@ QPixmap KThumb::getImage(QDomElement xml, int frame, int width, int height) {
         return pix;
     }
     return getFrame(producer, frame, width, height);
-}
+}*/
 
 //static
-QPixmap KThumb::getFrame(Mlt::Producer producer, int framepos, int width, int height) {
-    producer.seek(framepos);
-    Mlt::Frame *frame = producer.get_frame();
+QPixmap KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int height) {
+    kDebug() << "//REQUESTING FRAME: " << framepos;
+    if (producer == NULL) return QPixmap();
+    producer->seek(framepos);
+    Mlt::Frame *frame = producer->get_frame();
+    if (!frame) {
+        kDebug() << "///// BROKEN FRAME";
+        return QPixmap();
+    }
+    kDebug() << "///// FRAME exists";
     mlt_image_format format = mlt_image_yuv422;
     int frame_width = 0;
     int frame_height = 0;
     frame->set("normalised_height", height);
     frame->set("normalised_width", width);
     QPixmap pix(width, height);
-
+    kDebug() << "///// FRAME exists 2";
     uint8_t *data = frame->get_image(format, frame_width, frame_height, 0);
+    kDebug() << "///// FRAME exists 2a";
     uint8_t *new_image = (uint8_t *)mlt_pool_alloc(frame_width * (frame_height + 1) * 4);
+    kDebug() << "///// FRAME exists 2b";
     mlt_convert_yuv422_to_rgb24a((uint8_t *)data, new_image, frame_width * frame_height);
+    kDebug() << "///// FRAME exists 2c";
     QImage image((uchar *)new_image, frame_width, frame_height, QImage::Format_ARGB32);
-
+    kDebug() << "///// FRAME exists 3";
     if (!image.isNull()) {
         pix = pix.fromImage(image.rgbSwapped());
     } else
@@ -239,6 +258,7 @@ QPixmap KThumb::getFrame(Mlt::Producer producer, int framepos, int width, int he
 
     mlt_pool_release(new_image);
     delete frame;
+    kDebug() << "//REQUESTING FRAME " << framepos << " OVER";
     return pix;
 }
 /*

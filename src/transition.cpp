@@ -32,7 +32,10 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 
-Transition::Transition(const ItemInfo info, int transitiontrack, double scale, double fps, QDomElement params) : AbstractClipItem(info, QRectF(info.startPos.frames(fps) *scale , info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2, (info.endPos - info.startPos).frames(fps) * scale , KdenliveSettings::trackheight() / 3 * 2 - 1), fps), m_gradient(QLinearGradient(0, 0, 0, 0)) {
+Transition::Transition(const ItemInfo info, int transitiontrack, double scale, double fps, QDomElement params) : AbstractClipItem(info, QRectF(), fps), m_gradient(QLinearGradient(0, 0, 0, 0)) {
+    setRect(0, 0, (qreal)(info.endPos - info.startPos).frames(fps) * scale - .5, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
+    setPos((qreal) info.startPos.frames(fps) * scale, (qreal)(info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2));
+
     m_singleClip = true;
     m_transitionTrack = transitiontrack;
     m_secondClip = NULL;
@@ -158,8 +161,9 @@ int Transition::type() const {
 }
 
 OPERATIONTYPE Transition::operationMode(QPointF pos, double scale) {
-    if (qAbs((int)(pos.x() - rect().x())) < 6) return RESIZESTART;
-    else if (qAbs((int)(pos.x() - (rect().x() + rect().width()))) < 6) return RESIZEEND;
+    QRectF rect = sceneBoundingRect();
+    if (qAbs((int)(pos.x() - rect.x())) < 6) return RESIZESTART;
+    else if (qAbs((int)(pos.x() - (rect.right()))) < 6) return RESIZEEND;
     return MOVE;
 }
 

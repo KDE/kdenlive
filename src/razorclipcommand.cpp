@@ -28,13 +28,13 @@ RazorClipCommand::RazorClipCommand(CustomTrackView *view, const ItemInfo info, c
 
 // virtual
 void RazorClipCommand::undo() {
-// kDebug()<<"----  undoing action";
+    // kDebug()<<"----  undoing action";
     m_doIt = true;
     m_view->cutClip(m_info, m_cutTime, false);
 }
 // virtual
 void RazorClipCommand::redo() {
-    kDebug() << "----  redoing action cut: " << m_cutTime.frames(25);
+    // kDebug() << "----  redoing action cut: " << m_cutTime.frames(25);
     if (m_doIt)
         m_view->cutClip(m_info, m_cutTime, true);
     m_doIt = true;

@@ -37,7 +37,7 @@
 #include "mainwindow.h"
 
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoProfile profile, QUndoGroup *undoGroup, MainWindow *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new KUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(7) {
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoProfile profile, QUndoGroup *undoGroup, MainWindow *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new QUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(7) {
     kDebug() << "// init profile, ratnum: " << profile.frame_rate_num << ", " << profile.frame_rate_num << ", width: " << profile.width;
     m_clipManager = new ClipManager(this);
     KdenliveSettings::setProject_fps(m_fps);
@@ -429,7 +429,7 @@ void KdenliveDoc::loadingProgressed() {
     emit progressInfo(QString(), (int) m_documentLoadingProgress);
 }
 
-KUndoStack *KdenliveDoc::commandStack() {
+QUndoStack *KdenliveDoc::commandStack() {
     return m_commandStack;
 }
 
