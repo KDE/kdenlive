@@ -325,9 +325,9 @@ void Monitor::slotOpenFile(const QString &file) {
     render->setSceneList(doc, 0);
 }
 
-void Monitor::resetProfile(QString prof) {
+void Monitor::resetProfile() {
     if (render == NULL) return;
-    render->resetProfile(prof);
+    render->resetProfile();
 }
 
 void Monitor::saveSceneList(QString path, QDomElement info) {

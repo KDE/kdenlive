@@ -37,10 +37,8 @@
 #include "mainwindow.h"
 
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoProfile profile, QUndoGroup *undoGroup, MainWindow *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_profile(profile), m_fps((double)profile.frame_rate_num / profile.frame_rate_den), m_width(profile.width), m_height(profile.height), m_commandStack(new QUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(7) {
-    kDebug() << "// init profile, ratnum: " << profile.frame_rate_num << ", " << profile.frame_rate_num << ", width: " << profile.width;
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, MainWindow *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_commandStack(new QUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(7) {
     m_clipManager = new ClipManager(this);
-    KdenliveSettings::setProject_fps(m_fps);
     if (!url.isEmpty()) {
         QString tmpFile;
         if (KIO::NetAccess::download(url.path(), tmpFile, parent)) {
@@ -54,7 +52,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoPro
                 QString profilePath = infoXml.attribute("profile");
                 m_startPos = infoXml.attribute("position").toInt();
                 m_zoom = infoXml.attribute("zoom", "7").toInt();
-                if (!profilePath.isEmpty()) setProfilePath(profilePath);
+                setProfilePath(profilePath);
                 double version = infoXml.attribute("version").toDouble();
                 if (version < 0.7) convertDocument(version);
                 else {
@@ -263,9 +261,7 @@ void KdenliveDoc::convertDocument(double version) {
     QDomNode props = m_document.elementsByTagName("properties").at(0).toElement();
     QString profile = props.toElement().attribute("videoprofile");
     if (profile == "dv_wide") profile = "dv_pal_wide";
-    if (!profile.isEmpty()) {
-        setProfilePath(profile);
-    } else setProfilePath("dv_pal");
+    setProfilePath(profile);
 
     // move playlists outside of tractor and add the tracks instead
     int max = playlists.count();
@@ -409,12 +405,12 @@ QString KdenliveDoc::profilePath() const {
 }
 
 void KdenliveDoc::setProfilePath(QString path) {
-    KdenliveSettings::setCurrent_profile(path);
+    if (path.isEmpty()) path = KdenliveSettings::default_profile();
+    if (path.isEmpty()) path = "dv_pal";
     m_profile = ProfilesDialog::getVideoProfile(path);
     m_fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
     m_width = m_profile.width;
     m_height = m_profile.height;
-    KdenliveSettings::setProject_fps(m_fps);
     kDebug() << "KDEnnlive document, init timecode from path: " << path << ",  " << m_fps;
     if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
     else m_timecode.setFormat((int) m_fps);

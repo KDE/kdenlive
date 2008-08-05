@@ -747,13 +747,10 @@ void MainWindow::newFile() {
         projectFolder = w->selectedFolder();
         delete w;
     }
-    MltVideoProfile prof;
-    if (!profileName.isEmpty()) prof = ProfilesDialog::getVideoProfile(profileName);
-    else prof = ProfilesDialog::getVideoProfile("dv_pal");
-    if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
-    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, prof, m_commandStack, this);
+    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, this);
+    doc->setProfilePath(profileName);
     TrackView *trackView = new TrackView(doc, this);
-    m_timelineArea->addTab(trackView, KIcon("kdenlive"), i18n("Untitled") + " / " + prof.description);
+    m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description());
     if (m_timelineArea->count() == 1) {
         connectDocumentInfo(doc);
         connectDocument(trackView, doc);
@@ -840,14 +837,16 @@ void MainWindow::openFile(const KUrl &url) {
     }
 
     //TODO: get video profile from url before opening it
-    MltVideoProfile prof = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
+    /*MltVideoProfile prof = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
     if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
+
+    KdenliveSettings::setCurrent_profile(prof.path);*/
     KdenliveDoc *doc;
     if (recovery) {
-        doc = new KdenliveDoc(recoveryUrl, KUrl(), prof, m_commandStack, this);
+        doc = new KdenliveDoc(recoveryUrl, KUrl(), m_commandStack, this);
         doc->setUrl(url);
         doc->setModified(true);
-    } else doc = new KdenliveDoc(url, KUrl(), prof, m_commandStack, this);
+    } else doc = new KdenliveDoc(url, KUrl(), m_commandStack, this);
     connectDocumentInfo(doc);
     TrackView *trackView = new TrackView(doc, this);
     m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description()));
@@ -855,7 +854,6 @@ void MainWindow::openFile(const KUrl &url) {
     if (m_timelineArea->count() > 1) m_timelineArea->setTabBarHidden(false);
     slotGotProgressInfo(QString(), -1);
     m_projectMonitor->refreshMonitor(true);
-    //connectDocument(trackView, doc);
 }
 
 
@@ -923,9 +921,10 @@ void MainWindow::slotEditProjectSettings() {
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
         m_activeDocument->setProfilePath(profile);
-        m_monitorManager->resetProfiles(profile);
+        KdenliveSettings::setCurrent_profile(profile);
+        KdenliveSettings::setProject_fps(m_activeDocument->fps());
         setCaption(m_activeDocument->description());
-        KdenliveSettings::setCurrent_profile(m_activeDocument->profilePath());
+        m_monitorManager->resetProfiles();
         if (m_renderWidget) m_renderWidget->setDocumentStandard(m_activeDocument->getDocumentStandard());
         m_monitorManager->setTimecode(m_activeDocument->timecode());
         m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
@@ -1041,8 +1040,9 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
         disconnect(m_projectList, SIGNAL(clipSelected(DocClipBase *)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *)));
         m_clipMonitor->stop();
     }
+    KdenliveSettings::setCurrent_profile(doc->profilePath());
     KdenliveSettings::setProject_fps(doc->fps());
-    m_monitorManager->resetProfiles(doc->profilePath());
+    m_monitorManager->resetProfiles();
     m_projectList->setDocument(doc);
     connect(m_projectList, SIGNAL(clipSelected(DocClipBase *)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *)));
     connect(trackView, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(activateMonitor()));
@@ -1084,7 +1084,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(activateMonitor()));
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu);
     m_activeTimeline = trackView;
-    KdenliveSettings::setCurrent_profile(doc->profilePath());
     if (m_renderWidget) m_renderWidget->setDocumentStandard(doc->getDocumentStandard());
     m_monitorManager->setTimecode(doc->timecode());
     doc->setRenderer(m_projectMonitor->render);
@@ -1116,7 +1115,7 @@ void MainWindow::slotPreferences(int page, int option) {
     // create it :
     KdenliveSettingsDialog* dialog = new KdenliveSettingsDialog(this);
     connect(dialog, SIGNAL(settingsChanged(const QString&)), this, SLOT(updateConfiguration()));
-    connect(dialog, SIGNAL(doResetProfile()), this, SLOT(resetProfiles()));
+    connect(dialog, SIGNAL(doResetProfile()), m_monitorManager, SLOT(resetProfiles()));
     dialog->show();
     if (page != -1) dialog->showPage(page, option);
 }
@@ -1133,10 +1132,6 @@ void MainWindow::updateConfiguration() {
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
     activateShuttleDevice();
 
-}
-
-void MainWindow::resetProfiles() {
-    m_monitorManager->resetProfiles(m_activeDocument->profilePath());
 }
 
 void MainWindow::slotSwitchVideoThumbs() {

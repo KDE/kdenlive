@@ -111,11 +111,11 @@ void MonitorManager::slotEnd() {
     else m_projectMonitor->slotEnd();
 }
 
-void MonitorManager::resetProfiles(QString prof) {
+void MonitorManager::resetProfiles() {
     activateMonitor("clip");
-    m_clipMonitor->resetProfile(prof);
+    m_clipMonitor->resetProfile();
     activateMonitor("project");
-    m_projectMonitor->resetProfile(prof);
+    m_projectMonitor->resetProfile();
     //m_projectMonitor->refreshMonitor(true);
 }
 

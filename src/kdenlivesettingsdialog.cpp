@@ -127,7 +127,8 @@ void KdenliveSettingsDialog::initDevices() {
 
     // Fill video drivers
     m_configSdl.kcfg_video_driver->addItem(i18n("Automatic"), QString());
-    m_configSdl.kcfg_video_driver->addItem(i18n("X11"), "x11");
+    m_configSdl.kcfg_video_driver->addItem(i18n("XVideo"), "x11");
+    m_configSdl.kcfg_video_driver->addItem(i18n("X11"), "x11_noaccel");
     m_configSdl.kcfg_video_driver->addItem(i18n("XFREE86 DGA 2.0"), "dga");
     m_configSdl.kcfg_video_driver->addItem(i18n("Nano X"), "nanox");
     m_configSdl.kcfg_video_driver->addItem(i18n("Framebuffer console"), "fbcon");

@@ -140,7 +140,7 @@ Q_OBJECT public:
 
     /** Turn on or off on screen display */
     void refreshDisplay();
-    int resetProfile(QString profile);
+    int resetProfile();
     const double fps() const;
     const int renderWidth() const;
     const int renderHeight() const;
@@ -215,6 +215,7 @@ private:   // Private attributes & methods
     void mltCheckLength(bool reload = true);
     QMap<QString, QString> mltGetTransitionParamsFromXml(QDomElement xml);
     QMap<QString, Mlt::Producer *> m_slowmotionProducers;
+    void buildConsumer();
 
 private slots:  // Private slots
     /** refresh monitor display */

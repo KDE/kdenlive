@@ -34,7 +34,6 @@ public:
     void initMonitors(Monitor *clipMonitor, Monitor *projectMonitor);
     Timecode timecode();
     void setTimecode(Timecode tc);
-    void resetProfiles(QString prof);
     void switchMonitors();
     bool projectMonitorFocused();
 
@@ -47,6 +46,7 @@ public slots:
     void slotForwardOneFrame();
     void slotStart();
     void slotEnd();
+    void resetProfiles();
 
 private:
     Monitor *m_clipMonitor;

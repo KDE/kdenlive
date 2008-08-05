@@ -28,6 +28,8 @@ extern "C" {
 #include <avformat.h>
 }
 
+#include <stdlib.h>
+
 #include <QTimer>
 #include <QDir>
 #include <QApplication>
@@ -64,8 +66,7 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
 }
 
 Render::Render(const QString & rendererName, int winid, int extid, QWidget *parent): QObject(parent), m_name(rendererName), m_mltConsumer(NULL), m_mltProducer(NULL), m_mltTextProducer(NULL), m_winid(-1), m_framePosition(0), m_generateScenelist(false), m_isBlocked(true), m_blackClip(NULL), m_isSplitView(false) {
-    kDebug() << "//////////  USING PROFILE: " << (char *)KdenliveSettings::current_profile().toUtf8().data();
-    m_mltProfile = new Mlt::Profile((char*) KdenliveSettings::current_profile().data());
+    kDebug() << "//////////  USING PROFILE: " << (char*)KdenliveSettings::current_profile().toUtf8().data();
     refreshTimer = new QTimer(this);
     connect(refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
 
@@ -75,66 +76,18 @@ Render::Render(const QString & rendererName, int winid, int extid, QWidget *pare
     connect(osdTimer, SIGNAL(timeout()), this, SLOT(slotOsdTimeout()));
 
     m_osdProfile =   KStandardDirs::locate("data", "kdenlive/profiles/metadata.properties");
-    //if (rendererName == "clip")
-    {
-        //Mlt::Consumer *consumer = new Mlt::Consumer( profile , "sdl_preview");
-        m_mltConsumer = new Mlt::Consumer(*m_mltProfile , "sdl_preview"); //consumer;
-        m_mltConsumer->set("resize", 1);
-        m_mltConsumer->set("window_id", winid);
-        m_mltConsumer->set("terminate_on_pause", 1);
-        m_mltConsumer->set("rescale", "nearest");
-        m_mltConsumer->set("progressive", 1);
-        char *tmp;
+    buildConsumer();
 
-        QString audioDevice = KdenliveSettings::audiodevicename();
-        if (!audioDevice.isEmpty()) {
-            tmp = decodedString(audioDevice);
-            m_mltConsumer->set("audio_device", tmp);
-            delete[] tmp;
-        }
-
-        QString videoDriver = KdenliveSettings::videodrivername();
-        if (!videoDriver.isEmpty()) {
-            tmp = decodedString(videoDriver);
-            m_mltConsumer->set("video_driver", tmp);
-            delete[] tmp;
-        }
-
-        QString audioDriver = KdenliveSettings::audiodrivername();
-        if (!audioDriver.isEmpty()) {
-            tmp = decodedString(audioDriver);
-            m_mltConsumer->set("audio_driver", tmp);
-            delete[] tmp;
-        }
-
-        m_mltConsumer->set("audio_buffer", 1024);
-        m_mltConsumer->set("frequency", 48000);
-        m_externalwinid = extid;
-        m_winid = winid;
-        m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
-        Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "colour", "black");
-        m_mltProducer = producer;
-        if (m_blackClip) delete m_blackClip;
-        m_blackClip = new Mlt::Producer(*m_mltProfile , "colour", "black");
-        m_blackClip->set("id", "black");
-        m_mltConsumer->connect(*m_mltProducer);
-        m_mltProducer->set_speed(0.0);
-
-        //m_mltConsumer->start();
-        //refresh();
-        //initSceneList();
-    }
-    /*m_osdInfo = new Mlt::Filter("data_show");
-    char *tmp = decodedString(m_osdProfile);
-    m_osdInfo->set("resource", tmp);
-    delete[] tmp;*/
-    //      Does it do anything usefull? I mean, RenderThread doesn't do anything useful at the moment
-    //      (except being cpu hungry :)
-
-    /*      if(!s_renderThread) {
-    s_renderThread = new RenderThread;
-    s_renderThread->start();
-    } */
+    m_externalwinid = extid;
+    m_winid = winid;
+    m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
+    Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "colour", "black");
+    m_mltProducer = producer;
+    if (m_blackClip) delete m_blackClip;
+    m_blackClip = new Mlt::Producer(*m_mltProfile , "colour", "black");
+    m_blackClip->set("id", "black");
+    m_mltConsumer->connect(*m_mltProducer);
+    m_mltProducer->set_speed(0.0);
 }
 
 Render::~Render() {
@@ -154,32 +107,17 @@ void Render::closeMlt() {
 }
 
 
-
-int Render::resetProfile(QString profile) {
-
-    if (!m_mltConsumer) return 0;
-    if (m_isSplitView) slotSplitView(false);
-    if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
-    m_mltConsumer->purge();
-    delete m_mltConsumer;
-
-    m_mltConsumer = NULL;
-    QString scene = sceneList();
-    if (m_mltProducer) delete m_mltProducer;
-    m_mltProducer = NULL;
-    if (m_mltProfile) delete m_mltProfile;
-    m_mltProfile = NULL;
-
-    char *tmp = decodedString(profile);
+void Render::buildConsumer() {
+    char *tmp;
+    tmp = decodedString(KdenliveSettings::current_profile());
     m_mltProfile = new Mlt::Profile(tmp);
     delete[] tmp;
-    m_mltConsumer = new Mlt::Consumer(*m_mltProfile , "sdl_preview"); //consumer;
+    m_mltConsumer = new Mlt::Consumer(*m_mltProfile , "sdl_preview");
     m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("window_id", m_winid);
     m_mltConsumer->set("terminate_on_pause", 1);
     m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
     m_mltConsumer->set("rescale", "nearest");
-
     QString audioDevice = KdenliveSettings::audiodevicename();
     if (!audioDevice.isEmpty()) {
         tmp = decodedString(audioDevice);
@@ -189,9 +127,15 @@ int Render::resetProfile(QString profile) {
 
     QString videoDriver = KdenliveSettings::videodrivername();
     if (!videoDriver.isEmpty()) {
-        tmp = decodedString(videoDriver);
-        m_mltConsumer->set("video_driver", tmp);
-        delete[] tmp;
+        if (videoDriver == "x11_noaccel") {
+            setenv("SDL_VIDEO_YUV_HWACCEL", "0", 1);
+            m_mltConsumer->set("video_driver", "x11");
+        } else {
+            unsetenv("SDL_VIDEO_YUV_HWACCEL");
+            tmp = decodedString(videoDriver);
+            m_mltConsumer->set("video_driver", tmp);
+            delete[] tmp;
+        }
     }
 
     QString audioDriver = KdenliveSettings::audiodrivername();
@@ -205,11 +149,26 @@ int Render::resetProfile(QString profile) {
     m_mltConsumer->set("progressive", 1);
     m_mltConsumer->set("audio_buffer", 1024);
     m_mltConsumer->set("frequency", 48000);
+}
+
+int Render::resetProfile() {
+    if (!m_mltConsumer) return 0;
+    if (m_isSplitView) slotSplitView(false);
+    if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
+    m_mltConsumer->purge();
+    delete m_mltConsumer;
+    m_mltConsumer = NULL;
+    QString scene = sceneList();
+    if (m_mltProducer) delete m_mltProducer;
+    m_mltProducer = NULL;
+    if (m_mltProfile) delete m_mltProfile;
+    m_mltProfile = NULL;
+    buildConsumer();
 
     kDebug() << "//RESET WITHSCENE: " << scene;
     setSceneList(scene);
 
-    tmp = decodedString(scene);
+    char *tmp = decodedString(scene);
     Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "westley-xml", tmp);
     delete[] tmp;
     m_mltProducer = producer;
@@ -226,7 +185,6 @@ int Render::resetProfile(QString profile) {
     //mlt_properties_set(properties, "profile", "hdv_1080_50i");
     //m_mltConsumer->set("profile", (char *) profile.toUtf8().data());
     //m_mltProfile = new Mlt::Profile((char*) profile.toUtf8().data());
-    kDebug() << " ++++++++++ RESET CONSUMER WITH PROFILE: " << profile << ", WIDTH: " << m_mltProfile->width();
 
     //apply_profile_properties( m_mltProfile, m_mltConsumer->get_consumer(), properties );
     //refresh();

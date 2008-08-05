@@ -45,7 +45,7 @@ class MainWindow;
 class KdenliveDoc: public QObject {
 Q_OBJECT public:
 
-    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, MltVideoProfile profile, QUndoGroup *undoGroup, MainWindow *parent = 0);
+    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, MainWindow *parent = 0);
     ~KdenliveDoc();
     QDomNodeList producersList();
     double fps() const;
