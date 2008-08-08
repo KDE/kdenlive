@@ -1,0 +1,1 @@
+install(FILES banner.png timeline_nothumbs.png timeline_athumbs.png timeline_vthumbs.png timeline_avthumbs.png DESTINATION ${DATA_INSTALL_DIR}/kdenlive )
