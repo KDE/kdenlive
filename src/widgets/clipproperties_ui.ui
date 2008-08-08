@@ -101,7 +101,7 @@
    <item row="6" column="0" colspan="4" >
     <widget class="QTabWidget" name="tabWidget" >
      <property name="currentIndex" >
-      <number>4</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_video" >
       <property name="geometry" >
@@ -410,6 +410,14 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tab_4" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>299</width>
+        <height>223</height>
+       </rect>
+      </property>
       <attribute name="title" >
        <string>Image</string>
       </attribute>
