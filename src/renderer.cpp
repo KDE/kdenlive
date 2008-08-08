@@ -112,12 +112,25 @@ void Render::buildConsumer() {
     tmp = decodedString(KdenliveSettings::current_profile());
     m_mltProfile = new Mlt::Profile(tmp);
     delete[] tmp;
+
+
+    QString videoDriver = KdenliveSettings::videodrivername();
+    if (!videoDriver.isEmpty()) {
+        if (videoDriver == "x11_noaccel") {
+            setenv("SDL_VIDEO_YUV_HWACCEL", "0", 1);
+            videoDriver = "x11";
+        } else {
+            unsetenv("SDL_VIDEO_YUV_HWACCEL");
+        }
+    }
+
     m_mltConsumer = new Mlt::Consumer(*m_mltProfile , "sdl_preview");
     m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("window_id", m_winid);
     m_mltConsumer->set("terminate_on_pause", 1);
     m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
     m_mltConsumer->set("rescale", "nearest");
+
     QString audioDevice = KdenliveSettings::audiodevicename();
     if (!audioDevice.isEmpty()) {
         tmp = decodedString(audioDevice);
@@ -125,17 +138,10 @@ void Render::buildConsumer() {
         delete[] tmp;
     }
 
-    QString videoDriver = KdenliveSettings::videodrivername();
     if (!videoDriver.isEmpty()) {
-        if (videoDriver == "x11_noaccel") {
-            setenv("SDL_VIDEO_YUV_HWACCEL", "0", 1);
-            m_mltConsumer->set("video_driver", "x11");
-        } else {
-            unsetenv("SDL_VIDEO_YUV_HWACCEL");
-            tmp = decodedString(videoDriver);
-            m_mltConsumer->set("video_driver", tmp);
-            delete[] tmp;
-        }
+        tmp = decodedString(videoDriver);
+        m_mltConsumer->set("video_driver", tmp);
+        delete[] tmp;
     }
 
     QString audioDriver = KdenliveSettings::audiodrivername();
@@ -153,6 +159,11 @@ void Render::buildConsumer() {
 
 int Render::resetProfile() {
     if (!m_mltConsumer) return 0;
+    QString currentProfile = getenv("MLT_PROFILE");
+    if (currentProfile == KdenliveSettings::current_profile()) {
+        kDebug() << "reset to same profile, nothing to do";
+        return 1;
+    }
     if (m_isSplitView) slotSplitView(false);
     if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     m_mltConsumer->purge();

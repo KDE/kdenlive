@@ -75,6 +75,7 @@
 #include "renderer.h"
 #include "jogshuttle.h"
 #include "clipproperties.h"
+#include "wizard.h"
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
@@ -96,8 +97,8 @@ MainWindow::MainWindow(QWidget *parent)
         : KXmlGuiWindow(parent),
         m_activeDocument(NULL), m_activeTimeline(NULL), m_renderWidget(NULL), m_jogProcess(NULL), m_findActivated(false), m_initialized(false) {
     setlocale(LC_NUMERIC, "POSIX");
-    parseProfiles();
     setFont(KGlobalSettings::toolBarFont());
+    parseProfiles();
     m_commandStack = new QUndoGroup;
     m_timelineArea = new KTabWidget(this);
     m_timelineArea->setTabReorderingEnabled(true);
@@ -143,6 +144,10 @@ MainWindow::MainWindow(QWidget *parent)
     transitionConfigDock->setWidget(transitionConfig);
     addDockWidget(Qt::TopDockWidgetArea, transitionConfigDock);
 
+    KdenliveSettings::setCurrent_profile(KdenliveSettings::default_profile());
+    m_fileOpenRecent = KStandardAction::openRecent(this, SLOT(openFile(const KUrl &)),
+                       actionCollection());
+    readOptions();
 
     clipMonitorDock = new QDockWidget(i18n("Clip Monitor"), this);
     clipMonitorDock->setObjectName("clip_monitor");
@@ -679,9 +684,6 @@ void MainWindow::setupActions() {
     KStandardAction::open(this, SLOT(openFile()),
                           actionCollection());
 
-    m_fileOpenRecent = KStandardAction::openRecent(this, SLOT(openFile(const KUrl &)),
-                       actionCollection());
-
     KStandardAction::save(this, SLOT(saveFile()),
                           actionCollection());
 
@@ -716,8 +718,6 @@ void MainWindow::setupActions() {
             this, SLOT(slotDisplayActionMessage(QAction*)));
     //connect(actionCollection(), SIGNAL( clearStatusText() ),
     //statusBar(), SLOT( clear() ) );
-
-    readOptions();
 }
 
 void MainWindow::slotDisplayActionMessage(QAction *a) {
@@ -734,6 +734,16 @@ void MainWindow::saveOptions() {
 void MainWindow::readOptions() {
     KSharedConfigPtr config = KGlobal::config();
     m_fileOpenRecent->loadEntries(KConfigGroup(config, "Recent Files"));
+    KConfigGroup initialGroup(config, "version");
+    if (!initialGroup.exists()) {
+        // this is our first run, show Wizard
+        Wizard *w = new Wizard(this);
+        if (w->exec() == QDialog::Accepted) {
+            w->adjustSettings();
+            initialGroup.writeEntry("version", "0.7");
+        }
+        delete w;
+    }
 }
 
 void MainWindow::newFile() {

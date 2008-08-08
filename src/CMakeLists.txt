@@ -56,6 +56,8 @@ kde4_add_ui_files(kdenlive_UI
   widgets/clipdurationdialog_ui.ui
   widgets/managecaptures_ui.ui
   widgets/geometryval_ui.ui
+  widgets/wizardstandard_ui.ui
+  widgets/wizardextra_ui.ui
 )
  
 set(kdenlive_SRCS 
@@ -127,6 +129,7 @@ set(kdenlive_SRCS
   managecapturesdialog.cpp
   changespeedcommand.cpp
   geometryval.cpp
+  wizard.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )
