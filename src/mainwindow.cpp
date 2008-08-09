@@ -191,7 +191,7 @@ MainWindow::MainWindow(QWidget *parent)
     tabifyDockWidget(projectListDock, effectStackDock);
     tabifyDockWidget(projectListDock, transitionConfigDock);
     //tabifyDockWidget(projectListDock, undoViewDock);
-    projectListDock->raise();
+
 
     tabifyDockWidget(clipMonitorDock, projectMonitorDock);
     tabifyDockWidget(clipMonitorDock, recMonitorDock);
@@ -281,6 +281,7 @@ MainWindow::MainWindow(QWidget *parent)
     } else newFile();
 
     activateShuttleDevice();
+    projectListDock->raise();
 }
 
 void MainWindow::queryQuit() {

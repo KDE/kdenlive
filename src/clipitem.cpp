@@ -390,21 +390,24 @@ void ClipItem::paint(QPainter *painter,
     painter->fillPath(resultClipPath, paintColor);
 
     painter->setClipPath(resultClipPath, Qt::IntersectClip);
+
     // draw thumbnails
-    if (!m_startPix.isNull() && KdenliveSettings::videothumbnails()) {
-        if (m_clipType == IMAGE) {
+    if (KdenliveSettings::videothumbnails()) {
+	if (m_clipType == IMAGE && !m_startPix.isNull()) {
             painter->drawPixmap(QPointF(itemWidth - m_startPix.width(), 0), m_startPix);
             QLine l(itemWidth - m_startPix.width(), 0, itemWidth - m_startPix.width(), itemHeight);
             painter->drawLine(l);
-        } else {
+	}
+	else if (!m_endPix.isNull()) {
             painter->drawPixmap(QPointF(itemWidth - m_endPix.width(), 0), m_endPix);
             QLine l(itemWidth - m_endPix.width(), 0, itemWidth - m_endPix.width(), itemHeight);
             painter->drawLine(l);
         }
-
-        painter->drawPixmap(QPointF(0, 0), m_startPix);
-        QLine l2(m_startPix.width(), 0, 0 + m_startPix.width(), itemHeight);
-        painter->drawLine(l2);
+	if (!m_startPix.isNull()) {
+	    painter->drawPixmap(QPointF(0, 0), m_startPix);
+	    QLine l2(m_startPix.width(), 0, 0 + m_startPix.width(), itemHeight);
+	    painter->drawLine(l2);
+	}
     }
 
     // draw audio thumbnails

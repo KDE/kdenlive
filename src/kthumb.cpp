@@ -222,38 +222,39 @@ QPixmap KThumb::getImage(QDomElement xml, int frame, int width, int height) {
 
 //static
 QPixmap KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int height) {
-    kDebug() << "//REQUESTING FRAME: " << framepos;
-    if (producer == NULL) return QPixmap();
+    if (producer == NULL) {
+	QPixmap p(width, height);
+	p.fill(Qt::red);
+	return p;
+    }
+
     producer->seek(framepos);
     Mlt::Frame *frame = producer->get_frame();
     if (!frame) {
         kDebug() << "///// BROKEN FRAME";
-        return QPixmap();
+	QPixmap p(width, height);
+	p.fill(Qt::red);
+	return p;
     }
-    kDebug() << "///// FRAME exists";
     mlt_image_format format = mlt_image_yuv422;
     int frame_width = 0;
     int frame_height = 0;
     frame->set("normalised_height", height);
     frame->set("normalised_width", width);
     QPixmap pix(width, height);
-    kDebug() << "///// FRAME exists 2";
     uint8_t *data = frame->get_image(format, frame_width, frame_height, 0);
-    kDebug() << "///// FRAME exists 2a";
     uint8_t *new_image = (uint8_t *)mlt_pool_alloc(frame_width * (frame_height + 1) * 4);
-    kDebug() << "///// FRAME exists 2b";
     mlt_convert_yuv422_to_rgb24a((uint8_t *)data, new_image, frame_width * frame_height);
-    kDebug() << "///// FRAME exists 2c";
+
     QImage image((uchar *)new_image, frame_width, frame_height, QImage::Format_ARGB32);
-    kDebug() << "///// FRAME exists 3";
+
     if (!image.isNull()) {
         pix = pix.fromImage(image.rgbSwapped());
     } else
-        pix.fill(Qt::black);
+        pix.fill(Qt::red);
 
     mlt_pool_release(new_image);
     delete frame;
-    kDebug() << "//REQUESTING FRAME " << framepos << " OVER";
     return pix;
 }
 /*

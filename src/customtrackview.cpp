@@ -264,7 +264,8 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
         if (m_tool == RAZORTOOL) {
             // razor tool over a clip, display current frame in monitor
             if (!m_blockRefresh && item->type() == AVWIDGET) {
-                emit showClipFrame(((ClipItem *) item)->baseClip(), mapToScene(event->pos()).x() / m_scale - (clip->startPos() - clip->cropStart()).frames(m_document->fps()));
+		//TODO: solve crash when showing frame when moving razor over clip
+                //emit showClipFrame(((ClipItem *) item)->baseClip(), mapToScene(event->pos()).x() / m_scale - (clip->startPos() - clip->cropStart()).frames(m_document->fps()));
             }
             event->accept();
             return;
