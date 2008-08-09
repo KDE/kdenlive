@@ -27,9 +27,9 @@
 #include "effectslist.h"
 #include "mainwindow.h"
 
-#define EFFECT_VIDEO 1
-#define EFFECT_AUDIO 2
-#define EFFECT_CUSTOM 3
+static const int EFFECT_VIDEO = 1;
+static const int EFFECT_AUDIO = 2;
+static const int EFFECT_CUSTOM = 3;
 
 EffectsListWidget::EffectsListWidget(QMenu *menu, QWidget *parent)
         : KListWidget(parent), m_menu(menu) {

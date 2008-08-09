@@ -23,12 +23,12 @@
 
 #include <KDebug>
 
-#define LITTLE_MARK_X2 8
-#define LITTLE_MARK_X1 5
-#define MIDDLE_MARK_X1 3
-#define MIDDLE_MARK_X2 8
+static const int LITTLE_MARK_X2 = 8;
+static const int LITTLE_MARK_X1 = 5;
+static const int MIDDLE_MARK_X1 = 3;
+static const int MIDDLE_MARK_X2 = 8;
 
-#define LABEL_SIZE 8
+static const int LABEL_SIZE = 8;
 
 #include "smallruler.h"
 

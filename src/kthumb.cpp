@@ -126,11 +126,6 @@ void MyThread::run() {
 }
 
 
-#define _S(a)           (a)>255 ? 255 : (a)<0 ? 0 : (a)
-#define _R(y,u,v) (0x2568*(y)                          + 0x3343*(u)) /0x2000
-#define _G(y,u,v) (0x2568*(y) - 0x0c92*(v) - 0x1a1e*(u)) /0x2000
-#define _B(y,u,v) (0x2568*(y) + 0x40cf*(v))                                          /0x2000
-
 KThumb::KThumb(ClipManager *clipManager, KUrl url, QObject * parent, const char *name): QObject(parent), m_clipManager(clipManager), m_url(url), m_producer(NULL), m_dar(1) {
     QCryptographicHash context(QCryptographicHash::Sha1);
     context.addData((KFileItem(m_url, "text/plain", S_IFREG).timeString() + m_url.fileName()).toAscii().data());

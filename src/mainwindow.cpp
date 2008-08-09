@@ -77,12 +77,12 @@
 #include "clipproperties.h"
 #include "wizard.h"
 
-#define ID_STATUS_MSG 1
-#define ID_EDITMODE_MSG 2
-#define ID_TIMELINE_MSG 3
-#define ID_TIMELINE_BUTTONS 5
-#define ID_TIMELINE_POS 6
-#define ID_TIMELINE_FORMAT 7
+static const int ID_STATUS_MSG = 1;
+static const int ID_EDITMODE_MSG = 2;
+static const int ID_TIMELINE_MSG = 3;
+static const int ID_TIMELINE_BUTTONS = 5;
+static const int ID_TIMELINE_POS = 6;
+static const int ID_TIMELINE_FORMAT = 7;
 
 namespace Mlt {
 class Producer;

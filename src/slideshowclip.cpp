@@ -26,10 +26,10 @@
 #include "kdenlivesettings.h"
 #include "slideshowclip.h"
 
-#define TYPE_JPEG 0
-#define TYPE_PNG 1
-#define TYPE_BMP 2
-#define TYPE_GIF 3
+static const int TYPE_JPEG = 0;
+static const int TYPE_PNG = 1;
+static const int TYPE_BMP = 2;
+static const int TYPE_GIF = 3;
 
 SlideshowClip::SlideshowClip(QWidget * parent): QDialog(parent), m_count(0) {
     setFont(KGlobalSettings::toolBarFont());

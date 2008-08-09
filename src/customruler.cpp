@@ -28,47 +28,22 @@
 #include "customruler.h"
 
 
-#define INIT_VALUE 0
-#define INIT_MIN_VALUE 0
-#define INIT_MAX_VALUE 100
-#define INIT_TINY_MARK_DISTANCE 1
-#define INIT_LITTLE_MARK_DISTANCE 5
-#define INIT_MIDDLE_MARK_DISTANCE (INIT_LITTLE_MARK_DISTANCE * 2)
-#define INIT_BIG_MARK_DISTANCE (INIT_LITTLE_MARK_DISTANCE * 10)
-#define INIT_SHOW_TINY_MARK false
-#define INIT_SHOW_LITTLE_MARK true
-#define INIT_SHOW_MEDIUM_MARK true
-#define INIT_SHOW_BIG_MARK true
-#define INIT_SHOW_END_MARK true
-#define INIT_SHOW_POINTER true
-#define INIT_SHOW_END_LABEL true
+static const int FIX_WIDTH = 24; /* widget width in pixel */
+static const int LINE_END = (FIX_WIDTH - 3);
+static const int END_MARK_LENGTH = (FIX_WIDTH - 8);
+static const int BIG_MARK_LENGTH = (END_MARK_LENGTH * 3 / 4);
+static const int BIG_MARK_X2 = LINE_END;
+static const int BIG_MARK_X1 = (BIG_MARK_X2 - BIG_MARK_LENGTH);
+static const int MIDDLE_MARK_LENGTH = (END_MARK_LENGTH / 2);
+static const int MIDDLE_MARK_X2 = LINE_END;
+static const int MIDDLE_MARK_X1 = (MIDDLE_MARK_X2 - MIDDLE_MARK_LENGTH);
+static const int LITTLE_MARK_LENGTH = (MIDDLE_MARK_LENGTH / 2);
+static const int LITTLE_MARK_X2 = LINE_END;
+static const int LITTLE_MARK_X1 = (LITTLE_MARK_X2 - LITTLE_MARK_LENGTH);
 
-#define INIT_PIXEL_PER_MARK (double)10.0 /* distance between 2 base marks in pixel */
-#define INIT_OFFSET (-20)
-#define INIT_LENGTH_FIX true
-#define INIT_END_OFFSET 0
-
-#define FIX_WIDTH 24 /* widget width in pixel */
-#define LINE_END (FIX_WIDTH - 3)
-#define END_MARK_LENGTH (FIX_WIDTH - 8)
-#define END_MARK_X2 LINE_END
-#define END_MARK_X1 (END_MARK_X2 - END_MARK_LENGTH)
-#define BIG_MARK_LENGTH (END_MARK_LENGTH*3/4)
-#define BIG_MARK_X2 LINE_END
-#define BIG_MARK_X1 (BIG_MARK_X2 - BIG_MARK_LENGTH)
-#define MIDDLE_MARK_LENGTH (END_MARK_LENGTH/2)
-#define MIDDLE_MARK_X2 LINE_END
-#define MIDDLE_MARK_X1 (MIDDLE_MARK_X2 - MIDDLE_MARK_LENGTH)
-#define LITTLE_MARK_LENGTH (MIDDLE_MARK_LENGTH/2)
-#define LITTLE_MARK_X2 LINE_END
-#define LITTLE_MARK_X1 (LITTLE_MARK_X2 - LITTLE_MARK_LENGTH)
-#define BASE_MARK_LENGTH (LITTLE_MARK_LENGTH/2)
-#define BASE_MARK_X2 LINE_END
-#define BASE_MARK_X1 (BASE_MARK_X2 - 3) //BASE_MARK_LENGTH
-
-#define LABEL_SIZE 9
-#define END_LABEL_X 4
-#define END_LABEL_Y (END_LABEL_X + LABEL_SIZE - 2)
+static const int LABEL_SIZE = 9;
+static const int END_LABEL_X = 4;
+static const int END_LABEL_Y = (END_LABEL_X + LABEL_SIZE - 2);
 
 #include "definitions.h"
 

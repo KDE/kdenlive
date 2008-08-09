@@ -28,18 +28,18 @@
 #include "kthumb.h"
 #include "markerdialog.h"
 
-#define VIDEOTAB 0
-#define AUDIOTAB 1
-#define COLORTAB 2
-#define SLIDETAB 3
-#define IMAGETAB 4
-#define MARKERTAB 5
-#define ADVANCEDTAB 6
+static const int VIDEOTAB = 0;
+static const int AUDIOTAB = 1;
+static const int COLORTAB = 2;
+static const int SLIDETAB = 3;
+static const int IMAGETAB = 4;
+static const int MARKERTAB = 5;
+static const int ADVANCEDTAB = 6;
 
-#define TYPE_JPEG 0
-#define TYPE_PNG 1
-#define TYPE_BMP 2
-#define TYPE_GIF 3
+static const int TYPE_JPEG = 0;
+static const int TYPE_PNG = 1;
+static const int TYPE_BMP = 2;
+static const int TYPE_GIF = 3;
 
 ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent): QDialog(parent), m_tc(tc), m_clip(clip), m_fps(fps), m_clipNeedsRefresh(false), m_count(0) {
     setFont(KGlobalSettings::toolBarFont());
