@@ -29,11 +29,22 @@
 ProjectSettings::ProjectSettings(QWidget * parent): QDialog(parent), m_isCustomProfile(false) {
     m_view.setupUi(this);
 
-    QStringList profilesNames = ProfilesDialog::getProfileNames();
-    m_view.profiles_list->addItems(profilesNames);
+    QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
+    QMapIterator<QString, QString> i(profilesInfo);
+    while (i.hasNext()) {
+        i.next();
+        m_view.profiles_list->addItem(i.key(), i.value());
+    }
     m_view.project_folder->setMode(KFile::Directory);
-    QString defaulfProf = ProfilesDialog::getSettingsFromFile(KdenliveSettings::current_profile()).value("description");
-    if (profilesNames.contains(defaulfProf)) m_view.profiles_list->setCurrentItem(defaulfProf);
+    QString currentProf = KdenliveSettings::current_profile();
+
+    for (int i = 0; i < m_view.profiles_list->count(); i++) {
+        if (m_view.profiles_list->itemData(i).toString() == currentProf) {
+            m_view.profiles_list->setCurrentIndex(i);
+            break;
+        }
+    }
+
     buttonOk = m_view.buttonBox->button(QDialogButtonBox::Ok);
     //buttonOk->setEnabled(false);
     m_view.audio_thumbs->setChecked(KdenliveSettings::audiothumbnails());
@@ -45,8 +56,8 @@ ProjectSettings::ProjectSettings(QWidget * parent): QDialog(parent), m_isCustomP
 
 
 void ProjectSettings::slotUpdateDisplay() {
-    QString currentProfile = m_view.profiles_list->currentText();
-    QMap< QString, QString > values = ProfilesDialog::getSettingsForProfile(currentProfile);
+    QString currentProfile = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
+    QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(currentProfile);
     m_view.p_size->setText(values.value("width") + "x" + values.value("height"));
     m_view.p_fps->setText(values.value("frame_rate_num") + "/" + values.value("frame_rate_den"));
     m_view.p_aspect->setText(values.value("sample_aspect_num") + "/" + values.value("sample_aspect_den"));
@@ -61,7 +72,7 @@ void ProjectSettings::slotUpdateButton(const QString &path) {
 }
 
 QString ProjectSettings::selectedProfile() const {
-    return ProfilesDialog::getPathFromDescription(m_view.profiles_list->currentText());
+    return m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
 }
 
 KUrl ProjectSettings::selectedFolder() const {

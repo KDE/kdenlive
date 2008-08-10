@@ -21,6 +21,8 @@
 
 #include <KStandardDirs>
 #include <KDebug>
+#include <KMessageBox>
+#include <KIO/NetAccess>
 
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
@@ -31,22 +33,92 @@ ProfilesDialog::ProfilesDialog(QWidget * parent): QDialog(parent), m_isCustomPro
     QStringList profilesFilter;
     profilesFilter << "*";
 
-    // List the Mlt profiles
-    m_mltProfilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
-    m_view.profiles_list->addItems(m_mltProfilesList);
+    m_view.button_delete->setIcon(KIcon("trash-empty"));
+    m_view.button_delete->setToolTip(i18n("Delete profile"));
+    m_view.button_save->setIcon(KIcon("document-save"));
+    m_view.button_save->setToolTip(i18n("Save profile"));
+    m_view.button_create->setIcon(KIcon("document-new"));
+    m_view.button_create->setToolTip(i18n("Create new profile"));
 
-    // List custom profiles
-    QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
-    for (int i = 0; i < customProfiles.size(); ++i)
-        m_customProfilesList << QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
-    m_view.profiles_list->addItems(m_customProfilesList);
-
-    if (!KdenliveSettings::default_profile().isEmpty()) {
-        int ix = m_view.profiles_list->findText(KdenliveSettings::default_profile());
-        m_view.profiles_list->setCurrentIndex(ix);
-    }
+    fillList();
     slotUpdateDisplay();
     connect(m_view.profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
+    connect(m_view.button_create, SIGNAL(clicked()), this, SLOT(slotCreateProfile()));
+    connect(m_view.button_save, SIGNAL(clicked()), this, SLOT(slotSaveProfile()));
+    connect(m_view.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteProfile()));
+}
+
+void ProfilesDialog::fillList(const QString selectedProfile) {
+    // List the Mlt profiles
+    m_view.profiles_list->clear();
+    QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
+    QMapIterator<QString, QString> i(profilesInfo);
+    while (i.hasNext()) {
+        i.next();
+        m_view.profiles_list->addItem(i.key(), i.value());
+    }
+
+    if (!KdenliveSettings::default_profile().isEmpty()) {
+        for (int i = 0; i < m_view.profiles_list->count(); i++) {
+            if (m_view.profiles_list->itemData(i).toString() == KdenliveSettings::default_profile()) {
+                m_view.profiles_list->setCurrentIndex(i);
+                break;
+            }
+        }
+    }
+    int ix = m_view.profiles_list->findText(selectedProfile);
+    if (ix != -1) m_view.profiles_list->setCurrentIndex(ix);
+}
+
+void ProfilesDialog::slotCreateProfile() {
+    m_view.button_delete->setEnabled(false);
+    m_view.button_create->setEnabled(false);
+    m_view.button_save->setEnabled(true);
+    m_view.properties->setEnabled(true);
+}
+
+void ProfilesDialog::slotSaveProfile() {
+    const QString profileDesc = m_view.description->text();
+    int ix = m_view.profiles_list->findText(profileDesc);
+    if (ix != -1) {
+        // this profile name already exists
+        const QString path = m_view.profiles_list->itemData(ix).toString();
+        if (!path.contains("/")) {
+            KMessageBox::sorry(this, i18n("A profile with same name already exists in MLT's default profiles, please choose another description for your custom profile."));
+            return;
+        }
+        saveProfile(path);
+    } else {
+        int i = 0;
+        QString customName = "profiles/customprofile";
+        QString profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
+        kDebug() << " TYING PROFILE FILE: " << profilePath;
+        while (KIO::NetAccess::exists(KUrl(profilePath), KIO::NetAccess::SourceSide, this)) {
+            i++;
+            profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
+        }
+        saveProfile(profilePath);
+    }
+    fillList(profileDesc);
+}
+
+void ProfilesDialog::saveProfile(const QString path) {
+    QFile file(path);
+    if (!file.open(QIODevice::WriteOnly)) {
+        KMessageBox::sorry(this, i18n("Cannot write to file %1", path));
+        return;
+    }
+    QTextStream out(&file);
+    out << "description=" << m_view.description->text() << "\n" << "frame_rate_num=" << m_view.frame_num->value() << "\n" << "frame_rate_den=" << m_view.frame_den->value() << "\n" << "width=" << m_view.size_w->value() << "\n" << "height=" << m_view.size_h->value() << "\n" << "progressive=" << m_view.progressive->isChecked() << "\n" << "sample_aspect_num=" << m_view.aspect_num->value() << "\n" << "sample_aspect_den=" << m_view.aspect_den->value() << "\n" << "display_aspect_num=" << m_view.display_num->value() << "\n" << "display_aspect_den=" << m_view.display_den->value() << "\n";
+    file.close();
+}
+
+void ProfilesDialog::slotDeleteProfile() {
+    const QString path = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
+    if (path.contains("/")) {
+        KIO::NetAccess::del(KUrl(path), this);
+        fillList();
+    } else kDebug() << "//// Cannot delete profile " << path << ", does not seem to be custom one";
 }
 
 // static
@@ -122,6 +194,33 @@ QString ProfilesDialog::getProfileDescription(QString name) {
 }
 
 // static
+QMap <QString, QString> ProfilesDialog::getProfilesInfo() {
+    QMap <QString, QString> result;
+    QStringList profilesFilter;
+    profilesFilter << "*";
+
+    // List the Mlt profiles
+    QStringList profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+    for (int i = 0; i < profilesFiles.size(); ++i) {
+        KConfig confFile(KdenliveSettings::mltpath() + "/" + profilesFiles.at(i), KConfig::SimpleConfig);
+        QString desc = confFile.entryMap().value("description");
+        if (!desc.isEmpty()) result.insert(desc, profilesFiles.at(i));
+    }
+
+    // List custom profiles
+    QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
+    for (int i = 0; i < customProfiles.size(); ++i) {
+        profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
+        for (int i = 0; i < profilesFiles.size(); ++i) {
+            KConfig confFile(customProfiles.at(i) + "/" + profilesFiles.at(i), KConfig::SimpleConfig);
+            QString desc = confFile.entryMap().value("description");
+            if (!desc.isEmpty()) result.insert(desc, customProfiles.at(i) + "/" + profilesFiles.at(i));
+        }
+    }
+    return result;
+}
+
+// static
 QStringList ProfilesDialog::getProfileNames() {
     QStringList profilesNames;
     QStringList profilesFiles;
@@ -157,27 +256,15 @@ QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString path)
     QStringList profilesFilter;
     profilesFilter << "*";
 
-    // List the Mlt profiles
-    profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
-    for (int i = 0; i < profilesFiles.size(); ++i) {
-        if (profilesFiles.at(i) == path) {
-            KConfig confFile(KdenliveSettings::mltpath() + "/" + profilesFiles.at(i), KConfig::SimpleConfig);
-            return confFile.entryMap();
-        }
+    if (!path.contains("/")) {
+        // This is an MLT profile
+        KConfig confFile(KdenliveSettings::mltpath() + "/" + path, KConfig::SimpleConfig);
+        return confFile.entryMap();
+    } else {
+        // This is a custom profile
+        KConfig confFile(path, KConfig::SimpleConfig);
+        return confFile.entryMap();
     }
-
-    // List custom profiles
-    QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
-    for (int i = 0; i < customProfiles.size(); ++i) {
-        QStringList profiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
-        for (int i = 0; i < profiles.size(); ++i) {
-            if (profiles.at(i) == path) {
-                KConfig confFile(customProfiles.at(i) + "/" + profiles.at(i), KConfig::SimpleConfig);
-                return confFile.entryMap();
-            }
-        }
-    }
-    return QMap< QString, QString >();
 }
 
 // static
@@ -244,28 +331,12 @@ QString ProfilesDialog::getPathFromDescription(const QString profileDesc) {
 
 
 void ProfilesDialog::slotUpdateDisplay() {
-    QString currentProfile = m_view.profiles_list->currentText();
-    QString currentProfilePath;
-    if (m_mltProfilesList.indexOf(currentProfile) != -1) {
-        currentProfilePath = KdenliveSettings::mltpath() + "/" + currentProfile;
-        m_isCustomProfile = false;
-    } else {
-        m_isCustomProfile = true;
-        QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "mltprofiles");
-        QStringList profilesFilter;
-        profilesFilter << "*";
-        int i;
-        for (i = 0; i < customProfiles.size(); ++i) {
-            QStringList profs = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
-            if (profs.indexOf(currentProfile) != -1) break;
-        }
-        currentProfilePath = customProfiles.at(i) + "/" + currentProfile;
-    }
+    QString currentProfile = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
+    m_isCustomProfile = currentProfile.contains("/");
     m_view.button_delete->setEnabled(m_isCustomProfile);
     m_view.properties->setEnabled(m_isCustomProfile);
-
-    KConfig confFile(currentProfilePath, KConfig::SimpleConfig);
-    QMap< QString, QString > values = confFile.entryMap();
+    m_view.button_save->setEnabled(m_isCustomProfile);
+    QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(currentProfile);
     m_view.description->setText(values.value("description"));
     m_view.size_w->setValue(values.value("width").toInt());
     m_view.size_h->setValue(values.value("height").toInt());
@@ -276,7 +347,6 @@ void ProfilesDialog::slotUpdateDisplay() {
     m_view.frame_num->setValue(values.value("frame_rate_num").toInt());
     m_view.frame_den->setValue(values.value("frame_rate_den").toInt());
     m_view.progressive->setChecked(values.value("progressive").toInt());
-
 }
 
 

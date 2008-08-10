@@ -94,12 +94,23 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
     connect(m_configEnv.kp_audio, SIGNAL(clicked()), this, SLOT(slotEditAudioApplication()));
     connect(m_configEnv.kp_player, SIGNAL(clicked()), this, SLOT(slotEditVideoApplication()));
 
-    QStringList profilesNames = ProfilesDialog::getProfileNames();
-    m_configMisc.kcfg_profiles_list->addItems(profilesNames);
-    m_defaultProfile = ProfilesDialog::getSettingsFromFile(KdenliveSettings::default_profile()).value("description");
-    if (profilesNames.contains(m_defaultProfile)) {
-        m_configMisc.kcfg_profiles_list->setCurrentItem(m_defaultProfile);
-        KdenliveSettings::setProfiles_list(profilesNames.indexOf(m_defaultProfile));
+
+
+    QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
+    QMapIterator<QString, QString> i(profilesInfo);
+    while (i.hasNext()) {
+        i.next();
+        m_configMisc.kcfg_profiles_list->addItem(i.key(), i.value());
+    }
+
+    if (!KdenliveSettings::default_profile().isEmpty()) {
+        for (int i = 0; i < m_configMisc.kcfg_profiles_list->count(); i++) {
+            if (m_configMisc.kcfg_profiles_list->itemData(i).toString() == KdenliveSettings::default_profile()) {
+                m_configMisc.kcfg_profiles_list->setCurrentIndex(i);
+                KdenliveSettings::setProfiles_list(i);
+                break;
+            }
+        }
     }
 
     slotUpdateDisplay();
@@ -312,15 +323,16 @@ void KdenliveSettingsDialog::updateSettings() {
 }
 
 void KdenliveSettingsDialog::slotUpdateDisplay() {
-    QString currentProfile = m_configMisc.kcfg_profiles_list->currentText();
-    QMap< QString, QString > values = ProfilesDialog::getSettingsForProfile(currentProfile);
+    QString currentProfile = m_configMisc.kcfg_profiles_list->itemData(m_configMisc.kcfg_profiles_list->currentIndex()).toString();
+    QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(currentProfile);
     m_configMisc.p_size->setText(values.value("width") + "x" + values.value("height"));
     m_configMisc.p_fps->setText(values.value("frame_rate_num") + "/" + values.value("frame_rate_den"));
     m_configMisc.p_aspect->setText(values.value("sample_aspect_num") + "/" + values.value("sample_aspect_den"));
     m_configMisc.p_display->setText(values.value("display_aspect_num") + "/" + values.value("display_aspect_den"));
     if (values.value("progressive").toInt() == 0) m_configMisc.p_progressive->setText(i18n("Interlaced"));
     else m_configMisc.p_progressive->setText(i18n("Progressive"));
-    m_defaultPath = values.value("path");
+    m_defaultProfile = m_configMisc.kcfg_profiles_list->itemText(m_configMisc.kcfg_profiles_list->currentIndex());
+    m_defaultPath = currentProfile;
 }
 
 

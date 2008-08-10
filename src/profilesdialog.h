@@ -32,21 +32,27 @@ class ProfilesDialog : public QDialog {
 public:
     ProfilesDialog(QWidget * parent = 0);
 
+    void fillList(const QString selectedProfile = QString());
     static QStringList getProfileNames();
     static QString getProfileDescription(QString name);
     static QMap< QString, QString > getSettingsForProfile(const QString profileName);
     static QMap< QString, QString > getSettingsFromFile(const QString path);
     static QString getPathFromDescription(const QString profileDesc);
     static MltVideoProfile getVideoProfile(QString name);
+    static QMap <QString, QString> getProfilesInfo();
 
 private slots:
     void slotUpdateDisplay();
+    void slotCreateProfile();
+    void slotSaveProfile();
+    void slotDeleteProfile();
 
 private:
     Ui::ProfilesDialog_UI m_view;
     QStringList m_mltProfilesList;
     QStringList m_customProfilesList;
     bool m_isCustomProfile;
+    void saveProfile(const QString path);
 };
 
 
