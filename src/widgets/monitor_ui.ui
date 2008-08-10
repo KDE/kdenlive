@@ -31,7 +31,7 @@
    <item row="1" column="0" colspan="2" >
     <widget class="QFrame" name="ruler_frame" >
      <property name="sizePolicy" >
-      <sizepolicy vsizetype="Maximum" hsizetype="Preferred" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -63,7 +63,7 @@
      </property>
      <property name="minimumSize" >
       <size>
-       <width>16</width>
+       <width>0</width>
        <height>15</height>
       </size>
      </property>
