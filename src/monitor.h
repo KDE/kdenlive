@@ -51,7 +51,7 @@ public:
     Render *render;
     void resetProfile();
     QString name() const;
-
+    void resetSize();
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
@@ -82,6 +82,8 @@ private slots:
     void rendererStopped(int pos);
     void slotExtractCurrentFrame();
     void slotSetThumbFrame();
+    void slotSetSizeOneToOne();
+    void slotSetSizeOneToTwo();
 
 public slots:
     void slotOpenFile(const QString &);
@@ -105,6 +107,7 @@ signals:
     void renderPosition(int);
     void durationChanged(int);
     void refreshClipThumbnail(int);
+    void adjustMonitorSize();
 };
 
 #endif

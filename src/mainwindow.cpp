@@ -414,6 +414,21 @@ void MainWindow::slotConnectMonitors() {
     connect(m_clipMonitor->render, SIGNAL(removeInvalidClip(int)), m_projectList, SLOT(slotRemoveInvalidClip(int)));
 
     connect(m_clipMonitor, SIGNAL(refreshClipThumbnail(int)), m_projectList, SLOT(slotRefreshClipThumbnail(int)));
+
+    connect(m_clipMonitor, SIGNAL(adjustMonitorSize()), this, SLOT(slotAdjustClipMonitor()));
+    connect(m_projectMonitor, SIGNAL(adjustMonitorSize()), this, SLOT(slotAdjustProjectMonitor()));
+}
+
+void MainWindow::slotAdjustClipMonitor() {
+    clipMonitorDock->updateGeometry();
+    clipMonitorDock->adjustSize();
+    m_clipMonitor->resetSize();
+}
+
+void MainWindow::slotAdjustProjectMonitor() {
+    projectMonitorDock->updateGeometry();
+    projectMonitorDock->adjustSize();
+    m_projectMonitor->resetSize();
 }
 
 void MainWindow::setupActions() {
@@ -1099,7 +1114,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     m_monitorManager->setTimecode(doc->timecode());
     doc->setRenderer(m_projectMonitor->render);
     m_commandStack->setActiveStack(doc->commandStack());
-
     doc->updateAllProjectClips();
 
     if (m_commandStack->isClean()) kDebug() << "////////////  UNDO STACK IS CLEAN";

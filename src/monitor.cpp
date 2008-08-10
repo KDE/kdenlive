@@ -23,6 +23,7 @@
 #include <QMenu>
 #include <QToolButton>
 #include <QToolBar>
+#include <QDesktopWidget>
 
 #include <KDebug>
 #include <KLocale>
@@ -43,6 +44,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(m_ruler);
     ui.ruler_frame->setLayout(layout);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setMinimumHeight(200);
     QToolBar *toolbar = new QToolBar(name, this);
     QVBoxLayout *layout2 = new QVBoxLayout;
@@ -76,12 +78,28 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
 
     playButton->setDefaultAction(m_playAction);
 
+
+    QToolButton *configButton = new QToolButton(toolbar);
+    QMenu *configMenu = new QMenu(i18n("Misc..."), this);
+    configButton->setIcon(KIcon("system-run"));
+    configButton->setMenu(configMenu);
+    configButton->setPopupMode(QToolButton::QToolButton::InstantPopup);
+    toolbar->addWidget(configButton);
+    QAction *resize1Action = configMenu->addAction(KIcon("transform-scale"), i18n("Resize (100%)"));
+    connect(resize1Action, SIGNAL(triggered()), this, SLOT(slotSetSizeOneToOne()));
+    QAction *resize2Action = configMenu->addAction(KIcon("transform-scale"), i18n("Resize (50%)"));
+    connect(resize2Action, SIGNAL(triggered()), this, SLOT(slotSetSizeOneToTwo()));
+
     m_timePos = new KRestrictedLine(this);
     m_timePos->setInputMask("99:99:99:99");
     toolbar->addWidget(m_timePos);
 
     layout2->addWidget(toolbar);
     ui.button_frame->setLayout(layout2);
+    const int toolHeight = toolbar->iconSize().height() * 3;
+    kDebug()<<"//////   MONITOR TOOL HEIGHT: "<<toolHeight;
+    ui.button_frame->setMinimumHeight(toolHeight);
+    ui.button_frame->setMaximumHeight(toolHeight);
 
     //m_ruler->setPixelPerMark(3);
 
@@ -124,9 +142,53 @@ QString Monitor::name() const {
     return m_name;
 }
 
+void Monitor::slotSetSizeOneToOne() {
+    QRect r = QApplication::desktop()->screenGeometry();
+    const int maxWidth = r.width() - 20;
+    const int maxHeight = r.height() - 20;
+    int width = render->renderWidth();
+    int height = render->renderHeight();
+    kDebug()<<"// render info: "<<width<<"x"<<height;
+    while (width >= maxWidth || height >= maxHeight) {
+	width = width * 0.8;
+	height = height * 0.8;
+    }
+    kDebug()<<"// MONITOR; set SIZE: "<<width<<", "<<height;
+    ui.video_frame->setFixedSize(width, height);
+    updateGeometry();
+    adjustSize();
+    //ui.video_frame->setMinimumSize(0, 0);
+    emit adjustMonitorSize();
+}
+
+void Monitor::slotSetSizeOneToTwo() {
+    QRect r = QApplication::desktop()->screenGeometry();
+    const int maxWidth = r.width() - 20;
+    const int maxHeight = r.height() - 20;
+    int width = render->renderWidth() / 2;
+    int height = render->renderHeight() / 2;
+    kDebug()<<"// render info: "<<width<<"x"<<height;
+    while (width >= maxWidth || height >= maxHeight) {
+	width = width * 0.8;
+	height = height * 0.8;
+    }
+    kDebug()<<"// MONITOR; set SIZE: "<<width<<", "<<height;
+    ui.video_frame->setFixedSize(width, height);
+    updateGeometry();
+    adjustSize();
+    //ui.video_frame->setMinimumSize(0, 0);
+    emit adjustMonitorSize();
+}
+
+void Monitor::resetSize() {
+    ui.video_frame->setMinimumSize(0, 0);
+}
+
 // virtual
 void Monitor::mousePressEvent(QMouseEvent * event) {
-    if (event->button() != Qt::RightButton) slotPlay();
+    if (event->button() != Qt::RightButton) {
+	slotPlay();
+    }
     else m_contextMenu->popup(event->globalPos());
 }
 
