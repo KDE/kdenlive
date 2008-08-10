@@ -42,12 +42,14 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     m_scale = 1;
     m_ruler = new SmallRuler();
     QVBoxLayout *layout = new QVBoxLayout;
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(m_ruler);
     ui.ruler_frame->setLayout(layout);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setMinimumHeight(200);
     QToolBar *toolbar = new QToolBar(name, this);
     QVBoxLayout *layout2 = new QVBoxLayout;
+    layout2->setContentsMargins(0, 0, 0, 0);
 
     m_playIcon = KIcon("media-playback-start");
     m_pauseIcon = KIcon("media-playback-pause");
@@ -96,15 +98,14 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
 
     layout2->addWidget(toolbar);
     ui.button_frame->setLayout(layout2);
-    const int toolHeight = toolbar->iconSize().height() * 3;
-    kDebug()<<"//////   MONITOR TOOL HEIGHT: "<<toolHeight;
+    const int toolHeight = toolbar->height();
     ui.button_frame->setMinimumHeight(toolHeight);
-    ui.button_frame->setMaximumHeight(toolHeight);
 
     //m_ruler->setPixelPerMark(3);
 
 
     QVBoxLayout *rendererBox = new QVBoxLayout(ui.video_frame);
+    rendererBox->setContentsMargins(0, 0, 0, 0);
     m_monitorRefresh = new MonitorRefresh(ui.video_frame);
     rendererBox->addWidget(m_monitorRefresh);
     render = new Render(m_name, (int) m_monitorRefresh->winId(), -1, this);
