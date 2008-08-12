@@ -23,122 +23,89 @@
 
 #include <KDebug>
 
-static const int LITTLE_MARK_X2 = 8;
-static const int LITTLE_MARK_X1 = 5;
-static const int MIDDLE_MARK_X1 = 3;
-static const int MIDDLE_MARK_X2 = 8;
-
-static const int LABEL_SIZE = 8;
-
 #include "smallruler.h"
 
 
 SmallRuler::SmallRuler(QWidget *parent)
-        : KRuler(parent) {
-    setShowPointer(true);
-    setShowBigMarks(false);
-    setShowTinyMarks(false);
-    slotNewOffset(0);
-    setRulerMetricStyle(KRuler::Custom);
-    setLengthFixed(true);
+        : QWidget(parent), m_scale(1), m_maxval(25) {
 }
 
-void SmallRuler::setPixelPerMark(double rate) {
-    kDebug() << " RULER SET RATE: " << rate;
-    if (rate > 0.5) {
-        setLittleMarkDistance(25);
-        setMediumMarkDistance(5 * 25);
-    } else if (rate > 0.09) {
-        setLittleMarkDistance(5 * 25);
-        setMediumMarkDistance(30 * 25);
-    } else {
-        setLittleMarkDistance(30 * 25);
-        setMediumMarkDistance(60 * 25);
-    }
+void SmallRuler::adjustScale(int maximum) {
+    m_maxval = maximum;
+    m_scale = (double) width() / (double) maximum;
+    if (m_scale == 0) m_scale = 1;
 
-    KRuler::setPixelPerMark(rate);
+    if (m_scale > 0.5) {
+        m_small = 25;
+        m_medium = 5 * 25;
+    } else if (m_scale > 0.09) {
+        m_small = 5 * 25;
+        m_medium = 30 * 25;
+    } else {
+        m_small = 30 * 25;
+        m_medium = 60 * 25;
+    }
+    m_cursorPosition = m_cursorFramePosition * m_scale;
+    update();
 }
 
 // virtual
 void SmallRuler::mousePressEvent(QMouseEvent * event) {
-    double pos = event->x() / pixelPerMark();
+    const int pos = event->x() / m_scale;
     emit seekRenderer((int) pos);
 }
 
 // virtual
 void SmallRuler::mouseMoveEvent(QMouseEvent * event) {
-    double pos = event->x() / pixelPerMark();
+    const int pos = event->x() / m_scale;
     emit seekRenderer((int) pos);
 }
 
-void SmallRuler::slotNewValue(int _value) {
-    m_cursorPosition = (int)(_value);  /// pixelPerMark());
-    KRuler::slotNewValue(_value * pixelPerMark());
+void SmallRuler::slotNewValue(int value) {
+    m_cursorFramePosition = value;
+    int oldPos = m_cursorPosition;
+    m_cursorPosition = value * m_scale;
+    if (oldPos == m_cursorPosition) return;
+    const int offset = 6;
+    const int x = qMin(oldPos, m_cursorPosition);
+    const int w = qAbs(oldPos - m_cursorPosition);
+    update(x - offset, 9, w + 2 * offset, 6);
+}
+
+//virtual
+void SmallRuler::resizeEvent(QResizeEvent *) {
+    adjustScale(m_maxval);
 }
 
 // virtual
 void SmallRuler::paintEvent(QPaintEvent *e) {
-    //  debug ("KRuler::drawContents, %s",(horizontal==dir)?"horizontal":"vertical");
 
-    QStylePainter p(this);
-    p.fillRect(e->rect(), QBrush(QColor(Qt::white)));
+    QPainter p(this);
+    QRect r = e->rect();
+    p.setClipRect(r);
 
+    double f, fend;
+    p.setPen(palette().dark().color());
 
-    int value  = this->value(),
-                 minval = minimum(),
-                          maxval;
-    maxval = maximum()
-             + offset() - endOffset();
-
-    //ioffsetval = value-offset;
-    //    pixelpm = (int)ppm;
-    //    left  = clip.left(),
-    //    right = clip.right();
-    double f, fend,
-    offsetmin = (double)(minval - offset()),
-                offsetmax = (double)(maxval - offset()),
-                            fontOffset = (((double)minval) > offsetmin) ? (double)minval : offsetmin;
-
-    // draw labels
-    QFont font = p.font();
-    font.setPointSize(LABEL_SIZE);
-    p.setFont(font);
-
-    if (showLittleMarks()) {
+    if (r.top() < 9) {
         // draw the little marks
-        fend = pixelPerMark() * littleMarkDistance();
-        if (fend > 2) for (f = offsetmin; f < offsetmax; f += fend) {
-                p.drawLine((int)f, LITTLE_MARK_X1, (int)f, LITTLE_MARK_X2);
+        fend = m_scale * m_small;
+        if (fend > 2) for (f = 0; f < width(); f += fend) {
+                p.drawLine((int)f, 1, (int)f, 3);
             }
-    }
-    if (showMediumMarks()) {
-        // draw medium marks
-        fend = pixelPerMark() * mediumMarkDistance();
-        if (fend > 2) for (f = offsetmin; f < offsetmax; f += fend) {
-                p.drawLine((int)f, MIDDLE_MARK_X1, (int)f, MIDDLE_MARK_X2);
-            }
-    }
 
-    /*   if (d->showem) {
-         // draw end marks
-         if (d->dir == Qt::Horizontal) {
-           p.drawLine(minval-d->offset, END_MARK_X1, minval-d->offset, END_MARK_X2);
-           p.drawLine(maxval-d->offset, END_MARK_X1, maxval-d->offset, END_MARK_X2);
-         }
-         else {
-           p.drawLine(END_MARK_X1, minval-d->offset, END_MARK_X2, minval-d->offset);
-           p.drawLine(END_MARK_X1, maxval-d->offset, END_MARK_X2, maxval-d->offset);
-         }
-       }*/
+        // draw medium marks
+        fend = m_scale * m_medium;
+        if (fend > 2) for (f = 0; f < width(); f += fend) {
+                p.drawLine((int)f, 1, (int)f, 5);
+            }
+    }
 
     // draw pointer
-    if (showPointer()) {
-        QPolygon pa(3);
-        pa.setPoints(3, value - 6, 0, value + 6, 0, value/*+0*/, 8);
-        p.setBrush(QBrush(Qt::yellow));
-        p.drawPolygon(pa);
-    }
-
+    QPolygon pa(3);
+    pa.setPoints(3, m_cursorPosition - 5, 14, m_cursorPosition + 5, 14, m_cursorPosition/*+0*/, 9);
+    p.setBrush(palette().dark().color());
+    p.drawPolygon(pa);
 }
 
 #include "smallruler.moc"

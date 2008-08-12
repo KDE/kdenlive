@@ -21,26 +21,31 @@
 #ifndef SMALLRULER_H
 #define SMALLRULER_H
 
-#include <KRuler>
+#include <QWidget>
 
-class SmallRuler : public KRuler {
+class SmallRuler : public QWidget {
     Q_OBJECT
 
 public:
     SmallRuler(QWidget *parent = 0);
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
-    void setPixelPerMark(double rate);
+    void adjustScale(int maximum);
 
 protected:
-    virtual void paintEvent(QPaintEvent * /*e*/);
+    virtual void paintEvent(QPaintEvent *e);
+    virtual void resizeEvent(QResizeEvent *);
 
 private:
     int m_cursorPosition;
+    int m_cursorFramePosition;
     double m_scale;
+    int m_medium;
+    int m_small;
+    int m_maxval;
 
 public slots:
-    void slotNewValue(int _value);
+    void slotNewValue(int value);
 
 signals:
     void seekRenderer(int);

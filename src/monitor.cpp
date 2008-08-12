@@ -92,7 +92,11 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     QAction *resize2Action = configMenu->addAction(KIcon("transform-scale"), i18n("Resize (50%)"));
     connect(resize2Action, SIGNAL(triggered()), this, SLOT(slotSetSizeOneToTwo()));
 
+    QWidget *spacer = new QWidget(this);
+    spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    toolbar->addWidget(spacer);
     m_timePos = new KRestrictedLine(this);
+    m_timePos->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
     m_timePos->setInputMask("99:99:99:99");
     toolbar->addWidget(m_timePos);
 
@@ -131,9 +135,6 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
         connect(setThumbFrame, SIGNAL(triggered()), this, SLOT(slotSetThumbFrame()));
     }
     //render->createVideoXWindow(ui.video_frame->winId(), -1);
-    int width = m_ruler->width();
-    m_ruler->setLength(width);
-    m_ruler->setMaximum(width);
     m_length = 0;
     m_monitorRefresh->show();
     kDebug() << "/////// BUILDING MONITOR, ID: " << ui.video_frame->winId();
@@ -149,12 +150,12 @@ void Monitor::slotSetSizeOneToOne() {
     const int maxHeight = r.height() - 20;
     int width = render->renderWidth();
     int height = render->renderHeight();
-    kDebug()<<"// render info: "<<width<<"x"<<height;
+    kDebug() << "// render info: " << width << "x" << height;
     while (width >= maxWidth || height >= maxHeight) {
-	width = width * 0.8;
-	height = height * 0.8;
+        width = width * 0.8;
+        height = height * 0.8;
     }
-    kDebug()<<"// MONITOR; set SIZE: "<<width<<", "<<height;
+    kDebug() << "// MONITOR; set SIZE: " << width << ", " << height;
     ui.video_frame->setFixedSize(width, height);
     updateGeometry();
     adjustSize();
@@ -168,12 +169,12 @@ void Monitor::slotSetSizeOneToTwo() {
     const int maxHeight = r.height() - 20;
     int width = render->renderWidth() / 2;
     int height = render->renderHeight() / 2;
-    kDebug()<<"// render info: "<<width<<"x"<<height;
+    kDebug() << "// render info: " << width << "x" << height;
     while (width >= maxWidth || height >= maxHeight) {
-	width = width * 0.8;
-	height = height * 0.8;
+        width = width * 0.8;
+        height = height * 0.8;
     }
-    kDebug()<<"// MONITOR; set SIZE: "<<width<<", "<<height;
+    kDebug() << "// MONITOR; set SIZE: " << width << ", " << height;
     ui.video_frame->setFixedSize(width, height);
     updateGeometry();
     adjustSize();
@@ -188,9 +189,8 @@ void Monitor::resetSize() {
 // virtual
 void Monitor::mousePressEvent(QMouseEvent * event) {
     if (event->button() != Qt::RightButton) {
-	slotPlay();
-    }
-    else m_contextMenu->popup(event->globalPos());
+        slotPlay();
+    } else m_contextMenu->popup(event->globalPos());
 }
 
 // virtual
@@ -294,11 +294,9 @@ void Monitor::slotForwardOneFrame() {
 
 void Monitor::seekCursor(int pos) {
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);
-    //int rulerPos = (int)(pos * m_scale);
     m_position = pos;
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
-    //kDebug() << "seek: " << pos << ", scale: " << m_scale;
-    m_ruler->slotNewValue(pos); //rulerPos);
+    m_ruler->slotNewValue(pos);
 }
 
 void Monitor::rendererStopped(int pos) {
@@ -323,15 +321,8 @@ void Monitor::initMonitor() {
 }*/
 
 void Monitor::adjustRulerSize(int length) {
-    int width = m_ruler->width();
-    m_ruler->setLength(width);
     if (length > 0) m_length = length;
-    m_scale = (double) width / m_length;
-    if (m_scale == 0) m_scale = 1;
-    kDebug() << "RULER WIDT: " << width << ", RENDER LENGT: " << m_length << ", SCALE: " << m_scale;
-    m_ruler->setPixelPerMark(m_scale);
-    m_ruler->setMaximum(width);
-    //m_ruler->setLength(length);
+    m_ruler->adjustScale(m_length);
 }
 
 void Monitor::stop() {
@@ -400,7 +391,7 @@ void Monitor::saveSceneList(QString path, QDomElement info) {
 
 MonitorRefresh::MonitorRefresh(QWidget* parent): QWidget(parent), m_renderer(NULL) {
     setAttribute(Qt::WA_PaintOnScreen);
-    setAttribute(Qt::WA_OpaquePaintEvent); //Qt::WA_NoSystemBackground);
+    setAttribute(Qt::WA_OpaquePaintEvent); //setAttribute(Qt::WA_NoSystemBackground);
 }
 
 void MonitorRefresh::setRenderer(Render* render) {
