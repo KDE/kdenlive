@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-03 12:22+0200\n"
+"POT-Creation-Date: 2008-08-14 19:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -84,10 +84,18 @@ msgid ""
 "Open recovery file ?"
 msgstr ""
 
+msgid ""
+"A profile with same name already exists in MLT's default profiles, please "
+"choose another description for your custom profile."
+msgstr ""
+
 msgid "ALSA"
 msgstr ""
 
 msgid "ARTS daemon"
+msgstr ""
+
+msgid "Activate crash recovery (auto save)"
 msgstr ""
 
 #, kde-format
@@ -257,6 +265,9 @@ msgstr ""
 msgid "Button 5"
 msgstr ""
 
+msgid "C"
+msgstr ""
+
 msgid "Cannot add marker if more than one clip is selected"
 msgstr ""
 
@@ -318,6 +329,10 @@ msgstr ""
 msgid ""
 "Cannot read from device %1\n"
 "Please check drivers and access rights."
+msgstr ""
+
+#, kde-format
+msgid "Cannot write to file %1"
 msgstr ""
 
 msgid "Capture"
@@ -408,9 +423,6 @@ msgstr ""
 msgid "Crash recovery (automatic backup)"
 msgstr ""
 
-msgid "Create"
-msgstr ""
-
 msgid "Create Folder"
 msgstr ""
 
@@ -443,6 +455,9 @@ msgstr ""
 msgid "D"
 msgstr ""
 
+msgid "DV"
+msgstr ""
+
 msgid "DV AVI type 1"
 msgstr ""
 
@@ -471,9 +486,6 @@ msgid "Default capture device"
 msgstr ""
 
 msgid "Default folders"
-msgstr ""
-
-msgid "Delete"
 msgstr ""
 
 #, kde-format
@@ -838,6 +850,9 @@ msgstr ""
 msgid "Initialising..."
 msgstr ""
 
+msgid "Install extra video mimetypes"
+msgstr ""
+
 msgid "Interlaced"
 msgstr ""
 
@@ -883,6 +898,9 @@ msgstr ""
 msgid "Misc"
 msgstr ""
 
+msgid "Misc..."
+msgstr ""
+
 msgid "Mlt environment"
 msgstr ""
 
@@ -914,6 +932,9 @@ msgid "Mute video clip"
 msgstr ""
 
 msgid "N"
+msgstr ""
+
+msgid "NTSC"
 msgstr ""
 
 msgid "Name"
@@ -977,6 +998,9 @@ msgstr ""
 msgid "Output file"
 msgstr ""
 
+msgid "PAL"
+msgstr ""
+
 msgid "Param"
 msgstr ""
 
@@ -1014,6 +1038,9 @@ msgid "Playback params"
 msgstr ""
 
 msgid "Playlist clip"
+msgstr ""
+
+msgid "Please set your default video format"
 msgstr ""
 
 #, kde-format
@@ -1116,6 +1143,12 @@ msgstr ""
 msgid "Reset effect"
 msgstr ""
 
+msgid "Resize (100%)"
+msgstr ""
+
+msgid "Resize (50%)"
+msgstr ""
+
 msgid "Resize clip"
 msgstr ""
 
@@ -1153,6 +1186,9 @@ msgid "Save changes to document ?"
 msgstr ""
 
 msgid "Save effect"
+msgstr ""
+
+msgid "Save profile"
 msgstr ""
 
 msgid "Screen Grab"
@@ -1347,6 +1383,12 @@ msgstr ""
 msgid "Video Profile"
 msgstr ""
 
+msgid "Video Resolution"
+msgstr ""
+
+msgid "Video Standard"
+msgstr ""
+
 msgid "Video capture params"
 msgstr ""
 
@@ -1401,6 +1443,9 @@ msgid "X:"
 msgstr ""
 
 msgid "XFREE86 DGA 2.0"
+msgstr ""
+
+msgid "XVideo"
 msgstr ""
 
 msgid "Y"
