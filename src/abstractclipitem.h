@@ -25,6 +25,8 @@
 #include "definitions.h"
 #include "gentime.h"
 
+class CustomTrackScene;
+
 class AbstractClipItem : public QObject , public QGraphicsRectItem {
     Q_OBJECT
 public:
@@ -37,16 +39,16 @@ public:
     double selectedKeyFrameValue() const;
     double keyFrameFactor() const;
     ItemInfo info() const;
+    CustomTrackScene* projectScene();
 
-    virtual  OPERATIONTYPE operationMode(QPointF pos, double scale) = 0;
+    virtual  OPERATIONTYPE operationMode(QPointF pos) = 0;
     virtual GenTime startPos() const ;
     virtual void setTrack(int track);
     virtual GenTime endPos() const ;
     virtual int track() const ;
-    virtual void moveTo(int x, double scale, int offset, int newTrack, bool checkCollision = true);
     virtual GenTime cropStart() const ;
-    virtual void resizeStart(int posx, double scale);
-    virtual void resizeEnd(int posx, double scale);
+    virtual void resizeStart(int posx);
+    virtual void resizeEnd(int posx);
     virtual GenTime duration() const;
     virtual double fps() const;
     virtual GenTime maxDuration() const;

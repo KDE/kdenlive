@@ -1,5 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2008 by Marco Gittler (g.marco@freenet.de)              *
+ *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,41 +18,31 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef GUIDE_H
-#define GUIDE_H
+#ifndef ABSTRACTGROUPITEM
+#define ABSTRACTGROUPITEM
 
-#include <QGraphicsLineItem>
-
-#include "gentime.h"
+#include <QGraphicsItemGroup>
 #include "definitions.h"
+#include "gentime.h"
 
-#define GUIDEITEM 8000
+class CustomTrackScene;
 
-class CustomTrackView;
-
-class Guide : public QGraphicsLineItem {
-
+class AbstractGroupItem : public QObject , public QGraphicsItemGroup {
+    Q_OBJECT
 public:
-    Guide(CustomTrackView *view, GenTime pos, QString label, double fps, double height);
-    GenTime position() const;
-    void updateGuide(const GenTime newPos, const QString &comment = QString());
-    QString label() const;
-    CommentedTime info() const;
+    AbstractGroupItem(double fps);
     virtual int type() const;
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w);
-    virtual QRectF boundingRect() const;
+    CustomTrackScene* projectScene();
+    void addItem(QGraphicsItem * item);
 
 protected:
-    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *);
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    virtual void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
 
 private:
-    GenTime m_position;
-    QString m_label;
+    QPainterPath groupShape(QPointF);
+    void fixItemRect();
     double m_fps;
-    CustomTrackView *m_view;
-    int m_width;
 };
 
 #endif

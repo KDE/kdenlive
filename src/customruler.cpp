@@ -84,18 +84,18 @@ void CustomRuler::mousePressEvent(QMouseEvent * event) {
     int pos = (int)((event->x() + offset()));
     m_moveCursor = RULER_CURSOR;
     if (event->y() > 10) {
-        if (qAbs(pos - m_zoneStart * pixelPerMark() * FRAME_SIZE) < 4) m_moveCursor = RULER_START;
-        else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2) * pixelPerMark() * FRAME_SIZE) < 4) m_moveCursor = RULER_MIDDLE;
-        else if (qAbs(pos - m_zoneEnd * pixelPerMark() * FRAME_SIZE) < 4) m_moveCursor = RULER_END;
+        if (qAbs(pos - m_zoneStart * m_factor) < 4) m_moveCursor = RULER_START;
+        else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2) * m_factor) < 4) m_moveCursor = RULER_MIDDLE;
+        else if (qAbs(pos - m_zoneEnd * m_factor) < 4) m_moveCursor = RULER_END;
     }
     if (m_moveCursor == RULER_CURSOR)
-        m_view->setCursorPos((int) pos / pixelPerMark() / FRAME_SIZE);
+        m_view->setCursorPos((int) pos / m_factor);
 }
 
 // virtual
 void CustomRuler::mouseMoveEvent(QMouseEvent * event) {
     if (event->buttons() == Qt::LeftButton) {
-        int pos = (int)((event->x() + offset()) / pixelPerMark() / FRAME_SIZE);
+        int pos = (int)((event->x() + offset()) / m_factor);
         if (pos < 0) pos = 0;
         if (m_moveCursor == RULER_CURSOR) {
             m_view->setCursorPos(pos);
@@ -111,9 +111,9 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event) {
     } else {
         int pos = (int)((event->x() + offset()));
         if (event->y() <= 10) setCursor(Qt::ArrowCursor);
-        else if (qAbs(pos - m_zoneStart * pixelPerMark() * FRAME_SIZE) < 4) setCursor(KCursor("left_side", Qt::SizeHorCursor));
-        else if (qAbs(pos - m_zoneEnd * pixelPerMark() * FRAME_SIZE) < 4) setCursor(KCursor("right_side", Qt::SizeHorCursor));
-        else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2) * pixelPerMark() * FRAME_SIZE) < 4) setCursor(Qt::SizeHorCursor);
+        else if (qAbs(pos - m_zoneStart * m_factor) < 4) setCursor(KCursor("left_side", Qt::SizeHorCursor));
+        else if (qAbs(pos - m_zoneEnd * m_factor) < 4) setCursor(KCursor("right_side", Qt::SizeHorCursor));
+        else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2) * m_factor) < 4) setCursor(Qt::SizeHorCursor);
         else setCursor(Qt::ArrowCursor);
     }
 }
@@ -140,12 +140,13 @@ void CustomRuler::slotMoveRuler(int newPos) {
 }
 
 void CustomRuler::slotCursorMoved(int oldpos, int newpos) {
-    update(oldpos - offset() - 6, 2, 17, 16);
-    update(newpos - offset() - 6, 2, 17, 16);
+    update(oldpos * m_factor - offset() - 6, 2, 17, 16);
+    update(newpos * m_factor - offset() - 6, 2, 17, 16);
 }
 
 void CustomRuler::setPixelPerMark(double rate) {
     int scale = comboScale[(int) rate];
+    m_factor = 1.0 / (double) scale * FRAME_SIZE;
     KRuler::setPixelPerMark(1.0 / scale);
     double fend = pixelPerMark() * littleMarkDistance();
     switch ((int) rate) {
@@ -191,30 +192,21 @@ void CustomRuler::setDuration(int d) {
 
 // virtual
 void CustomRuler::paintEvent(QPaintEvent *e) {
-    //  debug ("KRuler::drawContents, %s",(horizontal==dir)?"horizontal":"vertical");
-
     QStylePainter p(this);
     p.setClipRect(e->rect());
 
-    //p.fillRect(e->rect(), QBrush(QColor(200, 200, 200)));
-    //kDebug()<<"RULER ZONE: "<<m_zoneStart<<", OFF: "<<offset()<<", END: "<<m_zoneEnd<<", FACTOR: "<<pixelPerMark() * FRAME_SIZE;
-    int projectEnd = (int)(m_duration * pixelPerMark() * FRAME_SIZE);
+    const int projectEnd = (int)(m_duration * m_factor);
     p.fillRect(QRect(- offset(), e->rect().y(), projectEnd, e->rect().height()), QBrush(QColor(245, 245, 245)));
 
-
-    int zoneStart = (int)(m_zoneStart * pixelPerMark() * FRAME_SIZE);
-    int zoneEnd = (int)(m_zoneEnd * pixelPerMark() * FRAME_SIZE);
+    const int zoneStart = (int)(m_zoneStart * m_factor);
+    const int zoneEnd = (int)(m_zoneEnd * m_factor);
 
     p.fillRect(QRect(zoneStart - offset(), e->rect().y() + e->rect().height() / 2, zoneEnd - zoneStart, e->rect().height() / 2), QBrush(QColor(133, 255, 143)));
 
-    int value  = m_view->cursorPos() - offset();
-    int minval = minimum();
-    int maxval = maximum() + offset() - endOffset();
+    const int value  = m_view->cursorPos() * m_factor - offset();
+    const int minval = minimum();
+    const int maxval = maximum() + offset() - endOffset();
 
-    //ioffsetval = value-offset;
-    //    pixelpm = (int)ppm;
-    //    left  = clip.left(),
-    //    right = clip.right();
     double f, fend,
     offsetmin = (double)(minval - offset()),
                 offsetmax = (double)(maxval - offset()),
@@ -248,7 +240,7 @@ void CustomRuler::paintEvent(QPaintEvent *e) {
     }*/
 
     for (f = offsetmin; f < offsetmax; f += m_textSpacing) {
-        QString lab = m_timecode.getTimecodeFromFrames((int)((f - offsetmin) / pixelPerMark() / FRAME_SIZE + 0.5));
+        QString lab = m_timecode.getTimecodeFromFrames((int)((f - offsetmin) / m_factor + 0.5));
         p.drawText((int)f + 2, LABEL_SIZE, lab);
     }
 
@@ -302,15 +294,10 @@ void CustomRuler::paintEvent(QPaintEvent *e) {
     }
 
     // draw pointer
-    if (showPointer() && value >= 0) {
-        QPolygon pa(3);
-        pa.setPoints(3, value - 6, 7, value + 6, 7, value, 16);
-        p.setBrush(QBrush(Qt::yellow));
-        p.drawPolygon(pa);
-    }
-
-
-
+    QPolygon pa(3);
+    pa.setPoints(3, value - 6, 7, value + 6, 7, value, 16);
+    p.setBrush(QBrush(Qt::yellow));
+    p.drawPolygon(pa);
 }
 
 #include "customruler.moc"

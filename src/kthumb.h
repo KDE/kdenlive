@@ -21,6 +21,7 @@
 #include <QPixmap>
 #include <QFile>
 #include <QThread>
+#include <QMutex>
 #include <QDomElement>
 
 #include <KUrl>
@@ -47,6 +48,8 @@ class Profile;
 
 class ClipManager;
 
+
+
 class MyThread : public QThread {
 
 public:
@@ -67,6 +70,31 @@ private:
     QObject *m_parent;
 };
 
+
+class ThumbThread : public QThread {
+    Q_OBJECT
+public:
+    virtual void run();
+    void init(QObject *parent, Mlt::Producer *prod, int width, int height);
+    void setThumbFrames(Mlt::Producer *prod, int frame1, int frame2);
+    bool isWorking();
+    bool stop_me;
+
+private:
+    int m_width;
+    int m_height;
+    int m_frame1;
+    int m_frame2;
+    Mlt::Producer *m_prod;
+    bool m_isWorking;
+    QObject *m_parent;
+    //QMutex mutex;
+
+signals:
+    void gotStartThumb(QImage);
+    void gotEndThumb(QImage);
+
+};
 
 class KThumb: public QObject {
 Q_OBJECT public:
@@ -94,7 +122,7 @@ protected:
     virtual void customEvent(QEvent * event);
 
 private:
-    MyThread thumbProducer;
+    MyThread audioThumbProducer;
     KUrl m_url;
     QString m_thumbFile;
     double m_dar;

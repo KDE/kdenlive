@@ -408,12 +408,17 @@ void KdenliveDoc::setProfilePath(QString path) {
     if (path.isEmpty()) path = KdenliveSettings::default_profile();
     if (path.isEmpty()) path = "dv_pal";
     m_profile = ProfilesDialog::getVideoProfile(path);
+    KdenliveSettings::setProject_display_ratio((double) m_profile.display_aspect_num / m_profile.display_aspect_den);
     m_fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
     m_width = m_profile.width;
     m_height = m_profile.height;
     kDebug() << "KDEnnlive document, init timecode from path: " << path << ",  " << m_fps;
     if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
     else m_timecode.setFormat((int) m_fps);
+}
+
+const double KdenliveDoc::dar() {
+    return (double) m_profile.display_aspect_num / m_profile.display_aspect_den;
 }
 
 void KdenliveDoc::setThumbsProgress(const QString &message, int progress) {

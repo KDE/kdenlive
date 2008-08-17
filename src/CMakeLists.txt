@@ -130,6 +130,8 @@ set(kdenlive_SRCS
   changespeedcommand.cpp
   geometryval.cpp
   wizard.cpp
+  customtrackscene.cpp
+  abstractgroupitem.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

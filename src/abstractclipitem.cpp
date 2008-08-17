@@ -27,9 +27,10 @@
 #include <KLocale>
 
 #include "abstractclipitem.h"
+#include "customtrackscene.h"
 
 AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps): QGraphicsRectItem(rect), m_track(0), m_fps(fps), m_editedKeyframe(-1), m_selectedKeyframe(0), m_keyframeFactor(1) {
-    setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    setFlags(/*QGraphicsItem::ItemClipsToShape | */QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setTrack(info.track);
     m_startPos = info.startPos;
     m_cropDuration = info.endPos - info.startPos;
@@ -42,45 +43,6 @@ ItemInfo AbstractClipItem::info() const {
     itemInfo.cropStart = cropStart();
     itemInfo.track = track();
     return itemInfo;
-}
-
-void AbstractClipItem::moveTo(int x, double scale, int offset, int newTrack, bool checkCollision) {
-    qreal origX = pos().x();
-    qreal origY = pos().y();
-    bool success = true;
-    if (x < 0) return;
-    //setRect(x * scale, origY + offset, rect().width(), rect().height());
-    //double xoffset = (x -  m_startPos.frames(m_fps)) * scale;// - origX;
-    setPos((qreal) x * scale, (qreal) pos().y() + offset);
-
-    QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
-    if (collisionList.size() == 0) m_track = newTrack;
-    if (checkCollision)
-        for (int i = 0; i < collisionList.size(); ++i) {
-            QGraphicsItem *item = collisionList.at(i);
-            if (item->type() == type()) {
-                if (offset == 0) {
-                    QRectF other = ((QGraphicsRectItem *)item)->rect();
-                    if (x < m_startPos.frames(m_fps)) {
-                        kDebug() << "COLLISION, MOVING TO------";
-                        m_startPos = ((AbstractClipItem *)item)->endPos();
-                        origX = (qreal) m_startPos.frames(m_fps) * scale;
-                    } else if (x > m_startPos.frames(m_fps)) {
-                        //kDebug() << "COLLISION, MOVING TO+++: "<<x<<", CLIP CURR POS: "<<m_startPos.frames(m_fps)<<", COLLIDING START: "<<((AbstractClipItem *)item)->startPos().frames(m_fps);
-                        m_startPos = ((AbstractClipItem *)item)->startPos() - m_cropDuration;
-                        origX = (qreal) m_startPos.frames(m_fps) * scale;
-                    }
-                }
-                setPos(origX, origY);
-                offset = 0;
-                success = false;
-                break;
-            }
-        }
-    if (success) {
-        m_track = newTrack;
-        m_startPos = GenTime(x, m_fps);
-    }
 }
 
 GenTime AbstractClipItem::endPos() const {
@@ -99,7 +61,7 @@ void AbstractClipItem::setCropStart(GenTime pos) {
     m_cropStart = pos;
 }
 
-void AbstractClipItem::resizeStart(int posx, double scale) {
+void AbstractClipItem::resizeStart(int posx) {
     GenTime durationDiff = GenTime(posx, m_fps) - m_startPos;
     if (durationDiff == GenTime()) return;
     //kDebug() << "-- RESCALE: CROP=" << m_cropStart << ", DIFF = " << durationDiff;
@@ -114,8 +76,8 @@ void AbstractClipItem::resizeStart(int posx, double scale) {
     if (type() == AVWIDGET) m_cropStart += durationDiff;
     m_cropDuration = m_cropDuration - durationDiff;
 
-    setRect(0, 0, (qreal) m_cropDuration.frames(m_fps) * scale - .5, rect().height());
-    setPos((qreal) m_startPos.frames(m_fps) * scale, pos().y());
+    setRect(0, 0, m_cropDuration.frames(m_fps) - 0.02, rect().height());
+    setPos((qreal) m_startPos.frames(m_fps), pos().y());
     //setRect((double) m_startPos.frames(m_fps) * scale, rect().y(), (double) m_cropDuration.frames(m_fps) * scale, rect().height());
     if (durationDiff < GenTime()) {
         QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
@@ -124,8 +86,8 @@ void AbstractClipItem::resizeStart(int posx, double scale) {
             if (item->type() == type() && item->pos().x() < pos().x()) {
                 kDebug() << "/////////  COLLISION DETECTED!!!!!!!!!";
                 GenTime diff = ((AbstractClipItem *)item)->endPos() + GenTime(1, m_fps) - m_startPos;
-                setRect(0, 0, (qreal)(m_cropDuration - diff).frames(m_fps) * scale - .5, rect().height());
-                setPos((qreal)(m_startPos + diff).frames(m_fps) * scale, pos().y());
+                setRect(0, 0, (m_cropDuration - diff).frames(m_fps) - 0.02, rect().height());
+                setPos((qreal)(m_startPos + diff).frames(m_fps), pos().y());
                 m_startPos += diff;
                 if (type() == AVWIDGET) m_cropStart += diff;
                 m_cropDuration = m_cropDuration - diff;
@@ -135,7 +97,7 @@ void AbstractClipItem::resizeStart(int posx, double scale) {
     }
 }
 
-void AbstractClipItem::resizeEnd(int posx, double scale) {
+void AbstractClipItem::resizeEnd(int posx) {
     GenTime durationDiff = GenTime(posx, m_fps) - endPos();
     if (durationDiff == GenTime()) return;
     //kDebug() << "-- RESCALE: CROP=" << m_cropStart << ", DIFF = " << durationDiff;
@@ -145,7 +107,7 @@ void AbstractClipItem::resizeEnd(int posx, double scale) {
         durationDiff = maxDuration() - m_cropDuration - m_cropStart;
     }
     m_cropDuration += durationDiff;
-    setRect(0, 0, (qreal) m_cropDuration.frames(m_fps) * scale - .5, rect().height());
+    setRect(0, 0, m_cropDuration.frames(m_fps) - 0.02, rect().height());
     if (durationDiff > GenTime()) {
         QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
         for (int i = 0; i < collisionList.size(); ++i) {
@@ -156,7 +118,7 @@ void AbstractClipItem::resizeEnd(int posx, double scale) {
                 kDebug() << "/////////  COLLISION: " << ((AbstractClipItem *)item)->startPos().frames(25) << "x" << ((AbstractClipItem *)item)->endPos().frames(25) << ", RECT: " << ((AbstractClipItem *)item)->rect() << "-" << item->pos();
                 GenTime diff = ((AbstractClipItem *)item)->startPos() - GenTime(1, m_fps) - startPos();
                 m_cropDuration = diff;
-                setRect(0, 0, (qreal)(m_cropDuration.frames(m_fps)) * scale - .5, rect().height());
+                setRect(0, 0, (m_cropDuration.frames(m_fps)) - 0.02, rect().height());
                 break;
             }
         }
@@ -249,14 +211,15 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF exposedRect) {
     // draw line showing default value
     if (isSelected()) {
         x1 = br.x();
-        x1 = br.right();
+        x2 = br.right();
         y1 = br.bottom() - m_keyframeDefault * maxh;
         QLineF l(x1, y1, x2, y1);
+        QLineF l2 = painter->matrix().map(l);
         painter->setPen(QColor(168, 168, 168, 180));
-        painter->drawLine(l);
-        l.translate(0, 1);
+        painter->drawLine(l2);
+        l2.translate(0, 1);
         painter->setPen(QColor(108, 108, 108, 180));
-        painter->drawLine(l);
+        painter->drawLine(l2);
         painter->setPen(QColor(Qt::white));
     }
 
@@ -265,6 +228,7 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF exposedRect) {
     QColor color(Qt::blue);
     x1 = br.x() + maxw * (i.key() - m_cropStart.frames(m_fps));
     y1 = br.bottom() - i.value() * maxh;
+    QLineF l2;
     while (i != m_keyframes.constEnd()) {
         if (i.key() == m_selectedKeyframe) color = QColor(Qt::red);
         else color = QColor(Qt::blue);
@@ -273,14 +237,15 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF exposedRect) {
         x2 = br.x() + maxw * (i.key() - m_cropStart.frames(m_fps));
         y2 = br.bottom() - i.value() * maxh;
         QLineF l(x1, y1, x2, y2);
-        painter->drawLine(l);
+        l2 = painter->matrix().map(l);
+        painter->drawLine(l2);
         if (isSelected()) {
-            painter->fillRect(x1 - 3, y1 - 3, 6, 6, QBrush(color));
+            painter->fillRect(l2.x1() - 3, l2.y1() - 3, 6, 6, QBrush(color));
         }
         x1 = x2;
         y1 = y2;
     }
-    if (isSelected()) painter->fillRect(x1 - 3, y1 - 3, 6, 6, QBrush(color));
+    if (isSelected()) painter->fillRect(l2.x2() - 3, l2.y2() - 3, 6, 6, QBrush(color));
 }
 
 int AbstractClipItem::mouseOverKeyFrames(QPointF pos) {
@@ -381,4 +346,8 @@ QRect AbstractClipItem::visibleRect() {
         //kDebug() << scene()->views()[0]->viewport()->rect() << " " <<  scene()->views()[0]->horizontalScrollBar()->value();
     }
     return rectInView;
+}
+
+CustomTrackScene* AbstractClipItem::projectScene() {
+    return static_cast <CustomTrackScene*>(scene());
 }

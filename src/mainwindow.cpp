@@ -1114,6 +1114,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     m_monitorManager->setTimecode(doc->timecode());
     doc->setRenderer(m_projectMonitor->render);
     m_commandStack->setActiveStack(doc->commandStack());
+    KdenliveSettings::setProject_display_ratio(doc->dar());
     doc->updateAllProjectClips();
 
     if (m_commandStack->isClean()) kDebug() << "////////////  UNDO STACK IS CLEAN";

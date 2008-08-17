@@ -33,6 +33,7 @@ private:
     int m_zoneEnd;
     int m_duration;
     double m_textSpacing;
+    double m_factor;
     RULER_MOVE m_moveCursor;
     QMenu *m_contextMenu;
 

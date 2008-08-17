@@ -102,6 +102,7 @@ Q_OBJECT public:
     void syncGuides(QList <Guide *> guides);
     void setZoom(int factor);
     int zoom() const;
+    const double dar();
 
 private:
     KUrl m_url;

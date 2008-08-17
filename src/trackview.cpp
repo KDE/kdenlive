@@ -34,13 +34,14 @@
 #include "mainwindow.h"
 #include "customtrackview.h"
 
+
 TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
         : QWidget(parent), m_doc(doc), m_scale(1.0), m_projectTracks(0) {
 
     view = new Ui::TimeLine_UI();
     view->setupUi(this);
 
-    m_scene = new QGraphicsScene();
+    m_scene = new CustomTrackScene(doc);
     m_trackview = new CustomTrackView(doc, m_scene, parent);
     m_trackview->scale(1, 1);
     m_trackview->setAlignment(Qt::AlignLeft | Qt::AlignTop);
@@ -227,7 +228,7 @@ void TrackView::parseDocument(QDomDocument doc) {
             transitionInfo.endPos = GenTime(e.attribute("out").toInt(), m_doc->fps());
             transitionInfo.track = b_track;
             //kDebug() << "///////////////   +++++++++++  ADDING TRANSITION ON TRACK: " << b_track << ", TOTAL TRKA: " << m_projectTracks;
-            Transition *tr = new Transition(transitionInfo, a_track, m_scale, m_doc->fps(), base);
+            Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base);
             m_scene->addItem(tr);
         }
     }
@@ -352,7 +353,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                 clipinfo.cropStart = GenTime(in, m_doc->fps());
                 clipinfo.track = ix;
                 //kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
-                ClipItem *item = new ClipItem(clip, clipinfo, m_scale, m_doc->fps());
+                ClipItem *item = new ClipItem(clip, clipinfo, m_doc->fps());
                 if (hasSpeedAttribute) item->setSpeed(speed);
                 m_scene->addItem(item);
                 clip->addReference();

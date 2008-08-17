@@ -34,13 +34,15 @@
 
 class ClipItem;
 class AbstractClipItem;
+class AbstractGroupItem;
 class Transition;
+class CustomTrackScene;
 
 class CustomTrackView : public QGraphicsView {
     Q_OBJECT
 
 public:
-    CustomTrackView(KdenliveDoc *doc, QGraphicsScene * projectscene, QWidget *parent = 0);
+    CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscene, QWidget *parent = 0);
     virtual ~ CustomTrackView();
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseReleaseEvent(QMouseEvent * event);
@@ -140,6 +142,7 @@ private:
     int m_cursorPos;
     ClipItem *m_dropItem;
     KdenliveDoc *m_document;
+    CustomTrackScene *m_scene;
     void addItem(DocClipBase *clip, QPoint pos);
     QGraphicsLineItem *m_cursorLine;
     ItemInfo m_dragItemInfo;
@@ -153,10 +156,8 @@ private:
     QTimeLine *m_animationTimer;
     QColor m_tipColor;
     QPen m_tipPen;
-    double m_scale;
     QPoint m_clickPoint;
     QPoint m_clickEvent;
-    QList <GenTime> m_snapPoints;
     QList <CommentedTime> m_searchPoints;
     QList <Guide *> m_guides;
     void updateSnapPoints(AbstractClipItem *selected);
@@ -171,7 +172,7 @@ private:
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
-    QList <TrackInfo> m_tracksList;
+
     QList <CommentedTime> m_searchStrings;
     int m_findIndex;
     PROJECTTOOL m_tool;
@@ -182,6 +183,7 @@ private:
     /** Used to get the point in timeline where a context menu was opened */
     QPoint m_menuPosition;
     bool m_blockRefresh;
+    AbstractGroupItem *m_selectionGroup;
 
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);

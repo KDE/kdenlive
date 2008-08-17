@@ -80,7 +80,6 @@ Render::Render(const QString & rendererName, int winid, int extid, QWidget *pare
 
     m_externalwinid = extid;
     m_winid = winid;
-    m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
     Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "colour", "black");
     m_mltProducer = producer;
     if (m_blackClip) delete m_blackClip;
@@ -1089,7 +1088,7 @@ const QString & Render::rendererName() const {
 
 
 void Render::emitFrameNumber(double position) {
-    if (m_generateScenelist) return;
+    //if (m_generateScenelist) return;
     m_framePosition = position;
     emit rendererPosition((int) position);
     //if (qApp->activeWindow()) QApplication::postEvent(qApp->activeWindow(), new PositionChangeEvent( GenTime((int) position, m_fps), m_monitorId));
@@ -1456,7 +1455,7 @@ bool Render::mltRemoveEffect(int track, GenTime position, QString index, bool do
 }
 
 
-bool Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> args, bool doRefresh) {
+bool Render::mltAddEffect(int track, GenTime position, QHash <QString, QString> args, bool doRefresh) {
 
     Mlt::Service service(m_mltProducer->parent().get_service());
 
@@ -1476,7 +1475,7 @@ bool Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
     if (tag.startsWith("ladspa")) tag = "ladspa";
     char *filterTag = decodedString(tag);
     char *filterId = decodedString(args.value("id"));
-    QMap<QString, QString>::Iterator it;
+    QHash<QString, QString>::Iterator it;
     QString kfr = args.value("keyframes");
 
     if (!kfr.isEmpty()) {
@@ -1549,10 +1548,10 @@ bool Render::mltAddEffect(int track, GenTime position, QMap <QString, QString> a
     return true;
 }
 
-bool Render::mltEditEffect(int track, GenTime position, QMap <QString, QString> args) {
+bool Render::mltEditEffect(int track, GenTime position, QHash <QString, QString> args) {
     QString index = args.value("kdenlive_ix");
     QString tag =  args.value("tag");
-    QMap<QString, QString>::Iterator it = args.begin();
+    QHash<QString, QString>::Iterator it = args.begin();
     if (!args.value("keyframes").isEmpty() || /*it.key().startsWith("#") || */tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle") {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
         mltRemoveEffect(track, position, index);
@@ -1787,6 +1786,7 @@ void Render::mltChangeTrackState(int track, bool mute, bool blind) {
 }
 
 bool Render::mltResizeClipStart(ItemInfo info, GenTime diff) {
+    //kDebug() << "////////  RSIZING CLIP from: "<<info.startPos.frames(25)<<" to "<<diff.frames(25);
     Mlt::Service service(m_mltProducer->parent().get_service());
     int moveFrame = (int) diff.frames(m_fps);
     Mlt::Tractor tractor(service);
@@ -1796,6 +1796,7 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff) {
         kDebug() << "////////  ERROR RSIZING BLANK CLIP!!!!!!!!!!!";
         return false;
     }
+    mlt_service_lock(service.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at(info.startPos.frames(m_fps));
     /*int previousStart = trackPlaylist.clip_start(clipIndex);
     int previousDuration = trackPlaylist.clip_length(clipIndex) - 1;*/
@@ -1803,9 +1804,10 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff) {
     Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
     if (clip == NULL) {
         kDebug() << "////////  ERROR RSIZING NULL CLIP!!!!!!!!!!!";
+        mlt_service_unlock(service.get_service());
         return false;
     }
-    m_mltConsumer->set("refresh", 0);
+    //m_mltConsumer->set("refresh", 0);
     int previousStart = clip->get_in();
     int previousDuration = trackPlaylist.clip_length(clipIndex) - 1;
     m_isBlocked = true;
@@ -1834,7 +1836,8 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff) {
         mltAddClipTransparency(transpinfo, info.track - 1, QString(clip->parent().get("id")).toInt());
     }
     m_isBlocked = false;
-    m_mltConsumer->set("refresh", 1);
+    //m_mltConsumer->set("refresh", 1);
+    mlt_service_unlock(service.get_service());
     return true;
 }
 
@@ -1855,6 +1858,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     Mlt::Producer trackProducer(tractor.track(startTrack));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at(moveStart + 1);
+    kDebug() << "//////  LOOKING FOR CLIP TO MOVE, INDEX: " << clipIndex;
     bool checkLength = false;
     if (endTrack == startTrack) {
         //mlt_service_lock(service.get_service());

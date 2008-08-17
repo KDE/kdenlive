@@ -21,10 +21,11 @@
 #ifndef CLIPITEM_H
 #define CLIPITEM_H
 
+#include <QTimeLine>
 #include <QGraphicsRectItem>
 #include <QDomElement>
 #include <QGraphicsSceneMouseEvent>
-#include <QTimeLine>
+#include <QTimer>
 
 #include "definitions.h"
 #include "gentime.h"
@@ -34,34 +35,35 @@
 class DocClipBase;
 class Transition;
 
+
 class ClipItem : public AbstractClipItem {
     Q_OBJECT
 
 public:
-    ClipItem(DocClipBase *clip, ItemInfo info, double scale, double fps);
+    ClipItem(DocClipBase *clip, ItemInfo info, double fps);
     virtual ~ ClipItem();
     virtual void paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
                        QWidget *);
     virtual int type() const;
-    void resizeStart(int posx, double scale);
-    void resizeEnd(int posx, double scale);
-    OPERATIONTYPE operationMode(QPointF pos, double scale);
+    void resizeStart(int posx);
+    void resizeEnd(int posx);
+    OPERATIONTYPE operationMode(QPointF pos);
     int clipProducer() const;
     int clipType() const;
     DocClipBase *baseClip() const;
     QString clipName() const;
     QDomElement xml() const;
-    ClipItem *clone(double scale, ItemInfo info) const;
+    ClipItem *clone(ItemInfo info) const;
     const EffectsList effectList();
-    void setFadeOut(int pos, double scale);
-    void setFadeIn(int pos, double scale);
+    void setFadeOut(int pos);
+    void setFadeIn(int pos);
     /** Give a string list of the clip's effect names */
     QStringList effectNames();
     /** Add an effect to the clip and return the parameters that will be passed to Mlt */
-    QMap <QString, QString> addEffect(QDomElement effect, bool animate = true);
+    QHash <QString, QString> addEffect(QDomElement effect, bool animate = true);
     /** Get the effect parameters that will be passed to Mlt */
-    QMap <QString, QString> getEffectArgs(QDomElement effect);
+    QHash <QString, QString> getEffectArgs(QDomElement effect);
     /** Delete effect with id index */
     void deleteEffect(QString index);
     /** return the number of effects in that clip */
@@ -104,6 +106,7 @@ protected:
     virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *);
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
     DocClipBase *m_clip;
@@ -115,7 +118,6 @@ private:
     QString m_effectNames;
     uint m_startFade;
     uint m_endFade;
-
     int m_maxTrack;
 
     QPixmap m_startPix;
@@ -129,7 +131,8 @@ private:
     int m_selectedEffect;
     double m_opacity;
     QTimeLine *m_timeLine;
-    uint m_thumbsRequested;
+    bool m_startThumbRequested;
+    bool m_endThumbRequested;
     bool m_hover;
     double m_speed;
 
@@ -147,15 +150,17 @@ private slots:
     void slotGetStartThumb();
     void slotGetEndThumb();
     void slotGotAudioData();
-    void slotPrepareAudioThumb(double pixelForOneFrame, QPainterPath path, int startpixel, int endpixel, int channels);
+    void slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, int endpixel, int channels);
     void animate(qreal value);
-
-public slots:
+    void slotSetStartThumb(QImage img);
+    void slotSetEndThumb(QImage img);
+    void slotSetStartThumb(QPixmap pix);
+    void slotSetEndThumb(QPixmap pix);
     void slotThumbReady(int frame, QPixmap pix);
 
 signals:
     void getThumb(int, int);
-    void prepareAudioThumb(double, QPainterPath, int, int, int);
+    void prepareAudioThumb(double, int, int, int);
 };
 
 #endif

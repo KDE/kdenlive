@@ -26,26 +26,21 @@
 
 #include "guide.h"
 #include "customtrackview.h"
+#include "customtrackscene.h"
 #include "kdenlivesettings.h"
 
-Guide::Guide(CustomTrackView *view, GenTime pos, QString label, double scale, double fps, double height)
-        : QGraphicsLineItem(), m_view(view), m_position(pos), m_label(label), m_scale(scale), m_fps(fps) {
+Guide::Guide(CustomTrackView *view, GenTime pos, QString label, double fps, double height)
+        : QGraphicsLineItem(), m_view(view), m_position(pos), m_label(label), m_fps(fps) {
     setFlags(QGraphicsItem::ItemIsMovable);
     setToolTip(label);
     setLine(0, 0, 0, height);
-    setPos(m_position.frames(m_fps) * scale, 0);
-    setPen(QPen(QBrush(QColor(0, 0, 200, 180)), 2));
+    setPos(m_position.frames(m_fps), 0);
+    setPen(QPen(QBrush(QColor(0, 0, 200, 180)), 1));
     setZValue(999);
     setAcceptsHoverEvents(true);
     const QFontMetrics metric = m_view->fontMetrics();
     m_width = metric.width(" " + m_label + " ") + 2;
     prepareGeometryChange();
-}
-
-
-void Guide::updatePosition(double scale) {
-    m_scale = scale;
-    setPos(m_position.frames(m_fps) * m_scale, 0);
 }
 
 QString Guide::label() const {
@@ -62,7 +57,7 @@ CommentedTime Guide::info() const {
 
 void Guide::updateGuide(const GenTime newPos, const QString &comment) {
     m_position = newPos;
-    setPos(m_position.frames(m_fps) * m_scale, 0);
+    setPos(m_position.frames(m_fps), 0);
     if (comment != QString()) {
         m_label = comment;
         setToolTip(m_label);
@@ -103,17 +98,23 @@ QVariant Guide::itemChange(GraphicsItemChange change, const QVariant &value) {
 QRectF Guide::boundingRect() const {
     if (KdenliveSettings::showmarkers()) {
         QRectF rect = QGraphicsLineItem::boundingRect();
-        rect.setWidth(m_width);
+        rect.setLeft(line().x1());
+        rect.setWidth(m_width / static_cast <CustomTrackScene*>(scene())->scale());
         return rect;
     } else return QGraphicsLineItem::boundingRect();
 }
 
 // virtual
 void Guide::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w) {
-    QGraphicsLineItem::paint(painter, option, w);
+    painter->setMatrixEnabled(false);
+    QLineF guideline = painter->matrix().map(line());
+    painter->setPen(pen());
+    painter->drawLine(guideline);
+    //painter->fillRect(painter->matrix().mapRect(boundingRect()), QColor(200, 100, 100, 100));
+    //QGraphicsLineItem::paint(painter, option, w);
     if (KdenliveSettings::showmarkers()) {
-        QRectF br = boundingRect();
-        QRectF txtBounding = painter->boundingRect(br.x(), br.y() + 10 + m_view->verticalScrollBar()->value(), m_width, 50, Qt::AlignLeft | Qt::AlignTop, " " + m_label + " ");
+        QPointF p1 = guideline.p1() + QPointF(1, 0);
+        QRectF txtBounding = painter->boundingRect(p1.x(), p1.y() + 10, m_width, 50, Qt::AlignLeft | Qt::AlignTop, " " + m_label + " ");
         QPainterPath path;
         path.addRoundedRect(txtBounding, 3, 3);
         painter->fillPath(path, QBrush(pen().color()));

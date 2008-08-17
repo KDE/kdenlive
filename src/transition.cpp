@@ -30,11 +30,12 @@
 #include "transition.h"
 #include "clipitem.h"
 #include "kdenlivesettings.h"
+#include "customtrackscene.h"
 #include "mainwindow.h"
 
-Transition::Transition(const ItemInfo info, int transitiontrack, double scale, double fps, QDomElement params) : AbstractClipItem(info, QRectF(), fps), m_gradient(QLinearGradient(0, 0, 0, 0)) {
-    setRect(0, 0, (qreal)(info.endPos - info.startPos).frames(fps) * scale - .5, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
-    setPos((qreal) info.startPos.frames(fps) * scale, (qreal)(info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2));
+Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDomElement params) : AbstractClipItem(info, QRectF(), fps), m_gradient(QLinearGradient(0, 0, 0, 0)) {
+    setRect(0, 0, (qreal)(info.endPos - info.startPos).frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
+    setPos((qreal) info.startPos.frames(fps), (qreal)(info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2));
 
     m_singleClip = true;
     m_transitionTrack = transitiontrack;
@@ -63,9 +64,9 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double scale, d
 Transition::~Transition() {
 }
 
-Transition *Transition::clone(double scale) {
+Transition *Transition::clone() {
     QDomElement xml = toXML().cloneNode().toElement();
-    Transition *tr = new Transition(info(), transitionEndTrack(), scale, m_fps, xml);
+    Transition *tr = new Transition(info(), transitionEndTrack(), m_fps, xml);
     return tr;
 }
 
@@ -118,32 +119,27 @@ void Transition::updateTransitionEndTrack(int newtrack) {
 void Transition::paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
                        QWidget *widget) {
-
-    painter->setClipRect(option->exposedRect);
+    QRectF exposed = option->exposedRect;
+    exposed.setRight(exposed.right() + 1);
+    exposed.setBottom(exposed.bottom() + 1);
+    painter->setClipRect(exposed);
     QRectF br = rect();
-    QPainterPath roundRectPathUpper = upperRectPart(br), roundRectPathLower = lowerRectPart(br);
-    QPainterPath resultClipPath = roundRectPathUpper.united(roundRectPathLower);
-
-
-#if 0
-    QRadialGradient radialGrad(QPointF(br.x() + 50, br.y() + 20), 70);
-    radialGrad.setColorAt(0, QColor(200, 200, 0, 100));
-    radialGrad.setColorAt(0.5, QColor(150, 150, 0, 100));
-    radialGrad.setColorAt(1, QColor(100, 100, 0, 100));
-    painter->fillRect(br.intersected(rectInView), QBrush(radialGrad)/*,Qt::Dense4Pattern*/);
-#else
     m_gradient.setStart(0, br.y());
     m_gradient.setFinalStop(0, br.bottom());
-    painter->fillPath(resultClipPath, m_gradient);
-#endif
+    painter->fillRect(br, m_gradient);
 
     int top = (int)(br.y() + br.height() / 2 - 7);
-    painter->drawPixmap((int)(br.x() + 10), top, transitionPixmap());
+    QPointF p1(br.x(), br.y() + br.height() / 2 - 7);
+    painter->setMatrixEnabled(false);
+    painter->drawPixmap(painter->matrix().map(p1) + QPointF(5, 0), transitionPixmap());
     painter->setPen(QColor(0, 0, 0, 180));
     top += painter->fontInfo().pixelSize();
-    painter->drawText((int)br.x() + 31, top + 1, transitionName());
+    QPointF p2(br.x(), top);
+    painter->drawText(painter->matrix().map(p2) + QPointF(26, 1), transitionName());
     painter->setPen(QColor(255, 255, 255, 180));
-    painter->drawText((int)br.x() + 30, top, transitionName());
+    QPointF p3(br.x(), top);
+    painter->drawText(painter->matrix().map(p3) + QPointF(25, 0), transitionName());
+    painter->setMatrixEnabled(true);
     QPen pen = painter->pen();
     if (isSelected()) {
         pen.setColor(Qt::red);
@@ -153,14 +149,64 @@ void Transition::paint(QPainter *painter,
         //pen.setWidth(1);
     }
     painter->setPen(pen);
-    painter->drawPath(resultClipPath);
+    painter->drawRect(br);
 }
 
 int Transition::type() const {
     return TRANSITIONWIDGET;
 }
 
-OPERATIONTYPE Transition::operationMode(QPointF pos, double scale) {
+//virtual
+QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value) {
+    if (change == ItemPositionChange && scene()) {
+        // calculate new position.
+        QPointF newPos = value.toPointF();
+        int xpos = projectScene()->getSnapPointForPos((int) newPos.x(), KdenliveSettings::snaptopoints());
+        xpos = qMax(xpos, 0);
+        newPos.setX(xpos);
+        int newTrack = newPos.y() / KdenliveSettings::trackheight();
+        newTrack = qMin(newTrack, projectScene()->tracksCount() - 1);
+        newTrack = qMax(newTrack, 0);
+        newPos.setY((int)(newTrack * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2));
+        // Only one clip is moving
+        QRectF sceneShape = rect();
+        sceneShape.translate(newPos);
+        QList<QGraphicsItem*> items = scene()->items(sceneShape, Qt::IntersectsItemShape);
+        items.removeAll(this);
+
+        if (!items.isEmpty()) {
+            for (int i = 0; i < items.count(); i++) {
+                if (items.at(i)->type() == type()) {
+                    // Collision! Don't move.
+                    //kDebug()<<"/// COLLISION WITH ITEM: "<<items.at(i)->boundingRect()<<", POS: "<<items.at(i)->pos()<<", ME: "<<newPos;
+                    QPointF otherPos = items.at(i)->pos();
+                    if ((int) otherPos.y() != (int) pos().y()) return pos();
+                    //kDebug()<<"////  CURRENT Y: "<<pos().y()<<", COLLIDING Y: "<<otherPos.y();
+                    if (pos().x() < otherPos.x()) {
+                        int npos = (static_cast < AbstractClipItem* >(items.at(i))->startPos() - m_cropDuration).frames(m_fps);
+                        newPos.setX(npos);
+                    } else {
+                        // get pos just after colliding clip
+                        int npos = static_cast < AbstractClipItem* >(items.at(i))->endPos().frames(m_fps);
+                        newPos.setX(npos);
+                    }
+                    m_track = newTrack;
+                    //kDebug()<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
+                    m_startPos = GenTime((int) newPos.x(), m_fps);
+                    return newPos;
+                }
+            }
+        }
+        m_track = newTrack;
+        m_startPos = GenTime((int) newPos.x(), m_fps);
+        //kDebug()<<"// ITEM NEW POS: "<<newPos.x()<<", mapped: "<<mapToScene(newPos.x(), 0).x();
+        return newPos;
+    }
+    return QGraphicsItem::itemChange(change, value);
+}
+
+
+OPERATIONTYPE Transition::operationMode(QPointF pos) {
     QRectF rect = sceneBoundingRect();
     if (qAbs((int)(pos.x() - rect.x())) < 6) return RESIZESTART;
     else if (qAbs((int)(pos.x() - (rect.right()))) < 6) return RESIZEEND;

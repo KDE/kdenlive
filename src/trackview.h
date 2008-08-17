@@ -31,6 +31,7 @@
 
 #define FRAME_SIZE 90
 
+#include "customtrackscene.h"
 #include "ui_timeline_ui.h"
 
 class ClipItem;
@@ -72,7 +73,7 @@ private:
     double m_scale;
     int m_projectTracks;
     QString m_editMode;
-    QGraphicsScene *m_scene;
+    CustomTrackScene *m_scene;
 
     KdenliveDoc *m_doc;
     QVBoxLayout *m_tracksLayout;

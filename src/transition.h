@@ -40,7 +40,7 @@ class Transition : public AbstractClipItem {
     Q_OBJECT
 public:
 
-    Transition(const ItemInfo info, int transitiontrack, double scale, double fps, QDomElement params = QDomElement());
+    Transition(const ItemInfo info, int transitiontrack, double fps, QDomElement params = QDomElement());
     virtual ~Transition();
     virtual void paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
@@ -51,13 +51,12 @@ public:
 
     /** Return the track number of transition in the playlist*/
     int transitionEndTrack() const;
-    Transition *clone();
     bool hasClip(const ClipItem * clip) const;
     bool belongsToClip(const ClipItem * clip) const;
     bool invertedTransition() const;
     QString transitionName() const;
     QString transitionTag() const;
-    OPERATIONTYPE operationMode(QPointF pos, double scale);
+    OPERATIONTYPE operationMode(QPointF pos);
     //const QMap < QString, QString > transitionParameters() const;
     void setTransitionParameters(const QDomElement params);
     void setTransitionDirection(bool inv);
@@ -68,7 +67,11 @@ public:
     /** Transition should be linked to another track */
     void updateTransitionEndTrack(int newtrack);
     const ClipItem *referencedClip() const;
-    Transition *clone(double scale);
+    Transition *clone();
+
+protected:
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+
 private:
     bool m_singleClip;
     QLinearGradient m_gradient;

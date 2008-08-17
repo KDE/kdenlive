@@ -221,35 +221,6 @@ QMap <QString, QString> ProfilesDialog::getProfilesInfo() {
 }
 
 // static
-QStringList ProfilesDialog::getProfileNames() {
-    QStringList profilesNames;
-    QStringList profilesFiles;
-    QStringList profilesFilter;
-    profilesFilter << "*";
-
-    // List the Mlt profiles
-    profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
-    for (int i = 0; i < profilesFiles.size(); ++i) {
-        KConfig confFile(KdenliveSettings::mltpath() + "/" + profilesFiles.at(i), KConfig::SimpleConfig);
-        QString desc = confFile.entryMap().value("description");
-        if (!desc.isEmpty()) profilesNames.append(desc);
-    }
-
-    // List custom profiles
-    QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
-    for (int i = 0; i < customProfiles.size(); ++i) {
-        profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
-        for (int i = 0; i < profilesFiles.size(); ++i) {
-            KConfig confFile(customProfiles.at(i) + "/" + profilesFiles.at(i), KConfig::SimpleConfig);
-            QString desc = confFile.entryMap().value("description");
-            if (!desc.isEmpty()) profilesNames.append(desc);
-        }
-    }
-
-    return profilesNames;
-}
-
-// static
 QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString path) {
     QStringList profilesNames;
     QStringList profilesFiles;

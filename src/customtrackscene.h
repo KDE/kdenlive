@@ -17,41 +17,42 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef GUIDE_H
-#define GUIDE_H
 
-#include <QGraphicsLineItem>
+#ifndef CUSTOMTRACKSCENE_H
+#define CUSTOMTRACKSCENE_H
+
+#include <QList>
+#include <QGraphicsScene>
+#include <QPixmap>
 
 #include "gentime.h"
-#include "definitions.h"
 
-#define GUIDEITEM 8000
+class KdenliveDoc;
+class TrackInfo;
 
-class CustomTrackView;
+/** This class holds all properties that need to be used by clip items */
 
-class Guide : public QGraphicsLineItem {
+class CustomTrackScene : public QGraphicsScene {
+    Q_OBJECT
 
 public:
-    Guide(CustomTrackView *view, GenTime pos, QString label, double fps, double height);
-    GenTime position() const;
-    void updateGuide(const GenTime newPos, const QString &comment = QString());
-    QString label() const;
-    CommentedTime info() const;
-    virtual int type() const;
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w);
-    virtual QRectF boundingRect() const;
-
-protected:
-    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *);
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    CustomTrackScene(KdenliveDoc *doc, QObject *parent = 0);
+    virtual ~ CustomTrackScene();
+    void setSnapList(QList <GenTime> snaps);
+    GenTime previousSnapPoint(GenTime pos);
+    GenTime nextSnapPoint(GenTime pos);
+    double getSnapPointForPos(double pos, bool doSnap = true);
+    void setScale(double scale);
+    double scale();
+    QList <TrackInfo> m_tracksList;
+    int tracksCount();
+    QPixmap m_transitionPixmap;
 
 private:
-    GenTime m_position;
-    QString m_label;
-    double m_fps;
-    CustomTrackView *m_view;
-    int m_width;
+    KdenliveDoc *m_document;
+    QList <GenTime> m_snapPoints;
+    double m_scale;
 };
 
 #endif
+
