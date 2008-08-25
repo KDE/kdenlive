@@ -81,6 +81,7 @@ private:
     QScrollArea *m_scrollArea;
     QFrame *m_scrollBox;
     QVBoxLayout *m_tracksAreaLayout;
+    QString m_documentErrors;
     void parseDocument(QDomDocument doc);
     int slotAddProjectTrack(int ix, QDomElement xml, bool videotrack);
 

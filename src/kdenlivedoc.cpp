@@ -438,7 +438,7 @@ void KdenliveDoc::setRenderer(Render *render) {
     m_render = render;
     emit progressInfo(i18n("Loading playlist..."), 0);
     qApp->processEvents();
-    if (m_render) m_render->setSceneList(m_scenelist, m_startPos);
+    if (m_render) m_render->setSceneList(m_document.toString(), m_startPos);
     emit progressInfo(QString(), -1);
 }
 

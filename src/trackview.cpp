@@ -21,6 +21,7 @@
 #include <QScrollBar>
 
 #include <KDebug>
+#include <KMessageBox>
 
 #include "definitions.h"
 #include "headertrack.h"
@@ -117,7 +118,7 @@ void TrackView::setDuration(int dur) {
 
 void TrackView::parseDocument(QDomDocument doc) {
     int cursorPos = 0;
-
+    m_documentErrors = QString();
     // kDebug() << "//// DOCUMENT: " << doc.toString();
     QDomNode props = doc.elementsByTagName("properties").item(0);
     if (!props.isNull()) {
@@ -245,6 +246,7 @@ void TrackView::parseDocument(QDomDocument doc) {
     m_trackview->setDuration(duration);
     kDebug() << "///////////  TOTAL PROJECT DURATION: " << duration;
     slotRebuildTrackHeaders();
+    if (!m_documentErrors.isNull()) KMessageBox::sorry(this, m_documentErrors);
     //m_trackview->setCursorPos(cursorPos);
     //m_scrollBox->setGeometry(0, 0, 300 * zoomFactor(), m_scrollArea->height());
 }
@@ -360,8 +362,9 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                 position += (out - in + 1);
 
                 // parse clip effects
-                for (QDomNode n2 = elem.firstChild(); !n2.isNull(); n2 = n2.nextSibling()) {
-                    QDomElement effect = n2.toElement();
+                QDomNodeList effects = elem.childNodes();
+                for (int ix = 0; ix < effects.count(); ix++) {
+                    QDomElement effect = effects.at(ix).toElement();
                     if (effect.tagName() == "filter") {
                         kDebug() << " * * * * * * * * * * ** CLIP EFF FND  * * * * * * * * * * *";
                         // add effect to clip
@@ -385,97 +388,104 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                         QDomElement clipeffect = MainWindow::customEffects.getEffectByTag(QString(), effectid);
                         if (clipeffect.isNull()) clipeffect = MainWindow::videoEffects.getEffectByTag(effecttag, effectid);
                         if (clipeffect.isNull()) clipeffect = MainWindow::audioEffects.getEffectByTag(effecttag, effectid);
+                        if (clipeffect.isNull()) {
+                            kDebug() << "///  WARNING, EFFECT: " << effecttag << ": " << effectid << " not found, removing it from project";
+                            m_documentErrors.append(i18n("Effect %1:%2 not found in MLT, it was removed from this project\n", effecttag, effectid));
+                            elem.removeChild(effects.at(ix));
+                            ix--;
+                        } else {
+                            clipeffect.setAttribute("kdenlive_ix", effectindex);
+                            QDomNodeList clipeffectparams = clipeffect.childNodes();
 
-                        clipeffect.setAttribute("kdenlive_ix", effectindex);
-                        QDomNodeList clipeffectparams = clipeffect.childNodes();
-
-                        if (MainWindow::videoEffects.hasKeyFrames(clipeffect)) {
-                            kDebug() << " * * * * * * * * * * ** CLIP EFF WITH KFR FND  * * * * * * * * * * *";
-                            // effect is key-framable, read all effects to retrieve keyframes
-                            double factor;
-                            QString starttag;
-                            QString endtag;
-                            QDomNodeList params = clipeffect.elementsByTagName("parameter");
-                            for (int i = 0; i < params.count(); i++) {
-                                QDomElement e = params.item(i).toElement();
-                                if (e.attribute("type") == "keyframe") {
-                                    starttag = e.attribute("starttag", "start");
-                                    endtag = e.attribute("endtag", "end");
-                                    factor = e.attribute("factor", "1").toDouble();
-                                    break;
-                                }
-                            }
-                            QString keyframes;
-                            int effectin = effect.attribute("in").toInt();
-                            int effectout = effect.attribute("out").toInt();
-                            double startvalue;
-                            double endvalue;
-                            for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
-                                // parse effect parameters
-                                QDomElement effectparam = n3.toElement();
-                                if (effectparam.attribute("name") == starttag)
-                                    startvalue = effectparam.text().toDouble() * factor;
-                                if (effectparam.attribute("name") == endtag)
-                                    endvalue = effectparam.text().toDouble() * factor;
-                            }
-                            // add first keyframe
-                            keyframes.append(QString::number(in + effectin) + ":" + QString::number(startvalue) + ";" + QString::number(in + effectout) + ":" + QString::number(endvalue) + ";");
-                            QDomNode lastParsedEffect;
-                            n2 = n2.nextSibling();
-                            bool continueParsing = true;
-                            for (; !n2.isNull() && continueParsing; n2 = n2.nextSibling()) {
-                                // parse all effects
-                                QDomElement kfreffect = n2.toElement();
-                                int effectout = kfreffect.attribute("out").toInt();
-
-                                for (QDomNode n4 = kfreffect.firstChild(); !n4.isNull(); n4 = n4.nextSibling()) {
-                                    // parse effect parameters
-                                    QDomElement subeffectparam = n4.toElement();
-                                    if (subeffectparam.attribute("name") == "kdenlive_ix" && subeffectparam.text() != effectindex) {
-                                        //We are not in the same effect, stop parsing
-                                        lastParsedEffect = n2.previousSibling();
-                                        continueParsing = false;
-                                        break;
-                                    } else if (subeffectparam.attribute("name") == endtag) {
-                                        endvalue = subeffectparam.text().toDouble() * factor;
+                            if (MainWindow::videoEffects.hasKeyFrames(clipeffect)) {
+                                kDebug() << " * * * * * * * * * * ** CLIP EFF WITH KFR FND  * * * * * * * * * * *";
+                                // effect is key-framable, read all effects to retrieve keyframes
+                                double factor;
+                                QString starttag;
+                                QString endtag;
+                                QDomNodeList params = clipeffect.elementsByTagName("parameter");
+                                for (int i = 0; i < params.count(); i++) {
+                                    QDomElement e = params.item(i).toElement();
+                                    if (e.attribute("type") == "keyframe") {
+                                        starttag = e.attribute("starttag", "start");
+                                        endtag = e.attribute("endtag", "end");
+                                        factor = e.attribute("factor", "1").toDouble();
                                         break;
                                     }
                                 }
-                                if (continueParsing) keyframes.append(QString::number(in + effectout) + ":" + QString::number(endvalue) + ";");
-                            }
+                                QString keyframes;
+                                int effectin = effect.attribute("in").toInt();
+                                int effectout = effect.attribute("out").toInt();
+                                double startvalue;
+                                double endvalue;
+                                for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
+                                    // parse effect parameters
+                                    QDomElement effectparam = n3.toElement();
+                                    if (effectparam.attribute("name") == starttag)
+                                        startvalue = effectparam.text().toDouble() * factor;
+                                    if (effectparam.attribute("name") == endtag)
+                                        endvalue = effectparam.text().toDouble() * factor;
+                                }
+                                // add first keyframe
+                                keyframes.append(QString::number(in + effectin) + ":" + QString::number(startvalue) + ";" + QString::number(in + effectout) + ":" + QString::number(endvalue) + ";");
+                                QDomNode lastParsedEffect;
+                                ix++;
+                                QDomNode n2 = effects.at(ix);
+                                bool continueParsing = true;
+                                for (; !n2.isNull() && continueParsing; n2 = n2.nextSibling()) {
+                                    // parse all effects
+                                    QDomElement kfreffect = n2.toElement();
+                                    int effectout = kfreffect.attribute("out").toInt();
 
-                            params = clipeffect.elementsByTagName("parameter");
-                            for (int i = 0; i < params.count(); i++) {
-                                QDomElement e = params.item(i).toElement();
-                                if (e.attribute("type") == "keyframe") e.setAttribute("keyframes", keyframes);
-                            }
-                            if (!continueParsing) {
-                                n2 = lastParsedEffect;
-                            }
-                        }
+                                    for (QDomNode n4 = kfreffect.firstChild(); !n4.isNull(); n4 = n4.nextSibling()) {
+                                        // parse effect parameters
+                                        QDomElement subeffectparam = n4.toElement();
+                                        if (subeffectparam.attribute("name") == "kdenlive_ix" && subeffectparam.text() != effectindex) {
+                                            //We are not in the same effect, stop parsing
+                                            lastParsedEffect = n2.previousSibling();
+                                            continueParsing = false;
+                                            break;
+                                        } else if (subeffectparam.attribute("name") == endtag) {
+                                            endvalue = subeffectparam.text().toDouble() * factor;
+                                            break;
+                                        }
+                                    }
+                                    if (continueParsing) keyframes.append(QString::number(in + effectout) + ":" + QString::number(endvalue) + ";");
+                                    ix++;
+                                }
 
-                        // adjust effect parameters
-                        for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
-                            // parse effect parameters
-                            QDomElement effectparam = n3.toElement();
-                            QString paramname = effectparam.attribute("name");
-                            QString paramvalue = effectparam.text();
-
-                            // try to find this parameter in the effect xml
-                            QDomElement e;
-                            for (int k = 0; k < clipeffectparams.count(); k++) {
-                                e = clipeffectparams.item(k).toElement();
-                                if (!e.isNull() && e.tagName() == "parameter" && e.attribute("name") == paramname) {
-                                    e.setAttribute("value", paramvalue);
-                                    break;
+                                params = clipeffect.elementsByTagName("parameter");
+                                for (int i = 0; i < params.count(); i++) {
+                                    QDomElement e = params.item(i).toElement();
+                                    if (e.attribute("type") == "keyframe") e.setAttribute("keyframes", keyframes);
+                                }
+                                if (!continueParsing) {
+                                    n2 = lastParsedEffect;
                                 }
                             }
+
+                            // adjust effect parameters
+                            for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
+                                // parse effect parameters
+                                QDomElement effectparam = n3.toElement();
+                                QString paramname = effectparam.attribute("name");
+                                QString paramvalue = effectparam.text();
+
+                                // try to find this parameter in the effect xml
+                                QDomElement e;
+                                for (int k = 0; k < clipeffectparams.count(); k++) {
+                                    e = clipeffectparams.item(k).toElement();
+                                    if (!e.isNull() && e.tagName() == "parameter" && e.attribute("name") == paramname) {
+                                        e.setAttribute("value", paramvalue);
+                                        break;
+                                    }
+                                }
+                            }
+                            item->addEffect(clipeffect, false);
+                            item->effectsCounter();
                         }
-                        item->addEffect(clipeffect, false);
-                        item->effectsCounter();
                     }
                 }
-
             } else kWarning() << "CANNOT INSERT CLIP " << id;
             //m_clipList.append(clip);
         }
