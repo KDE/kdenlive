@@ -314,9 +314,28 @@ void KdenliveDoc::convertDocument(double version) {
         tractor.insertAfter(transitions.at(0), QDomNode());
     }
 
-    QDomElement markers = m_document.createElement("markers");
+    // Fix filters format
+    QDomNodeList filters = m_document.elementsByTagName("filter");
+    max = filters.count();
+    for (int i = 0; i < max; i++) {
+        QDomElement filt = filters.at(i).toElement();
+        QDomNamedNodeMap attrs = filt.attributes();
+        for (int j = 0; j < attrs.count(); j++) {
+            QDomAttr a = attrs.item(j).toAttr();
+            if (!a.isNull()) {
+                kDebug() << " FILTER; adding :" << a.name() << ":" << a.value();
+                QDomElement e = m_document.createElement("property");
+                e.setAttribute("name", a.name());
+                QDomText value = m_document.createTextNode(a.value());
+                e.appendChild(value);
+                filt.appendChild(e);
+            }
+        }
+    }
 
-    // change producer names
+
+    // move markers to a global list
+    QDomElement markers = m_document.createElement("markers");
     QDomNodeList producers = m_document.elementsByTagName("producer");
     max = producers.count();
     for (int i = 0; i < max; i++) {
@@ -606,9 +625,17 @@ void KdenliveDoc::deleteClip(const uint clipId) {
     m_clipManager->deleteClip(clipId);
 }
 
+void KdenliveDoc::slotAddClipList(const KUrl::List urls, const QString group, const int groupId) {
+    m_clipManager->slotAddClipList(urls, group, groupId);
+    emit selectLastAddedClip(m_clipManager->lastClipId());
+    setModified(true);
+}
+
+
 void KdenliveDoc::slotAddClipFile(const KUrl url, const QString group, const int groupId) {
     kDebug() << "/////////  DOCUM, ADD CLP: " << url;
     m_clipManager->slotAddClipFile(url, group, groupId);
+    emit selectLastAddedClip(m_clipManager->lastClipId());
     setModified(true);
 }
 

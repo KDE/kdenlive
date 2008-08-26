@@ -18,6 +18,7 @@
  ***************************************************************************/
 #include <KDebug>
 #include <KFileDialog>
+#include <kio/netaccess.h>
 
 #include "addclipcommand.h"
 #include "kdenlivesettings.h"
@@ -89,6 +90,33 @@ DocClipBase *ClipManager::getClipById(int clipId) {
         }
     }
     return NULL;
+}
+
+void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, const int groupId) {
+    QUndoCommand *addClips = new QUndoCommand();
+    addClips->setText("Add clips");
+
+    foreach(const KUrl file, urls) {
+        if (KIO::NetAccess::exists(file, KIO::NetAccess::SourceSide, NULL)) {
+            QDomDocument doc;
+            QDomElement prod = doc.createElement("producer");
+            if (!group.isEmpty()) {
+                prod.setAttribute("groupname", group);
+                prod.setAttribute("groupid", groupId);
+            }
+            prod.setAttribute("resource", file.path());
+            uint id = m_clipIdCounter++;
+            prod.setAttribute("id", QString::number(id));
+            KMimeType::Ptr type = KMimeType::findByUrl(file);
+            if (type->name().startsWith("image/")) {
+                prod.setAttribute("type", (int) IMAGE);
+                prod.setAttribute("in", "0");
+                prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
+            }
+            new AddClipCommand(m_doc, prod, id, true, addClips);
+        }
+    }
+    m_doc->commandStack()->push(addClips);
 }
 
 void ClipManager::slotAddClipFile(const KUrl url, const QString group, const int groupId) {
@@ -180,6 +208,10 @@ void ClipManager::slotAddTextClipFile(const QString path, const QString xml, con
 
 int ClipManager::getFreeClipId() {
     return m_clipIdCounter++;
+}
+
+int ClipManager::lastClipId() const {
+    return m_clipIdCounter - 1;
 }
 
 

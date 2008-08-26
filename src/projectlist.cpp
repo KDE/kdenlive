@@ -30,7 +30,6 @@
 #include <KLocale>
 #include <KFileDialog>
 #include <KInputDialog>
-#include <kio/netaccess.h>
 #include <KMessageBox>
 
 #include <nepomuk/global.h>
@@ -324,10 +323,7 @@ void ProjectList::slotAddClip(QUrl givenUrl, QString group) {
             groupId = item->clipId();
         }
     }
-    foreach(const KUrl file, list) {
-        if (KIO::NetAccess::exists(file, KIO::NetAccess::SourceSide, NULL))
-            m_doc->slotAddClipFile(file, group, groupId);
-    }
+    m_doc->slotAddClipList(list, group, groupId);
 }
 
 void ProjectList::slotRemoveInvalidClip(int id) {
@@ -466,7 +462,6 @@ void ProjectList::slotReplyGetFileProperties(int clipId, Mlt::Producer *producer
     if (item) {
         item->setProperties(properties, metadata);
         item->referencedClip()->setProducer(producer);
-        listView->setCurrentItem(item);
         emit receivedClipDuration(clipId, item->clipMaxDuration());
     } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
 }
@@ -485,6 +480,14 @@ ProjectItem *ProjectList::getItemById(int id) {
     }
     if (*it) return ((ProjectItem *)(*it));
     return NULL;
+}
+
+void ProjectList::slotSelectClip(const int ix) {
+    ProjectItem *p = getItemById(ix);
+    if (p) {
+        listView->setCurrentItem(p);
+        listView->scrollToItem(p);
+    }
 }
 
 #include "projectlist.moc"

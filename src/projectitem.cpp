@@ -93,7 +93,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
     if (name.isEmpty()) name = KUrl(m_clip->getProperty("resource")).fileName();
     m_clipType = (CLIPTYPE) m_clip->getProperty("type").toInt();
     setText(1, name);
-    kDebug() << "PROJECT ITE;. ADDING LCIP: " << m_clipId;
+    //kDebug() << "PROJECT ITE;. ADDING LCIP: " << m_clipId;
 }
 
 ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip)
@@ -106,7 +106,7 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip)
     if (name.isEmpty()) name = KUrl(m_clip->getProperty("resource")).fileName();
     m_clipType = (CLIPTYPE) m_clip->getProperty("type").toInt();
     setText(1, name);
-    kDebug() << "PROJECT ITE;. ADDING LCIP: " << m_clipId;
+    //kDebug() << "PROJECT ITE;. ADDING LCIP: " << m_clipId;
 }
 
 
