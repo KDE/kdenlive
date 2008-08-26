@@ -70,6 +70,7 @@ QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id)
 
     if (!id.isEmpty()) for (int i = 0; i < this->size(); ++i) {
             QDomElement effect =  this->at(i);
+            kDebug() << "// SRCH EFFECT; " << id << ", LKING: " << effect.attribute("id");
             if (effect.attribute("id") == id) {
                 QDomNodeList params = effect.elementsByTagName("parameter");
                 for (int i = 0; i < params.count(); i++) {

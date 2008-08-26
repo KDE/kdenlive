@@ -1,9 +1,8 @@
 <!DOCTYPE kpartgui>
-<effect tag="motion_est">
+<effect tag="motion_est" id="autotrack_rectangle">
 	<name>Auto Mask</name>
 	<description>Hide a selected zone and follow its movements</description>
 	<author>Zachary Drew</author>
-	<properties id="autotrack_rectangle" tag="autotrack_rectangle" />
 	<parameter type="geometry" name="geometry" default="100,100:100x100">
 		<name>Geometry</name>
 	</parameter>

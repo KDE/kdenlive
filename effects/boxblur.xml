@@ -1,9 +1,8 @@
 <!DOCTYPE kpartgui>
-<effect tag="boxblur">
+<effect tag="boxblur" id="boxblur">
 	<name>Box Blur</name>
 	<description>Blur image with keyframes</description>
 	<author>Leny Grisel</author>
-	<properties id="boxblur" tag="boxblur" />
 	<parameter type="keyframe" name="blur" max="100" min="0" default="5">
 		<name>Blur factor</name>
 	</parameter>

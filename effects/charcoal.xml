@@ -1,9 +1,8 @@
 <!DOCTYPE kpartgui>
-<effect tag="charcoal">
+<effect tag="charcoal" id="charcoal">
 	<name>Charcoal</name>
 	<description>Charcoal drawing effect</description>
 	<author>Charles Yates</author>
-	<properties id="charcoal" tag="charcoal" />
 	<parameter type="constant" name="x_scatter" max="10" min="0" default="2">
 		<name>Horizontal scatter</name>
 	</parameter>

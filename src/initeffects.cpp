@@ -192,14 +192,10 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
         // Parse effect file
         if ((filtersList.contains(tag) || producersList.contains(tag)) && ladspaOk) {
             bool isAudioEffect = false;
-            QDomNode propsnode = documentElement.elementsByTagName("properties").item(0);
-            if (!propsnode.isNull()) {
-                QDomElement propselement = propsnode.toElement();
-                QString type = propselement.attribute("type", QString::null);
-                if (type == "audio") audioEffectList->append(documentElement);
-                else if (type == "custom") customEffectList->append(documentElement);
-                else videoEffectList->append(documentElement);
-            } else videoEffectList->append(documentElement);
+            QString type = documentElement.attribute("type", QString::null);
+            if (type == "audio") audioEffectList->append(documentElement);
+            else if (type == "custom") customEffectList->append(documentElement);
+            else videoEffectList->append(documentElement);
         }
 
         /*
@@ -399,6 +395,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
         if (metadata->get("title") && metadata->get("identifier")) {
             QDomElement eff = ret.createElement("effect");
             eff.setAttribute("tag", metadata->get("identifier"));
+            eff.setAttribute("id", metadata->get("identifier"));
 
             QDomElement name = ret.createElement("name");
             name.appendChild(ret.createTextNode(metadata->get("title")));
@@ -409,13 +406,9 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
             QDomElement author = ret.createElement("author");
             author.appendChild(ret.createTextNode(metadata->get("creator")));
 
-            QDomElement prop = ret.createElement("properties");
-            prop.setAttribute("id", metadata->get("identifier"));
-            prop.setAttribute("tag", metadata->get("identifier"));
             eff.appendChild(name);
             eff.appendChild(author);
             eff.appendChild(desc);
-            eff.appendChild(prop);
 
             Mlt::Properties param_props((mlt_properties) metadata->get_data("parameters"));
             for (int j = 0; param_props.is_valid() && j < param_props.count();j++) {

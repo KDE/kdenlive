@@ -1,9 +1,8 @@
 <!DOCTYPE kpartgui>
-<effect tag="sox">
+<effect tag="sox" id="sox_flanger" type="audio">
 	<name>Sox Flanger</name>
 	<description>Sox flanger audio effect</description>
 	<author>http://sox.sourceforge.net</author>
-	<properties id="sox_flanger" tag="sox" type="audio" />
 	<parameter type="constant" name="gain-in" max="100" min="0" default="50" factor="100">
 		<name>Gain in</name>
 	</parameter>

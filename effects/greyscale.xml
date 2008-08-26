@@ -1,7 +1,6 @@
 <!DOCTYPE kpartgui>
-<effect tag="greyscale">
+<effect tag="greyscale" id="greyscale">
 	<name>Greyscale</name>
 	<description>Discard color information</description>
 	<author>Charles Yates</author>
-	<properties id="greyscale" tag="greyscale"/>
 </effect>

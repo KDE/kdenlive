@@ -1,9 +1,8 @@
 <!DOCTYPE kpartgui>
-<effect tag="affine">
+<effect tag="affine" id="affine">
 	<name>Rotate</name>
 	<description>Rotate clip in any 3 directions</description>
 	<author>Charles Yates</author>
-	<properties id="affine" tag="affine" />
 	<parameter type="constant" name="transition.rotate_x" max="200" min="-200" default="0" factor="10">
 		<name>Rotation x</name>
 	</parameter>

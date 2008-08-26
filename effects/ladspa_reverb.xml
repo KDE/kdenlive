@@ -1,9 +1,8 @@
 <!DOCTYPE kpartgui>
-<effect tag="ladspa" library="plate_1423.so">
+<effect tag="ladspa" library="plate_1423.so" id="reverb" ladspaid="1423" type="audio">
 	<name>Reverb</name>
 	<description>LADSPA reverb audio effect</description>
 	<author>http://www.ladspa.org</author>
-	<properties id="reverb" tag="ladspa1423" type="audio" />
 	<parameter type="constant" name="room" max="85" min="1" default="42" factor="10">
 		<name>Reverb time</name>
 	</parameter>

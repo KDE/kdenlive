@@ -1,9 +1,8 @@
 <!DOCTYPE kpartgui>
-<effect tag="chroma_hold">
+<effect tag="chroma_hold" id="chroma_hold">
 	<name>Chroma Hold</name>
 	<description>Make image greyscale except for chosen color</description>
 	<author>Charles Yates</author>
-	<properties id="chroma_hold" tag="chroma_hold" />
 	<parameter type="color" name="key" default="0x000000">
 		<name>Color key</name>
 	</parameter>

@@ -1,9 +1,8 @@
 <!DOCTYPE kpartgui>
-<effect tag="mirror">
+<effect tag="mirror" id="mirror">
 	<name>Mirror</name>
 	<description>Flip your image in any direction</description>
 	<author>Charles Yates</author>
-	<properties id="mirror" tag="mirror"/>
 	<parameter type="list" name="mirror" default="horizontal" paramlist="horizontal,vertical,diagonal,xdiagonal,flip,flop">
 		<name>Mirroring direction</name>
 	</parameter>
