@@ -57,4 +57,4 @@ void EditEffectCommand::redo() {
     m_view->updateEffect(m_track, m_pos, m_effect, m_stackPos);
 }
 
-#include "editeffectcommand.moc"
+

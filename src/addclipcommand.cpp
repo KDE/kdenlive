@@ -22,7 +22,7 @@
 #include "addclipcommand.h"
 #include "kdenlivedoc.h"
 
-AddClipCommand::AddClipCommand(KdenliveDoc *doc, const QDomElement &xml, const uint id, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_doc(doc), m_xml(xml), m_id(id), m_doIt(doIt) {
+AddClipCommand::AddClipCommand(KdenliveDoc *doc, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_doc(doc), m_xml(xml), m_id(id), m_doIt(doIt) {
     if (doIt) setText(i18n("Add clip"));
     else setText(i18n("Delete clip"));
 }
@@ -41,4 +41,3 @@ void AddClipCommand::redo() {
     else m_doc->deleteClip(m_id);
 }
 
-#include "addclipcommand.moc"

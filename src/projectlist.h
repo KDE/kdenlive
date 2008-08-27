@@ -107,19 +107,19 @@ public:
 
     QDomElement producersList();
     void setRenderer(Render *projectRender);
-    void slotUpdateClipProperties(int id, QMap <QString, QString> properties);
+    void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties);
 
 public slots:
     void setDocument(KdenliveDoc *doc);
-    void slotReplyGetImage(int clipId, int pos, const QPixmap &pix, int w, int h);
-    void slotReplyGetFileProperties(int clipId, Mlt::Producer *producer, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata);
+    void slotReplyGetImage(const QString &clipId, int pos, const QPixmap &pix, int w, int h);
+    void slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata);
     void slotAddClip(DocClipBase *clip);
-    void slotDeleteClip(int clipId);
-    void slotUpdateClip(int id);
-    void slotRefreshClipThumbnail(int clipId);
+    void slotDeleteClip(const QString &clipId);
+    void slotUpdateClip(const QString &id);
+    void slotRefreshClipThumbnail(const QString &clipId);
     void slotRefreshClipThumbnail(ProjectItem *item);
-    void slotRemoveInvalidClip(int id);
-    void slotSelectClip(const int ix);
+    void slotRemoveInvalidClip(const QString &id);
+    void slotSelectClip(const QString &ix);
 
 private:
     ProjectListView *listView;
@@ -131,8 +131,8 @@ private:
     QMenu *m_menu;
     QUndoStack *m_commandStack;
     int m_clipIdCounter;
-    void selectItemById(const int clipId);
-    ProjectItem *getItemById(int id);
+    void selectItemById(const QString &clipId);
+    ProjectItem *getItemById(const QString &id);
     QAction *m_editAction;
     QAction *m_deleteAction;
     KdenliveDoc *m_doc;
@@ -149,7 +149,7 @@ private slots:
     void slotAddTitleClip();
     void slotContextMenu(const QPoint &pos, QTreeWidgetItem *);
     void slotAddFolder();
-    void slotAddFolder(const QString foldername, int clipId, bool remove, bool edit);
+    void slotAddFolder(const QString foldername, const QString &clipId, bool remove, bool edit);
     /** This is triggered when a clip description has been modified */
     void slotItemEdited(QTreeWidgetItem *item, int column);
     void slotUpdateClipProperties(ProjectItem *item, QMap <QString, QString> properties);
@@ -159,8 +159,8 @@ private slots:
 
 signals:
     void clipSelected(DocClipBase *);
-    void getFileProperties(const QDomElement&, int);
-    void receivedClipDuration(int, int);
+    void getFileProperties(const QDomElement&, const QString &);
+    void receivedClipDuration(const QString &, int);
     void showClipProperties(DocClipBase *);
 };
 

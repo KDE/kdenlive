@@ -39,4 +39,3 @@ void EditGuideCommand::redo() {
     m_doIt = true;
 }
 
-#include "editguidecommand.moc"

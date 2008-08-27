@@ -34,7 +34,7 @@ class ClipProperties : public QDialog {
 public:
     ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent = 0);
     QMap <QString, QString> properties();
-    int clipId() const;
+    const QString &clipId() const;
     bool needsTimelineRefresh() const;
 
 private slots:
@@ -54,7 +54,7 @@ private:
     bool m_clipNeedsRefresh;
 
 signals:
-    void addMarker(int, GenTime, QString);
+    void addMarker(const QString &, GenTime, QString);
 };
 
 

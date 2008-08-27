@@ -22,7 +22,7 @@
 #include "addfoldercommand.h"
 #include "kdenlivedoc.h"
 
-AddFolderCommand::AddFolderCommand(KdenliveDoc *doc, const QString folderName, int clipId, bool doIt)
+AddFolderCommand::AddFolderCommand(KdenliveDoc *doc, const QString folderName, const QString &clipId, bool doIt)
         : m_doc(doc), m_name(folderName), m_id(clipId), m_doIt(doIt) {
     if (doIt) setText(i18n("Add folder"));
     else setText(i18n("Delete folder"));
@@ -39,4 +39,4 @@ void AddFolderCommand::redo() {
     else m_doc->deleteFolder(m_name, m_id);
 }
 
-#include "addfoldercommand.moc"
+

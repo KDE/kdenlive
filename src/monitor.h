@@ -106,7 +106,7 @@ public slots:
 signals:
     void renderPosition(int);
     void durationChanged(int);
-    void refreshClipThumbnail(int);
+    void refreshClipThumbnail(const QString &);
     void adjustMonitorSize();
 };
 

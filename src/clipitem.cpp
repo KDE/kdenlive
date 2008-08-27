@@ -67,7 +67,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps)
     connect(this , SIGNAL(prepareAudioThumb(double, int, int, int)) , this, SLOT(slotPrepareAudioThumb(double, int, int, int)));
 
     setBrush(QColor(141, 166, 215));
-    if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW) {
+    if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW || m_clipType == PLAYLIST) {
         m_hasThumbs = true;
         startThumbTimer = new QTimer(this);
         startThumbTimer->setSingleShot(true);
@@ -388,7 +388,7 @@ QString ClipItem::clipName() const {
     return m_clipName;
 }
 
-int ClipItem::clipProducer() const {
+const QString &ClipItem::clipProducer() const {
     return m_producer;
 }
 

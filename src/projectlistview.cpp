@@ -149,17 +149,17 @@ void ProjectListView::dropEvent(QDropEvent *event) {
                 kDebug() << "////////////////  DROPPED RIGHT 1 ";
                 const QList <QTreeWidgetItem *> list = selectedItems();
                 ProjectItem *clone;
-                int parentId = item->clipId();
+                QString parentId = item->clipId();
                 foreach(QTreeWidgetItem *it, list) {
                     // TODO allow dragging of folders ?
-                    if (!((ProjectItem *) it)->isGroup() && ((ProjectItem *) it)->clipId() < 10000) {
+                    if (!((ProjectItem *) it)->isGroup()/* && ((ProjectItem *) it)->clipId() < 10000*/) {
                         if (it->parent()) clone = (ProjectItem*) it->parent()->takeChild(it->parent()->indexOfChild(it));
                         else clone = (ProjectItem*) takeTopLevelItem(indexOfTopLevelItem(it));
                         if (clone) {
                             item->addChild(clone);
                             QMap <QString, QString> props;
                             props.insert("groupname", item->groupName());
-                            props.insert("groupid", QString::number(parentId));
+                            props.insert("groupid", parentId);
                             clone->setProperties(props);
                         }
                     }
@@ -173,7 +173,7 @@ void ProjectListView::dropEvent(QDropEvent *event) {
             ProjectItem *clone;
             foreach(QTreeWidgetItem *it, list) {
                 QTreeWidgetItem *parent = it->parent();
-                if (parent && ((ProjectItem *) it)->clipId() < 10000)  {
+                if (parent/* && ((ProjectItem *) it)->clipId() < 10000*/)  {
                     kDebug() << "++ item parent: " << parent->text(1);
                     clone = (ProjectItem*) parent->takeChild(parent->indexOfChild(it));
                     if (clone) addTopLevelItem(clone);
@@ -215,7 +215,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event) {
             QStringList ids;
             foreach(const QTreeWidgetItem *item, list) {
                 // TODO allow dragging of folders
-                ids.append(QString::number(((ProjectItem *) item)->clipId()));
+                ids.append(((ProjectItem *) item)->clipId());
             }
             QByteArray data;
             data.append(ids.join(";").toUtf8()); //doc.toString().toUtf8());

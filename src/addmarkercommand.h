@@ -31,7 +31,7 @@ class CustomTrackView;
 
 class AddMarkerCommand : public QUndoCommand {
 public:
-    AddMarkerCommand(CustomTrackView *view, const QString &oldcomment, const QString &comment, const int id, const GenTime &pos, bool doIt, QUndoCommand * parent = 0);
+    AddMarkerCommand(CustomTrackView *view, const QString &oldcomment, const QString &comment, const QString &id, const GenTime &pos, bool doIt, QUndoCommand * parent = 0);
     virtual void undo();
     virtual void redo();
 
@@ -39,7 +39,7 @@ private:
     CustomTrackView *m_view;
     QString m_oldcomment;
     QString m_comment;
-    int m_id;
+    QString m_id;
     GenTime m_pos;
     bool m_doIt;
 };

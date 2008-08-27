@@ -41,4 +41,3 @@ void EditKeyFrameCommand::redo() {
     m_doIt = true;
 }
 
-#include "editkeyframecommand.moc"

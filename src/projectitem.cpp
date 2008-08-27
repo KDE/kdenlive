@@ -38,44 +38,8 @@ const int DurationRole = NameRole + 1;
 const int UsageRole = NameRole + 2;
 
 
-ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, QDomElement xml, int clipId)
-        : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_clipType(UNKNOWN), m_clipId(clipId) {
-    QDomElement element = xml.cloneNode().toElement();
-    setSizeHint(0, QSize(65, 45));
-    setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
-    if (!element.isNull()) {
-        element.setAttribute("id", clipId);
-        QString cType = element.attribute("type", QString::null);
-        if (!cType.isEmpty()) {
-            m_clipType = (CLIPTYPE) cType.toInt();
-            slotSetToolTip();
-        }
-
-        if (m_clipType == COLOR || m_clipType == IMAGE || m_clipType == SLIDESHOW || m_clipType == TEXT)
-            element.setAttribute("duration", MAXCLIPDURATION);
-        else if (element.attribute("duration").isEmpty() && !element.attribute("out").isEmpty()) {
-            element.setAttribute("duration", element.attribute("out").toInt() - element.attribute("in").toInt());
-        }
-    }
-}
-
-ProjectItem::ProjectItem(QTreeWidgetItem * parent, const QStringList & strings, QDomElement xml, int clipId)
-        : QTreeWidgetItem(parent, strings, QTreeWidgetItem::UserType), m_clipType(UNKNOWN), m_clipId(clipId) {
-    QDomElement element = xml.cloneNode().toElement();
-    setSizeHint(0, QSize(65, 45));
-    setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
-    if (!element.isNull()) {
-        element.setAttribute("id", clipId);
-        QString cType = element.attribute("type", QString::null);
-        if (!cType.isEmpty()) {
-            m_clipType = (CLIPTYPE) cType.toInt();
-            slotSetToolTip();
-        }
-    }
-}
-
 // folder
-ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, int clipId)
+ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, const QString &clipId)
         : QTreeWidgetItem(parent, strings), m_clipType(FOLDER), m_groupName(strings.at(1)), m_clipId(clipId), m_clip(NULL) {
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
@@ -93,6 +57,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
     if (name.isEmpty()) name = KUrl(m_clip->getProperty("resource")).fileName();
     m_clipType = (CLIPTYPE) m_clip->getProperty("type").toInt();
     setText(1, name);
+    setText(2, m_clip->description());
     //kDebug() << "PROJECT ITE;. ADDING LCIP: " << m_clipId;
 }
 
@@ -106,6 +71,7 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip)
     if (name.isEmpty()) name = KUrl(m_clip->getProperty("resource")).fileName();
     m_clipType = (CLIPTYPE) m_clip->getProperty("type").toInt();
     setText(1, name);
+    setText(2, m_clip->description());
     //kDebug() << "PROJECT ITE;. ADDING LCIP: " << m_clipId;
 }
 
@@ -118,7 +84,7 @@ int ProjectItem::numReferences() const {
     return m_clip->numReferences();
 }
 
-int ProjectItem::clipId() const {
+const QString &ProjectItem::clipId() const {
     return m_clipId;
 }
 
@@ -258,4 +224,3 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
 
 }
 
-#include "projectitem.moc"

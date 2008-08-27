@@ -49,7 +49,7 @@ public:
     void resizeStart(int posx);
     void resizeEnd(int posx);
     OPERATIONTYPE operationMode(QPointF pos);
-    int clipProducer() const;
+    const QString &clipProducer() const;
     int clipType() const;
     DocClipBase *baseClip() const;
     QString clipName() const;
@@ -112,7 +112,7 @@ private:
     DocClipBase *m_clip;
     OPERATIONTYPE m_resizeMode;
     int m_grabPoint;
-    int m_producer;
+    QString m_producer;
     CLIPTYPE m_clipType;
     QString m_clipName;
     QString m_effectNames;

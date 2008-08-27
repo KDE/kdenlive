@@ -56,15 +56,15 @@ public:
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo start, const ItemInfo end);
     void resizeClip(const ItemInfo start, const ItemInfo end);
-    void addClip(QDomElement xml, int clipId, ItemInfo info, EffectsList list = EffectsList());
+    void addClip(QDomElement xml, const QString &clipId, ItemInfo info, EffectsList list = EffectsList());
     void deleteClip(ItemInfo info);
     void slotAddClipMarker();
     void slotEditClipMarker();
     void slotDeleteClipMarker();
     void slotDeleteAllClipMarkers();
-    void addMarker(const int id, const GenTime &pos, const QString comment);
+    void addMarker(const QString &id, const GenTime &pos, const QString comment);
     void setScale(double scaleFactor);
-    void deleteClip(int clipId);
+    void deleteClip(const QString &clipId);
     void slotAddEffect(QDomElement effect, GenTime pos, int track);
     void addEffect(int track, GenTime pos, QDomElement effect);
     void deleteEffect(int track, GenTime pos, QDomElement effect);
@@ -94,7 +94,7 @@ public:
     void clipStart();
     void clipEnd();
     void changeClipSpeed();
-    void doChangeClipSpeed(ItemInfo info, double speed, int id);
+    void doChangeClipSpeed(ItemInfo info, double speed, const QString &id);
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -111,8 +111,8 @@ public slots:
     void slotTransitionUpdated(Transition *, QDomElement);
     void slotSwitchTrackAudio(int ix);
     void slotSwitchTrackVideo(int ix);
-    void slotUpdateClip(int clipId);
-    void slotAddClipMarker(int id, GenTime t, QString c);
+    void slotUpdateClip(const QString &clipId);
+    void slotAddClipMarker(const QString &id, GenTime t, QString c);
     bool addGuide(const GenTime pos, const QString &comment);
     void slotAddGuide();
     void slotEditGuide(CommentedTime guide);

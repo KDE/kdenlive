@@ -33,10 +33,8 @@
 class DocClipBase;
 class ProjectItem : public QTreeWidgetItem {
 public:
-    ProjectItem(QTreeWidget * parent, const QStringList & strings, QDomElement xml, int clipId);
-    ProjectItem(QTreeWidgetItem * parent, const QStringList & strings, QDomElement xml, int clipId);
     /** Create folder item */
-    ProjectItem(QTreeWidget * parent, const QStringList & strings, int clipId);
+    ProjectItem(QTreeWidget * parent, const QStringList & strings, const QString &clipId);
     ProjectItem(QTreeWidget * parent, DocClipBase *clip);
     ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip);
     virtual ~ProjectItem();
@@ -44,7 +42,7 @@ public:
     int numReferences() const;
 
     void setProperties(const QMap < QString, QString > &attributes, const QMap < QString, QString > &metadata);
-    int clipId() const;
+    const QString &clipId() const;
     QStringList names() const;
     bool isGroup() const;
     const QString groupName() const;
@@ -59,7 +57,7 @@ public:
 private:
     QString m_groupName;
     CLIPTYPE m_clipType;
-    int m_clipId;
+    QString m_clipId;
     void slotSetToolTip();
     DocClipBase *m_clip;
 };

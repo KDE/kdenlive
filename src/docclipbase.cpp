@@ -22,12 +22,11 @@
 #include "kthumb.h"
 #include "clipmanager.h"
 
-DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, uint id):
+DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id):
         m_id(id), m_description(QString()), m_refcount(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL), m_clipProducer(NULL) {
     int type = xml.attribute("type").toInt();
     m_clipType = (CLIPTYPE) type;
     m_name = xml.attribute("name");
-    m_id = id;
 
     QDomNamedNodeMap attributes = xml.attributes();
     for (unsigned int i = 0; i < attributes.count(); i++) {
@@ -102,11 +101,11 @@ const QString & DocClipBase::name() const {
     return m_name;
 }
 
-uint DocClipBase::getId() const {
+const QString &DocClipBase::getId() const {
     return m_id;
 }
 
-void DocClipBase::setId(const uint &newId) {
+void DocClipBase::setId(const QString &newId) {
     m_id = newId;
 }
 

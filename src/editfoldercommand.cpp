@@ -22,7 +22,7 @@
 #include "editfoldercommand.h"
 #include "kdenlivedoc.h"
 
-EditFolderCommand::EditFolderCommand(KdenliveDoc *doc, const QString newfolderName, const QString oldfolderName, int clipId, bool doIt)
+EditFolderCommand::EditFolderCommand(KdenliveDoc *doc, const QString newfolderName, const QString oldfolderName, const QString &clipId, bool doIt)
         : m_doc(doc), m_name(newfolderName), m_oldname(oldfolderName), m_id(clipId), m_doIt(doIt) {
     setText(i18n("Rename folder"));
 }
@@ -37,4 +37,4 @@ void EditFolderCommand::redo() {
     m_doIt = true;
 }
 
-#include "editfoldercommand.moc"
+

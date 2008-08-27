@@ -52,4 +52,3 @@ void EditTransitionCommand::redo() {
     m_view->updateTransition(m_track, m_pos, m_oldeffect, m_effect);
 }
 
-#include "editeffectcommand.moc"

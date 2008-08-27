@@ -57,30 +57,30 @@ Q_OBJECT public:
     QDomDocument toXml() const;
     void setRenderer(Render *render);
     QUndoStack *commandStack();
-    QString producerName(int id);
-    void setProducerDuration(int id, int duration);
-    int getProducerDuration(int id);
+    QString producerName(const QString &id);
+    void setProducerDuration(const QString &id, int duration);
+    int getProducerDuration(const QString &id);
     Render *renderer();
     QDomElement m_guidesXml;
     ClipManager *clipManager();
-    void addClip(const QDomElement &elem, const int clipId);
-    void addFolder(const QString foldername, int clipId, bool edit);
-    void deleteFolder(const QString foldername, int clipId);
-    void slotAddClipFile(const KUrl url, const QString group, const int groupId = -1);
-    void slotAddClipList(const KUrl::List urls, const QString group, const int groupId = -1);
-    void slotAddTextClipFile(const QString path, const QString xml, const QString group, const int groupId = -1);
-    void editTextClip(QString path, int id);
+    void addClip(const QDomElement &elem, const QString &clipId);
+    void addFolder(const QString foldername, const QString &clipId, bool edit);
+    void deleteFolder(const QString foldername, const QString &clipId);
+    void slotAddClipFile(const KUrl url, const QString group, const QString &groupId = QString());
+    void slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId = QString());
+    void slotAddTextClipFile(const QString path, const QString xml, const QString group, const QString &groupId = QString());
+    void editTextClip(QString path, const QString &id);
     void slotAddFolder(const QString folderName);
-    void slotDeleteFolder(const QString folderName, const int id);
-    void slotEditFolder(const QString folderName, const QString oldfolderName, int clipId);
-    void slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const int groupId = -1);
-    void slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const int softness, const QString group, const int groupId = -1);
-    void deleteClip(const uint clipId);
+    void slotDeleteFolder(const QString folderName, const QString &id);
+    void slotEditFolder(const QString folderName, const QString oldfolderName, const QString &clipId);
+    void slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const QString &groupId = QString());
+    void slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const int softness, const QString group, const QString &groupId = QString());
+    void deleteClip(const QString &clipId);
     int getFramePos(QString duration);
-    DocClipBase *getBaseClip(int clipId);
-    void updateClip(int id);
-    void deleteProjectClip(QList <int> ids);
-    void deleteProjectFolder(QMap <QString, int> map);
+    DocClipBase *getBaseClip(const QString &clipId);
+    void updateClip(const QString &id);
+    void deleteProjectClip(QList <QString> ids);
+    void deleteProjectFolder(QMap <QString, QString> map);
     /** Inform application of the audio thumbnails generation progress */
     void setThumbsProgress(const QString &message, int progress);
     QString profilePath() const;
@@ -92,7 +92,7 @@ Q_OBJECT public:
     void setProfilePath(QString path);
     /** Set to true if document needs saving, false otherwise */
     void setModified(bool mod);
-    int getFreeClipId();
+    const QString&getFreeClipId();
     /** does the document need saving */
     bool isModified() const;
     /** Returns project folder, used to store project files (titles, effects,...) */
@@ -133,22 +133,22 @@ private:
     void convertDocument(double version);
 
 public slots:
-    void slotCreateTextClip(QString group, int groupId);
+    void slotCreateTextClip(QString group, const QString &groupId);
 
 private slots:
     void slotAutoSave();
 
 signals:
     void addProjectClip(DocClipBase *);
-    void addProjectFolder(const QString, int, bool, bool edit = false);
-    void signalDeleteProjectClip(int);
-    void updateClipDisplay(int);
-    void deletTimelineClip(int);
+    void addProjectFolder(const QString, const QString &, bool, bool edit = false);
+    void signalDeleteProjectClip(const QString &);
+    void updateClipDisplay(const QString&);
+    void deleteTimelineClip(const QString&);
     void progressInfo(const QString &, int);
     /** emited when the document state has been modified (= needs saving or not) */
     void docModified(bool);
-    void refreshClipThumbnail(int);
-    void selectLastAddedClip(const int);
+    void refreshClipThumbnail(const QString &);
+    void selectLastAddedClip(const QString &);
 };
 
 #endif

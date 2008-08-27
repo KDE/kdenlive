@@ -27,7 +27,7 @@ class KdenliveDoc;
 
 class EditFolderCommand : public QUndoCommand {
 public:
-    EditFolderCommand(KdenliveDoc *doc, const QString newfolderName, const QString oldfolderName, int clipId, bool doIt);
+    EditFolderCommand(KdenliveDoc *doc, const QString newfolderName, const QString oldfolderName, const QString &clipId, bool doIt);
 
     virtual void undo();
     virtual void redo();
@@ -36,7 +36,7 @@ private:
     KdenliveDoc *m_doc;
     QString m_name;
     QString m_oldname;
-    int m_id;
+    QString m_id;
     bool m_doIt;
 };
 

@@ -22,7 +22,7 @@
 #include "changespeedcommand.h"
 #include "customtrackview.h"
 
-ChangeSpeedCommand::ChangeSpeedCommand(CustomTrackView *view, ItemInfo info, double old_speed, double new_speed, int clipId, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_clipInfo(info), m_old_speed(old_speed), m_new_speed(new_speed), m_clipId(clipId), m_doIt(doIt) {
+ChangeSpeedCommand::ChangeSpeedCommand(CustomTrackView *view, ItemInfo info, double old_speed, double new_speed, const QString &clipId, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_clipInfo(info), m_old_speed(old_speed), m_new_speed(new_speed), m_clipId(clipId), m_doIt(doIt) {
     setText(i18n("Adjust clip length"));
 }
 
@@ -39,4 +39,4 @@ void ChangeSpeedCommand::redo() {
     m_doIt = true;
 }
 
-#include "changespeedcommand.moc"
+

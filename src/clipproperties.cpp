@@ -179,8 +179,7 @@ void ClipProperties::slotAddMarker() {
     CommentedTime marker(GenTime(), i18n("Marker"));
     MarkerDialog d(m_clip, marker, m_tc, this);
     if (d.exec() == QDialog::Accepted) {
-        int id = m_clip->getId();
-        emit addMarker(id, d.newMarker().time(), d.newMarker().comment());
+        emit addMarker(m_clip->getId(), d.newMarker().time(), d.newMarker().comment());
     }
     QTimer::singleShot(500, this, SLOT(slotFillMarkersList()));
 }
@@ -191,8 +190,7 @@ void ClipProperties::slotEditMarker() {
     if (pos < 0 || pos > marks.count() - 1) return;
     MarkerDialog d(m_clip, marks.at(pos), m_tc, this);
     if (d.exec() == QDialog::Accepted) {
-        int id = m_clip->getId();
-        emit addMarker(id, d.newMarker().time(), d.newMarker().comment());
+        emit addMarker(m_clip->getId(), d.newMarker().time(), d.newMarker().comment());
     }
     QTimer::singleShot(500, this, SLOT(slotFillMarkersList()));
 }
@@ -201,13 +199,12 @@ void ClipProperties::slotDeleteMarker() {
     QList < CommentedTime > marks = m_clip->commentedSnapMarkers();
     int pos = m_view.markers_list->currentIndex().row();
     if (pos < 0 || pos > marks.count() - 1) return;
-    int id = m_clip->getId();
-    emit addMarker(id, marks.at(pos).time(), QString());
+    emit addMarker(m_clip->getId(), marks.at(pos).time(), QString());
 
     QTimer::singleShot(500, this, SLOT(slotFillMarkersList()));
 }
 
-int ClipProperties::clipId() const {
+const QString &ClipProperties::clipId() const {
     return m_clip->getId();
 }
 

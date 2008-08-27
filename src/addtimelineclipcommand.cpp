@@ -22,7 +22,7 @@
 #include "addtimelineclipcommand.h"
 #include "customtrackview.h"
 
-AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, int clipId, ItemInfo info, EffectsList effects, bool doIt, bool doRemove, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_xml(xml), m_clipId(clipId), m_clipInfo(info), m_effects(effects),  m_doIt(doIt), m_remove(doRemove) {
+AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, const QString &clipId, ItemInfo info, EffectsList effects, bool doIt, bool doRemove, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_xml(xml), m_clipId(clipId), m_clipInfo(info), m_effects(effects),  m_doIt(doIt), m_remove(doRemove) {
     if (!m_remove) setText(i18n("Add timeline clip"));
     else setText(i18n("Delete timeline clip"));
 }
@@ -42,4 +42,4 @@ void AddTimelineClipCommand::redo() {
     m_doIt = true;
 }
 
-#include "addtimelineclipcommand.moc"
+

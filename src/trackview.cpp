@@ -251,7 +251,7 @@ void TrackView::parseDocument(QDomDocument doc) {
     //m_scrollBox->setGeometry(0, 0, 300 * zoomFactor(), m_scrollArea->height());
 }
 
-void TrackView::slotDeleteClip(int clipId) {
+void TrackView::slotDeleteClip(const QString &clipId) {
     m_trackview->deleteClip(clipId);
 }
 
@@ -337,12 +337,12 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
             // Found a clip
             int in = elem.attribute("in").toInt();
             QString idString = elem.attribute("producer");
-            int id = idString.toInt();
+            QString id = idString;
             bool hasSpeedAttribute = false;
             double speed;
             if (idString.startsWith("slowmotion")) {
                 hasSpeedAttribute = true;
-                id = idString.section(":", 1, 1).toInt();
+                id = idString.section(":", 1, 1);
                 speed = idString.section(":", 2, 2).toDouble();
             }
             DocClipBase *clip = m_doc->clipManager()->getClipById(id);

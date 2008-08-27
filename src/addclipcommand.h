@@ -29,7 +29,7 @@ class KdenliveDoc;
 
 class AddClipCommand : public QUndoCommand {
 public:
-    AddClipCommand(KdenliveDoc *list, const QDomElement &xml, const uint id, bool doIt, QUndoCommand * parent = 0);
+    AddClipCommand(KdenliveDoc *list, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand * parent = 0);
 
     virtual void undo();
     virtual void redo();
@@ -37,7 +37,7 @@ public:
 private:
     KdenliveDoc *m_doc;
     QDomElement m_xml;
-    uint m_id;
+    QString m_id;
     bool m_doIt;
 };
 

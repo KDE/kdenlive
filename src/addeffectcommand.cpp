@@ -45,4 +45,4 @@ void AddEffectCommand::redo() {
     else m_view->deleteEffect(m_track, m_pos, m_effect);
 }
 
-#include "addeffectcommand.moc"
+

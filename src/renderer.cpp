@@ -459,7 +459,7 @@ void Render::slotSplitView(bool doit) {
     }
 }
 
-void Render::getFileProperties(const QDomElement &xml, int clipId) {
+void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
     int height = 50;
     int width = (int)(height  * m_mltProfile->dar());
     QMap < QString, QString > filePropertyMap;
@@ -494,7 +494,9 @@ void Render::getFileProperties(const QDomElement &xml, int clipId) {
         emit removeInvalidClip(clipId);
         return;
     }
-    producer->set("id", clipId);
+    char *tmp = decodedString(clipId);
+    producer->set("id", tmp);
+    delete[] tmp;
     int frameNumber = xml.attribute("thumbnail", "0").toInt();
     if (frameNumber != 0) producer->seek(frameNumber);
     mlt_properties properties = MLT_PRODUCER_PROPERTIES(producer->get_producer());

@@ -90,8 +90,8 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                         qApp->processEvents();
                     }
                     QString prodId = e.attribute("id");
-                    if (!e.isNull() && prodId != "black" && prodId.toInt() > 0) {
-                        addClip(e, e.attribute("id").toInt());
+                    if (!e.isNull() && prodId != "black" && !prodId.startsWith("slowmotion")/*&& prodId.toInt() > 0*/) {
+                        addClip(e, prodId);
                     }
                 }
 
@@ -102,11 +102,10 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     for (int k = 0; k < maxchild; k++) {
                         e = markerslist.at(k).toElement();
                         if (e.tagName() == "marker") {
-                            int id = e.attribute("id").toInt();
-                            m_clipManager->getClipById(id)->addSnapMarker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"));
+                            m_clipManager->getClipById(e.attribute("id"))->addSnapMarker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"));
                         }
                     }
-                    m_document.removeChild(markers);
+                    westley.removeChild(markers);
                 }
                 m_document.removeChild(infoXmlNode);
 
@@ -278,7 +277,8 @@ void KdenliveDoc::convertDocument(double version) {
             pl.setAttribute("id", playlist_id);
         }
         track.setAttribute("producer", playlist_id);
-        tractor.appendChild(track);
+        //tractor.appendChild(track);
+        tractor.insertAfter(track, QDomNode());
     }
     tractor.removeChild(multitrack);
 
@@ -315,28 +315,90 @@ void KdenliveDoc::convertDocument(double version) {
     }
 
     // Fix filters format
-    QDomNodeList filters = m_document.elementsByTagName("filter");
-    max = filters.count();
+    QDomNodeList entries = m_document.elementsByTagName("entry");
+    max = entries.count();
     for (int i = 0; i < max; i++) {
-        QDomElement filt = filters.at(i).toElement();
-        QDomNamedNodeMap attrs = filt.attributes();
-        for (int j = 0; j < attrs.count(); j++) {
-            QDomAttr a = attrs.item(j).toAttr();
-            if (!a.isNull()) {
-                kDebug() << " FILTER; adding :" << a.name() << ":" << a.value();
+        QString last_id;
+        int effectix = 0;
+        QDomNode m = entries.at(i).firstChild();
+        while (!m.isNull()) {
+            if (m.toElement().tagName() == "filter") {
+                QDomElement filt = m.toElement();
+                QDomNamedNodeMap attrs = filt.attributes();
+                QString current_id = filt.attribute("kdenlive_id");
+                if (current_id != last_id) {
+                    effectix++;
+                    last_id = current_id;
+                }
                 QDomElement e = m_document.createElement("property");
-                e.setAttribute("name", a.name());
-                QDomText value = m_document.createTextNode(a.value());
+                e.setAttribute("name", "kdenlive_ix");
+                QDomText value = m_document.createTextNode(QString::number(effectix));
                 e.appendChild(value);
                 filt.appendChild(e);
+                for (int j = 0; j < attrs.count(); j++) {
+                    QDomAttr a = attrs.item(j).toAttr();
+                    if (!a.isNull()) {
+                        kDebug() << " FILTER; adding :" << a.name() << ":" << a.value();
+                        QDomElement e = m_document.createElement("property");
+                        e.setAttribute("name", a.name());
+                        QDomText value = m_document.createTextNode(a.value());
+                        e.appendChild(value);
+                        filt.appendChild(e);
+
+                    }
+                }
             }
+            m = m.nextSibling();
         }
     }
 
+    /*
+        QDomNodeList filters = m_document.elementsByTagName("filter");
+        max = filters.count();
+        QString last_id;
+        int effectix = 0;
+        for (int i = 0; i < max; i++) {
+            QDomElement filt = filters.at(i).toElement();
+            QDomNamedNodeMap attrs = filt.attributes();
+     QString current_id = filt.attribute("kdenlive_id");
+     if (current_id != last_id) {
+         effectix++;
+         last_id = current_id;
+     }
+     QDomElement e = m_document.createElement("property");
+            e.setAttribute("name", "kdenlive_ix");
+            QDomText value = m_document.createTextNode(QString::number(1));
+            e.appendChild(value);
+            filt.appendChild(e);
+            for (int j = 0; j < attrs.count(); j++) {
+                QDomAttr a = attrs.item(j).toAttr();
+                if (!a.isNull()) {
+                    kDebug() << " FILTER; adding :" << a.name() << ":" << a.value();
+                    QDomElement e = m_document.createElement("property");
+                    e.setAttribute("name", a.name());
+                    QDomText value = m_document.createTextNode(a.value());
+                    e.appendChild(value);
+                    filt.appendChild(e);
+                }
+            }
+        }*/
 
-    // move markers to a global list
+    // fix slowmotion
+    QDomNodeList producers = westley.toElement().elementsByTagName("producer");
+    max = producers.count();
+    for (int i = 0; i < max; i++) {
+        QDomElement prod = producers.at(i).toElement();
+        if (prod.attribute("mlt_service") == "framebuffer") {
+            QString slowmotionprod = prod.attribute("resource");
+            slowmotionprod.replace(':', '?');
+            kDebug() << "// FOUND WRONG SLOWMO, new: " << slowmotionprod;
+            prod.setAttribute("resource", slowmotionprod);
+        }
+    }
+
+    // move producers to correct place, markers to a global list, fix clip descriptions
     QDomElement markers = m_document.createElement("markers");
-    QDomNodeList producers = m_document.elementsByTagName("producer");
+    producers = m_document.elementsByTagName("producer");
     max = producers.count();
     for (int i = 0; i < max; i++) {
         QDomElement prod = producers.at(0).toElement();
@@ -348,6 +410,12 @@ void KdenliveDoc::convertDocument(double version) {
                 QDomElement mark = prodchilds.at(0).toElement();
                 mark.setAttribute("id", prod.attribute("id"));
                 markers.insertAfter(mark, QDomNode());
+            }
+            prod.removeChild(m);
+        } else if (m.isText()) {
+            QString comment = m.nodeValue();
+            if (!comment.isEmpty()) {
+                prod.setAttribute("description", comment);
             }
             prod.removeChild(m);
         }
@@ -465,7 +533,7 @@ Render *KdenliveDoc::renderer() {
     return m_render;
 }
 
-void KdenliveDoc::updateClip(int id) {
+void KdenliveDoc::updateClip(const QString &id) {
     emit updateClipDisplay(id);
 }
 
@@ -479,13 +547,13 @@ int KdenliveDoc::getFramePos(QString duration) {
     return m_timecode.getFrameCount(duration, m_fps);
 }
 
-QString KdenliveDoc::producerName(int id) {
+QString KdenliveDoc::producerName(const QString &id) {
     QString result = "unnamed";
     QDomNodeList prods = producersList();
     int ct = prods.count();
     for (int i = 0; i <  ct ; i++) {
         QDomElement e = prods.item(i).toElement();
-        if (e.attribute("id") != "black" && e.attribute("id").toInt() == id) {
+        if (e.attribute("id") != "black" && e.attribute("id") == id) {
             result = e.attribute("name");
             if (result.isEmpty()) result = KUrl(e.attribute("resource")).fileName();
             break;
@@ -494,25 +562,25 @@ QString KdenliveDoc::producerName(int id) {
     return result;
 }
 
-void KdenliveDoc::setProducerDuration(int id, int duration) {
+void KdenliveDoc::setProducerDuration(const QString &id, int duration) {
     QDomNodeList prods = producersList();
     int ct = prods.count();
     for (int i = 0; i <  ct ; i++) {
         QDomElement e = prods.item(i).toElement();
-        if (e.attribute("id") != "black" && e.attribute("id").toInt() == id) {
+        if (e.attribute("id") != "black" && e.attribute("id") == id) {
             e.setAttribute("duration", QString::number(duration));
             break;
         }
     }
 }
 
-int KdenliveDoc::getProducerDuration(int id) {
+int KdenliveDoc::getProducerDuration(const QString &id) {
     int result = 0;
     QDomNodeList prods = producersList();
     int ct = prods.count();
     for (int i = 0; i <  ct ; i++) {
         QDomElement e = prods.item(i).toElement();
-        if (e.attribute("id") != "black" && e.attribute("id").toInt() == id) {
+        if (e.attribute("id") != "black" && e.attribute("id") == id) {
             result = e.attribute("duration").toInt();
             break;
         }
@@ -588,31 +656,31 @@ QString KdenliveDoc::description() const {
         return m_url.fileName() + " / " + m_profile.description;
 }
 
-void KdenliveDoc::addClip(const QDomElement &elem, const int clipId) {
+void KdenliveDoc::addClip(const QDomElement &elem, const QString &clipId) {
     DocClipBase *clip = new DocClipBase(m_clipManager, elem, clipId);
     kDebug() << "/////////  DOCUM, CREATING NEW CLIP, ID:" << clipId << ", PAR ID:" << elem.attribute("groupid");
     m_clipManager->addClip(clip);
     emit addProjectClip(clip);
 }
 
-void KdenliveDoc::addFolder(const QString foldername, int clipId, bool edit) {
+void KdenliveDoc::addFolder(const QString foldername, const QString &clipId, bool edit) {
     emit addProjectFolder(foldername, clipId, false, edit);
 }
 
-void KdenliveDoc::deleteFolder(const QString foldername, int clipId) {
+void KdenliveDoc::deleteFolder(const QString foldername, const QString &clipId) {
     emit addProjectFolder(foldername, clipId, true);
 }
 
-void KdenliveDoc::deleteProjectClip(QList <int> ids) {
+void KdenliveDoc::deleteProjectClip(QList <QString> ids) {
     for (int i = 0; i < ids.size(); ++i) {
-        emit deletTimelineClip(ids.at(i));
+        emit deleteTimelineClip(ids.at(i));
         m_clipManager->slotDeleteClip(ids.at(i));
     }
     setModified(true);
 }
 
-void KdenliveDoc::deleteProjectFolder(QMap <QString, int> map) {
-    QMapIterator<QString, int> i(map);
+void KdenliveDoc::deleteProjectFolder(QMap <QString, QString> map) {
+    QMapIterator<QString, QString> i(map);
     while (i.hasNext()) {
         i.next();
         slotDeleteFolder(i.key(), i.value());
@@ -620,68 +688,68 @@ void KdenliveDoc::deleteProjectFolder(QMap <QString, int> map) {
     setModified(true);
 }
 
-void KdenliveDoc::deleteClip(const uint clipId) {
+void KdenliveDoc::deleteClip(const QString &clipId) {
     emit signalDeleteProjectClip(clipId);
     m_clipManager->deleteClip(clipId);
 }
 
-void KdenliveDoc::slotAddClipList(const KUrl::List urls, const QString group, const int groupId) {
+void KdenliveDoc::slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId) {
     m_clipManager->slotAddClipList(urls, group, groupId);
-    emit selectLastAddedClip(m_clipManager->lastClipId());
+    emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
     setModified(true);
 }
 
 
-void KdenliveDoc::slotAddClipFile(const KUrl url, const QString group, const int groupId) {
+void KdenliveDoc::slotAddClipFile(const KUrl url, const QString group, const QString &groupId) {
     kDebug() << "/////////  DOCUM, ADD CLP: " << url;
     m_clipManager->slotAddClipFile(url, group, groupId);
-    emit selectLastAddedClip(m_clipManager->lastClipId());
+    emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
     setModified(true);
 }
 
-void KdenliveDoc::slotAddTextClipFile(const QString path, const QString xml, const QString group, const int groupId) {
+void KdenliveDoc::slotAddTextClipFile(const QString path, const QString xml, const QString group, const QString &groupId) {
     kDebug() << "/////////  DOCUM, ADD TXT CLP: " << path;
     m_clipManager->slotAddTextClipFile(path, xml, group, groupId);
     setModified(true);
 }
 
 void KdenliveDoc::slotAddFolder(const QString folderName) {
-    AddFolderCommand *command = new AddFolderCommand(this, folderName, m_clipManager->getFreeClipId(), true);
+    AddFolderCommand *command = new AddFolderCommand(this, folderName, QString::number(m_clipManager->getFreeClipId()), true);
     commandStack()->push(command);
     setModified(true);
 }
 
-void KdenliveDoc::slotDeleteFolder(const QString folderName, const int id) {
+void KdenliveDoc::slotDeleteFolder(const QString folderName, const QString &id) {
     AddFolderCommand *command = new AddFolderCommand(this, folderName, id, false);
     commandStack()->push(command);
     setModified(true);
 }
 
-void KdenliveDoc::slotEditFolder(const QString newfolderName, const QString oldfolderName, int clipId) {
+void KdenliveDoc::slotEditFolder(const QString newfolderName, const QString oldfolderName, const QString &clipId) {
     EditFolderCommand *command = new EditFolderCommand(this, newfolderName, oldfolderName, clipId, false);
     commandStack()->push(command);
     setModified(true);
 }
 
-int KdenliveDoc::getFreeClipId() {
-    return m_clipManager->getFreeClipId();
+const QString&KdenliveDoc::getFreeClipId() {
+    return QString::number(m_clipManager->getFreeClipId());
 }
 
-DocClipBase *KdenliveDoc::getBaseClip(int clipId) {
+DocClipBase *KdenliveDoc::getBaseClip(const QString &clipId) {
     return m_clipManager->getClipById(clipId);
 }
 
-void KdenliveDoc::slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const int groupId) {
+void KdenliveDoc::slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const QString &groupId) {
     m_clipManager->slotAddColorClipFile(name, color, duration, group, groupId);
     setModified(true);
 }
 
-void KdenliveDoc::slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const int softness, const QString group, const int groupId) {
+void KdenliveDoc::slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const int softness, const QString group, const QString &groupId) {
     m_clipManager->slotAddSlideshowClipFile(name, path, count, duration, loop, fade, luma_duration, luma_file, softness, group, groupId);
     setModified(true);
 }
 
-void KdenliveDoc::slotCreateTextClip(QString group, int groupId) {
+void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId) {
     QString titlesFolder = projectFolder().path() + "/titles/";
     KStandardDirs::makeDir(titlesFolder);
     TitleWidget *dia_ui = new TitleWidget(KUrl(), titlesFolder, m_render, kapp->activeWindow());
@@ -696,12 +764,12 @@ void KdenliveDoc::slotCreateTextClip(QString group, int groupId) {
         QPixmap pix = dia_ui->renderedPixmap();
         pix.save(path + ".png");
         //dia_ui->saveTitle(path + ".kdenlivetitle");
-        slotAddTextClipFile(path, dia_ui->xml().toString(), QString(), -1);
+        slotAddTextClipFile(path, dia_ui->xml().toString(), QString(), QString());
     }
     delete dia_ui;
 }
 
-void KdenliveDoc::editTextClip(QString path, int id) {
+void KdenliveDoc::editTextClip(QString path, const QString &id) {
     DocClipBase *clip = m_clipManager->getClipById(id);
     if (!clip) return;
     TitleWidget *dia_ui = new TitleWidget(KUrl()/*path + ".kdenlivetitle")*/, path, m_render, kapp->activeWindow());

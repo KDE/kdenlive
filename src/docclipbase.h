@@ -54,7 +54,7 @@ Q_OBJECT public:
      *   done here. If a new clip type is added then it should be possible to combine it with both audio
      *   and video. */
 
-    DocClipBase(ClipManager *clipManager, QDomElement xml, uint id);
+    DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id);
 //    DocClipBase & operator=(const DocClipBase & clip);
     virtual ~ DocClipBase();
 
@@ -74,8 +74,8 @@ Q_OBJECT public:
     void setProperty(QString key, QString value);
 
     /** Returns the internal unique id of the clip. */
-    uint getId() const;
-    void setId(const uint &newId);
+    const QString &getId() const;
+    void setId(const QString &newId);
 
     //KThumb *thumbCreator;
     bool audioThumbCreated() const;
@@ -211,7 +211,7 @@ private:   // Private attributes
     bool m_audioThumbCreated;
 
     /** a unique numeric id */
-    uint m_id;
+    QString m_id;
     void setAudioThumbCreated(bool isDone);
     /** Holds clip infos like fps, size,... */
     QMap <QString, QString> m_properties;

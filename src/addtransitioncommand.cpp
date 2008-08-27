@@ -39,4 +39,4 @@ void AddTransitionCommand::redo() {
     m_doIt = true;
 }
 
-#include "addtimelineclipcommand.moc"
+

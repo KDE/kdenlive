@@ -147,7 +147,7 @@ void ProjectList::slotClipSelected() {
     }
 }
 
-void ProjectList::slotUpdateClipProperties(int id, QMap <QString, QString> properties) {
+void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties) {
     ProjectItem *item = getItemById(id);
     if (item) {
         slotUpdateClipProperties(item, properties);
@@ -195,8 +195,8 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item) {
 void ProjectList::slotRemoveClip() {
     if (!listView->currentItem()) return;
     ProjectItem *item = static_cast <ProjectItem *>(listView->currentItem());
-    QList <int> ids;
-    QMap <QString, int> folderids;
+    QList <QString> ids;
+    QMap <QString, QString> folderids;
     if (item->clipType() == FOLDER) folderids[item->groupName()] = item->clipId();
     else ids << item->clipId();
     if (item->numReferences() > 0) {
@@ -213,13 +213,13 @@ void ProjectList::slotRemoveClip() {
     if (!folderids.isEmpty()) m_doc->deleteProjectFolder(folderids);
 }
 
-void ProjectList::selectItemById(const int clipId) {
+void ProjectList::selectItemById(const QString &clipId) {
     ProjectItem *item = getItemById(clipId);
     if (item) listView->setCurrentItem(item);
 }
 
 
-void ProjectList::slotDeleteClip(int clipId) {
+void ProjectList::slotDeleteClip(const QString &clipId) {
     ProjectItem *item = getItemById(clipId);
     QTreeWidgetItem *p = item->parent();
     if (p) {
@@ -237,7 +237,7 @@ void ProjectList::slotAddFolder() {
     m_doc->slotAddFolder(i18n("Folder")); //folderName);
 }
 
-void ProjectList::slotAddFolder(const QString foldername, int clipId, bool remove, bool edit) {
+void ProjectList::slotAddFolder(const QString foldername, const QString &clipId, bool remove, bool edit) {
     if (remove) {
         ProjectItem *item;
         QTreeWidgetItemIterator it(listView);
@@ -272,7 +272,7 @@ void ProjectList::slotAddFolder(const QString foldername, int clipId, bool remov
 }
 
 void ProjectList::slotAddClip(DocClipBase *clip) {
-    const int parent = clip->toXML().attribute("groupid").toInt();
+    const QString parent = clip->toXML().attribute("groupid");
     ProjectItem *item = NULL;
     if (parent != 0) {
         ProjectItem *parentitem = getItemById(parent);
@@ -296,7 +296,7 @@ void ProjectList::slotAddClip(DocClipBase *clip) {
     emit getFileProperties(clip->toXML(), clip->getId());
 }
 
-void ProjectList::slotUpdateClip(int id) {
+void ProjectList::slotUpdateClip(const QString &id) {
     ProjectItem *item = getItemById(id);
     item->setData(1, UsageRole, QString::number(item->numReferences()));
 }
@@ -305,11 +305,11 @@ void ProjectList::slotAddClip(QUrl givenUrl, QString group) {
     if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!!  NO CMD STK";
     KUrl::List list;
     if (givenUrl.isEmpty()) {
-        list = KFileDialog::getOpenUrls(KUrl("kfiledialog:///clipfolder"), "application/vnd.kde.kdenlive application/vnd.westley.scenelist application/flv application/vnd.rn-realmedia video/x-dv video/dv video/x-msvideo video/mpeg video/x-ms-wmv audio/mpeg audio/x-mp3 audio/x-wav application/ogg video/mp4 video/quicktime image/gif image/jpeg image/png image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr", this);
+        list = KFileDialog::getOpenUrls(KUrl("kfiledialog:///clipfolder"), "application/vnd.kde.kdenlive application/vnd.westley.scenelist application/flv application/vnd.rn-realmedia video/x-dv video/dv video/x-msvideo video/mpeg video/x-ms-wmv audio/mpeg audio/x-mp3 audio/x-wav application/ogg video/mp4 video/quicktime image/gif image/jpeg image/png image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr video/mlt-playlist", this);
     } else list.append(givenUrl);
     if (list.isEmpty()) return;
 
-    int groupId = -1;
+    QString groupId = QString();
     if (group.isEmpty()) {
         ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
         if (item && item->clipType() != FOLDER) {
@@ -326,14 +326,14 @@ void ProjectList::slotAddClip(QUrl givenUrl, QString group) {
     m_doc->slotAddClipList(list, group, groupId);
 }
 
-void ProjectList::slotRemoveInvalidClip(int id) {
+void ProjectList::slotRemoveInvalidClip(const QString &id) {
     ProjectItem *item = getItemById(id);
     if (item) {
         QString path = item->referencedClip()->fileURL().path();
         if (!path.isEmpty()) KMessageBox::sorry(this, i18n("<qt>Clip <b>%1</b><br>is invalid, will be removed from project.", path));
 
     }
-    QList <int> ids;
+    QList <QString> ids;
     ids << id;
     m_doc->deleteProjectClip(ids);
 }
@@ -350,7 +350,7 @@ void ProjectList::slotAddColorClip() {
         color = color.replace(0, 1, "0x") + "ff";
 
         QString group = QString();
-        int groupId = -1;
+        QString groupId = QString();
         ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
         if (item && item->clipType() != FOLDER) {
             while (item->parent()) {
@@ -377,7 +377,7 @@ void ProjectList::slotAddSlideshowClip() {
     if (dia->exec() == QDialog::Accepted) {
 
         QString group = QString();
-        int groupId = -1;
+        QString groupId = QString();
         ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
         if (item && item->clipType() != FOLDER) {
             while (item->parent()) {
@@ -397,7 +397,7 @@ void ProjectList::slotAddSlideshowClip() {
 
 void ProjectList::slotAddTitleClip() {
     QString group = QString();
-    int groupId = -1;
+    QString groupId = QString();
     ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
     if (item && item->clipType() != FOLDER) {
         while (item->parent()) {
@@ -443,7 +443,7 @@ QDomElement ProjectList::producersList() {
     return prods;
 }
 
-void ProjectList::slotRefreshClipThumbnail(int clipId) {
+void ProjectList::slotRefreshClipThumbnail(const QString &clipId) {
     ProjectItem *item = getItemById(clipId);
     if (item) slotRefreshClipThumbnail(item);
 }
@@ -457,7 +457,7 @@ void ProjectList::slotRefreshClipThumbnail(ProjectItem *item) {
     }
 }
 
-void ProjectList::slotReplyGetFileProperties(int clipId, Mlt::Producer *producer, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata) {
+void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata) {
     ProjectItem *item = getItemById(clipId);
     if (item) {
         item->setProperties(properties, metadata);
@@ -466,12 +466,12 @@ void ProjectList::slotReplyGetFileProperties(int clipId, Mlt::Producer *producer
     } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
 }
 
-void ProjectList::slotReplyGetImage(int clipId, int pos, const QPixmap &pix, int w, int h) {
+void ProjectList::slotReplyGetImage(const QString &clipId, int pos, const QPixmap &pix, int w, int h) {
     ProjectItem *item = getItemById(clipId);
     if (item) item->setIcon(0, pix);
 }
 
-ProjectItem *ProjectList::getItemById(int id) {
+ProjectItem *ProjectList::getItemById(const QString &id) {
     QTreeWidgetItemIterator it(listView);
     while (*it) {
         if (((ProjectItem *)(*it))->clipId() == id)
@@ -482,7 +482,7 @@ ProjectItem *ProjectList::getItemById(int id) {
     return NULL;
 }
 
-void ProjectList::slotSelectClip(const int ix) {
+void ProjectList::slotSelectClip(const QString &ix) {
     ProjectItem *p = getItemById(ix);
     if (p) {
         listView->setCurrentItem(p);

@@ -27,7 +27,7 @@ class KdenliveDoc;
 
 class AddFolderCommand : public QUndoCommand {
 public:
-    AddFolderCommand(KdenliveDoc *doc, const QString folderName, int clipId, bool doIt);
+    AddFolderCommand(KdenliveDoc *doc, const QString folderName, const QString &clipId, bool doIt);
 
     virtual void undo();
     virtual void redo();
@@ -35,7 +35,7 @@ public:
 private:
     KdenliveDoc *m_doc;
     QString m_name;
-    int m_id;
+    QString m_id;
     bool m_doIt;
 };
 

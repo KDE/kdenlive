@@ -62,7 +62,7 @@ public:
 
 
 public slots:
-    void slotDeleteClip(int clipId);
+    void slotDeleteClip(const QString &clipId);
     void slotChangeZoom(int factor);
     void setDuration(int dur);
 

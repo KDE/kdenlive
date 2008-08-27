@@ -226,11 +226,11 @@ private slots:  // Private slots
 
 signals:   // Signals
     /** emitted when the renderer recieves a reply to a getFileProperties request. */
-    void replyGetFileProperties(int clipId, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &);
+    void replyGetFileProperties(const QString &clipId, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &);
 
     /** emitted when the renderer recieves a reply to a getImage request. */
-    void replyGetImage(int , int, const QPixmap &, int, int);
-    void replyGetImage(int, const QPixmap &, int, int);
+    void replyGetImage(const QString & , int, const QPixmap &, int, int);
+    void replyGetImage(const QString &, const QPixmap &, int, int);
 
     /** Emitted when the renderer stops, either playing or rendering. */
     void stopped();
@@ -247,7 +247,7 @@ signals:   // Signals
     void durationChanged(int);
     void rendererPosition(int);
     void rendererStopped(int);
-    void removeInvalidClip(int);
+    void removeInvalidClip(const QString &);
 
 public slots:  // Public slots
     /** Start Consumer */
@@ -262,7 +262,7 @@ public slots:  // Public slots
     /** Wraps the VEML command of the same name. Requests the file properties
     for the specified url from the renderer. Upon return, the result will be emitted
     via replyGetFileProperties(). */
-    void getFileProperties(const QDomElement &xml, int clipId);
+    void getFileProperties(const QDomElement &xml, const QString &clipId);
 
     void exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime);
     static char *decodedString(QString str);

@@ -753,8 +753,8 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
         //TODO: drop of several clips
         for (int i = 0; i < ids.size(); ++i) {
         }
-        DocClipBase *clip = m_document->getBaseClip(ids.at(0).toInt());
-        if (clip == NULL) kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << ids.at(0).toInt();
+        DocClipBase *clip = m_document->getBaseClip(ids.at(0));
+        if (clip == NULL) kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << ids.at(0);
         addItem(clip, event->pos());
         event->acceptProposedAction();
     } else QGraphicsView::dragEnterEvent(event);
@@ -1095,7 +1095,7 @@ void CustomTrackView::slotSwitchTrackVideo(int ix) {
     m_document->renderer()->mltChangeTrackState(tracknumber, m_scene->m_tracksList.at(tracknumber - 1).isMute, m_scene->m_tracksList.at(tracknumber - 1).isBlind);
 }
 
-void CustomTrackView::deleteClip(int clipId) {
+void CustomTrackView::deleteClip(const QString &clipId) {
     QList<QGraphicsItem *> itemList = items();
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
@@ -1410,7 +1410,7 @@ void CustomTrackView::changeClipSpeed() {
     m_commandStack->push(changeSelected);
 }
 
-void CustomTrackView::doChangeClipSpeed(ItemInfo info, double speed, int id) {
+void CustomTrackView::doChangeClipSpeed(ItemInfo info, double speed, const QString &id) {
     DocClipBase *baseclip = m_document->clipManager()->getClipById(id);
     ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()) + 1, info.track);
     info.track = m_scene->m_tracksList.count() - item->track();
@@ -1440,7 +1440,7 @@ void CustomTrackView::cutSelectedClips() {
     }
 }
 
-void CustomTrackView::addClip(QDomElement xml, int clipId, ItemInfo info, EffectsList effects) {
+void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo info, EffectsList effects) {
     DocClipBase *baseclip = m_document->clipManager()->getClipById(clipId);
     ClipItem *item = new ClipItem(baseclip, info, m_document->fps());
     item->setEffectList(effects);
@@ -1455,7 +1455,7 @@ void CustomTrackView::addClip(QDomElement xml, int clipId, ItemInfo info, Effect
     m_document->renderer()->doRefresh();
 }
 
-void CustomTrackView::slotUpdateClip(int clipId) {
+void CustomTrackView::slotUpdateClip(const QString &clipId) {
     QList<QGraphicsItem *> list = scene()->items();
     ClipItem *clip = NULL;
     for (int i = 0; i < list.size(); ++i) {
@@ -1718,7 +1718,7 @@ void CustomTrackView::slotAddClipMarker() {
     GenTime pos = GenTime(m_cursorPos, m_document->fps());
     if (item->startPos() > pos || item->endPos() < pos) return;
     ClipItem *clip = (ClipItem *) item;
-    int id = clip->baseClip()->getId();
+    QString id = clip->baseClip()->getId();
     GenTime position = pos - item->startPos() + item->cropStart();
     CommentedTime marker(position, i18n("Marker"));
     MarkerDialog d(clip->baseClip(), marker, m_document->timecode(), this);
@@ -1727,7 +1727,7 @@ void CustomTrackView::slotAddClipMarker() {
     }
 }
 
-void CustomTrackView::slotAddClipMarker(int id, GenTime t, QString c) {
+void CustomTrackView::slotAddClipMarker(const QString &id, GenTime t, QString c) {
     QString oldcomment = m_document->clipManager()->getClipById(id)->markerComment(t);
     AddMarkerCommand *command = new AddMarkerCommand(this, oldcomment, c, id, t, true);
     m_commandStack->push(command);
@@ -1751,7 +1751,7 @@ void CustomTrackView::slotDeleteClipMarker() {
         return;
     }
     ClipItem *clip = (ClipItem *) item;
-    int id = clip->baseClip()->getId();
+    QString id = clip->baseClip()->getId();
     GenTime position = pos - item->startPos() + item->cropStart();
     QString comment = clip->baseClip()->markerComment(position);
     if (comment.isEmpty()) {
@@ -1782,7 +1782,7 @@ void CustomTrackView::slotDeleteAllClipMarkers() {
         emit displayMessage(i18n("Clip has no markers"), ErrorMessage);
         return;
     }
-    int id = clip->baseClip()->getId();
+    QString id = clip->baseClip()->getId();
     QUndoCommand *deleteMarkers = new QUndoCommand();
     deleteMarkers->setText("Delete clip markers");
 
@@ -1810,7 +1810,7 @@ void CustomTrackView::slotEditClipMarker() {
         return;
     }
     ClipItem *clip = (ClipItem *) item;
-    int id = clip->baseClip()->getId();
+    QString id = clip->baseClip()->getId();
     GenTime position = pos - item->startPos() + item->cropStart();
     QString oldcomment = clip->baseClip()->markerComment(position);
     if (oldcomment.isEmpty()) {
@@ -1835,7 +1835,7 @@ void CustomTrackView::slotEditClipMarker() {
     }
 }
 
-void CustomTrackView::addMarker(const int id, const GenTime &pos, const QString comment) {
+void CustomTrackView::addMarker(const QString &id, const GenTime &pos, const QString comment) {
     DocClipBase *base = m_document->clipManager()->getClipById(id);
     if (!comment.isEmpty()) base->addSnapMarker(pos, comment);
     else base->deleteSnapMarker(pos);
