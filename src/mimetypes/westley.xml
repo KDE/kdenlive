@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
-  <mime-type type="application/x-kdenlive">
-    <comment>Kdenlive video project document</comment>
-    <sub-class-of type="video/mlt-playlist"/>
+  <mime-type type="video/mlt-playlist">
+    <comment>MLT video playlist</comment>
+    <glob pattern="*.westley"/>
     <glob pattern="*.kdenlive"/>
   </mime-type>
 </mime-info>
