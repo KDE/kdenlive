@@ -27,6 +27,7 @@ find_program(XGETTEXT_EXECUTABLE xgettext)
 
 add_subdirectory(src src/cmake_bindir)
 add_subdirectory(renderer renderer/cmake_bindir)
+add_subdirectory(thumbnailer thumbnailer/cmake_bindir)
 add_subdirectory(effects )
 add_subdirectory(export ) 
 add_subdirectory(icons )

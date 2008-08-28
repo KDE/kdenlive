@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Service
+Name=Westley Playlists
+ServiceTypes=ThumbCreator
+CacheThumbnail=true
+IgnoreMaximumSize=true
+MimeType=video/mlt-playlist;application/x-kdenlive;
+X-KDE-Library=westleypreview
