@@ -278,7 +278,17 @@ MainWindow::MainWindow(QWidget *parent)
 
     if (KdenliveSettings::openlastproject()) {
         openLastFile();
-    } else newFile();
+    } else {
+        /*QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::allStaleFiles();
+        if (!staleFiles.isEmpty()) {
+            if (KMessageBox::questionYesNo(this, i18n("Auto-saved files exist. Do you want to recover them now?"), i18n("File Recovery"), KGuiItem(i18n("Recover")), KGuiItem(i18n("Don't recover"))) == KMessageBox::Yes) {
+         recoverFiles(staleFiles);
+            }
+            else newFile();
+        }
+        else*/
+        newFile();
+    }
 
     activateShuttleDevice();
     projectListDock->raise();
@@ -405,7 +415,7 @@ void MainWindow::slotSetClipDuration(const QString &id, int duration) {
 void MainWindow::slotConnectMonitors() {
 
     m_projectList->setRenderer(m_clipMonitor->render);
-    connect(m_projectList, SIGNAL(receivedClipDuration(int, int)), this, SLOT(slotSetClipDuration(int, int)));
+    connect(m_projectList, SIGNAL(receivedClipDuration(const QString &, int)), this, SLOT(slotSetClipDuration(const QString &, int)));
     connect(m_projectList, SIGNAL(showClipProperties(DocClipBase *)), this, SLOT(slotShowClipProperties(DocClipBase *)));
     connect(m_projectList, SIGNAL(getFileProperties(const QDomElement &, const QString &)), m_clipMonitor->render, SLOT(getFileProperties(const QDomElement &, const QString &)));
     connect(m_clipMonitor->render, SIGNAL(replyGetImage(const QString &, int, const QPixmap &, int, int)), m_projectList, SLOT(slotReplyGetImage(const QString &, int, const QPixmap &, int, int)));
@@ -773,8 +783,8 @@ void MainWindow::newFile() {
         projectFolder = w->selectedFolder();
         delete w;
     }
-    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, this);
-    doc->setProfilePath(profileName);
+    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, this);
+    doc->m_autosave = new KAutoSaveFile(KUrl(), doc);
     TrackView *trackView = new TrackView(doc, this);
     m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description());
     if (m_timelineArea->count() == 1) {
@@ -807,6 +817,9 @@ void MainWindow::slotRemoveTab() {
 void MainWindow::saveFileAs(const QString &outputFileName) {
     m_projectMonitor->saveSceneList(outputFileName, m_activeDocument->documentInfoXml());
     m_activeDocument->setUrl(KUrl(outputFileName));
+    if (m_activeDocument->m_autosave == NULL) {
+        m_activeDocument->m_autosave = new KAutoSaveFile(KUrl(outputFileName), this);
+    } else m_activeDocument->m_autosave->setManagedFile(KUrl(outputFileName));
     setCaption(m_activeDocument->description());
     m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), m_activeDocument->url().path());
@@ -828,6 +841,7 @@ void MainWindow::saveFile() {
         saveFileAs();
     } else {
         saveFileAs(m_activeDocument->url().path());
+        m_activeDocument->m_autosave->resize(0);
     }
 }
 
@@ -847,32 +861,38 @@ void MainWindow::openLastFile() {
 
 void MainWindow::openFile(const KUrl &url) {
     // Check for backup file
-    bool recovery = false;
-    QString directory = url.directory();
-    QString fileName = url.fileName();
-    KUrl recoveryUrl;
-    recoveryUrl.setDirectory(directory);
-    recoveryUrl.setFileName("~" + fileName);
-    if (KIO::NetAccess::exists(recoveryUrl, KIO::NetAccess::SourceSide, this)) {
-        KFileItem bkup(KFileItem::Unknown, KFileItem::Unknown, recoveryUrl, true);
-        KFileItem src(KFileItem::Unknown, KFileItem::Unknown, url, true);
-        if (bkup.time(KFileItem::ModificationTime) > src.time(KFileItem::ModificationTime)) {
-            // Backup file is more recent than source file, ask user for recovery
-            if (KMessageBox::questionYesNo(this, i18n("A newer recovery file exists for <b>%1</b>\nOpen recovery file ?", url.fileName())) == KMessageBox::Yes) recovery = true;
+
+    QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(url);
+    if (!staleFiles.isEmpty()) {
+        if (KMessageBox::questionYesNo(this,
+                                       i18n("Auto-saved files exist. Do you want to recover them now?"),
+                                       i18n("File Recovery"),
+                                       KGuiItem(i18n("Recover")), KGuiItem(i18n("Don't recover"))) == KMessageBox::Yes) {
+            recoverFiles(staleFiles);
+            return;
+        } else {
+            // remove the stale files
+            foreach(KAutoSaveFile *stale, staleFiles) {
+                stale->open(QIODevice::ReadWrite);
+                delete stale;
+            }
         }
     }
+    doOpenFile(url, NULL);
+}
 
-    //TODO: get video profile from url before opening it
-    /*MltVideoProfile prof = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
-    if (prof.width == 0) prof = ProfilesDialog::getVideoProfile("dv_pal");
-
-    KdenliveSettings::setCurrent_profile(prof.path);*/
+void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale) {
     KdenliveDoc *doc;
-    if (recovery) {
-        doc = new KdenliveDoc(recoveryUrl, KUrl(), m_commandStack, this);
-        doc->setUrl(url);
+    doc = new KdenliveDoc(url, KUrl(), m_commandStack, QString(), this);
+    if (stale == NULL) {
+        stale = new KAutoSaveFile(url, doc);
+        doc->m_autosave = stale;
+    } else {
+        doc->m_autosave = stale;
+        doc->setUrl(stale->managedFile());
         doc->setModified(true);
-    } else doc = new KdenliveDoc(url, KUrl(), m_commandStack, this);
+        stale->setParent(doc);
+    }
     connectDocumentInfo(doc);
     TrackView *trackView = new TrackView(doc, this);
     m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description()));
@@ -880,6 +900,21 @@ void MainWindow::openFile(const KUrl &url) {
     if (m_timelineArea->count() > 1) m_timelineArea->setTabBarHidden(false);
     slotGotProgressInfo(QString(), -1);
     m_projectMonitor->refreshMonitor(true);
+}
+
+void MainWindow::recoverFiles(QList<KAutoSaveFile *> staleFiles) {
+    foreach(KAutoSaveFile *stale, staleFiles) {
+        /*if (!stale->open(QIODevice::QIODevice::ReadOnly)) {
+                  // show an error message; we could not steal the lockfile
+                  // maybe another application got to the file before us?
+                  delete stale;
+                  continue;
+        }*/
+        kDebug() << "// OPENING RECOVERY: " << stale->fileName() << "\nMANAGED: " << stale->managedFile().path();
+        // the stalefiles also contain ".lock" files so we must ignore them... bug in KAutoSaveFile ?
+        if (!stale->fileName().endsWith(".lock")) doOpenFile(KUrl(stale->fileName()), stale);
+        else KIO::NetAccess::del(KUrl(stale->fileName()), this);
+    }
 }
 
 
@@ -950,9 +985,8 @@ void MainWindow::slotEditProjectSettings() {
         KdenliveSettings::setCurrent_profile(profile);
         KdenliveSettings::setProject_fps(m_activeDocument->fps());
         setCaption(m_activeDocument->description());
-        m_monitorManager->resetProfiles();
+        m_monitorManager->resetProfiles(m_activeDocument->timecode());
         if (m_renderWidget) m_renderWidget->setDocumentStandard(m_activeDocument->getDocumentStandard());
-        m_monitorManager->setTimecode(m_activeDocument->timecode());
         m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
 
         // We need to desactivate & reactivate monitors to get a refresh
@@ -1069,7 +1103,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     }
     KdenliveSettings::setCurrent_profile(doc->profilePath());
     KdenliveSettings::setProject_fps(doc->fps());
-    m_monitorManager->resetProfiles();
+    m_monitorManager->resetProfiles(doc->timecode());
     m_projectList->setDocument(doc);
     connect(m_projectList, SIGNAL(clipSelected(DocClipBase *)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *)));
     connect(trackView, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(activateMonitor()));
@@ -1113,7 +1147,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu);
     m_activeTimeline = trackView;
     if (m_renderWidget) m_renderWidget->setDocumentStandard(doc->getDocumentStandard());
-    m_monitorManager->setTimecode(doc->timecode());
     doc->setRenderer(m_projectMonitor->render);
     m_commandStack->setActiveStack(doc->commandStack());
     KdenliveSettings::setProject_display_ratio(doc->dar());
@@ -1143,7 +1176,7 @@ void MainWindow::slotPreferences(int page, int option) {
     // create it :
     KdenliveSettingsDialog* dialog = new KdenliveSettingsDialog(this);
     connect(dialog, SIGNAL(settingsChanged(const QString&)), this, SLOT(updateConfiguration()));
-    connect(dialog, SIGNAL(doResetProfile()), m_monitorManager, SLOT(resetProfiles()));
+    connect(dialog, SIGNAL(doResetProfile()), m_monitorManager, SLOT(slotResetProfiles()));
     dialog->show();
     if (page != -1) dialog->showPage(page, option);
 }

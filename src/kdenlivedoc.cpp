@@ -37,7 +37,7 @@
 #include "mainwindow.h"
 
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, MainWindow *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_commandStack(new QUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(7) {
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, MainWindow *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_commandStack(new QUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(7), m_autosave(NULL) {
     m_clipManager = new ClipManager(this);
     if (!url.isEmpty()) {
         QString tmpFile;
@@ -110,90 +110,22 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                 m_document.removeChild(infoXmlNode);
 
                 kDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
-            } else kWarning() << "  NO KDENLIVE INFO FOUND IN FILE: " << url.path();
+            } else {
+                parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file."), 100);
+                kWarning() << "  NO KDENLIVE INFO FOUND IN FILE: " << url.path();
+                m_document = createEmptyDocument();
+                setProfilePath(profileName);
+            }
             KIO::NetAccess::removeTempFile(tmpFile);
         } else {
             KMessageBox::error(parent, KIO::NetAccess::lastErrorString());
+            parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file."), 100);
+            m_document = createEmptyDocument();
+            setProfilePath(profileName);
         }
     } else {
-        // Creating new document
-        QDomElement westley = m_document.createElement("westley");
-        m_document.appendChild(westley);
-
-        QDomElement tractor = m_document.createElement("tractor");
-        tractor.setAttribute("id", "maintractor");
-        QDomElement multitrack = m_document.createElement("multitrack");
-        QDomElement playlist = m_document.createElement("playlist");
-        playlist.setAttribute("id", "black_track");
-        westley.appendChild(playlist);
-
-
-        // create playlists
-        int audiotracks = 2;
-        int videotracks = 3;
-        int total = audiotracks + videotracks + 1;
-
-        for (int i = 1; i < total; i++) {
-            QDomElement playlist = m_document.createElement("playlist");
-            playlist.setAttribute("id", "playlist" + QString::number(i));
-            westley.appendChild(playlist);
-        }
-
-        QDomElement track0 = m_document.createElement("track");
-        track0.setAttribute("producer", "black_track");
-        tractor.appendChild(track0);
-
-        // create audio tracks
-        for (int i = 1; i < audiotracks + 1; i++) {
-            QDomElement track = m_document.createElement("track");
-            track.setAttribute("producer", "playlist" + QString::number(i));
-            track.setAttribute("hide", "video");
-            tractor.appendChild(track);
-        }
-
-        // create video tracks
-        for (int i = audiotracks + 1; i < total; i++) {
-            QDomElement track = m_document.createElement("track");
-            track.setAttribute("producer", "playlist" + QString::number(i));
-            tractor.appendChild(track);
-        }
-
-        for (uint i = 2; i < total ; i++) {
-            QDomElement transition = m_document.createElement("transition");
-            transition.setAttribute("always_active", "1");
-
-            QDomElement property = m_document.createElement("property");
-            property.setAttribute("name", "a_track");
-            QDomText value = m_document.createTextNode(QString::number(1));
-            property.appendChild(value);
-            transition.appendChild(property);
-
-            property = m_document.createElement("property");
-            property.setAttribute("name", "b_track");
-            value = m_document.createTextNode(QString::number(i));
-            property.appendChild(value);
-            transition.appendChild(property);
-
-            property = m_document.createElement("property");
-            property.setAttribute("name", "mlt_service");
-            value = m_document.createTextNode("mix");
-            property.appendChild(value);
-            transition.appendChild(property);
-
-            property = m_document.createElement("property");
-            property.setAttribute("name", "combine");
-            value = m_document.createTextNode("1");
-            property.appendChild(value);
-            transition.appendChild(property);
-
-            property = m_document.createElement("property");
-            property.setAttribute("name", "internal_added");
-            value = m_document.createTextNode("237");
-            property.appendChild(value);
-            transition.appendChild(property);
-            tractor.appendChild(transition);
-        }
-        westley.appendChild(tractor);
+        m_document = createEmptyDocument();
+        setProfilePath(profileName);
     }
     m_scenelist = m_document.toString();
     kDebug() << "KDEnnlive document, init timecode: " << m_fps;
@@ -202,10 +134,6 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
 
     m_autoSaveTimer = new QTimer(this);
     m_autoSaveTimer->setSingleShot(true);
-    QString directory = m_url.directory();
-    QString fileName = m_url.fileName();
-    m_recoveryUrl.setDirectory(directory);
-    m_recoveryUrl.setFileName("~" + fileName);
     connect(m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
 }
 
@@ -213,12 +141,92 @@ KdenliveDoc::~KdenliveDoc() {
     delete m_commandStack;
     delete m_clipManager;
     delete m_autoSaveTimer;
-    if (!m_url.isEmpty()) {
-        // remove backup file
-        if (KIO::NetAccess::exists(m_recoveryUrl, KIO::NetAccess::SourceSide, NULL))
-            KIO::NetAccess::del(m_recoveryUrl, NULL);
-    }
+    m_autosave->remove();
 }
+
+QDomDocument KdenliveDoc::createEmptyDocument() {
+    // Creating new document
+    QDomDocument doc;
+    QDomElement westley = doc.createElement("westley");
+    doc.appendChild(westley);
+
+    QDomElement tractor = doc.createElement("tractor");
+    tractor.setAttribute("id", "maintractor");
+    QDomElement multitrack = doc.createElement("multitrack");
+    QDomElement playlist = doc.createElement("playlist");
+    playlist.setAttribute("id", "black_track");
+    westley.appendChild(playlist);
+
+
+    // create playlists
+    const int audiotracks = 2;
+    const int videotracks = 3;
+    int total = audiotracks + videotracks + 1;
+
+    for (int i = 1; i < total; i++) {
+        QDomElement playlist = doc.createElement("playlist");
+        playlist.setAttribute("id", "playlist" + QString::number(i));
+        westley.appendChild(playlist);
+    }
+
+    QDomElement track0 = doc.createElement("track");
+    track0.setAttribute("producer", "black_track");
+    tractor.appendChild(track0);
+
+    // create audio tracks
+    for (int i = 1; i < audiotracks + 1; i++) {
+        QDomElement track = doc.createElement("track");
+        track.setAttribute("producer", "playlist" + QString::number(i));
+        track.setAttribute("hide", "video");
+        tractor.appendChild(track);
+    }
+
+    // create video tracks
+    for (int i = audiotracks + 1; i < total; i++) {
+        QDomElement track = doc.createElement("track");
+        track.setAttribute("producer", "playlist" + QString::number(i));
+        tractor.appendChild(track);
+    }
+
+    for (uint i = 2; i < total ; i++) {
+        QDomElement transition = doc.createElement("transition");
+        transition.setAttribute("always_active", "1");
+
+        QDomElement property = doc.createElement("property");
+        property.setAttribute("name", "a_track");
+        QDomText value = doc.createTextNode(QString::number(1));
+        property.appendChild(value);
+        transition.appendChild(property);
+
+        property = doc.createElement("property");
+        property.setAttribute("name", "b_track");
+        value = doc.createTextNode(QString::number(i));
+        property.appendChild(value);
+        transition.appendChild(property);
+
+        property = doc.createElement("property");
+        property.setAttribute("name", "mlt_service");
+        value = doc.createTextNode("mix");
+        property.appendChild(value);
+        transition.appendChild(property);
+
+        property = doc.createElement("property");
+        property.setAttribute("name", "combine");
+        value = doc.createTextNode("1");
+        property.appendChild(value);
+        transition.appendChild(property);
+
+        property = doc.createElement("property");
+        property.setAttribute("name", "internal_added");
+        value = doc.createTextNode("237");
+        property.appendChild(value);
+        transition.appendChild(property);
+        tractor.appendChild(transition);
+    }
+    westley.appendChild(tractor);
+    return doc;
+}
+
 
 void KdenliveDoc::syncGuides(QList <Guide *> guides) {
     QDomDocument doc;
@@ -234,9 +242,14 @@ void KdenliveDoc::syncGuides(QList <Guide *> guides) {
 }
 
 void KdenliveDoc::slotAutoSave() {
-    if (m_render)
-        m_render->saveSceneList(m_recoveryUrl.path(), documentInfoXml());
-
+    if (m_render) {
+        if (!m_autosave->isOpen() && !m_autosave->open(QIODevice::ReadWrite)) {
+            // show error: could not open the autosave file
+            kDebug() << "ERROR; CANNOT CREATE AUTOSAVE FILE";
+        }
+        kDebug() << "// AUTOSAVE FILE: " << m_autosave->fileName();
+        m_render->saveSceneList(m_autosave->fileName(), documentInfoXml());
+    }
 }
 
 void KdenliveDoc::setZoom(int factor) {
@@ -630,10 +643,6 @@ KUrl KdenliveDoc::url() const {
 
 void KdenliveDoc::setUrl(KUrl url) {
     m_url = url;
-    QString directory = m_url.directory();
-    QString fileName = m_url.fileName();
-    m_recoveryUrl.setDirectory(directory);
-    m_recoveryUrl.setFileName("~" + fileName);
 }
 
 void KdenliveDoc::setModified(bool mod) {

@@ -31,6 +31,7 @@
 #include <QTimer>
 
 #include <KUrl>
+#include <kautosavefile.h>
 
 #include "gentime.h"
 #include "timecode.h"
@@ -45,13 +46,14 @@ class MainWindow;
 class KdenliveDoc: public QObject {
 Q_OBJECT public:
 
-    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, MainWindow *parent = 0);
+    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, MainWindow *parent = 0);
     ~KdenliveDoc();
     QDomNodeList producersList();
     double fps() const;
     int width() const;
     int height() const;
     KUrl url() const;
+    KAutoSaveFile *m_autosave;
     void backupMltPlaylist();
     Timecode timecode() const;
     QDomDocument toXml() const;
@@ -107,7 +109,6 @@ Q_OBJECT public:
 
 private:
     KUrl m_url;
-    KUrl m_recoveryUrl;
     QDomDocument m_document;
     QString m_projectName;
     double m_fps;
@@ -131,6 +132,7 @@ private:
     double m_documentLoadingStep;
     double m_documentLoadingProgress;
     void convertDocument(double version);
+    QDomDocument createEmptyDocument();
 
 public slots:
     void slotCreateTextClip(QString group, const QString &groupId);

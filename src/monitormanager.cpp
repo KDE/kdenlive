@@ -28,10 +28,6 @@ MonitorManager::MonitorManager(QWidget *parent)
         : QObject(parent) {
 }
 
-void MonitorManager::setTimecode(Timecode tc) {
-    m_timecode = tc;
-}
-
 Timecode MonitorManager::timecode() {
     return m_timecode;
 }
@@ -111,7 +107,12 @@ void MonitorManager::slotEnd() {
     else m_projectMonitor->slotEnd();
 }
 
-void MonitorManager::resetProfiles() {
+void MonitorManager::resetProfiles(Timecode tc) {
+    m_timecode = tc;
+    slotResetProfiles();
+}
+
+void MonitorManager::slotResetProfiles() {
     activateMonitor("clip");
     m_clipMonitor->resetProfile();
     activateMonitor("project");

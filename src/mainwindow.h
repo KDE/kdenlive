@@ -35,6 +35,7 @@
 #include <KUndoStack>
 #include <KRecentFilesAction>
 #include <KComboBox>
+#include <kautosavefile.h>
 
 #include "effectslist.h"
 #include "gentime.h"
@@ -158,6 +159,8 @@ private:
     void slotShuttleAction(int code);
     void connectDocumentInfo(KdenliveDoc *doc);
     void findAhead();
+    void doOpenFile(const KUrl &url, KAutoSaveFile *stale);
+    void recoverFiles(QList<KAutoSaveFile *> staleFiles);
 
 public slots:
     void openFile(const KUrl &url);

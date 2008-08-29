@@ -33,9 +33,9 @@ public:
     MonitorManager(QWidget *parent = 0);
     void initMonitors(Monitor *clipMonitor, Monitor *projectMonitor);
     Timecode timecode();
-    void setTimecode(Timecode tc);
     void switchMonitors();
     bool projectMonitorFocused();
+    void resetProfiles(Timecode tc);
 
 public slots:
     void activateMonitor(QString name = QString::null);
@@ -46,7 +46,7 @@ public slots:
     void slotForwardOneFrame();
     void slotStart();
     void slotEnd();
-    void resetProfiles();
+    void slotResetProfiles();
 
 private:
     Monitor *m_clipMonitor;
