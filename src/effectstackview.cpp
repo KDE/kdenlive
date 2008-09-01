@@ -288,4 +288,13 @@ void EffectStackView::raiseWindow(QWidget* dock) {
         dock->raise();
 }
 
+void EffectStackView::clear() {
+    ui.effectlist->clear();
+    ui.buttonDel->setEnabled(false);
+    ui.buttonSave->setEnabled(false);
+    ui.buttonReset->setEnabled(false);
+    ui.buttonUp->setEnabled(false);
+    ui.buttonDown->setEnabled(false);
+}
+
 #include "effectstackview.moc"

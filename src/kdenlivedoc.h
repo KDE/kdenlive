@@ -92,8 +92,6 @@ Q_OBJECT public:
     void setUrl(KUrl url);
     QDomElement documentInfoXml();
     void setProfilePath(QString path);
-    /** Set to true if document needs saving, false otherwise */
-    void setModified(bool mod);
     const QString&getFreeClipId();
     /** does the document need saving */
     bool isModified() const;
@@ -136,6 +134,8 @@ private:
 
 public slots:
     void slotCreateTextClip(QString group, const QString &groupId);
+    /** Set to true if document needs saving, false otherwise */
+    void setModified(bool mod = true);
 
 private slots:
     void slotAutoSave();

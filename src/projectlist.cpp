@@ -167,6 +167,7 @@ void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QSt
             Nepomuk::Resource f(clip->clipUrl().path());
             if (f.isValid()) f.setDescription(properties.value("description"));
         }
+        emit projectModified();
     }
 }
 

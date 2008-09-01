@@ -145,6 +145,7 @@ private:
     QAction *m_buttonRazorTool;
     QAction *m_buttonSnap;
     QActionGroup *m_toolGroup;
+    QAction *m_saveAction;
     QSlider *m_zoomSlider;
     StatusBarMessageLabel *m_messageLabel;
 
@@ -197,7 +198,7 @@ private slots:
     void slotZoomIn();
     void slotZoomOut();
     void slotFitZoom();
-    void slotRemoveTab();
+    void closeCurrentDocument();
     void slotDeleteTimelineClip();
     void slotAddClipMarker();
     void slotDeleteClipMarker();

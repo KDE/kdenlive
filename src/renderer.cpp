@@ -935,7 +935,8 @@ void Render::clear() {
 void Render::stop() {
     if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
         kDebug() << "/////////////   RENDER STOPPED: " << m_name;
-        //m_mltConsumer->set("refresh", 0);
+        m_isBlocked = true;
+        m_mltConsumer->set("refresh", 0);
         m_mltConsumer->stop();
     }
     kDebug() << "/////////////   RENDER STOP2-------";

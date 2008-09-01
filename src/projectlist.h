@@ -155,13 +155,12 @@ private slots:
     void slotUpdateClipProperties(ProjectItem *item, QMap <QString, QString> properties);
     //void slotShowMenu(const QPoint &pos);
 
-
-
 signals:
     void clipSelected(DocClipBase *);
     void getFileProperties(const QDomElement&, const QString &);
     void receivedClipDuration(const QString &, int);
     void showClipProperties(DocClipBase *);
+    void projectModified();
 };
 
 #endif
