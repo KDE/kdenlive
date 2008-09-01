@@ -535,6 +535,7 @@ QUndoStack *KdenliveDoc::commandStack() {
 }
 
 void KdenliveDoc::setRenderer(Render *render) {
+    if (m_render) return;
     m_render = render;
     emit progressInfo(i18n("Loading playlist..."), 0);
     qApp->processEvents();

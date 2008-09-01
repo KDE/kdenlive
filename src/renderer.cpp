@@ -65,7 +65,7 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
     }
 }
 
-Render::Render(const QString & rendererName, int winid, int extid, QWidget *parent): QObject(parent), m_name(rendererName), m_mltConsumer(NULL), m_mltProducer(NULL), m_mltTextProducer(NULL), m_winid(-1), m_framePosition(0), m_generateScenelist(false), m_isBlocked(true), m_blackClip(NULL), m_isSplitView(false) {
+Render::Render(const QString & rendererName, int winid, int extid, QWidget *parent): QObject(parent), m_name(rendererName), m_mltConsumer(NULL), m_mltProducer(NULL), m_mltTextProducer(NULL), m_winid(winid), m_externalwinid(extid),  m_framePosition(0), m_isBlocked(true), m_blackClip(NULL), m_isSplitView(false) {
     kDebug() << "//////////  USING PROFILE: " << (char*)KdenliveSettings::current_profile().toUtf8().data();
     refreshTimer = new QTimer(this);
     connect(refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
@@ -78,8 +78,6 @@ Render::Render(const QString & rendererName, int winid, int extid, QWidget *pare
     m_osdProfile =   KStandardDirs::locate("data", "kdenlive/profiles/metadata.properties");
     buildConsumer();
 
-    m_externalwinid = extid;
-    m_winid = winid;
     Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "colour", "black");
     m_mltProducer = producer;
     if (m_blackClip) delete m_blackClip;
@@ -667,12 +665,12 @@ void Render::initSceneList() {
 /** Create the producer from the Westley QDomDocument */
 void Render::setProducer(Mlt::Producer *producer, int position) {
     if (m_winid == -1) return;
-    m_generateScenelist = true;
 
     if (m_mltConsumer) {
         m_mltConsumer->stop();
     } else return;
 
+    m_isBlocked = true;
     if (m_mltProducer) {
         m_mltProducer->set_speed(0);
         delete m_mltProducer;
@@ -689,7 +687,7 @@ void Render::setProducer(Mlt::Producer *producer, int position) {
         m_mltProducer->seek(position);
         emit rendererPosition(position);
     }
-    m_generateScenelist = false;
+    m_isBlocked = false;
 }
 
 
@@ -702,17 +700,9 @@ void Render::setSceneList(QDomDocument list, int position) {
 /** Create the producer from the Westley QDomDocument */
 void Render::setSceneList(QString playlist, int position) {
     if (m_winid == -1) return;
-    m_generateScenelist = true;
+    m_isBlocked = true;
 
     kWarning() << "//////  RENDER, SET SCENE LIST: " << playlist;
-
-
-    /*
-        if (!clip.is_valid()) {
-     kWarning()<<" ++++ WARNING, UNABLE TO CREATE MLT PRODUCER";
-     m_generateScenelist = false;
-     return;
-        }*/
 
     if (m_mltConsumer) {
         m_mltConsumer->stop();
@@ -764,10 +754,12 @@ void Render::setSceneList(QString playlist, int position) {
     kDebug() << "// NEW SCENE LIST DURATION SET TO: " << m_mltProducer->get_playtime();
     connectPlaylist();
     if (position != 0) {
-        m_mltProducer->seek(position);
-        emit rendererPosition(position);
+	//TODO: seek to correct place after opening project. 
+	// 	Needs to be done from another place since it crashes here.
+        //m_mltProducer->seek(position);
+        //emit rendererPosition(position);
     }
-    m_generateScenelist = false;
+    m_isBlocked = false;
 
 }
 
@@ -901,7 +893,7 @@ void Render::start() {
         return;
     }
 
-    if (m_mltConsumer->is_stopped()) {
+    if (m_mltConsumer && m_mltConsumer->is_stopped()) {
         kDebug() << "-----  MONITOR: " << m_name << " WAS STOPPED";
         if (m_mltConsumer->start() == -1) {
             KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
@@ -937,15 +929,17 @@ void Render::stop() {
         kDebug() << "/////////////   RENDER STOPPED: " << m_name;
         m_isBlocked = true;
         m_mltConsumer->set("refresh", 0);
-        m_mltConsumer->stop();
+	m_mltConsumer->stop();
+        // delete m_mltConsumer;
+	// m_mltConsumer = NULL;
     }
     kDebug() << "/////////////   RENDER STOP2-------";
     m_isBlocked = true;
 
     if (m_mltProducer) {
         m_mltProducer->set_speed(0.0);
-        m_mltProducer->set("out", m_mltProducer->get_length() - 1);
-        kDebug() << m_mltProducer->get_length();
+        //m_mltProducer->set("out", m_mltProducer->get_length() - 1);
+        //kDebug() << m_mltProducer->get_length();
     }
     kDebug() << "/////////////   RENDER STOP3-------";
 }
@@ -961,7 +955,7 @@ void Render::stop(const GenTime & startTime) {
 }
 
 void Render::switchPlay() {
-    if (!m_mltProducer)
+    if (!m_mltProducer || !m_mltConsumer)
         return;
     if (m_mltProducer->get_speed() == 0.0) {
         //m_isBlocked = false;
@@ -1051,7 +1045,7 @@ void Render::askForRefresh() {
 
 void Render::doRefresh() {
     // Use a Timer so that we don't refresh too much
-    m_mltConsumer->set("refresh", 1);
+    if (!m_isBlocked && m_mltConsumer) m_mltConsumer->set("refresh", 1);
 }
 
 void Render::refresh() {
@@ -1091,7 +1085,6 @@ const QString & Render::rendererName() const {
 
 
 void Render::emitFrameNumber(double position) {
-    //if (m_generateScenelist) return;
     m_framePosition = position;
     emit rendererPosition((int) position);
     //if (qApp->activeWindow()) QApplication::postEvent(qApp->activeWindow(), new PositionChangeEvent( GenTime((int) position, m_fps), m_monitorId));
@@ -1099,7 +1092,7 @@ void Render::emitFrameNumber(double position) {
 
 void Render::emitConsumerStopped() {
     // This is used to know when the playing stopped
-    if (m_mltProducer && !m_generateScenelist) {
+    if (m_mltProducer) {
         double pos = m_mltProducer->position();
         emit rendererStopped((int) pos);
         //if (qApp->activeWindow()) QApplication::postEvent(qApp->activeWindow(), new PositionChangeEvent(GenTime((int) pos, m_fps), m_monitorId + 100));

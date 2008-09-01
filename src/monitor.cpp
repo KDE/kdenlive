@@ -356,7 +356,7 @@ void Monitor::slotSetXml(DocClipBase *clip, const int position) {
     if (render == NULL) return;
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);
     if (!clip) return;
-    if (clip != m_currentClip || m_currentClip->producer() == NULL) {
+    if (clip != m_currentClip && clip->producer() != NULL) {
         m_currentClip = clip;
         render->setProducer(clip->producer(), position);
         //m_ruler->slotNewValue(0);

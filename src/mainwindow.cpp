@@ -913,7 +913,7 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale) {
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());
     if (m_timelineArea->count() > 1) m_timelineArea->setTabBarHidden(false);
     slotGotProgressInfo(QString(), -1);
-    m_projectMonitor->refreshMonitor(true);
+    //m_projectMonitor->refreshMonitor(true);
 }
 
 void MainWindow::recoverFiles(QList<KAutoSaveFile *> staleFiles) {
@@ -1171,8 +1171,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     KdenliveSettings::setProject_display_ratio(doc->dar());
     doc->updateAllProjectClips();
 
-    if (m_commandStack->isClean()) kDebug() << "////////////  UNDO STACK IS CLEAN";
-    else  kDebug() << "////////////  UNDO STACK IS NOT CLEAN*******************";
 
     //m_overView->setScene(trackView->projectScene());
     //m_overView->scale(m_overView->width() / trackView->duration(), m_overView->height() / (50 * trackView->tracksNumber()));
