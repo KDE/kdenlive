@@ -754,8 +754,8 @@ void Render::setSceneList(QString playlist, int position) {
     kDebug() << "// NEW SCENE LIST DURATION SET TO: " << m_mltProducer->get_playtime();
     connectPlaylist();
     if (position != 0) {
-	//TODO: seek to correct place after opening project. 
-	// 	Needs to be done from another place since it crashes here.
+        //TODO: seek to correct place after opening project.
+        //  Needs to be done from another place since it crashes here.
         //m_mltProducer->seek(position);
         //emit rendererPosition(position);
     }
@@ -929,9 +929,9 @@ void Render::stop() {
         kDebug() << "/////////////   RENDER STOPPED: " << m_name;
         m_isBlocked = true;
         m_mltConsumer->set("refresh", 0);
-	m_mltConsumer->stop();
+        m_mltConsumer->stop();
         // delete m_mltConsumer;
-	// m_mltConsumer = NULL;
+        // m_mltConsumer = NULL;
     }
     kDebug() << "/////////////   RENDER STOP2-------";
     m_isBlocked = true;

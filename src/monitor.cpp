@@ -87,10 +87,6 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     configButton->setMenu(configMenu);
     configButton->setPopupMode(QToolButton::QToolButton::InstantPopup);
     toolbar->addWidget(configButton);
-    QAction *resize1Action = configMenu->addAction(KIcon("transform-scale"), i18n("Resize (100%)"));
-    connect(resize1Action, SIGNAL(triggered()), this, SLOT(slotSetSizeOneToOne()));
-    QAction *resize2Action = configMenu->addAction(KIcon("transform-scale"), i18n("Resize (50%)"));
-    connect(resize2Action, SIGNAL(triggered()), this, SLOT(slotSetSizeOneToTwo()));
 
     QWidget *spacer = new QWidget(this);
     spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -120,20 +116,28 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     QAction *extractFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Extract frame"));
     connect(extractFrame, SIGNAL(triggered()), this, SLOT(slotExtractCurrentFrame()));
     connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
-
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
+
+    configMenu->addAction(extractFrame);
     if (name != "clip") {
         connect(render, SIGNAL(rendererPosition(int)), this, SIGNAL(renderPosition(int)));
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
         QAction *splitView = m_contextMenu->addAction(KIcon("document-new"), i18n("Split view"));
         splitView->setCheckable(true);
         connect(splitView, SIGNAL(toggled(bool)), render, SLOT(slotSplitView(bool)));
+        configMenu->addAction(splitView);
     } else {
         QAction *setThumbFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Set current image as thumbnail"));
         connect(setThumbFrame, SIGNAL(triggered()), this, SLOT(slotSetThumbFrame()));
+        configMenu->addAction(setThumbFrame);
     }
+    configMenu->addSeparator();
+    QAction *resize1Action = configMenu->addAction(KIcon("transform-scale"), i18n("Resize (100%)"));
+    connect(resize1Action, SIGNAL(triggered()), this, SLOT(slotSetSizeOneToOne()));
+    QAction *resize2Action = configMenu->addAction(KIcon("transform-scale"), i18n("Resize (50%)"));
+    connect(resize2Action, SIGNAL(triggered()), this, SLOT(slotSetSizeOneToTwo()));
     //render->createVideoXWindow(ui.video_frame->winId(), -1);
     m_length = 0;
     m_monitorRefresh->show();
