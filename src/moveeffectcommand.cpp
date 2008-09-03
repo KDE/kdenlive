@@ -58,4 +58,3 @@ void MoveEffectCommand::redo() {
     m_view->moveEffect(m_track, m_pos, m_oldindex, m_newindex);
 }
 
-#include "moveeffectcommand.moc"

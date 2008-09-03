@@ -41,4 +41,3 @@ void MoveClipCommand::redo() {
     m_doIt = true;
 }
 
-#include "moveclipcommand.moc"

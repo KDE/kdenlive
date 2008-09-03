@@ -40,4 +40,3 @@ void ResizeClipCommand::redo() {
     m_doIt = true;
 }
 
-#include "resizeclipcommand.moc"

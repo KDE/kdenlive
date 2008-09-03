@@ -80,7 +80,6 @@ set(kdenlive_SRCS
   headertrack.cpp
   customtrackview.cpp
   clipitem.cpp
-  labelitem.cpp
   moveclipcommand.cpp
   resizeclipcommand.cpp
   razorclipcommand.cpp
