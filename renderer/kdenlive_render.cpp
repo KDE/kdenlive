@@ -27,6 +27,7 @@
 int main(int argc, char **argv) {
     QCoreApplication app(argc, argv);
     QStringList args = app.arguments();
+    QStringList preargs;
     int in = -1;
     int out = -1;
     if (!args.isEmpty()) args.takeFirst();
@@ -44,6 +45,11 @@ int main(int argc, char **argv) {
             out = args.at(0).section('=', -1).toInt();
             args.takeFirst();
         }
+        if (args.at(0).startsWith("preargs=")) {
+            QString a = args.at(0).section('=', 1);
+	    preargs = a.split(" ", QString::SkipEmptyParts);
+            args.takeFirst();
+        }
         QString render = args.at(0);
         args.takeFirst();
         QString profile = args.at(0);
@@ -56,7 +62,7 @@ int main(int argc, char **argv) {
         args.takeFirst();
         QString dest = args.at(0);
         args.takeFirst();
-        RenderJob *job = new RenderJob(erase, render, profile, rendermodule, player, src, dest, args, in, out);
+        RenderJob *job = new RenderJob(erase, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
         job->start();
         app.exec();
     } else {

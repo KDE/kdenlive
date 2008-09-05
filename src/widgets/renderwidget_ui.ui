@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>389</width>
-    <height>374</height>
+    <width>340</width>
+    <height>317</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -37,7 +37,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0" colspan="4" >
+   <item row="4" column="0" colspan="4" >
     <layout class="QHBoxLayout" name="horizontalLayout" >
      <item>
       <widget class="QCheckBox" name="enable_params" >
@@ -51,14 +51,14 @@
      </item>
     </layout>
    </item>
-   <item row="4" column="0" >
+   <item row="5" column="0" >
     <widget class="KPushButton" name="buttonStart" >
      <property name="text" >
       <string>Start</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="1" >
+   <item row="5" column="1" >
     <spacer name="horizontalSpacer" >
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
@@ -71,7 +71,7 @@
      </property>
     </spacer>
    </item>
-   <item row="4" column="2" colspan="2" >
+   <item row="5" column="2" colspan="2" >
     <widget class="QDialogButtonBox" name="buttonBox" >
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
@@ -87,14 +87,6 @@
       <number>0</number>
      </property>
      <widget class="QWidget" name="tab_2" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>373</width>
-        <height>203</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Templates</string>
       </attribute>
@@ -149,6 +141,13 @@
        </item>
       </layout>
      </widget>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2" >
+    <widget class="QCheckBox" name="tc_overlay" >
+     <property name="text" >
+      <string>Timecode overlay</string>
+     </property>
     </widget>
    </item>
   </layout>

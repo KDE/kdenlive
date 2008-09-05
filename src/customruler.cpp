@@ -107,6 +107,7 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event) {
             m_zoneStart += move;
             m_zoneEnd += move;
         }
+        m_view->setDocumentModified();
         update();
     } else {
         int pos = (int)((event->x() + offset()));

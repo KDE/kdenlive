@@ -101,7 +101,7 @@ void EffectsListView::reloadEffectList() {
 void EffectsListView::slotRemoveEffect() {
     QListWidgetItem *item = m_effectsList->currentItem();
     QString effectId = item->text();
-    QString path = KStandardDirs::locateLocal("data", "kdenlive/effects/", true);
+    QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
 
     QDir directory = QDir(path);
     QStringList filter;

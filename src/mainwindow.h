@@ -192,7 +192,7 @@ private slots:
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
     void slotRenderProject();
-    void slotDoRender(const QString &dest, const QString &render, const QStringList &avformat_args, bool zoneOnly, bool playAfter);
+    void slotDoRender(const QString &dest, const QString &render, const QStringList &overlay_args, const QStringList &avformat_args, bool zoneOnly, bool playAfter);
     void slotFullScreen();
     void slotUpdateDocumentState(bool modified);
     void slotZoomIn();

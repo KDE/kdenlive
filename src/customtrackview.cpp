@@ -72,7 +72,7 @@
 // const int duration = animate ? 1500 : 1;
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscene, QWidget *parent)
-        : QGraphicsView(projectscene, parent), m_scene(projectscene), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()), m_tracksHeight(KdenliveSettings::trackheight()), m_tool(SELECTTOOL), m_dragGuide(NULL), m_findIndex(0), m_menuPosition(QPoint()), m_blockRefresh(false), m_selectionGroup(NULL) {
+        : QGraphicsView(projectscene, parent), m_scene(projectscene), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()), m_tracksHeight(KdenliveSettings::trackheight()), m_tool(SELECTTOOL), m_dragGuide(NULL), m_findIndex(0), m_menuPosition(QPoint()), m_blockRefresh(false), m_selectionGroup(NULL), m_selectedTrack(0) {
     if (doc) m_commandStack = doc->commandStack();
     else m_commandStack == NULL;
     setMouseTracking(true);
@@ -102,6 +102,9 @@ CustomTrackView::~CustomTrackView() {
     qDeleteAll(m_guides);
 }
 
+void CustomTrackView::setDocumentModified() {
+    m_document->setModified(true);
+}
 
 void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition) {
     m_timelineContextMenu = timeline;
@@ -1996,15 +1999,15 @@ void CustomTrackView::slotRefreshGuides() {
 void CustomTrackView::drawBackground(QPainter * painter, const QRectF & rect) {
     QColor base = palette().button().color();
     QRectF r = rect;
-    //r.moveTo(horizontalScrollBar()->value(), verticalScrollBar()->value());
     r.setWidth(r.width() + 1);
     painter->setClipRect(r);
     painter->drawLine(r.left(), 0, r.right(), 0);
     uint max = m_scene->m_tracksList.count();
     for (uint i = 0; i < max;i++) {
+        /*if (max - i - 1 == m_selectedTrack) painter->fillRect(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1, QBrush(QColor(211, 205, 147)));
+               else*/
         if (m_scene->m_tracksList.at(max - i - 1).type == AUDIOTRACK) painter->fillRect(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1, QBrush(QColor(240, 240, 255)));
         painter->drawLine(r.left(), m_tracksHeight * (i + 1), r.right(), m_tracksHeight * (i + 1));
-        //painter->drawText(QRectF(10, 50 * i, 100, 50 * i + 49), Qt::AlignLeft, i18n(" Track ") + QString::number(i + 1));
     }
     int lowerLimit = m_tracksHeight * m_scene->m_tracksList.count() + 1;
     if (height() > lowerLimit)

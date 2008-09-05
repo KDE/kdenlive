@@ -77,7 +77,7 @@ EffectStackView::EffectStackView(QWidget *parent)
 void EffectStackView::slotSaveEffect() {
     QString name = QInputDialog::getText(this, i18n("Save Effect"), i18n("Name for saved effect: "));
     if (name.isEmpty()) return;
-    QString path = KStandardDirs::locateLocal("data", "kdenlive/effects/", true);
+    QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
     path = path + name + ".xml";
     if (QFile::exists(path)) if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) == KMessageBox::No) return;
 

@@ -913,7 +913,7 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale) {
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());
     if (m_timelineArea->count() > 1) m_timelineArea->setTabBarHidden(false);
     slotGotProgressInfo(QString(), -1);
-    //m_projectMonitor->refreshMonitor(true);
+    m_clipMonitor->refreshMonitor(true);
 }
 
 void MainWindow::recoverFiles(QList<KAutoSaveFile *> staleFiles) {
@@ -1013,7 +1013,7 @@ void MainWindow::slotEditProjectSettings() {
 void MainWindow::slotRenderProject() {
     if (!m_renderWidget) {
         m_renderWidget = new RenderWidget(this);
-        connect(m_renderWidget, SIGNAL(doRender(const QString&, const QString&, const QStringList &, bool, bool)), this, SLOT(slotDoRender(const QString&, const QString&, const QStringList &, bool, bool)));
+        connect(m_renderWidget, SIGNAL(doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool)), this, SLOT(slotDoRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool)));
     }
     /*TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
     if (currentTab) m_renderWidget->setTimeline(currentTab);
@@ -1021,7 +1021,7 @@ void MainWindow::slotRenderProject() {
     m_renderWidget->show();
 }
 
-void MainWindow::slotDoRender(const QString &dest, const QString &render, const QStringList &avformat_args, bool zoneOnly, bool playAfter) {
+void MainWindow::slotDoRender(const QString &dest, const QString &render, const QStringList &overlay_args, const QStringList &avformat_args, bool zoneOnly, bool playAfter) {
     if (dest.isEmpty()) return;
     int in;
     int out;
@@ -1038,6 +1038,7 @@ void MainWindow::slotDoRender(const QString &dest, const QString &render, const 
         QStringList args;
         args << "-erase";
         if (zoneOnly) args << "in=" + QString::number(in) << "out=" + QString::number(out);
+        if (!overlay_args.isEmpty()) args << "preargs=" + overlay_args.join(" ");
         QString videoPlayer = "-";
         if (playAfter) {
             videoPlayer = KdenliveSettings::defaultplayerapp();
@@ -1045,6 +1046,7 @@ void MainWindow::slotDoRender(const QString &dest, const QString &render, const 
         }
         args << KdenliveSettings::rendererpath() << m_activeDocument->profilePath() << render << videoPlayer << temp.fileName() << dest << avformat_args;
         QProcess::startDetached("kdenlive_render", args);
+        kDebug() << "///  STARTING RENDER PROCESS\n\nARGS:\n" << args;
     }
 }
 

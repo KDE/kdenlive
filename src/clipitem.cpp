@@ -949,11 +949,27 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value) 
                     if (pos().x() < otherPos.x()) {
                         // move clip just before colliding clip
                         int npos = (static_cast < AbstractClipItem* >(items.at(i))->startPos() - m_cropDuration).frames(m_fps);
+                        // check we don't run into another clip
                         newPos.setX(npos);
+                        sceneShape = rect();
+                        sceneShape.translate(newPos);
+                        QList<QGraphicsItem*> subitems = scene()->items(sceneShape, Qt::IntersectsItemShape);
+                        items.removeAll(this);
+                        for (int j = 0; j < subitems.count(); i++) {
+                            if (subitems.at(j)->type() == type()) return pos();
+                        }
                     } else {
                         // get pos just after colliding clip
                         int npos = static_cast < AbstractClipItem* >(items.at(i))->endPos().frames(m_fps);
+                        // check we don't run into another clip
                         newPos.setX(npos);
+                        sceneShape = rect();
+                        sceneShape.translate(newPos);
+                        QList<QGraphicsItem*> subitems = scene()->items(sceneShape, Qt::IntersectsItemShape);
+                        items.removeAll(this);
+                        for (int j = 0; j < subitems.count(); i++) {
+                            if (subitems.at(j)->type() == type()) return pos();
+                        }
                     }
                     m_track = newTrack;
                     m_startPos = GenTime((int) newPos.x(), m_fps);

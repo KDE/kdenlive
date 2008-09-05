@@ -95,6 +95,7 @@ public:
     void clipEnd();
     void changeClipSpeed();
     void doChangeClipSpeed(ItemInfo info, double speed, const QString &id);
+    void setDocumentModified();
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -138,6 +139,7 @@ protected:
 
 private:
     uint m_tracksHeight;
+    uint m_selectedTrack;
     int m_projectDuration;
     int m_cursorPos;
     ClipItem *m_dropItem;

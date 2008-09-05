@@ -83,7 +83,7 @@ void RenderWidget::slotSaveProfile() {
     ui.extension->setText(m_view.size_list->currentItem()->data(ExtensionRole).toString());
     ui.profile_name->setFocus();
     if (d->exec() == QDialog::Accepted) {
-        QString exportFile = KStandardDirs::locateLocal("data", "kdenlive/export/customprofiles.xml");
+        QString exportFile = KStandardDirs::locateLocal("appdata", "export/customprofiles.xml");
         QDomDocument doc;
         QFile file(exportFile);
         doc.setContent(&file, false);
@@ -162,7 +162,7 @@ void RenderWidget::slotEditProfile() {
 
     if (d->exec() == QDialog::Accepted) {
         slotDeleteProfile();
-        QString exportFile = KStandardDirs::locateLocal("data", "kdenlive/export/customprofiles.xml");
+        QString exportFile = KStandardDirs::locateLocal("appdata", "export/customprofiles.xml");
         QDomDocument doc;
         QFile file(exportFile);
         doc.setContent(&file, false);
@@ -219,7 +219,7 @@ void RenderWidget::slotDeleteProfile() {
     QString currentGroup = m_view.format_list->currentItem()->text();
     QString currentProfile = m_view.size_list->currentItem()->text();
 
-    QString exportFile = KStandardDirs::locateLocal("data", "kdenlive/export/customprofiles.xml");
+    QString exportFile = KStandardDirs::locateLocal("appdata", "export/customprofiles.xml");
     QDomDocument doc;
     QFile file(exportFile);
     doc.setContent(&file, false);
@@ -265,10 +265,17 @@ void RenderWidget::slotExport() {
     if (!item) return;
     QFile f(m_view.out_file->url().path());
     if (f.exists()) {
-        if (KMessageBox::warningYesNo(this, i18n("File already exists. Doy you want to overwrite it ?")) != KMessageBox::Yes)
+        if (KMessageBox::warningYesNo(this, i18n("File already exists. Do you want to overwrite it ?")) != KMessageBox::Yes)
             return;
     }
-    emit doRender(m_view.out_file->url().path(), item->data(RenderRole).toString(), m_view.advanced_params->text().split(' '), m_view.zone_only->isChecked(), m_view.play_after->isChecked());
+    QStringList overlayargs;
+    if (m_view.tc_overlay->isChecked()) {
+        QString filterFile = KStandardDirs::locate("appdata", "metadata.properties");
+        overlayargs << "meta.attr.timecode=1" << "meta.attr.timecode.markup=#timecode";
+        overlayargs << "-attach" << "data_feed:attr_check" << "-attach";
+        overlayargs << "data_show:" + filterFile << "_fezzik=1" << "dynamic=1";
+    }
+    emit doRender(m_view.out_file->url().path(), item->data(RenderRole).toString(), overlayargs, m_view.advanced_params->text().split(' '), m_view.zone_only->isChecked(), m_view.play_after->isChecked());
 }
 
 void RenderWidget::setDocumentStandard(QString std) {
@@ -330,9 +337,9 @@ void RenderWidget::refreshParams() {
 void RenderWidget::parseProfiles(QString group, QString profile) {
     m_view.size_list->clear();
     m_view.format_list->clear();
-    QString exportFile = KStandardDirs::locate("data", "kdenlive/export/profiles.xml");
+    QString exportFile = KStandardDirs::locate("appdata", "export/profiles.xml");
     parseFile(exportFile, false);
-    exportFile = KStandardDirs::locateLocal("data", "kdenlive/export/customprofiles.xml");
+    exportFile = KStandardDirs::locateLocal("appdata", "export/customprofiles.xml");
     parseFile(exportFile, true);
     refreshView();
     QList<QListWidgetItem *> child;

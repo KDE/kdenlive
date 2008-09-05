@@ -138,7 +138,7 @@ Mlt::Repository *initEffects::parseEffectFiles() {
 // static
 void initEffects::parseCustomEffectsFile() {
     MainWindow::customEffects.clear();
-    QString path = KStandardDirs::locateLocal("data", "kdenlive/effects/", true);
+    QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
     QDir directory = QDir(path);
     QStringList filter;
     filter << "*.xml";

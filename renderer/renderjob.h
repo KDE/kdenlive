@@ -28,7 +28,7 @@
 class RenderJob : public QObject {
     Q_OBJECT
 public:
-    RenderJob(bool erase, QString renderer, QString profile, QString rendermodule, QString player, QString scenelist, QString dest, QStringList args, int in = -1, int out = -1);
+    RenderJob(bool erase, const QString &renderer, const QString &profile, const QString &rendermodule, const QString &player, const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in = -1, int out = -1);
     ~RenderJob();
     void start();
 
