@@ -162,10 +162,15 @@ void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QSt
     if (properties.contains("description")) {
         CLIPTYPE type = clip->clipType();
         clip->setText(2, properties.value("description"));
-        if (type == AUDIO || type == VIDEO || type == AV || type == IMAGE || type == PLAYLIST) {
+        if (KdenliveSettings::activate_nepomuk() && (type == AUDIO || type == VIDEO || type == AV || type == IMAGE || type == PLAYLIST)) {
             // Use Nepomuk system to store clip description
             Nepomuk::Resource f(clip->clipUrl().path());
-            if (f.isValid()) f.setDescription(properties.value("description"));
+            if (f.isValid()) {
+                f.setDescription(properties.value("description"));
+            } else {
+                KMessageBox::sorry(this, i18n("Cannot access Desktop Search info for %1.\nDisabling Desktop Search integration.", clip->clipUrl().path()));
+                KdenliveSettings::setActivate_nepomuk(false);
+            }
         }
         emit projectModified();
     }
@@ -282,7 +287,7 @@ void ProjectList::slotAddClip(DocClipBase *clip) {
     if (item == NULL) item = new ProjectItem(listView, clip);
 
     KUrl url = clip->fileURL();
-    if (!url.isEmpty()) {
+    if (!url.isEmpty() && KdenliveSettings::activate_nepomuk()) {
         // if file has Nepomuk comment, use it
         Nepomuk::Resource f(url.path());
         QString annotation;
@@ -291,7 +296,10 @@ void ProjectList::slotAddClip(DocClipBase *clip) {
             /*
             Nepomuk::Tag tag("test");
             f.addTag(tag);*/
-        } else kDebug() << "---  CANNOT CONTACT NEPOMUK";
+        } else {
+            KMessageBox::sorry(this, i18n("Cannot access Desktop Search info for %1.\nDisabling Desktop Search integration.", url.path()));
+            KdenliveSettings::setActivate_nepomuk(false);
+        }
         if (!annotation.isEmpty()) item->setText(2, annotation);
     }
     emit getFileProperties(clip->toXML(), clip->getId());

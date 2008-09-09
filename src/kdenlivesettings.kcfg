@@ -94,6 +94,11 @@
   </group>
 
   <group name="env">
+    <entry name="activate_nepomuk" type="Bool">
+      <label>Integration with Desktop Search (Nepomuk).</label>
+      <default>false</default>
+    </entry>
+
     <entry name="mltpath" type="Path">
       <label>Mlt framework install path.</label>
       <default></default>
