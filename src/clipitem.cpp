@@ -416,12 +416,13 @@ void ClipItem::paint(QPainter *painter,
     if (isSelected()) paintColor = QBrush(QColor(79, 93, 121));
     QRectF br = rect();
     QRectF exposed = option->exposedRect;
+    QRectF mapped = painter->matrix().mapRect(br);
+
     const double itemWidth = br.width();
     const double itemHeight = br.height();
-    //kDebug() << "/// ITEM RECT: " << br << ", EPXOSED: " << option->exposedRect;
     const double scale = option->matrix.m11();
 
-    // kDebug()<<"///   EXPOSED RECT: "<<option->exposedRect.x()<<" X "<<option->exposedRect.right();
+
 
     //painter->setRenderHints(QPainter::Antialiasing);
 
@@ -467,36 +468,39 @@ void ClipItem::paint(QPainter *painter,
     }
 
     // draw audio thumbnails
-    if (KdenliveSettings::audiothumbnails() && ((m_clipType == AV && option->exposedRect.bottom() > (itemHeight / 2)) || m_clipType == AUDIO) && audioThumbReady) {
+    if (KdenliveSettings::audiothumbnails() && ((m_clipType == AV && exposed.bottom() > (itemHeight / 2)) || m_clipType == AUDIO) && audioThumbReady) {
 
-        double startpixel = option->exposedRect.left(); // - pos().x();
+        double startpixel = exposed.left();
         if (startpixel < 0)
             startpixel = 0;
-        double endpixel = option->exposedRect.right();
+        double endpixel = exposed.right();
         if (endpixel < 0)
             endpixel = 0;
         //kDebug()<<"///  REPAINTING AUDIO THMBS ZONE: "<<startpixel<<"x"<<endpixel;
 
         /*QPainterPath path = m_clipType == AV ? roundRectPathLower : resultClipPath;*/
-        QRectF re =  br;
         QRectF mappedRect;
         if (m_clipType == AV) {
+	    QRectF re =  br;
             re.setTop(re.y() + re.height() / 2);
             mappedRect = painter->matrix().mapRect(re);
-            painter->fillRect(mappedRect, QBrush(QColor(200, 200, 200, 140)));
-        } else mappedRect = painter->matrix().mapRect(re);
+            //painter->fillRect(mappedRect, QBrush(QColor(200, 200, 200, 140)));
+        } else mappedRect = mapped;
 
         int channels = baseClip()->getProperty("channels").toInt();
         if (scale != framePixelWidth)
             audioThumbCachePic.clear();
         double cropLeft = m_cropStart.frames(m_fps);
-        emit prepareAudioThumb(scale, startpixel + cropLeft, endpixel + cropLeft, channels);//200 more for less missing parts before repaint after scrolling
-        int newstart = startpixel + cropLeft;
         const int clipStart = mappedRect.x();
-        for (int startCache = newstart - (newstart) % 100; startCache < endpixel + cropLeft; startCache += 100) {
+	const int mappedStartPixel =  painter->matrix().map(QPointF(startpixel + cropLeft, 0)).x() - clipStart;
+	const int mappedEndPixel =  painter->matrix().map(QPointF(endpixel + cropLeft, 0)).x() - clipStart;
+	cropLeft = cropLeft * scale;
+
+        emit prepareAudioThumb(scale, mappedStartPixel, mappedEndPixel, channels);
+
+        for (int startCache = mappedStartPixel - (mappedStartPixel) % 100; startCache < mappedEndPixel; startCache += 100) {
             if (audioThumbCachePic.contains(startCache) && !audioThumbCachePic[startCache].isNull())
-                //painter->drawPixmap((int)(startCache - cropLeft), (int)(path.boundingRect().y()), audioThumbCachePic[startCache]);
-                painter->drawPixmap(clipStart + startCache, mappedRect.y(),  audioThumbCachePic[startCache]);
+                painter->drawPixmap(clipStart + startCache - cropLeft, mappedRect.y(),  audioThumbCachePic[startCache]);
         }
     }
 
@@ -524,7 +528,7 @@ void ClipItem::paint(QPainter *painter,
             if (KdenliveSettings::showmarkers()) {
                 framepos = br.x() + pos.frames(m_fps);
                 const QRectF r1(framepos + 0.04, 10, itemWidth - framepos - 2, itemHeight - 10);
-                const QRectF r2 = painter->matrix().map(r1).boundingRect();
+                const QRectF r2 = mapped;
                 const QRectF txtBounding = painter->boundingRect(r2, Qt::AlignLeft | Qt::AlignTop, " " + (*it).comment() + " ");
 
                 QPainterPath path;
@@ -574,7 +578,7 @@ void ClipItem::paint(QPainter *painter,
 
     // Draw effects names
     if (!m_effectNames.isEmpty() && itemWidth * scale > 40) {
-        QRectF txtBounding = painter->boundingRect(painter->matrix().map(br).boundingRect(), Qt::AlignLeft | Qt::AlignTop, m_effectNames);
+        QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignLeft | Qt::AlignTop, m_effectNames);
         txtBounding.setRight(txtBounding.right() + 15);
         painter->setPen(Qt::white);
         QBrush markerBrush(Qt::SolidPattern);
@@ -592,7 +596,7 @@ void ClipItem::paint(QPainter *painter,
 
 
     // Draw clip name
-    QRectF txtBounding = painter->boundingRect(painter->matrix().map(br).boundingRect(), Qt::AlignHCenter | Qt::AlignTop, " " + m_clipName + " ");
+    QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignTop, " " + m_clipName + " ");
     //painter->fillRect(txtBounding, QBrush(QColor(255, 255, 255, 150)));
     painter->setPen(QColor(0, 0, 0, 180));
     painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
@@ -622,7 +626,7 @@ void ClipItem::paint(QPainter *painter,
     }
 
     // draw effect or transition keyframes
-    if (itemWidth > 20) drawKeyFrames(painter, option->exposedRect);
+    if (itemWidth > 20) drawKeyFrames(painter, exposed);
 
     painter->setMatrixEnabled(true);
 
@@ -713,22 +717,20 @@ QList <CommentedTime> ClipItem::commentedSnapMarkers() const {
 
 void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, int endpixel, int channels) {
 
-    //QRectF re = path.boundingRect();
-    QRectF re =  rect();
+    QRectF re =  sceneBoundingRect();
     if (m_clipType == AV) re.setTop(re.y() + re.height() / 2);
 
-    //QRectF re = rect(); //path.boundingRect();
-    //kDebug() << "// PREP AUDIO THMB FRMO : " << startpixel << ", to: " << endpixel;
+    //kDebug() << "// PREP AUDIO THMB FRMO : scale:" << pixelForOneFrame<< ", from: " << startpixel << ", to: " << endpixel;
     //if ( (!audioThumbWasDrawn || framePixelWidth!=pixelForOneFrame ) && !baseClip()->audioFrameChache.isEmpty()){
 
-    for (int startCache = startpixel - startpixel % 100;startCache + 100 < endpixel + 100;startCache += 100) {
+    for (int startCache = startpixel - startpixel % 100;startCache < endpixel;startCache += 100) {
         //kDebug() << "creating " << startCache;
         //if (framePixelWidth!=pixelForOneFrame  ||
         if (framePixelWidth == pixelForOneFrame && audioThumbCachePic.contains(startCache))
             continue;
         if (audioThumbCachePic[startCache].isNull() || framePixelWidth != pixelForOneFrame) {
             audioThumbCachePic[startCache] = QPixmap(100, (int)(re.height()));
-            audioThumbCachePic[startCache].fill(QColor(200, 200, 200, 0));
+            audioThumbCachePic[startCache].fill(QColor(180, 180, 200, 140));
         }
         bool fullAreaDraw = pixelForOneFrame < 10;
         QMap<int, QPainterPath > positiveChannelPaths;
@@ -845,6 +847,7 @@ void ClipItem::hoverEnterEvent(QGraphicsSceneHoverEvent *e) {
     QRectF r = boundingRect();
     double width = 35 / projectScene()->scale();
     double height = r.height() / 2;
+    //WARNING: seems like it generates a full repaint of the clip, maybe not so good...
     update(r.x(), r.y() + height, width, height);
     update(r.right() - width, r.y() + height, width, height);
 }
@@ -855,6 +858,7 @@ void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *) {
     QRectF r = boundingRect();
     double width = 35 / projectScene()->scale();
     double height = r.height() / 2;
+    //WARNING: seems like it generates a full repaint of the clip, maybe not so good...
     update(r.x(), r.y() + height, width, height);
     update(r.right() - width, r.y() + height, width, height);
 }
