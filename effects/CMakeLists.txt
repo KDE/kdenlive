@@ -31,11 +31,10 @@ sox_flanger.xml
 sox_pitch.xml
 sox_reverb.xml
 sox_vibro.xml
-speed.xml
 threshold.xml
 volume.xml
 wave.xml
 fadein.xml
 fadeout.xml
 
-DESTINATION share/apps/kdenlive/effects)
+DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects)

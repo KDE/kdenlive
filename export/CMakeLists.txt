@@ -2,4 +2,4 @@ INSTALL (FILES
 
 profiles.xml
 
-DESTINATION share/apps/kdenlive/export)
+DESTINATION ${DATA_INSTALL_DIR}/kdenlive/export)
