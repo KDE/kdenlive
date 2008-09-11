@@ -481,7 +481,7 @@ void ClipItem::paint(QPainter *painter,
         /*QPainterPath path = m_clipType == AV ? roundRectPathLower : resultClipPath;*/
         QRectF mappedRect;
         if (m_clipType == AV) {
-	    QRectF re =  br;
+            QRectF re =  br;
             re.setTop(re.y() + re.height() / 2);
             mappedRect = painter->matrix().mapRect(re);
             //painter->fillRect(mappedRect, QBrush(QColor(200, 200, 200, 140)));
@@ -492,9 +492,9 @@ void ClipItem::paint(QPainter *painter,
             audioThumbCachePic.clear();
         double cropLeft = m_cropStart.frames(m_fps);
         const int clipStart = mappedRect.x();
-	const int mappedStartPixel =  painter->matrix().map(QPointF(startpixel + cropLeft, 0)).x() - clipStart;
-	const int mappedEndPixel =  painter->matrix().map(QPointF(endpixel + cropLeft, 0)).x() - clipStart;
-	cropLeft = cropLeft * scale;
+        const int mappedStartPixel =  painter->matrix().map(QPointF(startpixel + cropLeft, 0)).x() - clipStart;
+        const int mappedEndPixel =  painter->matrix().map(QPointF(endpixel + cropLeft, 0)).x() - clipStart;
+        cropLeft = cropLeft * scale;
 
         emit prepareAudioThumb(scale, mappedStartPixel, mappedEndPixel, channels);
 

@@ -88,7 +88,6 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     setContentsMargins(0, 0, 0, 0);
     if (projectscene) {
         m_cursorLine = projectscene->addLine(0, 0, 0, m_tracksHeight);
-        m_cursorLine->setFlags(QGraphicsItem::ItemIsMovable);
         m_cursorLine->setZValue(1000);
     }
 
@@ -565,7 +564,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
     if (m_dragItem && m_dragItem->type() == AVWIDGET) emit clipItemSelected((ClipItem*) m_dragItem);
     else emit clipItemSelected(NULL);
 
-    if (m_operationMode == NONE) QGraphicsView::mousePressEvent(event);
+    if (m_dragItem && m_operationMode == NONE) QGraphicsView::mousePressEvent(event);
 
     if (m_selectionGroup) {
         // delete selection group
@@ -1061,9 +1060,9 @@ Qt::DropActions CustomTrackView::supportedDropActions() const {
 }
 
 void CustomTrackView::setDuration(int duration) {
-    kDebug() << "/////////////  PRO DUR: " << duration << ", SCALE. " << (m_projectDuration + 500) << ", height: " << 50 * m_scene->m_tracksList.count();
+    if (duration > sceneRect().width())
+        setSceneRect(0, 0, (duration + 100), sceneRect().height());
     m_projectDuration = duration;
-    setSceneRect(0, 0, (m_projectDuration + 100), sceneRect().height());
 }
 
 int CustomTrackView::duration() const {
