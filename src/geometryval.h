@@ -51,6 +51,9 @@ private:
     Mlt::Geometry *m_geom;
     KeyframeHelper *m_helper;
     QGraphicsPathItem *m_path;
+    QMenu *m_scaleMenu;
+    QMenu *m_alignMenu;
+
     void updateTransitionPath();
 
 public slots:
@@ -64,6 +67,16 @@ private slots:
     void slotAddFrame();
     void slotUpdateTransitionProperties();
     void slotTransparencyChanged(int transp);
+    void slotResize50();
+    void slotResize100();
+    void slotResize200();
+    void slotAlignRight();
+    void slotAlignLeft();
+    void slotAlignTop();
+    void slotAlignBottom();
+    void slotAlignCenter();
+    void slotAlignHCenter();
+    void slotAlignVCenter();
 
 signals:
     void parameterChanged();

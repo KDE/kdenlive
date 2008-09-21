@@ -55,21 +55,43 @@ Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent): QWidge
     scene->addItem(m_frameBorder);
 
     ui.buttonNext->setIcon(KIcon("media-skip-forward"));
+    ui.buttonNext->setToolTip(i18n("Go to next keyframe"));
     ui.buttonPrevious->setIcon(KIcon("media-skip-backward"));
+    ui.buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
     ui.buttonAdd->setIcon(KIcon("document-new"));
+    ui.buttonAdd->setToolTip(i18n("Add keyframe"));
     ui.buttonDelete->setIcon(KIcon("edit-delete"));
+    ui.buttonDelete->setToolTip(i18n("Delete keyframe"));
 
     QMenu *configMenu = new QMenu(i18n("Misc..."), this);
     ui.buttonMenu->setIcon(KIcon("system-run"));
     ui.buttonMenu->setMenu(configMenu);
     ui.buttonMenu->setPopupMode(QToolButton::QToolButton::InstantPopup);
 
+
+    m_scaleMenu = new QMenu(i18n("Resize..."), this);
+    configMenu->addMenu(m_scaleMenu);
+    m_scaleMenu->addAction(i18n("50%"), this, SLOT(slotResize50()));
+    m_scaleMenu->addAction(i18n("100%"), this, SLOT(slotResize100()));
+    m_scaleMenu->addAction(i18n("200%"), this, SLOT(slotResize200()));
+
+
+    m_alignMenu = new QMenu(i18n("Align..."), this);
+    configMenu->addMenu(m_alignMenu);
+    m_alignMenu->addAction(i18n("Center"), this, SLOT(slotAlignCenter()));
+    m_alignMenu->addAction(i18n("Hor. Center"), this, SLOT(slotAlignHCenter()));
+    m_alignMenu->addAction(i18n("Vert. Center"), this, SLOT(slotAlignVCenter()));
+    m_alignMenu->addAction(i18n("Right"), this, SLOT(slotAlignRight()));
+    m_alignMenu->addAction(i18n("Left"), this, SLOT(slotAlignLeft()));
+    m_alignMenu->addAction(i18n("Top"), this, SLOT(slotAlignTop()));
+    m_alignMenu->addAction(i18n("Bottom"), this, SLOT(slotAlignBottom()));
+
     //scene->setSceneRect(0, 0, profile.width * 2, profile.height * 2);
     //view->fitInView(m_frameBorder, Qt::KeepAspectRatio);
     const double sc = 100.0 / profile.height * 0.8;
     QRectF srect = view->sceneRect();
     view->setSceneRect(srect.x(), -srect.height() / 2, srect.width(), srect.height() * 2);
-    view->scale(sc, sc);
+    scene->setZoom(sc);
     view->centerOn(m_frameBorder);
     connect(ui.buttonNext , SIGNAL(clicked()) , this , SLOT(slotNextFrame()));
     connect(ui.buttonPrevious , SIGNAL(clicked()) , this , SLOT(slotPreviousFrame()));
@@ -77,11 +99,131 @@ Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent): QWidge
     connect(ui.buttonAdd , SIGNAL(clicked()) , this , SLOT(slotAddFrame()));
 }
 
+void Geometryval::slotAlignCenter() {
+    int pos = ui.spinPos->value();
+    Mlt::GeometryItem item;
+    int error = m_geom->fetch(&item, pos);
+    if (error || item.key() == false) {
+        // no keyframe under cursor
+        return;
+    }
+    paramRect->setPos((m_profile.width - paramRect->rect().width()) / 2, (m_profile.height - paramRect->rect().height()) / 2);
+    slotUpdateTransitionProperties();
+}
+
+void Geometryval::slotAlignHCenter() {
+    int pos = ui.spinPos->value();
+    Mlt::GeometryItem item;
+    int error = m_geom->fetch(&item, pos);
+    if (error || item.key() == false) {
+        // no keyframe under cursor
+        return;
+    }
+    paramRect->setPos((m_profile.width - paramRect->rect().width()) / 2, paramRect->pos().y());
+    slotUpdateTransitionProperties();
+}
+
+void Geometryval::slotAlignVCenter() {
+    int pos = ui.spinPos->value();
+    Mlt::GeometryItem item;
+    int error = m_geom->fetch(&item, pos);
+    if (error || item.key() == false) {
+        // no keyframe under cursor
+        return;
+    }
+    paramRect->setPos(paramRect->pos().x(), (m_profile.height - paramRect->rect().height()) / 2);
+    slotUpdateTransitionProperties();
+}
+
+void Geometryval::slotAlignTop() {
+    int pos = ui.spinPos->value();
+    Mlt::GeometryItem item;
+    int error = m_geom->fetch(&item, pos);
+    if (error || item.key() == false) {
+        // no keyframe under cursor
+        return;
+    }
+    paramRect->setPos(paramRect->pos().x(), 0);
+    slotUpdateTransitionProperties();
+}
+
+void Geometryval::slotAlignBottom() {
+    int pos = ui.spinPos->value();
+    Mlt::GeometryItem item;
+    int error = m_geom->fetch(&item, pos);
+    if (error || item.key() == false) {
+        // no keyframe under cursor
+        return;
+    }
+    paramRect->setPos(paramRect->pos().x(), m_profile.height - paramRect->rect().height());
+    slotUpdateTransitionProperties();
+}
+
+void Geometryval::slotAlignLeft() {
+    int pos = ui.spinPos->value();
+    Mlt::GeometryItem item;
+    int error = m_geom->fetch(&item, pos);
+    if (error || item.key() == false) {
+        // no keyframe under cursor
+        return;
+    }
+    paramRect->setPos(0, paramRect->pos().y());
+    slotUpdateTransitionProperties();
+}
+
+void Geometryval::slotAlignRight() {
+    int pos = ui.spinPos->value();
+    Mlt::GeometryItem item;
+    int error = m_geom->fetch(&item, pos);
+    if (error || item.key() == false) {
+        // no keyframe under cursor
+        return;
+    }
+    paramRect->setPos(m_profile.width - paramRect->rect().width(), paramRect->pos().y());
+    slotUpdateTransitionProperties();
+}
+
+void Geometryval::slotResize50() {
+    int pos = ui.spinPos->value();
+    Mlt::GeometryItem item;
+    int error = m_geom->fetch(&item, pos);
+    if (error || item.key() == false) {
+        // no keyframe under cursor
+        return;
+    }
+    paramRect->setRect(0, 0, m_profile.width / 2, m_profile.height / 2);
+    slotUpdateTransitionProperties();
+}
+
+void Geometryval::slotResize100() {
+    int pos = ui.spinPos->value();
+    Mlt::GeometryItem item;
+    int error = m_geom->fetch(&item, pos);
+    if (error || item.key() == false) {
+        // no keyframe under cursor
+        return;
+    }
+    paramRect->setRect(0, 0, m_profile.width, m_profile.height);
+    slotUpdateTransitionProperties();
+}
+
+void Geometryval::slotResize200() {
+    int pos = ui.spinPos->value();
+    Mlt::GeometryItem item;
+    int error = m_geom->fetch(&item, pos);
+    if (error || item.key() == false) {
+        // no keyframe under cursor
+        return;
+    }
+    paramRect->setRect(0, 0, m_profile.width * 2, m_profile.height * 2);
+    slotUpdateTransitionProperties();
+}
+
 void Geometryval::slotTransparencyChanged(int transp) {
     int pos = ui.spinPos->value();
     Mlt::GeometryItem item;
-    int error = m_geom->next_key(&item, pos);
-    if (error || item.frame() != pos) {
+    int error = m_geom->fetch(&item, pos);
+    if (error || item.key() == false) {
         // no keyframe under cursor
         return;
     }
@@ -102,11 +244,15 @@ void Geometryval::slotPositionChanged(int pos) {
         ui.buttonDelete->setEnabled(false);
         ui.widget->setEnabled(false);
         ui.spinTransp->setEnabled(false);
+        m_scaleMenu->setEnabled(false);
+        m_alignMenu->setEnabled(false);
     } else {
         ui.buttonAdd->setEnabled(false);
         ui.buttonDelete->setEnabled(true);
         ui.widget->setEnabled(true);
         ui.spinTransp->setEnabled(true);
+        m_scaleMenu->setEnabled(true);
+        m_alignMenu->setEnabled(true);
     }
     paramRect->setPos(item.x(), item.y());
     paramRect->setRect(0, 0, item.w(), item.h());
@@ -116,6 +262,12 @@ void Geometryval::slotPositionChanged(int pos) {
 
 void Geometryval::slotDeleteFrame() {
     m_geom->remove(ui.spinPos->value());
+    ui.buttonAdd->setEnabled(true);
+    ui.buttonDelete->setEnabled(false);
+    ui.widget->setEnabled(false);
+    ui.spinTransp->setEnabled(false);
+    m_scaleMenu->setEnabled(false);
+    m_alignMenu->setEnabled(false);
     m_helper->update();
 }
 
@@ -133,6 +285,8 @@ void Geometryval::slotAddFrame() {
     ui.buttonDelete->setEnabled(true);
     ui.widget->setEnabled(true);
     ui.spinTransp->setEnabled(true);
+    m_scaleMenu->setEnabled(true);
+    m_alignMenu->setEnabled(true);
     m_helper->update();
 }
 
