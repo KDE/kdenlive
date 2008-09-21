@@ -542,12 +542,13 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 paramList.append(quickParameterFill(ret, "Softness", "softness", "double", "0", "0", "100", "", "", "100"));
                 paramList.append(quickParameterFill(ret, "Invert", "invert", "bool", "0", "0", "1"));
                 paramList.append(quickParameterFill(ret, "ImageFile", "resource", "list", "", "", "", imagefiles, imagenamelist));
+                paramList.append(quickParameterFill(ret, "Reverse Transition", "reverse", "bool", "0", "0", "1"));
                 //thumbnailer.prepareThumbnailsCall(imagelist);
 
             } else if (name == "composite") {
-                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "20%,0%:50%x100%;30=50%,0%:50%x50%", "-500;-500;-500;-500;0", "500;500;500;500;100"));
+                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "0%,0%:100%x100%:100;-1=0%,0%:100%x100%:100", "-500;-500;-500;-500;0", "500;500;500;500;100"));
+                paramList.append(quickParameterFill(ret, "Distort", "distort", "bool", "1", "1", "1"));
                 tname.appendChild(ret.createTextNode("Composite"));
-
                 QDomDocument ret1;
                 QDomElement ktrans1 = ret1.createElement("ktransition");
                 ret1.appendChild(ktrans1);
@@ -581,7 +582,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
 
 
         }
-        paramList.append(quickParameterFill(ret, "Reverse Transition", "reverse", "bool", "0", "0", "1"));
+
         ktrans.appendChild(tname);
 
         foreach(const QDomElement &e, paramList) {

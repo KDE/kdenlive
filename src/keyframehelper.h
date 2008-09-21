@@ -32,6 +32,7 @@ class KeyframeHelper : public QWidget {
 
 public:
     KeyframeHelper(QWidget *parent = 0);
+    const int value() const;
 
 protected:
     virtual void paintEvent(QPaintEvent * /*e*/);
@@ -42,9 +43,15 @@ protected:
 private:
     Mlt::Geometry *m_geom;
     int m_length;
+    int m_position;
+    double m_scale;
 
 public slots:
     void setKeyGeometry(Mlt::Geometry *geom, const int length);
+    void setValue(const int pos);
+
+signals:
+    void positionChanged(int);
 };
 
 #endif

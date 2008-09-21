@@ -21,71 +21,42 @@
 #include <QStylePainter>
 
 #include <KDebug>
-#include <KIcon>
-#include <KCursor>
 #include <KGlobalSettings>
 
 #include "keyframehelper.h"
-
 #include "definitions.h"
 
 
 KeyframeHelper::KeyframeHelper(QWidget *parent)
-        : QWidget(parent), m_geom(NULL) {
+        : QWidget(parent), m_geom(NULL), m_position(0), m_scale(0) {
     setFont(KGlobalSettings::toolBarFont());
-
 }
 
 // virtual
 void KeyframeHelper::mousePressEvent(QMouseEvent * event) {
-    /*    if (event->button() == Qt::RightButton) {
-            m_contextMenu->exec(event->globalPos());
-            return;
-        }
-        m_view->activateMonitor();
-        int pos = (int)((event->x() + offset()));
-        m_moveCursor = RULER_CURSOR;
-        if (event->y() > 10) {
-            if (qAbs(pos - m_zoneStart * m_factor) < 4) m_moveCursor = RULER_START;
-            else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2) * m_factor) < 4) m_moveCursor = RULER_MIDDLE;
-            else if (qAbs(pos - m_zoneEnd * m_factor) < 4) m_moveCursor = RULER_END;
-        }
-        if (m_moveCursor == RULER_CURSOR)
-            m_view->setCursorPos((int) pos / m_factor);
-    */
+    m_position = event->x() / m_scale;
+    emit positionChanged(m_position);
+    update();
 }
 
 // virtual
 void KeyframeHelper::mouseMoveEvent(QMouseEvent * event) {
-    /*    if (event->buttons() == Qt::LeftButton) {
-            int pos = (int)((event->x() + offset()) / m_factor);
-            if (pos < 0) pos = 0;
-            if (m_moveCursor == RULER_CURSOR) {
-                m_view->setCursorPos(pos);
-                return;
-            } else if (m_moveCursor == RULER_START) m_zoneStart = pos;
-            else if (m_moveCursor == RULER_END) m_zoneEnd = pos;
-            else if (m_moveCursor == RULER_MIDDLE) {
-                int move = pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2);
-                m_zoneStart += move;
-                m_zoneEnd += move;
-            }
-            m_view->setDocumentModified();
-            update();
-        } else {
-            int pos = (int)((event->x() + offset()));
-            if (event->y() <= 10) setCursor(Qt::ArrowCursor);
-            else if (qAbs(pos - m_zoneStart * m_factor) < 4) setCursor(KCursor("left_side", Qt::SizeHorCursor));
-            else if (qAbs(pos - m_zoneEnd * m_factor) < 4) setCursor(KCursor("right_side", Qt::SizeHorCursor));
-            else if (qAbs(pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2) * m_factor) < 4) setCursor(Qt::SizeHorCursor);
-            else setCursor(Qt::ArrowCursor);
-        }
-    */
+    m_position = event->x() / m_scale;
+    m_position = qMax(0, m_position);
+    m_position = qMin(m_length, m_position);
+    emit positionChanged(m_position);
+    update();
 }
 
 
 // virtual
 void KeyframeHelper::wheelEvent(QWheelEvent * e) {
+    if (e->delta() < 0) m_position = m_position - 1;
+    else m_position = m_position + 1;
+    m_position = qMax(0, m_position);
+    m_position = qMin(m_length, m_position);
+    emit positionChanged(m_position);
+    update();
     /*    int delta = 1;
         if (e->modifiers() == Qt::ControlModifier) delta = m_timecode.fps();
         if (e->delta() < 0) delta = 0 - delta;
@@ -96,26 +67,45 @@ void KeyframeHelper::wheelEvent(QWheelEvent * e) {
 // virtual
 void KeyframeHelper::paintEvent(QPaintEvent *e) {
     QStylePainter p(this);
-    p.setClipRect(e->rect());
-
+    const QRectF clipRect = e->rect();
+    p.setClipRect(clipRect);
+    m_scale = (double) width() / m_length;
     if (m_geom != NULL) {
         int pos = 0;
+        p.setBrush(QColor(255, 20, 20));
         Mlt::GeometryItem item;
-        for (int i = 0; i < m_geom->length(); i++) {
-            m_geom->next_key(&item, pos);
+        while (true) {
+            if (m_geom->next_key(&item, pos) == 1) break;
             pos = item.frame();
-            kDebug() << "++ PAINTING POS: " << pos;
-            int scaledPos = pos * width() / m_length;
-            p.fillRect(QRect(scaledPos - 1, 0, 2, 15), QBrush(QColor(255, 20, 20)));
+            int scaledPos = pos * m_scale;
+            p.drawLine(scaledPos, clipRect.y() , scaledPos, clipRect.bottom());
+            //p.fillRect(QRect(scaledPos - 1, 0, 2, 15), QBrush(QColor(255, 20, 20)));
             pos++;
         }
     }
+    // draw pointer
+    QPolygon pa(3);
+    const int cursor = m_position * m_scale;
+    pa.setPoints(3, cursor - 5, 14, cursor + 5, 14, cursor/*+0*/, 9);
+    p.setBrush(palette().dark().color());
+    p.drawPolygon(pa);
+
+
+}
+
+const int KeyframeHelper::value() const {
+    return m_position;
+}
+
+void KeyframeHelper::setValue(const int pos) {
+    if (pos == m_position) return;
+    m_position = pos;
+    update();
 }
 
 void KeyframeHelper::setKeyGeometry(Mlt::Geometry *geom, const int length) {
     m_geom = geom;
     m_length = length;
-    kDebug() << "KEYFRAMES: " << m_geom->length() << ", TRANS SOZE: " << m_length;
     update();
 }
 

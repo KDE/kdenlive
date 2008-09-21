@@ -103,10 +103,10 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
         QString value = pa.attribute("value").isNull() ?
                         pa.attribute("default") : pa.attribute("value");
         if (type == "geometry") {
-            pa.setAttribute("namedesc", "X;Y;Width;Height;Transparency");
+            /*pa.setAttribute("namedesc", "X;Y;Width;Height;Transparency");
             pa.setAttribute("format", "%d%,%d%:%d%x%d%:%d");
             pa.setAttribute("min", "-500;-500;0;0;0");
-            pa.setAttribute("max", "500;500;200;200;100");
+            pa.setAttribute("max", "500;500;200;200;100");*/
         } else if (type == "complex") {
             //pa.setAttribute("namedesc",pa.attribute("name"));
 

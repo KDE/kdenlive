@@ -579,6 +579,11 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
 
     AVFormatContext *context = (AVFormatContext *) mlt_properties_get_data(properties, "video_context", NULL);
     if (context != NULL) {
+        /*if (context->duration == AV_NOPTS_VALUE) {
+        kDebug() << " / / / / / / / /ERRROR / / / CLIP HAS UNKNOWN DURATION";
+            emit removeInvalidClip(clipId);
+            return;
+        }*/
         // Get the video_index
         int index = mlt_properties_get_int(properties, "video_index");
 
