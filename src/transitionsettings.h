@@ -16,8 +16,11 @@
  ***************************************************************************/
 #ifndef TRANSITIONSETTINGS_H
 #define TRANSITIONSETTINGS_H
-#include "ui_transitionsettings_ui.h"
+
 #include <QDomElement>
+
+#include "ui_transitionsettings_ui.h"
+#include "definitions.h"
 
 class Transition;
 class EffectsList;
@@ -28,6 +31,8 @@ class TransitionSettings : public QWidget  {
 public:
     TransitionSettings(QWidget* parent = 0);
     void raiseWindow(QWidget*);
+    void updateProjectFormat(MltVideoProfile profile);
+
 private:
     Ui::TransitionSettings_UI ui;
     EffectStackEdit *effectEdit;

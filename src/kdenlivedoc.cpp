@@ -504,6 +504,10 @@ QString KdenliveDoc::profilePath() const {
     return m_profile.path;
 }
 
+MltVideoProfile KdenliveDoc::mltProfile() const {
+    return m_profile;
+}
+
 void KdenliveDoc::setProfilePath(QString path) {
     if (path.isEmpty()) path = KdenliveSettings::default_profile();
     if (path.isEmpty()) path = "dv_pal";

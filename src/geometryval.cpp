@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 
-#include "geometryval.h"
+
 #include <QGraphicsView>
 #include <QVBoxLayout>
 #include <QGraphicsScene>
@@ -25,36 +25,53 @@
 #include <QMouseEvent>
 #include <KDebug>
 
-Geometryval::Geometryval(QWidget* parent): QWidget(parent) {
-    ui.setupUi(this);
-    QVBoxLayout* vbox = new QVBoxLayout(this);
-    ui.widget->setLayout(vbox);
-    QGraphicsView *view = new QGraphicsView(this);
-    view->setBackgroundBrush(QBrush(QColor(0, 0, 0)));
-    vbox->addWidget(view);
+#include "geometryval.h"
 
-    ui.frame->setTickPosition(QSlider::TicksBelow);
+Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent): QWidget(parent), m_profile(profile) {
+    ui.setupUi(this);
+    QVBoxLayout* vbox = new QVBoxLayout(ui.widget);
+    QGraphicsView *view = new QGraphicsView(this);
+    view->setBackgroundBrush(QBrush(Qt::black));
+    vbox->addWidget(view);
+    vbox->setContentsMargins(0, 0, 0, 0);
+
+    QVBoxLayout* vbox2 = new QVBoxLayout(ui.keyframeWidget);
+    m_helper = new KeyframeHelper(this);
+    vbox2->addWidget(m_helper);
+    vbox2->setContentsMargins(0, 0, 0, 0);
 
     scene = new GraphicsSceneRectMove(this);
     scene->setTool(TITLE_SELECT);
     view->setScene(scene);
-    double aspect = 4.0 / 3.0; //change to project val
-    QGraphicsRectItem *m_frameBorder = new QGraphicsRectItem(QRectF(0, 0, 100.0*aspect, 100));
+    double aspect = (double) profile.sample_aspect_num / profile.sample_aspect_den * profile.width / profile.height;
+    QGraphicsRectItem *m_frameBorder = new QGraphicsRectItem(QRectF(0, 0, profile.width, profile.height));
     m_frameBorder->setZValue(-1100);
-    //m_frameBorder->setBrush(QColor(255, 255, 0, 255));
+    m_frameBorder->setBrush(QColor(255, 255, 0, 30));
     m_frameBorder->setPen(QPen(QBrush(QColor(255, 255, 255, 255)), 1.0, Qt::DashLine));
     scene->addItem(m_frameBorder);
 
-    paramRect = new QGraphicsRectItem(QRectF(20.0*aspect, 20, 80*aspect, 80));
-
-    paramRect->setZValue(0);
-    //m_frameBorder1->setBrush(QColor(255, 0, 0, 0));
-    paramRect->setPen(QPen(QBrush(QColor(255, 0, 0, 255)), 1.0));
-
-    scene->addItem(paramRect);
-
-    scene->setSceneRect(-100.0*aspect, -100, 300.0*aspect, 300);
+    //scene->setSceneRect(-100.0*aspect, -100, 300.0*aspect, 300);
+    //view->fitInView(m_frameBorder, Qt::KeepAspectRatio);
+    const double sc = 100.0 / profile.height;
+    view->scale(sc, sc);
+    view->centerOn(m_frameBorder);
     connect(scene , SIGNAL(itemMoved()) , this , SLOT(moveEvent()));
+    connect(ui.buttonNext , SIGNAL(clicked()) , this , SLOT(slotNextFrame()));
+    connect(ui.buttonPrevious , SIGNAL(clicked()) , this , SLOT(slotPreviousFrame()));
+}
+
+void Geometryval::slotNextFrame() {
+    Mlt::GeometryItem item;
+    m_geom->next_key(&item, ui.keyframeSlider->value() + 1);
+    int pos = item.frame();
+    ui.keyframeSlider->setValue(pos);
+}
+
+void Geometryval::slotPreviousFrame() {
+    Mlt::GeometryItem item;
+    m_geom->prev_key(&item, ui.keyframeSlider->value() - 1);
+    int pos = item.frame();
+    ui.keyframeSlider->setValue(pos);
 }
 
 void Geometryval::moveEvent() {
@@ -84,8 +101,26 @@ QDomElement Geometryval::getParamDesc() {
     return param;
 }
 
-void Geometryval::setupParam(const QDomElement& par, const QString& paramName, int minFrame, int maxFrame) {
+void Geometryval::setupParam(const QDomElement& par, int minFrame, int maxFrame) {
     param = par;
+    QString val = par.attribute("value");
+    char *tmp = (char *) qstrdup(val.toUtf8().data());
+    m_geom = new Mlt::Geometry(tmp, val.count(';') + 1, m_profile.width, m_profile.height);
+    delete[] tmp;
     //read param her and set rect
-    ui.frame->setRange(minFrame, maxFrame);
+    ui.keyframeSlider->setRange(0, maxFrame - minFrame);
+    m_helper->setKeyGeometry(m_geom, maxFrame - minFrame);
+    QDomDocument doc;
+    doc.appendChild(doc.importNode(par, true));
+    kDebug() << "IMPORTED TRANS: " << doc.toString();
+
+    Mlt::GeometryItem item;
+    m_geom->fetch(&item, 0);
+    paramRect = new QGraphicsRectItem(QRectF(0, 0, item.w(), item.h()));
+    paramRect->setPos(item.x(), item.y());
+    paramRect->setZValue(0);
+
+    paramRect->setBrush(QColor(255, 0, 0, 40));
+    paramRect->setPen(QPen(QBrush(QColor(255, 0, 0, 255)), 1.0));
+    scene->addItem(paramRect);
 }

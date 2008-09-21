@@ -19,9 +19,14 @@
 #define GEOMETRYVAL_H
 
 
-#include "ui_geometryval_ui.h"
 #include <QWidget>
 #include <QDomElement>
+
+#include <mlt++/Mlt.h>
+
+#include "ui_geometryval_ui.h"
+#include "definitions.h"
+#include "keyframehelper.h"
 
 //class QGraphicsScene;
 class GraphicsSceneRectMove;
@@ -31,17 +36,26 @@ class QMouseEvent;
 class Geometryval : public QWidget {
     Q_OBJECT
 public:
-    Geometryval(QWidget* parent = 0);
+    Geometryval(const MltVideoProfile profile, QWidget* parent = 0);
     QDomElement getParamDesc();
 private:
     Ui::Geometryval ui;
+    MltVideoProfile m_profile;
     //QGraphicsScene* scene;
     GraphicsSceneRectMove *scene;
     QDomElement param;
     QGraphicsRectItem *paramRect;
+    Mlt::Geometry *m_geom;
+    KeyframeHelper *m_helper;
+
 public slots:
-    void setupParam(const QDomElement&, const QString& paramName, int, int);
+    void setupParam(const QDomElement&, int, int);
     void moveEvent();
+
+private slots:
+    void slotNextFrame();
+    void slotPreviousFrame();
+
 signals:
     void parameterChanged();
 };

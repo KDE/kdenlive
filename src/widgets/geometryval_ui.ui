@@ -5,22 +5,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>273</width>
+    <height>256</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout" >
-   <item row="0" column="0" >
-    <widget class="QLabel" name="label" >
-     <property name="text" >
-      <string>Geometry</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" >
+   <item row="0" column="0" colspan="7" >
     <widget class="QWidget" native="1" name="widget" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
@@ -30,22 +23,105 @@
      </property>
     </widget>
    </item>
+   <item row="1" column="0" colspan="7" >
+    <layout class="QVBoxLayout" name="verticalLayout" >
+     <item>
+      <widget class="QFrame" name="keyframeWidget" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize" >
+        <size>
+         <width>0</width>
+         <height>15</height>
+        </size>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>16777215</width>
+         <height>15</height>
+        </size>
+       </property>
+       <property name="frameShape" >
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Plain</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSlider" name="keyframeSlider" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
    <item row="2" column="0" >
-    <widget class="QSlider" name="frame" >
+    <widget class="KArrowButton" name="buttonPrevious" >
+     <property name="arrowType" stdset="0" >
+      <number>3</number>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1" >
+    <widget class="KArrowButton" name="buttonNext" >
+     <property name="arrowType" stdset="0" >
+      <number>4</number>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2" >
+    <widget class="QToolButton" name="buttonAdd" >
+     <property name="text" >
+      <string>A</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3" >
+    <widget class="QToolButton" name="buttonDelete" >
+     <property name="text" >
+      <string>D</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="4" >
+    <spacer name="horizontalSpacer" >
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>
-    </widget>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>17</width>
+       <height>29</height>
+      </size>
+     </property>
+    </spacer>
    </item>
-   <item row="3" column="0" >
-    <widget class="QCheckBox" name="isKeyFrame" >
+   <item row="2" column="5" >
+    <widget class="QLabel" name="label_2" >
      <property name="text" >
-      <string>Keyframe</string>
+      <string>Transparency</string>
      </property>
     </widget>
    </item>
+   <item row="2" column="6" >
+    <widget class="QSpinBox" name="spinBox" />
+   </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KArrowButton</class>
+   <extends>QPushButton</extends>
+   <header>karrowbutton.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -86,6 +86,7 @@ Q_OBJECT public:
     /** Inform application of the audio thumbnails generation progress */
     void setThumbsProgress(const QString &message, int progress);
     QString profilePath() const;
+    MltVideoProfile mltProfile() const;
     QString description() const;
     /** Returns the document format: PAL or NTSC */
     QString getDocumentStandard();

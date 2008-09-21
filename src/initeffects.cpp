@@ -545,7 +545,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 //thumbnailer.prepareThumbnailsCall(imagelist);
 
             } else if (name == "composite") {
-                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "0;0;100;100;100", "-500;-500;-500;-500;0", "500;500;500;500;100"));
+                paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "20%,0%:50%x100%;30=50%,0%:50%x50%", "-500;-500;-500;-500;0", "500;500;500;500;100"));
                 tname.appendChild(ret.createTextNode("Composite"));
 
                 QDomDocument ret1;

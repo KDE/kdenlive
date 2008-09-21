@@ -38,6 +38,10 @@ TransitionSettings::TransitionSettings(QWidget* parent): QWidget(parent) {
     ui.splitter->setStretchFactor(1, 10);
 }
 
+void TransitionSettings::updateProjectFormat(MltVideoProfile profile) {
+    effectEdit->updateProjectFormat(profile);
+}
+
 
 void TransitionSettings::slotTransitionChanged(bool reinit) {
     QDomElement e = m_usedTransition->toXML().cloneNode().toElement();
@@ -80,7 +84,7 @@ void TransitionSettings::slotUpdateEffectParams(const QDomElement& oldparam, con
     m_usedTransition->toXML().save(str, 2);*/
     //kDebug() << test;
     //oldparam must be also first given to Transition and then return the toXML()
-    emit transitionUpdated(m_usedTransition, oldparam);
+    if (oldparam != param) emit transitionUpdated(m_usedTransition, oldparam);
 }
 
 void TransitionSettings::raiseWindow(QWidget* dock) {

@@ -24,12 +24,14 @@
 #include <QPushButton>
 #include <QCheckBox>
 #include <QScrollArea>
+
 #include "ui_constval_ui.h"
 #include "ui_listval_ui.h"
 #include "ui_boolval_ui.h"
 #include "ui_colorval_ui.h"
 #include "ui_wipeval_ui.h"
 #include "complexparameter.h"
+
 #include "geometryval.h"
 
 QMap<QString, QImage> EffectStackEdit::iconCache;
@@ -71,12 +73,25 @@ EffectStackEdit::~EffectStackEdit() {
     iconCache.clear();
 }
 
+void EffectStackEdit::updateProjectFormat(MltVideoProfile profile) {
+    m_profile = profile;
+}
+
 void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
     kDebug() << "in";
     params = d;
-    QDomNodeList namenode = params.elementsByTagName("parameter");
 
     clearAllItems();
+    if (params.isNull()) return;
+
+    QDomDocument doc;
+    doc.appendChild(doc.importNode(params, true));
+    kDebug() << "IMPORTED TRANS: " << doc.toString();
+    QDomNodeList namenode = params.elementsByTagName("parameter");
+    QDomElement e = params.toElement();
+    const int minFrame = e.attribute("start").toInt();
+    const int maxFrame = e.attribute("end").toInt();
+
 
     for (int i = 0;i < namenode.count() ;i++) {
         kDebug() << "in form";
@@ -159,9 +174,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
             valueItems[paramName+"complex"] = pl;
             items.append(pl);
         } else if (type == "geometry") {
-            Geometryval *geo = new Geometryval;
+            Geometryval *geo = new Geometryval(m_profile);
             connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
-            geo->setupParam(d, pa.attribute("name"), 0, 100);
+            geo->setupParam(pa, minFrame, maxFrame);
             vbox->addWidget(geo);
             valueItems[paramName+"geometry"] = geo;
             items.append(geo);
