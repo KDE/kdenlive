@@ -463,6 +463,11 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
 }
 
 void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList* transitions, QStringList names) {
+    // remove transitions that are not implemented
+    int pos = names.indexOf("mix");
+    if (pos != -1) names.takeAt(pos);
+    pos = names.indexOf("region");
+    if (pos != -1) names.takeAt(pos);
     foreach(const QString &name, names) {
         QDomDocument ret;
         QDomElement ktrans = ret.createElement("ktransition");

@@ -46,7 +46,7 @@ class MainWindow;
 class KdenliveDoc: public QObject {
 Q_OBJECT public:
 
-    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, MainWindow *parent = 0);
+    KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QPoint tracks, MainWindow *parent = 0);
     ~KdenliveDoc();
     QDomNodeList producersList();
     double fps() const;
@@ -129,7 +129,7 @@ private:
     double m_documentLoadingStep;
     double m_documentLoadingProgress;
     void convertDocument(double version);
-    QDomDocument createEmptyDocument();
+    QDomDocument createEmptyDocument(const int videotracks, const int audiotracks);
 
 public slots:
     void slotCreateTextClip(QString group, const QString &groupId);

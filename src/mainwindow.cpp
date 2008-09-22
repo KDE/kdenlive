@@ -777,15 +777,17 @@ void MainWindow::readOptions() {
 void MainWindow::newFile() {
     QString profileName;
     KUrl projectFolder;
+    QPoint projectTracks(3, 2);
     if (m_timelineArea->count() == 0) profileName = KdenliveSettings::default_profile();
     else {
         ProjectSettings *w = new ProjectSettings;
         if (w->exec() != QDialog::Accepted) return;
         profileName = w->selectedProfile();
         projectFolder = w->selectedFolder();
+        projectTracks = w->tracks();
         delete w;
     }
-    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, this);
+    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, projectTracks,  this);
     doc->m_autosave = new KAutoSaveFile(KUrl(), doc);
     TrackView *trackView = new TrackView(doc, this);
     m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description());
@@ -899,7 +901,7 @@ void MainWindow::openFile(const KUrl &url) {
 
 void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale) {
     KdenliveDoc *doc;
-    doc = new KdenliveDoc(url, KUrl(), m_commandStack, QString(), this);
+    doc = new KdenliveDoc(url, KUrl(), m_commandStack, QString(), QPoint(3, 2), this);
     if (stale == NULL) {
         stale = new KAutoSaveFile(url, doc);
         doc->m_autosave = stale;

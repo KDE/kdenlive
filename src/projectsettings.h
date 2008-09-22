@@ -33,6 +33,7 @@ public:
     ProjectSettings(QWidget * parent = 0);
     QString selectedProfile() const;
     KUrl selectedFolder() const;
+    QPoint tracks();
 
 private slots:
     void slotUpdateDisplay();

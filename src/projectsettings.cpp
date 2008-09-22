@@ -49,6 +49,8 @@ ProjectSettings::ProjectSettings(QWidget * parent): QDialog(parent), m_isCustomP
     //buttonOk->setEnabled(false);
     m_view.audio_thumbs->setChecked(KdenliveSettings::audiothumbnails());
     m_view.video_thumbs->setChecked(KdenliveSettings::videothumbnails());
+    m_view.audio_tracks->setValue(2);
+    m_view.video_tracks->setValue(3);
     slotUpdateDisplay();
     connect(m_view.profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
     connect(m_view.project_folder, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButton(const QString &)));
@@ -77,6 +79,13 @@ QString ProjectSettings::selectedProfile() const {
 
 KUrl ProjectSettings::selectedFolder() const {
     return m_view.project_folder->url();
+}
+
+QPoint ProjectSettings::tracks() {
+    QPoint p;
+    p.setX(m_view.video_tracks->value());
+    p.setY(m_view.audio_tracks->value());
+    return p;
 }
 
 #include "projectsettings.moc"

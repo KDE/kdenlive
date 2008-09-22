@@ -37,7 +37,7 @@
 #include "mainwindow.h"
 
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, MainWindow *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_commandStack(new QUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(7), m_autosave(NULL) {
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QPoint tracks, MainWindow *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_commandStack(new QUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(7), m_autosave(NULL) {
     m_clipManager = new ClipManager(this);
     if (!url.isEmpty()) {
         QString tmpFile;
@@ -113,18 +113,18 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
             } else {
                 parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file."), 100);
                 kWarning() << "  NO KDENLIVE INFO FOUND IN FILE: " << url.path();
-                m_document = createEmptyDocument();
+                m_document = createEmptyDocument(tracks.x(), tracks.y());
                 setProfilePath(profileName);
             }
             KIO::NetAccess::removeTempFile(tmpFile);
         } else {
             KMessageBox::error(parent, KIO::NetAccess::lastErrorString());
             parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file."), 100);
-            m_document = createEmptyDocument();
+            m_document = createEmptyDocument(tracks.x(), tracks.y());
             setProfilePath(profileName);
         }
     } else {
-        m_document = createEmptyDocument();
+        m_document = createEmptyDocument(tracks.x(), tracks.y());
         setProfilePath(profileName);
     }
     m_scenelist = m_document.toString();
@@ -144,7 +144,7 @@ KdenliveDoc::~KdenliveDoc() {
     m_autosave->remove();
 }
 
-QDomDocument KdenliveDoc::createEmptyDocument() {
+QDomDocument KdenliveDoc::createEmptyDocument(const int videotracks, const int audiotracks) {
     // Creating new document
     QDomDocument doc;
     QDomElement westley = doc.createElement("westley");
@@ -159,8 +159,6 @@ QDomDocument KdenliveDoc::createEmptyDocument() {
 
 
     // create playlists
-    const int audiotracks = 2;
-    const int videotracks = 3;
     int total = audiotracks + videotracks + 1;
 
     for (int i = 1; i < total; i++) {
@@ -765,7 +763,7 @@ void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId) {
         QString titleName = "title";
         int counter = 0;
         QString path = titlesFolder + titleName + QString::number(counter).rightJustified(3, '0', false);
-        while (QFile::exists(path + ".kdenlivetitle")) {
+        while (QFile::exists(path + ".png")) {
             counter++;
             path = titlesFolder + titleName + QString::number(counter).rightJustified(3, '0', false);
         }
