@@ -36,7 +36,7 @@
 
 QMap<QString, QImage> EffectStackEdit::iconCache;
 
-EffectStackEdit::EffectStackEdit(QFrame* frame, QWidget *parent): QObject(parent) {
+EffectStackEdit::EffectStackEdit(QFrame* frame, QWidget *parent): QObject(parent), m_in(0), m_out(0) {
     QScrollArea *area;
     QVBoxLayout *vbox1 = new QVBoxLayout(frame);
     QVBoxLayout *vbox2 = new QVBoxLayout(frame);
@@ -77,10 +77,11 @@ void EffectStackEdit::updateProjectFormat(MltVideoProfile profile) {
     m_profile = profile;
 }
 
-void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
+void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out) {
     kDebug() << "in";
     params = d;
-
+    m_in = in;
+    m_out = out;
     clearAllItems();
     if (params.isNull()) return;
 
@@ -176,6 +177,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
         } else if (type == "geometry") {
             Geometryval *geo = new Geometryval(m_profile);
             connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
+            connect(geo, SIGNAL(seekToPos(int)), this, SLOT(slotSeekToPos(int)));
             geo->setupParam(pa, minFrame, maxFrame);
             vbox->addWidget(geo);
             valueItems[paramName+"geometry"] = geo;
@@ -257,6 +259,10 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int , int) {
             vbox->addWidget(toFillin);
         }
     }
+}
+
+void EffectStackEdit::slotSeekToPos(int pos) {
+    emit seekTimeline(m_in + pos);
 }
 
 wipeInfo EffectStackEdit::getWipeInfo(QString value) {

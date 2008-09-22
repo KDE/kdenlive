@@ -53,6 +53,7 @@ private:
     QGraphicsPathItem *m_path;
     QMenu *m_scaleMenu;
     QMenu *m_alignMenu;
+    QAction *m_syncAction;
 
     void updateTransitionPath();
 
@@ -77,9 +78,11 @@ private slots:
     void slotAlignCenter();
     void slotAlignHCenter();
     void slotAlignVCenter();
+    void slotSyncCursor();
 
 signals:
     void parameterChanged();
+    void seekToPos(int);
 };
 
 #endif

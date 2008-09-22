@@ -28,6 +28,7 @@
 
 #include "graphicsscenerectmove.h"
 #include "geometryval.h"
+#include "kdenlivesettings.h"
 
 Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent): QWidget(parent), m_profile(profile) {
     ui.setupUi(this);
@@ -85,6 +86,11 @@ Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent): QWidge
     m_alignMenu->addAction(i18n("Left"), this, SLOT(slotAlignLeft()));
     m_alignMenu->addAction(i18n("Top"), this, SLOT(slotAlignTop()));
     m_alignMenu->addAction(i18n("Bottom"), this, SLOT(slotAlignBottom()));
+
+
+    m_syncAction = configMenu->addAction(i18n("Sync timeline cursor"), this, SLOT(slotSyncCursor()));
+    m_syncAction->setCheckable(true);
+    m_syncAction->setChecked(KdenliveSettings::transitionfollowcursor());
 
     //scene->setSceneRect(0, 0, profile.width * 2, profile.height * 2);
     //view->fitInView(m_frameBorder, Qt::KeepAspectRatio);
@@ -233,7 +239,12 @@ void Geometryval::slotTransparencyChanged(int transp) {
     emit parameterChanged();
 }
 
+void Geometryval::slotSyncCursor() {
+    KdenliveSettings::setTransitionfollowcursor(m_syncAction->isChecked());
+}
+
 void Geometryval::slotPositionChanged(int pos) {
+    if (KdenliveSettings::transitionfollowcursor()) emit seekToPos(pos);
     ui.spinPos->setValue(pos);
     m_helper->setValue(pos);
     Mlt::GeometryItem item;

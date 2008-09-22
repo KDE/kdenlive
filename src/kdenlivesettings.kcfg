@@ -314,5 +314,10 @@
       <default>true</default>
     </entry>
 
+    <entry name="transitionfollowcursor" type="Bool">
+      <label>When editing a composite transition, move timeline cursor for better preview.</label>
+      <default>true</default>
+    </entry>
+
   </group>
 </kcfg>

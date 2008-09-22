@@ -22,11 +22,13 @@
 #include "transition.h"
 #include "effectslist.h"
 #include "effectstackedit.h"
+#include "kdenlivesettings.h"
 #include "mainwindow.h"
 
 TransitionSettings::TransitionSettings(QWidget* parent): QWidget(parent) {
     ui.setupUi(this);
     effectEdit = new EffectStackEdit(ui.frame, this);
+    connect(effectEdit, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
     setEnabled(false);
     ui.listWidget->addItems(MainWindow::transitions.effectNames());
     kDebug() << MainWindow::transitions.effectNames().size();
@@ -48,10 +50,10 @@ void TransitionSettings::slotTransitionChanged(bool reinit) {
     if (reinit) {
         QDomElement newTransition = MainWindow::transitions.getEffectByName(ui.listWidget->currentItem()->text());
         slotUpdateEffectParams(e, newTransition);
-        emit transferParamDesc(newTransition, 0, 0);
+        emit transferParamDesc(newTransition, m_usedTransition->startPos().frames(KdenliveSettings::project_fps()), m_usedTransition->endPos().frames(KdenliveSettings::project_fps()));
     } else {
         //slotUpdateEffectParams(e, e);
-        emit transferParamDesc(e, 0, 0);
+        emit transferParamDesc(e, m_usedTransition->startPos().frames(KdenliveSettings::project_fps()), m_usedTransition->endPos().frames(KdenliveSettings::project_fps()));
     }
 }
 

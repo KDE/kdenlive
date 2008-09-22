@@ -46,6 +46,7 @@ public slots:
 signals:
     void transitionUpdated(Transition *, QDomElement);
     void transferParamDesc(const QDomElement&, int , int);
+    void seekTimeline(int);
 };
 
 #endif

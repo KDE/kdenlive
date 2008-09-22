@@ -56,14 +56,20 @@ private:
     wipeInfo getWipeInfo(QString value);
     QString getWipeString(wipeInfo info);
     MltVideoProfile m_profile;
+    int m_in;
+    int m_out;
 
 public slots:
     void transferParamDesc(const QDomElement&, int , int);
     void slotSliderMoved(int);
     void collectAllParameters();
 
+private slots:
+    void slotSeekToPos(int);
+
 signals:
     void parameterChanged(const QDomElement&, const QDomElement&);
+    void seekTimeline(int);
 };
 
 #endif
