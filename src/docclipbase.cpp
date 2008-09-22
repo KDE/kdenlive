@@ -43,7 +43,8 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     }
     if (m_name.isEmpty()) m_name = url.fileName();
 
-    if (!url.isEmpty() && QFile::exists(url.path())) {
+    //if (!url.isEmpty() && QFile::exists(url.path()))
+    {
         m_thumbProd = new KThumb(clipManager, url);
         if (m_clipType == AV || m_clipType == AUDIO) slotCreateAudioTimer();
     }
@@ -450,6 +451,13 @@ void DocClipBase::setProperties(QMap <QString, QString> properties) {
         else if (i.key() == "out") setDuration(GenTime(i.value().toInt(), KdenliveSettings::project_fps()));
         else if (m_clipType == SLIDESHOW && keys.contains(i.key())) refreshProducer = true;
         else if (i.key() == "transparency") m_clipProducer->set("transparency", i.value().toInt());
+        else if (i.key() == "colour") {
+            char *tmp = (char *) qstrdup(i.value().toUtf8().data());
+            m_clipProducer->set("colour", tmp);
+            delete[] tmp;
+        } else if (i.key() == "xmldata") {
+            m_clipProducer->set("force_reload", 1);
+        }
     }
     if (refreshProducer) slotRefreshProducer();
 }
@@ -459,6 +467,13 @@ void DocClipBase::setProperty(QString key, QString value) {
     if (key == "resource") m_thumbProd->updateClipUrl(KUrl(value));
     else if (key == "out") setDuration(GenTime(value.toInt(), KdenliveSettings::project_fps()));
     else if (key == "transparency") m_clipProducer->set("transparency", value.toInt());
+    else if (key == "colour") {
+        char *tmp = (char *) qstrdup(value.toUtf8().data());
+        m_clipProducer->set("colour", tmp);
+        delete[] tmp;
+    } else if (key == "xmldata") {
+        m_clipProducer->set("force_reload", 1);
+    }
 }
 
 QMap <QString, QString> DocClipBase::properties() const {

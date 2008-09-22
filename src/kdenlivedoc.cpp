@@ -721,12 +721,6 @@ void KdenliveDoc::slotAddClipFile(const KUrl url, const QString group, const QSt
     setModified(true);
 }
 
-void KdenliveDoc::slotAddTextClipFile(const QString path, const QString xml, const QString group, const QString &groupId) {
-    kDebug() << "/////////  DOCUM, ADD TXT CLP: " << path;
-    m_clipManager->slotAddTextClipFile(path, xml, group, groupId);
-    setModified(true);
-}
-
 void KdenliveDoc::slotAddFolder(const QString folderName) {
     AddFolderCommand *command = new AddFolderCommand(this, folderName, QString::number(m_clipManager->getFreeClipId()), true);
     commandStack()->push(command);
@@ -778,27 +772,12 @@ void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId) {
         QPixmap pix = dia_ui->renderedPixmap();
         pix.save(path + ".png");
         //dia_ui->saveTitle(path + ".kdenlivetitle");
-        slotAddTextClipFile(path, dia_ui->xml().toString(), QString(), QString());
+        m_clipManager->slotAddTextClipFile(path, dia_ui->xml().toString(), QString(), QString());
+        setModified(true);
     }
     delete dia_ui;
 }
 
-void KdenliveDoc::editTextClip(QString path, const QString &id) {
-    DocClipBase *clip = m_clipManager->getClipById(id);
-    if (!clip) return;
-    TitleWidget *dia_ui = new TitleWidget(KUrl()/*path + ".kdenlivetitle")*/, path, m_render, kapp->activeWindow());
-    QDomDocument doc;
-    doc.setContent(clip->getProperty("xmldata"));
-    dia_ui->setXml(doc);
-    if (dia_ui->exec() == QDialog::Accepted) {
-        QPixmap pix = dia_ui->renderedPixmap();
-        pix.save(path + ".png");
-        //dia_ui->saveTitle(path + ".kdenlivetitle");
-        //slotAddClipFile(KUrl("/tmp/kdenlivetitle.png"), QString(), -1);
-        emit refreshClipThumbnail(id);
-    }
-    delete dia_ui;
-}
 
 
 #include "kdenlivedoc.moc"

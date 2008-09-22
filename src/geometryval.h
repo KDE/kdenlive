@@ -63,7 +63,7 @@ public slots:
 private slots:
     void slotNextFrame();
     void slotPreviousFrame();
-    void slotPositionChanged(int pos);
+    void slotPositionChanged(int pos, bool seek = true);
     void slotDeleteFrame();
     void slotAddFrame();
     void slotUpdateTransitionProperties();

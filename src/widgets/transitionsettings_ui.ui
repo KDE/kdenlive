@@ -14,11 +14,17 @@
   </property>
   <layout class="QGridLayout" name="gridLayout" >
    <item row="0" column="0" >
+    <widget class="QLabel" name="label" >
+     <property name="text" >
+      <string>Transition type</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2" >
     <widget class="QSplitter" name="splitter" >
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QListWidget" name="listWidget" />
      <widget class="QFrame" name="frame" >
       <property name="sizePolicy" >
        <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
@@ -35,8 +41,21 @@
      </widget>
     </widget>
    </item>
+   <item row="0" column="1" >
+    <widget class="KComboBox" name="transitionList" />
+   </item>
   </layout>
+  <zorder>splitter</zorder>
+  <zorder>label</zorder>
+  <zorder>transitionList</zorder>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

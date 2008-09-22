@@ -14,7 +14,7 @@
 GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent): QGraphicsScene(parent), m_selectedItem(NULL), resizeMode(NoResize), m_tool(TITLE_RECTANGLE) {
     //grabMouse();
     zoom = 1.0;
-    setBackgroundBrush(QBrush(Qt::black));
+    setBackgroundBrush(QBrush(Qt::transparent));
 }
 
 void GraphicsSceneRectMove::setSelectedItem(QGraphicsItem *item) {
@@ -83,6 +83,7 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent) {
     default:
         QGraphicsScene::keyPressEvent(keyEvent);
     }
+    emit actionFinished();
 }
 
 //virtual

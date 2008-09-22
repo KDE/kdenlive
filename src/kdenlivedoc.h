@@ -70,8 +70,6 @@ Q_OBJECT public:
     void deleteFolder(const QString foldername, const QString &clipId);
     void slotAddClipFile(const KUrl url, const QString group, const QString &groupId = QString());
     void slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId = QString());
-    void slotAddTextClipFile(const QString path, const QString xml, const QString group, const QString &groupId = QString());
-    void editTextClip(QString path, const QString &id);
     void slotAddFolder(const QString folderName);
     void slotDeleteFolder(const QString folderName, const QString &id);
     void slotEditFolder(const QString folderName, const QString oldfolderName, const QString &clipId);
@@ -150,7 +148,6 @@ signals:
     void progressInfo(const QString &, int);
     /** emited when the document state has been modified (= needs saving or not) */
     void docModified(bool);
-    void refreshClipThumbnail(const QString &);
     void selectLastAddedClip(const QString &);
 };
 

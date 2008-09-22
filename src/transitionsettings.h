@@ -37,6 +37,8 @@ private:
     Ui::TransitionSettings_UI ui;
     EffectStackEdit *effectEdit;
     Transition* m_usedTransition;
+    GenTime m_transitionDuration;
+    GenTime m_transitionStart;
 
 public slots:
     void slotTransitionItemSelected(Transition*);

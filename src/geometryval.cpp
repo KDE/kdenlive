@@ -30,7 +30,7 @@
 #include "geometryval.h"
 #include "kdenlivesettings.h"
 
-Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent): QWidget(parent), m_profile(profile) {
+Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent): QWidget(parent), m_profile(profile), m_geom(NULL), m_path(NULL), paramRect(NULL) {
     ui.setupUi(this);
     QVBoxLayout* vbox = new QVBoxLayout(ui.widget);
     QGraphicsView *view = new QGraphicsView(this);
@@ -96,13 +96,14 @@ Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent): QWidge
     //view->fitInView(m_frameBorder, Qt::KeepAspectRatio);
     const double sc = 100.0 / profile.height * 0.8;
     QRectF srect = view->sceneRect();
-    view->setSceneRect(srect.x(), -srect.height() / 2, srect.width(), srect.height() * 2);
+    view->setSceneRect(srect.x(), -srect.height() / 3, srect.width(), srect.height() + srect.height() / 3 * 2);
     scene->setZoom(sc);
     view->centerOn(m_frameBorder);
     connect(ui.buttonNext , SIGNAL(clicked()) , this , SLOT(slotNextFrame()));
     connect(ui.buttonPrevious , SIGNAL(clicked()) , this , SLOT(slotPreviousFrame()));
     connect(ui.buttonDelete , SIGNAL(clicked()) , this , SLOT(slotDeleteFrame()));
     connect(ui.buttonAdd , SIGNAL(clicked()) , this , SLOT(slotAddFrame()));
+    connect(scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateTransitionProperties()));
 }
 
 void Geometryval::slotAlignCenter() {
@@ -243,8 +244,8 @@ void Geometryval::slotSyncCursor() {
     KdenliveSettings::setTransitionfollowcursor(m_syncAction->isChecked());
 }
 
-void Geometryval::slotPositionChanged(int pos) {
-    if (KdenliveSettings::transitionfollowcursor()) emit seekToPos(pos);
+void Geometryval::slotPositionChanged(int pos, bool seek) {
+    if (seek && KdenliveSettings::transitionfollowcursor()) emit seekToPos(pos);
     ui.spinPos->setValue(pos);
     m_helper->setValue(pos);
     Mlt::GeometryItem item;
@@ -330,31 +331,34 @@ void Geometryval::setupParam(const QDomElement& par, int minFrame, int maxFrame)
     param = par;
     QString val = par.attribute("value");
     char *tmp = (char *) qstrdup(val.toUtf8().data());
-    m_geom = new Mlt::Geometry(tmp, maxFrame - minFrame, m_profile.width, m_profile.height);
+    if (m_geom) m_geom->parse(tmp, maxFrame - minFrame, m_profile.width, m_profile.height);
+    else m_geom = new Mlt::Geometry(tmp, maxFrame - minFrame, m_profile.width, m_profile.height);
     delete[] tmp;
-    kDebug() << " / / UPDATING TRANSITION VALUE: " << m_geom->serialise();
+    //kDebug() << " / / UPDATING TRANSITION VALUE: " << m_geom->serialise();
     //read param her and set rect
     m_helper->setKeyGeometry(m_geom, maxFrame - minFrame - 1);
-    QDomDocument doc;
+    m_helper->update();
+    /*QDomDocument doc;
     doc.appendChild(doc.importNode(par, true));
-    kDebug() << "IMPORTED TRANS: " << doc.toString();
+    kDebug() << "IMPORTED TRANS: " << doc.toString();*/
     ui.spinPos->setMaximum(maxFrame - minFrame - 1);
     Mlt::GeometryItem item;
-    m_path = new QGraphicsPathItem();
-    m_path->setPen(QPen(Qt::red));
+    if (m_path == NULL) {
+        m_path = new QGraphicsPathItem();
+        m_path->setPen(QPen(Qt::red));
+        scene->addItem(m_path);
+    }
     updateTransitionPath();
 
-    connect(scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateTransitionProperties()));
-
     m_geom->fetch(&item, 0);
+    if (paramRect) delete paramRect;
     paramRect = new QGraphicsRectItem(QRectF(0, 0, item.w(), item.h()));
     paramRect->setPos(item.x(), item.y());
     paramRect->setZValue(0);
 
     paramRect->setPen(QPen(QBrush(QColor(255, 0, 0, 255)), 1.0));
     scene->addItem(paramRect);
-    scene->addItem(m_path);
-    slotPositionChanged(0);
+    slotPositionChanged(0, false);
     connect(ui.spinPos, SIGNAL(valueChanged(int)), this , SLOT(slotPositionChanged(int)));
     connect(ui.spinTransp, SIGNAL(valueChanged(int)), this , SLOT(slotTransparencyChanged(int)));
 }

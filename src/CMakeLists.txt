@@ -132,6 +132,7 @@ set(kdenlive_SRCS
   customtrackscene.cpp
   abstractgroupitem.cpp
   keyframehelper.cpp
+  editclipcommand.cpp
 )
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )

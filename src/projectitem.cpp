@@ -208,7 +208,7 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
         m_clip->setClipType(m_clipType);
     }
     slotSetToolTip();
-    if (KdenliveSettings::audiothumbnails()) m_clip->slotRequestAudioThumbs();
+    if ((m_clipType == AV || m_clipType == AUDIO) && KdenliveSettings::audiothumbnails()) m_clip->slotRequestAudioThumbs();
 
     m_clip->setProperties(attributes);
     /*

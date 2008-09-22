@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,29 +17,25 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include <KLocale>
 
-#ifndef ADDCLIPCOMMAND_H
-#define ADDCLIPCOMMAND_H
+#include "editclipcommand.h"
+#include "projectlist.h"
 
-#include <QUndoCommand>
-#include <KDebug>
-#include <QDomElement>
+EditClipCommand::EditClipCommand(ProjectList *list, const QString &id, QMap <QString, QString> oldparams, QMap <QString, QString> newparams, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_list(list), m_id(id), m_oldparams(oldparams), m_newparams(newparams), m_doIt(doIt) {
+    setText(i18n("Edit clip"));
+}
 
-class KdenliveDoc;
 
-class AddClipCommand : public QUndoCommand {
-public:
-    AddClipCommand(KdenliveDoc *doc, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand * parent = 0);
-
-    virtual void undo();
-    virtual void redo();
-
-private:
-    KdenliveDoc *m_doc;
-    QDomElement m_xml;
-    QString m_id;
-    bool m_doIt;
-};
-
-#endif
+// virtual
+void EditClipCommand::undo() {
+    kDebug() << "----  undoing action";
+    m_list->slotUpdateClipProperties(m_id, m_oldparams);
+}
+// virtual
+void EditClipCommand::redo() {
+    kDebug() << "----  redoing action";
+    if (m_doIt) m_list->slotUpdateClipProperties(m_id, m_newparams);
+    m_doIt = true;
+}
 

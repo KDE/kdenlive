@@ -137,9 +137,9 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     m_titledocument.setScene(m_scene);
 
     // a gradient background
-    QRadialGradient *gradient = new QRadialGradient(0, 0, 10);
+    /*QRadialGradient *gradient = new QRadialGradient(0, 0, 10);
     gradient->setSpread(QGradient::ReflectSpread);
-    //scene->setBackgroundBrush(*gradient);
+    scene->setBackgroundBrush(*gradient);*/
 
     m_frameImage = new QGraphicsPixmapItem();
     QTransform qtrans;
@@ -165,14 +165,14 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     m_frameBorder = new QGraphicsRectItem(QRectF(0, 0, m_frameWidth, m_frameHeight));
     m_frameBorder->setPen(framepen);
     m_frameBorder->setZValue(-1100);
-    m_frameBorder->setBrush(QColor(0, 0, 0, 0));
+    m_frameBorder->setBrush(Qt::transparent);
     m_frameBorder->setFlags(QGraphicsItem::ItemClipsToShape);
     graphicsView->scene()->addItem(m_frameBorder);
 
     initViewports();
 
     graphicsView->show();
-    graphicsView->setRenderHint(QPainter::Antialiasing);
+    //graphicsView->setRenderHint(QPainter::Antialiasing);
     graphicsView->setInteractive(true);
     QTimer::singleShot(500, this, SLOT(slotAdjustZoom()));
     //graphicsView->resize(400, 300);
@@ -630,7 +630,7 @@ QPixmap TitleWidget::renderedPixmap() {
     QPixmap pix(m_frameWidth, m_frameHeight);
     pix.fill(Qt::transparent);
     QPainter painter(&pix);
-    //painter.setRenderHint( QPainter::Antialiasing );
+    painter.setRenderHint(QPainter::Antialiasing);
     m_scene->clearSelection();
     QPen framepen = m_frameBorder->pen();
     m_frameBorder->setPen(Qt::NoPen);

@@ -76,6 +76,8 @@
 #include "jogshuttle.h"
 #include "clipproperties.h"
 #include "wizard.h"
+#include "editclipcommand.h"
+#include "titlewidget.h"
 
 static const int ID_STATUS_MSG = 1;
 static const int ID_EDITMODE_MSG = 2;
@@ -1095,7 +1097,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(m_activeDocument, SIGNAL(addProjectFolder(const QString, const QString &, bool, bool)), m_projectList, SLOT(slotAddFolder(const QString, const QString &, bool, bool)));
             disconnect(m_activeDocument, SIGNAL(signalDeleteProjectClip(const QString &)), m_projectList, SLOT(slotDeleteClip(const QString &)));
             disconnect(m_activeDocument, SIGNAL(updateClipDisplay(const QString &)), m_projectList, SLOT(slotUpdateClip(const QString &)));
-            disconnect(m_activeDocument, SIGNAL(refreshClipThumbnail(const QString &)), m_projectList, SLOT(slotRefreshClipThumbnail(const QString &)));
             disconnect(m_activeDocument, SIGNAL(selectLastAddedClip(const QString &)), m_projectList, SLOT(slotSelectClip(const QString &)));
             disconnect(m_activeDocument, SIGNAL(deleteTimelineClip(const QString &)), m_activeTimeline, SLOT(slotDeleteClip(const QString &)));
             disconnect(m_activeTimeline, SIGNAL(clipItemSelected(ClipItem*)), effectStack, SLOT(slotClipItemSelected(ClipItem*)));
@@ -1137,7 +1138,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(doc, SIGNAL(addProjectFolder(const QString, const QString &, bool, bool)), m_projectList, SLOT(slotAddFolder(const QString, const QString &, bool, bool)));
     connect(doc, SIGNAL(signalDeleteProjectClip(const QString &)), m_projectList, SLOT(slotDeleteClip(const QString &)));
     connect(doc, SIGNAL(updateClipDisplay(const QString &)), m_projectList, SLOT(slotUpdateClip(const QString &)));
-    connect(doc, SIGNAL(refreshClipThumbnail(const QString &)), m_projectList, SLOT(slotRefreshClipThumbnail(const QString &)));
     connect(doc, SIGNAL(selectLastAddedClip(const QString &)), m_projectList, SLOT(slotSelectClip(const QString &)));
 
     connect(doc, SIGNAL(deleteTimelineClip(const QString &)), trackView, SLOT(slotDeleteClip(const QString &)));
@@ -1370,13 +1370,35 @@ void MainWindow::slotGotProgressInfo(const QString &message, int progress) {
 
 void MainWindow::slotShowClipProperties(DocClipBase *clip) {
     if (clip->clipType() == TEXT) {
-        m_activeDocument->editTextClip(clip->getProperty("xml"), clip->getId());
+        QString path = clip->getProperty("xml");
+        TitleWidget *dia_ui = new TitleWidget(KUrl()/*path + ".kdenlivetitle")*/, path, m_projectMonitor->render, this);
+        QDomDocument doc;
+        doc.setContent(clip->getProperty("xmldata"));
+        dia_ui->setXml(doc);
+        if (dia_ui->exec() == QDialog::Accepted) {
+            kDebug() << "//  UPDATUING CLIP TITLE: " << path;
+            QPixmap pix = dia_ui->renderedPixmap();
+            pix.save(path + ".png");
+            //slotAddClipFile(KUrl("/tmp/kdenlivetitle.png"), QString(), -1);
+            //m_clipManager->slotEditTextClipFile(id, dia_ui->xml().toString());
+            QMap <QString, QString> newprops;
+            newprops.insert("xmldata", dia_ui->xml().toString());
+            EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
+            m_activeDocument->commandStack()->push(command);
+            //setModified(true);
+        }
+        delete dia_ui;
+
+        //m_activeDocument->editTextClip(clip->getProperty("xml"), clip->getId());
         return;
     }
     ClipProperties dia(clip, m_activeDocument->timecode(), m_activeDocument->fps(), this);
     connect(&dia, SIGNAL(addMarker(const QString &, GenTime, QString)), m_activeTimeline->projectView(), SLOT(slotAddClipMarker(const QString &, GenTime, QString)));
     if (dia.exec() == QDialog::Accepted) {
-        m_projectList->slotUpdateClipProperties(dia.clipId(), dia.properties());
+        EditClipCommand *command = new EditClipCommand(m_projectList, dia.clipId(), clip->properties(), dia.properties(), true);
+        m_activeDocument->commandStack()->push(command);
+
+        //m_projectList->slotUpdateClipProperties(dia.clipId(), dia.properties());
         if (dia.needsTimelineRefresh()) {
             // update clip occurences in timeline
             m_activeTimeline->projectView()->slotUpdateClip(dia.clipId());

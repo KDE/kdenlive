@@ -30,10 +30,10 @@ TransitionSettings::TransitionSettings(QWidget* parent): QWidget(parent) {
     effectEdit = new EffectStackEdit(ui.frame, this);
     connect(effectEdit, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
     setEnabled(false);
-    ui.listWidget->addItems(MainWindow::transitions.effectNames());
-    kDebug() << MainWindow::transitions.effectNames().size();
-    ui.listWidget->setCurrentRow(0);
-    connect(ui.listWidget, SIGNAL(currentRowChanged(int)), this, SLOT(slotTransitionChanged()));
+    ui.transitionList->addItems(MainWindow::transitions.effectNames());
+    //kDebug() << MainWindow::transitions.effectNames().size();
+    //ui.listWidget->setCurrentRow(0);
+    connect(ui.transitionList, SIGNAL(activated(int)), this, SLOT(slotTransitionChanged()));
     connect(this, SIGNAL(transferParamDesc(const QDomElement&, int , int)), effectEdit , SLOT(transferParamDesc(const QDomElement&, int , int)));
     connect(effectEdit, SIGNAL(parameterChanged(const QDomElement&, const QDomElement&)), this , SLOT(slotUpdateEffectParams(const QDomElement&, const QDomElement&)));
     ui.splitter->setStretchFactor(0, 1);
@@ -48,7 +48,7 @@ void TransitionSettings::updateProjectFormat(MltVideoProfile profile) {
 void TransitionSettings::slotTransitionChanged(bool reinit) {
     QDomElement e = m_usedTransition->toXML().cloneNode().toElement();
     if (reinit) {
-        QDomElement newTransition = MainWindow::transitions.getEffectByName(ui.listWidget->currentItem()->text());
+        QDomElement newTransition = MainWindow::transitions.getEffectByName(ui.transitionList->currentText());
         slotUpdateEffectParams(e, newTransition);
         emit transferParamDesc(newTransition, m_usedTransition->startPos().frames(KdenliveSettings::project_fps()), m_usedTransition->endPos().frames(KdenliveSettings::project_fps()));
     } else {
@@ -60,16 +60,23 @@ void TransitionSettings::slotTransitionChanged(bool reinit) {
 void TransitionSettings::slotTransitionItemSelected(Transition* t) {
     setEnabled(t != NULL);
     if (t == m_usedTransition) {
+        if (t && (t->duration() != m_transitionDuration || t->startPos() != m_transitionStart)) {
+            m_transitionDuration = t->duration();
+            m_transitionStart = t->startPos();
+            slotTransitionChanged(false);
+        }
         return;
     }
     m_usedTransition = t;
     if (m_usedTransition) {
-        QList<QListWidgetItem*> list = ui.listWidget->findItems(m_usedTransition->transitionName(), Qt::MatchExactly);
-        if (list.size() > 0) {
-            ui.listWidget->blockSignals(true);
-            ui.listWidget->setCurrentItem(list[0]);
+        m_transitionDuration = t->duration();
+        m_transitionStart = t->startPos();
+        int ix = ui.transitionList->findText(m_usedTransition->transitionName(), Qt::MatchExactly);
+        if (ix != -1) {
+            ui.transitionList->blockSignals(true);
+            ui.transitionList->setCurrentIndex(ix);
             slotTransitionChanged(false);
-            ui.listWidget->blockSignals(false);
+            ui.transitionList->blockSignals(false);
         }
     }
 

@@ -151,7 +151,7 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
     ProjectItem *item = getItemById(id);
     if (item) {
         slotUpdateClipProperties(item, properties);
-        if (properties.contains("colour") || properties.contains("resource")) slotRefreshClipThumbnail(item);
+        if (properties.contains("colour") || properties.contains("resource") || properties.contains("xmldata")) slotRefreshClipThumbnail(item);
         if (properties.contains("out")) item->changeDuration(properties.value("out").toInt());
     }
 }
@@ -459,6 +459,7 @@ void ProjectList::slotRefreshClipThumbnail(const QString &clipId) {
 
 void ProjectList::slotRefreshClipThumbnail(ProjectItem *item) {
     if (item) {
+        kDebug() << " / / / /PROJECT LIST, REFRESH THMB";
         int height = 50;
         int width = (int)(height  * m_render->dar());
         QPixmap pix = item->referencedClip()->thumbProducer()->extractImage(item->referencedClip()->getClipThumbFrame(), width, height);

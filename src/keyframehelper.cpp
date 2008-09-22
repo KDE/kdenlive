@@ -72,21 +72,24 @@ void KeyframeHelper::paintEvent(QPaintEvent *e) {
     m_scale = (double) width() / m_length;
     if (m_geom != NULL) {
         int pos = 0;
-        p.setBrush(QColor(255, 20, 20));
+        p.setPen(QColor(255, 20, 20));
         Mlt::GeometryItem item;
         while (true) {
             if (m_geom->next_key(&item, pos) == 1) break;
             pos = item.frame();
             int scaledPos = pos * m_scale;
-            p.drawLine(scaledPos, clipRect.y() , scaledPos, clipRect.bottom());
+            p.drawLine(scaledPos, 0, scaledPos, 10);
             //p.fillRect(QRect(scaledPos - 1, 0, 2, 15), QBrush(QColor(255, 20, 20)));
             pos++;
         }
     }
+    p.setPen(palette().dark().color());
+    p.drawLine(clipRect.x(), 5, clipRect.right(), 5);
+
     // draw pointer
     QPolygon pa(3);
     const int cursor = m_position * m_scale;
-    pa.setPoints(3, cursor - 5, 14, cursor + 5, 14, cursor/*+0*/, 9);
+    pa.setPoints(3, cursor - 5, 11, cursor + 5, 11, cursor/*+0*/, 6);
     p.setBrush(palette().dark().color());
     p.drawPolygon(pa);
 

@@ -1259,7 +1259,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         } else if (m_dragItem->type() == TRANSITIONWIDGET) {
             MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
             m_commandStack->push(command);
-            Transition *transition = (Transition *) m_dragItem;
+            Transition *transition = static_cast <Transition *>(m_dragItem);
             m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_scene->m_tracksList.count() - m_dragItemInfo.track), (int)(m_scene->m_tracksList.count() - m_dragItemInfo.track), 0, m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos);
         }
 
@@ -1280,8 +1280,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         } else if (m_dragItem->type() == TRANSITIONWIDGET) {
             MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
             m_commandStack->push(command);
-            Transition *transition = (Transition *) m_dragItem;
-//             m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_scene->m_tracksList.count() - m_dragItemInfo.track), (int)(m_scene->m_tracksList.count() - m_dragItemInfo.track), 0, m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos);
+            Transition *transition = static_cast <Transition *>(m_dragItem);
+            m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_scene->m_tracksList.count() - m_dragItemInfo.track), (int)(m_scene->m_tracksList.count() - m_dragItemInfo.track), 0, m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos);
         }
         //m_document->renderer()->doRefresh();
     } else if (m_operationMode == FADEIN) {
@@ -1347,7 +1347,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         updateEffect(m_scene->m_tracksList.count() - item->track(), item->startPos(), item->selectedEffect(), item->selectedEffectIndex());
     }
 
-    emit transitionItemSelected((m_dragItem && m_dragItem->type() == TRANSITIONWIDGET) ? (Transition*) m_dragItem : NULL);
+    emit transitionItemSelected((m_dragItem && m_dragItem->type() == TRANSITIONWIDGET) ? static_cast <Transition *>(m_dragItem) : NULL);
     m_document->setModified(true);
     m_operationMode = NONE;
 }
