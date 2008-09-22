@@ -74,6 +74,12 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
     setMouseTracking(true);
 }
 
+void CustomRuler::setZone(QPoint p) {
+    m_zoneStart = p.x();
+    m_zoneEnd = p.y();
+    update();
+}
+
 // virtual
 void CustomRuler::mousePressEvent(QMouseEvent * event) {
     if (event->button() == Qt::RightButton) {

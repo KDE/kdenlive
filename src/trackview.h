@@ -65,6 +65,7 @@ public slots:
     void slotDeleteClip(const QString &clipId);
     void slotChangeZoom(int factor);
     void setDuration(int dur);
+    void slotSetZone(QPoint p);
 
 private:
     Ui::TimeLine_UI *view;

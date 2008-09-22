@@ -52,9 +52,21 @@ void SmallRuler::adjustScale(int maximum) {
 }
 
 void SmallRuler::setZone(int start, int end) {
-    m_zoneStart = start;
-    m_zoneEnd = end;
+    if (start != -1) {
+        if (end != -1 && start >= end) return;
+        else if (end == -1 && start >= m_zoneEnd) return;
+        m_zoneStart = start;
+    }
+    if (end != -1) {
+        if (start != -1 && end <= start) end = m_zoneEnd;
+        else if (start == -1 && end <= m_zoneStart) end = m_zoneEnd;
+        m_zoneEnd = end;
+    }
     update();
+}
+
+QPoint SmallRuler::zone() {
+    return QPoint(m_zoneStart, m_zoneEnd);
 }
 
 // virtual

@@ -32,6 +32,7 @@ public:
     virtual void mouseMoveEvent(QMouseEvent * event);
     void adjustScale(int maximum);
     void setZone(int start, int end);
+    QPoint zone();
 
 protected:
     virtual void paintEvent(QPaintEvent *e);

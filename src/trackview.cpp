@@ -104,6 +104,10 @@ int TrackView::outPoint() const {
     return m_ruler->outPoint();
 }
 
+void TrackView::slotSetZone(QPoint p) {
+    m_ruler->setZone(p);
+}
+
 void TrackView::slotClipItemSelected(ClipItem*c) {
     emit clipItemSelected(c);
 }

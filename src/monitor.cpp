@@ -54,10 +54,11 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     m_playIcon = KIcon("media-playback-start");
     m_pauseIcon = KIcon("media-playback-pause");
 
-    QAction *m_rewAction = toolbar->addAction(KIcon("media-seek-backward"), i18n("Rewind"));
-    connect(m_rewAction, SIGNAL(triggered()), this, SLOT(slotRewind()));
-    QAction *m_rew1Action = toolbar->addAction(KIcon("media-skip-backward"), i18n("Rewind 1 frame"));
-    connect(m_rew1Action, SIGNAL(triggered()), this, SLOT(slotRewindOneFrame()));
+    toolbar->addAction(KIcon("kdenlive-zone-start"), i18n("Set zone start"), this, SLOT(slotSetZoneStart()));
+    toolbar->addAction(KIcon("kdenlive-zone-end"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
+
+    toolbar->addAction(KIcon("media-seek-backward"), i18n("Rewind"), this, SLOT(slotRewind()));
+    toolbar->addAction(KIcon("media-skip-backward"), i18n("Rewind 1 frame"), this, SLOT(slotRewindOneFrame()));
 
     QToolButton *playButton = new QToolButton(toolbar);
     QMenu *playMenu = new QMenu(i18n("Play..."), this);
@@ -68,18 +69,13 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     m_playAction = playMenu->addAction(m_playIcon, i18n("Play"));
     m_playAction->setCheckable(true);
     connect(m_playAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
-    QAction *m_playSectionAction = playMenu->addAction(m_playIcon, i18n("Play Section"));
-    connect(m_playSectionAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
-    QAction *m_loopSectionAction = playMenu->addAction(m_playIcon, i18n("Loop Section"));
-    connect(m_loopSectionAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
+    playMenu->addAction(m_playIcon, i18n("Play Section"), this, SLOT(slotPlay()));
+    playMenu->addAction(m_playIcon, i18n("Loop Section"), this, SLOT(slotPlay()));
 
-    QAction *m_fwd1Action = toolbar->addAction(KIcon("media-skip-forward"), i18n("Forward 1 frame"));
-    connect(m_fwd1Action, SIGNAL(triggered()), this, SLOT(slotForwardOneFrame()));
-    QAction *m_fwdAction = toolbar->addAction(KIcon("media-seek-forward"), i18n("Forward"));
-    connect(m_fwdAction, SIGNAL(triggered()), this, SLOT(slotForward()));
+    toolbar->addAction(KIcon("media-skip-forward"), i18n("Forward 1 frame"), this, SLOT(slotForwardOneFrame()));
+    toolbar->addAction(KIcon("media-seek-forward"), i18n("Forward"), this, SLOT(slotForward()));
 
     playButton->setDefaultAction(m_playAction);
-
 
     QToolButton *configButton = new QToolButton(toolbar);
     QMenu *configMenu = new QMenu(i18n("Misc..."), this);
@@ -113,8 +109,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
 
     m_contextMenu = new QMenu(this);
     m_contextMenu->addMenu(playMenu);
-    QAction *extractFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Extract frame"));
-    connect(extractFrame, SIGNAL(triggered()), this, SLOT(slotExtractCurrentFrame()));
+    QAction *extractFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
     connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
@@ -124,20 +119,16 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     if (name != "clip") {
         connect(render, SIGNAL(rendererPosition(int)), this, SIGNAL(renderPosition(int)));
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
-        QAction *splitView = m_contextMenu->addAction(KIcon("document-new"), i18n("Split view"));
+        QAction *splitView = m_contextMenu->addAction(KIcon("document-new"), i18n("Split view"), render, SLOT(slotSplitView(bool)));
         splitView->setCheckable(true);
-        connect(splitView, SIGNAL(toggled(bool)), render, SLOT(slotSplitView(bool)));
         configMenu->addAction(splitView);
     } else {
-        QAction *setThumbFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Set current image as thumbnail"));
-        connect(setThumbFrame, SIGNAL(triggered()), this, SLOT(slotSetThumbFrame()));
+        QAction *setThumbFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
         configMenu->addAction(setThumbFrame);
     }
     configMenu->addSeparator();
-    QAction *resize1Action = configMenu->addAction(KIcon("transform-scale"), i18n("Resize (100%)"));
-    connect(resize1Action, SIGNAL(triggered()), this, SLOT(slotSetSizeOneToOne()));
-    QAction *resize2Action = configMenu->addAction(KIcon("transform-scale"), i18n("Resize (50%)"));
-    connect(resize2Action, SIGNAL(triggered()), this, SLOT(slotSetSizeOneToTwo()));
+    configMenu->addAction(KIcon("transform-scale"), i18n("Resize (100%)"), this, SLOT(slotSetSizeOneToOne()));
+    configMenu->addAction(KIcon("transform-scale"), i18n("Resize (50%)"), this, SLOT(slotSetSizeOneToTwo()));
     //render->createVideoXWindow(ui.video_frame->winId(), -1);
     m_length = 0;
     m_monitorRefresh->show();
@@ -192,6 +183,16 @@ void Monitor::resetSize() {
 
 void Monitor::slotZoneMoved(int start, int end) {
     m_ruler->setZone(start, end);
+}
+
+void Monitor::slotSetZoneStart() {
+    m_ruler->setZone(m_position, -1);
+    emit zoneUpdated(m_ruler->zone());
+}
+
+void Monitor::slotSetZoneEnd() {
+    m_ruler->setZone(-1, m_position);
+    emit zoneUpdated(m_ruler->zone());
 }
 
 // virtual

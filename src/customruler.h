@@ -18,6 +18,7 @@ public:
     int outPoint() const;
     int inPoint() const;
     void setDuration(int d);
+    void setZone(QPoint p);
 
 protected:
     virtual void paintEvent(QPaintEvent * /*e*/);
