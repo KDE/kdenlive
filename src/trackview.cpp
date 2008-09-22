@@ -49,6 +49,7 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
     //m_scene->addRect(QRectF(0, 0, 100, 100), QPen(), QBrush(Qt::red));
 
     m_ruler = new CustomRuler(doc->timecode(), m_trackview);
+    connect(m_ruler, SIGNAL(zoneMoved(int, int)), this, SIGNAL(zoneMoved(int, int)));
     QHBoxLayout *layout = new QHBoxLayout;
     view->ruler_frame->setLayout(layout);
     int left_margin;

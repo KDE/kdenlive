@@ -28,6 +28,8 @@
 
 SmallRuler::SmallRuler(QWidget *parent)
         : QWidget(parent), m_scale(1), m_maxval(25) {
+    m_zoneStart = 10;
+    m_zoneEnd = 60;
 }
 
 void SmallRuler::adjustScale(int maximum) {
@@ -46,6 +48,12 @@ void SmallRuler::adjustScale(int maximum) {
         m_medium = 60 * 25;
     }
     m_cursorPosition = m_cursorFramePosition * m_scale;
+    update();
+}
+
+void SmallRuler::setZone(int start, int end) {
+    m_zoneStart = start;
+    m_zoneEnd = end;
     update();
 }
 
@@ -86,6 +94,11 @@ void SmallRuler::paintEvent(QPaintEvent *e) {
 
     double f, fend;
     p.setPen(palette().dark().color());
+
+    const int zoneStart = (int)(m_zoneStart * m_scale);
+    const int zoneEnd = (int)(m_zoneEnd * m_scale);
+
+    p.fillRect(QRect(zoneStart, height() / 2, zoneEnd - zoneStart, height() / 2), QBrush(QColor(133, 255, 143)));
 
     if (r.top() < 9) {
         // draw the little marks

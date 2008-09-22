@@ -1119,6 +1119,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(transitionConfig, SIGNAL(transitionUpdated(Transition *, QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(Transition *, QDomElement)));
             disconnect(transitionConfig, SIGNAL(seekTimeline(int)), trackView->projectView() , SLOT(setCursorPos(int)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(activateMonitor()));
+            disconnect(trackView, SIGNAL(zoneMoved(int, int)), m_projectMonitor, SLOT(slotZoneMoved(int, int)));
             effectStack->clear();
         }
         m_activeDocument->setRenderer(NULL);
@@ -1170,6 +1171,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(effectStack, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
 
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(activateMonitor()));
+    connect(trackView, SIGNAL(zoneMoved(int, int)), m_projectMonitor, SLOT(slotZoneMoved(int, int)));
+
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu);
     m_activeTimeline = trackView;
     if (m_renderWidget) m_renderWidget->setDocumentStandard(doc->getDocumentStandard());

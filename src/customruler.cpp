@@ -107,6 +107,7 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event) {
             m_zoneStart += move;
             m_zoneEnd += move;
         }
+        emit zoneMoved(m_zoneStart, m_zoneEnd);
         m_view->setDocumentModified();
         update();
     } else {
@@ -197,12 +198,12 @@ void CustomRuler::paintEvent(QPaintEvent *e) {
     p.setClipRect(e->rect());
 
     const int projectEnd = (int)(m_duration * m_factor);
-    p.fillRect(QRect(- offset(), e->rect().y(), projectEnd, e->rect().height()), QBrush(QColor(245, 245, 245)));
+    p.fillRect(QRect(0, 0, projectEnd - offset(), height()), QBrush(QColor(245, 245, 245)));
 
     const int zoneStart = (int)(m_zoneStart * m_factor);
     const int zoneEnd = (int)(m_zoneEnd * m_factor);
 
-    p.fillRect(QRect(zoneStart - offset(), e->rect().y() + e->rect().height() / 2, zoneEnd - zoneStart, e->rect().height() / 2), QBrush(QColor(133, 255, 143)));
+    p.fillRect(QRect(zoneStart - offset(), height() / 2, zoneEnd - zoneStart, height() / 2), QBrush(QColor(133, 255, 143)));
 
     const int value  = m_view->cursorPos() * m_factor - offset();
     const int minval = minimum();

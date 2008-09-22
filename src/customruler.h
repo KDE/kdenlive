@@ -40,6 +40,9 @@ private:
 public slots:
     void slotMoveRuler(int newPos);
     void slotCursorMoved(int oldpos, int newpos);
+
+signals:
+    void zoneMoved(int, int);
 };
 
 #endif

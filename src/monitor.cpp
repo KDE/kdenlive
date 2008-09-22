@@ -190,10 +190,14 @@ void Monitor::resetSize() {
     ui.video_frame->setMinimumSize(0, 0);
 }
 
+void Monitor::slotZoneMoved(int start, int end) {
+    m_ruler->setZone(start, end);
+}
+
 // virtual
 void Monitor::mousePressEvent(QMouseEvent * event) {
     if (event->button() != Qt::RightButton) {
-        slotPlay();
+        if (ui.video_frame->underMouse()) slotPlay();
     } else m_contextMenu->popup(event->globalPos());
 }
 

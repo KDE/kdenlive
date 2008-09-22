@@ -102,6 +102,7 @@ public slots:
     void saveSceneList(QString path, QDomElement info = QDomElement());
     void slotStart();
     void slotEnd();
+    void slotZoneMoved(int start, int end);
 
 signals:
     void renderPosition(int);

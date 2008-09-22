@@ -98,6 +98,7 @@ signals:
     void cursorMoved();
     void clipItemSelected(ClipItem*);
     void transitionItemSelected(Transition*);
+    void zoneMoved(int, int);
 };
 
 #endif

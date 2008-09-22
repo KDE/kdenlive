@@ -31,6 +31,7 @@ public:
     virtual void mousePressEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
     void adjustScale(int maximum);
+    void setZone(int start, int end);
 
 protected:
     virtual void paintEvent(QPaintEvent *e);
@@ -43,6 +44,8 @@ private:
     int m_medium;
     int m_small;
     int m_maxval;
+    int m_zoneStart;
+    int m_zoneEnd;
 
 public slots:
     void slotNewValue(int value);
