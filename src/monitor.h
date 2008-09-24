@@ -105,6 +105,8 @@ public slots:
     void start();
     void activateMonitor();
     void slotPlay();
+    void slotPlayZone();
+    void slotLoopZone();
     void slotForward(double speed = 0);
     void slotRewind(double speed = 0);
     void slotRewindOneFrame();
@@ -112,6 +114,8 @@ public slots:
     void saveSceneList(QString path, QDomElement info = QDomElement());
     void slotStart();
     void slotEnd();
+    void slotZoneStart();
+    void slotZoneEnd();
     void slotZoneMoved(int start, int end);
 
 signals:

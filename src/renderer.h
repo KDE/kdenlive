@@ -110,12 +110,9 @@ Q_OBJECT public:
     play the current scene at the speed specified, relative to normal
     playback. e.g. 1.0 is normal speed, 0.0 is paused, -1.0 means play
     backwards. Specifes the start/stop times for playback.*/
-    void play(double speed, const GenTime & startTime);
-    void play(double speed, const GenTime & startTime,
-              const GenTime & stopTime);
-
-    /** Returns the description of this renderer */
-    QString description();
+    void play(const GenTime & startTime);
+    void playZone(const GenTime & startTime, const GenTime & stopTime);
+    void loopZone(const GenTime & startTime, const GenTime & stopTime);
 
     /** Returns the name of the renderer. */
     const QString & rendererName() const;
@@ -188,7 +185,12 @@ private:   // Private attributes & methods
     Mlt::Profile *m_mltProfile;
     double m_framePosition;
     double m_fps;
-    uint m_monitorId;
+
+    /** true if we are playing a zone (ie the in and out properties have been temporarily changed) */
+    bool m_isZoneMode;
+    bool m_isLoopMode;
+    GenTime m_loopStart;
+
     /** true when monitor is in split view (several tracks at the same time) */
     bool m_isSplitView;
 
@@ -199,22 +201,18 @@ private:   // Private attributes & methods
     QTimer *refreshTimer;
     QTimer *osdTimer;
     KUrl m_exportedFile;
-    int exportDuration, firstExportFrame, lastExportFrame;
 
     /** A human-readable description of this renderer. */
-    QString m_description;
     int m_winid;
     int m_externalwinid;
-    /** The actually seek command, private so people can't avoid the buffering of multiple seek commands. */
-    void sendSeekCommand(GenTime time);
 
     /** Sets the description of this renderer to desc. */
-    void setDescription(const QString & description);
     void closeMlt();
     void mltCheckLength(bool reload = true);
     QMap<QString, QString> mltGetTransitionParamsFromXml(QDomElement xml);
     QMap<QString, Mlt::Producer *> m_slowmotionProducers;
     void buildConsumer();
+    void resetZoneMode();
 
 private slots:  // Private slots
     /** refresh monitor display */

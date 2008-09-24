@@ -80,13 +80,20 @@ QPoint SmallRuler::zone() {
 // virtual
 void SmallRuler::mousePressEvent(QMouseEvent * event) {
     const int pos = event->x() / m_scale;
-    emit seekRenderer((int) pos);
+    if (event->button() == Qt::RightButton) {
+        // Right button clicked, move selection zone
+        if (qAbs(pos - m_zoneStart) < qAbs(pos - m_zoneEnd)) m_zoneStart = pos;
+        else m_zoneEnd = pos;
+        emit zoneChanged(QPoint(m_zoneStart, m_zoneEnd));
+        update();
+
+    } else emit seekRenderer((int) pos);
 }
 
 // virtual
 void SmallRuler::mouseMoveEvent(QMouseEvent * event) {
     const int pos = event->x() / m_scale;
-    emit seekRenderer((int) pos);
+    if (event->buttons() & Qt::LeftButton) emit seekRenderer((int) pos);
 }
 
 void SmallRuler::slotNewValue(int value) {

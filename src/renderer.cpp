@@ -65,13 +65,13 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
     }
 }
 
-Render::Render(const QString & rendererName, int winid, int extid, QWidget *parent): QObject(parent), m_name(rendererName), m_mltConsumer(NULL), m_mltProducer(NULL), m_mltTextProducer(NULL), m_winid(winid), m_externalwinid(extid),  m_framePosition(0), m_isBlocked(true), m_blackClip(NULL), m_isSplitView(false) {
+Render::Render(const QString & rendererName, int winid, int extid, QWidget *parent): QObject(parent), m_name(rendererName), m_mltConsumer(NULL), m_mltProducer(NULL), m_mltTextProducer(NULL), m_winid(winid), m_externalwinid(extid),  m_framePosition(0), m_isBlocked(true), m_blackClip(NULL), m_isSplitView(false), m_isZoneMode(false), m_isLoopMode(false) {
     kDebug() << "//////////  USING PROFILE: " << (char*)KdenliveSettings::current_profile().toUtf8().data();
     refreshTimer = new QTimer(this);
     connect(refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
 
-    if (rendererName == "project") m_monitorId = 10000;
-    else m_monitorId = 10001;
+    /*if (rendererName == "project") m_monitorId = 10000;
+    else m_monitorId = 10001;*/
     osdTimer = new QTimer(this);
     connect(osdTimer, SIGNAL(timeout()), this, SLOT(slotOsdTimeout()));
 
@@ -201,8 +201,11 @@ int Render::resetProfile() {
 
 /** Wraps the VEML command of the same name; Seeks the renderer clip to the given time. */
 void Render::seek(GenTime time) {
-    sendSeekCommand(time);
-    //emit positionChanged(time);
+    if (!m_mltProducer)
+        return;
+    //kDebug()<<"//////////  KDENLIVE SEEK: "<<(int) (time.frames(m_fps));
+    m_mltProducer->seek((int)(time.frames(m_fps)));
+    refresh();
 }
 
 //static
@@ -942,6 +945,7 @@ void Render::stop() {
     m_isBlocked = true;
 
     if (m_mltProducer) {
+        if (m_isZoneMode) resetZoneMode();
         m_mltProducer->set_speed(0.0);
         //m_mltProducer->set("out", m_mltProducer->get_length() - 1);
         //kDebug() << m_mltProducer->get_length();
@@ -953,6 +957,7 @@ void Render::stop(const GenTime & startTime) {
 
     kDebug() << "/////////////   RENDER STOP-------2";
     if (m_mltProducer) {
+        if (m_isZoneMode) resetZoneMode();
         m_mltProducer->set_speed(0.0);
         m_mltProducer->seek((int) startTime.frames(m_fps));
     }
@@ -962,6 +967,7 @@ void Render::stop(const GenTime & startTime) {
 void Render::switchPlay() {
     if (!m_mltProducer || !m_mltConsumer)
         return;
+    if (m_isZoneMode) resetZoneMode();
     if (m_mltProducer->get_speed() == 0.0) {
         //m_isBlocked = false;
         m_mltProducer->set_speed(1.0);
@@ -1001,44 +1007,45 @@ void Render::play(double speed) {
     refresh();
 }
 
-void Render::play(double speed, const GenTime & startTime) {
-    kDebug() << "/////////////   RENDER PLAY2-------" << speed;
-    if (!m_mltProducer)
+void Render::play(const GenTime & startTime) {
+    if (!m_mltProducer || !m_mltConsumer)
         return;
-    //m_mltProducer->set("out", m_mltProducer->get_length() - 1);
-    //if (speed == 0.0) m_mltConsumer->set("refresh", 0);
-    m_mltProducer->set_speed(speed);
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
-    //m_mltConsumer->purge();
-    //refresh();
+    m_mltProducer->set_speed(1.0);
+    m_mltConsumer->set("refresh", 1);
 }
 
-void Render::play(double speed, const GenTime & startTime,
-                  const GenTime & stopTime) {
-    kDebug() << "/////////////   RENDER PLAY3-------" << speed << stopTime.frames(m_fps);
-    if (!m_mltProducer)
+void Render::loopZone(const GenTime & startTime, const GenTime & stopTime) {
+    if (!m_mltProducer || !m_mltConsumer)
+        return;
+    //m_mltProducer->set("eof", "loop");
+    m_isLoopMode = true;
+    m_loopStart = startTime;
+    playZone(startTime, stopTime);
+}
+
+void Render::playZone(const GenTime & startTime, const GenTime & stopTime) {
+    if (!m_mltProducer || !m_mltConsumer)
         return;
     m_mltProducer->set("out", stopTime.frames(m_fps));
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
-    m_mltConsumer->purge();
-    m_mltProducer->set_speed(speed);
-    refresh();
+    m_mltProducer->set_speed(1.0);
+    m_mltConsumer->set("refresh", 1);
+    m_isZoneMode = true;
 }
 
-
-void Render::sendSeekCommand(GenTime time) {
-    //kDebug()<<" *********  RENDER SEND SEEK";
-    if (!m_mltProducer)
-        return;
-    //kDebug()<<"//////////  KDENLIVE SEEK: "<<(int) (time.frames(m_fps));
-    m_mltProducer->seek((int)(time.frames(m_fps)));
-    refresh();
+void Render::resetZoneMode() {
+    m_mltProducer->set("out", m_mltProducer->get_length() - 1);
+    //m_mltProducer->set("eof", "pause");
+    m_isZoneMode = false;
+    m_isLoopMode = false;
 }
 
 void Render::seekToFrame(int pos) {
     //kDebug()<<" *********  RENDER SEEK TO POS";
     if (!m_mltProducer)
         return;
+    resetZoneMode();
     m_mltProducer->seek(pos);
     refresh();
 }
@@ -1061,17 +1068,6 @@ void Render::refresh() {
         m_mltConsumer->set("refresh", 1);
     }
 }
-
-/** Sets the description of this renderer to desc. */
-void Render::setDescription(const QString & description) {
-    m_description = description;
-}
-
-/** Returns the description of this renderer */
-QString Render::description() {
-    return m_description;
-}
-
 
 double Render::playSpeed() {
     if (m_mltProducer) return m_mltProducer->get_speed();
@@ -1099,6 +1095,8 @@ void Render::emitConsumerStopped() {
     // This is used to know when the playing stopped
     if (m_mltProducer) {
         double pos = m_mltProducer->position();
+        if (m_isLoopMode) play(m_loopStart);
+        else if (m_isZoneMode) resetZoneMode();
         emit rendererStopped((int) pos);
         //if (qApp->activeWindow()) QApplication::postEvent(qApp->activeWindow(), new PositionChangeEvent(GenTime((int) pos, m_fps), m_monitorId + 100));
         //new QCustomEvent(10002));

@@ -54,8 +54,8 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     m_playIcon = KIcon("media-playback-start");
     m_pauseIcon = KIcon("media-playback-pause");
 
-    toolbar->addAction(KIcon("kdenlive-zone-start"), i18n("Set zone start"), this, SLOT(slotSetZoneStart()));
-    toolbar->addAction(KIcon("kdenlive-zone-end"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
+    QAction *zoneStart = toolbar->addAction(KIcon("kdenlive-zone-start"), i18n("Set zone start"), this, SLOT(slotSetZoneStart()));
+    QAction *zoneEnd = toolbar->addAction(KIcon("kdenlive-zone-end"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
 
     toolbar->addAction(KIcon("media-seek-backward"), i18n("Rewind"), this, SLOT(slotRewind()));
     toolbar->addAction(KIcon("media-skip-backward"), i18n("Rewind 1 frame"), this, SLOT(slotRewindOneFrame()));
@@ -69,8 +69,8 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     m_playAction = playMenu->addAction(m_playIcon, i18n("Play"));
     m_playAction->setCheckable(true);
     connect(m_playAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
-    playMenu->addAction(m_playIcon, i18n("Play Section"), this, SLOT(slotPlay()));
-    playMenu->addAction(m_playIcon, i18n("Loop Section"), this, SLOT(slotPlay()));
+    playMenu->addAction(m_playIcon, i18n("Play Section"), this, SLOT(slotPlayZone()));
+    playMenu->addAction(m_playIcon, i18n("Loop Section"), this, SLOT(slotLoopZone()));
 
     toolbar->addAction(KIcon("media-skip-forward"), i18n("Forward 1 frame"), this, SLOT(slotForwardOneFrame()));
     toolbar->addAction(KIcon("media-seek-forward"), i18n("Forward"), this, SLOT(slotForward()));
@@ -109,8 +109,20 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
 
     m_contextMenu = new QMenu(this);
     m_contextMenu->addMenu(playMenu);
+
+    QMenu *goMenu = new QMenu(i18n("Go to..."), this);
+    goMenu->addAction(i18n("Start"), this, SLOT(slotStart()));
+    goMenu->addAction(i18n("End"), this, SLOT(slotEnd()));
+    goMenu->addAction(i18n("Zone start"), this, SLOT(slotZoneStart()));
+    goMenu->addAction(i18n("Zone end"), this, SLOT(slotZoneEnd()));
+    m_contextMenu->addMenu(goMenu);
+
+    m_contextMenu->addAction(zoneStart);
+    m_contextMenu->addAction(zoneEnd);
+
     QAction *extractFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
     connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
+    connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SIGNAL(zoneUpdated(QPoint)));
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
@@ -239,6 +251,7 @@ void Monitor::mouseMoveEvent(QMouseEvent *event) {
         mimeData->setData("kdenlive/clip", data);
         drag->setMimeData(mimeData);
         QPixmap pix = m_currentClip->thumbnail();
+        kDebug() << "/ / / /CLIP DRAGGED PIXMAP: " << pix.width() << "x" << pix.height();
         drag->setPixmap(pix);
         drag->setHotSpot(QPoint(0, 50));
         drag->start(Qt::MoveAction);
@@ -325,6 +338,24 @@ void Monitor::slotEnd() {
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);
     render->play(0);
     m_position = render->getLength();
+    render->seekToFrame(m_position);
+    emit renderPosition(m_position);
+    m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
+}
+
+void Monitor::slotZoneStart() {
+    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    render->play(0);
+    m_position = m_ruler->zone().x();
+    render->seekToFrame(m_position);
+    emit renderPosition(m_position);
+    m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
+}
+
+void Monitor::slotZoneEnd() {
+    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    render->play(0);
+    m_position = m_ruler->zone().y();
     render->seekToFrame(m_position);
     emit renderPosition(m_position);
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
@@ -428,6 +459,24 @@ void Monitor::slotPlay() {
     if (render == NULL) return;
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);
     render->switchPlay();
+    m_playAction->setChecked(true);
+    m_playAction->setIcon(m_pauseIcon);
+}
+
+void Monitor::slotPlayZone() {
+    if (render == NULL) return;
+    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    QPoint p = m_ruler->zone();
+    render->playZone(GenTime(p.x(), render->fps()), GenTime(p.y(), render->fps()));
+    m_playAction->setChecked(true);
+    m_playAction->setIcon(m_pauseIcon);
+}
+
+void Monitor::slotLoopZone() {
+    if (render == NULL) return;
+    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    QPoint p = m_ruler->zone();
+    render->loopZone(GenTime(p.x(), render->fps()), GenTime(p.y(), render->fps()));
     m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
 }

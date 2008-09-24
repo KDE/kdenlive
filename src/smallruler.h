@@ -53,6 +53,7 @@ public slots:
 
 signals:
     void seekRenderer(int);
+    void zoneChanged(QPoint);
 };
 
 #endif
