@@ -55,6 +55,7 @@ class CustomTrackView;
 class RenderWidget;
 class JogShuttle;
 class DocClipBase;
+class Render;
 
 class MainWindow : public KXmlGuiWindow {
     Q_OBJECT
@@ -237,6 +238,7 @@ private slots:
 
     void slotAdjustClipMonitor();
     void slotAdjustProjectMonitor();
+    void slotSaveZone(Render *render, QPoint zone);
 };
 
 

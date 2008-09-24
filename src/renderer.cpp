@@ -803,7 +803,6 @@ void Render::saveSceneList(QString path, QDomElement kdenliveData) {
     if (split) slotSplitView(false);
     westleyConsumer.connect(prod);
     //prod.set("title", "kdenlive document");
-    //westleyConsumer.listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
     westleyConsumer.start();
     while (!westleyConsumer.is_stopped()) {}
     if (!kdenliveData.isNull()) {
@@ -825,6 +824,38 @@ void Render::saveSceneList(QString path, QDomElement kdenliveData) {
     if (split) slotSplitView(true);
 }
 
+
+void Render::saveZone(KUrl url, QString desc, QPoint zone) {
+    kDebug() << "// SAVING CLIP ZONE, RENDER: " << m_name;
+    char *tmppath = decodedString("westley:" + url.path());
+    Mlt::Consumer westleyConsumer(*m_mltProfile , tmppath);
+    m_mltProducer->optimise();
+    delete[] tmppath;
+    westleyConsumer.set("terminate_on_pause", 1);
+    if (m_name == "clip") {
+        Mlt::Producer *prod = m_mltProducer->cut(zone.x(), zone.y());
+        tmppath = decodedString(desc);
+        Mlt::Playlist list;
+        list.insert_at(0, prod, 0);
+        list.set("title", tmppath);
+        delete[] tmppath;
+        westleyConsumer.connect(list);
+
+    } else {
+        //TODO: not working yet, save zone from timeline
+        Mlt::Producer *p1 = new Mlt::Producer(m_mltProducer->get_producer());
+        /* Mlt::Service service(p1->parent().get_service());
+         if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";*/
+
+        //Mlt::Producer *prod = p1->cut(zone.x(), zone.y());
+        tmppath = decodedString(desc);
+        //prod->set("title", tmppath);
+        delete[] tmppath;
+        westleyConsumer.connect(*p1); //list);
+    }
+
+    westleyConsumer.start();
+}
 
 const double Render::fps() const {
     return m_fps;
@@ -2271,7 +2302,6 @@ void Render::mltSavePlaylist() {
 
     fileConsumer.connect(service);
     fileConsumer.start();
-
 }
 
 #include "renderer.moc"

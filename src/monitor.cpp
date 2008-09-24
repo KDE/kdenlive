@@ -109,25 +109,33 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
 
     m_contextMenu = new QMenu(this);
     m_contextMenu->addMenu(playMenu);
-
     QMenu *goMenu = new QMenu(i18n("Go to..."), this);
     goMenu->addAction(i18n("Start"), this, SLOT(slotStart()));
     goMenu->addAction(i18n("End"), this, SLOT(slotEnd()));
     goMenu->addAction(i18n("Zone start"), this, SLOT(slotZoneStart()));
     goMenu->addAction(i18n("Zone end"), this, SLOT(slotZoneEnd()));
-    m_contextMenu->addMenu(goMenu);
 
-    m_contextMenu->addAction(zoneStart);
-    m_contextMenu->addAction(zoneEnd);
-
-    QAction *extractFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
     connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
     connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SIGNAL(zoneUpdated(QPoint)));
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
 
+    configMenu->addSeparator();
+    configMenu->addAction(KIcon("transform-scale"), i18n("Resize (100%)"), this, SLOT(slotSetSizeOneToOne()));
+    configMenu->addAction(KIcon("transform-scale"), i18n("Resize (50%)"), this, SLOT(slotSetSizeOneToTwo()));
+    //render->createVideoXWindow(ui.video_frame->winId(), -1);
+    m_length = 0;
+
+    m_contextMenu->addMenu(goMenu);
+    m_contextMenu->addAction(zoneStart);
+    m_contextMenu->addAction(zoneEnd);
+    //TODO: add save zone to timeline monitor when fixed
+    if (name == "clip") m_contextMenu->addAction(KIcon("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
+
+    QAction *extractFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
     configMenu->addAction(extractFrame);
+
     if (name != "clip") {
         connect(render, SIGNAL(rendererPosition(int)), this, SIGNAL(renderPosition(int)));
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
@@ -138,11 +146,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
         QAction *setThumbFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
         configMenu->addAction(setThumbFrame);
     }
-    configMenu->addSeparator();
-    configMenu->addAction(KIcon("transform-scale"), i18n("Resize (100%)"), this, SLOT(slotSetSizeOneToOne()));
-    configMenu->addAction(KIcon("transform-scale"), i18n("Resize (50%)"), this, SLOT(slotSetSizeOneToTwo()));
-    //render->createVideoXWindow(ui.video_frame->winId(), -1);
-    m_length = 0;
+
     m_monitorRefresh->show();
     kDebug() << "/////// BUILDING MONITOR, ID: " << ui.video_frame->winId();
 }
@@ -507,6 +511,14 @@ void Monitor::slotOpenFile(const QString &file) {
     prod.setAttribute("resource", file);
     render->setSceneList(doc, 0);
 }
+
+void Monitor::slotSaveZone() {
+    if (render == NULL) return;
+    emit saveZone(render, m_ruler->zone());
+
+    //render->setSceneList(doc, 0);
+}
+
 
 void Monitor::resetProfile() {
     if (render == NULL) return;

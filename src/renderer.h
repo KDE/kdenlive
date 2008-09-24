@@ -114,6 +114,8 @@ Q_OBJECT public:
     void playZone(const GenTime & startTime, const GenTime & stopTime);
     void loopZone(const GenTime & startTime, const GenTime & stopTime);
 
+    void saveZone(KUrl url, QString desc, QPoint zone);
+
     /** Returns the name of the renderer. */
     const QString & rendererName() const;
 

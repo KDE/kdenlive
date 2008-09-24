@@ -94,6 +94,7 @@ private slots:
     void slotSetSizeOneToTwo();
     void slotSetZoneStart();
     void slotSetZoneEnd();
+    void slotSaveZone();
 
 public slots:
     void slotOpenFile(const QString &);
@@ -124,6 +125,7 @@ signals:
     void refreshClipThumbnail(const QString &);
     void adjustMonitorSize();
     void zoneUpdated(QPoint);
+    void saveZone(Render *, QPoint);
 };
 
 #endif

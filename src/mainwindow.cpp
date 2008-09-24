@@ -429,6 +429,9 @@ void MainWindow::slotConnectMonitors() {
 
     connect(m_clipMonitor, SIGNAL(adjustMonitorSize()), this, SLOT(slotAdjustClipMonitor()));
     connect(m_projectMonitor, SIGNAL(adjustMonitorSize()), this, SLOT(slotAdjustProjectMonitor()));
+
+    connect(m_clipMonitor, SIGNAL(saveZone(Render *, QPoint)), this, SLOT(slotSaveZone(Render *, QPoint)));
+    connect(m_projectMonitor, SIGNAL(saveZone(Render *, QPoint)), this, SLOT(slotSaveZone(Render *, QPoint)));
 }
 
 void MainWindow::slotAdjustClipMonitor() {
@@ -1564,6 +1567,31 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
         // pass the event on to the parent class
         return QMainWindow::eventFilter(obj, event);
     }
+}
+
+void MainWindow::slotSaveZone(Render *render, QPoint zone) {
+    KDialog *dialog = new KDialog(this);
+    dialog->setCaption("Save clip zone");
+    dialog->setButtons(KDialog::Ok | KDialog::Cancel);
+
+    QWidget *widget = new QWidget(dialog);
+    dialog->setMainWidget(widget);
+
+    QVBoxLayout *vbox = new QVBoxLayout(widget);
+    QLabel *label1 = new QLabel(i18n("Save clip zone as:"), this);
+    QString path = m_activeDocument->projectFolder().path();
+    path.append("/");
+    path.append("untitled.westley");
+    KUrlRequester *url = new KUrlRequester(KUrl(path), this);
+    url->setFilter("video/mlt-playlist");
+    QLabel *label2 = new QLabel(i18n("Description:"), this);
+    KLineEdit *edit = new KLineEdit(this);
+    vbox->addWidget(label1);
+    vbox->addWidget(url);
+    vbox->addWidget(label2);
+    vbox->addWidget(edit);
+    if (dialog->exec() == QDialog::Accepted) render->saveZone(url->url(), edit->text(), zone);
+
 }
 
 #include "mainwindow.moc"
