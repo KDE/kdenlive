@@ -146,6 +146,7 @@ private:
     KdenliveDoc *m_document;
     CustomTrackScene *m_scene;
     void addItem(DocClipBase *clip, QPoint pos);
+    void addItem(DocClipBase *clip, QPoint pos, QPoint zone);
     QGraphicsLineItem *m_cursorLine;
     ItemInfo m_dragItemInfo;
     OPERATIONTYPE m_operationMode;

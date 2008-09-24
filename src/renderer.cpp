@@ -1215,8 +1215,8 @@ void Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
     mlt_service_lock(service.get_service());
     Mlt::Producer trackProducer(tractor.track(info.track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-
-    Mlt::Producer *clip = prod->cut(info.cropStart.frames(m_fps), (info.endPos - info.startPos).frames(m_fps) - 1);
+    //kDebug()<<"/// INSERT cLIP: "<<info.cropStart.frames(m_fps)<<", "<<info.startPos.frames(m_fps)<<"-"<<info.endPos.frames(m_fps);
+    Mlt::Producer *clip = prod->cut((int) info.cropStart.frames(m_fps), (int)(info.endPos - info.startPos + info.cropStart).frames(m_fps) - 1);
     int newIndex = trackPlaylist.insert_at((int) info.startPos.frames(m_fps), *clip, 1);
 
     if (QString(prod->get("transparency")).toInt() == 1)

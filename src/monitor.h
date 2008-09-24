@@ -55,7 +55,13 @@ public:
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
+    virtual void mouseReleaseEvent(QMouseEvent * event);
     virtual void wheelEvent(QWheelEvent * event);
+    virtual void mouseMoveEvent(QMouseEvent *event);
+    virtual QStringList mimeTypes() const;
+    /*    virtual void dragMoveEvent(QDragMoveEvent * event);
+        virtual Qt::DropActions supportedDropActions() const;*/
+
 //    virtual void resizeEvent(QResizeEvent * event);
 //    virtual void paintEvent(QPaintEvent * event);
 
@@ -75,6 +81,8 @@ private:
     QAction *m_playAction;
     QMenu *m_contextMenu;
     DocClipBase *m_currentClip;
+    QPoint m_DragStartPosition;
+    bool m_dragStarted;
 
 private slots:
     void adjustRulerSize(int length);

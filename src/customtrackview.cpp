@@ -749,7 +749,14 @@ void CustomTrackView::activateMonitor() {
 }
 
 void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
-    if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
+    if (event->mimeData()->hasFormat("kdenlive/clip")) {
+        QStringList list = QString(event->mimeData()->data("kdenlive/clip")).split(";");
+        kDebug() << "DRAG ENTER EVENT, DATA: " << list;
+        DocClipBase *clip = m_document->getBaseClip(list.at(0));
+        if (clip == NULL) kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << list.at(0);
+        addItem(clip, event->pos(), QPoint(list.at(1).toInt(), list.at(2).toInt()));
+        event->acceptProposedAction();
+    } else if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
         kDebug() << "///////////////  DRAG ENTERED, TEXT: " << event->mimeData()->data("kdenlive/producerslist");
         QStringList ids = QString(event->mimeData()->data("kdenlive/producerslist")).split(";");
         //TODO: drop of several clips
@@ -1003,6 +1010,17 @@ void CustomTrackView::addItem(DocClipBase *clip, QPoint pos) {
     scene()->addItem(m_dropItem);
 }
 
+void CustomTrackView::addItem(DocClipBase *clip, QPoint pos, QPoint zone) {
+    ItemInfo info;
+    info.startPos = GenTime((int)(mapToScene(pos).x()), m_document->fps());
+    info.cropStart = GenTime(zone.x(), m_document->fps());
+    info.endPos = info.startPos + GenTime(zone.y() - zone.x(), m_document->fps());
+    info.track = (int)(pos.y() / m_tracksHeight);
+    kDebug() << "------------  ADDING CLIP ZONE ITEM----: " << zone;
+    m_dropItem = new ClipItem(clip, info, m_document->fps());
+    scene()->addItem(m_dropItem);
+}
+
 
 void CustomTrackView::dragMoveEvent(QDragMoveEvent * event) {
     event->setDropAction(Qt::IgnoreAction);
@@ -1011,7 +1029,7 @@ void CustomTrackView::dragMoveEvent(QDragMoveEvent * event) {
         int pos = mapToScene(event->pos()).x();
         m_dropItem->setPos(pos, track * m_tracksHeight + 1);
         event->setDropAction(Qt::MoveAction);
-        if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
+        if (event->mimeData()->hasFormat("kdenlive/producerslist") || event->mimeData()->hasFormat("kdenlive/clip")) {
             event->acceptProposedAction();
         }
     } else {
@@ -1051,6 +1069,7 @@ QStringList CustomTrackView::mimeTypes() const {
     // list of accepted mime types for drop
     qstrList.append("text/plain");
     qstrList.append("kdenlive/producerslist");
+    qstrList.append("kdenlive/clip");
     return qstrList;
 }
 

@@ -53,14 +53,22 @@ void SmallRuler::adjustScale(int maximum) {
 
 void SmallRuler::setZone(int start, int end) {
     if (start != -1) {
-        if (end != -1 && start >= end) return;
-        else if (end == -1 && start >= m_zoneEnd) return;
-        m_zoneStart = start;
+        if (end != -1 && start >= end) {
+            m_zoneEnd = qMin(m_maxval, end + (start - m_zoneStart));
+            m_zoneStart = start;
+        } else if (end == -1 && start >= m_zoneEnd) {
+            m_zoneEnd = qMin(m_maxval, m_zoneEnd + (start - m_zoneStart));
+            m_zoneStart = start;
+        } else m_zoneStart = start;
     }
     if (end != -1) {
-        if (start != -1 && end <= start) end = m_zoneEnd;
-        else if (start == -1 && end <= m_zoneStart) end = m_zoneEnd;
-        m_zoneEnd = end;
+        if (start != -1 && end <= start) {
+            m_zoneStart = qMax(0, start - (m_zoneEnd - end));
+            m_zoneEnd = end;
+        } else if (start == -1 && end <= m_zoneStart) {
+            m_zoneStart = qMax(0, m_zoneStart - (m_zoneEnd - end));
+            m_zoneEnd = end;
+        } else m_zoneEnd = end;
     }
     update();
 }

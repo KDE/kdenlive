@@ -237,6 +237,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event) {
     }
 }
 
+// virtual
 void ProjectListView::dragMoveEvent(QDragMoveEvent * event) {
     QTreeWidgetItem * item = itemAt(event->pos());
     event->setDropAction(Qt::IgnoreAction);

@@ -37,7 +37,7 @@
 #include "docclipbase.h"
 
 Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
-        : QWidget(parent), render(NULL), m_monitorManager(manager), m_name(name), m_isActive(false), m_currentClip(NULL) {
+        : QWidget(parent), render(NULL), m_monitorManager(manager), m_name(name), m_isActive(false), m_currentClip(NULL), m_dragStarted(false) {
     ui.setupUi(this);
     m_scale = 1;
     m_ruler = new SmallRuler();
@@ -198,9 +198,80 @@ void Monitor::slotSetZoneEnd() {
 // virtual
 void Monitor::mousePressEvent(QMouseEvent * event) {
     if (event->button() != Qt::RightButton) {
-        if (ui.video_frame->underMouse()) slotPlay();
+        if (ui.video_frame->underMouse()) {
+            m_dragStarted = true;
+            m_DragStartPosition = event->pos();
+        }
     } else m_contextMenu->popup(event->globalPos());
 }
+
+// virtual
+void Monitor::mouseReleaseEvent(QMouseEvent * event) {
+    if (m_dragStarted) {
+        if (ui.video_frame->underMouse()) {
+            slotPlay();
+        } else QWidget::mouseReleaseEvent(event);
+        m_dragStarted = false;
+    }
+}
+
+
+// virtual
+void Monitor::mouseMoveEvent(QMouseEvent *event) {
+    kDebug() << "// DRAG STARTED, MOUSE MOVED: ";
+    if (!m_dragStarted || m_currentClip == NULL) return;
+
+    if ((event->pos() - m_DragStartPosition).manhattanLength()
+            < QApplication::startDragDistance())
+        return;
+
+    {
+        QDrag *drag = new QDrag(this);
+        QMimeData *mimeData = new QMimeData;
+
+        QStringList list;
+        list.append(m_currentClip->getId());
+        QPoint p = m_ruler->zone();
+        list.append(QString::number(p.x()));
+        list.append(QString::number(p.y()));
+        QByteArray data;
+        data.append(list.join(";").toUtf8());
+        mimeData->setData("kdenlive/clip", data);
+        drag->setMimeData(mimeData);
+        QPixmap pix = m_currentClip->thumbnail();
+        drag->setPixmap(pix);
+        drag->setHotSpot(QPoint(0, 50));
+        drag->start(Qt::MoveAction);
+
+        //Qt::DropAction dropAction;
+        //dropAction = drag->start(Qt::CopyAction | Qt::MoveAction);
+
+        //Qt::DropAction dropAction = drag->exec();
+
+    }
+    //event->accept();
+}
+
+/*void Monitor::dragMoveEvent(QDragMoveEvent * event) {
+    event->setDropAction(Qt::IgnoreAction);
+    event->setDropAction(Qt::MoveAction);
+    if (event->mimeData()->hasText()) {
+        event->acceptProposedAction();
+    }
+}
+
+Qt::DropActions Monitor::supportedDropActions() const {
+    // returns what actions are supported when dropping
+    return Qt::MoveAction;
+}*/
+
+QStringList Monitor::mimeTypes() const {
+    QStringList qstrList;
+    // list of accepted mime types for drop
+    qstrList.append("kdenlive/clip");
+    return qstrList;
+}
+
 
 // virtual
 void Monitor::wheelEvent(QWheelEvent * event) {
