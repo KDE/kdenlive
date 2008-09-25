@@ -1024,7 +1024,8 @@ void MainWindow::slotEditProjectSettings() {
 void MainWindow::slotRenderProject() {
     if (!m_renderWidget) {
         m_renderWidget = new RenderWidget(this);
-        connect(m_renderWidget, SIGNAL(doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool)), this, SLOT(slotDoRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool)));
+        connect(m_renderWidget, SIGNAL(doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double)), this, SLOT(slotDoRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double)));
+        if (m_activeDocument) m_renderWidget->setGuides(m_activeDocument->guidesXml(), m_activeDocument->projectDuration());
     }
     /*TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
     if (currentTab) m_renderWidget->setTimeline(currentTab);
@@ -1032,7 +1033,7 @@ void MainWindow::slotRenderProject() {
     m_renderWidget->show();
 }
 
-void MainWindow::slotDoRender(const QString &dest, const QString &render, const QStringList &overlay_args, const QStringList &avformat_args, bool zoneOnly, bool playAfter) {
+void MainWindow::slotDoRender(const QString &dest, const QString &render, const QStringList &overlay_args, const QStringList &avformat_args, bool zoneOnly, bool playAfter, double guideStart, double guideEnd) {
     if (dest.isEmpty()) return;
     int in;
     int out;
@@ -1049,6 +1050,9 @@ void MainWindow::slotDoRender(const QString &dest, const QString &render, const 
         QStringList args;
         args << "-erase";
         if (zoneOnly) args << "in=" + QString::number(in) << "out=" + QString::number(out);
+        else if (guideStart != -1) {
+            args << "in=" + QString::number(GenTime(guideStart).frames(m_activeDocument->fps())) << "out=" + QString::number(GenTime(guideEnd).frames(m_activeDocument->fps()));
+        }
         if (!overlay_args.isEmpty()) args << "preargs=" + overlay_args.join(" ");
         QString videoPlayer = "-";
         if (playAfter) {
@@ -1103,6 +1107,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
             disconnect(m_projectMonitor, SIGNAL(durationChanged(int)), m_activeTimeline, SLOT(setDuration(int)));
             disconnect(m_projectList, SIGNAL(projectModified()), m_activeDocument, SLOT(setModified()));
+            disconnect(m_activeDocument, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
             disconnect(m_activeDocument, SIGNAL(addProjectClip(DocClipBase *)), m_projectList, SLOT(slotAddClip(DocClipBase *)));
             disconnect(m_activeDocument, SIGNAL(addProjectFolder(const QString, const QString &, bool, bool)), m_projectList, SLOT(slotAddFolder(const QString, const QString &, bool, bool)));
             disconnect(m_activeDocument, SIGNAL(signalDeleteProjectClip(const QString &)), m_projectList, SLOT(slotDeleteClip(const QString &)));
@@ -1154,7 +1159,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
 
     connect(doc, SIGNAL(deleteTimelineClip(const QString &)), trackView, SLOT(slotDeleteClip(const QString &)));
     connect(doc, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
-
+    connect(doc, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
 
 
     connect(trackView, SIGNAL(clipItemSelected(ClipItem*)), effectStack, SLOT(slotClipItemSelected(ClipItem*)));
@@ -1198,6 +1203,10 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     setCaption(doc->description(), doc->isModified());
     m_saveAction->setEnabled(doc->isModified());
     m_activeDocument = doc;
+}
+
+void MainWindow::slotGuidesUpdated() {
+    if (m_renderWidget) m_renderWidget->setGuides(m_activeDocument->guidesXml(), m_activeDocument->projectDuration());
 }
 
 void MainWindow::slotPreferences(int page, int option) {

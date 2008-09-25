@@ -32,6 +32,7 @@ class RenderWidget : public QDialog {
 public:
     RenderWidget(QWidget * parent = 0);
     void setDocumentStandard(QString std);
+    void setGuides(QDomElement guidesxml, double duration);
 
 private slots:
     void slotUpdateButtons();
@@ -41,6 +42,10 @@ private slots:
     void slotSaveProfile();
     void slotEditProfile();
     void slotDeleteProfile();
+    void slotUpdateGuideBox();
+    void slotCheckStartGuidePosition();
+    void slotCheckEndGuidePosition();
+
 
 private:
     Ui::RenderWidget_UI m_view;
@@ -49,7 +54,7 @@ private:
     void parseFile(QString exportFile, bool editable);
 
 signals:
-    void doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool);
+    void doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double);
 };
 
 

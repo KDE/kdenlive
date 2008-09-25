@@ -64,6 +64,7 @@ Q_OBJECT public:
     int getProducerDuration(const QString &id);
     Render *renderer();
     QDomElement m_guidesXml;
+    QDomElement guidesXml() const;
     ClipManager *clipManager();
     void addClip(const QDomElement &elem, const QString &clipId);
     void addFolder(const QString foldername, const QString &clipId, bool edit);
@@ -103,6 +104,7 @@ Q_OBJECT public:
     void setZoom(int factor);
     int zoom() const;
     const double dar();
+    double projectDuration() const;
 
 private:
     KUrl m_url;
@@ -149,6 +151,7 @@ signals:
     /** emited when the document state has been modified (= needs saving or not) */
     void docModified(bool);
     void selectLastAddedClip(const QString &);
+    void guidesUpdated();
 };
 
 #endif

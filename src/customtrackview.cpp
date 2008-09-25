@@ -1864,7 +1864,9 @@ void CustomTrackView::addMarker(const QString &id, const GenTime &pos, const QSt
     viewport()->update();
 }
 
-
+bool sortGuidesList(const Guide *g1 , const Guide *g2) {
+    return (*g1).position() < (*g2).position();
+}
 
 void CustomTrackView::editGuide(const GenTime oldPos, const GenTime pos, const QString &comment) {
     if (oldPos > GenTime() && pos > GenTime()) {
@@ -1890,6 +1892,7 @@ void CustomTrackView::editGuide(const GenTime oldPos, const GenTime pos, const Q
         }
         if (!found) emit displayMessage(i18n("No guide at cursor time"), ErrorMessage);
     }
+    qSort(m_guides.begin(), m_guides.end(), sortGuidesList);
     m_document->syncGuides(m_guides);
 }
 
@@ -1903,6 +1906,7 @@ bool CustomTrackView::addGuide(const GenTime pos, const QString &comment) {
     Guide *g = new Guide(this, pos, comment, m_document->fps(), m_tracksHeight * m_scene->m_tracksList.count());
     scene()->addItem(g);
     m_guides.append(g);
+    qSort(m_guides.begin(), m_guides.end(), sortGuidesList);
     m_document->syncGuides(m_guides);
     return true;
 }

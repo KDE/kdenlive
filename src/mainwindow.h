@@ -193,7 +193,7 @@ private slots:
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
     void slotRenderProject();
-    void slotDoRender(const QString &dest, const QString &render, const QStringList &overlay_args, const QStringList &avformat_args, bool zoneOnly, bool playAfter);
+    void slotDoRender(const QString &dest, const QString &render, const QStringList &overlay_args, const QStringList &avformat_args, bool zoneOnly, bool playAfter, double guideStart, double guideEnd);
     void slotFullScreen();
     void slotUpdateDocumentState(bool modified);
     void slotZoomIn();
@@ -229,6 +229,7 @@ private slots:
     void slotEditGuide();
     void slotDeleteGuide();
     void slotDeleteAllGuides();
+    void slotGuidesUpdated();
 
     void slotCopy();
     void slotPaste();

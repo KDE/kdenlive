@@ -231,12 +231,18 @@ void KdenliveDoc::syncGuides(QList <Guide *> guides) {
     QDomElement e;
     m_guidesXml.clear();
     m_guidesXml = doc.createElement("guides");
+
     for (int i = 0; i < guides.count(); i++) {
         e = doc.createElement("guide");
         e.setAttribute("time", guides.at(i)->position().ms() / 1000);
         e.setAttribute("comment", guides.at(i)->label());
         m_guidesXml.appendChild(e);
     }
+    emit guidesUpdated();
+}
+
+QDomElement KdenliveDoc::guidesXml() const {
+    return m_guidesXml;
 }
 
 void KdenliveDoc::slotAutoSave() {
@@ -626,6 +632,10 @@ QDomNodeList KdenliveDoc::producersList() {
 
 void KdenliveDoc::backupMltPlaylist() {
     if (m_render) m_scenelist = m_render->sceneList();
+}
+
+double KdenliveDoc::projectDuration() const {
+    if (m_render) return GenTime(m_render->getLength(), m_fps).ms() / 1000;
 }
 
 double KdenliveDoc::fps() const {

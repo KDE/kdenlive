@@ -57,8 +57,50 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent), m_standard("PAL")
     connect(m_view.format_list, SIGNAL(currentRowChanged(int)), this, SLOT(refreshView()));
     connect(m_view.size_list, SIGNAL(currentRowChanged(int)), this, SLOT(refreshParams()));
 
+    connect(m_view.render_guide, SIGNAL(clicked(bool)), this, SLOT(slotUpdateGuideBox()));
+    connect(m_view.render_zone, SIGNAL(clicked(bool)), this, SLOT(slotUpdateGuideBox()));
+    connect(m_view.render_full, SIGNAL(clicked(bool)), this, SLOT(slotUpdateGuideBox()));
+
+    connect(m_view.guide_end, SIGNAL(activated(int)), this, SLOT(slotCheckStartGuidePosition()));
+    connect(m_view.guide_start, SIGNAL(activated(int)), this, SLOT(slotCheckEndGuidePosition()));
+
+
     m_view.buttonStart->setEnabled(false);
+    m_view.guides_box->setVisible(false);
     parseProfiles();
+}
+
+void RenderWidget::slotUpdateGuideBox() {
+    m_view.guides_box->setVisible(m_view.render_guide->isChecked());
+}
+
+void RenderWidget::slotCheckStartGuidePosition() {
+    if (m_view.guide_start->currentIndex() > m_view.guide_end->currentIndex())
+        m_view.guide_start->setCurrentIndex(m_view.guide_end->currentIndex());
+}
+
+void RenderWidget::slotCheckEndGuidePosition() {
+    if (m_view.guide_end->currentIndex() < m_view.guide_start->currentIndex())
+        m_view.guide_end->setCurrentIndex(m_view.guide_start->currentIndex());
+}
+
+void RenderWidget::setGuides(QDomElement guidesxml, double duration) {
+    m_view.guide_start->clear();
+    m_view.guide_end->clear();
+    QDomNodeList nodes = guidesxml.elementsByTagName("guide");
+    if (nodes.count() > 0) {
+        m_view.guide_start->addItem(i18n("Start"), "0");
+        m_view.render_guide->setEnabled(true);
+    } else m_view.render_guide->setEnabled(false);
+    for (int i = 0; i < nodes.count(); i++) {
+        QDomElement e = nodes.item(i).toElement();
+        if (!e.isNull()) {
+            m_view.guide_start->addItem(e.attribute("comment"), e.attribute("time").toDouble());
+            m_view.guide_end->addItem(e.attribute("comment"), e.attribute("time").toDouble());
+        }
+    }
+    if (nodes.count() > 0)
+        m_view.guide_end->addItem(i18n("End"), QString::number(duration));
 }
 
 void RenderWidget::slotUpdateButtons() {
@@ -275,7 +317,13 @@ void RenderWidget::slotExport() {
         overlayargs << "-attach" << "data_feed:attr_check" << "-attach";
         overlayargs << "data_show:" + filterFile << "_fezzik=1" << "dynamic=1";
     }
-    emit doRender(m_view.out_file->url().path(), item->data(RenderRole).toString(), overlayargs, m_view.advanced_params->text().split(' '), m_view.zone_only->isChecked(), m_view.play_after->isChecked());
+    double startPos = -1;
+    double endPos = -1;
+    if (m_view.render_guide->isChecked()) {
+        startPos = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
+        endPos = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
+    }
+    emit doRender(m_view.out_file->url().path(), item->data(RenderRole).toString(), overlayargs, m_view.advanced_params->text().split(' '), m_view.render_zone->isChecked(), m_view.play_after->isChecked(), startPos, endPos);
 }
 
 void RenderWidget::setDocumentStandard(QString std) {
