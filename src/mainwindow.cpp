@@ -769,11 +769,15 @@ void MainWindow::readOptions() {
     if (!initialGroup.exists()) {
         // this is our first run, show Wizard
         Wizard *w = new Wizard(this);
-        if (w->exec() == QDialog::Accepted) {
+        if (w->exec() == QDialog::Accepted && w->isOk()) {
             w->adjustSettings();
             initialGroup.writeEntry("version", "0.7");
+            delete w;
+        } else {
+            delete w;
+            // TODO: find a better way to exit application faster
+            QTimer::singleShot(1000, this, SLOT(queryQuit()));
         }
-        delete w;
     }
 }
 
@@ -978,7 +982,7 @@ void MainWindow::parseProfiles() {
 
     if (KdenliveSettings::rendererpath().isEmpty()) {
         // Cannot find the MLT inigo renderer, ask for location
-        KUrlRequesterDialog *getUrl = new KUrlRequesterDialog(KdenliveSettings::mltpath(), i18n("Cannot find the inigo program required for rendering (part of Mlt)"), this);
+        KUrlRequesterDialog *getUrl = new KUrlRequesterDialog(QString(), i18n("Cannot find the inigo program required for rendering (part of Mlt)"), this);
         getUrl->exec();
         KUrl rendererPath = getUrl->selectedUrl();
         delete getUrl;

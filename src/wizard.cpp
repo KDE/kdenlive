@@ -18,9 +18,10 @@
  ***************************************************************************/
 
 #include <QLabel>
-#include <QVBoxLayout>
 #include <QFile>
 #include <QXmlStreamWriter>
+#include <QApplication>
+#include <QTimer>
 
 #include <KStandardDirs>
 #include <KLocale>
@@ -36,15 +37,15 @@ Wizard::Wizard(QWidget *parent): QWizard(parent) {
 
     QWizardPage *page1 = new QWizardPage;
     page1->setTitle("Welcome");
-    QLabel *label = new QLabel("This is the first time you run Kdenlive. This wizard will let you adjust some basic settings, you will be ready to edit your first movie in a few seconds...");
+    QLabel *label = new QLabel(i18n("This is the first time you run Kdenlive. This wizard will let you adjust some basic settings, you will be ready to edit your first movie in a few seconds..."));
     label->setWordWrap(true);
-    QVBoxLayout *layout = new QVBoxLayout;
-    layout->addWidget(label);
-    page1->setLayout(layout);
+    m_startLayout = new QVBoxLayout;
+    m_startLayout->addWidget(label);
+    page1->setLayout(m_startLayout);
     addPage(page1);
 
     QWizardPage *page2 = new QWizardPage;
-    page2->setTitle("Video Standard");
+    page2->setTitle(i18n("Video Standard"));
     m_standard.setupUi(page2);
     m_standard.profiles_list->setMaximumHeight(100);
     connect(m_standard.button_pal, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
@@ -54,7 +55,7 @@ Wizard::Wizard(QWidget *parent): QWizard(parent) {
     addPage(page2);
 
     QWizardPage *page3 = new QWizardPage;
-    page3->setTitle("Additional Settings");
+    page3->setTitle(i18n("Additional Settings"));
     m_extra.setupUi(page3);
     m_extra.videothumbs->setChecked(KdenliveSettings::videothumbnails());
     m_extra.audiothumbs->setChecked(KdenliveSettings::audiothumbnails());
@@ -63,6 +64,7 @@ Wizard::Wizard(QWidget *parent): QWizard(parent) {
     connect(m_extra.audiothumbs, SIGNAL(stateChanged(int)), this, SLOT(slotCheckThumbs()));
     slotCheckThumbs();
     addPage(page3);
+    QTimer::singleShot(500, this, SLOT(slotCheckMlt()));
 }
 
 void Wizard::installExtraMimes(QString baseName, QStringList globs) {
@@ -115,7 +117,7 @@ void Wizard::installExtraMimes(QString baseName, QStringList globs) {
 
 void Wizard::runUpdateMimeDatabase() {
     const QString localPackageDir = KStandardDirs::locateLocal("xdgdata-mime", QString());
-    Q_ASSERT(!localPackageDir.isEmpty());
+    //Q_ASSERT(!localPackageDir.isEmpty());
     KProcess proc;
     proc << "update-mime-database";
     proc << localPackageDir;
@@ -186,6 +188,38 @@ void Wizard::adjustSettings() {
     if (m_standard.profiles_list->currentItem()) {
         KdenliveSettings::setDefault_profile(m_standard.profiles_list->currentItem()->data(Qt::UserRole).toString());
     }
+}
+
+void Wizard::slotCheckMlt() {
+    QString errorMessage;
+    if (KdenliveSettings::rendererpath().isEmpty()) {
+        errorMessage.append(i18n("your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"));
+    }
+    QProcess checkProcess;
+    checkProcess.start(KdenliveSettings::rendererpath(), QStringList() << "-query" << "producer");
+    if (!checkProcess.waitForStarted())
+        errorMessage.append("Error starting MLT's command line player (inigo).\n");
+
+    checkProcess.waitForFinished();
+
+    QByteArray result = checkProcess.readAllStandardError();
+    if (!result.contains("avformat")) errorMessage.append(i18n("MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT install. Kdenlive will not work until this issue is fixed.\n"));
+
+    if (!errorMessage.isEmpty()) {
+        QLabel *pix = new QLabel();
+        pix->setPixmap(KIcon("process-stop").pixmap(30));
+        QLabel *label = new QLabel(errorMessage);
+        label->setWordWrap(true);
+        m_startLayout->addSpacing(40);
+        m_startLayout->addWidget(pix);
+        m_startLayout->addWidget(label);
+        m_systemCheckIsOk = false;
+        button(QWizard::NextButton)->setEnabled(false);
+    } else m_systemCheckIsOk = true;
+}
+
+bool Wizard::isOk() const {
+    return m_systemCheckIsOk;
 }
 
 #include "wizard.moc"

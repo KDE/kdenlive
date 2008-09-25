@@ -22,6 +22,7 @@
 #define WIZARD_H
 
 #include <QWizard>
+#include <QVBoxLayout>
 #include <KDebug>
 
 #include "ui_wizardstandard_ui.h"
@@ -35,15 +36,19 @@ public:
     void installExtraMimes(QString baseName, QStringList globs);
     void runUpdateMimeDatabase();
     void adjustSettings();
+    bool isOk() const;
 
 private:
     Ui::WizardStandard_UI m_standard;
     Ui::WizardExtra_UI m_extra;
+    QVBoxLayout *m_startLayout;
+    bool m_systemCheckIsOk;
 
 private slots:
     void slotCheckThumbs();
     void slotCheckStandard();
     void slotCheckSelectedItem();
+    void slotCheckMlt();
 };
 
 #endif
