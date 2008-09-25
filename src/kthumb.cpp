@@ -324,6 +324,7 @@ QPixmap KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int h
         p.fill(Qt::red);
         return p;
     }
+
     mlt_image_format format = mlt_image_yuv422;
     int frame_width = 0;
     int frame_height = 0;
@@ -337,7 +338,7 @@ QPixmap KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int h
     QImage image((uchar *)new_image, frame_width, frame_height, QImage::Format_ARGB32);
 
     if (!image.isNull()) {
-        pix = pix.fromImage(image.rgbSwapped());
+        pix = QPixmap::fromImage(image.rgbSwapped());
     } else
         pix.fill(Qt::red);
 

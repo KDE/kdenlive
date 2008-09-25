@@ -211,16 +211,15 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     if ((m_clipType == AV || m_clipType == AUDIO) && KdenliveSettings::audiothumbnails()) m_clip->slotRequestAudioThumbs();
 
     m_clip->setProperties(attributes);
-    /*
-         m_metadata = metadata;
 
-         if (m_metadata.contains("description")) {
-             setDescription (m_metadata["description"]);
-         }
-         else if (m_metadata.contains("comment")) {
-             setDescription (m_metadata["comment"]);
-         }
-    */
-
+    if (m_clip->description().isEmpty()) {
+        if (metadata.contains("description")) {
+            m_clip->setProperty("description", metadata["description"]);
+            setText(2, m_clip->description());
+        } else if (metadata.contains("comment")) {
+            m_clip->setProperty("description", metadata["comment"]);
+            setText(2, m_clip->description());
+        }
+    }
 }
 

@@ -561,7 +561,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
             QImage image((uchar *)new_image, frame_width, frame_height, QImage::Format_ARGB32);
 
             if (!image.isNull()) {
-                pix = pix.fromImage(image.rgbSwapped());
+                pix = QPixmap::fromImage(image.rgbSwapped());
             } else
                 pix.fill(Qt::black);
 

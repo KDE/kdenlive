@@ -48,6 +48,8 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     m_view.clip_path->setText(url.path());
     m_view.clip_description->setText(m_clip->description());
     QMap <QString, QString> props = m_clip->properties();
+    // disable advanced properties until implemented
+    m_view.tabWidget->widget(ADVANCEDTAB)->setEnabled(false);
 
     if (props.contains("audiocodec"))
         m_view.clip_acodec->setText(props.value("audiocodec"));
