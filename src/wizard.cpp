@@ -205,6 +205,16 @@ void Wizard::slotCheckMlt() {
     QByteArray result = checkProcess.readAllStandardError();
     if (!result.contains("avformat")) errorMessage.append(i18n("MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT install. Kdenlive will not work until this issue is fixed.\n"));
 
+    QProcess checkProcess2;
+    checkProcess2.start(KdenliveSettings::rendererpath(), QStringList() << "-query" << "consumer");
+    if (!checkProcess2.waitForStarted())
+        errorMessage.append("Error starting MLT's command line player (inigo).\n");
+
+    checkProcess2.waitForFinished();
+
+    result = checkProcess2.readAllStandardError();
+    if (!result.contains("sdl") || !result.contains("sdl_preview")) errorMessage.append(i18n("MLT's SDL module not found. Please check your MLT install. Kdenlive will not work until this issue is fixed.\n"));
+
     if (!errorMessage.isEmpty()) {
         QLabel *pix = new QLabel();
         pix->setPixmap(KIcon("process-stop").pixmap(30));
