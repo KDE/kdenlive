@@ -511,7 +511,7 @@ void ClipItem::paint(QPainter *painter,
     double framepos;
     const int markerwidth = 4;
     QBrush markerBrush;
-    markerBrush = QBrush(QColor(120, 120, 0, 100));
+    markerBrush = QBrush(QColor(120, 120, 0, 140));
     QPen pen = painter->pen();
     pen.setColor(QColor(255, 255, 255, 200));
     pen.setStyle(Qt::DotLine);
@@ -528,7 +528,7 @@ void ClipItem::paint(QPainter *painter,
             if (KdenliveSettings::showmarkers()) {
                 framepos = br.x() + pos.frames(m_fps);
                 const QRectF r1(framepos + 0.04, 10, itemWidth - framepos - 2, itemHeight - 10);
-                const QRectF r2 = mapped;
+                const QRectF r2 = painter->matrix().mapRect(r1);
                 const QRectF txtBounding = painter->boundingRect(r2, Qt::AlignLeft | Qt::AlignTop, " " + (*it).comment() + " ");
 
                 QPainterPath path;
