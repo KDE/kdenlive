@@ -34,7 +34,6 @@ public:
     void initMonitors(Monitor *clipMonitor, Monitor *projectMonitor);
     Timecode timecode();
     void switchMonitors();
-    bool projectMonitorFocused();
     void resetProfiles(Timecode tc);
 
 public slots:

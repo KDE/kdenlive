@@ -39,6 +39,7 @@ public:
     MonitorRefresh(QWidget* parent);
     virtual void paintEvent(QPaintEvent * event);
     void setRenderer(Render* render);
+
 private:
     Render *m_renderer;
 };
@@ -52,6 +53,7 @@ public:
     void resetProfile();
     QString name() const;
     void resetSize();
+    bool isActive() const;
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
@@ -92,8 +94,6 @@ private slots:
     void slotSetThumbFrame();
     void slotSetSizeOneToOne();
     void slotSetSizeOneToTwo();
-    void slotSetZoneStart();
-    void slotSetZoneEnd();
     void slotSaveZone();
 
 public slots:
@@ -115,6 +115,8 @@ public slots:
     void saveSceneList(QString path, QDomElement info = QDomElement());
     void slotStart();
     void slotEnd();
+    void slotSetZoneStart();
+    void slotSetZoneEnd();
     void slotZoneStart();
     void slotZoneEnd();
     void slotZoneMoved(int start, int end);

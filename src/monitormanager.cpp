@@ -37,11 +37,6 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor)
     m_projectMonitor = projectMonitor;
 }
 
-bool MonitorManager::projectMonitorFocused() {
-    if (m_activeMonitor != "clip") return true;
-    return false;
-}
-
 void MonitorManager::activateMonitor(QString name) {
     if (m_activeMonitor == name) return;
     if (name == "clip") {

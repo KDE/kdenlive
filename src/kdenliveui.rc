@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="21">
+<gui name="kdenlive" version="22">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -57,16 +57,21 @@
     <Menu name="monitor" ><text>Monitor</text>
       <Action name="monitor_play" />
       <Separator />      
-      <Action name="seek_start" />
-      <Action name="monitor_seek_snap_backward" />
-      <Action name="seek_clip_start" />     
+      <Menu name="monitor_go" ><text>Go To</text>
+	    <Action name="seek_start" />
+	    <Action name="monitor_seek_snap_backward" />
+	    <Action name="seek_clip_start" />     
+	    <Action name="seek_clip_end" />
+	    <Action name="monitor_seek_snap_forward" />
+	    <Action name="seek_end" />
+      </Menu>
       <Action name="monitor_seek_backward" />
       <Action name="monitor_seek_backward-one-frame" />
       <Action name="monitor_seek_forward-one-frame" />
       <Action name="monitor_seek_forward" />
-      <Action name="seek_clip_end" />
-      <Action name="monitor_seek_snap_forward" />
-      <Action name="seek_end" />
+      <Separator />      
+      <Action name="mark_in" />
+      <Action name="mark_out" />
     </Menu>
     <Menu name="dockwindows" ><text>View</text>
     </Menu>

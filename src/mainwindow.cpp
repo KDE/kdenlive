@@ -605,9 +605,22 @@ void MainWindow::setupActions() {
     connect(projectRender, SIGNAL(triggered(bool)), this, SLOT(slotRenderProject()));
 
     KAction* monitorPlay = new KAction(KIcon("media-playback-start"), i18n("Play"), this);
-    monitorPlay->setShortcut(Qt::Key_Space);
+    KShortcut playShortcut;
+    playShortcut.setPrimary(Qt::Key_Space);
+    playShortcut.setAlternate(Qt::Key_K);
+    monitorPlay->setShortcut(playShortcut);
     actionCollection()->addAction("monitor_play", monitorPlay);
     connect(monitorPlay, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotPlay()));
+
+    KAction *markIn = actionCollection()->addAction("mark_in");
+    markIn->setText(i18n("Set in point"));
+    markIn->setShortcut(Qt::Key_I);
+    connect(markIn, SIGNAL(triggered(bool)), this, SLOT(slotSetInPoint()));
+
+    KAction *markOut = actionCollection()->addAction("mark_out");
+    markOut->setText(i18n("Set in point"));
+    markOut->setShortcut(Qt::Key_O);
+    connect(markOut, SIGNAL(triggered(bool)), this, SLOT(slotSetOutPoint()));
 
     KAction* monitorSeekBackward = new KAction(KIcon("media-seek-backward"), i18n("Rewind"), this);
     monitorSeekBackward->setShortcut(Qt::Key_J);
@@ -1444,28 +1457,28 @@ void MainWindow::slotActivateTransitionView() {
 }
 
 void MainWindow::slotSnapRewind() {
-    if (m_monitorManager->projectMonitorFocused()) {
+    if (m_projectMonitor->isActive()) {
         if (m_activeTimeline)
             m_activeTimeline->projectView()->slotSeekToPreviousSnap();
     }
 }
 
 void MainWindow::slotSnapForward() {
-    if (m_monitorManager->projectMonitorFocused()) {
+    if (m_projectMonitor->isActive()) {
         if (m_activeTimeline)
             m_activeTimeline->projectView()->slotSeekToNextSnap();
     }
 }
 
 void MainWindow::slotClipStart() {
-    if (m_monitorManager->projectMonitorFocused()) {
+    if (m_projectMonitor->isActive()) {
         if (m_activeTimeline)
             m_activeTimeline->projectView()->clipStart();
     }
 }
 
 void MainWindow::slotClipEnd() {
-    if (m_monitorManager->projectMonitorFocused()) {
+    if (m_projectMonitor->isActive()) {
         if (m_activeTimeline)
             m_activeTimeline->projectView()->clipEnd();
     }
@@ -1605,6 +1618,18 @@ void MainWindow::slotSaveZone(Render *render, QPoint zone) {
     vbox->addWidget(edit);
     if (dialog->exec() == QDialog::Accepted) render->saveZone(url->url(), edit->text(), zone);
 
+}
+
+void MainWindow::slotSetInPoint() {
+    if (m_clipMonitor->isActive()) {
+        m_clipMonitor->slotSetZoneStart();
+    } else m_activeTimeline->projectView()->setInPoint();
+}
+
+void MainWindow::slotSetOutPoint() {
+    if (m_clipMonitor->isActive()) {
+        m_clipMonitor->slotSetZoneEnd();
+    } else m_activeTimeline->projectView()->setOutPoint();
 }
 
 #include "mainwindow.moc"

@@ -1704,26 +1704,18 @@ void CustomTrackView::slotSeekToNextSnap() {
 }
 
 void CustomTrackView::clipStart() {
-    QList<QGraphicsItem *> itemList = scene()->selectedItems();
-    for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->type() == AVWIDGET) {
-            ClipItem *item = (ClipItem *) itemList.at(i);
-            setCursorPos((int) item->startPos().frames(m_document->fps()));
-            checkScrolling();
-            break;
-        }
+    ClipItem *item = getMainActiveClip();
+    if (item != NULL) {
+        setCursorPos((int) item->startPos().frames(m_document->fps()));
+        checkScrolling();
     }
 }
 
 void CustomTrackView::clipEnd() {
-    QList<QGraphicsItem *> itemList = scene()->selectedItems();
-    for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->type() == AVWIDGET) {
-            ClipItem *item = (ClipItem *) itemList.at(i);
-            setCursorPos((int) item->endPos().frames(m_document->fps()));
-            checkScrolling();
-            break;
-        }
+    ClipItem *item = getMainActiveClip();
+    if (item != NULL) {
+        setCursorPos((int) item->endPos().frames(m_document->fps()));
+        checkScrolling();
     }
 }
 
@@ -2236,12 +2228,72 @@ void CustomTrackView::pasteClipEffects() {
 }
 
 
-/*
-void CustomTrackView::drawForeground ( QPainter * painter, const QRectF & rect )
-{
-  //kDebug()<<"/////  DRAWING FB: "<<rect.x()<<", width: "<<rect.width();
-  painter->fillRect(rect, QColor(50, rand() % 250,50,100));
-  painter->drawLine(m_cursorPos, rect.y(), m_cursorPos, rect.y() + rect.height());
+ClipItem *CustomTrackView::getClipUnderCursor() const {
+    QRectF rect((double) m_cursorPos, 0.0, 1.0, (double)(m_tracksHeight * m_scene->m_tracksList.count()));
+    QList<QGraphicsItem *> collisions = scene()->items(rect, Qt::IntersectsItemBoundingRect);
+    for (int i = 0; i < collisions.count(); i++) {
+        if (collisions.at(i)->type() == AVWIDGET) {
+            return static_cast < ClipItem *>(collisions.at(i));
+        }
+    }
+    return NULL;
 }
-*/
+
+ClipItem *CustomTrackView::getMainActiveClip() const {
+    QList<QGraphicsItem *> clips = scene()->selectedItems();
+    if (clips.isEmpty()) {
+        return getClipUnderCursor();
+    } else {
+        ClipItem *item = NULL;
+        for (int i = 0; i < clips.count(); ++i) {
+            if (clips.at(i)->type() == AVWIDGET)
+                item = static_cast < ClipItem *>(clips.at(i));
+            if (item->startPos().frames(m_document->fps()) <= m_cursorPos && item->endPos().frames(m_document->fps()) >= m_cursorPos) break;
+        }
+        if (item) return item;
+    }
+    return NULL;
+}
+
+ClipItem *CustomTrackView::getActiveClipUnderCursor() const {
+    QList<QGraphicsItem *> clips = scene()->selectedItems();
+    if (clips.isEmpty()) {
+        return getClipUnderCursor();
+    } else {
+        ClipItem *item;
+        for (int i = 0; i < clips.count(); ++i) {
+            if (clips.at(i)->type() == AVWIDGET)
+                item = static_cast < ClipItem *>(clips.at(i));
+            if (item->startPos().frames(m_document->fps()) <= m_cursorPos && item->endPos().frames(m_document->fps()) >= m_cursorPos) return item;
+        }
+    }
+    return NULL;
+}
+
+void CustomTrackView::setInPoint() {
+    ClipItem *clip = getActiveClipUnderCursor();
+    if (clip == NULL) {
+        emit displayMessage(i18n("You must select one clip for this action"), ErrorMessage);
+        return;
+    }
+    ItemInfo startInfo = clip->info();
+    ItemInfo endInfo = clip->info();
+    endInfo.startPos = GenTime(m_cursorPos, m_document->fps());
+    ResizeClipCommand *command = new ResizeClipCommand(this, startInfo, endInfo, true);
+    m_commandStack->push(command);
+}
+
+void CustomTrackView::setOutPoint() {
+    ClipItem *clip = getActiveClipUnderCursor();
+    if (clip == NULL) {
+        emit displayMessage(i18n("You must select one clip for this action"), ErrorMessage);
+        return;
+    }
+    ItemInfo startInfo = clip->info();
+    ItemInfo endInfo = clip->info();
+    endInfo.endPos = GenTime(m_cursorPos, m_document->fps());
+    ResizeClipCommand *command = new ResizeClipCommand(this, startInfo, endInfo, true);
+    m_commandStack->push(command);
+}
+
 #include "customtrackview.moc"

@@ -240,6 +240,9 @@ private slots:
     void slotAdjustClipMonitor();
     void slotAdjustProjectMonitor();
     void slotSaveZone(Render *render, QPoint zone);
+
+    void slotSetInPoint();
+    void slotSetOutPoint();
 };
 
 

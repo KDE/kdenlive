@@ -45,21 +45,21 @@ static const int LABEL_SIZE = 9;
 static const int END_LABEL_X = 4;
 static const int END_LABEL_Y = (END_LABEL_X + LABEL_SIZE - 2);
 
+static int littleMarkDistance;
+static int mediumMarkDistance;
+static int bigMarkDistance;
+
 #include "definitions.h"
 
 const int CustomRuler::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 725, 1500, 3000, 6000, 12000};
 
 CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
-        : KRuler(parent), m_timecode(tc), m_view(parent), m_duration(0) {
+        : QWidget(parent), m_timecode(tc), m_view(parent), m_duration(0), m_offset(0) {
     setFont(KGlobalSettings::toolBarFont());
-    slotNewOffset(0);
-    setRulerMetricStyle(KRuler::Pixel);
-    setLength(1024);
-    setMaximum(1024);
-    setPixelPerMark(3);
-    setLittleMarkDistance(FRAME_SIZE);
-    setMediumMarkDistance(FRAME_SIZE * m_timecode.fps());
-    setBigMarkDistance(FRAME_SIZE * m_timecode.fps() * 60);
+    m_scale = 3;
+    littleMarkDistance = FRAME_SIZE;
+    mediumMarkDistance = FRAME_SIZE * m_timecode.fps();
+    bigMarkDistance = FRAME_SIZE * m_timecode.fps() * 60;
     m_zoneStart = 2 * m_timecode.fps();
     m_zoneEnd = 10 * m_timecode.fps();
     m_contextMenu = new QMenu(this);
@@ -72,12 +72,15 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
     QAction *delAllGuides = m_contextMenu->addAction(KIcon("edit-delete"), i18n("Delete All Guides"));
     connect(delAllGuides, SIGNAL(triggered()), m_view, SLOT(slotDeleteAllGuides()));
     setMouseTracking(true);
+    setMinimumHeight(20);
 }
 
 void CustomRuler::setZone(QPoint p) {
+    int min = qMin(m_zoneStart, p.x());
+    int max = qMax(m_zoneEnd, p.y());
     m_zoneStart = p.x();
     m_zoneEnd = p.y();
-    update();
+    update(min * m_factor - 2, 0, (max - min) * m_factor + 4, height());
 }
 
 // virtual
@@ -102,6 +105,8 @@ void CustomRuler::mousePressEvent(QMouseEvent * event) {
 void CustomRuler::mouseMoveEvent(QMouseEvent * event) {
     if (event->buttons() == Qt::LeftButton) {
         int pos = (int)((event->x() + offset()) / m_factor);
+        int zoneStart = m_zoneStart;
+        int zoneEnd = m_zoneEnd;
         if (pos < 0) pos = 0;
         if (m_moveCursor == RULER_CURSOR) {
             m_view->setCursorPos(pos);
@@ -115,7 +120,11 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event) {
         }
         emit zoneMoved(m_zoneStart, m_zoneEnd);
         m_view->setDocumentModified();
-        update();
+
+        int min = qMin(m_zoneStart, zoneStart);
+        int max = qMax(m_zoneEnd, zoneEnd);
+        update(min * m_factor - m_offset - 2, 0, (max - min) * m_factor + 4, height());
+
     } else {
         int pos = (int)((event->x() + offset()));
         if (event->y() <= 10) setCursor(Qt::ArrowCursor);
@@ -144,19 +153,26 @@ int CustomRuler::outPoint() const {
 }
 
 void CustomRuler::slotMoveRuler(int newPos) {
-    KRuler::slotNewOffset(newPos);
+    m_offset = newPos;
+    update();
+}
+
+int CustomRuler::offset() const {
+    return m_offset;
 }
 
 void CustomRuler::slotCursorMoved(int oldpos, int newpos) {
-    update(oldpos * m_factor - offset() - 6, 2, 17, 16);
-    update(newpos * m_factor - offset() - 6, 2, 17, 16);
+    if (qAbs(oldpos - newpos) * m_factor > 40) {
+        update(oldpos * m_factor - offset() - 6, 7, 17, 16);
+        update(newpos * m_factor - offset() - 6, 7, 17, 16);
+    } else update(qMin(oldpos, newpos) * m_factor - offset() - 6, 7, qAbs(oldpos - newpos) * m_factor + 17, 16);
 }
 
 void CustomRuler::setPixelPerMark(double rate) {
     int scale = comboScale[(int) rate];
     m_factor = 1.0 / (double) scale * FRAME_SIZE;
-    KRuler::setPixelPerMark(1.0 / scale);
-    double fend = pixelPerMark() * littleMarkDistance();
+    m_scale = 1.0 / (double) scale;
+    double fend = m_scale * littleMarkDistance;
     switch ((int) rate) {
     case 0:
         m_textSpacing = fend;
@@ -191,11 +207,13 @@ void CustomRuler::setPixelPerMark(double rate) {
         m_textSpacing = fend * m_timecode.fps() * 600;
         break;
     }
+    update();
 }
 
 void CustomRuler::setDuration(int d) {
+    int oldduration = m_duration;
     m_duration = d;
-    update();
+    update(qMin(oldduration, m_duration) * m_factor - 1, 0, qAbs(oldduration - m_duration) * m_factor + 2, height());
 }
 
 // virtual
@@ -204,7 +222,7 @@ void CustomRuler::paintEvent(QPaintEvent *e) {
     p.setClipRect(e->rect());
 
     const int projectEnd = (int)(m_duration * m_factor);
-    p.fillRect(QRect(0, 0, projectEnd - offset(), height()), QBrush(QColor(245, 245, 245)));
+    p.fillRect(QRect(0, 0, projectEnd - m_offset, height()), QBrush(QColor(245, 245, 245)));
 
     const int zoneStart = (int)(m_zoneStart * m_factor);
     const int zoneEnd = (int)(m_zoneEnd * m_factor);
@@ -212,76 +230,49 @@ void CustomRuler::paintEvent(QPaintEvent *e) {
     p.fillRect(QRect(zoneStart - offset(), height() / 2, zoneEnd - zoneStart, height() / 2), QBrush(QColor(133, 255, 143)));
 
     const int value  = m_view->cursorPos() * m_factor - offset();
-    const int minval = minimum();
-    const int maxval = maximum() + offset() - endOffset();
+    int minval = (e->rect().left() + m_offset) / FRAME_SIZE - 1;
+    const int maxval = (e->rect().right() + m_offset) / FRAME_SIZE + 1;
+    if (minval < 0) minval = 0;
 
-    double f, fend,
-    offsetmin = (double)(minval - offset()),
-                offsetmax = (double)(maxval - offset()),
-                            fontOffset = (((double)minval) > offsetmin) ? (double)minval : offsetmin;
-    QRect bg = QRect((int)offsetmin, 0, (int)offsetmax, height());
+    kDebug() << "RULER MIN/MAX: " << minval << "-" << maxval << ", PIXELS: " << e->rect().left() << "-" << e->rect().right();
+
+    double f, fend;
+    const int offsetmax = maxval * FRAME_SIZE;
+
 
     QPalette palette;
-    //p.fillRect(bg, palette.light());
-    // draw labels
     p.setPen(palette.dark().color());
-    // draw littlemarklabel
-
-    // draw mediummarklabel
-
-    // draw bigmarklabel
-
-    // draw endlabel
-    /*if (d->showEndL) {
-      if (d->dir == Qt::Horizontal) {
-        p.translate( fontOffset, 0 );
-        p.drawText( END_LABEL_X, END_LABEL_Y, d->endlabel );
-      }*/
-
-    // draw the tiny marks
-    //if (showTinyMarks())
-    /*{
-      fend =   pixelPerMark()*tinyMarkDistance();
-      if (fend > 5) for ( f=offsetmin; f<offsetmax; f+=fend ) {
-          p.drawLine((int)f, BASE_MARK_X1, (int)f, BASE_MARK_X2);
-      }
-    }*/
-
+    int offsetmin = (e->rect().left() + m_offset) / m_textSpacing;
+    offsetmin = offsetmin * m_textSpacing;
     for (f = offsetmin; f < offsetmax; f += m_textSpacing) {
-        QString lab = m_timecode.getTimecodeFromFrames((int)((f - offsetmin) / m_factor + 0.5));
-        p.drawText((int)f + 2, LABEL_SIZE, lab);
+        QString lab = m_timecode.getTimecodeFromFrames((int)((f) / m_factor + 0.5));
+        p.drawText((int)f - m_offset + 2, LABEL_SIZE, lab);
     }
 
-    if (showLittleMarks()) {
+    if (true) {
+        offsetmin = (e->rect().left() + m_offset) / littleMarkDistance;
+        offsetmin = offsetmin * littleMarkDistance;
         // draw the little marks
-        fend = pixelPerMark() * littleMarkDistance();
-        if (fend > 5) for (f = offsetmin; f < offsetmax; f += fend)
+        fend = m_scale * littleMarkDistance;
+        if (fend > 5) for (f = offsetmin - m_offset; f < offsetmax - m_offset; f += fend)
                 p.drawLine((int)f, LITTLE_MARK_X1, (int)f, LITTLE_MARK_X2);
     }
-    if (showMediumMarks()) {
+    if (true) {
+        offsetmin = (e->rect().left() + m_offset) / mediumMarkDistance;
+        offsetmin = offsetmin * mediumMarkDistance;
         // draw medium marks
-        fend = pixelPerMark() * mediumMarkDistance();
-        if (fend > 5) for (f = offsetmin; f < offsetmax; f += fend)
+        fend = m_scale * mediumMarkDistance;
+        if (fend > 5) for (f = offsetmin - m_offset - fend; f < offsetmax - m_offset + fend; f += fend)
                 p.drawLine((int)f, MIDDLE_MARK_X1, (int)f, MIDDLE_MARK_X2);
     }
-    if (showBigMarks()) {
+    if (true) {
+        offsetmin = (e->rect().left() + m_offset) / bigMarkDistance;
+        offsetmin = offsetmin * bigMarkDistance;
         // draw big marks
-        fend = pixelPerMark() * bigMarkDistance();
-        if (fend > 5) for (f = offsetmin; f < offsetmax; f += fend)
+        fend = m_scale * bigMarkDistance;
+        if (fend > 5) for (f = offsetmin - m_offset; f < offsetmax - m_offset; f += fend)
                 p.drawLine((int)f, BIG_MARK_X1, (int)f, BIG_MARK_X2);
     }
-    /*   if (d->showem) {
-         // draw end marks
-         if (d->dir == Qt::Horizontal) {
-           p.drawLine(minval-d->offset, END_MARK_X1, minval-d->offset, END_MARK_X2);
-           p.drawLine(maxval-d->offset, END_MARK_X1, maxval-d->offset, END_MARK_X2);
-         }
-         else {
-           p.drawLine(END_MARK_X1, minval-d->offset, END_MARK_X2, minval-d->offset);
-           p.drawLine(END_MARK_X1, maxval-d->offset, END_MARK_X2, maxval-d->offset);
-         }
-       }*/
-
 
     // draw zone cursors
     int off = offset();

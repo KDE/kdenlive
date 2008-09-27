@@ -96,6 +96,8 @@ public:
     void changeClipSpeed();
     void doChangeClipSpeed(ItemInfo info, double speed, const QString &id);
     void setDocumentModified();
+    void setInPoint();
+    void setOutPoint();
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -194,6 +196,9 @@ private:
     bool canBePastedTo(ItemInfo info, int type) const;
     bool canBePasted(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
     bool canBeMoved(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
+    ClipItem *getClipUnderCursor() const;
+    ClipItem *getMainActiveClip() const;
+    ClipItem *getActiveClipUnderCursor() const;
 
 private slots:
     void slotRefreshGuides();

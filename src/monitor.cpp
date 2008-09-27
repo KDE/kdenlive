@@ -316,6 +316,10 @@ void Monitor::slotExtractCurrentFrame() {
     if (!outputFile.isEmpty()) frame.save(outputFile);
 }
 
+bool Monitor::isActive() const {
+    return m_isActive;
+}
+
 void Monitor::activateMonitor() {
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);
 }

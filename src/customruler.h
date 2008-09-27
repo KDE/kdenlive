@@ -1,14 +1,14 @@
 #ifndef CUSTOMRULER_H
 #define CUSTOMRULER_H
 
-#include <KRuler>
+#include <QWidget>
 
 #include "customtrackview.h"
 #include "timecode.h"
 
 enum RULER_MOVE { RULER_CURSOR = 0, RULER_START = 1, RULER_MIDDLE = 2, RULER_END = 3 };
 
-class CustomRuler : public KRuler {
+class CustomRuler : public QWidget {
     Q_OBJECT
 
 public:
@@ -19,6 +19,7 @@ public:
     int inPoint() const;
     void setDuration(int d);
     void setZone(QPoint p);
+    int offset() const;
 
 protected:
     virtual void paintEvent(QPaintEvent * /*e*/);
@@ -35,6 +36,8 @@ private:
     int m_duration;
     double m_textSpacing;
     double m_factor;
+    double m_scale;
+    int m_offset;
     RULER_MOVE m_moveCursor;
     QMenu *m_contextMenu;
 
