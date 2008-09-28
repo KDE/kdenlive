@@ -234,11 +234,8 @@ void CustomRuler::paintEvent(QPaintEvent *e) {
     const int maxval = (e->rect().right() + m_offset) / FRAME_SIZE + 1;
     if (minval < 0) minval = 0;
 
-    kDebug() << "RULER MIN/MAX: " << minval << "-" << maxval << ", PIXELS: " << e->rect().left() << "-" << e->rect().right();
-
     double f, fend;
     const int offsetmax = maxval * FRAME_SIZE;
-
 
     QPalette palette;
     p.setPen(palette.dark().color());
