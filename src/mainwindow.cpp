@@ -59,7 +59,6 @@
 #include "profilesdialog.h"
 #include "projectsettings.h"
 #include "events.h"
-#include "renderjob.h"
 #include "clipmanager.h"
 #include "projectlist.h"
 #include "monitor.h"
@@ -965,7 +964,10 @@ void MainWindow::parseProfiles() {
         KdenliveSettings::setMltpath(QString(MLT_PREFIX) + QString("/share/mlt/profiles/"));
     }
     if (KdenliveSettings::rendererpath().isEmpty()) {
-        KdenliveSettings::setRendererpath(KStandardDirs::findExe("inigo"));
+	QString inigoPath = QString(MLT_PREFIX) + QString("/bin/inigo");
+	if (!QFile::exists(inigoPath)) 
+	    inigoPath = KStandardDirs::findExe("inigo");
+	else KdenliveSettings::setRendererpath(inigoPath);
     }
     QStringList profilesFilter;
     profilesFilter << "*";
@@ -1073,8 +1075,9 @@ void MainWindow::slotDoRender(const QString &dest, const QString &render, const 
             if (videoPlayer.isEmpty()) KMessageBox::sorry(this, i18n("Cannot play video after rendering because the default video player application is not set.\nPlease define it in Kdenlive settings dialog."));
         }
         args << KdenliveSettings::rendererpath() << m_activeDocument->profilePath() << render << videoPlayer << temp.fileName() << dest << avformat_args;
-        QProcess::startDetached("kdenlive_render", args);
-        kDebug() << "///  STARTING RENDER PROCESS\n\nARGS:\n" << args;
+	QString renderer = QCoreApplication::applicationDirPath() + QString("/kdenlive_render");
+	if (!QFile::exists(renderer)) renderer = "kdenlive_render";
+        QProcess::startDetached(renderer, args);
     }
 }
 

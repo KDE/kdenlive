@@ -105,7 +105,6 @@ set(kdenlive_SRCS
   effectslistwidget.cpp
   titledocument.cpp
   transition.cpp
-  renderjob.cpp
   renderwidget.cpp
   abstractclipitem.cpp
   transitionsettings.cpp
