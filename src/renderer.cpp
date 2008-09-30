@@ -203,7 +203,7 @@ int Render::resetProfile() {
 void Render::seek(GenTime time) {
     if (!m_mltProducer)
         return;
-    //kDebug()<<"//////////  KDENLIVE SEEK: "<<(int) (time.frames(m_fps));
+    m_isBlocked = false;
     m_mltProducer->seek((int)(time.frames(m_fps)));
     refresh();
 }
@@ -1000,16 +1000,16 @@ void Render::switchPlay() {
         return;
     if (m_isZoneMode) resetZoneMode();
     if (m_mltProducer->get_speed() == 0.0) {
-        //m_isBlocked = false;
+        m_isBlocked = false;
         m_mltProducer->set_speed(1.0);
         m_mltConsumer->set("refresh", 1);
-        kDebug() << " *********  RENDER PLAY: " << m_mltProducer->get_speed();
     } else {
-        //m_isBlocked = true;
+        m_isBlocked = true;
         m_mltConsumer->set("refresh", 0);
         m_mltProducer->set_speed(0.0);
-        //m_isBlocked = true;
-        m_mltProducer->seek((int) m_framePosition);
+        emit rendererPosition(m_framePosition);
+        m_mltProducer->seek(m_framePosition);
+        m_mltConsumer->purge();
         //kDebug()<<" *********  RENDER PAUSE: "<<m_mltProducer->get_speed();
         //m_mltConsumer->set("refresh", 0);
         /*mlt_position position = mlt_producer_position( m_mltProducer->get_producer() );
@@ -1026,10 +1026,10 @@ void Render::switchPlay() {
 }
 
 void Render::play(double speed) {
-    kDebug() << " *********  REDNER PLAY";
     if (!m_mltProducer)
         return;
     // if (speed == 0.0) m_mltProducer->set("out", m_mltProducer->get_length() - 1);
+    m_isBlocked = false;
     m_mltProducer->set_speed(speed);
     /*if (speed == 0.0) {
     m_mltProducer->seek((int) m_framePosition + 1);
@@ -1041,6 +1041,7 @@ void Render::play(double speed) {
 void Render::play(const GenTime & startTime) {
     if (!m_mltProducer || !m_mltConsumer)
         return;
+    m_isBlocked = false;
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
     m_mltProducer->set_speed(1.0);
     m_mltConsumer->set("refresh", 1);
@@ -1058,6 +1059,7 @@ void Render::loopZone(const GenTime & startTime, const GenTime & stopTime) {
 void Render::playZone(const GenTime & startTime, const GenTime & stopTime) {
     if (!m_mltProducer || !m_mltConsumer)
         return;
+    m_isBlocked = false;
     m_mltProducer->set("out", stopTime.frames(m_fps));
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
     m_mltProducer->set_speed(1.0);
@@ -1076,6 +1078,7 @@ void Render::seekToFrame(int pos) {
     //kDebug()<<" *********  RENDER SEEK TO POS";
     if (!m_mltProducer)
         return;
+    m_isBlocked = false;
     resetZoneMode();
     m_mltProducer->seek(pos);
     refresh();
