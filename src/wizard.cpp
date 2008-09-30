@@ -203,7 +203,7 @@ void Wizard::slotCheckMlt() {
     checkProcess.waitForFinished();
 
     QByteArray result = checkProcess.readAllStandardError();
-    if (!result.contains("avformat")) errorMessage.append(i18n("MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT install. Kdenlive will not work until this issue is fixed.\n"));
+    if (!result.contains("- avformat")) errorMessage.append(i18n("MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT install. Kdenlive will not work until this issue is fixed.\n"));
 
     QProcess checkProcess2;
     checkProcess2.start(KdenliveSettings::rendererpath(), QStringList() << "-query" << "consumer");
