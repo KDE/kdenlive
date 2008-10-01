@@ -2308,5 +2308,31 @@ void Render::mltSavePlaylist() {
     fileConsumer.start();
 }
 
+QList <Mlt::Producer *> Render::producersList() {
+    QList <Mlt::Producer *> prods;
+    QStringList ids;
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    Mlt::Tractor tractor(service);
+    Mlt::Field *field = tractor.field();
+
+    int trackNb = tractor.count();
+    for (int t = 1; t < trackNb; t++) {
+        Mlt::Producer trackProducer(tractor.track(t));
+        Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+        int clipNb = trackPlaylist.count();
+        kDebug() << "// PARSING SCENE TRACK: " << t << ", CLIPS: " << clipNb;
+        for (int i = 0; i < clipNb; i++) {
+            Mlt::Producer *prod = trackPlaylist.get_clip(i);
+            Mlt::Producer *nprod = new Mlt::Producer(prod->get_parent());
+            //kDebug()<<"PROD: "<<nprod->get("producer")<<", ID: "<<nprod->get("id")<<nprod->get("resource");
+            if (nprod && !nprod->is_blank() && !ids.contains(nprod->get("id"))) {
+                ids.append(nprod->get("id"));
+                prods.append(nprod);
+            }
+        }
+    }
+    return prods;
+}
+
 #include "renderer.moc"
 

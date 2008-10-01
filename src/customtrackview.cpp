@@ -185,7 +185,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
     if (event->buttons() != Qt::NoButton) {
         if (m_dragItem && m_tool == SELECTTOOL) {
             if (m_operationMode == MOVE) {
-                QGraphicsView::mouseMoveEvent(event);
+                if ((event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance()) QGraphicsView::mouseMoveEvent(event);
 
                 /*&& (event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance()) {
                            double snappedPos = getSnapPointForPos(mapToScene(event->pos()).x() - m_clickPoint.x());
@@ -2294,6 +2294,19 @@ void CustomTrackView::setOutPoint() {
     endInfo.endPos = GenTime(m_cursorPos, m_document->fps());
     ResizeClipCommand *command = new ResizeClipCommand(this, startInfo, endInfo, true);
     m_commandStack->push(command);
+}
+
+void CustomTrackView::updateAllThumbs() {
+    QList<QGraphicsItem *> itemList = items();
+    ClipItem *item;
+    Transition *transitionitem;
+    for (int i = 0; i < itemList.count(); i++) {
+        if (itemList.at(i)->type() == AVWIDGET) {
+            item = static_cast <ClipItem *>(itemList.at(i));
+            item->refreshClip();
+            qApp->processEvents();
+        }
+    }
 }
 
 #include "customtrackview.moc"

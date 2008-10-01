@@ -930,7 +930,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value) 
         // calculate new position.
         if (group() != 0) return pos();
         QPointF newPos = value.toPointF();
-        kDebug() << "/// MOVING CLIP ITEM.------------";
+        //kDebug() << "/// MOVING CLIP ITEM.------------";
         int xpos = projectScene()->getSnapPointForPos((int) newPos.x(), KdenliveSettings::snaptopoints());
         xpos = qMax(xpos, 0);
         newPos.setX(xpos);

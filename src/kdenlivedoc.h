@@ -99,7 +99,6 @@ Q_OBJECT public:
     KUrl projectFolder() const;
     /** Used to inform main app of the current document loading progress */
     void loadingProgressed();
-    void updateAllProjectClips();
     void syncGuides(QList <Guide *> guides);
     void setZoom(int factor);
     int zoom() const;
@@ -133,6 +132,7 @@ private:
     void convertDocument(double version);
     QDomDocument createEmptyDocument(const int videotracks, const int audiotracks);
     QString colorToString(const QColor& c);
+    void checkProjectClips();
 
 public slots:
     void slotCreateTextClip(QString group, const QString &groupId);

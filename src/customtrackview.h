@@ -98,6 +98,7 @@ public:
     void setDocumentModified();
     void setInPoint();
     void setOutPoint();
+    void updateAllThumbs();
 
 public slots:
     void setCursorPos(int pos, bool seek = true);

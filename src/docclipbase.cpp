@@ -361,6 +361,7 @@ QString DocClipBase::markerComment(GenTime t) {
 }
 
 void DocClipBase::setProducer(Mlt::Producer *producer) {
+    if (producer == NULL) return;
     m_clipProducer = producer;
     m_clipProducer->set("transparency", m_properties.value("transparency").toInt());
     if (m_thumbProd) m_thumbProd->setProducer(producer);

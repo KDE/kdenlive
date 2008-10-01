@@ -1221,7 +1221,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     doc->setRenderer(m_projectMonitor->render);
     m_commandStack->setActiveStack(doc->commandStack());
     KdenliveSettings::setProject_display_ratio(doc->dar());
-    doc->updateAllProjectClips();
+    m_projectList->updateAllClips();
+    trackView->projectView()->updateAllThumbs();
 
 
     //m_overView->setScene(trackView->projectScene());

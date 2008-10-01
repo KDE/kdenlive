@@ -277,7 +277,7 @@ void ProjectList::slotAddFolder(const QString foldername, const QString &clipId,
     }
 }
 
-void ProjectList::slotAddClip(DocClipBase *clip) {
+void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties) {
     const QString parent = clip->toXML().attribute("groupid");
     ProjectItem *item = NULL;
     if (parent != 0) {
@@ -302,12 +302,29 @@ void ProjectList::slotAddClip(DocClipBase *clip) {
         }
         if (!annotation.isEmpty()) item->setText(2, annotation);
     }
-    emit getFileProperties(clip->toXML(), clip->getId());
+    if (getProperties) emit getFileProperties(clip->toXML(), clip->getId());
 }
 
 void ProjectList::slotUpdateClip(const QString &id) {
     ProjectItem *item = getItemById(id);
     item->setData(1, UsageRole, QString::number(item->numReferences()));
+}
+
+void ProjectList::updateAllClips() {
+    QTreeWidgetItemIterator it(listView);
+    while (*it) {
+        ProjectItem *item = static_cast <ProjectItem *>(*it);
+        if (!item->isGroup()) {
+            if (item->referencedClip()->producer() == NULL) emit getFileProperties(item->referencedClip()->toXML(), item->referencedClip()->getId());
+            else {
+                slotRefreshClipThumbnail(item, false);
+                item->changeDuration(item->referencedClip()->producer()->get_playtime());
+            }
+            item->setData(1, UsageRole, QString::number(item->numReferences()));
+            qApp->processEvents();
+        }
+        ++it;
+    }
 }
 
 void ProjectList::slotAddClip(QUrl givenUrl, QString group) {
@@ -426,7 +443,7 @@ void ProjectList::setDocument(KdenliveDoc *doc) {
     listView->clear();
     QList <DocClipBase*> list = doc->clipManager()->documentClipList();
     for (int i = 0; i < list.count(); i++) {
-        slotAddClip(list.at(i));
+        slotAddClip(list.at(i), false);
     }
 
     m_fps = doc->fps();
@@ -457,14 +474,13 @@ void ProjectList::slotRefreshClipThumbnail(const QString &clipId) {
     if (item) slotRefreshClipThumbnail(item);
 }
 
-void ProjectList::slotRefreshClipThumbnail(ProjectItem *item) {
+void ProjectList::slotRefreshClipThumbnail(ProjectItem *item, bool update) {
     if (item) {
-        kDebug() << " / / / /PROJECT LIST, REFRESH THMB";
         int height = 50;
         int width = (int)(height  * m_render->dar());
         QPixmap pix = item->referencedClip()->thumbProducer()->extractImage(item->referencedClip()->getClipThumbFrame(), width, height);
         item->setIcon(0, pix);
-        emit projectModified();
+        if (update) emit projectModified();
     }
 }
 

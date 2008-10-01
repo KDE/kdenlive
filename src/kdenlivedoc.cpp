@@ -25,6 +25,8 @@
 #include <KIO/NetAccess>
 #include <KApplication>
 
+#include <mlt++/Mlt.h>
+
 #include "kdenlivedoc.h"
 #include "docclipbase.h"
 #include "profilesdialog.h"
@@ -405,7 +407,6 @@ void KdenliveDoc::convertDocument(double version) {
     max = producers.count();
     for (int i = 0; i < max; i++) {
         QDomElement prod = producers.at(i).toElement();
-
         if (prod.attribute("mlt_service") == "framebuffer") {
             QString slowmotionprod = prod.attribute("resource");
             slowmotionprod.replace(':', '?');
@@ -628,8 +629,24 @@ void KdenliveDoc::setRenderer(Render *render) {
     m_render = render;
     emit progressInfo(i18n("Loading playlist..."), 0);
     qApp->processEvents();
-    if (m_render) m_render->setSceneList(m_document.toString(), m_startPos);
+    if (m_render) {
+        m_render->setSceneList(m_document.toString(), m_startPos);
+        checkProjectClips();
+    }
     emit progressInfo(QString(), -1);
+}
+
+void KdenliveDoc::checkProjectClips() {
+    if (m_render == NULL) return;
+    QList <Mlt::Producer *> prods = m_render->producersList();
+    QString id ;
+    for (int i = 0; i < prods.count(); i++) {
+        id = prods.at(i)->get("id");
+        DocClipBase *clip = m_clipManager->getClipById(id);
+        if (clip && clip->producer() == NULL) {
+            clip->setProducer(prods.at(i));
+        }
+    }
 }
 
 Render *KdenliveDoc::renderer() {
@@ -638,12 +655,6 @@ Render *KdenliveDoc::renderer() {
 
 void KdenliveDoc::updateClip(const QString &id) {
     emit updateClipDisplay(id);
-}
-
-void KdenliveDoc::updateAllProjectClips() {
-    QList <DocClipBase*> list = m_clipManager->documentClipList();
-    for (int i = 0; i < list.count(); i++)
-        emit updateClipDisplay(list.at(i)->getId());
 }
 
 int KdenliveDoc::getFramePos(QString duration) {

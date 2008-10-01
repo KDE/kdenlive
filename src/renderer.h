@@ -177,6 +177,8 @@ Q_OBJECT public:
     in the ClipManager list and speed is the current speed */
     int mltChangeClipSpeed(ItemInfo info, double speed, Mlt::Producer *prod);
 
+    QList <Mlt::Producer *> producersList();
+
 private:   // Private attributes & methods
     /** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */
     QString m_name;
