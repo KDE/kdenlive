@@ -132,6 +132,7 @@ private:
     double m_documentLoadingProgress;
     void convertDocument(double version);
     QDomDocument createEmptyDocument(const int videotracks, const int audiotracks);
+    QString colorToString(const QColor& c);
 
 public slots:
     void slotCreateTextClip(QString group, const QString &groupId);

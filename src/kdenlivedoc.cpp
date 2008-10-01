@@ -405,6 +405,7 @@ void KdenliveDoc::convertDocument(double version) {
     max = producers.count();
     for (int i = 0; i < max; i++) {
         QDomElement prod = producers.at(i).toElement();
+
         if (prod.attribute("mlt_service") == "framebuffer") {
             QString slowmotionprod = prod.attribute("resource");
             slowmotionprod.replace(':', '?');
@@ -412,7 +413,6 @@ void KdenliveDoc::convertDocument(double version) {
             prod.setAttribute("resource", slowmotionprod);
         }
     }
-
     // move producers to correct place, markers to a global list, fix clip descriptions
     QDomElement markers = m_document.createElement("markers");
     producers = m_document.elementsByTagName("producer");
@@ -420,25 +420,100 @@ void KdenliveDoc::convertDocument(double version) {
     for (int i = 0; i < max; i++) {
         QDomElement prod = producers.at(0).toElement();
         QDomNode m = prod.firstChild();
-        if (!m.isNull() && m.toElement().tagName() == "markers") {
-            QDomNodeList prodchilds = m.childNodes();
-            int maxchild = prodchilds.count();
-            for (int k = 0; k < maxchild; k++) {
-                QDomElement mark = prodchilds.at(0).toElement();
-                mark.setAttribute("id", prod.attribute("id"));
-                markers.insertAfter(mark, QDomNode());
+        if (!m.isNull()) {
+            if (m.toElement().tagName() == "markers") {
+                QDomNodeList prodchilds = m.childNodes();
+                int maxchild = prodchilds.count();
+                for (int k = 0; k < maxchild; k++) {
+                    QDomElement mark = prodchilds.at(0).toElement();
+                    mark.setAttribute("id", prod.attribute("id"));
+                    markers.insertAfter(mark, QDomNode());
+                }
+                prod.removeChild(m);
+            } else if (prod.attribute("type").toInt() == TEXT) {
+                // convert title clip
+                if (m.toElement().tagName() == "textclip") {
+                    QDomDocument tdoc;
+                    QDomElement titleclip = m.toElement();
+                    QDomElement title = tdoc.createElement("kdenlivetitle");
+                    tdoc.appendChild(title);
+                    QDomNodeList objects = titleclip.childNodes();
+                    int maxchild = objects.count();
+                    for (int k = 0; k < maxchild; k++) {
+                        QString objectxml;
+                        QDomElement ob = objects.at(k).toElement();
+                        if (ob.attribute("type") == "3") {
+                            // text object
+                            QDomElement item = tdoc.createElement("item");
+                            item.setAttribute("z-index", ob.attribute("z"));
+                            item.setAttribute("type", "QGraphicsTextItem");
+                            QDomElement position = tdoc.createElement("position");
+                            position.setAttribute("x", ob.attribute("x"));
+                            position.setAttribute("y", ob.attribute("y"));
+                            QDomElement content = tdoc.createElement("content");
+                            content.setAttribute("font", ob.attribute("font_family"));
+                            content.setAttribute("font-size", ob.attribute("font_size"));
+                            content.setAttribute("font-bold", ob.attribute("bold"));
+                            content.setAttribute("font-italic", ob.attribute("italic"));
+                            content.setAttribute("font-underline", ob.attribute("underline"));
+                            QString col = ob.attribute("color");
+                            QColor c(col);
+                            content.setAttribute("font-color", colorToString(c));
+                            QDomText conttxt = tdoc.createTextNode(ob.attribute("text"));
+                            content.appendChild(conttxt);
+                            item.appendChild(position);
+                            item.appendChild(content);
+                            title.appendChild(item);
+                        } else if (ob.attribute("type") == "5") {
+                            // rectangle object
+                            QDomElement item = tdoc.createElement("item");
+                            item.setAttribute("z-index", ob.attribute("z"));
+                            item.setAttribute("type", "QGraphicsRectItem");
+                            QDomElement position = tdoc.createElement("position");
+                            position.setAttribute("x", ob.attribute("x"));
+                            position.setAttribute("y", ob.attribute("y"));
+                            QDomElement content = tdoc.createElement("content");
+                            QString col = ob.attribute("color");
+                            QColor c(col);
+                            content.setAttribute("brushcolor", colorToString(c));
+                            QString rect = "0,0,";
+                            rect.append(ob.attribute("width"));
+                            rect.append(",");
+                            rect.append(ob.attribute("height"));
+                            content.setAttribute("rect", rect);
+                            item.appendChild(position);
+                            item.appendChild(content);
+                            title.appendChild(item);
+                        }
+                    }
+                    prod.setAttribute("xmldata", tdoc.toString());
+                    QString titlesFolder = projectFolder().path() + "/titles/";
+                    KStandardDirs::makeDir(titlesFolder);
+                    QString titleName = "title";
+                    int counter = 0;
+                    QString path = titlesFolder + titleName + QString::number(counter).rightJustified(3, '0', false);
+                    while (QFile::exists(path + ".png")) {
+                        counter++;
+                        path = titlesFolder + titleName + QString::number(counter).rightJustified(3, '0', false);
+                    }
+                    prod.setAttribute("xml", path);
+                    prod.setAttribute("resource", path + ".png");
+                    //kDebug()<<"TITLE DATA:\n"<<tdoc.toString();
+                    prod.removeChild(m);
+                }
+
+            } else if (m.isText()) {
+                QString comment = m.nodeValue();
+                if (!comment.isEmpty()) {
+                    prod.setAttribute("description", comment);
+                }
+                prod.removeChild(m);
             }
-            prod.removeChild(m);
-        } else if (m.isText()) {
-            QString comment = m.nodeValue();
-            if (!comment.isEmpty()) {
-                prod.setAttribute("description", comment);
-            }
-            prod.removeChild(m);
         }
         int duration = prod.attribute("duration").toInt();
         if (duration > 0) prod.setAttribute("out", QString::number(duration));
         westley.insertBefore(prod, QDomNode());
+
     }
 
     QDomNode westley0 = m_document.elementsByTagName("westley").at(0);
@@ -457,6 +532,12 @@ void KdenliveDoc::convertDocument(double version) {
     //kDebug() << "/////////////////  CONVERTED DOC:";
     //kDebug() << m_document.toString();
     //kDebug() << "/////////////////  END CONVERTED DOC:";
+}
+
+QString KdenliveDoc::colorToString(const QColor& c) {
+    QString ret = "%1,%2,%3,%4";
+    ret = ret.arg(c.red()).arg(c.green()).arg(c.blue()).arg(c.alpha());
+    return ret;
 }
 
 QDomElement KdenliveDoc::documentInfoXml() {
