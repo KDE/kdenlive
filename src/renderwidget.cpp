@@ -388,7 +388,7 @@ void RenderWidget::parseProfiles(QString group, QString profile) {
     QString exportFile = KStandardDirs::locate("appdata", "export/profiles.xml");
     parseFile(exportFile, false);
     exportFile = KStandardDirs::locateLocal("appdata", "export/customprofiles.xml");
-    parseFile(exportFile, true);
+    if (QFile::exists(exportFile)) parseFile(exportFile, true);
     refreshView();
     QList<QListWidgetItem *> child;
     child = m_view.format_list->findItems(group, Qt::MatchExactly);
