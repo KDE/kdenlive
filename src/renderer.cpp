@@ -120,6 +120,7 @@ void Render::buildConsumer() {
             unsetenv("SDL_VIDEO_YUV_HWACCEL");
         }
     }
+    setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
 
     m_mltConsumer = new Mlt::Consumer(*m_mltProfile , "sdl_preview");
     m_mltConsumer->set("resize", 1);
