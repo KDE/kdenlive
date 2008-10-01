@@ -104,8 +104,8 @@ void SlideshowClip::parseFolder() {
         break;
     default:
         filters << "*.jpg";
-	// TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
-	// << "*.jpeg";
+        // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
+        // << "*.jpeg";
         break;
     }
 

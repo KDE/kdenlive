@@ -49,6 +49,8 @@
 #include <locale.h>
 #include <ktogglefullscreenaction.h>
 #include <KFileItem>
+#include <KNotification>
+#include <KNotifyConfigWidget>
 
 #include <mlt++/Mlt.h>
 
@@ -389,6 +391,10 @@ void MainWindow::slotShuttleAction(int code) {
     }
 }
 
+void MainWindow::configureNotifications() {
+    KNotifyConfigWidget::configure(this);
+}
+
 void MainWindow::slotFullScreen() {
     //KToggleFullScreenAction::setFullScreen(this, actionCollection()->action("fullscreen")->isChecked());
 }
@@ -447,6 +453,7 @@ void MainWindow::slotAdjustProjectMonitor() {
 
 void MainWindow::setupActions() {
 
+    KActionCollection* collection = actionCollection();
     m_timecodeFormat = new KComboBox(this);
     m_timecodeFormat->addItem(i18n("hh:mm:ss::ff"));
     m_timecodeFormat->addItem(i18n("Frames"));
@@ -511,11 +518,12 @@ void MainWindow::setupActions() {
     m_zoomSlider->setMinimumWidth(100);
 
     const int contentHeight = QFontMetrics(w->font()).height() + 8;
+
     QString style = "QSlider::groove:horizontal { background-color: rgba(230, 230, 230, 220);border: 1px solid #999999;height: 8px;border-radius: 3px;margin-top:3px }";
     style.append("QSlider::handle:horizontal {  background-color: white; border: 1px solid #999999;width: 9px;margin: -2px 0;border-radius: 3px; }");
+
     m_zoomSlider->setStyleSheet(style);
 
-    //m_zoomSlider->setMaximumHeight(contentHeight);
     //m_zoomSlider->height() + 5;
     statusBar()->setMinimumHeight(contentHeight);
 
@@ -571,36 +579,36 @@ void MainWindow::setupActions() {
     statusBar()->setMaximumHeight(statusBar()->font().pointSize() * 4);
     m_messageLabel->hide();
 
-    actionCollection()->addAction("select_tool", m_buttonSelectTool);
-    actionCollection()->addAction("razor_tool", m_buttonRazorTool);
+    collection->addAction("select_tool", m_buttonSelectTool);
+    collection->addAction("razor_tool", m_buttonRazorTool);
 
-    actionCollection()->addAction("show_video_thumbs", m_buttonVideoThumbs);
-    actionCollection()->addAction("show_audio_thumbs", m_buttonAudioThumbs);
-    actionCollection()->addAction("show_markers", m_buttonShowMarkers);
-    actionCollection()->addAction("snap", m_buttonSnap);
-    actionCollection()->addAction("zoom_fit", m_buttonFitZoom);
+    collection->addAction("show_video_thumbs", m_buttonVideoThumbs);
+    collection->addAction("show_audio_thumbs", m_buttonAudioThumbs);
+    collection->addAction("show_markers", m_buttonShowMarkers);
+    collection->addAction("snap", m_buttonSnap);
+    collection->addAction("zoom_fit", m_buttonFitZoom);
 
     m_projectSearch = new KAction(KIcon("edit-find"), i18n("Find"), this);
-    actionCollection()->addAction("project_find", m_projectSearch);
+    collection->addAction("project_find", m_projectSearch);
     connect(m_projectSearch, SIGNAL(triggered(bool)), this, SLOT(slotFind()));
     m_projectSearch->setShortcut(Qt::Key_Slash);
 
     m_projectSearchNext = new KAction(KIcon("go-down-search"), i18n("Find Next"), this);
-    actionCollection()->addAction("project_find_next", m_projectSearchNext);
+    collection->addAction("project_find_next", m_projectSearchNext);
     connect(m_projectSearchNext, SIGNAL(triggered(bool)), this, SLOT(slotFindNext()));
     m_projectSearchNext->setShortcut(Qt::Key_F3);
     m_projectSearchNext->setEnabled(false);
 
     KAction* profilesAction = new KAction(KIcon("document-new"), i18n("Manage Profiles"), this);
-    actionCollection()->addAction("manage_profiles", profilesAction);
+    collection->addAction("manage_profiles", profilesAction);
     connect(profilesAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProfiles()));
 
     KAction* projectAction = new KAction(KIcon("configure"), i18n("Project Settings"), this);
-    actionCollection()->addAction("project_settings", projectAction);
+    collection->addAction("project_settings", projectAction);
     connect(projectAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProjectSettings()));
 
     KAction* projectRender = new KAction(KIcon("media-record"), i18n("Render"), this);
-    actionCollection()->addAction("project_render", projectRender);
+    collection->addAction("project_render", projectRender);
     connect(projectRender, SIGNAL(triggered(bool)), this, SLOT(slotRenderProject()));
 
     KAction* monitorPlay = new KAction(KIcon("media-playback-start"), i18n("Play"), this);
@@ -608,158 +616,160 @@ void MainWindow::setupActions() {
     playShortcut.setPrimary(Qt::Key_Space);
     playShortcut.setAlternate(Qt::Key_K);
     monitorPlay->setShortcut(playShortcut);
-    actionCollection()->addAction("monitor_play", monitorPlay);
+    collection->addAction("monitor_play", monitorPlay);
     connect(monitorPlay, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotPlay()));
 
-    KAction *markIn = actionCollection()->addAction("mark_in");
+    KAction *markIn = collection->addAction("mark_in");
     markIn->setText(i18n("Set in point"));
     markIn->setShortcut(Qt::Key_I);
     connect(markIn, SIGNAL(triggered(bool)), this, SLOT(slotSetInPoint()));
 
-    KAction *markOut = actionCollection()->addAction("mark_out");
+    KAction *markOut = collection->addAction("mark_out");
     markOut->setText(i18n("Set in point"));
     markOut->setShortcut(Qt::Key_O);
     connect(markOut, SIGNAL(triggered(bool)), this, SLOT(slotSetOutPoint()));
 
     KAction* monitorSeekBackward = new KAction(KIcon("media-seek-backward"), i18n("Rewind"), this);
     monitorSeekBackward->setShortcut(Qt::Key_J);
-    actionCollection()->addAction("monitor_seek_backward", monitorSeekBackward);
+    collection->addAction("monitor_seek_backward", monitorSeekBackward);
     connect(monitorSeekBackward, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotRewind()));
 
     KAction* monitorSeekBackwardOneFrame = new KAction(KIcon("media-skip-backward"), i18n("Rewind 1 Frame"), this);
     monitorSeekBackwardOneFrame->setShortcut(Qt::Key_Left);
-    actionCollection()->addAction("monitor_seek_backward-one-frame", monitorSeekBackwardOneFrame);
+    collection->addAction("monitor_seek_backward-one-frame", monitorSeekBackwardOneFrame);
     connect(monitorSeekBackwardOneFrame, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotRewindOneFrame()));
 
     KAction* monitorSeekSnapBackward = new KAction(KIcon("media-seek-backward"), i18n("Go to Previous Snap Point"), this);
     monitorSeekSnapBackward->setShortcut(Qt::ALT + Qt::Key_Left);
-    actionCollection()->addAction("monitor_seek_snap_backward", monitorSeekSnapBackward);
+    collection->addAction("monitor_seek_snap_backward", monitorSeekSnapBackward);
     connect(monitorSeekSnapBackward, SIGNAL(triggered(bool)), this, SLOT(slotSnapRewind()));
 
     KAction* monitorSeekForward = new KAction(KIcon("media-seek-forward"), i18n("Forward"), this);
     monitorSeekForward->setShortcut(Qt::Key_L);
-    actionCollection()->addAction("monitor_seek_forward", monitorSeekForward);
+    collection->addAction("monitor_seek_forward", monitorSeekForward);
     connect(monitorSeekForward, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotForward()));
 
     KAction* clipStart = new KAction(KIcon("media-seek-backward"), i18n("Go to Clip Start"), this);
     clipStart->setShortcut(Qt::Key_Home);
-    actionCollection()->addAction("seek_clip_start", clipStart);
+    collection->addAction("seek_clip_start", clipStart);
     connect(clipStart, SIGNAL(triggered(bool)), this, SLOT(slotClipStart()));
 
     KAction* clipEnd = new KAction(KIcon("media-seek-forward"), i18n("Go to Clip End"), this);
     clipEnd->setShortcut(Qt::Key_End);
-    actionCollection()->addAction("seek_clip_end", clipEnd);
+    collection->addAction("seek_clip_end", clipEnd);
     connect(clipEnd, SIGNAL(triggered(bool)), this, SLOT(slotClipEnd()));
 
     KAction* projectStart = new KAction(KIcon("media-seek-backward"), i18n("Go to Project Start"), this);
     projectStart->setShortcut(Qt::CTRL + Qt::Key_Home);
-    actionCollection()->addAction("seek_start", projectStart);
+    collection->addAction("seek_start", projectStart);
     connect(projectStart, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotStart()));
 
     KAction* projectEnd = new KAction(KIcon("media-seek-forward"), i18n("Go to Project End"), this);
     projectEnd->setShortcut(Qt::CTRL + Qt::Key_End);
-    actionCollection()->addAction("seek_end", projectEnd);
+    collection->addAction("seek_end", projectEnd);
     connect(projectEnd, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotEnd()));
 
     KAction* monitorSeekForwardOneFrame = new KAction(KIcon("media-skip-forward"), i18n("Forward 1 Frame"), this);
     monitorSeekForwardOneFrame->setShortcut(Qt::Key_Right);
-    actionCollection()->addAction("monitor_seek_forward-one-frame", monitorSeekForwardOneFrame);
+    collection->addAction("monitor_seek_forward-one-frame", monitorSeekForwardOneFrame);
     connect(monitorSeekForwardOneFrame, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotForwardOneFrame()));
 
     KAction* monitorSeekSnapForward = new KAction(KIcon("media-seek-forward"), i18n("Go to Next Snap Point"), this);
     monitorSeekSnapForward->setShortcut(Qt::ALT + Qt::Key_Right);
-    actionCollection()->addAction("monitor_seek_snap_forward", monitorSeekSnapForward);
+    collection->addAction("monitor_seek_snap_forward", monitorSeekSnapForward);
     connect(monitorSeekSnapForward, SIGNAL(triggered(bool)), this, SLOT(slotSnapForward()));
 
     KAction* deleteTimelineClip = new KAction(KIcon("edit-delete"), i18n("Delete Selected Item"), this);
     deleteTimelineClip->setShortcut(Qt::Key_Delete);
-    actionCollection()->addAction("delete_timeline_clip", deleteTimelineClip);
+    collection->addAction("delete_timeline_clip", deleteTimelineClip);
     connect(deleteTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotDeleteTimelineClip()));
 
     KAction* editTimelineClipSpeed = new KAction(KIcon("edit-delete"), i18n("Change Clip Speed"), this);
-    actionCollection()->addAction("change_clip_speed", editTimelineClipSpeed);
+    collection->addAction("change_clip_speed", editTimelineClipSpeed);
     connect(editTimelineClipSpeed, SIGNAL(triggered(bool)), this, SLOT(slotChangeClipSpeed()));
 
     KAction* cutTimelineClip = new KAction(KIcon("edit-cut"), i18n("Cut Clip"), this);
     cutTimelineClip->setShortcut(Qt::SHIFT + Qt::Key_R);
-    actionCollection()->addAction("cut_timeline_clip", cutTimelineClip);
+    collection->addAction("cut_timeline_clip", cutTimelineClip);
     connect(cutTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotCutTimelineClip()));
 
     KAction* addClipMarker = new KAction(KIcon("bookmark-new"), i18n("Add Marker to Clip"), this);
-    actionCollection()->addAction("add_clip_marker", addClipMarker);
+    collection->addAction("add_clip_marker", addClipMarker);
     connect(addClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotAddClipMarker()));
 
     KAction* deleteClipMarker = new KAction(KIcon("edit-delete"), i18n("Delete Marker from Clip"), this);
-    actionCollection()->addAction("delete_clip_marker", deleteClipMarker);
+    collection->addAction("delete_clip_marker", deleteClipMarker);
     connect(deleteClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotDeleteClipMarker()));
 
     KAction* deleteAllClipMarkers = new KAction(KIcon("edit-delete"), i18n("Delete All Markers from Clip"), this);
-    actionCollection()->addAction("delete_all_clip_markers", deleteAllClipMarkers);
+    collection->addAction("delete_all_clip_markers", deleteAllClipMarkers);
     connect(deleteAllClipMarkers, SIGNAL(triggered(bool)), this, SLOT(slotDeleteAllClipMarkers()));
 
     KAction* editClipMarker = new KAction(KIcon("document-properties"), i18n("Edit Marker"), this);
-    actionCollection()->addAction("edit_clip_marker", editClipMarker);
+    collection->addAction("edit_clip_marker", editClipMarker);
     connect(editClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotEditClipMarker()));
 
     KAction *addGuide = new KAction(KIcon("document-new"), i18n("Add Guide"), this);
-    actionCollection()->addAction("add_guide", addGuide);
+    collection->addAction("add_guide", addGuide);
     connect(addGuide, SIGNAL(triggered()), this, SLOT(slotAddGuide()));
 
     QAction *delGuide = new KAction(KIcon("edit-delete"), i18n("Delete Guide"), this);
-    actionCollection()->addAction("delete_guide", delGuide);
+    collection->addAction("delete_guide", delGuide);
     connect(delGuide, SIGNAL(triggered()), this, SLOT(slotDeleteGuide()));
 
     QAction *editGuide = new KAction(KIcon("document-properties"), i18n("Edit Guide"), this);
-    actionCollection()->addAction("edit_guide", editGuide);
+    collection->addAction("edit_guide", editGuide);
     connect(editGuide, SIGNAL(triggered()), this, SLOT(slotEditGuide()));
 
     QAction *delAllGuides = new KAction(KIcon("edit-delete"), i18n("Delete All Guides"), this);
-    actionCollection()->addAction("delete_all_guides", delAllGuides);
+    collection->addAction("delete_all_guides", delAllGuides);
     connect(delAllGuides, SIGNAL(triggered()), this, SLOT(slotDeleteAllGuides()));
 
     QAction *pasteEffects = new KAction(KIcon("edit-paste"), i18n("Paste Effects"), this);
-    actionCollection()->addAction("paste_effects", pasteEffects);
+    collection->addAction("paste_effects", pasteEffects);
     connect(pasteEffects , SIGNAL(triggered()), this, SLOT(slotPasteEffects()));
 
     KStandardAction::quit(this, SLOT(queryQuit()),
-                          actionCollection());
+                          collection);
 
     KStandardAction::open(this, SLOT(openFile()),
-                          actionCollection());
+                          collection);
 
     m_saveAction = KStandardAction::save(this, SLOT(saveFile()),
-                                         actionCollection());
+                                         collection);
 
     KStandardAction::saveAs(this, SLOT(saveFileAs()),
-                            actionCollection());
+                            collection);
 
     KStandardAction::openNew(this, SLOT(newFile()),
-                             actionCollection());
+                             collection);
 
     KStandardAction::preferences(this, SLOT(slotPreferences()),
-                                 actionCollection());
+                                 collection);
+
+    KStandardAction::configureNotifications(this , SLOT(configureNotifications()) , collection);
 
     KStandardAction::copy(this, SLOT(slotCopy()),
-                          actionCollection());
+                          collection);
 
     KStandardAction::paste(this, SLOT(slotPaste()),
-                           actionCollection());
+                           collection);
 
     KAction *undo = KStandardAction::undo(m_commandStack, SLOT(undo()),
-                                          actionCollection());
+                                          collection);
     undo->setEnabled(false);
     connect(m_commandStack, SIGNAL(canUndoChanged(bool)), undo, SLOT(setEnabled(bool)));
 
     KAction *redo = KStandardAction::redo(m_commandStack, SLOT(redo()),
-                                          actionCollection());
+                                          collection);
     redo->setEnabled(false);
     connect(m_commandStack, SIGNAL(canRedoChanged(bool)), redo, SLOT(setEnabled(bool)));
 
-    KStandardAction::fullScreen(this, SLOT(slotFullScreen()), this, actionCollection());
+    KStandardAction::fullScreen(this, SLOT(slotFullScreen()), this, collection);
 
-    connect(actionCollection(), SIGNAL(actionHovered(QAction*)),
+    connect(collection, SIGNAL(actionHovered(QAction*)),
             this, SLOT(slotDisplayActionMessage(QAction*)));
-    //connect(actionCollection(), SIGNAL( clearStatusText() ),
+    //connect(collection, SIGNAL( clearStatusText() ),
     //statusBar(), SLOT( clear() ) );
 }
 
@@ -964,10 +974,10 @@ void MainWindow::parseProfiles() {
         KdenliveSettings::setMltpath(QString(MLT_PREFIX) + QString("/share/mlt/profiles/"));
     }
     if (KdenliveSettings::rendererpath().isEmpty()) {
-	QString inigoPath = QString(MLT_PREFIX) + QString("/bin/inigo");
-	if (!QFile::exists(inigoPath)) 
-	    inigoPath = KStandardDirs::findExe("inigo");
-	else KdenliveSettings::setRendererpath(inigoPath);
+        QString inigoPath = QString(MLT_PREFIX) + QString("/bin/inigo");
+        if (!QFile::exists(inigoPath))
+            inigoPath = KStandardDirs::findExe("inigo");
+        else KdenliveSettings::setRendererpath(inigoPath);
     }
     QStringList profilesFilter;
     profilesFilter << "*";
@@ -1075,9 +1085,11 @@ void MainWindow::slotDoRender(const QString &dest, const QString &render, const 
             if (videoPlayer.isEmpty()) KMessageBox::sorry(this, i18n("Cannot play video after rendering because the default video player application is not set.\nPlease define it in Kdenlive settings dialog."));
         }
         args << KdenliveSettings::rendererpath() << m_activeDocument->profilePath() << render << videoPlayer << temp.fileName() << dest << avformat_args;
-	QString renderer = QCoreApplication::applicationDirPath() + QString("/kdenlive_render");
-	if (!QFile::exists(renderer)) renderer = "kdenlive_render";
+        QString renderer = QCoreApplication::applicationDirPath() + QString("/kdenlive_render");
+        if (!QFile::exists(renderer)) renderer = "kdenlive_render";
         QProcess::startDetached(renderer, args);
+
+        KNotification::event("RenderStarted", i18n("Rendering <i>%1</i> started", dest), QPixmap(), this);
     }
 }
 

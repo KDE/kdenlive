@@ -103,14 +103,31 @@ void RenderJob::slotIsOver(int exitcode, QProcess::ExitStatus status) {
         QProcess::startDetached("kdialog", args);
     } else {
 	QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
-        if (interface && interface->isServiceRegistered("org.kde.VisualNotifications")) {
+        if (interface && interface->isServiceRegistered("org.kde.knotify")) {
+			QDBusMessage m = QDBusMessage::createMethodCall("org.kde.knotify",
+                                              "/Notify",
+                                              "org.kde.KNotify",
+                                              "event");
+
+			QList<QVariant> args;
+			args.append( QString("RenderFinished") ); // action name
+			args.append( QString("kdenlive") ); // app name
+			args.append( QVariantList() ); // contexts
+			args.append( tr("Rendering of %1 is over").arg(m_dest) ); // body
+			args.append( QByteArray() ); // app icon
+			QStringList actionList;
+			args.append( actionList ); // actions
+			qlonglong wid;
+			args.append( wid ); // win id
+
+			/*
+			uint id = 0;
+			int timeout = 5000;
 			QDBusMessage m = QDBusMessage::createMethodCall("org.kde.VisualNotifications",
                                               "/VisualNotifications",
                                               "org.kde.VisualNotifications",
                                               "Notify");
-			QList<QVariant> args;
-			uint id = 0;
-			int timeout = 5000;
+
 			args.append( QString("kdenlive") ); // app_name
 			args.append( id ); // replaces_id
 			args.append( QString("kdenlive") ); // app_icon
@@ -120,6 +137,7 @@ void RenderJob::slotIsOver(int exitcode, QProcess::ExitStatus status) {
 			args.append( actionList ); // actions
 			args.append( QVariantMap() ); // hints - unused atm
 			args.append( timeout ); // expire timout
+			*/
 
 			m.setArguments( args );
 			QDBusMessage replyMsg = QDBusConnection::sessionBus().call(m);

@@ -243,6 +243,7 @@ private slots:
 
     void slotSetInPoint();
     void slotSetOutPoint();
+    void configureNotifications();
 };
 
 

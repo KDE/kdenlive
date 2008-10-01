@@ -1,0 +1,14 @@
+[Global]
+IconName=kdenlive
+Comment=Kdenlive
+
+[Event/RenderFinished]
+Name=Rendering finished
+Comment=Rendering is over
+Action=Popup
+
+[Event/RenderStarted]
+Name=Rendering started
+Comment=Rendering was started
+Action=Popup
+
