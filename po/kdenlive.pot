@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-03 15:55+0200\n"
+"POT-Creation-Date: 2008-10-03 15:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -690,6 +690,12 @@ msgstr ""
 msgid "Environment"
 msgstr ""
 
+msgid "Error starting MLT's command line player (inigo)"
+msgstr ""
+
+msgid "Error starting MLT's command line player (inigo)."
+msgstr ""
+
 msgid "Error when resizing clip"
 msgstr ""
 
@@ -962,12 +968,12 @@ msgstr ""
 
 msgid ""
 "MLT's SDL module not found. Please check your MLT install. Kdenlive will not "
-"work until this issue is fixed.\n"
+"work until this issue is fixed."
 msgstr ""
 
 msgid ""
 "MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT "
-"install. Kdenlive will not work until this issue is fixed.\n"
+"install. Kdenlive will not work until this issue is fixed."
 msgstr ""
 
 msgid "Manage Profiles"
@@ -1570,6 +1576,9 @@ msgstr ""
 msgid ""
 "Warning: changes to the drivers and devices can make Kdenlive unstable. "
 "Change only if you know what you do."
+msgstr ""
+
+msgid "Welcome"
 msgstr ""
 
 msgid "Width"
