@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-03 14:18+0200\n"
+"POT-Creation-Date: 2008-10-03 15:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,12 +21,6 @@ msgstr ""
 
 #, kde-format
 msgid "%1 images found"
-msgstr ""
-
-msgid "&Cancel"
-msgstr ""
-
-msgid "&OK"
 msgstr ""
 
 msgid "..."
@@ -888,9 +882,6 @@ msgstr ""
 msgid "HDV"
 msgstr ""
 
-msgid "Height"
-msgstr ""
-
 msgid "Hor. Center"
 msgstr ""
 
@@ -934,6 +925,9 @@ msgid "Interlaced"
 msgstr ""
 
 msgid "JogShuttle"
+msgstr ""
+
+msgid "Keyframe"
 msgstr ""
 
 msgid "Left"
@@ -1031,9 +1025,6 @@ msgid "Name"
 msgstr ""
 
 msgid "Name for saved effect: "
-msgstr ""
-
-msgid "Name:"
 msgstr ""
 
 msgid "Nano X"
@@ -1312,6 +1303,9 @@ msgstr ""
 msgid "Save zone"
 msgstr ""
 
+msgid "Scale"
+msgstr ""
+
 msgid "Screen Grab"
 msgstr ""
 
@@ -1470,9 +1464,6 @@ msgstr ""
 msgid "Title Clip"
 msgstr ""
 
-msgid "Titler"
-msgstr ""
-
 msgid "Toggle selection"
 msgstr ""
 
@@ -1492,9 +1483,6 @@ msgid "Transition type"
 msgstr ""
 
 msgid "Transparency"
-msgstr ""
-
-msgid "Transparent bac&kground"
 msgstr ""
 
 msgid "Transparent background"
