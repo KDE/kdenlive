@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-14 19:06+0200\n"
+"POT-Creation-Date: 2008-10-03 14:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,12 +21,6 @@ msgstr ""
 
 #, kde-format
 msgid "%1 images found"
-msgstr ""
-
-msgid "&Cancel"
-msgstr ""
-
-msgid "&OK"
 msgstr ""
 
 msgid "..."
@@ -44,6 +38,12 @@ msgstr ""
 msgid "0"
 msgstr ""
 
+msgid "100%"
+msgstr ""
+
+msgid "200%"
+msgstr ""
+
 msgid "25/1"
 msgstr ""
 
@@ -51,6 +51,9 @@ msgid "320x240"
 msgstr ""
 
 msgid "4/3"
+msgstr ""
+
+msgid "50%"
 msgstr ""
 
 msgid "59/54"
@@ -76,12 +79,6 @@ msgid "A"
 msgstr ""
 
 msgid "A guide already exists at that position"
-msgstr ""
-
-#, kde-format
-msgid ""
-"A newer recovery file exists for <b>%1</b>\n"
-"Open recovery file ?"
 msgstr ""
 
 msgid ""
@@ -174,6 +171,9 @@ msgstr ""
 msgid "Add transition to clip"
 msgstr ""
 
+msgid "Additional Settings"
+msgstr ""
+
 msgid "Adjust clip length"
 msgstr ""
 
@@ -184,6 +184,9 @@ msgid "Align item horizontally"
 msgstr ""
 
 msgid "Align item vertically"
+msgstr ""
+
+msgid "Align..."
 msgstr ""
 
 msgid "All"
@@ -229,7 +232,13 @@ msgstr ""
 msgid "Audio index"
 msgstr ""
 
+msgid "Audio tracks"
+msgstr ""
+
 msgid "Auto add"
+msgstr ""
+
+msgid "Auto-saved files exist. Do you want to recover them now?"
 msgstr ""
 
 msgid "Automatic"
@@ -250,6 +259,9 @@ msgstr ""
 msgid "Border color"
 msgstr ""
 
+msgid "Bottom"
+msgstr ""
+
 msgid "Button 1"
 msgstr ""
 
@@ -266,6 +278,12 @@ msgid "Button 5"
 msgstr ""
 
 msgid "C"
+msgstr ""
+
+#, kde-format
+msgid ""
+"Cannot access Desktop Search info for %1.\n"
+"Disabling Desktop Search integration."
 msgstr ""
 
 msgid "Cannot add marker if more than one clip is selected"
@@ -357,6 +375,9 @@ msgid "Captured files"
 msgstr ""
 
 msgid "Capturing..."
+msgstr ""
+
+msgid "Center"
 msgstr ""
 
 msgid "Change"
@@ -546,10 +567,19 @@ msgstr ""
 msgid "Delete timeline clip"
 msgstr ""
 
+msgid "Delete track"
+msgstr ""
+
 msgid "Delete transition from clip"
 msgstr ""
 
 msgid "Description"
+msgstr ""
+
+msgid "Description:"
+msgstr ""
+
+msgid "Desktop search integration"
 msgstr ""
 
 msgid "Device"
@@ -582,6 +612,9 @@ msgstr ""
 msgid "Do nothing"
 msgstr ""
 
+msgid "Don't recover"
+msgstr ""
+
 msgid "Duration"
 msgstr ""
 
@@ -606,6 +639,9 @@ msgstr ""
 msgid "Edit Marker"
 msgstr ""
 
+msgid "Edit clip"
+msgstr ""
+
 #, kde-format
 msgid "Edit effect %1"
 msgstr ""
@@ -624,6 +660,10 @@ msgstr ""
 
 #, kde-format
 msgid "Edit transition %1"
+msgstr ""
+
+#, kde-format
+msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
 msgstr ""
 
 msgid "Effect List"
@@ -662,9 +702,6 @@ msgstr ""
 msgid "Extra Toolbar"
 msgstr ""
 
-msgid "Extra parameters"
-msgstr ""
-
 msgid "Extract frame"
 msgstr ""
 
@@ -674,12 +711,22 @@ msgstr ""
 msgid "Fade out"
 msgstr ""
 
+msgid "Fatal Error"
+msgstr ""
+
+#, kde-format
+msgid "File %1 is not a Kdenlive project file."
+msgstr ""
+
+msgid "File Recovery"
+msgstr ""
+
 msgid ""
 "File already exists.\n"
 "Do you want to overwrite it ?"
 msgstr ""
 
-msgid "File already exists. Doy you want to overwrite it ?"
+msgid "File already exists. Do you want to overwrite it ?"
 msgstr ""
 
 msgid "File extension"
@@ -769,13 +816,19 @@ msgstr ""
 msgid "Frequency"
 msgstr ""
 
+msgid "From"
+msgstr ""
+
+msgid "Full project"
+msgstr ""
+
 msgid "Full screen capture"
 msgstr ""
 
 msgid "General graphics interface"
 msgstr ""
 
-msgid "Geometry"
+msgid "Go To"
 msgstr ""
 
 msgid "Go to Clip End"
@@ -796,6 +849,15 @@ msgstr ""
 msgid "Go to Project Start"
 msgstr ""
 
+msgid "Go to next keyframe"
+msgstr ""
+
+msgid "Go to previous keyframe"
+msgstr ""
+
+msgid "Go to..."
+msgstr ""
+
 msgid "GraphView"
 msgstr ""
 
@@ -808,6 +870,9 @@ msgstr ""
 msgid "Guide"
 msgstr ""
 
+msgid "Guide zone"
+msgstr ""
+
 msgid "Guides"
 msgstr ""
 
@@ -817,7 +882,7 @@ msgstr ""
 msgid "HDV"
 msgstr ""
 
-msgid "Height"
+msgid "Hor. Center"
 msgstr ""
 
 msgid "Image"
@@ -850,6 +915,9 @@ msgstr ""
 msgid "Initialising..."
 msgstr ""
 
+msgid "Insert track"
+msgstr ""
+
 msgid "Install extra video mimetypes"
 msgstr ""
 
@@ -860,6 +928,9 @@ msgid "JogShuttle"
 msgstr ""
 
 msgid "Keyframe"
+msgstr ""
+
+msgid "Left"
 msgstr ""
 
 msgid "Load Image"
@@ -884,6 +955,19 @@ msgid "Luma File"
 msgstr ""
 
 msgid "Luma file"
+msgstr ""
+
+msgid "M"
+msgstr ""
+
+msgid ""
+"MLT's SDL module not found. Please check your MLT install. Kdenlive will not "
+"work until this issue is fixed.\n"
+msgstr ""
+
+msgid ""
+"MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT "
+"install. Kdenlive will not work until this issue is fixed.\n"
 msgstr ""
 
 msgid "Manage Profiles"
@@ -943,9 +1027,6 @@ msgstr ""
 msgid "Name for saved effect: "
 msgstr ""
 
-msgid "Name:"
-msgstr ""
-
 msgid "Nano X"
 msgstr ""
 
@@ -989,13 +1070,22 @@ msgstr ""
 msgid "OSS with DMA access"
 msgstr ""
 
+msgid "Opacity"
+msgstr ""
+
 msgid "Open Document"
 msgstr ""
 
 msgid "Open last project on startup"
 msgstr ""
 
+msgid "Open projects in new tabs"
+msgstr ""
+
 msgid "Output file"
+msgstr ""
+
+msgid "P"
 msgstr ""
 
 msgid "PAL"
@@ -1050,6 +1140,9 @@ msgid ""
 "to initialize connection\n"
 "Files will be saved in:\n"
 "%1"
+msgstr ""
+
+msgid "Pos"
 msgstr ""
 
 msgid "Position"
@@ -1131,6 +1224,9 @@ msgstr ""
 msgid "Record Monitor"
 msgstr ""
 
+msgid "Recover"
+msgstr ""
+
 msgid "Rename folder"
 msgstr ""
 
@@ -1138,6 +1234,10 @@ msgid "Render"
 msgstr ""
 
 msgid "Rendering"
+msgstr ""
+
+#, kde-format
+msgid "Rendering <i>%1</i> started"
 msgstr ""
 
 msgid "Reset effect"
@@ -1152,6 +1252,9 @@ msgstr ""
 msgid "Resize clip"
 msgstr ""
 
+msgid "Resize..."
+msgstr ""
+
 msgid "Rewind"
 msgstr ""
 
@@ -1159,6 +1262,9 @@ msgid "Rewind 1 Frame"
 msgstr ""
 
 msgid "Rewind 1 frame"
+msgstr ""
+
+msgid "Right"
 msgstr ""
 
 msgid "Rotate:"
@@ -1185,10 +1291,19 @@ msgstr ""
 msgid "Save changes to document ?"
 msgstr ""
 
+msgid "Save clip zone as:"
+msgstr ""
+
 msgid "Save effect"
 msgstr ""
 
 msgid "Save profile"
+msgstr ""
+
+msgid "Save zone"
+msgstr ""
+
+msgid "Scale"
 msgstr ""
 
 msgid "Screen Grab"
@@ -1229,7 +1344,7 @@ msgstr ""
 msgid "Select region..."
 msgstr ""
 
-msgid "Selected zone only"
+msgid "Selected zone"
 msgstr ""
 
 msgid "Selection Tool"
@@ -1239,6 +1354,15 @@ msgid "Selection tool"
 msgstr ""
 
 msgid "Set current image as thumbnail"
+msgstr ""
+
+msgid "Set in point"
+msgstr ""
+
+msgid "Set zone end"
+msgstr ""
+
+msgid "Set zone start"
 msgstr ""
 
 msgid "Show audio thumbnails"
@@ -1295,6 +1419,9 @@ msgstr ""
 msgid "Stop"
 msgstr ""
 
+msgid "Sync timeline cursor"
+msgstr ""
+
 msgid "Templates"
 msgstr ""
 
@@ -1310,6 +1437,12 @@ msgstr ""
 msgid "There is no clip, cannot extract frame."
 msgstr ""
 
+msgid ""
+"This is the first time you run Kdenlive. This wizard will let you adjust "
+"some basic settings, you will be ready to edit your first movie in a few "
+"seconds..."
+msgstr ""
+
 msgid "Thumbnail"
 msgstr ""
 
@@ -1322,13 +1455,13 @@ msgstr ""
 msgid "Time"
 msgstr ""
 
+msgid "Timecode overlay"
+msgstr ""
+
 msgid "Timeline"
 msgstr ""
 
 msgid "Title Clip"
-msgstr ""
-
-msgid "Titler"
 msgstr ""
 
 msgid "Toggle selection"
@@ -1337,16 +1470,19 @@ msgstr ""
 msgid "Tool"
 msgstr ""
 
+msgid "Top"
+msgstr ""
+
 msgid "Track height"
 msgstr ""
 
 msgid "Transition"
 msgstr ""
 
-msgid "Transparency"
+msgid "Transition type"
 msgstr ""
 
-msgid "Transparent bac&kground"
+msgid "Transparency"
 msgstr ""
 
 msgid "Transparent background"
@@ -1377,6 +1513,9 @@ msgstr ""
 msgid "Value"
 msgstr ""
 
+msgid "Vert. Center"
+msgstr ""
+
 msgid "Video"
 msgstr ""
 
@@ -1405,6 +1544,9 @@ msgid "Video index"
 msgstr ""
 
 msgid "Video player"
+msgstr ""
+
+msgid "Video tracks"
 msgstr ""
 
 msgid "Video4Linux"
@@ -1457,7 +1599,16 @@ msgstr ""
 msgid "You must copy exactly one clip before pasting effects"
 msgstr ""
 
+msgid "You must select one clip for this action"
+msgstr ""
+
 msgid "Z-Index:"
+msgstr ""
+
+msgid "Zone end"
+msgstr ""
+
+msgid "Zone start"
 msgstr ""
 
 msgid "Zoom:"
@@ -1505,6 +1656,9 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
+msgid "to"
+msgstr ""
+
 msgid "update values in timeline"
 msgstr ""
 
@@ -1515,4 +1669,8 @@ msgid "x"
 msgstr ""
 
 msgid "x1"
+msgstr ""
+
+msgid ""
+"your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr ""
