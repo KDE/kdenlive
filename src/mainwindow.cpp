@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
+#include <stdlib.h>
 
 #include <QTextStream>
 #include <QTimer>
@@ -796,9 +796,7 @@ void MainWindow::readOptions() {
             initialGroup.writeEntry("version", "0.7");
             delete w;
         } else {
-            delete w;
-            // TODO: find a better way to exit application faster
-            QTimer::singleShot(1000, this, SLOT(queryQuit()));
+            ::exit(1);
         }
     }
 }
@@ -996,10 +994,12 @@ void MainWindow::parseProfiles() {
             // Cannot find the MLT profiles, ask for location
             KUrlRequesterDialog *getUrl = new KUrlRequesterDialog(KdenliveSettings::mltpath(), i18n("Cannot find your Mlt profiles, please give the path"), this);
             getUrl->fileDialog()->setMode(KFile::Directory);
-            getUrl->exec();
+            if (getUrl->exec() == QDialog::Rejected) {
+                ::exit(0);
+            }
             KUrl mltPath = getUrl->selectedUrl();
             delete getUrl;
-            if (mltPath.isEmpty()) kapp->quit();
+            if (mltPath.isEmpty()) ::exit(0);
             KdenliveSettings::setMltpath(mltPath.path());
             QStringList profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
         }
@@ -1008,10 +1008,12 @@ void MainWindow::parseProfiles() {
     if (KdenliveSettings::rendererpath().isEmpty()) {
         // Cannot find the MLT inigo renderer, ask for location
         KUrlRequesterDialog *getUrl = new KUrlRequesterDialog(QString(), i18n("Cannot find the inigo program required for rendering (part of Mlt)"), this);
-        getUrl->exec();
+        if (getUrl->exec() == QDialog::Rejected) {
+            ::exit(0);
+        }
         KUrl rendererPath = getUrl->selectedUrl();
         delete getUrl;
-        if (rendererPath.isEmpty()) kapp->quit();
+        if (rendererPath.isEmpty()) ::exit(0);
         KdenliveSettings::setRendererpath(rendererPath.path());
     }
 
