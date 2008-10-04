@@ -16,6 +16,7 @@ public:
     void setZoom(double s);
     void setTool(TITLETOOL tool);
     TITLETOOL tool();
+    void clearTextSelection();
 
 protected:
     virtual void keyPressEvent(QKeyEvent * keyEvent);
@@ -30,8 +31,9 @@ private:
     double zoom;
     QGraphicsItem* m_selectedItem;
     resizeModes resizeMode;
-    QPointF m_clickPoint;
+    QPointF m_sceneClickPoint;
     TITLETOOL m_tool;
+    QPoint m_clickPoint;
 
 signals:
     void itemMoved();

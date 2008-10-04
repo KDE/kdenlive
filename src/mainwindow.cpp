@@ -1422,22 +1422,23 @@ void MainWindow::slotGotProgressInfo(const QString &message, int progress) {
 
 void MainWindow::slotShowClipProperties(DocClipBase *clip) {
     if (clip->clipType() == TEXT) {
-        QString path = clip->getProperty("xml");
-        TitleWidget *dia_ui = new TitleWidget(KUrl()/*path + ".kdenlivetitle")*/, path, m_projectMonitor->render, this);
+        QString titlepath = m_activeDocument->projectFolder().path() + "/titles/";
+        QString path = clip->getProperty("resource");
+        TitleWidget *dia_ui = new TitleWidget(KUrl(), titlepath, m_projectMonitor->render, this);
         QDomDocument doc;
         doc.setContent(clip->getProperty("xmldata"));
         dia_ui->setXml(doc);
         if (dia_ui->exec() == QDialog::Accepted) {
-            kDebug() << "//  UPDATUING CLIP TITLE: " << path;
             QPixmap pix = dia_ui->renderedPixmap();
-            pix.save(path + ".png");
+            pix.save(path);
             //slotAddClipFile(KUrl("/tmp/kdenlivetitle.png"), QString(), -1);
             //m_clipManager->slotEditTextClipFile(id, dia_ui->xml().toString());
             QMap <QString, QString> newprops;
             newprops.insert("xmldata", dia_ui->xml().toString());
             EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
             m_activeDocument->commandStack()->push(command);
-            //setModified(true);
+            m_clipMonitor->refreshMonitor(true);
+            m_activeDocument->setModified(true);
         }
         delete dia_ui;
 

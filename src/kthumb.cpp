@@ -230,6 +230,11 @@ void KThumb::setProducer(Mlt::Producer *producer) {
 
 void KThumb::updateClipUrl(KUrl url) {
     m_url = url;
+    if (m_producer) {
+        char *tmp = Render::decodedString(url.path());
+        m_producer->set("resource", tmp);
+        delete[] tmp;
+    }
 }
 
 //static

@@ -29,6 +29,7 @@
 #include <KDebug>
 #include <KGlobalSettings>
 #include <KFileDialog>
+#include <KStandardDirs>
 
 #include "titlewidget.h"
 #include "kdenlivesettings.h"
@@ -37,10 +38,11 @@ int settingUp = false;
 
 TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget *parent): QDialog(parent), m_render(render), m_count(0), m_projectPath(projectPath) {
     setupUi(this);
-    //frame_properties->
     setFont(KGlobalSettings::toolBarFont());
     //toolBox->setFont(KGlobalSettings::toolBarFont());
     frame_properties->setEnabled(false);
+    rect_properties->setFixedHeight(frame_properties->height() + 4);
+    text_properties->setFixedHeight(frame_properties->height() + 4);
     m_frameWidth = render->renderWidth();
     m_frameHeight = render->renderHeight();
     //connect(newTextButton, SIGNAL(clicked()), this, SLOT(slotNewText()));
@@ -101,7 +103,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
 
     QHBoxLayout *layout = new QHBoxLayout;
     frame_toolbar->setLayout(layout);
-
+    layout->setContentsMargins(2, 2, 2, 2);
     QToolBar *m_toolbar = new QToolBar("titleToolBar", this);
 
     m_buttonRect = m_toolbar->addAction(KIcon("kdenlive-insert-rect"), i18n("Add Rectangle"));
@@ -170,20 +172,44 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     graphicsView->scene()->addItem(m_frameBorder);
 
     initViewports();
-
+    QTimer::singleShot(500, this, SLOT(slotAdjustZoom()));
     graphicsView->show();
     //graphicsView->setRenderHint(QPainter::Antialiasing);
     graphicsView->setInteractive(true);
-    QTimer::singleShot(500, this, SLOT(slotAdjustZoom()));
     //graphicsView->resize(400, 300);
     kDebug() << "// TITLE WIDGWT: " << graphicsView->viewport()->width() << "x" << graphicsView->viewport()->height();
     toolBox->setItemEnabled(2, false);
     if (!url.isEmpty()) {
         m_count = m_titledocument.loadDocument(url, startViewport, endViewport) + 1;
         slotSelectTool();
-    } else slotRectTool();
+    } else {
+        slotRectTool();
+    }
 }
 
+//static
+QStringList TitleWidget::getFreeTitleInfo(const KUrl &projectUrl) {
+    QStringList result;
+    QString titlePath = projectUrl.path() + "/titles/";
+    KStandardDirs::makeDir(titlePath);
+    QString titleName = "title";
+    int counter = 0;
+    QString path = titlePath + titleName + QString::number(counter).rightJustified(3, '0', false);
+    while (QFile::exists(path + ".png")) {
+        counter++;
+        path = titlePath + titleName + QString::number(counter).rightJustified(3, '0', false);
+    }
+    result.append(titleName + QString::number(counter).rightJustified(3, '0', false));
+    result.append(path + ".png");
+    return result;
+}
+
+QString TitleWidget::getTitleResourceFromName(const KUrl &projectUrl, const QString &titleName) {
+    QStringList result;
+    QString titlePath = projectUrl.path() + "/titles/";
+    KStandardDirs::makeDir(titlePath);
+    return titlePath + titleName + ".png";
+}
 
 //virtual
 void TitleWidget::resizeEvent(QResizeEvent * event) {
@@ -286,8 +312,8 @@ void TitleWidget::initViewports() {
 }
 
 void TitleWidget::slotUpdateZoom(int pos) {
-    m_scene->setZoom((double) pos / 7);
-    zoom_label->setText("x" + QString::number((double) pos / 7, 'g', 2));
+    m_scene->setZoom((double) pos / 100);
+    zoom_label->setText(QString::number(pos) + "%");
 }
 
 void TitleWidget::slotZoom(bool up) {
@@ -298,16 +324,18 @@ void TitleWidget::slotZoom(bool up) {
 }
 
 void TitleWidget::slotAdjustZoom() {
-    double scalex = graphicsView->width() / (double)(m_frameWidth * 1.2);
+    /*double scalex = graphicsView->width() / (double)(m_frameWidth * 1.2);
     double scaley = graphicsView->height() / (double)(m_frameHeight * 1.2);
     if (scalex > scaley) scalex = scaley;
-    int zoompos = (int)(scalex * 7 + 0.5);
+    int zoompos = (int)(scalex * 7 + 0.5);*/
+    graphicsView->fitInView(m_frameBorder, Qt::KeepAspectRatio);
+    int zoompos = graphicsView->matrix().m11() * 100;
     zoom_slider->setValue(zoompos);
     graphicsView->centerOn(m_frameBorder);
 }
 
 void TitleWidget::slotZoomOneToOne() {
-    zoom_slider->setValue(7);
+    zoom_slider->setValue(100);
     graphicsView->centerOn(m_frameBorder);
 }
 
@@ -356,7 +384,7 @@ void TitleWidget::selectionChanged() {
     value_y->blockSignals(true);
     value_w->blockSignals(true);
     value_h->blockSignals(true);
-    kDebug() << "////////  SELECTION CHANGED; ITEMS: " << l.size();
+    //kDebug() << "////////  SELECTION CHANGED; ITEMS: " << l.size();
     if (l.size() == 1) {
         if ((l[0])->type() == 8) {
             rect_properties->setHidden(true);
@@ -409,7 +437,7 @@ void TitleWidget::selectionChanged() {
             //toolBox->setItemEnabled(3, true);
             rectFAlpha->setValue(rec->pen().color().alpha());
             rectBAlpha->setValue(rec->brush().color().alpha());
-            kDebug() << rec->brush().color().alpha();
+            //kDebug() << rec->brush().color().alpha();
             QColor fcol = rec->pen().color();
             QColor bcol = rec->brush().color();
             //fcol.setAlpha(255);
@@ -622,7 +650,7 @@ QDomDocument TitleWidget::xml() {
 }
 
 void TitleWidget::setXml(QDomDocument doc) {
-    m_titledocument.loadFromXml(doc, startViewport, endViewport);
+    m_count = m_titledocument.loadFromXml(doc, startViewport, endViewport);
     slotSelectTool();
 }
 
@@ -631,7 +659,7 @@ QPixmap TitleWidget::renderedPixmap() {
     pix.fill(Qt::transparent);
     QPainter painter(&pix);
     painter.setRenderHint(QPainter::Antialiasing);
-    m_scene->clearSelection();
+    m_scene->clearTextSelection();
     QPen framepen = m_frameBorder->pen();
     m_frameBorder->setPen(Qt::NoPen);
     startViewport->setVisible(false);

@@ -28,6 +28,9 @@
       <enum>QFrame::Sunken</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout_4" >
+      <property name="margin" >
+       <number>2</number>
+      </property>
       <item row="0" column="0" >
        <layout class="QHBoxLayout" name="horizontalLayout_3" >
         <item>
@@ -120,6 +123,15 @@
       <enum>QFrame::Sunken</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout_5" >
+      <property name="leftMargin" >
+       <number>2</number>
+      </property>
+      <property name="topMargin" >
+       <number>2</number>
+      </property>
+      <property name="rightMargin" >
+       <number>2</number>
+      </property>
       <item row="0" column="0" >
        <layout class="QHBoxLayout" name="horizontalLayout_4" >
         <item>
@@ -240,8 +252,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>283</width>
-         <height>154</height>
+         <width>355</width>
+         <height>168</height>
         </rect>
        </property>
        <attribute name="label" >
@@ -359,8 +371,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>283</width>
-         <height>154</height>
+         <width>355</width>
+         <height>158</height>
         </rect>
        </property>
        <attribute name="label" >
@@ -407,8 +419,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>264</width>
-         <height>212</height>
+         <width>336</width>
+         <height>210</height>
         </rect>
        </property>
        <attribute name="label" >
@@ -609,10 +621,10 @@
       <number>1</number>
      </property>
      <property name="maximum" >
-      <number>10</number>
+      <number>150</number>
      </property>
      <property name="pageStep" >
-      <number>2</number>
+      <number>30</number>
      </property>
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
@@ -671,6 +683,9 @@
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout" >
+      <property name="margin" >
+       <number>2</number>
+      </property>
       <item row="0" column="0" >
        <layout class="QHBoxLayout" name="positionLayout" >
         <item>
@@ -780,6 +795,17 @@
     </widget>
    </item>
   </layout>
+  <zorder>rect_properties</zorder>
+  <zorder>text_properties</zorder>
+  <zorder>splitter</zorder>
+  <zorder>buttonFitZoom</zorder>
+  <zorder>buttonRealSize</zorder>
+  <zorder>zoom_slider</zorder>
+  <zorder>zoom_label</zorder>
+  <zorder>displayBg</zorder>
+  <zorder>buttonBox</zorder>
+  <zorder>frame_properties</zorder>
+  <zorder>frame_toolbar</zorder>
  </widget>
  <customwidgets>
   <customwidget>

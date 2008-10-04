@@ -469,6 +469,9 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
 
     KUrl url = KUrl(xml.attribute("resource", QString::null));
     Mlt::Producer *producer;
+    if (xml.attribute("type").toInt() == TEXT && !QFile::exists(url.path())) {
+        return;
+    }
     if (xml.attribute("type").toInt() == COLOR) {
         char *tmp = decodedString("colour:" + xml.attribute("colour"));
         producer = new Mlt::Producer(*m_mltProfile, "fezzik", tmp);
@@ -480,14 +483,22 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
         doc.appendChild(westley);
         westley.appendChild(play);
         play.appendChild(doc.importNode(xml, true));
-        kDebug() << "/ / / / /CLIP XML: " << doc.toString();
         char *tmp = decodedString(doc.toString());
         producer = new Mlt::Producer(*m_mltProfile, "westley-xml", tmp);
         delete[] tmp;
     } else {
-        char *tmp = decodedString(url.path());
+        QString urlpath = url.path();
+        /*if (urlpath.contains(':')) {
+            if (!urlpath.startsWith("file:")) urlpath.prepend("file:");
+            char *tmp = decodedString(urlpath);
+            producer = new Mlt::Producer(*m_mltProfile, "avformat", tmp);
+            delete[] tmp;
+        }
+        else {*/
+        char *tmp = decodedString(urlpath);
         producer = new Mlt::Producer(*m_mltProfile, tmp);
         delete[] tmp;
+        //}
     }
     if (xml.hasAttribute("out")) producer->set_in_and_out(xml.attribute("in").toInt(), xml.attribute("out").toInt());
 
@@ -503,7 +514,6 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
     if (frameNumber != 0) producer->seek(frameNumber);
     mlt_properties properties = MLT_PRODUCER_PROPERTIES(producer->get_producer());
 
-    filePropertyMap["filename"] = url.path();
     filePropertyMap["duration"] = QString::number(producer->get_playtime());
     //kDebug() << "///////  PRODUCER: " << url.path() << " IS: " << producer.get_playtime();
 

@@ -43,10 +43,13 @@ public:
 
 class TitleWidget : public QDialog , public Ui::TitleWidget_UI {
     Q_OBJECT
+
 public:
     TitleWidget(KUrl url, QString projectPath, Render *render, QWidget *parent = 0);
     QDomDocument xml();
     void setXml(QDomDocument doc);
+    static QStringList getFreeTitleInfo(const KUrl &projectUrl);
+    static QString getTitleResourceFromName(const KUrl &projectUrl, const QString &titleName);
 
 protected:
     virtual void resizeEvent(QResizeEvent * event);

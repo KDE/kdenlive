@@ -41,6 +41,7 @@
 #include "kdenlivesettings.h"
 #include "slideshowclip.h"
 #include "ui_colorclip_ui.h"
+#include "titlewidget.h"
 
 
 #include "definitions.h"
@@ -315,8 +316,20 @@ void ProjectList::updateAllClips() {
     while (*it) {
         ProjectItem *item = static_cast <ProjectItem *>(*it);
         if (!item->isGroup()) {
-            if (item->referencedClip()->producer() == NULL) emit getFileProperties(item->referencedClip()->toXML(), item->referencedClip()->getId());
-            else {
+            if (item->referencedClip()->producer() == NULL) {
+                DocClipBase *clip = item->referencedClip();
+                if (clip->clipType() == TEXT && !QFile::exists(clip->fileURL().path())) {
+                    // regenerate text clip image if required
+                    TitleWidget *dia_ui = new TitleWidget(KUrl(), QString(), m_render, this);
+                    QDomDocument doc;
+                    doc.setContent(clip->getProperty("xmldata"));
+                    dia_ui->setXml(doc);
+                    QPixmap pix = dia_ui->renderedPixmap();
+                    pix.save(clip->fileURL().path());
+                    delete dia_ui;
+                }
+                emit getFileProperties(clip->toXML(), clip->getId());
+            } else {
                 slotRefreshClipThumbnail(item, false);
                 item->changeDuration(item->referencedClip()->producer()->get_playtime());
             }
@@ -331,7 +344,7 @@ void ProjectList::slotAddClip(QUrl givenUrl, QString group) {
     if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!!  NO CMD STK";
     KUrl::List list;
     if (givenUrl.isEmpty()) {
-        list = KFileDialog::getOpenUrls(KUrl("kfiledialog:///clipfolder"), "application/vnd.kde.kdenlive application/vnd.westley.scenelist application/flv application/vnd.rn-realmedia video/x-dv video/dv video/x-msvideo video/mpeg video/x-ms-wmv audio/mpeg audio/x-mp3 audio/x-wav application/ogg video/mp4 video/quicktime image/gif image/jpeg image/png image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr video/mlt-playlist", this);
+        list = KFileDialog::getOpenUrls(KUrl("kfiledialog:///clipfolder"), "application/x-kdenlive application/x-flash-video application/vnd.rn-realmedia video/x-dv video/dv video/x-msvideo video/mpeg video/x-ms-wmv audio/mpeg audio/x-mp3 audio/x-wav application/ogg video/mp4 video/quicktime image/gif image/jpeg image/png image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr video/mlt-playlist", this);
     } else list.append(givenUrl);
     if (list.isEmpty()) return;
 

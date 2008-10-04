@@ -488,17 +488,9 @@ void KdenliveDoc::convertDocument(double version) {
                         }
                     }
                     prod.setAttribute("xmldata", tdoc.toString());
-                    QString titlesFolder = projectFolder().path() + "/titles/";
-                    KStandardDirs::makeDir(titlesFolder);
-                    QString titleName = "title";
-                    int counter = 0;
-                    QString path = titlesFolder + titleName + QString::number(counter).rightJustified(3, '0', false);
-                    while (QFile::exists(path + ".png")) {
-                        counter++;
-                        path = titlesFolder + titleName + QString::number(counter).rightJustified(3, '0', false);
-                    }
-                    prod.setAttribute("xml", path);
-                    prod.setAttribute("resource", path + ".png");
+                    QStringList titleInfo = TitleWidget::getFreeTitleInfo(projectFolder());
+                    prod.setAttribute("titlename", titleInfo.at(0));
+                    prod.setAttribute("resource", titleInfo.at(1));
                     //kDebug()<<"TITLE DATA:\n"<<tdoc.toString();
                     prod.removeChild(m);
                 }
@@ -645,6 +637,31 @@ void KdenliveDoc::checkProjectClips() {
         DocClipBase *clip = m_clipManager->getClipById(id);
         if (clip && clip->producer() == NULL) {
             clip->setProducer(prods.at(i));
+        }
+        if (clip->clipType() == TEXT && !QFile::exists(clip->fileURL().path())) {
+            // regenerate text clip image if required
+            kDebug() << "// TITLE: " << clip->getProperty("titlename") << " Preview file: " << clip->getProperty("resource") << " DOES NOT EXIST";
+            QString titlename = clip->getProperty("titlename");
+            QString titleresource;
+            if (titlename.isEmpty()) {
+                QStringList titleInfo = TitleWidget::getFreeTitleInfo(projectFolder());
+                titlename = titleInfo.at(0);
+                titleresource = titleInfo.at(1);
+                clip->setProperty("titlename", titlename);
+                kDebug() << "// New title set to: " << titlename;
+            } else {
+                titleresource = TitleWidget::getTitleResourceFromName(projectFolder(), titlename);
+            }
+            QString titlepath = projectFolder().path() + "/titles/";
+            TitleWidget *dia_ui = new TitleWidget(KUrl(), titlepath, m_render, kapp->activeWindow());
+            QDomDocument doc;
+            doc.setContent(clip->getProperty("xmldata"));
+            dia_ui->setXml(doc);
+            QPixmap pix = dia_ui->renderedPixmap();
+            pix.save(titleresource);
+            clip->setProperty("resource", titleresource);
+            delete dia_ui;
+            clip->producer()->set("force_reload", 1);
         }
     }
 }
@@ -862,17 +879,11 @@ void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId) {
     KStandardDirs::makeDir(titlesFolder);
     TitleWidget *dia_ui = new TitleWidget(KUrl(), titlesFolder, m_render, kapp->activeWindow());
     if (dia_ui->exec() == QDialog::Accepted) {
-        QString titleName = "title";
-        int counter = 0;
-        QString path = titlesFolder + titleName + QString::number(counter).rightJustified(3, '0', false);
-        while (QFile::exists(path + ".png")) {
-            counter++;
-            path = titlesFolder + titleName + QString::number(counter).rightJustified(3, '0', false);
-        }
+        QStringList titleInfo = TitleWidget::getFreeTitleInfo(projectFolder());
         QPixmap pix = dia_ui->renderedPixmap();
-        pix.save(path + ".png");
+        pix.save(titleInfo.at(1));
         //dia_ui->saveTitle(path + ".kdenlivetitle");
-        m_clipManager->slotAddTextClipFile(path, dia_ui->xml().toString(), QString(), QString());
+        m_clipManager->slotAddTextClipFile(titleInfo.at(0), titleInfo.at(1), dia_ui->xml().toString(), QString(), QString());
         setModified(true);
     }
     delete dia_ui;
