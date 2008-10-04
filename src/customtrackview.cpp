@@ -522,7 +522,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         if (m_dragItem) {
             if (!m_dragItem->isSelected()) {
                 m_scene->clearSelection();
-                if (m_selectionGroup) scene()->destroyItemGroup(m_selectionGroup);
+                if (m_selectionGroup) {
+                    scene()->destroyItemGroup(m_selectionGroup);
+                    m_selectionGroup = NULL;
+                }
                 m_dragItem->setSelected(true);
             }
         }
@@ -536,7 +539,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
 
     // No item under click
     if (m_dragItem == NULL) {
-        if (m_selectionGroup) scene()->destroyItemGroup(m_selectionGroup);
+        if (m_selectionGroup) {
+            scene()->destroyItemGroup(m_selectionGroup);
+            m_selectionGroup = NULL;
+        }
         setCursor(Qt::ArrowCursor);
         m_scene->clearSelection();
         setCursorPos((int)(mapToScene(event->x(), 0).x()));
@@ -564,13 +570,13 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
     if (m_dragItem && m_dragItem->type() == AVWIDGET) emit clipItemSelected((ClipItem*) m_dragItem);
     else emit clipItemSelected(NULL);
 
-    if (m_dragItem && m_operationMode == NONE) QGraphicsView::mousePressEvent(event);
-
     if (m_selectionGroup) {
         // delete selection group
         scene()->destroyItemGroup(m_selectionGroup);
         m_selectionGroup = NULL;
     }
+
+    if (m_dragItem && m_operationMode == NONE) QGraphicsView::mousePressEvent(event);
 
     QList<QGraphicsItem *> selection = m_scene->selectedItems();
     if (selection.count() > 1) {

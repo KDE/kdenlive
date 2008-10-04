@@ -44,15 +44,16 @@ CustomTrackScene* AbstractGroupItem::projectScene() {
 }
 
 
-QPainterPath AbstractGroupItem::groupShape(QPointF offset) {
+QPolygonF AbstractGroupItem::groupShape(QPointF offset) {
     QList<QGraphicsItem *> children = childItems();
-    QPainterPath path;
+    QPolygonF path;
     for (int i = 0; i < children.count(); i++) {
-        QRectF r = children.at(i)->sceneBoundingRect();
-        //kDebug()<<"// GROUP CHild: "<<r;
-        //r.translate(offset);
-        path.addRect(r);
+        if (children.at(i)->type() == AVWIDGET) {
+            QPolygonF r = QPolygonF(children.at(i)->sceneBoundingRect());
+            path = path.united(r);
+        }
     }
+    path.translate(offset);
     return path;
 }
 
@@ -79,27 +80,53 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
     if (change == ItemPositionChange && scene()) {
         // calculate new position.
         QPointF newPos = value.toPointF();
-        QPainterPath sceneShape = groupShape(newPos);
         QPointF start = sceneBoundingRect().topLeft();
-        QPointF sc = mapToScene(pos());
         int posx = start.x() + newPos.x(); //projectScene()->getSnapPointForPos(start.x() + sc.x(), KdenliveSettings::snaptopoints());
-        //int startx = projectScene()->getSnapPointForPos(start.x(), false);
-        //int startx = projectScene()->getSnapPointForPos(start.x(), false);
-        kDebug() << "------------------------------------";
-        kDebug() << "BRect: " << start.x() << "diff: " << newPos.x() << ",mapd: " << start.x() - sc.x();
-        return newPos;
-        //kDebug()<<"BR: "<<start.x()<<",NP: "<<newPos.x()<<",MAPD: "<<sc.x()<<",POS: "<<pos().x();
-        if (start.x() <= 0) {
-            //kDebug()<<"/// GOING UNDER 0, POS: "<<posx<<", ADJUSTED: items.at(i)->sceneBoundingRect();
-            return pos();
+
+        int startTrack = (start.y()) / KdenliveSettings::trackheight();
+        int newTrack = (start.y() + newPos.y()) / KdenliveSettings::trackheight();
+        //kDebug()<<"// GROUP NEW TRACK: "<<newTrack<<", START TRACK: "<<startTrack;
+        newTrack = qMin(newTrack, projectScene()->tracksCount() - 1);
+        newTrack = qMax(newTrack, 0);
+        newPos.setY((int)((newTrack - startTrack) * KdenliveSettings::trackheight()));
+
+        //kDebug() << "------------------------------------GRUOP MOVE";
+
+        if (start.x() + newPos.x() - pos().x() < 0) {
+            // If group goes below 0, adjust position to 0
+            return QPointF(pos().x() - start.x(), pos().y());
         }
+
+        QPolygonF sceneShape = groupShape(newPos - pos());
+        QList<QGraphicsItem*> collindingItems = scene()->items(sceneShape, Qt::IntersectsItemShape);
+        QList<QGraphicsItem *> children = childItems();
+        for (int i = 0; i < children.count(); i++) {
+            collindingItems.removeAll(children.at(i));
+        }
+        if (collindingItems.isEmpty()) return newPos;
+        else {
+            for (int i = 0; i < collindingItems.count(); i++) {
+                QGraphicsItem *collision = collindingItems.at(i);
+                if (collision->type() == AVWIDGET) {
+                    // Collision
+                    return pos();
+                    //TODO: improve movement when collision happens
+                    /*if (startTrack != newTrack) return pos();
+                    if (collision->pos().x() > pos().x()) {
+                    return QPointF(collision->sceneBoundingRect().x() - sceneBoundingRect().width() + pos().x() - start.x() - 1, newPos.y());
+                    }*/
+                }
+            }
+            return newPos;
+        }
+
         //else posx -= startx;
         //posx = qMax(posx, 0);
-        newPos.setX(posx);
+        //newPos.setX(posx);
         //kDebug()<<"Y POS: "<<start.y() + newPos.y()<<"SCN MP: "<<sc;
-        int newTrack = (start.y() + newPos.y()) / KdenliveSettings::trackheight();
+        /*int newTrack = (start.y() + newPos.y()) / KdenliveSettings::trackheight();
         int oldTrack = (start.y() + pos().y()) / KdenliveSettings::trackheight();
-        newPos.setY((newTrack) * KdenliveSettings::trackheight() - start.y() + 1);
+        newPos.setY((newTrack) * KdenliveSettings::trackheight() - start.y() + 1);*/
 
 
         //if (start.y() + newPos.y() < 1)  newTrack = oldTrack;
@@ -109,12 +136,6 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         // Only one clip is moving
 
         QList<QGraphicsItem*> items = scene()->items(sceneShape, Qt::IntersectsItemShape);
-
-        QList<QGraphicsItem *> children = childItems();
-        for (int i = 0; i < children.count(); i++) {
-            items.removeAll(children.at(i));
-        }
-
 
 
         if (!items.isEmpty()) {
