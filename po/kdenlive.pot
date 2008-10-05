@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-03 15:58+0200\n"
+"POT-Creation-Date: 2008-10-05 12:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1039,6 +1039,9 @@ msgstr ""
 msgid "New speed (percents)"
 msgstr ""
 
+msgid "No Custom Effects"
+msgstr ""
+
 msgid "No clip at cursor time"
 msgstr ""
 
@@ -1359,10 +1362,13 @@ msgstr ""
 msgid "Selection tool"
 msgstr ""
 
-msgid "Set current image as thumbnail"
+msgid "Set In Point"
 msgstr ""
 
-msgid "Set in point"
+msgid "Set Out Point"
+msgstr ""
+
+msgid "Set current image as thumbnail"
 msgstr ""
 
 msgid "Set zone end"

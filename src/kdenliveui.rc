@@ -44,8 +44,8 @@
       </Menu>
       <Menu name="audio_effects_menu" ><text>Add Audio Effect</text>
       </Menu>
-      <!-- <Menu name="custom_effects_menu" ><text>Add Custom Effect</text>
-      </Menu> -->
+      <Menu name="custom_effects_menu" ><text>Add Custom Effect</text>
+      </Menu>
 	  <Separator />
 		<Action name="show_video_thumbs" />
 		<Action name="show_audio_thumbs" />

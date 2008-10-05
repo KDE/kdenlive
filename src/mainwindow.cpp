@@ -119,6 +119,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_findTimer.setSingleShot(true);
 
     initEffects::parseEffectFiles();
+    initEffects::parseCustomEffectsFile();
+
     m_monitorManager = new MonitorManager();
 
     projectListDock = new QDockWidget(i18n("Project Tree"), this);
@@ -221,6 +223,11 @@ MainWindow::MainWindow(QWidget *parent)
     }
     m_customEffectsMenu = static_cast<QMenu*>(factory()->container("custom_effects_menu", this));
     effects = customEffects.effectNames();
+    if (effects.isEmpty()) {
+	action = new QAction(i18n("No Custom Effects"), this);
+	action->setEnabled(false);
+	m_customEffectsMenu->addAction(action);
+    }
     foreach(const QString &name, effects) {
         action = new QAction(name, this);
         action->setData(name);
@@ -263,7 +270,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_timelineContextClipMenu->addMenu(videoEffectsMenu);
     m_timelineContextClipMenu->addMenu(audioEffectsMenu);
     //TODO: re-enable custom effects menu when it is implemented
-    //m_timelineContextClipMenu->addMenu(m_customEffectsMenu);
+    m_timelineContextClipMenu->addMenu(m_customEffectsMenu);
 
     m_timelineContextTransitionMenu->addAction(actionCollection()->action("delete_timeline_clip"));
     m_timelineContextTransitionMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
@@ -338,6 +345,11 @@ void MainWindow::slotReloadEffects() {
     m_customEffectsMenu->clear();
     const QStringList effects = customEffects.effectNames();
     QAction *action;
+    if (effects.isEmpty()) {
+	action = new QAction(i18n("No Custom Effects"), this);
+	action->setEnabled(false);
+	m_customEffectsMenu->addAction(action);
+    }
     foreach(const QString &name, effects) {
         action = new QAction(name, this);
         action->setData(name);
@@ -621,12 +633,12 @@ void MainWindow::setupActions() {
     connect(monitorPlay, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotPlay()));
 
     KAction *markIn = collection->addAction("mark_in");
-    markIn->setText(i18n("Set in point"));
+    markIn->setText(i18n("Set In Point"));
     markIn->setShortcut(Qt::Key_I);
     connect(markIn, SIGNAL(triggered(bool)), this, SLOT(slotSetInPoint()));
 
     KAction *markOut = collection->addAction("mark_out");
-    markOut->setText(i18n("Set in point"));
+    markOut->setText(i18n("Set Out Point"));
     markOut->setShortcut(Qt::Key_O);
     connect(markOut, SIGNAL(triggered(bool)), this, SLOT(slotSetOutPoint()));
 
@@ -1394,6 +1406,7 @@ void MainWindow::slotAddAudioEffect(QAction *result) {
 
 void MainWindow::slotAddCustomEffect(QAction *result) {
     if (!result) return;
+    if (result->data().toString().isEmpty()) return;
     QDomElement effect = customEffects.getEffectByName(result->data().toString());
     slotAddEffect(effect);
 }
