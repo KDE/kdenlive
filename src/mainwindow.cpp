@@ -224,9 +224,9 @@ MainWindow::MainWindow(QWidget *parent)
     m_customEffectsMenu = static_cast<QMenu*>(factory()->container("custom_effects_menu", this));
     effects = customEffects.effectNames();
     if (effects.isEmpty()) {
-	action = new QAction(i18n("No Custom Effects"), this);
-	action->setEnabled(false);
-	m_customEffectsMenu->addAction(action);
+        action = new QAction(i18n("No Custom Effects"), this);
+        action->setEnabled(false);
+        m_customEffectsMenu->addAction(action);
     }
     foreach(const QString &name, effects) {
         action = new QAction(name, this);
@@ -346,9 +346,9 @@ void MainWindow::slotReloadEffects() {
     const QStringList effects = customEffects.effectNames();
     QAction *action;
     if (effects.isEmpty()) {
-	action = new QAction(i18n("No Custom Effects"), this);
-	action->setEnabled(false);
-	m_customEffectsMenu->addAction(action);
+        action = new QAction(i18n("No Custom Effects"), this);
+        action->setEnabled(false);
+        m_customEffectsMenu->addAction(action);
     }
     foreach(const QString &name, effects) {
         action = new QAction(name, this);

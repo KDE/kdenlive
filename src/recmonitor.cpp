@@ -90,6 +90,16 @@ RecMonitor::RecMonitor(QString name, QWidget *parent)
 
     QStringList env = QProcess::systemEnvironment();
     env << "SDL_WINDOWID=" + QString::number(ui.video_frame->winId());
+
+    QString videoDriver = KdenliveSettings::videodrivername();
+    if (!videoDriver.isEmpty()) {
+        if (videoDriver == "x11_noaccel") {
+            env << "SDL_VIDEO_YUV_HWACCEL=0";
+            env << "SDL_VIDEODRIVER=x11";
+        } else env << "SDL_VIDEODRIVER=" + videoDriver;
+    }
+    setenv("SDL_VIDEO_ALLOW_SCREENSAVER", "1", 1);
+
     displayProcess->setEnvironment(env);
 
     if (KdenliveSettings::video4capture().isEmpty()) {
