@@ -262,7 +262,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_timelineContextClipMenu->addMenu(transitionsMenu);
     m_timelineContextClipMenu->addMenu(videoEffectsMenu);
     m_timelineContextClipMenu->addMenu(audioEffectsMenu);
-    m_timelineContextClipMenu->addMenu(m_customEffectsMenu);
+    //TODO: re-enable custom effects menu when it is implemented
+    //m_timelineContextClipMenu->addMenu(m_customEffectsMenu);
 
     m_timelineContextTransitionMenu->addAction(actionCollection()->action("delete_timeline_clip"));
     m_timelineContextTransitionMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
