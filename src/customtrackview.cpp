@@ -1399,7 +1399,7 @@ void CustomTrackView::deleteSelectedClips() {
         return;
     }
     QUndoCommand *deleteSelected = new QUndoCommand();
-    deleteSelected->setText("Delete selected items");
+    deleteSelected->setText(i18n("Delete selected items"));
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));

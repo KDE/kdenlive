@@ -94,7 +94,7 @@ DocClipBase *ClipManager::getClipById(const QString &clipId) {
 
 void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId) {
     QUndoCommand *addClips = new QUndoCommand();
-    addClips->setText("Add clips");
+    addClips->setText(i18n("Add clips"));
 
     foreach(const KUrl file, urls) {
         if (KIO::NetAccess::exists(file, KIO::NetAccess::SourceSide, NULL)) {

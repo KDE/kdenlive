@@ -119,7 +119,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_findTimer.setSingleShot(true);
 
     initEffects::parseEffectFiles();
-    initEffects::parseCustomEffectsFile();
+    //initEffects::parseCustomEffectsFile();
 
     m_monitorManager = new MonitorManager();
 
@@ -223,11 +223,9 @@ MainWindow::MainWindow(QWidget *parent)
     }
     m_customEffectsMenu = static_cast<QMenu*>(factory()->container("custom_effects_menu", this));
     effects = customEffects.effectNames();
-    if (effects.isEmpty()) {
-        action = new QAction(i18n("No Custom Effects"), this);
-        action->setEnabled(false);
-        m_customEffectsMenu->addAction(action);
-    }
+    if (effects.isEmpty()) m_customEffectsMenu->setEnabled(false);
+    else m_customEffectsMenu->setEnabled(true);
+
     foreach(const QString &name, effects) {
         action = new QAction(name, this);
         action->setData(name);
@@ -345,11 +343,9 @@ void MainWindow::slotReloadEffects() {
     m_customEffectsMenu->clear();
     const QStringList effects = customEffects.effectNames();
     QAction *action;
-    if (effects.isEmpty()) {
-        action = new QAction(i18n("No Custom Effects"), this);
-        action->setEnabled(false);
-        m_customEffectsMenu->addAction(action);
-    }
+    if (effects.isEmpty()) m_customEffectsMenu->setEnabled(false);
+    else m_customEffectsMenu->setEnabled(true);
+
     foreach(const QString &name, effects) {
         action = new QAction(name, this);
         action->setData(name);

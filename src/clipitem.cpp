@@ -959,7 +959,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value) 
                         sceneShape.translate(newPos);
                         QList<QGraphicsItem*> subitems = scene()->items(sceneShape, Qt::IntersectsItemShape);
                         items.removeAll(this);
-                        for (int j = 0; j < subitems.count(); i++) {
+                        for (int j = 0; j < subitems.count(); j++) {
                             if (subitems.at(j)->type() == type()) return pos();
                         }
                     } else {
@@ -971,7 +971,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value) 
                         sceneShape.translate(newPos);
                         QList<QGraphicsItem*> subitems = scene()->items(sceneShape, Qt::IntersectsItemShape);
                         items.removeAll(this);
-                        for (int j = 0; j < subitems.count(); i++) {
+                        for (int j = 0; j < subitems.count(); j++) {
                             if (subitems.at(j)->type() == type()) return pos();
                         }
                     }
