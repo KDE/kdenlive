@@ -52,6 +52,9 @@
            <property name="text" >
             <string>N</string>
            </property>
+           <property name="popupMode" >
+            <enum>QToolButton::InstantPopup</enum>
+           </property>
           </widget>
          </item>
          <item>

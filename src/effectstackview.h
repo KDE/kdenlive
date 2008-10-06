@@ -30,6 +30,7 @@ public:
     EffectStackView(QWidget *parent = 0);
     void raiseWindow(QWidget*);
     void clear();
+    void setMenu(QMenu *menu);
 
 private:
     Ui::EffectStack_UI ui;
@@ -48,7 +49,6 @@ private slots:
     void slotItemUp();
     void slotItemDown();
     void slotItemDel();
-    void slotNewEffect();
     void slotResetEffect();
     void slotItemChanged(QListWidgetItem *item);
     void slotSaveEffect();

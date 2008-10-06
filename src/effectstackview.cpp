@@ -58,7 +58,6 @@ EffectStackView::EffectStackView(QWidget *parent)
 
     connect(ui.effectlist, SIGNAL(itemSelectionChanged()), this , SLOT(slotItemSelectionChanged()));
     connect(ui.effectlist, SIGNAL(itemChanged(QListWidgetItem *)), this , SLOT(slotItemChanged(QListWidgetItem *)));
-    connect(ui.buttonNew, SIGNAL(clicked()), this, SLOT(slotNewEffect()));
     connect(ui.buttonUp, SIGNAL(clicked()), this, SLOT(slotItemUp()));
     connect(ui.buttonDown, SIGNAL(clicked()), this, SLOT(slotItemDown()));
     connect(ui.buttonDel, SIGNAL(clicked()), this, SLOT(slotItemDel()));
@@ -72,6 +71,10 @@ EffectStackView::EffectStackView(QWidget *parent)
 
     ui.infoBox->hide();
     setEnabled(false);
+}
+
+void EffectStackView::setMenu(QMenu *menu) {
+    ui.buttonNew->setMenu(menu);
 }
 
 void EffectStackView::slotSaveEffect() {
@@ -88,6 +91,7 @@ void EffectStackView::slotSaveEffect() {
     effect = doc.firstChild().toElement();
     effect.removeAttribute("kdenlive_ix");
     effect.setAttribute("id", name);
+    effect.setAttribute("type", "custom");
     QDomElement effectname = effect.firstChildElement("name");
     effect.removeChild(effectname);
     effectname = doc.createElement("name");
@@ -243,45 +247,6 @@ void EffectStackView::slotResetEffect() {
     }
 }
 
-void EffectStackView::slotNewEffect() {
-    int ix = ui.effectlist->currentRow();
-    QMenu *displayMenu = new QMenu(this);
-    displayMenu->setTitle("Filters");
-    foreach(const QString &type, effectLists.keys()) {
-        QAction *a = new QAction(type, displayMenu);
-        EffectsList *list = effectLists[type];
-
-        QMenu *parts = new QMenu(type, displayMenu);
-        parts->setTitle(type);
-        foreach(const QString &name, list->effectNames()) {
-            QAction *entry = new QAction(name, parts);
-            entry->setData(name);
-            entry->setToolTip(list->getInfo(name));
-            entry->setStatusTip(list->getInfo(name));
-            parts->addAction(entry);
-            //QAction
-        }
-        displayMenu->addMenu(parts);
-
-    }
-
-    QAction *result = displayMenu->exec(mapToGlobal(ui.buttonNew->pos() + ui.buttonNew->rect().bottomRight()));
-
-    if (result) {
-        //TODO effects.append(result->data().toString());
-        foreach(const EffectsList *e, effectLists.values()) {
-            QDomElement dom = e->getEffectByName(result->data().toString());
-            if (clipref)
-                clipref->addEffect(dom);
-            slotClipItemSelected(clipref);
-        }
-
-        setupListView(ix);
-        //kDebug()<< result->data();
-    }
-    delete displayMenu;
-
-}
 
 void EffectStackView::raiseWindow(QWidget* dock) {
     if (clipref && dock)

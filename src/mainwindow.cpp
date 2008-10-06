@@ -232,6 +232,13 @@ MainWindow::MainWindow(QWidget *parent)
         m_customEffectsMenu->addAction(action);
     }
 
+    QMenu *newEffect = new QMenu(this);
+    newEffect->addMenu(videoEffectsMenu);
+    newEffect->addMenu(audioEffectsMenu);
+    newEffect->addMenu(m_customEffectsMenu);
+    effectStack->setMenu(newEffect);
+
+
     QMenu *viewMenu = static_cast<QMenu*>(factory()->container("dockwindows", this));
     const QList<QAction *> viewActions = createPopupMenu()->actions();
     viewMenu->insertActions(NULL, viewActions);
