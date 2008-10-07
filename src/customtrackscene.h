@@ -43,9 +43,9 @@ public:
     GenTime nextSnapPoint(GenTime pos);
     double getSnapPointForPos(double pos, bool doSnap = true);
     void setScale(double scale);
-    double scale();
+    double scale() const;
     QList <TrackInfo> m_tracksList;
-    int tracksCount();
+    int tracksCount() const;
     QPixmap m_transitionPixmap;
 
 private:

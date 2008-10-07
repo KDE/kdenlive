@@ -72,7 +72,7 @@
 // const int duration = animate ? 1500 : 1;
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscene, QWidget *parent)
-        : QGraphicsView(projectscene, parent), m_scene(projectscene), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()), m_tracksHeight(KdenliveSettings::trackheight()), m_tool(SELECTTOOL), m_dragGuide(NULL), m_findIndex(0), m_menuPosition(QPoint()), m_blockRefresh(false), m_selectionGroup(NULL), m_selectedTrack(0) {
+        : QGraphicsView(projectscene, parent), m_scene(projectscene), m_cursorPos(0), m_dropItem(NULL), m_cursorLine(NULL), m_operationMode(NONE), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()), m_tracksHeight(KdenliveSettings::trackheight()), m_tool(SELECTTOOL), m_dragGuide(NULL), m_findIndex(0), m_menuPosition(QPoint()), m_blockRefresh(false), m_selectionGroup(NULL), m_selectedTrack(0), m_copiedItems(QList<AbstractClipItem *> ()), m_selectedClipList(QList<AbstractClipItem *> ()) {
     if (doc) m_commandStack = doc->commandStack();
     else m_commandStack == NULL;
     setMouseTracking(true);
@@ -1469,6 +1469,10 @@ void CustomTrackView::cutSelectedClips() {
 
 void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo info, EffectsList effects) {
     DocClipBase *baseclip = m_document->clipManager()->getClipById(clipId);
+    if (baseclip == NULL) {
+        emit displayMessage(i18n("No clip copied"), ErrorMessage);
+        return;
+    }
     ClipItem *item = new ClipItem(baseclip, info, m_document->fps());
     item->setEffectList(effects);
     scene()->addItem(item);

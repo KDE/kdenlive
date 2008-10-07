@@ -40,7 +40,8 @@ int AbstractGroupItem::type() const {
 }
 
 CustomTrackScene* AbstractGroupItem::projectScene() {
-    return static_cast <CustomTrackScene*>(scene());
+    if (scene()) return static_cast <CustomTrackScene*>(scene());
+    return NULL;
 }
 
 

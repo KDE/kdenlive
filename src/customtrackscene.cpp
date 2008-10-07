@@ -72,11 +72,11 @@ void CustomTrackScene::setScale(double scale) {
     m_scale = scale;
 }
 
-double CustomTrackScene::scale() {
+double CustomTrackScene::scale() const {
     return m_scale;
 }
 
-int CustomTrackScene::tracksCount() {
+int CustomTrackScene::tracksCount() const {
     return m_tracksList.count();
 }
 

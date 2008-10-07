@@ -41,7 +41,7 @@
 
 
 ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps)
-        : AbstractClipItem(info, QRectF(), fps), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_startThumbRequested(false), m_endThumbRequested(false), m_startFade(0), m_endFade(0), m_hover(false), m_selectedEffect(-1), m_speed(1.0), framePixelWidth(0) {
+        : AbstractClipItem(info, QRectF(), fps), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_startThumbRequested(false), m_endThumbRequested(false), m_startFade(0), m_endFade(0), m_hover(false), m_selectedEffect(-1), m_speed(1.0), framePixelWidth(0), m_startPix(QPixmap()), m_endPix(QPixmap()) {
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() - 2));
     setPos((qreal) info.startPos.frames(fps), (qreal)(info.track * KdenliveSettings::trackheight()) + 1);
 
@@ -336,6 +336,7 @@ void ClipItem::slotSetEndThumb(QImage img) {
 }
 
 void ClipItem::slotThumbReady(int frame, QPixmap pix) {
+    if (scene() == NULL) return;
     QRectF r = sceneBoundingRect();
     double width = m_startPix.width() / projectScene()->scale();
     if (m_startThumbRequested && frame == m_cropStart.frames(m_fps)) {

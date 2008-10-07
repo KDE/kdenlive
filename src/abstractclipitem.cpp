@@ -349,5 +349,6 @@ QRect AbstractClipItem::visibleRect() {
 }
 
 CustomTrackScene* AbstractClipItem::projectScene() {
-    return static_cast <CustomTrackScene*>(scene());
+    if (scene()) return static_cast <CustomTrackScene*>(scene());
+    return NULL;
 }
