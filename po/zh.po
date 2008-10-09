@@ -1,0 +1,3913 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: zh_TW\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-10-06 17:22+0200\n"
+"PO-Revision-Date: 2008-07-30 14:07+0800\n"
+"Last-Translator: eric <eric629@gmail.com>\n"
+"Language-Team: B2D\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 0.10.1\n"
+
+msgid " Firewire (DV / HDV)"
+msgstr ""
+
+#, fuzzy, kde-format
+msgid "%1 images found"
+msgstr " [%1 影像]"
+
+msgid "..."
+msgstr ""
+
+msgid "/"
+msgstr ""
+
+msgid "/dev/dsp"
+msgstr ""
+
+#, fuzzy
+msgid "/dev/video0"
+msgstr "視訊"
+
+msgid "0"
+msgstr ""
+
+msgid "100%"
+msgstr ""
+
+msgid "200%"
+msgstr ""
+
+msgid "25/1"
+msgstr ""
+
+msgid "320x240"
+msgstr ""
+
+msgid "4/3"
+msgstr ""
+
+msgid "50%"
+msgstr ""
+
+msgid "59/54"
+msgstr ""
+
+msgid "720x576"
+msgstr ""
+
+msgid "99:99:99:99; "
+msgstr "99:99:99:99; "
+
+msgid ":::"
+msgstr ":::"
+
+msgid "<br><b>Author:</b> "
+msgstr ""
+
+#, kde-format
+msgid "<qt>Clip <b>%1</b><br>is invalid, will be removed from project."
+msgstr ""
+
+msgid "A"
+msgstr ""
+
+#, fuzzy
+msgid "A guide already exists at that position"
+msgstr ""
+"檔案已經存在.\n"
+"您是否要覆蓋?"
+
+msgid ""
+"A profile with same name already exists in MLT's default profiles, please "
+"choose another description for your custom profile."
+msgstr ""
+
+msgid "ALSA"
+msgstr ""
+
+msgid "ARTS daemon"
+msgstr ""
+
+msgid "Activate crash recovery (auto save)"
+msgstr ""
+
+#, fuzzy, kde-format
+msgid "Add %1"
+msgstr "新增"
+
+msgid "Add Audio Effect"
+msgstr "加入音訊效果"
+
+msgid "Add Clip"
+msgstr "新增影片片段"
+
+#, fuzzy
+msgid "Add Color Clip"
+msgstr "色彩素材"
+
+#, fuzzy
+msgid "Add Custom Effect"
+msgstr "加入音訊效果"
+
+msgid "Add Guide"
+msgstr "新增導線"
+
+#, fuzzy
+msgid "Add Image"
+msgstr "圖片"
+
+#, fuzzy
+msgid "Add Marker to Clip"
+msgstr "加入標記"
+
+msgid "Add Rectangle"
+msgstr ""
+
+#, fuzzy
+msgid "Add Slideshow Clip"
+msgstr "投影片秀素材"
+
+msgid "Add Text"
+msgstr ""
+
+#, fuzzy
+msgid "Add Title Clip"
+msgstr "新增影片片段"
+
+msgid "Add Transition"
+msgstr "加入轉場效果"
+
+msgid "Add Video Effect"
+msgstr "加入視訊效果"
+
+#, fuzzy
+msgid "Add audio fade"
+msgstr "加入音訊效果"
+
+#, fuzzy
+msgid "Add clip"
+msgstr "新增影片片段"
+
+msgid "Add clips"
+msgstr "新增影片片段"
+
+msgid "Add folder"
+msgstr ""
+
+#, fuzzy
+msgid "Add guide"
+msgstr "新增導線"
+
+#, fuzzy
+msgid "Add keyframe"
+msgstr "關鍵影格"
+
+#, fuzzy
+msgid "Add marker"
+msgstr "加入標記"
+
+#, fuzzy
+msgid "Add new effect"
+msgstr "新增效果"
+
+#, fuzzy
+msgid "Add recording time to captured file name"
+msgstr "將錄影時間資訊加入擷取檔案"
+
+#, fuzzy
+msgid "Add timeline clip"
+msgstr "時間軸素材:"
+
+msgid "Add transition"
+msgstr "加入轉場效果"
+
+#, fuzzy
+msgid "Add transition to clip"
+msgstr "加入轉場效果"
+
+msgid "Additional Settings"
+msgstr ""
+
+msgid "Adjust audio volume with keyframes"
+msgstr ""
+
+msgid "Adjust clip length"
+msgstr ""
+
+msgid "Advanced"
+msgstr ""
+
+msgid "Align item horizontally"
+msgstr ""
+
+msgid "Align item vertically"
+msgstr ""
+
+msgid "Align..."
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "Allow horizontal moves"
+msgstr ""
+
+msgid "Allow vertical moves"
+msgstr ""
+
+msgid "Amplitude"
+msgstr ""
+
+msgid "Ascii art library"
+msgstr ""
+
+#, fuzzy
+msgid "Aspect ratio"
+msgstr "影片比例"
+
+#, fuzzy
+msgid "Aspect ratio:"
+msgstr "影片比例"
+
+msgid "Audio"
+msgstr "音訊"
+
+#, fuzzy
+msgid "Audio clip"
+msgstr "音訊素材"
+
+#, fuzzy
+msgid "Audio codec"
+msgstr "音訊編碼:"
+
+msgid "Audio device:"
+msgstr "音訊裝置:"
+
+msgid "Audio driver:"
+msgstr "音訊驅動程式:"
+
+#, fuzzy
+msgid "Audio editing"
+msgstr "音訊裝置:"
+
+#, c-format, kde-format
+msgid "Audio fade duration: %1s"
+msgstr ""
+
+#, fuzzy
+msgid "Audio index"
+msgstr "音訊編碼:"
+
+msgid "Audio tracks"
+msgstr "音訊軌"
+
+#, fuzzy
+msgid "Auto Mask"
+msgstr "音訊軌"
+
+msgid "Auto add"
+msgstr ""
+
+#, fuzzy
+msgid "Auto-saved files exist. Do you want to recover them now?"
+msgstr ""
+"檔案已經存在.\n"
+"您是否要覆蓋?"
+
+msgid "Automatic"
+msgstr ""
+
+msgid "Automatically start a new file on scene cut"
+msgstr ""
+
+#, fuzzy
+msgid "Autoscroll while playing"
+msgstr "播放自動捲動"
+
+msgid "Averaging"
+msgstr ""
+
+msgid "Background"
+msgstr "背景"
+
+#, fuzzy
+msgid "BasicOperations"
+msgstr "貼上轉場效果"
+
+msgid "Blue Screen"
+msgstr ""
+
+msgid "Blur factor"
+msgstr ""
+
+msgid "Blur image with keyframes"
+msgstr ""
+
+msgid "Border color"
+msgstr ""
+
+#, fuzzy
+msgid "Bottom"
+msgstr "按鍵"
+
+msgid "Box Blur"
+msgstr ""
+
+msgid "Brightness"
+msgstr ""
+
+#, fuzzy
+msgid "Button 1"
+msgstr "按鍵"
+
+#, fuzzy
+msgid "Button 2"
+msgstr "按鍵"
+
+#, fuzzy
+msgid "Button 3"
+msgstr "按鍵"
+
+#, fuzzy
+msgid "Button 4"
+msgstr "按鍵"
+
+#, fuzzy
+msgid "Button 5"
+msgstr "按鍵"
+
+msgid "C"
+msgstr ""
+
+#, kde-format
+msgid ""
+"Cannot access Desktop Search info for %1.\n"
+"Disabling Desktop Search integration."
+msgstr ""
+
+msgid "Cannot add marker if more than one clip is selected"
+msgstr ""
+
+#, fuzzy
+msgid "Cannot cut a transition"
+msgstr "取得新的漸層轉場效果"
+
+msgid "Cannot delete marker if more than one clip is selected"
+msgstr ""
+
+msgid "Cannot edit marker if more than one clip is selected"
+msgstr ""
+
+#, fuzzy
+msgid "Cannot find clip to add effect"
+msgstr "貼上素材 %1 效果."
+
+msgid "Cannot find clip to cut"
+msgstr ""
+
+msgid "Cannot find clip to uncut"
+msgstr ""
+
+msgid "Cannot find clip with keyframe"
+msgstr ""
+
+msgid "Cannot find the inigo program required for rendering (part of Mlt)"
+msgstr ""
+
+msgid "Cannot find your Mlt profiles, please give the path"
+msgstr ""
+
+#, fuzzy, kde-format
+msgid "Cannot move clip at time: %1s on track %2"
+msgstr "不能貼上素材 %1 資料軌上 %2 在 %3"
+
+#, c-format, kde-format
+msgid "Cannot move clip to position %1seconds"
+msgstr ""
+
+#, fuzzy, kde-format
+msgid "Cannot move transition at time: %1s on track %2"
+msgstr "不能貼上素材 %1 資料軌上 %2 在 %3"
+
+#, fuzzy
+msgid "Cannot paste clip to selected place"
+msgstr "從選取區建立虛擬素材"
+
+#, fuzzy
+msgid "Cannot paste selected clips"
+msgstr "裁剪選擇的影片片段"
+
+#, fuzzy
+msgid "Cannot paste transition to selected place"
+msgstr "從選取影片片段刪除轉場效果"
+
+msgid ""
+"Cannot play video after rendering because the default video player "
+"application is not set.\n"
+"Please define it in Kdenlive settings dialog."
+msgstr ""
+
+#, kde-format
+msgid ""
+"Cannot read from device %1\n"
+"Please check drivers and access rights."
+msgstr ""
+
+#, kde-format
+msgid "Cannot write to file %1"
+msgstr ""
+
+msgid "Capture"
+msgstr ""
+
+#, fuzzy
+msgid "Capture audio"
+msgstr "擷取監視器_Capture Monitor"
+
+msgid "Capture crashed, please check your parameters"
+msgstr ""
+
+#, fuzzy
+msgid "Capture folder"
+msgstr "建立資料夾"
+
+#, fuzzy
+msgid "Capture format"
+msgstr "DV 擷取格式:"
+
+#, fuzzy
+msgid "Capture params"
+msgstr "已擷取影片素材"
+
+#, fuzzy
+msgid "Captured files"
+msgstr "已擷取影片素材"
+
+#, fuzzy
+msgid "Capturing..."
+msgstr "離開中..."
+
+#, fuzzy
+msgid "Center"
+msgstr "註解"
+
+#, fuzzy
+msgid "Change"
+msgstr "頻道"
+
+#, fuzzy
+msgid "Change Clip Speed"
+msgstr "改變素材時間長度"
+
+msgid "Change gamma color value"
+msgstr ""
+
+msgid "Change image brightness with keyframes"
+msgstr ""
+
+#, fuzzy
+msgid "Channels"
+msgstr "頻道"
+
+msgid "Charcoal"
+msgstr ""
+
+msgid "Charcoal drawing effect"
+msgstr ""
+
+msgid "CheckBox"
+msgstr ""
+
+msgid "Chroma Hold"
+msgstr ""
+
+msgid "Chrominance U"
+msgstr ""
+
+msgid "Chrominance V"
+msgstr ""
+
+msgid "Clean"
+msgstr ""
+
+#, fuzzy
+msgid "Clip Color"
+msgstr "色彩素材:"
+
+msgid "Clip Monitor"
+msgstr "影片片段監視器_Clip Monitor"
+
+msgid "Clip Properties"
+msgstr "素材屬性"
+
+#, fuzzy, c-format, kde-format
+msgid "Clip duration: %1s"
+msgstr "改變素材時間長度"
+
+#, fuzzy
+msgid "Clip has no markers"
+msgstr "定位標記清除中"
+
+msgid "Close the current tab"
+msgstr ""
+
+msgid "Co-efficient"
+msgstr ""
+
+msgid "Color"
+msgstr "色彩"
+
+msgid "Color Clip"
+msgstr "色彩素材"
+
+#, fuzzy
+msgid "Color clip"
+msgstr "色彩素材"
+
+#, fuzzy
+msgid "Color clips"
+msgstr "色彩素材"
+
+#, fuzzy
+msgid "Color key"
+msgstr "色彩"
+
+msgid "Comment"
+msgstr "註解"
+
+#, fuzzy
+msgid "Configure"
+msgstr "設定專案"
+
+#, fuzzy
+msgid "Connect"
+msgstr "編碼器："
+
+msgid ""
+"Could not create the video preview window.\n"
+"There is something wrong with your Kdenlive install or your driver settings, "
+"please fix it."
+msgstr ""
+
+msgid "Crackle"
+msgstr ""
+
+msgid "Crash recovery (automatic backup)"
+msgstr ""
+
+msgid "Create Folder"
+msgstr "建立資料夾"
+
+#, fuzzy
+msgid "Create new profile"
+msgstr "建立新專案"
+
+#, kde-format
+msgid "Creating thumbnail for %1"
+msgstr ""
+
+#, c-format, kde-format
+msgid "Crop from start: %1s"
+msgstr ""
+
+msgid "Crop start"
+msgstr ""
+
+msgid "Crossfade"
+msgstr "淡出"
+
+msgid "Custom"
+msgstr "自訂"
+
+#, fuzzy
+msgid "Cut"
+msgstr "自訂"
+
+#, fuzzy
+msgid "Cut Clip"
+msgstr "建立素材"
+
+msgid "D"
+msgstr ""
+
+msgid "DV"
+msgstr ""
+
+#, fuzzy
+msgid "DV AVI type 1"
+msgstr "DV Type 1 AVI"
+
+#, fuzzy
+msgid "DV AVI type 2"
+msgstr "DV Type 2 AVI"
+
+msgid "DV Raw"
+msgstr ""
+
+msgid "Damping"
+msgstr ""
+
+msgid "Debug"
+msgstr "除錯"
+
+msgid "Decay"
+msgstr ""
+
+msgid "Declipper"
+msgstr ""
+
+msgid "Decoding threads"
+msgstr ""
+
+#, fuzzy
+msgid "Default"
+msgstr "(預設)"
+
+#, fuzzy
+msgid "Default Durations"
+msgstr "預設文字素材時間長度"
+
+#, fuzzy
+msgid "Default Profile"
+msgstr "預設專案"
+
+#, fuzzy
+msgid "Default apps"
+msgstr "匯出預設值"
+
+msgid "Default capture device"
+msgstr ""
+
+#, fuzzy
+msgid "Default folders"
+msgstr "預設色彩"
+
+#, fuzzy
+msgid "Delay"
+msgstr "播放"
+
+msgid "Delay (s/10)"
+msgstr ""
+
+#, fuzzy, kde-format
+msgid "Delete %1"
+msgstr "刪除影片片段"
+
+#, fuzzy
+msgid "Delete All Guides"
+msgstr "刪除導線"
+
+#, fuzzy
+msgid "Delete All Markers from Clip"
+msgstr "刪除標記"
+
+msgid "Delete Clip"
+msgstr "刪除影片片段"
+
+msgid "Delete Folder"
+msgstr "刪除資料夾"
+
+msgid "Delete Guide"
+msgstr "刪除導線"
+
+#, fuzzy
+msgid "Delete Marker from Clip"
+msgstr "刪除標記"
+
+#, fuzzy
+msgid "Delete Selected Item"
+msgstr "刪除選擇的影片片段"
+
+msgid "Delete clip"
+msgstr "刪除素材"
+
+#, fuzzy
+msgid "Delete current file"
+msgstr "刪除現在選擇的影片片段"
+
+msgid "Delete effect"
+msgstr "刪除效果"
+
+msgid "Delete folder"
+msgstr "刪除資料夾"
+
+#, kde-format
+msgid ""
+"Delete folder <b>%2</b> ?<br>This will also remove the %1 clips in that "
+"folder"
+msgstr ""
+
+#, fuzzy
+msgid "Delete guide"
+msgstr "刪除導線"
+
+#, fuzzy
+msgid "Delete keyframe"
+msgstr "刪除效果"
+
+#, fuzzy
+msgid "Delete marker"
+msgstr "刪除標記"
+
+#, fuzzy
+msgid "Delete profile"
+msgstr "刪除資料夾"
+
+#, fuzzy
+msgid "Delete selected items"
+msgstr "刪除選擇的影片片段"
+
+#, fuzzy
+msgid "Delete timeline clip"
+msgstr "刪除素材"
+
+msgid "Delete track"
+msgstr "刪除資料軌"
+
+#, fuzzy
+msgid "Delete transition from clip"
+msgstr "從選取影片片段刪除轉場效果"
+
+msgid "Depth"
+msgstr ""
+
+msgid "Description"
+msgstr "描述"
+
+#, fuzzy
+msgid "Description:"
+msgstr "描述"
+
+msgid "Desktop search integration"
+msgstr ""
+
+#, fuzzy
+msgid "Device"
+msgstr "預覽"
+
+#, fuzzy
+msgid "Device configuration"
+msgstr "專案的設定"
+
+#, fuzzy
+msgid "Dialog"
+msgstr "產生器對話框"
+
+msgid "Direct FB"
+msgstr ""
+
+msgid "Discard color information"
+msgstr ""
+
+msgid "Disonnect"
+msgstr ""
+
+#, fuzzy
+msgid "Display"
+msgstr "顯示時間碼"
+
+#, fuzzy
+msgid "Display clip markers comments"
+msgstr "顯示時間碼"
+
+#, fuzzy
+msgid "Display ratio"
+msgstr "顯示時間碼"
+
+#, fuzzy
+msgid "Display ratio:"
+msgstr "顯示時間碼"
+
+msgid "Do nothing"
+msgstr ""
+
+msgid "Don't recover"
+msgstr ""
+
+msgid "Duration"
+msgstr "時間長度"
+
+#, fuzzy
+msgid "Dw"
+msgstr "下"
+
+msgid "E"
+msgstr ""
+
+msgid "Edit Clip"
+msgstr "編輯素材"
+
+#, fuzzy
+msgid "Edit Clip Speed"
+msgstr "編輯素材"
+
+msgid "Edit Guide"
+msgstr "編輯導線"
+
+#, fuzzy
+msgid "Edit Keyframe"
+msgstr "關鍵影格"
+
+msgid "Edit Marker"
+msgstr "編輯標記"
+
+#, fuzzy
+msgid "Edit clip"
+msgstr "編輯素材"
+
+#, fuzzy, kde-format
+msgid "Edit effect %1"
+msgstr "新增效果"
+
+#, fuzzy
+msgid "Edit guide"
+msgstr "編輯導線"
+
+#, fuzzy
+msgid "Edit keyframe"
+msgstr "編輯標記"
+
+#, fuzzy
+msgid "Edit marker"
+msgstr "編輯標記"
+
+#, fuzzy
+msgid "Edit profile"
+msgstr "編輯導線"
+
+#, fuzzy, kde-format
+msgid "Edit transition %1"
+msgstr "編輯轉場效果"
+
+#, kde-format
+msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
+msgstr ""
+
+msgid "Effect List"
+msgstr "效果列表_Effect List"
+
+msgid "Effect Stack"
+msgstr "效果堆疊_Effect Stack"
+
+msgid "Enable Jog Shuttle device"
+msgstr ""
+
+msgid "Encoding"
+msgstr ""
+
+#, fuzzy
+msgid "Encoding parameters"
+msgstr "參數"
+
+msgid "End"
+msgstr "結束"
+
+msgid "End Gain"
+msgstr ""
+
+msgid "EndViewport"
+msgstr ""
+
+msgid "Environment"
+msgstr ""
+
+msgid "Equalizer"
+msgstr ""
+
+msgid "Error starting MLT's command line player (inigo)"
+msgstr ""
+
+msgid "Error starting MLT's command line player (inigo)."
+msgstr ""
+
+#, fuzzy
+msgid "Error when resizing clip"
+msgstr "移動和剪裁素材"
+
+msgid "Esound daemon"
+msgstr ""
+
+msgid "Extension"
+msgstr "擴充套件"
+
+#, fuzzy
+msgid "Extra Toolbar"
+msgstr "配置工具列"
+
+#, fuzzy
+msgid "Extract frame"
+msgstr "匯出現有影格"
+
+msgid "Fade in"
+msgstr ""
+
+#, fuzzy
+msgid "Fade in audio track"
+msgstr "儲存音訊軌"
+
+#, fuzzy
+msgid "Fade out"
+msgstr "使用次數"
+
+msgid "Fatal Error"
+msgstr ""
+
+msgid "Feedback"
+msgstr ""
+
+#, kde-format
+msgid "File %1 is not a Kdenlive project file."
+msgstr ""
+
+msgid "File Recovery"
+msgstr ""
+
+msgid ""
+"File already exists.\n"
+"Do you want to overwrite it ?"
+msgstr ""
+"檔案已經存在.\n"
+"您是否要覆蓋?"
+
+#, fuzzy
+msgid "File already exists. Do you want to overwrite it ?"
+msgstr ""
+"檔案已經存在.\n"
+"您是否要覆蓋?"
+
+#, fuzzy
+msgid "File extension"
+msgstr "已存在的檔案"
+
+#, fuzzy
+msgid "File name"
+msgstr "檔名"
+
+#, fuzzy
+msgid "File size"
+msgstr "檔案尺寸:"
+
+msgid "Filename"
+msgstr "檔名"
+
+#, fuzzy
+msgid "Fill color"
+msgstr "色彩素材:"
+
+#, fuzzy
+msgid "Find"
+msgstr "尋找檔案"
+
+#, fuzzy
+msgid "Find Next"
+msgstr "尋找檔案"
+
+msgid "Find stopped"
+msgstr ""
+
+msgid "Firewire"
+msgstr ""
+
+msgid "Firewire / dvgrab"
+msgstr ""
+
+msgid ""
+"Firewire is not enabled on your system.\n"
+" Please install Libiec61883 and recompile Kdenlive"
+msgstr ""
+
+#, fuzzy
+msgid "Fit zoom to project"
+msgstr "設定此專案"
+
+msgid "Flip your image in any direction"
+msgstr ""
+
+msgid "Folder"
+msgstr "資料夾"
+
+#, fuzzy
+msgid "Force aspect ratio"
+msgstr "影片比例"
+
+#, fuzzy
+msgid "Form"
+msgstr "Form1"
+
+msgid "Format"
+msgstr "格式"
+
+msgid "Forward"
+msgstr ""
+
+#, fuzzy
+msgid "Forward 1 Frame"
+msgstr "前轉1個影格"
+
+msgid "Forward 1 frame"
+msgstr "前轉1個影格"
+
+#, kde-format
+msgid "Found : %1"
+msgstr ""
+
+#, fuzzy
+msgid "Frame Duration"
+msgstr "時間長度"
+
+#, fuzzy
+msgid "Frame duration"
+msgstr "合計時間長度"
+
+#, fuzzy
+msgid "Frame rate"
+msgstr "影格"
+
+#, fuzzy
+msgid "Frame rate:"
+msgstr "格式:"
+
+#, fuzzy
+msgid "Frame size"
+msgstr "影格"
+
+#, fuzzy
+msgid "Framebuffer console"
+msgstr "每秒的影格"
+
+msgid "Frames"
+msgstr "影格"
+
+msgid "Freeze"
+msgstr ""
+
+msgid "Freeze After"
+msgstr ""
+
+msgid "Freeze Before"
+msgstr ""
+
+msgid "Freeze at"
+msgstr ""
+
+msgid "Freeze video on a chosen frame"
+msgstr ""
+
+msgid "Frequency"
+msgstr ""
+
+msgid "From"
+msgstr "從"
+
+#, fuzzy
+msgid "Full project"
+msgstr "清除專案"
+
+msgid "Full screen capture"
+msgstr ""
+
+msgid "Gain"
+msgstr ""
+
+msgid "Gain in"
+msgstr ""
+
+msgid "Gain out"
+msgstr ""
+
+msgid "Gamma"
+msgstr ""
+
+msgid "General graphics interface"
+msgstr ""
+
+msgid "Geometry"
+msgstr ""
+
+msgid "Go To"
+msgstr "跳至"
+
+#, fuzzy
+msgid "Go to Clip End"
+msgstr "跳至終點"
+
+msgid "Go to Clip Start"
+msgstr ""
+
+#, fuzzy
+msgid "Go to Next Snap Point"
+msgstr "快轉至下一個定位點"
+
+#, fuzzy
+msgid "Go to Previous Snap Point"
+msgstr "回轉到前一個定位點"
+
+#, fuzzy
+msgid "Go to Project End"
+msgstr "跳至終點"
+
+msgid "Go to Project Start"
+msgstr ""
+
+#, fuzzy
+msgid "Go to next keyframe"
+msgstr "移動至下一個標記"
+
+#, fuzzy
+msgid "Go to previous keyframe"
+msgstr "移動至上一個標記"
+
+#, fuzzy
+msgid "Go to..."
+msgstr "跳至"
+
+msgid "GraphView"
+msgstr ""
+
+msgid "Greyscale"
+msgstr ""
+
+#, fuzzy
+msgid "Group"
+msgstr "群組"
+
+#, fuzzy
+msgid "GroupBox"
+msgstr "群組"
+
+#, fuzzy
+msgid "Guide"
+msgstr "導線 %1"
+
+msgid "Guide zone"
+msgstr "導線區"
+
+#, fuzzy
+msgid "Guides"
+msgstr "導線 %1"
+
+msgid "H"
+msgstr ""
+
+msgid "HDV"
+msgstr ""
+
+#, fuzzy
+msgid "Height"
+msgstr "高"
+
+msgid "Hi gain"
+msgstr ""
+
+msgid "Hide a region of the clip"
+msgstr ""
+
+msgid "Hide a selected zone and follow its movements"
+msgstr ""
+
+msgid "Hor. Center"
+msgstr ""
+
+msgid "Horizontal factor"
+msgstr ""
+
+msgid "Horizontal multiplicator"
+msgstr ""
+
+msgid "Horizontal scatter"
+msgstr ""
+
+msgid "Image"
+msgstr "圖片"
+
+#, fuzzy
+msgid "Image Type"
+msgstr "影像格式"
+
+#, fuzzy
+msgid "Image clip"
+msgstr "影像素材"
+
+#, fuzzy
+msgid "Image clips"
+msgstr "影像素材"
+
+#, fuzzy
+msgid "Image editing"
+msgstr "影像素材"
+
+#, fuzzy
+msgid "Image preview"
+msgstr "影像格式"
+
+#, fuzzy
+msgid "Image size"
+msgstr "影像檔案"
+
+msgid "Image type"
+msgstr "影像格式"
+
+msgid "Inigo path"
+msgstr ""
+
+#, fuzzy
+msgid "Initialising..."
+msgstr "離開中..."
+
+msgid "Input gain (db)"
+msgstr ""
+
+#, fuzzy
+msgid "Insert track"
+msgstr "刪除資料軌"
+
+msgid "Install extra video mimetypes"
+msgstr ""
+
+msgid "Intensity"
+msgstr ""
+
+msgid "Interlaced"
+msgstr ""
+
+msgid "Invert"
+msgstr ""
+
+#, fuzzy
+msgid "Invert colors"
+msgstr "反轉方向"
+
+msgid "JogShuttle"
+msgstr ""
+
+#, fuzzy
+msgid "Keyframe"
+msgstr "關鍵影格"
+
+msgid "LADSPA change pitch audio effect"
+msgstr ""
+
+msgid "LADSPA declipper audio effect"
+msgstr ""
+
+msgid "LADSPA equalizer audio effect"
+msgstr ""
+
+msgid "LADSPA limiter audio effect"
+msgstr ""
+
+msgid "LADSPA phaser audio effect"
+msgstr ""
+
+msgid "LADSPA pitch scale audio effect"
+msgstr ""
+
+msgid "LADSPA rate scale audio effect"
+msgstr ""
+
+msgid "LADSPA reverb audio effect"
+msgstr ""
+
+msgid "LADSPA room reverb audio effect"
+msgstr ""
+
+msgid "Left"
+msgstr ""
+
+msgid "Limit (db)"
+msgstr ""
+
+msgid "Limiter"
+msgstr ""
+
+msgid "Lo gain"
+msgstr ""
+
+#, fuzzy
+msgid "Load Image"
+msgstr "圖片"
+
+#, fuzzy
+msgid "Load Title"
+msgstr "標題"
+
+msgid "Loading playlist..."
+msgstr ""
+
+msgid "Loading project clips"
+msgstr ""
+
+#, fuzzy
+msgid "Loop"
+msgstr "循環播放"
+
+#, fuzzy
+msgid "Loop Section"
+msgstr "循環播放選取區"
+
+#, fuzzy
+msgid "Luma File"
+msgstr "使用漸層檔案"
+
+#, fuzzy
+msgid "Luma file"
+msgstr "影像檔案"
+
+msgid "M"
+msgstr ""
+
+msgid ""
+"MLT's SDL module not found. Please check your MLT install. Kdenlive will not "
+"work until this issue is fixed."
+msgstr ""
+
+msgid ""
+"MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT "
+"install. Kdenlive will not work until this issue is fixed."
+msgstr ""
+
+msgid "Make clip play faster slowly"
+msgstr ""
+
+msgid "Make image greyscale except for chosen color"
+msgstr ""
+
+msgid "Make monochrome clip"
+msgstr ""
+
+msgid "Make selected color transparent"
+msgstr ""
+
+msgid "Make waves on your clip with keyframes"
+msgstr ""
+
+#, fuzzy
+msgid "Manage Profiles"
+msgstr "影像檔案"
+
+msgid "Marker"
+msgstr "標記"
+
+#, fuzzy
+msgid "Markers"
+msgstr "標記"
+
+msgid "Mid gain"
+msgstr ""
+
+msgid "Mirror"
+msgstr ""
+
+msgid "Mirroring direction"
+msgstr ""
+
+msgid "Misc"
+msgstr ""
+
+msgid "Misc..."
+msgstr ""
+
+msgid "Mix"
+msgstr ""
+
+msgid "Mlt environment"
+msgstr ""
+
+#, fuzzy
+msgid "Mlt profiles folder"
+msgstr "刪除資料夾"
+
+msgid "Monitor"
+msgstr "監視器"
+
+#, fuzzy
+msgid "Move clip"
+msgstr "移動影片片段"
+
+#, fuzzy
+msgid "Move effect"
+msgstr "移動效果"
+
+msgid "Move effect down"
+msgstr "關閉特效"
+
+msgid "Move effect up"
+msgstr "開啟特效"
+
+#, fuzzy
+msgid "Move guide"
+msgstr "電影"
+
+#, fuzzy
+msgid "Move transition"
+msgstr "加入轉場效果"
+
+msgid "Mute"
+msgstr ""
+
+#, fuzzy
+msgid "Mute clip"
+msgstr "刪除素材"
+
+#, fuzzy
+msgid "Mute video clip"
+msgstr "靜音視訊素材"
+
+msgid "N"
+msgstr ""
+
+msgid "NTSC"
+msgstr "NTSC"
+
+msgid "Name"
+msgstr "姓名"
+
+#, fuzzy
+msgid "Name for saved effect: "
+msgstr "移除特效"
+
+msgid "Nano X"
+msgstr ""
+
+msgid "New speed (percents)"
+msgstr ""
+
+#, fuzzy
+msgid "No clip at cursor time"
+msgstr "在指標處剪裁素材"
+
+#, fuzzy
+msgid "No clip copied"
+msgstr "未選取素材"
+
+msgid "No clip selected"
+msgstr "未選取素材"
+
+#, fuzzy
+msgid "No guide at cursor time"
+msgstr "在指標處剪裁素材"
+
+#, fuzzy
+msgid "No image found"
+msgstr "影像資料夾"
+
+#, fuzzy
+msgid "No marker found at cursor time"
+msgstr "在滑鼠指標處加入標記"
+
+#, fuzzy
+msgid "No selected clip at cursor time"
+msgstr "剪裁所有的素材至指標所在位置"
+
+msgid "Normalise"
+msgstr ""
+
+#, fuzzy
+msgid "Normalise audio for thumbnails"
+msgstr "顯示音訊縮圖"
+
+msgid "Normalise audio volume"
+msgstr ""
+
+#, fuzzy
+msgid "Not connected"
+msgstr "未選取素材"
+
+#, kde-format
+msgid "Not found : %1"
+msgstr ""
+
+msgid "OSS"
+msgstr ""
+
+msgid "OSS with DMA access"
+msgstr ""
+
+msgid "Obscure"
+msgstr ""
+
+msgid "Opacity"
+msgstr ""
+
+#, fuzzy
+msgid "Open Document"
+msgstr "文件"
+
+#, fuzzy
+msgid "Open last project on startup"
+msgstr "開啟上一次的專案"
+
+#, fuzzy
+msgid "Open projects in new tabs"
+msgstr "開啟專案"
+
+msgid "Output file"
+msgstr ""
+
+msgid "P"
+msgstr ""
+
+msgid "PAL"
+msgstr "PAL"
+
+#, fuzzy
+msgid "Param"
+msgstr "參數"
+
+#, fuzzy
+msgid "Parameter info"
+msgstr "參數"
+
+msgid "Parameters"
+msgstr "參數"
+
+msgid "Paste Effects"
+msgstr ""
+
+#, fuzzy
+msgid "Path"
+msgstr "路徑：%1"
+
+msgid "Phaser"
+msgstr ""
+
+msgid "Pitch Scaler"
+msgstr ""
+
+msgid "Pitch Shift"
+msgstr ""
+
+msgid "Play"
+msgstr "播放"
+
+msgid "Play / Pause"
+msgstr ""
+
+msgid "Play Section"
+msgstr "播放選取"
+
+#, fuzzy
+msgid "Play after render"
+msgstr "匯出後播放視訊"
+
+#, fuzzy
+msgid "Play..."
+msgstr "播放"
+
+#, fuzzy
+msgid "Playback"
+msgstr "快速倒轉"
+
+#, fuzzy
+msgid "Playback params"
+msgstr "快速倒轉"
+
+#, fuzzy
+msgid "Playlist clip"
+msgstr "播放素材"
+
+#, fuzzy
+msgid "Please set your default video format"
+msgstr "預設視訊格式:"
+
+#, kde-format
+msgid ""
+"Plug your camcorder and\n"
+"press connect button\n"
+"to initialize connection\n"
+"Files will be saved in:\n"
+"%1"
+msgstr ""
+
+msgid "Pos"
+msgstr ""
+
+msgid "Position"
+msgstr "位置"
+
+#, kde-format
+msgid ""
+"Press play or record button\n"
+"to start video capture\n"
+"Files will be saved in:\n"
+"%1"
+msgstr ""
+
+#, kde-format
+msgid ""
+"Press record button\n"
+"to start screen capture\n"
+"Files will be saved in:\n"
+"%1"
+msgstr ""
+
+msgid "Problem adding effect to clip"
+msgstr ""
+
+#, fuzzy
+msgid "Problem deleting effect"
+msgstr "刪除效果"
+
+msgid "Problem editing effect"
+msgstr ""
+
+msgid "Profile"
+msgstr ""
+
+#, fuzzy
+msgid "Profile name"
+msgstr "專案名稱:"
+
+msgid "Profiles"
+msgstr ""
+
+msgid "Progressive"
+msgstr ""
+
+#, fuzzy
+msgid "Project"
+msgstr "專案"
+
+#, fuzzy
+msgid "Project Monitor"
+msgstr "專案列表"
+
+#, fuzzy
+msgid "Project Settings"
+msgstr "專案列表"
+
+msgid "Project Tree"
+msgstr "專案目錄_Project Tree"
+
+msgid "Project folder"
+msgstr "專案資料夾"
+
+#, fuzzy
+msgid "Properties"
+msgstr "素材屬性"
+
+msgid "R"
+msgstr ""
+
+msgid "RPM"
+msgstr ""
+
+msgid "Rate"
+msgstr ""
+
+msgid "Rate (Hz)"
+msgstr ""
+
+msgid "Rate Scaler"
+msgstr ""
+
+msgid "Rating"
+msgstr ""
+
+msgid "Razor clip"
+msgstr "裁剪影片片段"
+
+msgid "Razor tool"
+msgstr "裁剪工具"
+
+#, fuzzy
+msgid "Reached end of project"
+msgstr "清除專案"
+
+msgid "Record"
+msgstr ""
+
+#, fuzzy
+msgid "Record Monitor"
+msgstr "監視器"
+
+msgid "Recover"
+msgstr ""
+
+#, fuzzy
+msgid "Region"
+msgstr "倒帶"
+
+msgid "Release time (s)"
+msgstr ""
+
+msgid "Rename folder"
+msgstr ""
+
+#, fuzzy
+msgid "Render"
+msgstr "產生器"
+
+msgid "Rendering"
+msgstr "建立"
+
+#, kde-format
+msgid "Rendering <i>%1</i> started"
+msgstr ""
+
+#, fuzzy
+msgid "Reset effect"
+msgstr "移除特效"
+
+msgid "Resize (100%)"
+msgstr ""
+
+#, fuzzy
+msgid "Resize (50%)"
+msgstr "重設影片片段大小"
+
+msgid "Resize clip"
+msgstr "重設影片片段大小"
+
+#, fuzzy
+msgid "Resize..."
+msgstr "重設影片片段大小"
+
+msgid "Reverb"
+msgstr ""
+
+#, fuzzy
+msgid "Reverb Time"
+msgstr "匯出時間軸"
+
+msgid "Reverb time"
+msgstr ""
+
+msgid "Reverse playing"
+msgstr ""
+
+msgid "Rewind"
+msgstr "倒帶"
+
+#, fuzzy
+msgid "Rewind 1 Frame"
+msgstr "回轉1個影格"
+
+msgid "Rewind 1 frame"
+msgstr "回轉1個影格"
+
+#, fuzzy
+msgid "Right"
+msgstr "高"
+
+msgid "Room Reverb"
+msgstr ""
+
+msgid "Room size (m)"
+msgstr ""
+
+msgid "Rotate"
+msgstr ""
+
+msgid "Rotate clip in any 3 directions"
+msgstr ""
+
+msgid "Rotate:"
+msgstr ""
+
+msgid "Rotation x"
+msgstr ""
+
+msgid "Rotation y"
+msgstr ""
+
+msgid "Rotation z"
+msgstr ""
+
+msgid "S"
+msgstr ""
+
+msgid "SVGAlib"
+msgstr ""
+
+#, fuzzy
+msgid "Save As"
+msgstr "另存新檔..."
+
+#, fuzzy
+msgid "Save Effect"
+msgstr "移動效果"
+
+#, fuzzy
+msgid "Save Profile"
+msgstr "儲存專案"
+
+#, fuzzy
+msgid "Save Title"
+msgstr "標題"
+
+#, fuzzy
+msgid "Save changes to document ?"
+msgstr "儲存現的檔案"
+
+msgid "Save clip zone as:"
+msgstr ""
+
+#, fuzzy
+msgid "Save effect"
+msgstr "移除特效"
+
+#, fuzzy
+msgid "Save profile"
+msgstr "儲存專案"
+
+#, fuzzy
+msgid "Save zone"
+msgstr "儲存專案"
+
+msgid "Scale"
+msgstr ""
+
+msgid "Screen Grab"
+msgstr ""
+
+msgid "Screen Grab / FFmpeg"
+msgstr ""
+
+msgid "Screen grab"
+msgstr ""
+
+msgid "Select a clip before copying"
+msgstr ""
+
+#, fuzzy
+msgid "Select a clip if you want to apply an effect"
+msgstr "如果您想儲存一個影格請啟用監視器"
+
+msgid ""
+"Select a region using the mouse. To take the snapshot, press the Enter key. "
+"Press Esc to quit."
+msgstr ""
+
+msgid "Select clip to change speed"
+msgstr ""
+
+#, fuzzy
+msgid "Select clip to delete"
+msgstr "請選擇一個素材來刪除轉場效果"
+
+#, fuzzy
+msgid "Select default audio editor"
+msgstr "外部音訊編輯器"
+
+#, fuzzy
+msgid "Select default image editor"
+msgstr "外部影像編輯器"
+
+msgid "Select default video player"
+msgstr ""
+
+#, fuzzy
+msgid "Select region..."
+msgstr "選取"
+
+msgid "Selected zone"
+msgstr "選擇時區"
+
+#, fuzzy
+msgid "Selection Tool"
+msgstr "選取"
+
+#, fuzzy
+msgid "Selection tool"
+msgstr "選取"
+
+msgid "Sepia"
+msgstr ""
+
+#, fuzzy
+msgid "Set In Point"
+msgstr "設定起點"
+
+#, fuzzy
+msgid "Set Out Point"
+msgstr "設定終點"
+
+#, fuzzy
+msgid "Set current image as thumbnail"
+msgstr "儲存現有影格作為影像檔"
+
+#, fuzzy
+msgid "Set zone end"
+msgstr "選擇時區"
+
+msgid "Set zone start"
+msgstr ""
+
+msgid "Shift"
+msgstr ""
+
+#, fuzzy
+msgid "Show audio thumbnails"
+msgstr "顯示音訊縮圖"
+
+#, fuzzy
+msgid "Show background"
+msgstr "置入背景"
+
+#, fuzzy
+msgid "Show keyframes in timeline"
+msgstr "在時間軸設定標記"
+
+#, fuzzy
+msgid "Show markers comments"
+msgstr "標記名稱:"
+
+#, fuzzy
+msgid "Show video thumbnails"
+msgstr "顯示音訊縮圖"
+
+msgid "Simulates a vinyl audio player - LADSPA audio effect"
+msgstr ""
+
+msgid "Size"
+msgstr "大小"
+
+msgid "Size:"
+msgstr "尺寸:"
+
+msgid "Slideshow"
+msgstr "投影片秀"
+
+msgid "Slideshow Clip"
+msgstr "投影片秀素材"
+
+#, fuzzy
+msgid "Slideshow clip"
+msgstr "投影片秀素材"
+
+#, fuzzy
+msgid "Snap"
+msgstr "定位到"
+
+msgid "Softness"
+msgstr "柔化"
+
+msgid "Sox Echo"
+msgstr ""
+
+#, fuzzy
+msgid "Sox Flanger"
+msgstr "停止播放"
+
+msgid "Sox Pitch Shift"
+msgstr ""
+
+msgid "Sox Reverb"
+msgstr ""
+
+msgid "Sox Vibro"
+msgstr ""
+
+msgid "Sox change pitch audio effect"
+msgstr ""
+
+msgid "Sox echo audio effect"
+msgstr ""
+
+msgid "Sox flanger audio effect"
+msgstr ""
+
+msgid "Sox reverb audio effect"
+msgstr ""
+
+msgid "Sox vibro audio effect"
+msgstr ""
+
+msgid "Speed"
+msgstr "速度"
+
+#, fuzzy
+msgid "Split view"
+msgstr "分割素材"
+
+msgid "Spread"
+msgstr ""
+
+msgid "Start"
+msgstr "開始"
+
+#, fuzzy
+msgid "Start Gain"
+msgstr "開始"
+
+msgid "Start-/EndViewport"
+msgstr ""
+
+msgid "StartViewport"
+msgstr ""
+
+msgid "Starting -- find text as you type"
+msgstr ""
+
+#, fuzzy
+msgid "Stop"
+msgstr "至"
+
+msgid "Stroboscope"
+msgstr ""
+
+msgid "Surface warping"
+msgstr ""
+
+msgid "Sync timeline cursor"
+msgstr ""
+
+msgid "Templates"
+msgstr ""
+
+#, fuzzy
+msgid "Temporary files"
+msgstr "暫存檔資料夾 "
+
+#, fuzzy
+msgid "Text clip"
+msgstr "文字素材"
+
+#, fuzzy
+msgid "TextLabel"
+msgstr "文字"
+
+msgid "There is no clip, cannot extract frame."
+msgstr "沒有素材，無法分離影格"
+
+msgid ""
+"This is the first time you run Kdenlive. This wizard will let you adjust "
+"some basic settings, you will be ready to edit your first movie in a few "
+"seconds..."
+msgstr ""
+
+msgid "Threshold"
+msgstr ""
+
+msgid "Threshold value"
+msgstr ""
+
+msgid "Thumbnail"
+msgstr "縮圖"
+
+msgid "Thumbnails"
+msgstr "縮圖"
+
+#, fuzzy
+msgid "Thumbnails:"
+msgstr "縮圖"
+
+#, fuzzy
+msgid "Time"
+msgstr "時碼"
+
+msgid "Time window (ms)"
+msgstr ""
+
+#, fuzzy
+msgid "Timecode overlay"
+msgstr "時碼"
+
+msgid "Timeline"
+msgstr "時間軸"
+
+#, fuzzy
+msgid "Title Clip"
+msgstr "文字素材"
+
+#, fuzzy
+msgid "Toggle selection"
+msgstr "選取播放"
+
+#, fuzzy
+msgid "Tool"
+msgstr "工具"
+
+msgid "Top"
+msgstr ""
+
+#, fuzzy
+msgid "Track height"
+msgstr "資料軌 %1"
+
+msgid "Transition"
+msgstr "轉場效果_Transition"
+
+#, fuzzy
+msgid "Transition type"
+msgstr "轉場效果_Transition"
+
+msgid "Transparency"
+msgstr "透明"
+
+msgid "Transparent background"
+msgstr "透明背景"
+
+msgid "Turn clip colors to sepia"
+msgstr ""
+
+#, kde-format
+msgid "Unable to write to file %1"
+msgstr ""
+
+msgid "Undo History"
+msgstr ""
+
+#, fuzzy
+msgid "Unknown clip"
+msgstr "未知"
+
+#, fuzzy
+msgid "Untitled"
+msgstr "標題"
+
+msgid "Up"
+msgstr "上"
+
+msgid "Use as default"
+msgstr ""
+
+#, fuzzy
+msgid "Use transparency"
+msgstr "透明"
+
+msgid "V"
+msgstr ""
+
+#, fuzzy
+msgid "Value"
+msgstr "音量"
+
+msgid "Variance"
+msgstr ""
+
+msgid "Vert. Center"
+msgstr ""
+
+msgid "Vertical factor"
+msgstr ""
+
+msgid "Vertical multiplicator"
+msgstr ""
+
+msgid "Vertical scatter"
+msgstr ""
+
+msgid "Video"
+msgstr "視訊"
+
+#, fuzzy
+msgid "Video Profile"
+msgstr "視訊驅動程式:"
+
+#, fuzzy
+msgid "Video Resolution"
+msgstr "視訊素材"
+
+#, fuzzy
+msgid "Video Standard"
+msgstr "視訊串流"
+
+#, fuzzy
+msgid "Video capture params"
+msgstr "視訊串流"
+
+#, fuzzy
+msgid "Video clip"
+msgstr "視訊素材"
+
+#, fuzzy
+msgid "Video codec"
+msgstr "視訊編碼:"
+
+msgid "Video driver:"
+msgstr "視訊驅動程式:"
+
+#, fuzzy
+msgid "Video index"
+msgstr "視訊編碼:"
+
+#, fuzzy
+msgid "Video player"
+msgstr "視訊驅動程式:"
+
+msgid "Video tracks"
+msgstr "視訊軌"
+
+#, fuzzy
+msgid "Video4Linux"
+msgstr "視訊"
+
+msgid "Video4Linux (webcam)"
+msgstr ""
+
+msgid "Video4Linux2 / FFmpeg"
+msgstr ""
+
+#, fuzzy
+msgid "View"
+msgstr "視訊"
+
+msgid "Vinyl"
+msgstr ""
+
+#, fuzzy
+msgid "Virtual clip"
+msgstr "虛擬素材"
+
+msgid "Volume"
+msgstr "音量"
+
+msgid "W"
+msgstr ""
+
+msgid ""
+"Warning: changes to the drivers and devices can make Kdenlive unstable. "
+"Change only if you know what you do."
+msgstr ""
+
+msgid "Wave"
+msgstr ""
+
+msgid "Wear"
+msgstr ""
+
+msgid "Welcome"
+msgstr ""
+
+msgid "Width"
+msgstr ""
+
+msgid "X"
+msgstr ""
+
+msgid "X11"
+msgstr ""
+
+msgid "X:"
+msgstr ""
+
+msgid "XFREE86 DGA 2.0"
+msgstr ""
+
+#, fuzzy
+msgid "XVideo"
+msgstr "視訊"
+
+msgid "Y"
+msgstr ""
+
+msgid "Y:"
+msgstr ""
+
+msgid "Year"
+msgstr "年"
+
+msgid "You must copy exactly one clip before pasting effects"
+msgstr ""
+
+#, fuzzy
+msgid "You must select one clip for this action"
+msgstr "請選擇一個素材來編輯轉場效果"
+
+#, fuzzy
+msgid "Z-Index:"
+msgstr "指標"
+
+#, fuzzy
+msgid "Zone end"
+msgstr "到轉1秒"
+
+msgid "Zone start"
+msgstr ""
+
+msgid "Zoom:"
+msgstr ""
+
+#, fuzzy
+msgid "create new points"
+msgstr "建立新專案"
+
+#, fuzzy
+msgid "effect"
+msgstr "效果"
+
+msgid "frames"
+msgstr ""
+
+#, fuzzy
+msgid "hh:mm:ss::ff"
+msgstr "時間長度 (hh:mm:ss):"
+
+msgid "hour"
+msgstr ""
+
+#, fuzzy
+msgid "import"
+msgstr "匯出："
+
+msgid "min."
+msgstr ""
+
+msgid "move on X axis"
+msgstr ""
+
+msgid "move on Y axis"
+msgstr ""
+
+msgid "ogg"
+msgstr ""
+
+msgid "oss"
+msgstr ""
+
+#, fuzzy
+msgid "parameter description"
+msgstr "描述"
+
+msgid "sec."
+msgstr ""
+
+#, fuzzy
+msgid "seconds"
+msgstr "5秒鐘"
+
+msgid "to"
+msgstr "至"
+
+#, fuzzy
+msgid "update values in timeline"
+msgstr "在時間軸設定標記"
+
+msgid "video4linux2"
+msgstr ""
+
+msgid "x"
+msgstr ""
+
+msgid "x1"
+msgstr ""
+
+msgid ""
+"your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
+msgstr ""
+
+#~ msgid " Gb"
+#~ msgstr " Gb"
+
+#~ msgid " Kb"
+#~ msgstr " Kb"
+
+#~ msgid " Mb"
+#~ msgstr " Mb"
+
+#~ msgid " byte(s)"
+#~ msgstr " byte(s)"
+
+#~ msgid "%1 (mono)"
+#~ msgstr "%1 (mono)"
+
+#~ msgid "%1 (stereo)"
+#~ msgstr "%1 (stereo)"
+
+#~ msgid "%1 Channels"
+#~ msgstr "%1 聲道"
+
+#~ msgid "%1 bit"
+#~ msgstr "%1 位元"
+
+#~ msgid "%1 clips"
+#~ msgstr "%1 影片"
+
+#~ msgid "%1Hz %2"
+#~ msgstr "%1Hz %2"
+
+#~ msgid "%1x%2, %3 fps"
+#~ msgstr "%1x%2, %3 fps"
+
+#~ msgid "&Configure Project"
+#~ msgstr "設定專案"
+
+#~ msgid "&Export Timeline"
+#~ msgstr "匯出時間軸"
+
+#~ msgid "&Layout"
+#~ msgstr "配置"
+
+#~ msgid "&Timeline"
+#~ msgstr "時間軸"
+
+#~ msgid "*.vob | DVD Movie file"
+#~ msgstr "*.vob | DVD 影片檔"
+
+#~ msgid "0Hz"
+#~ msgstr "0Hz"
+
+#~ msgid "1 Frame"
+#~ msgstr "1影格"
+
+#~ msgid "1 Minute"
+#~ msgstr "1分鐘"
+
+#~ msgid "1 Second"
+#~ msgstr "1秒鐘"
+
+#~ msgid "1 minute"
+#~ msgstr "1分鐘"
+
+#~ msgid "10 Frames"
+#~ msgstr "10影格"
+
+#~ msgid "10 Seconds"
+#~ msgstr "10秒鐘"
+
+#~ msgid "10 seconds"
+#~ msgstr "10秒鐘"
+
+#~ msgid "2 Frames"
+#~ msgstr "2影格"
+
+#~ msgid "2 Minutes"
+#~ msgstr "2分鐘"
+
+#~ msgid "2 Seconds"
+#~ msgstr "2秒鐘"
+
+#~ msgid "2 minutes"
+#~ msgstr "2分鐘"
+
+#~ msgid "20 Seconds"
+#~ msgstr "20秒鐘"
+
+#~ msgid "20 seconds"
+#~ msgstr "20秒鐘"
+
+#~ msgid "30 Seconds"
+#~ msgstr "30秒鐘"
+
+#~ msgid "30 seconds"
+#~ msgstr "30秒鐘"
+
+#~ msgid "4 Minutes"
+#~ msgstr "4分鐘"
+
+#~ msgid "4 minutes"
+#~ msgstr "4分鐘"
+
+#~ msgid "5 Frames"
+#~ msgstr "5影格"
+
+#~ msgid "5 Seconds"
+#~ msgstr "5秒鐘"
+
+#~ msgid "8 Minutes"
+#~ msgstr "8分鐘"
+
+#~ msgid "8 minutes"
+#~ msgstr "8分鐘"
+
+#~ msgid "9999; "
+#~ msgstr "9999; "
+
+#~ msgid ""
+#~ "<b>The programs dvgrab or ffplay are missing</b>.<br>Firewire capture "
+#~ "will be disabled until you install them."
+#~ msgstr "<b>缺少 dvgrab 或 ffplay 程式</b>.<br>未安裝好之前連線擷取將會無效"
+
+#~ msgid "Above"
+#~ msgstr "下限"
+
+#~ msgid "Activated Text Color"
+#~ msgstr "動態文字色彩"
+
+#~ msgid "Add Clips"
+#~ msgstr "新增影片片段"
+
+#~ msgid "Add Preset"
+#~ msgstr "新增預先設定"
+
+#~ msgid "Add Snap Marker"
+#~ msgstr "新增定位標記"
+
+#~ msgid "Add Track"
+#~ msgstr "新增資料軌"
+
+#~ msgid "Add Tracks..."
+#~ msgstr "新增資料軌"
+
+#~ msgid "Add clips to the project"
+#~ msgstr "新增影片片段到專案中"
+
+#~ msgid "Add metadata"
+#~ msgstr "加入後設資料"
+
+#~ msgid "Add new audio clip to project"
+#~ msgstr "加入新的音訊素材至專案"
+
+#~ msgid "Add new clip to project"
+#~ msgstr "加入新的素材至專案"
+
+#~ msgid "Add track"
+#~ msgstr "新增資料軌"
+
+#~ msgid "Adding Clips"
+#~ msgstr "新增影片片段"
+
+#~ msgid "Album"
+#~ msgstr "相本"
+
+#~ msgid "Align clips on nearest clip borders"
+#~ msgstr "對齊素材至最近的素材邊界"
+
+#~ msgid "Align clips on nearest frame"
+#~ msgstr "對齊素材至最近的影格"
+
+#~ msgid "Align clips on snap markers"
+#~ msgstr "對齊素材至定位標記"
+
+#~ msgid "Always ask"
+#~ msgstr "總是詢問"
+
+#~ msgid "Application"
+#~ msgstr "應用軟體"
+
+#~ msgid "Audio Stream"
+#~ msgstr "音訊串流"
+
+#~ msgid "Audio Tracks"
+#~ msgstr "音訊軌"
+
+#~ msgid "Audio tracks:"
+#~ msgstr "音訊軌:"
+
+#~ msgid "Audio:"
+#~ msgstr "音訊:"
+
+#~ msgid "Audio: %1Hz %2"
+#~ msgstr "音效：%1 Hz %2"
+
+#~ msgid "Author"
+#~ msgstr "作者"
+
+#~ msgid "Automatic - Use next video track"
+#~ msgstr "自動 - 使用下一個視訊軌"
+
+#~ msgid "Automatic scene detection"
+#~ msgstr "自動場景偵測"
+
+#~ msgid "Autosave project every"
+#~ msgstr "自動儲存所有專案"
+
+#~ msgid "Back one frame"
+#~ msgstr "退後到一格影格"
+
+#~ msgid "Background track (black)"
+#~ msgstr "背景軌 (黑色)"
+
+#~ msgid "Best Quality"
+#~ msgstr "最高品質"
+
+#~ msgid "Burn"
+#~ msgstr "燒錄 "
+
+#~ msgid "Burning"
+#~ msgstr "燒錄"
+
+#~ msgid "Cannot Export Timeline"
+#~ msgstr "無法匯出時間軸"
+
+#~ msgid ""
+#~ "Cannot find the program \"dvdauthor\" on your system. Install it if you "
+#~ "want to be able to create a DVD"
+#~ msgstr "系統中找不到 \"dvdauthor\" .如果您需要製作DVD,請安裝該程式"
+
+#~ msgid "Cannot find track to insert audio clip."
+#~ msgstr "找不到可以插入音訊素材的資料軌"
+
+#~ msgid ""
+#~ "Cannot open file %1\n"
+#~ "Do you want to search for the file or remove it from the project ?"
+#~ msgstr ""
+#~ "無法開啟檔案 %1\n"
+#~ "您是否要尋找此檔案或從這個專案移除它?"
+
+#~ msgid "Change the timeline view"
+#~ msgstr "改變時間軸檢視"
+
+#~ msgid "Chapter"
+#~ msgstr "章節"
+
+#~ msgid "Chapter %1"
+#~ msgstr "擷取 %1"
+
+#~ msgid "Chapter 0"
+#~ msgstr "章節 0"
+
+#~ msgid "Check again"
+#~ msgstr "再試一次"
+
+#~ msgid "Chops clips into two pieces"
+#~ msgstr "將影片片段分成兩部份"
+
+#~ msgid "Clean Project"
+#~ msgstr "清除專案"
+
+#~ msgid ""
+#~ "Clean Project removes files from the project that are unused."
+#~ "\t              Are you sure you want to do this?"
+#~ msgstr ""
+#~ "清除專案並從專案中移除沒用到的檔案。\t             您確定要這麼做嗎？"
+
+#~ msgid "Cleaning Project"
+#~ msgstr "清除專案中"
+
+#~ msgid "Clear All Markers"
+#~ msgstr "清除所有標記"
+
+#~ msgid "Clear All Snap Markers"
+#~ msgstr "清除所有的定位標記"
+
+#~ msgid "Clear Markers From Selected"
+#~ msgstr "從選取區清除所有標記"
+
+#~ msgid "Clear Snap Markers From Selected"
+#~ msgstr "清除選擇的定位標記"
+
+#~ msgid "Clear all snap markers"
+#~ msgstr "清除所有定位標記"
+
+#~ msgid "Clear selected snap markers"
+#~ msgstr "清除選擇的定位標記"
+
+#~ msgid "Clip Auto Selection"
+#~ msgstr "自動選取素材"
+
+#~ msgid "Clip Manager"
+#~ msgstr "影片片段管理員"
+
+#~ msgid "Clip Name"
+#~ msgstr "影片名稱"
+
+#~ msgid "Clip properties"
+#~ msgstr "影片片段屬性"
+
+#~ msgid "Clips"
+#~ msgstr "影片片段"
+
+#~ msgid "Clips will align to the nearest frame"
+#~ msgstr "影片片段將對齊最接近的影格"
+
+#~ msgid "Clips will align with the borders of other clips"
+#~ msgstr "影片片段將對齊其他影片片段的邊框"
+
+#~ msgid "Clips will align with user-defined snap markers"
+#~ msgstr "影片片段將對齊使用者定義的定位標記"
+
+#~ msgid "Closing file..."
+#~ msgstr "關閉檔案中..."
+
+#~ msgid "Color:"
+#~ msgstr "色彩:"
+
+#~ msgid "Colors"
+#~ msgstr "色彩"
+
+#~ msgid "Configure Project..."
+#~ msgstr "設定專案..."
+
+#~ msgid "Configure the default export setting"
+#~ msgstr "調整預設值匯出設定"
+
+#~ msgid "Configure the format for this project"
+#~ msgstr "設定此專案的格式"
+
+#~ msgid "Continue capture..."
+#~ msgstr "繼續擷取"
+
+#~ msgid "Copies the selected section to the clipboard"
+#~ msgstr "複製選擇的片段到剪貼簿"
+
+#~ msgid "Copy Transitions"
+#~ msgstr "複製轉場效果"
+
+#~ msgid "Copy clip to clipboard"
+#~ msgstr "複製素材至剪貼簿"
+
+#~ msgid "Copying clip %1."
+#~ msgstr "複製素材 %1."
+
+#~ msgid "Copying selection to clipboard..."
+#~ msgstr "複製選取到剪貼簿中"
+
+#~ msgid "Copyright"
+#~ msgstr "版權宣告"
+
+#~ msgid "Create Color Clip"
+#~ msgstr "建立色彩素材"
+
+#~ msgid "Create DVD"
+#~ msgstr "建立DVD"
+
+#~ msgid "Create Image Clip"
+#~ msgstr "建立影像素材"
+
+#~ msgid "Create Menu"
+#~ msgstr "建立選單"
+
+#~ msgid "Create Slideshow"
+#~ msgstr "建立投影片秀"
+
+#~ msgid "Create Slideshow Clip"
+#~ msgstr "建立投影片秀素材"
+
+#~ msgid "Create Text Clip"
+#~ msgstr "建立文字素材"
+
+#~ msgid "Create Virtual Clip"
+#~ msgstr "建立虛擬素材"
+
+#~ msgid "Creates a new document"
+#~ msgstr "建立新檔案"
+
+#~ msgid "Creating new document..."
+#~ msgstr "建立新檔案中..."
+
+#~ msgid "Creating new project..."
+#~ msgstr "建立新專案..."
+
+#~ msgid "Current Time : "
+#~ msgstr "現在時間："
+
+#~ msgid "Custom Encoding Options"
+#~ msgstr "其他編碼選項"
+
+#~ msgid "Cut and move selected zone to clipboard"
+#~ msgstr "剪下及移動選取區到剪貼簿"
+
+#~ msgid "Cuts the selected section and puts it to the clipboard"
+#~ msgstr "剪下選取區並放到剪貼簿中"
+
+#~ msgid "Cutting clip %1."
+#~ msgstr "剪裁素材 %1."
+
+#~ msgid "Cutting selection..."
+#~ msgstr "剪下選取區中..."
+
+#~ msgid "DVD Creation"
+#~ msgstr "建立DVD"
+
+#~ msgid "DVD Folder"
+#~ msgstr "DVD 資料夾"
+
+#~ msgid "DVD Format"
+#~ msgstr "DVD 格式"
+
+#~ msgid "DVD Marker"
+#~ msgstr "DVD 標記"
+
+#~ msgid "Decompressor:"
+#~ msgstr "壓縮:"
+
+#~ msgid "Default color/image clip duration"
+#~ msgstr "預設 色彩/影像 素材時間長度"
+
+#~ msgid "Default project folder (to store rendered files):"
+#~ msgstr "預設專案資料夾(存入所指定的資料夾):"
+
+#~ msgid "Define Clip Thumbnail"
+#~ msgstr "定義影片縮圖"
+
+#~ msgid "Delete Clips"
+#~ msgstr "刪除影片片段"
+
+#~ msgid "Delete Effect"
+#~ msgstr "刪除效果"
+
+#~ msgid "Delete Preset"
+#~ msgstr "刪除預先設定"
+
+#~ msgid "Delete Snap Marker"
+#~ msgstr "刪除定位標記"
+
+#~ msgid "Delete Track"
+#~ msgstr "刪除資料軌"
+
+#~ msgid "Delete Transition"
+#~ msgstr "刪除轉場效果"
+
+#~ msgid "Delete marker at cursor position"
+#~ msgstr "在滑鼠指標處刪除標記"
+
+#~ msgid "Delete transition"
+#~ msgstr "刪除轉場效果"
+
+#~ msgid "Deleting Selected Clips"
+#~ msgstr "刪除已選擇的影片片段"
+
+#~ msgid "Disable thumbnails for large clips on low zoom level"
+#~ msgstr "關閉長片段縮圖功能"
+
+#~ msgid "Display Timecode"
+#~ msgstr "顯示時間碼"
+
+#~ msgid "Download new Luma file transition"
+#~ msgstr "下載新的漸層轉場效果"
+
+#~ msgid "Duplicate Text Clip"
+#~ msgstr "複製文字片段"
+
+#~ msgid "Duration (%1 images)"
+#~ msgstr "時間長度 (%1 影像)"
+
+#~ msgid "Duration per Image"
+#~ msgstr "每張影像的時間長度"
+
+#~ msgid "Duration:"
+#~ msgstr "時間長度:"
+
+#~ msgid "Edit Clip Properties"
+#~ msgstr "編輯素材屬性"
+
+#~ msgid "Edit Duration"
+#~ msgstr "編輯時間長度"
+
+#~ msgid "Edit Metadata"
+#~ msgstr "編輯後設資料"
+
+#~ msgid "Edit Snap Marker"
+#~ msgstr "編輯定位標記"
+
+#~ msgid "Edit clip properties"
+#~ msgstr "編輯素材屬性"
+
+#~ msgid "Edit marker at cursor position"
+#~ msgstr "在滑鼠指標處編輯標記"
+
+#~ msgid "Edit transition from selected clip"
+#~ msgstr "從選取的影片片段編輯轉場效果"
+
+#~ msgid "Editing Clips"
+#~ msgstr "編輯素材"
+
+#~ msgid "Editing Preferences"
+#~ msgstr "編輯偏好設定"
+
+#~ msgid "Effect Setup"
+#~ msgstr "效果設定"
+
+#~ msgid "Enables/disables the statusbar"
+#~ msgstr "開啟/關閉狀態列"
+
+#~ msgid "Enables/disables the toolbar"
+#~ msgstr "開啟/關閉工具列"
+
+#~ msgid "End of Dvd"
+#~ msgstr "DVD 結尾"
+
+#~ msgid "Enter name for rendered movie file"
+#~ msgstr "輸入影片檔名"
+
+#~ msgid "Enter new duration: "
+#~ msgstr "輸入新的時間長度:"
+
+#~ msgid "Enter new folder name: "
+#~ msgstr "輸入新資料夾名稱:"
+
+#~ msgid "Export Folder:"
+#~ msgstr "匯出至資料夾"
+
+#~ msgid "Export Priority"
+#~ msgstr "匯出順序"
+
+#~ msgid "Export of %1 is finished"
+#~ msgstr "匯出 %1 已完成"
+
+#~ msgid "Export to DVD"
+#~ msgstr "匯出成DVD"
+
+#~ msgid "Exporting Timeline..."
+#~ msgstr "匯出時間軸中..."
+
+#~ msgid "Extract Audio From Clip"
+#~ msgstr "從影片片段分離音訊"
+
+#~ msgid "Extract Audio From Selected Clip"
+#~ msgstr "從選取影片片段分離音訊"
+
+#~ msgid "Extract Clip Audio"
+#~ msgstr "分離影片片段音訊"
+
+#~ msgid "Fast Forward"
+#~ msgstr "快速往前"
+
+#~ msgid "File Size: "
+#~ msgstr "檔案大小："
+
+#~ msgid "File already exists, enter a new name"
+#~ msgstr "檔案已經存在，請更改檔名"
+
+#~ msgid "File:"
+#~ msgstr "檔案:"
+
+#~ msgid "Filename:"
+#~ msgstr "檔名："
+
+#~ msgid "Focus Capture Monitor"
+#~ msgstr "切換至擷取監視器_Capture Monitor"
+
+#~ msgid "Focus Clip Monitor"
+#~ msgstr "切換至影片片段監視器_Clip Monitor"
+
+#~ msgid "Focus Effect List"
+#~ msgstr "切換至效果列表_Effect List"
+
+#~ msgid "Focus Effect Stack"
+#~ msgstr "切換至效果堆疊_Effect Stack"
+
+#~ msgid "Focus Project Tree"
+#~ msgstr "切換至專案目錄_Project Tree"
+
+#~ msgid "Focus Timeline Monitor"
+#~ msgstr "切換至時間軸監視器_Timeline Monitor"
+
+#~ msgid "Focus Transitions"
+#~ msgstr "切換至轉場效果_Transition"
+
+#~ msgid "Folder:"
+#~ msgstr "資料夾"
+
+#~ msgid "Forward clip"
+#~ msgstr "快轉播放素材"
+
+#~ msgid "Forward one frame"
+#~ msgstr "往前到一個影格"
+
+#~ msgid "Forward one second"
+#~ msgstr "前轉1秒"
+
+#~ msgid "Found %1 images in selected folder"
+#~ msgstr "在選擇得資料夾找到 %1 影像"
+
+#~ msgid "Fps:"
+#~ msgstr "Fps:"
+
+#~ msgid "Frame size, (fps):"
+#~ msgstr "框架尺寸, (fps):"
+
+#~ msgid "Generate DVD"
+#~ msgstr "產生 DVD "
+
+#~ msgid "Generate entries for chapters"
+#~ msgstr "產生章節紀錄"
+
+#~ msgid "Generating DVD structure"
+#~ msgstr "產生 DVD 格式"
+
+#~ msgid "Generating main movie"
+#~ msgstr "產生主要影片"
+
+#~ msgid "Generating menu"
+#~ msgstr "產生選單"
+
+#~ msgid "Get Current Frame"
+#~ msgstr "取得現有影格"
+
+#~ msgid "Go To Beginning"
+#~ msgstr "跳至起點"
+
+#~ msgid "Go To Virtual Zone"
+#~ msgstr "跳至虛擬區"
+
+#~ msgid "Go to selected clip's virtual zone"
+#~ msgstr "跳至選取素材的虛擬區"
+
+#~ msgid "HH:MM:SS.hh"
+#~ msgstr "HH:MM:SS.hh"
+
+#~ msgid "HH:MM:SS:FF"
+#~ msgstr "HH:MM:SS:FF"
+
+#~ msgid "High Quality"
+#~ msgstr "高品質"
+
+#~ msgid "Highlighted Text Color"
+#~ msgstr "高反差文字色彩"
+
+#~ msgid "Icon View"
+#~ msgstr "以圖示方式顯示"
+
+#~ msgid "Ignore Incoming Messages "
+#~ msgstr "忽略收到的訊息"
+
+#~ msgid "Inpoint"
+#~ msgstr "起點"
+
+#~ msgid ""
+#~ "Insert commented snap markers on clips (Ctrl + click to remove a marker)"
+#~ msgstr "插入定位標記至素材(Ctrl + click 移除標記)"
+
+#~ msgid "Inserting clipboard contents..."
+#~ msgstr "插入剪貼簿內容"
+
+#~ msgid "Kdenlive"
+#~ msgstr "Kdenlive"
+
+#~ msgid ""
+#~ "Kdenlive\n"
+#~ "\n"
+#~ "A non-linear video editor for KDE.\n"
+#~ "\n"
+#~ "Kdenlive is a frontend for Piave video renderer.\n"
+#~ "You can download the Piave program on this url:\n"
+#~ "http://modesto.sourceforge.net/piave"
+#~ msgstr ""
+#~ "Kdenlive\n"
+#~ "\n"
+#~ "是一套 KDE 的非線性編輯器。\n"
+#~ "\n"
+#~ "Kdenlive 是一個 Piave 影片產生器的前端介面。\n"
+#~ "您可以下載 Piave 軟體從：\n"
+#~ "http://modesto.sourceforge.net/piave"
+
+#~ msgid "Kdenlive - New Project"
+#~ msgstr "Kdenlive - 新專案"
+
+#~ msgid "Kdenlive Setup"
+#~ msgstr "kdenlive 設定"
+
+#~ msgid "Kdenlive author and Maintainer"
+#~ msgstr "Kdenlive作者以及維護者"
+
+#~ msgid "Layout"
+#~ msgstr "配置"
+
+#~ msgid "List View"
+#~ msgstr "以清單方式顯示"
+
+#~ msgid "Load Layout &1"
+#~ msgstr "載入配置 &1"
+
+#~ msgid "Load Layout &2"
+#~ msgstr "載入配置 &2"
+
+#~ msgid "Load Layout &3"
+#~ msgstr "載入配置 &3"
+
+#~ msgid "Load Layout &4"
+#~ msgstr "載入配置 &4"
+
+#~ msgid "Loop Section between inpoint and outpoint"
+#~ msgstr "在起點和終點間循環播放"
+
+#~ msgid "Low"
+#~ msgstr "低"
+
+#~ msgid "Low Quality"
+#~ msgstr "低品質"
+
+#~ msgid "MLT framework install path"
+#~ msgstr "MLT  安裝路徑 "
+
+#~ msgid "Marker Tool"
+#~ msgstr "標記工具"
+
+#~ msgid "Marker tool"
+#~ msgstr "標記工具"
+
+#~ msgid "Medium Quality"
+#~ msgstr "中品質"
+
+#~ msgid "Menu"
+#~ msgstr "選單"
+
+#~ msgid "Merge Project..."
+#~ msgstr "合併專案..."
+
+#~ msgid "Metadata"
+#~ msgstr "後設資料"
+
+#~ msgid "Missing File"
+#~ msgstr "檔案遺失"
+
+#~ msgid "Monitor volume"
+#~ msgstr "監視器音量"
+
+#~ msgid "Mono"
+#~ msgstr "單音"
+
+#~ msgid "Move Clip Down"
+#~ msgstr "向下移動素材"
+
+#~ msgid "Move Clip To Cursor"
+#~ msgstr "移動素材至指標處"
+
+#~ msgid "Move Clip Up"
+#~ msgstr "向上移動素材"
+
+#~ msgid "Move backwards one frame"
+#~ msgstr "向後移動一個影格"
+
+#~ msgid "Move cursor backwards one second"
+#~ msgstr "往後移動1秒"
+
+#~ msgid "Move cursor forward one second"
+#~ msgstr "往前移動1秒"
+
+#~ msgid "Move cursor to next snap point"
+#~ msgstr "移動指標至下一個定位點"
+
+#~ msgid "Move cursor to previous snap point"
+#~ msgstr "移動指標至上一個定位點"
+
+#~ msgid "Move edit point between two selected clips"
+#~ msgstr "在二個選取素材間移動編輯點"
+
+#~ msgid "Move forwards one frame"
+#~ msgstr "向前移動一個影格"
+
+#~ msgid "Move selected files to:"
+#~ msgstr "移動選擇檔案到:"
+
+#~ msgid "Move the current position backwards by one frame"
+#~ msgstr "將現在位置往後搬移一個影格"
+
+#~ msgid "Move the current position forwards by one frame"
+#~ msgstr "將現在位置往前搬移一個影格"
+
+#~ msgid "Move to end of clip"
+#~ msgstr "移動到素材終點"
+
+#~ msgid "Move to start of clip"
+#~ msgstr "移動到素材的起點"
+
+#~ msgid "Move/Resize Tool"
+#~ msgstr "移動/縮放工具"
+
+#~ msgid "Move/Resize mode"
+#~ msgstr "移動/縮放模式"
+
+#~ msgid "Move/Resize tool"
+#~ msgstr "移動/縮放工具"
+
+#~ msgid "Moves and resizes the document"
+#~ msgstr "移動且縮放此檔案"
+
+#~ msgid "Moving backwards one frame"
+#~ msgstr "往後移動一個影格中"
+
+#~ msgid "Moving forward one frame"
+#~ msgstr "往前移動一個影格中"
+
+#~ msgid "Multi Track View"
+#~ msgstr "多重資料軌檢視"
+
+#~ msgid "Multiselect Tool"
+#~ msgstr "多重選取工具列"
+
+#~ msgid "Multiselect tool"
+#~ msgstr "多重選取工具列"
+
+#~ msgid "NTSC 16:9"
+#~ msgstr "NTSC 16:9"
+
+#~ msgid "Name:"
+#~ msgstr "名字:"
+
+#~ msgid "New"
+#~ msgstr "新增"
+
+#~ msgid "New File"
+#~ msgstr "新檔案"
+
+#~ msgid "New Folder"
+#~ msgstr "新資料夾"
+
+#~ msgid "New chapter"
+#~ msgstr "新章節"
+
+#~ msgid "New clip name"
+#~ msgstr "新素材名稱"
+
+#~ msgid "Next Marker"
+#~ msgstr "下一個標記"
+
+#~ msgid "No clip in clipboard"
+#~ msgstr "剪貼簿中沒有任何素材"
+
+#~ msgid "No images in slideshow"
+#~ msgstr "投影片秀中無影像"
+
+#~ msgid "None"
+#~ msgstr "None"
+
+#~ msgid "Normal"
+#~ msgstr "中"
+
+#~ msgid "Ok"
+#~ msgstr "確定"
+
+#~ msgid "Open Existing Project"
+#~ msgstr "開啟舊專案"
+
+#~ msgid "Open File..."
+#~ msgstr "開啟檔案..."
+
+#~ msgid "Open a recent file"
+#~ msgstr "開啟一個最近使用的檔案"
+
+#~ msgid "Open blank project"
+#~ msgstr "開啟空白專案"
+
+#~ msgid "Open in QDvdAuthor"
+#~ msgstr "以 QDvdAuthor 開啟 "
+
+#~ msgid "Opening file..."
+#~ msgstr "開啟檔案中..."
+
+#~ msgid "Opens a recently used file"
+#~ msgstr "開啟最近使用的檔案"
+
+#~ msgid "Outpoint"
+#~ msgstr "終點"
+
+#~ msgid "PAL 16:9"
+#~ msgstr "PAL 16:9"
+
+#~ msgid "PIP"
+#~ msgstr "子母畫面"
+
+#~ msgid "Paste clipboard contents to cursor position"
+#~ msgstr "貼上剪貼簿內容至指標所在位置"
+
+#~ msgid "Pastes the clipboard contents to actual position"
+#~ msgstr "貼上剪貼簿內容到現在的位置"
+
+#~ msgid "Pasting clip %1 transitions."
+#~ msgstr "貼上素材 %1 轉場效果."
+
+#~ msgid "Pasting clip %1."
+#~ msgstr "貼上素材 %1."
+
+#~ msgid "Pause between chapters (seconds)"
+#~ msgstr "在章節中暫停 (秒)"
+
+#~ msgid ""
+#~ "Piave and Kdenlive internationalization, French translations, splashscreen"
+#~ msgstr "Piave 產生器及 Kdenlive 國際化，法文翻譯，閃示圖"
+
+#~ msgid "Piave renderer author and maintainer"
+#~ msgstr "Piave 產生器作者以及維護者"
+
+#~ msgid "Pip"
+#~ msgstr "子母畫面"
+
+#~ msgid ""
+#~ "Place snap marks on clips and the timeline to aid accurate positioning of "
+#~ "clips"
+#~ msgstr "加入定位標記到影片片段及時間軸中以標示現在的位置"
+
+#~ msgid "Play Clip"
+#~ msgstr "播放影片片段"
+
+#~ msgid "Play Movie"
+#~ msgstr "播放影片"
+
+#~ msgid "Play Section between inpoint and outpoint"
+#~ msgstr "在起點和終點間播放"
+
+#~ msgid "Play Selection"
+#~ msgstr "播放選取區"
+
+#~ msgid "Play clip in clip monitor"
+#~ msgstr "在影片片段監視器中播放影片片段"
+
+#~ msgid "Play forward"
+#~ msgstr "快速播放"
+
+#~ msgid "Play or pause"
+#~ msgstr "播放或暫停"
+
+#~ msgid "Play selected zone in loop"
+#~ msgstr "循環播放選取區"
+
+#~ msgid "Play/Pause"
+#~ msgstr "播放/暫停"
+
+#~ msgid "Please enter a file name"
+#~ msgstr "請輸入檔名"
+
+#~ msgid "Please select a clip to apply transition"
+#~ msgstr "請選擇一個素材來套用轉場效果"
+
+#~ msgid "Port"
+#~ msgstr "Port"
+
+#~ msgid "Preview Quality"
+#~ msgstr "預覽品質"
+
+#~ msgid "Previous Marker"
+#~ msgstr "先前的標記"
+
+#~ msgid "Printing..."
+#~ msgstr "列印中..."
+
+#~ msgid "Process captured files"
+#~ msgstr "處理擷取檔案"
+
+#~ msgid "Program Path"
+#~ msgstr "軟體路徑"
+
+#~ msgid "Push"
+#~ msgstr "推動"
+
+#~ msgid "Quits the application"
+#~ msgstr "離開"
+
+#~ msgid "Raw DV"
+#~ msgstr "Raw DV"
+
+#~ msgid "Razor All Clips"
+#~ msgstr "裁剪所有影片片段"
+
+#~ msgid "Razor Clip"
+#~ msgstr "裁剪影片片段"
+
+#~ msgid "Razor Tool"
+#~ msgstr "裁剪工具"
+
+#~ msgid "Razor all clips on the timeline at the current seek position"
+#~ msgstr "裁剪時間軸上所有在搜索位置中的影片片段"
+
+#~ msgid ""
+#~ "Razor all selected clips on the timeline at the current seek position"
+#~ msgstr "裁剪時間軸上所有在搜索位置中已選擇的影片片段"
+
+#~ msgid "Razor all tracks"
+#~ msgstr "裁剪所有資料軌"
+
+#~ msgid "Ready."
+#~ msgstr "準備好的"
+
+#~ msgid "Recent Files"
+#~ msgstr "最近使用的檔案"
+
+#~ msgid "Remove Effect"
+#~ msgstr "移除特效"
+
+#~ msgid "Remove all snap markers from project"
+#~ msgstr "移除專案中所有的定位標記"
+
+#~ msgid "Remove clip"
+#~ msgstr "移除素材"
+
+#~ msgid "Remove clips from the project"
+#~ msgstr "從專案中移除影片片段"
+
+#~ msgid "Remove empty space"
+#~ msgstr "移除空白"
+
+#~ msgid "Remove snap markers from selected clips"
+#~ msgstr "從選取的素材移除定位標記"
+
+#~ msgid "Remove space between two clips"
+#~ msgstr "移除二個影片片段間的空白"
+
+#~ msgid ""
+#~ "Remove track %1 ?\n"
+#~ "This will remove all clips on that track."
+#~ msgstr ""
+#~ "移除資料軌 %1 ?\n"
+#~ "這將移除資料軌上的所有素材."
+
+#~ msgid "Remove unused clips"
+#~ msgstr "移除未使用的素材"
+
+#~ msgid "Remove unused clips from the project"
+#~ msgstr "從專案中移除沒用到的影片片段"
+
+#~ msgid "Removing Clips"
+#~ msgstr "移除影片片段"
+
+#~ msgid "Render Selected Zone"
+#~ msgstr "建立選取區"
+
+#~ msgid "Render file now"
+#~ msgstr "立即建立檔案"
+
+#~ msgid "Render the timeline to a file"
+#~ msgstr "產生時間軸到檔案中"
+
+#~ msgid "Render timeline to a file"
+#~ msgstr "將時間軸匯出成一個檔案"
+
+#~ msgid "Renderer"
+#~ msgstr "產生器"
+
+#~ msgid "Resize Clip End To Current Time"
+#~ msgstr "剪裁素材以目前影格作為終點"
+
+#~ msgid "Resize Clip Start To Current Time"
+#~ msgstr "剪裁素材以目前影格作為起點"
+
+#~ msgid "Restore Last Zoom Level"
+#~ msgstr "復原最近的檢視狀態"
+
+#~ msgid "Rewind clip"
+#~ msgstr "倒轉播放素材"
+
+#~ msgid "Roll Tool"
+#~ msgstr "捲動工具列"
+
+#~ msgid "Roll clips"
+#~ msgstr "捲動素材"
+
+#~ msgid "Roll tool"
+#~ msgstr "捲動工具列"
+
+#~ msgid "Sampling Rate:"
+#~ msgstr "採樣率"
+
+#~ msgid "Save Debug Messages..."
+#~ msgstr "儲存除錯訊息"
+
+#~ msgid "Save Layout &1"
+#~ msgstr "儲存配置 &1"
+
+#~ msgid "Save Layout &2"
+#~ msgstr "儲存配置 &2"
+
+#~ msgid "Save Layout &3"
+#~ msgstr "儲存配置 &3"
+
+#~ msgid "Save Layout &4"
+#~ msgstr "儲存配置 &4"
+
+#~ msgid "Save Messages"
+#~ msgstr "儲存訊息"
+
+#~ msgid "Save Selected Zone"
+#~ msgstr "儲存選取區"
+
+#~ msgid "Saves the actual document as..."
+#~ msgstr "儲存現在的檔案為..."
+
+#~ msgid "Saving file with a new filename..."
+#~ msgstr "以新檔名儲存檔案中..."
+
+#~ msgid "Saving file..."
+#~ msgstr "另存新檔中..."
+
+#~ msgid "Scroll"
+#~ msgstr "捲軸"
+
+#~ msgid "Scroll timeline using mouse wheel (Alt for vertical scroll)"
+#~ msgstr "使用滑鼠滾輪捲動時間軸"
+
+#~ msgid "Seconds"
+#~ msgstr "秒數"
+
+#~ msgid "Seek &Forwards"
+#~ msgstr "往前搜尋"
+
+#~ msgid "Seek Backwards"
+#~ msgstr "往後搜尋"
+
+#~ msgid "Seek backwards one frame"
+#~ msgstr "往後搜尋一個影格"
+
+#~ msgid "Seek forward one frame"
+#~ msgstr "往前搜尋一個影格"
+
+#~ msgid "Seeking Backwards One Frame"
+#~ msgstr "往後搜尋一個影格中"
+
+#~ msgid "Seeking Backwards one frame"
+#~ msgstr "往後尋找一個影格"
+
+#~ msgid "Seeking Forwards one frame"
+#~ msgstr "往前搜尋一個影格中"
+
+#~ msgid "Select Clip"
+#~ msgstr "選取素材"
+
+#~ msgid "Select Clip Under Cursor"
+#~ msgstr "選取素材"
+
+#~ msgid "Select Clips"
+#~ msgstr "選取素材"
+
+#~ msgid "Select Next Track"
+#~ msgstr "選取下一個資料軌"
+
+#~ msgid "Select Previous Track"
+#~ msgstr "選取上一個資料軌"
+
+#~ msgid "Select View Type"
+#~ msgstr "選擇顯示模式"
+
+#~ msgid "Select multiple clips"
+#~ msgstr "選取multiple clips"
+
+#~ msgid "Select the codec for your output file"
+#~ msgstr "為您的輸出檔案選擇一個編碼器"
+
+#~ msgid "Send Veml Command"
+#~ msgstr "傳送回報訊息"
+
+#~ msgid "Separate tool"
+#~ msgstr "分割工具"
+
+#~ msgid "Set Marker"
+#~ msgstr "設定標記"
+
+#~ msgid "Set current clip duration"
+#~ msgstr "設定現行素材時間長度"
+
+#~ msgid "Set inpoint"
+#~ msgstr "設定起點"
+
+#~ msgid "Set outpoint"
+#~ msgstr "設定終點"
+
+#~ msgid "Set the inpoint to the current position"
+#~ msgstr "設定起點到現有位置"
+
+#~ msgid "Set the outpoint to the current position"
+#~ msgstr "設定終點到現在的位置"
+
+#~ msgid "Setting Inpoint"
+#~ msgstr "設定起點"
+
+#~ msgid "Setting outpoint"
+#~ msgstr "終點設定中"
+
+#~ msgid "Setup External Renderer Program"
+#~ msgstr "設定外部產生器"
+
+#~ msgid ""
+#~ "Shift all clips to the right of mouse. Ctrl + click to move only clips on "
+#~ "current track."
+#~ msgstr "移動所有素材(Ctrl + click 只移動目前資料軌上的素材)"
+
+#~ msgid "Shifts all clips to the right of mouse"
+#~ msgstr "轉移所有的影片片段到滑鼠右邊"
+
+#~ msgid "Show Effects"
+#~ msgstr "顯示效果"
+
+#~ msgid "Show Thumbnails"
+#~ msgstr "顯示縮圖"
+
+#~ msgid "Show Transitions"
+#~ msgstr "顯示轉場效果"
+
+#~ msgid "Show all markers"
+#~ msgstr "顯示所有標記"
+
+#~ msgid "Show process output"
+#~ msgstr "顯示輸出過程"
+
+#~ msgid "Show splash screen"
+#~ msgstr "顯示splash螢幕"
+
+#~ msgid "Snap To Border"
+#~ msgstr "定位到邊框"
+
+#~ msgid "Snap To Frames"
+#~ msgstr "定位到影格"
+
+#~ msgid "Snap To Marker"
+#~ msgstr "定位到標記"
+
+#~ msgid "Spacing Tool"
+#~ msgstr "間隔工具"
+
+#~ msgid ""
+#~ "Specifies that we should display timecodes using a drop frame timecode "
+#~ "(specifically for NTSC). Drop frame timecode compensates for the fact "
+#~ "that NTSC runs at 29.97 frames per second by \"dropping\" two frames a "
+#~ "minute, except for every 10th minute. WIthout this, the timecode will "
+#~ "slowly slip out of sync with the real world time.\n"
+#~ "\n"
+#~ "Drop frame timecode only affects the way that frames are numbered, no "
+#~ "frames are dropped from the video edit."
+#~ msgstr ""
+#~ "NTSC 的呈像是每秒29.97 影格所謂的drop frame / non-drop frame指的是 "
+#~ "timecode 的掉格與不掉格影像上的「格」並沒有任何差異以 non-drop frame "
+#~ "timecode 來說由 01:00:00:00 到 01:30:00:00 的ㄧ段video真實時間並不是30分鍾"
+#~ "因為影像每跑29.97格的真實時間為1秒計算起來timecode 顯示的「時間「比真實時"
+#~ "間跑快了0.1%所以 01:00:00:00 到 01:30:00:00的真實時間應為30分鍾 x1.001= 30"
+#~ "分又1.8秒為了反映真實時間則有了drop frame timecodedrop frame timecode 為了"
+#~ "補償這01%的差異於是timecode跳過每分鍾的 :00 和 :01 格但每個第十分鍾不跳原"
+#~ "理和閏年的計算方法一樣要注意的是這裡影像並沒有任何掉格脫格的只有timecode"
+
+#~ msgid ""
+#~ "Specifies the path to the Renderer program. The renderer handles the "
+#~ "viewing and manipulation of the timeline data that you provide. It is "
+#~ "very important to have a valid renderer specified if you want to do "
+#~ "anything useful with kdenlive."
+#~ msgstr ""
+#~ "指定產生器軟體的路徑。產生器用來控制觀看以及操縱您提供的時間軸資料。加如您"
+#~ "想要完整使用kdenlive.的功，擁有一個可用的產生器是非常重要的！"
+
+#~ msgid "Specifies the path to the renderer application"
+#~ msgstr "指定產生器的路徑"
+
+#~ msgid "Split Audio From Selected Clip"
+#~ msgstr "從選取的影片片段分離音訊"
+
+#~ msgid "Start or stop playback"
+#~ msgstr "開始或停止錄放"
+
+#~ msgid "Start or stop playback of inpoint/outpoint selection"
+#~ msgstr "開始或停止錄放起點/終點選取區"
+
+#~ msgid "Start/Stop"
+#~ msgstr "開始/停止"
+
+#~ msgid "Starting/stopping playback"
+#~ msgstr "開始/停止錄放中"
+
+#~ msgid "Starting/stopping playback of inpoint/outpoint section"
+#~ msgstr "開始/停止錄放的起點/終點選取"
+
+#~ msgid "Startup options"
+#~ msgstr "啟動選項"
+
+#~ msgid "Stereo"
+#~ msgstr "立體聲"
+
+#~ msgid "Stop clip"
+#~ msgstr "停止播放素材"
+
+#~ msgid "System:"
+#~ msgstr "系統:"
+
+#~ msgid "Text Color"
+#~ msgstr "文字色彩"
+
+#~ msgid "The capture stopped, see details for more info."
+#~ msgstr "影片擷取停止，請查詢詳細資料"
+
+#~ msgid "The clip %1 is already present in this project"
+#~ msgstr "影片已產生 %1 "
+
+#~ msgid "The creation of DVD structure failed."
+#~ msgstr "DVD建立失效"
+
+#~ msgid "The creation of DVD structure is finished."
+#~ msgstr "DVD建立成功"
+
+#~ msgid ""
+#~ "The current file has been modified.\n"
+#~ "Do you want to save it?"
+#~ msgstr ""
+#~ "此檔案已修改，\n"
+#~ "您是否確定要儲存?"
+
+#~ msgid "The file %1 is not a valid video file for kdenlive..."
+#~ msgstr "檔案 %1 對Kdenlive而言不是一個有效的視訊檔案"
+
+#~ msgid "The name of ouput video file"
+#~ msgstr "輸出視訊檔案的名稱："
+
+#~ msgid "The port that the renderer will listen on for kdenlive to connect."
+#~ msgstr "產生器的port將監聽kdenlive的連線"
+
+#~ msgid ""
+#~ "The port value specifies the port that kdenlive should connect to the "
+#~ "renderer with. Change this value if something else is already using the "
+#~ "default port."
+#~ msgstr ""
+#~ "port的值是指定哪一個port可以讓kdenlive連線到產生器。假如預設的port已經被用"
+#~ "掉了那麼可修改port的值。"
+
+#~ msgid "The renderer is not available. Please check your settings."
+#~ msgstr "此產生器無法使用。請檢查您的設定。"
+
+#~ msgid ""
+#~ "The renderer is unavailable, the file properties cannot be determined."
+#~ msgstr "產生器無法運作，此檔案屬性無法被偵測出"
+
+#~ msgid "There is another file render currently running, cancel it ?"
+#~ msgstr "有另一個檔案正在執行，您要取消它嗎?"
+
+#~ msgid ""
+#~ "This will remove all clips on the timeline that are currently using this "
+#~ "clip. Are you sure you want to do this?"
+#~ msgstr "此動作將移除所有在時間軸上使用中的影片片段，您確定您要繼續嗎？"
+
+#~ msgid ""
+#~ "This will remove all clips on timeline that are currently using the "
+#~ "selected clips. Are you sure you want to do this?"
+#~ msgstr "這將移除時間軸上目前所有已選取的素材，你確定要執行這個動作?"
+
+#~ msgid ""
+#~ "This window lets you edit the parameters of the currently selected effect."
+#~ msgstr "此視窗讓您編輯現在所選擇的效果"
+
+#~ msgid "This window show all debug messages between renderer and Kdenlive"
+#~ msgstr "此視窗顯示所有在產生器和Kdenlive之間的除錯訊息"
+
+#~ msgid "This window show your video files usable in your project"
+#~ msgstr "此視窗顯示您專案中可使用的視訊檔案"
+
+#~ msgid ""
+#~ "This window show your video files usable in your project. You can add or "
+#~ "remove some files with the contextual menu. For add some sequences on "
+#~ "your video project, use the drag and drop."
+#~ msgstr ""
+#~ "此視窗顯示您專案中可使用的視訊檔案。您可以利用右鍵選單來新增或移除一些檔"
+#~ "案。若是要進行視訊專案排序，直接拖放專案即可。"
+
+#~ msgid "This window shows all effects on the currently selected widget."
+#~ msgstr "此視窗顯示所有現正選擇的工具集中的效果"
+
+#~ msgid "This window shows all effects usable with the renderer"
+#~ msgstr "此視窗顯示所有產生器可用的效果"
+
+#~ msgid "TimeLine"
+#~ msgstr "時間軸"
+
+#~ msgid "Timeline Monitor"
+#~ msgstr "時間軸監視器_Timeline Monitor"
+
+#~ msgid "Timeline Toolbar"
+#~ msgstr "時間軸工具列"
+
+#~ msgid "Toggle Marker"
+#~ msgstr "鎖定標記"
+
+#~ msgid "Toggle Snap Marker"
+#~ msgstr "鎖定定位標記"
+
+#~ msgid "Toggle a snap marker at the current monitor position"
+#~ msgstr "鎖定現在位置上的定位標記"
+
+#~ msgid "Toggle the statusbar..."
+#~ msgstr "鎖定狀態列..."
+
+#~ msgid "Toggling snap marker"
+#~ msgstr "定位標記鎖定中"
+
+#~ msgid "Toggling toolbar..."
+#~ msgstr "鎖定工具列中..."
+
+#~ msgid "Track"
+#~ msgstr "資料軌"
+
+#~ msgid "Tracks"
+#~ msgstr "資料軌"
+
+#~ msgid "Transition duration"
+#~ msgstr "轉場時間長度"
+
+#~ msgid "Transitions"
+#~ msgstr "轉場效果_Transition"
+
+#~ msgid "Transparent &background"
+#~ msgstr "透明&背景"
+
+#~ msgid "Transparent bac&kground"
+#~ msgstr "透明背景"
+
+#~ msgid "Type"
+#~ msgstr "類型"
+
+#~ msgid "Type:"
+#~ msgstr "型態:"
+
+#~ msgid "Under"
+#~ msgstr "上限"
+
+#~ msgid "Undo Edit Snap Marker"
+#~ msgstr "取消編輯定位標記"
+
+#~ msgid "Unknown size, %1 fps"
+#~ msgstr "Unknown size, %1 fps"
+
+#~ msgid "Usage: %1"
+#~ msgstr "使用：%1"
+
+#~ msgid "Use Drop Frame timecode"
+#~ msgstr "使用掉格影格時碼（Drop Frame timecode）"
+
+#~ msgid "Use Drop Frame timecode (NTSC only)"
+#~ msgstr "使用遺漏影格時間碼(NTSC only)"
+
+#~ msgid "Use Luma"
+#~ msgstr "使用漸層效果"
+
+#~ msgid "Use existing video file"
+#~ msgstr "使用已存在視訊檔"
+
+#~ msgid "Use secondary monitor for video output"
+#~ msgstr "使用第二個螢幕作為視訊輸出"
+
+#~ msgid "Use system temporary folder"
+#~ msgstr "使用系統暫存區"
+
+#~ msgid "User defined folder"
+#~ msgstr "使用已設定的資料夾 "
+
+#~ msgid "Video Format"
+#~ msgstr "視訊格式"
+
+#~ msgid "Video Track"
+#~ msgstr "視訊軌"
+
+#~ msgid "Video Tracks"
+#~ msgstr "視訊軌"
+
+#~ msgid "Video format"
+#~ msgstr "視訊格式"
+
+#~ msgid "Video format:"
+#~ msgstr "視訊格式:"
+
+#~ msgid "Video tracks:"
+#~ msgstr "視訊軌:"
+
+#~ msgid "View the properties of the selected clip"
+#~ msgstr "檢視選擇的影片片段屬性"
+
+#~ msgid "Viewing clip properties"
+#~ msgstr "檢視影片片段屬性"
+
+#~ msgid "Volume: "
+#~ msgstr "音量:"
+
+#~ msgid "Windows"
+#~ msgstr "視窗"
+
+#~ msgid "Wipe"
+#~ msgstr "擦去"
+
+#~ msgid "Workspace Monitor"
+#~ msgstr "工作區監視器"
+
+#~ msgid ""
+#~ "You can now close this dialog and keep on working on your project while "
+#~ "the DVD is being created."
+#~ msgstr "在完成建立DVD之前您可以關閉此對話視窗並繼續您的專案"
+
+#~ msgid ""
+#~ "You need the program \"K3b\" to burn your DVD. Please install it if you "
+#~ "want to use this feature."
+#~ msgstr "如果您需要燒錄DVD，建議您安裝K3b來燒錄製作"
+
+#~ msgid ""
+#~ "_: EMAIL OF TRANSLATORS\n"
+#~ "Your emails"
+#~ msgstr ""
+#~ "_: 譯者電子信箱\n"
+#~ "您的電子信箱"
+
+#~ msgid ""
+#~ "_: NAME OF TRANSLATORS\n"
+#~ "Your names"
+#~ msgstr ""
+#~ "_: 譯者姓名\n"
+#~ "您的姓名"
+
+#~ msgid "add"
+#~ msgstr "新增"
+
+#~ msgid "audio"
+#~ msgstr "音訊"
+
+#~ msgid "bmp"
+#~ msgstr "bmp"
+
+#~ msgid "clip"
+#~ msgstr "影片片段"
+
+#~ msgid "delete"
+#~ msgstr "刪除"
+
+#~ msgid "file to open"
+#~ msgstr "要開啟的檔案"
+
+#~ msgid "gif"
+#~ msgstr "gif"
+
+#~ msgid "image/gif image/x-bmp image/png image/jpeg"
+#~ msgstr "image/gif image/x-bmp image/png image/jpeg"
+
+#~ msgid "jpg"
+#~ msgstr "jpg"
+
+#~ msgid "minutes"
+#~ msgstr "分鐘"
+
+#~ msgid "mute video"
+#~ msgstr "靜音視訊"
+
+#~ msgid "n/a"
+#~ msgstr "n/a"
+
+#~ msgid "png"
+#~ msgstr "png"
+
+#~ msgid "track"
+#~ msgstr "資料軌"

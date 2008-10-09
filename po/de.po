@@ -1,0 +1,2202 @@
+# translation of kdenlive.po to
+# Copyright (C) 2008 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Marco Gittler <g.marco@freenet.de>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdenlive\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-10-06 17:22+0200\n"
+"PO-Revision-Date: 2008-08-15 18:51+0200\n"
+"Last-Translator: Marco Gittler <g.marco@freenet.de>\n"
+"Language-Team:  <de@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid " Firewire (DV / HDV)"
+msgstr ""
+
+#, kde-format
+msgid "%1 images found"
+msgstr "%1 Bilder gefunden"
+
+msgid "..."
+msgstr "..."
+
+msgid "/"
+msgstr ""
+
+msgid "/dev/dsp"
+msgstr ""
+
+msgid "/dev/video0"
+msgstr ""
+
+msgid "0"
+msgstr ""
+
+msgid "100%"
+msgstr ""
+
+msgid "200%"
+msgstr ""
+
+msgid "25/1"
+msgstr ""
+
+msgid "320x240"
+msgstr ""
+
+msgid "4/3"
+msgstr ""
+
+msgid "50%"
+msgstr ""
+
+msgid "59/54"
+msgstr ""
+
+msgid "720x576"
+msgstr ""
+
+msgid "99:99:99:99; "
+msgstr "99:99:99:99;"
+
+msgid ":::"
+msgstr ":::"
+
+msgid "<br><b>Author:</b> "
+msgstr "<br><b> Autor</b> "
+
+#, kde-format
+msgid "<qt>Clip <b>%1</b><br>is invalid, will be removed from project."
+msgstr ""
+
+msgid "A"
+msgstr ""
+
+msgid "A guide already exists at that position"
+msgstr "An dieser Stelle besteht bereits ein Guide"
+
+msgid ""
+"A profile with same name already exists in MLT's default profiles, please "
+"choose another description for your custom profile."
+msgstr ""
+
+msgid "ALSA"
+msgstr ""
+
+msgid "ARTS daemon"
+msgstr ""
+
+msgid "Activate crash recovery (auto save)"
+msgstr ""
+
+#, kde-format
+msgid "Add %1"
+msgstr "%1 hinzufügen"
+
+msgid "Add Audio Effect"
+msgstr "Audioeffekt hinzufügen"
+
+msgid "Add Clip"
+msgstr "Datei hinzufügen"
+
+msgid "Add Color Clip"
+msgstr "Farbclip hinzufügen"
+
+msgid "Add Custom Effect"
+msgstr "Benutzerdefinierten Effekt hinzufügen"
+
+msgid "Add Guide"
+msgstr "Guide hinzufügen"
+
+msgid "Add Image"
+msgstr "Bild hinzufügen"
+
+msgid "Add Marker to Clip"
+msgstr "Marker zum Clip hinzufügen"
+
+msgid "Add Rectangle"
+msgstr "Rechteck hinzufügen"
+
+#, fuzzy
+msgid "Add Slideshow Clip"
+msgstr "Diashow"
+
+msgid "Add Text"
+msgstr "Text hinzufügen"
+
+msgid "Add Title Clip"
+msgstr "Titel hinzufügen"
+
+msgid "Add Transition"
+msgstr "Übergang hinzufügen"
+
+msgid "Add Video Effect"
+msgstr "Video-Effekt hinzufügen"
+
+#, fuzzy
+msgid "Add audio fade"
+msgstr "Audioeffekt hinzufügen"
+
+msgid "Add clip"
+msgstr "Clip hinzufügen"
+
+#, fuzzy
+msgid "Add clips"
+msgstr "Clip hinzufügen"
+
+msgid "Add folder"
+msgstr "Ordner hinzufügen"
+
+msgid "Add guide"
+msgstr "Guide hinzufügen"
+
+msgid "Add keyframe"
+msgstr "Keyframe hinzufügen"
+
+msgid "Add marker"
+msgstr "Marker hinzufügen"
+
+msgid "Add new effect"
+msgstr "Neuen Effekt hinzufügen"
+
+msgid "Add recording time to captured file name"
+msgstr "Aufnahmedauer an Dateinamen anhängen"
+
+msgid "Add timeline clip"
+msgstr ""
+
+msgid "Add transition"
+msgstr "Übergang hinzufügen"
+
+msgid "Add transition to clip"
+msgstr "Übergang zu Clip hinzufügen"
+
+#, fuzzy
+msgid "Additional Settings"
+msgstr "Audiobearbeitung"
+
+msgid "Adjust audio volume with keyframes"
+msgstr ""
+
+msgid "Adjust clip length"
+msgstr "Cliplänge einstellen"
+
+msgid "Advanced"
+msgstr "Erweitert"
+
+msgid "Align item horizontally"
+msgstr "Element horizontal ausrichten"
+
+msgid "Align item vertically"
+msgstr "Element vertikal ausrichten"
+
+msgid "Align..."
+msgstr ""
+
+msgid "All"
+msgstr "Alle"
+
+msgid "Allow horizontal moves"
+msgstr "Horizontales Verschieben erlauben"
+
+msgid "Allow vertical moves"
+msgstr "Vertikales Verschieben erlauben"
+
+msgid "Amplitude"
+msgstr ""
+
+msgid "Ascii art library"
+msgstr ""
+
+msgid "Aspect ratio"
+msgstr "Seitenverhältnis"
+
+msgid "Aspect ratio:"
+msgstr "Seitenverhältnis:"
+
+msgid "Audio"
+msgstr ""
+
+msgid "Audio clip"
+msgstr "Musikstück"
+
+msgid "Audio codec"
+msgstr "Audiocodec"
+
+msgid "Audio device:"
+msgstr "Audiogerät:"
+
+msgid "Audio driver:"
+msgstr "Audiotreiber:"
+
+msgid "Audio editing"
+msgstr "Audiobearbeitung"
+
+#, c-format, kde-format
+msgid "Audio fade duration: %1s"
+msgstr ""
+
+msgid "Audio index"
+msgstr "Audioindex"
+
+#, fuzzy
+msgid "Audio tracks"
+msgstr "Musikstück"
+
+#, fuzzy
+msgid "Auto Mask"
+msgstr "Automatisch hinzufügen"
+
+msgid "Auto add"
+msgstr "Automatisch hinzufügen"
+
+#, fuzzy
+msgid "Auto-saved files exist. Do you want to recover them now?"
+msgstr "Die Datei existiert bereits. Soll sie überschrieben werden?"
+
+msgid "Automatic"
+msgstr "Automatisch"
+
+msgid "Automatically start a new file on scene cut"
+msgstr ""
+
+msgid "Autoscroll while playing"
+msgstr "Beim Abspielen automatisch scrollen"
+
+msgid "Averaging"
+msgstr ""
+
+msgid "Background"
+msgstr "Hintergrund"
+
+msgid "BasicOperations"
+msgstr ""
+
+msgid "Blue Screen"
+msgstr ""
+
+msgid "Blur factor"
+msgstr ""
+
+#, fuzzy
+msgid "Blur image with keyframes"
+msgstr "Keyframe löschen"
+
+msgid "Border color"
+msgstr ""
+
+msgid "Bottom"
+msgstr ""
+
+msgid "Box Blur"
+msgstr ""
+
+msgid "Brightness"
+msgstr ""
+
+msgid "Button 1"
+msgstr "Knopf 1"
+
+msgid "Button 2"
+msgstr "Knopf 2"
+
+msgid "Button 3"
+msgstr "Knopf 3"
+
+msgid "Button 4"
+msgstr "Knopf 4"
+
+msgid "Button 5"
+msgstr "Knopf 5"
+
+msgid "C"
+msgstr ""
+
+#, kde-format
+msgid ""
+"Cannot access Desktop Search info for %1.\n"
+"Disabling Desktop Search integration."
+msgstr ""
+
+msgid "Cannot add marker if more than one clip is selected"
+msgstr "Kann keine Marker hinzufügen, wenn mehrere Clips markiert sind"
+
+#, fuzzy
+msgid "Cannot cut a transition"
+msgstr "Übergang verschieben"
+
+msgid "Cannot delete marker if more than one clip is selected"
+msgstr "Kann keine Marker löschen, wenn mehrere Clips markiert sind"
+
+msgid "Cannot edit marker if more than one clip is selected"
+msgstr "Kann keine Marker bearbeiten, wenn mehrere Clips markiert sind"
+
+msgid "Cannot find clip to add effect"
+msgstr ""
+
+msgid "Cannot find clip to cut"
+msgstr ""
+
+msgid "Cannot find clip to uncut"
+msgstr ""
+
+msgid "Cannot find clip with keyframe"
+msgstr ""
+
+msgid "Cannot find the inigo program required for rendering (part of Mlt)"
+msgstr ""
+
+msgid "Cannot find your Mlt profiles, please give the path"
+msgstr ""
+
+#, kde-format
+msgid "Cannot move clip at time: %1s on track %2"
+msgstr ""
+
+#, c-format, kde-format
+msgid "Cannot move clip to position %1seconds"
+msgstr "Kann Clip nicht nach %1sec verschieben"
+
+#, kde-format
+msgid "Cannot move transition at time: %1s on track %2"
+msgstr ""
+
+msgid "Cannot paste clip to selected place"
+msgstr "Clip kann am gewählten Ort nicht eingefügt werden"
+
+msgid "Cannot paste selected clips"
+msgstr "Kann gewählte Clips nicht einfügen"
+
+msgid "Cannot paste transition to selected place"
+msgstr "Kann Übergang nicht am gewählten Ort einfügen"
+
+msgid ""
+"Cannot play video after rendering because the default video player "
+"application is not set.\n"
+"Please define it in Kdenlive settings dialog."
+msgstr ""
+
+#, kde-format
+msgid ""
+"Cannot read from device %1\n"
+"Please check drivers and access rights."
+msgstr ""
+"Von Gerät %1 kann nicht gelesen werden\n"
+"Bitte überprüfen Sie Treiber und Zugriffsrechte"
+
+#, fuzzy, kde-format
+msgid "Cannot write to file %1"
+msgstr "Kann nicht in Datei %1 schreiben"
+
+msgid "Capture"
+msgstr "Aufnahme"
+
+msgid "Capture audio"
+msgstr "Audio aufnehmen"
+
+msgid "Capture crashed, please check your parameters"
+msgstr "Aufnahme abgebrochen, bitte überprüfen Sie die Einstellungen"
+
+msgid "Capture folder"
+msgstr "Aufnahmeordner"
+
+msgid "Capture format"
+msgstr "Aufnahmeformat"
+
+msgid "Capture params"
+msgstr "Aufnahmeparameter"
+
+#, fuzzy
+msgid "Captured files"
+msgstr "Aufnahmeordner"
+
+msgid "Capturing..."
+msgstr "Aufnahme..."
+
+#, fuzzy
+msgid "Center"
+msgstr "Erstellen"
+
+msgid "Change"
+msgstr "Ändern"
+
+msgid "Change Clip Speed"
+msgstr ""
+
+msgid "Change gamma color value"
+msgstr ""
+
+msgid "Change image brightness with keyframes"
+msgstr ""
+
+msgid "Channels"
+msgstr ""
+
+msgid "Charcoal"
+msgstr ""
+
+#, fuzzy
+msgid "Charcoal drawing effect"
+msgstr "Problem beim Bearbeiten des Effekts"
+
+msgid "CheckBox"
+msgstr ""
+
+msgid "Chroma Hold"
+msgstr ""
+
+msgid "Chrominance U"
+msgstr ""
+
+msgid "Chrominance V"
+msgstr ""
+
+msgid "Clean"
+msgstr ""
+
+msgid "Clip Color"
+msgstr "Farbclip"
+
+msgid "Clip Monitor"
+msgstr "Clip-Monitor"
+
+msgid "Clip Properties"
+msgstr "Clip-Eigenschaften"
+
+#, c-format, kde-format
+msgid "Clip duration: %1s"
+msgstr "Cliplänge: %1s"
+
+msgid "Clip has no markers"
+msgstr "Clip hat keine Marker"
+
+msgid "Close the current tab"
+msgstr ""
+
+msgid "Co-efficient"
+msgstr ""
+
+msgid "Color"
+msgstr "Farbe"
+
+msgid "Color Clip"
+msgstr "Farbclip"
+
+msgid "Color clip"
+msgstr "Farbclip"
+
+msgid "Color clips"
+msgstr "Farbclips"
+
+#, fuzzy
+msgid "Color key"
+msgstr "Farbe"
+
+msgid "Comment"
+msgstr "Kommentar"
+
+msgid "Configure"
+msgstr "Einrichten"
+
+msgid "Connect"
+msgstr ""
+
+msgid ""
+"Could not create the video preview window.\n"
+"There is something wrong with your Kdenlive install or your driver settings, "
+"please fix it."
+msgstr ""
+"Kann Video-Vorschau Fenster nicht erstellen.\n"
+"Es stimmt etwas mit Ihrer Kdenlive-Installation oder den Treiber-"
+"Einstellungen nicht. Bitte beheben Sie dieses Problem."
+
+#, fuzzy
+msgid "Crackle"
+msgstr "Erstellen"
+
+msgid "Crash recovery (automatic backup)"
+msgstr ""
+
+msgid "Create Folder"
+msgstr "Verzeichnis erstellen"
+
+msgid "Create new profile"
+msgstr "Neues Profil erstellen"
+
+#, kde-format
+msgid "Creating thumbnail for %1"
+msgstr "Erstelle Thumbnail für %1"
+
+#, c-format, kde-format
+msgid "Crop from start: %1s"
+msgstr ""
+
+msgid "Crop start"
+msgstr ""
+
+msgid "Crossfade"
+msgstr ""
+
+msgid "Custom"
+msgstr "Benutzerdefiniert"
+
+msgid "Cut"
+msgstr "Schnitt"
+
+#, fuzzy
+msgid "Cut Clip"
+msgstr "Clip bearbeiten"
+
+msgid "D"
+msgstr ""
+
+#, fuzzy
+msgid "DV"
+msgstr "HDV"
+
+msgid "DV AVI type 1"
+msgstr ""
+
+msgid "DV AVI type 2"
+msgstr ""
+
+msgid "DV Raw"
+msgstr ""
+
+#, fuzzy
+msgid "Damping"
+msgstr "Bewertung"
+
+msgid "Debug"
+msgstr ""
+
+msgid "Decay"
+msgstr ""
+
+#, fuzzy
+msgid "Declipper"
+msgstr "Clip löschen"
+
+msgid "Decoding threads"
+msgstr ""
+
+#, fuzzy
+msgid "Default"
+msgstr "Standardformat"
+
+msgid "Default Durations"
+msgstr "Standarddauer"
+
+msgid "Default Profile"
+msgstr "Standardprofil"
+
+msgid "Default apps"
+msgstr "Standardanwendungen"
+
+msgid "Default capture device"
+msgstr "Standardaufnahmegerät"
+
+msgid "Default folders"
+msgstr "Standardverzeichnis"
+
+#, fuzzy
+msgid "Delay"
+msgstr "Anzeige"
+
+msgid "Delay (s/10)"
+msgstr ""
+
+#, kde-format
+msgid "Delete %1"
+msgstr "Lösche %1"
+
+msgid "Delete All Guides"
+msgstr "Alle Guides löschen"
+
+msgid "Delete All Markers from Clip"
+msgstr "Alle Marker vom Clip löschen"
+
+msgid "Delete Clip"
+msgstr "Clip löschen"
+
+msgid "Delete Folder"
+msgstr "Verzeichnis löschen"
+
+msgid "Delete Guide"
+msgstr "Guide löschen"
+
+msgid "Delete Marker from Clip"
+msgstr "Marker vom Clip löschen"
+
+msgid "Delete Selected Item"
+msgstr "Gewähltes Element löschen"
+
+msgid "Delete clip"
+msgstr "Clip löschen"
+
+#, fuzzy
+msgid "Delete current file"
+msgstr "Profil löschen"
+
+msgid "Delete effect"
+msgstr "Effekt löschen"
+
+msgid "Delete folder"
+msgstr "Verzeichnis löschen"
+
+#, kde-format
+msgid ""
+"Delete folder <b>%2</b> ?<br>This will also remove the %1 clips in that "
+"folder"
+msgstr ""
+"Verzeichnis <b>%2</b> löschen? Dadurch werden auch die %1 Clips in diesem "
+"Ordner gelöscht"
+
+msgid "Delete guide"
+msgstr "Guide löschen"
+
+msgid "Delete keyframe"
+msgstr "Keyframe löschen"
+
+msgid "Delete marker"
+msgstr "Marker löschen"
+
+msgid "Delete profile"
+msgstr "Profil löschen"
+
+#, fuzzy
+msgid "Delete selected items"
+msgstr "Gewähltes Element löschen"
+
+msgid "Delete timeline clip"
+msgstr "Datei aus Zeitleiste entfernen"
+
+#, fuzzy
+msgid "Delete track"
+msgstr "Marker löschen"
+
+msgid "Delete transition from clip"
+msgstr "Übergang von Datei löschen"
+
+msgid "Depth"
+msgstr ""
+
+msgid "Description"
+msgstr "Beschreibung"
+
+#, fuzzy
+msgid "Description:"
+msgstr "Beschreibung"
+
+msgid "Desktop search integration"
+msgstr ""
+
+msgid "Device"
+msgstr "Gerät"
+
+msgid "Device configuration"
+msgstr "Geräteeinstellungen"
+
+msgid "Dialog"
+msgstr ""
+
+msgid "Direct FB"
+msgstr ""
+
+#, fuzzy
+msgid "Discard color information"
+msgstr "Geräteeinstellungen"
+
+msgid "Disonnect"
+msgstr "Trennen"
+
+msgid "Display"
+msgstr "Anzeige"
+
+msgid "Display clip markers comments"
+msgstr "Marker-Kommentare des Clips anzeigen"
+
+msgid "Display ratio"
+msgstr ""
+
+msgid "Display ratio:"
+msgstr ""
+
+msgid "Do nothing"
+msgstr ""
+
+msgid "Don't recover"
+msgstr ""
+
+msgid "Duration"
+msgstr "Dauer"
+
+msgid "Dw"
+msgstr ""
+
+msgid "E"
+msgstr ""
+
+msgid "Edit Clip"
+msgstr "Clip bearbeiten"
+
+#, fuzzy
+msgid "Edit Clip Speed"
+msgstr "Clip bearbeiten"
+
+msgid "Edit Guide"
+msgstr "Guide bearbeiten"
+
+msgid "Edit Keyframe"
+msgstr "Keyframe bearbeiten"
+
+msgid "Edit Marker"
+msgstr "Marker bearbeiten"
+
+#, fuzzy
+msgid "Edit clip"
+msgstr "Clip bearbeiten"
+
+#, kde-format
+msgid "Edit effect %1"
+msgstr ""
+
+msgid "Edit guide"
+msgstr "Guide bearbeiten"
+
+msgid "Edit keyframe"
+msgstr "Keyframe bearbeiten"
+
+msgid "Edit marker"
+msgstr ""
+
+msgid "Edit profile"
+msgstr "Profil bearbeiten"
+
+#, kde-format
+msgid "Edit transition %1"
+msgstr "Übergang bearbeiten %1"
+
+#, kde-format
+msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
+msgstr ""
+
+msgid "Effect List"
+msgstr "Effekt-Liste"
+
+msgid "Effect Stack"
+msgstr "Effekt-Magazin"
+
+msgid "Enable Jog Shuttle device"
+msgstr ""
+
+msgid "Encoding"
+msgstr "Berechnen"
+
+msgid "Encoding parameters"
+msgstr "Encoding-Einstellungen"
+
+msgid "End"
+msgstr ""
+
+#, fuzzy
+msgid "End Gain"
+msgstr "Berechnen"
+
+msgid "EndViewport"
+msgstr "Endfenster"
+
+#, fuzzy
+msgid "Environment"
+msgstr "Umgebung"
+
+msgid "Equalizer"
+msgstr ""
+
+msgid "Error starting MLT's command line player (inigo)"
+msgstr ""
+
+msgid "Error starting MLT's command line player (inigo)."
+msgstr ""
+
+msgid "Error when resizing clip"
+msgstr ""
+
+msgid "Esound daemon"
+msgstr ""
+
+msgid "Extension"
+msgstr "Endung"
+
+msgid "Extra Toolbar"
+msgstr "Extra Werkzeugleiste"
+
+#, fuzzy
+msgid "Extract frame"
+msgstr "Frame speichern"
+
+msgid "Fade in"
+msgstr ""
+
+msgid "Fade in audio track"
+msgstr ""
+
+msgid "Fade out"
+msgstr ""
+
+msgid "Fatal Error"
+msgstr ""
+
+msgid "Feedback"
+msgstr ""
+
+#, kde-format
+msgid "File %1 is not a Kdenlive project file."
+msgstr ""
+
+msgid "File Recovery"
+msgstr ""
+
+msgid ""
+"File already exists.\n"
+"Do you want to overwrite it ?"
+msgstr ""
+"Datei existiert bereits.\n"
+"Wollen Sie die Datei überschreiben?"
+
+#, fuzzy
+msgid "File already exists. Do you want to overwrite it ?"
+msgstr "Die Datei existiert bereits. Soll sie überschrieben werden?"
+
+#, fuzzy
+msgid "File extension"
+msgstr "Dateiendung"
+
+msgid "File name"
+msgstr "Dateiname"
+
+msgid "File size"
+msgstr "Dateigröße"
+
+msgid "Filename"
+msgstr "Dateiname"
+
+msgid "Fill color"
+msgstr ""
+
+#, fuzzy
+msgid "Find"
+msgstr "Suchen"
+
+msgid "Find Next"
+msgstr ""
+
+msgid "Find stopped"
+msgstr ""
+
+msgid "Firewire"
+msgstr ""
+
+msgid "Firewire / dvgrab"
+msgstr ""
+
+msgid ""
+"Firewire is not enabled on your system.\n"
+" Please install Libiec61883 and recompile Kdenlive"
+msgstr ""
+"Firewire ist auf Ihrem System nicht aktiviert.\n"
+"Bitte installieren Sie Libiec61883 und kompilieren Sie Kdenlive neu"
+
+msgid "Fit zoom to project"
+msgstr "Ganzes Projekt in Zeitleiste anzeigen"
+
+msgid "Flip your image in any direction"
+msgstr ""
+
+msgid "Folder"
+msgstr "Verzeichnis"
+
+msgid "Force aspect ratio"
+msgstr "Seitenverhältnis erzwingen"
+
+msgid "Form"
+msgstr ""
+
+msgid "Format"
+msgstr "Format"
+
+msgid "Forward"
+msgstr "Vorwärts"
+
+msgid "Forward 1 Frame"
+msgstr "1 Bild Vorwärts "
+
+msgid "Forward 1 frame"
+msgstr "Ein Bild vorwärts"
+
+#, kde-format
+msgid "Found : %1"
+msgstr ""
+
+msgid "Frame Duration"
+msgstr "Framedauer"
+
+msgid "Frame duration"
+msgstr "Framedauer"
+
+msgid "Frame rate"
+msgstr ""
+
+msgid "Frame rate:"
+msgstr ""
+
+msgid "Frame size"
+msgstr "Framegröße"
+
+msgid "Framebuffer console"
+msgstr ""
+
+msgid "Frames"
+msgstr "Bilder"
+
+#, fuzzy
+msgid "Freeze"
+msgstr "Framegröße"
+
+msgid "Freeze After"
+msgstr ""
+
+msgid "Freeze Before"
+msgstr ""
+
+msgid "Freeze at"
+msgstr ""
+
+msgid "Freeze video on a chosen frame"
+msgstr ""
+
+msgid "Frequency"
+msgstr ""
+
+#, fuzzy
+msgid "From"
+msgstr "Format"
+
+#, fuzzy
+msgid "Full project"
+msgstr "Projekt"
+
+msgid "Full screen capture"
+msgstr ""
+
+#, fuzzy
+msgid "Gain"
+msgstr "Bewertung"
+
+msgid "Gain in"
+msgstr ""
+
+msgid "Gain out"
+msgstr ""
+
+msgid "Gamma"
+msgstr ""
+
+msgid "General graphics interface"
+msgstr ""
+
+msgid "Geometry"
+msgstr ""
+
+msgid "Go To"
+msgstr ""
+
+msgid "Go to Clip End"
+msgstr "Gehe zum Ende des Clips"
+
+msgid "Go to Clip Start"
+msgstr "Gehe zum Anfang des Clips"
+
+msgid "Go to Next Snap Point"
+msgstr ""
+
+msgid "Go to Previous Snap Point"
+msgstr ""
+
+msgid "Go to Project End"
+msgstr "Gehe zum Ende des Projekts"
+
+msgid "Go to Project Start"
+msgstr "Gehe zum Anfang des Projekts"
+
+#, fuzzy
+msgid "Go to next keyframe"
+msgstr "Keyframe löschen"
+
+msgid "Go to previous keyframe"
+msgstr ""
+
+msgid "Go to..."
+msgstr ""
+
+msgid "GraphView"
+msgstr ""
+
+msgid "Greyscale"
+msgstr ""
+
+msgid "Group"
+msgstr ""
+
+msgid "GroupBox"
+msgstr ""
+
+msgid "Guide"
+msgstr "Guide"
+
+#, fuzzy
+msgid "Guide zone"
+msgstr "Guide"
+
+msgid "Guides"
+msgstr ""
+
+msgid "H"
+msgstr ""
+
+msgid "HDV"
+msgstr "HDV"
+
+msgid "Height"
+msgstr "Höhe"
+
+msgid "Hi gain"
+msgstr ""
+
+msgid "Hide a region of the clip"
+msgstr ""
+
+msgid "Hide a selected zone and follow its movements"
+msgstr ""
+
+msgid "Hor. Center"
+msgstr ""
+
+msgid "Horizontal factor"
+msgstr ""
+
+msgid "Horizontal multiplicator"
+msgstr ""
+
+msgid "Horizontal scatter"
+msgstr ""
+
+#, fuzzy
+msgid "Image"
+msgstr "Bildclip"
+
+msgid "Image Type"
+msgstr "Bildtyp"
+
+msgid "Image clip"
+msgstr "Bildclip"
+
+msgid "Image clips"
+msgstr "Bilder"
+
+#, fuzzy
+msgid "Image editing"
+msgstr "Bildbearbeitung"
+
+msgid "Image preview"
+msgstr "Bildvorschau"
+
+msgid "Image size"
+msgstr "Bildgröße"
+
+#, fuzzy
+msgid "Image type"
+msgstr "Bildclip"
+
+msgid "Inigo path"
+msgstr ""
+
+msgid "Initialising..."
+msgstr "Lade..."
+
+msgid "Input gain (db)"
+msgstr ""
+
+msgid "Insert track"
+msgstr ""
+
+msgid "Install extra video mimetypes"
+msgstr ""
+
+msgid "Intensity"
+msgstr ""
+
+msgid "Interlaced"
+msgstr ""
+
+msgid "Invert"
+msgstr ""
+
+msgid "Invert colors"
+msgstr ""
+
+msgid "JogShuttle"
+msgstr ""
+
+msgid "Keyframe"
+msgstr "Keyframe"
+
+msgid "LADSPA change pitch audio effect"
+msgstr ""
+
+msgid "LADSPA declipper audio effect"
+msgstr ""
+
+msgid "LADSPA equalizer audio effect"
+msgstr ""
+
+msgid "LADSPA limiter audio effect"
+msgstr ""
+
+msgid "LADSPA phaser audio effect"
+msgstr ""
+
+msgid "LADSPA pitch scale audio effect"
+msgstr ""
+
+msgid "LADSPA rate scale audio effect"
+msgstr ""
+
+msgid "LADSPA reverb audio effect"
+msgstr ""
+
+msgid "LADSPA room reverb audio effect"
+msgstr ""
+
+#, fuzzy
+msgid "Left"
+msgstr "effekt"
+
+msgid "Limit (db)"
+msgstr ""
+
+#, fuzzy
+msgid "Limiter"
+msgstr "Titel"
+
+msgid "Lo gain"
+msgstr ""
+
+msgid "Load Image"
+msgstr "Bild laden"
+
+msgid "Load Title"
+msgstr "Titel laden"
+
+msgid "Loading playlist..."
+msgstr "Lade Playlist..."
+
+msgid "Loading project clips"
+msgstr "Lade Clips des Projekts"
+
+msgid "Loop"
+msgstr ""
+
+msgid "Loop Section"
+msgstr "Schleife abspielen"
+
+#, fuzzy
+msgid "Luma File"
+msgstr "Titel laden"
+
+#, fuzzy
+msgid "Luma file"
+msgstr "Titel laden"
+
+msgid "M"
+msgstr ""
+
+msgid ""
+"MLT's SDL module not found. Please check your MLT install. Kdenlive will not "
+"work until this issue is fixed."
+msgstr ""
+
+msgid ""
+"MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT "
+"install. Kdenlive will not work until this issue is fixed."
+msgstr ""
+
+msgid "Make clip play faster slowly"
+msgstr ""
+
+msgid "Make image greyscale except for chosen color"
+msgstr ""
+
+msgid "Make monochrome clip"
+msgstr ""
+
+msgid "Make selected color transparent"
+msgstr ""
+
+msgid "Make waves on your clip with keyframes"
+msgstr ""
+
+msgid "Manage Profiles"
+msgstr ""
+
+msgid "Marker"
+msgstr "Markierungen"
+
+msgid "Markers"
+msgstr "Marker"
+
+msgid "Mid gain"
+msgstr ""
+
+#, fuzzy
+msgid "Mirror"
+msgstr "Monitor"
+
+msgid "Mirroring direction"
+msgstr ""
+
+msgid "Misc"
+msgstr "Verschiedenes"
+
+#, fuzzy
+msgid "Misc..."
+msgstr "Verschiedenes"
+
+msgid "Mix"
+msgstr ""
+
+msgid "Mlt environment"
+msgstr "Mlt-Umgebung"
+
+msgid "Mlt profiles folder"
+msgstr "Mlt Profil Ordner"
+
+msgid "Monitor"
+msgstr "Monitor"
+
+msgid "Move clip"
+msgstr "Clip verschieben"
+
+#, fuzzy
+msgid "Move effect"
+msgstr "Effekt verschieben"
+
+msgid "Move effect down"
+msgstr "Effekt nach oben"
+
+msgid "Move effect up"
+msgstr "Effekt nach unten"
+
+msgid "Move guide"
+msgstr "Guide verschieben"
+
+msgid "Move transition"
+msgstr "Übergang verschieben"
+
+msgid "Mute"
+msgstr ""
+
+#, fuzzy
+msgid "Mute clip"
+msgstr "Clip verschieben"
+
+msgid "Mute video clip"
+msgstr "Video stumm schalten"
+
+msgid "N"
+msgstr ""
+
+msgid "NTSC"
+msgstr ""
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Name for saved effect: "
+msgstr ""
+
+msgid "Nano X"
+msgstr ""
+
+msgid "New speed (percents)"
+msgstr "Neue Geschwindigkeit (Prozent)"
+
+msgid "No clip at cursor time"
+msgstr "Kein Clip an Cursorposition vorhanden"
+
+msgid "No clip copied"
+msgstr ""
+
+msgid "No clip selected"
+msgstr "Kein Clip ausgewählt"
+
+msgid "No guide at cursor time"
+msgstr "Kein Guide an Cursorposition vorhanden"
+
+msgid "No image found"
+msgstr ""
+
+msgid "No marker found at cursor time"
+msgstr "Kein Marker an Cursorposition vorhanden"
+
+msgid "No selected clip at cursor time"
+msgstr "Kein ausgewählter Clip an Cursorposition vorhanden"
+
+msgid "Normalise"
+msgstr ""
+
+msgid "Normalise audio for thumbnails"
+msgstr "Normalisiere Ton für Vorschau"
+
+#, fuzzy
+msgid "Normalise audio volume"
+msgstr "Normalisiere Ton für Vorschau"
+
+msgid "Not connected"
+msgstr "Nicht verbunden"
+
+#, kde-format
+msgid "Not found : %1"
+msgstr ""
+
+msgid "OSS"
+msgstr ""
+
+msgid "OSS with DMA access"
+msgstr ""
+
+msgid "Obscure"
+msgstr ""
+
+msgid "Opacity"
+msgstr ""
+
+msgid "Open Document"
+msgstr "Dokument öffnen"
+
+msgid "Open last project on startup"
+msgstr "Letztes Projekt beim Start öffnen"
+
+#, fuzzy
+msgid "Open projects in new tabs"
+msgstr "Letztes Projekt beim Start öffnen"
+
+msgid "Output file"
+msgstr "Ausgabedatei"
+
+msgid "P"
+msgstr ""
+
+msgid "PAL"
+msgstr ""
+
+msgid "Param"
+msgstr "Parameter"
+
+msgid "Parameter info"
+msgstr "Parameterinfo"
+
+msgid "Parameters"
+msgstr "Parameter"
+
+msgid "Paste Effects"
+msgstr "Effekte einfügen"
+
+msgid "Path"
+msgstr "Pfad"
+
+msgid "Phaser"
+msgstr ""
+
+msgid "Pitch Scaler"
+msgstr ""
+
+msgid "Pitch Shift"
+msgstr ""
+
+msgid "Play"
+msgstr "Wiedergabe"
+
+msgid "Play / Pause"
+msgstr "Wiedergabe / Pause"
+
+msgid "Play Section"
+msgstr "Bereichswiedergabe"
+
+msgid "Play after render"
+msgstr "Wiedergabe nach Erstellen"
+
+msgid "Play..."
+msgstr "Wiedergabe..."
+
+msgid "Playback"
+msgstr "Wiedergabe"
+
+msgid "Playback params"
+msgstr "Wiedergabeeinstellungen"
+
+msgid "Playlist clip"
+msgstr "Medium abspielen"
+
+msgid "Please set your default video format"
+msgstr ""
+
+#, kde-format
+msgid ""
+"Plug your camcorder and\n"
+"press connect button\n"
+"to initialize connection\n"
+"Files will be saved in:\n"
+"%1"
+msgstr ""
+
+msgid "Pos"
+msgstr ""
+
+msgid "Position"
+msgstr "Position"
+
+#, kde-format
+msgid ""
+"Press play or record button\n"
+"to start video capture\n"
+"Files will be saved in:\n"
+"%1"
+msgstr ""
+
+#, kde-format
+msgid ""
+"Press record button\n"
+"to start screen capture\n"
+"Files will be saved in:\n"
+"%1"
+msgstr ""
+
+msgid "Problem adding effect to clip"
+msgstr ""
+
+msgid "Problem deleting effect"
+msgstr "Problem beim Löschen des Effekts"
+
+msgid "Problem editing effect"
+msgstr "Problem beim Bearbeiten des Effekts"
+
+msgid "Profile"
+msgstr "Profile"
+
+msgid "Profile name"
+msgstr "Profilname"
+
+msgid "Profiles"
+msgstr "Profile"
+
+msgid "Progressive"
+msgstr ""
+
+msgid "Project"
+msgstr "Projekt"
+
+msgid "Project Monitor"
+msgstr "Projektmonitor"
+
+msgid "Project Settings"
+msgstr "Projekteinstellungen"
+
+msgid "Project Tree"
+msgstr "Projektinhalt"
+
+msgid "Project folder"
+msgstr "Projektverzeichnis"
+
+msgid "Properties"
+msgstr "Eigenschaften"
+
+msgid "R"
+msgstr ""
+
+msgid "RPM"
+msgstr ""
+
+#, fuzzy
+msgid "Rate"
+msgstr "Rotieren:"
+
+msgid "Rate (Hz)"
+msgstr ""
+
+msgid "Rate Scaler"
+msgstr ""
+
+msgid "Rating"
+msgstr "Bewertung"
+
+#, fuzzy
+msgid "Razor clip"
+msgstr "Farbclip"
+
+msgid "Razor tool"
+msgstr ""
+
+#, fuzzy
+msgid "Reached end of project"
+msgstr "Ende des Projekts erreicht"
+
+msgid "Record"
+msgstr "Aufnehmen"
+
+msgid "Record Monitor"
+msgstr "Aufnahmemonitor"
+
+#, fuzzy
+msgid "Recover"
+msgstr "Aufnehmen"
+
+#, fuzzy
+msgid "Region"
+msgstr "Schneller Rücklauf"
+
+msgid "Release time (s)"
+msgstr ""
+
+msgid "Rename folder"
+msgstr "Verzeichnis umbenennen"
+
+#, fuzzy
+msgid "Render"
+msgstr "Rendern"
+
+msgid "Rendering"
+msgstr "Rendern"
+
+#, kde-format
+msgid "Rendering <i>%1</i> started"
+msgstr ""
+
+msgid "Reset effect"
+msgstr "Effekt zurücksetzen"
+
+msgid "Resize (100%)"
+msgstr ""
+
+#, fuzzy
+msgid "Resize (50%)"
+msgstr "Clipgröße ändern"
+
+msgid "Resize clip"
+msgstr "Clipgröße ändern"
+
+#, fuzzy
+msgid "Resize..."
+msgstr "Clipgröße ändern"
+
+#, fuzzy
+msgid "Reverb"
+msgstr "Rendern"
+
+msgid "Reverb Time"
+msgstr ""
+
+msgid "Reverb time"
+msgstr ""
+
+msgid "Reverse playing"
+msgstr ""
+
+msgid "Rewind"
+msgstr "Schneller Rücklauf"
+
+msgid "Rewind 1 Frame"
+msgstr "1 Bild zurück"
+
+msgid "Rewind 1 frame"
+msgstr "1 Bild zurück"
+
+#, fuzzy
+msgid "Right"
+msgstr "Höhe"
+
+msgid "Room Reverb"
+msgstr ""
+
+msgid "Room size (m)"
+msgstr ""
+
+#, fuzzy
+msgid "Rotate"
+msgstr "Rotieren:"
+
+msgid "Rotate clip in any 3 directions"
+msgstr ""
+
+msgid "Rotate:"
+msgstr "Rotieren:"
+
+#, fuzzy
+msgid "Rotation x"
+msgstr "Bewertung"
+
+#, fuzzy
+msgid "Rotation y"
+msgstr "Bewertung"
+
+#, fuzzy
+msgid "Rotation z"
+msgstr "Bewertung"
+
+msgid "S"
+msgstr ""
+
+msgid "SVGAlib"
+msgstr ""
+
+msgid "Save As"
+msgstr "Speichern unter"
+
+msgid "Save Effect"
+msgstr "Effekt speichern"
+
+msgid "Save Profile"
+msgstr "Profil speichern"
+
+msgid "Save Title"
+msgstr "Titel speichern"
+
+msgid "Save changes to document ?"
+msgstr "Änderungen des Dokumentes speichern"
+
+msgid "Save clip zone as:"
+msgstr ""
+
+msgid "Save effect"
+msgstr "Effekt speichern"
+
+#, fuzzy
+msgid "Save profile"
+msgstr "Profil speichern"
+
+#, fuzzy
+msgid "Save zone"
+msgstr "Profil speichern"
+
+msgid "Scale"
+msgstr ""
+
+msgid "Screen Grab"
+msgstr ""
+
+msgid "Screen Grab / FFmpeg"
+msgstr ""
+
+msgid "Screen grab"
+msgstr ""
+
+msgid "Select a clip before copying"
+msgstr "Bitte wählen Sie vor dem Kopieren einen Clip"
+
+msgid "Select a clip if you want to apply an effect"
+msgstr "Bitte wählen Sie einen Clip, auf den Sie einen Effekt anwenden möchten"
+
+msgid ""
+"Select a region using the mouse. To take the snapshot, press the Enter key. "
+"Press Esc to quit."
+msgstr ""
+"Wählen Sie einen Bereich mit der Maus aus. Drücken Sie Enter, um den "
+"Screenshot aufzunehmen, oder ESC um abzubrechen"
+
+msgid "Select clip to change speed"
+msgstr ""
+
+msgid "Select clip to delete"
+msgstr "Wählen Sie einen Clip, den Sie löschen möchten"
+
+msgid "Select default audio editor"
+msgstr ""
+
+msgid "Select default image editor"
+msgstr ""
+
+msgid "Select default video player"
+msgstr ""
+
+msgid "Select region..."
+msgstr "Bereich auswählen..."
+
+#, fuzzy
+msgid "Selected zone"
+msgstr "nur markiertes Teilstück"
+
+msgid "Selection Tool"
+msgstr ""
+
+msgid "Selection tool"
+msgstr ""
+
+msgid "Sepia"
+msgstr ""
+
+#, fuzzy
+msgid "Set In Point"
+msgstr "neue Punkte erstellen"
+
+msgid "Set Out Point"
+msgstr ""
+
+msgid "Set current image as thumbnail"
+msgstr ""
+
+#, fuzzy
+msgid "Set zone end"
+msgstr "nur markiertes Teilstück"
+
+msgid "Set zone start"
+msgstr ""
+
+msgid "Shift"
+msgstr ""
+
+msgid "Show audio thumbnails"
+msgstr "zeige Tonspur"
+
+msgid "Show background"
+msgstr "Hintergrund anzeigen"
+
+msgid "Show keyframes in timeline"
+msgstr "Keyframes in Zeitleiste zeigen"
+
+msgid "Show markers comments"
+msgstr "Kommentare des Markers anzeigen"
+
+msgid "Show video thumbnails"
+msgstr "zeige Videobilder"
+
+msgid "Simulates a vinyl audio player - LADSPA audio effect"
+msgstr ""
+
+msgid "Size"
+msgstr "Größe"
+
+msgid "Size:"
+msgstr "Größe:"
+
+msgid "Slideshow"
+msgstr "Diashow"
+
+msgid "Slideshow Clip"
+msgstr "Diashow-Clip"
+
+msgid "Slideshow clip"
+msgstr "Diashow"
+
+msgid "Snap"
+msgstr ""
+
+msgid "Softness"
+msgstr ""
+
+msgid "Sox Echo"
+msgstr ""
+
+msgid "Sox Flanger"
+msgstr ""
+
+msgid "Sox Pitch Shift"
+msgstr ""
+
+msgid "Sox Reverb"
+msgstr ""
+
+msgid "Sox Vibro"
+msgstr ""
+
+msgid "Sox change pitch audio effect"
+msgstr ""
+
+msgid "Sox echo audio effect"
+msgstr ""
+
+msgid "Sox flanger audio effect"
+msgstr ""
+
+msgid "Sox reverb audio effect"
+msgstr ""
+
+msgid "Sox vibro audio effect"
+msgstr ""
+
+msgid "Speed"
+msgstr ""
+
+msgid "Split view"
+msgstr ""
+
+msgid "Spread"
+msgstr ""
+
+msgid "Start"
+msgstr "Start"
+
+#, fuzzy
+msgid "Start Gain"
+msgstr "Start"
+
+msgid "Start-/EndViewport"
+msgstr "Start-/Endbereich"
+
+msgid "StartViewport"
+msgstr "Startfenster"
+
+msgid "Starting -- find text as you type"
+msgstr ""
+
+msgid "Stop"
+msgstr "Stop"
+
+msgid "Stroboscope"
+msgstr ""
+
+msgid "Surface warping"
+msgstr ""
+
+msgid "Sync timeline cursor"
+msgstr ""
+
+msgid "Templates"
+msgstr "Vorlagen"
+
+msgid "Temporary files"
+msgstr "Temporäre Dateien"
+
+msgid "Text clip"
+msgstr "Text"
+
+msgid "TextLabel"
+msgstr ""
+
+msgid "There is no clip, cannot extract frame."
+msgstr "Kein Clip vorhanden, kann kein Frame extrahieren."
+
+msgid ""
+"This is the first time you run Kdenlive. This wizard will let you adjust "
+"some basic settings, you will be ready to edit your first movie in a few "
+"seconds..."
+msgstr ""
+
+msgid "Threshold"
+msgstr ""
+
+msgid "Threshold value"
+msgstr ""
+
+msgid "Thumbnail"
+msgstr "Vorschau"
+
+msgid "Thumbnails"
+msgstr "Vorschau"
+
+msgid "Thumbnails:"
+msgstr "Vorschau:"
+
+#, fuzzy
+msgid "Time"
+msgstr "Zeitleiste"
+
+msgid "Time window (ms)"
+msgstr ""
+
+msgid "Timecode overlay"
+msgstr ""
+
+msgid "Timeline"
+msgstr "Zeitleiste"
+
+msgid "Title Clip"
+msgstr "Titelclip"
+
+msgid "Toggle selection"
+msgstr ""
+
+msgid "Tool"
+msgstr ""
+
+msgid "Top"
+msgstr ""
+
+msgid "Track height"
+msgstr "Spurhöhe"
+
+msgid "Transition"
+msgstr "Übergang"
+
+#, fuzzy
+msgid "Transition type"
+msgstr "Übergang"
+
+msgid "Transparency"
+msgstr "Transparenz"
+
+#, fuzzy
+msgid "Transparent background"
+msgstr "Transparenter Hintergrund"
+
+msgid "Turn clip colors to sepia"
+msgstr ""
+
+#, kde-format
+msgid "Unable to write to file %1"
+msgstr "Kann nicht in Datei %1 schreiben"
+
+msgid "Undo History"
+msgstr "Aktionsverlauf"
+
+msgid "Unknown clip"
+msgstr "Unbekannter Clip"
+
+msgid "Untitled"
+msgstr "Unbenannt"
+
+msgid "Up"
+msgstr "Hoch"
+
+msgid "Use as default"
+msgstr "Als Standard benutzen"
+
+#, fuzzy
+msgid "Use transparency"
+msgstr "Transparenz"
+
+msgid "V"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "Variance"
+msgstr ""
+
+msgid "Vert. Center"
+msgstr ""
+
+msgid "Vertical factor"
+msgstr ""
+
+msgid "Vertical multiplicator"
+msgstr ""
+
+msgid "Vertical scatter"
+msgstr ""
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Video Profile"
+msgstr "Videoprofil"
+
+#, fuzzy
+msgid "Video Resolution"
+msgstr "Video"
+
+#, fuzzy
+msgid "Video Standard"
+msgstr "Videoindex"
+
+msgid "Video capture params"
+msgstr "Aufnahmeparameter"
+
+msgid "Video clip"
+msgstr "Video"
+
+msgid "Video codec"
+msgstr "Videocodec"
+
+msgid "Video driver:"
+msgstr "Videotreiber:"
+
+msgid "Video index"
+msgstr "Videoindex"
+
+msgid "Video player"
+msgstr "Videoplayer"
+
+#, fuzzy
+msgid "Video tracks"
+msgstr "Video"
+
+msgid "Video4Linux"
+msgstr ""
+
+msgid "Video4Linux (webcam)"
+msgstr ""
+
+msgid "Video4Linux2 / FFmpeg"
+msgstr ""
+
+#, fuzzy
+msgid "View"
+msgstr "Ansicht"
+
+msgid "Vinyl"
+msgstr ""
+
+msgid "Virtual clip"
+msgstr "Virtueller Clip"
+
+msgid "Volume"
+msgstr ""
+
+msgid "W"
+msgstr ""
+
+msgid ""
+"Warning: changes to the drivers and devices can make Kdenlive unstable. "
+"Change only if you know what you do."
+msgstr ""
+
+msgid "Wave"
+msgstr ""
+
+msgid "Wear"
+msgstr ""
+
+msgid "Welcome"
+msgstr ""
+
+msgid "Width"
+msgstr "Breite"
+
+msgid "X"
+msgstr "X"
+
+msgid "X11"
+msgstr ""
+
+msgid "X:"
+msgstr "X:"
+
+msgid "XFREE86 DGA 2.0"
+msgstr ""
+
+#, fuzzy
+msgid "XVideo"
+msgstr "Video"
+
+msgid "Y"
+msgstr "Y"
+
+msgid "Y:"
+msgstr "Y:"
+
+msgid "Year"
+msgstr ""
+
+msgid "You must copy exactly one clip before pasting effects"
+msgstr ""
+
+msgid "You must select one clip for this action"
+msgstr ""
+
+msgid "Z-Index:"
+msgstr "Z-Index:"
+
+msgid "Zone end"
+msgstr ""
+
+msgid "Zone start"
+msgstr ""
+
+msgid "Zoom:"
+msgstr "Zoom:"
+
+msgid "create new points"
+msgstr "neue Punkte erstellen"
+
+msgid "effect"
+msgstr "effekt"
+
+msgid "frames"
+msgstr "Bilder"
+
+msgid "hh:mm:ss::ff"
+msgstr ""
+
+msgid "hour"
+msgstr "Stunde"
+
+msgid "import"
+msgstr ""
+
+msgid "min."
+msgstr "Min."
+
+msgid "move on X axis"
+msgstr "auf X-Achse verschieben"
+
+msgid "move on Y axis"
+msgstr "auf Y Achse verschieben"
+
+msgid "ogg"
+msgstr ""
+
+msgid "oss"
+msgstr ""
+
+msgid "parameter description"
+msgstr "Parameterbeschreibung"
+
+msgid "sec."
+msgstr "Sek."
+
+msgid "seconds"
+msgstr "Sekunden"
+
+#, fuzzy
+msgid "to"
+msgstr "Stop"
+
+msgid "update values in timeline"
+msgstr "Werte in Zeitleiste aktualisieren"
+
+msgid "video4linux2"
+msgstr ""
+
+msgid "x"
+msgstr ""
+
+msgid "x1"
+msgstr ""
+
+msgid ""
+"your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
+msgstr ""
+
+#~ msgid "&Cancel"
+#~ msgstr "Abbrechen"
+
+#~ msgid "&OK"
+#~ msgstr "OK "
+
+#~ msgid "Delete"
+#~ msgstr "Löschen"
+
+#~ msgid "Extra parameters"
+#~ msgstr "Extra Parameter"
+
+#~ msgid "Name:"
+#~ msgstr "Name:"
+
+#~ msgid "Transparent bac&kground"
+#~ msgstr "Transparenter Hintergrund"
