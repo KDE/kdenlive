@@ -638,7 +638,7 @@ void KdenliveDoc::checkProjectClips() {
         if (clip && clip->producer() == NULL) {
             clip->setProducer(prods.at(i));
         }
-        if (clip->clipType() == TEXT && !QFile::exists(clip->fileURL().path())) {
+        if (clip && clip->clipType() == TEXT && !QFile::exists(clip->fileURL().path())) {
             // regenerate text clip image if required
             kDebug() << "// TITLE: " << clip->getProperty("titlename") << " Preview file: " << clip->getProperty("resource") << " DOES NOT EXIST";
             QString titlename = clip->getProperty("titlename");

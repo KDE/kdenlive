@@ -39,6 +39,10 @@ int AbstractGroupItem::type() const {
     return GROUPWIDGET;
 }
 
+const int AbstractGroupItem::track() const {
+    return (int)(scenePos().y() / KdenliveSettings::trackheight());
+}
+
 CustomTrackScene* AbstractGroupItem::projectScene() {
     if (scene()) return static_cast <CustomTrackScene*>(scene());
     return NULL;
@@ -81,15 +85,20 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
     if (change == ItemPositionChange && scene()) {
         // calculate new position.
         QPointF newPos = value.toPointF();
-        QPointF start = sceneBoundingRect().topLeft();
+        int xpos = projectScene()->getSnapPointForPos((int) newPos.x(), KdenliveSettings::snaptopoints());
+        xpos = qMax(xpos, 0);
+        newPos.setX(xpos);
+
+        //kDebug()<<"// GRP MOVE: "<<pos().y()<<"->"<<newPos.y();
+        QPointF start = pos();//sceneBoundingRect().topLeft();
         int posx = start.x() + newPos.x(); //projectScene()->getSnapPointForPos(start.x() + sc.x(), KdenliveSettings::snaptopoints());
 
-        int startTrack = (start.y()) / KdenliveSettings::trackheight();
-        int newTrack = (start.y() + newPos.y()) / KdenliveSettings::trackheight();
-        //kDebug()<<"// GROUP NEW TRACK: "<<newTrack<<", START TRACK: "<<startTrack;
-        newTrack = qMin(newTrack, projectScene()->tracksCount() - 1);
+        int startTrack = (start.y() + KdenliveSettings::trackheight() / 2) / KdenliveSettings::trackheight();
+        int newTrack = (newPos.y()) / KdenliveSettings::trackheight();
+        //kDebug()<<"// GROUP NEW T:"<<newTrack<<",START T:"<<startTrack<<",MAX:"<<projectScene()->tracksCount() - 1;
+        newTrack = qMin(newTrack, projectScene()->tracksCount() - (int)(boundingRect().height() + 5) / KdenliveSettings::trackheight());
         newTrack = qMax(newTrack, 0);
-        newPos.setY((int)((newTrack - startTrack) * KdenliveSettings::trackheight()));
+        newPos.setY((int)((newTrack) * KdenliveSettings::trackheight()));
 
         //kDebug() << "------------------------------------GRUOP MOVE";
 

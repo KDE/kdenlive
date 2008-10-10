@@ -145,13 +145,11 @@ private:
     uint m_selectedTrack;
     int m_projectDuration;
     int m_cursorPos;
-    ClipItem *m_dropItem;
     KdenliveDoc *m_document;
     CustomTrackScene *m_scene;
-    void addItem(DocClipBase *clip, QPoint pos);
-    void addItem(DocClipBase *clip, QPoint pos, QPoint zone);
     QGraphicsLineItem *m_cursorLine;
     ItemInfo m_dragItemInfo;
+    ItemInfo m_selectionGroupInfo;
     OPERATIONTYPE m_operationMode;
     OPERATIONTYPE m_moveOpMode;
     AbstractClipItem *m_dragItem;
@@ -185,11 +183,11 @@ private:
     QCursor m_razorCursor;
     /** list containing items currently copied in the timeline */
     QList<AbstractClipItem *> m_copiedItems;
-    QList<AbstractClipItem *> m_selectedClipList;
     /** Used to get the point in timeline where a context menu was opened */
     QPoint m_menuPosition;
     bool m_blockRefresh;
     AbstractGroupItem *m_selectionGroup;
+    AbstractGroupItem *m_dropGroup;
 
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
