@@ -130,8 +130,10 @@ ProjectList::~ProjectList() {
 
 void ProjectList::slotEditClip() {
     ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
-    if (item && !item->isGroup()) emit clipSelected(item->referencedClip());
-    emit showClipProperties(item->referencedClip());
+    if (item && !item->isGroup()) {
+        emit clipSelected(item->referencedClip());
+        emit showClipProperties(item->referencedClip());
+    }
 }
 
 
@@ -159,7 +161,7 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
 
 void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QString> properties) {
     if (!clip) return;
-    clip->setProperties(properties);
+    if (!clip->isGroup()) clip->setProperties(properties);
     if (properties.contains("description")) {
         CLIPTYPE type = clip->clipType();
         clip->setText(2, properties.value("description"));
@@ -183,7 +185,7 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column) {
         QMap <QString, QString> props;
         props["description"] = item->text(2);
         slotUpdateClipProperties(clip, props);
-    } else if (column == 1 && clip->clipType() == FOLDER) {
+    } else if (column == 1 && clip->isGroup()) {
         m_doc->slotEditFolder(item->text(1), clip->groupName(), clip->clipId());
     }
 }

@@ -178,6 +178,7 @@ void ProjectItem::slotSetToolTip() {
 
 
 void ProjectItem::setProperties(const QMap < QString, QString > &attributes, const QMap < QString, QString > &metadata) {
+    if (m_clip == NULL) return;
     if (attributes.contains("duration")) {
         //if (m_clipType == AUDIO || m_clipType == VIDEO || m_clipType == AV)
         //m_clip->setProperty("duration", attributes["duration"]);
