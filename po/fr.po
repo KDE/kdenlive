@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-06 17:22+0200\n"
-"PO-Revision-Date: 2008-10-12 12:10+0200\n"
+"PO-Revision-Date: 2008-10-12 13:53+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -184,7 +184,7 @@ msgid "Adjust clip length"
 msgstr ""
 
 msgid "Advanced"
-msgstr ""
+msgstr "Expert"
 
 msgid "Align item horizontally"
 msgstr "Centrer l'élément horizontalement"
@@ -193,23 +193,22 @@ msgid "Align item vertically"
 msgstr "Centrer l'élément verticalement"
 
 msgid "Align..."
-msgstr ""
+msgstr "Aligner ..."
 
 msgid "All"
-msgstr ""
+msgstr "Tout"
 
 msgid "Allow horizontal moves"
-msgstr ""
+msgstr "Autoriser les déplacements horizontaux"
 
 msgid "Allow vertical moves"
-msgstr ""
+msgstr "Autoriser les déplacements verticaux"
 
 msgid "Amplitude"
 msgstr "Amplitude"
 
-#, fuzzy
 msgid "Ascii art library"
-msgstr "(Librairie Ascii art)"
+msgstr "Librairie Ascii art"
 
 msgid "Aspect ratio"
 msgstr "Rapport d'affichage"
@@ -232,9 +231,8 @@ msgstr "Périphérique audio :"
 msgid "Audio driver:"
 msgstr "Driver audio :"
 
-#, fuzzy
 msgid "Audio editing"
-msgstr "Périphérique audio :"
+msgstr "Edition Audio"
 
 #, c-format, kde-format
 msgid "Audio fade duration: %1s"
@@ -246,13 +244,11 @@ msgstr "Index audio"
 msgid "Audio tracks"
 msgstr "Pistes audio"
 
-#, fuzzy
 msgid "Auto Mask"
-msgstr "Piste audio"
+msgstr "Masquer automatiquement"
 
-#, fuzzy
 msgid "Auto add"
-msgstr "Atténuation audio"
+msgstr "Ajouter automatiquement"
 
 #, fuzzy
 msgid "Auto-saved files exist. Do you want to recover them now?"
@@ -290,11 +286,10 @@ msgid "Blur image with keyframes"
 msgstr ""
 
 msgid "Border color"
-msgstr ""
+msgstr "Couleur de bordure"
 
-#, fuzzy
 msgid "Bottom"
-msgstr "Boutons"
+msgstr "Bas"
 
 msgid "Box Blur"
 msgstr "Flou par pixelisation"
@@ -449,7 +444,7 @@ msgid "Charcoal drawing effect"
 msgstr ""
 
 msgid "CheckBox"
-msgstr ""
+msgstr "Boîte à cocher"
 
 #, fuzzy
 msgid "Chroma Hold"
@@ -462,7 +457,7 @@ msgid "Chrominance V"
 msgstr "Chrominance V"
 
 msgid "Clean"
-msgstr ""
+msgstr "Effacer"
 
 msgid "Clip Color"
 msgstr "Clip couleur"
@@ -482,7 +477,7 @@ msgid "Clip has no markers"
 msgstr "Effacer les repères"
 
 msgid "Close the current tab"
-msgstr ""
+msgstr "Fermer l'onglet"
 
 msgid "Co-efficient"
 msgstr "Facteur de mise à l'échelle"
@@ -530,9 +525,8 @@ msgstr ""
 msgid "Create Folder"
 msgstr "Créer un dossier"
 
-#, fuzzy
 msgid "Create new profile"
-msgstr "Créer un nouveau projet"
+msgstr "Créer un nouveau profil"
 
 #, fuzzy, kde-format
 msgid "Creating thumbnail for %1"
@@ -555,7 +549,7 @@ msgid "Cut"
 msgstr "Couper"
 
 msgid "Cut Clip"
-msgstr "Couper un clip"
+msgstr "Couper le clip"
 
 msgid "D"
 msgstr "D"
@@ -576,23 +570,22 @@ msgid "Damping"
 msgstr "Amortissement"
 
 msgid "Debug"
-msgstr ""
+msgstr "Débuggage"
 
 msgid "Decay"
-msgstr ""
+msgstr "Temps de rétablissement"
 
 msgid "Declipper"
 msgstr "Elimination des surcharges"
 
 msgid "Decoding threads"
-msgstr ""
+msgstr "Processus de décodage"
 
 msgid "Default"
 msgstr "Par défaut"
 
-#, fuzzy
 msgid "Default Durations"
-msgstr "Durée par défaut du clip texte"
+msgstr "Durées par défaut"
 
 msgid "Default Profile"
 msgstr "Profil par défaut"
@@ -704,9 +697,8 @@ msgstr "Périphérique"
 msgid "Device configuration"
 msgstr "Configuration du projet"
 
-#, fuzzy
 msgid "Dialog"
-msgstr "Fenêtre de rendu"
+msgstr "Fenêtre de dialogue"
 
 msgid "Direct FB"
 msgstr "DirectFB"
@@ -715,7 +707,7 @@ msgid "Discard color information"
 msgstr ""
 
 msgid "Disonnect"
-msgstr ""
+msgstr "Déconnecter"
 
 msgid "Display"
 msgstr "Affichage"
@@ -724,25 +716,23 @@ msgstr "Affichage"
 msgid "Display clip markers comments"
 msgstr "Afficher l'horodatage"
 
-#, fuzzy
 msgid "Display ratio"
-msgstr "Afficher l'horodatage"
+msgstr "Ratio d'affichage"
 
-#, fuzzy
 msgid "Display ratio:"
-msgstr "Afficher l'horodatage"
+msgstr "Ratio d'affichage :"
 
 msgid "Do nothing"
-msgstr ""
+msgstr "Ne rien faire"
 
 msgid "Don't recover"
-msgstr ""
+msgstr "Ne pas récupérer"
 
 msgid "Duration"
 msgstr "Durée"
 
 msgid "Dw"
-msgstr ""
+msgstr "Dw"
 
 msgid "E"
 msgstr "E"
@@ -799,7 +789,7 @@ msgid "Enable Jog Shuttle device"
 msgstr ""
 
 msgid "Encoding"
-msgstr ""
+msgstr "Encodage"
 
 #, fuzzy
 msgid "Encoding parameters"
@@ -815,7 +805,7 @@ msgid "EndViewport"
 msgstr ""
 
 msgid "Environment"
-msgstr ""
+msgstr "Environnement"
 
 msgid "Equalizer"
 msgstr "Equaliseur"
@@ -867,7 +857,7 @@ msgid "File %1 is not a Kdenlive project file."
 msgstr ""
 
 msgid "File Recovery"
-msgstr ""
+msgstr "Récupération du fichier"
 
 msgid ""
 "File already exists.\n"
@@ -920,9 +910,8 @@ msgstr ""
 "Le port Firewire n'est pas actif sur votre système.\n"
 "Veuillez installer Libiec61883 et recompiler Kdenlive"
 
-#, fuzzy
 msgid "Fit zoom to project"
-msgstr "Ajouter une image au projet"
+msgstr "Niveau de zoom optimal"
 
 msgid "Flip your image in any direction"
 msgstr ""
@@ -954,29 +943,23 @@ msgstr "Avancer d'une trame"
 msgid "Found : %1"
 msgstr "Trouvé : %1"
 
-#, fuzzy
 msgid "Frame Duration"
-msgstr "Durée"
+msgstr "Durée de la trame"
 
-#, fuzzy
 msgid "Frame duration"
-msgstr "Durée totale"
+msgstr "Durée de la trame"
 
-#, fuzzy
 msgid "Frame rate"
-msgstr "Trames par image"
+msgstr "Fréquence de trame"
 
-#, fuzzy
 msgid "Frame rate:"
-msgstr "Format :"
+msgstr "Fréquence de trame :"
 
-#, fuzzy
 msgid "Frame size"
-msgstr "Trames"
+msgstr "Taille de la trame"
 
-#, fuzzy
 msgid "Framebuffer console"
-msgstr "(console framebuffer)"
+msgstr "Console framebuffer"
 
 msgid "Frames"
 msgstr "Trames"
@@ -997,7 +980,7 @@ msgid "Freeze video on a chosen frame"
 msgstr ""
 
 msgid "Frequency"
-msgstr ""
+msgstr "Fréquence"
 
 msgid "From"
 msgstr "Depuis"
@@ -1006,7 +989,7 @@ msgid "Full project"
 msgstr "Projet complet"
 
 msgid "Full screen capture"
-msgstr ""
+msgstr "Capture plein écran"
 
 msgid "Gain"
 msgstr "Amplification"
@@ -1020,22 +1003,20 @@ msgstr "Gain en sortie"
 msgid "Gamma"
 msgstr "Gamma"
 
-#, fuzzy
 msgid "General graphics interface"
-msgstr "(Interface graphique classique)"
+msgstr "Interface graphique classique"
 
 msgid "Geometry"
-msgstr ""
+msgstr "Géométrie"
 
 msgid "Go To"
 msgstr "Navigation"
 
-#, fuzzy
 msgid "Go to Clip End"
-msgstr "Aller à la fin"
+msgstr "Aller à la fin du clip"
 
 msgid "Go to Clip Start"
-msgstr ""
+msgstr "Aller au début du clip"
 
 #, fuzzy
 msgid "Go to Next Snap Point"
@@ -1045,24 +1026,20 @@ msgstr "Avancer au repère suivant"
 msgid "Go to Previous Snap Point"
 msgstr "Reculer au repère précédent"
 
-#, fuzzy
 msgid "Go to Project End"
-msgstr "Aller à la fin"
+msgstr "Aller à la fin du projet"
 
 msgid "Go to Project Start"
-msgstr ""
+msgstr "Aller au début du projet"
 
-#, fuzzy
 msgid "Go to next keyframe"
-msgstr "Aller au prochain repère"
+msgstr "Aller à la prochaine trame-clé"
 
-#, fuzzy
 msgid "Go to previous keyframe"
-msgstr "Aller au précédent repère"
+msgstr "Aller à la précédente trame-clé"
 
-#, fuzzy
 msgid "Go to..."
-msgstr "Navigation"
+msgstr "Naviger vers ..."
 
 msgid "GraphView"
 msgstr ""
@@ -1077,16 +1054,14 @@ msgstr "Grouper"
 msgid "GroupBox"
 msgstr "groupe"
 
-#, fuzzy
 msgid "Guide"
-msgstr "Repère %1"
+msgstr "Guide"
 
 msgid "Guide zone"
 msgstr "Zone de guide"
 
-#, fuzzy
 msgid "Guides"
-msgstr "Repère %1"
+msgstr "Guides"
 
 msgid "H"
 msgstr "H"
@@ -1109,7 +1084,6 @@ msgstr ""
 "Effectuer un rendu de la zone audio sélectionnée pour une utilisation "
 "ultérieure"
 
-#, fuzzy
 msgid "Hor. Center"
 msgstr "Aligner au centre"
 
@@ -1125,47 +1099,38 @@ msgstr "Diffusion horizontale"
 msgid "Image"
 msgstr "Image"
 
-#, fuzzy
 msgid "Image Type"
 msgstr "Type d'image"
 
-#, fuzzy
 msgid "Image clip"
 msgstr "Clip image"
 
-#, fuzzy
 msgid "Image clips"
-msgstr "Clip image"
+msgstr "Clips image"
 
-#, fuzzy
 msgid "Image editing"
-msgstr "Clip image"
+msgstr "Graphisme"
 
-#, fuzzy
 msgid "Image preview"
-msgstr "Type d'image"
+msgstr "Prévisualiser l'image"
 
-#, fuzzy
 msgid "Image size"
-msgstr "Fichier image"
+msgstr "Taille de l'image"
 
 msgid "Image type"
 msgstr "Type d'image"
 
 msgid "Inigo path"
-msgstr ""
+msgstr "Chemin de Inigo"
 
-#, fuzzy
 msgid "Initialising..."
-msgstr "Quitter..."
+msgstr "Initialisation en cours ..."
 
-#, fuzzy
 msgid "Input gain (db)"
 msgstr "Gain en entrée (db)"
 
-#, fuzzy
 msgid "Insert track"
-msgstr "Supprimer la piste"
+msgstr "Insérer la piste"
 
 msgid "Install extra video mimetypes"
 msgstr ""
@@ -1173,19 +1138,17 @@ msgstr ""
 msgid "Intensity"
 msgstr "Intensité"
 
-#, fuzzy
 msgid "Interlaced"
-msgstr "Interface"
+msgstr "Interlacé"
 
 msgid "Invert"
 msgstr "Inversion"
 
-#, fuzzy
 msgid "Invert colors"
-msgstr "Inversion"
+msgstr "Inverser les couleurs"
 
 msgid "JogShuttle"
-msgstr ""
+msgstr "Roue de montage"
 
 msgid "Keyframe"
 msgstr "Trame-clé"
@@ -1218,7 +1181,7 @@ msgid "LADSPA room reverb audio effect"
 msgstr ""
 
 msgid "Left"
-msgstr ""
+msgstr "Gauche"
 
 msgid "Limit (db)"
 msgstr "Limite (db)"
@@ -1229,13 +1192,11 @@ msgstr "Limite"
 msgid "Lo gain"
 msgstr "Gain faible"
 
-#, fuzzy
 msgid "Load Image"
-msgstr "Image"
+msgstr "Charger image"
 
-#, fuzzy
 msgid "Load Title"
-msgstr "Titre"
+msgstr "Charger titre"
 
 msgid "Loading playlist..."
 msgstr ""
@@ -1250,13 +1211,11 @@ msgstr "Boucle"
 msgid "Loop Section"
 msgstr "Lire la sélection en boucle"
 
-#, fuzzy
 msgid "Luma File"
-msgstr "Utiliser un fichier luma"
+msgstr "Ficher luma"
 
-#, fuzzy
 msgid "Luma file"
-msgstr "Fichier image"
+msgstr "Fichier luma"
 
 msgid "M"
 msgstr "M"
@@ -1286,9 +1245,8 @@ msgstr ""
 msgid "Make waves on your clip with keyframes"
 msgstr ""
 
-#, fuzzy
 msgid "Manage Profiles"
-msgstr "Fichier image"
+msgstr "Gérer les profils"
 
 msgid "Marker"
 msgstr "Repère"
@@ -1308,28 +1266,24 @@ msgstr "Direction du miroir"
 msgid "Misc"
 msgstr "Divers"
 
-#, fuzzy
 msgid "Misc..."
-msgstr "Divers"
+msgstr "Divers ..."
 
 msgid "Mix"
 msgstr "Mixage"
 
 msgid "Mlt environment"
-msgstr ""
+msgstr "Environnement MLT"
 
-#, fuzzy
 msgid "Mlt profiles folder"
-msgstr "Supprimer le dossier"
+msgstr "Dossier profils MLT"
 
 msgid "Monitor"
 msgstr "Moniteur"
 
-#, fuzzy
 msgid "Move clip"
-msgstr "Déplacer les clips"
+msgstr "Déplacer le clip"
 
-#, fuzzy
 msgid "Move effect"
 msgstr "Déplacer l'effet"
 
@@ -1339,24 +1293,20 @@ msgstr "Déplacer l'effet vers le bas"
 msgid "Move effect up"
 msgstr "Déplacer l'effet vers le haut"
 
-#, fuzzy
 msgid "Move guide"
-msgstr "Film"
+msgstr "Déplacer le guide"
 
-#, fuzzy
 msgid "Move transition"
-msgstr "Ajouter une transition"
+msgstr "Déplacer la transition"
 
 msgid "Mute"
 msgstr "Muet"
 
-#, fuzzy
 msgid "Mute clip"
-msgstr "Supprimer le clip"
+msgstr "Mettre en sourdine le clip"
 
-#, fuzzy
 msgid "Mute video clip"
-msgstr "Rendre le clip vidéo muet"
+msgstr "Mettre en sourdine le clip vidéo"
 
 msgid "N"
 msgstr "N"
@@ -1367,34 +1317,29 @@ msgstr "NTSC"
 msgid "Name"
 msgstr "Nom"
 
-#, fuzzy
 msgid "Name for saved effect: "
-msgstr "Supprimer l'effet"
+msgstr "Nom de l'effet sauvegardé :"
 
 msgid "Nano X"
-msgstr ""
+msgstr "Nano X"
 
 msgid "New speed (percents)"
-msgstr ""
+msgstr "Nouvelle vitesse (pourcentage)"
 
-#, fuzzy
 msgid "No clip at cursor time"
-msgstr "Scinder·le·clip à l'emplacement·du·curseur"
+msgstr "Aucun·clip à l'emplacement·du·curseur"
 
-#, fuzzy
 msgid "No clip copied"
-msgstr "Impossible de sélectionner un clip"
+msgstr "Aucun clip n'a été copié"
 
 msgid "No clip selected"
 msgstr "Impossible de sélectionner un clip"
 
-#, fuzzy
 msgid "No guide at cursor time"
-msgstr "Ajouter un guide à l'emplacement du curseur"
+msgstr "Aucun guide à l'emplacement du curseur"
 
-#, fuzzy
 msgid "No image found"
-msgstr "Impossible de trouver la connexion DV"
+msgstr "Aucune image trouvée"
 
 #, fuzzy
 msgid "No marker found at cursor time"
@@ -1412,31 +1357,29 @@ msgid "Normalise audio for thumbnails"
 msgstr "Normaliser le volume durant la création des vignettes"
 
 msgid "Normalise audio volume"
-msgstr ""
+msgstr "Normaliser le volume audio"
 
-#, fuzzy
 msgid "Not connected"
-msgstr "Moteur de rendu non-connecté"
+msgstr "Déconnecté"
 
 #, kde-format
 msgid "Not found : %1"
-msgstr ""
+msgstr "Non trouvé : %1"
 
 msgid "OSS"
 msgstr "OSS"
 
-#, fuzzy
 msgid "OSS with DMA access"
-msgstr "(OSS avec accès DMA)"
+msgstr "OSS avec accès DMA"
 
 msgid "Obscure"
 msgstr "Pixélisation"
 
 msgid "Opacity"
-msgstr ""
+msgstr "Opacité"
 
 msgid "Open Document"
-msgstr ""
+msgstr "Ouvrir document"
 
 #, fuzzy
 msgid "Open last project on startup"
@@ -1447,7 +1390,7 @@ msgid "Open projects in new tabs"
 msgstr "Ouvrir un projet"
 
 msgid "Output file"
-msgstr ""
+msgstr "Fichier de sortie"
 
 msgid "P"
 msgstr "P"
@@ -1497,9 +1440,8 @@ msgstr "Lire la vidéo après l'export"
 msgid "Play..."
 msgstr "Lire ..."
 
-#, fuzzy
 msgid "Playback"
-msgstr "Retour rapide"
+msgstr ""
 
 #, fuzzy
 msgid "Playback params"
@@ -1554,17 +1496,14 @@ msgstr "Supprimer l'effet"
 msgid "Problem editing effect"
 msgstr ""
 
-#, fuzzy
 msgid "Profile"
-msgstr "Fichier de projet :"
+msgstr "Profil"
 
-#, fuzzy
 msgid "Profile name"
-msgstr "Nom du projet"
+msgstr "Nom du profil"
 
-#, fuzzy
 msgid "Profiles"
-msgstr "Fichier de projet :"
+msgstr "Profils"
 
 msgid "Progressive"
 msgstr ""
@@ -1573,7 +1512,7 @@ msgid "Project"
 msgstr "Projet"
 
 msgid "Project Monitor"
-msgstr "Moniteur du projet"
+msgstr "Moniteur de projet"
 
 msgid "Project Settings"
 msgstr "Configuration du projet"
@@ -1619,13 +1558,11 @@ msgstr "Fin de projet"
 msgid "Record"
 msgstr "Enregistrer"
 
-#, fuzzy
 msgid "Record Monitor"
-msgstr "Moniteur"
+msgstr "Moniteur d'acquisition"
 
-#, fuzzy
 msgid "Recover"
-msgstr "Réverbération"
+msgstr "Récupérer"
 
 msgid "Region"
 msgstr ""
@@ -1646,38 +1583,32 @@ msgstr "Rendu"
 msgid "Rendering <i>%1</i> started"
 msgstr ""
 
-#, fuzzy
 msgid "Reset effect"
-msgstr "Supprimer l'effet"
+msgstr "Réinitialiser l'effet"
 
-#, fuzzy
 msgid "Resize (100%)"
-msgstr "Taille de la pièce (m)"
+msgstr "Redimensionner (100 %)"
 
-#, fuzzy
 msgid "Resize (50%)"
-msgstr "Taille de la pièce (m)"
+msgstr "Redimensionner (50 %)"
 
 msgid "Resize clip"
 msgstr "Redimensionner le clip"
 
-#, fuzzy
 msgid "Resize..."
-msgstr "Redimensionner le clip"
+msgstr "Redimensionner ..."
 
 msgid "Reverb"
 msgstr "Réverbération"
 
-#, fuzzy
 msgid "Reverb Time"
 msgstr "Durée de réverbération"
 
 msgid "Reverb time"
 msgstr "Durée de réverbération"
 
-#, fuzzy
 msgid "Reverse playing"
-msgstr "Lire à l'envers"
+msgstr "Lecture à l'envers"
 
 msgid "Rewind"
 msgstr "Retour rapide"
@@ -1754,16 +1685,16 @@ msgid "Scale"
 msgstr "Echelle"
 
 msgid "Screen Grab"
-msgstr ""
+msgstr "Capture d'écran"
 
 msgid "Screen Grab / FFmpeg"
-msgstr ""
+msgstr "Capture d'écran / FFmpeg"
 
 msgid "Screen grab"
-msgstr ""
+msgstr "Caputure d'écran"
 
 msgid "Select a clip before copying"
-msgstr ""
+msgstr "Sélectionner un clip avant de copier"
 
 #, fuzzy
 msgid "Select a clip if you want to apply an effect"
@@ -1781,13 +1712,11 @@ msgstr ""
 msgid "Select clip to delete"
 msgstr "Veuillez sélectionner un clip pour effacer la transition"
 
-#, fuzzy
 msgid "Select default audio editor"
-msgstr "Editeur audio externe"
+msgstr "Définir le programe d'édition audio par défaut"
 
-#, fuzzy
 msgid "Select default image editor"
-msgstr "Editeur d'image externe"
+msgstr "Définir le programe d'édition graphique par défaut"
 
 msgid "Select default video player"
 msgstr ""
@@ -1807,21 +1736,18 @@ msgstr "Outil de sélection"
 msgid "Sepia"
 msgstr "Sépia"
 
-#, fuzzy
 msgid "Set In Point"
-msgstr "Définir un point d'entrée"
+msgstr "Définir le point d'entrée"
 
-#, fuzzy
 msgid "Set Out Point"
-msgstr "Définir un point de sortie"
+msgstr "Définir le point de sortie"
 
 #, fuzzy
 msgid "Set current image as thumbnail"
 msgstr "Enregistrer la trame courante sous forme d'un fichier image"
 
-#, fuzzy
 msgid "Set zone end"
-msgstr "Zone de sélection"
+msgstr "Définir la fin de zone de sélection"
 
 msgid "Set zone start"
 msgstr ""
@@ -1953,7 +1879,6 @@ msgstr "Ajouter un modèle"
 msgid "Temporary files"
 msgstr "Dossier des fichiers temporaires"
 
-#, fuzzy
 msgid "Text clip"
 msgstr "Clip texte"
 
@@ -1982,7 +1907,6 @@ msgstr "Vignette"
 msgid "Thumbnails"
 msgstr "Vignettes"
 
-#, fuzzy
 msgid "Thumbnails:"
 msgstr "Vignettes :"
 
@@ -2010,7 +1934,7 @@ msgid "Tool"
 msgstr "Outil"
 
 msgid "Top"
-msgstr ""
+msgstr "Haut"
 
 #, fuzzy
 msgid "Track height"
@@ -2038,15 +1962,14 @@ msgstr ""
 msgid "Undo History"
 msgstr "Historique des changements"
 
-#, fuzzy
 msgid "Unknown clip"
-msgstr "inconnue"
+msgstr "Clip inconnu"
 
 msgid "Untitled"
 msgstr "Sans titre"
 
 msgid "Up"
-msgstr ""
+msgstr "Vers le haut"
 
 msgid "Use as default"
 msgstr ""
@@ -2185,9 +2108,8 @@ msgstr "Veuillez sélectionner un clip pour modifier la transition"
 msgid "Z-Index:"
 msgstr "Index"
 
-#, fuzzy
 msgid "Zone end"
-msgstr "Reculer d'une seconde"
+msgstr "Fin de la zone"
 
 msgid "Zone start"
 msgstr ""
@@ -2195,9 +2117,8 @@ msgstr ""
 msgid "Zoom:"
 msgstr "Zoom :"
 
-#, fuzzy
 msgid "create new points"
-msgstr "Créer un nouveau projet"
+msgstr "Créer de nouveaux points"
 
 msgid "effect"
 msgstr "effet"
@@ -2205,9 +2126,8 @@ msgstr "effet"
 msgid "frames"
 msgstr "Trames"
 
-#, fuzzy
 msgid "hh:mm:ss::ff"
-msgstr "Durée (hh:mm:ss) :"
+msgstr "hh:mm:ss::ff"
 
 msgid "hour"
 msgstr "heure"
@@ -2219,10 +2139,10 @@ msgid "min."
 msgstr "min."
 
 msgid "move on X axis"
-msgstr ""
+msgstr "Déplacement sur l'axe des X"
 
 msgid "move on Y axis"
-msgstr ""
+msgstr "Déplacement sur l'axe des Y"
 
 msgid "ogg"
 msgstr "ogg"
