@@ -8,12 +8,12 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-06 17:22+0200\n"
-"PO-Revision-Date: 2008-10-12 21:37+0200\n"
+"PO-Revision-Date: 2008-10-12 22:20+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
 msgid " Firewire (DV / HDV)"
 msgstr " Firewire (DV / HDV)"
@@ -92,7 +92,7 @@ msgid "ARTS daemon"
 msgstr "Système de son ARTS"
 
 msgid "Activate crash recovery (auto save)"
-msgstr ""
+msgstr "Activer la récupération après crash (sauvegarde automatique)"
 
 #, kde-format
 msgid "Add %1"
@@ -174,7 +174,7 @@ msgid "Add transition to clip"
 msgstr "Ajouter une transition au clip"
 
 msgid "Additional Settings"
-msgstr ""
+msgstr "Configuration additionnelle"
 
 msgid "Adjust audio volume with keyframes"
 msgstr "Aligner le volume audio en fonction des trames-clé"
@@ -320,20 +320,21 @@ msgstr ""
 
 msgid "Cannot add marker if more than one clip is selected"
 msgstr ""
+"Impossible d'ajouter un repère lorsque plusieurs clips sont sélectionnés"
 
-#, fuzzy
 msgid "Cannot cut a transition"
-msgstr "Obtenir de nouvelles transitions luma"
+msgstr "Impossible de couper une transition"
 
 msgid "Cannot delete marker if more than one clip is selected"
 msgstr ""
+"Impossible de supprimer le repère lorsque plusieurs clips sont sélectionnés"
 
 msgid "Cannot edit marker if more than one clip is selected"
 msgstr ""
+"Impossible d'éditer le repère lorsque plusieurs clips sont sélectionnés"
 
-#, fuzzy
 msgid "Cannot find clip to add effect"
-msgstr "Collage des effets du clip %1."
+msgstr "Impossible de trouver le clip pour lui appliquer un effet"
 
 msgid "Cannot find clip to cut"
 msgstr "Impossible de trouver le clip à couper"
@@ -346,6 +347,8 @@ msgstr "Impossible de trouver un clip à partir de la trame-clé"
 
 msgid "Cannot find the inigo program required for rendering (part of Mlt)"
 msgstr ""
+"Impossible de trouver le programme inigo, un composant de mlt, nécessaire au "
+"rendu"
 
 #, fuzzy
 msgid "Cannot find your Mlt profiles, please give the path"
@@ -357,7 +360,7 @@ msgstr "Impossible de coller le clip %1 sur les pistes %2 à l'emplacement %3"
 
 #, c-format, kde-format
 msgid "Cannot move clip to position %1seconds"
-msgstr ""
+msgstr "Impossible de déplacer le clip à la position %1 secondes"
 
 #, fuzzy, kde-format
 msgid "Cannot move transition at time: %1s on track %2"
@@ -367,9 +370,8 @@ msgstr "Impossible de coller le clip %1 sur les pistes %2 à l'emplacement %3"
 msgid "Cannot paste clip to selected place"
 msgstr "Créer un clip virtuel à partir de la zone sélectionnée"
 
-#, fuzzy
 msgid "Cannot paste selected clips"
-msgstr "Modifier la transition du clip sélectionné"
+msgstr "Impossible de coller les clips sélectionnés"
 
 #, fuzzy
 msgid "Cannot paste transition to selected place"
@@ -386,16 +388,18 @@ msgid ""
 "Cannot read from device %1\n"
 "Please check drivers and access rights."
 msgstr ""
+"Impossible de lire depuis le périphérique %1\n"
+"Veuillez vérifier les drivers et les droits d'accès."
 
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot write to file %1"
-msgstr "Impossible de lire le fichier : %1"
+msgstr "Impossible d'écrire dans le fichier %1"
 
 msgid "Capture"
 msgstr "Acquisition"
 
 msgid "Capture audio"
-msgstr "Faire l'acquisition de l'audio"
+msgstr "Acquisition audio"
 
 msgid "Capture crashed, please check your parameters"
 msgstr ""
@@ -693,7 +697,7 @@ msgid "Direct FB"
 msgstr "DirectFB"
 
 msgid "Discard color information"
-msgstr ""
+msgstr "Annuler les informations concernant la couleur"
 
 msgid "Disonnect"
 msgstr "Déconnecter"
@@ -726,7 +730,7 @@ msgid "E"
 msgstr "E"
 
 msgid "Edit Clip"
-msgstr "Modifier un clip"
+msgstr "Modifier le clip"
 
 msgid "Edit Clip Speed"
 msgstr "Modifier la vitesse du clip"
@@ -779,9 +783,8 @@ msgstr "Activer la roue de montage"
 msgid "Encoding"
 msgstr "Encodage"
 
-#, fuzzy
 msgid "Encoding parameters"
-msgstr "Configuration"
+msgstr "Paramètres d'encodage"
 
 msgid "End"
 msgstr "Fin"
@@ -804,13 +807,11 @@ msgstr ""
 msgid "Error starting MLT's command line player (inigo)."
 msgstr ""
 
-#, fuzzy
 msgid "Error when resizing clip"
-msgstr "Déplacer et redimensionner les clips"
+msgstr "Erreur durant le redimensionnement du clip"
 
-#, fuzzy
 msgid "Esound daemon"
-msgstr "(système de son Esound)"
+msgstr "Système de son Esound"
 
 msgid "Extension"
 msgstr "Extension"
@@ -824,9 +825,8 @@ msgstr "Extraire la trame"
 msgid "Fade in"
 msgstr "Ouverture en fondu"
 
-#, fuzzy
 msgid "Fade in audio track"
-msgstr "Enregistrer piste audio"
+msgstr "Ouverture en fondu de la piste audio"
 
 msgid "Fade out"
 msgstr "Fermeture en fondu"
@@ -851,11 +851,8 @@ msgstr ""
 "Le fichier existe déjà.\n"
 "Désirez vous le remplacer ?"
 
-#, fuzzy
 msgid "File already exists. Do you want to overwrite it ?"
-msgstr ""
-"Le fichier existe déjà.\n"
-"Désirez vous le remplacer ?"
+msgstr "Le fichier existe déjà. Souhaitez vous le remplacer ?"
 
 msgid "File extension"
 msgstr "Extension de fichier"
@@ -1189,7 +1186,6 @@ msgstr ""
 msgid "Loop"
 msgstr "Boucle"
 
-#, fuzzy
 msgid "Loop Section"
 msgstr "Lire la sélection en boucle"
 
@@ -1323,13 +1319,11 @@ msgstr "Aucun guide à l'emplacement du curseur"
 msgid "No image found"
 msgstr "Aucune image trouvée"
 
-#, fuzzy
 msgid "No marker found at cursor time"
-msgstr "Ajouter un repère à l'emplacement du curseur"
+msgstr "Aucun repère à l'emplacement du curseur"
 
-#, fuzzy
 msgid "No selected clip at cursor time"
-msgstr "Scinder·tous les·clips à l'emplacement·du·curseur"
+msgstr "Aucun clip sélectionné à l'emplacement·du·curseur"
 
 msgid "Normalise"
 msgstr "Normaliser"
@@ -1363,7 +1357,7 @@ msgid "Open Document"
 msgstr "Ouvrir document"
 
 msgid "Open last project on startup"
-msgstr "Au lancement, ouvrir automatiquement le dernier projet"
+msgstr "Au démarrage, ouvrir automatiquement le dernier projet"
 
 msgid "Open projects in new tabs"
 msgstr "Ouvrir les projets dans des onglets"
@@ -1649,9 +1643,8 @@ msgstr "Enregistrer le titre"
 msgid "Save changes to document ?"
 msgstr "Sauvegarder les modifications ?"
 
-#, fuzzy
 msgid "Save clip zone as:"
-msgstr "Enregistrer le projet sous ..."
+msgstr "Enregistrer la zone du clip sous ..."
 
 msgid "Save effect"
 msgstr "Enregistrer l'effet"
@@ -1722,9 +1715,8 @@ msgstr "Définir le point d'entrée"
 msgid "Set Out Point"
 msgstr "Définir le point de sortie"
 
-#, fuzzy
 msgid "Set current image as thumbnail"
-msgstr "Enregistrer la trame courante sous forme d'un fichier image"
+msgstr "Choisir la trame courante comme vignette"
 
 msgid "Set zone end"
 msgstr "Définir la fin de zone"
@@ -1768,9 +1760,8 @@ msgstr "Clip diaporama"
 msgid "Slideshow clip"
 msgstr "Clip diaporama"
 
-#, fuzzy
 msgid "Snap"
-msgstr "Aligner sur"
+msgstr "Aligner"
 
 msgid "Softness"
 msgstr "Douceur"
@@ -1778,17 +1769,14 @@ msgstr "Douceur"
 msgid "Sox Echo"
 msgstr "Sox écho"
 
-#, fuzzy
 msgid "Sox Flanger"
-msgstr "Arrêter la lecture"
+msgstr "Sox Arrondisseur"
 
-#, fuzzy
 msgid "Sox Pitch Shift"
-msgstr "Modulation"
+msgstr "Sox Changement de pitch"
 
-#, fuzzy
 msgid "Sox Reverb"
-msgstr "Réverbération"
+msgstr "Sox Réverbération"
 
 msgid "Sox Vibro"
 msgstr "Sox Vibro"
@@ -1797,7 +1785,7 @@ msgid "Sox change pitch audio effect"
 msgstr ""
 
 msgid "Sox echo audio effect"
-msgstr "Effet audio Sox echo"
+msgstr "Effet audio Sox écho"
 
 msgid "Sox flanger audio effect"
 msgstr "Effet audio Sox Arrondisseur"
@@ -1811,15 +1799,14 @@ msgstr "Effet audio Sox vibro"
 msgid "Speed"
 msgstr "Vitesse"
 
-#, fuzzy
 msgid "Split view"
-msgstr "Scinder le clip"
+msgstr "Scinder la vue"
 
 msgid "Spread"
 msgstr "Etalement"
 
 msgid "Start"
-msgstr "Lancer"
+msgstr "Début"
 
 msgid "Start Gain"
 msgstr "Amplification en entrée"
@@ -1926,7 +1913,7 @@ msgstr "Transforme les couleurs du clip en sépia"
 
 #, kde-format
 msgid "Unable to write to file %1"
-msgstr ""
+msgstr "Impossible d'écrire dans le fichier %1"
 
 msgid "Undo History"
 msgstr "Historique d'annulation"
@@ -2028,6 +2015,8 @@ msgid ""
 "Warning: changes to the drivers and devices can make Kdenlive unstable. "
 "Change only if you know what you do."
 msgstr ""
+"Mise en garde : choisir des drivers et des périphériques peut rendre "
+"Kdenlive instable.Choisissez uniquement les réglages dont vous êtes certains."
 
 msgid "Wave"
 msgstr "Ondulation"
