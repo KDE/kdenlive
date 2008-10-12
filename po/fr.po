@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-06 17:22+0200\n"
-"PO-Revision-Date: 2008-10-12 13:53+0200\n"
+"PO-Revision-Date: 2008-10-12 14:24+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -164,9 +164,8 @@ msgstr "Ajouter un effet"
 msgid "Add recording time to captured file name"
 msgstr "Ajouter la date d'enregistrement au nom du fichier capturé"
 
-#, fuzzy
 msgid "Add timeline clip"
-msgstr "Clips du montage"
+msgstr "Ajouter clip de montage"
 
 msgid "Add transition"
 msgstr "Ajouter une transition"
@@ -424,7 +423,6 @@ msgstr "Centrer"
 msgid "Change"
 msgstr "Modifier"
 
-#, fuzzy
 msgid "Change Clip Speed"
 msgstr "Modifier la durée du clip"
 
@@ -472,9 +470,8 @@ msgstr "Propriétés du clip"
 msgid "Clip duration: %1s"
 msgstr "Description du clip :"
 
-#, fuzzy
 msgid "Clip has no markers"
-msgstr "Effacer les repères"
+msgstr "Le clip n'a aucun repère"
 
 msgid "Close the current tab"
 msgstr "Fermer l'onglet"
@@ -613,9 +610,8 @@ msgstr "Supprimer %1"
 msgid "Delete All Guides"
 msgstr "Supprimer tous les guides"
 
-#, fuzzy
 msgid "Delete All Markers from Clip"
-msgstr "Supprimer les repères du clip"
+msgstr "Supprimer tous les repères dans le clip"
 
 msgid "Delete Clip"
 msgstr "Supprimer le clip"
@@ -626,12 +622,11 @@ msgstr "Supprimer le dossier"
 msgid "Delete Guide"
 msgstr "Supprimer le guide"
 
-#, fuzzy
 msgid "Delete Marker from Clip"
-msgstr "Supprimer le repère"
+msgstr "Supprimer le repère dans le clip"
 
 msgid "Delete Selected Item"
-msgstr "Suppression des éléments sélectionnés"
+msgstr "Supprimer les éléments sélectionnés"
 
 msgid "Delete clip"
 msgstr "Supprimer le clip"
@@ -665,7 +660,7 @@ msgid "Delete profile"
 msgstr "Supprimer le profil"
 
 msgid "Delete selected items"
-msgstr "Suppression les éléments sélectionnés"
+msgstr "Supprimer les éléments sélectionnés"
 
 #, fuzzy
 msgid "Delete timeline clip"
@@ -693,9 +688,8 @@ msgstr ""
 msgid "Device"
 msgstr "Périphérique"
 
-#, fuzzy
 msgid "Device configuration"
-msgstr "Configuration du projet"
+msgstr "Configuration du périphérique"
 
 msgid "Dialog"
 msgstr "Fenêtre de dialogue"
@@ -783,10 +777,10 @@ msgid "Effect List"
 msgstr "Effets disponibles"
 
 msgid "Effect Stack"
-msgstr "Effets appliqués"
+msgstr "Effets appliqué"
 
 msgid "Enable Jog Shuttle device"
-msgstr ""
+msgstr "Activer la roue de montage"
 
 msgid "Encoding"
 msgstr "Encodage"
@@ -827,9 +821,8 @@ msgstr "(système de son Esound)"
 msgid "Extension"
 msgstr "Extension"
 
-#, fuzzy
 msgid "Extra Toolbar"
-msgstr "Outils des fenêtres"
+msgstr "Barre supplémentaire"
 
 #, fuzzy
 msgid "Extract frame"
@@ -950,7 +943,7 @@ msgid "Frame duration"
 msgstr "Durée de la trame"
 
 msgid "Frame rate"
-msgstr "Fréquence de trame"
+msgstr "Fréquence d'affichage"
 
 msgid "Frame rate:"
 msgstr "Fréquence de trame :"
@@ -1121,7 +1114,7 @@ msgid "Image type"
 msgstr "Type d'image"
 
 msgid "Inigo path"
-msgstr "Chemin de Inigo"
+msgstr "Chemin vers Inigo"
 
 msgid "Initialising..."
 msgstr "Initialisation en cours ..."
@@ -1130,7 +1123,7 @@ msgid "Input gain (db)"
 msgstr "Gain en entrée (db)"
 
 msgid "Insert track"
-msgstr "Insérer la piste"
+msgstr "Insérer une piste"
 
 msgid "Install extra video mimetypes"
 msgstr ""
@@ -1139,7 +1132,7 @@ msgid "Intensity"
 msgstr "Intensité"
 
 msgid "Interlaced"
-msgstr "Interlacé"
+msgstr "Intrelacé"
 
 msgid "Invert"
 msgstr "Inversion"
@@ -1463,6 +1456,11 @@ msgid ""
 "Files will be saved in:\n"
 "%1"
 msgstr ""
+"Relier votre caméscope à l'ordinateur\n"
+"puis appuyer sur le bouton Connecter.\n"
+"Les fichiers acquis seront\n"
+"sauvegardés dans le dossier :\n"
+"%1"
 
 msgid "Pos"
 msgstr ""
@@ -1518,7 +1516,7 @@ msgid "Project Settings"
 msgstr "Configuration du projet"
 
 msgid "Project Tree"
-msgstr "Arborescence du projet"
+msgstr "Arborescence de projet"
 
 msgid "Project folder"
 msgstr "Dossier du projet"
@@ -1691,7 +1689,7 @@ msgid "Screen Grab / FFmpeg"
 msgstr "Capture d'écran / FFmpeg"
 
 msgid "Screen grab"
-msgstr "Caputure d'écran"
+msgstr "Capture d'écran"
 
 msgid "Select a clip before copying"
 msgstr "Sélectionner un clip avant de copier"
@@ -1755,25 +1753,20 @@ msgstr ""
 msgid "Shift"
 msgstr "Modulation"
 
-#, fuzzy
 msgid "Show audio thumbnails"
 msgstr "Afficher les vignettes audio"
 
-#, fuzzy
 msgid "Show background"
-msgstr "> fond"
+msgstr "Afficher le fond d'écran"
 
-#, fuzzy
 msgid "Show keyframes in timeline"
-msgstr "Définir un repère sur le montage"
+msgstr "Afficher les trames-clé dans le montage"
 
-#, fuzzy
 msgid "Show markers comments"
-msgstr "Commentaires du repère"
+msgstr "Afficher les commentaires des repères"
 
-#, fuzzy
 msgid "Show video thumbnails"
-msgstr "Afficher les vignettes audio"
+msgstr "Afficher les vignettes vidéo"
 
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
 msgstr ""
@@ -1916,9 +1909,8 @@ msgstr "Horodatage"
 msgid "Time window (ms)"
 msgstr ""
 
-#, fuzzy
 msgid "Timecode overlay"
-msgstr "Horodatage"
+msgstr "Incrustation horodatage"
 
 msgid "Timeline"
 msgstr "Montage"
@@ -1960,7 +1952,7 @@ msgid "Unable to write to file %1"
 msgstr ""
 
 msgid "Undo History"
-msgstr "Historique des changements"
+msgstr "Historique des modifications"
 
 msgid "Unknown clip"
 msgstr "Clip inconnu"
