@@ -8,19 +8,19 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-06 17:22+0200\n"
-"PO-Revision-Date: 2007-09-25 09:30+0200\n"
+"PO-Revision-Date: 2008-10-12 10:51+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 msgid " Firewire (DV / HDV)"
-msgstr ""
+msgstr " Firewire (DV / HDV)"
 
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 images found"
-msgstr " [%1 images]"
+msgstr "%1 images trouvées"
 
 msgid "..."
 msgstr "..."
@@ -29,20 +29,19 @@ msgid "/"
 msgstr ""
 
 msgid "/dev/dsp"
-msgstr ""
+msgstr "/dev/dsp"
 
-#, fuzzy
 msgid "/dev/video0"
-msgstr "vidéo"
+msgstr "/dev/video0"
 
 msgid "0"
 msgstr ""
 
 msgid "100%"
-msgstr ""
+msgstr "100 %"
 
 msgid "200%"
-msgstr ""
+msgstr "200 %"
 
 msgid "25/1"
 msgstr ""
@@ -89,20 +88,18 @@ msgid ""
 "choose another description for your custom profile."
 msgstr ""
 
-#, fuzzy
 msgid "ALSA"
-msgstr "(ALSA)"
+msgstr "ALSA"
 
-#, fuzzy
 msgid "ARTS daemon"
-msgstr "(Système de son ARTS)"
+msgstr "Système de son ARTS"
 
 msgid "Activate crash recovery (auto save)"
 msgstr ""
 
 #, kde-format
 msgid "Add %1"
-msgstr ""
+msgstr "Ajouter %1"
 
 msgid "Add Audio Effect"
 msgstr "Ajouter un effet audio"
@@ -110,20 +107,17 @@ msgstr "Ajouter un effet audio"
 msgid "Add Clip"
 msgstr "Ajouter un clip"
 
-#, fuzzy
 msgid "Add Color Clip"
-msgstr "Clip couleur"
+msgstr "Ajouter un clip couleur"
 
-#, fuzzy
 msgid "Add Custom Effect"
-msgstr "Ajouter un effet audio"
+msgstr "Ajouter un effet personnalisé"
 
 msgid "Add Guide"
 msgstr "Ajouter un guide"
 
-#, fuzzy
 msgid "Add Image"
-msgstr "Image"
+msgstr "Ajouter une image"
 
 #, fuzzy
 msgid "Add Marker to Clip"
@@ -153,9 +147,8 @@ msgstr "Ajouter un effet vidéo"
 msgid "Add audio fade"
 msgstr "Atténuation audio"
 
-#, fuzzy
 msgid "Add clip"
-msgstr "Ajouter des clips"
+msgstr "Ajouter un clip"
 
 msgid "Add clips"
 msgstr "Ajouter des clips"
@@ -175,7 +168,6 @@ msgstr "Trame clé"
 msgid "Add marker"
 msgstr "Ajouter un repère"
 
-#, fuzzy
 msgid "Add new effect"
 msgstr "Ajouter un effet"
 
@@ -266,9 +258,8 @@ msgstr "Périphérique audio :"
 msgid "Audio fade duration: %1s"
 msgstr ""
 
-#, fuzzy
 msgid "Audio index"
-msgstr "Atténuation audio"
+msgstr "Index audio"
 
 msgid "Audio tracks"
 msgstr "Pistes audio"
@@ -329,25 +320,20 @@ msgstr "Flou par pixelisation"
 msgid "Brightness"
 msgstr "Luminosité"
 
-#, fuzzy
 msgid "Button 1"
-msgstr "Boutons"
+msgstr "Bouton 1"
 
-#, fuzzy
 msgid "Button 2"
-msgstr "Boutons"
+msgstr "Bouton 2"
 
-#, fuzzy
 msgid "Button 3"
-msgstr "Boutons"
+msgstr "Bouton 3"
 
-#, fuzzy
 msgid "Button 4"
-msgstr "Boutons"
+msgstr "Bouton 4"
 
-#, fuzzy
 msgid "Button 5"
-msgstr "Boutons"
+msgstr "Bouton 5"
 
 msgid "C"
 msgstr ""
@@ -441,9 +427,8 @@ msgstr "Moniteur d'acquisition"
 msgid "Capture crashed, please check your parameters"
 msgstr ""
 
-#, fuzzy
 msgid "Capture folder"
-msgstr "Créer un dossier"
+msgstr "Dossier d'acquisition"
 
 #, fuzzy
 msgid "Capture format"
@@ -457,13 +442,11 @@ msgstr "Clips acquis"
 msgid "Captured files"
 msgstr "Clips acquis"
 
-#, fuzzy
 msgid "Capturing..."
-msgstr "Quitter..."
+msgstr "Acquisition en cours ..."
 
-#, fuzzy
 msgid "Center"
-msgstr "Aligner au centre"
+msgstr "Centrer"
 
 #, fuzzy
 msgid "Change"
@@ -597,13 +580,11 @@ msgstr "Fondu-enchaîné"
 msgid "Custom"
 msgstr "Personnaliser"
 
-#, fuzzy
 msgid "Cut"
-msgstr "Personnaliser"
+msgstr "Couper"
 
-#, fuzzy
 msgid "Cut Clip"
-msgstr "Créer un clip"
+msgstr "Couper un clip"
 
 msgid "D"
 msgstr ""
@@ -621,7 +602,7 @@ msgid "DV AVI type 2"
 msgstr "AVI DV type 2"
 
 msgid "DV Raw"
-msgstr ""
+msgstr "DV Raw"
 
 msgid "Damping"
 msgstr "Amortissement"
@@ -1083,9 +1064,8 @@ msgstr ""
 msgid "From"
 msgstr "Depuis"
 
-#, fuzzy
 msgid "Full project"
-msgstr "Purger le projet"
+msgstr "Projet complet"
 
 msgid "Full screen capture"
 msgstr ""
@@ -1093,11 +1073,9 @@ msgstr ""
 msgid "Gain"
 msgstr "Amplification"
 
-#, fuzzy
 msgid "Gain in"
 msgstr "Gain en entrée"
 
-#, fuzzy
 msgid "Gain out"
 msgstr "Gain en sortie"
 
@@ -1154,9 +1132,8 @@ msgstr ""
 msgid "Greyscale"
 msgstr "Niveaux de gris"
 
-#, fuzzy
 msgid "Group"
-msgstr "groupe"
+msgstr "Grouper"
 
 #, fuzzy
 msgid "GroupBox"
@@ -1508,9 +1485,8 @@ msgstr "Moteur de rendu non-connecté"
 msgid "Not found : %1"
 msgstr ""
 
-#, fuzzy
 msgid "OSS"
-msgstr "(OSS)"
+msgstr "OSS"
 
 #, fuzzy
 msgid "OSS with DMA access"
@@ -1556,9 +1532,8 @@ msgstr "Configuration"
 msgid "Paste Effects"
 msgstr "Coller les effets"
 
-#, fuzzy
 msgid "Path"
-msgstr "Chemin : %1"
+msgstr "Chemin"
 
 msgid "Phaser"
 msgstr "Phaser"
@@ -1575,7 +1550,6 @@ msgstr "Lecture"
 msgid "Play / Pause"
 msgstr "Lecture / Pause"
 
-#, fuzzy
 msgid "Play Section"
 msgstr "Lire la sélection"
 
@@ -1583,9 +1557,8 @@ msgstr "Lire la sélection"
 msgid "Play after render"
 msgstr "Lire la vidéo après l'export"
 
-#, fuzzy
 msgid "Play..."
-msgstr "Lecture"
+msgstr "Lire ..."
 
 #, fuzzy
 msgid "Playback"
@@ -1659,9 +1632,8 @@ msgstr "Fichier de projet :"
 msgid "Progressive"
 msgstr ""
 
-#, fuzzy
 msgid "Project"
-msgstr "&Projet"
+msgstr "Projet"
 
 #, fuzzy
 msgid "Project Monitor"
@@ -1784,9 +1756,8 @@ msgstr "Reculer d'une trame"
 msgid "Rewind 1 frame"
 msgstr "Reculer d'une trame"
 
-#, fuzzy
 msgid "Right"
-msgstr "Elevé"
+msgstr "Droite"
 
 #, fuzzy
 msgid "Room Reverb"
@@ -1821,9 +1792,8 @@ msgstr ""
 msgid "SVGAlib"
 msgstr "(SVGAlib)"
 
-#, fuzzy
 msgid "Save As"
-msgstr "Enregistrer sous ..."
+msgstr "Enregistrer sous"
 
 #, fuzzy
 msgid "Save Effect"
@@ -1844,17 +1814,15 @@ msgstr ""
 msgid "Save clip zone as:"
 msgstr "Enregistrer le projet sous ..."
 
-#, fuzzy
 msgid "Save effect"
-msgstr "Supprimer l'effet"
+msgstr "Enregistrer l'effet"
 
 #, fuzzy
 msgid "Save profile"
 msgstr "Enregistrer le projet"
 
-#, fuzzy
 msgid "Save zone"
-msgstr "Enregistrer le projet"
+msgstr "Enregistrer une zone"
 
 msgid "Scale"
 msgstr "Echelle"
@@ -1898,20 +1866,17 @@ msgstr "Editeur d'image externe"
 msgid "Select default video player"
 msgstr ""
 
-#, fuzzy
 msgid "Select region..."
-msgstr "Sélection"
+msgstr "Sélectionner une région"
 
 msgid "Selected zone"
 msgstr "Zone de sélection"
 
-#, fuzzy
 msgid "Selection Tool"
-msgstr "Sélection"
+msgstr "Outil de sélection"
 
-#, fuzzy
 msgid "Selection tool"
-msgstr "Sélection"
+msgstr "Outil de sélection"
 
 msgid "Sepia"
 msgstr "Sépia"
@@ -2111,17 +2076,15 @@ msgstr "Horodatage"
 msgid "Timeline"
 msgstr "Montage"
 
-#, fuzzy
 msgid "Title Clip"
-msgstr "Clip texte"
+msgstr "Clip titre"
 
 #, fuzzy
 msgid "Toggle selection"
 msgstr "Lire la sélection"
 
-#, fuzzy
 msgid "Tool"
-msgstr "Outils"
+msgstr "Outil"
 
 msgid "Top"
 msgstr ""
@@ -2157,9 +2120,8 @@ msgstr ""
 msgid "Unknown clip"
 msgstr "inconnue"
 
-#, fuzzy
 msgid "Untitled"
-msgstr "Titre"
+msgstr "Sans titre"
 
 msgid "Up"
 msgstr ""
@@ -2173,9 +2135,8 @@ msgstr "Utiliser la transparence"
 msgid "V"
 msgstr ""
 
-#, fuzzy
 msgid "Value"
-msgstr "Volume"
+msgstr "Valeur"
 
 msgid "Variance"
 msgstr "Variance"
@@ -2243,9 +2204,8 @@ msgstr ""
 msgid "Video4Linux2 / FFmpeg"
 msgstr ""
 
-#, fuzzy
 msgid "View"
-msgstr "Vidéo"
+msgstr "Visualiser"
 
 msgid "Vinyl"
 msgstr "Vinyl"
@@ -2283,9 +2243,8 @@ msgstr "X"
 msgid "X11"
 msgstr ""
 
-#, fuzzy
 msgid "X:"
-msgstr "X"
+msgstr "X:"
 
 #, fuzzy
 msgid "XFREE86 DGA 2.0"
@@ -2298,9 +2257,8 @@ msgstr "Vidéo"
 msgid "Y"
 msgstr "Y"
 
-#, fuzzy
 msgid "Y:"
-msgstr "Y"
+msgstr "Y:"
 
 msgid "Year"
 msgstr "Année"
@@ -2323,17 +2281,15 @@ msgstr "Reculer d'une seconde"
 msgid "Zone start"
 msgstr ""
 
-#, fuzzy
 msgid "Zoom:"
-msgstr "Zoom avant"
+msgstr "Zoom :"
 
 #, fuzzy
 msgid "create new points"
 msgstr "Créer un nouveau projet"
 
-#, fuzzy
 msgid "effect"
-msgstr "Effet"
+msgstr "effet"
 
 msgid "frames"
 msgstr "Trames"
@@ -2345,9 +2301,8 @@ msgstr "Durée (hh:mm:ss) :"
 msgid "hour"
 msgstr "heure"
 
-#, fuzzy
 msgid "import"
-msgstr "Export :"
+msgstr "Importer"
 
 msgid "min."
 msgstr "min."
@@ -2371,9 +2326,8 @@ msgstr "Enregistrer la description"
 msgid "sec."
 msgstr "sec."
 
-#, fuzzy
 msgid "seconds"
-msgstr "Secondes"
+msgstr "secondes"
 
 msgid "to"
 msgstr "jusqu'à"
