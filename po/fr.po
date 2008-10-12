@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-06 17:22+0200\n"
-"PO-Revision-Date: 2008-10-12 15:00+0200\n"
+"PO-Revision-Date: 2008-10-12 21:37+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -68,7 +68,7 @@ msgid ":::"
 msgstr ":::"
 
 msgid "<br><b>Author:</b> "
-msgstr ""
+msgstr "<br><b>Auteur :</b> "
 
 #, kde-format
 msgid "<qt>Clip <b>%1</b><br>is invalid, will be removed from project."
@@ -177,19 +177,19 @@ msgid "Additional Settings"
 msgstr ""
 
 msgid "Adjust audio volume with keyframes"
-msgstr ""
+msgstr "Aligner le volume audio en fonction des trames-clé"
 
 msgid "Adjust clip length"
-msgstr ""
+msgstr "Ajuster la durée du clip"
 
 msgid "Advanced"
 msgstr "Expert"
 
 msgid "Align item horizontally"
-msgstr "Centrer l'élément horizontalement"
+msgstr "Aligner l'élément horizontalement"
 
 msgid "Align item vertically"
-msgstr "Centrer l'élément verticalement"
+msgstr "Aligner l'élément verticalement"
 
 msgid "Align..."
 msgstr "Aligner ..."
@@ -235,7 +235,7 @@ msgstr "Retouche audio"
 
 #, c-format, kde-format
 msgid "Audio fade duration: %1s"
-msgstr ""
+msgstr "Durée du fondu audio : %1s"
 
 msgid "Audio index"
 msgstr "Index audio"
@@ -270,9 +270,8 @@ msgstr "Moyenne"
 msgid "Background"
 msgstr "Fond"
 
-#, fuzzy
 msgid "BasicOperations"
-msgstr "Coller les transitions"
+msgstr "OpérationsSimples"
 
 msgid "Blue Screen"
 msgstr "Ecran bleu"
@@ -337,10 +336,10 @@ msgid "Cannot find clip to add effect"
 msgstr "Collage des effets du clip %1."
 
 msgid "Cannot find clip to cut"
-msgstr ""
+msgstr "Impossible de trouver le clip à couper"
 
 msgid "Cannot find clip to uncut"
-msgstr ""
+msgstr "Impossible de trouver le clip pour annuler le couper"
 
 msgid "Cannot find clip with keyframe"
 msgstr "Impossible de trouver un clip à partir de la trame-clé"
@@ -423,7 +422,7 @@ msgid "Change"
 msgstr "Modifier"
 
 msgid "Change Clip Speed"
-msgstr "Modifier la durée du clip"
+msgstr "Modifier la vitesse du clip"
 
 msgid "Change gamma color value"
 msgstr ""
@@ -465,9 +464,9 @@ msgstr "Moniteur de clip"
 msgid "Clip Properties"
 msgstr "Propriétés du clip"
 
-#, fuzzy, c-format, kde-format
+#, c-format, kde-format
 msgid "Clip duration: %1s"
-msgstr "Description du clip :"
+msgstr "Durée du clip : %1s"
 
 msgid "Clip has no markers"
 msgstr "Le clip n'a aucun repère"
@@ -516,7 +515,7 @@ msgid "Crackle"
 msgstr "Crépitement"
 
 msgid "Crash recovery (automatic backup)"
-msgstr "En cas de crash, récupérer le dernier projet (sauvegarde automatique)"
+msgstr "Récupération en cas de crash (sauvegarde automatique)"
 
 msgid "Create Folder"
 msgstr "Créer un dossier"
@@ -530,10 +529,10 @@ msgstr "Création des miniatures vidéo"
 
 #, c-format, kde-format
 msgid "Crop from start: %1s"
-msgstr ""
+msgstr "Découper à partir du début : %1s"
 
 msgid "Crop start"
-msgstr ""
+msgstr "Découper le début"
 
 msgid "Crossfade"
 msgstr "Fondu-enchaîné"
@@ -629,9 +628,8 @@ msgstr "Supprimer les éléments sélectionnés"
 msgid "Delete clip"
 msgstr "Supprimer le clip"
 
-#, fuzzy
 msgid "Delete current file"
-msgstr "Sélectionner le fichier projet"
+msgstr "Supprimer le fichier"
 
 msgid "Delete effect"
 msgstr "Supprimer l'effet"
@@ -660,9 +658,8 @@ msgstr "Supprimer le profil"
 msgid "Delete selected items"
 msgstr "Supprimer les éléments sélectionnés"
 
-#, fuzzy
 msgid "Delete timeline clip"
-msgstr "Supprimer le clip"
+msgstr "Supprimer le clip montage"
 
 msgid "Delete track"
 msgstr "Supprimer la piste"
@@ -771,10 +768,10 @@ msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
 msgstr ""
 
 msgid "Effect List"
-msgstr "Effets disponibles"
+msgstr "Liste des effets"
 
 msgid "Effect Stack"
-msgstr "Effets appliqué"
+msgstr "Effets utilisés"
 
 msgid "Enable Jog Shuttle device"
 msgstr "Activer la roue de montage"
@@ -821,20 +818,18 @@ msgstr "Extension"
 msgid "Extra Toolbar"
 msgstr "Barre supplémentaire"
 
-#, fuzzy
 msgid "Extract frame"
-msgstr "Exporter la trame"
+msgstr "Extraire la trame"
 
 msgid "Fade in"
-msgstr ""
+msgstr "Ouverture en fondu"
 
 #, fuzzy
 msgid "Fade in audio track"
 msgstr "Enregistrer piste audio"
 
-#, fuzzy
 msgid "Fade out"
-msgstr "Nombre d'utilisations"
+msgstr "Fermeture en fondu"
 
 msgid "Fatal Error"
 msgstr "Erreur grave"
@@ -862,18 +857,17 @@ msgstr ""
 "Le fichier existe déjà.\n"
 "Désirez vous le remplacer ?"
 
-#, fuzzy
 msgid "File extension"
-msgstr "Le fichier existe déjà"
+msgstr "Extension de fichier"
 
 msgid "File name"
-msgstr "Nom du fichier"
+msgstr "Nom de fichier"
 
 msgid "File size"
 msgstr "Taille du fichier"
 
 msgid "Filename"
-msgstr "Nom du fichier"
+msgstr "Nom de fichier"
 
 msgid "Fill color"
 msgstr "Couleur de remplissage"
@@ -909,13 +903,11 @@ msgstr ""
 msgid "Folder"
 msgstr "Dossier"
 
-#, fuzzy
 msgid "Force aspect ratio"
-msgstr "Aspect"
+msgstr "Forcer le ratio d'affichage"
 
-#, fuzzy
 msgid "Form"
-msgstr "Format"
+msgstr "Formulaire"
 
 msgid "Format"
 msgstr "Format"
@@ -1066,7 +1058,7 @@ msgid "Hi gain"
 msgstr "Gain élevé"
 
 msgid "Hide a region of the clip"
-msgstr ""
+msgstr "Cacher une région du clip"
 
 #, fuzzy
 msgid "Hide a selected zone and follow its movements"
@@ -1075,7 +1067,7 @@ msgstr ""
 "ultérieure"
 
 msgid "Hor. Center"
-msgstr "Aligner au centre"
+msgstr "Centrer horizontalement"
 
 msgid "Horizontal factor"
 msgstr "Facteur horizontal"
@@ -1189,7 +1181,7 @@ msgid "Load Title"
 msgstr "Charger titre"
 
 msgid "Loading playlist..."
-msgstr ""
+msgstr "Chargement de la playlist en cours ..."
 
 msgid "Loading project clips"
 msgstr ""
@@ -1227,7 +1219,7 @@ msgid "Make image greyscale except for chosen color"
 msgstr ""
 
 msgid "Make monochrome clip"
-msgstr ""
+msgstr "Transformer le clip en monochrome"
 
 msgid "Make selected color transparent"
 msgstr ""
@@ -1385,9 +1377,8 @@ msgstr "P"
 msgid "PAL"
 msgstr "PAL"
 
-#, fuzzy
 msgid "Param"
-msgstr "Configuration"
+msgstr "Paramètres"
 
 #, fuzzy
 msgid "Parameter info"
@@ -1555,7 +1546,7 @@ msgid "Recover"
 msgstr "Récupérer"
 
 msgid "Region"
-msgstr ""
+msgstr "Région"
 
 msgid "Release time (s)"
 msgstr "Délai de propagation (sec)"
@@ -1623,7 +1614,7 @@ msgid "Rotate"
 msgstr "Rotation"
 
 msgid "Rotate clip in any 3 directions"
-msgstr ""
+msgstr "Rotation du clip dans les 3 directions"
 
 msgid "Rotate:"
 msgstr "Rotation :"
@@ -1698,9 +1689,8 @@ msgstr ""
 msgid "Select clip to change speed"
 msgstr ""
 
-#, fuzzy
 msgid "Select clip to delete"
-msgstr "Veuillez sélectionner un clip pour effacer la transition"
+msgstr "Sélectionner le clip à supprimer"
 
 msgid "Select default audio editor"
 msgstr "Définir le programe d'édition audio par défaut"
@@ -1737,10 +1727,10 @@ msgid "Set current image as thumbnail"
 msgstr "Enregistrer la trame courante sous forme d'un fichier image"
 
 msgid "Set zone end"
-msgstr "Définir la fin de zone de sélection"
+msgstr "Définir la fin de zone"
 
 msgid "Set zone start"
-msgstr ""
+msgstr "Définir le début de zone"
 
 msgid "Shift"
 msgstr "Modulation"
@@ -1775,7 +1765,6 @@ msgstr "Diaporama"
 msgid "Slideshow Clip"
 msgstr "Clip diaporama"
 
-#, fuzzy
 msgid "Slideshow clip"
 msgstr "Clip diaporama"
 
@@ -1787,7 +1776,7 @@ msgid "Softness"
 msgstr "Douceur"
 
 msgid "Sox Echo"
-msgstr ""
+msgstr "Sox écho"
 
 #, fuzzy
 msgid "Sox Flanger"
@@ -1802,22 +1791,22 @@ msgid "Sox Reverb"
 msgstr "Réverbération"
 
 msgid "Sox Vibro"
-msgstr ""
+msgstr "Sox Vibro"
 
 msgid "Sox change pitch audio effect"
 msgstr ""
 
 msgid "Sox echo audio effect"
-msgstr ""
+msgstr "Effet audio Sox echo"
 
 msgid "Sox flanger audio effect"
-msgstr ""
+msgstr "Effet audio Sox Arrondisseur"
 
 msgid "Sox reverb audio effect"
-msgstr ""
+msgstr "Effet audio Sox réverbérateur"
 
 msgid "Sox vibro audio effect"
-msgstr ""
+msgstr "Effet audio Sox vibro"
 
 msgid "Speed"
 msgstr "Vitesse"
@@ -1856,9 +1845,8 @@ msgstr "Déformation de surface"
 msgid "Sync timeline cursor"
 msgstr ""
 
-#, fuzzy
 msgid "Templates"
-msgstr "Ajouter un modèle"
+msgstr "Modèles"
 
 msgid "Temporary files"
 msgstr "Fichiers temporaires"
@@ -1866,9 +1854,8 @@ msgstr "Fichiers temporaires"
 msgid "Text clip"
 msgstr "Clip texte"
 
-#, fuzzy
 msgid "TextLabel"
-msgstr "Texte"
+msgstr "LabelTexte"
 
 msgid "There is no clip, cannot extract frame."
 msgstr "Aucun clip, impossible d'extraire la trame"
@@ -1898,7 +1885,7 @@ msgid "Time"
 msgstr "Horodatage"
 
 msgid "Time window (ms)"
-msgstr ""
+msgstr "Fenêtre horaire (ms)"
 
 msgid "Timecode overlay"
 msgstr "Incruster l'horodatage"
@@ -1935,14 +1922,14 @@ msgid "Transparent background"
 msgstr "Fond d'écran transparent"
 
 msgid "Turn clip colors to sepia"
-msgstr ""
+msgstr "Transforme les couleurs du clip en sépia"
 
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr ""
 
 msgid "Undo History"
-msgstr "Historique des modifications"
+msgstr "Historique d'annulation"
 
 msgid "Unknown clip"
 msgstr "Clip inconnu"
@@ -1954,7 +1941,7 @@ msgid "Up"
 msgstr "Vers le haut"
 
 msgid "Use as default"
-msgstr ""
+msgstr "Utiliser par défaut"
 
 msgid "Use transparency"
 msgstr "Utiliser la transparence"
@@ -1969,7 +1956,7 @@ msgid "Variance"
 msgstr "Variance"
 
 msgid "Vert. Center"
-msgstr ""
+msgstr "Centrer verticalement"
 
 msgid "Vertical factor"
 msgstr "Facteur vertical"
@@ -1992,9 +1979,8 @@ msgstr "Résolution vidéo"
 msgid "Video Standard"
 msgstr "Standard vidéo"
 
-#, fuzzy
 msgid "Video capture params"
-msgstr "Flux vidéo"
+msgstr "Paramètres acquisition vidéo"
 
 msgid "Video clip"
 msgstr "Clip vidéo"
@@ -2050,7 +2036,7 @@ msgid "Wear"
 msgstr "Habillage"
 
 msgid "Welcome"
-msgstr ""
+msgstr "Bienvenue"
 
 msgid "Width"
 msgstr "Largeur"
@@ -2086,15 +2072,14 @@ msgstr ""
 msgid "You must select one clip for this action"
 msgstr "Veuillez sélectionner un clip pour modifier la transition"
 
-#, fuzzy
 msgid "Z-Index:"
-msgstr "Index"
+msgstr "Index-Z"
 
 msgid "Zone end"
-msgstr "Fin de la zone"
+msgstr "Fin de zone"
 
 msgid "Zone start"
-msgstr ""
+msgstr "Début de zone"
 
 msgid "Zoom:"
 msgstr "Zoom :"
@@ -2132,9 +2117,8 @@ msgstr "ogg"
 msgid "oss"
 msgstr "oss"
 
-#, fuzzy
 msgid "parameter description"
-msgstr "Enregistrer la description"
+msgstr "Description du paramètre"
 
 msgid "sec."
 msgstr "sec."
@@ -2145,9 +2129,8 @@ msgstr "secondes"
 msgid "to"
 msgstr "jusqu'à"
 
-#, fuzzy
 msgid "update values in timeline"
-msgstr "Définir un repère sur le montage"
+msgstr "Mettre à jour les valeurs dans le montage"
 
 msgid "video4linux2"
 msgstr "video4linux2"
