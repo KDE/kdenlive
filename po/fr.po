@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-06 17:22+0200\n"
-"PO-Revision-Date: 2008-10-12 14:24+0200\n"
+"PO-Revision-Date: 2008-10-12 15:00+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -162,7 +162,7 @@ msgid "Add new effect"
 msgstr "Ajouter un effet"
 
 msgid "Add recording time to captured file name"
-msgstr "Ajouter la date d'enregistrement au nom du fichier capturé"
+msgstr "Ajouter la date et l'heure du film au nom du fichier capturé"
 
 msgid "Add timeline clip"
 msgstr "Ajouter clip de montage"
@@ -231,7 +231,7 @@ msgid "Audio driver:"
 msgstr "Driver audio :"
 
 msgid "Audio editing"
-msgstr "Edition Audio"
+msgstr "Retouche audio"
 
 #, c-format, kde-format
 msgid "Audio fade duration: %1s"
@@ -259,11 +259,10 @@ msgid "Automatic"
 msgstr "Automatique"
 
 msgid "Automatically start a new file on scene cut"
-msgstr ""
+msgstr "Scinder automatiquement les fichiers pour chaque scène"
 
-#, fuzzy
 msgid "Autoscroll while playing"
-msgstr "Défilement automatique durant la lecture"
+msgstr "Faire défiler automatiquement la barre de montage durant la lecture"
 
 msgid "Averaging"
 msgstr "Moyenne"
@@ -517,7 +516,7 @@ msgid "Crackle"
 msgstr "Crépitement"
 
 msgid "Crash recovery (automatic backup)"
-msgstr ""
+msgstr "En cas de crash, récupérer le dernier projet (sauvegarde automatique)"
 
 msgid "Create Folder"
 msgstr "Créer un dossier"
@@ -590,9 +589,8 @@ msgstr "Profil par défaut"
 msgid "Default apps"
 msgstr "Applications par défaut"
 
-#, fuzzy
 msgid "Default capture device"
-msgstr "Format d'acquisition par défaut"
+msgstr "Périphérique d'acquisition par défaut"
 
 msgid "Default folders"
 msgstr "Dossiers par défaut"
@@ -683,7 +681,7 @@ msgid "Description:"
 msgstr "Description :"
 
 msgid "Desktop search integration"
-msgstr ""
+msgstr "Intégrer aux services Desktop seach de votre ordinateur"
 
 msgid "Device"
 msgstr "Périphérique"
@@ -706,9 +704,8 @@ msgstr "Déconnecter"
 msgid "Display"
 msgstr "Affichage"
 
-#, fuzzy
 msgid "Display clip markers comments"
-msgstr "Afficher l'horodatage"
+msgstr "Afficher les commentaires des repères"
 
 msgid "Display ratio"
 msgstr "Ratio d'affichage"
@@ -946,7 +943,7 @@ msgid "Frame rate"
 msgstr "Fréquence d'affichage"
 
 msgid "Frame rate:"
-msgstr "Fréquence de trame :"
+msgstr "Fréquence d'affichage :"
 
 msgid "Frame size"
 msgstr "Taille de la trame"
@@ -1102,7 +1099,7 @@ msgid "Image clips"
 msgstr "Clips image"
 
 msgid "Image editing"
-msgstr "Graphisme"
+msgstr "Retouche d'image"
 
 msgid "Image preview"
 msgstr "Prévisualiser l'image"
@@ -1132,7 +1129,7 @@ msgid "Intensity"
 msgstr "Intensité"
 
 msgid "Interlaced"
-msgstr "Intrelacé"
+msgstr "Entrelacé"
 
 msgid "Invert"
 msgstr "Inversion"
@@ -1345,7 +1342,6 @@ msgstr "Scinder·tous les·clips à l'emplacement·du·curseur"
 msgid "Normalise"
 msgstr "Normaliser"
 
-#, fuzzy
 msgid "Normalise audio for thumbnails"
 msgstr "Normaliser le volume durant la création des vignettes"
 
@@ -1374,13 +1370,11 @@ msgstr "Opacité"
 msgid "Open Document"
 msgstr "Ouvrir document"
 
-#, fuzzy
 msgid "Open last project on startup"
-msgstr "Ouvrir le dernier projet"
+msgstr "Au lancement, ouvrir automatiquement le dernier projet"
 
-#, fuzzy
 msgid "Open projects in new tabs"
-msgstr "Ouvrir un projet"
+msgstr "Ouvrir les projets dans des onglets"
 
 msgid "Output file"
 msgstr "Fichier de sortie"
@@ -1426,19 +1420,17 @@ msgstr "Lecture / Pause"
 msgid "Play Section"
 msgstr "Lire la sélection"
 
-#, fuzzy
 msgid "Play after render"
-msgstr "Lire la vidéo après l'export"
+msgstr "Lire immédiatement après rendu"
 
 msgid "Play..."
 msgstr "Lire ..."
 
 msgid "Playback"
-msgstr ""
+msgstr "Lecture"
 
-#, fuzzy
 msgid "Playback params"
-msgstr "Retour rapide"
+msgstr "Paramètres de lecture"
 
 #, fuzzy
 msgid "Playlist clip"
@@ -1664,7 +1656,7 @@ msgid "Save Title"
 msgstr "Enregistrer le titre"
 
 msgid "Save changes to document ?"
-msgstr ""
+msgstr "Sauvegarder les modifications ?"
 
 #, fuzzy
 msgid "Save clip zone as:"
@@ -1838,7 +1830,7 @@ msgid "Spread"
 msgstr "Etalement"
 
 msgid "Start"
-msgstr "Début"
+msgstr "Lancer"
 
 msgid "Start Gain"
 msgstr "Amplification en entrée"
@@ -1868,9 +1860,8 @@ msgstr ""
 msgid "Templates"
 msgstr "Ajouter un modèle"
 
-#, fuzzy
 msgid "Temporary files"
-msgstr "Dossier des fichiers temporaires"
+msgstr "Fichiers temporaires"
 
 msgid "Text clip"
 msgstr "Clip texte"
@@ -1910,7 +1901,7 @@ msgid "Time window (ms)"
 msgstr ""
 
 msgid "Timecode overlay"
-msgstr "Incrustation horodatage"
+msgstr "Incruster l'horodatage"
 
 msgid "Timeline"
 msgstr "Montage"
@@ -1928,9 +1919,8 @@ msgstr "Outil"
 msgid "Top"
 msgstr "Haut"
 
-#, fuzzy
 msgid "Track height"
-msgstr "Piste %1"
+msgstr "Hauteur de piste"
 
 msgid "Transition"
 msgstr "Transition"
