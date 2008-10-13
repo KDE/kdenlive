@@ -21,6 +21,7 @@
 #include <QCoreApplication>
 #include <QStringList>
 #include <QString>
+#include <QtDebug>
 
 #include "renderjob.h"
 
@@ -64,6 +65,7 @@ int main(int argc, char **argv) {
         args.takeFirst();
         RenderJob *job = new RenderJob(erase, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
         job->start();
+	qDebug()<<"//STARTING RENDERING: "<<erase<<","<<render<<","<<profile<<","<<rendermodule<<","<<player<<","<<src<<","<<dest<<","<<preargs<<","<<args<<","<<in<<","<<out;
         app.exec();
     } else {
         fprintf(stderr, "Kdenlive video renderer for MLT.\nUsage: "
