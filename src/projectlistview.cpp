@@ -113,7 +113,7 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event) {
     ProjectItem *item = static_cast <ProjectItem *>(itemAt(event->pos()));
     if (!item) emit addClip();
     else if (item->isGroup()) {
-        if ((columnAt(event->pos().x()) == 1) || columnAt(event->pos().x()) == 2) QTreeWidget::mouseDoubleClickEvent(event);
+        if ((columnAt(event->pos().x()) == 1)) QTreeWidget::mouseDoubleClickEvent(event);
     } else emit showProperties(item->referencedClip());
 }
 
