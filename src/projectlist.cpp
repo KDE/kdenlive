@@ -143,10 +143,17 @@ void ProjectList::setRenderer(Render *projectRender) {
 }
 
 void ProjectList::slotClipSelected() {
-    ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
-    if (item && !item->isGroup()) {
-        m_selectedItem = item;
-        emit clipSelected(item->referencedClip());
+    if (listView->currentItem()) {
+        ProjectItem *clip = static_cast <ProjectItem*>(listView->currentItem());
+        if (!clip->isGroup()) {
+            m_selectedItem = clip;
+            emit clipSelected(clip->referencedClip());
+        }
+        m_editAction->setEnabled(true);
+        m_deleteAction->setEnabled(true);
+    } else {
+        m_editAction->setEnabled(false);
+        m_deleteAction->setEnabled(false);
     }
 }
 
@@ -202,7 +209,6 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item) {
     }
     m_editAction->setEnabled(enable);
     m_deleteAction->setEnabled(enable);
-
     m_menu->popup(pos);
 }
 
@@ -229,6 +235,10 @@ void ProjectList::slotRemoveClip() {
     }
     if (!ids.isEmpty()) m_doc->deleteProjectClip(ids);
     if (!folderids.isEmpty()) m_doc->deleteProjectFolder(folderids);
+    if (listView->topLevelItemCount() == 0) {
+        m_editAction->setEnabled(false);
+        m_deleteAction->setEnabled(false);
+    }
 }
 
 void ProjectList::selectItemById(const QString &clipId) {
@@ -552,6 +562,8 @@ void ProjectList::slotSelectClip(const QString &ix) {
     if (p) {
         listView->setCurrentItem(p);
         listView->scrollToItem(p);
+        m_editAction->setEnabled(true);
+        m_deleteAction->setEnabled(true);
     }
 }
 
