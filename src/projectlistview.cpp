@@ -215,9 +215,16 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event) {
             const QList <QTreeWidgetItem *> list = selectedItems();
             QStringList ids;
             foreach(const QTreeWidgetItem *item, list) {
-                // TODO allow dragging of folders
-                ids.append(((ProjectItem *) item)->clipId());
+		const ProjectItem *clip = static_cast <const ProjectItem *> (item);
+		if (!clip->isGroup()) ids.append(clip->clipId());
+		else {
+		    const int children = item->childCount();
+		    for (int i = 0; i < children; i++) {
+			ids.append(static_cast <ProjectItem *>(item->child(i))->clipId());
+		    }
+		}
             }
+	    if (ids.isEmpty()) return;
             QByteArray data;
             data.append(ids.join(";").toUtf8()); //doc.toString().toUtf8());
             mimeData->setData("kdenlive/producerslist", data);
