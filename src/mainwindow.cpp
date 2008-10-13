@@ -1321,7 +1321,8 @@ void MainWindow::slotSwitchSnap() {
 
 
 void MainWindow::slotDeleteTimelineClip() {
-    if (m_activeTimeline) {
+    if (projectListDock->isActiveWindow()) m_projectList->slotRemoveClip();
+    else if (m_activeTimeline) {
         m_activeTimeline->projectView()->deleteSelectedClips();
     }
 }

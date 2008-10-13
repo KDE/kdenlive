@@ -203,19 +203,23 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item) {
 
 void ProjectList::slotRemoveClip() {
     if (!listView->currentItem()) return;
-    ProjectItem *item = static_cast <ProjectItem *>(listView->currentItem());
     QList <QString> ids;
     QMap <QString, QString> folderids;
-    if (item->clipType() == FOLDER) folderids[item->groupName()] = item->clipId();
-    else ids << item->clipId();
-    if (item->numReferences() > 0) {
-        if (KMessageBox::questionYesNo(this, i18np("Delete clip <b>%2</b> ?<br>This will also remove the clip in timeline", "Delete clip <b>%2</b> ?<br>This will also remove its %1 clips in timeline", item->numReferences(), item->names().at(1)), i18n("Delete Clip")) != KMessageBox::Yes) return;
-    } else if (item->clipType() == FOLDER && item->childCount() > 0) {
-        int children = item->childCount();
-        if (KMessageBox::questionYesNo(this, i18n("Delete folder <b>%2</b> ?<br>This will also remove the %1 clips in that folder", children, item->names().at(1)), i18n("Delete Folder")) != KMessageBox::Yes) return;
-        for (int i = 0; i < children; ++i) {
-            ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
-            ids << child->clipId();
+    QList<QTreeWidgetItem *> selected = listView->selectedItems();
+    ProjectItem *item;
+    for (int i = 0; i < selected.count(); i++) {
+        item = static_cast <ProjectItem *>(selected.at(i));
+        if (item->isGroup()) folderids[item->groupName()] = item->clipId();
+        else ids << item->clipId();
+        if (item->numReferences() > 0) {
+            if (KMessageBox::questionYesNo(this, i18np("Delete clip <b>%2</b> ?<br>This will also remove the clip in timeline", "Delete clip <b>%2</b> ?<br>This will also remove its %1 clips in timeline", item->numReferences(), item->names().at(1)), i18n("Delete Clip")) != KMessageBox::Yes) return;
+        } else if (item->clipType() == FOLDER && item->childCount() > 0) {
+            int children = item->childCount();
+            if (KMessageBox::questionYesNo(this, i18n("Delete folder <b>%2</b> ?<br>This will also remove the %1 clips in that folder", children, item->names().at(1)), i18n("Delete Folder")) != KMessageBox::Yes) return;
+            for (int i = 0; i < children; ++i) {
+                ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
+                ids << child->clipId();
+            }
         }
     }
     if (!ids.isEmpty()) m_doc->deleteProjectClip(ids);
