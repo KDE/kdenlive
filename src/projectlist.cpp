@@ -285,10 +285,19 @@ void ProjectList::slotAddFolder(const QString foldername, const QString &clipId,
 }
 
 void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties) {
-    const QString parent = clip->toXML().attribute("groupid");
+    const QString parent = clip->getProperty("groupid");
     ProjectItem *item = NULL;
-    if (parent != 0) {
+    if (!parent.isEmpty()) {
         ProjectItem *parentitem = getItemById(parent);
+        if (!parentitem) {
+            QStringList text;
+            QString groupName = clip->getProperty("groupname");
+            if (groupName.isEmpty()) groupName = i18n("Folder");
+            text << QString() << groupName;
+            listView->blockSignals(true);
+            parentitem = new ProjectItem(listView, text, parent);
+            listView->blockSignals(false);
+        }
         if (parentitem) item = new ProjectItem(parentitem, clip);
     }
     if (item == NULL) item = new ProjectItem(listView, clip);
