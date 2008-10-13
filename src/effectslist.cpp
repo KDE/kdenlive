@@ -105,6 +105,7 @@ QStringList EffectsList::effectNames() {
         QDomNode namenode = effect.elementsByTagName("name").item(0);
         if (!namenode.isNull()) list.append(i18n(namenode.toElement().text().toUtf8().data()));
     }
+    qSort(list);
     return list;
 }
 
