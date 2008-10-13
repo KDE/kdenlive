@@ -61,8 +61,8 @@ class MainWindow : public KXmlGuiWindow {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = 0);
-    void parseProfiles();
+    MainWindow(const QString &MltPath = QString(), QWidget *parent = 0);
+    void parseProfiles(const QString &mltPath = QString());
 
     static EffectsList videoEffects;
     static EffectsList audioEffects;

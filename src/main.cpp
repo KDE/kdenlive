@@ -18,7 +18,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
 #include <KApplication>
 #include <KAboutData>
 #include <KDebug>
@@ -28,17 +27,19 @@
 #include "mainwindow.h"
 
 int main(int argc, char *argv[]) {
-    KAboutData aboutData("kdenlive", "kdenlive",
-                         ki18n("Kdenlive"), "0.7",
+    KAboutData aboutData(QByteArray("kdenlive"), QByteArray("kdenlive"),
+                         ki18n("Kdenlive"), QByteArray("0.7"),
                          ki18n("An open source video editor."),
                          KAboutData::License_GPL,
                          ki18n("Copyright (c) 2008 Development team"));
     aboutData.addAuthor(ki18n("Jean-Baptiste Mardelle"), ki18n("Mlt porting, KDE4 porting, Main developer"), "jb@kdenlive.org");
     aboutData.addAuthor(ki18n("Marco Gittler"), ki18n("MltConnection, Transition, Effect, Timeline Developer"), "g.marco@freenet.de");
     aboutData.setHomepage("http://kdenlive.org");
+    //aboutData.setBugAddress("http://kdenlive.org/mantis");
     KCmdLineArgs::init(argc, argv, &aboutData);
 
-    KCmdLineOptions options; //new
+    KCmdLineOptions options;
+    options.add("mlt-path <path>", ki18n("Set the path for MLT environnement"));
     options.add("+[file]", ki18n("Document to open")); //new
     KCmdLineArgs::addCmdLineOptions(options); //new
 
@@ -58,10 +59,11 @@ int main(int argc, char *argv[]) {
             ++n;
         }
     } else {
-        MainWindow* window = new MainWindow();
-        window->show();
-
         KCmdLineArgs *args = KCmdLineArgs::parsedArgs(); //new
+
+        QString mltPath = args->getOption("mlt-path");
+        MainWindow* window = new MainWindow(mltPath);
+        window->show();
         if (args->count()) { //new
             window->openFile(args->url(0)); //new
         }

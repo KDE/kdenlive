@@ -96,12 +96,12 @@ EffectsList MainWindow::audioEffects;
 EffectsList MainWindow::customEffects;
 EffectsList MainWindow::transitions;
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(const QString &MltPath, QWidget *parent)
         : KXmlGuiWindow(parent),
         m_activeDocument(NULL), m_activeTimeline(NULL), m_renderWidget(NULL), m_jogProcess(NULL), m_findActivated(false), m_initialized(false) {
     setlocale(LC_NUMERIC, "POSIX");
     setFont(KGlobalSettings::toolBarFont());
-    parseProfiles();
+    parseProfiles(MltPath);
     m_commandStack = new QUndoGroup;
     m_timelineArea = new KTabWidget(this);
     m_timelineArea->setTabReorderingEnabled(true);
@@ -980,10 +980,15 @@ void MainWindow::recoverFiles(QList<KAutoSaveFile *> staleFiles) {
 }
 
 
-void MainWindow::parseProfiles() {
+void MainWindow::parseProfiles(const QString &mltPath) {
     //kdDebug()<<" + + YOUR MLT INSTALL WAS FOUND IN: "<< MLT_PREFIX <<endl;
 
     //KdenliveSettings::setDefaulttmpfolder();
+    if (!mltPath.isEmpty()) {
+        KdenliveSettings::setMltpath(mltPath + "/share/mlt/profiles/");
+        KdenliveSettings::setRendererpath(mltPath + "/bin/inigo");
+    }
+
     if (KdenliveSettings::mltpath().isEmpty()) {
         KdenliveSettings::setMltpath(QString(MLT_PREFIX) + QString("/share/mlt/profiles/"));
     }
