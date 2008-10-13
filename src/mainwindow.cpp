@@ -700,7 +700,7 @@ void MainWindow::setupActions() {
     collection->addAction("delete_timeline_clip", deleteTimelineClip);
     connect(deleteTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotDeleteTimelineClip()));
 
-    KAction* editTimelineClipSpeed = new KAction(KIcon("edit-delete"), i18n("Change Clip Speed"), this);
+    KAction* editTimelineClipSpeed = new KAction(i18n("Change Clip Speed"), this);
     collection->addAction("change_clip_speed", editTimelineClipSpeed);
     connect(editTimelineClipSpeed, SIGNAL(triggered(bool)), this, SLOT(slotChangeClipSpeed()));
 
@@ -1326,7 +1326,7 @@ void MainWindow::slotSwitchSnap() {
 
 
 void MainWindow::slotDeleteTimelineClip() {
-    if (projectListDock->isActiveWindow()) m_projectList->slotRemoveClip();
+    if (QApplication::focusWidget()->parentWidget()->parentWidget() == projectListDock) m_projectList->slotRemoveClip();
     else if (m_activeTimeline) {
         m_activeTimeline->projectView()->deleteSelectedClips();
     }
