@@ -134,6 +134,10 @@ void ProjectItem::setProperties(QMap <QString, QString> props) {
     m_clip->setProperties(props);
 }
 
+void ProjectItem::setProperty(const QString &key, const QString &value) {
+    m_clip->setProperty(key, value);
+}
+
 DocClipBase *ProjectItem::referencedClip() {
     return m_clip;
 }

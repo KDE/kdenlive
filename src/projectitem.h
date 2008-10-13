@@ -53,6 +53,7 @@ public:
     void changeDuration(int frames);
     DocClipBase *referencedClip();
     void setProperties(QMap <QString, QString> props);
+    void setProperty(const QString &key, const QString &value);
 
 private:
     QString m_groupName;

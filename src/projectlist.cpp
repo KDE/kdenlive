@@ -187,6 +187,11 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column) {
         slotUpdateClipProperties(clip, props);
     } else if (column == 1 && clip->isGroup()) {
         m_doc->slotEditFolder(item->text(1), clip->groupName(), clip->clipId());
+        const int children = item->childCount();
+        for (int i = 0; i < children; i++) {
+            ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
+            child->setProperty("groupname", item->text(1));
+        }
     }
 }
 
@@ -213,7 +218,7 @@ void ProjectList::slotRemoveClip() {
         else ids << item->clipId();
         if (item->numReferences() > 0) {
             if (KMessageBox::questionYesNo(this, i18np("Delete clip <b>%2</b> ?<br>This will also remove the clip in timeline", "Delete clip <b>%2</b> ?<br>This will also remove its %1 clips in timeline", item->numReferences(), item->names().at(1)), i18n("Delete Clip")) != KMessageBox::Yes) return;
-        } else if (item->clipType() == FOLDER && item->childCount() > 0) {
+        } else if (item->isGroup() && item->childCount() > 0) {
             int children = item->childCount();
             if (KMessageBox::questionYesNo(this, i18n("Delete folder <b>%2</b> ?<br>This will also remove the %1 clips in that folder", children, item->names().at(1)), i18n("Delete Folder")) != KMessageBox::Yes) return;
             for (int i = 0; i < children; ++i) {
@@ -256,7 +261,7 @@ void ProjectList::slotAddFolder(const QString foldername, const QString &clipId,
         QTreeWidgetItemIterator it(listView);
         while (*it) {
             item = static_cast <ProjectItem *>(*it);
-            if (item->clipType() == FOLDER && item->clipId() == clipId) {
+            if (item->isGroup() && item->clipId() == clipId) {
                 delete item;
                 break;
             }
@@ -269,8 +274,13 @@ void ProjectList::slotAddFolder(const QString foldername, const QString &clipId,
             QTreeWidgetItemIterator it(listView);
             while (*it) {
                 item = static_cast <ProjectItem *>(*it);
-                if (item->clipType() == FOLDER && item->clipId() == clipId) {
+                if (item->isGroup() && item->clipId() == clipId) {
                     item->setText(1, foldername);
+                    const int children = item->childCount();
+                    for (int i = 0; i < children; i++) {
+                        ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
+                        child->setProperty("groupname", foldername);
+                    }
                     break;
                 }
                 ++it;

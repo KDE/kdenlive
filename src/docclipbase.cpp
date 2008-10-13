@@ -463,7 +463,7 @@ void DocClipBase::setProperties(QMap <QString, QString> properties) {
     if (refreshProducer) slotRefreshProducer();
 }
 
-void DocClipBase::setProperty(QString key, QString value) {
+void DocClipBase::setProperty(const QString &key, const QString &value) {
     m_properties.insert(key, value);
     if (key == "resource") m_thumbProd->updateClipUrl(KUrl(value));
     else if (key == "out") setDuration(GenTime(value.toInt(), KdenliveSettings::project_fps()));
