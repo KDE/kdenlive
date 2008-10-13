@@ -769,7 +769,6 @@ msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
 msgstr ""
 "Efekt %1:%2 nebyl v MLT nalezen, a proto byl odstraněn z aktuálního "
 "projektu\n"
-"."
 
 msgid "Effect List"
 msgstr "List efektů"
