@@ -21,12 +21,12 @@
     <widget class="KComboBox" name="kcfg_defaultcapture" >
      <item>
       <property name="text" >
-       <string> Firewire (DV / HDV)</string>
+       <string> Firewire</string>
       </property>
      </item>
      <item>
       <property name="text" >
-       <string>Video4Linux (webcam)</string>
+       <string>Video4Linux</string>
       </property>
      </item>
      <item>
@@ -48,14 +48,6 @@
       <number>0</number>
      </property>
      <widget class="QWidget" name="tab" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>430</width>
-        <height>238</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Firewire / dvgrab</string>
       </attribute>
@@ -134,16 +126,8 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tab_2" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>430</width>
-        <height>238</height>
-       </rect>
-      </property>
       <attribute name="title" >
-       <string>Video4Linux2 / FFmpeg</string>
+       <string>Video4Linux / FFmpeg</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout" >
        <item row="1" column="1" colspan="3" >
@@ -367,14 +351,6 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tab_3" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>430</width>
-        <height>238</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Screen Grab / FFmpeg</string>
       </attribute>
