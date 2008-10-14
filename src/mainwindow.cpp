@@ -1107,6 +1107,10 @@ void MainWindow::slotDoRender(const QString &dest, const QString &render, const 
             videoPlayer = KdenliveSettings::defaultplayerapp();
             if (videoPlayer.isEmpty()) KMessageBox::sorry(this, i18n("Cannot play video after rendering because the default video player application is not set.\nPlease define it in Kdenlive settings dialog."));
         }
+        if (!QFile::exists(KdenliveSettings::rendererpath())) {
+            KMessageBox::sorry(this, i18n("Cannot find the inigo program required for rendering (part of Mlt)"));
+            return;
+        }
         args << KdenliveSettings::rendererpath() << m_activeDocument->profilePath() << render << videoPlayer << temp.fileName() << dest << avformat_args;
         QString renderer = QCoreApplication::applicationDirPath() + QString("/kdenlive_render");
         if (!QFile::exists(renderer)) renderer = "kdenlive_render";
