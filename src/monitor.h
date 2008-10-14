@@ -96,6 +96,7 @@ private slots:
     void slotSetSizeOneToOne();
     void slotSetSizeOneToTwo();
     void slotSaveZone();
+    void slotSeek();
 
 public slots:
     void slotOpenFile(const QString &);

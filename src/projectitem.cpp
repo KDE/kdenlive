@@ -40,7 +40,7 @@ const int UsageRole = NameRole + 2;
 
 // folder
 ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, const QString &clipId)
-        : QTreeWidgetItem(parent, strings), m_clipType(FOLDER), m_groupName(strings.at(1)), m_clipId(clipId), m_clip(NULL) {
+        : QTreeWidgetItem(parent, strings), m_clipType(FOLDER), m_clipId(clipId), m_clip(NULL), m_groupname(strings.at(1)) {
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     setIcon(0, KIcon("folder"));
@@ -100,14 +100,6 @@ bool ProjectItem::isGroup() const {
     return m_clipType == FOLDER;
 }
 
-const QString ProjectItem::groupName() const {
-    return m_groupName;
-}
-
-void ProjectItem::setGroupName(const QString name) {
-    m_groupName = name;
-}
-
 QStringList ProjectItem::names() const {
     QStringList result;
     result.append(text(0));
@@ -131,11 +123,27 @@ void ProjectItem::changeDuration(int frames) {
 }
 
 void ProjectItem::setProperties(QMap <QString, QString> props) {
+    if (m_clip == NULL) return;
     m_clip->setProperties(props);
 }
 
 void ProjectItem::setProperty(const QString &key, const QString &value) {
+    if (m_clip == NULL) return;
     m_clip->setProperty(key, value);
+}
+
+void ProjectItem::clearProperty(const QString &key) {
+    if (m_clip == NULL) return;
+    m_clip->clearProperty(key);
+}
+
+const QString ProjectItem::groupName() const {
+    return m_groupname;
+}
+
+void ProjectItem::setGroupName(const QString name) {
+    m_groupname = name;
+    setText(1, name);
 }
 
 DocClipBase *ProjectItem::referencedClip() {

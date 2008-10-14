@@ -45,8 +45,6 @@ public:
     const QString &clipId() const;
     QStringList names() const;
     bool isGroup() const;
-    const QString groupName() const;
-    void setGroupName(const QString name);
     const KUrl clipUrl() const;
     int clipMaxDuration() const;
     CLIPTYPE clipType() const;
@@ -54,9 +52,12 @@ public:
     DocClipBase *referencedClip();
     void setProperties(QMap <QString, QString> props);
     void setProperty(const QString &key, const QString &value);
+    void clearProperty(const QString &key);
+    const QString groupName() const;
+    void setGroupName(const QString name);
 
 private:
-    QString m_groupName;
+    QString m_groupname;
     CLIPTYPE m_clipType;
     QString m_clipId;
     void slotSetToolTip();

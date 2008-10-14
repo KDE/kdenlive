@@ -23,7 +23,7 @@
 #include "clipmanager.h"
 
 DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id):
-        m_id(id), m_description(QString()), m_refcount(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL), m_clipProducer(NULL) {
+        m_id(id), m_description(QString()), m_refcount(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL), m_clipProducer(NULL), m_properties(QMap <QString, QString> ()) {
     int type = xml.attribute("type").toInt();
     m_clipType = (CLIPTYPE) type;
     m_name = xml.attribute("name");
@@ -461,6 +461,10 @@ void DocClipBase::setProperties(QMap <QString, QString> properties) {
         }
     }
     if (refreshProducer) slotRefreshProducer();
+}
+
+void DocClipBase::clearProperty(const QString &key) {
+    m_properties.remove(key);
 }
 
 void DocClipBase::setProperty(const QString &key, const QString &value) {

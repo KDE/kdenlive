@@ -1009,6 +1009,7 @@ void Render::stop(const GenTime & startTime) {
 void Render::pause() {
     if (!m_mltProducer || !m_mltConsumer)
         return;
+    if (m_mltProducer->get_speed() == 0.0) return;
     if (m_isZoneMode) resetZoneMode();
     m_isBlocked = true;
     m_mltConsumer->set("refresh", 0);

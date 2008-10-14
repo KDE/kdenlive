@@ -461,6 +461,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
     bool collision = false;
 
     if (m_tool != RAZORTOOL) activateMonitor();
+    else if (m_document->renderer()->playSpeed() != 0.0) {
+        m_document->renderer()->pause();
+        return;
+    }
     m_clickEvent = event->pos();
 
     // special cases (middle click button or ctrl / shift click
@@ -2340,7 +2344,7 @@ void CustomTrackView::updateAllThumbs() {
         if (itemList.at(i)->type() == AVWIDGET) {
             item = static_cast <ClipItem *>(itemList.at(i));
             item->refreshClip();
-            qApp->processEvents();
+            //qApp->processEvents();
         }
     }
 }

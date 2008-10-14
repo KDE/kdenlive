@@ -72,6 +72,7 @@ Q_OBJECT public:
     /** Returns any property of this clip. */
     const QString getProperty(const QString prop) const;
     void setProperty(const QString &key, const QString &value);
+    void clearProperty(const QString &key);
 
     /** Returns the internal unique id of the clip. */
     const QString &getId() const;

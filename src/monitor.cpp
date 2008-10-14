@@ -92,6 +92,8 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     m_timePos->setInputMask("99:99:99:99");
     toolbar->addWidget(m_timePos);
 
+    connect(m_timePos, SIGNAL(editingFinished()), this, SLOT(slotSeek()));
+
     layout2->addWidget(toolbar);
     ui.button_frame->setLayout(layout2);
     const int toolHeight = toolbar->height();
@@ -322,6 +324,11 @@ bool Monitor::isActive() const {
 
 void Monitor::activateMonitor() {
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+}
+
+void Monitor::slotSeek() {
+    const int frames = m_monitorManager->timecode().getFrameCount(m_timePos->text(), m_monitorManager->timecode().fps());
+    slotSeek(frames);
 }
 
 void Monitor::slotSeek(int pos) {

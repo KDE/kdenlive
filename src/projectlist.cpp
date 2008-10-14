@@ -194,6 +194,7 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column) {
         slotUpdateClipProperties(clip, props);
     } else if (column == 1 && clip->isGroup()) {
         m_doc->slotEditFolder(item->text(1), clip->groupName(), clip->clipId());
+        clip->setGroupName(item->text(1));
         const int children = item->childCount();
         for (int i = 0; i < children; i++) {
             ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
@@ -279,13 +280,13 @@ void ProjectList::slotAddFolder(const QString foldername, const QString &clipId,
         }
     } else {
         if (edit) {
-            disconnect(listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotUpdateItemDescription(QTreeWidgetItem *, int)));
+            listView->blockSignals(true);
             ProjectItem *item;
             QTreeWidgetItemIterator it(listView);
             while (*it) {
                 item = static_cast <ProjectItem *>(*it);
                 if (item->isGroup() && item->clipId() == clipId) {
-                    item->setText(1, foldername);
+                    item->setGroupName(foldername);
                     const int children = item->childCount();
                     for (int i = 0; i < children; i++) {
                         ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
@@ -295,7 +296,7 @@ void ProjectList::slotAddFolder(const QString foldername, const QString &clipId,
                 }
                 ++it;
             }
-            connect(listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotUpdateItemDescription(QTreeWidgetItem *, int)));
+            listView->blockSignals(false);
         } else {
             QStringList text;
             text << QString() << foldername;
@@ -386,13 +387,13 @@ void ProjectList::slotAddClip(QUrl givenUrl, QString group) {
     QString groupId = QString();
     if (group.isEmpty()) {
         ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
-        if (item && item->clipType() != FOLDER) {
+        if (item && !item->isGroup()) {
             while (item->parent()) {
                 item = static_cast <ProjectItem*>(item->parent());
-                if (item->clipType() == FOLDER) break;
+                if (item->isGroup()) break;
             }
         }
-        if (item && item->clipType() == FOLDER) {
+        if (item && item->isGroup()) {
             group = item->groupName();
             groupId = item->clipId();
         }
@@ -426,13 +427,13 @@ void ProjectList::slotAddColorClip() {
         QString group = QString();
         QString groupId = QString();
         ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
-        if (item && item->clipType() != FOLDER) {
+        if (item && !item->isGroup()) {
             while (item->parent()) {
                 item = static_cast <ProjectItem*>(item->parent());
-                if (item->clipType() == FOLDER) break;
+                if (item->isGroup()) break;
             }
         }
-        if (item && item->clipType() == FOLDER) {
+        if (item && item->isGroup()) {
             group = item->groupName();
             groupId = item->clipId();
         }
@@ -453,13 +454,13 @@ void ProjectList::slotAddSlideshowClip() {
         QString group = QString();
         QString groupId = QString();
         ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
-        if (item && item->clipType() != FOLDER) {
+        if (item && !item->isGroup()) {
             while (item->parent()) {
                 item = static_cast <ProjectItem*>(item->parent());
-                if (item->clipType() == FOLDER) break;
+                if (item->isGroup()) break;
             }
         }
-        if (item && item->clipType() == FOLDER) {
+        if (item && item->isGroup()) {
             group = item->groupName();
             groupId = item->clipId();
         }
@@ -473,13 +474,13 @@ void ProjectList::slotAddTitleClip() {
     QString group = QString();
     QString groupId = QString();
     ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
-    if (item && item->clipType() != FOLDER) {
+    if (item && !item->isGroup()) {
         while (item->parent()) {
             item = static_cast <ProjectItem*>(item->parent());
-            if (item->clipType() == FOLDER) break;
+            if (item->isGroup()) break;
         }
     }
-    if (item && item->clipType() == FOLDER) {
+    if (item && item->isGroup()) {
         group = item->groupName();
         groupId = item->clipId();
     }

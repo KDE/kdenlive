@@ -176,8 +176,12 @@ void ProjectListView::dropEvent(QDropEvent *event) {
                 QTreeWidgetItem *parent = it->parent();
                 if (parent/* && ((ProjectItem *) it)->clipId() < 10000*/)  {
                     kDebug() << "++ item parent: " << parent->text(1);
-                    clone = (ProjectItem*) parent->takeChild(parent->indexOfChild(it));
-                    if (clone) addTopLevelItem(clone);
+                    clone = static_cast <ProjectItem*>(parent->takeChild(parent->indexOfChild(it)));
+                    if (clone) {
+                        addTopLevelItem(clone);
+                        clone->clearProperty("groupname");
+                        clone->clearProperty("groupid");
+                    }
                 }
             }
         }
