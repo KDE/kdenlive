@@ -30,7 +30,7 @@
 #include "geometryval.h"
 #include "kdenlivesettings.h"
 
-Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent): QWidget(parent), m_profile(profile), m_geom(NULL), m_path(NULL), paramRect(NULL) {
+Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent): QWidget(parent), m_profile(profile), m_geom(NULL), m_path(NULL), paramRect(NULL), m_fixedMode(false) {
     ui.setupUi(this);
     QVBoxLayout* vbox = new QVBoxLayout(ui.widget);
     QGraphicsView *view = new QGraphicsView(this);
@@ -330,25 +330,34 @@ QDomElement Geometryval::getParamDesc() {
 void Geometryval::setupParam(const QDomElement& par, int minFrame, int maxFrame) {
     param = par;
     QString val = par.attribute("value");
+    if (par.attribute("fixed") == "1") {
+        m_fixedMode = true;
+    }
     char *tmp = (char *) qstrdup(val.toUtf8().data());
     if (m_geom) m_geom->parse(tmp, maxFrame - minFrame, m_profile.width, m_profile.height);
     else m_geom = new Mlt::Geometry(tmp, maxFrame - minFrame, m_profile.width, m_profile.height);
     delete[] tmp;
+
     //kDebug() << " / / UPDATING TRANSITION VALUE: " << m_geom->serialise();
     //read param her and set rect
-    m_helper->setKeyGeometry(m_geom, maxFrame - minFrame - 1);
-    m_helper->update();
-    /*QDomDocument doc;
-    doc.appendChild(doc.importNode(par, true));
-    kDebug() << "IMPORTED TRANS: " << doc.toString();*/
-    ui.spinPos->setMaximum(maxFrame - minFrame - 1);
-    Mlt::GeometryItem item;
-    if (m_path == NULL) {
-        m_path = new QGraphicsPathItem();
-        m_path->setPen(QPen(Qt::red));
-        scene->addItem(m_path);
+    if (m_fixedMode) {
+        m_helper->setHidden(true);
+        ui.spinPos->setHidden(true);
+    } else {
+        m_helper->setKeyGeometry(m_geom, maxFrame - minFrame - 1);
+        m_helper->update();
+        /*QDomDocument doc;
+        doc.appendChild(doc.importNode(par, true));
+        kDebug() << "IMPORTED TRANS: " << doc.toString();*/
+        ui.spinPos->setMaximum(maxFrame - minFrame - 1);
+        if (m_path == NULL) {
+            m_path = new QGraphicsPathItem();
+            m_path->setPen(QPen(Qt::red));
+            scene->addItem(m_path);
+        }
+        updateTransitionPath();
     }
-    updateTransitionPath();
+    Mlt::GeometryItem item;
 
     m_geom->fetch(&item, 0);
     if (paramRect) delete paramRect;
@@ -359,11 +368,14 @@ void Geometryval::setupParam(const QDomElement& par, int minFrame, int maxFrame)
     paramRect->setPen(QPen(QBrush(QColor(255, 0, 0, 255)), 1.0));
     scene->addItem(paramRect);
     slotPositionChanged(0, false);
-    connect(ui.spinPos, SIGNAL(valueChanged(int)), this , SLOT(slotPositionChanged(int)));
-    connect(ui.spinTransp, SIGNAL(valueChanged(int)), this , SLOT(slotTransparencyChanged(int)));
+    if (!m_fixedMode) {
+        connect(ui.spinPos, SIGNAL(valueChanged(int)), this , SLOT(slotPositionChanged(int)));
+        connect(ui.spinTransp, SIGNAL(valueChanged(int)), this , SLOT(slotTransparencyChanged(int)));
+    }
 }
 
 void Geometryval::updateTransitionPath() {
+    if (m_fixedMode) return;
     Mlt::GeometryItem item;
     int pos = 0;
     int counter = 0;

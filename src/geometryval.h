@@ -54,7 +54,7 @@ private:
     QMenu *m_scaleMenu;
     QMenu *m_alignMenu;
     QAction *m_syncAction;
-
+    bool m_fixedMode;
     void updateTransitionPath();
 
 public slots:

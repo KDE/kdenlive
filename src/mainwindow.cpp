@@ -1199,6 +1199,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     m_monitorManager->resetProfiles(doc->timecode());
     m_projectList->setDocument(doc);
     transitionConfig->updateProjectFormat(doc->mltProfile());
+    effectStack->updateProjectFormat(doc->mltProfile());
     connect(m_projectList, SIGNAL(clipSelected(DocClipBase *)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *)));
     connect(m_projectList, SIGNAL(projectModified()), doc, SLOT(setModified()));
     connect(trackView, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(activateMonitor()));

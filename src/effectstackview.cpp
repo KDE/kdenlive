@@ -77,6 +77,10 @@ void EffectStackView::setMenu(QMenu *menu) {
     ui.buttonNew->setMenu(menu);
 }
 
+void EffectStackView::updateProjectFormat(MltVideoProfile profile) {
+    effectedit->updateProjectFormat(profile);
+}
+
 void EffectStackView::slotSaveEffect() {
     QString name = QInputDialog::getText(this, i18n("Save Effect"), i18n("Name for saved effect: "));
     if (name.isEmpty()) return;

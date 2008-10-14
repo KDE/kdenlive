@@ -20,8 +20,10 @@
 
 #include "ui_effectstack_ui.h"
 #include "effectstackedit.h"
+
 class EffectsList;
 class ClipItem;
+class MltVideoProfile;
 
 class EffectStackView : public QWidget {
     Q_OBJECT
@@ -31,6 +33,7 @@ public:
     void raiseWindow(QWidget*);
     void clear();
     void setMenu(QMenu *menu);
+    void updateProjectFormat(MltVideoProfile profile);
 
 private:
     Ui::EffectStack_UI ui;
