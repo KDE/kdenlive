@@ -318,6 +318,7 @@ void MainWindow::queryQuit() {
 //virtual
 bool MainWindow::queryClose() {
     saveOptions();
+    if (m_monitorManager) m_monitorManager->stopActiveMonitor();
     if (m_activeDocument && m_activeDocument->isModified()) {
         switch (KMessageBox::warningYesNoCancel(this, i18n("Save changes to document ?"))) {
         case KMessageBox::Yes :

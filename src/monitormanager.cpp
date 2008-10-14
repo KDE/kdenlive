@@ -67,6 +67,11 @@ void MonitorManager::switchMonitors() {
     }
 }
 
+void MonitorManager::stopActiveMonitor() {
+    if (m_clipMonitor->isActive()) m_clipMonitor->pause();
+    else m_projectMonitor->pause();
+}
+
 void MonitorManager::slotPlay() {
     if (m_clipMonitor->isActive()) m_clipMonitor->slotPlay();
     else m_projectMonitor->slotPlay();

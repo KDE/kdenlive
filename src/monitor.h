@@ -54,6 +54,7 @@ public:
     QString name() const;
     void resetSize();
     bool isActive() const;
+    void pause();
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);

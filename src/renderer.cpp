@@ -1006,6 +1006,18 @@ void Render::stop(const GenTime & startTime) {
     m_mltConsumer->purge();
 }
 
+void Render::pause() {
+    if (!m_mltProducer || !m_mltConsumer)
+        return;
+    if (m_isZoneMode) resetZoneMode();
+    m_isBlocked = true;
+    m_mltConsumer->set("refresh", 0);
+    m_mltProducer->set_speed(0.0);
+    emit rendererPosition(m_framePosition);
+    m_mltProducer->seek(m_framePosition);
+    m_mltConsumer->purge();
+}
+
 void Render::switchPlay() {
     if (!m_mltProducer || !m_mltConsumer)
         return;

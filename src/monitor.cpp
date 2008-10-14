@@ -463,6 +463,14 @@ void Monitor::refreshMonitor(bool visible) {
     }
 }
 
+void Monitor::pause() {
+    if (render == NULL) return;
+    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    render->pause();
+    //m_playAction->setChecked(true);
+    //m_playAction->setIcon(m_pauseIcon);
+}
+
 void Monitor::slotPlay() {
     if (render == NULL) return;
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);

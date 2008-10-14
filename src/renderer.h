@@ -101,6 +101,7 @@ Q_OBJECT public:
     backwards. Does not specify start/stop times for playback.*/
     void play(double speed);
     void switchPlay();
+    void pause();
     /** stop playing */
     void stop(const GenTime & startTime);
     void setVolume(double volume);
