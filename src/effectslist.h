@@ -35,8 +35,11 @@ public:
     /** Returns an XML version of this Effect.*/
     QDomElement getEffectByName(const QString & name) const;
     QDomElement getEffectByTag(const QString & tag, const QString & id) const;
+    /** if the list contains effect defined by tag + id, returns effect index, otherwise -1 */
+    int hasEffect(const QString & tag, const QString & id) const;
+    QStringList effectIdInfo(const int ix) const;
     QStringList effectNames();
-    QString getInfo(QString effectName);
+    QString getInfo(const QString & tag, const QString & id);
     QMap <QString, QString> effect(const QString & name);
     static bool hasKeyFrames(QDomElement effect);
     static void setParameter(QDomElement effect, QString name, QString value);

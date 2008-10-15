@@ -96,6 +96,7 @@ public:
     void setSpeed(const double speed);
     double speed() const;
     GenTime maxDuration() const;
+    int hasEffect(const QString &tag, const QString &id) const;
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);

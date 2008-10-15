@@ -87,7 +87,7 @@ void EffectsListView::slotEffectSelected() {
 
 void EffectsListView::slotUpdateInfo() {
     QString info = m_effectsList->currentInfo();
-    if (!info.isEmpty()) ui.infopanel->setText(info);
+    ui.infopanel->setText(info);
 }
 
 KListWidget *EffectsListView::listView() {

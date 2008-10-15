@@ -31,6 +31,9 @@ static const int EFFECT_VIDEO = 1;
 static const int EFFECT_AUDIO = 2;
 static const int EFFECT_CUSTOM = 3;
 
+const int TypeRole = Qt::UserRole;
+const int IdRole = TypeRole + 1;
+
 EffectsListWidget::EffectsListWidget(QMenu *menu, QWidget *parent)
         : KListWidget(parent), m_menu(menu) {
     //setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -48,23 +51,37 @@ EffectsListWidget::~EffectsListWidget() {
 
 void EffectsListWidget::initList() {
     clear();
-    QStringList names = MainWindow::videoEffects.effectNames();
     QListWidgetItem *item;
-    foreach(const QString &str, names) {
-        item = new QListWidgetItem(str, this);
-        item->setData(Qt::UserRole, QString::number((int) EFFECT_VIDEO));
+    QString effectName;
+    QStringList effectInfo;
+    int ct = MainWindow::videoEffects.count();
+    for (int ix = 0; ix < ct; ix ++) {
+        effectInfo = MainWindow::videoEffects.effectIdInfo(ix);
+        if (!effectInfo.isEmpty()) {
+            item = new QListWidgetItem(effectInfo.takeFirst(), this);
+            item->setData(TypeRole, QString::number((int) EFFECT_VIDEO));
+            item->setData(IdRole, effectInfo);
+        }
     }
 
-    names = MainWindow::audioEffects.effectNames();
-    foreach(const QString &str, names) {
-        item = new QListWidgetItem(str, this);
-        item->setData(Qt::UserRole, QString::number((int) EFFECT_AUDIO));
+    ct = MainWindow::audioEffects.count();
+    for (int ix = 0; ix < ct; ix ++) {
+        effectInfo = MainWindow::audioEffects.effectIdInfo(ix);
+        if (!effectInfo.isEmpty()) {
+            item = new QListWidgetItem(effectInfo.takeFirst(), this);
+            item->setData(TypeRole, QString::number((int) EFFECT_AUDIO));
+            item->setData(IdRole, effectInfo);
+        }
     }
 
-    names = MainWindow::customEffects.effectNames();
-    foreach(const QString &str, names) {
-        item = new QListWidgetItem(str, this);
-        item->setData(Qt::UserRole, QString::number((int) EFFECT_CUSTOM));
+    ct = MainWindow::customEffects.count();
+    for (int ix = 0; ix < ct; ix ++) {
+        effectInfo = MainWindow::customEffects.effectIdInfo(ix);
+        if (!effectInfo.isEmpty()) {
+            item = new QListWidgetItem(effectInfo.takeFirst(), this);
+            item->setData(TypeRole, QString::number((int) EFFECT_CUSTOM));
+            item->setData(IdRole, effectInfo);
+        }
     }
 }
 
@@ -75,15 +92,17 @@ QDomElement EffectsListWidget::currentEffect() {
 QDomElement EffectsListWidget::itemEffect(QListWidgetItem *item) {
     QDomElement effect;
     if (!item) return effect;
-    switch (item->data(Qt::UserRole).toInt()) {
+    QStringList effectInfo = item->data(IdRole).toStringList();
+    kDebug() << "// EFFECT SELECTED: " << effectInfo;
+    switch (item->data(TypeRole).toInt()) {
     case 1:
-        effect =  MainWindow::videoEffects.getEffectByName(item->text());
+        effect =  MainWindow::videoEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1));
         break;
     case 2:
-        effect = MainWindow::audioEffects.getEffectByName(item->text());
+        effect = MainWindow::audioEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1));
         break;
     default:
-        effect = MainWindow::customEffects.getEffectByName(item->text());
+        effect = MainWindow::customEffects.getEffectByTag(effectInfo.at(0), effectInfo.at(1));
         break;
     }
     return effect;
@@ -94,15 +113,16 @@ QString EffectsListWidget::currentInfo() {
     QListWidgetItem *item = currentItem();
     if (!item) return QString();
     QString info;
-    switch (item->data(Qt::UserRole).toInt()) {
+    QStringList effectInfo = item->data(IdRole).toStringList();
+    switch (item->data(TypeRole).toInt()) {
     case 1:
-        info = MainWindow::videoEffects.getInfo(item->text());
+        info = MainWindow::videoEffects.getInfo(effectInfo.at(0), effectInfo.at(1));
         break;
     case 2:
-        info = MainWindow::audioEffects.getInfo(item->text());
+        info = MainWindow::audioEffects.getInfo(effectInfo.at(0), effectInfo.at(1));
         break;
     default:
-        info = MainWindow::customEffects.getInfo(item->text());
+        info = MainWindow::customEffects.getInfo(effectInfo.at(0), effectInfo.at(1));
         break;
     }
     return info;
@@ -132,7 +152,8 @@ void EffectsListWidget::mouseMoveEvent(QMouseEvent *event) {
             const QList <QListWidgetItem *>list = selectedItems();
             QDomDocument doc;
             foreach(QListWidgetItem *item, list) {
-                doc.appendChild(doc.importNode(itemEffect(item), true));
+                QDomElement e = itemEffect(item);
+                if (!e.isNull()) doc.appendChild(doc.importNode(e, true));
             }
             QByteArray data;
             data.append(doc.toString().toUtf8());
@@ -160,7 +181,7 @@ void EffectsListWidget::dragMoveEvent(QDragMoveEvent * event) {
 //virtual
 void EffectsListWidget::contextMenuEvent(QContextMenuEvent * event) {
     QListWidgetItem *item = itemAt(event->pos());
-    if (item && item->data(Qt::UserRole).toInt() == EFFECT_CUSTOM) m_menu->popup(event->globalPos());
+    if (item && item->data(TypeRole).toInt() == EFFECT_CUSTOM) m_menu->popup(event->globalPos());
 }
 
 #include "effectslistwidget.moc"

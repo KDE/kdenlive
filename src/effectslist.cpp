@@ -70,7 +70,7 @@ QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id)
 
     if (!id.isEmpty()) for (int i = 0; i < this->size(); ++i) {
             QDomElement effect =  this->at(i);
-            kDebug() << "// SRCH EFFECT; " << id << ", LKING: " << effect.attribute("id");
+            //kDebug() << "// SRCH EFFECT; " << id << ", LKING: " << effect.attribute("id");
             if (effect.attribute("id") == id) {
                 QDomNodeList params = effect.elementsByTagName("parameter");
                 for (int i = 0; i < params.count(); i++) {
@@ -98,6 +98,24 @@ QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id)
     return QDomElement();
 }
 
+int EffectsList::hasEffect(const QString & tag, const QString & id) const {
+    for (int i = 0; i < this->size(); ++i) {
+        QDomElement effect =  this->at(i);
+        if (!id.isEmpty()) {
+            if (effect.attribute("id") == id) return i;
+        } else if (!tag.isEmpty() && effect.attribute("tag") == tag) return i;
+    }
+    return -1;
+}
+
+QStringList EffectsList::effectIdInfo(const int ix) const {
+    QStringList info;
+    QDomElement effect =  this->at(ix);
+    QDomNode namenode = effect.elementsByTagName("name").item(0);
+    info << namenode.toElement().text().toUtf8().data() << effect.attribute("tag") << effect.attribute("id");
+    return info;
+}
+
 QStringList EffectsList::effectNames() {
     QStringList list;
     for (int i = 0; i < this->size(); ++i) {
@@ -109,9 +127,9 @@ QStringList EffectsList::effectNames() {
     return list;
 }
 
-QString EffectsList::getInfo(QString effectName) {
+QString EffectsList::getInfo(const QString & tag, const QString & id) {
     QString info;
-    QDomElement effect = getEffectByName(effectName);
+    QDomElement effect = getEffectByTag(tag, id);
     QDomNode namenode = effect.elementsByTagName("description").item(0);
     if (!namenode.isNull()) info = i18n(namenode.toElement().text().toUtf8().data());
     namenode = effect.elementsByTagName("author").item(0);

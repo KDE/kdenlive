@@ -77,6 +77,8 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps)
         connect(endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
 
         connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(extractImage(int, int)));
+        //connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(getVideoThumbs(int, int)));
+
         connect(clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
         connect(clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
         QTimer::singleShot(200, this, SLOT(slotFetchThumbs()));
@@ -1000,6 +1002,10 @@ int ClipItem::effectsCounter() {
 
 int ClipItem::effectsCount() {
     return m_effectList.size();
+}
+
+int ClipItem::hasEffect(const QString &tag, const QString &id) const {
+    return m_effectList.hasEffect(tag, id);
 }
 
 QStringList ClipItem::effectNames() {

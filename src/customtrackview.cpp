@@ -1342,9 +1342,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
     } else if (m_operationMode == FADEIN) {
         // resize fade in effect
         ClipItem * item = (ClipItem *) m_dragItem;
-        QStringList clipeffects = item->effectNames();
-        if (clipeffects.contains(i18n("Fade in"))) {
-            int ix = clipeffects.indexOf(i18n("Fade in"));
+        int ix = item->hasEffect("volume", "fadein");
+        if (ix != -1) {
             QDomElement oldeffect = item->effectAt(ix);
             int start = item->cropStart().frames(m_document->fps());
             int end = item->fadeIn();
@@ -1352,13 +1351,13 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 slotDeleteEffect(item, oldeffect);
             } else {
                 end += start;
-                QDomElement effect = MainWindow::audioEffects.getEffectByName("Fade in");
+                QDomElement effect = MainWindow::audioEffects.getEffectByTag("volume", "fadein");
                 EffectsList::setParameter(effect, "in", QString::number(start));
                 EffectsList::setParameter(effect, "out", QString::number(end));
                 slotUpdateClipEffect(item, oldeffect, effect, ix);
             }
         } else if (item->fadeIn() != 0) {
-            QDomElement effect = MainWindow::audioEffects.getEffectByName("Fade in");
+            QDomElement effect = MainWindow::audioEffects.getEffectByTag("volume", "fadein");
             int start = item->cropStart().frames(m_document->fps());
             int end = item->fadeIn() + start;
             EffectsList::setParameter(effect, "in", QString::number(start));
@@ -1368,9 +1367,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
     } else if (m_operationMode == FADEOUT) {
         // resize fade in effect
         ClipItem * item = (ClipItem *) m_dragItem;
-        QStringList clipeffects = item->effectNames();
-        if (clipeffects.contains(i18n("Fade out"))) {
-            int ix = clipeffects.indexOf(i18n("Fade out"));
+        int ix = item->hasEffect("volume", "fadeout");
+        if (ix != -1) {
             QDomElement oldeffect = item->effectAt(ix);
             int end = (item->duration() + item->cropStart()).frames(m_document->fps());
             int start = item->fadeOut();
@@ -1378,13 +1376,13 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 slotDeleteEffect(item, oldeffect);
             } else {
                 start = end - start;
-                QDomElement effect = MainWindow::audioEffects.getEffectByName("Fade out");
+                QDomElement effect = MainWindow::audioEffects.getEffectByTag("volume", "fadeout");
                 EffectsList::setParameter(effect, "in", QString::number(start));
                 EffectsList::setParameter(effect, "out", QString::number(end));
                 slotUpdateClipEffect(item, oldeffect, effect, ix);
             }
         } else if (item->fadeOut() != 0) {
-            QDomElement effect = MainWindow::audioEffects.getEffectByName("Fade out");
+            QDomElement effect = MainWindow::audioEffects.getEffectByTag("volume", "fadeout");
             int end = (item->duration() + item->cropStart()).frames(m_document->fps());
             int start = end - item->fadeOut();
             EffectsList::setParameter(effect, "in", QString::number(start));

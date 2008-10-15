@@ -208,28 +208,40 @@ MainWindow::MainWindow(const QString &MltPath, QWidget *parent)
     // build effects menus
     QAction *action;
     QMenu *videoEffectsMenu = static_cast<QMenu*>(factory()->container("video_effects_menu", this));
+
+    int ix = 0;
     QStringList effects = videoEffects.effectNames();
+    QStringList effectInfo;
     foreach(const QString &name, effects) {
         action = new QAction(name, this);
-        action->setData(name);
+        effectInfo = videoEffects.effectIdInfo(ix);
+        action->setData(effectInfo);
         videoEffectsMenu->addAction(action);
+        ix++;
     }
     QMenu *audioEffectsMenu = static_cast<QMenu*>(factory()->container("audio_effects_menu", this));
+
+    ix = 0;
     effects = audioEffects.effectNames();
     foreach(const QString &name, effects) {
         action = new QAction(name, this);
-        action->setData(name);
+        effectInfo = audioEffects.effectIdInfo(ix);
+        action->setData(effectInfo);
         audioEffectsMenu->addAction(action);
+        ix++;
     }
     m_customEffectsMenu = static_cast<QMenu*>(factory()->container("custom_effects_menu", this));
     effects = customEffects.effectNames();
     if (effects.isEmpty()) m_customEffectsMenu->setEnabled(false);
     else m_customEffectsMenu->setEnabled(true);
 
+    ix = 0;
     foreach(const QString &name, effects) {
         action = new QAction(name, this);
-        action->setData(name);
+        effectInfo = videoEffects.effectIdInfo(ix);
+        action->setData(effectInfo);
         m_customEffectsMenu->addAction(action);
+        ix++;
     }
 
     QMenu *newEffect = new QMenu(this);
@@ -1409,20 +1421,25 @@ void MainWindow::slotAddTransition(QAction *result) {
 
 void MainWindow::slotAddVideoEffect(QAction *result) {
     if (!result) return;
-    QDomElement effect = videoEffects.getEffectByName(result->data().toString());
+    QStringList info = result->data().toStringList();
+    if (info.isEmpty()) return;
+    QDomElement effect = videoEffects.getEffectByTag(info.at(1), info.at(2));
     slotAddEffect(effect);
 }
 
 void MainWindow::slotAddAudioEffect(QAction *result) {
     if (!result) return;
-    QDomElement effect = audioEffects.getEffectByName(result->data().toString());
+    QStringList info = result->data().toStringList();
+    if (info.isEmpty()) return;
+    QDomElement effect = audioEffects.getEffectByTag(info.at(1), info.at(2));
     slotAddEffect(effect);
 }
 
 void MainWindow::slotAddCustomEffect(QAction *result) {
     if (!result) return;
-    if (result->data().toString().isEmpty()) return;
-    QDomElement effect = customEffects.getEffectByName(result->data().toString());
+    QStringList info = result->data().toStringList();
+    if (info.isEmpty()) return;
+    QDomElement effect = customEffects.getEffectByTag(info.at(1), info.at(2));
     slotAddEffect(effect);
 }
 
