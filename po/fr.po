@@ -8,12 +8,12 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-06 17:22+0200\n"
-"PO-Revision-Date: 2008-10-12 22:20+0200\n"
+"PO-Revision-Date: 2008-10-17 11:53+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 msgid " Firewire (DV / HDV)"
 msgstr " Firewire (DV / HDV)"
@@ -249,11 +249,8 @@ msgstr "Masquer automatiquement"
 msgid "Auto add"
 msgstr "Ajouter automatiquement"
 
-#, fuzzy
 msgid "Auto-saved files exist. Do you want to recover them now?"
-msgstr ""
-"Le fichier existe déjà.\n"
-"Désirez vous le remplacer ?"
+msgstr "Des fichiers sauvegardés automatiquement sont disponibles. Souhaitez-vous les récupérer ?"
 
 msgid "Automatic"
 msgstr "Automatique"
@@ -350,32 +347,29 @@ msgstr ""
 "Impossible de trouver le programme inigo, un composant de mlt, nécessaire au "
 "rendu"
 
-#, fuzzy
 msgid "Cannot find your Mlt profiles, please give the path"
-msgstr "Impossible de lancer MLT, veuillez indiquer le chemin d'installation"
+msgstr "Impossible de trouver votre profil MLT, veuillez indiquer le chemin"
 
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot move clip at time: %1s on track %2"
-msgstr "Impossible de coller le clip %1 sur les pistes %2 à l'emplacement %3"
+msgstr "Impossible de déplacer le clip à l'horodatage indiqué : $1 sur la piste %2"
 
 #, c-format, kde-format
 msgid "Cannot move clip to position %1seconds"
 msgstr "Impossible de déplacer le clip à la position %1 secondes"
 
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot move transition at time: %1s on track %2"
-msgstr "Impossible de coller le clip %1 sur les pistes %2 à l'emplacement %3"
+msgstr "Impossible de déplacer la transition à l'horodatage indiqué : $1 sur la piste %2"
 
-#, fuzzy
 msgid "Cannot paste clip to selected place"
-msgstr "Créer un clip virtuel à partir de la zone sélectionnée"
+msgstr "Impossible de coller le clip à l'emplacement sélectionné"
 
 msgid "Cannot paste selected clips"
 msgstr "Impossible de coller les clips sélectionnés"
 
-#, fuzzy
 msgid "Cannot paste transition to selected place"
-msgstr "Supprimer la transition du clip sélectionné"
+msgstr "Impossible de coller la transition à l'emplacement indiqué"
 
 msgid ""
 "Cannot play video after rendering because the default video player "
@@ -493,9 +487,8 @@ msgstr "Clip couleur"
 msgid "Color clips"
 msgstr "Clips couleur"
 
-#, fuzzy
 msgid "Color key"
-msgstr "Couleur"
+msgstr "Gamme des couleurs"
 
 msgid "Comment"
 msgstr "Commentaires"
@@ -527,9 +520,9 @@ msgstr "Créer un dossier"
 msgid "Create new profile"
 msgstr "Créer un nouveau profil"
 
-#, fuzzy, kde-format
+#, kde-format
 msgid "Creating thumbnail for %1"
-msgstr "Création des miniatures vidéo"
+msgstr "Création des miniatures pour %1"
 
 #, c-format, kde-format
 msgid "Crop from start: %1s"
@@ -668,9 +661,8 @@ msgstr "Supprimer le clip montage"
 msgid "Delete track"
 msgstr "Supprimer la piste"
 
-#, fuzzy
 msgid "Delete transition from clip"
-msgstr "Supprimer la transition du clip sélectionné"
+msgstr "Supprimer la transition dans le clip"
 
 msgid "Depth"
 msgstr "Profondeur"
@@ -997,13 +989,11 @@ msgstr "Aller à la fin du clip"
 msgid "Go to Clip Start"
 msgstr "Aller au début du clip"
 
-#, fuzzy
 msgid "Go to Next Snap Point"
-msgstr "Avancer au repère suivant"
+msgstr "Avancer au point d'accroche suivant"
 
-#, fuzzy
 msgid "Go to Previous Snap Point"
-msgstr "Reculer au repère précédent"
+msgstr "Reculer au  point d'accroche précédent"
 
 msgid "Go to Project End"
 msgstr "Aller à la fin du projet"
@@ -1057,11 +1047,8 @@ msgstr "Gain élevé"
 msgid "Hide a region of the clip"
 msgstr "Cacher une région du clip"
 
-#, fuzzy
 msgid "Hide a selected zone and follow its movements"
-msgstr ""
-"Effectuer un rendu de la zone audio sélectionnée pour une utilisation "
-"ultérieure"
+msgstr "Cacher une zone sélectionné et suivre ses mouvements"
 
 msgid "Hor. Center"
 msgstr "Centrer horizontalement"
@@ -1374,9 +1361,8 @@ msgstr "PAL"
 msgid "Param"
 msgstr "Paramètres"
 
-#, fuzzy
 msgid "Parameter info"
-msgstr "Configuration"
+msgstr "Informations concernant le paramètre"
 
 msgid "Parameters"
 msgstr "Configuration"
@@ -1417,13 +1403,11 @@ msgstr "Lecture"
 msgid "Playback params"
 msgstr "Paramètres de lecture"
 
-#, fuzzy
 msgid "Playlist clip"
-msgstr "Lire le clip"
+msgstr "Clip liste de lecture"
 
-#, fuzzy
 msgid "Please set your default video format"
-msgstr "Format vidéo par défaut :"
+msgstr "Veuillez choisir le format vidéo par défaut"
 
 #, kde-format
 msgid ""
@@ -1464,9 +1448,8 @@ msgstr ""
 msgid "Problem adding effect to clip"
 msgstr ""
 
-#, fuzzy
 msgid "Problem deleting effect"
-msgstr "Supprimer l'effet"
+msgstr "Un problème est intervenu durant l'effacement de l'effet"
 
 msgid "Problem editing effect"
 msgstr ""
@@ -1481,7 +1464,7 @@ msgid "Profiles"
 msgstr "Profils"
 
 msgid "Progressive"
-msgstr ""
+msgstr "Progressif"
 
 msgid "Project"
 msgstr "Projet"
@@ -1516,9 +1499,8 @@ msgstr "Fréquence (Hz)"
 msgid "Rate Scaler"
 msgstr "Rééchantillonnage"
 
-#, fuzzy
 msgid "Rating"
-msgstr "Rotation axe des x"
+msgstr "Notation"
 
 msgid "Razor clip"
 msgstr "Scinder le clip"
@@ -1526,9 +1508,8 @@ msgstr "Scinder le clip"
 msgid "Razor tool"
 msgstr "Outil de découpage"
 
-#, fuzzy
 msgid "Reached end of project"
-msgstr "Fin de projet"
+msgstr "Fin du projet atteint"
 
 msgid "Record"
 msgstr "Enregistrer"
@@ -1556,7 +1537,7 @@ msgstr "Rendu"
 
 #, kde-format
 msgid "Rendering <i>%1</i> started"
-msgstr ""
+msgstr "Rendu <i>%1</i> en cours"
 
 msgid "Reset effect"
 msgstr "Réinitialiser l'effet"
@@ -1597,7 +1578,6 @@ msgstr "Reculer d'une trame"
 msgid "Right"
 msgstr "Droite"
 
-#, fuzzy
 msgid "Room Reverb"
 msgstr "Reverbération dans une pièce"
 
@@ -1670,9 +1650,8 @@ msgstr "Capture d'écran"
 msgid "Select a clip before copying"
 msgstr "Sélectionner un clip avant de copier"
 
-#, fuzzy
 msgid "Select a clip if you want to apply an effect"
-msgstr "Pour enregistrer une trame, vous devez d'abord activer un moniteur."
+msgstr "Sélectionner le clip où vous souhaitez appliquer un effet"
 
 msgid ""
 "Select a region using the mouse. To take the snapshot, press the Enter key. "
@@ -1680,7 +1659,7 @@ msgid ""
 msgstr ""
 
 msgid "Select clip to change speed"
-msgstr ""
+msgstr "Sélectionner le clip dont vous souhaitez changer la vitesse"
 
 msgid "Select clip to delete"
 msgstr "Sélectionner le clip à supprimer"
@@ -1692,7 +1671,7 @@ msgid "Select default image editor"
 msgstr "Définir le programe d'édition graphique par défaut"
 
 msgid "Select default video player"
-msgstr ""
+msgstr "Sélectionner le lecteur vidéo par défaut"
 
 msgid "Select region..."
 msgstr "Sélectionner une région"
@@ -1830,7 +1809,7 @@ msgid "Surface warping"
 msgstr "Déformation de surface"
 
 msgid "Sync timeline cursor"
-msgstr ""
+msgstr "Synchroniser le curseur de montage"
 
 msgid "Templates"
 msgstr "Modèles"
@@ -1883,9 +1862,8 @@ msgstr "Montage"
 msgid "Title Clip"
 msgstr "Clip titre"
 
-#, fuzzy
 msgid "Toggle selection"
-msgstr "Lire la sélection"
+msgstr "Basculer la sélection"
 
 msgid "Tool"
 msgstr "Outil"
@@ -2057,9 +2035,8 @@ msgstr "Année"
 msgid "You must copy exactly one clip before pasting effects"
 msgstr ""
 
-#, fuzzy
 msgid "You must select one clip for this action"
-msgstr "Veuillez sélectionner un clip pour modifier la transition"
+msgstr "Sélectionnez un clip pour réaliser cette action"
 
 msgid "Z-Index:"
 msgstr "Index-Z"

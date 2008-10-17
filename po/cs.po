@@ -2132,46 +2132,47 @@ msgstr ""
 "Instalace MLT nebyla nalezena, nainstalujte prosím MLT a restartujte "
 "Kdenlive.\n"
 
-#Not present strings in kdenlive.pot
-msgid "Dust"
-msgstr "Prach"
+#~ msgid "An open source video editor."
+#~ msgstr "Open source video editor"
 
-msgid "Grain"
-msgstr "Šum"
+#~ msgid "Copyright (c) 2008 Development team"
+#~ msgstr "Copyright (c) 2008 Vývojový tým"
 
-msgid "Grain over the image"
-msgstr "Přidá do obrazu šum"
+# Not present strings in kdenlive.pot
+#~ msgid "Dust"
+#~ msgstr "Prach"
 
-msgid "Oldfilm"
-msgstr "Starý film"
+#~ msgid "Grain"
+#~ msgstr "Šum"
 
-msgid "Moves the Picture up and down and random brightness change"
-msgstr "Vytvoří efekt starého filmu (nahodilé změny kontrastu a pohybu obrazu)"
+#~ msgid "Grain over the image"
+#~ msgstr "Přidá do obrazu šum"
 
-msgid "Oversaturate the Color in Video, like in old Technicolor movies"
-msgstr "Obraz bude vypadat jako po použití Technicolor filmů (zvýšení saturace)"
+#~ msgid "Mlt porting, KDE4 porting, Main developer"
+#~ msgstr "Práce na MLT, KDE4 verzi, hlavní vývojář"
 
-msgid "Scratchlines"
-msgstr "Výpadky"
+#~ msgid "MltConnection, Transition, Effect, Timeline Developer"
+#~ msgstr "Propojení s MLT, přechody, efekty, časová osa"
 
-msgid "Scratchlines over the Picture"
-msgstr "Přidá umělé výpadky obrazu"
-
-msgid "Vignette efekt"
-msgstr "Přidá kolem vybrané oblasti plynulý přechod do černé barvy"
-
-msgid "An open source video editor."
-msgstr "Open source video editor"
-
-msgid "Copyright (c) 2008 Development team"
-msgstr "Copyright (c) 2008 Vývojový tým"
-
-msgid "Mlt porting, KDE4 porting, Main developer"
-msgstr "Práce na MLT, KDE4 verzi, hlavní vývojář"
-
-msgid "MltConnection, Transition, Effect, Timeline Developer"
-msgstr "Propojení s MLT, přechody, efekty, časová osa"
+#~ msgid "Moves the Picture up and down and random brightness change"
+#~ msgstr ""
+#~ "Vytvoří efekt starého filmu (nahodilé změny kontrastu a pohybu obrazu)"
 
 #~ msgid "No Custom Effects"
 #~ msgstr "Nemáte žádné vlastní efekty"
 
+#~ msgid "Oldfilm"
+#~ msgstr "Starý film"
+
+#~ msgid "Oversaturate the Color in Video, like in old Technicolor movies"
+#~ msgstr ""
+#~ "Obraz bude vypadat jako po použití Technicolor filmů (zvýšení saturace)"
+
+#~ msgid "Scratchlines"
+#~ msgstr "Výpadky"
+
+#~ msgid "Scratchlines over the Picture"
+#~ msgstr "Přidá umělé výpadky obrazu"
+
+#~ msgid "Vignette efekt"
+#~ msgstr "Přidá kolem vybrané oblasti plynulý přechod do černé barvy"
