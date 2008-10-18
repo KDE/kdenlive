@@ -209,39 +209,32 @@ MainWindow::MainWindow(const QString &MltPath, QWidget *parent)
     QAction *action;
     QMenu *videoEffectsMenu = static_cast<QMenu*>(factory()->container("video_effects_menu", this));
 
-    int ix = 0;
-    QStringList effects = videoEffects.effectNames();
     QStringList effectInfo;
-    foreach(const QString &name, effects) {
-        action = new QAction(name, this);
+
+    for (int ix = 0; ix < videoEffects.count(); ix++) {
         effectInfo = videoEffects.effectIdInfo(ix);
+        action = new QAction(effectInfo.at(0), this);
         action->setData(effectInfo);
         videoEffectsMenu->addAction(action);
-        ix++;
     }
     QMenu *audioEffectsMenu = static_cast<QMenu*>(factory()->container("audio_effects_menu", this));
 
-    ix = 0;
-    effects = audioEffects.effectNames();
-    foreach(const QString &name, effects) {
-        action = new QAction(name, this);
+    for (int ix = 0; ix < audioEffects.count(); ix++) {
         effectInfo = audioEffects.effectIdInfo(ix);
+        action = new QAction(effectInfo.at(0), this);
         action->setData(effectInfo);
         audioEffectsMenu->addAction(action);
-        ix++;
     }
     m_customEffectsMenu = static_cast<QMenu*>(factory()->container("custom_effects_menu", this));
-    effects = customEffects.effectNames();
-    if (effects.isEmpty()) m_customEffectsMenu->setEnabled(false);
+
+    if (customEffects.isEmpty()) m_customEffectsMenu->setEnabled(false);
     else m_customEffectsMenu->setEnabled(true);
 
-    ix = 0;
-    foreach(const QString &name, effects) {
-        action = new QAction(name, this);
-        effectInfo = videoEffects.effectIdInfo(ix);
+    for (int ix = 0; ix < customEffects.count(); ix++) {
+        effectInfo = customEffects.effectIdInfo(ix);
+        action = new QAction(effectInfo.at(0), this);
         action->setData(effectInfo);
         m_customEffectsMenu->addAction(action);
-        ix++;
     }
 
     QMenu *newEffect = new QMenu(this);
@@ -265,7 +258,7 @@ MainWindow::MainWindow(const QString &MltPath, QWidget *parent)
 
 
     QMenu *transitionsMenu = new QMenu(i18n("Add Transition"), this);
-    effects = transitions.effectNames();
+    QStringList effects = transitions.effectNames();
     foreach(const QString &name, effects) {
         action = new QAction(name, this);
         action->setData(name);

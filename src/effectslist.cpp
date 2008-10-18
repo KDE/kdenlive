@@ -112,7 +112,7 @@ QStringList EffectsList::effectIdInfo(const int ix) const {
     QStringList info;
     QDomElement effect =  this->at(ix);
     QDomNode namenode = effect.elementsByTagName("name").item(0);
-    info << namenode.toElement().text().toUtf8().data() << effect.attribute("tag") << effect.attribute("id");
+    info << i18n(namenode.toElement().text().toUtf8().data()) << effect.attribute("tag") << effect.attribute("id");
     return info;
 }
 
