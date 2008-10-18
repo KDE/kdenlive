@@ -989,17 +989,40 @@ void CustomTrackView::slotEnableRefresh() {
 
 void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition) {
     QList<QGraphicsItem *> itemList = scene()->selectedItems();
-    for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->type() == AVWIDGET) {
-            ClipItem *item = (ClipItem *) itemList.at(i);
+    if (itemList.count() == 1) {
+        if (itemList.at(0)->type() == AVWIDGET) {
+            ClipItem *item = (ClipItem *) itemList.at(0);
             ItemInfo info;
-            info.startPos = item->startPos();
-            info.endPos = info.startPos + GenTime(2.5);
             info.track = item->track();
-            int transitiontrack = getPreviousVideoTrack(info.track);
+            ClipItem *transitionClip = NULL;
+            const int transitiontrack = getPreviousVideoTrack(info.track);
+            GenTime pos = GenTime((int)(mapToScene(m_menuPosition).x()), m_document->fps());
+            if (pos < item->startPos() + item->duration() / 2) {
+                info.startPos = item->startPos();
+                if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.startPos.frames(m_document->fps()), m_scene->m_tracksList.count() - transitiontrack);
+                if (transitionClip && transitionClip->endPos() < item->endPos()) {
+                    info.endPos = transitionClip->endPos();
+                } else info.endPos = info.startPos + GenTime(2.5);
+            } else {
+                info.endPos = item->endPos();
+                if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.endPos.frames(m_document->fps()), m_scene->m_tracksList.count() - transitiontrack);
+                if (transitionClip && transitionClip->startPos() > item->startPos()) {
+                    info.startPos = transitionClip->startPos();
+                } else info.startPos = info.endPos - GenTime(2.5);
+            }
             slotAddTransition(item, info, transitiontrack, transition);
         }
-    }
+    } else for (int i = 0; i < itemList.count(); i++) {
+            if (itemList.at(i)->type() == AVWIDGET) {
+                ClipItem *item = (ClipItem *) itemList.at(i);
+                ItemInfo info;
+                info.startPos = item->startPos();
+                info.endPos = info.startPos + GenTime(2.5);
+                info.track = item->track();
+                int transitiontrack = getPreviousVideoTrack(info.track);
+                slotAddTransition(item, info, transitiontrack, transition);
+            }
+        }
 }
 
 void CustomTrackView::slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QDomElement transition) {
