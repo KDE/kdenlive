@@ -597,12 +597,11 @@ void ClipItem::paint(QPainter *painter,
         painter->setPen(Qt::black);
     }
 
-
     // Draw clip name
-    QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignTop, " " + m_clipName + " ");
-    //painter->fillRect(txtBounding, QBrush(QColor(255, 255, 255, 150)));
-    painter->setPen(QColor(0, 0, 0, 180));
-    painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
+    QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, " " + m_clipName + " ");
+    painter->fillRect(txtBounding, QBrush(QColor(0, 0, 0, 150)));
+    //painter->setPen(QColor(0, 0, 0, 180));
+    //painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
     txtBounding.translate(QPointF(1, 1));
     painter->setPen(QColor(255, 255, 255, 255));
     painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
