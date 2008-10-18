@@ -2085,24 +2085,24 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
     Mlt::Tractor tractor(service);
     Mlt::Field *field = tractor.field();
 
-    if (do_refresh) m_mltConsumer->set("refresh", 0);
+    //if (do_refresh) m_mltConsumer->set("refresh", 0);
     mlt_service serv = m_mltProducer->parent().get_service();
 
     mlt_service nextservice = mlt_service_get_producer(serv);
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
     QString mlt_type = mlt_properties_get(properties, "mlt_type");
     QString resource = mlt_properties_get(properties, "mlt_service");
-    int old_pos = (int)((in + out).frames(m_fps) / 2);
+
+    const int old_pos = (int)((in + out).frames(m_fps) / 2);
 
     while (mlt_type == "transition") {
         mlt_transition tr = (mlt_transition) nextservice;
         int currentTrack = mlt_transition_get_b_track(tr);
         int currentIn = (int) mlt_transition_get_in(tr);
         int currentOut = (int) mlt_transition_get_out(tr);
-        kDebug() << "// FOUND EXISTING TRANS, IN: " << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack;
+        //kDebug() << "// FOUND EXISTING TRANS, IN: " << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack;
 
         if (resource == tag && b_track == currentTrack && currentIn <= old_pos && currentOut >= old_pos) {
-            //kDebug() << " / / / / /DELETE TRANS DOOOMNE";
             mlt_field_disconnect_service(field->get_field(), nextservice);
             break;
         }
