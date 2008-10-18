@@ -53,13 +53,12 @@
 #include "projectlistview.h"
 
 ProjectList::ProjectList(QWidget *parent)
-        : QWidget(parent), m_render(NULL), m_fps(-1), m_commandStack(NULL), m_selectedItem(NULL) {
+        : QWidget(parent), m_render(NULL), m_fps(-1), m_commandStack(NULL), m_selectedItem(NULL), m_infoQueue(QMap <QString, QDomElement> ()), m_thumbnailQueue(QList <QString> ()) {
 
     QWidget *vbox = new QWidget;
     listView = new ProjectListView(this);;
     QVBoxLayout *layout = new QVBoxLayout;
     m_clipIdCounter = 0;
-
     // setup toolbar
     searchView = new KTreeWidgetSearchLine(this);
     m_toolbar = new QToolBar("projectToolBar", this);
@@ -339,7 +338,28 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties) {
         }
         if (!annotation.isEmpty()) item->setText(2, annotation);
     }
-    if (getProperties) emit getFileProperties(clip->toXML(), clip->getId());
+    if (getProperties) requestClipInfo(clip->toXML(), clip->getId());
+}
+
+void ProjectList::requestClipInfo(const QDomElement xml, const QString id) {
+    m_infoQueue.insert(id, xml);
+    listView->setEnabled(false);
+    if (m_infoQueue.count() == 1) QTimer::singleShot(300, this, SLOT(slotProcessNextClipInQueue()));
+}
+
+void ProjectList::slotProcessNextClipInQueue() {
+    if (m_infoQueue.isEmpty()) {
+        listView->setEnabled(true);
+        return;
+    }
+    QMap<QString, QDomElement>::const_iterator i = m_infoQueue.constBegin();
+    if (i != m_infoQueue.constEnd()) {
+        const QDomElement dom = i.value();
+        const QString id = i.key();
+        m_infoQueue.remove(i.key());
+        emit getFileProperties(dom, id);
+    }
+    if (m_infoQueue.isEmpty()) listView->setEnabled(true);
 }
 
 void ProjectList::slotUpdateClip(const QString &id) {
@@ -364,9 +384,10 @@ void ProjectList::updateAllClips() {
                     pix.save(clip->fileURL().path());
                     delete dia_ui;
                 }
-                emit getFileProperties(clip->toXML(), clip->getId());
+                requestClipInfo(clip->toXML(), clip->getId());
             } else {
-                slotRefreshClipThumbnail(item, false);
+                requestClipThumbnail(item->clipId());
+                //slotRefreshClipThumbnail(item, false);
                 item->changeDuration(item->referencedClip()->producer()->get_playtime());
             }
             item->setData(1, UsageRole, QString::number(item->numReferences()));
@@ -411,6 +432,7 @@ void ProjectList::slotRemoveInvalidClip(const QString &id) {
     QList <QString> ids;
     ids << id;
     m_doc->deleteProjectClip(ids);
+    if (!m_infoQueue.isEmpty()) QTimer::singleShot(300, this, SLOT(slotProcessNextClipInQueue()));
 }
 
 void ProjectList::slotAddColorClip() {
@@ -518,9 +540,21 @@ QDomElement ProjectList::producersList() {
     return prods;
 }
 
-void ProjectList::slotRefreshClipThumbnail(const QString &clipId) {
+
+void ProjectList::requestClipThumbnail(const QString &id) {
+    m_thumbnailQueue.append(id);
+    if (m_thumbnailQueue.count() == 1) QTimer::singleShot(300, this, SLOT(slotProcessNextThumbnail()));
+}
+
+void ProjectList::slotProcessNextThumbnail() {
+    if (m_thumbnailQueue.isEmpty()) return;
+    slotRefreshClipThumbnail(m_thumbnailQueue.takeFirst(), false);
+}
+
+void ProjectList::slotRefreshClipThumbnail(const QString &clipId, bool update) {
     ProjectItem *item = getItemById(clipId);
-    if (item) slotRefreshClipThumbnail(item);
+    if (item) slotRefreshClipThumbnail(item, update);
+    else slotProcessNextThumbnail();
 }
 
 void ProjectList::slotRefreshClipThumbnail(ProjectItem *item, bool update) {
@@ -530,16 +564,18 @@ void ProjectList::slotRefreshClipThumbnail(ProjectItem *item, bool update) {
         QPixmap pix = item->referencedClip()->thumbProducer()->extractImage(item->referencedClip()->getClipThumbFrame(), width, height);
         item->setIcon(0, pix);
         if (update) emit projectModified();
+        if (!m_thumbnailQueue.isEmpty()) QTimer::singleShot(300, this, SLOT(slotProcessNextThumbnail()));
     }
 }
 
 void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata) {
     ProjectItem *item = getItemById(clipId);
-    if (item) {
+    if (item && producer) {
         item->setProperties(properties, metadata);
         item->referencedClip()->setProducer(producer);
         emit receivedClipDuration(clipId, item->clipMaxDuration());
     } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
+    if (!m_infoQueue.isEmpty()) QTimer::singleShot(300, this, SLOT(slotProcessNextClipInQueue()));
 }
 
 void ProjectList::slotReplyGetImage(const QString &clipId, int pos, const QPixmap &pix, int w, int h) {

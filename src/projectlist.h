@@ -117,7 +117,7 @@ public slots:
     void slotAddClip(DocClipBase *clip, bool getProperties = true);
     void slotDeleteClip(const QString &clipId);
     void slotUpdateClip(const QString &id);
-    void slotRefreshClipThumbnail(const QString &clipId);
+    void slotRefreshClipThumbnail(const QString &clipId, bool update = true);
     void slotRefreshClipThumbnail(ProjectItem *item, bool update = true);
     void slotRemoveInvalidClip(const QString &id);
     void slotSelectClip(const QString &ix);
@@ -140,6 +140,10 @@ private:
     KdenliveDoc *m_doc;
     ItemDelegate *m_listViewDelegate;
     ProjectItem *m_selectedItem;
+    QMap <QString, QDomElement> m_infoQueue;
+    void requestClipInfo(const QDomElement xml, const QString id);
+    QList <QString> m_thumbnailQueue;
+    void requestClipThumbnail(const QString &id);
 
 private slots:
     void slotAddClip(QUrl givenUrl = QUrl(), QString group = QString());
@@ -154,6 +158,8 @@ private slots:
     /** This is triggered when a clip description has been modified */
     void slotItemEdited(QTreeWidgetItem *item, int column);
     void slotUpdateClipProperties(ProjectItem *item, QMap <QString, QString> properties);
+    void slotProcessNextClipInQueue();
+    void slotProcessNextThumbnail();
     //void slotShowMenu(const QPoint &pos);
 
 signals:

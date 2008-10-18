@@ -468,8 +468,9 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
     QMap < QString, QString > metadataPropertyMap;
 
     KUrl url = KUrl(xml.attribute("resource", QString::null));
-    Mlt::Producer *producer;
+    Mlt::Producer *producer = NULL;
     if (xml.attribute("type").toInt() == TEXT && !QFile::exists(url.path())) {
+        emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap);
         return;
     }
     if (xml.attribute("type").toInt() == COLOR) {
@@ -517,7 +518,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
     filePropertyMap["duration"] = QString::number(producer->get_playtime());
     //kDebug() << "///////  PRODUCER: " << url.path() << " IS: " << producer.get_playtime();
 
-    Mlt::Frame * frame = producer->get_frame();
+    Mlt::Frame *frame = producer->get_frame();
 
     if (xml.attribute("type").toInt() == SLIDESHOW) {
         if (xml.hasAttribute("ttl")) producer->set("ttl", xml.attribute("ttl").toInt());

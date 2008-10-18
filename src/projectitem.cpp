@@ -58,6 +58,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
     m_clipType = (CLIPTYPE) m_clip->getProperty("type").toInt();
     setText(1, name);
     setText(2, m_clip->description());
+    //setFlags(Qt::NoItemFlags);
     //kDebug() << "PROJECT ITE;. ADDING LCIP: " << m_clipId;
 }
 
@@ -72,6 +73,7 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip)
     m_clipType = (CLIPTYPE) m_clip->getProperty("type").toInt();
     setText(1, name);
     setText(2, m_clip->description());
+    //setFlags(Qt::NoItemFlags);
     //kDebug() << "PROJECT ITE;. ADDING LCIP: " << m_clipId;
 }
 
@@ -191,6 +193,7 @@ void ProjectItem::slotSetToolTip() {
 
 void ProjectItem::setProperties(const QMap < QString, QString > &attributes, const QMap < QString, QString > &metadata) {
     if (m_clip == NULL) return;
+    //setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
     if (attributes.contains("duration")) {
         //if (m_clipType == AUDIO || m_clipType == VIDEO || m_clipType == AV)
         //m_clip->setProperty("duration", attributes["duration"]);
