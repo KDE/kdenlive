@@ -99,7 +99,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out) {
         QDomElement pa = namenode.item(i).toElement();
         QDomNode na = pa.firstChildElement("name");
         QString type = pa.attribute("type");
-        QString paramName = na.toElement().text();
+        QString paramName = i18n(na.toElement().text());
         QWidget * toFillin = new QWidget;
         QString value = pa.attribute("value").isNull() ?
                         pa.attribute("default") : pa.attribute("value");
@@ -142,7 +142,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out) {
                 }
             }
             connect(lsval->list, SIGNAL(currentIndexChanged(int)) , this, SLOT(collectAllParameters()));
-            lsval->title->setTitle(na.toElement().text());
+            lsval->title->setTitle(paramName);
             valueItems[paramName] = lsval;
             uiItems.append(lsval);
         } else if (type == "bool") {
@@ -151,7 +151,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out) {
             bval->checkBox->setCheckState(value == "0" ? Qt::Unchecked : Qt::Checked);
 
             connect(bval->checkBox, SIGNAL(stateChanged(int)) , this, SLOT(collectAllParameters()));
-            bval->checkBox->setText(na.toElement().text());
+            bval->checkBox->setText(paramName);
             valueItems[paramName] = bval;
             uiItems.append(bval);
         } else if (type == "complex") {
@@ -190,7 +190,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out) {
             kDebug() << value.toUInt(&ok, 16);
 
             connect(cval->kcolorbutton, SIGNAL(clicked()) , this, SLOT(collectAllParameters()));
-            cval->label->setText(na.toElement().text());
+            cval->label->setText(paramName);
             valueItems[paramName] = cval;
             uiItems.append(cval);
         } else if (type == "wipe") {
