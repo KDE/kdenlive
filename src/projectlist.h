@@ -140,6 +140,7 @@ private:
     KdenliveDoc *m_doc;
     ItemDelegate *m_listViewDelegate;
     ProjectItem *m_selectedItem;
+    bool m_refreshed;
     QMap <QString, QDomElement> m_infoQueue;
     void requestClipInfo(const QDomElement xml, const QString id);
     QList <QString> m_thumbnailQueue;
@@ -160,6 +161,7 @@ private slots:
     void slotUpdateClipProperties(ProjectItem *item, QMap <QString, QString> properties);
     void slotProcessNextClipInQueue();
     void slotProcessNextThumbnail();
+    void slotCheckForEmptyQueue();
     //void slotShowMenu(const QPoint &pos);
 
 signals:
@@ -168,6 +170,7 @@ signals:
     void receivedClipDuration(const QString &, int);
     void showClipProperties(DocClipBase *);
     void projectModified();
+    void loadingIsOver();
 };
 
 #endif

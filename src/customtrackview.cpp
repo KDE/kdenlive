@@ -2334,7 +2334,7 @@ void CustomTrackView::setOutPoint() {
     m_commandStack->push(command);
 }
 
-void CustomTrackView::updateAllThumbs() {
+void CustomTrackView::slotUpdateAllThumbs() {
     QList<QGraphicsItem *> itemList = items();
     ClipItem *item;
     Transition *transitionitem;
@@ -2342,7 +2342,7 @@ void CustomTrackView::updateAllThumbs() {
         if (itemList.at(i)->type() == AVWIDGET) {
             item = static_cast <ClipItem *>(itemList.at(i));
             item->refreshClip();
-            //qApp->processEvents();
+            qApp->processEvents();
         }
     }
 }

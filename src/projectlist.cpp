@@ -53,7 +53,7 @@
 #include "projectlistview.h"
 
 ProjectList::ProjectList(QWidget *parent)
-        : QWidget(parent), m_render(NULL), m_fps(-1), m_commandStack(NULL), m_selectedItem(NULL), m_infoQueue(QMap <QString, QDomElement> ()), m_thumbnailQueue(QList <QString> ()) {
+        : QWidget(parent), m_render(NULL), m_fps(-1), m_commandStack(NULL), m_selectedItem(NULL), m_infoQueue(QMap <QString, QDomElement> ()), m_thumbnailQueue(QList <QString> ()), m_refreshed(false) {
 
     QWidget *vbox = new QWidget;
     listView = new ProjectListView(this);;
@@ -387,7 +387,6 @@ void ProjectList::updateAllClips() {
                 requestClipInfo(clip->toXML(), clip->getId());
             } else {
                 requestClipThumbnail(item->clipId());
-                //slotRefreshClipThumbnail(item, false);
                 item->changeDuration(item->referencedClip()->producer()->get_playtime());
             }
             item->setData(1, UsageRole, QString::number(item->numReferences()));
@@ -395,6 +394,7 @@ void ProjectList::updateAllClips() {
         }
         ++it;
     }
+    QTimer::singleShot(500, this, SLOT(slotCheckForEmptyQueue()));
 }
 
 void ProjectList::slotAddClip(QUrl givenUrl, QString group) {
@@ -512,7 +512,11 @@ void ProjectList::slotAddTitleClip() {
 
 void ProjectList::setDocument(KdenliveDoc *doc) {
     listView->clear();
+    m_thumbnailQueue.clear();
+    m_infoQueue.clear();
+    m_refreshed = false;
     QList <DocClipBase*> list = doc->clipManager()->documentClipList();
+    listView->blockSignals(true);
     for (int i = 0; i < list.count(); i++) {
         slotAddClip(list.at(i), false);
     }
@@ -523,6 +527,7 @@ void ProjectList::setDocument(KdenliveDoc *doc) {
     m_doc = doc;
     QTreeWidgetItem *first = listView->topLevelItem(0);
     if (first) listView->setCurrentItem(first);
+    listView->blockSignals(false);
     m_toolbar->setEnabled(true);
 }
 
@@ -540,6 +545,12 @@ QDomElement ProjectList::producersList() {
     return prods;
 }
 
+void ProjectList::slotCheckForEmptyQueue() {
+    if (!m_refreshed && m_thumbnailQueue.isEmpty() && m_infoQueue.isEmpty()) {
+        m_refreshed = true;
+        emit loadingIsOver();
+    } else QTimer::singleShot(500, this, SLOT(slotCheckForEmptyQueue()));
+}
 
 void ProjectList::requestClipThumbnail(const QString &id) {
     m_thumbnailQueue.append(id);
@@ -547,7 +558,9 @@ void ProjectList::requestClipThumbnail(const QString &id) {
 }
 
 void ProjectList::slotProcessNextThumbnail() {
-    if (m_thumbnailQueue.isEmpty()) return;
+    if (m_thumbnailQueue.isEmpty()) {
+        return;
+    }
     slotRefreshClipThumbnail(m_thumbnailQueue.takeFirst(), false);
 }
 
@@ -559,6 +572,7 @@ void ProjectList::slotRefreshClipThumbnail(const QString &clipId, bool update) {
 
 void ProjectList::slotRefreshClipThumbnail(ProjectItem *item, bool update) {
     if (item) {
+        if (!item->referencedClip()) return;
         int height = 50;
         int width = (int)(height  * m_render->dar());
         QPixmap pix = item->referencedClip()->thumbProducer()->extractImage(item->referencedClip()->getClipThumbFrame(), width, height);
