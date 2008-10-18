@@ -15,9 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <KDebug>
-#include <KLocale>
-#include "effectstackedit.h"
 #include <QVBoxLayout>
 #include <QSlider>
 #include <QLabel>
@@ -25,13 +22,16 @@
 #include <QCheckBox>
 #include <QScrollArea>
 
+#include <KDebug>
+#include <KLocale>
+
 #include "ui_constval_ui.h"
 #include "ui_listval_ui.h"
 #include "ui_boolval_ui.h"
 #include "ui_colorval_ui.h"
 #include "ui_wipeval_ui.h"
 #include "complexparameter.h"
-
+#include "effectstackedit.h"
 #include "geometryval.h"
 
 QMap<QString, QImage> EffectStackEdit::iconCache;
@@ -99,7 +99,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out) {
         QDomElement pa = namenode.item(i).toElement();
         QDomNode na = pa.firstChildElement("name");
         QString type = pa.attribute("type");
-        QString paramName = i18n(na.toElement().text());
+        QString paramName = i18n(na.toElement().text().toUtf8().data());
         QWidget * toFillin = new QWidget;
         QString value = pa.attribute("value").isNull() ?
                         pa.attribute("default") : pa.attribute("value");
