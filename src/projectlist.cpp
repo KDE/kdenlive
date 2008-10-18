@@ -511,12 +511,12 @@ void ProjectList::slotAddTitleClip() {
 }
 
 void ProjectList::setDocument(KdenliveDoc *doc) {
+    listView->blockSignals(true);
     listView->clear();
     m_thumbnailQueue.clear();
     m_infoQueue.clear();
     m_refreshed = false;
     QList <DocClipBase*> list = doc->clipManager()->documentClipList();
-    listView->blockSignals(true);
     for (int i = 0; i < list.count(); i++) {
         slotAddClip(list.at(i), false);
     }

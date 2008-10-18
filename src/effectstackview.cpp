@@ -264,6 +264,7 @@ void EffectStackView::clear() {
     ui.buttonReset->setEnabled(false);
     ui.buttonUp->setEnabled(false);
     ui.buttonDown->setEnabled(false);
+    effectedit->transferParamDesc(QDomElement(), 0, 0);
 }
 
 #include "effectstackview.moc"

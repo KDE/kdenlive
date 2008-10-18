@@ -609,11 +609,9 @@ void ClipItem::paint(QPainter *painter,
 
     // draw transition handles on hover
     if (m_hover && itemWidth * scale > 40) {
-        QPainterPath transitionHandle;
-        const int handle_size = 4;
         QPointF p1 = painter->matrix().map(QPointF(0, itemHeight / 2)) + QPointF(10, 0);
         painter->drawPixmap(p1, projectScene()->m_transitionPixmap);
-        p1 = painter->matrix().map(QPointF(itemWidth, itemHeight / 2)) - QPointF(10 + handle_size * 3, 0);
+        p1 = painter->matrix().map(QPointF(itemWidth, itemHeight / 2)) - QPointF(22, 0);
         painter->drawPixmap(p1, projectScene()->m_transitionPixmap);
     }
 
@@ -718,7 +716,6 @@ QList <CommentedTime> ClipItem::commentedSnapMarkers() const {
 }
 
 void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, int endpixel, int channels) {
-
     QRectF re =  sceneBoundingRect();
     if (m_clipType == AV) re.setTop(re.y() + re.height() / 2);
 

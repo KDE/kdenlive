@@ -895,7 +895,11 @@ void MainWindow::closeCurrentDocument() {
     if (m_timelineArea->count() == 1) m_timelineArea->setTabBarHidden(true);
     delete docToClose;
     delete w;
-    if (m_timelineArea->count() == 0) m_activeDocument = NULL;
+    if (m_timelineArea->count() == 0) {
+        m_activeDocument = NULL;
+        effectStack->clear();
+        transitionConfig->slotTransitionItemSelected(NULL);
+    }
 }
 
 void MainWindow::saveFileAs(const QString &outputFileName) {
