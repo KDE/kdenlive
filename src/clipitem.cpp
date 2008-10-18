@@ -674,10 +674,10 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos) {
     } else if (qAbs((int)(pos.x() - (rect.x() + rect.width()))) < maximumOffset) {
         setToolTip(i18n("Clip duration: %1s", duration().seconds()));
         return RESIZEEND;
-    } else if (qAbs((int)(pos.x() - (rect.x() + 16))) < maximumOffset && qAbs((int)(pos.y() - (rect.y() + rect.height() / 2 + 5))) < 6) {
+    } else if (qAbs((int)(pos.x() - (rect.x() + 16 / scale))) < maximumOffset && qAbs((int)(pos.y() - (rect.y() + rect.height() / 2 + 9))) < 6) {
         setToolTip(i18n("Add transition"));
         return TRANSITIONSTART;
-    } else if (qAbs((int)(pos.x() - (rect.x() + rect.width() - 21))) < maximumOffset && qAbs((int)(pos.y() - (rect.y() + rect.height() / 2 + 5))) < 6) {
+    } else if (qAbs((int)(pos.x() - (rect.x() + rect.width() - 21 / scale))) < maximumOffset && qAbs((int)(pos.y() - (rect.y() + rect.height() / 2 + 9))) < 6) {
         setToolTip(i18n("Add transition"));
         return TRANSITIONEND;
     }
