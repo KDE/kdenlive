@@ -210,30 +210,47 @@ MainWindow::MainWindow(const QString &MltPath, QWidget *parent)
     QMenu *videoEffectsMenu = static_cast<QMenu*>(factory()->container("video_effects_menu", this));
 
     QStringList effectInfo;
-
+    QMap<QString, QStringList> effectsList;
     for (int ix = 0; ix < videoEffects.count(); ix++) {
         effectInfo = videoEffects.effectIdInfo(ix);
-        action = new QAction(effectInfo.at(0), this);
-        action->setData(effectInfo);
+        effectsList.insert(effectInfo.at(0).toLower(), effectInfo);
+    }
+
+    foreach(QStringList value, effectsList) {
+        action = new QAction(value.at(0), this);
+        action->setData(value);
         videoEffectsMenu->addAction(action);
     }
+
     QMenu *audioEffectsMenu = static_cast<QMenu*>(factory()->container("audio_effects_menu", this));
 
+
+    effectsList.clear();
     for (int ix = 0; ix < audioEffects.count(); ix++) {
         effectInfo = audioEffects.effectIdInfo(ix);
-        action = new QAction(effectInfo.at(0), this);
-        action->setData(effectInfo);
+        effectsList.insert(effectInfo.at(0).toLower(), effectInfo);
+    }
+
+    foreach(QStringList value, effectsList) {
+        action = new QAction(value.at(0), this);
+        action->setData(value);
         audioEffectsMenu->addAction(action);
     }
+
     m_customEffectsMenu = static_cast<QMenu*>(factory()->container("custom_effects_menu", this));
 
     if (customEffects.isEmpty()) m_customEffectsMenu->setEnabled(false);
     else m_customEffectsMenu->setEnabled(true);
 
+    effectsList.clear();
     for (int ix = 0; ix < customEffects.count(); ix++) {
         effectInfo = customEffects.effectIdInfo(ix);
-        action = new QAction(effectInfo.at(0), this);
-        action->setData(effectInfo);
+        effectsList.insert(effectInfo.at(0).toLower(), effectInfo);
+    }
+
+    foreach(QStringList value, effectsList) {
+        action = new QAction(value.at(0), this);
+        action->setData(value);
         m_customEffectsMenu->addAction(action);
     }
 
