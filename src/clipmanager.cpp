@@ -26,9 +26,8 @@
 #include "docclipbase.h"
 #include "kdenlivedoc.h"
 
-ClipManager::ClipManager(KdenliveDoc *doc): m_doc(doc) {
+ClipManager::ClipManager(KdenliveDoc *doc): m_doc(doc), m_audioThumbsEnabled(false) {
     m_clipIdCounter = 1;
-    m_audioThumbsEnabled = KdenliveSettings::audiothumbnails();
 }
 
 ClipManager::~ClipManager() {
