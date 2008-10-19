@@ -111,7 +111,7 @@ ClipItem *ClipItem::clone(ItemInfo info) const {
     if (info.cropStart == cropStart()) duplicate->slotSetStartThumb(m_startPix);
     if (info.cropStart + (info.endPos - info.startPos) == m_cropStart + m_cropDuration) duplicate->slotSetEndThumb(m_endPix);
     kDebug() << "// CLoning clip: " << (info.cropStart + (info.endPos - info.startPos)).frames(m_fps) << ", CURRENT end: " << (cropStart() + duration()).frames(m_fps);
-    duplicate->setEffectList(m_effectList);
+    duplicate->setEffectList(m_effectList.clone());
     duplicate->setSpeed(m_speed);
     return duplicate;
 }

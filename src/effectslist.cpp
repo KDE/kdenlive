@@ -146,6 +146,14 @@ bool EffectsList::hasKeyFrames(QDomElement effect) {
     return false;
 }
 
+EffectsList EffectsList::clone() const {
+    EffectsList list = EffectsList();
+    for (int i = 0; i < this->size(); ++i) {
+        list.append(this->at(i).cloneNode().toElement());
+    }
+    return list;
+}
+
 // static
 void EffectsList::setParameter(QDomElement effect, QString name, QString value) {
     QDomNodeList params = effect.elementsByTagName("parameter");
