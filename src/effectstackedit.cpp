@@ -339,27 +339,29 @@ void EffectStackEdit::collectAllParameters() {
         QDomNode pa = namenode.item(i);
         QDomNode na = pa.firstChildElement("name");
         QString type = pa.attributes().namedItem("type").nodeValue();
+        QString paramName = i18n(na.toElement().text().toUtf8().data());
+
         QString setValue;
         if (type == "double" || type == "constant") {
-            QSlider* slider = ((Ui::Constval_UI*)valueItems[na.toElement().text()])->horizontalSlider;
+            QSlider* slider = ((Ui::Constval_UI*)valueItems[paramName])->horizontalSlider;
             setValue = QString::number(slider->value());
         } else if (type == "list") {
-            KComboBox *box = ((Ui::Listval_UI*)valueItems[na.toElement().text()])->list;
+            KComboBox *box = ((Ui::Listval_UI*)valueItems[paramName])->list;
             setValue = box->itemData(box->currentIndex()).toString();
         } else if (type == "bool") {
-            QCheckBox *box = ((Ui::Boolval_UI*)valueItems[na.toElement().text()])->checkBox;
+            QCheckBox *box = ((Ui::Boolval_UI*)valueItems[paramName])->checkBox;
             setValue = box->checkState() == Qt::Checked ? "1" : "0" ;
         } else if (type == "color") {
-            KColorButton *color = ((Ui::Colorval_UI*)valueItems[na.toElement().text()])->kcolorbutton;
+            KColorButton *color = ((Ui::Colorval_UI*)valueItems[paramName])->kcolorbutton;
             setValue.sprintf("0x%08x", color->color().rgba());
         } else if (type == "complex") {
-            ComplexParameter *complex = ((ComplexParameter*)valueItems[na.toElement().text()+"complex"]);
+            ComplexParameter *complex = ((ComplexParameter*)valueItems[paramName+"complex"]);
             namenode.item(i) = complex->getParamDesc();
         } else if (type == "geometry") {
-            Geometryval *geom = ((Geometryval*)valueItems[na.toElement().text()+"geometry"]);
+            Geometryval *geom = ((Geometryval*)valueItems[paramName+"geometry"]);
             namenode.item(i) = geom->getParamDesc();
         } else if (type == "wipe") {
-            Ui::Wipeval_UI *wp = (Ui::Wipeval_UI*)valueItems[na.toElement().text()];
+            Ui::Wipeval_UI *wp = (Ui::Wipeval_UI*)valueItems[paramName];
             wipeInfo info;
             if (wp->start_left->isChecked()) info.start = LEFT;
             else if (wp->start_right->isChecked()) info.start = RIGHT;
