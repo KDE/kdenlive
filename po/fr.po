@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-06 17:22+0200\n"
-"PO-Revision-Date: 2008-10-19 17:02+0200\n"
+"PO-Revision-Date: 2008-10-19 17:11+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -212,10 +212,10 @@ msgid "Ascii art library"
 msgstr "Librairie Ascii art"
 
 msgid "Aspect ratio"
-msgstr "Rapport d'aspect"
+msgstr "Format du pixel"
 
 msgid "Aspect ratio:"
-msgstr "Rapport d'aspect :"
+msgstr "Format du·pixel :"
 
 msgid "Audio"
 msgstr "Audio"
@@ -716,10 +716,10 @@ msgid "Display clip markers comments"
 msgstr "Afficher les commentaires des repères"
 
 msgid "Display ratio"
-msgstr "Rapport d'affichage"
+msgstr "Format d'affichage"
 
 msgid "Display ratio:"
-msgstr "Rapport d'affichage :"
+msgstr "Format d'affichage :"
 
 msgid "Do nothing"
 msgstr "Ne rien faire"
@@ -912,7 +912,7 @@ msgid "Folder"
 msgstr "Dossier"
 
 msgid "Force aspect ratio"
-msgstr "Forcer le ratio d'affichage"
+msgstr "Forcer le format de pixel"
 
 msgid "Form"
 msgstr "Formulaire"
