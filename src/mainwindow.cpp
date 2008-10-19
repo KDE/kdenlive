@@ -732,15 +732,15 @@ void MainWindow::setupActions() {
     collection->addAction("cut_timeline_clip", cutTimelineClip);
     connect(cutTimelineClip, SIGNAL(triggered(bool)), this, SLOT(slotCutTimelineClip()));
 
-    KAction* addClipMarker = new KAction(KIcon("bookmark-new"), i18n("Add Marker to Clip"), this);
+    KAction* addClipMarker = new KAction(KIcon("bookmark-new"), i18n("Add Marker"), this);
     collection->addAction("add_clip_marker", addClipMarker);
     connect(addClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotAddClipMarker()));
 
-    KAction* deleteClipMarker = new KAction(KIcon("edit-delete"), i18n("Delete Marker from Clip"), this);
+    KAction* deleteClipMarker = new KAction(KIcon("edit-delete"), i18n("Delete Marker"), this);
     collection->addAction("delete_clip_marker", deleteClipMarker);
     connect(deleteClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotDeleteClipMarker()));
 
-    KAction* deleteAllClipMarkers = new KAction(KIcon("edit-delete"), i18n("Delete All Markers from Clip"), this);
+    KAction* deleteAllClipMarkers = new KAction(KIcon("edit-delete"), i18n("Delete All Markers"), this);
     collection->addAction("delete_all_clip_markers", deleteAllClipMarkers);
     connect(deleteAllClipMarkers, SIGNAL(triggered(bool)), this, SLOT(slotDeleteAllClipMarkers()));
 
