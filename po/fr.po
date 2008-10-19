@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-06 17:22+0200\n"
-"PO-Revision-Date: 2008-10-19 16:46+0200\n"
+"PO-Revision-Date: 2008-10-19 17:02+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -212,10 +212,10 @@ msgid "Ascii art library"
 msgstr "Librairie Ascii art"
 
 msgid "Aspect ratio"
-msgstr "Rapport d'affichage"
+msgstr "Rapport d'aspect"
 
 msgid "Aspect ratio:"
-msgstr "Rapport d'affichage :"
+msgstr "Rapport d'aspect :"
 
 msgid "Audio"
 msgstr "Audio"
@@ -716,10 +716,10 @@ msgid "Display clip markers comments"
 msgstr "Afficher les commentaires des repères"
 
 msgid "Display ratio"
-msgstr "Ratio d'affichage"
+msgstr "Rapport d'affichage"
 
 msgid "Display ratio:"
-msgstr "Ratio d'affichage :"
+msgstr "Rapport d'affichage :"
 
 msgid "Do nothing"
 msgstr "Ne rien faire"
@@ -776,7 +776,9 @@ msgstr "Modifier la transition %1"
 
 #, kde-format
 msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
-msgstr "L'effet %1 : %2 n'étant pas disponible dans MLT, il a été supprimé du projet.\n"
+msgstr ""
+"L'effet %1 : %2 n'étant pas disponible dans MLT, il a été supprimé du "
+"projet.\n"
 
 msgid "Effect List"
 msgstr "Liste des effets"
