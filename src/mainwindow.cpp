@@ -948,6 +948,23 @@ void MainWindow::openLastFile() {
 }
 
 void MainWindow::openFile(const KUrl &url) {
+    // Check if the document is already opened
+    const int ct = m_timelineArea->count();
+    bool isOpened = false;
+    int i;
+    for (i = 0; i < ct; i++) {
+        TrackView *tab = (TrackView *) m_timelineArea->widget(i);
+        KdenliveDoc *doc = tab->document();
+        if (doc->url() == url) {
+            isOpened = true;
+            break;
+        }
+    }
+    if (isOpened) {
+        m_timelineArea->setCurrentIndex(i);
+        return;
+    }
+
     // Check for backup file
     QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(url);
     if (!staleFiles.isEmpty()) {
