@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-06 17:22+0200\n"
-"PO-Revision-Date: 2008-10-17 11:53+0200\n"
+"PO-Revision-Date: 2008-10-19 16:46+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -72,7 +72,7 @@ msgstr "<br><b>Auteur :</b> "
 
 #, kde-format
 msgid "<qt>Clip <b>%1</b><br>is invalid, will be removed from project."
-msgstr ""
+msgstr "<qt>Clip <b>%1</b><br>is invalid, will be removed from project."
 
 msgid "A"
 msgstr "A"
@@ -84,6 +84,7 @@ msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
 "choose another description for your custom profile."
 msgstr ""
+"Un nom identique existe déjà dans le dossier des profils par défaut de MLT. Veuillez renommer votre profil personnalisé."
 
 msgid "ALSA"
 msgstr "ALSA"
@@ -250,7 +251,9 @@ msgid "Auto add"
 msgstr "Ajouter automatiquement"
 
 msgid "Auto-saved files exist. Do you want to recover them now?"
-msgstr "Des fichiers sauvegardés automatiquement sont disponibles. Souhaitez-vous les récupérer ?"
+msgstr ""
+"Des fichiers sauvegardés automatiquement sont disponibles. Souhaitez-vous "
+"les récupérer ?"
 
 msgid "Automatic"
 msgstr "Automatique"
@@ -277,7 +280,7 @@ msgid "Blur factor"
 msgstr "Niveau de flou"
 
 msgid "Blur image with keyframes"
-msgstr ""
+msgstr "Flouter l'image avec les images clés"
 
 msgid "Border color"
 msgstr "Couleur de bordure"
@@ -314,6 +317,8 @@ msgid ""
 "Cannot access Desktop Search info for %1.\n"
 "Disabling Desktop Search integration."
 msgstr ""
+"impossible d'accéder aux informations de Desktop Search concernant %1.\n"
+"Désactivation de l'intégration Destop Seach."
 
 msgid "Cannot add marker if more than one clip is selected"
 msgstr ""
@@ -352,7 +357,8 @@ msgstr "Impossible de trouver votre profil MLT, veuillez indiquer le chemin"
 
 #, kde-format
 msgid "Cannot move clip at time: %1s on track %2"
-msgstr "Impossible de déplacer le clip à l'horodatage indiqué : $1 sur la piste %2"
+msgstr ""
+"Impossible de déplacer le clip à l'horodatage indiqué : $1 sur la piste %2"
 
 #, c-format, kde-format
 msgid "Cannot move clip to position %1seconds"
@@ -360,7 +366,9 @@ msgstr "Impossible de déplacer le clip à la position %1 secondes"
 
 #, kde-format
 msgid "Cannot move transition at time: %1s on track %2"
-msgstr "Impossible de déplacer la transition à l'horodatage indiqué : $1 sur la piste %2"
+msgstr ""
+"Impossible de déplacer la transition à l'horodatage indiqué : $1 sur la "
+"piste %2"
 
 msgid "Cannot paste clip to selected place"
 msgstr "Impossible de coller le clip à l'emplacement sélectionné"
@@ -376,6 +384,8 @@ msgid ""
 "application is not set.\n"
 "Please define it in Kdenlive settings dialog."
 msgstr ""
+"Impossible de jouer la vidéo après le rendu, tant qu'un lecteur vidéo par défaut n'est pas choisi.\n"
+"Veuillez choisir un lecteur vidéo par défaut dans le dialogue de configuration."
 
 #, kde-format
 msgid ""
@@ -396,7 +406,7 @@ msgid "Capture audio"
 msgstr "Acquisition audio"
 
 msgid "Capture crashed, please check your parameters"
-msgstr ""
+msgstr "Crash de l'acquisition, veuillez vérifier vos paramètres"
 
 msgid "Capture folder"
 msgstr "Dossier d'acquisition"
@@ -423,7 +433,7 @@ msgid "Change Clip Speed"
 msgstr "Modifier la vitesse du clip"
 
 msgid "Change gamma color value"
-msgstr ""
+msgstr "Modifier la valeur gamma de la couleur"
 
 msgid "Change image brightness with keyframes"
 msgstr ""
@@ -435,7 +445,7 @@ msgid "Charcoal"
 msgstr "Crayonnage"
 
 msgid "Charcoal drawing effect"
-msgstr ""
+msgstr "Effet dessin crayonné"
 
 msgid "CheckBox"
 msgstr "Boîte à cocher"
@@ -535,7 +545,7 @@ msgid "Crossfade"
 msgstr "Fondu-enchaîné"
 
 msgid "Custom"
-msgstr "Personnaliser"
+msgstr "Personnalisé"
 
 msgid "Cut"
 msgstr "Couper"
@@ -639,6 +649,7 @@ msgid ""
 "Delete folder <b>%2</b> ?<br>This will also remove the %1 clips in that "
 "folder"
 msgstr ""
+"Supprimer le dossier <b>%2</b> ?<br>Cette suppression entraînera la suppression de %1 clip(s) dans ce dossier."
 
 msgid "Delete guide"
 msgstr "Supprimer le guide"
@@ -761,7 +772,7 @@ msgstr "Modifier la transition %1"
 
 #, kde-format
 msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
-msgstr ""
+msgstr "L'effet %1 : %2 n'étant pas disponible dans MLT, il a été supprimé du projet."
 
 msgid "Effect List"
 msgstr "Liste des effets"
@@ -794,10 +805,10 @@ msgid "Equalizer"
 msgstr "Equaliseur"
 
 msgid "Error starting MLT's command line player (inigo)"
-msgstr ""
+msgstr "Erreur durant le lancement du lecteur en ligne de commande de MLT (inigo)"
 
 msgid "Error starting MLT's command line player (inigo)."
-msgstr ""
+msgstr "Erreur durant le lancement du lecteur en ligne de commande de MLT (inigo)."
 
 msgid "Error when resizing clip"
 msgstr "Erreur durant le redimensionnement du clip"
@@ -831,7 +842,7 @@ msgstr "Retour"
 
 #, kde-format
 msgid "File %1 is not a Kdenlive project file."
-msgstr ""
+msgstr "Le fichier %1 n'est pas un fichier projet Kdenlive."
 
 msgid "File Recovery"
 msgstr "Récupération du fichier"
@@ -868,7 +879,7 @@ msgid "Find Next"
 msgstr "Chercher suivant"
 
 msgid "Find stopped"
-msgstr ""
+msgstr "Recherche stoppée"
 
 msgid "Firewire"
 msgstr "Firewire"
@@ -887,7 +898,7 @@ msgid "Fit zoom to project"
 msgstr "Niveau de zoom optimal"
 
 msgid "Flip your image in any direction"
-msgstr ""
+msgstr "Pivoter l'image dans n'importe quelle direction"
 
 msgid "Folder"
 msgstr "Dossier"
@@ -948,7 +959,7 @@ msgid "Freeze at"
 msgstr "Geler à"
 
 msgid "Freeze video on a chosen frame"
-msgstr ""
+msgstr "Geler l'image à une certaine trame"
 
 msgid "Frequency"
 msgstr "Fréquence"
@@ -1099,7 +1110,7 @@ msgid "Insert track"
 msgstr "Insérer une piste"
 
 msgid "Install extra video mimetypes"
-msgstr ""
+msgstr "Installer des signatures mime vidéo supplémentaires"
 
 msgid "Intensity"
 msgstr "Intensité"
@@ -1194,6 +1205,7 @@ msgid ""
 "MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT "
 "install. Kdenlive will not work until this issue is fixed."
 msgstr ""
+"Impossible de trouver le module avformat (FFMPEG) de MLT. Veuillez vérifier vos installations de FFMPEG et de MLT. Kdenlive ne peut fonctionner qu'avec une installation correcte de ces outils."
 
 msgid "Make clip play faster slowly"
 msgstr ""
@@ -1436,6 +1448,10 @@ msgid ""
 "Files will be saved in:\n"
 "%1"
 msgstr ""
+"Pour·lancer·la·capture·d'écran\n"
+"appuyez·sur·le·bouton·Enregistrer.\n"
+"Les·fichiers·seront·enregistrés·dans·:\n"
+"%1"
 
 #, kde-format
 msgid ""
@@ -1444,15 +1460,19 @@ msgid ""
 "Files will be saved in:\n"
 "%1"
 msgstr ""
+"Pour lancer la capture d'écran\n"
+"appuyez sur le bouton Enregistrer.\n"
+"Les fichiers seront enregistrés dans :\n"
+"%1"
 
 msgid "Problem adding effect to clip"
-msgstr ""
+msgstr "Un problème est survenu durant l'ajout d'un effet au clip"
 
 msgid "Problem deleting effect"
 msgstr "Un problème est intervenu durant l'effacement de l'effet"
 
 msgid "Problem editing effect"
-msgstr ""
+msgstr "Un problème est survenu durant l'édition d'un effet"
 
 msgid "Profile"
 msgstr "Profil"
@@ -1657,6 +1677,8 @@ msgid ""
 "Select a region using the mouse. To take the snapshot, press the Enter key. "
 "Press Esc to quit."
 msgstr ""
+"Sélectionner une région avec la souris. Appuyer sur la touche Retour chariot pour prendre une copie d'écran."
+"Pour quitter, appuyer sur Echap."
 
 msgid "Select clip to change speed"
 msgstr "Sélectionner le clip dont vous souhaitez changer la vitesse"
@@ -1797,7 +1819,7 @@ msgid "StartViewport"
 msgstr ""
 
 msgid "Starting -- find text as you type"
-msgstr ""
+msgstr "Lancement - recherche du texte au fil de la saisie"
 
 msgid "Stop"
 msgstr "Arrêt"
@@ -2033,7 +2055,7 @@ msgid "Year"
 msgstr "Année"
 
 msgid "You must copy exactly one clip before pasting effects"
-msgstr ""
+msgstr "Il est nécessaire de copier un clip avant de pouvoir y coller des effets"
 
 msgid "You must select one clip for this action"
 msgstr "Sélectionnez un clip pour réaliser cette action"
@@ -2110,6 +2132,7 @@ msgstr "x1"
 msgid ""
 "your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr ""
+"Impossible de trouver votre installation MLT. Veuillez installer MLT et relancer Kdenlive.\n"
 
 #~ msgid " Gb"
 #~ msgstr " Go"
