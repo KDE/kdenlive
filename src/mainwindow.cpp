@@ -445,7 +445,7 @@ void MainWindow::slotAddEffect(QDomElement effect, GenTime pos, int track) {
         return;
     }
     TrackView *currentTimeLine = (TrackView *) m_timelineArea->currentWidget();
-    currentTimeLine->projectView()->slotAddEffect(effect, pos, track);
+    currentTimeLine->projectView()->slotAddEffect(effect.cloneNode().toElement(), pos, track);
 }
 
 void MainWindow::slotRaiseMonitor(bool clipMonitor) {
