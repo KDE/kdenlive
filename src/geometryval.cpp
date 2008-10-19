@@ -273,6 +273,15 @@ void Geometryval::slotPositionChanged(int pos, bool seek) {
 }
 
 void Geometryval::slotDeleteFrame() {
+    // check there is more than one keyframe
+    Mlt::GeometryItem item;
+    const int pos = ui.spinPos->value();
+    int error = m_geom->next_key(&item, pos + 1);
+    if (error) {
+        error = m_geom->prev_key(&item, pos - 1);
+        if (error || item.frame() == pos) return;
+    }
+
     m_geom->remove(ui.spinPos->value());
     ui.buttonAdd->setEnabled(true);
     ui.buttonDelete->setEnabled(false);
@@ -306,7 +315,11 @@ void Geometryval::slotNextFrame() {
     Mlt::GeometryItem item;
     int error = m_geom->next_key(&item, m_helper->value() + 1);
     kDebug() << "// SEEK TO NEXT KFR: " << error;
-    if (error) return;
+    if (error) {
+        // Go to end
+        ui.spinPos->setValue(ui.spinPos->maximum());
+        return;
+    }
     int pos = item.frame();
     ui.spinPos->setValue(pos);
 }
