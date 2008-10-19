@@ -551,6 +551,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         m_scene->clearSelection();
         setCursorPos((int)(mapToScene(event->x(), 0).x()));
         event->accept();
+        emit clipItemSelected(NULL);
         return;
     }
 

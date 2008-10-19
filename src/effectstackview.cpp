@@ -131,6 +131,7 @@ void EffectStackView::slotClipItemSelected(ClipItem* c) {
     }
     if (clipref == NULL) {
         ui.effectlist->clear();
+        effectedit->transferParamDesc(QDomElement(), 0, 0);
         setEnabled(false);
         return;
     }
