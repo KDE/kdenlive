@@ -58,6 +58,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
     m_clipType = (CLIPTYPE) m_clip->getProperty("type").toInt();
     setText(1, name);
     setText(2, m_clip->description());
+    if ((m_clip->clipType() == AV || m_clip->clipType() == AUDIO) && KdenliveSettings::audiothumbnails()) m_clip->askForAudioThumbs();
     //setFlags(Qt::NoItemFlags);
     //kDebug() << "PROJECT ITE;. ADDING LCIP: " << m_clipId;
 }
@@ -73,6 +74,7 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip)
     m_clipType = (CLIPTYPE) m_clip->getProperty("type").toInt();
     setText(1, name);
     setText(2, m_clip->description());
+    if ((m_clip->clipType() == AV || m_clip->clipType() == AUDIO) && KdenliveSettings::audiothumbnails()) m_clip->askForAudioThumbs();
     //setFlags(Qt::NoItemFlags);
     //kDebug() << "PROJECT ITE;. ADDING LCIP: " << m_clipId;
 }
@@ -224,9 +226,9 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
         m_clip->setClipType(m_clipType);
     }
     slotSetToolTip();
-    if ((m_clipType == AV || m_clipType == AUDIO) && KdenliveSettings::audiothumbnails()) m_clip->slotRequestAudioThumbs();
-
     m_clip->setProperties(attributes);
+
+    if ((m_clipType == AV || m_clipType == AUDIO) && KdenliveSettings::audiothumbnails()) m_clip->askForAudioThumbs();
 
     if (m_clip->description().isEmpty()) {
         if (metadata.contains("description")) {

@@ -23,7 +23,7 @@
 #include "clipmanager.h"
 
 DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id):
-        m_id(id), m_description(QString()), m_refcount(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL), m_clipProducer(NULL), m_properties(QMap <QString, QString> ()) {
+        m_id(id), m_description(QString()), m_refcount(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL), m_clipProducer(NULL), m_properties(QMap <QString, QString> ()), audioFrameChache(QMap<int, QMap<int, QByteArray> > ()) {
     int type = xml.attribute("type").toInt();
     m_clipType = (CLIPTYPE) type;
     m_name = xml.attribute("name");
@@ -45,7 +45,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
 
     //if (!url.isEmpty() && QFile::exists(url.path()))
     {
-        m_thumbProd = new KThumb(clipManager, url);
+        m_thumbProd = new KThumb(clipManager, url, m_id);
         if (m_clipType == AV || m_clipType == AUDIO) slotCreateAudioTimer();
     }
     //kDebug() << "type is video" << (m_clipType == AV) << " " << m_clipType;
@@ -74,8 +74,8 @@ void DocClipBase::slotCreateAudioTimer() {
     connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(slotGetAudioThumbs()));
 }
 
-void DocClipBase::slotRequestAudioThumbs() {
-    emit getAudioThumbs();
+void DocClipBase::askForAudioThumbs() {
+    if (m_thumbProd) m_thumbProd->askForAudioThumbs(getId());
 }
 
 void DocClipBase::slotClearAudioCache() {
@@ -84,6 +84,10 @@ void DocClipBase::slotClearAudioCache() {
     audioFrameChache.clear();
     m_audioThumbCreated = false;
 }
+
+/*void DocClipBase::getClipMainThumb() {
+    if (m_thumbProd) m_thumbProd->getMainThumb(m_properties.value("thumbnail").toInt());
+}*/
 
 KThumb *DocClipBase::thumbProducer() {
     return m_thumbProd;
@@ -485,17 +489,17 @@ QMap <QString, QString> DocClipBase::properties() const {
     return m_properties;
 }
 
-void DocClipBase::slotGetAudioThumbs() {
-    if (m_thumbProd == NULL) return;
+bool DocClipBase::slotGetAudioThumbs() {
+    if (m_thumbProd == NULL) return false;
     if (m_audioThumbCreated) {
-        if (m_audioTimer != NULL)
-            m_audioTimer->stop();
-    } else {
-        if (m_audioTimer != NULL)
-            m_audioTimer->start(2000);
-        double lengthInFrames = duration().frames(/*framesPerSecond()*/25);
-        m_thumbProd->getAudioThumbs(2, 0, lengthInFrames /*must be number of frames*/, 20);
+        if (m_audioTimer != NULL) m_audioTimer->stop();
+        return false;
     }
+    if (m_audioTimer != NULL)
+        m_audioTimer->start(1500);
+    double lengthInFrames = duration().frames(KdenliveSettings::project_fps());
+    m_thumbProd->getAudioThumbs(2, 0, lengthInFrames /*must be number of frames*/, 20);
+    return true;
 }
 
 

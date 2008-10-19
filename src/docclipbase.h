@@ -80,6 +80,7 @@ Q_OBJECT public:
 
     //KThumb *thumbCreator;
     bool audioThumbCreated() const;
+    /*void getClipMainThumb();*/
 
     /** returns the duration of this clip */
     const GenTime & duration() const;
@@ -184,10 +185,9 @@ Q_OBJECT public:
     /** format is frame -> channel ->bytes */
     QMap<int, QMap<int, QByteArray> > audioFrameChache;
 
-    /** Clip is ready to get thumbs */
-    void slotRequestAudioThumbs();
     /** Free cache data */
     void slotClearAudioCache();
+    void askForAudioThumbs();
 
 private:   // Private attributes
     /** The name of this clip */
@@ -222,7 +222,7 @@ private:   // Private attributes
 
 public slots:
     void updateAudioThumbnail(QMap<int, QMap<int, QByteArray> > data);
-    void slotGetAudioThumbs();
+    bool slotGetAudioThumbs();
     QList < CommentedTime > commentedSnapMarkers() const;
     void setSnapMarkers(QList < CommentedTime > markers);
     GenTime findNextSnapMarker(const GenTime & currTime);

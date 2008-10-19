@@ -60,14 +60,19 @@ Q_OBJECT public:
     QList <DocClipBase*> documentClipList();
     int getFreeClipId();
     int lastClipId() const;
+    void startAudioThumbsGeneration();
+    void endAudioThumbsGeneration(const QString &requestedId);
+    void askForAudioThumb(const QString &id);
 
 private:   // Private attributes
     /** the list of clips in the document */
     QList <DocClipBase*> m_clipList;
+    QList <QString> m_audioThumbsQueue;
     /** the document undo stack*/
     KdenliveDoc *m_doc;
     int m_clipIdCounter;
     bool m_audioThumbsEnabled;
+    QString m_generatingAudioId;
 
 };
 

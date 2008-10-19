@@ -51,7 +51,7 @@ class ClipManager;
 
 
 class MyThread : public QThread {
-
+    Q_OBJECT
 public:
     virtual void run();
     void init(QObject *parent, KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth);
@@ -68,41 +68,20 @@ private:
     int m_arrayWidth;
     bool m_isWorking;
     QObject *m_parent;
-};
-
-
-class ThumbThread : public QThread {
-    Q_OBJECT
-public:
-    virtual void run();
-    void init(QObject *parent, Mlt::Producer *prod, int width, int height);
-    void setThumbFrames(Mlt::Producer *prod, int frame1, int frame2);
-    bool isWorking();
-    bool stop_me;
-
-private:
-    int m_width;
-    int m_height;
-    int m_frame1;
-    int m_frame2;
-    Mlt::Producer *m_prod;
-    bool m_isWorking;
-    QObject *m_parent;
-    //QMutex mutex;
 
 signals:
-    void gotStartThumb(QImage);
-    void gotEndThumb(QImage);
-
+    void audioThumbProgress(const int);
+    void audioThumbOver();
 };
 
 class KThumb: public QObject {
 Q_OBJECT public:
 
 
-    KThumb(ClipManager *clipManager, KUrl url, QObject * parent = 0, const char *name = 0);
+    KThumb(ClipManager *clipManager, KUrl url, const QString &id, QObject * parent = 0, const char *name = 0);
     ~KThumb();
     void setProducer(Mlt::Producer *producer);
+    void askForAudioThumbs(const QString &id);
 
 public slots:
     void extractImage(int frame, int frame2);
@@ -118,8 +97,9 @@ public slots:
     static QPixmap getImage(KUrl url, int frame, int width, int height);
     static QPixmap getFrame(Mlt::Producer *producer, int framepos, int width, int height);
 
-protected:
-    virtual void customEvent(QEvent * event);
+private slots:
+    void slotAudioThumbProgress(const int progress);
+    void slotAudioThumbOver();
 
 private:
     MyThread audioThumbProducer;
@@ -128,9 +108,12 @@ private:
     double m_dar;
     Mlt::Producer *m_producer;
     ClipManager *m_clipManager;
+    QString m_id;
+    int m_mainFrame;
 
 signals:
-    void thumbReady(int frame, QPixmap pm);
+    void thumbReady(int, QPixmap);
+    void mainThumbReady(const QString &, QPixmap);
     void audioThumbReady(QMap <int, QMap <int, QByteArray> >);
 };
 

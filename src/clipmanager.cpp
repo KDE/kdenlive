@@ -26,7 +26,7 @@
 #include "docclipbase.h"
 #include "kdenlivedoc.h"
 
-ClipManager::ClipManager(KdenliveDoc *doc): m_doc(doc), m_audioThumbsEnabled(false) {
+ClipManager::ClipManager(KdenliveDoc *doc): m_doc(doc), m_audioThumbsEnabled(false), m_audioThumbsQueue(QList <QString> ()), m_generatingAudioId(QString()) {
     m_clipIdCounter = 1;
 }
 
@@ -38,8 +38,54 @@ void ClipManager::checkAudioThumbs() {
     if (m_audioThumbsEnabled == KdenliveSettings::audiothumbnails()) return;
     m_audioThumbsEnabled = KdenliveSettings::audiothumbnails();
     for (int i = 0; i < m_clipList.count(); i++) {
-        if (m_audioThumbsEnabled) m_clipList.at(i)->slotRequestAudioThumbs();
+        if (m_audioThumbsEnabled) m_audioThumbsQueue.append(m_clipList.at(i)->getId());
         else m_clipList.at(i)->slotClearAudioCache();
+    }
+    if (m_audioThumbsEnabled) {
+	if (m_generatingAudioId.isEmpty()) startAudioThumbsGeneration();
+    }
+    else {
+	m_audioThumbsQueue.clear();
+	m_generatingAudioId = QString();
+    }
+}
+
+void ClipManager::askForAudioThumb(const QString &id) {
+    DocClipBase *clip = getClipById(id);
+    if (clip && KdenliveSettings::audiothumbnails()) {
+        m_audioThumbsQueue.append(id);
+        if (m_generatingAudioId.isEmpty()) startAudioThumbsGeneration();
+    }
+}
+
+void ClipManager::startAudioThumbsGeneration() {
+    if (!KdenliveSettings::audiothumbnails()) {
+	m_audioThumbsQueue.clear();
+	m_generatingAudioId = QString();
+	return;
+    }
+    if (!m_audioThumbsQueue.isEmpty()) {
+	    m_generatingAudioId = m_audioThumbsQueue.takeFirst();
+            DocClipBase *clip = getClipById(m_generatingAudioId);
+            if (!clip || !clip->slotGetAudioThumbs())
+                endAudioThumbsGeneration(m_generatingAudioId);
+    } else {
+        m_generatingAudioId = QString();
+    }
+}
+
+void ClipManager::endAudioThumbsGeneration(const QString &requestedId) {
+    if (!KdenliveSettings::audiothumbnails()) {
+	m_audioThumbsQueue.clear();
+	m_generatingAudioId = QString();
+	return;
+    }
+    if (!m_audioThumbsQueue.isEmpty()) {
+        if (m_generatingAudioId == requestedId) {
+            startAudioThumbsGeneration();
+        }
+    } else {
+        m_generatingAudioId = QString();
     }
 }
 
@@ -53,7 +99,7 @@ QList <DocClipBase*> ClipManager::documentClipList() {
 
 void ClipManager::addClip(DocClipBase *clip) {
     m_clipList.append(clip);
-    QString id = clip->getId();
+    const QString id = clip->getId();
     if (id.toInt() >= m_clipIdCounter) m_clipIdCounter = id.toInt() + 1;
 }
 

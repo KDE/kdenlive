@@ -1296,7 +1296,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     m_commandStack->setActiveStack(doc->commandStack());
     KdenliveSettings::setProject_display_ratio(doc->dar());
     m_projectList->updateAllClips();
-    doc->clipManager()->checkAudioThumbs();
+    //doc->clipManager()->checkAudioThumbs();
 
     //m_overView->setScene(trackView->projectScene());
     //m_overView->scale(m_overView->width() / trackView->duration(), m_overView->height() / (50 * trackView->tracksNumber()));

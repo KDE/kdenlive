@@ -39,7 +39,6 @@
 #include "renderer.h"
 #include "kthumb.h"
 #include "kdenlivesettings.h"
-#include "events.h"
 
 
 void MyThread::init(QObject *parent, KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth) {
@@ -87,7 +86,8 @@ void MyThread::run() {
         if (stop_me) break;
         val = (int)((z - m_frame) / (m_frame + m_frameLength) * 100.0);
         if (last_val != val & val > 1) {
-            QApplication::postEvent(m_parent, new ProgressEvent(val, (QEvent::Type)10005));
+            emit audioThumbProgress(val);
+            //QApplication::postEvent(m_parent, new ProgressEvent(val, (QEvent::Type)10005));
 
             last_val = val;
         }
@@ -121,102 +121,19 @@ void MyThread::run() {
     if (stop_me) {
         f.remove();
     }
-    QApplication::postEvent(m_parent, new ProgressEvent(-1, (QEvent::Type)10005));
+    emit audioThumbOver();
+    //QApplication::postEvent(m_parent, new ProgressEvent(-1, (QEvent::Type)10005));
 
 }
 
-void ThumbThread::init(QObject *parent, Mlt::Producer *prod, int width, int height) {
-    stop_me = false;
-    m_parent = parent;
-    m_isWorking = false;
-    m_prod = prod;
-    m_width = width;
-    m_height = height;
-    m_frame1 = -1;
-    m_frame2 = -1;
-}
-
-bool ThumbThread::isWorking() {
-    return m_isWorking;
-}
-
-void ThumbThread::setThumbFrames(Mlt::Producer *prod, int frame1, int frame2) {
-    if (!m_prod) m_prod = prod;
-    m_frame1 = frame1;
-    m_frame2 = frame2;
-}
-
-void ThumbThread::run() {
-    if (m_frame1 != -1 && m_prod) {
-        //mutex.lock();
-        m_prod->seek(m_frame1);
-        Mlt::Frame *avframe = m_prod->get_frame();
-        //mutex.unlock();
-        if (!avframe) {
-            kDebug() << "///// BROKEN FRAME";
-        } else {
-            mlt_image_format format = mlt_image_yuv422;
-            int frame_width = m_width;
-            int frame_height = m_height;
-            avframe->set("normalised_height", m_height);
-            avframe->set("normalised_width", m_width);
-            uint8_t *data = avframe->get_image(format, frame_width, frame_height, 0);
-            uint8_t *new_image = (uint8_t *)mlt_pool_alloc(frame_width * (frame_height + 1) * 4);
-            mlt_convert_yuv422_to_rgb24a((uint8_t *)data, new_image, frame_width * frame_height);
-
-            QImage image((uchar *)new_image, frame_width, frame_height, QImage::Format_ARGB32);
-
-            if (!image.isNull()) {
-                emit gotStartThumb(image.rgbSwapped());
-                //QApplication::postEvent(m_parent, new ThumbEvent(m_frame1, image.rgbSwapped(), (QEvent::Type)10006));
-                //pix = QPixmap::fromImage(image.rgbSwapped());
-            } /*else
-  pix.fill(Qt::red);*/
-            mlt_pool_release(new_image);
-            delete avframe;
-        }
-        //pix.fill(Qt::red);
-
-    }
-    if (m_frame2 != -1 && m_prod) {
-        //mutex.lock();
-        m_prod->seek(m_frame2);
-        Mlt::Frame *avframe = m_prod->get_frame();
-        //mutex.unlock();
-        if (!avframe) {
-            kDebug() << "///// BROKEN FRAME";
-        } else {
-            mlt_image_format format = mlt_image_yuv422;
-            int frame_width = 0;
-            int frame_height = 0;
-            avframe->set("normalised_height", m_height);
-            avframe->set("normalised_width", m_width);
-            uint8_t *data = avframe->get_image(format, frame_width, frame_height, 0);
-            uint8_t *new_image = (uint8_t *)mlt_pool_alloc(frame_width * (frame_height + 1) * 4);
-            mlt_convert_yuv422_to_rgb24a((uint8_t *)data, new_image, frame_width * frame_height);
-
-            QImage image((uchar *)new_image, frame_width, frame_height, QImage::Format_ARGB32);
-
-            if (!image.isNull()) {
-                emit gotEndThumb(image.rgbSwapped());
-                //QApplication::postEvent(m_parent, new ThumbEvent(m_frame2, image.rgbSwapped(), (QEvent::Type)10006));
-                //pix = QPixmap::fromImage(image.rgbSwapped());
-            } /*else
-  pix.fill(Qt::red);*/
-            mlt_pool_release(new_image);
-            delete avframe;
-        }
-        //pix.fill(Qt::red);
-        //QApplication::postEvent(m_parent, new ThumbEvent(m_frame2, pix, (QEvent::Type)10006));
-    }
-}
-
-
-KThumb::KThumb(ClipManager *clipManager, KUrl url, QObject * parent, const char *name): QObject(parent), m_clipManager(clipManager), m_url(url), m_producer(NULL), m_dar(1) {
+KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, QObject * parent, const char *name): QObject(parent), m_clipManager(clipManager), m_url(url), m_id(id), m_producer(NULL), m_dar(1), m_mainFrame(-1) {
     QCryptographicHash context(QCryptographicHash::Sha1);
     context.addData((KFileItem(m_url, "text/plain", S_IFREG).timeString() + m_url.fileName()).toAscii().data());
     m_thumbFile = KGlobal::dirs()->saveLocation("tmp" , "kdenlive") + context.result().toHex() + ".thumb";
-    kDebug() << "thumbfile=" << m_thumbFile;
+    //kDebug() << "thumbfile=" << m_thumbFile;
+    connect(&audioThumbProducer, SIGNAL(audioThumbProgress(const int)), this, SLOT(slotAudioThumbProgress(const int)));
+    connect(&audioThumbProducer, SIGNAL(audioThumbOver()), this, SLOT(slotAudioThumbOver()));
+
 }
 
 KThumb::~KThumb() {
@@ -246,22 +163,78 @@ QPixmap KThumb::getImage(KUrl url, int width, int height) {
 void KThumb::extractImage(int frame, int frame2) {
     if (m_url.isEmpty() || !KdenliveSettings::videothumbnails() || m_producer == NULL) return;
 
-    int twidth = (int)(KdenliveSettings::trackheight() * m_dar);
+    const int twidth = (int)(KdenliveSettings::trackheight() * m_dar);
+    const int theight = KdenliveSettings::trackheight();
+    mlt_image_format format = mlt_image_yuv422;
     if (m_producer->is_blank()) {
-        QPixmap pix(twidth, KdenliveSettings::trackheight());
+        QPixmap pix(twidth, theight);
         pix.fill(Qt::black);
         emit thumbReady(frame, pix);
         return;
     }
+    Mlt::Frame *mltFrame;
     if (frame != -1) {
         //videoThumbProducer.getThumb(frame);
-        QPixmap pix = getFrame(m_producer, frame, twidth, KdenliveSettings::trackheight());
-        emit thumbReady(frame, pix);
-    }
+        m_producer->seek(frame);
+        mltFrame = m_producer->get_frame();
+        if (!mltFrame) {
+            kDebug() << "///// BROKEN FRAME";
+            QPixmap p(twidth, theight);
+            p.fill(Qt::red);
+            emit thumbReady(frame, p);
+            return;
+        } else {
+            if (frame2 != -1) m_producer->seek(frame2);
+            int frame_width = 0;
+            int frame_height = 0;
+            mltFrame->set("normalised_height", theight);
+            mltFrame->set("normalised_width", twidth);
+            QPixmap pix(twidth, theight);
+            uint8_t *data = mltFrame->get_image(format, frame_width, frame_height, 0);
+            uint8_t *new_image = (uint8_t *)mlt_pool_alloc(frame_width * (frame_height + 1) * 4);
+            mlt_convert_yuv422_to_rgb24a((uint8_t *)data, new_image, frame_width * frame_height);
+
+            QImage image((uchar *)new_image, frame_width, frame_height, QImage::Format_ARGB32);
+
+            if (!image.isNull()) {
+                pix = QPixmap::fromImage(image.rgbSwapped());
+            } else
+                pix.fill(Qt::red);
+
+            mlt_pool_release(new_image);
+            delete mltFrame;
+            emit thumbReady(frame, pix);
+        }
+    } else if (frame2 != -1) m_producer->seek(frame2);
     if (frame2 != -1) {
-        //videoThumbProducer.getThumb(frame2);
-        QPixmap pix = getFrame(m_producer, frame2, twidth , KdenliveSettings::trackheight());
-        emit thumbReady(frame2, pix);
+        mltFrame = m_producer->get_frame();
+        if (!mltFrame) {
+            kDebug() << "///// BROKEN FRAME";
+            QPixmap p(twidth, theight);
+            p.fill(Qt::red);
+            emit thumbReady(frame, p);
+            return;
+        } else {
+            int frame_width = 0;
+            int frame_height = 0;
+            mltFrame->set("normalised_height", theight);
+            mltFrame->set("normalised_width", twidth);
+            QPixmap pix(twidth, theight);
+            uint8_t *data = mltFrame->get_image(format, frame_width, frame_height, 0);
+            uint8_t *new_image = (uint8_t *)mlt_pool_alloc(frame_width * (frame_height + 1) * 4);
+            mlt_convert_yuv422_to_rgb24a((uint8_t *)data, new_image, frame_width * frame_height);
+
+            QImage image((uchar *)new_image, frame_width, frame_height, QImage::Format_ARGB32);
+
+            if (!image.isNull()) {
+                pix = QPixmap::fromImage(image.rgbSwapped());
+            } else
+                pix.fill(Qt::red);
+
+            mlt_pool_release(new_image);
+            delete mltFrame;
+            emit thumbReady(frame2, pix);
+        }
     }
 }
 
@@ -430,7 +403,6 @@ void KThumb::stopAudioThumbs() {
     if (audioThumbProducer.isRunning()) audioThumbProducer.stop_me = true;
 }
 
-
 void KThumb::removeAudioThumb() {
     if (m_thumbFile.isEmpty()) return;
     stopAudioThumbs();
@@ -439,8 +411,11 @@ void KThumb::removeAudioThumb() {
 }
 
 void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int arrayWidth) {
-
-    if ((audioThumbProducer.isRunning() && audioThumbProducer.isWorking()) || channel == 0) {
+    if (channel == 0) {
+        slotAudioThumbOver();
+        return;
+    }
+    if ((audioThumbProducer.isRunning() && audioThumbProducer.isWorking())) {
         return;
     }
 
@@ -456,6 +431,7 @@ void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int a
         if (channelarray.size() != arrayWidth*(frame + frameLength)*m_channels) {
             kDebug() << "--- BROKEN THUMB FOR: " << m_url.fileName() << " ---------------------- " << endl;
             f.remove();
+            slotAudioThumbOver();
             return;
         }
         kDebug() << "reading audio thumbs from file";
@@ -468,6 +444,7 @@ void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int a
             }
         }
         emit audioThumbReady(storeIn);
+        slotAudioThumbOver();
     } else {
         if (audioThumbProducer.isRunning()) return;
         audioThumbProducer.init(this, m_url, m_thumbFile, frame, frameLength, m_frequency, m_channels, arrayWidth);
@@ -476,13 +453,18 @@ void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int a
     }
 }
 
-void KThumb::customEvent(QEvent * event) {
-    if (event->type() == 10005) {
-        ProgressEvent* p = static_cast <ProgressEvent*>(event);
-        m_clipManager->setThumbsProgress(i18n("Creating thumbnail for %1", m_url.fileName()), p->value());
-    }
+void KThumb::slotAudioThumbProgress(const int progress) {
+    m_clipManager->setThumbsProgress(i18n("Creating thumbnail for %1", m_url.fileName()), progress);
 }
 
+void KThumb::slotAudioThumbOver() {
+    m_clipManager->setThumbsProgress(i18n("Creating thumbnail for %1", m_url.fileName()), -1);
+    m_clipManager->endAudioThumbsGeneration(m_id);
+}
+
+void KThumb::askForAudioThumbs(const QString &id) {
+    m_clipManager->askForAudioThumb(id);
+}
 
 
 #include "kthumb.moc"
