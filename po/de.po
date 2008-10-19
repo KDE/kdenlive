@@ -5,6 +5,7 @@
 #
 # Marco Gittler <g.marco@freenet.de>, 2008.
 # Felix Hammer <f.hammer@gmx.de>, 2008.
+# Thomas Holzmann <holzi1@gmx.at>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
@@ -26,7 +27,7 @@ msgid "%1 images found"
 msgstr "%1 Bilder gefunden"
 
 msgid "..."
-msgstr "..."
+msgstr ""
 
 msgid "/"
 msgstr ""
@@ -81,7 +82,7 @@ msgid "A"
 msgstr ""
 
 msgid "A guide already exists at that position"
-msgstr "An dieser Stelle besteht bereits ein Guide"
+msgstr "An dieser Stelle wurde bereits ein Guide gesetzt"
 
 msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
@@ -436,7 +437,7 @@ msgid "Channels"
 msgstr "Kanäle"
 
 msgid "Charcoal"
-msgstr ""
+msgstr "Kohlefilter"
 
 msgid "Charcoal drawing effect"
 msgstr "Charcoal Zeichnung-Effekt"
@@ -448,10 +449,10 @@ msgid "Chroma Hold"
 msgstr ""
 
 msgid "Chrominance U"
-msgstr ""
+msgstr "Chrominanz U"
 
 msgid "Chrominance V"
-msgstr ""
+msgstr "Chrominanz V"
 
 msgid "Clean"
 msgstr "Aufräumen"
@@ -1016,7 +1017,7 @@ msgid "Go to..."
 msgstr "Gehe zu..."
 
 msgid "GraphView"
-msgstr ""
+msgstr "Graphen-Ansicht"
 
 msgid "Greyscale"
 msgstr "Graustufen"
@@ -1058,13 +1059,13 @@ msgid "Hor. Center"
 msgstr "Hor. Mitte"
 
 msgid "Horizontal factor"
-msgstr "Horizontal Faktor"
+msgstr "Horizontal-Faktor"
 
 msgid "Horizontal multiplicator"
-msgstr "Horizontal Multiplikator"
+msgstr "Horizontal-Multiplikator"
 
 msgid "Horizontal scatter"
-msgstr "Horizontal Streuung"
+msgstr "Horizontale Streuung"
 
 msgid "Image"
 msgstr "Bild"
@@ -1154,7 +1155,7 @@ msgid "Left"
 msgstr "Links"
 
 msgid "Limit (db)"
-msgstr ""
+msgstr "Limitieren (db)"
 
 msgid "Limiter"
 msgstr ""
@@ -1207,16 +1208,16 @@ msgid "Make clip play faster slowly"
 msgstr "Lasse Clip allmählich schneller werden"
 
 msgid "Make image greyscale except for chosen color"
-msgstr ""
+msgstr "Verwandelt das Bild, außer der gewählten Farbe, in ein Graustufenbild"
 
 msgid "Make monochrome clip"
-msgstr ""
+msgstr "Macht den Clip einfärbig"
 
 msgid "Make selected color transparent"
-msgstr ""
+msgstr "Macht die ausgewähte Farbe transparent"
 
 msgid "Make waves on your clip with keyframes"
-msgstr ""
+msgstr "Macht Wellen mit Keyframes auf den Clip"
 
 msgid "Manage Profiles"
 msgstr "Profile verwalten"
@@ -1346,7 +1347,7 @@ msgid "Obscure"
 msgstr ""
 
 msgid "Opacity"
-msgstr ""
+msgstr "Deckkraft"
 
 msgid "Open Document"
 msgstr "Dokument öffnen"
@@ -1385,10 +1386,10 @@ msgid "Phaser"
 msgstr ""
 
 msgid "Pitch Scaler"
-msgstr ""
+msgstr "Tonhöhe skalieren"
 
 msgid "Pitch Shift"
-msgstr ""
+msgstr "Tonhöhe ändern"
 
 msgid "Play"
 msgstr "Wiedergabe"
@@ -1462,7 +1463,7 @@ msgstr ""
 "%1"
 
 msgid "Problem adding effect to clip"
-msgstr ""
+msgstr "Problem beim Hinzufügen des Effekts zum Clip"
 
 msgid "Problem deleting effect"
 msgstr "Problem beim Löschen des Effekts"
@@ -1471,7 +1472,7 @@ msgid "Problem editing effect"
 msgstr "Problem beim Bearbeiten des Effekts"
 
 msgid "Profile"
-msgstr "Profile"
+msgstr "Profil"
 
 msgid "Profile name"
 msgstr "Profilname"
@@ -1519,10 +1520,10 @@ msgid "Rating"
 msgstr "Bewertung"
 
 msgid "Razor clip"
-msgstr ""
+msgstr "Clip schneiden"
 
 msgid "Razor tool"
-msgstr ""
+msgstr "Schneide-Werkzeug"
 
 msgid "Reached end of project"
 msgstr "Ende des Projekts erreicht"
@@ -1615,9 +1616,8 @@ msgstr ""
 msgid "Rotation y"
 msgstr ""
 
-#, fuzzy
 msgid "Rotation z"
-msgstr "Bewertung"
+msgstr ""
 
 msgid "S"
 msgstr ""
@@ -1653,16 +1653,16 @@ msgid "Save zone"
 msgstr "Bereich speichern"
 
 msgid "Scale"
-msgstr "Scalieren"
+msgstr "Skalieren"
 
 msgid "Screen Grab"
-msgstr ""
+msgstr "Bildschirmaufnahme"
 
 msgid "Screen Grab / FFmpeg"
-msgstr ""
+msgstr "Bildschirmaufnahme / FFmpeg"
 
 msgid "Screen grab"
-msgstr ""
+msgstr "Bildschirmaufnahme"
 
 msgid "Select a clip before copying"
 msgstr "Bitte wählen Sie vor dem Kopieren einen Clip"
@@ -1714,17 +1714,16 @@ msgid "Set Out Point"
 msgstr "Setze Ausgangspunkt"
 
 msgid "Set current image as thumbnail"
-msgstr ""
+msgstr "Aktuelles Bild als Thumbnail setzen"
 
-#, fuzzy
 msgid "Set zone end"
-msgstr "nur markiertes Teilstück"
+msgstr "Bereichs-Endpunkt setzen"
 
 msgid "Set zone start"
-msgstr ""
+msgstr "Bereichs-Anfangspunkt setzen"
 
 msgid "Shift"
-msgstr ""
+msgstr "Veränderung"
 
 msgid "Show audio thumbnails"
 msgstr "zeige Tonspur"
@@ -1742,7 +1741,7 @@ msgid "Show video thumbnails"
 msgstr "zeige Videobilder"
 
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
-msgstr ""
+msgstr "Simuliert einen Vinyl-Plattenspieler - LADSPA Audioeffekt"
 
 msgid "Size"
 msgstr "Größe"
@@ -1772,44 +1771,43 @@ msgid "Sox Flanger"
 msgstr ""
 
 msgid "Sox Pitch Shift"
-msgstr ""
+msgstr "Sox Tonhöhe ändern"
 
 msgid "Sox Reverb"
-msgstr ""
+msgstr "Sox Hall"
 
 msgid "Sox Vibro"
 msgstr ""
 
 msgid "Sox change pitch audio effect"
-msgstr ""
+msgstr "Sox Tonhöhe ändern (Audioeffekt)"
 
 msgid "Sox echo audio effect"
-msgstr ""
+msgstr "Sox Echo (Audioeffekt)"
 
 msgid "Sox flanger audio effect"
-msgstr ""
+msgstr "Sox Flanger (Audioeffekt)"
 
 msgid "Sox reverb audio effect"
-msgstr ""
+msgstr "Sox Hall (Audioeffekt)"
 
 msgid "Sox vibro audio effect"
-msgstr ""
+msgstr "Sox Vibro (Audioeffekt)"
 
 msgid "Speed"
-msgstr ""
+msgstr "Geschwindigkeit"
 
 msgid "Split view"
 msgstr ""
 
 msgid "Spread"
-msgstr ""
+msgstr "Streubreite"
 
 msgid "Start"
 msgstr "Start"
 
-#, fuzzy
 msgid "Start Gain"
-msgstr "Start"
+msgstr "Anfangsverstärkung"
 
 msgid "Start-/EndViewport"
 msgstr "Start-/Endbereich"
@@ -1824,10 +1822,10 @@ msgid "Stop"
 msgstr "Stop"
 
 msgid "Stroboscope"
-msgstr ""
+msgstr "Stroboskop"
 
 msgid "Surface warping"
-msgstr ""
+msgstr "Oberflächenwölbung"
 
 msgid "Sync timeline cursor"
 msgstr ""
@@ -1852,12 +1850,15 @@ msgid ""
 "some basic settings, you will be ready to edit your first movie in a few "
 "seconds..."
 msgstr ""
+"Sie führen Kdenlive zum ersten Mal aus. Dieser Assistent wird Ihnen helfen, "
+"grundlegende Konfigurationen vorzunehmen. Sie können in Kürze mit dem Editieren "
+"Ihres ersten Videos beginnen..."
 
 msgid "Threshold"
-msgstr ""
+msgstr "Schwellwert"
 
 msgid "Threshold value"
-msgstr ""
+msgstr "Schwellwert"
 
 msgid "Thumbnail"
 msgstr "Vorschau"
@@ -1873,7 +1874,7 @@ msgid "Time"
 msgstr "Zeitleiste"
 
 msgid "Time window (ms)"
-msgstr ""
+msgstr "Zeitfenster"
 
 msgid "Timecode overlay"
 msgstr ""
@@ -1888,10 +1889,10 @@ msgid "Toggle selection"
 msgstr ""
 
 msgid "Tool"
-msgstr ""
+msgstr "Werkzeug"
 
 msgid "Top"
-msgstr ""
+msgstr "Oben"
 
 msgid "Track height"
 msgstr "Spurhöhe"
@@ -1899,19 +1900,17 @@ msgstr "Spurhöhe"
 msgid "Transition"
 msgstr "Übergang"
 
-#, fuzzy
 msgid "Transition type"
-msgstr "Übergang"
+msgstr "Übergangstyp"
 
 msgid "Transparency"
 msgstr "Transparenz"
 
-#, fuzzy
 msgid "Transparent background"
 msgstr "Transparenter Hintergrund"
 
 msgid "Turn clip colors to sepia"
-msgstr ""
+msgstr "Wandle Clip-Farben "
 
 #, kde-format
 msgid "Unable to write to file %1"
@@ -1932,30 +1931,29 @@ msgstr "Hoch"
 msgid "Use as default"
 msgstr "Als Standard benutzen"
 
-#, fuzzy
 msgid "Use transparency"
-msgstr "Transparenz"
+msgstr "Transparenz verwenden"
 
 msgid "V"
 msgstr ""
 
 msgid "Value"
-msgstr ""
+msgstr "Wert"
 
 msgid "Variance"
-msgstr ""
+msgstr "Varianz"
 
 msgid "Vert. Center"
-msgstr ""
+msgstr "Vert. Mitte"
 
 msgid "Vertical factor"
-msgstr ""
+msgstr "Vertikal-Faktor"
 
 msgid "Vertical multiplicator"
-msgstr ""
+msgstr "Vertikal-Multiplikator"
 
 msgid "Vertical scatter"
-msgstr ""
+msgstr "Vertikale Streuung"
 
 msgid "Video"
 msgstr "Video"
@@ -1963,9 +1961,8 @@ msgstr "Video"
 msgid "Video Profile"
 msgstr "Videoprofil"
 
-#, fuzzy
 msgid "Video Resolution"
-msgstr "Video"
+msgstr "Videoauflösung"
 
 #, fuzzy
 msgid "Video Standard"
@@ -1989,9 +1986,8 @@ msgstr "Videoindex"
 msgid "Video player"
 msgstr "Videoplayer"
 
-#, fuzzy
 msgid "Video tracks"
-msgstr "Video"
+msgstr "Videospuren"
 
 msgid "Video4Linux"
 msgstr ""
@@ -2002,7 +1998,6 @@ msgstr ""
 msgid "Video4Linux2 / FFmpeg"
 msgstr ""
 
-#, fuzzy
 msgid "View"
 msgstr "Ansicht"
 
@@ -2013,7 +2008,7 @@ msgid "Virtual clip"
 msgstr "Virtueller Clip"
 
 msgid "Volume"
-msgstr ""
+msgstr "Lautstärke"
 
 msgid "W"
 msgstr ""
@@ -2022,67 +2017,68 @@ msgid ""
 "Warning: changes to the drivers and devices can make Kdenlive unstable. "
 "Change only if you know what you do."
 msgstr ""
+"Achtung: Änderungen an Treibern und Geräten können Kdenlive instabil machen. "
+"Verändern Sie diese Einstellungen nur, wenn Sie wissen was Sie tun."
 
 msgid "Wave"
-msgstr ""
+msgstr "Wellen"
 
 msgid "Wear"
-msgstr ""
+msgstr "Abnützung"
 
 msgid "Welcome"
-msgstr ""
+msgstr "Willkommen"
 
 msgid "Width"
 msgstr "Breite"
 
 msgid "X"
-msgstr "X"
+msgstr ""
 
 msgid "X11"
 msgstr ""
 
 msgid "X:"
-msgstr "X:"
+msgstr ""
 
 msgid "XFREE86 DGA 2.0"
 msgstr ""
 
-#, fuzzy
 msgid "XVideo"
-msgstr "Video"
+msgstr ""
 
 msgid "Y"
-msgstr "Y"
+msgstr ""
 
 msgid "Y:"
-msgstr "Y:"
+msgstr ""
 
 msgid "Year"
-msgstr ""
+msgstr "Jahr"
 
 msgid "You must copy exactly one clip before pasting effects"
-msgstr ""
+msgstr "Bevor Sie Effekte einfügen müssen Sie genau einen Clip kopieren"
 
 msgid "You must select one clip for this action"
-msgstr ""
+msgstr "Für diese Aktion müssen Sie einen Clip auswählen"
 
 msgid "Z-Index:"
-msgstr "Z-Index:"
+msgstr ""
 
 msgid "Zone end"
-msgstr ""
+msgstr "Bereichsende"
 
 msgid "Zone start"
-msgstr ""
+msgstr "Bereichsanfang"
 
 msgid "Zoom:"
-msgstr "Zoom:"
+msgstr ""
 
 msgid "create new points"
 msgstr "neue Punkte erstellen"
 
 msgid "effect"
-msgstr "effekt"
+msgstr "Effekt"
 
 msgid "frames"
 msgstr "Bilder"
@@ -2094,7 +2090,7 @@ msgid "hour"
 msgstr "Stunde"
 
 msgid "import"
-msgstr ""
+msgstr "importieren"
 
 msgid "min."
 msgstr "Min."
@@ -2137,5 +2133,5 @@ msgid "x1"
 msgstr ""
 
 msgid "your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
-msgstr ""
+msgstr "Es konnte keine Installation von MLT gefunden werden. Installieren Sie MLT und starten Sie Kdenlive neu.\n"
 
