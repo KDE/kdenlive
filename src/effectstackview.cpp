@@ -155,7 +155,7 @@ void EffectStackView::setupListView(int ix) {
         QDomElement d = clipref->effectAt(i);
         QDomNode namenode = d.elementsByTagName("name").item(0);
         if (!namenode.isNull()) {
-            QListWidgetItem* item = new QListWidgetItem(namenode.toElement().text(), ui.effectlist);
+            QListWidgetItem* item = new QListWidgetItem(i18n(namenode.toElement().text().toUtf8().data()), ui.effectlist);
             item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
             if (d.attribute("disabled") == "1") item->setCheckState(Qt::Unchecked);
             else item->setCheckState(Qt::Checked);
