@@ -5,14 +5,40 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>315</width>
-    <height>273</height>
+    <width>582</width>
+    <height>366</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Project Settings</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_3" >
+   <item row="3" column="5" colspan="3" >
+    <spacer name="horizontalSpacer" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>229</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="3" colspan="3" >
+    <spacer name="verticalSpacer" >
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>105</width>
+       <height>17</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
    <item row="0" column="0" colspan="3" >
     <widget class="QLabel" name="label_4" >
      <property name="text" >
@@ -72,7 +98,7 @@
         <item row="1" column="0" >
          <widget class="QLabel" name="label_9" >
           <property name="text" >
-           <string>Aspect ratio:</string>
+           <string>Pixel aspect ratio:</string>
           </property>
          </widget>
         </item>
@@ -86,7 +112,7 @@
         <item row="1" column="2" >
          <widget class="QLabel" name="label_10" >
           <property name="text" >
-           <string>Display ratio:</string>
+           <string>Display aspect ratio:</string>
           </property>
          </widget>
         </item>
@@ -109,39 +135,6 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2" >
-    <widget class="QLabel" name="label_7" >
-     <property name="text" >
-      <string>Video tracks</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2" colspan="2" >
-    <widget class="QSpinBox" name="video_tracks" />
-   </item>
-   <item row="2" column="4" colspan="2" >
-    <widget class="QLabel" name="label_8" >
-     <property name="text" >
-      <string>Audio tracks</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="6" >
-    <widget class="QSpinBox" name="audio_tracks" />
-   </item>
-   <item row="2" column="7" >
-    <spacer name="horizontalSpacer_2" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0" >
-      <size>
-       <width>67</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
    <item row="3" column="0" >
     <widget class="QLabel" name="label_2" >
      <property name="text" >
@@ -163,32 +156,6 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="5" colspan="3" >
-    <spacer name="horizontalSpacer" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0" >
-      <size>
-       <width>229</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="4" column="3" colspan="3" >
-    <spacer name="verticalSpacer" >
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0" >
-      <size>
-       <width>105</width>
-       <height>17</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
    <item row="5" column="1" colspan="7" >
     <widget class="QDialogButtonBox" name="buttonBox" >
      <property name="orientation" >
@@ -199,6 +166,39 @@
      </property>
     </widget>
    </item>
+   <item row="2" column="7" >
+    <spacer name="horizontalSpacer_2" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>67</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="4" colspan="2" >
+    <widget class="QLabel" name="label_8" >
+     <property name="text" >
+      <string>Audio tracks</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2" >
+    <widget class="QLabel" name="label_7" >
+     <property name="text" >
+      <string>Video tracks</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2" colspan="2" >
+    <widget class="QSpinBox" name="video_tracks" />
+   </item>
+   <item row="2" column="6" >
+    <widget class="QSpinBox" name="audio_tracks" />
+   </item>
   </layout>
   <zorder>label_4</zorder>
   <zorder>project_folder</zorder>
@@ -207,7 +207,6 @@
   <zorder>video_thumbs</zorder>
   <zorder>audio_thumbs</zorder>
   <zorder>buttonBox</zorder>
-  <zorder>label_6</zorder>
   <zorder>horizontalSpacer_2</zorder>
   <zorder>label_8</zorder>
   <zorder>label_7</zorder>
