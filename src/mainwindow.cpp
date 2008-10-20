@@ -203,7 +203,10 @@ MainWindow::MainWindow(const QString &MltPath, QWidget *parent)
     setCentralWidget(m_timelineArea);
 
     setupGUI(Default, NULL /*"kdenliveui.rc"*/);
-    kDebug() << factory() << " " << factory()->container("video_effects_menu", this);
+    //kDebug() << factory() << " " << factory()->container("video_effects_menu", this);
+
+    m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)));
+    m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)));
 
     // build effects menus
     QAction *action;
@@ -698,12 +701,12 @@ void MainWindow::setupActions() {
     collection->addAction("seek_clip_end", clipEnd);
     connect(clipEnd, SIGNAL(triggered(bool)), this, SLOT(slotClipEnd()));
 
-    KAction* projectStart = new KAction(KIcon("media-seek-backward"), i18n("Go to Project Start"), this);
+    KAction* projectStart = new KAction(KIcon("go-first"), i18n("Go to Project Start"), this);
     projectStart->setShortcut(Qt::CTRL + Qt::Key_Home);
     collection->addAction("seek_start", projectStart);
     connect(projectStart, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotStart()));
 
-    KAction* projectEnd = new KAction(KIcon("media-seek-forward"), i18n("Go to Project End"), this);
+    KAction* projectEnd = new KAction(KIcon("go-last"), i18n("Go to Project End"), this);
     projectEnd->setShortcut(Qt::CTRL + Qt::Key_End);
     collection->addAction("seek_end", projectEnd);
     connect(projectEnd, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotEnd()));

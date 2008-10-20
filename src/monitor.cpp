@@ -28,6 +28,7 @@
 #include <KDebug>
 #include <KLocale>
 #include <KFileDialog>
+#include <KApplication>
 
 #include "gentime.h"
 #include "monitor.h"
@@ -61,16 +62,16 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     toolbar->addAction(KIcon("media-skip-backward"), i18n("Rewind 1 frame"), this, SLOT(slotRewindOneFrame()));
 
     QToolButton *playButton = new QToolButton(toolbar);
-    QMenu *playMenu = new QMenu(i18n("Play..."), this);
-    playButton->setMenu(playMenu);
-    playButton->setPopupMode(QToolButton::MenuButtonPopup);
-    toolbar->addWidget(playButton);
-
-    m_playAction = playMenu->addAction(m_playIcon, i18n("Play"));
+    m_playMenu = new QMenu(i18n("Play..."), this);
+    m_playAction = m_playMenu->addAction(m_playIcon, i18n("Play"));
     m_playAction->setCheckable(true);
     connect(m_playAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
-    playMenu->addAction(m_playIcon, i18n("Play Section"), this, SLOT(slotPlayZone()));
-    playMenu->addAction(m_playIcon, i18n("Loop Section"), this, SLOT(slotLoopZone()));
+    m_playMenu->addAction(m_playIcon, i18n("Play Section"), this, SLOT(slotPlayZone()));
+    m_playMenu->addAction(m_playIcon, i18n("Loop Section"), this, SLOT(slotLoopZone()));
+
+    playButton->setMenu(m_playMenu);
+    playButton->setPopupMode(QToolButton::MenuButtonPopup);
+    toolbar->addWidget(playButton);
 
     toolbar->addAction(KIcon("media-skip-forward"), i18n("Forward 1 frame"), this, SLOT(slotForwardOneFrame()));
     toolbar->addAction(KIcon("media-seek-forward"), i18n("Forward"), this, SLOT(slotForward()));
@@ -78,9 +79,9 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     playButton->setDefaultAction(m_playAction);
 
     QToolButton *configButton = new QToolButton(toolbar);
-    QMenu *configMenu = new QMenu(i18n("Misc..."), this);
+    m_configMenu = new QMenu(i18n("Misc..."), this);
     configButton->setIcon(KIcon("system-run"));
-    configButton->setMenu(configMenu);
+    configButton->setMenu(m_configMenu);
     configButton->setPopupMode(QToolButton::QToolButton::InstantPopup);
     toolbar->addWidget(configButton);
 
@@ -101,7 +102,6 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
 
     //m_ruler->setPixelPerMark(3);
 
-
     QVBoxLayout *rendererBox = new QVBoxLayout(ui.video_frame);
     rendererBox->setContentsMargins(0, 0, 0, 0);
     m_monitorRefresh = new MonitorRefresh(ui.video_frame);
@@ -109,13 +109,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     render = new Render(m_name, (int) m_monitorRefresh->winId(), -1, this);
     m_monitorRefresh->setRenderer(render);
 
-    m_contextMenu = new QMenu(this);
-    m_contextMenu->addMenu(playMenu);
-    QMenu *goMenu = new QMenu(i18n("Go to..."), this);
-    goMenu->addAction(i18n("Start"), this, SLOT(slotStart()));
-    goMenu->addAction(i18n("End"), this, SLOT(slotEnd()));
-    goMenu->addAction(i18n("Zone start"), this, SLOT(slotZoneStart()));
-    goMenu->addAction(i18n("Zone end"), this, SLOT(slotZoneEnd()));
+
 
     connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
     connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SIGNAL(zoneUpdated(QPoint)));
@@ -123,38 +117,44 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
 
-    configMenu->addSeparator();
-    configMenu->addAction(KIcon("transform-scale"), i18n("Resize (100%)"), this, SLOT(slotSetSizeOneToOne()));
-    configMenu->addAction(KIcon("transform-scale"), i18n("Resize (50%)"), this, SLOT(slotSetSizeOneToTwo()));
+    m_configMenu->addSeparator();
+    m_configMenu->addAction(KIcon("transform-scale"), i18n("Resize (100%)"), this, SLOT(slotSetSizeOneToOne()));
+    m_configMenu->addAction(KIcon("transform-scale"), i18n("Resize (50%)"), this, SLOT(slotSetSizeOneToTwo()));
     //render->createVideoXWindow(ui.video_frame->winId(), -1);
     m_length = 0;
-
-    m_contextMenu->addMenu(goMenu);
-    m_contextMenu->addAction(zoneStart);
-    m_contextMenu->addAction(zoneEnd);
-    //TODO: add save zone to timeline monitor when fixed
-    if (name == "clip") m_contextMenu->addAction(KIcon("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
-
-    QAction *extractFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
-    configMenu->addAction(extractFrame);
 
     if (name != "clip") {
         connect(render, SIGNAL(rendererPosition(int)), this, SIGNAL(renderPosition(int)));
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
-        QAction *splitView = m_contextMenu->addAction(KIcon("document-new"), i18n("Split view"), render, SLOT(slotSplitView(bool)));
-        splitView->setCheckable(true);
-        configMenu->addAction(splitView);
-    } else {
-        QAction *setThumbFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
-        configMenu->addAction(setThumbFrame);
     }
-
     m_monitorRefresh->show();
     kDebug() << "/////// BUILDING MONITOR, ID: " << ui.video_frame->winId();
 }
 
 QString Monitor::name() const {
     return m_name;
+}
+
+void Monitor::setupMenu(QMenu *goMenu) {
+    m_contextMenu = new QMenu(this);
+    m_contextMenu->addMenu(m_playMenu);
+    m_contextMenu->addMenu(goMenu);
+
+    //TODO: add save zone to timeline monitor when fixed
+    if (m_name == "clip") m_contextMenu->addAction(KIcon("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
+
+    QAction *extractFrame = m_configMenu->addAction(KIcon("document-new"), i18n("Extract frame"), this, SLOT(slotExtractCurrentFrame()));
+    m_contextMenu->addAction(extractFrame);
+
+    if (m_name != "clip") {
+        QAction *splitView = m_contextMenu->addAction(KIcon("document-new"), i18n("Split view"), render, SLOT(slotSplitView(bool)));
+        splitView->setCheckable(true);
+        m_configMenu->addAction(splitView);
+    } else {
+        QAction *setThumbFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
+        m_configMenu->addAction(setThumbFrame);
+    }
+
 }
 
 void Monitor::slotSetSizeOneToOne() {

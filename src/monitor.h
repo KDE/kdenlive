@@ -55,6 +55,7 @@ public:
     void resetSize();
     bool isActive() const;
     void pause();
+    void setupMenu(QMenu *goMenu);
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
@@ -83,6 +84,8 @@ private:
     KRestrictedLine *m_timePos;
     QAction *m_playAction;
     QMenu *m_contextMenu;
+    QMenu *m_configMenu;
+    QMenu *m_playMenu;
     DocClipBase *m_currentClip;
     QPoint m_DragStartPosition;
     bool m_dragStarted;

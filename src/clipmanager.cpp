@@ -42,11 +42,10 @@ void ClipManager::checkAudioThumbs() {
         else m_clipList.at(i)->slotClearAudioCache();
     }
     if (m_audioThumbsEnabled) {
-	if (m_generatingAudioId.isEmpty()) startAudioThumbsGeneration();
-    }
-    else {
-	m_audioThumbsQueue.clear();
-	m_generatingAudioId = QString();
+        if (m_generatingAudioId.isEmpty()) startAudioThumbsGeneration();
+    } else {
+        m_audioThumbsQueue.clear();
+        m_generatingAudioId = QString();
     }
 }
 
@@ -60,15 +59,15 @@ void ClipManager::askForAudioThumb(const QString &id) {
 
 void ClipManager::startAudioThumbsGeneration() {
     if (!KdenliveSettings::audiothumbnails()) {
-	m_audioThumbsQueue.clear();
-	m_generatingAudioId = QString();
-	return;
+        m_audioThumbsQueue.clear();
+        m_generatingAudioId = QString();
+        return;
     }
     if (!m_audioThumbsQueue.isEmpty()) {
-	    m_generatingAudioId = m_audioThumbsQueue.takeFirst();
-            DocClipBase *clip = getClipById(m_generatingAudioId);
-            if (!clip || !clip->slotGetAudioThumbs())
-                endAudioThumbsGeneration(m_generatingAudioId);
+        m_generatingAudioId = m_audioThumbsQueue.takeFirst();
+        DocClipBase *clip = getClipById(m_generatingAudioId);
+        if (!clip || !clip->slotGetAudioThumbs())
+            endAudioThumbsGeneration(m_generatingAudioId);
     } else {
         m_generatingAudioId = QString();
     }
@@ -76,9 +75,9 @@ void ClipManager::startAudioThumbsGeneration() {
 
 void ClipManager::endAudioThumbsGeneration(const QString &requestedId) {
     if (!KdenliveSettings::audiothumbnails()) {
-	m_audioThumbsQueue.clear();
-	m_generatingAudioId = QString();
-	return;
+        m_audioThumbsQueue.clear();
+        m_generatingAudioId = QString();
+        return;
     }
     if (!m_audioThumbsQueue.isEmpty()) {
         if (m_generatingAudioId == requestedId) {
