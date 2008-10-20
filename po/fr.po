@@ -7,16 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-06 17:22+0200\n"
-"PO-Revision-Date: 2008-10-19 21:52+0200\n"
+"POT-Creation-Date: 2008-10-20 09:16+0200\n"
+"PO-Revision-Date: 2008-10-20 09:21+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
-
-msgid " Firewire (DV / HDV)"
-msgstr " Firewire (DV / HDV)"
+"Content-Transfer-Encoding: 8bit\n"
 
 #, kde-format
 msgid "%1 images found"
@@ -101,67 +98,67 @@ msgid "Add %1"
 msgstr "Ajouter %1"
 
 msgid "Add Audio Effect"
-msgstr "Ajouter un effet audio"
+msgstr "Ajouter effet audio"
 
 msgid "Add Clip"
-msgstr "Ajouter un clip"
+msgstr "Ajouter clip"
 
 msgid "Add Color Clip"
-msgstr "Ajouter un clip couleur"
+msgstr "Ajouter clip couleur"
 
 msgid "Add Custom Effect"
-msgstr "Ajouter un effet personnalisé"
+msgstr "Ajouter effet personnalisé"
 
 msgid "Add Guide"
-msgstr "Ajouter un guide"
+msgstr "Ajouter guide"
 
 msgid "Add Image"
-msgstr "Ajouter une image"
+msgstr "Ajouter image"
 
-msgid "Add Marker to Clip"
-msgstr "Ajouter un repère dans le clip"
+msgid "Add Marker"
+msgstr "Ajouter repère"
 
 msgid "Add Rectangle"
-msgstr "Ajouter un rectangle"
+msgstr "Ajouter rectangle"
 
 msgid "Add Slideshow Clip"
-msgstr "Ajouter un clip diaporama"
+msgstr "Ajouter clip diaporama"
 
 msgid "Add Text"
-msgstr "Ajouter un texte"
+msgstr "Ajouter texte"
 
 msgid "Add Title Clip"
-msgstr "Ajouter un clip titre"
+msgstr "Ajouter clip titre"
 
 msgid "Add Transition"
-msgstr "Ajouter une transition"
+msgstr "Ajouter transition"
 
 msgid "Add Video Effect"
-msgstr "Ajouter un effet vidéo"
+msgstr "Ajouter effet vidéo"
 
 msgid "Add audio fade"
-msgstr "Ajouter une atténuation audio"
+msgstr "Ajouter atténuation audio"
 
 msgid "Add clip"
-msgstr "Ajouter un clip"
+msgstr "Ajouter clip"
 
 msgid "Add clips"
 msgstr "Ajouter des clips"
 
 msgid "Add folder"
-msgstr "Ajouter un dossier"
+msgstr "Ajouter dossier"
 
 msgid "Add guide"
-msgstr "Ajouter un guide"
+msgstr "Ajouter guide"
 
 msgid "Add keyframe"
-msgstr "Ajouter un trame-clé"
+msgstr "Ajouter trame-clé"
 
 msgid "Add marker"
-msgstr "Ajouter un repère"
+msgstr "Ajouter repère"
 
 msgid "Add new effect"
-msgstr "Ajouter un effet"
+msgstr "Ajouter effet"
 
 msgid "Add recording time to captured file name"
 msgstr "Ajouter la date et l'heure du film au nom du fichier capturé"
@@ -170,10 +167,10 @@ msgid "Add timeline clip"
 msgstr "Ajouter clip de montage"
 
 msgid "Add transition"
-msgstr "Ajouter une transition"
+msgstr "Ajouter transition"
 
 msgid "Add transition to clip"
-msgstr "Ajouter une transition au clip"
+msgstr "Ajouter transition au clip"
 
 msgid "Additional Settings"
 msgstr "Configuration additionnelle"
@@ -197,7 +194,7 @@ msgid "Align..."
 msgstr "Aligner ..."
 
 msgid "All"
-msgstr "Tout"
+msgstr "Tous"
 
 msgid "Allow horizontal moves"
 msgstr "Autoriser les déplacements horizontaux"
@@ -210,9 +207,6 @@ msgstr "Amplitude"
 
 msgid "Ascii art library"
 msgstr "Librairie Ascii art"
-
-msgid "Aspect ratio"
-msgstr "Format du pixel"
 
 msgid "Aspect ratio:"
 msgstr "Format de·pixel :"
@@ -554,7 +548,7 @@ msgid "Cut"
 msgstr "Couper"
 
 msgid "Cut Clip"
-msgstr "Couper le clip"
+msgstr "Couper clip"
 
 msgid "D"
 msgstr "D"
@@ -617,8 +611,8 @@ msgstr "Supprimer %1"
 msgid "Delete All Guides"
 msgstr "Supprimer tous les guides"
 
-msgid "Delete All Markers from Clip"
-msgstr "Supprimer tous les repères dans le clip"
+msgid "Delete All Markers"
+msgstr "Supprimer tous les repères"
 
 msgid "Delete Clip"
 msgstr "Supprimer le clip"
@@ -627,10 +621,10 @@ msgid "Delete Folder"
 msgstr "Supprimer le dossier"
 
 msgid "Delete Guide"
-msgstr "Supprimer le guide"
+msgstr "Supprimer guide"
 
-msgid "Delete Marker from Clip"
-msgstr "Supprimer le repère dans le clip"
+msgid "Delete Marker"
+msgstr "Supprimer repère"
 
 msgid "Delete Selected Item"
 msgstr "Supprimer les éléments sélectionnés"
@@ -639,7 +633,7 @@ msgid "Delete clip"
 msgstr "Supprimer le clip"
 
 msgid "Delete current file"
-msgstr "Supprimer le fichier"
+msgstr "Supprimer fichier"
 
 msgid "Delete effect"
 msgstr "Supprimer l'effet"
@@ -656,16 +650,16 @@ msgstr ""
 "suppression de %1 clip(s) dans ce dossier."
 
 msgid "Delete guide"
-msgstr "Supprimer le guide"
+msgstr "Supprimer guide"
 
 msgid "Delete keyframe"
 msgstr "Supprimer l'image-clé"
 
 msgid "Delete marker"
-msgstr "Supprimer le repère"
+msgstr "Supprimer repère"
 
 msgid "Delete profile"
-msgstr "Supprimer le profil"
+msgstr "Supprimer profil"
 
 msgid "Delete selected items"
 msgstr "Supprimer les éléments sélectionnés"
@@ -712,11 +706,14 @@ msgstr "Déconnecter"
 msgid "Display"
 msgstr "Affichage"
 
-msgid "Display clip markers comments"
-msgstr "Afficher les commentaires des repères"
-
-msgid "Display ratio"
+msgid "Display aspect ratio"
 msgstr "Format d'affichage"
+
+msgid "Display aspect ratio:"
+msgstr "Format d'affichage :"
+
+msgid "Display clip markers comments"
+msgstr "Afficher commentaires repères"
 
 msgid "Display ratio:"
 msgstr "Format d'affichage :"
@@ -737,42 +734,42 @@ msgid "E"
 msgstr "E"
 
 msgid "Edit Clip"
-msgstr "Modifier le clip"
+msgstr "Modifier clip"
 
 msgid "Edit Clip Speed"
 msgstr "Modifier la vitesse du clip"
 
 msgid "Edit Guide"
-msgstr "Modifier un guide"
+msgstr "Modifier guide"
 
 msgid "Edit Keyframe"
-msgstr "Modifier la trame clé"
+msgstr "Modifier trame clé"
 
 msgid "Edit Marker"
-msgstr "Modifier le repère"
+msgstr "Modifier repère"
 
 msgid "Edit clip"
-msgstr "Modifier le clip"
+msgstr "Modifier clip"
 
 #, kde-format
 msgid "Edit effect %1"
 msgstr "Modifier l'effet %1"
 
 msgid "Edit guide"
-msgstr "Modifier un guide"
+msgstr "Modifier guide"
 
 msgid "Edit keyframe"
-msgstr "Modifier la trame clé"
+msgstr "Modifier trame clé"
 
 msgid "Edit marker"
-msgstr "Modifier le repère"
+msgstr "Modifier repère"
 
 msgid "Edit profile"
 msgstr "Modifier un profil"
 
 #, kde-format
 msgid "Edit transition %1"
-msgstr "Modifier la transition %1"
+msgstr "Modifier transition %1"
 
 #, kde-format
 msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
@@ -911,11 +908,8 @@ msgstr "Pivoter l'image dans n'importe quelle direction"
 msgid "Folder"
 msgstr "Dossier"
 
-msgid "Force aspect ratio"
+msgid "Force pixel aspect ratio"
 msgstr "Forcer le format de pixel"
-
-msgid "Form"
-msgstr "Formulaire"
 
 msgid "Format"
 msgstr "Format"
@@ -1134,9 +1128,6 @@ msgstr "Inverser les couleurs"
 
 msgid "JogShuttle"
 msgstr "Roue de montage"
-
-msgid "Keyframe"
-msgstr "Trame-clé"
 
 msgid "LADSPA change pitch audio effect"
 msgstr ""
@@ -1390,7 +1381,7 @@ msgid "Parameters"
 msgstr "Configuration"
 
 msgid "Paste Effects"
-msgstr "Coller les effets"
+msgstr "Coller effets"
 
 msgid "Path"
 msgstr "Chemin"
@@ -1403,6 +1394,12 @@ msgstr "Harmonisation"
 
 msgid "Pitch Shift"
 msgstr "Modulation"
+
+msgid "Pixel aspect ratio"
+msgstr "Format de pixel"
+
+msgid "Pixel aspect ratio:"
+msgstr "Format de pixel :"
 
 msgid "Play"
 msgstr "Lecture"
@@ -1739,7 +1736,7 @@ msgid "Shift"
 msgstr "Modulation"
 
 msgid "Show audio thumbnails"
-msgstr "Afficher les vignettes audio"
+msgstr "Afficher vignettes audio"
 
 msgid "Show background"
 msgstr "Afficher le fond d'écran"
@@ -1748,10 +1745,10 @@ msgid "Show keyframes in timeline"
 msgstr "Afficher les trames-clé dans le montage"
 
 msgid "Show markers comments"
-msgstr "Afficher les commentaires des repères"
+msgstr "Afficher commentaires repères"
 
 msgid "Show video thumbnails"
-msgstr "Afficher les vignettes vidéo"
+msgstr "Afficher vignettes vidéo"
 
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
 msgstr ""
@@ -2000,10 +1997,8 @@ msgstr "Pistes vidéo"
 msgid "Video4Linux"
 msgstr "Video4Linux"
 
-msgid "Video4Linux (webcam)"
-msgstr "Video4Linux (webcam)"
-
-msgid "Video4Linux2 / FFmpeg"
+#, fuzzy
+msgid "Video4Linux / FFmpeg"
 msgstr "Video4Linux2 / FFmpeg"
 
 msgid "View"
@@ -2145,6 +2140,13 @@ msgid ""
 msgstr ""
 "Impossible de trouver votre installation MLT. Veuillez installer MLT et "
 "relancer Kdenlive.\n"
+
+#, fuzzy
+#~ msgid " Firewire"
+#~ msgstr "Firewire"
+
+#~ msgid " Firewire (DV / HDV)"
+#~ msgstr " Firewire (DV / HDV)"
 
 #~ msgid " Gb"
 #~ msgstr " Go"
@@ -2307,6 +2309,9 @@ msgstr ""
 #~ msgid "Add Effect"
 #~ msgstr "Ajouter un effet"
 
+#~ msgid "Add Marker to Clip"
+#~ msgstr "Ajouter un repère dans le clip"
+
 #~ msgid "Add Preset"
 #~ msgstr "Ajouter comme pré-configuration"
 
@@ -2374,6 +2379,9 @@ msgstr ""
 #~ msgstr ""
 #~ "Création artistique, logo Kdenlive, écran de lancement et icône "
 #~ "d'application"
+
+#~ msgid "Aspect ratio"
+#~ msgstr "Format du pixel"
 
 #~ msgid "Audio Stream"
 #~ msgstr "Flux audio"
@@ -2630,14 +2638,17 @@ msgstr ""
 #~ msgid "Define thumbnail for the current clip"
 #~ msgstr "Définir la vignette du clip actuel"
 
+#~ msgid "Delete All Markers from Clip"
+#~ msgstr "Supprimer tous les repères dans le clip"
+
 #~ msgid "Delete Clips"
 #~ msgstr "Supprimer les clips"
 
 #~ msgid "Delete Effect"
 #~ msgstr "Supprimer l'effet"
 
-#~ msgid "Delete Markers"
-#~ msgstr "Supprimer les repères"
+#~ msgid "Delete Marker from Clip"
+#~ msgstr "Supprimer le repère dans le clip"
 
 #~ msgid "Delete Preset"
 #~ msgstr "Supprimer la pré-configuration"
@@ -2862,6 +2873,9 @@ msgstr ""
 #~ msgid "Folder:"
 #~ msgstr "Dossier :"
 
+#~ msgid "Form"
+#~ msgstr "Formulaire"
+
 #~ msgid "Forward clip"
 #~ msgstr "Avance rapide dans le clip"
 
@@ -3026,6 +3040,9 @@ msgstr ""
 
 #~ msgid "Kdenlive programmer, Trackdecorators"
 #~ msgstr "Programmation Kdenlive, décoration des pistes"
+
+#~ msgid "Keyframe"
+#~ msgstr "Trame-clé"
 
 #~ msgid "Keyframes"
 #~ msgstr "Trames clés"
@@ -3898,6 +3915,9 @@ msgstr ""
 
 #~ msgid "Video tracks:"
 #~ msgstr "Pistes vidéo :"
+
+#~ msgid "Video4Linux (webcam)"
+#~ msgstr "Video4Linux (webcam)"
 
 #~ msgid "Volume: "
 #~ msgstr "Volume :"
