@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>315</width>
-    <height>469</height>
+    <width>441</width>
+    <height>465</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -101,78 +101,70 @@
    <item row="6" column="0" colspan="4" >
     <widget class="QTabWidget" name="tabWidget" >
      <property name="currentIndex" >
-      <number>0</number>
+      <number>6</number>
      </property>
      <widget class="QWidget" name="tab_video" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>299</width>
-        <height>223</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Video</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout" >
-       <item row="0" column="0" >
+       <item row="0" column="0" colspan="2" >
         <widget class="QLabel" name="label_8" >
          <property name="text" >
           <string>Video codec</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1" >
+       <item row="0" column="2" >
         <widget class="KLineEdit" name="clip_vcodec" >
          <property name="readOnly" >
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" >
+       <item row="1" column="0" colspan="2" >
         <widget class="QLabel" name="label_6" >
          <property name="text" >
           <string>Frame size</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1" >
+       <item row="1" column="2" >
         <widget class="KLineEdit" name="clip_size" >
          <property name="readOnly" >
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" >
+       <item row="2" column="0" colspan="2" >
         <widget class="QLabel" name="label_7" >
          <property name="text" >
           <string>Frame rate</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1" >
+       <item row="2" column="2" >
         <widget class="KLineEdit" name="clip_fps" >
          <property name="readOnly" >
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="3" column="0" >
+       <item row="3" column="0" colspan="2" >
         <widget class="QLabel" name="label_12" >
          <property name="text" >
-          <string>Aspect ratio</string>
+          <string>Pixel aspect ratio</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1" >
+       <item row="3" column="2" >
         <widget class="KLineEdit" name="clip_ratio" >
          <property name="readOnly" >
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="4" column="1" >
+       <item row="4" column="2" >
         <spacer name="verticalSpacer_2" >
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
@@ -188,14 +180,6 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tab_audio" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>299</width>
-        <height>223</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Audio</string>
       </attribute>
@@ -265,14 +249,6 @@
       <zorder>label_10</zorder>
      </widget>
      <widget class="QWidget" name="tab" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>299</width>
-        <height>223</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Color</string>
       </attribute>
@@ -303,14 +279,6 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tab_2" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>299</width>
-        <height>223</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Slideshow</string>
       </attribute>
@@ -410,14 +378,6 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tab_4" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>299</width>
-        <height>223</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Image</string>
       </attribute>
@@ -459,14 +419,6 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tab_3" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>299</width>
-        <height>223</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Markers</string>
       </attribute>
@@ -537,14 +489,6 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tab_advanced" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>299</width>
-        <height>223</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Advanced</string>
       </attribute>
@@ -552,7 +496,7 @@
        <item row="0" column="0" >
         <widget class="QCheckBox" name="clip_force_ar" >
          <property name="text" >
-          <string>Force aspect ratio</string>
+          <string>Force pixel aspect ratio</string>
          </property>
         </widget>
        </item>
