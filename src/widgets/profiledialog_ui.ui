@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>263</width>
-    <height>311</height>
+    <width>385</width>
+    <height>332</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -123,7 +123,7 @@
       <item row="3" column="0" >
        <widget class="QLabel" name="label_9" >
         <property name="text" >
-         <string>Aspect ratio</string>
+         <string>Pixel aspect ratio</string>
         </property>
        </widget>
       </item>
@@ -149,7 +149,7 @@
       <item row="4" column="0" >
        <widget class="QLabel" name="label_10" >
         <property name="text" >
-         <string>Display ratio</string>
+         <string>Display aspect ratio</string>
         </property>
        </widget>
       </item>
