@@ -21,7 +21,7 @@
     <widget class="KComboBox" name="kcfg_defaultcapture" >
      <item>
       <property name="text" >
-       <string> Firewire</string>
+       <string>Firewire</string>
       </property>
      </item>
      <item>
