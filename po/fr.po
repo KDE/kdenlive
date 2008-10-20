@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-20 09:16+0200\n"
-"PO-Revision-Date: 2008-10-20 09:21+0200\n"
+"POT-Creation-Date: 2008-10-20 09:58+0200\n"
+"PO-Revision-Date: 2008-10-20 10:04+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #, kde-format
 msgid "%1 images found"
@@ -1178,7 +1178,7 @@ msgid "Loading playlist..."
 msgstr "Chargement de la playlist en cours ..."
 
 msgid "Loading project clips"
-msgstr ""
+msgstr "Chargement des clips du projet"
 
 msgid "Loop"
 msgstr "Boucle"
@@ -1209,7 +1209,7 @@ msgstr ""
 "une installation correcte de ces outils."
 
 msgid "Make clip play faster slowly"
-msgstr ""
+msgstr "Ralentir la lecture du clip"
 
 msgid "Make image greyscale except for chosen color"
 msgstr ""
@@ -1218,7 +1218,7 @@ msgid "Make monochrome clip"
 msgstr "Transformer le clip en monochrome"
 
 msgid "Make selected color transparent"
-msgstr ""
+msgstr "Rendre transparent la couleur sélectionnée"
 
 msgid "Make waves on your clip with keyframes"
 msgstr ""
@@ -1819,6 +1819,9 @@ msgstr "Début"
 msgid "Start Gain"
 msgstr "Amplification en entrée"
 
+msgid "Start Rendering"
+msgstr "Lancer le rendu"
+
 msgid "Start-/EndViewport"
 msgstr ""
 
@@ -1860,6 +1863,7 @@ msgid ""
 "some basic settings, you will be ready to edit your first movie in a few "
 "seconds..."
 msgstr ""
+"Vous utilisez Kdenlive pour la première fois. Cet assistant permet de réaliser les principaux réglages. Ensuite, vous pourrez immédiatement commencer à monter votre premier film dans Kdenlive."
 
 msgid "Threshold"
 msgstr "Seuil"
