@@ -36,35 +36,26 @@
 
 QMap<QString, QImage> EffectStackEdit::iconCache;
 
-EffectStackEdit::EffectStackEdit(QFrame* frame, QWidget *parent): QObject(parent), m_in(0), m_out(0) {
-    QScrollArea *area;
-    QVBoxLayout *vbox1 = new QVBoxLayout(frame);
-    QVBoxLayout *vbox2 = new QVBoxLayout(frame);
-    vbox = new QVBoxLayout(frame);
+EffectStackEdit::EffectStackEdit(QWidget *parent): QWidget(parent), m_in(0), m_out(0) {
+    setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding));
+    setBackgroundRole(QPalette::Dark);
+    QVBoxLayout *vbox1 = new QVBoxLayout(parent);
     vbox1->setContentsMargins(0, 0, 0, 0);
     vbox1->setSpacing(0);
-    vbox2->setContentsMargins(0, 0, 0, 0);
-    vbox2->setSpacing(0);
-    vbox->setContentsMargins(0, 0, 0, 0);
-    vbox->setSpacing(0);
-    frame->setLayout(vbox1);
-    QFont widgetFont = frame->font();
-    widgetFont.setPointSize(widgetFont.pointSize() - 2);
-    frame->setFont(widgetFont);
 
-    area = new QScrollArea(frame);
-    QWidget *wid = new QWidget(area);
+    QScrollArea *area = new QScrollArea;
+    QWidget *wid = new QWidget(parent);
     area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     area->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     wid->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
-    //area->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,QSizePolicy::MinimumExpanding));
+    area->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
 
     vbox1->addWidget(area);
-    wid->setLayout(vbox2);
-    vbox2->addLayout(vbox);
-    vbox2->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding));
     area->setWidget(wid);
     area->setWidgetResizable(true);
+    vbox = new QVBoxLayout(wid);
+    vbox->setContentsMargins(0, 0, 0, 0);
+    vbox->setSpacing(0);
     wid->show();
 
 }
@@ -259,6 +250,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out) {
             vbox->addWidget(toFillin);
         }
     }
+    vbox->addStretch();
 }
 
 void EffectStackEdit::slotSeekToPos(int pos) {
@@ -416,4 +408,10 @@ void EffectStackEdit::clearAllItems() {
     uiItems.clear();
     items.clear();
     valueItems.clear();
+    QLayoutItem *item = vbox->itemAt(0);
+    while (item) {
+        vbox->removeItem(item);
+        delete item;
+        item = vbox->itemAt(0);
+    }
 }

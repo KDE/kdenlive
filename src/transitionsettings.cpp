@@ -27,7 +27,7 @@
 
 TransitionSettings::TransitionSettings(QWidget* parent): QWidget(parent) {
     ui.setupUi(this);
-    effectEdit = new EffectStackEdit(ui.frame, this);
+    effectEdit = new EffectStackEdit(ui.frame);
     connect(effectEdit, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
     setEnabled(false);
     ui.transitionList->addItems(MainWindow::transitions.effectNames());

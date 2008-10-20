@@ -37,10 +37,10 @@ struct wipeInfo {
 
 class QFrame;
 
-class EffectStackEdit : public QObject {
+class EffectStackEdit : public QWidget {
     Q_OBJECT
 public:
-    EffectStackEdit(QFrame* frame, QWidget *parent);
+    EffectStackEdit(QWidget *parent);
     ~EffectStackEdit();
     void updateProjectFormat(MltVideoProfile profile);
     static QMap<QString, QImage> iconCache;

@@ -35,7 +35,7 @@
 EffectStackView::EffectStackView(QWidget *parent)
         : QWidget(parent) {
     ui.setupUi(this);
-    effectedit = new EffectStackEdit(ui.frame, this);
+    effectedit = new EffectStackEdit(ui.frame);
     //ui.effectlist->horizontalHeader()->setVisible(false);
     //ui.effectlist->verticalHeader()->setVisible(false);
     clipref = NULL;

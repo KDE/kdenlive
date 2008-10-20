@@ -202,7 +202,7 @@ MainWindow::MainWindow(const QString &MltPath, QWidget *parent)
     tabifyDockWidget(clipMonitorDock, recMonitorDock);
     setCentralWidget(m_timelineArea);
 
-    setupGUI(Default, NULL /*"kdenliveui.rc"*/);
+    setupGUI();
     //kDebug() << factory() << " " << factory()->container("video_effects_menu", this);
 
     m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)));
@@ -314,8 +314,6 @@ MainWindow::MainWindow(const QString &MltPath, QWidget *parent)
 
     m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor);
     slotConnectMonitors();
-
-    setAutoSaveSettings();
 
     if (KdenliveSettings::openlastproject()) {
         openLastFile();
@@ -518,11 +516,13 @@ void MainWindow::setupActions() {
 
     QString style1 = "QToolButton {background-color: rgba(230, 230, 230, 220); border-style: inset; border:1px solid #999999;border-radius: 3px;margin: 0px 3px;padding: 0px;} QToolButton:checked { background-color: rgba(224, 224, 0, 100); border-style: inset; border:1px solid #cc6666;border-radius: 3px;}";
 
-    m_buttonSelectTool = toolbar->addAction(KIcon("kdenlive-select-tool"), i18n("Selection tool"));
+    m_buttonSelectTool = new KAction(KIcon("kdenlive-select-tool"), i18n("Selection tool"), this);
+    toolbar->addAction(m_buttonSelectTool);
     m_buttonSelectTool->setCheckable(true);
     m_buttonSelectTool->setChecked(true);
 
-    m_buttonRazorTool = toolbar->addAction(KIcon("edit-cut"), i18n("Razor tool"));
+    m_buttonRazorTool = new KAction(KIcon("edit-cut"), i18n("Razor tool"), this);
+    toolbar->addAction(m_buttonRazorTool);
     m_buttonRazorTool->setCheckable(true);
     m_buttonRazorTool->setChecked(false);
 
@@ -544,7 +544,8 @@ void MainWindow::setupActions() {
     connect(m_toolGroup, SIGNAL(triggered(QAction *)), this, SLOT(slotChangeTool(QAction *)));
 
     toolbar->addSeparator();
-    m_buttonFitZoom = toolbar->addAction(KIcon("zoom-fit-best"), i18n("Fit zoom to project"));
+    m_buttonFitZoom = new KAction(KIcon("zoom-fit-best"), i18n("Fit zoom to project"), this);
+    toolbar->addAction(m_buttonFitZoom);
     m_buttonFitZoom->setCheckable(false);
     connect(m_buttonFitZoom, SIGNAL(triggered()), this, SLOT(slotFitZoom()));
 
@@ -572,22 +573,26 @@ void MainWindow::setupActions() {
 
     toolbar->addWidget(m_zoomSlider);
 
-    m_buttonVideoThumbs = toolbar->addAction(KIcon("kdenlive-show-videothumb"), i18n("Show video thumbnails"));
+    m_buttonVideoThumbs = new KAction(KIcon("kdenlive-show-videothumb"), i18n("Show video thumbnails"), this);
+    toolbar->addAction(m_buttonVideoThumbs);
     m_buttonVideoThumbs->setCheckable(true);
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
     connect(m_buttonVideoThumbs, SIGNAL(triggered()), this, SLOT(slotSwitchVideoThumbs()));
 
-    m_buttonAudioThumbs = toolbar->addAction(KIcon("kdenlive-show-audiothumb"), i18n("Show audio thumbnails"));
+    m_buttonAudioThumbs = new KAction(KIcon("kdenlive-show-audiothumb"), i18n("Show audio thumbnails"), this);
+    toolbar->addAction(m_buttonAudioThumbs);
     m_buttonAudioThumbs->setCheckable(true);
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
     connect(m_buttonAudioThumbs, SIGNAL(triggered()), this, SLOT(slotSwitchAudioThumbs()));
 
-    m_buttonShowMarkers = toolbar->addAction(KIcon("kdenlive-show-markers"), i18n("Show markers comments"));
+    m_buttonShowMarkers = new KAction(KIcon("kdenlive-show-markers"), i18n("Show markers comments"), this);
+    toolbar->addAction(m_buttonShowMarkers);
     m_buttonShowMarkers->setCheckable(true);
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
     connect(m_buttonShowMarkers, SIGNAL(triggered()), this, SLOT(slotSwitchMarkersComments()));
 
-    m_buttonSnap = toolbar->addAction(KIcon("kdenlive-snap"), i18n("Snap"));
+    m_buttonSnap = new KAction(KIcon("kdenlive-snap"), i18n("Snap"), this);
+    toolbar->addAction(m_buttonSnap);
     m_buttonSnap->setCheckable(true);
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
     connect(m_buttonSnap, SIGNAL(triggered()), this, SLOT(slotSwitchSnap()));

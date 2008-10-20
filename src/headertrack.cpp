@@ -50,13 +50,15 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent)
     connect(view.buttonAudio, SIGNAL(clicked()), this, SLOT(switchAudio()));
 
     m_contextMenu = new QMenu(this);
-    QAction *insertAction = new QAction(i18n("Insert track"), this);
+
+    //TODO: implement add/remove track
+    /*QAction *insertAction = new QAction(i18n("Insert track"), this);
     m_contextMenu->addAction(insertAction);
-    connect(insertAction, SIGNAL(triggered(QAction *)), this, SLOT(slotAddTrack()));
+    connect(insertAction, SIGNAL(triggered()), this, SLOT(slotAddTrack()));
 
     QAction *removeAction = new QAction(KIcon("edit-delete"), i18n("Delete track"), this);
     m_contextMenu->addAction(removeAction);
-    connect(removeAction, SIGNAL(triggered(QAction *)), this, SLOT(slotDeleteTrack()));
+    connect(removeAction, SIGNAL(triggered()), this, SLOT(slotDeleteTrack()));*/
 }
 
 void HeaderTrack::switchVideo() {

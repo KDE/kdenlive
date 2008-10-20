@@ -138,15 +138,15 @@ private:
     KAction *m_projectSearch;
     KAction *m_projectSearchNext;
 
-    QAction *m_buttonAudioThumbs;
-    QAction *m_buttonVideoThumbs;
-    QAction *m_buttonShowMarkers;
-    QAction *m_buttonFitZoom;
-    QAction *m_buttonSelectTool;
-    QAction *m_buttonRazorTool;
-    QAction *m_buttonSnap;
+    KAction *m_buttonAudioThumbs;
+    KAction *m_buttonVideoThumbs;
+    KAction *m_buttonShowMarkers;
+    KAction *m_buttonFitZoom;
+    KAction *m_buttonSelectTool;
+    KAction *m_buttonRazorTool;
+    KAction *m_buttonSnap;
     QActionGroup *m_toolGroup;
-    QAction *m_saveAction;
+    KAction *m_saveAction;
     QSlider *m_zoomSlider;
     StatusBarMessageLabel *m_messageLabel;
 
