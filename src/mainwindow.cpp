@@ -844,6 +844,7 @@ void MainWindow::readOptions() {
 }
 
 void MainWindow::newFile() {
+    if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
     QString profileName;
     KUrl projectFolder;
     QPoint projectTracks(3, 2);
@@ -876,6 +877,7 @@ void MainWindow::activateDocument() {
 
 void MainWindow::closeCurrentDocument() {
     QWidget *w = m_timelineArea->currentWidget();
+    if (!w) return;
     // closing current document
     int ix = m_timelineArea->currentIndex() + 1;
     if (ix == m_timelineArea->count()) ix = 0;
