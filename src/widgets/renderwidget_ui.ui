@@ -177,7 +177,7 @@
    <item row="5" column="0" >
     <widget class="KPushButton" name="buttonStart" >
      <property name="text" >
-      <string>Start</string>
+      <string>Render</string>
      </property>
     </widget>
    </item>
