@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-06 17:22+0200\n"
+"POT-Creation-Date: 2008-10-20 08:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid " Firewire (DV / HDV)"
+msgid " Firewire"
 msgstr ""
 
 #, kde-format
@@ -117,7 +117,7 @@ msgstr ""
 msgid "Add Image"
 msgstr ""
 
-msgid "Add Marker to Clip"
+msgid "Add Marker"
 msgstr ""
 
 msgid "Add Rectangle"
@@ -208,9 +208,6 @@ msgid "Amplitude"
 msgstr ""
 
 msgid "Ascii art library"
-msgstr ""
-
-msgid "Aspect ratio"
 msgstr ""
 
 msgid "Aspect ratio:"
@@ -594,7 +591,7 @@ msgstr ""
 msgid "Delete All Guides"
 msgstr ""
 
-msgid "Delete All Markers from Clip"
+msgid "Delete All Markers"
 msgstr ""
 
 msgid "Delete Clip"
@@ -606,7 +603,7 @@ msgstr ""
 msgid "Delete Guide"
 msgstr ""
 
-msgid "Delete Marker from Clip"
+msgid "Delete Marker"
 msgstr ""
 
 msgid "Delete Selected Item"
@@ -687,10 +684,13 @@ msgstr ""
 msgid "Display"
 msgstr ""
 
-msgid "Display clip markers comments"
+msgid "Display aspect ratio"
 msgstr ""
 
-msgid "Display ratio"
+msgid "Display aspect ratio:"
+msgstr ""
+
+msgid "Display clip markers comments"
 msgstr ""
 
 msgid "Display ratio:"
@@ -878,10 +878,7 @@ msgstr ""
 msgid "Folder"
 msgstr ""
 
-msgid "Force aspect ratio"
-msgstr ""
-
-msgid "Form"
+msgid "Force pixel aspect ratio"
 msgstr ""
 
 msgid "Format"
@@ -1099,9 +1096,6 @@ msgid "Invert colors"
 msgstr ""
 
 msgid "JogShuttle"
-msgstr ""
-
-msgid "Keyframe"
 msgstr ""
 
 msgid "LADSPA change pitch audio effect"
@@ -1365,6 +1359,12 @@ msgid "Pitch Scaler"
 msgstr ""
 
 msgid "Pitch Shift"
+msgstr ""
+
+msgid "Pixel aspect ratio"
+msgstr ""
+
+msgid "Pixel aspect ratio:"
 msgstr ""
 
 msgid "Play"
@@ -1948,10 +1948,7 @@ msgstr ""
 msgid "Video4Linux"
 msgstr ""
 
-msgid "Video4Linux (webcam)"
-msgstr ""
-
-msgid "Video4Linux2 / FFmpeg"
+msgid "Video4Linux / FFmpeg"
 msgstr ""
 
 msgid "View"
