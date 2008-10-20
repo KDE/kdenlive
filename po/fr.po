@@ -8,12 +8,12 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-20 09:58+0200\n"
-"PO-Revision-Date: 2008-10-20 10:04+0200\n"
+"PO-Revision-Date: 2008-10-20 12:59+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
 #, kde-format
 msgid "%1 images found"
@@ -1130,31 +1130,31 @@ msgid "JogShuttle"
 msgstr "Roue de montage"
 
 msgid "LADSPA change pitch audio effect"
-msgstr ""
+msgstr "Effet audio LADSPA change pitch"
 
 msgid "LADSPA declipper audio effect"
-msgstr ""
+msgstr "Effet audio LADSPA declipper"
 
 msgid "LADSPA equalizer audio effect"
-msgstr ""
+msgstr "Effet audio LADSPA equalizer"
 
 msgid "LADSPA limiter audio effect"
-msgstr ""
+msgstr "Effet audio LADSPA limiter"
 
 msgid "LADSPA phaser audio effect"
-msgstr ""
+msgstr "Effet audio LADSPA phaser"
 
 msgid "LADSPA pitch scale audio effect"
-msgstr ""
+msgstr "Effet audio LADSPA pitch scale"
 
 msgid "LADSPA rate scale audio effect"
-msgstr ""
+msgstr "Effet audio LADSPA rate scale"
 
 msgid "LADSPA reverb audio effect"
-msgstr ""
+msgstr "Effet audio LADSPA réverbération"
 
 msgid "LADSPA room reverb audio effect"
-msgstr ""
+msgstr "Effet audio LADSPA room reverb"
 
 msgid "Left"
 msgstr "Gauche"
@@ -1213,6 +1213,7 @@ msgstr "Ralentir la lecture du clip"
 
 msgid "Make image greyscale except for chosen color"
 msgstr ""
+"Transforme l'image en nuances de gris, à l'exception de couleurs choisies"
 
 msgid "Make monochrome clip"
 msgstr "Transformer le clip en monochrome"
@@ -1221,7 +1222,7 @@ msgid "Make selected color transparent"
 msgstr "Rendre transparent la couleur sélectionnée"
 
 msgid "Make waves on your clip with keyframes"
-msgstr ""
+msgstr "Affiche des vagues sur le clip "
 
 msgid "Manage Profiles"
 msgstr "Gérer les profils"
@@ -1751,7 +1752,7 @@ msgid "Show video thumbnails"
 msgstr "Afficher vignettes vidéo"
 
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
-msgstr ""
+msgstr "Effet audio LADSPA vinyl : simule un lecteur de disque vinyl"
 
 msgid "Size"
 msgstr "Taille"
@@ -1790,7 +1791,7 @@ msgid "Sox Vibro"
 msgstr "Sox Vibro"
 
 msgid "Sox change pitch audio effect"
-msgstr ""
+msgstr "Effet audio LADSPA change pitch"
 
 msgid "Sox echo audio effect"
 msgstr "Effet audio Sox écho"
@@ -1863,7 +1864,9 @@ msgid ""
 "some basic settings, you will be ready to edit your first movie in a few "
 "seconds..."
 msgstr ""
-"Vous utilisez Kdenlive pour la première fois. Cet assistant permet de réaliser les principaux réglages. Ensuite, vous pourrez immédiatement commencer à monter votre premier film dans Kdenlive."
+"Vous utilisez Kdenlive pour la première fois. Cet assistant permet de "
+"réaliser les principaux réglages. Ensuite, vous pourrez immédiatement "
+"commencer à monter votre premier film dans Kdenlive."
 
 msgid "Threshold"
 msgstr "Seuil"
@@ -2001,9 +2004,8 @@ msgstr "Pistes vidéo"
 msgid "Video4Linux"
 msgstr "Video4Linux"
 
-#, fuzzy
 msgid "Video4Linux / FFmpeg"
-msgstr "Video4Linux2 / FFmpeg"
+msgstr "Video4Linux / FFmpeg"
 
 msgid "View"
 msgstr "Visualiser"
