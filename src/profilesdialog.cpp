@@ -211,10 +211,10 @@ QMap <QString, QString> ProfilesDialog::getProfilesInfo() {
     QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
     for (int i = 0; i < customProfiles.size(); ++i) {
         profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
-        for (int i = 0; i < profilesFiles.size(); ++i) {
-            KConfig confFile(customProfiles.at(i) + "/" + profilesFiles.at(i), KConfig::SimpleConfig);
+        for (int j = 0; j < profilesFiles.size(); ++j) {
+            KConfig confFile(customProfiles.at(i) + "/" + profilesFiles.at(j), KConfig::SimpleConfig);
             QString desc = confFile.entryMap().value("description");
-            if (!desc.isEmpty()) result.insert(desc, customProfiles.at(i) + "/" + profilesFiles.at(i));
+            if (!desc.isEmpty()) result.insert(desc, customProfiles.at(i) + "/" + profilesFiles.at(j));
         }
     }
     return result;
