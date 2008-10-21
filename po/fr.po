@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-20 09:58+0200\n"
-"PO-Revision-Date: 2008-10-20 12:59+0200\n"
+"POT-Creation-Date: 2008-10-21 09:36+0200\n"
+"PO-Revision-Date: 2008-10-21 10:02+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #, kde-format
 msgid "%1 images found"
@@ -433,7 +433,7 @@ msgid "Change gamma color value"
 msgstr "Modifier la valeur gamma de la couleur"
 
 msgid "Change image brightness with keyframes"
-msgstr ""
+msgstr "Modifier la luminosité de l'image à partir des trames-clé."
 
 msgid "Channels"
 msgstr "Canaux"
@@ -447,9 +447,8 @@ msgstr "Effet dessin crayonné"
 msgid "CheckBox"
 msgstr "Boîte à cocher"
 
-#, fuzzy
 msgid "Chroma Hold"
-msgstr "Crayonné"
+msgstr "Restriction de couleurs"
 
 msgid "Chrominance U"
 msgstr "Chrominance U"
@@ -666,9 +665,6 @@ msgstr "Supprimer les éléments sélectionnés"
 
 msgid "Delete timeline clip"
 msgstr "Supprimer le clip montage"
-
-msgid "Delete track"
-msgstr "Supprimer la piste"
 
 msgid "Delete transition from clip"
 msgstr "Supprimer la transition dans le clip"
@@ -1020,9 +1016,6 @@ msgstr "Aller à la prochaine trame-clé"
 msgid "Go to previous keyframe"
 msgstr "Aller à la précédente trame-clé"
 
-msgid "Go to..."
-msgstr "Naviger vers ..."
-
 msgid "GraphView"
 msgstr ""
 
@@ -1107,9 +1100,6 @@ msgstr "Initialisation en cours ..."
 
 msgid "Input gain (db)"
 msgstr "Gain en entrée (db)"
-
-msgid "Insert track"
-msgstr "Insérer une piste"
 
 msgid "Install extra video mimetypes"
 msgstr "Installer des signatures mime vidéo supplémentaires"
@@ -1199,6 +1189,7 @@ msgid ""
 "MLT's SDL module not found. Please check your MLT install. Kdenlive will not "
 "work until this issue is fixed."
 msgstr ""
+"Impossible de trouver le module SDL de MLT. Veuillez vérifier votre installation MLT. Kdenlive ne pourra fonctionner qu'après résolution de ce problème de configuration."
 
 msgid ""
 "MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT "
@@ -1519,7 +1510,7 @@ msgid "RPM"
 msgstr "RPM"
 
 msgid "Rate"
-msgstr "Fréquence"
+msgstr "Niveau"
 
 msgid "Rate (Hz)"
 msgstr "Fréquence (Hz)"
@@ -2075,12 +2066,6 @@ msgstr "Sélectionnez un clip pour réaliser cette action"
 msgid "Z-Index:"
 msgstr "Index-Z"
 
-msgid "Zone end"
-msgstr "Fin de zone"
-
-msgid "Zone start"
-msgstr "Début de zone"
-
 msgid "Zoom:"
 msgstr "Zoom :"
 
@@ -2146,6 +2131,21 @@ msgid ""
 msgstr ""
 "Impossible de trouver votre installation MLT. Veuillez installer MLT et "
 "relancer Kdenlive.\n"
+
+#~ msgid "Delete track"
+#~ msgstr "Supprimer la piste"
+
+#~ msgid "Go to..."
+#~ msgstr "Naviger vers ..."
+
+#~ msgid "Insert track"
+#~ msgstr "Insérer une piste"
+
+#~ msgid "Zone end"
+#~ msgstr "Fin de zone"
+
+#~ msgid "Zone start"
+#~ msgstr "Début de zone"
 
 #, fuzzy
 #~ msgid " Firewire"
