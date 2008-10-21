@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-20 09:58+0200\n"
+"POT-Creation-Date: 2008-10-21 09:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -642,9 +642,6 @@ msgstr ""
 msgid "Delete timeline clip"
 msgstr ""
 
-msgid "Delete track"
-msgstr ""
-
 msgid "Delete transition from clip"
 msgstr ""
 
@@ -987,9 +984,6 @@ msgstr ""
 msgid "Go to previous keyframe"
 msgstr ""
 
-msgid "Go to..."
-msgstr ""
-
 msgid "GraphView"
 msgstr ""
 
@@ -1072,9 +1066,6 @@ msgid "Initialising..."
 msgstr ""
 
 msgid "Input gain (db)"
-msgstr ""
-
-msgid "Insert track"
 msgstr ""
 
 msgid "Install extra video mimetypes"
@@ -2014,12 +2005,6 @@ msgid "You must select one clip for this action"
 msgstr ""
 
 msgid "Z-Index:"
-msgstr ""
-
-msgid "Zone end"
-msgstr ""
-
-msgid "Zone start"
 msgstr ""
 
 msgid "Zoom:"
