@@ -36,16 +36,18 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent)
     setFixedHeight(KdenliveSettings::trackheight());
     view.setupUi(this);
     view.track_number->setText(QString::number(m_index));
+    view.buttonVideo->setChecked(!info.isBlind);
+    view.buttonAudio->setChecked(!info.isMute);
     if (m_type == VIDEOTRACK) {
         view.frame->setBackgroundRole(QPalette::AlternateBase);
         view.frame->setAutoFillBackground(true);
-        view.buttonVideo->setIcon(KIcon("kdenlive-show-video"));
+        if (!info.isBlind) view.buttonVideo->setIcon(KIcon("kdenlive-show-video"));
+	else view.buttonVideo->setIcon(KIcon("kdenlive-hide-video"));
     } else {
         view.buttonVideo->setHidden(true);
     }
-    view.buttonAudio->setIcon(KIcon("kdenlive-show-audio"));
-    view.buttonVideo->setChecked(!info.isBlind);
-    view.buttonAudio->setChecked(!info.isMute);
+    if (!info.isMute) view.buttonAudio->setIcon(KIcon("kdenlive-show-audio"));
+    else view.buttonAudio->setIcon(KIcon("kdenlive-hide-audio"));
     connect(view.buttonVideo, SIGNAL(clicked()), this, SLOT(switchVideo()));
     connect(view.buttonAudio, SIGNAL(clicked()), this, SLOT(switchAudio()));
 
@@ -62,10 +64,22 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent)
 }
 
 void HeaderTrack::switchVideo() {
+    if (view.buttonVideo->isChecked()) {
+	view.buttonVideo->setIcon(KIcon("kdenlive-show-video"));
+    }
+    else {
+	view.buttonVideo->setIcon(KIcon("kdenlive-hide-video"));
+    }
     emit switchTrackVideo(m_index);
 }
 
 void HeaderTrack::switchAudio() {
+    if (view.buttonAudio->isChecked()) {
+	view.buttonAudio->setIcon(KIcon("kdenlive-show-audio"));
+    }
+    else {
+	view.buttonAudio->setIcon(KIcon("kdenlive-hide-audio"));
+    }
     emit switchTrackAudio(m_index);
 }
 
