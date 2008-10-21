@@ -169,7 +169,7 @@ public slots:
     void slotGotProgressInfo(const QString &message, int progress);
 
 private slots:
-    void newFile();
+    void newFile(bool showProjectSettings = true);
     void queryQuit();
     void activateDocument();
     void connectDocument(TrackView*, KdenliveDoc*);

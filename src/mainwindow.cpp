@@ -326,7 +326,7 @@ MainWindow::MainWindow(const QString &MltPath, QWidget *parent)
             else newFile();
         }
         else*/
-        newFile();
+        newFile(false);
     }
 
     activateShuttleDevice();
@@ -848,15 +848,18 @@ void MainWindow::readOptions() {
     }
 }
 
-void MainWindow::newFile() {
-    if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
+void MainWindow::newFile(bool showProjectSettings) {
     QString profileName;
     KUrl projectFolder;
     QPoint projectTracks(3, 2);
-    if (m_timelineArea->count() == 0) profileName = KdenliveSettings::default_profile();
+    if (!showProjectSettings && m_timelineArea->count() == 0) {
+	if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
+	profileName = KdenliveSettings::default_profile();
+    }
     else {
         ProjectSettings *w = new ProjectSettings;
         if (w->exec() != QDialog::Accepted) return;
+	if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
         profileName = w->selectedProfile();
         projectFolder = w->selectedFolder();
         projectTracks = w->tracks();
@@ -953,7 +956,7 @@ void MainWindow::openFile() {
 void MainWindow::openLastFile() {
     KSharedConfigPtr config = KGlobal::config();
     KUrl::List urls = m_fileOpenRecent->urls();
-    if (urls.isEmpty()) newFile();
+    if (urls.isEmpty()) newFile(false);
     else openFile(urls.last());
 }
 
