@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-21 09:36+0200\n"
-"PO-Revision-Date: 2008-10-21 10:02+0200\n"
+"PO-Revision-Date: 2008-10-22 15:13+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -999,10 +999,10 @@ msgid "Go to Clip Start"
 msgstr "Aller au début du clip"
 
 msgid "Go to Next Snap Point"
-msgstr "Avancer au point d'accroche suivant"
+msgstr "Avancer au prochain point d'accroche"
 
 msgid "Go to Previous Snap Point"
-msgstr "Reculer au  point d'accroche précédent"
+msgstr "Reculer au prédédent point d'accroche"
 
 msgid "Go to Project End"
 msgstr "Aller à la fin du projet"
@@ -1189,7 +1189,9 @@ msgid ""
 "MLT's SDL module not found. Please check your MLT install. Kdenlive will not "
 "work until this issue is fixed."
 msgstr ""
-"Impossible de trouver le module SDL de MLT. Veuillez vérifier votre installation MLT. Kdenlive ne pourra fonctionner qu'après résolution de ce problème de configuration."
+"Impossible de trouver le module SDL de MLT. Veuillez vérifier votre "
+"installation MLT. Kdenlive ne pourra fonctionner qu'après résolution de ce "
+"problème de configuration."
 
 msgid ""
 "MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT "
@@ -1252,10 +1254,10 @@ msgid "Monitor"
 msgstr "Moniteur"
 
 msgid "Move clip"
-msgstr "Déplacer le clip"
+msgstr "Déplacer clip"
 
 msgid "Move effect"
-msgstr "Déplacer l'effet"
+msgstr "Déplacer effet"
 
 msgid "Move effect down"
 msgstr "Déplacer l'effet vers le bas"
@@ -1264,10 +1266,10 @@ msgid "Move effect up"
 msgstr "Déplacer l'effet vers le haut"
 
 msgid "Move guide"
-msgstr "Déplacer le guide"
+msgstr "Déplacer guide"
 
 msgid "Move transition"
-msgstr "Déplacer la transition"
+msgstr "Déplacer transition"
 
 msgid "Mute"
 msgstr "Muet"
@@ -2132,21 +2134,6 @@ msgstr ""
 "Impossible de trouver votre installation MLT. Veuillez installer MLT et "
 "relancer Kdenlive.\n"
 
-#~ msgid "Delete track"
-#~ msgstr "Supprimer la piste"
-
-#~ msgid "Go to..."
-#~ msgstr "Naviger vers ..."
-
-#~ msgid "Insert track"
-#~ msgstr "Insérer une piste"
-
-#~ msgid "Zone end"
-#~ msgstr "Fin de zone"
-
-#~ msgid "Zone start"
-#~ msgstr "Début de zone"
-
 #, fuzzy
 #~ msgid " Firewire"
 #~ msgstr "Firewire"
@@ -2677,6 +2664,9 @@ msgstr ""
 #~ msgid "Delete marker at cursor position"
 #~ msgstr "Supprimer le repère à l'emplacement du curseur"
 
+#~ msgid "Delete track"
+#~ msgstr "Supprimer la piste"
+
 #~ msgid "Delete transition"
 #~ msgstr "Supprimer la transition"
 
@@ -2936,6 +2926,9 @@ msgstr ""
 #~ msgid "Go to selected clip's virtual zone"
 #~ msgstr "Aller dans la zone virtuelle du clip sélectionné"
 
+#~ msgid "Go to..."
+#~ msgstr "Naviger vers ..."
+
 #~ msgid "Grayscale images"
 #~ msgstr "Images en nuances de gris"
 
@@ -3002,6 +2995,9 @@ msgstr ""
 #~ msgstr ""
 #~ "Insérer des repères commentés dans les clips (Ctrl + clic pour supprimer "
 #~ "un repère)"
+
+#~ msgid "Insert track"
+#~ msgstr "Insérer une piste"
 
 #~ msgid "Intro"
 #~ msgstr "Introduction"
@@ -3991,6 +3987,12 @@ msgstr ""
 #~ msgid "You need to generate the DVD structure before burning."
 #~ msgstr ""
 #~ "Vous avez besoin de générer la structure du DVD si vous désirez le graver."
+
+#~ msgid "Zone end"
+#~ msgstr "Fin de zone"
+
+#~ msgid "Zone start"
+#~ msgstr "Début de zone"
 
 #~ msgid "Zoom out"
 #~ msgstr "Zoom arrière"
