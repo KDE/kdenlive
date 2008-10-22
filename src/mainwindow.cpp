@@ -898,7 +898,10 @@ void MainWindow::closeCurrentDocument() {
         }
     }
     m_timelineArea->removeTab(m_timelineArea->indexOf(w));
-    if (m_timelineArea->count() == 1) m_timelineArea->setTabBarHidden(true);
+    if (m_timelineArea->count() == 1) {
+	m_timelineArea->setTabBarHidden(true);
+	m_closeAction->setEnabled(false);
+    }
     delete docToClose;
     delete w;
     if (m_timelineArea->count() == 0) {
