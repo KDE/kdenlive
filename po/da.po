@@ -7,17 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-06 17:22+0200\n"
-"PO-Revision-Date: 2008-10-11 17:56+0200\n"
+"POT-Creation-Date: 2008-10-21 09:36+0200\n"
+"PO-Revision-Date: 2008-10-21 21:41+0200\n"
 "Last-Translator: Mads Bondo Dydensborg <mads@dydensborg.dk>\n"
 "Language-Team: Dansk <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-
-msgid " Firewire (DV / HDV)"
-msgstr " Firewire (DV / HDV)"
 
 #, kde-format
 msgid "%1 images found"
@@ -76,7 +73,7 @@ msgid "<qt>Clip <b>%1</b><br>is invalid, will be removed from project."
 msgstr "<qt>Klip <b>%1</b><br>er ugyldigt, vil blive fjernet fra projekt."
 
 msgid "A"
-msgstr ""
+msgstr "A"
 
 msgid "A guide already exists at that position"
 msgstr "En hjælpelinie eksisterer allerede på den position"
@@ -85,8 +82,8 @@ msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
 "choose another description for your custom profile."
 msgstr ""
-"En profile med samme navn eksisterer allerede i MLT's standard profiler, vælg. "
-"venligst en anden beskrivelse til din tilpassede profil."
+"En profile med samme navn eksisterer allerede i MLT's standard profiler, "
+"vælg. venligst en anden beskrivelse til din tilpassede profil."
 
 msgid "ALSA"
 msgstr "ALSA"
@@ -119,8 +116,8 @@ msgstr "Tilføj hjælpelinie"
 msgid "Add Image"
 msgstr "Tilføj billede"
 
-msgid "Add Marker to Clip"
-msgstr "Tilføj markør til klip"
+msgid "Add Marker"
+msgstr "Tilføj markør"
 
 msgid "Add Rectangle"
 msgstr "Tilføj rektangel"
@@ -212,9 +209,6 @@ msgstr "Amplitude"
 msgid "Ascii art library"
 msgstr "Ascii art bibliotek"
 
-msgid "Aspect ratio"
-msgstr "Aspektratio"
-
 msgid "Aspect ratio:"
 msgstr "Aspektratio:"
 
@@ -265,7 +259,7 @@ msgid "Autoscroll while playing"
 msgstr "Autorulle under afspilning"
 
 msgid "Averaging"
-msgstr ""
+msgstr "Gennemsnitlig"
 
 msgid "Background"
 msgstr "Baggrund"
@@ -310,7 +304,7 @@ msgid "Button 5"
 msgstr "Knap 5"
 
 msgid "C"
-msgstr ""
+msgstr "C"
 
 #, kde-format
 msgid ""
@@ -377,8 +371,7 @@ msgid ""
 "Please define it in Kdenlive settings dialog."
 msgstr ""
 "Kan ikke afspille video efter generéring fordi standard videoafspilleren "
-"ikke er indstillet.\\ "
-"Indstil den venligst i Kdenlive indstillingsdialogen."
+"ikke er indstillet.\\ Indstil den venligst i Kdenlive indstillingsdialogen."
 
 #, kde-format
 msgid ""
@@ -417,7 +410,7 @@ msgid "Capturing..."
 msgstr "Indspiller..."
 
 msgid "Center"
-msgstr ""
+msgstr "Center"
 
 msgid "Change"
 msgstr "Ændre"
@@ -447,10 +440,10 @@ msgid "Chroma Hold"
 msgstr "Chroma hold"
 
 msgid "Chrominance U"
-msgstr ""
+msgstr "Chrominance U"
 
 msgid "Chrominance V"
-msgstr ""
+msgstr "Chrominance V"
 
 # Jeg tror det her er det "Clean" ord der står i undo history
 msgid "Clean"
@@ -508,8 +501,8 @@ msgid ""
 "please fix it."
 msgstr ""
 "Kunne ikke oprette video forhåndsvisningsvinduet.\n"
-"Der er noget galt med din installation af Kdenlive, eller dine drivprogramindstillinger, "
-"vær venligt at ordne det."
+"Der er noget galt med din installation af Kdenlive, eller dine "
+"drivprogramindstillinger, vær venligt at ordne det."
 
 msgid "Crackle"
 msgstr "Brud"
@@ -547,7 +540,7 @@ msgid "Cut Clip"
 msgstr "Klip klip"
 
 msgid "D"
-msgstr ""
+msgstr "D"
 
 msgid "DV"
 msgstr "DV"
@@ -568,10 +561,10 @@ msgid "Debug"
 msgstr "Fejlsøge"
 
 msgid "Decay"
-msgstr ""
+msgstr "Henfald"
 
 msgid "Declipper"
-msgstr ""
+msgstr "Deklipper"
 
 msgid "Decoding threads"
 msgstr "Afkoder tråde"
@@ -607,8 +600,8 @@ msgstr "Slet %1"
 msgid "Delete All Guides"
 msgstr "Slet alle hjælpelinier"
 
-msgid "Delete All Markers from Clip"
-msgstr "Slet alle markører fra klip"
+msgid "Delete All Markers"
+msgstr "Slet alle markører"
 
 msgid "Delete Clip"
 msgstr "Slet klip"
@@ -619,8 +612,8 @@ msgstr "Slet mappe"
 msgid "Delete Guide"
 msgstr "Slet hjælpelinie"
 
-msgid "Delete Marker from Clip"
-msgstr "Slet markør fra klip"
+msgid "Delete Marker"
+msgstr "Slet markør"
 
 msgid "Delete Selected Item"
 msgstr "Slet valgt element"
@@ -661,9 +654,6 @@ msgstr "Slet valgt element"
 msgid "Delete timeline clip"
 msgstr "Slet tidslinie klip"
 
-msgid "Delete track"
-msgstr "Slet spor"
-
 msgid "Delete transition from clip"
 msgstr "Slet overgang fra klip"
 
@@ -700,11 +690,14 @@ msgstr "Afbryd"
 msgid "Display"
 msgstr "Vis"
 
+msgid "Display aspect ratio"
+msgstr "Skærm aspektratio"
+
+msgid "Display aspect ratio:"
+msgstr "Skærm aspektratio:"
+
 msgid "Display clip markers comments"
 msgstr "Vis klipmarkørkommentarer"
-
-msgid "Display ratio"
-msgstr "Vis ratio"
 
 msgid "Display ratio:"
 msgstr "Vis ratio:"
@@ -719,10 +712,10 @@ msgid "Duration"
 msgstr "Længde"
 
 msgid "Dw"
-msgstr ""
+msgstr "Dw"
 
 msgid "E"
-msgstr ""
+msgstr "E"
 
 msgid "Edit Clip"
 msgstr "Rediger klip"
@@ -788,7 +781,7 @@ msgid "End Gain"
 msgstr "Slut gain"
 
 msgid "EndViewport"
-msgstr ""
+msgstr "EndViewport"
 
 msgid "Environment"
 msgstr "Omgivelser"
@@ -809,7 +802,7 @@ msgid "Esound daemon"
 msgstr "Esound server"
 
 msgid "Extension"
-msgstr ""
+msgstr "Endelse"
 
 msgid "Extra Toolbar"
 msgstr "Ekstra værktøjslinie"
@@ -830,7 +823,7 @@ msgid "Fatal Error"
 msgstr "Fatal fejl"
 
 msgid "Feedback"
-msgstr ""
+msgstr "Tilbagemelding"
 
 #, kde-format
 msgid "File %1 is not a Kdenlive project file."
@@ -895,11 +888,8 @@ msgstr "Flip billede i vilkårlig retning"
 msgid "Folder"
 msgstr "Mappe"
 
-msgid "Force aspect ratio"
-msgstr "Tving aspekratio"
-
-msgid "Form"
-msgstr ""
+msgid "Force pixel aspect ratio"
+msgstr "Tving pixel aspekratio"
 
 msgid "Format"
 msgstr "Format"
@@ -978,7 +968,7 @@ msgid "Gamma"
 msgstr "Gamma"
 
 msgid "General graphics interface"
-msgstr ""
+msgstr "General graphics interface"
 
 msgid "Geometry"
 msgstr "Geometri"
@@ -1010,11 +1000,8 @@ msgstr "Gå til næste keyframe"
 msgid "Go to previous keyframe"
 msgstr "Gå til forrige keyframe"
 
-msgid "Go to..."
-msgstr "Gå til..."
-
 msgid "GraphView"
-msgstr ""
+msgstr "GraphView"
 
 msgid "Greyscale"
 msgstr "Gråskala"
@@ -1035,7 +1022,7 @@ msgid "Guides"
 msgstr "Hjælpelinier"
 
 msgid "H"
-msgstr ""
+msgstr "H"
 
 msgid "HDV"
 msgstr "HDV"
@@ -1097,9 +1084,6 @@ msgstr "Initialiserer..."
 msgid "Input gain (db)"
 msgstr "Input gain (db)"
 
-msgid "Insert track"
-msgstr "Indsæt spor"
-
 msgid "Install extra video mimetypes"
 msgstr "Installer ekstra video mimetyper"
 
@@ -1117,9 +1101,6 @@ msgstr "Invertér farver"
 
 msgid "JogShuttle"
 msgstr "JogShuttle"
-
-msgid "Keyframe"
-msgstr "Keyframe"
 
 msgid "LADSPA change pitch audio effect"
 msgstr "LADSPA ændre pitch lydeffekt"
@@ -1185,21 +1166,21 @@ msgid "Luma file"
 msgstr "Luma fil"
 
 msgid "M"
-msgstr ""
+msgstr "M"
 
 msgid ""
 "MLT's SDL module not found. Please check your MLT install. Kdenlive will not "
 "work until this issue is fixed."
 msgstr ""
-"MLT's SDL modul blev ikke fundet. Vær venlig at kontrollere din MLT installation. "
-"Kdenlive kan ikke virke før dette problem er ordnet."
+"MLT's SDL modul blev ikke fundet. Vær venlig at kontrollere din MLT "
+"installation. Kdenlive kan ikke virke før dette problem er ordnet."
 
 msgid ""
 "MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT "
 "install. Kdenlive will not work until this issue is fixed."
 msgstr ""
-"MLT's avformat (FFMPEG) modul blev ikke fundet. Vær venlig at kontrollere din MLT installation. "
-"Kdenlive kan ikke virke før dette problem er ordnet."
+"MLT's avformat (FFMPEG) modul blev ikke fundet. Vær venlig at kontrollere "
+"din MLT installation. Kdenlive kan ikke virke før dette problem er ordnet."
 
 msgid "Make clip play faster slowly"
 msgstr "Forøg langsomt afspilningshastighed af klip"
@@ -1280,7 +1261,7 @@ msgid "Mute video clip"
 msgstr "Afbryd lyd på video klip"
 
 msgid "N"
-msgstr ""
+msgstr "N"
 
 msgid "NTSC"
 msgstr "NTSC"
@@ -1359,7 +1340,7 @@ msgid "Output file"
 msgstr "Uddatafil"
 
 msgid "P"
-msgstr ""
+msgstr "P"
 
 msgid "PAL"
 msgstr "PAL"
@@ -1387,6 +1368,12 @@ msgstr "Pitch skaler"
 
 msgid "Pitch Shift"
 msgstr "Pitch shift"
+
+msgid "Pixel aspect ratio"
+msgstr "Pixel aspetkratio"
+
+msgid "Pixel aspect ratio:"
+msgstr "Pixel aspektratio:"
 
 msgid "Play"
 msgstr "Afspil"
@@ -1430,7 +1417,7 @@ msgstr ""
 "%1"
 
 msgid "Pos"
-msgstr ""
+msgstr "Pos"
 
 msgid "Position"
 msgstr "Position"
@@ -1499,7 +1486,7 @@ msgid "Properties"
 msgstr "Egenskaber"
 
 msgid "R"
-msgstr ""
+msgstr "R"
 
 msgid "RPM"
 msgstr "RPM"
@@ -1604,7 +1591,6 @@ msgstr "Rotér"
 msgid "Rotate clip in any 3 directions"
 msgstr "Rotér klip i vilkårlig af 3 retninger"
 
-#, fuzzy
 msgid "Rotate:"
 msgstr "Roter:"
 
@@ -1618,7 +1604,7 @@ msgid "Rotation z"
 msgstr "Rotation z"
 
 msgid "S"
-msgstr ""
+msgstr "S"
 
 msgid "SVGAlib"
 msgstr "SVGAlib"
@@ -1672,8 +1658,8 @@ msgid ""
 "Select a region using the mouse. To take the snapshot, press the Enter key. "
 "Press Esc to quit."
 msgstr ""
-"Vælg en region med musen. For at tage et øjebliksbillede, tryk på Enter tasten. "
-"Press Esc for at afbryde."
+"Vælg en region med musen. For at tage et øjebliksbillede, tryk på Enter "
+"tasten. Press Esc for at afbryde."
 
 msgid "Select clip to change speed"
 msgstr "Vælg klip for at vælge hastighedhastighed"
@@ -1722,7 +1708,7 @@ msgid "Set zone start"
 msgstr "Sæt zone start"
 
 msgid "Shift"
-msgstr ""
+msgstr "Skift"
 
 msgid "Show audio thumbnails"
 msgstr "Vis lydminiaturer"
@@ -1745,7 +1731,6 @@ msgstr "Simulerer en gramofonpladeafspiller - LADSPA lydeffekt"
 msgid "Size"
 msgstr "Størrelse"
 
-#, fuzzy
 msgid "Size:"
 msgstr "Størrelse:"
 
@@ -1759,10 +1744,10 @@ msgid "Slideshow clip"
 msgstr "Slideshow klip"
 
 msgid "Snap"
-msgstr ""
+msgstr "Snap"
 
 msgid "Softness"
-msgstr ""
+msgstr "Softness"
 
 msgid "Sox Echo"
 msgstr "Sox echo"
@@ -1801,7 +1786,7 @@ msgid "Split view"
 msgstr "Split visning"
 
 msgid "Spread"
-msgstr ""
+msgstr "Spred"
 
 msgid "Start"
 msgstr "Start"
@@ -1809,11 +1794,14 @@ msgstr "Start"
 msgid "Start Gain"
 msgstr "Start gain"
 
+msgid "Start Rendering"
+msgstr "Start generéring"
+
 msgid "Start-/EndViewport"
 msgstr "Start-/slut visning"
 
 msgid "StartViewport"
-msgstr ""
+msgstr "StartViewport"
 
 msgid "Starting -- find text as you type"
 msgstr "Starter -- find tekst som du skriver"
@@ -1850,9 +1838,9 @@ msgid ""
 "some basic settings, you will be ready to edit your first movie in a few "
 "seconds..."
 msgstr ""
-"Dette er første gang du kører Kdenlive. Denne assistent lader dig "
-"justere nogle basale indstillinger. Du vil være klar til at redigere din "
-"først file i løbet af få sekunder..."
+"Dette er første gang du kører Kdenlive. Denne assistent lader dig justere "
+"nogle basale indstillinger. Du vil være klar til at redigere din først file "
+"i løbet af få sekunder..."
 
 msgid "Threshold"
 msgstr "Grænse"
@@ -1934,7 +1922,7 @@ msgid "Use transparency"
 msgstr "Brug gennemsigtighed"
 
 msgid "V"
-msgstr ""
+msgstr "V"
 
 msgid "Value"
 msgstr "Værdi"
@@ -1990,11 +1978,8 @@ msgstr "Videospor"
 msgid "Video4Linux"
 msgstr "Video4Linux"
 
-msgid "Video4Linux (webcam)"
-msgstr "Video4Linux (webcam)"
-
-msgid "Video4Linux2 / FFmpeg"
-msgstr "Video4Linux2 / FFmpeg"
+msgid "Video4Linux / FFmpeg"
+msgstr "Video4Linux / FFmpeg"
 
 msgid "View"
 msgstr "Vis"
@@ -2009,20 +1994,20 @@ msgid "Volume"
 msgstr "Lydsstyrke"
 
 msgid "W"
-msgstr ""
+msgstr "W"
 
 msgid ""
 "Warning: changes to the drivers and devices can make Kdenlive unstable. "
 "Change only if you know what you do."
 msgstr ""
-"Advarsel: Ændringer af drivprogrammer og enheder kan gøre Kdenlive "
-"ustabil. Foretag kun ændringer, hvis du ved hvad du gør."
+"Advarsel: Ændringer af drivprogrammer og enheder kan gøre Kdenlive ustabil. "
+"Foretag kun ændringer, hvis du ved hvad du gør."
 
 msgid "Wave"
 msgstr "Bølge"
 
 msgid "Wear"
-msgstr ""
+msgstr "Wear"
 
 msgid "Welcome"
 msgstr "Velkommen"
@@ -2031,7 +2016,7 @@ msgid "Width"
 msgstr "Bredde"
 
 msgid "X"
-msgstr ""
+msgstr "X"
 
 msgid "X11"
 msgstr "X11"
@@ -2046,7 +2031,7 @@ msgid "XVideo"
 msgstr "XVideo"
 
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 msgid "Y:"
 msgstr "Y:"
@@ -2063,13 +2048,6 @@ msgstr "Du skal vælge et klip for denne handling"
 msgid "Z-Index:"
 msgstr "Z-index:"
 
-msgid "Zone end"
-msgstr "Zoneslut"
-
-msgid "Zone start"
-msgstr "Zonestart"
-
-#, fuzzy
 msgid "Zoom:"
 msgstr "Zoom:"
 
@@ -2128,7 +2106,7 @@ msgid "x"
 msgstr "x"
 
 msgid "x1"
-msgstr ""
+msgstr "x1"
 
 msgid "your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr "din MLT installation kan ikke findes. Installér MLT og genstart Kdenlive.\n"
