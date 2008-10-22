@@ -776,39 +776,31 @@ void MainWindow::setupActions() {
     collection->addAction("paste_effects", pasteEffects);
     connect(pasteEffects , SIGNAL(triggered()), this, SLOT(slotPasteEffects()));
 
-    KStandardAction::quit(this, SLOT(queryQuit()),
-                          collection);
+    KStandardAction::close(this, SLOT(closeCurrentDocument()), collection);
 
-    KStandardAction::open(this, SLOT(openFile()),
-                          collection);
+    KStandardAction::quit(this, SLOT(queryQuit()), collection);
 
-    m_saveAction = KStandardAction::save(this, SLOT(saveFile()),
-                                         collection);
+    KStandardAction::open(this, SLOT(openFile()), collection);
 
-    KStandardAction::saveAs(this, SLOT(saveFileAs()),
-                            collection);
+    m_saveAction = KStandardAction::save(this, SLOT(saveFile()), collection);
 
-    KStandardAction::openNew(this, SLOT(newFile()),
-                             collection);
+    KStandardAction::saveAs(this, SLOT(saveFileAs()), collection);
 
-    KStandardAction::preferences(this, SLOT(slotPreferences()),
-                                 collection);
+    KStandardAction::openNew(this, SLOT(newFile()), collection);
 
-    KStandardAction::configureNotifications(this , SLOT(configureNotifications()) , collection);
+    KStandardAction::preferences(this, SLOT(slotPreferences()), collection);
 
-    KStandardAction::copy(this, SLOT(slotCopy()),
-                          collection);
+    KStandardAction::configureNotifications(this , SLOT(configureNotifications()), collection);
 
-    KStandardAction::paste(this, SLOT(slotPaste()),
-                           collection);
+    KStandardAction::copy(this, SLOT(slotCopy()), collection);
 
-    KAction *undo = KStandardAction::undo(m_commandStack, SLOT(undo()),
-                                          collection);
+    KStandardAction::paste(this, SLOT(slotPaste()), collection);
+
+    KAction *undo = KStandardAction::undo(m_commandStack, SLOT(undo()), collection);
     undo->setEnabled(false);
     connect(m_commandStack, SIGNAL(canUndoChanged(bool)), undo, SLOT(setEnabled(bool)));
 
-    KAction *redo = KStandardAction::redo(m_commandStack, SLOT(redo()),
-                                          collection);
+    KAction *redo = KStandardAction::redo(m_commandStack, SLOT(redo()), collection);
     redo->setEnabled(false);
     connect(m_commandStack, SIGNAL(canRedoChanged(bool)), redo, SLOT(setEnabled(bool)));
 
