@@ -1376,7 +1376,7 @@ void MainWindow::slotSwitchMarkersComments() {
 
 void MainWindow::slotSwitchSnap() {
     KdenliveSettings::setSnaptopoints(!KdenliveSettings::snaptopoints());
-    m_buttonShowMarkers->setChecked(KdenliveSettings::snaptopoints());
+    m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
 }
 
 
