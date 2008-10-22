@@ -147,6 +147,7 @@ private:
     KAction *m_buttonSnap;
     QActionGroup *m_toolGroup;
     KAction *m_saveAction;
+    KAction *m_closeAction;
     QSlider *m_zoomSlider;
     StatusBarMessageLabel *m_messageLabel;
 

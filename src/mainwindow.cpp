@@ -777,7 +777,7 @@ void MainWindow::setupActions() {
     collection->addAction("paste_effects", pasteEffects);
     connect(pasteEffects , SIGNAL(triggered()), this, SLOT(slotPasteEffects()));
 
-    KStandardAction::close(this, SLOT(closeCurrentDocument()), collection);
+    m_closeAction = KStandardAction::close(this, SLOT(closeCurrentDocument()), collection);
 
     KStandardAction::quit(this, SLOT(queryQuit()), collection);
 
@@ -865,6 +865,7 @@ void MainWindow::newFile(bool showProjectSettings) {
         connectDocumentInfo(doc);
         connectDocument(trackView, doc);
     } else m_timelineArea->setTabBarHidden(false);
+    m_closeAction->setEnabled(m_timelineArea->count() > 1);
 }
 
 void MainWindow::activateDocument() {
@@ -1202,6 +1203,7 @@ void MainWindow::connectDocumentInfo(KdenliveDoc *doc) {
 
 void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //changed
     //m_projectMonitor->stop();
+    m_closeAction->setEnabled(m_timelineArea->count() > 1);
     kDebug() << "///////////////////   CONNECTING DOC TO PROJECT VIEW ////////////////";
     if (m_activeDocument) {
         if (m_activeDocument == doc) return;
