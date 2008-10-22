@@ -1031,7 +1031,7 @@ QHash <QString, QString> ClipItem::addEffect(QDomElement effect, bool animate) {
     bool needRepaint = false;
     /*QDomDocument doc;
     doc.appendChild(doc.importNode(effect, true));
-    kDebug() << "///////  CLIP ADD EFFECT: "<< doc.toString();*/
+    kDebug() << "///////  CLIP ADD EFFECT: " << doc.toString();*/
     m_effectList.append(effect);
     effectParams["tag"] = effect.attribute("tag");
     QString effectId = effect.attribute("id");
@@ -1069,7 +1069,7 @@ QHash <QString, QString> ClipItem::addEffect(QDomElement effect, bool animate) {
                     else if (e.attribute("name") == "in") fade += e.attribute("value").toInt();
                 }
             } else {
-                effectParams[e.attribute("name")] =  QString::number(effectParams[e.attribute("name")].toDouble() / f);
+                effectParams[e.attribute("name")] =  QString::number(e.attribute("value").toDouble() / f);
             }
         }
     }

@@ -38,7 +38,6 @@ QMap<QString, QImage> EffectStackEdit::iconCache;
 
 EffectStackEdit::EffectStackEdit(QWidget *parent): QWidget(parent), m_in(0), m_out(0) {
     setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding));
-    setBackgroundRole(QPalette::Dark);
     QVBoxLayout *vbox1 = new QVBoxLayout(parent);
     vbox1->setContentsMargins(0, 0, 0, 0);
     vbox1->setSpacing(0);

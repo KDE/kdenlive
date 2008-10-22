@@ -853,13 +853,12 @@ void MainWindow::newFile(bool showProjectSettings) {
     KUrl projectFolder;
     QPoint projectTracks(3, 2);
     if (!showProjectSettings && m_timelineArea->count() == 0) {
-	if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
-	profileName = KdenliveSettings::default_profile();
-    }
-    else {
+        if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
+        profileName = KdenliveSettings::default_profile();
+    } else {
         ProjectSettings *w = new ProjectSettings;
         if (w->exec() != QDialog::Accepted) return;
-	if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
+        if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
         profileName = w->selectedProfile();
         projectFolder = w->selectedFolder();
         projectTracks = w->tracks();

@@ -1,1 +1,1 @@
-install(FILES banner.png timeline_nothumbs.png timeline_athumbs.png timeline_vthumbs.png timeline_avthumbs.png transition.png metadata.properties DESTINATION ${DATA_INSTALL_DIR}/kdenlive )
+install(FILES banner.png timeline_nothumbs.png timeline_athumbs.png timeline_vthumbs.png timeline_avthumbs.png transition.png metadata.properties blacklisted_effects.txt DESTINATION ${DATA_INSTALL_DIR}/kdenlive )

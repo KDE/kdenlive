@@ -83,6 +83,20 @@ Mlt::Repository *initEffects::parseEffectFiles() {
     Mlt::Properties *filters = repository->filters();
     QStringList filtersList;
 
+    // Check for blacklisted effects
+    QString blacklist = KStandardDirs::locate("appdata", "blacklisted_effects.txt");
+
+    QFile file(blacklist);
+    QStringList blackListed;
+
+    if (file.open(QIODevice::ReadOnly)) {
+        QTextStream in(&file);
+        while (!in.atEnd()) {
+            blackListed.append(in.readLine().simplified());
+        }
+    }
+    file.close();
+
     for (int i = 0 ; i < filters->count() ; i++) {
         filtersList << filters->get_name(i);
     }
@@ -127,6 +141,11 @@ Mlt::Repository *initEffects::parseEffectFiles() {
             // kDebug()<<"//  FOUND EFFECT FILE: "<<itemName<<endl;
         }
     }
+
+    foreach(const QString &effect, blackListed) {
+        if (filtersList.contains(effect)) filtersList.removeAll(effect);
+    }
+
     foreach(const QString &filtername, filtersList) {
         QDomDocument doc = createDescriptionFromMlt(repository, "filters", filtername);
         if (!doc.isNull())

@@ -36,5 +36,6 @@ volume.xml
 wave.xml
 fadein.xml
 fadeout.xml
+frei0r_squareblur.xml
 
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects)

@@ -42,7 +42,7 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent)
         view.frame->setBackgroundRole(QPalette::AlternateBase);
         view.frame->setAutoFillBackground(true);
         if (!info.isBlind) view.buttonVideo->setIcon(KIcon("kdenlive-show-video"));
-	else view.buttonVideo->setIcon(KIcon("kdenlive-hide-video"));
+        else view.buttonVideo->setIcon(KIcon("kdenlive-hide-video"));
     } else {
         view.buttonVideo->setHidden(true);
     }
@@ -65,20 +65,18 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent)
 
 void HeaderTrack::switchVideo() {
     if (view.buttonVideo->isChecked()) {
-	view.buttonVideo->setIcon(KIcon("kdenlive-show-video"));
-    }
-    else {
-	view.buttonVideo->setIcon(KIcon("kdenlive-hide-video"));
+        view.buttonVideo->setIcon(KIcon("kdenlive-show-video"));
+    } else {
+        view.buttonVideo->setIcon(KIcon("kdenlive-hide-video"));
     }
     emit switchTrackVideo(m_index);
 }
 
 void HeaderTrack::switchAudio() {
     if (view.buttonAudio->isChecked()) {
-	view.buttonAudio->setIcon(KIcon("kdenlive-show-audio"));
-    }
-    else {
-	view.buttonAudio->setIcon(KIcon("kdenlive-hide-audio"));
+        view.buttonAudio->setIcon(KIcon("kdenlive-show-audio"));
+    } else {
+        view.buttonAudio->setIcon(KIcon("kdenlive-hide-audio"));
     }
     emit switchTrackAudio(m_index);
 }
