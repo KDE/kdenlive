@@ -656,6 +656,7 @@ void MainWindow::setupActions() {
 
     KAction* projectRender = new KAction(KIcon("media-record"), i18n("Render"), this);
     collection->addAction("project_render", projectRender);
+    projectRender->setShortcut(Qt::CTRL + Qt::Key_Return);
     connect(projectRender, SIGNAL(triggered(bool)), this, SLOT(slotRenderProject()));
 
     KAction* monitorPlay = new KAction(KIcon("media-playback-start"), i18n("Play"), this);
