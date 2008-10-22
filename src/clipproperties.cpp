@@ -49,7 +49,11 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     m_view.clip_description->setText(m_clip->description());
     QMap <QString, QString> props = m_clip->properties();
     // disable advanced properties until implemented
-    m_view.tabWidget->widget(ADVANCEDTAB)->setEnabled(false);
+    //m_view.tabWidget->widget(ADVANCEDTAB)->setEnabled(false);
+    if (props.contains("force_aspect_ratio") && props.value("force_aspect_ratio").toDouble() > 0) {
+        m_view.clip_force_ar->setChecked(true);
+        m_view.clip_ar->setValue(props.value("force_aspect_ratio").toDouble());
+    }
 
     if (props.contains("audiocodec"))
         m_view.clip_acodec->setText(props.value("audiocodec"));
@@ -215,21 +219,29 @@ QMap <QString, QString> ClipProperties::properties() {
     QMap <QString, QString> props;
     props["description"] = m_view.clip_description->text();
     CLIPTYPE t = m_clip->clipType();
+    QMap <QString, QString> old_props = m_clip->properties();
+    double aspect = m_view.clip_ar->value();
+    if (m_view.clip_force_ar->isChecked()) {
+        if (aspect != old_props.value("force_aspect_ratio").toDouble()) {
+            props["force_aspect_ratio"] = QString::number(aspect);
+            m_clipNeedsRefresh = true;
+        }
+    } else if (old_props.contains("force_aspect_ratio")) {
+        props["force_aspect_ratio"] = QString();
+        m_clipNeedsRefresh = true;
+    }
     if (t == COLOR) {
-        QMap <QString, QString> old_props = m_clip->properties();
         QString new_color = m_view.clip_color->color().name();
         if (new_color != QString("#" + old_props.value("colour").right(8).left(6))) {
             m_clipNeedsRefresh = true;
             props["colour"] = "0x" + new_color.right(6) + "ff";
         }
     } else if (t == IMAGE) {
-        QMap <QString, QString> old_props = m_clip->properties();
         if ((int) m_view.image_transparency->isChecked() != old_props.value("transparency").toInt()) {
             props["transparency"] = QString::number((int)m_view.image_transparency->isChecked());
             m_clipNeedsRefresh = true;
         }
     } else if (t == SLIDESHOW) {
-        QMap <QString, QString> old_props = m_clip->properties();
         QString value = QString::number((int) m_view.slide_loop->isChecked());
         if (old_props.value("loop") != value) props["loop"] = value;
         value = QString::number((int) m_view.slide_fade->isChecked());

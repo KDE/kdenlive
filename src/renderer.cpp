@@ -498,6 +498,10 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
         else {*/
         char *tmp = decodedString(urlpath);
         producer = new Mlt::Producer(*m_mltProfile, tmp);
+        if (xml.hasAttribute("force_aspect_ratio")) {
+            double aspect = xml.attribute("force_aspect_ratio").toDouble();
+            if (aspect > 0) producer->set("force_aspect_ratio", aspect);
+        }
         delete[] tmp;
         //}
     }

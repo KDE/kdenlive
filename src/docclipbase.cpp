@@ -462,6 +462,12 @@ void DocClipBase::setProperties(QMap <QString, QString> properties) {
             delete[] tmp;
         } else if (i.key() == "xmldata") {
             m_clipProducer->set("force_reload", 1);
+        } else if (i.key() == "force_aspect_ratio") {
+            double val = i.value().toDouble();
+            if (val == 0) {
+                m_properties.remove("force_aspect_ratio");
+                m_clipProducer->set("force_aspect_ratio", 0);
+            } else m_clipProducer->set("force_aspect_ratio", val);
         }
     }
     if (refreshProducer) slotRefreshProducer();
@@ -482,6 +488,8 @@ void DocClipBase::setProperty(const QString &key, const QString &value) {
         delete[] tmp;
     } else if (key == "xmldata") {
         m_clipProducer->set("force_reload", 1);
+    } else if (key == "force_aspect_ratio") {
+        m_clipProducer->set("force_aspect_ratio", value.toDouble());
     }
 }
 

@@ -92,7 +92,7 @@ Mlt::Repository *initEffects::parseEffectFiles() {
     if (file.open(QIODevice::ReadOnly)) {
         QTextStream in(&file);
         while (!in.atEnd()) {
-	    QString black = in.readLine().simplified();
+            QString black = in.readLine().simplified();
             if (!black.isEmpty() && !black.startsWith('#')) blackListed.append(black);
         }
     }
@@ -107,7 +107,7 @@ Mlt::Repository *initEffects::parseEffectFiles() {
     if (file2.open(QIODevice::ReadOnly)) {
         QTextStream in(&file2);
         while (!in.atEnd()) {
-	    QString black = in.readLine().simplified();
+            QString black = in.readLine().simplified();
             if (!black.isEmpty() && !black.startsWith('#')) blackListedtransitions.append(black);
         }
     }
