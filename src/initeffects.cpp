@@ -97,6 +97,20 @@ Mlt::Repository *initEffects::parseEffectFiles() {
     }
     file.close();
 
+    // Check for blacklisted transitions
+    blacklist = KStandardDirs::locate("appdata", "blacklisted_transitions.txt");
+
+    QFile file2(blacklist);
+    QStringList blackListedtransitions;
+
+    if (file2.open(QIODevice::ReadOnly)) {
+        QTextStream in(&file2);
+        while (!in.atEnd()) {
+            blackListedtransitions.append(in.readLine().simplified());
+        }
+    }
+    file2.close();
+
     for (int i = 0 ; i < filters->count() ; i++) {
         filtersList << filters->get_name(i);
     }
@@ -117,6 +131,10 @@ Mlt::Repository *initEffects::parseEffectFiles() {
         transitionsItemList << transitions->get_name(i);
     }
     delete transitions;
+
+    foreach(const QString &trans, blackListedtransitions) {
+        if (transitionsItemList.contains(trans)) transitionsItemList.removeAll(trans);
+    }
     fillTransitionsList(repository, &MainWindow::transitions, transitionsItemList);
 
     KGlobal::dirs()->addResourceType("ladspa_plugin", 0, "lib/ladspa");
