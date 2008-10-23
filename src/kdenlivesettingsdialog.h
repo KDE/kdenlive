@@ -48,8 +48,10 @@ public:
 private slots:
     void slotUpdateDisplay();
     void rebuildVideo4Commands();
+#ifndef NO_JOGSHUTTLE
     void slotCheckShuttle(int state = 0);
     void slotUpdateShuttleDevice(int ix = 0);
+#endif /* NO_JOGSHUTTLE */
     void slotEditImageApplication();
     void slotEditAudioApplication();
     void slotEditVideoApplication();

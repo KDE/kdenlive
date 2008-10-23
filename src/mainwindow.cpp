@@ -74,7 +74,9 @@
 #include "transitionsettings.h"
 #include "renderwidget.h"
 #include "renderer.h"
+#ifndef NO_JOGSHUTTLE
 #include "jogshuttle.h"
+#endif /* NO_JOGSHUTTLE */
 #include "clipproperties.h"
 #include "wizard.h"
 #include "editclipcommand.h"
@@ -98,7 +100,11 @@ EffectsList MainWindow::transitions;
 
 MainWindow::MainWindow(const QString &MltPath, QWidget *parent)
         : KXmlGuiWindow(parent),
-        m_activeDocument(NULL), m_activeTimeline(NULL), m_renderWidget(NULL), m_jogProcess(NULL), m_findActivated(false), m_initialized(false) {
+        m_activeDocument(NULL), m_activeTimeline(NULL), m_renderWidget(NULL),
+#ifndef NO_JOGSHUTTLE
+	m_jogProcess(NULL),
+#endif /* NO_JOGSHUTTLE */
+	m_findActivated(false), m_initialized(false) {
     setlocale(LC_NUMERIC, "POSIX");
     setFont(KGlobalSettings::toolBarFont());
     parseProfiles(MltPath);
@@ -329,7 +335,9 @@ MainWindow::MainWindow(const QString &MltPath, QWidget *parent)
         newFile(false);
     }
 
+#ifndef NO_JOGSHUTTLE
     activateShuttleDevice();
+#endif /* NO_JOGSHUTTLE */
     projectListDock->raise();
 }
 
@@ -385,6 +393,7 @@ void MainWindow::slotReloadEffects() {
     m_effectList->reloadEffectList();
 }
 
+#ifndef NO_JOGSHUTTLE
 void MainWindow::activateShuttleDevice() {
     if (m_jogProcess) delete m_jogProcess;
     m_jogProcess = NULL;
@@ -430,6 +439,7 @@ void MainWindow::slotShuttleAction(int code) {
         break;
     }
 }
+#endif /* NO_JOGSHUTTLE */
 
 void MainWindow::configureNotifications() {
     KNotifyConfigWidget::configure(this);
@@ -1355,7 +1365,9 @@ void MainWindow::updateConfiguration() {
     }
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
+#ifndef NO_JOGSHUTTLE
     activateShuttleDevice();
+#endif /* NO_JOGSHUTTLE */
 
 }
 

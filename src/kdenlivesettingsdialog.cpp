@@ -28,7 +28,9 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
+#ifndef NO_JOGSHUTTLE
 #include <linux/input.h>
+#endif /* NO_JOGSHUTTLE */
 
 #include "profilesdialog.h"
 #include "kdenlivesettings.h"
@@ -62,9 +64,15 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
 
     QWidget *p5 = new QWidget;
     m_configShuttle.setupUi(p5);
+#ifndef NO_JOGSHUTTLE
     connect(m_configShuttle.kcfg_enableshuttle, SIGNAL(stateChanged(int)), this, SLOT(slotCheckShuttle(int)));
     connect(m_configShuttle.shuttledevicelist, SIGNAL(activated(int)), this, SLOT(slotUpdateShuttleDevice(int)));
     slotCheckShuttle(KdenliveSettings::enableshuttle());
+    m_configShuttle.shuttledisabled->hide();
+#else
+    m_configShuttle.kcfg_enableshuttle->hide();
+    m_configShuttle.kcfg_enableshuttle->setDisabled(true);
+#endif /* NO_JOGSHUTTLE */
     page5 = addPage(p5, i18n("JogShuttle"), "input-mouse");
 
     QWidget *p6 = new QWidget;
@@ -241,6 +249,7 @@ void KdenliveSettingsDialog::slotEditImageApplication() {
     m_configEnv.kcfg_defaultimageapp->setText(service->exec());
 }
 
+#ifndef NO_JOGSHUTTLE
 void KdenliveSettingsDialog::slotCheckShuttle(int state) {
     m_configShuttle.config_group->setEnabled(state);
     if (m_configShuttle.shuttledevicelist->count() == 0) {
@@ -267,6 +276,7 @@ void KdenliveSettingsDialog::slotUpdateShuttleDevice(int ix) {
     //KdenliveSettings::setShuttledevice(device);
     m_configShuttle.kcfg_shuttledevice->setText(device);
 }
+#endif /* NO_JOGSHUTTLE */
 
 void KdenliveSettingsDialog::rebuildVideo4Commands() {
     QString captureCommand;

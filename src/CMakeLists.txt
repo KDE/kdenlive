@@ -109,7 +109,6 @@ set(kdenlive_SRCS
   abstractclipitem.cpp
   transitionsettings.cpp
   recmonitor.cpp
-  jogshuttle.cpp
   addtransitioncommand.cpp
   edittransitioncommand.cpp
   addfoldercommand.cpp
@@ -133,6 +132,12 @@ set(kdenlive_SRCS
   keyframehelper.cpp
   editclipcommand.cpp
 )
+
+if(NO_JOGSHUTTLE)
+  add_definitions(-DNO_JOGSHUTTLE)
+else(NO_JOGSHUTTLE)
+  set(kdenlive_SRCS jogshuttle.cpp ${kdenlive_SRCS})
+endif(NO_JOGSHUTTLE)
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )
 

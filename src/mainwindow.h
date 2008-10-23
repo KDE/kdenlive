@@ -53,7 +53,9 @@ class Monitor;
 class RecMonitor;
 class CustomTrackView;
 class RenderWidget;
+#ifndef NO_JOGSHUTTLE
 class JogShuttle;
+#endif /* NO_JOGSHUTTLE */
 class DocClipBase;
 class Render;
 
@@ -132,7 +134,9 @@ private:
 
     RenderWidget *m_renderWidget;
 
+#ifndef NO_JOGSHUTTLE
     JogShuttle *m_jogProcess;
+#endif /* NO_JOGSHUTTLE */
 
     KRecentFilesAction *m_fileOpenRecent;
     KAction *m_projectSearch;
@@ -158,8 +162,10 @@ private:
 
     void readOptions();
     void saveOptions();
+#ifndef NO_JOGSHUTTLE
     void activateShuttleDevice();
     void slotShuttleAction(int code);
+#endif /* NO_JOGSHUTTLE */
     void connectDocumentInfo(KdenliveDoc *doc);
     void findAhead();
     void doOpenFile(const KUrl &url, KAutoSaveFile *stale);
@@ -212,7 +218,9 @@ private slots:
     void slotAddCustomEffect(QAction *result);
     void slotAddTransition(QAction *result);
     void slotAddProjectClip(KUrl url);
+#ifndef NO_JOGSHUTTLE
     void slotShuttleButton(int code);
+#endif /* NO_JOGSHUTTLE */
     void slotShowClipProperties(DocClipBase *clip);
     void slotActivateEffectStackView();
     void slotActivateTransitionView();
