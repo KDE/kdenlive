@@ -1531,6 +1531,20 @@ bool Render::mltAddEffect(int track, GenTime position, QHash <QString, QString> 
     }
     Mlt::Service clipService(clip->get_service());
     m_isBlocked = true;
+
+    // temporarily remove all effects after insert point
+    QList <Mlt::Filter *> filtersList;
+    const int filer_ix = QString(args.value("kdenlive_ix")).toInt();
+    int ct = 0;
+    Mlt::Filter *filter = clipService.filter(ct);
+    while (filter) {
+        if (QString(filter->get("kdenlive_ix")).toInt() > filer_ix) {
+            filtersList.append(filter);
+            clipService.detach(*filter);
+        } else ct++;
+        filter = clipService.filter(ct);
+    }
+
     // create filter
     QString tag = args.value("tag");
     kDebug() << " / / INSERTING EFFECT: " << tag;
@@ -1605,6 +1619,12 @@ bool Render::mltAddEffect(int track, GenTime position, QHash <QString, QString> 
     }
     delete[] filterId;
     delete[] filterTag;
+
+    // re-add following filters
+    for (int i = 0; i < filtersList.count(); i++) {
+        clipService.attach(*(filtersList.at(i)));
+    }
+
     m_isBlocked = false;
     if (doRefresh) refresh();
     return true;
