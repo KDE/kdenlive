@@ -1756,7 +1756,7 @@ void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos) 
         while (filter) {
             int pos = QString(filter->get("kdenlive_ix")).toInt();
             if (pos >= newPos) {
-                if (pos < oldPos) filter->set("kdenlive_ix", QString(filter->get("kdenlive_ix")).toInt() + 1);
+                if (pos < oldPos) filter->set("kdenlive_ix", pos + 1);
                 filtersList.append(filter);
                 clipService.detach(*filter);
             } else ct++;

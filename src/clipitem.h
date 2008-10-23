@@ -127,8 +127,6 @@ private:
     QTimer *startThumbTimer;
     QTimer *endThumbTimer;
 
-    /** counter used to provide a unique id to each effect */
-    int m_effectsCounter;
     int m_selectedEffect;
     double m_opacity;
     QTimeLine *m_timeLine;

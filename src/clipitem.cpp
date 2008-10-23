@@ -41,7 +41,7 @@
 
 
 ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, bool generateThumbs)
-        : AbstractClipItem(info, QRectF(), fps), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), m_effectsCounter(1), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_startThumbRequested(false), m_endThumbRequested(false), m_startFade(0), m_endFade(0), m_hover(false), m_selectedEffect(-1), m_speed(1.0), framePixelWidth(0), m_startPix(QPixmap()), m_endPix(QPixmap()) {
+        : AbstractClipItem(info, QRectF(), fps), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_startThumbRequested(false), m_endThumbRequested(false), m_startFade(0), m_endFade(0), m_hover(false), m_selectedEffect(-1), m_speed(1.0), framePixelWidth(0), m_startPix(QPixmap()), m_endPix(QPixmap()) {
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() - 2));
     setPos((qreal) info.startPos.frames(fps), (qreal)(info.track * KdenliveSettings::trackheight()) + 1);
 
@@ -993,7 +993,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value) 
 }*/
 
 int ClipItem::effectsCounter() {
-    return m_effectsCounter++;
+    return effectsCount() + 1;
 }
 
 int ClipItem::effectsCount() {
@@ -1015,6 +1015,7 @@ QDomElement ClipItem::effectAt(int ix) {
 
 void ClipItem::setEffectAt(int ix, QDomElement effect) {
     kDebug() << "CHange EFFECT AT: " << ix << ", CURR: " << m_effectList.at(ix).attribute("tag") << ", NEW: " << effect.attribute("tag");
+    effect.setAttribute("kdenlive_ix", ix + 1);
     m_effectList.insert(ix, effect);
     m_effectList.removeAt(ix + 1);
     m_effectNames = m_effectList.effectNames().join(" / ");
@@ -1134,8 +1135,10 @@ QHash <QString, QString> ClipItem::getEffectArgs(QDomElement effect) {
 
 void ClipItem::deleteEffect(QString index) {
     bool needRepaint = false;
+    QString ix;
     for (int i = 0; i < m_effectList.size(); ++i) {
-        if (m_effectList.at(i).attribute("kdenlive_ix") == index) {
+        ix = m_effectList.at(i).attribute("kdenlive_ix");
+        if (ix == index) {
             if (m_effectList.at(i).attribute("id") == "fadein") {
                 m_startFade = 0;
                 needRepaint = true;
@@ -1144,8 +1147,7 @@ void ClipItem::deleteEffect(QString index) {
                 needRepaint = true;
             }
             m_effectList.removeAt(i);
-            break;
-        }
+        } else if (ix.toInt() > index.toInt()) m_effectList[i].setAttribute("kdenlive_ix", ix.toInt() - 1);
     }
     m_effectNames = m_effectList.effectNames().join(" / ");
     if (needRepaint) update(boundingRect());
