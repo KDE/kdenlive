@@ -96,7 +96,7 @@
       <item row="2" column="1" >
        <widget class="KIntSpinBox" name="frame_num" >
         <property name="maximum" >
-         <number>10000</number>
+         <number>30000</number>
         </property>
        </widget>
       </item>
@@ -154,7 +154,11 @@
        </widget>
       </item>
       <item row="4" column="1" >
-       <widget class="KIntSpinBox" name="display_num" />
+       <widget class="KIntSpinBox" name="display_num" >
+        <property name="maximum" >
+         <number>10000</number>
+        </property>
+       </widget>
       </item>
       <item row="4" column="2" >
        <widget class="QLabel" name="label_8" >
@@ -170,7 +174,11 @@
        </widget>
       </item>
       <item row="4" column="3" >
-       <widget class="KIntSpinBox" name="display_den" />
+       <widget class="KIntSpinBox" name="display_den" >
+        <property name="maximum" >
+         <number>10000</number>
+        </property>
+       </widget>
       </item>
       <item row="5" column="0" colspan="4" >
        <widget class="QCheckBox" name="progressive" >
