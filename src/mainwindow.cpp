@@ -821,6 +821,8 @@ void MainWindow::saveOptions() {
     KdenliveSettings::self()->writeConfig();
     KSharedConfigPtr config = KGlobal::config();
     m_fileOpenRecent->saveEntries(KConfigGroup(config, "Recent Files"));
+    KConfigGroup treecolumns(config, "Project Tree");
+    treecolumns.writeEntry("columns", m_projectList->headerInfo());
     config->sync();
 }
 
@@ -839,6 +841,10 @@ void MainWindow::readOptions() {
             ::exit(1);
         }
     }
+    KConfigGroup treecolumns(config, "Project Tree");
+    const QByteArray state = treecolumns.readEntry("columns", QByteArray());
+    if (!state.isEmpty())
+        m_projectList->setHeaderInfo(state);
 }
 
 void MainWindow::newFile(bool showProjectSettings) {

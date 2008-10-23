@@ -127,6 +127,14 @@ ProjectList::~ProjectList() {
     delete m_toolbar;
 }
 
+QByteArray ProjectList::headerInfo() {
+    return listView->header()->saveState();
+}
+
+void ProjectList::setHeaderInfo(const QByteArray &state) {
+    listView->header()->restoreState(state);
+}
+
 void ProjectList::slotEditClip() {
     ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
     if (item && !item->isGroup()) {

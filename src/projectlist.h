@@ -109,6 +109,8 @@ public:
     void setRenderer(Render *projectRender);
     void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties);
     void updateAllClips();
+    QByteArray headerInfo();
+    void setHeaderInfo(const QByteArray &state);
 
 public slots:
     void setDocument(KdenliveDoc *doc);
