@@ -208,7 +208,7 @@ signals:
     void zoomIn();
     void zoomOut();
     void mousePosition(int);
-    void clipItemSelected(ClipItem*);
+    void clipItemSelected(ClipItem*, int ix = -1);
     void transitionItemSelected(Transition*);
     void activateDocumentMonitor();
     void trackHeightChanged();

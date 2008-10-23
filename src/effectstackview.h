@@ -44,7 +44,7 @@ private:
     //void updateButtonStatus();
 
 public slots:
-    void slotClipItemSelected(ClipItem*);
+    void slotClipItemSelected(ClipItem*, int ix);
     void slotUpdateEffectParams(const QDomElement&, const QDomElement&);
 
 private slots:

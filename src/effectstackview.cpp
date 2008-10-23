@@ -121,13 +121,13 @@ void EffectStackView::slotUpdateEffectParams(const QDomElement& old, const QDomE
         emit updateClipEffect(clipref, old, e, ui.effectlist->currentRow());
 }
 
-void EffectStackView::slotClipItemSelected(ClipItem* c) {
-    int ix = 0;
+void EffectStackView::slotClipItemSelected(ClipItem* c, int ix) {
     if (c && c == clipref) {
-        ix = ui.effectlist->currentRow();
+        if (ix == -1) ix = ui.effectlist->currentRow();
     } else {
         clipref = c;
         if (c) ix = c->selectedEffectIndex();
+        else ix = 0;
     }
     if (clipref == NULL) {
         ui.effectlist->clear();
@@ -199,29 +199,13 @@ void EffectStackView::slotItemSelectionChanged() {
 
 void EffectStackView::slotItemUp() {
     int activeRow = ui.effectlist->currentRow();
-    if (activeRow > 0) {
-        QDomElement act = clipref->effectAt(activeRow).cloneNode().toElement();
-        QDomElement before = clipref->effectAt(activeRow - 1).cloneNode().toElement();
-        clipref->setEffectAt(activeRow - 1, act);
-        clipref->setEffectAt(activeRow, before);
-    }
-    QListWidgetItem *item = ui.effectlist->takeItem(activeRow);
-    ui.effectlist->insertItem(activeRow - 1, item);
-    ui.effectlist->setCurrentItem(item);
+    if (activeRow <= 0) return;
     emit changeEffectPosition(clipref, activeRow + 1, activeRow);
 }
 
 void EffectStackView::slotItemDown() {
     int activeRow = ui.effectlist->currentRow();
-    if (activeRow < ui.effectlist->count() - 1) {
-        QDomElement act = clipref->effectAt(activeRow).cloneNode().toElement();
-        QDomElement after = clipref->effectAt(activeRow + 1).cloneNode().toElement();
-        clipref->setEffectAt(activeRow + 1, act);
-        clipref->setEffectAt(activeRow, after);
-    }
-    QListWidgetItem *item = ui.effectlist->takeItem(activeRow);
-    ui.effectlist->insertItem(activeRow + 1, item);
-    ui.effectlist->setCurrentItem(item);
+    if (activeRow >= ui.effectlist->count() - 1) return;
     emit changeEffectPosition(clipref, activeRow + 1, activeRow + 2);
 }
 

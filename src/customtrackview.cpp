@@ -897,6 +897,11 @@ void CustomTrackView::moveEffect(int track, GenTime pos, int oldPos, int newPos)
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_scene->m_tracksList.count() - track);
     if (clip) {
         m_document->renderer()->mltMoveEffect(track, pos, oldPos, newPos);
+        QDomElement act = clip->effectAt(newPos - 1).cloneNode().toElement();
+        QDomElement before = clip->effectAt(oldPos - 1).cloneNode().toElement();
+        clip->setEffectAt(oldPos - 1, act);
+        clip->setEffectAt(newPos - 1, before);
+        emit clipItemSelected(clip, newPos - 1);
     }
     m_document->setModified(true);
 }

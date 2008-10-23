@@ -89,7 +89,6 @@ private:
 private slots:
     void setCursorPos(int pos);
     void moveCursorPos(int pos);
-    void slotClipItemSelected(ClipItem*);
     void slotTransitionItemSelected(Transition*);
     void slotRebuildTrackHeaders();
 
@@ -97,7 +96,6 @@ private slots:
 signals:
     void mousePosition(int);
     void cursorMoved();
-    void clipItemSelected(ClipItem*);
     void transitionItemSelected(Transition*);
     void zoneMoved(int, int);
 };
