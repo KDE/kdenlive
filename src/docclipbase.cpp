@@ -451,24 +451,8 @@ void DocClipBase::setProperties(QMap <QString, QString> properties) {
     keys << "luma_duration" << "luma_file" << "fade" << "ttl" << "softness";
     while (i.hasNext()) {
         i.next();
-        m_properties.insert(i.key(), i.value());
-        if (i.key() == "resource") m_thumbProd->updateClipUrl(KUrl(i.value()));
-        else if (i.key() == "out") setDuration(GenTime(i.value().toInt(), KdenliveSettings::project_fps()));
-        else if (m_clipType == SLIDESHOW && keys.contains(i.key())) refreshProducer = true;
-        else if (i.key() == "transparency") m_clipProducer->set("transparency", i.value().toInt());
-        else if (i.key() == "colour") {
-            char *tmp = (char *) qstrdup(i.value().toUtf8().data());
-            m_clipProducer->set("colour", tmp);
-            delete[] tmp;
-        } else if (i.key() == "xmldata") {
-            m_clipProducer->set("force_reload", 1);
-        } else if (i.key() == "force_aspect_ratio") {
-            double val = i.value().toDouble();
-            if (val == 0) {
-                m_properties.remove("force_aspect_ratio");
-                m_clipProducer->set("force_aspect_ratio", 0);
-            } else m_clipProducer->set("force_aspect_ratio", val);
-        }
+        setProperty(i.key(), i.value());
+        if (m_clipType == SLIDESHOW && keys.contains(i.key())) refreshProducer = true;
     }
     if (refreshProducer) slotRefreshProducer();
 }
@@ -489,7 +473,25 @@ void DocClipBase::setProperty(const QString &key, const QString &value) {
     } else if (key == "xmldata") {
         m_clipProducer->set("force_reload", 1);
     } else if (key == "force_aspect_ratio") {
-        m_clipProducer->set("force_aspect_ratio", value.toDouble());
+        if (value.isEmpty()) {
+            m_properties.remove("force_aspect_ratio");
+            m_clipProducer->set("force_aspect_ratio", 0);
+        } else m_clipProducer->set("force_aspect_ratio", value.toDouble());
+    } else if (key == "threads") {
+        if (value.isEmpty()) {
+            m_properties.remove("threads");
+            m_clipProducer->set("threads", 1);
+        } else m_clipProducer->set("threads", value.toInt());
+    } else if (key == "video_index") {
+        if (value.isEmpty()) {
+            m_properties.remove("video_index");
+            m_clipProducer->set("video_index", 0);
+        } else m_clipProducer->set("video_index", value.toInt());
+    } else if (key == "audio_index") {
+        if (value.isEmpty()) {
+            m_properties.remove("audio_index");
+            m_clipProducer->set("audio_index", 0);
+        } else m_clipProducer->set("audio_index", value.toInt());
     }
 }
 

@@ -48,12 +48,35 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     m_view.clip_path->setText(url.path());
     m_view.clip_description->setText(m_clip->description());
     QMap <QString, QString> props = m_clip->properties();
-    // disable advanced properties until implemented
-    //m_view.tabWidget->widget(ADVANCEDTAB)->setEnabled(false);
+
     if (props.contains("force_aspect_ratio") && props.value("force_aspect_ratio").toDouble() > 0) {
         m_view.clip_force_ar->setChecked(true);
+        m_view.clip_ar->setEnabled(true);
         m_view.clip_ar->setValue(props.value("force_aspect_ratio").toDouble());
     }
+
+    if (props.contains("threads") && props.value("threads").toInt() != 1) {
+        m_view.clip_force_threads->setChecked(true);
+        m_view.clip_threads->setEnabled(true);
+        m_view.clip_threads->setValue(props.value("threads").toInt());
+    }
+
+    if (props.contains("video_index") && props.value("video_index").toInt() != 0) {
+        m_view.clip_force_vindex->setChecked(true);
+        m_view.clip_vindex->setEnabled(true);
+        m_view.clip_vindex->setValue(props.value("video_index").toInt());
+    }
+
+    if (props.contains("audio_index") && props.value("audio_index").toInt() != 0) {
+        m_view.clip_force_aindex->setChecked(true);
+        m_view.clip_aindex->setEnabled(true);
+        m_view.clip_aindex->setValue(props.value("audio_index").toInt());
+    }
+
+    connect(m_view.clip_force_ar, SIGNAL(toggled(bool)), m_view.clip_ar, SLOT(setEnabled(bool)));
+    connect(m_view.clip_force_threads, SIGNAL(toggled(bool)), m_view.clip_threads, SLOT(setEnabled(bool)));
+    connect(m_view.clip_force_vindex, SIGNAL(toggled(bool)), m_view.clip_vindex, SLOT(setEnabled(bool)));
+    connect(m_view.clip_force_aindex, SIGNAL(toggled(bool)), m_view.clip_aindex, SLOT(setEnabled(bool)));
 
     if (props.contains("audiocodec"))
         m_view.clip_acodec->setText(props.value("audiocodec"));
@@ -230,6 +253,34 @@ QMap <QString, QString> ClipProperties::properties() {
         props["force_aspect_ratio"] = QString();
         m_clipNeedsRefresh = true;
     }
+
+    int threads = m_view.clip_threads->value();
+    if (m_view.clip_force_threads->isChecked()) {
+        if (threads != old_props.value("threads").toInt()) {
+            props["threads"] = QString::number(threads);
+        }
+    } else if (old_props.contains("threads")) {
+        props["threads"] = QString();
+    }
+
+    int vindex = m_view.clip_vindex->value();
+    if (m_view.clip_force_vindex->isChecked()) {
+        if (vindex != old_props.value("video_index").toInt()) {
+            props["video_index"] = QString::number(vindex);
+        }
+    } else if (old_props.contains("video_index")) {
+        props["video_index"] = QString();
+    }
+
+    int aindex = m_view.clip_aindex->value();
+    if (m_view.clip_force_aindex->isChecked()) {
+        if (aindex != old_props.value("audio_index").toInt()) {
+            props["audio_index"] = QString::number(aindex);
+        }
+    } else if (old_props.contains("audio_index")) {
+        props["audio_index"] = QString();
+    }
+
     if (t == COLOR) {
         QString new_color = m_view.clip_color->color().name();
         if (new_color != QString("#" + old_props.value("colour").right(8).left(6))) {

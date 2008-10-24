@@ -498,11 +498,24 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
         else {*/
         char *tmp = decodedString(urlpath);
         producer = new Mlt::Producer(*m_mltProfile, tmp);
+        delete[] tmp;
+
         if (xml.hasAttribute("force_aspect_ratio")) {
             double aspect = xml.attribute("force_aspect_ratio").toDouble();
             if (aspect > 0) producer->set("force_aspect_ratio", aspect);
         }
-        delete[] tmp;
+        if (xml.hasAttribute("threads")) {
+            int threads = xml.attribute("threads").toInt();
+            if (threads != 1) producer->set("threads", threads);
+        }
+        if (xml.hasAttribute("video_index")) {
+            int vindex = xml.attribute("video_index").toInt();
+            if (vindex != 0) producer->set("video_index", vindex);
+        }
+        if (xml.hasAttribute("audio_index")) {
+            int aindex = xml.attribute("audio_index").toInt();
+            if (aindex != 0) producer->set("audio_index", aindex);
+        }
         //}
     }
     if (xml.hasAttribute("out")) producer->set_in_and_out(xml.attribute("in").toInt(), xml.attribute("out").toInt());
