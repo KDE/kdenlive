@@ -28,6 +28,7 @@
 #include "effectslistview.h"
 #include "effectslistwidget.h"
 #include "effectslist.h"
+#include "kdenlivesettings.h"
 
 EffectsListView::EffectsListView(QWidget *parent)
         : QWidget(parent) {
@@ -40,7 +41,10 @@ EffectsListView::EffectsListView(QWidget *parent)
     lyr->setContentsMargins(0, 0, 0, 0);
     ui.search_effect->setListWidget(m_effectsList);
     ui.buttonInfo->setIcon(KIcon("help-about"));
-    ui.infopanel->hide();
+
+    if (KdenliveSettings::showeffectinfo()) {
+        ui.buttonInfo->setDown(true);
+    } else ui.infopanel->hide();
     menu->addAction(KIcon("edit-delete"), i18n("Delete effect"), this, SLOT(slotRemoveEffect()));
 
     connect(ui.type_combo, SIGNAL(currentIndexChanged(int)), this, SLOT(filterList(int)));
@@ -74,9 +78,11 @@ void EffectsListView::showInfoPanel() {
     if (ui.infopanel->isVisible()) {
         ui.infopanel->setVisible(false);
         ui.buttonInfo->setDown(false);
+        KdenliveSettings::setShoweffectinfo(false);
     } else {
         ui.infopanel->setVisible(true);
         ui.buttonInfo->setDown(true);
+        KdenliveSettings::setShoweffectinfo(true);
     }
 }
 
@@ -86,8 +92,7 @@ void EffectsListView::slotEffectSelected() {
 }
 
 void EffectsListView::slotUpdateInfo() {
-    QString info = m_effectsList->currentInfo();
-    ui.infopanel->setText(info);
+    ui.infopanel->setText(m_effectsList->currentInfo());
 }
 
 KListWidget *EffectsListView::listView() {

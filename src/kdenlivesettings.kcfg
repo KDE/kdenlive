@@ -319,5 +319,10 @@
       <default>true</default>
     </entry>
 
+    <entry name="showeffectinfo" type="Bool">
+      <label>Show small effect description in effect list.</label>
+      <default>false</default>
+    </entry>
+
   </group>
 </kcfg>

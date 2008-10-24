@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>257</width>
-    <height>280</height>
+    <width>314</width>
+    <height>296</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout" >
@@ -48,35 +48,51 @@
     </widget>
    </item>
    <item row="1" column="0" colspan="3" >
-    <widget class="QFrame" name="effectlistframe" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+    <widget class="QSplitter" name="splitter" >
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
      </property>
-     <property name="frameShape" >
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Raised</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="3" >
-    <widget class="QTextEdit" name="infopanel" >
-     <property name="frameShape" >
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Sunken</enum>
-     </property>
-     <property name="readOnly" >
-      <bool>true</bool>
-     </property>
+     <widget class="QFrame" name="effectlistframe" >
+      <property name="frameShape" >
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow" >
+       <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+     <widget class="QLabel" name="infopanel" >
+      <property name="sizePolicy" >
+       <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="frameShape" >
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow" >
+       <enum>QFrame::Raised</enum>
+      </property>
+      <property name="text" >
+       <string/>
+      </property>
+      <property name="alignment" >
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      </property>
+      <property name="wordWrap" >
+       <bool>true</bool>
+      </property>
+     </widget>
     </widget>
    </item>
   </layout>
+  <zorder>type_combo</zorder>
+  <zorder>search_effect</zorder>
+  <zorder>buttonInfo</zorder>
+  <zorder>effectlistframe</zorder>
+  <zorder>infopanel</zorder>
+  <zorder>infopanel</zorder>
+  <zorder>splitter</zorder>
  </widget>
  <customwidgets>
   <customwidget>
