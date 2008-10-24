@@ -74,6 +74,8 @@ protected:
     virtual bool queryClose();
     virtual void customEvent(QEvent * e);
     virtual void keyPressEvent(QKeyEvent *ke);
+    /** Override hideEvent to get events when the mainwindow gets hidden */
+    virtual void hideEvent(QHideEvent *e);
     bool eventFilter(QObject *obj, QEvent *ev);
     /**
      * This function is called when it is time for the app to save its

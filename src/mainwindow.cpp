@@ -1706,6 +1706,17 @@ void MainWindow::keyPressEvent(QKeyEvent *ke) {
     } else KXmlGuiWindow::keyPressEvent(ke);
 }
 
+
+/** Gets called when the window gets hidden */
+void MainWindow::hideEvent(QHideEvent *event) {
+    // kDebug() << "I was hidden";
+    // issue http://www.kdenlive.org/mantis/view.php?id=231
+    if ( this->isMinimized() ) {
+        // kDebug() << "I am minimized";
+        if ( m_monitorManager ) m_monitorManager->stopActiveMonitor();
+    }
+}
+
 bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
     if (m_findActivated) {
         if (event->type() == QEvent::ShortcutOverride) {
