@@ -54,11 +54,13 @@ void EffectsListWidget::initList() {
     QListWidgetItem *item;
     QString effectName;
     QStringList effectInfo;
+    KIcon videoIcon("kdenlive-show-video");
+    KIcon audioIcon("kdenlive-show-audio");
     int ct = MainWindow::videoEffects.count();
     for (int ix = 0; ix < ct; ix ++) {
         effectInfo = MainWindow::videoEffects.effectIdInfo(ix);
         if (!effectInfo.isEmpty()) {
-            item = new QListWidgetItem(effectInfo.takeFirst(), this);
+            item = new QListWidgetItem(videoIcon, effectInfo.takeFirst(), this);
             item->setData(TypeRole, QString::number((int) EFFECT_VIDEO));
             item->setData(IdRole, effectInfo);
         }
@@ -68,7 +70,7 @@ void EffectsListWidget::initList() {
     for (int ix = 0; ix < ct; ix ++) {
         effectInfo = MainWindow::audioEffects.effectIdInfo(ix);
         if (!effectInfo.isEmpty()) {
-            item = new QListWidgetItem(effectInfo.takeFirst(), this);
+            item = new QListWidgetItem(audioIcon, effectInfo.takeFirst(), this);
             item->setData(TypeRole, QString::number((int) EFFECT_AUDIO));
             item->setData(IdRole, effectInfo);
         }
