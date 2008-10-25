@@ -63,7 +63,15 @@ class MainWindow : public KXmlGuiWindow {
     Q_OBJECT
 
 public:
-    MainWindow(const QString &MltPath = QString(), QWidget *parent = 0);
+    /** Constructor
+     * \param MltPath path to MLT environment
+     * \param Url Url to open
+     * \param parent Std. widget parent
+     *
+     * The constructor inits the main window. If Url is present, it will be opened.
+     * If Url is not present, and openLastproject is set, last project will be set
+     * If no file is open after trying this, a default "newfile" will be created. */
+    MainWindow(const QString &MltPath = QString(), const KUrl & Url = KUrl(), QWidget *parent = 0);
     void parseProfiles(const QString &mltPath = QString());
 
     static EffectsList videoEffects;

@@ -98,7 +98,7 @@ EffectsList MainWindow::audioEffects;
 EffectsList MainWindow::customEffects;
 EffectsList MainWindow::transitions;
 
-MainWindow::MainWindow(const QString &MltPath, QWidget *parent)
+MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent)
         : KXmlGuiWindow(parent),
         m_activeDocument(NULL), m_activeTimeline(NULL), m_renderWidget(NULL),
 #ifndef NO_JOGSHUTTLE
@@ -321,17 +321,17 @@ MainWindow::MainWindow(const QString &MltPath, QWidget *parent)
     m_monitorManager->initMonitors(m_clipMonitor, m_projectMonitor);
     slotConnectMonitors();
 
-    if (KdenliveSettings::openlastproject()) {
-        openLastFile();
+    // Open or create a file.  Command line argument passed in Url has
+    // precedence, then "openlastproject", then just a plain empty file.
+    // If opening Url fails, openlastproject will _not_ be used.
+    if (!Url.isEmpty()) {
+        openFile(Url);
     } else {
-        /*QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::allStaleFiles();
-        if (!staleFiles.isEmpty()) {
-            if (KMessageBox::questionYesNo(this, i18n("Auto-saved files exist. Do you want to recover them now?"), i18n("File Recovery"), KGuiItem(i18n("Recover")), KGuiItem(i18n("Don't recover"))) == KMessageBox::Yes) {
-         recoverFiles(staleFiles);
-            }
-            else newFile();
+        if (KdenliveSettings::openlastproject()) {
+            openLastFile();
         }
-        else*/
+    }
+    if (m_timelineArea->count() == 0) {
         newFile(false);
     }
 

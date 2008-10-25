@@ -64,11 +64,12 @@ int main(int argc, char *argv[]) {
         KCmdLineArgs *args = KCmdLineArgs::parsedArgs(); //new
 
         QString mltPath = args->getOption("mlt-path");
-        MainWindow* window = new MainWindow(mltPath);
-        window->show();
-        if (args->count()) { //new
-            window->openFile(args->url(0)); //new
+        KUrl url;
+        if (args->count()) {
+            url = args->url(0);
         }
+        MainWindow* window = new MainWindow(mltPath, url);
+        window->show();
 
         args->clear();
     }
