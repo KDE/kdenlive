@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-21 09:36+0200\n"
-"PO-Revision-Date: 2008-10-22 15:13+0200\n"
+"POT-Creation-Date: 2008-10-25 03:20+0200\n"
+"PO-Revision-Date: 2008-10-25 10:58+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -204,6 +204,9 @@ msgstr "Autoriser les déplacements verticaux"
 
 msgid "Amplitude"
 msgstr "Amplitude"
+
+msgid "An open source video editor."
+msgstr "Un éditeur vidéo open source."
 
 msgid "Ascii art library"
 msgstr "Librairie Ascii art"
@@ -505,6 +508,9 @@ msgstr "Configurer"
 msgid "Connect"
 msgstr "Connecter"
 
+msgid "Copyright (c) 2008 Development team"
+msgstr "Copyright (©) 2008 équipe de développement"
+
 msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install or your driver settings, "
@@ -717,6 +723,9 @@ msgstr "Format d'affichage :"
 msgid "Do nothing"
 msgstr "Ne rien faire"
 
+msgid "Document to open"
+msgstr "Document à ouvrir"
+
 msgid "Don't recover"
 msgstr "Ne pas récupérer"
 
@@ -728,6 +737,10 @@ msgstr "Dw"
 
 msgid "E"
 msgstr "E"
+
+msgid "EMAIL OF TRANSLATORS"
+msgstr ""
+"jmpoure@free.fr, jb@kdenlive.org"
 
 msgid "Edit Clip"
 msgstr "Modifier clip"
@@ -1116,8 +1129,23 @@ msgstr "Inversion"
 msgid "Invert colors"
 msgstr "Inverser les couleurs"
 
+msgid "Jean-Baptiste Mardelle"
+msgstr "Jean-Baptiste Mardelle"
+
+msgid "Jog Shuttle device disabled."
+msgstr "Roue de montage désactivée."
+
 msgid "JogShuttle"
 msgstr "Roue de montage"
+
+msgid "Kdenlive"
+msgstr "Kdenlive"
+
+msgid "Kernel size"
+msgstr "Taille du rayon"
+
+msgid "Keyframe"
+msgstr "Trame-clé"
 
 msgid "LADSPA change pitch audio effect"
 msgstr "Effet audio LADSPA change pitch"
@@ -1220,6 +1248,9 @@ msgstr "Affiche des vagues sur le clip "
 msgid "Manage Profiles"
 msgstr "Gérer les profils"
 
+msgid "Marco Gittler"
+msgstr "Marco Gittler"
+
 msgid "Marker"
 msgstr "Repère"
 
@@ -1244,8 +1275,15 @@ msgstr "Divers ..."
 msgid "Mix"
 msgstr "Mixage"
 
+msgid "Mlt Connection, Transition, Effect, Timeline Developer"
+msgstr ""
+"Développeur de la connexion à MLT, transitions, effets et plan de montage"
+
 msgid "Mlt environment"
 msgstr "Environnement MLT"
+
+msgid "Mlt porting, KDE4 porting, Main developer"
+msgstr "Portage MLT, portage KDE4, développeur principal"
 
 msgid "Mlt profiles folder"
 msgstr "Dossier profils MLT"
@@ -1282,6 +1320,10 @@ msgstr "Mettre en sourdine le clip vidéo"
 
 msgid "N"
 msgstr "N"
+
+msgid "NAME OF TRANSLATORS"
+msgstr ""
+"Jean-Michel Pouré, Jean-Baptiste Mardelle"
 
 msgid "NTSC"
 msgstr "NTSC"
@@ -1418,6 +1460,16 @@ msgstr "Paramètres de lecture"
 
 msgid "Playlist clip"
 msgstr "Clip liste de lecture"
+
+msgid ""
+"Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
+"org/mantis</a>"
+msgstr ""
+"Veuillez signaler les bugs à l'adresse <a href=\"http://kdenlive.org/mantis"
+"\">http://kdenlive.org/mantis</a>"
+
+msgid "Please report bugs to http://kdenlive.org/mantis"
+msgstr "Veuillez signaler tout bug à l'adress http://kdenlive.org/mantis"
 
 msgid "Please set your default video format"
 msgstr "Veuillez choisir le format vidéo par défaut"
@@ -1557,8 +1609,22 @@ msgid "Rendering"
 msgstr "Rendu"
 
 #, kde-format
+msgid "Rendering %1"
+msgstr "Rendu en cours de %1"
+
+#, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Rendu <i>%1</i> en cours"
+
+#, kde-format
+msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
+msgstr ""
+"Le rendu de %1 est annulé, la vidéo en résultant est probablement "
+"inexploitable."
+
+#, kde-format
+msgid "Rendering of %1 is over"
+msgstr "Le rendu de <i>%1</i> est terminé"
 
 msgid "Reset effect"
 msgstr "Réinitialiser l'effet"
@@ -1720,6 +1786,9 @@ msgstr "Définir le point de sortie"
 msgid "Set current image as thumbnail"
 msgstr "Choisir la trame courante comme vignette"
 
+msgid "Set the path for MLT environnement"
+msgstr "Définir la chemin vers l'environnement MLT"
+
 msgid "Set zone end"
 msgstr "Définir la fin de zone"
 
@@ -1806,6 +1875,9 @@ msgstr "Scinder la vue"
 
 msgid "Spread"
 msgstr "Etalement"
+
+msgid "Square Blur"
+msgstr "Flou rectangulaire"
 
 msgid "Start"
 msgstr "Début"
@@ -1945,6 +2017,9 @@ msgstr "V"
 
 msgid "Value"
 msgstr "Valeur"
+
+msgid "Variable-size square blur (frei0r.squareblur)"
+msgstr "Flou rectangulaire de taille variable (frei0r.squareblur)"
 
 msgid "Variance"
 msgstr "Variance"
@@ -3008,9 +3083,6 @@ msgstr ""
 #~ msgid "Invert direction"
 #~ msgstr "Direction de l'inversion"
 
-#~ msgid "Kdenlive"
-#~ msgstr "Kdenlive"
-
 #~ msgid ""
 #~ "Kdenlive\n"
 #~ "\n"
@@ -3042,9 +3114,6 @@ msgstr ""
 
 #~ msgid "Kdenlive programmer, Trackdecorators"
 #~ msgstr "Programmation Kdenlive, décoration des pistes"
-
-#~ msgid "Keyframe"
-#~ msgstr "Trame-clé"
 
 #~ msgid "Keyframes"
 #~ msgstr "Trames clés"
@@ -3722,13 +3791,6 @@ msgstr ""
 #~ msgid "The clip %1 is already present in this project"
 #~ msgstr "Le clip %1 se trouve déjà dans le projet"
 
-#~ msgid ""
-#~ "The conversion terminated unexpectedly.\n"
-#~ "Output file will probably be corrupted..."
-#~ msgstr ""
-#~ "La conversion s'est arrêtée de manière inattendue.\n"
-#~ "Le fichier de sortie est probablement inutilisable ..."
-
 #~ msgid "The creation of DVD structure failed."
 #~ msgstr "La création de la structure du DVD a échoué."
 
@@ -4000,16 +4062,6 @@ msgstr ""
 #~ msgid "Zoom to display the whole project"
 #~ msgstr "Zoomer sur l'ensemble du projet"
 
-#~ msgid "_: EMAIL OF TRANSLATORS\\nYour emails"
-#~ msgstr ""
-#~ "jmpoure@free.fr, heckmann.svt@ifrance.com, jb@ader.ch, caulier."
-#~ "gilles@free.fr"
-
-#~ msgid "_: NAME OF TRANSLATORS\\nYour names"
-#~ msgstr ""
-#~ "Jean-Michel Pouré, Sébastien Heckmann, Jean-Baptiste Mardelle, Gilles "
-#~ "Caulier"
-
 #~ msgid "add"
 #~ msgstr "ajouter"
 
@@ -4021,9 +4073,6 @@ msgstr ""
 
 #~ msgid "delete"
 #~ msgstr "supprimer"
-
-#~ msgid "file to open"
-#~ msgstr "fichier à ouvrir"
 
 #~ msgid "gif"
 #~ msgstr "gif"
