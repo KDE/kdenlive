@@ -154,9 +154,23 @@ void EffectStackView::setupListView(int ix) {
     ui.effectlist->clear();
     for (int i = 0;i < clipref->effectsCount();i++) {
         QDomElement d = clipref->effectAt(i);
+        // Issue 238: Add icons for effect type in effectstack.
+        KIcon videoIcon("kdenlive-show-video");
+        KIcon audioIcon("kdenlive-show-audio");
+
         QDomNode namenode = d.elementsByTagName("name").item(0);
         if (!namenode.isNull()) {
-            QListWidgetItem* item = new QListWidgetItem(i18n(namenode.toElement().text().toUtf8().data()), ui.effectlist);
+            // Issue 238: Add icons for effect type in effectstack.
+            // Logic more or less copied from initeffects.cpp
+            QString type = d.attribute("type", QString::null);
+            QListWidgetItem* item;
+            if ("audio" == type) {
+              item = new QListWidgetItem(audioIcon, i18n(namenode.toElement().text().toUtf8().data()), ui.effectlist);
+            } else if ( "custom" == type) {
+              item = new QListWidgetItem(i18n(namenode.toElement().text().toUtf8().data()), ui.effectlist);
+            } else {
+              item = new QListWidgetItem(videoIcon, i18n(namenode.toElement().text().toUtf8().data()), ui.effectlist);
+            }
             item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
             if (d.attribute("disabled") == "1") item->setCheckState(Qt::Unchecked);
             else item->setCheckState(Qt::Checked);
