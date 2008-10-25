@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-21 09:36+0200\n"
-"PO-Revision-Date: 2008-10-21 21:41+0200\n"
+"POT-Creation-Date: 2008-10-25 03:20+0200\n"
+"PO-Revision-Date: 2008-10-25 10:40+0200\n"
 "Last-Translator: Mads Bondo Dydensborg <mads@dydensborg.dk>\n"
 "Language-Team: Dansk <da@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -205,6 +205,9 @@ msgstr "Tillad vertikal flytning"
 
 msgid "Amplitude"
 msgstr "Amplitude"
+
+msgid "An open source video editor."
+msgstr "En open source video editor."
 
 msgid "Ascii art library"
 msgstr "Ascii art bibliotek"
@@ -495,6 +498,9 @@ msgstr "Indstille"
 msgid "Connect"
 msgstr "Forbind"
 
+msgid "Copyright (c) 2008 Development team"
+msgstr "Copyright (c) 2008 udviklingsholdet"
+
 msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install or your driver settings, "
@@ -705,6 +711,9 @@ msgstr "Vis ratio:"
 msgid "Do nothing"
 msgstr "Gør ingenting"
 
+msgid "Document to open"
+msgstr "Dokument at åbne"
+
 msgid "Don't recover"
 msgstr "Gendan ikke"
 
@@ -716,6 +725,9 @@ msgstr "Dw"
 
 msgid "E"
 msgstr "E"
+
+msgid "EMAIL OF TRANSLATORS"
+msgstr "mads@dydensborg.dk"
 
 msgid "Edit Clip"
 msgstr "Rediger klip"
@@ -1099,8 +1111,23 @@ msgstr "Invertér"
 msgid "Invert colors"
 msgstr "Invertér farver"
 
+msgid "Jean-Baptiste Mardelle"
+msgstr "Jean-Baptiste Mardelle"
+
+msgid "Jog Shuttle device disabled."
+msgstr "Jog Shuttle deaktiveret."
+
 msgid "JogShuttle"
 msgstr "JogShuttle"
+
+msgid "Kdenlive"
+msgstr "Kdenlive"
+
+msgid "Kernel size"
+msgstr "Kernestørrelse"
+
+msgid "Keyframe"
+msgstr "Keyframe"
 
 msgid "LADSPA change pitch audio effect"
 msgstr "LADSPA ændre pitch lydeffekt"
@@ -1200,6 +1227,9 @@ msgstr "Dan bølger på klip med keyframes"
 msgid "Manage Profiles"
 msgstr "Håndtér profiler"
 
+msgid "Marco Gittler"
+msgstr "Marco Gittler"
+
 msgid "Marker"
 msgstr "Markør"
 
@@ -1224,8 +1254,14 @@ msgstr "Diverse..."
 msgid "Mix"
 msgstr "Blanding"
 
+msgid "Mlt Connection, Transition, Effect, Timeline Developer"
+msgstr "Mlt forbindelse, overgange, effekter og tidslinieudvikler"
+
 msgid "Mlt environment"
 msgstr "Mlt omgivelser"
+
+msgid "Mlt porting, KDE4 porting, Main developer"
+msgstr "Mlt portering, KDE4 portering, hovedudiklver"
 
 msgid "Mlt profiles folder"
 msgstr "Mlt profil folder"
@@ -1262,6 +1298,9 @@ msgstr "Afbryd lyd på video klip"
 
 msgid "N"
 msgstr "N"
+
+msgid "NAME OF TRANSLATORS"
+msgstr "Mads Bondo Dydensborg"
 
 msgid "NTSC"
 msgstr "NTSC"
@@ -1398,6 +1437,16 @@ msgstr "Afspilningsparametre"
 
 msgid "Playlist clip"
 msgstr "Spilleliste klip"
+
+msgid ""
+"Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
+"org/mantis</a>"
+msgstr ""
+"Rapportér venligst fejl til <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
+"org/mantis</a>"
+
+msgid "Please report bugs to http://kdenlive.org/mantis"
+msgstr "Rapportér venligst fejl til http://kdenlive.org/mantis"
 
 msgid "Please set your default video format"
 msgstr "Vær venlig at indstille standard video format"
@@ -1537,8 +1586,20 @@ msgid "Rendering"
 msgstr "Generéring"
 
 #, kde-format
+msgid "Rendering %1"
+msgstr "Generérer %1"
+
+#, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Generéring <i>%1</i> begyndt"
+
+#, kde-format
+msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
+msgstr "Generering af %1 afbrudt, resultatvideoen er formentlig defekt."
+
+#, kde-format
+msgid "Rendering of %1 is over"
+msgstr "Generéring af %1 er færdig"
 
 msgid "Reset effect"
 msgstr "Nulstil effekt"
@@ -1701,6 +1762,9 @@ msgstr "Sæt udpunkt"
 msgid "Set current image as thumbnail"
 msgstr "Sæt nuværende billede som miniature"
 
+msgid "Set the path for MLT environnement"
+msgstr "Sæt stien til MLT"
+
 msgid "Set zone end"
 msgstr "Sæt zone slut"
 
@@ -1787,6 +1851,9 @@ msgstr "Split visning"
 
 msgid "Spread"
 msgstr "Spred"
+
+msgid "Square Blur"
+msgstr "Firkantet sløring"
 
 msgid "Start"
 msgstr "Start"
@@ -1926,6 +1993,9 @@ msgstr "V"
 
 msgid "Value"
 msgstr "Værdi"
+
+msgid "Variable-size square blur (frei0r.squareblur)"
+msgstr "Variabelstørrelse firkantet sløring (frei0r.squareblur)"
 
 msgid "Variance"
 msgstr "Varians"
