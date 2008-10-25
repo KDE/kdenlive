@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-06 17:22+0200\n"
+"POT-Creation-Date: 2008-10-25 03:20+0200\n"
 "PO-Revision-Date: 2008-10-13 11:40+0200\n"
 "Last-Translator: Felix Hammer <f.hammer@gmx.de>\n"
 "Language-Team:  <de@li.org>\n"
@@ -18,9 +18,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-
-msgid " Firewire (DV / HDV)"
-msgstr ""
 
 #, kde-format
 msgid "%1 images found"
@@ -122,8 +119,9 @@ msgstr "Guide hinzufügen"
 msgid "Add Image"
 msgstr "Bild hinzufügen"
 
-msgid "Add Marker to Clip"
-msgstr "Marker zum Clip hinzufügen"
+#, fuzzy
+msgid "Add Marker"
+msgstr "Marker hinzufügen"
 
 msgid "Add Rectangle"
 msgstr "Rechteck hinzufügen"
@@ -212,11 +210,11 @@ msgstr "Vertikales Verschieben erlauben"
 msgid "Amplitude"
 msgstr ""
 
+msgid "An open source video editor."
+msgstr ""
+
 msgid "Ascii art library"
 msgstr "Ascii art Bibliothek"
-
-msgid "Aspect ratio"
-msgstr "Seitenverhältnis"
 
 msgid "Aspect ratio:"
 msgstr "Seitenverhältnis:"
@@ -256,7 +254,9 @@ msgid "Auto add"
 msgstr "Automatisch hinzufügen"
 
 msgid "Auto-saved files exist. Do you want to recover them now?"
-msgstr "Eine automatisch gespeicherte Datei existiert. Möchten Sie diese Datei jetzt wiederherstellen?"
+msgstr ""
+"Eine automatisch gespeicherte Datei existiert. Möchten Sie diese Datei jetzt "
+"wiederherstellen?"
 
 msgid "Automatic"
 msgstr "Automatisch"
@@ -348,7 +348,9 @@ msgid "Cannot find clip with keyframe"
 msgstr "Keinen Clip mit Schlüsselbild gefunden"
 
 msgid "Cannot find the inigo program required for rendering (part of Mlt)"
-msgstr "Kann die Anwendung inigo (Bestandteil von Mlt) nicht finden die zum Rendern benutzt wird"
+msgstr ""
+"Kann die Anwendung inigo (Bestandteil von Mlt) nicht finden die zum Rendern "
+"benutzt wird"
 
 msgid "Cannot find your Mlt profiles, please give the path"
 msgstr "Kann Mlt-Profile nicht finden, bitte geben Sie den Pfad an"
@@ -379,7 +381,8 @@ msgid ""
 "application is not set.\n"
 "Please define it in Kdenlive settings dialog."
 msgstr ""
-"Video kann nach dem Rendern nicht abgespielt werden, da keine Standard Videoplayer Programm angegeben wurde.\n"
+"Video kann nach dem Rendern nicht abgespielt werden, da keine Standard "
+"Videoplayer Programm angegeben wurde.\n"
 "Bitte richten Sie dieses im Kdenlive Einstellungsdialog ein."
 
 #, kde-format
@@ -503,6 +506,9 @@ msgstr "Einrichten"
 msgid "Connect"
 msgstr "Verbinden"
 
+msgid "Copyright (c) 2008 Development team"
+msgstr ""
+
 msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install or your driver settings, "
@@ -608,7 +614,8 @@ msgstr "Lösche %1"
 msgid "Delete All Guides"
 msgstr "Alle Guides löschen"
 
-msgid "Delete All Markers from Clip"
+#, fuzzy
+msgid "Delete All Markers"
 msgstr "Alle Marker vom Clip löschen"
 
 msgid "Delete Clip"
@@ -620,8 +627,9 @@ msgstr "Verzeichnis löschen"
 msgid "Delete Guide"
 msgstr "Guide löschen"
 
-msgid "Delete Marker from Clip"
-msgstr "Marker vom Clip löschen"
+#, fuzzy
+msgid "Delete Marker"
+msgstr "Marker löschen"
 
 msgid "Delete Selected Item"
 msgstr "Gewähltes Element löschen"
@@ -664,9 +672,6 @@ msgstr "Ausgewähltes Element löschen"
 msgid "Delete timeline clip"
 msgstr "Datei aus Zeitleiste entfernen"
 
-msgid "Delete track"
-msgstr "Spur löschen"
-
 msgid "Delete transition from clip"
 msgstr "Übergang von Datei löschen"
 
@@ -703,17 +708,25 @@ msgstr "Trennen"
 msgid "Display"
 msgstr "Anzeige"
 
+#, fuzzy
+msgid "Display aspect ratio"
+msgstr "Display-Frequenz"
+
+#, fuzzy
+msgid "Display aspect ratio:"
+msgstr "Display-Frequenz:"
+
 msgid "Display clip markers comments"
 msgstr "Marker-Kommentare des Clips anzeigen"
-
-msgid "Display ratio"
-msgstr "Display-Frequenz"
 
 msgid "Display ratio:"
 msgstr "Display-Frequenz:"
 
 msgid "Do nothing"
 msgstr "Nichts unternehmen"
+
+msgid "Document to open"
+msgstr ""
 
 msgid "Don't recover"
 msgstr "Nicht wiederherstellen"
@@ -725,6 +738,9 @@ msgid "Dw"
 msgstr ""
 
 msgid "E"
+msgstr ""
+
+msgid "EMAIL OF TRANSLATORS"
 msgstr ""
 
 msgid "Edit Clip"
@@ -767,7 +783,9 @@ msgstr "Übergang bearbeiten %1"
 
 #, kde-format
 msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
-msgstr "Effekt %1:%2 wurde in MLT nicht gefunden und wurde aus diesem Projekt entfernt\n"
+msgstr ""
+"Effekt %1:%2 wurde in MLT nicht gefunden und wurde aus diesem Projekt "
+"entfernt\n"
 
 msgid "Effect List"
 msgstr "Effekt-Liste"
@@ -898,11 +916,9 @@ msgstr "Bild in beliebige Richtung drehen"
 msgid "Folder"
 msgstr "Verzeichnis"
 
-msgid "Force aspect ratio"
+#, fuzzy
+msgid "Force pixel aspect ratio"
 msgstr "Seitenverhältnis erzwingen"
-
-msgid "Form"
-msgstr ""
 
 msgid "Format"
 msgstr "Format"
@@ -1013,9 +1029,6 @@ msgstr "Gehe zum nächsten Schlüsselbild"
 msgid "Go to previous keyframe"
 msgstr "Gehe zum vorherigen Schlüsselbild"
 
-msgid "Go to..."
-msgstr "Gehe zu..."
-
 msgid "GraphView"
 msgstr "Graphen-Ansicht"
 
@@ -1100,9 +1113,6 @@ msgstr "Lade..."
 msgid "Input gain (db)"
 msgstr "Eingangsverstärkung (db)"
 
-msgid "Insert track"
-msgstr "Spur einfügen"
-
 msgid "Install extra video mimetypes"
 msgstr "Weitere Video mimetypes installieren"
 
@@ -1118,8 +1128,23 @@ msgstr "Invertieren"
 msgid "Invert colors"
 msgstr "Farben invertieren"
 
+msgid "Jean-Baptiste Mardelle"
+msgstr ""
+
+#, fuzzy
+msgid "Jog Shuttle device disabled."
+msgstr "Jog Shuttle Gerät aktivieren"
+
 msgid "JogShuttle"
 msgstr ""
+
+#, fuzzy
+msgid "Kdenlive"
+msgstr "Framegröße"
+
+#, fuzzy
+msgid "Kernel size"
+msgstr "Framegröße"
 
 msgid "Keyframe"
 msgstr "Keyframe"
@@ -1194,15 +1219,16 @@ msgid ""
 "MLT's SDL module not found. Please check your MLT install. Kdenlive will not "
 "work until this issue is fixed."
 msgstr ""
-"MLT's SDL Modul wurde nicht gefunden. Bitte überprüfen Sie Ihre MLT Installation. Kdenlive wird nicht funktionieren"
-"bis das Problem behoben ist."
+"MLT's SDL Modul wurde nicht gefunden. Bitte überprüfen Sie Ihre MLT "
+"Installation. Kdenlive wird nicht funktionierenbis das Problem behoben ist."
 
 msgid ""
 "MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT "
 "install. Kdenlive will not work until this issue is fixed."
 msgstr ""
-"MLT's avformat (FFMPEG) Modul wurde nicht gefunden. Bitte überprüfen Sie Ihre FFMPEG und MLT "
-"Installation. Kdenlive wird nicht funktionieren bis das Problem behoben ist."
+"MLT's avformat (FFMPEG) Modul wurde nicht gefunden. Bitte überprüfen Sie "
+"Ihre FFMPEG und MLT Installation. Kdenlive wird nicht funktionieren bis das "
+"Problem behoben ist."
 
 msgid "Make clip play faster slowly"
 msgstr "Lasse Clip allmählich schneller werden"
@@ -1221,6 +1247,9 @@ msgstr "Macht Wellen mit Keyframes auf den Clip"
 
 msgid "Manage Profiles"
 msgstr "Profile verwalten"
+
+msgid "Marco Gittler"
+msgstr ""
 
 msgid "Marker"
 msgstr "Markierungen"
@@ -1246,8 +1275,14 @@ msgstr "Verschiedenes..."
 msgid "Mix"
 msgstr ""
 
+msgid "Mlt Connection, Transition, Effect, Timeline Developer"
+msgstr ""
+
 msgid "Mlt environment"
 msgstr "Mlt-Umgebung"
+
+msgid "Mlt porting, KDE4 porting, Main developer"
+msgstr ""
 
 msgid "Mlt profiles folder"
 msgstr "Mlt Profil Ordner"
@@ -1283,6 +1318,9 @@ msgid "Mute video clip"
 msgstr "Video stumm schalten"
 
 msgid "N"
+msgstr ""
+
+msgid "NAME OF TRANSLATORS"
 msgstr ""
 
 msgid "NTSC"
@@ -1391,6 +1429,14 @@ msgstr "Tonhöhe skalieren"
 msgid "Pitch Shift"
 msgstr "Tonhöhe ändern"
 
+#, fuzzy
+msgid "Pixel aspect ratio"
+msgstr "Seitenverhältnis erzwingen"
+
+#, fuzzy
+msgid "Pixel aspect ratio:"
+msgstr "Seitenverhältnis erzwingen"
+
 msgid "Play"
 msgstr "Wiedergabe"
 
@@ -1414,6 +1460,14 @@ msgstr "Wiedergabeeinstellungen"
 
 msgid "Playlist clip"
 msgstr "Medium abspielen"
+
+msgid ""
+"Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
+"org/mantis</a>"
+msgstr ""
+
+msgid "Please report bugs to http://kdenlive.org/mantis"
+msgstr ""
 
 msgid "Please set your default video format"
 msgstr "Bitte geben Sie ihr Standard-Videoformat an"
@@ -1552,8 +1606,20 @@ msgstr "Rendern"
 msgid "Rendering"
 msgstr "Rendern"
 
+#, fuzzy, kde-format
+msgid "Rendering %1"
+msgstr "Rendern"
+
 #, kde-format
 msgid "Rendering <i>%1</i> started"
+msgstr "Rendern <i>%1</i> gestartet"
+
+#, kde-format
+msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
+msgstr ""
+
+#, fuzzy, kde-format
+msgid "Rendering of %1 is over"
 msgstr "Rendern <i>%1</i> gestartet"
 
 msgid "Reset effect"
@@ -1716,6 +1782,9 @@ msgstr "Setze Ausgangspunkt"
 msgid "Set current image as thumbnail"
 msgstr "Aktuelles Bild als Thumbnail setzen"
 
+msgid "Set the path for MLT environnement"
+msgstr ""
+
 msgid "Set zone end"
 msgstr "Bereichs-Endpunkt setzen"
 
@@ -1803,11 +1872,18 @@ msgstr ""
 msgid "Spread"
 msgstr "Streubreite"
 
+msgid "Square Blur"
+msgstr ""
+
 msgid "Start"
 msgstr "Start"
 
 msgid "Start Gain"
 msgstr "Anfangsverstärkung"
+
+#, fuzzy
+msgid "Start Rendering"
+msgstr "Rendern"
 
 msgid "Start-/EndViewport"
 msgstr "Start-/Endbereich"
@@ -1851,8 +1927,8 @@ msgid ""
 "seconds..."
 msgstr ""
 "Sie führen Kdenlive zum ersten Mal aus. Dieser Assistent wird Ihnen helfen, "
-"grundlegende Konfigurationen vorzunehmen. Sie können in Kürze mit dem Editieren "
-"Ihres ersten Videos beginnen..."
+"grundlegende Konfigurationen vorzunehmen. Sie können in Kürze mit dem "
+"Editieren Ihres ersten Videos beginnen..."
 
 msgid "Threshold"
 msgstr "Schwellwert"
@@ -1940,6 +2016,9 @@ msgstr ""
 msgid "Value"
 msgstr "Wert"
 
+msgid "Variable-size square blur (frei0r.squareblur)"
+msgstr ""
+
 msgid "Variance"
 msgstr "Varianz"
 
@@ -1992,10 +2071,7 @@ msgstr "Videospuren"
 msgid "Video4Linux"
 msgstr ""
 
-msgid "Video4Linux (webcam)"
-msgstr ""
-
-msgid "Video4Linux2 / FFmpeg"
+msgid "Video4Linux / FFmpeg"
 msgstr ""
 
 msgid "View"
@@ -2065,12 +2141,6 @@ msgstr "Für diese Aktion müssen Sie einen Clip auswählen"
 msgid "Z-Index:"
 msgstr ""
 
-msgid "Zone end"
-msgstr "Bereichsende"
-
-msgid "Zone start"
-msgstr "Bereichsanfang"
-
 msgid "Zoom:"
 msgstr ""
 
@@ -2132,6 +2202,32 @@ msgstr ""
 msgid "x1"
 msgstr ""
 
-msgid "your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
-msgstr "Es konnte keine Installation von MLT gefunden werden. Installieren Sie MLT und starten Sie Kdenlive neu.\n"
+msgid ""
+"your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
+msgstr ""
+"Es konnte keine Installation von MLT gefunden werden. Installieren Sie MLT "
+"und starten Sie Kdenlive neu.\n"
 
+#~ msgid "Add Marker to Clip"
+#~ msgstr "Marker zum Clip hinzufügen"
+
+#~ msgid "Aspect ratio"
+#~ msgstr "Seitenverhältnis"
+
+#~ msgid "Delete Marker from Clip"
+#~ msgstr "Marker vom Clip löschen"
+
+#~ msgid "Delete track"
+#~ msgstr "Spur löschen"
+
+#~ msgid "Go to..."
+#~ msgstr "Gehe zu..."
+
+#~ msgid "Insert track"
+#~ msgstr "Spur einfügen"
+
+#~ msgid "Zone end"
+#~ msgstr "Bereichsende"
+
+#~ msgid "Zone start"
+#~ msgstr "Bereichsanfang"

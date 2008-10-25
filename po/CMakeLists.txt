@@ -1,3 +1,1 @@
-FILE(GLOB pofiles RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.po)
-
-GETTEXT_CREATE_TRANSLATIONS("kdenlive.pot" ALL ${pofiles} )
+SUBDIRS(ca cs da de es fr nl zh)

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_TW\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-06 17:22+0200\n"
+"POT-Creation-Date: 2008-10-25 03:20+0200\n"
 "PO-Revision-Date: 2008-07-30 14:07+0800\n"
 "Last-Translator: eric <eric629@gmail.com>\n"
 "Language-Team: B2D\n"
@@ -11,9 +11,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 0.10.1\n"
-
-msgid " Firewire (DV / HDV)"
-msgstr ""
 
 #, fuzzy, kde-format
 msgid "%1 images found"
@@ -121,7 +118,7 @@ msgid "Add Image"
 msgstr "圖片"
 
 #, fuzzy
-msgid "Add Marker to Clip"
+msgid "Add Marker"
 msgstr "加入標記"
 
 msgid "Add Rectangle"
@@ -222,12 +219,11 @@ msgstr ""
 msgid "Amplitude"
 msgstr ""
 
-msgid "Ascii art library"
+msgid "An open source video editor."
 msgstr ""
 
-#, fuzzy
-msgid "Aspect ratio"
-msgstr "影片比例"
+msgid "Ascii art library"
+msgstr ""
 
 #, fuzzy
 msgid "Aspect ratio:"
@@ -547,6 +543,9 @@ msgstr "設定專案"
 msgid "Connect"
 msgstr "編碼器："
 
+msgid "Copyright (c) 2008 Development team"
+msgstr ""
+
 msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install or your driver settings, "
@@ -662,8 +661,8 @@ msgid "Delete All Guides"
 msgstr "刪除導線"
 
 #, fuzzy
-msgid "Delete All Markers from Clip"
-msgstr "刪除標記"
+msgid "Delete All Markers"
+msgstr "清除所有標記"
 
 msgid "Delete Clip"
 msgstr "刪除影片片段"
@@ -675,7 +674,7 @@ msgid "Delete Guide"
 msgstr "刪除導線"
 
 #, fuzzy
-msgid "Delete Marker from Clip"
+msgid "Delete Marker"
 msgstr "刪除標記"
 
 #, fuzzy
@@ -725,9 +724,6 @@ msgstr "刪除選擇的影片片段"
 msgid "Delete timeline clip"
 msgstr "刪除素材"
 
-msgid "Delete track"
-msgstr "刪除資料軌"
-
 #, fuzzy
 msgid "Delete transition from clip"
 msgstr "從選取影片片段刪除轉場效果"
@@ -771,11 +767,15 @@ msgid "Display"
 msgstr "顯示時間碼"
 
 #, fuzzy
-msgid "Display clip markers comments"
+msgid "Display aspect ratio"
 msgstr "顯示時間碼"
 
 #, fuzzy
-msgid "Display ratio"
+msgid "Display aspect ratio:"
+msgstr "顯示時間碼"
+
+#, fuzzy
+msgid "Display clip markers comments"
 msgstr "顯示時間碼"
 
 #, fuzzy
@@ -784,6 +784,10 @@ msgstr "顯示時間碼"
 
 msgid "Do nothing"
 msgstr ""
+
+#, fuzzy
+msgid "Document to open"
+msgstr "要開啟的檔案"
 
 msgid "Don't recover"
 msgstr ""
@@ -797,6 +801,12 @@ msgstr "下"
 
 msgid "E"
 msgstr ""
+
+#, fuzzy
+msgid "EMAIL OF TRANSLATORS"
+msgstr ""
+"_: 譯者電子信箱\n"
+"您的電子信箱"
 
 msgid "Edit Clip"
 msgstr "編輯素材"
@@ -991,12 +1001,8 @@ msgid "Folder"
 msgstr "資料夾"
 
 #, fuzzy
-msgid "Force aspect ratio"
+msgid "Force pixel aspect ratio"
 msgstr "影片比例"
-
-#, fuzzy
-msgid "Form"
-msgstr "Form1"
 
 msgid "Format"
 msgstr "格式"
@@ -1121,10 +1127,6 @@ msgstr "移動至下一個標記"
 msgid "Go to previous keyframe"
 msgstr "移動至上一個標記"
 
-#, fuzzy
-msgid "Go to..."
-msgstr "跳至"
-
 msgid "GraphView"
 msgstr ""
 
@@ -1221,10 +1223,6 @@ msgstr "離開中..."
 msgid "Input gain (db)"
 msgstr ""
 
-#, fuzzy
-msgid "Insert track"
-msgstr "刪除資料軌"
-
 msgid "Install extra video mimetypes"
 msgstr ""
 
@@ -1241,8 +1239,21 @@ msgstr ""
 msgid "Invert colors"
 msgstr "反轉方向"
 
+msgid "Jean-Baptiste Mardelle"
+msgstr ""
+
+msgid "Jog Shuttle device disabled."
+msgstr ""
+
 msgid "JogShuttle"
 msgstr ""
+
+msgid "Kdenlive"
+msgstr "Kdenlive"
+
+#, fuzzy
+msgid "Kernel size"
+msgstr "影格"
 
 #, fuzzy
 msgid "Keyframe"
@@ -1349,6 +1360,9 @@ msgstr ""
 msgid "Manage Profiles"
 msgstr "影像檔案"
 
+msgid "Marco Gittler"
+msgstr ""
+
 msgid "Marker"
 msgstr "標記"
 
@@ -1374,7 +1388,13 @@ msgstr ""
 msgid "Mix"
 msgstr ""
 
+msgid "Mlt Connection, Transition, Effect, Timeline Developer"
+msgstr ""
+
 msgid "Mlt environment"
+msgstr ""
+
+msgid "Mlt porting, KDE4 porting, Main developer"
 msgstr ""
 
 #, fuzzy
@@ -1419,6 +1439,12 @@ msgstr "靜音視訊素材"
 
 msgid "N"
 msgstr ""
+
+#, fuzzy
+msgid "NAME OF TRANSLATORS"
+msgstr ""
+"_: 譯者姓名\n"
+"您的姓名"
 
 msgid "NTSC"
 msgstr "NTSC"
@@ -1541,6 +1567,14 @@ msgstr ""
 msgid "Pitch Shift"
 msgstr ""
 
+#, fuzzy
+msgid "Pixel aspect ratio"
+msgstr "影片比例"
+
+#, fuzzy
+msgid "Pixel aspect ratio:"
+msgstr "影片比例"
+
 msgid "Play"
 msgstr "播放"
 
@@ -1569,6 +1603,14 @@ msgstr "快速倒轉"
 #, fuzzy
 msgid "Playlist clip"
 msgstr "播放素材"
+
+msgid ""
+"Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
+"org/mantis</a>"
+msgstr ""
+
+msgid "Please report bugs to http://kdenlive.org/mantis"
+msgstr ""
 
 #, fuzzy
 msgid "Please set your default video format"
@@ -1705,8 +1747,20 @@ msgstr "產生器"
 msgid "Rendering"
 msgstr "建立"
 
+#, fuzzy, kde-format
+msgid "Rendering %1"
+msgstr "建立"
+
 #, kde-format
 msgid "Rendering <i>%1</i> started"
+msgstr ""
+
+#, kde-format
+msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
+msgstr ""
+
+#, kde-format
+msgid "Rendering of %1 is over"
 msgstr ""
 
 #, fuzzy
@@ -1891,6 +1945,9 @@ msgstr "設定終點"
 msgid "Set current image as thumbnail"
 msgstr "儲存現有影格作為影像檔"
 
+msgid "Set the path for MLT environnement"
+msgstr ""
+
 #, fuzzy
 msgid "Set zone end"
 msgstr "選擇時區"
@@ -1988,12 +2045,19 @@ msgstr "分割素材"
 msgid "Spread"
 msgstr ""
 
+msgid "Square Blur"
+msgstr ""
+
 msgid "Start"
 msgstr "開始"
 
 #, fuzzy
 msgid "Start Gain"
 msgstr "開始"
+
+#, fuzzy
+msgid "Start Rendering"
+msgstr "建立"
 
 msgid "Start-/EndViewport"
 msgstr ""
@@ -2138,6 +2202,9 @@ msgstr ""
 msgid "Value"
 msgstr "音量"
 
+msgid "Variable-size square blur (frei0r.squareblur)"
+msgstr ""
+
 msgid "Variance"
 msgstr ""
 
@@ -2198,11 +2265,9 @@ msgstr "視訊軌"
 msgid "Video4Linux"
 msgstr "視訊"
 
-msgid "Video4Linux (webcam)"
-msgstr ""
-
-msgid "Video4Linux2 / FFmpeg"
-msgstr ""
+#, fuzzy
+msgid "Video4Linux / FFmpeg"
+msgstr "視訊"
 
 #, fuzzy
 msgid "View"
@@ -2273,13 +2338,6 @@ msgstr "請選擇一個素材來編輯轉場效果"
 #, fuzzy
 msgid "Z-Index:"
 msgstr "指標"
-
-#, fuzzy
-msgid "Zone end"
-msgstr "到轉1秒"
-
-msgid "Zone start"
-msgstr ""
 
 msgid "Zoom:"
 msgstr ""
@@ -2483,6 +2541,10 @@ msgstr ""
 #~ msgid "Add Clips"
 #~ msgstr "新增影片片段"
 
+#, fuzzy
+#~ msgid "Add Marker to Clip"
+#~ msgstr "加入標記"
+
 #~ msgid "Add Preset"
 #~ msgstr "新增預先設定"
 
@@ -2530,6 +2592,10 @@ msgstr ""
 
 #~ msgid "Application"
 #~ msgstr "應用軟體"
+
+#, fuzzy
+#~ msgid "Aspect ratio"
+#~ msgstr "影片比例"
 
 #~ msgid "Audio Stream"
 #~ msgstr "音訊串流"
@@ -2620,9 +2686,6 @@ msgstr ""
 
 #~ msgid "Cleaning Project"
 #~ msgstr "清除專案中"
-
-#~ msgid "Clear All Markers"
-#~ msgstr "清除所有標記"
 
 #~ msgid "Clear All Snap Markers"
 #~ msgstr "清除所有的定位標記"
@@ -2777,11 +2840,19 @@ msgstr ""
 #~ msgid "Define Clip Thumbnail"
 #~ msgstr "定義影片縮圖"
 
+#, fuzzy
+#~ msgid "Delete All Markers from Clip"
+#~ msgstr "刪除標記"
+
 #~ msgid "Delete Clips"
 #~ msgstr "刪除影片片段"
 
 #~ msgid "Delete Effect"
 #~ msgstr "刪除效果"
+
+#, fuzzy
+#~ msgid "Delete Marker from Clip"
+#~ msgstr "刪除標記"
 
 #~ msgid "Delete Preset"
 #~ msgstr "刪除預先設定"
@@ -2797,6 +2868,9 @@ msgstr ""
 
 #~ msgid "Delete marker at cursor position"
 #~ msgstr "在滑鼠指標處刪除標記"
+
+#~ msgid "Delete track"
+#~ msgstr "刪除資料軌"
 
 #~ msgid "Delete transition"
 #~ msgstr "刪除轉場效果"
@@ -2936,6 +3010,10 @@ msgstr ""
 #~ msgid "Folder:"
 #~ msgstr "資料夾"
 
+#, fuzzy
+#~ msgid "Form"
+#~ msgstr "Form1"
+
 #~ msgid "Forward clip"
 #~ msgstr "快轉播放素材"
 
@@ -2981,6 +3059,10 @@ msgstr ""
 #~ msgid "Go to selected clip's virtual zone"
 #~ msgstr "跳至選取素材的虛擬區"
 
+#, fuzzy
+#~ msgid "Go to..."
+#~ msgstr "跳至"
+
 #~ msgid "HH:MM:SS.hh"
 #~ msgstr "HH:MM:SS.hh"
 
@@ -3006,11 +3088,12 @@ msgstr ""
 #~ "Insert commented snap markers on clips (Ctrl + click to remove a marker)"
 #~ msgstr "插入定位標記至素材(Ctrl + click 移除標記)"
 
+#, fuzzy
+#~ msgid "Insert track"
+#~ msgstr "刪除資料軌"
+
 #~ msgid "Inserting clipboard contents..."
 #~ msgstr "插入剪貼簿內容"
-
-#~ msgid "Kdenlive"
-#~ msgstr "Kdenlive"
 
 #~ msgid ""
 #~ "Kdenlive\n"
@@ -3856,19 +3939,9 @@ msgstr ""
 #~ "want to use this feature."
 #~ msgstr "如果您需要燒錄DVD，建議您安裝K3b來燒錄製作"
 
-#~ msgid ""
-#~ "_: EMAIL OF TRANSLATORS\n"
-#~ "Your emails"
-#~ msgstr ""
-#~ "_: 譯者電子信箱\n"
-#~ "您的電子信箱"
-
-#~ msgid ""
-#~ "_: NAME OF TRANSLATORS\n"
-#~ "Your names"
-#~ msgstr ""
-#~ "_: 譯者姓名\n"
-#~ "您的姓名"
+#, fuzzy
+#~ msgid "Zone end"
+#~ msgstr "到轉1秒"
 
 #~ msgid "add"
 #~ msgstr "新增"
@@ -3884,9 +3957,6 @@ msgstr ""
 
 #~ msgid "delete"
 #~ msgstr "刪除"
-
-#~ msgid "file to open"
-#~ msgstr "要開啟的檔案"
 
 #~ msgid "gif"
 #~ msgstr "gif"

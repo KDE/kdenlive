@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-06 17:22+0200\n"
+"POT-Creation-Date: 2008-10-25 03:20+0200\n"
 "PO-Revision-Date: 2008-10-11 16:08+0200\n"
 "Last-Translator: Jan Drábek <repli2dev@gmail.com>\n"
 "Language-Team: NONE\n"
@@ -15,9 +15,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 0.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-msgid " Firewire (DV / HDV)"
-msgstr "Firewire (DV / HDV)"
 
 #, kde-format
 msgid "%1 images found"
@@ -119,8 +116,9 @@ msgstr "Přidat zarážku"
 msgid "Add Image"
 msgstr "Přidat obrázek"
 
-msgid "Add Marker to Clip"
-msgstr "Přidat záložku ke klipu"
+#, fuzzy
+msgid "Add Marker"
+msgstr "Přidat záložku"
 
 msgid "Add Rectangle"
 msgstr "Přidat obdélník"
@@ -209,11 +207,11 @@ msgstr "Povolit vertikální přesuny"
 msgid "Amplitude"
 msgstr "Maximální výchylka"
 
+msgid "An open source video editor."
+msgstr "Open source video editor"
+
 msgid "Ascii art library"
 msgstr "Knihovna pro ASCII umění"
-
-msgid "Aspect ratio"
-msgstr "Poměr stran pixelu"
 
 msgid "Aspect ratio:"
 msgstr "Poměr stran pixelu:"
@@ -502,6 +500,9 @@ msgstr "Konfigurovat"
 msgid "Connect"
 msgstr "Připojit"
 
+msgid "Copyright (c) 2008 Development team"
+msgstr "Copyright (c) 2008 Vývojový tým"
+
 msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install or your driver settings, "
@@ -607,7 +608,8 @@ msgstr "Smazat %1"
 msgid "Delete All Guides"
 msgstr "Smazat všechny zarážky"
 
-msgid "Delete All Markers from Clip"
+#, fuzzy
+msgid "Delete All Markers"
 msgstr "Smazat všechny záložky z klipu"
 
 msgid "Delete Clip"
@@ -619,8 +621,9 @@ msgstr "Smazat složku"
 msgid "Delete Guide"
 msgstr "Smazat zarážku"
 
-msgid "Delete Marker from Clip"
-msgstr "Smazat záložku z klipu"
+#, fuzzy
+msgid "Delete Marker"
+msgstr "Smazat záložku"
 
 msgid "Delete Selected Item"
 msgstr "Smazat vybranou položku"
@@ -663,9 +666,6 @@ msgstr "Smazat vybrané položky"
 msgid "Delete timeline clip"
 msgstr "Smazat klip časové osy"
 
-msgid "Delete track"
-msgstr "Smazat stopu"
-
 msgid "Delete transition from clip"
 msgstr "Smazat přechod z klipu"
 
@@ -702,17 +702,25 @@ msgstr "Odppojit"
 msgid "Display"
 msgstr "Zobrazit"
 
+#, fuzzy
+msgid "Display aspect ratio"
+msgstr "Poměr stran:"
+
+#, fuzzy
+msgid "Display aspect ratio:"
+msgstr "Poměr stran:"
+
 msgid "Display clip markers comments"
 msgstr "Zobrazit komentáře záložek"
-
-msgid "Display ratio"
-msgstr "Poměr stran:"
 
 msgid "Display ratio:"
 msgstr "Poměr stran:"
 
 msgid "Do nothing"
 msgstr "Nedělat nic"
+
+msgid "Document to open"
+msgstr ""
 
 msgid "Don't recover"
 msgstr "Neobnovovat"
@@ -725,6 +733,9 @@ msgstr "Dw"
 
 msgid "E"
 msgstr "E"
+
+msgid "EMAIL OF TRANSLATORS"
+msgstr ""
 
 msgid "Edit Clip"
 msgstr "Vlastnosti"
@@ -899,11 +910,9 @@ msgstr "Otáčení obrazu ve všech směrech možných směrech"
 msgid "Folder"
 msgstr "Složka"
 
-msgid "Force aspect ratio"
+#, fuzzy
+msgid "Force pixel aspect ratio"
 msgstr "Vynutit poměr stran pixelu"
-
-msgid "Form"
-msgstr "Formulář"
 
 msgid "Format"
 msgstr "Formát"
@@ -1014,9 +1023,6 @@ msgstr "Jít na další klíčový snímek"
 msgid "Go to previous keyframe"
 msgstr "Jít na předchozí klíčový snímek"
 
-msgid "Go to..."
-msgstr "Jít na..."
-
 msgid "GraphView"
 msgstr "Graf"
 
@@ -1101,9 +1107,6 @@ msgstr "Inicializace..."
 msgid "Input gain (db)"
 msgstr "Vstupní zesílení (dB)"
 
-msgid "Insert track"
-msgstr "Vložit stopu"
-
 msgid "Install extra video mimetypes"
 msgstr "Nainstalovat extra video mimetypy"
 
@@ -1119,8 +1122,23 @@ msgstr "Invertovat"
 msgid "Invert colors"
 msgstr "Invertuje barvy"
 
+msgid "Jean-Baptiste Mardelle"
+msgstr ""
+
+#, fuzzy
+msgid "Jog Shuttle device disabled."
+msgstr "Povolit zařízení JogShuttle"
+
 msgid "JogShuttle"
 msgstr "JogShuttle"
+
+#, fuzzy
+msgid "Kdenlive"
+msgstr "Rozlišení"
+
+#, fuzzy
+msgid "Kernel size"
+msgstr "Rozlišení"
 
 msgid "Keyframe"
 msgstr "Klíčový snímek"
@@ -1223,6 +1241,9 @@ msgstr "Vytvoření efektu vln dle klíčových snímků"
 msgid "Manage Profiles"
 msgstr "Spravovat profily"
 
+msgid "Marco Gittler"
+msgstr ""
+
 msgid "Marker"
 msgstr "Záložka"
 
@@ -1247,8 +1268,15 @@ msgstr "Ostatní..."
 msgid "Mix"
 msgstr "Smíchat"
 
+#, fuzzy
+msgid "Mlt Connection, Transition, Effect, Timeline Developer"
+msgstr "Propojení s MLT, přechody, efekty, časová osa"
+
 msgid "Mlt environment"
 msgstr "Prostředí MLT"
+
+msgid "Mlt porting, KDE4 porting, Main developer"
+msgstr "Práce na MLT, KDE4 verzi, hlavní vývojář"
 
 msgid "Mlt profiles folder"
 msgstr "Složka s MLT profily"
@@ -1285,6 +1313,9 @@ msgstr "Umlčet video klip"
 
 msgid "N"
 msgstr "N"
+
+msgid "NAME OF TRANSLATORS"
+msgstr ""
 
 msgid "NTSC"
 msgstr "NTSC"
@@ -1392,6 +1423,14 @@ msgstr "Změna výšky tónu"
 msgid "Pitch Shift"
 msgstr "Změna výšky a posun tónu"
 
+#, fuzzy
+msgid "Pixel aspect ratio"
+msgstr "Vynutit poměr stran pixelu"
+
+#, fuzzy
+msgid "Pixel aspect ratio:"
+msgstr "Vynutit poměr stran pixelu"
+
 msgid "Play"
 msgstr "Přehrát"
 
@@ -1415,6 +1454,14 @@ msgstr "Parametry playbacku"
 
 msgid "Playlist clip"
 msgstr "Klip playlistu"
+
+msgid ""
+"Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
+"org/mantis</a>"
+msgstr ""
+
+msgid "Please report bugs to http://kdenlive.org/mantis"
+msgstr ""
 
 msgid "Please set your default video format"
 msgstr "Nastavte prosím výchozí formát vida"
@@ -1550,8 +1597,20 @@ msgstr "Renderovat"
 msgid "Rendering"
 msgstr "Renderování"
 
+#, fuzzy, kde-format
+msgid "Rendering %1"
+msgstr "Renderování"
+
 #, kde-format
 msgid "Rendering <i>%1</i> started"
+msgstr "Renverování <i>%1</i> začalo"
+
+#, kde-format
+msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
+msgstr ""
+
+#, fuzzy, kde-format
+msgid "Rendering of %1 is over"
 msgstr "Renverování <i>%1</i> začalo"
 
 msgid "Reset effect"
@@ -1714,6 +1773,9 @@ msgstr "Nastavit konečný bod"
 msgid "Set current image as thumbnail"
 msgstr "Nastavit aktuální obrázek jako miniaturu"
 
+msgid "Set the path for MLT environnement"
+msgstr ""
+
 msgid "Set zone end"
 msgstr "Nastavit konec výběru"
 
@@ -1801,11 +1863,18 @@ msgstr "Rozdělit pohled"
 msgid "Spread"
 msgstr "Rozšíření"
 
+msgid "Square Blur"
+msgstr ""
+
 msgid "Start"
 msgstr "Start"
 
 msgid "Start Gain"
 msgstr "Začátek zesílení"
+
+#, fuzzy
+msgid "Start Rendering"
+msgstr "Renderování"
 
 msgid "Start-/EndViewport"
 msgstr "Začátek/Konec záběru"
@@ -1936,6 +2005,9 @@ msgstr "V"
 msgid "Value"
 msgstr "Hodnota"
 
+msgid "Variable-size square blur (frei0r.squareblur)"
+msgstr ""
+
 msgid "Variance"
 msgstr "Odchylka"
 
@@ -1987,10 +2059,8 @@ msgstr "Video stopy"
 msgid "Video4Linux"
 msgstr "Video4Linux"
 
-msgid "Video4Linux (webcam)"
-msgstr "Video4Linux (webcam)  "
-
-msgid "Video4Linux2 / FFmpeg"
+#, fuzzy
+msgid "Video4Linux / FFmpeg"
 msgstr "Video4Linux2 / FFmpeg"
 
 msgid "View"
@@ -2060,12 +2130,6 @@ msgstr "Pro tuto akci musíte vybrat jeden klip"
 msgid "Z-Index:"
 msgstr "Z-Index:"
 
-msgid "Zone end"
-msgstr "Konec výběru"
-
-msgid "Zone start"
-msgstr "Začátek výběru"
-
 msgid "Zoom:"
 msgstr "Přiblížení:"
 
@@ -2132,15 +2196,30 @@ msgstr ""
 "Instalace MLT nebyla nalezena, nainstalujte prosím MLT a restartujte "
 "Kdenlive.\n"
 
-#~ msgid "An open source video editor."
-#~ msgstr "Open source video editor"
+#~ msgid " Firewire (DV / HDV)"
+#~ msgstr "Firewire (DV / HDV)"
 
-#~ msgid "Copyright (c) 2008 Development team"
-#~ msgstr "Copyright (c) 2008 Vývojový tým"
+#~ msgid "Add Marker to Clip"
+#~ msgstr "Přidat záložku ke klipu"
+
+#~ msgid "Aspect ratio"
+#~ msgstr "Poměr stran pixelu"
+
+#~ msgid "Delete Marker from Clip"
+#~ msgstr "Smazat záložku z klipu"
+
+#~ msgid "Delete track"
+#~ msgstr "Smazat stopu"
 
 # Not present strings in kdenlive.pot
 #~ msgid "Dust"
 #~ msgstr "Prach"
+
+#~ msgid "Form"
+#~ msgstr "Formulář"
+
+#~ msgid "Go to..."
+#~ msgstr "Jít na..."
 
 #~ msgid "Grain"
 #~ msgstr "Šum"
@@ -2148,11 +2227,8 @@ msgstr ""
 #~ msgid "Grain over the image"
 #~ msgstr "Přidá do obrazu šum"
 
-#~ msgid "Mlt porting, KDE4 porting, Main developer"
-#~ msgstr "Práce na MLT, KDE4 verzi, hlavní vývojář"
-
-#~ msgid "MltConnection, Transition, Effect, Timeline Developer"
-#~ msgstr "Propojení s MLT, přechody, efekty, časová osa"
+#~ msgid "Insert track"
+#~ msgstr "Vložit stopu"
 
 #~ msgid "Moves the Picture up and down and random brightness change"
 #~ msgstr ""
@@ -2174,5 +2250,14 @@ msgstr ""
 #~ msgid "Scratchlines over the Picture"
 #~ msgstr "Přidá umělé výpadky obrazu"
 
+#~ msgid "Video4Linux (webcam)"
+#~ msgstr "Video4Linux (webcam)  "
+
 #~ msgid "Vignette efekt"
 #~ msgstr "Přidá kolem vybrané oblasti plynulý přechod do černé barvy"
+
+#~ msgid "Zone end"
+#~ msgstr "Konec výběru"
+
+#~ msgid "Zone start"
+#~ msgstr "Začátek výběru"

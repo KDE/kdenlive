@@ -3,20 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Michiel Zandbelt <mzandbelt@xs4all.nl>, 2008.
+# jb <jb@kdenlive.org>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-06 17:22+0200\n"
-"PO-Revision-Date: 2008-10-16 18:51+0200\n"
-"Last-Translator: Michiel Zandbelt <mzandbelt@xs4all.nl>\n"
-"Language-Team:  <nl@li.org>\n"
+"POT-Creation-Date: 2008-10-25 03:20+0200\n"
+"PO-Revision-Date: 2008-10-25 02:45+0200\n"
+"Last-Translator: jb <jb@kdenlive.org>\n"
+"Language-Team: American English <kde-i18n-doc@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-msgid " Firewire (DV / HDV)"
-msgstr ""
+"X-Generator: Lokalize 0.3\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
 msgid "%1 images found"
@@ -119,8 +119,9 @@ msgstr "Guide toevoegen"
 msgid "Add Image"
 msgstr "Afbeelding toevoegen"
 
-msgid "Add Marker to Clip"
-msgstr "Marker aan clip toevoegen"
+#, fuzzy
+msgid "Add Marker"
+msgstr "Marker toevoegen"
 
 msgid "Add Rectangle"
 msgstr "Rechthoek toevoegen"
@@ -213,11 +214,11 @@ msgstr "Verticaal verschuiven toestaan"
 msgid "Amplitude"
 msgstr ""
 
-msgid "Ascii art library"
+msgid "An open source video editor."
 msgstr ""
 
-msgid "Aspect ratio"
-msgstr "Beeldverhouding"
+msgid "Ascii art library"
+msgstr ""
 
 msgid "Aspect ratio:"
 msgstr "Beeldverhouding:"
@@ -514,6 +515,9 @@ msgstr "Configureren"
 msgid "Connect"
 msgstr "Verbinden"
 
+msgid "Copyright (c) 2008 Development team"
+msgstr ""
+
 msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install or your driver settings, "
@@ -624,7 +628,8 @@ msgstr "Verwijder %1"
 msgid "Delete All Guides"
 msgstr "Verwijder alle Guides"
 
-msgid "Delete All Markers from Clip"
+#, fuzzy
+msgid "Delete All Markers"
 msgstr "Verwijder alle markers van clip"
 
 msgid "Delete Clip"
@@ -636,8 +641,9 @@ msgstr "Verwijder map"
 msgid "Delete Guide"
 msgstr "Verwijder Guide"
 
-msgid "Delete Marker from Clip"
-msgstr "Verwijder marker van clip"
+#, fuzzy
+msgid "Delete Marker"
+msgstr "Verwijder marker"
 
 msgid "Delete Selected Item"
 msgstr "Verwijder geselecteerd item"
@@ -682,10 +688,6 @@ msgstr "Verwijder geselecteerde items"
 msgid "Delete timeline clip"
 msgstr "Verwijder clip uit tijdsbalk"
 
-#, fuzzy
-msgid "Delete track"
-msgstr "Verwijder spoor/track"
-
 msgid "Delete transition from clip"
 msgstr "Verwijder overgang uit clip"
 
@@ -724,17 +726,25 @@ msgstr "Verbinding verbreken"
 msgid "Display"
 msgstr "Weergave"
 
+#, fuzzy
+msgid "Display aspect ratio"
+msgstr "Beeldverhouding"
+
+#, fuzzy
+msgid "Display aspect ratio:"
+msgstr "Beeldverhouding:"
+
 msgid "Display clip markers comments"
 msgstr "Geef clip marker opmerkingen weer"
-
-msgid "Display ratio"
-msgstr ""
 
 msgid "Display ratio:"
 msgstr ""
 
 msgid "Do nothing"
 msgstr "Doe niets"
+
+msgid "Document to open"
+msgstr ""
 
 msgid "Don't recover"
 msgstr "Niet herstellen"
@@ -747,6 +757,9 @@ msgstr ""
 
 msgid "E"
 msgstr ""
+
+msgid "EMAIL OF TRANSLATORS"
+msgstr "jb@kdenlive.org"
 
 msgid "Edit Clip"
 msgstr "Clip bewerken"
@@ -925,11 +938,9 @@ msgstr "Kantel uw afbeelding in elke richting"
 msgid "Folder"
 msgstr "Map"
 
-msgid "Force aspect ratio"
+#, fuzzy
+msgid "Force pixel aspect ratio"
 msgstr "Dwing aspect ratio af"
-
-msgid "Form"
-msgstr ""
 
 msgid "Format"
 msgstr "Formaat"
@@ -1043,9 +1054,6 @@ msgstr "Ga naar volgend keyframe"
 msgid "Go to previous keyframe"
 msgstr "Ga naar vorig keyframe"
 
-msgid "Go to..."
-msgstr "Ga naar..."
-
 msgid "GraphView"
 msgstr ""
 
@@ -1133,9 +1141,6 @@ msgstr "Initialiseren..."
 msgid "Input gain (db)"
 msgstr ""
 
-msgid "Insert track"
-msgstr "Voeg spoor/track in"
-
 msgid "Install extra video mimetypes"
 msgstr "Installeer extra video mimetypes"
 
@@ -1152,8 +1157,23 @@ msgstr "Inverteer"
 msgid "Invert colors"
 msgstr "Rand/omlijning kleur"
 
+msgid "Jean-Baptiste Mardelle"
+msgstr ""
+
+#, fuzzy
+msgid "Jog Shuttle device disabled."
+msgstr "Activeer Jog Shuttle apparaat"
+
 msgid "JogShuttle"
 msgstr ""
+
+#, fuzzy
+msgid "Kdenlive"
+msgstr "Frame grootte"
+
+#, fuzzy
+msgid "Kernel size"
+msgstr "Frame grootte"
 
 msgid "Keyframe"
 msgstr "Keyframe"
@@ -1254,6 +1274,9 @@ msgstr "Maak golven op uw clip met keyframes"
 msgid "Manage Profiles"
 msgstr "Beheer profielen"
 
+msgid "Marco Gittler"
+msgstr ""
+
 msgid "Marker"
 msgstr ""
 
@@ -1280,8 +1303,14 @@ msgstr "Diversen...."
 msgid "Mix"
 msgstr ""
 
+msgid "Mlt Connection, Transition, Effect, Timeline Developer"
+msgstr ""
+
 msgid "Mlt environment"
 msgstr "Mlt-omgeving"
+
+msgid "Mlt porting, KDE4 porting, Main developer"
+msgstr ""
 
 msgid "Mlt profiles folder"
 msgstr "Mlt Profielen map"
@@ -1319,6 +1348,9 @@ msgstr ""
 
 msgid "N"
 msgstr ""
+
+msgid "NAME OF TRANSLATORS"
+msgstr "Jean-Baptiste Mardelle"
 
 msgid "NTSC"
 msgstr ""
@@ -1428,6 +1460,14 @@ msgstr ""
 msgid "Pitch Shift"
 msgstr ""
 
+#, fuzzy
+msgid "Pixel aspect ratio"
+msgstr "Dwing aspect ratio af"
+
+#, fuzzy
+msgid "Pixel aspect ratio:"
+msgstr "Dwing aspect ratio af"
+
 msgid "Play"
 msgstr "Afspelen"
 
@@ -1451,6 +1491,14 @@ msgstr "Afspeel instellingen"
 
 msgid "Playlist clip"
 msgstr "Afspeelijst clip"
+
+msgid ""
+"Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
+"org/mantis</a>"
+msgstr ""
+
+msgid "Please report bugs to http://kdenlive.org/mantis"
+msgstr ""
 
 msgid "Please set your default video format"
 msgstr "Stel a.u.b. uw standaard video formaat in"
@@ -1594,8 +1642,20 @@ msgstr "Renderen"
 msgid "Rendering"
 msgstr "Aan het renderen"
 
+#, fuzzy, kde-format
+msgid "Rendering %1"
+msgstr "Aan het renderen"
+
 #, kde-format
 msgid "Rendering <i>%1</i> started"
+msgstr "Renderen van <i>%1</i> begonnen"
+
+#, kde-format
+msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
+msgstr ""
+
+#, fuzzy, kde-format
+msgid "Rendering of %1 is over"
 msgstr "Renderen van <i>%1</i> begonnen"
 
 msgid "Reset effect"
@@ -1769,6 +1829,9 @@ msgstr "Plaats Uit punt"
 msgid "Set current image as thumbnail"
 msgstr "Gebruik huidige afbeelding als miniatuur"
 
+msgid "Set the path for MLT environnement"
+msgstr ""
+
 #, fuzzy
 msgid "Set zone end"
 msgstr "Stel einde van zone in"
@@ -1857,11 +1920,18 @@ msgstr ""
 msgid "Spread"
 msgstr ""
 
+msgid "Square Blur"
+msgstr ""
+
 msgid "Start"
 msgstr "Start"
 
 msgid "Start Gain"
 msgstr ""
+
+#, fuzzy
+msgid "Start Rendering"
+msgstr "Aan het renderen"
 
 msgid "Start-/EndViewport"
 msgstr ""
@@ -1997,6 +2067,9 @@ msgstr ""
 msgid "Value"
 msgstr "Waarde"
 
+msgid "Variable-size square blur (frei0r.squareblur)"
+msgstr ""
+
 msgid "Variance"
 msgstr "Variatie"
 
@@ -2051,10 +2124,7 @@ msgstr "Video sporen/tracks"
 msgid "Video4Linux"
 msgstr ""
 
-msgid "Video4Linux (webcam)"
-msgstr ""
-
-msgid "Video4Linux2 / FFmpeg"
+msgid "Video4Linux / FFmpeg"
 msgstr ""
 
 #, fuzzy
@@ -2125,12 +2195,6 @@ msgstr "U moet een (1) clip selecteren voor deze actie"
 
 msgid "Z-Index:"
 msgstr "Z-Index:"
-
-msgid "Zone end"
-msgstr "Zone eind"
-
-msgid "Zone start"
-msgstr "Zone begin"
 
 msgid "Zoom:"
 msgstr "Zoom:"
@@ -2205,14 +2269,36 @@ msgstr ""
 #~ msgid "&OK"
 #~ msgstr "OK "
 
+#~ msgid "Add Marker to Clip"
+#~ msgstr "Marker aan clip toevoegen"
+
 #~ msgid "Delete"
 #~ msgstr "Verwijderen"
 
+#~ msgid "Delete Marker from Clip"
+#~ msgstr "Verwijder marker van clip"
+
+#, fuzzy
+#~ msgid "Delete track"
+#~ msgstr "Verwijder spoor/track"
+
 #~ msgid "Extra parameters"
 #~ msgstr "Extra Parameters"
+
+#~ msgid "Go to..."
+#~ msgstr "Ga naar..."
+
+#~ msgid "Insert track"
+#~ msgstr "Voeg spoor/track in"
 
 #~ msgid "Name:"
 #~ msgstr "Naam:"
 
 #~ msgid "Transparent bac&kground"
 #~ msgstr "Transparante achtergrond"
+
+#~ msgid "Zone end"
+#~ msgstr "Zone eind"
+
+#~ msgid "Zone start"
+#~ msgstr "Zone begin"

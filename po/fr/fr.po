@@ -13,7 +13,7 @@ msgstr ""
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
 #, kde-format
 msgid "%1 images found"
@@ -739,8 +739,7 @@ msgid "E"
 msgstr "E"
 
 msgid "EMAIL OF TRANSLATORS"
-msgstr ""
-"jmpoure@free.fr, jb@kdenlive.org"
+msgstr "jmpoure@free.fr, jb@kdenlive.org"
 
 msgid "Edit Clip"
 msgstr "Modifier clip"
@@ -1322,8 +1321,7 @@ msgid "N"
 msgstr "N"
 
 msgid "NAME OF TRANSLATORS"
-msgstr ""
-"Jean-Michel Pouré, Jean-Baptiste Mardelle"
+msgstr "Jean-Michel Pouré, Jean-Baptiste Mardelle"
 
 msgid "NTSC"
 msgstr "NTSC"
