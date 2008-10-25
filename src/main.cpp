@@ -33,9 +33,11 @@ int main(int argc, char *argv[]) {
                          KAboutData::License_GPL,
                          ki18n("Copyright (c) 2008 Development team"));
     aboutData.addAuthor(ki18n("Jean-Baptiste Mardelle"), ki18n("Mlt porting, KDE4 porting, Main developer"), "jb@kdenlive.org");
-    aboutData.addAuthor(ki18n("Marco Gittler"), ki18n("MltConnection, Transition, Effect, Timeline Developer"), "g.marco@freenet.de");
+    aboutData.addAuthor(ki18n("Marco Gittler"), ki18n("Mlt Connection, Transition, Effect, Timeline Developer"), "g.marco@freenet.de");
     aboutData.setHomepage("http://kdenlive.org");
-    //aboutData.setBugAddress("http://kdenlive.org/mantis");
+    aboutData.setCustomAuthorText(ki18n("Please report bugs to http://kdenlive.org/mantis"), ki18n("Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive.org/mantis</a>"));
+    aboutData.setTranslator(ki18n("NAME OF TRANSLATORS"), ki18n("EMAIL OF TRANSLATORS"));
+
     KCmdLineArgs::init(argc, argv, &aboutData);
 
     KCmdLineOptions options;

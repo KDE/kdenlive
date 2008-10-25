@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-23 17:16+0200\n"
+"POT-Creation-Date: 2008-10-25 03:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -202,6 +202,9 @@ msgid "Allow vertical moves"
 msgstr ""
 
 msgid "Amplitude"
+msgstr ""
+
+msgid "An open source video editor."
 msgstr ""
 
 msgid "Ascii art library"
@@ -486,6 +489,9 @@ msgstr ""
 msgid "Connect"
 msgstr ""
 
+msgid "Copyright (c) 2008 Development team"
+msgstr ""
+
 msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install or your driver settings, "
@@ -693,6 +699,9 @@ msgstr ""
 msgid "Do nothing"
 msgstr ""
 
+msgid "Document to open"
+msgstr ""
+
 msgid "Don't recover"
 msgstr ""
 
@@ -703,6 +712,9 @@ msgid "Dw"
 msgstr ""
 
 msgid "E"
+msgstr ""
+
+msgid "EMAIL OF TRANSLATORS"
 msgstr ""
 
 msgid "Edit Clip"
@@ -1083,10 +1095,22 @@ msgstr ""
 msgid "Invert colors"
 msgstr ""
 
+msgid "Jean-Baptiste Mardelle"
+msgstr ""
+
+msgid "Jog Shuttle device disabled."
+msgstr ""
+
 msgid "JogShuttle"
 msgstr ""
 
+msgid "Kdenlive"
+msgstr ""
+
 msgid "Kernel size"
+msgstr ""
+
+msgid "Keyframe"
 msgstr ""
 
 msgid "LADSPA change pitch audio effect"
@@ -1183,6 +1207,9 @@ msgstr ""
 msgid "Manage Profiles"
 msgstr ""
 
+msgid "Marco Gittler"
+msgstr ""
+
 msgid "Marker"
 msgstr ""
 
@@ -1207,7 +1234,13 @@ msgstr ""
 msgid "Mix"
 msgstr ""
 
+msgid "Mlt Connection, Transition, Effect, Timeline Developer"
+msgstr ""
+
 msgid "Mlt environment"
+msgstr ""
+
+msgid "Mlt porting, KDE4 porting, Main developer"
 msgstr ""
 
 msgid "Mlt profiles folder"
@@ -1244,6 +1277,9 @@ msgid "Mute video clip"
 msgstr ""
 
 msgid "N"
+msgstr ""
+
+msgid "NAME OF TRANSLATORS"
 msgstr ""
 
 msgid "NTSC"
@@ -1382,6 +1418,14 @@ msgstr ""
 msgid "Playlist clip"
 msgstr ""
 
+msgid ""
+"Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
+"org/mantis</a>"
+msgstr ""
+
+msgid "Please report bugs to http://kdenlive.org/mantis"
+msgstr ""
+
 msgid "Please set your default video format"
 msgstr ""
 
@@ -1507,7 +1551,19 @@ msgid "Rendering"
 msgstr ""
 
 #, kde-format
+msgid "Rendering %1"
+msgstr ""
+
+#, kde-format
 msgid "Rendering <i>%1</i> started"
+msgstr ""
+
+#, kde-format
+msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
+msgstr ""
+
+#, kde-format
+msgid "Rendering of %1 is over"
 msgstr ""
 
 msgid "Reset effect"
@@ -1666,6 +1722,9 @@ msgid "Set Out Point"
 msgstr ""
 
 msgid "Set current image as thumbnail"
+msgstr ""
+
+msgid "Set the path for MLT environnement"
 msgstr ""
 
 msgid "Set zone end"
