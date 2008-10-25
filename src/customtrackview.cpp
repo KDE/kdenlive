@@ -888,6 +888,12 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, i
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_scene->m_tracksList.count() - track);
     if (clip) {
         QHash <QString, QString> effectParams = clip->getEffectArgs(effect);
+        // check if we are trying to reset a keyframe effect
+        if (effectParams.contains("keyframes") && effectParams.value("keyframes").isEmpty()) {
+            clip->initEffect(effect);
+            clip->setEffectAt(ix, effect);
+            effectParams = clip->getEffectArgs(effect);
+        }
         if (effectParams.value("disabled") == "1") {
             if (m_document->renderer()->mltRemoveEffect(track, pos, effectParams.value("kdenlive_ix"))) {
                 kDebug() << "//////  DISABLING EFFECT: " << index << ", CURRENTLA: " << clip->selectedEffectIndex();
@@ -895,7 +901,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, i
         } else if (!m_document->renderer()->mltEditEffect(m_scene->m_tracksList.count() - clip->track(), clip->startPos(), effectParams))
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
         if (ix == clip->selectedEffectIndex()) {
-            clip->setSelectedEffect(clip->selectedEffectIndex());
+            clip->setSelectedEffect(ix);
         }
     }
     m_document->setModified(true);
