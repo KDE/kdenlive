@@ -3,12 +3,7 @@
 	<name>Obscure</name>
 	<description>Hide a region of the clip</description>
 	<author>Charles Yates</author>
-	<label>X</label>
-	<label>Y</label>
-	<label>Width</label>
-	<label>Height</label>
-	<label>Averaging</label>
-	<parameter type="complex" namedesc="X;Y;Width;Height;Averaging" max="MAX_WIDTH;MAX_HEIGHT;1000;1000;100" min="0;0;0;0;3" default="MID_WIDTH;MID_HEIGHT;100;100;20" format="%d,%d:%dx%d">
+	<parameter type="geometry" name="start" default="40%,40%:20%x20%" fixed="1">
 		<name>Region</name>
 	</parameter>
 </effect>
