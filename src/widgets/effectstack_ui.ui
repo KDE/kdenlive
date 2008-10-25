@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>489</width>
-    <height>363</height>
+    <width>415</width>
+    <height>344</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -15,18 +15,21 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <layout class="QGridLayout" >
+  <layout class="QGridLayout" name="gridLayout_2" >
    <item row="0" column="0" >
-    <widget class="QSplitter" name="splitter_2" >
+    <widget class="QSplitter" name="splitter" >
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QWidget" name="layoutWidget" >
-      <layout class="QVBoxLayout" >
-       <item>
+     <widget class="QWidget" name="" >
+      <layout class="QGridLayout" name="gridLayout" >
+       <property name="horizontalSpacing" >
+        <number>2</number>
+       </property>
+       <item row="0" column="0" colspan="7" >
         <widget class="KListWidget" name="effectlist" >
          <property name="sizePolicy" >
-          <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+          <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -42,107 +45,91 @@
          </property>
         </widget>
        </item>
-       <item>
-        <layout class="QHBoxLayout" >
-         <item>
-          <widget class="QToolButton" name="buttonNew" >
-           <property name="text" >
-            <string>N</string>
-           </property>
-           <property name="popupMode" >
-            <enum>QToolButton::InstantPopup</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="buttonUp" >
-           <property name="enabled" >
-            <bool>false</bool>
-           </property>
-           <property name="text" >
-            <string>Up</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="buttonDown" >
-           <property name="enabled" >
-            <bool>false</bool>
-           </property>
-           <property name="text" >
-            <string>Dw</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="buttonReset" >
-           <property name="enabled" >
-            <bool>false</bool>
-           </property>
-           <property name="text" >
-            <string>R</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer>
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType" >
-            <enum>QSizePolicy::Expanding</enum>
-           </property>
-           <property name="sizeHint" stdset="0" >
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QToolButton" name="buttonSave" >
-           <property name="enabled" >
-            <bool>false</bool>
-           </property>
-           <property name="text" >
-            <string>E</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="buttonDel" >
-           <property name="enabled" >
-            <bool>false</bool>
-           </property>
-           <property name="text" >
-            <string>D</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="layoutWidget" >
-      <layout class="QVBoxLayout" >
-       <item>
-        <widget class="QSplitter" name="splitter" >
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
+       <item row="1" column="0" >
+        <widget class="QToolButton" name="buttonNew" >
+         <property name="text" >
+          <string>N</string>
          </property>
-         <widget class="QFrame" name="frame" />
-         <widget class="KTextEdit" name="infoBox" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Expanding" hsizetype="MinimumExpanding" >
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
+         <property name="popupMode" >
+          <enum>QToolButton::InstantPopup</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" >
+        <widget class="QToolButton" name="buttonUp" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
+         <property name="text" >
+          <string>Up</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2" >
+        <widget class="QToolButton" name="buttonDown" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
+         <property name="text" >
+          <string>Dw</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3" >
+        <widget class="QToolButton" name="buttonReset" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
+         <property name="text" >
+          <string>R</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType" >
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="5" >
+        <widget class="QToolButton" name="buttonSave" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
+         <property name="text" >
+          <string>E</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="6" >
+        <widget class="QToolButton" name="buttonDel" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
+         <property name="text" >
+          <string>D</string>
+         </property>
         </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="QFrame" name="frame" >
+      <property name="sizePolicy" >
+       <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
      </widget>
     </widget>
    </item>
@@ -153,11 +140,6 @@
    <class>KListWidget</class>
    <extends>QListWidget</extends>
    <header>klistwidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KTextEdit</class>
-   <extends>QTextEdit</extends>
-   <header>ktextedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -68,8 +68,8 @@ EffectStackView::EffectStackView(QWidget *parent)
     effectLists["audio"] = &MainWindow::audioEffects;
     effectLists["video"] = &MainWindow::videoEffects;
     effectLists["custom"] = &MainWindow::customEffects;
-
-    ui.infoBox->hide();
+    ui.splitter->setStretchFactor( 1, 10);
+    ui.splitter->setStretchFactor( 0, 1);
     setEnabled(false);
 }
 
