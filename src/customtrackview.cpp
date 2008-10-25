@@ -157,12 +157,20 @@ void CustomTrackView::resizeEvent(QResizeEvent * event) {
 }
 
 // virtual
+/** Zoom or move viewport on mousewheel
+ *
+ * If mousewheel+Ctrl, zooms in/out on the timeline.
+ *
+ * With Ctrl, moves viewport towards end of timeline if down/back,
+ * opposite on up/forward.
+ *
+ * See also http://www.kdenlive.org/mantis/view.php?id=265 */
 void CustomTrackView::wheelEvent(QWheelEvent * e) {
     if (e->modifiers() == Qt::ControlModifier) {
         if (e->delta() > 0) emit zoomIn();
         else emit zoomOut();
     } else {
-        if (e->delta() > 0) horizontalScrollBar()->setValue(horizontalScrollBar()->value() + horizontalScrollBar()->singleStep());
+        if (e->delta() <= 0) horizontalScrollBar()->setValue(horizontalScrollBar()->value() + horizontalScrollBar()->singleStep());
         else  horizontalScrollBar()->setValue(horizontalScrollBar()->value() - horizontalScrollBar()->singleStep());
     }
 }

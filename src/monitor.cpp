@@ -293,13 +293,21 @@ QStringList Monitor::mimeTypes() const {
 
 
 // virtual
+/** Move to other position on mousewheel
+ *
+ * Moves towards end of clip/timeline on mousewheel down/back,
+ * opposite for mousewheel up/forward.
+ *
+ * Ctrl+wheel moves single frame, without Ctrl moves a second.
+ *
+ * See also http://www.kdenlive.org/mantis/view.php?id=265 */
 void Monitor::wheelEvent(QWheelEvent * event) {
     if (event->modifiers() == Qt::ControlModifier) {
         int delta = m_monitorManager->timecode().fps();
         if (event->delta() < 0) delta = 0 - delta;
-        slotSeek(m_position + delta);
+        slotSeek(m_position - delta);
     } else {
-        if (event->delta() > 0) slotForwardOneFrame();
+        if (event->delta() <= 0) slotForwardOneFrame();
         else slotRewindOneFrame();
     }
 }
