@@ -345,6 +345,14 @@ void Geometryval::setupParam(const QDomElement& par, int minFrame, int maxFrame)
     QString val = par.attribute("value");
     if (par.attribute("fixed") == "1") {
         m_fixedMode = true;
+        ui.buttonPrevious->setHidden(true);
+        ui.buttonNext->setHidden(true);
+        ui.buttonDelete->setHidden(true);
+        ui.buttonAdd->setHidden(true);
+        ui.spinTransp->setMaximum(500);
+        ui.label_pos->setHidden(true);
+        m_helper->setHidden(true);
+        ui.spinPos->setHidden(true);
     }
     char *tmp = (char *) qstrdup(val.toUtf8().data());
     if (m_geom) m_geom->parse(tmp, maxFrame - minFrame, m_profile.width, m_profile.height);
@@ -353,10 +361,7 @@ void Geometryval::setupParam(const QDomElement& par, int minFrame, int maxFrame)
 
     //kDebug() << " / / UPDATING TRANSITION VALUE: " << m_geom->serialise();
     //read param her and set rect
-    if (m_fixedMode) {
-        m_helper->setHidden(true);
-        ui.spinPos->setHidden(true);
-    } else {
+    if (!m_fixedMode) {
         m_helper->setKeyGeometry(m_geom, maxFrame - minFrame - 1);
         m_helper->update();
         /*QDomDocument doc;
@@ -383,8 +388,8 @@ void Geometryval::setupParam(const QDomElement& par, int minFrame, int maxFrame)
     slotPositionChanged(0, false);
     if (!m_fixedMode) {
         connect(ui.spinPos, SIGNAL(valueChanged(int)), this , SLOT(slotPositionChanged(int)));
-        connect(ui.spinTransp, SIGNAL(valueChanged(int)), this , SLOT(slotTransparencyChanged(int)));
     }
+    connect(ui.spinTransp, SIGNAL(valueChanged(int)), this , SLOT(slotTransparencyChanged(int)));
 }
 
 void Geometryval::updateTransitionPath() {

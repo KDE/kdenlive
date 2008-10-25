@@ -101,7 +101,7 @@ const int KeyframeHelper::value() const {
 }
 
 void KeyframeHelper::setValue(const int pos) {
-    if (pos == m_position) return;
+    if (pos == m_position || m_geom == NULL) return;
     m_position = pos;
     update();
 }
