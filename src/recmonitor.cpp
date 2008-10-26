@@ -85,6 +85,7 @@ RecMonitor::RecMonitor(QString name, QWidget *parent)
     slotVideoDeviceChanged(ui.device_selector->currentIndex());
     displayProcess = new QProcess;
     captureProcess = new QProcess;
+    alsaProcess = new QProcess;
 
     connect(captureProcess, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(slotProcessStatus(QProcess::ProcessState)));
 
@@ -116,6 +117,12 @@ RecMonitor::RecMonitor(QString name, QWidget *parent)
         KdenliveSettings::setVideo4playback(playbackCommand);
     }
     kDebug() << "/////// BUILDING MONITOR, ID: " << ui.video_frame->winId();
+}
+
+RecMonitor::~RecMonitor() {
+    delete captureProcess;
+    delete displayProcess;
+    delete alsaProcess;
 }
 
 QString RecMonitor::name() const {
@@ -364,12 +371,16 @@ void RecMonitor::slotRecord() {
             m_recAction->setChecked(false);
             break;
         case VIDEO4LINUX:
+            captureProcess->terminate();
             slotStopCapture();
             //m_isCapturing = false;
             QTimer::singleShot(1000, this, SLOT(slotStartCapture()));
             break;
         case SCREENGRAB:
             captureProcess->write("q\n", 3);
+            captureProcess->terminate();
+            alsaProcess->terminate();
+            alsaProcess->kill();
             // in case ffmpeg doesn't exit with the 'q' command, kill it one second later
             QTimer::singleShot(1000, captureProcess, SLOT(kill()));
             break;
@@ -416,14 +427,20 @@ void RecMonitor::slotRecord() {
             if (KdenliveSettings::fullscreengrab()) {
                 const QRect rect = QApplication::desktop()->screenGeometry();
                 args = KdenliveSettings::screengrabcapture().replace("%size", QString::number(rect.width()) + "x" + QString::number(rect.height())).replace("%offset", QString());
-                kDebug() << "// capture params: " << args;
                 if (KdenliveSettings::screengrabenableaudio()) {
                     // also capture audio
-                    m_captureArgs << KdenliveSettings::screengrabaudiocapture().simplified().split(' ');
+                    if (KdenliveSettings::useosscapture()) m_captureArgs << KdenliveSettings::screengrabosscapture().simplified().split(' ');
+                    else m_captureArgs << KdenliveSettings::screengrabalsacapture2().simplified().split(' ');
                 }
                 m_captureArgs << args.simplified().split(' ') << KdenliveSettings::screengrabencoding().simplified().split(' ') << m_captureFile.path();
                 ui.video_frame->setText(i18n("Capturing..."));
                 m_isCapturing = true;
+                if (KdenliveSettings::screengrabenableaudio() && !KdenliveSettings::useosscapture()) {
+                    QStringList alsaArgs = KdenliveSettings::screengrabalsacapture().simplified().split(' ');
+                    alsaProcess->setStandardOutputProcess(captureProcess);
+                    const QString alsaBinary = alsaArgs.takeFirst();
+                    alsaProcess->start(alsaBinary, alsaArgs);
+                }
                 captureProcess->start("ffmpeg", m_captureArgs);
             } else {
                 ui.video_frame->setText(i18n("Select region..."));
@@ -445,6 +462,7 @@ void RecMonitor::slotRecord() {
         // stop capture
         displayProcess->kill();
         captureProcess->kill();
+        alsaProcess->kill();
         QTimer::singleShot(1000, this, SLOT(slotRecord()));
     }
 }
@@ -459,14 +477,19 @@ void RecMonitor::slotStartGrab(const QRect &rect) {
     if (width % 2 != 0) width--;
     if (height % 2 != 0) height--;
     QString args = KdenliveSettings::screengrabcapture().replace("%size", QString::number(width) + "x" + QString::number(height)).replace("%offset", "+" + QString::number(rect.x()) + "," + QString::number(rect.y()));
-    kDebug() << "// capture params: " << args;
     if (KdenliveSettings::screengrabenableaudio()) {
         // also capture audio
-        m_captureArgs << KdenliveSettings::screengrabaudiocapture().simplified().split(' ');
+        if (KdenliveSettings::useosscapture()) m_captureArgs << KdenliveSettings::screengrabosscapture().simplified().split(' ');
+        else m_captureArgs << KdenliveSettings::screengrabalsacapture2().simplified().split(' ');
     }
     m_captureArgs << args.simplified().split(' ') << KdenliveSettings::screengrabencoding().simplified().split(' ') << m_captureFile.path();
     m_isCapturing = true;
     ui.video_frame->setText(i18n("Capturing..."));
+    if (KdenliveSettings::screengrabenableaudio() && !KdenliveSettings::useosscapture()) {
+        QStringList alsaArgs = KdenliveSettings::screengrabalsacapture().simplified().split(' ');
+        alsaProcess->setStandardOutputProcess(captureProcess);
+        alsaProcess->start(alsaArgs.takeFirst(), alsaArgs);
+    }
     captureProcess->start("ffmpeg", m_captureArgs);
 }
 

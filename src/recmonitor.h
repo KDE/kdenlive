@@ -40,6 +40,8 @@ class RecMonitor : public QWidget {
 
 public:
     RecMonitor(QString name, QWidget *parent = 0);
+    virtual ~RecMonitor();
+
     QString name() const;
 
     enum CAPTUREDEVICE {FIREWIRE = 0, VIDEO4LINUX = 1, SCREENGRAB = 2};
@@ -61,6 +63,7 @@ private:
 
     QProcess *captureProcess;
     QProcess *displayProcess;
+    QProcess *alsaProcess;
     QTimer *m_initTimer;
     bool m_isCapturing;
     /** did the user capture something ? */

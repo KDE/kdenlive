@@ -98,6 +98,10 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
     connect(m_configCapture.kcfg_video4size, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
     connect(m_configCapture.kcfg_video4rate, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
 
+    connect(m_configCapture.kcfg_screengrabenableaudio, SIGNAL(clicked(bool)), m_configCapture.audio_group, SLOT(setVisible(bool)));
+
+    m_configCapture.audio_group->setVisible(KdenliveSettings::screengrabenableaudio());
+
     connect(m_configEnv.kp_image, SIGNAL(clicked()), this, SLOT(slotEditImageApplication()));
     connect(m_configEnv.kp_audio, SIGNAL(clicked()), this, SLOT(slotEditAudioApplication()));
     connect(m_configEnv.kp_player, SIGNAL(clicked()), this, SLOT(slotEditVideoApplication()));

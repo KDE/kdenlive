@@ -208,19 +208,34 @@
       <default>false</default>
     </entry>
 
-    <entry name="screengrabaudiocapture" type="String">
+    <entry name="useosscapture" type="Bool">
+      <label>use ffmpeg oss audio capture instead of external program.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="screengrabosscapture" type="String">
       <label>ffmpeg arguments for x11 grab capture.</label>
       <default>-f oss -i /dev/dsp</default>
     </entry>
 
+    <entry name="screengrabalsacapture" type="String">
+      <label>external program audio capture piped into ffmpeg.</label>
+      <default>arecord -Dplughw:0 -c1 -q -r41000 -traw -fS16_LE -</default>
+    </entry>
+
+    <entry name="screengrabalsacapture2" type="String">
+      <label>external program audio capture piped into ffmpeg.</label>
+      <default>-f s16le -i - -acodec copy</default>
+    </entry>
+
     <entry name="screengrabcapture" type="String">
       <label>ffmpeg arguments for x11 grab capture.</label>
-      <default>-f x11grab -r 15 -s %size -i :0.0%offset</default>
+      <default>-f x11grab -r 10 -s %size -i :0.0%offset</default>
     </entry>
 
     <entry name="screengrabencoding" type="String">
       <label>ffmpeg arguments for x11 capture encoding.</label>
-      <default>-vcodec mpeg4</default>
+      <default>-pix_fmt yuv422p -vcodec huffyuv</default>
     </entry>
 
     <entry name="screengrabextension" type="String">
