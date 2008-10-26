@@ -1330,13 +1330,14 @@ void Render::mltCutClip(int track, GenTime position) {
 
     int clipIndex = trackPlaylist.get_clip_index_at(cutPos);
     if (trackPlaylist.is_blank(clipIndex)) {
-        kDebug() << "// WARMNING, TRYING TO CUT A BLANK";
+        kDebug() << "// WARNING, TRYING TO CUT A BLANK";
         m_isBlocked = false;
         return;
     }
     mlt_service_lock(service.get_service());
     int clipStart = trackPlaylist.clip_start(clipIndex);
     trackPlaylist.split(clipIndex, cutPos - clipStart - 1);
+    mlt_service_unlock(service.get_service());
 
     // duplicate effects
     Mlt::Producer *original = trackPlaylist.get_clip_at(clipStart);
@@ -1351,16 +1352,18 @@ void Render::mltCutClip(int track, GenTime position) {
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
         if (filter->get("kdenlive_id") != "") {
-            kDebug() << "++ ADDING FILTER: " << filter->get("kdenlive_id");
-            Mlt::Filter *dup = new Mlt::Filter(filter->get_filter());
-            dup->set("kdenlive_ix", filter->get("kdenlive_ix"));
-            dup->set("kdenlive_id", filter->get("kdenlive_id"));
+            // looks like there is no easy way to duplicate a filter,
+            // so we will create a new one and duplicate its properties
+            Mlt::Filter *dup = new Mlt::Filter(*m_mltProfile, filter->get("mlt_service"));
+            Mlt::Properties entries(filter->get_properties());
+            for (int i = 0;i < entries.count();i++) {
+                dup->set(entries.get_name(i), entries.get(i));
+            }
             dupService.attach(*dup);
         }
         ct++;
         filter = clipService.filter(ct);
     }
-    mlt_service_unlock(service.get_service());
 
     /* // Display playlist info
     kDebug()<<"////////////  AFTER";
