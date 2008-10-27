@@ -26,27 +26,13 @@
   <profile name="NTSC 16:9 vob" standard="NTSC" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 s=720x480 b=6000k maxrate=9000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 g=18 me_range=63 ildct=1 ilme=1 profile=dv_ntsc_wide" />
 </group>
 
-<group name="Mpeg" renderer="avformat" type="av">
-  <profile name="160x120" extension="mpeg" args="f=mpeg minrate=0 b=400k ab=128k ar=32000 s=160x120 progressive=1" />
-  <profile name="240x180" extension="mpeg" args="f=mpeg minrate=0 b=500k ab=128k ar=44100 s=240x180 progressive=1" />
-  <profile name="320x200" extension="mpeg" args="f=mpeg minrate=0 b=800k ab=128k ar=44100 s=320x200 progressive=1" />
-  <profile name="640x480" extension="mpeg" args="f=mpeg minrate=0 b=6000k ab=128k ar=44100 s=640x480 progressive=1" />
-  <profile name="720x576" standard="PAL" extension="mpeg" args="f=mpeg minrate=0 b=12000k ab=384k ar=48000 s=720x576 progressive=1" />
-  <profile name="720x480" standard="NTSC" extension="mpeg" args="f=mpeg minrate=0 b=12000k ab=384k ar=48000 s=720x480 progressive=1" />
-</group>
-
-<group name="h264" renderer="avformat" type="av">
-  <profile name="h264 200k" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=200k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
-  <profile name="h264 400k" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=400k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
-  <profile name="h264 600k" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=600k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
-  <profile name="h264 800k" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=800k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
-  <profile name="h264 1000k" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=1000k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
-  <profile name="h264 2000k" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=2000k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
-  <profile name="h264 4000k" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=4000k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
-  <profile name="h264 6000k" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=6000k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
-  <profile name="h264 8000k" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=8000k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
-  <profile name="h264 10000k" extension="avi" args="f=avi acodec=libfaac ab=384k ar=44100 vcodec=libx264 minrate=0 b=10000k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
-  <profile name="h264 12000k" extension="avi" args="f=avi acodec=libfaac ab=384k ar=44100 vcodec=libx264 minrate=0 b=12000k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
+<group name="Web sites" renderer="avformat" type="av">
+  <profile name="Dailymotion 320x240" extension="avi" args="f=avi acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=400k s=320x240 trell=1 progressive=1 g=30" />
+  <profile name="Dailymotion 640x480" extension="avi" args="f=avi acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=600k s=640x480 trell=1 progressive=1 g=30" />
+  <profile name="Dailymotion 1280x720" extension="avi" args="f=avi acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=600k s=1280x720 trell=1 progressive=1 g=30" />
+   <profile name="Vimeo 640x480" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=5000k s=640x480 mbd=2 trell=1 mv4=1 progressive=1 g=30" />
+  <profile name="Vimeo 1280x720" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=5000k s=1280x720 mbd=2 trell=1 mv4=1 progressive=1 g=30" />
+  <profile name="Youtube 640x480" extension="avi" args="f=avi acodec=libmp3lame ab=128k ar=44100 vcodec=libxvid minrate=0 b=600k s=320x240 trell=1 progressive=1 g=30" />
 </group>
 
 <group name="Mpeg4" renderer="avformat" type="av">
@@ -64,6 +50,20 @@
   <profile name="320x200" extension="avi" args="acodec=libmp3lame ab=92k ar=44100 vcodec=libxvid minrate=0 b=1200k s=320x200 progressive=1" />
   <profile name="720x576" standard="PAL" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 vcodec=libxvid minrate=0 b=7000k s=720x576 progressive=1" />
   <profile name="720x480" standard="NTSC" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 vcodec=libxvid minrate=0 b=7000k s=720x480 progressive=1" />
+</group>
+
+<group name="h264" renderer="avformat" type="av">
+  <profile name="h264 200k" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=200k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
+  <profile name="h264 400k" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=400k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
+  <profile name="h264 600k" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=600k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
+  <profile name="h264 800k" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=800k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
+  <profile name="h264 1000k" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=1000k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
+  <profile name="h264 2000k" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=2000k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
+  <profile name="h264 4000k" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=4000k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
+  <profile name="h264 6000k" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=6000k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
+  <profile name="h264 8000k" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=8000k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
+  <profile name="h264 10000k" extension="avi" args="f=avi acodec=libfaac ab=384k ar=44100 vcodec=libx264 minrate=0 b=10000k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
+  <profile name="h264 12000k" extension="avi" args="f=avi acodec=libfaac ab=384k ar=44100 vcodec=libx264 minrate=0 b=12000k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
 </group>
 
 <group name="Flash" renderer="avformat" type="av">
@@ -90,6 +90,15 @@
   <profile name="640x480" extension="ogg" args="vcodec=libtheora acodec=vorbis minrate=0 b=7000k ab=128k ar=44100 s=640x480 progressive=1" />
 </group>
 
+<group name="Mpeg" renderer="avformat" type="av">
+  <profile name="160x120" extension="mpeg" args="f=mpeg minrate=0 b=400k ab=128k ar=32000 s=160x120 progressive=1" />
+  <profile name="240x180" extension="mpeg" args="f=mpeg minrate=0 b=500k ab=128k ar=44100 s=240x180 progressive=1" />
+  <profile name="320x200" extension="mpeg" args="f=mpeg minrate=0 b=800k ab=128k ar=44100 s=320x200 progressive=1" />
+  <profile name="640x480" extension="mpeg" args="f=mpeg minrate=0 b=6000k ab=128k ar=44100 s=640x480 progressive=1" />
+  <profile name="720x576" standard="PAL" extension="mpeg" args="f=mpeg minrate=0 b=12000k ab=384k ar=48000 s=720x576 progressive=1" />
+  <profile name="720x480" standard="NTSC" extension="mpeg" args="f=mpeg minrate=0 b=12000k ab=384k ar=48000 s=720x480 progressive=1" />
+</group>
+
 <group name="Wav" renderer="avformat" type="audio">
   <profile name="22050" extension="wav" args="f=wav ar=22050" />
   <profile name="32000" extension="wav" args="f=wav ar=32000" />
@@ -97,14 +106,6 @@
   <profile name="48000" extension="wav" args="f=wav ar=48000" />
 </group>
 
-<group name="Web sites" renderer="avformat" type="av">
-  <profile name="Dailymotion 320x240" extension="avi" args="f=avi acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=400k s=320x240 trell=1 progressive=1 g=30" />
-  <profile name="Dailymotion 640x480" extension="avi" args="f=avi acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=600k s=640x480 trell=1 progressive=1 g=30" />
-  <profile name="Dailymotion 1280x720" extension="avi" args="f=avi acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=600k s=1280x720 trell=1 progressive=1 g=30" />
-   <profile name="Vimeo 640x480" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=5000k s=640x480 mbd=2 trell=1 mv4=1 progressive=1 g=30" />
-  <profile name="Vimeo 1280x720" extension="avi" args="f=avi acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=5000k s=1280x720 mbd=2 trell=1 mv4=1 progressive=1 g=30" />
-  <profile name="Youtube 640x480" extension="avi" args="f=avi acodec=libmp3lame ab=128k ar=44100 vcodec=libxvid minrate=0 b=600k s=320x240 trell=1 progressive=1 g=30" />
-</group>
 
 </profiles>
 
