@@ -485,12 +485,12 @@ void DocClipBase::setProperty(const QString &key, const QString &value) {
     } else if (key == "video_index") {
         if (value.isEmpty()) {
             m_properties.remove("video_index");
-            m_clipProducer->set("video_index", 0);
+            m_clipProducer->set("video_index", m_properties.value("default_video").toInt());
         } else m_clipProducer->set("video_index", value.toInt());
     } else if (key == "audio_index") {
         if (value.isEmpty()) {
             m_properties.remove("audio_index");
-            m_clipProducer->set("audio_index", 0);
+            m_clipProducer->set("audio_index", m_properties.value("default_audio").toInt());
         } else m_clipProducer->set("audio_index", value.toInt());
     }
 }

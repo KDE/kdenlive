@@ -618,13 +618,43 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
         }*/
         // Get the video_index
         int index = mlt_properties_get_int(properties, "video_index");
+        int default_video = -1;
+        int video_max = 0;
+        int default_audio = -1;
+        int audio_max = 0;
+        // Find default audio stream (borrowed from MLT)
+        for (int ix = 0; ix < context->nb_streams; ix++) {
+            // Get the codec context
+            AVCodecContext *codec_context = context->streams[ ix ]->codec;
+
+            if (avcodec_find_decoder(codec_context->codec_id) == NULL)
+                continue;
+            // Determine the type and obtain the first index of each type
+            switch (codec_context->codec_type) {
+            case CODEC_TYPE_VIDEO:
+                if (default_video < 0) default_video = ix;
+                video_max = ix;
+                break;
+            case CODEC_TYPE_AUDIO:
+                if (default_audio < 0) default_audio = ix;
+                audio_max = ix;
+                break;
+            default:
+                break;
+            }
+        }
+        filePropertyMap["default_video"] = QString::number(default_video);
+        filePropertyMap["video_max"] = QString::number(video_max);
+        filePropertyMap["default_audio"] = QString::number(default_audio);
+        filePropertyMap["audio_max"] = QString::number(audio_max);
+
 
 #if ENABLE_FFMPEG_CODEC_DESCRIPTION
-        if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->long_name) {
+        if (index > -1 && context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->long_name) {
             filePropertyMap["videocodec"] = context->streams[ index ]->codec->codec->long_name;
         } else
 #endif
-            if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name) {
+            if (index > -1 && context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name) {
                 filePropertyMap["videocodec"] = context->streams[ index ]->codec->codec->name;
             }
     } else kDebug() << " / / / / /WARNING, VIDEO CONTEXT IS NULL!!!!!!!!!!!!!!";
@@ -634,11 +664,11 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
         int index = mlt_properties_get_int(properties, "audio_index");
 
 #if ENABLE_FFMPEG_CODEC_DESCRIPTION
-        if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->long_name)
+        if (index > -1 && context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->long_name)
             filePropertyMap["audiocodec"] = context->streams[ index ]->codec->codec->long_name;
         else
 #endif
-            if (context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name)
+            if (index > -1 && context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name)
                 filePropertyMap["audiocodec"] = context->streams[ index ]->codec->codec->name;
     }
 #endif
@@ -659,6 +689,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
     if (frame) delete frame;
     //if (producer) delete producer;
 }
+
 
 /** Create the producer from the Westley QDomDocument */
 #if 0

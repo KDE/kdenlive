@@ -73,6 +73,14 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.clip_aindex->setValue(props.value("audio_index").toInt());
     }
 
+    if (props.contains("audio_max")) {
+        m_view.clip_aindex->setMaximum(props.value("audio_max").toInt());
+    }
+
+    if (props.contains("video_max")) {
+        m_view.clip_vindex->setMaximum(props.value("video_max").toInt());
+    }
+
     connect(m_view.clip_force_ar, SIGNAL(toggled(bool)), m_view.clip_ar, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_threads, SIGNAL(toggled(bool)), m_view.clip_threads, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_vindex, SIGNAL(toggled(bool)), m_view.clip_vindex, SLOT(setEnabled(bool)));
@@ -240,9 +248,12 @@ const QString &ClipProperties::clipId() const {
 
 QMap <QString, QString> ClipProperties::properties() {
     QMap <QString, QString> props;
-    props["description"] = m_view.clip_description->text();
     CLIPTYPE t = m_clip->clipType();
     QMap <QString, QString> old_props = m_clip->properties();
+
+    if (old_props.value("description") != m_view.clip_description->text())
+        props["description"] = m_view.clip_description->text();
+
     double aspect = m_view.clip_ar->value();
     if (m_view.clip_force_ar->isChecked()) {
         if (aspect != old_props.value("force_aspect_ratio").toDouble()) {
