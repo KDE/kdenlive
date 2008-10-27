@@ -84,9 +84,9 @@
 </group>
 
 <group name="Web sites" renderer="avformat" type="av">
-    <profile name="Dailymotion 320x240" extension="flv" args="f=avi minrate=0 b=400k ab=128k ar=44100 s=320x240 vcodec=flv acodec=libmp3lametrell=1 progressive=1 g=30" />
-    <profile name="Dailymotion 640x480" extension="flv" args="f=avi minrate=0 b=600k ab=128k ar=44100 s=640x480 vcodec=flv acodec=libmp3lame trell=1 progressive=1 g=30" />
-    <profile name="Dailymotion 1280x720" extension="flv" args="f=avi minrate=0 b=800k ab=128k ar=44100 s=1280x720 vcodec=flv acodec=libmp3lame trell=1 progressive=1 g=30" />
+    <profile name="Dailymotion 320x240" extension="avi" args="f=avi minrate=0 b=400k ab=128k ar=44100 s=320x240 vcodec=flv acodec=libmp3lametrell=1 progressive=1 g=30" />
+    <profile name="Dailymotion 640x480" extension="avi" args="f=avi minrate=0 b=600k ab=128k ar=44100 s=640x480 vcodec=flv acodec=libmp3lame trell=1 progressive=1 g=30" />
+    <profile name="Dailymotion 1280x720" extension="avi" args="f=avi minrate=0 b=800k ab=128k ar=44100 s=1280x720 vcodec=flv acodec=libmp3lame trell=1 progressive=1 g=30" />
      <profile name="Vimeo 640x480" extension="avi" args="f=avi minrate=0 b=5000k ab=128k ar=44100 s=640x480 vcodec=libx264 acodec=libfaac mbd=2 trell=1 mv4=1 progressive=1 g=30" />
    <profile name="Vimeo 1280x720" extension="avi" args="f=avi minrate=0 b=5000k ab=128k ar=44100 s=1280x720 vcodec=libx264 acodec=libfaac mbd=2 trell=1 mv4=1 progressive=1 g=30" />
     <profile name="Youtube 640x480" extension="avi" args="f=avi minrate=0 b=600k ab=128k ar=44100 s=320x240 vcodec=libxvid acodec=libmp3lame trell=1 progressive=1 g=30" />
