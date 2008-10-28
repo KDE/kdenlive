@@ -36,20 +36,20 @@
 </group>
 
 <group name="Mpeg4" renderer="avformat" type="av">
-  <profile name="160x120" extension="avi" args="f=avi acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=600k s=160x120 mbd=2 trell=1 mv4=1 progressive=1" />
-  <profile name="240x180" extension="avi" args="f=avi acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=900k s=240x180 mbd=2 trell=1 mv4=1 progressive=1" />
-  <profile name="320x200" extension="avi" args="f=avi acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=1200k s=320x200 mbd=2 trell=1 mv4=1 progressive=1" />
-  <profile name="640x480" extension="avi" args="f=avi acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=6000k s=640x480 mbd=2 trell=1 mv4=1 progressive=1" />
-  <profile name="720x576" standard="PAL" extension="avi" args="f=avi acodec=libmp3lame ab=384k ar=48000 vcodec=mpeg4 s=720x576 minrate=0 b=8000k mbd=2 trell=1 mv4=1 progressive=1" />
-  <profile name="720x480" standard="NTSC" extension="avi" args="f=avi acodec=libmp3lame ab=384k ar=48000 vcodec=mpeg4 s=720x480 minrate=0 b=8000k mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="160x120" extension="mp4" args="f=avi acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=600k s=160x120 mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="240x180" extension="mp4" args="f=avi acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=900k s=240x180 mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="320x200" extension="mp4" args="f=avi acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=1200k s=320x200 mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="640x480" extension="mp4" args="f=avi acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=6000k s=640x480 mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="720x576" standard="PAL" extension="mp4" args="f=avi acodec=libmp3lame ab=384k ar=48000 vcodec=mpeg4 s=720x576 minrate=0 b=8000k mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="720x480" standard="NTSC" extension="mp4" args="f=avi acodec=libmp3lame ab=384k ar=48000 vcodec=mpeg4 s=720x480 minrate=0 b=8000k mbd=2 trell=1 mv4=1 progressive=1" />
 </group>
 
 <group name="XVid4" renderer="avformat" type="av">
-  <profile name="160x120" extension="avi" args="acodec=libmp3lame ab=92k ar=44100 vcodec=libxvid minrate=0 b=800k s=160x120 progressive=1" />
-  <profile name="240x180" extension="avi" args="acodec=libmp3lame ab=92k ar=44100 vcodec=libxvid minrate=0 b=1000k s=240x180 progressive=1" />
-  <profile name="320x200" extension="avi" args="acodec=libmp3lame ab=92k ar=44100 vcodec=libxvid minrate=0 b=1200k s=320x200 progressive=1" />
-  <profile name="720x576" standard="PAL" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 vcodec=libxvid minrate=0 b=7000k s=720x576 progressive=1" />
-  <profile name="720x480" standard="NTSC" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 vcodec=libxvid minrate=0 b=7000k s=720x480 progressive=1" />
+  <profile name="160x120" extension="avi" args="acodec=libmp3lame ab=92k ar=44100 vcodec=libxvid minrate=0 b=800k s=160x120 mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="240x180" extension="avi" args="acodec=libmp3lame ab=92k ar=44100 vcodec=libxvid minrate=0 b=1000k s=240x180 mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="320x200" extension="avi" args="acodec=libmp3lame ab=92k ar=44100 vcodec=libxvid minrate=0 b=1200k s=320x200 mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="720x576" standard="PAL" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 vcodec=libxvid minrate=0 b=7000k s=720x576 mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="720x480" standard="NTSC" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 vcodec=libxvid minrate=0 b=7000k s=720x480 mbd=2 trell=1 mv4=1 progressive=1" />
 </group>
 
 <group name="h264" renderer="avformat" type="av">
@@ -67,16 +67,16 @@
 </group>
 
 <group name="Flash" renderer="avformat" type="av">
-  <profile name="160x120" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=800k ab=32k ar=22050 s=160x120 progressive=1" />
-  <profile name="240x180" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=1000k ab=64k ar=22050 s=240x180 progressive=1" />
-  <profile name="320x240" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=1200k ab=64k ar=22050 s=320x240 progressive=1" />
-  <profile name="640x480" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=7000k ab=128k ar=22050 s=640x480 progressive=1" />
-  <profile name="720x576" standard="PAL" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=12000k ab=128k ar=22050 s=720x576 progressive=1" />
-  <profile name="720x480" standard="NTSC" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=12000k ab=128k ar=22050 s=720x480 progressive=1" />
+  <profile name="160x120" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=800k ab=32k ar=44100 s=160x120 progressive=1" />
+  <profile name="240x180" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=1000k ab=64k ar=44100 s=240x180 progressive=1" />
+  <profile name="320x240" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=1200k ab=64k ar=44100 s=320x240 progressive=1" />
+  <profile name="640x480" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=7000k ab=128k ar=44100 s=640x480 progressive=1" />
+  <profile name="720x576" standard="PAL" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=12000k ab=128k ar=44100 s=720x576 progressive=1" />
+  <profile name="720x480" standard="NTSC" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=12000k ab=128k ar=44100 s=720x480 progressive=1" />
 </group>
 
 <group name="RealVideo" renderer="avformat" type="av">
-  <profile name="160x120" extension="rm" args="f=rv10 minrate=0 b=500k ab=128k ar=32000 s=160x120 g=8 progressive=1" />
+  <profile name="160x120" extension="rm" args="f=rv10 minrate=0 b=500k ab=128k ar=44100 s=160x120 g=8 progressive=1" />
   <profile name="240x180" extension="rm" args="f=rv10 minrate=0 b=800k ab=128k ar=44100 s=240x180 g=8 progressive=1" />
   <profile name="320x200" extension="rm" args="f=rv10 minrate=0 b=1000k ab=128k ar=44100 s=320x200 g=8 progressive=1" />
   <profile name="640x480" extension="rm" args="f=rv10 minrate=0 b=7000k ab=128k ar=44100 s=640x480 g=8 progressive=1" />
