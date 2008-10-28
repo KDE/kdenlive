@@ -792,7 +792,9 @@ void Render::setSceneList(QString playlist, int position) {
     if (m_blackClip) delete m_blackClip;
     m_blackClip = new Mlt::Producer(*m_mltProfile , "colour", "black");
     m_blackClip->set("id", "black");
-    if (!m_mltProducer || !m_mltProducer->is_valid()) kDebug() << " WARNING - - - - -INVALID PLAYLIST: " << tmp;
+    if (!m_mltProducer || !m_mltProducer->is_valid()) {
+        kDebug() << " WARNING - - - - -INVALID PLAYLIST: " << tmp;
+    }
     m_mltProducer->optimise();
 
     /*if (KdenliveSettings::osdtimecode()) {
@@ -833,55 +835,37 @@ void Render::setSceneList(QString playlist, int position) {
 
 /** Create the producer from the Westley QDomDocument */
 QString Render::sceneList() {
-    KTemporaryFile temp;
-    QString result;
-
-    if (temp.open()) {
-        saveSceneList(temp.fileName());
-        QFile file(temp.fileName());
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            kWarning() << "++++++++++++++++   CANNOT READ TMP SCENELIST FILE";
-            return QString();
-        }
-        QTextStream in(&file);
-        while (!in.atEnd()) {
-            result.append(in.readLine());
-        }
-    }
-    return result;
-}
-
-void Render::saveSceneList(QString path, QDomElement kdenliveData) {
-
-    char *tmppath = decodedString("westley:" + path);
-    Mlt::Consumer westleyConsumer(*m_mltProfile , tmppath);
+    QString playlist;
+    Mlt::Consumer westleyConsumer(*m_mltProfile , "westley:kdenlive_playlist");
     m_mltProducer->optimise();
-    delete[] tmppath;
     westleyConsumer.set("terminate_on_pause", 1);
     Mlt::Producer prod(m_mltProducer->get_producer());
     bool split = m_isSplitView;
     if (split) slotSplitView(false);
     westleyConsumer.connect(prod);
-    //prod.set("title", "kdenlive document");
     westleyConsumer.start();
     while (!westleyConsumer.is_stopped()) {}
+    playlist = westleyConsumer.get("kdenlive_playlist");
+    if (split) slotSplitView(true);
+    return playlist;
+}
+
+void Render::saveSceneList(QString path, QDomElement kdenliveData) {
+    QFile file(path);
+    QDomDocument doc;
+    doc.setContent(sceneList(), false);
     if (!kdenliveData.isNull()) {
         // add Kdenlive specific tags
-        QFile file(path);
-        QDomDocument doc;
-        doc.setContent(&file, false);
         QDomNode wes = doc.elementsByTagName("westley").at(0);
         wes.appendChild(doc.importNode(kdenliveData, true));
-        file.close();
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            kWarning() << "//////  ERROR writing to file: " << path;
-            return;
-        }
-        QTextStream out(&file);
-        out << doc.toString();
-        file.close();
     }
-    if (split) slotSplitView(true);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        kWarning() << "//////  ERROR writing to file: " << path;
+        return;
+    }
+    QTextStream out(&file);
+    out << doc.toString();
+    file.close();
 }
 
 
