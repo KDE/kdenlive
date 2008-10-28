@@ -66,12 +66,6 @@
   <profile name="h264 12000k" extension="avi" args="f=avi acodec=libfaac ab=384k ar=44100 vcodec=libx264 minrate=0 b=12000k mbd=2 trell=1 mv4=1 progressive=1 g=30" />
 </group>
 
-<group name="losless" renderer="avformat" type="av">
-  <profile name="ffv1" extension="avi" args="f=avi -acodec pcm_s16le -vcodec ffv1" />
-  <profile name="yuv420p" extension="avi" args="f=avi -acodec  pcm_s16le -vcodec rawvideo" />
-</group>
-
-
 <group name="Flash" renderer="avformat" type="av">
   <profile name="160x120" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=800k ab=32k ar=44100 s=160x120 progressive=1" />
   <profile name="240x180" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=1000k ab=64k ar=44100 s=240x180 progressive=1" />
@@ -112,7 +106,7 @@
   <profile name="48000" extension="wav" args="f=wav ar=48000" />
 </group>
 
-<group name="losless codecs" renderer="avformat" type="av">
+<group name="losless" renderer="avformat" type="av">
   <profile name="ffv1" extension="avi" args="f=avi -acodec pcm_s16le -vcodec ffv1" />
   <profile name="yuv420p" extension="avi" args="f=avi -acodec pcm_s16le -vcodec rawvideo" />
 </group>
