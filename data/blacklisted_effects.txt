@@ -1,5 +1,6 @@
 # crashing effects
 frei0r.squareblur
+frei0r.distort0r
 frei0r.water
 
 # duplicate effects
