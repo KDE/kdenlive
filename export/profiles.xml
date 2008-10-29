@@ -106,7 +106,7 @@
   <profile name="48000" extension="wav" args="f=wav ar=48000" />
 </group>
 
-<group name="losless" renderer="avformat" type="av">
+<group name="Lossless" renderer="avformat" type="av">
   <profile name="dirac (video) + flac (sound) - experimental" extension="drc" args="f=drc acodec=flac ar=48000 ab=1024k vcodec=libdirac qscale=255" />
   <profile name="ffv1 (video) + flac (sound)" extension="avi" args="f=avi acodec=flac acodec=flac ar=48000 ab=1024k vcodec=ffv1 qscale=255" />
   <profile name="huffyuv (video) + pcm_s16le (sound)" extension="avi" args="f=avi acodec=pcm_s16le vcodec=huffyuv" />
