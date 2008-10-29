@@ -220,7 +220,7 @@
 
     <entry name="screengrabalsacapture" type="String">
       <label>external program audio capture piped into ffmpeg.</label>
-      <default>arecord -Dplughw:0 -c1 -q -r41000 -traw -fS16_LE -</default>
+      <default>-Dplughw:0 -c1 -q -r41000 -traw -fS16_LE -</default>
     </entry>
 
     <entry name="screengrabalsacapture2" type="String">
@@ -336,6 +336,11 @@
 
     <entry name="showeffectinfo" type="Bool">
       <label>Show small effect description in effect list.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="showrenderparams" type="Bool">
+      <label>Show avformat render parameters in rendering dialog.</label>
       <default>false</default>
     </entry>
 

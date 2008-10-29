@@ -438,8 +438,7 @@ void RecMonitor::slotRecord() {
                 if (KdenliveSettings::screengrabenableaudio() && !KdenliveSettings::useosscapture()) {
                     QStringList alsaArgs = KdenliveSettings::screengrabalsacapture().simplified().split(' ');
                     alsaProcess->setStandardOutputProcess(captureProcess);
-                    const QString alsaBinary = alsaArgs.takeFirst();
-                    alsaProcess->start(alsaBinary, alsaArgs);
+                    alsaProcess->start("arecord", alsaArgs);
                 }
                 captureProcess->start("ffmpeg", m_captureArgs);
             } else {
@@ -488,7 +487,7 @@ void RecMonitor::slotStartGrab(const QRect &rect) {
     if (KdenliveSettings::screengrabenableaudio() && !KdenliveSettings::useosscapture()) {
         QStringList alsaArgs = KdenliveSettings::screengrabalsacapture().simplified().split(' ');
         alsaProcess->setStandardOutputProcess(captureProcess);
-        alsaProcess->start(alsaArgs.takeFirst(), alsaArgs);
+        alsaProcess->start("arecord", alsaArgs);
     }
     captureProcess->start("ffmpeg", m_captureArgs);
 }

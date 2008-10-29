@@ -45,7 +45,7 @@ private slots:
     void slotUpdateGuideBox();
     void slotCheckStartGuidePosition();
     void slotCheckEndGuidePosition();
-
+    void showInfoPanel();
 
 private:
     Ui::RenderWidget_UI m_view;

@@ -49,6 +49,14 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent), m_standard("PAL")
     m_view.buttonSave->setIcon(KIcon("document-new"));
     m_view.buttonSave->setToolTip(i18n("Create new profile"));
 
+    m_view.buttonInfo->setIcon(KIcon("help-about"));
+
+    if (KdenliveSettings::showrenderparams()) {
+        m_view.buttonInfo->setDown(true);
+    } else m_view.advanced_params->hide();
+
+    connect(m_view.buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
+
     connect(m_view.buttonSave, SIGNAL(clicked()), this, SLOT(slotSaveProfile()));
     connect(m_view.buttonEdit, SIGNAL(clicked()), this, SLOT(slotEditProfile()));
     connect(m_view.buttonDelete, SIGNAL(clicked()), this, SLOT(slotDeleteProfile()));
@@ -68,6 +76,20 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent), m_standard("PAL")
     m_view.buttonStart->setEnabled(false);
     m_view.guides_box->setVisible(false);
     parseProfiles();
+    m_view.splitter->setStretchFactor(1, 5);
+    m_view.splitter->setStretchFactor(0, 2);
+}
+
+void RenderWidget::showInfoPanel() {
+    if (m_view.advanced_params->isVisible()) {
+        m_view.advanced_params->setVisible(false);
+        m_view.buttonInfo->setDown(false);
+        KdenliveSettings::setShowrenderparams(false);
+    } else {
+        m_view.advanced_params->setVisible(true);
+        m_view.buttonInfo->setDown(true);
+        KdenliveSettings::setShowrenderparams(true);
+    }
 }
 
 void RenderWidget::slotUpdateGuideBox() {
@@ -121,7 +143,7 @@ void RenderWidget::slotSaveProfile() {
     int pos = ui.group_name->findText(customGroup);
     ui.group_name->setCurrentIndex(pos);
 
-    ui.parameters->setText(m_view.advanced_params->text());
+    ui.parameters->setText(m_view.advanced_params->toPlainText());
     ui.extension->setText(m_view.size_list->currentItem()->data(ExtensionRole).toString());
     ui.profile_name->setFocus();
     if (d->exec() == QDialog::Accepted) {
@@ -160,7 +182,7 @@ void RenderWidget::slotSaveProfile() {
         QDomElement profileElement = doc.createElement("profile");
         profileElement.setAttribute("name", newProfileName);
         profileElement.setAttribute("extension", ui.extension->text().simplified());
-        profileElement.setAttribute("args", ui.parameters->text().simplified());
+        profileElement.setAttribute("args", ui.parameters->toPlainText().simplified());
         documentElement.appendChild(profileElement);
 
         //QCString save = doc.toString().utf8();
@@ -239,7 +261,7 @@ void RenderWidget::slotEditProfile() {
         QDomElement profileElement = doc.createElement("profile");
         profileElement.setAttribute("name", newProfileName);
         profileElement.setAttribute("extension", ui.extension->text().simplified());
-        profileElement.setAttribute("args", ui.parameters->text().simplified());
+        profileElement.setAttribute("args", ui.parameters->toPlainText().simplified());
         documentElement.appendChild(profileElement);
 
         //QCString save = doc.toString().utf8();
@@ -323,7 +345,7 @@ void RenderWidget::slotExport() {
         startPos = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
         endPos = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
     }
-    emit doRender(m_view.out_file->url().path(), item->data(RenderRole).toString(), overlayargs, m_view.advanced_params->text().split(' '), m_view.render_zone->isChecked(), m_view.play_after->isChecked(), startPos, endPos);
+    emit doRender(m_view.out_file->url().path(), item->data(RenderRole).toString(), overlayargs, m_view.advanced_params->toPlainText().split(' '), m_view.render_zone->isChecked(), m_view.play_after->isChecked(), startPos, endPos);
 }
 
 void RenderWidget::setDocumentStandard(QString std) {
@@ -360,7 +382,7 @@ void RenderWidget::refreshParams() {
     if (!item) return;
     QString params = item->data(ParamsRole).toString();
     QString extension = item->data(ExtensionRole).toString();
-    m_view.advanced_params->setText(params);
+    m_view.advanced_params->setPlainText(params);
     m_view.advanced_params->setToolTip(params);
     KUrl url = m_view.out_file->url();
     if (!url.isEmpty()) {

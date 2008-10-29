@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>225</height>
+    <width>346</width>
+    <height>237</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -55,7 +55,14 @@
     </widget>
    </item>
    <item row="4" column="0" colspan="3" >
-    <widget class="KLineEdit" name="parameters" />
+    <widget class="KTextEdit" name="parameters" >
+     <property name="readOnly" >
+      <bool>false</bool>
+     </property>
+     <property name="acceptRichText" >
+      <bool>false</bool>
+     </property>
+    </widget>
    </item>
    <item row="5" column="2" >
     <spacer name="verticalSpacer" >
@@ -92,6 +99,11 @@
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>ktextedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
