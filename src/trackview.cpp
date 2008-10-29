@@ -195,7 +195,7 @@ void TrackView::parseDocument(QDomDocument doc) {
         if (transitionAdd) {
             // Transition should be added to the scene
             ItemInfo transitionInfo;
-            QDomElement base = MainWindow::transitions.getEffectByTag(mlt_service, QString());
+            QDomElement base = MainWindow::transitions.getEffectByTag(mlt_service, QString()).cloneNode().toElement();
 
             for (int k = 0; k < transitionparams.count(); k++) {
                 p = transitionparams.item(k).toElement();
