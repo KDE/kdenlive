@@ -115,6 +115,7 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event) {
         else if (m_moveCursor == RULER_END) m_zoneEnd = pos;
         else if (m_moveCursor == RULER_MIDDLE) {
             int move = pos - (m_zoneStart + (m_zoneEnd - m_zoneStart) / 2);
+            if (move + m_zoneStart < 0) move = - m_zoneStart;
             m_zoneStart += move;
             m_zoneEnd += move;
         }
