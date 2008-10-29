@@ -27,12 +27,12 @@
 </group>
 
 <group name="Web sites" renderer="avformat" type="av">
-  <profile name="Dailymotion 320x240" extension="avi" args="f=avi acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=400k s=320x240 trell=1 progressive=1 g=30" />
-  <profile name="Dailymotion 512x384" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=96k ar=44100 async=1 vsync=0 vcodec=libx264 minrate=0 b=600k s=512x384 mbd=2 trell=1 mv4=1 progressive=1" />
-  <profile name="Dailymotion 1280x720" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=96k ar=44100 async=1 vsync=0 vcodec=libx264 minrate=0 b=800k s=1280x720 mbd=2 trell=1 mv4=1 progressive=1" />
-   <profile name="Vimeo 640x480" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=3000k s=640x480 mbd=2 trell=1 mv4=1 progressive=1 g=30" />
-  <profile name="Vimeo 1280x720" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=5000k s=1280x720 mbd=2 trell=1 mv4=1 progressive=1 g=30" />
-  <profile name="Youtube 640x480" extension="avi" args="f=avi hq=1 acodec=libmp3lame ab=128k ar=44100 vcodec=libxvid minrate=0 b=600k s=640x480 trell=1 progressive=1 g=30" />
+  <profile name="Dailymotion 320x240" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=400k s=320x240 trell=1 progressive=1" />
+  <profile name="Dailymotion 512x384" extension="mp4" args="f=mp4 acodec=libfaac ab=96k ar=44100 vcodec=libx264 minrate=0 b=700k s=512x384 mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="Dailymotion 1280x720" extension="mp4" args="f=mp4 acodec=libfaac ab=96k ar=44100 vcodec=libx264 minrate=0 b=800k s=1280x720 mbd=2 trell=1 mv4=1 progressive=1" />
+   <profile name="Vimeo 640x480" extension="mp4" args="f=mp4 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=3000k s=640x480 mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="Vimeo 1280x720" extension="mp4" args="f=mp4 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=5000k s=1280x720 mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="Youtube 640x480" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=libxvid minrate=0 b=600k s=640x480 trell=1 progressive=1" />
 </group>
 
 <group name="Mpeg4" renderer="avformat" type="av">
@@ -53,17 +53,17 @@
 </group>
 
 <group name="h264" renderer="avformat" type="av">
-  <profile name="h264 200k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 async=1 vsync=0 vcodec=libx264 minrate=0 b=200k mbd=2 trell=1 mv4=1 progressive=1" />
-  <profile name="h264 400k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 async=1 vsync=0 vcodec=libx264 minrate=0 b=400k mbd=2 trell=1 mv4=1 progressive=1" />
-  <profile name="h264 600k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 async=1 vsync=0 vcodec=libx264 minrate=0 b=600k mbd=2 trell=1 mv4=1 progressive=1" />
-  <profile name="h264 800k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 async=1 vsync=0 vcodec=libx264 minrate=0 b=800k mbd=2 trell=1 mv4=1 progressive=1" />
-  <profile name="h264 1000k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 async=1 vsync=0 vcodec=libx264 minrate=0 b=1000k mbd=2 trell=1 mv4=1 progressive=1" />
-  <profile name="h264 2000k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 async=1 vsync=0 vcodec=libx264 minrate=0 b=2000k mbd=2 trell=1 mv4=1 progressive=1" />
-  <profile name="h264 4000k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 async=1 vsync=0 vcodec=libx264 minrate=0 b=4000k mbd=2 trell=1 mv4=1 progressive=1" />
-  <profile name="h264 6000k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 async=1 vsync=0 vcodec=libx264 minrate=0 b=6000k mbd=2 trell=1 mv4=1 progressive=1" />
-  <profile name="h264 8000k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 async=1 vsync=0 vcodec=libx264 minrate=0 b=8000k mbd=2 trell=1 mv4=1 progressive=1" />
-  <profile name="h264 10000k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=384k ar=44100 async=1 vsync=0 vcodec=libx264 minrate=0 b=10000k mbd=2 trell=1 mv4=1 progressive=1" />
-  <profile name="h264 12000k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=384k ar=44100 async=1 vsync=0 vcodec=libx264 minrate=0 b=12000k mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="h264 200k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=200k mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="h264 400k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=400k mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="h264 600k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=600k mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="h264 800k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=800k mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="h264 1000k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=1000k mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="h264 2000k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=2000k mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="h264 4000k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=4000k mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="h264 6000k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=6000k mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="h264 8000k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=8000k mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="h264 10000k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=384k ar=44100 vcodec=libx264 minrate=0 b=10000k mbd=2 trell=1 mv4=1 progressive=1" />
+  <profile name="h264 12000k" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=384k ar=44100 vcodec=libx264 minrate=0 b=12000k mbd=2 trell=1 mv4=1 progressive=1" />
 </group>
 
 <group name="Flash" renderer="avformat" type="av">
