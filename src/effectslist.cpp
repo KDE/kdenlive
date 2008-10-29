@@ -126,9 +126,19 @@ QStringList EffectsList::effectNames() {
     return list;
 }
 
-QString EffectsList::getInfo(const QString & tag, const QString & id) {
+QString EffectsList::getInfo(const QString & tag, const QString & id) const {
     QString info;
     QDomElement effect = getEffectByTag(tag, id);
+    QDomNode namenode = effect.elementsByTagName("description").item(0);
+    if (!namenode.isNull()) info = i18n(namenode.toElement().text().toUtf8().data());
+    namenode = effect.elementsByTagName("author").item(0);
+    if (!namenode.isNull()) info.append(i18n("<br><b>Author:</b> ") + i18n(namenode.toElement().text().toUtf8().data()));
+    return info;
+}
+
+QString EffectsList::getInfoFromIndex(const int ix) const {
+    QString info;
+    QDomElement effect = this->at(ix);
     QDomNode namenode = effect.elementsByTagName("description").item(0);
     if (!namenode.isNull()) info = i18n(namenode.toElement().text().toUtf8().data());
     namenode = effect.elementsByTagName("author").item(0);

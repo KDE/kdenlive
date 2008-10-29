@@ -31,6 +31,9 @@ TransitionSettings::TransitionSettings(QWidget* parent): QWidget(parent) {
     connect(effectEdit, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
     setEnabled(false);
     ui.transitionList->addItems(MainWindow::transitions.effectNames());
+    for (int i = 0; i < ui.transitionList->count(); i++) {
+        ui.transitionList->setItemData(i, MainWindow::transitions.getInfoFromIndex(i), Qt::ToolTipRole);
+    }
     //kDebug() << MainWindow::transitions.effectNames().size();
     //ui.listWidget->setCurrentRow(0);
     connect(ui.transitionList, SIGNAL(activated(int)), this, SLOT(slotTransitionChanged()));

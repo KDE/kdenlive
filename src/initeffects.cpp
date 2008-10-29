@@ -511,12 +511,19 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
         QDomDocument ret;
         QDomElement ktrans = ret.createElement("ktransition");
         ret.appendChild(ktrans);
+
         ktrans.setAttribute("tag", name);
         QDomElement tname = ret.createElement("name");
+
+        QDomElement desc = ret.createElement("description");
+
         QList<QDomElement> paramList;
         Mlt::Properties *metadata = repository->metadata(transition_type, name.toAscii().data());
         //kDebug() << filtername;
         if (metadata && metadata->is_valid()) {
+
+            desc.appendChild(ret.createTextNode(metadata->get("description")));
+
             Mlt::Properties param_props((mlt_properties) metadata->get_data("parameters"));
             for (int j = 0; param_props.is_valid() && j < param_props.count();j++) {
                 QDomElement params = ret.createElement("parameter");
@@ -566,6 +573,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
             if (name == "luma") {
 
                 tname.appendChild(ret.createTextNode("Luma"));
+                desc.appendChild(ret.createTextNode("Applies a luma transition between the current and next frames"));
 
                 QString path(mlt_environment("MLT_DATA"));
                 path.append("/lumas/").append(mlt_environment("MLT_NORMALISATION"));
@@ -590,6 +598,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 //thumbnailer.prepareThumbnailsCall(imagelist);
 
             } else if (name == "composite") {
+                desc.appendChild(ret.createTextNode("A key-framable alpha-channel compositor for two frames."));
                 paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "0%,0%:100%x100%:100", "-500;-500;-500;-500;0", "500;500;500;500;100"));
                 paramList.append(quickParameterFill(ret, "Distort", "distort", "bool", "1", "1", "1"));
                 tname.appendChild(ret.createTextNode("Composite"));
@@ -628,6 +637,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
         }
 
         ktrans.appendChild(tname);
+        ktrans.appendChild(desc);
 
         foreach(const QDomElement &e, paramList) {
             ktrans.appendChild(e);
@@ -643,7 +653,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
         */
     }
 
-    QString wipetrans = "<ktransition tag=\"composite\" ><name>Wipe</name><parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>Direction</name>                                               </parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>Align</name></parameter></ktransition>";
+    QString wipetrans = "<ktransition tag=\"composite\" ><name>Wipe</name><description>Slide image from one side to another</description><parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>Direction</name>                                               </parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>Align</name></parameter></ktransition>";
     QDomDocument ret;
     ret.setContent(wipetrans);
     transitions->append(ret.documentElement());

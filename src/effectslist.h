@@ -39,7 +39,8 @@ public:
     int hasEffect(const QString & tag, const QString & id) const;
     QStringList effectIdInfo(const int ix) const;
     QStringList effectNames();
-    QString getInfo(const QString & tag, const QString & id);
+    QString getInfo(const QString & tag, const QString & id) const;
+    QString getInfoFromIndex(const int ix) const;
     QMap <QString, QString> effect(const QString & name);
     EffectsList clone() const;
     static bool hasKeyFrames(QDomElement effect);
