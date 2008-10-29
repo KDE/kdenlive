@@ -97,7 +97,7 @@ void AbstractClipItem::resizeStart(int posx) {
     }
 }
 
-void AbstractClipItem::resizeEnd(int posx) {
+void AbstractClipItem::resizeEnd(int posx, bool updateKeyFrames) {
     GenTime durationDiff = GenTime(posx, m_fps) - endPos();
     if (durationDiff == GenTime()) return;
     //kDebug() << "-- RESCALE: CROP=" << m_cropStart << ", DIFF = " << durationDiff;

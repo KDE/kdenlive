@@ -47,7 +47,7 @@ public:
                        QWidget *);
     virtual int type() const;
     void resizeStart(int posx);
-    void resizeEnd(int posx);
+    void resizeEnd(int posx, bool updateKeyFrames = true);
     OPERATIONTYPE operationMode(QPointF pos);
     const QString &clipProducer() const;
     int clipType() const;
@@ -97,6 +97,7 @@ public:
     double speed() const;
     GenTime maxDuration() const;
     int hasEffect(const QString &tag, const QString &id) const;
+    bool checkKeyFrames();
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);

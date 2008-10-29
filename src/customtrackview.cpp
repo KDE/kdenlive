@@ -961,8 +961,10 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut) {
         newPos.track = info.track;
         ClipItem *dup = item->clone(newPos);
         kDebug() << "// REsizing item to: " << cutPos;
-        item->resizeEnd(cutPos);
+        item->resizeEnd(cutPos, false);
         scene()->addItem(dup);
+        if (item->checkKeyFrames()) slotRefreshEffects(item);
+        if (dup->checkKeyFrames()) slotRefreshEffects(dup);
         item->baseClip()->addReference();
         m_document->updateClip(item->baseClip()->getId());
         kDebug() << "/////////  CUTTING CLIP RESULT: (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), DUP: (" << dup->startPos().frames(25) << "-" << dup->endPos().frames(25) << ")" << ", CUT: " << cutTime.frames(25);
@@ -1055,7 +1057,7 @@ void CustomTrackView::addTransition(ItemInfo transitionInfo, int endTrack, QDomE
     Transition *tr = new Transition(transitionInfo, endTrack, m_document->fps(), params);
     scene()->addItem(tr);
 
-    //kDebug() << "---- ADDING transition " << e.attribute("tag") << ", on tracks " << m_scene->m_tracksList.count() - e.attribute("transition_track").toInt() << " / " << getPreviousVideoTrack(e.attribute("transition_track").toInt());
+    //kDebug() << "---- ADDING transition " << params.attribute("value");
     m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_scene->m_tracksList.count() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, tr->toXML());
     m_document->setModified(true);
 }

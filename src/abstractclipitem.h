@@ -48,7 +48,7 @@ public:
     virtual int track() const ;
     virtual GenTime cropStart() const ;
     virtual void resizeStart(int posx);
-    virtual void resizeEnd(int posx);
+    virtual void resizeEnd(int posx, bool updateKeyFrames = true);
     virtual GenTime duration() const;
     virtual double fps() const;
     virtual GenTime maxDuration() const;

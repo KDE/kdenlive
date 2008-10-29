@@ -150,6 +150,64 @@ void ClipItem::initEffect(QDomElement effect) {
     }
 }
 
+bool ClipItem::checkKeyFrames() {
+    bool clipEffectsModified = false;
+    for (int ix = 0; ix < m_effectList.count(); ix ++) {
+        QString kfr = keyframes(ix);
+        if (!kfr.isEmpty()) {
+            const QStringList keyframes = kfr.split(";", QString::SkipEmptyParts);
+            QStringList newKeyFrames;
+            bool cutKeyFrame = false;
+            bool modified = false;
+            int lastPos = -1;
+            double lastValue = -1;
+            int start = m_cropStart.frames(m_fps);
+            int end = (m_cropStart + m_cropDuration).frames(m_fps);
+            foreach(const QString str, keyframes) {
+                int pos = str.section(":", 0, 0).toInt();
+                double val = str.section(":", 1, 1).toDouble();
+                if (pos - start < 0) {
+                    // a keyframe is defined before the start of the clip
+                    cutKeyFrame = true;
+                } else if (cutKeyFrame) {
+                    // create new keyframe at clip start, calculate interpolated value
+                    if (pos > start) {
+                        int diff = pos - lastPos;
+                        double ratio = (double)(start - lastPos) / diff;
+                        double newValue = lastValue + (val - lastValue) * ratio;
+                        newKeyFrames.append(QString::number(start) + ":" + QString::number(newValue));
+                        modified = true;
+                    }
+                    cutKeyFrame = false;
+                }
+                if (!cutKeyFrame) {
+                    if (pos > end) {
+                        // create new keyframe at clip end, calculate interpolated value
+                        int diff = pos - lastPos;
+                        if (diff != 0) {
+                            double ratio = (double)(end - lastPos) / diff;
+                            double newValue = lastValue + (val - lastValue) * ratio;
+                            newKeyFrames.append(QString::number(end) + ":" + QString::number(newValue));
+                            modified = true;
+                        }
+                        break;
+                    } else {
+                        newKeyFrames.append(QString::number(pos) + ":" + QString::number(val));
+                    }
+                }
+                lastPos = pos;
+                lastValue = val;
+            }
+            if (modified) {
+                // update KeyFrames
+                setKeyframes(ix, newKeyFrames.join(";"));
+                clipEffectsModified = true;
+            }
+        }
+    }
+    return clipEffectsModified;
+}
+
 void ClipItem::setKeyframes(const int ix, const QString keyframes) {
     QDomElement effect = effectAt(ix);
     if (effect.attribute("disabled") == "1") return;
@@ -654,8 +712,7 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos) {
     double maximumOffset;
     if (scale > 3) maximumOffset = 25 / scale;
     else maximumOffset = 6 / scale;
-    QMatrix matrix;
-    matrix.scale(scale, 0);
+
     //kDebug()<<"// Item rect: "<<rect.x()<<". pos. "<<pos.x()<<", scale: "<<scale<<", ratio: "<<qAbs((int)(pos.x() - rect.x())) / scale;
 
     if (qAbs((int)(pos.x() - (rect.x() + m_startFade))) < maximumOffset  && qAbs((int)(pos.y() - rect.y())) < 6) {
@@ -875,13 +932,13 @@ void ClipItem::resizeStart(int posx) {
     }
 }
 
-void ClipItem::resizeEnd(int posx) {
+void ClipItem::resizeEnd(int posx, bool updateKeyFrames) {
     const int max = (startPos() - cropStart() + maxDuration()).frames(m_fps) + 1;
     if (posx > max) posx = max;
     if (posx == endPos().frames(m_fps)) return;
     const int previous = (cropStart() + duration()).frames(m_fps);
     AbstractClipItem::resizeEnd(posx);
-    checkEffectsKeyframesPos(previous, (cropStart() + duration()).frames(m_fps), false);
+    if (updateKeyFrames) checkEffectsKeyframesPos(previous, (cropStart() + duration()).frames(m_fps), false);
     if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
         /*connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));*/
         endThumbTimer->start(100);
@@ -899,9 +956,11 @@ void ClipItem::checkEffectsKeyframesPos(const int previous, const int current, b
                 // parse keyframes and adjust values
                 const QStringList keyframes = e.attribute("keyframes").split(";", QString::SkipEmptyParts);
                 QMap <int, double> kfr;
+                int pos;
+                double val;
                 foreach(const QString str, keyframes) {
-                    int pos = str.section(":", 0, 0).toInt();
-                    double val = str.section(":", 1, 1).toDouble();
+                    pos = str.section(":", 0, 0).toInt();
+                    val = str.section(":", 1, 1).toDouble();
                     if (pos == previous) kfr[current] = val;
                     else {
                         if (fromStart && pos >= current) kfr[pos] = val;
