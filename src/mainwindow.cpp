@@ -941,7 +941,7 @@ void MainWindow::saveFileAs(const QString &outputFileName) {
 }
 
 void MainWindow::saveFileAs() {
-    QString outputFile = KFileDialog::getSaveFileName(KUrl(), "*.kdenlive|Kdenlive project files (*.kdenlive)");
+    QString outputFile = KFileDialog::getSaveFileName(KUrl(), "application/x-kdenlive");
     if (QFile::exists(outputFile)) {
         if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) == KMessageBox::No) return;
     }
@@ -959,7 +959,7 @@ void MainWindow::saveFile() {
 }
 
 void MainWindow::openFile() {
-    KUrl url = KFileDialog::getOpenUrl(KUrl(), "*.kdenlive|Kdenlive project files (*.kdenlive)\n*.westley|MLT project files (*.westley)");
+    KUrl url = KFileDialog::getOpenUrl(KUrl(), "application/x-kdenlive");
     if (url.isEmpty()) return;
     m_fileOpenRecent->addUrl(url);
     openFile(url);
