@@ -177,6 +177,8 @@ void TrackView::parseDocument(QDomDocument doc) {
         bool transitionAdd = true;
         int a_track = 0;
         int b_track = 0;
+        bool isAutomatic = false;
+        QString mlt_geometry;
         QString mlt_service;
         for (int k = 0; k < transitionparams.count(); k++) {
             p = transitionparams.item(k).toElement();
@@ -186,16 +188,45 @@ void TrackView::parseDocument(QDomDocument doc) {
                 if (paramName == "internal_added" && p.text() == "237") {
                     transitionAdd = false;
                     //kDebug() << "//  TRANSITRION " << i << " IS NOT VALID (INTERN ADDED)";
-                    break;
+                    //break;
                 } else if (paramName == "a_track") a_track = p.text().toInt();
                 else if (paramName == "b_track") b_track = m_projectTracks - 1 - p.text().toInt();
                 else if (paramName == "mlt_service") mlt_service = p.text();
+                else if (paramName == "geometry") mlt_geometry = p.text();
+                else if (paramName == "automatic" && p.text() == "1") isAutomatic = true;;
             }
         }
-        if (transitionAdd) {
+        if (transitionAdd || mlt_service != "mix") {
             // Transition should be added to the scene
             ItemInfo transitionInfo;
-            QDomElement base = MainWindow::transitions.getEffectByTag(mlt_service, QString()).cloneNode().toElement();
+            QString transitionId;
+            if (mlt_service == "composite") {
+                kDebug() << "//////////\n\nADDING COMPO TRANS\n\n " << mlt_geometry << "\n\n//////////";
+                if (mlt_geometry == "0%,0%:100%x100%") transitionId = "alphatransparency";
+                else if (mlt_geometry.count(';') == 1) {
+                    mlt_geometry.remove(QChar('%'), Qt::CaseInsensitive);
+                    mlt_geometry.replace(QChar('x'), QChar(','), Qt::CaseInsensitive);
+                    QString start = mlt_geometry.section(';', 0, 0);
+                    start = start.section(':', 0, 1);
+                    start.replace(QChar(':'), QChar(','), Qt::CaseInsensitive);
+                    QString end = mlt_geometry.section('=', 1, 1);
+                    end = end.section(':', 0, 1);
+                    end.replace(QChar(':'), QChar(','), Qt::CaseInsensitive);
+                    start.append(',' + end);
+                    QStringList numbers = start.split(',', QString::SkipEmptyParts);
+                    bool isWipeTransition = true;
+                    int checkNumber;
+                    for (int i = 0; i < numbers.size(); ++i) {
+                        checkNumber = qAbs(numbers.at(i).toInt());
+                        if (checkNumber != 0 && checkNumber != 100) {
+                            isWipeTransition = false;
+                            break;
+                        }
+                    }
+                    if (isWipeTransition) transitionId = "wipe";
+                }
+            }
+            QDomElement base = MainWindow::transitions.getEffectByTag(mlt_service, transitionId).cloneNode().toElement();
 
             for (int k = 0; k < transitionparams.count(); k++) {
                 p = transitionparams.item(k).toElement();
@@ -229,7 +260,7 @@ void TrackView::parseDocument(QDomDocument doc) {
             transitionInfo.endPos = GenTime(e.attribute("out").toInt(), m_doc->fps());
             transitionInfo.track = b_track;
             //kDebug() << "///////////////   +++++++++++  ADDING TRANSITION ON TRACK: " << b_track << ", TOTAL TRKA: " << m_projectTracks;
-            Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base);
+            Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, isAutomatic);
             m_scene->addItem(tr);
         }
     }

@@ -709,11 +709,7 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos) {
     }
     QRectF rect = sceneBoundingRect();
     const double scale = projectScene()->scale();
-    double maximumOffset;
-    if (scale > 3) maximumOffset = 25 / scale;
-    else maximumOffset = 6 / scale;
-
-    //kDebug()<<"// Item rect: "<<rect.x()<<". pos. "<<pos.x()<<", scale: "<<scale<<", ratio: "<<qAbs((int)(pos.x() - rect.x())) / scale;
+    double maximumOffset = 6 / scale;
 
     if (qAbs((int)(pos.x() - (rect.x() + m_startFade))) < maximumOffset  && qAbs((int)(pos.y() - rect.y())) < 6) {
         if (m_startFade == 0) setToolTip(i18n("Add audio fade"));

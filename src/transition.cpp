@@ -33,7 +33,7 @@
 #include "customtrackscene.h"
 #include "mainwindow.h"
 
-Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDomElement params) : AbstractClipItem(info, QRectF(), fps), m_gradient(QLinearGradient(0, 0, 0, 0)) {
+Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDomElement params, bool automaticTransition) : AbstractClipItem(info, QRectF(), fps), m_gradient(QLinearGradient(0, 0, 0, 0)), m_automaticTransition(automaticTransition) {
     setRect(0, 0, (qreal)(info.endPos - info.startPos).frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
     setPos((qreal) info.startPos.frames(fps), (qreal)(info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2));
 
@@ -52,7 +52,8 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDo
     } else {
         m_parameters = params;
     }
-
+    if (m_automaticTransition) m_parameters.setAttribute("automatic", 1);
+    else if (m_parameters.attribute("automatic") == "1") m_automaticTransition = true;
     m_name = m_parameters.elementsByTagName("name").item(0).toElement().text();
     m_secondClip = 0;
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
@@ -76,6 +77,10 @@ QString Transition::transitionName() const {
 
 QString Transition::transitionTag() const {
     return m_parameters.attribute("tag");
+}
+
+bool Transition::isAutomatic() const {
+    return m_automaticTransition;
 }
 
 void Transition::setTransitionParameters(const QDomElement params) {
@@ -207,9 +212,12 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
 
 
 OPERATIONTYPE Transition::operationMode(QPointF pos) {
+    const double scale = projectScene()->scale();
+    double maximumOffset = 6 / scale;
+
     QRectF rect = sceneBoundingRect();
-    if (qAbs((int)(pos.x() - rect.x())) < 6) return RESIZESTART;
-    else if (qAbs((int)(pos.x() - (rect.right()))) < 6) return RESIZEEND;
+    if (qAbs((int)(pos.x() - rect.x())) < maximumOffset) return RESIZESTART;
+    else if (qAbs((int)(pos.x() - (rect.right()))) < maximumOffset) return RESIZEEND;
     return MOVE;
 }
 

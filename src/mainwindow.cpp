@@ -285,9 +285,15 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
     QMenu *transitionsMenu = new QMenu(i18n("Add Transition"), this);
     QStringList effects = transitions.effectNames();
-    foreach(const QString &name, effects) {
-        action = new QAction(name, this);
-        action->setData(name);
+
+    effectsList.clear();
+    for (int ix = 0; ix < transitions.count(); ix++) {
+        effectInfo = transitions.effectIdInfo(ix);
+        effectsList.insert(effectInfo.at(0).toLower(), effectInfo);
+    }
+    foreach(QStringList value, effectsList) {
+        action = new QAction(value.at(0), this);
+        action->setData(value);
         transitionsMenu->addAction(action);
     }
     connect(transitionsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddTransition(QAction *)));
@@ -1473,9 +1479,12 @@ void MainWindow::slotAddProjectClip(KUrl url) {
 
 void MainWindow::slotAddTransition(QAction *result) {
     if (!result) return;
-    QDomElement effect = transitions.getEffectByName(result->data().toString());
+    QStringList info = result->data().toStringList();
+    if (info.isEmpty()) return;
+    QDomElement transition = transitions.getEffectByTag(info.at(1), info.at(2));
+    //QDomElement effect = transitions.getEffectByName(result->data().toString());
     if (m_activeTimeline) {
-        m_activeTimeline->projectView()->slotAddTransitionToSelectedClips(effect);
+        m_activeTimeline->projectView()->slotAddTransitionToSelectedClips(transition);
     }
 }
 

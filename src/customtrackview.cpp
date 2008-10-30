@@ -1128,6 +1128,13 @@ void CustomTrackView::dropEvent(QDropEvent * event) {
             m_document->updateClip(item->baseClip()->getId());
             ItemInfo info;
             info = item->info();
+            if (item->baseClip()->isTransparent()) {
+                // add transparency transition
+                int endTrack = getPreviousVideoTrack(info.track);
+                Transition *tr = new Transition(info, endTrack, m_document->fps(), MainWindow::transitions.getEffectByTag("composite", "alphatransparency"), true);
+                scene()->addItem(tr);
+                m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_scene->m_tracksList.count() - info.track, info.startPos, info.endPos, tr->toXML());
+            }
             info.track = m_scene->m_tracksList.count() - item->track();
             m_document->renderer()->mltInsertClip(info, item->xml(), item->baseClip()->producer());
             item->setSelected(true);
@@ -1274,6 +1281,16 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 if (success) {
                     MoveClipCommand *command = new MoveClipCommand(this, m_dragItemInfo, info, false);
                     m_commandStack->push(command);
+                    ClipItem *item = static_cast <ClipItem *>(m_dragItem);
+                    if (item->baseClip()->isTransparent()) {
+                        // Also move automatic transition
+                        Transition *tr = getTransitionItemAt((int) m_dragItemInfo.startPos.frames(m_document->fps()) + 1, m_dragItemInfo.track);
+                        if (tr && tr->isAutomatic()) {
+                            tr->updateTransitionEndTrack(getPreviousVideoTrack(info.track));
+                            m_document->renderer()->mltMoveTransition(tr->transitionTag(), m_scene->m_tracksList.count() - m_dragItemInfo.track, m_scene->m_tracksList.count() - info.track, tr->transitionEndTrack(), m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos);
+                            tr->setPos((int) info.startPos.frames(m_document->fps()), (int)(info.track * m_tracksHeight + 1));
+                        }
+                    }
                 } else {
                     // undo last move and emit error message
                     MoveClipCommand *command = new MoveClipCommand(this, info, m_dragItemInfo, true);
@@ -1459,6 +1476,16 @@ void CustomTrackView::deleteClip(ItemInfo info) {
     if (item->isSelected()) emit clipItemSelected(NULL);
     item->baseClip()->removeReference();
     m_document->updateClip(item->baseClip()->getId());
+
+    if (item->baseClip()->isTransparent()) {
+        // also remove automatic transition
+        Transition *tr = getTransitionItemAt((int) info.startPos.frames(m_document->fps()) + 1, info.track);
+        if (tr && tr->isAutomatic()) {
+            m_document->renderer()->mltDeleteTransition(tr->transitionTag(), tr->transitionEndTrack(), m_scene->m_tracksList.count() - info.track, info.startPos, info.endPos, tr->toXML());
+            scene()->removeItem(tr);
+            delete tr;
+        }
+    }
     scene()->removeItem(item);
     delete item;
     m_document->renderer()->mltRemoveClip(m_scene->m_tracksList.count() - info.track, info.startPos);
@@ -1549,6 +1576,14 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
     ClipItem *item = new ClipItem(baseclip, info, m_document->fps());
     item->setEffectList(effects);
     scene()->addItem(item);
+    if (item->baseClip()->isTransparent()) {
+        // add transparency transition
+        int endTrack = getPreviousVideoTrack(info.track);
+        Transition *tr = new Transition(info, endTrack, m_document->fps(), MainWindow::transitions.getEffectByTag("composite", "alphatransparency"), true);
+        scene()->addItem(tr);
+        m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_scene->m_tracksList.count() - info.track, info.startPos, info.endPos, tr->toXML());
+    }
+
     baseclip->addReference();
     m_document->updateClip(baseclip->getId());
     info.track = m_scene->m_tracksList.count() - info.track;
@@ -1621,6 +1656,15 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
     bool success = m_document->renderer()->mltMoveClip((int)(m_scene->m_tracksList.count() - start.track), (int)(m_scene->m_tracksList.count() - end.track), (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()));
     if (success) {
         item->setPos((int) end.startPos.frames(m_document->fps()), (int)(end.track * m_tracksHeight + 1));
+        if (item->baseClip()->isTransparent()) {
+            // Also move automatic transition
+            Transition *tr = getTransitionItemAt((int) start.startPos.frames(m_document->fps()) + 1, start.track);
+            if (tr && tr->isAutomatic()) {
+                tr->updateTransitionEndTrack(getPreviousVideoTrack(end.track));
+                m_document->renderer()->mltMoveTransition(tr->transitionTag(), m_scene->m_tracksList.count() - start.track, m_scene->m_tracksList.count() - end.track, tr->transitionEndTrack(), start.startPos, start.endPos, end.startPos, end.endPos);
+                tr->setPos((int) end.startPos.frames(m_document->fps()), (int)(end.track * m_tracksHeight + 1));
+            }
+        }
     } else {
         // undo last move and emit error message
         emit displayMessage(i18n("Cannot move clip to position %1seconds", QString::number(end.startPos.seconds(), 'g', 2)), ErrorMessage);

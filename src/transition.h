@@ -40,7 +40,7 @@ class Transition : public AbstractClipItem {
     Q_OBJECT
 public:
 
-    Transition(const ItemInfo info, int transitiontrack, double fps, QDomElement params = QDomElement());
+    Transition(const ItemInfo info, int transitiontrack, double fps, QDomElement params = QDomElement(), bool automaticTransition = false);
     virtual ~Transition();
     virtual void paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
@@ -68,6 +68,7 @@ public:
     void updateTransitionEndTrack(int newtrack);
     const ClipItem *referencedClip() const;
     Transition *clone();
+    bool isAutomatic() const;
 
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
@@ -76,6 +77,9 @@ private:
     bool m_singleClip;
     QLinearGradient m_gradient;
     QString m_name;
+
+    /** true if the transition was added automatically and should be moved with its clip */
+    bool m_automaticTransition;
     /** contains the transition parameters */
     QDomElement m_parameters;
     /** The clip to which the transition is attached */

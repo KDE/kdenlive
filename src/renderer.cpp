@@ -1308,8 +1308,8 @@ void Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
     Mlt::Producer *clip = prod->cut((int) info.cropStart.frames(m_fps), (int)(info.endPos - info.startPos + info.cropStart).frames(m_fps) - 1);
     int newIndex = trackPlaylist.insert_at((int) info.startPos.frames(m_fps), *clip, 1);
 
-    if (QString(prod->get("transparency")).toInt() == 1)
-        mltAddClipTransparency(info, info.track - 1, QString(prod->get("id")).toInt());
+    /*if (QString(prod->get("transparency")).toInt() == 1)
+        mltAddClipTransparency(info, info.track - 1, QString(prod->get("id")).toInt());*/
 
     mlt_service_unlock(service.get_service());
 
@@ -1427,8 +1427,8 @@ bool Render::mltRemoveClip(int track, GenTime position) {
     Mlt::Producer clip(trackPlaylist.get_clip(clipIndex));
     trackPlaylist.replace_with_blank(clipIndex);
     trackPlaylist.consolidate_blanks(0);
-    if (QString(clip.parent().get("transparency")).toInt() == 1)
-        mltDeleteTransparency((int) position.frames(m_fps), track, QString(clip.parent().get("id")).toInt());
+    /*if (QString(clip.parent().get("transparency")).toInt() == 1)
+        mltDeleteTransparency((int) position.frames(m_fps), track, QString(clip.parent().get("id")).toInt());*/
 
     /* // Display playlist info
     kDebug()<<"////  AFTER";
@@ -1854,20 +1854,9 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration) {
 
     trackPlaylist.consolidate_blanks(0);
 
-    /* // Display playlist info
-    kDebug()<<"////////////  AFTER RESIZE";
-    for (int i = 0; i < trackPlaylist.count(); i++) {
-    int blankStart = trackPlaylist.clip_start(i);
-    int blankDuration = trackPlaylist.clip_length(i) - 1;
-    QString blk;
-    if (trackPlaylist.is_blank(i)) blk = "(blank)";
-    kDebug()<<"CLIP "<<i<<": ("<<blankStart<<"x"<<blankStart + blankDuration<<")"<<blk;
-    }*/
 
-    //tractor.multitrack()->refresh();
-    //tractor.refresh();
     if (info.track != 0 && clipIndex == trackPlaylist.count()) mltCheckLength();
-    if (QString(clip->parent().get("transparency")).toInt() == 1) {
+    /*if (QString(clip->parent().get("transparency")).toInt() == 1) {
         //mltResizeTransparency(previousStart, previousStart, previousStart + newDuration, track, QString(clip->parent().get("id")).toInt());
         mltDeleteTransparency(info.startPos.frames(m_fps), info.track, QString(clip->parent().get("id")).toInt());
         ItemInfo transpinfo;
@@ -1875,7 +1864,7 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration) {
         transpinfo.endPos = info.startPos + clipDuration;
         transpinfo.track = info.track;
         mltAddClipTransparency(transpinfo, info.track - 1, QString(clip->parent().get("id")).toInt());
-    }
+    }*/
     m_isBlocked = false;
     return true;
 }
@@ -1939,7 +1928,7 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff) {
         else trackPlaylist.resize_clip(blankIndex, 0, blankLength + moveFrame - 1);
     }
     trackPlaylist.consolidate_blanks(0);
-    if (QString(clip->parent().get("transparency")).toInt() == 1) {
+    /*if (QString(clip->parent().get("transparency")).toInt() == 1) {
         //mltResizeTransparency(previousStart, (int) moveEnd.frames(m_fps), (int) (moveEnd + out - in).frames(m_fps), track, QString(clip->parent().get("id")).toInt());
         mltDeleteTransparency(info.startPos.frames(m_fps), info.track, QString(clip->parent().get("id")).toInt());
         ItemInfo transpinfo;
@@ -1947,7 +1936,7 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff) {
         transpinfo.endPos = info.startPos + diff + (info.endPos - info.startPos);
         transpinfo.track = info.track;
         mltAddClipTransparency(transpinfo, info.track - 1, QString(clip->parent().get("id")).toInt());
-    }
+    }*/
     m_isBlocked = false;
     //m_mltConsumer->set("refresh", 1);
     mlt_service_unlock(service.get_service());
@@ -1987,9 +1976,9 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
         } else {
             trackPlaylist.consolidate_blanks(0);
             int newIndex = trackPlaylist.insert_at(moveEnd, clipProducer, 1);
-            if (QString(clipProducer.parent().get("transparency")).toInt() == 1) {
+            /*if (QString(clipProducer.parent().get("transparency")).toInt() == 1) {
                 mltMoveTransparency(moveStart, moveEnd, startTrack, endTrack, QString(clipProducer.parent().get("id")).toInt());
-            }
+            }*/
             if (newIndex + 1 == trackPlaylist.count()) checkLength = true;
         }
         //mlt_service_unlock(service.get_service());
@@ -2007,10 +1996,10 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             destTrackPlaylist.consolidate_blanks(1);
             int newIndex = destTrackPlaylist.insert_at(moveEnd, clipProducer, 1);
             destTrackPlaylist.consolidate_blanks(0);
-            if (QString(clipProducer.parent().get("transparency")).toInt() == 1) {
+            /*if (QString(clipProducer.parent().get("transparency")).toInt() == 1) {
                 kDebug() << "//////// moving clip transparency";
                 mltMoveTransparency(moveStart, moveEnd, startTrack, endTrack, QString(clipProducer.parent().get("id")).toInt());
-            }
+            }*/
             if (clipIndex > trackPlaylist.count()) checkLength = true;
             else if (newIndex + 1 == destTrackPlaylist.count()) checkLength = true;
         }
@@ -2167,7 +2156,7 @@ void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime 
         mlt_type = mlt_properties_get(properties, "mlt_type");
         resource = mlt_properties_get(properties, "mlt_service");
     }
-    if (do_refresh) m_mltConsumer->set("refresh", 1);
+    //if (do_refresh) m_mltConsumer->set("refresh", 1);
 }
 
 QMap<QString, QString> Render::mltGetTransitionParamsFromXml(QDomElement xml) {
@@ -2357,8 +2346,8 @@ void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
         transition->set_in_and_out((int) in.frames(m_fps), (int) out.frames(m_fps));
     QMap<QString, QString>::Iterator it;
     QString key;
-
-    kDebug() << " ------  ADDING TRANSITION PARAMs: " << args.count();
+    if (xml.attribute("automatic") == "1") transition->set("automatic", 1);
+    //kDebug() << " ------  ADDING TRANSITION PARAMs: " << args.count();
 
     for (it = args.begin(); it != args.end(); ++it) {
         key = it.key();

@@ -94,6 +94,14 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.clip_channels->setText(props.value("channels"));
 
     CLIPTYPE t = m_clip->clipType();
+    if (t != AUDIO && t != AV) {
+        m_view.clip_force_aindex->setEnabled(false);
+    }
+
+    if (t != VIDEO && t != AV) {
+        m_view.clip_force_vindex->setEnabled(false);
+    }
+
     if (t == IMAGE) {
         m_view.tabWidget->removeTab(SLIDETAB);
         m_view.tabWidget->removeTab(COLORTAB);

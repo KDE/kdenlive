@@ -653,10 +653,15 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
         */
     }
 
-    QString wipetrans = "<ktransition tag=\"composite\" ><name>Wipe</name><description>Slide image from one side to another</description><parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>Direction</name>                                               </parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>Align</name></parameter></ktransition>";
+    QString wipetrans = "<ktransition tag=\"composite\" id=\"wipe\"><name>Wipe</name><description>Slide image from one side to another</description><parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>Direction</name>                                               </parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>Align</name></parameter></ktransition>";
     QDomDocument ret;
     ret.setContent(wipetrans);
     transitions->append(ret.documentElement());
+
+    QString alphatrans = "<ktransition tag=\"composite\" id=\"alphatransparency\" ><name>Alpha transparency</name><description>Make alpha channel transparent</description><parameter tag=\"geometry\" type=\"fixed\" default=\"0%,0%:100%x100%\" name=\"geometry\"><name>Direction</name></parameter><parameter tag=\"fill\" default=\"0\" type=\"bool\" name=\"fill\" ><name>Rescale</name></parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>Align</name></parameter></ktransition>";
+    QDomDocument ret2;
+    ret2.setContent(alphatrans);
+    transitions->append(ret2.documentElement());
 }
 
 QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def, QString min, QString max, QString list, QString listdisplaynames, QString factor, QString namedesc, QString format) {
