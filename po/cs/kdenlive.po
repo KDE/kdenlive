@@ -6,10 +6,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-25 03:20+0200\n"
-"PO-Revision-Date: 2008-10-11 16:08+0200\n"
-"Last-Translator: Jan Drábek <repli2dev@gmail.com>\n"
-"Language-Team: NONE\n"
+"POT-Creation-Date: 2008-10-25 14:20+0200\n"
+"PO-Revision-Date: 2008-10-31 16:38+0100\n"
+"Last-Translator: REPlI2DeV <repli2dev@gmail.com>\n"
+"Language-Team: American English <kde-i18n-doc@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -116,7 +116,6 @@ msgstr "Přidat zarážku"
 msgid "Add Image"
 msgstr "Přidat obrázek"
 
-#, fuzzy
 msgid "Add Marker"
 msgstr "Přidat záložku"
 
@@ -177,9 +176,6 @@ msgstr "Přidat klipu přechod"
 msgid "Additional Settings"
 msgstr "Další nastavení"
 
-msgid "Adjust audio volume with keyframes"
-msgstr "Umožňuje upravit hlasitost klipu dle klíčových snímků"
-
 msgid "Adjust clip length"
 msgstr "Upravit délku klipu"
 
@@ -203,9 +199,6 @@ msgstr "Povolit vodorovné přesuny  "
 
 msgid "Allow vertical moves"
 msgstr "Povolit vertikální přesuny"
-
-msgid "Amplitude"
-msgstr "Maximální výchylka"
 
 msgid "An open source video editor."
 msgstr "Open source video editor"
@@ -244,9 +237,6 @@ msgstr "Audio index"
 msgid "Audio tracks"
 msgstr "Audio stopy"
 
-msgid "Auto Mask"
-msgstr "Maska"
-
 msgid "Auto add"
 msgstr "Automaticky přidat do projektu"
 
@@ -262,35 +252,17 @@ msgstr "Automaticky začít nový soubor pro novou scénu"
 msgid "Autoscroll while playing"
 msgstr "Automatické skrolování při přehrávání"
 
-msgid "Averaging"
-msgstr "Průměrování"
-
 msgid "Background"
 msgstr "Pozadí"
 
 msgid "BasicOperations"
 msgstr "Základní operace"
 
-msgid "Blue Screen"
-msgstr "Klíčování"
-
-msgid "Blur factor"
-msgstr "Faktor rozmazání"
-
-msgid "Blur image with keyframes"
-msgstr "Rozmazání obrazu dle klíčových snímků"
-
 msgid "Border color"
 msgstr "Barva čáry"
 
 msgid "Bottom"
 msgstr "Dolů"
-
-msgid "Box Blur"
-msgstr "Částečné rozmazání"
-
-msgid "Brightness"
-msgstr "Jas"
 
 msgid "Button 1"
 msgstr "Tlačítko 1"
@@ -424,32 +396,11 @@ msgstr "Změnit"
 msgid "Change Clip Speed"
 msgstr "Změnit rychlost klipu"
 
-msgid "Change gamma color value"
-msgstr "Umožňuje změnit hodnotu gamy"
-
-msgid "Change image brightness with keyframes"
-msgstr "Umožňuje změnit jas dle klíčových snímků"
-
 msgid "Channels"
 msgstr "Kanály"
 
-msgid "Charcoal"
-msgstr "Kresba uhlem"
-
-msgid "Charcoal drawing effect"
-msgstr "Zobrazí video stopu klipu ve formě kresby uhlem"
-
 msgid "CheckBox"
 msgstr "Přepínač"
-
-msgid "Chroma Hold"
-msgstr "Zvýraznění"
-
-msgid "Chrominance U"
-msgstr "Chrominance U"
-
-msgid "Chrominance V"
-msgstr "Chrominance V"
 
 msgid "Clean"
 msgstr "Vyčistit"
@@ -473,9 +424,6 @@ msgstr "Klip nemá žádné záložky"
 msgid "Close the current tab"
 msgstr "Zavřít aktuální list"
 
-msgid "Co-efficient"
-msgstr "Součinitel"
-
 msgid "Color"
 msgstr "Barva"
 
@@ -487,9 +435,6 @@ msgstr "Klip barvy"
 
 msgid "Color clips"
 msgstr "Klipy barev"
-
-msgid "Color key"
-msgstr "Barevný klíč"
 
 msgid "Comment"
 msgstr "Komentář"
@@ -511,9 +456,6 @@ msgstr ""
 "Nelze vytvořit okno pro náhled videa.\n"
 " Něco je v nepořádku s vaší instalací Kdenlive nebo vašimi ovladači, napravte "
 "to prosím."
-
-msgid "Crackle"
-msgstr "Praskání v obraze"
 
 msgid "Crash recovery (automatic backup)"
 msgstr "Obnovení po pádu (automatické ukládání)"
@@ -562,18 +504,6 @@ msgstr "DV AVI typ 2"
 msgid "DV Raw"
 msgstr "DV raw"
 
-msgid "Damping"
-msgstr "Útlum"
-
-msgid "Debug"
-msgstr "Ladit"
-
-msgid "Decay"
-msgstr "Zchátrání"
-
-msgid "Declipper"
-msgstr "Declipper"
-
 msgid "Decoding threads"
 msgstr "Dekodovací vlákna"
 
@@ -595,12 +525,6 @@ msgstr "Výchozí zařízení pro nahrávání"
 msgid "Default folders"
 msgstr "Výchozí složky"
 
-msgid "Delay"
-msgstr "Prodleva"
-
-msgid "Delay (s/10)"
-msgstr "Prodleva (s/10)"
-
 #, kde-format
 msgid "Delete %1"
 msgstr "Smazat %1"
@@ -608,9 +532,8 @@ msgstr "Smazat %1"
 msgid "Delete All Guides"
 msgstr "Smazat všechny zarážky"
 
-#, fuzzy
 msgid "Delete All Markers"
-msgstr "Smazat všechny záložky z klipu"
+msgstr "Smazat všechny záložky"
 
 msgid "Delete Clip"
 msgstr "Smazat"
@@ -621,7 +544,6 @@ msgstr "Smazat složku"
 msgid "Delete Guide"
 msgstr "Smazat zarážku"
 
-#, fuzzy
 msgid "Delete Marker"
 msgstr "Smazat záložku"
 
@@ -669,9 +591,6 @@ msgstr "Smazat klip časové osy"
 msgid "Delete transition from clip"
 msgstr "Smazat přechod z klipu"
 
-msgid "Depth"
-msgstr "Hloubka"
-
 msgid "Description"
 msgstr "Popis"
 
@@ -693,20 +612,15 @@ msgstr "Dialogové okno"
 msgid "Direct FB"
 msgstr "Direct FB"
 
-msgid "Discard color information"
-msgstr "Zobrazí video stopu klipu ve stupních šedi"
-
 msgid "Disonnect"
 msgstr "Odppojit"
 
 msgid "Display"
-msgstr "Zobrazit"
+msgstr "Zobrazení"
 
-#, fuzzy
 msgid "Display aspect ratio"
-msgstr "Poměr stran:"
+msgstr "Poměr stran"
 
-#, fuzzy
 msgid "Display aspect ratio:"
 msgstr "Poměr stran:"
 
@@ -720,7 +634,7 @@ msgid "Do nothing"
 msgstr "Nedělat nic"
 
 msgid "Document to open"
-msgstr ""
+msgstr "Dokument k otevření"
 
 msgid "Don't recover"
 msgstr "Neobnovovat"
@@ -735,7 +649,7 @@ msgid "E"
 msgstr "E"
 
 msgid "EMAIL OF TRANSLATORS"
-msgstr ""
+msgstr "repli2dev@gmail.com"
 
 msgid "Edit Clip"
 msgstr "Vlastnosti"
@@ -799,17 +713,11 @@ msgstr "Parametry překódování"
 msgid "End"
 msgstr "Konec"
 
-msgid "End Gain"
-msgstr "Konec zesílení"
-
 msgid "EndViewport"
 msgstr "Konec záběru"
 
 msgid "Environment"
 msgstr "Prostředí"
-
-msgid "Equalizer"
-msgstr "Ekvalizér"
 
 msgid "Error starting MLT's command line player (inigo)"
 msgstr "Chyba při startování iniga (MLT přehráváče pro příkazovou řádku)"
@@ -832,20 +740,8 @@ msgstr "Extra nástrojová lišta"
 msgid "Extract frame"
 msgstr "Uložit aktuální snímek"
 
-msgid "Fade in"
-msgstr "Roztmívačka"
-
-msgid "Fade in audio track"
-msgstr "Postupně zesílí nebo zeslabí audio stopu."
-
-msgid "Fade out"
-msgstr "Stmívačka"
-
 msgid "Fatal Error"
 msgstr "Fatální chyba"
-
-msgid "Feedback"
-msgstr "Zpětná vazba"
 
 #, kde-format
 msgid "File %1 is not a Kdenlive project file."
@@ -904,13 +800,9 @@ msgstr ""
 msgid "Fit zoom to project"
 msgstr "Zobrazit celý projekt"
 
-msgid "Flip your image in any direction"
-msgstr "Otáčení obrazu ve všech směrech možných směrech"
-
 msgid "Folder"
 msgstr "Složka"
 
-#, fuzzy
 msgid "Force pixel aspect ratio"
 msgstr "Vynutit poměr stran pixelu"
 
@@ -951,21 +843,6 @@ msgstr "Framebuffer konzole"
 msgid "Frames"
 msgstr "Snímky"
 
-msgid "Freeze"
-msgstr "Zamrznutí"
-
-msgid "Freeze After"
-msgstr "Zamrznutí po"
-
-msgid "Freeze Before"
-msgstr "Zamrznutí před"
-
-msgid "Freeze at"
-msgstr "Zamrznutí na"
-
-msgid "Freeze video on a chosen frame"
-msgstr "Zamrznout video na vybraném snímku"
-
 msgid "Frequency"
 msgstr "Frekvence"
 
@@ -978,23 +855,8 @@ msgstr "Celý projekt"
 msgid "Full screen capture"
 msgstr "Nahrávání celé obrazovky"
 
-msgid "Gain"
-msgstr "Zesílení"
-
-msgid "Gain in"
-msgstr "Začátek zesílení"
-
-msgid "Gain out"
-msgstr "Konec zesílení"
-
-msgid "Gamma"
-msgstr "Gama"
-
 msgid "General graphics interface"
 msgstr "Hlavní grafické rozhraní"
-
-msgid "Geometry"
-msgstr "Rozvržení"
 
 msgid "Go To"
 msgstr "Jít na"
@@ -1026,9 +888,6 @@ msgstr "Jít na předchozí klíčový snímek"
 msgid "GraphView"
 msgstr "Graf"
 
-msgid "Greyscale"
-msgstr "Stupně šedi"
-
 msgid "Group"
 msgstr "Skupina"
 
@@ -1050,29 +909,8 @@ msgstr "H"
 msgid "HDV"
 msgstr "HDV"
 
-msgid "Height"
-msgstr "Výška"
-
-msgid "Hi gain"
-msgstr "Vysoké zesílení"
-
-msgid "Hide a region of the clip"
-msgstr "Umožní vám skrýt část klipu - rozpixelizovat obraz."
-
-msgid "Hide a selected zone and follow its movements"
-msgstr "Umožní skrýt vybraný výřez obrazu, včetně jeho následujícího pohybu."
-
 msgid "Hor. Center"
 msgstr "Vystředit vodorovně"
-
-msgid "Horizontal factor"
-msgstr "Vodorovný faktor"
-
-msgid "Horizontal multiplicator"
-msgstr "Vodorovné rozmnožení"
-
-msgid "Horizontal scatter"
-msgstr "Vodorovné rozptýlení"
 
 msgid "Image"
 msgstr "Obrázek"
@@ -1104,83 +942,29 @@ msgstr "Cesta k inigu"
 msgid "Initialising..."
 msgstr "Inicializace..."
 
-msgid "Input gain (db)"
-msgstr "Vstupní zesílení (dB)"
-
 msgid "Install extra video mimetypes"
 msgstr "Nainstalovat extra video mimetypy"
-
-msgid "Intensity"
-msgstr "Intenzita"
 
 msgid "Interlaced"
 msgstr "Prokládané"
 
-msgid "Invert"
-msgstr "Invertovat"
-
-msgid "Invert colors"
-msgstr "Invertuje barvy"
-
 msgid "Jean-Baptiste Mardelle"
-msgstr ""
+msgstr "Jean-Baptiste Mardelle"
 
-#, fuzzy
 msgid "Jog Shuttle device disabled."
-msgstr "Povolit zařízení JogShuttle"
+msgstr "Zařízení Jog Shuttle je deaktivováno."
 
 msgid "JogShuttle"
 msgstr "JogShuttle"
 
-#, fuzzy
 msgid "Kdenlive"
-msgstr "Rozlišení"
-
-#, fuzzy
-msgid "Kernel size"
-msgstr "Rozlišení"
+msgstr "Kdenlive"
 
 msgid "Keyframe"
 msgstr "Klíčový snímek"
 
-msgid "LADSPA change pitch audio effect"
-msgstr "Změna výšky tónu (LADSPA)"
-
-msgid "LADSPA declipper audio effect"
-msgstr "Odřezávač (LADSPA)"
-
-msgid "LADSPA equalizer audio effect"
-msgstr "Ekvalizér (LADSPA)"
-
-msgid "LADSPA limiter audio effect"
-msgstr "Omezovač (LADSPA)"
-
-msgid "LADSPA phaser audio effect"
-msgstr "Fázovač (LADSPA)"
-
-msgid "LADSPA pitch scale audio effect"
-msgstr "Změna výšky tónu (LADSPA)"
-
-msgid "LADSPA rate scale audio effect"
-msgstr "Změna poměru (LADSPA)"
-
-msgid "LADSPA reverb audio effect"
-msgstr "Dozvuk (LADSPA)"
-
-msgid "LADSPA room reverb audio effect"
-msgstr "Dozvuk místnosti (LADSPA)"
-
 msgid "Left"
 msgstr "Vlevo"
-
-msgid "Limit (db)"
-msgstr "Limit (dB)"
-
-msgid "Limiter"
-msgstr "Omezovač"
-
-msgid "Lo gain"
-msgstr "Nizké zesílení"
 
 msgid "Load Image"
 msgstr "Načíst obrázek"
@@ -1223,26 +1007,11 @@ msgstr ""
 "Modul pro avformat (FFMPEG) z MLT nebyl nalezen. Zkontrolujte prosím vaši "
 "instalaci FFMPEG a MLT. Kdenlive nemůže pracovat dokud toto nebude opraveno."
 
-msgid "Make clip play faster slowly"
-msgstr "Zpomalit zrychlený klip"
-
-msgid "Make image greyscale except for chosen color"
-msgstr "Zobrazí video stopu klipu ve stupních šedi, vyjma vybrané barvy."
-
-msgid "Make monochrome clip"
-msgstr "Zobrazit klip černobíle (pouze černá nebo bílá)."
-
-msgid "Make selected color transparent"
-msgstr "Tento efekt umožňuje zprůhlednit vybranou barvu."
-
-msgid "Make waves on your clip with keyframes"
-msgstr "Vytvoření efektu vln dle klíčových snímků"
-
 msgid "Manage Profiles"
 msgstr "Spravovat profily"
 
 msgid "Marco Gittler"
-msgstr ""
+msgstr "Marco Gittler"
 
 msgid "Marker"
 msgstr "Záložka"
@@ -1250,25 +1019,12 @@ msgstr "Záložka"
 msgid "Markers"
 msgstr "Záložky"
 
-msgid "Mid gain"
-msgstr "Středně zesílit"
-
-msgid "Mirror"
-msgstr "Zrcadlo"
-
-msgid "Mirroring direction"
-msgstr "Osa zrcadlení"
-
 msgid "Misc"
-msgstr "Ostaní"
+msgstr "Ostatní"
 
 msgid "Misc..."
 msgstr "Ostatní..."
 
-msgid "Mix"
-msgstr "Smíchat"
-
-#, fuzzy
 msgid "Mlt Connection, Transition, Effect, Timeline Developer"
 msgstr "Propojení s MLT, přechody, efekty, časová osa"
 
@@ -1302,12 +1058,6 @@ msgstr "Přesunout zarážku"
 msgid "Move transition"
 msgstr "Přesunout přechod"
 
-msgid "Mute"
-msgstr "Umlčet"
-
-msgid "Mute clip"
-msgstr "Umlčí audio stopu klipu"
-
 msgid "Mute video clip"
 msgstr "Umlčet video klip"
 
@@ -1315,7 +1065,7 @@ msgid "N"
 msgstr "N"
 
 msgid "NAME OF TRANSLATORS"
-msgstr ""
+msgstr "Jan Drábek"
 
 msgid "NTSC"
 msgstr "NTSC"
@@ -1353,14 +1103,8 @@ msgstr "Na pozici kurzoru neexistuje žádná zarážka"
 msgid "No selected clip at cursor time"
 msgstr "Na pozici kurzoru není vybrán žádný klip"
 
-msgid "Normalise"
-msgstr "Normalizovat"
-
 msgid "Normalise audio for thumbnails"
 msgstr "Normalizovat audio pro miniatury"
-
-msgid "Normalise audio volume"
-msgstr "Normalizuje hlasitost audia"
 
 msgid "Not connected"
 msgstr "Nepřipojeno"
@@ -1374,9 +1118,6 @@ msgstr "OSS"
 
 msgid "OSS with DMA access"
 msgstr "OSS s DMA přístupem"
-
-msgid "Obscure"
-msgstr "Utajení identity"
 
 msgid "Opacity"
 msgstr "Průhlednost"
@@ -1414,22 +1155,11 @@ msgstr "Vložit efekty"
 msgid "Path"
 msgstr "Cesta"
 
-msgid "Phaser"
-msgstr "Fázovač"
-
-msgid "Pitch Scaler"
-msgstr "Změna výšky tónu"
-
-msgid "Pitch Shift"
-msgstr "Změna výšky a posun tónu"
-
-#, fuzzy
 msgid "Pixel aspect ratio"
-msgstr "Vynutit poměr stran pixelu"
+msgstr "Poměr stran pixelu"
 
-#, fuzzy
 msgid "Pixel aspect ratio:"
-msgstr "Vynutit poměr stran pixelu"
+msgstr "Poměr stran pixelu:"
 
 msgid "Play"
 msgstr "Přehrát"
@@ -1459,9 +1189,11 @@ msgid ""
 "Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
 "org/mantis</a>"
 msgstr ""
+"Chyby prosím hlašte na <a href=\"http://kdenlive.org/mantis\">http://"
+"kdenlive.org/mantis</a>"
 
 msgid "Please report bugs to http://kdenlive.org/mantis"
-msgstr ""
+msgstr "Chyby prosím hlašte na http://kdenlive.org/mantis"
 
 msgid "Please set your default video format"
 msgstr "Nastavte prosím výchozí formát vida"
@@ -1549,18 +1281,6 @@ msgstr "Vlastnosti"
 msgid "R"
 msgstr "R"
 
-msgid "RPM"
-msgstr "RPM"
-
-msgid "Rate"
-msgstr "Rychlost"
-
-msgid "Rate (Hz)"
-msgstr "Rychlost (Hz)"
-
-msgid "Rate Scaler"
-msgstr "Škálování rychlosti"
-
 msgid "Rating"
 msgstr "Hodnocení"
 
@@ -1582,12 +1302,6 @@ msgstr "Monitor nahrávání"
 msgid "Recover"
 msgstr "Obnovit"
 
-msgid "Region"
-msgstr "Region"
-
-msgid "Release time (s)"
-msgstr "Čas uvolnění (s)"
-
 msgid "Rename folder"
 msgstr "Přejmenovat složku"
 
@@ -1597,9 +1311,9 @@ msgstr "Renderovat"
 msgid "Rendering"
 msgstr "Renderování"
 
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rendering %1"
-msgstr "Renderování"
+msgstr "Probíhá renderování %1"
 
 #, kde-format
 msgid "Rendering <i>%1</i> started"
@@ -1608,10 +1322,11 @@ msgstr "Renverování <i>%1</i> začalo"
 #, kde-format
 msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
 msgstr ""
+"Renderování %1 bylo zrušeno, výsledné video bude pravděpodobně poškozeno."
 
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rendering of %1 is over"
-msgstr "Renverování <i>%1</i> začalo"
+msgstr "Renderování %1 bylo dokončeno"
 
 msgid "Reset effect"
 msgstr "Restartovat efekt"
@@ -1628,18 +1343,6 @@ msgstr "Změnit délku klipu"
 msgid "Resize..."
 msgstr "Změnit velikost"
 
-msgid "Reverb"
-msgstr "Dozvuk"
-
-msgid "Reverb Time"
-msgstr "Délka dozvuku"
-
-msgid "Reverb time"
-msgstr "Délka dozvuku"
-
-msgid "Reverse playing"
-msgstr "Přehrát po zpátku"
-
 msgid "Rewind"
 msgstr "Přetáčet vzad"
 
@@ -1652,29 +1355,8 @@ msgstr "Přetočit zpět o 1 snímek"
 msgid "Right"
 msgstr "Vpravo"
 
-msgid "Room Reverb"
-msgstr "Ozvěna místnosti"
-
-msgid "Room size (m)"
-msgstr "Velikost místnosti (m)"
-
-msgid "Rotate"
-msgstr "Otočení"
-
-msgid "Rotate clip in any 3 directions"
-msgstr "Umožní vám otočit klip ve třech osách (x,y,z)"
-
 msgid "Rotate:"
 msgstr "Otočení:"
-
-msgid "Rotation x"
-msgstr "Rotace osy x"
-
-msgid "Rotation y"
-msgstr "Rotace osy y"
-
-msgid "Rotation z"
-msgstr "Rotace osy z"
 
 msgid "S"
 msgstr "S"
@@ -1761,29 +1443,23 @@ msgstr "Nástroj výběru"
 msgid "Selection tool"
 msgstr "Nástroj výběru"
 
-msgid "Sepia"
-msgstr "Sépiový nádech"
-
 msgid "Set In Point"
 msgstr "Nastavit počáteční bod"
 
 msgid "Set Out Point"
-msgstr "Nastavit konečný bod"
+msgstr "Nastavit koncový bod"
 
 msgid "Set current image as thumbnail"
 msgstr "Nastavit aktuální obrázek jako miniaturu"
 
 msgid "Set the path for MLT environnement"
-msgstr ""
+msgstr "Nastavení cesty k MLT"
 
 msgid "Set zone end"
 msgstr "Nastavit konec výběru"
 
 msgid "Set zone start"
 msgstr "Nastavit začátek výběru"
-
-msgid "Shift"
-msgstr "Shift"
 
 msgid "Show audio thumbnails"
 msgstr "Zobrazovat audio miniatury"
@@ -1799,9 +1475,6 @@ msgstr "Zobrazovat komentáře záložek"
 
 msgid "Show video thumbnails"
 msgstr "Zobrazovat video miniatury"
-
-msgid "Simulates a vinyl audio player - LADSPA audio effect"
-msgstr "Simulovat audio přehrávač vinyl - LADSPA audio efekty"
 
 msgid "Size"
 msgstr "Rozlišení"
@@ -1824,57 +1497,14 @@ msgstr "Přichytávat"
 msgid "Softness"
 msgstr "Jemnost"
 
-msgid "Sox Echo"
-msgstr "Ozvěna (Sox)"
-
-msgid "Sox Flanger"
-msgstr "Flanger (Sox)"
-
-msgid "Sox Pitch Shift"
-msgstr "Pitch Shift (Sox)"
-
-msgid "Sox Reverb"
-msgstr "Dozvuk (Sox)"
-
-msgid "Sox Vibro"
-msgstr "Vibro (Sox)"
-
-msgid "Sox change pitch audio effect"
-msgstr "Audio efekt změny výšky tónu (Sox)"
-
-msgid "Sox echo audio effect"
-msgstr "Audio efekt ozvěny (Sox)"
-
-msgid "Sox flanger audio effect"
-msgstr "Audio efekt flanger (Sox)"
-
-msgid "Sox reverb audio effect"
-msgstr "Audio efekt dozvuku (Sox)"
-
-msgid "Sox vibro audio effect"
-msgstr "Audio efekt vibro (Sox)"
-
-msgid "Speed"
-msgstr "Rychlost"
-
 msgid "Split view"
 msgstr "Rozdělit pohled"
-
-msgid "Spread"
-msgstr "Rozšíření"
-
-msgid "Square Blur"
-msgstr ""
 
 msgid "Start"
 msgstr "Start"
 
-msgid "Start Gain"
-msgstr "Začátek zesílení"
-
-#, fuzzy
 msgid "Start Rendering"
-msgstr "Renderování"
+msgstr "Začít renderovat"
 
 msgid "Start-/EndViewport"
 msgstr "Začátek/Konec záběru"
@@ -1887,12 +1517,6 @@ msgstr "Vyhledává text zatímco vy píšete"
 
 msgid "Stop"
 msgstr "Zastavit"
-
-msgid "Stroboscope"
-msgstr "Stroboskop"
-
-msgid "Surface warping"
-msgstr ""
 
 msgid "Sync timeline cursor"
 msgstr "Sychronizovat kurzor časové osy"
@@ -1920,12 +1544,6 @@ msgstr ""
 "Poprvé jste spustili program Kdenlive a tento jednoduchý průvodce s vámi "
 "projde základní nastavení předtím, než se pustíte do střihu."
 
-msgid "Threshold"
-msgstr "Černobílý"
-
-msgid "Threshold value"
-msgstr "Práh"
-
 msgid "Thumbnail"
 msgstr "Miniatura"
 
@@ -1937,9 +1555,6 @@ msgstr "Miniatury:"
 
 msgid "Time"
 msgstr "Čas"
-
-msgid "Time window (ms)"
-msgstr "Časové okno (ms)"
 
 msgid "Timecode overlay"
 msgstr "Přepis časové značky"
@@ -1974,9 +1589,6 @@ msgstr "Průhlednost"
 msgid "Transparent background"
 msgstr "Průhledné pozadí"
 
-msgid "Turn clip colors to sepia"
-msgstr "Změní barvy klipu na sépiové"
-
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Nelze zapisovat do souboru %1"
@@ -1996,32 +1608,14 @@ msgstr "Nahoru"
 msgid "Use as default"
 msgstr "Použít jako výchozí"
 
-msgid "Use transparency"
-msgstr "Použít průhlednost"
-
 msgid "V"
 msgstr "V"
 
 msgid "Value"
 msgstr "Hodnota"
 
-msgid "Variable-size square blur (frei0r.squareblur)"
-msgstr ""
-
-msgid "Variance"
-msgstr "Odchylka"
-
 msgid "Vert. Center"
 msgstr "Vertikální vystředění"
-
-msgid "Vertical factor"
-msgstr "Vertikální faktor"
-
-msgid "Vertical multiplicator"
-msgstr "Vertikální rozmnožení"
-
-msgid "Vertical scatter"
-msgstr "Vertikální rozptýlení"
 
 msgid "Video"
 msgstr "Video"
@@ -2059,21 +1653,14 @@ msgstr "Video stopy"
 msgid "Video4Linux"
 msgstr "Video4Linux"
 
-#, fuzzy
 msgid "Video4Linux / FFmpeg"
-msgstr "Video4Linux2 / FFmpeg"
+msgstr "Video4Linux / FFmpeg"
 
 msgid "View"
 msgstr "Pohled"
 
-msgid "Vinyl"
-msgstr "Vinyl"
-
 msgid "Virtual clip"
 msgstr "Virtuální klip"
-
-msgid "Volume"
-msgstr "Hlasitost"
 
 msgid "W"
 msgstr "W"
@@ -2084,12 +1671,6 @@ msgid ""
 msgstr ""
 "Varování: změna ovladače nebo zařízení může způsobit, že se Kdenlive bude "
 "chovat nestabilně. Měňte tato nastavení pouze pokud dobře víte co děláte."
-
-msgid "Wave"
-msgstr "Vlny"
-
-msgid "Wear"
-msgstr "Opotřebení"
 
 msgid "Welcome"
 msgstr "Vítejte"
@@ -2117,9 +1698,6 @@ msgstr "Y"
 
 msgid "Y:"
 msgstr "Y:"
-
-msgid "Year"
-msgstr "Rok"
 
 msgid "You must copy exactly one clip before pasting effects"
 msgstr "Nebyl zkopírován efekt, který by šel vložit."
@@ -2196,6 +1774,418 @@ msgstr ""
 "Instalace MLT nebyla nalezena, nainstalujte prosím MLT a restartujte "
 "Kdenlive.\n"
 
+#~ msgid "Adjust audio volume with keyframes"
+#~ msgstr "Umožňuje upravit hlasitost klipu dle klíčových snímků"
+
+#~ msgid "Amplitude"
+#~ msgstr "Maximální výchylka"
+
+#~ msgid "Auto Mask"
+#~ msgstr "Maska"
+
+#~ msgid "Averaging"
+#~ msgstr "Průměrování"
+
+#~ msgid "Blue Screen"
+#~ msgstr "Klíčování"
+
+#~ msgid "Blur factor"
+#~ msgstr "Faktor rozmazání"
+
+#~ msgid "Blur image with keyframes"
+#~ msgstr "Rozmazání obrazu dle klíčových snímků"
+
+#~ msgid "Box Blur"
+#~ msgstr "Částečné rozmazání"
+
+#~ msgid "Brightness"
+#~ msgstr "Jas"
+
+#~ msgid "Change gamma color value"
+#~ msgstr "Umožňuje změnit hodnotu gamy"
+
+#~ msgid "Change image brightness with keyframes"
+#~ msgstr "Umožňuje změnit jas dle klíčových snímků"
+
+#~ msgid "Charcoal"
+#~ msgstr "Kresba uhlem"
+
+#~ msgid "Charcoal drawing effect"
+#~ msgstr "Zobrazí video stopu klipu ve formě kresby uhlem"
+
+#~ msgid "Chroma Hold"
+#~ msgstr "Zvýraznění"
+
+#~ msgid "Chrominance U"
+#~ msgstr "Chrominance U"
+
+#~ msgid "Chrominance V"
+#~ msgstr "Chrominance V"
+
+#~ msgid "Co-efficient"
+#~ msgstr "Součinitel"
+
+#~ msgid "Color key"
+#~ msgstr "Barevný klíč"
+
+#~ msgid "Crackle"
+#~ msgstr "Praskání v obraze"
+
+#~ msgid "Damping"
+#~ msgstr "Útlum"
+
+#~ msgid "Debug"
+#~ msgstr "Ladit"
+
+#~ msgid "Decay"
+#~ msgstr "Zchátrání"
+
+#~ msgid "Declipper"
+#~ msgstr "Declipper"
+
+#~ msgid "Delay"
+#~ msgstr "Prodleva"
+
+#~ msgid "Delay (s/10)"
+#~ msgstr "Prodleva (s/10)"
+
+#~ msgid "Depth"
+#~ msgstr "Hloubka"
+
+#~ msgid "Discard color information"
+#~ msgstr "Zobrazí video stopu klipu ve stupních šedi"
+
+#~ msgid "End Gain"
+#~ msgstr "Konec zesílení"
+
+#~ msgid "Equalizer"
+#~ msgstr "Ekvalizér"
+
+#~ msgid "Fade in"
+#~ msgstr "Roztmívačka"
+
+#~ msgid "Fade in audio track"
+#~ msgstr "Postupně zesílí nebo zeslabí audio stopu."
+
+#~ msgid "Fade out"
+#~ msgstr "Stmívačka"
+
+#~ msgid "Feedback"
+#~ msgstr "Zpětná vazba"
+
+#~ msgid "Flip your image in any direction"
+#~ msgstr "Otáčení obrazu ve všech směrech možných směrech"
+
+#~ msgid "Freeze"
+#~ msgstr "Zamrznutí"
+
+#~ msgid "Freeze After"
+#~ msgstr "Zamrznutí po"
+
+#~ msgid "Freeze Before"
+#~ msgstr "Zamrznutí před"
+
+#~ msgid "Freeze at"
+#~ msgstr "Zamrznutí na"
+
+#~ msgid "Freeze video on a chosen frame"
+#~ msgstr "Zamrznout video na vybraném snímku"
+
+#~ msgid "Gain"
+#~ msgstr "Zesílení"
+
+#~ msgid "Gain in"
+#~ msgstr "Začátek zesílení"
+
+#~ msgid "Gain out"
+#~ msgstr "Konec zesílení"
+
+#~ msgid "Gamma"
+#~ msgstr "Gama"
+
+#~ msgid "Geometry"
+#~ msgstr "Rozvržení"
+
+#~ msgid "Greyscale"
+#~ msgstr "Stupně šedi"
+
+#~ msgid "Height"
+#~ msgstr "Výška"
+
+#~ msgid "Hi gain"
+#~ msgstr "Vysoké zesílení"
+
+#~ msgid "Hide a region of the clip"
+#~ msgstr "Umožní vám skrýt část klipu - rozpixelizovat obraz."
+
+#~ msgid "Hide a selected zone and follow its movements"
+#~ msgstr ""
+#~ "Umožní skrýt vybraný výřez obrazu, včetně jeho následujícího pohybu."
+
+#~ msgid "Horizontal factor"
+#~ msgstr "Vodorovný faktor"
+
+#~ msgid "Horizontal multiplicator"
+#~ msgstr "Vodorovné rozmnožení"
+
+#~ msgid "Horizontal scatter"
+#~ msgstr "Vodorovné rozptýlení"
+
+#~ msgid "Input gain (db)"
+#~ msgstr "Vstupní zesílení (dB)"
+
+#~ msgid "Intensity"
+#~ msgstr "Intenzita"
+
+#~ msgid "Invert"
+#~ msgstr "Invertovat"
+
+#~ msgid "Invert colors"
+#~ msgstr "Invertuje barvy"
+
+#~ msgid "Kernel size"
+#~ msgstr "Velikost jádra"
+
+#~ msgid "LADSPA change pitch audio effect"
+#~ msgstr "Změna výšky tónu (LADSPA)"
+
+#~ msgid "LADSPA declipper audio effect"
+#~ msgstr "Odřezávač (LADSPA)"
+
+#~ msgid "LADSPA equalizer audio effect"
+#~ msgstr "Ekvalizér (LADSPA)"
+
+#~ msgid "LADSPA limiter audio effect"
+#~ msgstr "Omezovač (LADSPA)"
+
+#~ msgid "LADSPA phaser audio effect"
+#~ msgstr "Fázovač (LADSPA)"
+
+#~ msgid "LADSPA pitch scale audio effect"
+#~ msgstr "Změna výšky tónu (LADSPA)"
+
+#~ msgid "LADSPA rate scale audio effect"
+#~ msgstr "Změna poměru (LADSPA)"
+
+#~ msgid "LADSPA reverb audio effect"
+#~ msgstr "Dozvuk (LADSPA)"
+
+#~ msgid "LADSPA room reverb audio effect"
+#~ msgstr "Dozvuk místnosti (LADSPA)"
+
+#~ msgid "Limit (db)"
+#~ msgstr "Limit (dB)"
+
+#~ msgid "Limiter"
+#~ msgstr "Omezovač"
+
+#~ msgid "Lo gain"
+#~ msgstr "Nizké zesílení"
+
+#~ msgid "Make clip play faster slowly"
+#~ msgstr "Zpomalit zrychlený klip"
+
+#~ msgid "Make image greyscale except for chosen color"
+#~ msgstr "Zobrazí video stopu klipu ve stupních šedi, vyjma vybrané barvy."
+
+#~ msgid "Make monochrome clip"
+#~ msgstr "Zobrazit klip černobíle (pouze černá nebo bílá)."
+
+#~ msgid "Make selected color transparent"
+#~ msgstr "Tento efekt umožňuje zprůhlednit vybranou barvu."
+
+#~ msgid "Make waves on your clip with keyframes"
+#~ msgstr "Vytvoření efektu vln dle klíčových snímků"
+
+#~ msgid "Mid gain"
+#~ msgstr "Středně zesílit"
+
+#~ msgid "Mirror"
+#~ msgstr "Zrcadlo"
+
+#~ msgid "Mirroring direction"
+#~ msgstr "Osa zrcadlení"
+
+#~ msgid "Mix"
+#~ msgstr "Smíchat"
+
+#~ msgid "Mute"
+#~ msgstr "Umlčet"
+
+#~ msgid "Mute clip"
+#~ msgstr "Umlčí audio stopu klipu"
+
+#~ msgid "Normalise"
+#~ msgstr "Normalizovat"
+
+#~ msgid "Normalise audio volume"
+#~ msgstr "Normalizuje hlasitost audia"
+
+#~ msgid "Obscure"
+#~ msgstr "Utajení identity"
+
+#~ msgid "Phaser"
+#~ msgstr "Fázovač"
+
+#~ msgid "Pitch Scaler"
+#~ msgstr "Změna výšky tónu"
+
+#~ msgid "Pitch Shift"
+#~ msgstr "Změna výšky a posun tónu"
+
+#~ msgid "RPM"
+#~ msgstr "RPM"
+
+#~ msgid "Rate"
+#~ msgstr "Rychlost"
+
+#~ msgid "Rate (Hz)"
+#~ msgstr "Rychlost (Hz)"
+
+#~ msgid "Rate Scaler"
+#~ msgstr "Škálování rychlosti"
+
+#~ msgid "Region"
+#~ msgstr "Region"
+
+#~ msgid "Release time (s)"
+#~ msgstr "Čas uvolnění (s)"
+
+#~ msgid "Reverb"
+#~ msgstr "Dozvuk"
+
+#~ msgid "Reverb Time"
+#~ msgstr "Délka dozvuku"
+
+#~ msgid "Reverb time"
+#~ msgstr "Délka dozvuku"
+
+#~ msgid "Reverse playing"
+#~ msgstr "Přehrát po zpátku"
+
+#~ msgid "Room Reverb"
+#~ msgstr "Ozvěna místnosti"
+
+#~ msgid "Room size (m)"
+#~ msgstr "Velikost místnosti (m)"
+
+#~ msgid "Rotate"
+#~ msgstr "Otočení"
+
+#~ msgid "Rotate clip in any 3 directions"
+#~ msgstr "Umožní vám otočit klip ve třech osách (x,y,z)"
+
+#~ msgid "Rotation x"
+#~ msgstr "Rotace osy x"
+
+#~ msgid "Rotation y"
+#~ msgstr "Rotace osy y"
+
+#~ msgid "Rotation z"
+#~ msgstr "Rotace osy z"
+
+#~ msgid "Sepia"
+#~ msgstr "Sépiový nádech"
+
+#~ msgid "Shift"
+#~ msgstr "Shift"
+
+#~ msgid "Simulates a vinyl audio player - LADSPA audio effect"
+#~ msgstr "Simulovat audio přehrávač vinyl - LADSPA audio efekty"
+
+#~ msgid "Sox Echo"
+#~ msgstr "Ozvěna (Sox)"
+
+#~ msgid "Sox Flanger"
+#~ msgstr "Flanger (Sox)"
+
+#~ msgid "Sox Pitch Shift"
+#~ msgstr "Ohýbání zvuku (Sox)"
+
+#~ msgid "Sox Reverb"
+#~ msgstr "Dozvuk (Sox)"
+
+#~ msgid "Sox Vibro"
+#~ msgstr "Vibro (Sox)"
+
+#~ msgid "Sox change pitch audio effect"
+#~ msgstr "Plynulá (spojitá) změna frekvence zvuku."
+
+#~ msgid "Sox echo audio effect"
+#~ msgstr "Efekt zpožděného opakování zvuku - vytvoří ozvěnu."
+
+#~ msgid "Sox flanger audio effect"
+#~ msgstr "Proměnné zpoždění a změna výšky tónu zvuku."
+
+#~ msgid "Sox reverb audio effect"
+#~ msgstr "Vytvoří dojem odrazu zvuku."
+
+#~ msgid "Sox vibro audio effect"
+#~ msgstr "Audio efekt vibro (Sox)"
+
+#~ msgid "Speed"
+#~ msgstr "Rychlost"
+
+#~ msgid "Spread"
+#~ msgstr "Rozšíření"
+
+#~ msgid "Square Blur"
+#~ msgstr "Čtvercové rozmazání"
+
+#~ msgid "Start Gain"
+#~ msgstr "Začátek zesílení"
+
+#~ msgid "Stroboscope"
+#~ msgstr "Stroboskop"
+
+#~ msgid "Surface warping"
+#~ msgstr "Surface warping"
+
+#~ msgid "Threshold"
+#~ msgstr "Černobílý"
+
+#~ msgid "Threshold value"
+#~ msgstr "Práh"
+
+#~ msgid "Time window (ms)"
+#~ msgstr "Časové okno (ms)"
+
+#~ msgid "Turn clip colors to sepia"
+#~ msgstr "Změní barvy klipu na sépiové"
+
+#~ msgid "Use transparency"
+#~ msgstr "Použít průhlednost"
+
+#~ msgid "Variable-size square blur (frei0r.squareblur)"
+#~ msgstr "Variabliní velikost čtvercového rozmazání (frei0r)"
+
+#~ msgid "Variance"
+#~ msgstr "Odchylka"
+
+#~ msgid "Vertical factor"
+#~ msgstr "Vertikální faktor"
+
+#~ msgid "Vertical multiplicator"
+#~ msgstr "Vertikální rozmnožení"
+
+#~ msgid "Vertical scatter"
+#~ msgstr "Vertikální rozptýlení"
+
+#~ msgid "Vinyl"
+#~ msgstr "Vinyl"
+
+#~ msgid "Volume"
+#~ msgstr "Hlasitost"
+
+#~ msgid "Wave"
+#~ msgstr "Vlny"
+
+#~ msgid "Wear"
+#~ msgstr "Opotřebení"
+
+#~ msgid "Year"
+#~ msgstr "Rok"
+
 #~ msgid " Firewire (DV / HDV)"
 #~ msgstr "Firewire (DV / HDV)"
 
@@ -2261,3 +2251,4 @@ msgstr ""
 
 #~ msgid "Zone start"
 #~ msgstr "Začátek výběru"
+
