@@ -934,7 +934,8 @@ void MainWindow::closeCurrentDocument() {
 }
 
 void MainWindow::saveFileAs(const QString &outputFileName) {
-    m_projectMonitor->saveSceneList(outputFileName, m_activeDocument->documentInfoXml());
+    QDomDocument currentSceneList = m_projectMonitor->sceneList();
+    m_activeDocument->saveSceneList(outputFileName, currentSceneList);
     m_activeDocument->setUrl(KUrl(outputFileName));
     if (m_activeDocument->m_autosave == NULL) {
         m_activeDocument->m_autosave = new KAutoSaveFile(KUrl(outputFileName), this);

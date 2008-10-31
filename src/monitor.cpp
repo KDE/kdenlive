@@ -557,6 +557,13 @@ void Monitor::saveSceneList(QString path, QDomElement info) {
     render->saveSceneList(path, info);
 }
 
+QDomDocument Monitor::sceneList() {
+    if (render == NULL) return QDomDocument();
+    QDomDocument doc;
+    doc.setContent(render->sceneList());
+    return doc;
+}
+
 MonitorRefresh::MonitorRefresh(QWidget* parent): QWidget(parent), m_renderer(NULL) {
     setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_OpaquePaintEvent); //setAttribute(Qt::WA_NoSystemBackground);

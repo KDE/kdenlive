@@ -1136,7 +1136,7 @@ void CustomTrackView::dropEvent(QDropEvent * event) {
                 m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_scene->m_tracksList.count() - info.track, info.startPos, info.endPos, tr->toXML());
             }
             info.track = m_scene->m_tracksList.count() - item->track();
-            m_document->renderer()->mltInsertClip(info, item->xml(), item->baseClip()->producer());
+            m_document->renderer()->mltInsertClip(info, item->xml(), item->baseClip()->producer(item->track()));
             item->setSelected(true);
         }
         m_document->setModified(true);
@@ -1277,11 +1277,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         if (m_selectionGroup == NULL) {
             // we are moving one clip, easy
             if (m_dragItem->type() == AVWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
-                bool success = m_document->renderer()->mltMoveClip((int)(m_scene->m_tracksList.count() - m_dragItemInfo.track), (int)(m_scene->m_tracksList.count() - m_dragItem->track()), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(m_dragItem->startPos().frames(m_document->fps())));
+                ClipItem *item = static_cast <ClipItem *>(m_dragItem);
+                bool success = m_document->renderer()->mltMoveClip((int)(m_scene->m_tracksList.count() - m_dragItemInfo.track), (int)(m_scene->m_tracksList.count() - m_dragItem->track()), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(m_dragItem->startPos().frames(m_document->fps())), item->baseClip()->producer(info.track));
                 if (success) {
                     MoveClipCommand *command = new MoveClipCommand(this, m_dragItemInfo, info, false);
                     m_commandStack->push(command);
-                    ClipItem *item = static_cast <ClipItem *>(m_dragItem);
                     if (item->baseClip()->isTransparent()) {
                         // Also move automatic transition
                         Transition *tr = getTransitionItemAt((int) m_dragItemInfo.startPos.frames(m_document->fps()) + 1, m_dragItemInfo.track);
@@ -1347,7 +1347,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                         ClipItem *clip = static_cast <ClipItem*>(item);
                         new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), info, clip->effectList(), false, false, moveClips);
                         info.track = m_scene->m_tracksList.count() - info.track;
-                        m_document->renderer()->mltInsertClip(info, clip->xml(), clip->baseClip()->producer());
+                        m_document->renderer()->mltInsertClip(info, clip->xml(), clip->baseClip()->producer(info.track));
                     } else {
                         Transition *tr = static_cast <Transition*>(item);
                         ItemInfo transitionInfo = tr->info();
@@ -1587,7 +1587,7 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
     baseclip->addReference();
     m_document->updateClip(baseclip->getId());
     info.track = m_scene->m_tracksList.count() - info.track;
-    m_document->renderer()->mltInsertClip(info, xml, baseclip->producer());
+    m_document->renderer()->mltInsertClip(info, xml, baseclip->producer(info.track));
     for (int i = 0; i < item->effectsCount(); i++) {
         m_document->renderer()->mltAddEffect(info.track, info.startPos, item->getEffectArgs(item->effectAt(i)), false);
     }
@@ -1653,7 +1653,7 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
     }
     //kDebug() << "----------------  Move CLIP FROM: " << startPos.x() << ", END:" << endPos.x() << ",TRACKS: " << startPos.y() << " TO " << endPos.y();
 
-    bool success = m_document->renderer()->mltMoveClip((int)(m_scene->m_tracksList.count() - start.track), (int)(m_scene->m_tracksList.count() - end.track), (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()));
+    bool success = m_document->renderer()->mltMoveClip((int)(m_scene->m_tracksList.count() - start.track), (int)(m_scene->m_tracksList.count() - end.track), (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()), item->baseClip()->producer(end.track));
     if (success) {
         item->setPos((int) end.startPos.frames(m_document->fps()), (int)(end.track * m_tracksHeight + 1));
         if (item->baseClip()->isTransparent()) {

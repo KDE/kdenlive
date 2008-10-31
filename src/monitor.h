@@ -56,6 +56,7 @@ public:
     bool isActive() const;
     void pause();
     void setupMenu(QMenu *goMenu);
+    QDomDocument sceneList();
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);

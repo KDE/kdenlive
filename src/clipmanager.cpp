@@ -125,8 +125,9 @@ DocClipBase *ClipManager::getClipAt(int pos) {
     return m_clipList.at(pos);
 }
 
-DocClipBase *ClipManager::getClipById(const QString &clipId) {
+DocClipBase *ClipManager::getClipById(QString clipId) {
     //kDebug() << "++++  CLIP MAN, LOOKING FOR CLIP ID: " << clipId;
+    clipId = clipId.section('_', 0, 0);
     for (int i = 0; i < m_clipList.count(); i++) {
         if (m_clipList.at(i)->getId() == clipId) {
             //kDebug() << "++++  CLIP MAN, FOUND FOR CLIP ID: " << clipId;

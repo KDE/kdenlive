@@ -23,7 +23,7 @@
 #include "clipmanager.h"
 
 DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id):
-        m_id(id), m_description(QString()), m_refcount(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL), m_clipProducer(NULL), m_properties(QMap <QString, QString> ()), audioFrameChache(QMap<int, QMap<int, QByteArray> > ()) {
+        m_id(id), m_description(QString()), m_refcount(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL), m_properties(QMap <QString, QString> ()), audioFrameChache(QMap<int, QMap<int, QByteArray> > ()), m_baseTrackProducers(QList <Mlt::Producer *>())  {
     int type = xml.attribute("type").toInt();
     m_clipType = (CLIPTYPE) type;
     m_name = xml.attribute("name");
@@ -64,7 +64,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
 
 DocClipBase::~DocClipBase() {
     if (m_thumbProd) delete m_thumbProd;
-    if (m_clipProducer) delete m_clipProducer;
+    qDeleteAll(m_baseTrackProducers);
 }
 
 void DocClipBase::slotCreateAudioTimer() {
@@ -120,6 +120,7 @@ const CLIPTYPE & DocClipBase::clipType() const {
 
 void DocClipBase::setClipType(CLIPTYPE type) {
     m_clipType = type;
+
     m_properties.insert("type", QString::number((int) type));
     if (m_thumbProd && m_audioTimer == NULL && (m_clipType == AV || m_clipType == AUDIO))
         slotCreateAudioTimer();
@@ -366,17 +367,72 @@ QString DocClipBase::markerComment(GenTime t) {
 
 void DocClipBase::setProducer(Mlt::Producer *producer) {
     if (producer == NULL) return;
-    m_clipProducer = producer;
-    m_clipProducer->set("transparency", m_properties.value("transparency").toInt());
-    if (m_thumbProd) m_thumbProd->setProducer(producer);
+    QString id = producer->get("id");
+    kDebug() << "// SET PRODUCER: " << id;
+    if (id.contains('_')) {
+        // this is a subtrack producer, insert it at correct place
+        int pos = id.section('_', 1, 1).toInt();
+        kDebug() << "// POS = " << pos << ", MAX: " << m_baseTrackProducers.count();
+        if (pos >= m_baseTrackProducers.count()) {
+            while (m_baseTrackProducers.count() - 1 < pos) {
+                m_baseTrackProducers.append(NULL);
+            }
+        }
+        kDebug() << "// POS = " << pos << ", NEW MAX: " << m_baseTrackProducers.count();
+        if (m_baseTrackProducers.at(pos) == NULL) m_baseTrackProducers[pos] = producer;
+    } else m_baseTrackProducers.append(producer);
+    //m_clipProducer = producer;
+    //m_clipProducer->set("transparency", m_properties.value("transparency").toInt());
+    if (m_thumbProd && !m_thumbProd->hasProducer()) m_thumbProd->setProducer(producer);
 }
 
-Mlt::Producer *DocClipBase::producer() {
-    return m_clipProducer;
+Mlt::Producer *DocClipBase::producer(int track) {
+    if (track == -1 || (m_clipType != AUDIO && m_clipType != AV)) {
+        if (m_baseTrackProducers.count() == 0) return NULL;
+        int i;
+        for (i = 0; i < m_baseTrackProducers.count(); i++)
+            if (m_baseTrackProducers.at(i) != NULL) break;
+        if (i < m_baseTrackProducers.count()) return m_baseTrackProducers.at(i);
+        return NULL;
+    }
+    if (track >= m_baseTrackProducers.count()) {
+        while (m_baseTrackProducers.count() - 1 < track) {
+            m_baseTrackProducers.append(NULL);
+        }
+    }
+    if (m_baseTrackProducers.at(track) == NULL) {
+        int i;
+        for (i = 0; i < m_baseTrackProducers.count(); i++)
+            if (m_baseTrackProducers.at(i) != NULL) break;
+        if (i >= m_baseTrackProducers.count()) return NULL;
+        m_baseTrackProducers[track] = new Mlt::Producer(*m_baseTrackProducers.at(i)->profile(), m_baseTrackProducers.at(i)->get("resource"));
+        if (m_properties.contains("force_aspect_ratio")) m_baseTrackProducers[track]->set("force_aspect_ratio", m_properties.value("force_aspect_ratio").toDouble());
+        if (m_properties.contains("threads")) m_baseTrackProducers[track]->set("threads", m_properties.value("threads").toInt());
+        if (m_properties.contains("video_index")) m_baseTrackProducers[track]->set("video_index", m_properties.value("video_index").toInt());
+        if (m_properties.contains("audio_index")) m_baseTrackProducers[track]->set("audio_index", m_properties.value("audio_index").toInt());
+        char *tmp = (char *) qstrdup(QString(getId() + '_' + QString::number(track)).toUtf8().data());
+        m_baseTrackProducers[track]->set("id", tmp);
+        delete[] tmp;
+    }
+    return m_baseTrackProducers.at(track);
+}
+
+void DocClipBase::setProducerProperty(const char *name, int data) {
+    for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+        if (m_baseTrackProducers.at(i) != NULL)
+            m_baseTrackProducers[i]->set(name, data);
+    }
+}
+
+void DocClipBase::setProducerProperty(const char *name, const char *data) {
+    for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+        if (m_baseTrackProducers.at(i) != NULL)
+            m_baseTrackProducers[i]->set(name, data);
+    }
 }
 
 void DocClipBase::slotRefreshProducer() {
-    if (m_clipProducer == NULL) return;
+    if (m_baseTrackProducers.count() == 0) return;
     kDebug() << "////////////   REFRESH CLIP !!!!!!!!!!!!!!!!";
     if (m_clipType == SLIDESHOW) {
         /*char *tmp = (char *) qstrdup(getProperty("resource").toUtf8().data());
@@ -385,12 +441,12 @@ void DocClipBase::slotRefreshProducer() {
         delete m_clipProducer;
         m_clipProducer = new Mlt::Producer(producer.get_producer());
         if (!getProperty("out").isEmpty()) m_clipProducer->set_in_and_out(getProperty("in").toInt(), getProperty("out").toInt());*/
-        m_clipProducer->set("ttl", getProperty("ttl").toInt());
+        setProducerProperty("ttl", getProperty("ttl").toInt());
         //m_clipProducer->set("id", getProperty("id"));
         if (getProperty("fade") == "1") {
             // we want a fade filter effect
             kDebug() << "////////////   FADE WANTED";
-            Mlt::Service clipService(m_clipProducer->get_service());
+            Mlt::Service clipService(m_baseTrackProducers.at(0)->get_service());
             int ct = 0;
             Mlt::Filter *filter = clipService.filter(ct);
             while (filter) {
@@ -414,7 +470,7 @@ void DocClipBase::slotRefreshProducer() {
                 }
             } else {
                 // filter does not exist, create it...
-                Mlt::Filter *filter = new Mlt::Filter(*(m_clipProducer->profile()), "luma");
+                Mlt::Filter *filter = new Mlt::Filter(*(m_baseTrackProducers.at(0)->profile()), "luma");
                 filter->set("period", getProperty("ttl").toInt() - 1);
                 filter->set("luma.out", getProperty("luma_duration").toInt());
                 QString resource = getProperty("luma_file");
@@ -429,7 +485,7 @@ void DocClipBase::slotRefreshProducer() {
             }
         } else {
             kDebug() << "////////////   FADE NOT WANTED!!!";
-            Mlt::Service clipService(m_clipProducer->get_service());
+            Mlt::Service clipService(m_baseTrackProducers.at(0)->get_service());
             int ct = 0;
             Mlt::Filter *filter = clipService.filter(0);
             while (filter) {
@@ -465,33 +521,33 @@ void DocClipBase::setProperty(const QString &key, const QString &value) {
     m_properties.insert(key, value);
     if (key == "resource") m_thumbProd->updateClipUrl(KUrl(value));
     else if (key == "out") setDuration(GenTime(value.toInt(), KdenliveSettings::project_fps()));
-    else if (key == "transparency") m_clipProducer->set("transparency", value.toInt());
+    //else if (key == "transparency") m_clipProducer->set("transparency", value.toInt());
     else if (key == "colour") {
         char *tmp = (char *) qstrdup(value.toUtf8().data());
-        m_clipProducer->set("colour", tmp);
+        setProducerProperty("colour", tmp);
         delete[] tmp;
     } else if (key == "xmldata") {
-        m_clipProducer->set("force_reload", 1);
+        setProducerProperty("force_reload", 1);
     } else if (key == "force_aspect_ratio") {
         if (value.isEmpty()) {
             m_properties.remove("force_aspect_ratio");
-            m_clipProducer->set("force_aspect_ratio", 0);
-        } else m_clipProducer->set("force_aspect_ratio", value.toDouble());
+            setProducerProperty("force_aspect_ratio", 0);
+        } else setProducerProperty("force_aspect_ratio", value.toDouble());
     } else if (key == "threads") {
         if (value.isEmpty()) {
             m_properties.remove("threads");
-            m_clipProducer->set("threads", 1);
-        } else m_clipProducer->set("threads", value.toInt());
+            setProducerProperty("threads", 1);
+        } else setProducerProperty("threads", value.toInt());
     } else if (key == "video_index") {
         if (value.isEmpty()) {
             m_properties.remove("video_index");
-            m_clipProducer->set("video_index", m_properties.value("default_video").toInt());
-        } else m_clipProducer->set("video_index", value.toInt());
+            setProducerProperty("video_index", m_properties.value("default_video").toInt());
+        } else setProducerProperty("video_index", value.toInt());
     } else if (key == "audio_index") {
         if (value.isEmpty()) {
             m_properties.remove("audio_index");
-            m_clipProducer->set("audio_index", m_properties.value("default_audio").toInt());
-        } else m_clipProducer->set("audio_index", value.toInt());
+            setProducerProperty("audio_index", m_properties.value("default_audio").toInt());
+        } else setProducerProperty("audio_index", value.toInt());
     }
 }
 

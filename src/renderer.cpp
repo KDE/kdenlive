@@ -1943,12 +1943,12 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff) {
     return true;
 }
 
-bool Render::mltMoveClip(int startTrack, int endTrack, GenTime moveStart, GenTime moveEnd) {
-    return mltMoveClip(startTrack, endTrack, (int) moveStart.frames(m_fps), (int) moveEnd.frames(m_fps));
+bool Render::mltMoveClip(int startTrack, int endTrack, GenTime moveStart, GenTime moveEnd, Mlt::Producer *prod) {
+    return mltMoveClip(startTrack, endTrack, (int) moveStart.frames(m_fps), (int) moveEnd.frames(m_fps), prod);
 }
 
 
-bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEnd) {
+bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEnd, Mlt::Producer *prod) {
     m_isBlocked = true;
 
     m_mltConsumer->set("refresh", 0);
@@ -1994,7 +1994,23 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
             trackPlaylist.consolidate_blanks(0);
             destTrackPlaylist.consolidate_blanks(1);
-            int newIndex = destTrackPlaylist.insert_at(moveEnd, clipProducer, 1);
+            Mlt::Producer *clip = prod->cut(clipProducer.get_in(), clipProducer.get_out());
+
+            // move all effects to the correct producer
+            Mlt::Service clipService(clipProducer.get_service());
+            Mlt::Service newClipService(clip->get_service());
+
+            int ct = 0;
+            Mlt::Filter *filter = clipService.filter(ct);
+            while (filter) {
+                if (filter->get("kdenlive_ix") != 0) {
+                    clipService.detach(*filter);
+                    newClipService.attach(*filter);
+                } else ct++;
+                filter = clipService.filter(ct);
+            }
+
+            int newIndex = destTrackPlaylist.insert_at(moveEnd, clip, 1);
             destTrackPlaylist.consolidate_blanks(0);
             /*if (QString(clipProducer.parent().get("transparency")).toInt() == 1) {
                 kDebug() << "//////// moving clip transparency";

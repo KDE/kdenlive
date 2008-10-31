@@ -66,7 +66,8 @@ Q_OBJECT public:
     QDomElement m_guidesXml;
     QDomElement guidesXml() const;
     ClipManager *clipManager();
-    void addClip(const QDomElement &elem, const QString &clipId);
+    void addClip(QDomElement elem, QString clipId, bool createClipItem = true);
+    void addClipInfo(QDomElement elem, QString clipId);
     void addFolder(const QString foldername, const QString &clipId, bool edit);
     void deleteFolder(const QString foldername, const QString &clipId);
     void slotAddClipFile(const KUrl url, const QString group, const QString &groupId = QString());
@@ -104,6 +105,7 @@ Q_OBJECT public:
     int zoom() const;
     const double dar();
     double projectDuration() const;
+    void saveSceneList(const QString &path, QDomDocument sceneList);
 
 private:
     KUrl m_url;

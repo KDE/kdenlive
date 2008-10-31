@@ -201,7 +201,7 @@ void TrackView::parseDocument(QDomDocument doc) {
             ItemInfo transitionInfo;
             QString transitionId;
             if (mlt_service == "composite") {
-                kDebug() << "//////////\n\nADDING COMPO TRANS\n\n " << mlt_geometry << "\n\n//////////";
+                // When adding composite transition, check if it is a wipe transition
                 if (mlt_geometry == "0%,0%:100%x100%") transitionId = "alphatransparency";
                 else if (mlt_geometry.count(';') == 1) {
                     mlt_geometry.remove(QChar('%'), Qt::CaseInsensitive);
@@ -379,7 +379,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                 hasSpeedAttribute = true;
                 id = idString.section(":", 1, 1);
                 speed = idString.section(":", 2, 2).toDouble();
-            }
+            } else id = id.section('_', 0, 0);
             DocClipBase *clip = m_doc->clipManager()->getClipById(id);
             if (clip != NULL) {
                 int out = elem.attribute("out").toInt();

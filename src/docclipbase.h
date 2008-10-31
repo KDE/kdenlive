@@ -111,7 +111,7 @@ Q_OBJECT public:
     }
 
     void setProducer(Mlt::Producer *producer);
-    Mlt::Producer *producer();
+    Mlt::Producer *producer(int track = -1);
 
     /*virtual DocClipAVFile *toDocClipAVFile() {
     return 0;
@@ -197,7 +197,7 @@ private:   // Private attributes
     /** The number of times this clip is used in the project - the number of references to this clip
      * that exist. */
     uint m_refcount;
-    Mlt::Producer *m_clipProducer;
+    QList <Mlt::Producer *> m_baseTrackProducers;
     CLIPTYPE m_clipType;
 
     /** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
@@ -219,6 +219,8 @@ private:   // Private attributes
     /** Create connections for audio thumbnails */
     void slotCreateAudioTimer();
     void slotRefreshProducer();
+    void setProducerProperty(const char *name, const char *data);
+    void setProducerProperty(const char *name, int data);
 
 public slots:
     void updateAudioThumbnail(QMap<int, QMap<int, QByteArray> > data);
