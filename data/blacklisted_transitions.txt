@@ -1,3 +1,5 @@
 # crashing transitions
 
 frei0r.composition
+frei0r.alphainjection
+frei0r.uvmap
