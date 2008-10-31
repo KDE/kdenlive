@@ -1149,7 +1149,10 @@ void MainWindow::slotRenderProject() {
     if (!m_renderWidget) {
         m_renderWidget = new RenderWidget(this);
         connect(m_renderWidget, SIGNAL(doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double)), this, SLOT(slotDoRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double)));
-        if (m_activeDocument) m_renderWidget->setGuides(m_activeDocument->guidesXml(), m_activeDocument->projectDuration());
+        if (m_activeDocument) {
+            m_renderWidget->setDocumentStandard(m_activeDocument->getDocumentStandard());
+            m_renderWidget->setGuides(m_activeDocument->guidesXml(), m_activeDocument->projectDuration());
+        }
     }
     /*TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
     if (currentTab) m_renderWidget->setTimeline(currentTab);
