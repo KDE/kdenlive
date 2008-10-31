@@ -558,7 +558,7 @@ QString KdenliveDoc::colorToString(const QColor& c) {
     return ret;
 }
 
-void KdenliveDoc::saveSceneList(const QString &path, QDomDocument sceneList) {
+bool KdenliveDoc::saveSceneList(const QString &path, QDomDocument sceneList) {
     QDomNode wes = sceneList.elementsByTagName("westley").at(0);
 
     QDomElement addedXml = sceneList.createElement("kdenlivedoc");
@@ -592,12 +592,13 @@ void KdenliveDoc::saveSceneList(const QString &path, QDomDocument sceneList) {
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         kWarning() << "//////  ERROR writing to file: " << path;
-        return;
+        KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1", path));
+        return false;
     }
     QTextStream out(&file);
     out << sceneList.toString();
     file.close();
-
+    return true;
 }
 
 QDomElement KdenliveDoc::documentInfoXml() {

@@ -105,7 +105,7 @@ Q_OBJECT public:
     int zoom() const;
     const double dar();
     double projectDuration() const;
-    void saveSceneList(const QString &path, QDomDocument sceneList);
+    bool saveSceneList(const QString &path, QDomDocument sceneList);
 
 private:
     KUrl m_url;
