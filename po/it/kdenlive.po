@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-25 14:20+0200\n"
-"PO-Revision-Date: 2008-10-30 18:19+0100\n"
+"PO-Revision-Date: 2008-10-30 18:27+0100\n"
 "Last-Translator: opensourcecat <opensourcecat@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -82,7 +82,8 @@ msgstr "Una guida è già presente alla posizione attuale"
 msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
 "choose another description for your custom profile."
-msgstr "Un profilo con lo stesso nome esiste fra i profili predefiniti di MLT.  Scegliere un altro nome per il profilo personalizzato."
+msgstr ""
+"Un profilo con lo stesso nome esiste fra i profili predefiniti di MLT.  Scegliere un altro nome per il profilo personalizzato."
 
 msgid "ALSA"
 msgstr "ALSA"
@@ -200,7 +201,7 @@ msgid "Allow vertical moves"
 msgstr "Consenti movimenti verticali"
 
 msgid "An open source video editor."
-msgstr ""
+msgstr "Un video editor Open Source"
 
 msgid "Ascii art library"
 msgstr "Libreria ASCII art"
@@ -240,7 +241,8 @@ msgid "Auto add"
 msgstr "Aggiungi automaticamente"
 
 msgid "Auto-saved files exist. Do you want to recover them now?"
-msgstr "Trovato un file di ripristino automatico. Recuperare il progetto adesso?"
+msgstr ""
+"Trovato un file di ripristino automatico. Recuperare il progetto adesso?"
 
 msgid "Automatic"
 msgstr "Automatico"
@@ -319,7 +321,8 @@ msgstr ""
 "parte di MLT)"
 
 msgid "Cannot find your Mlt profiles, please give the path"
-msgstr "Non riesco a trovare I profili MLT, è necessario specificarne il percorso"
+msgstr ""
+"Non riesco a trovare I profili MLT, è necessario specificarne il percorso"
 
 #, kde-format
 msgid "Cannot move clip at time: %1s on track %2"
@@ -331,7 +334,8 @@ msgstr "Impossibile spostare la clip a %1secondi"
 
 #, kde-format
 msgid "Cannot move transition at time: %1s on track %2"
-msgstr "Impossibile spostarela transizione alla posizione: %1s nella traccia %2"
+msgstr ""
+"Impossibile spostarela transizione alla posizione: %1s nella traccia %2"
 
 msgid "Cannot paste clip to selected place"
 msgstr "Impossibile incollare la clip alla posizione selezionata"
@@ -446,7 +450,7 @@ msgid "Connect"
 msgstr "Collega"
 
 msgid "Copyright (c) 2008 Development team"
-msgstr ""
+msgstr "Copyright (c) 2008 Il team di sviluppo"
 
 msgid ""
 "Could not create the video preview window.\n"
@@ -472,10 +476,10 @@ msgstr "Creazione delle anteprime per %1"
 
 #, c-format, kde-format
 msgid "Crop from start: %1s"
-msgstr ""
+msgstr "Taglia %1 secondi dall'inizio"
 
 msgid "Crop start"
-msgstr ""
+msgstr "Taglia l'inizio"
 
 msgid "Crossfade"
 msgstr "Crossfade"
@@ -691,7 +695,8 @@ msgstr "Modifica la transizione %1"
 
 #, kde-format
 msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
-msgstr "Effetto %1:%2 non trovato in MLT, è stato rimosso dal progetto attuale\n"
+msgstr ""
+"Effetto %1:%2 non trovato in MLT, è stato rimosso dal progetto attuale\n"
 
 msgid "Effect List"
 msgstr "Lista degli effetti"
@@ -956,7 +961,7 @@ msgid "JogShuttle"
 msgstr "JogShuttle"
 
 msgid "Kdenlive"
-msgstr ""
+msgstr "Kdenlive"
 
 msgid "Keyframe"
 msgstr "Fotogramma chiave"
@@ -1009,7 +1014,7 @@ msgid "Manage Profiles"
 msgstr "Gestisci profili"
 
 msgid "Marco Gittler"
-msgstr ""
+msgstr "Marco Gittler"
 
 msgid "Marker"
 msgstr "Marcatore"
@@ -1025,12 +1030,13 @@ msgstr "Generale"
 
 msgid "Mlt Connection, Transition, Effect, Timeline Developer"
 msgstr ""
+"Interfacciamento con Mlt,  Transizioni, Efftti,  Sviluppaotre della TimeLine"
 
 msgid "Mlt environment"
 msgstr "Ambiente Mlt"
 
 msgid "Mlt porting, KDE4 porting, Main developer"
-msgstr ""
+msgstr "Adattamento ad MLT, Riscrittura per KDE4, Sviluppatore principale"
 
 msgid "Mlt profiles folder"
 msgstr "Cartella dei profili di Mlt"
@@ -1187,9 +1193,13 @@ msgid ""
 "Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
 "org/mantis</a>"
 msgstr ""
+"In caso di problemi si prega di utilizzare il sito <a href=\"http://kdenlive."
+"org/mantis\">http://kdenlive.org/mantis</a> per la segnalazione"
 
 msgid "Please report bugs to http://kdenlive.org/mantis"
 msgstr ""
+"In caso di problemi si prega di utilizzare il sito http://kdenlive.org/"
+"mantis per la segnalazione"
 
 msgid "Please set your default video format"
 msgstr "Impostare il formato video preferito"
@@ -1311,6 +1321,7 @@ msgid "Rendering"
 msgstr "Esportazione"
 
 # , kde-format
+#, kde-format
 msgid "Rendering %1"
 msgstr "Esportazione di %1"
 
@@ -1321,8 +1332,11 @@ msgstr "Esportazione <i>%1</i> iniziata"
 #, kde-format
 msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
 msgstr ""
+"Esportazione del file %1 interrotta, il file risultante potrebbe essere "
+"inutilizzabile"
 
 # , kde-format
+#, kde-format
 msgid "Rendering of %1 is over"
 msgstr "Esportazione di <i>%1</i> conclusa"
 
@@ -1451,7 +1465,7 @@ msgid "Set current image as thumbnail"
 msgstr "Imposta l'immagine attualmente selezionata come anteprima"
 
 msgid "Set the path for MLT environnement"
-msgstr ""
+msgstr "Impostazione dei percorsi dell'ambiente MLT"
 
 msgid "Set zone end"
 msgstr "Imposta fine selezione"
@@ -1557,7 +1571,7 @@ msgid "Time"
 msgstr "Tempo"
 
 msgid "Timecode overlay"
-msgstr ""
+msgstr "Esporta con conteggio del tempo"
 
 msgid "Timeline"
 msgstr "Timeline"
@@ -1768,7 +1782,8 @@ msgstr "x"
 msgid "x1"
 msgstr "x1"
 
-msgid "your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
+msgid ""
+"your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr "L'installazione di MLT non è stata trovata.  Installare MLT e riavviare Kdenlive.\n"
 
 #~ msgid "Adjust audio volume with keyframes"
@@ -2206,4 +2221,3 @@ msgstr "L'installazione di MLT non è stata trovata.  Installare MLT e riavvia
 
 #~ msgid "Project Overview"
 #~ msgstr "Generalità del progetto"
-
