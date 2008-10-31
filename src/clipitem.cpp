@@ -484,7 +484,6 @@ void ClipItem::paint(QPainter *painter,
     const double scale = option->matrix.m11();
 
 
-
     //painter->setRenderHints(QPainter::Antialiasing);
 
     //QPainterPath roundRectPathUpper = upperRectPart(br), roundRectPathLower = lowerRectPart(br);
@@ -692,11 +691,10 @@ void ClipItem::paint(QPainter *painter,
 
     //kDebug()<<"/// ITEM PAINTING:: exposed="<<exposed<<", RECT = "<<rect();
 
-    exposed.setRight(exposed.right() + 1);
+    // expand clip rect to allow correct painting of clip border
+    exposed.setRight(exposed.right() + 1 / scale + 0.5);
     exposed.setBottom(exposed.bottom() + 1);
     painter->setClipRect(exposed);
-    //painter->setClipping(false);
-    //painter->fillRect(exposed, Qt::blue);
     painter->setPen(pen);
     painter->drawRect(br);
 }

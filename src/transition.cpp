@@ -124,9 +124,8 @@ void Transition::updateTransitionEndTrack(int newtrack) {
 void Transition::paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
                        QWidget *widget) {
+    const double scale = option->matrix.m11();
     QRectF exposed = option->exposedRect;
-    exposed.setRight(exposed.right() + 1);
-    exposed.setBottom(exposed.bottom() + 1);
     painter->setClipRect(exposed);
     QRectF br = rect();
     m_gradient.setStart(0, br.y());
@@ -153,6 +152,10 @@ void Transition::paint(QPainter *painter,
         pen.setColor(Qt::black);
         //pen.setWidth(1);
     }
+    // expand clip rect to allow correct painting of clip border
+    exposed.setRight(exposed.right() + 1 / scale + 0.5);
+    exposed.setBottom(exposed.bottom() + 1);
+    painter->setClipRect(exposed);
     painter->setPen(pen);
     painter->drawRect(br);
 }
