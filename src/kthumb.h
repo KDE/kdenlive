@@ -82,6 +82,7 @@ Q_OBJECT public:
     ~KThumb();
     void setProducer(Mlt::Producer *producer);
     void askForAudioThumbs(const QString &id);
+    bool hasProducer() const;
 
 public slots:
     void extractImage(int frame, int frame2);

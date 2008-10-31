@@ -145,6 +145,10 @@ void KThumb::setProducer(Mlt::Producer *producer) {
     m_dar = producer->profile()->dar();
 }
 
+bool KThumb::hasProducer() const {
+    return m_producer != NULL;
+}
+
 void KThumb::updateClipUrl(KUrl url) {
     m_url = url;
     if (m_producer) {
@@ -165,6 +169,7 @@ void KThumb::extractImage(int frame, int frame2) {
 
     const int twidth = (int)(KdenliveSettings::trackheight() * m_dar);
     const int theight = KdenliveSettings::trackheight();
+
     mlt_image_format format = mlt_image_yuv422;
     if (m_producer->is_blank()) {
         QPixmap pix(twidth, theight);
@@ -177,6 +182,7 @@ void KThumb::extractImage(int frame, int frame2) {
         //videoThumbProducer.getThumb(frame);
         m_producer->seek(frame);
         mltFrame = m_producer->get_frame();
+        if (frame2 != -1) m_producer->seek(frame2);
         if (!mltFrame) {
             kDebug() << "///// BROKEN FRAME";
             QPixmap p(twidth, theight);
@@ -184,7 +190,6 @@ void KThumb::extractImage(int frame, int frame2) {
             emit thumbReady(frame, p);
             return;
         } else {
-            if (frame2 != -1) m_producer->seek(frame2);
             int frame_width = 0;
             int frame_height = 0;
             mltFrame->set("normalised_height", theight);
