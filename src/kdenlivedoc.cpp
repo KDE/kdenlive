@@ -25,6 +25,8 @@
 #include <KIO/NetAccess>
 #include <KApplication>
 
+#include <QFile>
+
 #include <mlt++/Mlt.h>
 
 #include "kdenlivedoc.h"
@@ -288,14 +290,17 @@ int KdenliveDoc::zoom() const {
 }
 
 void KdenliveDoc::convertDocument(double version) {
+    kDebug() << "Opening a document with version " << version;
     // Opening a old Kdenlive document
     if (version == 0.7) {
+        kDebug() << "Unable to open document with version " << version;
         // TODO: convert 0.7 files to the new document format.
         return;
     }
     QDomNode westley = m_document.elementsByTagName("westley").at(1);
     QDomNode tractor = m_document.elementsByTagName("tractor").at(0);
     QDomNode kdenlivedoc = m_document.elementsByTagName("kdenlivedoc").at(0);
+    QDomElement kdenlivedoc_old = kdenlivedoc.cloneNode(true).toElement(); // Needed for folders
     QDomNode multitrack = m_document.elementsByTagName("multitrack").at(0);
     QDomNodeList playlists = m_document.elementsByTagName("playlist");
 
@@ -322,7 +327,46 @@ void KdenliveDoc::convertDocument(double version) {
         }
         track.setAttribute("producer", playlist_id);
         //tractor.appendChild(track);
+#define KEEP_TRACK_ORDER 1
+#ifdef KEEP_TRACK_ORDER
         tractor.insertAfter(track, QDomNode());
+#else
+        // Insert the new track in an order that hopefully matches the 3 video, then 2 audio tracks of Kdenlive 0.7.0
+        // insertion sort - O( tracks*tracks )
+        // Note, this breaks _all_ transitions - but you can move them up and down afterwards.
+        QDomElement tractor_elem = tractor.toElement();
+        if (! tractor_elem.isNull()) {
+            QDomNodeList tracks = tractor_elem.elementsByTagName("track");
+            int size = tracks.size();
+            if (size == 0) {
+                tractor.insertAfter(track, QDomNode());
+            } else {
+                bool inserted = false;
+                for (int i = 0; i < size; ++i) {
+                    QDomElement track_elem = tracks.at(i).toElement();
+                    if (track_elem.isNull()) {
+                        tractor.insertAfter(track, QDomNode());
+                        inserted = true;
+                        break;
+                    } else {
+                        kDebug() << "playlist_id: " << playlist_id << " producer:" << track_elem.attribute("producer");
+                        if (playlist_id < track_elem.attribute("producer")) {
+                            tractor.insertBefore(track, track_elem);
+                            inserted = true;
+                            break;
+                        }
+                    }
+                }
+                // Reach here, no insertion, insert last
+                if (!inserted) {
+                    tractor.insertAfter(track, QDomNode());
+                }
+            }
+        } else {
+            kWarning() << "tractor was not a QDomElement";
+            tractor.insertAfter(track, QDomNode());
+        }
+#endif
     }
     tractor.removeChild(multitrack);
 
@@ -536,7 +580,76 @@ void KdenliveDoc::convertDocument(double version) {
 
     QDomNode westley0 = m_document.elementsByTagName("westley").at(0);
     if (!markers.firstChild().isNull()) westley0.appendChild(markers);
+
+
+    // Convert as much of the kdenlivedoc as possible. Use the producer in westley
+    // First, remove the old stuff from westley, and add a new empty one
     westley0.removeChild(kdenlivedoc);
+    QDomElement kdenlivedoc_new = m_document.createElement("kdenlivedoc");
+    kdenlivedoc_new.setAttribute("profile", profile);
+    // Add all the producers that has a ressource in westley
+    QDomElement westley_element = westley0.toElement();
+    if (westley_element.isNull()) {
+        kWarning() << "westley0 element in document was not a QDomElement - unable to add producers to new kdenlivedoc";
+    } else {
+        QDomNodeList wproducers = westley_element.elementsByTagName("producer");
+        int kmax = wproducers.count();
+        for (int i = 0; i < kmax; i++) {
+            QDomElement wproducer = wproducers.at(i).toElement();
+            if (wproducer.isNull()) {
+                kWarning() << "Found producer in westley0, that was not a QDomElement";
+            } else {
+                QDomElement kproducer = m_document.createElement("kdenlive_producer");
+                kproducer.setAttribute("id", wproducer.attribute("id"));
+                kproducer.setAttribute("description", wproducer.attribute("description"));
+                kproducer.setAttribute("resource", wproducer.attribute("resource"));
+                kproducer.setAttribute("type", wproducer.attribute("type"));
+                kdenlivedoc_new.appendChild(kproducer);
+            }
+        }
+    }
+//#define LOOKUP_FOLDER
+#ifdef LOOKUP_FOLDER
+    // Look through all the folder elements of the old doc, for each folder, for each producer,
+    // get the id, look it up in the new doc, set the groupname and groupid
+    // Note, this does not work at the moment - at least one folders shows up missing, and clips with no folder
+    // does not show up.
+    //    QDomElement kdenlivedoc_old = kdenlivedoc.toElement();
+    if (!kdenlivedoc_old.isNull()) {
+        QDomNodeList folders = kdenlivedoc_old.elementsByTagName("folder");
+        int fsize = folders.size();
+        int groupId = 1; // start at 2... Should work?
+        for (int i = 0; i < fsize; ++i) {
+            QDomElement folder = folders.at(i).toElement();
+            if (!folder.isNull()) {
+                QString groupName = folder.attribute("name");
+                kDebug() << "groupName: " << groupName;
+                ++groupId;
+                QDomNodeList fproducers = folder.elementsByTagName("producer");
+                int psize = fproducers.size();
+                for (int j = 0; j < psize; ++j) {
+                    QDomElement fproducer = fproducers.at(j).toElement();
+                    if (!fproducer.isNull()) {
+                        QString id = fproducer.attribute("id");
+                        // This is not very effective, but compared to loading the clips, its a breeze
+                        QDomNodeList kdenlive_producers = kdenlivedoc_new.elementsByTagName("kdenlive_producer");
+                        int kpsize = kdenlive_producers.size();
+                        for (int k = 0; k < kpsize; ++k) {
+                            QDomElement kproducer = kdenlive_producers.at(k).toElement(); // Its an element for sure
+                            if (id == kproducer.attribute("id")) {
+                                // We do not check that it already is part of a folder
+                                kproducer.setAttribute("groupid", groupId);
+                                kproducer.setAttribute("groupname", groupName);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+#endif
+    westley0.appendChild(kdenlivedoc_new);
 
     QDomNodeList elements = westley.childNodes();
     max = elements.count();
@@ -548,7 +661,17 @@ void KdenliveDoc::convertDocument(double version) {
     westley0.removeChild(westley);
 
     //kDebug() << "/////////////////  CONVERTED DOC:";
-    //kDebug() << m_document.toString();
+    // kDebug() << m_document.toString();
+    /*
+    QFile file( "converted.kdenlive" );
+    if ( file.open( QIODevice::WriteOnly ) ) {
+      QTextStream stream( &file );
+      stream << m_document.toString();
+      file.close();
+    } else {
+      kDebug() << "Unable to dump file to converted.kdenlive";
+    }
+    */
     //kDebug() << "/////////////////  END CONVERTED DOC:";
 }
 

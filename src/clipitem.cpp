@@ -556,7 +556,9 @@ void ClipItem::paint(QPainter *painter,
         const int mappedEndPixel =  painter->matrix().map(QPointF(endpixel + cropLeft, 0)).x() - clipStart;
         cropLeft = cropLeft * scale;
 
-        emit prepareAudioThumb(scale, mappedStartPixel, mappedEndPixel, channels);
+        if (channels >= 1) {
+            emit prepareAudioThumb(scale, mappedStartPixel, mappedEndPixel, channels);
+        }
 
         for (int startCache = mappedStartPixel - (mappedStartPixel) % 100; startCache < mappedEndPixel; startCache += 100) {
             if (audioThumbCachePic.contains(startCache) && !audioThumbCachePic[startCache].isNull())
@@ -791,6 +793,12 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
         pixpainter.setPen(audiopen);
         //pixpainter.setRenderHint(QPainter::Antialiasing,true);
         //pixpainter.drawLine(0,0,100,re.height());
+        // Bail out, if caller provided invalid data
+        if (channels <= 0) {
+            kWarning() << "Unable to draw image with " << channels << "number of channels";
+            return;
+        }
+
         int channelHeight = audioThumbCachePic[startCache].height() / channels;
 
         for (int i = 0;i < channels;i++) {
