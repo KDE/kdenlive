@@ -489,7 +489,7 @@ void ClipItem::paint(QPainter *painter,
     //QPainterPath roundRectPathUpper = upperRectPart(br), roundRectPathLower = lowerRectPart(br);
     painter->setClipRect(exposed);
 
-    // build path around clip
+    //build path around clip
     //QPainterPath resultClipPath = roundRectPathUpper.united(roundRectPathLower);
     //painter->fillPath(resultClipPath, paintColor);
     painter->fillRect(br, paintColor);
@@ -1075,7 +1075,7 @@ QDomElement ClipItem::effectAt(int ix) {
 }
 
 void ClipItem::setEffectAt(int ix, QDomElement effect) {
-    kDebug() << "CHange EFFECT AT: " << ix << ", CURR: " << m_effectList.at(ix).attribute("tag") << ", NEW: " << effect.attribute("tag");
+    kDebug() << "CHange EFFECT AT: " << ix << ", CURR: " << m_effectList.at(ix).attribute("tag") << ", NEW: " << effect.attribute("tag");
     effect.setAttribute("kdenlive_ix", ix + 1);
     m_effectList.insert(ix, effect);
     m_effectList.removeAt(ix + 1);

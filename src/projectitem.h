@@ -31,6 +31,10 @@
 #include "definitions.h"
 
 class DocClipBase;
+
+/** \brief Represents a clip or a folder in the projecttree
+ *
+ * This class represents a clip or folder in the projecttree and in the document(?) */
 class ProjectItem : public QTreeWidgetItem {
 public:
     /** Create folder item */
@@ -42,6 +46,10 @@ public:
     int numReferences() const;
 
     void setProperties(const QMap < QString, QString > &attributes, const QMap < QString, QString > &metadata);
+
+    /** \brief The id of the clip or folder.
+     *
+     * The clipId is used both to identify clips and folders (groups) */
     const QString &clipId() const;
     QStringList names() const;
     bool isGroup() const;

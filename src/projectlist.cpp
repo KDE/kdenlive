@@ -259,7 +259,7 @@ void ProjectList::slotDeleteClip(const QString &clipId) {
     ProjectItem *item = getItemById(clipId);
     QTreeWidgetItem *p = item->parent();
     if (p) {
-        kDebug() << "///////  DELETEED CLIP HAS A PARENT... " << p->indexOfChild(item);
+        kDebug() << "///////  DELETED CLIP HAS A PARENT... " << p->indexOfChild(item);
         QTreeWidgetItem *clone = p->takeChild(p->indexOfChild(item));
     } else if (item) {
         delete item;
@@ -314,17 +314,21 @@ void ProjectList::slotAddFolder(const QString foldername, const QString &clipId,
 
 void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties) {
     const QString parent = clip->getProperty("groupid");
+    //kDebug() << "Adding clip with groupid: " << parent;
     ProjectItem *item = NULL;
     if (!parent.isEmpty()) {
         ProjectItem *parentitem = getItemById(parent);
         if (!parentitem) {
             QStringList text;
             QString groupName = clip->getProperty("groupname");
+            //kDebug() << "Adding clip to new group: " << groupName;
             if (groupName.isEmpty()) groupName = i18n("Folder");
             text << QString() << groupName;
             listView->blockSignals(true);
             parentitem = new ProjectItem(listView, text, parent);
             listView->blockSignals(false);
+        } else {
+            //kDebug() << "Adding clip to existing group: " << parentitem->groupName();
         }
         if (parentitem) item = new ProjectItem(parentitem, clip);
     }
@@ -406,7 +410,7 @@ void ProjectList::updateAllClips() {
 }
 
 void ProjectList::slotAddClip(QUrl givenUrl, QString group) {
-    if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!!  NO CMD STK";
+    if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
     KUrl::List list;
     if (givenUrl.isEmpty()) {
         list = KFileDialog::getOpenUrls(KUrl("kfiledialog:///clipfolder"), "application/x-kdenlive application/x-flash-video application/vnd.rn-realmedia video/x-dv video/dv video/x-msvideo video/mpeg video/x-ms-wmv audio/mpeg audio/x-mp3 audio/x-wav application/ogg video/mp4 video/quicktime image/gif image/jpeg image/png image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr video/mlt-playlist audio/x-flac audio/mp4", this);
@@ -444,7 +448,7 @@ void ProjectList::slotRemoveInvalidClip(const QString &id) {
 }
 
 void ProjectList::slotAddColorClip() {
-    if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!!  NO CMD STK";
+    if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
     QDialog *dia = new QDialog(this);
     Ui::ColorClip_UI *dia_ui = new Ui::ColorClip_UI();
     dia_ui->setupUi(dia);
@@ -476,7 +480,7 @@ void ProjectList::slotAddColorClip() {
 
 
 void ProjectList::slotAddSlideshowClip() {
-    if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!!  NO CMD STK";
+    if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
     SlideshowClip *dia = new SlideshowClip(this);
 
     if (dia->exec() == QDialog::Accepted) {
@@ -609,11 +613,19 @@ ProjectItem *ProjectList::getItemById(const QString &id) {
     QTreeWidgetItemIterator it(listView);
     while (*it) {
         if (((ProjectItem *)(*it))->clipId() == id)
+            return static_cast<ProjectItem *>(*it);
+        ++it;
+    }
+    return NULL;
+#ifdef USED_TO_BE_THIS
+    while (*it) {
+        if (((ProjectItem *)(*it))->clipId() == id)
             break;
         ++it;
     }
     if (*it) return ((ProjectItem *)(*it));
     return NULL;
+#endif
 }
 
 void ProjectList::slotSelectClip(const QString &ix) {

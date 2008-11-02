@@ -45,6 +45,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, cons
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     setIcon(0, KIcon("folder"));
     setToolTip(1, "<qt><b>" + i18n("Folder"));
+    //kDebug() << "Constructed as folder, with clipId: " << m_clipId << ", and groupname: " << m_groupname;
 }
 
 ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
@@ -60,7 +61,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
     setText(2, m_clip->description());
     if ((m_clip->clipType() == AV || m_clip->clipType() == AUDIO) && KdenliveSettings::audiothumbnails()) m_clip->askForAudioThumbs();
     //setFlags(Qt::NoItemFlags);
-    //kDebug() << "PROJECT ITE;. ADDING LCIP: " << m_clipId;
+    //kDebug() << "Constructed with clipId: " << m_clipId;
 }
 
 ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip)
@@ -76,7 +77,7 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip)
     setText(2, m_clip->description());
     if ((m_clip->clipType() == AV || m_clip->clipType() == AUDIO) && KdenliveSettings::audiothumbnails()) m_clip->askForAudioThumbs();
     //setFlags(Qt::NoItemFlags);
-    //kDebug() << "PROJECT ITE;. ADDING LCIP: " << m_clipId;
+    //kDebug() << "Constructed with clipId: " << m_clipId;
 }
 
 
@@ -202,7 +203,7 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
         GenTime duration = GenTime(attributes["duration"].toInt(), KdenliveSettings::project_fps());
         setData(1, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
         m_clip->setDuration(duration);
-        //kDebug() << "//// LOADED CLIP, DURATION SET TO: " << duration.frames(KdenliveSettings::project_fps());
+        //kDebug() << "//// LOADED CLIP, DURATIONÂ SET TO: " << duration.frames(KdenliveSettings::project_fps());
     } else  {
         // No duration known, use an arbitrary one until it is.
     }
