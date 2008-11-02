@@ -135,7 +135,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                 kDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
             } else {
                 parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file."), 100);
-                kWarning() << "  NO KDENLIVE INFO FOUND IN FILE: " << url.path();
+                kWarning() << "  NO KDENLIVE INFO FOUND IN FILE: " << url.path();
                 m_document = createEmptyDocument(tracks.x(), tracks.y());
                 setProfilePath(profileName);
             }
@@ -584,6 +584,8 @@ void KdenliveDoc::convertDocument(double version) {
 
     // Convert as much of the kdenlivedoc as possible. Use the producer in westley
     // First, remove the old stuff from westley, and add a new empty one
+    // Also, track the max id in order to use it for the adding of groups/folders
+    int max_kproducer_id = 0;
     westley0.removeChild(kdenlivedoc);
     QDomElement kdenlivedoc_new = m_document.createElement("kdenlivedoc");
     kdenlivedoc_new.setAttribute("profile", profile);
@@ -605,10 +607,13 @@ void KdenliveDoc::convertDocument(double version) {
                 kproducer.setAttribute("resource", wproducer.attribute("resource"));
                 kproducer.setAttribute("type", wproducer.attribute("type"));
                 kdenlivedoc_new.appendChild(kproducer);
+                if (wproducer.attribute("id").toInt() > max_kproducer_id) {
+                    max_kproducer_id = wproducer.attribute("id").toInt();
+                }
             }
         }
     }
-//#define LOOKUP_FOLDER
+#define LOOKUP_FOLDER 1
 #ifdef LOOKUP_FOLDER
     // Look through all the folder elements of the old doc, for each folder, for each producer,
     // get the id, look it up in the new doc, set the groupname and groupid
@@ -618,13 +623,12 @@ void KdenliveDoc::convertDocument(double version) {
     if (!kdenlivedoc_old.isNull()) {
         QDomNodeList folders = kdenlivedoc_old.elementsByTagName("folder");
         int fsize = folders.size();
-        int groupId = 1; // start at 2... Should work?
+        int groupId = max_kproducer_id + 1; // Start at +1 of max id of the kdenlive_producers
         for (int i = 0; i < fsize; ++i) {
             QDomElement folder = folders.at(i).toElement();
             if (!folder.isNull()) {
                 QString groupName = folder.attribute("name");
-                kDebug() << "groupName: " << groupName;
-                ++groupId;
+                kDebug() << "groupName: " << groupName << " with groupId: " << groupId;
                 QDomNodeList fproducers = folder.elementsByTagName("producer");
                 int psize = fproducers.size();
                 for (int j = 0; j < psize; ++j) {
@@ -645,6 +649,7 @@ void KdenliveDoc::convertDocument(double version) {
                         }
                     }
                 }
+                ++groupId;
             }
         }
     }
