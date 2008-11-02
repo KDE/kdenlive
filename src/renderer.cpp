@@ -416,7 +416,7 @@ void Render::slotSplitView(bool doit) {
                 transition->set("b_track", i);
                 transition->set("distort", 1);
                 transition->set("internal_added", "200");
-                char *tmp;
+                const char *tmp;
                 switch (screen) {
                 case 0:
                     tmp = "0,0:50%x50%";
