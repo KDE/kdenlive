@@ -40,7 +40,7 @@ ItemInfo AbstractClipItem::info() const {
     ItemInfo itemInfo;
     itemInfo.startPos = startPos();
     itemInfo.endPos = endPos();
-    itemInfo.cropStart = cropStart();
+    itemInfo.cropStart = m_cropStart;
     itemInfo.track = track();
     return itemInfo;
 }
@@ -57,26 +57,34 @@ GenTime AbstractClipItem::cropStart() const {
     return m_cropStart;
 }
 
+GenTime AbstractClipItem::cropDuration() const {
+    return m_cropDuration;
+}
+
 void AbstractClipItem::setCropStart(GenTime pos) {
     m_cropStart = pos;
 }
 
-void AbstractClipItem::resizeStart(int posx) {
+void AbstractClipItem::updateRectGeometry() {
+    setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
+}
+
+void AbstractClipItem::resizeStart(int posx, double speed) {
     GenTime durationDiff = GenTime(posx, m_fps) - m_startPos;
     if (durationDiff == GenTime()) return;
-    //kDebug() << "-- RESCALE: CROP=" << m_cropStart << ", DIFF = " << durationDiff;
+    kDebug() << "-- RESCALE: CROP=" << m_cropStart.frames(25) << " - " << cropStart().frames(25);
 
-    if (type() == AVWIDGET && m_cropStart + durationDiff < GenTime()) {
-        durationDiff = GenTime() - m_cropStart;
+    if (type() == AVWIDGET && cropStart() + durationDiff < GenTime()) {
+        durationDiff = GenTime() - cropStart();
     } else if (durationDiff >= m_cropDuration) {
         durationDiff = m_cropDuration - GenTime(3, m_fps);
     }
 
     m_startPos += durationDiff;
-    if (type() == AVWIDGET) m_cropStart += durationDiff;
-    m_cropDuration = m_cropDuration - durationDiff;
+    if (type() == AVWIDGET) m_cropStart += durationDiff * speed;
+    m_cropDuration = m_cropDuration - durationDiff * speed;
 
-    setRect(0, 0, m_cropDuration.frames(m_fps) - 0.02, rect().height());
+    setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
     setPos((qreal) m_startPos.frames(m_fps), pos().y());
     //setRect((double) m_startPos.frames(m_fps) * scale, rect().y(), (double) m_cropDuration.frames(m_fps) * scale, rect().height());
     if (durationDiff < GenTime()) {
@@ -97,17 +105,20 @@ void AbstractClipItem::resizeStart(int posx) {
     }
 }
 
-void AbstractClipItem::resizeEnd(int posx, bool updateKeyFrames) {
+void AbstractClipItem::resizeEnd(int posx, double speed, bool updateKeyFrames) {
     GenTime durationDiff = GenTime(posx, m_fps) - endPos();
     if (durationDiff == GenTime()) return;
     //kDebug() << "-- RESCALE: CROP=" << m_cropStart << ", DIFF = " << durationDiff;
-    if (m_cropDuration + durationDiff <= GenTime()) {
-        durationDiff = GenTime() - (m_cropDuration - GenTime(3, m_fps));
-    } else if (m_cropStart + m_cropDuration + durationDiff >= maxDuration()) {
-        durationDiff = maxDuration() - m_cropDuration - m_cropStart;
+    kDebug() << "// DUR DIFF1:" << durationDiff.frames(25) << ", ADJUSTED: " << durationDiff.frames(25) * speed << ", SPED:" << speed;
+    if (cropDuration() + durationDiff <= GenTime()) {
+        durationDiff = GenTime() - (cropDuration() - GenTime(3, m_fps));
+    } else if (cropStart() + cropDuration() + durationDiff >= maxDuration()) {
+        kDebug() << "// MAX OVERLOAD:" << cropDuration().frames(25) << " + " << durationDiff.frames(25) << ", MAX:" << maxDuration().frames(25);
+        durationDiff = maxDuration() - cropDuration() - cropStart();
     }
-    m_cropDuration += durationDiff;
-    setRect(0, 0, m_cropDuration.frames(m_fps) - 0.02, rect().height());
+    kDebug() << "// DUR DIFF2:" << durationDiff.frames(25) << ", ADJUSTED: " << durationDiff.frames(25) * speed << ", SPED:" << speed;
+    m_cropDuration += durationDiff * speed;
+    setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
     if (durationDiff > GenTime()) {
         QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
         for (int i = 0; i < collisionList.size(); ++i) {

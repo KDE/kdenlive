@@ -46,8 +46,8 @@ public:
                        const QStyleOptionGraphicsItem *option,
                        QWidget *);
     virtual int type() const;
-    void resizeStart(int posx);
-    void resizeEnd(int posx, bool updateKeyFrames = true);
+    void resizeStart(int posx, double speed = 1.0);
+    void resizeEnd(int posx, double speed = 1.0, bool updateKeyFrames = true);
     OPERATIONTYPE operationMode(QPointF pos);
     const QString &clipProducer() const;
     int clipType() const;
@@ -96,6 +96,9 @@ public:
     void setSpeed(const double speed);
     double speed() const;
     GenTime maxDuration() const;
+    GenTime cropStart() const;
+    GenTime endPos() const;
+    GenTime cropDuration() const;
     int hasEffect(const QString &tag, const QString &id) const;
     bool checkKeyFrames();
 

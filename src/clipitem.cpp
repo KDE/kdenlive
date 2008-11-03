@@ -336,7 +336,7 @@ void ClipItem::slotFetchThumbs() {
     if (m_endPix.isNull() && m_startPix.isNull()) {
         m_startThumbRequested = true;
         m_endThumbRequested = true;
-        emit getThumb((int)m_cropStart.frames(m_fps), (int)(m_cropStart + m_cropDuration).frames(m_fps) - 1);
+        emit getThumb((int)cropStart().frames(m_fps), (int)(cropStart() + cropDuration()).frames(m_fps) - 1);
     } else {
         if (m_endPix.isNull()) {
             slotGetEndThumb();
@@ -362,14 +362,14 @@ void ClipItem::slotFetchThumbs() {
 
 void ClipItem::slotGetStartThumb() {
     m_startThumbRequested = true;
-    emit getThumb((int)m_cropStart.frames(m_fps), -1);
+    emit getThumb((int)cropStart().frames(m_fps), -1);
     //videoThumbProducer.setThumbFrames(m_clip->producer(), (int)m_cropStart.frames(m_fps),  - 1);
     //videoThumbProducer.start(QThread::LowestPriority);
 }
 
 void ClipItem::slotGetEndThumb() {
     m_endThumbRequested = true;
-    emit getThumb(-1, (int)(m_cropStart + m_cropDuration).frames(m_fps) - 1);
+    emit getThumb(-1, (int)(cropStart() + cropDuration()).frames(m_fps) - 1);
     //videoThumbProducer.setThumbFrames(m_clip->producer(), -1, (int)(m_cropStart + m_cropDuration).frames(m_fps) - 1);
     //videoThumbProducer.start(QThread::LowestPriority);
 }
@@ -399,12 +399,12 @@ void ClipItem::slotThumbReady(int frame, QPixmap pix) {
     if (scene() == NULL) return;
     QRectF r = sceneBoundingRect();
     double width = m_startPix.width() / projectScene()->scale();
-    if (m_startThumbRequested && frame == m_cropStart.frames(m_fps)) {
+    if (m_startThumbRequested && frame == cropStart().frames(m_fps)) {
         m_startPix = pix;
         m_startThumbRequested = false;
         double height = r.height();
         update(r.x(), r.y(), width, height);
-    } else if (m_endThumbRequested && frame == (m_cropStart + m_cropDuration).frames(m_fps) - 1) {
+    } else if (m_endThumbRequested && frame == (cropStart() + cropDuration()).frames(m_fps) - 1) {
         m_endPix = pix;
         m_endThumbRequested = false;
         double height = r.height();
@@ -528,7 +528,7 @@ void ClipItem::paint(QPainter *painter,
     }
 
     // draw audio thumbnails
-    if (KdenliveSettings::audiothumbnails() && ((m_clipType == AV && exposed.bottom() > (itemHeight / 2)) || m_clipType == AUDIO) && audioThumbReady) {
+    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && ((m_clipType == AV && exposed.bottom() > (itemHeight / 2)) || m_clipType == AUDIO) && audioThumbReady) {
 
         double startpixel = exposed.left();
         if (startpixel < 0)
@@ -921,12 +921,12 @@ void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *) {
     update(r.right() - width, r.y() + height, width, height);
 }
 
-void ClipItem::resizeStart(int posx) {
+void ClipItem::resizeStart(int posx, double speed) {
     const int min = (startPos() - cropStart()).frames(m_fps);
     if (posx < min) posx = min;
     if (posx == startPos().frames(m_fps)) return;
     const int previous = cropStart().frames(m_fps);
-    AbstractClipItem::resizeStart(posx);
+    AbstractClipItem::resizeStart(posx, m_speed);
     checkEffectsKeyframesPos(previous, cropStart().frames(m_fps), true);
     if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
         /*connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));*/
@@ -934,12 +934,13 @@ void ClipItem::resizeStart(int posx) {
     }
 }
 
-void ClipItem::resizeEnd(int posx, bool updateKeyFrames) {
+void ClipItem::resizeEnd(int posx, double speed, bool updateKeyFrames) {
     const int max = (startPos() - cropStart() + maxDuration()).frames(m_fps) + 1;
     if (posx > max) posx = max;
     if (posx == endPos().frames(m_fps)) return;
+    kDebug() << "// NEW POS: " << posx << ", OLD END: " << endPos().frames(m_fps);
     const int previous = (cropStart() + duration()).frames(m_fps);
-    AbstractClipItem::resizeEnd(posx);
+    AbstractClipItem::resizeEnd(posx, m_speed);
     if (updateKeyFrames) checkEffectsKeyframesPos(previous, (cropStart() + duration()).frames(m_fps), false);
     if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
         /*connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));*/
@@ -1223,11 +1224,23 @@ void ClipItem::setSpeed(const double speed) {
     m_speed = speed;
     if (m_speed == 1.0) m_clipName = baseClip()->name();
     else m_clipName = baseClip()->name() + " - " + QString::number(speed * 100, 'f', 0) + "%";
-    update();
+    //update();
 }
 
 GenTime ClipItem::maxDuration() const {
     return m_maxDuration / m_speed;
+}
+
+GenTime ClipItem::cropStart() const {
+    return m_cropStart / m_speed;
+}
+
+GenTime ClipItem::cropDuration() const {
+    return m_cropDuration / m_speed;
+}
+
+GenTime ClipItem::endPos() const {
+    return m_startPos + cropDuration();
 }
 
 //virtual

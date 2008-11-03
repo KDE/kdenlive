@@ -29,12 +29,12 @@ ChangeSpeedCommand::ChangeSpeedCommand(CustomTrackView *view, ItemInfo info, dou
 
 // virtual
 void ChangeSpeedCommand::undo() {
-    m_view->doChangeClipSpeed(m_clipInfo, m_old_speed, m_clipId);
+    m_view->doChangeClipSpeed(m_clipInfo, m_old_speed, m_new_speed, m_clipId);
 }
 // virtual
 void ChangeSpeedCommand::redo() {
     if (m_doIt) {
-        m_view->doChangeClipSpeed(m_clipInfo, m_new_speed, m_clipId);
+        m_view->doChangeClipSpeed(m_clipInfo, m_new_speed, m_old_speed, m_clipId);
     }
     m_doIt = true;
 }

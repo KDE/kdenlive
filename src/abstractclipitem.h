@@ -40,6 +40,7 @@ public:
     double keyFrameFactor() const;
     ItemInfo info() const;
     CustomTrackScene* projectScene();
+    void updateRectGeometry();
 
     virtual  OPERATIONTYPE operationMode(QPointF pos) = 0;
     virtual GenTime startPos() const ;
@@ -47,8 +48,9 @@ public:
     virtual GenTime endPos() const ;
     virtual int track() const ;
     virtual GenTime cropStart() const ;
-    virtual void resizeStart(int posx);
-    virtual void resizeEnd(int posx, bool updateKeyFrames = true);
+    virtual GenTime cropDuration() const ;
+    virtual void resizeStart(int posx, double speed = 1.0);
+    virtual void resizeEnd(int posx, double speed = 1.0, bool updateKeyFrames = true);
     virtual GenTime duration() const;
     virtual double fps() const;
     virtual GenTime maxDuration() const;

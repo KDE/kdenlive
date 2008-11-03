@@ -1528,7 +1528,7 @@ void CustomTrackView::changeClipSpeed() {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             ItemInfo info = item->info();
-            int percent = QInputDialog::getInteger(this, i18n("Edit Clip Speed"), i18n("New speed (percents)"), 100, 1, 300);
+            int percent = QInputDialog::getInteger(this, i18n("Edit Clip Speed"), i18n("New speed (percents)"), item->speed() * 100, 1, 300);
             double speed = (double) percent / 100.0;
             if (item->speed() != speed)
                 new ChangeSpeedCommand(this, info, item->speed(), speed, item->clipProducer(), true, changeSelected);
@@ -1537,20 +1537,18 @@ void CustomTrackView::changeClipSpeed() {
     m_commandStack->push(changeSelected);
 }
 
-void CustomTrackView::doChangeClipSpeed(ItemInfo info, double speed, const QString &id) {
+void CustomTrackView::doChangeClipSpeed(ItemInfo info, const double speed, const double oldspeed, const QString &id) {
+
     DocClipBase *baseclip = m_document->clipManager()->getClipById(id);
     ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()) + 1, info.track);
     info.track = m_scene->m_tracksList.count() - item->track();
-    m_document->renderer()->mltChangeClipSpeed(info, speed, baseclip->producer());
+    int endPos = m_document->renderer()->mltChangeClipSpeed(info, speed, oldspeed, baseclip->producer());
+    kDebug() << "//CH CLIP SPEED: " << speed << "x" << oldspeed << ", END POS: " << endPos;
     item->setSpeed(speed);
-    GenTime maxDuration = item->maxDuration();
-    if (maxDuration < item->duration()) {
-        info = item->info();
-        ItemInfo endInfo = info;
-        endInfo.endPos = info.startPos + maxDuration;
-        ResizeClipCommand *command = new ResizeClipCommand(this, info, endInfo, true);
-        m_commandStack->push(command);
-    }
+    item->updateRectGeometry();
+    kDebug() << "// SPD CHG: " << item->cropDuration().frames(m_document->fps()) << " - " << endPos;
+    if (item->cropDuration().frames(m_document->fps()) > endPos)
+        item->AbstractClipItem::resizeEnd(info.startPos.frames(m_document->fps()) + endPos, speed);
 }
 
 void CustomTrackView::cutSelectedClips() {

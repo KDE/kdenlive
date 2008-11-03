@@ -1445,7 +1445,7 @@ bool Render::mltRemoveClip(int track, GenTime position) {
     return true;
 }
 
-int Render::mltChangeClipSpeed(ItemInfo info, double speed, Mlt::Producer *prod) {
+int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt::Producer *prod) {
     m_isBlocked = true;
     int newLength = 0;
     Mlt::Service service(m_mltProducer->parent().get_service());
@@ -1454,7 +1454,10 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, Mlt::Producer *prod)
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(info.track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    int clipIndex = trackPlaylist.get_clip_index_at((int) info.startPos.frames(m_fps));
+    int startPos = info.startPos.frames(m_fps);
+    int clipIndex = trackPlaylist.get_clip_index_at(startPos);
+    int clipLength = trackPlaylist.clip_length(clipIndex);
+
     Mlt::Producer clip(trackPlaylist.get_clip(clipIndex));
     QString serv = clip.parent().get("mlt_service");
     QString id = clip.parent().get("id");
@@ -1474,20 +1477,42 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, Mlt::Producer *prod)
             delete[] tmp;
             m_slowmotionProducers.insert(url, slowprod);
         }
-        Mlt::Producer *cut = slowprod->cut(info.cropStart.frames(m_fps), (info.endPos - info.startPos).frames(m_fps) - 1);
-        newLength = cut->get_length();
         trackPlaylist.replace_with_blank(clipIndex);
         trackPlaylist.consolidate_blanks(0);
-        trackPlaylist.insert_at((int) info.startPos.frames(m_fps), *cut, 1);
+        // Check that the blank space is long enough for our new duration
+        clipIndex = trackPlaylist.get_clip_index_at(startPos);
+        int blankEnd = trackPlaylist.clip_start(clipIndex) + trackPlaylist.clip_length(clipIndex);
+        Mlt::Producer *cut;
+        if (clipIndex + 1 < trackPlaylist.count() && (startPos + clipLength / speed > blankEnd)) {
+            GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
+            cut = slowprod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)(info.cropStart.frames(m_fps) / speed + maxLength.frames(m_fps) - 1));
+        } else cut = slowprod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)((info.cropStart.frames(m_fps) + clipLength) / speed - 1));
+        trackPlaylist.insert_at(startPos, *cut, 1);
+        clipIndex = trackPlaylist.get_clip_index_at(startPos);
+        newLength = trackPlaylist.clip_length(clipIndex);
         mlt_service_unlock(service.get_service());
     } else if (speed == 1.0) {
         mlt_service_lock(service.get_service());
-        Mlt::Producer *cut = prod->cut(info.cropStart.frames(m_fps), (info.endPos - info.startPos).frames(m_fps) - 1);
+
         trackPlaylist.replace_with_blank(clipIndex);
-        newLength = cut->get_length();
         trackPlaylist.consolidate_blanks(0);
-        trackPlaylist.insert_at((int) info.startPos.frames(m_fps), *cut, 1);
+
+        // Check that the blank space is long enough for our new duration
+        clipIndex = trackPlaylist.get_clip_index_at(startPos);
+        int blankEnd = trackPlaylist.clip_start(clipIndex) + trackPlaylist.clip_length(clipIndex);
+
+        Mlt::Producer *cut;
+        GenTime oldDuration = GenTime(clipLength, m_fps);
+        GenTime newDuration = oldDuration * oldspeed;
+        if (clipIndex + 1 < trackPlaylist.count() && (info.startPos + newDuration).frames(m_fps) > blankEnd) {
+            GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
+            cut = prod->cut((int)(info.cropStart.frames(m_fps)), (int)(info.cropStart.frames(m_fps) + maxLength.frames(m_fps) - 1));
+        } else cut = prod->cut((int)(info.cropStart.frames(m_fps)), (int)((info.cropStart + newDuration).frames(m_fps)) - 1);
+        trackPlaylist.insert_at(startPos, *cut, 1);
+        clipIndex = trackPlaylist.get_clip_index_at(startPos);
+        newLength = trackPlaylist.clip_length(clipIndex);
         mlt_service_unlock(service.get_service());
+
     } else if (serv == "framebuffer") {
         mlt_service_lock(service.get_service());
         QString url = clip.parent().get("resource");
@@ -1504,15 +1529,29 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, Mlt::Producer *prod)
             delete[] tmp;
             m_slowmotionProducers.insert(url, slowprod);
         }
-        Mlt::Producer *cut = slowprod->cut(info.cropStart.frames(m_fps), (info.endPos - info.startPos).frames(m_fps) - 1);
-        newLength = cut->get_length();
         trackPlaylist.replace_with_blank(clipIndex);
         trackPlaylist.consolidate_blanks(0);
-        trackPlaylist.insert_at((int) info.startPos.frames(m_fps), *cut, 1);
-        mlt_service_unlock(service.get_service());
-        kDebug() << "AVFORMAT CLIP!!!:";
-    }
 
+        GenTime oldDuration = GenTime(clipLength, m_fps);
+        GenTime newDuration = oldDuration * oldspeed / speed;
+
+        // Check that the blank space is long enough for our new duration
+        clipIndex = trackPlaylist.get_clip_index_at(startPos);
+        int blankEnd = trackPlaylist.clip_start(clipIndex) + trackPlaylist.clip_length(clipIndex);
+
+        Mlt::Producer *cut;
+        if (clipIndex + 1 < trackPlaylist.count() && (info.startPos + newDuration).frames(m_fps) > blankEnd) {
+            GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
+            cut = slowprod->cut((int)(info.cropStart.frames(m_fps)), (int)(info.cropStart.frames(m_fps) + maxLength.frames(m_fps) - 1));
+        } else cut = slowprod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)((info.cropStart / speed + newDuration).frames(m_fps) - 1));
+
+        trackPlaylist.insert_at(startPos, *cut, 1);
+        clipIndex = trackPlaylist.get_clip_index_at(startPos);
+        newLength = trackPlaylist.clip_length(clipIndex);
+
+        mlt_service_unlock(service.get_service());
+    }
+    if (clipIndex + 1 == trackPlaylist.count()) mltCheckLength();
     m_isBlocked = false;
     return newLength;
 }
