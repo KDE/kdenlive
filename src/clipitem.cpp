@@ -148,6 +148,20 @@ void ClipItem::initEffect(QDomElement effect) {
             }
         }
     }
+
+    if (effect.attribute("tag") == "volume") {
+        if (effect.attribute("id") == "fadeout") {
+            int end = (duration() + cropStart()).frames(m_fps);
+            int start = end - EffectsList::parameter(effect, "out").toInt();
+            EffectsList::setParameter(effect, "in", QString::number(start));
+            EffectsList::setParameter(effect, "out", QString::number(end));
+        } else if (effect.attribute("id") == "fadein") {
+            int start = cropStart().frames(m_fps);
+            int end = start + EffectsList::parameter(effect, "out").toInt();
+            EffectsList::setParameter(effect, "in", QString::number(start));
+            EffectsList::setParameter(effect, "out", QString::number(end));
+        }
+    }
 }
 
 bool ClipItem::checkKeyFrames() {
@@ -864,6 +878,7 @@ uint ClipItem::fadeOut() const {
 
 
 void ClipItem::setFadeIn(int pos) {
+    if (pos == m_startFade) return;
     int oldIn = m_startFade;
     if (pos < 0) pos = 0;
     if (pos > m_cropDuration.frames(m_fps)) pos = (int)(m_cropDuration.frames(m_fps) / 2);
@@ -873,12 +888,13 @@ void ClipItem::setFadeIn(int pos) {
 }
 
 void ClipItem::setFadeOut(int pos) {
+    if (pos == m_endFade) return;
     int oldOut = m_endFade;
     if (pos < 0) pos = 0;
     if (pos > m_cropDuration.frames(m_fps)) pos = (int)(m_cropDuration.frames(m_fps) / 2);
     m_endFade = pos;
     QRectF rect = boundingRect();
-    update(rect.x() + rect.width() - qMax(oldOut, pos), rect.y(), pos, rect.height());
+    update(rect.x() + rect.width() - qMax(oldOut, pos), rect.y(), qMax(oldOut, pos), rect.height());
 
 }
 

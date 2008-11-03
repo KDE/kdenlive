@@ -164,7 +164,7 @@ EffectsList EffectsList::clone() const {
 }
 
 // static
-void EffectsList::setParameter(QDomElement effect, QString name, QString value) {
+void EffectsList::setParameter(QDomElement effect, const QString &name, const QString &value) {
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
@@ -173,5 +173,17 @@ void EffectsList::setParameter(QDomElement effect, QString name, QString value) 
             break;
         }
     }
+}
+
+// static
+QString EffectsList::parameter(QDomElement effect, const QString &name) {
+    QDomNodeList params = effect.elementsByTagName("parameter");
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        if (e.attribute("name") == name) {
+            return e.attribute("value");
+        }
+    }
+    return QString();
 }
 

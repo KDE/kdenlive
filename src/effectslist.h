@@ -44,7 +44,8 @@ public:
     QMap <QString, QString> effect(const QString & name);
     EffectsList clone() const;
     static bool hasKeyFrames(QDomElement effect);
-    static void setParameter(QDomElement effect, QString name, QString value);
+    static void setParameter(QDomElement effect, const QString &name, const QString &value);
+    static QString parameter(QDomElement effect, const QString &name);
 };
 
 #endif
