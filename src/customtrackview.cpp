@@ -906,11 +906,11 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, i
         if (effect.attribute("tag") == "volume") {
             // A fade effect was modified, update the clip
             if (effect.attribute("id") == "fadein") {
-                int pos = effectParams.value("out").toInt();
+                int pos = effectParams.value("out").toInt() - effectParams.value("in").toInt();
                 clip->setFadeIn(pos);
             }
             if (effect.attribute("id") == "fadeout") {
-                int pos = clip->cropDuration().frames(m_document->fps()) - effectParams.value("in").toInt();
+                int pos = effectParams.value("out").toInt() - effectParams.value("in").toInt();
                 clip->setFadeOut(pos);
             }
 
