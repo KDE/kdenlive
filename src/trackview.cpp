@@ -499,6 +499,15 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                                     n2 = lastParsedEffect;
                                 }
                             }
+			    else {
+				// Check if effect has in/out points
+				if (effect.hasAttribute("in")) {
+				    EffectsList::setParameter(currenteffect, "in",  effect.attribute("in"));
+				}
+				if (effect.hasAttribute("out")) {
+				    EffectsList::setParameter(currenteffect, "out",  effect.attribute("out"));
+				}
+			    }
 
                             // adjust effect parameters
                             for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
