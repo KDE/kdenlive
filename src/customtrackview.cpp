@@ -2393,6 +2393,12 @@ ClipItem *CustomTrackView::getActiveClipUnderCursor() const {
         return getClipUnderCursor();
     } else {
         ClipItem *item;
+        // remove all items in the list that are not clips
+        for (int i = 0; i < clips.count();) {
+            if (clips.at(i)->type() != AVWIDGET) clips.removeAt(i);
+            else i++;
+        }
+        if (clips.count() == 1) return static_cast < ClipItem *>(clips.at(0));
         for (int i = 0; i < clips.count(); ++i) {
             if (clips.at(i)->type() == AVWIDGET)
                 item = static_cast < ClipItem *>(clips.at(i));
