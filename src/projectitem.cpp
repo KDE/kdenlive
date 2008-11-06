@@ -57,6 +57,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
     QString name = m_clip->getProperty("name");
     if (name.isEmpty()) name = KUrl(m_clip->getProperty("resource")).fileName();
     m_clipType = (CLIPTYPE) m_clip->getProperty("type").toInt();
+    if (m_clipType != UNKNOWN) slotSetToolTip();
     setText(1, name);
     setText(2, m_clip->description());
     if ((m_clip->clipType() == AV || m_clip->clipType() == AUDIO) && KdenliveSettings::audiothumbnails()) m_clip->askForAudioThumbs();
@@ -158,31 +159,31 @@ DocClipBase *ProjectItem::referencedClip() {
 void ProjectItem::slotSetToolTip() {
     QString tip = "<qt><b>";
     switch (m_clipType) {
-    case 1:
+    case AUDIO:
         tip.append(i18n("Audio clip") + "</b><br />" + clipUrl().path());
         break;
-    case 2:
+    case VIDEO:
         tip.append(i18n("Mute video clip") + "</b><br />" + clipUrl().path());
         break;
-    case 3:
+    case AV:
         tip.append(i18n("Video clip") + "</b><br />" + clipUrl().path());
         break;
-    case 4:
+    case COLOR:
         tip.append(i18n("Color clip"));
         break;
-    case 5:
+    case IMAGE:
         tip.append(i18n("Image clip") + "</b><br />" + clipUrl().path());
         break;
-    case 6:
+    case TEXT:
         tip.append(i18n("Text clip"));
         break;
-    case 7:
+    case SLIDESHOW:
         tip.append(i18n("Slideshow clip"));
         break;
-    case 8:
+    case VIRTUAL:
         tip.append(i18n("Virtual clip"));
         break;
-    case 9:
+    case PLAYLIST:
         tip.append(i18n("Playlist clip") + "</b><br />" + clipUrl().path());
         break;
     default:
@@ -225,8 +226,8 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
             m_clipType = AV;
         }
         m_clip->setClipType(m_clipType);
+        slotSetToolTip();
     }
-    slotSetToolTip();
     m_clip->setProperties(attributes);
 
     if ((m_clipType == AV || m_clipType == AUDIO) && KdenliveSettings::audiothumbnails()) m_clip->askForAudioThumbs();

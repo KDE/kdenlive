@@ -587,7 +587,11 @@ void ProjectList::slotRefreshClipThumbnail(ProjectItem *item, bool update) {
         if (!item->referencedClip()) return;
         int height = 50;
         int width = (int)(height  * m_render->dar());
-        QPixmap pix = item->referencedClip()->thumbProducer()->extractImage(item->referencedClip()->getClipThumbFrame(), width, height);
+        DocClipBase *clip = item->referencedClip();
+        if (!clip) slotProcessNextThumbnail();
+        QPixmap pix;
+        if (clip->clipType() == AUDIO) pix = KIcon("audio-x-generic").pixmap(QSize(width, height));
+        else pix = item->referencedClip()->thumbProducer()->extractImage(item->referencedClip()->getClipThumbFrame(), width, height);
         item->setIcon(0, pix);
         if (update) emit projectModified();
         if (!m_thumbnailQueue.isEmpty()) QTimer::singleShot(300, this, SLOT(slotProcessNextThumbnail()));
