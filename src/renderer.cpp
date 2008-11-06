@@ -174,7 +174,7 @@ int Render::resetProfile() {
     m_mltProfile = NULL;
     buildConsumer();
 
-    kDebug() << "//RESET WITHSCENE: " << scene;
+    //kDebug() << "//RESET WITHSCENE: " << scene;
     setSceneList(scene);
 
     char *tmp = decodedString(scene);
@@ -770,7 +770,7 @@ void Render::setSceneList(QString playlist, int position) {
     if (m_winid == -1) return;
     m_isBlocked = true;
 
-    kWarning() << "//////  RENDER, SET SCENE LIST: " << playlist;
+    //kWarning() << "//////  RENDER, SET SCENE LIST: " << playlist;
 
     if (m_mltConsumer) {
         m_mltConsumer->stop();
