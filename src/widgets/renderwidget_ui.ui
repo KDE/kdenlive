@@ -40,55 +40,7 @@
        <string>Templates</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout" >
-       <item row="0" column="0" >
-        <widget class="QLabel" name="label_3" >
-         <property name="text" >
-          <string>Format</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1" >
-        <spacer name="horizontalSpacer_2" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0" >
-          <size>
-           <width>165</width>
-           <height>24</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="0" column="2" >
-        <widget class="QToolButton" name="buttonInfo" >
-         <property name="text" >
-          <string>I</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="3" >
-        <widget class="QToolButton" name="buttonSave" >
-         <property name="text" >
-          <string>S</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="4" >
-        <widget class="QToolButton" name="buttonEdit" >
-         <property name="text" >
-          <string>E</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="5" >
-        <widget class="QToolButton" name="buttonDelete" >
-         <property name="text" >
-          <string>D</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" colspan="6" >
+       <item row="1" column="0" colspan="7" >
         <widget class="QSplitter" name="splitter_3" >
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
@@ -124,17 +76,69 @@
          </widget>
         </widget>
        </item>
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label_3" >
+         <property name="text" >
+          <string>Format</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="5" >
+        <widget class="QToolButton" name="buttonEdit" >
+         <property name="text" >
+          <string>E</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="6" >
+        <widget class="QToolButton" name="buttonDelete" >
+         <property name="text" >
+          <string>D</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" >
+        <spacer name="horizontalSpacer_2" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>165</width>
+           <height>24</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="4" >
+        <widget class="QToolButton" name="buttonSave" >
+         <property name="text" >
+          <string>S</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3" >
+        <widget class="QToolButton" name="buttonInfo" >
+         <property name="text" >
+          <string>I</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2" >
+        <widget class="KComboBox" name="format_selection" >
+         <item>
+          <property name="text" >
+           <string>PAL</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>NTSC</string>
+          </property>
+         </item>
+        </widget>
+       </item>
       </layout>
-      <zorder>label_3</zorder>
-      <zorder>format_list</zorder>
-      <zorder>size_list</zorder>
-      <zorder>advanced_params</zorder>
-      <zorder>buttonEdit</zorder>
-      <zorder>buttonDelete</zorder>
-      <zorder>horizontalSpacer_2</zorder>
-      <zorder>buttonSave</zorder>
-      <zorder>buttonInfo</zorder>
-      <zorder>advanced_params</zorder>
      </widget>
     </widget>
    </item>

@@ -36,7 +36,7 @@ const int RenderRole = GroupRole + 3;
 const int ParamsRole = GroupRole + 4;
 const int EditableRole = GroupRole + 5;
 
-RenderWidget::RenderWidget(QWidget * parent): QDialog(parent), m_standard("PAL") {
+RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
     m_view.setupUi(this);
     m_view.buttonDelete->setIcon(KIcon("trash-empty"));
     m_view.buttonDelete->setToolTip(i18n("Delete profile"));
@@ -72,6 +72,7 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent), m_standard("PAL")
     connect(m_view.guide_end, SIGNAL(activated(int)), this, SLOT(slotCheckStartGuidePosition()));
     connect(m_view.guide_start, SIGNAL(activated(int)), this, SLOT(slotCheckEndGuidePosition()));
 
+    connect(m_view.format_selection, SIGNAL(activated(int)), this, SLOT(refreshView()));
 
     m_view.buttonStart->setEnabled(false);
     m_view.guides_box->setVisible(false);
@@ -349,7 +350,9 @@ void RenderWidget::slotExport() {
 }
 
 void RenderWidget::setDocumentStandard(QString std) {
-    m_standard = std;
+    if (std == "PAL") m_view.format_selection->setCurrentIndex(0);
+    else m_view.format_selection->setCurrentIndex(1);
+
     refreshView();
 }
 
@@ -367,11 +370,15 @@ void RenderWidget::refreshView() {
     for (int i = 0; i < m_view.size_list->count(); i++) {
         sizeItem = m_view.size_list->item(i);
         std = sizeItem->data(StandardRole).toString();
-        if (!std.isEmpty() && !std.contains(m_standard, Qt::CaseInsensitive)) sizeItem->setHidden(true);
-        else if (sizeItem->data(GroupRole) == group) {
-            sizeItem->setHidden(false);
-            if (!firstSelected) m_view.size_list->setCurrentItem(sizeItem);
-            firstSelected = true;
+        if (sizeItem->data(GroupRole) == group) {
+            if (!std.isEmpty()) {
+                if (std.contains("PAL", Qt::CaseInsensitive)) sizeItem->setHidden(m_view.format_selection->currentIndex() != 0);
+                else if (std.contains("NTSC", Qt::CaseInsensitive)) sizeItem->setHidden(m_view.format_selection->currentIndex() != 1);
+            } else {
+                sizeItem->setHidden(false);
+                if (!firstSelected) m_view.size_list->setCurrentItem(sizeItem);
+                firstSelected = true;
+            }
         } else sizeItem->setHidden(true);
     }
 

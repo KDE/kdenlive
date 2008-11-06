@@ -49,7 +49,6 @@ private slots:
 
 private:
     Ui::RenderWidget_UI m_view;
-    QString m_standard;
     void parseProfiles(QString group = QString(), QString profile = QString());
     void parseFile(QString exportFile, bool editable);
 
