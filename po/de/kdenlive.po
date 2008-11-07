@@ -741,7 +741,7 @@ msgid "E"
 msgstr ""
 
 msgid "EMAIL OF TRANSLATORS"
-msgstr ""
+msgstr "g.marco@freenet.de, f.hammer@gmx.de, holzi1@gmx.at"
 
 msgid "Edit Clip"
 msgstr "Clip bearbeiten"
@@ -1321,7 +1321,7 @@ msgid "N"
 msgstr ""
 
 msgid "NAME OF TRANSLATORS"
-msgstr ""
+msgstr "Marco Glitter, Felix Hammer, Thomas Holzmann"
 
 msgid "NTSC"
 msgstr ""
