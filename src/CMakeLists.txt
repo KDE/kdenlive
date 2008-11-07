@@ -157,5 +157,6 @@ install( FILES kdenliveui.rc kdenlive.notifyrc DESTINATION  ${DATA_INSTALL_DIR}/
 install (FILES kdenlivesettings.kcfg DESTINATION share/config.kcfg)
 install (FILES kdenlive.desktop DESTINATION share/applications/kde)
 install (FILES application-x-kdenlive.svgz video-mlt-playlist.svgz DESTINATION share/icons/oxygen/scalable/mimetypes)
+kde4_install_icons( ${ICON_INSTALL_DIR} )
 
 
