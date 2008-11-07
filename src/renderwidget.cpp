@@ -79,6 +79,8 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
     parseProfiles();
     m_view.splitter->setStretchFactor(1, 5);
     m_view.splitter->setStretchFactor(0, 2);
+
+    focusFirstVisibleItem();
 }
 
 void RenderWidget::showInfoPanel() {
@@ -147,7 +149,7 @@ void RenderWidget::slotSaveProfile() {
     ui.parameters->setText(m_view.advanced_params->toPlainText());
     ui.extension->setText(m_view.size_list->currentItem()->data(ExtensionRole).toString());
     ui.profile_name->setFocus();
-    if (d->exec() == QDialog::Accepted) {
+    if (d->exec() == QDialog::Accepted && !ui.profile_name->text().simplified().isEmpty()) {
         QString exportFile = KStandardDirs::locateLocal("appdata", "export/customprofiles.xml");
         QDomDocument doc;
         QFile file(exportFile);
@@ -157,7 +159,7 @@ void RenderWidget::slotSaveProfile() {
         QDomElement documentElement;
         bool groupExists = false;
         QString groupName;
-        QString newProfileName = ui.profile_name->text();
+        QString newProfileName = ui.profile_name->text().simplified();
         QString newGroupName = ui.group_name->currentText();
         QDomNodeList groups = doc.elementsByTagName("group");
         int i = 0;
@@ -323,6 +325,19 @@ void RenderWidget::slotDeleteProfile() {
     out << doc.toString();
     file.close();
     parseProfiles(currentGroup);
+    focusFirstVisibleItem();
+}
+
+void RenderWidget::focusFirstVisibleItem() {
+    if (m_view.size_list->currentItem() && !m_view.size_list->currentItem()->isHidden()) return;
+    for (uint ix = 0; ix < m_view.size_list->count(); ix++) {
+	QListWidgetItem *item = m_view.size_list->item(ix);
+	if (item && !item->isHidden()) {
+	    m_view.size_list->setCurrentRow(ix);
+	    break;
+	}
+    }
+    if (!m_view.size_list->currentItem()) m_view.size_list->setCurrentRow(0);
 }
 
 void RenderWidget::slotExport() {
@@ -359,7 +374,7 @@ void RenderWidget::setDocumentStandard(QString std) {
 void RenderWidget::refreshView() {
     QListWidgetItem *item = m_view.format_list->currentItem();
     if (!item) {
-        m_view.format_list->setCurrentRow(0);
+	m_view.format_list->setCurrentRow(0);
         item = m_view.format_list->currentItem();
     }
     if (!item) return;
@@ -381,6 +396,7 @@ void RenderWidget::refreshView() {
             }
         } else sizeItem->setHidden(true);
     }
+    focusFirstVisibleItem();
 
 }
 

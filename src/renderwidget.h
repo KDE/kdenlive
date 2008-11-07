@@ -33,6 +33,7 @@ public:
     RenderWidget(QWidget * parent = 0);
     void setDocumentStandard(QString std);
     void setGuides(QDomElement guidesxml, double duration);
+    void focusFirstVisibleItem();
 
 private slots:
     void slotUpdateButtons();
