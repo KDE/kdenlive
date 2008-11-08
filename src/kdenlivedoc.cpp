@@ -485,6 +485,7 @@ void KdenliveDoc::convertDocument(double version) {
     }
     // move producers to correct place, markers to a global list, fix clip descriptions
     QDomElement markers = m_document.createElement("markers");
+    // This will get the westley producers:
     producers = m_document.elementsByTagName("producer");
     max = producers.count();
     for (int i = 0; i < max; i++) {
@@ -513,7 +514,7 @@ void KdenliveDoc::convertDocument(double version) {
                         QString objectxml;
                         QDomElement ob = objects.at(k).toElement();
                         if (ob.attribute("type") == "3") {
-                            // text object
+                            // text object - all of this goes into "xmldata"...
                             QDomElement item = tdoc.createElement("item");
                             item.setAttribute("z-index", ob.attribute("z"));
                             item.setAttribute("type", "QGraphicsTextItem");
@@ -529,11 +530,14 @@ void KdenliveDoc::convertDocument(double version) {
                             QString col = ob.attribute("color");
                             QColor c(col);
                             content.setAttribute("font-color", colorToString(c));
+                            // todo: These fields are missing from the newly generated xmldata:
+                            // transform, startviewport, endviewport, background
+                            
                             QDomText conttxt = tdoc.createTextNode(ob.attribute("text"));
                             content.appendChild(conttxt);
                             item.appendChild(position);
                             item.appendChild(content);
-                            title.appendChild(item);
+                            title.appendChild(item);                            
                         } else if (ob.attribute("type") == "5") {
                             // rectangle object
                             QDomElement item = tdoc.createElement("item");
@@ -557,12 +561,13 @@ void KdenliveDoc::convertDocument(double version) {
                         }
                     }
                     prod.setAttribute("xmldata", tdoc.toString());
-                    QStringList titleInfo = TitleWidget::getFreeTitleInfo(projectFolder());
-                    prod.setAttribute("titlename", titleInfo.at(0));
-                    prod.setAttribute("resource", titleInfo.at(1));
+                    // mbd todo: This clearly does not work, as every title gets the same name - trying to leave it empty
+                    // QStringList titleInfo = TitleWidget::getFreeTitleInfo(projectFolder());
+                    // prod.setAttribute("titlename", titleInfo.at(0));
+                    // prod.setAttribute("resource", titleInfo.at(1));
                     //kDebug()<<"TITLE DATA:\n"<<tdoc.toString();
                     prod.removeChild(m);
-                }
+                } // End conversion of title clips.
 
             } else if (m.isText()) {
                 QString comment = m.nodeValue();
@@ -574,6 +579,7 @@ void KdenliveDoc::convertDocument(double version) {
         }
         int duration = prod.attribute("duration").toInt();
         if (duration > 0) prod.setAttribute("out", QString::number(duration));
+        // The clip goes back in, but text clips should not go back in, at least not modified
         westley.insertBefore(prod, QDomNode());
 
     }
@@ -601,15 +607,25 @@ void KdenliveDoc::convertDocument(double version) {
             if (wproducer.isNull()) {
                 kWarning() << "Found producer in westley0, that was not a QDomElement";
             } else {
+              // We have to do slightly different things, depending on the type
+              kDebug() << "Converting producer element with type " << wproducer.attribute("type");
+              if ( wproducer.attribute("type").toInt() == TEXT ) {
+                kDebug() << "Found TEXT element in producer" << endl;
+                QDomElement kproducer = wproducer.cloneNode(true).toElement();
+                kproducer.setTagName("kdenlive_producer"); 
+                kdenlivedoc_new.appendChild(kproducer);
+                // todo: Perhaps needs some more changes here to "frequency", aspect ratio as a float, frame_size, channels, and later, ressource and title name
+              } else {
                 QDomElement kproducer = m_document.createElement("kdenlive_producer");
                 kproducer.setAttribute("id", wproducer.attribute("id"));
                 kproducer.setAttribute("description", wproducer.attribute("description"));
                 kproducer.setAttribute("resource", wproducer.attribute("resource"));
                 kproducer.setAttribute("type", wproducer.attribute("type"));
                 kdenlivedoc_new.appendChild(kproducer);
-                if (wproducer.attribute("id").toInt() > max_kproducer_id) {
-                    max_kproducer_id = wproducer.attribute("id").toInt();
-                }
+              }
+              if (wproducer.attribute("id").toInt() > max_kproducer_id) {
+                  max_kproducer_id = wproducer.attribute("id").toInt();
+              }
             }
         }
     }
@@ -667,7 +683,7 @@ void KdenliveDoc::convertDocument(double version) {
 
     //kDebug() << "/////////////////  CONVERTED DOC:";
     // kDebug() << m_document.toString();
-    /*
+    
     QFile file( "converted.kdenlive" );
     if ( file.open( QIODevice::WriteOnly ) ) {
       QTextStream stream( &file );
@@ -676,7 +692,7 @@ void KdenliveDoc::convertDocument(double version) {
     } else {
       kDebug() << "Unable to dump file to converted.kdenlive";
     }
-    */
+    
     //kDebug() << "/////////////////  END CONVERTED DOC:";
 }
 
