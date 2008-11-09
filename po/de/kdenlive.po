@@ -8,10 +8,10 @@
 # Thomas Holzmann <holzi1@gmx.at>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: de\n"
+"Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-25 03:20+0200\n"
-"PO-Revision-Date: 2008-10-13 11:40+0200\n"
+"PO-Revision-Date: 2008-11-09 21:42+0100\n"
 "Last-Translator: Felix Hammer <f.hammer@gmx.de>\n"
 "Language-Team:  <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -108,7 +108,7 @@ msgid "Add Clip"
 msgstr "Datei hinzufügen"
 
 msgid "Add Color Clip"
-msgstr "Farbclip hinzufügen"
+msgstr "Farb-Clip hinzufügen"
 
 msgid "Add Custom Effect"
 msgstr "Benutzerdefinierten Effekt hinzufügen"
@@ -127,7 +127,7 @@ msgid "Add Rectangle"
 msgstr "Rechteck hinzufügen"
 
 msgid "Add Slideshow Clip"
-msgstr "Diashow Clip hinzufügen"
+msgstr "Diashow-Clip hinzufügen"
 
 msgid "Add Text"
 msgstr "Text hinzufügen"
@@ -139,7 +139,7 @@ msgid "Add Transition"
 msgstr "Übergang hinzufügen"
 
 msgid "Add Video Effect"
-msgstr "Video-Effekt hinzufügen"
+msgstr "Videoeffekt hinzufügen"
 
 msgid "Add audio fade"
 msgstr "Audio-Fading hinzufügen"
@@ -245,7 +245,7 @@ msgid "Audio index"
 msgstr "Audioindex"
 
 msgid "Audio tracks"
-msgstr "Audio-Spuren"
+msgstr "Audiospuren"
 
 msgid "Auto Mask"
 msgstr "Automatisches Maskieren"
@@ -464,10 +464,10 @@ msgid "Clip Color"
 msgstr "Farbclip"
 
 msgid "Clip Monitor"
-msgstr "Clip-Monitor"
+msgstr "Clipmonitor"
 
 msgid "Clip Properties"
-msgstr "Clip-Eigenschaften"
+msgstr "Clipeigenschaften"
 
 #, c-format, kde-format
 msgid "Clip duration: %1s"
@@ -708,13 +708,11 @@ msgstr "Trennen"
 msgid "Display"
 msgstr "Anzeige"
 
-#, fuzzy
 msgid "Display aspect ratio"
-msgstr "Display-Frequenz"
+msgstr "Display-Seitenverhältnis"
 
-#, fuzzy
 msgid "Display aspect ratio:"
-msgstr "Display-Frequenz:"
+msgstr "Display-Seitenverhältnis:"
 
 msgid "Display clip markers comments"
 msgstr "Marker-Kommentare des Clips anzeigen"
@@ -747,7 +745,7 @@ msgid "Edit Clip"
 msgstr "Clip bearbeiten"
 
 msgid "Edit Clip Speed"
-msgstr "Clip-Geschwindigkeit bearbeiten"
+msgstr "Clipgeschwindigkeit bearbeiten"
 
 msgid "Edit Guide"
 msgstr "Guide bearbeiten"
@@ -788,10 +786,10 @@ msgstr ""
 "entfernt\n"
 
 msgid "Effect List"
-msgstr "Effekt-Liste"
+msgstr "Effektliste"
 
 msgid "Effect Stack"
-msgstr "Effekt-Magazin"
+msgstr "Effektmagazin"
 
 msgid "Enable Jog Shuttle device"
 msgstr "Jog Shuttle Gerät aktivieren"
@@ -806,7 +804,7 @@ msgid "End"
 msgstr "Ende"
 
 msgid "End Gain"
-msgstr "End-Verstärkung"
+msgstr "Endverstärkung"
 
 msgid "EndViewport"
 msgstr "Endfenster"
@@ -855,7 +853,7 @@ msgstr "Rückmeldung"
 
 #, kde-format
 msgid "File %1 is not a Kdenlive project file."
-msgstr "Datei %1 ist keine Kdenlive Projekt-Datei."
+msgstr "Datei %1 ist keine Kdenlive Projektdatei."
 
 msgid "File Recovery"
 msgstr "Datei-Wiederherstellung"
@@ -916,9 +914,8 @@ msgstr "Bild in beliebige Richtung drehen"
 msgid "Folder"
 msgstr "Verzeichnis"
 
-#, fuzzy
 msgid "Force pixel aspect ratio"
-msgstr "Seitenverhältnis erzwingen"
+msgstr "Pixel-Seitenverhältnis erzwingen"
 
 msgid "Format"
 msgstr "Format"
@@ -1087,7 +1084,7 @@ msgid "Image Type"
 msgstr "Bildtyp"
 
 msgid "Image clip"
-msgstr "Bildclip"
+msgstr "Bild-Clip"
 
 msgid "Image clips"
 msgstr "Bilder"
@@ -1429,13 +1426,11 @@ msgstr "Tonhöhe skalieren"
 msgid "Pitch Shift"
 msgstr "Tonhöhe ändern"
 
-#, fuzzy
 msgid "Pixel aspect ratio"
-msgstr "Seitenverhältnis erzwingen"
+msgstr "Pixel-Seitenverhältnis"
 
-#, fuzzy
 msgid "Pixel aspect ratio:"
-msgstr "Seitenverhältnis erzwingen"
+msgstr "Pixel-Seitenverhältnis:"
 
 msgid "Play"
 msgstr "Wiedergabe"
@@ -1577,7 +1572,7 @@ msgid "Razor clip"
 msgstr "Clip schneiden"
 
 msgid "Razor tool"
-msgstr "Schneide-Werkzeug"
+msgstr "Schneidewerkzeug"
 
 msgid "Reached end of project"
 msgstr "Ende des Projekts erreicht"
@@ -1707,7 +1702,7 @@ msgid "Save changes to document ?"
 msgstr "Änderungen des Dokumentes speichern"
 
 msgid "Save clip zone as:"
-msgstr "Clip-Bereich speichern als:"
+msgstr "Clipbereich speichern als:"
 
 msgid "Save effect"
 msgstr "Effekt speichern"
@@ -1765,10 +1760,10 @@ msgid "Selected zone"
 msgstr "nur markiertes Teilstück"
 
 msgid "Selection Tool"
-msgstr "Auswahl-Werkzeug"
+msgstr "Auswahlwerkzeug"
 
 msgid "Selection tool"
-msgstr "Auswahl-Werkzeug"
+msgstr "Auswahlwerkzeug"
 
 msgid "Sepia"
 msgstr ""
@@ -1825,7 +1820,7 @@ msgid "Slideshow Clip"
 msgstr "Diashow-Clip"
 
 msgid "Slideshow clip"
-msgstr "Diashow"
+msgstr "Diashow-Clip"
 
 msgid "Snap"
 msgstr ""
@@ -1867,7 +1862,7 @@ msgid "Speed"
 msgstr "Geschwindigkeit"
 
 msgid "Split view"
-msgstr ""
+msgstr "Geteilte Ansicht"
 
 msgid "Spread"
 msgstr "Streubreite"
@@ -1913,10 +1908,10 @@ msgid "Temporary files"
 msgstr "Temporäre Dateien"
 
 msgid "Text clip"
-msgstr "Text"
+msgstr "Text-Clip"
 
 msgid "TextLabel"
-msgstr ""
+msgstr "Text-Label"
 
 msgid "There is no clip, cannot extract frame."
 msgstr "Kein Clip vorhanden, kann kein Frame extrahieren."
@@ -1953,7 +1948,7 @@ msgid "Time window (ms)"
 msgstr "Zeitfenster"
 
 msgid "Timecode overlay"
-msgstr ""
+msgstr "Zeitcode-Überlagerung"
 
 msgid "Timeline"
 msgstr "Zeitleiste"
@@ -1962,7 +1957,7 @@ msgid "Title Clip"
 msgstr "Titelclip"
 
 msgid "Toggle selection"
-msgstr ""
+msgstr "Auswahl feststellen"
 
 msgid "Tool"
 msgstr "Werkzeug"
@@ -2202,32 +2197,8 @@ msgstr ""
 msgid "x1"
 msgstr ""
 
-msgid ""
-"your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
+msgid "your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr ""
 "Es konnte keine Installation von MLT gefunden werden. Installieren Sie MLT "
 "und starten Sie Kdenlive neu.\n"
 
-#~ msgid "Add Marker to Clip"
-#~ msgstr "Marker zum Clip hinzufügen"
-
-#~ msgid "Aspect ratio"
-#~ msgstr "Seitenverhältnis"
-
-#~ msgid "Delete Marker from Clip"
-#~ msgstr "Marker vom Clip löschen"
-
-#~ msgid "Delete track"
-#~ msgstr "Spur löschen"
-
-#~ msgid "Go to..."
-#~ msgstr "Gehe zu..."
-
-#~ msgid "Insert track"
-#~ msgstr "Spur einfügen"
-
-#~ msgid "Zone end"
-#~ msgstr "Bereichsende"
-
-#~ msgid "Zone start"
-#~ msgstr "Bereichsanfang"
