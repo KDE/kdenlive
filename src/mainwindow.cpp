@@ -452,7 +452,7 @@ void MainWindow::configureNotifications() {
 }
 
 void MainWindow::slotFullScreen() {
-    //KToggleFullScreenAction::setFullScreen(this, actionCollection()->action("fullscreen")->isChecked());
+    KToggleFullScreenAction::setFullScreen(this, actionCollection()->action("fullscreen")->isChecked());
 }
 
 void MainWindow::slotAddEffect(QDomElement effect, GenTime pos, int track) {
