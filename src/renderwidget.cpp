@@ -331,11 +331,11 @@ void RenderWidget::slotDeleteProfile() {
 void RenderWidget::focusFirstVisibleItem() {
     if (m_view.size_list->currentItem() && !m_view.size_list->currentItem()->isHidden()) return;
     for (uint ix = 0; ix < m_view.size_list->count(); ix++) {
-	QListWidgetItem *item = m_view.size_list->item(ix);
-	if (item && !item->isHidden()) {
-	    m_view.size_list->setCurrentRow(ix);
-	    break;
-	}
+        QListWidgetItem *item = m_view.size_list->item(ix);
+        if (item && !item->isHidden()) {
+            m_view.size_list->setCurrentRow(ix);
+            break;
+        }
     }
     if (!m_view.size_list->currentItem()) m_view.size_list->setCurrentRow(0);
 }
@@ -374,7 +374,7 @@ void RenderWidget::setDocumentStandard(QString std) {
 void RenderWidget::refreshView() {
     QListWidgetItem *item = m_view.format_list->currentItem();
     if (!item) {
-	m_view.format_list->setCurrentRow(0);
+        m_view.format_list->setCurrentRow(0);
         item = m_view.format_list->currentItem();
     }
     if (!item) return;
