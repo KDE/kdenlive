@@ -1,21 +1,19 @@
-# translation of kdenlive.po to
-# Copyright (C) 2008 THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Michiel Zandbelt <mzandbelt@xs4all.nl>, 2008.
-# jb <jb@kdenlive.org>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: kdenlive\n"
+"Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-25 03:20+0200\n"
-"PO-Revision-Date: 2008-10-25 02:45+0200\n"
-"Last-Translator: jb <jb@kdenlive.org>\n"
-"Language-Team: American English <kde-i18n-doc@lists.kde.org>\n"
+"POT-Creation-Date: 2008-10-25 14:20+0200\n"
+"PO-Revision-Date: 2008-11-09 19:52+0100\n"
+"Last-Translator: Michiel Zandbelt <mzandbelt@xs4all.nl>\n"
+"Language-Team: Dutch <kde-i18n-doc@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 0.3\n"
+"X-Generator: Lokalize 0.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -26,178 +24,170 @@ msgid "..."
 msgstr "..."
 
 msgid "/"
-msgstr ""
+msgstr "/"
 
 msgid "/dev/dsp"
-msgstr ""
+msgstr "/dev/dsp"
 
 msgid "/dev/video0"
-msgstr ""
+msgstr "/dev/video0"
 
 msgid "0"
-msgstr ""
+msgstr "0"
 
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 msgid "200%"
-msgstr ""
+msgstr "200%"
 
 msgid "25/1"
-msgstr ""
+msgstr "25/1"
 
 msgid "320x240"
-msgstr ""
+msgstr "320x240"
 
 msgid "4/3"
-msgstr ""
+msgstr "4/3"
 
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 msgid "59/54"
-msgstr ""
+msgstr "59/54"
 
 msgid "720x576"
-msgstr ""
+msgstr "720x576"
 
 msgid "99:99:99:99; "
-msgstr "99:99:99:99;"
+msgstr "99:99:99:99; "
 
 msgid ":::"
 msgstr ":::"
 
 msgid "<br><b>Author:</b> "
-msgstr "<br><b> Auteur</b> "
+msgstr "<br><b>Auteur:</b> "
 
 #, kde-format
 msgid "<qt>Clip <b>%1</b><br>is invalid, will be removed from project."
 msgstr ""
-"<qt>Clip <b>%1</b><br>is ongeldig, zal uit het project verwijderd worden."
+"<qt>Clip <b>%1</b><br>is ongeldig, Deze zal uit het project verwijderd worden"
 
 msgid "A"
-msgstr ""
+msgstr "A"
 
 msgid "A guide already exists at that position"
-msgstr "Op deze positie bestaat al een guide"
+msgstr "Op deze positie bestaat reeds een aanwijzing."
 
 msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
 "choose another description for your custom profile."
 msgstr ""
-"Een profiel met dezelfde naam bestaat reeds in de standaard profielen van "
-"MLT,kies a.u.b. een andere beschrijving voor uw aangepaste profiel."
+"Er bestaat reeds een profiel met deze naam in de MLT standaard profielen, "
+"kies a.u.b. een andere beschrijving voor uw aangepaste profiel."
 
 msgid "ALSA"
-msgstr ""
+msgstr "ALSA"
 
 msgid "ARTS daemon"
-msgstr ""
+msgstr "ARTS daemon"
 
 msgid "Activate crash recovery (auto save)"
-msgstr "Activeer crash-herstel (automatisch opslaan)"
+msgstr "Activeer crash-herstel (auto save)"
 
 #, kde-format
 msgid "Add %1"
-msgstr "%1 toevoegen"
+msgstr "Voeg %1 toe"
 
 msgid "Add Audio Effect"
-msgstr "Audio-effect toevoegen"
+msgstr "Voeg geluidseffect toe"
 
 msgid "Add Clip"
-msgstr "Clip toevoegen"
+msgstr "Voeg clip toe"
 
 msgid "Add Color Clip"
-msgstr "Kleuren-clip toevoegen"
+msgstr "Voeg kleur clip toe"
 
 msgid "Add Custom Effect"
-msgstr "Gebruikers gedefinieerd effect toevoegen"
+msgstr "Voeg zelfgedefinieerd effect toe"
 
 msgid "Add Guide"
-msgstr "Guide toevoegen"
+msgstr "Voeg aanwijzing toe"
 
 msgid "Add Image"
-msgstr "Afbeelding toevoegen"
+msgstr "Voeg afbeelding toe"
 
-#, fuzzy
 msgid "Add Marker"
-msgstr "Marker toevoegen"
+msgstr "Voeg markeerpunt toe"
 
 msgid "Add Rectangle"
-msgstr "Rechthoek toevoegen"
+msgstr "Voeg rechthoek toe"
 
-#, fuzzy
 msgid "Add Slideshow Clip"
-msgstr "Voeg diashow clip toe"
+msgstr "Voeg dia-show clip toe"
 
 msgid "Add Text"
-msgstr "Tekst toevoegen"
+msgstr "Voeg tekst toe"
 
 msgid "Add Title Clip"
-msgstr "Titel-clip toevoegen"
+msgstr "Voeg titelcip toe"
 
 msgid "Add Transition"
-msgstr "Overgang toevoegen"
+msgstr "Voeg overgang toe"
 
 msgid "Add Video Effect"
-msgstr "Video-effect toevoegen"
+msgstr "Voeg video-effect toe"
 
-#, fuzzy
 msgid "Add audio fade"
-msgstr "Audio-effect toevoegen"
+msgstr "Voeg geluid uitdoven (fade) toe"
 
 msgid "Add clip"
-msgstr "Clip toevoegen"
+msgstr "Voeg clip toe"
 
-#, fuzzy
 msgid "Add clips"
-msgstr "Clips toevoegen"
+msgstr "Voeg clips toe"
 
 msgid "Add folder"
-msgstr "Bestandmap toevoegen"
+msgstr "Voeg map toe"
 
 msgid "Add guide"
-msgstr "Guide toevoegen"
+msgstr "Voeg aanwijzing toe"
 
 msgid "Add keyframe"
-msgstr "Keyframe toevoegen"
+msgstr "Voeg keyframe toe"
 
 msgid "Add marker"
-msgstr "Marker toevoegen"
+msgstr "Voeg markeerpunt toe"
 
 msgid "Add new effect"
-msgstr "Nieuw Effect toevoegen"
+msgstr "Voeg niuew effect toe"
 
 msgid "Add recording time to captured file name"
-msgstr "Voeg datum en tijdstip toe aan naam van opgenomen bestand"
+msgstr "Voeg tijdstip van opname toe aan bestandsnaam van opname"
 
 msgid "Add timeline clip"
-msgstr "Voeg een tijdbalk clip toe"
+msgstr "Voeg tijdsbalk clip toe"
 
 msgid "Add transition"
-msgstr "Overgang toevoegen"
+msgstr "Voeg overgang toe"
 
 msgid "Add transition to clip"
-msgstr "Overgang aan clip toevoegen"
+msgstr "Voeg overgang toe aan clip"
 
-#, fuzzy
 msgid "Additional Settings"
 msgstr "Uitgebreide instellingen"
 
-msgid "Adjust audio volume with keyframes"
-msgstr "Pas geluidsvolume aan met keyframes"
-
 msgid "Adjust clip length"
-msgstr "Clip-lengte instellen"
+msgstr "Pas clip lengte aan"
 
 msgid "Advanced"
-msgstr "Uitgebreid"
+msgstr "Geavanceerd"
 
 msgid "Align item horizontally"
-msgstr "Element horizontal uitlijnen"
+msgstr "Item horizontaal uitlijnen"
 
 msgid "Align item vertically"
-msgstr "Element verticaal uitlijnen"
+msgstr "Item verticaal uitlijnen"
 
 msgid "Align..."
 msgstr "Uitlijnen..."
@@ -206,74 +196,63 @@ msgid "All"
 msgstr "Alle"
 
 msgid "Allow horizontal moves"
-msgstr "Horizontaal verschuiven toestaan"
+msgstr "Horizontale bewegingen toestaan"
 
 msgid "Allow vertical moves"
-msgstr "Verticaal verschuiven toestaan"
-
-msgid "Amplitude"
-msgstr ""
+msgstr "Verticale bewegingen toestaan"
 
 msgid "An open source video editor."
-msgstr ""
+msgstr "Een open source video bewerkingsprogramma"
 
 msgid "Ascii art library"
-msgstr ""
+msgstr "Ascii art library"
 
 msgid "Aspect ratio:"
-msgstr "Beeldverhouding:"
+msgstr "Beeld verhouding:"
 
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 msgid "Audio clip"
-msgstr ""
+msgstr "Audio clip"
 
 msgid "Audio codec"
-msgstr ""
+msgstr "Audio codec"
 
 msgid "Audio device:"
-msgstr "Geluidsapparaat:"
+msgstr "Audio-apparaat"
 
 msgid "Audio driver:"
-msgstr ""
+msgstr "Audio stuurprogramma:"
 
 msgid "Audio editing"
 msgstr "Audio bewerken"
 
 #, c-format, kde-format
 msgid "Audio fade duration: %1s"
-msgstr "Audio fade duur: %1s"
+msgstr "Audio uitdoof (fade) duur: %1s"
 
 msgid "Audio index"
-msgstr ""
+msgstr "Audio index"
 
 msgid "Audio tracks"
-msgstr ""
-
-#, fuzzy
-msgid "Auto Mask"
-msgstr "Automatisch maskeren"
+msgstr "Geluid sporen"
 
 msgid "Auto add"
 msgstr "Automatisch toevoegen"
 
-#, fuzzy
 msgid "Auto-saved files exist. Do you want to recover them now?"
 msgstr ""
-"Er zijn automatisch opgeslagen bestanden aanwezig. Wilt u deze nu terughalen"
+"Er bestaan automatisch opgeslagen bestanden. Wilt u deze overschrijven?"
 
 msgid "Automatic"
 msgstr "Automatisch"
 
 msgid "Automatically start a new file on scene cut"
-msgstr "Automatisch een nieuw bestand starten bij knippen van scene"
+msgstr "Automatisch nieuw bestand starten bij knippen van scene"
 
 msgid "Autoscroll while playing"
-msgstr "Bij afspelen automatisch scrollen"
-
-msgid "Averaging"
-msgstr "Middelen"
+msgstr "Automatisch scrollen tijdens afspelen"
 
 msgid "Background"
 msgstr "Achtergrond"
@@ -281,27 +260,11 @@ msgstr "Achtergrond"
 msgid "BasicOperations"
 msgstr "Basis bewerkingen"
 
-msgid "Blue Screen"
-msgstr "Blauw scherm"
-
-msgid "Blur factor"
-msgstr ""
-
-#, fuzzy
-msgid "Blur image with keyframes"
-msgstr "Blur afbeelding met keyframes"
-
 msgid "Border color"
-msgstr "Rand/omlijning kleur"
+msgstr "Kleur van omlijning"
 
 msgid "Bottom"
 msgstr "Onderaan"
-
-msgid "Box Blur"
-msgstr ""
-
-msgid "Brightness"
-msgstr "Helderheid"
 
 msgid "Button 1"
 msgstr "Knop 1"
@@ -319,31 +282,30 @@ msgid "Button 5"
 msgstr "Knop 5"
 
 msgid "C"
-msgstr ""
+msgstr "C"
 
 #, kde-format
 msgid ""
 "Cannot access Desktop Search info for %1.\n"
 "Disabling Desktop Search integration."
 msgstr ""
-"Kan bureaublad zoek informatie niet vinden voor %1.\n"
-"Bureaublad zoekmodule integratie wordt uitgeschaeld."
+"Geen toegang tot Desktop Search info voor  %1.\n Schakelt Desktop Search "
+"integratie uit"
 
 msgid "Cannot add marker if more than one clip is selected"
-msgstr "Kan geen marker toevoegen indien meerdere clips geselecteerd zijn"
+msgstr "Kan geen markeerpunt toevoegen als meer dan een clip is geselecteerd"
 
-#, fuzzy
 msgid "Cannot cut a transition"
 msgstr "Kan overgang niet knippen"
 
 msgid "Cannot delete marker if more than one clip is selected"
-msgstr "Kan geen marker verwijderen indien meerdere clips geselecteerd zijn"
+msgstr "Kan markeerpunt niet verwijderen als meer dan een clip is geselecteerd"
 
 msgid "Cannot edit marker if more than one clip is selected"
-msgstr "Kan marker niet bewerken indien meerdere clips geselecteerd zijn"
+msgstr "Kan markeerpunt niet bewerken als meer dan een clip is geselecteerd"
 
 msgid "Cannot find clip to add effect"
-msgstr "Kan geen clip vinden waaraan effect toegevoegd moet worden"
+msgstr "Kan clip waaraan effect moet worden toegevoegd niet vinden"
 
 msgid "Cannot find clip to cut"
 msgstr "Kan geen clip vinden om te knippen"
@@ -398,7 +360,7 @@ msgstr ""
 "Kan niet lezen vanaf apparaat %1\n"
 "Controlerr a.u.b. drivers en toegangsrechten"
 
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot write to file %1"
 msgstr "Kan niet schrijven naar bestand %1"
 
@@ -420,50 +382,26 @@ msgstr "Opname formaat"
 msgid "Capture params"
 msgstr "Opname parameters"
 
-#, fuzzy
 msgid "Captured files"
 msgstr "Opgenomen bestanden"
 
 msgid "Capturing..."
 msgstr "Aan het opnemen..."
 
-#, fuzzy
 msgid "Center"
 msgstr "Centreren"
 
 msgid "Change"
-msgstr "Wijzigen"
+msgstr "Wijzig"
 
 msgid "Change Clip Speed"
 msgstr "Wijzig clip snelheid"
 
-msgid "Change gamma color value"
-msgstr "Wijzig gamma kleurwaarde"
-
-msgid "Change image brightness with keyframes"
-msgstr "Wijzig helderheid van afbeelding met keyframes"
-
 msgid "Channels"
 msgstr "Kanalen"
 
-msgid "Charcoal"
-msgstr "Houtskool"
-
-#, fuzzy
-msgid "Charcoal drawing effect"
-msgstr "Houtskool schrijf effect"
-
 msgid "CheckBox"
-msgstr ""
-
-msgid "Chroma Hold"
-msgstr ""
-
-msgid "Chrominance U"
-msgstr ""
-
-msgid "Chrominance V"
-msgstr ""
+msgstr "Aanvink hokje"
 
 msgid "Clean"
 msgstr "Wissen"
@@ -472,7 +410,7 @@ msgid "Clip Color"
 msgstr "Clip kleur"
 
 msgid "Clip Monitor"
-msgstr ""
+msgstr "Clip monitor"
 
 msgid "Clip Properties"
 msgstr "Clip eigenschappen"
@@ -487,9 +425,6 @@ msgstr "Clip bevat geen markers"
 msgid "Close the current tab"
 msgstr "Sluit het huidig tabblad"
 
-msgid "Co-efficient"
-msgstr ""
-
 msgid "Color"
 msgstr "Kleur"
 
@@ -500,11 +435,7 @@ msgid "Color clip"
 msgstr "Kleur clip"
 
 msgid "Color clips"
-msgstr "Kleur clips"
-
-#, fuzzy
-msgid "Color key"
-msgstr "Kleur sleutel"
+msgstr "Kleuren clips"
 
 msgid "Comment"
 msgstr "Commentaar"
@@ -513,10 +444,10 @@ msgid "Configure"
 msgstr "Configureren"
 
 msgid "Connect"
-msgstr "Verbinden"
+msgstr "Verbind"
 
 msgid "Copyright (c) 2008 Development team"
-msgstr ""
+msgstr "Copyright (c) 2008 Development team"
 
 msgid ""
 "Could not create the video preview window.\n"
@@ -524,11 +455,8 @@ msgid ""
 "please fix it."
 msgstr ""
 "Kan video-preview scherm niet opbouwen.\n"
-"Er is iets mis met uw kdenlive installatie of met de driver-"
-"instellingenherstel dit eerst a.u.b."
-
-msgid "Crackle"
-msgstr ""
+"Er is iets mis met uw kdenlive installatie of met de driver-instellingen"
+"herstel dit eerst a.u.b."
 
 msgid "Crash recovery (automatic backup)"
 msgstr "Crash herstel (automatische back-up)"
@@ -541,63 +469,47 @@ msgstr "Nieuw profiel aanmaken"
 
 #, kde-format
 msgid "Creating thumbnail for %1"
-msgstr "Maakt thumbnail aan voor %1"
+msgstr "Miniatuur aanmaken voor %1"
 
 #, c-format, kde-format
 msgid "Crop from start: %1s"
-msgstr "Inkorten vanaf start: %1s"
+msgstr "Inkorten vanaf begin: %1s"
 
 msgid "Crop start"
 msgstr "Inkorten start"
 
 msgid "Crossfade"
-msgstr ""
+msgstr "Crossfade"
 
 msgid "Custom"
 msgstr "Zelf gedefinieerd"
 
 msgid "Cut"
-msgstr "Knip"
+msgstr "Knippen"
 
-#, fuzzy
 msgid "Cut Clip"
 msgstr "Clip knippen"
 
 msgid "D"
-msgstr ""
+msgstr " D"
 
-#, fuzzy
 msgid "DV"
-msgstr "DV"
+msgstr " DV"
 
 msgid "DV AVI type 1"
-msgstr ""
+msgstr " DV AVI type 1"
 
 msgid "DV AVI type 2"
-msgstr ""
+msgstr "DV AVI type 2"
 
 msgid "DV Raw"
-msgstr ""
-
-#, fuzzy
-msgid "Damping"
-msgstr "Dempen"
-
-msgid "Debug"
-msgstr ""
-
-msgid "Decay"
-msgstr "Verval"
-
-msgid "Declipper"
-msgstr ""
+msgstr " DV Raw"
 
 msgid "Decoding threads"
-msgstr ""
+msgstr "Decoderen threads"
 
-#, fuzzy
 msgid "Default"
-msgstr "Standard"
+msgstr "Standaard"
 
 msgid "Default Durations"
 msgstr "Standaard duur"
@@ -606,31 +518,23 @@ msgid "Default Profile"
 msgstr "Standaard profiel"
 
 msgid "Default apps"
-msgstr "Standaard toepassingen"
+msgstr "Standaard apps"
 
 msgid "Default capture device"
-msgstr "Standaard opname-apparaat"
+msgstr "Standaard opname apparaat"
 
 msgid "Default folders"
 msgstr "Standaard mappen"
-
-#, fuzzy
-msgid "Delay"
-msgstr "Vertraag"
-
-msgid "Delay (s/10)"
-msgstr "Vertraag (s/10)"
 
 #, kde-format
 msgid "Delete %1"
 msgstr "Verwijder %1"
 
 msgid "Delete All Guides"
-msgstr "Verwijder alle Guides"
+msgstr "Verwijder alle aanwijzingen"
 
-#, fuzzy
 msgid "Delete All Markers"
-msgstr "Verwijder alle markers van clip"
+msgstr "Verwijder alle markeerpunten"
 
 msgid "Delete Clip"
 msgstr "Verwijder clip"
@@ -639,11 +543,10 @@ msgid "Delete Folder"
 msgstr "Verwijder map"
 
 msgid "Delete Guide"
-msgstr "Verwijder Guide"
+msgstr "Verwijder aanwijzing"
 
-#, fuzzy
 msgid "Delete Marker"
-msgstr "Verwijder marker"
+msgstr "Verwijder markeerputn"
 
 msgid "Delete Selected Item"
 msgstr "Verwijder geselecteerd item"
@@ -651,9 +554,8 @@ msgstr "Verwijder geselecteerd item"
 msgid "Delete clip"
 msgstr "Verwijder clip"
 
-#, fuzzy
 msgid "Delete current file"
-msgstr "Verwijder profiel"
+msgstr "Verwijder huidig bestand"
 
 msgid "Delete effect"
 msgstr "Verwijder effect"
@@ -666,8 +568,8 @@ msgid ""
 "Delete folder <b>%2</b> ?<br>This will also remove the %1 clips in that "
 "folder"
 msgstr ""
-"Verwijderen map <b>%2</b> ?Hiermee worden ook de  %1 clips in deze map "
-"verwijderd"
+"Verwijderen map <b>%2</b> ?"
+"Hiermee worden ook de  %1 clips in deze map verwijderd"
 
 msgid "Delete guide"
 msgstr "Verwijder Guide"
@@ -681,28 +583,23 @@ msgstr "Verwijder marker"
 msgid "Delete profile"
 msgstr "Verwijder profiel"
 
-#, fuzzy
 msgid "Delete selected items"
 msgstr "Verwijder geselecteerde items"
 
 msgid "Delete timeline clip"
-msgstr "Verwijder clip uit tijdsbalk"
+msgstr "Verwijder tijdsbalk clip"
 
 msgid "Delete transition from clip"
-msgstr "Verwijder overgang uit clip"
-
-msgid "Depth"
-msgstr "Diepte"
+msgstr "Verwijder overgang van clip"
 
 msgid "Description"
 msgstr "Beschrijving"
 
-#, fuzzy
 msgid "Description:"
 msgstr "Beschrijving:"
 
 msgid "Desktop search integration"
-msgstr "Bureaubald zoekfunctie integratie"
+msgstr "Bureaublad zoekfunctie integratie"
 
 msgid "Device"
 msgstr "Apparaat"
@@ -714,11 +611,7 @@ msgid "Dialog"
 msgstr "Dialoog"
 
 msgid "Direct FB"
-msgstr ""
-
-#, fuzzy
-msgid "Discard color information"
-msgstr "Ontdoe van kleur informatie"
+msgstr "Direct FB"
 
 msgid "Disonnect"
 msgstr "Verbinding verbreken"
@@ -726,25 +619,23 @@ msgstr "Verbinding verbreken"
 msgid "Display"
 msgstr "Weergave"
 
-#, fuzzy
 msgid "Display aspect ratio"
-msgstr "Beeldverhouding"
+msgstr "Geef beeldverhouding weer"
 
-#, fuzzy
 msgid "Display aspect ratio:"
-msgstr "Beeldverhouding:"
+msgstr "Geef beeldverhouding weer:"
 
 msgid "Display clip markers comments"
 msgstr "Geef clip marker opmerkingen weer"
 
 msgid "Display ratio:"
-msgstr ""
+msgstr "Geef verhouding weer"
 
 msgid "Do nothing"
 msgstr "Doe niets"
 
 msgid "Document to open"
-msgstr ""
+msgstr "Te openen document"
 
 msgid "Don't recover"
 msgstr "Niet herstellen"
@@ -753,18 +644,17 @@ msgid "Duration"
 msgstr "Duur"
 
 msgid "Dw"
-msgstr ""
+msgstr "Dw"
 
 msgid "E"
-msgstr ""
+msgstr "E"
 
 msgid "EMAIL OF TRANSLATORS"
-msgstr "jb@kdenlive.org"
+msgstr "mzandbelt@xs4all.nl"
 
 msgid "Edit Clip"
 msgstr "Clip bewerken"
 
-#, fuzzy
 msgid "Edit Clip Speed"
 msgstr "Clip snelheid bewerken"
 
@@ -777,7 +667,6 @@ msgstr "Keyframe bewerken"
 msgid "Edit Marker"
 msgstr "Marker bewerken"
 
-#, fuzzy
 msgid "Edit clip"
 msgstr "Clip bewerken"
 
@@ -809,7 +698,7 @@ msgid "Effect List"
 msgstr "Effecten lijst"
 
 msgid "Effect Stack"
-msgstr "Effecten stapel"
+msgstr "Gestapelde effecten"
 
 msgid "Enable Jog Shuttle device"
 msgstr "Activeer Jog Shuttle apparaat"
@@ -823,30 +712,23 @@ msgstr "Encodeer-instellingen"
 msgid "End"
 msgstr "Einde"
 
-msgid "End Gain"
-msgstr ""
-
 msgid "EndViewport"
-msgstr ""
+msgstr "EndViewport"
 
-#, fuzzy
 msgid "Environment"
 msgstr "Omgeving"
 
-msgid "Equalizer"
-msgstr ""
-
 msgid "Error starting MLT's command line player (inigo)"
-msgstr "Fout bij starten van MLT command-line afspeelprogramma (inigo)."
+msgstr "Fout bij starten van MLT command-line speler (inigo)."
 
 msgid "Error starting MLT's command line player (inigo)."
-msgstr "Fout bij starten van MLT command-line afspeelprogramma (inigo)."
+msgstr "Fout bij starten van MLT command-line speler (inigo)."
 
 msgid "Error when resizing clip"
-msgstr "Fout bij schalen clip"
+msgstr "Fout bij herschalen clip"
 
 msgid "Esound daemon"
-msgstr ""
+msgstr "Esound daemon"
 
 msgid "Extension"
 msgstr "Extensie"
@@ -855,22 +737,10 @@ msgid "Extra Toolbar"
 msgstr "Extra werkbalk"
 
 msgid "Extract frame"
-msgstr ""
-
-msgid "Fade in"
-msgstr ""
-
-msgid "Fade in audio track"
-msgstr ""
-
-msgid "Fade out"
-msgstr ""
+msgstr "Frame onttrekken"
 
 msgid "Fatal Error"
 msgstr "Fatale fout"
-
-msgid "Feedback"
-msgstr ""
 
 #, kde-format
 msgid "File %1 is not a Kdenlive project file."
@@ -884,29 +754,26 @@ msgid ""
 "Do you want to overwrite it ?"
 msgstr ""
 "Bestand bestaat reeds.\n"
-"Wilt u het bestand overschrijven?"
+"Wilt u het overschrijven?"
 
-#, fuzzy
 msgid "File already exists. Do you want to overwrite it ?"
-msgstr "Bestand bestaat reeds. Wilt u het bestand overschrijven?"
+msgstr "Bestand bestaat reeds, overschrijven?"
 
-#, fuzzy
 msgid "File extension"
-msgstr "Bestands-extensie"
+msgstr "Bestandsextensie"
 
 msgid "File name"
 msgstr "Bestandsnaam"
 
 msgid "File size"
-msgstr "Bestandsgrootte"
+msgstr "Bestands grootte"
 
 msgid "Filename"
 msgstr "Bestandsnaam"
 
 msgid "Fill color"
-msgstr "Vul kleur"
+msgstr "Vulkleur"
 
-#, fuzzy
 msgid "Find"
 msgstr "Zoek"
 
@@ -917,129 +784,93 @@ msgid "Find stopped"
 msgstr "Zoeken gestopt"
 
 msgid "Firewire"
-msgstr ""
+msgstr "Firewire"
 
 msgid "Firewire / dvgrab"
-msgstr ""
+msgstr "Firewire / dvgrab"
 
 msgid ""
 "Firewire is not enabled on your system.\n"
 " Please install Libiec61883 and recompile Kdenlive"
 msgstr ""
-"Firewire is niet geaktiveerd op uw systeem.\n"
-"Installeer a.u.b. Libiec61883 en compileer Kdenlive opnieuw"
+"Firewire is niet ingeschakeld op uw systeem.\n  Installeer a.u.b. "
+"Libiec61883 en compileer kdenlive opnieuw"
 
 msgid "Fit zoom to project"
-msgstr "Pas zoomniveau aan aan project"
-
-msgid "Flip your image in any direction"
-msgstr "Kantel uw afbeelding in elke richting"
+msgstr "Pas zoomniveau aan object aan"
 
 msgid "Folder"
 msgstr "Map"
 
-#, fuzzy
 msgid "Force pixel aspect ratio"
-msgstr "Dwing aspect ratio af"
+msgstr "Dwing pixel beeldverhouding af"
 
 msgid "Format"
-msgstr "Formaat"
+msgstr "Fornat"
 
 msgid "Forward"
-msgstr "Voorwaarts"
+msgstr "Vooruit"
 
 msgid "Forward 1 Frame"
-msgstr "1 frame vooruit "
+msgstr "1 frame vooruit"
 
 msgid "Forward 1 frame"
 msgstr "1 frame vooruit"
 
 #, kde-format
 msgid "Found : %1"
-msgstr "Gevonden : %1"
+msgstr "Gevonden: %1"
 
 msgid "Frame Duration"
-msgstr "Frame duur"
+msgstr "Frame lengte"
 
 msgid "Frame duration"
-msgstr "Frame duur"
+msgstr "Frame lengte"
 
 msgid "Frame rate"
-msgstr ""
+msgstr "Frame rate/frequentie"
 
 msgid "Frame rate:"
-msgstr ""
+msgstr "Frame rate/frequentie:"
 
 msgid "Frame size"
-msgstr "Frame grootte"
+msgstr "Frame afmetingen"
 
 msgid "Framebuffer console"
-msgstr ""
+msgstr "Framebuffer console"
 
 msgid "Frames"
-msgstr ""
-
-msgid "Freeze"
-msgstr ""
-
-msgid "Freeze After"
-msgstr "Freeze na"
-
-msgid "Freeze Before"
-msgstr "Freeze voor"
-
-msgid "Freeze at"
-msgstr "Freeze op"
-
-msgid "Freeze video on a chosen frame"
-msgstr "Freeze video op een geselecteerd frame"
+msgstr "Framebuffer console"
 
 msgid "Frequency"
 msgstr "Frequentie"
 
-#, fuzzy
 msgid "From"
-msgstr "Formaat"
+msgstr "Van"
 
-#, fuzzy
 msgid "Full project"
 msgstr "Volledig project"
 
 msgid "Full screen capture"
-msgstr "Opnemen volledig scherm"
-
-msgid "Gain"
-msgstr ""
-
-msgid "Gain in"
-msgstr ""
-
-msgid "Gain out"
-msgstr ""
-
-msgid "Gamma"
-msgstr ""
+msgstr "Maak opname van volledig beeldscherm"
 
 msgid "General graphics interface"
 msgstr "Algemene grafische interface"
-
-msgid "Geometry"
-msgstr "Geometrie"
 
 msgid "Go To"
 msgstr "Ga naar"
 
 msgid "Go to Clip End"
-msgstr "Ga naar einde van clip"
+msgstr "Ga naar clip einde"
 
 msgid "Go to Clip Start"
-msgstr "Ga naar begin van clip"
+msgstr "Ga naar clip begin"
 
 msgid "Go to Next Snap Point"
-msgstr "Ga naar volgende moment opname "
+msgstr "Ga naar volgend snapshot"
 
 msgid "Go to Previous Snap Point"
-msgstr "Ga naar vorige moment opname "
+msgstr "Ga naar vorig snapshot"
 
 msgid "Go to Project End"
 msgstr "Ga naar project einde"
@@ -1047,7 +878,6 @@ msgstr "Ga naar project einde"
 msgid "Go to Project Start"
 msgstr "Ga naar project begin"
 
-#, fuzzy
 msgid "Go to next keyframe"
 msgstr "Ga naar volgend keyframe"
 
@@ -1055,317 +885,201 @@ msgid "Go to previous keyframe"
 msgstr "Ga naar vorig keyframe"
 
 msgid "GraphView"
-msgstr ""
-
-msgid "Greyscale"
-msgstr "Grijswaarden"
+msgstr "GraphView"
 
 msgid "Group"
-msgstr "Groeperen"
+msgstr "Groep"
 
 msgid "GroupBox"
-msgstr ""
+msgstr "GroepBox"
 
 msgid "Guide"
-msgstr "Guide"
+msgstr "Aanwijzing"
 
 msgid "Guide zone"
-msgstr ""
+msgstr "Aanwijzing zone"
 
 msgid "Guides"
-msgstr ""
+msgstr "Aanwijzingen"
 
 msgid "H"
-msgstr ""
+msgstr "H"
 
 msgid "HDV"
 msgstr "HDV"
 
-msgid "Height"
-msgstr "Hoogte"
-
-msgid "Hi gain"
-msgstr ""
-
-msgid "Hide a region of the clip"
-msgstr "Verberg een gedeelte van de clip"
-
-msgid "Hide a selected zone and follow its movements"
-msgstr "Verberg een geselecteerd gebied en volg de bwegingen er van"
-
 msgid "Hor. Center"
 msgstr "Hor. centreren"
 
-msgid "Horizontal factor"
-msgstr "Horizontale factor"
-
-msgid "Horizontal multiplicator"
-msgstr "Horizontale vermenigvuldiger"
-
-msgid "Horizontal scatter"
-msgstr "Horizontale scatter"
-
-#, fuzzy
 msgid "Image"
 msgstr "Afbeelding"
 
 msgid "Image Type"
-msgstr "Afbeeldings type"
+msgstr "Afbeeldingstype"
 
 msgid "Image clip"
-msgstr "Afbeeldings clip"
+msgstr "Afbeeldingsclip"
 
 msgid "Image clips"
-msgstr "Afbeeldings clips"
+msgstr "Afbeeldingsclips"
 
-#, fuzzy
 msgid "Image editing"
 msgstr "Afbeelding bewerken"
 
 msgid "Image preview"
-msgstr "Afbeelding preview"
+msgstr "Afbeelding voorbeeld"
 
 msgid "Image size"
-msgstr "Afbeeldings grootte"
+msgstr "Afbeeldings afmetingen"
 
-#, fuzzy
 msgid "Image type"
-msgstr "Afbeeldings type"
+msgstr "Afbeeldingstype"
 
 msgid "Inigo path"
-msgstr ""
+msgstr "Inigo pad"
 
 msgid "Initialising..."
 msgstr "Initialiseren..."
 
-msgid "Input gain (db)"
-msgstr ""
-
 msgid "Install extra video mimetypes"
 msgstr "Installeer extra video mimetypes"
 
-msgid "Intensity"
-msgstr "Intensiteit"
-
 msgid "Interlaced"
-msgstr ""
-
-msgid "Invert"
-msgstr "Inverteer"
-
-#, fuzzy
-msgid "Invert colors"
-msgstr "Rand/omlijning kleur"
+msgstr "Interlaced"
 
 msgid "Jean-Baptiste Mardelle"
-msgstr ""
+msgstr "Jean-Baptiste Mardelle"
 
-#, fuzzy
 msgid "Jog Shuttle device disabled."
-msgstr "Activeer Jog Shuttle apparaat"
+msgstr "Jog Shuttle apparaat uitgeschakeld."
 
 msgid "JogShuttle"
-msgstr ""
+msgstr "JogShuttle"
 
-#, fuzzy
 msgid "Kdenlive"
-msgstr "Frame grootte"
-
-#, fuzzy
-msgid "Kernel size"
-msgstr "Frame grootte"
+msgstr "Kdenlive"
 
 msgid "Keyframe"
 msgstr "Keyframe"
 
-msgid "LADSPA change pitch audio effect"
-msgstr ""
-
-msgid "LADSPA declipper audio effect"
-msgstr ""
-
-msgid "LADSPA equalizer audio effect"
-msgstr ""
-
-msgid "LADSPA limiter audio effect"
-msgstr ""
-
-msgid "LADSPA phaser audio effect"
-msgstr ""
-
-msgid "LADSPA pitch scale audio effect"
-msgstr ""
-
-msgid "LADSPA rate scale audio effect"
-msgstr ""
-
-msgid "LADSPA reverb audio effect"
-msgstr ""
-
-msgid "LADSPA room reverb audio effect"
-msgstr ""
-
-#, fuzzy
 msgid "Left"
 msgstr "Links"
-
-msgid "Limit (db)"
-msgstr ""
-
-#, fuzzy
-msgid "Limiter"
-msgstr "Begrenzer"
-
-msgid "Lo gain"
-msgstr ""
 
 msgid "Load Image"
 msgstr "Open afbeelding"
 
 msgid "Load Title"
-msgstr "Open trtel"
+msgstr "Open titel"
 
 msgid "Loading playlist..."
-msgstr "Afspeellijst openen..."
+msgstr "Afspeelijst openen..."
 
 msgid "Loading project clips"
-msgstr "Project clips openen..."
+msgstr "Project clips openen"
 
 msgid "Loop"
-msgstr ""
+msgstr "Loop"
 
 msgid "Loop Section"
-msgstr ""
+msgstr "Loop sectie"
 
 msgid "Luma File"
-msgstr ""
+msgstr "Luma bestand"
 
 msgid "Luma file"
-msgstr ""
+msgstr "Luma bestand"
 
 msgid "M"
-msgstr ""
+msgstr "M"
 
 msgid ""
 "MLT's SDL module not found. Please check your MLT install. Kdenlive will not "
 "work until this issue is fixed."
 msgstr ""
+"MLT's SDL module niet gevonden. Controleer a.u.b. uw MLT installatie. "
+"Kdenlive zal niet werken totdat dit probleem verholpen is."
 
 msgid ""
 "MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT "
 "install. Kdenlive will not work until this issue is fixed."
 msgstr ""
-
-msgid "Make clip play faster slowly"
-msgstr "Laat clip sneller/langzamer afspelen"
-
-msgid "Make image greyscale except for chosen color"
-msgstr "Maak van afbeelding grijswaarden behalve voor gekozen kleur"
-
-msgid "Make monochrome clip"
-msgstr "Maak monochroom clip"
-
-msgid "Make selected color transparent"
-msgstr "Maak gekozen kleur transparant"
-
-msgid "Make waves on your clip with keyframes"
-msgstr "Maak golven op uw clip met keyframes"
+"MLT's avformat (FFMPEG) module niet gevonden. Controleer a.u.b. uw FFMPEG en "
+"MLT installatie. Kdenlive zal niet werken totdat dit probleem verholpen is."
 
 msgid "Manage Profiles"
 msgstr "Beheer profielen"
 
 msgid "Marco Gittler"
-msgstr ""
+msgstr "Marco Gittler"
 
 msgid "Marker"
-msgstr ""
+msgstr "Markeerpunt"
 
 msgid "Markers"
-msgstr ""
-
-msgid "Mid gain"
-msgstr ""
-
-#, fuzzy
-msgid "Mirror"
-msgstr "Spiegel"
-
-msgid "Mirroring direction"
-msgstr "Richting spiegelen"
+msgstr "Markeerpunten"
 
 msgid "Misc"
 msgstr "Diversen"
 
-#, fuzzy
 msgid "Misc..."
-msgstr "Diversen...."
-
-msgid "Mix"
-msgstr ""
+msgstr "Diversen..."
 
 msgid "Mlt Connection, Transition, Effect, Timeline Developer"
-msgstr ""
+msgstr "Mlt verbiding, Overgang, Effect, Tijdsbalk Ontwikkelaar"
 
 msgid "Mlt environment"
-msgstr "Mlt-omgeving"
+msgstr "Mlt omgeving"
 
 msgid "Mlt porting, KDE4 porting, Main developer"
-msgstr ""
+msgstr "Mlt porting, KDE4 porting, Hoofd-ontwikkelaar"
 
 msgid "Mlt profiles folder"
-msgstr "Mlt Profielen map"
+msgstr "Mlt profielen"
 
 msgid "Monitor"
-msgstr ""
+msgstr "Monitor"
 
 msgid "Move clip"
 msgstr "Verplaats clip"
 
-#, fuzzy
 msgid "Move effect"
 msgstr "Verplaats effect"
 
 msgid "Move effect down"
-msgstr "Verplaats effect neerwaarts"
+msgstr "Verplaats effect naar beneden"
 
 msgid "Move effect up"
-msgstr "Verplaats effect opwaarts"
+msgstr "Verplaats effect naar boven"
 
 msgid "Move guide"
-msgstr "Verplaats Guide"
+msgstr "Verplaats aanwijzing "
 
 msgid "Move transition"
 msgstr "Verplaats overgang"
 
-msgid "Mute"
-msgstr ""
-
-msgid "Mute clip"
-msgstr ""
-
 msgid "Mute video clip"
-msgstr ""
+msgstr "Mute video clip (geen geluid)"
 
 msgid "N"
-msgstr ""
+msgstr "N"
 
 msgid "NAME OF TRANSLATORS"
-msgstr "Jean-Baptiste Mardelle"
+msgstr "Michiel Zandbelt"
 
 msgid "NTSC"
-msgstr ""
+msgstr "NTSC"
 
 msgid "Name"
 msgstr "Naam"
 
 msgid "Name for saved effect: "
-msgstr "Naam voor opgeslagen effect:"
+msgstr "Naam voor opgeslagen effect"
 
 msgid "Nano X"
-msgstr ""
+msgstr "Nano X"
 
 msgid "New speed (percents)"
-msgstr "Nieuwe snelheid (procent)"
+msgstr "Nieuwe snelheid (percentage)"
 
 msgid "No clip at cursor time"
 msgstr "Geen clip op cursor tijdstip"
@@ -1377,26 +1091,19 @@ msgid "No clip selected"
 msgstr "Geen clip geselecteerd"
 
 msgid "No guide at cursor time"
-msgstr "Geen Guide op cursor tijdstip"
+msgstr "Geen aanwijzing op cursor tijdstip"
 
 msgid "No image found"
 msgstr "Geen afbeelding gevonden"
 
 msgid "No marker found at cursor time"
-msgstr "Geen marker gevonden op cursor tijdstip"
+msgstr "Geen markeerpunt gevonden"
 
 msgid "No selected clip at cursor time"
-msgstr "Geen geselecteerde clip op cursor tijdstip"
-
-msgid "Normalise"
-msgstr "Normaliseer"
+msgstr "Geen geselecteerde clip op cursortijdstip"
 
 msgid "Normalise audio for thumbnails"
 msgstr "Normaliseer geluid voor miniaturen"
-
-#, fuzzy
-msgid "Normalise audio volume"
-msgstr "Normaliseer geluidsvolume"
 
 msgid "Not connected"
 msgstr "Niet verbonden"
@@ -1406,44 +1113,40 @@ msgid "Not found : %1"
 msgstr "Niet gevonden: %1"
 
 msgid "OSS"
-msgstr ""
+msgstr "OSS"
 
 msgid "OSS with DMA access"
 msgstr "OSS met DMA toegang"
-
-msgid "Obscure"
-msgstr ""
 
 msgid "Opacity"
 msgstr "Opaciteit"
 
 msgid "Open Document"
-msgstr ""
+msgstr "Open Document"
 
 msgid "Open last project on startup"
 msgstr "Open meest recente project bij opstarten"
 
-#, fuzzy
 msgid "Open projects in new tabs"
-msgstr "Open projecten in nieuwe tabbladen"
+msgstr "Open projecten in nieuwe tabs"
 
 msgid "Output file"
-msgstr "Output bestand"
+msgstr "Output betand"
 
 msgid "P"
-msgstr ""
+msgstr "P"
 
 msgid "PAL"
-msgstr ""
+msgstr "PAL"
 
 msgid "Param"
-msgstr ""
+msgstr "Param"
 
 msgid "Parameter info"
-msgstr ""
+msgstr "Parameter info"
 
 msgid "Parameters"
-msgstr ""
+msgstr "Parameters"
 
 msgid "Paste Effects"
 msgstr "Plak effecten"
@@ -1451,31 +1154,20 @@ msgstr "Plak effecten"
 msgid "Path"
 msgstr "Pad"
 
-msgid "Phaser"
-msgstr ""
-
-msgid "Pitch Scaler"
-msgstr ""
-
-msgid "Pitch Shift"
-msgstr ""
-
-#, fuzzy
 msgid "Pixel aspect ratio"
-msgstr "Dwing aspect ratio af"
+msgstr "Pixel beeldverhouding"
 
-#, fuzzy
 msgid "Pixel aspect ratio:"
-msgstr "Dwing aspect ratio af"
+msgstr "Pixel beeldverhouding:"
 
 msgid "Play"
 msgstr "Afspelen"
 
 msgid "Play / Pause"
-msgstr "Afspelen / Pauze"
+msgstr "Afspelen/Pauzeer"
 
 msgid "Play Section"
-msgstr "Sectie afspelen"
+msgstr "Afspelen sectie"
 
 msgid "Play after render"
 msgstr "Afspelen na renderen"
@@ -1487,21 +1179,23 @@ msgid "Playback"
 msgstr "Afspelen"
 
 msgid "Playback params"
-msgstr "Afspeel instellingen"
+msgstr "Afspeel parameters"
 
 msgid "Playlist clip"
-msgstr "Afspeelijst clip"
+msgstr "Afspeellijst clip"
 
 msgid ""
 "Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
 "org/mantis</a>"
 msgstr ""
+"Zend a.u.b. fouten/bugs naar <a href=\"http://kdenlive.org/mantis\">"
+"http://kdenlive. org/mantis</a>"
 
 msgid "Please report bugs to http://kdenlive.org/mantis"
-msgstr ""
+msgstr "Zend a.u.b. fouten/bugs naar http://kdenlive.org/mantis"
 
 msgid "Please set your default video format"
-msgstr "Stel a.u.b. uw standaard video formaat in"
+msgstr "Stel a.u.b. uw standaard video-formaat in"
 
 #, kde-format
 msgid ""
@@ -1511,14 +1205,11 @@ msgid ""
 "Files will be saved in:\n"
 "%1"
 msgstr ""
-"Sluit uw camcorder aan en\n"
-"druk op de verbinden knop\n"
-"om de verbinding te starten\n"
-"Bestanden zullen worden opgeslagen in:\n"
-"%1"
+"Sluit uw camcorder aan en\n druk op de verbinden knop\n om de verbinding te "
+"starten\n Bestanden worden opgeslagen in:\n %1"
 
 msgid "Pos"
-msgstr ""
+msgstr "Pos"
 
 msgid "Position"
 msgstr "Positie"
@@ -1530,10 +1221,8 @@ msgid ""
 "Files will be saved in:\n"
 "%1"
 msgstr ""
-"Druk op de afspelen of opnemen knop\n"
-"om het opnemen van video te beginnen\n"
-"Bestanden zullen worden opgeslagen in:\n"
-"%1"
+"Druk op de afspelen of opname knop\n om het opnemen van video te "
+"beginnen\n Bestanden worden opgeslagen in:\n %1"
 
 #, kde-format
 msgid ""
@@ -1542,19 +1231,17 @@ msgid ""
 "Files will be saved in:\n"
 "%1"
 msgstr ""
-"Druk op de opnemen knop\n"
-"om opnemen van beeldscherm te starten\n"
-"Bestanden zullen worden opgeslagen in:\n"
-"%1"
+"Druk op opname knop\n om scherm-opname te starten\n Bestanden worden "
+"opgeslagen in:\n %1"
 
 msgid "Problem adding effect to clip"
-msgstr "Probleem bij toevoegen van effect aan clip"
+msgstr "Probleem bij toevoegen effect aan clip"
 
 msgid "Problem deleting effect"
-msgstr "Probleem bij verwijderen van effect"
+msgstr "Probleem bij verwijderen effect"
 
 msgid "Problem editing effect"
-msgstr "Probleem bij bewerken van effect"
+msgstr "Probleem bij bewerken effect"
 
 msgid "Profile"
 msgstr "Profiel"
@@ -1569,16 +1256,16 @@ msgid "Progressive"
 msgstr "Progressief"
 
 msgid "Project"
-msgstr ""
+msgstr "Project"
 
 msgid "Project Monitor"
-msgstr ""
+msgstr "Project Monitor"
 
 msgid "Project Settings"
 msgstr "Project instellingen"
 
 msgid "Project Tree"
-msgstr "Project structuur"
+msgstr "Project boom"
 
 msgid "Project folder"
 msgstr "Project map"
@@ -1587,64 +1274,41 @@ msgid "Properties"
 msgstr "Eigenschappen"
 
 msgid "R"
-msgstr ""
-
-msgid "RPM"
-msgstr ""
-
-msgid "Rate"
-msgstr ""
-
-msgid "Rate (Hz)"
-msgstr ""
-
-msgid "Rate Scaler"
-msgstr ""
+msgstr "R"
 
 msgid "Rating"
-msgstr ""
+msgstr "Rating"
 
-#, fuzzy
 msgid "Razor clip"
-msgstr "Snijmes clip"
+msgstr "Knip clip"
 
 msgid "Razor tool"
-msgstr "Snijmes"
+msgstr "Knip gereedschap"
 
-#, fuzzy
 msgid "Reached end of project"
-msgstr "Einde van project is bereikt"
+msgstr "Einde van project bereikt"
 
 msgid "Record"
 msgstr "Opnemen"
 
 msgid "Record Monitor"
-msgstr "Opname Monitor"
+msgstr "Opname monitor"
 
-#, fuzzy
 msgid "Recover"
-msgstr "Herstellen"
-
-#, fuzzy
-msgid "Region"
-msgstr "Gebied"
-
-msgid "Release time (s)"
-msgstr "Release tijdstip(pen)"
+msgstr "Herstel"
 
 msgid "Rename folder"
-msgstr "Map hernoemen"
+msgstr "Hernoem map"
 
-#, fuzzy
 msgid "Render"
-msgstr "Renderen"
+msgstr "Renderen (omzetten)"
 
 msgid "Rendering"
-msgstr "Aan het renderen"
+msgstr "Renderen"
 
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rendering %1"
-msgstr "Aan het renderen"
+msgstr "Renderen/omzetten %1"
 
 #, kde-format
 msgid "Rendering <i>%1</i> started"
@@ -1653,86 +1317,48 @@ msgstr "Renderen van <i>%1</i> begonnen"
 #, kde-format
 msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
 msgstr ""
+"Renderen/omzetten van %1 afgebroken, resulterend videobestand zal "
+"waarschijnlijk beschadigd zijn."
 
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rendering of %1 is over"
-msgstr "Renderen van <i>%1</i> begonnen"
+msgstr "Renderen/omzetten van %1 is klaar"
 
 msgid "Reset effect"
-msgstr "Reset effect"
+msgstr "Stel effect opnieuw in"
 
 msgid "Resize (100%)"
-msgstr "Schalen (100%)"
+msgstr "Herschaal (100%)"
 
-#, fuzzy
 msgid "Resize (50%)"
-msgstr "Schalen (50%)"
+msgstr "Resize (50%)"
 
 msgid "Resize clip"
-msgstr "Clip schalen"
+msgstr "Herschaal clip"
 
-#, fuzzy
 msgid "Resize..."
-msgstr "Schalen..."
-
-msgid "Reverb"
-msgstr ""
-
-msgid "Reverb Time"
-msgstr ""
-
-msgid "Reverb time"
-msgstr ""
-
-msgid "Reverse playing"
-msgstr "Omgekeerd afspelen"
+msgstr "Herschalen..."
 
 msgid "Rewind"
 msgstr "Terugspoelen"
 
 msgid "Rewind 1 Frame"
-msgstr "1 frame terugspoelen"
+msgstr "1 frame terug"
 
 msgid "Rewind 1 frame"
-msgstr "1 frame terugspoelen"
+msgstr "1 frame terug"
 
-#, fuzzy
 msgid "Right"
 msgstr "Rechts"
-
-msgid "Room Reverb"
-msgstr ""
-
-msgid "Room size (m)"
-msgstr ""
-
-#, fuzzy
-msgid "Rotate"
-msgstr "Roteren"
-
-msgid "Rotate clip in any 3 directions"
-msgstr "Roteer clip in één van de drie richtingen"
 
 msgid "Rotate:"
 msgstr "Roteren:"
 
-#, fuzzy
-msgid "Rotation x"
-msgstr "Rotatie x"
-
-#, fuzzy
-msgid "Rotation y"
-msgstr "Rotatie y"
-
-#, fuzzy
-msgid "Rotation z"
-msgstr "Rotatie z"
-
 msgid "S"
-msgstr ""
+msgstr "S"
 
 msgid "SVGAlib"
-msgstr ""
+msgstr "SVGAlib"
 
 msgid "Save As"
 msgstr "Opslaan als"
@@ -1747,118 +1373,104 @@ msgid "Save Title"
 msgstr "Titel opslaan"
 
 msgid "Save changes to document ?"
-msgstr "Wijzigingen opslaan in document ?"
+msgstr "Wijzigingen opslaan in document?"
 
 msgid "Save clip zone as:"
-msgstr "Clip zone opslaan als:"
+msgstr "Clip-gedeelte opslaan als:"
 
 msgid "Save effect"
 msgstr "Effect opslaan"
 
-#, fuzzy
 msgid "Save profile"
 msgstr "Profiel opslaan"
 
-#, fuzzy
 msgid "Save zone"
-msgstr "Zone opslaan"
+msgstr "Gedeelte opslaan"
 
 msgid "Scale"
 msgstr "Schaal"
 
 msgid "Screen Grab"
-msgstr "Scherm opname"
+msgstr "Opname van beeldscherm"
 
 msgid "Screen Grab / FFmpeg"
-msgstr "Scherm opname / FFmpeg"
+msgstr "Opnemen van beeldscherm..."
 
 msgid "Screen grab"
-msgstr "Scherm opname"
+msgstr "Opname van beeldscherm"
 
 msgid "Select a clip before copying"
-msgstr "Selecteer een clip alvorens te kopiëren"
+msgstr "Selecteer een clip alvorens te kopieren"
 
 msgid "Select a clip if you want to apply an effect"
-msgstr "Selecteer een clip waarop u een effect wilt toepassen"
+msgstr "Selecteer een clip als u een effect wilt toepassen"
 
 msgid ""
 "Select a region using the mouse. To take the snapshot, press the Enter key. "
 "Press Esc to quit."
 msgstr ""
-"Selecteer een gebied/bereik met de muis. Om het snapshot te nemen, druk op "
-"EnterDruk op Esc om te verlaten"
+"Selecteer een gebied met behulp van de muis. Om een snapshot te nemen druk "
+"op de Enter toets. Druk Esc om te verlaten."
 
 msgid "Select clip to change speed"
-msgstr "Selecteer een clip om de snelheid te wijzigen"
+msgstr "Selecteer clip om snelheid te wijzigen"
 
 msgid "Select clip to delete"
-msgstr "Selecteer een clip om te verwijderen"
+msgstr "Selecteer te verwijderen clip"
 
 msgid "Select default audio editor"
-msgstr "Kies de standaard audio bewerkings applicatie"
+msgstr "Selecteer standaard geluids bewerkingsprogramma"
 
 msgid "Select default image editor"
-msgstr "Kies het standaard afbeelding bewerking programma"
+msgstr "Selecteer standaard afbeeldings bewerkingsprogramma"
 
 msgid "Select default video player"
-msgstr "Kies het standaard video afspeelprogramma"
+msgstr "Selecteer standaard videoafspeel programma"
 
 msgid "Select region..."
-msgstr "Kies een gebied/bereik..."
+msgstr "Selecteer gebied..."
 
-#, fuzzy
 msgid "Selected zone"
-msgstr "Geselecteerde zone"
+msgstr "Selecteer gebied..."
 
 msgid "Selection Tool"
-msgstr "Selectie gereedschap"
+msgstr "Selecteer gereedschap"
 
 msgid "Selection tool"
-msgstr "Selectie gereedschap"
+msgstr "Selecteer gereedschap"
 
-msgid "Sepia"
-msgstr ""
-
-#, fuzzy
 msgid "Set In Point"
-msgstr "Plaats In punt"
+msgstr "Set In Punt"
 
 msgid "Set Out Point"
-msgstr "Plaats Uit punt"
+msgstr "Set Out Punt"
 
 msgid "Set current image as thumbnail"
-msgstr "Gebruik huidige afbeelding als miniatuur"
+msgstr "Maak van huidige afbeelding miniatuur"
 
 msgid "Set the path for MLT environnement"
-msgstr ""
+msgstr "Stel pad naar MLT omgeving in"
 
-#, fuzzy
 msgid "Set zone end"
-msgstr "Stel einde van zone in"
+msgstr "Stel gebieds-einde in"
 
 msgid "Set zone start"
-msgstr "Stel begin van zone in"
-
-msgid "Shift"
-msgstr "Verschuif"
+msgstr "Stel gebieds-begin in"
 
 msgid "Show audio thumbnails"
-msgstr "Toon geluid miniaturen"
+msgstr "Laat geluid miniaturen zien"
 
 msgid "Show background"
-msgstr "Toon achtergrond"
+msgstr "Laat achtergrond zien"
 
 msgid "Show keyframes in timeline"
-msgstr "Toon keyframes in tijdsbalk"
+msgstr "Laat keyframes zien in tijdsbalk"
 
 msgid "Show markers comments"
-msgstr "Toon marker opmerkingen"
+msgstr "Laat markeringspunt opmerkingen zien"
 
 msgid "Show video thumbnails"
-msgstr "Toon video miniaturen"
-
-msgid "Simulates a vinyl audio player - LADSPA audio effect"
-msgstr "Simuleert een vinyl (LP) afspeler - LADSPA audio effect"
+msgstr "Laat video miniaturen zien"
 
 msgid "Size"
 msgstr "Grootte"
@@ -1870,92 +1482,43 @@ msgid "Slideshow"
 msgstr "Diashow"
 
 msgid "Slideshow Clip"
-msgstr "Diashow-Clip"
+msgstr "Diashow clip"
 
 msgid "Slideshow clip"
-msgstr "Diashow"
+msgstr "Diashow clip"
 
 msgid "Snap"
-msgstr ""
+msgstr "Snap"
 
 msgid "Softness"
-msgstr ""
-
-msgid "Sox Echo"
-msgstr ""
-
-msgid "Sox Flanger"
-msgstr ""
-
-msgid "Sox Pitch Shift"
-msgstr ""
-
-msgid "Sox Reverb"
-msgstr ""
-
-msgid "Sox Vibro"
-msgstr ""
-
-msgid "Sox change pitch audio effect"
-msgstr ""
-
-msgid "Sox echo audio effect"
-msgstr ""
-
-msgid "Sox flanger audio effect"
-msgstr ""
-
-msgid "Sox reverb audio effect"
-msgstr ""
-
-msgid "Sox vibro audio effect"
-msgstr ""
-
-msgid "Speed"
-msgstr "Snelheid"
+msgstr "Zachtheid"
 
 msgid "Split view"
-msgstr ""
-
-msgid "Spread"
-msgstr ""
-
-msgid "Square Blur"
-msgstr ""
+msgstr "Split view"
 
 msgid "Start"
 msgstr "Start"
 
-msgid "Start Gain"
-msgstr ""
-
-#, fuzzy
 msgid "Start Rendering"
-msgstr "Aan het renderen"
+msgstr "Start Renderen/omzetten"
 
 msgid "Start-/EndViewport"
-msgstr ""
+msgstr "Start-/EndViewport"
 
 msgid "StartViewport"
-msgstr ""
+msgstr "StartViewport"
 
 msgid "Starting -- find text as you type"
-msgstr "Starten -- vind tekst terwijl u typt"
+msgstr "Starten -- zoek tekst terwijl u intypt"
 
 msgid "Stop"
-msgstr ""
-
-msgid "Stroboscope"
-msgstr "Stroboscoop"
-
-msgid "Surface warping"
-msgstr ""
+msgstr "Stop"
 
 msgid "Sync timeline cursor"
-msgstr ""
+msgstr "Sync tijdsbalk cursor"
 
 msgid "Templates"
-msgstr ""
+msgstr "Templates"
 
 msgid "Temporary files"
 msgstr "Tijdelijke bestanden"
@@ -1964,25 +1527,19 @@ msgid "Text clip"
 msgstr "Tekst clip"
 
 msgid "TextLabel"
-msgstr "Tekst label"
+msgstr "TekstLabel"
 
 msgid "There is no clip, cannot extract frame."
-msgstr "Er is geen clip aanwezig, kan geen frame extraheren."
+msgstr "Er is geen clip, kan geen frame extraheren"
 
 msgid ""
 "This is the first time you run Kdenlive. This wizard will let you adjust "
 "some basic settings, you will be ready to edit your first movie in a few "
 "seconds..."
 msgstr ""
-"Dit is de eerste keer dat u kdenlive opstart. Deze wizard laat u enkelebasis-"
-"instellingen aanpassen, U kunt binnen enkele seconden uw eerste filmbestand "
-"gaan bewerken"
-
-msgid "Threshold"
-msgstr "Drempel"
-
-msgid "Threshold value"
-msgstr "Drempelwaarde"
+"Dit is de eerste keer dat u kdenlive gebruikt. Deze wizard laat u enkele "
+"basisinstellingen aanpassen, hierna kunt u binnen enkele ogenblikken uw "
+"eerste film gaan bewerken..."
 
 msgid "Thumbnail"
 msgstr "Miniatuur"
@@ -1993,15 +1550,11 @@ msgstr "Miniaturen"
 msgid "Thumbnails:"
 msgstr "Miniaturen:"
 
-#, fuzzy
 msgid "Time"
 msgstr "Tijd"
 
-msgid "Time window (ms)"
-msgstr ""
-
 msgid "Timecode overlay"
-msgstr ""
+msgstr "Timecode overlay"
 
 msgid "Timeline"
 msgstr "Tijdbalk"
@@ -2024,19 +1577,14 @@ msgstr "Spoor/Track hoogte"
 msgid "Transition"
 msgstr "Overgang"
 
-#, fuzzy
 msgid "Transition type"
-msgstr "Overgangstype"
+msgstr "Type overgang"
 
 msgid "Transparency"
 msgstr "Transparantie"
 
-#, fuzzy
 msgid "Transparent background"
 msgstr "Transparante Achtergrond"
-
-msgid "Turn clip colors to sepia"
-msgstr "Verander clip kleuren naar sepia"
 
 #, kde-format
 msgid "Unable to write to file %1"
@@ -2057,33 +1605,14 @@ msgstr "Omhoog"
 msgid "Use as default"
 msgstr "Als standaard gebruiken"
 
-#, fuzzy
-msgid "Use transparency"
-msgstr "Transparant"
-
 msgid "V"
-msgstr ""
+msgstr "V"
 
 msgid "Value"
 msgstr "Waarde"
 
-msgid "Variable-size square blur (frei0r.squareblur)"
-msgstr ""
-
-msgid "Variance"
-msgstr "Variatie"
-
 msgid "Vert. Center"
 msgstr "Vert. centreren"
-
-msgid "Vertical factor"
-msgstr "Verticale factor"
-
-msgid "Vertical multiplicator"
-msgstr "Verticaal vermeningvuldigen"
-
-msgid "Vertical scatter"
-msgstr "Verticaal scatter"
 
 msgid "Video"
 msgstr "Video"
@@ -2091,11 +1620,9 @@ msgstr "Video"
 msgid "Video Profile"
 msgstr "Video profiel"
 
-#, fuzzy
 msgid "Video Resolution"
 msgstr "Video resolutie"
 
-#, fuzzy
 msgid "Video Standard"
 msgstr "Video standaard"
 
@@ -2103,58 +1630,45 @@ msgid "Video capture params"
 msgstr "Video opname parameters"
 
 msgid "Video clip"
-msgstr ""
+msgstr "Video clip"
 
 msgid "Video codec"
-msgstr ""
+msgstr "Video codec"
 
 msgid "Video driver:"
-msgstr ""
+msgstr "Video driver:"
 
 msgid "Video index"
-msgstr ""
+msgstr "Video index"
 
 msgid "Video player"
 msgstr "Video afspeel programma"
 
-#, fuzzy
 msgid "Video tracks"
 msgstr "Video sporen/tracks"
 
 msgid "Video4Linux"
-msgstr ""
+msgstr "Video4Linux"
 
 msgid "Video4Linux / FFmpeg"
-msgstr ""
+msgstr "Video4Linux / FFmpeg"
 
-#, fuzzy
 msgid "View"
 msgstr "Bekijk"
-
-msgid "Vinyl"
-msgstr ""
 
 msgid "Virtual clip"
 msgstr "Virtuele clip"
 
-msgid "Volume"
-msgstr ""
-
 msgid "W"
-msgstr ""
+msgstr "W"
 
 msgid ""
 "Warning: changes to the drivers and devices can make Kdenlive unstable. "
 "Change only if you know what you do."
 msgstr ""
 "Waarschuwing: het wijzigen van drivers en apparaten kan Kdenlive onstabiel "
-"maken. Verander dit alleen als u weet wat u doet."
-
-msgid "Wave"
-msgstr ""
-
-msgid "Wear"
-msgstr ""
+"maken. "
+"Verander dit alleen als u weet wat u doet."
 
 msgid "Welcome"
 msgstr "Welkom"
@@ -2166,26 +1680,22 @@ msgid "X"
 msgstr "X"
 
 msgid "X11"
-msgstr ""
+msgstr "X11"
 
 msgid "X:"
 msgstr "X:"
 
 msgid "XFREE86 DGA 2.0"
-msgstr ""
+msgstr "XFREE86 DGA 2.0"
 
-#, fuzzy
 msgid "XVideo"
-msgstr "Video"
+msgstr "XVideo"
 
 msgid "Y"
 msgstr "Y"
 
 msgid "Y:"
 msgstr "Y:"
-
-msgid "Year"
-msgstr "Jaar"
 
 msgid "You must copy exactly one clip before pasting effects"
 msgstr "U moet exact een (1) clip kopieren voor u effecten plakt"
@@ -2203,13 +1713,13 @@ msgid "create new points"
 msgstr "nieuwe punten instellen"
 
 msgid "effect"
-msgstr ""
+msgstr "effect"
 
 msgid "frames"
-msgstr ""
+msgstr "frames"
 
 msgid "hh:mm:ss::ff"
-msgstr ""
+msgstr "uu:mm:ss::ff"
 
 msgid "hour"
 msgstr "uur"
@@ -2227,10 +1737,10 @@ msgid "move on Y axis"
 msgstr "op Y as verschuiven"
 
 msgid "ogg"
-msgstr ""
+msgstr "ogg"
 
 msgid "oss"
-msgstr ""
+msgstr "oss"
 
 msgid "parameter description"
 msgstr "Parameter beschrijving"
@@ -2241,7 +1751,6 @@ msgstr "sec."
 msgid "seconds"
 msgstr "Seconden"
 
-#, fuzzy
 msgid "to"
 msgstr "naar"
 
@@ -2249,13 +1758,13 @@ msgid "update values in timeline"
 msgstr "Waarden in tijdbalk actualiseren"
 
 msgid "video4linux2"
-msgstr ""
+msgstr "video4linux2"
 
 msgid "x"
-msgstr ""
+msgstr "x"
 
 msgid "x1"
-msgstr ""
+msgstr "x1"
 
 msgid ""
 "your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
@@ -2263,42 +1772,3 @@ msgstr ""
 "uw MLT installatie kan niet worden gevonden. Installeer MLT en herstart "
 "Kdenlive.\n"
 
-#~ msgid "&Cancel"
-#~ msgstr "Annuleren"
-
-#~ msgid "&OK"
-#~ msgstr "OK "
-
-#~ msgid "Add Marker to Clip"
-#~ msgstr "Marker aan clip toevoegen"
-
-#~ msgid "Delete"
-#~ msgstr "Verwijderen"
-
-#~ msgid "Delete Marker from Clip"
-#~ msgstr "Verwijder marker van clip"
-
-#, fuzzy
-#~ msgid "Delete track"
-#~ msgstr "Verwijder spoor/track"
-
-#~ msgid "Extra parameters"
-#~ msgstr "Extra Parameters"
-
-#~ msgid "Go to..."
-#~ msgstr "Ga naar..."
-
-#~ msgid "Insert track"
-#~ msgstr "Voeg spoor/track in"
-
-#~ msgid "Name:"
-#~ msgstr "Naam:"
-
-#~ msgid "Transparent bac&kground"
-#~ msgstr "Transparante achtergrond"
-
-#~ msgid "Zone end"
-#~ msgstr "Zone eind"
-
-#~ msgid "Zone start"
-#~ msgstr "Zone begin"
