@@ -335,6 +335,7 @@ void RecMonitor::slotStartCapture(bool play) {
 
         captureProcess->setStandardOutputProcess(displayProcess);
         captureProcess->setWorkingDirectory(KdenliveSettings::capturefolder());
+        kDebug() << "Capture: Running dvgrab " << m_captureArgs.join(" ");
         captureProcess->start("dvgrab", m_captureArgs);
         if (play) captureProcess->write(" ", 1);
         m_discAction->setEnabled(true);
@@ -343,6 +344,7 @@ void RecMonitor::slotStartCapture(bool play) {
         m_captureArgs << KdenliveSettings::video4capture().simplified().split(' ') << "-";
         m_displayArgs << KdenliveSettings::video4playback().simplified().split(' ') << "-x" << QString::number(ui.video_frame->width()) << "-y" << QString::number(ui.video_frame->height()) << "-";
         captureProcess->setStandardOutputProcess(displayProcess);
+        kDebug() << "Capture: Running ffmpeg " << m_captureArgs.join(" ");
         captureProcess->start("ffmpeg", m_captureArgs);
         break;
     default:
@@ -350,6 +352,7 @@ void RecMonitor::slotStartCapture(bool play) {
     }
 
     if (ui.device_selector->currentIndex() != SCREENGRAB) {
+        kDebug() << "Capture: Running ffplay " << m_captureArgs.join(" ");
         displayProcess->start("ffplay", m_displayArgs);
         ui.video_frame->setText(i18n("Initialising..."));
     } else {
@@ -415,12 +418,14 @@ void RecMonitor::slotRecord() {
             m_captureArgs << "--format" << "hdv" << "-i" << "capture" << "-";
             m_displayArgs << "-f" << "mpegts" << "-x" << QString::number(ui.video_frame->width()) << "-y" << QString::number(ui.video_frame->height()) << "-";
             captureProcess->setStandardOutputProcess(displayProcess);
+            kDebug() << "Capture: Running dvgrab " << m_captureArgs.join(" ");
             captureProcess->start("dvgrab", m_captureArgs);
             break;
         case VIDEO4LINUX:
             m_captureArgs << KdenliveSettings::video4capture().simplified().split(' ') << "-y" << m_captureFile.path() << "-f" << KdenliveSettings::video4vencoding() << "-";
             m_displayArgs << KdenliveSettings::video4playback().simplified().split(' ') << "-x" << QString::number(ui.video_frame->width()) << "-y" << QString::number(ui.video_frame->height()) << "-";
             captureProcess->setStandardOutputProcess(displayProcess);
+            kDebug() << "Capture: Running ffmpeg " << m_captureArgs.join(" ");
             captureProcess->start("ffmpeg", m_captureArgs);
             break;
         case SCREENGRAB:
@@ -438,8 +443,10 @@ void RecMonitor::slotRecord() {
                 if (KdenliveSettings::screengrabenableaudio() && !KdenliveSettings::useosscapture()) {
                     QStringList alsaArgs = KdenliveSettings::screengrabalsacapture().simplified().split(' ');
                     alsaProcess->setStandardOutputProcess(captureProcess);
+                    kDebug() << "Capture: Running arecord " << alsaArgs.join(" ");
                     alsaProcess->start("arecord", alsaArgs);
                 }
+                kDebug() << "Capture: Running ffmpeg " << m_captureArgs.join(" ");
                 captureProcess->start("ffmpeg", m_captureArgs);
             } else {
                 ui.video_frame->setText(i18n("Select region..."));
@@ -454,6 +461,7 @@ void RecMonitor::slotRecord() {
         //ui.video_frame->setScaledContents(false);
         if (ui.device_selector->currentIndex() != SCREENGRAB) {
             m_isCapturing = true;
+            kDebug() << "Capture: Running ffplay " << m_displayArgs.join(" ");
             displayProcess->start("ffplay", m_displayArgs);
             ui.video_frame->setText(i18n("Initialising..."));
         }
@@ -487,8 +495,10 @@ void RecMonitor::slotStartGrab(const QRect &rect) {
     if (KdenliveSettings::screengrabenableaudio() && !KdenliveSettings::useosscapture()) {
         QStringList alsaArgs = KdenliveSettings::screengrabalsacapture().simplified().split(' ');
         alsaProcess->setStandardOutputProcess(captureProcess);
+        kDebug() << "Capture: Running arecord " << alsaArgs.join(" ");
         alsaProcess->start("arecord", alsaArgs);
     }
+    kDebug() << "Capture: Running ffmpeg " << m_captureArgs.join(" ");
     captureProcess->start("ffmpeg", m_captureArgs);
 }
 
