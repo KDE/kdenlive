@@ -115,6 +115,18 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
         m_configMisc.kcfg_profiles_list->addItem(i.key(), i.value());
     }
 
+    checkProfile();
+
+    slotUpdateDisplay();
+    m_audioDevice = KdenliveSettings::audio_device();
+    initDevices();
+    connect(m_configMisc.kcfg_profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
+}
+
+KdenliveSettingsDialog::~KdenliveSettingsDialog() {}
+
+
+void KdenliveSettingsDialog::checkProfile() {
     if (!KdenliveSettings::default_profile().isEmpty()) {
         for (int i = 0; i < m_configMisc.kcfg_profiles_list->count(); i++) {
             if (m_configMisc.kcfg_profiles_list->itemData(i).toString() == KdenliveSettings::default_profile()) {
@@ -124,14 +136,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
             }
         }
     }
-
-    slotUpdateDisplay();
-    m_audioDevice = KdenliveSettings::audio_device();
-    initDevices();
-    connect(m_configMisc.kcfg_profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
 }
-
-KdenliveSettingsDialog::~KdenliveSettingsDialog() {}
 
 void KdenliveSettingsDialog::initDevices() {
     // Fill audio drivers

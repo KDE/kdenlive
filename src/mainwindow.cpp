@@ -1353,7 +1353,9 @@ void MainWindow::slotPreferences(int page, int option) {
     // cached, in which case you want to display the cached dialog
     // instead of creating another one
     if (KConfigDialog::showDialog("settings")) {
-        if (page != -1) static_cast <KdenliveSettingsDialog*>(KConfigDialog::exists("settings"))->showPage(page, option);
+        KdenliveSettingsDialog* d = static_cast <KdenliveSettingsDialog*>(KConfigDialog::exists("settings"));
+        if (page != -1) d->showPage(page, option);
+        d->checkProfile();
         return;
     }
 

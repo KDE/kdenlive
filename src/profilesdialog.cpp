@@ -46,6 +46,7 @@ ProfilesDialog::ProfilesDialog(QWidget * parent): QDialog(parent), m_isCustomPro
     connect(m_view.button_create, SIGNAL(clicked()), this, SLOT(slotCreateProfile()));
     connect(m_view.button_save, SIGNAL(clicked()), this, SLOT(slotSaveProfile()));
     connect(m_view.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteProfile()));
+    connect(m_view.button_default, SIGNAL(clicked()), this, SLOT(slotSetDefaultProfile()));
 }
 
 void ProfilesDialog::fillList(const QString selectedProfile) {
@@ -75,6 +76,12 @@ void ProfilesDialog::slotCreateProfile() {
     m_view.button_create->setEnabled(false);
     m_view.button_save->setEnabled(true);
     m_view.properties->setEnabled(true);
+}
+
+void ProfilesDialog::slotSetDefaultProfile() {
+    int ix = m_view.profiles_list->currentIndex();
+    QString path = m_view.profiles_list->itemData(ix).toString();
+    if (!path.isEmpty()) KdenliveSettings::setDefault_profile(path);
 }
 
 void ProfilesDialog::slotSaveProfile() {

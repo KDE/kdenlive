@@ -40,7 +40,7 @@ public:
     KdenliveSettingsDialog(QWidget * parent = 0);
     ~KdenliveSettingsDialog();
     void showPage(int page, int option);
-
+    void checkProfile();
     bool hasChanged();
     bool isDefault();
     void updateSettings();

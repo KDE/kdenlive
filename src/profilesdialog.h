@@ -45,6 +45,7 @@ private slots:
     void slotCreateProfile();
     void slotSaveProfile();
     void slotDeleteProfile();
+    void slotSetDefaultProfile();
 
 private:
     Ui::ProfilesDialog_UI m_view;
