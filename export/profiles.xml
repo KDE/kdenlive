@@ -67,12 +67,12 @@
 </group>
 
 <group name="Flash" renderer="avformat" type="av">
-  <profile name="160x120" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=800k ab=128k ar=44100 s=160x120 progressive=1" />
-  <profile name="240x180" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=1000k ab=128k ar=44100 s=240x180 progressive=1" />
-  <profile name="320x240" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=1200k ab=128k ar=44100 s=320x240 progressive=1" />
-  <profile name="640x480" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=7000k ab=128k ar=44100 s=640x480 progressive=1" />
-  <profile name="720x576" standard="PAL" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=12000k ab=128k ar=44100 s=720x576 progressive=1" />
-  <profile name="720x480" standard="NTSC" extension="flv" args="f=flv acodec=libmp3lame minrate=0 b=12000k ab=128k ar=44100 s=720x480 progressive=1" />
+  <profile name="160x120" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=800k s=160x120 progressive=1" />
+  <profile name="240x180" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=1000k s=240x180 progressive=1" />
+  <profile name="320x240" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=1200k s=320x240 progressive=1" />
+  <profile name="640x480" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=7000k s=640x480 progressive=1" />
+  <profile name="720x576" standard="PAL" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=12000k s=720x576 progressive=1" />
+  <profile name="720x480" standard="NTSC" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=12000k s=720x480 progressive=1" />
 </group>
 
 <group name="RealVideo" renderer="avformat" type="av">
