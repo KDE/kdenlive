@@ -32,7 +32,7 @@
   <profile name="Dailymotion 1280x720" extension="mp4" args="f=mp4 acodec=libfaac ab=96k ar=44100 vcodec=libx264 minrate=0 b=800k s=1280x720 mbd=2 trell=1 mv4=1 progressive=1" />
    <profile name="Vimeo 640x480" extension="mp4" args="f=mp4 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=3000k s=640x480 mbd=2 trell=1 mv4=1 progressive=1" />
   <profile name="Vimeo 1280x720" extension="mp4" args="f=mp4 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=5000k s=1280x720 mbd=2 trell=1 mv4=1 progressive=1" />
-  <profile name="Youtube 640x480" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=libxvid minrate=0 b=600k s=640x480 trell=1 progressive=1" />
+  <profile name="Youtube 640x480" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=600k s=640x480 trell=1 progressive=1" />
 </group>
 
 <group name="Mpeg4" renderer="avformat" type="av">
