@@ -683,7 +683,7 @@ void KdenliveDoc::convertDocument(double version) {
 
     //kDebug() << "/////////////////  CONVERTED DOC:";
     // kDebug() << m_document.toString();
-    
+    /*
     QFile file( "converted.kdenlive" );
     if ( file.open( QIODevice::WriteOnly ) ) {
       QTextStream stream( &file );
@@ -692,7 +692,7 @@ void KdenliveDoc::convertDocument(double version) {
     } else {
       kDebug() << "Unable to dump file to converted.kdenlive";
     }
-    
+    */
     //kDebug() << "/////////////////  END CONVERTED DOC:";
 }
 
