@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-25 03:20+0200\n"
-"PO-Revision-Date: 2008-11-09 21:42+0100\n"
+"PO-Revision-Date: 2008-11-10 09:28+0100\n"
 "Last-Translator: Felix Hammer <f.hammer@gmx.de>\n"
 "Language-Team:  <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -709,16 +709,16 @@ msgid "Display"
 msgstr "Anzeige"
 
 msgid "Display aspect ratio"
-msgstr "Display-Seitenverhältnis"
+msgstr "Anzeigeseitenverhältnis"
 
 msgid "Display aspect ratio:"
-msgstr "Display-Seitenverhältnis:"
+msgstr "Anzeigeseitenverhältnis:"
 
 msgid "Display clip markers comments"
 msgstr "Marker-Kommentare des Clips anzeigen"
 
 msgid "Display ratio:"
-msgstr "Display-Frequenz:"
+msgstr "Anzeigeseitenverhältnis:"
 
 msgid "Do nothing"
 msgstr "Nichts unternehmen"
