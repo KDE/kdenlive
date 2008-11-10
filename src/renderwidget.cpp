@@ -364,7 +364,7 @@ void RenderWidget::slotExport() {
     QString renderArgs = m_view.advanced_params->toPlainText();
     renderArgs.replace("%width", QString::number(m_profile.width));
     renderArgs.replace("%height", QString::number(m_profile.height));
-    renderArgs.replace("%dar", QString::number((double) m_profile.display_aspect_num / m_profile.display_aspect_den));
+    renderArgs.replace("%dar", "@" + QString::number(m_profile.display_aspect_num) + "/" + QString::number(m_profile.display_aspect_den));
     emit doRender(m_view.out_file->url().path(), item->data(RenderRole).toString(), overlayargs, renderArgs.split(' '), m_view.render_zone->isChecked(), m_view.play_after->isChecked(), startPos, endPos);
 }
 
