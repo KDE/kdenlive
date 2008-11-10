@@ -401,7 +401,6 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                 for (int ix = 0; ix < effects.count(); ix++) {
                     QDomElement effect = effects.at(ix).toElement();
                     if (effect.tagName() == "filter") {
-                        kDebug() << " * * * * * * * * * * ** CLIP EFF FND  * * * * * * * * * * *";
                         // add effect to clip
                         QString effecttag;
                         QString effectid;
@@ -418,7 +417,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                                 effectindex = effectparam.text();
                             }
                         }
-
+                        //kDebug() << "+ + CLIP EFF FND: " << effecttag << ", " << effectid << ", " << effectindex;
                         // get effect standard tags
                         QDomElement clipeffect = MainWindow::customEffects.getEffectByTag(QString(), effectid);
                         if (clipeffect.isNull()) clipeffect = MainWindow::videoEffects.getEffectByTag(effecttag, effectid);
@@ -434,7 +433,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                             QDomNodeList clipeffectparams = currenteffect.childNodes();
 
                             if (MainWindow::videoEffects.hasKeyFrames(currenteffect)) {
-                                kDebug() << " * * * * * * * * * * ** CLIP EFF WITH KFR FND  * * * * * * * * * * *";
+                                //kDebug() << " * * * * * * * * * * ** CLIP EFF WITH KFR FND  * * * * * * * * * * *";
                                 // effect is key-framable, read all effects to retrieve keyframes
                                 double factor;
                                 QString starttag;
@@ -479,6 +478,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                                         if (subeffectparam.attribute("name") == "kdenlive_ix" && subeffectparam.text() != effectindex) {
                                             //We are not in the same effect, stop parsing
                                             lastParsedEffect = n2.previousSibling();
+                                            ix--;
                                             continueParsing = false;
                                             break;
                                         } else if (subeffectparam.attribute("name") == endtag) {
@@ -486,8 +486,10 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
                                             break;
                                         }
                                     }
-                                    if (continueParsing) keyframes.append(QString::number(effectout) + ":" + QString::number(endvalue) + ";");
-                                    ix++;
+                                    if (continueParsing) {
+                                        keyframes.append(QString::number(effectout) + ":" + QString::number(endvalue) + ";");
+                                        ix++;
+                                    }
                                 }
 
                                 params = currenteffect.elementsByTagName("parameter");
