@@ -36,12 +36,17 @@
 </group>
 
 <group name="Mpeg4" renderer="avformat" type="av">
-  <profile name="160x120" extension="mp4" args="f=mp4 acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=600k s=160x120 aspect=%dar mbd=2 trell=1 mv4=1" />
-  <profile name="240x180" extension="mp4" args="f=mp4 acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=900k s=240x180 aspect=%dar mbd=2 trell=1 mv4=1" />
-  <profile name="320x200" extension="mp4" args="f=mp4 acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=1200k s=320x200 aspect=%dar mbd=2 trell=1 mv4=1" />
-  <profile name="640x480" extension="mp4" args="f=mp4 acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=6000k s=640x480 aspect=%dar mbd=2 trell=1 mv4=1" />
-  <profile name="720x576" standard="PAL" extension="mp4" args="f=mp4 acodec=libmp3lame ab=384k ar=48000 vcodec=mpeg4 s=720x576 aspect=%dar minrate=0 b=8000k mbd=2 trell=1 mv4=1" />
-  <profile name="720x480" standard="NTSC" extension="mp4" args="f=mp4 acodec=libmp3lame ab=384k ar=48000 vcodec=mpeg4 s=720x480 aspect=%dar minrate=0 b=8000k mbd=2 trell=1 mv4=1" />
+  <profile name="Mpeg4 200k" extension="mp4" args="f=mp4 acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=200k s=%widthx%height aspect=%dar mbd=2 trell=1 mv4=1" />
+  <profile name="Mpeg4 400k" extension="mp4" args="f=mp4 acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=200k s=%widthx%height aspect=%dar mbd=2 trell=1 mv4=1" />
+  <profile name="Mpeg4 600k" extension="mp4" args="f=mp4 acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=200k s=%widthx%height aspect=%dar mbd=2 trell=1 mv4=1" />
+  <profile name="Mpeg4 800k" extension="mp4" args="f=mp4 acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=200k s=%widthx%height aspect=%dar mbd=2 trell=1 mv4=1" />
+  <profile name="Mpeg4 1000k" extension="mp4" args="f=mp4 acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=200k s=%widthx%height aspect=%dar mbd=2 trell=1 mv4=1" />
+  <profile name="Mpeg4 2000k" extension="mp4" args="f=mp4 acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=200k s=%widthx%height aspect=%dar mbd=2 trell=1 mv4=1" />
+  <profile name="Mpeg4 4000k" extension="mp4" args="f=mp4 acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=200k s=%widthx%height aspect=%dar mbd=2 trell=1 mv4=1" />
+  <profile name="Mpeg4 6000k" extension="mp4" args="f=mp4 acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=200k s=%widthx%height aspect=%dar mbd=2 trell=1 mv4=1" />
+  <profile name="Mpeg4 8000k" extension="mp4" args="f=mp4 acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=200k s=%widthx%height aspect=%dar mbd=2 trell=1 mv4=1" />
+  <profile name="Mpeg4 10000k" extension="mp4" args="f=mp4 acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=200k s=%widthx%height aspect=%dar mbd=2 trell=1 mv4=1" />
+  <profile name="Mpeg4 12000k" extension="mp4" args="f=mp4 acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=200k s=%widthx%height aspect=%dar mbd=2 trell=1 mv4=1" />
 </group>
 
 <group name="XVid4" renderer="avformat" type="av">
