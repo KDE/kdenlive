@@ -7,15 +7,15 @@
 </group>
 
 <group name="DV" renderer="avformat" type="av">
-  <profile name="PAL Raw" standard="PAL" extension="dv" args="f=dv ildct=1 pix_fmt=yuv420p s=720x576 aspect=%dar profile=dv_pal" />
-  <profile name="PAL Raw DV50" standard="PAL" extension="dv" args="f=dv ildct=1 pix_fmt=yuv422p s=720x576 aspect=%dar profile=dv_pal" />
-  <profile name="PAL AVI" standard="PAL" extension="avi" args="f=avi vcodec=dvvideo ildct=1 pix_fmt=yuv420p acodec=pcm_s16le s=720x576 aspect=%dar profile=dv_pal" />
-  <profile name="PAL AVI DV50" standard="PAL" extension="avi" args="f=avi vcodec=dvvideo ildct=1 pix_fmt=yuv422p s=720x576 aspect=%dar profile=dv_pal" />
+  <profile name="PAL Raw" standard="PAL" extension="dv" args="f=dv ildct=1 pix_fmt=yuv420p s=720x576 profile=dv_pal" />
+  <profile name="PAL Raw DV50" standard="PAL" extension="dv" args="f=dv ildct=1 pix_fmt=yuv422p s=720x576 profile=dv_pal" />
+  <profile name="PAL AVI" standard="PAL" extension="avi" args="f=avi vcodec=dvvideo ildct=1 pix_fmt=yuv420p acodec=pcm_s16le s=720x576 profile=dv_pal" />
+  <profile name="PAL AVI DV50" standard="PAL" extension="avi" args="f=avi vcodec=dvvideo ildct=1 pix_fmt=yuv422p s=720x576 profile=dv_pal" />
 
-  <profile name="NTSC Raw" standard="NTSC" extension="dv" args="f=dv ildct=1 pix_fmt=yuv411p s=720x480 aspect=%dar profile=dv_ntsc" />
-  <profile name="NTSC Raw DV50" standard="NTSC" extension="dv" args="f=dv ildct=1 pix_fmt=yuv422p s=720x480 aspect=%dar profile=dv_ntsc" />
-  <profile name="NTSC AVI" standard="NTSC" extension="avi" args="f=avi vcodec=dvvideo ildct=1 pix_fmt=yuv411p acodec=pcm_s16le s=720x480 aspect=%dar profile=dv_ntsc" />
-  <profile name="NTSC AVI DV50" standard="NTSC" extension="avi" args="f=avi vcodec=dvvideo ildct=1 pix_fmt=yuv422p s=720x480 aspect=%dar profile=dv_ntsc" />
+  <profile name="NTSC Raw" standard="NTSC" extension="dv" args="f=dv ildct=1 pix_fmt=yuv411p s=720x480 profile=dv_ntsc" />
+  <profile name="NTSC Raw DV50" standard="NTSC" extension="dv" args="f=dv ildct=1 pix_fmt=yuv422p s=720x480 profile=dv_ntsc" />
+  <profile name="NTSC AVI" standard="NTSC" extension="avi" args="f=avi vcodec=dvvideo ildct=1 pix_fmt=yuv411p acodec=pcm_s16le s=720x480profile=dv_ntsc" />
+  <profile name="NTSC AVI DV50" standard="NTSC" extension="avi" args="f=avi vcodec=dvvideo ildct=1 pix_fmt=yuv422p s=720x480 profile=dv_ntsc" />
 </group>
 
 <group name="DVD" renderer="avformat" type="av">
