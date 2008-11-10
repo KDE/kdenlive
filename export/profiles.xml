@@ -14,25 +14,25 @@
 
   <profile name="NTSC Raw" standard="NTSC" extension="dv" args="f=dv ildct=1 pix_fmt=yuv411p s=720x480 profile=dv_ntsc" />
   <profile name="NTSC Raw DV50" standard="NTSC" extension="dv" args="f=dv ildct=1 pix_fmt=yuv422p s=720x480 profile=dv_ntsc" />
-  <profile name="NTSC AVI" standard="NTSC" extension="avi" args="f=avi vcodec=dvvideo ildct=1 pix_fmt=yuv411p acodec=pcm_s16le s=720x480profile=dv_ntsc" />
+  <profile name="NTSC AVI" standard="NTSC" extension="avi" args="f=avi vcodec=dvvideo ildct=1 pix_fmt=yuv411p acodec=pcm_s16le s=720x480 profile=dv_ntsc" />
   <profile name="NTSC AVI DV50" standard="NTSC" extension="avi" args="f=avi vcodec=dvvideo ildct=1 pix_fmt=yuv422p s=720x480 profile=dv_ntsc" />
 </group>
 
 <group name="DVD" renderer="avformat" type="av">
-  <profile name="PAL 4:3 vob" standard="PAL" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 b=5000k maxrate=8000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 s=720x576 g=15 me_range=63 ildct=1 ilme=1 profile=dv_pal" />
-  <profile name="PAL 16:9 vob" standard="PAL" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 b=5000k maxrate=8000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 g=15 me_range=63 ildct=1 ilme=1 profile=dv_pal_wide" />  
+  <profile name="PAL 4:3 vob" standard="PAL" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 b=5000k maxrate=8000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 s=720x576 g=15 me_range=63 profile=dv_pal" />
+  <profile name="PAL 16:9 vob" standard="PAL" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 b=5000k maxrate=8000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 g=15 me_range=63 profile=dv_pal_wide" />  
     
-  <profile name="NTSC 4:3 vob" standard="NTSC" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 s=720x480 b=6000k maxrate=9000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 g=18 me_range=63 ildct=1 ilme=1 profile=dv_ntsc" />
-  <profile name="NTSC 16:9 vob" standard="NTSC" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 s=720x480 b=6000k maxrate=9000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 g=18 me_range=63 ildct=1 ilme=1 profile=dv_ntsc_wide" />
+  <profile name="NTSC 4:3 vob" standard="NTSC" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 s=720x480 b=6000k maxrate=9000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 g=18 me_range=63 profile=dv_ntsc" />
+  <profile name="NTSC 16:9 vob" standard="NTSC" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 s=720x480 b=6000k maxrate=9000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 g=18 me_range=63 profile=dv_ntsc_wide" />
 </group>
 
 <group name="Web sites" renderer="avformat" type="av">
-  <profile name="Dailymotion 320x240" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=800k s=320x240 aspect=%dar trell=1 progressive=1 deinterlace=1" />
-  <profile name="Dailymotion 512x384" extension="mp4" args="f=mp4 acodec=libfaac ab=96k ar=44100 vcodec=libx264 minrate=0 b=600k s=512x384 aspect=%dar mbd=2 trell=1 mv4=1 progressive=1 deinterlace=1" />
-  <profile name="Dailymotion 1280x720" extension="mp4" args="f=mp4 acodec=libfaac ab=96k ar=44100 vcodec=libx264 minrate=0 b=1500k s=1280x720 aspect=%dar mbd=2 trell=1 mv4=1 progressive=1 deinterlace=1" />
-   <profile name="Vimeo 640x480" extension="mp4" args="f=mp4 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=3000k s=640x480 aspect=%dar mbd=2 trell=1 mv4=1 progressive=1 deinterlace=1" />
-  <profile name="Vimeo 1280x720" extension="mp4" args="f=mp4 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=5000k s=1280x720 aspect=%dar mbd=2 trell=1 mv4=1 progressive=1 deinterlace=1" />
-  <profile name="Youtube 640x480" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=800k s=640x480 aspect=%dar trell=1 progressive=1 deinterlace=1" />
+  <profile name="Dailymotion 320x240" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=800k s=320x240 aspect=%dar trell=1" />
+  <profile name="Dailymotion 512x384" extension="mp4" args="f=mp4 acodec=libfaac ab=96k ar=44100 vcodec=libx264 minrate=0 b=600k s=512x384 aspect=%dar mbd=2 trell=1 mv4=1" />
+  <profile name="Dailymotion 1280x720" extension="mp4" args="f=mp4 acodec=libfaac ab=96k ar=44100 vcodec=libx264 minrate=0 b=1500k s=1280x720 aspect=%dar mbd=2 trell=1 mv4=1" />
+   <profile name="Vimeo 640x480" extension="mp4" args="f=mp4 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=3000k s=640x480 aspect=%dar mbd=2 trell=1 mv4=1" />
+  <profile name="Vimeo 1280x720" extension="mp4" args="f=mp4 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=5000k s=1280x720 aspect=%dar mbd=2 trell=1 mv4=1" />
+  <profile name="Youtube 640x480" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=800k s=640x480 aspect=%dar trell=1" />
 </group>
 
 <group name="Mpeg4" renderer="avformat" type="av">
