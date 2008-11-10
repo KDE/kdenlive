@@ -532,12 +532,12 @@ void KdenliveDoc::convertDocument(double version) {
                             content.setAttribute("font-color", colorToString(c));
                             // todo: These fields are missing from the newly generated xmldata:
                             // transform, startviewport, endviewport, background
-                            
+
                             QDomText conttxt = tdoc.createTextNode(ob.attribute("text"));
                             content.appendChild(conttxt);
                             item.appendChild(position);
                             item.appendChild(content);
-                            title.appendChild(item);                            
+                            title.appendChild(item);
                         } else if (ob.attribute("type") == "5") {
                             // rectangle object
                             QDomElement item = tdoc.createElement("item");
@@ -607,25 +607,25 @@ void KdenliveDoc::convertDocument(double version) {
             if (wproducer.isNull()) {
                 kWarning() << "Found producer in westley0, that was not a QDomElement";
             } else {
-              // We have to do slightly different things, depending on the type
-              kDebug() << "Converting producer element with type " << wproducer.attribute("type");
-              if ( wproducer.attribute("type").toInt() == TEXT ) {
-                kDebug() << "Found TEXT element in producer" << endl;
-                QDomElement kproducer = wproducer.cloneNode(true).toElement();
-                kproducer.setTagName("kdenlive_producer"); 
-                kdenlivedoc_new.appendChild(kproducer);
-                // todo: Perhaps needs some more changes here to "frequency", aspect ratio as a float, frame_size, channels, and later, ressource and title name
-              } else {
-                QDomElement kproducer = m_document.createElement("kdenlive_producer");
-                kproducer.setAttribute("id", wproducer.attribute("id"));
-                kproducer.setAttribute("description", wproducer.attribute("description"));
-                kproducer.setAttribute("resource", wproducer.attribute("resource"));
-                kproducer.setAttribute("type", wproducer.attribute("type"));
-                kdenlivedoc_new.appendChild(kproducer);
-              }
-              if (wproducer.attribute("id").toInt() > max_kproducer_id) {
-                  max_kproducer_id = wproducer.attribute("id").toInt();
-              }
+                // We have to do slightly different things, depending on the type
+                kDebug() << "Converting producer element with type " << wproducer.attribute("type");
+                if (wproducer.attribute("type").toInt() == TEXT) {
+                    kDebug() << "Found TEXT element in producer" << endl;
+                    QDomElement kproducer = wproducer.cloneNode(true).toElement();
+                    kproducer.setTagName("kdenlive_producer");
+                    kdenlivedoc_new.appendChild(kproducer);
+                    // todo: Perhaps needs some more changes here to "frequency", aspect ratio as a float, frame_size, channels, and later, ressource and title name
+                } else {
+                    QDomElement kproducer = m_document.createElement("kdenlive_producer");
+                    kproducer.setAttribute("id", wproducer.attribute("id"));
+                    kproducer.setAttribute("description", wproducer.attribute("description"));
+                    kproducer.setAttribute("resource", wproducer.attribute("resource"));
+                    kproducer.setAttribute("type", wproducer.attribute("type"));
+                    kdenlivedoc_new.appendChild(kproducer);
+                }
+                if (wproducer.attribute("id").toInt() > max_kproducer_id) {
+                    max_kproducer_id = wproducer.attribute("id").toInt();
+                }
             }
         }
     }
@@ -782,12 +782,6 @@ ClipManager *KdenliveDoc::clipManager() {
 KUrl KdenliveDoc::projectFolder() const {
     if (m_projectFolder.isEmpty()) return KUrl(KStandardDirs::locateLocal("appdata", "/projects/"));
     return m_projectFolder;
-}
-
-QString KdenliveDoc::getDocumentStandard() {
-    //WARNING: this way to tell the video standard is a bit hackish...
-    if (m_profile.description.contains("pal", Qt::CaseInsensitive) || m_profile.description.contains("25", Qt::CaseInsensitive) || m_profile.description.contains("50", Qt::CaseInsensitive)) return "PAL";
-    return "NTSC";
 }
 
 QString KdenliveDoc::profilePath() const {

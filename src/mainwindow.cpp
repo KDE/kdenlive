@@ -1137,7 +1137,7 @@ void MainWindow::slotEditProjectSettings() {
         KdenliveSettings::setProject_fps(m_activeDocument->fps());
         setCaption(m_activeDocument->description(), m_activeDocument->isModified());
         m_monitorManager->resetProfiles(m_activeDocument->timecode());
-        if (m_renderWidget) m_renderWidget->setDocumentStandard(m_activeDocument->getDocumentStandard());
+        if (m_renderWidget) m_renderWidget->setProfile(m_activeDocument->mltProfile());
         m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
 
         // We need to desactivate & reactivate monitors to get a refresh
@@ -1151,7 +1151,7 @@ void MainWindow::slotRenderProject() {
         m_renderWidget = new RenderWidget(this);
         connect(m_renderWidget, SIGNAL(doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double)), this, SLOT(slotDoRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double)));
         if (m_activeDocument) {
-            m_renderWidget->setDocumentStandard(m_activeDocument->getDocumentStandard());
+            m_renderWidget->setProfile(m_activeDocument->mltProfile());
             m_renderWidget->setGuides(m_activeDocument->guidesXml(), m_activeDocument->projectDuration());
         }
     }
@@ -1328,7 +1328,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
 
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu);
     m_activeTimeline = trackView;
-    if (m_renderWidget) m_renderWidget->setDocumentStandard(doc->getDocumentStandard());
+    if (m_renderWidget) m_renderWidget->setProfile(doc->mltProfile());
     doc->setRenderer(m_projectMonitor->render);
     m_commandStack->setActiveStack(doc->commandStack());
     KdenliveSettings::setProject_display_ratio(doc->dar());

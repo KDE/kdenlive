@@ -361,13 +361,18 @@ void RenderWidget::slotExport() {
         startPos = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
         endPos = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
     }
-    emit doRender(m_view.out_file->url().path(), item->data(RenderRole).toString(), overlayargs, m_view.advanced_params->toPlainText().split(' '), m_view.render_zone->isChecked(), m_view.play_after->isChecked(), startPos, endPos);
+    QString renderArgs = m_view.advanced_params->toPlainText();
+    renderArgs.replace("%width", QString::number(m_profile.width));
+    renderArgs.replace("%height", QString::number(m_profile.height));
+    renderArgs.replace("%dar", QString::number((double) m_profile.display_aspect_num / m_profile.display_aspect_den));
+    emit doRender(m_view.out_file->url().path(), item->data(RenderRole).toString(), overlayargs, renderArgs.split(' '), m_view.render_zone->isChecked(), m_view.play_after->isChecked(), startPos, endPos);
 }
 
-void RenderWidget::setDocumentStandard(QString std) {
-    if (std == "PAL") m_view.format_selection->setCurrentIndex(0);
+void RenderWidget::setProfile(MltVideoProfile profile) {
+    m_profile = profile;
+    //WARNING: this way to tell the video standard is a bit hackish...
+    if (m_profile.description.contains("pal", Qt::CaseInsensitive) || m_profile.description.contains("25", Qt::CaseInsensitive) || m_profile.description.contains("50", Qt::CaseInsensitive)) m_view.format_selection->setCurrentIndex(0);
     else m_view.format_selection->setCurrentIndex(1);
-
     refreshView();
 }
 

@@ -88,8 +88,6 @@ Q_OBJECT public:
     QString profilePath() const;
     MltVideoProfile mltProfile() const;
     QString description() const;
-    /** Returns the document format: PAL or NTSC */
-    QString getDocumentStandard();
     void setUrl(KUrl url);
     QDomElement documentInfoXml();
     void setProfilePath(QString path);

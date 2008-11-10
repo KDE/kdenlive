@@ -24,6 +24,7 @@
 #include <QDialog>
 #include <QPushButton>
 
+#include "definitions.h"
 #include "ui_renderwidget_ui.h"
 
 class RenderWidget : public QDialog {
@@ -31,9 +32,9 @@ class RenderWidget : public QDialog {
 
 public:
     RenderWidget(QWidget * parent = 0);
-    void setDocumentStandard(QString std);
     void setGuides(QDomElement guidesxml, double duration);
     void focusFirstVisibleItem();
+    void setProfile(MltVideoProfile profile);
 
 private slots:
     void slotUpdateButtons();
@@ -50,6 +51,7 @@ private slots:
 
 private:
     Ui::RenderWidget_UI m_view;
+    MltVideoProfile m_profile;
     void parseProfiles(QString group = QString(), QString profile = QString());
     void parseFile(QString exportFile, bool editable);
 
