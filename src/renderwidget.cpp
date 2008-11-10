@@ -365,7 +365,9 @@ void RenderWidget::slotExport() {
     renderArgs.replace("%width", QString::number(m_profile.width));
     renderArgs.replace("%height", QString::number(m_profile.height));
     renderArgs.replace("%dar", "@" + QString::number(m_profile.display_aspect_num) + "/" + QString::number(m_profile.display_aspect_den));
-    emit doRender(m_view.out_file->url().path(), item->data(RenderRole).toString(), overlayargs, renderArgs.split(' '), m_view.render_zone->isChecked(), m_view.play_after->isChecked(), startPos, endPos);
+    if (m_view.force_progressive->isChecked()) renderArgs.append(" progressive=1");
+    else renderArgs.append(" progressive=0");
+    emit doRender(m_view.out_file->url().path(), item->data(RenderRole).toString(), overlayargs, renderArgs.simplified().split(' '), m_view.render_zone->isChecked(), m_view.play_after->isChecked(), startPos, endPos);
 }
 
 void RenderWidget::setProfile(MltVideoProfile profile) {
@@ -373,6 +375,7 @@ void RenderWidget::setProfile(MltVideoProfile profile) {
     //WARNING: this way to tell the video standard is a bit hackish...
     if (m_profile.description.contains("pal", Qt::CaseInsensitive) || m_profile.description.contains("25", Qt::CaseInsensitive) || m_profile.description.contains("50", Qt::CaseInsensitive)) m_view.format_selection->setCurrentIndex(0);
     else m_view.format_selection->setCurrentIndex(1);
+    m_view.force_progressive->setChecked(m_profile.progressive);
     refreshView();
 }
 
