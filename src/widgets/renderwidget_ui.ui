@@ -143,6 +143,9 @@
          <property name="text" >
           <string>Progressive</string>
          </property>
+         <property name="tristate" >
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
       </layout>
@@ -218,11 +221,6 @@
        </widget>
       </item>
      </layout>
-     <zorder>label_4</zorder>
-     <zorder>guide_start</zorder>
-     <zorder>label_2</zorder>
-     <zorder>guide_end</zorder>
-     <zorder>ktabwidget</zorder>
     </widget>
    </item>
    <item row="7" column="0" colspan="3" >
