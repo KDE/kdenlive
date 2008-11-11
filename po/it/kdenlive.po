@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-25 14:20+0200\n"
-"PO-Revision-Date: 2008-11-11 09:56+0100\n"
+"PO-Revision-Date: 2008-11-11 15:18+0100\n"
 "Last-Translator: opensourcecat <opensourcecat@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -135,7 +135,7 @@ msgid "Add Transition"
 msgstr "Aggiungi transizione"
 
 msgid "Add Video Effect"
-msgstr "Aggiungi un effetto video"
+msgstr "Aggiungi effetto video"
 
 msgid "Add audio fade"
 msgstr "Aggiungi dissolvenza audio"
@@ -238,7 +238,7 @@ msgid "Audio tracks"
 msgstr "Tracce audio"
 
 msgid "Auto add"
-msgstr "Aggiungi automaticamente"
+msgstr "Aggiungi automaticamente alla disconnessione"
 
 msgid "Auto-saved files exist. Do you want to recover them now?"
 msgstr "Trovato un file di ripristino automatico. Recuperare il progetto adesso?"
@@ -477,7 +477,7 @@ msgid "Crop start"
 msgstr "Taglia l'inizio"
 
 msgid "Crossfade"
-msgstr "Crossfade"
+msgstr "Dissolvenza incrociata"
 
 msgid "Custom"
 msgstr "Personalizzato"
@@ -535,31 +535,31 @@ msgid "Delete All Markers"
 msgstr "Cancella tutti i marcatori"
 
 msgid "Delete Clip"
-msgstr "Rimuovi la clip"
+msgstr "Cancella clip"
 
 msgid "Delete Folder"
-msgstr "Cancella la cartella"
+msgstr "Cancella cartella"
 
 msgid "Delete Guide"
-msgstr "Cancella la guida"
+msgstr "Cancella guida"
 
 msgid "Delete Marker"
-msgstr "Cancella il marcatore"
+msgstr "Cancella marcatore"
 
 msgid "Delete Selected Item"
 msgstr "Cancella l'elemento selezionato"
 
 msgid "Delete clip"
-msgstr "Cancella la clip"
+msgstr "Cancella clip"
 
 msgid "Delete current file"
-msgstr "Cancella il file corrente"
+msgstr "Cancella file corrente"
 
 msgid "Delete effect"
 msgstr "Cancella l'effetto"
 
 msgid "Delete folder"
-msgstr "Cancella la cartella"
+msgstr "Cancella cartella"
 
 #, kde-format
 msgid ""
@@ -636,7 +636,7 @@ msgid "Document to open"
 msgstr "Documento da aprire"
 
 msgid "Don't recover"
-msgstr "evita il ripristino"
+msgstr "Evita il ripristino"
 
 msgid "Duration"
 msgstr "Durata"
@@ -654,13 +654,13 @@ msgid "Edit Clip"
 msgstr "Modifica clip"
 
 msgid "Edit Clip Speed"
-msgstr "Modifica la velocità della clip"
+msgstr "Modifica velocità della clip"
 
 msgid "Edit Guide"
-msgstr "Modifica la guida"
+msgstr "Modifica guida"
 
 msgid "Edit Keyframe"
-msgstr "Modifica il fotogramma chiave"
+msgstr "Modifica fotogramma chiave"
 
 msgid "Edit Marker"
 msgstr "Modifica marcatore"
@@ -682,7 +682,7 @@ msgid "Edit marker"
 msgstr "Modifica marcatore"
 
 msgid "Edit profile"
-msgstr "Modifica il profilo"
+msgstr "Modifica profilo"
 
 #, kde-format
 msgid "Edit transition %1"
@@ -970,7 +970,7 @@ msgid "Load Title"
 msgstr "Carica titolo"
 
 msgid "Loading playlist..."
-msgstr "Caricamento playlist..."
+msgstr "Caricamento lista di riproduzione..."
 
 msgid "Loading project clips"
 msgstr "Caricamento clip del progetto"
@@ -1002,7 +1002,7 @@ msgid ""
 "install. Kdenlive will not work until this issue is fixed."
 msgstr ""
 "Il modulo avformat (FFMPEG) per MLT non è stato trovato. Controllare "
-"l'installazione di FFMPEG e MLT.  Kdenlive non può funzionare se questo problema non viene risolto."
+"l'installazione di FFmpeg e MLT.  Kdenlive non può funzionare se questo problema non viene risolto."
 
 msgid "Manage Profiles"
 msgstr "Gestisci profili"
@@ -1023,16 +1023,16 @@ msgid "Misc..."
 msgstr "Generale"
 
 msgid "Mlt Connection, Transition, Effect, Timeline Developer"
-msgstr "Interfacciamento con Mlt,  Transizioni, Effetti,  Sviluppatore della TimeLine"
+msgstr "Interfacciamento con MLT,  Transizioni, Effetti,  Sviluppatore della TimeLine"
 
 msgid "Mlt environment"
-msgstr "Ambiente Mlt"
+msgstr "Ambiente MLT"
 
 msgid "Mlt porting, KDE4 porting, Main developer"
 msgstr "Adattamento ad MLT, Riscrittura per KDE4, Sviluppatore principale"
 
 msgid "Mlt profiles folder"
-msgstr "Cartella dei profili di Mlt"
+msgstr "Cartella dei profili di MLT"
 
 msgid "Monitor"
 msgstr "Monitor"
@@ -1126,7 +1126,7 @@ msgid "Open last project on startup"
 msgstr "Apri l'ultimo progetto all'avvio"
 
 msgid "Open projects in new tabs"
-msgstr "Apri più progetti nelle schede"
+msgstr "Utilizza schede per aprire più progetti"
 
 msgid "Output file"
 msgstr "File in uscita"
