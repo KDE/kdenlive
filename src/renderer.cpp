@@ -2085,7 +2085,7 @@ void Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
     int old_pos = (int)(oldIn.frames(m_fps) + oldOut.frames(m_fps)) / 2;
 
     int new_in = (int)newIn.frames(m_fps);
-    int new_out = (int)newOut.frames(m_fps);
+    int new_out = (int)newOut.frames(m_fps) - 1;
 
     while (mlt_type == "transition") {
         mlt_transition tr = (mlt_transition) nextservice;
@@ -2141,7 +2141,7 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
     QString mlt_type = mlt_properties_get(properties, "mlt_type");
     QString resource = mlt_properties_get(properties, "mlt_service");
     int in_pos = (int) in.frames(m_fps);
-    int out_pos = (int) out.frames(m_fps);
+    int out_pos = (int) out.frames(m_fps) - 1;
 
     while (mlt_type == "transition") {
         mlt_transition tr = (mlt_transition) nextservice;
@@ -2398,7 +2398,7 @@ void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
     char *transId = decodedString(tag);
     Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, transId);
     if (out != GenTime())
-        transition->set_in_and_out((int) in.frames(m_fps), (int) out.frames(m_fps));
+        transition->set_in_and_out((int) in.frames(m_fps), (int) out.frames(m_fps) - 1);
     QMap<QString, QString>::Iterator it;
     QString key;
     if (xml.attribute("automatic") == "1") transition->set("automatic", 1);

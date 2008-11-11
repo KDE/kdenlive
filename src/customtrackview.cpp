@@ -655,11 +655,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         if (transitionClip && transitionClip->endPos() < m_dragItem->endPos()) {
             info.endPos = transitionClip->endPos();
         } else info.endPos = info.startPos + GenTime(2.5);
-
+        if (info.endPos == info.startPos) info.endPos = info.startPos + GenTime(2.5);
         slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack);
     } else if (m_operationMode == TRANSITIONEND) {
         ItemInfo info;
-        info.endPos = m_dragItem->endPos();
+        info.endPos = GenTime(m_dragItem->endPos().frames(m_document->fps()) - 1, m_document->fps());
         info.track = m_dragItem->track();
         int transitiontrack = getPreviousVideoTrack(info.track);
         ClipItem *transitionClip = NULL;
@@ -667,6 +667,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         if (transitionClip && transitionClip->startPos() > m_dragItem->startPos()) {
             info.startPos = transitionClip->startPos();
         } else info.startPos = info.endPos - GenTime(2.5);
+        if (info.endPos == info.startPos) info.startPos = info.endPos - GenTime(2.5);
         slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack);
     }
 
@@ -780,6 +781,7 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
             scene()->destroyItemGroup(m_selectionGroup);
             m_selectionGroup = NULL;
         }
+
         QStringList list = QString(event->mimeData()->data("kdenlive/clip")).split(";");
         m_selectionGroup = new AbstractGroupItem(m_document->fps());
         QPoint pos = QPoint();
@@ -792,6 +794,8 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
         info.track = (int)(pos.y() / m_tracksHeight);
         ClipItem *item = new ClipItem(clip, info, m_document->fps());
         m_selectionGroup->addToGroup(item);
+        //TODO: check if we do not overlap another clip when first dropping in timeline
+        // if (insertPossible(m_selectionGroup, event->pos()))
         scene()->addItem(m_selectionGroup);
         event->acceptProposedAction();
     } else if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
@@ -815,9 +819,42 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
             pos.setX(pos.x() + clip->duration().frames(m_document->fps()));
             m_selectionGroup->addToGroup(item);
         }
+        //TODO: check if we do not overlap another clip when first dropping in timeline
+        //if (insertPossible(m_selectionGroup, event->pos()))
         scene()->addItem(m_selectionGroup);
         event->acceptProposedAction();
     } else QGraphicsView::dragEnterEvent(event);
+}
+
+
+bool CustomTrackView::insertPossible(AbstractGroupItem *group, const QPoint &pos) const {
+    QPolygonF path;
+    QList<QGraphicsItem *> children = group->childItems();
+    for (int i = 0; i < children.count(); i++) {
+        if (children.at(i)->type() == AVWIDGET) {
+            ClipItem *clip = static_cast <ClipItem *>(children.at(i));
+            ItemInfo info = clip->info();
+            kDebug() << " / / INSERT : " << pos.x();
+            QRectF shape = QRectF(clip->startPos().frames(m_document->fps()), clip->track() * m_tracksHeight + 1, clip->duration().frames(m_document->fps()) - 0.02, m_tracksHeight - 1);
+            kDebug() << " / / INSERT RECT: " << shape;
+            path = path.united(QPolygonF(shape));
+        }
+    }
+
+    QList<QGraphicsItem*> collindingItems = scene()->items(path, Qt::IntersectsItemShape);
+    if (collindingItems.isEmpty()) return true;
+    else {
+        for (int i = 0; i < collindingItems.count(); i++) {
+            QGraphicsItem *collision = collindingItems.at(i);
+            if (collision->type() == AVWIDGET) {
+                // Collision
+                kDebug() << "// COLLISIION DETECTED";
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
 
 void CustomTrackView::slotRefreshEffects(ClipItem *clip) {
@@ -1075,7 +1112,11 @@ void CustomTrackView::addTransition(ItemInfo transitionInfo, int endTrack, QDomE
 }
 
 void CustomTrackView::deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement params) {
-    Transition *item = getTransitionItemAt((int)transitionInfo.startPos.frames(m_document->fps()) + 1, transitionInfo.track);
+    Transition *item = getTransitionItemAt((int)transitionInfo.startPos.frames(m_document->fps()), transitionInfo.track);
+    if (!item) {
+        emit displayMessage(i18n("Select clip to delete"), ErrorMessage);
+        return;
+    }
     m_document->renderer()->mltDeleteTransition(item->transitionTag(), endTrack, m_scene->m_tracksList.count() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, item->toXML());
     delete item;
     emit transitionItemSelected(NULL);
@@ -1089,7 +1130,7 @@ void CustomTrackView::slotTransitionUpdated(Transition *tr, QDomElement old) {
 }
 
 void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTransition, QDomElement transition) {
-    Transition *item = getTransitionItemAt((int)pos.frames(m_document->fps()) + 1, track);
+    Transition *item = getTransitionItemAt((int)pos.frames(m_document->fps()), track);
     if (!item) {
         kWarning() << "Unable to find transition at pos :" << pos.frames(m_document->fps()) << ", ON track: " << track;
         return;
@@ -1103,9 +1144,9 @@ void CustomTrackView::dragMoveEvent(QDragMoveEvent * event) {
     event->setDropAction(Qt::IgnoreAction);
     const int track = (int)(mapToScene(event->pos()).y() / m_tracksHeight);
     const int pos = mapToScene(event->pos()).x();
-    kDebug() << "// DRAG MOVE TO TRACK: " << track;
+    //kDebug() << "// DRAG MOVE TO TRACK: " << track;
     if (m_selectionGroup) {
-        m_selectionGroup->setPos(pos, event->pos().y()/*track * m_tracksHeight + 1 - (int) m_selectionGroup->pos().y()*/);
+        m_selectionGroup->setPos(pos, event->pos().y());
         event->setDropAction(Qt::MoveAction);
         if (event->mimeData()->hasFormat("kdenlive/producerslist") || event->mimeData()->hasFormat("kdenlive/clip")) {
             event->acceptProposedAction();
@@ -1296,7 +1337,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                     m_commandStack->push(command);
                     if (item->baseClip()->isTransparent()) {
                         // Also move automatic transition
-                        Transition *tr = getTransitionItemAt((int) m_dragItemInfo.startPos.frames(m_document->fps()) + 1, m_dragItemInfo.track);
+                        Transition *tr = getTransitionItemAt((int) m_dragItemInfo.startPos.frames(m_document->fps()), m_dragItemInfo.track);
                         if (tr && tr->isAutomatic()) {
                             tr->updateTransitionEndTrack(getPreviousVideoTrack(info.track));
                             m_document->renderer()->mltMoveTransition(tr->transitionTag(), m_scene->m_tracksList.count() - m_dragItemInfo.track, m_scene->m_tracksList.count() - info.track, tr->transitionEndTrack(), m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos);
@@ -1485,7 +1526,7 @@ void CustomTrackView::deleteClip(ItemInfo info) {
 
     if (item->baseClip()->isTransparent()) {
         // also remove automatic transition
-        Transition *tr = getTransitionItemAt((int) info.startPos.frames(m_document->fps()) + 1, info.track);
+        Transition *tr = getTransitionItemAt((int) info.startPos.frames(m_document->fps()), info.track);
         if (tr && tr->isAutomatic()) {
             m_document->renderer()->mltDeleteTransition(tr->transitionTag(), tr->transitionEndTrack(), m_scene->m_tracksList.count() - info.track, info.startPos, info.endPos, tr->toXML());
             scene()->removeItem(tr);
@@ -1661,7 +1702,7 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
         item->setPos((int) end.startPos.frames(m_document->fps()), (int)(end.track * m_tracksHeight + 1));
         if (item->baseClip()->isTransparent()) {
             // Also move automatic transition
-            Transition *tr = getTransitionItemAt((int) start.startPos.frames(m_document->fps()) + 1, start.track);
+            Transition *tr = getTransitionItemAt((int) start.startPos.frames(m_document->fps()), start.track);
             if (tr && tr->isAutomatic()) {
                 tr->updateTransitionEndTrack(getPreviousVideoTrack(end.track));
                 m_document->renderer()->mltMoveTransition(tr->transitionTag(), m_scene->m_tracksList.count() - start.track, m_scene->m_tracksList.count() - end.track, tr->transitionEndTrack(), start.startPos, start.endPos, end.startPos, end.endPos);
@@ -1675,7 +1716,7 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
 }
 
 void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end) {
-    Transition *item = getTransitionItemAt((int)start.startPos.frames(m_document->fps()) + 1, start.track);
+    Transition *item = getTransitionItemAt((int)start.startPos.frames(m_document->fps()), start.track);
     if (!item) {
         emit displayMessage(i18n("Cannot move transition at time: %1s on track %2", start.startPos.seconds(), start.track), ErrorMessage);
         kDebug() << "----------------  ERROR, CANNOT find transition to move... ";// << startPos.x() * m_scale * FRAME_SIZE + 1 << ", " << startPos.y() * m_tracksHeight + m_tracksHeight / 2;
@@ -1766,7 +1807,7 @@ void CustomTrackView::updateClipFade(ClipItem * item, bool updateFadeOut) {
 }
 
 double CustomTrackView::getSnapPointForPos(double pos) {
-    return m_scene->getSnapPointForPos(pos);
+    return m_scene->getSnapPointForPos(pos, KdenliveSettings::snaptopoints());
 }
 
 void CustomTrackView::updateSnapPoints(AbstractClipItem *selected) {

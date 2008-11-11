@@ -257,7 +257,7 @@ void TrackView::parseDocument(QDomDocument doc) {
             kDebug() << "///////  TRANSITION XML: "<< doc.toString();*/
 
             transitionInfo.startPos = GenTime(e.attribute("in").toInt(), m_doc->fps());
-            transitionInfo.endPos = GenTime(e.attribute("out").toInt(), m_doc->fps());
+            transitionInfo.endPos = GenTime(e.attribute("out").toInt() + 1, m_doc->fps());
             transitionInfo.track = b_track;
             //kDebug() << "///////////////   +++++++++++  ADDING TRANSITION ON TRACK: " << b_track << ", TOTAL TRKA: " << m_projectTracks;
             Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, isAutomatic);

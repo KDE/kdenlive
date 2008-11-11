@@ -1489,9 +1489,8 @@ void MainWindow::slotAddTransition(QAction *result) {
     QStringList info = result->data().toStringList();
     if (info.isEmpty()) return;
     QDomElement transition = transitions.getEffectByTag(info.at(1), info.at(2));
-    //QDomElement effect = transitions.getEffectByName(result->data().toString());
-    if (m_activeTimeline) {
-        m_activeTimeline->projectView()->slotAddTransitionToSelectedClips(transition);
+    if (m_activeTimeline && !transition.isNull()) {
+        m_activeTimeline->projectView()->slotAddTransitionToSelectedClips(transition.cloneNode().toElement());
     }
 }
 

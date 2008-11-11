@@ -187,7 +187,6 @@ private:
     QPoint m_menuPosition;
     bool m_blockRefresh;
     AbstractGroupItem *m_selectionGroup;
-    AbstractGroupItem *m_dropGroup;
 
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
@@ -198,6 +197,7 @@ private:
     ClipItem *getClipUnderCursor() const;
     ClipItem *getMainActiveClip() const;
     ClipItem *getActiveClipUnderCursor() const;
+    bool insertPossible(AbstractGroupItem *group, const QPoint &pos) const;
 
 private slots:
     void slotRefreshGuides();
