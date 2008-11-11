@@ -20,7 +20,7 @@
 
 <group name="DVD" renderer="avformat" type="av">
   <profile name="PAL 4:3 vob" standard="PAL" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 b=5000k maxrate=8000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 s=720x576 g=15 me_range=63 profile=dv_pal" />
-  <profile name="PAL 16:9 vob" standard="PAL" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 b=5000k maxrate=8000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 g=15 me_range=63 profile=dv_pal_wide" />  
+  <profile name="PAL 16:9 vob" standard="PAL" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 b=5000k maxrate=8000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 s=720x576 g=15 me_range=63 profile=dv_pal_wide" />  
     
   <profile name="NTSC 4:3 vob" standard="NTSC" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 s=720x480 b=6000k maxrate=9000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 g=18 me_range=63 profile=dv_ntsc" />
   <profile name="NTSC 16:9 vob" standard="NTSC" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 s=720x480 b=6000k maxrate=9000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 g=18 me_range=63 profile=dv_ntsc_wide" />
