@@ -23,15 +23,6 @@
 #include <QThread>
 #include "renderjob.h"
 
-// Can't believe I need to do this to sleep.
-class SleepThread : QThread {
-  public:
-  virtual void run() {};
-  static void msleep(unsigned long msecs) {
-    QThread::msleep(msecs); 
-  }
-};
-
 static QDBusConnection connection(QLatin1String(""));
 
 RenderJob::RenderJob(bool erase, const QString &renderer, const QString &profile, const QString &rendermodule, const QString &player, const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in, int out) : QObject(), m_jobUiserver(NULL) {
@@ -50,7 +41,6 @@ RenderJob::RenderJob(bool erase, const QString &renderer, const QString &profile
     m_args << "-profile" << profile;
     m_args << "-consumer" << rendermodule + ":" + m_dest << "progress=1" << args;
     connect(m_renderProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotIsOver(int, QProcess::ExitStatus)));
-    connect(m_renderProcess, SIGNAL(readyReadStandardError()), this, SLOT(receivedStderr()));
     m_renderProcess->setReadChannel(QProcess::StandardError);
 }
 
@@ -73,8 +63,7 @@ void RenderJob::slotAbort() {
 }
 
 void RenderJob::receivedStderr() {
-    QString result = QString(m_renderProcess->readAllStandardError());
-    result = result.simplified();
+    QString result = QString(m_renderProcess->readAllStandardError()).simplified();
     result = result.section(" ", -1);
     int pro = result.toInt();
     if (pro > m_progress) {
@@ -85,29 +74,30 @@ void RenderJob::receivedStderr() {
 
 void RenderJob::start() {
     QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
-    if (interface && !interface->isServiceRegistered("org.kde.JobViewServer")) {
-      qDebug() << "No org.kde.JobViewServer registered, trying to start kuiserver"; 
-      if ( QProcess::startDetached( "kuiserver" ) ) {
-        qDebug() << "Started kuiserver";
-      } else {
-        qDebug() << "Failed to start kuiserver"; 
-      }
-    }
-    // Give it a couple of seconds to start
-    QTime t;
-    t.start();
-    while ( !interface->isServiceRegistered("org.kde.JobViewServer") && t.elapsed() < 3000 ) {
-      SleepThread::msleep( 100 ); //Sleep 100 ms 
-    }
+    if (interface) {
+	if (!interface->isServiceRegistered("org.kde.JobViewServer")) {
+	    qDebug() << "No org.kde.JobViewServer registered, trying to start kuiserver"; 
+	    if ( QProcess::startDetached( "kuiserver" ) ) {
+		qDebug() << "Started kuiserver";
+		// Give it a couple of seconds to start
+		QTime t;
+		t.start();
+		while ( !interface->isServiceRegistered("org.kde.JobViewServer") && t.elapsed() < 3000 ) {
+		    thread()->wait( 100 ); //Sleep 100 ms 
+		}
+	    } else {
+		qDebug() << "Failed to start kuiserver"; 
+	    }
+	}
     
-    
-    if (interface && interface->isServiceRegistered("org.kde.JobViewServer")) {
-        QDBusInterface kuiserver("org.kde.JobViewServer", "/JobViewServer", "org.kde.JobViewServer");
-        QDBusReply<QDBusObjectPath> objectPath = kuiserver.call("requestView", "kdenlive", "kdenlive", 1);
-        QString reply = ((QDBusObjectPath) objectPath).path();
-        m_jobUiserver = new QDBusInterface("org.kde.JobViewServer", reply, "org.kde.JobView");
-        QDBusConnection::sessionBus().connect("org.kde.JobViewServer", reply, "org.kde.JobView",
-                                              "cancelRequested", this, SLOT(slotAbort()));
+	if (interface->isServiceRegistered("org.kde.JobViewServer")) {
+	    QDBusInterface kuiserver("org.kde.JobViewServer", "/JobViewServer", "org.kde.JobViewServer");
+	    QDBusReply<QDBusObjectPath> objectPath = kuiserver.call("requestView", "kdenlive", "kdenlive", 1);
+	    QString reply = ((QDBusObjectPath) objectPath).path();
+	    m_jobUiserver = new QDBusInterface("org.kde.JobViewServer", reply, "org.kde.JobView");
+	    QDBusConnection::sessionBus().connect("org.kde.JobViewServer", reply, "org.kde.JobView", "cancelRequested", this, SLOT(slotAbort()));
+	    connect(m_renderProcess, SIGNAL(readyReadStandardError()), this, SLOT(receivedStderr()));
+	}
     }
     m_renderProcess->start(m_prog, m_args);
 }
