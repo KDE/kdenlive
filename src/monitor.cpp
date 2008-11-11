@@ -236,7 +236,7 @@ void Monitor::mouseReleaseEvent(QMouseEvent * event) {
 
 // virtual
 void Monitor::mouseMoveEvent(QMouseEvent *event) {
-    kDebug() << "// DRAG STARTED, MOUSE MOVED: ";
+    // kDebug() << "// DRAG STARTED, MOUSE MOVED: ";
     if (!m_dragStarted || m_currentClip == NULL) return;
 
     if ((event->pos() - m_DragStartPosition).manhattanLength()

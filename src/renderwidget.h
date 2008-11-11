@@ -48,13 +48,14 @@ private slots:
     void slotCheckStartGuidePosition();
     void slotCheckEndGuidePosition();
     void showInfoPanel();
+    void slotUpdateExperimentalRendering();
 
 private:
     Ui::RenderWidget_UI m_view;
     MltVideoProfile m_profile;
     void parseProfiles(QString group = QString(), QString profile = QString());
     void parseFile(QString exportFile, bool editable);
-
+    void updateButtons();
 signals:
     void doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double);
 };

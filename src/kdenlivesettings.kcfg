@@ -344,5 +344,9 @@
       <default>false</default>
     </entry>
 
+    <entry name="experimentalrender" type="Bool">
+      <label>Show buggy rendering formats.</label>
+      <default>false</default>
+    </entry>
   </group>
 </kcfg>

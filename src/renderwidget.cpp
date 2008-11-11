@@ -55,6 +55,8 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
         m_view.buttonInfo->setDown(true);
     } else m_view.advanced_params->hide();
 
+    m_view.experimentalrender->setChecked(KdenliveSettings::experimentalrender());
+
     connect(m_view.buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
 
     connect(m_view.buttonSave, SIGNAL(clicked()), this, SLOT(slotSaveProfile()));
@@ -73,6 +75,7 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
     connect(m_view.guide_start, SIGNAL(activated(int)), this, SLOT(slotCheckEndGuidePosition()));
 
     connect(m_view.format_selection, SIGNAL(activated(int)), this, SLOT(refreshView()));
+    connect(m_view.experimentalrender, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateExperimentalRendering()));
 
     m_view.buttonStart->setEnabled(false);
     m_view.guides_box->setVisible(false);
@@ -82,6 +85,12 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
 
     focusFirstVisibleItem();
 }
+
+void RenderWidget::slotUpdateExperimentalRendering() {
+    KdenliveSettings::setExperimentalrender(m_view.experimentalrender->isChecked());
+    refreshView();
+}
+
 
 void RenderWidget::showInfoPanel() {
     if (m_view.advanced_params->isVisible()) {
@@ -328,8 +337,29 @@ void RenderWidget::slotDeleteProfile() {
     focusFirstVisibleItem();
 }
 
+void RenderWidget::updateButtons() {
+    if (!m_view.size_list->currentItem() || m_view.size_list->currentItem()->isHidden()) {
+        m_view.buttonSave->setEnabled(false);
+        m_view.buttonDelete->setEnabled(false);
+        m_view.buttonEdit->setEnabled(false);
+    } else {
+        m_view.buttonSave->setEnabled(true);
+        if (m_view.size_list->currentItem()->data(EditableRole).toString().isEmpty()) {
+            m_view.buttonDelete->setEnabled(false);
+            m_view.buttonEdit->setEnabled(false);
+        } else {
+            m_view.buttonDelete->setEnabled(true);
+            m_view.buttonEdit->setEnabled(true);
+        }
+    }
+}
+
+
 void RenderWidget::focusFirstVisibleItem() {
-    if (m_view.size_list->currentItem() && !m_view.size_list->currentItem()->isHidden()) return;
+    if (m_view.size_list->currentItem() && !m_view.size_list->currentItem()->isHidden()) {
+        updateButtons();
+        return;
+    }
     for (uint ix = 0; ix < m_view.size_list->count(); ix++) {
         QListWidgetItem *item = m_view.size_list->item(ix);
         if (item && !item->isHidden()) {
@@ -338,6 +368,7 @@ void RenderWidget::focusFirstVisibleItem() {
         }
     }
     if (!m_view.size_list->currentItem()) m_view.size_list->setCurrentRow(0);
+    updateButtons();
 }
 
 void RenderWidget::slotExport() {
@@ -380,6 +411,7 @@ void RenderWidget::setProfile(MltVideoProfile profile) {
 }
 
 void RenderWidget::refreshView() {
+    m_view.size_list->blockSignals(true);
     QListWidgetItem *item = m_view.format_list->currentItem();
     if (!item) {
         m_view.format_list->setCurrentRow(0);
@@ -392,8 +424,8 @@ void RenderWidget::refreshView() {
     bool firstSelected = false;
     for (int i = 0; i < m_view.size_list->count(); i++) {
         sizeItem = m_view.size_list->item(i);
-        std = sizeItem->data(StandardRole).toString();
         if (sizeItem->data(GroupRole) == group) {
+            std = sizeItem->data(StandardRole).toString();
             if (!std.isEmpty()) {
                 if (std.contains("PAL", Qt::CaseInsensitive)) sizeItem->setHidden(m_view.format_selection->currentIndex() != 0);
                 else if (std.contains("NTSC", Qt::CaseInsensitive)) sizeItem->setHidden(m_view.format_selection->currentIndex() != 1);
@@ -402,15 +434,32 @@ void RenderWidget::refreshView() {
                 if (!firstSelected) m_view.size_list->setCurrentItem(sizeItem);
                 firstSelected = true;
             }
+            if (!KdenliveSettings::experimentalrender() && !sizeItem->isHidden()) {
+                // hide experimental codecs (which do resize the video)
+                std = sizeItem->data(ParamsRole).toString();
+                if (std.contains(" s=")) {
+                    QString subsize = std.section(" s=", 1, 1);
+                    subsize = subsize.section(' ', 0, 0).toLower();
+                    if (subsize != "%widthx%height") {
+                        const QString currentSize = QString::number(m_profile.width) + 'x' + QString::number(m_profile.height);
+                        if (subsize != currentSize) sizeItem->setHidden(true);
+                    }
+                }
+            }
         } else sizeItem->setHidden(true);
     }
     focusFirstVisibleItem();
-
+    m_view.size_list->blockSignals(false);
+    refreshParams();
 }
 
 void RenderWidget::refreshParams() {
     QListWidgetItem *item = m_view.size_list->currentItem();
-    if (!item) return;
+    if (!item || item->isHidden()) {
+        m_view.advanced_params->clear();
+        m_view.buttonStart->setEnabled(false);
+        return;
+    }
     QString params = item->data(ParamsRole).toString();
     QString extension = item->data(ExtensionRole).toString();
     m_view.advanced_params->setPlainText(params);
@@ -433,6 +482,7 @@ void RenderWidget::refreshParams() {
         m_view.buttonDelete->setEnabled(true);
         m_view.buttonEdit->setEnabled(true);
     }
+    m_view.buttonStart->setEnabled(true);
 }
 
 void RenderWidget::parseProfiles(QString group, QString profile) {

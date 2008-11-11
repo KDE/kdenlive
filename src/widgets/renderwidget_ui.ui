@@ -5,17 +5,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>362</width>
-    <height>457</height>
+    <width>374</width>
+    <height>379</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Rendering</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_3" >
-   <item row="0" column="1" colspan="2" >
-    <widget class="KUrlRequester" name="out_file" />
-   </item>
    <item row="0" column="0" >
     <widget class="QLabel" name="label" >
      <property name="text" >
@@ -23,126 +20,138 @@
      </property>
     </widget>
    </item>
+   <item row="0" column="1" colspan="2" >
+    <widget class="KUrlRequester" name="out_file" />
+   </item>
    <item row="1" column="0" colspan="3" >
-    <widget class="KTabWidget" name="ktabwidget" >
-     <property name="currentIndex" >
-      <number>0</number>
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="title" >
+      <string/>
      </property>
-     <widget class="QWidget" name="tab_2" >
-      <attribute name="title" >
-       <string>Templates</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout" >
-       <item row="0" column="0" >
-        <widget class="QLabel" name="label_3" >
+     <layout class="QGridLayout" name="gridLayout" >
+      <item row="0" column="0" >
+       <widget class="QLabel" name="label_3" >
+        <property name="text" >
+         <string>Format</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" >
+       <spacer name="horizontalSpacer_2" >
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0" >
+         <size>
+          <width>165</width>
+          <height>24</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="2" colspan="2" >
+       <widget class="KComboBox" name="format_selection" >
+        <item>
          <property name="text" >
-          <string>Format</string>
+          <string>PAL</string>
          </property>
-        </widget>
-       </item>
-       <item row="0" column="1" >
-        <spacer name="horizontalSpacer_2" >
+        </item>
+        <item>
+         <property name="text" >
+          <string>NTSC</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="0" column="4" >
+       <widget class="QToolButton" name="buttonEdit" >
+        <property name="text" >
+         <string>E</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5" >
+       <widget class="QToolButton" name="buttonInfo" >
+        <property name="text" >
+         <string>I</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="6" >
+       <widget class="QToolButton" name="buttonSave" >
+        <property name="text" >
+         <string>S</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="7" >
+       <widget class="QToolButton" name="buttonDelete" >
+        <property name="text" >
+         <string>D</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="8" >
+       <widget class="QSplitter" name="splitter_3" >
+        <property name="orientation" >
+         <enum>Qt::Vertical</enum>
+        </property>
+        <widget class="QSplitter" name="splitter" >
          <property name="orientation" >
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
-          <size>
-           <width>165</width>
-           <height>24</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="0" column="2" >
-        <widget class="KComboBox" name="format_selection" >
-         <item>
-          <property name="text" >
-           <string>PAL</string>
+         <widget class="KListWidget" name="format_list" >
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>NTSC</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="0" column="3" >
-        <widget class="QToolButton" name="buttonEdit" >
-         <property name="text" >
-          <string>E</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="4" >
-        <widget class="QToolButton" name="buttonInfo" >
-         <property name="text" >
-          <string>I</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="5" >
-        <widget class="QToolButton" name="buttonSave" >
-         <property name="text" >
-          <string>S</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="6" >
-        <widget class="QToolButton" name="buttonDelete" >
-         <property name="text" >
-          <string>D</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" colspan="7" >
-        <widget class="QSplitter" name="splitter_3" >
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <widget class="QSplitter" name="splitter" >
-          <property name="orientation" >
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <widget class="KListWidget" name="format_list" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-          <widget class="KListWidget" name="size_list" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
          </widget>
-         <widget class="KTextEdit" name="advanced_params" >
-          <property name="readOnly" >
-           <bool>true</bool>
-          </property>
-          <property name="acceptRichText" >
-           <bool>false</bool>
+         <widget class="KListWidget" name="size_list" >
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
          </widget>
         </widget>
-       </item>
-       <item row="2" column="0" colspan="7" >
-        <widget class="QCheckBox" name="force_progressive" >
-         <property name="text" >
-          <string>Progressive</string>
-         </property>
-         <property name="tristate" >
+        <widget class="KTextEdit" name="advanced_params" >
+         <property name="readOnly" >
           <bool>true</bool>
          </property>
+         <property name="acceptRichText" >
+          <bool>false</bool>
+         </property>
         </widget>
-       </item>
-      </layout>
-     </widget>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="3" >
+       <widget class="QCheckBox" name="experimentalrender" >
+        <property name="toolTip" >
+         <string>Changing the size of video when rendering
+is not fully supported, you may have problems
+with some effects or title clips, so the export
+profiles that resize your video are marked as
+experimental</string>
+        </property>
+        <property name="text" >
+         <string>Show experimental formats</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3" colspan="5" >
+       <widget class="QCheckBox" name="force_progressive" >
+        <property name="text" >
+         <string>Progressive</string>
+        </property>
+        <property name="tristate" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item row="2" column="0" colspan="2" >
@@ -294,12 +303,6 @@
    <class>KPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>ktabwidget.h</header>
-   <container>1</container>
   </customwidget>
   <customwidget>
    <class>KTextEdit</class>
