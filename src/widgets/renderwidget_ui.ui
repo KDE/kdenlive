@@ -129,13 +129,6 @@
       </item>
       <item row="2" column="0" colspan="3" >
        <widget class="QCheckBox" name="experimentalrender" >
-        <property name="toolTip" >
-         <string>Changing the size of video when rendering
-is not fully supported, you may have problems
-with some effects or title clips, so the export
-profiles that resize your video are marked as
-experimental</string>
-        </property>
         <property name="text" >
          <string>Show experimental formats</string>
         </property>

@@ -57,6 +57,8 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
 
     m_view.experimentalrender->setChecked(KdenliveSettings::experimentalrender());
 
+    m_view.experimentalrender->setToolTip(i18n("Changing the size of video when rendering\nis not fully supported, you may have problems\nwith some effects or title clips, so the export\nprofiles that resize your video are marked as\nexperimental"));
+
     connect(m_view.buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
 
     connect(m_view.buttonSave, SIGNAL(clicked()), this, SLOT(slotSaveProfile()));
