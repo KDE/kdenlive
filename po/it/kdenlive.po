@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-25 14:20+0200\n"
-"PO-Revision-Date: 2008-11-09 19:29+0100\n"
+"PO-Revision-Date: 2008-11-11 09:56+0100\n"
 "Last-Translator: opensourcecat <opensourcecat@gmail.com>\n"
-"Language-Team: Italian <kde-i18n-doc@lists.kde.org>\n"
+"Language-Team: Italian <kde-i18n-it@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -71,7 +71,7 @@ msgstr "<br><b>Autore:</b> "
 
 #, kde-format
 msgid "<qt>Clip <b>%1</b><br>is invalid, will be removed from project."
-msgstr "<qt>La Clip <b>%1</b><br>è inutilizzablile, sarà rimossa dal progetto."
+msgstr "<qt>La Clip <b>%1</b><br>è inutilizzabile, sarà rimossa dal progetto."
 
 msgid "A"
 msgstr "A"
@@ -82,13 +82,14 @@ msgstr "Una guida è già presente alla posizione attuale"
 msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
 "choose another description for your custom profile."
-msgstr "Un profilo con lo stesso nome esiste fra i profili predefiniti di MLT.  Scegliere un altro nome per il profilo personalizzato."
+msgstr ""
+"Un profilo con lo stesso nome esiste già fra i profili predefiniti di MLT.  Scegliere un altro nome per il profilo personalizzato."
 
 msgid "ALSA"
 msgstr "ALSA"
 
 msgid "ARTS daemon"
-msgstr "demone ARST"
+msgstr "demone ARTS"
 
 msgid "Activate crash recovery (auto save)"
 msgstr "Attiva il ripristino automatico in caso di crash"
@@ -104,10 +105,10 @@ msgid "Add Clip"
 msgstr "Aggiungi clip"
 
 msgid "Add Color Clip"
-msgstr "Aggiungi una clip di colore"
+msgstr "Aggiungi clip colore"
 
 msgid "Add Custom Effect"
-msgstr "Aggiungi un effetto personalizzato"
+msgstr "Aggiungi effetto personalizzato"
 
 msgid "Add Guide"
 msgstr "Aggiungi guida"
@@ -140,7 +141,7 @@ msgid "Add audio fade"
 msgstr "Aggiungi dissolvenza audio"
 
 msgid "Add clip"
-msgstr "Aggiungi materiale"
+msgstr "Aggiungi clip"
 
 msgid "Add clips"
 msgstr "Aggiungi materiale"
@@ -158,10 +159,10 @@ msgid "Add marker"
 msgstr "Aggiungi marcatore"
 
 msgid "Add new effect"
-msgstr "Aggiungi un nuovo effetto"
+msgstr "Aggiungi nuovo effetto"
 
 msgid "Add recording time to captured file name"
-msgstr "Aggiungi la durata ai nomi dei file della registrazione"
+msgstr "Aggiungi la durata ai nomi dei file registrati"
 
 msgid "Add timeline clip"
 msgstr "Aggiungi materiale alla timeline"
@@ -179,7 +180,7 @@ msgid "Adjust clip length"
 msgstr "Modifica la durata della clip"
 
 msgid "Advanced"
-msgstr "Avanzato"
+msgstr "Avanzate"
 
 msgid "Align item horizontally"
 msgstr "Allinea elementi orizzontalmente"
@@ -200,7 +201,7 @@ msgid "Allow vertical moves"
 msgstr "Consenti movimenti verticali"
 
 msgid "An open source video editor."
-msgstr "Un video editor Open Source"
+msgstr "Un video editor Open Source."
 
 msgid "Ascii art library"
 msgstr "Libreria ASCII art"
@@ -234,7 +235,7 @@ msgid "Audio index"
 msgstr "Traccia audio"
 
 msgid "Audio tracks"
-msgstr "Traccie audio"
+msgstr "Tracce audio"
 
 msgid "Auto add"
 msgstr "Aggiungi automaticamente"
@@ -249,7 +250,7 @@ msgid "Automatically start a new file on scene cut"
 msgstr "Crea automaticamente un nuovo file ad ogni taglio di scena"
 
 msgid "Autoscroll while playing"
-msgstr "Segui l'indicatore di posizione durante l'esecuzione"
+msgstr "Segui l'indicatore di posizione durante la riproduzione"
 
 msgid "Background"
 msgstr "Sfondo"
@@ -302,24 +303,24 @@ msgid "Cannot edit marker if more than one clip is selected"
 msgstr "Impossibile modificare un marcatore con più di una clip selezionata"
 
 msgid "Cannot find clip to add effect"
-msgstr "Impossibile trovare una clip per aggiungere l'effetto"
+msgstr "Impossibile trovare una clip selezionata per l'aggiunta dell'effetto"
 
 msgid "Cannot find clip to cut"
-msgstr "Impossibile trovare una clip da tagliare"
+msgstr "Impossibile trovare una clip selezionata per il taglio"
 
 msgid "Cannot find clip to uncut"
-msgstr "Impossibile trovare una clip per annullare il taglio"
+msgstr "Impossibile trovare una clip selezionata per l'annullamento del taglio"
 
 msgid "Cannot find clip with keyframe"
-msgstr "Impossibile trovare una clip con fotogramma chiave"
+msgstr "Impossibile trovare una clip selezionata contenente un fotogramma chiave"
 
 msgid "Cannot find the inigo program required for rendering (part of Mlt)"
 msgstr ""
-"Non riesco a trovare il programma «inigo» richiesto per l'esportazione (fa "
-"parte di MLT)"
+"Non riesco a trovare il programma «inigo», richiesto per l'esportazione del filmato(fa "
+"parte di MLT)."
 
 msgid "Cannot find your Mlt profiles, please give the path"
-msgstr "Non riesco a trovare I profili MLT, è necessario specificarne il percorso"
+msgstr "Non riesco a trovare I profili MLT, è necessario specificarne il percorso."
 
 #, kde-format
 msgid "Cannot move clip at time: %1s on track %2"
@@ -327,11 +328,11 @@ msgstr "Impossibile spostare la clip alla posizione: %1s nella traccia %2"
 
 #, c-format, kde-format
 msgid "Cannot move clip to position %1seconds"
-msgstr "Impossibile spostare la clip a %1secondi"
+msgstr "Impossibile spostare la clip a %1 secondi"
 
 #, kde-format
 msgid "Cannot move transition at time: %1s on track %2"
-msgstr "Impossibile spostarela transizione alla posizione: %1s nella traccia %2"
+msgstr "Impossibile spostare la transizione alla posizione: %1s nella traccia %2"
 
 msgid "Cannot paste clip to selected place"
 msgstr "Impossibile incollare la clip alla posizione selezionata"
@@ -347,17 +348,15 @@ msgid ""
 "application is not set.\n"
 "Please define it in Kdenlive settings dialog."
 msgstr ""
-"Impossibile avviare la riproduzione del video dopo l'esportazione  poichè l'applicazione predefinita di riproduzione video non è stata "
+"Impossibile avviare la riproduzione del video dopo l'esportazione  poiché l'applicazione predefinita di riproduzione video non è stata "
 "impostata.\n"
-" Indicarne una nelle impostazioni di Kdenlive."
+"Indicarne una nelle impostazioni di Kdenlive."
 
 #, kde-format
 msgid ""
 "Cannot read from device %1\n"
 "Please check drivers and access rights."
-msgstr ""
-"Impossibile leggere dal dispositivo %1\n"
-" Controllare i driver e i diritti di accesso."
+msgstr "Impossibile leggere dal dispositivo %1\n Controllare i driver e i diritti di accesso."
 
 #, kde-format
 msgid "Cannot write to file %1"
@@ -370,7 +369,7 @@ msgid "Capture audio"
 msgstr "Registrazione audio"
 
 msgid "Capture crashed, please check your parameters"
-msgstr "La cattura si è interrotta inaspettatamente, controllare i parametri"
+msgstr "La registrazione si è interrotta inaspettatamente, controllare i parametri"
 
 msgid "Capture folder"
 msgstr "Cartella per la registrazione"
@@ -428,13 +427,13 @@ msgid "Color"
 msgstr "Colore"
 
 msgid "Color Clip"
-msgstr "Clip di colore"
+msgstr "Clip colore"
 
 msgid "Color clip"
-msgstr "Clip di colore"
+msgstr "Clip colore"
 
 msgid "Color clips"
-msgstr "Clip di colore"
+msgstr "Clip colore"
 
 msgid "Comment"
 msgstr "Commento"
@@ -520,7 +519,7 @@ msgid "Default apps"
 msgstr "Applicazioni predefinite"
 
 msgid "Default capture device"
-msgstr "Dispositivo di cattura predefinito"
+msgstr "Dispositivo di registrazione predefinito"
 
 msgid "Default folders"
 msgstr "Cartelle predefinite "
@@ -851,7 +850,7 @@ msgid "Full project"
 msgstr "Progetto intero"
 
 msgid "Full screen capture"
-msgstr "Cattura lo schermo intero"
+msgstr "Registra lo schermo intero"
 
 msgid "General graphics interface"
 msgstr "Interfaccia grafica generale"
@@ -908,7 +907,7 @@ msgid "HDV"
 msgstr "HDV"
 
 msgid "Hor. Center"
-msgstr "Centra orizzantalmente"
+msgstr "Centra orizzontalmente"
 
 msgid "Image"
 msgstr "Immagine"
@@ -1024,7 +1023,7 @@ msgid "Misc..."
 msgstr "Generale"
 
 msgid "Mlt Connection, Transition, Effect, Timeline Developer"
-msgstr "Interfacciamento con Mlt,  Transizioni, Efftti,  Sviluppaotre della TimeLine"
+msgstr "Interfacciamento con Mlt,  Transizioni, Effetti,  Sviluppatore della TimeLine"
 
 msgid "Mlt environment"
 msgstr "Ambiente Mlt"
@@ -1166,7 +1165,7 @@ msgid "Play / Pause"
 msgstr "Riproduci / Blocca"
 
 msgid "Play Section"
-msgstr "Rirpoduci selezione"
+msgstr "Riproduci selezione"
 
 msgid "Play after render"
 msgstr "Riproduci dopo la codifica"
@@ -1444,10 +1443,10 @@ msgid "Selected zone"
 msgstr "Selezione"
 
 msgid "Selection Tool"
-msgstr "Strumento di selezione"
+msgstr "Strumento di selezione/spostamento"
 
 msgid "Selection tool"
-msgstr "Strumento di selezione"
+msgstr "Strumento di selezione/spostamento"
 
 msgid "Set In Point"
 msgstr "Imposta inizio clip"
@@ -1537,7 +1536,7 @@ msgid "Text clip"
 msgstr "Clip di testo"
 
 msgid "TextLabel"
-msgstr "EtichettaTestuale"
+msgstr "Etichetta Testuale"
 
 msgid "There is no clip, cannot extract frame."
 msgstr "Non c'è nessuna clip, non posso estrarre alcun fotogramma."
@@ -1677,8 +1676,8 @@ msgid ""
 "Warning: changes to the drivers and devices can make Kdenlive unstable. "
 "Change only if you know what you do."
 msgstr ""
-"Attenzione: i cambiamentifatti ai driver e ai dispositivi possono rendere "
-"Kdenlive instabile.  Apportare delle modifiche solo se si è sicuri di ciò che si stà facendo."
+"Attenzione: i cambiamenti fatti ai driver e ai dispositivi possono rendere "
+"Kdenlive instabile.  Apportare delle modifiche solo se si è sicuri di ciò che si sta facendo."
 
 msgid "Welcome"
 msgstr "Benvenuto"
@@ -1708,7 +1707,7 @@ msgid "Y:"
 msgstr "Y:"
 
 msgid "You must copy exactly one clip before pasting effects"
-msgstr "Dei copiare una sola clip prima di poter incollare un effettp"
+msgstr "Devi copiare una sola clip prima di poter incollare un effetto"
 
 msgid "You must select one clip for this action"
 msgstr "È necessario selezionare una clip per eseguire questa azione"
@@ -1720,7 +1719,7 @@ msgid "Zoom:"
 msgstr "Zoom:"
 
 msgid "create new points"
-msgstr "crea nuovi punti:"
+msgstr "crea nuovi punti"
 
 msgid "effect"
 msgstr "effetto"
