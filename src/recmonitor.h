@@ -56,7 +56,6 @@ private:
     RegionGrabber *rgnGrab;
     bool m_isActive;
     KDateTime m_captureTime;
-    double m_dvgrabVersion;
 
     KUrl m_captureFile;
     KIcon m_playIcon;
