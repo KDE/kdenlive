@@ -1,15 +1,15 @@
-# Copyright (C) 2008
-# This file is distributed under the same license as the Kdenlive package.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 #
 # Juan M Herrera <herrej01@gmail.com>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-25 03:20+0200\n"
-"PO-Revision-Date: 2008-10-09 22:34+0200\n"
+"POT-Creation-Date: 2008-11-11 21:47+0100\n"
+"PO-Revision-Date: 2008-11-09 17:33+0100\n"
 "Last-Translator: Juan M Herrera <herrej01@gmail.com>\n"
-"Language-Team: en_US <kde-i18n-doc@lists.kde.org>\n"
+"Language-Team: American English <kde-i18n-doc@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -70,7 +70,7 @@ msgstr "<br><b>Autor:</b> "
 
 #, kde-format
 msgid "<qt>Clip <b>%1</b><br>is invalid, will be removed from project."
-msgstr "<qt>Clip <b>%1</b><br>no es vàlid, sera esborrat del projecte."
+msgstr "<qt>Clip <b>%1</b><br>no es vàlid. Serà esborrat del projecte."
 
 msgid "A"
 msgstr "A"
@@ -83,7 +83,7 @@ msgid ""
 "choose another description for your custom profile."
 msgstr ""
 "Un perfil amb el mateix nom ja existeix al directori de perfils per defecte "
-"de MLT. Sisplau, escull una altra descripció pel teu perfil personal.."
+"de MLT. Sisplau, escull una altra descripció pel teu perfil personal."
 
 msgid "ALSA"
 msgstr "ALSA"
@@ -116,7 +116,6 @@ msgstr "Afegir Guia"
 msgid "Add Image"
 msgstr "Afegir Imatge"
 
-#, fuzzy
 msgid "Add Marker"
 msgstr "Afegir marcador"
 
@@ -210,10 +209,10 @@ msgid "Amplitude"
 msgstr "Amplitut"
 
 msgid "An open source video editor."
-msgstr ""
+msgstr "Editor de vídeo de codi obert"
 
 msgid "Ascii art library"
-msgstr "Llibreria artistica Ascii "
+msgstr "Llibreria artística Ascii "
 
 msgid "Aspect ratio:"
 msgstr "Relació d'aspecte:"
@@ -259,13 +258,10 @@ msgid "Automatic"
 msgstr "Automàtic"
 
 msgid "Automatically start a new file on scene cut"
-msgstr "Començar automaticament un nou fitxer a cada escena"
+msgstr "Començar automàticament un nou fitxer a cada escena"
 
 msgid "Autoscroll while playing"
 msgstr "Desplaçament automàtic durant la reproducció"
-
-msgid "Averaging"
-msgstr "Anivellant"
 
 msgid "Background"
 msgstr "Fons"
@@ -353,7 +349,7 @@ msgstr "No es poden trobar els teus perfils de MLT. Sisplau, indica la ruta"
 
 #, kde-format
 msgid "Cannot move clip at time: %1s on track %2"
-msgstr "No es pot moure el clip al temps: %1s a la pista %2"
+msgstr "No es pot moure el clip al temps %1s de la pista %2"
 
 #, c-format, kde-format
 msgid "Cannot move clip to position %1seconds"
@@ -361,7 +357,7 @@ msgstr "No es pot moure el clip a la posició %1segons"
 
 #, kde-format
 msgid "Cannot move transition at time: %1s on track %2"
-msgstr "No es pot moure la transició al temps: %1s a la pista %2"
+msgstr "No es pot moure la transició al temps %1s de la pista %2"
 
 msgid "Cannot paste clip to selected place"
 msgstr "No es pot pegar el clip al lloc seleccionat"
@@ -387,7 +383,7 @@ msgid ""
 "Please check drivers and access rights."
 msgstr ""
 "No es pot llegir del dispositiu %1\n"
-"Sisplau verifica els drivers i els drets d'accés."
+"Sisplau verifica els controladors i els drets d'accés."
 
 #, kde-format
 msgid "Cannot write to file %1"
@@ -409,7 +405,7 @@ msgid "Capture format"
 msgstr "Format de captura"
 
 msgid "Capture params"
-msgstr "Parametres de captura"
+msgstr "Paràmetres de captura"
 
 msgid "Captured files"
 msgstr "Fitxers de captura"
@@ -431,6 +427,14 @@ msgstr "Canviar el valor de color gamma"
 
 msgid "Change image brightness with keyframes"
 msgstr "Canviar la brillantor de la imatge amb fotogrames clau"
+
+msgid ""
+"Changing the size of video when rendering\n"
+"is not fully supported, you may have problems\n"
+"with some effects or title clips, so the export\n"
+"profiles that resize your video are marked as\n"
+"experimental"
+msgstr ""
 
 msgid "Channels"
 msgstr "Canals"
@@ -504,7 +508,7 @@ msgid "Connect"
 msgstr "Conectar"
 
 msgid "Copyright (c) 2008 Development team"
-msgstr ""
+msgstr "Copyright (c) 2008 Equip de Desenvolupament"
 
 msgid ""
 "Could not create the video preview window.\n"
@@ -519,7 +523,7 @@ msgid "Crackle"
 msgstr "Crepitació"
 
 msgid "Crash recovery (automatic backup)"
-msgstr "Recuperació de  fallada (copia de seguretat automatica)"
+msgstr "Recuperació de  fallada (copia de seguretat automàtica)"
 
 msgid "Create Folder"
 msgstr "Crear Carpeta"
@@ -578,7 +582,7 @@ msgstr "Decay"
 
 #, fuzzy
 msgid "Declipper"
-msgstr "Declipper"
+msgstr "Eliminar clip"
 
 msgid "Decoding threads"
 msgstr "Fils de decodificació"
@@ -614,9 +618,8 @@ msgstr "Eliminar %1"
 msgid "Delete All Guides"
 msgstr "Eliminar totes les guies"
 
-#, fuzzy
 msgid "Delete All Markers"
-msgstr "Eliminar tots els marcadors del clip"
+msgstr "Eliminar tots els marcadors"
 
 msgid "Delete Clip"
 msgstr "Eliminar Clip"
@@ -627,7 +630,6 @@ msgstr "Eliminar Carpeta"
 msgid "Delete Guide"
 msgstr "Eliminar Guia"
 
-#, fuzzy
 msgid "Delete Marker"
 msgstr "Eliminar marcador"
 
@@ -708,13 +710,11 @@ msgstr "Desconectar"
 msgid "Display"
 msgstr "Visualitzar"
 
-#, fuzzy
 msgid "Display aspect ratio"
-msgstr "Relació de visualització"
+msgstr "Visualitzar relació d'aspecte"
 
-#, fuzzy
 msgid "Display aspect ratio:"
-msgstr "Relació de visualització:"
+msgstr "Visualitzar relació d'aspecte:"
 
 msgid "Display clip markers comments"
 msgstr "Visualitzar els comentaris als marcadors del clip"
@@ -722,11 +722,14 @@ msgstr "Visualitzar els comentaris als marcadors del clip"
 msgid "Display ratio:"
 msgstr "Relació de visualització:"
 
+msgid "Distort0r"
+msgstr ""
+
 msgid "Do nothing"
 msgstr "No fer res"
 
 msgid "Document to open"
-msgstr ""
+msgstr "Document a obrir"
 
 msgid "Don't recover"
 msgstr "No recuperar"
@@ -741,7 +744,7 @@ msgid "E"
 msgstr "E"
 
 msgid "EMAIL OF TRANSLATORS"
-msgstr ""
+msgstr "herrej01@gmail.com"
 
 msgid "Edit Clip"
 msgstr "Editar Clip"
@@ -791,7 +794,6 @@ msgstr "Llista d'Efectes"
 msgid "Effect Stack"
 msgstr "Pila d'efectes"
 
-#, fuzzy
 msgid "Enable Jog Shuttle device"
 msgstr "Activar el dispositiu Jog Shuttle"
 
@@ -812,7 +814,7 @@ msgid "EndViewport"
 msgstr "EndViewport"
 
 msgid "Environment"
-msgstr "Ambient"
+msgstr "Entorn"
 
 msgid "Equalizer"
 msgstr "Equalitzador"
@@ -865,10 +867,10 @@ msgid ""
 "Do you want to overwrite it ?"
 msgstr ""
 "El fitxer ja existeix.\n"
-"Vols sobreescriure'l ?"
+"Vols sobre-escriure'l ?"
 
 msgid "File already exists. Do you want to overwrite it ?"
-msgstr "El fitxer ja existeix. Vols sobreescriure'l ?"
+msgstr "El fitxer ja existeix. Vols sobre-escriure'l ?"
 
 msgid "File extension"
 msgstr "Extensió del fitxer"
@@ -916,9 +918,8 @@ msgstr "Volteja la imatge en qualsevol direcció"
 msgid "Folder"
 msgstr "Carpeta"
 
-#, fuzzy
 msgid "Force pixel aspect ratio"
-msgstr "Forçar relació d'aspecte"
+msgstr "Forçar relació d'aspecte del pixel"
 
 msgid "Format"
 msgstr "Format"
@@ -951,9 +952,8 @@ msgstr "Velocitat de quadre:"
 msgid "Frame size"
 msgstr "Tamany de fotograma"
 
-#, fuzzy
 msgid "Framebuffer console"
-msgstr "Framebuffer console"
+msgstr "Consola Framebuffer"
 
 msgid "Frames"
 msgstr "Fotogrames"
@@ -1058,9 +1058,6 @@ msgstr "H"
 msgid "HDV"
 msgstr "HDV"
 
-msgid "Height"
-msgstr "Alçada"
-
 msgid "Hi gain"
 msgstr "Guany d'aguts"
 
@@ -1081,6 +1078,9 @@ msgstr "Multiplicador horitzontal"
 
 msgid "Horizontal scatter"
 msgstr "Dispersió horitzontal"
+
+msgid "I"
+msgstr ""
 
 msgid "Image"
 msgstr "Imatge"
@@ -1115,7 +1115,6 @@ msgstr "Inicialitzant"
 msgid "Input gain (db)"
 msgstr "Guany d'entrada (db)"
 
-#, fuzzy
 msgid "Install extra video mimetypes"
 msgstr "Instal.lar mimetypes extra de video"
 
@@ -1132,19 +1131,16 @@ msgid "Invert colors"
 msgstr "Invertir colors"
 
 msgid "Jean-Baptiste Mardelle"
-msgstr ""
+msgstr "Jean-Baptiste Mardelle"
 
-#, fuzzy
 msgid "Jog Shuttle device disabled."
-msgstr "Activar el dispositiu Jog Shuttle"
+msgstr "Dispositiu Jog Shuttle desactivat."
 
-#, fuzzy
 msgid "JogShuttle"
-msgstr "JogShuttle"
+msgstr "Jog Shuttle"
 
-#, fuzzy
 msgid "Kdenlive"
-msgstr "Tamany de fotograma"
+msgstr "Kdenlive"
 
 #, fuzzy
 msgid "Kernel size"
@@ -1254,7 +1250,7 @@ msgid "Manage Profiles"
 msgstr "Administrar perfils"
 
 msgid "Marco Gittler"
-msgstr ""
+msgstr "Marco Gittler"
 
 msgid "Marker"
 msgstr "Marcador"
@@ -1281,13 +1277,13 @@ msgid "Mix"
 msgstr "Mesclar"
 
 msgid "Mlt Connection, Transition, Effect, Timeline Developer"
-msgstr ""
+msgstr "Conexió MLT. Desenvolupador de transicions, efectes i línia de temps"
 
 msgid "Mlt environment"
 msgstr "Entorn MLT"
 
 msgid "Mlt porting, KDE4 porting, Main developer"
-msgstr ""
+msgstr "Portabilitat MLT, KDE4. Desenvolupador principal."
 
 msgid "Mlt profiles folder"
 msgstr "Carpeta de perfils de MLT"
@@ -1326,7 +1322,7 @@ msgid "N"
 msgstr "N"
 
 msgid "NAME OF TRANSLATORS"
-msgstr ""
+msgstr "Joan M. Herrera"
 
 msgid "NTSC"
 msgstr "NTSC"
@@ -1411,13 +1407,13 @@ msgid "PAL"
 msgstr "PAL"
 
 msgid "Param"
-msgstr "Parametre"
+msgstr "Paràmetre"
 
 msgid "Parameter info"
-msgstr "Informació del parametre"
+msgstr "Informació del paràmetre"
 
 msgid "Parameters"
-msgstr "Parametres"
+msgstr "Paràmetres"
 
 msgid "Paste Effects"
 msgstr "Efectes de pegat"
@@ -1425,7 +1421,6 @@ msgstr "Efectes de pegat"
 msgid "Path"
 msgstr "Ruta"
 
-#, fuzzy
 msgid "Phaser"
 msgstr "Phaser"
 
@@ -1435,13 +1430,15 @@ msgstr "Escala de to"
 msgid "Pitch Shift"
 msgstr "Modificació del to"
 
-#, fuzzy
 msgid "Pixel aspect ratio"
-msgstr "Forçar relació d'aspecte"
+msgstr "Relació d'aspecte del pixel"
+
+msgid "Pixel aspect ratio:"
+msgstr "Relació d'aspecte del pixel:"
 
 #, fuzzy
-msgid "Pixel aspect ratio:"
-msgstr "Forçar relació d'aspecte"
+msgid "Plasma"
+msgstr "Reproduir"
 
 msgid "Play"
 msgstr "Reproduir"
@@ -1462,7 +1459,7 @@ msgid "Playback"
 msgstr "Reproducció"
 
 msgid "Playback params"
-msgstr "Parametres de reproducció"
+msgstr "Paràmetres de reproducció"
 
 msgid "Playlist clip"
 msgstr "Clip de llista de reproducció"
@@ -1471,9 +1468,11 @@ msgid ""
 "Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
 "org/mantis</a>"
 msgstr ""
+"Sisplau, informa dels problemes a <a href=\"http://kdenlive.org/mantis"
+"\">http://kdenlive.org/mantis</a>"
 
 msgid "Please report bugs to http://kdenlive.org/mantis"
-msgstr ""
+msgstr "Sisplau, informa dels problemes a http://kdenlive.org/mantis"
 
 msgid "Please set your default video format"
 msgstr "Sisplau, selecciona el teu format de video per defecte"
@@ -1487,7 +1486,7 @@ msgid ""
 "%1"
 msgstr ""
 "Conecta la videocàmara i\n"
-"pulsa el botó de conectar\n"
+"prem el botó de conectar\n"
 "per inicialitzar la conexió.\n"
 "Els fitxers es guardaran a:\n"
 "%1"
@@ -1612,10 +1611,6 @@ msgstr "Renderitzar"
 msgid "Rendering"
 msgstr "Renderitzant"
 
-#, fuzzy, kde-format
-msgid "Rendering %1"
-msgstr "Renderitzant"
-
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Ha començat la renderització de <i>%1</i>"
@@ -1623,10 +1618,11 @@ msgstr "Ha començat la renderització de <i>%1</i>"
 #, kde-format
 msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
 msgstr ""
+"Renderització de %1 abortada. El vídeo obtingut probablement s'ha fet malbé."
 
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rendering of %1 is over"
-msgstr "Ha començat la renderització de <i>%1</i>"
+msgstr "Renderització de %1 finalitzada"
 
 msgid "Reset effect"
 msgstr "Reinicialitzar efecte"
@@ -1731,7 +1727,7 @@ msgid "Screen Grab"
 msgstr "Grabar pantalla"
 
 msgid "Screen Grab / FFmpeg"
-msgstr "Grabar pantalla / FFMPEG"
+msgstr "Grabar pantalla / FFmpeg"
 
 msgid "Screen grab"
 msgstr "Grabar pantalla"
@@ -1756,16 +1752,16 @@ msgid "Select clip to delete"
 msgstr "Selecciona un clip per esborrar-lo"
 
 msgid "Select default audio editor"
-msgstr "Selecciona el editor d'àudio per defecte"
+msgstr "Selecciona l'editor d'àudio per defecte"
 
 msgid "Select default image editor"
-msgstr "Selecciona el editor d'imatges per defecte"
+msgstr "Selecciona l'editor d'imatges per defecte"
 
 msgid "Select default video player"
 msgstr "Selecciona el reproductor de vídeo per defecte"
 
 msgid "Select region..."
-msgstr "Selecciona regio ..."
+msgstr "Selecciona regió ..."
 
 msgid "Selected zone"
 msgstr "Zona seleccionada"
@@ -1789,7 +1785,7 @@ msgid "Set current image as thumbnail"
 msgstr "Fixar la imatge actual com miniatura"
 
 msgid "Set the path for MLT environnement"
-msgstr ""
+msgstr "Fixar la ruta de l'entorn MLT"
 
 msgid "Set zone end"
 msgstr "Fixar final de zona"
@@ -1805,6 +1801,9 @@ msgstr "Mostrar miniatures d'àudio"
 
 msgid "Show background"
 msgstr "Mostrar fons"
+
+msgid "Show experimental formats"
+msgstr ""
 
 msgid "Show keyframes in timeline"
 msgstr "Mostrar fotogrames clau a la línia de temps"
@@ -1842,7 +1841,6 @@ msgstr "Suavitat"
 msgid "Sox Echo"
 msgstr "Sox Eco"
 
-#, fuzzy
 msgid "Sox Flanger"
 msgstr "Sox Flanger"
 
@@ -1861,7 +1859,6 @@ msgstr "Sox, efecte de canvi de to"
 msgid "Sox echo audio effect"
 msgstr "Sox, eco"
 
-#, fuzzy
 msgid "Sox flanger audio effect"
 msgstr "Sox, efecte flanger"
 
@@ -1889,9 +1886,8 @@ msgstr "Inici"
 msgid "Start Gain"
 msgstr "Guany inicial"
 
-#, fuzzy
 msgid "Start Rendering"
-msgstr "Renderitzant"
+msgstr "Iniciar renderització"
 
 #, fuzzy
 msgid "Start-/EndViewport"
@@ -1916,9 +1912,6 @@ msgstr "Corba de superficie"
 msgid "Sync timeline cursor"
 msgstr "Sincronitzar cursor de línia de temps"
 
-msgid "Templates"
-msgstr "Plantilles"
-
 msgid "Temporary files"
 msgstr "Fitxers temporals"
 
@@ -1937,7 +1930,7 @@ msgid ""
 "seconds..."
 msgstr ""
 "Aquesta es la primera vegada que executes Kdenlive. Aquest auxiliar et "
-"permetrà ajustar alguns parametres bàsics. Estaràs a punt per editar la "
+"permetrà ajustar alguns paràmetres bàsics. Estaràs a punt per editar la "
 "primera pel.lícula en breus segons ..."
 
 msgid "Threshold"
@@ -2053,16 +2046,16 @@ msgid "Video Resolution"
 msgstr "Resolució de vídeo"
 
 msgid "Video Standard"
-msgstr "Vídeo estàndard"
+msgstr "Vídeo estàndar"
 
 msgid "Video capture params"
-msgstr "Parametres de captura de vídeo"
+msgstr "Paràmetres de captura de vídeo"
 
 msgid "Video clip"
 msgstr "Vídeo clip"
 
 msgid "Video codec"
-msgstr "Codec de vídeo"
+msgstr "Códec de vídeo"
 
 msgid "Video driver:"
 msgstr "Controlador de vídeo:"
@@ -2079,9 +2072,8 @@ msgstr "Pistes de vídeo"
 msgid "Video4Linux"
 msgstr "Video4Linux"
 
-#, fuzzy
 msgid "Video4Linux / FFmpeg"
-msgstr "Video4Linux2 / FFmpeg"
+msgstr "Video4Linux / FFmpeg"
 
 msgid "View"
 msgstr "Vista"
@@ -2188,7 +2180,7 @@ msgid "oss"
 msgstr "oss"
 
 msgid "parameter description"
-msgstr "Descripció del parametre"
+msgstr "Descripció del paràmetre"
 
 msgid "sec."
 msgstr "seg."
@@ -2217,35 +2209,8 @@ msgstr ""
 "La teva instal.lació MLT no es pot trobar. Instal.la MLT i re-inicia "
 "Kdenlive.\n"
 
-#~ msgid " Firewire (DV / HDV)"
-#~ msgstr "Firewire (DV/HDV)"
+#~ msgid "Rendering %1"
+#~ msgstr "Renderitzant %1"
 
-#~ msgid "Add Marker to Clip"
-#~ msgstr "Afegir Marcador al Clip"
-
-#~ msgid "Aspect ratio"
-#~ msgstr "Relació d'aspecte"
-
-#~ msgid "Delete Marker from Clip"
-#~ msgstr "Eliminar marcador del clip"
-
-#~ msgid "Delete track"
-#~ msgstr "Eliminar pista"
-
-#~ msgid "Form"
-#~ msgstr "Forma"
-
-#~ msgid "Go to..."
-#~ msgstr "Anar a ..."
-
-#~ msgid "Insert track"
-#~ msgstr "Insertar pista"
-
-#~ msgid "Video4Linux (webcam)"
-#~ msgstr "Video4Linux (webcam)"
-
-#~ msgid "Zone end"
-#~ msgstr "Final de zona"
-
-#~ msgid "Zone start"
-#~ msgstr "Inici de zona"
+#~ msgid "Templates"
+#~ msgstr "Plantilles"
