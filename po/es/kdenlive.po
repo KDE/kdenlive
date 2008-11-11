@@ -6,10 +6,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive_cast\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-25 03:20+0200\n"
-"PO-Revision-Date: 2008-10-09 22:35+0200\n"
+"POT-Creation-Date: 2008-11-11 21:47+0100\n"
+"PO-Revision-Date: 2008-11-09 17:08+0100\n"
 "Last-Translator: Juan M Herrera <herrej01@gmail.com>\n"
-"Language-Team: en_US <kde-i18n-doc@lists.kde.org>\n"
+"Language-Team: American English <kde-i18n-doc@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -70,7 +70,7 @@ msgstr "<br><b>Autor:</b> "
 
 #, kde-format
 msgid "<qt>Clip <b>%1</b><br>is invalid, will be removed from project."
-msgstr "<qt>Clip <b>%1</b><br>es inválido. Será eliminado del proyecto."
+msgstr "<qt>El clip <b>%1</b><br>es inválido. Será eliminado del proyecto."
 
 msgid "A"
 msgstr "A"
@@ -82,8 +82,8 @@ msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
 "choose another description for your custom profile."
 msgstr ""
-"Un perfil con el mismo nombre ya existe en los perfiles por defecto de MLT. "
-"Por favor, escoge una nueva descripción para tu perfil personalizado."
+"Un perfil con el mismo nombre ya existe como perfil por defecto en MLT. Por "
+"favor, escoge una nueva descripción para tu perfil personalizado."
 
 msgid "ALSA"
 msgstr "ALSA"
@@ -116,7 +116,6 @@ msgstr "Añadir guía"
 msgid "Add Image"
 msgstr "Añadir imagen"
 
-#, fuzzy
 msgid "Add Marker"
 msgstr "Añadir marcador"
 
@@ -166,7 +165,7 @@ msgid "Add recording time to captured file name"
 msgstr "Añadir la fecha de grabación al nombre del fichero capturado"
 
 msgid "Add timeline clip"
-msgstr "Añadir clip de linea de tiempo"
+msgstr "Añadir clip de línea de tiempo"
 
 msgid "Add transition"
 msgstr "Añadir transición"
@@ -175,7 +174,7 @@ msgid "Add transition to clip"
 msgstr "Añadir transición al clip"
 
 msgid "Additional Settings"
-msgstr "Parametros adicionales"
+msgstr "Parámetros adicionales"
 
 msgid "Adjust audio volume with keyframes"
 msgstr "Ajustar el volumen de audio con fotogramas maestros"
@@ -196,7 +195,7 @@ msgid "Align..."
 msgstr "Alinear ..."
 
 msgid "All"
-msgstr "Todos"
+msgstr "Todos ->>>"
 
 msgid "Allow horizontal moves"
 msgstr "Permitir movimientos horizontales"
@@ -208,7 +207,7 @@ msgid "Amplitude"
 msgstr "Amplitud"
 
 msgid "An open source video editor."
-msgstr ""
+msgstr "Editor de vídeo de código abierto."
 
 msgid "Ascii art library"
 msgstr "Libreria de arte Ascii"
@@ -262,9 +261,6 @@ msgstr "Empezar automaticamente un nuevo fichero en cada corte de escena"
 msgid "Autoscroll while playing"
 msgstr "Desplazamiento automático durante la reproducción"
 
-msgid "Averaging"
-msgstr "Promediando"
-
 msgid "Background"
 msgstr "Fondo"
 
@@ -278,7 +274,7 @@ msgid "Blur factor"
 msgstr "Factor de empañado"
 
 msgid "Blur image with keyframes"
-msgstr "Empañar imagen con fotogramas maestros"
+msgstr "Eliminar fotograma maestro"
 
 msgid "Border color"
 msgstr "Color del borde"
@@ -432,6 +428,14 @@ msgstr "Cambiar el valor del color gamma"
 msgid "Change image brightness with keyframes"
 msgstr "Cambiar el brillo de la imagen con fotogramas maestros"
 
+msgid ""
+"Changing the size of video when rendering\n"
+"is not fully supported, you may have problems\n"
+"with some effects or title clips, so the export\n"
+"profiles that resize your video are marked as\n"
+"experimental"
+msgstr ""
+
 msgid "Channels"
 msgstr "Canales"
 
@@ -504,7 +508,7 @@ msgid "Connect"
 msgstr "Conectar"
 
 msgid "Copyright (c) 2008 Development team"
-msgstr ""
+msgstr "Copyright (c) 2008 Equipo de Desarrollo"
 
 msgid ""
 "Could not create the video preview window.\n"
@@ -531,11 +535,10 @@ msgstr "Crear nuevo perfil"
 msgid "Creating thumbnail for %1"
 msgstr "Creando miniatura para %1"
 
-#, fuzzy, c-format, kde-format
+#, c-format, kde-format
 msgid "Crop from start: %1s"
 msgstr "Crop from start: %1s"
 
-#, fuzzy
 msgid "Crop start"
 msgstr "Crop start"
 
@@ -613,9 +616,8 @@ msgstr "Eliminar %1"
 msgid "Delete All Guides"
 msgstr "Eliminar todas las guías"
 
-#, fuzzy
 msgid "Delete All Markers"
-msgstr "Eliminar todos los marcadores del clip"
+msgstr "Eliminar todos los marcadores"
 
 msgid "Delete Clip"
 msgstr "Eliminar clip"
@@ -626,7 +628,6 @@ msgstr "Eliminar carpeta"
 msgid "Delete Guide"
 msgstr "Eliminar guía"
 
-#, fuzzy
 msgid "Delete Marker"
 msgstr "Eliminar marcador"
 
@@ -706,13 +707,11 @@ msgstr "Desconectar"
 msgid "Display"
 msgstr "Visualizar"
 
-#, fuzzy
 msgid "Display aspect ratio"
-msgstr "Ratio de visualización"
+msgstr "Visualizar relación de aspecto"
 
-#, fuzzy
 msgid "Display aspect ratio:"
-msgstr "Ratio de visualización:"
+msgstr "Visualizar relación de aspecto:"
 
 msgid "Display clip markers comments"
 msgstr "Visualizar los comentarios de los marcadores del clip"
@@ -720,11 +719,14 @@ msgstr "Visualizar los comentarios de los marcadores del clip"
 msgid "Display ratio:"
 msgstr "Ratio de visualización:"
 
+msgid "Distort0r"
+msgstr ""
+
 msgid "Do nothing"
 msgstr "No hacer nada"
 
 msgid "Document to open"
-msgstr ""
+msgstr "Documento a abrir"
 
 msgid "Don't recover"
 msgstr "No recuperar"
@@ -739,7 +741,7 @@ msgid "E"
 msgstr "E"
 
 msgid "EMAIL OF TRANSLATORS"
-msgstr ""
+msgstr "herrej01@gmail.com"
 
 msgid "Edit Clip"
 msgstr "Editar clip"
@@ -808,7 +810,7 @@ msgid "EndViewport"
 msgstr "EndViewport"
 
 msgid "Environment"
-msgstr "Ambiente"
+msgstr "Entorno"
 
 msgid "Equalizer"
 msgstr "Ecualizador"
@@ -912,9 +914,8 @@ msgstr "Gira la imagen en cualquier dirección"
 msgid "Folder"
 msgstr "Carpeta"
 
-#, fuzzy
 msgid "Force pixel aspect ratio"
-msgstr "Forzar ratio de aspecto"
+msgstr "Forzar la relación de aspecto del pixel"
 
 msgid "Format"
 msgstr "Formato"
@@ -947,7 +948,6 @@ msgstr "Velocidad de cuadro:"
 msgid "Frame size"
 msgstr "Tamaño de fotograma"
 
-#, fuzzy
 msgid "Framebuffer console"
 msgstr "Consola framebuffer"
 
@@ -1053,9 +1053,6 @@ msgstr "H"
 msgid "HDV"
 msgstr "HDV"
 
-msgid "Height"
-msgstr "Altura"
-
 msgid "Hi gain"
 msgstr "Ganancia de altos"
 
@@ -1076,6 +1073,9 @@ msgstr "Multiplicador horizontal"
 
 msgid "Horizontal scatter"
 msgstr "Dispersión horizontal"
+
+msgid "I"
+msgstr ""
 
 msgid "Image"
 msgstr "Imagen"
@@ -1110,7 +1110,6 @@ msgstr "Inicializando ..."
 msgid "Input gain (db)"
 msgstr "Ganancia de entrada (db)"
 
-#, fuzzy
 msgid "Install extra video mimetypes"
 msgstr "Instalar mimetypes extra de vídeo"
 
@@ -1127,18 +1126,16 @@ msgid "Invert colors"
 msgstr "Invertir colores"
 
 msgid "Jean-Baptiste Mardelle"
-msgstr ""
+msgstr "Jean-Baptiste Mardelle"
 
-#, fuzzy
 msgid "Jog Shuttle device disabled."
-msgstr "Activar dispositivo Jog Shuttle"
+msgstr "Dispositivo Jog Shuttle desactivado."
 
 msgid "JogShuttle"
 msgstr "JogShuttle"
 
-#, fuzzy
 msgid "Kdenlive"
-msgstr "Tamaño de fotograma"
+msgstr "Kdenlive"
 
 #, fuzzy
 msgid "Kernel size"
@@ -1159,7 +1156,6 @@ msgstr "LADSPA efecto de ecualizador de audio"
 msgid "LADSPA limiter audio effect"
 msgstr "LADSPA efecto limitador de audio"
 
-#, fuzzy
 msgid "LADSPA phaser audio effect"
 msgstr "LADSPA efecto phaser de audio"
 
@@ -1226,8 +1222,8 @@ msgid ""
 "MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT "
 "install. Kdenlive will not work until this issue is fixed."
 msgstr ""
-"No se ha encontrado el módulo avformat de MLT (FFMPEG). Por favor, verifica "
-"tu instalación de FFMPEG y MLT. Kdenlive no puede ejecutarse hasta que este "
+"No se ha encontrado el módulo avformat de MLT (FFmpeg). Por favor, verifica "
+"tu instalación de FFmpeg y MLT. Kdenlive no puede ejecutarse hasta que este "
 "problema este resuelto."
 
 msgid "Make clip play faster slowly"
@@ -1249,7 +1245,7 @@ msgid "Manage Profiles"
 msgstr "Administrar perfiles"
 
 msgid "Marco Gittler"
-msgstr ""
+msgstr "Marco Gittler"
 
 msgid "Marker"
 msgstr "Marcador"
@@ -1258,7 +1254,7 @@ msgid "Markers"
 msgstr "Marcadores"
 
 msgid "Mid gain"
-msgstr "Ganancia de medios"
+msgstr "Ganancia de medio"
 
 msgid "Mirror"
 msgstr "Reflejar"
@@ -1277,12 +1273,13 @@ msgstr "Mezclar"
 
 msgid "Mlt Connection, Transition, Effect, Timeline Developer"
 msgstr ""
+"Conexión con MLT. Desarrollo de transiciones, efectos y línea de tiempo."
 
 msgid "Mlt environment"
-msgstr "Ambiente MLT"
+msgstr "Entorno MLT"
 
 msgid "Mlt porting, KDE4 porting, Main developer"
-msgstr ""
+msgstr "Portabilidad MLT, KDE4. Desarrollador principal."
 
 msgid "Mlt profiles folder"
 msgstr "Carpeta de perfiles de MLT"
@@ -1321,7 +1318,7 @@ msgid "N"
 msgstr "N"
 
 msgid "NAME OF TRANSLATORS"
-msgstr ""
+msgstr "Juan M. Herrera"
 
 msgid "NTSC"
 msgstr "NTSC"
@@ -1420,7 +1417,6 @@ msgstr "Pegar efectos"
 msgid "Path"
 msgstr "Ruta"
 
-#, fuzzy
 msgid "Phaser"
 msgstr "Phaser"
 
@@ -1430,13 +1426,15 @@ msgstr "Escalador de tono"
 msgid "Pitch Shift"
 msgstr "Bloqueo de modificación"
 
-#, fuzzy
 msgid "Pixel aspect ratio"
-msgstr "Forzar ratio de aspecto"
+msgstr "Relación de aspecto del pixel"
+
+msgid "Pixel aspect ratio:"
+msgstr "Relación de aspecto del pixel:"
 
 #, fuzzy
-msgid "Pixel aspect ratio:"
-msgstr "Forzar ratio de aspecto"
+msgid "Plasma"
+msgstr "Reproducir"
 
 msgid "Play"
 msgstr "Reproducir"
@@ -1466,9 +1464,11 @@ msgid ""
 "Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
 "org/mantis</a>"
 msgstr ""
+"Por favor, informa de los errores en <a href=\"http://kdenlive.org/mantis"
+"\">http://kdenlive.org/mantis</a>"
 
 msgid "Please report bugs to http://kdenlive.org/mantis"
-msgstr ""
+msgstr "Por favor, informa de los errores en http://kdenlive.org/mantis"
 
 msgid "Please set your default video format"
 msgstr "Por favor, escoge el formato de vídeo por defecto"
@@ -1607,10 +1607,6 @@ msgstr "Renderizar"
 msgid "Rendering"
 msgstr "Renderizando"
 
-#, fuzzy, kde-format
-msgid "Rendering %1"
-msgstr "Renderizando"
-
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Iniciada la renderización de <i>%1</i> "
@@ -1618,10 +1614,11 @@ msgstr "Iniciada la renderización de <i>%1</i> "
 #, kde-format
 msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
 msgstr ""
+"Renderización de %1 abortada. El vídeo resultante probablemente esté dañado."
 
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rendering of %1 is over"
-msgstr "Iniciada la renderización de <i>%1</i> "
+msgstr "La renderización de %1 ha finalizado"
 
 msgid "Reset effect"
 msgstr "Restablecer efecto"
@@ -1726,7 +1723,7 @@ msgid "Screen Grab"
 msgstr "Captura de pantalla"
 
 msgid "Screen Grab / FFmpeg"
-msgstr "Captura de pantalla / FFMPEG"
+msgstr "Captura de pantalla / FFmpeg"
 
 msgid "Screen grab"
 msgstr "Captura de pantalla"
@@ -1784,7 +1781,7 @@ msgid "Set current image as thumbnail"
 msgstr "Fijar imagen actual como miniatura"
 
 msgid "Set the path for MLT environnement"
-msgstr ""
+msgstr "Indica la ruta del entorno MLT"
 
 msgid "Set zone end"
 msgstr "Fijar final de zona"
@@ -1800,6 +1797,9 @@ msgstr "Mostrar miniaturas de audio"
 
 msgid "Show background"
 msgstr "Mostrar fondo"
+
+msgid "Show experimental formats"
+msgstr ""
 
 msgid "Show keyframes in timeline"
 msgstr "Mostrar fotogramas maestros en linea de tiempo"
@@ -1857,7 +1857,6 @@ msgstr "Sox efecto cambio de tono"
 msgid "Sox echo audio effect"
 msgstr "Sox efecto eco"
 
-#, fuzzy
 msgid "Sox flanger audio effect"
 msgstr "Sox efecto flanger"
 
@@ -1886,9 +1885,8 @@ msgstr "Inicio"
 msgid "Start Gain"
 msgstr "Ganancia inicial"
 
-#, fuzzy
 msgid "Start Rendering"
-msgstr "Renderizando"
+msgstr "Iniciar renderización"
 
 msgid "Start-/EndViewport"
 msgstr "Start-/EndViewport"
@@ -1910,9 +1908,6 @@ msgstr "Combado de superficie"
 
 msgid "Sync timeline cursor"
 msgstr "Sincronizar cursor de linea de tiempo"
-
-msgid "Templates"
-msgstr "Plantillas"
 
 msgid "Temporary files"
 msgstr "Ficheros temporales"
@@ -2076,9 +2071,8 @@ msgstr "Pistas de vídeo"
 msgid "Video4Linux"
 msgstr "Video4Linux"
 
-#, fuzzy
 msgid "Video4Linux / FFmpeg"
-msgstr "Video4Linux2 / FFmpeg"
+msgstr "Video4Linux / FFmpeg"
 
 msgid "View"
 msgstr "Vista"
@@ -2213,8 +2207,11 @@ msgstr ""
 "No se puede encontrar la instalación de MLT. Instala MLT y reinicia "
 "Kdenlive.\n"
 
-#~ msgid " Firewire (DV / HDV)"
-#~ msgstr " Firewire (DV/HDV)"
+#~ msgid "Rendering %1"
+#~ msgstr "Renderizando %1"
+
+#~ msgid "Templates"
+#~ msgstr "Plantillas"
 
 #~ msgid "Add Marker to Clip"
 #~ msgstr "Añadir marcador al clip"
