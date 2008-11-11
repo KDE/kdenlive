@@ -1,14 +1,14 @@
-# translation of da.po to Dansk
+# translation of kdenlive.po to Dansk
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Mads Bondo Dydensborg <mads@dydensborg.dk>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: da\n"
+"Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-25 03:20+0200\n"
-"PO-Revision-Date: 2008-10-25 10:40+0200\n"
+"POT-Creation-Date: 2008-11-11 21:47+0100\n"
+"PO-Revision-Date: 2008-11-12 00:13+0100\n"
 "Last-Translator: Mads Bondo Dydensborg <mads@dydensborg.dk>\n"
 "Language-Team: Dansk <da@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -261,9 +261,6 @@ msgstr "Automatisk starte en ny fil ved scene skift"
 msgid "Autoscroll while playing"
 msgstr "Autorulle under afspilning"
 
-msgid "Averaging"
-msgstr "Gennemsnitlig"
-
 msgid "Background"
 msgstr "Baggrund"
 
@@ -426,6 +423,19 @@ msgstr "Skift gamma farve værdi"
 
 msgid "Change image brightness with keyframes"
 msgstr "Skidt billede lysstyrke med keyframes"
+
+msgid ""
+"Changing the size of video when rendering\n"
+"is not fully supported, you may have problems\n"
+"with some effects or title clips, so the export\n"
+"profiles that resize your video are marked as\n"
+"experimental"
+msgstr ""
+"Ændring af størrelsen på video under generering\n"
+"er ikke fuldt understøttet. Der kan opstå problemer\n"
+"med nogle effekter eller tekstklip, så de genererings-\n"
+"profiler der ændrer størrelsen er markeret som\n"
+"eksperimentielle"
 
 msgid "Channels"
 msgstr "Kanaler"
@@ -707,6 +717,9 @@ msgstr "Vis klipmarkørkommentarer"
 
 msgid "Display ratio:"
 msgstr "Vis ratio:"
+
+msgid "Distort0r"
+msgstr "Distort0r"
 
 msgid "Do nothing"
 msgstr "Gør ingenting"
@@ -1039,9 +1052,6 @@ msgstr "H"
 msgid "HDV"
 msgstr "HDV"
 
-msgid "Height"
-msgstr "Højde"
-
 msgid "Hi gain"
 msgstr "Høj gain"
 
@@ -1062,6 +1072,9 @@ msgstr "Horisontal multiplikator"
 
 msgid "Horizontal scatter"
 msgstr "Horisontal spreder"
+
+msgid "I"
+msgstr "I"
 
 msgid "Image"
 msgstr "Billede"
@@ -1414,6 +1427,9 @@ msgstr "Pixel aspetkratio"
 msgid "Pixel aspect ratio:"
 msgstr "Pixel aspektratio:"
 
+msgid "Plasma"
+msgstr "Plasma"
+
 msgid "Play"
 msgstr "Afspil"
 
@@ -1442,8 +1458,8 @@ msgid ""
 "Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
 "org/mantis</a>"
 msgstr ""
-"Rapportér venligst fejl til <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
-"org/mantis</a>"
+"Rapportér venligst fejl til <a href=\"http://kdenlive.org/mantis\">http://"
+"kdenlive.org/mantis</a>"
 
 msgid "Please report bugs to http://kdenlive.org/mantis"
 msgstr "Rapportér venligst fejl til http://kdenlive.org/mantis"
@@ -1584,10 +1600,6 @@ msgstr "Generér"
 
 msgid "Rendering"
 msgstr "Generéring"
-
-#, kde-format
-msgid "Rendering %1"
-msgstr "Generérer %1"
 
 #, kde-format
 msgid "Rendering <i>%1</i> started"
@@ -1780,6 +1792,9 @@ msgstr "Vis lydminiaturer"
 msgid "Show background"
 msgstr "Vis baggrund"
 
+msgid "Show experimental formats"
+msgstr "Vis eksperimentielle profiler"
+
 msgid "Show keyframes in timeline"
 msgstr "Vis keyframes i tidslinie"
 
@@ -1884,9 +1899,6 @@ msgstr "Overflade warpning"
 
 msgid "Sync timeline cursor"
 msgstr "Synkroniser tidslinie peger"
-
-msgid "Templates"
-msgstr "Skabeloner"
 
 msgid "Temporary files"
 msgstr "Midlertidige filer"
