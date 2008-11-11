@@ -147,22 +147,26 @@ void Wizard::slotCheckStandard() {
         if (m_standard.button_dv->isChecked()) {
             profiles << "dv_pal" << "dv_pal_wide";
         } else {
-            profiles << "hdv_720_25p" << "hdv_1080_50i";
+            profiles << "hdv_720_25p" << "hdv_720_50p" << "hdv_1080_50i" << "hdv_1080_25p" << "atsc_1080p_24" << "atsc_1080p_25";
         }
     } else {
         // NTSC standard
         if (m_standard.button_dv->isChecked()) {
             profiles << "dv_ntsc" << "dv_ntsc_wide";
         } else {
-            profiles << "hdv_720_30p" << "hdv_1080_60i" << "atsc_720p_30" << "atsc_1080i_60";
+            profiles << "hdv_720_30p" << "hdv_720_60p" << "hdv_1080_30p" << "hdv_1080_60i" << "atsc_720p_30" << "atsc_1080i_60";
         }
     }
     m_standard.profiles_list->clear();
     QStringList profilesDescription;
     foreach(const QString &prof, profiles) {
-        QListWidgetItem *item = new QListWidgetItem(ProfilesDialog::getProfileDescription(prof), m_standard.profiles_list);
-        item->setData(Qt::UserRole, prof);
+        QString desc = ProfilesDialog::getProfileDescription(prof);
+        if (!desc.isEmpty()) {
+            QListWidgetItem *item = new QListWidgetItem(desc, m_standard.profiles_list);
+            item->setData(Qt::UserRole, prof);
+        }
     }
+    m_standard.profiles_list->setSortingEnabled(true);
     m_standard.profiles_list->setCurrentRow(0);
 }
 
