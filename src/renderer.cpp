@@ -845,7 +845,7 @@ QString Render::sceneList() {
     westleyConsumer.connect(prod);
     westleyConsumer.start();
     while (!westleyConsumer.is_stopped()) {}
-    playlist = westleyConsumer.get("kdenlive_playlist");
+    playlist = QString::fromUtf8(westleyConsumer.get("kdenlive_playlist"));
     if (split) slotSplitView(true);
     return playlist;
 }
