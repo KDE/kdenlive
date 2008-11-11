@@ -39,7 +39,7 @@
 #include "recmonitor.h"
 
 RecMonitor::RecMonitor(QString name, QWidget *parent)
-        : QWidget(parent), m_name(name), m_isActive(false), m_isCapturing(false), m_isPlaying(false), m_didCapture(false) {
+        : QWidget(parent), m_name(name), m_isActive(false), m_isCapturing(false), m_isPlaying(false), m_didCapture(false), m_dvgrabVersion(0) {
     ui.setupUi(this);
 
     ui.video_frame->setAttribute(Qt::WA_PaintOnScreen);
@@ -116,6 +116,20 @@ RecMonitor::RecMonitor(QString name, QWidget *parent)
         playbackCommand =  "-f " + KdenliveSettings::video4vencoding();
         KdenliveSettings::setVideo4playback(playbackCommand);
     }
+
+    //HACK: check dvgrab version, because only dvgrab >= 3.3 supports 
+    // 		--timestamp option without bug
+    QProcess *versionCheck = new QProcess;
+    versionCheck->setProcessChannelMode(QProcess::MergedChannels);
+    versionCheck->start("dvgrab", QStringList() << "--version");
+    if (versionCheck->waitForFinished()) {
+        QString version = QString(versionCheck->readAll()).simplified();
+        if (version.contains(' ')) version = version.section(' ', -1);
+        m_dvgrabVersion = version.toDouble();
+        kDebug() << "// FOUND DVGRAB VERSION: " << m_dvgrabVersion;
+    }
+    if (versionCheck) delete versionCheck;
+
     kDebug() << "/////// BUILDING MONITOR, ID: " << ui.video_frame->winId();
 }
 
@@ -329,7 +343,7 @@ void RecMonitor::slotStartCapture(bool play) {
             break;
         }
         if (KdenliveSettings::firewireautosplit()) m_captureArgs << "--autosplit";
-        if (KdenliveSettings::firewiretimestamp()) m_captureArgs << "--timestamp";
+        if (KdenliveSettings::firewiretimestamp() && m_dvgrabVersion >= 3.3) m_captureArgs << "--timestamp";
         m_captureArgs << "-i" << "capture" << "-";
         m_displayArgs << "-x" << QString::number(ui.video_frame->width()) << "-y" << QString::number(ui.video_frame->height()) << "-";
 
