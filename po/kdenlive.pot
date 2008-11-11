@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-25 14:20+0200\n"
+"POT-Creation-Date: 2008-11-11 21:47+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -174,6 +174,9 @@ msgstr ""
 msgid "Additional Settings"
 msgstr ""
 
+msgid "Adjust audio volume with keyframes"
+msgstr ""
+
 msgid "Adjust clip length"
 msgstr ""
 
@@ -196,6 +199,9 @@ msgid "Allow horizontal moves"
 msgstr ""
 
 msgid "Allow vertical moves"
+msgstr ""
+
+msgid "Amplitude"
 msgstr ""
 
 msgid "An open source video editor."
@@ -235,6 +241,9 @@ msgstr ""
 msgid "Audio tracks"
 msgstr ""
 
+msgid "Auto Mask"
+msgstr ""
+
 msgid "Auto add"
 msgstr ""
 
@@ -256,10 +265,25 @@ msgstr ""
 msgid "BasicOperations"
 msgstr ""
 
+msgid "Blue Screen"
+msgstr ""
+
+msgid "Blur factor"
+msgstr ""
+
+msgid "Blur image with keyframes"
+msgstr ""
+
 msgid "Border color"
 msgstr ""
 
 msgid "Bottom"
+msgstr ""
+
+msgid "Box Blur"
+msgstr ""
+
+msgid "Brightness"
 msgstr ""
 
 msgid "Button 1"
@@ -386,10 +410,39 @@ msgstr ""
 msgid "Change Clip Speed"
 msgstr ""
 
+msgid "Change gamma color value"
+msgstr ""
+
+msgid "Change image brightness with keyframes"
+msgstr ""
+
+msgid ""
+"Changing the size of video when rendering\n"
+"is not fully supported, you may have problems\n"
+"with some effects or title clips, so the export\n"
+"profiles that resize your video are marked as\n"
+"experimental"
+msgstr ""
+
 msgid "Channels"
 msgstr ""
 
+msgid "Charcoal"
+msgstr ""
+
+msgid "Charcoal drawing effect"
+msgstr ""
+
 msgid "CheckBox"
+msgstr ""
+
+msgid "Chroma Hold"
+msgstr ""
+
+msgid "Chrominance U"
+msgstr ""
+
+msgid "Chrominance V"
 msgstr ""
 
 msgid "Clean"
@@ -414,6 +467,9 @@ msgstr ""
 msgid "Close the current tab"
 msgstr ""
 
+msgid "Co-efficient"
+msgstr ""
+
 msgid "Color"
 msgstr ""
 
@@ -424,6 +480,9 @@ msgid "Color clip"
 msgstr ""
 
 msgid "Color clips"
+msgstr ""
+
+msgid "Color key"
 msgstr ""
 
 msgid "Comment"
@@ -442,6 +501,9 @@ msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install or your driver settings, "
 "please fix it."
+msgstr ""
+
+msgid "Crackle"
 msgstr ""
 
 msgid "Crash recovery (automatic backup)"
@@ -491,6 +553,18 @@ msgstr ""
 msgid "DV Raw"
 msgstr ""
 
+msgid "Damping"
+msgstr ""
+
+msgid "Debug"
+msgstr ""
+
+msgid "Decay"
+msgstr ""
+
+msgid "Declipper"
+msgstr ""
+
 msgid "Decoding threads"
 msgstr ""
 
@@ -510,6 +584,12 @@ msgid "Default capture device"
 msgstr ""
 
 msgid "Default folders"
+msgstr ""
+
+msgid "Delay"
+msgstr ""
+
+msgid "Delay (s/10)"
 msgstr ""
 
 #, kde-format
@@ -576,6 +656,9 @@ msgstr ""
 msgid "Delete transition from clip"
 msgstr ""
 
+msgid "Depth"
+msgstr ""
+
 msgid "Description"
 msgstr ""
 
@@ -597,6 +680,9 @@ msgstr ""
 msgid "Direct FB"
 msgstr ""
 
+msgid "Discard color information"
+msgstr ""
+
 msgid "Disonnect"
 msgstr ""
 
@@ -613,6 +699,9 @@ msgid "Display clip markers comments"
 msgstr ""
 
 msgid "Display ratio:"
+msgstr ""
+
+msgid "Distort0r"
 msgstr ""
 
 msgid "Do nothing"
@@ -696,10 +785,16 @@ msgstr ""
 msgid "End"
 msgstr ""
 
+msgid "End Gain"
+msgstr ""
+
 msgid "EndViewport"
 msgstr ""
 
 msgid "Environment"
+msgstr ""
+
+msgid "Equalizer"
 msgstr ""
 
 msgid "Error starting MLT's command line player (inigo)"
@@ -723,7 +818,19 @@ msgstr ""
 msgid "Extract frame"
 msgstr ""
 
+msgid "Fade in"
+msgstr ""
+
+msgid "Fade in audio track"
+msgstr ""
+
+msgid "Fade out"
+msgstr ""
+
 msgid "Fatal Error"
+msgstr ""
+
+msgid "Feedback"
 msgstr ""
 
 #, kde-format
@@ -779,6 +886,9 @@ msgstr ""
 msgid "Fit zoom to project"
 msgstr ""
 
+msgid "Flip your image in any direction"
+msgstr ""
+
 msgid "Folder"
 msgstr ""
 
@@ -822,6 +932,21 @@ msgstr ""
 msgid "Frames"
 msgstr ""
 
+msgid "Freeze"
+msgstr ""
+
+msgid "Freeze After"
+msgstr ""
+
+msgid "Freeze Before"
+msgstr ""
+
+msgid "Freeze at"
+msgstr ""
+
+msgid "Freeze video on a chosen frame"
+msgstr ""
+
 msgid "Frequency"
 msgstr ""
 
@@ -834,7 +959,22 @@ msgstr ""
 msgid "Full screen capture"
 msgstr ""
 
+msgid "Gain"
+msgstr ""
+
+msgid "Gain in"
+msgstr ""
+
+msgid "Gain out"
+msgstr ""
+
+msgid "Gamma"
+msgstr ""
+
 msgid "General graphics interface"
+msgstr ""
+
+msgid "Geometry"
 msgstr ""
 
 msgid "Go To"
@@ -867,6 +1007,9 @@ msgstr ""
 msgid "GraphView"
 msgstr ""
 
+msgid "Greyscale"
+msgstr ""
+
 msgid "Group"
 msgstr ""
 
@@ -888,7 +1031,28 @@ msgstr ""
 msgid "HDV"
 msgstr ""
 
+msgid "Hi gain"
+msgstr ""
+
+msgid "Hide a region of the clip"
+msgstr ""
+
+msgid "Hide a selected zone and follow its movements"
+msgstr ""
+
 msgid "Hor. Center"
+msgstr ""
+
+msgid "Horizontal factor"
+msgstr ""
+
+msgid "Horizontal multiplicator"
+msgstr ""
+
+msgid "Horizontal scatter"
+msgstr ""
+
+msgid "I"
 msgstr ""
 
 msgid "Image"
@@ -921,10 +1085,22 @@ msgstr ""
 msgid "Initialising..."
 msgstr ""
 
+msgid "Input gain (db)"
+msgstr ""
+
 msgid "Install extra video mimetypes"
 msgstr ""
 
+msgid "Intensity"
+msgstr ""
+
 msgid "Interlaced"
+msgstr ""
+
+msgid "Invert"
+msgstr ""
+
+msgid "Invert colors"
 msgstr ""
 
 msgid "Jean-Baptiste Mardelle"
@@ -939,10 +1115,49 @@ msgstr ""
 msgid "Kdenlive"
 msgstr ""
 
+msgid "Kernel size"
+msgstr ""
+
 msgid "Keyframe"
 msgstr ""
 
+msgid "LADSPA change pitch audio effect"
+msgstr ""
+
+msgid "LADSPA declipper audio effect"
+msgstr ""
+
+msgid "LADSPA equalizer audio effect"
+msgstr ""
+
+msgid "LADSPA limiter audio effect"
+msgstr ""
+
+msgid "LADSPA phaser audio effect"
+msgstr ""
+
+msgid "LADSPA pitch scale audio effect"
+msgstr ""
+
+msgid "LADSPA rate scale audio effect"
+msgstr ""
+
+msgid "LADSPA reverb audio effect"
+msgstr ""
+
+msgid "LADSPA room reverb audio effect"
+msgstr ""
+
 msgid "Left"
+msgstr ""
+
+msgid "Limit (db)"
+msgstr ""
+
+msgid "Limiter"
+msgstr ""
+
+msgid "Lo gain"
 msgstr ""
 
 msgid "Load Image"
@@ -982,6 +1197,21 @@ msgid ""
 "install. Kdenlive will not work until this issue is fixed."
 msgstr ""
 
+msgid "Make clip play faster slowly"
+msgstr ""
+
+msgid "Make image greyscale except for chosen color"
+msgstr ""
+
+msgid "Make monochrome clip"
+msgstr ""
+
+msgid "Make selected color transparent"
+msgstr ""
+
+msgid "Make waves on your clip with keyframes"
+msgstr ""
+
 msgid "Manage Profiles"
 msgstr ""
 
@@ -994,10 +1224,22 @@ msgstr ""
 msgid "Markers"
 msgstr ""
 
+msgid "Mid gain"
+msgstr ""
+
+msgid "Mirror"
+msgstr ""
+
+msgid "Mirroring direction"
+msgstr ""
+
 msgid "Misc"
 msgstr ""
 
 msgid "Misc..."
+msgstr ""
+
+msgid "Mix"
 msgstr ""
 
 msgid "Mlt Connection, Transition, Effect, Timeline Developer"
@@ -1031,6 +1273,12 @@ msgid "Move guide"
 msgstr ""
 
 msgid "Move transition"
+msgstr ""
+
+msgid "Mute"
+msgstr ""
+
+msgid "Mute clip"
 msgstr ""
 
 msgid "Mute video clip"
@@ -1078,7 +1326,13 @@ msgstr ""
 msgid "No selected clip at cursor time"
 msgstr ""
 
+msgid "Normalise"
+msgstr ""
+
 msgid "Normalise audio for thumbnails"
+msgstr ""
+
+msgid "Normalise audio volume"
 msgstr ""
 
 msgid "Not connected"
@@ -1092,6 +1346,9 @@ msgid "OSS"
 msgstr ""
 
 msgid "OSS with DMA access"
+msgstr ""
+
+msgid "Obscure"
 msgstr ""
 
 msgid "Opacity"
@@ -1130,10 +1387,22 @@ msgstr ""
 msgid "Path"
 msgstr ""
 
+msgid "Phaser"
+msgstr ""
+
+msgid "Pitch Scaler"
+msgstr ""
+
+msgid "Pitch Shift"
+msgstr ""
+
 msgid "Pixel aspect ratio"
 msgstr ""
 
 msgid "Pixel aspect ratio:"
+msgstr ""
+
+msgid "Plasma"
 msgstr ""
 
 msgid "Play"
@@ -1244,6 +1513,18 @@ msgstr ""
 msgid "R"
 msgstr ""
 
+msgid "RPM"
+msgstr ""
+
+msgid "Rate"
+msgstr ""
+
+msgid "Rate (Hz)"
+msgstr ""
+
+msgid "Rate Scaler"
+msgstr ""
+
 msgid "Rating"
 msgstr ""
 
@@ -1265,6 +1546,12 @@ msgstr ""
 msgid "Recover"
 msgstr ""
 
+msgid "Region"
+msgstr ""
+
+msgid "Release time (s)"
+msgstr ""
+
 msgid "Rename folder"
 msgstr ""
 
@@ -1272,10 +1559,6 @@ msgid "Render"
 msgstr ""
 
 msgid "Rendering"
-msgstr ""
-
-#, kde-format
-msgid "Rendering %1"
 msgstr ""
 
 #, kde-format
@@ -1305,6 +1588,18 @@ msgstr ""
 msgid "Resize..."
 msgstr ""
 
+msgid "Reverb"
+msgstr ""
+
+msgid "Reverb Time"
+msgstr ""
+
+msgid "Reverb time"
+msgstr ""
+
+msgid "Reverse playing"
+msgstr ""
+
 msgid "Rewind"
 msgstr ""
 
@@ -1317,7 +1612,28 @@ msgstr ""
 msgid "Right"
 msgstr ""
 
+msgid "Room Reverb"
+msgstr ""
+
+msgid "Room size (m)"
+msgstr ""
+
+msgid "Rotate"
+msgstr ""
+
+msgid "Rotate clip in any 3 directions"
+msgstr ""
+
 msgid "Rotate:"
+msgstr ""
+
+msgid "Rotation x"
+msgstr ""
+
+msgid "Rotation y"
+msgstr ""
+
+msgid "Rotation z"
 msgstr ""
 
 msgid "S"
@@ -1403,6 +1719,9 @@ msgstr ""
 msgid "Selection tool"
 msgstr ""
 
+msgid "Sepia"
+msgstr ""
+
 msgid "Set In Point"
 msgstr ""
 
@@ -1421,10 +1740,16 @@ msgstr ""
 msgid "Set zone start"
 msgstr ""
 
+msgid "Shift"
+msgstr ""
+
 msgid "Show audio thumbnails"
 msgstr ""
 
 msgid "Show background"
+msgstr ""
+
+msgid "Show experimental formats"
 msgstr ""
 
 msgid "Show keyframes in timeline"
@@ -1434,6 +1759,9 @@ msgid "Show markers comments"
 msgstr ""
 
 msgid "Show video thumbnails"
+msgstr ""
+
+msgid "Simulates a vinyl audio player - LADSPA audio effect"
 msgstr ""
 
 msgid "Size"
@@ -1457,10 +1785,52 @@ msgstr ""
 msgid "Softness"
 msgstr ""
 
+msgid "Sox Echo"
+msgstr ""
+
+msgid "Sox Flanger"
+msgstr ""
+
+msgid "Sox Pitch Shift"
+msgstr ""
+
+msgid "Sox Reverb"
+msgstr ""
+
+msgid "Sox Vibro"
+msgstr ""
+
+msgid "Sox change pitch audio effect"
+msgstr ""
+
+msgid "Sox echo audio effect"
+msgstr ""
+
+msgid "Sox flanger audio effect"
+msgstr ""
+
+msgid "Sox reverb audio effect"
+msgstr ""
+
+msgid "Sox vibro audio effect"
+msgstr ""
+
+msgid "Speed"
+msgstr ""
+
 msgid "Split view"
 msgstr ""
 
+msgid "Spread"
+msgstr ""
+
+msgid "Square Blur"
+msgstr ""
+
 msgid "Start"
+msgstr ""
+
+msgid "Start Gain"
 msgstr ""
 
 msgid "Start Rendering"
@@ -1478,10 +1848,13 @@ msgstr ""
 msgid "Stop"
 msgstr ""
 
-msgid "Sync timeline cursor"
+msgid "Stroboscope"
 msgstr ""
 
-msgid "Templates"
+msgid "Surface warping"
+msgstr ""
+
+msgid "Sync timeline cursor"
 msgstr ""
 
 msgid "Temporary files"
@@ -1502,6 +1875,12 @@ msgid ""
 "seconds..."
 msgstr ""
 
+msgid "Threshold"
+msgstr ""
+
+msgid "Threshold value"
+msgstr ""
+
 msgid "Thumbnail"
 msgstr ""
 
@@ -1512,6 +1891,9 @@ msgid "Thumbnails:"
 msgstr ""
 
 msgid "Time"
+msgstr ""
+
+msgid "Time window (ms)"
 msgstr ""
 
 msgid "Timecode overlay"
@@ -1547,6 +1929,9 @@ msgstr ""
 msgid "Transparent background"
 msgstr ""
 
+msgid "Turn clip colors to sepia"
+msgstr ""
+
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr ""
@@ -1566,13 +1951,31 @@ msgstr ""
 msgid "Use as default"
 msgstr ""
 
+msgid "Use transparency"
+msgstr ""
+
 msgid "V"
 msgstr ""
 
 msgid "Value"
 msgstr ""
 
+msgid "Variable-size square blur (frei0r.squareblur)"
+msgstr ""
+
+msgid "Variance"
+msgstr ""
+
 msgid "Vert. Center"
+msgstr ""
+
+msgid "Vertical factor"
+msgstr ""
+
+msgid "Vertical multiplicator"
+msgstr ""
+
+msgid "Vertical scatter"
 msgstr ""
 
 msgid "Video"
@@ -1617,7 +2020,13 @@ msgstr ""
 msgid "View"
 msgstr ""
 
+msgid "Vinyl"
+msgstr ""
+
 msgid "Virtual clip"
+msgstr ""
+
+msgid "Volume"
 msgstr ""
 
 msgid "W"
@@ -1626,6 +2035,12 @@ msgstr ""
 msgid ""
 "Warning: changes to the drivers and devices can make Kdenlive unstable. "
 "Change only if you know what you do."
+msgstr ""
+
+msgid "Wave"
+msgstr ""
+
+msgid "Wear"
 msgstr ""
 
 msgid "Welcome"
@@ -1653,6 +2068,9 @@ msgid "Y"
 msgstr ""
 
 msgid "Y:"
+msgstr ""
+
+msgid "Year"
 msgstr ""
 
 msgid "You must copy exactly one clip before pasting effects"
