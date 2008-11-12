@@ -1,0 +1,25 @@
+Kdenlive Installation instrucions
+=================================
+
+
+To compile and install, go in the source directory and type:
+
+cmake .
+(If you want to install in a different path, use instead:
+cmake . -DCMAKE_INSTALL_PREFIX=/install/path)
+make
+
+To install, become root:
+
+sudo make install
+(enter root password at prompt)
+
+Once installed, you can start Kdenlive by typing "kdenlive".
+
+Note that you should also install MLT to do anything useful with Kdenlive. See
+the README file for details.
+
+Have Fun!
+
+
+
