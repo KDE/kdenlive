@@ -1194,6 +1194,7 @@ void CustomTrackView::dropEvent(QDropEvent * event) {
         }
         m_document->setModified(true);
     } else QGraphicsView::dropEvent(event);
+    setFocus();
 }
 
 
