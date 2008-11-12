@@ -81,7 +81,6 @@
   <profile name="Flash 200k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=200k s=%widthx%height" />
   <profile name="Flash 400k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=400k s=%widthx%height" />
   <profile name="Flash 600k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=600k s=%widthx%height" />
-  <profile name="Flash 600k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=600k s=%widthx%height" />
   <profile name="Flash 800k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=800k s=%widthx%height" />
   <profile name="Flash 1000k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=1000k s=%widthx%height" />
   <profile name="Flash 2000k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=2000k s=%widthx%height" />
@@ -95,12 +94,19 @@
 </group>
 
 <group name="RealVideo" renderer="avformat" type="av">
-  <profile name="160x120" extension="rm" args="f=rv10 minrate=0 b=500k ab=128k ar=44100 s=160x120 g=8" />
-  <profile name="240x180" extension="rm" args="f=rv10 minrate=0 b=800k ab=128k ar=44100 s=240x180 g=8" />
-  <profile name="320x200" extension="rm" args="f=rv10 minrate=0 b=1000k ab=128k ar=44100 s=320x200 g=8" />
-  <profile name="640x480" extension="rm" args="f=rv10 minrate=0 b=7000k ab=128k ar=44100 s=640x480 g=8" />
-  <profile name="720x576" standard="PAL" extension="rm" args="f=rv10 minrate=0 b=12000k ab=384k ar=48000 s=720x576 g=8" />
-  <profile name="720x480" standard="NTSC" extension="rm" args="f=rv10 minrate=0 b=12000k ab=384k ar=48000 s=720x480 g=8" />
+  <profile name="RealVideo 200k" extension="rm" args="f=rv10 minrate=0 b=200k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 400k" extension="rm" args="f=rv10 minrate=0 b=400k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 600k" extension="rm" args="f=rv10 minrate=0 b=600k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 800k" extension="rm" args="f=rv10 minrate=0 b=800k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 1000k" extension="rm" args="f=rv10 minrate=0 b=1000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 2000k" extension="rm" args="f=rv10 minrate=0 b=2000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 4000k" extension="rm" args="f=rv10 minrate=0 b=4000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 6000k" extension="rm" args="f=rv10 minrate=0 b=6000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 8000k" extension="rm" args="f=rv10 minrate=0 b=8000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 10000k" extension="rm" args="f=rv10 minrate=0 b=10000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 12000k" extension="rm" args="f=rv10 minrate=0 b=12000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 720x576" standard="PAL" extension="rm" args="f=rv10 minrate=0 b=12000k ab=384k ar=48000 s=720x576 g=8" />
+  <profile name="RealVideo 720x480" standard="NTSC" extension="rm" args="f=rv10 minrate=0 b=12000k ab=384k ar=48000 s=720x480 g=8" />
 </group>
 
 <group name="Theora" renderer="avformat" type="av">
