@@ -23,6 +23,15 @@
 #include <QThread>
 #include "renderjob.h"
 
+// Can't believe I need to do this to sleep.   
+   class SleepThread : QThread {   
+     public:   
+     virtual void run() {};   
+     static void msleep(unsigned long msecs) {   
+       QThread::msleep(msecs);   
+     }   
+   };
+
 static QDBusConnection connection(QLatin1String(""));
 
 RenderJob::RenderJob(bool erase, const QString &renderer, const QString &profile, const QString &rendermodule, const QString &player, const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in, int out) : QObject(), m_jobUiserver(NULL) {
@@ -83,7 +92,7 @@ void RenderJob::start() {
 		QTime t;
 		t.start();
 		while ( !interface->isServiceRegistered("org.kde.JobViewServer") && t.elapsed() < 3000 ) {
-		    thread()->wait( 100 ); //Sleep 100 ms 
+		    SleepThread::msleep( 100 ); //Sleep 100 ms
 		}
 	    } else {
 		qDebug() << "Failed to start kuiserver"; 
