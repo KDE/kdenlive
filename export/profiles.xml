@@ -79,14 +79,14 @@
 
 <group name="Flash" renderer="avformat" type="av">
   <profile name="Flash 200k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=200k s=%widthx%height" />
-  <profile name="Flash 400k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=200k s=%widthx%height" />
-  <profile name="Flash 600k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=200k s=%widthx%height" />
-  <profile name="Flash 600k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=200k s=%widthx%height" />
-  <profile name="Flash 800k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=200k s=%widthx%height" />
-  <profile name="Flash 1000k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=200k s=%widthx%height" />
-  <profile name="Flash 2000k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=200k s=%widthx%height" />
-  <profile name="Flash 4000k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=200k s=%widthx%height" />
-  <profile name="Flash 6000k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=200k s=%widthx%height" />
+  <profile name="Flash 400k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=400k s=%widthx%height" />
+  <profile name="Flash 600k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=600k s=%widthx%height" />
+  <profile name="Flash 600k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=600k s=%widthx%height" />
+  <profile name="Flash 800k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=800k s=%widthx%height" />
+  <profile name="Flash 1000k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=1000k s=%widthx%height" />
+  <profile name="Flash 2000k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=2000k s=%widthx%height" />
+  <profile name="Flash 4000k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=4000k s=%widthx%height" />
+  <profile name="Flash 6000k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=6000k s=%widthx%height" />
   <profile name="Flash 8000k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=8000k s=%widthx%height" />
   <profile name="Flash 10000k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=10000k s=%widthx%height" />
   <profile name="Flash 12000k" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=12000k s=%widthx%height" />
