@@ -949,7 +949,12 @@ void MainWindow::saveFileAs(const QString &outputFileName) {
 }
 
 void MainWindow::saveFileAs() {
-    QString outputFile = KFileDialog::getSaveFileName(KUrl(), "application/x-kdenlive");
+    // Check that the Kdenlive mime type is correctly installed
+    QString mimetype = "application/x-kdenlive";
+    KMimeType::Ptr mime = KMimeType::mimeType(mimetype);
+    if (!mime) mimetype = "*.kdenlive";
+
+    QString outputFile = KFileDialog::getSaveFileName(KUrl(), mimetype);
     if (QFile::exists(outputFile)) {
         if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) == KMessageBox::No) return;
     }
@@ -967,7 +972,12 @@ void MainWindow::saveFile() {
 }
 
 void MainWindow::openFile() {
-    KUrl url = KFileDialog::getOpenUrl(KUrl(), "application/x-kdenlive");
+    // Check that the Kdenlive mime type is correctly installed
+    QString mimetype = "application/x-kdenlive";
+    KMimeType::Ptr mime = KMimeType::mimeType(mimetype);
+    if (!mime) mimetype = "*.kdenlive";
+
+    KUrl url = KFileDialog::getOpenUrl(KUrl(), mimetype);
     if (url.isEmpty()) return;
     m_fileOpenRecent->addUrl(url);
     openFile(url);
