@@ -110,9 +110,19 @@
 </group>
 
 <group name="Theora" renderer="avformat" type="av">
-  <profile name="160x112" extension="ogg" args="vcodec=libtheora acodec=vorbis minrate=0 b=500k ab=128k ar=44100 s=160x112 aspect=%dar" />
-  <profile name="320x240" extension="ogg" args="vcodec=libtheora acodec=vorbis minrate=0 b=1200k ab=128k ar=44100 s=320x240 aspect=%dar" />
-  <profile name="640x480" extension="ogg" args="vcodec=libtheora acodec=vorbis minrate=0 b=7000k ab=128k ar=44100 s=640x480 aspect=%dar" />
+  <profile name="Theora 200k" extension="ogg" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=200k s=%widthx%height aspect=%dar" />
+  <profile name="Theora 400k" extension="ogg" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=400k s=%widthx%height aspect=%dar" />
+  <profile name="Theora 600k" extension="ogg" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=600k s=%widthx%height aspect=%dar" />
+  <profile name="Theora 800k" extension="ogg" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=800k s=%widthx%height aspect=%dar" />
+  <profile name="Theora 1000k" extension="ogg" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=1000k s=%widthx%height aspect=%dar" />
+  <profile name="Theora 2000k" extension="ogg" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=2000k s=%widthx%height aspect=%dar" />
+  <profile name="Theora 4000k" extension="ogg" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=4000k s=%widthx%height aspect=%dar" />
+  <profile name="Theora 6000k" extension="ogg" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=6000k s=%widthx%height aspect=%dar" />
+  <profile name="Theora 8000k" extension="ogg" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=8000k s=%widthx%height aspect=%dar" />
+  <profile name="Theora 10000k" extension="ogg" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=10000k s=%widthx%height aspect=%dar" />
+  <profile name="Theora 12000k" extension="ogg" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=12000k s=%widthx%height aspect=%dar" />
+  <profile name="Theora 720x576" standard="PAL" extension="ogg" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=12000k s=720x576 aspect=%dar" />
+  <profile name="Theora 720x480" standard="NTSC" extension="ogg" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=12000k s=720x480 aspect=%dar" />
 </group>
 
 <group name="Mpeg" renderer="avformat" type="av">
