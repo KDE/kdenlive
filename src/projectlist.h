@@ -164,6 +164,7 @@ private slots:
     void slotProcessNextClipInQueue();
     void slotProcessNextThumbnail();
     void slotCheckForEmptyQueue();
+    void slotPauseMonitor();
     //void slotShowMenu(const QPoint &pos);
 
 signals:

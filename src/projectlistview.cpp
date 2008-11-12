@@ -206,7 +206,7 @@ void ProjectListView::mousePressEvent(QMouseEvent *event) {
 
 // virtual
 void ProjectListView::mouseMoveEvent(QMouseEvent *event) {
-    kDebug() << "// DRAG STARTED, MOUSE MOVED: ";
+    //kDebug() << "// DRAG STARTED, MOUSE MOVED: ";
     if (!m_dragStarted) return;
 
     if ((event->pos() - m_DragStartPosition).manhattanLength()
@@ -254,14 +254,13 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event) {
 
 // virtual
 void ProjectListView::dragMoveEvent(QDragMoveEvent * event) {
-    QTreeWidgetItem * item = itemAt(event->pos());
     event->setDropAction(Qt::IgnoreAction);
-    //if (item) {
     event->setDropAction(Qt::MoveAction);
     if (event->mimeData()->hasText()) {
         event->acceptProposedAction();
     }
-    //}
+    // stop playing because we get a crash otherwise when fetching the thumbnails
+    emit pauseMonitor();
 }
 
 QStringList ProjectListView::mimeTypes() const {

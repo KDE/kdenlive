@@ -112,6 +112,7 @@ ProjectList::ProjectList(QWidget *parent)
 
     connect(listView, SIGNAL(itemSelectionChanged()), this, SLOT(slotClipSelected()));
     connect(listView, SIGNAL(focusMonitor()), this, SLOT(slotClipSelected()));
+    connect(listView, SIGNAL(pauseMonitor()), this, SLOT(slotPauseMonitor()));
     connect(listView, SIGNAL(requestMenu(const QPoint &, QTreeWidgetItem *)), this, SLOT(slotContextMenu(const QPoint &, QTreeWidgetItem *)));
     connect(listView, SIGNAL(addClip()), this, SLOT(slotAddClip()));
     connect(listView, SIGNAL(addClip(QUrl, const QString &)), this, SLOT(slotAddClip(QUrl, const QString &)));
@@ -162,6 +163,10 @@ void ProjectList::slotClipSelected() {
         m_editAction->setEnabled(false);
         m_deleteAction->setEnabled(false);
     }
+}
+
+void ProjectList::slotPauseMonitor() {
+    if (m_render) m_render->pause();
 }
 
 void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties) {
