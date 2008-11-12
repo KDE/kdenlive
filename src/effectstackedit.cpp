@@ -344,7 +344,8 @@ void EffectStackEdit::collectAllParameters() {
             setValue = box->checkState() == Qt::Checked ? "1" : "0" ;
         } else if (type == "color") {
             KColorButton *color = ((Ui::Colorval_UI*)valueItems[paramName])->kcolorbutton;
-            setValue.sprintf("0x%08x", color->color().rgba());
+	    setValue = color->color().name();
+	    setValue.replace('#', "0x");
         } else if (type == "complex") {
             ComplexParameter *complex = ((ComplexParameter*)valueItems[paramName+"complex"]);
             namenode.item(i) = complex->getParamDesc();
