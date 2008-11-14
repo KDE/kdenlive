@@ -33,7 +33,7 @@ public:
     void raiseWindow(QWidget*);
     void clear();
     void setMenu(QMenu *menu);
-    void updateProjectFormat(MltVideoProfile profile);
+    void updateProjectFormat(MltVideoProfile profile, Timecode t);
 
 private:
     Ui::EffectStack_UI ui;

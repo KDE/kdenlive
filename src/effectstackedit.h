@@ -25,6 +25,7 @@
 #include <QMap>
 
 #include "definitions.h"
+#include "timecode.h"
 
 enum WIPE_DIRECTON { UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, CENTER = 4 };
 
@@ -42,7 +43,7 @@ class EffectStackEdit : public QWidget {
 public:
     EffectStackEdit(QWidget *parent);
     ~EffectStackEdit();
-    void updateProjectFormat(MltVideoProfile profile);
+    void updateProjectFormat(MltVideoProfile profile, Timecode t);
     static QMap<QString, QImage> iconCache;
 
 private:
@@ -56,6 +57,7 @@ private:
     wipeInfo getWipeInfo(QString value);
     QString getWipeString(wipeInfo info);
     MltVideoProfile m_profile;
+    Timecode m_timecode;
     int m_in;
     int m_out;
 

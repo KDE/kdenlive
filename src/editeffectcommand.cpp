@@ -49,12 +49,13 @@ bool EditEffectCommand::mergeWith(const QUndoCommand * other) {
 // virtual
 void EditEffectCommand::undo() {
     kDebug() << "----  undoing action";
-    m_view->updateEffect(m_track, m_pos, m_oldeffect, m_stackPos);
+    m_view->updateEffect(m_track, m_pos, m_oldeffect, m_stackPos, false);
 }
 // virtual
 void EditEffectCommand::redo() {
     kDebug() << "----  redoing action";
-    m_view->updateEffect(m_track, m_pos, m_effect, m_stackPos);
+    m_view->updateEffect(m_track, m_pos, m_effect, m_stackPos, m_doIt);
+    m_doIt = false;
 }
 
 

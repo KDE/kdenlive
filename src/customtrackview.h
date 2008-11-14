@@ -68,7 +68,7 @@ public:
     void slotAddEffect(QDomElement effect, GenTime pos, int track);
     void addEffect(int track, GenTime pos, QDomElement effect);
     void deleteEffect(int track, GenTime pos, QDomElement effect);
-    void updateEffect(int track, GenTime pos, QDomElement effect, int ix);
+    void updateEffect(int track, GenTime pos, QDomElement effect, int ix, bool triggeredByUser = true);
     void moveEffect(int track, GenTime pos, int oldPos, int newPos);
     void addTransition(ItemInfo transitionInfo, int endTrack, QDomElement params);
     void deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement params);

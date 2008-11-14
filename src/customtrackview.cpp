@@ -921,7 +921,7 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, QDomElement effect) {
     m_document->setModified(true);
 }
 
-void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, int ix) {
+void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, int ix, bool triggeredByUser) {
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_scene->m_tracksList.count() - track);
     if (clip) {
         QHash <QString, QString> effectParams = clip->getEffectArgs(effect);
@@ -937,8 +937,11 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, i
             } else emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
         } else if (!m_document->renderer()->mltEditEffect(m_scene->m_tracksList.count() - clip->track(), clip->startPos(), effectParams))
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+
+        clip->setEffectAt(ix, effect);
         if (ix == clip->selectedEffectIndex()) {
             clip->setSelectedEffect(ix);
+            if (!triggeredByUser) emit clipItemSelected(clip, ix);
         }
         if (effect.attribute("tag") == "volume") {
             // A fade effect was modified, update the clip
@@ -1468,9 +1471,10 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
             } else {
                 end += start;
                 QDomElement effect = oldeffect.cloneNode().toElement();
-                EffectsList::setParameter(effect, "in", QString::number(start));
-                EffectsList::setParameter(effect, "out", QString::number(end));
-                slotUpdateClipEffect(item, oldeffect, effect, ix);
+                EffectsList::setParameter(oldeffect, "in", QString::number(start));
+                EffectsList::setParameter(oldeffect, "out", QString::number(end));
+                slotUpdateClipEffect(item, effect, oldeffect, ix);
+                emit clipItemSelected(item, ix);
             }
         } else if (item->fadeIn() != 0) {
             QDomElement effect = MainWindow::audioEffects.getEffectByTag("volume", "fadein").cloneNode().toElement();
@@ -1490,9 +1494,10 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
             } else {
                 start = end - start;
                 QDomElement effect = oldeffect.cloneNode().toElement();
-                EffectsList::setParameter(effect, "in", QString::number(start));
-                EffectsList::setParameter(effect, "out", QString::number(end));
-                slotUpdateClipEffect(item, oldeffect, effect, ix);
+                EffectsList::setParameter(oldeffect, "in", QString::number(start));
+                EffectsList::setParameter(oldeffect, "out", QString::number(end));
+                slotUpdateClipEffect(item, effect, oldeffect, ix);
+                emit clipItemSelected(item, ix);
             }
         } else if (item->fadeOut() != 0) {
             QDomElement effect = MainWindow::audioEffects.getEffectByTag("volume", "fadeout").cloneNode().toElement();

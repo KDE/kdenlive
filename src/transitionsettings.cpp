@@ -43,8 +43,8 @@ TransitionSettings::TransitionSettings(QWidget* parent): QWidget(parent) {
     ui.splitter->setStretchFactor(1, 10);
 }
 
-void TransitionSettings::updateProjectFormat(MltVideoProfile profile) {
-    effectEdit->updateProjectFormat(profile);
+void TransitionSettings::updateProjectFormat(MltVideoProfile profile, Timecode t) {
+    effectEdit->updateProjectFormat(profile, t);
 }
 
 

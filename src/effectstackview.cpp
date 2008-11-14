@@ -77,8 +77,8 @@ void EffectStackView::setMenu(QMenu *menu) {
     ui.buttonNew->setMenu(menu);
 }
 
-void EffectStackView::updateProjectFormat(MltVideoProfile profile) {
-    effectedit->updateProjectFormat(profile);
+void EffectStackView::updateProjectFormat(MltVideoProfile profile, Timecode t) {
+    effectedit->updateProjectFormat(profile, t);
 }
 
 void EffectStackView::slotSaveEffect() {

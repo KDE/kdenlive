@@ -22,6 +22,7 @@
 #include "ui_transitionsettings_ui.h"
 #include "definitions.h"
 
+class Timecode;
 class Transition;
 class EffectsList;
 class EffectStackEdit;
@@ -31,7 +32,7 @@ class TransitionSettings : public QWidget  {
 public:
     TransitionSettings(QWidget* parent = 0);
     void raiseWindow(QWidget*);
-    void updateProjectFormat(MltVideoProfile profile);
+    void updateProjectFormat(MltVideoProfile profile, Timecode t);
 
 private:
     Ui::TransitionSettings_UI ui;

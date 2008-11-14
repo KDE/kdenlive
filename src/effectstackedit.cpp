@@ -29,10 +29,13 @@
 #include "ui_listval_ui.h"
 #include "ui_boolval_ui.h"
 #include "ui_colorval_ui.h"
+#include "ui_positionval_ui.h"
 #include "ui_wipeval_ui.h"
 #include "complexparameter.h"
 #include "effectstackedit.h"
 #include "geometryval.h"
+
+#include "kdenlivesettings.h"
 
 QMap<QString, QImage> EffectStackEdit::iconCache;
 
@@ -63,8 +66,9 @@ EffectStackEdit::~EffectStackEdit() {
     iconCache.clear();
 }
 
-void EffectStackEdit::updateProjectFormat(MltVideoProfile profile) {
+void EffectStackEdit::updateProjectFormat(MltVideoProfile profile, Timecode t) {
     m_profile = profile;
+    m_timecode = t;
 }
 
 void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out) {
@@ -183,6 +187,14 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out) {
             cval->label->setText(paramName);
             valueItems[paramName] = cval;
             uiItems.append(cval);
+        } else if (type == "position") {
+            Ui::Positionval_UI *pval = new Ui::Positionval_UI;
+            pval->setupUi(toFillin);
+            pval->krestrictedline->setText(m_timecode.getTimecodeFromFrames(value.toInt()));
+            connect(pval->krestrictedline, SIGNAL(editingFinished()), this, SLOT(collectAllParameters()));
+            pval->label->setText(paramName);
+            valueItems[paramName + "position"] = pval;
+            uiItems.append(pval);
         } else if (type == "wipe") {
             Ui::Wipeval_UI *wpval = new Ui::Wipeval_UI;
             wpval->setupUi(toFillin);
@@ -344,14 +356,18 @@ void EffectStackEdit::collectAllParameters() {
             setValue = box->checkState() == Qt::Checked ? "1" : "0" ;
         } else if (type == "color") {
             KColorButton *color = ((Ui::Colorval_UI*)valueItems[paramName])->kcolorbutton;
-	    setValue = color->color().name();
-	    setValue.replace('#', "0x");
+            setValue = color->color().name();
+            setValue.replace('#', "0x");
         } else if (type == "complex") {
             ComplexParameter *complex = ((ComplexParameter*)valueItems[paramName+"complex"]);
             namenode.item(i) = complex->getParamDesc();
         } else if (type == "geometry") {
             Geometryval *geom = ((Geometryval*)valueItems[paramName+"geometry"]);
             namenode.item(i) = geom->getParamDesc();
+        } else if (type == "position") {
+            KRestrictedLine *line = ((Ui::Positionval_UI*)valueItems[paramName+"position"])->krestrictedline;
+            setValue = QString::number(m_timecode.getFrameCount(line->text(), KdenliveSettings::project_fps()));
+            kDebug() << "// NEW POSITION: " << setValue << "(" << line->text() << " PARAM: " << paramName + "position";
         } else if (type == "wipe") {
             Ui::Wipeval_UI *wp = (Ui::Wipeval_UI*)valueItems[paramName];
             wipeInfo info;
