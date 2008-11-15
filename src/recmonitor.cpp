@@ -346,7 +346,7 @@ void RecMonitor::slotStartCapture(bool play) {
         captureProcess->setStandardOutputProcess(displayProcess);
         captureProcess->setWorkingDirectory(KdenliveSettings::capturefolder());
         kDebug() << "Capture: Running dvgrab " << m_captureArgs.join(" ");
-        captureProcess->start("dvgrab", m_captureArgs);
+        captureProcess->start(KdenliveSettings::dvgrab_path(), m_captureArgs);
         if (play) captureProcess->write(" ", 1);
         m_discAction->setEnabled(true);
         break;
@@ -428,7 +428,7 @@ void RecMonitor::slotRecord() {
             m_displayArgs << "-f" << "mpegts" << "-x" << QString::number(ui.video_frame->width()) << "-y" << QString::number(ui.video_frame->height()) << "-";
             captureProcess->setStandardOutputProcess(displayProcess);
             kDebug() << "Capture: Running dvgrab " << m_captureArgs.join(" ");
-            captureProcess->start("dvgrab", m_captureArgs);
+            captureProcess->start(KdenliveSettings::dvgrab_path(), m_captureArgs);
             break;
         case VIDEO4LINUX:
             m_captureArgs << KdenliveSettings::video4capture().simplified().split(' ') << "-y" << m_captureFile.path() << "-f" << KdenliveSettings::video4vencoding() << "-";
