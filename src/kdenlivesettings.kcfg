@@ -285,6 +285,11 @@
       <label>Path for the recordmydesktop binary.</label>
       <default></default>
     </entry>
+
+    <entry name="dvgrab_path" type="String">
+      <label>Path for the dvgrab binary.</label>
+      <default></default>
+    </entry>
   </group>
 
   <group name="shuttle">

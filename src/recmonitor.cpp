@@ -143,10 +143,10 @@ void RecMonitor::slotVideoDeviceChanged(int ix) {
         m_playAction->setEnabled(false);
         if (KdenliveSettings::rmd_path().isEmpty()) {
             QString rmdpath = KStandardDirs::findExe("recordmydesktop");
-            if (rmdpath.isEmpty()) ui.video_frame->setPixmap(mergeSideBySide(KIcon("dialog-warning").pixmap(QSize(50, 50)), i18n("Recordmydesktop utility not found, please install it for screen grabs")));
+            if (rmdpath.isEmpty()) ui.video_frame->setPixmap(mergeSideBySide(KIcon("dialog-warning").pixmap(QSize(50, 50)), i18n("Recordmydesktop utility not found,\n please install it for screen grabs")));
             else KdenliveSettings::setRmd_path(rmdpath);
         }
-        ui.video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", KdenliveSettings::capturefolder())));
+        if (!KdenliveSettings::rmd_path().isEmpty()) ui.video_frame->setPixmap(mergeSideBySide(KIcon("video-display").pixmap(QSize(50, 50)), i18n("Press record button\nto start screen capture\nFiles will be saved in:\n%1", KdenliveSettings::capturefolder())));
         //ui.video_frame->setText(i18n("Press record button\nto start screen capture"));
         break;
     case VIDEO4LINUX:
@@ -166,7 +166,13 @@ void RecMonitor::slotVideoDeviceChanged(int ix) {
         m_rewAction->setEnabled(false);
         m_fwdAction->setEnabled(false);
         //ui.video_frame->setText(i18n("Plug your camcorder and\npress connect button\nto initialize connection"));
-        ui.video_frame->setPixmap(mergeSideBySide(KIcon("network-connect").pixmap(QSize(50, 50)), i18n("Plug your camcorder and\npress connect button\nto initialize connection\nFiles will be saved in:\n%1", KdenliveSettings::capturefolder())));
+        if (KdenliveSettings::dvgrab_path().isEmpty()) {
+            QString dvgrabpath = KStandardDirs::findExe("dvgrab");
+            if (dvgrabpath.isEmpty()) ui.video_frame->setPixmap(mergeSideBySide(KIcon("dialog-warning").pixmap(QSize(50, 50)), i18n("dvgrab utility not found,\n please install it for firewire capture")));
+            else KdenliveSettings::setDvgrab_path(dvgrabpath);
+        }
+
+        if (!KdenliveSettings::dvgrab_path().isEmpty()) ui.video_frame->setPixmap(mergeSideBySide(KIcon("network-connect").pixmap(QSize(50, 50)), i18n("Plug your camcorder and\npress connect button\nto initialize connection\nFiles will be saved in:\n%1", KdenliveSettings::capturefolder())));
         break;
     }
 }

@@ -128,32 +128,39 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
 
     //HACK: check dvgrab version, because only dvgrab >= 3.3 supports
     //   --timestamp option without bug
+
+    if (KdenliveSettings::dvgrab_path().isEmpty() || !QFile::exists(KdenliveSettings::dvgrab_path())) {
+        QString dvgrabpath = KStandardDirs::findExe("dvgrab");
+        KdenliveSettings::setDvgrab_path(dvgrabpath);
+    }
+
+
     double dvgrabVersion = 0;
+    if (!KdenliveSettings::dvgrab_path().isEmpty()) {
+        QProcess *versionCheck = new QProcess;
+        versionCheck->setProcessChannelMode(QProcess::MergedChannels);
+        versionCheck->start("dvgrab", QStringList() << "--version");
+        if (versionCheck->waitForFinished()) {
+            QString version = QString(versionCheck->readAll()).simplified();
+            if (version.contains(' ')) version = version.section(' ', -1);
+            dvgrabVersion = version.toDouble();
 
-    QProcess *versionCheck = new QProcess;
-    versionCheck->setProcessChannelMode(QProcess::MergedChannels);
-    versionCheck->start("dvgrab", QStringList() << "--version");
-    if (versionCheck->waitForFinished()) {
-        QString version = QString(versionCheck->readAll()).simplified();
-        if (version.contains(' ')) version = version.section(' ', -1);
-        dvgrabVersion = version.toDouble();
+            kDebug() << "// FOUND DVGRAB VERSION: " << dvgrabVersion;
+        }
+        if (versionCheck) delete versionCheck;
+        if (dvgrabVersion < 3.3) {
+            KdenliveSettings::setFirewiretimestamp(false);
+            m_configCapture.kcfg_firewiretimestamp->setEnabled(false);
+        }
+        m_configCapture.dvgrab_info->setText(i18n("dvgrab version %1 at %2", dvgrabVersion, KdenliveSettings::dvgrab_path()));
+    } else m_configCapture.dvgrab_info->setText(i18n("<b>dvgrab utility not found, please install it for firewire capture</b>"));
 
-        kDebug() << "// FOUND DVGRAB VERSION: " << dvgrabVersion;
-    }
-    if (versionCheck) delete versionCheck;
-    if (dvgrabVersion < 3.3) {
-        KdenliveSettings::setFirewiretimestamp(false);
-        m_configCapture.kcfg_firewiretimestamp->setEnabled(false);
-    }
-
-    QString rmdpath = KStandardDirs::findExe("recordmydesktop");
-    if (rmdpath.isEmpty()) {
-        KdenliveSettings::setRmd_path(QString());
-        m_configCapture.rmd_info->setText(i18n("Recordmydesktop utility not found, please install it for screen grabs"));
-    } else {
+    if (KdenliveSettings::rmd_path().isEmpty() || !QFile::exists(KdenliveSettings::rmd_path())) {
+        QString rmdpath = KStandardDirs::findExe("recordmydesktop");
         KdenliveSettings::setRmd_path(rmdpath);
-        m_configCapture.rmd_info->setText(i18n("Recordmydesktop found at: %1", rmdpath));
     }
+    if (KdenliveSettings::rmd_path().isEmpty()) m_configCapture.rmd_info->setText(i18n("<b>Recordmydesktop utility not found, please install it for screen grabs</b>"));
+    else m_configCapture.rmd_info->setText(i18n("Recordmydesktop found at: %1", KdenliveSettings::rmd_path()));
 }
 
 KdenliveSettingsDialog::~KdenliveSettingsDialog() {}
