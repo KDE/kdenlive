@@ -70,7 +70,9 @@
       <label>Audio driver used for sound output.</label>
       <default>0</default>
     </entry>
+    </group>
 
+    <group name="sdl">
     <entry name="video_driver" type="UInt">
       <label>Video driver used for output.</label>
       <default>0</default>
@@ -203,53 +205,84 @@
       <default></default>
     </entry>
 
-    <entry name="screengrabenableaudio" type="Bool">
-      <label>ffmpeg arguments for x11 grab capture.</label>
-      <default>false</default>
+
+    <entry name="video4playback" type="String">
+      <label>ffplay arguments for video playback.</label>
+      <default></default>
     </entry>
 
-    <entry name="useosscapture" type="Bool">
+    <entry name="rmd_capture_audio" type="Bool">
+      <label>capture audio.</label>
+      <default>true</default>
+    </entry>
+
+    <entry name="rmd_use_jack" type="Bool">
       <label>use ffmpeg oss audio capture instead of external program.</label>
       <default>false</default>
     </entry>
 
-    <entry name="screengrabosscapture" type="String">
-      <label>ffmpeg arguments for x11 grab capture.</label>
-      <default>-f oss -i /dev/dsp</default>
+    <entry name="rmd_jackports" type="String">
+      <label>name of the jack ports (space separated).</label>
+      <default>system:capture_1</default>
     </entry>
 
-    <entry name="screengrabalsacapture" type="String">
-      <label>external program audio capture piped into ffmpeg.</label>
-      <default>-Dplughw:0 -c1 -q -r41000 -traw -fS16_LE -</default>
+    <entry name="rmd_alsa_device" type="UInt">
+      <label>Audio device used for sound recording.</label>
+      <default>0</default>
     </entry>
 
-    <entry name="screengrabalsacapture2" type="String">
-      <label>external program audio capture piped into ffmpeg.</label>
-      <default>-f s16le -i - -acodec copy</default>
+    <entry name="rmd_capture_type" type="UInt">
+      <label>capture type.</label>
+      <default>0</default>
     </entry>
 
-    <entry name="screengrabcapture" type="String">
-      <label>ffmpeg arguments for x11 grab capture.</label>
-      <default>-f x11grab -r 10 -s %size -i :0.0%offset</default>
-    </entry>
-
-    <entry name="screengrabencoding" type="String">
-      <label>ffmpeg arguments for x11 capture encoding.</label>
-      <default>-pix_fmt yuv422p -vcodec huffyuv</default>
-    </entry>
-
-    <entry name="screengrabextension" type="String">
-      <label>file extension for captured file.</label>
-      <default>avi</default>
-    </entry>
-
-    <entry name="fullscreengrab" type="Bool">
-      <label>Capture full screen.</label>
+    <entry name="rmd_follow_mouse" type="Bool">
+      <label>follow mouse in region capture.</label>
       <default>false</default>
     </entry>
 
-    <entry name="video4playback" type="String">
-      <label>ffplay arguments for video playback.</label>
+    <entry name="rmd_offsetx" type="Int">
+      <label>x offset for video capture.</label>
+      <default>1</default>
+    </entry>
+
+    <entry name="rmd_offsety" type="Int">
+      <label>y offset for video capture.</label>
+      <default>1</default>
+    </entry>
+
+    <entry name="rmd_width" type="Int">
+      <label>default width for video capture.</label>
+      <default>1280</default>
+    </entry>
+
+    <entry name="rmd_height" type="Int">
+      <label>default height for video capture.</label>
+      <default>720</default>
+    </entry>
+
+    <entry name="rmd_audio_channels" type="Int">
+      <label>number of audio channels.</label>
+      <default>1</default>
+    </entry>
+
+    <entry name="rmd_fps" type="Double">
+      <label>fps for video rec.</label>
+      <default>15.0</default>
+    </entry>
+
+    <entry name="rmd_fullshots" type="Bool">
+      <label>Capture full shots.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="rmd_alsadevicename" type="String">
+      <label>Name of alsa device for capture.</label>
+      <default></default>
+    </entry>
+
+    <entry name="rmd_path" type="String">
+      <label>Path for the recordmydesktop binary.</label>
       <default></default>
     </entry>
   </group>

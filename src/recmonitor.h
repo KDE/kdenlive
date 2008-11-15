@@ -63,7 +63,6 @@ private:
 
     QProcess *captureProcess;
     QProcess *displayProcess;
-    QProcess *alsaProcess;
     QTimer *m_initTimer;
     bool m_isCapturing;
     /** did the user capture something ? */
@@ -90,7 +89,7 @@ private slots:
     void slotRewind();
     void slotForward();
     void slotDisconnect();
-    void slotStartGrab(const QRect &rect);
+    //void slotStartGrab(const QRect &rect);
     void slotConfigure();
 
 public slots:

@@ -56,6 +56,7 @@ private slots:
     void slotEditAudioApplication();
     void slotEditVideoApplication();
     void slotReadAudioDevices();
+    void slotUpdateRmdRegionStatus();
 
 private:
     KPageWidgetItem *page1;
@@ -77,7 +78,6 @@ private:
     QString m_defaultPath;
     KProcess m_readProcess;
     void initDevices();
-    uint m_audioDevice;
 
 signals:
     void customChanged();

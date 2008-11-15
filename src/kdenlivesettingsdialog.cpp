@@ -98,9 +98,9 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
     connect(m_configCapture.kcfg_video4size, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
     connect(m_configCapture.kcfg_video4rate, SIGNAL(editingFinished()), this, SLOT(rebuildVideo4Commands()));
 
-    connect(m_configCapture.kcfg_screengrabenableaudio, SIGNAL(clicked(bool)), m_configCapture.audio_group, SLOT(setVisible(bool)));
+    connect(m_configCapture.kcfg_rmd_capture_audio, SIGNAL(clicked(bool)), m_configCapture.audio_group, SLOT(setVisible(bool)));
 
-    m_configCapture.audio_group->setVisible(KdenliveSettings::screengrabenableaudio());
+    m_configCapture.audio_group->setVisible(KdenliveSettings::rmd_capture_audio());
 
     connect(m_configEnv.kp_image, SIGNAL(clicked()), this, SLOT(slotEditImageApplication()));
     connect(m_configEnv.kp_audio, SIGNAL(clicked()), this, SLOT(slotEditAudioApplication()));
@@ -116,11 +116,15 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
     }
 
     checkProfile();
-
     slotUpdateDisplay();
-    m_audioDevice = KdenliveSettings::audio_device();
+
     initDevices();
     connect(m_configMisc.kcfg_profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
+
+    connect(m_configCapture.kcfg_rmd_capture_type, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateRmdRegionStatus()));
+
+    slotUpdateRmdRegionStatus();
+
 
     //HACK: check dvgrab version, because only dvgrab >= 3.3 supports
     //   --timestamp option without bug
@@ -133,6 +137,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
         QString version = QString(versionCheck->readAll()).simplified();
         if (version.contains(' ')) version = version.section(' ', -1);
         dvgrabVersion = version.toDouble();
+
         kDebug() << "// FOUND DVGRAB VERSION: " << dvgrabVersion;
     }
     if (versionCheck) delete versionCheck;
@@ -140,10 +145,22 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
         KdenliveSettings::setFirewiretimestamp(false);
         m_configCapture.kcfg_firewiretimestamp->setEnabled(false);
     }
+
+    QString rmdpath = KStandardDirs::findExe("recordmydesktop");
+    if (rmdpath.isEmpty()) {
+        KdenliveSettings::setRmd_path(QString());
+        m_configCapture.rmd_info->setText(i18n("Recordmydesktop utility not found, please install it for screen grabs"));
+    } else {
+        KdenliveSettings::setRmd_path(rmdpath);
+        m_configCapture.rmd_info->setText(i18n("Recordmydesktop found at: %1", rmdpath));
+    }
 }
 
 KdenliveSettingsDialog::~KdenliveSettingsDialog() {}
 
+void KdenliveSettingsDialog::slotUpdateRmdRegionStatus() {
+    m_configCapture.region_group->setHidden(m_configCapture.kcfg_rmd_capture_type->currentIndex() != 1);
+}
 
 void KdenliveSettingsDialog::checkProfile() {
     if (!KdenliveSettings::default_profile().isEmpty()) {
@@ -186,6 +203,7 @@ void KdenliveSettingsDialog::initDevices() {
 
     // Fill the list of audio playback devices
     m_configSdl.kcfg_audio_device->addItem(i18n("Default"), QString());
+    m_configCapture.kcfg_rmd_alsa_device->addItem(i18n("Default"), QString());
     if (KStandardDirs::findExe("aplay") != QString::null) {
         m_readProcess.setOutputChannelMode(KProcess::OnlyStdoutChannel);
         m_readProcess.setProgram("aplay", QStringList() << "-l");
@@ -197,11 +215,16 @@ void KdenliveSettingsDialog::initDevices() {
         if (file.open(QIODevice::ReadOnly)) {
             QTextStream stream(&file);
             QString line;
+            QString deviceId;
             while (!stream.atEnd()) {
                 line = stream.readLine();
                 if (line.contains("playback")) {
-                    QString deviceId = line.section(":", 0, 0);
+                    deviceId = line.section(":", 0, 0);
                     m_configSdl.kcfg_audio_device->addItem(line.section(":", 1, 1), "plughw:" + QString::number(deviceId.section("-", 0, 0).toInt()) + "," + QString::number(deviceId.section("-", 1, 1).toInt()));
+                }
+                if (line.contains("capture")) {
+                    deviceId = line.section(":", 0, 0);
+                    m_configCapture.kcfg_rmd_alsa_device->addItem(line.section(":", 1, 1), "plughw:" + QString::number(deviceId.section("-", 0, 0).toInt()) + "," + QString::number(deviceId.section("-", 1, 1).toInt()));
                 }
             }
             file.close();
@@ -221,6 +244,7 @@ void KdenliveSettingsDialog::slotReadAudioDevices() {
             QString card = data.section(":", 0, 0).section(" ", -1);
             QString device = data.section(":", 1, 1).section(" ", -1);
             m_configSdl.kcfg_audio_device->addItem(data.section(":", -1), "plughw:" + card + "," + device);
+            m_configCapture.kcfg_rmd_alsa_device->addItem(data.section(":", -1), "plughw:" + card + "," + device);
         }
     }
 }
@@ -342,6 +366,11 @@ void KdenliveSettingsDialog::updateSettings() {
     if (value != KdenliveSettings::audiodevicename()) {
         KdenliveSettings::setAudiodevicename(value);
         resetProfile = true;
+    }
+
+    value = m_configCapture.kcfg_rmd_alsa_device->itemData(m_configCapture.kcfg_rmd_alsa_device->currentIndex()).toString();
+    if (value != KdenliveSettings::rmd_alsadevicename()) {
+        KdenliveSettings::setRmd_alsadevicename(value);
     }
 
     value = m_configSdl.kcfg_audio_driver->itemData(m_configSdl.kcfg_audio_driver->currentIndex()).toString();
