@@ -447,17 +447,28 @@ void RecMonitor::slotRecord() {
                 m_captureArgs << "-width" << QString::number(KdenliveSettings::rmd_width()) << "-height" << QString::number(KdenliveSettings::rmd_height());
                 if (!KdenliveSettings::rmd_follow_mouse()) {
                     m_captureArgs << "-x" << QString::number(KdenliveSettings::rmd_offsetx()) << "-y" << QString::number(KdenliveSettings::rmd_offsety());
-                } else m_captureArgs << "--follow-mouse";
+                } else {
+                    m_captureArgs << "--follow-mouse";
+                    if (KdenliveSettings::rmd_hide_frame()) m_captureArgs << "--no-frame";
+                }
                 break;
             }
             m_isCapturing = true;
             if (KdenliveSettings::rmd_capture_audio()) {
-                if (KdenliveSettings::rmd_use_jack()) m_captureArgs << "-use-jack" << KdenliveSettings::rmd_jackports();
-                else if (!KdenliveSettings::rmd_alsadevicename().isEmpty())
-                    m_captureArgs << "-device" << KdenliveSettings::rmd_alsadevicename();
+                if (KdenliveSettings::rmd_use_jack()) {
+                    m_captureArgs << "-use-jack" << KdenliveSettings::rmd_jackports();
+                    if (KdenliveSettings::rmd_jack_buffer() > 0.0)
+                        m_captureArgs << "-ring-buffer-size" << QString::number(KdenliveSettings::rmd_jack_buffer());
+                } else {
+                    if (!KdenliveSettings::rmd_alsadevicename().isEmpty())
+                        m_captureArgs << "-device" << KdenliveSettings::rmd_alsadevicename();
+                    if (KdenliveSettings::rmd_alsa_buffer() > 0)
+                        m_captureArgs << "-buffer-size" << QString::number(KdenliveSettings::rmd_alsa_buffer());
+                }
             } else m_captureArgs << "--no-sound";
 
             if (KdenliveSettings::rmd_fullshots()) m_captureArgs << "--full-shots";
+            m_captureArgs << "-workdir" << KdenliveSettings::currenttmpfolder();
             m_captureArgs << "-fps" << QString::number(KdenliveSettings::rmd_fps()) << "-o" << m_captureFile.path();
             captureProcess->start(KdenliveSettings::rmd_path(), m_captureArgs);
             kDebug() << "// RecordMyDesktop params: " << m_captureArgs;

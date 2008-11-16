@@ -286,6 +286,22 @@
       <default></default>
     </entry>
 
+    <entry name="rmd_alsa_buffer" type="Int">
+      <label>Buffer for alsa audio rec.</label>
+      <default>0</default>
+    </entry>
+
+    <entry name="rmd_jack_buffer" type="Double">
+      <label>Buffer for jack audio rec.</label>
+      <default>0.0</default>
+    </entry>
+
+    <entry name="rmd_hide_frame" type="Bool">
+      <label>Hide frame around capture zone.</label>
+      <default>false</default>
+    </entry>
+
+
     <entry name="dvgrab_path" type="String">
       <label>Path for the dvgrab binary.</label>
       <default></default>
