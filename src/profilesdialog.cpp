@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include <QDir>
+#include <QCloseEvent>
 
 #include <KStandardDirs>
 #include <KDebug>
@@ -27,7 +28,7 @@
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
 
-ProfilesDialog::ProfilesDialog(QWidget * parent): QDialog(parent), m_isCustomProfile(false) {
+ProfilesDialog::ProfilesDialog(QWidget * parent): QDialog(parent), m_isCustomProfile(false), m_profileIsModified(false) {
     m_view.setupUi(this);
 
     QStringList profilesFilter;
@@ -47,6 +48,21 @@ ProfilesDialog::ProfilesDialog(QWidget * parent): QDialog(parent), m_isCustomPro
     connect(m_view.button_save, SIGNAL(clicked()), this, SLOT(slotSaveProfile()));
     connect(m_view.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteProfile()));
     connect(m_view.button_default, SIGNAL(clicked()), this, SLOT(slotSetDefaultProfile()));
+
+    connect(m_view.description, SIGNAL(textChanged(const QString &)), this, SLOT(slotProfileEdited()));
+    connect(m_view.frame_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.frame_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.aspect_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.aspect_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.display_num, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.display_den, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.progressive, SIGNAL(stateChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.size_h, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+    connect(m_view.size_w, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
+}
+
+void ProfilesDialog::slotProfileEdited() {
+    m_profileIsModified = true;
 }
 
 void ProfilesDialog::fillList(const QString selectedProfile) {
@@ -69,6 +85,25 @@ void ProfilesDialog::fillList(const QString selectedProfile) {
     }
     int ix = m_view.profiles_list->findText(selectedProfile);
     if (ix != -1) m_view.profiles_list->setCurrentIndex(ix);
+    m_selectedProfileIndex = m_view.profiles_list->currentIndex();
+}
+
+void ProfilesDialog::accept() {
+    if (askForSave()) QDialog::accept();
+}
+
+void ProfilesDialog::closeEvent(QCloseEvent *event) {
+    if (askForSave()) {
+        event->accept();
+    } else {
+        event->ignore();
+    }
+}
+
+bool ProfilesDialog::askForSave() {
+    if (!m_profileIsModified) return true;
+    if (KMessageBox::questionYesNo(this, i18n("The custom profile was modified, do you want to save it ?")) != KMessageBox::Yes) return true;
+    return slotSaveProfile();
 }
 
 void ProfilesDialog::slotCreateProfile() {
@@ -84,7 +119,7 @@ void ProfilesDialog::slotSetDefaultProfile() {
     if (!path.isEmpty()) KdenliveSettings::setDefault_profile(path);
 }
 
-void ProfilesDialog::slotSaveProfile() {
+bool ProfilesDialog::slotSaveProfile() {
     const QString profileDesc = m_view.description->text();
     int ix = m_view.profiles_list->findText(profileDesc);
     if (ix != -1) {
@@ -92,7 +127,7 @@ void ProfilesDialog::slotSaveProfile() {
         const QString path = m_view.profiles_list->itemData(ix).toString();
         if (!path.contains("/")) {
             KMessageBox::sorry(this, i18n("A profile with same name already exists in MLT's default profiles, please choose another description for your custom profile."));
-            return;
+            return false;
         }
         saveProfile(path);
     } else {
@@ -106,7 +141,10 @@ void ProfilesDialog::slotSaveProfile() {
         }
         saveProfile(profilePath);
     }
+    m_profileIsModified = false;
     fillList(profileDesc);
+    m_view.button_create->setEnabled(true);
+    return true;
 }
 
 void ProfilesDialog::saveProfile(const QString path) {
@@ -145,19 +183,18 @@ MltVideoProfile ProfilesDialog::getVideoProfile(QString name) {
         if (profilesFiles.contains(name)) path = KdenliveSettings::mltpath() + "/" + name;
     }
     if (isCustom  || path.isEmpty()) {
-        // List custom profiles
         path = name;
-        /*        QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
-                for (int i = 0; i < customProfiles.size(); ++i) {
-                    profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
-                    if (profilesFiles.contains(name)) {
-                        path = customProfiles.at(i) + "/" + name;
-                        break;
-                    }
-                }*/
     }
 
-    if (path.isEmpty()) return result;
+    if (path.isEmpty() || !QFile::exists(path)) {
+        if (name == "dv_pal") {
+            kDebug() << "!!! WARNING, COULD NOT FIND DEFAULT MLT PROFILE";
+            return result;
+        }
+        if (name == KdenliveSettings::default_profile()) KdenliveSettings::setDefault_profile("dv_pal");
+        kDebug() << "// WARNING, COULD NOT FIND PROFILE " << name;
+        return getVideoProfile("dv_pal");
+    }
     KConfig confFile(path, KConfig::SimpleConfig);
     result.path = name;
     result.description = confFile.entryMap().value("description");
@@ -309,6 +346,14 @@ QString ProfilesDialog::getPathFromDescription(const QString profileDesc) {
 
 
 void ProfilesDialog::slotUpdateDisplay() {
+    if (askForSave() == false) {
+        m_view.profiles_list->blockSignals(true);
+        m_view.profiles_list->setCurrentIndex(m_selectedProfileIndex);
+        m_view.profiles_list->blockSignals(false);
+        return;
+    }
+
+    m_selectedProfileIndex = m_view.profiles_list->currentIndex();
     QString currentProfile = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
     m_isCustomProfile = currentProfile.contains("/");
     m_view.button_delete->setEnabled(m_isCustomProfile);
@@ -325,6 +370,7 @@ void ProfilesDialog::slotUpdateDisplay() {
     m_view.frame_num->setValue(values.value("frame_rate_num").toInt());
     m_view.frame_den->setValue(values.value("frame_rate_den").toInt());
     m_view.progressive->setChecked(values.value("progressive").toInt());
+    m_profileIsModified = false;
 }
 
 

@@ -40,19 +40,27 @@ public:
     static MltVideoProfile getVideoProfile(QString name);
     static QMap <QString, QString> getProfilesInfo();
 
+protected:
+    virtual void closeEvent(QCloseEvent *event);
+
 private slots:
     void slotUpdateDisplay();
     void slotCreateProfile();
-    void slotSaveProfile();
+    bool slotSaveProfile();
     void slotDeleteProfile();
     void slotSetDefaultProfile();
+    void slotProfileEdited();
+    virtual void accept();
 
 private:
     Ui::ProfilesDialog_UI m_view;
     QStringList m_mltProfilesList;
     QStringList m_customProfilesList;
+    int m_selectedProfileIndex;
+    bool m_profileIsModified;
     bool m_isCustomProfile;
     void saveProfile(const QString path);
+    bool askForSave();
 };
 
 
