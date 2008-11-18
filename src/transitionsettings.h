@@ -29,10 +29,11 @@ class EffectStackEdit;
 
 class TransitionSettings : public QWidget  {
     Q_OBJECT
+
 public:
     TransitionSettings(QWidget* parent = 0);
     void raiseWindow(QWidget*);
-    void updateProjectFormat(MltVideoProfile profile, Timecode t);
+    void updateProjectFormat(MltVideoProfile profile, Timecode t, const uint tracksCount);
 
 private:
     Ui::TransitionSettings_UI ui;
@@ -40,14 +41,19 @@ private:
     Transition* m_usedTransition;
     GenTime m_transitionDuration;
     GenTime m_transitionStart;
+    int m_tracksCount;
 
 public slots:
-    void slotTransitionItemSelected(Transition*);
+    void slotTransitionItemSelected(Transition*, bool);
     void slotTransitionChanged(bool reinit = true);
     void slotUpdateEffectParams(const QDomElement&, const QDomElement&);
 
+private slots:
+    void slotTransitionTrackChanged();
+
 signals:
     void transitionUpdated(Transition *, QDomElement);
+    void transitionTrackUpdated(Transition *, int);
     void transferParamDesc(const QDomElement&, int , int);
     void seekTimeline(int);
 };

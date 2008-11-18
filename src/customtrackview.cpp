@@ -1127,12 +1127,25 @@ void CustomTrackView::deleteTransition(ItemInfo transitionInfo, int endTrack, QD
 }
 
 void CustomTrackView::slotTransitionUpdated(Transition *tr, QDomElement old) {
-    EditTransitionCommand *command = new EditTransitionCommand(this, tr->track(), tr->startPos(), old, tr->toXML() , true);
+    EditTransitionCommand *command = new EditTransitionCommand(this, tr->track(), tr->startPos(), old, tr->toXML(), true);
     m_commandStack->push(command);
     m_document->setModified(true);
 }
 
-void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTransition, QDomElement transition) {
+void CustomTrackView::slotTransitionTrackUpdated(Transition *tr, int track) {
+    QDomElement old = tr->toXML().cloneNode().toElement();
+    if (track == 0) {
+        track = getPreviousVideoTrack(tr->track());
+        tr->setForcedTrack(false, track);
+    } else {
+        tr->setForcedTrack(true, m_scene->m_tracksList.count() + 1 - track);
+    }
+    EditTransitionCommand *command = new EditTransitionCommand(this, tr->track(), tr->startPos(), old, tr->toXML(), true);
+    m_commandStack->push(command);
+    m_document->setModified(true);
+}
+
+void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTransition, QDomElement transition, bool updateTransitionWidget) {
     Transition *item = getTransitionItemAt((int)pos.frames(m_document->fps()), track);
     if (!item) {
         kWarning() << "Unable to find transition at pos :" << pos.frames(m_document->fps()) << ", ON track: " << track;
@@ -1140,6 +1153,7 @@ void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTr
     }
     m_document->renderer()->mltUpdateTransition(oldTransition.attribute("tag"), transition.attribute("tag"), transition.attribute("transition_btrack").toInt(), m_scene->m_tracksList.count() - transition.attribute("transition_atrack").toInt(), item->startPos(), item->endPos(), transition);
     item->setTransitionParameters(transition);
+    if (updateTransitionWidget) emit transitionItemSelected(item, true);
     m_document->setModified(true);
 }
 

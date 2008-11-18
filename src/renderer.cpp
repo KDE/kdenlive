@@ -2128,7 +2128,6 @@ void Render::mltUpdateTransition(QString oldTag, QString tag, int a_track, int b
 
 void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml) {
     m_isBlocked = true;
-
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
     Mlt::Field *field = tractor.field();
@@ -2146,6 +2145,7 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
     while (mlt_type == "transition") {
         mlt_transition tr = (mlt_transition) nextservice;
         int currentTrack = mlt_transition_get_b_track(tr);
+        int currentBTrack = mlt_transition_get_a_track(tr);
         int currentIn = (int) mlt_transition_get_in(tr);
         int currentOut = (int) mlt_transition_get_out(tr);
 
@@ -2156,7 +2156,10 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
             QMap<QString, QString>::Iterator it;
             QString key;
             mlt_properties transproperties = MLT_TRANSITION_PROPERTIES(tr);
-
+            mlt_properties_set_int(transproperties, "force_track", xml.attribute("force_track").toInt());
+            if (currentBTrack != a_track) {
+                mlt_properties_set_int(properties, "a_track", a_track);
+            }
             for (it = map.begin(); it != map.end(); ++it) {
                 key = it.key();
                 char *name = decodedString(key);

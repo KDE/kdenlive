@@ -25,7 +25,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 
-TransitionSettings::TransitionSettings(QWidget* parent): QWidget(parent) {
+TransitionSettings::TransitionSettings(QWidget* parent): QWidget(parent), m_tracksCount(0) {
     ui.setupUi(this);
     effectEdit = new EffectStackEdit(ui.frame);
     connect(effectEdit, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
@@ -37,14 +37,25 @@ TransitionSettings::TransitionSettings(QWidget* parent): QWidget(parent) {
     //kDebug() << MainWindow::transitions.effectNames().size();
     //ui.listWidget->setCurrentRow(0);
     connect(ui.transitionList, SIGNAL(activated(int)), this, SLOT(slotTransitionChanged()));
+    connect(ui.transitionTrack, SIGNAL(activated(int)), this, SLOT(slotTransitionTrackChanged()));
+
     connect(this, SIGNAL(transferParamDesc(const QDomElement&, int , int)), effectEdit , SLOT(transferParamDesc(const QDomElement&, int , int)));
     connect(effectEdit, SIGNAL(parameterChanged(const QDomElement&, const QDomElement&)), this , SLOT(slotUpdateEffectParams(const QDomElement&, const QDomElement&)));
-    ui.splitter->setStretchFactor(0, 1);
-    ui.splitter->setStretchFactor(1, 10);
 }
 
-void TransitionSettings::updateProjectFormat(MltVideoProfile profile, Timecode t) {
+void TransitionSettings::updateProjectFormat(MltVideoProfile profile, Timecode t, const uint tracksCount) {
+    m_tracksCount = tracksCount;
     effectEdit->updateProjectFormat(profile, t);
+    QStringList tracksList;
+    tracksList << i18n("Auto");
+    for (uint i = 0; i < tracksCount; i++) {
+        tracksList << QString::number(i);
+    }
+    tracksList << i18n("Black");
+    ui.transitionTrack->blockSignals(true);
+    ui.transitionTrack->clear();
+    ui.transitionTrack->addItems(tracksList);
+    ui.transitionTrack->blockSignals(false);
 }
 
 
@@ -56,24 +67,39 @@ void TransitionSettings::slotTransitionChanged(bool reinit) {
         emit transferParamDesc(newTransition, m_usedTransition->startPos().frames(KdenliveSettings::project_fps()), m_usedTransition->endPos().frames(KdenliveSettings::project_fps()));
     } else {
         //slotUpdateEffectParams(e, e);
-        emit transferParamDesc(e, m_usedTransition->startPos().frames(KdenliveSettings::project_fps()), m_usedTransition->endPos().frames(KdenliveSettings::project_fps()));
+        effectEdit->transferParamDesc(e, m_usedTransition->startPos().frames(KdenliveSettings::project_fps()), m_usedTransition->endPos().frames(KdenliveSettings::project_fps()));
     }
 }
 
-void TransitionSettings::slotTransitionItemSelected(Transition* t) {
+void TransitionSettings::slotTransitionTrackChanged() {
+    emit transitionTrackUpdated(m_usedTransition, ui.transitionTrack->currentIndex());
+}
+
+void TransitionSettings::slotTransitionItemSelected(Transition* t, bool update) {
     setEnabled(t != NULL);
     if (t == m_usedTransition) {
-        if (t && (t->duration() != m_transitionDuration || t->startPos() != m_transitionStart)) {
+        if (t == NULL) return;
+        if (update) {
+            ui.transitionTrack->blockSignals(true);
+            if (t->forcedTrack()) ui.transitionTrack->setCurrentIndex(m_tracksCount + 1 - t->transitionEndTrack());
+            else ui.transitionTrack->setCurrentIndex(0);
+            ui.transitionTrack->blockSignals(false);
+        }
+        if (update || t->duration() != m_transitionDuration || t->startPos() != m_transitionStart) {
             m_transitionDuration = t->duration();
             m_transitionStart = t->startPos();
             slotTransitionChanged(false);
         }
         return;
-    }
+    } else if (update) return;
     m_usedTransition = t;
     if (m_usedTransition) {
         m_transitionDuration = t->duration();
         m_transitionStart = t->startPos();
+        ui.transitionTrack->blockSignals(true);
+        if (!t->forcedTrack()) ui.transitionTrack->setCurrentIndex(0);
+        else ui.transitionTrack->setCurrentIndex(m_tracksCount + 1 - t->transitionEndTrack());
+        ui.transitionTrack->blockSignals(false);
         int ix = ui.transitionList->findText(m_usedTransition->transitionName(), Qt::MatchExactly);
         if (ix != -1) {
             ui.transitionList->blockSignals(true);

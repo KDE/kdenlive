@@ -66,6 +66,8 @@ public:
     bool isValid() const;
     /** Transition should be linked to another track */
     void updateTransitionEndTrack(int newtrack);
+    void setForcedTrack(bool force, int track);
+    bool forcedTrack() const;
     const ClipItem *referencedClip() const;
     Transition *clone();
     bool isAutomatic() const;
@@ -77,6 +79,7 @@ private:
     bool m_singleClip;
     QLinearGradient m_gradient;
     QString m_name;
+    bool m_forceTransitionTrack;
 
     /** true if the transition was added automatically and should be moved with its clip */
     bool m_automaticTransition;

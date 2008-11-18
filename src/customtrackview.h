@@ -72,7 +72,7 @@ public:
     void moveEffect(int track, GenTime pos, int oldPos, int newPos);
     void addTransition(ItemInfo transitionInfo, int endTrack, QDomElement params);
     void deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement params);
-    void updateTransition(int track, GenTime pos,  QDomElement oldTransition, QDomElement transition);
+    void updateTransition(int track, GenTime pos,  QDomElement oldTransition, QDomElement transition, bool updateTransitionWidget);
     void moveTransition(GenTime oldpos, GenTime newpos);
     void activateMonitor();
     int duration() const;
@@ -112,6 +112,7 @@ public slots:
     void slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QDomElement transition = QDomElement());
     void slotAddTransitionToSelectedClips(QDomElement transition);
     void slotTransitionUpdated(Transition *, QDomElement);
+    void slotTransitionTrackUpdated(Transition *tr, int track);
     void slotSwitchTrackAudio(int ix);
     void slotSwitchTrackVideo(int ix);
     void slotUpdateClip(const QString &clipId);
@@ -209,7 +210,7 @@ signals:
     void zoomOut();
     void mousePosition(int);
     void clipItemSelected(ClipItem*, int ix = -1);
-    void transitionItemSelected(Transition*);
+    void transitionItemSelected(Transition*, bool update = false);
     void activateDocumentMonitor();
     void trackHeightChanged();
     void displayMessage(const QString, MessageType);

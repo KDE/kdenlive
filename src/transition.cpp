@@ -33,7 +33,7 @@
 #include "customtrackscene.h"
 #include "mainwindow.h"
 
-Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDomElement params, bool automaticTransition) : AbstractClipItem(info, QRectF(), fps), m_gradient(QLinearGradient(0, 0, 0, 0)), m_automaticTransition(automaticTransition) {
+Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDomElement params, bool automaticTransition) : AbstractClipItem(info, QRectF(), fps), m_gradient(QLinearGradient(0, 0, 0, 0)), m_automaticTransition(automaticTransition), m_forceTransitionTrack(false) {
     setRect(0, 0, (qreal)(info.endPos - info.startPos).frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
     setPos((qreal) info.startPos.frames(fps), (qreal)(info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2));
 
@@ -54,6 +54,7 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDo
     }
     if (m_automaticTransition) m_parameters.setAttribute("automatic", 1);
     else if (m_parameters.attribute("automatic") == "1") m_automaticTransition = true;
+    if (m_parameters.attribute("force_track") == "1") m_forceTransitionTrack = true;
     m_name = m_parameters.elementsByTagName("name").item(0).toElement().text();
     m_secondClip = 0;
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
@@ -85,6 +86,8 @@ bool Transition::isAutomatic() const {
 
 void Transition::setTransitionParameters(const QDomElement params) {
     m_parameters = params;
+    if (m_parameters.attribute("force_track") == "1") setForcedTrack(true, m_parameters.attribute("transition_btrack").toInt());
+    else if (m_parameters.attribute("force_track") == "0") setForcedTrack(false, m_parameters.attribute("transition_btrack").toInt());
     m_name = m_parameters.elementsByTagName("name").item(0).toElement().text();
     update();
 }
@@ -118,7 +121,16 @@ int Transition::transitionEndTrack() const {
 }
 
 void Transition::updateTransitionEndTrack(int newtrack) {
-    m_transitionTrack = newtrack;
+    if (!m_forceTransitionTrack) m_transitionTrack = newtrack;
+}
+
+void Transition::setForcedTrack(bool force, int track) {
+    m_forceTransitionTrack = force;
+    m_transitionTrack = track;
+}
+
+bool Transition::forcedTrack() const {
+    return m_forceTransitionTrack;
 }
 
 void Transition::paint(QPainter *painter,
@@ -128,6 +140,7 @@ void Transition::paint(QPainter *painter,
     QRectF exposed = option->exposedRect;
     painter->setClipRect(exposed);
     QRectF br = rect();
+    QRectF mapped = painter->matrix().mapRect(br);
     m_gradient.setStart(0, br.y());
     m_gradient.setFinalStop(0, br.bottom());
     painter->fillRect(br, m_gradient);
@@ -135,14 +148,22 @@ void Transition::paint(QPainter *painter,
     int top = (int)(br.y() + br.height() / 2 - 7);
     QPointF p1(br.x(), br.y() + br.height() / 2 - 7);
     painter->setMatrixEnabled(false);
-    painter->drawPixmap(painter->matrix().map(p1) + QPointF(5, 0), transitionPixmap());
-    painter->setPen(QColor(0, 0, 0, 180));
-    top += painter->fontInfo().pixelSize();
-    QPointF p2(br.x(), top);
-    painter->drawText(painter->matrix().map(p2) + QPointF(26, 1), transitionName());
-    painter->setPen(QColor(255, 255, 255, 180));
-    QPointF p3(br.x(), top);
-    painter->drawText(painter->matrix().map(p3) + QPointF(25, 0), transitionName());
+    //painter->drawPixmap(painter->matrix().map(p1) + QPointF(5, 0), transitionPixmap());
+    QString text = transitionName();
+    if (forcedTrack()) text.append("|>");
+    QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, " " + text + " ");
+    painter->fillRect(txtBounding, QBrush(QColor(50, 50, 0, 150)));
+    txtBounding.translate(QPointF(1, 1));
+    painter->setPen(QColor(255, 255, 255, 255));
+    painter->drawText(txtBounding, Qt::AlignCenter, text);
+
+    /*    painter->setPen(QColor(0, 0, 0, 180));
+        top += painter->fontInfo().pixelSize();
+        QPointF p2(br.x(), top);
+        painter->drawText(painter->matrix().map(p2) + QPointF(26, 1), transitionName());
+        painter->setPen(QColor(255, 255, 255, 180));
+        QPointF p3(br.x(), top);
+        painter->drawText(painter->matrix().map(p3) + QPointF(25, 0), transitionName());*/
     painter->setMatrixEnabled(true);
     QPen pen = painter->pen();
     if (isSelected()) {
@@ -259,6 +280,7 @@ QDomElement Transition::toXML() {
     m_parameters.setAttribute("transition_btrack", m_transitionTrack);
     m_parameters.setAttribute("start", startPos().frames(m_fps));
     m_parameters.setAttribute("end", endPos().frames(m_fps));
+    m_parameters.setAttribute("force_track", m_forceTransitionTrack);
 
     if (m_secondClip) {
         m_parameters.setAttribute("clipb_starttime", m_secondClip->startPos().frames(m_referenceClip->fps()));

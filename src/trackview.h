@@ -89,14 +89,14 @@ private:
 private slots:
     void setCursorPos(int pos);
     void moveCursorPos(int pos);
-    void slotTransitionItemSelected(Transition*);
+    void slotTransitionItemSelected(Transition*, bool update);
     void slotRebuildTrackHeaders();
 
 
 signals:
     void mousePosition(int);
     void cursorMoved();
-    void transitionItemSelected(Transition*);
+    void transitionItemSelected(Transition*, bool);
     void zoneMoved(int, int);
 };
 

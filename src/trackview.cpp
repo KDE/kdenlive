@@ -82,7 +82,7 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
     connect(m_trackview, SIGNAL(cursorMoved(int, int)), m_ruler, SLOT(slotCursorMoved(int, int)));
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
-    connect(m_trackview, SIGNAL(transitionItemSelected(Transition*)), this, SLOT(slotTransitionItemSelected(Transition*)));
+    connect(m_trackview, SIGNAL(transitionItemSelected(Transition*, bool)), this, SLOT(slotTransitionItemSelected(Transition*, bool)));
     slotChangeZoom(m_doc->zoom());
 }
 
@@ -92,7 +92,7 @@ int TrackView::duration() const {
 }
 
 int TrackView::tracksNumber() const {
-    return m_projectTracks;
+    return m_projectTracks - 1;
 }
 
 int TrackView::inPoint() const {
@@ -107,8 +107,8 @@ void TrackView::slotSetZone(QPoint p) {
     m_ruler->setZone(p);
 }
 
-void TrackView::slotTransitionItemSelected(Transition *t) {
-    emit transitionItemSelected(t);
+void TrackView::slotTransitionItemSelected(Transition *t, bool update) {
+    emit transitionItemSelected(t, update);
 }
 
 void TrackView::setDuration(int dur) {
@@ -178,6 +178,7 @@ void TrackView::parseDocument(QDomDocument doc) {
         int a_track = 0;
         int b_track = 0;
         bool isAutomatic = false;
+        bool forceTrack = false;
         QString mlt_geometry;
         QString mlt_service;
         for (int k = 0; k < transitionparams.count(); k++) {
@@ -190,10 +191,11 @@ void TrackView::parseDocument(QDomDocument doc) {
                     //kDebug() << "//  TRANSITRION " << i << " IS NOT VALID (INTERN ADDED)";
                     //break;
                 } else if (paramName == "a_track") a_track = p.text().toInt();
-                else if (paramName == "b_track") b_track = m_projectTracks - 1 - p.text().toInt();
+                else if (paramName == "b_track") b_track = p.text().toInt();
                 else if (paramName == "mlt_service") mlt_service = p.text();
                 else if (paramName == "geometry") mlt_geometry = p.text();
-                else if (paramName == "automatic" && p.text() == "1") isAutomatic = true;;
+                else if (paramName == "automatic" && p.text() == "1") isAutomatic = true;
+                else if (paramName == "force_track" && p.text() == "1") forceTrack = true;
             }
         }
         if (transitionAdd || mlt_service != "mix") {
@@ -258,9 +260,10 @@ void TrackView::parseDocument(QDomDocument doc) {
 
             transitionInfo.startPos = GenTime(e.attribute("in").toInt(), m_doc->fps());
             transitionInfo.endPos = GenTime(e.attribute("out").toInt() + 1, m_doc->fps());
-            transitionInfo.track = b_track;
+            transitionInfo.track = m_projectTracks - 1 - b_track;
             //kDebug() << "///////////////   +++++++++++  ADDING TRANSITION ON TRACK: " << b_track << ", TOTAL TRKA: " << m_projectTracks;
             Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, isAutomatic);
+            if (forceTrack) tr->setForcedTrack(true, a_track);
             m_scene->addItem(tr);
         }
     }
