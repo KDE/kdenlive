@@ -52,6 +52,8 @@
 		<Action name="show_markers" />
 		<Action name="snap" />
 	  <Separator />
+		<Action name="zoom_in" />
+		<Action name="zoom_out" />		
 		<Action name="zoom_fit" />
     </Menu>
     <Menu name="monitor" ><text>Monitor</text>

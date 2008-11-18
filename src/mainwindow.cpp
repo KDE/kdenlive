@@ -650,6 +650,16 @@ void MainWindow::setupActions() {
     collection->addAction("snap", m_buttonSnap);
     collection->addAction("zoom_fit", m_buttonFitZoom);
 
+    KAction* zoomIn = new KAction(KIcon("zoom-in"), i18n("Zoom In"), this);
+    collection->addAction("zoom_in", zoomIn);
+    connect(zoomIn, SIGNAL(triggered(bool)), this, SLOT(slotZoomIn()));
+    zoomIn->setShortcut(Qt::CTRL + Qt::Key_Plus);
+
+    KAction* zoomOut = new KAction(KIcon("zoom-out"), i18n("Zoom Out"), this);
+    collection->addAction("zoom_out", zoomOut);
+    connect(zoomOut, SIGNAL(triggered(bool)), this, SLOT(slotZoomOut()));
+    zoomOut->setShortcut(Qt::CTRL + Qt::Key_Minus);
+
     m_projectSearch = new KAction(KIcon("edit-find"), i18n("Find"), this);
     collection->addAction("project_find", m_projectSearch);
     connect(m_projectSearch, SIGNAL(triggered(bool)), this, SLOT(slotFind()));
@@ -1796,5 +1806,6 @@ void MainWindow::slotSetOutPoint() {
         m_clipMonitor->slotSetZoneEnd();
     } else m_activeTimeline->projectView()->setOutPoint();
 }
+
 
 #include "mainwindow.moc"
