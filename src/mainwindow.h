@@ -192,9 +192,9 @@ private slots:
     void connectDocument(TrackView*, KdenliveDoc*);
     void openFile();
     void openLastFile();
-    void saveFile();
-    void saveFileAs();
-    void saveFileAs(const QString &outputFileName);
+    bool saveFile();
+    bool saveFileAs();
+    bool saveFileAs(const QString &outputFileName);
     void slotPreferences(int page = -1, int option = -1);
     void updateConfiguration();
     void slotConnectMonitors();

@@ -360,8 +360,7 @@ bool MainWindow::queryClose() {
         switch (KMessageBox::warningYesNoCancel(this, i18n("Save changes to document ?"))) {
         case KMessageBox::Yes :
             // save document here. If saving fails, return false;
-            saveFile();
-            return true;
+            return saveFile();
         case KMessageBox::No :
             return true;
         default: // cancel
@@ -933,10 +932,10 @@ void MainWindow::closeCurrentDocument() {
     }
 }
 
-void MainWindow::saveFileAs(const QString &outputFileName) {
+bool MainWindow::saveFileAs(const QString &outputFileName) {
     QDomDocument currentSceneList = m_projectMonitor->sceneList();
     if (m_activeDocument->saveSceneList(outputFileName, currentSceneList) == false)
-        return;
+        return false;
     m_activeDocument->setUrl(KUrl(outputFileName));
     if (m_activeDocument->m_autosave == NULL) {
         m_activeDocument->m_autosave = new KAutoSaveFile(KUrl(outputFileName), this);
@@ -946,28 +945,31 @@ void MainWindow::saveFileAs(const QString &outputFileName) {
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), m_activeDocument->url().path());
     m_activeDocument->setModified(false);
     m_fileOpenRecent->addUrl(KUrl(outputFileName));
+    return true;
 }
 
-void MainWindow::saveFileAs() {
+bool MainWindow::saveFileAs() {
     // Check that the Kdenlive mime type is correctly installed
     QString mimetype = "application/x-kdenlive";
     KMimeType::Ptr mime = KMimeType::mimeType(mimetype);
     if (!mime) mimetype = "*.kdenlive";
 
     QString outputFile = KFileDialog::getSaveFileName(KUrl(), mimetype);
+    if (outputFile.isEmpty()) return false;
     if (QFile::exists(outputFile)) {
-        if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) == KMessageBox::No) return;
+        if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) == KMessageBox::No) return false;
     }
-    saveFileAs(outputFile);
+    return saveFileAs(outputFile);
 }
 
-void MainWindow::saveFile() {
-    if (!m_activeDocument) return;
+bool MainWindow::saveFile() {
+    if (!m_activeDocument) return true;
     if (m_activeDocument->url().isEmpty()) {
-        saveFileAs();
+        return saveFileAs();
     } else {
-        saveFileAs(m_activeDocument->url().path());
+        bool result = saveFileAs(m_activeDocument->url().path());
         m_activeDocument->m_autosave->resize(0);
+        return result;
     }
 }
 
