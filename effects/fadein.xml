@@ -3,8 +3,8 @@
 	<name>Fade in</name>
 	<description>Fade in audio track</description>
 	<author></author>
-	<parameter type="position" name="in" max="15000" min="0" default="0">
-		<name>Duration</name>
+	<parameter type="fixed" name="in" max="0" min="0" default="0">
+		<name></name>
 	</parameter>
 	<parameter type="position" name="out" max="15000" min="0" default="75">
 		<name>Duration</name>
