@@ -30,7 +30,7 @@
 #include "effectslist.h"
 #include "clipitem.h"
 #include "mainwindow.h"
-
+#include "kdenlivesettings.h"
 
 EffectStackView::EffectStackView(QWidget *parent)
         : QWidget(parent) {
@@ -179,7 +179,7 @@ void EffectStackView::setupListView(int ix) {
         }
     }
     if (clipref->effectsCount() == 0) {
-        emit transferParamDesc(QDomElement(), 0, 100);
+        emit transferParamDesc(QDomElement(), 0, 0);
         ui.buttonDel->setEnabled(false);
         ui.buttonSave->setEnabled(false);
         ui.buttonReset->setEnabled(false);
@@ -203,7 +203,7 @@ void EffectStackView::slotItemSelectionChanged() {
     bool isChecked = false;
     if (hasItem && ui.effectlist->currentItem()->checkState() == Qt::Checked) isChecked = true;
     if (hasItem && ui.effectlist->currentItem()->isSelected()) {
-        emit transferParamDesc(clipref->effectAt(activeRow), 0, 100);//minx max frame
+        emit transferParamDesc(clipref->effectAt(activeRow), clipref->cropStart().frames(KdenliveSettings::project_fps()), clipref->cropDuration().frames(KdenliveSettings::project_fps()));//minx max frame
     }
     if (clipref) clipref->setSelectedEffect(activeRow);
     ui.buttonDel->setEnabled(hasItem);
@@ -247,7 +247,7 @@ void EffectStackView::slotResetEffect() {
     }
     if (!dom.isNull()) {
         dom.setAttribute("kdenlive_ix", old.attribute("kdenlive_ix"));
-        emit transferParamDesc(dom, 0, 100);//minx max frame
+        emit transferParamDesc(dom, clipref->cropStart().frames(KdenliveSettings::project_fps()), clipref->cropDuration().frames(KdenliveSettings::project_fps()));//minx max frame
         emit updateClipEffect(clipref, old, dom, activeRow);
     }
 }

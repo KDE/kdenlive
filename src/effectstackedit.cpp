@@ -190,7 +190,14 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out) {
         } else if (type == "position") {
             Ui::Positionval_UI *pval = new Ui::Positionval_UI;
             pval->setupUi(toFillin);
-            pval->krestrictedline->setText(m_timecode.getTimecodeFromFrames(value.toInt()));
+            int pos = value.toInt();
+            if (d.attribute("id") == "fadein") {
+                pos = pos - m_in;
+            } else if (d.attribute("id") == "fadeout") {
+                // fadeout position starts from clip end
+                pos = m_out - (pos - m_in);
+            }
+            pval->krestrictedline->setText(m_timecode.getTimecodeFromFrames(pos));
             connect(pval->krestrictedline, SIGNAL(editingFinished()), this, SLOT(collectAllParameters()));
             pval->label->setText(paramName);
             valueItems[paramName + "position"] = pval;
@@ -366,8 +373,13 @@ void EffectStackEdit::collectAllParameters() {
             namenode.item(i) = geom->getParamDesc();
         } else if (type == "position") {
             KRestrictedLine *line = ((Ui::Positionval_UI*)valueItems[paramName+"position"])->krestrictedline;
-            setValue = QString::number(m_timecode.getFrameCount(line->text(), KdenliveSettings::project_fps()));
-            kDebug() << "// NEW POSITION: " << setValue << "(" << line->text() << " PARAM: " << paramName + "position";
+            int pos = m_timecode.getFrameCount(line->text(), KdenliveSettings::project_fps());
+            if (params.attribute("id") == "fadein") {
+                pos += m_in;
+            } else if (params.attribute("id") == "fadeout") {
+                pos = m_out - (pos - m_in);
+            }
+            setValue = QString::number(pos);
         } else if (type == "wipe") {
             Ui::Wipeval_UI *wp = (Ui::Wipeval_UI*)valueItems[paramName];
             wipeInfo info;

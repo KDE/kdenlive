@@ -3,11 +3,11 @@
 	<name>Fade out</name>
 	<description>Fade in audio track</description>
 	<author></author>
-	<parameter type="fixed" name="in" max="0" min="0" default="0">
-		<name></name>
-	</parameter>
-	<parameter type="position" name="out" max="15000" min="0" default="75">
+	<parameter type="position" name="in" max="0" min="0" default="75">
 		<name>Duration</name>
+	</parameter>
+	<parameter type="fixed" name="out" max="90000" min="0" default="0">
+		<name></name>
 	</parameter>
 	<parameter type="fixed" name="gain" max="1" min="1" default="1">
 		<name>Start Gain</name>
