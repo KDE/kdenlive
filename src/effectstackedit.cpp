@@ -376,16 +376,16 @@ void EffectStackEdit::collectAllParameters() {
             int pos = m_timecode.getFrameCount(line->text(), KdenliveSettings::project_fps());
             if (params.attribute("id") == "fadein") {
                 pos += m_in;
-		if (pos > m_out) {
-		    pos = m_out;
-		    line->setText(m_timecode.getTimecodeFromFrames(pos));
-		}
+                if (pos > m_out) {
+                    pos = m_out;
+                    line->setText(m_timecode.getTimecodeFromFrames(pos));
+                }
             } else if (params.attribute("id") == "fadeout") {
                 pos = m_out - (pos - m_in);
-		if (pos > m_out - m_in) {
-		    pos = m_out - m_in;
-		    line->setText(m_timecode.getTimecodeFromFrames(pos));
-		}
+                if (pos > m_out - m_in) {
+                    pos = m_out - m_in;
+                    line->setText(m_timecode.getTimecodeFromFrames(pos));
+                }
             }
             setValue = QString::number(pos);
         } else if (type == "wipe") {
