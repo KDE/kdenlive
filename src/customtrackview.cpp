@@ -659,7 +659,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack);
     } else if (m_operationMode == TRANSITIONEND) {
         ItemInfo info;
-        info.endPos = GenTime(m_dragItem->endPos().frames(m_document->fps()) - 1, m_document->fps());
+        info.endPos = GenTime(m_dragItem->endPos().frames(m_document->fps()), m_document->fps());
         info.track = m_dragItem->track();
         int transitiontrack = getPreviousVideoTrack(info.track);
         ClipItem *transitionClip = NULL;
