@@ -128,6 +128,7 @@ public slots:
     void pasteClip();
     void pasteClipEffects();
     void slotUpdateAllThumbs();
+    void slotCheckPositionScrolling();
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
@@ -177,6 +178,8 @@ private:
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
+    QTimer m_scrollTimer;
+    int m_scrollOffset;
 
     QList <CommentedTime> m_searchStrings;
     int m_findIndex;
@@ -203,6 +206,7 @@ private:
 private slots:
     void slotRefreshGuides();
     void slotEnableRefresh();
+    void slotCheckMouseScrolling();
 
 signals:
     void cursorMoved(int, int);

@@ -110,6 +110,7 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event) {
         if (pos < 0) pos = 0;
         if (m_moveCursor == RULER_CURSOR) {
             m_view->setCursorPos(pos);
+            m_view->slotCheckPositionScrolling();
             return;
         } else if (m_moveCursor == RULER_START) m_zoneStart = pos;
         else if (m_moveCursor == RULER_END) m_zoneEnd = pos;

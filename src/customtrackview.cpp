@@ -72,7 +72,7 @@
 // const int duration = animate ? 1500 : 1;
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscene, QWidget *parent)
-        : QGraphicsView(projectscene, parent), m_scene(projectscene), m_cursorPos(0), m_cursorLine(NULL), m_operationMode(NONE), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()), m_tracksHeight(KdenliveSettings::trackheight()), m_tool(SELECTTOOL), m_dragGuide(NULL), m_findIndex(0), m_menuPosition(QPoint()), m_blockRefresh(false), m_selectionGroup(NULL), m_selectedTrack(0), m_copiedItems(QList<AbstractClipItem *> ()) {
+        : QGraphicsView(projectscene, parent), m_scene(projectscene), m_cursorPos(0), m_cursorLine(NULL), m_operationMode(NONE), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()), m_tracksHeight(KdenliveSettings::trackheight()), m_tool(SELECTTOOL), m_dragGuide(NULL), m_findIndex(0), m_menuPosition(QPoint()), m_blockRefresh(false), m_selectionGroup(NULL), m_selectedTrack(0), m_copiedItems(QList<AbstractClipItem *> ()), m_scrollOffset(0) {
     if (doc) m_commandStack = doc->commandStack();
     else m_commandStack == NULL;
     setMouseTracking(true);
@@ -95,6 +95,9 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     m_razorCursor = QCursor(razorIcon.pixmap(22, 22));
     verticalScrollBar()->setTracking(true);
     connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(slotRefreshGuides()));
+    connect(&m_scrollTimer, SIGNAL(timeout()), this, SLOT(slotCheckMouseScrolling()));
+    m_scrollTimer.setInterval(150);
+    m_scrollTimer.setSingleShot(true);
 }
 
 CustomTrackView::~CustomTrackView() {
@@ -184,53 +187,65 @@ int CustomTrackView::getPreviousVideoTrack(int track) {
     return 0;
 }
 
+
+void CustomTrackView::slotCheckMouseScrolling() {
+    if (m_scrollOffset == 0) {
+        m_scrollTimer.stop();
+        return;
+    }
+    horizontalScrollBar()->setValue(horizontalScrollBar()->value() + m_scrollOffset);
+    m_scrollTimer.start();
+}
+
+void CustomTrackView::slotCheckPositionScrolling() {
+    // If mouse is at a border of the view, scroll
+    if (m_moveOpMode != SEEK) return;
+    int pos = cursorPos();
+    if (mapFromScene(pos, 0).x() < 7) {
+        horizontalScrollBar()->setValue(horizontalScrollBar()->value() - 2);
+        setCursorPos(mapToScene(QPoint()).x() - 1);
+        QTimer::singleShot(200, this, SLOT(slotCheckPositionScrolling()));
+
+    } else if (viewport()->width() - 5 < mapFromScene(pos + 1, 0).x()) {
+        horizontalScrollBar()->setValue(horizontalScrollBar()->value() + 2);
+        setCursorPos(mapToScene(viewport()->width(), 0).x() + 1);
+        QTimer::singleShot(200, this, SLOT(slotCheckPositionScrolling()));
+    }
+}
+
+
 // virtual
 
 void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
     int pos = event->x();
-    emit mousePosition((int)(mapToScene(event->pos()).x()));
+    int mappedXPos = (int)(mapToScene(event->pos()).x());
+    emit mousePosition(mappedXPos);
     if (event->buttons() & Qt::MidButton) return;
     if (event->buttons() != Qt::NoButton) {
         if (m_dragItem && m_tool == SELECTTOOL) {
             if (m_operationMode == MOVE) {
                 if ((event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance()) QGraphicsView::mouseMoveEvent(event);
-
-                /*&& (event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance()) {
-                           double snappedPos = getSnapPointForPos(mapToScene(event->pos()).x() - m_clickPoint.x());
-                           //kDebug() << "///////  MOVE CLIP, EVENT Y: "<<m_clickPoint.y();//<<event->scenePos().y()<<", SCENE HEIGHT: "<<scene()->sceneRect().height();
-                           int moveTrack = (int)  mapToScene(event->pos() - QPoint(0, (m_dragItem->type() == TRANSITIONWIDGET ? m_dragItem->boundingRect().height() / 2 : 0))).y() / m_tracksHeight;
-                           int currentTrack = m_dragItem->track();
-
-                           if (moveTrack > 1000) moveTrack = 0;
-                           else if (moveTrack > m_scene->m_tracksList.count() - 1) moveTrack = m_scene->m_tracksList.count() - 1;
-                           else if (moveTrack < 0) moveTrack = 0;
-
-                           int offset = moveTrack - currentTrack;
-                           if (m_selectedClipList.count() == 1) m_dragItem->moveTo((int)(snappedPos / m_scale), m_scale, offset * m_tracksHeight, moveTrack);
-                           else {
-                               int moveOffset = (int)(snappedPos / m_scale) - m_dragItem->startPos().frames(m_document->fps());
-                               if (canBeMoved(m_selectedClipList, GenTime(moveOffset, m_document->fps()), offset)) {
-                                   for (int i = 0; i < m_selectedClipList.count(); i++) {
-                                       AbstractClipItem *item = m_selectedClipList.at(i);
-                                       item->moveTo(item->startPos().frames(m_document->fps()) + moveOffset, m_scale, offset * m_tracksHeight, item->track() + offset, false);
-                                   }
-                               }
-                           }*/
+                // If mouse is at a border of the view, scroll
+                if (pos < 5) {
+                    m_scrollOffset = -20;
+                    m_scrollTimer.start();
+                } else if (viewport()->width() - pos < 10) {
+                    m_scrollOffset = 20;
+                    m_scrollTimer.start();
+                } else if (m_scrollTimer.isActive()) m_scrollTimer.stop();
 
             } else if (m_operationMode == RESIZESTART) {
-                double snappedPos = getSnapPointForPos(mapToScene(event->pos()).x());
+                double snappedPos = getSnapPointForPos(mappedXPos);
                 m_dragItem->resizeStart((int)(snappedPos));
             } else if (m_operationMode == RESIZEEND) {
-                double snappedPos = getSnapPointForPos(mapToScene(event->pos()).x());
+                double snappedPos = getSnapPointForPos(mappedXPos);
                 m_dragItem->resizeEnd((int)(snappedPos));
             } else if (m_operationMode == FADEIN) {
-                int pos = (int)(mapToScene(event->pos()).x());
-                ((ClipItem*) m_dragItem)->setFadeIn((int)(pos - m_dragItem->startPos().frames(m_document->fps())));
+                ((ClipItem*) m_dragItem)->setFadeIn((int)(mappedXPos - m_dragItem->startPos().frames(m_document->fps())));
             } else if (m_operationMode == FADEOUT) {
-                int pos = (int)(mapToScene(event->pos()).x());
-                ((ClipItem*) m_dragItem)->setFadeOut((int)(m_dragItem->endPos().frames(m_document->fps()) - pos));
+                ((ClipItem*) m_dragItem)->setFadeOut((int)(m_dragItem->endPos().frames(m_document->fps()) - mappedXPos));
             } else if (m_operationMode == KEYFRAME) {
-                GenTime keyFramePos = GenTime((int)(mapToScene(event->pos()).x()), m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
+                GenTime keyFramePos = GenTime(mappedXPos, m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
                 double pos = mapToScene(event->pos()).toPoint().y();
                 QRectF br = m_dragItem->sceneBoundingRect();
                 double maxh = 100.0 / br.height();
@@ -445,10 +460,11 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
         m_moveOpMode = opMode;
         setCursor(Qt::SplitHCursor);
     } else {
-        m_moveOpMode = NONE;
         if (event->buttons() != Qt::NoButton && event->modifiers() == Qt::NoModifier) {
-            setCursorPos((int)(mapToScene(event->pos().x(), 0).x()));
-        }
+            m_moveOpMode = SEEK;
+            setCursorPos(mappedXPos);
+            slotCheckPositionScrolling();
+        } else m_moveOpMode = NONE;
         if (m_visualTip) {
             if (m_animation) delete m_animation;
             m_animationTimer->stop();
@@ -1319,7 +1335,9 @@ void CustomTrackView::checkScrolling() {
 }
 
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
+    m_moveOpMode = NONE;
     QGraphicsView::mouseReleaseEvent(event);
+    if (m_scrollTimer.isActive()) m_scrollTimer.stop();
     if (event->button() == Qt::MidButton) {
         return;
     }
@@ -1802,11 +1820,11 @@ void CustomTrackView::updateClipFade(ClipItem * item, bool updateFadeOut) {
             if (effectPos == -1) return;
             QDomElement oldeffect = item->effectAt(effectPos);
             int start = item->cropStart().frames(m_document->fps());
-	    int max = item->cropDuration().frames(m_document->fps());
-	    if (end > max) {
-		item->setFadeIn(max);
-		end = item->fadeIn();
-	    }
+            int max = item->cropDuration().frames(m_document->fps());
+            if (end > max) {
+                item->setFadeIn(max);
+                end = item->fadeIn();
+            }
             end += start;
             EffectsList::setParameter(oldeffect, "in", QString::number(start));
             EffectsList::setParameter(oldeffect, "out", QString::number(end));
@@ -1824,11 +1842,11 @@ void CustomTrackView::updateClipFade(ClipItem * item, bool updateFadeOut) {
             if (effectPos == -1) return;
             QDomElement oldeffect = item->effectAt(effectPos);
             int end = (item->duration() - item->cropStart()).frames(m_document->fps());
-	    int max = item->cropDuration().frames(m_document->fps());
-	    if (end > max) {
-		item->setFadeOut(max);
-		start = item->fadeOut();
-	    }
+            int max = item->cropDuration().frames(m_document->fps());
+            if (end > max) {
+                item->setFadeOut(max);
+                start = item->fadeOut();
+            }
             start = end - start;
             EffectsList::setParameter(oldeffect, "in", QString::number(start));
             EffectsList::setParameter(oldeffect, "out", QString::number(end));
