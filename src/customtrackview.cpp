@@ -1802,6 +1802,11 @@ void CustomTrackView::updateClipFade(ClipItem * item, bool updateFadeOut) {
             if (effectPos == -1) return;
             QDomElement oldeffect = item->effectAt(effectPos);
             int start = item->cropStart().frames(m_document->fps());
+	    int max = item->cropDuration().frames(m_document->fps());
+	    if (end > max) {
+		item->setFadeIn(max);
+		end = item->fadeIn();
+	    }
             end += start;
             EffectsList::setParameter(oldeffect, "in", QString::number(start));
             EffectsList::setParameter(oldeffect, "out", QString::number(end));
@@ -1819,6 +1824,11 @@ void CustomTrackView::updateClipFade(ClipItem * item, bool updateFadeOut) {
             if (effectPos == -1) return;
             QDomElement oldeffect = item->effectAt(effectPos);
             int end = (item->duration() - item->cropStart()).frames(m_document->fps());
+	    int max = item->cropDuration().frames(m_document->fps());
+	    if (end > max) {
+		item->setFadeOut(max);
+		start = item->fadeOut();
+	    }
             start = end - start;
             EffectsList::setParameter(oldeffect, "in", QString::number(start));
             EffectsList::setParameter(oldeffect, "out", QString::number(end));

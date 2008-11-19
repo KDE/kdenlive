@@ -881,7 +881,7 @@ void ClipItem::setFadeIn(int pos) {
     if (pos == m_startFade) return;
     int oldIn = m_startFade;
     if (pos < 0) pos = 0;
-    if (pos > m_cropDuration.frames(m_fps)) pos = (int)(m_cropDuration.frames(m_fps) / 2);
+    if (pos > m_cropDuration.frames(m_fps)) pos = (int)(m_cropDuration.frames(m_fps));
     m_startFade = pos;
     QRectF rect = boundingRect();
     update(rect.x(), rect.y(), qMax(oldIn, pos), rect.height());
@@ -891,7 +891,7 @@ void ClipItem::setFadeOut(int pos) {
     if (pos == m_endFade) return;
     int oldOut = m_endFade;
     if (pos < 0) pos = 0;
-    if (pos > m_cropDuration.frames(m_fps)) pos = (int)(m_cropDuration.frames(m_fps) / 2);
+    if (pos > m_cropDuration.frames(m_fps)) pos = (int)(m_cropDuration.frames(m_fps));
     m_endFade = pos;
     QRectF rect = boundingRect();
     update(rect.x() + rect.width() - qMax(oldOut, pos), rect.y(), qMax(oldOut, pos), rect.height());
