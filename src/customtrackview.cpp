@@ -96,7 +96,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     verticalScrollBar()->setTracking(true);
     connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(slotRefreshGuides()));
     connect(&m_scrollTimer, SIGNAL(timeout()), this, SLOT(slotCheckMouseScrolling()));
-    m_scrollTimer.setInterval(150);
+    m_scrollTimer.setInterval(100);
     m_scrollTimer.setSingleShot(true);
 }
 
@@ -227,10 +227,10 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                 if ((event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance()) QGraphicsView::mouseMoveEvent(event);
                 // If mouse is at a border of the view, scroll
                 if (pos < 5) {
-                    m_scrollOffset = -20;
+                    m_scrollOffset = -30;
                     m_scrollTimer.start();
                 } else if (viewport()->width() - pos < 10) {
-                    m_scrollOffset = 20;
+                    m_scrollOffset = 30;
                     m_scrollTimer.start();
                 } else if (m_scrollTimer.isActive()) m_scrollTimer.stop();
 
