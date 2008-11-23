@@ -27,7 +27,7 @@
 #include <QPainter>
 #include <QItemDelegate>
 #include <QUndoStack>
-#include <QDir>
+
 
 #include <KTreeWidgetSearchLine>
 #include <KUrl>

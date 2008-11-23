@@ -443,33 +443,10 @@ void ProjectList::slotRemoveInvalidClip(const QString &id) {
     ProjectItem *item = getItemById(id);
     if (item) {
         const QString path = item->referencedClip()->fileURL().path();
-        //if (!path.isEmpty()) KMessageBox::sorry(this, i18n("<qt>Clip <b>%1</b><br>is invalid, will be removed from project.", path));
-        KMessageBox::ButtonCode action;
-        if (!path.isEmpty()) {
-            action = (KMessageBox::ButtonCode)KMessageBox::messageBox(this, KMessageBox::WarningYesNoCancel, i18n("<qt>Clip <b>%1</b><br>is invalid, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search automatically")), KGuiItem(i18n("Remove from project")), KGuiItem(i18n("Keep as placeholder")));
-        } else
-            action = KMessageBox::No; // then remove
-        if (action == KMessageBox::Yes) { // search
-            QString foundFileName;
-            if (!item->referencedClip()->getProperty("file_size").isEmpty() && !item->referencedClip()->getProperty("file_hash").isEmpty()) { // both hash and file size were registered
-                QString rootDir = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///clipfolder"), this);
-                if (!rootDir.isEmpty()) {
-                    foundFileName = Render::searchFileRecursively(QDir(rootDir), item->referencedClip()->getProperty("file_size"), item->referencedClip()->getProperty("file_hash"));
-                }
-            }
-            if (foundFileName.isEmpty())
-                KMessageBox::sorry(this, i18n("<qt>Cannot find a match for clip<br><b>%1</b>,<br>leaving in project as a placeholder.", path));
-            else {
-                QMap <QString, QString> properties;
-                properties["resource"] = foundFileName;
-                kDebug() << "CLIP ID:" << item->referencedClip()->getId() << "--- setting 'resource' to" << foundFileName;
-                slotUpdateClipProperties(item->referencedClip()->getId(), properties);
-            }
-        } else if (action == KMessageBox::No) { // remove
-            QList <QString> ids;
-            ids << id;
-            m_doc->deleteProjectClip(ids);
-        } // else keep it (last choice to be automatically bound to ESC)
+        if (!path.isEmpty()) KMessageBox::sorry(this, i18n("<qt>Clip <b>%1</b><br>is invalid, will be removed from project.", path));
+        QList <QString> ids;
+        ids << id;
+        m_doc->deleteProjectClip(ids);
     }
     if (!m_infoQueue.isEmpty()) QTimer::singleShot(300, this, SLOT(slotProcessNextClipInQueue()));
 }

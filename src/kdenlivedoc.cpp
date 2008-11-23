@@ -17,6 +17,9 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include <QCryptographicHash>
+#include <QFile>
+
 #include <KDebug>
 #include <KStandardDirs>
 #include <KMessageBox>
@@ -25,7 +28,6 @@
 #include <KIO/NetAccess>
 #include <KApplication>
 
-#include <QFile>
 
 #include <mlt++/Mlt.h>
 
@@ -1004,25 +1006,34 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
     if (clip == NULL) {
         elem.setAttribute("id", producerId);
         QString path = elem.attribute("resource");
+        QString extension;
+        if (elem.attribute("type").toInt() == SLIDESHOW) {
+            extension = KUrl(path).fileName();
+            path = KUrl(path).directory();
+        }
         if (!path.isEmpty() && !QFile::exists(path)) {
             const QString size = elem.attribute("file_size");
             const QString hash = elem.attribute("file_hash");
             QString newpath;
             KMessageBox::ButtonCode action = KMessageBox::No;
             if (!size.isEmpty() && !hash.isEmpty()) {
-                if (!m_searchFolder.isEmpty()) newpath = Render::searchFileRecursively(m_searchFolder, size, hash);
-                else action = (KMessageBox::ButtonCode)KMessageBox::messageBox(kapp->activeWindow(), KMessageBox::WarningYesNoCancel, i18n("<qt>Clip <b>%1</b><br>is invalid, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search automatically")), KGuiItem(i18n("Remove from project")), KGuiItem(i18n("Keep as placeholder")));
+                if (!m_searchFolder.isEmpty()) newpath = searchFileRecursively(m_searchFolder, size, hash);
+                else action = (KMessageBox::ButtonCode)KMessageBox::messageBox(kapp->activeWindow(), KMessageBox::WarningYesNo, i18n("<qt>Clip <b>%1</b><br>is invalid, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search automatically")), /*KGuiItem(i18n("Remove from project")), */KGuiItem(i18n("Keep as placeholder")));
             } else {
-                newpath = KFileDialog::getOpenFileName(KUrl("kfiledialog:///clipfolder"), QString(), kapp->activeWindow(), i18n("Looking for %1", path));
+                if (elem.attribute("type").toInt() == SLIDESHOW) {
+                    if (KMessageBox::messageBox(kapp->activeWindow(), KMessageBox::WarningYesNo, i18n("<qt>Clip <b>%1</b><br>is invalid, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search automatically")), /*KGuiItem(i18n("Remove from project")),*/ KGuiItem(i18n("Keep as placeholder"))) == KMessageBox::Yes)
+                        newpath = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///clipfolder"), kapp->activeWindow(), i18n("Looking for %1", path));
+                } else newpath = KFileDialog::getOpenFileName(KUrl("kfiledialog:///clipfolder"), QString(), kapp->activeWindow(), i18n("Looking for %1", path));
             }
             if (action == KMessageBox::Yes) {
                 kDebug() << "// ASKED FOR SRCH CLIP: " << clipId;
                 m_searchFolder = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///clipfolder"), kapp->activeWindow());
                 if (!m_searchFolder.isEmpty()) {
-                    newpath = Render::searchFileRecursively(QDir(m_searchFolder), size, hash);
+                    newpath = searchFileRecursively(QDir(m_searchFolder), size, hash);
                 }
             }
             if (!newpath.isEmpty()) {
+                if (elem.attribute("type").toInt() == SLIDESHOW) newpath.append('/' + extension);
                 elem.setAttribute("resource", newpath);
                 setNewClipResource(clipId, newpath);
             }
@@ -1050,6 +1061,42 @@ void KdenliveDoc::setNewClipResource(const QString &id, const QString &path) {
             }
         }
     }
+}
+
+QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const {
+    QString foundFileName;
+    QByteArray fileData;
+    QByteArray fileHash;
+    QStringList filesAndDirs = dir.entryList(QDir::Files | QDir::Readable);
+    for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); i++) {
+        QFile file(dir.absoluteFilePath(filesAndDirs.at(i)));
+        if (file.open(QIODevice::ReadOnly)) {
+            if (QString::number(file.size()) == matchSize) {
+                /*
+                * 1 MB = 1 second per 450 files (or faster)
+                * 10 MB = 9 seconds per 450 files (or faster)
+                */
+                if (file.size() > 1000000*2) {
+                    fileData = file.read(1000000);
+                    if (file.seek(file.size() - 1000000))
+                        fileData.append(file.readAll());
+                } else
+                    fileData = file.readAll();
+                file.close();
+                fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+                if (QString(fileHash.toHex()) == matchHash)
+                    return file.fileName();
+            }
+        }
+        kDebug() << filesAndDirs.at(i) << file.size() << fileHash.toHex();
+    }
+    filesAndDirs = dir.entryList(QDir::Dirs | QDir::Readable | QDir::Executable | QDir::NoDotAndDotDot);
+    for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); i++) {
+        foundFileName = searchFileRecursively(dir.absoluteFilePath(filesAndDirs.at(i)), matchSize, matchHash);
+        if (!foundFileName.isEmpty())
+            break;
+    }
+    return foundFileName;
 }
 
 void KdenliveDoc::addClipInfo(QDomElement elem, QString clipId) {
