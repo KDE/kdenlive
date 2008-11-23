@@ -218,7 +218,7 @@ void CustomTrackView::slotCheckPositionScrolling() {
 
 void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
     int pos = event->x();
-    int mappedXPos = (int)(mapToScene(event->pos()).x());
+    int mappedXPos = (int)(mapToScene(event->pos()).x() + 0.5);
     emit mousePosition(mappedXPos);
     if (event->buttons() & Qt::MidButton) return;
     if (event->buttons() != Qt::NoButton) {
