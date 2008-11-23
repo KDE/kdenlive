@@ -77,7 +77,9 @@ void AbstractClipItem::resizeStart(int posx, double speed) {
     if (type() == AVWIDGET && cropStart() + durationDiff < GenTime()) {
         durationDiff = GenTime() - cropStart();
     } else if (durationDiff >= m_cropDuration) {
-        durationDiff = m_cropDuration - GenTime(3, m_fps);
+        return;
+        if (m_cropDuration > GenTime(3, m_fps)) durationDiff = GenTime(3, m_fps);
+        else return;
     }
 
     m_startPos += durationDiff;
@@ -88,7 +90,6 @@ void AbstractClipItem::resizeStart(int posx, double speed) {
     setPos((qreal) m_startPos.frames(m_fps), pos().y());
 
     //kDebug() << "-- NEW CLIP=" << startPos().frames(25) << "-" << endPos().frames(25);
-
     //setRect((double) m_startPos.frames(m_fps) * scale, rect().y(), (double) m_cropDuration.frames(m_fps) * scale, rect().height());
     if (durationDiff < GenTime()) {
         QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
@@ -98,7 +99,7 @@ void AbstractClipItem::resizeStart(int posx, double speed) {
                 kDebug() << "/////////  COLLISION DETECTED!!!!!!!!!";
                 GenTime diff = ((AbstractClipItem *)item)->endPos() + GenTime(1, m_fps) - m_startPos;
                 setRect(0, 0, (m_cropDuration - diff).frames(m_fps) - 0.02, rect().height());
-                setPos((qreal)(m_startPos + diff).frames(m_fps), pos().y());
+                setPos((m_startPos + diff).frames(m_fps), pos().y());
                 m_startPos += diff;
                 if (type() == AVWIDGET) m_cropStart += diff;
                 m_cropDuration = m_cropDuration - diff;
@@ -132,7 +133,7 @@ void AbstractClipItem::resizeEnd(int posx, double speed, bool updateKeyFrames) {
                 kDebug() << "/////////  COLLISION: " << ((AbstractClipItem *)item)->startPos().frames(25) << "x" << ((AbstractClipItem *)item)->endPos().frames(25) << ", RECT: " << ((AbstractClipItem *)item)->rect() << "-" << item->pos();
                 GenTime diff = ((AbstractClipItem *)item)->startPos() - GenTime(1, m_fps) - startPos();
                 m_cropDuration = diff;
-                setRect(0, 0, (m_cropDuration.frames(m_fps)) - 0.02, rect().height());
+                setRect(0, 0, m_cropDuration.frames(m_fps) - 0.02, rect().height());
                 break;
             }
         }

@@ -132,12 +132,12 @@ void CustomTrackView::checkTrackHeight() {
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             item = (ClipItem*) itemList.at(i);
-            item->setRect(0, 0, item->rect().width() - 0.02, m_tracksHeight - 1);
+            item->setRect(0, 0, item->rect().width(), m_tracksHeight - 1);
             item->setPos((qreal) item->startPos().frames(m_document->fps()), (qreal) item->track() * m_tracksHeight + 1);
             item->resetThumbs();
         } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
             transitionitem = (Transition*) itemList.at(i);
-            transitionitem->setRect(0, 0, transitionitem->rect().width() - 0.02, m_tracksHeight / 3 * 2 - 1);
+            transitionitem->setRect(0, 0, transitionitem->rect().width(), m_tracksHeight / 3 * 2 - 1);
             transitionitem->setPos((qreal) transitionitem->startPos().frames(m_document->fps()), (qreal) transitionitem->track() * m_tracksHeight + m_tracksHeight / 3 * 2);
         }
     }
@@ -670,8 +670,8 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.startPos.frames(m_document->fps()), m_scene->m_tracksList.count() - transitiontrack);
         if (transitionClip && transitionClip->endPos() < m_dragItem->endPos()) {
             info.endPos = transitionClip->endPos();
-        } else info.endPos = info.startPos + GenTime(2.5);
-        if (info.endPos == info.startPos) info.endPos = info.startPos + GenTime(2.5);
+        } else info.endPos = info.startPos + GenTime(65, m_document->fps());
+        if (info.endPos == info.startPos) info.endPos = info.startPos + GenTime(65, m_document->fps());
         slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack);
     } else if (m_operationMode == TRANSITIONEND) {
         ItemInfo info;
@@ -682,9 +682,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.endPos.frames(m_document->fps()), m_scene->m_tracksList.count() - transitiontrack);
         if (transitionClip && transitionClip->startPos() > m_dragItem->startPos()) {
             info.startPos = transitionClip->startPos();
-        } else info.startPos = info.endPos - GenTime(2.5);
-        if (info.endPos == info.startPos) info.startPos = info.endPos - GenTime(2.5);
-        slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack);
+        } else info.startPos = info.endPos - GenTime(65, m_document->fps());
+        if (info.endPos == info.startPos) info.startPos = info.endPos - GenTime(65, m_document->fps());
+        QDomElement transition = MainWindow::transitions.getEffectByName("Luma").cloneNode().toElement();
+        EffectsList::setParameter(transition, "reverse", "1");
+        slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack, transition);
     }
 
     m_blockRefresh = false;
@@ -1088,17 +1090,20 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition) {
             const int transitiontrack = getPreviousVideoTrack(info.track);
             GenTime pos = GenTime((int)(mapToScene(m_menuPosition).x()), m_document->fps());
             if (pos < item->startPos() + item->duration() / 2) {
+		// add transition to clip start
                 info.startPos = item->startPos();
                 if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.startPos.frames(m_document->fps()), m_scene->m_tracksList.count() - transitiontrack);
                 if (transitionClip && transitionClip->endPos() < item->endPos()) {
                     info.endPos = transitionClip->endPos();
-                } else info.endPos = info.startPos + GenTime(2.5);
+                } else info.endPos = info.startPos + GenTime(65, m_document->fps());
             } else {
+		// add transition to clip  end
                 info.endPos = item->endPos();
                 if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.endPos.frames(m_document->fps()), m_scene->m_tracksList.count() - transitiontrack);
                 if (transitionClip && transitionClip->startPos() > item->startPos()) {
                     info.startPos = transitionClip->startPos();
-                } else info.startPos = info.endPos - GenTime(2.5);
+                } else info.startPos = info.endPos - GenTime(65, m_document->fps());
+		if (transition.attribute("tag") == "luma") EffectsList::setParameter(transition, "reverse", "1");
             }
             slotAddTransition(item, info, transitiontrack, transition);
         }
@@ -1107,7 +1112,7 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition) {
                 ClipItem *item = (ClipItem *) itemList.at(i);
                 ItemInfo info;
                 info.startPos = item->startPos();
-                info.endPos = info.startPos + GenTime(2.5);
+                info.endPos = info.startPos + GenTime(65, m_document->fps());
                 info.track = item->track();
                 int transitiontrack = getPreviousVideoTrack(info.track);
                 slotAddTransition(item, info, transitiontrack, transition);
@@ -1137,6 +1142,7 @@ void CustomTrackView::deleteTransition(ItemInfo transitionInfo, int endTrack, QD
         return;
     }
     m_document->renderer()->mltDeleteTransition(item->transitionTag(), endTrack, m_scene->m_tracksList.count() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, item->toXML());
+    if (m_dragItem == item) m_dragItem = NULL;
     delete item;
     emit transitionItemSelected(NULL);
     m_document->setModified(true);
@@ -1573,6 +1579,7 @@ void CustomTrackView::deleteClip(ItemInfo info) {
         }
     }
     scene()->removeItem(item);
+    if (m_dragItem == item) m_dragItem = NULL;
     delete item;
     m_document->renderer()->mltRemoveClip(m_scene->m_tracksList.count() - info.track, info.startPos);
     m_document->renderer()->doRefresh();

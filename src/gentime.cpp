@@ -41,7 +41,7 @@ double GenTime::ms() const {
 
 /** Returns the time in frames, after being given the number of frames per second */
 double GenTime::frames(double framesPerSecond) const {
-    return (int) floor(m_time * framesPerSecond + 0.5);
+    return floor(m_time * framesPerSecond + 0.5);
 }
 
 GenTime::~GenTime() {

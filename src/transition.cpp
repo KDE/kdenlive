@@ -34,8 +34,8 @@
 #include "mainwindow.h"
 
 Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDomElement params, bool automaticTransition) : AbstractClipItem(info, QRectF(), fps), m_gradient(QLinearGradient(0, 0, 0, 0)), m_automaticTransition(automaticTransition), m_forceTransitionTrack(false) {
-    setRect(0, 0, (qreal)(info.endPos - info.startPos).frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
-    setPos((qreal) info.startPos.frames(fps), (qreal)(info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2));
+    setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
+    setPos(info.startPos.frames(fps), (qreal)(info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2));
 
     m_singleClip = true;
     m_transitionTrack = transitiontrack;
@@ -48,7 +48,7 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDo
 
     //m_referenceClip = clipa;
     if (params.isNull()) {
-        m_parameters = MainWindow::transitions.getEffectByName("Luma");
+        m_parameters = MainWindow::transitions.getEffectByName("Luma").cloneNode().toElement();
     } else {
         m_parameters = params;
     }
