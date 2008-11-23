@@ -33,7 +33,8 @@ extern "C" {
 #include <QTimer>
 #include <QDir>
 #include <QApplication>
-#include <QPainter>
+//#include <QPainter>
+#include <QCryptographicHash>
 
 #include <KDebug>
 #include <KStandardDirs>
@@ -520,7 +521,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
     }
     if (xml.hasAttribute("out")) producer->set_in_and_out(xml.attribute("in").toInt(), xml.attribute("out").toInt());
 
-    if (producer->is_blank()) {
+    if (producer->is_blank() || !producer->is_valid()) {
         kDebug() << " / / / / / / / /ERRROR / / / / // CANNOT LOAD PRODUCER: ";
         emit removeInvalidClip(clipId);
         return;
@@ -690,6 +691,44 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
     //if (producer) delete producer;
 }
 
+
+//static
+
+QString Render::searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) {
+    QString foundFileName;
+    QByteArray fileData;
+    QByteArray fileHash;
+    QStringList filesAndDirs = dir.entryList(QDir::Files | QDir::Readable);
+    for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); i++) {
+        QFile file(dir.absoluteFilePath(filesAndDirs.at(i)));
+        if (file.open(QIODevice::ReadOnly)) {
+            if (QString::number(file.size()) == matchSize) {
+                /*
+                * 1 MB = 1 second per 450 files (or faster)
+                * 10 MB = 9 seconds per 450 files (or faster)
+                */
+                if (file.size() > 1000000*2) {
+                    fileData = file.read(1000000);
+                    if (file.seek(file.size() - 1000000))
+                        fileData.append(file.readAll());
+                } else
+                    fileData = file.readAll();
+                file.close();
+                fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+                if (QString(fileHash.toHex()) == matchHash)
+                    return file.fileName();
+            }
+        }
+        kDebug() << filesAndDirs.at(i) << file.size() << fileHash.toHex();
+    }
+    filesAndDirs = dir.entryList(QDir::Dirs | QDir::Readable | QDir::Executable | QDir::NoDotAndDotDot);
+    for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); i++) {
+        foundFileName = searchFileRecursively(dir.absoluteFilePath(filesAndDirs.at(i)), matchSize, matchHash);
+        if (!foundFileName.isEmpty())
+            break;
+    }
+    return foundFileName;
+}
 
 /** Create the producer from the Westley QDomDocument */
 #if 0

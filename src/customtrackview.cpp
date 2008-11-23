@@ -1090,20 +1090,20 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition) {
             const int transitiontrack = getPreviousVideoTrack(info.track);
             GenTime pos = GenTime((int)(mapToScene(m_menuPosition).x()), m_document->fps());
             if (pos < item->startPos() + item->duration() / 2) {
-		// add transition to clip start
+                // add transition to clip start
                 info.startPos = item->startPos();
                 if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.startPos.frames(m_document->fps()), m_scene->m_tracksList.count() - transitiontrack);
                 if (transitionClip && transitionClip->endPos() < item->endPos()) {
                     info.endPos = transitionClip->endPos();
                 } else info.endPos = info.startPos + GenTime(65, m_document->fps());
             } else {
-		// add transition to clip  end
+                // add transition to clip  end
                 info.endPos = item->endPos();
                 if (transitiontrack != 0) transitionClip = getClipItemAt((int) info.endPos.frames(m_document->fps()), m_scene->m_tracksList.count() - transitiontrack);
                 if (transitionClip && transitionClip->startPos() > item->startPos()) {
                     info.startPos = transitionClip->startPos();
                 } else info.startPos = info.endPos - GenTime(65, m_document->fps());
-		if (transition.attribute("tag") == "luma") EffectsList::setParameter(transition, "reverse", "1");
+                if (transition.attribute("tag") == "luma") EffectsList::setParameter(transition, "reverse", "1");
             }
             slotAddTransition(item, info, transitiontrack, transition);
         }

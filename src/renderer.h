@@ -22,7 +22,8 @@
 #include <qstring.h>
 #include <qmap.h>
 #include <QList>
-#include <QWidget>
+#include <QDir>
+//#include <QWidget>
 
 #include <kurl.h>
 
@@ -179,6 +180,7 @@ Q_OBJECT public:
     int mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt::Producer *prod);
 
     QList <Mlt::Producer *> producersList();
+    static QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash);
 
 private:   // Private attributes & methods
     /** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */

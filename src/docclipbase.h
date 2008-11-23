@@ -221,6 +221,7 @@ private:   // Private attributes
     void slotRefreshProducer();
     void setProducerProperty(const char *name, const char *data);
     void setProducerProperty(const char *name, int data);
+    void getFileHash(const QString &url);
 
 public slots:
     void updateAudioThumbnail(QMap<int, QMap<int, QByteArray> > data);

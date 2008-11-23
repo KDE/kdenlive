@@ -123,6 +123,7 @@ private:
     MltVideoProfile m_profile;
     QString m_scenelist;
     QTimer *m_autoSaveTimer;
+    QString m_searchFolder;
     /** tells whether current doc has been changed since last save event */
     bool m_modified;
     /** Project folder, used to store project files (titles, effects,...) */
@@ -133,6 +134,7 @@ private:
     QDomDocument createEmptyDocument(const int videotracks, const int audiotracks);
     QString colorToString(const QColor& c);
     void checkProjectClips();
+    void setNewClipResource(const QString &id, const QString &path);
 
 public slots:
     void slotCreateTextClip(QString group, const QString &groupId);

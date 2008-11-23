@@ -1003,10 +1003,53 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
     DocClipBase *clip = m_clipManager->getClipById(producerId);
     if (clip == NULL) {
         elem.setAttribute("id", producerId);
+        QString path = elem.attribute("resource");
+        if (!path.isEmpty() && !QFile::exists(path)) {
+            const QString size = elem.attribute("file_size");
+            const QString hash = elem.attribute("file_hash");
+            QString newpath;
+            KMessageBox::ButtonCode action = KMessageBox::No;
+            if (!size.isEmpty() && !hash.isEmpty()) {
+                if (!m_searchFolder.isEmpty()) newpath = Render::searchFileRecursively(m_searchFolder, size, hash);
+                else action = (KMessageBox::ButtonCode)KMessageBox::messageBox(kapp->activeWindow(), KMessageBox::WarningYesNoCancel, i18n("<qt>Clip <b>%1</b><br>is invalid, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search automatically")), KGuiItem(i18n("Remove from project")), KGuiItem(i18n("Keep as placeholder")));
+            } else {
+                newpath = KFileDialog::getOpenFileName(KUrl("kfiledialog:///clipfolder"), QString(), kapp->activeWindow(), i18n("Looking for %1", path));
+            }
+            if (action == KMessageBox::Yes) {
+                kDebug() << "// ASKED FOR SRCH CLIP: " << clipId;
+                m_searchFolder = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///clipfolder"), kapp->activeWindow());
+                if (!m_searchFolder.isEmpty()) {
+                    newpath = Render::searchFileRecursively(QDir(m_searchFolder), size, hash);
+                }
+            }
+            if (!newpath.isEmpty()) {
+                elem.setAttribute("resource", newpath);
+                setNewClipResource(clipId, newpath);
+            }
+        }
         clip = new DocClipBase(m_clipManager, elem, producerId);
         m_clipManager->addClip(clip);
     }
     if (createClipItem) emit addProjectClip(clip);
+}
+
+void KdenliveDoc::setNewClipResource(const QString &id, const QString &path) {
+    QDomNodeList prods = m_document.elementsByTagName("producer");
+    int maxprod = prods.count();
+    for (int i = 0; i < maxprod; i++) {
+        QDomNode m = prods.at(i);
+        QString prodId = m.toElement().attribute("id");
+        if (prodId == id || prodId.startsWith(id + "_")) {
+            QDomNodeList params = m.childNodes();
+            for (int j = 0; j < params.count(); j++) {
+                QDomElement e = params.item(j).toElement();
+                if (e.attribute("name") == "resource") {
+                    e.firstChild().setNodeValue(path);
+                    break;
+                }
+            }
+        }
+    }
 }
 
 void KdenliveDoc::addClipInfo(QDomElement elem, QString clipId) {
