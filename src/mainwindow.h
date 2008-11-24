@@ -244,6 +244,7 @@ private slots:
     void findTimeout();
     void slotFindNext();
 
+    void slotInsertSpace();
     void slotAddGuide();
     void slotEditGuide();
     void slotDeleteGuide();

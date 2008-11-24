@@ -298,6 +298,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     }
     connect(transitionsMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotAddTransition(QAction *)));
 
+    m_timelineContextMenu->addAction(actionCollection()->action("insert_space"));
     m_timelineContextMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Paste)));
 
     m_timelineContextClipMenu->addAction(actionCollection()->action("delete_timeline_clip"));
@@ -781,6 +782,10 @@ void MainWindow::setupActions() {
     KAction* editClipMarker = new KAction(KIcon("document-properties"), i18n("Edit Marker"), this);
     collection->addAction("edit_clip_marker", editClipMarker);
     connect(editClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotEditClipMarker()));
+
+    KAction *insertSpace = new KAction(KIcon(), i18n("Insert Space"), this);
+    collection->addAction("insert_space", insertSpace);
+    connect(insertSpace, SIGNAL(triggered()), this, SLOT(slotInsertSpace()));
 
     KAction *addGuide = new KAction(KIcon("document-new"), i18n("Add Guide"), this);
     collection->addAction("add_guide", addGuide);
@@ -1480,6 +1485,11 @@ void MainWindow::slotEditClipMarker() {
 void MainWindow::slotAddGuide() {
     if (m_activeTimeline)
         m_activeTimeline->projectView()->slotAddGuide();
+}
+
+void MainWindow::slotInsertSpace() {
+    if (m_activeTimeline)
+        m_activeTimeline->projectView()->slotInsertSpace();
 }
 
 void MainWindow::slotEditGuide() {

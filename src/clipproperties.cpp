@@ -222,7 +222,7 @@ void ClipProperties::slotFillMarkersList() {
 
 void ClipProperties::slotAddMarker() {
     CommentedTime marker(GenTime(), i18n("Marker"));
-    MarkerDialog d(m_clip, marker, m_tc, this);
+    MarkerDialog d(m_clip, marker, m_tc, i18n("Add Marker"), this);
     if (d.exec() == QDialog::Accepted) {
         emit addMarker(m_clip->getId(), d.newMarker().time(), d.newMarker().comment());
     }
@@ -233,7 +233,7 @@ void ClipProperties::slotEditMarker() {
     QList < CommentedTime > marks = m_clip->commentedSnapMarkers();
     int pos = m_view.markers_list->currentIndex().row();
     if (pos < 0 || pos > marks.count() - 1) return;
-    MarkerDialog d(m_clip, marks.at(pos), m_tc, this);
+    MarkerDialog d(m_clip, marks.at(pos), m_tc, i18n("Edit Marker"), this);
     if (d.exec() == QDialog::Accepted) {
         emit addMarker(m_clip->getId(), d.newMarker().time(), d.newMarker().comment());
     }

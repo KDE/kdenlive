@@ -98,6 +98,8 @@ public:
     void setDocumentModified();
     void setInPoint();
     void setOutPoint();
+    void slotInsertSpace();
+    void insertSpace(const GenTime &pos, int track, const GenTime duration, bool add);
 
 public slots:
     void setCursorPos(int pos, bool seek = true);

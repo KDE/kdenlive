@@ -61,7 +61,8 @@
 #include "ui_keyframedialog_ui.h"
 #include "clipdurationdialog.h"
 #include "abstractgroupitem.h"
-
+#include "insertspacecommand.h"
+#include "spacerdialog.h"
 
 //TODO:
 // disable animation if user asked it in KDE's global settings
@@ -1291,6 +1292,39 @@ void CustomTrackView::slotSwitchTrackVideo(int ix) {
     m_document->renderer()->mltChangeTrackState(tracknumber, m_scene->m_tracksList.at(tracknumber - 1).isMute, m_scene->m_tracksList.at(tracknumber - 1).isBlind);
 }
 
+void CustomTrackView::slotInsertSpace() {
+    GenTime pos;
+    int track = 0;
+    if (m_menuPosition.isNull()) {
+        pos = GenTime(cursorPos(), m_document->fps());
+    } else {
+        pos = GenTime((int)(mapToScene(m_menuPosition).x()), m_document->fps());
+        track = (int)(mapToScene(m_menuPosition).y() / m_tracksHeight) + 1;
+    }
+    SpacerDialog d(GenTime(65, m_document->fps()), m_document->timecode(), track, m_scene->m_tracksList.count(), this);
+    if (d.exec() != QDialog::Accepted) return;
+    GenTime spaceDuration = d.selectedDuration();
+    track = d.selectedTrack();
+    InsertSpaceCommand *command = new InsertSpaceCommand(this, pos, track, spaceDuration, true);
+    m_commandStack->push(command);
+}
+
+void CustomTrackView::insertSpace(const GenTime &pos, int track, const GenTime duration, bool add) {
+    int diff = duration.frames(m_document->fps());
+    if (!add) diff = -diff;
+    QList<QGraphicsItem *> itemList;
+    if (track == -1) itemList = items();
+    else itemList = scene()->items(pos.frames(m_document->fps()) , track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight / 4);
+    for (int i = 0; i < itemList.count(); i++) {
+        if (itemList.at(i)->type() == AVWIDGET) {
+            ClipItem *item = (ClipItem *)itemList.at(i);
+            if (item->endPos() > pos) item->moveBy(diff, 0);
+        }
+    }
+    if (track != -1) track = m_scene->m_tracksList.count() - track;
+    m_document->renderer()->mltInsertSpace(pos, track, duration, add);
+}
+
 void CustomTrackView::deleteClip(const QString &clipId) {
     QList<QGraphicsItem *> itemList = items();
     for (int i = 0; i < itemList.count(); i++) {
@@ -1969,7 +2003,7 @@ void CustomTrackView::slotAddClipMarker() {
     QString id = clip->baseClip()->getId();
     GenTime position = pos - item->startPos() + item->cropStart();
     CommentedTime marker(position, i18n("Marker"));
-    MarkerDialog d(clip->baseClip(), marker, m_document->timecode(), this);
+    MarkerDialog d(clip->baseClip(), marker, m_document->timecode(), i18n("Add Marker"), this);
     if (d.exec() == QDialog::Accepted) {
         slotAddClipMarker(id, d.newMarker().time(), d.newMarker().comment());
     }
@@ -2067,7 +2101,7 @@ void CustomTrackView::slotEditClipMarker() {
     }
 
     CommentedTime marker(position, oldcomment);
-    MarkerDialog d(clip->baseClip(), marker, m_document->timecode(), this);
+    MarkerDialog d(clip->baseClip(), marker, m_document->timecode(), i18n("Edit Marker"), this);
     if (d.exec() == QDialog::Accepted) {
         if (d.newMarker().time() == position) {
             // marker position was not changed, only text
@@ -2140,7 +2174,7 @@ bool CustomTrackView::addGuide(const GenTime pos, const QString &comment) {
 
 void CustomTrackView::slotAddGuide() {
     CommentedTime marker(GenTime(m_cursorPos, m_document->fps()), i18n("Guide"));
-    MarkerDialog d(NULL, marker, m_document->timecode(), this);
+    MarkerDialog d(NULL, marker, m_document->timecode(), i18n("Add Guide"), this);
     if (d.exec() != QDialog::Accepted) return;
     if (addGuide(d.newMarker().time(), d.newMarker().comment())) {
         EditGuideCommand *command = new EditGuideCommand(this, GenTime(), QString(), d.newMarker().time(), d.newMarker().comment(), false);
@@ -2162,7 +2196,7 @@ void CustomTrackView::slotEditGuide() {
 }
 
 void CustomTrackView::slotEditGuide(CommentedTime guide) {
-    MarkerDialog d(NULL, guide, m_document->timecode(), this);
+    MarkerDialog d(NULL, guide, m_document->timecode(), i18n("Edit Guide"), this);
     if (d.exec() == QDialog::Accepted) {
         EditGuideCommand *command = new EditGuideCommand(this, guide.time(), guide.comment(), d.newMarker().time(), d.newMarker().comment(), true);
         m_commandStack->push(command);

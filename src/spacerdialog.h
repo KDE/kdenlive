@@ -18,49 +18,35 @@
  ***************************************************************************/
 
 
-#ifndef MARKERDIALOG_H
-#define MARKERDIALOG_H
+#ifndef SPACERDIALOG_H
+#define SPACERDIALOG_H
 
 #include <QDialog>
 
-#include "docclipbase.h"
 #include "timecode.h"
-#include "ui_markerdialog_ui.h"
+#include "ui_spacerdialog_ui.h"
 
-namespace Mlt {
-class Producer;
-class Profile;
-};
-
-class MarkerDialog : public QDialog {
+class SpacerDialog : public QDialog {
     Q_OBJECT
 
 public:
-    MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, const QString &caption, QWidget * parent = 0);
-    ~MarkerDialog();
-    CommentedTime newMarker();
+    SpacerDialog(const GenTime duration, Timecode tc, int track, int trackNumber, QWidget * parent = 0);
+    ~SpacerDialog();
+    GenTime selectedDuration();
+    int selectedTrack();
 
 private slots:
     void slotTimeUp();
     void slotTimeDown();
-    void slotUpdateThumb();
 
 protected:
     void wheelEvent(QWheelEvent * event);
 
 private:
-    Mlt::Producer *m_producer;
-    Mlt::Profile *m_profile;
-    Ui::MarkerDialog_UI m_view;
-    DocClipBase *m_clip;
-    CommentedTime m_marker;
+    Ui::SpacerDialog_UI m_view;
     Timecode m_tc;
     double m_fps;
-    double m_dar;
-    QTimer *m_previewTimer;
 
-signals:
-    void updateThumb();
 };
 
 

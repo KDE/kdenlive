@@ -24,11 +24,11 @@
 #include "kthumb.h"
 #include "kdenlivesettings.h"
 
-MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, QWidget * parent): QDialog(parent), m_tc(tc), m_clip(clip), m_marker(t), m_producer(NULL), m_profile(NULL) {
+MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, const QString &caption, QWidget * parent): QDialog(parent), m_tc(tc), m_clip(clip), m_marker(t), m_producer(NULL), m_profile(NULL) {
     setFont(KGlobalSettings::toolBarFont());
     m_fps = m_tc.fps();
     m_view.setupUi(this);
-
+    setWindowTitle(caption);
     m_previewTimer = new QTimer(this);
 
     if (m_clip != NULL) {
@@ -74,12 +74,13 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, QWid
     } else m_view.clip_thumb->setHidden(true);
 
     m_view.marker_position->setText(tc.getTimecode(t.time(), m_fps));
-    m_view.marker_comment->setText(t.comment());
-    connect(m_view.position_up, SIGNAL(clicked()), this, SLOT(slotTimeUp()));
-    connect(m_view.position_down, SIGNAL(clicked()), this, SLOT(slotTimeDown()));
 
+    m_view.marker_comment->setText(t.comment());
     m_view.marker_comment->selectAll();
     m_view.marker_comment->setFocus();
+
+    connect(m_view.position_up, SIGNAL(clicked()), this, SLOT(slotTimeUp()));
+    connect(m_view.position_down, SIGNAL(clicked()), this, SLOT(slotTimeDown()));
 
     adjustSize();
 }

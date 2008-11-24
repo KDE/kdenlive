@@ -125,6 +125,7 @@ void Render::buildConsumer() {
     m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("window_id", m_winid);
     m_mltConsumer->set("terminate_on_pause", 1);
+    //m_mltConsumer->set("fullscreen", 1);
     m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
     m_mltConsumer->set("rescale", "nearest");
 
@@ -1442,6 +1443,48 @@ bool Render::mltRemoveClip(int track, GenTime position) {
     if (track != 0 && trackPlaylist.count() > clipIndex) mltCheckLength();
     m_isBlocked = false;
     return true;
+}
+
+void Render::mltInsertSpace(const GenTime pos, int track, const GenTime duration, bool add) {
+    if (!m_mltProducer) {
+        kDebug() << "PLAYLIST NOT INITIALISED //////";
+        return;
+    }
+    Mlt::Producer parentProd(m_mltProducer->parent());
+    if (parentProd.get_producer() == NULL) {
+        kDebug() << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
+        return;
+    }
+
+    Mlt::Service service(parentProd.get_service());
+    Mlt::Tractor tractor(service);
+    mlt_service_lock(service.get_service());
+
+    if (track != -1) {
+        // insert space in one track only
+        Mlt::Producer trackProducer(tractor.track(track));
+        Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+        int clipIndex = trackPlaylist.get_clip_index_at(pos.frames(m_fps));
+        if (add) trackPlaylist.insert_blank(clipIndex,  duration.frames(m_fps) - 1);
+        else {
+            int position = trackPlaylist.clip_start(clipIndex);
+            trackPlaylist.remove_region(position, duration.frames(m_fps) - 1);
+        }
+    } else {
+        int trackNb = tractor.count();
+        while (trackNb > 1) {
+            Mlt::Producer trackProducer(tractor.track(trackNb - 1));
+            Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+            int clipIndex = trackPlaylist.get_clip_index_at(pos.frames(m_fps));
+            if (add) trackPlaylist.insert_blank(clipIndex,  duration.frames(m_fps) - 1);
+            else {
+                int position = trackPlaylist.clip_start(clipIndex);
+                trackPlaylist.remove_region(position, duration.frames(m_fps) - 1);
+            }
+            trackNb--;
+        }
+    }
+    mlt_service_unlock(service.get_service());
 }
 
 int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt::Producer *prod) {

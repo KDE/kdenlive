@@ -59,6 +59,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/geometryval_ui.ui
   widgets/wizardstandard_ui.ui
   widgets/wizardextra_ui.ui
+  widgets/spacerdialog_ui.ui
 )
  
 set(kdenlive_SRCS 
@@ -132,6 +133,8 @@ set(kdenlive_SRCS
   abstractgroupitem.cpp
   keyframehelper.cpp
   editclipcommand.cpp
+  insertspacecommand.cpp
+  spacerdialog.cpp
 )
 
 if(NO_JOGSHUTTLE)

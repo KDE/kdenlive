@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,51 +18,30 @@
  ***************************************************************************/
 
 
-#ifndef MARKERDIALOG_H
-#define MARKERDIALOG_H
+#ifndef INSERTSPACECOMMAND_H
+#define INSERTSPACECOMMAND_H
 
-#include <QDialog>
+#include <QUndoCommand>
+#include <QGraphicsView>
 
-#include "docclipbase.h"
-#include "timecode.h"
-#include "ui_markerdialog_ui.h"
+#include <KDebug>
+#include "definitions.h"
 
-namespace Mlt {
-class Producer;
-class Profile;
-};
+class CustomTrackView;
 
-class MarkerDialog : public QDialog {
-    Q_OBJECT
-
+class InsertSpaceCommand : public QUndoCommand {
 public:
-    MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, const QString &caption, QWidget * parent = 0);
-    ~MarkerDialog();
-    CommentedTime newMarker();
-
-private slots:
-    void slotTimeUp();
-    void slotTimeDown();
-    void slotUpdateThumb();
-
-protected:
-    void wheelEvent(QWheelEvent * event);
+    InsertSpaceCommand(CustomTrackView *view, const GenTime &pos, int track, const GenTime &duration, bool doIt, QUndoCommand * parent = 0);
+    virtual void undo();
+    virtual void redo();
 
 private:
-    Mlt::Producer *m_producer;
-    Mlt::Profile *m_profile;
-    Ui::MarkerDialog_UI m_view;
-    DocClipBase *m_clip;
-    CommentedTime m_marker;
-    Timecode m_tc;
-    double m_fps;
-    double m_dar;
-    QTimer *m_previewTimer;
-
-signals:
-    void updateThumb();
+    CustomTrackView *m_view;
+    GenTime m_pos;
+    GenTime m_duration;
+    int m_track;
+    bool m_doIt;
 };
-
 
 #endif
 
