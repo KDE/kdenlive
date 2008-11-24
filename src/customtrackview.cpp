@@ -225,7 +225,6 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
         if (m_dragItem && m_tool == SELECTTOOL) {
             bool move = (event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance();
             if (m_operationMode == MOVE && move) {
-                //if ((event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance())
                 QGraphicsView::mouseMoveEvent(event);
                 // If mouse is at a border of the view, scroll
                 if (pos < 5) {
@@ -697,6 +696,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
 }
 
 void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event) {
+    kDebug() << "++++++++++++ DBL CLK";
     if (m_dragItem && m_dragItem->hasKeyFrames()) {
         if (m_moveOpMode == KEYFRAME) {
             // user double clicked on a keyframe, open edit dialog
@@ -1343,7 +1343,7 @@ void CustomTrackView::checkScrolling() {
 }
 
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
-    m_moveOpMode = NONE;
+    if (m_moveOpMode == SEEK) m_moveOpMode = NONE;
     QGraphicsView::mouseReleaseEvent(event);
     if (m_scrollTimer.isActive()) m_scrollTimer.stop();
     if (event->button() == Qt::MidButton) {
