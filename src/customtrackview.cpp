@@ -223,8 +223,10 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
     if (event->buttons() & Qt::MidButton) return;
     if (event->buttons() != Qt::NoButton) {
         if (m_dragItem && m_tool == SELECTTOOL) {
-            if (m_operationMode == MOVE) {
-                if ((event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance()) QGraphicsView::mouseMoveEvent(event);
+            bool move = (event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance();
+            if (m_operationMode == MOVE && move) {
+                //if ((event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance())
+                QGraphicsView::mouseMoveEvent(event);
                 // If mouse is at a border of the view, scroll
                 if (pos < 5) {
                     m_scrollOffset = -30;
@@ -234,17 +236,17 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
                     m_scrollTimer.start();
                 } else if (m_scrollTimer.isActive()) m_scrollTimer.stop();
 
-            } else if (m_operationMode == RESIZESTART) {
+            } else if (m_operationMode == RESIZESTART && move) {
                 double snappedPos = getSnapPointForPos(mappedXPos);
                 m_dragItem->resizeStart((int)(snappedPos));
-            } else if (m_operationMode == RESIZEEND) {
+            } else if (m_operationMode == RESIZEEND && move) {
                 double snappedPos = getSnapPointForPos(mappedXPos);
                 m_dragItem->resizeEnd((int)(snappedPos));
-            } else if (m_operationMode == FADEIN) {
+            } else if (m_operationMode == FADEIN && move) {
                 ((ClipItem*) m_dragItem)->setFadeIn((int)(mappedXPos - m_dragItem->startPos().frames(m_document->fps())));
-            } else if (m_operationMode == FADEOUT) {
+            } else if (m_operationMode == FADEOUT && move) {
                 ((ClipItem*) m_dragItem)->setFadeOut((int)(m_dragItem->endPos().frames(m_document->fps()) - mappedXPos));
-            } else if (m_operationMode == KEYFRAME) {
+            } else if (m_operationMode == KEYFRAME && move) {
                 GenTime keyFramePos = GenTime(mappedXPos, m_document->fps()) - m_dragItem->startPos() + m_dragItem->cropStart();
                 double pos = mapToScene(event->pos()).toPoint().y();
                 QRectF br = m_dragItem->sceneBoundingRect();
