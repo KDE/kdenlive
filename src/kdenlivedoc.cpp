@@ -45,6 +45,8 @@
 
 KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QPoint tracks, MainWindow *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_commandStack(new QUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(7), m_autosave(NULL) {
     m_clipManager = new ClipManager(this);
+    m_autoSaveTimer = new QTimer(this);
+    m_autoSaveTimer->setSingleShot(true);
     if (!url.isEmpty()) {
         QString tmpFile;
         if (KIO::NetAccess::download(url.path(), tmpFile, parent)) {
@@ -157,8 +159,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
     else m_timecode.setFormat((int) m_fps);
 
-    m_autoSaveTimer = new QTimer(this);
-    m_autoSaveTimer->setSingleShot(true);
+
     connect(m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
 }
 
@@ -166,7 +167,10 @@ KdenliveDoc::~KdenliveDoc() {
     delete m_commandStack;
     delete m_clipManager;
     delete m_autoSaveTimer;
-    m_autosave->remove();
+    if (m_autosave) {
+        m_autosave->remove();
+        delete m_autosave;
+    }
 }
 
 QDomDocument KdenliveDoc::createEmptyDocument(const int videotracks, const int audiotracks) {
@@ -271,7 +275,7 @@ QDomElement KdenliveDoc::guidesXml() const {
 }
 
 void KdenliveDoc::slotAutoSave() {
-    if (m_render) {
+    if (m_render && m_autosave) {
         if (!m_autosave->isOpen() && !m_autosave->open(QIODevice::ReadWrite)) {
             // show error: could not open the autosave file
             kDebug() << "ERROR; CANNOT CREATE AUTOSAVE FILE";
@@ -1036,6 +1040,7 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
                 if (elem.attribute("type").toInt() == SLIDESHOW) newpath.append('/' + extension);
                 elem.setAttribute("resource", newpath);
                 setNewClipResource(clipId, newpath);
+                setModified(true);
             }
         }
         clip = new DocClipBase(m_clipManager, elem, producerId);
