@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>409</width>
-    <height>416</height>
+    <height>444</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_6" >
@@ -381,7 +381,7 @@
        <string>Screen Grab</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3" >
-       <item row="0" column="0" colspan="5" >
+       <item row="0" column="0" colspan="3" >
         <widget class="QLabel" name="rmd_info" >
          <property name="frameShape" >
           <enum>QFrame::StyledPanel</enum>
@@ -394,14 +394,14 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="5" >
+       <item row="1" column="0" colspan="3" >
         <widget class="QCheckBox" name="kcfg_rmd_capture_audio" >
          <property name="text" >
           <string>Capture audio</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="5" >
+       <item row="2" column="0" colspan="3" >
         <widget class="QFrame" name="audio_group" >
          <property name="frameShape" >
           <enum>QFrame::StyledPanel</enum>
@@ -410,7 +410,7 @@
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QGridLayout" name="gridLayout_4" >
-          <item row="0" column="0" >
+          <item row="1" column="0" >
            <widget class="QRadioButton" name="radioButton_2" >
             <property name="text" >
              <string>ALSA</string>
@@ -420,54 +420,113 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1" colspan="3" >
+          <item row="1" column="1" colspan="3" >
            <widget class="KComboBox" name="kcfg_rmd_alsa_device" />
           </item>
-          <item row="1" column="0" >
+          <item row="2" column="0" >
            <widget class="QRadioButton" name="kcfg_rmd_use_jack" >
             <property name="text" >
              <string>Jack</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1" >
+          <item row="2" column="1" >
            <widget class="QLabel" name="label_10" >
             <property name="text" >
              <string>Ports:</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="3" >
+          <item row="2" column="3" >
            <widget class="KLineEdit" name="kcfg_rmd_jackports" />
           </item>
-          <item row="1" column="4" >
+          <item row="2" column="4" >
            <widget class="QLabel" name="label_21" >
             <property name="text" >
              <string>Buffer</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="5" >
+          <item row="2" column="5" >
            <widget class="KDoubleNumInput" name="kcfg_rmd_jack_buffer" />
           </item>
-          <item row="0" column="5" >
+          <item row="1" column="5" >
            <widget class="KIntSpinBox" name="kcfg_rmd_alsa_buffer" >
             <property name="maximum" >
              <number>999</number>
             </property>
            </widget>
           </item>
-          <item row="0" column="4" >
+          <item row="1" column="4" >
            <widget class="QLabel" name="label_17" >
             <property name="text" >
              <string>Buffer</string>
             </property>
            </widget>
           </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label_8" >
+            <property name="text" >
+             <string>Audio channels</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" >
+           <widget class="KIntSpinBox" name="kcfg_rmd_audio_channels" />
+          </item>
+          <item row="0" column="3" >
+           <widget class="QLabel" name="label_22" >
+            <property name="text" >
+             <string>Audio frequency</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="4" colspan="2" >
+           <widget class="KComboBox" name="kcfg_rmd_audio_freq" >
+            <item>
+             <property name="text" >
+              <string>48000</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>41000</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>32000</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>22500</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>11250</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="0" column="2" >
+           <spacer name="horizontalSpacer_3" >
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0" >
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
          </layout>
         </widget>
        </item>
-       <item row="3" column="0" colspan="5" >
+       <item row="3" column="0" colspan="3" >
         <widget class="KComboBox" name="kcfg_rmd_capture_type" >
          <item>
           <property name="text" >
@@ -481,7 +540,7 @@
          </item>
         </widget>
        </item>
-       <item row="4" column="0" colspan="5" >
+       <item row="4" column="0" colspan="3" >
         <widget class="QFrame" name="region_group" >
          <property name="frameShape" >
           <enum>QFrame::StyledPanel</enum>
@@ -556,14 +615,14 @@
         </widget>
        </item>
        <item row="5" column="0" >
-        <widget class="QLabel" name="label_8" >
+        <widget class="QLabel" name="label_18" >
          <property name="text" >
-          <string>Audio channels</string>
+          <string>Frame rate</string>
          </property>
         </widget>
        </item>
        <item row="5" column="1" >
-        <widget class="KIntSpinBox" name="kcfg_rmd_audio_channels" />
+        <widget class="KDoubleNumInput" name="kcfg_rmd_fps" />
        </item>
        <item row="5" column="2" >
         <spacer name="horizontalSpacer_2" >
@@ -572,30 +631,20 @@
          </property>
          <property name="sizeHint" stdset="0" >
           <size>
-           <width>86</width>
-           <height>26</height>
+           <width>237</width>
+           <height>20</height>
           </size>
          </property>
         </spacer>
        </item>
-       <item row="5" column="3" >
-        <widget class="QLabel" name="label_18" >
-         <property name="text" >
-          <string>Frame rate</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="4" >
-        <widget class="KDoubleNumInput" name="kcfg_rmd_fps" />
-       </item>
-       <item row="6" column="0" colspan="4" >
+       <item row="6" column="0" colspan="3" >
         <widget class="QCheckBox" name="kcfg_rmd_fullshots" >
          <property name="text" >
           <string>Full shots</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="0" colspan="5" >
+       <item row="7" column="0" colspan="3" >
         <spacer name="verticalSpacer_3" >
          <property name="orientation" >
           <enum>Qt::Vertical</enum>
@@ -613,6 +662,9 @@
     </widget>
    </item>
   </layout>
+  <zorder>label</zorder>
+  <zorder>kcfg_defaultcapture</zorder>
+  <zorder>tabWidget</zorder>
  </widget>
  <customwidgets>
   <customwidget>
@@ -665,7 +717,6 @@
   <tabstop>kcfg_rmd_offsety</tabstop>
   <tabstop>kcfg_rmd_width</tabstop>
   <tabstop>kcfg_rmd_height</tabstop>
-  <tabstop>kcfg_rmd_audio_channels</tabstop>
   <tabstop>kcfg_rmd_fullshots</tabstop>
  </tabstops>
  <resources/>

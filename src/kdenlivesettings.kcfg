@@ -286,6 +286,16 @@
       <default></default>
     </entry>
 
+    <entry name="rmd_audio_freq" type="UInt">
+      <label>Audio frequency used for sound recording.</label>
+      <default>0</default>
+    </entry>
+
+    <entry name="rmd_freq" type="String">
+      <label>Audio frequency used for sound recording.</label>
+      <default>48000</default>
+    </entry>
+
     <entry name="rmd_alsa_buffer" type="Int">
       <label>Buffer for alsa audio rec.</label>
       <default>0</default>
