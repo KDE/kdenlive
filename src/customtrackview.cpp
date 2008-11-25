@@ -1514,7 +1514,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
 
             GenTime timeOffset = GenTime(m_selectionGroup->scenePos().x(), m_document->fps()) - m_selectionGroupInfo.startPos;
             const int trackOffset = m_selectionGroup->track() - m_selectionGroupInfo.track;
-            //kDebug() << "&DROPPED GRPOUP:" << timeOffset.frames(25) << "x" << trackOffset;
+            kDebug() << "&DROPPED GRPOUP:" << timeOffset.frames(25) << "TRK OFF: " << trackOffset;
             if (timeOffset != GenTime() || trackOffset != 0) {
                 QUndoCommand *moveClips = new QUndoCommand();
                 moveClips->setText("Move clips");
@@ -1522,17 +1522,13 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 for (int i = 0; i < items.count(); i++) {
                     AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
                     ItemInfo info = item->info();
-                    /*info.startPos = info.startPos - timeOffset;
-                    info.endPos = info.endPos - timeOffset;
-                    info.track = info.track - trackOffset;*/
-                    //kDebug() << "REM CLP:" << i << ", START:" << info.startPos.frames(25);
                     if (item->type() == AVWIDGET) {
                         ClipItem *clip = static_cast <ClipItem*>(item);
                         new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), info, clip->effectList(), false, true, moveClips);
                         m_document->renderer()->mltRemoveClip(m_scene->m_tracksList.count() - info.track, info.startPos);
                     } else {
                         Transition *tr = static_cast <Transition*>(item);
-                        new AddTransitionCommand(this, info, tr->transitionEndTrack(), tr->toXML(), false, true, moveClips);
+                        new AddTransitionCommand(this, info, tr->transitionEndTrack(), tr->toXML(), true, false, moveClips);
                         m_document->renderer()->mltDeleteTransition(tr->transitionTag(), tr->transitionEndTrack(), m_scene->m_tracksList.count() - info.track, info.startPos, info.endPos, tr->toXML());
                     }
                 }
@@ -1551,9 +1547,14 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                         m_document->renderer()->mltInsertClip(info, clip->xml(), clip->baseClip()->producer(info.track));
                     } else {
                         Transition *tr = static_cast <Transition*>(item);
-                        ItemInfo transitionInfo = tr->info();
-                        new AddTransitionCommand(this, info, tr->transitionEndTrack(), tr->toXML(), false, false, moveClips);
-                        m_document->renderer()->mltAddTransition(tr->transitionTag(), tr->transitionEndTrack() + trackOffset, m_scene->m_tracksList.count() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, tr->toXML());
+                        int newTrack = tr->transitionEndTrack();
+                        if (!tr->forcedTrack()) {
+                            newTrack += trackOffset;
+                            if (newTrack < 0 || newTrack > m_scene->m_tracksList.count()) newTrack = getPreviousVideoTrack(info.track);
+                        }
+                        new AddTransitionCommand(this, info, newTrack, tr->toXML(), false, false, moveClips);
+
+                        m_document->renderer()->mltAddTransition(tr->transitionTag(), newTrack, m_scene->m_tracksList.count() - info.track, info.startPos, info.endPos, tr->toXML());
                     }
                 }
                 m_commandStack->push(moveClips);
