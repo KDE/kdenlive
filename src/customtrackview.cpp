@@ -273,8 +273,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
         } else if (m_operationMode == SPACER && move) {
             // spacer tool
             int mappedClick = (int)(mapToScene(m_clickEvent).x() + 0.5);
-            if (mappedXPos > mappedClick)
-                m_selectionGroup->setPos(mappedXPos + (m_spacerStart - mappedClick) , m_selectionGroup->pos().y());
+            m_selectionGroup->setPos(mappedXPos + (m_spacerStart - mappedClick) , m_selectionGroup->pos().y());
         }
     }
 
@@ -1349,7 +1348,7 @@ void CustomTrackView::insertSpace(const GenTime &pos, int track, const GenTime d
     if (!add) diff = -diff;
     QList<QGraphicsItem *> itemList;
     if (track == -1) itemList = items();
-    else itemList = scene()->items(pos.frames(m_document->fps()) , track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight / 4);
+    else itemList = scene()->items(pos.frames(m_document->fps()) , track * m_tracksHeight + 1, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight - 2);
     if (m_selectionGroup) {
         scene()->destroyItemGroup(m_selectionGroup);
         m_selectionGroup = NULL;
@@ -1375,7 +1374,8 @@ void CustomTrackView::insertSpace(const GenTime &pos, int track, const GenTime d
         m_selectionGroup = NULL;
     }
     if (track != -1) track = m_scene->m_tracksList.count() - track;
-    m_document->renderer()->mltInsertSpace(pos, track, duration, add);
+    if (!add) m_document->renderer()->mltInsertSpace(pos, track, GenTime() - duration);
+    else m_document->renderer()->mltInsertSpace(pos, track, duration);
 }
 
 void CustomTrackView::deleteClip(const QString &clipId) {
@@ -1450,12 +1450,14 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
     } else if (m_operationMode == SPACER) {
         int endClick = (int)(mapToScene(event->pos()).x() + 0.5);
         int mappedClick = (int)(mapToScene(m_clickEvent).x() + 0.5);
-        int diff = endClick - mappedClick;
+        int diff = m_selectionGroup->pos().x() - m_spacerStart;//endClick - mappedClick;
+        kDebug() << "// MOVING SPACER DIFF:" << diff;
         int track = (int)(mapToScene(m_clickEvent).y() / m_tracksHeight);
+        if (diff < 0) mappedClick += diff;
         InsertSpaceCommand *command = new InsertSpaceCommand(this, GenTime(mappedClick, m_document->fps()), track, GenTime(diff, m_document->fps()), false);
         m_commandStack->push(command);
         track = m_scene->m_tracksList.count() - track;
-        m_document->renderer()->mltInsertSpace(GenTime(mappedClick, m_document->fps()), track, GenTime(diff, m_document->fps()), true);
+        m_document->renderer()->mltInsertSpace(GenTime(mappedClick, m_document->fps()), track, GenTime(diff, m_document->fps()));
         if (m_selectionGroup) {
             scene()->destroyItemGroup(m_selectionGroup);
             m_selectionGroup = NULL;

@@ -1445,7 +1445,7 @@ bool Render::mltRemoveClip(int track, GenTime position) {
     return true;
 }
 
-void Render::mltInsertSpace(const GenTime pos, int track, const GenTime duration, bool add) {
+void Render::mltInsertSpace(const GenTime pos, int track, const GenTime duration) {
     if (!m_mltProducer) {
         kDebug() << "PLAYLIST NOT INITIALISED //////";
         return;
@@ -1460,20 +1460,19 @@ void Render::mltInsertSpace(const GenTime pos, int track, const GenTime duration
     Mlt::Tractor tractor(service);
     mlt_service_lock(service.get_service());
     int insertPos = pos.frames(m_fps);
-    int diff = duration.frames(m_fps) - 1;
+    int diff = duration.frames(m_fps);
 
     if (track != -1) {
         // insert space in one track only
         Mlt::Producer trackProducer(tractor.track(track));
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
         int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
-        if (add) trackPlaylist.insert_blank(clipIndex,  duration.frames(m_fps) - 1);
+        if (diff > 0) trackPlaylist.insert_blank(clipIndex, diff - 1);
         else {
             int position = trackPlaylist.clip_start(clipIndex);
-            trackPlaylist.remove_region(position, diff);
+            trackPlaylist.remove_region(position, -diff - 1);
         }
         // now move transitions
-        if (!add) diff = -diff;
         mlt_service serv = m_mltProducer->parent().get_service();
         mlt_service nextservice = mlt_service_get_producer(serv);
         mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
@@ -1501,15 +1500,14 @@ void Render::mltInsertSpace(const GenTime pos, int track, const GenTime duration
             Mlt::Producer trackProducer(tractor.track(trackNb - 1));
             Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
             int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
-            if (add) trackPlaylist.insert_blank(clipIndex,  diff);
+            if (diff > 0) trackPlaylist.insert_blank(clipIndex, diff - 1);
             else {
                 int position = trackPlaylist.clip_start(clipIndex);
-                trackPlaylist.remove_region(position, diff);
+                trackPlaylist.remove_region(position, -diff - 1);
             }
             trackNb--;
         }
         // now move transitions
-        if (!add) diff = -diff;
         mlt_service serv = m_mltProducer->parent().get_service();
         mlt_service nextservice = mlt_service_get_producer(serv);
         mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
