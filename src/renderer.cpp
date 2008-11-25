@@ -2120,7 +2120,12 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
             trackPlaylist.consolidate_blanks(0);
             destTrackPlaylist.consolidate_blanks(1);
-            Mlt::Producer *clip = prod->cut(clipProducer.get_in(), clipProducer.get_out());
+            Mlt::Producer *clip;
+            // check if we are moving a slowmotion producer
+            QString serv = clipProducer.parent().get("mlt_service");
+            if (serv == "framebuffer") {
+                clip = &clipProducer;
+            } else clip = prod->cut(clipProducer.get_in(), clipProducer.get_out());
 
             // move all effects to the correct producer
             Mlt::Service clipService(clipProducer.get_service());

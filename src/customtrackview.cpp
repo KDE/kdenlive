@@ -1514,7 +1514,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
 
             GenTime timeOffset = GenTime(m_selectionGroup->scenePos().x(), m_document->fps()) - m_selectionGroupInfo.startPos;
             const int trackOffset = m_selectionGroup->track() - m_selectionGroupInfo.track;
-            kDebug() << "&DROPPED GRPOUP:" << timeOffset.frames(25) << "TRK OFF: " << trackOffset;
+            // kDebug() << "&DROPPED GRPOUP:" << timeOffset.frames(25) << "TRK OFF: " << trackOffset;
             if (timeOffset != GenTime() || trackOffset != 0) {
                 QUndoCommand *moveClips = new QUndoCommand();
                 moveClips->setText("Move clips");
@@ -1738,7 +1738,6 @@ void CustomTrackView::changeClipSpeed() {
 }
 
 void CustomTrackView::doChangeClipSpeed(ItemInfo info, const double speed, const double oldspeed, const QString &id) {
-
     DocClipBase *baseclip = m_document->clipManager()->getClipById(id);
     ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()) + 1, info.track);
     info.track = m_scene->m_tracksList.count() - item->track();
@@ -1748,6 +1747,7 @@ void CustomTrackView::doChangeClipSpeed(ItemInfo info, const double speed, const
     item->updateRectGeometry();
     if (item->cropDuration().frames(m_document->fps()) > endPos)
         item->AbstractClipItem::resizeEnd(info.startPos.frames(m_document->fps()) + endPos, speed);
+    m_document->setModified(true);
 }
 
 void CustomTrackView::cutSelectedClips() {
