@@ -44,11 +44,23 @@ private:
     Render *m_renderer;
 };
 
+class Overlay : public QWidget {
+    Q_OBJECT
+public:
+    Overlay(QWidget* parent);
+    virtual void paintEvent(QPaintEvent * event);
+    void setOverlayText(const QString &);
+
+private:
+    QString m_text;
+};
+
 class Monitor : public QWidget {
     Q_OBJECT
 
 public:
     Monitor(QString name, MonitorManager *manager, QWidget *parent = 0);
+    virtual ~Monitor();
     Render *render;
     void resetProfile();
     QString name() const;
@@ -90,6 +102,8 @@ private:
     DocClipBase *m_currentClip;
     QPoint m_DragStartPosition;
     bool m_dragStarted;
+    Overlay *m_overlay;
+    void checkOverlay();
 
 private slots:
     void adjustRulerSize(int length);

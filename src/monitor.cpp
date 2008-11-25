@@ -24,6 +24,7 @@
 #include <QToolButton>
 #include <QToolBar>
 #include <QDesktopWidget>
+#include <QLabel>
 
 #include <KDebug>
 #include <KLocale>
@@ -110,6 +111,9 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     render = new Render(m_name, (int) m_monitorRefresh->winId(), -1, this);
     m_monitorRefresh->setRenderer(render);
 
+    m_overlay = new Overlay(m_monitorRefresh);
+    m_overlay->raise();
+    m_overlay->setHidden(true);
 
 
     connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
@@ -130,6 +134,13 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     }
     m_monitorRefresh->show();
     kDebug() << "/////// BUILDING MONITOR, ID: " << ui.video_frame->winId();
+}
+
+Monitor::~Monitor() {
+    delete m_ruler;
+    delete m_timePos;
+    delete m_overlay;
+    delete m_monitorRefresh;
 }
 
 QString Monitor::name() const {
@@ -202,16 +213,19 @@ void Monitor::resetSize() {
 
 void Monitor::slotZoneMoved(int start, int end) {
     m_ruler->setZone(start, end);
+    checkOverlay();
 }
 
 void Monitor::slotSetZoneStart() {
     m_ruler->setZone(m_position, -1);
     emit zoneUpdated(m_ruler->zone());
+    checkOverlay();
 }
 
 void Monitor::slotSetZoneEnd() {
     m_ruler->setZone(-1, m_position);
     emit zoneUpdated(m_ruler->zone());
+    checkOverlay();
 }
 
 // virtual
@@ -350,6 +364,15 @@ void Monitor::slotSeek(int pos) {
     m_position = pos;
     emit renderPosition(m_position);
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
+    checkOverlay();
+}
+
+void Monitor::checkOverlay() {
+    QPoint zone = m_ruler->zone();
+    //kDebug()<<"RUL: "<<pos<<", ZONE: "<<zone;
+    if (m_position == zone.x()) m_overlay->setOverlayText(i18n("In Point"));
+    else if (m_position == zone.y()) m_overlay->setOverlayText(i18n("Out Point"));
+    else m_overlay->setHidden(true);
 }
 
 void Monitor::slotStart() {
@@ -418,6 +441,7 @@ void Monitor::slotRewindOneFrame() {
     render->seekToFrame(m_position);
     emit renderPosition(m_position);
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
+    checkOverlay();
 }
 
 void Monitor::slotForwardOneFrame() {
@@ -428,6 +452,7 @@ void Monitor::slotForwardOneFrame() {
     render->seekToFrame(m_position);
     emit renderPosition(m_position);
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
+    checkOverlay();
 }
 
 void Monitor::seekCursor(int pos) {
@@ -435,6 +460,7 @@ void Monitor::seekCursor(int pos) {
     m_position = pos;
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
     m_ruler->slotNewValue(pos);
+    checkOverlay();
 }
 
 void Monitor::rendererStopped(int pos) {
@@ -580,5 +606,29 @@ void MonitorRefresh::setRenderer(Render* render) {
 void MonitorRefresh::paintEvent(QPaintEvent * event) {
     if (m_renderer) m_renderer->doRefresh();
 }
+
+
+Overlay::Overlay(QWidget* parent): QWidget(parent) {
+    setAttribute(Qt::WA_TransparentForMouseEvents);
+    //setAttribute(Qt::WA_OpaquePaintEvent); //
+    //setAttribute(Qt::WA_NoSystemBackground);
+    setAutoFillBackground(false);
+}
+
+void Overlay::paintEvent(QPaintEvent * event) {
+    QPainter painter(this);
+    painter.fillRect(event->rect(), QColor(200, 0, 0));
+    painter.drawText(event->rect(), Qt::AlignCenter, m_text);
+    //if (m_renderer) m_renderer->doRefresh();
+}
+
+void Overlay::setOverlayText(const QString &text) {
+    kDebug() << "///////  SET OVERLAY: " << text;
+    m_text = text;
+    setHidden(false);
+    update();
+}
+
+
 
 #include "monitor.moc"
