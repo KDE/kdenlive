@@ -158,6 +158,7 @@ private:
     KAction *m_buttonFitZoom;
     KAction *m_buttonSelectTool;
     KAction *m_buttonRazorTool;
+    KAction *m_buttonSpacerTool;
     KAction *m_buttonSnap;
     QActionGroup *m_toolGroup;
     KAction *m_saveAction;

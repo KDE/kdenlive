@@ -149,6 +149,7 @@ private:
     uint m_selectedTrack;
     int m_projectDuration;
     int m_cursorPos;
+    int m_spacerStart;
     KdenliveDoc *m_document;
     CustomTrackScene *m_scene;
     QGraphicsLineItem *m_cursorLine;
@@ -187,6 +188,7 @@ private:
     int m_findIndex;
     PROJECTTOOL m_tool;
     QCursor m_razorCursor;
+    QCursor m_spacerCursor;
     /** list containing items currently copied in the timeline */
     QList<AbstractClipItem *> m_copiedItems;
     /** Used to get the point in timeline where a context menu was opened */

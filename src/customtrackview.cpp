@@ -94,6 +94,9 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
 
     KIcon razorIcon("edit-cut");
     m_razorCursor = QCursor(razorIcon.pixmap(22, 22));
+
+    KIcon spacerIcon("kdenlive-spacer-tool");
+    m_spacerCursor = QCursor(spacerIcon.pixmap(22, 22));
     verticalScrollBar()->setTracking(true);
     connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(slotRefreshGuides()));
     connect(&m_scrollTimer, SIGNAL(timeout()), this, SLOT(slotCheckMouseScrolling()));
@@ -223,8 +226,8 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
     emit mousePosition(mappedXPos);
     if (event->buttons() & Qt::MidButton) return;
     if (event->buttons() != Qt::NoButton) {
+        bool move = (event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance();
         if (m_dragItem && m_tool == SELECTTOOL) {
-            bool move = (event->pos() - m_clickEvent).manhattanLength() >= QApplication::startDragDistance();
             if (m_operationMode == MOVE && move) {
                 QGraphicsView::mouseMoveEvent(event);
                 // If mouse is at a border of the view, scroll
@@ -267,6 +270,11 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
             m_visualTip = NULL;
             QGraphicsView::mouseMoveEvent(event);
             return;
+        } else if (m_operationMode == SPACER && move) {
+            // spacer tool
+            int mappedClick = (int)(mapToScene(m_clickEvent).x() + 0.5);
+            if (mappedXPos > mappedClick)
+                m_selectionGroup->setPos(mappedXPos + (m_spacerStart - mappedClick) , m_selectionGroup->pos().y());
         }
     }
 
@@ -274,6 +282,9 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
         setCursor(m_razorCursor);
         //QGraphicsView::mouseMoveEvent(event);
         //return;
+    } else if (m_tool == SPACERTOOL) {
+        setCursor(m_spacerCursor);
+        return;
     }
 
     QList<QGraphicsItem *> itemList = items(event->pos());
@@ -568,16 +579,40 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
     }
 
     // No item under click
-    if (m_dragItem == NULL) {
+    if (m_dragItem == NULL || m_tool == SPACERTOOL) {
         if (m_selectionGroup) {
             scene()->destroyItemGroup(m_selectionGroup);
             m_selectionGroup = NULL;
         }
         setCursor(Qt::ArrowCursor);
         m_scene->clearSelection();
-        setCursorPos((int)(mapToScene(event->x(), 0).x()));
         event->accept();
         emit clipItemSelected(NULL);
+        if (m_tool == SPACERTOOL) {
+            // Select all items on track after click position
+            int track = (int)(mapToScene(m_clickEvent).y() / m_tracksHeight);
+            QList<QGraphicsItem *> selection = items(event->pos().x(), track * m_tracksHeight + 1, sceneRect().width() - event->pos().x(), m_tracksHeight - 2);
+            m_selectionGroup = new AbstractGroupItem(m_document->fps());
+            scene()->addItem(m_selectionGroup);
+            m_spacerStart = -1;
+            int itemStart;
+            for (int i = 0; i < selection.count(); i++) {
+                if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET) {
+                    m_selectionGroup->addToGroup(selection.at(i));
+                    AbstractClipItem *item = static_cast <AbstractClipItem *>(selection.at(i));
+                    itemStart = item->startPos().frames(m_document->fps());
+                    if (m_spacerStart == -1 || itemStart < m_spacerStart)
+                        m_spacerStart = itemStart;
+                }
+            }
+            QPointF top = m_selectionGroup->boundingRect().topLeft();
+            const int width = m_selectionGroup->boundingRect().width();
+            const int height = m_selectionGroup->boundingRect().height();
+            m_selectionGroup->setPos(top);
+            m_selectionGroup->translate(-top.x(), -top.y() + 1);
+            //kDebug()<<"// SPACER START GRP: "<<m_spacerStart;
+            m_operationMode = SPACER;
+        } else setCursorPos((int)(mapToScene(event->x(), 0).x()));
         return;
     }
 
@@ -1315,11 +1350,29 @@ void CustomTrackView::insertSpace(const GenTime &pos, int track, const GenTime d
     QList<QGraphicsItem *> itemList;
     if (track == -1) itemList = items();
     else itemList = scene()->items(pos.frames(m_document->fps()) , track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight / 4);
+    if (m_selectionGroup) {
+        scene()->destroyItemGroup(m_selectionGroup);
+        m_selectionGroup = NULL;
+    }
+    m_selectionGroup = new AbstractGroupItem(m_document->fps());
+    scene()->addItem(m_selectionGroup);
     for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->type() == AVWIDGET) {
-            ClipItem *item = (ClipItem *)itemList.at(i);
-            if (item->endPos() > pos) item->moveBy(diff, 0);
+        if (itemList.at(i)->type() == AVWIDGET || itemList.at(i)->type() == TRANSITIONWIDGET) {
+            /*AbstractClipItem *item = static_cast <AbstractClipItem *> (itemList.at(i));
+            if (item->endPos() > pos)*/
+            m_selectionGroup->addToGroup(itemList.at(i));
+            //item->moveBy(diff, 0);
         }
+    }
+    QPointF top = m_selectionGroup->boundingRect().topLeft();
+    const int width = m_selectionGroup->boundingRect().width();
+    const int height = m_selectionGroup->boundingRect().height();
+    m_selectionGroup->setPos(top);
+    m_selectionGroup->translate(-top.x(), -top.y() + 1);
+    m_selectionGroup->moveBy(diff, 0);
+    if (m_selectionGroup) {
+        scene()->destroyItemGroup(m_selectionGroup);
+        m_selectionGroup = NULL;
     }
     if (track != -1) track = m_scene->m_tracksList.count() - track;
     m_document->renderer()->mltInsertSpace(pos, track, duration, add);
@@ -1394,7 +1447,22 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         m_dragGuide = NULL;
         m_dragItem = NULL;
         return;
+    } else if (m_operationMode == SPACER) {
+        int endClick = (int)(mapToScene(event->pos()).x() + 0.5);
+        int mappedClick = (int)(mapToScene(m_clickEvent).x() + 0.5);
+        int diff = endClick - mappedClick;
+        int track = (int)(mapToScene(m_clickEvent).y() / m_tracksHeight);
+        InsertSpaceCommand *command = new InsertSpaceCommand(this, GenTime(mappedClick, m_document->fps()), track, GenTime(diff, m_document->fps()), false);
+        m_commandStack->push(command);
+        track = m_scene->m_tracksList.count() - track;
+        m_document->renderer()->mltInsertSpace(GenTime(mappedClick, m_document->fps()), track, GenTime(diff, m_document->fps()), true);
+        if (m_selectionGroup) {
+            scene()->destroyItemGroup(m_selectionGroup);
+            m_selectionGroup = NULL;
+        }
+        m_operationMode = NONE;
     }
+
     if (m_dragItem == NULL && m_selectionGroup == NULL) {
         emit transitionItemSelected(NULL);
         return;

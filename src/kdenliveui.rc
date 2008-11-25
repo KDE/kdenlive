@@ -21,6 +21,7 @@
     <Menu name="tool" ><text>Tool</text>
       <Action name="select_tool" />
       <Action name="razor_tool" />
+      <Action name="spacer_tool" />
     </Menu>
 
     <Menu name="timeline" ><text>Timeline</text>

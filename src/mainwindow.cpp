@@ -542,8 +542,14 @@ void MainWindow::setupActions() {
     m_buttonRazorTool->setCheckable(true);
     m_buttonRazorTool->setChecked(false);
 
+    m_buttonSpacerTool = new KAction(KIcon("kdenlive-spacer-tool"), i18n("Spacer tool"), this);
+    toolbar->addAction(m_buttonSpacerTool);
+    m_buttonSpacerTool->setCheckable(true);
+    m_buttonSpacerTool->setChecked(false);
+
     m_toolGroup->addAction(m_buttonSelectTool);
     m_toolGroup->addAction(m_buttonRazorTool);
+    m_toolGroup->addAction(m_buttonSpacerTool);
     m_toolGroup->setExclusive(true);
     toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 
@@ -553,6 +559,10 @@ void MainWindow::setupActions() {
     actionWidget->setMinimumHeight(17);
 
     actionWidget = toolbar->widgetForAction(m_buttonRazorTool);
+    actionWidget->setMaximumWidth(24);
+    actionWidget->setMinimumHeight(17);
+
+    actionWidget = toolbar->widgetForAction(m_buttonSpacerTool);
     actionWidget->setMaximumWidth(24);
     actionWidget->setMinimumHeight(17);
 
@@ -644,6 +654,7 @@ void MainWindow::setupActions() {
 
     collection->addAction("select_tool", m_buttonSelectTool);
     collection->addAction("razor_tool", m_buttonRazorTool);
+    collection->addAction("spacer_tool", m_buttonSpacerTool);
 
     collection->addAction("show_video_thumbs", m_buttonVideoThumbs);
     collection->addAction("show_audio_thumbs", m_buttonAudioThumbs);
@@ -1661,6 +1672,7 @@ void MainWindow::slotClipEnd() {
 void MainWindow::slotChangeTool(QAction * action) {
     if (action == m_buttonSelectTool) slotSetTool(SELECTTOOL);
     else if (action == m_buttonRazorTool) slotSetTool(RAZORTOOL);
+    else if (action == m_buttonSpacerTool) slotSetTool(SPACERTOOL);
 }
 
 void MainWindow::slotSetTool(PROJECTTOOL tool) {

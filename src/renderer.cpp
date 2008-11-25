@@ -1459,29 +1459,76 @@ void Render::mltInsertSpace(const GenTime pos, int track, const GenTime duration
     Mlt::Service service(parentProd.get_service());
     Mlt::Tractor tractor(service);
     mlt_service_lock(service.get_service());
+    int insertPos = pos.frames(m_fps);
+    int diff = duration.frames(m_fps) - 1;
 
     if (track != -1) {
         // insert space in one track only
         Mlt::Producer trackProducer(tractor.track(track));
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-        int clipIndex = trackPlaylist.get_clip_index_at(pos.frames(m_fps));
+        int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
         if (add) trackPlaylist.insert_blank(clipIndex,  duration.frames(m_fps) - 1);
         else {
             int position = trackPlaylist.clip_start(clipIndex);
-            trackPlaylist.remove_region(position, duration.frames(m_fps) - 1);
+            trackPlaylist.remove_region(position, diff);
+        }
+        // now move transitions
+        if (!add) diff = -diff;
+        mlt_service serv = m_mltProducer->parent().get_service();
+        mlt_service nextservice = mlt_service_get_producer(serv);
+        mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
+        QString mlt_type = mlt_properties_get(properties, "mlt_type");
+        QString resource = mlt_properties_get(properties, "mlt_service");
+
+        while (mlt_type == "transition") {
+            mlt_transition tr = (mlt_transition) nextservice;
+            int currentTrack = mlt_transition_get_b_track(tr);
+            int currentIn = (int) mlt_transition_get_in(tr);
+            int currentOut = (int) mlt_transition_get_out(tr);
+
+            if (track == currentTrack && currentOut > insertPos && resource != "mix") {
+                mlt_transition_set_in_and_out(tr, currentIn + diff, currentOut + diff);
+            }
+            nextservice = mlt_service_producer(nextservice);
+            if (nextservice == NULL) break;
+            properties = MLT_SERVICE_PROPERTIES(nextservice);
+            mlt_type = mlt_properties_get(properties, "mlt_type");
+            resource = mlt_properties_get(properties, "mlt_service");
         }
     } else {
         int trackNb = tractor.count();
         while (trackNb > 1) {
             Mlt::Producer trackProducer(tractor.track(trackNb - 1));
             Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-            int clipIndex = trackPlaylist.get_clip_index_at(pos.frames(m_fps));
-            if (add) trackPlaylist.insert_blank(clipIndex,  duration.frames(m_fps) - 1);
+            int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
+            if (add) trackPlaylist.insert_blank(clipIndex,  diff);
             else {
                 int position = trackPlaylist.clip_start(clipIndex);
-                trackPlaylist.remove_region(position, duration.frames(m_fps) - 1);
+                trackPlaylist.remove_region(position, diff);
             }
             trackNb--;
+        }
+        // now move transitions
+        if (!add) diff = -diff;
+        mlt_service serv = m_mltProducer->parent().get_service();
+        mlt_service nextservice = mlt_service_get_producer(serv);
+        mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
+        QString mlt_type = mlt_properties_get(properties, "mlt_type");
+        QString resource = mlt_properties_get(properties, "mlt_service");
+
+        while (mlt_type == "transition") {
+            mlt_transition tr = (mlt_transition) nextservice;
+            int currentIn = (int) mlt_transition_get_in(tr);
+            int currentOut = (int) mlt_transition_get_out(tr);
+
+            if (currentOut > insertPos && resource != "mix") {
+                mlt_transition_set_in_and_out(tr, currentIn + diff, currentOut + diff);
+            }
+            nextservice = mlt_service_producer(nextservice);
+            if (nextservice == NULL) break;
+            properties = MLT_SERVICE_PROPERTIES(nextservice);
+            mlt_type = mlt_properties_get(properties, "mlt_type");
+            resource = mlt_properties_get(properties, "mlt_service");
         }
     }
     mlt_service_unlock(service.get_service());
@@ -2110,7 +2157,6 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
 }
 
 void Render::mltMoveTransition(QString type, int startTrack, int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut) {
-
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
     Mlt::Field *field = tractor.field();
