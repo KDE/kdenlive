@@ -32,7 +32,6 @@
 #include <KApplication>
 #include <KMessageBox>
 
-#include "gentime.h"
 #include "monitor.h"
 #include "renderer.h"
 #include "monitormanager.h"
@@ -211,6 +210,42 @@ void Monitor::resetSize() {
     ui.video_frame->setMinimumSize(0, 0);
 }
 
+void Monitor::slotSeekToPreviousSnap() {
+    if (m_currentClip) slotSeek(getSnapForPos(true).frames(m_monitorManager->timecode().fps()));
+}
+
+void Monitor::slotSeekToNextSnap() {
+    if (m_currentClip) slotSeek(getSnapForPos(false).frames(m_monitorManager->timecode().fps()));
+}
+
+GenTime Monitor::getSnapForPos(bool previous) {
+    QList <GenTime> snaps;
+    QList < GenTime > markers = m_currentClip->snapMarkers();
+    for (int i = 0; i < markers.size(); ++i) {
+        GenTime t = markers.at(i);
+        snaps.append(t);
+    }
+    QPoint zone = m_ruler->zone();
+    snaps.append(GenTime(zone.x(), m_monitorManager->timecode().fps()));
+    snaps.append(GenTime(zone.y(), m_monitorManager->timecode().fps()));
+    snaps.append(GenTime());
+    snaps.append(m_currentClip->duration());
+    qSort(snaps);
+
+    const GenTime pos(m_position, m_monitorManager->timecode().fps());
+    for (int i = 0; i < snaps.size(); ++i) {
+        if (previous && snaps.at(i) >= pos) {
+            if (i == 0) i = 1;
+            return snaps.at(i - 1);
+        } else if (!previous && snaps.at(i) > pos) {
+            return snaps.at(i);
+        }
+    }
+    return GenTime();
+}
+
+
+
 void Monitor::slotZoneMoved(int start, int end) {
     m_ruler->setZone(start, end);
     checkOverlay();
@@ -360,19 +395,24 @@ void Monitor::slotSeek() {
 void Monitor::slotSeek(int pos) {
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);
     if (render == NULL) return;
-    render->seekToFrame(pos);
     m_position = pos;
+    checkOverlay();
+    render->seekToFrame(pos);
     emit renderPosition(m_position);
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
-    checkOverlay();
 }
 
 void Monitor::checkOverlay() {
     QPoint zone = m_ruler->zone();
-    //kDebug()<<"RUL: "<<pos<<", ZONE: "<<zone;
     if (m_position == zone.x()) m_overlay->setOverlayText(i18n("In Point"));
     else if (m_position == zone.y()) m_overlay->setOverlayText(i18n("Out Point"));
-    else m_overlay->setHidden(true);
+    else {
+        if (m_currentClip) {
+            QString markerComment = m_currentClip->markerComment(GenTime(m_position, m_monitorManager->timecode().fps()));
+            if (markerComment.isEmpty()) m_overlay->setHidden(true);
+            else m_overlay->setOverlayText(markerComment, false);
+        } else m_overlay->setHidden(true);
+    }
 }
 
 void Monitor::slotStart() {
@@ -438,10 +478,10 @@ void Monitor::slotRewindOneFrame() {
     render->play(0);
     if (m_position < 1) return;
     m_position--;
+    checkOverlay();
     render->seekToFrame(m_position);
     emit renderPosition(m_position);
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
-    checkOverlay();
 }
 
 void Monitor::slotForwardOneFrame() {
@@ -449,18 +489,18 @@ void Monitor::slotForwardOneFrame() {
     render->play(0);
     if (m_position >= m_length) return;
     m_position++;
+    checkOverlay();
     render->seekToFrame(m_position);
     emit renderPosition(m_position);
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
-    checkOverlay();
 }
 
 void Monitor::seekCursor(int pos) {
     if (!m_isActive) m_monitorManager->activateMonitor(m_name);
     m_position = pos;
+    checkOverlay();
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
     m_ruler->slotNewValue(pos);
-    checkOverlay();
 }
 
 void Monitor::rendererStopped(int pos) {
@@ -608,7 +648,7 @@ void MonitorRefresh::paintEvent(QPaintEvent * event) {
 }
 
 
-Overlay::Overlay(QWidget* parent): QWidget(parent) {
+Overlay::Overlay(QWidget* parent): QLabel(parent) {
     setAttribute(Qt::WA_TransparentForMouseEvents);
     //setAttribute(Qt::WA_OpaquePaintEvent); //
     //setAttribute(Qt::WA_NoSystemBackground);
@@ -617,14 +657,20 @@ Overlay::Overlay(QWidget* parent): QWidget(parent) {
 
 void Overlay::paintEvent(QPaintEvent * event) {
     QPainter painter(this);
-    painter.fillRect(event->rect(), QColor(200, 0, 0));
-    painter.drawText(event->rect(), Qt::AlignCenter, m_text);
-    //if (m_renderer) m_renderer->doRefresh();
+    QColor col;
+    painter.setPen(Qt::white);
+    if (m_isZone) col = QColor(200, 0, 0);
+    else col = QColor(0, 0, 200);
+    painter.fillRect(rect(), col);
+    painter.drawText(rect(), Qt::AlignCenter, text());
 }
 
-void Overlay::setOverlayText(const QString &text) {
-    kDebug() << "///////  SET OVERLAY: " << text;
-    m_text = text;
+
+
+void Overlay::setOverlayText(const QString &text, bool isZone) {
+    setHidden(true);
+    m_isZone = isZone;
+    setText(' ' + text + ' ');
     setHidden(false);
     update();
 }

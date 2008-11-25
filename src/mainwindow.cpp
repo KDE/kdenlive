@@ -1645,14 +1645,14 @@ void MainWindow::slotSnapRewind() {
     if (m_projectMonitor->isActive()) {
         if (m_activeTimeline)
             m_activeTimeline->projectView()->slotSeekToPreviousSnap();
-    }
+    } else m_clipMonitor->slotSeekToPreviousSnap();
 }
 
 void MainWindow::slotSnapForward() {
     if (m_projectMonitor->isActive()) {
         if (m_activeTimeline)
             m_activeTimeline->projectView()->slotSeekToNextSnap();
-    }
+    } else m_clipMonitor->slotSeekToNextSnap();
 }
 
 void MainWindow::slotClipStart() {

@@ -21,11 +21,14 @@
 #ifndef MONITOR_H
 #define MONITOR_H
 
+#include <QLabel>
+
 #include <KIcon>
 #include <KAction>
 #include <KRestrictedLine>
 #include <QDomElement>
 
+#include "gentime.h"
 #include "ui_monitor_ui.h"
 
 class MonitorManager;
@@ -44,15 +47,15 @@ private:
     Render *m_renderer;
 };
 
-class Overlay : public QWidget {
+class Overlay : public QLabel {
     Q_OBJECT
 public:
     Overlay(QWidget* parent);
     virtual void paintEvent(QPaintEvent * event);
-    void setOverlayText(const QString &);
+    void setOverlayText(const QString &, bool isZone = true);
 
 private:
-    QString m_text;
+    bool m_isZone;
 };
 
 class Monitor : public QWidget {
@@ -104,6 +107,7 @@ private:
     bool m_dragStarted;
     Overlay *m_overlay;
     void checkOverlay();
+    GenTime getSnapForPos(bool previous);
 
 private slots:
     void adjustRulerSize(int length);
@@ -140,6 +144,8 @@ public slots:
     void slotZoneStart();
     void slotZoneEnd();
     void slotZoneMoved(int start, int end);
+    void slotSeekToNextSnap();
+    void slotSeekToPreviousSnap();
 
 signals:
     void renderPosition(int);
