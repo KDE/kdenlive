@@ -87,10 +87,19 @@ void AbstractClipItem::resizeStart(int posx, double speed) {
     m_cropDuration = m_cropDuration - durationDiff * speed;
 
     setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
-    setPos((qreal) m_startPos.frames(m_fps), pos().y());
+    setPos(m_startPos.frames(m_fps), pos().y());
+
+    if (pos().x() != m_startPos.frames(m_fps)) {
+        GenTime diff = GenTime(pos().x(), m_fps) - m_startPos;
+        m_startPos += diff;
+        m_cropDuration = m_cropDuration - diff;
+        if (type() == AVWIDGET) m_cropStart = m_cropStart + diff;
+        setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
+    }
 
     //kDebug() << "-- NEW CLIP=" << startPos().frames(25) << "-" << endPos().frames(25);
     //setRect((double) m_startPos.frames(m_fps) * scale, rect().y(), (double) m_cropDuration.frames(m_fps) * scale, rect().height());
+
     if (durationDiff < GenTime()) {
         QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
         for (int i = 0; i < collisionList.size(); ++i) {
