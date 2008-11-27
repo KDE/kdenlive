@@ -86,36 +86,34 @@ void AbstractClipItem::resizeStart(int posx, double speed) {
     if (type() == AVWIDGET) m_cropStart += durationDiff * speed;
     m_cropDuration = m_cropDuration - durationDiff * speed;
 
-    setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
     setPos(m_startPos.frames(m_fps), pos().y());
-
     if (pos().x() != m_startPos.frames(m_fps)) {
         GenTime diff = GenTime(pos().x(), m_fps) - m_startPos;
         m_startPos += diff;
         m_cropDuration = m_cropDuration - diff;
         if (type() == AVWIDGET) m_cropStart = m_cropStart + diff;
-        setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
     }
+    setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
 
     //kDebug() << "-- NEW CLIP=" << startPos().frames(25) << "-" << endPos().frames(25);
     //setRect((double) m_startPos.frames(m_fps) * scale, rect().y(), (double) m_cropDuration.frames(m_fps) * scale, rect().height());
 
-    if (durationDiff < GenTime()) {
-        QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
-        for (int i = 0; i < collisionList.size(); ++i) {
-            QGraphicsItem *item = collisionList.at(i);
-            if (item->type() == type() && item->pos().x() < pos().x()) {
-                kDebug() << "/////////  COLLISION DETECTED!!!!!!!!!";
-                GenTime diff = ((AbstractClipItem *)item)->endPos() + GenTime(1, m_fps) - m_startPos;
-                setRect(0, 0, (m_cropDuration - diff).frames(m_fps) - 0.02, rect().height());
-                setPos((m_startPos + diff).frames(m_fps), pos().y());
-                m_startPos += diff;
-                if (type() == AVWIDGET) m_cropStart += diff;
-                m_cropDuration = m_cropDuration - diff;
-                break;
+    /*    if (durationDiff < GenTime()) {
+            QList <QGraphicsItem *> collisionList = collidingItems(Qt::IntersectsItemBoundingRect);
+            for (int i = 0; i < collisionList.size(); ++i) {
+                QGraphicsItem *item = collisionList.at(i);
+                if (item->type() == type() && item->pos().x() < pos().x()) {
+                    kDebug() << "/////////  COLLISION DETECTED!!!!!!!!!";
+                    GenTime diff = ((AbstractClipItem *)item)->endPos() + GenTime(1, m_fps) - m_startPos;
+                    setRect(0, 0, (m_cropDuration - diff).frames(m_fps) - 0.02, rect().height());
+                    setPos((m_startPos + diff).frames(m_fps), pos().y());
+                    m_startPos += diff;
+                    if (type() == AVWIDGET) m_cropStart += diff;
+                    m_cropDuration = m_cropDuration - diff;
+                    break;
+                }
             }
-        }
-    }
+        }*/
 }
 
 void AbstractClipItem::resizeEnd(int posx, double speed, bool updateKeyFrames) {
@@ -129,7 +127,7 @@ void AbstractClipItem::resizeEnd(int posx, double speed, bool updateKeyFrames) {
         kDebug() << "// MAX OVERLOAD:" << cropDuration().frames(25) << " + " << durationDiff.frames(25) << ", MAX:" << maxDuration().frames(25);
         durationDiff = maxDuration() - cropDuration() - cropStart();
     }
-    kDebug() << "// DUR DIFF2:" << durationDiff.frames(25) << ", ADJUSTED: " << durationDiff.frames(25) * speed << ", SPED:" << speed;
+    //kDebug() << "// DUR DIFF2:" << durationDiff.frames(25) << ", ADJUSTED: " << durationDiff.frames(25) * speed << ", SPED:" << speed;
     m_cropDuration += durationDiff * speed;
     setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
     if (durationDiff > GenTime()) {

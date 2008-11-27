@@ -455,8 +455,8 @@ void RecMonitor::slotRecord() {
             }
             m_isCapturing = true;
             if (KdenliveSettings::rmd_capture_audio()) {
-		m_captureArgs << "-freq" << KdenliveSettings::rmd_freq();
-		m_captureArgs << "-channels" << QString::number(KdenliveSettings::rmd_audio_channels());
+                m_captureArgs << "-freq" << KdenliveSettings::rmd_freq();
+                m_captureArgs << "-channels" << QString::number(KdenliveSettings::rmd_audio_channels());
                 if (KdenliveSettings::rmd_use_jack()) {
                     m_captureArgs << "-use-jack" << KdenliveSettings::rmd_jackports();
                     if (KdenliveSettings::rmd_jack_buffer() > 0.0)

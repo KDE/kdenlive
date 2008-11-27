@@ -1472,6 +1472,8 @@ void Render::mltInsertSpace(const GenTime pos, int track, const GenTime duration
             int position = trackPlaylist.clip_start(clipIndex);
             trackPlaylist.remove_region(position, -diff - 1);
         }
+        trackPlaylist.consolidate_blanks(0);
+
         // now move transitions
         mlt_service serv = m_mltProducer->parent().get_service();
         mlt_service nextservice = mlt_service_get_producer(serv);
@@ -1505,6 +1507,7 @@ void Render::mltInsertSpace(const GenTime pos, int track, const GenTime duration
                 int position = trackPlaylist.clip_start(clipIndex);
                 trackPlaylist.remove_region(position, -diff - 1);
             }
+            trackPlaylist.consolidate_blanks(0);
             trackNb--;
         }
         // now move transitions

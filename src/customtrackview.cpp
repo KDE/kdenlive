@@ -1339,6 +1339,9 @@ void CustomTrackView::slotInsertSpace() {
     if (d.exec() != QDialog::Accepted) return;
     GenTime spaceDuration = d.selectedDuration();
     track = d.selectedTrack();
+    ClipItem *item = getClipItemAt(pos, track);
+    if (item) pos = item->startPos();
+
     InsertSpaceCommand *command = new InsertSpaceCommand(this, pos, track, spaceDuration, true);
     m_commandStack->push(command);
 }
@@ -1450,9 +1453,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
     } else if (m_operationMode == SPACER) {
         int endClick = (int)(mapToScene(event->pos()).x() + 0.5);
         int mappedClick = (int)(mapToScene(m_clickEvent).x() + 0.5);
+        int track = (int)(mapToScene(m_clickEvent).y() / m_tracksHeight);
+        ClipItem *item = getClipItemAt(mappedClick, track);
+        if (item) mappedClick = item->startPos().frames(m_document->fps());
         int diff = m_selectionGroup->pos().x() - m_spacerStart;//endClick - mappedClick;
         kDebug() << "// MOVING SPACER DIFF:" << diff;
-        int track = (int)(mapToScene(m_clickEvent).y() / m_tracksHeight);
         if (diff < 0) mappedClick += diff;
         InsertSpaceCommand *command = new InsertSpaceCommand(this, GenTime(mappedClick, m_document->fps()), track, GenTime(diff, m_document->fps()), false);
         m_commandStack->push(command);

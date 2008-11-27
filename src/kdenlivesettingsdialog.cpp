@@ -381,9 +381,9 @@ void KdenliveSettingsDialog::updateSettings() {
     }
 
     value = m_configCapture.kcfg_rmd_audio_freq->itemText(m_configCapture.kcfg_rmd_audio_freq->currentIndex());
-    kDebug()<<"// AUDIO FREQ VALUE: "<<value<<", CURRENT: "<<KdenliveSettings::rmd_freq()<<", IX: "<<m_configCapture.kcfg_rmd_audio_freq->currentIndex();
+    kDebug() << "// AUDIO FREQ VALUE: " << value << ", CURRENT: " << KdenliveSettings::rmd_freq() << ", IX: " << m_configCapture.kcfg_rmd_audio_freq->currentIndex();
     if (value != KdenliveSettings::rmd_freq()) {
-	kDebug()<<"// SETTING AUDIO FREQ TO: "<<value;
+        kDebug() << "// SETTING AUDIO FREQ TO: " << value;
         KdenliveSettings::setRmd_freq(value);
     }
 
