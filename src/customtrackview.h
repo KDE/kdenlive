@@ -99,6 +99,7 @@ public:
     void setInPoint();
     void setOutPoint();
     void slotInsertSpace();
+    void slotRemoveSpace();
     void insertSpace(const GenTime &pos, int track, const GenTime duration, bool add);
 
 public slots:

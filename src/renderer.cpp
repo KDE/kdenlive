@@ -1445,6 +1445,29 @@ bool Render::mltRemoveClip(int track, GenTime position) {
     return true;
 }
 
+int Render::mltGetSpaceLength(const GenTime pos, int track) {
+    if (!m_mltProducer) {
+        kDebug() << "PLAYLIST NOT INITIALISED //////";
+        return -1;
+    }
+    Mlt::Producer parentProd(m_mltProducer->parent());
+    if (parentProd.get_producer() == NULL) {
+        kDebug() << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
+        return -1;
+    }
+
+    Mlt::Service service(parentProd.get_service());
+    Mlt::Tractor tractor(service);
+    int insertPos = pos.frames(m_fps);
+
+    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+    int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
+    if (!trackPlaylist.is_blank_at(clipIndex)) return -1;
+    return trackPlaylist.clip_length(clipIndex);
+}
+
+
 void Render::mltInsertSpace(const GenTime pos, int track, const GenTime duration) {
     if (!m_mltProducer) {
         kDebug() << "PLAYLIST NOT INITIALISED //////";

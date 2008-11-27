@@ -151,6 +151,7 @@ Q_OBJECT public:
     void mltUpdateClip(ItemInfo info, QDomElement element, Mlt::Producer *prod);
     void mltCutClip(int track, GenTime position);
     void mltInsertSpace(const GenTime pos, int track, const GenTime duration);
+    int mltGetSpaceLength(const GenTime pos, int track);
     bool mltResizeClipEnd(ItemInfo info, GenTime clipDuration);
     bool mltResizeClipStart(ItemInfo info, GenTime diff);
     bool mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart, Mlt::Producer *prod);

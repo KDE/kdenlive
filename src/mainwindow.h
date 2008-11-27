@@ -246,6 +246,7 @@ private slots:
     void slotFindNext();
 
     void slotInsertSpace();
+    void slotRemoveSpace();
     void slotAddGuide();
     void slotEditGuide();
     void slotDeleteGuide();

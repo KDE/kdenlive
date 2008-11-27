@@ -41,6 +41,7 @@
 		<Action name="delete_all_guides" />
       </Menu>
       <Action name="insert_space" />
+      <Action name="delete_space" />
       <Separator />
       <Menu name="video_effects_menu" ><text>Add Video Effect</text>
       </Menu>
