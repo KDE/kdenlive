@@ -306,10 +306,18 @@ QMap <QString, QString> ClipProperties::properties() {
             m_clipNeedsRefresh = true;
             props["colour"] = "0x" + new_color.right(6) + "ff";
         }
+        int duration = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
+        if (duration != m_clip->duration().frames(m_fps)) {
+            props["out"] = QString::number(duration);
+        }
     } else if (t == IMAGE) {
         if ((int) m_view.image_transparency->isChecked() != old_props.value("transparency").toInt()) {
             props["transparency"] = QString::number((int)m_view.image_transparency->isChecked());
             m_clipNeedsRefresh = true;
+        }
+        int duration = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
+        if (duration != m_clip->duration().frames(m_fps)) {
+            props["out"] = QString::number(duration);
         }
     } else if (t == SLIDESHOW) {
         QString value = QString::number((int) m_view.slide_loop->isChecked());
