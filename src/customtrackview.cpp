@@ -1326,6 +1326,32 @@ void CustomTrackView::slotSwitchTrackVideo(int ix) {
     m_document->renderer()->mltChangeTrackState(tracknumber, m_scene->m_tracksList.at(tracknumber - 1).isMute, m_scene->m_tracksList.at(tracknumber - 1).isBlind);
 }
 
+void CustomTrackView::slotRemoveSpace() {
+    GenTime pos;
+    int track = 0;
+    if (m_menuPosition.isNull()) {
+        pos = GenTime(cursorPos(), m_document->fps());
+        bool ok;
+        track = QInputDialog::getInteger(this, i18n("Remove Space"), i18n("Track"), 0, 0, m_scene->m_tracksList.count() - 1, 1, &ok);
+        if (!ok) return;
+    } else {
+        pos = GenTime((int)(mapToScene(m_menuPosition).x()), m_document->fps());
+        track = (int)(mapToScene(m_menuPosition).y() / m_tracksHeight);
+    }
+    ClipItem *item = getClipItemAt(pos, track);
+    if (item) {
+        emit displayMessage(i18n("You must be in an empty space to remove space."), ErrorMessage);
+        return;
+    }
+    int length = m_document->renderer()->mltGetSpaceLength(pos, m_scene->m_tracksList.count() - track);
+    if (length <= 0) {
+        emit displayMessage(i18n("You must be in an empty space to remove space."), ErrorMessage);
+        return;
+    }
+    InsertSpaceCommand *command = new InsertSpaceCommand(this, pos, track, GenTime(-length, m_document->fps()), true);
+    m_commandStack->push(command);
+}
+
 void CustomTrackView::slotInsertSpace() {
     GenTime pos;
     int track = 0;
@@ -1350,7 +1376,7 @@ void CustomTrackView::insertSpace(const GenTime &pos, int track, const GenTime d
     int diff = duration.frames(m_document->fps());
     if (!add) diff = -diff;
     QList<QGraphicsItem *> itemList;
-    if (track == -1) itemList = items();
+    if (track == -1) itemList = scene()->items(pos.frames(m_document->fps()) , 1, sceneRect().width() - pos.frames(m_document->fps()), sceneRect().height());
     else itemList = scene()->items(pos.frames(m_document->fps()) , track * m_tracksHeight + 1, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight - 2);
     if (m_selectionGroup) {
         scene()->destroyItemGroup(m_selectionGroup);
