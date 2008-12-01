@@ -42,6 +42,7 @@
 
 ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, bool generateThumbs)
         : AbstractClipItem(info, QRectF(), fps), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_startThumbRequested(false), m_endThumbRequested(false), m_startFade(0), m_endFade(0), m_hover(false), m_selectedEffect(-1), m_speed(1.0), framePixelWidth(0), m_startPix(QPixmap()), m_endPix(QPixmap()) {
+    setZValue(1);
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (double)(KdenliveSettings::trackheight() - 2));
     setPos(info.startPos.frames(fps), (double)(info.track * KdenliveSettings::trackheight()) + 1);
 
@@ -1004,9 +1005,9 @@ void ClipItem::checkEffectsKeyframesPos(const int previous, const int current, b
 QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value) {
     if (change == ItemPositionChange && scene()) {
         // calculate new position.
-        if (group() != 0) return pos();
+        if (group()) return pos();
         QPointF newPos = value.toPointF();
-        //kDebug() << "/// MOVING CLIP ITEM.------------";
+        kDebug() << "/// MOVING CLIP ITEM.------------\n++++++++++";
         int xpos = projectScene()->getSnapPointForPos((int) newPos.x(), KdenliveSettings::snaptopoints());
         xpos = qMax(xpos, 0);
         newPos.setX(xpos);

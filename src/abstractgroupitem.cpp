@@ -32,6 +32,7 @@
 #include "customtrackscene.h"
 
 AbstractGroupItem::AbstractGroupItem(double fps): QGraphicsItemGroup(), m_fps(fps) {
+    setZValue(2);
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 }
 
@@ -90,6 +91,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         xpos = qMax(xpos, 0);
         newPos.setX(xpos);
 
+
         //kDebug()<<"// GRP MOVE: "<<pos().y()<<"->"<<newPos.y();
         QPointF start = pos();//sceneBoundingRect().topLeft();
         int posx = start.x() + newPos.x(); //projectScene()->getSnapPointForPos(start.x() + sc.x(), KdenliveSettings::snaptopoints());
@@ -107,20 +109,17 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         for (int i = 0; i < children.count(); i++) {
             int currentTrack = (int)(children.at(i)->scenePos().y() / trackHeight);
             if (children.at(i)->type() == AVWIDGET) {
-                kDebug() << "// CLIP ITEM TRK: " << currentTrack << "; POS: " << children.at(i)->scenePos().y();
                 if (topTrack == -1 || currentTrack <= topTrack) {
                     offset = 0;
                     topTrack = currentTrack;
                 }
             } else if (children.at(i)->type() == TRANSITIONWIDGET) {
-                kDebug() << "// TRANS ITEM TRK: " << currentTrack << "; POS: " << children.at(i)->scenePos().y();
                 if (topTrack == -1 || currentTrack < topTrack) {
                     offset = (int)(trackHeight / 3 * 2 - 1);
                     topTrack = currentTrack;
                 }
             }
         }
-        kDebug() << "// OFFSET: " << offset << "\n------------------------------------\n------------";
 
         newPos.setY((int)((newTrack) * trackHeight) + offset);
 

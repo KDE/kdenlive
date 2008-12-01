@@ -34,6 +34,7 @@
 #include "mainwindow.h"
 
 Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDomElement params, bool automaticTransition) : AbstractClipItem(info, QRectF(), fps), m_gradient(QLinearGradient(0, 0, 0, 0)), m_automaticTransition(automaticTransition), m_forceTransitionTrack(false) {
+    setZValue(2);
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
     setPos(info.startPos.frames(fps), (qreal)(info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2));
 
@@ -58,7 +59,6 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDo
     m_name = m_parameters.elementsByTagName("name").item(0).toElement().text();
     m_secondClip = 0;
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-    setZValue(2);
 
     //m_referenceClip->addTransition(this);
 }
