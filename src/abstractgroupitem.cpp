@@ -84,6 +84,7 @@ void AbstractGroupItem::paint(QPainter *p, const QStyleOptionGraphicsItem *, QWi
 QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant &value) {
     if (change == ItemPositionChange && scene()) {
         // calculate new position.
+        const int trackHeight = KdenliveSettings::trackheight();
         QPointF newPos = value.toPointF();
         int xpos = projectScene()->getSnapPointForPos((int) newPos.x(), KdenliveSettings::snaptopoints());
         xpos = qMax(xpos, 0);
@@ -93,12 +94,35 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         QPointF start = pos();//sceneBoundingRect().topLeft();
         int posx = start.x() + newPos.x(); //projectScene()->getSnapPointForPos(start.x() + sc.x(), KdenliveSettings::snaptopoints());
 
-        int startTrack = (start.y() + KdenliveSettings::trackheight() / 2) / KdenliveSettings::trackheight();
-        int newTrack = (newPos.y()) / KdenliveSettings::trackheight();
+        int startTrack = (start.y() + trackHeight / 2) / trackHeight;
+        int newTrack = (newPos.y()) / trackHeight;
         //kDebug()<<"// GROUP NEW T:"<<newTrack<<",START T:"<<startTrack<<",MAX:"<<projectScene()->tracksCount() - 1;
-        newTrack = qMin(newTrack, projectScene()->tracksCount() - (int)(boundingRect().height() + 5) / KdenliveSettings::trackheight());
+        newTrack = qMin(newTrack, projectScene()->tracksCount() - (int)(boundingRect().height() + 5) / trackHeight);
         newTrack = qMax(newTrack, 0);
-        newPos.setY((int)((newTrack) * KdenliveSettings::trackheight()));
+
+        // Check if top item is a clip or a transition
+        int offset = 0;
+        int topTrack = -1;
+        QList<QGraphicsItem *> children = childItems();
+        for (int i = 0; i < children.count(); i++) {
+            int currentTrack = (int)(children.at(i)->scenePos().y() / trackHeight);
+            if (children.at(i)->type() == AVWIDGET) {
+                kDebug() << "// CLIP ITEM TRK: " << currentTrack << "; POS: " << children.at(i)->scenePos().y();
+                if (topTrack == -1 || currentTrack <= topTrack) {
+                    offset = 0;
+                    topTrack = currentTrack;
+                }
+            } else if (children.at(i)->type() == TRANSITIONWIDGET) {
+                kDebug() << "// TRANS ITEM TRK: " << currentTrack << "; POS: " << children.at(i)->scenePos().y();
+                if (topTrack == -1 || currentTrack < topTrack) {
+                    offset = (int)(trackHeight / 3 * 2 - 1);
+                    topTrack = currentTrack;
+                }
+            }
+        }
+        kDebug() << "// OFFSET: " << offset << "\n------------------------------------\n------------";
+
+        newPos.setY((int)((newTrack) * trackHeight) + offset);
 
         //kDebug() << "------------------------------------GRUOP MOVE";
 
@@ -109,7 +133,6 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
 
         QPolygonF sceneShape = groupShape(newPos - pos());
         QList<QGraphicsItem*> collindingItems = scene()->items(sceneShape, Qt::IntersectsItemShape);
-        QList<QGraphicsItem *> children = childItems();
         for (int i = 0; i < children.count(); i++) {
             collindingItems.removeAll(children.at(i));
         }

@@ -28,6 +28,7 @@
 
 #include "abstractclipitem.h"
 #include "customtrackscene.h"
+#include "kdenlivesettings.h"
 
 AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps): QGraphicsRectItem(rect), m_track(0), m_fps(fps), m_editedKeyframe(-1), m_selectedKeyframe(0), m_keyframeFactor(1) {
     setFlags(/*QGraphicsItem::ItemClipsToShape | */QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
@@ -63,6 +64,11 @@ GenTime AbstractClipItem::cropDuration() const {
 
 void AbstractClipItem::setCropStart(GenTime pos) {
     m_cropStart = pos;
+}
+
+void AbstractClipItem::updateItem() {
+    m_track = (int)(scenePos().y() / KdenliveSettings::trackheight());
+    m_startPos = GenTime((int) scenePos().x(), m_fps);
 }
 
 void AbstractClipItem::updateRectGeometry() {

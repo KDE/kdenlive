@@ -1086,6 +1086,10 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut) {
             m_blockRefresh = false;
             return;
         }
+        if (m_document->renderer()->mltRemoveClip(m_scene->m_tracksList.count() - info.track, cutTime) == false) {
+            emit displayMessage(i18n("Error removing clip at %1 on track %2", cutTime.frames(m_document->fps()), info.track), ErrorMessage);
+            return;
+        }
 
         kDebug() << "// UNCUTTING CLIPS: ITEM 1 (" << item->startPos().frames(25) << "x" << item->endPos().frames(25) << ")";
         kDebug() << "// UNCUTTING CLIPS: ITEM 2 (" << dup->startPos().frames(25) << "x" << dup->endPos().frames(25) << ")";
@@ -1098,7 +1102,6 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut) {
         m_document->updateClip(dup->baseClip()->getId());
         scene()->removeItem(dup);
         delete dup;
-        m_document->renderer()->mltRemoveClip(m_scene->m_tracksList.count() - info.track, cutTime);
 
         ItemInfo clipinfo = item->info();
         clipinfo.track = m_scene->m_tracksList.count() - clipinfo.track;
@@ -1554,9 +1557,14 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                     AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
                     ItemInfo info = item->info();
                     if (item->type() == AVWIDGET) {
-                        ClipItem *clip = static_cast <ClipItem*>(item);
-                        new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), info, clip->effectList(), false, true, moveClips);
-                        m_document->renderer()->mltRemoveClip(m_scene->m_tracksList.count() - info.track, info.startPos);
+                        if (m_document->renderer()->mltRemoveClip(m_scene->m_tracksList.count() - info.track, info.startPos) == false) {
+                            // error, clip cannot be removed from playlist
+                            emit displayMessage(i18n("Error removing clip at %1 on track %2", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
+                        } else {
+                            // clip removed from playlist, create command
+                            ClipItem *clip = static_cast <ClipItem*>(item);
+                            new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), info, clip->effectList(), false, true, moveClips);
+                        }
                     } else {
                         Transition *tr = static_cast <Transition*>(item);
                         new AddTransitionCommand(this, info, tr->transitionEndTrack(), tr->toXML(), true, false, moveClips);
@@ -1567,10 +1575,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 for (int i = 0; i < items.count(); i++) {
                     // re-add items in correct place
                     AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
+                    item->updateItem();
                     ItemInfo info = item->info();
-                    info.startPos = info.startPos + timeOffset;
+                    /*info.startPos = info.startPos + timeOffset;
                     info.endPos = info.endPos + timeOffset;
-                    info.track = info.track + trackOffset;
+                    info.track = info.track + trackOffset;*/
                     if (item->type() == AVWIDGET) {
                         ClipItem *clip = static_cast <ClipItem*>(item);
                         new AddTimelineClipCommand(this, clip->xml(), clip->clipProducer(), info, clip->effectList(), false, false, moveClips);
@@ -1699,8 +1708,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
 
 void CustomTrackView::deleteClip(ItemInfo info) {
     ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()) + 1, info.track);
-    if (!item) {
-        kDebug() << "----------------  ERROR, CANNOT find clip to delete at...";// << rect.x();
+
+    if (!item || m_document->renderer()->mltRemoveClip(m_scene->m_tracksList.count() - info.track, info.startPos) == false) {
+        emit displayMessage(i18n("Error removing clip at %1 on track %2", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
         return;
     }
     if (item->isSelected()) emit clipItemSelected(NULL);
@@ -1719,7 +1729,6 @@ void CustomTrackView::deleteClip(ItemInfo info) {
     scene()->removeItem(item);
     if (m_dragItem == item) m_dragItem = NULL;
     delete item;
-    m_document->renderer()->mltRemoveClip(m_scene->m_tracksList.count() - info.track, info.startPos);
     m_document->renderer()->doRefresh();
 }
 

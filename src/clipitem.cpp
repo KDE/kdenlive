@@ -1000,7 +1000,6 @@ void ClipItem::checkEffectsKeyframesPos(const int previous, const int current, b
     if (m_selectedEffect >= 0) setSelectedEffect(m_selectedEffect);
 }
 
-
 //virtual
 QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value) {
     if (change == ItemPositionChange && scene()) {
@@ -1011,7 +1010,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value) 
         int xpos = projectScene()->getSnapPointForPos((int) newPos.x(), KdenliveSettings::snaptopoints());
         xpos = qMax(xpos, 0);
         newPos.setX(xpos);
-        int newTrack = (newPos.y() + KdenliveSettings::trackheight() / 2) / KdenliveSettings::trackheight();
+        int newTrack = newPos.y() / KdenliveSettings::trackheight();
         newTrack = qMin(newTrack, projectScene()->tracksCount() - 1);
         newTrack = qMax(newTrack, 0);
         newPos.setY((int)(newTrack  * KdenliveSettings::trackheight() + 1));

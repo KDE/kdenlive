@@ -41,6 +41,7 @@ public:
     ItemInfo info() const;
     CustomTrackScene* projectScene();
     void updateRectGeometry();
+    void updateItem();
 
     virtual  OPERATIONTYPE operationMode(QPointF pos) = 0;
     virtual GenTime startPos() const ;
