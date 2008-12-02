@@ -23,17 +23,20 @@
       <Action name="razor_tool" />
       <Action name="spacer_tool" />
     </Menu>
+    
+    <Menu name="clip" ><text>Clip</text>
+          <Menu name="marker_menu" ><text>Markers</text>
+		<Action name="add_clip_marker" />
+		<Action name="edit_clip_marker" />
+		<Action name="delete_clip_marker" />
+		<Action name="delete_all_clip_markers" />
+	  </Menu>
+    </Menu>
 
     <Menu name="timeline" ><text>Timeline</text>
       <Action name="cut_timeline_clip" />
       <Action name="delete_timeline_clip" />
       <Action name="change_clip_speed" />
-      <Menu name="marker_menu" ><text>Markers</text>
-		<Action name="add_clip_marker" />
-		<Action name="edit_clip_marker" />
-		<Action name="delete_clip_marker" />
-		<Action name="delete_all_clip_markers" />
-      </Menu>
       <Menu name="guide_menu" ><text>Guides</text>
 		<Action name="add_guide" />
 		<Action name="edit_guide" />

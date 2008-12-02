@@ -70,8 +70,11 @@ public:
     void resetSize();
     bool isActive() const;
     void pause();
-    void setupMenu(QMenu *goMenu);
+    void setupMenu(QMenu *goMenu, QMenu *markerMenu = NULL);
     QDomDocument sceneList();
+    DocClipBase *activeClip();
+    GenTime position();
+    void checkOverlay();
 
 protected:
     virtual void mousePressEvent(QMouseEvent * event);
@@ -106,7 +109,6 @@ private:
     QPoint m_DragStartPosition;
     bool m_dragStarted;
     Overlay *m_overlay;
-    void checkOverlay();
     GenTime getSnapForPos(bool previous);
 
 private slots:

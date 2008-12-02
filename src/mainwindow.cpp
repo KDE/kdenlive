@@ -81,6 +81,8 @@
 #include "wizard.h"
 #include "editclipcommand.h"
 #include "titlewidget.h"
+#include "markerdialog.h"
+#include "clipitem.h"
 
 static const int ID_STATUS_MSG = 1;
 static const int ID_EDITMODE_MSG = 2;
@@ -212,7 +214,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     //kDebug() << factory() << " " << factory()->container("video_effects_menu", this);
 
     m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)));
-    m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)));
+    m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), static_cast<QMenu*>(factory()->container("marker_menu", this)));
 
     // build effects menus
     QAction *action;
@@ -1475,26 +1477,120 @@ void MainWindow::slotChangeClipSpeed() {
 }
 
 void MainWindow::slotAddClipMarker() {
-    if (m_activeTimeline) {
-        m_activeTimeline->projectView()->slotAddClipMarker();
+    DocClipBase *clip = NULL;
+    GenTime pos;
+    if (m_projectMonitor->isActive()) {
+        if (m_activeTimeline) {
+            ClipItem *item = m_activeTimeline->projectView()->getActiveClipUnderCursor();
+            if (item) {
+                pos = m_projectMonitor->position() - item->startPos() + item->cropStart();
+                clip = item->baseClip();
+            }
+        }
+    } else {
+        clip = m_clipMonitor->activeClip();
+        pos = m_clipMonitor->position();
     }
+    if (!clip) {
+        m_messageLabel->setMessage(i18n("Cannot find clip to add marker"), ErrorMessage);
+        return;
+    }
+    QString id = clip->getId();
+    CommentedTime marker(pos, i18n("Marker"));
+    MarkerDialog d(clip, marker, m_activeDocument->timecode(), i18n("Add Marker"), this);
+    if (d.exec() == QDialog::Accepted) {
+        m_activeTimeline->projectView()->slotAddClipMarker(id, d.newMarker().time(), d.newMarker().comment());
+    }
+    if (m_clipMonitor->isActive()) m_clipMonitor->checkOverlay();
 }
 
 void MainWindow::slotDeleteClipMarker() {
-    if (m_activeTimeline) {
-        m_activeTimeline->projectView()->slotDeleteClipMarker();
+    DocClipBase *clip = NULL;
+    GenTime pos;
+    if (m_projectMonitor->isActive()) {
+        if (m_activeTimeline) {
+            ClipItem *item = m_activeTimeline->projectView()->getActiveClipUnderCursor();
+            if (item) {
+                pos = m_projectMonitor->position() - item->startPos() + item->cropStart();
+                clip = item->baseClip();
+            }
+        }
+    } else {
+        clip = m_clipMonitor->activeClip();
+        pos = m_clipMonitor->position();
     }
+    if (!clip) {
+        m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), ErrorMessage);
+        return;
+    }
+
+    QString id = clip->getId();
+    QString comment = clip->markerComment(pos);
+    if (comment.isEmpty()) {
+        m_messageLabel->setMessage(i18n("No marker found at cursor time"), ErrorMessage);
+        return;
+    }
+    m_activeTimeline->projectView()->slotDeleteClipMarker(comment, id, pos);
+    if (m_clipMonitor->isActive()) m_clipMonitor->checkOverlay();
+
 }
 
 void MainWindow::slotDeleteAllClipMarkers() {
-    if (m_activeTimeline) {
-        m_activeTimeline->projectView()->slotDeleteAllClipMarkers();
+    DocClipBase *clip = NULL;
+    if (m_projectMonitor->isActive()) {
+        if (m_activeTimeline) {
+            ClipItem *item = m_activeTimeline->projectView()->getActiveClipUnderCursor();
+            if (item) {
+                clip = item->baseClip();
+            }
+        }
+    } else {
+        clip = m_clipMonitor->activeClip();
     }
+    if (!clip) {
+        m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), ErrorMessage);
+        return;
+    }
+    m_activeTimeline->projectView()->slotDeleteAllClipMarkers(clip->getId());
+    if (m_clipMonitor->isActive()) m_clipMonitor->checkOverlay();
 }
 
 void MainWindow::slotEditClipMarker() {
-    if (m_activeTimeline) {
-        m_activeTimeline->projectView()->slotEditClipMarker();
+    DocClipBase *clip = NULL;
+    GenTime pos;
+    if (m_projectMonitor->isActive()) {
+        if (m_activeTimeline) {
+            ClipItem *item = m_activeTimeline->projectView()->getActiveClipUnderCursor();
+            if (item) {
+                pos = m_projectMonitor->position() - item->startPos() + item->cropStart();
+                clip = item->baseClip();
+            }
+        }
+    } else {
+        clip = m_clipMonitor->activeClip();
+        pos = m_clipMonitor->position();
+    }
+    if (!clip) {
+        m_messageLabel->setMessage(i18n("Cannot find clip to remove marker"), ErrorMessage);
+        return;
+    }
+
+    QString id = clip->getId();
+    QString oldcomment = clip->markerComment(pos);
+    if (oldcomment.isEmpty()) {
+        m_messageLabel->setMessage(i18n("No marker found at cursor time"), ErrorMessage);
+        return;
+    }
+
+    CommentedTime marker(pos, oldcomment);
+    MarkerDialog d(clip, marker, m_activeDocument->timecode(), i18n("Edit Marker"), this);
+    if (d.exec() == QDialog::Accepted) {
+        m_activeTimeline->projectView()->slotAddClipMarker(id, d.newMarker().time(), d.newMarker().comment());
+        if (d.newMarker().time() != pos) {
+            // remove old marker
+            m_activeTimeline->projectView()->slotAddClipMarker(id, pos, QString());
+        }
+        if (m_clipMonitor->isActive()) m_clipMonitor->checkOverlay();
     }
 }
 

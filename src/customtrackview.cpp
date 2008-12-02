@@ -2097,83 +2097,25 @@ void CustomTrackView::clipEnd() {
     }
 }
 
-void CustomTrackView::slotAddClipMarker() {
-    QList<QGraphicsItem *> itemList = scene()->selectedItems();
-    if (itemList.count() != 1) {
-        emit displayMessage(i18n("Cannot add marker if more than one clip is selected"), ErrorMessage);
-        kDebug() << "// CANNOT ADD MARKER IF MORE TAN ONE CLIP IS SELECTED....";
-        return;
-    }
-    AbstractClipItem *item = (AbstractClipItem *)itemList.at(0);
-    if (item->type() != AVWIDGET) return;
-    GenTime pos = GenTime(m_cursorPos, m_document->fps());
-    if (item->startPos() > pos || item->endPos() < pos) return;
-    ClipItem *clip = (ClipItem *) item;
-    QString id = clip->baseClip()->getId();
-    GenTime position = pos - item->startPos() + item->cropStart();
-    CommentedTime marker(position, i18n("Marker"));
-    MarkerDialog d(clip->baseClip(), marker, m_document->timecode(), i18n("Add Marker"), this);
-    if (d.exec() == QDialog::Accepted) {
-        slotAddClipMarker(id, d.newMarker().time(), d.newMarker().comment());
-    }
-}
-
 void CustomTrackView::slotAddClipMarker(const QString &id, GenTime t, QString c) {
     QString oldcomment = m_document->clipManager()->getClipById(id)->markerComment(t);
     AddMarkerCommand *command = new AddMarkerCommand(this, oldcomment, c, id, t, true);
     m_commandStack->push(command);
 }
 
-void CustomTrackView::slotDeleteClipMarker() {
-    QList<QGraphicsItem *> itemList = scene()->selectedItems();
-    if (itemList.count() != 1) {
-        emit displayMessage(i18n("Cannot delete marker if more than one clip is selected"), ErrorMessage);
-        kDebug() << "// CANNOT DELETE MARKER IF MORE TAN ONE CLIP IS SELECTED....";
-        return;
-    }
-    AbstractClipItem *item = (AbstractClipItem *)itemList.at(0);
-    if (item->type() != AVWIDGET) {
-        emit displayMessage(i18n("No clip selected"), ErrorMessage);
-        return;
-    }
-    GenTime pos = GenTime(m_cursorPos, m_document->fps());
-    if (item->startPos() > pos || item->endPos() < pos) {
-        emit displayMessage(i18n("No selected clip at cursor time"), ErrorMessage);
-        return;
-    }
-    ClipItem *clip = (ClipItem *) item;
-    QString id = clip->baseClip()->getId();
-    GenTime position = pos - item->startPos() + item->cropStart();
-    QString comment = clip->baseClip()->markerComment(position);
-    if (comment.isEmpty()) {
-        emit displayMessage(i18n("No marker found at cursor time"), ErrorMessage);
-        return;
-    }
+void CustomTrackView::slotDeleteClipMarker(const QString &comment, const QString &id, const GenTime &position) {
     AddMarkerCommand *command = new AddMarkerCommand(this, comment, QString(), id, position, true);
     m_commandStack->push(command);
 }
 
-void CustomTrackView::slotDeleteAllClipMarkers() {
-    QList<QGraphicsItem *> itemList = scene()->selectedItems();
-    if (itemList.count() != 1) {
-        emit displayMessage(i18n("Cannot delete marker if more than one clip is selected"), ErrorMessage);
-        kDebug() << "// CANNOT DELETE MARKER IF MORE TAN ONE CLIP IS SELECTED....";
-        return;
-    }
-    AbstractClipItem *item = (AbstractClipItem *)itemList.at(0);
-    if (item->type() != AVWIDGET) {
-        emit displayMessage(i18n("No clip selected"), ErrorMessage);
-        return;
-    }
-
-    ClipItem *clip = static_cast <ClipItem *>(item);
-    QList <CommentedTime> markers = clip->baseClip()->commentedSnapMarkers();
+void CustomTrackView::slotDeleteAllClipMarkers(const QString &id) {
+    DocClipBase *base = m_document->clipManager()->getClipById(id);
+    QList <CommentedTime> markers = base->commentedSnapMarkers();
 
     if (markers.isEmpty()) {
         emit displayMessage(i18n("Clip has no markers"), ErrorMessage);
         return;
     }
-    QString id = clip->baseClip()->getId();
     QUndoCommand *deleteMarkers = new QUndoCommand();
     deleteMarkers->setText("Delete clip markers");
 
@@ -2181,49 +2123,6 @@ void CustomTrackView::slotDeleteAllClipMarkers() {
         new AddMarkerCommand(this, markers.at(i).comment(), QString(), id, markers.at(i).time(), true, deleteMarkers);
     }
     m_commandStack->push(deleteMarkers);
-}
-
-void CustomTrackView::slotEditClipMarker() {
-    QList<QGraphicsItem *> itemList = scene()->selectedItems();
-    if (itemList.count() != 1) {
-        emit displayMessage(i18n("Cannot edit marker if more than one clip is selected"), ErrorMessage);
-        kDebug() << "// CANNOT DELETE MARKER IF MORE TAN ONE CLIP IS SELECTED....";
-        return;
-    }
-    AbstractClipItem *item = (AbstractClipItem *)itemList.at(0);
-    if (item->type() != AVWIDGET) {
-        emit displayMessage(i18n("No clip at cursor time"), ErrorMessage);
-        return;
-    }
-    GenTime pos = GenTime(m_cursorPos, m_document->fps());
-    if (item->startPos() > pos || item->endPos() < pos) {
-        emit displayMessage(i18n("No selected clip at cursor time"), ErrorMessage);
-        return;
-    }
-    ClipItem *clip = (ClipItem *) item;
-    QString id = clip->baseClip()->getId();
-    GenTime position = pos - item->startPos() + item->cropStart();
-    QString oldcomment = clip->baseClip()->markerComment(position);
-    if (oldcomment.isEmpty()) {
-        emit displayMessage(i18n("No marker found at cursor time"), ErrorMessage);
-        return;
-    }
-
-    CommentedTime marker(position, oldcomment);
-    MarkerDialog d(clip->baseClip(), marker, m_document->timecode(), i18n("Edit Marker"), this);
-    if (d.exec() == QDialog::Accepted) {
-        if (d.newMarker().time() == position) {
-            // marker position was not changed, only text
-            AddMarkerCommand *command = new AddMarkerCommand(this, oldcomment, d.newMarker().comment(), id, position, true);
-            m_commandStack->push(command);
-        } else {
-            // marker text and position were changed, remove previous marker and add new one
-            AddMarkerCommand *command1 = new AddMarkerCommand(this, oldcomment, QString(), id, position, true);
-            AddMarkerCommand *command2 = new AddMarkerCommand(this, QString(), d.newMarker().comment(), id, d.newMarker().time(), true);
-            m_commandStack->push(command1);
-            m_commandStack->push(command2);
-        }
-    }
 }
 
 void CustomTrackView::addMarker(const QString &id, const GenTime &pos, const QString comment) {
@@ -2633,7 +2532,7 @@ ClipItem *CustomTrackView::getMainActiveClip() const {
     return NULL;
 }
 
-ClipItem *CustomTrackView::getActiveClipUnderCursor() const {
+ClipItem *CustomTrackView::getActiveClipUnderCursor(bool allowOutsideCursor) const {
     QList<QGraphicsItem *> clips = scene()->selectedItems();
     if (clips.isEmpty()) {
         return getClipUnderCursor();
@@ -2644,7 +2543,7 @@ ClipItem *CustomTrackView::getActiveClipUnderCursor() const {
             if (clips.at(i)->type() != AVWIDGET) clips.removeAt(i);
             else i++;
         }
-        if (clips.count() == 1) return static_cast < ClipItem *>(clips.at(0));
+        if (clips.count() == 1 && allowOutsideCursor) return static_cast < ClipItem *>(clips.at(0));
         for (int i = 0; i < clips.count(); ++i) {
             if (clips.at(i)->type() == AVWIDGET)
                 item = static_cast < ClipItem *>(clips.at(i));
@@ -2655,7 +2554,7 @@ ClipItem *CustomTrackView::getActiveClipUnderCursor() const {
 }
 
 void CustomTrackView::setInPoint() {
-    ClipItem *clip = getActiveClipUnderCursor();
+    ClipItem *clip = getActiveClipUnderCursor(true);
     if (clip == NULL) {
         emit displayMessage(i18n("You must select one clip for this action"), ErrorMessage);
         return;
@@ -2668,7 +2567,7 @@ void CustomTrackView::setInPoint() {
 }
 
 void CustomTrackView::setOutPoint() {
-    ClipItem *clip = getActiveClipUnderCursor();
+    ClipItem *clip = getActiveClipUnderCursor(true);
     if (clip == NULL) {
         emit displayMessage(i18n("You must select one clip for this action"), ErrorMessage);
         return;
@@ -2691,6 +2590,12 @@ void CustomTrackView::slotUpdateAllThumbs() {
             qApp->processEvents();
         }
     }
+}
+
+void CustomTrackView::slotInsertTrack() {
+}
+
+void CustomTrackView::slotDeleteTrack() {
 }
 
 #include "customtrackview.moc"

@@ -58,10 +58,8 @@ public:
     void resizeClip(const ItemInfo start, const ItemInfo end);
     void addClip(QDomElement xml, const QString &clipId, ItemInfo info, EffectsList list = EffectsList());
     void deleteClip(ItemInfo info);
-    void slotAddClipMarker();
-    void slotEditClipMarker();
-    void slotDeleteClipMarker();
-    void slotDeleteAllClipMarkers();
+    void slotDeleteClipMarker(const QString &comment, const QString &id, const GenTime &position);
+    void slotDeleteAllClipMarkers(const QString &id);
     void addMarker(const QString &id, const GenTime &pos, const QString comment);
     void setScale(double scaleFactor);
     void deleteClip(const QString &clipId);
@@ -101,6 +99,7 @@ public:
     void slotInsertSpace();
     void slotRemoveSpace();
     void insertSpace(const GenTime &pos, int track, const GenTime duration, bool add);
+    ClipItem *getActiveClipUnderCursor(bool allowOutsideCursor = false) const;
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -132,6 +131,8 @@ public slots:
     void pasteClipEffects();
     void slotUpdateAllThumbs();
     void slotCheckPositionScrolling();
+    void slotInsertTrack();
+    void slotDeleteTrack();
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);
@@ -205,7 +206,6 @@ private:
     bool canBeMoved(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
     ClipItem *getClipUnderCursor() const;
     ClipItem *getMainActiveClip() const;
-    ClipItem *getActiveClipUnderCursor() const;
     bool insertPossible(AbstractGroupItem *group, const QPoint &pos) const;
     void resetSelectionGroup();
 

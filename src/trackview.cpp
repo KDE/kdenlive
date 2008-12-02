@@ -338,10 +338,10 @@ void TrackView::slotRebuildTrackHeaders() {
         HeaderTrack *header = new HeaderTrack(i, list.at(max - i - 1), this);
         connect(header, SIGNAL(switchTrackVideo(int)), m_trackview, SLOT(slotSwitchTrackVideo(int)));
         connect(header, SIGNAL(switchTrackAudio(int)), m_trackview, SLOT(slotSwitchTrackAudio(int)));
-        /*
+
         //TODO: re-enable when add / remove track is implemented
         connect(header, SIGNAL(deleteTrack(int)), m_trackview, SLOT(slotDeleteTrack(int)));
-        connect(header, SIGNAL(insertTrack(int)), m_trackview, SLOT(slotInsertTrack(int)));*/
+        connect(header, SIGNAL(insertTrack(int)), m_trackview, SLOT(slotInsertTrack(int)));
         m_headersLayout->addWidget(header);
     }
     view->headers_container->adjustSize();

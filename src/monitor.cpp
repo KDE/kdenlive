@@ -146,10 +146,11 @@ QString Monitor::name() const {
     return m_name;
 }
 
-void Monitor::setupMenu(QMenu *goMenu) {
+void Monitor::setupMenu(QMenu *goMenu, QMenu *markerMenu) {
     m_contextMenu = new QMenu(this);
     m_contextMenu->addMenu(m_playMenu);
     m_contextMenu->addMenu(goMenu);
+    if (markerMenu) m_contextMenu->addMenu(markerMenu);
 
     //TODO: add save zone to timeline monitor when fixed
     if (m_name == "clip") m_contextMenu->addAction(KIcon("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));
@@ -210,12 +211,20 @@ void Monitor::resetSize() {
     ui.video_frame->setMinimumSize(0, 0);
 }
 
+DocClipBase *Monitor::activeClip() {
+    return m_currentClip;
+}
+
 void Monitor::slotSeekToPreviousSnap() {
     if (m_currentClip) slotSeek(getSnapForPos(true).frames(m_monitorManager->timecode().fps()));
 }
 
 void Monitor::slotSeekToNextSnap() {
     if (m_currentClip) slotSeek(getSnapForPos(false).frames(m_monitorManager->timecode().fps()));
+}
+
+GenTime Monitor::position() {
+    return GenTime(m_position, m_monitorManager->timecode().fps());
 }
 
 GenTime Monitor::getSnapForPos(bool previous) {
