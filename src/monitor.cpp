@@ -393,7 +393,7 @@ bool Monitor::isActive() const {
 }
 
 void Monitor::activateMonitor() {
-    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    if (!m_isActive) m_monitorManager->switchMonitors(); //m_monitorManager->activateMonitor(m_name);
 }
 
 void Monitor::slotSeek() {
@@ -402,7 +402,7 @@ void Monitor::slotSeek() {
 }
 
 void Monitor::slotSeek(int pos) {
-    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    activateMonitor();
     if (render == NULL) return;
     m_position = pos;
     checkOverlay();
@@ -425,7 +425,7 @@ void Monitor::checkOverlay() {
 }
 
 void Monitor::slotStart() {
-    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    activateMonitor();
     render->play(0);
     m_position = 0;
     render->seekToFrame(m_position);
@@ -434,7 +434,7 @@ void Monitor::slotStart() {
 }
 
 void Monitor::slotEnd() {
-    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    activateMonitor();
     render->play(0);
     m_position = render->getLength();
     render->seekToFrame(m_position);
@@ -443,7 +443,7 @@ void Monitor::slotEnd() {
 }
 
 void Monitor::slotZoneStart() {
-    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    activateMonitor();
     render->play(0);
     m_position = m_ruler->zone().x();
     render->seekToFrame(m_position);
@@ -452,7 +452,7 @@ void Monitor::slotZoneStart() {
 }
 
 void Monitor::slotZoneEnd() {
-    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    activateMonitor();
     render->play(0);
     m_position = m_ruler->zone().y();
     render->seekToFrame(m_position);
@@ -461,7 +461,7 @@ void Monitor::slotZoneEnd() {
 }
 
 void Monitor::slotRewind(double speed) {
-    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    activateMonitor();
     if (speed == 0) {
         double currentspeed = render->playSpeed();
         if (currentspeed >= 0) render->play(-2);
@@ -472,7 +472,7 @@ void Monitor::slotRewind(double speed) {
 }
 
 void Monitor::slotForward(double speed) {
-    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    activateMonitor();
     if (speed == 0) {
         double currentspeed = render->playSpeed();
         if (currentspeed <= 1) render->play(2);
@@ -483,7 +483,7 @@ void Monitor::slotForward(double speed) {
 }
 
 void Monitor::slotRewindOneFrame() {
-    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    activateMonitor();
     render->play(0);
     if (m_position < 1) return;
     m_position--;
@@ -494,7 +494,7 @@ void Monitor::slotRewindOneFrame() {
 }
 
 void Monitor::slotForwardOneFrame() {
-    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    activateMonitor();
     render->play(0);
     if (m_position >= m_length) return;
     m_position++;
@@ -505,7 +505,7 @@ void Monitor::slotForwardOneFrame() {
 }
 
 void Monitor::seekCursor(int pos) {
-    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    activateMonitor();
     m_position = pos;
     checkOverlay();
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
@@ -552,14 +552,14 @@ void Monitor::start() {
 
 void Monitor::refreshMonitor(bool visible) {
     if (visible && render) {
-        if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+        activateMonitor();
         render->doRefresh(); //askForRefresh();
     }
 }
 
 void Monitor::pause() {
     if (render == NULL) return;
-    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    activateMonitor();
     render->pause();
     //m_playAction->setChecked(true);
     //m_playAction->setIcon(m_pauseIcon);
@@ -567,7 +567,7 @@ void Monitor::pause() {
 
 void Monitor::slotPlay() {
     if (render == NULL) return;
-    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    activateMonitor();
     render->switchPlay();
     m_playAction->setChecked(true);
     m_playAction->setIcon(m_pauseIcon);
@@ -575,7 +575,7 @@ void Monitor::slotPlay() {
 
 void Monitor::slotPlayZone() {
     if (render == NULL) return;
-    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    activateMonitor();
     QPoint p = m_ruler->zone();
     render->playZone(GenTime(p.x(), render->fps()), GenTime(p.y(), render->fps()));
     m_playAction->setChecked(true);
@@ -584,7 +584,7 @@ void Monitor::slotPlayZone() {
 
 void Monitor::slotLoopZone() {
     if (render == NULL) return;
-    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    activateMonitor();
     QPoint p = m_ruler->zone();
     render->loopZone(GenTime(p.x(), render->fps()), GenTime(p.y(), render->fps()));
     m_playAction->setChecked(true);
@@ -593,7 +593,7 @@ void Monitor::slotLoopZone() {
 
 void Monitor::slotSetXml(DocClipBase *clip, const int position) {
     if (render == NULL) return;
-    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    activateMonitor();
     if (!clip) return;
     if (clip != m_currentClip && clip->producer() != NULL) {
         m_currentClip = clip;
@@ -607,7 +607,7 @@ void Monitor::slotSetXml(DocClipBase *clip, const int position) {
 
 void Monitor::slotOpenFile(const QString &file) {
     if (render == NULL) return;
-    if (!m_isActive) m_monitorManager->activateMonitor(m_name);
+    activateMonitor();
     QDomDocument doc;
     QDomElement westley = doc.createElement("westley");
     doc.appendChild(westley);
