@@ -1,13 +1,11 @@
-# KDE Config File  
+# KDE Config File
 [Desktop Entry]
 GenericName=Video Editor
-Encoding=UTF-8
 Type=Application
-Exec=kdenlive -caption "%c" %i %m  
+Exec=kdenlive -caption "%c" %i %m
 Icon=kdenlive.png
 DocPath=kdenlive/index.html
 Comment=Nonlinear video editor for KDE
-Comment[de]=
 Terminal=0
 Name=Kdenlive
 Name[de]=Kdenlive
