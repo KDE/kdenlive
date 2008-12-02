@@ -507,7 +507,7 @@ void Monitor::slotForwardOneFrame() {
 void Monitor::seekCursor(int pos) {
     activateMonitor();
     m_position = pos;
-    checkOverlay();
+    //checkOverlay();
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
     m_ruler->slotNewValue(pos);
 }
