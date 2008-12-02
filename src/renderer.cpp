@@ -518,13 +518,15 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
         }
         //}
     }
-    if (xml.hasAttribute("out")) producer->set_in_and_out(xml.attribute("in").toInt(), xml.attribute("out").toInt());
 
-    if (producer->is_blank() || !producer->is_valid()) {
+    if (producer == NULL || producer->is_blank() || !producer->is_valid()) {
         kDebug() << " / / / / / / / /ERRROR / / / / // CANNOT LOAD PRODUCER: ";
         emit removeInvalidClip(clipId);
         return;
     }
+
+    if (xml.hasAttribute("out")) producer->set_in_and_out(xml.attribute("in").toInt(), xml.attribute("out").toInt());
+
     char *tmp = decodedString(clipId);
     producer->set("id", tmp);
     delete[] tmp;
