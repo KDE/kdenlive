@@ -2099,12 +2099,52 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff) {
     return true;
 }
 
-bool Render::mltMoveClip(int startTrack, int endTrack, GenTime moveStart, GenTime moveEnd, Mlt::Producer *prod, bool forceProducer) {
-    return mltMoveClip(startTrack, endTrack, (int) moveStart.frames(m_fps), (int) moveEnd.frames(m_fps), prod, forceProducer);
+bool Render::mltMoveClip(int startTrack, int endTrack, GenTime moveStart, GenTime moveEnd, Mlt::Producer *prod) {
+    return mltMoveClip(startTrack, endTrack, (int) moveStart.frames(m_fps), (int) moveEnd.frames(m_fps), prod);
 }
 
 
-bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEnd, Mlt::Producer *prod, bool forceProducer) {
+void Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod) {
+    kDebug() << "NEW PROD ID: " << prod->get("id");
+    m_mltConsumer->set("refresh", 0);
+    kDebug() << "// TRYING TO UPDATE CLIP at: " << pos << ", TK: " << track;
+    mlt_service_lock(m_mltConsumer->get_service());
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";
+
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+    int clipIndex = trackPlaylist.get_clip_index_at(pos + 1);
+    Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
+    if (clipProducer.is_blank()) {
+        kDebug() << "// ERROR UPDATING CLIP PROD";
+        mlt_service_unlock(m_mltConsumer->get_service());
+        m_isBlocked = false;
+        return;
+    }
+    Mlt::Producer *clip = prod->cut(clipProducer.get_in(), clipProducer.get_out());
+
+    // move all effects to the correct producer
+    Mlt::Service clipService(clipProducer.get_service());
+    Mlt::Service newClipService(clip->get_service());
+
+    int ct = 0;
+    Mlt::Filter *filter = clipService.filter(ct);
+    while (filter) {
+        if (filter->get("kdenlive_ix") != 0) {
+            clipService.detach(*filter);
+            newClipService.attach(*filter);
+        } else ct++;
+        filter = clipService.filter(ct);
+    }
+
+    trackPlaylist.insert_at(pos, clip, 1);
+    mlt_service_unlock(m_mltConsumer->get_service());
+    m_isBlocked = false;
+}
+
+bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEnd, Mlt::Producer *prod) {
     m_isBlocked = true;
 
     m_mltConsumer->set("refresh", 0);
@@ -2121,30 +2161,20 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     if (endTrack == startTrack) {
         //mlt_service_lock(service.get_service());
         Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
-        if (forceProducer) {
-            if (clipProducer.is_blank()) {
-                kDebug() << "// ERROR RESTTING CLIP PROD: " << moveEnd << ", TRK: " << startTrack;
-                mlt_service_unlock(m_mltConsumer->get_service());
-                m_isBlocked = false;
-                return false;
-            }
-            trackPlaylist.insert(clipProducer, moveEnd, clipProducer.get_in(), clipProducer.get_out());
+        if (!trackPlaylist.is_blank_at(moveEnd) || clipProducer.is_blank()) {
+            // error, destination is not empty
+            //int ix = trackPlaylist.get_clip_index_at(moveEnd);
+            kDebug() << "// ERROR MOVING CLIP TO : " << moveEnd;
+            mlt_service_unlock(m_mltConsumer->get_service());
+            m_isBlocked = false;
+            return false;
         } else {
-            if (!trackPlaylist.is_blank_at(moveEnd) || clipProducer.is_blank()) {
-                // error, destination is not empty
-                //int ix = trackPlaylist.get_clip_index_at(moveEnd);
-                kDebug() << "// ERROR MOVING CLIP TO : " << moveEnd;
-                mlt_service_unlock(m_mltConsumer->get_service());
-                m_isBlocked = false;
-                return false;
-            } else {
-                trackPlaylist.consolidate_blanks(0);
-                int newIndex = trackPlaylist.insert_at(moveEnd, clipProducer, 1);
-                /*if (QString(clipProducer.parent().get("transparency")).toInt() == 1) {
-                              mltMoveTransparency(moveStart, moveEnd, startTrack, endTrack, QString(clipProducer.parent().get("id")).toInt());
-                }*/
-                if (newIndex + 1 == trackPlaylist.count()) checkLength = true;
-            }
+            trackPlaylist.consolidate_blanks(0);
+            int newIndex = trackPlaylist.insert_at(moveEnd, clipProducer, 1);
+            /*if (QString(clipProducer.parent().get("transparency")).toInt() == 1) {
+            mltMoveTransparency(moveStart, moveEnd, startTrack, endTrack, QString(clipProducer.parent().get("id")).toInt());
+            }*/
+            if (newIndex + 1 == trackPlaylist.count()) checkLength = true;
         }
         //mlt_service_unlock(service.get_service());
     } else {
@@ -2669,8 +2699,34 @@ void Render::mltInsertTrack(int ix) {
 void Render::mltDeleteTrack(int ix) {
     QDomDocument doc;
     doc.setContent(sceneList(), false);
+    int tracksCount = doc.elementsByTagName("track").count() - 1;
     QDomNode track = doc.elementsByTagName("track").at(ix);
     QDomNode tractor = doc.elementsByTagName("tractor").at(0);
+    QDomNodeList transitions = doc.elementsByTagName("transition");
+    for (int i = 0; i < transitions.count(); i++) {
+        QDomElement e = transitions.at(i).toElement();
+        QDomNodeList props = e.elementsByTagName("property");
+        QMap <QString, QString> mappedProps;
+        for (int j = 0; j < props.count(); j++) {
+            QDomElement f = props.at(j).toElement();
+            mappedProps.insert(f.attribute("name"), f.firstChild().nodeValue());
+        }
+        if (mappedProps.value("mlt_service") == "mix" && mappedProps.value("b_track").toInt() == tracksCount) {
+            tractor.removeChild(transitions.at(i));
+        } else if (mappedProps.value("mlt_service") != "mix" && mappedProps.value("b_track").toInt() >= ix) {
+            // Transition needs to be moved
+            int a_track = mappedProps.value("a_track").toInt();
+            int b_track = mappedProps.value("b_track").toInt();
+            if (a_track > 0) a_track --;
+            if (b_track > 0) b_track --;
+            for (int j = 0; j < props.count(); j++) {
+                QDomElement f = props.at(j).toElement();
+                if (f.attribute("name") == "a_track") f.firstChild().setNodeValue(QString::number(a_track));
+                else if (f.attribute("name") == "b_track") f.firstChild().setNodeValue(QString::number(b_track));
+            }
+
+        }
+    }
     tractor.removeChild(track);
     setSceneList(doc.toString(), m_framePosition);
     return;

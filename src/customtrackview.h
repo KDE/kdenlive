@@ -52,7 +52,7 @@ public:
     void removeTrack(int ix);
     int cursorPos();
     void checkAutoScroll();
-    void moveClip(const ItemInfo start, const ItemInfo end, bool forceProducer);
+    void moveClip(const ItemInfo start, const ItemInfo end);
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo start, const ItemInfo end);
     void resizeClip(const ItemInfo start, const ItemInfo end);

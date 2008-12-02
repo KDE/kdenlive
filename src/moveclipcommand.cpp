@@ -21,7 +21,7 @@
 
 #include "moveclipcommand.h"
 #include "customtrackview.h"
-MoveClipCommand::MoveClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool forceProducer, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_startPos(start), m_endPos(end), m_forceProducer(forceProducer), m_doIt(doIt) {
+MoveClipCommand::MoveClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_startPos(start), m_endPos(end), m_doIt(doIt) {
     setText(i18n("Move clip"));
 }
 
@@ -30,13 +30,13 @@ MoveClipCommand::MoveClipCommand(CustomTrackView *view, const ItemInfo start, co
 void MoveClipCommand::undo() {
 // kDebug()<<"----  undoing action";
     m_doIt = true;
-    m_view->moveClip(m_endPos, m_startPos, m_forceProducer);
+    m_view->moveClip(m_endPos, m_startPos);
 }
 // virtual
 void MoveClipCommand::redo() {
     kDebug() << "----  redoing action";
     if (m_doIt)
-        m_view->moveClip(m_startPos, m_endPos, m_forceProducer);
+        m_view->moveClip(m_startPos, m_endPos);
     m_doIt = true;
 }
 

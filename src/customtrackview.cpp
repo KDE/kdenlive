@@ -796,7 +796,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event) {
                     endInfo.startPos = d.startPos();
                     endInfo.endPos = m_dragItem->endPos() + (endInfo.startPos - startInfo.startPos);
                     endInfo.track = m_dragItem->track();
-                    MoveClipCommand *command = new MoveClipCommand(this, startInfo, endInfo, false, true);
+                    MoveClipCommand *command = new MoveClipCommand(this, startInfo, endInfo, true);
                     m_commandStack->push(command);
                 } else {
                     //TODO: move transition
@@ -1346,8 +1346,10 @@ void CustomTrackView::addTrack(TrackInfo type, int ix) {
             if (item->type() == AVWIDGET) {
                 ClipItem *clip = static_cast <ClipItem *>(item);
                 // We add a move clip command so that we get the correct producer for new track number
-                /*if (clip->clipType() == AV || clip->clipType() == AUDIO)
-                    moveClip(clipinfo, clipinfo, true);*/
+                if (clip->clipType() == AV || clip->clipType() == AUDIO) {
+                    m_document->renderer()->mltUpdateClipProducer((int)(m_scene->m_tracksList.count() - clipinfo.track), clipinfo.startPos.frames(m_document->fps()), clip->baseClip()->producer(clipinfo.track));
+                    kDebug() << "// UPDATING CLIP TO TRACK PROD: " << clipinfo.track;
+                }
             } else if (item->type() == TRANSITIONWIDGET) {
                 Transition *tr = static_cast <Transition *>(item);
                 int track = tr->transitionEndTrack();
@@ -1402,8 +1404,8 @@ void CustomTrackView::removeTrack(int ix) {
             ItemInfo clipinfo = clip->info();
             kDebug() << "// CLIP TRK IS: " << clipinfo.track;
             // We add a move clip command so that we get the correct producer for new track number
-            /*if (clip->clipType() == AV || clip->clipType() == AUDIO)
-            moveClip(clipinfo, clipinfo, true);*/
+            if (clip->clipType() == AV || clip->clipType() == AUDIO)
+                m_document->renderer()->mltUpdateClipProducer((int)(m_scene->m_tracksList.count() - clipinfo.track), clipinfo.startPos.frames(m_document->fps()), clip->baseClip()->producer(clipinfo.track));
         } else if (children.at(i)->type() == TRANSITIONWIDGET) {
             Transition *tr = static_cast <Transition *>(children.at(i));
             tr->updateItem();
@@ -1625,7 +1627,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                     }
                 } else {
                     // undo last move and emit error message
-                    MoveClipCommand *command = new MoveClipCommand(this, info, m_dragItemInfo, false, true);
+                    MoveClipCommand *command = new MoveClipCommand(this, info, m_dragItemInfo, true);
                     m_commandStack->push(command);
                     emit displayMessage(i18n("Cannot move clip to position %1seconds", QString::number(m_dragItemInfo.startPos.seconds(), 'g', 2)), ErrorMessage);
                 }
@@ -1978,7 +1980,7 @@ Transition *CustomTrackView::getTransitionItemAt(GenTime pos, int track) {
     return getTransitionItemAt(framepos, track);
 }
 
-void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end, bool forceProducer) {
+void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
     ClipItem *item = getClipItemAt((int) start.startPos.frames(m_document->fps()) + 1, start.track);
     if (!item) {
         emit displayMessage(i18n("Cannot move clip at time: %1s on track %2", QString::number(start.startPos.seconds(), 'g', 2), start.track), ErrorMessage);
@@ -1987,7 +1989,7 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end, bool fo
     }
     //kDebug() << "----------------  Move CLIP FROM: " << startPos.x() << ", END:" << endPos.x() << ",TRACKS: " << startPos.y() << " TO " << endPos.y();
 
-    bool success = m_document->renderer()->mltMoveClip((int)(m_scene->m_tracksList.count() - start.track), (int)(m_scene->m_tracksList.count() - end.track), (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()), item->baseClip()->producer(end.track), forceProducer);
+    bool success = m_document->renderer()->mltMoveClip((int)(m_scene->m_tracksList.count() - start.track), (int)(m_scene->m_tracksList.count() - end.track), (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()), item->baseClip()->producer(end.track));
     if (success) {
         item->setPos((int) end.startPos.frames(m_document->fps()), (int)(end.track * m_tracksHeight + 1));
         if (item->baseClip()->isTransparent()) {
@@ -2715,6 +2717,7 @@ void CustomTrackView::slotInsertTrack(int ix) {
             info.isBlind = false;
         }
         addTimelineTrack(ix, info);
+        m_document->setModified(true);
         /*AddTrackCommand* command = new AddTrackCommand(this, ix, info, true, true);
         m_commandStack->push(command);*/
     }
@@ -2726,6 +2729,7 @@ void CustomTrackView::slotDeleteTrack(int ix) {
     if (ok) {
         TrackInfo info = m_scene->m_tracksList.at(m_scene->m_tracksList.count() - ix);
         deleteTimelineTrack(ix, info);
+        m_document->setModified(true);
         /*AddTrackCommand* command = new AddTrackCommand(this, ix, info, false, true);
         m_commandStack->push(command);*/
     }
@@ -2757,7 +2761,7 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo) {
     for (int i = 0; i < selection.count(); i++) {
         if (selection.at(i)->type() == AVWIDGET) {
             ClipItem *item =  static_cast <ClipItem *>(selection.at(i));
-            new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, false, deleteTrack);
+            new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, true, deleteTrack);
             m_scene->removeItem(item);
             delete item;
             item = NULL;

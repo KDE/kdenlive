@@ -251,7 +251,7 @@ const QPixmap & DocClipBase::thumbnail() const {
 }
 
 void DocClipBase::updateAudioThumbnail(QMap<int, QMap<int, QByteArray> > data) {
-    kDebug() << "CLIPBASE RECIEDVED AUDIO DATA*********************************************";
+    //kDebug() << "CLIPBASE RECIEDVED AUDIO DATA*********************************************";
     audioFrameChache = data;
     m_audioThumbCreated = true;
     emit gotAudioData();
@@ -371,25 +371,28 @@ QString DocClipBase::markerComment(GenTime t) {
 void DocClipBase::setProducer(Mlt::Producer *producer) {
     if (producer == NULL) return;
     QString id = producer->get("id");
-    kDebug() << "// SET PRODUCER: " << id;
     if (id.contains('_')) {
         // this is a subtrack producer, insert it at correct place
         int pos = id.section('_', 1, 1).toInt();
-        kDebug() << "// POS = " << pos << ", MAX: " << m_baseTrackProducers.count();
         if (pos >= m_baseTrackProducers.count()) {
             while (m_baseTrackProducers.count() - 1 < pos) {
                 m_baseTrackProducers.append(NULL);
             }
         }
-        kDebug() << "// POS = " << pos << ", NEW MAX: " << m_baseTrackProducers.count();
         if (m_baseTrackProducers.at(pos) == NULL) m_baseTrackProducers[pos] = producer;
-    } else m_baseTrackProducers.append(producer);
+    } else {
+        if (m_baseTrackProducers.isEmpty()) m_baseTrackProducers.append(producer);
+        else if (m_baseTrackProducers.at(0) == NULL) m_baseTrackProducers[0] = producer;
+    }
     //m_clipProducer = producer;
     //m_clipProducer->set("transparency", m_properties.value("transparency").toInt());
     if (m_thumbProd && !m_thumbProd->hasProducer()) m_thumbProd->setProducer(producer);
 }
 
 Mlt::Producer *DocClipBase::producer(int track) {
+    for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+        if (m_baseTrackProducers.at(i)) kDebug() << "// PROD: " << i << ", ID: " << m_baseTrackProducers.at(i)->get("id");
+    }
     if (track == -1 || (m_clipType != AUDIO && m_clipType != AV)) {
         if (m_baseTrackProducers.count() == 0) return NULL;
         int i;
