@@ -53,7 +53,6 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent)
 
     m_contextMenu = new QMenu(this);
 
-    //TODO: implement add/remove track
     QAction *insertAction = new QAction(i18n("Insert track"), this);
     m_contextMenu->addAction(insertAction);
     connect(insertAction, SIGNAL(triggered()), this, SLOT(slotAddTrack()));

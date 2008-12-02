@@ -43,8 +43,14 @@
 		<Action name="delete_guide" />
 		<Action name="delete_all_guides" />
       </Menu>
-      <Action name="insert_space" />
-      <Action name="delete_space" />
+      <Menu name="space_menu" ><text>Space</text>
+	<Action name="insert_space" />
+	<Action name="delete_space" />
+      </Menu>
+      <Menu name="track_menu" ><text>Tracks</text>
+	<Action name="insert_track" />
+	<Action name="delete_track" />
+      </Menu>
       <Separator />
       <Menu name="video_effects_menu" ><text>Add Video Effect</text>
       </Menu>

@@ -266,6 +266,8 @@ private slots:
     void slotSetInPoint();
     void slotSetOutPoint();
     void configureNotifications();
+    void slotInsertTrack(int ix = 0);
+    void slotDeleteTrack(int ix = 0);
 };
 
 

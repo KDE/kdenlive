@@ -340,8 +340,8 @@ void TrackView::slotRebuildTrackHeaders() {
         connect(header, SIGNAL(switchTrackAudio(int)), m_trackview, SLOT(slotSwitchTrackAudio(int)));
 
         //TODO: re-enable when add / remove track is implemented
-        connect(header, SIGNAL(deleteTrack(int)), m_trackview, SLOT(slotDeleteTrack(int)));
-        connect(header, SIGNAL(insertTrack(int)), m_trackview, SLOT(slotInsertTrack(int)));
+        connect(header, SIGNAL(deleteTrack(int)), this, SIGNAL(deleteTrack(int)));
+        connect(header, SIGNAL(insertTrack(int)), this, SIGNAL(insertTrack(int)));
         m_headersLayout->addWidget(header);
     }
     view->headers_container->adjustSize();

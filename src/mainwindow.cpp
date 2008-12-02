@@ -805,6 +805,14 @@ void MainWindow::setupActions() {
     collection->addAction("delete_space", removeSpace);
     connect(removeSpace, SIGNAL(triggered()), this, SLOT(slotRemoveSpace()));
 
+    KAction *insertTrack = new KAction(KIcon(), i18n("Insert Track"), this);
+    collection->addAction("insert_track", insertTrack);
+    connect(insertTrack, SIGNAL(triggered()), this, SLOT(slotInsertTrack()));
+
+    KAction *deleteTrack = new KAction(KIcon(), i18n("Delete Track"), this);
+    collection->addAction("delete_track", deleteTrack);
+    connect(deleteTrack, SIGNAL(triggered()), this, SLOT(slotDeleteTrack()));
+
     KAction *addGuide = new KAction(KIcon("document-new"), i18n("Add Guide"), this);
     collection->addAction("add_guide", addGuide);
     connect(addGuide, SIGNAL(triggered()), this, SLOT(slotAddGuide()));
@@ -1288,6 +1296,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), m_activeTimeline, SLOT(slotSetZone(QPoint)));
             disconnect(m_projectMonitor, SIGNAL(durationChanged(int)), m_activeTimeline, SLOT(setDuration(int)));
             disconnect(m_projectList, SIGNAL(projectModified()), m_activeDocument, SLOT(setModified()));
+
+
             disconnect(m_activeDocument, SIGNAL(guidesUpdated()), this, SLOT(slotGuidesUpdated()));
             disconnect(m_activeDocument, SIGNAL(addProjectClip(DocClipBase *)), m_projectList, SLOT(slotAddClip(DocClipBase *)));
             disconnect(m_activeDocument, SIGNAL(addProjectFolder(const QString, const QString &, bool, bool)), m_projectList, SLOT(slotAddFolder(const QString, const QString &, bool, bool)));
@@ -1302,7 +1312,9 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(m_zoomSlider, SIGNAL(valueChanged(int)), m_activeTimeline, SLOT(slotChangeZoom(int)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(displayMessage(const QString&, MessageType)), m_messageLabel, SLOT(setMessage(const QString&, MessageType)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(showClipFrame(DocClipBase *, const int)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *, const int)));
-
+            disconnect(m_activeTimeline, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(activateMonitor()));
+            disconnect(m_activeTimeline, SIGNAL(insertTrack(int)), this, SLOT(slotInsertTrack(int)));
+            disconnect(m_activeTimeline, SIGNAL(deleteTrack(int)), this, SLOT(slotDeleteTrack(int)));
             disconnect(m_activeDocument, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
             disconnect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement, int)), m_activeTimeline->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement, int)));
             disconnect(effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), m_activeTimeline->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
@@ -1331,6 +1343,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(m_projectList, SIGNAL(clipSelected(DocClipBase *)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *)));
     connect(m_projectList, SIGNAL(projectModified()), doc, SLOT(setModified()));
     connect(trackView, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(activateMonitor()));
+    connect(trackView, SIGNAL(insertTrack(int)), this, SLOT(slotInsertTrack(int)));
+    connect(trackView, SIGNAL(deleteTrack(int)), this, SLOT(slotDeleteTrack(int)));
     connect(trackView, SIGNAL(mousePosition(int)), this, SLOT(slotUpdateMousePosition(int)));
     connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
@@ -1607,6 +1621,18 @@ void MainWindow::slotInsertSpace() {
 void MainWindow::slotRemoveSpace() {
     if (m_activeTimeline)
         m_activeTimeline->projectView()->slotRemoveSpace();
+}
+
+void MainWindow::slotInsertTrack(int ix) {
+    m_projectMonitor->activateMonitor();
+    if (m_activeTimeline)
+        m_activeTimeline->projectView()->slotInsertTrack(ix);
+}
+
+void MainWindow::slotDeleteTrack(int ix) {
+    m_projectMonitor->activateMonitor();
+    if (m_activeTimeline)
+        m_activeTimeline->projectView()->slotDeleteTrack(ix);
 }
 
 void MainWindow::slotEditGuide() {

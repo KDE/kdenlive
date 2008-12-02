@@ -98,6 +98,8 @@ signals:
     void cursorMoved();
     void transitionItemSelected(Transition*, bool);
     void zoneMoved(int, int);
+    void insertTrack(int);
+    void deleteTrack(int);
 };
 
 #endif

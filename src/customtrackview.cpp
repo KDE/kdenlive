@@ -1364,13 +1364,14 @@ void CustomTrackView::addTrack(TrackInfo type, int ix) {
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), m_tracksHeight * m_scene->m_tracksList.count());
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_scene->m_tracksList.count());
     verticalScrollBar()->setMaximum(m_tracksHeight * m_scene->m_tracksList.count());
+    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
     //setFixedHeight(50 * m_tracksCount);
 }
 
 void CustomTrackView::removeTrack(int ix) {
     // Delete track in MLT playlist
     m_document->renderer()->mltDeleteTrack(m_scene->m_tracksList.count() - ix);
-    m_scene->m_tracksList.removeAt(m_scene->m_tracksList.count() - ix);
+    m_scene->m_tracksList.removeAt(m_scene->m_tracksList.count() - ix - 1);
 
     double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;
     QRectF r(0, startY, sceneRect().width(), sceneRect().height() - startY);
@@ -1421,6 +1422,7 @@ void CustomTrackView::removeTrack(int ix) {
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), m_tracksHeight * m_scene->m_tracksList.count());
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_scene->m_tracksList.count());
     verticalScrollBar()->setMaximum(m_tracksHeight * m_scene->m_tracksList.count());
+    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
 }
 
 
@@ -2727,7 +2729,7 @@ void CustomTrackView::slotDeleteTrack(int ix) {
     bool ok;
     ix = QInputDialog::getInteger(this, i18n("Remove Track"), i18n("Track"), ix, 0, m_scene->m_tracksList.count() - 1, 1, &ok);
     if (ok) {
-        TrackInfo info = m_scene->m_tracksList.at(m_scene->m_tracksList.count() - ix);
+        TrackInfo info = m_scene->m_tracksList.at(m_scene->m_tracksList.count() - ix - 1);
         deleteTimelineTrack(ix, info);
         m_document->setModified(true);
         /*AddTrackCommand* command = new AddTrackCommand(this, ix, info, false, true);
@@ -2747,7 +2749,6 @@ void CustomTrackView::addTimelineTrack(int ix, TrackInfo trackinfo) {
     m_commandStack->push(addTrack);
     kDebug() << "// ADD TRCKL DONE...";
     update();
-    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
 }
 
 void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo) {
@@ -2775,13 +2776,10 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo) {
     }
 
     new AddTrackCommand(this, ix, trackinfo, false, true, deleteTrack);
-
     m_commandStack->push(deleteTrack);
     //removeTrack(ix, trackinfo);
     kDebug() << "// REM TRK DONE...";
     update();
-    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
-
 }
 
 #include "customtrackview.moc"
