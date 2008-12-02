@@ -60,6 +60,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/wizardstandard_ui.ui
   widgets/wizardextra_ui.ui
   widgets/spacerdialog_ui.ui
+  widgets/addtrack_ui.ui
 )
  
 set(kdenlive_SRCS 
@@ -135,6 +136,7 @@ set(kdenlive_SRCS
   editclipcommand.cpp
   insertspacecommand.cpp
   spacerdialog.cpp
+  addtrackcommand.cpp
 )
 
 if(NO_JOGSHUTTLE)

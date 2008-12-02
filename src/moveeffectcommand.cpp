@@ -22,8 +22,7 @@
 #include "moveeffectcommand.h"
 #include "customtrackview.h"
 
-MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, GenTime pos, int oldPos, int newPos, bool doIt)
-        : m_view(view), m_track(track), m_pos(pos), m_oldindex(oldPos), m_newindex(newPos), m_doIt(doIt) {
+MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, GenTime pos, int oldPos, int newPos, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_track(track), m_pos(pos), m_oldindex(oldPos), m_newindex(newPos), m_doIt(doIt) {
     /*    QString effectName;
         QDomNode namenode = effect.elementsByTagName("name").item(0);
         if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());

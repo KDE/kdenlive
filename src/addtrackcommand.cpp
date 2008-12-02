@@ -17,34 +17,31 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include <KLocale>
 
-#ifndef MOVEEFFECTCOMMAND_H
-#define MOVEEFFECTCOMMAND_H
+#include "addtrackcommand.h"
+#include "customtrackview.h"
 
-#include <QUndoCommand>
-#include <KDebug>
-#include <gentime.h>
-#include <QDomElement>
+AddTrackCommand::AddTrackCommand(CustomTrackView *view, int ix, TrackInfo info, bool addTrack, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_ix(ix), m_info(info), m_addTrack(addTrack), m_doIt(doIt) {
+    if (addTrack) setText(i18n("Add track"));
+    else setText(i18n("Delete track"));
+}
 
-class CustomTrackView;
 
-class MoveEffectCommand : public QUndoCommand {
-public:
-    MoveEffectCommand(CustomTrackView *view, const int track, GenTime pos, int oldPos, int newPos, bool doIt, QUndoCommand * parent = 0);
-
-    virtual int id() const;
-    virtual bool mergeWith(const QUndoCommand * command);
-    virtual void undo();
-    virtual void redo();
-
-private:
-    CustomTrackView *m_view;
-    int m_track;
-    int m_oldindex;
-    int m_newindex;
-    GenTime m_pos;
-    bool m_doIt;
-};
-
-#endif
+// virtual
+void AddTrackCommand::undo() {
+// kDebug()<<"----  undoing action";
+    m_doIt = true;
+    if (m_addTrack) m_view->deleteTimelineTrack(m_ix);
+    else m_view->addTimelineTrack(m_ix, m_info);
+}
+// virtual
+void AddTrackCommand::redo() {
+    kDebug() << "----  redoing action";
+    if (m_doIt) {
+        if (m_addTrack) m_view->addTimelineTrack(m_ix, m_info);
+        else m_view->deleteTimelineTrack(m_ix);
+    }
+    m_doIt = true;
+}
 

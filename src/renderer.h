@@ -154,8 +154,8 @@ Q_OBJECT public:
     int mltGetSpaceLength(const GenTime pos, int track);
     bool mltResizeClipEnd(ItemInfo info, GenTime clipDuration);
     bool mltResizeClipStart(ItemInfo info, GenTime diff);
-    bool mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart, Mlt::Producer *prod);
-    bool mltMoveClip(int startTrack, int endTrack, int pos, int moveStart, Mlt::Producer *prod);
+    bool mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart, Mlt::Producer *prod, bool forceProducer = false);
+    bool mltMoveClip(int startTrack, int endTrack, int pos, int moveStart, Mlt::Producer *prod, bool forceProducer = false);
     bool mltRemoveClip(int track, GenTime position);
     bool mltRemoveEffect(int track, GenTime position, QString index, bool doRefresh = true);
     bool mltAddEffect(int track, GenTime position, QHash <QString, QString> args, bool doRefresh = true);
@@ -171,6 +171,7 @@ Q_OBJECT public:
     void mltMoveTransparency(int startTime, int endTime, int startTrack, int endTrack, int id);
     void mltDeleteTransparency(int pos, int track, int id);
     void mltResizeTransparency(int oldStart, int newStart, int newEnd, int track, int id);
+    void mltInsertTrack(int ix);
 
     /** Change speed of a clip in playlist. To do this, we create a new "framebuffer" producer.
     This new producer must have its "resource" param set to: video.mpg?0.6 where video.mpg is the path

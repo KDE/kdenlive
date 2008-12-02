@@ -18,32 +18,30 @@
  ***************************************************************************/
 
 
-#ifndef MOVEEFFECTCOMMAND_H
-#define MOVEEFFECTCOMMAND_H
+#ifndef ADDTRACKCOMMAND_H
+#define ADDTRACKCOMMAND_H
 
 #include <QUndoCommand>
+#include <QGraphicsView>
+#include <QPointF>
+
 #include <KDebug>
-#include <gentime.h>
-#include <QDomElement>
+#include "definitions.h"
 
 class CustomTrackView;
 
-class MoveEffectCommand : public QUndoCommand {
+class AddTrackCommand : public QUndoCommand {
 public:
-    MoveEffectCommand(CustomTrackView *view, const int track, GenTime pos, int oldPos, int newPos, bool doIt, QUndoCommand * parent = 0);
-
-    virtual int id() const;
-    virtual bool mergeWith(const QUndoCommand * command);
+    AddTrackCommand(CustomTrackView *view, int ix, TrackInfo info, bool addTrack, bool doIt, QUndoCommand * parent = 0);
     virtual void undo();
     virtual void redo();
 
 private:
     CustomTrackView *m_view;
-    int m_track;
-    int m_oldindex;
-    int m_newindex;
-    GenTime m_pos;
+    int m_ix;
     bool m_doIt;
+    bool m_addTrack;
+    TrackInfo m_info;
 };
 
 #endif

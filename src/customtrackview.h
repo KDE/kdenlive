@@ -48,11 +48,11 @@ public:
     virtual void mouseReleaseEvent(QMouseEvent * event);
     virtual void mouseMoveEvent(QMouseEvent * event);
     virtual void mouseDoubleClickEvent(QMouseEvent *event);
-    void addTrack(TrackInfo type);
+    void addTrack(TrackInfo type, int ix = -1);
     void removeTrack();
     int cursorPos();
     void checkAutoScroll();
-    void moveClip(const ItemInfo start, const ItemInfo end);
+    void moveClip(const ItemInfo start, const ItemInfo end, bool forceProducer);
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo start, const ItemInfo end);
     void resizeClip(const ItemInfo start, const ItemInfo end);
@@ -100,6 +100,8 @@ public:
     void slotRemoveSpace();
     void insertSpace(const GenTime &pos, int track, const GenTime duration, bool add);
     ClipItem *getActiveClipUnderCursor(bool allowOutsideCursor = false) const;
+    void addTimelineTrack(int ix, TrackInfo info);
+    void deleteTimelineTrack(int ix);
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -131,8 +133,8 @@ public slots:
     void pasteClipEffects();
     void slotUpdateAllThumbs();
     void slotCheckPositionScrolling();
-    void slotInsertTrack();
-    void slotDeleteTrack();
+    void slotInsertTrack(int ix);
+    void slotDeleteTrack(int ix);
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);

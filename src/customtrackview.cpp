@@ -63,6 +63,8 @@
 #include "abstractgroupitem.h"
 #include "insertspacecommand.h"
 #include "spacerdialog.h"
+#include "addtrackcommand.h"
+#include "ui_addtrack_ui.h"
 
 //TODO:
 // disable animation if user asked it in KDE's global settings
@@ -794,7 +796,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event) {
                     endInfo.startPos = d.startPos();
                     endInfo.endPos = m_dragItem->endPos() + (endInfo.startPos - startInfo.startPos);
                     endInfo.track = m_dragItem->track();
-                    MoveClipCommand *command = new MoveClipCommand(this, startInfo, endInfo, true);
+                    MoveClipCommand *command = new MoveClipCommand(this, startInfo, endInfo, false, true);
                     m_commandStack->push(command);
                 } else {
                     //TODO: move transition
@@ -1308,8 +1310,9 @@ int CustomTrackView::duration() const {
     return m_projectDuration;
 }
 
-void CustomTrackView::addTrack(TrackInfo type) {
-    m_scene->m_tracksList << type;
+void CustomTrackView::addTrack(TrackInfo type, int ix) {
+    if (ix == -1) m_scene->m_tracksList << type;
+    else m_scene->m_tracksList.insert(ix, type);
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), m_tracksHeight * m_scene->m_tracksList.count());
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_scene->m_tracksList.count());
     verticalScrollBar()->setMaximum(m_tracksHeight * m_scene->m_tracksList.count());
@@ -1513,7 +1516,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 ClipItem *item = static_cast <ClipItem *>(m_dragItem);
                 bool success = m_document->renderer()->mltMoveClip((int)(m_scene->m_tracksList.count() - m_dragItemInfo.track), (int)(m_scene->m_tracksList.count() - m_dragItem->track()), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(m_dragItem->startPos().frames(m_document->fps())), item->baseClip()->producer(info.track));
                 if (success) {
-                    MoveClipCommand *command = new MoveClipCommand(this, m_dragItemInfo, info, false);
+                    MoveClipCommand *command = new MoveClipCommand(this, m_dragItemInfo, info, false, false);
                     m_commandStack->push(command);
                     if (item->baseClip()->isTransparent()) {
                         // Also move automatic transition
@@ -1526,7 +1529,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                     }
                 } else {
                     // undo last move and emit error message
-                    MoveClipCommand *command = new MoveClipCommand(this, info, m_dragItemInfo, true);
+                    MoveClipCommand *command = new MoveClipCommand(this, info, m_dragItemInfo, false, true);
                     m_commandStack->push(command);
                     emit displayMessage(i18n("Cannot move clip to position %1seconds", QString::number(m_dragItemInfo.startPos.seconds(), 'g', 2)), ErrorMessage);
                 }
@@ -1879,7 +1882,7 @@ Transition *CustomTrackView::getTransitionItemAt(GenTime pos, int track) {
     return getTransitionItemAt(framepos, track);
 }
 
-void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
+void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end, bool forceProducer) {
     ClipItem *item = getClipItemAt((int) start.startPos.frames(m_document->fps()) + 1, start.track);
     if (!item) {
         emit displayMessage(i18n("Cannot move clip at time: %1s on track %2", QString::number(start.startPos.seconds(), 'g', 2), start.track), ErrorMessage);
@@ -1888,7 +1891,7 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
     }
     //kDebug() << "----------------  Move CLIP FROM: " << startPos.x() << ", END:" << endPos.x() << ",TRACKS: " << startPos.y() << " TO " << endPos.y();
 
-    bool success = m_document->renderer()->mltMoveClip((int)(m_scene->m_tracksList.count() - start.track), (int)(m_scene->m_tracksList.count() - end.track), (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()), item->baseClip()->producer(end.track));
+    bool success = m_document->renderer()->mltMoveClip((int)(m_scene->m_tracksList.count() - start.track), (int)(m_scene->m_tracksList.count() - end.track), (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()), item->baseClip()->producer(end.track), forceProducer);
     if (success) {
         item->setPos((int) end.startPos.frames(m_document->fps()), (int)(end.track * m_tracksHeight + 1));
         if (item->baseClip()->isTransparent()) {
@@ -2592,10 +2595,79 @@ void CustomTrackView::slotUpdateAllThumbs() {
     }
 }
 
-void CustomTrackView::slotInsertTrack() {
+void CustomTrackView::slotInsertTrack(int ix) {
+    kDebug() << "// INSERTING TRK: " << ix;
+
+    QDialog d(parentWidget());
+    Ui::AddTrack_UI view;
+    view.setupUi(&d);
+    view.track_nb->setMaximum(m_scene->m_tracksList.count() - 1);
+    view.track_nb->setValue(ix);
+
+    if (d.exec() == QDialog::Accepted) {
+        if (view.before_select->currentIndex() == 2) {
+            kDebug() << "// AFTER";
+            ix++;
+        }
+        TrackInfo info;
+        if (view.video_track->isChecked()) {
+            info.type = VIDEOTRACK;
+            info.isMute = false;
+            info.isBlind = false;
+        } else {
+            info.type = AUDIOTRACK;
+            info.isMute = false;
+            info.isBlind = false;
+        }
+        AddTrackCommand* command = new AddTrackCommand(this, ix, info, true, true);
+        m_commandStack->push(command);
+    }
 }
 
-void CustomTrackView::slotDeleteTrack() {
+void CustomTrackView::slotDeleteTrack(int ix) {
+}
+
+void CustomTrackView::addTimelineTrack(int ix, TrackInfo info) {
+    double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;
+    QRectF r(0, startY, sceneRect().width(), sceneRect().height() - startY);
+    QList<QGraphicsItem *> selection = m_scene->items(r);
+    kDebug() << "// TRK RECT: " << r << ", ITEMS: " << selection.count();
+    addTrack(info, m_scene->m_tracksList.count() - ix);
+    QUndoCommand *addTrack = new QUndoCommand();
+    addTrack->setText("Add track");
+
+    resetSelectionGroup();
+
+    m_selectionGroup = new AbstractGroupItem(m_document->fps());
+    scene()->addItem(m_selectionGroup);
+    for (int i = 0; i < selection.count(); i++) {
+        if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET)
+            m_selectionGroup->addToGroup(selection.at(i));
+    }
+    // insert track in MLT playlist
+    m_document->renderer()->mltInsertTrack(m_scene->m_tracksList.count() - ix);
+
+    // Move graphic items
+    m_selectionGroup->setPos(m_selectionGroup->pos().x(), m_selectionGroup->pos().y() + m_tracksHeight);
+
+    // adjust track number
+    QList<QGraphicsItem *> children = m_selectionGroup->childItems();
+    for (int i = 0; i < children.count(); i++) {
+        AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
+        item->updateItem();
+        if (item->type() == AV || item->type() == AUDIO) {
+            // We add a move clip command so that we get the correct producer for new track number
+            ItemInfo clipinfo = item->info();
+            MoveClipCommand(this, clipinfo, clipinfo, true, true, addTrack);
+        }
+    }
+    resetSelectionGroup();
+    m_commandStack->push(addTrack);
+    update();
+    emit trackHeightChanged();
+}
+
+void CustomTrackView::deleteTimelineTrack(int ix) {
 }
 
 #include "customtrackview.moc"
