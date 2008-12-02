@@ -1469,7 +1469,7 @@ int Render::mltGetSpaceLength(const GenTime pos, int track) {
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
-    if (!trackPlaylist.is_blank_at(clipIndex)) return -1;
+    if (!trackPlaylist.is_blank(clipIndex)) return -1;
     return trackPlaylist.clip_length(clipIndex);
 }
 

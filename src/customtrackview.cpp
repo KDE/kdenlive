@@ -1099,7 +1099,7 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut) {
             return;
         }
         if (m_document->renderer()->mltRemoveClip(m_scene->m_tracksList.count() - info.track, cutTime) == false) {
-            emit displayMessage(i18n("Error removing clip at %1 on track %2", cutTime.frames(m_document->fps()), info.track), ErrorMessage);
+            emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(cutTime.frames(m_document->fps())), info.track), ErrorMessage);
             return;
         }
 
@@ -1453,12 +1453,13 @@ void CustomTrackView::slotRemoveSpace() {
     }
     ClipItem *item = getClipItemAt(pos, track);
     if (item) {
-        emit displayMessage(i18n("You must be in an empty space to remove space."), ErrorMessage);
+        emit displayMessage(i18n("You must be in an empty space to remove space (time=%1, track:%2)", m_document->timecode().getTimecodeFromFrames(mapToScene(m_menuPosition).x()), track), ErrorMessage);
         return;
     }
     int length = m_document->renderer()->mltGetSpaceLength(pos, m_scene->m_tracksList.count() - track);
+    kDebug()<<"// GOT LENGT; "<<length;
     if (length <= 0) {
-        emit displayMessage(i18n("You must be in an empty space to remove space."), ErrorMessage);
+        emit displayMessage(i18n("You must be in an empty space to remove space (time=%1, track:%2)", m_document->timecode().getTimecodeFromFrames(mapToScene(m_menuPosition).x()), track), ErrorMessage);
         return;
     }
     InsertSpaceCommand *command = new InsertSpaceCommand(this, pos, track, GenTime(-length, m_document->fps()), true);
@@ -1631,7 +1632,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                     // undo last move and emit error message
                     MoveClipCommand *command = new MoveClipCommand(this, info, m_dragItemInfo, true);
                     m_commandStack->push(command);
-                    emit displayMessage(i18n("Cannot move clip to position %1seconds", QString::number(m_dragItemInfo.startPos.seconds(), 'g', 2)), ErrorMessage);
+                    emit displayMessage(i18n("Cannot move clip to position %1", m_document->timecode().getTimecodeFromFrames(m_dragItemInfo.startPos.frames(m_document->fps()))), ErrorMessage);
                 }
             }
             if (m_dragItem->type() == TRANSITIONWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
@@ -1660,7 +1661,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                     if (item->type() == AVWIDGET) {
                         if (m_document->renderer()->mltRemoveClip(m_scene->m_tracksList.count() - info.track, info.startPos) == false) {
                             // error, clip cannot be removed from playlist
-                            emit displayMessage(i18n("Error removing clip at %1 on track %2", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
+                            emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), info.track), ErrorMessage);
                         } else {
                             // clip removed from playlist, create command
                             ClipItem *clip = static_cast <ClipItem*>(item);
@@ -1811,7 +1812,7 @@ void CustomTrackView::deleteClip(ItemInfo info) {
     ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()) + 1, info.track);
 
     if (!item || m_document->renderer()->mltRemoveClip(m_scene->m_tracksList.count() - info.track, info.startPos) == false) {
-        emit displayMessage(i18n("Error removing clip at %1 on track %2", info.startPos.frames(m_document->fps()), info.track), ErrorMessage);
+        emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), info.track), ErrorMessage);
         return;
     }
     if (item->isSelected()) emit clipItemSelected(NULL);
@@ -1985,7 +1986,7 @@ Transition *CustomTrackView::getTransitionItemAt(GenTime pos, int track) {
 void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
     ClipItem *item = getClipItemAt((int) start.startPos.frames(m_document->fps()) + 1, start.track);
     if (!item) {
-        emit displayMessage(i18n("Cannot move clip at time: %1s on track %2", QString::number(start.startPos.seconds(), 'g', 2), start.track), ErrorMessage);
+        emit displayMessage(i18n("Cannot move clip at time: %1 on track %2", m_document->timecode().getTimecodeFromFrames(start.startPos.frames(m_document->fps())), start.track), ErrorMessage);
         kDebug() << "----------------  ERROR, CANNOT find clip to move at.. ";// << startPos.x() * m_scale * FRAME_SIZE + 1 << ", " << startPos.y() * m_tracksHeight + m_tracksHeight / 2;
         return;
     }
@@ -2005,14 +2006,14 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
         }
     } else {
         // undo last move and emit error message
-        emit displayMessage(i18n("Cannot move clip to position %1seconds", QString::number(end.startPos.seconds(), 'g', 2)), ErrorMessage);
+        emit displayMessage(i18n("Cannot move clip to position %1", m_document->timecode().getTimecodeFromFrames(end.startPos.frames(m_document->fps()))), ErrorMessage);
     }
 }
 
 void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end) {
     Transition *item = getTransitionItemAt((int)start.startPos.frames(m_document->fps()), start.track);
     if (!item) {
-        emit displayMessage(i18n("Cannot move transition at time: %1s on track %2", start.startPos.seconds(), start.track), ErrorMessage);
+        emit displayMessage(i18n("Cannot move transition at time: %1 on track %2", m_document->timecode().getTimecodeFromFrames(start.startPos.frames(m_document->fps())), start.track), ErrorMessage);
         kDebug() << "----------------  ERROR, CANNOT find transition to move... ";// << startPos.x() * m_scale * FRAME_SIZE + 1 << ", " << startPos.y() * m_tracksHeight + m_tracksHeight / 2;
         return;
     }
@@ -2042,7 +2043,7 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end) {
     else offset = -1;*/
     ClipItem *item = getClipItemAt((int)(start.startPos.frames(m_document->fps()) + offset), start.track);
     if (!item) {
-        emit displayMessage(i18n("Cannot move clip at time: %1s on track %2", start.startPos.seconds(), start.track), ErrorMessage);
+        emit displayMessage(i18n("Cannot move clip at time: %1 on track %2", m_document->timecode().getTimecodeFromFrames(start.startPos.frames(m_document->fps())), start.track), ErrorMessage);
         kDebug() << "----------------  ERROR, CANNOT find clip to resize at... "; // << startPos;
         return;
     }
@@ -2271,7 +2272,7 @@ void CustomTrackView::editGuide(const GenTime oldPos, const GenTime pos, const Q
 bool CustomTrackView::addGuide(const GenTime pos, const QString &comment) {
     for (int i = 0; i < m_guides.count(); i++) {
         if (m_guides.at(i)->position() == pos) {
-            emit displayMessage(i18n("A guide already exists at that position"), ErrorMessage);
+            emit displayMessage(i18n("A guide already exists at position %1", m_document->timecode().getTimecodeFromFrames(pos.frames(m_document->fps()))), ErrorMessage);
             return false;
         }
     }
