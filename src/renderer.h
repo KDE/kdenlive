@@ -172,6 +172,7 @@ Q_OBJECT public:
     void mltDeleteTransparency(int pos, int track, int id);
     void mltResizeTransparency(int oldStart, int newStart, int newEnd, int track, int id);
     void mltInsertTrack(int ix);
+    void mltDeleteTrack(int ix);
 
     /** Change speed of a clip in playlist. To do this, we create a new "framebuffer" producer.
     This new producer must have its "resource" param set to: video.mpg?0.6 where video.mpg is the path

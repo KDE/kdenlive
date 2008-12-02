@@ -1312,17 +1312,113 @@ int CustomTrackView::duration() const {
 
 void CustomTrackView::addTrack(TrackInfo type, int ix) {
     if (ix == -1) m_scene->m_tracksList << type;
-    else m_scene->m_tracksList.insert(ix, type);
+    else {
+        m_scene->m_tracksList.insert(m_scene->m_tracksList.count() - ix, type);
+        // insert track in MLT playlist
+        m_document->renderer()->mltInsertTrack(m_scene->m_tracksList.count() - ix);
+
+        double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;
+        QRectF r(0, startY, sceneRect().width(), sceneRect().height() - startY);
+        QList<QGraphicsItem *> selection = m_scene->items(r);
+        resetSelectionGroup();
+
+        m_selectionGroup = new AbstractGroupItem(m_document->fps());
+        scene()->addItem(m_selectionGroup);
+        for (int i = 0; i < selection.count(); i++) {
+            if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET)
+                m_selectionGroup->addToGroup(selection.at(i));
+        }
+        QPointF top = m_selectionGroup->boundingRect().topLeft();
+        const int width = m_selectionGroup->boundingRect().width();
+        const int height = m_selectionGroup->boundingRect().height();
+        m_selectionGroup->setPos(top);
+        m_selectionGroup->translate(-top.x(), -top.y() + 1);
+
+        // Move graphic items
+        m_selectionGroup->setPos(m_selectionGroup->pos().x(), m_selectionGroup->pos().y() + m_tracksHeight);
+
+        // adjust track number
+        QList<QGraphicsItem *> children = m_selectionGroup->childItems();
+        for (int i = 0; i < children.count(); i++) {
+            AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
+            item->updateItem();
+            ItemInfo clipinfo = item->info();
+            if (item->type() == AVWIDGET) {
+                ClipItem *clip = static_cast <ClipItem *>(item);
+                // We add a move clip command so that we get the correct producer for new track number
+                /*if (clip->clipType() == AV || clip->clipType() == AUDIO)
+                    moveClip(clipinfo, clipinfo, true);*/
+            } else if (item->type() == TRANSITIONWIDGET) {
+                Transition *tr = static_cast <Transition *>(item);
+                int track = tr->transitionEndTrack();
+                if (track >= ix) {
+                    tr->updateTransitionEndTrack(getPreviousVideoTrack(clipinfo.track));
+                }
+            }
+        }
+        resetSelectionGroup();
+
+    }
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), m_tracksHeight * m_scene->m_tracksList.count());
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_scene->m_tracksList.count());
     verticalScrollBar()->setMaximum(m_tracksHeight * m_scene->m_tracksList.count());
     //setFixedHeight(50 * m_tracksCount);
 }
 
-void CustomTrackView::removeTrack() {
-    // TODO: implement track deletion
-    //m_tracksCount--;
+void CustomTrackView::removeTrack(int ix) {
+    // Delete track in MLT playlist
+    m_document->renderer()->mltDeleteTrack(m_scene->m_tracksList.count() - ix);
+    m_scene->m_tracksList.removeAt(m_scene->m_tracksList.count() - ix);
+
+    double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;
+    QRectF r(0, startY, sceneRect().width(), sceneRect().height() - startY);
+    QList<QGraphicsItem *> selection = m_scene->items(r);
+
+    resetSelectionGroup();
+
+    m_selectionGroup = new AbstractGroupItem(m_document->fps());
+    scene()->addItem(m_selectionGroup);
+    for (int i = 0; i < selection.count(); i++) {
+        if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET)
+            m_selectionGroup->addToGroup(selection.at(i));
+    }
+
+    QPointF top = m_selectionGroup->boundingRect().topLeft();
+    const int width = m_selectionGroup->boundingRect().width();
+    const int height = m_selectionGroup->boundingRect().height();
+    m_selectionGroup->setPos(top);
+    m_selectionGroup->translate(-top.x(), -top.y() + 1);
+
+    // Move graphic items
+    m_selectionGroup->setPos(m_selectionGroup->pos().x(), m_selectionGroup->pos().y() - m_tracksHeight);
+
+    // adjust track number
+    QList<QGraphicsItem *> children = m_selectionGroup->childItems();
+    kDebug() << "// FOUND CLIPS TO MOVE: " << children.count();
+    for (int i = 0; i < children.count(); i++) {
+        if (children.at(i)->type() == AVWIDGET) {
+            ClipItem *clip = static_cast <ClipItem *>(children.at(i));
+            clip->updateItem();
+            ItemInfo clipinfo = clip->info();
+            kDebug() << "// CLIP TRK IS: " << clipinfo.track;
+            // We add a move clip command so that we get the correct producer for new track number
+            /*if (clip->clipType() == AV || clip->clipType() == AUDIO)
+            moveClip(clipinfo, clipinfo, true);*/
+        } else if (children.at(i)->type() == TRANSITIONWIDGET) {
+            Transition *tr = static_cast <Transition *>(children.at(i));
+            tr->updateItem();
+            int track = tr->transitionEndTrack();
+            if (track >= ix) {
+                ItemInfo clipinfo = tr->info();
+                tr->updateTransitionEndTrack(getPreviousVideoTrack(clipinfo.track));
+            }
+        }
+    }
+    resetSelectionGroup();
+
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), m_tracksHeight * m_scene->m_tracksList.count());
+    setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_scene->m_tracksList.count());
+    verticalScrollBar()->setMaximum(m_tracksHeight * m_scene->m_tracksList.count());
 }
 
 
@@ -2597,7 +2693,6 @@ void CustomTrackView::slotUpdateAllThumbs() {
 
 void CustomTrackView::slotInsertTrack(int ix) {
     kDebug() << "// INSERTING TRK: " << ix;
-
     QDialog d(parentWidget());
     Ui::AddTrack_UI view;
     view.setupUi(&d);
@@ -2619,55 +2714,70 @@ void CustomTrackView::slotInsertTrack(int ix) {
             info.isMute = false;
             info.isBlind = false;
         }
-        AddTrackCommand* command = new AddTrackCommand(this, ix, info, true, true);
-        m_commandStack->push(command);
+        addTimelineTrack(ix, info);
+        /*AddTrackCommand* command = new AddTrackCommand(this, ix, info, true, true);
+        m_commandStack->push(command);*/
     }
 }
 
 void CustomTrackView::slotDeleteTrack(int ix) {
+    bool ok;
+    ix = QInputDialog::getInteger(this, i18n("Remove Track"), i18n("Track"), ix, 0, m_scene->m_tracksList.count() - 1, 1, &ok);
+    if (ok) {
+        TrackInfo info = m_scene->m_tracksList.at(m_scene->m_tracksList.count() - ix);
+        deleteTimelineTrack(ix, info);
+        /*AddTrackCommand* command = new AddTrackCommand(this, ix, info, false, true);
+        m_commandStack->push(command);*/
+    }
 }
 
-void CustomTrackView::addTimelineTrack(int ix, TrackInfo info) {
+void CustomTrackView::addTimelineTrack(int ix, TrackInfo trackinfo) {
     double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;
     QRectF r(0, startY, sceneRect().width(), sceneRect().height() - startY);
     QList<QGraphicsItem *> selection = m_scene->items(r);
     kDebug() << "// TRK RECT: " << r << ", ITEMS: " << selection.count();
-    addTrack(info, m_scene->m_tracksList.count() - ix);
     QUndoCommand *addTrack = new QUndoCommand();
     addTrack->setText("Add track");
+    new AddTrackCommand(this, ix, trackinfo, true, true, addTrack);
 
-    resetSelectionGroup();
-
-    m_selectionGroup = new AbstractGroupItem(m_document->fps());
-    scene()->addItem(m_selectionGroup);
-    for (int i = 0; i < selection.count(); i++) {
-        if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET)
-            m_selectionGroup->addToGroup(selection.at(i));
-    }
-    // insert track in MLT playlist
-    m_document->renderer()->mltInsertTrack(m_scene->m_tracksList.count() - ix);
-
-    // Move graphic items
-    m_selectionGroup->setPos(m_selectionGroup->pos().x(), m_selectionGroup->pos().y() + m_tracksHeight);
-
-    // adjust track number
-    QList<QGraphicsItem *> children = m_selectionGroup->childItems();
-    for (int i = 0; i < children.count(); i++) {
-        AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
-        item->updateItem();
-        if (item->type() == AV || item->type() == AUDIO) {
-            // We add a move clip command so that we get the correct producer for new track number
-            ItemInfo clipinfo = item->info();
-            MoveClipCommand(this, clipinfo, clipinfo, true, true, addTrack);
-        }
-    }
-    resetSelectionGroup();
     m_commandStack->push(addTrack);
+    kDebug() << "// ADD TRCKL DONE...";
     update();
-    emit trackHeightChanged();
+    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
 }
 
-void CustomTrackView::deleteTimelineTrack(int ix) {
+void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo) {
+    double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;
+    QRectF r(0, startY, sceneRect().width(), m_tracksHeight / 2 - 1);
+    QList<QGraphicsItem *> selection = m_scene->items(r);
+    QUndoCommand *deleteTrack = new QUndoCommand();
+    deleteTrack->setText("Delete track");
+
+    // Delete all clips in selected track
+    for (int i = 0; i < selection.count(); i++) {
+        if (selection.at(i)->type() == AVWIDGET) {
+            ClipItem *item =  static_cast <ClipItem *>(selection.at(i));
+            new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, false, deleteTrack);
+            m_scene->removeItem(item);
+            delete item;
+            item = NULL;
+        } else if (selection.at(i)->type() == TRANSITIONWIDGET) {
+            Transition *item =  static_cast <Transition *>(selection.at(i));
+            new AddTransitionCommand(this, item->info(), item->transitionEndTrack(), item->toXML(), true, false, deleteTrack);
+            m_scene->removeItem(item);
+            delete item;
+            item = NULL;
+        }
+    }
+
+    new AddTrackCommand(this, ix, trackinfo, false, true, deleteTrack);
+
+    m_commandStack->push(deleteTrack);
+    //removeTrack(ix, trackinfo);
+    kDebug() << "// REM TRK DONE...";
+    update();
+    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
+
 }
 
 #include "customtrackview.moc"

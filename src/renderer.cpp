@@ -775,7 +775,10 @@ void Render::setSceneList(QString playlist, int position) {
     if (m_mltConsumer) {
         m_mltConsumer->stop();
         //m_mltConsumer->set("refresh", 0);
-    } else return;
+    } else {
+        m_isBlocked = false;
+        return;
+    }
 
     if (m_mltProducer) {
         m_mltProducer->set_speed(0);
@@ -786,6 +789,7 @@ void Render::setSceneList(QString playlist, int position) {
         emit stopped();
     }
 
+    blockSignals(true);
     char *tmp = decodedString(playlist);
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "westley-xml", tmp);
     delete[] tmp;
@@ -826,11 +830,11 @@ void Render::setSceneList(QString playlist, int position) {
     if (position != 0) {
         //TODO: seek to correct place after opening project.
         //  Needs to be done from another place since it crashes here.
-        //m_mltProducer->seek(position);
-        //emit rendererPosition(position);
+        m_mltProducer->seek(position);
     }
     m_isBlocked = false;
-
+    blockSignals(false);
+    emit rendererPosition(position);
 }
 
 /** Create the producer from the Westley QDomDocument */
@@ -2116,13 +2120,17 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     bool checkLength = false;
     if (endTrack == startTrack) {
         //mlt_service_lock(service.get_service());
+        Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
         if (forceProducer) {
-            Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
+            if (clipProducer.is_blank()) {
+                kDebug() << "// ERROR RESTTING CLIP PROD: " << moveEnd << ", TRK: " << startTrack;
+                mlt_service_unlock(m_mltConsumer->get_service());
+                m_isBlocked = false;
+                return false;
+            }
             trackPlaylist.insert(clipProducer, moveEnd, clipProducer.get_in(), clipProducer.get_out());
         } else {
-            Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
-
-            if (!trackPlaylist.is_blank_at(moveEnd)) {
+            if (!trackPlaylist.is_blank_at(moveEnd) || clipProducer.is_blank()) {
                 // error, destination is not empty
                 //int ix = trackPlaylist.get_clip_index_at(moveEnd);
                 kDebug() << "// ERROR MOVING CLIP TO : " << moveEnd;
@@ -2149,6 +2157,14 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             return false;
         } else {
             Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
+            if (clipProducer.is_blank()) {
+                // error, destination is not empty
+                //int ix = trackPlaylist.get_clip_index_at(moveEnd);
+                kDebug() << "// ERROR MOVING CLIP TO : " << moveEnd;
+                mlt_service_unlock(m_mltConsumer->get_service());
+                m_isBlocked = false;
+                return false;
+            }
             trackPlaylist.consolidate_blanks(0);
             destTrackPlaylist.consolidate_blanks(1);
             Mlt::Producer *clip;
@@ -2647,7 +2663,87 @@ void Render::mltInsertTrack(int ix) {
     mlt_service_unlock(m_mltConsumer->get_service());
     m_isBlocked = false;
     blockSignals(false);
-    //Mlt::Producer trackProducer(tractor.track(startTrack));
+}
+
+
+void Render::mltDeleteTrack(int ix) {
+    QDomDocument doc;
+    doc.setContent(sceneList(), false);
+    QDomNode track = doc.elementsByTagName("track").at(ix);
+    QDomNode tractor = doc.elementsByTagName("tractor").at(0);
+    tractor.removeChild(track);
+    setSceneList(doc.toString(), m_framePosition);
+    return;
+
+    blockSignals(true);
+    m_isBlocked = true;
+
+    m_mltConsumer->set("refresh", 0);
+    mlt_service_lock(m_mltConsumer->get_service());
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";
+
+    /*Mlt::Tractor tractor(service);
+
+
+    Mlt::Multitrack *multi = tractor.multitrack();
+
+
+    int ct = tractor.count();
+    kDebug() << "// TRACK REMOVE: " << ix << ", MAX: " << ct;
+    int pos = ix;
+    for (; pos < ct ; pos++) {
+    Mlt::Service *lastTrack = new Mlt::Service(tractor.track(pos)->get_service());
+    //mlt_service_close(lastTrack->get_service());
+    delete lastTrack;
+    Mlt::Producer *prodToMove = new Mlt::Producer(tractor.track(pos + 1));
+    Mlt::Producer *prodToClose = new Mlt::Producer(tractor.track(pos));
+    mlt_service_close(prodToMove->get_service());
+    mlt_service_close(prodToClose->get_service());
+    tractor.set_track(*prodToMove, pos);
+    }*/
+
+    // Move transitions
+    /*mlt_service serv = m_mltProducer->parent().get_service();
+    mlt_service nextservice = mlt_service_get_producer(serv);
+    mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
+    QString mlt_type = mlt_properties_get(properties, "mlt_type");
+    QString resource = mlt_properties_get(properties, "mlt_service");
+
+    while (mlt_type == "transition") {
+        if (resource != "mix") {
+            mlt_transition tr = (mlt_transition) nextservice;
+            int currentTrack = mlt_transition_get_b_track(tr);
+            int currentaTrack = mlt_transition_get_a_track(tr);
+            mlt_properties properties = MLT_TRANSITION_PROPERTIES(tr);
+
+            if (currentTrack >= ix) {
+                mlt_properties_set_int(properties, "b_track", currentTrack + 1);
+                mlt_properties_set_int(properties, "a_track", currentaTrack + 1);
+            }
+        }
+        nextservice = mlt_service_producer(nextservice);
+        if (nextservice == NULL) break;
+        properties = MLT_SERVICE_PROPERTIES(nextservice);
+        mlt_type = mlt_properties_get(properties, "mlt_type");
+        resource = mlt_properties_get(properties, "mlt_service");
+    }
+
+    // Add audio mix transition to last track
+    Mlt::Field *field = tractor.field();
+    Mlt::Transition *transition = new Mlt::Transition(*m_mltProfile, "mix");
+    //transition->set("mlt_service", "mix");
+    transition->set("a_track", 1);
+    transition->set("b_track", ct);
+    transition->set("always_active", 1);
+    transition->set("internal_added", 237);
+    transition->set("combine", 1);
+    field->plant_transition(*transition, 1, ct);
+    */
+
+    mlt_service_unlock(m_mltConsumer->get_service());
+    m_isBlocked = false;
+    blockSignals(false);
 }
 
 #include "renderer.moc"

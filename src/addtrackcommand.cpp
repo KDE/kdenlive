@@ -32,15 +32,15 @@ AddTrackCommand::AddTrackCommand(CustomTrackView *view, int ix, TrackInfo info, 
 void AddTrackCommand::undo() {
 // kDebug()<<"----  undoing action";
     m_doIt = true;
-    if (m_addTrack) m_view->deleteTimelineTrack(m_ix);
-    else m_view->addTimelineTrack(m_ix, m_info);
+    if (m_addTrack) m_view->removeTrack(m_ix);
+    else m_view->addTrack(m_info, m_ix);
 }
 // virtual
 void AddTrackCommand::redo() {
     kDebug() << "----  redoing action";
     if (m_doIt) {
-        if (m_addTrack) m_view->addTimelineTrack(m_ix, m_info);
-        else m_view->deleteTimelineTrack(m_ix);
+        if (m_addTrack) m_view->addTrack(m_info, m_ix);
+        else m_view->removeTrack(m_ix);
     }
     m_doIt = true;
 }

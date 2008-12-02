@@ -49,7 +49,7 @@ public:
     virtual void mouseMoveEvent(QMouseEvent * event);
     virtual void mouseDoubleClickEvent(QMouseEvent *event);
     void addTrack(TrackInfo type, int ix = -1);
-    void removeTrack();
+    void removeTrack(int ix);
     int cursorPos();
     void checkAutoScroll();
     void moveClip(const ItemInfo start, const ItemInfo end, bool forceProducer);
@@ -100,8 +100,8 @@ public:
     void slotRemoveSpace();
     void insertSpace(const GenTime &pos, int track, const GenTime duration, bool add);
     ClipItem *getActiveClipUnderCursor(bool allowOutsideCursor = false) const;
-    void addTimelineTrack(int ix, TrackInfo info);
-    void deleteTimelineTrack(int ix);
+    void addTimelineTrack(int ix, TrackInfo trackinfo);
+    void deleteTimelineTrack(int ix, TrackInfo trackinfo);
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
