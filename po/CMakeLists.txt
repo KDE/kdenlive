@@ -1,1 +1,1 @@
-SUBDIRS(ca cs da de es fr it nl sl zh)
+SUBDIRS(ca cs da de es fr hu it nl sl zh)
