@@ -106,14 +106,8 @@ RecMonitor::RecMonitor(QString name, QWidget *parent)
         QString captureCommand;
         if (!KdenliveSettings::video4adevice().isEmpty()) captureCommand = "-f " + KdenliveSettings::video4aformat() + " -i " + KdenliveSettings::video4adevice();
 
-        captureCommand +=  " -f " + KdenliveSettings::video4vformat() + " -s " + KdenliveSettings::video4size() + " -r " + QString::number(KdenliveSettings::video4rate()) + " -i " + KdenliveSettings::video4vdevice() + " -f " + KdenliveSettings::video4vencoding();
+        captureCommand +=  " -f " + KdenliveSettings::video4vformat() + " -s " + KdenliveSettings::video4size() + " -r " + QString::number(KdenliveSettings::video4rate()) + " -i " + KdenliveSettings::video4vdevice();
         KdenliveSettings::setVideo4capture(captureCommand);
-    }
-
-    if (KdenliveSettings::video4playback().isEmpty()) {
-        QString playbackCommand;
-        playbackCommand =  "-f " + KdenliveSettings::video4vencoding();
-        KdenliveSettings::setVideo4playback(playbackCommand);
     }
 
     kDebug() << "/////// BUILDING MONITOR, ID: " << ui.video_frame->winId();
@@ -351,8 +345,8 @@ void RecMonitor::slotStartCapture(bool play) {
         m_discAction->setEnabled(true);
         break;
     case VIDEO4LINUX:
-        m_captureArgs << KdenliveSettings::video4capture().simplified().split(' ') << "-";
-        m_displayArgs << KdenliveSettings::video4playback().simplified().split(' ') << "-x" << QString::number(ui.video_frame->width()) << "-y" << QString::number(ui.video_frame->height()) << "-";
+        m_captureArgs << KdenliveSettings::video4capture().simplified().split(' ') << KdenliveSettings::video4encoding().simplified().split(' ') << "-f" << "mpegts" << "-vcodec" << "mpeg4" << "-acodec" << "mp2" << "-";
+        m_displayArgs << "-f" << "mpegts" << "-x" << QString::number(ui.video_frame->width()) << "-y" << QString::number(ui.video_frame->height()) << "-";
         captureProcess->setStandardOutputProcess(displayProcess);
         kDebug() << "Capture: Running ffmpeg " << m_captureArgs.join(" ");
         captureProcess->start("ffmpeg", m_captureArgs);
@@ -362,7 +356,7 @@ void RecMonitor::slotStartCapture(bool play) {
     }
 
     if (ui.device_selector->currentIndex() != SCREENGRAB) {
-        kDebug() << "Capture: Running ffplay " << m_captureArgs.join(" ");
+        kDebug() << "Capture: Running ffplay " << m_displayArgs.join(" ");
         displayProcess->start("ffplay", m_displayArgs);
         ui.video_frame->setText(i18n("Initialising..."));
     } else {
@@ -406,7 +400,7 @@ void RecMonitor::slotRecord() {
     }
     if (captureProcess->state() == QProcess::NotRunning) {
         m_recAction->setChecked(true);
-        QString extension = "mpg";
+        QString extension = "mp4";
         if (ui.device_selector->currentIndex() == SCREENGRAB) extension = "ogv"; //KdenliveSettings::screengrabextension();
         QString path = KdenliveSettings::capturefolder() + "/capture0000." + extension;
         int i = 1;
@@ -431,8 +425,8 @@ void RecMonitor::slotRecord() {
             captureProcess->start(KdenliveSettings::dvgrab_path(), m_captureArgs);
             break;
         case VIDEO4LINUX:
-            m_captureArgs << KdenliveSettings::video4capture().simplified().split(' ') << "-y" << m_captureFile.path() << "-f" << KdenliveSettings::video4vencoding() << "-";
-            m_displayArgs << KdenliveSettings::video4playback().simplified().split(' ') << "-x" << QString::number(ui.video_frame->width()) << "-y" << QString::number(ui.video_frame->height()) << "-";
+            m_captureArgs << KdenliveSettings::video4capture().simplified().split(' ') << KdenliveSettings::video4encoding().simplified().split(' ') << "-vcodec" << "mpeg4" << "-acodec" << "mp2" << "-y" << m_captureFile.path() << "-f" << "mpegts" << "-vcodec" << "mpeg4" << "-acodec" << "mp2" << "-";
+            m_displayArgs << "-f" << "mpegts" << "-x" << QString::number(ui.video_frame->width()) << "-y" << QString::number(ui.video_frame->height()) << "-";
             captureProcess->setStandardOutputProcess(displayProcess);
             kDebug() << "Capture: Running ffmpeg " << m_captureArgs.join(" ");
             captureProcess->start("ffmpeg", m_captureArgs);
