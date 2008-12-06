@@ -34,6 +34,6 @@ add_subdirectory(export )
 add_subdirectory(icons )
 add_subdirectory(data )  
 add_subdirectory(po)
-
+add_subdirectory(man)
 
 
