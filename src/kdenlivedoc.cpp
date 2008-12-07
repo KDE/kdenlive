@@ -310,10 +310,11 @@ void KdenliveDoc::convertDocument(double version) {
     QDomNode multitrack = m_document.elementsByTagName("multitrack").at(0);
     QDomNodeList playlists = m_document.elementsByTagName("playlist");
 
-    m_startPos = kdenlivedoc.toElement().attribute("timeline_position").toInt();
+    //m_startPos = kdenlivedoc.toElement().attribute("timeline_position").toInt();
 
     QDomNode props = m_document.elementsByTagName("properties").at(0).toElement();
     QString profile = props.toElement().attribute("videoprofile");
+    m_startPos = props.toElement().attribute("timeline_position").toInt();
     if (profile == "dv_wide") profile = "dv_pal_wide";
     setProfilePath(profile);
 
@@ -496,6 +497,15 @@ void KdenliveDoc::convertDocument(double version) {
     max = producers.count();
     for (int i = 0; i < max; i++) {
         QDomElement prod = producers.at(0).toElement();
+        // add resource also as a property (to allow path correction in setNewResource())
+        // TODO: will it work with slowmotion? needs testing
+        if (!prod.attribute("resource").isEmpty()) {
+            QDomElement prop_resource = m_document.createElement("property");
+            prop_resource.setAttribute("name", "resource");
+            QDomText resource = m_document.createTextNode(prod.attribute("resource"));
+            prop_resource.appendChild(resource);
+            prod.appendChild(prop_resource);
+        }
         QDomNode m = prod.firstChild();
         if (!m.isNull()) {
             if (m.toElement().tagName() == "markers") {
@@ -614,19 +624,30 @@ void KdenliveDoc::convertDocument(double version) {
                 kWarning() << "Found producer in westley0, that was not a QDomElement";
             } else {
                 // We have to do slightly different things, depending on the type
-                kDebug() << "Converting producer element with type " << wproducer.attribute("type");
+                kDebug() << "Converting producer element with type" << wproducer.attribute("type");
                 if (wproducer.attribute("type").toInt() == TEXT) {
                     kDebug() << "Found TEXT element in producer" << endl;
                     QDomElement kproducer = wproducer.cloneNode(true).toElement();
                     kproducer.setTagName("kdenlive_producer");
                     kdenlivedoc_new.appendChild(kproducer);
-                    // todo: Perhaps needs some more changes here to "frequency", aspect ratio as a float, frame_size, channels, and later, ressource and title name
+                    // TODO: Perhaps needs some more changes here to "frequency", aspect ratio as a float, frame_size, channels, and later, ressource and title name
                 } else {
                     QDomElement kproducer = m_document.createElement("kdenlive_producer");
                     kproducer.setAttribute("id", wproducer.attribute("id"));
-                    kproducer.setAttribute("description", wproducer.attribute("description"));
+                    if (!wproducer.attribute("description").isEmpty())
+                        kproducer.setAttribute("description", wproducer.attribute("description"));
                     kproducer.setAttribute("resource", wproducer.attribute("resource"));
                     kproducer.setAttribute("type", wproducer.attribute("type"));
+                    // Testing fix for 358
+                    if (!wproducer.attribute("aspect_ratio").isEmpty()) {
+                        kproducer.setAttribute("aspect_ratio", wproducer.attribute("aspect_ratio"));
+                    }
+                    if (!wproducer.attribute("source_fps").isEmpty()) {
+                        kproducer.setAttribute("fps", wproducer.attribute("source_fps"));
+                    }
+                    if (!wproducer.attribute("length").isEmpty()) {
+                        kproducer.setAttribute("duration", wproducer.attribute("length"));
+                    }
                     kdenlivedoc_new.appendChild(kproducer);
                 }
                 if (wproducer.attribute("id").toInt() > max_kproducer_id) {
@@ -687,8 +708,42 @@ void KdenliveDoc::convertDocument(double version) {
 
     westley0.removeChild(westley);
 
+    // experimental and probably slow
+    // adds <avfile /> information to <kdenlive_producer />
+    QDomNodeList kproducers = m_document.elementsByTagName("kdenlive_producer");
+    QDomNodeList avfiles = kdenlivedoc_old.elementsByTagName("avfile");
+    kDebug() << "found" << avfiles.count() << "<avfile />s and" << kproducers.count() << "<kdenlive_producer />s";
+    for (int i = 0; i < avfiles.count(); ++i) {
+        QDomElement avfile = avfiles.at(i).toElement();
+        QDomElement kproducer = QDomElement();
+        if (avfile.isNull())
+            kWarning() << "found an <avfile /> that is not a QDomElement";
+        else {
+            QString id = avfile.attribute("id");
+            // this is horrible, must be rewritten, it's just for test
+            for (int j = 0; j < kproducers.count(); ++j) {
+                //kDebug() << "checking <kdenlive_producer /> with id" << kproducers.at(j).toElement().attribute("id");
+                if (kproducers.at(j).toElement().attribute("id") == id) {
+                    kproducer = kproducers.at(j).toElement();
+                    break;
+                }
+            }
+            if (kproducer == QDomElement())
+                kWarning() << "no match for <avfile /> with id =" << id;
+            else {
+                //kDebug() << "ready to set additional <avfile />'s attributes (id =" << id << ")";
+                kproducer.setAttribute("channels", avfile.attribute("channels"));
+                kproducer.setAttribute("duration", avfile.attribute("duration"));
+                kproducer.setAttribute("frame_size", avfile.attribute("width") + "x" + avfile.attribute("height"));
+                kproducer.setAttribute("frequency", avfile.attribute("frequency"));
+                if (kproducer.attribute("description").isEmpty() && !avfile.attribute("description").isEmpty())
+                    kproducer.setAttribute("description", avfile.attribute("description"));
+            }
+        }
+    }
+
     //kDebug() << "/////////////////  CONVERTED DOC:";
-    // kDebug() << m_document.toString();
+    //kDebug() << m_document.toString();
     /*
     QFile file( "converted.kdenlive" );
     if ( file.open( QIODevice::WriteOnly ) ) {
