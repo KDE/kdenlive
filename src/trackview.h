@@ -59,7 +59,7 @@ public:
     int outPoint() const;
     int inPoint() const;
     int fitZoom() const;
-
+    QPoint getTracksCount() const;
 
 public slots:
     void slotDeleteClip(const QString &clipId);

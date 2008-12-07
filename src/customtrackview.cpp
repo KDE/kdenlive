@@ -1315,7 +1315,7 @@ void CustomTrackView::addTrack(TrackInfo type, int ix) {
     else {
         m_scene->m_tracksList.insert(m_scene->m_tracksList.count() - ix, type);
         // insert track in MLT playlist
-        m_document->renderer()->mltInsertTrack(m_scene->m_tracksList.count() - ix);
+        m_document->renderer()->mltInsertTrack(m_scene->m_tracksList.count() - ix, type.type == VIDEOTRACK);
 
         double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;
         QRectF r(0, startY, sceneRect().width(), sceneRect().height() - startY);
@@ -1457,7 +1457,7 @@ void CustomTrackView::slotRemoveSpace() {
         return;
     }
     int length = m_document->renderer()->mltGetSpaceLength(pos, m_scene->m_tracksList.count() - track);
-    kDebug()<<"// GOT LENGT; "<<length;
+    //kDebug() << "// GOT LENGT; " << length;
     if (length <= 0) {
         emit displayMessage(i18n("You must be in an empty space to remove space (time=%1, track:%2)", m_document->timecode().getTimecodeFromFrames(mapToScene(m_menuPosition).x()), track), ErrorMessage);
         return;
@@ -2705,7 +2705,7 @@ void CustomTrackView::slotInsertTrack(int ix) {
     view.track_nb->setValue(ix);
 
     if (d.exec() == QDialog::Accepted) {
-        if (view.before_select->currentIndex() == 2) {
+        if (view.before_select->currentIndex() == 1) {
             kDebug() << "// AFTER";
             ix++;
         }

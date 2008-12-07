@@ -171,7 +171,7 @@ Q_OBJECT public:
     void mltMoveTransparency(int startTime, int endTime, int startTrack, int endTrack, int id);
     void mltDeleteTransparency(int pos, int track, int id);
     void mltResizeTransparency(int oldStart, int newStart, int newEnd, int track, int id);
-    void mltInsertTrack(int ix);
+    void mltInsertTrack(int ix, bool videoTrack);
     void mltDeleteTrack(int ix);
     void mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod);
 

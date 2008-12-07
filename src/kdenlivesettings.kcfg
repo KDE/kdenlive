@@ -28,6 +28,16 @@
       <label>Default image clip duration.</label>
       <default>00:00:05:00</default>
     </entry>
+
+    <entry name="videotracks" type="Int">
+      <label>Default number of video tracks.</label>
+      <default>3</default>
+    </entry>
+
+    <entry name="audiotracks" type="Int">
+      <label>Default number of audio tracks.</label>
+      <default>2</default>
+    </entry>
   </group>
 
   <group name="display">

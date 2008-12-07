@@ -906,12 +906,12 @@ void MainWindow::readOptions() {
 void MainWindow::newFile(bool showProjectSettings) {
     QString profileName;
     KUrl projectFolder;
-    QPoint projectTracks(3, 2);
+    QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
     if (!showProjectSettings && m_timelineArea->count() == 0) {
         if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
         profileName = KdenliveSettings::default_profile();
     } else {
-        ProjectSettings *w = new ProjectSettings;
+        ProjectSettings *w = new ProjectSettings(projectTracks.x(), projectTracks.y(), false, this);
         if (w->exec() != QDialog::Accepted) return;
         if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
         profileName = w->selectedProfile();
@@ -1182,7 +1182,9 @@ void MainWindow::slotEditProfiles() {
 }
 
 void MainWindow::slotEditProjectSettings() {
-    ProjectSettings *w = new ProjectSettings;
+    QPoint p = m_activeTimeline->getTracksCount();
+    ProjectSettings *w = new ProjectSettings(p.x(), p.y(), true, this);
+
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
         m_activeDocument->setProfilePath(profile);

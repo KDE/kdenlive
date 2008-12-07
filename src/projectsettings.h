@@ -30,7 +30,7 @@ class ProjectSettings : public QDialog {
     Q_OBJECT
 
 public:
-    ProjectSettings(QWidget * parent = 0);
+    ProjectSettings(int videotracks, int audiotracks, bool readOnlyTracks, QWidget * parent = 0);
     QString selectedProfile() const;
     KUrl selectedFolder() const;
     QPoint tracks();

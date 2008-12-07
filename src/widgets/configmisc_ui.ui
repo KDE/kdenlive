@@ -5,12 +5,33 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>369</width>
-    <height>308</height>
+    <width>278</width>
+    <height>340</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_4" >
-   <item row="3" column="0" >
+   <item row="0" column="0" colspan="6" >
+    <widget class="QCheckBox" name="kcfg_openlastproject" >
+     <property name="text" >
+      <string>Open last project on startup</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="6" >
+    <widget class="QCheckBox" name="kcfg_crashrecovery" >
+     <property name="text" >
+      <string>Crash recovery (automatic backup)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="6" >
+    <widget class="QCheckBox" name="kcfg_activatetabs" >
+     <property name="text" >
+      <string>Open projects in new tabs</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="6" >
     <widget class="QGroupBox" name="groupBox" >
      <property name="title" >
       <string>Default Durations</string>
@@ -50,7 +71,7 @@
      </layout>
     </widget>
    </item>
-   <item row="4" column="0" >
+   <item row="4" column="0" colspan="6" >
     <widget class="QGroupBox" name="properties" >
      <property name="title" >
       <string>Default Profile</string>
@@ -137,6 +158,33 @@
     </widget>
    </item>
    <item row="5" column="0" >
+    <widget class="QLabel" name="label_6" >
+     <property name="text" >
+      <string>Video tracks</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="2" >
+    <spacer name="horizontalSpacer" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>13</width>
+       <height>25</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="5" column="3" >
+    <widget class="QLabel" name="label_7" >
+     <property name="text" >
+      <string>Audio tracks</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0" colspan="6" >
     <spacer>
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
@@ -149,26 +197,11 @@
      </property>
     </spacer>
    </item>
-   <item row="0" column="0" >
-    <widget class="QCheckBox" name="kcfg_openlastproject" >
-     <property name="text" >
-      <string>Open last project on startup</string>
-     </property>
-    </widget>
+   <item row="5" column="1" >
+    <widget class="KIntSpinBox" name="kcfg_videotracks" />
    </item>
-   <item row="1" column="0" >
-    <widget class="QCheckBox" name="kcfg_crashrecovery" >
-     <property name="text" >
-      <string>Crash recovery (automatic backup)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" >
-    <widget class="QCheckBox" name="kcfg_activatetabs" >
-     <property name="text" >
-      <string>Open projects in new tabs</string>
-     </property>
-    </widget>
+   <item row="5" column="4" >
+    <widget class="KIntSpinBox" name="kcfg_audiotracks" />
    </item>
   </layout>
  </widget>
@@ -177,6 +210,11 @@
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KIntSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>knuminput.h</header>
   </customwidget>
   <customwidget>
    <class>KRestrictedLine</class>

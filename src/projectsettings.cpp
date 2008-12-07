@@ -26,7 +26,7 @@
 #include "profilesdialog.h"
 #include "projectsettings.h"
 
-ProjectSettings::ProjectSettings(QWidget * parent): QDialog(parent), m_isCustomProfile(false) {
+ProjectSettings::ProjectSettings(int videotracks, int audiotracks, bool readOnlyTracks, QWidget * parent): QDialog(parent), m_isCustomProfile(false) {
     m_view.setupUi(this);
 
     QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
@@ -49,8 +49,12 @@ ProjectSettings::ProjectSettings(QWidget * parent): QDialog(parent), m_isCustomP
     //buttonOk->setEnabled(false);
     m_view.audio_thumbs->setChecked(KdenliveSettings::audiothumbnails());
     m_view.video_thumbs->setChecked(KdenliveSettings::videothumbnails());
-    m_view.audio_tracks->setValue(2);
-    m_view.video_tracks->setValue(3);
+    m_view.audio_tracks->setValue(audiotracks);
+    m_view.video_tracks->setValue(videotracks);
+    if (readOnlyTracks) {
+        m_view.video_tracks->setEnabled(false);
+        m_view.audio_tracks->setEnabled(false);
+    }
     slotUpdateDisplay();
     connect(m_view.profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
     connect(m_view.project_folder, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButton(const QString &)));

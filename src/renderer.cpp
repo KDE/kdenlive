@@ -2031,7 +2031,6 @@ void Render::mltChangeTrackState(int track, bool mute, bool blind) {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
-    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     if (mute) {
         if (blind) trackProducer.set("hide", 3);
         else trackProducer.set("hide", 2);
@@ -2630,7 +2629,7 @@ QList <Mlt::Producer *> Render::producersList() {
     return prods;
 }
 
-void Render::mltInsertTrack(int ix) {
+void Render::mltInsertTrack(int ix, bool videoTrack) {
     blockSignals(true);
     m_isBlocked = true;
 
@@ -2647,6 +2646,8 @@ void Render::mltInsertTrack(int ix) {
     if (pos < ct) {
         Mlt::Producer *prodToMove = new Mlt::Producer(tractor.track(pos));
         tractor.set_track(*playlist, pos);
+        Mlt::Producer newProd(tractor.track(pos));
+        if (!videoTrack) newProd.set("hide", 1);
         pos++;
         for (; pos <= ct; pos++) {
             Mlt::Producer *prodToMove2 = new Mlt::Producer(tractor.track(pos));
