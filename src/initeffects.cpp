@@ -575,25 +575,34 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 tname.appendChild(ret.createTextNode("Luma"));
                 desc.appendChild(ret.createTextNode("Applies a luma transition between the current and next frames"));
 
-                QString path(mlt_environment("MLT_DATA"));
-                path.append("/lumas/").append(mlt_environment("MLT_NORMALISATION"));
-                Mlt::Properties entries;
-                mlt_properties_dir_list(entries.get_properties(), path.toAscii().data(), "*.*", 1);
-                kDebug() << path << entries.count();
-                QString imagefiles;
-                //QStringList imagelist;
-                QString imagenamelist;
-                for (int i = 0;i < entries.count();i++) {
-                    //if (!imagefiles.isEmpty()) // add empty entry too
-                    imagefiles.append(",");
-                    imagefiles.append(entries.get(i));
-                    //imagelist << entries.get(i);
-                    imagenamelist.append(",");
-                    imagenamelist.append(KUrl(entries.get(i)).fileName());
+                // Check for Kdenlive installed luma files
+                QStringList imagenamelist;
+                QStringList imagefiles;
+                QStringList filters;
+                filters << "*.pgm" << "*.png";
+
+                QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
+                foreach(const QString &folder, customLumas) {
+                    QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
+                    foreach(const QString &fname, filesnames) {
+                        imagenamelist.append(fname);
+                        imagefiles.append(folder + '/' + fname);
+                    }
                 }
+
+                // Check for MLT lumas
+                QString folder = mlt_environment("MLT_DATA");
+                folder.append("/lumas/").append(mlt_environment("MLT_NORMALISATION"));
+                QDir lumafolder(folder);
+                QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
+                foreach(const QString &fname, filesnames) {
+                    imagenamelist.append(fname);
+                    imagefiles.append(folder + '/' + fname);
+                }
+
                 paramList.append(quickParameterFill(ret, "Softness", "softness", "double", "0", "0", "100", "", "", "100"));
                 paramList.append(quickParameterFill(ret, "Invert", "invert", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, "ImageFile", "resource", "list", "", "", "", imagefiles, imagenamelist));
+                paramList.append(quickParameterFill(ret, "ImageFile", "resource", "list", "", "", "", imagefiles.join(","), imagenamelist.join(",")));
                 paramList.append(quickParameterFill(ret, "Reverse Transition", "reverse", "bool", "0", "0", "1"));
                 //thumbnailer.prepareThumbnailsCall(imagelist);
 
