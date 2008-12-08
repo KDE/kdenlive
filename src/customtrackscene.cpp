@@ -77,7 +77,7 @@ double CustomTrackScene::scale() const {
 }
 
 int CustomTrackScene::tracksCount() const {
-    return m_tracksList.count();
+    return m_document->tracksCount();
 }
 
 #include "customtrackscene.moc"

@@ -78,7 +78,7 @@ public:
     void cutSelectedClips();
     void setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition);
     void checkTrackHeight();
-    QList <TrackInfo> tracksList() const;
+    //QList <TrackInfo> tracksList() const;
     void setTool(PROJECTTOOL tool);
     void cutClip(ItemInfo info, GenTime cutTime, bool cut);
     void slotSeekToPreviousSnap();

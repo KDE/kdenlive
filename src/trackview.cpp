@@ -328,19 +328,8 @@ void TrackView::refresh() {
     m_trackview->viewport()->update();
 }
 
-QPoint TrackView::getTracksCount() const {
-    QList <TrackInfo> list = m_trackview->tracksList();
-    int audio = 0;
-    int video = 0;
-    foreach(const TrackInfo &info, list) {
-        if (info.type == VIDEOTRACK) video++;
-        else audio++;
-    }
-    return QPoint(video, audio);
-}
-
 void TrackView::slotRebuildTrackHeaders() {
-    QList <TrackInfo> list = m_trackview->tracksList();
+    QList <TrackInfo> list = m_doc->tracksList();
     QList<HeaderTrack *> widgets = this->findChildren<HeaderTrack *>();
     for (int i = 0; i < widgets.count(); i++)
         delete widgets.at(i);

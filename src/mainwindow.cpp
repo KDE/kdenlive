@@ -1182,7 +1182,7 @@ void MainWindow::slotEditProfiles() {
 }
 
 void MainWindow::slotEditProjectSettings() {
-    QPoint p = m_activeTimeline->getTracksCount();
+    QPoint p = m_activeDocument->getTracksCount();
     ProjectSettings *w = new ProjectSettings(p.x(), p.y(), true, this);
 
     if (w->exec() == QDialog::Accepted) {

@@ -43,6 +43,7 @@ class Render;
 class ClipManager;
 class DocClipBase;
 class MainWindow;
+class TrackInfo;
 
 class KdenliveDoc: public QObject {
 Q_OBJECT public:
@@ -90,7 +91,6 @@ Q_OBJECT public:
     MltVideoProfile mltProfile() const;
     QString description() const;
     void setUrl(KUrl url);
-    QDomElement documentInfoXml();
     void setProfilePath(QString path);
     const QString&getFreeClipId();
     /** does the document need saving */
@@ -105,6 +105,13 @@ Q_OBJECT public:
     const double dar();
     double projectDuration() const;
     bool saveSceneList(const QString &path, QDomDocument sceneList);
+    int tracksCount() const;
+    TrackInfo trackInfoAt(int ix) const;
+    void insertTrack(int ix, TrackInfo type);
+    void deleteTrack(int ix);
+    const QList <TrackInfo> tracksList() const;
+    QPoint getTracksCount() const;
+    QString getTracksInfo() const;
 
 private:
     KUrl m_url;
@@ -131,6 +138,9 @@ private:
     KUrl m_projectFolder;
     double m_documentLoadingStep;
     double m_documentLoadingProgress;
+
+    QList <TrackInfo> m_tracksList;
+
     void convertDocument(double version);
     QDomDocument createEmptyDocument(const int videotracks, const int audiotracks);
     QString colorToString(const QColor& c);

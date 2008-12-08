@@ -28,7 +28,6 @@
 #include "gentime.h"
 
 class KdenliveDoc;
-class TrackInfo;
 
 /** This class holds all properties that need to be used by clip items */
 
@@ -44,7 +43,6 @@ public:
     double getSnapPointForPos(double pos, bool doSnap = true);
     void setScale(double scale);
     double scale() const;
-    QList <TrackInfo> m_tracksList;
     int tracksCount() const;
     QPixmap m_transitionPixmap;
 

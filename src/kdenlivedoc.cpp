@@ -771,6 +771,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, QDomDocument sceneList) {
     addedXml.setAttribute("version", "0.8");
     addedXml.setAttribute("profile", profilePath());
     addedXml.setAttribute("position", m_render->seekPosition().frames(m_fps));
+    addedXml.setAttribute("tracks", getTracksInfo());
     addedXml.setAttribute("zoom", m_zoom);
 
     QDomElement e;
@@ -805,36 +806,6 @@ bool KdenliveDoc::saveSceneList(const QString &path, QDomDocument sceneList) {
     file.close();
     return true;
 }
-
-QDomElement KdenliveDoc::documentInfoXml() {
-    QDomDocument doc;
-    QDomElement e;
-    QDomElement addedXml = doc.createElement("kdenlivedoc");
-    QDomElement markers = doc.createElement("markers");
-    addedXml.setAttribute("version", "0.7");
-    addedXml.setAttribute("profile", profilePath());
-    addedXml.setAttribute("position", m_render->seekPosition().frames(m_fps));
-    addedXml.setAttribute("zoom", m_zoom);
-    QList <DocClipBase*> list = m_clipManager->documentClipList();
-    for (int i = 0; i < list.count(); i++) {
-        e = list.at(i)->toXML();
-        e.setTagName("kdenlive_producer");
-        addedXml.appendChild(doc.importNode(e, true));
-        QList < CommentedTime > marks = list.at(i)->commentedSnapMarkers();
-        for (int j = 0; j < marks.count(); j++) {
-            QDomElement marker = doc.createElement("marker");
-            marker.setAttribute("time", marks.at(j).time().ms() / 1000);
-            marker.setAttribute("comment", marks.at(j).comment());
-            marker.setAttribute("id", e.attribute("id"));
-            markers.appendChild(marker);
-        }
-    }
-    addedXml.appendChild(markers);
-    if (!m_guidesXml.isNull()) addedXml.appendChild(doc.importNode(m_guidesXml, true));
-    //kDebug() << m_document.toString();
-    return addedXml;
-}
-
 
 ClipManager *KdenliveDoc::clipManager() {
     return m_clipManager;
@@ -1273,7 +1244,45 @@ void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId) {
     delete dia_ui;
 }
 
+int KdenliveDoc::tracksCount() const {
+    return m_tracksList.count();
+}
 
+TrackInfo KdenliveDoc::trackInfoAt(int ix) const {
+    return m_tracksList.at(ix);
+}
+
+void KdenliveDoc::insertTrack(int ix, TrackInfo type) {
+    if (ix == -1) m_tracksList << type;
+    else m_tracksList.insert(ix, type);
+}
+
+void KdenliveDoc::deleteTrack(int ix) {
+    m_tracksList.removeAt(ix);
+}
+
+const QList <TrackInfo> KdenliveDoc::tracksList() const {
+    return m_tracksList;
+}
+
+QPoint KdenliveDoc::getTracksCount() const {
+    int audio = 0;
+    int video = 0;
+    foreach(const TrackInfo &info, m_tracksList) {
+        if (info.type == VIDEOTRACK) video++;
+        else audio++;
+    }
+    return QPoint(video, audio);
+}
+
+QString KdenliveDoc::getTracksInfo() const {
+    QString result;
+    foreach(const TrackInfo &info, m_tracksList) {
+        if (info.type == VIDEOTRACK) result.append('v');
+        else result.append('a');
+    }
+    return result;
+}
 
 #include "kdenlivedoc.moc"
 
