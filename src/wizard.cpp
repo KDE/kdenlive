@@ -179,7 +179,7 @@ void Wizard::slotCheckSelectedItem() {
 void Wizard::adjustSettings() {
     if (m_extra.installmimes->isChecked()) {
         QStringList globs;
-        globs << "*.mts" << "*.m2t" << "*.mod";
+        globs << "*.mts" << "*.m2t" << "*.mod" << "*.mts";
         installExtraMimes("video/mpeg", globs);
         globs.clear();
         globs << "*.dv";
