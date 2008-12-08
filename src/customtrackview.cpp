@@ -89,10 +89,11 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     m_tipPen.setColor(border);
     m_tipPen.setWidth(3);
     setContentsMargins(0, 0, 0, 0);
-    if (projectscene) {
-        m_cursorLine = projectscene->addLine(0, 0, 0, m_tracksHeight);
-        m_cursorLine->setZValue(1000);
-    }
+    const int maxWidth = m_tracksHeight * m_document->tracksCount();
+    setSceneRect(0, 0, sceneRect().width(), maxWidth);
+    verticalScrollBar()->setMaximum(maxWidth);
+    m_cursorLine = projectscene->addLine(0, 0, 0, maxWidth);
+    m_cursorLine->setZValue(1000);
 
     KIcon razorIcon("edit-cut");
     m_razorCursor = QCursor(razorIcon.pixmap(22, 22));
@@ -1427,14 +1428,22 @@ void CustomTrackView::removeTrack(int ix) {
 
 
 void CustomTrackView::slotSwitchTrackAudio(int ix) {
+    for (int i = 0; i < m_document->tracksCount(); i++)
+        kDebug() << "TRK " << i << " STATE: " << m_document->trackInfoAt(i).isMute << m_document->trackInfoAt(i).isBlind;
+
     int tracknumber = m_document->tracksCount() - ix;
-    kDebug() << "/////  MUTING TRK: " << ix << "; PL NUM: " << tracknumber;
+
+    m_document->switchTrackAudio(tracknumber - 1, !m_document->trackInfoAt(tracknumber - 1).isMute);
+    kDebug() << "NEXT TRK STATE: " << m_document->trackInfoAt(tracknumber - 1).isMute << m_document->trackInfoAt(tracknumber - 1).isBlind;
     m_document->renderer()->mltChangeTrackState(tracknumber, m_document->trackInfoAt(tracknumber - 1).isMute, m_document->trackInfoAt(tracknumber - 1).isBlind);
+    m_document->setModified(true);
 }
 
 void CustomTrackView::slotSwitchTrackVideo(int ix) {
     int tracknumber = m_document->tracksCount() - ix;
+    m_document->switchTrackVideo(tracknumber - 1, !m_document->trackInfoAt(tracknumber - 1).isBlind);
     m_document->renderer()->mltChangeTrackState(tracknumber, m_document->trackInfoAt(tracknumber - 1).isMute, m_document->trackInfoAt(tracknumber - 1).isBlind);
+    m_document->setModified(true);
 }
 
 void CustomTrackView::slotRemoveSpace() {

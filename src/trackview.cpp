@@ -120,10 +120,10 @@ void TrackView::parseDocument(QDomDocument doc) {
     int cursorPos = 0;
     m_documentErrors = QString();
     // kDebug() << "//// DOCUMENT: " << doc.toString();
-    QDomNode props = doc.elementsByTagName("properties").item(0);
+    /*QDomNode props = doc.elementsByTagName("properties").item(0);
     if (!props.isNull()) {
         cursorPos = props.toElement().attribute("timeline_position").toInt();
-    }
+    }*/
 
     // parse project tracks
     QDomNodeList tracks = doc.elementsByTagName("track");
@@ -133,7 +133,6 @@ void TrackView::parseDocument(QDomDocument doc) {
     int trackduration = 0;
     QDomElement e;
     QDomElement p;
-    bool videotrack;
 
     int pos = m_projectTracks - 1;
 
@@ -148,8 +147,15 @@ void TrackView::parseDocument(QDomDocument doc) {
                 p = playlists.item(j).toElement();
                 if (p.attribute("id") == playlist_name) break;
             }
-            videotrack = (e.attribute("hide") != "video");
-            trackduration = slotAddProjectTrack(pos, p, videotrack);
+            if (e.attribute("hide") == "video") {
+                m_doc->switchTrackVideo(i - 1, true);
+            } else if (e.attribute("hide") == "audio") {
+                m_doc->switchTrackAudio(i - 1, true);
+            } else if (e.attribute("hide") == "both") {
+                m_doc->switchTrackVideo(i - 1, true);
+                m_doc->switchTrackAudio(i - 1, true);
+            }
+            trackduration = slotAddProjectTrack(pos, p);
             pos--;
             //kDebug() << " PRO DUR: " << trackduration << ", TRACK DUR: " << duration;
             if (trackduration > duration) duration = trackduration;
@@ -347,21 +353,8 @@ void TrackView::slotRebuildTrackHeaders() {
     view->headers_container->adjustSize();
 }
 
-int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool videotrack) {
-    TrackInfo info;
 
-    if (videotrack) {
-        info.type = VIDEOTRACK;
-        info.isMute = false;
-        info.isBlind = false;
-    } else {
-        info.type = AUDIOTRACK;
-        info.isMute = false;
-        info.isBlind = false;
-    }
-
-    m_trackview->addTrack(info);
-
+int TrackView::slotAddProjectTrack(int ix, QDomElement xml) {
     int trackTop = KdenliveSettings::trackheight() * ix;
     // parse track
     int position = 0;

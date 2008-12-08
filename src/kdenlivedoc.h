@@ -112,6 +112,8 @@ Q_OBJECT public:
     const QList <TrackInfo> tracksList() const;
     QPoint getTracksCount() const;
     QString getTracksInfo() const;
+    void switchTrackVideo(int ix, bool hide);
+    void switchTrackAudio(int ix, bool hide);
 
 private:
     KUrl m_url;

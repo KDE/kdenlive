@@ -83,7 +83,7 @@ private:
     QVBoxLayout *m_tracksAreaLayout;
     QString m_documentErrors;
     void parseDocument(QDomDocument doc);
-    int slotAddProjectTrack(int ix, QDomElement xml, bool videotrack);
+    int slotAddProjectTrack(int ix, QDomElement xml);
 
 private slots:
     void setCursorPos(int pos);

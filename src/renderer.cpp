@@ -2031,6 +2031,7 @@ void Render::mltChangeTrackState(int track, bool mute, bool blind) {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(track));
+
     if (mute) {
         if (blind) trackProducer.set("hide", 3);
         else trackProducer.set("hide", 2);
@@ -2604,11 +2605,10 @@ void Render::mltSavePlaylist() {
 }
 
 QList <Mlt::Producer *> Render::producersList() {
-    QList <Mlt::Producer *> prods;
+    QList <Mlt::Producer *> prods = QList <Mlt::Producer *> ();
     QStringList ids;
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
-    Mlt::Field *field = tractor.field();
 
     int trackNb = tractor.count();
     for (int t = 1; t < trackNb; t++) {
@@ -2639,9 +2639,10 @@ void Render::mltInsertTrack(int ix, bool videoTrack) {
     if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";
 
     Mlt::Tractor tractor(service);
+
     Mlt::Playlist *playlist = new Mlt::Playlist();
     int ct = tractor.count();
-    kDebug() << "// TRACK INSERT: " << ix << ", MAX: " << ct;
+    // kDebug() << "// TRACK INSERT: " << ix << ", MAX: " << ct;
     int pos = ix;
     if (pos < ct) {
         Mlt::Producer *prodToMove = new Mlt::Producer(tractor.track(pos));
@@ -2654,7 +2655,11 @@ void Render::mltInsertTrack(int ix, bool videoTrack) {
             tractor.set_track(*prodToMove, pos);
             prodToMove = prodToMove2;
         }
-    } else tractor.set_track(*playlist, ix);
+    } else {
+        tractor.set_track(*playlist, ix);
+        Mlt::Producer newProd(tractor.track(ix));
+        if (!videoTrack) newProd.set("hide", 1);
+    }
 
     // Move transitions
     mlt_service serv = m_mltProducer->parent().get_service();

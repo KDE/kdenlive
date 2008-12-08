@@ -62,26 +62,27 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                 m_zoom = infoXml.attribute("zoom", "7").toInt();
                 setProfilePath(profilePath);
                 double version = infoXml.attribute("version").toDouble();
-                if (version < 0.8) convertDocument(version);
-                else {
-                    //delete all mlt producers and instead, use Kdenlive saved producers
-                    /*QDomNodeList prods = m_document.elementsByTagName("producer");
-                    int maxprod = prods.count();
-                    int pos = 0;
-                    for (int i = 0; i < maxprod; i++) {
-                        QDomNode m = prods.at(pos);
-                        QString prodId = m.toElement().attribute("id");
-                        if (prodId == "black" || prodId.startsWith("slowmotion"))
-                            pos++;
-                        else westley.removeChild(m);
-                    }*/
-                    /*prods = m_document.elementsByTagName("kdenlive_producer");
-                    maxprod = prods.count();
-                    for (int i = 0; i < maxprod; i++) {
-                        prods.at(0).toElement().setTagName("producer");
-                        westley.insertBefore(prods.at(0), QDomNode());
-                    }*/
+
+                // Upgrade old Kdenlive documents to current version
+                convertDocument(version);
+
+                // Build tracks
+                QString tracks = infoXml.attribute("tracks");
+                TrackInfo videoTrack;
+                videoTrack.type = VIDEOTRACK;
+                videoTrack.isMute = false;
+                videoTrack.isBlind = false;
+
+                TrackInfo audioTrack;
+                audioTrack.type = AUDIOTRACK;
+                audioTrack.isMute = false;
+                audioTrack.isBlind = true;
+                for (int i = 0; i < tracks.size(); i++) {
+                    if (tracks.data()[i] == 'v') m_tracksList.append(videoTrack);
+                    else m_tracksList.append(audioTrack);
                 }
+
+
                 QDomElement e;
                 QDomNodeList producers = m_document.elementsByTagName("producer");
                 QDomNodeList infoproducers = m_document.elementsByTagName("kdenlive_producer");
@@ -179,6 +180,17 @@ QDomDocument KdenliveDoc::createEmptyDocument(const int videotracks, const int a
     QDomElement westley = doc.createElement("westley");
     doc.appendChild(westley);
 
+
+    TrackInfo videoTrack;
+    videoTrack.type = VIDEOTRACK;
+    videoTrack.isMute = false;
+    videoTrack.isBlind = false;
+
+    TrackInfo audioTrack;
+    audioTrack.type = AUDIOTRACK;
+    audioTrack.isMute = false;
+    audioTrack.isBlind = true;
+
     QDomElement tractor = doc.createElement("tractor");
     tractor.setAttribute("id", "maintractor");
     QDomElement multitrack = doc.createElement("multitrack");
@@ -206,6 +218,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const int videotracks, const int a
         track.setAttribute("producer", "playlist" + QString::number(i));
         track.setAttribute("hide", "video");
         tractor.appendChild(track);
+        m_tracksList.append(audioTrack);
     }
 
     // create video tracks
@@ -213,6 +226,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const int videotracks, const int a
         QDomElement track = doc.createElement("track");
         track.setAttribute("producer", "playlist" + QString::number(i));
         tractor.appendChild(track);
+        m_tracksList.append(videoTrack);
     }
 
     for (uint i = 2; i < total ; i++) {
@@ -297,6 +311,24 @@ int KdenliveDoc::zoom() const {
 
 void KdenliveDoc::convertDocument(double version) {
     kDebug() << "Opening a document with version " << version;
+    if (version == 0.8) {
+        // Add the tracks information
+        QString tracksOrder;
+        QDomNodeList tracks = m_document.elementsByTagName("track");
+        int max = tracks.count();
+        for (int i = 0; i < max; i++) {
+            QDomElement t = tracks.at(i).toElement();
+            if (t.attribute("hide") == "video") tracksOrder.append('a');
+            else tracksOrder.append('v');
+        }
+        QDomNode kdenlivedoc = m_document.elementsByTagName("kdenlivedoc").at(0);
+        QDomElement infoXml = kdenlivedoc.toElement();
+        QString currentTrackOrder = infoXml.attribute("tracks");
+        if (currentTrackOrder.isEmpty()) infoXml.setAttribute("tracks", tracksOrder);
+
+        return;
+    }
+
     // Opening a old Kdenlive document
     if (version == 0.7) {
         kDebug() << "Unable to open document with version " << version;
@@ -861,6 +893,7 @@ void KdenliveDoc::setRenderer(Render *render) {
     //qApp->processEvents();
     if (m_render) {
         m_render->setSceneList(m_document.toString(), m_startPos);
+        kDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
         checkProjectClips();
     }
     emit progressInfo(QString(), -1);
@@ -1250,6 +1283,14 @@ int KdenliveDoc::tracksCount() const {
 
 TrackInfo KdenliveDoc::trackInfoAt(int ix) const {
     return m_tracksList.at(ix);
+}
+
+void KdenliveDoc::switchTrackAudio(int ix, bool hide) {
+    m_tracksList[ix].isMute = hide; // !m_tracksList.at(ix).isMute;
+}
+
+void KdenliveDoc::switchTrackVideo(int ix, bool hide) {
+    m_tracksList[ix].isBlind = hide; // !m_tracksList.at(ix).isBlind;
 }
 
 void KdenliveDoc::insertTrack(int ix, TrackInfo type) {
