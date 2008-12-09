@@ -335,6 +335,8 @@ void KdenliveDoc::convertDocument(double version) {
         // TODO: convert 0.7 files to the new document format.
         return;
     }
+
+    QString tracksOrder;
     QDomNode westley = m_document.elementsByTagName("westley").at(1);
     QDomNode tractor = m_document.elementsByTagName("tractor").at(0);
     QDomNode kdenlivedoc = m_document.elementsByTagName("kdenlivedoc").at(0);
@@ -358,7 +360,11 @@ void KdenliveDoc::convertDocument(double version) {
         QDomElement pl = n.toElement();
         QDomElement track = m_document.createElement("track");
         QString trackType = pl.attribute("hide");
-        if (!trackType.isEmpty()) track.setAttribute("hide", trackType);
+        if (!trackType.isEmpty()) {
+            track.setAttribute("hide", trackType);
+            if (trackType == "video") tracksOrder.append('a');
+            else tracksOrder.append('v');
+        } else tracksOrder.append('v');
         QString playlist_id =  pl.attribute("id");
         if (playlist_id.isEmpty()) {
             playlist_id = "black_track";
@@ -643,6 +649,7 @@ void KdenliveDoc::convertDocument(double version) {
     westley0.removeChild(kdenlivedoc);
     QDomElement kdenlivedoc_new = m_document.createElement("kdenlivedoc");
     kdenlivedoc_new.setAttribute("profile", profile);
+    kdenlivedoc_new.setAttribute("tracks", tracksOrder);
     // Add all the producers that has a ressource in westley
     QDomElement westley_element = westley0.toElement();
     if (westley_element.isNull()) {
