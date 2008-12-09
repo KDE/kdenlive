@@ -517,6 +517,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
     if (event->button() == Qt::MidButton) {
         m_document->renderer()->switchPlay();
         m_blockRefresh = false;
+        m_operationMode = NONE;
         return;
     }
 
@@ -527,6 +528,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         setDragMode(QGraphicsView::ScrollHandDrag);
         QGraphicsView::mousePressEvent(event);
         m_blockRefresh = false;
+        m_operationMode = NONE;
         return;
     }
 
@@ -534,6 +536,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         setDragMode(QGraphicsView::RubberBandDrag);
         QGraphicsView::mousePressEvent(event);
         m_blockRefresh = false;
+        m_operationMode = RUBBERSELECTION;
         return;
     }
 
@@ -645,26 +648,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         resetSelectionGroup();
         if (event->modifiers() != Qt::ControlModifier) m_scene->clearSelection();
         m_dragItem->setSelected(!m_dragItem->isSelected());
-        QList<QGraphicsItem *> selection = m_scene->selectedItems();
-        if (selection.count() > 1) {
-            m_selectionGroup = new AbstractGroupItem(m_document->fps());
-            scene()->addItem(m_selectionGroup);
-            for (int i = 0; i < selection.count(); i++) {
-                if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET) {
-                    m_selectionGroup->addToGroup(selection.at(i));
-                    selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
-                }
-            }
-        }
-        if (m_selectionGroup) {
-            QPointF top = m_selectionGroup->boundingRect().topLeft();
-            const int width = m_selectionGroup->boundingRect().width();
-            const int height = m_selectionGroup->boundingRect().height();
-            m_selectionGroup->setPos(top);
-            m_selectionGroup->translate(-top.x(), -top.y() + 1);
-            m_selectionGroupInfo.startPos = GenTime(m_selectionGroup->scenePos().x(), m_document->fps());
-            m_selectionGroupInfo.track = m_selectionGroup->track();
-        }
+        groupSelectedItems();
     }
 
     m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps())), (int)(event->pos().y() - m_dragItem->pos().y()));
@@ -747,6 +731,30 @@ void CustomTrackView::resetSelectionGroup() {
         }
         scene()->destroyItemGroup(m_selectionGroup);
         m_selectionGroup = NULL;
+    }
+}
+
+void CustomTrackView::groupSelectedItems() {
+    QList<QGraphicsItem *> selection = m_scene->selectedItems();
+    if (selection.count() > 1) {
+        m_selectionGroup = new AbstractGroupItem(m_document->fps());
+        scene()->addItem(m_selectionGroup);
+        for (int i = 0; i < selection.count(); i++) {
+            if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET) {
+                m_selectionGroup->addToGroup(selection.at(i));
+                selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
+            }
+        }
+
+        if (m_selectionGroup) {
+            QPointF top = m_selectionGroup->boundingRect().topLeft();
+            const int width = m_selectionGroup->boundingRect().width();
+            const int height = m_selectionGroup->boundingRect().height();
+            m_selectionGroup->setPos(top);
+            m_selectionGroup->translate(-top.x(), -top.y() + 1);
+            m_selectionGroupInfo.startPos = GenTime(m_selectionGroup->scenePos().x(), m_document->fps());
+            m_selectionGroupInfo.track = m_selectionGroup->track();
+        }
     }
 }
 
@@ -1583,6 +1591,7 @@ void CustomTrackView::checkScrolling() {
 }
 
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
+    kDebug() << "// MOUSE RELEASED, MODE: " << m_moveOpMode;
     if (m_moveOpMode == SEEK) m_moveOpMode = NONE;
     QGraphicsView::mouseReleaseEvent(event);
     if (m_scrollTimer.isActive()) m_scrollTimer.stop();
@@ -1614,6 +1623,10 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         track = m_document->tracksCount() - track;
         m_document->renderer()->mltInsertSpace(GenTime(mappedClick, m_document->fps()), track, GenTime(diff, m_document->fps()));
         resetSelectionGroup();
+        m_operationMode = NONE;
+    } else if (m_operationMode == RUBBERSELECTION) {
+        resetSelectionGroup();
+        groupSelectedItems();
         m_operationMode = NONE;
     }
 

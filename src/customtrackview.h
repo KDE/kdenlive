@@ -213,6 +213,7 @@ private:
     ClipItem *getMainActiveClip() const;
     bool insertPossible(AbstractGroupItem *group, const QPoint &pos) const;
     void resetSelectionGroup();
+    void groupSelectedItems();
 
 private slots:
     void slotRefreshGuides();
