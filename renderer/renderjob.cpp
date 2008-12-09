@@ -19,7 +19,6 @@
 
 #include <QtDBus>
 #include <QFile>
-#include <QTime>
 #include <QThread>
 #include "renderjob.h"
 
@@ -61,7 +60,7 @@ RenderJob::~RenderJob() {
 void RenderJob::slotAbort() {
     qDebug() << "Kdenlive-render: JOB ABORTED BY USER...";
     m_renderProcess->kill();
-    if (m_jobUiserver) QDBusReply<QString> reply = m_jobUiserver->call("terminate", "");
+    if (m_jobUiserver) m_jobUiserver->call("terminate", QString());
     if (m_erase) {
         QFile f(m_scenelist);
         f.remove();
@@ -77,7 +76,10 @@ void RenderJob::receivedStderr() {
     int pro = result.toInt();
     if (pro > m_progress) {
         m_progress = pro;
-        if (m_jobUiserver) QDBusReply<QString> reply = m_jobUiserver->call("setPercent", (uint) m_progress);
+	m_jobUiserver->call("setPercent", (uint) m_progress);
+	int seconds = m_startTime.secsTo(QTime::currentTime());
+	seconds = seconds * (100 - m_progress) / m_progress;
+	m_jobUiserver->call("setDescriptionField", (uint) 1, tr("Remaining time"), QTime(0, 0, seconds).toString("hh:mm:ss"));
     }
 }
 
@@ -104,8 +106,14 @@ void RenderJob::start() {
 	    QDBusReply<QDBusObjectPath> objectPath = kuiserver.call("requestView", "kdenlive", "kdenlive", 1);
 	    QString reply = ((QDBusObjectPath) objectPath).path();
 	    m_jobUiserver = new QDBusInterface("org.kde.JobViewServer", reply, "org.kde.JobView");
-	    QDBusConnection::sessionBus().connect("org.kde.JobViewServer", reply, "org.kde.JobView", "cancelRequested", this, SLOT(slotAbort()));
-	    connect(m_renderProcess, SIGNAL(readyReadStandardError()), this, SLOT(receivedStderr()));
+	    if (m_jobUiserver) {
+		m_startTime = QTime::currentTime();
+		m_jobUiserver->call("setPercent", (uint) 0);
+		QDBusReply<QString> reply = m_jobUiserver->call("setInfoMessage", tr("Rendering %1").arg(QFileInfo(m_dest).fileName()));
+		m_jobUiserver->call("setDescriptionField", (uint) 0, tr("Rendering to"), m_dest);
+		QDBusConnection::sessionBus().connect("org.kde.JobViewServer", reply, "org.kde.JobView", "cancelRequested", this, SLOT(slotAbort()));
+		connect(m_renderProcess, SIGNAL(readyReadStandardError()), this, SLOT(receivedStderr()));
+	    }
 	}
     }
     m_renderProcess->start(m_prog, m_args);
@@ -113,7 +121,7 @@ void RenderJob::start() {
 
 
 void RenderJob::slotIsOver(int exitcode, QProcess::ExitStatus status) {
-    if (m_jobUiserver) QDBusReply<QString> reply = m_jobUiserver->call("terminate", "");
+    if (m_jobUiserver) m_jobUiserver->call("terminate", QString());
     if (m_erase) {
         QFile f(m_scenelist);
         f.remove();
@@ -124,46 +132,27 @@ void RenderJob::slotIsOver(int exitcode, QProcess::ExitStatus status) {
         args << "--error" << tr("Rendering of %1 aborted, resulting video will probably be corrupted.").arg(m_dest);
         QProcess::startDetached("kdialog", args);
     } else {
-        QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
-        if (interface && interface->isServiceRegistered("org.kde.knotify")) {
-            QDBusMessage m = QDBusMessage::createMethodCall("org.kde.knotify",
+	QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
+	if (interface && interface->isServiceRegistered("org.kde.knotify")) {
+	    QDBusMessage m = QDBusMessage::createMethodCall("org.kde.knotify",
                              "/Notify",
                              "org.kde.KNotify",
                              "event");
+	    int seconds = m_startTime.secsTo(QTime::currentTime());
+	    QList<QVariant> args;
+	    args.append(QString("RenderFinished"));   // action name
+	    args.append(QString("kdenlive"));   // app name
+	    args.append(QVariantList());   // contexts
+	    args.append(tr("Rendering of %1 finished in %2").arg(m_dest, QTime(0, 0, seconds).toString("hh:mm:ss")));   // body
+	    args.append(QByteArray());   // app icon
+	    QStringList actionList;
+	    args.append(actionList);   // actions
+	    qlonglong wid;
+	    args.append(wid);   // win id
 
-            QList<QVariant> args;
-            args.append(QString("RenderFinished"));   // action name
-            args.append(QString("kdenlive"));   // app name
-            args.append(QVariantList());   // contexts
-            args.append(tr("Rendering of %1 is over").arg(m_dest));   // body
-            args.append(QByteArray());   // app icon
-            QStringList actionList;
-            args.append(actionList);   // actions
-            qlonglong wid;
-            args.append(wid);   // win id
-
-            /*
-            uint id = 0;
-            int timeout = 5000;
-            QDBusMessage m = QDBusMessage::createMethodCall("org.kde.VisualNotifications",
-                                                       "/VisualNotifications",
-                                                       "org.kde.VisualNotifications",
-                                                       "Notify");
-
-            args.append( QString("kdenlive") ); // app_name
-            args.append( id ); // replaces_id
-            args.append( QString("kdenlive") ); // app_icon
-            args.append( tr("Rendering finished")); // summary
-            args.append( tr("Rendering of %1 is over").arg(m_dest) ); // body
-            QStringList actionList;
-            args.append( actionList ); // actions
-            args.append( QVariantMap() ); // hints - unused atm
-            args.append( timeout ); // expire timout
-            */
-
-            m.setArguments(args);
-            QDBusMessage replyMsg = QDBusConnection::sessionBus().call(m);
-        }
+	    m.setArguments(args);
+	    QDBusMessage replyMsg = QDBusConnection::sessionBus().call(m);
+	}
 
         if (m_player != "-") {
             QStringList args;

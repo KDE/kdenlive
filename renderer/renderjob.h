@@ -24,6 +24,7 @@
 #include <QProcess>
 #include <QObject>
 #include <QDBusInterface>
+#include <QTime>
 
 class RenderJob : public QObject {
     Q_OBJECT
@@ -47,6 +48,7 @@ private:
     QStringList m_args;
     bool m_erase;
     QDBusInterface *m_jobUiserver;
+    QTime m_startTime;
 };
 
 #endif
