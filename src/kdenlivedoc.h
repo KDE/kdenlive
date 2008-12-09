@@ -109,6 +109,7 @@ Q_OBJECT public:
     TrackInfo trackInfoAt(int ix) const;
     void insertTrack(int ix, TrackInfo type);
     void deleteTrack(int ix);
+    void setTrackType(int ix, TrackInfo type);
     const QList <TrackInfo> tracksList() const;
     QPoint getTracksCount() const;
     QString getTracksInfo() const;

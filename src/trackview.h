@@ -99,6 +99,7 @@ signals:
     void zoneMoved(int, int);
     void insertTrack(int);
     void deleteTrack(int);
+    void changeTrack(int);
 };
 
 #endif

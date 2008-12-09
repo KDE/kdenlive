@@ -1309,6 +1309,12 @@ void KdenliveDoc::deleteTrack(int ix) {
     m_tracksList.removeAt(ix);
 }
 
+void KdenliveDoc::setTrackType(int ix, TrackInfo type) {
+    m_tracksList[ix].type = type.type;
+    m_tracksList[ix].isMute = type.isMute;
+    m_tracksList[ix].isBlind = type.isBlind;
+}
+
 const QList <TrackInfo> KdenliveDoc::tracksList() const {
     return m_tracksList;
 }

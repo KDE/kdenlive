@@ -53,13 +53,17 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent)
 
     m_contextMenu = new QMenu(this);
 
-    QAction *insertAction = new QAction(i18n("Insert track"), this);
+    QAction *insertAction = new QAction(i18n("Insert Track"), this);
     m_contextMenu->addAction(insertAction);
     connect(insertAction, SIGNAL(triggered()), this, SLOT(slotAddTrack()));
 
-    QAction *removeAction = new QAction(KIcon("edit-delete"), i18n("Delete track"), this);
+    QAction *removeAction = new QAction(KIcon("edit-delete"), i18n("Delete Track"), this);
     m_contextMenu->addAction(removeAction);
     connect(removeAction, SIGNAL(triggered()), this, SLOT(slotDeleteTrack()));
+
+    QAction *changeAction = new QAction(i18n("Change Track Type"), this);
+    m_contextMenu->addAction(changeAction);
+    connect(changeAction, SIGNAL(triggered()), this, SLOT(slotChangeTrack()));
 }
 
 void HeaderTrack::switchVideo() {
@@ -86,6 +90,10 @@ void HeaderTrack::slotDeleteTrack() {
 
 void HeaderTrack::slotAddTrack() {
     emit insertTrack(m_index);
+}
+
+void HeaderTrack::slotChangeTrack() {
+    emit changeTrack(m_index);
 }
 
 // virtual

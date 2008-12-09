@@ -64,6 +64,7 @@
 #include "insertspacecommand.h"
 #include "spacerdialog.h"
 #include "addtrackcommand.h"
+#include "changetrackcommand.h"
 #include "ui_addtrack_ui.h"
 
 //TODO:
@@ -1426,10 +1427,18 @@ void CustomTrackView::removeTrack(int ix) {
     QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
 }
 
+void CustomTrackView::changeTrack(int ix, TrackInfo type) {
+    int tracknumber = m_document->tracksCount() - ix;
+    m_document->setTrackType(tracknumber - 1, type);
+    m_document->renderer()->mltChangeTrackState(tracknumber, m_document->trackInfoAt(tracknumber - 1).isMute, m_document->trackInfoAt(tracknumber - 1).isBlind);
+    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
+    viewport()->update();
+}
+
 
 void CustomTrackView::slotSwitchTrackAudio(int ix) {
-    for (int i = 0; i < m_document->tracksCount(); i++)
-        kDebug() << "TRK " << i << " STATE: " << m_document->trackInfoAt(i).isMute << m_document->trackInfoAt(i).isBlind;
+    /*for (int i = 0; i < m_document->tracksCount(); i++)
+        kDebug() << "TRK " << i << " STATE: " << m_document->trackInfoAt(i).isMute << m_document->trackInfoAt(i).isBlind;*/
 
     int tracknumber = m_document->tracksCount() - ix;
 
@@ -2710,10 +2719,10 @@ void CustomTrackView::slotInsertTrack(int ix) {
     view.setupUi(&d);
     view.track_nb->setMaximum(m_document->tracksCount() - 1);
     view.track_nb->setValue(ix);
+    d.setWindowTitle(i18n("Insert Track"));
 
     if (d.exec() == QDialog::Accepted) {
         if (view.before_select->currentIndex() == 1) {
-            kDebug() << "// AFTER";
             ix++;
         }
         TrackInfo info;
@@ -2724,7 +2733,7 @@ void CustomTrackView::slotInsertTrack(int ix) {
         } else {
             info.type = AUDIOTRACK;
             info.isMute = false;
-            info.isBlind = false;
+            info.isBlind = true;
         }
         addTimelineTrack(ix, info);
         m_document->setModified(true);
@@ -2745,18 +2754,39 @@ void CustomTrackView::slotDeleteTrack(int ix) {
     }
 }
 
+void CustomTrackView::slotChangeTrack(int ix) {
+    QDialog d(parentWidget());
+    Ui::AddTrack_UI view;
+    view.setupUi(&d);
+    view.label->setText(i18n("Change track"));
+    view.before_select->setHidden(true);
+    view.track_nb->setMaximum(m_document->tracksCount() - 1);
+    view.track_nb->setValue(ix);
+    d.setWindowTitle(i18n("Change Track Type"));
+
+    if (d.exec() == QDialog::Accepted) {
+        TrackInfo info;
+        if (view.video_track->isChecked()) {
+            info.type = VIDEOTRACK;
+            info.isMute = false;
+            info.isBlind = false;
+        } else {
+            info.type = AUDIOTRACK;
+            info.isMute = false;
+            info.isBlind = true;
+        }
+        changeTimelineTrack(ix, info);
+        m_document->setModified(true);
+    }
+}
+
 void CustomTrackView::addTimelineTrack(int ix, TrackInfo trackinfo) {
     double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;
     QRectF r(0, startY, sceneRect().width(), sceneRect().height() - startY);
     QList<QGraphicsItem *> selection = m_scene->items(r);
     kDebug() << "// TRK RECT: " << r << ", ITEMS: " << selection.count();
-    QUndoCommand *addTrack = new QUndoCommand();
-    addTrack->setText("Add track");
-    new AddTrackCommand(this, ix, trackinfo, true, true, addTrack);
-
+    AddTrackCommand *addTrack = new AddTrackCommand(this, ix, trackinfo, true, true, addTrack);
     m_commandStack->push(addTrack);
-    kDebug() << "// ADD TRCKL DONE...";
-    update();
 }
 
 void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo) {
@@ -2785,9 +2815,12 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo) {
 
     new AddTrackCommand(this, ix, trackinfo, false, true, deleteTrack);
     m_commandStack->push(deleteTrack);
-    //removeTrack(ix, trackinfo);
-    kDebug() << "// REM TRK DONE...";
-    update();
+}
+
+void CustomTrackView::changeTimelineTrack(int ix, TrackInfo trackinfo) {
+    TrackInfo oldinfo = m_document->trackInfoAt(m_document->tracksCount() - ix);
+    ChangeTrackCommand *changeTrack = new ChangeTrackCommand(this, ix, oldinfo, trackinfo, true);
+    m_commandStack->push(changeTrack);
 }
 
 #include "customtrackview.moc"

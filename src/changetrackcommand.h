@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,44 +17,32 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef HEADERTRACK_H
-#define HEADERTRACK_H
 
-#include <QContextMenuEvent>
-#include <QMenu>
+#ifndef CHANGETRACKCOMMAND_H
+#define CHANGETRACKCOMMAND_H
 
+#include <QUndoCommand>
+#include <QGraphicsView>
+#include <QPointF>
+
+#include <KDebug>
 #include "definitions.h"
-#include "ui_trackheader_ui.h"
 
-class HeaderTrack : public QWidget {
-    Q_OBJECT
+class CustomTrackView;
 
+class ChangeTrackCommand : public QUndoCommand {
 public:
-    HeaderTrack(int index, TrackInfo info, QWidget *parent = 0);
-
-protected:
-    //virtual void paintEvent(QPaintEvent * /*e*/);
-    virtual void contextMenuEvent(QContextMenuEvent * event);
+    ChangeTrackCommand(CustomTrackView *view, int ix, TrackInfo oldInfo, TrackInfo newInfo, bool doIt, QUndoCommand * parent = 0);
+    virtual void undo();
+    virtual void redo();
 
 private:
-    int m_index;
-    TRACKTYPE m_type;
-    Ui::TrackHeader_UI view;
-    QMenu *m_contextMenu;
-
-private slots:
-    void switchAudio();
-    void switchVideo();
-    void slotDeleteTrack();
-    void slotAddTrack();
-    void slotChangeTrack();
-
-signals:
-    void switchTrackAudio(int);
-    void switchTrackVideo(int);
-    void insertTrack(int);
-    void deleteTrack(int);
-    void changeTrack(int);
+    CustomTrackView *m_view;
+    int m_ix;
+    bool m_doIt;
+    TrackInfo m_oldinfo;
+    TrackInfo m_newinfo;
 };
 
 #endif
+

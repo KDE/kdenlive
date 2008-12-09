@@ -137,6 +137,7 @@ set(kdenlive_SRCS
   insertspacecommand.cpp
   spacerdialog.cpp
   addtrackcommand.cpp
+  changetrackcommand.cpp
 )
 
 if(NO_JOGSHUTTLE)

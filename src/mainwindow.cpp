@@ -813,6 +813,10 @@ void MainWindow::setupActions() {
     collection->addAction("delete_track", deleteTrack);
     connect(deleteTrack, SIGNAL(triggered()), this, SLOT(slotDeleteTrack()));
 
+    KAction *changeTrack = new KAction(KIcon(), i18n("Change Track"), this);
+    collection->addAction("change_track", changeTrack);
+    connect(changeTrack, SIGNAL(triggered()), this, SLOT(slotChangeTrack()));
+
     KAction *addGuide = new KAction(KIcon("document-new"), i18n("Add Guide"), this);
     collection->addAction("add_guide", addGuide);
     connect(addGuide, SIGNAL(triggered()), this, SLOT(slotAddGuide()));
@@ -1317,6 +1321,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(m_activeTimeline, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(activateMonitor()));
             disconnect(m_activeTimeline, SIGNAL(insertTrack(int)), this, SLOT(slotInsertTrack(int)));
             disconnect(m_activeTimeline, SIGNAL(deleteTrack(int)), this, SLOT(slotDeleteTrack(int)));
+            disconnect(m_activeTimeline, SIGNAL(changeTrack(int)), this, SLOT(slotChangeTrack(int)));
             disconnect(m_activeDocument, SIGNAL(docModified(bool)), this, SLOT(slotUpdateDocumentState(bool)));
             disconnect(effectStack, SIGNAL(updateClipEffect(ClipItem*, QDomElement, QDomElement, int)), m_activeTimeline->projectView(), SLOT(slotUpdateClipEffect(ClipItem*, QDomElement, QDomElement, int)));
             disconnect(effectStack, SIGNAL(removeEffect(ClipItem*, QDomElement)), m_activeTimeline->projectView(), SLOT(slotDeleteEffect(ClipItem*, QDomElement)));
@@ -1347,6 +1352,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(trackView, SIGNAL(cursorMoved()), m_projectMonitor, SLOT(activateMonitor()));
     connect(trackView, SIGNAL(insertTrack(int)), this, SLOT(slotInsertTrack(int)));
     connect(trackView, SIGNAL(deleteTrack(int)), this, SLOT(slotDeleteTrack(int)));
+    connect(trackView, SIGNAL(changeTrack(int)), this, SLOT(slotChangeTrack(int)));
     connect(trackView, SIGNAL(mousePosition(int)), this, SLOT(slotUpdateMousePosition(int)));
     connect(m_projectMonitor, SIGNAL(renderPosition(int)), trackView, SLOT(moveCursorPos(int)));
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), trackView, SLOT(slotSetZone(QPoint)));
@@ -1635,6 +1641,12 @@ void MainWindow::slotDeleteTrack(int ix) {
     m_projectMonitor->activateMonitor();
     if (m_activeTimeline)
         m_activeTimeline->projectView()->slotDeleteTrack(ix);
+}
+
+void MainWindow::slotChangeTrack(int ix) {
+    m_projectMonitor->activateMonitor();
+    if (m_activeTimeline)
+        m_activeTimeline->projectView()->slotChangeTrack(ix);
 }
 
 void MainWindow::slotEditGuide() {

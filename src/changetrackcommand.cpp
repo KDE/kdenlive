@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,44 +17,25 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef HEADERTRACK_H
-#define HEADERTRACK_H
+#include <KLocale>
 
-#include <QContextMenuEvent>
-#include <QMenu>
+#include "changetrackcommand.h"
+#include "customtrackview.h"
 
-#include "definitions.h"
-#include "ui_trackheader_ui.h"
+ChangeTrackCommand::ChangeTrackCommand(CustomTrackView *view, int ix, TrackInfo oldInfo, TrackInfo newInfo, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_ix(ix), m_oldinfo(oldInfo), m_newinfo(newInfo), m_doIt(doIt) {
+    setText(i18n("Change track type"));
+}
 
-class HeaderTrack : public QWidget {
-    Q_OBJECT
 
-public:
-    HeaderTrack(int index, TrackInfo info, QWidget *parent = 0);
+// virtual
+void ChangeTrackCommand::undo() {
+// kDebug()<<"----  undoing action";
+    m_doIt = true;
+    m_view->changeTrack(m_ix, m_oldinfo);
+}
+// virtual
+void ChangeTrackCommand::redo() {
+    if (m_doIt) m_view->changeTrack(m_ix, m_newinfo);
+    m_doIt = true;
+}
 
-protected:
-    //virtual void paintEvent(QPaintEvent * /*e*/);
-    virtual void contextMenuEvent(QContextMenuEvent * event);
-
-private:
-    int m_index;
-    TRACKTYPE m_type;
-    Ui::TrackHeader_UI view;
-    QMenu *m_contextMenu;
-
-private slots:
-    void switchAudio();
-    void switchVideo();
-    void slotDeleteTrack();
-    void slotAddTrack();
-    void slotChangeTrack();
-
-signals:
-    void switchTrackAudio(int);
-    void switchTrackVideo(int);
-    void insertTrack(int);
-    void deleteTrack(int);
-    void changeTrack(int);
-};
-
-#endif
