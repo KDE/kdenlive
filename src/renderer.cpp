@@ -1446,7 +1446,7 @@ bool Render::mltRemoveClip(int track, GenTime position) {
     kDebug()<<"CLIP "<<i<<": ("<<blankStart<<"x"<<blankStart + blankDuration<<")"<<blk;
     }*/
 
-    if (track != 0 && trackPlaylist.count() > clipIndex) mltCheckLength();
+    if (track != 0 && trackPlaylist.count() <= clipIndex) mltCheckLength();
     m_isBlocked = false;
     return true;
 }
