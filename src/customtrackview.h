@@ -54,6 +54,7 @@ public:
     int cursorPos();
     void checkAutoScroll();
     void moveClip(const ItemInfo start, const ItemInfo end);
+    void moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> startTransition, const GenTime offset, const int trackOffset, bool reverseMove = false);
     /** move transition, startPos = (old start, old end), endPos = (new start, new end) */
     void moveTransition(const ItemInfo start, const ItemInfo end);
     void resizeClip(const ItemInfo start, const ItemInfo end);
@@ -212,7 +213,7 @@ private:
     ClipItem *getClipUnderCursor() const;
     ClipItem *getMainActiveClip() const;
     bool insertPossible(AbstractGroupItem *group, const QPoint &pos) const;
-    void resetSelectionGroup();
+    void resetSelectionGroup(bool selectItems = true);
     void groupSelectedItems();
 
 private slots:

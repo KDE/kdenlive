@@ -390,9 +390,9 @@ void DocClipBase::setProducer(Mlt::Producer *producer) {
 }
 
 Mlt::Producer *DocClipBase::producer(int track) {
-    for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+    /*for (int i = 0; i < m_baseTrackProducers.count(); i++) {
         if (m_baseTrackProducers.at(i)) kDebug() << "// PROD: " << i << ", ID: " << m_baseTrackProducers.at(i)->get("id");
-    }
+    }*/
     if (track == -1 || (m_clipType != AUDIO && m_clipType != AV)) {
         if (m_baseTrackProducers.count() == 0) return NULL;
         int i;
