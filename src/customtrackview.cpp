@@ -2821,10 +2821,9 @@ void CustomTrackView::slotInsertTrack(int ix) {
             info.isMute = false;
             info.isBlind = true;
         }
-        addTimelineTrack(ix, info);
+        AddTrackCommand *addTrack = new AddTrackCommand(this, ix, info, true, true);
+	m_commandStack->push(addTrack);
         m_document->setModified(true);
-        /*AddTrackCommand* command = new AddTrackCommand(this, ix, info, true, true);
-        m_commandStack->push(command);*/
     }
 }
 
@@ -2866,14 +2865,6 @@ void CustomTrackView::slotChangeTrack(int ix) {
     }
 }
 
-void CustomTrackView::addTimelineTrack(int ix, TrackInfo trackinfo) {
-    double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;
-    QRectF r(0, startY, sceneRect().width(), sceneRect().height() - startY);
-    QList<QGraphicsItem *> selection = m_scene->items(r);
-    kDebug() << "// TRK RECT: " << r << ", ITEMS: " << selection.count();
-    AddTrackCommand *addTrack = new AddTrackCommand(this, ix, trackinfo, true, true, addTrack);
-    m_commandStack->push(addTrack);
-}
 
 void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo) {
     double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;

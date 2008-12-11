@@ -102,7 +102,6 @@ public:
     void slotRemoveSpace();
     void insertSpace(const GenTime &pos, int track, const GenTime duration, bool add);
     ClipItem *getActiveClipUnderCursor(bool allowOutsideCursor = false) const;
-    void addTimelineTrack(int ix, TrackInfo trackinfo);
     void deleteTimelineTrack(int ix, TrackInfo trackinfo);
     void changeTimelineTrack(int ix, TrackInfo trackinfo);
 
