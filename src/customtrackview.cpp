@@ -230,7 +230,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
     int mappedXPos = (int)(mapToScene(event->pos()).x() + 0.5);
     emit mousePosition(mappedXPos);
     if (event->buttons() & Qt::MidButton) return;
-    if (event->modifiers() == Qt::ControlModifier || event->modifiers() == Qt::ShiftModifier) {
+    if ((event->modifiers() == Qt::ControlModifier && m_tool != SPACERTOOL) || event->modifiers() == Qt::ShiftModifier) {
         QGraphicsView::mouseMoveEvent(event);
         m_moveOpMode = NONE;
         return;
@@ -525,7 +525,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
     // check item under mouse
     QList<QGraphicsItem *> collisionList = items(event->pos());
 
-    if (event->modifiers() == Qt::ControlModifier && collisionList.count() == 0) {
+    if (event->modifiers() == Qt::ControlModifier && m_tool != SPACERTOOL && collisionList.count() == 0) {
         setDragMode(QGraphicsView::ScrollHandDrag);
         QGraphicsView::mousePressEvent(event);
         m_blockRefresh = false;
@@ -579,7 +579,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         }
         m_operationMode = NONE;
         displayContextMenu(event->globalPos(), m_dragItem);
-        m_menuPosition = event->pos();
+        m_menuPosition = m_clickEvent;
         m_dragItem = NULL;
         event->accept();
         return;
@@ -593,9 +593,15 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         event->accept();
         emit clipItemSelected(NULL);
         if (m_tool == SPACERTOOL) {
-            // Select all items on track after click position
-            int track = (int)(mapToScene(m_clickEvent).y() / m_tracksHeight);
-            QList<QGraphicsItem *> selection = items(event->pos().x(), track * m_tracksHeight + 1, sceneRect().width() - event->pos().x(), m_tracksHeight - 2);
+            QList<QGraphicsItem *> selection;
+            if (event->modifiers() == Qt::ControlModifier) {
+                // Ctrl + click, select all items on track after click position
+                int track = (int)(mapToScene(m_clickEvent).y() / m_tracksHeight);
+                selection = items(m_clickEvent.x(), track * m_tracksHeight + 1, sceneRect().width() - m_clickEvent.x(), m_tracksHeight - 2);
+            } else {
+                // Select all items on all tracks after click position
+                selection = items(event->pos().x(), 1, sceneRect().width() - event->pos().x(), sceneRect().height());
+            }
             m_selectionGroup = new AbstractGroupItem(m_document->fps());
             scene()->addItem(m_selectionGroup);
             m_spacerStart = -1;
@@ -603,6 +609,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
             for (int i = 0; i < selection.count(); i++) {
                 if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET) {
                     m_selectionGroup->addToGroup(selection.at(i));
+                    selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
                     AbstractClipItem *item = static_cast <AbstractClipItem *>(selection.at(i));
                     itemStart = item->startPos().frames(m_document->fps());
                     if (m_spacerStart == -1 || itemStart < m_spacerStart)
@@ -610,11 +617,8 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 }
             }
             QPointF top = m_selectionGroup->boundingRect().topLeft();
-            const int width = m_selectionGroup->boundingRect().width();
-            const int height = m_selectionGroup->boundingRect().height();
             m_selectionGroup->setPos(top);
             m_selectionGroup->translate(-top.x(), -top.y() + 1);
-            //kDebug()<<"// SPACER START GRP: "<<m_spacerStart;
             m_operationMode = SPACER;
         } else setCursorPos((int)(mapToScene(event->x(), 0).x()));
         return;
@@ -750,8 +754,6 @@ void CustomTrackView::groupSelectedItems() {
 
         if (m_selectionGroup) {
             QPointF top = m_selectionGroup->boundingRect().topLeft();
-            const int width = m_selectionGroup->boundingRect().width();
-            const int height = m_selectionGroup->boundingRect().height();
             m_selectionGroup->setPos(top);
             m_selectionGroup->translate(-top.x(), -top.y() + 1);
             m_selectionGroupInfo.startPos = GenTime(m_selectionGroup->scenePos().x(), m_document->fps());
@@ -1339,15 +1341,10 @@ void CustomTrackView::addTrack(TrackInfo type, int ix) {
         for (int i = 0; i < selection.count(); i++) {
             if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET)
                 m_selectionGroup->addToGroup(selection.at(i));
+            selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
         }
-        QPointF top = m_selectionGroup->boundingRect().topLeft();
-        const int width = m_selectionGroup->boundingRect().width();
-        const int height = m_selectionGroup->boundingRect().height();
-        m_selectionGroup->setPos(top);
-        m_selectionGroup->translate(-top.x(), -top.y() + 1);
-
         // Move graphic items
-        m_selectionGroup->setPos(m_selectionGroup->pos().x(), m_selectionGroup->pos().y() + m_tracksHeight);
+        m_selectionGroup->translate(0, m_tracksHeight);
 
         // adjust track number
         QList<QGraphicsItem *> children = m_selectionGroup->childItems();
@@ -1370,7 +1367,7 @@ void CustomTrackView::addTrack(TrackInfo type, int ix) {
                 }
             }
         }
-        resetSelectionGroup();
+        resetSelectionGroup(false);
 
     }
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), m_tracksHeight * m_document->tracksCount());
@@ -1396,20 +1393,15 @@ void CustomTrackView::removeTrack(int ix) {
     for (int i = 0; i < selection.count(); i++) {
         if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET)
             m_selectionGroup->addToGroup(selection.at(i));
+        selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
     }
-
-    QPointF top = m_selectionGroup->boundingRect().topLeft();
-    const int width = m_selectionGroup->boundingRect().width();
-    const int height = m_selectionGroup->boundingRect().height();
-    m_selectionGroup->setPos(top);
-    m_selectionGroup->translate(-top.x(), -top.y() + 1);
-
     // Move graphic items
-    m_selectionGroup->setPos(m_selectionGroup->pos().x(), m_selectionGroup->pos().y() - m_tracksHeight);
+    qreal ydiff = 0 - (int) m_tracksHeight;
+    m_selectionGroup->translate(0, ydiff);
 
     // adjust track number
     QList<QGraphicsItem *> children = m_selectionGroup->childItems();
-    kDebug() << "// FOUND CLIPS TO MOVE: " << children.count();
+    //kDebug() << "// FOUND CLIPS TO MOVE: " << children.count();
     for (int i = 0; i < children.count(); i++) {
         if (children.at(i)->type() == AVWIDGET) {
             ClipItem *clip = static_cast <ClipItem *>(children.at(i));
@@ -1429,7 +1421,7 @@ void CustomTrackView::removeTrack(int ix) {
             }
         }
     }
-    resetSelectionGroup();
+    resetSelectionGroup(false);
 
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), m_tracksHeight * m_document->tracksCount());
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_document->tracksCount());
@@ -1512,9 +1504,8 @@ void CustomTrackView::slotInsertSpace() {
     m_commandStack->push(command);
 }
 
-void CustomTrackView::insertSpace(const GenTime &pos, int track, const GenTime duration, bool add) {
+void CustomTrackView::insertSpace(const GenTime &pos, int track, const GenTime duration) {
     int diff = duration.frames(m_document->fps());
-    if (!add) diff = -diff;
     QList<QGraphicsItem *> itemList;
     if (track == -1) itemList = scene()->items(pos.frames(m_document->fps()) , 1, sceneRect().width() - pos.frames(m_document->fps()), sceneRect().height());
     else itemList = scene()->items(pos.frames(m_document->fps()) , track * m_tracksHeight + 1, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight - 2);
@@ -1523,22 +1514,15 @@ void CustomTrackView::insertSpace(const GenTime &pos, int track, const GenTime d
     scene()->addItem(m_selectionGroup);
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET || itemList.at(i)->type() == TRANSITIONWIDGET) {
-            /*AbstractClipItem *item = static_cast <AbstractClipItem *> (itemList.at(i));
-            if (item->endPos() > pos)*/
             m_selectionGroup->addToGroup(itemList.at(i));
-            //item->moveBy(diff, 0);
+            itemList.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
         }
     }
-    QPointF top = m_selectionGroup->boundingRect().topLeft();
-    const int width = m_selectionGroup->boundingRect().width();
-    const int height = m_selectionGroup->boundingRect().height();
-    m_selectionGroup->setPos(top);
-    m_selectionGroup->translate(-top.x(), -top.y() + 1);
-    m_selectionGroup->moveBy(diff, 0);
-    resetSelectionGroup();
+
+    m_selectionGroup->translate(diff, 0);
+    resetSelectionGroup(false);
     if (track != -1) track = m_document->tracksCount() - track;
-    if (!add) m_document->renderer()->mltInsertSpace(pos, track, GenTime() - duration);
-    else m_document->renderer()->mltInsertSpace(pos, track, duration);
+    m_document->renderer()->mltInsertSpace(pos, track, duration);
 }
 
 void CustomTrackView::deleteClip(const QString &clipId) {
@@ -1615,6 +1599,10 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         int endClick = (int)(mapToScene(event->pos()).x() + 0.5);
         int mappedClick = (int)(mapToScene(m_clickEvent).x() + 0.5);
         int track = (int)(mapToScene(m_clickEvent).y() / m_tracksHeight);
+        if (m_selectionGroup->sceneBoundingRect().height() > m_tracksHeight) {
+            // We are moving all tracks
+            track = -1;
+        }
         ClipItem *item = getClipItemAt(mappedClick, track);
         if (item) mappedClick = item->startPos().frames(m_document->fps());
         int diff = m_selectionGroup->pos().x() - m_spacerStart;//endClick - mappedClick;
@@ -1622,9 +1610,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         if (diff < 0) mappedClick += diff;
         InsertSpaceCommand *command = new InsertSpaceCommand(this, GenTime(mappedClick, m_document->fps()), track, GenTime(diff, m_document->fps()), false);
         m_commandStack->push(command);
-        track = m_document->tracksCount() - track;
+        if (track != -1) track = m_document->tracksCount() - track;
         m_document->renderer()->mltInsertSpace(GenTime(mappedClick, m_document->fps()), track, GenTime(diff, m_document->fps()));
-        resetSelectionGroup();
+        resetSelectionGroup(false);
         m_operationMode = NONE;
     } else if (m_operationMode == RUBBERSELECTION) {
         resetSelectionGroup();
@@ -1728,6 +1716,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
 
                 new MoveGroupCommand(this, clipsToMove, transitionsToMove, timeOffset, trackOffset, false, moveClips);
                 m_commandStack->push(moveClips);
+
+                QPointF top = m_selectionGroup->sceneBoundingRect().topLeft();
+                //QPointF oldpos = m_selectionGroup->scenePos();
+                //kDebug()<<"SELECTION GRP POS: "<<m_selectionGroup->scenePos()<<", TOP: "<<top;
+                m_selectionGroup->setPos(top);
                 m_selectionGroupInfo.startPos = GenTime(m_selectionGroup->scenePos().x(), m_document->fps());
                 m_selectionGroupInfo.track = m_selectionGroup->track();
             }
@@ -2073,17 +2066,11 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
         qreal posx = pos.x() + offset.frames(m_document->fps());
         qreal posy = pos.y() + trackOffset * (qreal) m_tracksHeight;
         m_selectionGroup->setPos(posx, posy);
+
+        QPointF top = m_selectionGroup->sceneBoundingRect().topLeft();
+        m_selectionGroup->setPos(top);
         m_selectionGroupInfo.startPos = GenTime(m_selectionGroup->scenePos().x(), m_document->fps());
         m_selectionGroupInfo.track = m_selectionGroup->track();
-        kDebug() << "// Current GRUOP POS: " << pos.y() << ", TK OFF: " << trackOffset << ", TK HG: " << m_tracksHeight << ", POS: " << posx << "x" << posy;
-
-        /*QPointF top = m_selectionGroup->boundingRect().topLeft();
-        const int width = m_selectionGroup->boundingRect().width();
-        const int height = m_selectionGroup->boundingRect().height();
-        m_selectionGroup->setPos(top);
-        m_selectionGroup->translate(-top.x(), -top.y() + 1);
-        m_selectionGroupInfo.startPos = GenTime(m_selectionGroup->scenePos().x(), m_document->fps());
-        m_selectionGroupInfo.track = m_selectionGroup->track();*/
 
         QList<QGraphicsItem *> children = m_selectionGroup->childItems();
         for (int i = 0; i < children.count(); i++) {
@@ -2822,7 +2809,7 @@ void CustomTrackView::slotInsertTrack(int ix) {
             info.isBlind = true;
         }
         AddTrackCommand *addTrack = new AddTrackCommand(this, ix, info, true, true);
-	m_commandStack->push(addTrack);
+        m_commandStack->push(addTrack);
         m_document->setModified(true);
     }
 }

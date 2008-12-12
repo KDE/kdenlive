@@ -29,13 +29,13 @@ InsertSpaceCommand::InsertSpaceCommand(CustomTrackView *view, const GenTime &pos
 // virtual
 void InsertSpaceCommand::undo() {
     // kDebug()<<"----  undoing action";
-    m_view->insertSpace(m_pos, m_track, m_duration, false);
+    m_view->insertSpace(m_pos + m_duration, m_track, GenTime() - m_duration);
 }
 // virtual
 void InsertSpaceCommand::redo() {
     // kDebug() << "----  redoing action cut: " << m_cutTime.frames(25);
     if (m_doIt)
-        m_view->insertSpace(m_pos, m_track, m_duration, true);
+        m_view->insertSpace(m_pos, m_track, m_duration);
     m_doIt = true;
 }
 

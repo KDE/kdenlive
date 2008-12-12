@@ -1499,7 +1499,7 @@ void Render::mltInsertSpace(const GenTime pos, int track, const GenTime duration
         if (diff > 0) trackPlaylist.insert_blank(clipIndex, diff - 1);
         else {
             int position = trackPlaylist.clip_start(clipIndex);
-            trackPlaylist.remove_region(position, -diff - 1);
+            trackPlaylist.remove_region(position + diff, -diff - 1);
         }
         trackPlaylist.consolidate_blanks(0);
 
@@ -1534,7 +1534,7 @@ void Render::mltInsertSpace(const GenTime pos, int track, const GenTime duration
             if (diff > 0) trackPlaylist.insert_blank(clipIndex, diff - 1);
             else {
                 int position = trackPlaylist.clip_start(clipIndex);
-                trackPlaylist.remove_region(position, -diff - 1);
+                trackPlaylist.remove_region(position + diff, -diff - 1);
             }
             trackPlaylist.consolidate_blanks(0);
             trackNb--;
@@ -1562,6 +1562,7 @@ void Render::mltInsertSpace(const GenTime pos, int track, const GenTime duration
         }
     }
     mlt_service_unlock(service.get_service());
+    mltCheckLength();
 }
 
 int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt::Producer *prod) {
