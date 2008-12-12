@@ -43,6 +43,7 @@ private slots:
     void slotEditMarker();
     void slotDeleteMarker();
     void slotFillMarkersList();
+    void slotCheckMaxLength();
 
 private:
     Ui::ClipProperties_UI m_view;

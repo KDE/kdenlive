@@ -955,7 +955,7 @@ void ClipItem::resizeEnd(int posx, double speed, bool updateKeyFrames) {
     const int max = (startPos() - cropStart() + maxDuration()).frames(m_fps) + 1;
     if (posx > max) posx = max;
     if (posx == endPos().frames(m_fps)) return;
-    kDebug() << "// NEW POS: " << posx << ", OLD END: " << endPos().frames(m_fps);
+    //kDebug() << "// NEW POS: " << posx << ", OLD END: " << endPos().frames(m_fps);
     const int previous = (cropStart() + duration()).frames(m_fps);
     AbstractClipItem::resizeEnd(posx, m_speed);
     if (updateKeyFrames) checkEffectsKeyframesPos(previous, (cropStart() + duration()).frames(m_fps), false);

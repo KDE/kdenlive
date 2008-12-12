@@ -186,11 +186,12 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.tabWidget->removeTab(VIDEOTAB);
         m_view.clip_thumb->setHidden(true);
     }
-    if (t != IMAGE && t != COLOR && t != TEXT) m_view.clip_duration->setReadOnly(true);
 
     KFileItem f(KFileItem::Unknown, KFileItem::Unknown, url, true);
     m_view.clip_filesize->setText(KIO::convertSize(f.size()));
     m_view.clip_duration->setText(tc.getTimecode(m_clip->duration(), m_fps));
+    if (t != IMAGE && t != COLOR && t != TEXT) m_view.clip_duration->setReadOnly(true);
+    else connect(m_view.clip_duration, SIGNAL(editingFinished()), this, SLOT(slotCheckMaxLength()));
 
     // markers
     m_view.marker_new->setIcon(KIcon("document-new"));
@@ -421,6 +422,13 @@ void ClipProperties::parseFolder() {
     QMap <QString, QString> props = m_clip->properties();
     m_view.clip_duration->setText(m_tc.getTimecodeFromFrames(props.value("ttl").toInt() * m_count));
     m_view.clip_thumb->setPixmap(pix);
+}
+
+void ClipProperties::slotCheckMaxLength() {
+    int duration = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
+    if (duration > m_clip->maxDuration().frames(m_fps)) {
+	m_view.clip_duration->setText(m_tc.getTimecode(m_clip->maxDuration(), m_fps));
+    }
 }
 
 #include "clipproperties.moc"
