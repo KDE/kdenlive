@@ -556,11 +556,15 @@ QString DocClipBase::getClipHash() const {
     return hash;
 }
 
+void DocClipBase::refreshThumbUrl() {
+    if (m_thumbProd) m_thumbProd->updateThumbUrl(m_properties.value("file_hash"));
+}
+
 void DocClipBase::setProperty(const QString &key, const QString &value) {
     m_properties.insert(key, value);
     if (key == "resource") {
-        m_thumbProd->updateClipUrl(KUrl(value));
         getFileHash(value);
+        if (m_thumbProd) m_thumbProd->updateClipUrl(KUrl(value), m_properties.value("file_hash"));
     } else if (key == "out") setDuration(GenTime(value.toInt(), KdenliveSettings::project_fps()));
     //else if (key == "transparency") m_clipProducer->set("transparency", value.toInt());
     else if (key == "colour") {

@@ -26,6 +26,7 @@
 #include <KLocale>
 #include <KFileDialog>
 #include <KIO/NetAccess>
+#include <KIO/CopyJob>
 #include <KApplication>
 
 
@@ -864,6 +865,43 @@ KUrl KdenliveDoc::projectFolder() const {
     return m_projectFolder;
 }
 
+void KdenliveDoc::setProjectFolder(KUrl url) {
+    if (url == m_projectFolder) return;
+    setModified(true);
+    KStandardDirs::makeDir(url.path());
+    KStandardDirs::makeDir(url.path() + "/titles/");
+    KStandardDirs::makeDir(url.path() + "/thumbs/");
+    if (KMessageBox::questionYesNo(kapp->activeWindow(), i18n("You have changed the project folder. Do you want to copy the cached data from %1 to the new folder %2 ?").arg(m_projectFolder.path(), url.path())) == KMessageBox::Yes) moveProjectData(url);
+    m_projectFolder = url;
+}
+
+void KdenliveDoc::moveProjectData(KUrl url) {
+    QList <DocClipBase*> list = m_clipManager->documentClipList();
+    for (int i = 0; i < list.count(); i++) {
+        DocClipBase *clip = list.at(i);
+        if (clip->clipType() == TEXT) {
+            // the image for title clip must be moved
+            KUrl oldUrl = clip->fileURL();
+            KUrl newUrl = KUrl(url.path() + "/titles/" + oldUrl.fileName());
+            KIO::Job *job = KIO::copy(oldUrl, newUrl);
+            if (KIO::NetAccess::synchronousRun(job, 0)) clip->setProperty("resource", newUrl.path());
+        }
+        QString hash = clip->getClipHash();
+        KUrl oldVideoThumbUrl = KUrl(m_projectFolder.path() + "/thumbs/" + hash + ".png");
+        KUrl oldAudioThumbUrl = KUrl(m_projectFolder.path() + "/thumbs/" + hash + ".thumb");
+        if (KIO::NetAccess::exists(oldVideoThumbUrl, KIO::NetAccess::SourceSide, 0)) {
+            KUrl newUrl = KUrl(url.path() + "/thumbs/" + hash + ".png");
+            KIO::Job *job = KIO::copy(oldVideoThumbUrl, newUrl);
+            KIO::NetAccess::synchronousRun(job, 0);
+        }
+        if (KIO::NetAccess::exists(oldAudioThumbUrl, KIO::NetAccess::SourceSide, 0)) {
+            KUrl newUrl = KUrl(url.path() + "/thumbs/" + hash + ".thumb");
+            KIO::Job *job = KIO::copy(oldAudioThumbUrl, newUrl);
+            if (KIO::NetAccess::synchronousRun(job, 0)) clip->refreshThumbUrl();
+        }
+    }
+}
+
 QString KdenliveDoc::profilePath() const {
     return m_profile.path;
 }
@@ -925,10 +963,8 @@ void KdenliveDoc::checkProjectClips() {
         id = prods.at(i)->get("id");
         prodId = id.section('_', 0, 0);
         prodTrack = id.section('_', 1, 1);
-        kDebug() << "CHECK PRO CLIP, ID: " << id;
         DocClipBase *clip = m_clipManager->getClipById(prodId);
         if (clip) clip->setProducer(prods.at(i));
-        kDebug() << "CHECK PRO CLIP, ID: " << id << " DONE";
         if (clip && clip->clipType() == TEXT && !QFile::exists(clip->fileURL().path())) {
             // regenerate text clip image if required
             kDebug() << "// TITLE: " << clip->getProperty("titlename") << " Preview file: " << clip->getProperty("resource") << " DOES NOT EXIST";

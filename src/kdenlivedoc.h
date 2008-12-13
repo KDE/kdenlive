@@ -92,7 +92,7 @@ Q_OBJECT public:
     QString description() const;
     void setUrl(KUrl url);
     void setProfilePath(QString path);
-    const QString&getFreeClipId();
+    const QString &getFreeClipId();
     /** does the document need saving */
     bool isModified() const;
     /** Returns project folder, used to store project files (titles, effects,...) */
@@ -116,6 +116,7 @@ Q_OBJECT public:
     void switchTrackVideo(int ix, bool hide);
     void switchTrackAudio(int ix, bool hide);
     void cachePixmap(const QString &fileId, const QPixmap &pix) const;
+    void setProjectFolder(KUrl url);
 
 private:
     KUrl m_url;
@@ -151,6 +152,7 @@ private:
     void checkProjectClips();
     void setNewClipResource(const QString &id, const QString &path);
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
+    void moveProjectData(KUrl url);
 
 public slots:
     void slotCreateTextClip(QString group, const QString &groupId);

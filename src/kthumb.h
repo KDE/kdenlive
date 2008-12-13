@@ -83,11 +83,12 @@ Q_OBJECT public:
     void setProducer(Mlt::Producer *producer);
     void askForAudioThumbs(const QString &id);
     bool hasProducer() const;
+    void updateThumbUrl(const QString &hash);
 
 public slots:
     void extractImage(int frame, int frame2);
     QPixmap extractImage(int frame, int width, int height);
-    void updateClipUrl(KUrl url);
+    void updateClipUrl(KUrl url, const QString &hash);
     static QPixmap getImage(KUrl url, int width, int height);
 //    static QPixmap getImage(QDomElement xml, int frame, int width, int height);
     /* void getImage(KUrl url, int frame, int width, int height);

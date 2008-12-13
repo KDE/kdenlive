@@ -144,13 +144,18 @@ bool KThumb::hasProducer() const {
     return m_producer != NULL;
 }
 
-void KThumb::updateClipUrl(KUrl url) {
+void KThumb::updateThumbUrl(const QString &hash) {
+    m_thumbFile = m_clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
+}
+
+void KThumb::updateClipUrl(KUrl url, const QString &hash) {
     m_url = url;
     if (m_producer) {
         char *tmp = Render::decodedString(url.path());
         m_producer->set("resource", tmp);
         delete[] tmp;
     }
+    m_thumbFile = m_clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
 }
 
 //static

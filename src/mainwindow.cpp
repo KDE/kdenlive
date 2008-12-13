@@ -1201,6 +1201,7 @@ void MainWindow::slotEditProjectSettings() {
         m_activeDocument->setProfilePath(profile);
         KdenliveSettings::setCurrent_profile(profile);
         KdenliveSettings::setProject_fps(m_activeDocument->fps());
+        m_activeDocument->setProjectFolder(w->selectedFolder());
         setCaption(m_activeDocument->description(), m_activeDocument->isModified());
         m_monitorManager->resetProfiles(m_activeDocument->timecode());
         if (m_renderWidget) m_renderWidget->setProfile(m_activeDocument->mltProfile());

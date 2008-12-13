@@ -166,6 +166,7 @@ Q_OBJECT public:
     void slotClearAudioCache();
     void askForAudioThumbs();
     QString getClipHash() const;
+    void refreshThumbUrl();
 
 private:   // Private attributes
     /** The name of this clip */
