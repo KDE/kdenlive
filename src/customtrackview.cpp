@@ -1374,6 +1374,7 @@ void CustomTrackView::addTrack(TrackInfo type, int ix) {
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_document->tracksCount());
     verticalScrollBar()->setMaximum(m_tracksHeight * m_document->tracksCount());
     QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
+    viewport()->update();
     //setFixedHeight(50 * m_tracksCount);
 }
 
@@ -1427,6 +1428,7 @@ void CustomTrackView::removeTrack(int ix) {
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_document->tracksCount());
     verticalScrollBar()->setMaximum(m_tracksHeight * m_document->tracksCount());
     QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
+    viewport()->update();
 }
 
 void CustomTrackView::changeTrack(int ix, TrackInfo type) {
@@ -2007,6 +2009,7 @@ Transition *CustomTrackView::getTransitionItemAt(GenTime pos, int track) {
 }
 
 void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
+    if (m_selectionGroup) resetSelectionGroup(false);
     ClipItem *item = getClipItemAt((int) start.startPos.frames(m_document->fps()) + 1, start.track);
     if (!item) {
         emit displayMessage(i18n("Cannot move clip at time: %1 on track %2", m_document->timecode().getTimecodeFromFrames(start.startPos.frames(m_document->fps())), start.track), ErrorMessage);
@@ -2018,6 +2021,8 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
     bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - start.track), (int)(m_document->tracksCount() - end.track), (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()), item->baseClip()->producer(end.track));
     if (success) {
         item->setPos((int) end.startPos.frames(m_document->fps()), (int)(end.track * m_tracksHeight + 1));
+        m_scene->clearSelection();
+        item->setSelected(true);
         if (item->baseClip()->isTransparent()) {
             // Also move automatic transition
             Transition *tr = getTransitionItemAt((int) start.startPos.frames(m_document->fps()), start.track);
@@ -2774,8 +2779,8 @@ void CustomTrackView::setOutPoint() {
 
 void CustomTrackView::slotUpdateAllThumbs() {
     QList<QGraphicsItem *> itemList = items();
+    //if (itemList.isEmpty()) return;
     ClipItem *item;
-    Transition *transitionitem;
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             item = static_cast <ClipItem *>(itemList.at(i));

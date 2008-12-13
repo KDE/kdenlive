@@ -900,6 +900,13 @@ void MainWindow::readOptions() {
         } else {
             ::exit(1);
         }
+    } else if (initialGroup.readEntry("version") == "0.7") {
+        //Add new settings from 0.7.1
+        if (KdenliveSettings::defaultprojectfolder().isEmpty()) {
+            QString path = QDir::homePath() + "/kdenlive";
+            if (KStandardDirs::makeDir(path)  == false) kDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
+            KdenliveSettings::setDefaultprojectfolder(path);
+        }
     }
     KConfigGroup treecolumns(config, "Project Tree");
     const QByteArray state = treecolumns.readEntry("columns", QByteArray());
@@ -915,7 +922,7 @@ void MainWindow::newFile(bool showProjectSettings) {
         if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
         profileName = KdenliveSettings::default_profile();
     } else {
-        ProjectSettings *w = new ProjectSettings(projectTracks.x(), projectTracks.y(), false, this);
+        ProjectSettings *w = new ProjectSettings(projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, this);
         if (w->exec() != QDialog::Accepted) return;
         if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
         profileName = w->selectedProfile();
@@ -1187,7 +1194,7 @@ void MainWindow::slotEditProfiles() {
 
 void MainWindow::slotEditProjectSettings() {
     QPoint p = m_activeDocument->getTracksCount();
-    ProjectSettings *w = new ProjectSettings(p.x(), p.y(), true, this);
+    ProjectSettings *w = new ProjectSettings(p.x(), p.y(), m_activeDocument->projectFolder().path(), true, this);
 
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();

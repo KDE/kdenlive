@@ -48,7 +48,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
 
     //if (!url.isEmpty() && QFile::exists(url.path()))
     {
-        m_thumbProd = new KThumb(clipManager, url, m_id);
+        m_thumbProd = new KThumb(clipManager, url, m_id, m_properties.value("file_hash"));
         if (m_clipType == AV || m_clipType == AUDIO) slotCreateAudioTimer();
     }
     //kDebug() << "type is video" << (m_clipType == AV) << " " << m_clipType;
@@ -590,6 +590,10 @@ QMap <QString, QString> DocClipBase::properties() const {
 
 bool DocClipBase::slotGetAudioThumbs() {
     if (m_thumbProd == NULL) return false;
+    if (!KdenliveSettings::audiothumbnails()) {
+        if (m_audioTimer != NULL) m_audioTimer->stop();
+        return false;
+    }
     if (m_audioThumbCreated) {
         if (m_audioTimer != NULL) m_audioTimer->stop();
         return false;

@@ -23,7 +23,6 @@
 #include <qxml.h>
 #include <QImage>
 #include <QApplication>
-#include <QCryptographicHash>
 
 #include <kio/netaccess.h>
 #include <kdebug.h>
@@ -59,7 +58,6 @@ bool MyThread::isWorking() {
 }
 
 void MyThread::run() {
-
     if (!f.open(QIODevice::WriteOnly)) {
         kDebug() << "++++++++  ERROR WRITING TO FILE: " << f.fileName() << endl;
         kDebug() << "++++++++  DISABLING AUDIO THUMBS" << endl;
@@ -126,11 +124,8 @@ void MyThread::run() {
 
 }
 
-KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, QObject * parent, const char *name): QObject(parent), m_clipManager(clipManager), m_url(url), m_id(id), m_producer(NULL), m_dar(1), m_mainFrame(-1) {
-    QCryptographicHash context(QCryptographicHash::Sha1);
-    context.addData((KFileItem(m_url, "text/plain", S_IFREG).timeString() + m_url.fileName()).toAscii().data());
-    m_thumbFile = KGlobal::dirs()->saveLocation("tmp" , "kdenlive") + context.result().toHex() + ".thumb";
-    //kDebug() << "thumbfile=" << m_thumbFile;
+KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QString &hash, QObject * parent, const char *name): QObject(parent), m_clipManager(clipManager), m_url(url), m_id(id), m_producer(NULL), m_dar(1), m_mainFrame(-1) {
+    m_thumbFile = clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
     connect(&audioThumbProducer, SIGNAL(audioThumbProgress(const int)), this, SLOT(slotAudioThumbProgress(const int)));
     connect(&audioThumbProducer, SIGNAL(audioThumbOver()), this, SLOT(slotAudioThumbOver()));
 

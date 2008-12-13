@@ -26,7 +26,7 @@
 #include "profilesdialog.h"
 #include "projectsettings.h"
 
-ProjectSettings::ProjectSettings(int videotracks, int audiotracks, bool readOnlyTracks, QWidget * parent): QDialog(parent), m_isCustomProfile(false) {
+ProjectSettings::ProjectSettings(int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, QWidget * parent): QDialog(parent), m_isCustomProfile(false) {
     m_view.setupUi(this);
 
     QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
@@ -36,6 +36,7 @@ ProjectSettings::ProjectSettings(int videotracks, int audiotracks, bool readOnly
         m_view.profiles_list->addItem(i.key(), i.value());
     }
     m_view.project_folder->setMode(KFile::Directory);
+    m_view.project_folder->setPath(projectPath);
     QString currentProf = KdenliveSettings::current_profile();
 
     for (int i = 0; i < m_view.profiles_list->count(); i++) {

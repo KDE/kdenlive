@@ -58,6 +58,9 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
             if (!infoXmlNode.isNull()) {
                 QDomElement infoXml = infoXmlNode.toElement();
                 QString profilePath = infoXml.attribute("profile");
+                QString projectFolderPath = infoXml.attribute("projectfolder");
+                if (!projectFolderPath.isEmpty()) m_projectFolder = KUrl(projectFolderPath);
+                if (m_projectFolder.isEmpty()) m_projectFolder = KUrl(KdenliveSettings::defaultprojectfolder());
                 m_startPos = infoXml.attribute("position").toInt();
                 m_zoom = infoXml.attribute("zoom", "7").toInt();
                 setProfilePath(profilePath);
@@ -155,6 +158,12 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         m_document = createEmptyDocument(tracks.x(), tracks.y());
         setProfilePath(profileName);
     }
+    if (m_projectFolder.isEmpty()) m_projectFolder = KUrl(KdenliveSettings::defaultprojectfolder());
+
+    // make sure that the necessary folders exist
+    KStandardDirs::makeDir(m_projectFolder.path() + "/titles/");
+    KStandardDirs::makeDir(m_projectFolder.path() + "/thumbs/");
+
     m_scenelist = m_document.toString();
     kDebug() << "KDEnnlive document, init timecode: " << m_fps;
     if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
@@ -810,6 +819,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, QDomDocument sceneList) {
     addedXml.setAttribute("version", "0.8");
     addedXml.setAttribute("profile", profilePath());
     addedXml.setAttribute("position", m_render->seekPosition().frames(m_fps));
+    addedXml.setAttribute("projectfolder", m_projectFolder.path());
     addedXml.setAttribute("tracks", getTracksInfo());
     addedXml.setAttribute("zoom", m_zoom);
 
@@ -851,7 +861,7 @@ ClipManager *KdenliveDoc::clipManager() {
 }
 
 KUrl KdenliveDoc::projectFolder() const {
-    if (m_projectFolder.isEmpty()) return KUrl(KStandardDirs::locateLocal("appdata", "/projects/"));
+    //if (m_projectFolder.isEmpty()) return KUrl(KStandardDirs::locateLocal("appdata", "/projects/"));
     return m_projectFolder;
 }
 

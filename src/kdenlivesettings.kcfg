@@ -126,6 +126,11 @@
       <default>/tmp/</default>
     </entry>
 
+    <entry name="defaultprojectfolder" type="Path">
+      <label>Default folder for project files.</label>
+      <default></default>
+    </entry>
+
     <entry name="capturefolder" type="Path">
       <label>Default folder for captured files.</label>
       <default>$HOME</default>

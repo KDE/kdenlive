@@ -53,6 +53,8 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
     m_configEnv.rendererpathurl->lineEdit()->setObjectName("kcfg_rendererpath");
     m_configEnv.tmppathurl->setMode(KFile::Directory);
     m_configEnv.tmppathurl->lineEdit()->setObjectName("kcfg_currenttmpfolder");
+    m_configEnv.projecturl->setMode(KFile::Directory);
+    m_configEnv.projecturl->lineEdit()->setObjectName("kcfg_defaultprojectfolder");
     m_configEnv.capturefolderurl->setMode(KFile::Directory);
     m_configEnv.capturefolderurl->lineEdit()->setObjectName("kcfg_capturefolder");
     page2 = addPage(p2, i18n("Environment"), "terminal");

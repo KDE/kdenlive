@@ -63,6 +63,7 @@ Q_OBJECT public:
     void startAudioThumbsGeneration();
     void endAudioThumbsGeneration(const QString &requestedId);
     void askForAudioThumb(const QString &id);
+    QString projectFolder() const;
 
 private:   // Private attributes
     /** the list of clips in the document */

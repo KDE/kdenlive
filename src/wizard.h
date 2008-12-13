@@ -43,6 +43,10 @@ private:
     Ui::WizardExtra_UI m_extra;
     QVBoxLayout *m_startLayout;
     bool m_systemCheckIsOk;
+    QStringList m_dvProfiles;
+    QStringList m_hdvProfiles;
+    QStringList m_otherProfiles;
+    QMap <QString, QString> m_profilesInfo;
 
 private slots:
     void slotCheckThumbs();

@@ -258,4 +258,9 @@ int ClipManager::lastClipId() const {
     return m_clipIdCounter - 1;
 }
 
+QString ClipManager::projectFolder() const {
+    return m_doc->projectFolder().path();
+}
+
+
 

@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>304</width>
-    <height>236</height>
+    <width>365</width>
+    <height>240</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout" >
@@ -66,28 +66,38 @@
       <attribute name="title" >
        <string>Default folders</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_5" >
+      <layout class="QGridLayout" name="gridLayout_2" >
        <item row="0" column="0" >
+        <widget class="QLabel" name="label_5" >
+         <property name="text" >
+          <string>Project folder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" >
+        <widget class="KUrlRequester" name="projecturl" />
+       </item>
+       <item row="1" column="0" >
         <widget class="QLabel" name="label_3" >
          <property name="text" >
           <string>Temporary files</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1" >
+       <item row="1" column="1" >
         <widget class="KUrlRequester" name="tmppathurl" />
        </item>
-       <item row="1" column="0" >
+       <item row="2" column="0" >
         <widget class="QLabel" name="label_10" >
          <property name="text" >
           <string>Capture folder</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1" >
+       <item row="2" column="1" >
         <widget class="KUrlRequester" name="capturefolderurl" />
        </item>
-       <item row="2" column="1" >
+       <item row="3" column="1" >
         <spacer name="verticalSpacer_3" >
          <property name="orientation" >
           <enum>Qt::Vertical</enum>

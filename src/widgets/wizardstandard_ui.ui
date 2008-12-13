@@ -5,120 +5,66 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>233</width>
-    <height>180</height>
+    <width>400</width>
+    <height>188</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout_3" >
-   <item row="0" column="0" >
+  <layout class="QGridLayout" name="gridLayout_2" >
+   <item row="0" column="0" colspan="6" >
     <widget class="QLabel" name="label_3" >
      <property name="text" >
-      <string>Please set your default video format</string>
+      <string>Please set your default video profile</string>
      </property>
     </widget>
    </item>
    <item row="1" column="0" >
-    <widget class="QFrame" name="frame" >
-     <property name="frameShape" >
-      <enum>QFrame::StyledPanel</enum>
+    <widget class="QLabel" name="label_2" >
+     <property name="text" >
+      <string>Video Resolution</string>
      </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QGridLayout" name="gridLayout" >
-      <item row="0" column="0" >
-       <widget class="QLabel" name="label" >
-        <property name="text" >
-         <string>Video Standard</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2" >
-       <widget class="QRadioButton" name="button_pal" >
-        <property name="text" >
-         <string>PAL</string>
-        </property>
-        <property name="checked" >
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3" >
-       <widget class="QRadioButton" name="button_ntsc" >
-        <property name="text" >
-         <string>NTSC</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" >
-       <spacer name="horizontalSpacer" >
-        <property name="orientation" >
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0" >
-         <size>
-          <width>9</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
     </widget>
    </item>
-   <item row="2" column="0" >
-    <widget class="QFrame" name="frame_2" >
-     <property name="frameShape" >
-      <enum>QFrame::StyledPanel</enum>
+   <item row="1" column="1" >
+    <spacer name="horizontalSpacer_2" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
      </property>
-     <property name="frameShadow" >
-      <enum>QFrame::Raised</enum>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>1</width>
+       <height>20</height>
+      </size>
      </property>
-     <layout class="QGridLayout" name="gridLayout_2" >
-      <item row="0" column="2" >
-       <widget class="QRadioButton" name="button_dv" >
-        <property name="text" >
-         <string>DV</string>
-        </property>
-        <property name="checked" >
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" >
-       <widget class="QLabel" name="label_2" >
-        <property name="text" >
-         <string>Video Resolution</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3" >
-       <widget class="QRadioButton" name="button_hdv" >
-        <property name="text" >
-         <string>HDV</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" >
-       <spacer name="horizontalSpacer_2" >
-        <property name="orientation" >
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0" >
-         <size>
-          <width>1</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
+    </spacer>
+   </item>
+   <item row="1" column="2" colspan="2" >
+    <widget class="QRadioButton" name="button_dv" >
+     <property name="text" >
+      <string>DV</string>
+     </property>
+     <property name="checked" >
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
-   <item row="3" column="0" >
+   <item row="1" column="4" >
+    <widget class="QRadioButton" name="button_hdv" >
+     <property name="text" >
+      <string>HDV</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="5" >
+    <widget class="QRadioButton" name="button_all" >
+     <property name="text" >
+      <string>Show All</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="6" >
     <widget class="QListWidget" name="profiles_list" >
      <property name="sizePolicy" >
-      <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -127,19 +73,6 @@
       <bool>true</bool>
      </property>
     </widget>
-   </item>
-   <item row="4" column="0" >
-    <spacer name="verticalSpacer" >
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0" >
-      <size>
-       <width>20</width>
-       <height>0</height>
-      </size>
-     </property>
-    </spacer>
    </item>
   </layout>
  </widget>

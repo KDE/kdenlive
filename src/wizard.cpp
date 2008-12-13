@@ -47,8 +47,20 @@ Wizard::Wizard(QWidget *parent): QWizard(parent) {
     QWizardPage *page2 = new QWizardPage;
     page2->setTitle(i18n("Video Standard"));
     m_standard.setupUi(page2);
-    m_standard.profiles_list->setMaximumHeight(100);
-    connect(m_standard.button_pal, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
+    //m_standard.profiles_list->setMaximumHeight(100);
+    // build profiles lists
+    m_profilesInfo = ProfilesDialog::getProfilesInfo();
+    QMap<QString, QString>::const_iterator i = m_profilesInfo.constBegin();
+    while (i != m_profilesInfo.constEnd()) {
+        QMap< QString, QString > profileData = ProfilesDialog::getSettingsFromFile(i.value());
+        if (profileData.value("width") == "720") m_dvProfiles.append(i.key());
+        else if (profileData.value("width").toInt() >= 1080) m_hdvProfiles.append(i.key());
+        else m_otherProfiles.append(i.key());
+        ++i;
+    }
+
+    connect(m_standard.button_all, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
+    connect(m_standard.button_hdv, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
     connect(m_standard.button_dv, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
     slotCheckStandard();
     connect(m_standard.profiles_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckSelectedItem()));
@@ -57,6 +69,8 @@ Wizard::Wizard(QWidget *parent): QWizard(parent) {
     QWizardPage *page3 = new QWizardPage;
     page3->setTitle(i18n("Additional Settings"));
     m_extra.setupUi(page3);
+    m_extra.projectfolder->setMode(KFile::Directory);
+    m_extra.projectfolder->setPath(QDir::homePath() + "/kdenlive");
     m_extra.videothumbs->setChecked(KdenliveSettings::videothumbnails());
     m_extra.audiothumbs->setChecked(KdenliveSettings::audiothumbnails());
     m_extra.autosave->setChecked(KdenliveSettings::crashrecovery());
@@ -141,31 +155,28 @@ void Wizard::slotCheckThumbs() {
 }
 
 void Wizard::slotCheckStandard() {
-    QStringList profiles;
-    if (m_standard.button_pal->isChecked()) {
-        // PAL standard
-        if (m_standard.button_dv->isChecked()) {
-            profiles << "dv_pal" << "dv_pal_wide";
-        } else {
-            profiles << "hdv_720_25p" << "hdv_720_50p" << "hdv_1080_50i" << "hdv_1080_25p" << "atsc_1080p_24" << "atsc_1080p_25";
-        }
-    } else {
-        // NTSC standard
-        if (m_standard.button_dv->isChecked()) {
-            profiles << "dv_ntsc" << "dv_ntsc_wide";
-        } else {
-            profiles << "hdv_720_30p" << "hdv_720_60p" << "hdv_1080_30p" << "hdv_1080_60i" << "atsc_720p_30" << "atsc_1080i_60";
-        }
-    }
     m_standard.profiles_list->clear();
-    QStringList profilesDescription;
-    foreach(const QString &prof, profiles) {
-        QString desc = ProfilesDialog::getProfileDescription(prof);
-        if (!desc.isEmpty()) {
-            QListWidgetItem *item = new QListWidgetItem(desc, m_standard.profiles_list);
-            item->setData(Qt::UserRole, prof);
-        }
+    QStringList profiles;
+    if (m_standard.button_dv->isChecked()) {
+        // DV standard
+        m_standard.profiles_list->addItems(m_dvProfiles);
+    } else if (m_standard.button_hdv->isChecked()) {
+        // HDV standard
+        m_standard.profiles_list->addItems(m_hdvProfiles);
+    } else {
+        m_standard.profiles_list->addItems(m_dvProfiles);
+        m_standard.profiles_list->addItems(m_hdvProfiles);
+        m_standard.profiles_list->addItems(m_otherProfiles);
+        //m_standard.profiles_list->sortItems();
     }
+
+    for (int i = 0; i < m_standard.profiles_list->count(); i++) {
+        QListWidgetItem *item = m_standard.profiles_list->item(i);
+        MltVideoProfile prof = ProfilesDialog::getVideoProfile(m_profilesInfo.value(item->text()));
+        const QString infoString = i18n("<b>Frame size:</b>%1x%2<br><b>Frame rate:</b>%3/%4<br><b>Aspect ratio:</b>%5/%6<br><b>Display ratio:</b>%7/%8").arg(QString::number(prof.width), QString::number(prof.height), QString::number(prof.frame_rate_num), QString::number(prof.frame_rate_den), QString::number(prof.sample_aspect_num), QString::number(prof.sample_aspect_den), QString::number(prof.display_aspect_num), QString::number(prof.display_aspect_den));
+        item->setToolTip(infoString);
+    }
+
     m_standard.profiles_list->setSortingEnabled(true);
     m_standard.profiles_list->setCurrentRow(0);
 }
@@ -190,8 +201,14 @@ void Wizard::adjustSettings() {
     KdenliveSettings::setVideothumbnails(m_extra.videothumbs->isChecked());
     KdenliveSettings::setCrashrecovery(m_extra.autosave->isChecked());
     if (m_standard.profiles_list->currentItem()) {
-        KdenliveSettings::setDefault_profile(m_standard.profiles_list->currentItem()->data(Qt::UserRole).toString());
+        QString selectedProfile = m_profilesInfo.value(m_standard.profiles_list->currentItem()->text());
+        if (selectedProfile.isEmpty()) selectedProfile = "dv_pal";
+        KdenliveSettings::setDefault_profile(selectedProfile);
     }
+    QString path = m_extra.projectfolder->url().path();
+    if (KStandardDirs::makeDir(path) == false) kDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
+    KdenliveSettings::setDefaultprojectfolder(path);
+
 }
 
 void Wizard::slotCheckMlt() {
