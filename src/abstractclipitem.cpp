@@ -125,8 +125,7 @@ void AbstractClipItem::resizeStart(int posx, double speed) {
 void AbstractClipItem::resizeEnd(int posx, double speed, bool updateKeyFrames) {
     GenTime durationDiff = GenTime(posx, m_fps) - endPos();
     if (durationDiff == GenTime()) return;
-    //kDebug() << "-- RESCALE: CROP=" << m_cropStart << ", DIFF = " << durationDiff;
-    kDebug() << "// DUR DIFF1:" << durationDiff.frames(25) << ", ADJUSTED: " << durationDiff.frames(25) * speed << ", SPED:" << speed;
+    //kDebug() << "// DUR DIFF1:" << durationDiff.frames(25) << ", ADJUSTED: " << durationDiff.frames(25) * speed << ", SPED:" << speed;
     if (cropDuration() + durationDiff <= GenTime()) {
         durationDiff = GenTime() - (cropDuration() - GenTime(3, m_fps));
     } else if (cropStart() + cropDuration() + durationDiff >= maxDuration()) {
