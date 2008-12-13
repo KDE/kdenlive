@@ -1198,17 +1198,20 @@ void MainWindow::slotEditProjectSettings() {
 
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
-        m_activeDocument->setProfilePath(profile);
-        KdenliveSettings::setCurrent_profile(profile);
-        KdenliveSettings::setProject_fps(m_activeDocument->fps());
         m_activeDocument->setProjectFolder(w->selectedFolder());
-        setCaption(m_activeDocument->description(), m_activeDocument->isModified());
-        m_monitorManager->resetProfiles(m_activeDocument->timecode());
-        if (m_renderWidget) m_renderWidget->setProfile(m_activeDocument->mltProfile());
-        m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
+        if (m_activeDocument->profilePath() != profile) {
+            // Profile was changed
+            m_activeDocument->setProfilePath(profile);
+            KdenliveSettings::setCurrent_profile(profile);
+            KdenliveSettings::setProject_fps(m_activeDocument->fps());
+            setCaption(m_activeDocument->description(), m_activeDocument->isModified());
+            m_monitorManager->resetProfiles(m_activeDocument->timecode());
+            if (m_renderWidget) m_renderWidget->setProfile(m_activeDocument->mltProfile());
+            m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
 
-        // We need to desactivate & reactivate monitors to get a refresh
-        m_monitorManager->switchMonitors();
+            // We need to desactivate & reactivate monitors to get a refresh
+            m_monitorManager->switchMonitors();
+        }
     }
     delete w;
 }
