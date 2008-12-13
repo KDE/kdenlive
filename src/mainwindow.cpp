@@ -51,6 +51,8 @@
 #include <KFileItem>
 #include <KNotification>
 #include <KNotifyConfigWidget>
+#include <knewstuff2/engine.h>
+#include <knewstuff2/ui/knewstuffaction.h>
 
 #include <mlt++/Mlt.h>
 
@@ -689,6 +691,8 @@ void MainWindow::setupActions() {
     KAction* profilesAction = new KAction(KIcon("document-new"), i18n("Manage Profiles"), this);
     collection->addAction("manage_profiles", profilesAction);
     connect(profilesAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProfiles()));
+
+    KAction* fileGHNS = KNS::standardAction(i18n("Download New Lumas..."), this, SLOT(slotGetNewStuff()), actionCollection(), "get_new_stuff");
 
     KAction* projectAction = new KAction(KIcon("configure"), i18n("Project Settings"), this);
     collection->addAction("project_settings", projectAction);
@@ -1989,5 +1993,23 @@ void MainWindow::slotSetOutPoint() {
     } else m_activeTimeline->projectView()->setOutPoint();
 }
 
+void MainWindow::slotGetNewStuff() {
+    kDebug() << "// GET NEW STUFF";
+    //KNS::Entry::List download();
+    KNS::Entry::List entries = KNS::Engine::download();
+    int numberInstalled = 0;
+    // list of changed entries
+    kDebug() << "// PARSING KNS";
+    foreach(KNS::Entry* entry, entries) {
+        // care only about installed ones
+        if (entry->status() == KNS::Entry::Installed) {
+            foreach(const QString &file, entry->installedFiles()) {
+                kDebug() << "// CURRENTLY INSTALLED: " << file;
+            }
+        }
+    }
+    qDeleteAll(entries);
+    initEffects::refreshLumas();
+}
 
 #include "mainwindow.moc"

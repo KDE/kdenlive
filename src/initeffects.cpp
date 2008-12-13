@@ -66,6 +66,48 @@ initEffects::initEffects() {
 initEffects::~initEffects() {
 }
 
+
+// static
+void initEffects::refreshLumas() {
+
+    // Check for Kdenlive installed luma files
+    QStringList imagenamelist;
+    QStringList imagefiles;
+    QStringList filters;
+    filters << "*.pgm" << "*.png";
+
+    QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
+    foreach(const QString &folder, customLumas) {
+        QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
+        foreach(const QString &fname, filesnames) {
+            imagenamelist.append(fname);
+            imagefiles.append(folder + '/' + fname);
+        }
+    }
+
+    // Check for MLT lumas
+    QString folder = mlt_environment("MLT_DATA");
+    folder.append("/lumas/").append(mlt_environment("MLT_NORMALISATION"));
+    QDir lumafolder(folder);
+    QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
+    foreach(const QString &fname, filesnames) {
+        imagenamelist.append(fname);
+        imagefiles.append(folder + '/' + fname);
+    }
+    QDomElement lumaTransition = MainWindow::transitions.getEffectByTag("luma", QString());
+    QDomNodeList params = lumaTransition.elementsByTagName("parameter");
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        if (e.attribute("tag") == "resource") {
+            e.setAttribute("paramlistdisplay", imagenamelist.join(","));
+            e.setAttribute("paramlist", imagefiles.join(","));
+            break;
+        }
+    }
+
+
+}
+
 //static
 Mlt::Repository *initEffects::parseEffectFiles() {
     QStringList::Iterator more;
@@ -655,7 +697,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
 
         transitions->append(ret.documentElement());
         //kDebug() << "//// ////  TRANSITON XML";
-        //kDebug() << ret.toString();
+        kDebug() << ret.toString();
         /*
 
          <transition fill="1" in="11" a_track="1" out="73" mlt_service="luma" b_track="2" softness="0" resource="/home/marco/Projekte/kdenlive/install_cmake/share/apps/kdenlive/pgm/PAL/square2.pgm" />

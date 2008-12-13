@@ -269,6 +269,7 @@ private slots:
     void slotInsertTrack(int ix = 0);
     void slotDeleteTrack(int ix = 0);
     void slotChangeTrack(int ix = 0);
+    void slotGetNewStuff();
 };
 
 

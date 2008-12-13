@@ -92,6 +92,7 @@
     </Menu>
     <Menu name="settings" >
       <Action name="manage_profiles" />
+      <Action name="get_new_stuff" />      
     </Menu>
   </MenuBar>
 </gui>

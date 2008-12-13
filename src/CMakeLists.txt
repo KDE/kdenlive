@@ -153,7 +153,8 @@ kde4_add_executable(kdenlive ${kdenlive_SRCS} ${kdenlive_UI})
 
 target_link_libraries(kdenlive 
   ${KDE4_KDEUI_LIBS}
-  ${KDE4_KIO_LIBS} 
+  ${KDE4_KIO_LIBS}
+  ${KDE4_KNEWSTUFF2_LIBS}
   ${LIBMLTPLUS_LIBRARY}
   ${LIBMLT_LIBRARY}
   ${NEPOMUK_LIBRARIES}
@@ -165,6 +166,7 @@ install( FILES kdenliveui.rc kdenlive.notifyrc DESTINATION  ${DATA_INSTALL_DIR}/
 install (FILES kdenlivesettings.kcfg DESTINATION share/config.kcfg)
 install (FILES kdenlive.desktop DESTINATION share/applications/kde)
 install (FILES application-x-kdenlive.svgz video-mlt-playlist.svgz DESTINATION share/icons/oxygen/scalable/mimetypes)
+install( FILES kdenlive.knsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )
 kde4_install_icons( ${ICON_INSTALL_DIR} )
 
 

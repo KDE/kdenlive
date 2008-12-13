@@ -1,0 +1,4 @@
+[KNewStuff2]
+ProvidersUrl=http://download.kde.org/khotnewstuff/kdenlive-providers.xml
+TargetDir=kdenlive/lumas
+Uncompress=archive
