@@ -115,6 +115,7 @@ Q_OBJECT public:
     QString getTracksInfo() const;
     void switchTrackVideo(int ix, bool hide);
     void switchTrackAudio(int ix, bool hide);
+    void cachePixmap(const QString &fileId, const QPixmap &pix) const;
 
 private:
     KUrl m_url;
@@ -160,7 +161,7 @@ private slots:
     void slotAutoSave();
 
 signals:
-    void addProjectClip(DocClipBase *);
+    void addProjectClip(DocClipBase *, bool getInfo = true);
     void addProjectFolder(const QString, const QString &, bool, bool edit = false);
     void signalDeleteProjectClip(const QString &);
     void updateClipDisplay(const QString&);

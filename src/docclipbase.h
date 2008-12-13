@@ -113,34 +113,11 @@ Q_OBJECT public:
     void setProducer(Mlt::Producer *producer);
     Mlt::Producer *producer(int track = -1);
 
-    /*virtual DocClipAVFile *toDocClipAVFile() {
-    return 0;
-    }
-
-    virtual DocClipTextFile *toDocClipTextFile() {
-        return 0;
-    }
-
-    virtual bool isDocClipTextFile() const {
-        return false;
-    }
-
-    virtual bool isDocClipVirtual() const {
-        return false;
-    }
-
-    virtual DocClipVirtual *toDocClipVirtual() {
-        return 0;
-    }*/
-
     /** Returns true if this clip is a project clip, false otherwise. Overridden in DocClipProject,
      * where it returns true. */
     bool isProjectClip() const {
         return false;
     }
-    // Appends scene times for this clip to the passed vector.
-    /* virtual void populateSceneTimes(QList < GenTime >
-     &toPopulate) const = 0;*/
 
     /** Reads in the element structure and creates a clip out of it.*/
     // Returns an XML document that describes part of the current scene.
@@ -188,6 +165,7 @@ Q_OBJECT public:
     /** Free cache data */
     void slotClearAudioCache();
     void askForAudioThumbs();
+    QString getClipHash() const;
 
 private:   // Private attributes
     /** The name of this clip */

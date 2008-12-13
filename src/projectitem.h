@@ -63,6 +63,7 @@ public:
     void clearProperty(const QString &key);
     const QString groupName() const;
     void setGroupName(const QString name);
+    QString getClipHash() const;
 
 private:
     QString m_groupname;

@@ -117,7 +117,7 @@ public slots:
     void setDocument(KdenliveDoc *doc);
     void slotReplyGetImage(const QString &clipId, int pos, const QPixmap &pix, int w, int h);
     void slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata);
-    void slotAddClip(DocClipBase *clip, bool getProperties = true);
+    void slotAddClip(DocClipBase *clip, bool getProperties);
     void slotDeleteClip(const QString &clipId);
     void slotUpdateClip(const QString &id);
     void slotRefreshClipThumbnail(const QString &clipId, bool update = true);

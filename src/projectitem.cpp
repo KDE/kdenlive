@@ -133,6 +133,11 @@ void ProjectItem::setProperties(QMap <QString, QString> props) {
     m_clip->setProperties(props);
 }
 
+QString ProjectItem::getClipHash() const {
+    if (m_clip == NULL) return QString();
+    return m_clip->getClipHash();
+}
+
 void ProjectItem::setProperty(const QString &key, const QString &value) {
     if (m_clip == NULL) return;
     m_clip->setProperty(key, value);

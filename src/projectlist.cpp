@@ -360,6 +360,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties) {
 }
 
 void ProjectList::requestClipInfo(const QDomElement xml, const QString id) {
+    kDebug() << " PRG LIST REQUEST CLP INFO: " << id;
     m_infoQueue.insert(id, xml);
     listView->setEnabled(false);
     if (m_infoQueue.count() == 1) QTimer::singleShot(300, this, SLOT(slotProcessNextClipInQueue()));
@@ -404,7 +405,11 @@ void ProjectList::updateAllClips() {
                 }
                 requestClipInfo(clip->toXML(), clip->getId());
             } else {
-                requestClipThumbnail(item->clipId());
+                QString cachedPixmap = m_doc->projectFolder().path() + "/thumbs/" + item->getClipHash() + ".png";
+                if (QFile::exists(cachedPixmap)) {
+                    //kDebug()<<"// USING CACHED PIX: "<<cachedPixmap;
+                    item->setIcon(0, QPixmap(cachedPixmap));
+                } else requestClipThumbnail(item->clipId());
                 item->changeDuration(item->referencedClip()->producer()->get_playtime());
             }
             item->setData(1, UsageRole, QString::number(item->numReferences()));
@@ -598,6 +603,7 @@ void ProjectList::slotRefreshClipThumbnail(ProjectItem *item, bool update) {
         if (clip->clipType() == AUDIO) pix = KIcon("audio-x-generic").pixmap(QSize(width, height));
         else pix = item->referencedClip()->thumbProducer()->extractImage(item->referencedClip()->getClipThumbFrame(), width, height);
         item->setIcon(0, pix);
+        m_doc->cachePixmap(item->getClipHash(), pix);
         if (update) emit projectModified();
         if (!m_thumbnailQueue.isEmpty()) QTimer::singleShot(300, this, SLOT(slotProcessNextThumbnail()));
     }
@@ -615,7 +621,10 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
 
 void ProjectList::slotReplyGetImage(const QString &clipId, int pos, const QPixmap &pix, int w, int h) {
     ProjectItem *item = getItemById(clipId);
-    if (item) item->setIcon(0, pix);
+    if (item) {
+        item->setIcon(0, pix);
+        m_doc->cachePixmap(item->getClipHash(), pix);
+    }
 }
 
 ProjectItem *ProjectList::getItemById(const QString &id) {
