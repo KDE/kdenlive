@@ -101,6 +101,8 @@ public:
     GenTime cropDuration() const;
     int hasEffect(const QString &tag, const QString &id) const;
     bool checkKeyFrames();
+    QPixmap startThumb() const;
+    QPixmap endThumb() const;
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
@@ -157,9 +159,11 @@ private slots:
     void animate(qreal value);
     void slotSetStartThumb(QImage img);
     void slotSetEndThumb(QImage img);
-    void slotSetStartThumb(QPixmap pix);
-    void slotSetEndThumb(QPixmap pix);
     void slotThumbReady(int frame, QPixmap pix);
+
+public slots:
+    void slotSetStartThumb(const QPixmap pix);
+    void slotSetEndThumb(const QPixmap pix);
 
 signals:
     void getThumb(int, int);

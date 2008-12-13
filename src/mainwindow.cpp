@@ -988,6 +988,9 @@ bool MainWindow::saveFileAs(const QString &outputFileName) {
     QDomDocument currentSceneList = m_projectMonitor->sceneList();
     if (m_activeDocument->saveSceneList(outputFileName, currentSceneList) == false)
         return false;
+
+    // Save timeline thumbnails
+    m_activeTimeline->projectView()->saveThumbnails();
     m_activeDocument->setUrl(KUrl(outputFileName));
     if (m_activeDocument->m_autosave == NULL) {
         m_activeDocument->m_autosave = new KAutoSaveFile(KUrl(outputFileName), this);

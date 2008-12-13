@@ -1387,6 +1387,5 @@ void KdenliveDoc::cachePixmap(const QString &fileId, const QPixmap &pix) const {
     pix.save(m_projectFolder.path() + "/thumbs/" + fileId + ".png");
 }
 
-
 #include "kdenlivedoc.moc"
 

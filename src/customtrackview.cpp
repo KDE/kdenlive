@@ -1374,7 +1374,7 @@ void CustomTrackView::addTrack(TrackInfo type, int ix) {
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_document->tracksCount());
     verticalScrollBar()->setMaximum(m_tracksHeight * m_document->tracksCount());
     QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
-    viewport()->update();
+
     //setFixedHeight(50 * m_tracksCount);
 }
 
@@ -2781,14 +2781,75 @@ void CustomTrackView::slotUpdateAllThumbs() {
     QList<QGraphicsItem *> itemList = items();
     //if (itemList.isEmpty()) return;
     ClipItem *item;
+    QString thumbBase = m_document->projectFolder().path() + "/thumbs/";
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             item = static_cast <ClipItem *>(itemList.at(i));
+            if (item->clipType() != COLOR) {
+                // Check if we have a cached thumbnail
+                if (item->clipType() == IMAGE || item->clipType() == TEXT || item->clipType() == AUDIO) {
+                    QString thumb = thumbBase + item->baseClip()->getClipHash() + "_0.png";
+                    if (QFile::exists(thumb)) {
+                        QPixmap pix(thumb);
+                        item->slotSetStartThumb(pix);
+                        item->slotSetEndThumb(pix);
+                    }
+                } else {
+                    QString startThumb = thumbBase + item->baseClip()->getClipHash() + '_';
+                    QString endThumb = startThumb;
+                    startThumb.append(QString::number(item->cropStart().frames(m_document->fps())) + ".png");
+                    endThumb.append(QString::number((item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1) + ".png");
+                    if (QFile::exists(startThumb)) {
+                        QPixmap pix(startThumb);
+                        item->slotSetStartThumb(pix);
+                    }
+                    if (QFile::exists(endThumb)) {
+                        QPixmap pix(endThumb);
+                        item->slotSetEndThumb(pix);
+                    }
+                }
+            }
             item->refreshClip();
             qApp->processEvents();
         }
     }
+    viewport()->update();
 }
+
+void CustomTrackView::saveThumbnails() {
+    QList<QGraphicsItem *> itemList = items();
+    ClipItem *item;
+    QString thumbBase = m_document->projectFolder().path() + "/thumbs/";
+    for (int i = 0; i < itemList.count(); i++) {
+        if (itemList.at(i)->type() == AVWIDGET) {
+            item = static_cast <ClipItem *>(itemList.at(i));
+            if (item->clipType() != COLOR) {
+                // Check if we have a cached thumbnail
+                if (item->clipType() == IMAGE || item->clipType() == TEXT || item->clipType() == AUDIO) {
+                    QString thumb = thumbBase + item->baseClip()->getClipHash() + "_0.png";
+                    if (!QFile::exists(thumb)) {
+                        QPixmap pix(item->startThumb());
+                        pix.save(thumb);
+                    }
+                } else {
+                    QString startThumb = thumbBase + item->baseClip()->getClipHash() + '_';
+                    QString endThumb = startThumb;
+                    startThumb.append(QString::number(item->cropStart().frames(m_document->fps())) + ".png");
+                    endThumb.append(QString::number((item->cropStart() + item->cropDuration()).frames(m_document->fps()) - 1) + ".png");
+                    if (!QFile::exists(startThumb)) {
+                        QPixmap pix(item->startThumb());
+                        pix.save(startThumb);
+                    }
+                    if (!QFile::exists(endThumb)) {
+                        QPixmap pix(item->endThumb());
+                        pix.save(endThumb);
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 void CustomTrackView::slotInsertTrack(int ix) {
     kDebug() << "// INSERTING TRK: " << ix;

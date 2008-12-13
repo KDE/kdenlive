@@ -427,12 +427,20 @@ void ClipItem::slotThumbReady(int frame, QPixmap pix) {
     }
 }
 
-void ClipItem::slotSetStartThumb(QPixmap pix) {
+void ClipItem::slotSetStartThumb(const QPixmap pix) {
     m_startPix = pix;
 }
 
-void ClipItem::slotSetEndThumb(QPixmap pix) {
+void ClipItem::slotSetEndThumb(const QPixmap pix) {
     m_endPix = pix;
+}
+
+QPixmap ClipItem::startThumb() const {
+    return m_startPix;
+}
+
+QPixmap ClipItem::endThumb() const {
+    return m_endPix;
 }
 
 void ClipItem::slotGotAudioData() {

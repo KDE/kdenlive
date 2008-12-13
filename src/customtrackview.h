@@ -104,6 +104,7 @@ public:
     ClipItem *getActiveClipUnderCursor(bool allowOutsideCursor = false) const;
     void deleteTimelineTrack(int ix, TrackInfo trackinfo);
     void changeTimelineTrack(int ix, TrackInfo trackinfo);
+    void saveThumbnails();
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
