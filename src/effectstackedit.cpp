@@ -81,7 +81,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out) {
 
     QDomDocument doc;
     doc.appendChild(doc.importNode(params, true));
-    kDebug() << "IMPORTED TRANS: " << doc.toString();
+    //kDebug() << "IMPORTED TRANS: " << doc.toString();
     QDomNodeList namenode = params.elementsByTagName("parameter");
     QDomElement e = params.toElement();
     const int minFrame = e.attribute("start").toInt();

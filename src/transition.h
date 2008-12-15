@@ -71,6 +71,7 @@ public:
     const ClipItem *referencedClip() const;
     Transition *clone();
     bool isAutomatic() const;
+    void setAutomatic(bool automatic);
 
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);

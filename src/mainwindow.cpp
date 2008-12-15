@@ -323,6 +323,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_timelineContextTransitionMenu->addAction(actionCollection()->action("delete_timeline_clip"));
     m_timelineContextTransitionMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
 
+    m_timelineContextTransitionMenu->addAction(actionCollection()->action("auto_transition"));
+
     connect(projectMonitorDock, SIGNAL(visibilityChanged(bool)), m_projectMonitor, SLOT(refreshMonitor(bool)));
     connect(clipMonitorDock, SIGNAL(visibilityChanged(bool)), m_clipMonitor, SLOT(refreshMonitor(bool)));
     //connect(m_monitorManager, SIGNAL(connectMonitors()), this, SLOT(slotConnectMonitors()));
@@ -716,10 +718,7 @@ void MainWindow::setupActions() {
     markIn->setShortcut(Qt::Key_I);
     connect(markIn, SIGNAL(triggered(bool)), this, SLOT(slotSetInPoint()));
 
-    KAction *markOut = collection->addAction("mark_out");
-    markOut->setText(i18n("Set Out Point"));
-    markOut->setShortcut(Qt::Key_O);
-    connect(markOut, SIGNAL(triggered(bool)), this, SLOT(slotSetOutPoint()));
+
 
     KAction* monitorSeekBackward = new KAction(KIcon("media-seek-backward"), i18n("Rewind"), this);
     monitorSeekBackward->setShortcut(Qt::Key_J);
@@ -779,6 +778,10 @@ void MainWindow::setupActions() {
     KAction* editTimelineClipSpeed = new KAction(i18n("Change Clip Speed"), this);
     collection->addAction("change_clip_speed", editTimelineClipSpeed);
     connect(editTimelineClipSpeed, SIGNAL(triggered(bool)), this, SLOT(slotChangeClipSpeed()));
+
+    KAction *stickTransition = collection->addAction("auto_transition");
+    stickTransition->setText(i18n("Automatic Transition"));
+    connect(stickTransition, SIGNAL(triggered(bool)), this, SLOT(slotAutoTransition()));
 
     KAction* cutTimelineClip = new KAction(KIcon("edit-cut"), i18n("Cut Clip"), this);
     cutTimelineClip->setShortcut(Qt::SHIFT + Qt::Key_R);
@@ -2010,6 +2013,10 @@ void MainWindow::slotGetNewStuff() {
     }
     qDeleteAll(entries);
     initEffects::refreshLumas();
+}
+
+void MainWindow::slotAutoTransition() {
+    m_activeTimeline->projectView()->autoTransition();
 }
 
 #include "mainwindow.moc"

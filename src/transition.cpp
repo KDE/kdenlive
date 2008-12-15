@@ -84,6 +84,13 @@ bool Transition::isAutomatic() const {
     return m_automaticTransition;
 }
 
+void Transition::setAutomatic(bool automatic) {
+    m_automaticTransition = automatic;
+    if (automatic) m_parameters.setAttribute("automatic", 1);
+    else m_parameters.removeAttribute("automatic");
+    update();
+}
+
 void Transition::setTransitionParameters(const QDomElement params) {
     m_parameters = params;
     if (m_parameters.attribute("force_track") == "1") setForcedTrack(true, m_parameters.attribute("transition_btrack").toInt());
@@ -150,7 +157,8 @@ void Transition::paint(QPainter *painter,
     painter->setMatrixEnabled(false);
     //painter->drawPixmap(painter->matrix().map(p1) + QPointF(5, 0), transitionPixmap());
     QString text = transitionName();
-    if (forcedTrack()) text.append("|>");
+    if (m_forceTransitionTrack) text.append("|>");
+    if (m_automaticTransition) text.prepend('+');
     QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, " " + text + " ");
     painter->fillRect(txtBounding, QBrush(QColor(50, 50, 0, 150)));
     txtBounding.translate(QPointF(1, 1));

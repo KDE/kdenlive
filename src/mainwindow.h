@@ -270,6 +270,7 @@ private slots:
     void slotDeleteTrack(int ix = 0);
     void slotChangeTrack(int ix = 0);
     void slotGetNewStuff();
+    void slotAutoTransition();
 };
 
 

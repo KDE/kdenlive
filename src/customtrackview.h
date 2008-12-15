@@ -105,6 +105,7 @@ public:
     void deleteTimelineTrack(int ix, TrackInfo trackinfo);
     void changeTimelineTrack(int ix, TrackInfo trackinfo);
     void saveThumbnails();
+    void autoTransition();
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -180,6 +181,7 @@ private:
     void updateSnapPoints(AbstractClipItem *selected);
     ClipItem *getClipItemAt(int pos, int track);
     ClipItem *getClipItemAt(GenTime pos, int track);
+    ClipItem *getClipItemAtEnd(GenTime pos, int track);
     Transition *getTransitionItemAt(int pos, int track);
     Transition *getTransitionItemAt(GenTime pos, int track);
     void checkScrolling();

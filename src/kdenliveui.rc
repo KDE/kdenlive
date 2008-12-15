@@ -31,6 +31,7 @@
 		<Action name="delete_clip_marker" />
 		<Action name="delete_all_clip_markers" />
 	  </Menu>
+	  <Action name="auto_transition" />
     </Menu>
 
     <Menu name="timeline" ><text>Timeline</text>

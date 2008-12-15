@@ -26,7 +26,6 @@ ResizeClipCommand::ResizeClipCommand(CustomTrackView *view, const ItemInfo start
     setText(i18n("Resize clip"));
 }
 
-
 // virtual
 void ResizeClipCommand::undo() {
 // kDebug()<<"----  undoing action";
