@@ -58,6 +58,20 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
             QDomNode westley = m_document.elementsByTagName("westley").at(0);
             if (!infoXmlNode.isNull()) {
                 QDomElement infoXml = infoXmlNode.toElement();
+                double version = infoXml.attribute("version").toDouble();
+
+                // Upgrade old Kdenlive documents to current version
+                convertDocument(version);
+                /*
+                 * read again <kdenlivedoc> and <westley> to get all the new
+                 * stuff (convertDocument() can now do anything without breaking
+                 * document loading)
+                 */
+                infoXmlNode = m_document.elementsByTagName("kdenlivedoc").at(0);
+                infoXml = infoXmlNode.toElement();
+                version = infoXml.attribute("version").toDouble();
+                westley = m_document.elementsByTagName("westley").at(0);
+
                 QString profilePath = infoXml.attribute("profile");
                 QString projectFolderPath = infoXml.attribute("projectfolder");
                 if (!projectFolderPath.isEmpty()) m_projectFolder = KUrl(projectFolderPath);
@@ -65,10 +79,6 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                 m_startPos = infoXml.attribute("position").toInt();
                 m_zoom = infoXml.attribute("zoom", "7").toInt();
                 setProfilePath(profilePath);
-                double version = infoXml.attribute("version").toDouble();
-
-                // Upgrade old Kdenlive documents to current version
-                convertDocument(version);
 
                 // Build tracks
                 QString tracks = infoXml.attribute("tracks");
@@ -359,7 +369,7 @@ void KdenliveDoc::convertDocument(double version) {
     QString profile = props.toElement().attribute("videoprofile");
     m_startPos = props.toElement().attribute("timeline_position").toInt();
     if (profile == "dv_wide") profile = "dv_pal_wide";
-    setProfilePath(profile);
+    //setProfilePath(profile);
 
     // move playlists outside of tractor and add the tracks instead
     int max = playlists.count();
