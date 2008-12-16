@@ -2641,13 +2641,13 @@ void Render::mltInsertTrack(int ix, bool videoTrack) {
 
     Mlt::Tractor tractor(service);
 
-    Mlt::Playlist *playlist = new Mlt::Playlist();
+    Mlt::Playlist playlist;// = new Mlt::Playlist();
     int ct = tractor.count();
     // kDebug() << "// TRACK INSERT: " << ix << ", MAX: " << ct;
     int pos = ix;
     if (pos < ct) {
         Mlt::Producer *prodToMove = new Mlt::Producer(tractor.track(pos));
-        tractor.set_track(*playlist, pos);
+        tractor.set_track(playlist, pos);
         Mlt::Producer newProd(tractor.track(pos));
         if (!videoTrack) newProd.set("hide", 1);
         pos++;
@@ -2657,7 +2657,7 @@ void Render::mltInsertTrack(int ix, bool videoTrack) {
             prodToMove = prodToMove2;
         }
     } else {
-        tractor.set_track(*playlist, ix);
+        tractor.set_track(playlist, ix);
         Mlt::Producer newProd(tractor.track(ix));
         if (!videoTrack) newProd.set("hide", 1);
     }
