@@ -696,6 +696,10 @@ void MainWindow::setupActions() {
 
     KAction* fileGHNS = KNS::standardAction(i18n("Download New Lumas..."), this, SLOT(slotGetNewStuff()), actionCollection(), "get_new_stuff");
 
+    KAction* wizAction = new KAction(KIcon("configure"), i18n("Run Config Wizard"), this);
+    collection->addAction("run_wizard", wizAction);
+    connect(wizAction, SIGNAL(triggered(bool)), this, SLOT(slotRunWizard()));
+
     KAction* projectAction = new KAction(KIcon("configure"), i18n("Project Settings"), this);
     collection->addAction("project_settings", projectAction);
     connect(projectAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProjectSettings()));
@@ -922,6 +926,14 @@ void MainWindow::readOptions() {
     const QByteArray state = treecolumns.readEntry("columns", QByteArray());
     if (!state.isEmpty())
         m_projectList->setHeaderInfo(state);
+}
+
+void MainWindow::slotRunWizard() {
+    Wizard *w = new Wizard(this);
+    if (w->exec() == QDialog::Accepted && w->isOk()) {
+        w->adjustSettings();
+    }
+    delete w;
 }
 
 void MainWindow::newFile(bool showProjectSettings) {

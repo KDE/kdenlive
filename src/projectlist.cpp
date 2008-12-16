@@ -120,8 +120,8 @@ ProjectList::ProjectList(QWidget *parent)
     connect(listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemEdited(QTreeWidgetItem *, int)));
     connect(listView, SIGNAL(showProperties(DocClipBase *)), this, SIGNAL(showClipProperties(DocClipBase *)));
 
-    m_listViewDelegate = new ItemDelegate(listView);
-    listView->setItemDelegate(m_listViewDelegate);
+    ItemDelegate *listViewDelegate = new ItemDelegate(listView);
+    listView->setItemDelegate(listViewDelegate);
 }
 
 ProjectList::~ProjectList() {

@@ -23,10 +23,50 @@
 
 #include <QWizard>
 #include <QVBoxLayout>
+#include <QItemDelegate>
+#include <QPainter>
+
 #include <KDebug>
 
 #include "ui_wizardstandard_ui.h"
 #include "ui_wizardextra_ui.h"
+#include "ui_wizardcheck_ui.h"
+
+
+class WizardDelegate: public QItemDelegate {
+public:
+    WizardDelegate(QAbstractItemView* parent = 0): QItemDelegate(parent) {
+    }
+    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
+        if (index.column() == 1) {
+            const bool hover = option.state & (QStyle::State_Selected);
+            QRect r1 = option.rect;
+            painter->save();
+            if (hover) {
+                painter->setPen(option.palette.color(QPalette::HighlightedText));
+                QColor backgroundColor = option.palette.color(QPalette::Highlight);
+                painter->setBrush(QBrush(backgroundColor));
+                painter->fillRect(r1, QBrush(backgroundColor));
+            }
+            QFont font = painter->font();
+            font.setBold(true);
+            painter->setFont(font);
+            int mid = (int)((r1.height() / 2));
+            r1.setBottom(r1.y() + mid);
+            QRect r2 = option.rect;
+            r2.setTop(r2.y() + mid);
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom , index.data().toString());
+            font.setBold(false);
+            painter->setFont(font);
+            QString subText = index.data(Qt::UserRole).toString();
+            painter->setPen(option.palette.color(QPalette::Mid));
+            painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText);
+            painter->restore();
+        } else {
+            QItemDelegate::paint(painter, option, index);
+        }
+    }
+};
 
 
 class Wizard : public QWizard {
@@ -41,12 +81,14 @@ public:
 private:
     Ui::WizardStandard_UI m_standard;
     Ui::WizardExtra_UI m_extra;
+    Ui::WizardCheck_UI m_check;
     QVBoxLayout *m_startLayout;
     bool m_systemCheckIsOk;
     QStringList m_dvProfiles;
     QStringList m_hdvProfiles;
     QStringList m_otherProfiles;
     QMap <QString, QString> m_profilesInfo;
+    void slotCheckPrograms();
 
 private slots:
     void slotCheckThumbs();

@@ -141,7 +141,6 @@ private:
     QAction *m_editAction;
     QAction *m_deleteAction;
     KdenliveDoc *m_doc;
-    ItemDelegate *m_listViewDelegate;
     ProjectItem *m_selectedItem;
     bool m_refreshed;
     QMap <QString, QDomElement> m_infoQueue;

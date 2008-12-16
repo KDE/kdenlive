@@ -1,0 +1,20 @@
+<ui version="4.0" >
+ <class>WizardCheck_UI</class>
+ <widget class="QWidget" name="WizardCheck_UI" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>360</width>
+    <height>236</height>
+   </rect>
+  </property>
+  <layout class="QGridLayout" name="gridLayout" >
+   <item row="0" column="0" >
+    <widget class="QTreeWidget" name="programList" />
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

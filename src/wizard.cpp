@@ -47,7 +47,7 @@ Wizard::Wizard(QWidget *parent): QWizard(parent) {
     QWizardPage *page2 = new QWizardPage;
     page2->setTitle(i18n("Video Standard"));
     m_standard.setupUi(page2);
-    //m_standard.profiles_list->setMaximumHeight(100);
+
     // build profiles lists
     m_profilesInfo = ProfilesDialog::getProfilesInfo();
     QMap<QString, QString>::const_iterator i = m_profilesInfo.constBegin();
@@ -62,8 +62,12 @@ Wizard::Wizard(QWidget *parent): QWizard(parent) {
     connect(m_standard.button_all, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
     connect(m_standard.button_hdv, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
     connect(m_standard.button_dv, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
-    slotCheckStandard();
+    m_standard.button_all->setChecked(true);
     connect(m_standard.profiles_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckSelectedItem()));
+
+    // select default profile
+    QList<QListWidgetItem *> profiles = m_standard.profiles_list->findItems(ProfilesDialog::getProfileDescription(KdenliveSettings::default_profile()), Qt::MatchExactly);
+    if (profiles.count() > 0) m_standard.profiles_list->setCurrentItem(profiles.at(0));
     addPage(page2);
 
     QWizardPage *page3 = new QWizardPage;
@@ -78,7 +82,54 @@ Wizard::Wizard(QWidget *parent): QWizard(parent) {
     connect(m_extra.audiothumbs, SIGNAL(stateChanged(int)), this, SLOT(slotCheckThumbs()));
     slotCheckThumbs();
     addPage(page3);
+
+
+    QWizardPage *page4 = new QWizardPage;
+    page4->setTitle(i18n("Checking system"));
+    m_check.setupUi(page4);
+    slotCheckPrograms();
+    addPage(page4);
+
+    WizardDelegate *listViewDelegate = new WizardDelegate(m_check.programList);
+    m_check.programList->setItemDelegate(listViewDelegate);
+
     QTimer::singleShot(500, this, SLOT(slotCheckMlt()));
+}
+
+void Wizard::slotCheckPrograms() {
+    m_check.programList->setColumnCount(2);
+    m_check.programList->setRootIsDecorated(false);
+    m_check.programList->setHeaderHidden(true);
+    QSize itemSize(20, this->fontMetrics().height() * 2.5);
+    KIcon okIcon("dialog-ok");
+    KIcon missingIcon("dialog-close");
+    m_check.programList->setColumnWidth(0, 30);
+    m_check.programList->setIconSize(QSize(24, 24));
+    QTreeWidgetItem *item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << "FFmpeg & ffplay");
+    item->setData(1, Qt::UserRole, QString("Required for webcam capture"));
+    item->setSizeHint(0, itemSize);
+    QString exepath = KStandardDirs::findExe("ffmpeg");
+    if (exepath.isEmpty()) item->setIcon(0, missingIcon);
+    else if (KStandardDirs::findExe("ffplay").isEmpty()) item->setIcon(0, missingIcon);
+    else item->setIcon(0, okIcon);
+
+    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << "Recordmydesktop");
+    item->setData(1, Qt::UserRole, QString("Required for screen capture"));
+    item->setSizeHint(0, itemSize);
+    if (KStandardDirs::findExe("recordmydesktop").isEmpty()) item->setIcon(0, missingIcon);
+    else item->setIcon(0, okIcon);
+
+    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << "Dvgrab");
+    item->setData(1, Qt::UserRole, QString("Required for firewire capture"));
+    item->setSizeHint(0, itemSize);
+    if (KStandardDirs::findExe("dvgrab").isEmpty()) item->setIcon(0, missingIcon);
+    else item->setIcon(0, okIcon);
+
+    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << "Inigo");
+    item->setData(1, Qt::UserRole, QString("Required for rendering (part of MLT package)"));
+    item->setSizeHint(0, itemSize);
+    if (KStandardDirs::findExe("inigo").isEmpty()) item->setIcon(0, missingIcon);
+    else item->setIcon(0, okIcon);
 }
 
 void Wizard::installExtraMimes(QString baseName, QStringList globs) {
