@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-11 21:47+0100\n"
+"POT-Creation-Date: 2008-12-16 20:59+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,16 +38,31 @@ msgstr ""
 msgid "100%"
 msgstr ""
 
+msgid "11250"
+msgstr ""
+
 msgid "200%"
 msgstr ""
 
+msgid "22500"
+msgstr ""
+
 msgid "25/1"
+msgstr ""
+
+msgid "32000"
 msgstr ""
 
 msgid "320x240"
 msgstr ""
 
 msgid "4/3"
+msgstr ""
+
+msgid "41000"
+msgstr ""
+
+msgid "48000"
 msgstr ""
 
 msgid "50%"
@@ -65,7 +80,24 @@ msgstr ""
 msgid ":::"
 msgstr ""
 
+#, kde-format
+msgid ""
+"<b>Frame size:</b>%1x%2<br><b>Frame rate:</b>%3/%4<br><b>Aspect ratio:</b>%5/"
+"%6<br><b>Display ratio:</b>%7/%8"
+msgstr ""
+
+msgid ""
+"<b>Recordmydesktop utility not found, please install it for screen grabs</b>"
+msgstr ""
+
+msgid "<b>dvgrab utility not found, please install it for firewire capture</b>"
+msgstr ""
+
 msgid "<br><b>Author:</b> "
+msgstr ""
+
+#, kde-format
+msgid "<qt>Clip <b>%1</b><br>is invalid, what do you want to do?"
 msgstr ""
 
 #, kde-format
@@ -75,7 +107,8 @@ msgstr ""
 msgid "A"
 msgstr ""
 
-msgid "A guide already exists at that position"
+#, kde-format
+msgid "A guide already exists at position %1"
 msgstr ""
 
 msgid ""
@@ -162,7 +195,13 @@ msgstr ""
 msgid "Add recording time to captured file name"
 msgstr ""
 
+msgid "Add space"
+msgstr ""
+
 msgid "Add timeline clip"
+msgstr ""
+
+msgid "Add track"
 msgstr ""
 
 msgid "Add transition"
@@ -195,6 +234,9 @@ msgstr ""
 msgid "All"
 msgstr ""
 
+msgid "All tracks"
+msgstr ""
+
 msgid "Allow horizontal moves"
 msgstr ""
 
@@ -216,10 +258,16 @@ msgstr ""
 msgid "Audio"
 msgstr ""
 
+msgid "Audio channels"
+msgstr ""
+
 msgid "Audio clip"
 msgstr ""
 
 msgid "Audio codec"
+msgstr ""
+
+msgid "Audio device"
 msgstr ""
 
 msgid "Audio device:"
@@ -235,10 +283,19 @@ msgstr ""
 msgid "Audio fade duration: %1s"
 msgstr ""
 
+msgid "Audio frequency"
+msgstr ""
+
 msgid "Audio index"
 msgstr ""
 
+msgid "Audio track"
+msgstr ""
+
 msgid "Audio tracks"
+msgstr ""
+
+msgid "Auto"
 msgstr ""
 
 msgid "Auto Mask"
@@ -253,6 +310,9 @@ msgstr ""
 msgid "Automatic"
 msgstr ""
 
+msgid "Automatic Transition"
+msgstr ""
+
 msgid "Automatically start a new file on scene cut"
 msgstr ""
 
@@ -263,6 +323,9 @@ msgid "Background"
 msgstr ""
 
 msgid "BasicOperations"
+msgstr ""
+
+msgid "Black"
 msgstr ""
 
 msgid "Blue Screen"
@@ -284,6 +347,9 @@ msgid "Box Blur"
 msgstr ""
 
 msgid "Brightness"
+msgstr ""
+
+msgid "Buffer"
 msgstr ""
 
 msgid "Button 1"
@@ -310,22 +376,19 @@ msgid ""
 "Disabling Desktop Search integration."
 msgstr ""
 
-msgid "Cannot add marker if more than one clip is selected"
-msgstr ""
-
 msgid "Cannot cut a transition"
-msgstr ""
-
-msgid "Cannot delete marker if more than one clip is selected"
-msgstr ""
-
-msgid "Cannot edit marker if more than one clip is selected"
 msgstr ""
 
 msgid "Cannot find clip to add effect"
 msgstr ""
 
+msgid "Cannot find clip to add marker"
+msgstr ""
+
 msgid "Cannot find clip to cut"
+msgstr ""
+
+msgid "Cannot find clip to remove marker"
 msgstr ""
 
 msgid "Cannot find clip to uncut"
@@ -341,15 +404,15 @@ msgid "Cannot find your Mlt profiles, please give the path"
 msgstr ""
 
 #, kde-format
-msgid "Cannot move clip at time: %1s on track %2"
-msgstr ""
-
-#, c-format, kde-format
-msgid "Cannot move clip to position %1seconds"
+msgid "Cannot move clip at time: %1 on track %2"
 msgstr ""
 
 #, kde-format
-msgid "Cannot move transition at time: %1s on track %2"
+msgid "Cannot move clip to position %1"
+msgstr ""
+
+#, kde-format
+msgid "Cannot move transition at time: %1 on track %2"
 msgstr ""
 
 msgid "Cannot paste clip to selected place"
@@ -398,9 +461,6 @@ msgstr ""
 msgid "Captured files"
 msgstr ""
 
-msgid "Capturing..."
-msgstr ""
-
 msgid "Center"
 msgstr ""
 
@@ -410,10 +470,22 @@ msgstr ""
 msgid "Change Clip Speed"
 msgstr ""
 
+msgid "Change Track"
+msgstr ""
+
+msgid "Change Track Type"
+msgstr ""
+
 msgid "Change gamma color value"
 msgstr ""
 
 msgid "Change image brightness with keyframes"
+msgstr ""
+
+msgid "Change track"
+msgstr ""
+
+msgid "Change track type"
 msgstr ""
 
 msgid ""
@@ -436,6 +508,9 @@ msgstr ""
 msgid "CheckBox"
 msgstr ""
 
+msgid "Checking system"
+msgstr ""
+
 msgid "Chroma Hold"
 msgstr ""
 
@@ -446,6 +521,9 @@ msgid "Chrominance V"
 msgstr ""
 
 msgid "Clean"
+msgstr ""
+
+msgid "Clip"
 msgstr ""
 
 msgid "Clip Color"
@@ -583,6 +661,9 @@ msgstr ""
 msgid "Default capture device"
 msgstr ""
 
+msgid "Default folder for project files"
+msgstr ""
+
 msgid "Default folders"
 msgstr ""
 
@@ -615,6 +696,9 @@ msgid "Delete Marker"
 msgstr ""
 
 msgid "Delete Selected Item"
+msgstr ""
+
+msgid "Delete Track"
 msgstr ""
 
 msgid "Delete clip"
@@ -651,6 +735,9 @@ msgid "Delete selected items"
 msgstr ""
 
 msgid "Delete timeline clip"
+msgstr ""
+
+msgid "Delete track"
 msgstr ""
 
 msgid "Delete transition from clip"
@@ -713,7 +800,13 @@ msgstr ""
 msgid "Don't recover"
 msgstr ""
 
+msgid "Download New Lumas..."
+msgstr ""
+
 msgid "Duration"
+msgstr ""
+
+msgid "Dvgrab"
 msgstr ""
 
 msgid "Dw"
@@ -776,10 +869,10 @@ msgstr ""
 msgid "Enable Jog Shuttle device"
 msgstr ""
 
-msgid "Encoding"
+msgid "Encoding captured video..."
 msgstr ""
 
-msgid "Encoding parameters"
+msgid "Encoding params"
 msgstr ""
 
 msgid "End"
@@ -795,6 +888,10 @@ msgid "Environment"
 msgstr ""
 
 msgid "Equalizer"
+msgstr ""
+
+#, kde-format
+msgid "Error removing clip at %1 on track %2"
 msgstr ""
 
 msgid "Error starting MLT's command line player (inigo)"
@@ -816,6 +913,9 @@ msgid "Extra Toolbar"
 msgstr ""
 
 msgid "Extract frame"
+msgstr ""
+
+msgid "FFmpeg & ffplay"
 msgstr ""
 
 msgid "Fade in"
@@ -848,10 +948,10 @@ msgstr ""
 msgid "File already exists. Do you want to overwrite it ?"
 msgstr ""
 
-msgid "File extension"
+msgid "File name"
 msgstr ""
 
-msgid "File name"
+msgid "File not found"
 msgstr ""
 
 msgid "File size"
@@ -875,9 +975,6 @@ msgstr ""
 msgid "Firewire"
 msgstr ""
 
-msgid "Firewire / dvgrab"
-msgstr ""
-
 msgid ""
 "Firewire is not enabled on your system.\n"
 " Please install Libiec61883 and recompile Kdenlive"
@@ -892,7 +989,13 @@ msgstr ""
 msgid "Folder"
 msgstr ""
 
+msgid "Follow mouse"
+msgstr ""
+
 msgid "Force pixel aspect ratio"
+msgstr ""
+
+msgid "Form"
 msgstr ""
 
 msgid "Format"
@@ -957,6 +1060,9 @@ msgid "Full project"
 msgstr ""
 
 msgid "Full screen capture"
+msgstr ""
+
+msgid "Full shots"
 msgstr ""
 
 msgid "Gain"
@@ -1040,6 +1146,9 @@ msgstr ""
 msgid "Hide a selected zone and follow its movements"
 msgstr ""
 
+msgid "Hide frame"
+msgstr ""
+
 msgid "Hor. Center"
 msgstr ""
 
@@ -1079,6 +1188,12 @@ msgstr ""
 msgid "Image type"
 msgstr ""
 
+msgid "In Point"
+msgstr ""
+
+msgid "Inigo"
+msgstr ""
+
 msgid "Inigo path"
 msgstr ""
 
@@ -1086,6 +1201,18 @@ msgid "Initialising..."
 msgstr ""
 
 msgid "Input gain (db)"
+msgstr ""
+
+msgid "Insert Space"
+msgstr ""
+
+msgid "Insert Track"
+msgstr ""
+
+msgid "Insert space"
+msgstr ""
+
+msgid "Insert track"
 msgstr ""
 
 msgid "Install extra video mimetypes"
@@ -1103,6 +1230,9 @@ msgstr ""
 msgid "Invert colors"
 msgstr ""
 
+msgid "Jack"
+msgstr ""
+
 msgid "Jean-Baptiste Mardelle"
 msgstr ""
 
@@ -1113,6 +1243,9 @@ msgid "JogShuttle"
 msgstr ""
 
 msgid "Kdenlive"
+msgstr ""
+
+msgid "Keep as placeholder"
 msgstr ""
 
 msgid "Kernel size"
@@ -1170,6 +1303,10 @@ msgid "Loading playlist..."
 msgstr ""
 
 msgid "Loading project clips"
+msgstr ""
+
+#, kde-format
+msgid "Looking for %1"
 msgstr ""
 
 msgid "Loop"
@@ -1269,6 +1406,9 @@ msgstr ""
 msgid "Move effect up"
 msgstr ""
 
+msgid "Move group"
+msgstr ""
+
 msgid "Move guide"
 msgstr ""
 
@@ -1305,13 +1445,7 @@ msgstr ""
 msgid "New speed (percents)"
 msgstr ""
 
-msgid "No clip at cursor time"
-msgstr ""
-
 msgid "No clip copied"
-msgstr ""
-
-msgid "No clip selected"
 msgstr ""
 
 msgid "No guide at cursor time"
@@ -1321,9 +1455,6 @@ msgid "No image found"
 msgstr ""
 
 msgid "No marker found at cursor time"
-msgstr ""
-
-msgid "No selected clip at cursor time"
 msgstr ""
 
 msgid "Normalise"
@@ -1351,6 +1482,9 @@ msgstr ""
 msgid "Obscure"
 msgstr ""
 
+msgid "Offset"
+msgstr ""
+
 msgid "Opacity"
 msgstr ""
 
@@ -1361,6 +1495,9 @@ msgid "Open last project on startup"
 msgstr ""
 
 msgid "Open projects in new tabs"
+msgstr ""
+
+msgid "Out Point"
 msgstr ""
 
 msgid "Output file"
@@ -1423,9 +1560,6 @@ msgstr ""
 msgid "Playback"
 msgstr ""
 
-msgid "Playback params"
-msgstr ""
-
 msgid "Playlist clip"
 msgstr ""
 
@@ -1437,7 +1571,7 @@ msgstr ""
 msgid "Please report bugs to http://kdenlive.org/mantis"
 msgstr ""
 
-msgid "Please set your default video format"
+msgid "Please set your default video profile"
 msgstr ""
 
 #, kde-format
@@ -1447,6 +1581,9 @@ msgid ""
 "to initialize connection\n"
 "Files will be saved in:\n"
 "%1"
+msgstr ""
+
+msgid "Ports:"
 msgstr ""
 
 msgid "Pos"
@@ -1543,13 +1680,37 @@ msgstr ""
 msgid "Record Monitor"
 msgstr ""
 
+msgid "Recordmydesktop"
+msgstr ""
+
+#, kde-format
+msgid "Recordmydesktop found at: %1"
+msgstr ""
+
+msgid ""
+"Recordmydesktop utility not found,\n"
+" please install it for screen grabs"
+msgstr ""
+
 msgid "Recover"
 msgstr ""
 
 msgid "Region"
 msgstr ""
 
+msgid "Region capture"
+msgstr ""
+
 msgid "Release time (s)"
+msgstr ""
+
+msgid "Remaining time"
+msgstr ""
+
+msgid "Remove Space"
+msgstr ""
+
+msgid "Remove Track"
 msgstr ""
 
 msgid "Rename folder"
@@ -1562,6 +1723,10 @@ msgid "Rendering"
 msgstr ""
 
 #, kde-format
+msgid "Rendering %1"
+msgstr ""
+
+#, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr ""
 
@@ -1570,7 +1735,22 @@ msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
 msgstr ""
 
 #, kde-format
-msgid "Rendering of %1 is over"
+msgid "Rendering of %1 finished in %2"
+msgstr ""
+
+msgid "Rendering to"
+msgstr ""
+
+msgid "Required for firewire capture"
+msgstr ""
+
+msgid "Required for rendering (part of MLT package)"
+msgstr ""
+
+msgid "Required for screen capture"
+msgstr ""
+
+msgid "Required for webcam capture"
 msgstr ""
 
 msgid "Reset effect"
@@ -1636,6 +1816,9 @@ msgstr ""
 msgid "Rotation z"
 msgstr ""
 
+msgid "Run Config Wizard"
+msgstr ""
+
 msgid "S"
 msgstr ""
 
@@ -1675,10 +1858,10 @@ msgstr ""
 msgid "Screen Grab"
 msgstr ""
 
-msgid "Screen Grab / FFmpeg"
+msgid "Screen grab"
 msgstr ""
 
-msgid "Screen grab"
+msgid "Search automatically"
 msgstr ""
 
 msgid "Select a clip before copying"
@@ -1707,9 +1890,6 @@ msgstr ""
 msgid "Select default video player"
 msgstr ""
 
-msgid "Select region..."
-msgstr ""
-
 msgid "Selected zone"
 msgstr ""
 
@@ -1725,9 +1905,6 @@ msgstr ""
 msgid "Set In Point"
 msgstr ""
 
-msgid "Set Out Point"
-msgstr ""
-
 msgid "Set current image as thumbnail"
 msgstr ""
 
@@ -1741,6 +1918,9 @@ msgid "Set zone start"
 msgstr ""
 
 msgid "Shift"
+msgstr ""
+
+msgid "Show All"
 msgstr ""
 
 msgid "Show audio thumbnails"
@@ -1815,6 +1995,12 @@ msgstr ""
 msgid "Sox vibro audio effect"
 msgstr ""
 
+msgid "Space"
+msgstr ""
+
+msgid "Spacer tool"
+msgstr ""
+
 msgid "Speed"
 msgstr ""
 
@@ -1866,6 +2052,9 @@ msgstr ""
 msgid "TextLabel"
 msgstr ""
 
+msgid "The custom profile was modified, do you want to save it ?"
+msgstr ""
+
 msgid "There is no clip, cannot extract frame."
 msgstr ""
 
@@ -1914,13 +2103,16 @@ msgstr ""
 msgid "Top"
 msgstr ""
 
+msgid "Track"
+msgstr ""
+
 msgid "Track height"
 msgstr ""
 
-msgid "Transition"
+msgid "Tracks"
 msgstr ""
 
-msgid "Transition type"
+msgid "Transition"
 msgstr ""
 
 msgid "Transparency"
@@ -1930,6 +2122,9 @@ msgid "Transparent background"
 msgstr ""
 
 msgid "Turn clip colors to sepia"
+msgstr ""
+
+msgid "Type"
 msgstr ""
 
 #, kde-format
@@ -1990,13 +2185,13 @@ msgstr ""
 msgid "Video Standard"
 msgstr ""
 
-msgid "Video capture params"
-msgstr ""
-
 msgid "Video clip"
 msgstr ""
 
 msgid "Video codec"
+msgstr ""
+
+msgid "Video device"
 msgstr ""
 
 msgid "Video driver:"
@@ -2008,13 +2203,13 @@ msgstr ""
 msgid "Video player"
 msgstr ""
 
+msgid "Video track"
+msgstr ""
+
 msgid "Video tracks"
 msgstr ""
 
 msgid "Video4Linux"
-msgstr ""
-
-msgid "Video4Linux / FFmpeg"
 msgstr ""
 
 msgid "View"
@@ -2073,19 +2268,53 @@ msgstr ""
 msgid "Year"
 msgstr ""
 
+#, kde-format
+msgid ""
+"You have changed the project folder. Do you want to copy the cached data "
+"from %1 to the new folder %2 ?"
+msgstr ""
+
+#, kde-format
+msgid "You must be in an empty space to remove space (time=%1, track:%2)"
+msgstr ""
+
 msgid "You must copy exactly one clip before pasting effects"
 msgstr ""
 
 msgid "You must select one clip for this action"
 msgstr ""
 
+msgid "You must select one transition for this action"
+msgstr ""
+
 msgid "Z-Index:"
+msgstr ""
+
+msgid "Zoom In"
+msgstr ""
+
+msgid "Zoom Out"
 msgstr ""
 
 msgid "Zoom:"
 msgstr ""
 
+msgid "after"
+msgstr ""
+
+msgid "before"
+msgstr ""
+
 msgid "create new points"
+msgstr ""
+
+msgid ""
+"dvgrab utility not found,\n"
+" please install it for firewire capture"
+msgstr ""
+
+#, kde-format
+msgid "dvgrab version %1 at %2"
 msgstr ""
 
 msgid "effect"
@@ -2112,9 +2341,6 @@ msgstr ""
 msgid "move on Y axis"
 msgstr ""
 
-msgid "ogg"
-msgstr ""
-
 msgid "oss"
 msgstr ""
 
@@ -2134,6 +2360,9 @@ msgid "update values in timeline"
 msgstr ""
 
 msgid "video4linux2"
+msgstr ""
+
+msgid "with track"
 msgstr ""
 
 msgid "x"
