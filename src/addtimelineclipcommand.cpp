@@ -31,7 +31,7 @@ AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, QDomElemen
 // virtual
 void AddTimelineClipCommand::undo() {
     if (!m_remove) m_view->deleteClip(m_clipInfo);
-    else m_view->addClip(m_xml, m_clipId, m_clipInfo);
+    else m_view->addClip(m_xml, m_clipId, m_clipInfo, m_effects);
 }
 // virtual
 void AddTimelineClipCommand::redo() {
