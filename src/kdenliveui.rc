@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="27">
+<gui name="kdenlive" version="28">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -83,6 +83,8 @@
       </Menu>
       <Action name="monitor_seek_backward" />
       <Action name="monitor_seek_backward-one-frame" />
+      <Action name="monitor_seek_backward-one-second" />
+      <Action name="monitor_seek_forward-one-second" />
       <Action name="monitor_seek_forward-one-frame" />
       <Action name="monitor_seek_forward" />
       <Separator />      

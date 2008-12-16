@@ -44,6 +44,8 @@ public slots:
     void slotForward(double speed = 0);
     void slotRewindOneFrame();
     void slotForwardOneFrame();
+    void slotRewindOneSecond();
+    void slotForwardOneSecond();
     void slotStart();
     void slotEnd();
     void slotResetProfiles();

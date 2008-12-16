@@ -482,22 +482,24 @@ void Monitor::slotForward(double speed) {
     m_playAction->setIcon(m_pauseIcon);
 }
 
-void Monitor::slotRewindOneFrame() {
+void Monitor::slotRewindOneFrame(int diff) {
     activateMonitor();
     render->play(0);
     if (m_position < 1) return;
-    m_position--;
+    m_position -= diff;
+    m_position = qMax(m_position, 0);
     checkOverlay();
     render->seekToFrame(m_position);
     emit renderPosition(m_position);
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 
-void Monitor::slotForwardOneFrame() {
+void Monitor::slotForwardOneFrame(int diff) {
     activateMonitor();
     render->play(0);
     if (m_position >= m_length) return;
-    m_position++;
+    m_position += diff;
+    m_position = qMin(m_position, m_length);
     checkOverlay();
     render->seekToFrame(m_position);
     emit renderPosition(m_position);

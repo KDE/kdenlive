@@ -136,8 +136,8 @@ public slots:
     void slotLoopZone();
     void slotForward(double speed = 0);
     void slotRewind(double speed = 0);
-    void slotRewindOneFrame();
-    void slotForwardOneFrame();
+    void slotRewindOneFrame(int diff = 1);
+    void slotForwardOneFrame(int diff = 1);
     void saveSceneList(QString path, QDomElement info = QDomElement());
     void slotStart();
     void slotEnd();

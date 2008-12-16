@@ -97,6 +97,16 @@ void MonitorManager::slotForwardOneFrame() {
     else m_projectMonitor->slotForwardOneFrame();
 }
 
+void MonitorManager::slotRewindOneSecond() {
+    if (m_clipMonitor->isActive()) m_clipMonitor->slotRewindOneFrame(m_timecode.fps());
+    else m_projectMonitor->slotRewindOneFrame(m_timecode.fps());
+}
+
+void MonitorManager::slotForwardOneSecond() {
+    if (m_clipMonitor->isActive()) m_clipMonitor->slotForwardOneFrame(m_timecode.fps());
+    else m_projectMonitor->slotForwardOneFrame(m_timecode.fps());
+}
+
 void MonitorManager::slotStart() {
     if (m_clipMonitor->isActive()) m_clipMonitor->slotStart();
     else m_projectMonitor->slotStart();

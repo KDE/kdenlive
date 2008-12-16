@@ -734,6 +734,11 @@ void MainWindow::setupActions() {
     collection->addAction("monitor_seek_backward-one-frame", monitorSeekBackwardOneFrame);
     connect(monitorSeekBackwardOneFrame, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotRewindOneFrame()));
 
+    KAction* monitorSeekBackwardOneSecond = new KAction(KIcon("media-skip-backward"), i18n("Rewind 1 Second"), this);
+    monitorSeekBackwardOneSecond->setShortcut(Qt::SHIFT + Qt::Key_Left);
+    collection->addAction("monitor_seek_backward-one-second", monitorSeekBackwardOneSecond);
+    connect(monitorSeekBackwardOneSecond, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotRewindOneSecond()));
+
     KAction* monitorSeekSnapBackward = new KAction(KIcon("media-seek-backward"), i18n("Go to Previous Snap Point"), this);
     monitorSeekSnapBackward->setShortcut(Qt::ALT + Qt::Key_Left);
     collection->addAction("monitor_seek_snap_backward", monitorSeekSnapBackward);
@@ -768,6 +773,11 @@ void MainWindow::setupActions() {
     monitorSeekForwardOneFrame->setShortcut(Qt::Key_Right);
     collection->addAction("monitor_seek_forward-one-frame", monitorSeekForwardOneFrame);
     connect(monitorSeekForwardOneFrame, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotForwardOneFrame()));
+
+    KAction* monitorSeekForwardOneSecond = new KAction(KIcon("media-skip-forward"), i18n("Forward 1 Second"), this);
+    monitorSeekForwardOneSecond->setShortcut(Qt::SHIFT + Qt::Key_Right);
+    collection->addAction("monitor_seek_forward-one-second", monitorSeekForwardOneSecond);
+    connect(monitorSeekForwardOneSecond, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotForwardOneSecond()));
 
     KAction* monitorSeekSnapForward = new KAction(KIcon("media-seek-forward"), i18n("Go to Next Snap Point"), this);
     monitorSeekSnapForward->setShortcut(Qt::ALT + Qt::Key_Right);

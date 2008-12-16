@@ -3035,7 +3035,7 @@ void CustomTrackView::slotInsertTrack(int ix) {
     d.setWindowTitle(i18n("Insert Track"));
 
     if (d.exec() == QDialog::Accepted) {
-	ix = view.track_nb->value();
+        ix = view.track_nb->value();
         if (view.before_select->currentIndex() == 1) {
             ix++;
         }
