@@ -182,8 +182,11 @@ private:
     ClipItem *getClipItemAt(int pos, int track);
     ClipItem *getClipItemAt(GenTime pos, int track);
     ClipItem *getClipItemAtEnd(GenTime pos, int track);
+    ClipItem *getClipItemAtStart(GenTime pos, int track);
     Transition *getTransitionItemAt(int pos, int track);
     Transition *getTransitionItemAt(GenTime pos, int track);
+    Transition *getTransitionItemAtEnd(GenTime pos, int track);
+    Transition *getTransitionItemAtStart(GenTime pos, int track);
     void checkScrolling();
     /** Should we auto scroll while playing (keep in sync with KdenliveSettings::autoscroll() */
     bool m_autoScroll;
@@ -191,6 +194,7 @@ private:
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
+    QAction *m_autoTransition;
     QTimer m_scrollTimer;
     int m_scrollOffset;
 

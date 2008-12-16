@@ -780,6 +780,9 @@ void MainWindow::setupActions() {
     connect(editTimelineClipSpeed, SIGNAL(triggered(bool)), this, SLOT(slotChangeClipSpeed()));
 
     KAction *stickTransition = collection->addAction("auto_transition");
+    stickTransition->setData(QString("auto"));
+    stickTransition->setCheckable(true);
+    stickTransition->setEnabled(false);
     stickTransition->setText(i18n("Automatic Transition"));
     connect(stickTransition, SIGNAL(triggered(bool)), this, SLOT(slotAutoTransition()));
 

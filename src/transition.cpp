@@ -33,7 +33,7 @@
 #include "customtrackscene.h"
 #include "mainwindow.h"
 
-Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDomElement params, bool automaticTransition) : AbstractClipItem(info, QRectF(), fps), m_gradient(QLinearGradient(0, 0, 0, 0)), m_automaticTransition(automaticTransition), m_forceTransitionTrack(false) {
+Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDomElement params, bool automaticTransition) : AbstractClipItem(info, QRectF(), fps), m_automaticTransition(automaticTransition), m_forceTransitionTrack(false) {
     setZValue(2);
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
     setPos(info.startPos.frames(fps), (qreal)(info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2));
@@ -44,8 +44,8 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDo
     m_cropStart = GenTime();
     m_maxDuration = GenTime(10000, fps);
 
-    m_gradient.setColorAt(0, QColor(200, 200, 0, 150));
-    m_gradient.setColorAt(1, QColor(200, 200, 200, 120));
+    if (m_automaticTransition) setBrush(QColor(200, 200, 50, 100));
+    else setBrush(QColor(200, 100, 50, 100));
 
     //m_referenceClip = clipa;
     if (params.isNull()) {
@@ -86,8 +86,13 @@ bool Transition::isAutomatic() const {
 
 void Transition::setAutomatic(bool automatic) {
     m_automaticTransition = automatic;
-    if (automatic) m_parameters.setAttribute("automatic", 1);
-    else m_parameters.removeAttribute("automatic");
+    if (automatic) {
+        m_parameters.setAttribute("automatic", 1);
+        setBrush(QColor(200, 200, 50, 150));
+    } else {
+        m_parameters.removeAttribute("automatic");
+        setBrush(QColor(200, 50, 50, 150));
+    }
     update();
 }
 
@@ -148,9 +153,8 @@ void Transition::paint(QPainter *painter,
     painter->setClipRect(exposed);
     QRectF br = rect();
     QRectF mapped = painter->matrix().mapRect(br);
-    m_gradient.setStart(0, br.y());
-    m_gradient.setFinalStop(0, br.bottom());
-    painter->fillRect(br, m_gradient);
+
+    painter->fillRect(exposed, brush());
 
     int top = (int)(br.y() + br.height() / 2 - 7);
     QPointF p1(br.x(), br.y() + br.height() / 2 - 7);
@@ -158,7 +162,6 @@ void Transition::paint(QPainter *painter,
     //painter->drawPixmap(painter->matrix().map(p1) + QPointF(5, 0), transitionPixmap());
     QString text = transitionName();
     if (m_forceTransitionTrack) text.append("|>");
-    if (m_automaticTransition) text.prepend('+');
     QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, " " + text + " ");
     painter->fillRect(txtBounding, QBrush(QColor(50, 50, 0, 150)));
     txtBounding.translate(QPointF(1, 1));

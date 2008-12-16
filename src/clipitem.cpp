@@ -515,7 +515,7 @@ void ClipItem::paint(QPainter *painter,
     //build path around clip
     //QPainterPath resultClipPath = roundRectPathUpper.united(roundRectPathLower);
     //painter->fillPath(resultClipPath, paintColor);
-    painter->fillRect(br, paintColor);
+    painter->fillRect(exposed, paintColor);
 
     //painter->setClipPath(resultClipPath, Qt::IntersectClip);
 

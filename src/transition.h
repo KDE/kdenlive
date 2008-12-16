@@ -23,7 +23,6 @@
 #include <QPixmap>
 #include <QDomElement>
 #include <QMap>
-#include <QLinearGradient>
 
 #include "gentime.h"
 #include "definitions.h"
@@ -78,7 +77,6 @@ protected:
 
 private:
     bool m_singleClip;
-    QLinearGradient m_gradient;
     QString m_name;
     bool m_forceTransitionTrack;
 
