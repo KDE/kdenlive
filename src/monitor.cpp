@@ -570,9 +570,14 @@ void Monitor::pause() {
 void Monitor::slotPlay() {
     if (render == NULL) return;
     activateMonitor();
+    if (render->playSpeed() == 0) {
+        m_playAction->setChecked(true);
+        m_playAction->setIcon(m_pauseIcon);
+    } else {
+        m_playAction->setChecked(false);
+        m_playAction->setIcon(m_playIcon);
+    }
     render->switchPlay();
-    m_playAction->setChecked(true);
-    m_playAction->setIcon(m_pauseIcon);
 }
 
 void Monitor::slotPlayZone() {

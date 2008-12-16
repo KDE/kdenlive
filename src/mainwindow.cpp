@@ -722,7 +722,10 @@ void MainWindow::setupActions() {
     markIn->setShortcut(Qt::Key_I);
     connect(markIn, SIGNAL(triggered(bool)), this, SLOT(slotSetInPoint()));
 
-
+    KAction *markOut = collection->addAction("mark_out");
+    markOut->setText(i18n("Set Out Point"));
+    markOut->setShortcut(Qt::Key_O);
+    connect(markOut, SIGNAL(triggered(bool)), this, SLOT(slotSetOutPoint()));
 
     KAction* monitorSeekBackward = new KAction(KIcon("media-seek-backward"), i18n("Rewind"), this);
     monitorSeekBackward->setShortcut(Qt::Key_J);
@@ -2022,7 +2025,6 @@ void MainWindow::slotSetOutPoint() {
 }
 
 void MainWindow::slotGetNewStuff() {
-    kDebug() << "// GET NEW STUFF";
     //KNS::Entry::List download();
     KNS::Entry::List entries = KNS::Engine::download();
     int numberInstalled = 0;
