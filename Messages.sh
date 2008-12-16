@@ -2,7 +2,7 @@
 EXTRACTRC=`which extractrc`
 XGETTEXT="`which xgettext` --kde -ki18n --no-location -s "
 podir=`pwd`/po
-kdenlive_subdirs="src src/widgets renderer `pwd`"
+kdenlive_subdirs="src src/widgets renderer"
 
 
 $EXTRACTRC --tag=name --tag=description --tag=label effects/*.xml >> rc.cpp || exit 11
