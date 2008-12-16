@@ -105,28 +105,28 @@ void Wizard::slotCheckPrograms() {
     KIcon missingIcon("dialog-close");
     m_check.programList->setColumnWidth(0, 30);
     m_check.programList->setIconSize(QSize(24, 24));
-    QTreeWidgetItem *item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << "FFmpeg & ffplay");
-    item->setData(1, Qt::UserRole, QString("Required for webcam capture"));
+    QTreeWidgetItem *item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("FFmpeg & ffplay"));
+    item->setData(1, Qt::UserRole, i18n("Required for webcam capture"));
     item->setSizeHint(0, itemSize);
     QString exepath = KStandardDirs::findExe("ffmpeg");
     if (exepath.isEmpty()) item->setIcon(0, missingIcon);
     else if (KStandardDirs::findExe("ffplay").isEmpty()) item->setIcon(0, missingIcon);
     else item->setIcon(0, okIcon);
 
-    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << "Recordmydesktop");
-    item->setData(1, Qt::UserRole, QString("Required for screen capture"));
+    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("Recordmydesktop"));
+    item->setData(1, Qt::UserRole, i18n("Required for screen capture"));
     item->setSizeHint(0, itemSize);
     if (KStandardDirs::findExe("recordmydesktop").isEmpty()) item->setIcon(0, missingIcon);
     else item->setIcon(0, okIcon);
 
-    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << "Dvgrab");
-    item->setData(1, Qt::UserRole, QString("Required for firewire capture"));
+    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("Dvgrab"));
+    item->setData(1, Qt::UserRole, i18n("Required for firewire capture"));
     item->setSizeHint(0, itemSize);
     if (KStandardDirs::findExe("dvgrab").isEmpty()) item->setIcon(0, missingIcon);
     else item->setIcon(0, okIcon);
 
-    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << "Inigo");
-    item->setData(1, Qt::UserRole, QString("Required for rendering (part of MLT package)"));
+    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("Inigo"));
+    item->setData(1, Qt::UserRole, i18n("Required for rendering (part of MLT package)"));
     item->setSizeHint(0, itemSize);
     if (KStandardDirs::findExe("inigo").isEmpty()) item->setIcon(0, missingIcon);
     else item->setIcon(0, okIcon);
