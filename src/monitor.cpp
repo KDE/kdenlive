@@ -67,8 +67,8 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     m_playAction = m_playMenu->addAction(m_playIcon, i18n("Play"));
     m_playAction->setCheckable(true);
     connect(m_playAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
-    m_playMenu->addAction(m_playIcon, i18n("Play Section"), this, SLOT(slotPlayZone()));
-    m_playMenu->addAction(m_playIcon, i18n("Loop Section"), this, SLOT(slotLoopZone()));
+    m_playMenu->addAction(m_playIcon, i18n("Play Zone"), this, SLOT(slotPlayZone()));
+    m_playMenu->addAction(m_playIcon, i18n("Loop Zone"), this, SLOT(slotLoopZone()));
 
     playButton->setMenu(m_playMenu);
     playButton->setPopupMode(QToolButton::MenuButtonPopup);

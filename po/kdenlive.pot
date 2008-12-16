@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-16 20:59+0100\n"
+"POT-Creation-Date: 2008-12-16 22:53+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1007,6 +1007,9 @@ msgstr ""
 msgid "Forward 1 Frame"
 msgstr ""
 
+msgid "Forward 1 Second"
+msgstr ""
+
 msgid "Forward 1 frame"
 msgstr ""
 
@@ -1315,6 +1318,9 @@ msgstr ""
 msgid "Loop Section"
 msgstr ""
 
+msgid "Loop Zone"
+msgstr ""
+
 msgid "Luma File"
 msgstr ""
 
@@ -1549,6 +1555,9 @@ msgid "Play / Pause"
 msgstr ""
 
 msgid "Play Section"
+msgstr ""
+
+msgid "Play Zone"
 msgstr ""
 
 msgid "Play after render"
@@ -1786,6 +1795,9 @@ msgstr ""
 msgid "Rewind 1 Frame"
 msgstr ""
 
+msgid "Rewind 1 Second"
+msgstr ""
+
 msgid "Rewind 1 frame"
 msgstr ""
 
@@ -1903,6 +1915,9 @@ msgid "Sepia"
 msgstr ""
 
 msgid "Set In Point"
+msgstr ""
+
+msgid "Set Out Point"
 msgstr ""
 
 msgid "Set current image as thumbnail"
