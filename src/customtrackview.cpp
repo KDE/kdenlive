@@ -162,7 +162,7 @@ void CustomTrackView::checkTrackHeight() {
     }
 
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_document->tracksCount());
-    verticalScrollBar()->setMaximum(m_tracksHeight * m_document->tracksCount());
+//     verticalScrollBar()->setMaximum(m_tracksHeight * m_document->tracksCount());
     update();
 }
 
@@ -1379,11 +1379,16 @@ void CustomTrackView::addTrack(TrackInfo type, int ix) {
         resetSelectionGroup(false);
 
     }
-    m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), m_tracksHeight * m_document->tracksCount());
-    setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_document->tracksCount());
-    verticalScrollBar()->setMaximum(m_tracksHeight * m_document->tracksCount());
+    int maxHeight = m_tracksHeight * m_document->tracksCount();
+    for (int i = 0; i < m_guides.count(); i++) {
+        QLineF l = m_guides.at(i)->line();
+        l.setP2(QPointF(l.x2(), maxHeight));
+        m_guides.at(i)->setLine(l);
+    }
+    m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight);
+    setSceneRect(0, 0, sceneRect().width(), maxHeight);
     QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
-
+    viewport()->update();
     //setFixedHeight(50 * m_tracksCount);
 }
 
@@ -1433,9 +1438,14 @@ void CustomTrackView::removeTrack(int ix) {
     }
     resetSelectionGroup(false);
 
-    m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), m_tracksHeight * m_document->tracksCount());
-    setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_document->tracksCount());
-    verticalScrollBar()->setMaximum(m_tracksHeight * m_document->tracksCount());
+    int maxHeight = m_tracksHeight * m_document->tracksCount();
+    for (int i = 0; i < m_guides.count(); i++) {
+        QLineF l = m_guides.at(i)->line();
+        l.setP2(QPointF(l.x2(), maxHeight));
+        m_guides.at(i)->setLine(l);
+    }
+    m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight);
+    setSceneRect(0, 0, sceneRect().width(), maxHeight);
     QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
     viewport()->update();
 }
@@ -2454,7 +2464,7 @@ void CustomTrackView::clipStart() {
 void CustomTrackView::clipEnd() {
     ClipItem *item = getMainActiveClip();
     if (item != NULL) {
-        setCursorPos((int) item->endPos().frames(m_document->fps()));
+        setCursorPos((int) item->endPos().frames(m_document->fps()) - 1);
         checkScrolling();
     }
 }
