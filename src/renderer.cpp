@@ -544,19 +544,21 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
         if (xml.attribute("fade") == "1") {
             // user wants a fade effect to slideshow
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, "luma");
-            if (xml.hasAttribute("ttl")) filter->set("period", xml.attribute("ttl").toInt() - 1);
-            if (xml.hasAttribute("luma_duration") && !xml.attribute("luma_duration").isEmpty()) filter->set("luma.out", xml.attribute("luma_duration").toInt());
-            if (xml.hasAttribute("luma_file") && !xml.attribute("luma_file").isEmpty()) {
-                char *tmp = decodedString(xml.attribute("luma_file"));
-                filter->set("luma.resource", tmp);
-                delete[] tmp;
-                if (xml.hasAttribute("softness")) {
-                    int soft = xml.attribute("softness").toInt();
-                    filter->set("luma.softness", (double) soft / 100.0);
+            if (filter && filter->is_valid()) {
+                if (xml.hasAttribute("ttl")) filter->set("period", xml.attribute("ttl").toInt() - 1);
+                if (xml.hasAttribute("luma_duration") && !xml.attribute("luma_duration").isEmpty()) filter->set("luma.out", xml.attribute("luma_duration").toInt());
+                if (xml.hasAttribute("luma_file") && !xml.attribute("luma_file").isEmpty()) {
+                    char *tmp = decodedString(xml.attribute("luma_file"));
+                    filter->set("luma.resource", tmp);
+                    delete[] tmp;
+                    if (xml.hasAttribute("softness")) {
+                        int soft = xml.attribute("softness").toInt();
+                        filter->set("luma.softness", (double) soft / 100.0);
+                    }
                 }
+                Mlt::Service clipService(producer->get_service());
+                clipService.attach(*filter);
             }
-            Mlt::Service clipService(producer->get_service());
-            clipService.attach(*filter);
         }
     }
 
@@ -1372,15 +1374,17 @@ void Render::mltCutClip(int track, GenTime position) {
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
-        if (filter->get("kdenlive_id") != "") {
+        if (filter->is_valid() && filter->get("kdenlive_id") != "") {
             // looks like there is no easy way to duplicate a filter,
             // so we will create a new one and duplicate its properties
             Mlt::Filter *dup = new Mlt::Filter(*m_mltProfile, filter->get("mlt_service"));
-            Mlt::Properties entries(filter->get_properties());
-            for (int i = 0;i < entries.count();i++) {
-                dup->set(entries.get_name(i), entries.get(i));
+            if (dup && dup->is_valid()) {
+                Mlt::Properties entries(filter->get_properties());
+                for (int i = 0;i < entries.count();i++) {
+                    dup->set(entries.get_name(i), entries.get(i));
+                }
+                dupService.attach(*dup);
             }
-            dupService.attach(*dup);
         }
         ct++;
         filter = clipService.filter(ct);
@@ -1724,11 +1728,11 @@ bool Render::mltAddEffect(int track, GenTime position, QHash <QString, QString> 
 
     // temporarily remove all effects after insert point
     QList <Mlt::Filter *> filtersList;
-    const int filer_ix = QString(args.value("kdenlive_ix")).toInt();
+    const int filter_ix = QString(args.value("kdenlive_ix")).toInt();
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
-        if (QString(filter->get("kdenlive_ix")).toInt() > filer_ix) {
+        if (QString(filter->get("kdenlive_ix")).toInt() > filter_ix) {
             filtersList.append(filter);
             clipService.detach(*filter);
         } else ct++;
@@ -1763,27 +1767,29 @@ bool Render::mltAddEffect(int track, GenTime position, QHash <QString, QString> 
         int offset = 0;
         for (int i = 0; i < keyFrames.size() - 1; ++i) {
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterTag);
-            filter->set("kdenlive_id", filterId);
-            int x1 = keyFrames.at(i).section(":", 0, 0).toInt() + offset;
-            double y1 = keyFrames.at(i).section(":", 1, 1).toDouble();
-            int x2 = keyFrames.at(i + 1).section(":", 0, 0).toInt();
-            double y2 = keyFrames.at(i + 1).section(":", 1, 1).toDouble();
-            if (x2 == -1) x2 = duration;
-            for (it = args.begin(); it != args.end(); ++it) {
-                char *name = decodedString(it.key());
-                char *value = decodedString(it.value());
-                filter->set(name, value);
-                delete[] name;
-                delete[] value;
-            }
+            if (filter && filter->is_valid()) {
+                filter->set("kdenlive_id", filterId);
+                int x1 = keyFrames.at(i).section(":", 0, 0).toInt() + offset;
+                double y1 = keyFrames.at(i).section(":", 1, 1).toDouble();
+                int x2 = keyFrames.at(i + 1).section(":", 0, 0).toInt();
+                double y2 = keyFrames.at(i + 1).section(":", 1, 1).toDouble();
+                if (x2 == -1) x2 = duration;
+                for (it = args.begin(); it != args.end(); ++it) {
+                    char *name = decodedString(it.key());
+                    char *value = decodedString(it.value());
+                    filter->set(name, value);
+                    delete[] name;
+                    delete[] value;
+                }
 
-            filter->set("in", x1);
-            filter->set("out", x2);
-            //kDebug() << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
-            filter->set(starttag, QString::number((min + y1) / factor).toUtf8().data());
-            filter->set(endtag, QString::number((min + y2) / factor).toUtf8().data());
-            clipService.attach(*filter);
-            offset = 1;
+                filter->set("in", x1);
+                filter->set("out", x2);
+                //kDebug() << "// ADDING KEYFRAME vals: " << min<<" / "<<max<<", "<<y1<<", factor: "<<factor;
+                filter->set(starttag, QString::number((min + y1) / factor).toUtf8().data());
+                filter->set(endtag, QString::number((min + y2) / factor).toUtf8().data());
+                clipService.attach(*filter);
+                offset = 1;
+            }
         }
         delete[] starttag;
         delete[] endtag;
