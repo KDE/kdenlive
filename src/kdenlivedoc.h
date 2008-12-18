@@ -146,7 +146,7 @@ private:
 
     QList <TrackInfo> m_tracksList;
 
-    void convertDocument(double version);
+    bool convertDocument(double version);
     QDomDocument createEmptyDocument(const int videotracks, const int audiotracks);
     QString colorToString(const QColor& c);
     void checkProjectClips();

@@ -61,97 +61,102 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                 double version = infoXml.attribute("version").toDouble();
 
                 // Upgrade old Kdenlive documents to current version
-                convertDocument(version);
-                /*
-                 * read again <kdenlivedoc> and <westley> to get all the new
-                 * stuff (convertDocument() can now do anything without breaking
-                 * document loading)
-                 */
-                infoXmlNode = m_document.elementsByTagName("kdenlivedoc").at(0);
-                infoXml = infoXmlNode.toElement();
-                version = infoXml.attribute("version").toDouble();
-                westley = m_document.elementsByTagName("westley").at(0);
+                if (!convertDocument(version)) {
+                    KMessageBox::sorry(parent, i18n("This project type is unsupported and can't be loaded."), i18n("Unable to open project"));
+                    m_document = createEmptyDocument(tracks.x(), tracks.y());
+                    setProfilePath(profileName);
+                } else {
+                    /*
+                     * read again <kdenlivedoc> and <westley> to get all the new
+                     * stuff (convertDocument() can now do anything without breaking
+                     * document loading)
+                     */
+                    infoXmlNode = m_document.elementsByTagName("kdenlivedoc").at(0);
+                    infoXml = infoXmlNode.toElement();
+                    version = infoXml.attribute("version").toDouble();
+                    westley = m_document.elementsByTagName("westley").at(0);
 
-                QString profilePath = infoXml.attribute("profile");
-                QString projectFolderPath = infoXml.attribute("projectfolder");
-                if (!projectFolderPath.isEmpty()) m_projectFolder = KUrl(projectFolderPath);
-                if (m_projectFolder.isEmpty()) m_projectFolder = KUrl(KdenliveSettings::defaultprojectfolder());
-                m_startPos = infoXml.attribute("position").toInt();
-                m_zoom = infoXml.attribute("zoom", "7").toInt();
-                setProfilePath(profilePath);
+                    QString profilePath = infoXml.attribute("profile");
+                    QString projectFolderPath = infoXml.attribute("projectfolder");
+                    if (!projectFolderPath.isEmpty()) m_projectFolder = KUrl(projectFolderPath);
+                    if (m_projectFolder.isEmpty()) m_projectFolder = KUrl(KdenliveSettings::defaultprojectfolder());
+                    m_startPos = infoXml.attribute("position").toInt();
+                    m_zoom = infoXml.attribute("zoom", "7").toInt();
+                    setProfilePath(profilePath);
 
-                // Build tracks
-                QString tracks = infoXml.attribute("tracks");
-                TrackInfo videoTrack;
-                videoTrack.type = VIDEOTRACK;
-                videoTrack.isMute = false;
-                videoTrack.isBlind = false;
+                    // Build tracks
+                    QString tracks = infoXml.attribute("tracks");
+                    TrackInfo videoTrack;
+                    videoTrack.type = VIDEOTRACK;
+                    videoTrack.isMute = false;
+                    videoTrack.isBlind = false;
 
-                TrackInfo audioTrack;
-                audioTrack.type = AUDIOTRACK;
-                audioTrack.isMute = false;
-                audioTrack.isBlind = true;
-                for (int i = 0; i < tracks.size(); i++) {
-                    if (tracks.data()[i] == 'v') m_tracksList.append(videoTrack);
-                    else m_tracksList.append(audioTrack);
-                }
-
-
-                QDomElement e;
-                QDomNodeList producers = m_document.elementsByTagName("producer");
-                QDomNodeList infoproducers = m_document.elementsByTagName("kdenlive_producer");
-                const int max = producers.count();
-                const int infomax = infoproducers.count();
-
-                if (max > 0) {
-                    m_documentLoadingStep = 100.0 / (max + infomax + m_document.elementsByTagName("entry").count());
-                    parent->slotGotProgressInfo(i18n("Loading project clips"), (int) m_documentLoadingProgress);
-                }
-
-                for (int i = 0; i < max; i++) {
-                    e = producers.item(i).cloneNode().toElement();
-                    if (m_documentLoadingStep > 0) {
-                        m_documentLoadingProgress += m_documentLoadingStep;
-                        parent->slotGotProgressInfo(QString(), (int) m_documentLoadingProgress);
-                        //qApp->processEvents();
+                    TrackInfo audioTrack;
+                    audioTrack.type = AUDIOTRACK;
+                    audioTrack.isMute = false;
+                    audioTrack.isBlind = true;
+                    for (int i = 0; i < tracks.size(); i++) {
+                        if (tracks.data()[i] == 'v') m_tracksList.append(videoTrack);
+                        else m_tracksList.append(audioTrack);
                     }
-                    QString prodId = e.attribute("id");
-                    if (!e.isNull() && prodId != "black" && !prodId.startsWith("slowmotion")/*&& prodId.toInt() > 0*/) {
-                        // addClip(e, prodId, false);
-                        kDebug() << "// PROD: " << prodId;
-                    }
-                }
 
-                for (int i = 0; i < infomax; i++) {
-                    e = infoproducers.item(i).cloneNode().toElement();
-                    if (m_documentLoadingStep > 0) {
-                        m_documentLoadingProgress += m_documentLoadingStep;
-                        parent->slotGotProgressInfo(QString(), (int) m_documentLoadingProgress);
-                        //qApp->processEvents();
-                    }
-                    QString prodId = e.attribute("id");
-                    if (!e.isNull() && prodId != "black" && !prodId.startsWith("slowmotion")) {
-                        e.setTagName("producer");
-                        addClipInfo(e, prodId);
-                        kDebug() << "// NLIVE PROD: " << prodId;
-                    }
-                }
 
-                QDomNode markers = m_document.elementsByTagName("markers").at(0);
-                if (!markers.isNull()) {
-                    QDomNodeList markerslist = markers.childNodes();
-                    int maxchild = markerslist.count();
-                    for (int k = 0; k < maxchild; k++) {
-                        e = markerslist.at(k).toElement();
-                        if (e.tagName() == "marker") {
-                            m_clipManager->getClipById(e.attribute("id"))->addSnapMarker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"));
+                    QDomElement e;
+                    QDomNodeList producers = m_document.elementsByTagName("producer");
+                    QDomNodeList infoproducers = m_document.elementsByTagName("kdenlive_producer");
+                    const int max = producers.count();
+                    const int infomax = infoproducers.count();
+
+                    if (max > 0) {
+                        m_documentLoadingStep = 100.0 / (max + infomax + m_document.elementsByTagName("entry").count());
+                        parent->slotGotProgressInfo(i18n("Loading project clips"), (int) m_documentLoadingProgress);
+                    }
+
+                    for (int i = 0; i < max; i++) {
+                        e = producers.item(i).cloneNode().toElement();
+                        if (m_documentLoadingStep > 0) {
+                            m_documentLoadingProgress += m_documentLoadingStep;
+                            parent->slotGotProgressInfo(QString(), (int) m_documentLoadingProgress);
+                            //qApp->processEvents();
+                        }
+                        QString prodId = e.attribute("id");
+                        if (!e.isNull() && prodId != "black" && !prodId.startsWith("slowmotion")/*&& prodId.toInt() > 0*/) {
+                            // addClip(e, prodId, false);
+                            kDebug() << "// PROD: " << prodId;
                         }
                     }
-                    westley.removeChild(markers);
-                }
-                m_document.removeChild(infoXmlNode);
 
-                kDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
+                    for (int i = 0; i < infomax; i++) {
+                        e = infoproducers.item(i).cloneNode().toElement();
+                        if (m_documentLoadingStep > 0) {
+                            m_documentLoadingProgress += m_documentLoadingStep;
+                            parent->slotGotProgressInfo(QString(), (int) m_documentLoadingProgress);
+                            //qApp->processEvents();
+                        }
+                        QString prodId = e.attribute("id");
+                        if (!e.isNull() && prodId != "black" && !prodId.startsWith("slowmotion")) {
+                            e.setTagName("producer");
+                            addClipInfo(e, prodId);
+                            kDebug() << "// NLIVE PROD: " << prodId;
+                        }
+                    }
+
+                    QDomNode markers = m_document.elementsByTagName("markers").at(0);
+                    if (!markers.isNull()) {
+                        QDomNodeList markerslist = markers.childNodes();
+                        int maxchild = markerslist.count();
+                        for (int k = 0; k < maxchild; k++) {
+                            e = markerslist.at(k).toElement();
+                            if (e.tagName() == "marker") {
+                                m_clipManager->getClipById(e.attribute("id"))->addSnapMarker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"));
+                            }
+                        }
+                        westley.removeChild(markers);
+                    }
+                    m_document.removeChild(infoXmlNode);
+
+                    kDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
+                }
             } else {
                 parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file."), 100);
                 kWarning() << "  NO KDENLIVE INFO FOUND IN FILE: " << url.path();
@@ -328,8 +333,16 @@ int KdenliveDoc::zoom() const {
     return m_zoom;
 }
 
-void KdenliveDoc::convertDocument(double version) {
+bool KdenliveDoc::convertDocument(double version) {
     kDebug() << "Opening a document with version " << version;
+
+    // Opening a old Kdenlive document
+    if (version == 0.5 || version == 0.7) {
+        kDebug() << "Unable to open document with version " << version;
+        // TODO: convert 0.7 (0.5?) files to the new document format.
+        return FALSE;
+    }
+
     if (version == 0.8) {
         // Add the tracks information
         QString tracksOrder;
@@ -338,23 +351,16 @@ void KdenliveDoc::convertDocument(double version) {
         for (int i = 0; i < max; i++) {
             QDomElement t = tracks.at(i).toElement();
             if (t.attribute("hide") == "video")
-				tracksOrder.append('a');
+                tracksOrder.append('a');
             else if (t.attribute("producer") != "black_track")
-				tracksOrder.append('v');
+                tracksOrder.append('v');
         }
         QDomNode kdenlivedoc = m_document.elementsByTagName("kdenlivedoc").at(0);
         QDomElement infoXml = kdenlivedoc.toElement();
         QString currentTrackOrder = infoXml.attribute("tracks");
         if (currentTrackOrder.isEmpty()) infoXml.setAttribute("tracks", tracksOrder);
 
-        return;
-    }
-
-    // Opening a old Kdenlive document
-    if (version == 0.7) {
-        kDebug() << "Unable to open document with version " << version;
-        // TODO: convert 0.7 files to the new document format.
-        return;
+        return TRUE;
     }
 
     QDomNode westley = m_document.elementsByTagName("westley").at(1);
@@ -429,16 +435,16 @@ void KdenliveDoc::convertDocument(double version) {
     }
     tractor.removeChild(multitrack);
 
-	// write tracks order now that they've been sorted
+    // write tracks order now that they've been sorted
     QString tracksOrder;
     QDomNodeList tracks = m_document.elementsByTagName("track");
-	for (int i = 0; i < tracks.count(); ++i) {
-		QDomElement track = tracks.at(i).toElement();
+    for (int i = 0; i < tracks.count(); ++i) {
+        QDomElement track = tracks.at(i).toElement();
         if (track.attribute("hide") == "video")
-			tracksOrder.append('a');
-		else if (track.attribute("producer") != "black_track")
-			tracksOrder.append('v');
-	}
+            tracksOrder.append('a');
+        else if (track.attribute("producer") != "black_track")
+            tracksOrder.append('v');
+    }
 
     // audio track mixing transitions should not be added to track view, so add required attribute
     QDomNodeList transitions = m_document.elementsByTagName("transition");
@@ -819,6 +825,8 @@ void KdenliveDoc::convertDocument(double version) {
     }
     */
     //kDebug() << "/////////////////  END CONVERTED DOC:";
+
+    return TRUE;
 }
 
 QString KdenliveDoc::colorToString(const QColor& c) {
