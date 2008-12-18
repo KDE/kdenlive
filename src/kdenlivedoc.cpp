@@ -337,8 +337,10 @@ void KdenliveDoc::convertDocument(double version) {
         int max = tracks.count();
         for (int i = 0; i < max; i++) {
             QDomElement t = tracks.at(i).toElement();
-            if (t.attribute("hide") == "video") tracksOrder.append('a');
-            else tracksOrder.append('v');
+            if (t.attribute("hide") == "video")
+				tracksOrder.append('a');
+            else if (t.attribute("producer") != "black_track")
+				tracksOrder.append('v');
         }
         QDomNode kdenlivedoc = m_document.elementsByTagName("kdenlivedoc").at(0);
         QDomElement infoXml = kdenlivedoc.toElement();
@@ -355,7 +357,6 @@ void KdenliveDoc::convertDocument(double version) {
         return;
     }
 
-    QString tracksOrder;
     QDomNode westley = m_document.elementsByTagName("westley").at(1);
     QDomNode tractor = m_document.elementsByTagName("tractor").at(0);
     QDomNode kdenlivedoc = m_document.elementsByTagName("kdenlivedoc").at(0);
@@ -363,13 +364,10 @@ void KdenliveDoc::convertDocument(double version) {
     QDomNode multitrack = m_document.elementsByTagName("multitrack").at(0);
     QDomNodeList playlists = m_document.elementsByTagName("playlist");
 
-    //m_startPos = kdenlivedoc.toElement().attribute("timeline_position").toInt();
-
     QDomNode props = m_document.elementsByTagName("properties").at(0).toElement();
     QString profile = props.toElement().attribute("videoprofile");
     m_startPos = props.toElement().attribute("timeline_position").toInt();
     if (profile == "dv_wide") profile = "dv_pal_wide";
-    //setProfilePath(profile);
 
     // move playlists outside of tractor and add the tracks instead
     int max = playlists.count();
@@ -379,11 +377,8 @@ void KdenliveDoc::convertDocument(double version) {
         QDomElement pl = n.toElement();
         QDomElement track = m_document.createElement("track");
         QString trackType = pl.attribute("hide");
-        if (!trackType.isEmpty()) {
+        if (!trackType.isEmpty())
             track.setAttribute("hide", trackType);
-            if (trackType == "video") tracksOrder.append('a');
-            else tracksOrder.append('v');
-        } else tracksOrder.append('v');
         QString playlist_id =  pl.attribute("id");
         if (playlist_id.isEmpty()) {
             playlist_id = "black_track";
@@ -433,6 +428,17 @@ void KdenliveDoc::convertDocument(double version) {
 #endif
     }
     tractor.removeChild(multitrack);
+
+	// write tracks order now that they've been sorted
+    QString tracksOrder;
+    QDomNodeList tracks = m_document.elementsByTagName("track");
+	for (int i = 0; i < tracks.count(); ++i) {
+		QDomElement track = tracks.at(i).toElement();
+        if (track.attribute("hide") == "video")
+			tracksOrder.append('a');
+		else if (track.attribute("producer") != "black_track")
+			tracksOrder.append('v');
+	}
 
     // audio track mixing transitions should not be added to track view, so add required attribute
     QDomNodeList transitions = m_document.elementsByTagName("transition");
