@@ -1,105 +1,140 @@
+# translation of kdenlive.po to Dansk
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# amir s. <amir_in@netvision.net.il>, 2008.
+# Amir S. <amir_in@netvision.net.il>, 2008.
+# Mads Bondo Dydensborg <mads@dydensborg.dk>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-06 17:22+0200\n"
-"PO-Revision-Date: 2008-12-02 17:30+0200\n"
-"Last-Translator: amir\n"
-"Language-Team: American English <kde-i18n-doc@lists.kde.org>\n"
+"POT-Creation-Date: 2008-12-16 20:59+0100\n"
+"PO-Revision-Date: 2008-12-18 12:29+0100\n"
+"Last-Translator: Mads Bondo Dydensborg <mads@dydensborg.dk>\n"
+"Language-Team: Dansk <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 0.2\n"
+"X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-msgid " Firewire (DV / HDV)"
-msgstr ""
 
 #, kde-format
 msgid "%1 images found"
 msgstr "%1 תמונות נמצאו"
 
 msgid "..."
-msgstr ""
+msgstr "..."
 
 msgid "/"
-msgstr ""
+msgstr "/"
 
 msgid "/dev/dsp"
-msgstr ""
+msgstr "/dev/dsp"
 
 msgid "/dev/video0"
-msgstr ""
+msgstr "/dev/video0"
 
 msgid "0"
-msgstr ""
+msgstr "0"
 
 msgid "100%"
-msgstr ""
+msgstr "100%"
+
+msgid "11250"
+msgstr "11250"
 
 msgid "200%"
-msgstr ""
+msgstr "200%"
+
+msgid "22500"
+msgstr "22500"
 
 msgid "25/1"
-msgstr ""
+msgstr "25/1"
+
+msgid "32000"
+msgstr "32000"
 
 msgid "320x240"
-msgstr ""
+msgstr "320x240"
 
 msgid "4/3"
-msgstr ""
+msgstr "4/3"
+
+msgid "41000"
+msgstr "32000"
+
+msgid "48000"
+msgstr "48000"
 
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 msgid "59/54"
-msgstr ""
+msgstr "59/54"
 
 msgid "720x576"
-msgstr ""
+msgstr "720x576"
 
 msgid "99:99:99:99; "
-msgstr ""
+msgstr "99:99:99:99; "
 
 msgid ":::"
+msgstr ":::"
+
+#, kde-format
+msgid ""
+"<b>Frame size:</b>%1x%2<br><b>Frame rate:</b>%3/%4<br><b>Aspect ratio:</b>%5/"
+"%6<br><b>Display ratio:</b>%7/%8"
 msgstr ""
+"<b>גודל מסגרת:</b>%1x%2<br><b>קצב:</b>%3/%4<br><b>יחס ממדים:</b>%5/"
+"%6<br><b>יחס תצוגה:</b>%7/%8"
+
+msgid "<b>Recordmydesktop utility not found, please install it for screen grabs</b>"
+msgstr "<b>תוכנת Recordmydesktop לא נמצאה, אנא התקן אותה על מנת לבצע לכידת מסך </b>"
+
+msgid "<b>dvgrab utility not found, please install it for firewire capture</b>"
+msgstr ""
+"<b>תוכנת  dvgrab לא נמצאה, אנא התקן אותה אותה על מנת לבצע לכידה מהתקן "
+"firewire</b>"
 
 msgid "<br><b>Author:</b> "
 msgstr "<br><b>יוצר:</b> "
 
 #, kde-format
+msgid "<qt>Clip <b>%1</b><br>is invalid, what do you want to do?"
+msgstr "<qt>‮‫סרטון <b>%1</b><br>אינו תקין, מה ברצונך לעשות?"
+
+#, kde-format
 msgid "<qt>Clip <b>%1</b><br>is invalid, will be removed from project."
-msgstr "<qt>סרטון <b>%1</b><br>אינו תקין יוסר מהפרוייקט."
+msgstr "<qt>‮‫סרטון <b>%1</b><br>אינו תקין ויוסר מהפרוייקט."
 
 msgid "A"
-msgstr ""
+msgstr "A"
 
-msgid "A guide already exists at that position"
-msgstr "מנחה כבר קיים בנקודה זו"
+#, kde-format
+msgid "A guide already exists at position %1"
+msgstr "מנחה כבר קיים בנקודה זו 1%"
 
 msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
 "choose another description for your custom profile."
 msgstr ""
-"פרופיל בשם זה קיים בפרופילי ברירת המחדל של MLT, אנא בחר תיאור אחר עבור "
+"‫פרופיל בשם זה קיים בפרופילי ברירת המחדל של MLT, אנא בחר תיאור אחר עבור "
 "הפרופיל המותאם אישית."
 
 msgid "ALSA"
-msgstr ""
+msgstr "ALSA"
 
 msgid "ARTS daemon"
-msgstr ""
+msgstr "ARTS daemon"
 
 msgid "Activate crash recovery (auto save)"
-msgstr "מפעיל התאוששות מקריסה (שמירה אוטומטית)"
+msgstr "‮מפעיל התאוששות מקריסה (שמירה אוטומטית)"
 
 #, kde-format
 msgid "Add %1"
-msgstr "הוסף %1"
+msgstr "‮הוסף %1"
 
 msgid "Add Audio Effect"
 msgstr "הוסף אפקט אודיו"
@@ -108,7 +143,7 @@ msgid "Add Clip"
 msgstr "הוסף סרטון"
 
 msgid "Add Color Clip"
-msgstr "הוסף סרטון צבעוני"
+msgstr "הוסף סרטון צבע"
 
 msgid "Add Custom Effect"
 msgstr "הוסף אפקט מותאם אישית"
@@ -119,8 +154,8 @@ msgstr "הוסף מנחה"
 msgid "Add Image"
 msgstr "הוסף תמונה"
 
-msgid "Add Marker to Clip"
-msgstr "הוסף מנחה לסרטון"
+msgid "Add Marker"
+msgstr "הוסף סמן"
 
 msgid "Add Rectangle"
 msgstr "הוסף מלבן"
@@ -156,7 +191,7 @@ msgid "Add guide"
 msgstr "הוסף מנחה"
 
 msgid "Add keyframe"
-msgstr "הוסף תמונת מפתח"
+msgstr "הוסף מסגרת מפתח"
 
 msgid "Add marker"
 msgstr "הוסף סמן"
@@ -167,8 +202,14 @@ msgstr "הוסף אפקט חדש"
 msgid "Add recording time to captured file name"
 msgstr "הוסף את זמן ההקלטה לשם הקובץ הנלכד"
 
+msgid "Add space"
+msgstr "הוסף רווח"
+
 msgid "Add timeline clip"
 msgstr "הוסף סרטון ציר זמן"
+
+msgid "Add track"
+msgstr "הוסף ערוץ"
 
 msgid "Add transition"
 msgstr "הוסף מעבר"
@@ -180,7 +221,7 @@ msgid "Additional Settings"
 msgstr "קביעות נוספות"
 
 msgid "Adjust audio volume with keyframes"
-msgstr "כוון עוצמת אודיו לתמונות מפתח"
+msgstr "כוון עוצמת אודיו למסגרות מפתח"
 
 msgid "Adjust clip length"
 msgstr "כוון את אורך הסרטון"
@@ -195,10 +236,13 @@ msgid "Align item vertically"
 msgstr "כוון פריט בציר אנכי"
 
 msgid "Align..."
-msgstr "כוון..."
+msgstr "‫כוון..."
 
 msgid "All"
 msgstr "הכל"
+
+msgid "All tracks"
+msgstr "כל הערוצים"
 
 msgid "Allow horizontal moves"
 msgstr "אפשר תזוזות אופקיות"
@@ -209,17 +253,20 @@ msgstr "אפשר תזוזות אנכיות"
 msgid "Amplitude"
 msgstr "משרעת"
 
-msgid "Ascii art library"
-msgstr "ספריית אומנות Ascii"
+msgid "An open source video editor."
+msgstr "עורך וידאו בקוד חופשי"
 
-msgid "Aspect ratio"
-msgstr "יחס רוחב-גובה"
+msgid "Ascii art library"
+msgstr "‫ספריית אומנות Ascii"
 
 msgid "Aspect ratio:"
-msgstr "יחס רוחב-גובה:"
+msgstr "‏‮יחס רוחב-גובה:"
 
 msgid "Audio"
 msgstr "אודיו"
+
+msgid "Audio channels"
+msgstr "ערוצי אודיו"
 
 msgid "Audio clip"
 msgstr "סרטון אודיו"
@@ -227,11 +274,14 @@ msgstr "סרטון אודיו"
 msgid "Audio codec"
 msgstr "מקודד אודיו"
 
+msgid "Audio device"
+msgstr "‫התקן אודיו"
+
 msgid "Audio device:"
-msgstr "התקן אודיו:"
+msgstr "‫התקן אודיו:"
 
 msgid "Audio driver:"
-msgstr "מנהל התקן אודיו:"
+msgstr "‫מנהל התקן אודיו:"
 
 msgid "Audio editing"
 msgstr "עריכת אודיו"
@@ -240,11 +290,20 @@ msgstr "עריכת אודיו"
 msgid "Audio fade duration: %1s"
 msgstr "זמן עמעום אודיו: %1 שניות"
 
+msgid "Audio frequency"
+msgstr "תדר אודיו"
+
 msgid "Audio index"
 msgstr "אינדקס אודיו"
 
+msgid "Audio track"
+msgstr "ערוץ אודיו"
+
 msgid "Audio tracks"
 msgstr "ערוצי אודיו"
+
+msgid "Auto"
+msgstr "אוטומטי"
 
 msgid "Auto Mask"
 msgstr "הסתרה אוטומטית"
@@ -253,10 +312,13 @@ msgid "Auto add"
 msgstr "הוספה אוטומטית"
 
 msgid "Auto-saved files exist. Do you want to recover them now?"
-msgstr "קיימים קבצים שנשמרו אוטומטית. האם ברצונך לשחזר אותם כעת?"
+msgstr "‫קיימים קבצים שנשמרו אוטומטית. האם ברצונך לאושש אותם כעת?"
 
 msgid "Automatic"
 msgstr "אוטומטי"
+
+msgid "Automatic Transition"
+msgstr "מעבר אוטומטי"
 
 msgid "Automatically start a new file on scene cut"
 msgstr "אוטומטית התחל קובץ חדש בעת חיתוך קטע"
@@ -264,14 +326,14 @@ msgstr "אוטומטית התחל קובץ חדש בעת חיתוך קטע"
 msgid "Autoscroll while playing"
 msgstr "גלגל אוטומטית בזמן נגינה"
 
-msgid "Averaging"
-msgstr "ממצע"
-
 msgid "Background"
 msgstr "רקע"
 
 msgid "BasicOperations"
 msgstr "פעולות בסיסיות"
+
+msgid "Black"
+msgstr "שחור"
 
 msgid "Blue Screen"
 msgstr "מסך כחול"
@@ -280,7 +342,7 @@ msgid "Blur factor"
 msgstr "מכפיל טישטוש"
 
 msgid "Blur image with keyframes"
-msgstr "טישטוש תמונה באמצעות תמונות מפתח"
+msgstr "טישטוש תמונה באמצעות מסגרות מפתח"
 
 msgid "Border color"
 msgstr "צבע מסגרת"
@@ -293,6 +355,9 @@ msgstr "טישטוש קופסה"
 
 msgid "Brightness"
 msgstr "עוצמת הארה"
+
+msgid "Buffer"
+msgstr "jum."
 
 msgid "Button 1"
 msgstr "כפתור 1"
@@ -310,80 +375,83 @@ msgid "Button 5"
 msgstr "כפתור 5"
 
 msgid "C"
-msgstr ""
+msgstr "C"
 
 #, kde-format
 msgid ""
 "Cannot access Desktop Search info for %1.\n"
 "Disabling Desktop Search integration."
 msgstr ""
-
-msgid "Cannot add marker if more than one clip is selected"
-msgstr ""
+"המידע על חיפוש בשולחן העבודה אינו נגיש עבור %1.\n"
+"מבטל את השילוב בחיפוש שולחן העבודה."
 
 msgid "Cannot cut a transition"
-msgstr ""
-
-msgid "Cannot delete marker if more than one clip is selected"
-msgstr ""
-
-msgid "Cannot edit marker if more than one clip is selected"
-msgstr ""
+msgstr "לא ניתן לחתוך מעבר"
 
 msgid "Cannot find clip to add effect"
-msgstr ""
+msgstr "לא נמצא סרטון להוספת אפקט"
+
+msgid "Cannot find clip to add marker"
+msgstr "לא נמצא סרטון להוספת סמן"
 
 msgid "Cannot find clip to cut"
-msgstr ""
+msgstr "לא נמצא סרטון לחיתוך"
+
+msgid "Cannot find clip to remove marker"
+msgstr "לא נמצא סרטון להסרת סמן"
 
 msgid "Cannot find clip to uncut"
-msgstr ""
+msgstr "לא נמצא סרטון לביטול חיתוך"
 
 msgid "Cannot find clip with keyframe"
-msgstr ""
+msgstr "לא נמצא סרטון עם מסגרת מפתח"
 
 msgid "Cannot find the inigo program required for rendering (part of Mlt)"
-msgstr ""
+msgstr "‫לא נמצאה תוכנת inigo הדרושה לביצוע הצלימה (חלק מ-MLT)"
 
 msgid "Cannot find your Mlt profiles, please give the path"
-msgstr ""
+msgstr "‫לא נמצא פרופיל ה-Mlt, אנא ספק את הנתיב"
 
 #, kde-format
-msgid "Cannot move clip at time: %1s on track %2"
-msgstr ""
-
-#, c-format, kde-format
-msgid "Cannot move clip to position %1seconds"
-msgstr ""
+msgid "Cannot move clip at time: %1 on track %2"
+msgstr "לא ניתן להעביר את הסרטון בנקודה: %1 שנ' בערוץ %2"
 
 #, kde-format
-msgid "Cannot move transition at time: %1s on track %2"
-msgstr ""
+msgid "Cannot move clip to position %1"
+msgstr "לא ניתן להעביר את הסרטון לנקודה %1 שניות"
+
+#, kde-format
+msgid "Cannot move transition at time: %1 on track %2"
+msgstr "לא ניתן להעביר את המעברים בנקודה: %1 שנ' בערוץ %2"
 
 msgid "Cannot paste clip to selected place"
-msgstr ""
+msgstr "לא ניתן להדביק את הסרטון לנקודה הנבחרת"
 
 msgid "Cannot paste selected clips"
-msgstr ""
+msgstr "לא ניתן להדביק את הסרטונים שנבחרו"
 
 msgid "Cannot paste transition to selected place"
-msgstr ""
+msgstr "לא ניתן להדביק מעברים לנקודה שנבחרה"
 
 msgid ""
 "Cannot play video after rendering because the default video player "
 "application is not set.\n"
 "Please define it in Kdenlive settings dialog."
 msgstr ""
+"לא ניתן לנגן את הוידאו לאחר הצלימה, לא נקבע נגן ברירת מחדל.\n"
+"‫אנא קבע זאת בהגדרות Kdenlive."
 
 #, kde-format
 msgid ""
 "Cannot read from device %1\n"
 "Please check drivers and access rights."
 msgstr ""
+"לא ניתן לקרוא מהתקן %1\n"
+"אנא בדוק את מנהלי ההתקן והגדרות נגישות."
 
 #, kde-format
 msgid "Cannot write to file %1"
-msgstr ""
+msgstr "לא ניתן לכתוב לקובץ %1"
 
 msgid "Capture"
 msgstr "לכידה"
@@ -406,9 +474,6 @@ msgstr "פרמטרי לכידה"
 msgid "Captured files"
 msgstr "קבצים שנלכדו"
 
-msgid "Capturing..."
-msgstr "לוכד..."
-
 msgid "Center"
 msgstr "מרכז"
 
@@ -418,11 +483,36 @@ msgstr "שינוי"
 msgid "Change Clip Speed"
 msgstr "שנה מהירות סרטון"
 
+msgid "Change Track"
+msgstr "שינוי ערוץ"
+
+msgid "Change Track Type"
+msgstr "שנה סוג ערוץ"
+
 msgid "Change gamma color value"
 msgstr "שינוי ערך צבע גמא"
 
 msgid "Change image brightness with keyframes"
 msgstr "שינוי בהירות תמונה באמצעות מסגרות מפתח"
+
+msgid "Change track"
+msgstr "שינוי ערוץ"
+
+msgid "Change track type"
+msgstr "שנה סוג ערוץ"
+
+msgid ""
+"Changing the size of video when rendering\n"
+"is not fully supported, you may have problems\n"
+"with some effects or title clips, so the export\n"
+"profiles that resize your video are marked as\n"
+"experimental"
+msgstr ""
+"שינוי גודל הוידאו בזמן צלימה\n"
+"אינו נתמך לחלוטין. יתכנו בעיות\n"
+"עם אפקטים או כתוביות מסויימות\n"
+"לכן פרופילים המשנים את גודל הוידאו\n"
+"מוגדרים כניסיוניים"
 
 msgid "Channels"
 msgstr "ערוצים"
@@ -436,17 +526,23 @@ msgstr "אפקט ציור פחם"
 msgid "CheckBox"
 msgstr "תיבת סימון"
 
+msgid "Checking system"
+msgstr "בודק מערכת"
+
 msgid "Chroma Hold"
-msgstr ""
+msgstr "Chroma Hold"
 
 msgid "Chrominance U"
-msgstr ""
+msgstr "Chrominance U"
 
 msgid "Chrominance V"
-msgstr ""
+msgstr "Chrominance V"
 
 msgid "Clean"
-msgstr "ניקוי"
+msgstr "נקה"
+
+msgid "Clip"
+msgstr "סרטון"
 
 msgid "Clip Color"
 msgstr "צבע סרטון"
@@ -459,7 +555,7 @@ msgstr "מאפייני סרטון"
 
 #, c-format, kde-format
 msgid "Clip duration: %1s"
-msgstr "משך סרטון: %1s"
+msgstr "‫משך סרטון: %1s"
 
 msgid "Clip has no markers"
 msgstr "הסרטון אינו מכיל סמנים"
@@ -468,7 +564,7 @@ msgid "Close the current tab"
 msgstr "סגור את הלשונית הנוכחית"
 
 msgid "Co-efficient"
-msgstr ""
+msgstr "גם יעיל"
 
 msgid "Color"
 msgstr "צבע"
@@ -494,6 +590,9 @@ msgstr "קבע תצורה"
 msgid "Connect"
 msgstr "חבר"
 
+msgid "Copyright (c) 2008 Development team"
+msgstr "Copyright (c) 2008 Development team"
+
 msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install or your driver settings, "
@@ -503,10 +602,10 @@ msgstr ""
 "התקנת Kdenlive או הגדרות מנהל ההתקן, אינם תקינים. אנא תקן זאת.  "
 
 msgid "Crackle"
-msgstr ""
+msgstr "פיצפוץ"
 
 msgid "Crash recovery (automatic backup)"
-msgstr "שחזור התרסקות (גיבוי אוטומטי)"
+msgstr "‫אישוש התרסקות (גיבוי אוטומטי)"
 
 msgid "Create Folder"
 msgstr "יצירת תיקייה"
@@ -526,7 +625,7 @@ msgid "Crop start"
 msgstr "תחילת חיתוך"
 
 msgid "Crossfade"
-msgstr ""
+msgstr "עמעום מעבר"
 
 msgid "Custom"
 msgstr "התאמה אישית"
@@ -538,34 +637,34 @@ msgid "Cut Clip"
 msgstr "חתוך סרטון"
 
 msgid "D"
-msgstr ""
+msgstr "D"
 
 msgid "DV"
-msgstr ""
+msgstr "DV"
 
 msgid "DV AVI type 1"
-msgstr ""
+msgstr "DV AVI type 1"
 
 msgid "DV AVI type 2"
-msgstr ""
+msgstr "DV AVI type 2"
 
 msgid "DV Raw"
-msgstr ""
+msgstr "DV Raw"
 
 msgid "Damping"
-msgstr ""
+msgstr "לחות"
 
 msgid "Debug"
 msgstr "אתר באגים"
 
 msgid "Decay"
-msgstr ""
+msgstr "דעיכה"
 
 msgid "Declipper"
-msgstr ""
+msgstr "חיבור"
 
 msgid "Decoding threads"
-msgstr ""
+msgstr "פתילי פענוח"
 
 msgid "Default"
 msgstr "ברירת מחדל"
@@ -582,6 +681,9 @@ msgstr "יישומי ברירת מחדל"
 msgid "Default capture device"
 msgstr "התקן לכידה ברירת מחדל"
 
+msgid "Default folder for project files"
+msgstr "תיקיית ברירת מחדל עבור קבצי הפרויקט"
+
 msgid "Default folders"
 msgstr "תיקיית ברירת מחדל"
 
@@ -589,7 +691,7 @@ msgid "Delay"
 msgstr "שיהוי"
 
 msgid "Delay (s/10)"
-msgstr "שיהוי (s/10)"
+msgstr "‫‮‫שיהוי (s/10)"
 
 #, kde-format
 msgid "Delete %1"
@@ -598,8 +700,8 @@ msgstr "מחק %1"
 msgid "Delete All Guides"
 msgstr "מחק את כל המנחים"
 
-msgid "Delete All Markers from Clip"
-msgstr "מחק את כל הסמנים מהסרטון"
+msgid "Delete All Markers"
+msgstr "מחק את כל הסמנים"
 
 msgid "Delete Clip"
 msgstr "מחק סרטון"
@@ -610,11 +712,14 @@ msgstr "מחק תיקייה"
 msgid "Delete Guide"
 msgstr "מחק מנחה"
 
-msgid "Delete Marker from Clip"
-msgstr "מחק סמן מהסרטון"
+msgid "Delete Marker"
+msgstr "מחק סמן"
 
 msgid "Delete Selected Item"
 msgstr "מחק פריט נבחר"
+
+msgid "Delete Track"
+msgstr "מחק ערוץ"
 
 msgid "Delete clip"
 msgstr "מחק סרטון"
@@ -632,7 +737,7 @@ msgstr "מחק תיקייה"
 msgid ""
 "Delete folder <b>%2</b> ?<br>This will also remove the %1 clips in that "
 "folder"
-msgstr "מחק תיקייה <b>%2</b> ?<br> בנוסך הסרטונים %1 ימחקו מהתיקייה"
+msgstr "‫מחק תיקייה <b>%2</b> ?<br> בנוסך הסרטונים %1 ימחקו מהתיקייה"
 
 msgid "Delete guide"
 msgstr "מחק מנחה"
@@ -665,7 +770,7 @@ msgid "Description"
 msgstr "תאור"
 
 msgid "Description:"
-msgstr "תאור:"
+msgstr "‫תאור:"
 
 msgid "Desktop search integration"
 msgstr "שילוב חיפוש בשולחן העבודה"
@@ -680,723 +785,824 @@ msgid "Dialog"
 msgstr "דו-שיח"
 
 msgid "Direct FB"
-msgstr ""
+msgstr "FB ישיר"
 
 msgid "Discard color information"
 msgstr "מחק מידע על הצבע"
 
 msgid "Disonnect"
-msgstr ""
+msgstr "נתק"
 
 msgid "Display"
 msgstr "תצוגה"
 
+msgid "Display aspect ratio"
+msgstr "‫יחס מימדי תצוגה"
+
+msgid "Display aspect ratio:"
+msgstr "‫יחס מימדי תצוגה:"
+
 msgid "Display clip markers comments"
 msgstr "הצג הערות סימון בסרטון"
 
-msgid "Display ratio"
-msgstr "יחס תצוגה"
-
 msgid "Display ratio:"
-msgstr "יחס תצוגה:"
+msgstr "‫יחס תצוגה:"
+
+msgid "Distort0r"
+msgstr "עוות"
 
 msgid "Do nothing"
 msgstr "עשה כלום"
 
+msgid "Document to open"
+msgstr "מסמך לפתוח"
+
 msgid "Don't recover"
-msgstr "אל תשחזר"
+msgstr "אל תאושש"
+
+msgid "Download New Lumas..."
+msgstr "‫מוריד לומס חדשים..."
 
 msgid "Duration"
 msgstr "משך"
 
+msgid "Dvgrab"
+msgstr "Dvgrab"
+
 msgid "Dw"
-msgstr ""
+msgstr "Dw"
 
 msgid "E"
-msgstr ""
+msgstr "E"
+
+msgid "EMAIL OF TRANSLATORS"
+msgstr "amir_in@netvision.net.il"
 
 msgid "Edit Clip"
-msgstr ""
+msgstr "ערוך סרטון"
 
 msgid "Edit Clip Speed"
-msgstr ""
+msgstr "ערוך מהירות סרטון"
 
 msgid "Edit Guide"
-msgstr ""
+msgstr "ערוך מנחה"
 
 msgid "Edit Keyframe"
-msgstr ""
+msgstr "ערוך מסגרת מפתח"
 
 msgid "Edit Marker"
-msgstr ""
+msgstr "ערוך סמן"
 
 msgid "Edit clip"
-msgstr ""
+msgstr "ערוך סרטון"
 
 #, kde-format
 msgid "Edit effect %1"
-msgstr ""
+msgstr "ערוך אפקט %1"
 
 msgid "Edit guide"
-msgstr ""
+msgstr "ערוך מוביל"
 
 msgid "Edit keyframe"
-msgstr ""
+msgstr "ערוך מסגרת מפתח"
 
 msgid "Edit marker"
-msgstr ""
+msgstr "ערוך סמן"
 
 msgid "Edit profile"
-msgstr ""
+msgstr "ערוך פרופיל"
 
 #, kde-format
 msgid "Edit transition %1"
-msgstr ""
+msgstr "ערוך מעבר %1"
 
 #, kde-format
 msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
-msgstr ""
+msgstr "‫אפקט %1:%2 לא נמצא ב-MLT, האפקט הוסר מהפרוייקט הנוכחי\n"
 
 msgid "Effect List"
-msgstr ""
+msgstr "רשימת אפקטים"
 
 msgid "Effect Stack"
-msgstr ""
+msgstr "מחסנית אפקטים"
 
 msgid "Enable Jog Shuttle device"
-msgstr ""
+msgstr "אפשר התקן גלגלת עריכה"
 
-msgid "Encoding"
-msgstr ""
+msgid "Encoding captured video..."
+msgstr "‫מקודד וידאו נלכד..."
 
-msgid "Encoding parameters"
-msgstr ""
+msgid "Encoding params"
+msgstr "ערכי קידוד"
 
 msgid "End"
-msgstr ""
+msgstr "סיום"
 
 msgid "End Gain"
-msgstr ""
+msgstr "שבח סופי"
 
 msgid "EndViewport"
-msgstr ""
+msgstr "הבט סופי"
 
 msgid "Environment"
-msgstr ""
+msgstr "סביבה"
 
 msgid "Equalizer"
-msgstr ""
+msgstr "אקולייזר"
+
+#, kde-format
+msgid "Error removing clip at %1 on track %2"
+msgstr "שגיאה בהסרת הסרטון בנקודה: %1 שנ' בערוץ %2"
 
 msgid "Error starting MLT's command line player (inigo)"
-msgstr ""
+msgstr "‫תקלה בפתיחת נגן שורת פקודה של MLT (inigo)"
 
 msgid "Error starting MLT's command line player (inigo)."
-msgstr ""
+msgstr "‫תקלה בפתיחת נגן שורת פקודה של MLT (inigo)"
 
 msgid "Error when resizing clip"
-msgstr ""
+msgstr "תקלה בזמן שינוי גודל סרטון"
 
 msgid "Esound daemon"
-msgstr ""
+msgstr "Esound daemon"
 
 msgid "Extension"
-msgstr ""
+msgstr "הרחבה"
 
 msgid "Extra Toolbar"
-msgstr ""
+msgstr "סרגל כלים נוסף"
 
 msgid "Extract frame"
-msgstr ""
+msgstr "שליפת מסגרת"
+
+msgid "FFmpeg & ffplay"
+msgstr "FFmpeg & ffplay"
 
 msgid "Fade in"
-msgstr ""
+msgstr "עמעום כניסה"
 
 msgid "Fade in audio track"
-msgstr ""
+msgstr "עמעום כניסת ערוץ אודיו"
 
 msgid "Fade out"
-msgstr ""
+msgstr "עמעום יציאה"
 
 msgid "Fatal Error"
-msgstr ""
+msgstr "שגיאה סופנית"
 
 msgid "Feedback"
-msgstr ""
+msgstr "איזון חוזר"
 
 #, kde-format
 msgid "File %1 is not a Kdenlive project file."
-msgstr ""
+msgstr "‫קובץ %1 אינו קובץ פרוייקט של Kdenlive."
 
 msgid "File Recovery"
-msgstr ""
+msgstr "שחזור קובץ"
 
 msgid ""
 "File already exists.\n"
 "Do you want to overwrite it ?"
 msgstr ""
+"הקובץ קיים.\n"
+"‫האם ברצונך לשכתב אותו?"
 
 msgid "File already exists. Do you want to overwrite it ?"
-msgstr ""
-
-msgid "File extension"
-msgstr ""
+msgstr "‫הקובץ קיים. האם ברצונך לשכתב אותו?"
 
 msgid "File name"
-msgstr ""
+msgstr "שם קובץ"
+
+msgid "File not found"
+msgstr "קובץ לא נמצא"
 
 msgid "File size"
-msgstr ""
+msgstr "גודל קובץ"
 
 msgid "Filename"
-msgstr ""
+msgstr "שם קובץ"
 
 msgid "Fill color"
-msgstr ""
+msgstr "צבע מילוי"
 
 msgid "Find"
-msgstr ""
+msgstr "חפש"
 
 msgid "Find Next"
-msgstr ""
+msgstr "חפש הבא"
 
 msgid "Find stopped"
-msgstr ""
+msgstr "חיפוש הופסק"
 
 msgid "Firewire"
-msgstr ""
-
-msgid "Firewire / dvgrab"
-msgstr ""
+msgstr "Firewire"
 
 msgid ""
 "Firewire is not enabled on your system.\n"
 " Please install Libiec61883 and recompile Kdenlive"
 msgstr ""
+"‫התקן ה-Firewire אינו מאופשר במערכת.\n"
+"‫אנא התקן את libiec61883 וקמפל מחדש את Kdenlive"
 
 msgid "Fit zoom to project"
-msgstr ""
+msgstr "התאם זום לפרוייקט"
 
 msgid "Flip your image in any direction"
-msgstr ""
+msgstr "הפוך תמונה בכל תמונה"
 
 msgid "Folder"
-msgstr ""
+msgstr "תיקיה"
 
-msgid "Force aspect ratio"
-msgstr ""
+msgid "Follow mouse"
+msgstr "עקוב אחר העכבר"
+
+msgid "Force pixel aspect ratio"
+msgstr "כפה יחס מימדים עבור הפיקסלים"
 
 msgid "Form"
-msgstr ""
+msgstr "טופס"
 
 msgid "Format"
-msgstr ""
+msgstr "תבנית"
 
 msgid "Forward"
-msgstr ""
+msgstr "קדימה"
 
 msgid "Forward 1 Frame"
-msgstr ""
+msgstr "קדם מסגרת 1"
 
 msgid "Forward 1 frame"
-msgstr ""
+msgstr "קדם מסגרת 1"
 
 #, kde-format
 msgid "Found : %1"
-msgstr ""
+msgstr "נמצא: %1"
 
 msgid "Frame Duration"
-msgstr ""
+msgstr "משך מסגרת"
 
 msgid "Frame duration"
-msgstr ""
+msgstr "משך מסגרת"
 
 msgid "Frame rate"
-msgstr ""
+msgstr "קצב מסגרות"
 
 msgid "Frame rate:"
-msgstr ""
+msgstr "‫קצב מסגרות:"
 
 msgid "Frame size"
-msgstr ""
+msgstr "גודל מסגרת"
 
 msgid "Framebuffer console"
-msgstr ""
+msgstr "קונסולת חוצץ מסגרות"
 
 msgid "Frames"
-msgstr ""
+msgstr "מסגרות"
 
 msgid "Freeze"
-msgstr ""
+msgstr "הקפא"
 
 msgid "Freeze After"
-msgstr ""
+msgstr "הקפא לאחר"
 
 msgid "Freeze Before"
-msgstr ""
+msgstr "הקפא לפני"
 
 msgid "Freeze at"
-msgstr ""
+msgstr "‫הקפא ב-"
 
 msgid "Freeze video on a chosen frame"
-msgstr ""
+msgstr "הקפא וידאו במסגרת נבחרת"
 
 msgid "Frequency"
-msgstr ""
+msgstr "תדר"
 
 msgid "From"
-msgstr ""
+msgstr "‮מ-"
 
 msgid "Full project"
-msgstr ""
+msgstr "פרוייקט שלם"
 
 msgid "Full screen capture"
-msgstr ""
+msgstr "לכידת מסך מלא"
+
+msgid "Full shots"
+msgstr "צילומים שלמים"
 
 msgid "Gain"
-msgstr ""
+msgstr "שבח"
 
 msgid "Gain in"
-msgstr ""
+msgstr "שבח כניסה"
 
 msgid "Gain out"
-msgstr ""
+msgstr "שבח יציאה"
 
 msgid "Gamma"
-msgstr ""
+msgstr "גמא"
 
 msgid "General graphics interface"
-msgstr ""
+msgstr "ממשק גרפי כללי"
 
 msgid "Geometry"
-msgstr ""
+msgstr "גאומטריה"
 
 msgid "Go To"
-msgstr ""
+msgstr "עבור אל"
 
 msgid "Go to Clip End"
-msgstr ""
+msgstr "עבור אל סיום סרטון"
 
 msgid "Go to Clip Start"
-msgstr ""
+msgstr "עבור אל תחילת סרטון"
 
 msgid "Go to Next Snap Point"
-msgstr ""
+msgstr "עבור אל נקודת הצמדה הבאה"
 
 msgid "Go to Previous Snap Point"
-msgstr ""
+msgstr "עבור אל נקודת הצמדה הקודמת"
 
 msgid "Go to Project End"
-msgstr ""
+msgstr "עבור אל סיום הפרוייקט"
 
 msgid "Go to Project Start"
-msgstr ""
+msgstr "עבור אל תחילת הפרוייקט"
 
 msgid "Go to next keyframe"
-msgstr ""
+msgstr "עבור אל תמונת מסגרת הבאה"
 
 msgid "Go to previous keyframe"
-msgstr ""
-
-msgid "Go to..."
-msgstr ""
+msgstr "עבור אל תמונת מסגרת קודמת"
 
 msgid "GraphView"
-msgstr ""
+msgstr "מבט גרפי"
 
 msgid "Greyscale"
-msgstr ""
+msgstr "גווני אפור"
 
 msgid "Group"
-msgstr ""
+msgstr "קבוצה"
 
 msgid "GroupBox"
-msgstr ""
+msgstr "תיבה קבוצתית"
 
 msgid "Guide"
-msgstr ""
+msgstr "מנחה"
 
 msgid "Guide zone"
-msgstr ""
+msgstr "אזור מונחה"
 
 msgid "Guides"
-msgstr ""
+msgstr "מנחים"
 
 msgid "H"
-msgstr ""
+msgstr "H"
 
 msgid "HDV"
-msgstr ""
-
-msgid "Height"
-msgstr ""
+msgstr "HDV"
 
 msgid "Hi gain"
-msgstr ""
+msgstr "שבח גבוה"
 
 msgid "Hide a region of the clip"
-msgstr ""
+msgstr "הסתר אזור בסרטון"
 
 msgid "Hide a selected zone and follow its movements"
-msgstr ""
+msgstr "הסתר אזור נבחר ועקוב אחר תנועתו"
+
+msgid "Hide frame"
+msgstr "הסתר מסגרת"
 
 msgid "Hor. Center"
-msgstr ""
+msgstr "מרכז אופקי"
 
 msgid "Horizontal factor"
-msgstr ""
+msgstr "פקטור אופקי"
 
 msgid "Horizontal multiplicator"
-msgstr ""
+msgstr "מכפיל אופקי"
 
 msgid "Horizontal scatter"
-msgstr ""
+msgstr "פיזור אופקי"
+
+msgid "I"
+msgstr "I"
 
 msgid "Image"
-msgstr ""
+msgstr "תמונה"
 
 msgid "Image Type"
-msgstr ""
+msgstr "סוג תמונה"
 
 msgid "Image clip"
-msgstr ""
+msgstr "סרטון תמונה"
 
 msgid "Image clips"
-msgstr ""
+msgstr "סרטוני תמונה"
 
 msgid "Image editing"
-msgstr ""
+msgstr "עריכת תמונה"
 
 msgid "Image preview"
-msgstr ""
+msgstr "תצוגה מקדימה"
 
 msgid "Image size"
-msgstr ""
+msgstr "גודל תמונה"
 
 msgid "Image type"
-msgstr ""
+msgstr "סוג תמונה"
+
+msgid "In Point"
+msgstr "נקודת כניסה"
+
+msgid "Inigo"
+msgstr "Inigo"
 
 msgid "Inigo path"
-msgstr ""
+msgstr "‮‫נתיב Inigo"
 
 msgid "Initialising..."
-msgstr ""
+msgstr "‫מאתחל..."
 
 msgid "Input gain (db)"
-msgstr ""
+msgstr "‫שבח כניסה (db)"
+
+msgid "Insert Space"
+msgstr "הכנס רווח"
+
+msgid "Insert Track"
+msgstr "הכנס ערוץ"
+
+msgid "Insert space"
+msgstr "הכנס רווח"
 
 msgid "Insert track"
-msgstr ""
+msgstr "הוסף ערוץ"
 
 msgid "Install extra video mimetypes"
-msgstr ""
+msgstr "התקן תמיכה בתקני וידאו נוספים"
 
 msgid "Intensity"
-msgstr ""
+msgstr "עוצמה"
 
 msgid "Interlaced"
-msgstr ""
+msgstr "שזור"
 
 msgid "Invert"
-msgstr ""
+msgstr "הפוך"
 
 msgid "Invert colors"
-msgstr ""
+msgstr "הפוך צבעים"
+
+msgid "Jack"
+msgstr "Jack"
+
+msgid "Jean-Baptiste Mardelle"
+msgstr "Jean-Baptiste Mardelle"
+
+msgid "Jog Shuttle device disabled."
+msgstr "התקן גלגלת עריכה מנותק"
 
 msgid "JogShuttle"
-msgstr ""
+msgstr "גלגלת עריכה"
+
+msgid "Kdenlive"
+msgstr "Kdenlive"
+
+msgid "Keep as placeholder"
+msgstr "שמור כשומר מקום"
+
+msgid "Kernel size"
+msgstr "גודל ליבה"
 
 msgid "Keyframe"
-msgstr ""
+msgstr "מסגרת מפתח"
 
 msgid "LADSPA change pitch audio effect"
-msgstr ""
+msgstr "אפקט אודיו - שינוי פסיעה"
 
 msgid "LADSPA declipper audio effect"
-msgstr ""
+msgstr "אפקט אודיו - ביטול קטימה"
 
 msgid "LADSPA equalizer audio effect"
-msgstr ""
+msgstr "אפקט אודיו - שווין"
 
 msgid "LADSPA limiter audio effect"
-msgstr ""
+msgstr "אפקט אודיו - מגבל"
 
 msgid "LADSPA phaser audio effect"
-msgstr ""
+msgstr "אפקט אודיו - שינוי מופע"
 
 msgid "LADSPA pitch scale audio effect"
-msgstr ""
+msgstr "אפקט אודיו - סולם פסיעה"
 
 msgid "LADSPA rate scale audio effect"
-msgstr ""
+msgstr "אפקט אודיו - סולם קצב"
 
 msgid "LADSPA reverb audio effect"
-msgstr ""
+msgstr "אפקט אודיו - החזר"
 
 msgid "LADSPA room reverb audio effect"
-msgstr ""
+msgstr "אפקט אודיו - החזר חדר"
 
 msgid "Left"
-msgstr ""
+msgstr "שמאל"
 
 msgid "Limit (db)"
-msgstr ""
+msgstr "‫‫הגבל (db)"
 
 msgid "Limiter"
-msgstr ""
+msgstr "מגביל"
 
 msgid "Lo gain"
-msgstr ""
+msgstr "שבח נמוך"
 
 msgid "Load Image"
-msgstr ""
+msgstr "טוען תמונה"
 
 msgid "Load Title"
-msgstr ""
+msgstr "טוען כתובית"
 
 msgid "Loading playlist..."
-msgstr ""
+msgstr "‫טוען רשימת ניגון..."
 
 msgid "Loading project clips"
-msgstr ""
+msgstr "טוען סרטוני פרוייקט"
+
+#, kde-format
+msgid "Looking for %1"
+msgstr "מחפש את %1"
 
 msgid "Loop"
-msgstr ""
+msgstr "לולאה"
 
 msgid "Loop Section"
-msgstr ""
+msgstr "חזור על הקטע בלולאה"
 
 msgid "Luma File"
-msgstr ""
+msgstr "קובץ הארה"
 
 msgid "Luma file"
-msgstr ""
+msgstr "קובץ הארה"
 
 msgid "M"
-msgstr ""
+msgstr "M"
 
 msgid ""
 "MLT's SDL module not found. Please check your MLT install. Kdenlive will not "
 "work until this issue is fixed."
 msgstr ""
+"‫מודול ה-SDL של MLT לא נמצא. אנא בדוק את התקנת ה-MLT. Kdenlive לא יפעל עד "
+"שבעיה זו תתוקן."
 
 msgid ""
 "MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT "
 "install. Kdenlive will not work until this issue is fixed."
 msgstr ""
+"‫מודול ה-avformat (FFMPEG) של MLT לא נמצא. אנא בדוק את התקנת ה-MLT. Kdenlive "
+"לא יפעל עד שבעיה זו תתוקן."
 
 msgid "Make clip play faster slowly"
-msgstr ""
+msgstr "גורם לסרטון לנגן מהר יותר לאט"
 
 msgid "Make image greyscale except for chosen color"
-msgstr ""
+msgstr "הופך תמונה לגווני אפור למעט צבע נבחר"
 
 msgid "Make monochrome clip"
-msgstr ""
+msgstr "יוצר סרטון חד-צבעי"
 
 msgid "Make selected color transparent"
-msgstr ""
+msgstr "הפוך צבע נבחר לשקוף"
 
 msgid "Make waves on your clip with keyframes"
-msgstr ""
+msgstr "יוצר אפקט גלי על הסרטון בעזרת מסגרות מפתח"
 
 msgid "Manage Profiles"
-msgstr ""
+msgstr "ניהול פרופילים"
+
+msgid "Marco Gittler"
+msgstr "Marco Gittler"
 
 msgid "Marker"
-msgstr ""
+msgstr "סמן"
 
 msgid "Markers"
-msgstr ""
+msgstr "סמנים"
 
 msgid "Mid gain"
-msgstr ""
+msgstr "שכח אמצעי"
 
 msgid "Mirror"
-msgstr ""
+msgstr "שיקוף"
 
 msgid "Mirroring direction"
-msgstr ""
+msgstr "כיוון שיקוף"
 
 msgid "Misc"
-msgstr ""
+msgstr "שונות"
 
 msgid "Misc..."
-msgstr ""
+msgstr "‫שונות..."
 
 msgid "Mix"
-msgstr ""
+msgstr "ערבול"
+
+msgid "Mlt Connection, Transition, Effect, Timeline Developer"
+msgstr "Mlt Connection, Transition, Effect, Timeline Developer"
 
 msgid "Mlt environment"
-msgstr ""
+msgstr "‫סביבת MLT"
+
+msgid "Mlt porting, KDE4 porting, Main developer"
+msgstr "Mlt porting, KDE4 porting, Main developer"
 
 msgid "Mlt profiles folder"
-msgstr ""
+msgstr "‫תיקיית פרופילי MLT"
 
 msgid "Monitor"
-msgstr ""
+msgstr "מסך"
 
 msgid "Move clip"
-msgstr ""
+msgstr "העברת סרטון"
 
 msgid "Move effect"
-msgstr ""
+msgstr "העברת סרטון"
 
 msgid "Move effect down"
-msgstr ""
+msgstr "העברת סרטון למטה"
 
 msgid "Move effect up"
-msgstr ""
+msgstr "העברת סרטון למעלה"
+
+msgid "Move group"
+msgstr "העבר קבוצה"
 
 msgid "Move guide"
-msgstr ""
+msgstr "העברת מנחה"
 
 msgid "Move transition"
-msgstr ""
+msgstr "העברת מעבר"
 
 msgid "Mute"
-msgstr ""
+msgstr "השתק"
 
 msgid "Mute clip"
-msgstr ""
+msgstr "השתק סרטון"
 
 msgid "Mute video clip"
-msgstr ""
+msgstr "השתקת סרטון וידאו"
 
 msgid "N"
-msgstr ""
+msgstr "N"
+
+msgid "NAME OF TRANSLATORS"
+msgstr "Amir S."
 
 msgid "NTSC"
-msgstr ""
+msgstr "NTSC"
 
 msgid "Name"
-msgstr ""
+msgstr "שם"
 
 msgid "Name for saved effect: "
-msgstr ""
+msgstr "‫שם עבור אפקט נשמר:"
 
 msgid "Nano X"
-msgstr ""
+msgstr "Nano X"
 
 msgid "New speed (percents)"
-msgstr ""
-
-msgid "No clip at cursor time"
-msgstr ""
+msgstr "‫קצב חדש (אחוזים)"
 
 msgid "No clip copied"
-msgstr ""
-
-msgid "No clip selected"
-msgstr ""
+msgstr "שום סרטון לא הועתק"
 
 msgid "No guide at cursor time"
-msgstr ""
+msgstr "אין מנחה במיקום סמן"
 
 msgid "No image found"
-msgstr ""
+msgstr "שום תמונה לא נמצאה"
 
 msgid "No marker found at cursor time"
-msgstr ""
-
-msgid "No selected clip at cursor time"
-msgstr ""
+msgstr "אין סימון במיקום סמן"
 
 msgid "Normalise"
-msgstr ""
+msgstr "נרמל"
 
 msgid "Normalise audio for thumbnails"
-msgstr ""
+msgstr "נרמל אודיו עבור צלמיות"
 
 msgid "Normalise audio volume"
-msgstr ""
+msgstr "נרמל עוצמת אודיו"
 
 msgid "Not connected"
-msgstr ""
+msgstr "אינו מחובר"
 
 #, kde-format
 msgid "Not found : %1"
-msgstr ""
+msgstr "לא נמצא: %1"
 
 msgid "OSS"
-msgstr ""
+msgstr "OSS"
 
 msgid "OSS with DMA access"
-msgstr ""
+msgstr "OSS with DMA access"
 
 msgid "Obscure"
-msgstr ""
+msgstr "מוסתר"
+
+msgid "Offset"
+msgstr "הסט"
 
 msgid "Opacity"
-msgstr ""
+msgstr "עמימות"
 
 msgid "Open Document"
-msgstr ""
+msgstr "פתח מסמך"
 
 msgid "Open last project on startup"
-msgstr ""
+msgstr "פתח פרויקט אחרון בזמן איתחול"
 
 msgid "Open projects in new tabs"
-msgstr ""
+msgstr "פתח פרוייקטים בטאבים חדשים"
+
+msgid "Out Point"
+msgstr "נקודת יציאה"
 
 msgid "Output file"
-msgstr ""
+msgstr "קובץ פלט"
 
 msgid "P"
-msgstr ""
+msgstr "P"
 
 msgid "PAL"
-msgstr ""
+msgstr "PAL"
 
 msgid "Param"
-msgstr ""
+msgstr "משתנה"
 
 msgid "Parameter info"
-msgstr ""
+msgstr "מידע משתנה"
 
 msgid "Parameters"
-msgstr ""
+msgstr "משתנים"
 
 msgid "Paste Effects"
-msgstr ""
+msgstr "הדבק אפקטים"
 
 msgid "Path"
-msgstr ""
+msgstr "נתיב"
 
 msgid "Phaser"
-msgstr ""
+msgstr "משלב"
 
 msgid "Pitch Scaler"
-msgstr ""
+msgstr "סולם גובה צליל"
 
 msgid "Pitch Shift"
-msgstr ""
+msgstr "שנה גובה צליל"
+
+msgid "Pixel aspect ratio"
+msgstr "כפה יחס מימדים"
+
+msgid "Pixel aspect ratio:"
+msgstr "כפה יחס מימדים"
+
+msgid "Plasma"
+msgstr "פלזמה"
 
 msgid "Play"
-msgstr ""
+msgstr "נגן"
 
 msgid "Play / Pause"
-msgstr ""
+msgstr "נגן / הפסק"
 
 msgid "Play Section"
-msgstr ""
+msgstr "נגן קטע"
 
 msgid "Play after render"
-msgstr ""
+msgstr "נגן אחרי סיום הצלימה"
 
 msgid "Play..."
-msgstr ""
+msgstr "‫נגן..."
 
 msgid "Playback"
-msgstr ""
-
-msgid "Playback params"
-msgstr ""
+msgstr "ניגון חוזר"
 
 msgid "Playlist clip"
-msgstr ""
+msgstr "רשימת סרטונים"
 
-msgid "Please set your default video format"
+msgid ""
+"Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
+"org/mantis</a>"
 msgstr ""
+"‫אנא דווח על תקלות ל- <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
+"org/mantis</a>"
+
+msgid "Please report bugs to http://kdenlive.org/mantis"
+msgstr "‫אנא דווח על תקלות ל- http://kdenlive.org/mantis"
+
+msgid "Please set your default video profile"
+msgstr "אנא קבע את פורמט ברירת המחדל של הוידאו"
 
 #, kde-format
 msgid ""
@@ -1406,12 +1612,19 @@ msgid ""
 "Files will be saved in:\n"
 "%1"
 msgstr ""
+"חבר את מצלמת הוידאו\n"
+"לחץ על כפתור החיבור\n"
+"הקבצים ישמרו ב-\n"
+"%1"
+
+msgid "Ports:"
+msgstr "‫פורטים:"
 
 msgid "Pos"
-msgstr ""
+msgstr "מיקום"
 
 msgid "Position"
-msgstr ""
+msgstr "מיקום"
 
 #, kde-format
 msgid ""
@@ -1420,6 +1633,10 @@ msgid ""
 "Files will be saved in:\n"
 "%1"
 msgstr ""
+"לחץ על כפתור הניגון או ההקלטה\n"
+"לתחילת לכידת הוידאו\n"
+"הקבצים ישמרו ב-\n"
+"%1"
 
 #, kde-format
 msgid ""
@@ -1428,169 +1645,229 @@ msgid ""
 "Files will be saved in:\n"
 "%1"
 msgstr ""
+"לחץ על כפתור ההקלטה\n"
+"לתחילת לכידת המסך\n"
+"הקבצים ישמרו ב-\n"
+"%1"
 
 msgid "Problem adding effect to clip"
-msgstr ""
+msgstr "בעיה בהוספת אפקט לסרטון"
 
 msgid "Problem deleting effect"
-msgstr ""
+msgstr "בעיה במחיקת אפקט"
 
 msgid "Problem editing effect"
-msgstr ""
+msgstr "בעיה בעריכת אפקט"
 
 msgid "Profile"
-msgstr ""
+msgstr "פרופיל"
 
 msgid "Profile name"
-msgstr ""
+msgstr "שם פרופיל"
 
 msgid "Profiles"
-msgstr ""
+msgstr "פרופילים"
 
 msgid "Progressive"
-msgstr ""
+msgstr "פרוגרסיבי"
 
 msgid "Project"
-msgstr ""
+msgstr "פרוייקט"
 
 msgid "Project Monitor"
-msgstr ""
+msgstr "מסך פרוייקט"
 
 msgid "Project Settings"
-msgstr ""
+msgstr "הגדרות פרוייקט"
 
 msgid "Project Tree"
-msgstr ""
+msgstr "עץ פרוייקט"
 
 msgid "Project folder"
-msgstr ""
+msgstr "תיקיית פרוייקט"
 
 msgid "Properties"
-msgstr ""
+msgstr "מאפיינים"
 
 msgid "R"
-msgstr ""
+msgstr "R"
 
 msgid "RPM"
-msgstr ""
+msgstr "סיבובים לדקה"
 
 msgid "Rate"
-msgstr ""
+msgstr "קצב"
 
 msgid "Rate (Hz)"
-msgstr ""
+msgstr "‫קצב (הרץ)"
 
 msgid "Rate Scaler"
-msgstr ""
+msgstr "סולם קצב"
 
 msgid "Rating"
-msgstr ""
+msgstr "דירוג"
 
 msgid "Razor clip"
-msgstr ""
+msgstr "חתוך סרטון"
 
 msgid "Razor tool"
-msgstr ""
+msgstr "כלי חיתוך"
 
 msgid "Reached end of project"
-msgstr ""
+msgstr "פילוש סוף פרוייקט"
 
 msgid "Record"
-msgstr ""
+msgstr "הקלט"
 
 msgid "Record Monitor"
+msgstr "צג הקלטה"
+
+msgid "Recordmydesktop"
+msgstr "Recordmydesktop"
+
+#, kde-format
+msgid "Recordmydesktop found at: %1"
+msgstr "‫Recordmydesktop נמצא ב- %1"
+
+msgid ""
+"Recordmydesktop utility not found,\n"
+" please install it for screen grabs"
 msgstr ""
+"תוכנת Recordmydesktop לא נמצא,\n"
+"אנא התקן אותה בכדי לבצע לכידות מסך"
 
 msgid "Recover"
-msgstr ""
+msgstr "אישוש"
 
 msgid "Region"
-msgstr ""
+msgstr "אזור"
+
+msgid "Region capture"
+msgstr "לכידת אזור"
 
 msgid "Release time (s)"
-msgstr ""
+msgstr "‫זמן שחרור (שנ')"
+
+msgid "Remaining time"
+msgstr "שארית זמן"
+
+msgid "Remove Space"
+msgstr "הסר רווח"
+
+msgid "Remove Track"
+msgstr "הסר ערוץ"
 
 msgid "Rename folder"
-msgstr ""
+msgstr "שנה שם תיקייה"
 
 msgid "Render"
-msgstr ""
+msgstr "צלימה"
 
 msgid "Rendering"
-msgstr ""
+msgstr "צלימה"
+
+#, kde-format
+msgid "Rendering %1"
+msgstr "צלימת %1"
 
 #, kde-format
 msgid "Rendering <i>%1</i> started"
-msgstr ""
+msgstr "‫צלימה <i>%1</i> הסתיימה"
+
+#, kde-format
+msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
+msgstr "צלימה של %1 בוטלה, הוידאו שנוצר ככל הנראה אינו תקין."
+
+#, kde-format
+msgid "Rendering of %1 finished in %2"
+msgstr "צלימה של %1 הסתיימה ב-%2"
+
+msgid "Rendering to"
+msgstr "‫צלימה ל-"
+
+msgid "Required for firewire capture"
+msgstr "‫נדרש עבור לכידת firewire"
+
+msgid "Required for rendering (part of MLT package)"
+msgstr "‫נחוץ לביצוע הצלימה (חלק מ-MLT)"
+
+msgid "Required for screen capture"
+msgstr "נחוץ ללכידת מסך"
+
+msgid "Required for webcam capture"
+msgstr "‫נדרש עבור לכידת מצלמת רשת"
 
 msgid "Reset effect"
-msgstr ""
+msgstr "אפס אפקט"
 
 msgid "Resize (100%)"
-msgstr ""
+msgstr "‫שנה גודל (100%)"
 
 msgid "Resize (50%)"
-msgstr ""
+msgstr "‫שנה גודל (50%)"
 
 msgid "Resize clip"
-msgstr ""
+msgstr "שנה גודל סרטון"
 
 msgid "Resize..."
-msgstr ""
+msgstr "‫שנה גודל..."
 
 msgid "Reverb"
-msgstr ""
+msgstr "החזר"
 
 msgid "Reverb Time"
-msgstr ""
+msgstr "זמן החזר"
 
 msgid "Reverb time"
-msgstr ""
+msgstr "זמן החזר"
 
 msgid "Reverse playing"
-msgstr ""
+msgstr "הפוך ניגון"
 
 msgid "Rewind"
-msgstr ""
+msgstr "גלל חזרה"
 
 msgid "Rewind 1 Frame"
-msgstr ""
+msgstr "גלל חזרה מסגרת אחת"
 
 msgid "Rewind 1 frame"
-msgstr ""
+msgstr "גלל חזרה מסגרת אחת"
 
 msgid "Right"
-msgstr ""
+msgstr "ימין"
 
 msgid "Room Reverb"
-msgstr ""
+msgstr "החזר חדר"
 
 msgid "Room size (m)"
-msgstr ""
+msgstr "‫גודל חדר (מ')"
 
 msgid "Rotate"
-msgstr ""
+msgstr "סובב"
 
 msgid "Rotate clip in any 3 directions"
-msgstr ""
+msgstr "סובב סרטון בשלשת הכיוונים"
 
 msgid "Rotate:"
-msgstr ""
+msgstr "‫סובב:"
 
 msgid "Rotation x"
-msgstr ""
+msgstr "סיבוב בציר x"
 
 msgid "Rotation y"
-msgstr ""
+msgstr "סיבוב בציר y"
 
 msgid "Rotation z"
-msgstr ""
+msgstr "סיבוב בציר x"
+
+msgid "Run Config Wizard"
+msgstr "הרץ אשף הגדרות "
 
 msgid "S"
-msgstr ""
+msgstr "S"
 
 msgid "SVGAlib"
-msgstr ""
+msgstr "SVGAlib"
 
 msgid "Save As"
 msgstr "‫שמור כ-"
@@ -1625,11 +1902,11 @@ msgstr "קנה מידה"
 msgid "Screen Grab"
 msgstr "לכידת מסך"
 
-msgid "Screen Grab / FFmpeg"
-msgstr "‫לכידת מסך / FFmpeg"
-
 msgid "Screen grab"
 msgstr "לכידת מסך"
+
+msgid "Search automatically"
+msgstr "חפש אוטומטית"
 
 msgid "Select a clip before copying"
 msgstr "בחר סרטון לפני העתקה"
@@ -1641,8 +1918,8 @@ msgid ""
 "Select a region using the mouse. To take the snapshot, press the Enter key. "
 "Press Esc to quit."
 msgstr ""
-"‫בחר אזור בעזרת העכבר. לחץ על מקש ה-Enter על מנת לבצע צילום מסך. לחץ על מקש "
-"ה-Esc על מנת לבטל."
+"‫בחר אזור בעזרת העכבר. לחץ על מקש ה-Enter על מנת לבצע צילום מסך. לחץ על מקש ה-"
+"Esc על מנת לבטל."
 
 msgid "Select clip to change speed"
 msgstr "בחר סרטון על מנת לשנות מהירות"
@@ -1659,9 +1936,6 @@ msgstr "בחר עורך תמונה ברירת מחדל"
 msgid "Select default video player"
 msgstr "בחר נגן וידאו ברירת מחדל"
 
-msgid "Select region..."
-msgstr "בחר אזור..."
-
 msgid "Selected zone"
 msgstr "אזור נבחר"
 
@@ -1672,16 +1946,16 @@ msgid "Selection tool"
 msgstr "כלי בחירה"
 
 msgid "Sepia"
-msgstr ""
+msgstr "ספיה"
 
 msgid "Set In Point"
 msgstr "קבע נקודת כניסה"
 
-msgid "Set Out Point"
-msgstr "קבע נקודת יציאה"
-
 msgid "Set current image as thumbnail"
 msgstr "קבע תמונה נוכחית כצלמית"
+
+msgid "Set the path for MLT environnement"
+msgstr "‫קבע נתיב לסביבת MLT"
 
 msgid "Set zone end"
 msgstr "קבע סוף אזור"
@@ -1692,11 +1966,17 @@ msgstr "קבע תחילת אזור"
 msgid "Shift"
 msgstr "הזז"
 
+msgid "Show All"
+msgstr "הראה הכל"
+
 msgid "Show audio thumbnails"
 msgstr "הראה צלמיות אודיו"
 
 msgid "Show background"
 msgstr "הראה רקע"
+
+msgid "Show experimental formats"
+msgstr "הראה פורמטים ניסויים"
 
 msgid "Show keyframes in timeline"
 msgstr "הראה מסגרות מפתח בקו הזמן"
@@ -1714,7 +1994,7 @@ msgid "Size"
 msgstr "גודל"
 
 msgid "Size:"
-msgstr "גודל:"
+msgstr "‫גודל:"
 
 msgid "Slideshow"
 msgstr "מצגת שקופיות"
@@ -1732,34 +2012,40 @@ msgid "Softness"
 msgstr "רכות"
 
 msgid "Sox Echo"
-msgstr ""
+msgstr "‫אפקט הד"
 
 msgid "Sox Flanger"
-msgstr ""
+msgstr "אפקט פלאנגר"
 
 msgid "Sox Pitch Shift"
-msgstr ""
+msgstr "אפקט שינוי גובה צליל"
 
 msgid "Sox Reverb"
-msgstr ""
+msgstr "אפקט החזר"
 
 msgid "Sox Vibro"
-msgstr ""
+msgstr "אפקט רטט"
 
 msgid "Sox change pitch audio effect"
-msgstr ""
+msgstr "אפקט אודיו - שינוי גובה צליל"
 
 msgid "Sox echo audio effect"
-msgstr ""
+msgstr "אפקט אודיו - הד"
 
 msgid "Sox flanger audio effect"
-msgstr ""
+msgstr "אפקט אודיו - פלאנגר"
 
 msgid "Sox reverb audio effect"
-msgstr ""
+msgstr "אפקט אודיו - החזר"
 
 msgid "Sox vibro audio effect"
-msgstr ""
+msgstr "אפקט אודיו - רטט"
+
+msgid "Space"
+msgstr "רווח"
+
+msgid "Spacer tool"
+msgstr "כלי ריווח"
 
 msgid "Speed"
 msgstr "מהירות"
@@ -1768,146 +2054,163 @@ msgid "Split view"
 msgstr "פצל"
 
 msgid "Spread"
-msgstr ""
+msgstr "פיזור"
+
+msgid "Square Blur"
+msgstr "טישטוש ריבועי"
 
 msgid "Start"
-msgstr ""
+msgstr "התחלה"
 
 msgid "Start Gain"
-msgstr ""
+msgstr "תחילת שבח"
+
+msgid "Start Rendering"
+msgstr "תחילת צלימה"
 
 msgid "Start-/EndViewport"
-msgstr ""
+msgstr "תחילת/סוף כיוון מבט"
 
 msgid "StartViewport"
-msgstr ""
+msgstr "תחילת כיוון מבט"
 
 msgid "Starting -- find text as you type"
-msgstr ""
+msgstr "מתחיל -- חיפוש טקסט במהלך ההקלדה"
 
 msgid "Stop"
-msgstr ""
+msgstr "עצור"
 
 msgid "Stroboscope"
-msgstr ""
+msgstr "מבזק מחזורי"
 
 msgid "Surface warping"
-msgstr ""
+msgstr "עוות משטח"
 
 msgid "Sync timeline cursor"
-msgstr ""
-
-msgid "Templates"
-msgstr ""
+msgstr "סנכרן סמן ציר זמן"
 
 msgid "Temporary files"
-msgstr ""
+msgstr "קבצים זמניים"
 
 msgid "Text clip"
-msgstr ""
+msgstr "סרטון טקסט"
 
 msgid "TextLabel"
-msgstr ""
+msgstr "תווית טקסט"
+
+msgid "The custom profile was modified, do you want to save it ?"
+msgstr "‫הפרופיל המותאם אישית שונה, האם ברצונך לשמור אותו?"
 
 msgid "There is no clip, cannot extract frame."
-msgstr ""
+msgstr "‫אין סרטון, אין אפשרות לחלץ מסגרת בודדת."
 
 msgid ""
 "This is the first time you run Kdenlive. This wizard will let you adjust "
 "some basic settings, you will be ready to edit your first movie in a few "
 "seconds..."
 msgstr ""
+"‫זו ההפעלה הראשונה של Kdenlive. האשף הזה יאפשר הגדרה של מספר הגדרות בסיסיות, "
+"עריכת הסרט הראשון רחוקה רק מספר שניות..."
 
 msgid "Threshold"
-msgstr ""
+msgstr "סף"
 
 msgid "Threshold value"
-msgstr ""
+msgstr "ערך סף"
 
 msgid "Thumbnail"
-msgstr ""
+msgstr "צלמית"
 
 msgid "Thumbnails"
-msgstr ""
+msgstr "צלמיות"
 
 msgid "Thumbnails:"
-msgstr ""
+msgstr "‫צלמיות:"
 
 msgid "Time"
-msgstr ""
+msgstr "זמן"
 
 msgid "Time window (ms)"
-msgstr ""
+msgstr "‫חלון זמן (מילי שניות)"
 
 msgid "Timecode overlay"
-msgstr ""
+msgstr "הוסף קוד זמן מעל"
 
 msgid "Timeline"
-msgstr ""
+msgstr "ציר זמן"
 
 msgid "Title Clip"
-msgstr ""
+msgstr "סרטון כותרת"
 
 msgid "Toggle selection"
-msgstr ""
+msgstr "החלף בחירה"
 
 msgid "Tool"
-msgstr ""
+msgstr "כלי"
 
 msgid "Top"
-msgstr ""
+msgstr "עליון"
+
+msgid "Track"
+msgstr "ערוצים"
 
 msgid "Track height"
-msgstr ""
+msgstr "גובה ערוץ"
+
+msgid "Tracks"
+msgstr "ערוצים"
 
 msgid "Transition"
-msgstr ""
-
-msgid "Transition type"
-msgstr ""
+msgstr "מעבר"
 
 msgid "Transparency"
-msgstr ""
+msgstr "שקיפות"
 
 msgid "Transparent background"
-msgstr ""
+msgstr "רקע שקוף"
 
 msgid "Turn clip colors to sepia"
-msgstr ""
+msgstr "‫הפוך צבעי סרטון לספיה (חום כהה)"
+
+msgid "Type"
+msgstr "סוג"
 
 #, kde-format
 msgid "Unable to write to file %1"
-msgstr ""
+msgstr "‫‫‫לא מסוגל לכתוב לקובץ %1"
 
 msgid "Undo History"
-msgstr ""
+msgstr "היסטוריית ביטול"
 
 msgid "Unknown clip"
-msgstr ""
+msgstr "סרטון לא ידוע"
 
 msgid "Untitled"
-msgstr ""
+msgstr "ללא כותרת"
 
 msgid "Up"
-msgstr ""
+msgstr "למעלה"
 
 msgid "Use as default"
-msgstr ""
+msgstr "השתמש כברירת מחדל"
 
 msgid "Use transparency"
-msgstr ""
+msgstr "השתמש בשקיפות"
 
 msgid "V"
-msgstr ""
+msgstr "V"
 
 msgid "Value"
-msgstr ""
+msgstr "ערך"
+
+msgid "Variable-size square blur (frei0r.squareblur)"
+msgstr "טישטוש ריבועי בגודל משתנה"
 
 msgid "Variance"
-msgstr ""
+msgstr "שונות"
 
 msgid "Vert. Center"
-msgstr ""
+msgstr "מרכז אנכי"
 
 msgid "Vertical factor"
 msgstr "גורם אנכי"
@@ -1930,17 +2233,17 @@ msgstr "הפרדת וידאו"
 msgid "Video Standard"
 msgstr "תקן וידאו"
 
-msgid "Video capture params"
-msgstr "ערכי לכידת וידאו"
-
 msgid "Video clip"
 msgstr "סרטון וידאו"
 
 msgid "Video codec"
 msgstr "מקודד וידאו"
 
+msgid "Video device"
+msgstr "התקן וידאו"
+
 msgid "Video driver:"
-msgstr "מנהל התקן וידאו:"
+msgstr "‫מנהל התקן וידאו:"
 
 msgid "Video index"
 msgstr "אינדקס וידאו"
@@ -1948,17 +2251,14 @@ msgstr "אינדקס וידאו"
 msgid "Video player"
 msgstr "נגן וידאו"
 
+msgid "Video track"
+msgstr "ערוץ וידאו"
+
 msgid "Video tracks"
-msgstr "מסילות וידאו"
+msgstr "ערוצי וידאו"
 
 msgid "Video4Linux"
-msgstr ""
-
-msgid "Video4Linux (webcam)"
-msgstr ""
-
-msgid "Video4Linux2 / FFmpeg"
-msgstr ""
+msgstr "Video4Linux"
 
 msgid "View"
 msgstr "תצוגה"
@@ -1973,12 +2273,14 @@ msgid "Volume"
 msgstr "עוצמת קול"
 
 msgid "W"
-msgstr ""
+msgstr "W"
 
 msgid ""
 "Warning: changes to the drivers and devices can make Kdenlive unstable. "
 "Change only if you know what you do."
 msgstr ""
+"אזהרה:ביצוע שינויים למנהלי ההתקן וההתקנים יכול לגרום לאי יציבות. בצע שינויים "
+"רק אם אתה יודע מה אתה עושה."
 
 msgid "Wave"
 msgstr "גל"
@@ -1993,28 +2295,40 @@ msgid "Width"
 msgstr "רוחב"
 
 msgid "X"
-msgstr ""
+msgstr "X"
 
 msgid "X11"
-msgstr ""
+msgstr "X11"
 
 msgid "X:"
-msgstr ""
+msgstr "X:"
 
 msgid "XFREE86 DGA 2.0"
-msgstr ""
+msgstr "XFREE86 DGA 2.0"
 
 msgid "XVideo"
-msgstr ""
+msgstr "XVideo"
 
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 msgid "Y:"
-msgstr ""
+msgstr "Y:"
 
 msgid "Year"
 msgstr "שנה"
+
+#, kde-format
+msgid ""
+"You have changed the project folder. Do you want to copy the cached data "
+"from %1 to the new folder %2 ?"
+msgstr ""
+"‫תיקיית הפרוייקט שונתה. האם ברצונך להעתיק את מטמון המידע מ-%1 לתיקייה החדשה "
+"%2?"
+
+#, kde-format
+msgid "You must be in an empty space to remove space (time=%1, track:%2)"
+msgstr "‫יש צורך להיות ברווח ריק על מנת להסיר רווח(זמן=%1, ערוץ:%2)  "
 
 msgid "You must copy exactly one clip before pasting effects"
 msgstr "אתה חייב לבחור סרטון אחד בדיוק, לפני הדבקת אפקטים"
@@ -2022,20 +2336,40 @@ msgstr "אתה חייב לבחור סרטון אחד בדיוק, לפני הדב
 msgid "You must select one clip for this action"
 msgstr "אתה חייב לבחור סרטון אחד לביצוע פעולה זו"
 
+msgid "You must select one transition for this action"
+msgstr "אתה חייב לבחור מעבר אחד לביצוע פעולה זו"
+
 msgid "Z-Index:"
-msgstr ""
+msgstr "‫אינדקס בציר Z"
 
-msgid "Zone end"
-msgstr "סוף קטע"
+msgid "Zoom In"
+msgstr "הגדל זום"
 
-msgid "Zone start"
-msgstr "תחילת קטע"
+msgid "Zoom Out"
+msgstr "הקטן זום"
 
 msgid "Zoom:"
 msgstr "זום:"
 
+msgid "after"
+msgstr "אחרי"
+
+msgid "before"
+msgstr "קודם"
+
 msgid "create new points"
 msgstr "צור נקודות חדשות"
+
+msgid ""
+"dvgrab utility not found,\n"
+" please install it for firewire capture"
+msgstr ""
+"תוכנת dvgrub לא נמצאה\n"
+"אנא התקן אותה על מנת לבצע לכידת‫ firewire"
+
+#, kde-format
+msgid "dvgrab version %1 at %2"
+msgstr "‫dvgrab גרסא %1 ב-%2"
 
 msgid "effect"
 msgstr "אפקט"
@@ -2044,7 +2378,7 @@ msgid "frames"
 msgstr "מסגרת"
 
 msgid "hh:mm:ss::ff"
-msgstr ""
+msgstr "hh:mm:ss::ff"
 
 msgid "hour"
 msgstr "שעה"
@@ -2053,45 +2387,44 @@ msgid "import"
 msgstr "ייבוא"
 
 msgid "min."
-msgstr "דק'"
+msgstr "‫דק'"
 
 msgid "move on X axis"
-msgstr "הזז בציר X"
+msgstr "‫הזז בציר X"
 
 msgid "move on Y axis"
-msgstr "הזז בציר Y"
-
-msgid "ogg"
-msgstr ""
+msgstr "‫הזז בציר Y"
 
 msgid "oss"
-msgstr ""
+msgstr "oss"
 
 msgid "parameter description"
 msgstr "תאור ערך"
 
 msgid "sec."
-msgstr "שנ'"
+msgstr "‫שנ'"
 
 msgid "seconds"
 msgstr "שניות"
 
 msgid "to"
-msgstr "ל-"
+msgstr "‫ל-"
 
 msgid "update values in timeline"
 msgstr "עדכן ערכים בציר הזמן"
 
 msgid "video4linux2"
-msgstr ""
+msgstr "video4linux2"
+
+msgid "with track"
+msgstr "עם ערוץ"
 
 msgid "x"
-msgstr ""
+msgstr "x"
 
 msgid "x1"
-msgstr ""
+msgstr "x1"
 
-msgid ""
-"your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
-msgstr "התקנת MLT לא נמצאה. התקן את MLT והתחל מחדש את Kdenlive.\n"
+msgid "your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
+msgstr "‫התקנת MLT לא נמצאה. התקן את MLT והתחל מחדש את Kdenlive.\n"
 
