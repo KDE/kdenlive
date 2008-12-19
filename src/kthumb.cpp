@@ -132,7 +132,11 @@ KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QStr
 }
 
 KThumb::~KThumb() {
-    if (audioThumbProducer.isRunning()) audioThumbProducer.exit();
+    if (audioThumbProducer.isRunning()) {
+        slotAudioThumbOver();
+        audioThumbProducer.stop_me = true;
+        audioThumbProducer.wait(300);
+    }
 }
 
 void KThumb::setProducer(Mlt::Producer *producer) {

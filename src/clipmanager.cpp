@@ -115,7 +115,8 @@ void ClipManager::slotDeleteClip(const QString &clipId) {
 void ClipManager::deleteClip(const QString &clipId) {
     for (int i = 0; i < m_clipList.count(); i++) {
         if (m_clipList.at(i)->getId() == clipId) {
-            m_clipList.removeAt(i);
+            DocClipBase *clip = m_clipList.takeAt(i);
+            delete clip;
             break;
         }
     }

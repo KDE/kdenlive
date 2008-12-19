@@ -66,7 +66,9 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
 }*/
 
 DocClipBase::~DocClipBase() {
-    if (m_thumbProd) delete m_thumbProd;
+    if (m_thumbProd) {
+        delete m_thumbProd;
+    }
     qDeleteAll(m_baseTrackProducers);
 }
 
