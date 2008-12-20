@@ -25,6 +25,9 @@
 #include <QObject>
 #include <QDBusInterface>
 #include <QTime>
+// Testing
+#include <QTemporaryFile>
+#include <QTextStream>
 
 class RenderJob : public QObject {
     Q_OBJECT
@@ -49,6 +52,10 @@ private:
     bool m_erase;
     QDBusInterface *m_jobUiserver;
     QTime m_startTime;
+    /** \brief Used to create a temporary file for logging */
+    QTemporaryFile m_logfile;
+    /** \brief Used to write to the log file */
+    QTextStream m_logstream;
 };
 
 #endif

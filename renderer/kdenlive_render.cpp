@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
         }
         if (args.at(0).startsWith("preargs=")) {
             QString a = args.at(0).section('=', 1);
-	    preargs = a.split(" ", QString::SkipEmptyParts);
+            preargs = a.split(" ", QString::SkipEmptyParts);
             args.takeFirst();
         }
         QString render = args.at(0);
@@ -63,9 +63,9 @@ int main(int argc, char **argv) {
         args.takeFirst();
         QString dest = args.at(0);
         args.takeFirst();
+        qDebug() << "//STARTING RENDERING: " << erase << "," << render << "," << profile << "," << rendermodule << "," << player << "," << src << "," << dest << "," << preargs << "," << args << "," << in << "," << out;
         RenderJob *job = new RenderJob(erase, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
         job->start();
-	qDebug()<<"//STARTING RENDERING: "<<erase<<","<<render<<","<<profile<<","<<rendermodule<<","<<player<<","<<src<<","<<dest<<","<<preargs<<","<<args<<","<<in<<","<<out;
         app.exec();
     } else {
         fprintf(stderr, "Kdenlive video renderer for MLT.\nUsage: "
