@@ -2934,6 +2934,17 @@ void CustomTrackView::setInPoint() {
     ItemInfo startInfo = clip->info();
     ItemInfo endInfo = clip->info();
     endInfo.startPos = GenTime(m_cursorPos, m_document->fps());
+    if (endInfo.startPos >= startInfo.endPos) {
+	// Check for invalid resize
+        emit displayMessage(i18n("Invalid action"), ErrorMessage);
+        return;
+    } else if (endInfo.startPos < startInfo.startPos) {
+	int length = m_document->renderer()->mltGetSpaceLength(endInfo.startPos, m_document->tracksCount() - startInfo.track);
+	if (length < (startInfo.startPos - endInfo.startPos).frames(m_document->fps())) {
+	    emit displayMessage(i18n("Invalid action"), ErrorMessage);
+	    return;
+	}
+    }
     ResizeClipCommand *command = new ResizeClipCommand(this, startInfo, endInfo, true);
     m_commandStack->push(command);
 }
@@ -2947,6 +2958,20 @@ void CustomTrackView::setOutPoint() {
     ItemInfo startInfo = clip->info();
     ItemInfo endInfo = clip->info();
     endInfo.endPos = GenTime(m_cursorPos, m_document->fps());
+    if (endInfo.endPos <= startInfo.startPos) {
+	// Check for invalid resize
+        emit displayMessage(i18n("Invalid action"), ErrorMessage);
+        return;
+    } else if (endInfo.endPos > startInfo.endPos) {
+	int length = m_document->renderer()->mltGetSpaceLength(endInfo.endPos, m_document->tracksCount() - startInfo.track);
+	if (length < (endInfo.endPos - startInfo.endPos).frames(m_document->fps())) {
+	    emit displayMessage(i18n("Invalid action"), ErrorMessage);
+	    return;
+	}
+    }
+
+
+
     ResizeClipCommand *command = new ResizeClipCommand(this, startInfo, endInfo, true);
     m_commandStack->push(command);
 }
