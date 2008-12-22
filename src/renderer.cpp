@@ -22,12 +22,6 @@
  *                                                                         *
  ***************************************************************************/
 
-// ffmpeg Header files
-
-extern "C" {
-#include <avformat.h>
-}
-
 #include <stdlib.h>
 
 #include <QTimer>
@@ -46,12 +40,6 @@ extern "C" {
 #include "definitions.h"
 
 #include <mlt++/Mlt.h>
-
-#if LIBAVCODEC_VERSION_MAJOR > 51 || (LIBAVCODEC_VERSION_MAJOR > 50 && LIBAVCODEC_VERSION_MINOR > 54)
-// long_name was added in FFmpeg avcodec version 51.55
-#define ENABLE_FFMPEG_CODEC_DESCRIPTION 1
-#endif
-
 
 
 static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr) {
@@ -574,7 +562,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
         if (frame->get_int("test_image") == 0) {
             if (url.path().endsWith(".westley") || url.path().endsWith(".kdenlive")) {
                 filePropertyMap["type"] = "playlist";
-                metadataPropertyMap["comment"] = QString::fromUtf8(mlt_properties_get(MLT_SERVICE_PROPERTIES(producer->get_service()), "title"));
+                metadataPropertyMap["comment"] = QString::fromUtf8(producer->get("title"));
             } else if (frame->get_int("test_audio") == 0)
                 filePropertyMap["type"] = "av";
             else
@@ -610,80 +598,64 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
 
     // Retrieve audio / video codec name
 
-    // Fetch the video_context
-#if 1
-
-    AVFormatContext *context = (AVFormatContext *) mlt_properties_get_data(properties, "video_context", NULL);
-    if (context != NULL) {
+    // If there is a 
+    char property[200];
+    if (producer->get_int("video_index") > -1) {
         /*if (context->duration == AV_NOPTS_VALUE) {
         kDebug() << " / / / / / / / /ERRROR / / / CLIP HAS UNKNOWN DURATION";
             emit removeInvalidClip(clipId);
             return;
         }*/
         // Get the video_index
-        int index = mlt_properties_get_int(properties, "video_index");
-        int default_video = -1;
+        int default_video = producer->get_int("video_index");
         int video_max = 0;
-        int default_audio = -1;
+        int default_audio = producer->get_int("audio_index");
         int audio_max = 0;
-        // Find default audio stream (borrowed from MLT)
-        for (int ix = 0; ix < context->nb_streams; ix++) {
-            // Get the codec context
-            AVCodecContext *codec_context = context->streams[ ix ]->codec;
 
-            if (avcodec_find_decoder(codec_context->codec_id) == NULL)
-                continue;
-            // Determine the type and obtain the first index of each type
-            switch (codec_context->codec_type) {
-            case CODEC_TYPE_VIDEO:
-                if (default_video < 0) default_video = ix;
+        // Find maximum stream index values
+        for (int ix = 0; ix < producer->get_int("meta.media.nb_streams"); ix++) {
+            snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
+            QString type = producer->get(property);
+            if (type == "video")
                 video_max = ix;
-                break;
-            case CODEC_TYPE_AUDIO:
-                if (default_audio < 0) default_audio = ix;
+            else if (type == "audio")
                 audio_max = ix;
-                break;
-            default:
-                break;
-            }
         }
         filePropertyMap["default_video"] = QString::number(default_video);
         filePropertyMap["video_max"] = QString::number(video_max);
         filePropertyMap["default_audio"] = QString::number(default_audio);
         filePropertyMap["audio_max"] = QString::number(audio_max);
 
-
-#if ENABLE_FFMPEG_CODEC_DESCRIPTION
-        if (index > -1 && context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->long_name) {
-            filePropertyMap["videocodec"] = context->streams[ index ]->codec->codec->long_name;
-        } else
-#endif
-            if (index > -1 && context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name) {
-                filePropertyMap["videocodec"] = context->streams[ index ]->codec->codec->name;
-            }
+        snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", default_video);
+        if (producer->get(property)) {
+            filePropertyMap["videocodec"] = producer->get(property);
+        } else {
+            snprintf(property, sizeof(property), "meta.media.%d.codec.name", default_video);
+            if (producer->get(property))
+                filePropertyMap["videocodec"] = producer->get(property);
+        }
     } else kDebug() << " / / / / /WARNING, VIDEO CONTEXT IS NULL!!!!!!!!!!!!!!";
-    context = (AVFormatContext *) mlt_properties_get_data(properties, "audio_context", NULL);
-    if (context != NULL) {
+    if (producer->get_int("audio_index") > -1) {
         // Get the audio_index
-        int index = mlt_properties_get_int(properties, "audio_index");
+        int index = producer->get_int("audio_index");
 
-#if ENABLE_FFMPEG_CODEC_DESCRIPTION
-        if (index > -1 && context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->long_name)
-            filePropertyMap["audiocodec"] = context->streams[ index ]->codec->codec->long_name;
-        else
-#endif
-            if (index > -1 && context->streams && context->streams [index] && context->streams[ index ]->codec && context->streams[ index ]->codec->codec->name)
-                filePropertyMap["audiocodec"] = context->streams[ index ]->codec->codec->name;
+        snprintf(property, sizeof(property), "meta.media.%d.codec.long_name", index);
+        if (producer->get(property)) {
+            filePropertyMap["audiocodec"] = producer->get(property);
+        } else {
+            snprintf(property, sizeof(property), "meta.media.%d.codec.name", index);
+            if (producer->get(property))
+                filePropertyMap["audiocodec"] = producer->get(property);
+        }
     }
-#endif
-    // metadata
 
-    mlt_properties metadata = mlt_properties_new();
-    mlt_properties_pass(metadata, properties, "meta.attr.");
-    int count = mlt_properties_count(metadata);
+    // metadata
+    Mlt::Properties metadata;
+    metadata.pass_values(*producer, "meta.attr.");
+    int count = metadata.count();
     for (int i = 0; i < count; i ++) {
-        QString name = mlt_properties_get_name(metadata, i);
-        QString value = QString::fromUtf8(mlt_properties_get_value(metadata, i));
+        QString name = metadata.get_name(i);
+        QString value = QString::fromUtf8(metadata.get(i));
         if (name.endsWith("markup") && !value.isEmpty())
             metadataPropertyMap[ name.section(".", 0, -2)] = value;
     }

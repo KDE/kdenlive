@@ -54,8 +54,6 @@
 #include <knewstuff2/engine.h>
 #include <knewstuff2/ui/knewstuffaction.h>
 
-#include <mlt++/Mlt.h>
-
 #include "mainwindow.h"
 #include "kdenlivesettings.h"
 #include "kdenlivesettingsdialog.h"
