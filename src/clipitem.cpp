@@ -1015,7 +1015,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value) 
         // calculate new position.
         if (group()) return pos();
         QPointF newPos = value.toPointF();
-        kDebug() << "/// MOVING CLIP ITEM.------------\n++++++++++";
+        // kDebug() << "/// MOVING CLIP ITEM.------------\n++++++++++";
         int xpos = projectScene()->getSnapPointForPos((int) newPos.x(), KdenliveSettings::snaptopoints());
         xpos = qMax(xpos, 0);
         newPos.setX(xpos);
@@ -1034,7 +1034,9 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value) 
                 if (items.at(i)->type() == type()) {
                     // Collision!
                     QPointF otherPos = items.at(i)->pos();
-                    if ((int) otherPos.y() != (int) pos().y()) return pos();
+                    if ((int) otherPos.y() != (int) pos().y()) {
+                        return pos();
+                    }
                     if (pos().x() < otherPos.x()) {
                         // move clip just before colliding clip
                         int npos = (static_cast < AbstractClipItem* >(items.at(i))->startPos() - m_cropDuration).frames(m_fps);

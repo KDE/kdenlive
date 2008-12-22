@@ -141,6 +141,8 @@ void CustomTrackView::checkTrackHeight() {
     QList<QGraphicsItem *> itemList = items();
     ClipItem *item;
     Transition *transitionitem;
+    bool snap = KdenliveSettings::snaptopoints();
+    KdenliveSettings::setSnaptopoints(false);
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             item = (ClipItem*) itemList.at(i);
@@ -163,6 +165,7 @@ void CustomTrackView::checkTrackHeight() {
 
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_document->tracksCount());
 //     verticalScrollBar()->setMaximum(m_tracksHeight * m_document->tracksCount());
+    KdenliveSettings::setSnaptopoints(snap);
     update();
 }
 
@@ -728,6 +731,9 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         QDomElement transition = MainWindow::transitions.getEffectByName("Luma").cloneNode().toElement();
         EffectsList::setParameter(transition, "reverse", "1");
         slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack, transition);
+    } else if ((m_operationMode == RESIZESTART || m_operationMode == RESIZEEND) && m_selectionGroup) {
+        resetSelectionGroup(false);
+        m_dragItem->setSelected(true);
     }
 
     m_blockRefresh = false;
@@ -762,11 +768,14 @@ void CustomTrackView::groupSelectedItems() {
         }
 
         if (m_selectionGroup) {
+            bool snap = KdenliveSettings::snaptopoints();
+            KdenliveSettings::setSnaptopoints(false);
             QPointF top = m_selectionGroup->boundingRect().topLeft();
             m_selectionGroup->setPos(top);
             m_selectionGroup->translate(-top.x(), -top.y() + 1);
             m_selectionGroupInfo.startPos = GenTime(m_selectionGroup->scenePos().x(), m_document->fps());
             m_selectionGroupInfo.track = m_selectionGroup->track();
+            KdenliveSettings::setSnaptopoints(snap);
         }
     } else resetSelectionGroup();
 }
@@ -2188,6 +2197,8 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
     }
     bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - start.track), (int)(m_document->tracksCount() - end.track), (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()), item->baseClip()->producer(end.track));
     if (success) {
+        bool snap = KdenliveSettings::snaptopoints();
+        KdenliveSettings::setSnaptopoints(false);
         item->setPos((int) end.startPos.frames(m_document->fps()), (int)(end.track * m_tracksHeight + 1));
         m_scene->clearSelection();
         item->setSelected(true);
@@ -2200,6 +2211,7 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
                 tr->setPos((int) end.startPos.frames(m_document->fps()), (int)(end.track * m_tracksHeight + 1));
             }
         }
+        KdenliveSettings::setSnaptopoints(snap);
     } else {
         // undo last move and emit error message
         emit displayMessage(i18n("Cannot move clip to position %1", m_document->timecode().getTimecodeFromFrames(end.startPos.frames(m_document->fps()))), ErrorMessage);
@@ -2239,6 +2251,9 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
         QPointF pos = m_selectionGroup->pos();
         qreal posx = pos.x() + offset.frames(m_document->fps());
         qreal posy = pos.y() + trackOffset * (qreal) m_tracksHeight;
+        bool snap = KdenliveSettings::snaptopoints();
+        KdenliveSettings::setSnaptopoints(false);
+
         m_selectionGroup->setPos(posx, posy);
 
         QPointF top = m_selectionGroup->sceneBoundingRect().topLeft();
@@ -2269,6 +2284,7 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
                 m_document->renderer()->mltAddTransition(tr->transitionTag(), newTrack, m_document->tracksCount() - info.track, info.startPos, info.endPos, tr->toXML());
             }
         }
+        KdenliveSettings::setSnaptopoints(snap);
     }
 
 }
@@ -2281,7 +2297,8 @@ void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end) {
         return;
     }
     //kDebug() << "----------------  Move TRANSITION FROM: " << startPos.x() << ", END:" << endPos.x() << ",TRACKS: " << oldtrack << " TO " << newtrack;
-
+    bool snap = KdenliveSettings::snaptopoints();
+    KdenliveSettings::setSnaptopoints(false);
     //kDebug()<<"///  RESIZE TRANS START: ("<< startPos.x()<<"x"<< startPos.y()<<") / ("<<endPos.x()<<"x"<< endPos.y()<<")";
     if (end.endPos - end.startPos == start.endPos - start.startPos) {
         // Transition was moved
@@ -2299,6 +2316,7 @@ void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end) {
         item->resizeEnd((int) end.endPos.frames(m_document->fps()));
     }
     //item->moveTransition(GenTime((int) (endPos.x() - startPos.x()), m_document->fps()));
+    KdenliveSettings::setSnaptopoints(snap);
     item->updateTransitionEndTrack(getPreviousVideoTrack(end.track));
     m_document->renderer()->mltMoveTransition(item->transitionTag(), m_document->tracksCount() - start.track, m_document->tracksCount() - end.track, item->transitionEndTrack(), start.startPos, start.endPos, end.startPos, end.endPos);
 }
