@@ -598,7 +598,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
 
     // Retrieve audio / video codec name
 
-    // If there is a 
+    // If there is a
     char property[200];
     if (producer->get_int("video_index") > -1) {
         /*if (context->duration == AV_NOPTS_VALUE) {
@@ -1427,7 +1427,7 @@ bool Render::mltRemoveClip(int track, GenTime position) {
     return true;
 }
 
-int Render::mltGetSpaceLength(const GenTime pos, int track) {
+int Render::mltGetSpaceLength(const GenTime pos, int track, bool fromBlankStart) {
     if (!m_mltProducer) {
         kDebug() << "PLAYLIST NOT INITIALISED //////";
         return -1;
@@ -1446,7 +1446,8 @@ int Render::mltGetSpaceLength(const GenTime pos, int track) {
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
     if (!trackPlaylist.is_blank(clipIndex)) return -1;
-    return trackPlaylist.clip_length(clipIndex);
+    if (fromBlankStart) return trackPlaylist.clip_length(clipIndex);
+    return trackPlaylist.clip_length(clipIndex) + trackPlaylist.clip_start(clipIndex) - insertPos;
 }
 
 

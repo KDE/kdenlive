@@ -1495,7 +1495,7 @@ void CustomTrackView::slotRemoveSpace() {
         emit displayMessage(i18n("You must be in an empty space to remove space (time=%1, track:%2)", m_document->timecode().getTimecodeFromFrames(mapToScene(m_menuPosition).x()), track), ErrorMessage);
         return;
     }
-    int length = m_document->renderer()->mltGetSpaceLength(pos, m_document->tracksCount() - track);
+    int length = m_document->renderer()->mltGetSpaceLength(pos, m_document->tracksCount() - track, true);
     //kDebug() << "// GOT LENGT; " << length;
     if (length <= 0) {
         emit displayMessage(i18n("You must be in an empty space to remove space (time=%1, track:%2)", m_document->timecode().getTimecodeFromFrames(mapToScene(m_menuPosition).x()), track), ErrorMessage);
@@ -2315,6 +2315,8 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end) {
         kDebug() << "----------------  ERROR, CANNOT find clip to resize at... "; // << startPos;
         return;
     }
+    bool snap = KdenliveSettings::snaptopoints();
+    KdenliveSettings::setSnaptopoints(false);
     if (resizeClipStart) {
         ItemInfo clipinfo = item->info();
         clipinfo.track = m_document->tracksCount() - clipinfo.track;
@@ -2333,6 +2335,7 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end) {
         } else emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
     }
     m_document->renderer()->doRefresh();
+    KdenliveSettings::setSnaptopoints(snap);
 }
 
 void CustomTrackView::updateClipFade(ClipItem * item, bool updateFadeOut) {
@@ -2935,15 +2938,15 @@ void CustomTrackView::setInPoint() {
     ItemInfo endInfo = clip->info();
     endInfo.startPos = GenTime(m_cursorPos, m_document->fps());
     if (endInfo.startPos >= startInfo.endPos) {
-	// Check for invalid resize
+        // Check for invalid resize
         emit displayMessage(i18n("Invalid action"), ErrorMessage);
         return;
     } else if (endInfo.startPos < startInfo.startPos) {
-	int length = m_document->renderer()->mltGetSpaceLength(endInfo.startPos, m_document->tracksCount() - startInfo.track);
-	if (length < (startInfo.startPos - endInfo.startPos).frames(m_document->fps())) {
-	    emit displayMessage(i18n("Invalid action"), ErrorMessage);
-	    return;
-	}
+        int length = m_document->renderer()->mltGetSpaceLength(endInfo.startPos, m_document->tracksCount() - startInfo.track, false);
+        if (length < (startInfo.startPos - endInfo.startPos).frames(m_document->fps())) {
+            emit displayMessage(i18n("Invalid action"), ErrorMessage);
+            return;
+        }
     }
     ResizeClipCommand *command = new ResizeClipCommand(this, startInfo, endInfo, true);
     m_commandStack->push(command);
@@ -2959,15 +2962,15 @@ void CustomTrackView::setOutPoint() {
     ItemInfo endInfo = clip->info();
     endInfo.endPos = GenTime(m_cursorPos, m_document->fps());
     if (endInfo.endPos <= startInfo.startPos) {
-	// Check for invalid resize
+        // Check for invalid resize
         emit displayMessage(i18n("Invalid action"), ErrorMessage);
         return;
     } else if (endInfo.endPos > startInfo.endPos) {
-	int length = m_document->renderer()->mltGetSpaceLength(endInfo.endPos, m_document->tracksCount() - startInfo.track);
-	if (length < (endInfo.endPos - startInfo.endPos).frames(m_document->fps())) {
-	    emit displayMessage(i18n("Invalid action"), ErrorMessage);
-	    return;
-	}
+        int length = m_document->renderer()->mltGetSpaceLength(endInfo.endPos, m_document->tracksCount() - startInfo.track, false);
+        if (length < (endInfo.endPos - startInfo.endPos).frames(m_document->fps())) {
+            emit displayMessage(i18n("Invalid action"), ErrorMessage);
+            return;
+        }
     }
 
 
