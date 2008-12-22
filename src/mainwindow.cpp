@@ -1458,6 +1458,9 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     setCaption(doc->description(), doc->isModified());
     m_saveAction->setEnabled(doc->isModified());
     m_activeDocument = doc;
+
+    // set tool to select tool
+    m_buttonSelectTool->setChecked(true);
 }
 
 void MainWindow::slotGuidesUpdated() {
