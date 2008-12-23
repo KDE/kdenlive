@@ -24,21 +24,20 @@
 
 InsertSpaceCommand::InsertSpaceCommand(CustomTrackView *view, QList<ItemInfo> clipsToMove, QList<ItemInfo> transToMove, int track, const GenTime &duration, bool doIt, QUndoCommand * parent)
         : QUndoCommand(parent), m_view(view), m_clipsToMove(clipsToMove), m_transToMove(transToMove), m_track(track), m_duration(duration), m_doIt(doIt) {
-    setText(i18n("Insert space"));
+    if (duration > GenTime()) setText(i18n("Insert space"));
+    else setText(i18n("Remove space"));
 }
 
 // virtual
 void InsertSpaceCommand::undo() {
     // kDebug()<<"----  undoing action";
-    if (m_duration > GenTime()) m_view->insertSpace(m_clipsToMove, m_transToMove, m_track, GenTime() - m_duration, m_duration);
-    else m_view->insertSpace(m_clipsToMove, m_transToMove, m_track, GenTime() - m_duration, m_duration);
+    m_view->insertSpace(m_clipsToMove, m_transToMove, m_track, GenTime() - m_duration, m_duration);
 }
 // virtual
 void InsertSpaceCommand::redo() {
     // kDebug() << "----  redoing action cut: " << m_cutTime.frames(25);
     if (m_doIt) {
-        if (m_duration < GenTime()) m_view->insertSpace(m_clipsToMove, m_transToMove, m_track, m_duration, GenTime());
-        else m_view->insertSpace(m_clipsToMove, m_transToMove, m_track, m_duration, GenTime());
+        m_view->insertSpace(m_clipsToMove, m_transToMove, m_track, m_duration, GenTime());
     }
     m_doIt = true;
 }
