@@ -31,13 +31,14 @@ class CustomTrackView;
 
 class InsertSpaceCommand : public QUndoCommand {
 public:
-    InsertSpaceCommand(CustomTrackView *view, const GenTime &pos, int track, const GenTime &duration, bool doIt, QUndoCommand * parent = 0);
+    InsertSpaceCommand(CustomTrackView *view, QList<ItemInfo> clipsToMove, QList<ItemInfo> transToMove, int track, const GenTime &duration, bool doIt, QUndoCommand * parent = 0);
     virtual void undo();
     virtual void redo();
 
 private:
     CustomTrackView *m_view;
-    GenTime m_pos;
+    QList<ItemInfo> m_clipsToMove;
+    QList<ItemInfo> m_transToMove;
     GenTime m_duration;
     int m_track;
     bool m_doIt;

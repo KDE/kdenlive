@@ -100,7 +100,7 @@ public:
     void setOutPoint();
     void slotInsertSpace();
     void slotRemoveSpace();
-    void insertSpace(const GenTime &pos, int track, const GenTime duration);
+    void insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> transToMove, int track, const GenTime duration, const GenTime offset);
     ClipItem *getActiveClipUnderCursor(bool allowOutsideCursor = false) const;
     void deleteTimelineTrack(int ix, TrackInfo trackinfo);
     void changeTimelineTrack(int ix, TrackInfo trackinfo);
@@ -158,7 +158,6 @@ private:
     uint m_selectedTrack;
     int m_projectDuration;
     int m_cursorPos;
-    int m_spacerStart;
     KdenliveDoc *m_document;
     CustomTrackScene *m_scene;
     QGraphicsLineItem *m_cursorLine;

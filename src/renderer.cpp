@@ -1451,7 +1451,7 @@ int Render::mltGetSpaceLength(const GenTime pos, int track, bool fromBlankStart)
 }
 
 
-void Render::mltInsertSpace(const GenTime pos, int track, const GenTime duration) {
+void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime duration, const GenTime timeOffset) {
     if (!m_mltProducer) {
         kDebug() << "PLAYLIST NOT INITIALISED //////";
         return;
@@ -1461,25 +1461,33 @@ void Render::mltInsertSpace(const GenTime pos, int track, const GenTime duration
         kDebug() << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
         return;
     }
+    //kDebug()<<"// CLP STRT LST: "<<trackClipStartList;
+    //kDebug()<<"// TRA STRT LST: "<<trackTransitionStartList;
 
     Mlt::Service service(parentProd.get_service());
     Mlt::Tractor tractor(service);
     mlt_service_lock(service.get_service());
-    int insertPos = pos.frames(m_fps);
     int diff = duration.frames(m_fps);
+    int offset = timeOffset.frames(m_fps);
+    int insertPos;
 
     if (track != -1) {
         // insert space in one track only
         Mlt::Producer trackProducer(tractor.track(track));
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-        int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
-        if (diff > 0) trackPlaylist.insert_blank(clipIndex, diff - 1);
-        else {
-            int position = trackPlaylist.clip_start(clipIndex);
-            trackPlaylist.remove_region(position + diff, -diff - 1);
+        insertPos = trackClipStartList.value(track);
+        if (insertPos != -1) {
+            insertPos += offset;
+            int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
+            if (diff > 0) trackPlaylist.insert_blank(clipIndex, diff - 1);
+            else {
+                if (!trackPlaylist.is_blank(clipIndex)) clipIndex --;
+                if (!trackPlaylist.is_blank(clipIndex)) kDebug() << "//// ERROR TRYING TO DELETE SPACE FROM " << insertPos;
+                int position = trackPlaylist.clip_start(clipIndex);
+                trackPlaylist.remove_region(position, - diff - 1);
+            }
+            trackPlaylist.consolidate_blanks(0);
         }
-        trackPlaylist.consolidate_blanks(0);
-
         // now move transitions
         mlt_service serv = m_mltProducer->parent().get_service();
         mlt_service nextservice = mlt_service_get_producer(serv);
@@ -1492,9 +1500,12 @@ void Render::mltInsertSpace(const GenTime pos, int track, const GenTime duration
             int currentTrack = mlt_transition_get_b_track(tr);
             int currentIn = (int) mlt_transition_get_in(tr);
             int currentOut = (int) mlt_transition_get_out(tr);
-
-            if (track == currentTrack && currentOut > insertPos && resource != "mix") {
-                mlt_transition_set_in_and_out(tr, currentIn + diff, currentOut + diff);
+            insertPos = trackTransitionStartList.value(track);
+            if (insertPos != -1) {
+                insertPos += offset;
+                if (track == currentTrack && currentOut > insertPos && resource != "mix") {
+                    mlt_transition_set_in_and_out(tr, currentIn + diff, currentOut + diff);
+                }
             }
             nextservice = mlt_service_producer(nextservice);
             if (nextservice == NULL) break;
@@ -1507,13 +1518,33 @@ void Render::mltInsertSpace(const GenTime pos, int track, const GenTime duration
         while (trackNb > 1) {
             Mlt::Producer trackProducer(tractor.track(trackNb - 1));
             Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-            int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
-            if (diff > 0) trackPlaylist.insert_blank(clipIndex, diff - 1);
-            else {
-                int position = trackPlaylist.clip_start(clipIndex);
-                trackPlaylist.remove_region(position + diff, -diff - 1);
+
+
+            int clipNb = trackPlaylist.count();
+            insertPos = trackClipStartList.value(trackNb - 1);
+            if (insertPos != -1) {
+                insertPos += offset;
+
+                /* kDebug()<<"-------------\nTRACK "<<trackNb<<" HAS "<<clipNb<<" CLPIS";
+                 kDebug() << "INSERT SPACE AT: "<<insertPos<<", DIFF: "<<diff<<", TK: "<<trackNb;
+                        for (int i = 0; i < clipNb; i++) {
+                            kDebug()<<"CLIP "<<i<<", START: "<<trackPlaylist.clip_start(i)<<", END: "<<trackPlaylist.clip_start(i) + trackPlaylist.clip_length(i);
+                     if (trackPlaylist.is_blank(i)) kDebug()<<"++ BLANK ++ ";
+                     kDebug()<<"-------------";
+                 }
+                 kDebug()<<"END-------------";*/
+
+
+                int clipIndex = trackPlaylist.get_clip_index_at(insertPos);
+                if (diff > 0) trackPlaylist.insert_blank(clipIndex, diff - 1);
+                else {
+                    if (!trackPlaylist.is_blank(clipIndex)) clipIndex --;
+                    if (!trackPlaylist.is_blank(clipIndex)) kDebug() << "//// ERROR TRYING TO DELETE SPACE FROM " << insertPos;
+                    int position = trackPlaylist.clip_start(clipIndex);
+                    trackPlaylist.remove_region(position, - diff - 1);
+                }
+                trackPlaylist.consolidate_blanks(0);
             }
-            trackPlaylist.consolidate_blanks(0);
             trackNb--;
         }
         // now move transitions
@@ -1527,9 +1558,13 @@ void Render::mltInsertSpace(const GenTime pos, int track, const GenTime duration
             mlt_transition tr = (mlt_transition) nextservice;
             int currentIn = (int) mlt_transition_get_in(tr);
             int currentOut = (int) mlt_transition_get_out(tr);
-
-            if (currentOut > insertPos && resource != "mix") {
-                mlt_transition_set_in_and_out(tr, currentIn + diff, currentOut + diff);
+            int currentTrack = mlt_transition_get_b_track(tr);
+            insertPos = trackTransitionStartList.value(currentTrack);
+            if (insertPos != -1) {
+                insertPos += offset;
+                if (currentOut > insertPos && resource != "mix") {
+                    mlt_transition_set_in_and_out(tr, currentIn + diff, currentOut + diff);
+                }
             }
             nextservice = mlt_service_producer(nextservice);
             if (nextservice == NULL) break;
@@ -1540,6 +1575,7 @@ void Render::mltInsertSpace(const GenTime pos, int track, const GenTime duration
     }
     mlt_service_unlock(service.get_service());
     mltCheckLength();
+    m_mltConsumer->set("refresh", 1);
 }
 
 int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt::Producer *prod) {
@@ -2004,6 +2040,7 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration) {
         mltAddClipTransparency(transpinfo, info.track - 1, QString(clip->parent().get("id")).toInt());
     }*/
     m_isBlocked = false;
+    m_mltConsumer->set("refresh", 1);
     return true;
 }
 
@@ -2078,6 +2115,7 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff) {
     m_isBlocked = false;
     //m_mltConsumer->set("refresh", 1);
     mlt_service_unlock(service.get_service());
+    m_mltConsumer->set("refresh", 1);
     return true;
 }
 

@@ -290,7 +290,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
         } else if (m_operationMode == SPACER && move) {
             // spacer tool
             int mappedClick = (int)(mapToScene(m_clickEvent).x() + 0.5);
-            m_selectionGroup->setPos(mappedXPos + (m_spacerStart - mappedClick) , m_selectionGroup->pos().y());
+            m_selectionGroup->setPos(mappedXPos + (((int) m_selectionGroup->boundingRect().topLeft().x() + 0.5) - mappedClick) , m_selectionGroup->pos().y());
         }
     }
 
@@ -616,16 +616,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
             }
             m_selectionGroup = new AbstractGroupItem(m_document->fps());
             scene()->addItem(m_selectionGroup);
-            m_spacerStart = -1;
-            int itemStart;
+
             for (int i = 0; i < selection.count(); i++) {
                 if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET) {
                     m_selectionGroup->addToGroup(selection.at(i));
                     selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
-                    AbstractClipItem *item = static_cast <AbstractClipItem *>(selection.at(i));
-                    itemStart = item->startPos().frames(m_document->fps());
-                    if (m_spacerStart == -1 || itemStart < m_spacerStart)
-                        m_spacerStart = itemStart;
                 }
             }
             QPointF top = m_selectionGroup->boundingRect().topLeft();
@@ -744,6 +739,8 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
 void CustomTrackView::resetSelectionGroup(bool selectItems) {
     if (m_selectionGroup) {
         // delete selection group
+        bool snap = KdenliveSettings::snaptopoints();
+        KdenliveSettings::setSnaptopoints(false);
         QList<QGraphicsItem *> children = m_selectionGroup->childItems();
         for (int i = 0; i < children.count(); i++) {
             children.at(i)->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
@@ -751,11 +748,15 @@ void CustomTrackView::resetSelectionGroup(bool selectItems) {
         }
         scene()->destroyItemGroup(m_selectionGroup);
         m_selectionGroup = NULL;
+        KdenliveSettings::setSnaptopoints(snap);
     }
 }
 
 void CustomTrackView::groupSelectedItems() {
-    if (m_selectionGroup) kDebug() << "///// ERROR, TRYING TO OVERRIDE EXISTING GROUP";
+    if (m_selectionGroup) {
+        kDebug() << "///// ERROR, TRYING TO OVERRIDE EXISTING GROUP";
+        return;
+    }
     QList<QGraphicsItem *> selection = m_scene->selectedItems();
     if (selection.count() > 1) {
         m_selectionGroup = new AbstractGroupItem(m_document->fps());
@@ -770,9 +771,9 @@ void CustomTrackView::groupSelectedItems() {
         if (m_selectionGroup) {
             bool snap = KdenliveSettings::snaptopoints();
             KdenliveSettings::setSnaptopoints(false);
-            QPointF top = m_selectionGroup->boundingRect().topLeft();
-            m_selectionGroup->setPos(top);
+            QPointF top = m_selectionGroup->sceneBoundingRect().topLeft();
             m_selectionGroup->translate(-top.x(), -top.y() + 1);
+            m_selectionGroup->setPos(top);
             m_selectionGroupInfo.startPos = GenTime(m_selectionGroup->scenePos().x(), m_document->fps());
             m_selectionGroupInfo.track = m_selectionGroup->track();
             KdenliveSettings::setSnaptopoints(snap);
@@ -1415,9 +1416,10 @@ void CustomTrackView::removeTrack(int ix) {
     m_selectionGroup = new AbstractGroupItem(m_document->fps());
     scene()->addItem(m_selectionGroup);
     for (int i = 0; i < selection.count(); i++) {
-        if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET)
+        if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET) {
             m_selectionGroup->addToGroup(selection.at(i));
-        selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
+            selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
+        }
     }
     // Move graphic items
     qreal ydiff = 0 - (int) m_tracksHeight;
@@ -1510,7 +1512,26 @@ void CustomTrackView::slotRemoveSpace() {
         emit displayMessage(i18n("You must be in an empty space to remove space (time=%1, track:%2)", m_document->timecode().getTimecodeFromFrames(mapToScene(m_menuPosition).x()), track), ErrorMessage);
         return;
     }
-    InsertSpaceCommand *command = new InsertSpaceCommand(this, pos, track, GenTime(-length, m_document->fps()), true);
+
+    QRectF r(pos.frames(m_document->fps()), track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight / 2 - 1);
+    QList<QGraphicsItem *> items = m_scene->items(r);
+
+    QList<ItemInfo> clipsToMove = QList<ItemInfo> ();
+    QList<ItemInfo> transitionsToMove = QList<ItemInfo> ();
+
+    for (int i = 0; i < items.count(); i++) {
+        if (items.at(i)->type() == AVWIDGET || items.at(i)->type() == TRANSITIONWIDGET) {
+            AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
+            ItemInfo info = item->info();
+            if (item->type() == AVWIDGET) {
+                clipsToMove.append(info);
+            } else if (item->type() == TRANSITIONWIDGET) {
+                transitionsToMove.append(info);
+            }
+        }
+    }
+
+    InsertSpaceCommand *command = new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, GenTime(-length, m_document->fps()), true);
     m_commandStack->push(command);
 }
 
@@ -1530,29 +1551,81 @@ void CustomTrackView::slotInsertSpace() {
     ClipItem *item = getClipItemAt(pos, track);
     if (item) pos = item->startPos();
 
-    InsertSpaceCommand *command = new InsertSpaceCommand(this, pos, track, spaceDuration, true);
-    m_commandStack->push(command);
-}
+    int minh = 0;
+    int maxh = sceneRect().height();
+    if (track != -1) {
+        minh = track * m_tracksHeight + m_tracksHeight / 2;
+        maxh = m_tracksHeight / 2 - 1;
+    }
 
-void CustomTrackView::insertSpace(const GenTime &pos, int track, const GenTime duration) {
-    int diff = duration.frames(m_document->fps());
-    QList<QGraphicsItem *> itemList;
-    if (track == -1) itemList = scene()->items(pos.frames(m_document->fps()) , 1, sceneRect().width() - pos.frames(m_document->fps()), sceneRect().height());
-    else itemList = scene()->items(pos.frames(m_document->fps()) , track * m_tracksHeight + 1, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight - 2);
-    resetSelectionGroup();
-    m_selectionGroup = new AbstractGroupItem(m_document->fps());
-    scene()->addItem(m_selectionGroup);
-    for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->type() == AVWIDGET || itemList.at(i)->type() == TRANSITIONWIDGET) {
-            m_selectionGroup->addToGroup(itemList.at(i));
-            itemList.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
+    QRectF r(pos.frames(m_document->fps()), minh, sceneRect().width() - pos.frames(m_document->fps()), maxh);
+    QList<QGraphicsItem *> items = m_scene->items(r);
+
+    QList<ItemInfo> clipsToMove = QList<ItemInfo> ();
+    QList<ItemInfo> transitionsToMove = QList<ItemInfo> ();
+
+    for (int i = 0; i < items.count(); i++) {
+        if (items.at(i)->type() == AVWIDGET || items.at(i)->type() == TRANSITIONWIDGET) {
+            AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
+            ItemInfo info = item->info();
+            if (item->type() == AVWIDGET) {
+                clipsToMove.append(info);
+            } else if (item->type() == TRANSITIONWIDGET) {
+                transitionsToMove.append(info);
+            }
         }
     }
 
+    InsertSpaceCommand *command = new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, spaceDuration, true);
+    m_commandStack->push(command);
+}
+
+void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> transToMove, int track, const GenTime duration, const GenTime offset) {
+    int diff = duration.frames(m_document->fps());
+    resetSelectionGroup();
+    m_selectionGroup = new AbstractGroupItem(m_document->fps());
+    scene()->addItem(m_selectionGroup);
+    ClipItem *clip;
+    Transition *transition;
+
+    kDebug() << "/// STARTING SPACE INSERT";
+
+
+    // Create lists with start pos for each track
+    QMap <int, int> trackClipStartList;
+    QMap <int, int> trackTransitionStartList;
+
+    for (int i = 1; i < m_document->tracksCount() + 1; i++) {
+        trackClipStartList[i] = -1;
+        trackTransitionStartList[i] = -1;
+    }
+
+    if (!clipsToMove.isEmpty()) for (int i = 0; i < clipsToMove.count(); i++) {
+            kDebug() << "/// FETCHING CLIP: " << i;
+            clip = getClipItemAtStart(clipsToMove.at(i).startPos + offset, clipsToMove.at(i).track);
+            if (clip) {
+                m_selectionGroup->addToGroup(clip);
+                if (trackClipStartList.value(m_document->tracksCount() - clipsToMove.at(i).track) == -1 || clipsToMove.at(i).startPos.frames(m_document->fps()) < trackClipStartList.value(m_document->tracksCount() - clipsToMove.at(i).track))
+                    trackClipStartList[m_document->tracksCount() - clipsToMove.at(i).track] = clipsToMove.at(i).startPos.frames(m_document->fps());
+                clip->setFlags(QGraphicsItem::ItemIsSelectable);
+            } else emit displayMessage(i18n("Cannot move clip at position %1, track %2", m_document->timecode().getTimecodeFromFrames(clipsToMove.at(i).startPos.frames(m_document->fps())), clipsToMove.at(i).track), ErrorMessage);
+        }
+    if (!transToMove.isEmpty()) for (int i = 0; i < transToMove.count(); i++) {
+            kDebug() << "/// FETCHING TRANS: " << i;
+            transition = getTransitionItemAtStart(transToMove.at(i).startPos + offset, transToMove.at(i).track);
+            if (transition) {
+                m_selectionGroup->addToGroup(transition);
+                if (trackTransitionStartList.value(m_document->tracksCount() - transToMove.at(i).track) == -1 || transToMove.at(i).startPos.frames(m_document->fps()) < trackTransitionStartList.value(m_document->tracksCount() - transToMove.at(i).track))
+                    trackTransitionStartList[m_document->tracksCount() - transToMove.at(i).track] = transToMove.at(i).startPos.frames(m_document->fps());
+                transition->setFlags(QGraphicsItem::ItemIsSelectable);
+            } else emit displayMessage(i18n("Cannot move transition at position %1, track %2", m_document->timecode().getTimecodeFromFrames(transToMove.at(i).startPos.frames(m_document->fps())), transToMove.at(i).track), ErrorMessage);
+        }
+    kDebug() << "/// STARTING SPACE DONE";
     m_selectionGroup->translate(diff, 0);
     resetSelectionGroup(false);
+    kDebug() << "/// STARTING SPACE DONE2";
     if (track != -1) track = m_document->tracksCount() - track;
-    m_document->renderer()->mltInsertSpace(pos, track, duration);
+    m_document->renderer()->mltInsertSpace(trackClipStartList, trackTransitionStartList, track, duration, offset);
 }
 
 void CustomTrackView::deleteClip(const QString &clipId) {
@@ -1632,18 +1705,48 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
             // We are moving all tracks
             track = -1;
         }
-        ClipItem *item = getClipItemAt(mappedClick, track);
-        if (item) mappedClick = item->startPos().frames(m_document->fps());
-        int diff = m_selectionGroup->pos().x() - m_spacerStart;//endClick - mappedClick;
-        kDebug() << "// MOVING SPACER DIFF:" << diff;
-        if (diff < 0) mappedClick += diff;
-        InsertSpaceCommand *command = new InsertSpaceCommand(this, GenTime(mappedClick, m_document->fps()), track, GenTime(diff, m_document->fps()), false);
-        m_commandStack->push(command);
-        if (track != -1) track = m_document->tracksCount() - track;
-        m_document->renderer()->mltInsertSpace(GenTime(mappedClick, m_document->fps()), track, GenTime(diff, m_document->fps()));
+
+        int startPos = (int) m_selectionGroup->boundingRect().topLeft().x();
+        int diff = ((int) m_selectionGroup->pos().x()) - startPos;
+        //kDebug()<<"//////// SPACER DIFF: "<<diff<<<<m_selectionGroup->boundingRect().topLeft();
+        if (diff != 0) {
+            QList<QGraphicsItem *> items = m_selectionGroup->childItems();
+
+            QList<ItemInfo> clipsToMove = QList<ItemInfo> ();
+            QList<ItemInfo> transitionsToMove = QList<ItemInfo> ();
+
+            // Create lists with start pos for each track
+            QMap <int, int> trackClipStartList;
+            QMap <int, int> trackTransitionStartList;
+
+            for (int i = 1; i < m_document->tracksCount() + 1; i++) {
+                trackClipStartList[i] = -1;
+                trackTransitionStartList[i] = -1;
+            }
+
+            for (int i = 0; i < items.count(); i++) {
+                AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
+                ItemInfo info = item->info();
+                if (item->type() == AVWIDGET) {
+                    clipsToMove.append(info);
+                    if (trackClipStartList.value(m_document->tracksCount() - info.track) == -1 || info.startPos.frames(m_document->fps()) < trackClipStartList.value(m_document->tracksCount() - info.track))
+                        trackClipStartList[m_document->tracksCount() - info.track] = info.startPos.frames(m_document->fps());
+                } else if (item->type() == TRANSITIONWIDGET) {
+                    transitionsToMove.append(info);
+                    if (trackClipStartList.value(m_document->tracksCount() - info.track) == -1 || info.startPos.frames(m_document->fps()) < trackTransitionStartList.value(m_document->tracksCount() - info.track))
+                        trackTransitionStartList[m_document->tracksCount() - info.track] = info.startPos.frames(m_document->fps());
+                }
+            }
+
+            InsertSpaceCommand *command = new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, GenTime(diff, m_document->fps()), false);
+            m_commandStack->push(command);
+            if (track != -1) track = m_document->tracksCount() - track;
+            m_document->renderer()->mltInsertSpace(trackClipStartList, trackTransitionStartList, track, GenTime(diff, m_document->fps()), GenTime());
+        }
         resetSelectionGroup(false);
         m_operationMode = NONE;
     } else if (m_operationMode == RUBBERSELECTION) {
+        kDebug() << "// END RUBBER SELECT";
         resetSelectionGroup();
         groupSelectedItems();
         m_operationMode = NONE;
