@@ -53,18 +53,26 @@ SlideshowClip::SlideshowClip(QWidget * parent): QDialog(parent), m_count(0) {
     m_view.folder_url->setUrl(QDir::homePath());
 
 
-    QString profilePath = KdenliveSettings::mltpath();
-    profilePath = profilePath.section('/', 0, -3);
-    profilePath += "/lumas/PAL/";
+    // Check for Kdenlive installed luma files
+    QStringList filters;
+    filters << "*.pgm" << "*.png";
 
-    QDir dir(profilePath);
-    QStringList filter;
-    filter << "*.pgm";
-    const QStringList result = dir.entryList(filter, QDir::Files);
-    QStringList imagefiles;
-    QStringList imagenamelist;
-    foreach(const QString file, result) {
-        m_view.luma_file->addItem(KIcon(profilePath + file), file, profilePath + file);
+    QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
+    foreach(const QString &folder, customLumas) {
+        QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
+        foreach(const QString &fname, filesnames) {
+            m_view.luma_file->addItem(KIcon(folder + '/' + fname), fname, folder + '/' + fname);
+        }
+    }
+
+    // Check for MLT lumas
+    QString profilePath = KdenliveSettings::mltpath();
+    QString folder = profilePath.section('/', 0, -3);
+    folder.append("/lumas/PAL"); // TODO: cleanup the PAL / NTSC mess in luma files
+    QDir lumafolder(folder);
+    QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
+    foreach(const QString &fname, filesnames) {
+        m_view.luma_file->addItem(KIcon(folder + '/' + fname), fname, folder + '/' + fname);
     }
 
     adjustSize();

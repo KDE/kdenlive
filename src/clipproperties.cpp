@@ -140,26 +140,32 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
 
         m_view.luma_duration->setText(tc.getTimecodeFromFrames(props.value("luma_duration").toInt()));
         QString lumaFile = props.value("luma_file");
-        QString profilePath = KdenliveSettings::mltpath();
-        profilePath = profilePath.section('/', 0, -3);
-        profilePath += "/lumas/PAL/";
 
-        QDir dir(profilePath);
-        QStringList filter;
-        filter << "*.pgm";
-        const QStringList result = dir.entryList(filter, QDir::Files);
-        QStringList imagefiles;
-        QStringList imagenamelist;
-        int current;
-        foreach(const QString file, result) {
-            m_view.luma_file->addItem(KIcon(profilePath + file), file, profilePath + file);
-            if (!lumaFile.isEmpty() && lumaFile == QString(profilePath + file))
-                current = m_view.luma_file->count() - 1;
+        // Check for Kdenlive installed luma files
+        QStringList filters;
+        filters << "*.pgm" << "*.png";
+
+        QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
+        foreach(const QString &folder, customLumas) {
+            QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
+            foreach(const QString &fname, filesnames) {
+                m_view.luma_file->addItem(KIcon(folder + '/' + fname), fname, folder + '/' + fname);
+            }
+        }
+
+        // Check for MLT lumas
+        QString profilePath = KdenliveSettings::mltpath();
+        QString folder = profilePath.section('/', 0, -3);
+        folder.append("/lumas/PAL"); // TODO: cleanup the PAL / NTSC mess in luma files
+        QDir lumafolder(folder);
+        QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
+        foreach(const QString &fname, filesnames) {
+            m_view.luma_file->addItem(KIcon(folder + '/' + fname), fname, folder + '/' + fname);
         }
 
         if (!lumaFile.isEmpty()) {
             m_view.slide_luma->setChecked(true);
-            m_view.luma_file->setCurrentIndex(current);
+            m_view.luma_file->setCurrentIndex(m_view.luma_file->findData(lumaFile));
         }
 
         connect(m_view.image_type, SIGNAL(currentIndexChanged(int)), this, SLOT(parseFolder()));
