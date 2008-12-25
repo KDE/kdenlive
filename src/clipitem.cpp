@@ -495,7 +495,9 @@ void ClipItem::animate(qreal value) {
 void ClipItem::paint(QPainter *painter,
                      const QStyleOptionGraphicsItem *option,
                      QWidget *) {
-    painter->setOpacity(m_opacity);
+    /*if (parentItem()) m_opacity = 0.5;
+    else m_opacity = 1.0;
+    painter->setOpacity(m_opacity);*/
     QBrush paintColor = brush();
     if (isSelected()) paintColor = QBrush(QColor(79, 93, 121));
     QRectF br = rect();
@@ -1013,9 +1015,9 @@ void ClipItem::checkEffectsKeyframesPos(const int previous, const int current, b
 QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value) {
     if (change == ItemPositionChange && scene()) {
         // calculate new position.
-        if (group()) return pos();
+        if (parentItem()) return pos();
         QPointF newPos = value.toPointF();
-        // kDebug() << "/// MOVING CLIP ITEM.------------\n++++++++++";
+        //kDebug() << "/// MOVING CLIP ITEM.------------\n++++++++++";
         int xpos = projectScene()->getSnapPointForPos((int) newPos.x(), KdenliveSettings::snaptopoints());
         xpos = qMax(xpos, 0);
         newPos.setX(xpos);
@@ -1028,7 +1030,8 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value) 
         sceneShape.translate(newPos);
         QList<QGraphicsItem*> items = scene()->items(sceneShape, Qt::IntersectsItemShape);
         items.removeAll(this);
-
+        bool forwardMove = newPos.x() > pos().x();
+        int offset = 0;
         if (!items.isEmpty()) {
             for (int i = 0; i < items.count(); i++) {
                 if (items.at(i)->type() == type()) {
@@ -1037,31 +1040,27 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value) 
                     if ((int) otherPos.y() != (int) pos().y()) {
                         return pos();
                     }
-                    if (pos().x() < otherPos.x()) {
-                        // move clip just before colliding clip
-                        int npos = (static_cast < AbstractClipItem* >(items.at(i))->startPos() - m_cropDuration).frames(m_fps);
-                        // check we don't run into another clip
-                        newPos.setX(npos);
-                        sceneShape = rect();
-                        sceneShape.translate(newPos);
-                        QList<QGraphicsItem*> subitems = scene()->items(sceneShape, Qt::IntersectsItemShape);
-                        items.removeAll(this);
-                        for (int j = 0; j < subitems.count(); j++) {
-                            if (subitems.at(j)->type() == type()) return pos();
-                        }
+                    if (forwardMove) {
+                        offset = qMax(offset, (int)(newPos.x() - (static_cast < AbstractClipItem* >(items.at(i))->startPos() - m_cropDuration).frames(m_fps)));
                     } else {
-                        // get pos just after colliding clip
-                        int npos = static_cast < AbstractClipItem* >(items.at(i))->endPos().frames(m_fps);
-                        // check we don't run into another clip
-                        newPos.setX(npos);
-                        sceneShape = rect();
-                        sceneShape.translate(newPos);
+                        offset = qMax(offset, (int)((static_cast < AbstractClipItem* >(items.at(i))->endPos().frames(m_fps)) - newPos.x()));
+                    }
+
+                    if (offset > 0) {
+                        if (forwardMove) {
+                            sceneShape.translate(QPointF(-offset, 0));
+                            newPos.setX(newPos.x() - offset);
+                        } else {
+                            sceneShape.translate(QPointF(offset, 0));
+                            newPos.setX(newPos.x() + offset);
+                        }
                         QList<QGraphicsItem*> subitems = scene()->items(sceneShape, Qt::IntersectsItemShape);
-                        items.removeAll(this);
+                        subitems.removeAll(this);
                         for (int j = 0; j < subitems.count(); j++) {
                             if (subitems.at(j)->type() == type()) return pos();
                         }
                     }
+
                     m_track = newTrack;
                     m_startPos = GenTime((int) newPos.x(), m_fps);
                     return newPos;

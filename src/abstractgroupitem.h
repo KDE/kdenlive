@@ -41,7 +41,7 @@ protected:
     virtual void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
 
 private:
-    QPolygonF groupShape(QPointF);
+    QPainterPath groupShape(QPointF);
     void fixItemRect();
     double m_fps;
 };
