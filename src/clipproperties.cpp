@@ -163,10 +163,15 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
             m_view.luma_file->addItem(KIcon(folder + '/' + fname), fname, folder + '/' + fname);
         }
 
+        slotEnableLuma(m_view.slide_fade->isChecked());
+        slotEnableLumaFile(m_view.slide_luma->isChecked());
+
         if (!lumaFile.isEmpty()) {
             m_view.slide_luma->setChecked(true);
             m_view.luma_file->setCurrentIndex(m_view.luma_file->findData(lumaFile));
-        }
+        } else m_view.luma_file->setEnabled(false);
+        connect(m_view.slide_fade, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLuma(int)));
+        connect(m_view.slide_luma, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLumaFile(int)));
 
         connect(m_view.image_type, SIGNAL(currentIndexChanged(int)), this, SLOT(parseFolder()));
     } else if (t != AUDIO) {
@@ -214,6 +219,26 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     connect(m_view.markers_list, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(slotEditMarker()));
 
     adjustSize();
+}
+
+void ClipProperties::slotEnableLuma(int state) {
+    bool enable = false;
+    if (state == Qt::Checked) enable = true;
+    m_view.luma_duration->setEnabled(enable);
+    m_view.slide_luma->setEnabled(enable);
+    if (enable) {
+        m_view.luma_file->setEnabled(m_view.slide_luma->isChecked());
+    } else m_view.luma_file->setEnabled(false);
+    m_view.label_softness->setEnabled(m_view.slide_luma->isChecked() && enable);
+    m_view.luma_softness->setEnabled(m_view.label_softness->isEnabled());
+}
+
+void ClipProperties::slotEnableLumaFile(int state) {
+    bool enable = false;
+    if (state == Qt::Checked) enable = true;
+    m_view.luma_file->setEnabled(enable);
+    m_view.luma_softness->setEnabled(enable);
+    m_view.label_softness->setEnabled(enable);
 }
 
 void ClipProperties::slotFillMarkersList() {

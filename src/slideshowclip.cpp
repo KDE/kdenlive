@@ -83,8 +83,11 @@ void SlideshowClip::slotEnableLuma(int state) {
     if (state == Qt::Checked) enable = true;
     m_view.luma_duration->setEnabled(enable);
     m_view.luma_fade->setEnabled(enable);
-    if (enable) m_view.luma_file->setEnabled(m_view.luma_fade->isChecked());
-    else m_view.luma_file->setEnabled(false);
+    if (enable) {
+        m_view.luma_file->setEnabled(m_view.luma_fade->isChecked());
+    } else m_view.luma_file->setEnabled(false);
+    m_view.label_softness->setEnabled(m_view.luma_fade->isChecked() && enable);
+    m_view.luma_softness->setEnabled(m_view.label_softness->isEnabled());
 }
 
 void SlideshowClip::slotEnableLumaFile(int state) {

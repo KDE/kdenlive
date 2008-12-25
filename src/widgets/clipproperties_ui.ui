@@ -369,7 +369,7 @@
         </widget>
        </item>
        <item row="5" column="0" >
-        <widget class="QLabel" name="label_15" >
+        <widget class="QLabel" name="label_softness" >
          <property name="text" >
           <string>Softness</string>
          </property>
@@ -493,6 +493,19 @@
        <string>Advanced</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3" >
+       <item row="4" column="2" >
+        <spacer name="verticalSpacer" >
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>20</width>
+           <height>19</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
        <item row="0" column="1" >
         <widget class="QCheckBox" name="clip_force_ar" >
          <property name="text" >
@@ -533,19 +546,6 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="2" >
-        <spacer name="verticalSpacer" >
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0" >
-          <size>
-           <width>20</width>
-           <height>19</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
        <item row="1" column="1" >
         <widget class="QCheckBox" name="clip_force_threads" >
          <property name="text" >
@@ -581,17 +581,6 @@
         </widget>
        </item>
       </layout>
-      <zorder>clip_force_ar</zorder>
-      <zorder>clip_ar</zorder>
-      <zorder>label_4</zorder>
-      <zorder>label</zorder>
-      <zorder>clip_vindex</zorder>
-      <zorder>label_2</zorder>
-      <zorder>clip_aindex</zorder>
-      <zorder>clip_force_threads</zorder>
-      <zorder>clip_force_vindex</zorder>
-      <zorder>clip_force_aindex</zorder>
-      <zorder>clip_threads</zorder>
      </widget>
     </widget>
    </item>

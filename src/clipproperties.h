@@ -44,6 +44,8 @@ private slots:
     void slotDeleteMarker();
     void slotFillMarkersList();
     void slotCheckMaxLength();
+    void slotEnableLuma(int state);
+    void slotEnableLumaFile(int state);
 
 private:
     Ui::ClipProperties_UI m_view;
