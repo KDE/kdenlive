@@ -173,7 +173,7 @@
 <group name="Lossless/HQ" renderer="avformat" type="av">
   <profile name="ffv1 (video) + flac (sound)" extension="mp4" args="f=mp4 acodec=flac acodec=flac ar=48000 ab=1024k ac=2 vcodec=ffv1 qscale=1 aspect=%dar" />
   <profile name="huffyuv (video) + pcm_s16le (sound)" extension="avi" args="f=avi acodec=pcm_s16le ac=2 vcodec=huffyuv aspect=%dar" />
-  <profile name="Mpeg2 I-frame only (video) + mp2 (sound)" extension="mpg" args="f=mpeg acodec=mp2 ab=384k ar=48000 ac=2 vcodec=mpeg2video qscale=1 qmin=1 aspect=%dar intra=1" />
+  <profile name="Mpeg2 I-frame only (video) + mp2 (sound)" extension="mpg" args="f=mpg acodec=mp2 ab=384k ar=48000 ac=2 vcodec=mpeg2video qscale=1 qmin=1 aspect=%dar intra=1" />
  <profile name="H264 I-frame only (video) + aac (sound)" extension="mp4" args="f=mp4 acodec=libfaac ab=384k ar=48000 ac=2 vcodec=libx264 cqp=1 coder=ac aspect=%dar intra=1" />
 </group>
 </profiles>
