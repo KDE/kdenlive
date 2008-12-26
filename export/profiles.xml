@@ -7,36 +7,36 @@
 </group>
 
 <group name="Raw DV" renderer="avformat" type="av" extension="dv">
-  <profile name="DV PAL" standard="PAL" args="f=dv pix_fmt=yuv420p s=720x576 profile=dv_pal" />
-  <profile name="DV PAL WIDE" standard="PAL" args="f=dv pix_fmt=yuv420p s=720x576 profile=dv_pal_wide" />
-  <profile name="DVCPRO25 PAL" standard="PAL" args="f=dv pix_fmt=yuv411p s=720x576 profile=dv_pal" />
-  <profile name="DVCPRO25 PAL WIDE" standard="PAL" args="f=dv pix_fmt=yuv411p s=720x576 profile=dv_pal_wide" />
-  <profile name="DVCPRO50 PAL" standard="PAL" args="f=dv pix_fmt=yuv422p s=720x576 profile=dv_pal" />
-  <profile name="DVCPRO50 PAL WIDE" standard="PAL" args="f=dv pix_fmt=yuv422p s=720x576 profile=dv_pal_wide" />
+  <profile name="DV PAL 4:3" standard="PAL" args="f=dv pix_fmt=yuv420p s=720x576 profile=dv_pal" />
+  <profile name="DV PAL 16:9" standard="PAL" args="f=dv pix_fmt=yuv420p s=720x576 profile=dv_pal_wide" />
+  <profile name="DVCPRO25 PAL 4:3" standard="PAL" args="f=dv pix_fmt=yuv411p s=720x576 profile=dv_pal" />
+  <profile name="DVCPRO25 PAL 16:9" standard="PAL" args="f=dv pix_fmt=yuv411p s=720x576 profile=dv_pal_wide" />
+  <profile name="DVCPRO50 PAL 4:3" standard="PAL" args="f=dv pix_fmt=yuv422p s=720x576 profile=dv_pal" />
+  <profile name="DVCPRO50 PAL 16:9" standard="PAL" args="f=dv pix_fmt=yuv422p s=720x576 profile=dv_pal_wide" />
 
 
-  <profile name="DV NTSC" standard="NTSC" args="f=dv pix_fmt=yuv420p s=720x480 profile=dv_ntsc" />
-  <profile name="DV NTSC WIDE" standard="NTSC" args="f=dv pix_fmt=yuv420p s=720x480 profile=dv_ntsc_wide" />
-  <profile name="DVCPRO25 NTSC" standard="NTSC" args="f=dv pix_fmt=yuv411p s=720x480 profile=dv_ntsc" />
-  <profile name="DVCPRO25 NTSC WIDE" standard="NTSC" args="f=dv pix_fmt=yuv411p s=720x480 profile=dv_ntsc_wide" />
-  <profile name="DVCPRO50 NTSC" standard="NTSC" args="f=dv pix_fmt=yuv422p s=720x480 profile=dv_ntsc" />
-  <profile name="DVCPRO50 NTSC WIDE" standard="NTSC" args="f=dv pix_fmt=yuv422p s=720x480 profile=dv_ntsc_wide" />
+  <profile name="DV NTSC 4:3" standard="NTSC" args="f=dv pix_fmt=yuv420p s=720x480 profile=dv_ntsc" />
+  <profile name="DV NTSC 16:9" standard="NTSC" args="f=dv pix_fmt=yuv420p s=720x480 profile=dv_ntsc_wide" />
+  <profile name="DVCPRO25 NTSC 4:3" standard="NTSC" args="f=dv pix_fmt=yuv411p s=720x480 profile=dv_ntsc" />
+  <profile name="DVCPRO25 NTSC 16:9" standard="NTSC" args="f=dv pix_fmt=yuv411p s=720x480 profile=dv_ntsc_wide" />
+  <profile name="DVCPRO50 NTSC 4:3" standard="NTSC" args="f=dv pix_fmt=yuv422p s=720x480 profile=dv_ntsc" />
+  <profile name="DVCPRO50 NTSC 16:9" standard="NTSC" args="f=dv pix_fmt=yuv422p s=720x480 profile=dv_ntsc_wide" />
  </group>
 
 <group name="AVI DV" renderer="avformat" type="av" extension="avi">
-  <profile name="DV PAL" standard="PAL" args="f=avi vcodec=dvvideo pix_fmt=yuv420p acodec=pcm_s16le s=720x576 profile=dv_pal" />
-  <profile name="DV PAL WIDE" standard="PAL" args="f=avi vcodec=dvvideo pix_fmt=yuv420p acodec=pcm_s16le s=720x576 profile=dv_pal_wide" />
-  <profile name="DVCPRO25 PAL" standard="PAL" args="f=avi vcodec=dvvideo pix_fmt=yuv411p acodec=pcm_s16le s=720x576 profile=dv_pal" />
-  <profile name="DVCPRO25 PAL WIDE" standard="PAL" args="f=avi vcodec=dvvideo pix_fmt=yuv411p acodec=pcm_s16le s=720x576 profile=dv_pal_wide" />
-  <profile name="DVCPRO50 PAL" standard="PAL" args="f=avi vcodec=dvvideo pix_fmt=yuv422p acodec=pcm_s16le s=720x576 profile=dv_pal" />
-  <profile name="DVCPRO50 PAL WIDE" standard="PAL" args="f=avi vcodec=dvvideo pix_fmt=yuv422p acodec=pcm_s16le s=720x576 profile=dv_pal_wide" />
+  <profile name="DV PAL 4:3" standard="PAL" args="f=avi vcodec=dvvideo pix_fmt=yuv420p acodec=pcm_s16le s=720x576 profile=dv_pal" />
+  <profile name="DV PAL 16:9" standard="PAL" args="f=avi vcodec=dvvideo pix_fmt=yuv420p acodec=pcm_s16le s=720x576 profile=dv_pal_wide" />
+  <profile name="DVCPRO25 PAL 4:3" standard="PAL" args="f=avi vcodec=dvvideo pix_fmt=yuv411p acodec=pcm_s16le s=720x576 profile=dv_pal" />
+  <profile name="DVCPRO25 PAL 16:9" standard="PAL" args="f=avi vcodec=dvvideo pix_fmt=yuv411p acodec=pcm_s16le s=720x576 profile=dv_pal_wide" />
+  <profile name="DVCPRO50 PAL 4:3" standard="PAL" args="f=avi vcodec=dvvideo pix_fmt=yuv422p acodec=pcm_s16le s=720x576 profile=dv_pal" />
+  <profile name="DVCPRO50 PAL 16:9" standard="PAL" args="f=avi vcodec=dvvideo pix_fmt=yuv422p acodec=pcm_s16le s=720x576 profile=dv_pal_wide" />
 
-  <profile name="DV NTSC" standard="NTSC" args="f=avi vcodec=dvvideo pix_fmt=yuv420p acodec=pcm_s16le s=720x480 profile=dv_ntsc" />
-  <profile name="DV NTSC WIDE" standard="NTSC" args="f=avi vcodec=dvvideo pix_fmt=yuv420p acodec=pcm_s16le s=720x480 profile=dv_ntsc_wide" />
-  <profile name="DVCPRO25 NTSC" standard="NTSC" args="f=avi vcodec=dvvideo pix_fmt=yuv411p acodec=pcm_s16le s=720x480 profile=dv_ntsc" />
-  <profile name="DVCPRO25 NTSC WIDE" standard="NTSC" args="f=avi vcodec=dvvideo pix_fmt=yuv411p acodec=pcm_s16le s=720x480 profile=dv_ntsc_wide" />
-  <profile name="DVCPRO50 NTSC" standard="NTSC" args="f=avi vcodec=dvvideo pix_fmt=yuv422p acodec=pcm_s16le s=720x480 profile=dv_ntsc" />
-  <profile name="DVCPRO50 NTSC WIDE" standard="NTSC" args="f=avi vcodec=dvvideo pix_fmt=yuv422p acodec=pcm_s16le s=720x480 profile=dv_ntsc_wide" />
+  <profile name="DV NTSC 4:3" standard="NTSC" args="f=avi vcodec=dvvideo pix_fmt=yuv420p acodec=pcm_s16le s=720x480 profile=dv_ntsc" />
+  <profile name="DV NTSC 16:9" standard="NTSC" args="f=avi vcodec=dvvideo pix_fmt=yuv420p acodec=pcm_s16le s=720x480 profile=dv_ntsc_wide" />
+  <profile name="DVCPRO25 NTSC 4:3" standard="NTSC" args="f=avi vcodec=dvvideo pix_fmt=yuv411p acodec=pcm_s16le s=720x480 profile=dv_ntsc" />
+  <profile name="DVCPRO25 NTSC 16:9" standard="NTSC" args="f=avi vcodec=dvvideo pix_fmt=yuv411p acodec=pcm_s16le s=720x480 profile=dv_ntsc_wide" />
+  <profile name="DVCPRO50 NTSC 4:3" standard="NTSC" args="f=avi vcodec=dvvideo pix_fmt=yuv422p acodec=pcm_s16le s=720x480 profile=dv_ntsc" />
+  <profile name="DVCPRO50 NTSC 16:9" standard="NTSC" args="f=avi vcodec=dvvideo pix_fmt=yuv422p acodec=pcm_s16le s=720x480 profile=dv_ntsc_wide" />
 </group>
 
 <group name="DVD" renderer="avformat" type="av">
