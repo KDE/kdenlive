@@ -8,7 +8,7 @@
 
 <group name="Raw DV" renderer="avformat" type="av" extension="dv">
   <profile name="DV PAL" standard="PAL" args="f=dv pix_fmt=yuv420p s=720x576 profile=dv_pal" />
-  <profile name="DV PAL WIDE" standard="PAL" args="f=dv pix_fmt=yuv420p acodec=pcm_s16le profile=dv_pal_wide" />
+  <profile name="DV PAL WIDE" standard="PAL" args="f=dv pix_fmt=yuv420p s=720x576 profile=dv_pal_wide" />
   <profile name="DVCPRO25 PAL" standard="PAL" args="f=dv pix_fmt=yuv411p s=720x576 profile=dv_pal" />
   <profile name="DVCPRO25 PAL WIDE" standard="PAL" args="f=dv pix_fmt=yuv411p s=720x576 profile=dv_pal_wide" />
   <profile name="DVCPRO50 PAL" standard="PAL" args="f=dv pix_fmt=yuv422p s=720x576 profile=dv_pal" />
