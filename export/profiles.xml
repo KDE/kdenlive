@@ -6,17 +6,17 @@
   <profile name="NTSC 720 30p" standard="NTSC" args="f=mpegts ab=384k ar=48000 vcodec=mpeg2video s=1280x720 b=19700k g=15 profile=hdv_720_30p" />
 </group>
 
-<group name="Raw DV" renderer="avformat" type="av" extension="dv" >
+<group name="Raw DV" renderer="avformat" type="av" extension="dv">
   <profile name="DV PAL" standard="PAL" args="f=dv pix_fmt=yuv420p s=720x576 profile=dv_pal" />
-  <profile name="DV PAL WIDE" standard="PAL" args="f=dv pix_fmt=yuv420p vcodec=dvvideo acodec=pcm_s16le profile=dv_pal_wide" />
+  <profile name="DV PAL WIDE" standard="PAL" args="f=dv pix_fmt=yuv420p acodec=pcm_s16le profile=dv_pal_wide" />
   <profile name="DVCPRO25 PAL" standard="PAL" args="f=dv pix_fmt=yuv411p s=720x576 profile=dv_pal" />
   <profile name="DVCPRO25 PAL WIDE" standard="PAL" args="f=dv pix_fmt=yuv411p s=720x576 profile=dv_pal_wide" />
   <profile name="DVCPRO50 PAL" standard="PAL" args="f=dv pix_fmt=yuv422p s=720x576 profile=dv_pal" />
   <profile name="DVCPRO50 PAL WIDE" standard="PAL" args="f=dv pix_fmt=yuv422p s=720x576 profile=dv_pal_wide" />
 
 
-  <profile name="DV NTSC" standard="NTSC" args="f=dv pix_fmt=yuv411p s=720x480 profile=dv_ntsc" />
-  <profile name="DV NTSC WIDE" standard="NTSC" args="f=dv pix_fmt=yuv411p s=720x480 profile=dv_ntsc_wide" />
+  <profile name="DV NTSC" standard="NTSC" args="f=dv pix_fmt=yuv420p s=720x480 profile=dv_ntsc" />
+  <profile name="DV NTSC WIDE" standard="NTSC" args="f=dv pix_fmt=yuv420p s=720x480 profile=dv_ntsc_wide" />
   <profile name="DVCPRO25 NTSC" standard="NTSC" args="f=dv pix_fmt=yuv411p s=720x480 profile=dv_ntsc" />
   <profile name="DVCPRO25 NTSC WIDE" standard="NTSC" args="f=dv pix_fmt=yuv411p s=720x480 profile=dv_ntsc_wide" />
   <profile name="DVCPRO50 NTSC" standard="NTSC" args="f=dv pix_fmt=yuv422p s=720x480 profile=dv_ntsc" />
@@ -31,8 +31,8 @@
   <profile name="DVCPRO50 PAL" standard="PAL" args="f=avi vcodec=dvvideo pix_fmt=yuv422p acodec=pcm_s16le s=720x576 profile=dv_pal" />
   <profile name="DVCPRO50 PAL WIDE" standard="PAL" args="f=avi vcodec=dvvideo pix_fmt=yuv422p acodec=pcm_s16le s=720x576 profile=dv_pal_wide" />
 
-  <profile name="DV NTSC" standard="NTSC" args="f=avi vcodec=dvvideo pix_fmt=yuv411p acodec=pcm_s16le s=720x480 profile=dv_ntsc" />
-  <profile name="DV NTSC WIDE" standard="NTSC" args="f=avi vcodec=dvvideo pix_fmt=yuv411p acodec=pcm_s16le s=720x480 profile=dv_ntsc_wide" />
+  <profile name="DV NTSC" standard="NTSC" args="f=avi vcodec=dvvideo pix_fmt=yuv420p acodec=pcm_s16le s=720x480 profile=dv_ntsc" />
+  <profile name="DV NTSC WIDE" standard="NTSC" args="f=avi vcodec=dvvideo pix_fmt=yuv420p acodec=pcm_s16le s=720x480 profile=dv_ntsc_wide" />
   <profile name="DVCPRO25 NTSC" standard="NTSC" args="f=avi vcodec=dvvideo pix_fmt=yuv411p acodec=pcm_s16le s=720x480 profile=dv_ntsc" />
   <profile name="DVCPRO25 NTSC WIDE" standard="NTSC" args="f=avi vcodec=dvvideo pix_fmt=yuv411p acodec=pcm_s16le s=720x480 profile=dv_ntsc_wide" />
   <profile name="DVCPRO50 NTSC" standard="NTSC" args="f=avi vcodec=dvvideo pix_fmt=yuv422p acodec=pcm_s16le s=720x480 profile=dv_ntsc" />
