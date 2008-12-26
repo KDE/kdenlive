@@ -56,6 +56,38 @@
   <profile name="Youtube 640x480" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=800k s=640x480 aspect=%dar trell=1" />
 </group>
 
+<group name="MPEG-2" renderer="avformat" extension="mpg" type="av">
+  <profile name="MPEG-2 200k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=200k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 400k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=400k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 600k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=600k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 800k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=800k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 1000k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=1000k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 2000k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=2000k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 4000k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=4000k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 6000k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=6000k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 8000k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=8000k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 1000k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=10000k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 12000k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=12000k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 18000k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=18000k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 25000k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=25000k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
+</group>
+
+<group name="MPEG-2 TS" renderer="avformat" extension="m2t" type="av">
+  <profile name="MPEG-2 TS 200k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=200k s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 TS 400k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=400k s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 TS 600k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=600k s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 TS 800k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=800k s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 TS 1000k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=1000k s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 TS 2000k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=2000k s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 TS 4000k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=4000k s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 TS 6000k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=6000k s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 TS 8000k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=8000k s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 TS 1000k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=10000k s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 TS 12000k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=12000k s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 TS 18000k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=18000k s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 TS 25000k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=25000k s=%widthx%height aspect=%dar" />
+</group>
+
 <group name="MPEG-4" renderer="avformat" extension="mp4" type="av">
   <profile name="MPEG-4 200k" args="f=mp4 acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=200k s=%widthx%height aspect=%dar mbd=2 trell=1 mv4=1" />
   <profile name="MPEG-4 400k" args="f=mp4 acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=400k s=%widthx%height aspect=%dar mbd=2 trell=1 mv4=1" />
@@ -148,24 +180,6 @@
   <profile name="Theora 12000k" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=12000k s=%widthx%height aspect=%dar" />
   <profile name="Theora 720x576" standard="PAL" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=12000k s=720x576 aspect=%dar" />
   <profile name="Theora 720x480" standard="NTSC" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=12000k s=720x480 aspect=%dar" />
-</group>
-
-<group name="MPEG-2 TS" renderer="avformat" extension="m2t" type="av">
-  <profile name="MPEG-2 TS 200k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=200k s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 TS 400k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=400k s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 TS 600k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=600k s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 TS 800k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=800k s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 TS 1000k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=1000k s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 TS 2000k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=2000k s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 TS 4000k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=4000k s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 TS 6000k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=6000k s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 TS 8000k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=8000k s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 TS 1000k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=10000k s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 TS 12000k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=12000k s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 TS 18000k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=18000k s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 TS 25000k" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=25000k s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 TS 720x576" standard="PAL" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=12000k  s=720x576 aspect=%dar" />
-  <profile name="MPEG-2 TS 720x480" standard="NTSC" args="f=mpegts acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=12000k  s=720x480 aspect=%dar" />
 </group>
 
 <group name="Wav" renderer="avformat" type="audio">
