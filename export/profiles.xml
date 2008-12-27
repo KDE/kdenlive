@@ -47,15 +47,6 @@
   <profile name="NTSC 16:9 vob" standard="NTSC" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 s=720x480 b=6000k maxrate=9000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 g=18 me_range=63 profile=dv_ntsc_wide" />
 </group>
 
-<group name="Web sites" renderer="avformat" type="av">
-  <profile name="Dailymotion 320x240" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=800k s=320x240 aspect=%dar trell=1" />
-  <profile name="Dailymotion 512x384" extension="mp4" args="f=mp4 acodec=libfaac ab=96k ar=44100 vcodec=libx264 minrate=0 b=600k s=512x384 aspect=%dar mbd=2 trell=1 mv4=1" />
-  <profile name="Dailymotion 1280x720" extension="mp4" args="f=mp4 acodec=libfaac ab=96k ar=44100 vcodec=libx264 minrate=0 b=1500k s=1280x720 aspect=%dar mbd=2 trell=1 mv4=1" />
-   <profile name="Vimeo 640x480" extension="mp4" args="f=mp4 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=3000k s=640x480 aspect=%dar mbd=2 trell=1 mv4=1" />
-  <profile name="Vimeo 1280x720" extension="mp4" args="f=mp4 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=5000k s=1280x720 aspect=%dar mbd=2 trell=1 mv4=1" />
-  <profile name="Youtube 640x480" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=800k s=640x480 aspect=%dar trell=1" />
-</group>
-
 <group name="MPEG-2" renderer="avformat" extension="mpg" type="av">
   <profile name="MPEG-2 200k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=200k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
   <profile name="MPEG-2 400k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=400k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
@@ -165,6 +156,25 @@
   <profile name="Theora 720x576" standard="PAL" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=12000k s=720x576 aspect=%dar" />
   <profile name="Theora 720x480" standard="NTSC" args="acodec=vorbis ab=128k ar=44100 vcodec=libtheora minrate=0 b=12000k s=720x480 aspect=%dar" />
 </group>
+
+<group name="Media players" renderer="avformat" type="av">
+  <profile name="Windows Media Player wmv7 400k" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 ac=2 vcodec=wmv7 minrate=0 b=400k s=%widthx%height aspect=%dar" />
+  <profile name="Windows Media Player wmv7 1000k" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 ac=2 vcodec=wmv7 minrate=0 b=1000k s=%widthx%height aspect=%dar" />
+  <profile name="Windows Media Player wmv7 2000k" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 ac=2 vcodec=wmv7 minrate=0 b=2000k s=%widthx%height aspect=%dar" />
+  <profile name="Apple Quicktime Player Mpeg4 400k" extension="mov" args="acodec=libfaac ab=128k ac=2 ar=48000 vcodec=mpeg4 minrate=0 b=400k s=%widthx%height aspect=%dar" />
+  <profile name="Apple Quicktime Player Mpeg4 1000k" extension="mov" args="acodec=libfaac ab=128k ac=2 ar=48000 vcodec=mpeg4 minrate=0 b=2000k s=%widthx%height aspect=%dar" />
+  <profile name="Apple Quicktime Player Mpeg4 2000k" extension="mov" args="acodec=libfaac ab=128k ac=2 ar=48000 vcodec=mpeg4 minrate=0 b=2000k s=%widthx%height aspect=%dar" />
+</group>
+
+<group name="Web sites" renderer="avformat" type="av">
+  <profile name="Dailymotion 320x240" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=800k s=320x240 aspect=%dar trell=1" />
+  <profile name="Dailymotion 512x384" extension="mp4" args="f=mp4 acodec=libfaac ab=96k ar=44100 vcodec=libx264 minrate=0 b=600k s=512x384 aspect=%dar mbd=2 trell=1 mv4=1" />
+  <profile name="Dailymotion 1280x720" extension="mp4" args="f=mp4 acodec=libfaac ab=96k ar=44100 vcodec=libx264 minrate=0 b=1500k s=1280x720 aspect=%dar mbd=2 trell=1 mv4=1" />
+   <profile name="Vimeo 640x480" extension="mp4" args="f=mp4 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=3000k s=640x480 aspect=%dar mbd=2 trell=1 mv4=1" />
+  <profile name="Vimeo 1280x720" extension="mp4" args="f=mp4 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=5000k s=1280x720 aspect=%dar mbd=2 trell=1 mv4=1" />
+  <profile name="Youtube 640x480" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=800k s=640x480 aspect=%dar trell=1" />
+</group>
+
 
 <group name="Wav" renderer="avformat" type="audio">
   <profile name="22050" extension="wav" args="f=wav ar=22050" />
