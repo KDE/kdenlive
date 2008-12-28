@@ -1,3 +1,4 @@
+# translation of kdenlive.po to Hebrew
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
@@ -7,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-16 22:53+0100\n"
-"PO-Revision-Date: 2008-12-20 22:41+0200\n"
-"Last-Translator: \n"
-"Language-Team: Hebrew <kde-i18n-doc@lists.kde.org>\n"
+"POT-Creation-Date: 2008-12-25 11:24+0100\n"
+"PO-Revision-Date: 2008-12-25 14:59+0200\n"
+"Last-Translator: Amir S. <amir_in@netvision.net.il>\n"
+"Language-Team: Hebrew <<kdenlive-devel@lists.sourceforge.net>>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -102,6 +103,10 @@ msgstr ""
 msgid "<br><b>Author:</b> "
 msgstr "<br><b>יוצר:</b> "
 
+# , kde-format
+msgid "<qt>Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
+msgstr "<qt>‮‫סרטון <b>%1</b><br>אינו תקין או אינו קיים, מה ברצונך לעשות?"
+
 #, kde-format
 msgid "<qt>Clip <b>%1</b><br>is invalid, what do you want to do?"
 msgstr "<qt>‮‫סרטון <b>%1</b><br>אינו תקין, מה ברצונך לעשות?"
@@ -115,7 +120,7 @@ msgstr "A"
 
 #, kde-format
 msgid "A guide already exists at position %1"
-msgstr "מנחה כבר קיים בנקודה זו 1%"
+msgstr "מנחה כבר קיים בנקודה זו %1"
 
 msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
@@ -237,7 +242,7 @@ msgid "Align item vertically"
 msgstr "כוון פריט בציר אנכי"
 
 msgid "Align..."
-msgstr "‫כוון..."
+msgstr "פלס..."
 
 msgid "All"
 msgstr "הכל"
@@ -255,7 +260,7 @@ msgid "Amplitude"
 msgstr "משרעת"
 
 msgid "An open source video editor."
-msgstr "עורך וידאו בקוד חופשי"
+msgstr "עורך וידאו בקוד חופשי."
 
 msgid "Ascii art library"
 msgstr "‫ספריית אומנות Ascii"
@@ -289,7 +294,7 @@ msgstr "עריכת שמע"
 
 #, c-format, kde-format
 msgid "Audio fade duration: %1s"
-msgstr "זמן עמעום שמע: %1 שניות"
+msgstr "זמן עמעום שמע %1 שניות"
 
 msgid "Audio frequency"
 msgstr "תדר שמע"
@@ -413,6 +418,10 @@ msgstr "‫לא נמצאה תוכנת inigo הדרושה לביצוע הצלימ
 msgid "Cannot find your Mlt profiles, please give the path"
 msgstr "‫לא נמצא פרופיל ה-Mlt, אנא ספק את הנתיב"
 
+# , kde-format
+msgid "Cannot move clip at position %1, track %2"
+msgstr "לא ניתן להעביר את הסרטון בנקודה %1 שנ', ברצועה %2"
+
 #, kde-format
 msgid "Cannot move clip at time: %1 on track %2"
 msgstr "לא ניתן להעביר את הסרטון בנקודה: %1 שנ' ברצועה %2"
@@ -420,6 +429,10 @@ msgstr "לא ניתן להעביר את הסרטון בנקודה: %1 שנ' בר
 #, kde-format
 msgid "Cannot move clip to position %1"
 msgstr "לא ניתן להעביר את הסרטון לנקודה %1 שניות"
+
+# , kde-format
+msgid "Cannot move transition at position %1, track %2"
+msgstr "לא ניתן להעביר את המעברים בנקודה %1 שנ', ברצועה %2"
 
 #, kde-format
 msgid "Cannot move transition at time: %1 on track %2"
@@ -599,8 +612,8 @@ msgid ""
 "There is something wrong with your Kdenlive install or your driver settings, "
 "please fix it."
 msgstr ""
-"בלתי ניתן ליצור את חלון תצוגה מקדימה של הוידאו.\n"
-"התקנת Kdenlive או הגדרות מנהל ההתקן, אינם תקינים. אנא תקן זאת.  "
+"לא ניתן ליצור את חלון התצוגה המקדימה של הוידאו.\n"
+"התקנת Kdenlive או הגדרות מנהל ההתקן אינם תקינים. אנא תקן זאת.  "
 
 msgid "Crackle"
 msgstr "פיצפוץ"
@@ -919,7 +932,7 @@ msgid "Error starting MLT's command line player (inigo)"
 msgstr "שגיאה בפתיחת נגן שורת פקודה של MLT (inigo)"
 
 msgid "Error starting MLT's command line player (inigo)."
-msgstr "שגיאה בפתיחת נגן שורת פקודה של MLT (inigo)"
+msgstr "שגיאה בפתיחת נגן שורת פקודה של inigo."
 
 msgid "Error when resizing clip"
 msgstr "שגיאה בזמן שינוי גודל סרטון"
@@ -949,10 +962,10 @@ msgid "Fade out"
 msgstr "עמעום יציאה"
 
 msgid "Fatal Error"
-msgstr "שגיאה סופנית"
+msgstr "שגיאה מכרעת"
 
 msgid "Feedback"
-msgstr "איזון חוזר"
+msgstr "משוב"
 
 #, kde-format
 msgid "File %1 is not a Kdenlive project file."
@@ -1019,9 +1032,6 @@ msgstr "עקוב אחר העכבר"
 
 msgid "Force pixel aspect ratio"
 msgstr "כפה יחס מימדים עבור הפיקסלים"
-
-msgid "Form"
-msgstr "טופס"
 
 msgid "Format"
 msgstr "תבנית"
@@ -1252,6 +1262,9 @@ msgstr "עוצמה"
 msgid "Interlaced"
 msgstr "שזור"
 
+msgid "Invalid action"
+msgstr "פעולה לא תקינה"
+
 msgid "Invert"
 msgstr "הפוך"
 
@@ -1265,7 +1278,7 @@ msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
 msgid "Jog Shuttle device disabled."
-msgstr "התקן גלגלת עריכה מנותק"
+msgstr "התקן גלגלת עריכה מנותק."
 
 msgid "JogShuttle"
 msgstr "גלגלת עריכה"
@@ -1278,9 +1291,6 @@ msgstr "שמור כשומר מקום"
 
 msgid "Kernel size"
 msgstr "גודל ליבה"
-
-msgid "Keyframe"
-msgstr "מסגרת מפתח"
 
 msgid "LADSPA change pitch audio effect"
 msgstr "אפקט שמע - שינוי גובה צליל"
@@ -1339,9 +1349,6 @@ msgstr "מחפש את %1"
 
 msgid "Loop"
 msgstr "לולאה"
-
-msgid "Loop Section"
-msgstr "חזור על הקטע בלולאה"
 
 msgid "Loop Zone"
 msgstr "חזור על האזור בלולאה"
@@ -1472,7 +1479,7 @@ msgid "Name"
 msgstr "שם"
 
 msgid "Name for saved effect: "
-msgstr "‫שם עבור אפקט נשמר:"
+msgstr "‫שם עבור שמירת אפקט:"
 
 msgid "Nano X"
 msgstr "Nano X"
@@ -1572,7 +1579,7 @@ msgid "Pixel aspect ratio"
 msgstr "כפה יחס מימדים"
 
 msgid "Pixel aspect ratio:"
-msgstr "כפה יחס מימדים"
+msgstr "כפה יחס מימדים:"
 
 msgid "Plasma"
 msgstr "פלזמה"
@@ -1582,9 +1589,6 @@ msgstr "נגן"
 
 msgid "Play / Pause"
 msgstr "נגן / השהה"
-
-msgid "Play Section"
-msgstr "נגן קטע"
 
 msgid "Play Zone"
 msgstr "נגן אזור"
@@ -1767,6 +1771,9 @@ msgstr "הסר רווח"
 msgid "Remove Track"
 msgstr "הסר ערוץ"
 
+msgid "Remove space"
+msgstr "הסר רווח"
+
 msgid "Rename folder"
 msgstr "שנה שם תיקייה"
 
@@ -1784,9 +1791,16 @@ msgstr "צלימת %1"
 msgid "Rendering <i>%1</i> started"
 msgstr "‫צלימה <i>%1</i> הסתיימה"
 
+msgid "Rendering Crashed"
+msgstr "צלימה קרסה"
+
 #, kde-format
 msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
 msgstr "צלימה של %1 בוטלה, הוידאו שנוצר ככל הנראה אינו תקין."
+
+# , kde-format
+msgid "Rendering of %1 crashed"
+msgstr "צלימה של %1 קרסה"
 
 #, kde-format
 msgid "Rendering of %1 finished in %2"
@@ -1921,6 +1935,9 @@ msgstr "לכידת מסך"
 msgid "Search automatically"
 msgstr "חפש אוטומטית"
 
+msgid "Search manually"
+msgstr "חפש ידנית"
+
 msgid "Select a clip before copying"
 msgstr "בחר סרטון לפני העתקה"
 
@@ -1990,6 +2007,9 @@ msgstr "הראה צלמיות שמע"
 
 msgid "Show background"
 msgstr "הראה רקע"
+
+msgid "Show crash log"
+msgstr "הראה את יומן ההתרסקות"
 
 msgid "Show experimental formats"
 msgstr "הראה פורמטים ניסויים"
@@ -2128,6 +2148,9 @@ msgstr ""
 "‫זו ההפעלה הראשונה של Kdenlive. האשף הזה יאפשר הגדרה של מספר הגדרות בסיסיות, "
 "עריכת הסרט הראשון רחוקה רק מספר שניות..."
 
+msgid "This project type is unsupported and can't be loaded."
+msgstr "סוג זה של פרוייקט אינו נתמך ולכן לא ניתן לטעון אותו."
+
 msgid "Threshold"
 msgstr "סף"
 
@@ -2190,6 +2213,9 @@ msgstr "‫הפוך צבעי סרטון לספיה (חום כהה)"
 
 msgid "Type"
 msgstr "סוג"
+
+msgid "Unable to open project"
+msgstr "לא ניתן לפתוח את הפרוייקט"
 
 #, kde-format
 msgid "Unable to write to file %1"
@@ -2356,7 +2382,7 @@ msgid "You must select one transition for this action"
 msgstr "חובה לבחור מעבר אחד לביצוע פעולה זו"
 
 msgid "Z-Index:"
-msgstr "‫אינדקס בציר Z"
+msgstr "‫אינדקס בציר Z:"
 
 msgid "Zoom In"
 msgstr "התקרב(הגדל זום)"
@@ -2445,81 +2471,14 @@ msgid ""
 "your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr "‫התקנת MLT לא נמצאה. התקן את MLT והתחל מחדש את Kdenlive.\n"
 
-#~ msgid "Cannot add marker if more than one clip is selected"
-#~ msgstr "לא ניתן להוסיף סמן כאשר נבחר יותר מסרטון אחד"
+#~ msgid "Form"
+#~ msgstr "טופס"
 
-#~ msgid "Cannot delete marker if more than one clip is selected"
-#~ msgstr "לא ניתן למחוק סמן כאשר נבחר יותר מסרטון אחד"
+#~ msgid "Keyframe"
+#~ msgstr "מסגרת מפתח"
 
-#~ msgid "Cannot edit marker if more than one clip is selected"
-#~ msgstr "לא ניתן לערוך סמן כאשר נבחר יותר מסרטון אחד"
+#~ msgid "Loop Section"
+#~ msgstr "חזור על הקטע בלולאה"
 
-#~ msgid "Capturing..."
-#~ msgstr "‫לוכד..."
-
-#~ msgid "Encoding"
-#~ msgstr "קידוד"
-
-#~ msgid "File extension"
-#~ msgstr "סיומת קובץ"
-
-#~ msgid "Firewire / dvgrab"
-#~ msgstr "Firewire / dvgrab"
-
-#~ msgid "No clip at cursor time"
-#~ msgstr "אין סרטון במיקום סמן "
-
-#~ msgid "No clip selected"
-#~ msgstr "שום סרטון לא נבחר"
-
-#~ msgid "No selected clip at cursor time"
-#~ msgstr "אין סרטון נבחר במיקום סמן"
-
-#~ msgid "Playback params"
-#~ msgstr "משתני ניגון חוזר"
-
-#~ msgid "Screen Grab / FFmpeg"
-#~ msgstr "‫לכידת מסך / FFmpeg"
-
-#~ msgid "Select region..."
-#~ msgstr "‫בחר אזור..."
-
-#~ msgid "Transition type"
-#~ msgstr "סוג מעבר"
-
-#~ msgid "Video capture params"
-#~ msgstr "ערכי לכידת וידאו"
-
-#~ msgid "Video4Linux / FFmpeg"
-#~ msgstr "Video4Linux / FFmpeg"
-
-#~ msgid "ogg"
-#~ msgstr "ogg"
-
-#~ msgid "Add Marker to Clip"
-#~ msgstr "הוסף מנחה לסרטון"
-
-#~ msgid "Aspect ratio"
-#~ msgstr "יחס רוחב-גובה"
-
-#~ msgid "Averaging"
-#~ msgstr "ממצע"
-
-#~ msgid "Delete Marker from Clip"
-#~ msgstr "מחק סמן מהסרטון"
-
-#~ msgid "Go to..."
-#~ msgstr "‫עבור אל-"
-
-#~ msgid "Height"
-#~ msgstr "גובה"
-
-#~ msgid "Templates"
-#~ msgstr "תבניות"
-
-#~ msgid "Zone end"
-#~ msgstr "סוף קטע"
-
-#~ msgid "Zone start"
-#~ msgstr "תחילת קטע"
-
+#~ msgid "Play Section"
+#~ msgstr "נגן קטע"
