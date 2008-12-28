@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-16 22:53+0100\n"
-"PO-Revision-Date: 2008-12-24 16:50+0100\n"
+"PO-Revision-Date: 2008-12-28 20:56+0100\n"
 "Last-Translator: opensourcecat <opensourcecat@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -93,7 +93,7 @@ msgid "<b>Recordmydesktop utility not found, please install it for screen grabs<
 msgstr "<b>Il programma RecordMydesktop non è stato trovato. É necessario installarlo per poter registrare lo schermo</b>"
 
 msgid "<b>dvgrab utility not found, please install it for firewire capture</b>"
-msgstr "<b>Il programma dvgrab non è stato trovato: É necessario installarlo per poter registrare attravesto la porta firewire</b>"
+msgstr "<b>Il programma dvgrab non è stato trovato: É necessario installarlo per poter registrare attraverso la porta firewire</b>"
 
 msgid "<br><b>Author:</b> "
 msgstr "<br><b>Autore:</b> "
@@ -563,7 +563,7 @@ msgid "Close the current tab"
 msgstr "Chiudi la scheda corrente"
 
 msgid "Co-efficient"
-msgstr "Coefficente"
+msgstr "Coefficiente"
 
 msgid "Color"
 msgstr "Colore"
@@ -1065,7 +1065,7 @@ msgid "Frames"
 msgstr "Fotogrammi"
 
 msgid "Freeze"
-msgstr "Immoblizza"
+msgstr "Immobilizza"
 
 msgid "Freeze After"
 msgstr "Immobilizza dopo"
@@ -1741,7 +1741,7 @@ msgstr "Recordmydesktop"
 
 # , kde-format
 msgid "Recordmydesktop found at: %1"
-msgstr "recordmydesktop non è stato trovato in %1"
+msgstr "RecordMydesktop non è stato trovato in %1"
 
 msgid ""
 "Recordmydesktop utility not found,\n"
