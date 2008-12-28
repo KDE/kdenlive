@@ -2,18 +2,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # REPlI2DeV <repli2dev@gmail.com>, 2008.
+# Jan Drábek <repli2dev@gmail.com>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-11 21:47+0100\n"
-"PO-Revision-Date: 2008-11-11 21:58+0100\n"
-"Last-Translator: REPlI2DeV <repli2dev@gmail.com>\n"
+"POT-Creation-Date: 2008-12-25 11:24+0100\n"
+"PO-Revision-Date: 2008-12-28 19:20+0100\n"
+"Last-Translator: Jan Drábek <repli2dev@gmail.com>\n"
 "Language-Team: American English <kde-i18n-doc@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 0.2\n"
+"X-Generator: LoKalize 0.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -38,17 +39,32 @@ msgstr "0"
 msgid "100%"
 msgstr "100%"
 
+msgid "11250"
+msgstr "11250"
+
 msgid "200%"
 msgstr "200%"
 
+msgid "22500"
+msgstr "22500"
+
 msgid "25/1"
 msgstr "25/1"
+
+msgid "32000"
+msgstr "32000"
 
 msgid "320x240"
 msgstr "320x240"
 
 msgid "4/3"
 msgstr "4/3"
+
+msgid "41000"
+msgstr "41000"
+
+msgid "48000"
+msgstr "48000"
 
 msgid "50%"
 msgstr "50%   "
@@ -65,8 +81,35 @@ msgstr "99:99:99:99;"
 msgid ":::"
 msgstr ":::"
 
+#, kde-format
+msgid ""
+"<b>Frame size:</b>%1x%2<br><b>Frame rate:</b>%3/%4<br><b>Aspect ratio:</b>%5/"
+"%6<br><b>Display ratio:</b>%7/%8"
+msgstr ""
+"<b>Velikost snímku</b>%1x%2<br><b>Snímků za sekundu:</b>%3/%4<br><b>Poměr "
+"stran pixelu:</b>%5/%6<br><b>Poměr stran:</b>%7/%8"
+
+msgid ""
+"<b>Recordmydesktop utility not found, please install it for screen grabs</b>"
+msgstr ""
+"<b>Program \'Recordmydesktop\' nebyla nazelena, nainstalujte ji pokud chcete "
+"nahrávat dění na obrazovce</b>"
+
+msgid "<b>dvgrab utility not found, please install it for firewire capture</b>"
+msgstr ""
+"<b>Program \'dvgrab\' nebyl nalezen, nainstalujte jej pokud chcete nahrávat "
+"přes firewire</b>"
+
 msgid "<br><b>Author:</b> "
 msgstr "<br><b>Autor:</b>"
+
+#, kde-format
+msgid "<qt>Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
+msgstr "<qt>Klip <b>%1</b><br>není platný nebo zcela chybí, jak chcete udělat?"
+
+#, kde-format
+msgid "<qt>Clip <b>%1</b><br>is invalid, what do you want to do?"
+msgstr "<qt>Klip <b>%1</b><br>není platný, co chcete udělat?"
 
 #, kde-format
 msgid "<qt>Clip <b>%1</b><br>is invalid, will be removed from project."
@@ -75,8 +118,9 @@ msgstr "<qt>Klip <b>%1</b><br>není platný, protože byl odebrán z projektu."
 msgid "A"
 msgstr "A"
 
-msgid "A guide already exists at that position"
-msgstr "Na této pozici již existuje zarážka "
+#, kde-format
+msgid "A guide already exists at position %1"
+msgstr "Na pozici %1 již zarážka existuje"
 
 msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
@@ -164,8 +208,14 @@ msgstr "Přidat nový efekt"
 msgid "Add recording time to captured file name"
 msgstr "Přidat délku nahrávání do jména souboru zaznamenaného videa"
 
+msgid "Add space"
+msgstr "Přidat místo"
+
 msgid "Add timeline clip"
 msgstr "Přidat klip časové osy"
+
+msgid "Add track"
+msgstr "Přidat stopu"
 
 msgid "Add transition"
 msgstr "Přidat přechod"
@@ -197,6 +247,9 @@ msgstr "Zarovnávat..."
 msgid "All"
 msgstr "Vše"
 
+msgid "All tracks"
+msgstr "Všechny stopy"
+
 msgid "Allow horizontal moves"
 msgstr "Povolit vodorovné přesuny  "
 
@@ -218,11 +271,17 @@ msgstr "Poměr stran pixelu:"
 msgid "Audio"
 msgstr "Audio  "
 
+msgid "Audio channels"
+msgstr "Audio kanály"
+
 msgid "Audio clip"
 msgstr "Audio klip"
 
 msgid "Audio codec"
 msgstr "Audio kodek"
+
+msgid "Audio device"
+msgstr "Audio zařízení"
 
 msgid "Audio device:"
 msgstr "Audio zařízení:"
@@ -237,14 +296,23 @@ msgstr "Editace audia"
 msgid "Audio fade duration: %1s"
 msgstr "Trvání audo zesílení/zeslabení: %1s"
 
+msgid "Audio frequency"
+msgstr "Audio frekvence"
+
 msgid "Audio index"
 msgstr "Audio index"
+
+msgid "Audio track"
+msgstr "Audio stopa"
 
 msgid "Audio tracks"
 msgstr "Audio stopy"
 
+msgid "Auto"
+msgstr "Automaticky "
+
 msgid "Auto Mask"
-msgstr "Maska"
+msgstr "Automatická maska"
 
 msgid "Auto add"
 msgstr "Automaticky přidat do projektu"
@@ -254,6 +322,9 @@ msgstr "Existují soubory z automatického uložení. Chcete nyní obnovit proje
 
 msgid "Automatic"
 msgstr "Automaticky"
+
+msgid "Automatic Transition"
+msgstr "Výchozí přechod"
 
 msgid "Automatically start a new file on scene cut"
 msgstr "Automaticky začít nový soubor pro novou scénu"
@@ -266,6 +337,9 @@ msgstr "Pozadí"
 
 msgid "BasicOperations"
 msgstr "Základní operace"
+
+msgid "Black"
+msgstr "Černá"
 
 msgid "Blue Screen"
 msgstr "Klíčování"
@@ -287,6 +361,9 @@ msgstr "Částečné rozmazání"
 
 msgid "Brightness"
 msgstr "Jas"
+
+msgid "Buffer"
+msgstr "Zásobník"
 
 msgid "Button 1"
 msgstr "Tlačítko 1"
@@ -314,23 +391,20 @@ msgstr ""
 "Nelze přistupovat k informacím o vyhledávání pro %1.\n"
 " Možnost integrace hledání bude zakázána."
 
-msgid "Cannot add marker if more than one clip is selected"
-msgstr "Nelze přidat záložku, pokud je vybrán více než jeden klip."
-
 msgid "Cannot cut a transition"
 msgstr "Nelze provést rozdělit na přechodu"
-
-msgid "Cannot delete marker if more than one clip is selected"
-msgstr "Nelze smazat záložku pokud je vybrán více než jeden klip"
-
-msgid "Cannot edit marker if more than one clip is selected"
-msgstr "Nelze editovat záložku pokud je vybrán více než jeden klip"
 
 msgid "Cannot find clip to add effect"
 msgstr "Efekt není kam přidat"
 
+msgid "Cannot find clip to add marker"
+msgstr "Nelze přidat záložku neznámému klipu"
+
 msgid "Cannot find clip to cut"
-msgstr "Není co rozdělit"
+msgstr "Nelze najít klip k rozdělení"
+
+msgid "Cannot find clip to remove marker"
+msgstr "Nelze najít záložku ke smazání"
 
 msgid "Cannot find clip to uncut"
 msgstr "Není co spojovat"
@@ -346,16 +420,24 @@ msgid "Cannot find your Mlt profiles, please give the path"
 msgstr "Nelze najít profily MLT, vyplňte prosím správnou cestu"
 
 #, kde-format
-msgid "Cannot move clip at time: %1s on track %2"
-msgstr "Nelze přesunout klip v čase: %1 ve stopě %2"
-
-#, c-format, kde-format
-msgid "Cannot move clip to position %1seconds"
-msgstr "Nelze přesunout klip na pozici %1seconds"
+msgid "Cannot move clip at position %1, track %2"
+msgstr "Nelze přesunout klip na pozici %1 ve stopě %2"
 
 #, kde-format
-msgid "Cannot move transition at time: %1s on track %2"
-msgstr "Nelze přesunout přechod v čase: %1s on track %2"
+msgid "Cannot move clip at time: %1 on track %2"
+msgstr "Nelze přesunout klip v čase: %1 ve stopě %2 "
+
+#, kde-format
+msgid "Cannot move clip to position %1"
+msgstr "Nelze přesunout klip na pozici %1"
+
+#, kde-format
+msgid "Cannot move transition at position %1, track %2"
+msgstr "Nelze přesunout přechod na pozici %1 ve stopě %2"
+
+#, kde-format
+msgid "Cannot move transition at time: %1 on track %2"
+msgstr "Nelze přesunout přechod v čase: %1 ve stopě %2"
 
 msgid "Cannot paste clip to selected place"
 msgstr "Nelze vložit klip na vybrané místo"
@@ -408,9 +490,6 @@ msgstr "Parametry nahrávání"
 msgid "Captured files"
 msgstr "Nahrané soubory"
 
-msgid "Capturing..."
-msgstr "Nahrávám..."
-
 msgid "Center"
 msgstr "Vystředit"
 
@@ -420,11 +499,23 @@ msgstr "Změnit"
 msgid "Change Clip Speed"
 msgstr "Změnit rychlost klipu"
 
+msgid "Change Track"
+msgstr "Změnit stopu"
+
+msgid "Change Track Type"
+msgstr "Změnit typ stopy"
+
 msgid "Change gamma color value"
 msgstr "Umožňuje změnit hodnotu gamy"
 
 msgid "Change image brightness with keyframes"
 msgstr "Umožňuje změnit jas dle klíčových snímků"
+
+msgid "Change track"
+msgstr "Změnit stopu"
+
+msgid "Change track type"
+msgstr "Změnit typ stopy"
 
 msgid ""
 "Changing the size of video when rendering\n"
@@ -452,6 +543,9 @@ msgstr "Zobrazí video stopu klipu ve formě kresby uhlem"
 msgid "CheckBox"
 msgstr "Přepínač"
 
+msgid "Checking system"
+msgstr "Ověřuje se stav systému"
+
 msgid "Chroma Hold"
 msgstr "Zvýraznění"
 
@@ -463,6 +557,9 @@ msgstr "Chrominance V"
 
 msgid "Clean"
 msgstr "Vyčistit"
+
+msgid "Clip"
+msgstr "Klip"
 
 msgid "Clip Color"
 msgstr "Barva klipu"
@@ -602,6 +699,9 @@ msgstr "Výchozí aplikace"
 msgid "Default capture device"
 msgstr "Výchozí zařízení pro nahrávání"
 
+msgid "Default folder for project files"
+msgstr "Výchozí složka pro projekty Kdenlive"
+
 msgid "Default folders"
 msgstr "Výchozí složky"
 
@@ -635,6 +735,9 @@ msgstr "Smazat záložku"
 
 msgid "Delete Selected Item"
 msgstr "Smazat vybranou položku"
+
+msgid "Delete Track"
+msgstr "Smazat stopu"
 
 msgid "Delete clip"
 msgstr "Smazat klip"
@@ -673,6 +776,9 @@ msgstr "Smazat vybrané položky"
 
 msgid "Delete timeline clip"
 msgstr "Smazat klip časové osy"
+
+msgid "Delete track"
+msgstr "Smazat stopu"
 
 msgid "Delete transition from clip"
 msgstr "Smazat přechod z klipu"
@@ -734,8 +840,14 @@ msgstr "Dokument k otevření"
 msgid "Don't recover"
 msgstr "Neobnovovat"
 
+msgid "Download New Lumas..."
+msgstr "Stáhnout nové luma přechody"
+
 msgid "Duration"
 msgstr "Trvání"
+
+msgid "Dvgrab"
+msgstr "Dvgrab"
 
 msgid "Dw"
 msgstr "Dw"
@@ -799,10 +911,10 @@ msgstr "Pořadí efektů"
 msgid "Enable Jog Shuttle device"
 msgstr "Povolit zařízení JogShuttle"
 
-msgid "Encoding"
-msgstr "Překódování"
+msgid "Encoding captured video..."
+msgstr "Překódovávám nahrané video"
 
-msgid "Encoding parameters"
+msgid "Encoding params"
 msgstr "Parametry překódování"
 
 msgid "End"
@@ -819,6 +931,10 @@ msgstr "Prostředí"
 
 msgid "Equalizer"
 msgstr "Ekvalizér"
+
+#, kde-format
+msgid "Error removing clip at %1 on track %2"
+msgstr "Nelze smazat klip na %1 ve stopě %2"
 
 msgid "Error starting MLT's command line player (inigo)"
 msgstr "Chyba při startování iniga (MLT přehráváče pro příkazovou řádku)"
@@ -840,6 +956,9 @@ msgstr "Extra nástrojová lišta"
 
 msgid "Extract frame"
 msgstr "Uložit aktuální snímek"
+
+msgid "FFmpeg & ffplay"
+msgstr "FFmpeg & ffplay"
 
 msgid "Fade in"
 msgstr "Roztmívačka"
@@ -873,11 +992,11 @@ msgstr ""
 msgid "File already exists. Do you want to overwrite it ?"
 msgstr "Soubor již existuje. Chcete jej přepsat?"
 
-msgid "File extension"
-msgstr "Koncovka souboru"
-
 msgid "File name"
 msgstr "Jméno souboru"
+
+msgid "File not found"
+msgstr "Soubor nebyl nalezen"
 
 msgid "File size"
 msgstr "Velikost souboru"
@@ -900,9 +1019,6 @@ msgstr "Hledání dokončeno"
 msgid "Firewire"
 msgstr "Firewire"
 
-msgid "Firewire / dvgrab"
-msgstr "Firewire / dvgrab"
-
 msgid ""
 "Firewire is not enabled on your system.\n"
 " Please install Libiec61883 and recompile Kdenlive"
@@ -919,6 +1035,9 @@ msgstr "Otáčení obrazu ve všech směrech možných směrech"
 msgid "Folder"
 msgstr "Složka"
 
+msgid "Follow mouse"
+msgstr "Následovat myš"
+
 msgid "Force pixel aspect ratio"
 msgstr "Vynutit poměr stran pixelu"
 
@@ -930,6 +1049,9 @@ msgstr "Přetáčet vpřed"
 
 msgid "Forward 1 Frame"
 msgstr "Přetočit o 1 snímek vpřed"
+
+msgid "Forward 1 Second"
+msgstr "Přetočit o 1 sekundu vpřed"
 
 msgid "Forward 1 frame"
 msgstr "Přetočit o 1 snímek vpřed"
@@ -985,6 +1107,9 @@ msgstr "Celý projekt"
 
 msgid "Full screen capture"
 msgstr "Nahrávání celé obrazovky"
+
+msgid "Full shots"
+msgstr ""
 
 msgid "Gain"
 msgstr "Zesílení"
@@ -1067,6 +1192,9 @@ msgstr "Umožní vám skrýt část klipu - rozpixelizovat obraz."
 msgid "Hide a selected zone and follow its movements"
 msgstr "Umožní skrýt vybraný výřez obrazu, včetně jeho následujícího pohybu."
 
+msgid "Hide frame"
+msgstr "Skrýt snímek"
+
 msgid "Hor. Center"
 msgstr "Vystředit vodorovně"
 
@@ -1106,6 +1234,12 @@ msgstr "Rozlišení"
 msgid "Image type"
 msgstr "Typ obrázku"
 
+msgid "In Point"
+msgstr "Počáteční bod"
+
+msgid "Inigo"
+msgstr "Inigo"
+
 msgid "Inigo path"
 msgstr "Cesta k inigu"
 
@@ -1114,6 +1248,18 @@ msgstr "Inicializace..."
 
 msgid "Input gain (db)"
 msgstr "Vstupní zesílení (dB)"
+
+msgid "Insert Space"
+msgstr "Vložit místo"
+
+msgid "Insert Track"
+msgstr "Vložit stopu"
+
+msgid "Insert space"
+msgstr "Vložit místo"
+
+msgid "Insert track"
+msgstr "Vložit stopu"
 
 msgid "Install extra video mimetypes"
 msgstr "Nainstalovat extra video mimetypy"
@@ -1124,11 +1270,17 @@ msgstr "Intenzita"
 msgid "Interlaced"
 msgstr "Prokládané"
 
+msgid "Invalid action"
+msgstr "Neplatná akce"
+
 msgid "Invert"
 msgstr "Invertovat"
 
 msgid "Invert colors"
 msgstr "Invertuje barvy"
+
+msgid "Jack"
+msgstr "Jack"
 
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
@@ -1142,11 +1294,11 @@ msgstr "JogShuttle"
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
+msgid "Keep as placeholder"
+msgstr "Držet místo"
+
 msgid "Kernel size"
 msgstr "Velikost jádra"
-
-msgid "Keyframe"
-msgstr "Klíčový snímek"
 
 msgid "LADSPA change pitch audio effect"
 msgstr "Změna výšky tónu (LADSPA)"
@@ -1199,11 +1351,15 @@ msgstr "Načítání playlistu..."
 msgid "Loading project clips"
 msgstr "Načítání klipů projektu"
 
+#, kde-format
+msgid "Looking for %1"
+msgstr "Hledám %1"
+
 msgid "Loop"
 msgstr "Smyčka"
 
-msgid "Loop Section"
-msgstr "Přehrát ve smyčce"
+msgid "Loop Zone"
+msgstr "Smyčka"
 
 msgid "Luma File"
 msgstr "Luma soubor"
@@ -1300,6 +1456,9 @@ msgstr "Přesunout klip níže"
 msgid "Move effect up"
 msgstr "Přesunout klip výše"
 
+msgid "Move group"
+msgstr "Přesunout skupinu"
+
 msgid "Move guide"
 msgstr "Přesunout zarážku"
 
@@ -1336,14 +1495,8 @@ msgstr "Nano X"
 msgid "New speed (percents)"
 msgstr "Nová rychlost (v procentech)"
 
-msgid "No clip at cursor time"
-msgstr "Na pozici kurzoru se nenachází žádný klip"
-
 msgid "No clip copied"
 msgstr "Nebyl zkopírován žádný klip"
-
-msgid "No clip selected"
-msgstr "Nebyl vybrán žádný klip"
 
 msgid "No guide at cursor time"
 msgstr "Na pozici kurzoru neexistuje zarážka"
@@ -1353,9 +1506,6 @@ msgstr "Nebyl nalezen žádný obrázek"
 
 msgid "No marker found at cursor time"
 msgstr "Na pozici kurzoru neexistuje žádná zarážka"
-
-msgid "No selected clip at cursor time"
-msgstr "Na pozici kurzoru není vybrán žádný klip"
 
 msgid "Normalise"
 msgstr "Normalizovat"
@@ -1382,6 +1532,9 @@ msgstr "OSS s DMA přístupem"
 msgid "Obscure"
 msgstr "Utajení identity"
 
+msgid "Offset"
+msgstr "Posunutí"
+
 msgid "Opacity"
 msgstr "Průhlednost"
 
@@ -1393,6 +1546,9 @@ msgstr "Při spouštění načíst poslední otevřený projekt"
 
 msgid "Open projects in new tabs"
 msgstr "Otevírat projekty v novém listu"
+
+msgid "Out Point"
+msgstr "Koncový bod"
 
 msgid "Output file"
 msgstr "Výstupní soubor"
@@ -1442,7 +1598,7 @@ msgstr "Přehrát"
 msgid "Play / Pause"
 msgstr "Přehrát / Pozastavit"
 
-msgid "Play Section"
+msgid "Play Zone"
 msgstr "Přehrát výběr"
 
 msgid "Play after render"
@@ -1453,9 +1609,6 @@ msgstr "Přehrát..."
 
 msgid "Playback"
 msgstr "Playback"
-
-msgid "Playback params"
-msgstr "Parametry playbacku"
 
 msgid "Playlist clip"
 msgstr "Klip playlistu"
@@ -1470,8 +1623,8 @@ msgstr ""
 msgid "Please report bugs to http://kdenlive.org/mantis"
 msgstr "Chyby prosím hlašte na http://kdenlive.org/mantis"
 
-msgid "Please set your default video format"
-msgstr "Nastavte prosím výchozí formát vida"
+msgid "Please set your default video profile"
+msgstr "Nastavte prosím výchozí profil videa"
 
 #, kde-format
 msgid ""
@@ -1484,6 +1637,9 @@ msgstr ""
 "Prosím připojte vaši kameru a stiskněte tlačítko připojit\n"
 " k iniciaci připojení. Soubory budou uloženy do:\n"
 " %1"
+
+msgid "Ports:"
+msgstr "Porty:"
 
 msgid "Pos"
 msgstr "Poz"
@@ -1586,14 +1742,43 @@ msgstr "Nahrávat"
 msgid "Record Monitor"
 msgstr "Monitor nahrávání"
 
+msgid "Recordmydesktop"
+msgstr "Recordmydesktop"
+
+#, kde-format
+msgid "Recordmydesktop found at: %1"
+msgstr "Recordmydesktop nalezen v: %1"
+
+msgid ""
+"Recordmydesktop utility not found,\n"
+" please install it for screen grabs"
+msgstr ""
+"Program \'Recordmydesktop\' nebyl nalezen,\n"
+"nainstalujte jej pokud chcete nahrávat dějí na obrazovce."
+
 msgid "Recover"
 msgstr "Obnovit"
 
 msgid "Region"
 msgstr "Region"
 
+msgid "Region capture"
+msgstr "Oblast nahrávání"
+
 msgid "Release time (s)"
 msgstr "Čas uvolnění (s)"
+
+msgid "Remaining time"
+msgstr "Zbývající čas"
+
+msgid "Remove Space"
+msgstr "Odebrat místo"
+
+msgid "Remove Track"
+msgstr "Smazat stopu"
+
+msgid "Remove space"
+msgstr "Odebrat místo"
 
 msgid "Rename folder"
 msgstr "Přejmenovat složku"
@@ -1605,8 +1790,15 @@ msgid "Rendering"
 msgstr "Renderování"
 
 #, kde-format
+msgid "Rendering %1"
+msgstr "Probíhá renderování %1"
+
+#, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Renverování <i>%1</i> začalo"
+
+msgid "Rendering Crashed"
+msgstr "Renderování selhalo"
 
 #, kde-format
 msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
@@ -1614,8 +1806,27 @@ msgstr ""
 "Renderování %1 bylo zrušeno, výsledné video bude pravděpodobně poškozeno."
 
 #, kde-format
-msgid "Rendering of %1 is over"
-msgstr "Renderování %1 bylo dokončeno"
+msgid "Rendering of %1 crashed"
+msgstr "Renderování %1 selhalo"
+
+#, kde-format
+msgid "Rendering of %1 finished in %2"
+msgstr "Renderování %1 bylo dokončeno za %2"
+
+msgid "Rendering to"
+msgstr "Renderování do"
+
+msgid "Required for firewire capture"
+msgstr "K nahrávání je vyžadováno firewire"
+
+msgid "Required for rendering (part of MLT package)"
+msgstr "Vyžadováno pro renderování (součást MLT)"
+
+msgid "Required for screen capture"
+msgstr "Vyžadováno pro nahrávání obrazovky"
+
+msgid "Required for webcam capture"
+msgstr "Vyžadováno pro nahrávání přes webovou kamerku"
 
 msgid "Reset effect"
 msgstr "Restartovat efekt"
@@ -1650,6 +1861,9 @@ msgstr "Přetáčet vzad"
 msgid "Rewind 1 Frame"
 msgstr "Přetočit zpět o 1 snímek"
 
+msgid "Rewind 1 Second"
+msgstr "Přetočit zpět o 1 sekundu"
+
 msgid "Rewind 1 frame"
 msgstr "Přetočit zpět o 1 snímek"
 
@@ -1679,6 +1893,9 @@ msgstr "Rotace osy y"
 
 msgid "Rotation z"
 msgstr "Rotace osy z"
+
+msgid "Run Config Wizard"
+msgstr "Spustit konfiguračního průvodce"
 
 msgid "S"
 msgstr "S"
@@ -1719,11 +1936,14 @@ msgstr "Měřítko"
 msgid "Screen Grab"
 msgstr "Zachytit obrazovku"
 
-msgid "Screen Grab / FFmpeg"
-msgstr "Zachytit obrazovku / FFmpeg"
-
 msgid "Screen grab"
 msgstr "Zachytit obrazovku"
+
+msgid "Search automatically"
+msgstr "Vyhledat automaticky"
+
+msgid "Search manually"
+msgstr "Vyhledat ručně"
 
 msgid "Select a clip before copying"
 msgstr "Před kopírování vyberte klip"
@@ -1752,9 +1972,6 @@ msgstr "Vyberte prosím výchozí editor obrázků "
 
 msgid "Select default video player"
 msgstr "Vyberte prosím výchozí video přehrávač"
-
-msgid "Select region..."
-msgstr "Vyberte prosím oblast"
 
 msgid "Selected zone"
 msgstr "Vyběr"
@@ -1789,11 +2006,17 @@ msgstr "Nastavit začátek výběru"
 msgid "Shift"
 msgstr "Shift"
 
+msgid "Show All"
+msgstr "Zobrazit vše"
+
 msgid "Show audio thumbnails"
 msgstr "Zobrazovat audio miniatury"
 
 msgid "Show background"
 msgstr "Zobrazovat pozadí"
+
+msgid "Show crash log"
+msgstr "Zobrazit log selhání"
 
 msgid "Show experimental formats"
 msgstr "Zobrazovat experimentální formáty"
@@ -1861,6 +2084,12 @@ msgstr "Vytvoří dojem odrazu zvuku."
 msgid "Sox vibro audio effect"
 msgstr "Audio efekt vibro (Sox)"
 
+msgid "Space"
+msgstr "Místo"
+
+msgid "Spacer tool"
+msgstr "Nástroj pro práci s místem"
+
 msgid "Speed"
 msgstr "Rychlost"
 
@@ -1912,6 +2141,9 @@ msgstr "Textový klip"
 msgid "TextLabel"
 msgstr "Textová popiska"
 
+msgid "The custom profile was modified, do you want to save it ?"
+msgstr "Profil byl změněn, chcete jej uložit?"
+
 msgid "There is no clip, cannot extract frame."
 msgstr "Neexistuje klip, ze kterého by šel vyexportovat snímek."
 
@@ -1922,6 +2154,9 @@ msgid ""
 msgstr ""
 "Poprvé jste spustili program Kdenlive a tento jednoduchý průvodce s vámi "
 "projde základní nastavení předtím, než se pustíte do střihu."
+
+msgid "This project type is unsupported and can't be loaded."
+msgstr "Tento typ projektu není podporován a nemůže být načten."
 
 msgid "Threshold"
 msgstr "Černobílý"
@@ -1962,14 +2197,17 @@ msgstr "Nástroj"
 msgid "Top"
 msgstr "Nahoru"
 
+msgid "Track"
+msgstr "Stopa"
+
 msgid "Track height"
 msgstr "Výška stopy"
 
+msgid "Tracks"
+msgstr "Stopy"
+
 msgid "Transition"
 msgstr "Přechod"
-
-msgid "Transition type"
-msgstr "Typ přechodu"
 
 msgid "Transparency"
 msgstr "Průhlednost"
@@ -1979,6 +2217,12 @@ msgstr "Průhledné pozadí"
 
 msgid "Turn clip colors to sepia"
 msgstr "Změní barvy klipu na sépiové"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "Unable to open project"
+msgstr "Nelze otevřít projekt"
 
 #, kde-format
 msgid "Unable to write to file %1"
@@ -2038,14 +2282,14 @@ msgstr "Rozlišení videa"
 msgid "Video Standard"
 msgstr "Standard videa"
 
-msgid "Video capture params"
-msgstr "Parametry pro nahrávání videa"
-
 msgid "Video clip"
 msgstr "Video klip"
 
 msgid "Video codec"
 msgstr "Video kodek"
+
+msgid "Video device"
+msgstr "Video zařízení"
 
 msgid "Video driver:"
 msgstr "Video ovladač:"
@@ -2056,14 +2300,14 @@ msgstr "Video index"
 msgid "Video player"
 msgstr "Video přehráváč"
 
+msgid "Video track"
+msgstr "Video stopa"
+
 msgid "Video tracks"
 msgstr "Video stopy"
 
 msgid "Video4Linux"
 msgstr "Video4Linux"
-
-msgid "Video4Linux / FFmpeg"
-msgstr "Video4Linux / FFmpeg"
 
 msgid "View"
 msgstr "Pohled"
@@ -2123,20 +2367,60 @@ msgstr "Y:"
 msgid "Year"
 msgstr "Rok"
 
+#, kde-format
+msgid ""
+"You have changed the project folder. Do you want to copy the cached data "
+"from %1 to the new folder %2 ?"
+msgstr ""
+"Změnili jste složku projektu. Chcete nakopírovat data z keše z %1 do nově "
+"vytvořené složky %2?"
+
+#, kde-format
+msgid "You must be in an empty space to remove space (time=%1, track:%2)"
+msgstr ""
+"K odebrání volného místa musíte být v prázdném prostoru (nyní jste v čase %1 "
+"ve stopě %2)"
+
 msgid "You must copy exactly one clip before pasting effects"
 msgstr "Nebyl zkopírován efekt, který by šel vložit."
 
 msgid "You must select one clip for this action"
 msgstr "Pro tuto akci musíte vybrat jeden klip"
 
+msgid "You must select one transition for this action"
+msgstr "Pro tuto akci musíte vybrat právě jeden přechod"
+
 msgid "Z-Index:"
 msgstr "Z-Index:"
+
+msgid "Zoom In"
+msgstr "Přiblížit"
+
+msgid "Zoom Out"
+msgstr "Oddálit"
 
 msgid "Zoom:"
 msgstr "Přiblížení:"
 
+msgid "after"
+msgstr "za"
+
+msgid "before"
+msgstr "před"
+
 msgid "create new points"
 msgstr "Vytvořit nové body"
+
+msgid ""
+"dvgrab utility not found,\n"
+" please install it for firewire capture"
+msgstr ""
+"Program \'dvgrab\' nebyl nalezen,\n"
+"nainstalujte jej pokud chcete nahrávat přes firewire"
+
+#, kde-format
+msgid "dvgrab version %1 at %2"
+msgstr "verze dvgrabu %1 %2"
 
 msgid "effect"
 msgstr "efekty"
@@ -2162,9 +2446,6 @@ msgstr "přesunout po ose X"
 msgid "move on Y axis"
 msgstr "přesunout po ose Y"
 
-msgid "ogg"
-msgstr "ogg"
-
 msgid "oss"
 msgstr "oss"
 
@@ -2186,6 +2467,9 @@ msgstr "aktualizovat hodnoty na časové ose"
 msgid "video4linux2"
 msgstr "video4linux2"
 
+msgid "with track"
+msgstr "se stopou"
+
 msgid "x"
 msgstr "x"
 
@@ -2198,8 +2482,56 @@ msgstr ""
 "Instalace MLT nebyla nalezena, nainstalujte prosím MLT a restartujte "
 "Kdenlive.\n"
 
-#~ msgid "Rendering %1"
-#~ msgstr "Probíhá renderování %1"
+#~ msgid "Cannot add marker if more than one clip is selected"
+#~ msgstr "Nelze přidat záložku, pokud je vybrán více než jeden klip."
+
+#~ msgid "Cannot delete marker if more than one clip is selected"
+#~ msgstr "Nelze smazat záložku pokud je vybrán více než jeden klip"
+
+#~ msgid "Cannot edit marker if more than one clip is selected"
+#~ msgstr "Nelze editovat záložku pokud je vybrán více než jeden klip"
+
+#~ msgid "Capturing..."
+#~ msgstr "Nahrávám..."
+
+#~ msgid "Encoding"
+#~ msgstr "Překódování"
+
+#~ msgid "File extension"
+#~ msgstr "Koncovka souboru"
+
+#~ msgid "Firewire / dvgrab"
+#~ msgstr "Firewire / dvgrab"
+
+#~ msgid "No clip at cursor time"
+#~ msgstr "Na pozici kurzoru se nenachází žádný klip"
+
+#~ msgid "No clip selected"
+#~ msgstr "Nebyl vybrán žádný klip"
+
+#~ msgid "No selected clip at cursor time"
+#~ msgstr "Na pozici kurzoru není vybrán žádný klip"
+
+#~ msgid "Playback params"
+#~ msgstr "Parametry playbacku"
+
+#~ msgid "Screen Grab / FFmpeg"
+#~ msgstr "Zachytit obrazovku / FFmpeg"
+
+#~ msgid "Select region..."
+#~ msgstr "Vyberte prosím oblast"
+
+#~ msgid "Transition type"
+#~ msgstr "Typ přechodu"
+
+#~ msgid "Video capture params"
+#~ msgstr "Parametry pro nahrávání videa"
+
+#~ msgid "Video4Linux / FFmpeg"
+#~ msgstr "Video4Linux / FFmpeg"
+
+#~ msgid "ogg"
+#~ msgstr "ogg"
 
 #~ msgid "Templates"
 #~ msgstr "Výstupní formát"
@@ -2222,9 +2554,6 @@ msgstr ""
 #~ msgid "Delete Marker from Clip"
 #~ msgstr "Smazat záložku z klipu"
 
-#~ msgid "Delete track"
-#~ msgstr "Smazat stopu"
-
 # Not present strings in kdenlive.pot
 #~ msgid "Dust"
 #~ msgstr "Prach"
@@ -2240,9 +2569,6 @@ msgstr ""
 
 #~ msgid "Grain over the image"
 #~ msgstr "Přidá do obrazu šum"
-
-#~ msgid "Insert track"
-#~ msgstr "Vložit stopu"
 
 #~ msgid "Moves the Picture up and down and random brightness change"
 #~ msgstr ""
