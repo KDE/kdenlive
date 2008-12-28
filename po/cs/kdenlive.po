@@ -89,15 +89,14 @@ msgstr ""
 "<b>Velikost snímku</b>%1x%2<br><b>Snímků za sekundu:</b>%3/%4<br><b>Poměr "
 "stran pixelu:</b>%5/%6<br><b>Poměr stran:</b>%7/%8"
 
-msgid ""
-"<b>Recordmydesktop utility not found, please install it for screen grabs</b>"
+msgid "<b>Recordmydesktop utility not found, please install it for screen grabs</b>"
 msgstr ""
-"<b>Program \'Recordmydesktop\' nebyla nazelena, nainstalujte ji pokud chcete "
+"<b>Program 'Recordmydesktop' nebyla nazelena, nainstalujte ji pokud chcete "
 "nahrávat dění na obrazovce</b>"
 
 msgid "<b>dvgrab utility not found, please install it for firewire capture</b>"
 msgstr ""
-"<b>Program \'dvgrab\' nebyl nalezen, nainstalujte jej pokud chcete nahrávat "
+"<b>Program 'dvgrab' nebyl nalezen, nainstalujte jej pokud chcete nahrávat "
 "přes firewire</b>"
 
 msgid "<br><b>Author:</b> "
@@ -413,8 +412,7 @@ msgid "Cannot find clip with keyframe"
 msgstr "Neexistuje klip s klíčovým snímek "
 
 msgid "Cannot find the inigo program required for rendering (part of Mlt)"
-msgstr ""
-"Nelze najít program inigo (součást MLT), který je vyžadován pro renderování."
+msgstr "Nelze najít program inigo (součást MLT), který je vyžadován pro renderování."
 
 msgid "Cannot find your Mlt profiles, please give the path"
 msgstr "Nelze najít profily MLT, vyplňte prosím správnou cestu"
@@ -1753,7 +1751,7 @@ msgid ""
 "Recordmydesktop utility not found,\n"
 " please install it for screen grabs"
 msgstr ""
-"Program \'Recordmydesktop\' nebyl nalezen,\n"
+"Program 'Recordmydesktop' nebyl nalezen,\n"
 "nainstalujte jej pokud chcete nahrávat dějí na obrazovce."
 
 msgid "Recover"
@@ -1802,8 +1800,7 @@ msgstr "Renderování selhalo"
 
 #, kde-format
 msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
-msgstr ""
-"Renderování %1 bylo zrušeno, výsledné video bude pravděpodobně poškozeno."
+msgstr "Renderování %1 bylo zrušeno, výsledné video bude pravděpodobně poškozeno."
 
 #, kde-format
 msgid "Rendering of %1 crashed"
@@ -2415,7 +2412,7 @@ msgid ""
 "dvgrab utility not found,\n"
 " please install it for firewire capture"
 msgstr ""
-"Program \'dvgrab\' nebyl nalezen,\n"
+"Program 'dvgrab' nebyl nalezen,\n"
 "nainstalujte jej pokud chcete nahrávat přes firewire"
 
 #, kde-format
@@ -2476,8 +2473,7 @@ msgstr "x"
 msgid "x1"
 msgstr "x1"
 
-msgid ""
-"your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
+msgid "your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr ""
 "Instalace MLT nebyla nalezena, nainstalujte prosím MLT a restartujte "
 "Kdenlive.\n"
