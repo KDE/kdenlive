@@ -85,6 +85,7 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
     m_view.splitter->setStretchFactor(1, 5);
     m_view.splitter->setStretchFactor(0, 2);
 
+    m_view.out_file->setMode(KFile::File);
     focusFirstVisibleItem();
 }
 
@@ -476,6 +477,7 @@ void RenderWidget::refreshParams() {
     } else {
         m_view.out_file->setUrl(KUrl(QDir::homePath() + "/untitled." + extension));
     }
+    m_view.out_file->setFilter("*." + extension);
 
     if (item->data(EditableRole).toString().isEmpty()) {
         m_view.buttonDelete->setEnabled(false);
