@@ -1793,7 +1793,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                         }
                         new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
                     }
-                    if (tr == NULL || tr->endPos() < item->endPos()) {
+                    if (tr == NULL || tr->endPos() < m_dragItemInfo.endPos) {
                         // Check if there is a transition at clip end
                         tr = getTransitionItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track);
                         if (tr && tr->isAutomatic()) {
@@ -1821,7 +1821,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                         }
                         new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
                     }
-                    if (m_dragItemInfo.track == info.track && (tr == NULL || tr->endPos() < item->endPos())) {
+                    if (m_dragItemInfo.track == info.track && (tr == NULL || tr->endPos() < m_dragItemInfo.endPos)) {
                         // Check if there is a transition at clip end
                         tr = getTransitionItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track - 1);
                         if (tr && tr->isAutomatic() && (m_document->tracksCount() - tr->transitionEndTrack()) == m_dragItemInfo.track) {
