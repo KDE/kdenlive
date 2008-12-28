@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-25 11:24+0100\n"
-"PO-Revision-Date: 2008-12-28 18:51+0100\n"
+"PO-Revision-Date: 2008-12-28 19:08+0100\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1256,16 +1256,16 @@ msgid "Input gain (db)"
 msgstr "Gain en entrée (db)"
 
 msgid "Insert Space"
-msgstr "Insérer un espace"
+msgstr "Insérer espace"
 
 msgid "Insert Track"
-msgstr "Insérer une piste"
+msgstr "Insérer piste"
 
 msgid "Insert space"
-msgstr "Insérer un espace"
+msgstr "Insérer espace"
 
 msgid "Insert track"
-msgstr "Insérer une piste"
+msgstr "Insérer piste"
 
 msgid "Install extra video mimetypes"
 msgstr "Installer des signatures mime vidéo supplémentaires"
@@ -1785,13 +1785,13 @@ msgid "Remaining time"
 msgstr "Temps restant"
 
 msgid "Remove Space"
-msgstr "Supprimer l'espace"
+msgstr "Supprimer espace"
 
 msgid "Remove Track"
 msgstr "Supprimer la piste"
 
 msgid "Remove space"
-msgstr "Supprimer l'espace"
+msgstr "Supprimer espace"
 
 msgid "Rename folder"
 msgstr "Renommer le dossier"
@@ -2325,7 +2325,7 @@ msgid "Video4Linux"
 msgstr "Video4Linux"
 
 msgid "View"
-msgstr "Visualiser"
+msgstr "Afficher"
 
 msgid "Vinyl"
 msgstr "Vinyl"
@@ -2481,9 +2481,8 @@ msgstr "Mettre à jour les valeurs dans le montage"
 msgid "video4linux2"
 msgstr "video4linux2"
 
-#, fuzzy
 msgid "with track"
-msgstr "piste"
+msgstr "avec la piste"
 
 msgid "x"
 msgstr "x"
