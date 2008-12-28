@@ -139,6 +139,7 @@ void ClipItem::initEffect(QDomElement effect) {
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
+        kDebug() << "// inint eff: " << e.attribute("name");
         if (!e.isNull() && e.attribute("type") == "keyframe") {
             QString def = e.attribute("default");
             // Effect has a keyframe type parameter, we need to set the values
@@ -1114,38 +1115,46 @@ void ClipItem::setEffectAt(int ix, QDomElement effect) {
     }
 }
 
-QHash <QString, QString> ClipItem::addEffect(QDomElement effect, bool animate) {
-    QHash <QString, QString> effectParams;
+EffectsParameterList ClipItem::addEffect(QDomElement effect, bool animate) {
+
     bool needRepaint = false;
     /*QDomDocument doc;
     doc.appendChild(doc.importNode(effect, true));
     kDebug() << "///////  CLIP ADD EFFECT: " << doc.toString();*/
     m_effectList.append(effect);
-    effectParams["tag"] = effect.attribute("tag");
+
+    EffectsParameterList parameters;
+    parameters.addParam("tag", effect.attribute("tag"));
+    parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
+
+    QString state = effect.attribute("disabled");
+    if (!state.isEmpty()) {
+        parameters.addParam("disabled", state);
+    }
+
     QString effectId = effect.attribute("id");
     if (effectId.isEmpty()) effectId = effect.attribute("tag");
-    effectParams["id"] = effectId;
-    effectParams["kdenlive_ix"] = effect.attribute("kdenlive_ix");
-    QString state = effect.attribute("disabled");
-    if (!state.isEmpty()) effectParams["disabled"] = state;
+    parameters.addParam("id", effectId);
+
     QDomNodeList params = effect.elementsByTagName("parameter");
     int fade = 0;
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
         if (!e.isNull()) {
             if (e.attribute("type") == "keyframe") {
-                effectParams["keyframes"] = e.attribute("keyframes");
-                effectParams["min"] = e.attribute("min");
-                effectParams["max"] = e.attribute("max");
-                effectParams["factor"] = e.attribute("factor", "1");
-                effectParams["starttag"] = e.attribute("starttag", "start");
-                effectParams["endtag"] = e.attribute("endtag", "end");
+                parameters.addParam("keyframes", e.attribute("keyframes"));
+                parameters.addParam("max", e.attribute("max"));
+                parameters.addParam("min", e.attribute("min"));
+                parameters.addParam("factor", e.attribute("factor", "1"));
+                parameters.addParam("starttag", e.attribute("starttag", "start"));
+                parameters.addParam("endtag", e.attribute("endtag", "end"));
             }
 
             double f = e.attribute("factor", "1").toDouble();
 
             if (f == 1) {
-                effectParams[e.attribute("name")] = e.attribute("value");
+                parameters.addParam(e.attribute("name"), e.attribute("value"));
+
                 // check if it is a fade effect
                 if (effectId == "fadein") {
                     needRepaint = true;
@@ -1157,7 +1166,7 @@ QHash <QString, QString> ClipItem::addEffect(QDomElement effect, bool animate) {
                     else if (e.attribute("name") == "in") fade += e.attribute("value").toInt();
                 }
             } else {
-                effectParams[e.attribute("name")] =  QString::number(e.attribute("value").toDouble() / f);
+                parameters.addParam(e.attribute("name"), QString::number(e.attribute("value").toDouble() / f));
             }
         }
     }
@@ -1176,28 +1185,32 @@ QHash <QString, QString> ClipItem::addEffect(QDomElement effect, bool animate) {
         m_selectedEffect = 0;
         setSelectedEffect(m_selectedEffect);
     }
-    return effectParams;
+    return parameters;
 }
 
-QHash <QString, QString> ClipItem::getEffectArgs(QDomElement effect) {
-    QHash <QString, QString> effectParams;
-    effectParams["tag"] = effect.attribute("tag");
-    effectParams["kdenlive_ix"] = effect.attribute("kdenlive_ix");
-    effectParams["id"] = effect.attribute("id");
+EffectsParameterList ClipItem::getEffectArgs(QDomElement effect) {
+    EffectsParameterList parameters;
+    parameters.addParam("tag", effect.attribute("tag"));
+    parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
+    parameters.addParam("id", effect.attribute("id"));
+
     QString state = effect.attribute("disabled");
-    if (!state.isEmpty()) effectParams["disabled"] = state;
+    if (!state.isEmpty()) {
+        parameters.addParam("disabled", state);
+    }
+
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
         //kDebug() << "/ / / /SENDING EFFECT PARAM: " << e.attribute("type") << ", NAME_ " << e.attribute("tag");
         if (e.attribute("type") == "keyframe") {
             kDebug() << "/ / / /SENDING KEYFR EFFECT TYPE";
-            effectParams["keyframes"] = e.attribute("keyframes");
-            effectParams["max"] = e.attribute("max");
-            effectParams["min"] = e.attribute("min");
-            effectParams["factor"] = e.attribute("factor", "1");
-            effectParams["starttag"] = e.attribute("starttag", "start");
-            effectParams["endtag"] = e.attribute("endtag", "end");
+            parameters.addParam("keyframes", e.attribute("keyframes"));
+            parameters.addParam("max", e.attribute("max"));
+            parameters.addParam("min", e.attribute("min"));
+            parameters.addParam("factor", e.attribute("factor", "1"));
+            parameters.addParam("starttag", e.attribute("starttag", "start"));
+            parameters.addParam("endtag", e.attribute("endtag", "end"));
         } else if (e.attribute("namedesc").contains(";")) {
             QString format = e.attribute("format");
             QStringList separators = format.split("%d", QString::SkipEmptyParts);
@@ -1210,14 +1223,16 @@ QHash <QString, QString> ClipItem::getEffectArgs(QDomElement effect) {
                 txtNeu << separators[i];
                 txtNeu << (int)(values[i+1].toDouble());
             }
-            effectParams["start"] = neu;
+            parameters.addParam("start", neu);
         } else {
-            if (e.attribute("factor", "1") != "1")
-                effectParams[e.attribute("name")] =  QString::number(e.attribute("value").toDouble() / e.attribute("factor").toDouble());
-            else effectParams[e.attribute("name")] = e.attribute("value");
+            if (e.attribute("factor", "1") != "1") {
+                parameters.addParam(e.attribute("name"), QString::number(e.attribute("value").toDouble() / e.attribute("factor").toDouble()));
+            } else {
+                parameters.addParam(e.attribute("name"), e.attribute("value"));
+            }
         }
     }
-    return effectParams;
+    return parameters;
 }
 
 void ClipItem::deleteEffect(QString index) {

@@ -79,6 +79,55 @@ struct MltVideoProfile {
     int display_aspect_den;
 };
 
+
+class EffectParameter {
+public:
+    EffectParameter(const QString name, const QString value): m_name(name), m_value(value) {}
+    QString name()   const          {
+        return m_name;
+    }
+    QString value() const          {
+        return m_value;
+    }
+    void setValue(const QString value) {
+        m_value = value;
+    }
+
+private:
+    QString m_name;
+    QString m_value;
+};
+
+/** Use our own list for effect parameters so that they are not sorted in any ways, because
+    some effects like sox need a precise order
+*/
+class EffectsParameterList: public QList < EffectParameter > {
+public:
+    EffectsParameterList(): QList < EffectParameter >() {}
+    bool hasParam(const QString name) const {
+        for (int i = 0; i < size(); i++)
+            if (at(i).name() == name) return true;
+        return false;
+    }
+    QString paramValue(const QString name, QString defaultValue = QString()) const {
+        for (int i = 0; i < size(); i++) {
+            if (at(i).name() == name) return at(i).value();
+        }
+        return defaultValue;
+    }
+    void addParam(const QString &name, const QString &value) {
+        if (name.isEmpty()) return;
+        append(EffectParameter(name, value));
+    }
+    void removeParam(const QString name) {
+        for (int i = 0; i < size(); i++)
+            if (at(i).name() == name) {
+                removeAt(i);
+                break;
+            }
+    }
+};
+
 class CommentedTime {
 public:
     CommentedTime(): t(GenTime(0)) {}

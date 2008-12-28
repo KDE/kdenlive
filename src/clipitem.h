@@ -61,9 +61,9 @@ public:
     /** Give a string list of the clip's effect names */
     QStringList effectNames();
     /** Add an effect to the clip and return the parameters that will be passed to Mlt */
-    QHash <QString, QString> addEffect(QDomElement effect, bool animate = true);
+    EffectsParameterList addEffect(QDomElement effect, bool animate = true);
     /** Get the effect parameters that will be passed to Mlt */
-    QHash <QString, QString> getEffectArgs(QDomElement effect);
+    EffectsParameterList getEffectArgs(QDomElement effect);
     /** Delete effect with id index */
     void deleteEffect(QString index);
     /** return the number of effects in that clip */

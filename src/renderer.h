@@ -158,8 +158,8 @@ Q_OBJECT public:
     bool mltMoveClip(int startTrack, int endTrack, int pos, int moveStart, Mlt::Producer *prod);
     bool mltRemoveClip(int track, GenTime position);
     bool mltRemoveEffect(int track, GenTime position, QString index, bool doRefresh = true);
-    bool mltAddEffect(int track, GenTime position, QHash <QString, QString> args, bool doRefresh = true);
-    bool mltEditEffect(int track, GenTime position, QHash <QString, QString> args);
+    bool mltAddEffect(int track, GenTime position, EffectsParameterList params, bool doRefresh = true);
+    bool mltEditEffect(int track, GenTime position, EffectsParameterList params);
     void mltMoveEffect(int track, GenTime position, int oldPos, int newPos);
     void mltChangeTrackState(int track, bool mute, bool blind);
     void mltMoveTransition(QString type, int startTrack,  int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut);

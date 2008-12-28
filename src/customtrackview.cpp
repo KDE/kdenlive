@@ -975,8 +975,7 @@ void CustomTrackView::slotRefreshEffects(ClipItem *clip) {
 void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect) {
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_document->tracksCount() - track);
     if (clip) {
-        QHash <QString, QString> effectParams = clip->addEffect(effect);
-        if (!m_document->renderer()->mltAddEffect(track, pos, effectParams))
+        if (!m_document->renderer()->mltAddEffect(track, pos, clip->addEffect(effect)))
             emit displayMessage(i18n("Problem adding effect to clip"), ErrorMessage);
         emit clipItemSelected(clip);
     } else emit displayMessage(i18n("Cannot find clip to add effect"), ErrorMessage);
@@ -1024,15 +1023,15 @@ void CustomTrackView::slotDeleteEffect(ClipItem *clip, QDomElement effect) {
 void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, int ix, bool triggeredByUser) {
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_document->tracksCount() - track);
     if (clip) {
-        QHash <QString, QString> effectParams = clip->getEffectArgs(effect);
+        EffectsParameterList effectParams = clip->getEffectArgs(effect);
         // check if we are trying to reset a keyframe effect
-        if (effectParams.contains("keyframes") && effectParams.value("keyframes").isEmpty()) {
+        if (effectParams.hasParam("keyframes") && effectParams.paramValue("keyframes").isEmpty()) {
             clip->initEffect(effect);
             clip->setEffectAt(ix, effect);
             effectParams = clip->getEffectArgs(effect);
         }
-        if (effectParams.value("disabled") == "1") {
-            if (m_document->renderer()->mltRemoveEffect(track, pos, effectParams.value("kdenlive_ix"))) {
+        if (effectParams.paramValue("disabled") == "1") {
+            if (m_document->renderer()->mltRemoveEffect(track, pos, effectParams.paramValue("kdenlive_ix"))) {
                 kDebug() << "//////  DISABLING EFFECT: " << index << ", CURRENTLA: " << clip->selectedEffectIndex();
             } else emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
         } else if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - clip->track(), clip->startPos(), effectParams))
@@ -1046,11 +1045,11 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, i
         if (effect.attribute("tag") == "volume") {
             // A fade effect was modified, update the clip
             if (effect.attribute("id") == "fadein") {
-                int pos = effectParams.value("out").toInt() - effectParams.value("in").toInt();
+                int pos = effectParams.paramValue("out").toInt() - effectParams.paramValue("in").toInt();
                 clip->setFadeIn(pos);
             }
             if (effect.attribute("id") == "fadeout") {
-                int pos = effectParams.value("out").toInt() - effectParams.value("in").toInt();
+                int pos = effectParams.paramValue("out").toInt() - effectParams.paramValue("in").toInt();
                 clip->setFadeOut(pos);
             }
 
@@ -2476,8 +2475,7 @@ void CustomTrackView::updateClipFade(ClipItem * item, bool updateFadeOut) {
             end += start;
             EffectsList::setParameter(oldeffect, "in", QString::number(start));
             EffectsList::setParameter(oldeffect, "out", QString::number(end));
-            QHash <QString, QString> effectParams = item->getEffectArgs(oldeffect);
-            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), effectParams))
+            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), item->getEffectArgs(oldeffect)))
                 emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
             // if fade effect is displayed, update the effect edit widget with new clip duration
             if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
@@ -2498,8 +2496,7 @@ void CustomTrackView::updateClipFade(ClipItem * item, bool updateFadeOut) {
             start = end - start;
             EffectsList::setParameter(oldeffect, "in", QString::number(start));
             EffectsList::setParameter(oldeffect, "out", QString::number(end));
-            QHash <QString, QString> effectParams = item->getEffectArgs(oldeffect);
-            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), effectParams))
+            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), item->getEffectArgs(oldeffect)))
                 emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
             // if fade effect is displayed, update the effect edit widget with new clip duration
             if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);

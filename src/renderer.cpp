@@ -1720,7 +1720,7 @@ bool Render::mltRemoveEffect(int track, GenTime position, QString index, bool do
 }
 
 
-bool Render::mltAddEffect(int track, GenTime position, QHash <QString, QString> args, bool doRefresh) {
+bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList params, bool doRefresh) {
 
     Mlt::Service service(m_mltProducer->parent().get_service());
 
@@ -1737,7 +1737,7 @@ bool Render::mltAddEffect(int track, GenTime position, QHash <QString, QString> 
 
     // temporarily remove all effects after insert point
     QList <Mlt::Filter *> filtersList;
-    const int filter_ix = QString(args.value("kdenlive_ix")).toInt();
+    const int filter_ix = params.paramValue("kdenlive_ix").toInt();
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
@@ -1749,30 +1749,30 @@ bool Render::mltAddEffect(int track, GenTime position, QHash <QString, QString> 
     }
 
     // create filter
-    QString tag = args.value("tag");
+    QString tag =  params.paramValue("tag");
     kDebug() << " / / INSERTING EFFECT: " << tag;
     if (tag.startsWith("ladspa")) tag = "ladspa";
     char *filterTag = decodedString(tag);
-    char *filterId = decodedString(args.value("id"));
+    char *filterId = decodedString(params.paramValue("id"));
     QHash<QString, QString>::Iterator it;
-    QString kfr = args.value("keyframes");
+    QString kfr = params.paramValue("keyframes");
 
     if (!kfr.isEmpty()) {
         QStringList keyFrames = kfr.split(";", QString::SkipEmptyParts);
-        kDebug() << "// ADDING KEYFRAME EFFECT: " << args.value("keyframes");
-        char *starttag = decodedString(args.value("starttag", "start"));
-        char *endtag = decodedString(args.value("endtag", "end"));
+        kDebug() << "// ADDING KEYFRAME EFFECT: " << params.paramValue("keyframes");
+        char *starttag = decodedString(params.paramValue("starttag", "start"));
+        char *endtag = decodedString(params.paramValue("endtag", "end"));
         kDebug() << "// ADDING KEYFRAME TAGS: " << starttag << ", " << endtag;
         int duration = clip->get_playtime();
-        double max = args.value("max").toDouble();
-        double min = args.value("min").toDouble();
-        double factor = args.value("factor", "1").toDouble();
-        args.remove("starttag");
-        args.remove("endtag");
-        args.remove("keyframes");
-        args.remove("min");
-        args.remove("max");
-        args.remove("factor");
+        double max = params.paramValue("max").toDouble();
+        double min = params.paramValue("min").toDouble();
+        double factor = params.paramValue("factor", "1").toDouble();
+        params.removeParam("starttag");
+        params.removeParam("endtag");
+        params.removeParam("keyframes");
+        params.removeParam("min");
+        params.removeParam("max");
+        params.removeParam("factor");
         int offset = 0;
         for (int i = 0; i < keyFrames.size() - 1; ++i) {
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterTag);
@@ -1783,9 +1783,10 @@ bool Render::mltAddEffect(int track, GenTime position, QHash <QString, QString> 
                 int x2 = keyFrames.at(i + 1).section(":", 0, 0).toInt();
                 double y2 = keyFrames.at(i + 1).section(":", 1, 1).toDouble();
                 if (x2 == -1) x2 = duration;
-                for (it = args.begin(); it != args.end(); ++it) {
-                    char *name = decodedString(it.key());
-                    char *value = decodedString(it.value());
+
+                for (int j = 0; j < params.count(); j++) {
+                    char *name = decodedString(params.at(j).name());
+                    char *value = decodedString(params.at(j).value());
                     filter->set(name, value);
                     delete[] name;
                     delete[] value;
@@ -1812,13 +1813,34 @@ bool Render::mltAddEffect(int track, GenTime position, QHash <QString, QString> 
             return false;
         }
 
-        for (it = args.begin(); it != args.end(); ++it) {
-            char *name = decodedString(it.key());
-            char *value = decodedString(it.value());
+        params.removeParam("kdenlive_id");
+
+        for (int j = 0; j < params.count(); j++) {
+            char *name = decodedString(params.at(j).name());
+            char *value = decodedString(params.at(j).value());
             filter->set(name, value);
             delete[] name;
             delete[] value;
         }
+
+        if (tag == "sox") {
+            QString effectArgs = params.paramValue("id").section('_', 1);
+
+            params.removeParam("id");
+            params.removeParam("kdenlive_ix");
+            params.removeParam("tag");
+            params.removeParam("disabled");
+
+            for (int j = 0; j < params.count(); j++) {
+                effectArgs.append(' ' + params.at(j).value());
+            }
+            kDebug() << "SOX EFFECTS: " << effectArgs.simplified();
+            char *value = decodedString(effectArgs.simplified());
+            filter->set("effect", value);
+            delete[] value;
+        }
+
+
         // attach filter to the clip
         clipService.attach(*filter);
     }
@@ -1835,14 +1857,14 @@ bool Render::mltAddEffect(int track, GenTime position, QHash <QString, QString> 
     return true;
 }
 
-bool Render::mltEditEffect(int track, GenTime position, QHash <QString, QString> args) {
-    QString index = args.value("kdenlive_ix");
-    QString tag =  args.value("tag");
-    QHash<QString, QString>::Iterator it = args.begin();
-    if (!args.value("keyframes").isEmpty() || /*it.key().startsWith("#") || */tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle") {
+bool Render::mltEditEffect(int track, GenTime position, EffectsParameterList params) {
+    QString index = params.paramValue("kdenlive_ix");
+    QString tag =  params.paramValue("tag");
+
+    if (!params.paramValue("keyframes").isEmpty() || /*it.key().startsWith("#") || */tag.startsWith("ladspa") || tag == "sox" || tag == "autotrack_rectangle") {
         // This is a keyframe effect, to edit it, we remove it and re-add it.
         mltRemoveEffect(track, position, index);
-        bool success = mltAddEffect(track, position, args);
+        bool success = mltAddEffect(track, position, params);
         return success;
     }
 
@@ -1883,7 +1905,7 @@ bool Render::mltEditEffect(int track, GenTime position, QHash <QString, QString>
             } else ct++;
             filter = clipService.filter(ct);
         }
-        bool success = mltAddEffect(track, position, args);
+        bool success = mltAddEffect(track, position, params);
 
         for (int i = 0; i < filtersList.count(); i++) {
             clipService.attach(*(filtersList.at(i)));
@@ -1893,14 +1915,14 @@ bool Render::mltEditEffect(int track, GenTime position, QHash <QString, QString>
         return success;
     }
 
-    for (it = args.begin(); it != args.end(); ++it) {
-        kDebug() << " / / EDITING EFFECT ARGS: " << it.key() << ": " << it.value();
-        char *name = decodedString(it.key());
-        char *value = decodedString(it.value());
+    for (int j = 0; j < params.count(); j++) {
+        char *name = decodedString(params.at(j).name());
+        char *value = decodedString(params.at(j).value());
         filter->set(name, value);
         delete[] name;
         delete[] value;
     }
+
     m_isBlocked = false;
     refresh();
     return true;

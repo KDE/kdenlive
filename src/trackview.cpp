@@ -513,12 +513,16 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml) {
                                 QString paramname = effectparam.attribute("name");
                                 QString paramvalue = effectparam.text();
 
+
                                 // try to find this parameter in the effect xml
                                 QDomElement e;
                                 for (int k = 0; k < clipeffectparams.count(); k++) {
                                     e = clipeffectparams.item(k).toElement();
                                     if (!e.isNull() && e.tagName() == "parameter" && e.attribute("name") == paramname) {
-                                        e.setAttribute("value", paramvalue);
+                                        double factor = e.attribute("factor", "1").toDouble();
+                                        if (factor != 1) {
+                                            e.setAttribute("value", paramvalue.toDouble() * factor);
+                                        } else e.setAttribute("value", paramvalue);
                                         break;
                                     }
                                 }
