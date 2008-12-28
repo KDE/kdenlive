@@ -44,7 +44,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, cons
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     setIcon(0, KIcon("folder"));
-    setToolTip(1, "<qt><b>" + i18n("Folder"));
+    setToolTip(1, "<b>" + i18n("Folder"));
     //kDebug() << "Constructed as folder, with clipId: " << m_clipId << ", and groupname: " << m_groupname;
 }
 
@@ -162,7 +162,7 @@ DocClipBase *ProjectItem::referencedClip() {
 }
 
 void ProjectItem::slotSetToolTip() {
-    QString tip = "<qt><b>";
+    QString tip = "<b>";
     switch (m_clipType) {
     case AUDIO:
         tip.append(i18n("Audio clip") + "</b><br />" + clipUrl().path());

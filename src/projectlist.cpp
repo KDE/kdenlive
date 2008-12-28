@@ -449,7 +449,7 @@ void ProjectList::slotRemoveInvalidClip(const QString &id) {
     ProjectItem *item = getItemById(id);
     if (item) {
         const QString path = item->referencedClip()->fileURL().path();
-        if (!path.isEmpty()) KMessageBox::sorry(this, i18n("<qt>Clip <b>%1</b><br>is invalid, will be removed from project.", path));
+        if (!path.isEmpty()) KMessageBox::sorry(this, i18n("Clip <b>%1</b><br>is invalid, will be removed from project.", path));
         QList <QString> ids;
         ids << id;
         m_doc->deleteProjectClip(ids);
