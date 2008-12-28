@@ -58,7 +58,7 @@ Q_OBJECT public:
     KAutoSaveFile *m_autosave;
     void backupMltPlaylist();
     Timecode timecode() const;
-    QDomDocument toXml() const;
+    QDomDocument toXml();
     void setRenderer(Render *render);
     QUndoStack *commandStack();
     QString producerName(const QString &id);
@@ -117,6 +117,7 @@ Q_OBJECT public:
     void switchTrackAudio(int ix, bool hide);
     void cachePixmap(const QString &fileId, const QPixmap &pix) const;
     void setProjectFolder(KUrl url);
+    QString getLadspaFile() const;
 
 private:
     KUrl m_url;

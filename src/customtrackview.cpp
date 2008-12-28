@@ -67,6 +67,7 @@
 #include "changetrackcommand.h"
 #include "movegroupcommand.h"
 #include "ui_addtrack_ui.h"
+#include "initeffects.h"
 
 //TODO:
 // disable animation if user asked it in KDE's global settings
@@ -1007,6 +1008,11 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track) 
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = (ClipItem *)itemList.at(i);
             item->initEffect(effect);
+            if (effect.attribute("tag") == "ladspa") {
+                QString ladpsaFile = m_document->getLadspaFile();
+                initEffects::ladspaEffectFile(ladpsaFile, effect.attribute("ladspaid").toInt(), getLadspaParams(effect));
+                effect.setAttribute("src", ladpsaFile);
+            }
             AddEffectCommand *command = new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), effect, true);
             m_commandStack->push(command);
         }
@@ -1024,6 +1030,10 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, i
     ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, m_document->tracksCount() - track);
     if (clip) {
         EffectsParameterList effectParams = clip->getEffectArgs(effect);
+        if (effect.attribute("tag") == "ladspa") {
+            // Update the ladspa affect file
+            initEffects::ladspaEffectFile(effect.attribute("src"), effect.attribute("ladspaid").toInt(), getLadspaParams(effect));
+        }
         // check if we are trying to reset a keyframe effect
         if (effectParams.hasParam("keyframes") && effectParams.paramValue("keyframes").isEmpty()) {
             clip->initEffect(effect);
@@ -3284,6 +3294,24 @@ void CustomTrackView::autoTransition() {
     tr->setAutomatic(!tr->isAutomatic());
     QDomElement transition = tr->toXML();
     m_document->renderer()->mltUpdateTransition(transition.attribute("tag"), transition.attribute("tag"), transition.attribute("transition_btrack").toInt(), m_document->tracksCount() - transition.attribute("transition_atrack").toInt(), tr->startPos(), tr->endPos(), transition);
+}
+
+
+QStringList CustomTrackView::getLadspaParams(QDomElement effect) const {
+    QStringList result;
+    QDomNodeList params = effect.elementsByTagName("parameter");
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        if (!e.isNull() && e.attribute("type") == "constant") {
+            if (e.hasAttribute("factor")) {
+                double factor = e.attribute("factor").toDouble();
+                double value = e.attribute("value").toDouble();
+                value = value / factor;
+                result.append(QString::number(value));
+            } else result.append(e.attribute("value"));
+        }
+    }
+    return result;
 }
 
 #include "customtrackview.moc"

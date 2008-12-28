@@ -1126,6 +1126,7 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool animate) {
     EffectsParameterList parameters;
     parameters.addParam("tag", effect.attribute("tag"));
     parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
+    if (effect.hasAttribute("src")) parameters.addParam("src", effect.attribute("src"));
 
     QString state = effect.attribute("disabled");
     if (!state.isEmpty()) {
@@ -1193,7 +1194,7 @@ EffectsParameterList ClipItem::getEffectArgs(QDomElement effect) {
     parameters.addParam("tag", effect.attribute("tag"));
     parameters.addParam("kdenlive_ix", effect.attribute("kdenlive_ix"));
     parameters.addParam("id", effect.attribute("id"));
-
+    if (effect.hasAttribute("src")) parameters.addParam("src", effect.attribute("src"));
     QString state = effect.attribute("disabled");
     if (!state.isEmpty()) {
         parameters.addParam("disabled", state);

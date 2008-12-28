@@ -1711,7 +1711,10 @@ bool Render::mltRemoveEffect(int track, GenTime position, QString index, bool do
         if ((index == "-1" && filter->get("kdenlive_id") != "")  || filter->get("kdenlive_ix") == index) {// && filter->get("kdenlive_id") == id) {
             if (clipService.detach(*filter) == 0) success = true;
             kDebug() << " / / / DLEETED EFFECT: " << ct;
-        } else ct++;
+        } else {
+            if (QString(filter->get("kdenlive_ix")).toInt() > index.toInt()) filter->set("kdenlive_ix", QString(filter->get("kdenlive_ix")).toInt() - 1);
+            ct++;
+        }
         filter = clipService.filter(ct);
     }
     m_isBlocked = false;
@@ -1834,7 +1837,7 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
             for (int j = 0; j < params.count(); j++) {
                 effectArgs.append(' ' + params.at(j).value());
             }
-            kDebug() << "SOX EFFECTS: " << effectArgs.simplified();
+            //kDebug() << "SOX EFFECTS: " << effectArgs.simplified();
             char *value = decodedString(effectArgs.simplified());
             filter->set("effect", value);
             delete[] value;

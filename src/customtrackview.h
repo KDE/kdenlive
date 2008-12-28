@@ -106,6 +106,7 @@ public:
     void changeTimelineTrack(int ix, TrackInfo trackinfo);
     void saveThumbnails();
     void autoTransition();
+    QStringList getLadspaParams(QDomElement effect) const;
 
 public slots:
     void setCursorPos(int pos, bool seek = true);

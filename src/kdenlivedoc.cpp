@@ -179,6 +179,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     // make sure that the necessary folders exist
     KStandardDirs::makeDir(m_projectFolder.path() + "/titles/");
     KStandardDirs::makeDir(m_projectFolder.path() + "/thumbs/");
+    KStandardDirs::makeDir(m_projectFolder.path() + "/ladspa/");
 
     m_scenelist = m_document.toString();
     kDebug() << "KDEnnlive document, init timecode: " << m_fps;
@@ -336,8 +337,10 @@ int KdenliveDoc::zoom() const {
 bool KdenliveDoc::convertDocument(double version) {
     kDebug() << "Opening a document with version " << version;
 
+    if (version == 0.81) return true;
+
     // Opening a old Kdenlive document
-    if (version == 0.5 || version == 0.7) {
+    if (version == 0.5 || version == 0.7 || version > 0.81) {
         kDebug() << "Unable to open document with version " << version;
         // TODO: convert 0.7 (0.5?) files to the new document format.
         return FALSE;
@@ -901,6 +904,7 @@ void KdenliveDoc::setProjectFolder(KUrl url) {
 
 void KdenliveDoc::moveProjectData(KUrl url) {
     QList <DocClipBase*> list = m_clipManager->documentClipList();
+    //TODO: Also move ladspa effects files
     for (int i = 0; i < list.count(); i++) {
         DocClipBase *clip = list.at(i);
         if (clip->clipType() == TEXT) {
@@ -1078,7 +1082,7 @@ QDomDocument KdenliveDoc::generateSceneList() {
     QDomElement prod = doc.createElement("producer");
 }
 
-QDomDocument KdenliveDoc::toXml() const {
+QDomDocument KdenliveDoc::toXml() {
     return m_document;
 }
 
@@ -1410,6 +1414,16 @@ QString KdenliveDoc::getTracksInfo() const {
 
 void KdenliveDoc::cachePixmap(const QString &fileId, const QPixmap &pix) const {
     pix.save(m_projectFolder.path() + "/thumbs/" + fileId + ".png");
+}
+
+QString KdenliveDoc::getLadspaFile() const {
+    int ct = 0;
+    QString counter = QString::number(ct).rightJustified(5, '0', false);
+    while (QFile::exists(m_projectFolder.path() + "/ladspa/" + counter + ".ladspa")) {
+        ct++;
+        counter = QString::number(ct).rightJustified(5, '0', false);
+    }
+    return m_projectFolder.path() + "/ladspa/" + counter + ".ladspa";
 }
 
 #include "kdenlivedoc.moc"

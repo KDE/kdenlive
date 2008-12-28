@@ -34,7 +34,7 @@
 #include "kdenlivedoc.h"
 #include "mainwindow.h"
 #include "customtrackview.h"
-
+#include "initeffects.h"
 
 TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
         : QWidget(parent), m_doc(doc), m_scale(1.0), m_projectTracks(0) {
@@ -401,6 +401,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml) {
                         QString effecttag;
                         QString effectid;
                         QString effectindex;
+                        QString ladspaEffectFile;
                         // Get effect tag & index
                         for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
                             // parse effect parameters
@@ -411,6 +412,15 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml) {
                                 effectid = effectparam.text();
                             } else if (effectparam.attribute("name") == "kdenlive_ix") {
                                 effectindex = effectparam.text();
+                            } else if (effectparam.attribute("name") == "src") {
+                                ladspaEffectFile = effectparam.text();
+                                if (!QFile::exists(ladspaEffectFile)) {
+                                    // If the ladspa effect file is missing, recreate it
+                                    kDebug() << "// MISSING LADSPA FILE: " << ladspaEffectFile;
+                                    ladspaEffectFile = m_doc->getLadspaFile();
+                                    effectparam.firstChild().setNodeValue(ladspaEffectFile);
+                                    kDebug() << "// ... REPLACED WITH: " << ladspaEffectFile;
+                                }
                             }
                         }
                         //kDebug() << "+ + CLIP EFF FND: " << effecttag << ", " << effectid << ", " << effectindex;
@@ -526,6 +536,15 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml) {
                                         break;
                                     }
                                 }
+                            }
+                            if (effecttag == "ladspa") {
+                                //QString ladspaEffectFile = EffectsList::parameter(effect, "src", "property");
+
+                                if (!QFile::exists(ladspaEffectFile)) {
+                                    // If the ladspa effect file is missing, recreate it
+                                    initEffects::ladspaEffectFile(ladspaEffectFile, currenteffect.attribute("ladspaid").toInt(), m_trackview->getLadspaParams(currenteffect));
+                                }
+                                currenteffect.setAttribute("src", ladspaEffectFile);
                             }
                             item->addEffect(currenteffect, false);
                             item->effectsCounter();
