@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-25 11:24+0100\n"
-"PO-Revision-Date: 2008-12-28 19:08+0100\n"
+"PO-Revision-Date: 2008-12-28 19:20+0100\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -832,7 +832,7 @@ msgid "Display ratio:"
 msgstr "Format d'affichage :"
 
 msgid "Distort0r"
-msgstr ""
+msgstr "Distort0r"
 
 msgid "Do nothing"
 msgstr "Ne rien faire"
@@ -1170,9 +1170,8 @@ msgstr "Niveaux de gris"
 msgid "Group"
 msgstr "Grouper"
 
-#, fuzzy
 msgid "GroupBox"
-msgstr "groupe"
+msgstr "groupeGroupBox"
 
 msgid "Guide"
 msgstr "Guide"
@@ -1654,7 +1653,7 @@ msgid "Ports:"
 msgstr "Ports :"
 
 msgid "Pos"
-msgstr ""
+msgstr "Pos"
 
 msgid "Position"
 msgstr "Emplacement"
@@ -2102,7 +2101,7 @@ msgid "Space"
 msgstr "Espace"
 
 msgid "Spacer tool"
-msgstr "Outil de déplacement"
+msgstr "Outil déplacement"
 
 msgid "Speed"
 msgstr "Vitesse"
@@ -2325,7 +2324,7 @@ msgid "Video4Linux"
 msgstr "Video4Linux"
 
 msgid "View"
-msgstr "Afficher"
+msgstr "Affichage"
 
 msgid "Vinyl"
 msgstr "Vinyl"
