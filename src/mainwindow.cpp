@@ -482,14 +482,14 @@ void MainWindow::slotSetClipDuration(const QString &id, int duration) {
 
 void MainWindow::slotConnectMonitors() {
 
-    m_projectList->setRenderer(m_clipMonitor->render);
+    m_projectList->setRenderer(m_projectMonitor->render);
     connect(m_projectList, SIGNAL(receivedClipDuration(const QString &, int)), this, SLOT(slotSetClipDuration(const QString &, int)));
     connect(m_projectList, SIGNAL(showClipProperties(DocClipBase *)), this, SLOT(slotShowClipProperties(DocClipBase *)));
-    connect(m_projectList, SIGNAL(getFileProperties(const QDomElement &, const QString &)), m_clipMonitor->render, SLOT(getFileProperties(const QDomElement &, const QString &)));
-    connect(m_clipMonitor->render, SIGNAL(replyGetImage(const QString &, int, const QPixmap &, int, int)), m_projectList, SLOT(slotReplyGetImage(const QString &, int, const QPixmap &, int, int)));
-    connect(m_clipMonitor->render, SIGNAL(replyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &)), m_projectList, SLOT(slotReplyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &)));
+    connect(m_projectList, SIGNAL(getFileProperties(const QDomElement &, const QString &)), m_projectMonitor->render, SLOT(getFileProperties(const QDomElement &, const QString &)));
+    connect(m_projectMonitor->render, SIGNAL(replyGetImage(const QString &, int, const QPixmap &, int, int)), m_projectList, SLOT(slotReplyGetImage(const QString &, int, const QPixmap &, int, int)));
+    connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &)), m_projectList, SLOT(slotReplyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &)));
 
-    connect(m_clipMonitor->render, SIGNAL(removeInvalidClip(const QString &)), m_projectList, SLOT(slotRemoveInvalidClip(const QString &)));
+    connect(m_projectMonitor->render, SIGNAL(removeInvalidClip(const QString &)), m_projectList, SLOT(slotRemoveInvalidClip(const QString &)));
 
     connect(m_clipMonitor, SIGNAL(refreshClipThumbnail(const QString &)), m_projectList, SLOT(slotRefreshClipThumbnail(const QString &)));
 
@@ -963,7 +963,7 @@ void MainWindow::newFile(bool showProjectSettings) {
         projectTracks = w->tracks();
         delete w;
     }
-    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, projectTracks,  this);
+    KdenliveDoc *doc = new KdenliveDoc(KUrl(), projectFolder, m_commandStack, profileName, projectTracks, m_projectMonitor->render, this);
     doc->m_autosave = new KAutoSaveFile(KUrl(), doc);
     TrackView *trackView = new TrackView(doc, this);
     m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description());
@@ -1076,6 +1076,7 @@ void MainWindow::openFile() {
 void MainWindow::openLastFile() {
     KSharedConfigPtr config = KGlobal::config();
     KUrl::List urls = m_fileOpenRecent->urls();
+    //WARNING: this is buggy, we get a random url, not the last one. Bug in KRecentFileAction ?
     if (urls.isEmpty()) newFile(false);
     else openFile(urls.last());
 }
@@ -1121,7 +1122,7 @@ void MainWindow::openFile(const KUrl &url) {
 
 void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale) {
     KdenliveDoc *doc;
-    doc = new KdenliveDoc(url, KUrl(), m_commandStack, QString(), QPoint(3, 2), this);
+    doc = new KdenliveDoc(url, KUrl(), m_commandStack, QString(), QPoint(3, 2), m_projectMonitor->render, this);
     if (stale == NULL) {
         stale = new KAutoSaveFile(url, doc);
         doc->m_autosave = stale;
@@ -1135,6 +1136,8 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale) {
     TrackView *trackView = new TrackView(doc, this);
     m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description()));
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());
+    trackView->setDuration(trackView->duration());
+    trackView->projectView()->setCursorPos(m_projectMonitor->render->seekPosition().frames(doc->fps()));
     if (m_timelineArea->count() > 1) m_timelineArea->setTabBarHidden(false);
     slotGotProgressInfo(QString(), -1);
     m_clipMonitor->refreshMonitor(true);
@@ -1384,7 +1387,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(m_projectList, SIGNAL(loadingIsOver()), m_activeTimeline->projectView(), SLOT(slotUpdateAllThumbs()));
             effectStack->clear();
         }
-        m_activeDocument->setRenderer(NULL);
+        //m_activeDocument->setRenderer(NULL);
         disconnect(m_projectList, SIGNAL(clipSelected(DocClipBase *)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *)));
         m_clipMonitor->stop();
     }
@@ -1445,7 +1448,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu);
     m_activeTimeline = trackView;
     if (m_renderWidget) m_renderWidget->setProfile(doc->mltProfile());
-    doc->setRenderer(m_projectMonitor->render);
+    //doc->setRenderer(m_projectMonitor->render);
     m_commandStack->setActiveStack(doc->commandStack());
     KdenliveSettings::setProject_display_ratio(doc->dar());
     m_projectList->updateAllClips();

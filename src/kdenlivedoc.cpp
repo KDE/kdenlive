@@ -43,8 +43,7 @@
 #include "titlewidget.h"
 #include "mainwindow.h"
 
-
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QPoint tracks, MainWindow *parent): QObject(parent), m_render(NULL), m_url(url), m_projectFolder(projectFolder), m_commandStack(new QUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(7), m_autosave(NULL) {
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QPoint tracks, Render *render, MainWindow *parent): QObject(parent), m_render(render), m_url(url), m_projectFolder(projectFolder), m_commandStack(new QUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(7), m_autosave(NULL) {
     m_clipManager = new ClipManager(this);
     m_autoSaveTimer = new QTimer(this);
     m_autoSaveTimer->setSingleShot(true);
@@ -186,7 +185,12 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
     else m_timecode.setFormat((int) m_fps);
 
+    m_render->setSceneList(m_document.toString(), m_startPos);
+    //kDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
+    checkProjectClips();
+
     connect(m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
+
 }
 
 KdenliveDoc::~KdenliveDoc() {
@@ -968,6 +972,7 @@ QUndoStack *KdenliveDoc::commandStack() {
     return m_commandStack;
 }
 
+/*
 void KdenliveDoc::setRenderer(Render *render) {
     if (m_render) return;
     m_render = render;
@@ -979,7 +984,7 @@ void KdenliveDoc::setRenderer(Render *render) {
         checkProjectClips();
     }
     emit progressInfo(QString(), -1);
-}
+}*/
 
 void KdenliveDoc::checkProjectClips() {
     if (m_render == NULL) return;
@@ -1147,6 +1152,10 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
     int subtrack = clipId.section('_', 1, 1).toInt();
     DocClipBase *clip = m_clipManager->getClipById(producerId);
     if (clip == NULL) {
+        /*kDebug()<<"// CLIP "<<clipId<<" NOT OFUND in LIST, CREATING";
+        QDomDocument doc;
+        doc.appendChild(doc.importNode(elem, true));
+        kDebug() << "IMPORTED CLIP: \n" << doc.toString()<<"\n";*/
         elem.setAttribute("id", producerId);
         QString path = elem.attribute("resource");
         QString extension;
@@ -1186,8 +1195,13 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
         clip = new DocClipBase(m_clipManager, elem, producerId);
         m_clipManager->addClip(clip);
     }
-    if (createClipItem) emit addProjectClip(clip);
+    if (createClipItem) {
+        emit addProjectClip(clip);
+        qApp->processEvents();
+        m_render->getFileProperties(clip->toXML(), clip->getId());
+    }
 }
+
 
 void KdenliveDoc::setNewClipResource(const QString &id, const QString &path) {
     QDomNodeList prods = m_document.elementsByTagName("producer");
@@ -1247,7 +1261,7 @@ QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &match
 void KdenliveDoc::addClipInfo(QDomElement elem, QString clipId) {
     DocClipBase *clip = m_clipManager->getClipById(clipId);
     if (clip == NULL) {
-        addClip(elem, clipId);
+        addClip(elem, clipId, false);
     } else {
         QMap <QString, QString> properties;
         QDomNamedNodeMap attributes = elem.attributes();

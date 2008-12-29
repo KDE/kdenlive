@@ -95,6 +95,7 @@ void Render::buildConsumer() {
     char *tmp;
     tmp = decodedString(KdenliveSettings::current_profile());
     m_mltProfile = new Mlt::Profile(tmp);
+    setenv("MLT_PROFILE", tmp, 1);
     delete[] tmp;
 
 
@@ -150,20 +151,25 @@ int Render::resetProfile() {
         kDebug() << "reset to same profile, nothing to do";
         return 1;
     }
+    kDebug() << "// RESETTING PROFILE FROM: " << currentProfile << " TO: " << KdenliveSettings::current_profile();
     if (m_isSplitView) slotSplitView(false);
     if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     m_mltConsumer->purge();
     delete m_mltConsumer;
     m_mltConsumer = NULL;
     QString scene = sceneList();
-    if (m_mltProducer) delete m_mltProducer;
+    int pos = 0;
+    if (m_mltProducer) {
+        pos = m_mltProducer->position();
+        delete m_mltProducer;
+    }
     m_mltProducer = NULL;
     if (m_mltProfile) delete m_mltProfile;
     m_mltProfile = NULL;
     buildConsumer();
 
     //kDebug() << "//RESET WITHSCENE: " << scene;
-    setSceneList(scene);
+    setSceneList(scene, pos);
 
     char *tmp = decodedString(scene);
     Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "westley-xml", tmp);
@@ -810,7 +816,8 @@ void Render::setSceneList(QString playlist, int position) {
     }
     m_isBlocked = false;
     blockSignals(false);
-    emit rendererPosition(position);
+    //kDebug()<<"// SETSCN LST, POS: "<<position;
+    //if (position != 0) emit rendererPosition(position);
 }
 
 /** Create the producer from the Westley QDomDocument */
@@ -1209,7 +1216,7 @@ void Render::exportCurrentFrame(KUrl url, bool notify) {
 /** MLT PLAYLIST DIRECT MANIPULATON  **/
 
 
-void Render::mltCheckLength(bool reload) {
+void Render::mltCheckLength() {
     //kDebug()<<"checking track length: "<<track<<"..........";
 
     Mlt::Service service(m_mltProducer->get_service());

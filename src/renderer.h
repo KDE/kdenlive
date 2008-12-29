@@ -217,7 +217,7 @@ private:   // Private attributes & methods
 
     /** Sets the description of this renderer to desc. */
     void closeMlt();
-    void mltCheckLength(bool reload = true);
+    void mltCheckLength();
     QMap<QString, QString> mltGetTransitionParamsFromXml(QDomElement xml);
     QMap<QString, Mlt::Producer *> m_slowmotionProducers;
     void buildConsumer();

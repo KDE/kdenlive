@@ -319,6 +319,7 @@ void ProjectList::slotAddFolder(const QString foldername, const QString &clipId,
 }
 
 void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties) {
+    if (getProperties) listView->setEnabled(false);
     const QString parent = clip->getProperty("groupid");
     //kDebug() << "Adding clip with groupid: " << parent;
     ProjectItem *item = NULL;
@@ -356,7 +357,6 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties) {
         }
         if (!annotation.isEmpty()) item->setText(2, annotation);
     }
-    if (getProperties) requestClipInfo(clip->toXML(), clip->getId());
 }
 
 void ProjectList::requestClipInfo(const QDomElement xml, const QString id) {
@@ -617,6 +617,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         emit receivedClipDuration(clipId, item->clipMaxDuration());
     } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
     if (!m_infoQueue.isEmpty()) QTimer::singleShot(300, this, SLOT(slotProcessNextClipInQueue()));
+    else listView->setEnabled(true);
 }
 
 void ProjectList::slotReplyGetImage(const QString &clipId, int pos, const QPixmap &pix, int w, int h) {
