@@ -67,8 +67,6 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     m_playAction = m_playMenu->addAction(m_playIcon, i18n("Play"));
     m_playAction->setCheckable(true);
     connect(m_playAction, SIGNAL(triggered()), this, SLOT(slotPlay()));
-    m_playMenu->addAction(m_playIcon, i18n("Play Zone"), this, SLOT(slotPlayZone()));
-    m_playMenu->addAction(m_playIcon, i18n("Loop Zone"), this, SLOT(slotLoopZone()));
 
     playButton->setMenu(m_playMenu);
     playButton->setPopupMode(QToolButton::MenuButtonPopup);
@@ -146,11 +144,14 @@ QString Monitor::name() const {
     return m_name;
 }
 
-void Monitor::setupMenu(QMenu *goMenu, QMenu *markerMenu) {
+void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu) {
     m_contextMenu = new QMenu(this);
     m_contextMenu->addMenu(m_playMenu);
     m_contextMenu->addMenu(goMenu);
     if (markerMenu) m_contextMenu->addMenu(markerMenu);
+
+    m_playMenu->addAction(playZone);
+    m_playMenu->addAction(loopZone);
 
     //TODO: add save zone to timeline monitor when fixed
     if (m_name == "clip") m_contextMenu->addAction(KIcon("document-save"), i18n("Save zone"), this, SLOT(slotSaveZone()));

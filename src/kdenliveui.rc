@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="28">
+<gui name="kdenlive" version="29">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -72,6 +72,8 @@
     </Menu>
     <Menu name="monitor" ><text>Monitor</text>
       <Action name="monitor_play" />
+      <Action name="monitor_play_zone" />
+      <Action name="monitor_loop_zone" />
       <Separator />      
       <Menu name="monitor_go" ><text>Go To</text>
 	    <Action name="seek_start" />

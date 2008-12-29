@@ -77,6 +77,16 @@ void MonitorManager::slotPlay() {
     else m_projectMonitor->slotPlay();
 }
 
+void MonitorManager::slotPlayZone() {
+    if (m_clipMonitor->isActive()) m_clipMonitor->slotPlayZone();
+    else m_projectMonitor->slotPlayZone();
+}
+
+void MonitorManager::slotLoopZone() {
+    if (m_clipMonitor->isActive()) m_clipMonitor->slotLoopZone();
+    else m_projectMonitor->slotLoopZone();
+}
+
 void MonitorManager::slotRewind(double speed) {
     if (m_clipMonitor->isActive()) m_clipMonitor->slotRewind(speed);
     else m_projectMonitor->slotRewind(speed);

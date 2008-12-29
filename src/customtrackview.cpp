@@ -1673,19 +1673,19 @@ void CustomTrackView::moveCursorPos(int delta) {
     m_cursorPos += delta;
     m_cursorLine->setPos(m_cursorPos, 0);
     m_document->renderer()->seek(GenTime(m_cursorPos, m_document->fps()));
-    //if (m_autoScroll && m_scale < 50) checkScrolling();
+}
+
+void CustomTrackView::initCursorPos(int pos) {
+    emit cursorMoved((int)(m_cursorPos), (int)(pos));
+    m_cursorPos = pos;
+    m_cursorLine->setPos(pos, 0);
+    checkScrolling();
 }
 
 void CustomTrackView::checkScrolling() {
     int vert = verticalScrollBar()->value();
     int hor = cursorPos();
     ensureVisible(hor, vert + 10, 2, 2, 50, 0);
-    //centerOn(QPointF(cursorPos(), m_tracksHeight));
-    /*QRect rectInView = viewport()->rect();
-    int delta = rectInView.width() / 3;
-    int max = rectInView.right() + horizontalScrollBar()->value() - delta;
-    //kDebug() << "CURSOR POS: "<<m_cursorPos<< "Scale: "<<m_scale;
-    if (m_cursorPos * m_scale >= max) horizontalScrollBar()->setValue((int)(horizontalScrollBar()->value() + 1 + m_scale));*/
 }
 
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
@@ -1783,12 +1783,14 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                     // Also move automatic transitions (on lower track)
                     Transition *tr = getTransitionItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track);
                     if (tr && tr->isAutomatic()) {
-                        tr->updateTransitionEndTrack(getPreviousVideoTrack(info.track));
                         ItemInfo trInfo = tr->info();
                         ItemInfo newTrInfo = trInfo;
+                        newTrInfo.track = info.track;
                         newTrInfo.startPos = m_dragItem->startPos();
-                        if (m_dragItemInfo.track == info.track && !item->baseClip()->isTransparent() && !getClipItemAtEnd(newTrInfo.endPos, m_document->tracksCount() - tr->transitionEndTrack())) {
-                            // transition end should be adjusted to clip on lower track
+                        if (m_dragItemInfo.track == info.track && !item->baseClip()->isTransparent() && getClipItemAtEnd(newTrInfo.endPos, m_document->tracksCount() - tr->transitionEndTrack())) {
+                            // transition end should stay the same
+                        } else {
+                            // transition end should be adjusted to clip
                             newTrInfo.endPos = newTrInfo.endPos + (newTrInfo.startPos - trInfo.startPos);
                         }
                         new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
@@ -1797,12 +1799,14 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                         // Check if there is a transition at clip end
                         tr = getTransitionItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track);
                         if (tr && tr->isAutomatic()) {
-                            tr->updateTransitionEndTrack(getPreviousVideoTrack(info.track));
                             ItemInfo trInfo = tr->info();
                             ItemInfo newTrInfo = trInfo;
+                            newTrInfo.track = info.track;
                             newTrInfo.endPos = m_dragItem->endPos();
-                            if (m_dragItemInfo.track == info.track && !item->baseClip()->isTransparent() && !getClipItemAtStart(trInfo.startPos, m_document->tracksCount() - tr->transitionEndTrack())) {
-                                // transition end should be moved
+                            if (m_dragItemInfo.track == info.track && !item->baseClip()->isTransparent() && getClipItemAtStart(trInfo.startPos, m_document->tracksCount() - tr->transitionEndTrack())) {
+                                // transition start should stay the same
+                            } else {
+                                // transition start should be moved
                                 newTrInfo.startPos = newTrInfo.startPos + (newTrInfo.endPos - trInfo.endPos);
                             }
                             new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
@@ -1815,11 +1819,13 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                         ItemInfo newTrInfo = trInfo;
                         newTrInfo.startPos = m_dragItem->startPos();
                         ClipItem * upperClip = getClipItemAt(m_dragItemInfo.startPos, m_dragItemInfo.track - 1);
-                        if ((!upperClip || !upperClip->baseClip()->isTransparent()) && !getClipItemAtEnd(newTrInfo.endPos, tr->track())) {
-                            // transition end should be adjusted to clip on upper track
-                            newTrInfo.endPos = newTrInfo.endPos + (newTrInfo.startPos - trInfo.startPos);
+                        if (!upperClip || !upperClip->baseClip()->isTransparent()) {
+                            if (!getClipItemAtEnd(newTrInfo.endPos, tr->track())) {
+                                // transition end should be adjusted to clip on upper track
+                                newTrInfo.endPos = newTrInfo.endPos + (newTrInfo.startPos - trInfo.startPos);
+                            }
+                            new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
                         }
-                        new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
                     }
                     if (m_dragItemInfo.track == info.track && (tr == NULL || tr->endPos() < m_dragItemInfo.endPos)) {
                         // Check if there is a transition at clip end
@@ -1829,11 +1835,13 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                             ItemInfo newTrInfo = trInfo;
                             newTrInfo.endPos = m_dragItem->endPos();
                             ClipItem * upperClip = getClipItemAt(m_dragItemInfo.startPos, m_dragItemInfo.track - 1);
-                            if ((!upperClip || !upperClip->baseClip()->isTransparent()) && !getClipItemAtStart(trInfo.startPos, tr->track())) {
-                                // transition start should be moved
-                                newTrInfo.startPos = newTrInfo.startPos + (newTrInfo.endPos - trInfo.endPos);
+                            if (!upperClip || !upperClip->baseClip()->isTransparent()) {
+                                if (!getClipItemAtStart(trInfo.startPos, tr->track())) {
+                                    // transition start should be moved
+                                    newTrInfo.startPos = newTrInfo.startPos + (newTrInfo.endPos - trInfo.endPos);
+                                }
+                                new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
                             }
-                            new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
                         }
                     }
                     m_commandStack->push(moveCommand);
@@ -1940,7 +1948,10 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                     ItemInfo trInfo = transition->info();
                     ItemInfo newTrInfo = trInfo;
                     newTrInfo.startPos = m_dragItem->startPos();
-                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
+                    ClipItem * upperClip = getClipItemAt(m_dragItemInfo.startPos, m_dragItemInfo.track - 1);
+                    if (!upperClip || !upperClip->baseClip()->isTransparent()) {
+                        new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
+                    }
                 }
                 updateClipFade(static_cast <ClipItem *>(m_dragItem));
                 new ResizeClipCommand(this, m_dragItemInfo, info, false, resizeCommand);
@@ -1973,26 +1984,19 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                     ItemInfo trInfo = tr->info();
                     ItemInfo newTrInfo = trInfo;
                     newTrInfo.endPos = m_dragItem->endPos();
-                    if (!static_cast<ClipItem*>(m_dragItem)->baseClip()->isTransparent() && !getClipItemAtStart(trInfo.startPos, m_document->tracksCount() - tr->transitionEndTrack())) {
-                        // transition start should be moved
-                        newTrInfo.startPos = newTrInfo.startPos + (newTrInfo.endPos - trInfo.endPos);
-                    }
                     new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
                 }
 
                 // Check if there is an automatic transition on that clip (upper track)
                 tr = getTransitionItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track - 1);
-                if (tr) kDebug() << "TRANS TRK: " << tr->transitionEndTrack() << ", CLP TRK:" << m_dragItemInfo.track << ", CALC: " << m_document->tracksCount() - tr->transitionEndTrack();
                 if (tr && tr->isAutomatic() && (m_document->tracksCount() - tr->transitionEndTrack()) == m_dragItemInfo.track) {
-                    kDebug() << ".............. GOT TRANSITION";
                     ItemInfo trInfo = tr->info();
                     ItemInfo newTrInfo = trInfo;
                     newTrInfo.endPos = m_dragItem->endPos();
-                    if (!static_cast<ClipItem*>(m_dragItem)->baseClip()->isTransparent() && !getClipItemAtStart(trInfo.startPos, trInfo.track)) {
-                        // transition start should be moved
-                        newTrInfo.startPos = newTrInfo.startPos + (newTrInfo.endPos - trInfo.endPos);
+                    ClipItem * upperClip = getClipItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track - 1);
+                    if (!upperClip || !upperClip->baseClip()->isTransparent()) {
+                        new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
                     }
-                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
                 }
 
                 new ResizeClipCommand(this, m_dragItemInfo, info, false, resizeCommand);
@@ -2213,9 +2217,10 @@ void CustomTrackView::slotUpdateClip(const QString &clipId) {
 }
 
 ClipItem *CustomTrackView::getClipItemAtEnd(GenTime pos, int track) {
-    QList<QGraphicsItem *> list = scene()->items(QPointF(pos.frames(m_document->fps()) - 1, track * m_tracksHeight + m_tracksHeight / 2));
+    int framepos = (int)(pos.frames(m_document->fps()));
+    QList<QGraphicsItem *> list = scene()->items(QPointF(framepos - 1, track * m_tracksHeight + m_tracksHeight / 2));
     ClipItem *clip = NULL;
-    for (int i = 0; i < list.size(); ++i) {
+    for (int i = 0; i < list.size(); i++) {
         if (list.at(i)->type() == AVWIDGET) {
             ClipItem *test = static_cast <ClipItem *>(list.at(i));
             if (test->endPos() == pos) clip = test;
@@ -2228,7 +2233,7 @@ ClipItem *CustomTrackView::getClipItemAtEnd(GenTime pos, int track) {
 ClipItem *CustomTrackView::getClipItemAtStart(GenTime pos, int track) {
     QList<QGraphicsItem *> list = scene()->items(QPointF(pos.frames(m_document->fps()), track * m_tracksHeight + m_tracksHeight / 2));
     ClipItem *clip = NULL;
-    for (int i = 0; i < list.size(); ++i) {
+    for (int i = 0; i < list.size(); i++) {
         if (list.at(i)->type() == AVWIDGET) {
             ClipItem *test = static_cast <ClipItem *>(list.at(i));
             if (test->startPos() == pos) clip = test;
@@ -2241,7 +2246,7 @@ ClipItem *CustomTrackView::getClipItemAtStart(GenTime pos, int track) {
 ClipItem *CustomTrackView::getClipItemAt(int pos, int track) {
     QList<QGraphicsItem *> list = scene()->items(QPointF(pos , track * m_tracksHeight + m_tracksHeight / 2));
     ClipItem *clip = NULL;
-    for (int i = 0; i < list.size(); ++i) {
+    for (int i = 0; i < list.size(); i++) {
         if (list.at(i)->type() == AVWIDGET) {
             clip = static_cast <ClipItem *>(list.at(i));
             break;
@@ -2258,7 +2263,7 @@ ClipItem *CustomTrackView::getClipItemAt(GenTime pos, int track) {
 Transition *CustomTrackView::getTransitionItemAt(int pos, int track) {
     QList<QGraphicsItem *> list = scene()->items(QPointF(pos, (track + 1) * m_tracksHeight));
     Transition *clip = NULL;
-    for (int i = 0; i < list.size(); ++i) {
+    for (int i = 0; i < list.size(); i++) {
         if (list.at(i)->type() == TRANSITIONWIDGET) {
             clip = static_cast <Transition *>(list.at(i));
             break;
@@ -2276,7 +2281,7 @@ Transition *CustomTrackView::getTransitionItemAtEnd(GenTime pos, int track) {
     int framepos = (int)(pos.frames(m_document->fps()));
     QList<QGraphicsItem *> list = scene()->items(QPointF(framepos - 1, (track + 1) * m_tracksHeight));
     Transition *clip = NULL;
-    for (int i = 0; i < list.size(); ++i) {
+    for (int i = 0; i < list.size(); i++) {
         if (list.at(i)->type() == TRANSITIONWIDGET) {
             Transition *test = static_cast <Transition *>(list.at(i));
             if (test->endPos() == pos) clip = test;

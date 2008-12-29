@@ -847,7 +847,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, QDomDocument sceneList) {
 
     QDomElement addedXml = sceneList.createElement("kdenlivedoc");
     QDomElement markers = sceneList.createElement("markers");
-    addedXml.setAttribute("version", "0.8");
+    addedXml.setAttribute("version", "0.81");
     addedXml.setAttribute("profile", profilePath());
     addedXml.setAttribute("position", m_render->seekPosition().frames(m_fps));
     addedXml.setAttribute("projectfolder", m_projectFolder.path());

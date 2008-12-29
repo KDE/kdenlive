@@ -70,7 +70,7 @@ public:
     void resetSize();
     bool isActive() const;
     void pause();
-    void setupMenu(QMenu *goMenu, QMenu *markerMenu = NULL);
+    void setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL);
     QDomDocument sceneList();
     DocClipBase *activeClip();
     GenTime position();

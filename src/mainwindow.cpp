@@ -213,8 +213,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     setupGUI();
     //kDebug() << factory() << " " << factory()->container("video_effects_menu", this);
 
-    m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)));
-    m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), static_cast<QMenu*>(factory()->container("marker_menu", this)));
+    m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone);
+    m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone, static_cast<QMenu*>(factory()->container("marker_menu", this)));
 
     // build effects menus
     QAction *action;
@@ -715,6 +715,16 @@ void MainWindow::setupActions() {
     collection->addAction("monitor_play", monitorPlay);
     connect(monitorPlay, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotPlay()));
 
+    m_playZone = new KAction(KIcon("media-playback-start"), i18n("Play Zone"), this);
+    m_playZone->setShortcut(Qt::CTRL + Qt::Key_Space);
+    collection->addAction("monitor_play_zone", m_playZone);
+    connect(m_playZone, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotPlayZone()));
+
+    m_loopZone = new KAction(KIcon("media-playback-start"), i18n("Loop Zone"), this);
+    m_loopZone->setShortcut(Qt::ALT + Qt::Key_Space);
+    collection->addAction("monitor_loop_zone", m_loopZone);
+    connect(m_loopZone, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotLoopZone()));
+
     KAction *markIn = collection->addAction("mark_in");
     markIn->setText(i18n("Set In Point"));
     markIn->setShortcut(Qt::Key_I);
@@ -1137,7 +1147,8 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale) {
     m_timelineArea->setCurrentIndex(m_timelineArea->addTab(trackView, KIcon("kdenlive"), doc->description()));
     m_timelineArea->setTabToolTip(m_timelineArea->currentIndex(), doc->url().path());
     trackView->setDuration(trackView->duration());
-    trackView->projectView()->setCursorPos(m_projectMonitor->render->seekPosition().frames(doc->fps()));
+    trackView->projectView()->initCursorPos(m_projectMonitor->render->seekPosition().frames(doc->fps()));
+
     if (m_timelineArea->count() > 1) m_timelineArea->setTabBarHidden(false);
     slotGotProgressInfo(QString(), -1);
     m_clipMonitor->refreshMonitor(true);

@@ -28,7 +28,7 @@
 
 int main(int argc, char *argv[]) {
     KAboutData aboutData(QByteArray("kdenlive"), QByteArray("kdenlive"),
-                         ki18n("Kdenlive"), QByteArray("0.7"),
+                         ki18n("Kdenlive"), QByteArray("0.7.1"),
                          ki18n("An open source video editor."),
                          KAboutData::License_GPL,
                          ki18n("Copyright (c) 2008 Development team"));

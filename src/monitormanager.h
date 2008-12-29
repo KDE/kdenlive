@@ -40,6 +40,8 @@ public:
 public slots:
     void activateMonitor(QString name = QString::null);
     void slotPlay();
+    void slotPlayZone();
+    void slotLoopZone();
     void slotRewind(double speed = 0);
     void slotForward(double speed = 0);
     void slotRewindOneFrame();

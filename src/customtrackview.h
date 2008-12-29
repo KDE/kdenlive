@@ -107,6 +107,7 @@ public:
     void saveThumbnails();
     void autoTransition();
     QStringList getLadspaParams(QDomElement effect) const;
+    void initCursorPos(int pos);
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
