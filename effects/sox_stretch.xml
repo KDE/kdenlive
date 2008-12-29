@@ -1,0 +1,12 @@
+<!DOCTYPE kpartgui>
+<effect tag="sox" id="sox_stretch" type="audio">
+	<name>Sox Stretch</name>
+	<description>Sox stretch audio effect</description>
+	<author>http://sox.sourceforge.net</author>
+	<parameter type="constant" name="factor" max="100" min="0" default="10" factor="10">
+		<name>Factor</name>
+	</parameter>
+	<parameter type="constant" name="window" max="100" min="1" default="20">
+		<name>Window</name>
+	</parameter>
+</effect>

@@ -26,11 +26,16 @@ normalise.xml
 obscure.xml
 rotation.xml
 sepia.xml
+sox_bass.xml
+sox_gain.xml
+sox_phaser.xml
+sox_band.xml
 sox_echo.xml
 sox_flanger.xml
 sox_pitch.xml
 sox_reverb.xml
 sox_vibro.xml
+sox_stretch.xml
 threshold.xml
 volume.xml
 wave.xml

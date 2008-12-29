@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<effect tag="sox" id="sox_gain" type="audio">
+	<name>Sox Gain</name>
+	<description>Sox gain audio effect</description>
+	<author>http://sox.sourceforge.net</author>
+	<parameter type="constant" name="gain" max="50" min="-50" default="5">
+		<name>Gain</name>
+	</parameter>
+</effect>

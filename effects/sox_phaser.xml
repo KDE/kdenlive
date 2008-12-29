@@ -1,0 +1,21 @@
+<!DOCTYPE kpartgui>
+<effect tag="sox" id="sox_phaser" type="audio">
+	<name>Sox Phaser</name>
+	<description>Sox phaser audio effect</description>
+	<author>http://sox.sourceforge.net</author>
+	<parameter type="constant" name="gainin" max="10" min="1" default="10" factor="10">
+		<name>Gain In</name>
+	</parameter>
+	<parameter type="constant" name="gainout" max="10" min="1" default="10" factor="10">
+		<name>Gain Out</name>
+	</parameter>
+	<parameter type="constant" name="delay" max="5" min="0" default="2">
+		<name>Delay</name>
+	</parameter>
+	<parameter type="constant" name="decay" max="99" min="0" default="80" factor="100">
+		<name>Decay</name>
+	</parameter>
+	<parameter type="constant" name="speed" max="20" min="1" default="10" factor="10">
+		<name>Speed</name>
+	</parameter>
+</effect>

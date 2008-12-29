@@ -1,0 +1,12 @@
+<!DOCTYPE kpartgui>
+<effect tag="sox" id="sox_band" type="audio">
+	<name>Sox Band</name>
+	<description>Sox band audio effect</description>
+	<author>http://sox.sourceforge.net</author>
+	<parameter type="constant" name="frequency" max="10000" min="1" default="3000">
+		<name>Center Frequency</name>
+	</parameter>
+	<parameter type="constant" name="width" max="5000" min="1" default="300">
+		<name>Width</name>
+	</parameter>
+</effect>

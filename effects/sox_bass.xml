@@ -1,0 +1,12 @@
+<!DOCTYPE kpartgui>
+<effect tag="sox" id="sox_bass" type="audio">
+	<name>Sox Bass</name>
+	<description>Sox bass audio effect</description>
+	<author>http://sox.sourceforge.net</author>
+	<parameter type="constant" name="gain" max="100" min="1" default="5">
+		<name>Gain</name>
+	</parameter>
+	<parameter type="constant" name="frequency" max="5000" min="1" default="100">
+		<name>Frequency</name>
+	</parameter>
+</effect>
