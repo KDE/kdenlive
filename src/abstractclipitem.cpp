@@ -94,12 +94,13 @@ void AbstractClipItem::resizeStart(int posx, double speed) {
 
     setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
     setPos(m_startPos.frames(m_fps), pos().y());
-    if (pos().x() != m_startPos.frames(m_fps)) {
-        GenTime diff = GenTime(pos().x(), m_fps) - m_startPos;
-        m_startPos += diff;
-        m_cropDuration = m_cropDuration - diff;
+    if ((int) pos().x() != posx) {
+        //kDebug()<<"//////  WARNING, DIFF IN XPOS: "<<pos().x()<<" == "<<m_startPos.frames(m_fps);
+        GenTime diff = GenTime((int) pos().x() - posx, m_fps);
         if (type() == AVWIDGET) m_cropStart = m_cropStart + diff;
+        m_cropDuration = m_cropDuration - diff;
         setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
+        //kDebug()<<"// NEW START: "<<m_startPos.frames(25)<<", NW DUR: "<<m_cropDuration.frames(25);
     }
 
 
@@ -131,7 +132,7 @@ void AbstractClipItem::resizeEnd(int posx, double speed, bool updateKeyFrames) {
     if (cropDuration() + durationDiff <= GenTime()) {
         durationDiff = GenTime() - (cropDuration() - GenTime(3, m_fps));
     } else if (cropStart() + cropDuration() + durationDiff >= maxDuration()) {
-        kDebug() << "// MAX OVERLOAD:" << cropDuration().frames(25) << " + " << durationDiff.frames(25) << ", MAX:" << maxDuration().frames(25);
+        //kDebug() << "// MAX OVERLOAD:" << cropDuration().frames(25) << " + " << durationDiff.frames(25) << ", MAX:" << maxDuration().frames(25);
         durationDiff = maxDuration() - cropDuration() - cropStart();
     }
     //kDebug() << "// DUR DIFF2:" << durationDiff.frames(25) << ", ADJUSTED: " << durationDiff.frames(25) * speed << ", SPED:" << speed;
@@ -142,9 +143,9 @@ void AbstractClipItem::resizeEnd(int posx, double speed, bool updateKeyFrames) {
         for (int i = 0; i < collisionList.size(); ++i) {
             QGraphicsItem *item = collisionList.at(i);
             if (item->type() == type() && item->pos().x() > pos().x()) {
-                kDebug() << "/////////  COLLISION DETECTED!!!!!!!!!";
+                /*kDebug() << "/////////  COLLISION DETECTED!!!!!!!!!";
                 kDebug() << "/////////  CURRENT: " << startPos().frames(25) << "x" << endPos().frames(25) << ", RECT: " << rect() << "-" << pos();
-                kDebug() << "/////////  COLLISION: " << ((AbstractClipItem *)item)->startPos().frames(25) << "x" << ((AbstractClipItem *)item)->endPos().frames(25) << ", RECT: " << ((AbstractClipItem *)item)->rect() << "-" << item->pos();
+                kDebug() << "/////////  COLLISION: " << ((AbstractClipItem *)item)->startPos().frames(25) << "x" << ((AbstractClipItem *)item)->endPos().frames(25) << ", RECT: " << ((AbstractClipItem *)item)->rect() << "-" << item->pos();*/
                 GenTime diff = ((AbstractClipItem *)item)->startPos() - GenTime(1, m_fps) - startPos();
                 m_cropDuration = diff;
                 setRect(0, 0, m_cropDuration.frames(m_fps) - 0.02, rect().height());

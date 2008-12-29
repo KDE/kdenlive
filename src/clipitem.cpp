@@ -955,10 +955,12 @@ void ClipItem::resizeStart(int posx, double speed) {
     if (posx == startPos().frames(m_fps)) return;
     const int previous = cropStart().frames(m_fps);
     AbstractClipItem::resizeStart(posx, m_speed);
-    checkEffectsKeyframesPos(previous, cropStart().frames(m_fps), true);
-    if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
-        /*connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));*/
-        startThumbTimer->start(100);
+    if ((int) cropStart().frames(m_fps) != previous) {
+        checkEffectsKeyframesPos(previous, cropStart().frames(m_fps), true);
+        if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
+            /*connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));*/
+            startThumbTimer->start(150);
+        }
     }
 }
 
@@ -969,10 +971,12 @@ void ClipItem::resizeEnd(int posx, double speed, bool updateKeyFrames) {
     //kDebug() << "// NEW POS: " << posx << ", OLD END: " << endPos().frames(m_fps);
     const int previous = (cropStart() + duration()).frames(m_fps);
     AbstractClipItem::resizeEnd(posx, m_speed);
-    if (updateKeyFrames) checkEffectsKeyframesPos(previous, (cropStart() + duration()).frames(m_fps), false);
-    if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
-        /*connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));*/
-        endThumbTimer->start(100);
+    if ((int)(cropStart() + duration()).frames(m_fps) != previous) {
+        if (updateKeyFrames) checkEffectsKeyframesPos(previous, (cropStart() + duration()).frames(m_fps), false);
+        if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
+            /*connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));*/
+            endThumbTimer->start(150);
+        }
     }
 }
 
@@ -1058,7 +1062,10 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value) 
                         QList<QGraphicsItem*> subitems = scene()->items(sceneShape, Qt::IntersectsItemShape);
                         subitems.removeAll(this);
                         for (int j = 0; j < subitems.count(); j++) {
-                            if (subitems.at(j)->type() == type()) return pos();
+                            if (subitems.at(j)->type() == type()) {
+                                m_startPos = GenTime((int) pos().x(), m_fps);
+                                return pos();
+                            }
                         }
                     }
 
