@@ -1,6 +1,7 @@
 #! /bin/sh
 EXTRACTRC=`which extractrc`
-XGETTEXT="`which xgettext` --kde -ki18n --no-location -s "
+# XGETTEXT="`which xgettext` --kde -ki18n --no-location -s "
+XGETTEXT="`which xgettext` --kde -ki18n -s "
 podir=`pwd`/po
 kdenlive_subdirs="src src/widgets renderer"
 
