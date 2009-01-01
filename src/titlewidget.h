@@ -91,6 +91,10 @@ private:
     QAction *m_buttonLoad;
     /** project path for storing title clips */
     QString m_projectPath;
+    /** \brief Store the current choices of font, background and rect values */
+    void writeChoices();
+    /** \brief Read the last stored choices into the dialog */
+    void readChoices();
 
 public slots:
     void slotNewText(QGraphicsTextItem *tt);
@@ -123,6 +127,8 @@ private slots:
     void slotRectTool();
     void slotSelectTool();
     void slotImageTool();
+    /** \brief Called when accepted, stores the user selections for next time use */
+    void slotAccepted();
 };
 
 
