@@ -113,18 +113,27 @@ QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonIt
         main.appendChild(endp);
     }
     QDomElement backgr = doc.createElement("background");
-    QList<QGraphicsItem *> items = scene->items();
-    QColor color(0, 0, 0, 0);
-    for (int i = 0; i < items.size(); i++) {
-        if (items.at(i)->zValue() == -1100) {
-            color = ((QGraphicsRectItem *)items.at(i))->brush().color();
-            break;
-        }
-    }
+    QColor color = getBackgroundColor();
     backgr.setAttribute("color", colorToString(color));
     main.appendChild(backgr);
 
     return doc;
+}
+
+/** \brief Get the background color (incl. alpha) from the document, if possibly
+  * \returns The background color of the document, inclusive alpha. If none found, returns (0,0,0,0) */
+QColor TitleDocument::getBackgroundColor() {
+    QColor color(0, 0, 0, 0);
+    if ( scene ) {
+        QList<QGraphicsItem *> items = scene->items();
+        for (int i = 0; i < items.size(); i++) {
+            if (items.at(i)->zValue() == -1100) {
+                color = ((QGraphicsRectItem *)items.at(i))->brush().color();
+                return color;
+            }
+        }
+    }
+    return color;
 }
 
 

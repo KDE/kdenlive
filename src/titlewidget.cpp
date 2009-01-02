@@ -364,6 +364,11 @@ void TitleWidget::slotNewRect(QGraphicsRectItem * rect) {
 void TitleWidget::slotNewText(QGraphicsTextItem *tt) {
     QFont font = font_family->currentFont();
     font.setPointSize(font_size->value());
+    // mbd: issue 551:
+    font.setBold(buttonBold->isChecked());
+    font.setItalic(buttonItalic->isChecked());
+    font.setUnderline(buttonUnder->isChecked());
+
     tt->setFont(font);
     QColor color = fontColorButton->color();
     color.setAlpha(textAlpha->value());
@@ -659,6 +664,16 @@ QDomDocument TitleWidget::xml() {
 
 void TitleWidget::setXml(QDomDocument doc) {
     m_count = m_titledocument.loadFromXml(doc, startViewport, endViewport);
+    // mbd: Update the GUI color selectors to match the stuff from the loaded document
+    QColor background_color = m_titledocument.getBackgroundColor();
+    horizontalSlider->blockSignals(true);
+    kcolorbutton->blockSignals(true);
+    horizontalSlider->setValue(background_color.alpha());
+    background_color.setAlpha(255);
+    kcolorbutton->setColor(background_color);
+    horizontalSlider->blockSignals(false);
+    kcolorbutton->blockSignals(false);
+    
     slotSelectTool();
 }
 
