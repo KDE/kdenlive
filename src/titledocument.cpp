@@ -124,7 +124,7 @@ QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonIt
   * \returns The background color of the document, inclusive alpha. If none found, returns (0,0,0,0) */
 QColor TitleDocument::getBackgroundColor() {
     QColor color(0, 0, 0, 0);
-    if ( scene ) {
+    if (scene) {
         QList<QGraphicsItem *> items = scene->items();
         for (int i = 0; i < items.size(); i++) {
             if (items.at(i)->zValue() == -1100) {

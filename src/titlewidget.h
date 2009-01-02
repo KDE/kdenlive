@@ -50,19 +50,19 @@ public:
     TitleWidget(KUrl url, QString projectPath, Render *render, QWidget *parent = 0);
     QDomDocument xml();
     void setXml(QDomDocument doc);
-    
+
     /** \brief Find first available filename of the form titleXXX.png in projectUrl + "/titles/" directory
-    * \param projectUrl Url to directory of project. 
+    * \param projectUrl Url to directory of project.
      * \returns A list, with the name in the form of "/path/to/titles/titleXXX" as the first element, the extension
      * ".png" as the second element.
-     * 
+     *
      * The path "/titles/" is appended to projectUrl to locate the actual directory that contains the title pngs. */
     static QStringList getFreeTitleInfo(const KUrl &projectUrl);
-    
+
     /** \brief Build a filename from a projectUrl and a titleName
      * \param projectUrl Url to directory of project.
      * \param titleName Name of title, on the form "titleXXX"
-     * 
+     *
      * The path "/titles/" is appended to projectUrl to build the directoryname, then .pgn is appended to
      * get the filename. It is not checked that the title png actually exists, only the name is build and
      * returned. */

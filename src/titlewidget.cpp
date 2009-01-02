@@ -94,7 +94,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
 
     // mbd
     connect(this, SIGNAL(accepted()), this, SLOT(slotAccepted()));
-    
+
     buttonFitZoom->setIcon(KIcon("zoom-fit-best"));
     buttonRealSize->setIcon(KIcon("zoom-original"));
     buttonBold->setIcon(KIcon("format-text-bold"));
@@ -178,7 +178,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
 
     // mbd: load saved settings
     readChoices();
-    
+
     initViewports();
     QTimer::singleShot(500, this, SLOT(slotAdjustZoom()));
     graphicsView->show();
@@ -673,7 +673,7 @@ void TitleWidget::setXml(QDomDocument doc) {
     kcolorbutton->setColor(background_color);
     horizontalSlider->blockSignals(false);
     kcolorbutton->blockSignals(false);
-    
+
     slotSelectTool();
 }
 
@@ -706,43 +706,43 @@ void TitleWidget::slotAccepted() {
 void TitleWidget::writeChoices() {
     // Get a pointer to a shared configuration instance, then get the TitleWidget group.
     KSharedConfigPtr config = KGlobal::config();
-    KConfigGroup titleConfig( config, "TitleWidget" );
+    KConfigGroup titleConfig(config, "TitleWidget");
     // Write the entries
     titleConfig.writeEntry("font_family", font_family->currentFont());
-    titleConfig.writeEntry("font_size", font_size->value() );
-    titleConfig.writeEntry("font_color", fontColorButton->color() );
-    titleConfig.writeEntry("font_alpha", textAlpha->value() );
+    titleConfig.writeEntry("font_size", font_size->value());
+    titleConfig.writeEntry("font_color", fontColorButton->color());
+    titleConfig.writeEntry("font_alpha", textAlpha->value());
     titleConfig.writeEntry("font_bold", buttonBold->isChecked());
     titleConfig.writeEntry("font_italic", buttonItalic->isChecked());
     titleConfig.writeEntry("font_underlined", buttonUnder->isChecked());
-    
+
     titleConfig.writeEntry("rect_foreground_color", rectFColor->color());
     titleConfig.writeEntry("rect_foreground_alpha", rectFAlpha->value());
     titleConfig.writeEntry("rect_background_color", rectBColor->color());
     titleConfig.writeEntry("rect_background_alpha", rectBAlpha->value());
     titleConfig.writeEntry("rect_line_width", rectLineWidth->value());
-    
+
     titleConfig.writeEntry("background_color", kcolorbutton->color());
     titleConfig.writeEntry("background_alpha", horizontalSlider->value());
     //! \todo Not sure if I should sync - it is probably safe to do it
     config->sync();
-    
+
 }
 
 /** \brief Read the last stored choices into the dialog */
 void TitleWidget::readChoices() {
     // Get a pointer to a shared configuration instance, then get the TitleWidget group.
     KSharedConfigPtr config = KGlobal::config();
-    KConfigGroup titleConfig( config, "TitleWidget" );
+    KConfigGroup titleConfig(config, "TitleWidget");
     // read the entries
     font_family->setCurrentFont(titleConfig.readEntry("font_family", font_family->currentFont()));
-    font_size->setValue(titleConfig.readEntry( "font_size", font_size->value()));
+    font_size->setValue(titleConfig.readEntry("font_size", font_size->value()));
     fontColorButton->setColor(titleConfig.readEntry("font_color", fontColorButton->color()));
     textAlpha->setValue(titleConfig.readEntry("font_alpha", textAlpha->value()));
     buttonBold->setChecked(titleConfig.readEntry("font_bold", buttonBold->isChecked()));
     buttonItalic->setChecked(titleConfig.readEntry("font_italic", buttonItalic->isChecked()));
     buttonUnder->setChecked(titleConfig.readEntry("font_underlined", buttonUnder->isChecked()));
-    
+
     rectFColor->setColor(titleConfig.readEntry("rect_foreground_color", rectFColor->color()));
     rectFAlpha->setValue(titleConfig.readEntry("rect_foreground_alpha", rectFAlpha->value()));
     rectBColor->setColor(titleConfig.readEntry("rect_background_color", rectBColor->color()));
