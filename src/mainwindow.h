@@ -183,6 +183,13 @@ private:
     void findAhead();
     void doOpenFile(const KUrl &url, KAutoSaveFile *stale);
     void recoverFiles(QList<KAutoSaveFile *> staleFiles);
+    void loadPlugins();
+    void populateMenus(QObject *plugin);
+    void addToMenu(QObject *plugin, const QStringList &texts,
+                            QMenu *menu, const char *member,
+                            QActionGroup *actionGroup);
+    void aboutPlugins();
+    QStringList m_pluginFileNames;
 
 public slots:
     void openFile(const KUrl &url);
@@ -274,6 +281,7 @@ private slots:
     void slotGetNewStuff();
     void slotAutoTransition();
     void slotRunWizard();
+    void generateClip();
 };
 
 

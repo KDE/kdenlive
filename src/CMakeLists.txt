@@ -4,7 +4,12 @@ add_subdirectory( mimetypes )
 
 find_package(Nepomuk REQUIRED)
 
-include_directories(
+include_directories (
+    ${QDBUS_INCLUDE_DIRS} 
+    ${CMAKE_SOURCE_DIR} 
+    ${CMAKE_BINARY_DIR} 
+    ${KDE4_INCLUDES}
+
     ${CMAKE_SOURCE_DIR}/src/widgets
     ${LIBMLT_INCLUDE_DIR}
     ${LIBMLTPLUS_INCLUDE_DIR}
@@ -138,6 +143,8 @@ set(kdenlive_SRCS
   changetrackcommand.cpp
   movegroupcommand.cpp
 )
+
+add_definitions( ${KDE4_DEFINITIONS} )
 
 if(NO_JOGSHUTTLE)
   add_definitions(-DNO_JOGSHUTTLE)

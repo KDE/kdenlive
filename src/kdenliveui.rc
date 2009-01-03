@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="29">
+<gui name="kdenlive" version="30">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -14,6 +14,14 @@
     </Menu>
     
     <Menu name="project" ><text>Project</text>
+      <Action name="add_clip" />
+      <Action name="add_color_clip" />
+      <Action name="add_slide_clip" />
+      <Action name="add_text_clip" />
+      <Action name="add_folder" /> 
+      <Menu name="generators" ><text>Generators</text>
+      </Menu>
+      <Separator />
       <Action name="project_render" />
       <Action name="project_settings" />
     </Menu>

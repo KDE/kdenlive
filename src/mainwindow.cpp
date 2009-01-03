@@ -84,6 +84,8 @@
 #include "markerdialog.h"
 #include "clipitem.h"
 
+#include "interfaces.h"
+
 static const int ID_STATUS_MSG = 1;
 static const int ID_EDITMODE_MSG = 2;
 static const int ID_TIMELINE_MSG = 3;
@@ -211,10 +213,12 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     setCentralWidget(m_timelineArea);
 
     setupGUI();
+    loadPlugins();
     //kDebug() << factory() << " " << factory()->container("video_effects_menu", this);
 
     m_projectMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone);
     m_clipMonitor->setupMenu(static_cast<QMenu*>(factory()->container("monitor_go", this)), m_playZone, m_loopZone, static_cast<QMenu*>(factory()->container("marker_menu", this)));
+    m_projectList->setupGeneratorMenu(static_cast<QMenu*>(factory()->container("generators", this)));
 
     // build effects menus
     QAction *action;
@@ -374,6 +378,78 @@ bool MainWindow::queryClose() {
         }
     }
     return true;
+}
+
+
+void MainWindow::loadPlugins() {
+    foreach (QObject *plugin, QPluginLoader::staticInstances())
+         populateMenus(plugin);
+
+    QStringList directories = KGlobal::dirs()->findDirs("module", QString());
+    QStringList filters;
+    filters << "libkdenlive*";
+    foreach(const QString &folder, directories) {
+	kDebug()<<"// PARSING FIOLER: "<<folder;
+	QDir pluginsDir(folder);
+	foreach (QString fileName, pluginsDir.entryList(filters, QDir::Files)) {
+	    kDebug()<<"// FOUND PLUGIN: "<<fileName<<"= "<<pluginsDir.absoluteFilePath(fileName);
+	    QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
+	    QObject *plugin = loader.instance();
+	    if (plugin) {
+		populateMenus(plugin);
+		m_pluginFileNames += fileName;
+	    }
+	    else kDebug()<<"// ERROR LOADING PLUGIN: "<<fileName<<", "<<loader.errorString ();
+	}
+    }
+    //exit(1);
+}
+
+void MainWindow::populateMenus(QObject *plugin)
+{
+    kDebug()<<"// POP MENU";
+    QMenu *addMenu = static_cast<QMenu*>(factory()->container("generators", this));
+    ClipGenerator *iGenerator = qobject_cast<ClipGenerator *>(plugin);
+    kDebug()<<"// POP MENU 2";
+    if (addMenu) kDebug()<<"// POP MENU 3";
+    if (iGenerator)
+        addToMenu(plugin, iGenerator->generators(), addMenu, SLOT(generateClip()),
+                   NULL);
+}
+
+void MainWindow::addToMenu(QObject *plugin, const QStringList &texts,
+                            QMenu *menu, const char *member,
+                            QActionGroup *actionGroup)
+{
+    kDebug()<<"// ADD to MENU"<<texts;
+    foreach (QString text, texts) {
+        QAction *action = new QAction(text, plugin);
+        connect(action, SIGNAL(triggered()), this, member);
+        menu->addAction(action);
+
+        if (actionGroup) {
+            action->setCheckable(true);
+            actionGroup->addAction(action);
+        }
+    }
+}
+
+void MainWindow::aboutPlugins()
+{
+    //PluginDialog dialog(pluginsDir.path(), m_pluginFileNames, this);
+    //dialog.exec();
+}
+
+
+void MainWindow::generateClip()
+{
+    QAction *action = qobject_cast<QAction *>(sender());
+    ClipGenerator *iGenerator = qobject_cast<ClipGenerator *>(action->parent());
+
+    KUrl clipUrl = iGenerator->generatedClip(action->text(), m_activeDocument->projectFolder(), QStringList(), QStringList(), 25, 720, 576);
+    if (!clipUrl.isEmpty()) {
+	m_projectList->slotAddClip(clipUrl);
+    }
 }
 
 void MainWindow::saveProperties(KConfig*) {
@@ -904,6 +980,36 @@ void MainWindow::setupActions() {
 
     connect(collection, SIGNAL(actionHovered(QAction*)),
             this, SLOT(slotDisplayActionMessage(QAction*)));
+
+
+    QAction *addClip = new KAction(KIcon("kdenlive-add-clip"), i18n("Add Clip"), this);
+    collection->addAction("add_clip", addClip);
+    connect(addClip , SIGNAL(triggered()), m_projectList, SLOT(slotAddClip()));
+
+    QAction *addColorClip = new KAction(KIcon("kdenlive-add-color-clip"), i18n("Add Color Clip"), this);
+    collection->addAction("add_color_clip", addColorClip);
+    connect(addColorClip , SIGNAL(triggered()), m_projectList, SLOT(slotAddColorClip()));
+
+    QAction *addSlideClip = new KAction(KIcon("kdenlive-add-slide-clip"), i18n("Add Slideshow Clip"), this);
+    collection->addAction("add_slide_clip", addSlideClip);
+    connect(addSlideClip , SIGNAL(triggered()), m_projectList, SLOT(slotAddSlideshowClip()));
+
+    QAction *addTitleClip = new KAction(KIcon("kdenlive-add-text-clip"), i18n("Add Title Clip"), this);
+    collection->addAction("add_text_clip", addTitleClip);
+    connect(addTitleClip , SIGNAL(triggered()), m_projectList, SLOT(slotAddTitleClip()));
+
+    QAction *addFolderButton = new KAction(KIcon("folder-new"), i18n("Create Folder"), this);
+    collection->addAction("add_folder", addFolderButton);
+    connect(addFolderButton , SIGNAL(triggered()), m_projectList, SLOT(slotAddFolder()));
+
+    QMenu *addClips = new QMenu();
+    addClips->addAction(addClip);
+    addClips->addAction(addColorClip);
+    addClips->addAction(addSlideClip);
+    addClips->addAction(addTitleClip);
+    addClips->addAction(addFolderButton);
+    m_projectList->setupMenu(addClips, addClip);
+
     //connect(collection, SIGNAL( clearStatusText() ),
     //statusBar(), SLOT( clear() ) );
 }

@@ -141,7 +141,7 @@ void ProjectListView::dropEvent(QDropEvent *event) {
         }
         const QList <QUrl> list = event->mimeData()->urls();
         foreach(const QUrl &url, list) {
-            emit addClip(url, groupName);
+            emit addClip(KUrl(url), groupName);
         }
 
     } else if (event->mimeData()->hasFormat("kdenlive/producerslist")) {

@@ -65,34 +65,15 @@ ProjectList::ProjectList(QWidget *parent)
     m_toolbar = new QToolBar("projectToolBar", this);
     m_toolbar->addWidget(searchView);
 
-    QToolButton *addButton = new QToolButton(m_toolbar);
-    QMenu *addMenu = new QMenu(this);
-    addButton->setMenu(addMenu);
-    addButton->setPopupMode(QToolButton::MenuButtonPopup);
-    m_toolbar->addWidget(addButton);
-
-    QAction *addClipButton = addMenu->addAction(KIcon("kdenlive-add-clip"), i18n("Add Clip"));
-    connect(addClipButton, SIGNAL(triggered()), this, SLOT(slotAddClip()));
-
-    QAction *addColorClip = addMenu->addAction(KIcon("kdenlive-add-color-clip"), i18n("Add Color Clip"));
-    connect(addColorClip, SIGNAL(triggered()), this, SLOT(slotAddColorClip()));
-
-    QAction *addSlideClip = addMenu->addAction(KIcon("kdenlive-add-slide-clip"), i18n("Add Slideshow Clip"));
-    connect(addSlideClip, SIGNAL(triggered()), this, SLOT(slotAddSlideshowClip()));
-
-    QAction *addTitleClip = addMenu->addAction(KIcon("kdenlive-add-text-clip"), i18n("Add Title Clip"));
-    connect(addTitleClip, SIGNAL(triggered()), this, SLOT(slotAddTitleClip()));
+    m_addButton = new QToolButton(m_toolbar);
+    m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
+    m_toolbar->addWidget(m_addButton);
 
     m_deleteAction = m_toolbar->addAction(KIcon("edit-delete"), i18n("Delete Clip"));
     connect(m_deleteAction, SIGNAL(triggered()), this, SLOT(slotRemoveClip()));
 
     m_editAction = m_toolbar->addAction(KIcon("document-properties"), i18n("Edit Clip"));
     connect(m_editAction, SIGNAL(triggered()), this, SLOT(slotEditClip()));
-
-    QAction *addFolderButton = addMenu->addAction(KIcon("folder-new"), i18n("Create Folder"));
-    connect(addFolderButton, SIGNAL(triggered()), this, SLOT(slotAddFolder()));
-
-    addButton->setDefaultAction(addClipButton);
 
     layout->addWidget(m_toolbar);
     layout->addWidget(listView);
@@ -101,22 +82,12 @@ ProjectList::ProjectList(QWidget *parent)
 
     searchView->setTreeWidget(listView);
 
-    m_menu = new QMenu();
-    m_menu->addAction(addClipButton);
-    m_menu->addAction(addColorClip);
-    m_menu->addAction(addSlideClip);
-    m_menu->addAction(addTitleClip);
-    m_menu->addAction(m_editAction);
-    m_menu->addAction(m_deleteAction);
-    m_menu->addAction(addFolderButton);
-    m_menu->insertSeparator(m_deleteAction);
-
     connect(listView, SIGNAL(itemSelectionChanged()), this, SLOT(slotClipSelected()));
     connect(listView, SIGNAL(focusMonitor()), this, SLOT(slotClipSelected()));
     connect(listView, SIGNAL(pauseMonitor()), this, SLOT(slotPauseMonitor()));
     connect(listView, SIGNAL(requestMenu(const QPoint &, QTreeWidgetItem *)), this, SLOT(slotContextMenu(const QPoint &, QTreeWidgetItem *)));
     connect(listView, SIGNAL(addClip()), this, SLOT(slotAddClip()));
-    connect(listView, SIGNAL(addClip(QUrl, const QString &)), this, SLOT(slotAddClip(QUrl, const QString &)));
+    connect(listView, SIGNAL(addClip(KUrl, const QString &)), this, SLOT(slotAddClip(KUrl, const QString &)));
     connect(listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemEdited(QTreeWidgetItem *, int)));
     connect(listView, SIGNAL(showProperties(DocClipBase *)), this, SIGNAL(showClipProperties(DocClipBase *)));
 
@@ -128,6 +99,29 @@ ProjectList::~ProjectList() {
     delete m_menu;
     delete m_toolbar;
 }
+
+void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction)
+{
+    m_addButton->setMenu(addMenu);
+    m_addButton->setDefaultAction(defaultAction);
+    m_menu = new QMenu();
+    m_menu->addActions(addMenu->actions());
+}
+
+void ProjectList::setupGeneratorMenu(QMenu *addMenu)
+{
+
+  QMenu *menu = m_addButton->menu();
+  menu->addMenu(addMenu);  
+  m_addButton->setMenu(menu);
+
+  m_menu->addMenu(addMenu);
+  if (addMenu->isEmpty()) addMenu->setEnabled(false);
+  m_menu->addAction(m_editAction);
+  m_menu->addAction(m_deleteAction);
+  m_menu->insertSeparator(m_deleteAction);
+}
+
 
 QByteArray ProjectList::headerInfo() {
     return listView->header()->saveState();
@@ -367,7 +361,7 @@ void ProjectList::requestClipInfo(const QDomElement xml, const QString id) {
 }
 
 void ProjectList::slotProcessNextClipInQueue() {
-    if (m_infoQueue.isEmpty()) {
+    if (m_infoQueue.isEmpty()) {	
         listView->setEnabled(true);
         return;
     }
@@ -420,7 +414,7 @@ void ProjectList::updateAllClips() {
     QTimer::singleShot(500, this, SLOT(slotCheckForEmptyQueue()));
 }
 
-void ProjectList::slotAddClip(QUrl givenUrl, QString group) {
+void ProjectList::slotAddClip(KUrl givenUrl, QString group) {
     if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
     KUrl::List list;
     if (givenUrl.isEmpty()) {

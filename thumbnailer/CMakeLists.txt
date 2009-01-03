@@ -1,6 +1,12 @@
 
 
 ########### next target ###############
+include_directories (
+    ${KDE4_INCLUDES}
+    ${CMAKE_SOURCE_DIR} 
+    ${CMAKE_BINARY_DIR} 
+)
+
 
 set(westleypreview_PART_SRCS westleypreview.cpp)
 

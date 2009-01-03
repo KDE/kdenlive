@@ -23,6 +23,7 @@
 
 #include <QDomNodeList>
 #include <QToolBar>
+#include <QToolButton>
 #include <QTreeWidget>
 #include <QPainter>
 #include <QItemDelegate>
@@ -112,6 +113,8 @@ public:
     void updateAllClips();
     QByteArray headerInfo();
     void setHeaderInfo(const QByteArray &state);
+    void setupMenu(QMenu *addMenu, QAction *defaultAction);
+    void setupGeneratorMenu(QMenu *addMenu);
 
 public slots:
     void setDocument(KdenliveDoc *doc);
@@ -125,6 +128,7 @@ public slots:
     void slotRemoveInvalidClip(const QString &id);
     void slotSelectClip(const QString &ix);
     void slotRemoveClip();
+    void slotAddClip(KUrl givenUrl = KUrl(), QString group = QString());
 
 private:
     ProjectListView *listView;
@@ -143,13 +147,13 @@ private:
     KdenliveDoc *m_doc;
     ProjectItem *m_selectedItem;
     bool m_refreshed;
+    QToolButton *m_addButton;
     QMap <QString, QDomElement> m_infoQueue;
     void requestClipInfo(const QDomElement xml, const QString id);
     QList <QString> m_thumbnailQueue;
     void requestClipThumbnail(const QString &id);
 
 private slots:
-    void slotAddClip(QUrl givenUrl = QUrl(), QString group = QString());
     void slotEditClip();
     void slotClipSelected();
     void slotAddColorClip();
