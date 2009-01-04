@@ -2947,8 +2947,13 @@ void CustomTrackView::pasteClip() {
         return;
     }
     QPoint position;
-    if (m_menuPosition.isNull()) position = mapFromGlobal(QCursor::pos());
-    else position = m_menuPosition;
+    if (m_menuPosition.isNull()) {
+        position = mapFromGlobal(QCursor::pos());
+        if (!underMouse() || position.y() > m_tracksHeight * m_document->tracksCount()) {
+            emit displayMessage(i18n("Cannot paste selected clips"), ErrorMessage);
+            return;
+        }
+    } else position = m_menuPosition;
     GenTime pos = GenTime((int)(mapToScene(position).x()), m_document->fps());
     int track = (int)(position.y() / m_tracksHeight);
     ItemInfo first = m_copiedItems.at(0)->info();
