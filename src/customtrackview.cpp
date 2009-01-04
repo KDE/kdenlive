@@ -1793,7 +1793,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                             // transition end should be adjusted to clip
                             newTrInfo.endPos = newTrInfo.endPos + (newTrInfo.startPos - trInfo.startPos);
                         }
-                        new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
+                        if (newTrInfo.startPos < newTrInfo.endPos) new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
                     }
                     if (tr == NULL || tr->endPos() < m_dragItemInfo.endPos) {
                         // Check if there is a transition at clip end
@@ -1809,7 +1809,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                                 // transition start should be moved
                                 newTrInfo.startPos = newTrInfo.startPos + (newTrInfo.endPos - trInfo.endPos);
                             }
-                            new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
+                            if (newTrInfo.startPos < newTrInfo.endPos)
+                                new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
                         }
                     }
                     // Also move automatic transitions (on upper track)
@@ -1824,7 +1825,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                                 // transition end should be adjusted to clip on upper track
                                 newTrInfo.endPos = newTrInfo.endPos + (newTrInfo.startPos - trInfo.startPos);
                             }
-                            new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
+                            if (newTrInfo.startPos < newTrInfo.endPos) new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
                         }
                     }
                     if (m_dragItemInfo.track == info.track && (tr == NULL || tr->endPos() < m_dragItemInfo.endPos)) {
@@ -1840,7 +1841,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                                     // transition start should be moved
                                     newTrInfo.startPos = newTrInfo.startPos + (newTrInfo.endPos - trInfo.endPos);
                                 }
-                                new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
+                                if (newTrInfo.startPos < newTrInfo.endPos) new MoveTransitionCommand(this, trInfo, newTrInfo, true, moveCommand);
                             }
                         }
                     }
