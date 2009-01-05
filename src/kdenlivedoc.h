@@ -118,6 +118,8 @@ Q_OBJECT public:
     void cachePixmap(const QString &fileId, const QPixmap &pix) const;
     void setProjectFolder(KUrl url);
     QString getLadspaFile() const;
+    void setZone(int start, int end);
+    QPoint zone() const;
 
 private:
     KUrl m_url;
@@ -144,6 +146,8 @@ private:
     KUrl m_projectFolder;
     double m_documentLoadingStep;
     double m_documentLoadingProgress;
+    int m_zoneStart;
+    int m_zoneEnd;
 
     QList <TrackInfo> m_tracksList;
 

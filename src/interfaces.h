@@ -15,7 +15,7 @@
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/ 
+ ***************************************************************************/
 
 #ifndef INTERFACES_H
 #define INTERFACES_H
@@ -24,17 +24,16 @@
 #include <QUrl>
 #include <QtPlugin>
 
-class ClipGenerator
- {
- public:
-     virtual ~ClipGenerator() {}
+class ClipGenerator {
+public:
+    virtual ~ClipGenerator() {}
 
-     virtual QStringList generators() const = 0;
-     virtual KUrl generatedClip(const QString &generator, const KUrl &projectFolder, const QStringList &lumaNames, const QStringList &lumaFiles, const double fps, const int width, const int height) = 0;
- };
+    virtual QStringList generators() const = 0;
+    virtual KUrl generatedClip(const QString &generator, const KUrl &projectFolder, const QStringList &lumaNames, const QStringList &lumaFiles, const double fps, const int width, const int height) = 0;
+};
 
- Q_DECLARE_INTERFACE(ClipGenerator,
-                     "com.kdenlive.ClipGenerator.ClipGeneratorInterface/1.0")
+Q_DECLARE_INTERFACE(ClipGenerator,
+                    "com.kdenlive.ClipGenerator.ClipGeneratorInterface/1.0")
 
 #endif
 

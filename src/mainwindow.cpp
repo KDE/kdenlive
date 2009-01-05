@@ -1253,6 +1253,8 @@ void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale) {
     if (m_timelineArea->count() > 1) m_timelineArea->setTabBarHidden(false);
     slotGotProgressInfo(QString(), -1);
     m_clipMonitor->refreshMonitor(true);
+    m_projectMonitor->adjustRulerSize(trackView->duration());
+    m_projectMonitor->slotZoneMoved(trackView->inPoint(), trackView->outPoint());
 }
 
 void MainWindow::recoverFiles(QList<KAutoSaveFile *> staleFiles) {
@@ -1508,7 +1510,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(transitionConfig, SIGNAL(transitionTrackUpdated(Transition *, int)), m_activeTimeline->projectView() , SLOT(slotTransitionTrackUpdated(Transition *, int)));
             disconnect(transitionConfig, SIGNAL(seekTimeline(int)), m_activeTimeline->projectView() , SLOT(setCursorPos(int)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(activateMonitor()));
-            disconnect(m_activeTimeline, SIGNAL(zoneMoved(int, int)), m_projectMonitor, SLOT(slotZoneMoved(int, int)));
+            disconnect(m_activeTimeline, SIGNAL(zoneMoved(int, int)), this, SLOT(slotZoneMoved(int, int)));
             disconnect(m_projectList, SIGNAL(loadingIsOver()), m_activeTimeline->projectView(), SLOT(slotUpdateAllThumbs()));
             effectStack->clear();
         }
@@ -1567,7 +1569,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(effectStack, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
 
     connect(trackView->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(activateMonitor()));
-    connect(trackView, SIGNAL(zoneMoved(int, int)), m_projectMonitor, SLOT(slotZoneMoved(int, int)));
+    connect(trackView, SIGNAL(zoneMoved(int, int)), this, SLOT(slotZoneMoved(int, int)));
     connect(m_projectList, SIGNAL(loadingIsOver()), trackView->projectView(), SLOT(slotUpdateAllThumbs()));
 
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu);
@@ -1589,6 +1591,11 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
 
     // set tool to select tool
     m_buttonSelectTool->setChecked(true);
+}
+
+void MainWindow::slotZoneMoved(int start, int end) {
+    m_activeDocument->setZone(start, end);
+    m_projectMonitor->slotZoneMoved(start, end);
 }
 
 void MainWindow::slotGuidesUpdated() {

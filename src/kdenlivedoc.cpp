@@ -43,7 +43,7 @@
 #include "titlewidget.h"
 #include "mainwindow.h"
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QPoint tracks, Render *render, MainWindow *parent): QObject(parent), m_render(render), m_url(url), m_projectFolder(projectFolder), m_commandStack(new QUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(7), m_autosave(NULL) {
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QPoint tracks, Render *render, MainWindow *parent): QObject(parent), m_render(render), m_url(url), m_projectFolder(projectFolder), m_commandStack(new QUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(7), m_autosave(NULL), m_zoneStart(0), m_zoneEnd(100) {
     m_clipManager = new ClipManager(this);
     m_autoSaveTimer = new QTimer(this);
     m_autoSaveTimer->setSingleShot(true);
@@ -81,6 +81,8 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     if (m_projectFolder.isEmpty()) m_projectFolder = KUrl(KdenliveSettings::defaultprojectfolder());
                     m_startPos = infoXml.attribute("position").toInt();
                     m_zoom = infoXml.attribute("zoom", "7").toInt();
+                    m_zoneStart = infoXml.attribute("zonein", "0").toInt();
+                    m_zoneEnd = infoXml.attribute("zoneout", "100").toInt();
                     setProfilePath(profilePath);
 
                     // Build tracks
@@ -842,6 +844,15 @@ QString KdenliveDoc::colorToString(const QColor& c) {
     return ret;
 }
 
+void KdenliveDoc::setZone(int start, int end) {
+    m_zoneStart = start;
+    m_zoneEnd = end;
+}
+
+QPoint KdenliveDoc::zone() const {
+    return QPoint(m_zoneStart, m_zoneEnd);
+}
+
 bool KdenliveDoc::saveSceneList(const QString &path, QDomDocument sceneList) {
     QDomNode wes = sceneList.elementsByTagName("westley").at(0);
 
@@ -850,6 +861,8 @@ bool KdenliveDoc::saveSceneList(const QString &path, QDomDocument sceneList) {
     addedXml.setAttribute("version", "0.81");
     addedXml.setAttribute("profile", profilePath());
     addedXml.setAttribute("position", m_render->seekPosition().frames(m_fps));
+    addedXml.setAttribute("zonein", m_zoneStart);
+    addedXml.setAttribute("zoneout", m_zoneEnd);
     addedXml.setAttribute("projectfolder", m_projectFolder.path());
     addedXml.setAttribute("tracks", getTracksInfo());
     addedXml.setAttribute("zoom", m_zoom);

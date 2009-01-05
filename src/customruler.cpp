@@ -60,8 +60,8 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
     littleMarkDistance = FRAME_SIZE;
     mediumMarkDistance = FRAME_SIZE * m_timecode.fps();
     bigMarkDistance = FRAME_SIZE * m_timecode.fps() * 60;
-    m_zoneStart = 2 * m_timecode.fps();
-    m_zoneEnd = 10 * m_timecode.fps();
+    m_zoneStart = 0;
+    m_zoneEnd = 100;
     m_contextMenu = new QMenu(this);
     QAction *addGuide = m_contextMenu->addAction(KIcon("document-new"), i18n("Add Guide"));
     connect(addGuide, SIGNAL(triggered()), m_view, SLOT(slotAddGuide()));

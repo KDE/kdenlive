@@ -100,26 +100,24 @@ ProjectList::~ProjectList() {
     delete m_toolbar;
 }
 
-void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction)
-{
+void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction) {
     m_addButton->setMenu(addMenu);
     m_addButton->setDefaultAction(defaultAction);
     m_menu = new QMenu();
     m_menu->addActions(addMenu->actions());
 }
 
-void ProjectList::setupGeneratorMenu(QMenu *addMenu)
-{
+void ProjectList::setupGeneratorMenu(QMenu *addMenu) {
 
-  QMenu *menu = m_addButton->menu();
-  menu->addMenu(addMenu);  
-  m_addButton->setMenu(menu);
+    QMenu *menu = m_addButton->menu();
+    menu->addMenu(addMenu);
+    m_addButton->setMenu(menu);
 
-  m_menu->addMenu(addMenu);
-  if (addMenu->isEmpty()) addMenu->setEnabled(false);
-  m_menu->addAction(m_editAction);
-  m_menu->addAction(m_deleteAction);
-  m_menu->insertSeparator(m_deleteAction);
+    m_menu->addMenu(addMenu);
+    if (addMenu->isEmpty()) addMenu->setEnabled(false);
+    m_menu->addAction(m_editAction);
+    m_menu->addAction(m_deleteAction);
+    m_menu->insertSeparator(m_deleteAction);
 }
 
 
@@ -361,7 +359,7 @@ void ProjectList::requestClipInfo(const QDomElement xml, const QString id) {
 }
 
 void ProjectList::slotProcessNextClipInQueue() {
-    if (m_infoQueue.isEmpty()) {	
+    if (m_infoQueue.isEmpty()) {
         listView->setEnabled(true);
         return;
     }

@@ -84,6 +84,7 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
     connect(m_trackview, SIGNAL(transitionItemSelected(Transition*, bool)), this, SLOT(slotTransitionItemSelected(Transition*, bool)));
     slotChangeZoom(m_doc->zoom());
+    slotSetZone(m_doc->zone());
 }
 
 

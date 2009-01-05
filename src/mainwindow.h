@@ -282,6 +282,7 @@ private slots:
     void slotAutoTransition();
     void slotRunWizard();
     void generateClip();
+    void slotZoneMoved(int start, int end);
 };
 
 

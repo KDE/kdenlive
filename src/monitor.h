@@ -112,7 +112,6 @@ private:
     GenTime getSnapForPos(bool previous);
 
 private slots:
-    void adjustRulerSize(int length);
     void seekCursor(int pos);
     void rendererStopped(int pos);
     void slotExtractCurrentFrame();
@@ -148,6 +147,7 @@ public slots:
     void slotZoneMoved(int start, int end);
     void slotSeekToNextSnap();
     void slotSeekToPreviousSnap();
+    void adjustRulerSize(int length);
 
 signals:
     void renderPosition(int);
