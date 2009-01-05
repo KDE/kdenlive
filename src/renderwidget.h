@@ -57,7 +57,7 @@ private:
     void parseFile(QString exportFile, bool editable);
     void updateButtons();
 signals:
-    void doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double);
+    void doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool);
 };
 
 

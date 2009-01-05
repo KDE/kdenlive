@@ -46,7 +46,11 @@ RenderJob::RenderJob(bool erase, const QString &renderer, const QString &profile
     if (out != -1) m_args << "out=" + QString::number(out);
     m_args << preargs;
     //qDebug()<<"PRE ARGS: "<<preargs;
-    m_args << "-profile" << profile;
+    if (scenelist.startsWith("consumer:")) {
+	// Use MLT's producer_consumer, needs a different syntax for profile:
+	m_args << "profile=" + profile;
+    }
+    else m_args << "-profile" << profile;
     m_args << "-consumer" << rendermodule + ":" + m_dest << "progress=1" << args;
     connect(m_renderProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotIsOver(int, QProcess::ExitStatus)));
     m_renderProcess->setReadChannel(QProcess::StandardError);

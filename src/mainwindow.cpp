@@ -382,47 +382,44 @@ bool MainWindow::queryClose() {
 
 
 void MainWindow::loadPlugins() {
-    foreach (QObject *plugin, QPluginLoader::staticInstances())
-         populateMenus(plugin);
+    foreach(QObject *plugin, QPluginLoader::staticInstances())
+    populateMenus(plugin);
 
     QStringList directories = KGlobal::dirs()->findDirs("module", QString());
     QStringList filters;
     filters << "libkdenlive*";
     foreach(const QString &folder, directories) {
-	kDebug()<<"// PARSING FIOLER: "<<folder;
-	QDir pluginsDir(folder);
-	foreach (QString fileName, pluginsDir.entryList(filters, QDir::Files)) {
-	    kDebug()<<"// FOUND PLUGIN: "<<fileName<<"= "<<pluginsDir.absoluteFilePath(fileName);
-	    QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
-	    QObject *plugin = loader.instance();
-	    if (plugin) {
-		populateMenus(plugin);
-		m_pluginFileNames += fileName;
-	    }
-	    else kDebug()<<"// ERROR LOADING PLUGIN: "<<fileName<<", "<<loader.errorString ();
-	}
+        kDebug() << "// PARSING FIOLER: " << folder;
+        QDir pluginsDir(folder);
+        foreach(QString fileName, pluginsDir.entryList(filters, QDir::Files)) {
+            kDebug() << "// FOUND PLUGIN: " << fileName << "= " << pluginsDir.absoluteFilePath(fileName);
+            QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
+            QObject *plugin = loader.instance();
+            if (plugin) {
+                populateMenus(plugin);
+                m_pluginFileNames += fileName;
+            } else kDebug() << "// ERROR LOADING PLUGIN: " << fileName << ", " << loader.errorString();
+        }
     }
     //exit(1);
 }
 
-void MainWindow::populateMenus(QObject *plugin)
-{
-    kDebug()<<"// POP MENU";
+void MainWindow::populateMenus(QObject *plugin) {
+    kDebug() << "// POP MENU";
     QMenu *addMenu = static_cast<QMenu*>(factory()->container("generators", this));
     ClipGenerator *iGenerator = qobject_cast<ClipGenerator *>(plugin);
-    kDebug()<<"// POP MENU 2";
-    if (addMenu) kDebug()<<"// POP MENU 3";
+    kDebug() << "// POP MENU 2";
+    if (addMenu) kDebug() << "// POP MENU 3";
     if (iGenerator)
         addToMenu(plugin, iGenerator->generators(), addMenu, SLOT(generateClip()),
-                   NULL);
+                  NULL);
 }
 
 void MainWindow::addToMenu(QObject *plugin, const QStringList &texts,
-                            QMenu *menu, const char *member,
-                            QActionGroup *actionGroup)
-{
-    kDebug()<<"// ADD to MENU"<<texts;
-    foreach (QString text, texts) {
+                           QMenu *menu, const char *member,
+                           QActionGroup *actionGroup) {
+    kDebug() << "// ADD to MENU" << texts;
+    foreach(QString text, texts) {
         QAction *action = new QAction(text, plugin);
         connect(action, SIGNAL(triggered()), this, member);
         menu->addAction(action);
@@ -434,21 +431,19 @@ void MainWindow::addToMenu(QObject *plugin, const QStringList &texts,
     }
 }
 
-void MainWindow::aboutPlugins()
-{
+void MainWindow::aboutPlugins() {
     //PluginDialog dialog(pluginsDir.path(), m_pluginFileNames, this);
     //dialog.exec();
 }
 
 
-void MainWindow::generateClip()
-{
+void MainWindow::generateClip() {
     QAction *action = qobject_cast<QAction *>(sender());
     ClipGenerator *iGenerator = qobject_cast<ClipGenerator *>(action->parent());
 
     KUrl clipUrl = iGenerator->generatedClip(action->text(), m_activeDocument->projectFolder(), QStringList(), QStringList(), 25, 720, 576);
     if (!clipUrl.isEmpty()) {
-	m_projectList->slotAddClip(clipUrl);
+        m_projectList->slotAddClip(clipUrl);
     }
 }
 
@@ -1375,7 +1370,7 @@ void MainWindow::slotEditProjectSettings() {
 void MainWindow::slotRenderProject() {
     if (!m_renderWidget) {
         m_renderWidget = new RenderWidget(this);
-        connect(m_renderWidget, SIGNAL(doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double)), this, SLOT(slotDoRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double)));
+        connect(m_renderWidget, SIGNAL(doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool)), this, SLOT(slotDoRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool)));
         if (m_activeDocument) {
             m_renderWidget->setProfile(m_activeDocument->mltProfile());
             m_renderWidget->setGuides(m_activeDocument->guidesXml(), m_activeDocument->projectDuration());
@@ -1387,7 +1382,7 @@ void MainWindow::slotRenderProject() {
     m_renderWidget->show();
 }
 
-void MainWindow::slotDoRender(const QString &dest, const QString &render, const QStringList &overlay_args, const QStringList &avformat_args, bool zoneOnly, bool playAfter, double guideStart, double guideEnd) {
+void MainWindow::slotDoRender(const QString &dest, const QString &render, const QStringList &overlay_args, const QStringList &avformat_args, bool zoneOnly, bool playAfter, double guideStart, double guideEnd, bool resizeProfile) {
     if (dest.isEmpty()) return;
     int in;
     int out;
@@ -1417,7 +1412,20 @@ void MainWindow::slotDoRender(const QString &dest, const QString &render, const 
             KMessageBox::sorry(this, i18n("Cannot find the inigo program required for rendering (part of Mlt)"));
             return;
         }
-        args << KdenliveSettings::rendererpath() << m_activeDocument->profilePath() << render << videoPlayer << temp.fileName() << dest << avformat_args;
+        args << KdenliveSettings::rendererpath() << m_activeDocument->profilePath() << render << videoPlayer;
+
+        for (int i = 0; i < avformat_args.count(); i++) {
+            if (avformat_args.at(i).startsWith("profile=")) {
+                if (avformat_args.at(i).section('=', 1) != m_activeDocument->profilePath()) resizeProfile = true;
+                break;
+            }
+        }
+
+        if (resizeProfile) {
+            // The rendering profile is different from project profile, so use MLT's special producer_consumer
+            args << "consumer:" + temp.fileName();
+        } else args << temp.fileName();
+        args << dest << avformat_args;
         QString renderer = QCoreApplication::applicationDirPath() + QString("/kdenlive_render");
         if (!QFile::exists(renderer)) renderer = "kdenlive_render";
         QProcess::startDetached(renderer, args);

@@ -401,7 +401,22 @@ void RenderWidget::slotExport() {
     renderArgs.replace("%dar", "@" + QString::number(m_profile.display_aspect_num) + "/" + QString::number(m_profile.display_aspect_den));
     if (m_view.force_progressive->checkState() == Qt::Checked) renderArgs.append(" progressive=1");
     else if (m_view.force_progressive->checkState() == Qt::Unchecked) renderArgs.append(" progressive=0");
-    emit doRender(m_view.out_file->url().path(), item->data(RenderRole).toString(), overlayargs, renderArgs.simplified().split(' '), m_view.render_zone->isChecked(), m_view.play_after->isChecked(), startPos, endPos);
+
+    // Check if the rendering profile is different from project profile,
+    // in which case we need to use the producer_comsumer from MLT
+    bool resizeProfile = false;
+
+    QString std = item->data(ParamsRole).toString();
+    if (resizeProfile == false && std.contains(" s=")) {
+        QString subsize = std.section(" s=", 1, 1);
+        subsize = subsize.section(' ', 0, 0).toLower();
+        if (subsize != "%widthx%height") {
+            const QString currentSize = QString::number(m_profile.width) + 'x' + QString::number(m_profile.height);
+            if (subsize != currentSize) resizeProfile = true;
+        }
+    }
+
+    emit doRender(m_view.out_file->url().path(), item->data(RenderRole).toString(), overlayargs, renderArgs.simplified().split(' '), m_view.render_zone->isChecked(), m_view.play_after->isChecked(), startPos, endPos, resizeProfile);
 }
 
 void RenderWidget::setProfile(MltVideoProfile profile) {

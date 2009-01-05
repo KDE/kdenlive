@@ -186,8 +186,8 @@ private:
     void loadPlugins();
     void populateMenus(QObject *plugin);
     void addToMenu(QObject *plugin, const QStringList &texts,
-                            QMenu *menu, const char *member,
-                            QActionGroup *actionGroup);
+                   QMenu *menu, const char *member,
+                   QActionGroup *actionGroup);
     void aboutPlugins();
     QStringList m_pluginFileNames;
 
@@ -220,7 +220,7 @@ private slots:
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
     void slotRenderProject();
-    void slotDoRender(const QString &dest, const QString &render, const QStringList &overlay_args, const QStringList &avformat_args, bool zoneOnly, bool playAfter, double guideStart, double guideEnd);
+    void slotDoRender(const QString &dest, const QString &render, const QStringList &overlay_args, const QStringList &avformat_args, bool zoneOnly, bool playAfter, double guideStart, double guideEnd, bool resizeProfile);
     void slotFullScreen();
     void slotUpdateDocumentState(bool modified);
     void slotZoomIn();
