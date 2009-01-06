@@ -417,5 +417,20 @@
       <label>Show buggy rendering formats.</label>
       <default>false</default>
     </entry>
+
+    <entry name="audiocodecs" type="StringList">
+      <label>Available avformat audio codecs.</label>
+      <default></default>
+    </entry>
+
+    <entry name="videocodecs" type="StringList">
+      <label>Available avformat audio codecs.</label>
+      <default></default>
+    </entry>
+
+    <entry name="supportedformats" type="StringList">
+      <label>Available avformat formats.</label>
+      <default></default>
+    </entry>
   </group>
 </kcfg>
