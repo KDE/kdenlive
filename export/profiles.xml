@@ -1,9 +1,9 @@
 <profiles version="0.1">
 <group name="HDV" renderer="avformat" extension="m2t" type="av">
-  <profile name="PAL 1080 50i" standard="PAL" args="f=mpegts ab=384k ar=48000 vcodec=mpeg2video s=1440x1080 b=19700k g=12 profile=hdv_1080_50i" />
-  <profile name="PAL 720 25p" standard="PAL" args="f=mpegts ab=384k ar=48000 vcodec=mpeg2video s=1280x720 b=19700k g=12 profile=hdv_720_25p" />
-  <profile name="NTSC 1080 60i" standard="NTSC" args="f=mpegts ab=384k ar=48000 vcodec=mpeg2video s=1440x1080 b=19700k g=15 profile=hdv_1080_60i" />
-  <profile name="NTSC 720 30p" standard="NTSC" args="f=mpegts ab=384k ar=48000 vcodec=mpeg2video s=1280x720 b=19700k g=15 profile=hdv_720_30p" />
+  <profile name="PAL 1080 50i" standard="PAL" args="f=mpegts ab=384k ar=48000 vcodec=mpeg2video s=1440x1080 b=19700k g=12 trellis=1 profile=hdv_1080_50i" />
+  <profile name="PAL 720 25p" standard="PAL" args="f=mpegts ab=384k ar=48000 vcodec=mpeg2video s=1280x720 b=19700k g=12 trellis=1 profile=hdv_720_25p" />
+  <profile name="NTSC 1080 60i" standard="NTSC" args="f=mpegts ab=384k ar=48000 vcodec=mpeg2video s=1440x1080 b=19700k g=15 trellis=1 profile=hdv_1080_60i" />
+  <profile name="NTSC 720 30p" standard="NTSC" args="f=mpegts ab=384k ar=48000 vcodec=mpeg2video s=1280x720 b=19700k g=15 trellis=1 profile=hdv_720_30p" />
 </group>
 
 <group name="Raw DV" renderer="avformat" type="av" extension="dv">
@@ -40,27 +40,27 @@
 </group>
 
 <group name="DVD" renderer="avformat" type="av">
-  <profile name="PAL 4:3 vob" standard="PAL" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 b=5000k maxrate=8000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 s=720x576 g=15 me_range=63 profile=dv_pal" />
-  <profile name="PAL 16:9 vob" standard="PAL" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 b=5000k maxrate=8000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 s=720x576 g=15 me_range=63 profile=dv_pal_wide" />  
+  <profile name="PAL 4:3 vob" standard="PAL" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 b=5000k maxrate=8000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 s=720x576 g=15 me_range=63 trellis=1 profile=dv_pal" />
+  <profile name="PAL 16:9 vob" standard="PAL" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 b=5000k maxrate=8000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 s=720x576 g=15 me_range=63 trellis=1 profile=dv_pal_wide" />  
     
-  <profile name="NTSC 4:3 vob" standard="NTSC" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 s=720x480 b=6000k maxrate=9000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 g=18 me_range=63 profile=dv_ntsc" />
-  <profile name="NTSC 16:9 vob" standard="NTSC" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 s=720x480 b=6000k maxrate=9000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 g=18 me_range=63 profile=dv_ntsc_wide" />
+  <profile name="NTSC 4:3 vob" standard="NTSC" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 s=720x480 b=6000k maxrate=9000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 g=18 me_range=63 trellis=1 profile=dv_ntsc" />
+  <profile name="NTSC 16:9 vob" standard="NTSC" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 s=720x480 b=6000k maxrate=9000000 minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192000 ar=48000 g=18 me_range=63 trellis=1 profile=dv_ntsc_wide" />
 </group>
 
 <group name="MPEG-2" renderer="avformat" extension="mpg" type="av">
-  <profile name="MPEG-2 200k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=200k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 400k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=400k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 600k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=600k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 800k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=800k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 1000k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=1000k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 2000k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=2000k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 4000k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=4000k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 6000k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=6000k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 8000k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=8000k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 1000k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=10000k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 12000k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=12000k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 18000k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=18000k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 25000k" args="f=mpg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=25000k bf=2 b_strategy=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 200k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=200k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 400k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=400k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 600k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=600k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 800k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=800k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 1000k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=1000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 2000k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=2000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 4000k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=4000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 6000k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=6000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 8000k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=8000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 1000k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=10000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 12000k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=12000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 18000k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=18000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 25000k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=25000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
 </group>
 
 <group name="MPEG-4" renderer="avformat" extension="mp4" type="av">
@@ -126,19 +126,19 @@
 </group>
 
 <group name="RealVideo" renderer="avformat" extension="rm" type="av">
-  <profile name="RealVideo 200k" args="f=rv10 minrate=0 b=200k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 400k" args="f=rv10 minrate=0 b=400k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 600k" args="f=rv10 minrate=0 b=600k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 800k" args="f=rv10 minrate=0 b=800k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 1000k" args="f=rv10 minrate=0 b=1000k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 2000k" args="f=rv10 minrate=0 b=2000k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 4000k" args="f=rv10 minrate=0 b=4000k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 6000k" args="f=rv10 minrate=0 b=6000k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 8000k" args="f=rv10 minrate=0 b=8000k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 10000k" args="f=rv10 minrate=0 b=10000k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 12000k" args="f=rv10 minrate=0 b=12000k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 720x576" standard="PAL" args="f=rv10 minrate=0 b=12000k ab=384k ar=48000 s=720x576 g=8" />
-  <profile name="RealVideo 720x480" standard="NTSC" args="f=rv10 minrate=0 b=12000k ab=384k ar=48000 s=720x480 g=8" />
+  <profile name="RealVideo 200k" args="f=rv20 minrate=0 b=200k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 400k" args="f=rv20 minrate=0 b=400k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 600k" args="f=rv20 minrate=0 b=600k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 800k" args="f=rv20 minrate=0 b=800k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 1000k" args="f=rv20 minrate=0 b=1000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 2000k" args="f=rv20 minrate=0 b=2000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 4000k" args="f=rv20 minrate=0 b=4000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 6000k" args="f=rv20 minrate=0 b=6000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 8000k" args="f=rv20 minrate=0 b=8000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 10000k" args="f=rv20 minrate=0 b=10000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 12000k" args="f=rv20 minrate=0 b=12000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 720x576" standard="PAL" args="f=rv20 minrate=0 b=12000k ab=384k ar=48000 s=720x576 g=8" />
+  <profile name="RealVideo 720x480" standard="NTSC" args="f=rv20 minrate=0 b=12000k ab=384k ar=48000 s=720x480 g=8" />
 </group>
 
 <group name="Theora" renderer="avformat" extension="ogg" type="av">
@@ -188,7 +188,7 @@
 <group name="Lossless/HQ" renderer="avformat" type="av">
   <profile name="ffv1 lossless (video) + flac (sound)" extension="mp4" args="f=mp4 acodec=flac acodec=flac ar=48000 ab=1024k ac=2 vcodec=ffv1 qscale=1 s=%widthx%height aspect=%dar" />
   <profile name="huffyuv lossless (video) + pcm_s16le (sound)" extension="avi" args="f=avi acodec=pcm_s16le ac=2 vcodec=huffyuv s=%widthx%height aspect=%dar" />
-  <profile name="MPEG2-2 I-frame only (video) + mp2 (sound)" extension="mpg" args="f=mpg acodec=mp2 ab=384k ar=48000 ac=2 vcodec=mpeg2video qscale=1 qmin=1 s=%widthx%height aspect=%dar intra=1" />
+  <profile name="MPEG-2 I-frame only (video) + mp2 (sound)" extension="mpg" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 ac=2 vcodec=mpeg2video qscale=1 qmin=1 s=%widthx%height aspect=%dar intra=1" />
  <profile name="H.264 I-frame only (video) + aac (sound)" extension="mp4" args="f=mp4 acodec=libfaac ab=384k ar=48000 ac=2 pix_fmt=yuv420p vcodec=libx264 cqp=1 coder=ac trellis=1 s=%widthx%height aspect=%dar intra=1" />
  <profile name="H.264 lossless fast (video) + aac (sound)" extension="mp4" args="f=mp4 acodec=libfaac ab=384k ar=48000 ac=2 pix_fmt=yuv420p vcodec=libx264 cqp=0 me_method=esa subq=8 coder=ac partitions=+parti4x4+parti8x8+partp4x4+partp8x8+partb8x8 refs=16 flags2=+dct8x8+mixed_refs trellis=1 s=%widthx%height aspect=%dar" />
  <profile name="H.264 lossless slow (video) + aac (sound)" extension="mp4" args="f=mp4 acodec=libfaac ab=384k ar=48000 ac=2 pix_fmt=yuv420p vcodec=libx264 cqp=0 me_method=dia subq=1 partitions=-parti4x4-parti8x8-partp4x4-partp8x8-partb8x8 trellis=1 s=%widthx%height aspect=%dar" />
