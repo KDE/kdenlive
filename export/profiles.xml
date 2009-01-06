@@ -126,19 +126,19 @@
 </group>
 
 <group name="RealVideo" renderer="avformat" extension="rm" type="av">
-  <profile name="RealVideo 200k" args="f=rv20 minrate=0 b=200k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 400k" args="f=rv20 minrate=0 b=400k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 600k" args="f=rv20 minrate=0 b=600k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 800k" args="f=rv20 minrate=0 b=800k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 1000k" args="f=rv20 minrate=0 b=1000k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 2000k" args="f=rv20 minrate=0 b=2000k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 4000k" args="f=rv20 minrate=0 b=4000k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 6000k" args="f=rv20 minrate=0 b=6000k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 8000k" args="f=rv20 minrate=0 b=8000k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 10000k" args="f=rv20 minrate=0 b=10000k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 12000k" args="f=rv20 minrate=0 b=12000k ab=128k ar=44100 s=%widthx%height g=8" />
-  <profile name="RealVideo 720x576" standard="PAL" args="f=rv20 minrate=0 b=12000k ab=384k ar=48000 s=720x576 g=8" />
-  <profile name="RealVideo 720x480" standard="NTSC" args="f=rv20 minrate=0 b=12000k ab=384k ar=48000 s=720x480 g=8" />
+  <profile name="RealVideo 200k" args="vcodec=rv20 acodec=ac3 minrate=0 b=200k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 400k" args="vcodec=rv20 acodec=ac3 minrate=0 b=400k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 600k" args="vcodec=rv20 acodec=ac3 minrate=0 b=600k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 800k" args="vcodec=rv20 acodec=ac3 minrate=0 b=800k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 1000k" args="vcodec=rv20 acodec=ac3 minrate=0 b=1000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 2000k" args="vcodec=rv20 acodec=ac3 minrate=0 b=2000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 4000k" args="vcodec=rv20 acodec=ac3 minrate=0 b=4000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 6000k" args="vcodec=rv20 acodec=ac3 minrate=0 b=6000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 8000k" args="vcodec=rv20 acodec=ac3 minrate=0 b=8000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 10000k" args="vcodec=rv20 acodec=ac3 minrate=0 b=10000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 12000k" args="vcodec=rv20 acodec=ac3 minrate=0 b=12000k ab=128k ar=44100 s=%widthx%height g=8" />
+  <profile name="RealVideo 720x576" standard="PAL" args="vcodec=rv20 acodec=ac3 minrate=0 b=12000k ab=384k ar=48000 s=720x576 g=8" />
+  <profile name="RealVideo 720x480" standard="NTSC" args="vcodec=rv20 acodec=ac3 minrate=0 b=12000k ab=384k ar=48000 s=720x480 g=8" />
 </group>
 
 <group name="Theora" renderer="avformat" extension="ogg" type="av">
@@ -158,9 +158,9 @@
 </group>
 
 <group name="Media players" renderer="avformat" type="av">
-  <profile name="Windows Media Player wmv7 400k" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 ac=2 vcodec=wmv7 minrate=0 b=400k s=%widthx%height aspect=%dar" />
-  <profile name="Windows Media Player wmv7 1000k" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 ac=2 vcodec=wmv7 minrate=0 b=1000k s=%widthx%height aspect=%dar" />
-  <profile name="Windows Media Player wmv7 2000k" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 ac=2 vcodec=wmv7 minrate=0 b=2000k s=%widthx%height aspect=%dar" />
+  <profile name="Windows Media Player wmv7 400k" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 ac=2 vcodec=wmv1 minrate=0 b=400k s=%widthx%height aspect=%dar" />
+  <profile name="Windows Media Player wmv7 1000k" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 ac=2 vcodec=wmv1 minrate=0 b=1000k s=%widthx%height aspect=%dar" />
+  <profile name="Windows Media Player wmv7 2000k" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 ac=2 vcodec=wmv1 minrate=0 b=2000k s=%widthx%height aspect=%dar" />
   <profile name="Apple Quicktime Player Mpeg4 400k" extension="mov" args="acodec=libfaac ab=128k ac=2 ar=48000 vcodec=mpeg4 minrate=0 b=400k s=%widthx%height aspect=%dar" />
   <profile name="Apple Quicktime Player Mpeg4 1000k" extension="mov" args="acodec=libfaac ab=128k ac=2 ar=48000 vcodec=mpeg4 minrate=0 b=2000k s=%widthx%height aspect=%dar" />
   <profile name="Apple Quicktime Player Mpeg4 2000k" extension="mov" args="acodec=libfaac ab=128k ac=2 ar=48000 vcodec=mpeg4 minrate=0 b=2000k s=%widthx%height aspect=%dar" />
