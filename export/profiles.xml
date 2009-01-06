@@ -48,19 +48,19 @@
 </group>
 
 <group name="MPEG-2" renderer="avformat" extension="mpg" type="av">
-  <profile name="MPEG-2 200k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=200k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 400k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=400k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 600k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=600k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 800k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=800k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 1000k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=1000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 2000k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=2000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 4000k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=4000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 6000k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=6000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 8000k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=8000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 1000k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=10000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 12000k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=12000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 18000k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=18000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 25000k" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=25000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 200k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=200k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 400k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=400k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 600k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=600k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 800k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=800k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 1000k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=1000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 2000k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=2000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 4000k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=4000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 6000k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=6000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 8000k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=8000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 1000k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=10000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 12000k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=12000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 18000k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=18000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
+  <profile name="MPEG-2 25000k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=25000k bf=2 b_strategy=1 trellis=1 s=%widthx%height aspect=%dar" />
 </group>
 
 <group name="MPEG-4" renderer="avformat" extension="mp4" type="av">
@@ -188,7 +188,7 @@
 <group name="Lossless/HQ" renderer="avformat" type="av">
   <profile name="ffv1 lossless (video) + flac (sound)" extension="mp4" args="f=mp4 acodec=flac acodec=flac ar=48000 ab=1024k ac=2 vcodec=ffv1 qscale=1 s=%widthx%height aspect=%dar" />
   <profile name="huffyuv lossless (video) + pcm_s16le (sound)" extension="avi" args="f=avi acodec=pcm_s16le ac=2 vcodec=huffyuv s=%widthx%height aspect=%dar" />
-  <profile name="MPEG-2 I-frame only (video) + mp2 (sound)" extension="mpg" args="f=mpegvideo acodec=mp2 ab=384k ar=48000 ac=2 vcodec=mpeg2video qscale=1 qmin=1 s=%widthx%height aspect=%dar intra=1" />
+  <profile name="MPEG-2 I-frame only (video) + mp2 (sound)" extension="mpg" args="f=mpeg acodec=mp2 ab=384k ar=48000 ac=2 vcodec=mpeg2video qscale=1 qmin=1 s=%widthx%height aspect=%dar intra=1" />
  <profile name="H.264 I-frame only (video) + aac (sound)" extension="mp4" args="f=mp4 acodec=libfaac ab=384k ar=48000 ac=2 pix_fmt=yuv420p vcodec=libx264 cqp=1 coder=ac trellis=1 s=%widthx%height aspect=%dar intra=1" />
  <profile name="H.264 lossless fast (video) + aac (sound)" extension="mp4" args="f=mp4 acodec=libfaac ab=384k ar=48000 ac=2 pix_fmt=yuv420p vcodec=libx264 cqp=0 me_method=esa subq=8 coder=ac partitions=+parti4x4+parti8x8+partp4x4+partp8x8+partb8x8 refs=16 flags2=+dct8x8+mixed_refs trellis=1 s=%widthx%height aspect=%dar" />
  <profile name="H.264 lossless slow (video) + aac (sound)" extension="mp4" args="f=mp4 acodec=libfaac ab=384k ar=48000 ac=2 pix_fmt=yuv420p vcodec=libx264 cqp=0 me_method=dia subq=1 partitions=-parti4x4-parti8x8-partp4x4-partp8x8-partb8x8 trellis=1 s=%widthx%height aspect=%dar" />
