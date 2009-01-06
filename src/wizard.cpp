@@ -44,6 +44,14 @@ Wizard::Wizard(QWidget *parent): QWizard(parent) {
     page1->setLayout(m_startLayout);
     addPage(page1);
 
+    QWizardPage *page4 = new QWizardPage;
+    page4->setTitle(i18n("Checking MLT engine"));
+    m_mltCheck.setupUi(page4);
+    addPage(page4);
+
+    WizardDelegate *listViewDelegate = new WizardDelegate(m_mltCheck.programList);
+    m_mltCheck.programList->setItemDelegate(listViewDelegate);
+
     QWizardPage *page2 = new QWizardPage;
     page2->setTitle(i18n("Video Standard"));
     m_standard.setupUi(page2);
@@ -84,16 +92,117 @@ Wizard::Wizard(QWidget *parent): QWizard(parent) {
     addPage(page3);
 
 
-    QWizardPage *page4 = new QWizardPage;
-    page4->setTitle(i18n("Checking system"));
-    m_check.setupUi(page4);
+    QWizardPage *page5 = new QWizardPage;
+    page5->setTitle(i18n("Checking system"));
+    m_check.setupUi(page5);
     slotCheckPrograms();
-    addPage(page4);
+    addPage(page5);
 
-    WizardDelegate *listViewDelegate = new WizardDelegate(m_check.programList);
+    listViewDelegate = new WizardDelegate(m_check.programList);
     m_check.programList->setItemDelegate(listViewDelegate);
 
     QTimer::singleShot(500, this, SLOT(slotCheckMlt()));
+}
+
+
+void Wizard::checkMltComponents() {
+    m_mltCheck.programList->setColumnCount(2);
+    m_mltCheck.programList->setRootIsDecorated(false);
+    m_mltCheck.programList->setHeaderHidden(true);
+    QSize itemSize(20, this->fontMetrics().height() * 2.5);
+    KIcon okIcon("dialog-ok");
+    KIcon missingIcon("dialog-close");
+    m_mltCheck.programList->setColumnWidth(0, 30);
+    m_mltCheck.programList->setIconSize(QSize(24, 24));
+
+
+    QTreeWidgetItem *item = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("Inigo") + " (" + KdenliveSettings::rendererpath() + ')');
+    item->setData(1, Qt::UserRole, i18n("Required for rendering (part of MLT package)"));
+    item->setSizeHint(0, itemSize);
+    item->setIcon(0, okIcon);
+
+    // Check MLT's installed producers
+    QProcess checkProcess;
+    checkProcess.start(KdenliveSettings::rendererpath(), QStringList() << "-query" << "producer");
+    if (!checkProcess.waitForStarted()) {
+        item->setIcon(0, missingIcon);
+        item->setData(1, Qt::UserRole, i18n("Error starting MLT's command line player (inigo)"));
+        button(QWizard::NextButton)->setEnabled(false);
+    } else {
+        checkProcess.waitForFinished();
+        QByteArray result = checkProcess.readAllStandardError();
+
+        // Check MLT avformat module
+        QTreeWidgetItem *avformatItem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("Avformat module (FFmpeg)"));
+        avformatItem->setData(1, Qt::UserRole, i18n("Required to work with various video formats (hdv, mpeg, flash, ...)"));
+        avformatItem->setSizeHint(0, itemSize);
+        if (!result.contains("- avformat")) {
+            avformatItem->setIcon(0, missingIcon);
+            m_mltCheck.tabWidget->setTabEnabled(1, false);
+        } else {
+            avformatItem->setIcon(0, okIcon);
+            // Check installed codecs
+            QProcess checkProcess2;
+            checkProcess2.start(KdenliveSettings::rendererpath(), QStringList() << "-producer" << "avformat:acodec-list");
+            if (!checkProcess2.waitForStarted()) {
+                m_mltCheck.tabWidget->setTabEnabled(1, false);
+                kDebug() << "// Error parsing MLT's avformat codecs";
+            } else {
+                checkProcess2.waitForFinished();
+                QByteArray codecList = checkProcess2.readAllStandardError();
+                QString acodecList(codecList);
+                acodecList = acodecList.section("...", 0, 0);
+                QStringList alist = acodecList.split("\n", QString::SkipEmptyParts);
+                for (int i = 0; i < alist.count(); i++) {
+                    if (alist.at(i).contains("- ")) m_audioCodecs.append(alist.at(i).section("- ", 1).simplified());
+                }
+                m_mltCheck.acodecs_list->addItems(m_audioCodecs);
+                //kDebug()<<"// FOUND LIST:\n\n"<<m_audioCodecs<<"\n\n++++++++++++++++++++";
+            }
+            checkProcess2.start(KdenliveSettings::rendererpath(), QStringList() << "-producer" << "avformat:vcodec-list");
+            if (!checkProcess2.waitForStarted()) {
+                kDebug() << "// Error parsing MLT's avformat codecs";
+            } else {
+                checkProcess2.waitForFinished();
+                QByteArray codecList = checkProcess2.readAllStandardError();
+                QString vcodecList(codecList);
+                vcodecList = vcodecList.section("...", 0, 0);
+                QStringList vlist = vcodecList.split("\n", QString::SkipEmptyParts);
+                for (int i = 0; i < vlist.count(); i++) {
+                    if (vlist.at(i).contains("- ")) m_videoCodecs.append(vlist.at(i).section("- ", 1).simplified());
+                }
+                m_mltCheck.vcodecs_list->addItems(m_videoCodecs);
+                //kDebug()<<"// FOUND LIST:\n\n"<<m_videoCodecs<<"\n\n++++++++++++++++++++";
+            }
+
+
+        }
+
+        // Check MLT dv module
+        QTreeWidgetItem *dvItem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("DV module (libdv)"));
+        dvItem->setData(1, Qt::UserRole, i18n("Required to work with dv files if avformat module is not installed"));
+        dvItem->setSizeHint(0, itemSize);
+        if (!result.contains("- libdv")) {
+            dvItem->setIcon(0, missingIcon);
+        } else {
+            dvItem->setIcon(0, okIcon);
+        }
+
+        // Check MLT image format module
+        QTreeWidgetItem *imageItem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("QImage module"));
+        imageItem->setData(1, Qt::UserRole, i18n("Required to work with images"));
+        imageItem->setSizeHint(0, itemSize);
+        if (!result.contains("- qimage")) {
+            imageItem->setIcon(0, missingIcon);
+            imageItem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("Pixbuf module"));
+            imageItem->setData(1, Qt::UserRole, i18n("Required to work with images"));
+            imageItem->setSizeHint(0, itemSize);
+            if (!result.contains("- pixbuf")) imageItem->setIcon(0, missingIcon);
+            else imageItem->setIcon(0, okIcon);
+        } else {
+            imageItem->setIcon(0, okIcon);
+        }
+    }
 }
 
 void Wizard::slotCheckPrograms() {
@@ -105,6 +214,7 @@ void Wizard::slotCheckPrograms() {
     KIcon missingIcon("dialog-close");
     m_check.programList->setColumnWidth(0, 30);
     m_check.programList->setIconSize(QSize(24, 24));
+
     QTreeWidgetItem *item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("FFmpeg & ffplay"));
     item->setData(1, Qt::UserRole, i18n("Required for webcam capture"));
     item->setSizeHint(0, itemSize);
@@ -125,11 +235,6 @@ void Wizard::slotCheckPrograms() {
     if (KStandardDirs::findExe("dvgrab").isEmpty()) item->setIcon(0, missingIcon);
     else item->setIcon(0, okIcon);
 
-    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("Inigo"));
-    item->setData(1, Qt::UserRole, i18n("Required for rendering (part of MLT package)"));
-    item->setSizeHint(0, itemSize);
-    if (KStandardDirs::findExe("inigo").isEmpty()) item->setIcon(0, missingIcon);
-    else item->setIcon(0, okIcon);
 }
 
 void Wizard::installExtraMimes(QString baseName, QStringList globs) {
@@ -267,7 +372,7 @@ void Wizard::slotCheckMlt() {
     if (KdenliveSettings::rendererpath().isEmpty()) {
         errorMessage.append(i18n("your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"));
     }
-    QProcess checkProcess;
+    /*QProcess checkProcess;
     checkProcess.start(KdenliveSettings::rendererpath(), QStringList() << "-query" << "producer");
     if (!checkProcess.waitForStarted())
         errorMessage.append(i18n("Error starting MLT's command line player (inigo)") + ".\n");
@@ -275,7 +380,7 @@ void Wizard::slotCheckMlt() {
     checkProcess.waitForFinished();
 
     QByteArray result = checkProcess.readAllStandardError();
-    if (!result.contains("- avformat")) errorMessage.append(i18n("MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT install. Kdenlive will not work until this issue is fixed.") + "\n");
+    if (!result.contains("- avformat")) errorMessage.append(i18n("MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT install. Kdenlive will not work until this issue is fixed.") + "\n");*/
 
     QProcess checkProcess2;
     checkProcess2.start(KdenliveSettings::rendererpath(), QStringList() << "-query" << "consumer");
@@ -284,7 +389,7 @@ void Wizard::slotCheckMlt() {
 
     checkProcess2.waitForFinished();
 
-    result = checkProcess2.readAllStandardError();
+    QByteArray result = checkProcess2.readAllStandardError();
     if (!result.contains("sdl") || !result.contains("sdl_preview")) errorMessage.append(i18n("MLT's SDL module not found. Please check your MLT install. Kdenlive will not work until this issue is fixed.") + "\n");
 
     if (!errorMessage.isEmpty()) {
@@ -299,6 +404,8 @@ void Wizard::slotCheckMlt() {
         m_systemCheckIsOk = false;
         button(QWizard::NextButton)->setEnabled(false);
     } else m_systemCheckIsOk = true;
+
+    if (m_systemCheckIsOk) checkMltComponents();
 }
 
 bool Wizard::isOk() const {

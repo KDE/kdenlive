@@ -31,7 +31,7 @@
 #include "ui_wizardstandard_ui.h"
 #include "ui_wizardextra_ui.h"
 #include "ui_wizardcheck_ui.h"
-
+#include "ui_wizardmltcheck_ui.h"
 
 class WizardDelegate: public QItemDelegate {
 public:
@@ -81,6 +81,7 @@ public:
 private:
     Ui::WizardStandard_UI m_standard;
     Ui::WizardExtra_UI m_extra;
+    Ui::WizardMltCheck_UI m_mltCheck;
     Ui::WizardCheck_UI m_check;
     QVBoxLayout *m_startLayout;
     bool m_systemCheckIsOk;
@@ -89,6 +90,9 @@ private:
     QStringList m_otherProfiles;
     QMap <QString, QString> m_profilesInfo;
     void slotCheckPrograms();
+    void checkMltComponents();
+    QStringList m_audioCodecs;
+    QStringList m_videoCodecs;
 
 private slots:
     void slotCheckThumbs();
