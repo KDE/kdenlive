@@ -15,28 +15,27 @@
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/ 
- 
+ ***************************************************************************/
+
 
 #ifndef SAMPLEPLUGIN_H
 #define SAMPLEPLUGIN_H
 
 #include <QObject>
 #include <QStringList>
- 
+
 #include <KUrl>
 
 #include "interfaces.h"
 
-class SamplePlugin : public QObject, public ClipGenerator
-{
+class SamplePlugin : public QObject, public ClipGenerator {
     Q_OBJECT
     Q_INTERFACES(ClipGenerator)
 
- public:
-     QStringList generators() const;
-     KUrl generatedClip(const QString &generator, const KUrl &projectFolder, const QStringList &lumaNames, const QStringList &lumaFiles, const double fps, const int width, const int height);
- };
+public:
+    QStringList generators() const;
+    KUrl generatedClip(const QString &generator, const KUrl &projectFolder, const QStringList &lumaNames, const QStringList &lumaFiles, const double fps, const int width, const int height);
+};
 
 
- #endif
+#endif

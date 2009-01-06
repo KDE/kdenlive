@@ -405,11 +405,8 @@ void MainWindow::loadPlugins() {
 }
 
 void MainWindow::populateMenus(QObject *plugin) {
-    kDebug() << "// POP MENU";
     QMenu *addMenu = static_cast<QMenu*>(factory()->container("generators", this));
     ClipGenerator *iGenerator = qobject_cast<ClipGenerator *>(plugin);
-    kDebug() << "// POP MENU 2";
-    if (addMenu) kDebug() << "// POP MENU 3";
     if (iGenerator)
         addToMenu(plugin, iGenerator->generators(), addMenu, SLOT(generateClip()),
                   NULL);
@@ -421,6 +418,7 @@ void MainWindow::addToMenu(QObject *plugin, const QStringList &texts,
     kDebug() << "// ADD to MENU" << texts;
     foreach(QString text, texts) {
         QAction *action = new QAction(text, plugin);
+        action->setData(text);
         connect(action, SIGNAL(triggered()), this, member);
         menu->addAction(action);
 
@@ -441,7 +439,7 @@ void MainWindow::generateClip() {
     QAction *action = qobject_cast<QAction *>(sender());
     ClipGenerator *iGenerator = qobject_cast<ClipGenerator *>(action->parent());
 
-    KUrl clipUrl = iGenerator->generatedClip(action->text(), m_activeDocument->projectFolder(), QStringList(), QStringList(), 25, 720, 576);
+    KUrl clipUrl = iGenerator->generatedClip(action->data().toString(), m_activeDocument->projectFolder(), QStringList(), QStringList(), 25, 720, 576);
     if (!clipUrl.isEmpty()) {
         m_projectList->slotAddClip(clipUrl);
     }
@@ -1618,6 +1616,7 @@ void MainWindow::slotPreferences(int page, int option) {
     KdenliveSettingsDialog* dialog = new KdenliveSettingsDialog(this);
     connect(dialog, SIGNAL(settingsChanged(const QString&)), this, SLOT(updateConfiguration()));
     connect(dialog, SIGNAL(doResetProfile()), m_monitorManager, SLOT(slotResetProfiles()));
+    //connect(dialog, SIGNAL(updatePreviewSettings()), this, SLOT(slotUpdatePreviewSettings()));
     dialog->show();
     if (page != -1) dialog->showPage(page, option);
 }
@@ -1637,6 +1636,12 @@ void MainWindow::updateConfiguration() {
 #endif /* NO_JOGSHUTTLE */
 
 }
+
+void MainWindow::slotUpdatePreviewSettings() {
+    //TODO: perform operation on all open documents
+    m_activeDocument->clipManager()->updatePreviewSettings();
+}
+
 
 void MainWindow::slotSwitchVideoThumbs() {
     KdenliveSettings::setVideothumbnails(!KdenliveSettings::videothumbnails());

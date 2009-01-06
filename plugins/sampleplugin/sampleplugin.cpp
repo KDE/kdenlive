@@ -15,12 +15,13 @@
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
- ***************************************************************************/ 
- 
+ ***************************************************************************/
+
 
 #include <QtGui>
 #include <QDialog>
 #include <QDomDocument>
+#include <QInputDialog>
 
 #include <KUrlRequester>
 #include <KIntSpinBox>
@@ -30,50 +31,62 @@
 #include "sampleplugin.h"
 #include "ui_countdown_ui.h"
 
- QStringList SamplePlugin::generators() const
- {
-     return QStringList() << tr("Countdown");
- }
+QStringList SamplePlugin::generators() const {
+    return QStringList() << i18n("Countdown") << i18n("Noise");
+}
 
 
 KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFolder, const QStringList &lumaNames, const QStringList &lumaFiles, const double fps, const int width, const int height) {
+    QString prePath;
+    if (generator == i18n("Noise")) {
+        prePath = projectFolder.path() + "/noise";
+    } else prePath = projectFolder.path() + "/counter";
     int ct = 0;
     QString counter = QString::number(ct).rightJustified(5, '0', false);
-    while (QFile::exists(projectFolder.path() + "/counter" + counter + ".westley")) {
+    while (QFile::exists(prePath + counter + ".westley")) {
         ct++;
         counter = QString::number(ct).rightJustified(5, '0', false);
     }
     QDialog d;
-    d.setWindowTitle(tr("Create Countdown Clip"));
+    if (generator == i18n("Noise")) d.setWindowTitle(tr("Create Noise Clip"));
+    else d.setWindowTitle(tr("Create Countdown Clip"));
     Ui::CountDown_UI view;
     view.setupUi(&d);
-    QString clipFile = projectFolder.path() + "/counter" + counter + ".westley";
+    QString clipFile = prePath + counter + ".westley";
     view.path->setPath(clipFile);
     if (d.exec() == QDialog::Accepted) {
-	QDomDocument doc;
-	QDomElement westley = doc.createElement("westley");
-	QDomElement playlist = doc.createElement("playlist");
-	for (int i = 0; i < view.duration->value(); i++) {
-	    // Create the producers
-	    QDomElement prod = doc.createElement("producer");
-	    prod.setAttribute("mlt_service", "pango");
-	    prod.setAttribute("in", "0");
-	    prod.setAttribute("out", QString::number((int) fps));
-	    prod.setAttribute("markup", QString::number(view.duration->value() - i));
-	    playlist.appendChild(prod);
-	}
-	westley.appendChild(playlist);
-	doc.appendChild(westley);
-	QFile file(view.path->url().path());
-	if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-	    kWarning() << "//////  ERROR writing to file: " << view.path->url().path();
-	    KMessageBox::error(0, i18n("Cannot write to file %1", view.path->url().path()));
-	    return KUrl();
-	}
-	QTextStream out(&file);
-	out << doc.toString();
-	file.close();
-	return view.path->url();
+        QDomDocument doc;
+        QDomElement westley = doc.createElement("westley");
+        QDomElement playlist = doc.createElement("playlist");
+        if (generator == i18n("Noise")) {
+            QDomElement prod = doc.createElement("producer");
+            prod.setAttribute("mlt_service", "noise");
+            prod.setAttribute("in", "0");
+            prod.setAttribute("out", QString::number((int) fps * view.duration->value()));
+            playlist.appendChild(prod);
+        } else {
+            for (int i = 0; i < view.duration->value(); i++) {
+                // Create the producers
+                QDomElement prod = doc.createElement("producer");
+                prod.setAttribute("mlt_service", "pango");
+                prod.setAttribute("in", "0");
+                prod.setAttribute("out", QString::number((int) fps));
+                prod.setAttribute("markup", QString::number(view.duration->value() - i));
+                playlist.appendChild(prod);
+            }
+        }
+        westley.appendChild(playlist);
+        doc.appendChild(westley);
+        QFile file(view.path->url().path());
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            kWarning() << "//////  ERROR writing to file: " << view.path->url().path();
+            KMessageBox::error(0, i18n("Cannot write to file %1", view.path->url().path()));
+            return KUrl();
+        }
+        QTextStream out(&file);
+        out << doc.toString();
+        file.close();
+        return view.path->url();
     }
     return KUrl();
 }
