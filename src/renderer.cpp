@@ -95,9 +95,7 @@ void Render::buildConsumer() {
     char *tmp;
     tmp = decodedString(KdenliveSettings::current_profile());
     m_mltProfile = new Mlt::Profile(tmp);
-    setenv("MLT_PROFILE", tmp, 1);
     delete[] tmp;
-
 
     QString videoDriver = KdenliveSettings::videodrivername();
     if (!videoDriver.isEmpty()) {
@@ -114,7 +112,7 @@ void Render::buildConsumer() {
     m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("window_id", m_winid);
     m_mltConsumer->set("terminate_on_pause", 1);
-    //m_mltConsumer->set("fullscreen", 1);
+
     m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
     m_mltConsumer->set("rescale", "nearest");
 

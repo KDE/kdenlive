@@ -21,8 +21,10 @@
 #include <QObject>
 #include <QTimer>
 
-#include "monitormanager.h"
 #include <mlt++/Mlt.h>
+
+#include "monitormanager.h"
+#include "kdenlivesettings.h"
 
 MonitorManager::MonitorManager(QWidget *parent)
         : QObject(parent) {
@@ -137,6 +139,11 @@ void MonitorManager::slotResetProfiles() {
     m_clipMonitor->resetProfile();
     activateMonitor("project");
     m_projectMonitor->resetProfile();
+    char *tmp;
+    tmp = (char *) qstrdup(QString(KdenliveSettings::current_profile()).toUtf8().data());
+    setenv("MLT_PROFILE", tmp, 1);
+    delete[] tmp;
+
     //m_projectMonitor->refreshMonitor(true);
 }
 
