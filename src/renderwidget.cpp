@@ -440,6 +440,9 @@ void RenderWidget::refreshView() {
     QString group = item->text();
     QListWidgetItem *sizeItem;
     bool firstSelected = false;
+    const QStringList formatsList = KdenliveSettings::supportedformats();
+    const QStringList vcodecsList = KdenliveSettings::videocodecs();
+    const QStringList acodecsList = KdenliveSettings::audiocodecs();
     for (int i = 0; i < m_view.size_list->count(); i++) {
         sizeItem = m_view.size_list->item(i);
         if (sizeItem->data(GroupRole) == group) {
@@ -461,6 +464,47 @@ void RenderWidget::refreshView() {
                     if (subsize != "%widthx%height") {
                         const QString currentSize = QString::number(m_profile.width) + 'x' + QString::number(m_profile.height);
                         if (subsize != currentSize) sizeItem->setHidden(true);
+                    }
+                }
+            }
+            if (!sizeItem->isHidden()) {
+                // Make sure the selected profile uses an installed avformat codec / format
+                std = sizeItem->data(ParamsRole).toString();
+
+                if (!formatsList.isEmpty()) {
+                    QString format;
+                    if (std.startsWith("f=")) format = std.section("f=", 1, 1);
+                    else if (std.contains(" f=")) format = std.section(" f=", 1, 1);
+                    if (!format.isEmpty()) {
+                        format = format.section(' ', 0, 0).toLower();
+                        if (!formatsList.contains(format)) {
+                            kDebug() << "*****  UNSUPPORTED F: " << format;
+                            sizeItem->setHidden(true);
+                        }
+                    }
+                }
+                if (!acodecsList.isEmpty() && !sizeItem->isHidden()) {
+                    QString format;
+                    if (std.startsWith("acodec=")) format = std.section("acodec=", 1, 1);
+                    else if (std.contains(" acodec=")) format = std.section(" acodec=", 1, 1);
+                    if (!format.isEmpty()) {
+                        format = format.section(' ', 0, 0).toLower();
+                        if (!acodecsList.contains(format)) {
+                            kDebug() << "*****  UNSUPPORTED ACODEC: " << format;
+                            sizeItem->setHidden(true);
+                        }
+                    }
+                }
+                if (!vcodecsList.isEmpty() && !sizeItem->isHidden()) {
+                    QString format;
+                    if (std.startsWith("vcodec=")) format = std.section("vcodec=", 1, 1);
+                    else if (std.contains(" vcodec=")) format = std.section(" vcodec=", 1, 1);
+                    if (!format.isEmpty()) {
+                        format = format.section(' ', 0, 0).toLower();
+                        if (!vcodecsList.contains(format)) {
+                            kDebug() << "*****  UNSUPPORTED VCODEC: " << format;
+                            sizeItem->setHidden(true);
+                        }
                     }
                 }
             }

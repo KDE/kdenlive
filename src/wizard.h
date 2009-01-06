@@ -91,8 +91,6 @@ private:
     QMap <QString, QString> m_profilesInfo;
     void slotCheckPrograms();
     void checkMltComponents();
-    QStringList m_audioCodecs;
-    QStringList m_videoCodecs;
 
 private slots:
     void slotCheckThumbs();
