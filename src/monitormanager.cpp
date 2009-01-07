@@ -139,11 +139,6 @@ void MonitorManager::slotResetProfiles() {
     m_clipMonitor->resetProfile();
     activateMonitor("project");
     m_projectMonitor->resetProfile();
-    char *tmp;
-    tmp = (char *) qstrdup(QString(KdenliveSettings::current_profile()).toUtf8().data());
-    setenv("MLT_PROFILE", tmp, 1);
-    delete[] tmp;
-
     //m_projectMonitor->refreshMonitor(true);
 }
 

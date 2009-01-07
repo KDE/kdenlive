@@ -63,6 +63,7 @@ Render::Render(const QString & rendererName, int winid, int extid, QWidget *pare
     connect(osdTimer, SIGNAL(timeout()), this, SLOT(slotOsdTimeout()));
 
     m_osdProfile =   KStandardDirs::locate("data", "kdenlive/profiles/metadata.properties");
+
     buildConsumer();
 
     Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "colour", "black");
@@ -93,7 +94,9 @@ void Render::closeMlt() {
 
 void Render::buildConsumer() {
     char *tmp;
-    tmp = decodedString(KdenliveSettings::current_profile());
+    m_activeProfile = KdenliveSettings::current_profile();
+    tmp = decodedString(m_activeProfile);
+    setenv("MLT_PROFILE", tmp, 1);
     m_mltProfile = new Mlt::Profile(tmp);
     delete[] tmp;
 
@@ -144,12 +147,11 @@ void Render::buildConsumer() {
 
 int Render::resetProfile() {
     if (!m_mltConsumer) return 0;
-    QString currentProfile = getenv("MLT_PROFILE");
-    if (currentProfile == KdenliveSettings::current_profile()) {
+    if (m_activeProfile == KdenliveSettings::current_profile()) {
         kDebug() << "reset to same profile, nothing to do";
         return 1;
     }
-    kDebug() << "// RESETTING PROFILE FROM: " << currentProfile << " TO: " << KdenliveSettings::current_profile();
+    kDebug() << "// RESETTING PROFILE FROM: " << m_activeProfile << " TO: " << KdenliveSettings::current_profile();
     if (m_isSplitView) slotSplitView(false);
     if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     m_mltConsumer->purge();
@@ -162,22 +164,24 @@ int Render::resetProfile() {
         delete m_mltProducer;
     }
     m_mltProducer = NULL;
-    if (m_mltProfile) delete m_mltProfile;
-    m_mltProfile = NULL;
+
+    //WARNING: Trying to delete the profile will crash when trying to display a clip afterwards...
+    /*if (m_mltProfile) delete m_mltProfile;
+    m_mltProfile = NULL;*/
+
     buildConsumer();
 
     //kDebug() << "//RESET WITHSCENE: " << scene;
     setSceneList(scene, pos);
 
-    char *tmp = decodedString(scene);
+    /*char *tmp = decodedString(scene);
     Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "westley-xml", tmp);
     delete[] tmp;
     m_mltProducer = producer;
-    if (m_blackClip) delete m_blackClip;
     m_blackClip = new Mlt::Producer(*m_mltProfile , "colour", "black");
     m_mltProducer->optimise();
     m_mltProducer->set_speed(0);
-    connectPlaylist();
+    connectPlaylist();*/
 
     //delete m_mltProfile;
     // mlt_properties properties = MLT_CONSUMER_PROPERTIES(m_mltConsumer->get_consumer());

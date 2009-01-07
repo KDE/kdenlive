@@ -206,6 +206,7 @@ private:   // Private attributes & methods
     Mlt::Producer *m_blackClip;
     /** Holds the path to on screen display profile */
     QString m_osdProfile;
+    QString m_activeProfile;
 
     QTimer *refreshTimer;
     QTimer *osdTimer;
