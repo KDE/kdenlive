@@ -1637,10 +1637,10 @@ void MainWindow::updateConfiguration() {
 
 }
 
-void MainWindow::slotUpdatePreviewSettings() {
+/*void MainWindow::slotUpdatePreviewSettings() {
     //TODO: perform operation on all open documents
     m_activeDocument->clipManager()->updatePreviewSettings();
-}
+}*/
 
 
 void MainWindow::slotSwitchVideoThumbs() {
