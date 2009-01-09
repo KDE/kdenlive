@@ -78,7 +78,7 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
     connect(m_trackview, SIGNAL(trackHeightChanged()), this, SLOT(slotRebuildTrackHeaders()));
 
     parseDocument(m_doc->toXml());
-
+    m_doc->setSceneList();
     connect(m_trackview, SIGNAL(cursorMoved(int, int)), m_ruler, SLOT(slotCursorMoved(int, int)));
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
@@ -127,6 +127,7 @@ void TrackView::parseDocument(QDomDocument doc) {
     }*/
 
     // parse project tracks
+    QDomElement tractor = doc.elementsByTagName("tractor").item(0).toElement();
     QDomNodeList tracks = doc.elementsByTagName("track");
     QDomNodeList playlists = doc.elementsByTagName("playlist");
     int duration = 300;
@@ -176,9 +177,9 @@ void TrackView::parseDocument(QDomDocument doc) {
 
     // parse transitions
     QDomNodeList transitions = doc.elementsByTagName("transition");
-    int projectTransitions = transitions.count();
+
     //kDebug() << "//////////// TIMELINE FOUND: " << projectTransitions << " transitions";
-    for (int i = 0; i < projectTransitions; i++) {
+    for (int i = 0; i < transitions.count(); i++) {
         e = transitions.item(i).toElement();
         QDomNodeList transitionparams = e.childNodes();
         bool transitionAdd = true;
@@ -269,9 +270,18 @@ void TrackView::parseDocument(QDomDocument doc) {
             transitionInfo.endPos = GenTime(e.attribute("out").toInt() + 1, m_doc->fps());
             transitionInfo.track = m_projectTracks - 1 - b_track;
             //kDebug() << "///////////////   +++++++++++  ADDING TRANSITION ON TRACK: " << b_track << ", TOTAL TRKA: " << m_projectTracks;
-            Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, isAutomatic);
-            if (forceTrack) tr->setForcedTrack(true, a_track);
-            m_scene->addItem(tr);
+	    if (transitionInfo.startPos >= transitionInfo.endPos) {
+		// invalid transition, remove it.
+		m_documentErrors.append(i18n("Removed invalid transition: %1\n", e.attribute("id")));
+		kDebug()<<"///// REMOVED INVALID TRANSITION: "<<e.attribute("id");
+                tractor.removeChild(transitions.item(i));
+                i--;
+	    }
+	    else {
+		Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, isAutomatic);
+		if (forceTrack) tr->setForcedTrack(true, a_track);
+		m_scene->addItem(tr);
+	    }
         }
     }
 

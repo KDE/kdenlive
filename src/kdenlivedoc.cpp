@@ -187,10 +187,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
     else m_timecode.setFormat((int) m_fps);
 
-    m_render->setSceneList(m_document.toString(), m_startPos);
     //kDebug() << "// SETTING SCENE LIST:\n\n" << m_document.toString();
-    checkProjectClips();
-
     connect(m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
 
 }
@@ -203,6 +200,11 @@ KdenliveDoc::~KdenliveDoc() {
         m_autosave->remove();
         delete m_autosave;
     }
+}
+
+void KdenliveDoc::setSceneList() {
+    m_render->setSceneList(m_document.toString(), m_startPos);
+    checkProjectClips();
 }
 
 QDomDocument KdenliveDoc::createEmptyDocument(const int videotracks, const int audiotracks) {

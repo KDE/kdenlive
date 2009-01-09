@@ -120,6 +120,7 @@ Q_OBJECT public:
     QString getLadspaFile() const;
     void setZone(int start, int end);
     QPoint zone() const;
+    void setSceneList();
 
 private:
     KUrl m_url;
