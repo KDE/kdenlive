@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>431</width>
+    <width>339</width>
     <height>464</height>
    </rect>
   </property>
@@ -485,6 +485,48 @@
           </size>
          </property>
         </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_5" >
+      <attribute name="title" >
+       <string>Metadata</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_9" >
+       <item row="0" column="0" >
+        <widget class="QTreeWidget" name="metadata_list" >
+         <property name="rootIsDecorated" >
+          <bool>false</bool>
+         </property>
+         <property name="itemsExpandable" >
+          <bool>false</bool>
+         </property>
+         <property name="sortingEnabled" >
+          <bool>false</bool>
+         </property>
+         <property name="allColumnsShowFocus" >
+          <bool>true</bool>
+         </property>
+         <property name="wordWrap" >
+          <bool>true</bool>
+         </property>
+         <property name="headerHidden" >
+          <bool>true</bool>
+         </property>
+         <property name="columnCount" >
+          <number>2</number>
+         </property>
+         <column>
+          <property name="text" >
+           <string>1</string>
+          </property>
+         </column>
+         <column>
+          <property name="text" >
+           <string>2</string>
+          </property>
+         </column>
+        </widget>
        </item>
       </layout>
      </widget>

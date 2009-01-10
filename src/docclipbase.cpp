@@ -521,6 +521,14 @@ void DocClipBase::setProperties(QMap <QString, QString> properties) {
     if (refreshProducer) slotRefreshProducer();
 }
 
+void DocClipBase::setMetadata(QMap <QString, QString> properties) {
+    m_metadata = properties;
+}
+
+QMap <QString, QString> DocClipBase::metadata() const {
+    return m_metadata;
+}
+
 void DocClipBase::clearProperty(const QString &key) {
     m_properties.remove(key);
 }

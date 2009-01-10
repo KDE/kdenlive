@@ -34,7 +34,8 @@ static const int COLORTAB = 2;
 static const int SLIDETAB = 3;
 static const int IMAGETAB = 4;
 static const int MARKERTAB = 5;
-static const int ADVANCEDTAB = 6;
+static const int METATAB = 6;
+static const int ADVANCEDTAB = 7;
 
 static const int TYPE_JPEG = 0;
 static const int TYPE_PNG = 1;
@@ -81,6 +82,16 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.clip_vindex->setMaximum(props.value("video_max").toInt());
     }
 
+    // Check for Metadata
+    QMap<QString, QString> meta = m_clip->metadata();
+    QMap<QString, QString>::const_iterator i = meta.constBegin();
+    while (i != meta.constEnd()) {
+        QTreeWidgetItem *metaitem = new QTreeWidgetItem(m_view.metadata_list);
+        metaitem->setText(0, i.key()); //i18n(i.key().section('.', 2, 3).toUtf8().data()));
+        metaitem->setText(1, i.value());
+        ++i;
+    }
+
     connect(m_view.clip_force_ar, SIGNAL(toggled(bool)), m_view.clip_ar, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_threads, SIGNAL(toggled(bool)), m_view.clip_threads, SLOT(setEnabled(bool)));
     connect(m_view.clip_force_vindex, SIGNAL(toggled(bool)), m_view.clip_vindex, SLOT(setEnabled(bool)));
@@ -113,6 +124,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
             m_view.image_transparency->setChecked(props.value("transparency").toInt());
     } else if (t == COLOR) {
         m_view.clip_path->setEnabled(false);
+        m_view.tabWidget->removeTab(METATAB);
         m_view.tabWidget->removeTab(IMAGETAB);
         m_view.tabWidget->removeTab(SLIDETAB);
         m_view.tabWidget->removeTab(AUDIOTAB);
@@ -121,6 +133,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.clip_color->setColor(QColor("#" + props.value("colour").right(8).left(6)));
     } else if (t == SLIDESHOW) {
         m_view.clip_path->setText(url.directory());
+        m_view.tabWidget->removeTab(METATAB);
         m_view.tabWidget->removeTab(IMAGETAB);
         m_view.tabWidget->removeTab(COLORTAB);
         m_view.tabWidget->removeTab(AUDIOTAB);

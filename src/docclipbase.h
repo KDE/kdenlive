@@ -195,6 +195,8 @@ private:   // Private attributes
     void setAudioThumbCreated(bool isDone);
     /** Holds clip infos like fps, size,... */
     QMap <QString, QString> m_properties;
+    /** Holds clip metadata like author, copyright,... */
+    QMap <QString, QString> m_metadata;
     /** Create connections for audio thumbnails */
     void slotCreateAudioTimer();
     void slotRefreshProducer();
@@ -218,7 +220,9 @@ public slots:
     void setClipThumbFrame(const uint &ix);
     uint getClipThumbFrame() const;
     void setProperties(QMap <QString, QString> properties);
+    void setMetadata(QMap <QString, QString> properties);
     QMap <QString, QString> properties() const;
+    QMap <QString, QString> metadata() const;
 
 signals:
     void getAudioThumbs();
