@@ -1215,6 +1215,10 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition) {
 }
 
 void CustomTrackView::slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QDomElement transition) {
+    if (transitionInfo.startPos >= transitionInfo.endPos) {
+        emit displayMessage(i18n("Invalid transition"), ErrorMessage);
+        return;
+    }
     AddTransitionCommand* command = new AddTransitionCommand(this, transitionInfo, endTrack, transition, false, true);
     m_commandStack->push(command);
     m_document->setModified(true);
@@ -1222,11 +1226,14 @@ void CustomTrackView::slotAddTransition(ClipItem* clip, ItemInfo transitionInfo,
 
 void CustomTrackView::addTransition(ItemInfo transitionInfo, int endTrack, QDomElement params) {
     Transition *tr = new Transition(transitionInfo, endTrack, m_document->fps(), params, true);
-    scene()->addItem(tr);
-
     //kDebug() << "---- ADDING transition " << params.attribute("value");
-    m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_document->tracksCount() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, tr->toXML());
-    m_document->setModified(true);
+    if (m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_document->tracksCount() - transitionInfo.track, transitionInfo.startPos, transitionInfo.endPos, tr->toXML())) {
+        scene()->addItem(tr);
+        m_document->setModified(true);
+    } else {
+        emit displayMessage(i18n("Cannot add transition"), ErrorMessage);
+        delete tr;
+    }
 }
 
 void CustomTrackView::deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement params) {
@@ -1315,8 +1322,12 @@ void CustomTrackView::dropEvent(QDropEvent * event) {
                 // add transparency transition
                 int endTrack = getPreviousVideoTrack(info.track);
                 Transition *tr = new Transition(info, endTrack, m_document->fps(), MainWindow::transitions.getEffectByTag("composite", "alphatransparency"), true);
-                scene()->addItem(tr);
-                m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_document->tracksCount() - info.track, info.startPos, info.endPos, tr->toXML());
+                if (m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_document->tracksCount() - info.track, info.startPos, info.endPos, tr->toXML())) {
+                    scene()->addItem(tr);
+                } else {
+                    emit displayMessage(i18n("Cannot add transition"), ErrorMessage);
+                    delete tr;
+                }
             }
             info.track = m_document->tracksCount() - item->track();
             m_document->renderer()->mltInsertClip(info, item->xml(), item->baseClip()->producer(item->track()));
@@ -1854,11 +1865,15 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 }
             }
             if (m_dragItem->type() == TRANSITIONWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
-                MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
-                m_commandStack->push(command);
-                Transition *transition = (Transition *) m_dragItem;
-                transition->updateTransitionEndTrack(getPreviousVideoTrack(m_dragItem->track()));
-                m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItem->track()), transition->transitionEndTrack(), m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos);
+                Transition *transition = static_cast <Transition *>(m_dragItem);
+                if (!m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItem->track()), transition->transitionEndTrack(), m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos)) {
+                    MoveTransitionCommand *command = new MoveTransitionCommand(this, info, m_dragItemInfo, true);
+                    m_commandStack->push(command);
+                } else {
+                    MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
+                    m_commandStack->push(command);
+                    transition->updateTransitionEndTrack(getPreviousVideoTrack(m_dragItem->track()));
+                }
             }
         } else {
             // Moving several clips. We need to delete them and readd them to new position,
@@ -1941,7 +1956,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                     ItemInfo trInfo = transition->info();
                     ItemInfo newTrInfo = trInfo;
                     newTrInfo.startPos = m_dragItem->startPos();
-                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
+                    if (newTrInfo.startPos < newTrInfo.endPos)
+                        new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
                 }
                 // Check if there is an automatic transition on that clip (upper track)
                 transition = getTransitionItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track - 1);
@@ -1950,7 +1966,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                     ItemInfo newTrInfo = trInfo;
                     newTrInfo.startPos = m_dragItem->startPos();
                     ClipItem * upperClip = getClipItemAt(m_dragItemInfo.startPos, m_dragItemInfo.track - 1);
-                    if (!upperClip || !upperClip->baseClip()->isTransparent()) {
+                    if ((!upperClip || !upperClip->baseClip()->isTransparent()) && newTrInfo.startPos < newTrInfo.endPos) {
                         new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
                     }
                 }
@@ -1962,10 +1978,16 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
             }
         } else if (m_dragItem->type() == TRANSITIONWIDGET) {
-            MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
-            m_commandStack->push(command);
             Transition *transition = static_cast <Transition *>(m_dragItem);
-            m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItemInfo.track), transition->transitionEndTrack(), m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos);
+            if (!m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItemInfo.track), transition->transitionEndTrack(), m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos)) {
+                emit displayMessage(i18n("Cannot move transition"), ErrorMessage);
+                MoveTransitionCommand *command = new MoveTransitionCommand(this, info, m_dragItemInfo, true);
+                m_commandStack->push(command);
+            } else {
+                MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
+                m_commandStack->push(command);
+            }
+
         }
 
         //m_document->renderer()->doRefresh();
@@ -1985,7 +2007,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                     ItemInfo trInfo = tr->info();
                     ItemInfo newTrInfo = trInfo;
                     newTrInfo.endPos = m_dragItem->endPos();
-                    new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
+                    if (newTrInfo.endPos > newTrInfo.startPos) new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
                 }
 
                 // Check if there is an automatic transition on that clip (upper track)
@@ -1995,7 +2017,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                     ItemInfo newTrInfo = trInfo;
                     newTrInfo.endPos = m_dragItem->endPos();
                     ClipItem * upperClip = getClipItemAtEnd(m_dragItemInfo.endPos, m_dragItemInfo.track - 1);
-                    if (!upperClip || !upperClip->baseClip()->isTransparent()) {
+                    if ((!upperClip || !upperClip->baseClip()->isTransparent()) && newTrInfo.endPos > newTrInfo.startPos) {
                         new MoveTransitionCommand(this, trInfo, newTrInfo, true, resizeCommand);
                     }
                 }
@@ -2008,10 +2030,15 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
             }
         } else if (m_dragItem->type() == TRANSITIONWIDGET) {
-            MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
-            m_commandStack->push(command);
             Transition *transition = static_cast <Transition *>(m_dragItem);
-            m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItemInfo.track), 0, m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos);
+            if (!m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItemInfo.track), 0, m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos)) {
+                emit displayMessage(i18n("Cannot move transition"), ErrorMessage);
+                MoveTransitionCommand *command = new MoveTransitionCommand(this, info, m_dragItemInfo, true);
+                m_commandStack->push(command);
+            } else {
+                MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
+                m_commandStack->push(command);
+            }
         }
         //m_document->renderer()->doRefresh();
     } else if (m_operationMode == FADEIN) {
@@ -2187,8 +2214,12 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
         // add transparency transition
         int endTrack = getPreviousVideoTrack(info.track);
         Transition *tr = new Transition(info, endTrack, m_document->fps(), MainWindow::transitions.getEffectByTag("composite", "alphatransparency"), true);
-        scene()->addItem(tr);
-        m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_document->tracksCount() - info.track, info.startPos, info.endPos, tr->toXML());
+        if (m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_document->tracksCount() - info.track, info.startPos, info.endPos, tr->toXML())) scene()->addItem(tr);
+        else {
+            emit displayMessage(i18n("Cannot add transition"), ErrorMessage);
+            delete tr;
+        }
+
     }
 
     baseclip->addReference();
@@ -2988,7 +3019,9 @@ void CustomTrackView::pasteClip() {
             info.endPos = tr->endPos() + offset;
             info.track = tr->track() + trackOffset;
             if (canBePastedTo(info, TRANSITIONWIDGET)) {
-                new AddTransitionCommand(this, info, tr->transitionEndTrack() + trackOffset, tr->toXML(), false, true, pasteClips);
+                if (info.startPos >= info.endPos) {
+                    emit displayMessage(i18n("Invalid transition"), ErrorMessage);
+                } else new AddTransitionCommand(this, info, tr->transitionEndTrack() + trackOffset, tr->toXML(), false, true, pasteClips);
             } else emit displayMessage(i18n("Cannot paste transition to selected place"), ErrorMessage);
         }
     }

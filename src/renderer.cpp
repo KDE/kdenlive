@@ -2290,7 +2290,11 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     return true;
 }
 
-void Render::mltMoveTransition(QString type, int startTrack, int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut) {
+bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int newTransitionTrack, GenTime oldIn, GenTime oldOut, GenTime newIn, GenTime newOut) {
+    int new_in = (int)newIn.frames(m_fps);
+    int new_out = (int)newOut.frames(m_fps) - 1;
+    if (new_in >= new_out) return false;
+
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
     Mlt::Field *field = tractor.field();
@@ -2305,9 +2309,6 @@ void Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
     QString mlt_type = mlt_properties_get(properties, "mlt_type");
     QString resource = mlt_properties_get(properties, "mlt_service");
     int old_pos = (int)(oldIn.frames(m_fps) + oldOut.frames(m_fps)) / 2;
-
-    int new_in = (int)newIn.frames(m_fps);
-    int new_out = (int)newOut.frames(m_fps) - 1;
 
     while (mlt_type == "transition") {
         mlt_transition tr = (mlt_transition) nextservice;
@@ -2336,6 +2337,7 @@ void Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
     m_isBlocked = false;
     mlt_service_unlock(service.get_service());
     m_mltConsumer->set("refresh", 1);
+    return true;
 }
 
 void Render::mltUpdateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml) {
@@ -2612,8 +2614,8 @@ void Render::mltMoveTransparency(int startTime, int endTime, int startTrack, int
 }
 
 
-void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool do_refresh) {
-
+bool Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool do_refresh) {
+    if (in >= out) return false;
     QMap<QString, QString> args = mltGetTransitionParamsFromXml(xml);
     Mlt::Service service(m_mltProducer->parent().get_service());
 
@@ -2643,6 +2645,7 @@ void Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
     field->plant_transition(*transition, a_track, b_track);
     delete[] transId;
     refresh();
+    return true;
 }
 
 void Render::mltSavePlaylist() {

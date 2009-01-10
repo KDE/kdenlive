@@ -138,6 +138,16 @@ DocClipBase *ClipManager::getClipById(QString clipId) {
     return NULL;
 }
 
+DocClipBase *ClipManager::getClipByResource(QString resource) {
+    for (int i = 0; i < m_clipList.count(); i++) {
+        if (m_clipList.at(i)->getProperty("resource") == resource) {
+            return m_clipList.at(i);
+        }
+    }
+    return NULL;
+}
+
+
 void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId) {
     QUndoCommand *addClips = new QUndoCommand();
     addClips->setText(i18n("Add clips"));

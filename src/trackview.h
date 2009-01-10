@@ -39,6 +39,7 @@ class Transition;
 class CustomTrackView;
 class KdenliveDoc;
 class CustomRuler;
+class DocClipBase;
 
 class TrackView : public QWidget {
     Q_OBJECT
@@ -84,6 +85,7 @@ private:
     QString m_documentErrors;
     void parseDocument(QDomDocument doc);
     int slotAddProjectTrack(int ix, QDomElement xml);
+    DocClipBase *getMissingProducer(const QString id) const;
 
 private slots:
     void setCursorPos(int pos);

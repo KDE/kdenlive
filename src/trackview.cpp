@@ -270,18 +270,17 @@ void TrackView::parseDocument(QDomDocument doc) {
             transitionInfo.endPos = GenTime(e.attribute("out").toInt() + 1, m_doc->fps());
             transitionInfo.track = m_projectTracks - 1 - b_track;
             //kDebug() << "///////////////   +++++++++++  ADDING TRANSITION ON TRACK: " << b_track << ", TOTAL TRKA: " << m_projectTracks;
-	    if (transitionInfo.startPos >= transitionInfo.endPos) {
-		// invalid transition, remove it.
-		m_documentErrors.append(i18n("Removed invalid transition: %1\n", e.attribute("id")));
-		kDebug()<<"///// REMOVED INVALID TRANSITION: "<<e.attribute("id");
+            if (transitionInfo.startPos >= transitionInfo.endPos) {
+                // invalid transition, remove it.
+                m_documentErrors.append(i18n("Removed invalid transition: %1\n", e.attribute("id")));
+                kDebug() << "///// REMOVED INVALID TRANSITION: " << e.attribute("id");
                 tractor.removeChild(transitions.item(i));
                 i--;
-	    }
-	    else {
-		Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, isAutomatic);
-		if (forceTrack) tr->setForcedTrack(true, a_track);
-		m_scene->addItem(tr);
-	    }
+            } else {
+                Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, isAutomatic);
+                if (forceTrack) tr->setForcedTrack(true, a_track);
+                m_scene->addItem(tr);
+            }
         }
     }
 
@@ -562,7 +561,39 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml) {
                         }
                     }
                 }
-            } else kWarning() << "CANNOT INSERT CLIP " << id;
+            } else {
+                // The clip in playlist was not listed in the kdenlive producers,
+                // something went wrong, repair required.
+                kWarning() << "CANNOT INSERT CLIP " << id;
+                int out = elem.attribute("out").toInt();
+
+                ItemInfo clipinfo;
+                clipinfo.startPos = GenTime(position, m_doc->fps());
+                clipinfo.endPos = clipinfo.startPos + GenTime(out - in + 1, m_doc->fps());
+                clipinfo.cropStart = GenTime(in, m_doc->fps());
+                clipinfo.track = ix;
+                //kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
+
+                DocClipBase *missingClip = getMissingProducer(id);
+                if (!missingClip) {
+                    // We cannot find the producer, something is really wrong, add
+                    // placeholder color clip
+                    QDomElement producerXml;
+                    producerXml.setTagName("producer");
+                    producerXml.setAttribute("resource", "0xff0000ff");
+                    producerXml.setAttribute("mlt_service", "colour");
+                    producerXml.setAttribute("length", "15000");
+                    producerXml.setAttribute("id", id);
+                    missingClip = new DocClipBase(m_doc->clipManager(), producerXml, id);
+                    m_documentErrors.append(i18n("Boken clip producer %1\n", id));
+                } else m_documentErrors.append(i18n("Replaced wrong clip producer %1 with %2\n", id, missingClip->getId()));
+                ClipItem *item = new ClipItem(missingClip, clipinfo, m_doc->fps(), false);
+                m_scene->addItem(item);
+                missingClip->addReference();
+                position += (out - in + 1);
+
+
+            }
             //m_clipList.append(clip);
         }
     }
@@ -573,6 +604,41 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml) {
     kDebug() << "*************  ADD DOC TRACK " << ix << ", DURATION: " << position;
     return position;
     //track->show();
+}
+
+DocClipBase *TrackView::getMissingProducer(const QString id) const {
+    QDomElement missingXml = QDomElement();
+    QDomDocument doc = m_doc->toXml();
+    QString docRoot = doc.documentElement().attribute("root");
+    if (!docRoot.endsWith('/')) docRoot.append('/');
+    QDomNodeList prods = doc.elementsByTagName("producer");
+    int maxprod = prods.count();
+    for (int i = 0; i < maxprod; i++) {
+        QDomNode m = prods.at(i);
+        QString prodId = m.toElement().attribute("id");
+        if (prodId == id) {
+            missingXml =  m.toElement();
+            break;
+        }
+    }
+    if (missingXml == QDomElement()) return NULL;
+
+    QDomNodeList params = missingXml.childNodes();
+    QString resource;
+    QString mlt_service;
+    for (int j = 0; j < params.count(); j++) {
+        QDomElement e = params.item(j).toElement();
+        if (e.attribute("name") == "resource") {
+            resource = e.firstChild().nodeValue();
+        } else if (e.attribute("name") == "mlt_service") {
+            mlt_service = e.firstChild().nodeValue();
+        }
+    }
+    resource.prepend(docRoot);
+    DocClipBase *missingClip = NULL;
+    if (!resource.isEmpty())
+        missingClip = m_doc->clipManager()->getClipByResource(resource);
+    return missingClip;
 }
 
 QGraphicsScene *TrackView::projectScene() {

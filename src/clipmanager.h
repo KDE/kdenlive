@@ -54,6 +54,7 @@ Q_OBJECT public:
     void slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const QString &groupId);
     void slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const int softness, const QString group, const QString &groupId);
     DocClipBase *getClipById(QString clipId);
+    DocClipBase *getClipByResource(QString resource);
     void slotDeleteClip(const QString & clipId);
     void setThumbsProgress(const QString &message, int progress);
     void checkAudioThumbs();
