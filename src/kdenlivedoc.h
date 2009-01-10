@@ -69,7 +69,7 @@ Q_OBJECT public:
     QDomElement guidesXml() const;
     ClipManager *clipManager();
     void addClip(QDomElement elem, QString clipId, bool createClipItem = true);
-    void addClipInfo(QDomElement elem, QString clipId);
+    void addClipInfo(QDomElement elem, QDomElement orig, QString clipId);
     void addFolder(const QString foldername, const QString &clipId, bool edit);
     void deleteFolder(const QString foldername, const QString &clipId);
     void slotAddClipFile(const KUrl url, const QString group, const QString &groupId = QString());

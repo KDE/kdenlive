@@ -103,6 +103,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
 
 
                     QDomElement e;
+                    QDomElement orig;
                     QDomNodeList producers = m_document.elementsByTagName("producer");
                     QDomNodeList infoproducers = m_document.elementsByTagName("kdenlive_producer");
                     const int max = producers.count();
@@ -113,19 +114,6 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                         parent->slotGotProgressInfo(i18n("Loading project clips"), (int) m_documentLoadingProgress);
                     }
 
-                    for (int i = 0; i < max; i++) {
-                        e = producers.item(i).cloneNode().toElement();
-                        if (m_documentLoadingStep > 0) {
-                            m_documentLoadingProgress += m_documentLoadingStep;
-                            parent->slotGotProgressInfo(QString(), (int) m_documentLoadingProgress);
-                            //qApp->processEvents();
-                        }
-                        QString prodId = e.attribute("id");
-                        if (!e.isNull() && prodId != "black" && !prodId.startsWith("slowmotion")/*&& prodId.toInt() > 0*/) {
-                            // addClip(e, prodId, false);
-                            kDebug() << "// PROD: " << prodId;
-                        }
-                    }
 
                     for (int i = 0; i < infomax; i++) {
                         e = infoproducers.item(i).cloneNode().toElement();
@@ -137,7 +125,17 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                         QString prodId = e.attribute("id");
                         if (!e.isNull() && prodId != "black" && !prodId.startsWith("slowmotion")) {
                             e.setTagName("producer");
-                            addClipInfo(e, prodId);
+                            // Get MLT's original producer properties
+
+                            for (int j = 0; j < max; j++) {
+                                QDomElement o = producers.item(j).cloneNode().toElement();
+                                QString origId = o.attribute("id").section('_', 0, 0);
+                                if (origId == prodId) {
+                                    orig = o;
+                                    break;
+                                }
+                            }
+                            addClipInfo(e, orig, prodId);
                             kDebug() << "// NLIVE PROD: " << prodId;
                         }
                     }
@@ -1273,7 +1271,7 @@ QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &match
     return foundFileName;
 }
 
-void KdenliveDoc::addClipInfo(QDomElement elem, QString clipId) {
+void KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, QString clipId) {
     DocClipBase *clip = m_clipManager->getClipById(clipId);
     if (clip == NULL) {
         addClip(elem, clipId, false);
@@ -1289,6 +1287,21 @@ void KdenliveDoc::addClipInfo(QDomElement elem, QString clipId) {
         }
         clip->setProperties(properties);
         emit addProjectClip(clip, false);
+    }
+    if (orig != QDomElement()) {
+        QMap<QString, QString> meta;
+        QDomNode m = orig.firstChild();
+        while (!m.isNull()) {
+            QString name = m.toElement().attribute("name");
+            if (name.startsWith("meta.attr")) {
+                meta.insert(name.section('.', 2, 3), m.firstChild().nodeValue());
+            }
+            m = m.nextSibling();
+        }
+        if (!meta.isEmpty()) {
+            clip = m_clipManager->getClipById(clipId);
+            if (clip) clip->setMetadata(meta);
+        }
     }
 }
 
