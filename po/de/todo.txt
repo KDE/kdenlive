@@ -1,0 +1,3 @@
+s/sec/Sek./...
+dB instead of db (also cpp files)
+Spaces before ? (cpp)
