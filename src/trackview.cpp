@@ -592,7 +592,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml) {
                 missingClip->addReference();
                 position += (out - in + 1);
 
-
+                m_doc->setModified(true);
             }
             //m_clipList.append(clip);
         }
