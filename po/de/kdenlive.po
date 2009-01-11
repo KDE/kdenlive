@@ -1,3 +1,4 @@
+# translation of kdenlive.po to Deutsch
 # translation of de.po to
 # translation of kdenlive.po to
 # Copyright (C) 2008 THE PACKAGE'S COPYRIGHT HOLDER
@@ -6,14 +7,15 @@
 # Marco Gittler <g.marco@freenet.de>, 2008.
 # Felix Hammer <f.hammer@gmx.de>, 2008.
 # Thomas Holzmann <holzi1@gmx.at>, 2008.
+# Simon A. Eugster <simon.eu@gmail.com>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-25 03:20+0200\n"
-"PO-Revision-Date: 2008-11-10 09:28+0100\n"
-"Last-Translator: Felix Hammer <f.hammer@gmx.de>\n"
-"Language-Team:  <de@li.org>\n"
+"PO-Revision-Date: 2009-01-11 21:34+0100\n"
+"Last-Translator: Simon A. Eugster <simon.eu@gmail.com>\n"
+"Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -39,10 +41,10 @@ msgid "0"
 msgstr ""
 
 msgid "100%"
-msgstr ""
+msgstr "100 %"
 
 msgid "200%"
-msgstr ""
+msgstr "200 %"
 
 msgid "25/1"
 msgstr ""
@@ -54,7 +56,7 @@ msgid "4/3"
 msgstr ""
 
 msgid "50%"
-msgstr ""
+msgstr "50 %"
 
 msgid "59/54"
 msgstr ""
@@ -92,7 +94,7 @@ msgid "ALSA"
 msgstr ""
 
 msgid "ARTS daemon"
-msgstr ""
+msgstr "ARTS-Daemon"
 
 msgid "Activate crash recovery (auto save)"
 msgstr "Aktiviere Absturzwiederherstellung (automatisches Speichern)"
@@ -119,7 +121,6 @@ msgstr "Guide hinzufügen"
 msgid "Add Image"
 msgstr "Bild hinzufügen"
 
-#, fuzzy
 msgid "Add Marker"
 msgstr "Marker hinzufügen"
 
@@ -196,7 +197,7 @@ msgid "Align item vertically"
 msgstr "Element vertikal ausrichten"
 
 msgid "Align..."
-msgstr "Ausrichten..."
+msgstr "Ausrichten …"
 
 msgid "All"
 msgstr "Alle"
@@ -239,7 +240,7 @@ msgstr "Audiobearbeitung"
 
 #, c-format, kde-format
 msgid "Audio fade duration: %1s"
-msgstr "Audio-Fading Dauer: %1sec"
+msgstr "Audio-Fading Dauer: %1 s"
 
 msgid "Audio index"
 msgstr "Audioindex"
@@ -393,7 +394,7 @@ msgstr ""
 "Von Gerät %1 kann nicht gelesen werden\n"
 "Bitte überprüfen Sie Treiber und Zugriffsrechte"
 
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot write to file %1"
 msgstr "Kann nicht in Datei %1 schreiben"
 
@@ -419,7 +420,7 @@ msgid "Captured files"
 msgstr "Aufgenommene Dateien"
 
 msgid "Capturing..."
-msgstr "Aufnahme..."
+msgstr "Aufnahme …"
 
 msgid "Center"
 msgstr "Mitte"
@@ -443,7 +444,7 @@ msgid "Charcoal"
 msgstr "Kohlefilter"
 
 msgid "Charcoal drawing effect"
-msgstr "Charcoal Zeichnung-Effekt"
+msgstr "Charcoal-Zeichnung-Effekt"
 
 msgid "CheckBox"
 msgstr "Ankreuzfeld"
@@ -471,7 +472,7 @@ msgstr "Clipeigenschaften"
 
 #, c-format, kde-format
 msgid "Clip duration: %1s"
-msgstr "Cliplänge: %1s"
+msgstr "Cliplänge: %1 s"
 
 msgid "Clip has no markers"
 msgstr "Clip hat keine Marker"
@@ -480,7 +481,7 @@ msgid "Close the current tab"
 msgstr "Aktuellen Tab schließen"
 
 msgid "Co-efficient"
-msgstr "Co-Effizient"
+msgstr "Koeffizient"
 
 msgid "Color"
 msgstr "Farbe"
@@ -614,9 +615,8 @@ msgstr "Lösche %1"
 msgid "Delete All Guides"
 msgstr "Alle Guides löschen"
 
-#, fuzzy
 msgid "Delete All Markers"
-msgstr "Alle Marker vom Clip löschen"
+msgstr "Alle Marker löschen"
 
 msgid "Delete Clip"
 msgstr "Clip löschen"
@@ -627,7 +627,6 @@ msgstr "Verzeichnis löschen"
 msgid "Delete Guide"
 msgstr "Guide löschen"
 
-#, fuzzy
 msgid "Delete Marker"
 msgstr "Marker löschen"
 
@@ -724,7 +723,7 @@ msgid "Do nothing"
 msgstr "Nichts unternehmen"
 
 msgid "Document to open"
-msgstr ""
+msgstr "Zu öffnendes Dokument"
 
 msgid "Don't recover"
 msgstr "Nicht wiederherstellen"
@@ -739,7 +738,7 @@ msgid "E"
 msgstr ""
 
 msgid "EMAIL OF TRANSLATORS"
-msgstr "g.marco@freenet.de, f.hammer@gmx.de, holzi1@gmx.at"
+msgstr "g.marco@freenet.de, f.hammer@gmx.de, holzi1@gmx.at, simon.eu@gmail.com"
 
 msgid "Edit Clip"
 msgstr "Clip bearbeiten"
@@ -792,7 +791,7 @@ msgid "Effect Stack"
 msgstr "Effektmagazin"
 
 msgid "Enable Jog Shuttle device"
-msgstr "Jog Shuttle Gerät aktivieren"
+msgstr "Jog-Shuttle-Gerät aktivieren"
 
 msgid "Encoding"
 msgstr "Berechnen"
@@ -825,7 +824,7 @@ msgid "Error when resizing clip"
 msgstr "Fehler bei Größenänderung des Clips"
 
 msgid "Esound daemon"
-msgstr ""
+msgstr "Esound-Daemon"
 
 msgid "Extension"
 msgstr "Endung"
@@ -1045,7 +1044,7 @@ msgid "Guide zone"
 msgstr "Guide-Bereich"
 
 msgid "Guides"
-msgstr ""
+msgstr "Hilfslinien"
 
 msgid "H"
 msgstr ""
@@ -1108,7 +1107,7 @@ msgid "Initialising..."
 msgstr "Lade..."
 
 msgid "Input gain (db)"
-msgstr "Eingangsverstärkung (db)"
+msgstr "Eingangsverstärkung (dB)"
 
 msgid "Install extra video mimetypes"
 msgstr "Weitere Video mimetypes installieren"
@@ -1128,56 +1127,53 @@ msgstr "Farben invertieren"
 msgid "Jean-Baptiste Mardelle"
 msgstr ""
 
-#, fuzzy
 msgid "Jog Shuttle device disabled."
-msgstr "Jog Shuttle Gerät aktivieren"
+msgstr "Jog-Shuttle-Gerät deaktiviert."
 
 msgid "JogShuttle"
 msgstr ""
 
-#, fuzzy
 msgid "Kdenlive"
-msgstr "Framegröße"
+msgstr ""
 
-#, fuzzy
 msgid "Kernel size"
-msgstr "Framegröße"
+msgstr "Korngrösse"
 
 msgid "Keyframe"
 msgstr "Keyframe"
 
 msgid "LADSPA change pitch audio effect"
-msgstr "LADSPA Tonhöhen-Änderung Audio Effekt"
+msgstr "LADSPA Tonhöhen-Änderung Audioeffekt"
 
 msgid "LADSPA declipper audio effect"
-msgstr "LADSPA Knistern-Entfernung Audio Effekt"
+msgstr "LADSPA Knistern-Entfernung Audioeffekt"
 
 msgid "LADSPA equalizer audio effect"
-msgstr "LADSPA Equalizer Audio Effekt"
+msgstr "LADSPA Equalizer Audioeffekt"
 
 msgid "LADSPA limiter audio effect"
-msgstr "LADSPA Limiter Audio Effekt"
+msgstr "LADSPA Limiter Audioeffekt"
 
 msgid "LADSPA phaser audio effect"
-msgstr "LADSPA Phaser Audio Effekt"
+msgstr "LADSPA Phaser Audioeffekt"
 
 msgid "LADSPA pitch scale audio effect"
-msgstr "LADSPA Tönhöhen-Skalierung Audio Effekt"
+msgstr "LADSPA Tönhöhen-Skalierung Audioeffekt"
 
 msgid "LADSPA rate scale audio effect"
-msgstr "LADSPA Frequenz-Skalierung Audio Effekt"
+msgstr "LADSPA Frequenz-Skalierung Audioeffekt"
 
 msgid "LADSPA reverb audio effect"
-msgstr "LADSPA Hall Audio Effekt"
+msgstr "LADSPA Hall Audioeffekt"
 
 msgid "LADSPA room reverb audio effect"
-msgstr "LADSPA Raum Hall Audio Effekt"
+msgstr "LADSPA Raum Hall Audioeffekt"
 
 msgid "Left"
 msgstr "Links"
 
 msgid "Limit (db)"
-msgstr "Limitieren (db)"
+msgstr "Limitieren (dB)"
 
 msgid "Limiter"
 msgstr ""
@@ -1192,7 +1188,7 @@ msgid "Load Title"
 msgstr "Titel laden"
 
 msgid "Loading playlist..."
-msgstr "Lade Playlist..."
+msgstr "Lade Playlist …"
 
 msgid "Loading project clips"
 msgstr "Lade Clips des Projekts"
@@ -1224,7 +1220,7 @@ msgid ""
 "install. Kdenlive will not work until this issue is fixed."
 msgstr ""
 "MLT's avformat (FFMPEG) Modul wurde nicht gefunden. Bitte überprüfen Sie "
-"Ihre FFMPEG und MLT Installation. Kdenlive wird nicht funktionieren bis das "
+"Ihre FFMPEG- und MLT-Installation. Kdenlive wird nicht funktionieren, bis das "
 "Problem behoben ist."
 
 msgid "Make clip play faster slowly"
@@ -1267,7 +1263,7 @@ msgid "Misc"
 msgstr "Verschiedenes"
 
 msgid "Misc..."
-msgstr "Verschiedenes..."
+msgstr "Verschiedenes …"
 
 msgid "Mix"
 msgstr ""
@@ -1376,10 +1372,10 @@ msgid "OSS"
 msgstr ""
 
 msgid "OSS with DMA access"
-msgstr "OSS mit DMA Zugriff"
+msgstr "OSS mit DMA-Zugriff"
 
 msgid "Obscure"
-msgstr ""
+msgstr "Verpixeln"
 
 msgid "Opacity"
 msgstr "Deckkraft"
@@ -1445,7 +1441,7 @@ msgid "Play after render"
 msgstr "Wiedergabe nach Erstellen"
 
 msgid "Play..."
-msgstr "Wiedergabe..."
+msgstr "Wiedergabe …"
 
 msgid "Playback"
 msgstr "Wiedergabe"
@@ -1460,9 +1456,11 @@ msgid ""
 "Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
 "org/mantis</a>"
 msgstr ""
+"Fehler bitte bei <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
+"org/mantis</a> melden."
 
 msgid "Please report bugs to http://kdenlive.org/mantis"
-msgstr ""
+msgstr "Fehler bitte bei http://kdenlive.org/mantis melden"
 
 msgid "Please set your default video format"
 msgstr "Bitte geben Sie ihr Standard-Videoformat an"
@@ -1475,8 +1473,8 @@ msgid ""
 "Files will be saved in:\n"
 "%1"
 msgstr ""
-"Schließen Sie Ihren Camcorder an und\n"
-"und drücken Sie den Verbindungsknopf\n"
+"Schließen Sie Ihren Camcorder an\n"
+"und drücken Sie den Verbindungsknopf,\n"
 "um die Verbindung zu starten.\n"
 "Dateien werden gespeichert in:\n"
 "%1"
@@ -1494,7 +1492,7 @@ msgid ""
 "Files will be saved in:\n"
 "%1"
 msgstr ""
-"Drücken Sie den Play- oder Aufnahmeknopf\n"
+"Drücken Sie den Play- oder Aufnahmeknopf,\n"
 "um die Videoaufnahme zu starten.\n"
 "Dateien werden gespeichert in:\n"
 "%1"
@@ -1506,7 +1504,7 @@ msgid ""
 "Files will be saved in:\n"
 "%1"
 msgstr ""
-"Drücken Sie den Aufnahmeknopf\n"
+"Drücken Sie den Aufnahmeknopf,\n"
 "um die Bildschirmaufnahme zu starten.\n"
 "Dateien werden gespeichert in:\n"
 "%1"
@@ -1601,36 +1599,36 @@ msgstr "Rendern"
 msgid "Rendering"
 msgstr "Rendern"
 
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rendering %1"
-msgstr "Rendern"
+msgstr "Rendere %1"
 
 #, kde-format
 msgid "Rendering <i>%1</i> started"
-msgstr "Rendern <i>%1</i> gestartet"
+msgstr "Renderung von <i>%1</i> gestartet"
 
 #, kde-format
 msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
-msgstr ""
+msgstr "Renderung von %1 abgebrochen, entstandenes Video ist wahrscheinlich unbrauchbar."
 
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rendering of %1 is over"
-msgstr "Rendern <i>%1</i> gestartet"
+msgstr "Renderung von %1 fertiggestellt."
 
 msgid "Reset effect"
 msgstr "Effekt zurücksetzen"
 
 msgid "Resize (100%)"
-msgstr "Größenanpassung (100%)"
+msgstr "Größenanpassung (100 %)"
 
 msgid "Resize (50%)"
-msgstr "Größenanpassung (50%)"
+msgstr "Größenanpassung (50 %)"
 
 msgid "Resize clip"
 msgstr "Clipgröße ändern"
 
 msgid "Resize..."
-msgstr "Größenanpassung..."
+msgstr "Größenanpassung …"
 
 msgid "Reverb"
 msgstr "Hall"
@@ -1754,7 +1752,7 @@ msgid "Select default video player"
 msgstr "Wähle Standard-Videoplayer"
 
 msgid "Select region..."
-msgstr "Bereich auswählen..."
+msgstr "Bereich auswählen …"
 
 msgid "Selected zone"
 msgstr "nur markiertes Teilstück"
@@ -1778,7 +1776,7 @@ msgid "Set current image as thumbnail"
 msgstr "Aktuelles Bild als Thumbnail setzen"
 
 msgid "Set the path for MLT environnement"
-msgstr ""
+msgstr "Setze den Pfad für die MLT-Umgebung"
 
 msgid "Set zone end"
 msgstr "Bereichs-Endpunkt setzen"
@@ -1805,7 +1803,7 @@ msgid "Show video thumbnails"
 msgstr "zeige Videobilder"
 
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
-msgstr "Simuliert einen Vinyl-Plattenspieler - LADSPA Audioeffekt"
+msgstr "Simuliert einen Vinyl-Plattenspieler – LADSPA-Audioeffekt"
 
 msgid "Size"
 msgstr "Größe"
@@ -1823,40 +1821,40 @@ msgid "Slideshow clip"
 msgstr "Diashow-Clip"
 
 msgid "Snap"
-msgstr ""
+msgstr "Einrasten"
 
 msgid "Softness"
 msgstr ""
 
 msgid "Sox Echo"
-msgstr ""
+msgstr "Sox-Echo"
 
 msgid "Sox Flanger"
-msgstr ""
+msgstr "Sox-Flanger"
 
 msgid "Sox Pitch Shift"
-msgstr "Sox Tonhöhe ändern"
+msgstr "Sox-Tonhöhe ändern"
 
 msgid "Sox Reverb"
-msgstr "Sox Hall"
+msgstr "Sox-Hall"
 
 msgid "Sox Vibro"
-msgstr ""
+msgstr "Sox-Vibro"
 
 msgid "Sox change pitch audio effect"
-msgstr "Sox Tonhöhe ändern (Audioeffekt)"
+msgstr "Sox-Tonhöhe ändern (Audioeffekt)"
 
 msgid "Sox echo audio effect"
-msgstr "Sox Echo (Audioeffekt)"
+msgstr "Sox-Echo (Audioeffekt)"
 
 msgid "Sox flanger audio effect"
-msgstr "Sox Flanger (Audioeffekt)"
+msgstr "Sox-Flanger (Audioeffekt)"
 
 msgid "Sox reverb audio effect"
-msgstr "Sox Hall (Audioeffekt)"
+msgstr "Sox-Hall (Audioeffekt)"
 
 msgid "Sox vibro audio effect"
-msgstr "Sox Vibro (Audioeffekt)"
+msgstr "Sox-Vibro (Audioeffekt)"
 
 msgid "Speed"
 msgstr "Geschwindigkeit"
@@ -1868,7 +1866,7 @@ msgid "Spread"
 msgstr "Streubreite"
 
 msgid "Square Blur"
-msgstr ""
+msgstr "Unschärfe"
 
 msgid "Start"
 msgstr "Start"
@@ -1876,9 +1874,8 @@ msgstr "Start"
 msgid "Start Gain"
 msgstr "Anfangsverstärkung"
 
-#, fuzzy
 msgid "Start Rendering"
-msgstr "Rendern"
+msgstr "Starte Renderung"
 
 msgid "Start-/EndViewport"
 msgstr "Start-/Endbereich"
@@ -1887,7 +1884,7 @@ msgid "StartViewport"
 msgstr "Startfenster"
 
 msgid "Starting -- find text as you type"
-msgstr ""
+msgstr "Beginne – Finde Text während der Eingabe"
 
 msgid "Stop"
 msgstr "Stop"
@@ -1899,7 +1896,7 @@ msgid "Surface warping"
 msgstr "Oberflächenwölbung"
 
 msgid "Sync timeline cursor"
-msgstr ""
+msgstr "Synchronisiere Zeitleisten-Cursor"
 
 msgid "Templates"
 msgstr "Vorlagen"
@@ -1923,7 +1920,7 @@ msgid ""
 msgstr ""
 "Sie führen Kdenlive zum ersten Mal aus. Dieser Assistent wird Ihnen helfen, "
 "grundlegende Konfigurationen vorzunehmen. Sie können in Kürze mit dem "
-"Editieren Ihres ersten Videos beginnen..."
+"Editieren Ihres ersten Videos beginnen …"
 
 msgid "Threshold"
 msgstr "Schwellwert"
@@ -1940,9 +1937,8 @@ msgstr "Vorschau"
 msgid "Thumbnails:"
 msgstr "Vorschau:"
 
-#, fuzzy
 msgid "Time"
-msgstr "Zeitleiste"
+msgstr "Zeit"
 
 msgid "Time window (ms)"
 msgstr "Zeitfenster"
@@ -1981,7 +1977,7 @@ msgid "Transparent background"
 msgstr "Transparenter Hintergrund"
 
 msgid "Turn clip colors to sepia"
-msgstr "Wandle Clip-Farben "
+msgstr "Wandle Clip-Farben in Sepia um"
 
 #, kde-format
 msgid "Unable to write to file %1"
@@ -2012,7 +2008,7 @@ msgid "Value"
 msgstr "Wert"
 
 msgid "Variable-size square blur (frei0r.squareblur)"
-msgstr ""
+msgstr "Unschärfe, variable Breite (frei0r.squareblur)"
 
 msgid "Variance"
 msgstr "Varianz"
@@ -2038,9 +2034,8 @@ msgstr "Videoprofil"
 msgid "Video Resolution"
 msgstr "Videoauflösung"
 
-#, fuzzy
 msgid "Video Standard"
-msgstr "Videoindex"
+msgstr "Video-Standard"
 
 msgid "Video capture params"
 msgstr "Aufnahmeparameter"
@@ -2089,7 +2084,7 @@ msgid ""
 "Change only if you know what you do."
 msgstr ""
 "Achtung: Änderungen an Treibern und Geräten können Kdenlive instabil machen. "
-"Verändern Sie diese Einstellungen nur, wenn Sie wissen was Sie tun."
+"Verändern Sie diese Einstellungen nur, wenn Sie wissen, was Sie tun."
 
 msgid "Wave"
 msgstr "Wellen"
@@ -2128,7 +2123,7 @@ msgid "Year"
 msgstr "Jahr"
 
 msgid "You must copy exactly one clip before pasting effects"
-msgstr "Bevor Sie Effekte einfügen müssen Sie genau einen Clip kopieren"
+msgstr "Bevor Sie Effekte einfügen, müssen Sie genau einen Clip kopieren"
 
 msgid "You must select one clip for this action"
 msgstr "Für diese Aktion müssen Sie einen Clip auswählen"
@@ -2181,9 +2176,8 @@ msgstr "Sek."
 msgid "seconds"
 msgstr "Sekunden"
 
-#, fuzzy
 msgid "to"
-msgstr "Stop"
+msgstr "nach"
 
 msgid "update values in timeline"
 msgstr "Werte in Zeitleiste aktualisieren"
