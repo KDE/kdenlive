@@ -4,7 +4,7 @@
 kdenlive_render
 \- Render program for Kdenlive.
 .SH SYNOPSIS
-kdenlive_render [-erase] [in=pos] [out=pos] [render] [profile] [rendermodule] [player] [src] [dest] [[arg1] [arg2] ...]
+kdenlive_render [\-erase] [in=pos] [out=pos] [render] [profile] [rendermodule] [player] [src] [dest] [[arg1] [arg2] ...]
 .SH DESCRIPTION
 Render program for Kdenlive. Renders kdenlive project detached from Kdenlive, while providing feedback through kuiserver. This program is not meant to be called directly by users, but is called from Kdenlive, when a rendering process is started.
 .SH OPTIONS
@@ -30,25 +30,25 @@ The MLT video profile
 The MLT consumer used for rendering, usually it is avformat
 .TP
 .B player
-Path to video player to play when rendering is over, use '-' to disable playing
+Path to video player to play when rendering is over, use '\-' to disable playing
 .TP
 .B  src
-Source file - usually MLT Westley playlist
+Source file \- usually MLT Westley playlist
 .TP
 .B  dest
 Destination file
 .TP
 .B  args
 Space separated libavformat arguments
-.SS 
+.SS
 
 .SH SEE ALSO
-Please see the homepage at 
+Please see the homepage at
 .BR http://www.kdenlive.org/
 .br
 .SH AUTHORS
 .nf
-Jean-Baptiste Mardelle <jb@kdenlive.org>
+Jean\-Baptiste Mardelle <jb@kdenlive.org>
 .br
 Marco Gittler <g.marco@freenet.de>
 .br
