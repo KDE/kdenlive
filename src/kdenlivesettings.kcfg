@@ -424,7 +424,7 @@
     </entry>
 
     <entry name="videocodecs" type="StringList">
-      <label>Available avformat audio codecs.</label>
+      <label>Available avformat video codecs.</label>
       <default></default>
     </entry>
 
