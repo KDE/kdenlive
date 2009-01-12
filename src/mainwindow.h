@@ -58,6 +58,7 @@ class JogShuttle;
 #endif /* NO_JOGSHUTTLE */
 class DocClipBase;
 class Render;
+class Transition;
 
 class MainWindow : public KXmlGuiWindow {
     Q_OBJECT
@@ -243,7 +244,7 @@ private slots:
 #endif /* NO_JOGSHUTTLE */
     void slotShowClipProperties(DocClipBase *clip);
     void slotActivateEffectStackView();
-    void slotActivateTransitionView();
+    void slotActivateTransitionView(Transition *);
     void slotChangeTool(QAction * action);
     void slotSetTool(PROJECTTOOL tool);
     void slotSnapForward();
