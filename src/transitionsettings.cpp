@@ -62,7 +62,7 @@ void TransitionSettings::updateProjectFormat(MltVideoProfile profile, Timecode t
 void TransitionSettings::slotTransitionChanged(bool reinit) {
     QDomElement e = m_usedTransition->toXML().cloneNode().toElement();
     if (reinit) {
-        QDomElement newTransition = MainWindow::transitions.getEffectByName(ui.transitionList->currentText());
+        QDomElement newTransition = MainWindow::transitions.getEffectByName(ui.transitionList->currentText()).cloneNode().toElement();
         slotUpdateEffectParams(e, newTransition);
         emit transferParamDesc(newTransition, m_usedTransition->startPos().frames(KdenliveSettings::project_fps()), m_usedTransition->endPos().frames(KdenliveSettings::project_fps()));
     } else {
