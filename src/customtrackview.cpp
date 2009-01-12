@@ -1867,8 +1867,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
             if (m_dragItem->type() == TRANSITIONWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
                 Transition *transition = static_cast <Transition *>(m_dragItem);
                 if (!m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItem->track()), transition->transitionEndTrack(), m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos)) {
-                    MoveTransitionCommand *command = new MoveTransitionCommand(this, info, m_dragItemInfo, true);
-                    m_commandStack->push(command);
+                    // Moving transition failed, revert to previous position
+                    emit displayMessage(i18n("Cannot move transition"), ErrorMessage);
+                    transition->setPos((int) m_dragItemInfo.startPos.frames(m_document->fps()), (m_dragItemInfo.track) * m_tracksHeight + 1);
                 } else {
                     MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
                     m_commandStack->push(command);
@@ -1980,9 +1981,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         } else if (m_dragItem->type() == TRANSITIONWIDGET) {
             Transition *transition = static_cast <Transition *>(m_dragItem);
             if (!m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItemInfo.track), transition->transitionEndTrack(), m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos)) {
-                emit displayMessage(i18n("Cannot move transition"), ErrorMessage);
-                MoveTransitionCommand *command = new MoveTransitionCommand(this, info, m_dragItemInfo, true);
-                m_commandStack->push(command);
+                // Cannot resize transition
+                transition->resizeStart((int) m_dragItemInfo.startPos.frames(m_document->fps()));
+                emit displayMessage(i18n("Cannot resize transition"), ErrorMessage);
             } else {
                 MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
                 m_commandStack->push(command);
@@ -2032,9 +2033,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         } else if (m_dragItem->type() == TRANSITIONWIDGET) {
             Transition *transition = static_cast <Transition *>(m_dragItem);
             if (!m_document->renderer()->mltMoveTransition(transition->transitionTag(), (int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItemInfo.track), 0, m_dragItemInfo.startPos, m_dragItemInfo.endPos, info.startPos, info.endPos)) {
-                emit displayMessage(i18n("Cannot move transition"), ErrorMessage);
-                MoveTransitionCommand *command = new MoveTransitionCommand(this, info, m_dragItemInfo, true);
-                m_commandStack->push(command);
+                // Cannot resize transition
+                transition->resizeEnd((int) m_dragItemInfo.endPos.frames(m_document->fps()));
+                emit displayMessage(i18n("Cannot resize transition"), ErrorMessage);
             } else {
                 MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
                 m_commandStack->push(command);
