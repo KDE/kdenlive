@@ -107,8 +107,8 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e) {
 
 void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
     if (m_tool == TITLE_RECTANGLE && m_selectedItem) setSelectedItem(m_selectedItem);
-    emit actionFinished();
     QGraphicsScene::mouseReleaseEvent(e);
+    emit actionFinished();
 }
 
 void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e) {

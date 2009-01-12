@@ -20,7 +20,7 @@
 #include "customtrackview.h"
 
 EditTransitionCommand::EditTransitionCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, bool doIt)
-        : m_view(view), m_track(track), m_pos(pos), m_oldeffect(oldeffect), m_doIt(false) {
+        : m_view(view), m_track(track), m_pos(pos), m_oldeffect(oldeffect), m_doIt(doIt) {
     m_effect = effect.cloneNode().toElement();
     QString effectName;
     QDomNode namenode = effect.elementsByTagName("name").item(0);
@@ -49,7 +49,7 @@ void EditTransitionCommand::undo() {
 }
 // virtual
 void EditTransitionCommand::redo() {
-    m_view->updateTransition(m_track, m_pos, m_oldeffect, m_effect, m_doIt);
+    if (m_doIt) m_view->updateTransition(m_track, m_pos, m_oldeffect, m_effect, m_doIt);
     m_doIt = true;
 }
 

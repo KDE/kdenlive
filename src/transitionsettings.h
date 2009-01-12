@@ -45,7 +45,7 @@ private:
 
 public slots:
     void slotTransitionItemSelected(Transition*, bool);
-    void slotTransitionChanged(bool reinit = true);
+    void slotTransitionChanged(bool reinit = true, bool updateCurrent = false);
     void slotUpdateEffectParams(const QDomElement&, const QDomElement&);
 
 private slots:
