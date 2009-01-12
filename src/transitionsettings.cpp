@@ -60,16 +60,18 @@ void TransitionSettings::updateProjectFormat(MltVideoProfile profile, Timecode t
 
 
 void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent) {
-    kDebug() << "// TRANSITION CHANGED, REINIT: " << reinit;
     QDomElement e = m_usedTransition->toXML().cloneNode().toElement();
     if (reinit) {
+        // Reset the transition parameters to the default one
         QDomElement newTransition = MainWindow::transitions.getEffectByName(ui.transitionList->currentText()).cloneNode().toElement();
         slotUpdateEffectParams(e, newTransition);
         emit transferParamDesc(newTransition, m_usedTransition->startPos().frames(KdenliveSettings::project_fps()), m_usedTransition->endPos().frames(KdenliveSettings::project_fps()));
     } else if (!updateCurrent) {
+        // Transition changed, update parameters dialog
         //slotUpdateEffectParams(e, e);
         effectEdit->transferParamDesc(e, m_usedTransition->startPos().frames(KdenliveSettings::project_fps()), m_usedTransition->endPos().frames(KdenliveSettings::project_fps()));
     } else {
+        // Same transition, we just want to update the parameters value
         slotUpdateEffectParams(e, e);
     }
 }
