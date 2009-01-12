@@ -20,7 +20,7 @@
 
 #include <QList>
 
-/**An List for DocClipBase objects. Use this instead of QList<DocClipBase> so as to sort lists correctly.
+/**A List for DocClipBase objects. Use this instead of QList<DocClipBase> so as to sort lists correctly.
  * Also contains the ability to set a "master clip", which can be used by a number of operations where
  * the need for one clip to act as a reference for what happens to all clips is needed.
   * @author Jason Wood
