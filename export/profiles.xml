@@ -1,9 +1,11 @@
 <profiles version="0.1">
 <group name="HDV" renderer="avformat" extension="m2t" type="av">
-  <profile name="PAL 1080 50i" standard="PAL" args="f=mpegts ab=384k ar=48000 vcodec=mpeg2video s=1440x1080 b=19700k g=12 trellis=1 profile=hdv_1080_50i" />
-  <profile name="PAL 720 25p" standard="PAL" args="f=mpegts ab=384k ar=48000 vcodec=mpeg2video s=1280x720 b=19700k g=12 trellis=1 profile=hdv_720_25p" />
-  <profile name="NTSC 1080 60i" standard="NTSC" args="f=mpegts ab=384k ar=48000 vcodec=mpeg2video s=1440x1080 b=19700k g=15 trellis=1 profile=hdv_1080_60i" />
-  <profile name="NTSC 720 30p" standard="NTSC" args="f=mpegts ab=384k ar=48000 vcodec=mpeg2video s=1280x720 b=19700k g=15 trellis=1 profile=hdv_720_30p" />
+  <profile name="PAL 1080 50i" standard="PAL" args="f=mpegts acodec=mp2 ab=384k ar=48000 ac=2 vcodec=mpeg2video s=1440x1080 b=25000k g=12 trellis=1 profile=hdv_1080_50i" />
+  <profile name="PAL 1080 25p" standard="PAL" args="f=mpegts acodec=mp2 ab=384k ar=48000 ac=2 vcodec=mpeg2video s=1440x1080 b=25000k g=12 trellis=1 profile=hdv_1080_25p" />
+  <profile name="PAL 720 25p" standard="PAL" args="f=mpegts acodec=mp2 ab=384k ar=48000 ac=2 vcodec=mpeg2video s=1280x720 b=19700k g=12 trellis=1 profile=hdv_720_25p" />
+  <profile name="NTSC 1080 60i" standard="NTSC" args="f=mpegts acodec=mp2 ab=384k ar=48000 ac=2 vcodec=mpeg2video s=1440x1080 b=25000k g=15 trellis=1 profile=hdv_1080_60i" />
+  <profile name="NTSC 1080 30p" standard="NTSC" args="f=mpegts acodec=mp2 ab=384k ar=48000 ac=2 vcodec=mpeg2video s=1440x1080 b=25000k g=15 trellis=1 profile=hdv_1080_30p" />
+  <profile name="NTSC 720 30p" standard="NTSC" args="f=mpegts acodec=mp2 ab=384k ar=48000 ac=2 vcodec=mpeg2video s=1280x720 b=19700k g=15 trellis=1 profile=hdv_720_30p" />
 </group>
 
 <group name="Raw DV" renderer="avformat" type="av" extension="dv">
