@@ -602,9 +602,9 @@ void Monitor::slotLoopZone() {
 void Monitor::slotSetXml(DocClipBase *clip, const int position) {
     if (render == NULL) return;
     activateMonitor();
-    if (!clip) {
-        kDebug() << "// SETTING NULL CLIP";
+    if (!clip && m_currentClip != NULL) {
         m_currentClip = NULL;
+        render->setProducer(NULL, -1);
         return;
     }
     if (clip != m_currentClip) {

@@ -70,6 +70,7 @@ DocClipBase::~DocClipBase() {
         delete m_thumbProd;
     }
     qDeleteAll(m_baseTrackProducers);
+    m_baseTrackProducers.clear();
 }
 
 void DocClipBase::slotCreateAudioTimer() {

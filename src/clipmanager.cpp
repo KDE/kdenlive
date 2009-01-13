@@ -119,6 +119,7 @@ void ClipManager::deleteClip(const QString &clipId) {
         if (m_clipList.at(i)->getId() == clipId) {
             DocClipBase *clip = m_clipList.takeAt(i);
             delete clip;
+            clip = NULL;
             break;
         }
     }

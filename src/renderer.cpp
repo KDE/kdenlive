@@ -745,7 +745,7 @@ void Render::setProducer(Mlt::Producer *producer, int position) {
     }
     if (producer) {
         m_mltProducer = new Mlt::Producer(producer->get_producer());
-    } else m_mltProducer = new Mlt::Producer();
+    } else m_mltProducer = new Mlt::Producer(*m_mltProfile , "colour", "black");
     /*if (KdenliveSettings::dropbframes()) {
     m_mltProducer->set("skip_loop_filter", "all");
         m_mltProducer->set("skip_frame", "bidir");

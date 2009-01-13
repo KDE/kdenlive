@@ -153,6 +153,7 @@ void ProjectList::slotClipSelected() {
         m_editAction->setEnabled(true);
         m_deleteAction->setEnabled(true);
     } else {
+        emit clipSelected(NULL);
         m_editAction->setEnabled(false);
         m_deleteAction->setEnabled(false);
     }
