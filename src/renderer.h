@@ -183,6 +183,7 @@ Q_OBJECT public:
     int mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt::Producer *prod);
 
     QList <Mlt::Producer *> producersList();
+    void updatePreviewSettings();
 
 private:   // Private attributes & methods
     /** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */

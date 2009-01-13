@@ -121,6 +121,7 @@ Q_OBJECT public:
     void setZone(int start, int end);
     QPoint zone() const;
     void setSceneList();
+    void updatePreviewSettings();
 
 private:
     KUrl m_url;

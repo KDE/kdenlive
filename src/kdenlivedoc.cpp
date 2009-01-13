@@ -327,7 +327,13 @@ void KdenliveDoc::slotAutoSave() {
         }
         kDebug() << "// AUTOSAVE FILE: " << m_autosave->fileName();
         QDomDocument doc;
-        doc.setContent(m_render->sceneList());
+        if (KdenliveSettings::dropbframes()) {
+            KdenliveSettings::setDropbframes(false);
+            m_clipManager->updatePreviewSettings();
+            doc.setContent(m_render->sceneList());
+            KdenliveSettings::setDropbframes(true);
+            m_clipManager->updatePreviewSettings();
+        } else doc.setContent(m_render->sceneList());
         saveSceneList(m_autosave->fileName(), doc);
     }
 }
@@ -1037,6 +1043,13 @@ void KdenliveDoc::checkProjectClips() {
             clip->producer()->set("force_reload", 1);
         }
     }
+}
+
+void KdenliveDoc::updatePreviewSettings() {
+    m_clipManager->updatePreviewSettings();
+    m_render->updatePreviewSettings();
+    m_clipManager->resetProducersList(m_render->producersList());
+
 }
 
 Render *KdenliveDoc::renderer() {

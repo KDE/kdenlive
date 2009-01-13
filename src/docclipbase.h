@@ -167,6 +167,9 @@ Q_OBJECT public:
     void askForAudioThumbs();
     QString getClipHash() const;
     void refreshThumbUrl();
+    QString producerProperty(const char *name) const;
+    void setProducerProperty(const char *name, const char *data);
+    void deleteProducers();
 
 private:   // Private attributes
     /** The name of this clip */
@@ -200,7 +203,6 @@ private:   // Private attributes
     /** Create connections for audio thumbnails */
     void slotCreateAudioTimer();
     void slotRefreshProducer();
-    void setProducerProperty(const char *name, const char *data);
     void setProducerProperty(const char *name, int data);
     void getFileHash(const QString &url);
 
@@ -223,6 +225,7 @@ public slots:
     void setMetadata(QMap <QString, QString> properties);
     QMap <QString, QString> properties() const;
     QMap <QString, QString> metadata() const;
+
 
 signals:
     void getAudioThumbs();

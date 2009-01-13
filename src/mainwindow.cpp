@@ -1135,7 +1135,15 @@ void MainWindow::closeCurrentDocument() {
 }
 
 bool MainWindow::saveFileAs(const QString &outputFileName) {
-    QDomDocument currentSceneList = m_projectMonitor->sceneList();
+    QDomDocument currentSceneList;
+    if (KdenliveSettings::dropbframes()) {
+        KdenliveSettings::setDropbframes(false);
+        m_activeDocument->clipManager()->updatePreviewSettings();
+        currentSceneList = m_projectMonitor->sceneList();
+        KdenliveSettings::setDropbframes(true);
+        m_activeDocument->clipManager()->updatePreviewSettings();
+    } else currentSceneList = m_projectMonitor->sceneList();
+
     if (m_activeDocument->saveSceneList(outputFileName, currentSceneList) == false)
         return false;
 
@@ -1367,6 +1375,7 @@ void MainWindow::slotEditProjectSettings() {
             m_monitorManager->resetProfiles(m_activeDocument->timecode());
             if (m_renderWidget) m_renderWidget->setProfile(m_activeDocument->mltProfile());
             m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
+            m_activeDocument->clipManager()->resetProducersList(m_projectMonitor->render->producersList());
 
             // We need to desactivate & reactivate monitors to get a refresh
             m_monitorManager->switchMonitors();
@@ -1403,7 +1412,15 @@ void MainWindow::slotDoRender(const QString &dest, const QString &render, const 
     temp.setAutoRemove(false);
     temp.setSuffix(".westley");
     if (temp.open()) {
-        m_projectMonitor->saveSceneList(temp.fileName());
+
+        if (KdenliveSettings::dropbframes()) {
+            KdenliveSettings::setDropbframes(false);
+            m_activeDocument->clipManager()->updatePreviewSettings();
+            m_projectMonitor->saveSceneList(temp.fileName());
+            KdenliveSettings::setDropbframes(true);
+            m_activeDocument->clipManager()->updatePreviewSettings();
+        } else m_projectMonitor->saveSceneList(temp.fileName());
+
         QStringList args;
         args << "-erase";
         if (zoneOnly) args << "in=" + QString::number(in) << "out=" + QString::number(out);
@@ -1594,6 +1611,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     setCaption(doc->description(), doc->isModified());
     m_saveAction->setEnabled(doc->isModified());
     m_activeDocument = doc;
+    if (KdenliveSettings::dropbframes()) slotUpdatePreviewSettings();
 
     // set tool to select tool
     m_buttonSelectTool->setChecked(true);
@@ -1624,9 +1642,17 @@ void MainWindow::slotPreferences(int page, int option) {
     KdenliveSettingsDialog* dialog = new KdenliveSettingsDialog(this);
     connect(dialog, SIGNAL(settingsChanged(const QString&)), this, SLOT(updateConfiguration()));
     connect(dialog, SIGNAL(doResetProfile()), m_monitorManager, SLOT(slotResetProfiles()));
+    connect(dialog, SIGNAL(updatePreviewSettings()), this, SLOT(slotUpdatePreviewSettings()));
     //connect(dialog, SIGNAL(updatePreviewSettings()), this, SLOT(slotUpdatePreviewSettings()));
     dialog->show();
     if (page != -1) dialog->showPage(page, option);
+}
+
+void MainWindow::slotUpdatePreviewSettings() {
+    if (m_activeDocument) {
+        m_clipMonitor->slotSetXml(NULL, 0);
+        m_activeDocument->updatePreviewSettings();
+    }
 }
 
 void MainWindow::updateConfiguration() {
@@ -1644,11 +1670,6 @@ void MainWindow::updateConfiguration() {
 #endif /* NO_JOGSHUTTLE */
 
 }
-
-/*void MainWindow::slotUpdatePreviewSettings() {
-    //TODO: perform operation on all open documents
-    m_activeDocument->clipManager()->updatePreviewSettings();
-}*/
 
 
 void MainWindow::slotSwitchVideoThumbs() {

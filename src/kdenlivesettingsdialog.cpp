@@ -395,8 +395,15 @@ void KdenliveSettingsDialog::updateSettings() {
         resetProfile = true;
     }
 
+    bool updatePreview = false;
+    if (m_configSdl.kcfg_dropbframes->isChecked() != KdenliveSettings::dropbframes()) {
+        KdenliveSettings::setDropbframes(m_configSdl.kcfg_dropbframes->isChecked());
+        updatePreview = true;
+    }
+
     KConfigDialog::updateSettings();
     if (resetProfile) emit doResetProfile();
+    if (updatePreview) emit updatePreviewSettings();
 }
 
 void KdenliveSettingsDialog::slotUpdateDisplay() {

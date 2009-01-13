@@ -602,14 +602,20 @@ void Monitor::slotLoopZone() {
 void Monitor::slotSetXml(DocClipBase *clip, const int position) {
     if (render == NULL) return;
     activateMonitor();
-    if (!clip) return;
-    if (clip != m_currentClip && clip->producer() != NULL) {
-        m_currentClip = clip;
-        render->setProducer(clip->producer(), position);
-        //m_ruler->slotNewValue(0);
-        //adjustRulerSize(clip->producer()->get_playtime());
-        //m_timePos->setText("00:00:00:00");
-        m_position = position;
+    if (!clip) {
+        kDebug() << "// SETTING NULL CLIP";
+        m_currentClip = NULL;
+        return;
+    }
+    if (clip != m_currentClip) {
+        if (clip->producer() != NULL) {
+            m_currentClip = clip;
+            render->setProducer(clip->producer(), position);
+            //m_ruler->slotNewValue(0);
+            //adjustRulerSize(clip->producer()->get_playtime());
+            //m_timePos->setText("00:00:00:00");
+            m_position = position;
+        }
     } else if (position != -1) render->seek(GenTime(position, render->fps()));
 }
 

@@ -39,6 +39,10 @@
 class KdenliveDoc;
 class DocClipBase;
 
+namespace Mlt {
+class Producer;
+};
+
 class ClipManager: public QObject {
 Q_OBJECT public:
 
@@ -65,6 +69,10 @@ Q_OBJECT public:
     void endAudioThumbsGeneration(const QString &requestedId);
     void askForAudioThumb(const QString &id);
     QString projectFolder() const;
+    void resetProducersList(QList <Mlt::Producer *> prods);
+
+public slots:
+    void updatePreviewSettings();
 
 private:   // Private attributes
     /** the list of clips in the document */

@@ -2865,5 +2865,20 @@ void Render::mltDeleteTrack(int ix) {
     blockSignals(false);
 }
 
+
+void Render::updatePreviewSettings() {
+    kDebug() << "////// RESTARTING CONSUMER";
+    if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
+    m_mltConsumer->purge();
+    QString scene = sceneList();
+    int pos = 0;
+    if (m_mltProducer) {
+        pos = m_mltProducer->position();
+        delete m_mltProducer;
+    }
+    m_mltProducer = NULL;
+    setSceneList(scene, pos);
+}
+
 #include "renderer.moc"
 

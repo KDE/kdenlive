@@ -26,6 +26,8 @@
 #include "docclipbase.h"
 #include "kdenlivedoc.h"
 
+#include <mlt++/Mlt.h>
+
 ClipManager::ClipManager(KdenliveDoc *doc): m_doc(doc), m_audioThumbsEnabled(false), m_audioThumbsQueue(QList <QString> ()), m_generatingAudioId(QString()) {
     m_clipIdCounter = 1;
 }
@@ -147,6 +149,39 @@ DocClipBase *ClipManager::getClipByResource(QString resource) {
     return NULL;
 }
 
+void ClipManager::updatePreviewSettings() {
+    for (int i = 0; i < m_clipList.count(); i++) {
+        if (m_clipList.at(i)->clipType() == AV || m_clipList.at(i)->clipType() == VIDEO) {
+            if (m_clipList.at(i)->producerProperty("meta.media.0.codec.name") == "h264") {
+                if (KdenliveSettings::dropbframes()) {
+                    m_clipList[i]->setProducerProperty("skip_loop_filter", "all");
+                    m_clipList[i]->setProducerProperty("skip_frame", "bidir");
+                } else {
+                    m_clipList[i]->setProducerProperty("skip_loop_filter", "");
+                    m_clipList[i]->setProducerProperty("skip_frame", "");
+                }
+            }
+        }
+    }
+}
+
+void ClipManager::resetProducersList(QList <Mlt::Producer *> prods) {
+    for (int i = 0; i < m_clipList.count(); i++) {
+        if (m_clipList.at(i)->numReferences() > 0) {
+            m_clipList.at(i)->deleteProducers();
+        }
+    }
+    QString id;
+    for (int i = 0; i < prods.count(); i++) {
+        id = prods.at(i)->get("id");
+        if (id.contains('_')) id = id.section('_', 0, 0);
+        DocClipBase *clip = getClipById(id);
+        if (clip) {
+            clip->setProducer(prods.at(i));
+            kDebug() << "// // // REPLACE CLIP: " << id;
+        }
+    }
+}
 
 void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId) {
     QUndoCommand *addClips = new QUndoCommand();

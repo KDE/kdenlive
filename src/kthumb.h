@@ -83,6 +83,7 @@ Q_OBJECT public:
     void setProducer(Mlt::Producer *producer);
     void askForAudioThumbs(const QString &id);
     bool hasProducer() const;
+    void clearProducer();
     void updateThumbUrl(const QString &hash);
 
 public slots:

@@ -370,6 +370,12 @@ QString DocClipBase::markerComment(GenTime t) {
     return QString::null;
 }
 
+void DocClipBase::deleteProducers() {
+    qDeleteAll(m_baseTrackProducers);
+    m_baseTrackProducers.clear();
+    if (m_thumbProd) m_thumbProd->clearProducer();
+}
+
 void DocClipBase::setProducer(Mlt::Producer *producer) {
     if (producer == NULL) return;
     QString id = producer->get("id");
@@ -398,9 +404,8 @@ Mlt::Producer *DocClipBase::producer(int track) {
     if (track == -1 || (m_clipType != AUDIO && m_clipType != AV)) {
         if (m_baseTrackProducers.count() == 0) return NULL;
         int i;
-        for (i = 0; i < m_baseTrackProducers.count(); i++)
-            if (m_baseTrackProducers.at(i) != NULL) break;
-        if (i < m_baseTrackProducers.count()) return m_baseTrackProducers.at(i);
+        for (int i = 0; i < m_baseTrackProducers.count(); i++)
+            if (m_baseTrackProducers.at(i) != NULL) return m_baseTrackProducers.at(i);
         return NULL;
     }
     if (track >= m_baseTrackProducers.count()) {
@@ -421,6 +426,10 @@ Mlt::Producer *DocClipBase::producer(int track) {
         char *tmp = (char *) qstrdup(QString(getId() + '_' + QString::number(track)).toUtf8().data());
         m_baseTrackProducers[track]->set("id", tmp);
         delete[] tmp;
+        if (KdenliveSettings::dropbframes()) {
+            m_baseTrackProducers[track]->set("skip_loop_filter", "all");
+            m_baseTrackProducers[track]->set("skip_frame", "bidir");
+        }
     }
     return m_baseTrackProducers.at(track);
 }
@@ -438,6 +447,18 @@ void DocClipBase::setProducerProperty(const char *name, const char *data) {
             m_baseTrackProducers[i]->set(name, data);
     }
 }
+
+QString DocClipBase::producerProperty(const char *name) const {
+    for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+        if (m_baseTrackProducers.at(i) != NULL) {
+            char *tmp = m_baseTrackProducers.at(i)->get(name);
+            QString result = QString(tmp);
+            return result;
+        }
+    }
+    return QString();
+}
+
 
 void DocClipBase::slotRefreshProducer() {
     if (m_baseTrackProducers.count() == 0) return;

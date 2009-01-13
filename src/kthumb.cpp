@@ -144,6 +144,10 @@ void KThumb::setProducer(Mlt::Producer *producer) {
     m_dar = producer->profile()->dar();
 }
 
+void KThumb::clearProducer() {
+    m_producer = NULL;
+}
+
 bool KThumb::hasProducer() const {
     return m_producer != NULL;
 }
