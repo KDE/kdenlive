@@ -167,7 +167,7 @@ Q_OBJECT public:
     void askForAudioThumbs();
     QString getClipHash() const;
     void refreshThumbUrl();
-    QString producerProperty(const char *name) const;
+    const char *producerProperty(const char *name) const;
     void setProducerProperty(const char *name, const char *data);
     void deleteProducers();
 

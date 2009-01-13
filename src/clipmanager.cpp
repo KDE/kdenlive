@@ -152,7 +152,7 @@ DocClipBase *ClipManager::getClipByResource(QString resource) {
 void ClipManager::updatePreviewSettings() {
     for (int i = 0; i < m_clipList.count(); i++) {
         if (m_clipList.at(i)->clipType() == AV || m_clipList.at(i)->clipType() == VIDEO) {
-            if (m_clipList.at(i)->producerProperty("meta.media.0.codec.name") == "h264") {
+            if (m_clipList.at(i)->producerProperty("meta.media.0.codec.name") && strcmp(m_clipList.at(i)->producerProperty("meta.media.0.codec.name"), "h264") == 0) {
                 if (KdenliveSettings::dropbframes()) {
                     m_clipList[i]->setProducerProperty("skip_loop_filter", "all");
                     m_clipList[i]->setProducerProperty("skip_frame", "bidir");

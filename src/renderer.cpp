@@ -642,6 +642,18 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
             if (producer->get(property))
                 filePropertyMap["videocodec"] = producer->get(property);
         }
+
+        if (KdenliveSettings::dropbframes()) {
+            kDebug() << "// LOOKING FOR H264 on: " << default_video;
+            snprintf(property, sizeof(property), "meta.media.%d.codec.name", default_video);
+            kDebug() << "PROP: " << property << " = " << producer->get(property);
+            if (producer->get(property) && strcmp(producer->get(property), "h264") == 0) {
+                kDebug() << "// GOT H264 CLIP, SETTING FAST PROPS";
+                producer->set("skip_loop_filter", "all");
+                producer->set("skip_frame", "bidir");
+            }
+        }
+
     } else kDebug() << " / / / / /WARNING, VIDEO CONTEXT IS NULL!!!!!!!!!!!!!!";
     if (producer->get_int("audio_index") > -1) {
         // Get the audio_index
@@ -722,6 +734,8 @@ void Render::setProducer(Mlt::Producer *producer, int position) {
         m_mltConsumer->stop();
     } else return;
 
+    m_mltConsumer->purge();
+
     m_isBlocked = true;
     if (m_mltProducer) {
         m_mltProducer->set_speed(0);
@@ -729,8 +743,13 @@ void Render::setProducer(Mlt::Producer *producer, int position) {
         m_mltProducer = NULL;
         emit stopped();
     }
-    if (producer) m_mltProducer = new Mlt::Producer(producer->get_producer());
-    else m_mltProducer = new Mlt::Producer();
+    if (producer) {
+        m_mltProducer = new Mlt::Producer(producer->get_producer());
+    } else m_mltProducer = new Mlt::Producer();
+    /*if (KdenliveSettings::dropbframes()) {
+    m_mltProducer->set("skip_loop_filter", "all");
+        m_mltProducer->set("skip_frame", "bidir");
+    }*/
     if (!m_mltProducer || !m_mltProducer->is_valid()) kDebug() << " WARNING - - - - -INVALID PLAYLIST: ";
 
     m_fps = m_mltProducer->get_fps();

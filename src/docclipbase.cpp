@@ -426,7 +426,7 @@ Mlt::Producer *DocClipBase::producer(int track) {
         char *tmp = (char *) qstrdup(QString(getId() + '_' + QString::number(track)).toUtf8().data());
         m_baseTrackProducers[track]->set("id", tmp);
         delete[] tmp;
-        if (KdenliveSettings::dropbframes()) {
+        if (KdenliveSettings::dropbframes() && m_baseTrackProducers.at(i)->get("skip_loop_filter") && strcmp(m_baseTrackProducers.at(i)->get("skip_loop_filter"), "all") == 0) {
             m_baseTrackProducers[track]->set("skip_loop_filter", "all");
             m_baseTrackProducers[track]->set("skip_frame", "bidir");
         }
@@ -448,15 +448,13 @@ void DocClipBase::setProducerProperty(const char *name, const char *data) {
     }
 }
 
-QString DocClipBase::producerProperty(const char *name) const {
+const char *DocClipBase::producerProperty(const char *name) const {
     for (int i = 0; i < m_baseTrackProducers.count(); i++) {
         if (m_baseTrackProducers.at(i) != NULL) {
-            char *tmp = m_baseTrackProducers.at(i)->get(name);
-            QString result = QString(tmp);
-            return result;
+            return m_baseTrackProducers.at(i)->get(name);
         }
     }
-    return QString();
+    return NULL;
 }
 
 

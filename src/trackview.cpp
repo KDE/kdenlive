@@ -379,10 +379,8 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml) {
             int in = elem.attribute("in").toInt();
             QString idString = elem.attribute("producer");
             QString id = idString;
-            bool hasSpeedAttribute = false;
-            double speed;
+            double speed = 1.0;
             if (idString.startsWith("slowmotion")) {
-                hasSpeedAttribute = true;
                 id = idString.section(":", 1, 1);
                 speed = idString.section(":", 2, 2).toDouble();
             } else id = id.section('_', 0, 0);
@@ -396,8 +394,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml) {
                 clipinfo.cropStart = GenTime(in, m_doc->fps());
                 clipinfo.track = ix;
                 //kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
-                ClipItem *item = new ClipItem(clip, clipinfo, m_doc->fps(), false);
-                if (hasSpeedAttribute) item->setSpeed(speed);
+                ClipItem *item = new ClipItem(clip, clipinfo, m_doc->fps(), speed, false);
                 m_scene->addItem(item);
                 clip->addReference();
                 position += (out - in + 1);
@@ -587,7 +584,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml) {
                     missingClip = new DocClipBase(m_doc->clipManager(), producerXml, id);
                     m_documentErrors.append(i18n("Boken clip producer %1\n", id));
                 } else m_documentErrors.append(i18n("Replaced wrong clip producer %1 with %2\n", id, missingClip->getId()));
-                ClipItem *item = new ClipItem(missingClip, clipinfo, m_doc->fps(), false);
+                ClipItem *item = new ClipItem(missingClip, clipinfo, m_doc->fps(), 1.0, false);
                 m_scene->addItem(item);
                 missingClip->addReference();
                 position += (out - in + 1);
