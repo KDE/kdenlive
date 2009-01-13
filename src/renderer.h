@@ -157,7 +157,7 @@ Q_OBJECT public:
     bool mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart, Mlt::Producer *prod);
     bool mltMoveClip(int startTrack, int endTrack, int pos, int moveStart, Mlt::Producer *prod);
     bool mltRemoveClip(int track, GenTime position);
-    bool mltRemoveEffect(int track, GenTime position, QString index, bool doRefresh = true);
+    bool mltRemoveEffect(int track, GenTime position, QString index, bool updateIndex, bool doRefresh = true);
     bool mltAddEffect(int track, GenTime position, EffectsParameterList params, bool doRefresh = true);
     bool mltEditEffect(int track, GenTime position, EffectsParameterList params);
     void mltMoveEffect(int track, GenTime position, int oldPos, int newPos);

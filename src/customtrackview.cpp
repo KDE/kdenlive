@@ -961,7 +961,7 @@ bool CustomTrackView::insertPossible(AbstractGroupItem *group, const QPoint &pos
 void CustomTrackView::slotRefreshEffects(ClipItem *clip) {
     int track = m_document->tracksCount() - clip->track();
     GenTime pos = clip->startPos();
-    if (!m_document->renderer()->mltRemoveEffect(track, pos, "-1", false)) {
+    if (!m_document->renderer()->mltRemoveEffect(track, pos, "-1", false, false)) {
         emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
         return;
     }
@@ -984,7 +984,8 @@ void CustomTrackView::addEffect(int track, GenTime pos, QDomElement effect) {
 
 void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect) {
     QString index = effect.attribute("kdenlive_ix");
-    if (effect.attribute("disabled") != "1" && !m_document->renderer()->mltRemoveEffect(track, pos, index)) {
+    if (!m_document->renderer()->mltRemoveEffect(track, pos, index, true) && effect.attribute("disabled") != "1") {
+        kDebug() << "// ERROR REMOV EFFECT: " << index << ", DISABLE: " << effect.attribute("disabled");
         emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
         return;
     }
@@ -1041,7 +1042,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, i
             effectParams = clip->getEffectArgs(effect);
         }
         if (effectParams.paramValue("disabled") == "1") {
-            if (m_document->renderer()->mltRemoveEffect(track, pos, effectParams.paramValue("kdenlive_ix"))) {
+            if (m_document->renderer()->mltRemoveEffect(track, pos, effectParams.paramValue("kdenlive_ix"), false)) {
                 kDebug() << "//////  DISABLING EFFECT: " << index << ", CURRENTLA: " << clip->selectedEffectIndex();
             } else emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
         } else if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - clip->track(), clip->startPos(), effectParams))

@@ -1263,7 +1263,10 @@ void ClipItem::deleteEffect(QString index) {
                 needRepaint = true;
             }
             m_effectList.removeAt(i);
-        } else if (ix.toInt() > index.toInt()) m_effectList[i].setAttribute("kdenlive_ix", ix.toInt() - 1);
+            i--;
+        } else if (ix.toInt() > index.toInt()) {
+            m_effectList[i].setAttribute("kdenlive_ix", ix.toInt() - 1);
+        }
     }
     m_effectNames = m_effectList.effectNames().join(" / ");
     if (needRepaint) update(boundingRect());
