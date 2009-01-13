@@ -66,11 +66,7 @@ Render::Render(const QString & rendererName, int winid, int extid, QWidget *pare
 
     buildConsumer();
 
-    Mlt::Producer *producer = new Mlt::Producer(*m_mltProfile , "colour", "black");
-    m_mltProducer = producer;
-    if (m_blackClip) delete m_blackClip;
-    m_blackClip = new Mlt::Producer(*m_mltProfile , "colour", "black");
-    m_blackClip->set("id", "black");
+    m_mltProducer = m_blackClip->cut(0, 50);
     m_mltConsumer->connect(*m_mltProducer);
     m_mltProducer->set_speed(0.0);
 }
@@ -97,6 +93,9 @@ void Render::buildConsumer() {
     m_activeProfile = KdenliveSettings::current_profile();
     tmp = decodedString(m_activeProfile);
     setenv("MLT_PROFILE", tmp, 1);
+    if (m_blackClip) delete m_blackClip;
+    m_blackClip = NULL;
+
     m_mltProfile = new Mlt::Profile(tmp);
     delete[] tmp;
 
@@ -143,6 +142,10 @@ void Render::buildConsumer() {
     m_mltConsumer->set("progressive", 1);
     m_mltConsumer->set("audio_buffer", 1024);
     m_mltConsumer->set("frequency", 48000);
+
+    m_blackClip = new Mlt::Producer(*m_mltProfile , "colour", "black");
+    m_blackClip->set("id", "black");
+
 }
 
 int Render::resetProfile() {
@@ -745,7 +748,7 @@ void Render::setProducer(Mlt::Producer *producer, int position) {
     }
     if (producer) {
         m_mltProducer = new Mlt::Producer(producer->get_producer());
-    } else m_mltProducer = new Mlt::Producer(*m_mltProfile , "colour", "black");
+    } else m_mltProducer = m_blackClip->cut(0, 50);
     /*if (KdenliveSettings::dropbframes()) {
     m_mltProducer->set("skip_loop_filter", "all");
         m_mltProducer->set("skip_frame", "bidir");
@@ -797,9 +800,7 @@ void Render::setSceneList(QString playlist, int position) {
     char *tmp = decodedString(playlist);
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "westley-xml", tmp);
     delete[] tmp;
-    if (m_blackClip) delete m_blackClip;
-    m_blackClip = new Mlt::Producer(*m_mltProfile , "colour", "black");
-    m_blackClip->set("id", "black");
+
     if (!m_mltProducer || !m_mltProducer->is_valid()) {
         kDebug() << " WARNING - - - - -INVALID PLAYLIST: " << tmp;
     }
@@ -2704,23 +2705,22 @@ void Render::mltSavePlaylist() {
 
 QList <Mlt::Producer *> Render::producersList() {
     QList <Mlt::Producer *> prods = QList <Mlt::Producer *> ();
-    QStringList ids;
     Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() != tractor_type) return prods;
     Mlt::Tractor tractor(service);
+    QStringList ids;
 
     int trackNb = tractor.count();
     for (int t = 1; t < trackNb; t++) {
         Mlt::Producer trackProducer(tractor.track(t));
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
         int clipNb = trackPlaylist.count();
-        kDebug() << "// PARSING SCENE TRACK: " << t << ", CLIPS: " << clipNb;
+        //kDebug() << "// PARSING SCENE TRACK: " << t << ", CLIPS: " << clipNb;
         for (int i = 0; i < clipNb; i++) {
-            Mlt::Producer *prod = trackPlaylist.get_clip(i);
-            Mlt::Producer *nprod = new Mlt::Producer(prod->get_parent());
-            //kDebug()<<"PROD: "<<nprod->get("producer")<<", ID: "<<nprod->get("id")<<nprod->get("resource");
-            if (nprod && !nprod->is_blank() && !ids.contains(nprod->get("id"))) {
-                ids.append(nprod->get("id"));
-                prods.append(nprod);
+            Mlt::Producer nprod(trackPlaylist.get_clip(i)->get_parent());
+            if (nprod.is_valid() && !nprod.is_blank() && !ids.contains(nprod.get("id"))) {
+                ids.append(nprod.get("id"));
+                prods.append(&nprod);
             }
         }
     }
@@ -2729,6 +2729,8 @@ QList <Mlt::Producer *> Render::producersList() {
 
 void Render::fillSlowMotionProducers() {
     Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() != tractor_type) return;
+
     Mlt::Tractor tractor(service);
 
     int trackNb = tractor.count();
@@ -2737,15 +2739,14 @@ void Render::fillSlowMotionProducers() {
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
         int clipNb = trackPlaylist.count();
         for (int i = 0; i < clipNb; i++) {
-            Mlt::Producer *prod = trackPlaylist.get_clip(i);
-            Mlt::Producer *nprod = new Mlt::Producer(prod->get_parent());
-            if (nprod && !nprod->is_blank()) {
-                QString id = nprod->get("id");
+            Mlt::Producer nprod(trackPlaylist.get_clip(i)->get_parent());
+            if (nprod.is_valid() && !nprod.is_blank()) {
+                QString id = nprod.get("id");
                 if (id.startsWith("slowmotion:")) {
                     // this is a slowmotion producer, add it to the list
-                    QString url = nprod->get("resource");
+                    QString url = nprod.get("resource");
                     if (!m_slowmotionProducers.contains(url)) {
-                        m_slowmotionProducers.insert(url, nprod);
+                        m_slowmotionProducers.insert(url, &nprod);
                     }
                 }
             }
@@ -2937,6 +2938,11 @@ void Render::mltDeleteTrack(int ix) {
 
 void Render::updatePreviewSettings() {
     kDebug() << "////// RESTARTING CONSUMER";
+    if (!m_mltConsumer || !m_mltProducer) return;
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() != tractor_type) return;
+
+    m_mltConsumer->set("refresh", 0);
     if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     m_mltConsumer->purge();
     QString scene = sceneList();

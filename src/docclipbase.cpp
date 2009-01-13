@@ -69,6 +69,10 @@ DocClipBase::~DocClipBase() {
     if (m_thumbProd) {
         delete m_thumbProd;
     }
+    if (m_audioTimer) {
+	m_audioTimer->stop();
+	delete m_audioTimer;
+    }
     qDeleteAll(m_baseTrackProducers);
     m_baseTrackProducers.clear();
 }
