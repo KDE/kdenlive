@@ -48,6 +48,7 @@ private slots:
     void parseFolder();
     void slotEnableLuma(int state);
     void slotEnableLumaFile(int state);
+    void slotSetItemIcon(int row);
 
 private:
     Ui::SlideshowClip_UI m_view;

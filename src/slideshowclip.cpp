@@ -126,10 +126,33 @@ void SlideshowClip::parseFolder() {
     if (m_count == 0) m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     else m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
     m_view.label_info->setText(i18n("%1 images found", m_count));
+    QListWidgetItem *item;
+    int i = 0;
+    KIcon unknownicon("unknown");
     foreach(const QString &path, result) {
-        QIcon icon(dir.filePath(path));
-        QListWidgetItem *item = new QListWidgetItem(icon, KUrl(path).fileName());
+        i++;
+        if (i < 80) {
+            QIcon icon(dir.filePath(path));
+            item = new QListWidgetItem(icon, KUrl(path).fileName());
+        } else {
+            item = new QListWidgetItem(unknownicon, KUrl(path).fileName());
+            item->setData(Qt::UserRole, dir.filePath(path));
+        }
         m_view.icon_list->addItem(item);
+    }
+    if (m_count >= 80) connect(m_view.icon_list, SIGNAL(currentRowChanged(int)), this, SLOT(slotSetItemIcon(int)));
+    m_view.icon_list->setCurrentRow(0);
+}
+
+void SlideshowClip::slotSetItemIcon(int row) {
+    QListWidgetItem * item = m_view.icon_list->item(row);
+    if (item) {
+        QString path = item->data(Qt::UserRole).toString();
+        if (!path.isEmpty()) {
+            KIcon icon(path);
+            item->setIcon(icon);
+            item->setData(Qt::UserRole, QString());
+        }
     }
 }
 
