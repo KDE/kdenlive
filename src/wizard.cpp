@@ -356,7 +356,7 @@ void Wizard::slotCheckStandard() {
     for (int i = 0; i < m_standard.profiles_list->count(); i++) {
         QListWidgetItem *item = m_standard.profiles_list->item(i);
         MltVideoProfile prof = ProfilesDialog::getVideoProfile(m_profilesInfo.value(item->text()));
-        const QString infoString = i18n("<b>Frame size: </b>%1x%2<br><b>Frame rate: </b>%3/%4<br><b>Pixel aspect ratio: </b>%5/%6<br><b>Display aspect ratio: </b>%7/%8").arg(QString::number(prof.width), QString::number(prof.height), QString::number(prof.frame_rate_num), QString::number(prof.frame_rate_den), QString::number(prof.sample_aspect_num), QString::number(prof.sample_aspect_den), QString::number(prof.display_aspect_num), QString::number(prof.display_aspect_den));
+        const QString infoString = ("<strong>" + i18n("Frame size:") + " </strong>%1x%2<br /><strong>" + i18n("Frame rate:") + " </strong>%3/%4<br /><strong>" + i18n("Pixel aspect ratio:") + "</strong>%5/%6<br /><strong>" + i18n("Display aspect ratio:") + " </strong>%7/%8").arg(QString::number(prof.width), QString::number(prof.height), QString::number(prof.frame_rate_num), QString::number(prof.frame_rate_den), QString::number(prof.sample_aspect_num), QString::number(prof.sample_aspect_den), QString::number(prof.display_aspect_num), QString::number(prof.display_aspect_den));
         item->setToolTip(infoString);
     }
 

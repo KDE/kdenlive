@@ -272,7 +272,7 @@ void TrackView::parseDocument(QDomDocument doc) {
             //kDebug() << "///////////////   +++++++++++  ADDING TRANSITION ON TRACK: " << b_track << ", TOTAL TRKA: " << m_projectTracks;
             if (transitionInfo.startPos >= transitionInfo.endPos) {
                 // invalid transition, remove it.
-                m_documentErrors.append(i18n("Removed invalid transition: %1\n", e.attribute("id")));
+                m_documentErrors.append(i18n("Removed invalid transition: %1", e.attribute("id")) + '\n');
                 kDebug() << "///// REMOVED INVALID TRANSITION: " << e.attribute("id");
                 tractor.removeChild(transitions.item(i));
                 i--;
@@ -582,8 +582,8 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml) {
                     producerXml.setAttribute("length", "15000");
                     producerXml.setAttribute("id", id);
                     missingClip = new DocClipBase(m_doc->clipManager(), producerXml, id);
-                    m_documentErrors.append(i18n("Boken clip producer %1\n", id));
-                } else m_documentErrors.append(i18n("Replaced wrong clip producer %1 with %2\n", id, missingClip->getId()));
+                    m_documentErrors.append(i18n("Boken clip producer %1", id) + '\n');
+                } else m_documentErrors.append(i18n("Replaced wrong clip producer %1 with %2", id, missingClip->getId()) + '\n');
                 ClipItem *item = new ClipItem(missingClip, clipinfo, m_doc->fps(), 1.0, false);
                 m_scene->addItem(item);
                 missingClip->addReference();
