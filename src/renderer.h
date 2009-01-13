@@ -224,6 +224,7 @@ private:   // Private attributes & methods
     QMap<QString, Mlt::Producer *> m_slowmotionProducers;
     void buildConsumer();
     void resetZoneMode();
+    void fillSlowMotionProducers();
 
 private slots:  // Private slots
     /** refresh monitor display */

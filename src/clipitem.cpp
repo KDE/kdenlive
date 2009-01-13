@@ -40,13 +40,17 @@
 #include "kthumb.h"
 
 
-ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, bool generateThumbs)
-        : AbstractClipItem(info, QRectF(), fps), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_startThumbRequested(false), m_endThumbRequested(false), m_startFade(0), m_endFade(0), m_hover(false), m_selectedEffect(-1), m_speed(1.0), framePixelWidth(0), m_startPix(QPixmap()), m_endPix(QPixmap()) {
+ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, bool generateThumbs)
+        : AbstractClipItem(info, QRectF(), fps), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_startThumbRequested(false), m_endThumbRequested(false), m_startFade(0), m_endFade(0), m_hover(false), m_selectedEffect(-1), m_speed(speed), framePixelWidth(0), m_startPix(QPixmap()), m_endPix(QPixmap()) {
     setZValue(1);
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (double)(KdenliveSettings::trackheight() - 2));
     setPos(info.startPos.frames(fps), (double)(info.track * KdenliveSettings::trackheight()) + 1);
 
-    m_clipName = clip->name();
+    if (m_speed == 1.0) m_clipName = clip->name();
+    else {
+        m_clipName = clip->name() + " - " + QString::number(m_speed * 100, 'f', 0) + "%";
+        m_cropDuration = m_cropDuration * m_speed;
+    }
     m_producer = clip->getId();
     m_clipType = clip->clipType();
     m_cropStart = info.cropStart;
@@ -108,12 +112,12 @@ ClipItem::~ClipItem() {
 }
 
 ClipItem *ClipItem::clone(ItemInfo info) const {
-    ClipItem *duplicate = new ClipItem(m_clip, info, m_fps);
+    ClipItem *duplicate = new ClipItem(m_clip, info, m_fps, m_speed);
     if (info.cropStart == cropStart()) duplicate->slotSetStartThumb(m_startPix);
     if (info.cropStart + (info.endPos - info.startPos) == m_cropStart + m_cropDuration) duplicate->slotSetEndThumb(m_endPix);
     kDebug() << "// CLoning clip: " << (info.cropStart + (info.endPos - info.startPos)).frames(m_fps) << ", CURRENT end: " << (cropStart() + duration()).frames(m_fps);
     duplicate->setEffectList(m_effectList.clone());
-    duplicate->setSpeed(m_speed);
+    //duplicate->setSpeed(m_speed);
     return duplicate;
 }
 
@@ -462,7 +466,9 @@ DocClipBase *ClipItem::baseClip() const {
 }
 
 QDomElement ClipItem::xml() const {
-    return m_clip->toXML();
+    QDomElement xml = m_clip->toXML();
+    if (m_speed != 1.0) xml.setAttribute("speed", m_speed);
+    return xml;
 }
 
 int ClipItem::clipType() const {
@@ -1046,7 +1052,7 @@ QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value) 
                         return pos();
                     }
                     if (forwardMove) {
-                        offset = qMax(offset, (int)(newPos.x() - (static_cast < AbstractClipItem* >(items.at(i))->startPos() - m_cropDuration).frames(m_fps)));
+                        offset = qMax(offset, (int)(newPos.x() - (static_cast < AbstractClipItem* >(items.at(i))->startPos() - cropDuration()).frames(m_fps)));
                     } else {
                         offset = qMax(offset, (int)((static_cast < AbstractClipItem* >(items.at(i))->endPos().frames(m_fps)) - newPos.x()));
                     }

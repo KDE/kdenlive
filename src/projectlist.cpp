@@ -375,7 +375,7 @@ void ProjectList::slotProcessNextClipInQueue() {
 
 void ProjectList::slotUpdateClip(const QString &id) {
     ProjectItem *item = getItemById(id);
-    item->setData(1, UsageRole, QString::number(item->numReferences()));
+    if (item) item->setData(1, UsageRole, QString::number(item->numReferences()));
 }
 
 void ProjectList::updateAllClips() {

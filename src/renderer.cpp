@@ -753,6 +753,7 @@ void Render::setSceneList(QDomDocument list, int position) {
 void Render::setSceneList(QString playlist, int position) {
     if (m_winid == -1) return;
     m_isBlocked = true;
+    m_slowmotionProducers.clear();
 
     //kWarning() << "//////  RENDER, SET SCENE LIST: " << playlist;
 
@@ -811,6 +812,7 @@ void Render::setSceneList(QString playlist, int position) {
     m_fps = m_mltProducer->get_fps();
     kDebug() << "// NEW SCENE LIST DURATION SET TO: " << m_mltProducer->get_playtime();
     connectPlaylist();
+    fillSlowMotionProducers();
     if (position != 0) {
         //TODO: seek to correct place after opening project.
         //  Needs to be done from another place since it crashes here.
@@ -1294,6 +1296,28 @@ void Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
     Mlt::Producer trackProducer(tractor.track(info.track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     //kDebug()<<"/// INSERT cLIP: "<<info.cropStart.frames(m_fps)<<", "<<info.startPos.frames(m_fps)<<"-"<<info.endPos.frames(m_fps);
+
+    if (element.attribute("speed", "1.0").toDouble() != 1.0) {
+        // We want a slowmotion producer
+        double speed = element.attribute("speed", "1.0").toDouble();
+        QString url = prod->get("resource");
+        url.append("?" + QString::number(speed));
+        Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
+        if (!slowprod || slowprod->get_producer() == NULL) {
+            char *tmp = decodedString(url);
+            slowprod = new Mlt::Producer(*m_mltProfile, "framebuffer", tmp);
+            delete[] tmp;
+            QString id = prod->get("id");
+            if (id.contains('_')) id = id.section('_', 0, 0);
+            QString producerid = "slowmotion:" + id + ":" + QString::number(speed);
+            tmp = decodedString(producerid);
+            slowprod->set("id", tmp);
+            delete[] tmp;
+            m_slowmotionProducers.insert(url, slowprod);
+        }
+        prod = slowprod;
+    }
+
     Mlt::Producer *clip = prod->cut((int) info.cropStart.frames(m_fps), (int)(info.endPos - info.startPos + info.cropStart).frames(m_fps) - 1);
     int newIndex = trackPlaylist.insert_at((int) info.startPos.frames(m_fps), *clip, 1);
 
@@ -2682,6 +2706,32 @@ QList <Mlt::Producer *> Render::producersList() {
         }
     }
     return prods;
+}
+
+void Render::fillSlowMotionProducers() {
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    Mlt::Tractor tractor(service);
+
+    int trackNb = tractor.count();
+    for (int t = 1; t < trackNb; t++) {
+        Mlt::Producer trackProducer(tractor.track(t));
+        Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+        int clipNb = trackPlaylist.count();
+        for (int i = 0; i < clipNb; i++) {
+            Mlt::Producer *prod = trackPlaylist.get_clip(i);
+            Mlt::Producer *nprod = new Mlt::Producer(prod->get_parent());
+            if (nprod && !nprod->is_blank()) {
+                QString id = nprod->get("id");
+                if (id.startsWith("slowmotion:")) {
+                    // this is a slowmotion producer, add it to the list
+                    QString url = nprod->get("resource");
+                    if (!m_slowmotionProducers.contains(url)) {
+                        m_slowmotionProducers.insert(url, nprod);
+                    }
+                }
+            }
+        }
+    }
 }
 
 void Render::mltInsertTrack(int ix, bool videoTrack) {

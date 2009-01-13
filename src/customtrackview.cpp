@@ -896,7 +896,7 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
         info.cropStart = GenTime(list.at(1).toInt(), m_document->fps());
         info.endPos = info.startPos + GenTime(list.at(2).toInt() - list.at(1).toInt(), m_document->fps());
         info.track = (int)(pos.y() / m_tracksHeight);
-        ClipItem *item = new ClipItem(clip, info, m_document->fps());
+        ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0);
         m_selectionGroup->addToGroup(item);
         //TODO: check if we do not overlap another clip when first dropping in timeline
         // if (insertPossible(m_selectionGroup, event->pos()))
@@ -916,7 +916,7 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
             info.startPos = GenTime(pos.x(), m_document->fps());
             info.endPos = info.startPos + clip->duration();
             info.track = (int)(pos.y() / m_tracksHeight);
-            ClipItem *item = new ClipItem(clip, info, m_document->fps());
+            ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0);
             pos.setX(pos.x() + clip->duration().frames(m_document->fps()));
             m_selectionGroup->addToGroup(item);
         }
@@ -2162,17 +2162,22 @@ void CustomTrackView::changeClipSpeed() {
     }
     QUndoCommand *changeSelected = new QUndoCommand();
     changeSelected->setText("Edit clip speed");
+    int count = 0;
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             ItemInfo info = item->info();
-            int percent = QInputDialog::getInteger(this, i18n("Edit Clip Speed"), i18n("New speed (percents)"), item->speed() * 100, 1, 300);
+            bool ok;
+            int percent = QInputDialog::getInteger(this, i18n("Edit Clip Speed"), i18n("New speed (percents)"), item->speed() * 100, 1, 300, 1, &ok);
             double speed = (double) percent / 100.0;
-            if (item->speed() != speed)
+            if (ok && item->speed() != speed) {
+                count++;
                 new ChangeSpeedCommand(this, info, item->speed(), speed, item->clipProducer(), true, changeSelected);
+            }
         }
     }
-    m_commandStack->push(changeSelected);
+    if (count > 0) m_commandStack->push(changeSelected);
+    else delete changeSelected;
 }
 
 void CustomTrackView::doChangeClipSpeed(ItemInfo info, const double speed, const double oldspeed, const QString &id) {
@@ -2208,7 +2213,7 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
         emit displayMessage(i18n("No clip copied"), ErrorMessage);
         return;
     }
-    ClipItem *item = new ClipItem(baseclip, info, m_document->fps());
+    ClipItem *item = new ClipItem(baseclip, info, m_document->fps(), xml.attribute("speed", "1").toDouble());
     item->setEffectList(effects);
     scene()->addItem(item);
     if (item->baseClip()->isTransparent()) {

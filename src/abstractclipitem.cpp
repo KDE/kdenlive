@@ -147,8 +147,8 @@ void AbstractClipItem::resizeEnd(int posx, double speed, bool updateKeyFrames) {
                 kDebug() << "/////////  CURRENT: " << startPos().frames(25) << "x" << endPos().frames(25) << ", RECT: " << rect() << "-" << pos();
                 kDebug() << "/////////  COLLISION: " << ((AbstractClipItem *)item)->startPos().frames(25) << "x" << ((AbstractClipItem *)item)->endPos().frames(25) << ", RECT: " << ((AbstractClipItem *)item)->rect() << "-" << item->pos();*/
                 GenTime diff = ((AbstractClipItem *)item)->startPos() - GenTime(1, m_fps) - startPos();
-                m_cropDuration = diff;
-                setRect(0, 0, m_cropDuration.frames(m_fps) - 0.02, rect().height());
+                m_cropDuration = diff * speed;
+                setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
                 break;
             }
         }
