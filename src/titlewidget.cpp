@@ -677,11 +677,11 @@ void TitleWidget::setXml(QDomDocument doc) {
     slotSelectTool();
 }
 
-QPixmap TitleWidget::renderedPixmap() {
-    QPixmap pix(m_frameWidth, m_frameHeight);
+QImage TitleWidget::renderedPixmap() {
+    QImage pix(m_frameWidth, m_frameHeight, QImage::Format_ARGB32);
     pix.fill(Qt::transparent);
     QPainter painter(&pix);
-    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::HighQualityAntialiasing);
     m_scene->clearTextSelection();
     QPen framepen = m_frameBorder->pen();
     m_frameBorder->setPen(Qt::NoPen);

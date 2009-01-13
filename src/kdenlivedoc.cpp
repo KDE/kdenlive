@@ -1036,7 +1036,7 @@ void KdenliveDoc::checkProjectClips() {
             QDomDocument doc;
             doc.setContent(clip->getProperty("xmldata"));
             dia_ui->setXml(doc);
-            QPixmap pix = dia_ui->renderedPixmap();
+            QImage pix = dia_ui->renderedPixmap();
             pix.save(titleresource);
             clip->setProperty("resource", titleresource);
             delete dia_ui;
@@ -1404,7 +1404,7 @@ void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId) {
     TitleWidget *dia_ui = new TitleWidget(KUrl(), titlesFolder, m_render, kapp->activeWindow());
     if (dia_ui->exec() == QDialog::Accepted) {
         QStringList titleInfo = TitleWidget::getFreeTitleInfo(projectFolder());
-        QPixmap pix = dia_ui->renderedPixmap();
+        QImage pix = dia_ui->renderedPixmap();
         pix.save(titleInfo.at(1));
         //dia_ui->saveTitle(path + ".kdenlivetitle");
         m_clipManager->slotAddTextClipFile(titleInfo.at(0), titleInfo.at(1), dia_ui->xml().toString(), QString(), QString());

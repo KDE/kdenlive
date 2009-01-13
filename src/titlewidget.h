@@ -112,7 +112,7 @@ public slots:
     void itemVCenter();
     void saveTitle(KUrl url = KUrl());
     void loadTitle();
-    QPixmap renderedPixmap();
+    QImage renderedPixmap();
 
 private slots:
     void slotAdjustSelectedItem();

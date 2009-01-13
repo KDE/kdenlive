@@ -1962,7 +1962,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip) {
         doc.setContent(clip->getProperty("xmldata"));
         dia_ui->setXml(doc);
         if (dia_ui->exec() == QDialog::Accepted) {
-            QPixmap pix = dia_ui->renderedPixmap();
+            QImage pix = dia_ui->renderedPixmap();
             pix.save(path);
             //slotAddClipFile(KUrl("/tmp/kdenlivetitle.png"), QString(), -1);
             //m_clipManager->slotEditTextClipFile(id, dia_ui->xml().toString());

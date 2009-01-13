@@ -392,7 +392,7 @@ void ProjectList::updateAllClips() {
                     QDomDocument doc;
                     doc.setContent(clip->getProperty("xmldata"));
                     dia_ui->setXml(doc);
-                    QPixmap pix = dia_ui->renderedPixmap();
+                    QImage pix = dia_ui->renderedPixmap();
                     pix.save(clip->fileURL().path());
                     delete dia_ui;
                 }

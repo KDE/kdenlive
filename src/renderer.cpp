@@ -2718,10 +2718,10 @@ QList <Mlt::Producer *> Render::producersList() {
         int clipNb = trackPlaylist.count();
         //kDebug() << "// PARSING SCENE TRACK: " << t << ", CLIPS: " << clipNb;
         for (int i = 0; i < clipNb; i++) {
-            Mlt::Producer nprod(trackPlaylist.get_clip(i)->get_parent());
-            if (nprod.is_valid() && !nprod.is_blank() && !ids.contains(nprod.get("id"))) {
-                ids.append(nprod.get("id"));
-                prods.append(&nprod);
+            Mlt::Producer *nprod = new Mlt::Producer(trackPlaylist.get_clip(i)->get_parent());
+            if (nprod && !nprod->is_blank() && !ids.contains(nprod->get("id"))) {
+                ids.append(nprod->get("id"));
+                prods.append(nprod);
             }
         }
     }
@@ -2740,14 +2740,14 @@ void Render::fillSlowMotionProducers() {
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
         int clipNb = trackPlaylist.count();
         for (int i = 0; i < clipNb; i++) {
-            Mlt::Producer nprod(trackPlaylist.get_clip(i)->get_parent());
-            if (nprod.is_valid() && !nprod.is_blank()) {
-                QString id = nprod.get("id");
+            Mlt::Producer *nprod = new Mlt::Producer(trackPlaylist.get_clip(i)->get_parent());
+            if (nprod && !nprod->is_blank()) {
+                QString id = nprod->get("id");
                 if (id.startsWith("slowmotion:")) {
                     // this is a slowmotion producer, add it to the list
-                    QString url = nprod.get("resource");
+                    QString url = nprod->get("resource");
                     if (!m_slowmotionProducers.contains(url)) {
-                        m_slowmotionProducers.insert(url, &nprod);
+                        m_slowmotionProducers.insert(url, nprod);
                     }
                 }
             }
