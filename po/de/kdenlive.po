@@ -2792,7 +2792,7 @@ msgstr "Bereichs-Anfangspunkt setzen"
 
 #: rc.cpp:158 rc.cpp:314
 msgid "Shift"
-msgstr "Veränderung"
+msgstr "Umschalt"
 
 #: rc.cpp:563 rc.cpp:1652
 msgid "Show All"
