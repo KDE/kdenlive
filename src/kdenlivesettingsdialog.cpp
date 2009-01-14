@@ -159,7 +159,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
         QString rmdpath = KStandardDirs::findExe("recordmydesktop");
         KdenliveSettings::setRmd_path(rmdpath);
     }
-    if (KdenliveSettings::rmd_path().isEmpty()) m_configCapture.rmd_info->setText("<strong>" + i18n("<em>Recordmydesktop</em> utility not found, please install it for screen grabs") + "</strong>"));
+    if (KdenliveSettings::rmd_path().isEmpty()) m_configCapture.rmd_info->setText("<strong>" + i18n("<em>Recordmydesktop</em> utility not found, please install it for screen grabs") + "</strong>");
     else m_configCapture.rmd_info->setText(i18n("Recordmydesktop found at: %1", KdenliveSettings::rmd_path()));
 }
 
