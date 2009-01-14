@@ -2478,7 +2478,7 @@ msgstr ""
 #: src/trackview.cpp:275
 #, kde-format
 msgid "Removed invalid transition: %1\n"
-msgstr "Ungültiger Übergang entfernt: %1"
+msgstr "Ungültiger Übergang entfernt: %1\n"
 
 #: src/editfoldercommand.cpp:27
 msgid "Rename folder"
