@@ -5,278 +5,339 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>374</width>
-    <height>379</height>
+    <width>444</width>
+    <height>407</height>
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Rendering</string>
+   <string>Dialog</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_3" >
+  <layout class="QGridLayout" name="gridLayout_5" >
+   <property name="margin" >
+    <number>0</number>
+   </property>
    <item row="0" column="0" >
-    <widget class="QLabel" name="label" >
-     <property name="text" >
-      <string>Output file</string>
+    <widget class="QTabWidget" name="tabWidget" >
+     <property name="currentIndex" >
+      <number>0</number>
      </property>
-    </widget>
-   </item>
-   <item row="0" column="1" colspan="2" >
-    <widget class="KUrlRequester" name="out_file" />
-   </item>
-   <item row="1" column="0" colspan="3" >
-    <widget class="QGroupBox" name="groupBox" >
-     <property name="title" >
-      <string/>
-     </property>
-     <layout class="QGridLayout" name="gridLayout" >
-      <item row="0" column="0" >
-       <widget class="QLabel" name="label_3" >
-        <property name="text" >
-         <string>Format</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" >
-       <spacer name="horizontalSpacer_2" >
-        <property name="orientation" >
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0" >
-         <size>
-          <width>165</width>
-          <height>24</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="0" column="2" colspan="2" >
-       <widget class="KComboBox" name="format_selection" >
-        <item>
+     <widget class="QWidget" name="tab" >
+      <attribute name="title" >
+       <string>Render Project</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_3" >
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label" >
          <property name="text" >
-          <string>PAL</string>
+          <string>Output file</string>
          </property>
-        </item>
-        <item>
+        </widget>
+       </item>
+       <item row="0" column="1" colspan="3" >
+        <widget class="KUrlRequester" name="out_file" />
+       </item>
+       <item row="1" column="0" colspan="4" >
+        <widget class="QGroupBox" name="groupBox" >
+         <property name="title" >
+          <string/>
+         </property>
+         <layout class="QGridLayout" name="gridLayout" >
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label_3" >
+            <property name="text" >
+             <string>Format</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" >
+           <spacer name="horizontalSpacer_2" >
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0" >
+             <size>
+              <width>165</width>
+              <height>24</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="2" colspan="2" >
+           <widget class="KComboBox" name="format_selection" >
+            <item>
+             <property name="text" >
+              <string>PAL</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>NTSC</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="0" column="4" >
+           <widget class="QToolButton" name="buttonEdit" >
+            <property name="text" >
+             <string>E</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="5" >
+           <widget class="QToolButton" name="buttonInfo" >
+            <property name="text" >
+             <string>I</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="6" >
+           <widget class="QToolButton" name="buttonSave" >
+            <property name="text" >
+             <string>S</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="7" >
+           <widget class="QToolButton" name="buttonDelete" >
+            <property name="text" >
+             <string>D</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="8" >
+           <widget class="QSplitter" name="splitter_3" >
+            <property name="orientation" >
+             <enum>Qt::Vertical</enum>
+            </property>
+            <widget class="QSplitter" name="splitter" >
+             <property name="orientation" >
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <widget class="KListWidget" name="format_list" >
+              <property name="sizePolicy" >
+               <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+             <widget class="KListWidget" name="size_list" >
+              <property name="sizePolicy" >
+               <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </widget>
+            <widget class="KTextEdit" name="advanced_params" >
+             <property name="readOnly" >
+              <bool>true</bool>
+             </property>
+             <property name="acceptRichText" >
+              <bool>false</bool>
+             </property>
+            </widget>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="3" >
+           <widget class="QCheckBox" name="experimentalrender" >
+            <property name="text" >
+             <string>Show experimental formats</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3" colspan="5" >
+           <widget class="QCheckBox" name="force_progressive" >
+            <property name="text" >
+             <string>Progressive</string>
+            </property>
+            <property name="tristate" >
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="4" >
+        <layout class="QHBoxLayout" name="horizontalLayout" >
+         <item>
+          <widget class="QRadioButton" name="render_full" >
+           <property name="text" >
+            <string>Full project</string>
+           </property>
+           <property name="checked" >
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="render_zone" >
+           <property name="text" >
+            <string>Selected zone</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="render_guide" >
+           <property name="text" >
+            <string>Guide zone</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="0" colspan="4" >
+        <widget class="QGroupBox" name="guides_box" >
+         <property name="title" >
+          <string/>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_2" >
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label_4" >
+            <property name="text" >
+             <string>From</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" >
+           <widget class="KComboBox" name="guide_start" >
+            <property name="sizePolicy" >
+             <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2" >
+           <widget class="QLabel" name="label_2" >
+            <property name="text" >
+             <string>to</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3" >
+           <widget class="KComboBox" name="guide_end" >
+            <property name="sizePolicy" >
+             <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="4" >
+        <layout class="QHBoxLayout" name="horizontalLayout_3" >
+         <item>
+          <widget class="QCheckBox" name="play_after" >
+           <property name="text" >
+            <string>Play after render</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="tc_overlay" >
+           <property name="text" >
+            <string>Timecode overlay</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="5" column="0" colspan="2" >
+        <widget class="KPushButton" name="buttonStart" >
          <property name="text" >
-          <string>NTSC</string>
+          <string>Start Rendering</string>
          </property>
-        </item>
-       </widget>
-      </item>
-      <item row="0" column="4" >
-       <widget class="QToolButton" name="buttonEdit" >
-        <property name="text" >
-         <string>E</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="5" >
-       <widget class="QToolButton" name="buttonInfo" >
-        <property name="text" >
-         <string>I</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="6" >
-       <widget class="QToolButton" name="buttonSave" >
-        <property name="text" >
-         <string>S</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="7" >
-       <widget class="QToolButton" name="buttonDelete" >
-        <property name="text" >
-         <string>D</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" colspan="8" >
-       <widget class="QSplitter" name="splitter_3" >
-        <property name="orientation" >
-         <enum>Qt::Vertical</enum>
-        </property>
-        <widget class="QSplitter" name="splitter" >
+        </widget>
+       </item>
+       <item row="5" column="2" >
+        <spacer name="horizontalSpacer" >
          <property name="orientation" >
           <enum>Qt::Horizontal</enum>
          </property>
-         <widget class="KListWidget" name="format_list" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-         <widget class="KListWidget" name="size_list" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </widget>
-        <widget class="KTextEdit" name="advanced_params" >
-         <property name="readOnly" >
-          <bool>true</bool>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>221</width>
+           <height>24</height>
+          </size>
          </property>
-         <property name="acceptRichText" >
+        </spacer>
+       </item>
+       <item row="5" column="3" >
+        <widget class="KPushButton" name="buttonClose" >
+         <property name="text" >
+          <string>Close</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2" >
+      <attribute name="title" >
+       <string>Current jobs</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_4" >
+       <item row="0" column="0" colspan="3" >
+        <widget class="QTreeWidget" name="running_jobs" >
+         <property name="rootIsDecorated" >
           <bool>false</bool>
          </property>
+         <property name="allColumnsShowFocus" >
+          <bool>true</bool>
+         </property>
+         <property name="headerHidden" >
+          <bool>false</bool>
+         </property>
+         <property name="columnCount" >
+          <number>2</number>
+         </property>
+         <column>
+          <property name="text" >
+           <string>File</string>
+          </property>
+         </column>
+         <column>
+          <property name="text" >
+           <string>Progress</string>
+          </property>
+         </column>
         </widget>
-       </widget>
-      </item>
-      <item row="2" column="0" colspan="3" >
-       <widget class="QCheckBox" name="experimentalrender" >
-        <property name="text" >
-         <string>Show experimental formats</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3" colspan="5" >
-       <widget class="QCheckBox" name="force_progressive" >
-        <property name="text" >
-         <string>Progressive</string>
-        </property>
-        <property name="tristate" >
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2" >
-    <layout class="QHBoxLayout" name="horizontalLayout" >
-     <item>
-      <widget class="QRadioButton" name="render_full" >
-       <property name="text" >
-        <string>Full project</string>
-       </property>
-       <property name="checked" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="render_zone" >
-       <property name="text" >
-        <string>Selected zone</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="render_guide" >
-       <property name="text" >
-        <string>Guide zone</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="3" column="0" colspan="3" >
-    <widget class="QGroupBox" name="guides_box" >
-     <property name="title" >
-      <string/>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2" >
-      <item row="0" column="0" >
-       <widget class="QLabel" name="label_4" >
-        <property name="text" >
-         <string>From</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" >
-       <widget class="KComboBox" name="guide_start" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2" >
-       <widget class="QLabel" name="label_2" >
-        <property name="text" >
-         <string>to</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3" >
-       <widget class="KComboBox" name="guide_end" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="4" column="0" colspan="3" >
-    <layout class="QHBoxLayout" name="horizontalLayout_3" >
-     <item>
-      <widget class="QCheckBox" name="play_after" >
-       <property name="text" >
-        <string>Play after render</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="tc_overlay" >
-       <property name="text" >
-        <string>Timecode overlay</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="5" column="0" >
-    <spacer name="verticalSpacer" >
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0" >
-      <size>
-       <width>20</width>
-       <height>0</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="6" column="0" >
-    <widget class="KPushButton" name="buttonStart" >
-     <property name="text" >
-      <string>Start Rendering</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="1" >
-    <spacer name="horizontalSpacer" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0" >
-      <size>
-       <width>153</width>
-       <height>27</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="6" column="2" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons" >
-      <set>QDialogButtonBox::Close</set>
-     </property>
+       </item>
+       <item row="1" column="0" >
+        <widget class="QPushButton" name="abort_job" >
+         <property name="text" >
+          <string>Abort Job</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" >
+        <spacer name="horizontalSpacer_3" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="2" >
+        <widget class="KPushButton" name="buttonClose2" >
+         <property name="text" >
+          <string>Close</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>
@@ -309,38 +370,5 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>RenderWidget_UI</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>RenderWidget_UI</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

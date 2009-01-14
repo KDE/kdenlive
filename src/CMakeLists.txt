@@ -23,7 +23,6 @@ ${NEPOMUK_LIBRARIES}
 )
 
 
-
 kde4_add_ui_files(kdenlive_UI
   widgets/timeline_ui.ui
   widgets/monitor_ui.ui
@@ -154,8 +153,9 @@ else(NO_JOGSHUTTLE)
 endif(NO_JOGSHUTTLE)
 
 kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )
-
+QT4_ADD_DBUS_ADAPTOR(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)
 kde4_add_executable(kdenlive ${kdenlive_SRCS} ${kdenlive_UI})
+
 
 target_link_libraries(kdenlive 
   ${KDE4_KDEUI_LIBS}
@@ -166,7 +166,7 @@ target_link_libraries(kdenlive
   ${NEPOMUK_LIBRARIES}
   ${KDE4_KNOTIFYCONFIG_LIBRARY}
 )
- 
+
 install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
 install( FILES kdenliveui.rc kdenlive.notifyrc DESTINATION  ${DATA_INSTALL_DIR}/kdenlive )
 install (FILES kdenlivesettings.kcfg DESTINATION share/config.kcfg)

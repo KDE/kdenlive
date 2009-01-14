@@ -1,0 +1,9 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kdenlive.MainWindow">
+    <method name="setRenderingProgress">
+      <arg name="url" type="s" direction="in"/>
+      <arg name="progress" type="i" direction="in"/>
+    </method>
+  </interface>
+</node>

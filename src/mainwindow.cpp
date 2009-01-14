@@ -57,6 +57,7 @@
 
 
 #include "mainwindow.h"
+#include "mainwindowadaptor.h"
 #include "kdenlivesettings.h"
 #include "kdenlivesettingsdialog.h"
 #include "initeffects.h"
@@ -113,6 +114,12 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
         m_jogProcess(NULL),
 #endif /* NO_JOGSHUTTLE */
         m_findActivated(false), m_initialized(false) {
+
+    // Create DBus interface
+    new MainWindowAdaptor(this);
+    QDBusConnection dbus = QDBusConnection::sessionBus();
+    dbus.registerObject("/MainWindow", this);
+
     setlocale(LC_NUMERIC, "POSIX");
     setFont(KGlobalSettings::toolBarFont());
     parseProfiles(MltPath);
@@ -1457,6 +1464,10 @@ void MainWindow::slotDoRender(const QString &dest, const QString &render, const 
 
         KNotification::event("RenderStarted", i18n("Rendering <i>%1</i> started", dest), QPixmap(), this);
     }
+}
+
+void MainWindow::setRenderingProgress(const QString &url, int progress) {
+    if (m_renderWidget) m_renderWidget->setRenderJob(url, progress);
 }
 
 void MainWindow::slotUpdateMousePosition(int pos) {

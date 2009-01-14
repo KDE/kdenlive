@@ -62,6 +62,7 @@ class Transition;
 
 class MainWindow : public KXmlGuiWindow {
     Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kdenlive.MainWindow")
 
 public:
     /** Constructor
@@ -195,6 +196,7 @@ private:
 public slots:
     void openFile(const KUrl &url);
     void slotGotProgressInfo(const QString &message, int progress);
+    Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress);
 
 private slots:
     void newFile(bool showProjectSettings = true);

@@ -33,7 +33,7 @@ public:
 
 static QDBusConnection connection(QLatin1String(""));
 
-RenderJob::RenderJob(bool erase, const QString &renderer, const QString &profile, const QString &rendermodule, const QString &player, const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in, int out) : QObject(), m_jobUiserver(NULL) {
+RenderJob::RenderJob(bool erase, const QString &renderer, const QString &profile, const QString &rendermodule, const QString &player, const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in, int out) : QObject(), m_jobUiserver(NULL), m_kdenliveinterface(NULL) {
     m_scenelist = scenelist;
     m_dest = dest;
     m_player = player;
@@ -47,10 +47,9 @@ RenderJob::RenderJob(bool erase, const QString &renderer, const QString &profile
     m_args << preargs;
     //qDebug()<<"PRE ARGS: "<<preargs;
     if (scenelist.startsWith("consumer:")) {
-	// Use MLT's producer_consumer, needs a different syntax for profile:
-	m_args << "profile=" + profile;
-    }
-    else m_args << "-profile" << profile;
+        // Use MLT's producer_consumer, needs a different syntax for profile:
+        m_args << "profile=" + profile;
+    } else m_args << "-profile" << profile;
     m_args << "-consumer" << rendermodule + ":" + m_dest << "progress=1" << args;
     connect(m_renderProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotIsOver(int, QProcess::ExitStatus)));
     m_renderProcess->setReadChannel(QProcess::StandardError);
@@ -102,13 +101,18 @@ void RenderJob::receivedStderr() {
     m_logstream << "ReceivedStderr from inigo: " << result << endl;
     result = result.section(" ", -1);
     int pro = result.toInt();
-    if ( m_jobUiserver && pro > m_progress) {
+    if (m_kdenliveinterface && pro > m_progress) {
+        m_dbusargs[1] = pro;
+        m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
+    }
+    if (m_jobUiserver && pro > m_progress) {
         m_progress = pro;
         m_jobUiserver->call("setPercent", (uint) m_progress);
         int seconds = m_startTime.secsTo(QTime::currentTime());
         seconds = seconds * (100 - m_progress) / m_progress;
         m_jobUiserver->call("setDescriptionField", (uint) 1, tr("Remaining time"), QTime(0, 0, seconds).toString("hh:mm:ss"));
     }
+
 }
 
 void RenderJob::start() {
@@ -146,6 +150,31 @@ void RenderJob::start() {
             }
         }
     }
+
+    QString kdenliveId;
+    QDBusConnection connection = QDBusConnection::sessionBus();
+    QDBusConnectionInterface *ibus = connection.interface();
+    const QStringList services = ibus->registeredServiceNames();
+    foreach(const QString &service, services) {
+        if (!service.startsWith("org.kde.kdenlive"))
+            continue;
+        kdenliveId = service;
+        break;
+    }
+
+    QDBusConnection bus = QDBusConnection::sessionBus();
+    m_kdenliveinterface = new QDBusInterface(kdenliveId,
+            "/MainWindow",
+            "org.kdenlive.MainWindow",
+            bus,
+            this);
+
+    if (m_kdenliveinterface) {
+        m_dbusargs.append(m_dest);
+        m_dbusargs.append((int) 0);
+        m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
+    }
+
     // Because of the logging, we connect to stderr in all cases.
     connect(m_renderProcess, SIGNAL(readyReadStandardError()), this, SLOT(receivedStderr()));
     m_renderProcess->start(m_prog, m_args);
@@ -162,12 +191,20 @@ void RenderJob::slotIsOver(int exitcode, QProcess::ExitStatus status) {
     }
     if (status == QProcess::CrashExit) {
         // rendering crashed
+        if (m_kdenliveinterface) {
+            m_dbusargs[1] = -2;
+            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
+        }
         QStringList args;
         args << "--error" << tr("Rendering of %1 aborted, resulting video will probably be corrupted.").arg(m_dest);
         m_logstream << "Rendering of " << m_dest << " aborted, resulting video will probably be corrupted." << endl;
         qDebug() << "Rendering of " << m_dest << " aborted, resulting video will probably be corrupted.";
         QProcess::startDetached("kdialog", args);
     } else {
+        if (m_kdenliveinterface) {
+            m_dbusargs[1] = -1;
+            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
+        }
         QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
         if (interface && interface->isServiceRegistered("org.kde.knotify")) {
             QDBusMessage m = QDBusMessage::createMethodCall("org.kde.knotify",

@@ -51,6 +51,8 @@ private:
     QStringList m_args;
     bool m_erase;
     QDBusInterface *m_jobUiserver;
+    QDBusInterface *m_kdenliveinterface;
+    QList<QVariant> m_dbusargs;
     QTime m_startTime;
     /** \brief Used to create a temporary file for logging */
     QTemporaryFile m_logfile;

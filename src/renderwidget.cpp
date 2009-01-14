@@ -19,6 +19,9 @@
 
 
 #include <QDomDocument>
+#include <QItemDelegate>
+#include <QTreeWidgetItem>
+#include <QHeaderView>
 
 #include <KStandardDirs>
 #include <KDebug>
@@ -65,6 +68,8 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
     connect(m_view.buttonEdit, SIGNAL(clicked()), this, SLOT(slotEditProfile()));
     connect(m_view.buttonDelete, SIGNAL(clicked()), this, SLOT(slotDeleteProfile()));
     connect(m_view.buttonStart, SIGNAL(clicked()), this, SLOT(slotExport()));
+    connect(m_view.buttonClose, SIGNAL(clicked()), this, SLOT(hide()));
+    connect(m_view.buttonClose2, SIGNAL(clicked()), this, SLOT(hide()));
     connect(m_view.out_file, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButtons()));
     connect(m_view.format_list, SIGNAL(currentRowChanged(int)), this, SLOT(refreshView()));
     connect(m_view.size_list, SIGNAL(currentRowChanged(int)), this, SLOT(refreshParams()));
@@ -86,6 +91,18 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
     m_view.splitter->setStretchFactor(0, 2);
 
     m_view.out_file->setMode(KFile::File);
+
+    m_view.running_jobs->setItemDelegate(new RenderViewDelegate(this));
+    QHeaderView *header = m_view.running_jobs->header();
+    QFontMetrics fm = fontMetrics();
+    //header->resizeSection(0, fm.width("typical-name-for-a-torrent.torrent"));
+    header->setResizeMode(0, QHeaderView::Interactive);
+    header->resizeSection(0, fm.width("typical-name-for-a-file.torrent"));
+    header->setResizeMode(1, QHeaderView::Fixed);
+    header->resizeSection(0, width() * 2 / 3);
+    header->setResizeMode(1, QHeaderView::Interactive);
+    //header->setResizeMode(1, QHeaderView::Fixed);
+
     focusFirstVisibleItem();
 }
 
@@ -616,8 +633,31 @@ void RenderWidget::parseFile(QString exportFile, bool editable) {
     }
 }
 
+void RenderWidget::setRenderJob(const QString &dest, int progress) {
+    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly);
+    if (!existing.isEmpty()) {
+        if (progress == -1) {
+            // Job finished successfully
+            existing.at(0)->setIcon(0, KIcon("dialog-ok"));
+            existing.at(0)->setData(1, Qt::UserRole, 100);
+        } else if (progress == -2) {
+            // Rendering crashed
+            existing.at(0)->setIcon(0, KIcon("dialog-close"));
+            existing.at(0)->setData(1, Qt::UserRole, 0);
+        } else existing.at(0)->setData(1, Qt::UserRole, progress);
+        return;
+    }
+    QTreeWidgetItem *item = new QTreeWidgetItem(m_view.running_jobs, QStringList() << dest << QString());
+    if (progress == -1) {
+        // Job finished successfully
+        item->setIcon(0, KIcon("dialog-ok"));
+        item->setData(1, Qt::UserRole, 100);
+    } else if (progress == -2) {
+        // Rendering crashed
+        item->setIcon(0, KIcon("dialog-close"));
+        item->setData(1, Qt::UserRole, 0);
+    } else item->setData(1, Qt::UserRole, progress);
 
+}
 
 #include "renderwidget.moc"
-
-

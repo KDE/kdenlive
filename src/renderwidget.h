@@ -27,6 +27,43 @@
 #include "definitions.h"
 #include "ui_renderwidget_ui.h"
 
+
+// RenderViewDelegate is used to draw the progress bars.
+class RenderViewDelegate : public QItemDelegate {
+    Q_OBJECT
+public:
+    RenderViewDelegate(QWidget *parent) : QItemDelegate(parent) {}
+
+    void paint(QPainter *painter, const QStyleOptionViewItem &option,
+               const QModelIndex &index) const {
+        if (index.column() != 1) {
+            QItemDelegate::paint(painter, option, index);
+            return;
+        }
+
+        // Set up a QStyleOptionProgressBar to precisely mimic the
+        // environment of a progress bar.
+        QStyleOptionProgressBar progressBarOption;
+        progressBarOption.state = QStyle::State_Enabled;
+        progressBarOption.direction = QApplication::layoutDirection();
+        progressBarOption.rect = option.rect;
+        progressBarOption.fontMetrics = QApplication::fontMetrics();
+        progressBarOption.minimum = 0;
+        progressBarOption.maximum = 100;
+        progressBarOption.textAlignment = Qt::AlignCenter;
+        progressBarOption.textVisible = true;
+
+        // Set the progress and text values of the style option.
+        int progress = index.data(Qt::UserRole).toInt();
+        progressBarOption.progress = progress < 0 ? 0 : progress;
+        progressBarOption.text = QString().sprintf("%d%%", progressBarOption.progress);
+
+        // Draw the progress bar onto the view.
+        QApplication::style()->drawControl(QStyle::CE_ProgressBar, &progressBarOption, painter);
+    }
+};
+
+
 class RenderWidget : public QDialog {
     Q_OBJECT
 
@@ -35,6 +72,7 @@ public:
     void setGuides(QDomElement guidesxml, double duration);
     void focusFirstVisibleItem();
     void setProfile(MltVideoProfile profile);
+    void setRenderJob(const QString &dest, int progress = 0);
 
 private slots:
     void slotUpdateButtons();
@@ -56,6 +94,7 @@ private:
     void parseProfiles(QString group = QString(), QString profile = QString());
     void parseFile(QString exportFile, bool editable);
     void updateButtons();
+
 signals:
     void doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool);
 };
