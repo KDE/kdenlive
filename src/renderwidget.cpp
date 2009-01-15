@@ -41,6 +41,7 @@ const int EditableRole = GroupRole + 5;
 
 RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
     m_view.setupUi(this);
+    setWindowTitle(i18n("Rendering"));
     m_view.buttonDelete->setIcon(KIcon("trash-empty"));
     m_view.buttonDelete->setToolTip(i18n("Delete profile"));
     m_view.buttonDelete->setEnabled(false);
