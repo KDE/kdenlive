@@ -102,7 +102,7 @@ void ProfilesDialog::closeEvent(QCloseEvent *event) {
 
 bool ProfilesDialog::askForSave() {
     if (!m_profileIsModified) return true;
-    if (KMessageBox::questionYesNo(this, i18n("The custom profile was modified, do you want to save it ?")) != KMessageBox::Yes) return true;
+    if (KMessageBox::questionYesNo(this, i18n("The custom profile was modified, do you want to save it?")) != KMessageBox::Yes) return true;
     return slotSaveProfile();
 }
 
