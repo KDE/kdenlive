@@ -434,6 +434,7 @@ void RenderWidget::slotExport() {
     }
 
     emit doRender(m_view.out_file->url().path(), item->data(RenderRole).toString(), overlayargs, renderArgs.simplified().split(' '), m_view.render_zone->isChecked(), m_view.play_after->isChecked(), startPos, endPos, resizeProfile);
+    m_view.tabWidget->setCurrentIndex(1);
 }
 
 void RenderWidget::setProfile(MltVideoProfile profile) {
