@@ -87,6 +87,7 @@ private slots:
     void slotCheckEndGuidePosition();
     void showInfoPanel();
     void slotUpdateExperimentalRendering();
+    void slotAbortCurrentJob();
 
 private:
     Ui::RenderWidget_UI m_view;
@@ -97,6 +98,7 @@ private:
 
 signals:
     void doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool);
+    void abortProcess(const QString &url);
 };
 
 

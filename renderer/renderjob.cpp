@@ -80,9 +80,18 @@ RenderJob::~RenderJob() {
     m_logfile.close();
 }
 
+void RenderJob::slotAbort(const QString& url) {
+    if (m_dest == url) slotAbort();
+}
+
 void RenderJob::slotAbort() {
     qDebug() << "Kdenlive-render: JOB ABORTED BY USER...";
     m_renderProcess->kill();
+
+    if (m_kdenliveinterface) {
+        m_dbusargs[1] = -3;
+        m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
+    }
     if (m_jobUiserver) m_jobUiserver->call("terminate", QString());
     if (m_erase) {
         QFile f(m_scenelist);
@@ -173,6 +182,8 @@ void RenderJob::start() {
         m_dbusargs.append(m_dest);
         m_dbusargs.append((int) 0);
         m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
+        connect(m_kdenliveinterface, SIGNAL(abortRenderJob(const QString &)),
+                this, SLOT(slotAbort(const QString&)));
     }
 
     // Because of the logging, we connect to stderr in all cases.

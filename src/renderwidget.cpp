@@ -68,6 +68,7 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
     connect(m_view.buttonEdit, SIGNAL(clicked()), this, SLOT(slotEditProfile()));
     connect(m_view.buttonDelete, SIGNAL(clicked()), this, SLOT(slotDeleteProfile()));
     connect(m_view.buttonStart, SIGNAL(clicked()), this, SLOT(slotExport()));
+    connect(m_view.abort_job, SIGNAL(clicked()), this, SLOT(slotAbortCurrentJob()));
     connect(m_view.buttonClose, SIGNAL(clicked()), this, SLOT(hide()));
     connect(m_view.buttonClose2, SIGNAL(clicked()), this, SLOT(hide()));
     connect(m_view.out_file, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButtons()));
@@ -645,6 +646,10 @@ void RenderWidget::setRenderJob(const QString &dest, int progress) {
             // Rendering crashed
             existing.at(0)->setIcon(0, KIcon("dialog-close"));
             existing.at(0)->setData(1, Qt::UserRole, 0);
+        } else if (progress == -3) {
+            // User aborted job
+            existing.at(0)->setIcon(0, KIcon("dialog-close"));
+            existing.at(0)->setData(1, Qt::UserRole, 100);
         } else existing.at(0)->setData(1, Qt::UserRole, progress);
         return;
     }
@@ -657,8 +662,17 @@ void RenderWidget::setRenderJob(const QString &dest, int progress) {
         // Rendering crashed
         item->setIcon(0, KIcon("dialog-close"));
         item->setData(1, Qt::UserRole, 0);
+    } else if (progress == -3) {
+        // User aborted job
+        item->setIcon(0, KIcon("dialog-close"));
+        item->setData(1, Qt::UserRole, 100);
     } else item->setData(1, Qt::UserRole, progress);
 
+}
+
+void RenderWidget::slotAbortCurrentJob() {
+    QTreeWidgetItem *current = m_view.running_jobs->currentItem();
+    if (current) emit abortProcess(current->text(0));
 }
 
 #include "renderwidget.moc"

@@ -287,6 +287,9 @@ private slots:
     void generateClip();
     void slotZoneMoved(int start, int end);
     void slotUpdatePreviewSettings();
+
+signals:
+    Q_SCRIPTABLE void abortRenderJob(const QString &url);
 };
 
 

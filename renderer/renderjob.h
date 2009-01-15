@@ -40,6 +40,7 @@ private slots:
     void slotIsOver(int exitcode, QProcess::ExitStatus status);
     void receivedStderr();
     void slotAbort();
+    void slotAbort(const QString& url);
 
 private:
     QString m_scenelist;
