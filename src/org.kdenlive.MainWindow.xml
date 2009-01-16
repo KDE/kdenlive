@@ -8,5 +8,10 @@
       <arg name="url" type="s" direction="in"/>
       <arg name="progress" type="i" direction="in"/>
     </method>
+    <method name="setRenderingFinished">
+      <arg name="url" type="s" direction="in"/>
+      <arg name="status" type="i" direction="in"/>
+      <arg name="error" type="s" direction="in"/>
+    </method>
   </interface>
 </node>

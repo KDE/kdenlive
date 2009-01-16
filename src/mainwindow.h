@@ -197,6 +197,7 @@ public slots:
     void openFile(const KUrl &url);
     void slotGotProgressInfo(const QString &message, int progress);
     Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress);
+    Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);
 
 private slots:
     void newFile(bool showProjectSettings = true);

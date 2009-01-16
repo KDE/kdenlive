@@ -73,6 +73,7 @@ public:
     void focusFirstVisibleItem();
     void setProfile(MltVideoProfile profile);
     void setRenderJob(const QString &dest, int progress = 0);
+    void setRenderStatus(const QString &dest, int status, const QString &error);
 
 private slots:
     void slotUpdateButtons();
@@ -86,7 +87,6 @@ private slots:
     void slotCheckStartGuidePosition();
     void slotCheckEndGuidePosition();
     void showInfoPanel();
-    void slotUpdateExperimentalRendering();
     void slotAbortCurrentJob();
 
 private:

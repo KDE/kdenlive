@@ -38,6 +38,7 @@ const int StandardRole = GroupRole + 2;
 const int RenderRole = GroupRole + 3;
 const int ParamsRole = GroupRole + 4;
 const int EditableRole = GroupRole + 5;
+const int MetaGroupRole = GroupRole + 6;
 
 RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
     m_view.setupUi(this);
@@ -59,9 +60,7 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
         m_view.buttonInfo->setDown(true);
     } else m_view.advanced_params->hide();
 
-    m_view.experimentalrender->setChecked(KdenliveSettings::experimentalrender());
-
-    m_view.experimentalrender->setToolTip(i18n("Changing the size of video when rendering\nis not fully supported, you may have problems\nwith some effects or title clips, so the export\nprofiles that resize your video are marked as\nexperimental"));
+    parseProfiles();
 
     connect(m_view.buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
 
@@ -72,6 +71,8 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
     connect(m_view.abort_job, SIGNAL(clicked()), this, SLOT(slotAbortCurrentJob()));
     connect(m_view.buttonClose, SIGNAL(clicked()), this, SLOT(hide()));
     connect(m_view.buttonClose2, SIGNAL(clicked()), this, SLOT(hide()));
+    connect(m_view.rescale, SIGNAL(toggled(bool)), m_view.rescale_size, SLOT(setEnabled(bool)));
+    connect(m_view.destination_list, SIGNAL(activated(int)), this, SLOT(refreshView()));
     connect(m_view.out_file, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButtons()));
     connect(m_view.format_list, SIGNAL(currentRowChanged(int)), this, SLOT(refreshView()));
     connect(m_view.size_list, SIGNAL(currentRowChanged(int)), this, SLOT(refreshParams()));
@@ -84,11 +85,14 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
     connect(m_view.guide_start, SIGNAL(activated(int)), this, SLOT(slotCheckEndGuidePosition()));
 
     connect(m_view.format_selection, SIGNAL(activated(int)), this, SLOT(refreshView()));
-    connect(m_view.experimentalrender, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateExperimentalRendering()));
 
     m_view.buttonStart->setEnabled(false);
+    m_view.rescale_size->setEnabled(false);
     m_view.guides_box->setVisible(false);
-    parseProfiles();
+    m_view.open_dvd->setVisible(false);
+    m_view.open_browser->setVisible(false);
+    m_view.error_box->setVisible(false);
+
     m_view.splitter->setStretchFactor(1, 5);
     m_view.splitter->setStretchFactor(0, 2);
 
@@ -107,12 +111,6 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
 
     focusFirstVisibleItem();
 }
-
-void RenderWidget::slotUpdateExperimentalRendering() {
-    KdenliveSettings::setExperimentalrender(m_view.experimentalrender->isChecked());
-    refreshView();
-}
-
 
 void RenderWidget::showInfoPanel() {
     if (m_view.advanced_params->isVisible()) {
@@ -396,7 +394,9 @@ void RenderWidget::focusFirstVisibleItem() {
 void RenderWidget::slotExport() {
     QListWidgetItem *item = m_view.size_list->currentItem();
     if (!item) return;
-    QFile f(m_view.out_file->url().path());
+    const QString dest = m_view.out_file->url().path();
+    if (dest.isEmpty()) return;
+    QFile f(dest);
     if (f.exists()) {
         if (KMessageBox::warningYesNo(this, i18n("File already exists. Do you want to overwrite it ?")) != KMessageBox::Yes)
             return;
@@ -415,27 +415,50 @@ void RenderWidget::slotExport() {
         endPos = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
     }
     QString renderArgs = m_view.advanced_params->toPlainText();
-    renderArgs.replace("%width", QString::number(m_profile.width));
-    renderArgs.replace("%height", QString::number(m_profile.height));
+
+    // Adjust frame scale
+    int width;
+    int height;
+    if (m_view.rescale->isChecked() && m_view.rescale->isEnabled()) {
+        width = m_view.rescale_size->text().section('x', 0, 0).toInt();
+        height = m_view.rescale_size->text().section('x', 1, 1).toInt();
+    } else {
+        width = m_profile.width;
+        height = m_profile.height;
+    }
+    renderArgs.replace("%width", QString::number(width));
+    renderArgs.replace("%height", QString::number(height));
     renderArgs.replace("%dar", "@" + QString::number(m_profile.display_aspect_num) + "/" + QString::number(m_profile.display_aspect_den));
-    if (m_view.force_progressive->checkState() == Qt::Checked) renderArgs.append(" progressive=1");
-    else if (m_view.force_progressive->checkState() == Qt::Unchecked) renderArgs.append(" progressive=0");
+
+    // Adjust scanning
+    if (m_view.scanning_list->currentIndex() == 1) renderArgs.append(" progressive=1");
+    else if (m_view.scanning_list->currentIndex() == 2) renderArgs.append(" progressive=0");
+
+    // disable audio if requested
+    if (!m_view.export_audio->isChecked())
+        renderArgs.append(" an=1 ");
 
     // Check if the rendering profile is different from project profile,
     // in which case we need to use the producer_comsumer from MLT
     bool resizeProfile = false;
 
-    QString std = item->data(ParamsRole).toString();
+    QString std = renderArgs;
     if (resizeProfile == false && std.contains(" s=")) {
         QString subsize = std.section(" s=", 1, 1);
         subsize = subsize.section(' ', 0, 0).toLower();
-        if (subsize != "%widthx%height") {
-            const QString currentSize = QString::number(m_profile.width) + 'x' + QString::number(m_profile.height);
-            if (subsize != currentSize) resizeProfile = true;
-        }
+        const QString currentSize = QString::number(m_profile.width) + 'x' + QString::number(m_profile.height);
+        if (subsize != currentSize) resizeProfile = true;
     }
 
-    emit doRender(m_view.out_file->url().path(), item->data(RenderRole).toString(), overlayargs, renderArgs.simplified().split(' '), m_view.render_zone->isChecked(), m_view.play_after->isChecked(), startPos, endPos, resizeProfile);
+    // insert item in running jobs list
+    QTreeWidgetItem *renderItem;
+    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly);
+    if (!existing.isEmpty()) renderItem = existing.at(0);
+    else renderItem = new QTreeWidgetItem(m_view.running_jobs, QStringList() << dest << QString());
+    // Set rendering type
+    renderItem->setData(0, Qt::UserRole, m_view.size_list->currentItem()->data(MetaGroupRole).toString());
+
+    emit doRender(dest, item->data(RenderRole).toString(), overlayargs, renderArgs.simplified().split(' '), m_view.render_zone->isChecked(), m_view.play_after->isChecked(), startPos, endPos, resizeProfile);
     m_view.tabWidget->setCurrentIndex(1);
 }
 
@@ -444,25 +467,58 @@ void RenderWidget::setProfile(MltVideoProfile profile) {
     //WARNING: this way to tell the video standard is a bit hackish...
     if (m_profile.description.contains("pal", Qt::CaseInsensitive) || m_profile.description.contains("25", Qt::CaseInsensitive) || m_profile.description.contains("50", Qt::CaseInsensitive)) m_view.format_selection->setCurrentIndex(0);
     else m_view.format_selection->setCurrentIndex(1);
-    m_view.force_progressive->setCheckState(Qt::PartiallyChecked);
+    m_view.scanning_list->setCurrentIndex(0);
     refreshView();
 }
 
 void RenderWidget::refreshView() {
     m_view.size_list->blockSignals(true);
-    QListWidgetItem *item = m_view.format_list->currentItem();
-    if (!item) {
-        m_view.format_list->setCurrentRow(0);
+    QListWidgetItem *sizeItem;
+
+    QString destination;
+    if (m_view.destination_list->currentIndex() > 0)
+        destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
+
+    if (destination == "dvd") m_view.open_dvd->setVisible(true);
+    else m_view.open_dvd->setVisible(false);
+    if (destination == "websites") m_view.open_browser->setVisible(true);
+    else m_view.open_browser->setVisible(false);
+    if (!destination.isEmpty() && QString("dvd websites audioonly").contains(destination))
+        m_view.rescale->setEnabled(false);
+    else m_view.rescale->setEnabled(true);
+    // hide groups that are not in the correct destination
+    for (int i = 0; i < m_view.format_list->count(); i++) {
+        sizeItem = m_view.format_list->item(i);
+        if (sizeItem->data(MetaGroupRole).toString() == destination)
+            sizeItem->setHidden(false);
+        else sizeItem->setHidden(true);
+    }
+
+    // activate first visible item
+    QListWidgetItem * item = m_view.format_list->currentItem();
+    if (!item || item->isHidden()) {
+        for (int i = 0; i < m_view.format_list->count(); i++) {
+            if (!m_view.format_list->item(i)->isHidden()) {
+                m_view.format_list->setCurrentRow(i);
+                break;
+            }
+        }
         item = m_view.format_list->currentItem();
     }
     if (!item) return;
+    int count = 0;
+    for (int i = 0; i < m_view.format_list->count() && count < 2; i++) {
+        if (!m_view.format_list->isRowHidden(i)) count++;
+    }
+    if (count > 1) m_view.format_list->setVisible(true);
+    else m_view.format_list->setVisible(false);
     QString std;
     QString group = item->text();
-    QListWidgetItem *sizeItem;
     bool firstSelected = false;
     const QStringList formatsList = KdenliveSettings::supportedformats();
     const QStringList vcodecsList = KdenliveSettings::videocodecs();
     const QStringList acodecsList = KdenliveSettings::audiocodecs();
+
     for (int i = 0; i < m_view.size_list->count(); i++) {
         sizeItem = m_view.size_list->item(i);
         if (sizeItem->data(GroupRole) == group) {
@@ -475,18 +531,7 @@ void RenderWidget::refreshView() {
                 if (!firstSelected) m_view.size_list->setCurrentItem(sizeItem);
                 firstSelected = true;
             }
-            if (!KdenliveSettings::experimentalrender() && !sizeItem->isHidden()) {
-                // hide experimental codecs (which do resize the video)
-                std = sizeItem->data(ParamsRole).toString();
-                if (std.contains(" s=")) {
-                    QString subsize = std.section(" s=", 1, 1);
-                    subsize = subsize.section(' ', 0, 0).toLower();
-                    if (subsize != "%widthx%height") {
-                        const QString currentSize = QString::number(m_profile.width) + 'x' + QString::number(m_profile.height);
-                        if (subsize != currentSize) sizeItem->setHidden(true);
-                    }
-                }
-            }
+
             if (!sizeItem->isHidden()) {
                 // Make sure the selected profile uses an installed avformat codec / format
                 std = sizeItem->data(ParamsRole).toString();
@@ -571,6 +616,8 @@ void RenderWidget::refreshParams() {
 void RenderWidget::parseProfiles(QString group, QString profile) {
     m_view.size_list->clear();
     m_view.format_list->clear();
+    m_view.destination_list->clear();
+    m_view.destination_list->addItem(KIcon("video-x-generic"), i18n("File rendering"));
     QString exportFile = KStandardDirs::locate("appdata", "export/profiles.xml");
     parseFile(exportFile, false);
     exportFile = KStandardDirs::locateLocal("appdata", "export/customprofiles.xml");
@@ -605,17 +652,39 @@ void RenderWidget::parseFile(QString exportFile, bool editable) {
     QString renderer;
     QString params;
     QString standard;
+    KIcon icon;
     QListWidgetItem *item;
     while (!groups.item(i).isNull()) {
         documentElement = groups.item(i).toElement();
+        QDomNode gname = documentElement.elementsByTagName("groupname").at(0);
+        QString metagroupName;
+        QString metagroupId;
+        if (!gname.isNull()) {
+            metagroupName = gname.firstChild().nodeValue();
+            metagroupId = gname.toElement().attribute("id");
+            if (!metagroupName.isEmpty() && !m_view.destination_list->contains(metagroupName)) {
+                if (metagroupId == "dvd") icon = KIcon("media-optical");
+                else if (metagroupId == "audioonly") icon = KIcon("audio-x-generic");
+                else if (metagroupId == "websites") icon = KIcon("applications-internet");
+                else if (metagroupId == "mediaplayers") icon = KIcon("applications-multimedia");
+                else if (metagroupId == "lossless") icon = KIcon("drive-harddisk");
+                m_view.destination_list->addItem(icon, i18n(metagroupName.toUtf8().data()), metagroupId);
+            }
+        }
         groupName = documentElement.attribute("name", QString::null);
         extension = documentElement.attribute("extension", QString::null);
         renderer = documentElement.attribute("renderer", QString::null);
-        if (m_view.format_list->findItems(groupName, Qt::MatchExactly).isEmpty())
-            new QListWidgetItem(groupName, m_view.format_list);
+        if (m_view.format_list->findItems(groupName, Qt::MatchExactly).isEmpty()) {
+            item = new QListWidgetItem(groupName, m_view.format_list);
+            item->setData(MetaGroupRole, metagroupId);
+        }
 
         QDomNode n = groups.item(i).firstChild();
         while (!n.isNull()) {
+            if (n.toElement().tagName() != "profile") {
+                n = n.nextSibling();
+                continue;
+            }
             profileElement = n.toElement();
             profileName = profileElement.attribute("name");
             standard = profileElement.attribute("standard");
@@ -624,6 +693,7 @@ void RenderWidget::parseFile(QString exportFile, bool editable) {
             if (!prof_extension.isEmpty()) extension = prof_extension;
             item = new QListWidgetItem(profileName, m_view.size_list);
             item->setData(GroupRole, groupName);
+            item->setData(MetaGroupRole, metagroupId);
             item->setData(ExtensionRole, extension);
             item->setData(RenderRole, renderer);
             item->setData(StandardRole, standard);
@@ -637,38 +707,37 @@ void RenderWidget::parseFile(QString exportFile, bool editable) {
 }
 
 void RenderWidget::setRenderJob(const QString &dest, int progress) {
+    QTreeWidgetItem *item;
     QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly);
-    if (!existing.isEmpty()) {
-        if (progress == -1) {
-            // Job finished successfully
-            existing.at(0)->setIcon(0, KIcon("dialog-ok"));
-            existing.at(0)->setData(1, Qt::UserRole, 100);
-        } else if (progress == -2) {
-            // Rendering crashed
-            existing.at(0)->setIcon(0, KIcon("dialog-close"));
-            existing.at(0)->setData(1, Qt::UserRole, 0);
-        } else if (progress == -3) {
-            // User aborted job
-            existing.at(0)->setIcon(0, KIcon("dialog-close"));
-            existing.at(0)->setData(1, Qt::UserRole, 100);
-        } else existing.at(0)->setData(1, Qt::UserRole, progress);
-        return;
-    }
-    QTreeWidgetItem *item = new QTreeWidgetItem(m_view.running_jobs, QStringList() << dest << QString());
-    if (progress == -1) {
+    if (!existing.isEmpty()) item = existing.at(0);
+    else item = new QTreeWidgetItem(m_view.running_jobs, QStringList() << dest << QString());
+    item->setData(1, Qt::UserRole, progress);
+    if (progress == 0) item->setIcon(0, KIcon("system-run"));
+}
+
+void RenderWidget::setRenderStatus(const QString &dest, int status, const QString &error) {
+    QTreeWidgetItem *item;
+    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly);
+    if (!existing.isEmpty()) item = existing.at(0);
+    else item = new QTreeWidgetItem(m_view.running_jobs, QStringList() << dest << QString());
+    if (status == -1) {
         // Job finished successfully
         item->setIcon(0, KIcon("dialog-ok"));
         item->setData(1, Qt::UserRole, 100);
-    } else if (progress == -2) {
+    } else if (status == -2) {
         // Rendering crashed
         item->setIcon(0, KIcon("dialog-close"));
         item->setData(1, Qt::UserRole, 0);
-    } else if (progress == -3) {
+        m_view.error_log->append(i18n("<strong>Rendering of %1 crashed</strong><br />", dest));
+        m_view.error_log->append(error);
+        m_view.error_log->append("<hr />");
+        m_view.error_box->setVisible(true);
+    } else if (status == -3) {
         // User aborted job
-        item->setIcon(0, KIcon("dialog-close"));
+        item->setIcon(0, KIcon("dialog-cancel"));
         item->setData(1, Qt::UserRole, 100);
-    } else item->setData(1, Qt::UserRole, progress);
-
+        item->setData(1, Qt::UserRole + 1, i18n("Aborted by user"));
+    }
 }
 
 void RenderWidget::slotAbortCurrentJob() {

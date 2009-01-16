@@ -1443,6 +1443,7 @@ void MainWindow::slotDoRender(const QString &dest, const QString &render, const 
         }
         if (!QFile::exists(KdenliveSettings::rendererpath())) {
             KMessageBox::sorry(this, i18n("Cannot find the inigo program required for rendering (part of Mlt)"));
+            setRenderingProgress(dest, -3);
             return;
         }
         args << KdenliveSettings::rendererpath() << m_activeDocument->profilePath() << render << videoPlayer;
@@ -1469,6 +1470,10 @@ void MainWindow::slotDoRender(const QString &dest, const QString &render, const 
 
 void MainWindow::setRenderingProgress(const QString &url, int progress) {
     if (m_renderWidget) m_renderWidget->setRenderJob(url, progress);
+}
+
+void MainWindow::setRenderingFinished(const QString &url, int status, const QString &error) {
+    if (m_renderWidget) m_renderWidget->setRenderStatus(url, status, error);
 }
 
 void MainWindow::slotUpdateMousePosition(int pos) {

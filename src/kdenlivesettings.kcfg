@@ -417,11 +417,6 @@
       <default>false</default>
     </entry>
 
-    <entry name="experimentalrender" type="Bool">
-      <label>Show buggy rendering formats.</label>
-      <default>false</default>
-    </entry>
-
     <entry name="audiocodecs" type="StringList">
       <label>Available avformat audio codecs.</label>
       <default></default>

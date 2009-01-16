@@ -90,7 +90,8 @@ void RenderJob::slotAbort() {
 
     if (m_kdenliveinterface) {
         m_dbusargs[1] = -3;
-        m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
+        m_dbusargs.append(QString());
+        m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingFinished", m_dbusargs);
     }
     if (m_jobUiserver) m_jobUiserver->call("terminate", QString());
     if (m_erase) {
@@ -107,6 +108,7 @@ void RenderJob::slotAbort() {
 
 void RenderJob::receivedStderr() {
     QString result = QString(m_renderProcess->readAllStandardError()).simplified();
+    if (!result.startsWith("Current Frame")) m_errorMessage.append(result + "<br>");
     m_logstream << "ReceivedStderr from inigo: " << result << endl;
     result = result.section(" ", -1);
     int pro = result.toInt();
@@ -203,8 +205,9 @@ void RenderJob::slotIsOver(int exitcode, QProcess::ExitStatus status) {
     if (status == QProcess::CrashExit) {
         // rendering crashed
         if (m_kdenliveinterface) {
-            m_dbusargs[1] = -2;
-            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
+            m_dbusargs[1] = (int) - 2;
+            m_dbusargs.append(m_errorMessage);
+            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingFinished", m_dbusargs);
         }
         QStringList args;
         args << "--error" << tr("Rendering of %1 aborted, resulting video will probably be corrupted.").arg(m_dest);
@@ -213,8 +216,9 @@ void RenderJob::slotIsOver(int exitcode, QProcess::ExitStatus status) {
         QProcess::startDetached("kdialog", args);
     } else {
         if (m_kdenliveinterface) {
-            m_dbusargs[1] = -1;
-            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
+            m_dbusargs[1] = (int) - 1;
+            m_dbusargs.append(QString());
+            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingFinished", m_dbusargs);
         }
         QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
         if (interface && interface->isServiceRegistered("org.kde.knotify")) {

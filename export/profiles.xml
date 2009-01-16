@@ -42,9 +42,10 @@
 </group>
 
 <group name="DVD" renderer="avformat" type="av">
+<groupname id="dvd">DVD</groupname>
   <profile name="PAL 4:3 vob" standard="PAL" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 b=5000k maxrate=8000k minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192k ar=48000 s=720x576 g=15 me_range=63 trellis=1 profile=dv_pal" />
-  <profile name="PAL 16:9 vob" standard="PAL" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 b=5000k maxrate=8000k minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192k ar=48000 s=720x576 g=15 me_range=63 trellis=1 profile=dv_pal_wide" />  
-    
+  <profile name="PAL 16:9 vob" standard="PAL" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 b=5000k maxrate=8000k minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192k ar=48000 s=720x576 g=15 me_range=63 trellis=1 profile=dv_pal_wide" />
+
   <profile name="NTSC 4:3 vob" standard="NTSC" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 s=720x480 b=6000k maxrate=9000k minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192k ar=48000 g=18 me_range=63 trellis=1 profile=dv_ntsc" />
   <profile name="NTSC 16:9 vob" standard="NTSC" extension="vob" args="f=dvd vcodec=mpeg2video acodec=ac3 s=720x480 b=6000k maxrate=9000k minrate=0 bufsize=1835008 mux_packet_s=2048 mux_rate=10080000 ab=192k ar=48000 g=18 me_range=63 trellis=1 profile=dv_ntsc_wide" />
 </group>
@@ -160,6 +161,7 @@
 </group>
 
 <group name="Media players" renderer="avformat" type="av">
+  <groupname id="mediaplayers">Media players</groupname>
   <profile name="Windows Media Player wmv7 400k" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 ac=2 vcodec=wmv1 minrate=0 b=400k s=%widthx%height aspect=%dar" />
   <profile name="Windows Media Player wmv7 1000k" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 ac=2 vcodec=wmv1 minrate=0 b=1000k s=%widthx%height aspect=%dar" />
   <profile name="Windows Media Player wmv7 2000k" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 ac=2 vcodec=wmv1 minrate=0 b=2000k s=%widthx%height aspect=%dar" />
@@ -169,6 +171,7 @@
 </group>
 
 <group name="Web sites" renderer="avformat" type="av">
+  <groupname id="websites">Web sites</groupname>
   <profile name="Dailymotion 320x240" extension="flv" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=800k s=320x240 aspect=%dar trellis=1" />
   <profile name="Dailymotion 512x384" extension="mp4" args="f=mp4 acodec=libfaac ab=96k ar=44100 vcodec=libx264 minrate=0 b=600k s=512x384 aspect=%dar mbd=2 trellis=1 mv4=1" />
   <profile name="Dailymotion 1280x720" extension="mp4" args="f=mp4 acodec=libfaac ab=96k ar=44100 vcodec=libx264 minrate=0 b=1500k s=1280x720 aspect=%dar mbd=2 trellis=1 mv4=1" />
@@ -181,13 +184,15 @@
 
 
 <group name="Wav" renderer="avformat" type="audio">
-  <profile name="22050" extension="wav" args="f=wav ar=22050" />
-  <profile name="32000" extension="wav" args="f=wav ar=32000" />
-  <profile name="44100" extension="wav" args="f=wav ar=44100" />
-  <profile name="48000" extension="wav" args="f=wav ar=48000" />
+  <groupname id="audioonly">Audio only</groupname>
+  <profile name="wav 22050" extension="wav" args="f=wav ar=22050" />
+  <profile name="wav 32000" extension="wav" args="f=wav ar=32000" />
+  <profile name="wav 44100" extension="wav" args="f=wav ar=44100" />
+  <profile name="wav 48000" extension="wav" args="f=wav ar=48000" />
 </group>
 
 <group name="Lossless/HQ" renderer="avformat" type="av">
+  <groupname id="lossless">Lossless / HQ</groupname>
   <profile name="ffv1 lossless (video) + flac (sound)" extension="mp4" args="f=mp4 acodec=flac acodec=flac ar=48000 ab=1024k ac=2 vcodec=ffv1 qscale=1 s=%widthx%height aspect=%dar" />
   <profile name="huffyuv lossless (video) + pcm_s16le (sound)" extension="avi" args="f=avi acodec=pcm_s16le ac=2 vcodec=huffyuv s=%widthx%height aspect=%dar" />
   <profile name="MPEG-2 I-frame only (video) + mp2 (sound)" extension="mpg" args="f=mpeg acodec=mp2 ab=384k ar=48000 ac=2 vcodec=mpeg2video qscale=1 qmin=1 s=%widthx%height aspect=%dar intra=1" />

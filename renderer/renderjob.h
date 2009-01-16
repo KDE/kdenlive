@@ -47,6 +47,7 @@ private:
     QString m_dest;
     int m_progress;
     QProcess *m_renderProcess;
+    QString m_errorMessage;
     QString m_prog;
     QString m_player;
     QStringList m_args;
