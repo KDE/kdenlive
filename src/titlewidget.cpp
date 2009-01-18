@@ -36,7 +36,7 @@
 
 int settingUp = false;
 
-TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget *parent): QDialog(parent), m_render(render), m_count(0), m_projectPath(projectPath) {
+TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget *parent): QDialog(parent), m_render(render), m_count(0), m_projectPath(projectPath), startViewport(NULL), endViewport(NULL) {
     setupUi(this);
     setFont(KGlobalSettings::toolBarFont());
     //toolBox->setFont(KGlobalSettings::toolBarFont());
@@ -193,6 +193,21 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     } else {
         slotRectTool();
     }
+}
+
+TitleWidget::~TitleWidget() {
+    delete m_buttonRect;
+    delete m_buttonText;
+    delete m_buttonImage;
+    delete m_buttonCursor;
+    delete m_buttonSave;
+    delete m_buttonLoad;
+
+    delete m_frameBorder;
+    delete m_frameImage;
+    if (startViewport) delete startViewport;
+    if (endViewport) delete endViewport;
+    delete m_scene;
 }
 
 //static
@@ -690,6 +705,7 @@ QImage TitleWidget::renderedPixmap() {
     m_frameImage->setVisible(false);
 
     m_scene->render(&painter, QRectF(), QRectF(0, 0, m_frameWidth, m_frameHeight));
+    painter.end();
     m_frameBorder->setPen(framepen);
     startViewport->setVisible(true);
     endViewport->setVisible(true);
@@ -752,4 +768,4 @@ void TitleWidget::readChoices() {
     kcolorbutton->setColor(titleConfig.readEntry("background_color", kcolorbutton->color()));
     horizontalSlider->setValue(titleConfig.readEntry("background_alpha", horizontalSlider->value()));
 }
-#include "moc_titlewidget.cpp"
+

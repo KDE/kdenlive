@@ -1,0 +1,62 @@
+<ui version="4.0" >
+ <class>DvdWizardVob_UI</class>
+ <widget class="QWidget" name="DvdWizardVob_UI" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>348</width>
+    <height>153</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2" >
+   <item row="0" column="0" >
+    <widget class="QCheckBox" name="use_intro" >
+     <property name="text" >
+      <string>Intro movie</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" >
+    <widget class="KUrlRequester" name="intro_vob" />
+   </item>
+   <item row="1" column="0" colspan="2" >
+    <widget class="QGroupBox" name="vob_list" >
+     <property name="title" >
+      <string>DVD Files</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout" >
+      <item row="0" column="0" >
+       <widget class="KUrlRequester" name="vob_1" />
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2" >
+    <spacer name="verticalSpacer" >
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0" >
+      <size>
+       <width>182</width>
+       <height>37</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

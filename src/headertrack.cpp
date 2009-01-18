@@ -66,6 +66,10 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent)
     connect(changeAction, SIGNAL(triggered()), this, SLOT(slotChangeTrack()));
 }
 
+HeaderTrack::~HeaderTrack() {
+    if (m_contextMenu) delete m_contextMenu;
+}
+
 void HeaderTrack::switchVideo() {
     if (view.buttonVideo->isChecked()) {
         view.buttonVideo->setIcon(KIcon("kdenlive-show-video"));

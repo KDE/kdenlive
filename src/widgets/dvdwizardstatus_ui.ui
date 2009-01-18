@@ -1,0 +1,52 @@
+<ui version="4.0" >
+ <class>DvdWizardStatus_UI</class>
+ <widget class="QWidget" name="DvdWizardStatus_UI" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>295</width>
+    <height>191</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout" >
+   <item row="0" column="0" >
+    <widget class="QListWidget" name="job_progress" >
+     <property name="alternatingRowColors" >
+      <bool>true</bool>
+     </property>
+     <item>
+      <property name="text" >
+       <string>Creating menu images</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Creating menu background</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Creating menu movie</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Creating dvd structure</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>Creating iso file</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

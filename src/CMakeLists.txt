@@ -64,6 +64,10 @@ kde4_add_ui_files(kdenlive_UI
   widgets/wizardmltcheck_ui.ui
   widgets/spacerdialog_ui.ui
   widgets/addtrack_ui.ui
+  widgets/dvdwizardvob_ui.ui
+  widgets/dvdwizardmenu_ui.ui
+  widgets/dvdwizardiso_ui.ui
+  widgets/dvdwizardstatus_ui.ui
 )
  
 set(kdenlive_SRCS 
@@ -142,6 +146,7 @@ set(kdenlive_SRCS
   addtrackcommand.cpp
   changetrackcommand.cpp
   movegroupcommand.cpp
+  dvdwizard.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )

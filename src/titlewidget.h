@@ -48,6 +48,7 @@ public:
     /** \brief Constructor
      * \param projectPath Path to use when user requests loading or saving of titles as .kdenlivetitle documents */
     TitleWidget(KUrl url, QString projectPath, Render *render, QWidget *parent = 0);
+    virtual ~TitleWidget();
     QDomDocument xml();
     void setXml(QDomDocument doc);
 

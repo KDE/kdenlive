@@ -41,6 +41,7 @@
 #include "gentime.h"
 #include "definitions.h"
 #include "statusbarmessagelabel.h"
+#include "dvdwizard.h"
 
 class KdenliveDoc;
 class TrackView;
@@ -288,6 +289,7 @@ private slots:
     void generateClip();
     void slotZoneMoved(int start, int end);
     void slotUpdatePreviewSettings();
+    void slotDvdWizard(const QString &url = QString());
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

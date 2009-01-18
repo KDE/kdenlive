@@ -108,7 +108,7 @@ void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction) {
 }
 
 void ProjectList::setupGeneratorMenu(QMenu *addMenu) {
-
+    if (!addMenu) return;
     QMenu *menu = m_addButton->menu();
     menu->addMenu(addMenu);
     m_addButton->setMenu(menu);

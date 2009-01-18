@@ -1,0 +1,1106 @@
+<ui version="4.0" >
+ <class>DvdWizardMenu_UI</class>
+ <widget class="QWidget" name="DvdWizardMenu_UI" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>377</width>
+    <height>365</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2" >
+   <item row="0" column="0" >
+    <widget class="QCheckBox" name="create_menu" >
+     <property name="text" >
+      <string>Create basic menu</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" >
+    <widget class="QGroupBox" name="menu_box" >
+     <property name="title" >
+      <string/>
+     </property>
+     <layout class="QGridLayout" name="gridLayout" >
+      <item row="0" column="0" colspan="3" >
+       <widget class="QLabel" name="label_2" >
+        <property name="text" >
+         <string>Play button</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QLabel" name="label_3" >
+        <property name="text" >
+         <string>Text</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" colspan="2" >
+       <widget class="KLineEdit" name="play_text" />
+      </item>
+      <item row="2" column="0" >
+       <widget class="QLabel" name="label_4" >
+        <property name="text" >
+         <string>Font</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1" >
+       <widget class="KIntSpinBox" name="font_size" >
+        <property name="minimum" >
+         <number>10</number>
+        </property>
+        <property name="maximum" >
+         <number>900</number>
+        </property>
+        <property name="value" >
+         <number>35</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2" >
+       <widget class="KFontComboBox" name="font_family" >
+        <item>
+         <property name="text" >
+          <string>Sans Serif</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Serif</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Monospace</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>aakar</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Aksharyogini</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>AlArabiya</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>AlBattar</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>AlHor</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>AlManzomah</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>AlMateen</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>AlMohanad</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>AlMothnna</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>AlYarmook</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Andale Mono</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Ani</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>AnjaliOldLipi</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Arab</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Arev Sans</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Arial</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Arial Black</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>AR PL UKai CN</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>AR PL UKai HK</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>AR PL UKai TW</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>AR PL UKai TW MBE</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>AR PL UMing CN</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>AR PL UMing HK</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>AR PL UMing TW</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>AR PL UMing TW MBE</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Baekmuk Batang</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Baekmuk Dotum</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Baekmuk Gulim</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Baekmuk Headline</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Balker</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Bitstream Charter</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Bitstream Vera Sans</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Bitstream Vera Sans Mono</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Bitstream Vera Serif</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Century Schoolbook L</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Chandas</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>cmex10</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>cmmi10</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>cmr10</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>cmsy10</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Comic Sans MS</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Cortoba</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Courier 10 Pitch</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Courier New</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>DejaVu Sans</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>DejaVu Sans Mono</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>DejaVu Serif</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Dimnah</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Dingbats</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Domestic Manners</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Dustismo</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Dustismo Roman</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Dyuthi</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>El Abogado Loco</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Electron</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>flatline</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>FreeMono</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>FreeSans</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>FreeSerif</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Furat</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>gargi</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Garuda</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Gentium</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>GentiumAlt</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Georgia</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Granada</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Graph</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Hani</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Haramain</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Hor</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Impact</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>It wasn't me</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Jamrul</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Japan</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Jet</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Junkyard</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Kalimati</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Kalyani</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Kayrawan</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Kedage</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Khalid</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Kinnari</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Kochi Gothic</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Kochi Mincho</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Liberation Mono</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Liberation Sans</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Liberation Serif</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Likhan</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Lohit Bengali</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Lohit Gujarati</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Lohit Hindi</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Lohit Kannada</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Lohit Oriya</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Lohit Punjabi</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Lohit Tamil</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Lohit Telugu</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Loma</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Mallige</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Marked Fool</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Mashq</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Meera</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Metal</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>MgOpen Canonica</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>MgOpen Cosmetica</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>MgOpen Modata</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>MgOpen Moderna</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Mitra Mono</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>msam10</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>msbm10</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Mukti Narrow</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Nada</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Nagham</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Nakula</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Nice</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Nimbus Mono L</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Nimbus Roman No9 L</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Nimbus Sans L</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Norasi</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>OpenSymbol</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>ori1Uni</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Ostorah</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Ouhod</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>padmaa</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>padmaa-Bold.1.1</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Penguin Attack</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Petra</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Phetsarath OT</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Pothana2000</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>progenisis</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Purisa</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Rachana</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>RaghuMalayalam</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Rasheeq</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Rehan</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Rekha</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Saab</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Sahadeva</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Salem</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Samanata</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Samyak Devanagari</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Samyak Gujarati</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Samyak Oriya</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Sarai</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Sawasdee</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Shado</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Sharjah</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Sindbad</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Standard Symbols L</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>suruma</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Swift</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>TAMu_Kadambri</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>TAMu_Kalyani</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>TAMu_Maduram</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Tarablus</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Tholoth</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Times New Roman</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>TlwgMono</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>TlwgTypewriter</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Tlwg Typist</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Tlwg Typo</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Trebuchet MS</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>TSCu_Comic</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>TSCu_Paranar [macromedia]</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>TSCu_Paranar [unknown]</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>TSCu_Times</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Umpush</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>UnBatang</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>UnDotum</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>URW Bookman L</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>URW Chancery L</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>URW Gothic L</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>URW Palladio L</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Vemana2000</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Verdana</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Waree</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Wargames</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>wasy10</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Webdings</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>WenQuanYi Zen Hei</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>Winks</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="3" column="0" >
+       <widget class="QLabel" name="label_5" >
+        <property name="text" >
+         <string>Colors</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1" colspan="2" >
+       <layout class="QHBoxLayout" name="horizontalLayout" >
+        <item>
+         <widget class="KColorButton" name="text_color" >
+          <property name="text" >
+           <string/>
+          </property>
+          <property name="color" >
+           <color>
+            <red>255</red>
+            <green>255</green>
+            <blue>255</blue>
+           </color>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="KColorButton" name="selected_color" >
+          <property name="color" >
+           <color>
+            <red>170</red>
+            <green>170</green>
+            <blue>255</blue>
+           </color>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="KColorButton" name="highlighted_color" >
+          <property name="color" >
+           <color>
+            <red>255</red>
+            <green>85</green>
+            <blue>0</blue>
+           </color>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="5" column="0" colspan="2" >
+       <widget class="QLabel" name="label" >
+        <property name="text" >
+         <string>Background</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0" colspan="2" >
+       <widget class="QRadioButton" name="is_color" >
+        <property name="text" >
+         <string>Color</string>
+        </property>
+        <property name="checked" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2" >
+       <widget class="KColorButton" name="background_color" />
+      </item>
+      <item row="7" column="0" colspan="2" >
+       <widget class="QRadioButton" name="radioButton_2" >
+        <property name="text" >
+         <string>Image</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="2" >
+       <widget class="KUrlRequester" name="background_image" />
+      </item>
+      <item row="4" column="0" colspan="3" >
+       <widget class="Line" name="line" >
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0" colspan="3" >
+       <widget class="QGraphicsView" name="menu_preview" />
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KColorButton</class>
+   <extends>QPushButton</extends>
+   <header>kcolorbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KFontComboBox</class>
+   <extends>KComboBox</extends>
+   <header>kfontcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KIntSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>knuminput.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
