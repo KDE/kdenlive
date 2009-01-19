@@ -24,19 +24,13 @@
 #include <QtCore/QVarLengthArray>
 
 #include <kstandarddirs.h>
-#include <kmimetype.h>
-#include <QDir>
-#include <qpainter.h>
 #include <krandomsequence.h>
 #include <qdatetime.h>
-#include <qregexp.h>
 #include <QProcess>
 #include <kdebug.h>
 #include <ktempdir.h>
 #include <kurl.h>
-#include <math.h>
 #include <qfileinfo.h>
-#include <kcodecs.h>
 #include <KTemporaryFile>
 
 #include <unistd.h>
@@ -46,157 +40,153 @@
 #define DBG_AREA
 
 //#include "config.h"
-extern "C"
-{
-    KDE_EXPORT ThumbCreator *new_creator()
-    {
+extern "C" {
+    KDE_EXPORT ThumbCreator *new_creator() {
         return new WestleyPreview;
     }
 }
 
 WestleyPreview::WestleyPreview()
-{
+        : m_rand(0), m_inigoprocess(0) {
 }
 
-WestleyPreview::~WestleyPreview()
-{
-    delete rand;
-    delete inigoprocess;
+WestleyPreview::~WestleyPreview() {
+    delete m_rand;
+    delete m_inigoprocess;
 }
 
 bool WestleyPreview::startAndWaitProcess(const QStringList &args) {
     kDebug(DBG_AREA) << "westleypreview: starting process with args: " << args << endl;
-    inigoprocess->start( args.join(" ") );
-    if(! inigoprocess->waitForStarted() ) {
+    m_inigoprocess->start(args.join(" "));
+    if (! m_inigoprocess->waitForStarted()) {
         kDebug(DBG_AREA) << "westleypreview: PROCESS NOT STARTED!!! exiting\n";
         return false;
     }
-    if(! inigoprocess->waitForFinished() ) {
+    if (! m_inigoprocess->waitForFinished()) {
         kDebug(DBG_AREA) << "westleypreview: PROCESS DIDN'T FINISH!! exiting\n";
-        inigoprocess->close();
+        m_inigoprocess->close();
         return false;
     }
-  kDebug() << "westleypreview: process started and ended correctly\n";
-  return true;
+    kDebug() << "westleypreview: process started and ended correctly\n";
+    return true;
 }
 
-bool WestleyPreview::create(const QString &path, int width, int height, QImage &img)
-{
+bool WestleyPreview::create(const QString &path, int width, int height, QImage &img) {
     QFileInfo fi(path);
     /*if (fi.suffix().trimmed() != "westley" && fi.suffix().trimmed() != "kdenlive")
     {
         kDebug(DBG_AREA) << "westleypreview: matched extension " << fi.suffix().prepend('.') << "; exiting.\n";
         return false;
     }*/
-    playerBin=KStandardDirs::findExe("inigo");
-    if(playerBin.isEmpty())
-    {
-	kDebug(DBG_AREA) << "westleypreview: inigo not found, exiting.\n";
+    playerBin = KStandardDirs::findExe("inigo");
+    if (playerBin.isEmpty()) {
+        kDebug(DBG_AREA) << "westleypreview: inigo not found, exiting.\n";
         return false;
     }
 
-    fileinfo.seconds=0;
-    fileinfo.fps=0;
+    fileinfo.seconds = 0;
+    fileinfo.fps = 0;
 
-    rand=new KRandomSequence(QDateTime::currentDateTime().toTime_t());
-    inigoprocess=new QProcess();
+    m_rand = new KRandomSequence(QDateTime::currentDateTime().toTime_t());
+    m_inigoprocess = new QProcess();
     KUrl furl(path);
     kDebug(DBG_AREA) << "videopreview: url=" << furl << "; local:" << furl.isLocalFile() << endl;
-    fileinfo.towidth=width;
-    fileinfo.toheight=height;
+    fileinfo.towidth = width;
+    fileinfo.toheight = height;
     QPixmap pix;
 //    if(furl.isLocalFile())
 //    {
     QStringList args;
-    //TODO: modify inigo so that it can return some infos about a westley clip (duration, track number,fps,...) 
+    //TODO: modify inigo so that it can return some infos about a westley clip (duration, track number,fps,...)
     // without actually playing the file
-/*
-    args << playerBin << QString("\"" + path + "\"") << "-file-info";
+    /*
+        args << playerBin << QString("\"" + path + "\"") << "-file-info";
 
-    kDebug(DBG_AREA) << "videopreview: starting process: --_" << " " << args.join(" ") << "_--\n";
-    if (! startAndWaitProcess(args) ) return NULL;
+        kDebug(DBG_AREA) << "videopreview: starting process: --_" << " " << args.join(" ") << "_--\n";
+        if (! startAndWaitProcess(args) ) return NULL;
 
-    QString information=QString(inigoprocess->readAllStandardOutput() );
-    QRegExp findInfos("ID_VIDEO_FPS=([\\d]*).*ID_LENGTH=([\\d]*).*");
-    if(findInfos.indexIn( information) == -1 )
-    {
-        kDebug(DBG_AREA) << "videopreview: No information found, exiting\n";
-        return NULL;
-    }
-    fileinfo.seconds =findInfos.cap(2).toInt();
-    fileinfo.fps=findInfos.cap(1).toInt();
-    */
+        QString information=QString(inigoprocess->readAllStandardOutput() );
+        QRegExp findInfos("ID_VIDEO_FPS=([\\d]*).*ID_LENGTH=([\\d]*).*");
+        if(findInfos.indexIn( information) == -1 )
+        {
+            kDebug(DBG_AREA) << "videopreview: No information found, exiting\n";
+            return NULL;
+        }
+        fileinfo.seconds =findInfos.cap(2).toInt();
+        fileinfo.fps=findInfos.cap(1).toInt();
+        */
     fileinfo.seconds = 250;
     fileinfo.fps = 25;
-    
+
     //kDebug(DBG_AREA) << "videopreview: find length=" << fileinfo.seconds << ", fps=" << fileinfo.fps << endl;
 
     const int LASTTRY = 3;
-    for(int i=0; i<=LASTTRY; i++)
-    {
-        pix=getFrame(path);
-        if(!pix.isNull()) {
-            uint variance=imageVariance(pix.toImage()/*.bits(),( (width+ 7) & ~0x7), width, height, 1 */);
-            kDebug(DBG_AREA) << "videopreview: " << QFileInfo(path).fileName() << " frame variance: " << variance << "; " << 
-                    ((variance<=40 && ( i!=LASTTRY-1))? "!!!DROPPING!!!" : "GOOD :-)" ) << endl;
-            if(variance>40 || i==LASTTRY-1 ) break;
+    for (int i = 0; i <= LASTTRY; i++) {
+        pix = getFrame(path);
+        if (!pix.isNull()) {
+            uint variance = imageVariance(pix.toImage()/*.bits(),( (width+ 7) & ~0x7), width, height, 1 */);
+            kDebug(DBG_AREA) << "videopreview: " << QFileInfo(path).fileName() << " frame variance: " << variance << "; " <<
+            ((variance <= 40 && (i != LASTTRY - 1)) ? "!!!DROPPING!!!" : "GOOD :-)") << endl;
+            if (variance > 40 || i == LASTTRY - 1) break;
         }
     }
-    if(pix.isNull() )
-    {
+    if (pix.isNull()) {
         return false;
     }
     img = pix.toImage();
     return true;
 }
 
-QPixmap WestleyPreview::getFrame(const QString &path)
-{
+QPixmap WestleyPreview::getFrame(const QString &path) {
     QStringList args;
-    #define START ((fileinfo.seconds*15)/100)
-    #define END ((fileinfo.seconds*70)/100)
+#define START ((fileinfo.seconds*15)/100)
+#define END ((fileinfo.seconds*70)/100)
     args.clear();
     args << playerBin << "\"" + path + "\"";
-    if(fileinfo.towidth>fileinfo.toheight) fileinfo.toheight=-2; else fileinfo.towidth=-2;
+    if (fileinfo.towidth > fileinfo.toheight) fileinfo.toheight = -2;
+    else fileinfo.towidth = -2;
 //     switch( flags ){
 //         case random
 //     }
-    unsigned long start=(unsigned long)(START+(rand->getDouble() * (END - START) ) );
-    args << QString("in=%1").arg(start)<< QString("out=%1").arg(start)<<"-consumer";
+    unsigned long start = (unsigned long)(START + (m_rand->getDouble() * (END - START)));
+    args << QString("in=%1").arg(start) << QString("out=%1").arg(start) << "-consumer";
 
     KTemporaryFile temp;
     temp.setSuffix(".png");
     temp.open();
-    args << QString("avformat:%1").arg(temp.fileName()) << "vframes=1"<< "f=rawvideo"<< "vcodec=png"<< QString("s=%1x%2").arg(fileinfo.towidth).arg(fileinfo.toheight);
-    if (! startAndWaitProcess(args) ) return NULL;
+    args << QString("avformat:%1").arg(temp.fileName()) << "vframes=1" << "f=rawvideo" << "vcodec=png" << QString("s=%1x%2").arg(fileinfo.towidth).arg(fileinfo.toheight);
+    if (! startAndWaitProcess(args)) return NULL;
     QPixmap retpix(temp.fileName());
     temp.close();
     return retpix;
 }
 
 
-uint WestleyPreview::imageVariance(QImage image )
-{
-    uint delta=0;
-    uint avg=0;
-    uint bytes=image.numBytes();
-    uint STEPS=bytes/2;
+uint WestleyPreview::imageVariance(QImage image) {
+    uint delta = 0;
+    uint avg = 0;
+    uint bytes = image.numBytes();
+    uint STEPS = bytes / 2;
     QVarLengthArray<uchar> pivot(STEPS);
     kDebug(DBG_AREA) << "Using " << STEPS << " steps\n";
-    uchar *bits=image.bits();
+    uchar *bits = image.bits();
     // First pass: get pivots and taking average
-    for( uint i=0; i<STEPS ; i++ ){
-        pivot[i]=bits[i*(bytes/STEPS)];
-        avg+=pivot[i];
+    for (uint i = 0; i < STEPS ; i++) {
+        pivot[i] = bits[i*(bytes/STEPS)];
+        avg += pivot[i];
     }
-    avg=avg/STEPS;
+    avg = avg / STEPS;
     // Second Step: calculate delta (average?)
-    for (uint i=0; i<STEPS; i++)
-    {
-        int curdelta=abs(int(avg-pivot[i]));
-        delta+=curdelta;
+    for (uint i = 0; i < STEPS; i++) {
+        int curdelta = abs(int(avg - pivot[i]));
+        delta += curdelta;
     }
-    return delta/STEPS;
+    return delta / STEPS;
 }
+
+ThumbCreator::Flags WestleyPreview::flags() const {
+    return DrawFrame;
+}
+
 #include "westleypreview.moc"
 

@@ -24,39 +24,44 @@
 #define _westleypreview_H_
 
 #include <qstring.h>
-#include <q3cstring.h>
 
 #include <qpixmap.h>
 #include <kio/thumbcreator.h>
-
-class QProcess;
-class Q3CString;
-class KTempDir;
-class KRandomSequence;
 #include <qobject.h>
 
+class QProcess;
+class KTempDir;
+class KRandomSequence;
 
 
-class WestleyPreview : public QObject, public ThumbCreator
-{
-Q_OBJECT
-    public:
-        WestleyPreview();
-        virtual ~WestleyPreview();
-        virtual bool create(const QString &path, int width, int height, QImage &img);
-    protected:
-        QPixmap getFrame(const QString &path);
-        static uint imageVariance(QImage image );
 
-    private:
-        QPixmap m_pixmap;
-        QProcess *inigoprocess;
-        QStringList customargs;
-        KRandomSequence *rand;
-        QString playerBin;
-        bool startAndWaitProcess(const QStringList &args);
-        enum frameflags { framerandom=0x1, framestart=0x2, frameend=0x4 };
-        struct { int towidth; int toheight; int fps; int seconds; } fileinfo;
+
+class WestleyPreview : public QObject, public ThumbCreator {
+    Q_OBJECT
+public:
+    WestleyPreview();
+    virtual ~WestleyPreview();
+    virtual bool create(const QString &path, int width, int height, QImage &img);
+    virtual Flags flags() const;
+
+protected:
+    QPixmap getFrame(const QString &path);
+    static uint imageVariance(QImage image);
+
+private:
+    QPixmap m_pixmap;
+    QProcess *m_inigoprocess;
+    QStringList customargs;
+    KRandomSequence *m_rand;
+    QString playerBin;
+    bool startAndWaitProcess(const QStringList &args);
+    enum frameflags { framerandom = 0x1, framestart = 0x2, frameend = 0x4 };
+    struct {
+        int towidth;
+        int toheight;
+        int fps;
+        int seconds;
+    } fileinfo;
 };
 
 #endif
