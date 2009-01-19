@@ -456,7 +456,17 @@ void RenderWidget::slotExport() {
     if (!existing.isEmpty()) renderItem = existing.at(0);
     else renderItem = new QTreeWidgetItem(m_view.running_jobs, QStringList() << dest << QString());
     // Set rendering type
-    renderItem->setData(0, Qt::UserRole, m_view.size_list->currentItem()->data(MetaGroupRole).toString());
+    QString group = m_view.size_list->currentItem()->data(MetaGroupRole).toString();
+    if (group == "dvd" && m_view.open_dvd->isChecked()) {
+        renderItem->setData(0, Qt::UserRole, group);
+        if (renderArgs.contains("profile=")) {
+            // rendering profile contains an MLT profile, so pass it to the running jog item, usefull for dvd
+            QString prof = renderArgs.section("profile=", 1, 1);
+            prof = prof.section(' ', 0, 0);
+            kDebug() << "// render profile: " << prof;
+            renderItem->setData(0, Qt::UserRole + 1, prof);
+        }
+    }
 
     emit doRender(dest, item->data(RenderRole).toString(), overlayargs, renderArgs.simplified().split(' '), m_view.render_zone->isChecked(), m_view.play_after->isChecked(), startPos, endPos, resizeProfile);
     m_view.tabWidget->setCurrentIndex(1);
@@ -724,6 +734,11 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         // Job finished successfully
         item->setIcon(0, KIcon("dialog-ok"));
         item->setData(1, Qt::UserRole, 100);
+        QString itemGroup = item->data(0, Qt::UserRole).toString();
+        if (itemGroup == "dvd") {
+            emit openDvdWizard(item->text(0), item->data(0, Qt::UserRole + 1).toString());
+        }
+
     } else if (status == -2) {
         // Rendering crashed
         item->setIcon(0, KIcon("dialog-close"));

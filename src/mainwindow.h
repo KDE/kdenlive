@@ -289,7 +289,7 @@ private slots:
     void generateClip();
     void slotZoneMoved(int start, int end);
     void slotUpdatePreviewSettings();
-    void slotDvdWizard(const QString &url = QString());
+    void slotDvdWizard(const QString &url = QString(), const QString &profile = "dv_pal");
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

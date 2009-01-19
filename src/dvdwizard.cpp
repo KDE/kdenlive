@@ -36,7 +36,7 @@
 #include "profilesdialog.h"
 #include "dvdwizard.h"
 
-DvdWizard::DvdWizard(const QString &url, bool isPal, QWidget *parent): QWizard(parent), m_isPal(isPal) {
+DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent): QWizard(parent), m_profile(profile) {
     //setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
     setAttribute(Qt::WA_DeleteOnClose);
     QWizardPage *page1 = new QWizardPage;
@@ -51,7 +51,7 @@ DvdWizard::DvdWizard(const QString &url, bool isPal, QWidget *parent): QWizard(p
     if (!url.isEmpty()) m_vob.vob_1->setPath(url);
 
     m_width = 720;
-    if (m_isPal) m_height = 576;
+    if (m_profile.startsWith("dv_pal")) m_height = 576;
     else m_height = 480;
 
     QWizardPage *page2 = new QWizardPage;
@@ -310,18 +310,20 @@ void DvdWizard::generateDvd() {
 
         QStringList args;
         args.append("-profile");
-        if (m_isPal) args.append("dv_pal");
-        else args.append("dv_ntsc");
+        args.append(m_profile);
         args.append(temp4.fileName());
         args.append("in=0");
         args.append("out=100");
         args << "-consumer" << "avformat:" + temp5.fileName();
-        if (m_isPal) {
+        if (m_profile == "dv_pal") {
             args << "f=dvd" << "vcodec=mpeg2video" << "acodec=ac3" << "b=5000k" << "maxrate=8000k" << "minrate=0" << "bufsize=1835008" << "mux_packet_s=2048" << "mux_rate=10080000" << "ab=192k" << "ar=48000" << "s=720x576" << "g=15" << "me_range=63" << "trellis=1" << "profile=dv_pal";
-        } else {
+        } else if (m_profile == "dv_ntsc") {
             args << "f=dvd" << "vcodec=mpeg2video" << "acodec=ac3" << "b=6000k" << "maxrate=9000k" << "minrate=0" << "bufsize=1835008" << "mux_packet_s=2048" << "mux_rate=10080000" << "ab=192k" << "ar=48000" << "s=720x480" << "g=18" << "me_range=63" << "trellis=1" << "profile=dv_ntsc";
+        } else if (m_profile == "dv_pal_wide") {
+            args << "f=dvd" << "vcodec=mpeg2video" << "acodec=ac3" << "b=5000k" << "maxrate=8000k" << "minrate=0" << "bufsize=1835008" << "mux_packet_s=2048" << "mux_rate=10080000" << "ab=192k" << "ar=48000" << "s=720x576" << "g=15" << "me_range=63" << "trellis=1" << "profile=dv_pal_wide";
+        } else if (m_profile == "dv_ntsc_wide") {
+            args << "f=dvd" << "vcodec=mpeg2video" << "acodec=ac3" << "b=6000k" << "maxrate=9000k" << "minrate=0" << "bufsize=1835008" << "mux_packet_s=2048" << "mux_rate=10080000" << "ab=192k" << "ar=48000" << "s=720x480" << "g=18" << "me_range=63" << "trellis=1" << "profile=dv_ntsc_wide";
         }
-
 
         kDebug() << "MLT ARGS: " << args;
         QProcess renderbg;

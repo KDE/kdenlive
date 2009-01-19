@@ -1400,6 +1400,7 @@ void MainWindow::slotRenderProject() {
         m_renderWidget = new RenderWidget(this);
         connect(m_renderWidget, SIGNAL(doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool)), this, SLOT(slotDoRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool)));
         connect(m_renderWidget, SIGNAL(abortProcess(const QString &)), this, SIGNAL(abortRenderJob(const QString &)));
+        connect(m_renderWidget, SIGNAL(openDvdWizard(const QString &, const QString &)), this, SLOT(slotDvdWizard(const QString &, const QString &)));
         if (m_activeDocument) {
             m_renderWidget->setProfile(m_activeDocument->mltProfile());
             m_renderWidget->setGuides(m_activeDocument->guidesXml(), m_activeDocument->projectDuration());
@@ -2237,8 +2238,8 @@ void MainWindow::slotAutoTransition() {
     m_activeTimeline->projectView()->autoTransition();
 }
 
-void MainWindow::slotDvdWizard(const QString &url) {
-    DvdWizard *w = new DvdWizard(QString(), this);
+void MainWindow::slotDvdWizard(const QString &url, const QString &profile) {
+    DvdWizard *w = new DvdWizard(url, profile, this);
     w->exec();
 }
 

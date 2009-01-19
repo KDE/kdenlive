@@ -99,6 +99,7 @@ private:
 signals:
     void doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool);
     void abortProcess(const QString &url);
+    void openDvdWizard(const QString &url, const QString &profile);
 };
 
 

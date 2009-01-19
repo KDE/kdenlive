@@ -43,7 +43,7 @@
 class DvdWizard : public QWizard {
     Q_OBJECT
 public:
-    DvdWizard(const QString &url = QString(), bool isPal = true, QWidget * parent = 0);
+    DvdWizard(const QString &url = QString(), const QString &profile = "dv_pal", QWidget * parent = 0);
     virtual ~DvdWizard();
 
 private:
@@ -52,7 +52,7 @@ private:
     Ui::DvdWizardIso_UI m_iso;
     Ui::DvdWizardStatus_UI m_status;
 
-    bool m_isPal;
+    QString m_profile;
     QGraphicsScene *m_scene;
     QGraphicsTextItem *m_button;
     QGraphicsPixmapItem *m_background;
