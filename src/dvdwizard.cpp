@@ -149,7 +149,7 @@ void DvdWizard::slotPageChanged(int page) {
         //if (m_vob.vob_1->text().isEmpty()) back();
     }
     if (page == 3) {
-        KIO::NetAccess::del(KUrl(m_iso.tmp_folder->text() + "/DVD"), this);
+        KIO::NetAccess::del(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);
         QTimer::singleShot(300, this, SLOT(generateDvd()));
     }
 }
@@ -166,13 +166,13 @@ void DvdWizard::slotCheckVobList(const QString &text) {
         m_vob.vob_list->layout()->addWidget(vob);
         connect(vob, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckVobList(const QString &)));
     } else if (text.isEmpty()) {
-        if (allUrls.at(count - 1)->text().isEmpty() && allUrls.at(count - 2)->text().isEmpty()) {
+        if (allUrls.at(count - 1)->url().path().isEmpty() && allUrls.at(count - 2)->url().path().isEmpty()) {
             // The last 2 urlrequesters are empty, remove last one
             KUrlRequester *vob = allUrls.takeLast();
             delete vob;
         }
     } else {
-        if (allUrls.at(count - 1)->text().isEmpty()) return;
+        if (allUrls.at(count - 1)->url().path().isEmpty()) return;
         KUrlRequester *vob = new KUrlRequester(this);
         vob->setFilter("video/mpeg");
         m_vob.vob_list->layout()->addWidget(vob);
@@ -400,11 +400,11 @@ void DvdWizard::generateDvd() {
     QListWidgetItem *authitem =  m_status.job_progress->item(3);
     authitem->setIcon(KIcon("system-run"));
     qApp->processEvents();
-    KIO::NetAccess::mkdir(KUrl(m_iso.tmp_folder->text() + "/DVD"), this);
+    KIO::NetAccess::mkdir(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);
 
     QDomDocument dvddoc;
     QDomElement auth = dvddoc.createElement("dvdauthor");
-    auth.setAttribute("dest", m_iso.tmp_folder->text() + "/DVD");
+    auth.setAttribute("dest", m_iso.tmp_folder->url().path() + "/DVD");
     dvddoc.appendChild(auth);
     QDomElement vmgm = dvddoc.createElement("vmgm");
     auth.appendChild(vmgm);
@@ -436,10 +436,10 @@ void DvdWizard::generateDvd() {
     }
     QList<KUrlRequester *> allUrls = m_vob.vob_list->findChildren<KUrlRequester *>();
     for (int i = 0; i < allUrls.count(); i++) {
-        if (!allUrls.at(i)->text().isEmpty()) {
+        if (!allUrls.at(i)->url().path().isEmpty()) {
             // Add vob entry
             QDomElement vob = dvddoc.createElement("vob");
-            vob.setAttribute("file", allUrls.at(i)->text());
+            vob.setAttribute("file", allUrls.at(i)->url().path());
             pgc2.appendChild(vob);
         }
     }
@@ -472,7 +472,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status) {
     authitem->setIcon(KIcon("dialog-ok"));
     qApp->processEvents();
     QStringList args;
-    args << "-dvd-video" << "-v" << "-o" << m_iso.iso_image->text() << m_iso.tmp_folder->text() + "/DVD";
+    args << "-dvd-video" << "-v" << "-o" << m_iso.iso_image->url().path() << m_iso.tmp_folder->url().path() + "/DVD";
     QProcess *mkiso = new QProcess(this);
     connect(mkiso, SIGNAL(finished(int , QProcess::ExitStatus)), this, SLOT(slotIsoFinished(int, QProcess::ExitStatus)));
     mkiso->setProcessChannelMode(QProcess::MergedChannels);
@@ -487,17 +487,17 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status) {
     if (status == QProcess::CrashExit) {
         m_authorFile.remove();
         m_menuFile.remove();
-        KIO::NetAccess::del(KUrl(m_iso.tmp_folder->text() + "/DVD"), this);
+        KIO::NetAccess::del(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);
         kDebug() << "Iso process crashed";
         isoitem->setIcon(KIcon("dialog-close"));
         return;
     }
     isoitem->setIcon(KIcon("dialog-ok"));
-    kDebug() << "ISO IMAGE " << m_iso.iso_image->text() << " Successfully created";
+    kDebug() << "ISO IMAGE " << m_iso.iso_image->url().path() << " Successfully created";
     m_authorFile.remove();
     m_menuFile.remove();
-    KIO::NetAccess::del(KUrl(m_iso.tmp_folder->text() + "/DVD"), this);
-    KMessageBox::information(this, i18n("Dvd iso image %1 successfully created.", m_iso.iso_image->text()));
+    KIO::NetAccess::del(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);
+    KMessageBox::information(this, i18n("Dvd iso image %1 successfully created.", m_iso.iso_image->url().path()));
 
 }
 
