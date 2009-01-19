@@ -35,7 +35,7 @@
 #include <KDebug>
 #include <KTemporaryFile>
 
-#include "ui_dvdwizardvob_ui.h"
+#include "dvdwizardvob.h"
 #include "ui_dvdwizardmenu_ui.h"
 #include "ui_dvdwizardiso_ui.h"
 #include "ui_dvdwizardstatus_ui.h"
@@ -47,7 +47,7 @@ public:
     virtual ~DvdWizard();
 
 private:
-    Ui::DvdWizardVob_UI m_vob;
+    DvdWizardVob *m_pageVob;
     Ui::DvdWizardMenu_UI m_menu;
     Ui::DvdWizardIso_UI m_iso;
     Ui::DvdWizardStatus_UI m_status;
@@ -64,7 +64,6 @@ private:
     KTemporaryFile m_authorFile;
 
 private slots:
-    void slotCheckVobList(const QString &text);
     void buildButton();
     void buildColor();
     void buildImage();

@@ -809,8 +809,8 @@ void MainWindow::setupActions() {
     collection->addAction("monitor_loop_zone", m_loopZone);
     connect(m_loopZone, SIGNAL(triggered(bool)), m_monitorManager, SLOT(slotLoopZone()));
 
-    KAction *dvdWizard = collection->addAction("dvd_wizard");
-    dvdWizard->setText(i18n("Dvd Wizard"));
+    KAction *dvdWizard =  new KAction(KIcon("media-optical"), i18n("Dvd Wizard"), this);
+    collection->addAction("dvd_wizard", dvdWizard);
     connect(dvdWizard, SIGNAL(triggered(bool)), this, SLOT(slotDvdWizard()));
 
     KAction *markIn = collection->addAction("mark_in");

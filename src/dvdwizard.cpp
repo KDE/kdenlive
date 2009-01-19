@@ -39,16 +39,11 @@
 DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent): QWizard(parent), m_profile(profile) {
     //setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
     setAttribute(Qt::WA_DeleteOnClose);
-    QWizardPage *page1 = new QWizardPage;
-    page1->setTitle(i18n("Select Files For Your Dvd"));
-    m_vob.setupUi(page1);
-    addPage(page1);
-    m_vob.intro_vob->setEnabled(false);
-    m_vob.vob_1->setFilter("video/mpeg");
-    m_vob.intro_vob->setFilter("video/mpeg");
-    connect(m_vob.use_intro, SIGNAL(toggled(bool)), m_vob.intro_vob, SLOT(setEnabled(bool)));
-    connect(m_vob.vob_1, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckVobList(const QString &)));
-    if (!url.isEmpty()) m_vob.vob_1->setPath(url);
+    m_pageVob = new DvdWizardVob(this);
+    m_pageVob->setTitle(i18n("Select Files For Your Dvd"));
+    addPage(m_pageVob);
+
+    if (!url.isEmpty()) m_pageVob->setUrl(url);
 
     m_width = 720;
     if (m_profile.startsWith("dv_pal")) m_height = 576;
@@ -151,32 +146,6 @@ void DvdWizard::slotPageChanged(int page) {
     if (page == 3) {
         KIO::NetAccess::del(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);
         QTimer::singleShot(300, this, SLOT(generateDvd()));
-    }
-}
-
-void DvdWizard::slotCheckVobList(const QString &text) {
-    QList<KUrlRequester *> allUrls = m_vob.vob_list->findChildren<KUrlRequester *>();
-    int count = allUrls.count();
-    kDebug() << "// FOUND " << count << " URLS";
-    if (count == 1) {
-        if (text.isEmpty()) return;
-        // insert second urlrequester
-        KUrlRequester *vob = new KUrlRequester(this);
-        vob->setFilter("video/mpeg");
-        m_vob.vob_list->layout()->addWidget(vob);
-        connect(vob, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckVobList(const QString &)));
-    } else if (text.isEmpty()) {
-        if (allUrls.at(count - 1)->url().path().isEmpty() && allUrls.at(count - 2)->url().path().isEmpty()) {
-            // The last 2 urlrequesters are empty, remove last one
-            KUrlRequester *vob = allUrls.takeLast();
-            delete vob;
-        }
-    } else {
-        if (allUrls.at(count - 1)->url().path().isEmpty()) return;
-        KUrlRequester *vob = new KUrlRequester(this);
-        vob->setFilter("video/mpeg");
-        m_vob.vob_list->layout()->addWidget(vob);
-        connect(vob, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckVobList(const QString &)));
     }
 }
 
@@ -436,12 +405,13 @@ void DvdWizard::generateDvd() {
         post.appendChild(call);
         pgc2.appendChild(post);
     }
-    QList<KUrlRequester *> allUrls = m_vob.vob_list->findChildren<KUrlRequester *>();
-    for (int i = 0; i < allUrls.count(); i++) {
-        if (!allUrls.at(i)->url().path().isEmpty()) {
+
+    QStringList voburls = m_pageVob->selectedUrls();
+    for (int i = 0; i < voburls.count(); i++) {
+        if (!voburls.at(i).isEmpty()) {
             // Add vob entry
             QDomElement vob = dvddoc.createElement("vob");
-            vob.setAttribute("file", allUrls.at(i)->url().path());
+            vob.setAttribute("file", voburls.at(i));
             pgc2.appendChild(vob);
         }
     }
