@@ -3,6 +3,7 @@ INSTALL (FILES
 automask.xml
 boxblur.xml
 brightness.xml
+channelcopy.xml
 charcoal.xml
 chroma_hold.xml
 chroma.xml
