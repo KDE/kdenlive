@@ -1257,8 +1257,7 @@ void MainWindow::openFile(const KUrl &url) {
 }
 
 void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale) {
-    KdenliveDoc *doc;
-    doc = new KdenliveDoc(url, KUrl(), m_commandStack, QString(), QPoint(3, 2), m_projectMonitor->render, this);
+    KdenliveDoc *doc = new KdenliveDoc(url, KUrl(), m_commandStack, QString(), QPoint(3, 2), m_projectMonitor->render, this);
     if (stale == NULL) {
         stale = new KAutoSaveFile(url, doc);
         doc->m_autosave = stale;
@@ -1493,6 +1492,7 @@ void MainWindow::slotUpdateMousePosition(int pos) {
 }
 
 void MainWindow::slotUpdateDocumentState(bool modified) {
+    if (!m_activeDocument) return;
     setCaption(m_activeDocument->description(), modified);
     m_saveAction->setEnabled(modified);
     if (modified) {
