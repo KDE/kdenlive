@@ -179,6 +179,7 @@ signals:
     void showClipProperties(DocClipBase *);
     void projectModified();
     void loadingIsOver();
+    void clipNameChanged(const QString, const QString);
 };
 
 #endif

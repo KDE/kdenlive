@@ -58,9 +58,6 @@ Q_OBJECT public:
 //    DocClipBase & operator=(const DocClipBase & clip);
     virtual ~ DocClipBase();
 
-    /** sets the name of this clip. */
-    void setName(const QString name);
-
     /** returns the name of this clip. */
     const QString & name() const;
 
@@ -172,8 +169,7 @@ Q_OBJECT public:
     void deleteProducers();
 
 private:   // Private attributes
-    /** The name of this clip */
-    QString m_name;
+
     /** A description of this clip */
     QString m_description;
     /** The number of times this clip is used in the project - the number of references to this clip

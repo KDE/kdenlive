@@ -51,6 +51,7 @@
 #include "renderer.h"
 #include "kthumb.h"
 #include "projectlistview.h"
+#include "editclipcommand.h"
 
 ProjectList::ProjectList(QWidget *parent)
         : QWidget(parent), m_render(NULL), m_fps(-1), m_commandStack(NULL), m_selectedItem(NULL), m_infoQueue(QMap <QString, QDomElement> ()), m_thumbnailQueue(QList <QString> ()), m_refreshed(false) {
@@ -175,9 +176,17 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
 void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QString> properties) {
     if (!clip) return;
     if (!clip->isGroup()) clip->setProperties(properties);
+    if (properties.contains("name")) {
+        listView->blockSignals(true);
+        clip->setText(1, properties.value("name"));
+        listView->blockSignals(false);
+        emit clipNameChanged(clip->clipId(), properties.value("name"));
+    }
     if (properties.contains("description")) {
         CLIPTYPE type = clip->clipType();
+        listView->blockSignals(true);
         clip->setText(2, properties.value("description"));
+        listView->blockSignals(false);
         if (KdenliveSettings::activate_nepomuk() && (type == AUDIO || type == VIDEO || type == AV || type == IMAGE || type == PLAYLIST)) {
             // Use Nepomuk system to store clip description
             Nepomuk::Resource f(clip->clipUrl().path());
@@ -195,16 +204,35 @@ void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QSt
 void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column) {
     ProjectItem *clip = static_cast <ProjectItem*>(item);
     if (column == 2) {
-        QMap <QString, QString> props;
-        props["description"] = item->text(2);
-        slotUpdateClipProperties(clip, props);
-    } else if (column == 1 && clip->isGroup()) {
-        m_doc->slotEditFolder(item->text(1), clip->groupName(), clip->clipId());
-        clip->setGroupName(item->text(1));
-        const int children = item->childCount();
-        for (int i = 0; i < children; i++) {
-            ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
-            child->setProperty("groupname", item->text(1));
+        if (clip->referencedClip()) {
+            QMap <QString, QString> oldprops;
+            QMap <QString, QString> newprops;
+            oldprops["description"] = clip->referencedClip()->getProperty("description");
+            newprops["description"] = item->text(2);
+            slotUpdateClipProperties(clip, newprops);
+            EditClipCommand *command = new EditClipCommand(this, clip->clipId(), oldprops, newprops, false);
+            m_commandStack->push(command);
+        }
+    } else if (column == 1) {
+        if (clip->isGroup()) {
+            m_doc->slotEditFolder(item->text(1), clip->groupName(), clip->clipId());
+            clip->setGroupName(item->text(1));
+            const int children = item->childCount();
+            for (int i = 0; i < children; i++) {
+                ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
+                child->setProperty("groupname", item->text(1));
+            }
+        } else {
+            if (clip->referencedClip()) {
+                QMap <QString, QString> oldprops;
+                QMap <QString, QString> newprops;
+                oldprops["name"] = clip->referencedClip()->getProperty("name");
+                newprops["name"] = item->text(1);
+                slotUpdateClipProperties(clip, newprops);
+                emit projectModified();
+                EditClipCommand *command = new EditClipCommand(this, clip->clipId(), oldprops, newprops, false);
+                m_commandStack->push(command);
+            }
         }
     }
 }
@@ -286,13 +314,14 @@ void ProjectList::slotAddFolder(const QString foldername, const QString &clipId,
         }
     } else {
         if (edit) {
-            listView->blockSignals(true);
             ProjectItem *item;
             QTreeWidgetItemIterator it(listView);
             while (*it) {
                 item = static_cast <ProjectItem *>(*it);
                 if (item->isGroup() && item->clipId() == clipId) {
+                    listView->blockSignals(true);
                     item->setGroupName(foldername);
+                    listView->blockSignals(false);
                     const int children = item->childCount();
                     for (int i = 0; i < children; i++) {
                         ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
@@ -302,7 +331,6 @@ void ProjectList::slotAddFolder(const QString foldername, const QString &clipId,
                 }
                 ++it;
             }
-            listView->blockSignals(false);
         } else {
             QStringList text;
             text << QString() << foldername;
@@ -313,6 +341,7 @@ void ProjectList::slotAddFolder(const QString foldername, const QString &clipId,
 
 void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties) {
     if (getProperties) listView->setEnabled(false);
+    listView->blockSignals(true);
     const QString parent = clip->getProperty("groupid");
     //kDebug() << "Adding clip with groupid: " << parent;
     ProjectItem *item = NULL;
@@ -324,9 +353,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties) {
             //kDebug() << "Adding clip to new group: " << groupName;
             if (groupName.isEmpty()) groupName = i18n("Folder");
             text << QString() << groupName;
-            listView->blockSignals(true);
             parentitem = new ProjectItem(listView, text, parent);
-            listView->blockSignals(false);
         } else {
             //kDebug() << "Adding clip to existing group: " << parentitem->groupName();
         }
@@ -350,6 +377,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties) {
         }
         if (!annotation.isEmpty()) item->setText(2, annotation);
     }
+    listView->blockSignals(false);
 }
 
 void ProjectList::requestClipInfo(const QDomElement xml, const QString id) {
@@ -376,7 +404,9 @@ void ProjectList::slotProcessNextClipInQueue() {
 
 void ProjectList::slotUpdateClip(const QString &id) {
     ProjectItem *item = getItemById(id);
+    listView->blockSignals(true);
     if (item) item->setData(1, UsageRole, QString::number(item->numReferences()));
+    listView->blockSignals(false);
 }
 
 void ProjectList::updateAllClips() {
@@ -401,11 +431,17 @@ void ProjectList::updateAllClips() {
                 QString cachedPixmap = m_doc->projectFolder().path() + "/thumbs/" + item->getClipHash() + ".png";
                 if (QFile::exists(cachedPixmap)) {
                     //kDebug()<<"// USING CACHED PIX: "<<cachedPixmap;
+                    listView->blockSignals(true);
                     item->setIcon(0, QPixmap(cachedPixmap));
+                    listView->blockSignals(false);
                 } else requestClipThumbnail(item->clipId());
+                listView->blockSignals(true);
                 item->changeDuration(item->referencedClip()->producer()->get_playtime());
+                listView->blockSignals(false);
             }
+            listView->blockSignals(true);
             item->setData(1, UsageRole, QString::number(item->numReferences()));
+            listView->blockSignals(false);
             qApp->processEvents();
         }
         ++it;
@@ -595,7 +631,9 @@ void ProjectList::slotRefreshClipThumbnail(ProjectItem *item, bool update) {
         QPixmap pix;
         if (clip->clipType() == AUDIO) pix = KIcon("audio-x-generic").pixmap(QSize(width, height));
         else pix = item->referencedClip()->thumbProducer()->extractImage(item->referencedClip()->getClipThumbFrame(), width, height);
+        listView->blockSignals(true);
         item->setIcon(0, pix);
+        listView->blockSignals(false);
         m_doc->cachePixmap(item->getClipHash(), pix);
         if (update) emit projectModified();
         if (!m_thumbnailQueue.isEmpty()) QTimer::singleShot(300, this, SLOT(slotProcessNextThumbnail()));
@@ -605,9 +643,11 @@ void ProjectList::slotRefreshClipThumbnail(ProjectItem *item, bool update) {
 void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata) {
     ProjectItem *item = getItemById(clipId);
     if (item && producer) {
+        listView->blockSignals(true);
         item->setProperties(properties, metadata);
         item->referencedClip()->setProducer(producer);
         emit receivedClipDuration(clipId, item->clipMaxDuration());
+        listView->blockSignals(false);
     } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
     if (!m_infoQueue.isEmpty()) QTimer::singleShot(300, this, SLOT(slotProcessNextClipInQueue()));
     else listView->setEnabled(true);
@@ -616,8 +656,10 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
 void ProjectList::slotReplyGetImage(const QString &clipId, int pos, const QPixmap &pix, int w, int h) {
     ProjectItem *item = getItemById(clipId);
     if (item) {
+        listView->blockSignals(true);
         item->setIcon(0, pix);
         m_doc->cachePixmap(item->getClipHash(), pix);
+        listView->blockSignals(false);
     }
 }
 

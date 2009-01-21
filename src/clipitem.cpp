@@ -479,6 +479,10 @@ QString ClipItem::clipName() const {
     return m_clipName;
 }
 
+void ClipItem::setClipName(const QString &name) {
+    m_clipName = name;
+}
+
 const QString &ClipItem::clipProducer() const {
     return m_producer;
 }

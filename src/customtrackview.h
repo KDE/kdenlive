@@ -142,6 +142,7 @@ public slots:
     void slotInsertTrack(int ix);
     void slotDeleteTrack(int ix);
     void slotChangeTrack(int ix);
+    void clipNameChanged(const QString id, const QString name);
 
 protected:
     virtual void drawBackground(QPainter * painter, const QRectF & rect);

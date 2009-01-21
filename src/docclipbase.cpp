@@ -28,7 +28,6 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
         m_id(id), m_description(QString()), m_refcount(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL), m_properties(QMap <QString, QString> ()), audioFrameChache(QMap<int, QMap<int, QByteArray> > ()), m_baseTrackProducers(QList <Mlt::Producer *>()), m_snapMarkers(QList < CommentedTime > ())  {
     int type = xml.attribute("type").toInt();
     m_clipType = (CLIPTYPE) type;
-    m_name = xml.attribute("name");
 
     QDomNamedNodeMap attributes = xml.attributes();
     for (unsigned int i = 0; i < attributes.count(); i++) {
@@ -44,7 +43,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
         out = xml.attribute("duration").toInt();
         if (out != 0) setDuration(GenTime(out, KdenliveSettings::project_fps()));
     }
-    if (m_name.isEmpty()) m_name = url.fileName();
+    if (!m_properties.contains("name")) m_properties.insert("name", url.fileName());
 
     //if (!url.isEmpty() && QFile::exists(url.path()))
     {
@@ -107,13 +106,9 @@ bool DocClipBase::audioThumbCreated() const {
     return m_audioThumbCreated;
 }
 
-void DocClipBase::setName(const QString name) {
-    m_name = name;
-}
-
 const QString & DocClipBase::name() const {
 
-    return m_name;
+    return m_properties.value("name");
 }
 
 const QString &DocClipBase::getId() const {

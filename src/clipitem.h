@@ -53,6 +53,7 @@ public:
     int clipType() const;
     DocClipBase *baseClip() const;
     QString clipName() const;
+    void setClipName(const QString &name);
     QDomElement xml() const;
     ClipItem *clone(ItemInfo info) const;
     const EffectsList effectList();

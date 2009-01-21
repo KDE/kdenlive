@@ -3365,4 +3365,18 @@ QStringList CustomTrackView::getLadspaParams(QDomElement effect) const {
     return result;
 }
 
+void CustomTrackView::clipNameChanged(const QString id, const QString name) {
+    QList<QGraphicsItem *> list = scene()->items();
+    ClipItem *clip = NULL;
+    for (int i = 0; i < list.size(); ++i) {
+        if (list.at(i)->type() == AVWIDGET) {
+            clip = static_cast <ClipItem *>(list.at(i));
+            if (clip->clipProducer() == id) {
+                clip->setClipName(name);
+            }
+        }
+    }
+    viewport()->update();
+}
+
 #include "customtrackview.moc"
