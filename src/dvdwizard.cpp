@@ -45,68 +45,9 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
 
     if (!url.isEmpty()) m_pageVob->setUrl(url);
 
-    m_width = 720;
-    if (m_profile.startsWith("dv_pal")) m_height = 576;
-    else m_height = 480;
-
-    QWizardPage *page2 = new QWizardPage;
-    page2->setTitle(i18n("Create Dvd Menu"));
-    m_menu.setupUi(page2);
-    m_menu.play_text->setText(i18n("Play"));
-    m_scene = new QGraphicsScene(0, 0, m_width, m_height, this);
-    m_menu.menu_preview->setScene(m_scene);
-
-    // Create color background
-    m_color = new QGraphicsRectItem(0, 0, m_width, m_height);
-    m_color->setBrush(m_menu.background_color->color());
-    m_scene->addItem(m_color);
-
-    // create background image
-    m_background = new QGraphicsPixmapItem();
-    //m_scene->addItem(m_background);
-
-    // create menu button
-    m_button = new QGraphicsTextItem(m_menu.play_text->text());
-    QFont font = m_menu.font_family->currentFont();
-    font.setPixelSize(m_menu.font_size->value());
-    font.setStyleStrategy(QFont::NoAntialias);
-    m_button->setFont(font);
-    m_button->setDefaultTextColor(m_menu.text_color->color());
-    m_button->setZValue(2);
-    m_button->setFlags(QGraphicsItem::ItemIsMovable);
-    QRectF r = m_button->sceneBoundingRect();
-    m_button->setPos((m_width - r.width()) / 2, (m_height - r.height()) / 2);
-    m_scene->addItem(m_button);
-
-    // create safe zone rect
-    int safeW = m_width / 20;
-    int safeH = m_height / 20;
-    m_safeRect = new QGraphicsRectItem(safeW, safeH, m_width - 2 * safeW, m_height - 2 * safeH);
-    QPen pen(Qt::red);
-    pen.setStyle(Qt::DashLine);
-    pen.setWidth(3);
-    m_safeRect->setPen(pen);
-    m_safeRect->setZValue(3);
-    m_scene->addItem(m_safeRect);
-
-    addPage(page2);
-    //m_menu.menu_preview->resize(m_width / 2, m_height / 2);
-    m_menu.menu_preview->setSceneRect(0, 0, m_width, m_height);
-    QMatrix matrix;
-    matrix.scale(0.5, 0.5);
-    m_menu.menu_preview->setMatrix(matrix);
-    m_menu.menu_preview->setMinimumSize(m_width / 2 + 4, m_height / 2 + 8);
-    //m_menu.menu_preview->resizefitInView(0, 0, m_width, m_height);
-
-    connect(m_menu.is_color, SIGNAL(toggled(bool)), this, SLOT(checkBackground()));
-    connect(m_menu.play_text, SIGNAL(textChanged(const QString &)), this, SLOT(buildButton()));
-    connect(m_menu.text_color, SIGNAL(changed(const QColor &)), this, SLOT(buildButton()));
-    connect(m_menu.font_size, SIGNAL(valueChanged(int)), this, SLOT(buildButton()));
-    connect(m_menu.font_family, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(buildButton()));
-    connect(m_menu.background_image, SIGNAL(textChanged(const QString &)), this, SLOT(buildImage()));
-    connect(m_menu.background_color, SIGNAL(changed(const QColor &)), this, SLOT(buildColor()));
-    connect(m_menu.create_menu, SIGNAL(toggled(bool)), m_menu.menu_box, SLOT(setEnabled(bool)));
-    m_menu.menu_box->setEnabled(false);
+    m_pageMenu = new DvdWizardMenu(m_profile, this);
+    m_pageMenu->setTitle(i18n("Create Dvd Menu"));
+    addPage(m_pageMenu);
 
 
     QWizardPage *page3 = new QWizardPage;
@@ -129,63 +70,22 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
 }
 
 DvdWizard::~DvdWizard() {
-    delete m_button;
-    delete m_color;
-    delete m_safeRect;
-    delete m_background;
-    delete m_scene;
-    m_menuFile.remove();
+    // m_menuFile.remove();
 }
 
 
 void DvdWizard::slotPageChanged(int page) {
     kDebug() << "// PAGE CHGD: " << page;
     if (page == 1) {
-        //if (m_vob.vob_1->text().isEmpty()) back();
-    }
-    if (page == 3) {
+        m_pageMenu->setTargets(m_pageVob->selectedUrls());
+    } else if (page == 2) {
+        m_pageMenu->buttonsInfo();
+    } else if (page == 3) {
         KIO::NetAccess::del(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);
         QTimer::singleShot(300, this, SLOT(generateDvd()));
     }
 }
 
-void DvdWizard::buildColor() {
-    m_color->setBrush(m_menu.background_color->color());
-}
-
-void DvdWizard::buildImage() {
-    if (m_menu.background_image->url().isEmpty()) {
-        m_scene->removeItem(m_background);
-        return;
-    }
-    QPixmap pix;
-    if (!pix.load(m_menu.background_image->url().path())) {
-        m_scene->removeItem(m_background);
-        return;
-    }
-    pix = pix.scaled(m_width, m_height);
-    m_background->setPixmap(pix);
-    if (!m_menu.is_color->isChecked()) m_scene->addItem(m_background);
-}
-
-void DvdWizard::checkBackground() {
-    if (m_menu.is_color->isChecked()) {
-        m_scene->addItem(m_color);
-        m_scene->removeItem(m_background);
-    } else {
-        m_scene->addItem(m_background);
-        m_scene->removeItem(m_color);
-    }
-}
-
-void DvdWizard::buildButton() {
-    m_button->setPlainText(m_menu.play_text->text());
-    QFont font = m_menu.font_family->currentFont();
-    font.setPixelSize(m_menu.font_size->value());
-    font.setStyleStrategy(QFont::NoAntialias);
-    m_button->setFont(font);
-    m_button->setDefaultTextColor(m_menu.text_color->color());
-}
 
 
 void DvdWizard::generateDvd() {
@@ -230,86 +130,53 @@ void DvdWizard::generateDvd() {
     QListWidgetItem *images =  m_status.job_progress->item(0);
     images->setIcon(KIcon("system-run"));
     qApp->processEvents();
+    QMap <int, QRect> buttons = m_pageMenu->buttonsInfo();
+    QStringList buttonsTarget;
 
-    if (m_menu.create_menu->isChecked()) {
-
-        QImage img(m_width, m_height, QImage::Format_ARGB32);
-        QPainter p(&img);
-        m_scene->removeItem(m_safeRect);
-        m_scene->removeItem(m_color);
-        m_scene->removeItem(m_background);
-        m_scene->render(&p, QRectF(0, 0, m_width, m_height));
-        p.end();
-        img.setNumColors(4);
-        img.save(temp1.fileName());
-
-        m_button->setDefaultTextColor(m_menu.selected_color->color());
-        p.begin(&img);
-        m_scene->render(&p, QRectF(0, 0, m_width, m_height));
-        p.end();
-        img.setNumColors(4);
-        img.save(temp2.fileName());
-
-        m_button->setDefaultTextColor(m_menu.highlighted_color->color());
-        p.begin(&img);
-        m_scene->render(&p, QRectF(0, 0, m_width, m_height));
-        p.end();
-        img.setNumColors(4);
-        img.save(temp3.fileName());
-
-        m_scene->removeItem(m_button);
-        if (m_menu.is_color->isChecked()) m_scene->addItem(m_color);
-        else m_scene->addItem(m_background);
-
-
-        p.begin(&img);
-        m_scene->render(&p, QRectF(0, 0, m_width, m_height));
-        p.end();
-        img.save(temp4.fileName());
+    if (m_pageMenu->createMenu()) {
+        m_pageMenu->createButtonImages(temp1.fileName(), temp2.fileName(), temp3.fileName());
+        m_pageMenu->createBackgroundImage(temp4.fileName());
 
 
         images->setIcon(KIcon("dialog-ok"));
 
         kDebug() << "/// STARTING MLT VOB CREATION";
+        if (!m_pageMenu->menuMovie()) {
+            // create menu vob file
+            QListWidgetItem *vobitem =  m_status.job_progress->item(1);
+            vobitem->setIcon(KIcon("system-run"));
+            qApp->processEvents();
 
-        // create menu vob file
-        QListWidgetItem *vobitem =  m_status.job_progress->item(1);
-        vobitem->setIcon(KIcon("system-run"));
-        qApp->processEvents();
+            QStringList args;
+            args.append("-profile");
+            if (m_pageMenu->isPalMenu()) args.append("dv_pal");
+            else  args.append("dv_ntsc");
+            args.append(temp4.fileName());
+            args.append("in=0");
+            args.append("out=100");
+            args << "-consumer" << "avformat:" + temp5.fileName();
+            if (m_pageMenu->isPalMenu()) {
+                args << "f=dvd" << "vcodec=mpeg2video" << "acodec=ac3" << "b=5000k" << "maxrate=8000k" << "minrate=0" << "bufsize=1835008" << "mux_packet_s=2048" << "mux_rate=10080000" << "ab=192k" << "ar=48000" << "s=720x576" << "g=15" << "me_range=63" << "trellis=1" << "profile=dv_pal";
+            } else {
+                args << "f=dvd" << "vcodec=mpeg2video" << "acodec=ac3" << "b=6000k" << "maxrate=9000k" << "minrate=0" << "bufsize=1835008" << "mux_packet_s=2048" << "mux_rate=10080000" << "ab=192k" << "ar=48000" << "s=720x480" << "g=18" << "me_range=63" << "trellis=1" << "profile=dv_ntsc";
+            }
 
-        QStringList args;
-        args.append("-profile");
-        args.append(m_profile);
-        args.append(temp4.fileName());
-        args.append("in=0");
-        args.append("out=100");
-        args << "-consumer" << "avformat:" + temp5.fileName();
-        if (m_profile == "dv_pal") {
-            args << "f=dvd" << "vcodec=mpeg2video" << "acodec=ac3" << "b=5000k" << "maxrate=8000k" << "minrate=0" << "bufsize=1835008" << "mux_packet_s=2048" << "mux_rate=10080000" << "ab=192k" << "ar=48000" << "s=720x576" << "g=15" << "me_range=63" << "trellis=1" << "profile=dv_pal";
-        } else if (m_profile == "dv_ntsc") {
-            args << "f=dvd" << "vcodec=mpeg2video" << "acodec=ac3" << "b=6000k" << "maxrate=9000k" << "minrate=0" << "bufsize=1835008" << "mux_packet_s=2048" << "mux_rate=10080000" << "ab=192k" << "ar=48000" << "s=720x480" << "g=18" << "me_range=63" << "trellis=1" << "profile=dv_ntsc";
-        } else if (m_profile == "dv_pal_wide") {
-            args << "f=dvd" << "vcodec=mpeg2video" << "acodec=ac3" << "b=5000k" << "maxrate=8000k" << "minrate=0" << "bufsize=1835008" << "mux_packet_s=2048" << "mux_rate=10080000" << "ab=192k" << "ar=48000" << "s=720x576" << "g=15" << "me_range=63" << "trellis=1" << "profile=dv_pal_wide";
-        } else if (m_profile == "dv_ntsc_wide") {
-            args << "f=dvd" << "vcodec=mpeg2video" << "acodec=ac3" << "b=6000k" << "maxrate=9000k" << "minrate=0" << "bufsize=1835008" << "mux_packet_s=2048" << "mux_rate=10080000" << "ab=192k" << "ar=48000" << "s=720x480" << "g=18" << "me_range=63" << "trellis=1" << "profile=dv_ntsc_wide";
-        }
-
-        kDebug() << "MLT ARGS: " << args;
-        QProcess renderbg;
-        renderbg.start("inigo", args);
-        if (renderbg.waitForFinished()) {
-            if (renderbg.exitStatus() == QProcess::CrashExit) {
-                kDebug() << "/// RENDERING MENU vob crashed";
+            kDebug() << "MLT ARGS: " << args;
+            QProcess renderbg;
+            renderbg.start("inigo", args);
+            if (renderbg.waitForFinished()) {
+                if (renderbg.exitStatus() == QProcess::CrashExit) {
+                    kDebug() << "/// RENDERING MENU vob crashed";
+                    vobitem->setIcon(KIcon("dialog-close"));
+                    return;
+                }
+            } else {
+                kDebug() << "/// RENDERING MENU vob timed out";
                 vobitem->setIcon(KIcon("dialog-close"));
                 return;
             }
-        } else {
-            kDebug() << "/// RENDERING MENU vob timed out";
-            vobitem->setIcon(KIcon("dialog-close"));
-            return;
+            vobitem->setIcon(KIcon("dialog-ok"));
         }
-
-        vobitem->setIcon(KIcon("dialog-ok"));
         kDebug() << "/// STARTING SPUMUX";
 
         // create xml spumux file
@@ -328,9 +195,36 @@ void DvdWizard::generateDvd() {
         spu.setAttribute("image", temp1.fileName());
         spu.setAttribute("select", temp2.fileName());
         spu.setAttribute("highlight", temp3.fileName());
-        spu.setAttribute("autooutline", "infer");
+        /*spu.setAttribute("autooutline", "infer");
         spu.setAttribute("outlinewidth", "12");
-        spu.setAttribute("autoorder", "rows");
+        spu.setAttribute("autoorder", "rows");*/
+
+        int max = buttons.count() - 1;
+        int i = 0;
+        QMapIterator<int, QRect> it(buttons);
+        while (it.hasNext()) {
+            it.next();
+            QDomElement but = doc.createElement("button");
+            but.setAttribute("name", "b" + QString::number(i));
+            if (i < max) but.setAttribute("down", "b" + QString::number(i + 1));
+            else but.setAttribute("down", "b0");
+            if (i > 0) but.setAttribute("up", "b" + QString::number(i - 1));
+            else but.setAttribute("up", "b" + QString::number(max));
+            QRect r = it.value();
+            int target = it.key();
+            // TODO: solve play all button
+            if (target == 0) target = 1;
+            buttonsTarget.append(QString::number(target));
+            but.setAttribute("x0", QString::number(r.x()));
+            but.setAttribute("y0", QString::number(r.y()));
+            but.setAttribute("x1", QString::number(r.right()));
+            but.setAttribute("y1", QString::number(r.bottom()));
+            spu.appendChild(but);
+            i++;
+        }
+
+        kDebug() << "///// SPU: ";
+        kDebug() << doc.toString();
 
         QFile data(temp6.fileName());
         if (data.open(QFile::WriteOnly)) {
@@ -341,12 +235,14 @@ void DvdWizard::generateDvd() {
 
         kDebug() << " SPUMUX DATA: " << doc.toString();
 
-        args.clear();
+        QStringList args;
         args.append(temp6.fileName());
-        kDebug() << "SPM ARGS: " << args;
+        kDebug() << "SPM ARGS: " << args << temp5.fileName() << m_menuFile.fileName();
 
         QProcess spumux;
-        spumux.setStandardInputFile(temp5.fileName());
+
+        if (m_pageMenu->menuMovie()) spumux.setStandardInputFile(m_pageMenu->menuMoviePath());
+        else spumux.setStandardInputFile(temp5.fileName());
         spumux.setStandardOutputFile(m_menuFile.fileName());
         spumux.start("spumux", args);
         spumux.setProcessChannelMode(QProcess::MergedChannels);
@@ -379,34 +275,61 @@ void DvdWizard::generateDvd() {
     dvddoc.appendChild(auth);
     QDomElement vmgm = dvddoc.createElement("vmgm");
     auth.appendChild(vmgm);
-    if (m_menu.create_menu->isChecked()) {
+
+    if (m_pageMenu->createMenu() && !m_pageVob->introMovie().isEmpty()) {
+        // intro movie
         QDomElement menus = dvddoc.createElement("menus");
         vmgm.appendChild(menus);
         QDomElement pgc = dvddoc.createElement("pgc");
+        pgc.setAttribute("entry", "title");
         menus.appendChild(pgc);
-        QDomElement button = dvddoc.createElement("button");
-        QDomText nametext = dvddoc.createTextNode("jump title 1;");
-        button.appendChild(nametext);
-        pgc.appendChild(button);
+        QDomElement menuvob = dvddoc.createElement("vob");
+        menuvob.setAttribute("file", m_pageVob->introMovie());
+        pgc.appendChild(menuvob);
+        QDomElement post = dvddoc.createElement("post");
+        QDomText call = dvddoc.createTextNode("jump titleset 1 menu;");
+        post.appendChild(call);
+        pgc.appendChild(post);
+    }
+    QDomElement titleset = dvddoc.createElement("titleset");
+    auth.appendChild(titleset);
+
+    if (m_pageMenu->createMenu()) {
+
+        // DVD main menu
+        QDomElement menus = dvddoc.createElement("menus");
+        titleset.appendChild(menus);
+        QDomElement pgc = dvddoc.createElement("pgc");
+        pgc.setAttribute("entry", "root");
+        menus.appendChild(pgc);
+        for (int i = 0; i < buttons.count(); i++) {
+            QDomElement button = dvddoc.createElement("button");
+            button.setAttribute("name", "b" + QString::number(i));
+            QDomText nametext = dvddoc.createTextNode("jump title " + buttonsTarget.at(i) + ";");
+            button.appendChild(nametext);
+            pgc.appendChild(button);
+        }
         QDomElement menuvob = dvddoc.createElement("vob");
         menuvob.setAttribute("file", m_menuFile.fileName());
         menuvob.setAttribute("pause", "inf");
         pgc.appendChild(menuvob);
     }
-    QDomElement titleset = dvddoc.createElement("titleset");
-    auth.appendChild(titleset);
+
     QDomElement titles = dvddoc.createElement("titles");
     titleset.appendChild(titles);
+
+    QStringList voburls = m_pageVob->selectedUrls();
+
     QDomElement pgc2 = dvddoc.createElement("pgc");
     titles.appendChild(pgc2);
-    if (m_menu.create_menu->isChecked()) {
+    if (m_pageMenu->createMenu()) {
         QDomElement post = dvddoc.createElement("post");
-        QDomText call = dvddoc.createTextNode("call vmgm menu 1;");
+        QDomText call = dvddoc.createTextNode("call menu;");
         post.appendChild(call);
         pgc2.appendChild(post);
     }
 
-    QStringList voburls = m_pageVob->selectedUrls();
+
     for (int i = 0; i < voburls.count(); i++) {
         if (!voburls.at(i).isEmpty()) {
             // Add vob entry
@@ -416,6 +339,27 @@ void DvdWizard::generateDvd() {
         }
     }
 
+    /*
+        // create one pgc for each video
+        for (int i = 0; i < voburls.count(); i++) {
+            if (!voburls.at(i).isEmpty()) {
+                // Add vob entry
+
+         QDomElement pgc2 = dvddoc.createElement("pgc");
+         titles.appendChild(pgc2);
+         if (m_pageMenu->createMenu()) {
+      QDomElement post = dvddoc.createElement("post");
+      QDomText call = dvddoc.createTextNode("call vmgm menu 1;");
+      post.appendChild(call);
+      pgc2.appendChild(post);
+         }
+
+                QDomElement vob = dvddoc.createElement("vob");
+                vob.setAttribute("file", voburls.at(i));
+                pgc2.appendChild(vob);
+            }
+        }
+    */
     QFile data2(m_authorFile.fileName());
     if (data2.open(QFile::WriteOnly)) {
         QTextStream out(&data2);
@@ -457,8 +401,8 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status) {
 void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status) {
     QListWidgetItem *isoitem =  m_status.job_progress->item(4);
     if (status == QProcess::CrashExit) {
-        m_authorFile.remove();
-        m_menuFile.remove();
+        //m_authorFile.remove();
+        //m_menuFile.remove();
         KIO::NetAccess::del(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);
         kDebug() << "Iso process crashed";
         isoitem->setIcon(KIcon("dialog-close"));
@@ -466,8 +410,8 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status) {
     }
     isoitem->setIcon(KIcon("dialog-ok"));
     kDebug() << "ISO IMAGE " << m_iso.iso_image->url().path() << " Successfully created";
-    m_authorFile.remove();
-    m_menuFile.remove();
+    //m_authorFile.remove();
+    //m_menuFile.remove();
     KIO::NetAccess::del(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);
     KMessageBox::information(this, i18n("Dvd iso image %1 successfully created.", m_iso.iso_image->url().path()));
 

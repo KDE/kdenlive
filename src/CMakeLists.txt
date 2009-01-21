@@ -147,6 +147,7 @@ set(kdenlive_SRCS
   changetrackcommand.cpp
   movegroupcommand.cpp
   dvdwizardvob.cpp
+  dvdwizardmenu.cpp
   dvdwizard.cpp
 )
 

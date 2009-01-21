@@ -34,6 +34,7 @@ public:
     virtual bool isComplete() const;
     QStringList selectedUrls() const;
     void setUrl(const QString &url);
+    QString introMovie() const;
 
 private:
     Ui::DvdWizardVob_UI m_view;

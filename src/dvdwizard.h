@@ -25,10 +25,6 @@
 #include <QVBoxLayout>
 #include <QItemDelegate>
 #include <QPainter>
-#include <QGraphicsScene>
-#include <QGraphicsTextItem>
-#include <QGraphicsPixmapItem>
-#include <QGraphicsRectItem>
 #include <QProcess>
 
 
@@ -36,7 +32,7 @@
 #include <KTemporaryFile>
 
 #include "dvdwizardvob.h"
-#include "ui_dvdwizardmenu_ui.h"
+#include "dvdwizardmenu.h"
 #include "ui_dvdwizardiso_ui.h"
 #include "ui_dvdwizardstatus_ui.h"
 
@@ -48,26 +44,14 @@ public:
 
 private:
     DvdWizardVob *m_pageVob;
-    Ui::DvdWizardMenu_UI m_menu;
+    DvdWizardMenu *m_pageMenu;
     Ui::DvdWizardIso_UI m_iso;
     Ui::DvdWizardStatus_UI m_status;
-
     QString m_profile;
-    QGraphicsScene *m_scene;
-    QGraphicsTextItem *m_button;
-    QGraphicsPixmapItem *m_background;
-    QGraphicsRectItem *m_color;
-    QGraphicsRectItem *m_safeRect;
-    int m_width;
-    int m_height;
     KTemporaryFile m_menuFile;
     KTemporaryFile m_authorFile;
 
 private slots:
-    void buildButton();
-    void buildColor();
-    void buildImage();
-    void checkBackground();
     void slotPageChanged(int page);
     void slotRenderFinished(int exitCode, QProcess::ExitStatus status);
     void slotIsoFinished(int exitCode, QProcess::ExitStatus status);

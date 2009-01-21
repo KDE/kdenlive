@@ -57,6 +57,12 @@ QStringList DvdWizardVob::selectedUrls() const {
             result.append(allUrls.at(i)->url().path());
         }
     }
+    return result;
+}
+
+QString DvdWizardVob::introMovie() const {
+    if (!m_view.use_intro->isChecked()) return QString();
+    return m_view.intro_vob->url().path();
 }
 
 void DvdWizardVob::slotCheckVobList(const QString &text) {
