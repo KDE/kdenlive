@@ -45,7 +45,7 @@
       </size>
      </property>
      <property name="currentIndex" >
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab" >
       <attribute name="title" >
@@ -143,19 +143,18 @@
        <string>Video4Linux</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout" >
-       <item row="0" column="0" >
-        <widget class="QLabel" name="label_14" >
-         <property name="text" >
-          <string>Video device</string>
+       <item row="9" column="2" >
+        <spacer name="verticalSpacer" >
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
          </property>
-        </widget>
-       </item>
-       <item row="0" column="1" colspan="2" >
-        <widget class="KLineEdit" name="kcfg_video4vdevice" >
-         <property name="text" >
-          <string>/dev/video0</string>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
          </property>
-        </widget>
+        </spacer>
        </item>
        <item row="0" column="3" >
         <widget class="QLabel" name="label_3" >
@@ -170,17 +169,10 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="4" colspan="2" >
-        <widget class="KLineEdit" name="kcfg_video4vformat" >
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label_14" >
          <property name="text" >
-          <string>video4linux2</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" >
-        <widget class="QLabel" name="label_16" >
-         <property name="text" >
-          <string>Audio device</string>
+          <string>Video device</string>
          </property>
         </widget>
        </item>
@@ -204,17 +196,10 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="4" colspan="2" >
-        <widget class="KLineEdit" name="kcfg_video4aformat" >
+       <item row="2" column="0" >
+        <widget class="QLabel" name="label_16" >
          <property name="text" >
-          <string>oss</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="6" >
-        <widget class="Line" name="line_3" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
+          <string>Audio device</string>
          </property>
         </widget>
        </item>
@@ -231,15 +216,8 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="6" >
-        <widget class="KLineEdit" name="kcfg_video4capture" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
+       <item row="8" column="0" colspan="6" >
+        <widget class="KLineEdit" name="kcfg_video4encoding" />
        </item>
        <item row="7" column="0" colspan="2" >
         <widget class="QLabel" name="label_12" >
@@ -254,21 +232,43 @@
          </property>
         </widget>
        </item>
-       <item row="8" column="0" colspan="6" >
-        <widget class="KLineEdit" name="kcfg_video4encoding" />
+       <item row="2" column="4" colspan="2" >
+        <widget class="KLineEdit" name="kcfg_video4aformat" >
+         <property name="text" >
+          <string>oss</string>
+         </property>
+        </widget>
        </item>
-       <item row="9" column="2" >
-        <spacer name="verticalSpacer" >
+       <item row="0" column="4" colspan="2" >
+        <widget class="KLineEdit" name="kcfg_video4vformat" >
+         <property name="text" >
+          <string>video4linux2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" colspan="2" >
+        <widget class="KLineEdit" name="kcfg_video4vdevice" >
+         <property name="text" >
+          <string>/dev/video0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="6" >
+        <widget class="KLineEdit" name="kcfg_video4capture" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="6" >
+        <widget class="Line" name="line_3" >
          <property name="orientation" >
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
+        </widget>
        </item>
        <item row="1" column="0" >
         <widget class="QLabel" name="label_4" >
@@ -305,19 +305,11 @@
         </widget>
        </item>
       </layout>
-      <zorder>label_7</zorder>
-      <zorder>line</zorder>
       <zorder>label_3</zorder>
-      <zorder>label_5</zorder>
-      <zorder>kcfg_video4vencoding</zorder>
       <zorder>label_14</zorder>
-      <zorder>kcfg_video4aencoding</zorder>
       <zorder>kcfg_video4adevice</zorder>
-      <zorder>line_2</zorder>
       <zorder>label_9</zorder>
       <zorder>label_16</zorder>
-      <zorder>label_15</zorder>
-      <zorder>label_13</zorder>
       <zorder>label_11</zorder>
       <zorder>kcfg_video4encoding</zorder>
       <zorder>label_12</zorder>
@@ -376,7 +368,7 @@
            </widget>
           </item>
           <item row="1" column="1" colspan="3" >
-           <widget class="KComboBox" name="kcfg_rmd_alsa_device" />
+           <widget class="KComboBox" name="rmd_alsa_device" />
           </item>
           <item row="2" column="0" >
            <widget class="QRadioButton" name="kcfg_rmd_use_jack" >
@@ -617,9 +609,6 @@
     </widget>
    </item>
   </layout>
-  <zorder>label</zorder>
-  <zorder>kcfg_defaultcapture</zorder>
-  <zorder>tabWidget</zorder>
  </widget>
  <customwidgets>
   <customwidget>
@@ -656,7 +645,7 @@
   <tabstop>kcfg_video4encoding</tabstop>
   <tabstop>kcfg_rmd_capture_audio</tabstop>
   <tabstop>radioButton_2</tabstop>
-  <tabstop>kcfg_rmd_alsa_device</tabstop>
+  <tabstop>rmd_alsa_device</tabstop>
   <tabstop>kcfg_rmd_alsa_buffer</tabstop>
   <tabstop>kcfg_rmd_use_jack</tabstop>
   <tabstop>kcfg_rmd_jackports</tabstop>

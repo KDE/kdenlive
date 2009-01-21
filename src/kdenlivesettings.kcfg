@@ -71,11 +71,6 @@
       <default>50</default>
     </entry>
 
-    <entry name="audio_device" type="UInt">
-      <label>Audio device used for sound output.</label>
-      <default>0</default>
-    </entry>
-
     <entry name="audio_driver" type="UInt">
       <label>Audio driver used for sound output.</label>
       <default>0</default>
@@ -233,11 +228,6 @@
     <entry name="rmd_jackports" type="String">
       <label>name of the jack ports (space separated).</label>
       <default>system:capture_1</default>
-    </entry>
-
-    <entry name="rmd_alsa_device" type="UInt">
-      <label>Audio device used for sound recording.</label>
-      <default>0</default>
     </entry>
 
     <entry name="rmd_capture_type" type="UInt">

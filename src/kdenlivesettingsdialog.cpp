@@ -209,8 +209,8 @@ void KdenliveSettingsDialog::initDevices() {
     m_configSdl.kcfg_video_driver->addItem(i18n("Ascii art library"), "aalib");
 
     // Fill the list of audio playback devices
-    m_configSdl.kcfg_audio_device->addItem(i18n("Default"), QString());
-    m_configCapture.kcfg_rmd_alsa_device->addItem(i18n("Default"), QString());
+    m_configSdl.audio_device->addItem(i18n("Default"), QString());
+    m_configCapture.rmd_alsa_device->addItem(i18n("Default"), QString());
     if (KStandardDirs::findExe("aplay") != QString::null) {
         m_readProcess.setOutputChannelMode(KProcess::OnlyStdoutChannel);
         m_readProcess.setProgram("aplay", QStringList() << "-l");
@@ -227,15 +227,25 @@ void KdenliveSettingsDialog::initDevices() {
                 line = stream.readLine();
                 if (line.contains("playback")) {
                     deviceId = line.section(":", 0, 0);
-                    m_configSdl.kcfg_audio_device->addItem(line.section(":", 1, 1), "plughw:" + QString::number(deviceId.section("-", 0, 0).toInt()) + "," + QString::number(deviceId.section("-", 1, 1).toInt()));
+                    m_configSdl.audio_device->addItem(line.section(":", 1, 1), "plughw:" + QString::number(deviceId.section("-", 0, 0).toInt()) + "," + QString::number(deviceId.section("-", 1, 1).toInt()));
                 }
                 if (line.contains("capture")) {
                     deviceId = line.section(":", 0, 0);
-                    m_configCapture.kcfg_rmd_alsa_device->addItem(line.section(":", 1, 1), "plughw:" + QString::number(deviceId.section("-", 0, 0).toInt()) + "," + QString::number(deviceId.section("-", 1, 1).toInt()));
+                    m_configCapture.rmd_alsa_device->addItem(line.section(":", 1, 1), "plughw:" + QString::number(deviceId.section("-", 0, 0).toInt()) + "," + QString::number(deviceId.section("-", 1, 1).toInt()));
                 }
             }
             file.close();
         }
+    }
+    if (!KdenliveSettings::audiodevicename().isEmpty()) {
+        // Select correct alsa device
+        int ix = m_configSdl.audio_device->findData(KdenliveSettings::audiodevicename());
+        if (ix > 0) m_configSdl.audio_device->setCurrentIndex(ix);
+    }
+    if (!KdenliveSettings::rmd_alsadevicename().isEmpty()) {
+        // Select correct alsa device
+        int ix = m_configCapture.rmd_alsa_device->findData(KdenliveSettings::rmd_alsadevicename());
+        if (ix > 0) m_configCapture.rmd_alsa_device->setCurrentIndex(ix);
     }
 }
 
@@ -250,8 +260,8 @@ void KdenliveSettingsDialog::slotReadAudioDevices() {
         if (data.simplified().startsWith("card")) {
             QString card = data.section(":", 0, 0).section(" ", -1);
             QString device = data.section(":", 1, 1).section(" ", -1);
-            m_configSdl.kcfg_audio_device->addItem(data.section(":", -1), "plughw:" + card + "," + device);
-            m_configCapture.kcfg_rmd_alsa_device->addItem(data.section(":", -1), "plughw:" + card + "," + device);
+            m_configSdl.audio_device->addItem(data.section(":", -1), "plughw:" + card + "," + device);
+            m_configCapture.rmd_alsa_device->addItem(data.section(":", -1), "plughw:" + card + "," + device);
         }
     }
 }
@@ -365,13 +375,13 @@ void KdenliveSettingsDialog::updateSettings() {
     KdenliveSettings::setDefault_profile(m_defaultPath);
 
     bool resetProfile = false;
-    QString value = m_configSdl.kcfg_audio_device->itemData(m_configSdl.kcfg_audio_device->currentIndex()).toString();
+    QString value = m_configSdl.audio_device->itemData(m_configSdl.audio_device->currentIndex()).toString();
     if (value != KdenliveSettings::audiodevicename()) {
         KdenliveSettings::setAudiodevicename(value);
         resetProfile = true;
     }
 
-    value = m_configCapture.kcfg_rmd_alsa_device->itemData(m_configCapture.kcfg_rmd_alsa_device->currentIndex()).toString();
+    value = m_configCapture.rmd_alsa_device->itemData(m_configCapture.rmd_alsa_device->currentIndex()).toString();
     if (value != KdenliveSettings::rmd_alsadevicename()) {
         KdenliveSettings::setRmd_alsadevicename(value);
     }
