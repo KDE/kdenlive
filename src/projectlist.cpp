@@ -317,7 +317,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties) {
     //kDebug() << "Adding clip with groupid: " << parent;
     ProjectItem *item = NULL;
     if (!parent.isEmpty()) {
-        ProjectItem *parentitem = getItemById(parent);
+        ProjectItem *parentitem = getFolderItemById(parent);
         if (!parentitem) {
             QStringList text;
             QString groupName = clip->getProperty("groupname");
@@ -622,22 +622,27 @@ void ProjectList::slotReplyGetImage(const QString &clipId, int pos, const QPixma
 }
 
 ProjectItem *ProjectList::getItemById(const QString &id) {
+    ProjectItem *item;
     QTreeWidgetItemIterator it(listView);
     while (*it) {
-        if (((ProjectItem *)(*it))->clipId() == id)
-            return static_cast<ProjectItem *>(*it);
+        item = static_cast<ProjectItem *>(*it);
+        if (item->clipId() == id && item->clipType() != FOLDER)
+            return item;
         ++it;
     }
     return NULL;
-#ifdef USED_TO_BE_THIS
+}
+
+ProjectItem *ProjectList::getFolderItemById(const QString &id) {
+    ProjectItem *item;
+    QTreeWidgetItemIterator it(listView);
     while (*it) {
-        if (((ProjectItem *)(*it))->clipId() == id)
-            break;
+        item = static_cast<ProjectItem *>(*it);
+        if (item->clipId() == id && item->clipType() == FOLDER)
+            return item;
         ++it;
     }
-    if (*it) return ((ProjectItem *)(*it));
     return NULL;
-#endif
 }
 
 void ProjectList::slotSelectClip(const QString &ix) {

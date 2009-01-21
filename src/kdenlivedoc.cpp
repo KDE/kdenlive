@@ -1363,7 +1363,7 @@ void KdenliveDoc::slotAddClipFile(const KUrl url, const QString group, const QSt
 }
 
 void KdenliveDoc::slotAddFolder(const QString folderName) {
-    AddFolderCommand *command = new AddFolderCommand(this, folderName, QString::number(m_clipManager->getFreeClipId()), true);
+    AddFolderCommand *command = new AddFolderCommand(this, folderName, QString::number(m_clipManager->getFreeFolderId()), true);
     commandStack()->push(command);
     setModified(true);
 }

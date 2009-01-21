@@ -30,6 +30,7 @@
 
 ClipManager::ClipManager(KdenliveDoc *doc): m_doc(doc), m_audioThumbsEnabled(false), m_audioThumbsQueue(QList <QString> ()), m_generatingAudioId(QString()) {
     m_clipIdCounter = 1;
+    m_folderIdCounter = 1;
 }
 
 ClipManager::~ClipManager() {
@@ -102,6 +103,8 @@ void ClipManager::addClip(DocClipBase *clip) {
     m_clipList.append(clip);
     const QString id = clip->getId();
     if (id.toInt() >= m_clipIdCounter) m_clipIdCounter = id.toInt() + 1;
+    const QString gid = clip->getProperty("groupid");
+    if (!gid.isEmpty() && gid.toInt() >= m_folderIdCounter) m_folderIdCounter = gid.toInt() + 1;
 }
 
 void ClipManager::slotDeleteClip(const QString &clipId) {
@@ -299,6 +302,10 @@ void ClipManager::slotAddTextClipFile(const QString titleName, const QString ima
 
 int ClipManager::getFreeClipId() {
     return m_clipIdCounter++;
+}
+
+int ClipManager::getFreeFolderId() {
+    return m_folderIdCounter++;
 }
 
 int ClipManager::lastClipId() const {

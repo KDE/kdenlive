@@ -64,6 +64,7 @@ Q_OBJECT public:
     void checkAudioThumbs();
     QList <DocClipBase*> documentClipList();
     int getFreeClipId();
+    int getFreeFolderId();
     int lastClipId() const;
     void startAudioThumbsGeneration();
     void endAudioThumbsGeneration(const QString &requestedId);
@@ -81,6 +82,7 @@ private:   // Private attributes
     /** the document undo stack*/
     KdenliveDoc *m_doc;
     int m_clipIdCounter;
+    int m_folderIdCounter;
     bool m_audioThumbsEnabled;
     QString m_generatingAudioId;
 

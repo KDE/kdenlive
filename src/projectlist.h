@@ -142,6 +142,7 @@ private:
     int m_clipIdCounter;
     void selectItemById(const QString &clipId);
     ProjectItem *getItemById(const QString &id);
+    ProjectItem *getFolderItemById(const QString &id);
     QAction *m_editAction;
     QAction *m_deleteAction;
     KdenliveDoc *m_doc;

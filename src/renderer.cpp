@@ -1022,7 +1022,7 @@ void Render::stop() {
     if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
         kDebug() << "/////////////   RENDER STOPPED: " << m_name;
         m_isBlocked = true;
-        m_mltConsumer->set("refresh", 0);
+        //m_mltConsumer->set("refresh", 0);
         m_mltConsumer->stop();
         // delete m_mltConsumer;
         // m_mltConsumer = NULL;
@@ -2940,10 +2940,11 @@ void Render::mltDeleteTrack(int ix) {
 void Render::updatePreviewSettings() {
     kDebug() << "////// RESTARTING CONSUMER";
     if (!m_mltConsumer || !m_mltProducer) return;
+    if (m_mltProducer->get_playtime() == 0) return;
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) return;
 
-    m_mltConsumer->set("refresh", 0);
+    //m_mltConsumer->set("refresh", 0);
     if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     m_mltConsumer->purge();
     QString scene = sceneList();
