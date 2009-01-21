@@ -1,6 +1,6 @@
 #! /bin/sh
 
-FILES="`find -type f -wholename './src/*.cpp'` `find -type f -wholename './src/*.h'` `find -type f -wholename './renderer/*.cpp'` `find -type f -wholename './renderer/*.h'` `find -type f -wholename './plugins/*.cpp'` `find -type f -wholename './plugins/*.h'`"
+FILES="`find -type f -wholename './src/*.cpp'` `find -type f -wholename './src/*.h'` `find -type f -wholename './renderer/*.cpp'` `find -type f -wholename './renderer/*.h'` `find -type f -wholename './plugins/*.cpp'` `find -type f -wholename './plugins/*.h'` `find -type f -wholename './thumbnailer/*.cpp'` `find -type f -wholename './thumbnailer/*.h'`"
 
 if [ $# -gt 0 ]
 then
