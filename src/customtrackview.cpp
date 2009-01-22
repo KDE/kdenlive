@@ -2081,12 +2081,14 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 QDomElement effect = oldeffect.cloneNode().toElement();
                 EffectsList::setParameter(oldeffect, "in", QString::number(start));
                 EffectsList::setParameter(oldeffect, "out", QString::number(end));
+		kDebug()<<"EDIT FADE OUT : "<<start<<"x"<<end;
                 slotUpdateClipEffect(item, effect, oldeffect, ix);
                 emit clipItemSelected(item, ix);
             }
         } else if (item->fadeOut() != 0) {
             QDomElement effect = MainWindow::audioEffects.getEffectByTag("volume", "fadeout").cloneNode().toElement();
-            EffectsList::setParameter(effect, "out", QString::number(item->fadeOut()));
+            EffectsList::setParameter(effect, "in", QString::number(item->fadeOut()));
+            EffectsList::setParameter(effect, "out", QString::number(0));
             slotAddEffect(effect, m_dragItem->startPos(), m_dragItem->track());
         }
     } else if (m_operationMode == KEYFRAME) {
