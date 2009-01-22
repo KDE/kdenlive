@@ -40,18 +40,18 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
     //setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
     setAttribute(Qt::WA_DeleteOnClose);
     m_pageVob = new DvdWizardVob(this);
-    m_pageVob->setTitle(i18n("Select Files For Your Dvd"));
+    m_pageVob->setTitle(i18n("Select Files For Your DVD"));
     addPage(m_pageVob);
 
     if (!url.isEmpty()) m_pageVob->setUrl(url);
 
     m_pageMenu = new DvdWizardMenu(m_profile, this);
-    m_pageMenu->setTitle(i18n("Create Dvd Menu"));
+    m_pageMenu->setTitle(i18n("Create DVD Menu"));
     addPage(m_pageMenu);
 
 
     QWizardPage *page3 = new QWizardPage;
-    page3->setTitle(i18n("Dvd Image"));
+    page3->setTitle(i18n("DVD Image"));
     m_iso.setupUi(page3);
     m_iso.tmp_folder->setPath(KdenliveSettings::currenttmpfolder());
     m_iso.iso_image->setPath(QDir::homePath() + "/untitled.iso");
@@ -60,7 +60,7 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
     addPage(page3);
 
     QWizardPage *page4 = new QWizardPage;
-    page4->setTitle(i18n("Creating Dvd Image"));
+    page4->setTitle(i18n("Creating DVD Image"));
     m_status.setupUi(page4);
     addPage(page4);
 
@@ -413,7 +413,7 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status) {
     //m_authorFile.remove();
     //m_menuFile.remove();
     KIO::NetAccess::del(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);
-    KMessageBox::information(this, i18n("Dvd iso image %1 successfully created.", m_iso.iso_image->url().path()));
+    KMessageBox::information(this, i18n("DVD iso image %1 successfully created.", m_iso.iso_image->url().path()));
 
 }
 

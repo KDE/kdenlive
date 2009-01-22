@@ -32,8 +32,8 @@ int main(int argc, char *argv[]) {
                          ki18n("An open source video editor."),
                          KAboutData::License_GPL,
                          ki18n("Copyright (c) 2008 Development team"));
-    aboutData.addAuthor(ki18n("Jean-Baptiste Mardelle"), ki18n("Mlt porting, KDE4 porting, Main developer"), "jb@kdenlive.org");
-    aboutData.addAuthor(ki18n("Marco Gittler"), ki18n("Mlt Connection, Transition, Effect, Timeline Developer"), "g.marco@freenet.de");
+    aboutData.addAuthor(ki18n("Jean-Baptiste Mardelle"), ki18n("MLT porting, KDE4 porting, Main developer"), "jb@kdenlive.org");
+    aboutData.addAuthor(ki18n("Marco Gittler"), ki18n("MLT Connection, Transition, Effect, Timeline Developer"), "g.marco@freenet.de");
     aboutData.setHomepage("http://kdenlive.org");
     aboutData.setCustomAuthorText(ki18n("Please report bugs to http://kdenlive.org/mantis"), ki18n("Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive.org/mantis</a>"));
     aboutData.setTranslator(ki18n("NAME OF TRANSLATORS"), ki18n("EMAIL OF TRANSLATORS"));

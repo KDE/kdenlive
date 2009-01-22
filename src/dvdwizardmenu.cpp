@@ -38,7 +38,7 @@ DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent): QWizardPa
     m_view.add_button->setVisible(false);
     m_view.delete_button->setVisible(false);
 
-    m_view.menu_profile->addItems(QStringList() << i18n("Pal") << i18n("Ntsc"));
+    m_view.menu_profile->addItems(QStringList() << i18n("PAL") << i18n("NTSC"));
 
     if (profile == "dv_ntsc" || profile == "dv_ntsc_wide") {
         m_view.menu_profile->setCurrentIndex(1);
