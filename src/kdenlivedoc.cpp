@@ -78,10 +78,18 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     QString profilePath = infoXml.attribute("profile");
                     QString projectFolderPath = infoXml.attribute("projectfolder");
                     if (!projectFolderPath.isEmpty()) m_projectFolder = KUrl(projectFolderPath);
-                    if (m_projectFolder.isEmpty()) m_projectFolder = KUrl(KdenliveSettings::defaultprojectfolder());
+
+                    if (m_projectFolder.isEmpty() || !KIO::NetAccess::exists(m_projectFolder.path(), KIO::NetAccess::DestinationSide, parent)) {
+                        // Make sure the project folder is usable
+                        KMessageBox::information(parent, i18n("Document project folder is invalid, setting it to the default one: %1", KdenliveSettings::defaultprojectfolder()));
+                        m_projectFolder = KUrl(KdenliveSettings::defaultprojectfolder());
+                    }
                     m_startPos = infoXml.attribute("position").toInt();
                     m_zoom = infoXml.attribute("zoom", "7").toInt();
-                    m_zoneStart = infoXml.attribute("zonein", "0").toInt();
+
+
+
+
                     m_zoneEnd = infoXml.attribute("zoneout", "100").toInt();
                     setProfilePath(profilePath);
 
@@ -1189,7 +1197,30 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
             extension = KUrl(path).fileName();
             path = KUrl(path).directory();
         }
-        if (!path.isEmpty() && !QFile::exists(path)) {
+        if (!QFile::exists(path) && elem.attribute("type").toInt() == TEXT) {
+            kDebug() << "// TITLE: " << elem.attribute("titlename") << " Preview file: " << elem.attribute("resource") << " DOES NOT EXIST";
+            QString titlename = elem.attribute("titlename");
+            QString titleresource;
+            if (titlename.isEmpty()) {
+                QStringList titleInfo = TitleWidget::getFreeTitleInfo(projectFolder());
+                titlename = titleInfo.at(0);
+                titleresource = titleInfo.at(1);
+                elem.setAttribute("titlename", titlename);
+                kDebug() << "// New title set to: " << titlename;
+            } else {
+                titleresource = TitleWidget::getTitleResourceFromName(projectFolder(), titlename);
+            }
+            QString titlepath = projectFolder().path() + "/titles/";
+            TitleWidget *dia_ui = new TitleWidget(KUrl(), titlepath, m_render, kapp->activeWindow());
+            QDomDocument doc;
+            doc.setContent(elem.attribute("xmldata"));
+            dia_ui->setXml(doc);
+            QImage pix = dia_ui->renderedPixmap();
+            pix.save(titleresource);
+            elem.setAttribute("resource", titleresource);
+            delete dia_ui;
+        } else if (!path.isEmpty() && !QFile::exists(path) && elem.attribute("type").toInt() != TEXT) {
+            kDebug() << "// FOUND MISSING CLIP: " << path << ", TYPE: " << elem.attribute("type").toInt();
             const QString size = elem.attribute("file_size");
             const QString hash = elem.attribute("file_hash");
             QString newpath;
