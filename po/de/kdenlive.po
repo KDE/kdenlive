@@ -2931,7 +2931,7 @@ msgstr "Zeige alle"
 
 #: src/mainwindow.cpp:697 rc.cpp:690 rc.cpp:1893
 msgid "Show audio thumbnails"
-msgstr "zeige Tonspur"
+msgstr "Zeige Tonspur"
 
 #: rc.cpp:843 rc.cpp:2046
 msgid "Show background"
@@ -2947,7 +2947,7 @@ msgstr "Kommentare des Markers anzeigen"
 
 #: src/mainwindow.cpp:691 rc.cpp:687 rc.cpp:1890
 msgid "Show video thumbnails"
-msgstr "zeige Videobilder"
+msgstr "Zeige Videobilder"
 
 #: rc.cpp:196
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
