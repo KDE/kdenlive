@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-22 18:00+0100\n"
-"PO-Revision-Date: 2009-01-22 18:30+0100\n"
+"POT-Creation-Date: 2009-01-23 07:21+0100\n"
+"PO-Revision-Date: 2009-01-23 07:22+0100\n"
 "Last-Translator: Simon Eugster <simon.eu@gmail.com>\n"
 "Language-Team:  <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -139,7 +139,7 @@ msgstr ""
 "Hilfsprogramm <em>dvdgrab</em> nicht gefunden, bitte installieren Sie es für "
 "Aufnahmen über Firewire"
 
-#: src/kdenlivedoc.cpp:1202
+#: src/kdenlivedoc.cpp:1233
 #, kde-format
 msgid "<qt>Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
 msgstr "<qt>Clip <b>%1</b><br>ist ungültig oder fehlt, was wollen Sie tun?"
@@ -210,13 +210,13 @@ msgstr "Benutzerdefinierten Effekt hinzufügen"
 
 #: src/customruler.cpp:66 src/customtrackview.cpp:2732 src/mainwindow.cpp:943
 msgid "Add Guide"
-msgstr "Guide hinzufügen"
+msgstr "Hilfslinie hinzufügen"
 
 #: src/titlewidget.cpp:122
 msgid "Add Image"
 msgstr "Bild hinzufügen"
 
-#: src/clipproperties.cpp:270 src/mainwindow.cpp:907 src/mainwindow.cpp:1763
+#: src/clipproperties.cpp:270 src/mainwindow.cpp:907 src/mainwindow.cpp:1766
 msgid "Add Marker"
 msgstr "Marker hinzufügen"
 
@@ -244,7 +244,7 @@ msgstr "Übergang hinzufügen"
 msgid "Add Video Effect"
 msgstr "Videoeffekt hinzufügen"
 
-#: src/clipitem.cpp:747 src/clipitem.cpp:754
+#: src/clipitem.cpp:751 src/clipitem.cpp:758
 msgid "Add audio fade"
 msgstr "Audio-Fading hinzufügen"
 
@@ -252,7 +252,7 @@ msgstr "Audio-Fading hinzufügen"
 msgid "Add clip"
 msgstr "Clip hinzufügen"
 
-#: src/clipmanager.cpp:189
+#: src/clipmanager.cpp:192
 msgid "Add clips"
 msgstr "Clips hinzufügen"
 
@@ -262,7 +262,7 @@ msgstr "Ordner hinzufügen"
 
 #: src/editguidecommand.cpp:23
 msgid "Add guide"
-msgstr "Guide hinzufügen"
+msgstr "Hilfslinie hinzufügen"
 
 #: src/complexparameter.cpp:45 src/editkeyframecommand.cpp:27
 #: src/geometryval.cpp:63
@@ -293,7 +293,7 @@ msgstr "Zeitleisten-Clip hinzufügen"
 msgid "Add track"
 msgstr "Spur hinzufügen"
 
-#: src/clipitem.cpp:761 src/clipitem.cpp:764
+#: src/clipitem.cpp:765 src/clipitem.cpp:768
 msgid "Add transition"
 msgstr "Übergang hinzufügen"
 
@@ -398,7 +398,7 @@ msgstr "Audiotreiber:"
 msgid "Audio editing"
 msgstr "Audiobearbeitung"
 
-#: src/clipitem.cpp:748 src/clipitem.cpp:755
+#: src/clipitem.cpp:752 src/clipitem.cpp:759
 #, c-format, kde-format
 msgid "Audio fade duration: %1s"
 msgstr "Audio-Fading Dauer: %1 s"
@@ -546,7 +546,7 @@ msgstr "Knopffarben"
 msgid "C"
 msgstr "C"
 
-#: src/projectlist.cpp:187 src/projectlist.cpp:348
+#: src/projectlist.cpp:196 src/projectlist.cpp:375
 #, kde-format
 msgid ""
 "Cannot access Desktop Search info for %1.\n"
@@ -568,7 +568,7 @@ msgstr "Ein Szenenübergang kann nicht geschnittten werden"
 msgid "Cannot find clip to add effect"
 msgstr "Keinen Clip gefunden um den Effekt hinzuzufügen"
 
-#: src/mainwindow.cpp:1758
+#: src/mainwindow.cpp:1761
 msgid "Cannot find clip to add marker"
 msgstr "Keinen Clip gefunden, um den Marker hinzuzufügen"
 
@@ -576,7 +576,7 @@ msgstr "Keinen Clip gefunden, um den Marker hinzuzufügen"
 msgid "Cannot find clip to cut"
 msgstr "Keinen Clip gefunden um zu schneiden"
 
-#: src/mainwindow.cpp:1786 src/mainwindow.cpp:1814 src/mainwindow.cpp:1837
+#: src/mainwindow.cpp:1789 src/mainwindow.cpp:1817 src/mainwindow.cpp:1840
 msgid "Cannot find clip to remove marker"
 msgstr "Keinen Clip gefunden, um den Marker entfernen zu können"
 
@@ -588,13 +588,13 @@ msgstr "Keinen Clip gefunden um Schnitt rückgängig zu machen"
 msgid "Cannot find clip with keyframe"
 msgstr "Keinen Clip mit Schlüsselbild gefunden"
 
-#: src/mainwindow.cpp:1350 src/mainwindow.cpp:1450
+#: src/mainwindow.cpp:1349 src/mainwindow.cpp:1449
 msgid "Cannot find the inigo program required for rendering (part of Mlt)"
 msgstr ""
 "Kann die Anwendung inigo (Bestandteil von Mlt) nicht finden die zum Rendern "
 "benutzt wird"
 
-#: src/mainwindow.cpp:1335
+#: src/mainwindow.cpp:1334
 msgid "Cannot find your Mlt profiles, please give the path"
 msgstr "Kann Mlt-Profile nicht finden, bitte geben Sie den Pfad an"
 
@@ -639,7 +639,7 @@ msgstr "Kann gewählte Clips nicht einfügen"
 msgid "Cannot paste transition to selected place"
 msgstr "Kann Übergang nicht am gewählten Ort einfügen"
 
-#: src/mainwindow.cpp:1447
+#: src/mainwindow.cpp:1446
 msgid ""
 "Cannot play video after rendering because the default video player "
 "application is not set.\n"
@@ -662,7 +662,7 @@ msgstr ""
 msgid "Cannot resize transition"
 msgstr "Kann Grösse des Übergangs nicht ändern"
 
-#: src/profilesdialog.cpp:153 src/kdenlivedoc.cpp:900
+#: src/profilesdialog.cpp:153 src/kdenlivedoc.cpp:908
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Kann nicht in Datei %1 schreiben"
@@ -713,7 +713,7 @@ msgstr "Clip-Geschwindigkeit ändern"
 
 #: src/mainwindow.cpp:939
 msgid "Change Track"
-msgstr "Spur Ändern"
+msgstr "Spur ändern"
 
 #: src/customtrackview.cpp:3285 src/headertrack.cpp:64
 msgid "Change Track Type"
@@ -779,17 +779,17 @@ msgstr "Aufräumen"
 msgid "Clip"
 msgstr "Clip"
 
-#: src/kdenlivedoc.cpp:1204
+#: src/kdenlivedoc.cpp:1235
 #, kde-format
 msgid "Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
 msgstr "Clip <b>%1</b><br /> ist ungültig oder fehlt, was wollen Sie tun?"
 
-#: src/kdenlivedoc.cpp:1199
+#: src/kdenlivedoc.cpp:1230
 #, kde-format
 msgid "Clip <b>%1</b><br>is invalid, what do you want to do?"
 msgstr "Clip <b>%1</b><br /> ist ungültig, was wollen Sie tun?"
 
-#: src/projectlist.cpp:445
+#: src/projectlist.cpp:481
 #, kde-format
 msgid "Clip <b>%1</b><br>is invalid, will be removed from project."
 msgstr "Clip <b>%1</b><br>ist ungültig und wird aus dem Projekt entfernt."
@@ -806,7 +806,7 @@ msgstr "Clipmonitor"
 msgid "Clip Properties"
 msgstr "Clipeigenschaften"
 
-#: src/clipitem.cpp:758
+#: src/clipitem.cpp:762
 #, c-format, kde-format
 msgid "Clip duration: %1s"
 msgstr "Cliplänge: %1 s"
@@ -831,7 +831,7 @@ msgstr "Koeffizient"
 msgid "Color"
 msgstr "Farbe"
 
-#: src/projectlist.cpp:458
+#: src/projectlist.cpp:494
 msgid "Color Clip"
 msgstr "Farbclip"
 
@@ -886,7 +886,7 @@ msgid "Crash recovery (automatic backup)"
 msgstr "Absturzwiederherstellung (automatisches Backup)"
 
 #: src/dvdwizard.cpp:49
-msgid "Create Dvd Menu"
+msgid "Create DVD Menu"
 msgstr "DVD-Menu erstellen"
 
 #: src/mainwindow.cpp:1013
@@ -902,7 +902,7 @@ msgid "Create new profile"
 msgstr "Neues Profil erstellen"
 
 #: src/dvdwizard.cpp:63
-msgid "Creating Dvd Image"
+msgid "Creating DVD Image"
 msgstr "Erstelle DVD-Image"
 
 #: rc.cpp:1389 rc.cpp:2592
@@ -930,7 +930,7 @@ msgstr "Erstelle Menufilm"
 msgid "Creating thumbnail for %1"
 msgstr "Erstelle Thumbnail für %1"
 
-#: src/clipitem.cpp:751
+#: src/clipitem.cpp:755
 #, c-format, kde-format
 msgid "Crop from start: %1s"
 msgstr "Vom Beginn %1sec abscheiden"
@@ -987,6 +987,15 @@ msgstr "DV-Modul (libdv)"
 #: rc.cpp:1269 rc.cpp:2472
 msgid "DVD Files"
 msgstr "DVD-Dateien"
+
+#: src/dvdwizard.cpp:54
+msgid "DVD Image"
+msgstr "DVD-Image"
+
+#: src/dvdwizard.cpp:416
+#, kde-format
+msgid "DVD iso image %1 successfully created."
+msgstr "DVD-ISO-Image %1 erfolgreich erstellt."
 
 #: rc.cpp:182 rc.cpp:192
 msgid "Damping"
@@ -1051,23 +1060,23 @@ msgstr "Lösche %1"
 
 #: src/customruler.cpp:72 src/mainwindow.cpp:955
 msgid "Delete All Guides"
-msgstr "Alle Guides löschen"
+msgstr "Alle Hilfslinien löschen"
 
 #: src/mainwindow.cpp:915
 msgid "Delete All Markers"
 msgstr "Alle Marker löschen"
 
-#: src/projectlist.cpp:72 src/projectlist.cpp:233
+#: src/projectlist.cpp:73 src/projectlist.cpp:261
 msgid "Delete Clip"
 msgstr "Clip löschen"
 
-#: src/projectlist.cpp:236
+#: src/projectlist.cpp:264
 msgid "Delete Folder"
 msgstr "Verzeichnis löschen"
 
 #: src/customruler.cpp:70 src/mainwindow.cpp:947
 msgid "Delete Guide"
-msgstr "Guide löschen"
+msgstr "Hilfslinie löschen"
 
 #: src/mainwindow.cpp:911
 msgid "Delete Marker"
@@ -1079,7 +1088,7 @@ msgstr "Gewähltes Element löschen"
 
 #: src/headertrack.cpp:60 src/mainwindow.cpp:935
 msgid "Delete Track"
-msgstr "Spur Löschen"
+msgstr "Spur löschen"
 
 #: src/addclipcommand.cpp:27
 msgid "Delete clip"
@@ -1097,7 +1106,7 @@ msgstr "Effekt löschen"
 msgid "Delete folder"
 msgstr "Verzeichnis löschen"
 
-#: src/projectlist.cpp:236
+#: src/projectlist.cpp:264
 #, kde-format
 msgid ""
 "Delete folder <b>%2</b> ?<br>This will also remove the %1 clips in that "
@@ -1108,7 +1117,7 @@ msgstr ""
 
 #: src/editguidecommand.cpp:25
 msgid "Delete guide"
-msgstr "Guide löschen"
+msgstr "Hilfslinie löschen"
 
 #: src/editkeyframecommand.cpp:26 src/geometryval.cpp:65
 msgid "Delete keyframe"
@@ -1146,7 +1155,7 @@ msgstr "Fülle"
 msgid "Description"
 msgstr "Beschreibung"
 
-#: src/mainwindow.cpp:2197
+#: src/mainwindow.cpp:2200
 msgid "Description:"
 msgstr "Beschreibung:"
 
@@ -1188,11 +1197,11 @@ msgstr "Anzeige"
 
 #: rc.cpp:744 rc.cpp:1947
 msgid "Display aspect ratio"
-msgstr "Anzeigeseitenverhältnis"
+msgstr "Anzeigeseitenverhältnis (DAR)"
 
 #: src/wizard.cpp:359 rc.cpp:1302 rc.cpp:2505
 msgid "Display aspect ratio:"
-msgstr "Anzeigeseitenverhältnis:"
+msgstr "Anzeigeseitenverhältnis (DAR):"
 
 #: rc.cpp:873 rc.cpp:2076
 msgid "Display clip markers comments"
@@ -1210,6 +1219,11 @@ msgstr "Distort0r"
 msgid "Do nothing"
 msgstr "Nichts unternehmen"
 
+#: src/kdenlivedoc.cpp:84
+#, kde-format
+msgid "Document project folder is invalid, setting it to the default one: %1"
+msgstr ""
+
 #: src/main.cpp:45
 msgid "Document to open"
 msgstr "Zu öffnendes Dokument"
@@ -1220,7 +1234,7 @@ msgstr "Nicht wiederherstellen"
 
 #: src/mainwindow.cpp:779
 msgid "Download New Lumas..."
-msgstr "Lade neue Lumas herunter …"
+msgstr "Neue Lumas herunterladen …"
 
 #: rc.cpp:1182 rc.cpp:2385
 msgid "Drop B frames on H.264 clips"
@@ -1231,10 +1245,6 @@ msgstr "B-Frames auf H.264-Clip fallen lassen"
 msgid "Duration"
 msgstr "Dauer"
 
-#: src/dvdwizard.cpp:54
-msgid "Dvd Image"
-msgstr "DVD-Image"
-
 #: src/mainwindow.cpp:812
 msgid "Dvd Wizard"
 msgstr "DVD-Assistent"
@@ -1242,11 +1252,6 @@ msgstr "DVD-Assistent"
 #: rc.cpp:1164 rc.cpp:2367
 msgid "Dvd iso image"
 msgstr "DVD-ISO-Image"
-
-#: src/dvdwizard.cpp:416
-#, kde-format
-msgid "Dvd iso image %1 successfully created."
-msgstr "DVD-ISO-Image %1 erfolgreich erstellt."
 
 #: src/wizard.cpp:259
 msgid "Dvgrab"
@@ -1264,7 +1269,7 @@ msgstr "E"
 msgid "EMAIL OF TRANSLATORS"
 msgstr "g.marco@freenet.de, f.hammer@gmx.de, holzi1@gmx.at, simon.eu@gmail.com"
 
-#: src/projectlist.cpp:75
+#: src/projectlist.cpp:76
 msgid "Edit Clip"
 msgstr "Clip bearbeiten"
 
@@ -1274,13 +1279,13 @@ msgstr "Clipgeschwindigkeit bearbeiten"
 
 #: src/customruler.cpp:68 src/customtrackview.cpp:2754 src/mainwindow.cpp:951
 msgid "Edit Guide"
-msgstr "Guide bearbeiten"
+msgstr "Hilfslinie bearbeiten"
 
 #: rc.cpp:672 rc.cpp:1875
 msgid "Edit Keyframe"
 msgstr "Keyframe bearbeiten"
 
-#: src/clipproperties.cpp:281 src/mainwindow.cpp:919 src/mainwindow.cpp:1849
+#: src/clipproperties.cpp:281 src/mainwindow.cpp:919 src/mainwindow.cpp:1852
 msgid "Edit Marker"
 msgstr "Marker bearbeiten"
 
@@ -1295,7 +1300,7 @@ msgstr "Effekt %1 bearbeiten"
 
 #: src/editguidecommand.cpp:24
 msgid "Edit guide"
-msgstr "Guide bearbeiten"
+msgstr "Hilfslinie bearbeiten"
 
 #: src/editkeyframecommand.cpp:25
 msgid "Edit keyframe"
@@ -1437,7 +1442,7 @@ msgstr "Rückmeldung"
 msgid "File"
 msgstr "Datei"
 
-#: src/kdenlivedoc.cpp:160 src/kdenlivedoc.cpp:168
+#: src/kdenlivedoc.cpp:168 src/kdenlivedoc.cpp:176
 #, kde-format
 msgid "File %1 is not a Kdenlive project file."
 msgstr "Datei %1 ist keine Kdenlive Projektdatei."
@@ -1462,7 +1467,7 @@ msgstr "Die Datei existiert bereits. Soll sie überschrieben werden?"
 msgid "File name"
 msgstr "Dateiname"
 
-#: src/kdenlivedoc.cpp:1199 src/kdenlivedoc.cpp:1202 src/kdenlivedoc.cpp:1204
+#: src/kdenlivedoc.cpp:1230 src/kdenlivedoc.cpp:1233 src/kdenlivedoc.cpp:1235
 msgid "File not found"
 msgstr "Datei nicht gefunden"
 
@@ -1490,7 +1495,7 @@ msgstr "Suchen"
 msgid "Find Next"
 msgstr "Weitersuchen"
 
-#: src/mainwindow.cpp:2121
+#: src/mainwindow.cpp:2124
 msgid "Find stopped"
 msgstr "Suche angehalten"
 
@@ -1514,7 +1519,7 @@ msgstr "Ganzes Projekt in Zeitleiste anzeigen"
 msgid "Flip your image in any direction"
 msgstr "Bild in beliebige Richtung drehen"
 
-#: src/projectitem.cpp:47 src/projectlist.cpp:272 src/projectlist.cpp:325
+#: src/projectitem.cpp:47 src/projectlist.cpp:300 src/projectlist.cpp:354
 #: rc.cpp:543 rc.cpp:1746
 msgid "Folder"
 msgstr "Verzeichnis"
@@ -1562,13 +1567,13 @@ msgstr "1 Bild Vorwärts "
 
 #: src/mainwindow.cpp:876
 msgid "Forward 1 Second"
-msgstr "Eine Sekunde Vorwärts"
+msgstr "1 Sekunde Vorwärts"
 
 #: src/monitor.cpp:75
 msgid "Forward 1 frame"
 msgstr "Ein Bild vorwärts"
 
-#: src/mainwindow.cpp:2100 src/mainwindow.cpp:2110
+#: src/mainwindow.cpp:2103 src/mainwindow.cpp:2113
 #, kde-format
 msgid "Found : %1"
 msgstr "Gefunden: %1"
@@ -1696,11 +1701,11 @@ msgstr "Gehe zum Anfang des Clips"
 
 #: src/mainwindow.cpp:881
 msgid "Go to Next Snap Point"
-msgstr "Gehe zum nächsten Einrast-Punkt"
+msgstr "Gehe zum nächsten Einrastpunkt"
 
 #: src/mainwindow.cpp:841
 msgid "Go to Previous Snap Point"
-msgstr "Gehe zum vorherigen Einrast-Punkt"
+msgstr "Gehe zum vorherigen Einrastpunkt"
 
 #: src/mainwindow.cpp:866
 msgid "Go to Project End"
@@ -1736,11 +1741,11 @@ msgstr ""
 
 #: src/customtrackview.cpp:2731
 msgid "Guide"
-msgstr "Guide"
+msgstr "Hilfslinie"
 
 #: rc.cpp:456 rc.cpp:1659
 msgid "Guide zone"
-msgstr "Guide-Bereich"
+msgstr "Hilfslinien-Bereich"
 
 #: rc.cpp:2808
 msgid "Guides"
@@ -1844,11 +1849,11 @@ msgstr "Eingangsverstärkung (dB)"
 
 #: src/mainwindow.cpp:923
 msgid "Insert Space"
-msgstr "Abstand Einfügen"
+msgstr "Abstand einfügen"
 
 #: src/customtrackview.cpp:3242 src/headertrack.cpp:56 src/mainwindow.cpp:931
 msgid "Insert Track"
-msgstr "Füge Spur ein"
+msgstr "Spur einfügen"
 
 #: src/insertspacecommand.cpp:27
 msgid "Insert space"
@@ -1916,7 +1921,7 @@ msgstr "JogShuttle"
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/kdenlivedoc.cpp:1199 src/kdenlivedoc.cpp:1202 src/kdenlivedoc.cpp:1204
+#: src/kdenlivedoc.cpp:1230 src/kdenlivedoc.cpp:1233 src/kdenlivedoc.cpp:1235
 msgid "Keep as placeholder"
 msgstr "Behalte als Platzhalter"
 
@@ -1984,11 +1989,11 @@ msgstr "Bild laden"
 msgid "Load Title"
 msgstr "Titel laden"
 
-#: src/kdenlivedoc.cpp:114
+#: src/kdenlivedoc.cpp:122
 msgid "Loading project clips"
 msgstr "Lade Clips des Projekts"
 
-#: src/kdenlivedoc.cpp:1203 src/kdenlivedoc.cpp:1205
+#: src/kdenlivedoc.cpp:1234 src/kdenlivedoc.cpp:1236
 #, kde-format
 msgid "Looking for %1"
 msgstr "Suche %1"
@@ -2012,6 +2017,16 @@ msgstr "Luma Datei"
 #: rc.cpp:1413 rc.cpp:2616
 msgid "M"
 msgstr "M"
+
+#: src/main.cpp:36
+#, fuzzy
+msgid "MLT Connection, Transition, Effect, Timeline Developer"
+msgstr "MLT-Verbindung, Übergang, Effekt, Zeitleisten-Entwickler"
+
+#: src/main.cpp:35
+#, fuzzy
+msgid "MLT porting, KDE4 porting, Main developer"
+msgstr "MLT-Portierung, KDE4-Portierung, Hauptentwickler"
 
 #: src/wizard.cpp:420
 msgid ""
@@ -2049,8 +2064,8 @@ msgstr "Profile verwalten"
 msgid "Marco Gittler"
 msgstr "Marco Gittler"
 
-#: src/docclipbase.cpp:316 src/clipproperties.cpp:269 src/definitions.h:138
-#: src/mainwindow.cpp:1762 rc.cpp:921 rc.cpp:2124
+#: src/docclipbase.cpp:311 src/clipproperties.cpp:269 src/definitions.h:138
+#: src/mainwindow.cpp:1765 rc.cpp:921 rc.cpp:2124
 msgid "Marker"
 msgstr "Markierungen"
 
@@ -2086,17 +2101,9 @@ msgstr "Verschiedenes …"
 msgid "Mix"
 msgstr "Mix"
 
-#: src/main.cpp:36
-msgid "Mlt Connection, Transition, Effect, Timeline Developer"
-msgstr "MLT-Verbindung, Übergang, Effekt, Zeitleisten-Entwickler"
-
 #: rc.cpp:495 rc.cpp:1698
 msgid "Mlt environment"
 msgstr "MLT-Umgebung"
-
-#: src/main.cpp:35
-msgid "Mlt porting, KDE4 porting, Main developer"
-msgstr "MLT-Portierung, KDE4-Portierung, Hauptentwickler"
 
 #: rc.cpp:498 rc.cpp:1701
 msgid "Mlt profiles folder"
@@ -2137,7 +2144,7 @@ msgstr "Gruppe verschieben"
 
 #: src/editguidecommand.cpp:26
 msgid "Move guide"
-msgstr "Guide verschieben"
+msgstr "Hilfslinie verschieben"
 
 #: src/movetransitioncommand.cpp:22
 msgid "Move transition"
@@ -2163,7 +2170,7 @@ msgstr "N"
 msgid "NAME OF TRANSLATORS"
 msgstr "Marco Glitter, Felix Hammer, Thomas Holzmann"
 
-#: rc.cpp:402 rc.cpp:1605
+#: src/dvdwizardmenu.cpp:41 rc.cpp:402 rc.cpp:1605
 msgid "NTSC"
 msgstr "NTSC"
 
@@ -2190,13 +2197,13 @@ msgstr "Kein Clip kopiert"
 #: src/customtrackview.cpp:2709 src/customtrackview.cpp:2750
 #: src/customtrackview.cpp:2773
 msgid "No guide at cursor time"
-msgstr "Kein Guide an Cursorposition vorhanden"
+msgstr "Keine Hilfslinie an Cursorposition vorhanden"
 
 #: rc.cpp:570 rc.cpp:1515 rc.cpp:1773 rc.cpp:2718
 msgid "No image found"
 msgstr "Kein Bild gefunden"
 
-#: src/mainwindow.cpp:1793 src/mainwindow.cpp:1844
+#: src/mainwindow.cpp:1796 src/mainwindow.cpp:1847
 msgid "No marker found at cursor time"
 msgstr "Kein Marker an Cursorposition vorhanden"
 
@@ -2216,14 +2223,10 @@ msgstr "Normalisiere Lautstärke"
 msgid "Not connected"
 msgstr "Nicht verbunden"
 
-#: src/mainwindow.cpp:2113
+#: src/mainwindow.cpp:2116
 #, kde-format
 msgid "Not found : %1"
 msgstr "Nicht gefunden: %1"
-
-#: src/dvdwizardmenu.cpp:41
-msgid "Ntsc"
-msgstr "NTSC"
 
 #: src/kdenlivesettingsdialog.cpp:187
 msgid "OSS"
@@ -2277,12 +2280,8 @@ msgstr "Ausgabedatei"
 msgid "P"
 msgstr "P"
 
-#: rc.cpp:399 rc.cpp:1602
+#: src/dvdwizardmenu.cpp:41 rc.cpp:399 rc.cpp:1602
 msgid "PAL"
-msgstr "PAL"
-
-#: src/dvdwizardmenu.cpp:41
-msgid "Pal"
 msgstr "PAL"
 
 #: rc.cpp:489 rc.cpp:1692
@@ -2323,11 +2322,11 @@ msgstr "Pixbuf-Modul"
 
 #: rc.cpp:738 rc.cpp:1470 rc.cpp:1941 rc.cpp:2673
 msgid "Pixel aspect ratio"
-msgstr "Pixel-Seitenverhältnis"
+msgstr "Pixel-Seitenverhältnis (PAR)"
 
 #: src/wizard.cpp:359 rc.cpp:1296 rc.cpp:2499
 msgid "Pixel aspect ratio:"
-msgstr "Pixel-Seitenverhältnis:"
+msgstr "Pixel-Seitenverhältnis (PAR):"
 
 #: rc.cpp:96
 msgid "Plasma"
@@ -2531,7 +2530,7 @@ msgstr "Clip schneiden"
 msgid "Razor tool"
 msgstr "Schneidewerkzeug"
 
-#: src/mainwindow.cpp:2102
+#: src/mainwindow.cpp:2105
 msgid "Reached end of project"
 msgstr "Ende des Projekts erreicht"
 
@@ -2582,7 +2581,7 @@ msgstr "Verbleibende Zeit"
 
 #: src/customtrackview.cpp:1519 src/mainwindow.cpp:927
 msgid "Remove Space"
-msgstr "Abstand Entfernen"
+msgstr "Abstand entfernen"
 
 #: src/customtrackview.cpp:3267
 msgid "Remove Track"
@@ -2618,7 +2617,7 @@ msgstr "Rendern"
 msgid "Rendering %1"
 msgstr "Rendere %1"
 
-#: src/mainwindow.cpp:1472
+#: src/mainwindow.cpp:1471
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Renderung von <i>%1</i> gestartet"
@@ -2801,7 +2800,7 @@ msgstr "Titel speichern"
 msgid "Save changes to document ?"
 msgstr "Änderungen des Dokumentes speichern"
 
-#: src/mainwindow.cpp:2191
+#: src/mainwindow.cpp:2194
 msgid "Save clip zone as:"
 msgstr "Clipbereich speichern als:"
 
@@ -2833,16 +2832,17 @@ msgstr "Bildschirmaufnahme"
 msgid "Screen grab"
 msgstr "Bildschirmaufnahme"
 
-#: src/kdenlivedoc.cpp:1199
+#: src/kdenlivedoc.cpp:1230
 msgid "Search automatically"
 msgstr "Suche automatisch"
 
-#: src/kdenlivedoc.cpp:1202 src/kdenlivedoc.cpp:1204
+#: src/kdenlivedoc.cpp:1233 src/kdenlivedoc.cpp:1235
 msgid "Search manually"
 msgstr "Suche manuell"
 
 #: src/dvdwizard.cpp:43
-msgid "Select Files For Your Dvd"
+#, fuzzy
+msgid "Select Files For Your DVD"
 msgstr "Wähle Dateien für die DVD"
 
 #: src/customtrackview.cpp:2923
@@ -3106,7 +3106,7 @@ msgstr "Start-/Endbereich"
 msgid "StartViewport"
 msgstr "Startfenster"
 
-#: src/mainwindow.cpp:2093
+#: src/mainwindow.cpp:2096
 msgid "Starting -- find text as you type"
 msgstr "Beginne – Finde Text während der Eingabe"
 
@@ -3274,7 +3274,7 @@ msgstr "Aktionsverlauf"
 msgid "Unknown clip"
 msgstr "Unbekannter Clip"
 
-#: src/kdenlivedoc.cpp:1171
+#: src/kdenlivedoc.cpp:1179
 msgid "Untitled"
 msgstr "Unbenannt"
 
@@ -3441,7 +3441,8 @@ msgid "X:"
 msgstr "X:"
 
 #: src/kdenlivesettingsdialog.cpp:203
-msgid "XFREE86 DGA 2.0"
+#, fuzzy
+msgid "XFree86 DGA 2.0"
 msgstr "XFree86 DGA 2.0"
 
 #: src/kdenlivesettingsdialog.cpp:201
@@ -3460,12 +3461,14 @@ msgstr "Y:"
 msgid "Year"
 msgstr "Jahr"
 
-#: src/kdenlivedoc.cpp:924
+#: src/kdenlivedoc.cpp:932
 #, kde-format
 msgid ""
 "You have changed the project folder. Do you want to copy the cached data "
 "from %1 to the new folder %2?"
-msgstr "Sie haben den Projektordner geändert. Wollen Sie die zwischengespeicherten Daten von %1 in das neue Verzeichnis %2 kopieren?"
+msgstr ""
+"Sie haben den Projektordner geändert. Wollen Sie die zwischengespeicherten "
+"Daten von %1 in das neue Verzeichnis %2 kopieren?"
 
 #: src/customtrackview.cpp:1527 src/customtrackview.cpp:1533
 #, kde-format
