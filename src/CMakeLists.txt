@@ -174,6 +174,11 @@ target_link_libraries(kdenlive
   ${KDE4_KNOTIFYCONFIG_LIBRARY}
 )
 
+if (APPLE)
+  find_package(SDL REQUIRED)
+  target_link_libraries(kdenlive ${SDL_LIBRARY})
+endif (APPLE)
+
 install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
 install( FILES kdenliveui.rc kdenlive.notifyrc DESTINATION  ${DATA_INSTALL_DIR}/kdenlive )
 install (FILES kdenlivesettings.kcfg DESTINATION share/config.kcfg)

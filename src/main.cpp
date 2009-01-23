@@ -26,6 +26,10 @@
 
 #include "mainwindow.h"
 
+#ifdef __APPLE_KDE__ || __DARWIN__
+#include <SDL/SDL.h>
+#endif
+
 int main(int argc, char *argv[]) {
     KAboutData aboutData(QByteArray("kdenlive"), QByteArray("kdenlive"),
                          ki18n("Kdenlive"), QByteArray("0.7.1"),
