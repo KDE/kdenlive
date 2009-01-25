@@ -20,20 +20,19 @@
 #include <KLocale>
 
 #include "editfoldercommand.h"
-#include "kdenlivedoc.h"
+#include "projectlist.h"
 
-EditFolderCommand::EditFolderCommand(KdenliveDoc *doc, const QString newfolderName, const QString oldfolderName, const QString &clipId, bool doIt)
-        : m_doc(doc), m_name(newfolderName), m_oldname(oldfolderName), m_id(clipId), m_doIt(doIt) {
+EditFolderCommand::EditFolderCommand(ProjectList *view, const QString newfolderName, const QString oldfolderName, const QString &clipId, bool doIt, QUndoCommand *parent) : QUndoCommand(parent), m_view(view), m_name(newfolderName), m_oldname(oldfolderName), m_id(clipId), m_doIt(doIt) {
     setText(i18n("Rename folder"));
 }
 
 // virtual
 void EditFolderCommand::undo() {
-    m_doc->addFolder(m_oldname, m_id, true);
+    m_view->slotAddFolder(m_oldname, m_id, false, true);
 }
 // virtual
 void EditFolderCommand::redo() {
-    if (m_doIt) m_doc->addFolder(m_name, m_id, true);
+    if (m_doIt) m_view->slotAddFolder(m_name, m_id, false, true);
     m_doIt = true;
 }
 

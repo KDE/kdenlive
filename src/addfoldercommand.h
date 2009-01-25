@@ -23,17 +23,17 @@
 
 #include <QUndoCommand>
 
-class KdenliveDoc;
+class ProjectList;
 
 class AddFolderCommand : public QUndoCommand {
 public:
-    AddFolderCommand(KdenliveDoc *doc, const QString folderName, const QString &clipId, bool doIt);
+    AddFolderCommand(ProjectList *view, const QString folderName, const QString &clipId, bool doIt, QUndoCommand *parent = 0);
 
     virtual void undo();
     virtual void redo();
 
 private:
-    KdenliveDoc *m_doc;
+    ProjectList *m_view;
     QString m_name;
     QString m_id;
     bool m_doIt;

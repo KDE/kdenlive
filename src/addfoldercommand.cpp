@@ -20,23 +20,22 @@
 #include <KLocale>
 
 #include "addfoldercommand.h"
-#include "kdenlivedoc.h"
+#include "projectlist.h"
 
-AddFolderCommand::AddFolderCommand(KdenliveDoc *doc, const QString folderName, const QString &clipId, bool doIt)
-        : m_doc(doc), m_name(folderName), m_id(clipId), m_doIt(doIt) {
+AddFolderCommand::AddFolderCommand(ProjectList *view, const QString folderName, const QString &clipId, bool doIt, QUndoCommand *parent) : QUndoCommand(parent), m_view(view), m_name(folderName), m_id(clipId), m_doIt(doIt) {
     if (doIt) setText(i18n("Add folder"));
     else setText(i18n("Delete folder"));
 }
 
 // virtual
 void AddFolderCommand::undo() {
-    if (m_doIt) m_doc->deleteFolder(m_name, m_id);
-    else m_doc->addFolder(m_name, m_id, false);
+    if (m_doIt) m_view->slotAddFolder(m_name, m_id, true);
+    else m_view->slotAddFolder(m_name, m_id, false);
 }
 // virtual
 void AddFolderCommand::redo() {
-    if (m_doIt) m_doc->addFolder(m_name, m_id, false);
-    else m_doc->deleteFolder(m_name, m_id);
+    if (m_doIt) m_view->slotAddFolder(m_name, m_id, false);
+    else m_view->slotAddFolder(m_name, m_id, true);
 }
 
 

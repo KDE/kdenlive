@@ -95,8 +95,12 @@ void ClipManager::setThumbsProgress(const QString &message, int progress) {
     m_doc->setThumbsProgress(message, progress);
 }
 
-QList <DocClipBase*> ClipManager::documentClipList() {
+QList <DocClipBase*> ClipManager::documentClipList() const {
     return m_clipList;
+}
+
+QMap <QString, QString> ClipManager::documentFolderList() const {
+    return m_folderList;
 }
 
 void ClipManager::addClip(DocClipBase *clip) {
@@ -316,5 +320,10 @@ QString ClipManager::projectFolder() const {
     return m_doc->projectFolder().path();
 }
 
+void ClipManager::addFolder(const QString &id, const QString &name) {
+    m_folderList.insert(id, name);
+}
 
-
+void ClipManager::deleteFolder(const QString &id) {
+    m_folderList.remove(id);
+}

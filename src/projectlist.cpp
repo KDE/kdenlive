@@ -38,12 +38,11 @@
 
 #include "projectlist.h"
 #include "projectitem.h"
+#include "addfoldercommand.h"
 #include "kdenlivesettings.h"
 #include "slideshowclip.h"
 #include "ui_colorclip_ui.h"
 #include "titlewidget.h"
-
-
 #include "definitions.h"
 #include "clipmanager.h"
 #include "docclipbase.h"
@@ -52,6 +51,7 @@
 #include "kthumb.h"
 #include "projectlistview.h"
 #include "editclipcommand.h"
+#include "editfoldercommand.h"
 
 ProjectList::ProjectList(QWidget *parent)
         : QWidget(parent), m_render(NULL), m_fps(-1), m_commandStack(NULL), m_selectedItem(NULL), m_infoQueue(QMap <QString, QDomElement> ()), m_thumbnailQueue(QList <QString> ()), m_refreshed(false) {
@@ -215,8 +215,9 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column) {
         }
     } else if (column == 1) {
         if (clip->isGroup()) {
-            m_doc->slotEditFolder(item->text(1), clip->groupName(), clip->clipId());
+            editFolder(item->text(1), clip->groupName(), clip->clipId());
             clip->setGroupName(item->text(1));
+            m_doc->clipManager()->addFolder(clip->clipId(), item->text(1));
             const int children = item->childCount();
             for (int i = 0; i < children; i++) {
                 ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
@@ -269,7 +270,7 @@ void ProjectList::slotRemoveClip() {
         }
     }
     if (!ids.isEmpty()) m_doc->deleteProjectClip(ids);
-    if (!folderids.isEmpty()) m_doc->deleteProjectFolder(folderids);
+    if (!folderids.isEmpty()) deleteProjectFolder(folderids);
     if (listView->topLevelItemCount() == 0) {
         m_editAction->setEnabled(false);
         m_deleteAction->setEnabled(false);
@@ -293,50 +294,63 @@ void ProjectList::slotDeleteClip(const QString &clipId) {
     }
 }
 
-void ProjectList::slotAddFolder() {
 
-    // QString folderName = KInputDialog::getText(i18n("New Folder"), i18n("Enter new folder name: "));
-    // if (folderName.isEmpty()) return;
-    m_doc->slotAddFolder(i18n("Folder")); //folderName);
+void ProjectList::editFolder(const QString folderName, const QString oldfolderName, const QString &clipId) {
+    EditFolderCommand *command = new EditFolderCommand(this, folderName, oldfolderName, clipId, false);
+    m_commandStack->push(command);
+    m_doc->setModified(true);
+}
+
+void ProjectList::slotAddFolder() {
+    AddFolderCommand *command = new AddFolderCommand(this, i18n("Folder"), QString::number(m_doc->clipManager()->getFreeFolderId()), true);
+    m_commandStack->push(command);
 }
 
 void ProjectList::slotAddFolder(const QString foldername, const QString &clipId, bool remove, bool edit) {
     if (remove) {
-        ProjectItem *item;
-        QTreeWidgetItemIterator it(listView);
-        while (*it) {
-            item = static_cast <ProjectItem *>(*it);
-            if (item->isGroup() && item->clipId() == clipId) {
-                delete item;
-                break;
-            }
-            ++it;
+        ProjectItem *item = getFolderItemById(clipId);
+        if (item) {
+            m_doc->clipManager()->deleteFolder(clipId);
+            delete item;
         }
     } else {
         if (edit) {
-            ProjectItem *item;
+            ProjectItem *item = getFolderItemById(clipId);
             QTreeWidgetItemIterator it(listView);
-            while (*it) {
-                item = static_cast <ProjectItem *>(*it);
-                if (item->isGroup() && item->clipId() == clipId) {
-                    listView->blockSignals(true);
-                    item->setGroupName(foldername);
-                    listView->blockSignals(false);
-                    const int children = item->childCount();
-                    for (int i = 0; i < children; i++) {
-                        ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
-                        child->setProperty("groupname", foldername);
-                    }
-                    break;
+            if (item) {
+                listView->blockSignals(true);
+                item->setGroupName(foldername);
+                listView->blockSignals(false);
+                m_doc->clipManager()->addFolder(clipId, foldername);
+                const int children = item->childCount();
+                for (int i = 0; i < children; i++) {
+                    ProjectItem *child = static_cast <ProjectItem *>(item->child(i));
+                    child->setProperty("groupname", foldername);
                 }
-                ++it;
             }
         } else {
             QStringList text;
             text << QString() << foldername;
+            listView->blockSignals(true);
             (void) new ProjectItem(listView, text, clipId);
+            m_doc->clipManager()->addFolder(clipId, foldername);
+            listView->blockSignals(false);
         }
     }
+}
+
+
+
+void ProjectList::deleteProjectFolder(QMap <QString, QString> map) {
+    QMapIterator<QString, QString> i(map);
+    QUndoCommand *delCommand = new QUndoCommand();
+    delCommand->setText(i18n("Delete Folder"));
+    while (i.hasNext()) {
+        i.next();
+        new AddFolderCommand(this, i.key(), i.value(), false, delCommand);
+    }
+    m_commandStack->push(delCommand);
+    m_doc->setModified(true);
 }
 
 void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties) {
@@ -567,6 +581,13 @@ void ProjectList::setDocument(KdenliveDoc *doc) {
     m_thumbnailQueue.clear();
     m_infoQueue.clear();
     m_refreshed = false;
+    QMap <QString, QString> flist = doc->clipManager()->documentFolderList();
+    QMapIterator<QString, QString> f(flist);
+    while (f.hasNext()) {
+        f.next();
+        (void) new ProjectItem(listView, QStringList() << QString() << f.value(), f.key());
+    }
+
     QList <DocClipBase*> list = doc->clipManager()->documentClipList();
     for (int i = 0; i < list.count(); i++) {
         slotAddClip(list.at(i), false);

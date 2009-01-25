@@ -129,6 +129,7 @@ public slots:
     void slotSelectClip(const QString &ix);
     void slotRemoveClip();
     void slotAddClip(KUrl givenUrl = KUrl(), QString group = QString());
+    void slotAddFolder(const QString foldername, const QString &clipId, bool remove, bool edit = false);
 
 private:
     ProjectListView *listView;
@@ -153,6 +154,8 @@ private:
     void requestClipInfo(const QDomElement xml, const QString id);
     QList <QString> m_thumbnailQueue;
     void requestClipThumbnail(const QString &id);
+    void deleteProjectFolder(QMap <QString, QString> map);
+    void editFolder(const QString folderName, const QString oldfolderName, const QString &clipId);
 
 private slots:
     void slotEditClip();
@@ -162,7 +165,6 @@ private slots:
     void slotAddTitleClip();
     void slotContextMenu(const QPoint &pos, QTreeWidgetItem *);
     void slotAddFolder();
-    void slotAddFolder(const QString foldername, const QString &clipId, bool remove, bool edit);
     /** This is triggered when a clip description has been modified */
     void slotItemEdited(QTreeWidgetItem *item, int column);
     void slotUpdateClipProperties(ProjectItem *item, QMap <QString, QString> properties);

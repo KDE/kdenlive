@@ -38,8 +38,6 @@
 #include "kdenlivesettings.h"
 #include "renderer.h"
 #include "clipmanager.h"
-#include "addfoldercommand.h"
-#include "editfoldercommand.h"
 #include "titlewidget.h"
 #include "mainwindow.h"
 
@@ -116,6 +114,12 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     QDomNodeList infoproducers = m_document.elementsByTagName("kdenlive_producer");
                     const int max = producers.count();
                     const int infomax = infoproducers.count();
+
+                    QDomNodeList folders = m_document.elementsByTagName("folder");
+                    for (int i = 0; i < folders.count(); i++) {
+                        e = folders.item(i).cloneNode().toElement();
+                        m_clipManager->addFolder(e.attribute("id"), e.attribute("name"));
+                    }
 
                     if (max > 0) {
                         m_documentLoadingStep = 100.0 / (max + infomax + m_document.elementsByTagName("entry").count());
@@ -881,6 +885,19 @@ bool KdenliveDoc::saveSceneList(const QString &path, QDomDocument sceneList) {
     addedXml.setAttribute("tracks", getTracksInfo());
     addedXml.setAttribute("zoom", m_zoom);
 
+    // save project folders
+    QMap <QString, QString> folderlist = m_clipManager->documentFolderList();
+
+    QMapIterator<QString, QString> f(folderlist);
+    while (f.hasNext()) {
+        f.next();
+        QDomElement folder = sceneList.createElement("folder");
+        folder.setAttribute("id", f.key());
+        folder.setAttribute("name", f.value());
+        addedXml.appendChild(folder);
+    }
+
+    // Save project clips
     QDomElement e;
     QList <DocClipBase*> list = m_clipManager->documentClipList();
     for (int i = 0; i < list.count(); i++) {
@@ -1349,27 +1366,10 @@ void KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, QString clipId
     }
 }
 
-void KdenliveDoc::addFolder(const QString foldername, const QString &clipId, bool edit) {
-    emit addProjectFolder(foldername, clipId, false, edit);
-}
-
-void KdenliveDoc::deleteFolder(const QString foldername, const QString &clipId) {
-    emit addProjectFolder(foldername, clipId, true);
-}
-
 void KdenliveDoc::deleteProjectClip(QList <QString> ids) {
     for (int i = 0; i < ids.size(); ++i) {
         emit deleteTimelineClip(ids.at(i));
         m_clipManager->slotDeleteClip(ids.at(i));
-    }
-    setModified(true);
-}
-
-void KdenliveDoc::deleteProjectFolder(QMap <QString, QString> map) {
-    QMapIterator<QString, QString> i(map);
-    while (i.hasNext()) {
-        i.next();
-        slotDeleteFolder(i.key(), i.value());
     }
     setModified(true);
 }
@@ -1390,24 +1390,6 @@ void KdenliveDoc::slotAddClipFile(const KUrl url, const QString group, const QSt
     kDebug() << "/////////  DOCUM, ADD CLP: " << url;
     m_clipManager->slotAddClipFile(url, group, groupId);
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
-    setModified(true);
-}
-
-void KdenliveDoc::slotAddFolder(const QString folderName) {
-    AddFolderCommand *command = new AddFolderCommand(this, folderName, QString::number(m_clipManager->getFreeFolderId()), true);
-    commandStack()->push(command);
-    setModified(true);
-}
-
-void KdenliveDoc::slotDeleteFolder(const QString folderName, const QString &id) {
-    AddFolderCommand *command = new AddFolderCommand(this, folderName, id, false);
-    commandStack()->push(command);
-    setModified(true);
-}
-
-void KdenliveDoc::slotEditFolder(const QString newfolderName, const QString oldfolderName, const QString &clipId) {
-    EditFolderCommand *command = new EditFolderCommand(this, newfolderName, oldfolderName, clipId, false);
-    commandStack()->push(command);
     setModified(true);
 }
 

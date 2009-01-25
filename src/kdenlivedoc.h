@@ -70,13 +70,8 @@ Q_OBJECT public:
     ClipManager *clipManager();
     void addClip(QDomElement elem, QString clipId, bool createClipItem = true);
     void addClipInfo(QDomElement elem, QDomElement orig, QString clipId);
-    void addFolder(const QString foldername, const QString &clipId, bool edit);
-    void deleteFolder(const QString foldername, const QString &clipId);
     void slotAddClipFile(const KUrl url, const QString group, const QString &groupId = QString());
     void slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId = QString());
-    void slotAddFolder(const QString folderName);
-    void slotDeleteFolder(const QString folderName, const QString &id);
-    void slotEditFolder(const QString folderName, const QString oldfolderName, const QString &clipId);
     void slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const QString &groupId = QString());
     void slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const int softness, const QString group, const QString &groupId = QString());
     void deleteClip(const QString &clipId);
@@ -84,7 +79,6 @@ Q_OBJECT public:
     DocClipBase *getBaseClip(const QString &clipId);
     void updateClip(const QString &id);
     void deleteProjectClip(QList <QString> ids);
-    void deleteProjectFolder(QMap <QString, QString> map);
     /** Inform application of the audio thumbnails generation progress */
     void setThumbsProgress(const QString &message, int progress);
     QString profilePath() const;
@@ -171,7 +165,6 @@ private slots:
 
 signals:
     void addProjectClip(DocClipBase *, bool getInfo = true);
-    void addProjectFolder(const QString, const QString &, bool, bool edit = false);
     void signalDeleteProjectClip(const QString &);
     void updateClipDisplay(const QString&);
     void deleteTimelineClip(const QString&);

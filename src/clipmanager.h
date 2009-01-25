@@ -62,7 +62,8 @@ Q_OBJECT public:
     void slotDeleteClip(const QString & clipId);
     void setThumbsProgress(const QString &message, int progress);
     void checkAudioThumbs();
-    QList <DocClipBase*> documentClipList();
+    QList <DocClipBase*> documentClipList() const;
+    QMap <QString, QString> documentFolderList() const;
     int getFreeClipId();
     int getFreeFolderId();
     int lastClipId() const;
@@ -71,6 +72,8 @@ Q_OBJECT public:
     void askForAudioThumb(const QString &id);
     QString projectFolder() const;
     void resetProducersList(QList <Mlt::Producer *> prods);
+    void addFolder(const QString&, const QString&);
+    void deleteFolder(const QString&);
 
 public slots:
     void updatePreviewSettings();
@@ -78,6 +81,7 @@ public slots:
 private:   // Private attributes
     /** the list of clips in the document */
     QList <DocClipBase*> m_clipList;
+    QMap <QString, QString> m_folderList;
     QList <QString> m_audioThumbsQueue;
     /** the document undo stack*/
     KdenliveDoc *m_doc;
