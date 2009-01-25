@@ -153,13 +153,13 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
             m_configCapture.kcfg_firewiretimestamp->setEnabled(false);
         }
         m_configCapture.dvgrab_info->setText(i18n("dvgrab version %1 at %2", dvgrabVersion, KdenliveSettings::dvgrab_path()));
-    } else m_configCapture.dvgrab_info->setText("<strong>" + i18n("<em>dvgrab</em> utility not found, please install it for firewire capture") + "</strong>");
+    } else m_configCapture.dvgrab_info->setText(i18n("<strong><em>dvgrab</em> utility not found, please install it for firewire capture</strong>"));
 
     if (KdenliveSettings::rmd_path().isEmpty() || !QFile::exists(KdenliveSettings::rmd_path())) {
         QString rmdpath = KStandardDirs::findExe("recordmydesktop");
         KdenliveSettings::setRmd_path(rmdpath);
     }
-    if (KdenliveSettings::rmd_path().isEmpty()) m_configCapture.rmd_info->setText("<strong>" + i18n("<em>Recordmydesktop</em> utility not found, please install it for screen grabs") + "</strong>");
+    if (KdenliveSettings::rmd_path().isEmpty()) m_configCapture.rmd_info->setText(i18n("<strong><em>Recordmydesktop</em> utility not found, please install it for screen grabs</strong>"));
     else m_configCapture.rmd_info->setText(i18n("Recordmydesktop found at: %1", KdenliveSettings::rmd_path()));
 }
 

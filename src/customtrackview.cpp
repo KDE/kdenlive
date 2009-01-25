@@ -1524,7 +1524,7 @@ void CustomTrackView::slotRemoveSpace() {
     }
     ClipItem *item = getClipItemAt(pos, track);
     if (item) {
-        emit displayMessage(i18n("You must be in an empty space to remove space (time=%1, track:%2)", m_document->timecode().getTimecodeFromFrames(mapToScene(m_menuPosition).x()), track), ErrorMessage);
+        emit displayMessage(i18n("You must be in an empty space to remove space (time: %1, track: %2)", m_document->timecode().getTimecodeFromFrames(mapToScene(m_menuPosition).x()), track), ErrorMessage);
         return;
     }
     int length = m_document->renderer()->mltGetSpaceLength(pos, m_document->tracksCount() - track, true);
@@ -1918,14 +1918,14 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                         ClipItem *clip = static_cast <ClipItem*>(item);
                         info.track = m_document->tracksCount() - info.track;
                         m_document->renderer()->mltInsertClip(info, clip->xml(), clip->baseClip()->producer(info.track));
-			for (int i = 0; i < clip->effectsCount(); i++) {
-			    m_document->renderer()->mltAddEffect(info.track, info.startPos, clip->getEffectArgs(clip->effectAt(i)), false);
-			}
+                        for (int i = 0; i < clip->effectsCount(); i++) {
+                            m_document->renderer()->mltAddEffect(info.track, info.startPos, clip->getEffectArgs(clip->effectAt(i)), false);
+                        }
                     } else {
                         Transition *tr = static_cast <Transition*>(item);
                         int newTrack = tr->transitionEndTrack();
                         if (!tr->forcedTrack()) {
-			    newTrack = getPreviousVideoTrack(info.track);
+                            newTrack = getPreviousVideoTrack(info.track);
                         }
                         tr->updateTransitionEndTrack(newTrack);
                         m_document->renderer()->mltAddTransition(tr->transitionTag(), newTrack, m_document->tracksCount() - info.track, info.startPos, info.endPos, tr->toXML());
@@ -2083,7 +2083,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 QDomElement effect = oldeffect.cloneNode().toElement();
                 EffectsList::setParameter(oldeffect, "in", QString::number(start));
                 EffectsList::setParameter(oldeffect, "out", QString::number(end));
-		// kDebug()<<"EDIT FADE OUT : "<<start<<"x"<<end;
+                // kDebug()<<"EDIT FADE OUT : "<<start<<"x"<<end;
                 slotUpdateClipEffect(item, effect, oldeffect, ix);
                 emit clipItemSelected(item, ix);
             }
