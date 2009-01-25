@@ -146,7 +146,7 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, 
     if (!tmpfile.open()) kWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
     QFile xmlf(tmpfile.fileName());
     xmlf.open(QIODevice::WriteOnly);
-    xmlf.write(doc.toString().toAscii());
+    xmlf.write(doc.toString().toUtf8());
     xmlf.close();
     kDebug() << KIO::NetAccess::upload(tmpfile.fileName(), url, 0);
     return true;
