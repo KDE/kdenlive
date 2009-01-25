@@ -489,10 +489,10 @@ void Monitor::slotRewindOneFrame(int diff) {
     if (m_position < 1) return;
     m_position -= diff;
     m_position = qMax(m_position, 0);
-    checkOverlay();
     render->seekToFrame(m_position);
     emit renderPosition(m_position);
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
+    checkOverlay();
 }
 
 void Monitor::slotForwardOneFrame(int diff) {
@@ -501,16 +501,15 @@ void Monitor::slotForwardOneFrame(int diff) {
     if (m_position >= m_length) return;
     m_position += diff;
     m_position = qMin(m_position, m_length);
-    checkOverlay();
     render->seekToFrame(m_position);
     emit renderPosition(m_position);
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
+    checkOverlay();
 }
 
 void Monitor::seekCursor(int pos) {
     activateMonitor();
     m_position = pos;
-    //checkOverlay();
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
     m_ruler->slotNewValue(pos);
 }
@@ -519,6 +518,7 @@ void Monitor::rendererStopped(int pos) {
     //int rulerPos = (int)(pos * m_scale);
     m_ruler->slotNewValue(pos);
     m_position = pos;
+    checkOverlay();
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
     m_playAction->setChecked(false);
     m_playAction->setIcon(m_playIcon);
@@ -673,7 +673,7 @@ void MonitorRefresh::paintEvent(QPaintEvent * event) {
 
 Overlay::Overlay(QWidget* parent): QLabel(parent) {
     setAttribute(Qt::WA_TransparentForMouseEvents);
-    //setAttribute(Qt::WA_OpaquePaintEvent); //
+    setAttribute(Qt::WA_OpaquePaintEvent);
     //setAttribute(Qt::WA_NoSystemBackground);
     setAutoFillBackground(false);
 }
