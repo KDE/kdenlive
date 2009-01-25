@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-22 22:24+0100\n"
-"PO-Revision-Date: 2009-01-24 18:59+0100\n"
+"PO-Revision-Date: 2009-01-24 19:52+0100\n"
 "Last-Translator: Salvatore Brigaglia <opensourcecat@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -1831,7 +1831,7 @@ msgstr "Tipo immagine"
 
 #: src/monitor.cpp:417
 msgid "In Point"
-msgstr "Imposta inizio clip"
+msgstr "Inizio selezione"
 
 #: src/wizard.cpp:119
 msgid "Inigo"
@@ -2270,7 +2270,7 @@ msgstr "Utilizza schede per aprire più progetti"
 
 #: src/monitor.cpp:418
 msgid "Out Point"
-msgstr "Imposta fine clip"
+msgstr "Fine selezione"
 
 #: rc.cpp:390 rc.cpp:1593
 msgid "Output file"
@@ -2897,11 +2897,11 @@ msgstr "Sepia"
 
 #: src/mainwindow.cpp:817
 msgid "Set In Point"
-msgstr "Imposta inizio clip"
+msgstr "Imposta inizio selezione"
 
 #: src/mainwindow.cpp:822
 msgid "Set Out Point"
-msgstr "Imposta fine clip"
+msgstr "Imposta fine selezione"
 
 #: src/monitor.cpp:167
 msgid "Set current image as thumbnail"
