@@ -1925,8 +1925,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                         Transition *tr = static_cast <Transition*>(item);
                         int newTrack = tr->transitionEndTrack();
                         if (!tr->forcedTrack()) {
-                            newTrack += trackOffset;
-                            if (newTrack < 0 || newTrack > m_document->tracksCount()) newTrack = getPreviousVideoTrack(info.track);
+			    newTrack = getPreviousVideoTrack(info.track);
                         }
                         tr->updateTransitionEndTrack(newTrack);
                         m_document->renderer()->mltAddTransition(tr->transitionTag(), newTrack, m_document->tracksCount() - info.track, info.startPos, info.endPos, tr->toXML());
