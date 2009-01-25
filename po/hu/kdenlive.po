@@ -128,7 +128,7 @@ msgid "ARTS daemon"
 msgstr "ARTS démon"
 
 msgid "Activate crash recovery (auto save)"
-msgstr "\n"
+msgstr ""
 
 #, kde-format
 msgid "Add %1"
@@ -896,9 +896,8 @@ msgstr "Átmenet szerkesztés: %1"
 
 #, kde-format
 msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
-msgstr ""
-"%1:%2 effektus nem található az MLT keretrendszerben, ezért el lett "
-"távolítva ebből a projektből."
+msgstr "%1:%2 effektus nem található az MLT keretrendszerben, ezért el lett "
+"távolítva ebből a projektből.\n"
 
 msgid "Effect List"
 msgstr "Effektus lista"
@@ -2309,9 +2308,7 @@ msgid "Video player"
 msgstr "Videó lejátszó"
 
 msgid "Video track"
-msgstr ""
-"Videó sáv\n"
-"\n"
+msgstr "Videó sáv"
 
 msgid "Video tracks"
 msgstr "Videó sáv"
@@ -2326,7 +2323,7 @@ msgid "Vinyl"
 msgstr "Hanglemez"
 
 msgid "Virtual clip"
-msgstr "Virtuális klip\n"
+msgstr "Virtuális klip"
 
 msgid "Volume"
 msgstr "Hangerő"
@@ -2485,7 +2482,7 @@ msgid ""
 "your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr ""
 "Az MLT keretrendszer nem található. Telepítse az MLT keretrendszert és "
-"indítsa újra a a Kdenlive programot."
+"indítsa újra a a Kdenlive programot.\n"
 
 msgid "DVD Marker"
 msgstr "DVD jelölő"
