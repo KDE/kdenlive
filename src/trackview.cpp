@@ -149,6 +149,9 @@ void TrackView::parseDocument(QDomDocument doc) {
                 p = playlists.item(j).toElement();
                 if (p.attribute("id") == playlist_name) break;
             }
+            if (p.attribute("id") != playlist_name) { // then it didn't work.
+                kDebug() << "NO PLAYLIST FOUND FOR TRACK " + pos;
+            }
             if (e.attribute("hide") == "video") {
                 m_doc->switchTrackVideo(i - 1, true);
             } else if (e.attribute("hide") == "audio") {
@@ -561,7 +564,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml) {
             } else {
                 // The clip in playlist was not listed in the kdenlive producers,
                 // something went wrong, repair required.
-                kWarning() << "CANNOT INSERT CLIP " << id;
+                kWarning() << "CANNOT INSERT CLIP " << id;
                 int out = elem.attribute("out").toInt();
 
                 ItemInfo clipinfo;
@@ -598,7 +601,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml) {
 
 
     //documentTracks.insert(ix, track);
-    kDebug() << "*************  ADD DOC TRACK " << ix << ", DURATION: " << position;
+    kDebug() << "*************  ADD DOC TRACK " << ix << ", DURATION: " << position;
     return position;
     //track->show();
 }
