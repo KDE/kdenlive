@@ -1918,6 +1918,9 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                         ClipItem *clip = static_cast <ClipItem*>(item);
                         info.track = m_document->tracksCount() - info.track;
                         m_document->renderer()->mltInsertClip(info, clip->xml(), clip->baseClip()->producer(info.track));
+			for (int i = 0; i < clip->effectsCount(); i++) {
+			    m_document->renderer()->mltAddEffect(info.track, info.startPos, clip->getEffectArgs(clip->effectAt(i)), false);
+			}
                     } else {
                         Transition *tr = static_cast <Transition*>(item);
                         int newTrack = tr->transitionEndTrack();
@@ -2081,7 +2084,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 QDomElement effect = oldeffect.cloneNode().toElement();
                 EffectsList::setParameter(oldeffect, "in", QString::number(start));
                 EffectsList::setParameter(oldeffect, "out", QString::number(end));
-		kDebug()<<"EDIT FADE OUT : "<<start<<"x"<<end;
+		// kDebug()<<"EDIT FADE OUT : "<<start<<"x"<<end;
                 slotUpdateClipEffect(item, effect, oldeffect, ix);
                 emit clipItemSelected(item, ix);
             }
