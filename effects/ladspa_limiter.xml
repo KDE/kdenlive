@@ -4,10 +4,10 @@
 	<description>LADSPA limiter audio effect</description>
 	<author>http://www.ladspa.org</author>
 	<parameter type="constant" name="gain" max="20" min="-20" default="0">
-		<name>Input gain (db)</name>
+		<name>Input gain (dB)</name>
 	</parameter>
 	<parameter type="constant" name="limit" max="0" min="-20" default="0">
-		<name>Limit (db)</name>
+		<name>Limit (dB)</name>
 	</parameter>
 	<parameter type="constant" name="release" max="200" min="1" default="50" factor="100">
 		<name>Release time (s)</name>
