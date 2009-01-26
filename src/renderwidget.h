@@ -95,6 +95,7 @@ private:
     void parseProfiles(QString group = QString(), QString profile = QString());
     void parseFile(QString exportFile, bool editable);
     void updateButtons();
+    KUrl filenameWithExtension(KUrl url, QString extension);
 
 signals:
     void doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool);

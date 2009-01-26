@@ -160,6 +160,13 @@ void RenderWidget::setGuides(QDomElement guidesxml, double duration) {
 void RenderWidget::slotUpdateButtons() {
     if (m_view.out_file->url().isEmpty()) m_view.buttonStart->setEnabled(false);
     else m_view.buttonStart->setEnabled(true);
+    KUrl url = m_view.out_file->url();
+    QListWidgetItem *item = m_view.size_list->currentItem();
+    QString extension = item->data(ExtensionRole).toString();
+    url = filenameWithExtension(url, extension);
+    kDebug() << "URL SHOULD BE " << url.path();
+    //m_view.out_file->setUrl(url);
+    // not possible here; key input wouldn't be possible anymore
 }
 
 void RenderWidget::slotSaveProfile() {
@@ -590,6 +597,21 @@ void RenderWidget::refreshView() {
     refreshParams();
 }
 
+KUrl RenderWidget::filenameWithExtension(KUrl url, QString extension) {
+    QString path;
+    if (!url.isEmpty()) {
+        path = url.path();
+        int pos = path.lastIndexOf('.') + 1;
+        if (pos == 0) path.append('.' + extension);
+        else path = path.left(pos) + extension;
+
+    } else {
+        path = QDir::homePath() + "/untitled." + extension;
+    }
+    return KUrl(path);
+}
+
+
 void RenderWidget::refreshParams() {
     QListWidgetItem *item = m_view.size_list->currentItem();
     if (!item || item->isHidden()) {
@@ -601,16 +623,17 @@ void RenderWidget::refreshParams() {
     QString extension = item->data(ExtensionRole).toString();
     m_view.advanced_params->setPlainText(params);
     m_view.advanced_params->setToolTip(params);
-    KUrl url = m_view.out_file->url();
-    if (!url.isEmpty()) {
-        QString path = url.path();
-        int pos = path.lastIndexOf('.') + 1;
-        if (pos == 0) path.append('.') + extension;
-        else path = path.left(pos) + extension;
-        m_view.out_file->setUrl(KUrl(path));
-    } else {
-        m_view.out_file->setUrl(KUrl(QDir::homePath() + "/untitled." + extension));
-    }
+    KUrl url = filenameWithExtension(m_view.out_file->url(), extension);
+    m_view.out_file->setUrl(url);
+//     if (!url.isEmpty()) {
+//         QString path = url.path();
+//         int pos = path.lastIndexOf('.') + 1;
+//  if (pos == 0) path.append('.' + extension);
+//         else path = path.left(pos) + extension;
+//         m_view.out_file->setUrl(KUrl(path));
+//     } else {
+//         m_view.out_file->setUrl(KUrl(QDir::homePath() + "/untitled." + extension));
+//     }
     m_view.out_file->setFilter("*." + extension);
 
     if (item->data(EditableRole).toString().isEmpty()) {
