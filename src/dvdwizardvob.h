@@ -38,6 +38,7 @@ public:
 
 private:
     Ui::DvdWizardVob_UI m_view;
+    QString m_errorMessage;
 
 private slots:
     void slotCheckVobList(const QString &text);

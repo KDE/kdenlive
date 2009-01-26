@@ -262,6 +262,18 @@ void Wizard::slotCheckPrograms() {
     if (KStandardDirs::findExe("dvgrab").isEmpty()) item->setIcon(0, missingIcon);
     else item->setIcon(0, okIcon);
 
+    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("Dvdauthor"));
+    item->setData(1, Qt::UserRole, i18n("Required for creation of dvd"));
+    item->setSizeHint(0, itemSize);
+    if (KStandardDirs::findExe("dvdauthor").isEmpty()) item->setIcon(0, missingIcon);
+    else item->setIcon(0, okIcon);
+
+    item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("Mkisofs"));
+    item->setData(1, Qt::UserRole, i18n("Required for creation of dvd iso images"));
+    item->setSizeHint(0, itemSize);
+    if (KStandardDirs::findExe("mkisofs").isEmpty()) item->setIcon(0, missingIcon);
+    else item->setIcon(0, okIcon);
+
 }
 
 void Wizard::installExtraMimes(QString baseName, QStringList globs) {
