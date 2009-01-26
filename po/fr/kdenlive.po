@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-22 22:24+0100\n"
-"PO-Revision-Date: 2009-01-26 09:41+0100\n"
+"PO-Revision-Date: 2009-01-26 09:58+0100\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -122,21 +122,17 @@ msgid ":::"
 msgstr ":::"
 
 #: src/kdenlivesettingsdialog.cpp:162
-#, fuzzy
 msgid ""
 "<em>Recordmydesktop</em> utility not found, please install it for screen "
 "grabs"
 msgstr ""
-"Impossible de trouver l'utilitaire recordmydesktop,\n"
-" veuillez l'installer pour réaliser des captures d'écran"
+"Impossible de trouver l'utilitaire <em>Recordmydesktop</em>, veuillez l'installer pour réaliser des captures d'écran"
 
 #: src/kdenlivesettingsdialog.cpp:156
-#, fuzzy
 msgid ""
 "<em>dvgrab</em> utility not found, please install it for firewire capture"
 msgstr ""
-"Impossible de trouver l'utilitaire dvgrab,\n"
-" veuillez l'installer pour toute acquisition à partir du port firewire"
+"Impossible de trouver l'utilitaire <em>dvgrab</em>, veuillez l'installer pour toute capture firewire"
 
 #: src/kdenlivedoc.cpp:1233
 #, fuzzy, kde-format
@@ -144,9 +140,9 @@ msgid "<qt>Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
 msgstr "<qt>Clip <b>%1</b><br>is invalid, will be removed from project."
 
 #: src/renderwidget.cpp:746
-#, fuzzy, kde-format
+#, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
-msgstr "Le rendu de <i>%1</i> a été interrompu par une erreur fatale"
+msgstr "Le <strong>rendu de %1 a été interrompu par une erreur fatale</strong><br />"
 
 #: rc.cpp:534 rc.cpp:576 rc.cpp:1287 rc.cpp:1569 rc.cpp:1737 rc.cpp:1779
 #: rc.cpp:2490 rc.cpp:2772
@@ -781,19 +777,19 @@ msgid "Clip"
 msgstr "Clip"
 
 #: src/kdenlivedoc.cpp:1235
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
-msgstr "<qt>Clip <b>%1</b><br>is invalid, will be removed from project."
+msgstr "Le clip <b>%1</b><br> est invalide ou manquant, que décidez-vous ?"
 
 #: src/kdenlivedoc.cpp:1230
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clip <b>%1</b><br>is invalid, what do you want to do?"
-msgstr "<qt>Clip <b>%1</b><br>is invalid, will be removed from project."
+msgstr "Le clip <b>%1</b><br> est invalide, que décidez-vous ?"
 
 #: src/projectlist.cpp:481
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clip <b>%1</b><br>is invalid, will be removed from project."
-msgstr "<qt>Clip <b>%1</b><br>is invalid, will be removed from project."
+msgstr "Le clip <b>%1</b><br> est manquant et sera supprimé du projet."
 
 #: rc.cpp:1314 rc.cpp:2517
 msgid "Clip Color"
@@ -862,7 +858,7 @@ msgstr "Connecter"
 
 #: rc.cpp:30
 msgid "Copy the left channel to the right"
-msgstr ""
+msgstr "Copier le canal gauche à droite"
 
 #: src/main.cpp:34
 msgid "Copyright (c) 2008 Development team"
@@ -946,7 +942,7 @@ msgstr "Fondu-enchaîné"
 
 #: rc.cpp:471 rc.cpp:1674
 msgid "Current jobs"
-msgstr ""
+msgstr "Tâches en cours"
 
 #: src/renderwidget.cpp:169 rc.cpp:1506 rc.cpp:2709
 msgid "Custom"
@@ -1239,7 +1235,7 @@ msgstr "Télécharger de nouveaux lumas ..."
 
 #: rc.cpp:855 rc.cpp:2058
 msgid "Drop B frames on H.264 clips"
-msgstr ""
+msgstr "Ne pas tenir compte des trames B dans les clips H.264"
 
 #: rc.cpp:67 rc.cpp:77 rc.cpp:783 rc.cpp:798 rc.cpp:1170 rc.cpp:1317
 #: rc.cpp:1335 rc.cpp:1986 rc.cpp:2001 rc.cpp:2373 rc.cpp:2520 rc.cpp:2538
@@ -1369,7 +1365,7 @@ msgstr "Equaliseur"
 
 #: rc.cpp:480 rc.cpp:1683
 msgid "Error Log"
-msgstr ""
+msgstr "Journal d'erreurs"
 
 #: src/customtrackview.cpp:1145 src/customtrackview.cpp:1901
 #: src/customtrackview.cpp:2112
@@ -2022,13 +2018,10 @@ msgid "M"
 msgstr "M"
 
 #: src/main.cpp:36
-#, fuzzy
 msgid "MLT Connection, Transition, Effect, Timeline Developer"
-msgstr ""
-"Développeur de la connexion à MLT, transitions, effets et plan de montage"
+msgstr "Développement de la connexion MLT, des transitions, des effets et du timeline"
 
 #: src/main.cpp:35
-#, fuzzy
 msgid "MLT porting, KDE4 porting, Main developer"
 msgstr "Portage MLT, portage KDE4, développeur principal"
 
@@ -2260,11 +2253,11 @@ msgstr "Ouvrir document"
 
 #: rc.cpp:441 rc.cpp:1644
 msgid "Open Dvd wizard after rendering"
-msgstr ""
+msgstr "Ouvrir l'assistant DVD après le rendu"
 
 #: rc.cpp:444 rc.cpp:1647
 msgid "Open browser window after export"
-msgstr ""
+msgstr "Ouvrir la fenêtre du navigateur après le rendu"
 
 #: rc.cpp:1065 rc.cpp:2268
 msgid "Open last project on startup"
@@ -2324,7 +2317,7 @@ msgstr "Modulation"
 
 #: src/wizard.cpp:224
 msgid "Pixbuf module"
-msgstr ""
+msgstr "Module Pixbuf"
 
 #: rc.cpp:609 rc.cpp:1359 rc.cpp:1812 rc.cpp:2562
 msgid "Pixel aspect ratio"
@@ -2984,13 +2977,12 @@ msgid "Softness"
 msgstr "Douceur"
 
 #: rc.cpp:252
-#, fuzzy
 msgid "Sox Band"
-msgstr "Sox Arrondisseur"
+msgstr "Sox groupe de musiciens"
 
 #: rc.cpp:260
 msgid "Sox Bass"
-msgstr ""
+msgstr "Sox basse"
 
 #: rc.cpp:268
 msgid "Sox Echo"
@@ -3001,36 +2993,32 @@ msgid "Sox Flanger"
 msgstr "Sox Arrondisseur"
 
 #: rc.cpp:294
-#, fuzzy
 msgid "Sox Gain"
-msgstr "Amplification"
+msgstr "Sox amplification"
 
 #: rc.cpp:300
-#, fuzzy
 msgid "Sox Phaser"
-msgstr "Phaser"
+msgstr "Sox Phaser"
 
 #: rc.cpp:314
 msgid "Sox Pitch Shift"
-msgstr "Sox Changement de pitch"
+msgstr "Sox changement de pitch"
 
 #: rc.cpp:322
 msgid "Sox Reverb"
-msgstr "Sox Réverbération"
+msgstr "Sox réverbération"
 
 #: rc.cpp:332
-#, fuzzy
 msgid "Sox Stretch"
-msgstr "Sox écho"
+msgstr "Sox étirement"
 
 #: rc.cpp:340
 msgid "Sox Vibro"
 msgstr "Sox Vibro"
 
 #: rc.cpp:254
-#, fuzzy
 msgid "Sox band audio effect"
-msgstr "Effet audio Sox Arrondisseur"
+msgstr "Effet audio sox groupe de musiciens"
 
 #: rc.cpp:262
 #, fuzzy
@@ -3039,7 +3027,7 @@ msgstr "Effet audio Sox vibro"
 
 #: rc.cpp:316
 msgid "Sox change pitch audio effect"
-msgstr "Effet audio LADSPA change pitch"
+msgstr "Effet audio Sox modification du pitch"
 
 #: rc.cpp:270
 msgid "Sox echo audio effect"
@@ -3047,26 +3035,23 @@ msgstr "Effet audio Sox écho"
 
 #: rc.cpp:282
 msgid "Sox flanger audio effect"
-msgstr "Effet audio Sox Arrondisseur"
+msgstr "Effet audio Sox arrondisseur"
 
 #: rc.cpp:296
-#, fuzzy
 msgid "Sox gain audio effect"
-msgstr "Effet audio Sox Arrondisseur"
+msgstr "Effet audio Sox amplification"
 
 #: rc.cpp:302
-#, fuzzy
 msgid "Sox phaser audio effect"
-msgstr "Effet audio LADSPA phaser"
+msgstr "Effet audio Sox phaser"
 
 #: rc.cpp:324
 msgid "Sox reverb audio effect"
 msgstr "Effet audio Sox réverbérateur"
 
 #: rc.cpp:334
-#, fuzzy
 msgid "Sox stretch audio effect"
-msgstr "Effet audio Sox écho"
+msgstr "Effet audio Sox étirement"
 
 #: rc.cpp:342
 msgid "Sox vibro audio effect"
@@ -3473,7 +3458,7 @@ msgid "Year"
 msgstr "Année"
 
 #: src/kdenlivedoc.cpp:932
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "You have changed the project folder. Do you want to copy the cached data "
 "from %1 to the new folder %2?"
