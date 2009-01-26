@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-22 22:24+0100\n"
-"PO-Revision-Date: 2009-01-23 09:35+0100\n"
+"PO-Revision-Date: 2009-01-26 09:29+0100\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -558,9 +558,8 @@ msgstr ""
 
 #: src/customtrackview.cpp:1235 src/customtrackview.cpp:1329
 #: src/customtrackview.cpp:2226
-#, fuzzy
 msgid "Cannot add transition"
-msgstr "Impossible de couper une transition"
+msgstr "Impossible d'ajouter la transition"
 
 #: src/customtrackview.cpp:638
 msgid "Cannot cut a transition"
@@ -616,9 +615,8 @@ msgid "Cannot move clip to position %1"
 msgstr "Impossible de déplacer le clip à l'emplacement %1"
 
 #: src/customtrackview.cpp:1872
-#, fuzzy
 msgid "Cannot move transition"
-msgstr "Impossible de couper une transition"
+msgstr "Impossible de déplacer la transition"
 
 #: src/customtrackview.cpp:1642
 #, kde-format
@@ -664,9 +662,8 @@ msgstr ""
 "Veuillez vérifier les drivers et les droits d'accès."
 
 #: src/customtrackview.cpp:1987 src/customtrackview.cpp:2039
-#, fuzzy
 msgid "Cannot resize transition"
-msgstr "Impossible de couper une transition"
+msgstr "Impossible de modifier la durée de la transition"
 
 #: src/kdenlivedoc.cpp:908 src/profilesdialog.cpp:153
 #, kde-format
@@ -824,9 +821,8 @@ msgid "Clip has no markers"
 msgstr "Le clip n'a aucun repère"
 
 #: rc.cpp:468 rc.cpp:486 rc.cpp:1671 rc.cpp:1689
-#, fuzzy
 msgid "Close"
-msgstr "Couleurs"
+msgstr "Fermer"
 
 #: src/mainwindow.cpp:135
 msgid "Close the current tab"
@@ -895,42 +891,36 @@ msgid "Crash recovery (automatic backup)"
 msgstr "Récupération en cas de crash (sauvegarde automatique)"
 
 #: src/dvdwizard.cpp:49
-#, fuzzy
 msgid "Create DVD Menu"
-msgstr "Créer un menu"
+msgstr "Créer le menu DVD"
 
 #: src/mainwindow.cpp:1013
 msgid "Create Folder"
 msgstr "Créer un dossier"
 
 #: rc.cpp:549 rc.cpp:1752
-#, fuzzy
 msgid "Create basic menu"
-msgstr "Créer un menu"
+msgstr "Créer un menu simple"
 
 #: src/profilesdialog.cpp:42 src/renderwidget.cpp:55
 msgid "Create new profile"
 msgstr "Créer un nouveau profil"
 
 #: src/dvdwizard.cpp:63
-#, fuzzy
 msgid "Creating DVD Image"
-msgstr "Durée par image"
+msgstr "Création de l'image du DVD"
 
 #: rc.cpp:681 rc.cpp:1884
-#, fuzzy
 msgid "Creating dvd structure"
-msgstr "Générer la structure du DVD"
+msgstr "Création de la structure du DVD"
 
 #: rc.cpp:684 rc.cpp:1887
-#, fuzzy
 msgid "Creating iso file"
-msgstr "Créer un nouveau profil"
+msgstr "Création de l'image ISO"
 
 #: rc.cpp:675 rc.cpp:1878
-#, fuzzy
 msgid "Creating menu background"
-msgstr "Fond d'écran transparent"
+msgstr "Création du fond d'écran du menu"
 
 #: rc.cpp:672 rc.cpp:1875
 #, fuzzy
@@ -938,9 +928,8 @@ msgid "Creating menu images"
 msgstr "Durée (%1 images)"
 
 #: rc.cpp:678 rc.cpp:1881
-#, fuzzy
 msgid "Creating menu movie"
-msgstr "Générer la vidéo principale"
+msgstr "Création du film du menu"
 
 #: src/kthumb.cpp:470 src/kthumb.cpp:474
 #, kde-format
@@ -1002,14 +991,12 @@ msgid "DV module (libdv)"
 msgstr ""
 
 #: rc.cpp:1494 rc.cpp:2697
-#, fuzzy
 msgid "DVD Files"
-msgstr "Dossier DVD"
+msgstr "Fichiers DVD"
 
 #: src/dvdwizard.cpp:54
-#, fuzzy
 msgid "DVD Image"
-msgstr "Image"
+msgstr "Image DVD"
 
 #: src/dvdwizard.cpp:416
 #, kde-format
@@ -1463,9 +1450,8 @@ msgid "Feedback"
 msgstr "Retour"
 
 #: rc.cpp:474 rc.cpp:1677
-#, fuzzy
 msgid "File"
-msgstr "Fichier :"
+msgstr "Fichier"
 
 #: src/kdenlivedoc.cpp:168 src/kdenlivedoc.cpp:176
 #, kde-format
@@ -1555,9 +1541,8 @@ msgid "Follow mouse"
 msgstr "Suivre la souris"
 
 #: rc.cpp:573 rc.cpp:1776
-#, fuzzy
 msgid "Font"
-msgstr "Format"
+msgstr "Police d'écran"
 
 #: rc.cpp:423 rc.cpp:1626
 #, fuzzy
