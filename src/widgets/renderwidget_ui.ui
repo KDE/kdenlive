@@ -190,10 +190,10 @@
        <item row="5" column="2" colspan="4" >
         <widget class="KRestrictedLine" name="rescale_size" >
          <property name="inputMask" >
-          <string>0099\x0099; </string>
+          <string>0099\&#x00d7;0099; </string>
          </property>
          <property name="text" >
-          <string>320x240</string>
+          <string> 320&#x00d7; 240</string>
          </property>
          <property name="validChars" >
           <string/>
