@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-22 22:24+0100\n"
-"PO-Revision-Date: 2009-01-26 09:29+0100\n"
+"PO-Revision-Date: 2009-01-26 09:41+0100\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -175,13 +175,12 @@ msgid "ARTS daemon"
 msgstr "Système de son ARTS"
 
 #: rc.cpp:483 rc.cpp:1686
-#, fuzzy
 msgid "Abort Job"
-msgstr "Interrompre l'exportation ?"
+msgstr "Interrompre la tâche"
 
 #: src/renderwidget.cpp:754
 msgid "Aborted by user"
-msgstr ""
+msgstr "Interrompu par l'utilisateur"
 
 #: rc.cpp:1302 rc.cpp:2505
 msgid "Activate crash recovery (auto save)"
@@ -458,13 +457,12 @@ msgid "Autoscroll while playing"
 msgstr "Faire défiler automatiquement la barre de montage durant la lecture"
 
 #: rc.cpp:495 rc.cpp:1698
-#, fuzzy
 msgid "Available Codecs (avformat)"
-msgstr "Paramètres (libavformat)"
+msgstr "Codec disponibles (libavformat)"
 
 #: src/wizard.cpp:136
 msgid "Avformat module (FFmpeg)"
-msgstr ""
+msgstr "Module Avformat (FFmpeg)"
 
 #: rc.cpp:552 rc.cpp:1227 rc.cpp:1755 rc.cpp:2430
 msgid "Background"
@@ -703,9 +701,8 @@ msgid "Center"
 msgstr "Centrer"
 
 #: rc.cpp:256
-#, fuzzy
 msgid "Center Frequency"
-msgstr "Fréquence"
+msgstr "Centrer la fréquence"
 
 #: rc.cpp:750 rc.cpp:756 rc.cpp:762 rc.cpp:1953 rc.cpp:1959 rc.cpp:1965
 msgid "Change"
@@ -756,9 +753,8 @@ msgid "CheckBox"
 msgstr "Boîte à cocher"
 
 #: src/wizard.cpp:48
-#, fuzzy
 msgid "Checking MLT engine"
-msgstr "Vérifier à nouveau"
+msgstr "Vérification du moteur MLT"
 
 #: src/wizard.cpp:96
 msgid "Checking system"
@@ -923,9 +919,8 @@ msgid "Creating menu background"
 msgstr "Création du fond d'écran du menu"
 
 #: rc.cpp:672 rc.cpp:1875
-#, fuzzy
 msgid "Creating menu images"
-msgstr "Durée (%1 images)"
+msgstr "Création des images du menu"
 
 #: rc.cpp:678 rc.cpp:1881
 msgid "Creating menu movie"
@@ -988,7 +983,7 @@ msgstr "DV Raw"
 
 #: src/wizard.cpp:209
 msgid "DV module (libdv)"
-msgstr ""
+msgstr "Module DV (libdv)"
 
 #: rc.cpp:1494 rc.cpp:2697
 msgid "DVD Files"
@@ -1001,7 +996,7 @@ msgstr "Image DVD"
 #: src/dvdwizard.cpp:416
 #, kde-format
 msgid "DVD iso image %1 successfully created."
-msgstr ""
+msgstr "Image DVD iso %1 créée avec succès."
 
 #: rc.cpp:182 rc.cpp:192
 msgid "Damping"
@@ -1170,9 +1165,8 @@ msgid "Desktop search integration"
 msgstr "Intégrer aux services Desktop seach de votre ordinateur"
 
 #: rc.cpp:387 rc.cpp:1590
-#, fuzzy
 msgid "Destination"
-msgstr "Description"
+msgstr "Cible"
 
 #: rc.cpp:867 rc.cpp:2070
 msgid "Device"
@@ -1254,11 +1248,11 @@ msgstr "Durée"
 
 #: src/mainwindow.cpp:812
 msgid "Dvd Wizard"
-msgstr ""
+msgstr "Assistant DVD"
 
 #: rc.cpp:1482 rc.cpp:2685
 msgid "Dvd iso image"
-msgstr ""
+msgstr "Image DVD iso"
 
 #: src/wizard.cpp:259
 msgid "Dvgrab"
@@ -1404,9 +1398,8 @@ msgid "Esound daemon"
 msgstr "Système de son Esound"
 
 #: rc.cpp:426 rc.cpp:1629
-#, fuzzy
 msgid "Export audio"
-msgstr "Niveau de priorité de l'exportation"
+msgstr "Export audio"
 
 #: rc.cpp:834 rc.cpp:2037
 msgid "Extension"
@@ -1425,9 +1418,8 @@ msgid "FFmpeg & ffplay"
 msgstr "FFmpeg & ffplay"
 
 #: rc.cpp:336
-#, fuzzy
 msgid "Factor"
-msgstr "Formulaire"
+msgstr "Rapport"
 
 #: rc.cpp:62
 msgid "Fade in"
@@ -1483,9 +1475,8 @@ msgid "File not found"
 msgstr "Impossible de trouver le fichier"
 
 #: src/renderwidget.cpp:630
-#, fuzzy
 msgid "File rendering"
-msgstr "Rendu"
+msgstr "Rendu de fichier"
 
 #: rc.cpp:1344 rc.cpp:2547
 msgid "File size"
@@ -1545,14 +1536,12 @@ msgid "Font"
 msgstr "Police d'écran"
 
 #: rc.cpp:423 rc.cpp:1626
-#, fuzzy
 msgid "Force Interlaced"
-msgstr "Entrelacé"
+msgstr "Forcer entrelacé"
 
 #: rc.cpp:420 rc.cpp:1623
-#, fuzzy
 msgid "Force Progressive"
-msgstr "Progressif"
+msgstr "Forcer progressif"
 
 #: rc.cpp:1449 rc.cpp:2652
 msgid "Force pixel aspect ratio"
@@ -1568,9 +1557,8 @@ msgid "Format"
 msgstr "Format"
 
 #: rc.cpp:504 rc.cpp:1707
-#, fuzzy
 msgid "Formats"
-msgstr "Format"
+msgstr "Formats"
 
 #: src/monitor.cpp:76 src/mainwindow.cpp:846 src/recmonitor.cpp:69
 msgid "Forward"
@@ -1615,9 +1603,8 @@ msgid "Frame size"
 msgstr "Taille de la trame"
 
 #: src/wizard.cpp:359
-#, fuzzy
 msgid "Frame size:"
-msgstr "Taille de la trame"
+msgstr "Taille de la trame :"
 
 #: src/kdenlivesettingsdialog.cpp:205
 msgid "Framebuffer console"
@@ -1672,12 +1659,10 @@ msgid "Gain"
 msgstr "Amplification"
 
 #: rc.cpp:304
-#, fuzzy
 msgid "Gain In"
 msgstr "Gain en entrée"
 
 #: rc.cpp:306
-#, fuzzy
 msgid "Gain Out"
 msgstr "Gain en sortie"
 
@@ -1698,9 +1683,8 @@ msgid "General graphics interface"
 msgstr "Interface graphique classique"
 
 #: rc.cpp:2793
-#, fuzzy
 msgid "Generators"
-msgstr "Générer le DVD"
+msgstr "Générateurs"
 
 #: rc.cpp:6
 msgid "Geometry"
@@ -1888,7 +1872,7 @@ msgstr "Installer des signatures mime vidéo supplémentaires"
 
 #: rc.cpp:489 rc.cpp:1692
 msgid "Installed modules"
-msgstr ""
+msgstr "Modules installés"
 
 #: rc.cpp:26
 msgid "Intensity"
@@ -1909,9 +1893,8 @@ msgid "Invalid action"
 msgstr "Action invalide"
 
 #: src/customtrackview.cpp:1220 src/customtrackview.cpp:3030
-#, fuzzy
 msgid "Invalid transition"
-msgstr "Action invalide"
+msgstr "Transition non-valide"
 
 #: rc.cpp:44 rc.cpp:118 rc.cpp:214
 msgid "Invert"
@@ -2142,7 +2125,7 @@ msgstr ""
 
 #: rc.cpp:28
 msgid "Mono to stereo"
-msgstr ""
+msgstr "Mono vers Stereo"
 
 #: src/movegroupcommand.cpp:26 src/moveclipcommand.cpp:25
 #: src/customtrackview.cpp:1793
@@ -2518,9 +2501,8 @@ msgid "Properties"
 msgstr "Propriétés"
 
 #: src/wizard.cpp:219
-#, fuzzy
 msgid "QImage module"
-msgstr "Dossier image"
+msgstr "Module QImage"
 
 #: rc.cpp:654 rc.cpp:1857
 msgid "R"
@@ -2616,9 +2598,9 @@ msgid "Remove space"
 msgstr "Supprimer espace"
 
 #: src/trackview.cpp:275
-#, fuzzy, kde-format
+#, kde-format
 msgid "Removed invalid transition: %1"
-msgstr "Modifier transition %1"
+msgstr "Transition non-valide supprimée : %1"
 
 #: src/editfoldercommand.cpp:27
 msgid "Rename folder"
@@ -2696,9 +2678,8 @@ msgid "Required to work with various video formats (hdv, mpeg, flash, ...)"
 msgstr ""
 
 #: rc.cpp:429 rc.cpp:1632
-#, fuzzy
 msgid "Rescale"
-msgstr "Niveaux de gris"
+msgstr "Redimensionner"
 
 #: src/effectstackview.cpp:54
 msgid "Reset effect"
@@ -2843,7 +2824,7 @@ msgstr "Echelle"
 
 #: rc.cpp:414 rc.cpp:1617
 msgid "Scanning"
-msgstr ""
+msgstr "Recherche en cours"
 
 #: rc.cpp:894 rc.cpp:963 rc.cpp:2097 rc.cpp:2166
 msgid "Screen Grab"
@@ -2863,7 +2844,7 @@ msgstr "Recherche manuelle"
 
 #: src/dvdwizard.cpp:43
 msgid "Select Files For Your DVD"
-msgstr ""
+msgstr "Sélectionner des fichiers pour le DVD"
 
 #: src/customtrackview.cpp:2923
 msgid "Select a clip before copying"
@@ -3472,9 +3453,8 @@ msgid "X:"
 msgstr "X:"
 
 #: src/kdenlivesettingsdialog.cpp:203
-#, fuzzy
 msgid "XFree86 DGA 2.0"
-msgstr "XFREE86 DGA 2.0"
+msgstr "XFree86 DGA 2.0"
 
 #: src/kdenlivesettingsdialog.cpp:201
 msgid "XVideo"
