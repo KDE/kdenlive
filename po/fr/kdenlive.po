@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-22 22:24+0100\n"
-"PO-Revision-Date: 2009-01-26 09:58+0100\n"
+"PO-Revision-Date: 2009-01-26 11:31+0100\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -135,9 +135,9 @@ msgstr ""
 "Impossible de trouver l'utilitaire <em>dvgrab</em>, veuillez l'installer pour toute capture firewire"
 
 #: src/kdenlivedoc.cpp:1233
-#, fuzzy, kde-format
+#, kde-format
 msgid "<qt>Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
-msgstr "<qt>Clip <b>%1</b><br>is invalid, will be removed from project."
+msgstr "Le <qt>Clip <b>%1</b><br>est non-valide ou manquant, que décidez-vous ?"
 
 #: src/renderwidget.cpp:746
 #, kde-format
@@ -487,7 +487,7 @@ msgstr "Flouter l'image avec les images clés"
 #: src/trackview.cpp:585
 #, kde-format
 msgid "Boken clip producer %1"
-msgstr ""
+msgstr "Producteur de clip %1 invalide"
 
 #: rc.cpp:1194 rc.cpp:2397
 msgid "Border color"
@@ -1219,7 +1219,7 @@ msgstr "Ne rien faire"
 #: src/kdenlivedoc.cpp:84
 #, kde-format
 msgid "Document project folder is invalid, setting it to the default one: %1"
-msgstr ""
+msgstr "Le dossier de projet est invalide, retour à la valeur par défaut : %1"
 
 #: src/main.cpp:45
 msgid "Document to open"
@@ -2114,7 +2114,7 @@ msgstr "Moniteur"
 
 #: rc.cpp:852 rc.cpp:2055
 msgid "Monitor Preview Speedup Settings"
-msgstr ""
+msgstr "Réglage de la vitesse de lecture du Moniteur en prévisualisation"
 
 #: rc.cpp:28
 msgid "Mono to stereo"
@@ -2640,7 +2640,7 @@ msgstr "Rendu vers"
 #: src/trackview.cpp:586
 #, kde-format
 msgid "Replaced wrong clip producer %1 with %2"
-msgstr ""
+msgstr "Remplacement du producteur invalide %1 par %2"
 
 #: src/wizard.cpp:260
 msgid "Required for firewire capture"
@@ -2660,15 +2660,15 @@ msgstr "Nécessaire à l'acquisition webcam"
 
 #: src/wizard.cpp:210
 msgid "Required to work with dv files if avformat module is not installed"
-msgstr ""
+msgstr "Nécessaire pour monter les fichiers dv lorsque le module avformat n'est pas installé"
 
 #: src/wizard.cpp:220 src/wizard.cpp:225
 msgid "Required to work with images"
-msgstr ""
+msgstr "Nécessaire pour monter des images"
 
 #: src/wizard.cpp:137
 msgid "Required to work with various video formats (hdv, mpeg, flash, ...)"
-msgstr ""
+msgstr "Nécessaire pour monter différents formats (hdv, mpeg, flash, ...)"
 
 #: rc.cpp:429 rc.cpp:1632
 msgid "Rescale"
@@ -3021,9 +3021,8 @@ msgid "Sox band audio effect"
 msgstr "Effet audio sox groupe de musiciens"
 
 #: rc.cpp:262
-#, fuzzy
 msgid "Sox bass audio effect"
-msgstr "Effet audio Sox vibro"
+msgstr "Effet audio Sox basse"
 
 #: rc.cpp:316
 msgid "Sox change pitch audio effect"
@@ -3146,7 +3145,6 @@ msgid "TextLabel"
 msgstr "LabelTexte"
 
 #: src/profilesdialog.cpp:105
-#, fuzzy
 msgid "The custom profile was modified, do you want to save it?"
 msgstr "Le profil personnalisé a été modifié. Souhaitez-vous l'enregistrer ?"
 
