@@ -618,6 +618,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
             } else {
                 // Select all items on all tracks after click position
                 selection = items(event->pos().x(), 1, sceneRect().width() - event->pos().x(), sceneRect().height());
+		kDebug() << "SELELCTING ELEMENTS WITHIN =" << event->pos().x() << "/" <<  1 << ", " << sceneRect().width() - event->pos().x() << "/" << sceneRect().height();
             }
             m_selectionGroup = new AbstractGroupItem(m_document->fps());
             scene()->addItem(m_selectionGroup);
@@ -627,9 +628,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                     m_selectionGroup->addToGroup(selection.at(i));
                     selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
                 }
-            }
-            kDebug() << "SPACER TOOL: SELECTION GROUP IS " << m_selectionGroup->boundingRect().top() << "/" << m_selectionGroup->boundingRect().left() << "; " << m_selectionGroup->boundingRect().bottom() << "/" << m_selectionGroup->boundingRect().right();
+	    }
+	    kDebug() << "SPACER TOOL: SELECTION GROUP POSITION " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();
+            kDebug() << "SPACER TOOL: SELECTION GROUP RECT IS " << m_selectionGroup->boundingRect().top() << "/" << m_selectionGroup->boundingRect().left() << "; " << m_selectionGroup->boundingRect().bottom() << "/" << m_selectionGroup->boundingRect().right();
             QPointF top = m_selectionGroup->boundingRect().topLeft();
+	    // Something goes wrong there
             m_selectionGroup->setPos(top);
             m_selectionGroup->translate(-top.x(), -top.y() + 1);
             kDebug() << "SPACER TOOL: SELECTION GROUP TRANSLATED TO " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();
