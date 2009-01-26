@@ -8,12 +8,12 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-22 22:24+0100\n"
-"PO-Revision-Date: 2009-01-26 11:31+0100\n"
+"PO-Revision-Date: 2009-01-26 14:04+0100\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/clipproperties.cpp:462 src/slideshowclip.cpp:128
 #, kde-format
@@ -1885,7 +1885,7 @@ msgstr "Entrelacé"
 
 #: rc.cpp:1491 rc.cpp:2694
 msgid "Intro movie"
-msgstr "Film de présentation"
+msgstr "Film d'introduction"
 
 #: src/customtrackview.cpp:3121 src/customtrackview.cpp:3126
 #: src/customtrackview.cpp:3145 src/customtrackview.cpp:3150
@@ -2824,7 +2824,7 @@ msgstr "Echelle"
 
 #: rc.cpp:414 rc.cpp:1617
 msgid "Scanning"
-msgstr "Recherche en cours"
+msgstr "Balayage"
 
 #: rc.cpp:894 rc.cpp:963 rc.cpp:2097 rc.cpp:2166
 msgid "Screen Grab"
@@ -2844,7 +2844,7 @@ msgstr "Recherche manuelle"
 
 #: src/dvdwizard.cpp:43
 msgid "Select Files For Your DVD"
-msgstr "Sélectionner des fichiers pour le DVD"
+msgstr "Sélectionner les fichiers destinés au DVD"
 
 #: src/customtrackview.cpp:2923
 msgid "Select a clip before copying"
