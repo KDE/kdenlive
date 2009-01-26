@@ -30,7 +30,7 @@ DvdWizardVob::DvdWizardVob(QWidget *parent): QWizardPage(parent) {
     m_view.intro_vob->setFilter("video/mpeg");
     connect(m_view.use_intro, SIGNAL(toggled(bool)), m_view.intro_vob, SLOT(setEnabled(bool)));
     connect(m_view.vob_1, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckVobList(const QString &)));
-    if (KStandardDirs::findExe("dvdauthor").isEmpty()) m_errorMessage.append(i18n("<strong>Program %1 is required for the dvd wizard.<br />", i18n("dvdauthor")));
+    if (KStandardDirs::findExe("dvdauthor").isEmpty()) m_errorMessage.append(i18n("<strong>Program %1 is required for the dvd wizard.", i18n("dvdauthor")));
     if (KStandardDirs::findExe("mkisofs").isEmpty()) m_errorMessage.append(i18n("<strong>Program %1 is required for the dvd wizard.", i18n("mkisofs")));
     if (m_errorMessage.isEmpty()) m_view.error_message->setVisible(false);
     else m_view.error_message->setText(m_errorMessage);
