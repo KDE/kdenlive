@@ -611,6 +611,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 // Ctrl + click, select all items on track after click position
                 int track = (int)(mapToScene(m_clickEvent).y() / m_tracksHeight);
                 selection = items(m_clickEvent.x(), track * m_tracksHeight + 1, sceneRect().width() - m_clickEvent.x(), m_tracksHeight - 2);
+                // for (int count = 0; count < selection.size(); count++) {
+                //   selection.at(count);
+                // }
+                kDebug() << "SPACER TOOL + CTRL, SELECTING ALL CLIPS ON TRACK " << track << " WITH SELECTION RECT " << m_clickEvent.x() << "/" <<  track * m_tracksHeight + 1 << "; " << sceneRect().width() - m_clickEvent.x() << "/" << m_tracksHeight - 2;
             } else {
                 // Select all items on all tracks after click position
                 selection = items(event->pos().x(), 1, sceneRect().width() - event->pos().x(), sceneRect().height());
@@ -624,9 +628,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                     selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
                 }
             }
+            kDebug() << "SPACER TOOL: SELECTION GROUP IS " << m_selectionGroup->boundingRect().top() << "/" << m_selectionGroup->boundingRect().left() << "; " << m_selectionGroup->boundingRect().bottom() << "/" << m_selectionGroup->boundingRect().right();
             QPointF top = m_selectionGroup->boundingRect().topLeft();
             m_selectionGroup->setPos(top);
             m_selectionGroup->translate(-top.x(), -top.y() + 1);
+            kDebug() << "SPACER TOOL: SELECTION GROUP TRANSLATED TO " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();
             m_operationMode = SPACER;
         } else setCursorPos((int)(mapToScene(event->x(), 0).x()));
         return;
