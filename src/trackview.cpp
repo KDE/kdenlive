@@ -380,6 +380,11 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml) {
             qApp->processEvents();
             // Found a clip
             int in = elem.attribute("in").toInt();
+            int out = elem.attribute("out").toInt();
+            if (in > out || in == out) {
+                m_documentErrors.append(i18n("Invalid clip removed from track %1 at %2\n", ix, position));
+                continue;
+            }
             QString idString = elem.attribute("producer");
             QString id = idString;
             double speed = 1.0;
@@ -389,8 +394,6 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml) {
             } else id = id.section('_', 0, 0);
             DocClipBase *clip = m_doc->clipManager()->getClipById(id);
             if (clip != NULL) {
-                int out = elem.attribute("out").toInt();
-
                 ItemInfo clipinfo;
                 clipinfo.startPos = GenTime(position, m_doc->fps());
                 clipinfo.endPos = clipinfo.startPos + GenTime(out - in + 1, m_doc->fps());
