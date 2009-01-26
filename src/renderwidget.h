@@ -76,6 +76,7 @@ public:
     void setRenderStatus(const QString &dest, int status, const QString &error);
 
 private slots:
+    void slotUpdateButtons(KUrl url);
     void slotUpdateButtons();
     void slotExport();
     void refreshView();

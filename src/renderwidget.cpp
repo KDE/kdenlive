@@ -74,6 +74,7 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
     connect(m_view.rescale, SIGNAL(toggled(bool)), m_view.rescale_size, SLOT(setEnabled(bool)));
     connect(m_view.destination_list, SIGNAL(activated(int)), this, SLOT(refreshView()));
     connect(m_view.out_file, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButtons()));
+    connect(m_view.out_file, SIGNAL(urlSelected(const KUrl &)), this, SLOT(slotUpdateButtons(const KUrl &)));
     connect(m_view.format_list, SIGNAL(currentRowChanged(int)), this, SLOT(refreshView()));
     connect(m_view.size_list, SIGNAL(currentRowChanged(int)), this, SLOT(refreshParams()));
 
@@ -157,16 +158,24 @@ void RenderWidget::setGuides(QDomElement guidesxml, double duration) {
         m_view.guide_end->addItem(i18n("End"), QString::number(duration));
 }
 
+// Will be called when the user selects an output file via the file dialog.
+// File extension will be added automatically.
+void RenderWidget::slotUpdateButtons(KUrl url) {
+    if (m_view.out_file->url().isEmpty()) m_view.buttonStart->setEnabled(false);
+    else m_view.buttonStart->setEnabled(true); 
+    if (url != 0) {
+	QListWidgetItem *item = m_view.size_list->currentItem();
+	QString extension = item->data(ExtensionRole).toString();
+	url = filenameWithExtension(url, extension);
+	m_view.out_file->setUrl(url);
+    }
+}
+
+// Will be called when the user changes the output file path in the text line. 
+// File extension must NOT be added, would make editing impossible!
 void RenderWidget::slotUpdateButtons() {
     if (m_view.out_file->url().isEmpty()) m_view.buttonStart->setEnabled(false);
-    else m_view.buttonStart->setEnabled(true);
-    KUrl url = m_view.out_file->url();
-    QListWidgetItem *item = m_view.size_list->currentItem();
-    QString extension = item->data(ExtensionRole).toString();
-    url = filenameWithExtension(url, extension);
-    kDebug() << "URL SHOULD BE " << url.path();
-    //m_view.out_file->setUrl(url);
-    // not possible here; key input wouldn't be possible anymore
+    else m_view.buttonStart->setEnabled(true); 
 }
 
 void RenderWidget::slotSaveProfile() {
