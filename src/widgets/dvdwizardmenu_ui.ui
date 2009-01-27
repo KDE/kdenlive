@@ -5,14 +5,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>421</width>
-    <height>454</height>
+    <width>441</width>
+    <height>451</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_4" >
+  <layout class="QGridLayout" name="gridLayout_5" >
    <item row="0" column="0" >
     <widget class="QCheckBox" name="create_menu" >
      <property name="text" >
@@ -20,104 +20,172 @@
      </property>
     </widget>
    </item>
+   <item row="0" column="1" >
+    <widget class="KComboBox" name="menu_profile" />
+   </item>
    <item row="1" column="0" colspan="2" >
     <widget class="QGroupBox" name="menu_box" >
      <property name="title" >
       <string/>
      </property>
      <layout class="QGridLayout" name="gridLayout_3" >
-      <item row="0" column="0" colspan="2" >
-       <widget class="QLabel" name="label" >
-        <property name="text" >
-         <string>Background</string>
+      <item row="0" column="0" >
+       <widget class="QTabWidget" name="tabWidget" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-       </widget>
-      </item>
-      <item row="0" column="2" >
-       <widget class="KComboBox" name="background_list" >
-        <item>
-         <property name="text" >
-          <string>Color</string>
-         </property>
-        </item>
-        <item>
-         <property name="text" >
-          <string>Image</string>
-         </property>
-        </item>
-        <item>
-         <property name="text" >
-          <string>Video</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="1" column="2" >
-       <widget class="KColorButton" name="background_color" />
-      </item>
-      <item row="2" column="2" >
-       <widget class="KUrlRequester" name="background_image" />
-      </item>
-      <item row="4" column="0" colspan="3" >
-       <widget class="QGroupBox" name="button_box" >
-        <property name="title" >
-         <string>Button</string>
+        <property name="currentIndex" >
+         <number>0</number>
         </property>
-        <layout class="QGridLayout" name="gridLayout_2" >
-         <item row="0" column="0" >
-          <widget class="QLabel" name="label_3" >
-           <property name="text" >
-            <string>Text</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1" colspan="2" >
-          <widget class="KLineEdit" name="play_text" />
-         </item>
-         <item row="0" column="3" >
-          <widget class="QLabel" name="label_6" >
-           <property name="text" >
-            <string>Target</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="4" >
-          <widget class="KComboBox" name="target_list" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0" >
-          <widget class="QLabel" name="label_4" >
-           <property name="text" >
-            <string>Font</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1" >
-          <widget class="KIntSpinBox" name="font_size" >
-           <property name="minimum" >
-            <number>10</number>
-           </property>
-           <property name="maximum" >
-            <number>900</number>
-           </property>
-           <property name="value" >
-            <number>35</number>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2" colspan="3" >
-          <widget class="QFontComboBox" name="font_family" />
-         </item>
-        </layout>
+        <widget class="QWidget" name="tab" >
+         <attribute name="title" >
+          <string>Button</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_2" >
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label_3" >
+            <property name="text" >
+             <string>Text</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" colspan="2" >
+           <widget class="KLineEdit" name="play_text" />
+          </item>
+          <item row="0" column="3" >
+           <widget class="QLabel" name="label_6" >
+            <property name="text" >
+             <string>Target</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="4" >
+           <widget class="KComboBox" name="target_list" >
+            <property name="sizePolicy" >
+             <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="label_4" >
+            <property name="text" >
+             <string>Font</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" >
+           <widget class="KIntSpinBox" name="font_size" >
+            <property name="minimum" >
+             <number>10</number>
+            </property>
+            <property name="maximum" >
+             <number>900</number>
+            </property>
+            <property name="value" >
+             <number>35</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2" colspan="3" >
+           <widget class="QFontComboBox" name="font_family" />
+          </item>
+          <item row="2" column="0" colspan="2" >
+           <widget class="QLabel" name="label_5" >
+            <property name="text" >
+             <string>Button colors</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2" colspan="3" >
+           <layout class="QHBoxLayout" name="horizontalLayout" >
+            <item>
+             <widget class="KColorButton" name="text_color" >
+              <property name="text" >
+               <string/>
+              </property>
+              <property name="color" >
+               <color>
+                <red>255</red>
+                <green>255</green>
+                <blue>255</blue>
+               </color>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="KColorButton" name="selected_color" >
+              <property name="color" >
+               <color>
+                <red>170</red>
+                <green>170</green>
+                <blue>255</blue>
+               </color>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="KColorButton" name="highlighted_color" >
+              <property name="color" >
+               <color>
+                <red>255</red>
+                <green>85</green>
+                <blue>0</blue>
+               </color>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_2" >
+         <attribute name="title" >
+          <string>Background</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_4" >
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label" >
+            <property name="text" >
+             <string>Background</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" >
+           <widget class="KComboBox" name="background_list" >
+            <item>
+             <property name="text" >
+              <string>Color</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>Image</string>
+             </property>
+            </item>
+            <item>
+             <property name="text" >
+              <string>Video</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="1" >
+           <widget class="KColorButton" name="background_color" />
+          </item>
+          <item row="2" column="1" >
+           <widget class="KUrlRequester" name="background_image" />
+          </item>
+         </layout>
+        </widget>
        </widget>
       </item>
-      <item row="6" column="0" colspan="3" >
+      <item row="1" column="0" >
        <layout class="QGridLayout" name="gridLayout" >
         <item row="0" column="0" >
          <widget class="QToolButton" name="add_button" >
@@ -153,52 +221,12 @@
          </spacer>
         </item>
         <item rowspan="3" row="0" column="1" >
-         <widget class="QGraphicsView" name="menu_preview" />
-        </item>
-       </layout>
-      </item>
-      <item row="5" column="0" >
-       <widget class="QLabel" name="label_5" >
-        <property name="text" >
-         <string>Button colors</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="2" >
-       <layout class="QHBoxLayout" name="horizontalLayout" >
-        <item>
-         <widget class="KColorButton" name="text_color" >
-          <property name="text" >
-           <string/>
-          </property>
-          <property name="color" >
-           <color>
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="KColorButton" name="selected_color" >
-          <property name="color" >
-           <color>
-            <red>170</red>
-            <green>170</green>
-            <blue>255</blue>
-           </color>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="KColorButton" name="highlighted_color" >
-          <property name="color" >
-           <color>
-            <red>255</red>
-            <green>85</green>
-            <blue>0</blue>
-           </color>
+         <widget class="QGraphicsView" name="menu_preview" >
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="MinimumExpanding" hsizetype="Expanding" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
          </widget>
         </item>
@@ -210,14 +238,10 @@
      <zorder>background_color</zorder>
      <zorder>background_image</zorder>
      <zorder>button_box</zorder>
-     <zorder>scale_image</zorder>
      <zorder>label_5</zorder>
-     <zorder>text_color</zorder>
      <zorder></zorder>
+     <zorder>tabWidget</zorder>
     </widget>
-   </item>
-   <item row="0" column="1" >
-    <widget class="KComboBox" name="menu_profile" />
    </item>
   </layout>
  </widget>

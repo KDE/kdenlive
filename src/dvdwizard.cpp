@@ -81,8 +81,21 @@ void DvdWizard::slotPageChanged(int page) {
     } else if (page == 2) {
         m_pageMenu->buttonsInfo();
     } else if (page == 3) {
-        KIO::NetAccess::del(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);
-        QTimer::singleShot(300, this, SLOT(generateDvd()));
+        // clear job icons
+        for (int i = 0; i < m_status.job_progress->count(); i++)
+            m_status.job_progress->item(i)->setIcon(KIcon());
+        QString warnMessage;
+        if (KIO::NetAccess::exists(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), KIO::NetAccess::SourceSide, this))
+            warnMessage.append(i18n("Folder %1 already exists. Overwrite ?<br />", m_iso.tmp_folder->url().path() + "/DVD"));
+        if (KIO::NetAccess::exists(KUrl(m_iso.iso_image->url().path()), KIO::NetAccess::SourceSide, this))
+            warnMessage.append(i18n("Image file %1 already exists. Overwrite ?", m_iso.iso_image->url().path()));
+
+        if (!warnMessage.isEmpty() && KMessageBox::questionYesNo(this, warnMessage) == KMessageBox::No) {
+            back();
+        } else {
+            KIO::NetAccess::del(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);
+            QTimer::singleShot(300, this, SLOT(generateDvd()));
+        }
     }
 }
 
@@ -401,8 +414,8 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status) {
 void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status) {
     QListWidgetItem *isoitem =  m_status.job_progress->item(4);
     if (status == QProcess::CrashExit) {
-        //m_authorFile.remove();
-        //m_menuFile.remove();
+        m_authorFile.remove();
+        m_menuFile.remove();
         KIO::NetAccess::del(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);
         kDebug() << "Iso process crashed";
         isoitem->setIcon(KIcon("dialog-close"));
@@ -410,8 +423,8 @@ void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status) {
     }
     isoitem->setIcon(KIcon("dialog-ok"));
     kDebug() << "ISO IMAGE " << m_iso.iso_image->url().path() << " Successfully created";
-    //m_authorFile.remove();
-    //m_menuFile.remove();
+    m_authorFile.remove();
+    m_menuFile.remove();
     KIO::NetAccess::del(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);
     KMessageBox::information(this, i18n("DVD iso image %1 successfully created.", m_iso.iso_image->url().path()));
 

@@ -170,7 +170,7 @@ void DvdWizardMenu::buttonChanged() {
             m_view.font_family->blockSignals(true);
             m_view.target_list->blockSignals(true);
             foundButton = true;
-            m_view.button_box->setEnabled(true);
+            m_view.tabWidget->widget(0)->setEnabled(true);
             DvdButton *button = static_cast < DvdButton* >(list.at(i));
             m_view.target_list->setCurrentIndex(button->target());
             m_view.play_text->setText(button->toPlainText());
@@ -184,7 +184,7 @@ void DvdWizardMenu::buttonChanged() {
             break;
         }
     }
-    if (!foundButton) m_view.button_box->setEnabled(false);
+    if (!foundButton) m_view.tabWidget->widget(0)->setEnabled(false);
 }
 
 void DvdWizardMenu::addButton() {
