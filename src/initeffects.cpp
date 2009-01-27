@@ -698,7 +698,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
 
         transitions->append(ret.documentElement());
         //kDebug() << "//// ////  TRANSITON XML";
-        kDebug() << ret.toString();
+        // kDebug() << ret.toString();
         /*
 
          <transition fill="1" in="11" a_track="1" out="73" mlt_service="luma" b_track="2" softness="0" resource="/home/marco/Projekte/kdenlive/install_cmake/share/apps/kdenlive/pgm/PAL/square2.pgm" />
