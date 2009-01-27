@@ -510,6 +510,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
 
 // virtual
 void CustomTrackView::mousePressEvent(QMouseEvent * event) {
+    kDebug() << "mousePressEvent STARTED";
     m_menuPosition = QPoint();
     m_blockRefresh = true;
     bool collision = false;
@@ -629,15 +630,34 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                     selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
                 }
 	    }
-	    kDebug() << "SPACER TOOL: SELECTION GROUP POSITION " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();
-            kDebug() << "SPACER TOOL: SELECTION GROUP RECT IS " << m_selectionGroup->boundingRect().top() << "/" << m_selectionGroup->boundingRect().left() << "; " << m_selectionGroup->boundingRect().bottom() << "/" << m_selectionGroup->boundingRect().right();
-            QPointF top = m_selectionGroup->boundingRect().topLeft();
+// 	    kDebug() << "SPACER TOOL: SELECTION GROUP POSITION " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();
+//             kDebug() << "SPACER TOOL: SELECTION GROUP RECT IS " << m_selectionGroup->boundingRect().top() << "/" << m_selectionGroup->boundingRect().left() << "; " << m_selectionGroup->boundingRect().bottom() << "/" << m_selectionGroup->boundingRect().right();
+	    QPointF top = m_selectionGroup->boundingRect().topLeft();
+	    kDebug() << "SPACER TOOL: SELECTION RECT TOP LEFT IS " << m_selectionGroup->pos().x() << "/"<<m_selectionGroup->pos().y();// << " TO " << top.x() << "/" << top.y();
 	    // Something goes wrong there
-            m_selectionGroup->setPos(top);
-            m_selectionGroup->translate(-top.x(), -top.y() + 1);
-            kDebug() << "SPACER TOOL: SELECTION GROUP TRANSLATED TO " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();
+	    kDebug() << "SPACER TOOL: WILL SET TO " << top.x() << "/" << top.y();
+	    m_selectionGroup->setPos(top);
+	    kDebug() << "SPACER TOOL: POS SET; POSITION IS NOW " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();
+	    if (m_selectionGroup->pos().x() == 0 && m_selectionGroup->pos().y() == 0) {
+	       /*
+	       This is _really_ strange. Sometimes the position cannot be set and remains (0|0). In this case, translating would cause
+	       all videos to be moved around, a very nasty effect as even the track will be changed. 
+	       It is somehow scale dependant (only when zoomed in far enough), at least in my project. ---Simon 
+	       BUG ID: 0000604, http://www.kdenlive.org/mantis/view.php?id=604
+	       */
+	       kDebug() << "////////// SPACER TOOL: NOT TRANSLATING BY " << -top.x() << "/" << 1-top.y() << " BECAUSE CHANGING POSITION FAILED!";
+	       //m_selectionGroup->translate(-top.x(), -top.y() + 1);
+	       kDebug() << "SPACER TOOL: NOT TRANSLATED; POSITION IS STILL " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();
+	    } else {
+	       kDebug() << "SPACER TOOL: TRANSLATING BY " << -top.x() << "/" << 1-top.y();
+	       m_selectionGroup->translate(-top.x(), -top.y() + 1);
+	       kDebug() << "SPACER TOOL: TRANSLATED; POSITION IS NOW " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();
+	    }
+	    // End Wrong
+            kDebug() << "SPACER TOOL: SELECTION GROUP POSITION IS NOW " << m_selectionGroup->pos().x() << "/" << -m_selectionGroup->pos().y();
             m_operationMode = SPACER;
         } else setCursorPos((int)(mapToScene(event->x(), 0).x()));
+	kDebug() << "END mousePress EVENT ";
         return;
     }
 
