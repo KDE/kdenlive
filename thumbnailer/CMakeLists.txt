@@ -12,7 +12,7 @@ set(westleypreview_PART_SRCS westleypreview.cpp)
 
 kde4_add_plugin(westleypreview ${westleypreview_PART_SRCS})
 
-target_link_libraries(westleypreview ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${KDE4_KDEUI_LIBS} ${KDE4_KDECORE_LIBS})
+target_link_libraries(westleypreview ${KDE4_KIO_LIBS})
 
 install(TARGETS westleypreview DESTINATION ${PLUGIN_INSTALL_DIR})
 
