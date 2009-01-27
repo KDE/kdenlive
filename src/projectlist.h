@@ -140,7 +140,7 @@ private:
     QToolBar *m_toolbar;
     QMenu *m_menu;
     QUndoStack *m_commandStack;
-    int m_clipIdCounter;
+    // mbd: I think this has died at some point: int m_clipIdCounter;
     void selectItemById(const QString &clipId);
     ProjectItem *getItemById(const QString &id);
     ProjectItem *getFolderItemById(const QString &id);

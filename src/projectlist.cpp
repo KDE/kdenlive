@@ -60,7 +60,7 @@ ProjectList::ProjectList(QWidget *parent)
     listView = new ProjectListView(this);;
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
-    m_clipIdCounter = 0;
+    // mbd: I think this has died at some point: m_clipIdCounter = 0;
     // setup toolbar
     searchView = new KTreeWidgetSearchLine(this);
     m_toolbar = new QToolBar("projectToolBar", this);
@@ -357,7 +357,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties) {
     if (getProperties) listView->setEnabled(false);
     listView->blockSignals(true);
     const QString parent = clip->getProperty("groupid");
-    //kDebug() << "Adding clip with groupid: " << parent;
+    kDebug() << "Adding clip with groupid: " << parent;
     ProjectItem *item = NULL;
     if (!parent.isEmpty()) {
         ProjectItem *parentitem = getFolderItemById(parent);
@@ -666,6 +666,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     if (item && producer) {
         listView->blockSignals(true);
         item->setProperties(properties, metadata);
+        Q_ASSERT_X( item->referencedClip(), "void ProjectList::slotReplyGetFileProperties", QString( "Item with groupName %1 does not have a clip associated" ).arg( item->groupName() ).toLatin1() );
         item->referencedClip()->setProducer(producer);
         emit receivedClipDuration(clipId, item->clipMaxDuration());
         listView->blockSignals(false);
