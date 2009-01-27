@@ -45,7 +45,7 @@
       </size>
      </property>
      <property name="currentIndex" >
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab" >
       <attribute name="title" >
@@ -305,29 +305,12 @@
         </widget>
        </item>
       </layout>
-      <zorder>label_3</zorder>
-      <zorder>label_14</zorder>
-      <zorder>kcfg_video4adevice</zorder>
-      <zorder>label_9</zorder>
-      <zorder>label_16</zorder>
-      <zorder>label_11</zorder>
-      <zorder>kcfg_video4encoding</zorder>
-      <zorder>label_12</zorder>
-      <zorder>kcfg_video4aformat</zorder>
-      <zorder>kcfg_video4vformat</zorder>
-      <zorder>kcfg_video4vdevice</zorder>
-      <zorder>kcfg_video4capture</zorder>
-      <zorder>line_3</zorder>
-      <zorder>label_4</zorder>
-      <zorder>kcfg_video4size</zorder>
-      <zorder>label_6</zorder>
-      <zorder>kcfg_video4rate</zorder>
      </widget>
      <widget class="QWidget" name="tab_3" >
       <attribute name="title" >
        <string>Screen Grab</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_3" >
+      <layout class="QGridLayout" name="gridLayout_5" >
        <item row="0" column="0" colspan="3" >
         <widget class="QLabel" name="rmd_info" >
          <property name="frameShape" >
@@ -357,6 +340,69 @@
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QGridLayout" name="gridLayout_4" >
+          <item row="0" column="0" colspan="5" >
+           <layout class="QHBoxLayout" name="horizontalLayout_2" >
+            <item>
+             <widget class="QLabel" name="label_8" >
+              <property name="text" >
+               <string>Audio channels</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="KIntSpinBox" name="kcfg_rmd_audio_channels" />
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_3" >
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0" >
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_22" >
+              <property name="text" >
+               <string>Audio frequency</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="KComboBox" name="kcfg_rmd_audio_freq" >
+              <item>
+               <property name="text" >
+                <string>48000</string>
+               </property>
+              </item>
+              <item>
+               <property name="text" >
+                <string>41000</string>
+               </property>
+              </item>
+              <item>
+               <property name="text" >
+                <string>32000</string>
+               </property>
+              </item>
+              <item>
+               <property name="text" >
+                <string>22500</string>
+               </property>
+              </item>
+              <item>
+               <property name="text" >
+                <string>11250</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
           <item row="1" column="0" >
            <widget class="QRadioButton" name="radioButton_2" >
             <property name="text" >
@@ -367,8 +413,29 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="1" colspan="3" >
-           <widget class="KComboBox" name="rmd_alsa_device" />
+          <item row="1" column="1" colspan="2" >
+           <widget class="KComboBox" name="kcfg_rmd_alsa_device" >
+            <property name="sizePolicy" >
+             <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3" >
+           <widget class="QLabel" name="label_17" >
+            <property name="text" >
+             <string>Buffer</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="4" >
+           <widget class="KIntSpinBox" name="kcfg_rmd_alsa_buffer" >
+            <property name="maximum" >
+             <number>999</number>
+            </property>
+           </widget>
           </item>
           <item row="2" column="0" >
            <widget class="QRadioButton" name="kcfg_rmd_use_jack" >
@@ -384,91 +451,25 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="3" >
-           <widget class="KLineEdit" name="kcfg_rmd_jackports" />
+          <item row="2" column="2" >
+           <widget class="KLineEdit" name="kcfg_rmd_jackports" >
+            <property name="sizePolicy" >
+             <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
           </item>
-          <item row="2" column="4" >
+          <item row="2" column="3" >
            <widget class="QLabel" name="label_21" >
             <property name="text" >
              <string>Buffer</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="5" >
+          <item row="2" column="4" >
            <widget class="KDoubleNumInput" name="kcfg_rmd_jack_buffer" />
-          </item>
-          <item row="1" column="5" >
-           <widget class="KIntSpinBox" name="kcfg_rmd_alsa_buffer" >
-            <property name="maximum" >
-             <number>999</number>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="4" >
-           <widget class="QLabel" name="label_17" >
-            <property name="text" >
-             <string>Buffer</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="label_8" >
-            <property name="text" >
-             <string>Audio channels</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" >
-           <widget class="KIntSpinBox" name="kcfg_rmd_audio_channels" />
-          </item>
-          <item row="0" column="3" >
-           <widget class="QLabel" name="label_22" >
-            <property name="text" >
-             <string>Audio frequency</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="4" colspan="2" >
-           <widget class="KComboBox" name="kcfg_rmd_audio_freq" >
-            <item>
-             <property name="text" >
-              <string>48000</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>41000</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>32000</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>22500</string>
-             </property>
-            </item>
-            <item>
-             <property name="text" >
-              <string>11250</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="0" column="2" >
-           <spacer name="horizontalSpacer_3" >
-            <property name="orientation" >
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0" >
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
           </item>
          </layout>
         </widget>
@@ -495,9 +496,53 @@
          <property name="frameShadow" >
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QGridLayout" name="gridLayout_5" >
+         <layout class="QGridLayout" name="gridLayout_3" >
+          <item row="0" column="0" colspan="3" >
+           <layout class="QHBoxLayout" name="horizontalLayout" >
+            <item>
+             <widget class="QCheckBox" name="kcfg_rmd_follow_mouse" >
+              <property name="text" >
+               <string>Follow mouse</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="kcfg_rmd_hide_frame" >
+              <property name="text" >
+               <string>Hide frame</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_4" >
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0" >
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="label_19" >
+            <property name="text" >
+             <string>Offset</string>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="1" >
            <widget class="KIntSpinBox" name="kcfg_rmd_offsetx" >
+            <property name="sizePolicy" >
+             <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="minimum" >
              <number>1</number>
             </property>
@@ -508,32 +553,17 @@
           </item>
           <item row="1" column="2" >
            <widget class="KIntSpinBox" name="kcfg_rmd_offsety" >
+            <property name="sizePolicy" >
+             <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="minimum" >
              <number>1</number>
             </property>
             <property name="maximum" >
              <number>5000</number>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2" >
-           <widget class="KIntSpinBox" name="kcfg_rmd_height" >
-            <property name="maximum" >
-             <number>5000</number>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1" >
-           <widget class="KIntSpinBox" name="kcfg_rmd_width" >
-            <property name="maximum" >
-             <number>5000</number>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="label_19" >
-            <property name="text" >
-             <string>Offset</string>
             </property>
            </widget>
           </item>
@@ -544,17 +574,17 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="0" >
-           <widget class="QCheckBox" name="kcfg_rmd_follow_mouse" >
-            <property name="text" >
-             <string>Follow mouse</string>
+          <item row="2" column="1" >
+           <widget class="KIntSpinBox" name="kcfg_rmd_width" >
+            <property name="maximum" >
+             <number>5000</number>
             </property>
            </widget>
           </item>
-          <item row="0" column="1" >
-           <widget class="QCheckBox" name="kcfg_rmd_hide_frame" >
-            <property name="text" >
-             <string>Hide frame</string>
+          <item row="2" column="2" >
+           <widget class="KIntSpinBox" name="kcfg_rmd_height" >
+            <property name="maximum" >
+             <number>5000</number>
             </property>
            </widget>
           </item>
@@ -645,7 +675,7 @@
   <tabstop>kcfg_video4encoding</tabstop>
   <tabstop>kcfg_rmd_capture_audio</tabstop>
   <tabstop>radioButton_2</tabstop>
-  <tabstop>rmd_alsa_device</tabstop>
+  <tabstop>kcfg_rmd_alsa_device</tabstop>
   <tabstop>kcfg_rmd_alsa_buffer</tabstop>
   <tabstop>kcfg_rmd_use_jack</tabstop>
   <tabstop>kcfg_rmd_jackports</tabstop>

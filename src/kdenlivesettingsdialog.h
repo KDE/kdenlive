@@ -41,9 +41,10 @@ public:
     ~KdenliveSettingsDialog();
     void showPage(int page, int option);
     void checkProfile();
-    bool hasChanged();
-    bool isDefault();
+
+protected slots:
     void updateSettings();
+
 
 private slots:
     void slotUpdateDisplay();

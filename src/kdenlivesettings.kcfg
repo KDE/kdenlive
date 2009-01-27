@@ -43,6 +43,11 @@
       <label>Default number of audio tracks.</label>
       <default>2</default>
     </entry>
+
+    <entry name="profiles_list" type="UInt">
+      <label>active project format.</label>
+      <default></default>
+    </entry>
   </group>
 
   <group name="display">
@@ -100,6 +105,11 @@
 
     <entry name="videodrivername" type="String">
       <label>Video driver used for output.</label>
+      <default></default>
+    </entry>
+
+    <entry name="audio_device" type="UInt">
+      <label>Audio device for SDL output.</label>
       <default></default>
     </entry>
 
@@ -285,6 +295,11 @@
       <default></default>
     </entry>
 
+    <entry name="rmd_alsa_device" type="UInt">
+      <label>Audio device for rmd capture.</label>
+      <default></default>
+    </entry>
+
     <entry name="rmd_path" type="String">
       <label>Path for the recordmydesktop binary.</label>
       <default></default>
@@ -376,11 +391,6 @@
     <entry name="current_profile" type="String">
       <label>active project format.</label>
       <default>hdv_1080_50i</default>
-    </entry>
-
-    <entry name="profiles_list" type="UInt">
-      <label>active project format.</label>
-      <default></default>
     </entry>
 
     <entry name="showdescriptioncolumn" type="Bool">

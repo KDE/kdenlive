@@ -23,6 +23,7 @@
 #include <KStandardDirs>
 #include <KDebug>
 #include <kopenwithdialog.h>
+#include <KConfigDialogManager>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -41,6 +42,9 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
     QWidget *p1 = new QWidget;
     m_configMisc.setupUi(p1);
     page1 = addPage(p1, i18n("Misc"), "configure");
+
+    // Hide multi tab option until Kdenlive really supports it
+    m_configMisc.kcfg_activatetabs->setVisible(false);
 
     QWidget *p3 = new QWidget;
     m_configDisplay.setupUi(p3);
@@ -106,8 +110,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
     connect(m_configEnv.kp_audio, SIGNAL(clicked()), this, SLOT(slotEditAudioApplication()));
     connect(m_configEnv.kp_player, SIGNAL(clicked()), this, SLOT(slotEditVideoApplication()));
 
-
-
     QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
     QMapIterator<QString, QString> i(profilesInfo);
     while (i.hasNext()) {
@@ -116,11 +118,11 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
     }
 
     checkProfile();
+
     slotUpdateDisplay();
 
     initDevices();
     connect(m_configMisc.kcfg_profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
-
     connect(m_configCapture.kcfg_rmd_capture_type, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateRmdRegionStatus()));
 
     slotUpdateRmdRegionStatus();
@@ -209,8 +211,8 @@ void KdenliveSettingsDialog::initDevices() {
     m_configSdl.kcfg_video_driver->addItem(i18n("Ascii art library"), "aalib");
 
     // Fill the list of audio playback devices
-    m_configSdl.audio_device->addItem(i18n("Default"), QString());
-    m_configCapture.rmd_alsa_device->addItem(i18n("Default"), QString());
+    m_configSdl.kcfg_audio_device->addItem(i18n("Default"), QString());
+    m_configCapture.kcfg_rmd_alsa_device->addItem(i18n("Default"), QString());
     if (KStandardDirs::findExe("aplay") != QString::null) {
         m_readProcess.setOutputChannelMode(KProcess::OnlyStdoutChannel);
         m_readProcess.setProgram("aplay", QStringList() << "-l");
@@ -227,11 +229,11 @@ void KdenliveSettingsDialog::initDevices() {
                 line = stream.readLine();
                 if (line.contains("playback")) {
                     deviceId = line.section(":", 0, 0);
-                    m_configSdl.audio_device->addItem(line.section(":", 1, 1), "plughw:" + QString::number(deviceId.section("-", 0, 0).toInt()) + "," + QString::number(deviceId.section("-", 1, 1).toInt()));
+                    m_configSdl.kcfg_audio_device->addItem(line.section(":", 1, 1), "plughw:" + QString::number(deviceId.section("-", 0, 0).toInt()) + "," + QString::number(deviceId.section("-", 1, 1).toInt()));
                 }
                 if (line.contains("capture")) {
                     deviceId = line.section(":", 0, 0);
-                    m_configCapture.rmd_alsa_device->addItem(line.section(":", 1, 1), "plughw:" + QString::number(deviceId.section("-", 0, 0).toInt()) + "," + QString::number(deviceId.section("-", 1, 1).toInt()));
+                    m_configCapture.kcfg_rmd_alsa_device->addItem(line.section(":", 1, 1), "plughw:" + QString::number(deviceId.section("-", 0, 0).toInt()) + "," + QString::number(deviceId.section("-", 1, 1).toInt()));
                 }
             }
             file.close();
@@ -239,13 +241,15 @@ void KdenliveSettingsDialog::initDevices() {
     }
     if (!KdenliveSettings::audiodevicename().isEmpty()) {
         // Select correct alsa device
-        int ix = m_configSdl.audio_device->findData(KdenliveSettings::audiodevicename());
-        if (ix > 0) m_configSdl.audio_device->setCurrentIndex(ix);
+        int ix = m_configSdl.kcfg_audio_device->findData(KdenliveSettings::audiodevicename());
+        m_configSdl.kcfg_audio_device->setCurrentIndex(ix);
+        KdenliveSettings::setAudio_device(ix);
     }
     if (!KdenliveSettings::rmd_alsadevicename().isEmpty()) {
         // Select correct alsa device
-        int ix = m_configCapture.rmd_alsa_device->findData(KdenliveSettings::rmd_alsadevicename());
-        if (ix > 0) m_configCapture.rmd_alsa_device->setCurrentIndex(ix);
+        int ix = m_configCapture.kcfg_rmd_alsa_device->findData(KdenliveSettings::rmd_alsadevicename());
+        m_configCapture.kcfg_rmd_alsa_device->setCurrentIndex(ix);
+        KdenliveSettings::setRmd_alsa_device(ix);
     }
 }
 
@@ -260,8 +264,8 @@ void KdenliveSettingsDialog::slotReadAudioDevices() {
         if (data.simplified().startsWith("card")) {
             QString card = data.section(":", 0, 0).section(" ", -1);
             QString device = data.section(":", 1, 1).section(" ", -1);
-            m_configSdl.audio_device->addItem(data.section(":", -1), "plughw:" + card + "," + device);
-            m_configCapture.rmd_alsa_device->addItem(data.section(":", -1), "plughw:" + card + "," + device);
+            m_configSdl.kcfg_audio_device->addItem(data.section(":", -1), "plughw:" + card + "," + device);
+            m_configCapture.kcfg_rmd_alsa_device->addItem(data.section(":", -1), "plughw:" + card + "," + device);
         }
     }
 }
@@ -356,32 +360,19 @@ void KdenliveSettingsDialog::rebuildVideo4Commands() {
 }
 
 
-// virtual protected
-bool KdenliveSettingsDialog::isDefault() {
-    return KConfigDialog::isDefault();
-}
-
-// virtual protected
-bool KdenliveSettingsDialog::hasChanged() {
-    kDebug() << "// // // KCONFIG hasChanged called: " << m_configMisc.kcfg_profiles_list->currentText() << ", " << m_defaultProfile;
-
-    if (m_configMisc.kcfg_profiles_list->currentText() != m_defaultProfile) return true;
-    return KConfigDialog::hasChanged();
-}
-
 void KdenliveSettingsDialog::updateSettings() {
     kDebug() << "// // // KCONFIG UPDATE called";
     m_defaultProfile = m_configMisc.kcfg_profiles_list->currentText();
     KdenliveSettings::setDefault_profile(m_defaultPath);
 
     bool resetProfile = false;
-    QString value = m_configSdl.audio_device->itemData(m_configSdl.audio_device->currentIndex()).toString();
+    QString value = m_configSdl.kcfg_audio_device->itemData(m_configSdl.kcfg_audio_device->currentIndex()).toString();
     if (value != KdenliveSettings::audiodevicename()) {
         KdenliveSettings::setAudiodevicename(value);
         resetProfile = true;
     }
 
-    value = m_configCapture.rmd_alsa_device->itemData(m_configCapture.rmd_alsa_device->currentIndex()).toString();
+    value = m_configCapture.kcfg_rmd_alsa_device->itemData(m_configCapture.kcfg_rmd_alsa_device->currentIndex()).toString();
     if (value != KdenliveSettings::rmd_alsadevicename()) {
         KdenliveSettings::setRmd_alsadevicename(value);
     }
