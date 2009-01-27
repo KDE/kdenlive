@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-22 22:24+0100\n"
-"PO-Revision-Date: 2009-01-26 14:04+0100\n"
+"PO-Revision-Date: 2009-01-27 21:11+0100\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -49,9 +49,8 @@ msgid "0099\\x0099; "
 msgstr "9999; "
 
 #: rc.cpp:492 rc.cpp:1440 rc.cpp:1695 rc.cpp:2643
-#, fuzzy
 msgid "1"
-msgstr "x1"
+msgstr "1"
 
 #: src/geometryval.cpp:76
 msgid "100%"
@@ -63,7 +62,7 @@ msgstr "11250"
 
 #: rc.cpp:1443 rc.cpp:2646
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: src/geometryval.cpp:77
 msgid "200%"
@@ -1926,7 +1925,7 @@ msgstr "Kdenlive"
 
 #: src/kdenlivedoc.cpp:1230 src/kdenlivedoc.cpp:1233 src/kdenlivedoc.cpp:1235
 msgid "Keep as placeholder"
-msgstr ""
+msgstr "Conserver en remplacement"
 
 #: rc.cpp:106
 msgid "Kernel size"
