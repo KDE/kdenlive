@@ -114,7 +114,6 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
 
 
     connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
-    connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SIGNAL(zoneUpdated(QPoint)));
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
@@ -128,6 +127,9 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     if (name != "clip") {
         connect(render, SIGNAL(rendererPosition(int)), this, SIGNAL(renderPosition(int)));
         connect(render, SIGNAL(durationChanged(int)), this, SIGNAL(durationChanged(int)));
+        connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SIGNAL(zoneUpdated(QPoint)));
+    } else {
+        connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SLOT(setClipZone(QPoint)));
     }
     m_monitorRefresh->show();
     kDebug() << "/////// BUILDING MONITOR, ID: " << ui.video_frame->winId();
@@ -259,18 +261,21 @@ GenTime Monitor::getSnapForPos(bool previous) {
 void Monitor::slotZoneMoved(int start, int end) {
     m_ruler->setZone(start, end);
     checkOverlay();
+    setClipZone(m_ruler->zone());
 }
 
 void Monitor::slotSetZoneStart() {
     m_ruler->setZone(m_position, -1);
     emit zoneUpdated(m_ruler->zone());
     checkOverlay();
+    setClipZone(m_ruler->zone());
 }
 
 void Monitor::slotSetZoneEnd() {
     m_ruler->setZone(-1, m_position);
     emit zoneUpdated(m_ruler->zone());
     checkOverlay();
+    setClipZone(m_ruler->zone());
 }
 
 // virtual
@@ -539,6 +544,10 @@ void Monitor::initMonitor() {
 void Monitor::adjustRulerSize(int length) {
     if (length > 0) m_length = length;
     m_ruler->adjustScale(m_length);
+    if (m_currentClip != NULL) {
+        QPoint zone = m_currentClip->zone();
+        m_ruler->setZone(zone.x(), zone.y());
+    }
 }
 
 void Monitor::stop() {
@@ -608,14 +617,9 @@ void Monitor::slotSetXml(DocClipBase *clip, const int position) {
         return;
     }
     if (clip != m_currentClip) {
-        if (clip->producer() != NULL) {
-            m_currentClip = clip;
-            render->setProducer(clip->producer(), position);
-            //m_ruler->slotNewValue(0);
-            //adjustRulerSize(clip->producer()->get_playtime());
-            //m_timePos->setText("00:00:00:00");
-            m_position = position;
-        }
+        m_currentClip = clip;
+        render->setProducer(clip->producer(), position);
+        m_position = position;
     } else if (position != -1) render->seek(GenTime(position, render->fps()));
 }
 
@@ -655,6 +659,12 @@ QDomDocument Monitor::sceneList() {
     QDomDocument doc;
     doc.setContent(render->sceneList());
     return doc;
+}
+
+
+void Monitor::setClipZone(QPoint pos) {
+    if (m_currentClip == NULL) return;
+    m_currentClip->setZone(pos);
 }
 
 MonitorRefresh::MonitorRefresh(QWidget* parent): QWidget(parent), m_renderer(NULL) {

@@ -1128,6 +1128,7 @@ void Render::playZone(const GenTime & startTime, const GenTime & stopTime) {
     if (!m_mltProducer || !m_mltConsumer)
         return;
     m_isBlocked = false;
+    if (!m_isZoneMode) m_originalOut = m_mltProducer->get_playtime() - 1;
     m_mltProducer->set("out", stopTime.frames(m_fps));
     m_mltProducer->seek((int)(startTime.frames(m_fps)));
     m_mltProducer->set_speed(1.0);
@@ -1136,7 +1137,8 @@ void Render::playZone(const GenTime & startTime, const GenTime & stopTime) {
 }
 
 void Render::resetZoneMode() {
-    m_mltProducer->set("out", m_mltProducer->get_length() - 1);
+    if (!m_isZoneMode && !m_isLoopMode) return;
+    m_mltProducer->set("out", m_originalOut);
     //m_mltProducer->set("eof", "pause");
     m_isZoneMode = false;
     m_isLoopMode = false;

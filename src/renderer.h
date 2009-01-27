@@ -200,6 +200,7 @@ private:   // Private attributes & methods
     bool m_isZoneMode;
     bool m_isLoopMode;
     GenTime m_loopStart;
+    int m_originalOut;
 
     /** true when monitor is in split view (several tracks at the same time) */
     bool m_isSplitView;

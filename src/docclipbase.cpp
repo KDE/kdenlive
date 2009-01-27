@@ -76,6 +76,18 @@ DocClipBase::~DocClipBase() {
     m_baseTrackProducers.clear();
 }
 
+void DocClipBase::setZone(QPoint zone) {
+    m_properties.insert("zone_in", QString::number(zone.x()));
+    m_properties.insert("zone_out", QString::number(zone.y()));
+}
+
+QPoint DocClipBase::zone() const {
+    QPoint zone;
+    zone.setX(m_properties.value("zone_in").toInt());
+    zone.setY(m_properties.value("zone_out", "50").toInt());
+    return zone;
+}
+
 void DocClipBase::slotCreateAudioTimer() {
     connect(m_thumbProd, SIGNAL(audioThumbReady(QMap <int, QMap <int, QByteArray> >)), this , SLOT(updateAudioThumbnail(QMap <int, QMap <int, QByteArray> >)));
     connect(this, SIGNAL(getAudioThumbs()), this , SLOT(slotGetAudioThumbs()));
@@ -404,8 +416,10 @@ Mlt::Producer *DocClipBase::producer(int track) {
     if (track == -1 || (m_clipType != AUDIO && m_clipType != AV)) {
         if (m_baseTrackProducers.count() == 0) return NULL;
         int i;
-        for (int i = 0; i < m_baseTrackProducers.count(); i++)
-            if (m_baseTrackProducers.at(i) != NULL) return m_baseTrackProducers.at(i);
+        for (int i = 0; i < m_baseTrackProducers.count(); i++) {
+            if (m_baseTrackProducers.at(i) != NULL)
+                return m_baseTrackProducers.at(i);
+        }
         return NULL;
     }
     if (track >= m_baseTrackProducers.count()) {

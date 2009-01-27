@@ -168,6 +168,11 @@ Q_OBJECT public:
     void setProducerProperty(const char *name, const char *data);
     void deleteProducers();
 
+    /** Set default play zone for clip monitor */
+    void setZone(QPoint zone);
+    /** Get default play zone for clip monitor */
+    QPoint zone() const;
+
 private:   // Private attributes
 
     /** A description of this clip */

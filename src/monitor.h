@@ -120,6 +120,7 @@ private slots:
     void slotSetSizeOneToTwo();
     void slotSaveZone();
     void slotSeek();
+    void setClipZone(QPoint pos);
 
 public slots:
     void slotOpenFile(const QString &);
