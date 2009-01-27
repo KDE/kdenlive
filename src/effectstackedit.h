@@ -64,6 +64,9 @@ private:
 public slots:
     void transferParamDesc(const QDomElement&, int , int);
     void slotSliderMoved(int);
+    /** \brief Called whenever(?) some parameter is changed in the gui.  
+     * 
+     * Transfers all Dynamic gui parameter settings into params(??) */
     void collectAllParameters();
 
 private slots:
