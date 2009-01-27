@@ -19,7 +19,6 @@
  ***************************************************************************/
 
 #include <qfile.h>
-#include <qpixmap.h>
 #include <qimage.h>
 #include <QtCore/QVarLengthArray>
 
