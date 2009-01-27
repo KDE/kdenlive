@@ -38,6 +38,11 @@ int main(int argc, char **argv) {
             erase = true;
             args.takeFirst();
         }
+        bool usekuiserver = false;
+        if (args.at(0) == "-kuiserver") {
+            usekuiserver = true;
+            args.takeFirst();
+        }
         if (args.at(0).startsWith("in=")) {
             in = args.at(0).section('=', -1).toInt();
             args.takeFirst();
@@ -63,14 +68,15 @@ int main(int argc, char **argv) {
         args.takeFirst();
         QString dest = args.at(0);
         args.takeFirst();
-        qDebug() << "//STARTING RENDERING: " << erase << "," << render << "," << profile << "," << rendermodule << "," << player << "," << src << "," << dest << "," << preargs << "," << args << "," << in << "," << out;
-        RenderJob *job = new RenderJob(erase, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
+        qDebug() << "//STARTING RENDERING: " << erase << "," << usekuiserver << "," << render << "," << profile << "," << rendermodule << "," << player << "," << src << "," << dest << "," << preargs << "," << args << "," << in << "," << out ;
+        RenderJob *job = new RenderJob(erase, usekuiserver, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
         job->start();
         app.exec();
     } else {
         fprintf(stderr, "Kdenlive video renderer for MLT.\nUsage: "
-                "kdenlive_render [-erase] [in=pos] [out=pos] [render] [profile] [rendermodule] [player] [src] [dest] [[arg1] [arg2] ...]\n"
+                "kdenlive_render [-erase] [-kuiserver] [in=pos] [out=pos] [render] [profile] [rendermodule] [player] [src] [dest] [[arg1] [arg2] ...]\n"
                 "  -erase: if that parameter is present, src file will be erased at the end\n"
+                "  -kuiserver: if that parameter is present, use KDE job tracker\n"
                 "  in=pos: start rendering at frame pos\n"
                 "  out=pos: end rendering at frame pos\n"
                 "  render: path to inigo render\n"

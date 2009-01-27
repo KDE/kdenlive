@@ -33,7 +33,7 @@ public:
 
 static QDBusConnection connection(QLatin1String(""));
 
-RenderJob::RenderJob(bool erase, const QString &renderer, const QString &profile, const QString &rendermodule, const QString &player, const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in, int out) : QObject(), m_jobUiserver(NULL), m_kdenliveinterface(NULL) {
+RenderJob::RenderJob(bool erase, bool usekuiserver, const QString &renderer, const QString &profile, const QString &rendermodule, const QString &player, const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in, int out) : QObject(), m_usekuiserver(usekuiserver), m_jobUiserver(NULL), m_kdenliveinterface(NULL) {
     m_scenelist = scenelist;
     m_dest = dest;
     m_player = player;
@@ -128,7 +128,7 @@ void RenderJob::receivedStderr() {
 
 void RenderJob::start() {
     QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
-    if (interface) {
+    if (interface && m_usekuiserver) {
         if (!interface->isServiceRegistered("org.kde.JobViewServer")) {
             qDebug() << "No org.kde.JobViewServer registered, trying to start kuiserver";
             m_logstream << "No org.kde.JobViewServer registered, trying to start kuiserver";

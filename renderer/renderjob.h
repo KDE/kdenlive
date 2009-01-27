@@ -32,7 +32,7 @@
 class RenderJob : public QObject {
     Q_OBJECT
 public:
-    RenderJob(bool erase, const QString &renderer, const QString &profile, const QString &rendermodule, const QString &player, const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in = -1, int out = -1);
+    RenderJob(bool erase, bool usekuiserver, const QString &renderer, const QString &profile, const QString &rendermodule, const QString &player, const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in = -1, int out = -1);
     ~RenderJob();
     void start();
 
@@ -56,6 +56,7 @@ private:
     QDBusInterface *m_kdenliveinterface;
     QList<QVariant> m_dbusargs;
     QTime m_startTime;
+    bool m_usekuiserver;
     /** \brief Used to create a temporary file for logging */
     QTemporaryFile m_logfile;
     /** \brief Used to write to the log file */

@@ -1435,6 +1435,7 @@ void MainWindow::slotDoRender(const QString &dest, const QString &render, const 
 
         QStringList args;
         args << "-erase";
+        if (KdenliveSettings::usekuiserver()) args << "-kuiserver";
         if (zoneOnly) args << "in=" + QString::number(in) << "out=" + QString::number(out);
         else if (guideStart != -1) {
             args << "in=" + QString::number(GenTime(guideStart).frames(m_activeDocument->fps())) << "out=" + QString::number(GenTime(guideEnd).frames(m_activeDocument->fps()));
