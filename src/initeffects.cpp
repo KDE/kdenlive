@@ -653,12 +653,13 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "0%,0%:100%x100%:100", "-500;-500;-500;-500;0", "500;500;500;500;100"));
                 paramList.append(quickParameterFill(ret, "Distort", "distort", "bool", "1", "1", "1"));
                 tname.appendChild(ret.createTextNode("Composite"));
-                QDomDocument ret1;
+                ktrans.setAttribute("id", "composite");
+                /*QDomDocument ret1;
                 QDomElement ktrans1 = ret1.createElement("ktransition");
                 ret1.appendChild(ktrans1);
                 ktrans1.setAttribute("tag", name);
                 QDomElement tname1 = ret.createElement("name");
-                tname1.appendChild(ret1.createTextNode("PIP"));
+                tname1.appendChild(ret1.createTextNode("PIP"));*/
 
             } else if (name == "mix") {
                 tname.appendChild(ret.createTextNode("Mix"));
@@ -697,7 +698,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
 
         transitions->append(ret.documentElement());
         //kDebug() << "//// ////  TRANSITON XML";
-        //kDebug() << ret.toString();
+        kDebug() << ret.toString();
         /*
 
          <transition fill="1" in="11" a_track="1" out="73" mlt_service="luma" b_track="2" softness="0" resource="/home/marco/Projekte/kdenlive/install_cmake/share/apps/kdenlive/pgm/PAL/square2.pgm" />

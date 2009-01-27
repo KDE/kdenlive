@@ -96,7 +96,7 @@ Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent): QWidge
     //view->fitInView(m_frameBorder, Qt::KeepAspectRatio);
     const double sc = 100.0 / profile.height * 0.8;
     QRectF srect = view->sceneRect();
-    view->setSceneRect(srect.x(), -srect.height() / 3, srect.width(), srect.height() + srect.height() / 3 * 2);
+    view->setSceneRect(srect.x(), -srect.height() / 3 + 10, srect.width(), srect.height() + srect.height() / 3 * 2 - 10);
     scene->setZoom(sc);
     view->centerOn(m_frameBorder);
     connect(ui.buttonNext , SIGNAL(clicked()) , this , SLOT(slotNextFrame()));
@@ -290,6 +290,9 @@ void Geometryval::slotDeleteFrame() {
     m_scaleMenu->setEnabled(false);
     m_alignMenu->setEnabled(false);
     m_helper->update();
+    slotPositionChanged(pos, false);
+    updateTransitionPath();
+    emit parameterChanged();
 }
 
 void Geometryval::slotAddFrame() {
@@ -309,6 +312,7 @@ void Geometryval::slotAddFrame() {
     m_scaleMenu->setEnabled(true);
     m_alignMenu->setEnabled(true);
     m_helper->update();
+    emit parameterChanged();
 }
 
 void Geometryval::slotNextFrame() {
