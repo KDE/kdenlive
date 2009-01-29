@@ -23,6 +23,7 @@
 
 #include <QDialog>
 #include <QPushButton>
+#include <QPainter>
 
 #include "definitions.h"
 #include "ui_renderwidget_ui.h"
@@ -36,17 +37,52 @@ public:
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option,
                const QModelIndex &index) const {
-        if (index.column() != 1) {
+        if (index.column() == 0) {
             QItemDelegate::paint(painter, option, index);
             return;
+        } else if (index.column() == 1) {
+            const bool hover = option.state & (QStyle::State_Selected);
+            QRect r1 = option.rect;
+            painter->save();
+            if (hover) {
+                painter->setPen(option.palette.color(QPalette::HighlightedText));
+                QColor backgroundColor = option.palette.color(QPalette::Highlight);
+                painter->setBrush(QBrush(backgroundColor));
+                painter->fillRect(r1, QBrush(backgroundColor));
+            } else painter->setPen(option.palette.color(QPalette::Text));
+            QFont font = painter->font();
+            font.setBold(true);
+            painter->setFont(font);
+            int mid = (int)((r1.height() / 2));
+            r1.setBottom(r1.y() + mid);
+            QRect r2 = option.rect;
+            r2.setTop(r2.y() + mid);
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom , index.data().toString());
+            font.setBold(false);
+            painter->setFont(font);
+            painter->setPen(option.palette.color(QPalette::Mid));
+            painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , index.data(Qt::UserRole + 3).toString());
+            painter->restore();
+            return;
         }
-
         // Set up a QStyleOptionProgressBar to precisely mimic the
         // environment of a progress bar.
         QStyleOptionProgressBar progressBarOption;
-        progressBarOption.state = QStyle::State_Enabled;
+        progressBarOption.state = option.state;
         progressBarOption.direction = QApplication::layoutDirection();
-        progressBarOption.rect = option.rect;
+        QRect rect = option.rect;
+        const bool hover = option.state & (QStyle::State_Selected);
+        if (hover) {
+            painter->setPen(option.palette.color(QPalette::HighlightedText));
+            QColor backgroundColor = option.palette.color(QPalette::Highlight);
+            painter->setBrush(QBrush(backgroundColor));
+            painter->fillRect(rect, QBrush(backgroundColor));
+        }
+
+        int mid = rect.height() / 2;
+        rect.setTop(rect.top() + mid / 2);
+        rect.setHeight(mid);
+        progressBarOption.rect = rect;
         progressBarOption.fontMetrics = QApplication::fontMetrics();
         progressBarOption.minimum = 0;
         progressBarOption.maximum = 100;

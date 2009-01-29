@@ -101,15 +101,18 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
 
     m_view.out_file->setMode(KFile::File);
 
+    m_view.running_jobs->setHeaderLabels(QStringList() << QString() << i18n("File") << i18n("Progress"));
     m_view.running_jobs->setItemDelegate(new RenderViewDelegate(this));
     QHeaderView *header = m_view.running_jobs->header();
     QFontMetrics fm = fontMetrics();
     //header->resizeSection(0, fm.width("typical-name-for-a-torrent.torrent"));
-    header->setResizeMode(0, QHeaderView::Interactive);
-    header->resizeSection(0, fm.width("typical-name-for-a-file.torrent"));
-    header->setResizeMode(1, QHeaderView::Fixed);
-    header->resizeSection(0, width() * 2 / 3);
+    header->setResizeMode(0, QHeaderView::Fixed);
+    header->resizeSection(0, 30);
     header->setResizeMode(1, QHeaderView::Interactive);
+    header->resizeSection(1, fm.width("typical-name-for-a-file.torrent"));
+    header->setResizeMode(2, QHeaderView::Fixed);
+    header->resizeSection(1, width() * 2 / 3);
+    header->setResizeMode(2, QHeaderView::Interactive);
     //header->setResizeMode(1, QHeaderView::Fixed);
 
     focusFirstVisibleItem();
@@ -472,9 +475,14 @@ void RenderWidget::slotExport() {
 
     // insert item in running jobs list
     QTreeWidgetItem *renderItem;
-    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly);
+    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
     if (!existing.isEmpty()) renderItem = existing.at(0);
-    else renderItem = new QTreeWidgetItem(m_view.running_jobs, QStringList() << dest << QString());
+    else renderItem = new QTreeWidgetItem(m_view.running_jobs, QStringList() << QString() << dest << QString());
+    renderItem->setSizeHint(1, QSize(m_view.running_jobs->columnWidth(1), fontMetrics().height() * 2));
+    QTime startTime;
+    startTime.start();
+    renderItem->setData(1, Qt::UserRole + 2, startTime);
+
     // Set rendering type
     QString group = m_view.size_list->currentItem()->data(MetaGroupRole).toString();
     if (group == "dvd" && m_view.open_dvd->isChecked()) {
@@ -768,25 +776,39 @@ void RenderWidget::parseFile(QString exportFile, bool editable) {
 
 void RenderWidget::setRenderJob(const QString &dest, int progress) {
     QTreeWidgetItem *item;
-    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly);
+    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
     if (!existing.isEmpty()) item = existing.at(0);
-    else item = new QTreeWidgetItem(m_view.running_jobs, QStringList() << dest << QString());
-    item->setData(1, Qt::UserRole, progress);
-    if (progress == 0) item->setIcon(0, KIcon("system-run"));
+    else item = new QTreeWidgetItem(m_view.running_jobs, QStringList() << QString() << dest << QString());
+    item->setData(2, Qt::UserRole, progress);
+    if (progress == 0) {
+        item->setIcon(0, KIcon("system-run"));
+        item->setSizeHint(1, QSize(m_view.running_jobs->columnWidth(1), fontMetrics().height() * 2));
+        QTime startTime;
+        startTime.start();
+        item->setData(1, Qt::UserRole + 2, startTime);
+    } else {
+        QTime startTime = item->data(1, Qt::UserRole + 2).toTime();
+        int seconds = startTime.secsTo(QTime::currentTime());
+        seconds = seconds * (100 - progress) / progress;
+        item->setData(1, Qt::UserRole + 3, i18n("Estimated time %1", QTime(0, 0, seconds).toString("hh:mm:ss")));
+    }
 }
 
 void RenderWidget::setRenderStatus(const QString &dest, int status, const QString &error) {
     QTreeWidgetItem *item;
-    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly);
+    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
     if (!existing.isEmpty()) item = existing.at(0);
-    else item = new QTreeWidgetItem(m_view.running_jobs, QStringList() << dest << QString());
+    else item = new QTreeWidgetItem(m_view.running_jobs, QStringList() << QString() << dest << QString());
     if (status == -1) {
         // Job finished successfully
         item->setIcon(0, KIcon("dialog-ok"));
-        item->setData(1, Qt::UserRole, 100);
+        item->setData(2, Qt::UserRole, 100);
+        QTime startTime = item->data(1, Qt::UserRole + 2).toTime();
+        int seconds = startTime.secsTo(QTime::currentTime());
+        item->setData(1, Qt::UserRole + 3, i18n("Rendering finished in %1", QTime(0, 0, seconds).toString("hh:mm:ss")));
         QString itemGroup = item->data(0, Qt::UserRole).toString();
         if (itemGroup == "dvd") {
-            emit openDvdWizard(item->text(0), item->data(0, Qt::UserRole + 1).toString());
+            emit openDvdWizard(item->text(1), item->data(0, Qt::UserRole + 1).toString());
         } else if (itemGroup == "websites") {
             QString url = item->data(0, Qt::UserRole + 1).toString();
             if (!url.isEmpty()) KRun *openBrowser = new KRun(url, this);
@@ -794,7 +816,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
     } else if (status == -2) {
         // Rendering crashed
         item->setIcon(0, KIcon("dialog-close"));
-        item->setData(1, Qt::UserRole, 0);
+        item->setData(2, Qt::UserRole, 0);
         m_view.error_log->append(i18n("<strong>Rendering of %1 crashed</strong><br />", dest));
         m_view.error_log->append(error);
         m_view.error_log->append("<hr />");
@@ -802,14 +824,14 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
     } else if (status == -3) {
         // User aborted job
         item->setIcon(0, KIcon("dialog-cancel"));
-        item->setData(1, Qt::UserRole, 100);
-        item->setData(1, Qt::UserRole + 1, i18n("Aborted by user"));
+        item->setData(2, Qt::UserRole, 100);
+        item->setData(2, Qt::UserRole + 1, i18n("Aborted by user"));
     }
 }
 
 void RenderWidget::slotAbortCurrentJob() {
     QTreeWidgetItem *current = m_view.running_jobs->currentItem();
-    if (current) emit abortProcess(current->text(0));
+    if (current) emit abortProcess(current->text(1));
 }
 
 #include "renderwidget.moc"
