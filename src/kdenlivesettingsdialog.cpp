@@ -188,15 +188,18 @@ void KdenliveSettingsDialog::initDevices() {
     m_configSdl.kcfg_audio_driver->addItem(i18n("Automatic"), QString());
     m_configSdl.kcfg_audio_driver->addItem(i18n("OSS"), "dsp");
     m_configSdl.kcfg_audio_driver->addItem(i18n("ALSA"), "alsa");
+    m_configSdl.kcfg_audio_driver->addItem(i18n("PulseAudio"), "pulse");
     m_configSdl.kcfg_audio_driver->addItem(i18n("OSS with DMA access"), "dma");
     m_configSdl.kcfg_audio_driver->addItem(i18n("Esound daemon"), "esd");
     m_configSdl.kcfg_audio_driver->addItem(i18n("ARTS daemon"), "artsc");
 
-    /*if (!KdenliveSettings::audiodriver().isEmpty())
-    for (uint i = 1;i < m_configDisplay.kcfg_audio_driver->count(); i++) {
-     if (m_configDisplay.kcfg_audio_driver->itemData(i).toString() == KdenliveSettings::audiodriver())
-    m_configDisplay.kcfg_audio_driver->setCurrentIndex(i);
-    }*/
+    if (!KdenliveSettings::audiodrivername().isEmpty())
+        for (int i = 1;i < m_configSdl.kcfg_audio_driver->count(); i++) {
+            if (m_configSdl.kcfg_audio_driver->itemData(i).toString() == KdenliveSettings::audiodrivername()) {
+                m_configSdl.kcfg_audio_driver->setCurrentIndex(i);
+                KdenliveSettings::setAudio_driver((uint) i);
+            }
+        }
 
     // Fill video drivers
     m_configSdl.kcfg_video_driver->addItem(i18n("Automatic"), QString());
