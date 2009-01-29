@@ -53,6 +53,8 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, const QString &renderer, con
     m_args << "-consumer" << rendermodule + ":" + m_dest << "progress=1" << args;
     connect(m_renderProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotIsOver(int, QProcess::ExitStatus)));
     m_renderProcess->setReadChannel(QProcess::StandardError);
+
+    /*
     // Create a log of every render process.
     m_logfile.setAutoRemove(false);
     m_logfile.setFileTemplate(QDir::tempPath() + "/kdenlive_render.log.XXXXXXXX");
@@ -72,12 +74,13 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, const QString &renderer, con
         QTextStream in(&file);
         m_logstream << in.readAll() << endl;
     }
+    */
 }
 
 
 RenderJob::~RenderJob() {
     if (m_renderProcess) delete m_renderProcess;
-    m_logfile.close();
+    // m_logfile.close();
 }
 
 void RenderJob::slotAbort(const QString& url) {
@@ -100,30 +103,33 @@ void RenderJob::slotAbort() {
     }
     QFile f(m_dest);
     f.remove();
+    /*
     m_logstream << "Job aborted by user" << endl;
     m_logstream.flush();
     m_logfile.close();
+    */
     qApp->quit();
 }
 
 void RenderJob::receivedStderr() {
     QString result = QString(m_renderProcess->readAllStandardError()).simplified();
     if (!result.startsWith("Current Frame")) m_errorMessage.append(result + "<br>");
-    m_logstream << "ReceivedStderr from inigo: " << result << endl;
+    // m_logstream << "ReceivedStderr from inigo: " << result << endl;
     result = result.section(" ", -1);
     int pro = result.toInt();
-    if (m_kdenliveinterface && pro > m_progress) {
-        m_dbusargs[1] = pro;
-        m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
-    }
-    if (m_jobUiserver && pro > m_progress) {
+    if (pro > m_progress) {
         m_progress = pro;
-        m_jobUiserver->call("setPercent", (uint) m_progress);
-        int seconds = m_startTime.secsTo(QTime::currentTime());
-        seconds = seconds * (100 - m_progress) / m_progress;
-        m_jobUiserver->call("setDescriptionField", (uint) 1, tr("Remaining time"), QTime(0, 0, seconds).toString("hh:mm:ss"));
+        if (m_kdenliveinterface) {
+            m_dbusargs[1] = pro;
+            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
+        }
+        if (m_jobUiserver) {
+            m_jobUiserver->call("setPercent", (uint) m_progress);
+            int seconds = m_startTime.secsTo(QTime::currentTime());
+            seconds = seconds * (100 - m_progress) / m_progress;
+            m_jobUiserver->call("setDescriptionField", (uint) 1, tr("Remaining time"), QTime(0, 0, seconds).toString("hh:mm:ss"));
+        }
     }
-
 }
 
 void RenderJob::start() {
@@ -131,10 +137,10 @@ void RenderJob::start() {
     if (interface && m_usekuiserver) {
         if (!interface->isServiceRegistered("org.kde.JobViewServer")) {
             qDebug() << "No org.kde.JobViewServer registered, trying to start kuiserver";
-            m_logstream << "No org.kde.JobViewServer registered, trying to start kuiserver";
+            // m_logstream << "No org.kde.JobViewServer registered, trying to start kuiserver";
             if (QProcess::startDetached("kuiserver")) {
                 qDebug() << "Started kuiserver";
-                m_logstream << "Started kuiserver";
+                // m_logstream << "Started kuiserver";
                 // Give it a couple of seconds to start
                 QTime t;
                 t.start();
@@ -143,7 +149,7 @@ void RenderJob::start() {
                 }
             } else {
                 qDebug() << "Failed to start kuiserver";
-                m_logstream << "Failed to start kuiserver";
+                // m_logstream << "Failed to start kuiserver";
             }
         }
 
@@ -191,7 +197,7 @@ void RenderJob::start() {
     // Because of the logging, we connect to stderr in all cases.
     connect(m_renderProcess, SIGNAL(readyReadStandardError()), this, SLOT(receivedStderr()));
     m_renderProcess->start(m_prog, m_args);
-    m_logstream << "Started render process: " << m_prog << " " << m_args.join(" ") << endl;
+    // m_logstream << "Started render process: " << m_prog << " " << m_args.join(" ") << endl;
     qDebug() << "Started render process: " << m_prog << " " << m_args.join(" ");
 }
 
@@ -211,7 +217,7 @@ void RenderJob::slotIsOver(int exitcode, QProcess::ExitStatus status) {
         }
         QStringList args;
         args << "--error" << tr("Rendering of %1 aborted, resulting video will probably be corrupted.").arg(m_dest);
-        m_logstream << "Rendering of " << m_dest << " aborted, resulting video will probably be corrupted." << endl;
+        // m_logstream << "Rendering of " << m_dest << " aborted, resulting video will probably be corrupted." << endl;
         qDebug() << "Rendering of " << m_dest << " aborted, resulting video will probably be corrupted.";
         QProcess::startDetached("kdialog", args);
     } else {
@@ -241,10 +247,10 @@ void RenderJob::slotIsOver(int exitcode, QProcess::ExitStatus status) {
             m.setArguments(args);
             QDBusMessage replyMsg = QDBusConnection::sessionBus().call(m);
         }
-        m_logstream << "Rendering of " << m_dest << " finished" << endl;
+        // m_logstream << "Rendering of " << m_dest << " finished" << endl;
         qDebug() << "Rendering of " << m_dest << " finished";
         if (m_player != "-") {
-            m_logstream << "Starting player" << endl;
+            // m_logstream << "Starting player" << endl;
             QStringList args;
             args << m_dest;
             QProcess::startDetached(m_player, args);
