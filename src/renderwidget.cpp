@@ -479,9 +479,7 @@ void RenderWidget::slotExport() {
     if (!existing.isEmpty()) renderItem = existing.at(0);
     else renderItem = new QTreeWidgetItem(m_view.running_jobs, QStringList() << QString() << dest << QString());
     renderItem->setSizeHint(1, QSize(m_view.running_jobs->columnWidth(1), fontMetrics().height() * 2));
-    QTime startTime;
-    startTime.start();
-    renderItem->setData(1, Qt::UserRole + 2, startTime);
+    renderItem->setData(1, Qt::UserRole + 1, QTime::currentTime());
 
     // Set rendering type
     QString group = m_view.size_list->currentItem()->data(MetaGroupRole).toString();
@@ -783,14 +781,12 @@ void RenderWidget::setRenderJob(const QString &dest, int progress) {
     if (progress == 0) {
         item->setIcon(0, KIcon("system-run"));
         item->setSizeHint(1, QSize(m_view.running_jobs->columnWidth(1), fontMetrics().height() * 2));
-        QTime startTime;
-        startTime.start();
-        item->setData(1, Qt::UserRole + 2, startTime);
+        item->setData(1, Qt::UserRole + 1, QTime::currentTime());
     } else {
-        QTime startTime = item->data(1, Qt::UserRole + 2).toTime();
-        int seconds = startTime.secsTo(QTime::currentTime());
-        seconds = seconds * (100 - progress) / progress;
-        item->setData(1, Qt::UserRole + 3, i18n("Estimated time %1", QTime(0, 0, seconds).toString("hh:mm:ss")));
+        QTime startTime = item->data(1, Qt::UserRole + 1).toTime();
+        int seconds = startTime.secsTo(QTime::currentTime());;
+        const QString t = i18n("Estimated time %1", QTime().addSecs(seconds * (100 - progress) / progress).toString("hh:mm:ss"));
+        item->setData(1, Qt::UserRole, t);
     }
 }
 
@@ -803,9 +799,11 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         // Job finished successfully
         item->setIcon(0, KIcon("dialog-ok"));
         item->setData(2, Qt::UserRole, 100);
-        QTime startTime = item->data(1, Qt::UserRole + 2).toTime();
+        QTime startTime = item->data(1, Qt::UserRole + 1).toTime();
         int seconds = startTime.secsTo(QTime::currentTime());
-        item->setData(1, Qt::UserRole + 3, i18n("Rendering finished in %1", QTime(0, 0, seconds).toString("hh:mm:ss")));
+        const QTime tm = QTime().addSecs(seconds);
+        const QString t = i18n("Rendering finished in %1", tm.toString("hh:mm:ss"));
+        item->setData(1, Qt::UserRole, t);
         QString itemGroup = item->data(0, Qt::UserRole).toString();
         if (itemGroup == "dvd") {
             emit openDvdWizard(item->text(1), item->data(0, Qt::UserRole + 1).toString());
@@ -815,6 +813,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         }
     } else if (status == -2) {
         // Rendering crashed
+        item->setData(1, Qt::UserRole, i18n("Rendering crashed"));
         item->setIcon(0, KIcon("dialog-close"));
         item->setData(2, Qt::UserRole, 0);
         m_view.error_log->append(i18n("<strong>Rendering of %1 crashed</strong><br />", dest));
@@ -823,9 +822,9 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         m_view.error_box->setVisible(true);
     } else if (status == -3) {
         // User aborted job
+        item->setData(1, Qt::UserRole, i18n("Rendering aborted"));
         item->setIcon(0, KIcon("dialog-cancel"));
         item->setData(2, Qt::UserRole, 100);
-        item->setData(2, Qt::UserRole + 1, i18n("Aborted by user"));
     }
 }
 

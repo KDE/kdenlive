@@ -61,7 +61,7 @@ public:
             font.setBold(false);
             painter->setFont(font);
             painter->setPen(option.palette.color(QPalette::Mid));
-            painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , index.data(Qt::UserRole + 3).toString());
+            painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , index.data(Qt::UserRole).toString());
             painter->restore();
             return;
         }
