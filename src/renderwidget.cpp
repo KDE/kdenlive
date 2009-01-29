@@ -162,20 +162,20 @@ void RenderWidget::setGuides(QDomElement guidesxml, double duration) {
 // File extension will be added automatically.
 void RenderWidget::slotUpdateButtons(KUrl url) {
     if (m_view.out_file->url().isEmpty()) m_view.buttonStart->setEnabled(false);
-    else m_view.buttonStart->setEnabled(true); 
+    else m_view.buttonStart->setEnabled(true);
     if (url != 0) {
-	QListWidgetItem *item = m_view.size_list->currentItem();
-	QString extension = item->data(ExtensionRole).toString();
-	url = filenameWithExtension(url, extension);
-	m_view.out_file->setUrl(url);
+        QListWidgetItem *item = m_view.size_list->currentItem();
+        QString extension = item->data(ExtensionRole).toString();
+        url = filenameWithExtension(url, extension);
+        m_view.out_file->setUrl(url);
     }
 }
 
-// Will be called when the user changes the output file path in the text line. 
+// Will be called when the user changes the output file path in the text line.
 // File extension must NOT be added, would make editing impossible!
 void RenderWidget::slotUpdateButtons() {
     if (m_view.out_file->url().isEmpty()) m_view.buttonStart->setEnabled(false);
-    else m_view.buttonStart->setEnabled(true); 
+    else m_view.buttonStart->setEnabled(true);
 }
 
 void RenderWidget::slotSaveProfile() {
@@ -442,8 +442,6 @@ void RenderWidget::slotExport() {
         width = m_profile.width;
         height = m_profile.height;
     }
-    renderArgs.replace("%width", QString::number(width));
-    renderArgs.replace("%height", QString::number(height));
     renderArgs.replace("%dar", "@" + QString::number(m_profile.display_aspect_num) + "/" + QString::number(m_profile.display_aspect_den));
 
     // Adjust scanning
@@ -459,11 +457,15 @@ void RenderWidget::slotExport() {
     bool resizeProfile = false;
 
     QString std = renderArgs;
-    if (resizeProfile == false && std.contains(" s=")) {
+    QString destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
+    if (std.contains(" s=")) {
         QString subsize = std.section(" s=", 1, 1);
         subsize = subsize.section(' ', 0, 0).toLower();
-        const QString currentSize = QString::number(m_profile.width) + 'x' + QString::number(m_profile.height);
+        const QString currentSize = QString::number(width) + 'x' + QString::number(height);
         if (subsize != currentSize) resizeProfile = true;
+    } else if (destination != "audioonly") {
+        // Add current site parametrer
+        renderArgs.append(QString(" s=%1x%2").arg(width).arg(height));
     }
 
     // insert item in running jobs list
@@ -631,7 +633,15 @@ void RenderWidget::refreshParams() {
     QString params = item->data(ParamsRole).toString();
     QString extension = item->data(ExtensionRole).toString();
     m_view.advanced_params->setPlainText(params);
-    m_view.advanced_params->setToolTip(params);
+    QString destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
+    if (params.contains(" s=") || destination == "audioonly") {
+        // profile has a fixed size, do not allow resize
+        m_view.rescale->setEnabled(false);
+        m_view.rescale_size->setEnabled(false);
+    } else {
+        m_view.rescale->setEnabled(true);
+        m_view.rescale_size->setEnabled(true);
+    }
     KUrl url = filenameWithExtension(m_view.out_file->url(), extension);
     m_view.out_file->setUrl(url);
 //     if (!url.isEmpty()) {
