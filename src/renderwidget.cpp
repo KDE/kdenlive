@@ -62,6 +62,9 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
         m_view.buttonInfo->setDown(true);
     } else m_view.advanced_params->hide();
 
+    m_view.rescale_size->setInputMask("0099*0099");
+    m_view.rescale_size->setText("320*240");
+
     parseProfiles();
 
     connect(m_view.buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
