@@ -27,6 +27,7 @@
 #include <KDebug>
 #include <KMessageBox>
 #include <KComboBox>
+#include <KRun>
 
 #include "kdenlivesettings.h"
 #include "renderwidget.h"
@@ -39,6 +40,7 @@ const int RenderRole = GroupRole + 3;
 const int ParamsRole = GroupRole + 4;
 const int EditableRole = GroupRole + 5;
 const int MetaGroupRole = GroupRole + 6;
+const int ExtraRole = GroupRole + 7;
 
 RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
     m_view.setupUi(this);
@@ -484,6 +486,11 @@ void RenderWidget::slotExport() {
             kDebug() << "// render profile: " << prof;
             renderItem->setData(0, Qt::UserRole + 1, prof);
         }
+    } else if (group == "websites" && m_view.open_browser->isChecked()) {
+        renderItem->setData(0, Qt::UserRole, group);
+        // pass the url
+        QString url = m_view.size_list->currentItem()->data(ExtraRole).toString();
+        renderItem->setData(0, Qt::UserRole + 1, url);
     }
 
     emit doRender(dest, item->data(RenderRole).toString(), overlayargs, renderArgs.simplified().split(' '), m_view.render_zone->isChecked(), m_view.play_after->isChecked(), startPos, endPos, resizeProfile);
@@ -750,6 +757,7 @@ void RenderWidget::parseFile(QString exportFile, bool editable) {
             item->setData(RenderRole, renderer);
             item->setData(StandardRole, standard);
             item->setData(ParamsRole, params);
+            if (profileElement.hasAttribute("url")) item->setData(ExtraRole, profileElement.attribute("url"));
             if (editable) item->setData(EditableRole, "true");
             n = n.nextSibling();
         }
@@ -779,8 +787,10 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         QString itemGroup = item->data(0, Qt::UserRole).toString();
         if (itemGroup == "dvd") {
             emit openDvdWizard(item->text(0), item->data(0, Qt::UserRole + 1).toString());
+        } else if (itemGroup == "websites") {
+            QString url = item->data(0, Qt::UserRole + 1).toString();
+            if (!url.isEmpty()) KRun *openBrowser = new KRun(url, this);
         }
-
     } else if (status == -2) {
         // Rendering crashed
         item->setIcon(0, KIcon("dialog-close"));
