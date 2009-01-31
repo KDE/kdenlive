@@ -142,6 +142,7 @@ void ProjectList::slotEditClip() {
 
 void ProjectList::setRenderer(Render *projectRender) {
     m_render = projectRender;
+    listView->setIconSize(QSize(40 * m_render->dar(), 40));
 }
 
 void ProjectList::slotClipSelected() {
@@ -685,7 +686,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     else listView->setEnabled(true);
 }
 
-void ProjectList::slotReplyGetImage(const QString &clipId, int pos, const QPixmap &pix, int w, int h) {
+void ProjectList::slotReplyGetImage(const QString &clipId, const QPixmap &pix) {
     ProjectItem *item = getItemById(clipId);
     if (item) {
         listView->blockSignals(true);

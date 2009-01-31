@@ -598,11 +598,11 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
                 pix.fill(Qt::black);
 
             mlt_pool_release(new_image);
-            emit replyGetImage(clipId, 0, pix, width, height);
+            emit replyGetImage(clipId, pix);
 
         } else if (frame->get_int("test_audio") == 0) {
             QPixmap pixmap = KIcon("audio-x-generic").pixmap(QSize(width, height));
-            emit replyGetImage(clipId, 0, pixmap, width, height);
+            emit replyGetImage(clipId, pixmap);
             filePropertyMap["type"] = "audio";
         }
     }

@@ -55,7 +55,6 @@ ProjectListView::ProjectListView(QWidget *parent)
     if (!KdenliveSettings::showdescriptioncolumn()) hideColumn(2);
     if (!KdenliveSettings::showratingcolumn()) hideColumn(3);
 
-    setIconSize(QSize(60, 40));
     setSortingEnabled(true);
 }
 
@@ -239,15 +238,9 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event) {
             //mimeData->setText(ids.join(";")); //doc.toString());
             //mimeData->setImageData(image);
             drag->setMimeData(mimeData);
-            drag->setPixmap(clickItem->icon(0).pixmap((int)(50 *16 / 9.0), 50));
+            drag->setPixmap(clickItem->icon(0).pixmap(iconSize()));
             drag->setHotSpot(QPoint(0, 50));
-            drag->start(Qt::MoveAction);
-
-            //Qt::DropAction dropAction;
-            //dropAction = drag->start(Qt::CopyAction | Qt::MoveAction);
-
-            //Qt::DropAction dropAction = drag->exec();
-
+            Qt::DropAction dropAction = drag->exec(Qt::MoveAction);
         }
         //event->accept();
     }

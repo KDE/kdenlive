@@ -570,7 +570,7 @@ void MainWindow::slotConnectMonitors() {
     connect(m_projectList, SIGNAL(receivedClipDuration(const QString &, int)), this, SLOT(slotSetClipDuration(const QString &, int)));
     connect(m_projectList, SIGNAL(showClipProperties(DocClipBase *)), this, SLOT(slotShowClipProperties(DocClipBase *)));
     connect(m_projectList, SIGNAL(getFileProperties(const QDomElement &, const QString &)), m_projectMonitor->render, SLOT(getFileProperties(const QDomElement &, const QString &)));
-    connect(m_projectMonitor->render, SIGNAL(replyGetImage(const QString &, int, const QPixmap &, int, int)), m_projectList, SLOT(slotReplyGetImage(const QString &, int, const QPixmap &, int, int)));
+    connect(m_projectMonitor->render, SIGNAL(replyGetImage(const QString &, const QPixmap &)), m_projectList, SLOT(slotReplyGetImage(const QString &, const QPixmap &)));
     connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &)), m_projectList, SLOT(slotReplyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &)));
 
     connect(m_projectMonitor->render, SIGNAL(removeInvalidClip(const QString &)), m_projectList, SLOT(slotRemoveInvalidClip(const QString &)));

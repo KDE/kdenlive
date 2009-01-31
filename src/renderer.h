@@ -239,8 +239,7 @@ signals:   // Signals
     void replyGetFileProperties(const QString &clipId, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &);
 
     /** emitted when the renderer recieves a reply to a getImage request. */
-    void replyGetImage(const QString & , int, const QPixmap &, int, int);
-    void replyGetImage(const QString &, const QPixmap &, int, int);
+    void replyGetImage(const QString &, const QPixmap &);
 
     /** Emitted when the renderer stops, either playing or rendering. */
     void stopped();
