@@ -72,7 +72,7 @@ void ProjectListView::configureColumns(const QPoint& pos) {
         const QString text = model()->headerData(i, Qt::Horizontal).toString();
         QAction* action = popup.addAction(text);
         action->setCheckable(true);
-        action->setChecked(!headerView->isSectionHidden(logicalIndex));
+        action->setChecked(!headerView->isSectionHidden(i));
         action->setData(i);
     }
 

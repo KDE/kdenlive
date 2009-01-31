@@ -60,6 +60,7 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
     if (m_clipType != UNKNOWN) slotSetToolTip();
     setText(1, name);
     setText(2, m_clip->description());
+    if (m_clipType != SLIDESHOW && m_clipType != TEXT && m_clipType != COLOR) setData(3, Qt::UserRole, m_clip->getProperty("resource"));
     if ((m_clip->clipType() == AV || m_clip->clipType() == AUDIO) && KdenliveSettings::audiothumbnails()) m_clip->askForAudioThumbs();
     //setFlags(Qt::NoItemFlags);
     //kDebug() << "Constructed with clipId: " << m_clipId;

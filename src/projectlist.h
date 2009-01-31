@@ -32,9 +32,12 @@
 
 #include <KTreeWidgetSearchLine>
 #include <KUrl>
+#include <nepomuk/kratingpainter.h>
+#include <nepomuk/resource.h>
 
 #include "definitions.h"
 #include "timecode.h"
+#include "kdenlivesettings.h"
 
 namespace Mlt {
 class Producer;
@@ -68,14 +71,11 @@ public:
     */
     void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
         if (index.column() == 1) {
-            const bool hover = option.state & (QStyle::State_Selected);
             QRect r1 = option.rect;
             painter->save();
-            if (hover) {
+            if (option.state & (QStyle::State_Selected)) {
                 painter->setPen(option.palette.color(QPalette::HighlightedText));
-                QColor backgroundColor = option.palette.color(QPalette::Highlight);
-                painter->setBrush(QBrush(backgroundColor));
-                painter->fillRect(r1, QBrush(backgroundColor));
+                painter->fillRect(r1, option.palette.highlight());
             }
             QFont font = painter->font();
             font.setBold(true);
@@ -94,6 +94,18 @@ public:
             painter->setPen(option.palette.color(QPalette::Mid));
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText);
             painter->restore();
+        } else if (index.column() == 3 && KdenliveSettings::activate_nepomuk()) {
+            const QString url = index.data(Qt::UserRole).toString();
+            if (url.isEmpty()) {
+                QItemDelegate::paint(painter, option, index);
+                return;
+            }
+            QRect r1 = option.rect;
+            if (option.state & (QStyle::State_Selected)) {
+                painter->fillRect(r1, option.palette.highlight());
+            }
+            Nepomuk::Resource f(url);
+            KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, f.rating());
         } else {
             QItemDelegate::paint(painter, option, index);
         }

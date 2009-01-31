@@ -33,8 +33,8 @@
 #include <KMessageBox>
 
 #include <nepomuk/global.h>
-#include <nepomuk/resource.h>
-#include <nepomuk/tag.h>
+#include <nepomuk/resourcemanager.h>
+//#include <nepomuk/tag.h>
 
 #include "projectlist.h"
 #include "projectitem.h"
@@ -94,6 +94,14 @@ ProjectList::ProjectList(QWidget *parent)
 
     ItemDelegate *listViewDelegate = new ItemDelegate(listView);
     listView->setItemDelegate(listViewDelegate);
+
+    if (KdenliveSettings::activate_nepomuk()) {
+        Nepomuk::ResourceManager::instance()->init();
+        if (!Nepomuk::ResourceManager::instance()->initialized()) {
+            kDebug() << "Cannot communicate with Nepomuk, DISABLING it";
+            KdenliveSettings::setActivate_nepomuk(false);
+        }
+    }
 }
 
 ProjectList::~ProjectList() {
@@ -191,12 +199,7 @@ void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QSt
         if (KdenliveSettings::activate_nepomuk() && (type == AUDIO || type == VIDEO || type == AV || type == IMAGE || type == PLAYLIST)) {
             // Use Nepomuk system to store clip description
             Nepomuk::Resource f(clip->clipUrl().path());
-            if (f.isValid()) {
-                f.setDescription(properties.value("description"));
-            } else {
-                KMessageBox::sorry(this, i18n("Cannot access Desktop Search info for %1.\nDisabling Desktop Search integration.", clip->clipUrl().path()));
-                KdenliveSettings::setActivate_nepomuk(false);
-            }
+            f.setDescription(properties.value("description"));
         }
         emit projectModified();
     }
@@ -380,16 +383,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties) {
     if (!url.isEmpty() && KdenliveSettings::activate_nepomuk()) {
         // if file has Nepomuk comment, use it
         Nepomuk::Resource f(url.path());
-        QString annotation;
-        if (f.isValid()) {
-            annotation = f.description();
-            /*
-            Nepomuk::Tag tag("test");
-            f.addTag(tag);*/
-        } else {
-            KMessageBox::sorry(this, i18n("Cannot access Desktop Search info for %1.\nDisabling Desktop Search integration.", url.path()));
-            KdenliveSettings::setActivate_nepomuk(false);
-        }
+        QString annotation = f.description();
         if (!annotation.isEmpty()) item->setText(2, annotation);
     }
     listView->blockSignals(false);
