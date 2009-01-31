@@ -56,7 +56,6 @@ Q_OBJECT public:
     int height() const;
     KUrl url() const;
     KAutoSaveFile *m_autosave;
-    void backupMltPlaylist();
     Timecode timecode() const;
     QDomDocument toXml();
     //void setRenderer(Render *render);
@@ -133,7 +132,6 @@ private:
     QDomDocument generateSceneList();
     ClipManager *m_clipManager;
     MltVideoProfile m_profile;
-    QString m_scenelist;
     QTimer *m_autoSaveTimer;
     QString m_searchFolder;
     /** tells whether current doc has been changed since last save event */
@@ -142,6 +140,7 @@ private:
     KUrl m_projectFolder;
     double m_documentLoadingStep;
     double m_documentLoadingProgress;
+    bool m_abortLoading;
     int m_zoneStart;
     int m_zoneEnd;
 
@@ -164,6 +163,7 @@ private slots:
     void slotAutoSave();
 
 signals:
+    void resetProjectList();
     void addProjectClip(DocClipBase *, bool getInfo = true);
     void signalDeleteProjectClip(const QString &);
     void updateClipDisplay(const QString&);

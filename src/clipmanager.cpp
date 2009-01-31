@@ -37,6 +37,15 @@ ClipManager::~ClipManager() {
     qDeleteAll(m_clipList);
 }
 
+void ClipManager::clear() {
+    qDeleteAll(m_clipList);
+    m_clipList.clear();
+    m_clipIdCounter = 1;
+    m_folderIdCounter = 1;
+    m_folderList.clear();
+    m_audioThumbsQueue.clear();
+}
+
 void ClipManager::checkAudioThumbs() {
     if (m_audioThumbsEnabled == KdenliveSettings::audiothumbnails()) return;
     m_audioThumbsEnabled = KdenliveSettings::audiothumbnails();

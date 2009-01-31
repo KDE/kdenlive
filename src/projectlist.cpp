@@ -394,6 +394,14 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties) {
     listView->blockSignals(false);
 }
 
+void ProjectList::slotResetProjectList() {
+    listView->clear();
+    emit clipSelected(NULL);
+    m_thumbnailQueue.clear();
+    m_infoQueue.clear();
+    m_refreshed = false;
+}
+
 void ProjectList::requestClipInfo(const QDomElement xml, const QString id) {
     kDebug() << " PRG LIST REQUEST CLP INFO: " << id;
     m_infoQueue.insert(id, xml);
@@ -498,6 +506,7 @@ void ProjectList::slotRemoveInvalidClip(const QString &id) {
         m_doc->deleteProjectClip(ids);
     }
     if (!m_infoQueue.isEmpty()) QTimer::singleShot(300, this, SLOT(slotProcessNextClipInQueue()));
+    else listView->setEnabled(true);
 }
 
 void ProjectList::slotAddColorClip() {
@@ -578,6 +587,7 @@ void ProjectList::slotAddTitleClip() {
 void ProjectList::setDocument(KdenliveDoc *doc) {
     listView->blockSignals(true);
     listView->clear();
+    emit clipSelected(NULL);
     m_thumbnailQueue.clear();
     m_infoQueue.clear();
     m_refreshed = false;
@@ -666,7 +676,7 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
     if (item && producer) {
         listView->blockSignals(true);
         item->setProperties(properties, metadata);
-        Q_ASSERT_X( item->referencedClip(), "void ProjectList::slotReplyGetFileProperties", QString( "Item with groupName %1 does not have a clip associated" ).arg( item->groupName() ).toLatin1() );
+        Q_ASSERT_X(item->referencedClip(), "void ProjectList::slotReplyGetFileProperties", QString("Item with groupName %1 does not have a clip associated").arg(item->groupName()).toLatin1());
         item->referencedClip()->setProducer(producer);
         emit receivedClipDuration(clipId, item->clipMaxDuration());
         listView->blockSignals(false);

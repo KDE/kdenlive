@@ -41,7 +41,7 @@
 #include "titlewidget.h"
 #include "mainwindow.h"
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QPoint tracks, Render *render, MainWindow *parent): QObject(parent), m_render(render), m_url(url), m_projectFolder(projectFolder), m_commandStack(new QUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(7), m_autosave(NULL), m_zoneStart(0), m_zoneEnd(100) {
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QPoint tracks, Render *render, MainWindow *parent): QObject(parent), m_render(render), m_url(url), m_projectFolder(projectFolder), m_commandStack(new QUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(7), m_autosave(NULL), m_zoneStart(0), m_zoneEnd(100), m_abortLoading(false) {
     m_clipManager = new ClipManager(this);
     m_autoSaveTimer = new QTimer(this);
     m_autoSaveTimer->setSingleShot(true);
@@ -92,7 +92,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     setProfilePath(profilePath);
 
                     // Build tracks
-                    QString tracks = infoXml.attribute("tracks");
+                    QString xmltracks = infoXml.attribute("tracks");
                     TrackInfo videoTrack;
                     videoTrack.type = VIDEOTRACK;
                     videoTrack.isMute = false;
@@ -102,8 +102,8 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     audioTrack.type = AUDIOTRACK;
                     audioTrack.isMute = false;
                     audioTrack.isBlind = true;
-                    for (int i = 0; i < tracks.size(); i++) {
-                        if (tracks.data()[i] == 'v') m_tracksList.append(videoTrack);
+                    for (int i = 0; i < xmltracks.size(); i++) {
+                        if (xmltracks.data()[i] == 'v') m_tracksList.append(videoTrack);
                         else m_tracksList.append(audioTrack);
                     }
 
@@ -127,7 +127,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     }
 
 
-                    for (int i = 0; i < infomax; i++) {
+                    for (int i = 0; i < infomax && !m_abortLoading; i++) {
                         e = infoproducers.item(i).cloneNode().toElement();
                         if (m_documentLoadingStep > 0) {
                             m_documentLoadingProgress += m_documentLoadingStep;
@@ -135,7 +135,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                             //qApp->processEvents();
                         }
                         QString prodId = e.attribute("id");
-                        if (!e.isNull() && prodId != "black" && !prodId.startsWith("slowmotion")) {
+                        if (!e.isNull() && prodId != "black" && !prodId.startsWith("slowmotion") && !m_abortLoading) {
                             e.setTagName("producer");
                             // Get MLT's original producer properties
 
@@ -151,35 +151,47 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                             kDebug() << "// NLIVE PROD: " << prodId;
                         }
                     }
-
-                    QDomNode markers = m_document.elementsByTagName("markers").at(0);
-                    if (!markers.isNull()) {
-                        QDomNodeList markerslist = markers.childNodes();
-                        int maxchild = markerslist.count();
-                        for (int k = 0; k < maxchild; k++) {
-                            e = markerslist.at(k).toElement();
-                            if (e.tagName() == "marker") {
-                                m_clipManager->getClipById(e.attribute("id"))->addSnapMarker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"));
+                    if (m_abortLoading) {
+                        //parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file."), 100);
+                        emit resetProjectList();
+                        m_startPos = 0;
+                        m_url = KUrl();
+                        m_tracksList.clear();
+                        kWarning() << "Aborted loading of: " << url.path();
+                        m_document = createEmptyDocument(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
+                        setProfilePath(KdenliveSettings::default_profile());
+                        m_clipManager->clear();
+                    } else {
+                        QDomNode markers = m_document.elementsByTagName("markers").at(0);
+                        if (!markers.isNull()) {
+                            QDomNodeList markerslist = markers.childNodes();
+                            int maxchild = markerslist.count();
+                            for (int k = 0; k < maxchild; k++) {
+                                e = markerslist.at(k).toElement();
+                                if (e.tagName() == "marker") {
+                                    m_clipManager->getClipById(e.attribute("id"))->addSnapMarker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"));
+                                }
                             }
+                            westley.removeChild(markers);
                         }
-                        westley.removeChild(markers);
+                        m_document.removeChild(infoXmlNode);
+                        kDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
                     }
-                    m_document.removeChild(infoXmlNode);
-
-                    kDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
                 }
             } else {
                 parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file."), 100);
                 kWarning() << "  NO KDENLIVE INFO FOUND IN FILE: " << url.path();
-                m_document = createEmptyDocument(tracks.x(), tracks.y());
-                setProfilePath(profileName);
+                m_document = createEmptyDocument(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
+                m_url = KUrl();
+                setProfilePath(KdenliveSettings::default_profile());
             }
             KIO::NetAccess::removeTempFile(tmpFile);
         } else {
             KMessageBox::error(parent, KIO::NetAccess::lastErrorString());
             parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file."), 100);
-            m_document = createEmptyDocument(tracks.x(), tracks.y());
-            setProfilePath(profileName);
+            m_url = KUrl();
+            m_document = createEmptyDocument(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
+            setProfilePath(KdenliveSettings::default_profile());
         }
     } else {
         m_document = createEmptyDocument(tracks.x(), tracks.y());
@@ -192,8 +204,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     KStandardDirs::makeDir(m_projectFolder.path() + "/thumbs/");
     KStandardDirs::makeDir(m_projectFolder.path() + "/ladspa/");
 
-    m_scenelist = m_document.toString();
-    kDebug() << "KDEnnlive document, init timecode: " << m_fps;
+    kDebug() << "KDEnlive document, init timecode: " << m_fps;
     if (m_fps == 30000.0 / 1001.0) m_timecode.setFormat(30, true);
     else m_timecode.setFormat((int) m_fps);
 
@@ -1150,10 +1161,6 @@ QDomNodeList KdenliveDoc::producersList() {
     return m_document.elementsByTagName("producer");
 }
 
-void KdenliveDoc::backupMltPlaylist() {
-    if (m_render) m_scenelist = m_render->sceneList();
-}
-
 double KdenliveDoc::projectDuration() const {
     if (m_render) return GenTime(m_render->getLength(), m_fps).ms() / 1000;
 }
@@ -1241,16 +1248,28 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
             const QString size = elem.attribute("file_size");
             const QString hash = elem.attribute("file_hash");
             QString newpath;
-            KMessageBox::ButtonCode action = KMessageBox::No;
+            int action = KMessageBox::No;
             if (!size.isEmpty() && !hash.isEmpty()) {
                 if (!m_searchFolder.isEmpty()) newpath = searchFileRecursively(m_searchFolder, size, hash);
-                else action = (KMessageBox::ButtonCode)KMessageBox::messageBox(kapp->activeWindow(), KMessageBox::WarningYesNo, i18n("Clip <b>%1</b><br>is invalid, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search automatically")), /*KGuiItem(i18n("Remove from project")), */KGuiItem(i18n("Keep as placeholder")));
+                else action = (KMessageBox::ButtonCode) KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br>is invalid, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search automatically")), KGuiItem(i18n("Keep as placeholder")));
             } else {
                 if (elem.attribute("type").toInt() == SLIDESHOW) {
-                    if (KMessageBox::messageBox(kapp->activeWindow(), KMessageBox::WarningYesNo, i18n("<qt>Clip <b>%1</b><br>is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), /*KGuiItem(i18n("Remove from project")),*/ KGuiItem(i18n("Keep as placeholder"))) == KMessageBox::Yes)
+                    int res = KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br>is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
+                    if (res == KMessageBox::Yes)
                         newpath = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///clipfolder"), kapp->activeWindow(), i18n("Looking for %1", path));
-                } else if (KMessageBox::messageBox(kapp->activeWindow(), KMessageBox::WarningYesNo, i18n("Clip <b>%1</b><br>is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), /*KGuiItem(i18n("Remove from project")),*/ KGuiItem(i18n("Keep as placeholder"))) == KMessageBox::Yes)
-                    newpath = KFileDialog::getOpenFileName(KUrl("kfiledialog:///clipfolder"), QString(), kapp->activeWindow(), i18n("Looking for %1", path));
+                    else if (res == KMessageBox::Cancel) {
+                        // Abort project loading
+                        action = KMessageBox::Cancel;
+                    }
+                } else {
+                    int res = KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br>is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
+                    if (res == KMessageBox::Yes)
+                        newpath = KFileDialog::getOpenFileName(KUrl("kfiledialog:///clipfolder"), QString(), kapp->activeWindow(), i18n("Looking for %1", path));
+                    else if (res == KMessageBox::Cancel) {
+                        // Abort project loading
+                        action = KMessageBox::Cancel;
+                    }
+                }
             }
             if (action == KMessageBox::Yes) {
                 kDebug() << "// ASKED FOR SRCH CLIP: " << clipId;
@@ -1258,6 +1277,9 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
                 if (!m_searchFolder.isEmpty()) {
                     newpath = searchFileRecursively(QDir(m_searchFolder), size, hash);
                 }
+            } else if (action == KMessageBox::Cancel) {
+                m_abortLoading = true;
+                return;
             }
             if (!newpath.isEmpty()) {
                 if (elem.attribute("type").toInt() == SLIDESHOW) newpath.append('/' + extension);

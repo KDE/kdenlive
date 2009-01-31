@@ -74,6 +74,7 @@ Q_OBJECT public:
     void resetProducersList(QList <Mlt::Producer *> prods);
     void addFolder(const QString&, const QString&);
     void deleteFolder(const QString&);
+    void clear();
 
 public slots:
     void updatePreviewSettings();

@@ -131,7 +131,7 @@ void MonitorManager::slotEnd() {
 
 void MonitorManager::resetProfiles(Timecode tc) {
     m_timecode = tc;
-    slotResetProfiles();
+    QTimer::singleShot(300, this, SLOT(slotResetProfiles()));
 }
 
 void MonitorManager::slotResetProfiles() {

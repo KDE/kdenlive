@@ -130,6 +130,7 @@ public slots:
     void slotRemoveClip();
     void slotAddClip(KUrl givenUrl = KUrl(), QString group = QString());
     void slotAddFolder(const QString foldername, const QString &clipId, bool remove, bool edit = false);
+    void slotResetProjectList();
 
 private:
     ProjectListView *listView;
@@ -140,7 +141,6 @@ private:
     QToolBar *m_toolbar;
     QMenu *m_menu;
     QUndoStack *m_commandStack;
-    // mbd: I think this has died at some point: int m_clipIdCounter;
     void selectItemById(const QString &clipId);
     ProjectItem *getItemById(const QString &id);
     ProjectItem *getFolderItemById(const QString &id);
