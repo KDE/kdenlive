@@ -95,8 +95,7 @@ public:
             painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , subText);
             painter->restore();
         } else if (index.column() == 3 && KdenliveSettings::activate_nepomuk()) {
-            const QString url = index.data(Qt::UserRole).toString();
-            if (url.isEmpty()) {
+            if (index.data().toString().isEmpty()) {
                 QItemDelegate::paint(painter, option, index);
                 return;
             }
@@ -104,8 +103,7 @@ public:
             if (option.state & (QStyle::State_Selected)) {
                 painter->fillRect(r1, option.palette.highlight());
             }
-            Nepomuk::Resource f(url);
-            KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, f.rating());
+            KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
         } else {
             QItemDelegate::paint(painter, option, index);
         }

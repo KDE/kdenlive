@@ -385,6 +385,7 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties) {
         Nepomuk::Resource f(url.path());
         QString annotation = f.description();
         if (!annotation.isEmpty()) item->setText(2, annotation);
+        item->setText(3, QString::number(f.rating()));
     }
     listView->blockSignals(false);
 }
