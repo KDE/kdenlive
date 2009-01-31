@@ -115,35 +115,34 @@ void RenderJob::receivedStderr() {
     QString result = QString(m_renderProcess->readAllStandardError()).simplified();
     if (!result.startsWith("Current Frame")) m_errorMessage.append(result + "<br>");
     else {
-	// m_logstream << "ReceivedStderr from inigo: " << result << endl;
-	result = result.section(" ", -1);
-	int pro = result.toInt();
-	if (pro < 0 || pro > 100) return;
-	if (pro > m_progress) {
-	    m_progress = pro;
-	    if (m_kdenliveinterface) {
-		if (!m_kdenliveinterface->isValid()) {
-		    delete m_kdenliveinterface;
-		    m_kdenliveinterface = NULL;
-		    // qDebug() << "BROKEN COMMUNICATION WITH KDENLIVE";
-		}
-		else {
-		    m_dbusargs[1] = pro;
-		    m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
-		}
-	    } else if (pro % 5 == 0) {
-		// Try to restart communication with Kdenlive every 5 percents
-		// qDebug() << "TRYING TO RESTART COMMUNICATION WITH KDENLIVE";
-		initKdenliveDbusInterface();
-	    }
+        // m_logstream << "ReceivedStderr from inigo: " << result << endl;
+        result = result.section(" ", -1);
+        int pro = result.toInt();
+        if (pro < 0 || pro > 100) return;
+        if (pro > m_progress) {
+            m_progress = pro;
+            if (m_kdenliveinterface) {
+                if (!m_kdenliveinterface->isValid()) {
+                    delete m_kdenliveinterface;
+                    m_kdenliveinterface = NULL;
+                    // qDebug() << "BROKEN COMMUNICATION WITH KDENLIVE";
+                } else {
+                    m_dbusargs[1] = pro;
+                    m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
+                }
+            } else if (pro % 5 == 0) {
+                // Try to restart communication with Kdenlive every 5 percents
+                // qDebug() << "TRYING TO RESTART COMMUNICATION WITH KDENLIVE";
+                initKdenliveDbusInterface();
+            }
 
-	    if (m_jobUiserver) {
-		m_jobUiserver->call("setPercent", (uint) m_progress);
-		/*int seconds = m_startTime.secsTo(QTime::currentTime());
-		seconds = seconds * (100 - m_progress) / m_progress;
-		m_jobUiserver->call("setDescriptionField", (uint) 1, tr("Remaining time"), QTime().addSecs(seconds).toString("hh:mm:ss"));*/
-	    }
-	}
+            if (m_jobUiserver) {
+                m_jobUiserver->call("setPercent", (uint) m_progress);
+                /*int seconds = m_startTime.secsTo(QTime::currentTime());
+                seconds = seconds * (100 - m_progress) / m_progress;
+                m_jobUiserver->call("setDescriptionField", (uint) 1, tr("Remaining time"), QTime().addSecs(seconds).toString("hh:mm:ss"));*/
+            }
+        }
     }
 }
 
@@ -205,7 +204,7 @@ void RenderJob::initKdenliveDbusInterface() {
         break;
     }
     m_dbusargs.clear();
-    if (kdenliveId.isEmpty()) return; 
+    if (kdenliveId.isEmpty()) return;
     m_kdenliveinterface = new QDBusInterface(kdenliveId,
             "/MainWindow",
             "org.kdenlive.MainWindow",
