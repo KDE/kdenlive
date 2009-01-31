@@ -56,6 +56,7 @@ private:
     QDBusInterface *m_kdenliveinterface;
     QList<QVariant> m_dbusargs;
     QTime m_startTime;
+    void initKdenliveDbusInterface();
     bool m_usekuiserver;
     /** \brief Used to create a temporary file for logging */
     QTemporaryFile m_logfile;

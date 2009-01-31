@@ -114,21 +114,36 @@ void RenderJob::slotAbort() {
 void RenderJob::receivedStderr() {
     QString result = QString(m_renderProcess->readAllStandardError()).simplified();
     if (!result.startsWith("Current Frame")) m_errorMessage.append(result + "<br>");
-    // m_logstream << "ReceivedStderr from inigo: " << result << endl;
-    result = result.section(" ", -1);
-    int pro = result.toInt();
-    if (pro > m_progress) {
-        m_progress = pro;
-        if (m_kdenliveinterface) {
-            m_dbusargs[1] = pro;
-            m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
-        }
-        if (m_jobUiserver) {
-            m_jobUiserver->call("setPercent", (uint) m_progress);
-            int seconds = m_startTime.secsTo(QTime::currentTime());
-            seconds = seconds * (100 - m_progress) / m_progress;
-            m_jobUiserver->call("setDescriptionField", (uint) 1, tr("Remaining time"), QTime(0, 0, seconds).toString("hh:mm:ss"));
-        }
+    else {
+	// m_logstream << "ReceivedStderr from inigo: " << result << endl;
+	result = result.section(" ", -1);
+	int pro = result.toInt();
+	if (pro < 0 || pro > 100) return;
+	if (pro > m_progress) {
+	    m_progress = pro;
+	    if (m_kdenliveinterface) {
+		if (!m_kdenliveinterface->isValid()) {
+		    delete m_kdenliveinterface;
+		    m_kdenliveinterface = NULL;
+		    // qDebug() << "BROKEN COMMUNICATION WITH KDENLIVE";
+		}
+		else {
+		    m_dbusargs[1] = pro;
+		    m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
+		}
+	    } else if (pro % 5 == 0) {
+		// Try to restart communication with Kdenlive every 5 percents
+		// qDebug() << "TRYING TO RESTART COMMUNICATION WITH KDENLIVE";
+		initKdenliveDbusInterface();
+	    }
+
+	    if (m_jobUiserver) {
+		m_jobUiserver->call("setPercent", (uint) m_progress);
+		/*int seconds = m_startTime.secsTo(QTime::currentTime());
+		seconds = seconds * (100 - m_progress) / m_progress;
+		m_jobUiserver->call("setDescriptionField", (uint) 1, tr("Remaining time"), QTime().addSecs(seconds).toString("hh:mm:ss"));*/
+	    }
+	}
     }
 }
 
@@ -155,19 +170,30 @@ void RenderJob::start() {
 
         if (interface->isServiceRegistered("org.kde.JobViewServer")) {
             QDBusInterface kuiserver("org.kde.JobViewServer", "/JobViewServer", "org.kde.JobViewServer");
-            QDBusReply<QDBusObjectPath> objectPath = kuiserver.call("requestView", "kdenlive", "kdenlive", 1);
+            QDBusReply<QDBusObjectPath> objectPath = kuiserver.call("requestView", "kdenlive", "kdenlive", 0x0001);
             QString reply = ((QDBusObjectPath) objectPath).path();
             m_jobUiserver = new QDBusInterface("org.kde.JobViewServer", reply, "org.kde.JobView");
             if (m_jobUiserver) {
                 m_startTime = QTime::currentTime();
                 m_jobUiserver->call("setPercent", (uint) 0);
-                QDBusReply<QString> reply = m_jobUiserver->call("setInfoMessage", tr("Rendering %1").arg(QFileInfo(m_dest).fileName()));
-                m_jobUiserver->call("setDescriptionField", (uint) 0, tr("Rendering to"), m_dest);
+                m_jobUiserver->call("setInfoMessage", tr("Rendering %1").arg(QFileInfo(m_dest).fileName()));
+                //m_jobUiserver->call("setDescriptionField", (uint) 0, tr("Rendering to"), m_dest);
                 QDBusConnection::sessionBus().connect("org.kde.JobViewServer", reply, "org.kde.JobView", "cancelRequested", this, SLOT(slotAbort()));
             }
         }
     }
 
+    initKdenliveDbusInterface();
+
+    // Because of the logging, we connect to stderr in all cases.
+    connect(m_renderProcess, SIGNAL(readyReadStandardError()), this, SLOT(receivedStderr()));
+    m_renderProcess->start(m_prog, m_args);
+    // m_logstream << "Started render process: " << m_prog << " " << m_args.join(" ") << endl;
+    qDebug() << "Started render process: " << m_prog << " " << m_args.join(" ");
+}
+
+
+void RenderJob::initKdenliveDbusInterface() {
     QString kdenliveId;
     QDBusConnection connection = QDBusConnection::sessionBus();
     QDBusConnectionInterface *ibus = connection.interface();
@@ -178,12 +204,12 @@ void RenderJob::start() {
         kdenliveId = service;
         break;
     }
-
-    QDBusConnection bus = QDBusConnection::sessionBus();
+    m_dbusargs.clear();
+    if (kdenliveId.isEmpty()) return; 
     m_kdenliveinterface = new QDBusInterface(kdenliveId,
             "/MainWindow",
             "org.kdenlive.MainWindow",
-            bus,
+            connection,
             this);
 
     if (m_kdenliveinterface) {
@@ -193,12 +219,6 @@ void RenderJob::start() {
         connect(m_kdenliveinterface, SIGNAL(abortRenderJob(const QString &)),
                 this, SLOT(slotAbort(const QString&)));
     }
-
-    // Because of the logging, we connect to stderr in all cases.
-    connect(m_renderProcess, SIGNAL(readyReadStandardError()), this, SLOT(receivedStderr()));
-    m_renderProcess->start(m_prog, m_args);
-    // m_logstream << "Started render process: " << m_prog << " " << m_args.join(" ") << endl;
-    qDebug() << "Started render process: " << m_prog << " " << m_args.join(" ");
 }
 
 
