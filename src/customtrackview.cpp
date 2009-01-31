@@ -742,7 +742,21 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
             info.endPos = transitionClip->endPos();
         } else info.endPos = info.startPos + GenTime(65, m_document->fps());
         if (info.endPos == info.startPos) info.endPos = info.startPos + GenTime(65, m_document->fps());
-        slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack);
+        // Check there is no other transition at that place
+        double startY = info.track * m_tracksHeight + 1 + m_tracksHeight / 2;
+        QRectF r(info.startPos.frames(m_document->fps()), startY, (info.endPos - info.startPos).frames(m_document->fps()), m_tracksHeight / 2);
+        QList<QGraphicsItem *> selection = m_scene->items(r);
+        bool transitionAccepted = true;
+        for (int i = 0; i < selection.count(); i++) {
+            if (selection.at(i)->type() == TRANSITIONWIDGET) {
+                Transition *tr = static_cast <Transition *>(selection.at(i));
+                if (tr->startPos() - info.startPos > GenTime(5, m_document->fps())) {
+                    if (tr->startPos() < info.endPos) info.endPos = tr->startPos();
+                } else transitionAccepted = false;
+            }
+        }
+        if (transitionAccepted) slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack);
+        else emit displayMessage(i18n("Cannot add transition"), ErrorMessage);
     } else if (m_operationMode == TRANSITIONEND) {
         ItemInfo info;
         info.endPos = GenTime(m_dragItem->endPos().frames(m_document->fps()), m_document->fps());
@@ -756,7 +770,23 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         if (info.endPos == info.startPos) info.startPos = info.endPos - GenTime(65, m_document->fps());
         QDomElement transition = MainWindow::transitions.getEffectByName("Luma").cloneNode().toElement();
         EffectsList::setParameter(transition, "reverse", "1");
-        slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack, transition);
+
+        // Check there is no other transition at that place
+        double startY = info.track * m_tracksHeight + 1 + m_tracksHeight / 2;
+        QRectF r(info.startPos.frames(m_document->fps()), startY, (info.endPos - info.startPos).frames(m_document->fps()), m_tracksHeight / 2);
+        QList<QGraphicsItem *> selection = m_scene->items(r);
+        bool transitionAccepted = true;
+        for (int i = 0; i < selection.count(); i++) {
+            if (selection.at(i)->type() == TRANSITIONWIDGET) {
+                Transition *tr = static_cast <Transition *>(selection.at(i));
+                if (info.endPos - tr->endPos() > GenTime(5, m_document->fps())) {
+                    if (tr->endPos() > info.startPos) info.startPos = tr->endPos();
+                } else transitionAccepted = false;
+            }
+        }
+        if (transitionAccepted) slotAddTransition((ClipItem *) m_dragItem, info, transitiontrack, transition);
+        else emit displayMessage(i18n("Cannot add transition"), ErrorMessage);
+
     } else if ((m_operationMode == RESIZESTART || m_operationMode == RESIZEEND) && m_selectionGroup) {
         resetSelectionGroup(false);
         m_dragItem->setSelected(true);
@@ -1221,6 +1251,22 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition) {
                 if (transitionClip && transitionClip->endPos() < item->endPos()) {
                     info.endPos = transitionClip->endPos();
                 } else info.endPos = info.startPos + GenTime(65, m_document->fps());
+                // Check there is no other transition at that place
+                double startY = info.track * m_tracksHeight + 1 + m_tracksHeight / 2;
+                QRectF r(info.startPos.frames(m_document->fps()), startY, (info.endPos - info.startPos).frames(m_document->fps()), m_tracksHeight / 2);
+                QList<QGraphicsItem *> selection = m_scene->items(r);
+                bool transitionAccepted = true;
+                for (int i = 0; i < selection.count(); i++) {
+                    if (selection.at(i)->type() == TRANSITIONWIDGET) {
+                        Transition *tr = static_cast <Transition *>(selection.at(i));
+                        if (tr->startPos() - info.startPos > GenTime(5, m_document->fps())) {
+                            if (tr->startPos() < info.endPos) info.endPos = tr->startPos();
+                        } else transitionAccepted = false;
+                    }
+                }
+                if (transitionAccepted) slotAddTransition(item, info, transitiontrack, transition);
+                else emit displayMessage(i18n("Cannot add transition"), ErrorMessage);
+
             } else {
                 // add transition to clip  end
                 info.endPos = item->endPos();
@@ -1229,8 +1275,23 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition) {
                     info.startPos = transitionClip->startPos();
                 } else info.startPos = info.endPos - GenTime(65, m_document->fps());
                 if (transition.attribute("tag") == "luma") EffectsList::setParameter(transition, "reverse", "1");
+
+                // Check there is no other transition at that place
+                double startY = info.track * m_tracksHeight + 1 + m_tracksHeight / 2;
+                QRectF r(info.startPos.frames(m_document->fps()), startY, (info.endPos - info.startPos).frames(m_document->fps()), m_tracksHeight / 2);
+                QList<QGraphicsItem *> selection = m_scene->items(r);
+                bool transitionAccepted = true;
+                for (int i = 0; i < selection.count(); i++) {
+                    if (selection.at(i)->type() == TRANSITIONWIDGET) {
+                        Transition *tr = static_cast <Transition *>(selection.at(i));
+                        if (info.endPos - tr->endPos() > GenTime(5, m_document->fps())) {
+                            if (tr->endPos() > info.startPos) info.startPos = tr->endPos();
+                        } else transitionAccepted = false;
+                    }
+                }
+                if (transitionAccepted) slotAddTransition(item, info, transitiontrack, transition);
+                else emit displayMessage(i18n("Cannot add transition"), ErrorMessage);
             }
-            slotAddTransition(item, info, transitiontrack, transition);
         }
     } else for (int i = 0; i < itemList.count(); i++) {
             if (itemList.at(i)->type() == AVWIDGET) {
@@ -1239,8 +1300,23 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition) {
                 info.startPos = item->startPos();
                 info.endPos = info.startPos + GenTime(65, m_document->fps());
                 info.track = item->track();
+
+                // Check there is no other transition at that place
+                double startY = info.track * m_tracksHeight + 1 + m_tracksHeight / 2;
+                QRectF r(info.startPos.frames(m_document->fps()), startY, (info.endPos - info.startPos).frames(m_document->fps()), m_tracksHeight / 2);
+                QList<QGraphicsItem *> selection = m_scene->items(r);
+                bool transitionAccepted = true;
+                for (int i = 0; i < selection.count(); i++) {
+                    if (selection.at(i)->type() == TRANSITIONWIDGET) {
+                        Transition *tr = static_cast <Transition *>(selection.at(i));
+                        if (tr->startPos() - info.startPos > GenTime(5, m_document->fps())) {
+                            if (tr->startPos() < info.endPos) info.endPos = tr->startPos();
+                        } else transitionAccepted = false;
+                    }
+                }
                 int transitiontrack = getPreviousVideoTrack(info.track);
-                slotAddTransition(item, info, transitiontrack, transition);
+                if (transitionAccepted) slotAddTransition(item, info, transitiontrack, transition);
+                else emit displayMessage(i18n("Cannot add transition"), ErrorMessage);
             }
         }
 }
@@ -1268,7 +1344,7 @@ void CustomTrackView::addTransition(ItemInfo transitionInfo, int endTrack, QDomE
 }
 
 void CustomTrackView::deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement params) {
-    Transition *item = getTransitionItemAt((int)transitionInfo.startPos.frames(m_document->fps()), transitionInfo.track);
+    Transition *item = getTransitionItemAt(transitionInfo.startPos, transitionInfo.track);
     if (!item) {
         emit displayMessage(i18n("Select clip to delete"), ErrorMessage);
         return;
@@ -1300,7 +1376,7 @@ void CustomTrackView::slotTransitionTrackUpdated(Transition *tr, int track) {
 }
 
 void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTransition, QDomElement transition, bool updateTransitionWidget) {
-    Transition *item = getTransitionItemAt((int)pos.frames(m_document->fps()), track);
+    Transition *item = getTransitionItemAt(pos, track);
     if (!item) {
         kWarning() << "Unable to find transition at pos :" << pos.frames(m_document->fps()) << ", ON track: " << track;
         return;
@@ -2152,7 +2228,7 @@ void CustomTrackView::deleteClip(ItemInfo info) {
 
     if (item->baseClip()->isTransparent()) {
         // also remove automatic transition
-        Transition *tr = getTransitionItemAt((int) info.startPos.frames(m_document->fps()), info.track);
+        Transition *tr = getTransitionItemAt(info.startPos, info.track);
         if (tr && tr->isAutomatic()) {
             m_document->renderer()->mltDeleteTransition(tr->transitionTag(), tr->transitionEndTrack(), m_document->tracksCount() - info.track, info.startPos, info.endPos, tr->toXML());
             scene()->removeItem(tr);
@@ -2333,8 +2409,8 @@ ClipItem *CustomTrackView::getClipItemAt(GenTime pos, int track) {
     return getClipItemAt(framepos, track);
 }
 
-Transition *CustomTrackView::getTransitionItemAt(int pos, int track) {
-    QList<QGraphicsItem *> list = scene()->items(QPointF(pos, (track + 1) * m_tracksHeight));
+Transition *CustomTrackView::getTransitionItemAt(GenTime pos, int track) {
+    QList<QGraphicsItem *> list = scene()->items(QPointF(pos.frames(m_document->fps()), (track + 1) * m_tracksHeight));
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
         if (list.at(i)->type() == TRANSITIONWIDGET) {
@@ -2343,11 +2419,6 @@ Transition *CustomTrackView::getTransitionItemAt(int pos, int track) {
         }
     }
     return clip;
-}
-
-Transition *CustomTrackView::getTransitionItemAt(GenTime pos, int track) {
-    int framepos = (int)(pos.frames(m_document->fps()));
-    return getTransitionItemAt(framepos, track);
 }
 
 Transition *CustomTrackView::getTransitionItemAtEnd(GenTime pos, int track) {
@@ -2394,7 +2465,7 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
         item->setSelected(true);
         if (item->baseClip()->isTransparent()) {
             // Also move automatic transition
-            Transition *tr = getTransitionItemAt((int) start.startPos.frames(m_document->fps()), start.track);
+            Transition *tr = getTransitionItemAt(start.startPos, start.track);
             if (tr && tr->isAutomatic()) {
                 tr->updateTransitionEndTrack(getPreviousVideoTrack(end.track));
                 m_document->renderer()->mltMoveTransition(tr->transitionTag(), m_document->tracksCount() - start.track, m_document->tracksCount() - end.track, tr->transitionEndTrack(), start.startPos, start.endPos, end.startPos, end.endPos);
@@ -2480,7 +2551,7 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
 }
 
 void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end) {
-    Transition *item = getTransitionItemAt((int)start.startPos.frames(m_document->fps()), start.track);
+    Transition *item = getTransitionItemAt(start.startPos, start.track);
     if (!item) {
         emit displayMessage(i18n("Cannot move transition at time: %1 on track %2", m_document->timecode().getTimecodeFromFrames(start.startPos.frames(m_document->fps())), start.track), ErrorMessage);
         kDebug() << "----------------  ERROR, CANNOT find transition to move... ";// << startPos.x() * m_scale * FRAME_SIZE + 1 << ", " << startPos.y() * m_tracksHeight + m_tracksHeight / 2;

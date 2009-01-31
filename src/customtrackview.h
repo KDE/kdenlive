@@ -185,7 +185,6 @@ private:
     ClipItem *getClipItemAt(GenTime pos, int track);
     ClipItem *getClipItemAtEnd(GenTime pos, int track);
     ClipItem *getClipItemAtStart(GenTime pos, int track);
-    Transition *getTransitionItemAt(int pos, int track);
     Transition *getTransitionItemAt(GenTime pos, int track);
     Transition *getTransitionItemAtEnd(GenTime pos, int track);
     Transition *getTransitionItemAtStart(GenTime pos, int track);
