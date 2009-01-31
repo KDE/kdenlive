@@ -2089,21 +2089,25 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration) {
     int previousDuration = trackPlaylist.clip_length(clipIndex) - 1;
     int newDuration = (int) clipDuration.frames(m_fps) - 1;
     trackPlaylist.resize_clip(clipIndex, previousStart, newDuration + previousStart);
-    //trackPlaylist.consolidate_blanks(0);
+    trackPlaylist.consolidate_blanks(0);
     // skip to next clip
     clipIndex++;
     int diff = newDuration - previousDuration;
-    kDebug() << "////////  RESIZE CLIP: " << clipIndex << "( pos: " << info.startPos.frames(25) << "), DIFF: " << diff << ", CURRENT DUR: " << previousDuration << ", NEW DUR: " << newDuration;
+    kDebug() << "////////  RESIZE CLIP: " << clipIndex << "( pos: " << info.startPos.frames(25) << "), DIFF: " << diff << ", CURRENT DUR: " << previousDuration << ", NEW DUR: " << newDuration << ", IX: " << clipIndex << ", MAX: " << trackPlaylist.count();
     if (diff > 0) {
         // clip was made longer, trim next blank if there is one.
-        if (trackPlaylist.is_blank(clipIndex)) {
-            int blankStart = trackPlaylist.clip_start(clipIndex);
-            int blankDuration = trackPlaylist.clip_length(clipIndex) - 1;
-            if (diff - blankDuration == 1) {
-                trackPlaylist.remove(clipIndex);
-            } else trackPlaylist.resize_clip(clipIndex, blankStart, blankStart + blankDuration - diff);
-        } else {
-            kDebug() << "/// RESIZE ERROR, NXT CLIP IS NOT BLK: " << clipIndex;
+        if (clipIndex < trackPlaylist.count()) {
+            // If this is not the last clip in playlist
+            if (trackPlaylist.is_blank(clipIndex)) {
+                int blankStart = trackPlaylist.clip_start(clipIndex);
+                int blankDuration = trackPlaylist.clip_length(clipIndex) - 1;
+                if (diff > blankDuration) kDebug() << "// ERROR blank clip is not large enough to get back required space!!!";
+                if (diff - blankDuration == 1) {
+                    trackPlaylist.remove(clipIndex);
+                } else trackPlaylist.remove_region(blankStart, diff - 1);
+            } else {
+                kDebug() << "/// RESIZE ERROR, NXT CLIP IS NOT BLK: " << clipIndex;
+            }
         }
     } else trackPlaylist.insert_blank(clipIndex, 0 - diff - 1);
 
