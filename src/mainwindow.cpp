@@ -1699,7 +1699,7 @@ void MainWindow::updateConfiguration() {
 void MainWindow::slotSwitchVideoThumbs() {
     KdenliveSettings::setVideothumbnails(!KdenliveSettings::videothumbnails());
     if (m_activeTimeline) {
-        m_activeTimeline->refresh();
+        m_activeTimeline->projectView()->slotUpdateAllThumbs();
     }
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
 }
