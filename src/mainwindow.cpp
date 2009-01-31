@@ -1203,7 +1203,7 @@ void MainWindow::openFile() {
     KMimeType::Ptr mime = KMimeType::mimeType(mimetype);
     if (!mime) mimetype = "*.kdenlive";
 
-    KUrl url = KFileDialog::getOpenUrl(KUrl(), mimetype);
+    KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"), mimetype);
     if (url.isEmpty()) return;
     m_fileOpenRecent->addUrl(url);
     openFile(url);
