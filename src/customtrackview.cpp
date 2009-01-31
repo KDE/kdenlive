@@ -631,31 +631,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
                 }
             }
             groupSelectedItems(true);
-
-            /*QPointF top = m_selectionGroup->boundingRect().topLeft();
-            //kDebug() << "SPACER TOOL: SELECTION RECT TOP LEFT IS " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();// << " TO " << top.x() << "/" << top.y();
-
-            // Something goes wrong there
-            //kDebug() << "SPACER TOOL: WILL SET TO " << top.x() << "/" << top.y();
-            m_selectionGroup->setPos(top);
-            //kDebug() << "SPACER TOOL: POS SET; POSITION IS NOW " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();
-            if (m_selectionGroup->pos().x() == 0 && m_selectionGroup->pos().y() == 0) {*/
-            /*
-            This is _really_ strange. Sometimes the position cannot be set and remains (0|0). In this case, translating would cause
-            all videos to be moved around, a very nasty effect as even the track will be changed.
-            It is somehow scale dependant (only when zoomed in far enough), at least in my project. ---Simon
-            BUG ID: 0000604, http://www.kdenlive.org/mantis/view.php?id=604
-            */
-            /*kDebug() << "////////// SPACER TOOL: NOT TRANSLATING BY " << -top.x() << "/" << 1 - top.y() << " BECAUSE CHANGING POSITION FAILED!";
-            //m_selectionGroup->translate(-top.x(), -top.y() + 1);
-            kDebug() << "SPACER TOOL: NOT TRANSLATED; POSITION IS STILL " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();
-            } else {
-            kDebug() << "SPACER TOOL: TRANSLATING BY " << -top.x() << "/" << 1 - top.y();
-            m_selectionGroup->translate(-top.x(), -top.y() + 1);
-            kDebug() << "SPACER TOOL: TRANSLATED; POSITION IS NOW " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();
-            }*/
-            // End Wrong
-            //kDebug() << "SPACER TOOL: SELECTION GROUP POSITION IS NOW " << m_selectionGroup->pos().x() << "/" << -m_selectionGroup->pos().y();
             m_operationMode = SPACER;
         } else setCursorPos((int)(mapToScene(event->x(), 0).x()));
         kDebug() << "END mousePress EVENT ";
@@ -1832,11 +1807,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
             // We are moving all tracks
             track = -1;
         }
-
-        int startPos = (int) m_selectionGroup->boundingRect().topLeft().x();
-        int diff = ((int) m_selectionGroup->pos().x()) - startPos;
-        //kDebug()<<"//////// SPACER DIFF: "<<diff<<<<m_selectionGroup->boundingRect().topLeft();
-        if (diff != 0) {
+        GenTime timeOffset = GenTime(m_selectionGroup->scenePos().x(), m_document->fps()) - m_selectionGroupInfo.startPos;
+        if (timeOffset != GenTime()) {
             QList<QGraphicsItem *> items = m_selectionGroup->childItems();
 
             QList<ItemInfo> clipsToMove = QList<ItemInfo> ();
@@ -1865,10 +1837,10 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 }
             }
 
-            InsertSpaceCommand *command = new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, GenTime(diff, m_document->fps()), false);
+            InsertSpaceCommand *command = new InsertSpaceCommand(this, clipsToMove, transitionsToMove, track, timeOffset, false);
             m_commandStack->push(command);
             if (track != -1) track = m_document->tracksCount() - track;
-            m_document->renderer()->mltInsertSpace(trackClipStartList, trackTransitionStartList, track, GenTime(diff, m_document->fps()), GenTime());
+            m_document->renderer()->mltInsertSpace(trackClipStartList, trackTransitionStartList, track, timeOffset, GenTime());
         }
         resetSelectionGroup(false);
         m_operationMode = NONE;
