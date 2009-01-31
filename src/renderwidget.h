@@ -41,14 +41,11 @@ public:
             QItemDelegate::paint(painter, option, index);
             return;
         } else if (index.column() == 1) {
-            const bool hover = option.state & (QStyle::State_Selected);
             QRect r1 = option.rect;
             painter->save();
-            if (hover) {
+            if (option.state & (QStyle::State_Selected)) {
                 painter->setPen(option.palette.color(QPalette::HighlightedText));
-                QColor backgroundColor = option.palette.color(QPalette::Highlight);
-                painter->setBrush(QBrush(backgroundColor));
-                painter->fillRect(r1, QBrush(backgroundColor));
+                painter->fillRect(r1, option.palette.highlight());
             } else painter->setPen(option.palette.color(QPalette::Text));
             QFont font = painter->font();
             font.setBold(true);
@@ -71,12 +68,9 @@ public:
         progressBarOption.state = option.state;
         progressBarOption.direction = QApplication::layoutDirection();
         QRect rect = option.rect;
-        const bool hover = option.state & (QStyle::State_Selected);
-        if (hover) {
+        if (option.state & (QStyle::State_Selected)) {
             painter->setPen(option.palette.color(QPalette::HighlightedText));
-            QColor backgroundColor = option.palette.color(QPalette::Highlight);
-            painter->setBrush(QBrush(backgroundColor));
-            painter->fillRect(rect, QBrush(backgroundColor));
+            painter->fillRect(rect, option.palette.highlight());
         }
 
         int mid = rect.height() / 2;
