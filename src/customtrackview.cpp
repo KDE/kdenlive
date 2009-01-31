@@ -611,51 +611,51 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
             if (event->modifiers() == Qt::ControlModifier) {
                 // Ctrl + click, select all items on track after click position
                 int track = (int)(mapToScene(m_clickEvent).y() / m_tracksHeight);
-                selection = items(m_clickEvent.x(), track * m_tracksHeight + 1, sceneRect().width() - m_clickEvent.x(), m_tracksHeight - 2);
+                selection = items(m_clickEvent.x(), track * m_tracksHeight + 1, mapFromScene(sceneRect().width(), 0).x() - m_clickEvent.x(), m_tracksHeight - 2);
                 // for (int count = 0; count < selection.size(); count++) {
                 //   selection.at(count);
                 // }
-                kDebug() << "SPACER TOOL + CTRL, SELECTING ALL CLIPS ON TRACK " << track << " WITH SELECTION RECT " << m_clickEvent.x() << "/" <<  track * m_tracksHeight + 1 << "; " << sceneRect().width() - m_clickEvent.x() << "/" << m_tracksHeight - 2;
+                kDebug() << "SPACER TOOL + CTRL, SELECTING ALL CLIPS ON TRACK " << track << " WITH SELECTION RECT " << m_clickEvent.x() << "/" <<  track * m_tracksHeight + 1 << "; " << mapFromScene(sceneRect().width(), 0).x() - m_clickEvent.x() << "/" << m_tracksHeight - 2;
             } else {
                 // Select all items on all tracks after click position
-                selection = items(event->pos().x(), 1, sceneRect().width() - event->pos().x(), sceneRect().height());
-                kDebug() << "SELELCTING ELEMENTS WITHIN =" << event->pos().x() << "/" <<  1 << ", " << sceneRect().width() - event->pos().x() << "/" << sceneRect().height();
+                selection = items(event->pos().x(), 1, mapFromScene(sceneRect().width(), 0).x() - event->pos().x(), sceneRect().height());
+                kDebug() << "SELELCTING ELEMENTS WITHIN =" << event->pos().x() << "/" <<  1 << ", " << mapFromScene(sceneRect().width(), 0).x() - event->pos().x() << "/" << sceneRect().height();
             }
-            m_selectionGroup = new AbstractGroupItem(m_document->fps());
-            scene()->addItem(m_selectionGroup);
+
+            resetSelectionGroup(false);
+            m_scene->clearSelection();
 
             for (int i = 0; i < selection.count(); i++) {
                 if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET) {
-                    m_selectionGroup->addToGroup(selection.at(i));
-                    selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
+                    selection.at(i)->setSelected(true);
                 }
             }
-//      kDebug() << "SPACER TOOL: SELECTION GROUP POSITION " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();
-//             kDebug() << "SPACER TOOL: SELECTION GROUP RECT IS " << m_selectionGroup->boundingRect().top() << "/" << m_selectionGroup->boundingRect().left() << "; " << m_selectionGroup->boundingRect().bottom() << "/" << m_selectionGroup->boundingRect().right();
-            QPointF top = m_selectionGroup->boundingRect().topLeft();
-            kDebug() << "SPACER TOOL: SELECTION RECT TOP LEFT IS " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();// << " TO " << top.x() << "/" << top.y();
+            groupSelectedItems(true);
+
+            /*QPointF top = m_selectionGroup->boundingRect().topLeft();
+            //kDebug() << "SPACER TOOL: SELECTION RECT TOP LEFT IS " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();// << " TO " << top.x() << "/" << top.y();
 
             // Something goes wrong there
-            kDebug() << "SPACER TOOL: WILL SET TO " << top.x() << "/" << top.y();
+            //kDebug() << "SPACER TOOL: WILL SET TO " << top.x() << "/" << top.y();
             m_selectionGroup->setPos(top);
-            kDebug() << "SPACER TOOL: POS SET; POSITION IS NOW " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();
-            if (m_selectionGroup->pos().x() == 0 && m_selectionGroup->pos().y() == 0) {
-                /*
-                This is _really_ strange. Sometimes the position cannot be set and remains (0|0). In this case, translating would cause
-                all videos to be moved around, a very nasty effect as even the track will be changed.
-                It is somehow scale dependant (only when zoomed in far enough), at least in my project. ---Simon
-                BUG ID: 0000604, http://www.kdenlive.org/mantis/view.php?id=604
-                */
-                kDebug() << "////////// SPACER TOOL: NOT TRANSLATING BY " << -top.x() << "/" << 1 - top.y() << " BECAUSE CHANGING POSITION FAILED!";
-                //m_selectionGroup->translate(-top.x(), -top.y() + 1);
-                kDebug() << "SPACER TOOL: NOT TRANSLATED; POSITION IS STILL " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();
+            //kDebug() << "SPACER TOOL: POS SET; POSITION IS NOW " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();
+            if (m_selectionGroup->pos().x() == 0 && m_selectionGroup->pos().y() == 0) {*/
+            /*
+            This is _really_ strange. Sometimes the position cannot be set and remains (0|0). In this case, translating would cause
+            all videos to be moved around, a very nasty effect as even the track will be changed.
+            It is somehow scale dependant (only when zoomed in far enough), at least in my project. ---Simon
+            BUG ID: 0000604, http://www.kdenlive.org/mantis/view.php?id=604
+            */
+            /*kDebug() << "////////// SPACER TOOL: NOT TRANSLATING BY " << -top.x() << "/" << 1 - top.y() << " BECAUSE CHANGING POSITION FAILED!";
+            //m_selectionGroup->translate(-top.x(), -top.y() + 1);
+            kDebug() << "SPACER TOOL: NOT TRANSLATED; POSITION IS STILL " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();
             } else {
-                kDebug() << "SPACER TOOL: TRANSLATING BY " << -top.x() << "/" << 1 - top.y();
-                m_selectionGroup->translate(-top.x(), -top.y() + 1);
-                kDebug() << "SPACER TOOL: TRANSLATED; POSITION IS NOW " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();
-            }
+            kDebug() << "SPACER TOOL: TRANSLATING BY " << -top.x() << "/" << 1 - top.y();
+            m_selectionGroup->translate(-top.x(), -top.y() + 1);
+            kDebug() << "SPACER TOOL: TRANSLATED; POSITION IS NOW " << m_selectionGroup->pos().x() << "/" << m_selectionGroup->pos().y();
+            }*/
             // End Wrong
-            kDebug() << "SPACER TOOL: SELECTION GROUP POSITION IS NOW " << m_selectionGroup->pos().x() << "/" << -m_selectionGroup->pos().y();
+            //kDebug() << "SPACER TOOL: SELECTION GROUP POSITION IS NOW " << m_selectionGroup->pos().x() << "/" << -m_selectionGroup->pos().y();
             m_operationMode = SPACER;
         } else setCursorPos((int)(mapToScene(event->x(), 0).x()));
         kDebug() << "END mousePress EVENT ";
@@ -783,13 +783,13 @@ void CustomTrackView::resetSelectionGroup(bool selectItems) {
     }
 }
 
-void CustomTrackView::groupSelectedItems() {
+void CustomTrackView::groupSelectedItems(bool force) {
     if (m_selectionGroup) {
         kDebug() << "///// ERROR, TRYING TO OVERRIDE EXISTING GROUP";
         return;
     }
     QList<QGraphicsItem *> selection = m_scene->selectedItems();
-    if (selection.count() > 1) {
+    if (force || selection.count() > 1) {
         m_selectionGroup = new AbstractGroupItem(m_document->fps());
         scene()->addItem(m_selectionGroup);
         for (int i = 0; i < selection.count(); i++) {
