@@ -611,10 +611,8 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
             if (event->modifiers() == Qt::ControlModifier) {
                 // Ctrl + click, select all items on track after click position
                 int track = (int)(mapToScene(m_clickEvent).y() / m_tracksHeight);
-                selection = items(m_clickEvent.x(), track * m_tracksHeight + 1, mapFromScene(sceneRect().width(), 0).x() - m_clickEvent.x(), m_tracksHeight - 2);
-                // for (int count = 0; count < selection.size(); count++) {
-                //   selection.at(count);
-                // }
+                selection = items(m_clickEvent.x(), track * m_tracksHeight + m_tracksHeight / 2, mapFromScene(sceneRect().width(), 0).x() - m_clickEvent.x(), m_tracksHeight / 2 - 2);
+
                 kDebug() << "SPACER TOOL + CTRL, SELECTING ALL CLIPS ON TRACK " << track << " WITH SELECTION RECT " << m_clickEvent.x() << "/" <<  track * m_tracksHeight + 1 << "; " << mapFromScene(sceneRect().width(), 0).x() - m_clickEvent.x() << "/" << m_tracksHeight - 2;
             } else {
                 // Select all items on all tracks after click position
@@ -778,11 +776,11 @@ void CustomTrackView::resetSelectionGroup(bool selectItems) {
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
         QList<QGraphicsItem *> children = m_selectionGroup->childItems();
+        scene()->destroyItemGroup(m_selectionGroup);
         for (int i = 0; i < children.count(); i++) {
             children.at(i)->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
             children.at(i)->setSelected(selectItems);
         }
-        scene()->destroyItemGroup(m_selectionGroup);
         m_selectionGroup = NULL;
         KdenliveSettings::setSnaptopoints(snap);
     }
@@ -794,8 +792,16 @@ void CustomTrackView::groupSelectedItems(bool force) {
         return;
     }
     QList<QGraphicsItem *> selection = m_scene->selectedItems();
+    QGraphicsItemGroup *group = m_scene->createItemGroup(selection);
+    scene()->addItem(group);
+    QPointF top = group->sceneBoundingRect().topLeft();
+    m_scene->destroyItemGroup(group);
     if (force || selection.count() > 1) {
+        bool snap = KdenliveSettings::snaptopoints();
+        KdenliveSettings::setSnaptopoints(false);
         m_selectionGroup = new AbstractGroupItem(m_document->fps());
+        m_selectionGroup->translate(-top.x(), -top.y() + 1);
+        m_selectionGroup->setPos(top.x(), top.y() - 1);
         scene()->addItem(m_selectionGroup);
         for (int i = 0; i < selection.count(); i++) {
             if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET) {
@@ -803,16 +809,19 @@ void CustomTrackView::groupSelectedItems(bool force) {
                 selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
             }
         }
+        KdenliveSettings::setSnaptopoints(snap);
 
         if (m_selectionGroup) {
-            bool snap = KdenliveSettings::snaptopoints();
+            /*bool snap = KdenliveSettings::snaptopoints();
             KdenliveSettings::setSnaptopoints(false);
             QPointF top = m_selectionGroup->sceneBoundingRect().topLeft();
-            m_selectionGroup->translate(-top.x(), -top.y() + 1);
-            m_selectionGroup->setPos(top);
+            // kDebug()<<"SEL GRP TOP: "<<top;
+            // Fix group item position
+            m_selectionGroup->translate(-top.x(), -top.y());
+            m_selectionGroup->setPos(top);*/
             m_selectionGroupInfo.startPos = GenTime(m_selectionGroup->scenePos().x(), m_document->fps());
             m_selectionGroupInfo.track = m_selectionGroup->track();
-            KdenliveSettings::setSnaptopoints(snap);
+            //KdenliveSettings::setSnaptopoints(snap);
         }
     } else resetSelectionGroup();
 }

@@ -176,6 +176,6 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
             return newPos;
         }
     }
-    return QGraphicsItem::itemChange(change, value);
+    return QGraphicsItemGroup::itemChange(change, value);
 }
 
