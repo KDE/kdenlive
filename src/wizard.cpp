@@ -141,67 +141,97 @@ void Wizard::checkMltComponents() {
             m_mltCheck.tabWidget->setTabEnabled(1, false);
         } else {
             avformatItem->setIcon(0, okIcon);
-            // Check installed audio codecs
-            QProcess checkProcess2;
-            checkProcess2.start(KdenliveSettings::rendererpath(), QStringList() << "noise:" << "-consumer" << "avformat" << "acodec=list");
-            if (!checkProcess2.waitForStarted()) {
-                m_mltCheck.tabWidget->setTabEnabled(1, false);
-                kDebug() << "// Error parsing MLT's avformat codecs";
-            } else {
-                checkProcess2.waitForFinished();
-                QByteArray codecList = checkProcess2.readAllStandardError();
-                QString acodecList(codecList);
-                QStringList result;
-                QStringList alist = acodecList.split("\n", QString::SkipEmptyParts);
-                for (int i = 0; i < alist.count(); i++) {
-                    if (alist.at(i).contains("- ")) result.append(alist.at(i).section("- ", 1).simplified().toLower());
+            // Make sure we have MLT > 0.3.4
+            bool recentMlt = false;
+            QString exepath = KStandardDirs::findExe("pkg-config");
+            if (!exepath.isEmpty()) {
+                checkProcess.start(exepath, QStringList() << "--variable=version" << "mlt-framework");
+                if (!checkProcess.waitForStarted()) {
+                    kDebug() << "// Error querying MLT's version";
+                } else {
+                    checkProcess.waitForFinished();
+                    QString mltVersion = checkProcess.readAllStandardOutput();
+                    int version = 100 * mltVersion.section('.', 0, 0).toInt() + 10 * mltVersion.section('.', 1, 1).toInt() + mltVersion.section('.', 2, 2).toInt();
+                    kDebug() << "// FOUND MLT's pkgconfig version: " << version;
+                    if (version > 34) recentMlt = true;
                 }
-                m_mltCheck.acodecs_list->addItems(result);
-                KdenliveSettings::setAudiocodecs(result);
-                //kDebug()<<"// FOUND LIST:\n\n"<<m_audioCodecs<<"\n\n++++++++++++++++++++";
-            }
-            // Check video codecs
-            checkProcess2.start(KdenliveSettings::rendererpath(), QStringList() << "noise:" << "-consumer" << "avformat" << "vcodec=list");
-            if (!checkProcess2.waitForStarted()) {
-                kDebug() << "// Error parsing MLT's avformat codecs";
             } else {
-                checkProcess2.waitForFinished();
-                QByteArray codecList = checkProcess2.readAllStandardError();
-                QString vcodecList(codecList);
-                QStringList result;
-                QStringList vlist = vcodecList.split("\n", QString::SkipEmptyParts);
-                for (int i = 0; i < vlist.count(); i++) {
-                    if (vlist.at(i).contains("- ")) result.append(vlist.at(i).section("- ", 1).simplified().toLower());
+                checkProcess.start(KdenliveSettings::rendererpath(), QStringList() << "--version");
+                if (!checkProcess.waitForStarted()) {
+                    kDebug() << "// Error querying MLT's version";
+                } else {
+                    checkProcess.waitForFinished();
+                    QString mltVersion = checkProcess.readAllStandardError();
+                    mltVersion = mltVersion.section("\n", 0, 0).simplified();
+                    mltVersion = mltVersion.section(' ', -1).simplified();
+                    int version = 100 * mltVersion.section('.', 0, 0).toInt() + 10 * mltVersion.section('.', 1, 1).toInt() + mltVersion.section('.', 2, 2).toInt();
+                    kDebug() << "// FOUND MLT version: " << version;
+                    if (version > 34) recentMlt = true;
                 }
-                m_mltCheck.vcodecs_list->addItems(result);
-                KdenliveSettings::setVideocodecs(result);
-                //kDebug()<<"// FOUND LIST:\n\n"<<m_videoCodecs<<"\n\n++++++++++++++++++++";
-            }
-            // Check formats
-            checkProcess2.start(KdenliveSettings::rendererpath(), QStringList() << "noise:" << "-consumer" << "avformat" << "f=list");
-            if (!checkProcess2.waitForStarted()) {
-                kDebug() << "// Error parsing MLT's avformat codecs";
-            } else {
-                checkProcess2.waitForFinished();
-                QByteArray codecList = checkProcess2.readAllStandardError();
-                QString vcodecList(codecList);
-                QStringList result;
-                QStringList vlist = vcodecList.split("\n", QString::SkipEmptyParts);
-                for (int i = 0; i < vlist.count(); i++) {
-                    if (vlist.at(i).contains("- ")) {
-                        QString format = vlist.at(i).section("- ", 1).simplified().toLower();
-                        if (format.contains(',')) {
-                            QStringList sub = format.split(',', QString::SkipEmptyParts);
-                            for (int j = 0; j < sub.count(); j++)
-                                result.append(sub.at(j));
-                        } else result.append(format);
-                    }
-                }
-                m_mltCheck.formats_list->addItems(result);
-                KdenliveSettings::setSupportedformats(result);
-                //kDebug()<<"// FOUND LIST:\n\n"<<m_videoCodecs<<"\n\n++++++++++++++++++++";
             }
 
+            if (recentMlt) {
+                // Check installed audio codecs
+                QProcess checkProcess2;
+                checkProcess2.start(KdenliveSettings::rendererpath(), QStringList() << "noise:" << "-consumer" << "avformat" << "acodec=list");
+                if (!checkProcess2.waitForStarted()) {
+                    m_mltCheck.tabWidget->setTabEnabled(1, false);
+                    kDebug() << "// Error parsing MLT's avformat codecs";
+                } else {
+                    checkProcess2.waitForFinished();
+                    QByteArray codecList = checkProcess2.readAllStandardError();
+                    QString acodecList(codecList);
+                    QStringList result;
+                    QStringList alist = acodecList.split("\n", QString::SkipEmptyParts);
+                    for (int i = 0; i < alist.count(); i++) {
+                        if (alist.at(i).contains("- ")) result.append(alist.at(i).section("- ", 1).simplified().toLower());
+                    }
+                    m_mltCheck.acodecs_list->addItems(result);
+                    KdenliveSettings::setAudiocodecs(result);
+                    //kDebug()<<"// FOUND LIST:\n\n"<<m_audioCodecs<<"\n\n++++++++++++++++++++";
+                }
+                // Check video codecs
+                checkProcess2.start(KdenliveSettings::rendererpath(), QStringList() << "noise:" << "-consumer" << "avformat" << "vcodec=list");
+                if (!checkProcess2.waitForStarted()) {
+                    kDebug() << "// Error parsing MLT's avformat codecs";
+                } else {
+                    checkProcess2.waitForFinished();
+                    QByteArray codecList = checkProcess2.readAllStandardError();
+                    QString vcodecList(codecList);
+                    QStringList result;
+                    QStringList vlist = vcodecList.split("\n", QString::SkipEmptyParts);
+                    for (int i = 0; i < vlist.count(); i++) {
+                        if (vlist.at(i).contains("- ")) result.append(vlist.at(i).section("- ", 1).simplified().toLower());
+                    }
+                    m_mltCheck.vcodecs_list->addItems(result);
+                    KdenliveSettings::setVideocodecs(result);
+                    //kDebug()<<"// FOUND LIST:\n\n"<<m_videoCodecs<<"\n\n++++++++++++++++++++";
+                }
+                // Check formats
+                checkProcess2.start(KdenliveSettings::rendererpath(), QStringList() << "noise:" << "-consumer" << "avformat" << "f=list");
+                if (!checkProcess2.waitForStarted()) {
+                    kDebug() << "// Error parsing MLT's avformat codecs";
+                } else {
+                    checkProcess2.waitForFinished();
+                    QByteArray codecList = checkProcess2.readAllStandardError();
+                    QString vcodecList(codecList);
+                    QStringList result;
+                    QStringList vlist = vcodecList.split("\n", QString::SkipEmptyParts);
+                    for (int i = 0; i < vlist.count(); i++) {
+                        if (vlist.at(i).contains("- ")) {
+                            QString format = vlist.at(i).section("- ", 1).simplified().toLower();
+                            if (format.contains(',')) {
+                                QStringList sub = format.split(',', QString::SkipEmptyParts);
+                                for (int j = 0; j < sub.count(); j++)
+                                    result.append(sub.at(j));
+                            } else result.append(format);
+                        }
+                    }
+                    m_mltCheck.formats_list->addItems(result);
+                    KdenliveSettings::setSupportedformats(result);
+                    //kDebug()<<"// FOUND LIST:\n\n"<<m_videoCodecs<<"\n\n++++++++++++++++++++";
+                }
+            }
 
         }
 
