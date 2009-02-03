@@ -2869,6 +2869,7 @@ void Render::mltDeleteTrack(int ix) {
     }
     tractor.removeChild(track);
     setSceneList(doc.toString(), m_framePosition);
+    mltCheckLength();
     return;
 
     blockSignals(true);
