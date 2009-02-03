@@ -62,8 +62,8 @@ RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
         m_view.buttonInfo->setDown(true);
     } else m_view.advanced_params->hide();
 
-    m_view.rescale_size->setInputMask("0099*0099");
-    m_view.rescale_size->setText("320*240");
+    m_view.rescale_size->setInputMask("0099\\x0099");
+    m_view.rescale_size->setText("320x240");
 
     parseProfiles();
 
@@ -472,7 +472,7 @@ void RenderWidget::slotExport() {
         const QString currentSize = QString::number(width) + 'x' + QString::number(height);
         if (subsize != currentSize) resizeProfile = true;
     } else if (destination != "audioonly") {
-        // Add current site parametrer
+        // Add current size parametrer
         renderArgs.append(QString(" s=%1x%2").arg(width).arg(height));
     }
 
