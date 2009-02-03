@@ -939,10 +939,10 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
         DocClipBase *clip = m_document->getBaseClip(list.at(0));
         if (clip == NULL) kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << list.at(0);
         ItemInfo info;
-        info.startPos = GenTime(pos.x(), m_document->fps());
+        info.startPos = GenTime(0, m_document->fps());
         info.cropStart = GenTime(list.at(1).toInt(), m_document->fps());
         info.endPos = info.startPos + GenTime(list.at(2).toInt() - list.at(1).toInt(), m_document->fps());
-        info.track = (int)(pos.y() / m_tracksHeight);
+        info.track = (int)(1 / m_tracksHeight);
         ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0);
         m_selectionGroup->addToGroup(item);
         //TODO: check if we do not overlap another clip when first dropping in timeline
@@ -960,9 +960,9 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
             DocClipBase *clip = m_document->getBaseClip(ids.at(i));
             if (clip == NULL) kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << ids.at(i);
             ItemInfo info;
-            info.startPos = GenTime(pos.x(), m_document->fps());
+            info.startPos = GenTime(0, m_document->fps());
             info.endPos = info.startPos + clip->duration();
-            info.track = (int)(pos.y() / m_tracksHeight);
+            info.track = (int)(1 / m_tracksHeight);
             ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0);
             pos.setX(pos.x() + clip->duration().frames(m_document->fps()));
             m_selectionGroup->addToGroup(item);
@@ -1376,11 +1376,9 @@ void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTr
 
 void CustomTrackView::dragMoveEvent(QDragMoveEvent * event) {
     event->setDropAction(Qt::IgnoreAction);
-    const int track = (int)(mapToScene(event->pos()).y() / m_tracksHeight);
-    const int pos = mapToScene(event->pos()).x();
-    //kDebug() << "// DRAG MOVE TO TRACK: " << track;
+    const QPointF pos = mapToScene(event->pos());
     if (m_selectionGroup) {
-        m_selectionGroup->setPos(pos, event->pos().y());
+        m_selectionGroup->setPos(pos.x(), pos.y());
         event->setDropAction(Qt::MoveAction);
         if (event->mimeData()->hasFormat("kdenlive/producerslist") || event->mimeData()->hasFormat("kdenlive/clip")) {
             event->acceptProposedAction();
