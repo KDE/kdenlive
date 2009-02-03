@@ -739,6 +739,8 @@ void ClipItem::paint(QPainter *painter,
 
 
 OPERATIONTYPE ClipItem::operationMode(QPointF pos) {
+    if (isItemLocked()) return NONE;
+
     if (isSelected()) {
         m_editedKeyframe = mouseOverKeyFrames(pos);
         if (m_editedKeyframe != -1) return KEYFRAME;
@@ -939,6 +941,7 @@ void ClipItem::mouseReleaseEvent(QGraphicsSceneMouseEvent * event) {
 //virtual
 void ClipItem::hoverEnterEvent(QGraphicsSceneHoverEvent *e) {
     //if (e->pos().x() < 20) m_hover = true;
+    if (isItemLocked()) return;
     m_hover = true;
     QRectF r = boundingRect();
     double width = 35 / projectScene()->scale();
@@ -950,6 +953,7 @@ void ClipItem::hoverEnterEvent(QGraphicsSceneHoverEvent *e) {
 
 //virtual
 void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *) {
+    if (isItemLocked()) return;
     m_hover = false;
     QRectF r = boundingRect();
     double width = 35 / projectScene()->scale();
@@ -1316,7 +1320,8 @@ void ClipItem::dropEvent(QGraphicsSceneDragDropEvent * event) {
 
 //virtual
 void ClipItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event) {
-    event->setAccepted(event->mimeData()->hasFormat("kdenlive/effectslist"));
+    if (isItemLocked()) event->setAccepted(false);
+    else event->setAccepted(event->mimeData()->hasFormat("kdenlive/effectslist"));
 }
 
 void ClipItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event) {

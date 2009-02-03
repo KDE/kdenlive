@@ -5,22 +5,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>50</width>
-    <height>51</height>
+    <width>58</width>
+    <height>54</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2" >
-   <property name="leftMargin" >
+   <property name="margin" >
     <number>0</number>
-   </property>
-   <property name="topMargin" >
-    <number>2</number>
-   </property>
-   <property name="rightMargin" >
-    <number>0</number>
-   </property>
-   <property name="bottomMargin" >
-    <number>2</number>
    </property>
    <item row="0" column="0" >
     <widget class="QFrame" name="frame" >
@@ -35,12 +26,31 @@
        <number>0</number>
       </property>
       <property name="spacing" >
-       <number>0</number>
+       <number>-1</number>
       </property>
-      <item row="0" column="0" colspan="3" >
+      <item row="0" column="0" >
+       <widget class="QToolButton" name="buttonLock" >
+        <property name="maximumSize" >
+         <size>
+          <width>22</width>
+          <height>22</height>
+         </size>
+        </property>
+        <property name="text" >
+         <string/>
+        </property>
+        <property name="checkable" >
+         <bool>true</bool>
+        </property>
+        <property name="arrowType" >
+         <enum>Qt::NoArrow</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2" >
        <widget class="QLabel" name="track_number" >
         <property name="sizePolicy" >
-         <sizepolicy vsizetype="Maximum" hsizetype="MinimumExpanding" >
+         <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>

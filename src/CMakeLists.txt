@@ -149,6 +149,7 @@ set(kdenlive_SRCS
   dvdwizardvob.cpp
   dvdwizardmenu.cpp
   dvdwizard.cpp
+  locktrackcommand.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )

@@ -108,6 +108,7 @@ public:
     void autoTransition();
     QStringList getLadspaParams(QDomElement effect) const;
     void initCursorPos(int pos);
+    void lockTrack(int ix, bool lock);
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -125,6 +126,7 @@ public slots:
     void slotTransitionTrackUpdated(Transition *tr, int track);
     void slotSwitchTrackAudio(int ix);
     void slotSwitchTrackVideo(int ix);
+    void slotSwitchTrackLock(int ix);
     void slotUpdateClip(const QString &clipId);
     void slotAddClipMarker(const QString &id, GenTime t, QString c);
     bool addGuide(const GenTime pos, const QString &comment);
@@ -239,6 +241,7 @@ signals:
     void trackHeightChanged();
     void displayMessage(const QString, MessageType);
     void showClipFrame(DocClipBase *, const int);
+    void doTrackLock(int, bool);
 };
 
 #endif

@@ -83,6 +83,8 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
     connect(m_trackview, SIGNAL(transitionItemSelected(Transition*, bool)), this, SLOT(slotTransitionItemSelected(Transition*, bool)));
+    connect(m_trackview, SIGNAL(doTrackLock(int, bool)), this, SLOT(slotChangeTrackLock(int, bool)));
+
     slotChangeZoom(m_doc->zoom());
     slotSetZone(m_doc->zone());
 }
@@ -357,6 +359,7 @@ void TrackView::slotRebuildTrackHeaders() {
         HeaderTrack *header = new HeaderTrack(i, list.at(max - i - 1), this);
         connect(header, SIGNAL(switchTrackVideo(int)), m_trackview, SLOT(slotSwitchTrackVideo(int)));
         connect(header, SIGNAL(switchTrackAudio(int)), m_trackview, SLOT(slotSwitchTrackAudio(int)));
+        connect(header, SIGNAL(switchTrackLock(int)), m_trackview, SLOT(slotSwitchTrackLock(int)));
 
         connect(header, SIGNAL(deleteTrack(int)), this, SIGNAL(deleteTrack(int)));
         connect(header, SIGNAL(insertTrack(int)), this, SIGNAL(insertTrack(int)));
@@ -660,6 +663,10 @@ const QString & TrackView::editMode() const {
     return m_editMode;
 }
 
+void TrackView::slotChangeTrackLock(int ix, bool lock) {
+    QList<HeaderTrack *> widgets = this->findChildren<HeaderTrack *>();
+    widgets.at(ix)->setLock(lock);
+}
 
 
 #include "trackview.moc"

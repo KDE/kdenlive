@@ -97,11 +97,14 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     videoTrack.type = VIDEOTRACK;
                     videoTrack.isMute = false;
                     videoTrack.isBlind = false;
+                    videoTrack.isLocked = false;
 
                     TrackInfo audioTrack;
                     audioTrack.type = AUDIOTRACK;
                     audioTrack.isMute = false;
                     audioTrack.isBlind = true;
+                    audioTrack.isLocked = false;
+
                     for (int i = 0; i < xmltracks.size(); i++) {
                         if (xmltracks.data()[i] == 'v') m_tracksList.append(videoTrack);
                         else m_tracksList.append(audioTrack);
@@ -239,11 +242,13 @@ QDomDocument KdenliveDoc::createEmptyDocument(const int videotracks, const int a
     videoTrack.type = VIDEOTRACK;
     videoTrack.isMute = false;
     videoTrack.isBlind = false;
+    videoTrack.isLocked = false;
 
     TrackInfo audioTrack;
     audioTrack.type = AUDIOTRACK;
     audioTrack.isMute = false;
     audioTrack.isBlind = true;
+    audioTrack.isLocked = false;
 
     QDomElement tractor = doc.createElement("tractor");
     tractor.setAttribute("id", "maintractor");
@@ -1460,6 +1465,10 @@ void KdenliveDoc::switchTrackAudio(int ix, bool hide) {
     m_tracksList[ix].isMute = hide; // !m_tracksList.at(ix).isMute;
 }
 
+void KdenliveDoc::switchTrackLock(int ix, bool lock) {
+    m_tracksList[ix].isLocked = lock;
+}
+
 void KdenliveDoc::switchTrackVideo(int ix, bool hide) {
     m_tracksList[ix].isBlind = hide; // !m_tracksList.at(ix).isBlind;
 }
@@ -1477,6 +1486,7 @@ void KdenliveDoc::setTrackType(int ix, TrackInfo type) {
     m_tracksList[ix].type = type.type;
     m_tracksList[ix].isMute = type.isMute;
     m_tracksList[ix].isBlind = type.isBlind;
+    m_tracksList[ix].isLocked = type.isLocked;
 }
 
 const QList <TrackInfo> KdenliveDoc::tracksList() const {

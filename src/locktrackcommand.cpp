@@ -17,35 +17,27 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include <KLocale>
 
-#ifndef TIMELINECLIPCOMMAND_H
-#define TIMELINECLIPCOMMAND_H
+#include "locktrackcommand.h"
+#include "customtrackview.h"
 
-#include <QUndoCommand>
-#include <QDomElement>
-#include <KDebug>
+LockTrackCommand::LockTrackCommand(CustomTrackView *view, int ix, bool lock, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_ix(ix), m_lock(lock), m_doIt(doIt) {
+    if (lock) setText(i18n("Lock track"));
+    else setText(i18n("Unlock track"));
+}
 
-#include "gentime.h"
-#include "definitions.h"
-#include "effectslist.h"
 
-class CustomTrackView;
+// virtual
+void LockTrackCommand::undo() {
+    m_view->lockTrack(m_ix, !m_lock);
+}
+// virtual
+void LockTrackCommand::redo() {
+    if (m_doIt) {
+        m_view->lockTrack(m_ix, m_lock);
+    }
+    m_doIt = true;
+}
 
-class AddTimelineClipCommand : public QUndoCommand {
-public:
-    AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, const QString &clipId, ItemInfo info, EffectsList effects, bool doIt, bool doRemove, QUndoCommand * parent = 0);
-    virtual void undo();
-    virtual void redo();
-
-private:
-    CustomTrackView *m_view;
-    ItemInfo m_clipInfo;
-    EffectsList m_effects;
-    QString m_clipId;
-    QDomElement m_xml;
-    bool m_doIt;
-    bool m_remove;
-};
-
-#endif
 

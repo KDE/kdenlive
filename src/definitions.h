@@ -56,6 +56,7 @@ struct TrackInfo {
     TRACKTYPE type;
     bool isMute;
     bool isBlind;
+    bool isLocked;
 };
 
 struct ItemInfo {

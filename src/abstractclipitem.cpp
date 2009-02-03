@@ -382,3 +382,16 @@ CustomTrackScene* AbstractClipItem::projectScene() {
     if (scene()) return static_cast <CustomTrackScene*>(scene());
     return NULL;
 }
+
+void AbstractClipItem::setItemLocked(bool locked) {
+    if (locked) {
+        setSelected(false);
+        setFlag(QGraphicsItem::ItemIsMovable, false);
+        setFlag(QGraphicsItem::ItemIsSelectable, false);
+    } else setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+}
+
+bool AbstractClipItem::isItemLocked() const {
+    return !(flags() & (QGraphicsItem::ItemIsSelectable));
+}
+

@@ -37,7 +37,12 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent)
     view.setupUi(this);
     view.track_number->setText(QString::number(m_index));
     view.buttonVideo->setChecked(!info.isBlind);
+    view.buttonVideo->setToolTip(i18n("Hide track"));
     view.buttonAudio->setChecked(!info.isMute);
+    view.buttonAudio->setToolTip(i18n("Mute track"));
+    view.buttonLock->setChecked(info.isLocked);
+    view.buttonLock->setToolTip(i18n("Lock track"));
+
     if (m_type == VIDEOTRACK) {
         view.frame->setBackgroundRole(QPalette::AlternateBase);
         view.frame->setAutoFillBackground(true);
@@ -48,8 +53,13 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent)
     }
     if (!info.isMute) view.buttonAudio->setIcon(KIcon("kdenlive-show-audio"));
     else view.buttonAudio->setIcon(KIcon("kdenlive-hide-audio"));
+
+    if (!info.isLocked) view.buttonLock->setIcon(KIcon("kdenlive-unlock"));
+    else view.buttonLock->setIcon(KIcon("kdenlive-lock"));
+
     connect(view.buttonVideo, SIGNAL(clicked()), this, SLOT(switchVideo()));
     connect(view.buttonAudio, SIGNAL(clicked()), this, SLOT(switchAudio()));
+    connect(view.buttonLock, SIGNAL(clicked()), this, SLOT(switchLock()));
 
     m_contextMenu = new QMenu(this);
 
@@ -86,6 +96,21 @@ void HeaderTrack::switchAudio() {
         view.buttonAudio->setIcon(KIcon("kdenlive-hide-audio"));
     }
     emit switchTrackAudio(m_index);
+}
+
+void HeaderTrack::switchLock(bool emitSignal) {
+    if (view.buttonLock->isChecked()) {
+        view.buttonLock->setIcon(KIcon("kdenlive-lock"));
+    } else {
+        view.buttonLock->setIcon(KIcon("kdenlive-unlock"));
+    }
+    if (emitSignal) emit switchTrackLock(m_index);
+}
+
+
+void HeaderTrack::setLock(bool lock) {
+    view.buttonLock->setChecked(lock);
+    switchLock(false);
 }
 
 void HeaderTrack::slotDeleteTrack() {

@@ -68,6 +68,7 @@
 #include "movegroupcommand.h"
 #include "ui_addtrack_ui.h"
 #include "initeffects.h"
+#include "locktrackcommand.h"
 
 //TODO:
 // disable animation if user asked it in KDE's global settings
@@ -652,7 +653,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         return;
     }
     updateSnapPoints(m_dragItem);
-    if (m_dragItem->type() == AVWIDGET) emit clipItemSelected((ClipItem*) m_dragItem);
+    if (m_dragItem->type() == AVWIDGET && !m_dragItem->isItemLocked()) emit clipItemSelected((ClipItem*) m_dragItem);
     else emit clipItemSelected(NULL);
 
     if (event->modifiers() != Qt::ControlModifier && (m_dragItem->group() || m_dragItem->isSelected())) {
@@ -778,8 +779,10 @@ void CustomTrackView::resetSelectionGroup(bool selectItems) {
         QList<QGraphicsItem *> children = m_selectionGroup->childItems();
         scene()->destroyItemGroup(m_selectionGroup);
         for (int i = 0; i < children.count(); i++) {
-            children.at(i)->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-            children.at(i)->setSelected(selectItems);
+            if (!static_cast <AbstractClipItem *>(children.at(i))->isItemLocked()) {
+                children.at(i)->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+                children.at(i)->setSelected(selectItems);
+            }
         }
         m_selectionGroup = NULL;
         KdenliveSettings::setSnaptopoints(snap);
@@ -1407,8 +1410,12 @@ void CustomTrackView::dropEvent(QDropEvent * event) {
             m_commandStack->push(command);
             item->baseClip()->addReference();
             m_document->updateClip(item->baseClip()->getId());
-            ItemInfo info;
-            info = item->info();
+            ItemInfo info = item->info();
+
+            int tracknumber = m_document->tracksCount() - info.track - 1;
+            bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
+            if (isLocked) item->setItemLocked(true);
+
             if (item->baseClip()->isTransparent()) {
                 // add transparency transition
                 int endTrack = getPreviousVideoTrack(info.track);
@@ -1584,12 +1591,36 @@ void CustomTrackView::changeTrack(int ix, TrackInfo type) {
 void CustomTrackView::slotSwitchTrackAudio(int ix) {
     /*for (int i = 0; i < m_document->tracksCount(); i++)
         kDebug() << "TRK " << i << " STATE: " << m_document->trackInfoAt(i).isMute << m_document->trackInfoAt(i).isBlind;*/
-
     int tracknumber = m_document->tracksCount() - ix;
-
     m_document->switchTrackAudio(tracknumber - 1, !m_document->trackInfoAt(tracknumber - 1).isMute);
     kDebug() << "NEXT TRK STATE: " << m_document->trackInfoAt(tracknumber - 1).isMute << m_document->trackInfoAt(tracknumber - 1).isBlind;
     m_document->renderer()->mltChangeTrackState(tracknumber, m_document->trackInfoAt(tracknumber - 1).isMute, m_document->trackInfoAt(tracknumber - 1).isBlind);
+    m_document->setModified(true);
+}
+
+void CustomTrackView::slotSwitchTrackLock(int ix) {
+    int tracknumber = m_document->tracksCount() - ix - 1;
+    LockTrackCommand *command = new LockTrackCommand(this, ix, !m_document->trackInfoAt(tracknumber).isLocked, true);
+    m_commandStack->push(command);
+}
+
+
+void CustomTrackView::lockTrack(int ix, bool lock) {
+    int tracknumber = m_document->tracksCount() - ix - 1;
+    m_document->switchTrackLock(tracknumber, lock);
+    emit doTrackLock(ix, lock);
+    QList<QGraphicsItem *> selection = items(0, ix * m_tracksHeight + m_tracksHeight / 2, mapFromScene(sceneRect().width(), 0).x(), m_tracksHeight / 2 - 2);
+
+    for (int i = 0; i < selection.count(); i++) {
+        if (selection.at(i)->type() != AVWIDGET && selection.at(i)->type() != TRANSITIONWIDGET) continue;
+        if (selection.at(i)->isSelected()) {
+            if (selection.at(i)->type() == AVWIDGET) emit clipItemSelected(NULL);
+            else emit transitionItemSelected(NULL);
+        }
+        static_cast <AbstractClipItem *>(selection.at(i))->setItemLocked(lock);
+    }
+    kDebug() << "NEXT TRK STATE: " << m_document->trackInfoAt(tracknumber).isLocked;
+    viewport()->update();
     m_document->setModified(true);
 }
 
@@ -1876,6 +1907,10 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 ClipItem *item = static_cast <ClipItem *>(m_dragItem);
                 bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItem->track()), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(m_dragItem->startPos().frames(m_document->fps())), item->baseClip()->producer(info.track));
                 if (success) {
+                    int tracknumber = m_document->tracksCount() - item->track() - 1;
+                    bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
+                    if (isLocked) item->setItemLocked(true);
+
                     QUndoCommand *moveCommand = new QUndoCommand();
                     moveCommand->setText(i18n("Move clip"));
                     new MoveClipCommand(this, m_dragItemInfo, info, false, moveCommand);
@@ -2001,6 +2036,13 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                     AbstractClipItem *item = static_cast <AbstractClipItem *>(items.at(i));
                     item->updateItem();
                     ItemInfo info = item->info();
+                    int tracknumber = m_document->tracksCount() - info.track - 1;
+                    bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
+                    if (isLocked) {
+                        m_selectionGroup->removeFromGroup(item);
+                        item->setItemLocked(true);
+                    }
+
                     if (item->type() == AVWIDGET) {
                         ClipItem *clip = static_cast <ClipItem*>(item);
                         info.track = m_document->tracksCount() - info.track;
@@ -2191,7 +2233,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         updateEffect(m_document->tracksCount() - item->track(), item->startPos(), item->selectedEffect(), item->selectedEffectIndex());
     }
 
-    emit transitionItemSelected((m_dragItem && m_dragItem->type() == TRANSITIONWIDGET) ? static_cast <Transition *>(m_dragItem) : NULL);
+    emit transitionItemSelected((m_dragItem && m_dragItem->type() == TRANSITIONWIDGET && m_dragItem->isSelected()) ? static_cast <Transition *>(m_dragItem) : NULL);
     m_document->setModified(true);
     m_operationMode = NONE;
 }
@@ -2308,6 +2350,11 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
     ClipItem *item = new ClipItem(baseclip, info, m_document->fps(), xml.attribute("speed", "1").toDouble());
     item->setEffectList(effects);
     scene()->addItem(item);
+
+    int tracknumber = m_document->tracksCount() - info.track - 1;
+    bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
+    if (isLocked) item->setItemLocked(true);
+
     if (item->baseClip()->isTransparent()) {
         // add transparency transition
         int endTrack = getPreviousVideoTrack(info.track);
@@ -2442,8 +2489,15 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
         item->setPos((int) end.startPos.frames(m_document->fps()), (int)(end.track * m_tracksHeight + 1));
+
+        int tracknumber = m_document->tracksCount() - end.track - 1;
+        bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
         m_scene->clearSelection();
-        item->setSelected(true);
+        if (isLocked) item->setItemLocked(true);
+        else {
+            if (item->isItemLocked()) item->setItemLocked(false);
+            item->setSelected(true);
+        }
         if (item->baseClip()->isTransparent()) {
             // Also move automatic transition
             Transition *tr = getTransitionItemAt(start.startPos, start.track);
@@ -2473,6 +2527,7 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
         }
         ClipItem *clip = getClipItemAt(startClip.at(i).startPos, startClip.at(i).track);
         if (clip) {
+            clip->setItemLocked(false);
             clip->setSelected(true);
             m_document->renderer()->mltRemoveClip(m_document->tracksCount() - startClip.at(i).track, startClip.at(i).startPos);
         }
@@ -2484,6 +2539,7 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
         }
         Transition *tr = getTransitionItemAt(startTransition.at(i).startPos, startTransition.at(i).track);
         if (tr) {
+            tr->setItemLocked(false);
             tr->setSelected(true);
             m_document->renderer()->mltDeleteTransition(tr->transitionTag(), tr->transitionEndTrack(), m_document->tracksCount() - startTransition.at(i).track, startTransition.at(i).startPos, startTransition.at(i).endPos, tr->toXML());
         }
@@ -2509,6 +2565,11 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
             AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
             item->updateItem();
             ItemInfo info = item->info();
+            int tracknumber = m_document->tracksCount() - info.track - 1;
+            bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
+            if (isLocked) item->setItemLocked(true);
+            else if (item->isItemLocked()) item->setItemLocked(false);
+
             if (item->type() == AVWIDGET) {
                 ClipItem *clip = static_cast <ClipItem*>(item);
                 info.track = m_document->tracksCount() - info.track;
@@ -2928,9 +2989,8 @@ void CustomTrackView::drawBackground(QPainter * painter, const QRectF & rect) {
     painter->drawLine(r.left(), 0, r.right(), 0);
     uint max = m_document->tracksCount();
     for (uint i = 0; i < max;i++) {
-        /*if (max - i - 1 == m_selectedTrack) painter->fillRect(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1, QBrush(QColor(211, 205, 147)));
-               else*/
-        if (m_document->trackInfoAt(max - i - 1).type == AUDIOTRACK) painter->fillRect(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1, QBrush(QColor(240, 240, 255)));
+        if (m_document->trackInfoAt(max - i - 1).isLocked == true) painter->fillRect(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1, QBrush(QColor(250, 250, 100)));
+        else if (m_document->trackInfoAt(max - i - 1).type == AUDIOTRACK) painter->fillRect(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1, QBrush(QColor(240, 240, 255)));
         painter->drawLine(r.left(), m_tracksHeight * (i + 1), r.right(), m_tracksHeight * (i + 1));
     }
     int lowerLimit = m_tracksHeight * m_document->tracksCount() + 1;
@@ -3337,10 +3397,12 @@ void CustomTrackView::slotInsertTrack(int ix) {
             info.type = VIDEOTRACK;
             info.isMute = false;
             info.isBlind = false;
+            info.isLocked = false;
         } else {
             info.type = AUDIOTRACK;
             info.isMute = false;
             info.isBlind = true;
+            info.isLocked = false;
         }
         AddTrackCommand *addTrack = new AddTrackCommand(this, ix, info, true, true);
         m_commandStack->push(addTrack);
@@ -3372,13 +3434,14 @@ void CustomTrackView::slotChangeTrack(int ix) {
 
     if (d.exec() == QDialog::Accepted) {
         TrackInfo info;
+        info.isLocked = false;
+        info.isMute = false;
+
         if (view.video_track->isChecked()) {
             info.type = VIDEOTRACK;
-            info.isMute = false;
             info.isBlind = false;
         } else {
             info.type = AUDIOTRACK;
-            info.isMute = false;
             info.isBlind = true;
         }
         changeTimelineTrack(ix, info);

@@ -32,6 +32,7 @@ class HeaderTrack : public QWidget {
 public:
     HeaderTrack(int index, TrackInfo info, QWidget *parent = 0);
     ~HeaderTrack();
+    void setLock(bool lock);
 
 protected:
     //virtual void paintEvent(QPaintEvent * /*e*/);
@@ -49,10 +50,12 @@ private slots:
     void slotDeleteTrack();
     void slotAddTrack();
     void slotChangeTrack();
+    void switchLock(bool emitSignal = true);
 
 signals:
     void switchTrackAudio(int);
     void switchTrackVideo(int);
+    void switchTrackLock(int);
     void insertTrack(int);
     void deleteTrack(int);
     void changeTrack(int);

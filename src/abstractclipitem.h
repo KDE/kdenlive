@@ -42,6 +42,8 @@ public:
     CustomTrackScene* projectScene();
     void updateRectGeometry();
     void updateItem();
+    void setItemLocked(bool locked);
+    bool isItemLocked() const;
 
     virtual  OPERATIONTYPE operationMode(QPointF pos) = 0;
     virtual GenTime startPos() const ;

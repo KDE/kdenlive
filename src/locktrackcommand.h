@@ -18,33 +18,25 @@
  ***************************************************************************/
 
 
-#ifndef TIMELINECLIPCOMMAND_H
-#define TIMELINECLIPCOMMAND_H
+#ifndef LOCKTRACKCOMMAND_H
+#define LOCKTRACKCOMMAND_H
 
 #include <QUndoCommand>
-#include <QDomElement>
 #include <KDebug>
-
-#include "gentime.h"
-#include "definitions.h"
-#include "effectslist.h"
 
 class CustomTrackView;
 
-class AddTimelineClipCommand : public QUndoCommand {
+class LockTrackCommand : public QUndoCommand {
 public:
-    AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, const QString &clipId, ItemInfo info, EffectsList effects, bool doIt, bool doRemove, QUndoCommand * parent = 0);
+    LockTrackCommand(CustomTrackView *view, int ix, bool lock, bool doIt, QUndoCommand * parent = 0);
     virtual void undo();
     virtual void redo();
 
 private:
     CustomTrackView *m_view;
-    ItemInfo m_clipInfo;
-    EffectsList m_effects;
-    QString m_clipId;
-    QDomElement m_xml;
+    int m_ix;
     bool m_doIt;
-    bool m_remove;
+    bool m_lock;
 };
 
 #endif

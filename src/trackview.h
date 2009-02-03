@@ -92,7 +92,7 @@ private slots:
     void moveCursorPos(int pos);
     void slotTransitionItemSelected(Transition*, bool update);
     void slotRebuildTrackHeaders();
-
+    void slotChangeTrackLock(int ix, bool lock);
 
 signals:
     void mousePosition(int);

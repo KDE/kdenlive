@@ -108,6 +108,7 @@ Q_OBJECT public:
     QString getTracksInfo() const;
     void switchTrackVideo(int ix, bool hide);
     void switchTrackAudio(int ix, bool hide);
+    void switchTrackLock(int ix, bool lock);
     void cachePixmap(const QString &fileId, const QPixmap &pix) const;
     void setProjectFolder(KUrl url);
     QString getLadspaFile() const;
