@@ -2210,6 +2210,10 @@ bool Render::mltMoveClip(int startTrack, int endTrack, GenTime moveStart, GenTim
 
 
 void Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod) {
+    if (prod == NULL || !prod->is_valid()) {
+        kDebug() << "// Warning, CLIP on track " << track << ", at: " << pos << " is invalid, cannot update it!!!";
+        return;
+    }
     kDebug() << "NEW PROD ID: " << prod->get("id");
     m_mltConsumer->set("refresh", 0);
     kDebug() << "// TRYING TO UPDATE CLIP at: " << pos << ", TK: " << track;
