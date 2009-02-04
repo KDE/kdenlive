@@ -42,7 +42,7 @@ const int EditableRole = GroupRole + 5;
 const int MetaGroupRole = GroupRole + 6;
 const int ExtraRole = GroupRole + 7;
 
-RenderWidget::RenderWidget(QWidget * parent): QDialog(parent) {
+RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent): QDialog(parent), m_projectFolder(projectfolder) {
     m_view.setupUi(this);
     setWindowTitle(i18n("Rendering"));
     m_view.buttonDelete->setIcon(KIcon("trash-empty"));
@@ -131,6 +131,12 @@ void RenderWidget::showInfoPanel() {
         m_view.buttonInfo->setDown(true);
         KdenliveSettings::setShowrenderparams(true);
     }
+}
+
+void RenderWidget::setDocumentPath(const QString path) {
+    m_projectFolder = path;
+    const QString fileName = m_view.out_file->url().fileName();
+    m_view.out_file->setUrl(KUrl(m_projectFolder + '/' + fileName));
 }
 
 void RenderWidget::slotUpdateGuideBox() {
@@ -633,7 +639,7 @@ KUrl RenderWidget::filenameWithExtension(KUrl url, QString extension) {
         else path = path.left(pos) + extension;
 
     } else {
-        path = QDir::homePath() + "/untitled." + extension;
+        path = m_projectFolder + "/untitled." + extension;
     }
     return KUrl(path);
 }

@@ -98,12 +98,13 @@ class RenderWidget : public QDialog {
     Q_OBJECT
 
 public:
-    RenderWidget(QWidget * parent = 0);
+    RenderWidget(const QString &projectfolder, QWidget * parent = 0);
     void setGuides(QDomElement guidesxml, double duration);
     void focusFirstVisibleItem();
     void setProfile(MltVideoProfile profile);
     void setRenderJob(const QString &dest, int progress = 0);
     void setRenderStatus(const QString &dest, int status, const QString &error);
+    void setDocumentPath(const QString path);
 
 private slots:
     void slotUpdateButtons(KUrl url);
@@ -123,6 +124,7 @@ private slots:
 private:
     Ui::RenderWidget_UI m_view;
     MltVideoProfile m_profile;
+    QString m_projectFolder;
     void parseProfiles(QString group = QString(), QString profile = QString());
     void parseFile(QString exportFile, bool editable);
     void updateButtons();

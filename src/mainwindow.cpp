@@ -1376,6 +1376,7 @@ void MainWindow::slotEditProjectSettings() {
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
         m_activeDocument->setProjectFolder(w->selectedFolder());
+        if (m_renderWidget) m_renderWidget->setDocumentPath(w->selectedFolder().path());
         if (m_activeDocument->profilePath() != profile) {
             // Profile was changed
             m_activeDocument->setProfilePath(profile);
@@ -1396,7 +1397,8 @@ void MainWindow::slotEditProjectSettings() {
 
 void MainWindow::slotRenderProject() {
     if (!m_renderWidget) {
-        m_renderWidget = new RenderWidget(this);
+        QString projectfolder = m_activeDocument ? m_activeDocument->projectFolder().path() : KdenliveSettings::defaultprojectfolder();
+        m_renderWidget = new RenderWidget(projectfolder, this);
         connect(m_renderWidget, SIGNAL(doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool)), this, SLOT(slotDoRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool)));
         connect(m_renderWidget, SIGNAL(abortProcess(const QString &)), this, SIGNAL(abortRenderJob(const QString &)));
         connect(m_renderWidget, SIGNAL(openDvdWizard(const QString &, const QString &)), this, SLOT(slotDvdWizard(const QString &, const QString &)));
@@ -1622,7 +1624,10 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
 
     trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu);
     m_activeTimeline = trackView;
-    if (m_renderWidget) m_renderWidget->setProfile(doc->mltProfile());
+    if (m_renderWidget) {
+        m_renderWidget->setProfile(doc->mltProfile());
+        m_renderWidget->setDocumentPath(doc->projectFolder().path());
+    }
     //doc->setRenderer(m_projectMonitor->render);
     m_commandStack->setActiveStack(doc->commandStack());
     KdenliveSettings::setProject_display_ratio(doc->dar());
