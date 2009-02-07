@@ -932,7 +932,6 @@ void CustomTrackView::activateMonitor() {
 void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
     if (event->mimeData()->hasFormat("kdenlive/clip")) {
         resetSelectionGroup();
-
         QStringList list = QString(event->mimeData()->data("kdenlive/clip")).split(";");
         m_selectionGroup = new AbstractGroupItem(m_document->fps());
         QPoint pos = QPoint();
@@ -945,6 +944,7 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
         info.track = (int)(1 / m_tracksHeight);
         ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0);
         m_selectionGroup->addToGroup(item);
+        item->setFlags(QGraphicsItem::ItemIsSelectable);
         //TODO: check if we do not overlap another clip when first dropping in timeline
         // if (insertPossible(m_selectionGroup, event->pos()))
         scene()->addItem(m_selectionGroup);
@@ -956,16 +956,18 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
 
         m_selectionGroup = new AbstractGroupItem(m_document->fps());
         QPoint pos = QPoint();
+        GenTime start = GenTime();
         for (int i = 0; i < ids.size(); ++i) {
             DocClipBase *clip = m_document->getBaseClip(ids.at(i));
             if (clip == NULL) kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << ids.at(i);
             ItemInfo info;
-            info.startPos = GenTime(0, m_document->fps());
+            info.startPos = start;
             info.endPos = info.startPos + clip->duration();
             info.track = (int)(1 / m_tracksHeight);
             ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0);
-            pos.setX(pos.x() + clip->duration().frames(m_document->fps()));
+            start += clip->duration();
             m_selectionGroup->addToGroup(item);
+            item->setFlags(QGraphicsItem::ItemIsSelectable);
         }
         //TODO: check if we do not overlap another clip when first dropping in timeline
         //if (insertPossible(m_selectionGroup, event->pos()))
@@ -1418,6 +1420,7 @@ void CustomTrackView::dropEvent(QDropEvent * event) {
             m_document->renderer()->mltInsertClip(info, item->xml(), item->baseClip()->producer(item->track()));
             item->setSelected(true);
         }
+        groupSelectedItems(true);
         m_document->setModified(true);
     } else QGraphicsView::dropEvent(event);
     setFocus();
