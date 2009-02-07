@@ -77,7 +77,20 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent) 
 }
 
 void TransitionSettings::slotTransitionTrackChanged() {
-    emit transitionTrackUpdated(m_usedTransition, ui.transitionTrack->currentIndex());
+    if (m_usedTransition == NULL) return;
+    int ix = 0;
+    QDomElement oldxml = m_usedTransition->toXML().cloneNode().toElement();
+    if (ui.transitionTrack->currentIndex() > 0) {
+        ix = ui.transitionTrack->count() - ui.transitionTrack->currentIndex() - 1;
+        m_usedTransition->setForcedTrack(true, ix);
+        effectEdit->updateParameter("force_track", "1");
+        emit transitionUpdated(m_usedTransition, oldxml);
+    } else {
+        m_usedTransition->setForcedTrack(false, ix);
+        effectEdit->updateParameter("force_track", "0");
+        emit transitionUpdated(m_usedTransition, oldxml);
+    }
+    effectEdit->updateParameter("transition_btrack", QString::number(ix));
 }
 
 void TransitionSettings::slotTransitionItemSelected(Transition* t, bool update) {
@@ -116,20 +129,15 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, bool update) 
 
 }
 
-void TransitionSettings::slotUpdateEffectParams(const QDomElement& oldparam, const QDomElement& param) {
+void TransitionSettings::slotUpdateEffectParams(const QDomElement &oldparam, const QDomElement &param) {
     if (m_usedTransition) {
-        bool forced = m_usedTransition->forcedTrack();
         m_usedTransition->setTransitionParameters(param);
-        m_usedTransition->setForcedTrack(forced, m_usedTransition->transitionEndTrack());
         m_usedTransition->update();
     }
-    /*QString test;
-    QTextStream str(&test);
-    oldparam.save(str, 2);
-    m_usedTransition->toXML().save(str, 2);*/
-    //kDebug() << test;
     //oldparam must be also first given to Transition and then return the toXML()
-    if (oldparam != param) emit transitionUpdated(m_usedTransition, oldparam);
+    if (oldparam != param) {
+        emit transitionUpdated(m_usedTransition, oldparam);
+    }
 }
 
 void TransitionSettings::raiseWindow(QWidget* dock) {

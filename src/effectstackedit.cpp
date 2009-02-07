@@ -71,6 +71,10 @@ void EffectStackEdit::updateProjectFormat(MltVideoProfile profile, Timecode t) {
     m_timecode = t;
 }
 
+void EffectStackEdit::updateParameter(const QString &name, const QString &value) {
+    params.setAttribute(name, value);
+}
+
 void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out) {
     kDebug() << "in";
     params = d;

@@ -49,7 +49,7 @@ void EditTransitionCommand::undo() {
 }
 // virtual
 void EditTransitionCommand::redo() {
-    if (m_doIt) m_view->updateTransition(m_track, m_pos, m_oldeffect, m_effect, m_doIt);
+    m_view->updateTransition(m_track, m_pos, m_oldeffect, m_effect, m_doIt);
     m_doIt = true;
 }
 

@@ -123,7 +123,6 @@ public slots:
     void slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QDomElement transition = QDomElement());
     void slotAddTransitionToSelectedClips(QDomElement transition);
     void slotTransitionUpdated(Transition *, QDomElement);
-    void slotTransitionTrackUpdated(Transition *tr, int track);
     void slotSwitchTrackAudio(int ix);
     void slotSwitchTrackVideo(int ix);
     void slotSwitchTrackLock(int ix);

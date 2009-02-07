@@ -45,6 +45,7 @@ public:
     ~EffectStackEdit();
     void updateProjectFormat(MltVideoProfile profile, Timecode t);
     static QMap<QString, QImage> iconCache;
+    void updateParameter(const QString &name, const QString &value);
 
 private:
     void clearAllItems();

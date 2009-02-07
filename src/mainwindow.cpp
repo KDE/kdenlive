@@ -1554,7 +1554,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
             disconnect(effectStack, SIGNAL(refreshEffectStack(ClipItem*)), m_activeTimeline->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
             disconnect(effectStack, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
             disconnect(transitionConfig, SIGNAL(transitionUpdated(Transition *, QDomElement)), m_activeTimeline->projectView() , SLOT(slotTransitionUpdated(Transition *, QDomElement)));
-            disconnect(transitionConfig, SIGNAL(transitionTrackUpdated(Transition *, int)), m_activeTimeline->projectView() , SLOT(slotTransitionTrackUpdated(Transition *, int)));
             disconnect(transitionConfig, SIGNAL(seekTimeline(int)), m_activeTimeline->projectView() , SLOT(setCursorPos(int)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(activateDocumentMonitor()), m_projectMonitor, SLOT(activateMonitor()));
             disconnect(m_activeTimeline, SIGNAL(zoneMoved(int, int)), this, SLOT(slotZoneMoved(int, int)));
@@ -1614,7 +1613,6 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc) { //cha
     connect(effectStack, SIGNAL(changeEffectPosition(ClipItem*, int, int)), trackView->projectView(), SLOT(slotChangeEffectPosition(ClipItem*, int, int)));
     connect(effectStack, SIGNAL(refreshEffectStack(ClipItem*)), trackView->projectView(), SLOT(slotRefreshEffects(ClipItem*)));
     connect(transitionConfig, SIGNAL(transitionUpdated(Transition *, QDomElement)), trackView->projectView() , SLOT(slotTransitionUpdated(Transition *, QDomElement)));
-    connect(transitionConfig, SIGNAL(transitionTrackUpdated(Transition *, int)), trackView->projectView() , SLOT(slotTransitionTrackUpdated(Transition *, int)));
     connect(transitionConfig, SIGNAL(seekTimeline(int)), trackView->projectView() , SLOT(setCursorPos(int)));
     connect(effectStack, SIGNAL(reloadEffects()), this, SLOT(slotReloadEffects()));
 
