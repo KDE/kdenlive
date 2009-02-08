@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-29 17:20+0100\n"
-"PO-Revision-Date: 2009-02-02 21:59+0100\n"
+"PO-Revision-Date: 2009-02-03 14:05+0100\n"
 "Last-Translator: Salvatore Brigaglia <opensourcecat@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -744,7 +744,7 @@ msgstr "Canali"
 
 #: rc.cpp:32
 msgid "Charcoal"
-msgstr "Charcoal"
+msgstr "Carboncino"
 
 #: rc.cpp:34
 msgid "Charcoal drawing effect"
@@ -764,7 +764,7 @@ msgstr "Verifica del sistema"
 
 #: rc.cpp:54
 msgid "Chroma Hold"
-msgstr "Chroma Hold"
+msgstr "Evidenzia colore"
 
 #: rc.cpp:248
 msgid "Chrominance U"
@@ -1496,7 +1496,7 @@ msgstr "File non trovato"
 
 #: src/renderwidget.cpp:685
 msgid "File rendering"
-msgstr "Esportazione del file"
+msgstr "Esporta in un file"
 
 #: rc.cpp:1338 rc.cpp:2535
 msgid "File size"
