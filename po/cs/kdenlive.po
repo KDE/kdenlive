@@ -1,4 +1,4 @@
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) 2009 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # REPlI2DeV <repli2dev@gmail.com>, 2008.
@@ -7,120 +7,157 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-25 11:24+0100\n"
-"PO-Revision-Date: 2008-12-28 19:20+0100\n"
+"POT-Creation-Date: 2009-01-29 17:20+0100\n"
+"PO-Revision-Date: 2009-02-08 18:03+0100\n"
 "Last-Translator: Jan Drábek <repli2dev@gmail.com>\n"
 "Language-Team: American English <kde-i18n-doc@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: LoKalize 0.2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);"
 
+#: src/clipproperties.cpp:462 src/slideshowclip.cpp:128
 #, kde-format
 msgid "%1 images found"
 msgstr "%1 obrázků nalezeno"
 
+#: rc.cpp:681 rc.cpp:687 rc.cpp:693 rc.cpp:699 rc.cpp:708 rc.cpp:1197
+#: rc.cpp:1200 rc.cpp:1203 rc.cpp:1209 rc.cpp:1212 rc.cpp:1878 rc.cpp:1884
+#: rc.cpp:1890 rc.cpp:1896 rc.cpp:1905 rc.cpp:2394 rc.cpp:2397 rc.cpp:2400
+#: rc.cpp:2406 rc.cpp:2409
 msgid "..."
 msgstr "..."
 
+#: rc.cpp:597 rc.cpp:603 rc.cpp:609 rc.cpp:1794 rc.cpp:1800 rc.cpp:1806
 msgid "/"
 msgstr "/"
 
+#: rc.cpp:921 rc.cpp:2118
 msgid "/dev/dsp"
 msgstr "/dev/dsp"
 
+#: rc.cpp:942 rc.cpp:2139
 msgid "/dev/video0"
 msgstr "/dev/video0"
 
+#: rc.cpp:1278 rc.cpp:2475
 msgid "0"
 msgstr "0"
 
+#: rc.cpp:480 rc.cpp:1434 rc.cpp:1677 rc.cpp:2631
+msgid "1"
+msgstr "1"
+
+#: src/geometryval.cpp:76
 msgid "100%"
 msgstr "100%"
 
+#: rc.cpp:978 rc.cpp:2175
 msgid "11250"
 msgstr "11250"
 
+#: rc.cpp:1437 rc.cpp:2634
+msgid "2"
+msgstr "2"
+
+#: src/geometryval.cpp:77
 msgid "200%"
 msgstr "200%"
 
+#: rc.cpp:975 rc.cpp:2172
 msgid "22500"
 msgstr "22500"
 
+#: rc.cpp:1098 rc.cpp:1524 rc.cpp:2295 rc.cpp:2721
 msgid "25/1"
 msgstr "25/1"
 
+#: rc.cpp:972 rc.cpp:2169
 msgid "32000"
 msgstr "32000"
 
+#: rc.cpp:948 rc.cpp:2145
 msgid "320x240"
 msgstr "320x240"
 
+#: rc.cpp:1110 rc.cpp:1536 rc.cpp:2307 rc.cpp:2733
 msgid "4/3"
 msgstr "4/3"
 
+#: rc.cpp:969 rc.cpp:2166
 msgid "41000"
 msgstr "41000"
 
+#: rc.cpp:966 rc.cpp:2163
 msgid "48000"
 msgstr "48000"
 
+#: src/geometryval.cpp:75
 msgid "50%"
 msgstr "50%   "
 
+#: rc.cpp:1104 rc.cpp:1530 rc.cpp:2301 rc.cpp:2727
 msgid "59/54"
 msgstr "59/54"
 
+#: rc.cpp:1092 rc.cpp:1518 rc.cpp:2289 rc.cpp:2715
 msgid "720x576"
 msgstr "720x576  "
 
+#: rc.cpp:630 rc.cpp:780 rc.cpp:786 rc.cpp:792 rc.cpp:1032 rc.cpp:1044
+#: rc.cpp:1071 rc.cpp:1080 rc.cpp:1134 rc.cpp:1158 rc.cpp:1314 rc.cpp:1332
+#: rc.cpp:1383 rc.cpp:1392 rc.cpp:1464 rc.cpp:1827 rc.cpp:1977 rc.cpp:1983
+#: rc.cpp:1989 rc.cpp:2229 rc.cpp:2241 rc.cpp:2268 rc.cpp:2277 rc.cpp:2331
+#: rc.cpp:2355 rc.cpp:2511 rc.cpp:2529 rc.cpp:2580 rc.cpp:2589 rc.cpp:2661
 msgid "99:99:99:99; "
 msgstr "99:99:99:99;"
 
+#: rc.cpp:1074 rc.cpp:2271
 msgid ":::"
 msgstr ":::"
 
-#, kde-format
-msgid ""
-"<b>Frame size:</b>%1x%2<br><b>Frame rate:</b>%3/%4<br><b>Aspect ratio:</b>%5/"
-"%6<br><b>Display ratio:</b>%7/%8"
-msgstr ""
-"<b>Velikost snímku</b>%1x%2<br><b>Snímků za sekundu:</b>%3/%4<br><b>Poměr "
-"stran pixelu:</b>%5/%6<br><b>Poměr stran:</b>%7/%8"
-
-msgid "<b>Recordmydesktop utility not found, please install it for screen grabs</b>"
-msgstr ""
-"<b>Program 'Recordmydesktop' nebyla nazelena, nainstalujte ji pokud chcete "
-"nahrávat dění na obrazovce</b>"
-
-msgid "<b>dvgrab utility not found, please install it for firewire capture</b>"
-msgstr ""
-"<b>Program 'dvgrab' nebyl nalezen, nainstalujte jej pokud chcete nahrávat "
-"přes firewire</b>"
-
-msgid "<br><b>Author:</b> "
-msgstr "<br><b>Autor:</b>"
-
+#: src/kdenlivedoc.cpp:1250
 #, kde-format
 msgid "<qt>Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
 msgstr "<qt>Klip <b>%1</b><br>není platný nebo zcela chybí, jak chcete udělat?"
 
-#, kde-format
-msgid "<qt>Clip <b>%1</b><br>is invalid, what do you want to do?"
-msgstr "<qt>Klip <b>%1</b><br>není platný, co chcete udělat?"
+#: src/kdenlivesettingsdialog.cpp:164
+msgid ""
+"<strong><em>Recordmydesktop</em> utility not found, please install it for "
+"screen grabs</strong>"
+msgstr ""
+"<b>Program 'Recordmydesktop' nebyl nazelen, nainstalujte jej pokud chcete "
+"nahrávat dění na obrazovce</b>"
 
-#, kde-format
-msgid "<qt>Clip <b>%1</b><br>is invalid, will be removed from project."
-msgstr "<qt>Klip <b>%1</b><br>není platný, protože byl odebrán z projektu."
+#: src/kdenlivesettingsdialog.cpp:158
+msgid ""
+"<strong><em>dvgrab</em> utility not found, please install it for firewire "
+"capture</strong>"
+msgstr ""
+"<strong>Program <em>dvgrab</em> nebyl nalezen, nainstalujte jej pokud chcete nahrávat "
+"přes firewire</strong>"
 
+#: src/dvdwizardvob.cpp:33 src/dvdwizardvob.cpp:34
+#, kde-format
+msgid "<strong>Program %1 is required for the DVD wizard."
+msgstr "<strong>Program %1 je vyžadován pro vytváření DVD menu"
+
+#: src/renderwidget.cpp:819
+#, kde-format
+msgid "<strong>Rendering of %1 crashed</strong><br />"
+msgstr "<strong>Renderování %1 selhalo</strong><br />"
+
+#: rc.cpp:522 rc.cpp:570 rc.cpp:1281 rc.cpp:1563 rc.cpp:1719 rc.cpp:1767
+#: rc.cpp:2478 rc.cpp:2760
 msgid "A"
 msgstr "A"
 
+#: src/customtrackview.cpp:2752
 #, kde-format
 msgid "A guide already exists at position %1"
 msgstr "Na pozici %1 již zarážka existuje"
 
+#: src/profilesdialog.cpp:129
 msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
 "choose another description for your custom profile."
@@ -128,260 +165,380 @@ msgstr ""
 "Profil se stejným jménem již existuje ve výchozích MLT profilech. Vymyslete "
 "prosím jiné jméno."
 
+#: src/kdenlivesettingsdialog.cpp:190 rc.cpp:981 rc.cpp:2178
 msgid "ALSA"
 msgstr "ALSA"
 
+#: src/kdenlivesettingsdialog.cpp:194
 msgid "ARTS daemon"
 msgstr "ARTS daemon"
 
+#: rc.cpp:468 rc.cpp:1665
+msgid "Abort Job"
+msgstr "Zrušit úlohu"
+
+#: rc.cpp:1296 rc.cpp:2493
 msgid "Activate crash recovery (auto save)"
 msgstr "Zapnout automatické ukládání (pro případ pádu)"
 
+#: src/addeffectcommand.cpp:30
 #, kde-format
 msgid "Add %1"
 msgstr "Přidat %1"
 
+#: rc.cpp:2808
 msgid "Add Audio Effect"
 msgstr "Přidat audio efekt"
 
+#: src/mainwindow.cpp:997
 msgid "Add Clip"
 msgstr "Přidat klip"
 
+#: src/mainwindow.cpp:1001
 msgid "Add Color Clip"
 msgstr "Vytvořit klip barvy"
 
+#: rc.cpp:2811
 msgid "Add Custom Effect"
 msgstr "Přidat vlastní efekt"
 
+#: src/customruler.cpp:66 src/mainwindow.cpp:943 src/customtrackview.cpp:2766
 msgid "Add Guide"
 msgstr "Přidat zarážku"
 
+#: src/titlewidget.cpp:122
 msgid "Add Image"
 msgstr "Přidat obrázek"
 
+#: src/clipproperties.cpp:270 src/mainwindow.cpp:907 src/mainwindow.cpp:1765
 msgid "Add Marker"
 msgstr "Přidat záložku"
 
+#: src/titlewidget.cpp:114
 msgid "Add Rectangle"
 msgstr "Přidat obdélník"
 
+#: src/mainwindow.cpp:1005 src/slideshowclip.cpp:36
 msgid "Add Slideshow Clip"
 msgstr "Vytvořit slideshow"
 
+#: src/titlewidget.cpp:118
 msgid "Add Text"
 msgstr "Přidat text"
 
+#: src/mainwindow.cpp:1009
 msgid "Add Title Clip"
 msgstr "Vytvořit titulky"
 
+#: src/mainwindow.cpp:307
 msgid "Add Transition"
 msgstr "Přidat přechod"
 
+#: rc.cpp:2805
 msgid "Add Video Effect"
 msgstr "Přidat video efekt"
 
+#: src/clipitem.cpp:751 src/clipitem.cpp:758
 msgid "Add audio fade"
 msgstr "Přidat audio zesílení/zeslabení"
 
+#: src/addclipcommand.cpp:26
 msgid "Add clip"
 msgstr "Přidat klip"
 
+#: src/clipmanager.cpp:196
 msgid "Add clips"
 msgstr "Přidat klipy"
 
+#: src/addfoldercommand.cpp:26
 msgid "Add folder"
 msgstr "Přidat složku"
 
+#: src/editguidecommand.cpp:23
 msgid "Add guide"
 msgstr "Přidat zarážku"
 
+#: src/complexparameter.cpp:45 src/geometryval.cpp:63
+#: src/editkeyframecommand.cpp:27
 msgid "Add keyframe"
 msgstr "Přidat klíčový snímek"
 
+#: src/clipproperties.cpp:222 src/addmarkercommand.cpp:24
 msgid "Add marker"
 msgstr "Přidat záložku"
 
+#: src/effectstackview.cpp:44
 msgid "Add new effect"
 msgstr "Přidat nový efekt"
 
+#: rc.cpp:909 rc.cpp:2106
 msgid "Add recording time to captured file name"
 msgstr "Přidat délku nahrávání do jména souboru zaznamenaného videa"
 
+#: rc.cpp:1155 rc.cpp:2352
 msgid "Add space"
 msgstr "Přidat místo"
 
+#: src/addtimelineclipcommand.cpp:26
 msgid "Add timeline clip"
 msgstr "Přidat klip časové osy"
 
+#: src/addtrackcommand.cpp:26
 msgid "Add track"
 msgstr "Přidat stopu"
 
+#: src/clipitem.cpp:765 src/clipitem.cpp:768
 msgid "Add transition"
 msgstr "Přidat přechod"
 
+#: src/addtransitioncommand.cpp:24
 msgid "Add transition to clip"
 msgstr "Přidat klipu přechod"
 
+#: src/wizard.cpp:82
 msgid "Additional Settings"
 msgstr "Další nastavení"
 
+#: rc.cpp:366
 msgid "Adjust audio volume with keyframes"
 msgstr "Umožňuje upravit hlasitost klipu dle klíčových snímků"
 
+#: src/changespeedcommand.cpp:26
 msgid "Adjust clip length"
 msgstr "Upravit délku klipu"
 
+#: rc.cpp:1440 rc.cpp:2637
 msgid "Advanced"
 msgstr "Pokročilé"
 
+#: src/titlewidget.cpp:105
 msgid "Align item horizontally"
 msgstr "Zarovnávat položky vodorovně"
 
+#: src/titlewidget.cpp:107
 msgid "Align item vertically"
 msgstr "Zarovnávat položky vertikálně"
 
+#: src/geometryval.cpp:80
 msgid "Align..."
 msgstr "Zarovnávat..."
 
+#: rc.cpp:1491 rc.cpp:2688
 msgid "All"
 msgstr "Vše"
 
+#: src/spacerdialog.cpp:33
 msgid "All tracks"
 msgstr "Všechny stopy"
 
+#: src/complexparameter.cpp:37
 msgid "Allow horizontal moves"
 msgstr "Povolit vodorovné přesuny  "
 
+#: src/complexparameter.cpp:39
 msgid "Allow vertical moves"
 msgstr "Povolit vertikální přesuny"
 
+#: rc.cpp:98 rc.cpp:374
 msgid "Amplitude"
 msgstr "Maximální výchylka"
 
+#: src/main.cpp:36
 msgid "An open source video editor."
 msgstr "Open source video editor"
 
+#: src/kdenlivesettingsdialog.cpp:214
 msgid "Ascii art library"
 msgstr "Knihovna pro ASCII umění"
 
+#: rc.cpp:1101 rc.cpp:2298
 msgid "Aspect ratio:"
 msgstr "Poměr stran pixelu:"
 
+#: rc.cpp:801 rc.cpp:1356 rc.cpp:1497 rc.cpp:1548 rc.cpp:1998 rc.cpp:2553
+#: rc.cpp:2694 rc.cpp:2745
 msgid "Audio"
 msgstr "Audio  "
 
+#: rc.cpp:486 rc.cpp:1683
+msgid "Audio Codecs"
+msgstr "Audio kodeky"
+
+#: rc.cpp:960 rc.cpp:2157
 msgid "Audio channels"
 msgstr "Audio kanály"
 
+#: src/projectitem.cpp:168
 msgid "Audio clip"
 msgstr "Audio klip"
 
+#: rc.cpp:1359 rc.cpp:2556
 msgid "Audio codec"
 msgstr "Audio kodek"
 
+#: rc.cpp:927 rc.cpp:2124
 msgid "Audio device"
 msgstr "Audio zařízení"
 
+#: rc.cpp:840 rc.cpp:2037
 msgid "Audio device:"
 msgstr "Audio zařízení:"
 
+#: rc.cpp:837 rc.cpp:2034
 msgid "Audio driver:"
 msgstr "Audio ovladač:"
 
+#: rc.cpp:744 rc.cpp:1941
 msgid "Audio editing"
 msgstr "Editace audia"
 
+#: src/clipitem.cpp:752 src/clipitem.cpp:759
 #, c-format, kde-format
 msgid "Audio fade duration: %1s"
 msgstr "Trvání audo zesílení/zeslabení: %1s"
 
+#: rc.cpp:963 rc.cpp:2160
 msgid "Audio frequency"
 msgstr "Audio frekvence"
 
+#: rc.cpp:1452 rc.cpp:2649
 msgid "Audio index"
 msgstr "Audio index"
 
+#: rc.cpp:771 rc.cpp:1968
 msgid "Audio track"
 msgstr "Audio stopa"
 
+#: rc.cpp:1119 rc.cpp:1551 rc.cpp:2316 rc.cpp:2748
 msgid "Audio tracks"
 msgstr "Audio stopy"
 
+#: src/effectslist.cpp:117 src/effectslist.cpp:127
+msgid "Author:"
+msgstr "Autor:"
+
+#: src/transitionsettings.cpp:50 rc.cpp:426 rc.cpp:1623
 msgid "Auto"
 msgstr "Automaticky "
 
+#: rc.cpp:2
 msgid "Auto Mask"
 msgstr "Automatická maska"
 
+#: rc.cpp:501 rc.cpp:1698
 msgid "Auto add"
 msgstr "Automaticky přidat do projektu"
 
+#: src/mainwindow.cpp:1242
 msgid "Auto-saved files exist. Do you want to recover them now?"
 msgstr "Existují soubory z automatického uložení. Chcete nyní obnovit projekt?"
 
+#: src/kdenlivesettingsdialog.cpp:188 src/kdenlivesettingsdialog.cpp:205
 msgid "Automatic"
 msgstr "Automaticky"
 
+#: src/mainwindow.cpp:899
 msgid "Automatic Transition"
 msgstr "Výchozí přechod"
 
+#: rc.cpp:906 rc.cpp:2103
 msgid "Automatically start a new file on scene cut"
 msgstr "Automaticky začít nový soubor pro novou scénu"
 
+#: rc.cpp:810 rc.cpp:2007
 msgid "Autoscroll while playing"
 msgstr "Automatické skrolování při přehrávání"
 
+#: rc.cpp:483 rc.cpp:1680
+msgid "Available Codecs (avformat)"
+msgstr "Dostupné kodeky (avformat)"
+
+#: src/wizard.cpp:136
+msgid "Avformat module (FFmpeg)"
+msgstr "Moduly avformat (FFmpeg)"
+
+#: rc.cpp:555 rc.cpp:558 rc.cpp:1221 rc.cpp:1752 rc.cpp:1755 rc.cpp:2418
 msgid "Background"
 msgstr "Pozadí"
 
+#: rc.cpp:1206 rc.cpp:2403
 msgid "BasicOperations"
 msgstr "Základní operace"
 
+#: src/transitionsettings.cpp:54
 msgid "Black"
 msgstr "Černá"
 
+#: rc.cpp:46
 msgid "Blue Screen"
 msgstr "Klíčování"
 
+#: rc.cpp:16
 msgid "Blur factor"
 msgstr "Faktor rozmazání"
 
+#: rc.cpp:14
 msgid "Blur image with keyframes"
 msgstr "Rozmazání obrazu dle klíčových snímků"
 
+#: src/trackview.cpp:591
+#, kde-format
+msgid "Boken clip producer %1"
+msgstr "%1 je pokažen"
+
+#: rc.cpp:1188 rc.cpp:2385
 msgid "Border color"
 msgstr "Barva čáry"
 
+#: src/geometryval.cpp:88
 msgid "Bottom"
 msgstr "Dolů"
 
+#: rc.cpp:12
 msgid "Box Blur"
 msgstr "Částečné rozmazání"
 
+#: rc.cpp:22
 msgid "Brightness"
 msgstr "Jas"
 
+#: rc.cpp:984 rc.cpp:993 rc.cpp:2181 rc.cpp:2190
 msgid "Buffer"
 msgstr "Zásobník"
 
+#: rc.cpp:540 rc.cpp:1737
+msgid "Button"
+msgstr "Tlačítko"
+
+#: rc.cpp:861 rc.cpp:2058
 msgid "Button 1"
 msgstr "Tlačítko 1"
 
+#: rc.cpp:864 rc.cpp:2061
 msgid "Button 2"
 msgstr "Tlačítko 2"
 
+#: rc.cpp:867 rc.cpp:2064
 msgid "Button 3"
 msgstr "Tlačítko 3 "
 
+#: rc.cpp:870 rc.cpp:2067
 msgid "Button 4"
 msgstr "Tlačítko 4"
 
+#: rc.cpp:873 rc.cpp:2070
 msgid "Button 5"
 msgstr "Tlačítko 5 "
 
+#: rc.cpp:552 rc.cpp:1749
+msgid "Button colors"
+msgstr "Tlačítko barvy"
+
+#: rc.cpp:618 rc.cpp:1815
 msgid "C"
 msgstr "C"
 
+#: src/projectlist.cpp:196 src/projectlist.cpp:389
 #, kde-format
 msgid ""
 "Cannot access Desktop Search info for %1.\n"
@@ -390,62 +547,90 @@ msgstr ""
 "Nelze přistupovat k informacím o vyhledávání pro %1.\n"
 " Možnost integrace hledání bude zakázána."
 
+#: src/customtrackview.cpp:1265 src/customtrackview.cpp:1359
+#: src/customtrackview.cpp:2260
+msgid "Cannot add transition"
+msgstr "Nelze provést přidat přechod"
+
+#: src/customtrackview.cpp:668
 msgid "Cannot cut a transition"
 msgstr "Nelze provést rozdělit na přechodu"
 
+#: src/customtrackview.cpp:1012
 msgid "Cannot find clip to add effect"
 msgstr "Efekt není kam přidat"
 
+#: src/mainwindow.cpp:1760
 msgid "Cannot find clip to add marker"
 msgstr "Nelze přidat záložku neznámému klipu"
 
+#: src/customtrackview.cpp:1140
 msgid "Cannot find clip to cut"
 msgstr "Nelze najít klip k rozdělení"
 
+#: src/mainwindow.cpp:1788 src/mainwindow.cpp:1816 src/mainwindow.cpp:1839
 msgid "Cannot find clip to remove marker"
 msgstr "Nelze najít záložku ke smazání"
 
+#: src/customtrackview.cpp:1170
 msgid "Cannot find clip to uncut"
 msgstr "Není co spojovat"
 
+#: src/customtrackview.cpp:901
 msgid "Cannot find clip with keyframe"
 msgstr "Neexistuje klip s klíčovým snímek "
 
+#: src/mainwindow.cpp:1349 src/mainwindow.cpp:1450
 msgid "Cannot find the inigo program required for rendering (part of Mlt)"
-msgstr "Nelze najít program inigo (součást MLT), který je vyžadován pro renderování."
+msgstr ""
+"Nelze najít program inigo (součást MLT), který je vyžadován pro renderování."
 
+#: src/mainwindow.cpp:1334
 msgid "Cannot find your Mlt profiles, please give the path"
 msgstr "Nelze najít profily MLT, vyplňte prosím správnou cestu"
 
+#: src/customtrackview.cpp:1662
 #, kde-format
 msgid "Cannot move clip at position %1, track %2"
 msgstr "Nelze přesunout klip na pozici %1 ve stopě %2"
 
+#: src/customtrackview.cpp:2384 src/customtrackview.cpp:2522
 #, kde-format
 msgid "Cannot move clip at time: %1 on track %2"
 msgstr "Nelze přesunout klip v čase: %1 ve stopě %2 "
 
+#: src/customtrackview.cpp:1895 src/customtrackview.cpp:2407
 #, kde-format
 msgid "Cannot move clip to position %1"
 msgstr "Nelze přesunout klip na pozici %1"
 
+#: src/customtrackview.cpp:1902
+msgid "Cannot move transition"
+msgstr "Nelze provést přesunout přechod"
+
+#: src/customtrackview.cpp:1672
 #, kde-format
 msgid "Cannot move transition at position %1, track %2"
 msgstr "Nelze přesunout přechod na pozici %1 ve stopě %2"
 
+#: src/customtrackview.cpp:2485
 #, kde-format
 msgid "Cannot move transition at time: %1 on track %2"
 msgstr "Nelze přesunout přechod v čase: %1 ve stopě %2"
 
+#: src/customtrackview.cpp:3055
 msgid "Cannot paste clip to selected place"
 msgstr "Nelze vložit klip na vybrané místo"
 
+#: src/customtrackview.cpp:3026 src/customtrackview.cpp:3038
 msgid "Cannot paste selected clips"
 msgstr "Nelze vložit vybrané klipy"
 
+#: src/customtrackview.cpp:3066
 msgid "Cannot paste transition to selected place"
 msgstr "Nelze vložit přechod na vybrané místo"
 
+#: src/mainwindow.cpp:1447
 msgid ""
 "Cannot play video after rendering because the default video player "
 "application is not set.\n"
@@ -455,6 +640,7 @@ msgstr ""
 "přehrávač není nastaven.\n"
 " Prosím určete jej v dialogu Nastavení"
 
+#: src/recmonitor.cpp:195
 #, kde-format
 msgid ""
 "Cannot read from device %1\n"
@@ -463,151 +649,216 @@ msgstr ""
 "Nelze číst ze zařízení %1\n"
 " Prosím zkontrolujte ovladače a přístupová práva."
 
+#: src/customtrackview.cpp:2019 src/customtrackview.cpp:2071
+msgid "Cannot resize transition"
+msgstr "Nelze změnit velikost přechodu"
+
+#: src/kdenlivedoc.cpp:925 src/profilesdialog.cpp:153
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Nelze zapisovat do soboru %1"
 
+#: src/kdenlivesettingsdialog.cpp:68
 msgid "Capture"
 msgstr "Nahrávání"
 
+#: rc.cpp:957 rc.cpp:2154
 msgid "Capture audio"
 msgstr "Nahrávat audio"
 
+#: src/recmonitor.cpp:539
 msgid "Capture crashed, please check your parameters"
 msgstr "Nahrávání selhalo, zkontrolujte prosím vaše parametry"
 
+#: rc.cpp:732 rc.cpp:1929
 msgid "Capture folder"
 msgstr "Složka pro nahrávání"
 
+#: rc.cpp:891 rc.cpp:2088
 msgid "Capture format"
 msgstr "Formát nahrávání"
 
+#: rc.cpp:930 rc.cpp:2127
 msgid "Capture params"
 msgstr "Parametry nahrávání"
 
+#: rc.cpp:1167 rc.cpp:2364
 msgid "Captured files"
 msgstr "Nahrané soubory"
 
+#: src/geometryval.cpp:82
 msgid "Center"
 msgstr "Vystředit"
 
+#: rc.cpp:256
+msgid "Center Frequency"
+msgstr "Středová frekvence"
+
+#: rc.cpp:741 rc.cpp:747 rc.cpp:753 rc.cpp:1938 rc.cpp:1944 rc.cpp:1950
 msgid "Change"
 msgstr "Změnit"
 
+#: src/mainwindow.cpp:891
 msgid "Change Clip Speed"
 msgstr "Změnit rychlost klipu"
 
+#: src/mainwindow.cpp:939
 msgid "Change Track"
 msgstr "Změnit stopu"
 
+#: src/customtrackview.cpp:3319 src/headertrack.cpp:64
 msgid "Change Track Type"
 msgstr "Změnit typ stopy"
 
+#: rc.cpp:110
 msgid "Change gamma color value"
 msgstr "Umožňuje změnit hodnotu gamy"
 
+#: rc.cpp:24
 msgid "Change image brightness with keyframes"
 msgstr "Umožňuje změnit jas dle klíčových snímků"
 
+#: src/customtrackview.cpp:3315
 msgid "Change track"
 msgstr "Změnit stopu"
 
+#: src/changetrackcommand.cpp:26
 msgid "Change track type"
 msgstr "Změnit typ stopy"
 
-msgid ""
-"Changing the size of video when rendering\n"
-"is not fully supported, you may have problems\n"
-"with some effects or title clips, so the export\n"
-"profiles that resize your video are marked as\n"
-"experimental"
-msgstr ""
-"Změna rozlišení videa při renderování\n"
-"není plně podporovaná, můžou se vyskytnout\n"
-"problémy v závisloti na použitých efektech\n"
-"titulcích apod. Proto jsou profily, které\n"
-"provádějí změnu rozlišení jsou označeny\n"
-"jako experimentální."
-
+#: rc.cpp:1362 rc.cpp:2559
 msgid "Channels"
 msgstr "Kanály"
 
+#: rc.cpp:32
 msgid "Charcoal"
 msgstr "Kresba uhlem"
 
+#: rc.cpp:34
 msgid "Charcoal drawing effect"
 msgstr "Zobrazí video stopu klipu ve formě kresby uhlem"
 
+#: rc.cpp:495 rc.cpp:1692
 msgid "CheckBox"
 msgstr "Přepínač"
 
+#: src/wizard.cpp:48
+msgid "Checking MLT engine"
+msgstr "Ověřování MLT"
+
+#: src/wizard.cpp:96
 msgid "Checking system"
 msgstr "Ověřuje se stav systému"
 
+#: rc.cpp:54
 msgid "Chroma Hold"
 msgstr "Zvýraznění"
 
+#: rc.cpp:248
 msgid "Chrominance U"
 msgstr "Chrominance U"
 
+#: rc.cpp:250
 msgid "Chrominance V"
 msgstr "Chrominance V"
 
+#: src/mainwindow.cpp:204
 msgid "Clean"
 msgstr "Vyčistit"
 
+#: rc.cpp:2787
 msgid "Clip"
 msgstr "Klip"
 
+#: src/kdenlivedoc.cpp:1252
+#, kde-format
+msgid "Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
+msgstr "Klip <b>%1</b><br>není platný nebo zcela chybí, co chcete udělat?"
+
+#: src/kdenlivedoc.cpp:1247
+#, kde-format
+msgid "Clip <b>%1</b><br>is invalid, what do you want to do?"
+msgstr "Klip <b>%1</b><br>není platný, co chcete udělat?"
+
+#: src/projectlist.cpp:495
+#, kde-format
+msgid "Clip <b>%1</b><br>is invalid, will be removed from project."
+msgstr "Klip <b>%1</b><br>není platný, bude odebrán z projektu."
+
+#: rc.cpp:1308 rc.cpp:2505
 msgid "Clip Color"
 msgstr "Barva klipu"
 
+#: src/mainwindow.cpp:178
 msgid "Clip Monitor"
 msgstr "Monitor klipu"
 
+#: rc.cpp:1317 rc.cpp:2514
 msgid "Clip Properties"
 msgstr "Vlastnosti klipu"
 
+#: src/clipitem.cpp:762
 #, c-format, kde-format
 msgid "Clip duration: %1s"
 msgstr "Trvání klipu: %1s"
 
+#: src/customtrackview.cpp:2697
 msgid "Clip has no markers"
 msgstr "Klip nemá žádné záložky"
 
+#: rc.cpp:462 rc.cpp:471 rc.cpp:1659 rc.cpp:1668
+msgid "Close"
+msgstr "Zavřít"
+
+#: src/mainwindow.cpp:135
 msgid "Close the current tab"
 msgstr "Zavřít aktuální list"
 
+#: rc.cpp:168
 msgid "Co-efficient"
 msgstr "Součinitel"
 
+#: rc.cpp:561 rc.cpp:1368 rc.cpp:1371 rc.cpp:1758 rc.cpp:2565 rc.cpp:2568
 msgid "Color"
 msgstr "Barva"
 
+#: src/projectlist.cpp:508
 msgid "Color Clip"
 msgstr "Klip barvy"
 
+#: src/projectitem.cpp:177
 msgid "Color clip"
 msgstr "Klip barvy"
 
+#: rc.cpp:1068 rc.cpp:2265
 msgid "Color clips"
 msgstr "Klipy barev"
 
+#: rc.cpp:50 rc.cpp:58
 msgid "Color key"
 msgstr "Barevný klíč"
 
+#: rc.cpp:1137 rc.cpp:1419 rc.cpp:2334 rc.cpp:2616
 msgid "Comment"
 msgstr "Komentář"
 
+#: src/recmonitor.cpp:78
 msgid "Configure"
 msgstr "Konfigurovat"
 
+#: src/recmonitor.cpp:57 src/recmonitor.cpp:527
 msgid "Connect"
 msgstr "Připojit"
 
+#: rc.cpp:30
+msgid "Copy the left channel to the right"
+msgstr "Zkopírovat levý kanál do pravého"
+
+#: src/main.cpp:38
 msgid "Copyright (c) 2008 Development team"
 msgstr "Copyright (c) 2008 Vývojový tým"
 
+#: src/renderer.cpp:993
 msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install or your driver settings, "
@@ -617,138 +868,236 @@ msgstr ""
 " Něco je v nepořádku s vaší instalací Kdenlive nebo vašimi ovladači, napravte "
 "to prosím."
 
+#: rc.cpp:204
 msgid "Crackle"
 msgstr "Praskání v obraze"
 
+#: rc.cpp:1059 rc.cpp:2256
 msgid "Crash recovery (automatic backup)"
 msgstr "Obnovení po pádu (automatické ukládání)"
 
+#: src/dvdwizard.cpp:49
+msgid "Create DVD Menu"
+msgstr "Vytvořit DVD menu"
+
+#: src/mainwindow.cpp:1013
 msgid "Create Folder"
 msgstr "Vytvořit složku"
 
+#: rc.cpp:537 rc.cpp:1734
+msgid "Create basic menu"
+msgstr "Vytvořit základní menu"
+
+#: src/profilesdialog.cpp:42 src/renderwidget.cpp:57
 msgid "Create new profile"
 msgstr "Vytvořit nový profil"
 
+#: src/dvdwizard.cpp:63
+msgid "Creating DVD Image"
+msgstr "Vytváření obrazu DVD"
+
+#: rc.cpp:672 rc.cpp:1869
+msgid "Creating dvd structure"
+msgstr "Vytváření struktury DVD"
+
+#: rc.cpp:675 rc.cpp:1872
+msgid "Creating iso file"
+msgstr "Vytvořit ISO obraz"
+
+#: rc.cpp:666 rc.cpp:1863
+msgid "Creating menu background"
+msgstr "Vytváření pozadí menu"
+
+#: rc.cpp:663 rc.cpp:1860
+msgid "Creating menu images"
+msgstr "Vytváření obrázků menu"
+
+#: rc.cpp:669 rc.cpp:1866
+msgid "Creating menu movie"
+msgstr "Vytváření menu filmu"
+
+#: src/kthumb.cpp:470 src/kthumb.cpp:474
 #, kde-format
 msgid "Creating thumbnail for %1"
-msgstr "Vytvářím miniaturu pro %1"
+msgstr "Vytváření miniatury pro %1"
 
+#: src/clipitem.cpp:755
 #, c-format, kde-format
 msgid "Crop from start: %1s"
 msgstr "Ořezat od začátku: %1s"
 
+#: rc.cpp:783 rc.cpp:1980
 msgid "Crop start"
 msgstr "Začátek ořezání"
 
+#: rc.cpp:1041 rc.cpp:1389 rc.cpp:2238 rc.cpp:2586
 msgid "Crossfade"
 msgstr "Prolínačka"
 
+#: rc.cpp:465 rc.cpp:1662
+msgid "Current jobs"
+msgstr "Aktuální úlohy"
+
+#: src/renderwidget.cpp:190 rc.cpp:1500 rc.cpp:2697
 msgid "Custom"
 msgstr "Vlastní"
 
+#: src/kdenlivesettingsdialog.cpp:91
 msgid "Cut"
 msgstr "Rozdělit"
 
+#: src/mainwindow.cpp:902
 msgid "Cut Clip"
 msgstr "Rozdělit klip"
 
+#: rc.cpp:420 rc.cpp:525 rc.cpp:573 rc.cpp:624 rc.cpp:651 rc.cpp:1428
+#: rc.cpp:1617 rc.cpp:1722 rc.cpp:1770 rc.cpp:1821 rc.cpp:1848 rc.cpp:2625
 msgid "D"
 msgstr "D"
 
+#: rc.cpp:1146 rc.cpp:2343
 msgid "DV"
 msgstr "DV"
 
+#: rc.cpp:897 rc.cpp:2094
 msgid "DV AVI type 1"
 msgstr "DV AVI typ 1"
 
+#: rc.cpp:900 rc.cpp:2097
 msgid "DV AVI type 2"
 msgstr "DV AVI typ 2"
 
+#: rc.cpp:894 rc.cpp:2091
 msgid "DV Raw"
 msgstr "DV raw"
 
+#: src/wizard.cpp:209
+msgid "DV module (libdv)"
+msgstr "Modul DV (libdv)"
+
+#: rc.cpp:1488 rc.cpp:2685
+msgid "DVD Files"
+msgstr "Soubory DVD"
+
+#: src/dvdwizard.cpp:54
+msgid "DVD Image"
+msgstr "Obrázek DVD"
+
+#: src/dvdwizard.cpp:429
+#, kde-format
+msgid "DVD iso image %1 successfully created."
+msgstr "ISO obraz DVD %1 byl úspěšně vytvořen."
+
+#: rc.cpp:182 rc.cpp:192
 msgid "Damping"
 msgstr "Útlum"
 
+#: rc.cpp:8
 msgid "Debug"
 msgstr "Ladit"
 
+#: rc.cpp:278 rc.cpp:290 rc.cpp:310
 msgid "Decay"
 msgstr "Zchátrání"
 
+#: rc.cpp:122
 msgid "Declipper"
 msgstr "Declipper"
 
+#: rc.cpp:1446 rc.cpp:2643
 msgid "Decoding threads"
 msgstr "Dekodovací vlákna"
 
+#: src/kdenlivesettingsdialog.cpp:217 src/kdenlivesettingsdialog.cpp:218
 msgid "Default"
 msgstr "Výchozí"
 
+#: rc.cpp:1065 rc.cpp:2262
 msgid "Default Durations"
 msgstr "Výchozí délka trvání"
 
+#: rc.cpp:1083 rc.cpp:2280
 msgid "Default Profile"
 msgstr "Výchozí profil"
 
+#: rc.cpp:735 rc.cpp:1932
 msgid "Default apps"
 msgstr "Výchozí aplikace"
 
+#: rc.cpp:876 rc.cpp:2073
 msgid "Default capture device"
 msgstr "Výchozí zařízení pro nahrávání"
 
+#: rc.cpp:1287 rc.cpp:2484
 msgid "Default folder for project files"
 msgstr "Výchozí složka pro projekty Kdenlive"
 
+#: rc.cpp:723 rc.cpp:1920
 msgid "Default folders"
 msgstr "Výchozí složky"
 
+#: rc.cpp:276 rc.cpp:288 rc.cpp:308 rc.cpp:330
 msgid "Delay"
 msgstr "Prodleva"
 
+#: rc.cpp:190
 msgid "Delay (s/10)"
 msgstr "Prodleva (s/10)"
 
+#: src/addeffectcommand.cpp:31
 #, kde-format
 msgid "Delete %1"
 msgstr "Smazat %1"
 
+#: src/customruler.cpp:72 src/mainwindow.cpp:955
 msgid "Delete All Guides"
 msgstr "Smazat všechny zarážky"
 
+#: src/mainwindow.cpp:915
 msgid "Delete All Markers"
 msgstr "Smazat všechny záložky"
 
+#: src/projectlist.cpp:73 src/projectlist.cpp:262
 msgid "Delete Clip"
 msgstr "Smazat"
 
+#: src/projectlist.cpp:265 src/projectlist.cpp:347
 msgid "Delete Folder"
 msgstr "Smazat složku"
 
+#: src/customruler.cpp:70 src/mainwindow.cpp:947
 msgid "Delete Guide"
 msgstr "Smazat zarážku"
 
+#: src/mainwindow.cpp:911
 msgid "Delete Marker"
 msgstr "Smazat záložku"
 
+#: src/mainwindow.cpp:886
 msgid "Delete Selected Item"
 msgstr "Smazat vybranou položku"
 
+#: src/mainwindow.cpp:935 src/headertrack.cpp:60
 msgid "Delete Track"
 msgstr "Smazat stopu"
 
+#: src/addclipcommand.cpp:27
 msgid "Delete clip"
 msgstr "Smazat klip"
 
+#: rc.cpp:1176 rc.cpp:2373
 msgid "Delete current file"
 msgstr "Smazat současný soubor"
 
+#: src/effectslistview.cpp:48 src/effectstackview.cpp:50
 msgid "Delete effect"
 msgstr "Smazat efekt"
 
+#: src/addfoldercommand.cpp:27
 msgid "Delete folder"
 msgstr "Smazat složku"
 
+#: src/projectlist.cpp:265
 #, kde-format
 msgid ""
 "Delete folder <b>%2</b> ?<br>This will also remove the %1 clips in that "
@@ -757,229 +1106,352 @@ msgstr ""
 "Opravdu smazat složku <b>%2</b>?<br />Smazání složky odeberete z projektu %1 "
 "klipů obsažených v této složce."
 
+#: src/editguidecommand.cpp:25
 msgid "Delete guide"
 msgstr "Smazat zarážku"
 
+#: src/geometryval.cpp:65 src/editkeyframecommand.cpp:26
 msgid "Delete keyframe"
 msgstr "Smazat klíčový snímek"
 
+#: src/clipproperties.cpp:226 src/addmarkercommand.cpp:23
 msgid "Delete marker"
 msgstr "Smazat záložku"
 
+#: src/profilesdialog.cpp:38 src/renderwidget.cpp:49
 msgid "Delete profile"
 msgstr "Smazat profil"
 
+#: src/customtrackview.cpp:2175
 msgid "Delete selected items"
 msgstr "Smazat vybrané položky"
 
+#: src/addtimelineclipcommand.cpp:27
 msgid "Delete timeline clip"
 msgstr "Smazat klip časové osy"
 
+#: src/addtrackcommand.cpp:27
 msgid "Delete track"
 msgstr "Smazat stopu"
 
+#: src/addtransitioncommand.cpp:23
 msgid "Delete transition from clip"
 msgstr "Smazat přechod z klipu"
 
+#: rc.cpp:152
 msgid "Depth"
 msgstr "Hloubka"
 
+#: src/projectlistview.cpp:44 rc.cpp:585 rc.cpp:1326 rc.cpp:1782 rc.cpp:2523
 msgid "Description"
 msgstr "Popis"
 
+#: src/mainwindow.cpp:2199
 msgid "Description:"
 msgstr "Popis:"
 
+#: rc.cpp:711 rc.cpp:1908
 msgid "Desktop search integration"
 msgstr "Integrace s vyhledáváním"
 
+#: rc.cpp:396 rc.cpp:1593
+msgid "Destination"
+msgstr "Cílová složka"
+
+#: rc.cpp:858 rc.cpp:2055
 msgid "Device"
 msgstr "Zařízení"
 
+#: rc.cpp:855 rc.cpp:2052
 msgid "Device configuration"
 msgstr "Konfigurace zařízení"
 
+#: rc.cpp:381 rc.cpp:756 rc.cpp:1302 rc.cpp:1578 rc.cpp:1953 rc.cpp:2499
 msgid "Dialog"
 msgstr "Dialogové okno"
 
+#: src/kdenlivesettingsdialog.cpp:211
 msgid "Direct FB"
 msgstr "Direct FB"
 
+#: rc.cpp:116
 msgid "Discard color information"
 msgstr "Zobrazí video stopu klipu ve stupních šedi"
 
+#: src/recmonitor.cpp:208
 msgid "Disonnect"
 msgstr "Odppojit"
 
+#: src/kdenlivesettingsdialog.cpp:51
 msgid "Display"
 msgstr "Zobrazení"
 
+#: rc.cpp:606 rc.cpp:1803
 msgid "Display aspect ratio"
 msgstr "Poměr stran"
 
+#: src/wizard.cpp:371 rc.cpp:1533 rc.cpp:2730
 msgid "Display aspect ratio:"
 msgstr "Poměr stran:"
 
+#: rc.cpp:807 rc.cpp:2004
 msgid "Display clip markers comments"
 msgstr "Zobrazit komentáře záložek"
 
+#: rc.cpp:1107 rc.cpp:2304
 msgid "Display ratio:"
 msgstr "Poměr stran:"
 
+#: rc.cpp:94
 msgid "Distort0r"
 msgstr "Deformace"
 
+#: src/kdenlivesettingsdialog.cpp:89
 msgid "Do nothing"
 msgstr "Nedělat nic"
 
+#: src/kdenlivedoc.cpp:82
+#, kde-format
+msgid "Document project folder is invalid, setting it to the default one: %1"
+msgstr "Výchozí složka projektu je neplatná, bude použita výchozí: %1"
+
+#: src/main.cpp:49
 msgid "Document to open"
 msgstr "Dokument k otevření"
 
+#: src/mainwindow.cpp:1244
 msgid "Don't recover"
 msgstr "Neobnovovat"
 
+#: src/mainwindow.cpp:779
 msgid "Download New Lumas..."
 msgstr "Stáhnout nové luma přechody"
 
+#: rc.cpp:846 rc.cpp:2043
+msgid "Drop B frames on H.264 clips"
+msgstr "Zahazovat B snímky u H.264 klipů"
+
+#: rc.cpp:67 rc.cpp:77 rc.cpp:774 rc.cpp:789 rc.cpp:1164 rc.cpp:1311
+#: rc.cpp:1329 rc.cpp:1971 rc.cpp:1986 rc.cpp:2361 rc.cpp:2508 rc.cpp:2526
 msgid "Duration"
 msgstr "Trvání"
 
+#: src/mainwindow.cpp:812
+msgid "Dvd Wizard"
+msgstr "Průvodce DVD"
+
+#: rc.cpp:1476 rc.cpp:2673
+msgid "Dvd iso image"
+msgstr "ISO obraz DVD"
+
+#: src/wizard.cpp:265
+msgid "Dvdauthor"
+msgstr "Dvdauthor"
+
+#: src/wizard.cpp:259
 msgid "Dvgrab"
 msgstr "Dvgrab"
 
+#: rc.cpp:642 rc.cpp:1839
 msgid "Dw"
 msgstr "Dw"
 
+#: rc.cpp:414 rc.cpp:648 rc.cpp:1425 rc.cpp:1611 rc.cpp:1845 rc.cpp:2622
 msgid "E"
 msgstr "E"
 
+#: src/main.cpp:43
 msgid "EMAIL OF TRANSLATORS"
 msgstr "repli2dev@gmail.com"
 
+#: src/projectlist.cpp:76
 msgid "Edit Clip"
 msgstr "Vlastnosti"
 
+#: src/customtrackview.cpp:2206
 msgid "Edit Clip Speed"
 msgstr "Upravit rychlost klipu"
 
+#: src/customruler.cpp:68 src/mainwindow.cpp:951 src/customtrackview.cpp:2788
 msgid "Edit Guide"
 msgstr "Upravit zarážku"
 
+#: rc.cpp:1458 rc.cpp:2655
 msgid "Edit Keyframe"
 msgstr "Upravit klíčový snímek"
 
+#: src/clipproperties.cpp:281 src/mainwindow.cpp:919 src/mainwindow.cpp:1851
 msgid "Edit Marker"
 msgstr "Upravit záložku"
 
+#: src/editclipcommand.cpp:26
 msgid "Edit clip"
 msgstr "Upravit klip"
 
+#: src/editeffectcommand.cpp:32
 #, kde-format
 msgid "Edit effect %1"
 msgstr "Upravit efekt %1"
 
+#: src/editguidecommand.cpp:24
 msgid "Edit guide"
 msgstr "Upravit zarážku"
 
+#: src/editkeyframecommand.cpp:25
 msgid "Edit keyframe"
 msgstr "Upravit klíčový snímek"
 
+#: src/clipproperties.cpp:224 src/addmarkercommand.cpp:25
 msgid "Edit marker"
 msgstr "Upravit záložku"
 
+#: src/renderwidget.cpp:53
 msgid "Edit profile"
 msgstr "Upravit profil"
 
+#: src/edittransitioncommand.cpp:29
 #, kde-format
 msgid "Edit transition %1"
 msgstr "Upravit přechod %1"
 
+#: src/trackview.cpp:446
 #, kde-format
 msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
 msgstr ""
 "Efekt %1:%2 nebyl v MLT nalezen, a proto byl odstraněn z aktuálního "
 "projektu\n"
 
+#: src/mainwindow.cpp:153
 msgid "Effect List"
 msgstr "List efektů"
 
+#: src/mainwindow.cpp:161
 msgid "Effect Stack"
 msgstr "Pořadí efektů"
 
+#: rc.cpp:849 rc.cpp:2046
 msgid "Enable Jog Shuttle device"
 msgstr "Povolit zařízení JogShuttle"
 
+#: src/recmonitor.cpp:389
 msgid "Encoding captured video..."
 msgstr "Překódovávám nahrané video"
 
+#: rc.cpp:933 rc.cpp:2130
 msgid "Encoding params"
 msgstr "Parametry překódování"
 
+#: src/renderwidget.cpp:163 rc.cpp:1572 rc.cpp:2769
 msgid "End"
 msgstr "Konec"
 
+#: rc.cpp:71 rc.cpp:82
 msgid "End Gain"
 msgstr "Konec zesílení"
 
+#: rc.cpp:1239 rc.cpp:2436
 msgid "EndViewport"
 msgstr "Konec záběru"
 
+#: src/kdenlivesettingsdialog.cpp:64
 msgid "Environment"
 msgstr "Prostředí"
 
+#: rc.cpp:126
 msgid "Equalizer"
 msgstr "Ekvalizér"
 
+#: rc.cpp:474 rc.cpp:1671
+msgid "Error Log"
+msgstr "Log pro chybová hlášení"
+
+#: src/customtrackview.cpp:1175 src/customtrackview.cpp:1931
+#: src/customtrackview.cpp:2146
 #, kde-format
 msgid "Error removing clip at %1 on track %2"
 msgstr "Nelze smazat klip na %1 ve stopě %2"
 
+#: src/wizard.cpp:129
 msgid "Error starting MLT's command line player (inigo)"
 msgstr "Chyba při startování iniga (MLT přehráváče pro příkazovou řádku)"
 
+#: src/wizard.cpp:427
 msgid "Error starting MLT's command line player (inigo)."
 msgstr "Chyba při startování iniga (MLT přehráváče pro příkazovou řádku)."
 
+#: src/customtrackview.cpp:1197 src/customtrackview.cpp:2012
+#: src/customtrackview.cpp:2064 src/customtrackview.cpp:2535
+#: src/customtrackview.cpp:2543
 msgid "Error when resizing clip"
 msgstr "Chyba při změně délky klipu."
 
+#: src/kdenlivesettingsdialog.cpp:193
 msgid "Esound daemon"
 msgstr "Démon Esound"
 
+#: src/renderwidget.cpp:788
+#, kde-format
+msgid "Estimated time %1"
+msgstr "Odhadovaný čas %1"
+
+#: rc.cpp:435 rc.cpp:1632
+msgid "Export audio"
+msgstr "Exportovat audio"
+
+#: rc.cpp:825 rc.cpp:2022
 msgid "Extension"
 msgstr "Přípona"
 
+#: rc.cpp:2775
 msgid "Extra Toolbar"
 msgstr "Extra nástrojová lišta"
 
+#: src/monitor.cpp:161
 msgid "Extract frame"
 msgstr "Uložit aktuální snímek"
 
+#: src/wizard.cpp:245
 msgid "FFmpeg & ffplay"
 msgstr "FFmpeg & ffplay"
 
+#: rc.cpp:336
+msgid "Factor"
+msgstr "Faktor"
+
+#: rc.cpp:62
 msgid "Fade in"
 msgstr "Roztmívačka"
 
+#: rc.cpp:64 rc.cpp:75
 msgid "Fade in audio track"
 msgstr "Postupně zesílí nebo zeslabí audio stopu."
 
+#: rc.cpp:73
 msgid "Fade out"
 msgstr "Stmívačka"
 
+#: src/wizard.cpp:435
 msgid "Fatal Error"
 msgstr "Fatální chyba"
 
+#: rc.cpp:154
 msgid "Feedback"
 msgstr "Zpětná vazba"
 
+#: src/renderwidget.cpp:104
+msgid "File"
+msgstr "Soubor"
+
+#: src/kdenlivedoc.cpp:172 src/kdenlivedoc.cpp:180
 #, kde-format
 msgid "File %1 is not a Kdenlive project file."
 msgstr "Soubor %1 není projektem Kdenlive."
 
+#: src/mainwindow.cpp:1243
 msgid "File Recovery"
 msgstr "Automatické obnovení"
 
+#: src/monitor.cpp:392 src/mainwindow.cpp:1184
 msgid ""
 "File already exists.\n"
 "Do you want to overwrite it ?"
@@ -987,36 +1459,58 @@ msgstr ""
 "Soubor již existuje.\n"
 " Chcete jej přepsat?"
 
+#: src/effectstackview.cpp:89
+msgid ""
+"File already exists.\n"
+"Do you want to overwrite it?"
+msgstr ""
+"Soubor již existuje.\n Chcete jej přepsat?"
+
+#: src/renderwidget.cpp:422
 msgid "File already exists. Do you want to overwrite it ?"
 msgstr "Soubor již existuje. Chcete jej přepsat?"
 
+#: rc.cpp:1170 rc.cpp:2367
 msgid "File name"
 msgstr "Jméno souboru"
 
+#: src/kdenlivedoc.cpp:1247 src/kdenlivedoc.cpp:1250 src/kdenlivedoc.cpp:1252
 msgid "File not found"
 msgstr "Soubor nebyl nalezen"
 
+#: src/renderwidget.cpp:685
+msgid "File rendering"
+msgstr "Renderování"
+
+#: rc.cpp:1338 rc.cpp:2535
 msgid "File size"
 msgstr "Velikost souboru"
 
+#: src/projectlistview.cpp:44
 msgid "Filename"
 msgstr "Jméno souboru"
 
+#: rc.cpp:1185 rc.cpp:2382
 msgid "Fill color"
 msgstr "Vyplnit barvou"
 
+#: src/mainwindow.cpp:764
 msgid "Find"
 msgstr "Najít"
 
+#: src/mainwindow.cpp:769
 msgid "Find Next"
 msgstr "Najít další"
 
+#: src/mainwindow.cpp:2123
 msgid "Find stopped"
 msgstr "Hledání dokončeno"
 
+#: rc.cpp:504 rc.cpp:879 rc.cpp:888 rc.cpp:1701 rc.cpp:2076 rc.cpp:2085
 msgid "Firewire"
 msgstr "Firewire"
 
+#: src/renderer.cpp:1213
 msgid ""
 "Firewire is not enabled on your system.\n"
 " Please install Libiec61883 and recompile Kdenlive"
@@ -1024,350 +1518,534 @@ msgstr ""
 "Firewire není ve vašem systému povolen.\n"
 " Nainstalujte prosím Libiec61883 a rekompilujte Kdenlive"
 
+#: src/mainwindow.cpp:662
 msgid "Fit zoom to project"
 msgstr "Zobrazit celý projekt"
 
+#: rc.cpp:210
 msgid "Flip your image in any direction"
 msgstr "Otáčení obrazu ve všech směrech možných směrech"
 
+#: src/projectlist.cpp:305 src/projectlist.cpp:368 src/projectitem.cpp:47
+#: rc.cpp:1026 rc.cpp:2223
 msgid "Folder"
 msgstr "Složka"
 
+#: src/dvdwizard.cpp:89
+#, kde-format
+msgid "Folder %1 already exists. Overwrite ?<br />"
+msgstr "Složka %1 již existuje. Chcete ji přepsat?<br />"
+
+#: rc.cpp:1002 rc.cpp:2199
 msgid "Follow mouse"
 msgstr "Následovat myš"
 
+#: rc.cpp:549 rc.cpp:1746
+msgid "Font"
+msgstr "Písmo"
+
+#: rc.cpp:432 rc.cpp:1629
+msgid "Force Interlaced"
+msgstr "Vynutit prokládáný obraz"
+
+#: rc.cpp:429 rc.cpp:1626
+msgid "Force Progressive"
+msgstr "Vynutit progresivní obraz"
+
+#: rc.cpp:1443 rc.cpp:2640
 msgid "Force pixel aspect ratio"
 msgstr "Vynutit poměr stran pixelu"
 
+#: rc.cpp:534 rc.cpp:660 rc.cpp:1470 rc.cpp:1482 rc.cpp:1731 rc.cpp:1857
+#: rc.cpp:2667 rc.cpp:2679
+msgid "Form"
+msgstr "Formulář"
+
+#: rc.cpp:405 rc.cpp:915 rc.cpp:924 rc.cpp:1602 rc.cpp:2112 rc.cpp:2121
 msgid "Format"
 msgstr "Formát"
 
+#: rc.cpp:492 rc.cpp:1689
+msgid "Formats"
+msgstr "Formáty"
+
+#: src/monitor.cpp:76 src/mainwindow.cpp:846 src/recmonitor.cpp:69
 msgid "Forward"
 msgstr "Přetáčet vpřed"
 
+#: src/mainwindow.cpp:871
 msgid "Forward 1 Frame"
 msgstr "Přetočit o 1 snímek vpřed"
 
+#: src/mainwindow.cpp:876
 msgid "Forward 1 Second"
 msgstr "Přetočit o 1 sekundu vpřed"
 
+#: src/monitor.cpp:75
 msgid "Forward 1 frame"
 msgstr "Přetočit o 1 snímek vpřed"
 
+#: src/mainwindow.cpp:2102 src/mainwindow.cpp:2112
 #, kde-format
 msgid "Found : %1"
 msgstr "Nalezen: %1"
 
+#: rc.cpp:1029 rc.cpp:2226
 msgid "Frame Duration"
 msgstr "Trvání snímku"
 
+#: rc.cpp:1380 rc.cpp:2577
 msgid "Frame duration"
 msgstr "Trvání snímku"
 
+#: rc.cpp:594 rc.cpp:951 rc.cpp:1014 rc.cpp:1350 rc.cpp:1791 rc.cpp:2148
+#: rc.cpp:2211 rc.cpp:2547
 msgid "Frame rate"
 msgstr "Snímků za sekundu"
 
+#: src/wizard.cpp:371 rc.cpp:1095 rc.cpp:1521 rc.cpp:2292 rc.cpp:2718
 msgid "Frame rate:"
 msgstr "Snímků za sekundu:"
 
+#: rc.cpp:1347 rc.cpp:2544
 msgid "Frame size"
 msgstr "Rozlišení"
 
+#: src/wizard.cpp:371
+msgid "Frame size:"
+msgstr "Velikost snímku"
+
+#: src/kdenlivesettingsdialog.cpp:210
 msgid "Framebuffer console"
 msgstr "Framebuffer konzole"
 
+#: src/mainwindow.cpp:604
 msgid "Frames"
 msgstr "Snímky"
 
+#: rc.cpp:84
 msgid "Freeze"
 msgstr "Zamrznutí"
 
+#: rc.cpp:92
 msgid "Freeze After"
 msgstr "Zamrznutí po"
 
+#: rc.cpp:90
 msgid "Freeze Before"
 msgstr "Zamrznutí před"
 
+#: rc.cpp:88
 msgid "Freeze at"
 msgstr "Zamrznutí na"
 
+#: rc.cpp:86
 msgid "Freeze video on a chosen frame"
 msgstr "Zamrznout video na vybraném snímku"
 
+#: rc.cpp:100 rc.cpp:266 rc.cpp:1365 rc.cpp:2562
 msgid "Frequency"
 msgstr "Frekvence"
 
+#: rc.cpp:453 rc.cpp:1650
 msgid "From"
 msgstr "Od"
 
+#: rc.cpp:387 rc.cpp:1584
 msgid "Full project"
 msgstr "Celý projekt"
 
+#: rc.cpp:996 rc.cpp:2193
 msgid "Full screen capture"
 msgstr "Nahrávání celé obrazovky"
 
+#: rc.cpp:1017 rc.cpp:2214
 msgid "Full shots"
 msgstr ""
 
+#: rc.cpp:220 rc.cpp:226 rc.cpp:264 rc.cpp:298 rc.cpp:368
 msgid "Gain"
 msgstr "Zesílení"
 
-msgid "Gain in"
-msgstr "Začátek zesílení"
+#: rc.cpp:272 rc.cpp:284 rc.cpp:304
+msgid "Gain In"
+msgstr "Zesílení"
 
+#: rc.cpp:274 rc.cpp:286 rc.cpp:306
+msgid "Gain Out"
+msgstr "Zeslabení"
+
+#: rc.cpp:326
 msgid "Gain out"
 msgstr "Konec zesílení"
 
+#: rc.cpp:108 rc.cpp:112
 msgid "Gamma"
 msgstr "Gama"
 
+#: src/kdenlivesettingsdialog.cpp:213
 msgid "General graphics interface"
 msgstr "Hlavní grafické rozhraní"
 
+#: rc.cpp:2781
+msgid "Generators"
+msgstr "Generátory"
+
+#: rc.cpp:6
 msgid "Geometry"
 msgstr "Rozvržení"
 
+#: rc.cpp:2817
 msgid "Go To"
 msgstr "Jít na"
 
+#: src/mainwindow.cpp:856
 msgid "Go to Clip End"
 msgstr "Jít na konec klipu"
 
+#: src/mainwindow.cpp:851
 msgid "Go to Clip Start"
 msgstr "Jít na začátek klipu"
 
+#: src/mainwindow.cpp:881
 msgid "Go to Next Snap Point"
 msgstr "Jít na další bod přichycení"
 
+#: src/mainwindow.cpp:841
 msgid "Go to Previous Snap Point"
 msgstr "Jít na předchozí bod přichycení"
 
+#: src/mainwindow.cpp:866
 msgid "Go to Project End"
 msgstr "Jít na konec projektu"
 
+#: src/mainwindow.cpp:861
 msgid "Go to Project Start"
 msgstr "Jít na začátek projektu"
 
+#: src/geometryval.cpp:59
 msgid "Go to next keyframe"
 msgstr "Jít na další klíčový snímek"
 
+#: src/geometryval.cpp:61
 msgid "Go to previous keyframe"
 msgstr "Jít na předchozí klíčový snímek"
 
+#: rc.cpp:702 rc.cpp:1899
 msgid "GraphView"
 msgstr "Graf"
 
+#: rc.cpp:114
 msgid "Greyscale"
 msgstr "Stupně šedi"
 
+#: rc.cpp:819 rc.cpp:2016
 msgid "Group"
 msgstr "Skupina"
 
+#: rc.cpp:1479 rc.cpp:2676
 msgid "GroupBox"
 msgstr "Seskupovací box"
 
+#: src/customtrackview.cpp:2765
 msgid "Guide"
 msgstr "Zarážka"
 
+#: rc.cpp:393 rc.cpp:1590
 msgid "Guide zone"
 msgstr "Dle zarážek"
 
+#: rc.cpp:2796
 msgid "Guides"
 msgstr "Zarážky"
 
+#: rc.cpp:1272 rc.cpp:2469
 msgid "H"
 msgstr "H"
 
+#: rc.cpp:903 rc.cpp:1149 rc.cpp:2100 rc.cpp:2346
 msgid "HDV"
 msgstr "HDV"
 
+#: rc.cpp:134
 msgid "Hi gain"
 msgstr "Vysoké zesílení"
 
+#: rc.cpp:230
 msgid "Hide a region of the clip"
 msgstr "Umožní vám skrýt část klipu - rozpixelizovat obraz."
 
+#: rc.cpp:4
 msgid "Hide a selected zone and follow its movements"
 msgstr "Umožní skrýt vybraný výřez obrazu, včetně jeho následujícího pohybu."
 
+#: rc.cpp:1005 rc.cpp:2202
 msgid "Hide frame"
 msgstr "Skrýt snímek"
 
+#: src/geometryval.cpp:83
 msgid "Hor. Center"
 msgstr "Vystředit vodorovně"
 
+#: rc.cpp:376
 msgid "Horizontal factor"
 msgstr "Vodorovný faktor"
 
+#: rc.cpp:18
 msgid "Horizontal multiplicator"
 msgstr "Vodorovné rozmnožení"
 
+#: rc.cpp:36
 msgid "Horizontal scatter"
 msgstr "Vodorovné rozptýlení"
 
+#: rc.cpp:402 rc.cpp:1599
 msgid "I"
 msgstr "I"
 
+#: rc.cpp:564 rc.cpp:1404 rc.cpp:1761 rc.cpp:2601
 msgid "Image"
 msgstr "Obrázek"
 
+#: rc.cpp:1035 rc.cpp:2232
 msgid "Image Type"
 msgstr "Typ obrázku"
 
+#: src/projectitem.cpp:180
 msgid "Image clip"
 msgstr "Obrázkový klip"
 
+#: rc.cpp:1077 rc.cpp:2274
 msgid "Image clips"
 msgstr "Obrázkové klipy"
 
+#: rc.cpp:738 rc.cpp:1935
 msgid "Image editing"
 msgstr "Editace obrázku"
 
+#: src/dvdwizard.cpp:91
+#, kde-format
+msgid "Image file %1 already exists. Overwrite ?"
+msgstr ""
+"Soubor již existuje.Chcete jej přepsat?"
+
+#: rc.cpp:1128 rc.cpp:1320 rc.cpp:2325 rc.cpp:2517
 msgid "Image preview"
 msgstr "Náhled obrázku"
 
+#: rc.cpp:945 rc.cpp:1407 rc.cpp:2142 rc.cpp:2604
 msgid "Image size"
 msgstr "Rozlišení"
 
+#: rc.cpp:1377 rc.cpp:2574
 msgid "Image type"
 msgstr "Typ obrázku"
 
+#: src/monitor.cpp:422
 msgid "In Point"
 msgstr "Počáteční bod"
 
+#: src/wizard.cpp:119
 msgid "Inigo"
 msgstr "Inigo"
 
+#: rc.cpp:720 rc.cpp:1917
 msgid "Inigo path"
 msgstr "Cesta k inigu"
 
+#: src/recmonitor.cpp:361 src/recmonitor.cpp:481
 msgid "Initialising..."
 msgstr "Inicializace..."
 
-msgid "Input gain (db)"
+#: rc.cpp:140
+msgid "Input gain (dB)"
 msgstr "Vstupní zesílení (dB)"
 
+#: src/mainwindow.cpp:923
 msgid "Insert Space"
 msgstr "Vložit místo"
 
+#: src/mainwindow.cpp:931 src/customtrackview.cpp:3276 src/headertrack.cpp:56
 msgid "Insert Track"
 msgstr "Vložit stopu"
 
+#: src/insertspacecommand.cpp:27
 msgid "Insert space"
 msgstr "Vložit místo"
 
+#: rc.cpp:759 rc.cpp:1956
 msgid "Insert track"
 msgstr "Vložit stopu"
 
+#: rc.cpp:1299 rc.cpp:2496
 msgid "Install extra video mimetypes"
 msgstr "Nainstalovat extra video mimetypy"
 
+#: rc.cpp:477 rc.cpp:1674
+msgid "Installed modules"
+msgstr "Nainstalované moduly"
+
+#: rc.cpp:26
 msgid "Intensity"
 msgstr "Intenzita"
 
+#: src/kdenlivesettingsdialog.cpp:420 src/projectsettings.cpp:72 rc.cpp:1113
+#: rc.cpp:1539 rc.cpp:2310 rc.cpp:2736
 msgid "Interlaced"
 msgstr "Prokládané"
 
+#: rc.cpp:1485 rc.cpp:2682
+msgid "Intro movie"
+msgstr "Předfilm"
+
+#: src/customtrackview.cpp:3155 src/customtrackview.cpp:3160
+#: src/customtrackview.cpp:3179 src/customtrackview.cpp:3184
 msgid "Invalid action"
 msgstr "Neplatná akce"
 
+#: src/trackview.cpp:385
+#, kde-format
+msgid "Invalid clip removed from track %1 at %2\n"
+msgstr "Byl odebrán neplatný klip ve stopě %1 na pozici %2\n"
+
+#: src/customtrackview.cpp:1250 src/customtrackview.cpp:3064
+msgid "Invalid transition"
+msgstr "Neplatný přechod"
+
+#: rc.cpp:44 rc.cpp:118 rc.cpp:214
 msgid "Invert"
 msgstr "Invertovat"
 
+#: rc.cpp:120
 msgid "Invert colors"
 msgstr "Invertuje barvy"
 
+#: rc.cpp:987 rc.cpp:2184
 msgid "Jack"
 msgstr "Jack"
 
+#: src/main.cpp:39
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
+#: rc.cpp:852 rc.cpp:2049
 msgid "Jog Shuttle device disabled."
 msgstr "Zařízení Jog Shuttle je deaktivováno."
 
+#: src/kdenlivesettingsdialog.cpp:82
 msgid "JogShuttle"
 msgstr "JogShuttle"
 
+#: src/main.cpp:35
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
+#: src/kdenlivedoc.cpp:1247 src/kdenlivedoc.cpp:1250 src/kdenlivedoc.cpp:1252
 msgid "Keep as placeholder"
 msgstr "Držet místo"
 
+#: rc.cpp:106
 msgid "Kernel size"
 msgstr "Velikost jádra"
 
+#: rc.cpp:160
 msgid "LADSPA change pitch audio effect"
 msgstr "Změna výšky tónu (LADSPA)"
 
+#: rc.cpp:124
 msgid "LADSPA declipper audio effect"
 msgstr "Odřezávač (LADSPA)"
 
+#: rc.cpp:128
 msgid "LADSPA equalizer audio effect"
 msgstr "Ekvalizér (LADSPA)"
 
+#: rc.cpp:138
 msgid "LADSPA limiter audio effect"
 msgstr "Omezovač (LADSPA)"
 
+#: rc.cpp:148
 msgid "LADSPA phaser audio effect"
 msgstr "Fázovač (LADSPA)"
 
+#: rc.cpp:166
 msgid "LADSPA pitch scale audio effect"
 msgstr "Změna výšky tónu (LADSPA)"
 
+#: rc.cpp:172
 msgid "LADSPA rate scale audio effect"
 msgstr "Změna poměru (LADSPA)"
 
+#: rc.cpp:178
 msgid "LADSPA reverb audio effect"
 msgstr "Dozvuk (LADSPA)"
 
+#: rc.cpp:186
 msgid "LADSPA room reverb audio effect"
 msgstr "Dozvuk místnosti (LADSPA)"
 
+#: src/geometryval.cpp:86
 msgid "Left"
 msgstr "Vlevo"
 
-msgid "Limit (db)"
+#: rc.cpp:142
+msgid "Limit (dB)"
 msgstr "Limit (dB)"
 
+#: rc.cpp:136
 msgid "Limiter"
 msgstr "Omezovač"
 
+#: rc.cpp:130
 msgid "Lo gain"
 msgstr "Nizké zesílení"
 
+#: src/titlewidget.cpp:267
 msgid "Load Image"
 msgstr "Načíst obrázek"
 
+#: src/titlewidget.cpp:660
 msgid "Load Title"
 msgstr "Načíst titulky"
 
-msgid "Loading playlist..."
-msgstr "Načítání playlistu..."
-
+#: src/kdenlivedoc.cpp:126
 msgid "Loading project clips"
 msgstr "Načítání klipů projektu"
 
+#: src/kdenlivedoc.cpp:1251 src/kdenlivedoc.cpp:1253
 #, kde-format
 msgid "Looking for %1"
-msgstr "Hledám %1"
+msgstr "Probíhá hledání po %1"
 
+#: rc.cpp:1038 rc.cpp:1386 rc.cpp:2235 rc.cpp:2583
 msgid "Loop"
 msgstr "Smyčka"
 
+#: src/mainwindow.cpp:807
 msgid "Loop Zone"
 msgstr "Smyčka"
 
+#: rc.cpp:1047 rc.cpp:2244
 msgid "Luma File"
 msgstr "Luma soubor"
 
+#: rc.cpp:1395 rc.cpp:2592
 msgid "Luma file"
 msgstr "Luma soubor"
 
+#: rc.cpp:513 rc.cpp:1710
 msgid "M"
 msgstr "M"
 
+#: src/main.cpp:40
+msgid "MLT Connection, Transition, Effect, Timeline Developer"
+msgstr "Propojení s MLT, přechody, efekty, časová osa"
+
+#: src/main.cpp:39
+msgid "MLT porting, KDE4 porting, Main developer"
+msgstr "Práce na MLT, KDE4 verzi, hlavní vývojář"
+
+#: src/wizard.cpp:432
 msgid ""
 "MLT's SDL module not found. Please check your MLT install. Kdenlive will not "
 "work until this issue is fixed."
@@ -1375,242 +2053,340 @@ msgstr ""
 "Modul SDL z MLT nebyl nalezen. Zkontrolujte prosím vaši instalaci MTL. "
 "Kdenlive nemůže pracovat dokud toto nebude opraveno."
 
-msgid ""
-"MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and MLT "
-"install. Kdenlive will not work until this issue is fixed."
-msgstr ""
-"Modul pro avformat (FFMPEG) z MLT nebyl nalezen. Zkontrolujte prosím vaši "
-"instalaci FFMPEG a MLT. Kdenlive nemůže pracovat dokud toto nebude opraveno."
-
+#: rc.cpp:348
 msgid "Make clip play faster slowly"
 msgstr "Zpomalit zrychlený klip"
 
+#: rc.cpp:56
 msgid "Make image greyscale except for chosen color"
 msgstr "Zobrazí video stopu klipu ve stupních šedi, vyjma vybrané barvy."
 
+#: rc.cpp:358
 msgid "Make monochrome clip"
 msgstr "Zobrazit klip černobíle (pouze černá nebo bílá)."
 
+#: rc.cpp:48
 msgid "Make selected color transparent"
 msgstr "Tento efekt umožňuje zprůhlednit vybranou barvu."
 
+#: rc.cpp:372
 msgid "Make waves on your clip with keyframes"
 msgstr "Vytvoření efektu vln dle klíčových snímků"
 
+#: src/mainwindow.cpp:775
 msgid "Manage Profiles"
 msgstr "Spravovat profily"
 
+#: src/main.cpp:40
 msgid "Marco Gittler"
 msgstr "Marco Gittler"
 
+#: src/definitions.h:138 src/clipproperties.cpp:269 src/mainwindow.cpp:1764
+#: src/docclipbase.cpp:323 rc.cpp:1125 rc.cpp:2322
 msgid "Marker"
 msgstr "Záložka"
 
+#: rc.cpp:1413 rc.cpp:2610 rc.cpp:2790
 msgid "Markers"
 msgstr "Záložky"
 
+#: rc.cpp:1431 rc.cpp:2628
+msgid "Metadata"
+msgstr "Metadata"
+
+#: rc.cpp:132
 msgid "Mid gain"
 msgstr "Středně zesílit"
 
+#: rc.cpp:208
 msgid "Mirror"
 msgstr "Zrcadlo"
 
+#: rc.cpp:212
 msgid "Mirroring direction"
 msgstr "Osa zrcadlení"
 
+#: src/kdenlivesettingsdialog.cpp:44
 msgid "Misc"
 msgstr "Ostatní"
 
+#: src/monitor.cpp:81 src/geometryval.cpp:67
 msgid "Misc..."
 msgstr "Ostatní..."
 
+#: rc.cpp:42
 msgid "Mix"
 msgstr "Smíchat"
 
-msgid "Mlt Connection, Transition, Effect, Timeline Developer"
-msgstr "Propojení s MLT, přechody, efekty, časová osa"
+#: src/wizard.cpp:271
+msgid "Mkisofs"
+msgstr "Mkisofs"
 
+#: rc.cpp:714 rc.cpp:1911
 msgid "Mlt environment"
 msgstr "Prostředí MLT"
 
-msgid "Mlt porting, KDE4 porting, Main developer"
-msgstr "Práce na MLT, KDE4 verzi, hlavní vývojář"
-
+#: rc.cpp:717 rc.cpp:1914
 msgid "Mlt profiles folder"
 msgstr "Složka s MLT profily"
 
+#: rc.cpp:2814
 msgid "Monitor"
 msgstr "Monitor"
 
+#: rc.cpp:843 rc.cpp:2040
+msgid "Monitor Preview Speedup Settings"
+msgstr "Nastavení zrychlení náhledového monitoru"
+
+#: rc.cpp:28
+msgid "Mono to stereo"
+msgstr "Mono na stereo"
+
+#: src/movegroupcommand.cpp:26 src/moveclipcommand.cpp:25
+#: src/customtrackview.cpp:1823
 msgid "Move clip"
 msgstr "Přesunout klip"
 
+#: src/moveeffectcommand.cpp:31
 msgid "Move effect"
 msgstr "Přesunout efekt"
 
+#: src/effectstackview.cpp:48
 msgid "Move effect down"
 msgstr "Přesunout klip níže"
 
+#: src/effectstackview.cpp:46
 msgid "Move effect up"
 msgstr "Přesunout klip výše"
 
+#: src/customtrackview.cpp:1923
 msgid "Move group"
 msgstr "Přesunout skupinu"
 
+#: src/editguidecommand.cpp:26
 msgid "Move guide"
 msgstr "Přesunout zarážku"
 
+#: src/movetransitioncommand.cpp:22
 msgid "Move transition"
 msgstr "Přesunout přechod"
 
+#: rc.cpp:216
 msgid "Mute"
 msgstr "Umlčet"
 
+#: rc.cpp:218
 msgid "Mute clip"
 msgstr "Umlčí audio stopu klipu"
 
+#: src/projectitem.cpp:171
 msgid "Mute video clip"
 msgstr "Umlčet video klip"
 
+#: rc.cpp:519 rc.cpp:636 rc.cpp:1422 rc.cpp:1716 rc.cpp:1833 rc.cpp:2619
 msgid "N"
 msgstr "N"
 
+#: src/main.cpp:43
 msgid "NAME OF TRANSLATORS"
 msgstr "Jan Drábek"
 
+#: src/dvdwizardmenu.cpp:41 rc.cpp:411 rc.cpp:1608
 msgid "NTSC"
 msgstr "NTSC"
 
+#: rc.cpp:1023 rc.cpp:1305 rc.cpp:2220 rc.cpp:2502
 msgid "Name"
 msgstr "Jméno"
 
+#: src/effectstackview.cpp:85
 msgid "Name for saved effect: "
 msgstr "Jméno pro uložený efekt:"
 
+#: src/kdenlivesettingsdialog.cpp:209
 msgid "Nano X"
 msgstr "Nano X"
 
+#: src/customtrackview.cpp:2206
 msgid "New speed (percents)"
 msgstr "Nová rychlost (v procentech)"
 
+#: src/customtrackview.cpp:2248 src/customtrackview.cpp:3019
 msgid "No clip copied"
 msgstr "Nebyl zkopírován žádný klip"
 
+#: src/customtrackview.cpp:2743 src/customtrackview.cpp:2784
+#: src/customtrackview.cpp:2807
 msgid "No guide at cursor time"
 msgstr "Na pozici kurzoru neexistuje zarážka"
 
+#: rc.cpp:1053 rc.cpp:1398 rc.cpp:2250 rc.cpp:2595
 msgid "No image found"
 msgstr "Nebyl nalezen žádný obrázek"
 
+#: src/mainwindow.cpp:1795 src/mainwindow.cpp:1846
 msgid "No marker found at cursor time"
 msgstr "Na pozici kurzoru neexistuje žádná zarážka"
 
+#: rc.cpp:222
 msgid "Normalise"
 msgstr "Normalizovat"
 
+#: rc.cpp:804 rc.cpp:2001
 msgid "Normalise audio for thumbnails"
 msgstr "Normalizovat audio pro miniatury"
 
+#: rc.cpp:224
 msgid "Normalise audio volume"
 msgstr "Normalizuje hlasitost audia"
 
+#: src/recmonitor.cpp:541 rc.cpp:498 rc.cpp:1695
 msgid "Not connected"
 msgstr "Nepřipojeno"
 
+#: src/mainwindow.cpp:2115
 #, kde-format
 msgid "Not found : %1"
 msgstr "Nenalezeno: %1"
 
+#: src/kdenlivesettingsdialog.cpp:189
 msgid "OSS"
 msgstr "OSS"
 
+#: src/kdenlivesettingsdialog.cpp:192
 msgid "OSS with DMA access"
 msgstr "OSS s DMA přístupem"
 
+#: rc.cpp:10 rc.cpp:228
 msgid "Obscure"
 msgstr "Utajení identity"
 
+#: rc.cpp:1008 rc.cpp:2205
 msgid "Offset"
 msgstr "Posunutí"
 
+#: rc.cpp:531 rc.cpp:1728
 msgid "Opacity"
 msgstr "Průhlednost"
 
+#: src/titlewidget.cpp:130
 msgid "Open Document"
 msgstr "Otevřít dokument"
 
+#: rc.cpp:444 rc.cpp:1641
+msgid "Open Dvd wizard after rendering"
+msgstr "Otevřít průvodce DVD po skončení renderování"
+
+#: rc.cpp:447 rc.cpp:1644
+msgid "Open browser window after export"
+msgstr "Otevřít prohlížeč po skončení exportu"
+
+#: rc.cpp:1056 rc.cpp:2253
 msgid "Open last project on startup"
 msgstr "Při spouštění načíst poslední otevřený projekt"
 
+#: rc.cpp:1062 rc.cpp:2259
 msgid "Open projects in new tabs"
 msgstr "Otevírat projekty v novém listu"
 
+#: src/monitor.cpp:423
 msgid "Out Point"
 msgstr "Koncový bod"
 
+#: rc.cpp:399 rc.cpp:1596
 msgid "Output file"
 msgstr "Výstupní soubor"
 
+#: rc.cpp:516 rc.cpp:1713
 msgid "P"
 msgstr "P"
 
+#: src/dvdwizardmenu.cpp:41 rc.cpp:408 rc.cpp:1605
 msgid "PAL"
 msgstr "PAL"
 
+#: rc.cpp:633 rc.cpp:1830
 msgid "Param"
 msgstr "Parametr"
 
+#: src/complexparameter.cpp:43
 msgid "Parameter info"
 msgstr "Informace o parametrech"
 
+#: rc.cpp:828 rc.cpp:2025
 msgid "Parameters"
 msgstr "Parametry"
 
+#: src/mainwindow.cpp:959
 msgid "Paste Effects"
 msgstr "Vložit efekty"
 
+#: rc.cpp:1323 rc.cpp:2520
 msgid "Path"
 msgstr "Cesta"
 
+#: rc.cpp:146
 msgid "Phaser"
 msgstr "Fázovač"
 
+#: rc.cpp:164
 msgid "Pitch Scaler"
 msgstr "Změna výšky tónu"
 
+#: rc.cpp:158
 msgid "Pitch Shift"
 msgstr "Změna výšky a posun tónu"
 
+#: src/wizard.cpp:224
+msgid "Pixbuf module"
+msgstr "Modul pixbuf"
+
+#: rc.cpp:600 rc.cpp:1353 rc.cpp:1797 rc.cpp:2550
 msgid "Pixel aspect ratio"
 msgstr "Poměr stran pixelu"
 
+#: src/wizard.cpp:371 rc.cpp:1527 rc.cpp:2724
 msgid "Pixel aspect ratio:"
 msgstr "Poměr stran pixelu:"
 
+#: rc.cpp:96
 msgid "Plasma"
 msgstr "Plasma"
 
+#: src/dvdwizardmenu.cpp:27 src/monitor.cpp:67 src/mainwindow.cpp:794
+#: src/recmonitor.cpp:63
 msgid "Play"
 msgstr "Přehrát"
 
+#: src/kdenlivesettingsdialog.cpp:90
 msgid "Play / Pause"
 msgstr "Přehrát / Pozastavit"
 
+#: src/dvdwizardmenu.cpp:248
+msgid "Play All"
+msgstr "Přehrát vše"
+
+#: src/mainwindow.cpp:802
 msgid "Play Zone"
 msgstr "Přehrát výběr"
 
+#: rc.cpp:450 rc.cpp:1647
 msgid "Play after render"
 msgstr "Po dokončení přehrát výsledný soubor"
 
+#: src/monitor.cpp:66
 msgid "Play..."
 msgstr "Přehrát..."
 
+#: src/kdenlivesettingsdialog.cpp:86
 msgid "Playback"
 msgstr "Playback"
 
+#: src/projectitem.cpp:192
 msgid "Playlist clip"
 msgstr "Klip playlistu"
 
+#: src/main.cpp:42
 msgid ""
 "Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
 "org/mantis</a>"
@@ -1618,12 +2394,15 @@ msgstr ""
 "Chyby prosím hlašte na <a href=\"http://kdenlive.org/mantis\">http://"
 "kdenlive.org/mantis</a>"
 
+#: src/main.cpp:42
 msgid "Please report bugs to http://kdenlive.org/mantis"
 msgstr "Chyby prosím hlašte na http://kdenlive.org/mantis"
 
+#: rc.cpp:1140 rc.cpp:2337
 msgid "Please set your default video profile"
 msgstr "Nastavte prosím výchozí profil videa"
 
+#: src/recmonitor.cpp:169
 #, kde-format
 msgid ""
 "Plug your camcorder and\n"
@@ -1636,15 +2415,20 @@ msgstr ""
 " k iniciaci připojení. Soubory budou uloženy do:\n"
 " %1"
 
+#: rc.cpp:990 rc.cpp:2187
 msgid "Ports:"
 msgstr "Porty:"
 
+#: rc.cpp:528 rc.cpp:1725
 msgid "Pos"
 msgstr "Poz"
 
+#: rc.cpp:627 rc.cpp:777 rc.cpp:1131 rc.cpp:1461 rc.cpp:1824 rc.cpp:1974
+#: rc.cpp:2328 rc.cpp:2658
 msgid "Position"
 msgstr "Pozice"
 
+#: src/recmonitor.cpp:198
 #, kde-format
 msgid ""
 "Press play or record button\n"
@@ -1657,6 +2441,7 @@ msgstr ""
 " Soubory budou uloženy do:\n"
 " %1"
 
+#: src/recmonitor.cpp:143 src/recmonitor.cpp:542
 #, kde-format
 msgid ""
 "Press record button\n"
@@ -1668,85 +2453,127 @@ msgstr ""
 " Soubory budou uloženy do:\n"
 " %1"
 
+#: src/customtrackview.cpp:1002 src/customtrackview.cpp:1010
 msgid "Problem adding effect to clip"
 msgstr "Při přidávání efektu do klipu nastala chyba"
 
+#: src/customtrackview.cpp:995 src/customtrackview.cpp:1019
+#: src/customtrackview.cpp:1077
 msgid "Problem deleting effect"
 msgstr "Problém při mazání efektu"
 
+#: src/customtrackview.cpp:1079 src/customtrackview.cpp:2567
+#: src/customtrackview.cpp:2588
 msgid "Problem editing effect"
 msgstr "Problém při editaci efektu"
 
+#: rc.cpp:579 rc.cpp:1086 rc.cpp:1512 rc.cpp:1776 rc.cpp:2283 rc.cpp:2709
 msgid "Profile"
 msgstr "Profil"
 
+#: rc.cpp:822 rc.cpp:2019
 msgid "Profile name"
 msgstr "Jméno profilu"
 
+#: rc.cpp:576 rc.cpp:1773
 msgid "Profiles"
 msgstr "Profily"
 
+#: src/renderwidget.cpp:104
+msgid "Progress"
+msgstr "Postup"
+
+#: src/kdenlivesettingsdialog.cpp:421 src/projectsettings.cpp:73 rc.cpp:612
+#: rc.cpp:1809
 msgid "Progressive"
 msgstr "Progresivní"
 
+#: rc.cpp:2778
 msgid "Project"
 msgstr "Projekt"
 
+#: src/mainwindow.cpp:185
 msgid "Project Monitor"
 msgstr "Monitor projektu"
 
+#: src/mainwindow.cpp:785 rc.cpp:1503 rc.cpp:2700
 msgid "Project Settings"
 msgstr "Vlastnosti projektu"
 
+#: src/mainwindow.cpp:147
 msgid "Project Tree"
 msgstr "Str&uktura projektu"
 
+#: rc.cpp:726 rc.cpp:1506 rc.cpp:1923 rc.cpp:2703
 msgid "Project folder"
 msgstr "Složka projektu"
 
+#: rc.cpp:582 rc.cpp:1779
 msgid "Properties"
 msgstr "Vlastnosti"
 
+#: src/kdenlivesettingsdialog.cpp:191
+msgid "PulseAudio"
+msgstr "PulseAudio"
+
+#: src/wizard.cpp:219
+msgid "QImage module"
+msgstr "Modul QImage"
+
+#: rc.cpp:645 rc.cpp:1842
 msgid "R"
 msgstr "R"
 
+#: rc.cpp:200
 msgid "RPM"
 msgstr "RPM"
 
+#: rc.cpp:174
 msgid "Rate"
 msgstr "Rychlost"
 
+#: rc.cpp:150
 msgid "Rate (Hz)"
 msgstr "Rychlost (Hz)"
 
+#: rc.cpp:170
 msgid "Rate Scaler"
 msgstr "Škálování rychlosti"
 
+#: src/projectlistview.cpp:44
 msgid "Rating"
 msgstr "Hodnocení"
 
+#: src/razorclipcommand.cpp:26
 msgid "Razor clip"
 msgstr "Rozdělit klip"
 
+#: src/mainwindow.cpp:629
 msgid "Razor tool"
 msgstr "Nástroj střihu"
 
+#: src/mainwindow.cpp:2104
 msgid "Reached end of project"
 msgstr "Dosažen konec projektu"
 
+#: src/recmonitor.cpp:72
 msgid "Record"
 msgstr "Nahrávat"
 
+#: src/mainwindow.cpp:191
 msgid "Record Monitor"
 msgstr "Monitor nahrávání"
 
+#: src/wizard.cpp:253
 msgid "Recordmydesktop"
 msgstr "Recordmydesktop"
 
+#: src/kdenlivesettingsdialog.cpp:165
 #, kde-format
 msgid "Recordmydesktop found at: %1"
 msgstr "Recordmydesktop nalezen v: %1"
 
+#: src/recmonitor.cpp:140
 msgid ""
 "Recordmydesktop utility not found,\n"
 " please install it for screen grabs"
@@ -1754,200 +2581,316 @@ msgstr ""
 "Program 'Recordmydesktop' nebyl nalezen,\n"
 "nainstalujte jej pokud chcete nahrávat dějí na obrazovce."
 
+#: src/mainwindow.cpp:1244
 msgid "Recover"
 msgstr "Obnovit"
 
+#: rc.cpp:232
 msgid "Region"
 msgstr "Region"
 
+#: rc.cpp:999 rc.cpp:2196
 msgid "Region capture"
 msgstr "Oblast nahrávání"
 
+#: rc.cpp:144
 msgid "Release time (s)"
 msgstr "Čas uvolnění (s)"
 
+#: renderer/renderjob.cpp:130
 msgid "Remaining time"
 msgstr "Zbývající čas"
 
+#: src/mainwindow.cpp:927 src/customtrackview.cpp:1549
 msgid "Remove Space"
 msgstr "Odebrat místo"
 
+#: src/customtrackview.cpp:3301
 msgid "Remove Track"
 msgstr "Smazat stopu"
 
+#: src/insertspacecommand.cpp:28
 msgid "Remove space"
 msgstr "Odebrat místo"
 
+#: src/trackview.cpp:278
+#, kde-format
+msgid "Removed invalid transition: %1"
+msgstr "Byl odebrán neplatný přechod %1"
+
+#: src/editfoldercommand.cpp:26
 msgid "Rename folder"
 msgstr "Přejmenovat složku"
 
+#: src/mainwindow.cpp:789 src/renderwidget.cpp:152
 msgid "Render"
 msgstr "Renderovat"
 
+#: rc.cpp:384 rc.cpp:1581
+msgid "Render Project"
+msgstr "Renderovat projekt"
+
+#: src/renderwidget.cpp:47
 msgid "Rendering"
 msgstr "Renderování"
 
+#: renderer/renderjob.cpp:164
 #, kde-format
 msgid "Rendering %1"
 msgstr "Probíhá renderování %1"
 
+#: src/mainwindow.cpp:1472
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Renverování <i>%1</i> začalo"
 
-msgid "Rendering Crashed"
+#: src/renderwidget.cpp:825
+msgid "Rendering aborted"
+msgstr "Renderování přerušeno"
+
+#: src/renderwidget.cpp:816
+msgid "Rendering crashed"
 msgstr "Renderování selhalo"
 
+#: src/renderwidget.cpp:805
+#, kde-format
+msgid "Rendering finished in %1"
+msgstr "Renderování bylo dokončeno za %1"
+
+#: renderer/renderjob.cpp:219
 #, kde-format
 msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
-msgstr "Renderování %1 bylo zrušeno, výsledné video bude pravděpodobně poškozeno."
+msgstr ""
+"Renderování %1 bylo zrušeno, výsledné video bude pravděpodobně poškozeno."
 
-#, kde-format
-msgid "Rendering of %1 crashed"
-msgstr "Renderování %1 selhalo"
-
+#: renderer/renderjob.cpp:240
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Renderování %1 bylo dokončeno za %2"
 
+#: renderer/renderjob.cpp:165
 msgid "Rendering to"
 msgstr "Renderování do"
 
-msgid "Required for firewire capture"
-msgstr "K nahrávání je vyžadováno firewire"
+#: src/trackview.cpp:592
+#, kde-format
+msgid "Replaced wrong clip producer %1 with %2"
+msgstr "Byl nahrazen špatný %1 za %2"
 
+#: src/wizard.cpp:266
+msgid "Required for creation of DVD"
+msgstr "Vyžadováno pro vytváření DVD"
+
+#: src/wizard.cpp:272
+msgid "Required for creation of DVD iso images"
+msgstr "Vyžadováno pro vytváření ISO obrazů DVD"
+
+#: src/wizard.cpp:260
+msgid "Required for firewire capture"
+msgstr "Vyžadováno pro nahrávání přes firewire"
+
+#: src/wizard.cpp:120
 msgid "Required for rendering (part of MLT package)"
 msgstr "Vyžadováno pro renderování (součást MLT)"
 
+#: src/wizard.cpp:254
 msgid "Required for screen capture"
 msgstr "Vyžadováno pro nahrávání obrazovky"
 
+#: src/wizard.cpp:246
 msgid "Required for webcam capture"
 msgstr "Vyžadováno pro nahrávání přes webovou kamerku"
 
+#: src/wizard.cpp:210
+msgid "Required to work with dv files if avformat module is not installed"
+msgstr "Vyžadováno pro práci s DV soubory, pokud není nainstalován modul pro avformat"
+
+#: src/wizard.cpp:220 src/wizard.cpp:225
+msgid "Required to work with images"
+msgstr "Vyžadováno pro práci s obrázky"
+
+#: src/wizard.cpp:137
+msgid "Required to work with various video formats (hdv, mpeg, flash, ...)"
+msgstr "Vyžadováno pro práci s různými video formáty (hdv, mpeg, flash, ...)"
+
+#: rc.cpp:438 rc.cpp:1635
+msgid "Rescale"
+msgstr "Přeškálování"
+
+#: src/effectstackview.cpp:54
 msgid "Reset effect"
 msgstr "Restartovat efekt"
 
+#: src/monitor.cpp:122
 msgid "Resize (100%)"
 msgstr "Změnit velikost (100%) "
 
+#: src/monitor.cpp:123
 msgid "Resize (50%)"
 msgstr "Změnit velikost (50%)"
 
+#: src/resizeclipcommand.cpp:26 src/customtrackview.cpp:1985
+#: src/customtrackview.cpp:2036
 msgid "Resize clip"
 msgstr "Změnit délku klipu"
 
+#: src/geometryval.cpp:73
 msgid "Resize..."
 msgstr "Změnit velikost"
 
+#: rc.cpp:176
 msgid "Reverb"
 msgstr "Dozvuk"
 
+#: rc.cpp:328
 msgid "Reverb Time"
 msgstr "Délka dozvuku"
 
+#: rc.cpp:180
 msgid "Reverb time"
 msgstr "Délka dozvuku"
 
+#: rc.cpp:354
 msgid "Reverse playing"
 msgstr "Přehrát po zpátku"
 
+#: src/monitor.cpp:62 src/mainwindow.cpp:826 src/recmonitor.cpp:60
 msgid "Rewind"
 msgstr "Přetáčet vzad"
 
+#: src/mainwindow.cpp:831
 msgid "Rewind 1 Frame"
 msgstr "Přetočit zpět o 1 snímek"
 
+#: src/mainwindow.cpp:836
 msgid "Rewind 1 Second"
 msgstr "Přetočit zpět o 1 sekundu"
 
+#: src/monitor.cpp:63
 msgid "Rewind 1 frame"
 msgstr "Přetočit zpět o 1 snímek"
 
+#: src/geometryval.cpp:85
 msgid "Right"
 msgstr "Vpravo"
 
+#: rc.cpp:184
 msgid "Room Reverb"
 msgstr "Ozvěna místnosti"
 
+#: rc.cpp:188
 msgid "Room size (m)"
 msgstr "Velikost místnosti (m)"
 
+#: rc.cpp:234
 msgid "Rotate"
 msgstr "Otočení"
 
+#: rc.cpp:236
 msgid "Rotate clip in any 3 directions"
 msgstr "Umožní vám otočit klip ve třech osách (x,y,z)"
 
+#: rc.cpp:1218 rc.cpp:2415
 msgid "Rotate:"
 msgstr "Otočení:"
 
+#: rc.cpp:238
 msgid "Rotation x"
 msgstr "Rotace osy x"
 
+#: rc.cpp:240
 msgid "Rotation y"
 msgstr "Rotace osy y"
 
+#: rc.cpp:242
 msgid "Rotation z"
 msgstr "Rotace osy z"
 
+#: src/mainwindow.cpp:781
 msgid "Run Config Wizard"
 msgstr "Spustit konfiguračního průvodce"
 
+#: rc.cpp:417 rc.cpp:621 rc.cpp:1614 rc.cpp:1818
 msgid "S"
 msgstr "S"
 
+#: src/kdenlivesettingsdialog.cpp:212
 msgid "SVGAlib"
 msgstr "SVGAlib"
 
+#: src/titlewidget.cpp:134
 msgid "Save As"
 msgstr "Uložit jako"
 
+#: src/effectstackview.cpp:85
 msgid "Save Effect"
 msgstr "Uložit efekt"
 
+#: rc.cpp:816 rc.cpp:2013
 msgid "Save Profile"
 msgstr "Uložit profil"
 
+#: src/titlewidget.cpp:672
 msgid "Save Title"
 msgstr "Uložit titulky"
 
+#: src/mainwindow.cpp:385 src/mainwindow.cpp:1123
 msgid "Save changes to document ?"
 msgstr "Uložit změny v dokumentu?"
 
+#: src/mainwindow.cpp:2193
 msgid "Save clip zone as:"
 msgstr "Uložit výběr klipu jako:"
 
+#: src/effectstackview.cpp:52
 msgid "Save effect"
 msgstr "Uložit efekt"
 
+#: src/profilesdialog.cpp:40
 msgid "Save profile"
 msgstr "Uložit profil"
 
+#: src/monitor.cpp:159
 msgid "Save zone"
 msgstr "Uložit výběr"
 
+#: rc.cpp:40
 msgid "Scale"
 msgstr "Měřítko"
 
+#: rc.cpp:423 rc.cpp:1620
+msgid "Scanning"
+msgstr "Prohledávání"
+
+#: rc.cpp:885 rc.cpp:954 rc.cpp:2082 rc.cpp:2151
 msgid "Screen Grab"
 msgstr "Zachytit obrazovku"
 
+#: rc.cpp:510 rc.cpp:1707
 msgid "Screen grab"
 msgstr "Zachytit obrazovku"
 
+#: src/kdenlivedoc.cpp:1247
 msgid "Search automatically"
 msgstr "Vyhledat automaticky"
 
+#: src/kdenlivedoc.cpp:1250 src/kdenlivedoc.cpp:1252
 msgid "Search manually"
 msgstr "Vyhledat ručně"
 
+#: src/dvdwizard.cpp:43
+msgid "Select Files For Your DVD"
+msgstr "Vyberte soubory pro Vaše DVD"
+
+#: src/customtrackview.cpp:2957
 msgid "Select a clip before copying"
 msgstr "Před kopírování vyberte klip"
 
+#: src/customtrackview.cpp:1035
 msgid "Select a clip if you want to apply an effect"
 msgstr "Před aplikováním efektu vyberte klip"
 
+#: src/regiongrabber.cpp:99
 msgid ""
 "Select a region using the mouse. To take the snapshot, press the Enter key. "
 "Press Esc to quit."
@@ -1955,195 +2898,304 @@ msgstr ""
 "Vyberte oblast za použití myši, k zachycení obrazovky stiskněte klávesu "
 "Enter pro přerušení Esc."
 
+#: src/customtrackview.cpp:2195
 msgid "Select clip to change speed"
 msgstr "Vyberte prosím klip ke změně rychlosti"
 
+#: src/customtrackview.cpp:1273 src/customtrackview.cpp:2171
 msgid "Select clip to delete"
 msgstr "Vyberte prosím klip, který chcete odstranit"
 
+#: src/kdenlivesettingsdialog.cpp:310
 msgid "Select default audio editor"
 msgstr "Vyberte prosím výchozí audio editor"
 
+#: src/kdenlivesettingsdialog.cpp:320
 msgid "Select default image editor"
 msgstr "Vyberte prosím výchozí editor obrázků "
 
+#: src/kdenlivesettingsdialog.cpp:300
 msgid "Select default video player"
 msgstr "Vyberte prosím výchozí video přehrávač"
 
+#: rc.cpp:390 rc.cpp:1587
 msgid "Selected zone"
 msgstr "Vyběr"
 
+#: src/titlewidget.cpp:126
 msgid "Selection Tool"
 msgstr "Nástroj výběru"
 
+#: src/mainwindow.cpp:624
 msgid "Selection tool"
 msgstr "Nástroj výběru"
 
+#: rc.cpp:244
 msgid "Sepia"
 msgstr "Sépiový nádech"
 
+#: src/mainwindow.cpp:817
 msgid "Set In Point"
 msgstr "Nastavit počáteční bod"
 
+#: src/mainwindow.cpp:822
 msgid "Set Out Point"
 msgstr "Nastavit koncový bod"
 
+#: src/monitor.cpp:169
 msgid "Set current image as thumbnail"
 msgstr "Nastavit aktuální obrázek jako miniaturu"
 
+#: src/main.cpp:48
 msgid "Set the path for MLT environnement"
 msgstr "Nastavení cesty k MLT"
 
+#: src/monitor.cpp:60
 msgid "Set zone end"
 msgstr "Nastavit konec výběru"
 
+#: src/monitor.cpp:59
 msgid "Set zone start"
 msgstr "Nastavit začátek výběru"
 
+#: rc.cpp:162 rc.cpp:318
 msgid "Shift"
 msgstr "Shift"
 
+#: rc.cpp:1152 rc.cpp:2349
 msgid "Show All"
 msgstr "Zobrazit vše"
 
+#: src/mainwindow.cpp:697 rc.cpp:1293 rc.cpp:2490
 msgid "Show audio thumbnails"
 msgstr "Zobrazovat audio miniatury"
 
+#: rc.cpp:1260 rc.cpp:2457
 msgid "Show background"
 msgstr "Zobrazovat pozadí"
 
-msgid "Show crash log"
-msgstr "Zobrazit log selhání"
-
-msgid "Show experimental formats"
-msgstr "Zobrazovat experimentální formáty"
-
+#: src/complexparameter.cpp:41
 msgid "Show keyframes in timeline"
 msgstr "Zobrazovat klíčové snímky na časové ose"
 
+#: src/mainwindow.cpp:703
 msgid "Show markers comments"
 msgstr "Zobrazovat komentáře záložek"
 
+#: src/mainwindow.cpp:691 rc.cpp:1290 rc.cpp:2487
 msgid "Show video thumbnails"
 msgstr "Zobrazovat video miniatury"
 
+#: rc.cpp:196
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
 msgstr "Simulovat audio přehrávač vinyl - LADSPA audio efekty"
 
+#: rc.cpp:588 rc.cpp:1011 rc.cpp:1173 rc.cpp:1785 rc.cpp:2208 rc.cpp:2370
 msgid "Size"
 msgstr "Rozlišení"
 
+#: rc.cpp:1089 rc.cpp:1236 rc.cpp:1248 rc.cpp:1335 rc.cpp:1515 rc.cpp:2286
+#: rc.cpp:2433 rc.cpp:2445 rc.cpp:2532 rc.cpp:2712
 msgid "Size:"
 msgstr "Velikost:"
 
+#: rc.cpp:1374 rc.cpp:2571
 msgid "Slideshow"
 msgstr "Slideshow"
 
+#: src/slideshowclip.cpp:38 rc.cpp:1020 rc.cpp:2217
 msgid "Slideshow Clip"
 msgstr "Slideshow"
 
+#: src/projectitem.cpp:186
 msgid "Slideshow clip"
 msgstr "Slideshow"
 
+#: src/mainwindow.cpp:709
 msgid "Snap"
 msgstr "Přichytávat"
 
+#: rc.cpp:1050 rc.cpp:1401 rc.cpp:2247 rc.cpp:2598
 msgid "Softness"
 msgstr "Jemnost"
 
+#: rc.cpp:252
+msgid "Sox Band"
+msgstr "Band (Sox)"
+
+#: rc.cpp:260
+msgid "Sox Bass"
+msgstr "Basy (Sox)"
+
+#: rc.cpp:268
 msgid "Sox Echo"
 msgstr "Ozvěna (Sox)"
 
+#: rc.cpp:280
 msgid "Sox Flanger"
 msgstr "Flanger (Sox)"
 
+#: rc.cpp:294
+msgid "Sox Gain"
+msgstr "Zesílení (Sox)"
+
+#: rc.cpp:300
+msgid "Sox Phaser"
+msgstr "Fázovač (Sox)"
+
+#: rc.cpp:314
 msgid "Sox Pitch Shift"
 msgstr "Ohýbání zvuku (Sox)"
 
+#: rc.cpp:322
 msgid "Sox Reverb"
 msgstr "Dozvuk (Sox)"
 
+#: rc.cpp:332
+msgid "Sox Stretch"
+msgstr "Hluk (Sox)"
+
+#: rc.cpp:340
 msgid "Sox Vibro"
 msgstr "Vibro (Sox)"
 
+#: rc.cpp:254
+msgid "Sox band audio effect"
+msgstr ""
+
+#: rc.cpp:262
+msgid "Sox bass audio effect"
+msgstr "Efekt pro přidání basů"
+
+#: rc.cpp:316
 msgid "Sox change pitch audio effect"
 msgstr "Plynulá (spojitá) změna frekvence zvuku."
 
+#: rc.cpp:270
 msgid "Sox echo audio effect"
 msgstr "Efekt zpožděného opakování zvuku - vytvoří ozvěnu."
 
+#: rc.cpp:282
 msgid "Sox flanger audio effect"
 msgstr "Proměnné zpoždění a změna výšky tónu zvuku."
 
+#: rc.cpp:296
+msgid "Sox gain audio effect"
+msgstr "Efekt změny hlasitosti audia"
+
+#: rc.cpp:302
+msgid "Sox phaser audio effect"
+msgstr "Efekt fázovače"
+
+#: rc.cpp:324
 msgid "Sox reverb audio effect"
 msgstr "Vytvoří dojem odrazu zvuku."
 
+#: rc.cpp:334
+msgid "Sox stretch audio effect"
+msgstr "Efekt natažení zvuku"
+
+#: rc.cpp:342
 msgid "Sox vibro audio effect"
 msgstr "Audio efekt vibro (Sox)"
 
+#: rc.cpp:2799
 msgid "Space"
 msgstr "Místo"
 
+#: src/mainwindow.cpp:634
 msgid "Spacer tool"
 msgstr "Nástroj pro práci s místem"
 
+#: rc.cpp:292 rc.cpp:312 rc.cpp:344 rc.cpp:346 rc.cpp:350
 msgid "Speed"
 msgstr "Rychlost"
 
+#: src/monitor.cpp:165
 msgid "Split view"
 msgstr "Rozdělit pohled"
 
+#: rc.cpp:156
 msgid "Spread"
 msgstr "Rozšíření"
 
+#: rc.cpp:102
 msgid "Square Blur"
 msgstr "Čtvercové rozmazání"
 
+#: rc.cpp:1566 rc.cpp:2763
 msgid "Start"
 msgstr "Start"
 
+#: rc.cpp:69 rc.cpp:80
 msgid "Start Gain"
 msgstr "Začátek zesílení"
 
+#: rc.cpp:459 rc.cpp:1656
 msgid "Start Rendering"
 msgstr "Začít renderovat"
 
+#: rc.cpp:1224 rc.cpp:2421
 msgid "Start-/EndViewport"
 msgstr "Začátek/Konec záběru"
 
+#: rc.cpp:1227 rc.cpp:2424
 msgid "StartViewport"
 msgstr "Začátek záběru"
 
+#: src/mainwindow.cpp:2095
 msgid "Starting -- find text as you type"
 msgstr "Vyhledává text zatímco vy píšete"
 
+#: src/recmonitor.cpp:66
 msgid "Stop"
 msgstr "Zastavit"
 
+#: rc.cpp:352
 msgid "Stroboscope"
 msgstr "Stroboskop"
 
+#: rc.cpp:202
 msgid "Surface warping"
 msgstr "Surface warping"
 
+#: src/geometryval.cpp:91
 msgid "Sync timeline cursor"
 msgstr "Sychronizovat kurzor časové osy"
 
+#: rc.cpp:546 rc.cpp:1743
+msgid "Target"
+msgstr "Cíl"
+
+#: rc.cpp:1473 rc.cpp:2670
+msgid "Temporary data folder"
+msgstr "Složka pro dočasná data"
+
+#: rc.cpp:729 rc.cpp:1926
 msgid "Temporary files"
 msgstr "Dočasné soubory"
 
+#: rc.cpp:543 rc.cpp:1740
+msgid "Text"
+msgstr "Text"
+
+#: src/projectitem.cpp:183
 msgid "Text clip"
 msgstr "Textový klip"
 
+#: rc.cpp:1455 rc.cpp:2652
 msgid "TextLabel"
 msgstr "Textová popiska"
 
-msgid "The custom profile was modified, do you want to save it ?"
+#: src/profilesdialog.cpp:105
+msgid "The custom profile was modified, do you want to save it?"
 msgstr "Profil byl změněn, chcete jej uložit?"
 
+#: src/renderer.cpp:1219
 msgid "There is no clip, cannot extract frame."
 msgstr "Neexistuje klip, ze kterého by šel vyexportovat snímek."
 
+#: src/wizard.cpp:40
 msgid ""
 "This is the first time you run Kdenlive. This wizard will let you adjust "
 "some basic settings, you will be ready to edit your first movie in a few "
@@ -2152,175 +3204,243 @@ msgstr ""
 "Poprvé jste spustili program Kdenlive a tento jednoduchý průvodce s vámi "
 "projde základní nastavení předtím, než se pustíte do střihu."
 
+#: src/kdenlivedoc.cpp:62
 msgid "This project type is unsupported and can't be loaded."
 msgstr "Tento typ projektu není podporován a nemůže být načten."
 
+#: rc.cpp:356
 msgid "Threshold"
 msgstr "Černobílý"
 
+#: rc.cpp:360
 msgid "Threshold value"
 msgstr "Práh"
 
+#: src/projectlistview.cpp:44
 msgid "Thumbnail"
 msgstr "Miniatura"
 
+#: rc.cpp:795 rc.cpp:1992
 msgid "Thumbnails"
 msgstr "Miniatury"
 
+#: rc.cpp:1542 rc.cpp:2739
 msgid "Thumbnails:"
 msgstr "Miniatury:"
 
+#: rc.cpp:1416 rc.cpp:2613
 msgid "Time"
 msgstr "Čas"
 
+#: rc.cpp:320
 msgid "Time window (ms)"
 msgstr "Časové okno (ms)"
 
+#: rc.cpp:441 rc.cpp:1638
 msgid "Timecode overlay"
 msgstr "Přepis časové značky"
 
+#: rc.cpp:2793
 msgid "Timeline"
 msgstr "Časová osa"
 
+#: rc.cpp:1182 rc.cpp:2379
 msgid "Title Clip"
 msgstr "Titulky"
 
+#: rc.cpp:1179 rc.cpp:2376
 msgid "Toggle selection"
 msgstr "Ohnout výběr"
 
+#: rc.cpp:2784
 msgid "Tool"
 msgstr "Nástroj"
 
+#: src/geometryval.cpp:87
 msgid "Top"
 msgstr "Nahoru"
 
+#: src/customtrackview.cpp:1549 src/customtrackview.cpp:3301 rc.cpp:1161
+#: rc.cpp:2358
 msgid "Track"
 msgstr "Stopa"
 
+#: rc.cpp:813 rc.cpp:2010
 msgid "Track height"
 msgstr "Výška stopy"
 
+#: rc.cpp:2802
 msgid "Tracks"
 msgstr "Stopy"
 
+#: src/mainwindow.cpp:167
 msgid "Transition"
 msgstr "Přechod"
 
+#: rc.cpp:1569 rc.cpp:1575 rc.cpp:2766 rc.cpp:2772
 msgid "Transparency"
 msgstr "Průhlednost"
 
+#: rc.cpp:1410 rc.cpp:2607
 msgid "Transparent background"
 msgstr "Průhledné pozadí"
 
+#: rc.cpp:246
 msgid "Turn clip colors to sepia"
 msgstr "Změní barvy klipu na sépiové"
 
+#: rc.cpp:654 rc.cpp:1851
 msgid "Type"
 msgstr "Typ"
 
+#: src/kdenlivedoc.cpp:62
 msgid "Unable to open project"
 msgstr "Nelze otevřít projekt"
 
+#: src/renderwidget.cpp:244 src/renderwidget.cpp:323 src/renderwidget.cpp:371
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Nelze zapisovat do souboru %1"
 
+#: src/mainwindow.cpp:200
 msgid "Undo History"
 msgstr "Historie akcí"
 
+#: src/projectitem.cpp:195
 msgid "Unknown clip"
 msgstr "Neznámý klip"
 
+#: src/kdenlivedoc.cpp:1196
 msgid "Untitled"
 msgstr "Nepojmenovaný"
 
+#: rc.cpp:639 rc.cpp:1836
 msgid "Up"
 msgstr "Nahoru"
 
+#: rc.cpp:1122 rc.cpp:2319
+msgid "Use KDE job tracking for render jobs"
+msgstr "Použít sledování úloh KDE"
+
+#: rc.cpp:615 rc.cpp:1812
 msgid "Use as default"
 msgstr "Použít jako výchozí"
 
+#: rc.cpp:362
 msgid "Use transparency"
 msgstr "Použít průhlednost"
 
+#: rc.cpp:1251 rc.cpp:1254 rc.cpp:1284 rc.cpp:1557 rc.cpp:1560 rc.cpp:2448
+#: rc.cpp:2451 rc.cpp:2481 rc.cpp:2754 rc.cpp:2757
 msgid "V"
 msgstr "V"
 
+#: rc.cpp:1467 rc.cpp:2664
 msgid "Value"
 msgstr "Hodnota"
 
+#: rc.cpp:104
 msgid "Variable-size square blur (frei0r.squareblur)"
 msgstr "Variabliní velikost čtvercového rozmazání (frei0r)"
 
+#: rc.cpp:52 rc.cpp:60
 msgid "Variance"
 msgstr "Odchylka"
 
+#: src/geometryval.cpp:84
 msgid "Vert. Center"
 msgstr "Vertikální vystředění"
 
+#: rc.cpp:378
 msgid "Vertical factor"
 msgstr "Vertikální faktor"
 
+#: rc.cpp:20
 msgid "Vertical multiplicator"
 msgstr "Vertikální rozmnožení"
 
+#: rc.cpp:38
 msgid "Vertical scatter"
 msgstr "Vertikální rozptýlení"
 
+#: rc.cpp:567 rc.cpp:798 rc.cpp:1341 rc.cpp:1494 rc.cpp:1545 rc.cpp:1764
+#: rc.cpp:1995 rc.cpp:2538 rc.cpp:2691 rc.cpp:2742
 msgid "Video"
 msgstr "Video"
 
+#: rc.cpp:489 rc.cpp:1686
+msgid "Video Codecs"
+msgstr "Video kodeky"
+
+#: rc.cpp:1509 rc.cpp:2706
 msgid "Video Profile"
 msgstr "Video"
 
+#: rc.cpp:1143 rc.cpp:2340
 msgid "Video Resolution"
 msgstr "Rozlišení videa"
 
+#: src/wizard.cpp:56
 msgid "Video Standard"
 msgstr "Standard videa"
 
+#: src/projectitem.cpp:174
 msgid "Video clip"
 msgstr "Video klip"
 
+#: rc.cpp:1344 rc.cpp:2541
 msgid "Video codec"
 msgstr "Video kodek"
 
+#: rc.cpp:918 rc.cpp:2115
 msgid "Video device"
 msgstr "Video zařízení"
 
+#: rc.cpp:834 rc.cpp:2031
 msgid "Video driver:"
 msgstr "Video ovladač:"
 
+#: rc.cpp:1449 rc.cpp:2646
 msgid "Video index"
 msgstr "Video index"
 
+#: rc.cpp:750 rc.cpp:1947
 msgid "Video player"
 msgstr "Video přehráváč"
 
+#: rc.cpp:768 rc.cpp:1965
 msgid "Video track"
 msgstr "Video stopa"
 
+#: rc.cpp:1116 rc.cpp:1554 rc.cpp:2313 rc.cpp:2751
 msgid "Video tracks"
 msgstr "Video stopy"
 
+#: rc.cpp:507 rc.cpp:882 rc.cpp:912 rc.cpp:1704 rc.cpp:2079 rc.cpp:2109
 msgid "Video4Linux"
 msgstr "Video4Linux"
 
+#: rc.cpp:2820
 msgid "View"
 msgstr "Pohled"
 
+#: rc.cpp:194
 msgid "Vinyl"
 msgstr "Vinyl"
 
+#: src/projectitem.cpp:189
 msgid "Virtual clip"
 msgstr "Virtuální klip"
 
+#: rc.cpp:364
 msgid "Volume"
 msgstr "Hlasitost"
 
+#: rc.cpp:1269 rc.cpp:2466
 msgid "W"
 msgstr "W"
 
+#: rc.cpp:831 rc.cpp:2028
 msgid ""
 "Warning: changes to the drivers and devices can make Kdenlive unstable. "
 "Change only if you know what you do."
@@ -2328,86 +3448,125 @@ msgstr ""
 "Varování: změna ovladače nebo zařízení může způsobit, že se Kdenlive bude "
 "chovat nestabilně. Měňte tato nastavení pouze pokud dobře víte co děláte."
 
+#: rc.cpp:370
 msgid "Wave"
 msgstr "Vlny"
 
+#: rc.cpp:206
 msgid "Wear"
 msgstr "Opotřebení"
 
+#: src/wizard.cpp:39
 msgid "Welcome"
 msgstr "Vítejte"
 
+#: rc.cpp:258 rc.cpp:1191 rc.cpp:1194 rc.cpp:2388 rc.cpp:2391
 msgid "Width"
 msgstr "Šířka"
 
+#: rc.cpp:338
+msgid "Window"
+msgstr "Okno"
+
+#: rc.cpp:1263 rc.cpp:2460
 msgid "X"
 msgstr "X"
 
+#: src/kdenlivesettingsdialog.cpp:207
 msgid "X11"
 msgstr "X11"
 
+#: rc.cpp:1230 rc.cpp:1242 rc.cpp:2427 rc.cpp:2439
 msgid "X:"
 msgstr "X:"
 
-msgid "XFREE86 DGA 2.0"
-msgstr "XFREE86 DGA 2.0"
+#: src/kdenlivesettingsdialog.cpp:208
+msgid "XFree86 DGA 2.0"
+msgstr "XFree86 DGA 2.0"
 
+#: src/kdenlivesettingsdialog.cpp:206
 msgid "XVideo"
 msgstr "XVideo"
 
+#: rc.cpp:1266 rc.cpp:2463
 msgid "Y"
 msgstr "Y"
 
+#: rc.cpp:1233 rc.cpp:1245 rc.cpp:2430 rc.cpp:2442
 msgid "Y:"
 msgstr "Y:"
 
+#: rc.cpp:198
 msgid "Year"
 msgstr "Rok"
 
+#: src/kdenlivedoc.cpp:949
 #, kde-format
 msgid ""
 "You have changed the project folder. Do you want to copy the cached data "
-"from %1 to the new folder %2 ?"
+"from %1 to the new folder %2?"
 msgstr ""
 "Změnili jste složku projektu. Chcete nakopírovat data z keše z %1 do nově "
 "vytvořené složky %2?"
 
+#: src/customtrackview.cpp:1557
+#, kde-format
+msgid "You must be in an empty space to remove space (time: %1, track: %2)"
+msgstr "K odebrání volného místa musíte být v prázdném prostoru (nyní jste v čase %1 "
+"ve stopě %2)"
+
+#: src/customtrackview.cpp:1563
 #, kde-format
 msgid "You must be in an empty space to remove space (time=%1, track:%2)"
 msgstr ""
 "K odebrání volného místa musíte být v prázdném prostoru (nyní jste v čase %1 "
 "ve stopě %2)"
 
+#: src/customtrackview.cpp:3074
 msgid "You must copy exactly one clip before pasting effects"
 msgstr "Nebyl zkopírován efekt, který by šel vložit."
 
+#: src/customtrackview.cpp:3147 src/customtrackview.cpp:3171
 msgid "You must select one clip for this action"
 msgstr "Pro tuto akci musíte vybrat jeden klip"
 
+#: src/customtrackview.cpp:3375
 msgid "You must select one transition for this action"
 msgstr "Pro tuto akci musíte vybrat právě jeden přechod"
 
+#: rc.cpp:1275 rc.cpp:2472
 msgid "Z-Index:"
 msgstr "Z-Index:"
 
+#: src/mainwindow.cpp:754
 msgid "Zoom In"
 msgstr "Přiblížit"
 
+#: src/mainwindow.cpp:759
 msgid "Zoom Out"
 msgstr "Oddálit"
 
+#: rc.cpp:1215 rc.cpp:2412
 msgid "Zoom:"
 msgstr "Přiblížení:"
 
+#: rc.cpp:765 rc.cpp:1962
 msgid "after"
 msgstr "za"
 
+#: rc.cpp:762 rc.cpp:1959
 msgid "before"
 msgstr "před"
 
+#: rc.cpp:696 rc.cpp:1893
 msgid "create new points"
 msgstr "Vytvořit nové body"
 
+#: src/dvdwizardvob.cpp:33
+msgid "dvdauthor"
+msgstr "dvdauthor"
+
+#: src/recmonitor.cpp:165
 msgid ""
 "dvgrab utility not found,\n"
 " please install it for firewire capture"
@@ -2415,68 +3574,135 @@ msgstr ""
 "Program 'dvgrab' nebyl nalezen,\n"
 "nainstalujte jej pokud chcete nahrávat přes firewire"
 
+#: src/kdenlivesettingsdialog.cpp:157
 #, kde-format
 msgid "dvgrab version %1 at %2"
 msgstr "verze dvgrabu %1 %2"
 
+#: src/editeffectcommand.cpp:31 src/edittransitioncommand.cpp:28
+#: src/addeffectcommand.cpp:29
 msgid "effect"
 msgstr "efekty"
 
+#: src/timecode.cpp:130
 msgid "frames"
 msgstr "snímky"
 
+#: src/mainwindow.cpp:603
 msgid "hh:mm:ss::ff"
 msgstr "hh:mm:ss:ff"
 
+#: src/timecode.cpp:109
 msgid "hour"
 msgstr "hodina"
 
+#: src/managecapturesdialog.cpp:40
 msgid "import"
 msgstr "importovat"
 
+#: src/timecode.cpp:117
 msgid "min."
 msgstr "min."
 
+#: src/dvdwizardvob.cpp:34
+msgid "mkisofs"
+msgstr "mkisofs"
+
+#: rc.cpp:678 rc.cpp:1875
 msgid "move on X axis"
 msgstr "přesunout po ose X"
 
+#: rc.cpp:684 rc.cpp:1881
 msgid "move on Y axis"
 msgstr "přesunout po ose Y"
 
+#: rc.cpp:936 rc.cpp:2133
 msgid "oss"
 msgstr "oss"
 
+#: rc.cpp:705 rc.cpp:1902
 msgid "parameter description"
 msgstr "Popis parametrů"
 
+#: src/timecode.cpp:125
 msgid "sec."
 msgstr "sec."
 
+#: src/abstractclipitem.cpp:293
 msgid "seconds"
 msgstr "sekundy"
 
+#: rc.cpp:456 rc.cpp:1653
 msgid "to"
 msgstr "do"
 
+#: rc.cpp:690 rc.cpp:1887
 msgid "update values in timeline"
 msgstr "aktualizovat hodnoty na časové ose"
 
+#: rc.cpp:939 rc.cpp:2136
 msgid "video4linux2"
 msgstr "video4linux2"
 
+#: rc.cpp:657 rc.cpp:1854
 msgid "with track"
 msgstr "se stopou"
 
+#: rc.cpp:591 rc.cpp:1788
 msgid "x"
 msgstr "x"
 
+#: rc.cpp:1257 rc.cpp:2454
 msgid "x1"
 msgstr "x1"
 
-msgid "your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
+#: src/wizard.cpp:412
+msgid ""
+"your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr ""
 "Instalace MLT nebyla nalezena, nainstalujte prosím MLT a restartujte "
 "Kdenlive.\n"
+
+#~ msgid ""
+#~ "<b>Frame size:</b>%1x%2<br><b>Frame rate:</b>%3/%4<br><b>Aspect ratio:</b>"
+#~ "%5/%6<br><b>Display ratio:</b>%7/%8"
+#~ msgstr ""
+#~ "<b>Velikost snímku</b>%1x%2<br><b>Snímků za sekundu:</b>%3/%4<br><b>Poměr "
+#~ "stran pixelu:</b>%5/%6<br><b>Poměr stran:</b>%7/%8"
+
+#~ msgid "<br><b>Author:</b> "
+#~ msgstr "<br><b>Autor:</b>"
+
+#~ msgid ""
+#~ "Changing the size of video when rendering\n"
+#~ "is not fully supported, you may have problems\n"
+#~ "with some effects or title clips, so the export\n"
+#~ "profiles that resize your video are marked as\n"
+#~ "experimental"
+#~ msgstr ""
+#~ "Změna rozlišení videa při renderování\n"
+#~ "není plně podporovaná, můžou se vyskytnout\n"
+#~ "problémy v závisloti na použitých efektech\n"
+#~ "titulcích apod. Proto jsou profily, které\n"
+#~ "provádějí změnu rozlišení jsou označeny\n"
+#~ "jako experimentální."
+
+#~ msgid "Loading playlist..."
+#~ msgstr "Načítání playlistu..."
+
+#~ msgid ""
+#~ "MLT's avformat (FFMPEG) module not found. Please check your FFMPEG and "
+#~ "MLT install. Kdenlive will not work until this issue is fixed."
+#~ msgstr ""
+#~ "Modul pro avformat (FFMPEG) z MLT nebyl nalezen. Zkontrolujte prosím vaši "
+#~ "instalaci FFMPEG a MLT. Kdenlive nemůže pracovat dokud toto nebude "
+#~ "opraveno."
+
+#~ msgid "Show crash log"
+#~ msgstr "Zobrazit log selhání"
+
+#~ msgid "Show experimental formats"
+#~ msgstr "Zobrazovat experimentální formáty"
 
 #~ msgid "Cannot add marker if more than one clip is selected"
 #~ msgstr "Nelze přidat záložku, pokud je vybrán více než jeden klip."
@@ -2554,17 +3780,11 @@ msgstr ""
 #~ msgid "Dust"
 #~ msgstr "Prach"
 
-#~ msgid "Form"
-#~ msgstr "Formulář"
-
 #~ msgid "Go to..."
 #~ msgstr "Jít na..."
 
 #~ msgid "Grain"
 #~ msgstr "Šum"
-
-#~ msgid "Grain over the image"
-#~ msgstr "Přidá do obrazu šum"
 
 #~ msgid "Moves the Picture up and down and random brightness change"
 #~ msgstr ""
@@ -2597,4 +3817,3 @@ msgstr ""
 
 #~ msgid "Zone start"
 #~ msgstr "Začátek výběru"
-
