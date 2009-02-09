@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>474</width>
+    <width>421</width>
     <height>504</height>
    </rect>
   </property>
@@ -26,7 +26,41 @@
        <string>Render Project</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout" >
-       <item row="2" column="2" colspan="3" >
+       <item row="0" column="0" colspan="2" >
+        <widget class="QLabel" name="label_6" >
+         <property name="text" >
+          <string>Destination</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2" colspan="7" >
+        <widget class="KComboBox" name="destination_list" />
+       </item>
+       <item row="1" column="0" colspan="2" >
+        <widget class="QLabel" name="label" >
+         <property name="text" >
+          <string>Output file</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2" colspan="7" >
+        <widget class="KUrlRequester" name="out_file" />
+       </item>
+       <item row="2" column="0" >
+        <widget class="QToolButton" name="buttonInfo" >
+         <property name="text" >
+          <string>I</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" >
+        <widget class="QLabel" name="label_3" >
+         <property name="text" >
+          <string>Format</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2" colspan="2" >
         <spacer name="horizontalSpacer_2" >
          <property name="orientation" >
           <enum>Qt::Horizontal</enum>
@@ -39,7 +73,159 @@
          </property>
         </spacer>
        </item>
-       <item row="9" column="0" colspan="10" >
+       <item row="2" column="4" colspan="2" >
+        <widget class="KComboBox" name="format_selection" >
+         <item>
+          <property name="text" >
+           <string>PAL</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>NTSC</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="2" column="6" >
+        <widget class="QToolButton" name="buttonEdit" >
+         <property name="text" >
+          <string>E</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="7" >
+        <widget class="QToolButton" name="buttonSave" >
+         <property name="text" >
+          <string>S</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="8" >
+        <widget class="QToolButton" name="buttonDelete" >
+         <property name="text" >
+          <string>D</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="9" >
+        <widget class="QSplitter" name="splitter_3" >
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <widget class="QSplitter" name="splitter" >
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <widget class="KListWidget" name="format_list" >
+           <property name="sizePolicy" >
+            <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
+          <widget class="KListWidget" name="size_list" >
+           <property name="sizePolicy" >
+            <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
+         </widget>
+         <widget class="KTextEdit" name="advanced_params" >
+          <property name="readOnly" >
+           <bool>true</bool>
+          </property>
+          <property name="acceptRichText" >
+           <bool>false</bool>
+          </property>
+         </widget>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="2" >
+        <widget class="QLabel" name="label_5" >
+         <property name="text" >
+          <string>Scanning</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2" colspan="3" >
+        <widget class="KComboBox" name="scanning_list" >
+         <item>
+          <property name="text" >
+           <string>Auto</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Force Progressive</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Force Interlaced</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="4" column="5" colspan="4" >
+        <widget class="QCheckBox" name="export_audio" >
+         <property name="text" >
+          <string>Export audio</string>
+         </property>
+         <property name="checked" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="2" >
+        <widget class="QCheckBox" name="rescale" >
+         <property name="text" >
+          <string>Rescale</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2" colspan="3" >
+        <widget class="KRestrictedLine" name="rescale_size" >
+         <property name="text" >
+          <string/>
+         </property>
+         <property name="validChars" >
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="5" colspan="4" >
+        <widget class="QCheckBox" name="tc_overlay" >
+         <property name="text" >
+          <string>Timecode overlay</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="9" >
+        <widget class="QCheckBox" name="open_dvd" >
+         <property name="text" >
+          <string>Open Dvd wizard after rendering</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0" colspan="9" >
+        <widget class="QCheckBox" name="open_browser" >
+         <property name="text" >
+          <string>Open browser window after export</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0" colspan="9" >
+        <widget class="QCheckBox" name="play_after" >
+         <property name="text" >
+          <string>Play after render</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0" colspan="9" >
         <layout class="QHBoxLayout" name="horizontalLayout" >
          <item>
           <widget class="QRadioButton" name="render_full" >
@@ -67,170 +253,7 @@
          </item>
         </layout>
        </item>
-       <item row="11" column="4" colspan="4" >
-        <spacer name="horizontalSpacer" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0" >
-          <size>
-           <width>221</width>
-           <height>24</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="0" column="0" colspan="2" >
-        <widget class="QLabel" name="label_6" >
-         <property name="text" >
-          <string>Destination</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2" colspan="8" >
-        <widget class="KComboBox" name="destination_list" />
-       </item>
-       <item row="1" column="0" colspan="2" >
-        <widget class="QLabel" name="label" >
-         <property name="text" >
-          <string>Output file</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2" colspan="8" >
-        <widget class="KUrlRequester" name="out_file" />
-       </item>
-       <item row="2" column="0" >
-        <widget class="QToolButton" name="buttonInfo" >
-         <property name="text" >
-          <string>I</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1" >
-        <widget class="QLabel" name="label_3" >
-         <property name="text" >
-          <string>Format</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="5" colspan="2" >
-        <widget class="KComboBox" name="format_selection" >
-         <item>
-          <property name="text" >
-           <string>PAL</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>NTSC</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="2" column="7" >
-        <widget class="QToolButton" name="buttonEdit" >
-         <property name="text" >
-          <string>E</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="8" >
-        <widget class="QToolButton" name="buttonSave" >
-         <property name="text" >
-          <string>S</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="9" >
-        <widget class="QToolButton" name="buttonDelete" >
-         <property name="text" >
-          <string>D</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="2" >
-        <widget class="QLabel" name="label_5" >
-         <property name="text" >
-          <string>Scanning</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="2" colspan="4" >
-        <widget class="KComboBox" name="scanning_list" >
-         <item>
-          <property name="text" >
-           <string>Auto</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Force Progressive</string>
-          </property>
-         </item>
-         <item>
-          <property name="text" >
-           <string>Force Interlaced</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="4" column="6" colspan="4" >
-        <widget class="QCheckBox" name="export_audio" >
-         <property name="text" >
-          <string>Export audio</string>
-         </property>
-         <property name="checked" >
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="2" >
-        <widget class="QCheckBox" name="rescale" >
-         <property name="text" >
-          <string>Rescale</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="2" colspan="4" >
-        <widget class="KRestrictedLine" name="rescale_size" >
-         <property name="text" >
-          <string/>
-         </property>
-         <property name="validChars" >
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="6" colspan="4" >
-        <widget class="QCheckBox" name="tc_overlay" >
-         <property name="text" >
-          <string>Timecode overlay</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="10" >
-        <widget class="QCheckBox" name="open_dvd" >
-         <property name="text" >
-          <string>Open Dvd wizard after rendering</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0" colspan="10" >
-        <widget class="QCheckBox" name="open_browser" >
-         <property name="text" >
-          <string>Open browser window after export</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0" colspan="10" >
-        <widget class="QCheckBox" name="play_after" >
-         <property name="text" >
-          <string>Play after render</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0" colspan="10" >
+       <item row="10" column="0" colspan="9" >
         <widget class="QGroupBox" name="guides_box" >
          <property name="title" >
           <string/>
@@ -273,54 +296,31 @@
          </layout>
         </widget>
        </item>
-       <item row="11" column="0" colspan="4" >
-        <widget class="KPushButton" name="buttonStart" >
-         <property name="text" >
-          <string>Start Rendering</string>
+       <item row="11" column="0" colspan="3" >
+        <widget class="QToolButton" name="buttonStart" >
+         <property name="popupMode" >
+          <enum>QToolButton::MenuButtonPopup</enum>
          </property>
         </widget>
        </item>
-       <item row="11" column="8" colspan="2" >
+       <item row="11" column="3" colspan="4" >
+        <spacer name="horizontalSpacer" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>221</width>
+           <height>24</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="11" column="7" colspan="2" >
         <widget class="KPushButton" name="buttonClose" >
          <property name="text" >
           <string>Close</string>
          </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="10" >
-        <widget class="QSplitter" name="splitter_3" >
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <widget class="QSplitter" name="splitter" >
-          <property name="orientation" >
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <widget class="KListWidget" name="format_list" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-          <widget class="KListWidget" name="size_list" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </widget>
-         <widget class="KTextEdit" name="advanced_params" >
-          <property name="readOnly" >
-           <bool>true</bool>
-          </property>
-          <property name="acceptRichText" >
-           <bool>false</bool>
-          </property>
-         </widget>
         </widget>
        </item>
       </layout>
@@ -406,6 +406,66 @@
            </item>
           </layout>
          </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_3" >
+      <attribute name="title" >
+       <string>Scripts</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_6" >
+       <item row="0" column="0" colspan="4" >
+        <widget class="QTreeWidget" name="scripts_list" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="MinimumExpanding" hsizetype="Expanding" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="rootIsDecorated" >
+          <bool>false</bool>
+         </property>
+         <property name="allColumnsShowFocus" >
+          <bool>true</bool>
+         </property>
+         <property name="columnCount" >
+          <number>0</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" >
+        <widget class="QPushButton" name="start_script" >
+         <property name="text" >
+          <string>Start Script</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" >
+        <widget class="QPushButton" name="delete_script" >
+         <property name="text" >
+          <string>Delete Script</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2" >
+        <spacer name="horizontalSpacer_4" >
+         <property name="orientation" >
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>85</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="3" >
+        <widget class="KPushButton" name="buttonClose3" >
+         <property name="text" >
+          <string>Close</string>
+         </property>
         </widget>
        </item>
       </layout>

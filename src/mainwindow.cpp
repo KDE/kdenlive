@@ -1399,7 +1399,7 @@ void MainWindow::slotRenderProject() {
     if (!m_renderWidget) {
         QString projectfolder = m_activeDocument ? m_activeDocument->projectFolder().path() : KdenliveSettings::defaultprojectfolder();
         m_renderWidget = new RenderWidget(projectfolder, this);
-        connect(m_renderWidget, SIGNAL(doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool)), this, SLOT(slotDoRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool)));
+        connect(m_renderWidget, SIGNAL(doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool, const QString &)), this, SLOT(slotDoRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool, const QString &)));
         connect(m_renderWidget, SIGNAL(abortProcess(const QString &)), this, SIGNAL(abortRenderJob(const QString &)));
         connect(m_renderWidget, SIGNAL(openDvdWizard(const QString &, const QString &)), this, SLOT(slotDvdWizard(const QString &, const QString &)));
         if (m_activeDocument) {
@@ -1413,7 +1413,8 @@ void MainWindow::slotRenderProject() {
     m_renderWidget->show();
 }
 
-void MainWindow::slotDoRender(const QString &dest, const QString &render, const QStringList &overlay_args, const QStringList &avformat_args, bool zoneOnly, bool playAfter, double guideStart, double guideEnd, bool resizeProfile) {
+void MainWindow::slotDoRender(const QString &dest, const QString &render, const QStringList &overlay_args, const QStringList &avformat_args, bool zoneOnly, bool playAfter, double guideStart, double guideEnd, bool resizeProfile, const QString &scriptExport) {
+    kDebug() << "// SCRIPT EXPORT: " << scriptExport;
     if (dest.isEmpty()) return;
     int in;
     int out;
@@ -1425,18 +1426,21 @@ void MainWindow::slotDoRender(const QString &dest, const QString &render, const 
     KTemporaryFile temp;
     temp.setAutoRemove(false);
     temp.setSuffix(".westley");
-    if (temp.open()) {
-
+    if (!scriptExport.isEmpty() || temp.open()) {
         if (KdenliveSettings::dropbframes()) {
             KdenliveSettings::setDropbframes(false);
             m_activeDocument->clipManager()->updatePreviewSettings();
-            m_projectMonitor->saveSceneList(temp.fileName());
+            if (!scriptExport.isEmpty()) m_projectMonitor->saveSceneList(scriptExport + ".westley");
+            else m_projectMonitor->saveSceneList(temp.fileName());
             KdenliveSettings::setDropbframes(true);
             m_activeDocument->clipManager()->updatePreviewSettings();
-        } else m_projectMonitor->saveSceneList(temp.fileName());
+        } else {
+            if (!scriptExport.isEmpty()) m_projectMonitor->saveSceneList(scriptExport + ".westley");
+            else m_projectMonitor->saveSceneList(temp.fileName());
+        }
 
         QStringList args;
-        args << "-erase";
+        if (scriptExport.isEmpty()) args << "-erase";
         if (KdenliveSettings::usekuiserver()) args << "-kuiserver";
         if (zoneOnly) args << "in=" + QString::number(in) << "out=" + QString::number(out);
         else if (guideStart != -1) {
@@ -1464,14 +1468,36 @@ void MainWindow::slotDoRender(const QString &dest, const QString &render, const 
 
         if (resizeProfile) {
             // The rendering profile is different from project profile, so use MLT's special producer_consumer
-            args << "consumer:" + temp.fileName();
-        } else args << temp.fileName();
-        args << dest << avformat_args;
+            if (scriptExport.isEmpty()) args << "consumer:" + temp.fileName();
+            else args << "consumer:$SOURCE";
+        } else {
+            if (scriptExport.isEmpty()) args << temp.fileName();
+            else args << "$SOURCE";
+        }
+        if (scriptExport.isEmpty()) args << dest;
+        else args << "$TARGET";
+        args << avformat_args;
         QString renderer = QCoreApplication::applicationDirPath() + QString("/kdenlive_render");
         if (!QFile::exists(renderer)) renderer = "kdenlive_render";
-        QProcess::startDetached(renderer, args);
+        if (scriptExport.isEmpty()) {
+            QProcess::startDetached(renderer, args);
+            KNotification::event("RenderStarted", i18n("Rendering <i>%1</i> started", dest), QPixmap(), this);
+        } else {
+            // Generate script file
+            QFile file(scriptExport);
+            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                m_messageLabel->setMessage(i18n("Cannot write to file %1", scriptExport), ErrorMessage);
+                return;
+            }
 
-        KNotification::event("RenderStarted", i18n("Rendering <i>%1</i> started", dest), QPixmap(), this);
+            QTextStream out(&file);
+            out << "#! /bin/sh" << "\n" << "\n";
+            out << "SOURCE=" << "\"" + scriptExport + ".westley\"" << "\n";
+            out << "TARGET=" << "\"" + dest + "\"" << "\n";
+            out << renderer << " " << args.join(" ") << "\n" << "\n";
+            file.close();
+            QFile::setPermissions(scriptExport, file.permissions() | QFile::ExeUser);
+        }
     }
 }
 

@@ -22,12 +22,16 @@
 #include <QItemDelegate>
 #include <QTreeWidgetItem>
 #include <QHeaderView>
+#include <QMenu>
+#include <QProcess>
+#include <QInputDialog>
 
 #include <KStandardDirs>
 #include <KDebug>
 #include <KMessageBox>
 #include <KComboBox>
 #include <KRun>
+#include <KIO/NetAccess>
 
 #include "kdenlivesettings.h"
 #include "renderwidget.h"
@@ -65,17 +69,39 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent): QDia
     m_view.rescale_size->setInputMask("0099\\x0099");
     m_view.rescale_size->setText("320x240");
 
+
+    QMenu *renderMenu = new QMenu(i18n("Start Rendering"), this);
+    QAction *renderAction = renderMenu->addAction(KIcon("file-new"), i18n("Render to File"));
+    connect(renderAction, SIGNAL(triggered()), this, SLOT(slotExport()));
+    QAction *scriptAction = renderMenu->addAction(KIcon("file-new"), i18n("Generate Script"));
+    connect(scriptAction, SIGNAL(triggered()), this, SLOT(slotGenerateScript()));
+
+    m_view.buttonStart->setMenu(renderMenu);
+    m_view.buttonStart->setPopupMode(QToolButton::MenuButtonPopup);
+    m_view.buttonStart->setDefaultAction(renderAction);
+    m_view.buttonStart->setToolButtonStyle(Qt::ToolButtonTextOnly);
+    m_view.abort_job->setEnabled(false);
+    m_view.start_script->setEnabled(false);
+    m_view.delete_script->setEnabled(false);
+
+
     parseProfiles();
+    parseScriptFiles();
+
+    connect(m_view.start_script, SIGNAL(clicked()), this, SLOT(slotStartScript()));
+    connect(m_view.delete_script, SIGNAL(clicked()), this, SLOT(slotDeleteScript()));
+    connect(m_view.scripts_list, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(slotCheckScript()));
+    connect(m_view.running_jobs, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(slotCheckJob()));
 
     connect(m_view.buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
 
     connect(m_view.buttonSave, SIGNAL(clicked()), this, SLOT(slotSaveProfile()));
     connect(m_view.buttonEdit, SIGNAL(clicked()), this, SLOT(slotEditProfile()));
     connect(m_view.buttonDelete, SIGNAL(clicked()), this, SLOT(slotDeleteProfile()));
-    connect(m_view.buttonStart, SIGNAL(clicked()), this, SLOT(slotExport()));
     connect(m_view.abort_job, SIGNAL(clicked()), this, SLOT(slotAbortCurrentJob()));
     connect(m_view.buttonClose, SIGNAL(clicked()), this, SLOT(hide()));
     connect(m_view.buttonClose2, SIGNAL(clicked()), this, SLOT(hide()));
+    connect(m_view.buttonClose3, SIGNAL(clicked()), this, SLOT(hide()));
     connect(m_view.rescale, SIGNAL(toggled(bool)), m_view.rescale_size, SLOT(setEnabled(bool)));
     connect(m_view.destination_list, SIGNAL(activated(int)), this, SLOT(refreshView()));
     connect(m_view.out_file, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateButtons()));
@@ -106,6 +132,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent): QDia
 
     m_view.running_jobs->setHeaderLabels(QStringList() << QString() << i18n("File") << i18n("Progress"));
     m_view.running_jobs->setItemDelegate(new RenderViewDelegate(this));
+
     QHeaderView *header = m_view.running_jobs->header();
     QFontMetrics fm = fontMetrics();
     //header->resizeSection(0, fm.width("typical-name-for-a-torrent.torrent"));
@@ -117,6 +144,10 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent): QDia
     header->resizeSection(1, width() * 2 / 3);
     header->setResizeMode(2, QHeaderView::Interactive);
     //header->setResizeMode(1, QHeaderView::Fixed);
+
+    m_view.scripts_list->setHeaderLabels(QStringList() << i18n("Script Files"));
+    m_view.scripts_list->setItemDelegate(new RenderScriptDelegate(this));
+
 
     focusFirstVisibleItem();
 }
@@ -137,6 +168,7 @@ void RenderWidget::setDocumentPath(const QString path) {
     m_projectFolder = path;
     const QString fileName = m_view.out_file->url().fileName();
     m_view.out_file->setUrl(KUrl(m_projectFolder + '/' + fileName));
+    parseScriptFiles();
 }
 
 void RenderWidget::slotUpdateGuideBox() {
@@ -421,16 +453,39 @@ void RenderWidget::focusFirstVisibleItem() {
     updateButtons();
 }
 
-void RenderWidget::slotExport() {
+void RenderWidget::slotExport(bool scriptExport) {
     QListWidgetItem *item = m_view.size_list->currentItem();
     if (!item) return;
+
     const QString dest = m_view.out_file->url().path();
     if (dest.isEmpty()) return;
     QFile f(dest);
     if (f.exists()) {
-        if (KMessageBox::warningYesNo(this, i18n("File already exists. Do you want to overwrite it ?")) != KMessageBox::Yes)
+        if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it ?")) != KMessageBox::Yes)
             return;
     }
+
+    QString scriptName;
+    if (scriptExport) {
+        bool ok;
+        int ix = 0;
+        QString scriptsFolder = m_projectFolder + "/scripts/";
+        KStandardDirs::makeDir(scriptsFolder);
+        QString path = scriptsFolder + i18n("script") + QString::number(ix).rightJustified(3, '0', false) + ".sh";
+        while (QFile::exists(path)) {
+            ix++;
+            path = scriptsFolder + i18n("script") + QString::number(ix).rightJustified(3, '0', false) + ".sh";
+        }
+        scriptName = QInputDialog::getText(this, i18n("Create Render Script"), i18n("Script name (will be saved in: %1)", scriptsFolder), QLineEdit::Normal, KUrl(path).fileName(), &ok);
+        if (!ok || scriptName.isEmpty()) return;
+        scriptName.prepend(scriptsFolder);
+        QFile f(scriptName);
+        if (f.exists()) {
+            if (KMessageBox::warningYesNo(this, i18n("Script file already exists. Do you want to overwrite it ?")) != KMessageBox::Yes)
+                return;
+        }
+    }
+
     QStringList overlayargs;
     if (m_view.tc_overlay->isChecked()) {
         QString filterFile = KStandardDirs::locate("appdata", "metadata.properties");
@@ -508,8 +563,12 @@ void RenderWidget::slotExport() {
         renderItem->setData(0, Qt::UserRole + 1, url);
     }
 
-    emit doRender(dest, item->data(RenderRole).toString(), overlayargs, renderArgs.simplified().split(' '), m_view.render_zone->isChecked(), m_view.play_after->isChecked(), startPos, endPos, resizeProfile);
-    m_view.tabWidget->setCurrentIndex(1);
+    emit doRender(dest, item->data(RenderRole).toString(), overlayargs, renderArgs.simplified().split(' '), m_view.render_zone->isChecked(), m_view.play_after->isChecked(), startPos, endPos, resizeProfile, scriptName);
+    if (scriptName.isEmpty()) m_view.tabWidget->setCurrentIndex(1);
+    else {
+        QTimer::singleShot(400, this, SLOT(parseScriptFiles()));
+        m_view.tabWidget->setCurrentIndex(2);
+    }
 }
 
 void RenderWidget::setProfile(MltVideoProfile profile) {
@@ -791,6 +850,7 @@ void RenderWidget::setRenderJob(const QString &dest, int progress) {
         item->setIcon(0, KIcon("system-run"));
         item->setSizeHint(1, QSize(m_view.running_jobs->columnWidth(1), fontMetrics().height() * 2));
         item->setData(1, Qt::UserRole + 1, QTime::currentTime());
+        slotCheckJob();
     } else {
         QTime startTime = item->data(1, Qt::UserRole + 1).toTime();
         int seconds = startTime.secsTo(QTime::currentTime());;
@@ -824,7 +884,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         // Rendering crashed
         item->setData(1, Qt::UserRole, i18n("Rendering crashed"));
         item->setIcon(0, KIcon("dialog-close"));
-        item->setData(2, Qt::UserRole, 0);
+        item->setData(2, Qt::UserRole, 100);
         m_view.error_log->append(i18n("<strong>Rendering of %1 crashed</strong><br />", dest));
         m_view.error_log->append(error);
         m_view.error_log->append("<hr />");
@@ -835,6 +895,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         item->setIcon(0, KIcon("dialog-cancel"));
         item->setData(2, Qt::UserRole, 100);
     }
+    slotCheckJob();
 }
 
 void RenderWidget::slotAbortCurrentJob() {
@@ -842,4 +903,85 @@ void RenderWidget::slotAbortCurrentJob() {
     if (current) emit abortProcess(current->text(1));
 }
 
-#include "renderwidget.moc"
+void RenderWidget::slotCheckJob() {
+    bool activate = false;
+    QTreeWidgetItem *current = m_view.running_jobs->currentItem();
+    if (current) {
+        int percent = current->data(2, Qt::UserRole).toInt();
+        if (percent < 100) activate = true;
+    }
+    m_view.abort_job->setEnabled(activate);
+}
+
+void RenderWidget::parseScriptFiles() {
+    QStringList scriptsFilter;
+    scriptsFilter << "*.sh";
+    m_view.scripts_list->clear();
+
+    QTreeWidgetItem *item;
+    // List the project scripts
+    QStringList scriptFiles = QDir(m_projectFolder + "/scripts").entryList(scriptsFilter, QDir::Files);
+    for (int i = 0; i < scriptFiles.size(); ++i) {
+        KUrl scriptpath(m_projectFolder + "/scripts/" + scriptFiles.at(i));
+        item = new QTreeWidgetItem(m_view.scripts_list, QStringList() << scriptpath.fileName());
+        QString target;
+        QFile file(scriptpath.path());
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            while (!file.atEnd()) {
+                QByteArray line = file.readLine();
+                if (line.startsWith("TARGET=")) {
+                    target = QString(line).section("TARGET=", 1);
+                    target.remove(QChar('"'));
+                    break;
+                }
+            }
+            file.close();
+        }
+        item->setSizeHint(0, QSize(m_view.scripts_list->columnWidth(0), fontMetrics().height() * 2));
+        item->setData(0, Qt::UserRole, target);
+        item->setData(0, Qt::UserRole + 1, scriptpath.path());
+    }
+    bool activate = false;
+    QTreeWidgetItemIterator it(m_view.scripts_list);
+    if (*it) {
+        kDebug() << "// FOUND SCRIPT ITEM:" << (*it)->text(0);
+        // Selecting item does not work, why ???
+        m_view.scripts_list->setCurrentItem(*it);
+        (*it)->setSelected(true);
+        activate = true;
+    }
+    kDebug() << "SELECTED SCRIPTS: " << m_view.scripts_list->selectedItems().count();
+    m_view.start_script->setEnabled(activate);
+    m_view.delete_script->setEnabled(activate);
+}
+
+void RenderWidget::slotCheckScript() {
+    bool activate = false;
+    QTreeWidgetItemIterator it(m_view.scripts_list);
+    if (*it) activate = true;
+    m_view.start_script->setEnabled(activate);
+    m_view.delete_script->setEnabled(activate);
+}
+
+void RenderWidget::slotStartScript() {
+    QTreeWidgetItem *item = m_view.scripts_list->currentItem();
+    if (item) {
+        QString path = item->data(0, Qt::UserRole + 1).toString();
+        QProcess::startDetached(path);
+        m_view.tabWidget->setCurrentIndex(1);
+    }
+}
+
+void RenderWidget::slotDeleteScript() {
+    QTreeWidgetItem *item = m_view.scripts_list->currentItem();
+    if (item) {
+        QString path = item->data(0, Qt::UserRole + 1).toString();
+        KIO::NetAccess::del(path + ".westley", this);
+        KIO::NetAccess::del(path, this);
+        parseScriptFiles();
+    }
+}
+
+void RenderWidget::slotGenerateScript() {
+    slotExport(true);
+}

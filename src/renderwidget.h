@@ -94,6 +94,41 @@ public:
 };
 
 
+// RenderScriptDelegate is used to draw the script items.
+class RenderScriptDelegate : public QItemDelegate {
+    Q_OBJECT
+public:
+    RenderScriptDelegate(QWidget *parent) : QItemDelegate(parent) {}
+
+    void paint(QPainter *painter, const QStyleOptionViewItem &option,
+               const QModelIndex &index) const {
+        if (index.column() == 0) {
+            QRect r1 = option.rect;
+            painter->save();
+            if (option.state & (QStyle::State_Selected)) {
+                painter->setPen(option.palette.color(QPalette::HighlightedText));
+                painter->fillRect(r1, option.palette.highlight());
+            } else painter->setPen(option.palette.color(QPalette::Text));
+            QFont font = painter->font();
+            font.setBold(true);
+            painter->setFont(font);
+            int mid = (int)((r1.height() / 2));
+            r1.setBottom(r1.y() + mid);
+            r1.setLeft(r1.left() + 3);
+            QRect r2 = option.rect;
+            r2.setTop(r2.y() + mid);
+            r2.setLeft(r2.left() + 3);
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignBottom , index.data().toString());
+            font.setBold(false);
+            painter->setFont(font);
+            painter->setPen(option.palette.color(QPalette::Mid));
+            painter->drawText(r2, Qt::AlignLeft | Qt::AlignVCenter , index.data(Qt::UserRole).toString());
+            painter->restore();
+            return;
+        } else QItemDelegate::paint(painter, option, index);
+    }
+};
+
 class RenderWidget : public QDialog {
     Q_OBJECT
 
@@ -109,7 +144,7 @@ public:
 private slots:
     void slotUpdateButtons(KUrl url);
     void slotUpdateButtons();
-    void slotExport();
+    void slotExport(bool scriptExport = false);
     void refreshView();
     void refreshParams();
     void slotSaveProfile();
@@ -120,6 +155,12 @@ private slots:
     void slotCheckEndGuidePosition();
     void showInfoPanel();
     void slotAbortCurrentJob();
+    void slotStartScript();
+    void slotDeleteScript();
+    void slotGenerateScript();
+    void parseScriptFiles();
+    void slotCheckScript();
+    void slotCheckJob();
 
 private:
     Ui::RenderWidget_UI m_view;
@@ -131,7 +172,7 @@ private:
     KUrl filenameWithExtension(KUrl url, QString extension);
 
 signals:
-    void doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool);
+    void doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool, const QString &);
     void abortProcess(const QString &url);
     void openDvdWizard(const QString &url, const QString &profile);
 };
