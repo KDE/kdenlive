@@ -181,7 +181,7 @@ private:
     QPoint m_clickEvent;
     QList <CommentedTime> m_searchPoints;
     QList <Guide *> m_guides;
-    void updateSnapPoints(AbstractClipItem *selected);
+    void updateSnapPoints(AbstractClipItem *selected, QList <GenTime> offsetList = QList <GenTime> (), bool skipSelectedItems = false);
     ClipItem *getClipItemAt(int pos, int track);
     ClipItem *getClipItemAt(GenTime pos, int track);
     ClipItem *getClipItemAtEnd(GenTime pos, int track);

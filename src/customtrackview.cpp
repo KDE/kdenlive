@@ -652,7 +652,8 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         event->accept();
         return;
     }
-    updateSnapPoints(m_dragItem);
+
+
     if (m_dragItem->type() == AVWIDGET && !m_dragItem->isItemLocked()) emit clipItemSelected((ClipItem*) m_dragItem);
     else emit clipItemSelected(NULL);
 
@@ -668,35 +669,30 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         groupSelectedItems();
     }
 
+    if (m_selectionGroup == NULL) updateSnapPoints(m_dragItem);
+    else {
+        QList <GenTime> offsetList;
+        QList<QGraphicsItem *> children = m_selectionGroup->childItems();
+        for (int i = 0; i < children.count(); i++) {
+            AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(i));
+            offsetList.append(item->startPos());
+            offsetList.append(item->endPos());
+        }
+        if (!offsetList.isEmpty()) {
+            qSort(offsetList);
+            GenTime startOffset = offsetList.takeFirst();
+            QList <GenTime> cleandOffsetList;
+            for (int k = 0; k < offsetList.size(); k++) {
+                GenTime newoffset = offsetList.at(k) - startOffset;
+                if (newoffset != GenTime() && !cleandOffsetList.contains(newoffset)) {
+                    cleandOffsetList.append(newoffset);
+                }
+            }
+            updateSnapPoints(NULL, cleandOffsetList, true);
+        }
+    }
+
     m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps())), (int)(event->pos().y() - m_dragItem->pos().y()));
-    /*
-                        if (!item->isSelected()) {
-
-                            if (event->modifiers() != Qt::ControlModifier) {
-                                QList<QGraphicsItem *> itemList = items();
-                                for (int i = 0; i < itemList.count(); i++) {
-                                    itemList.at(i)->setSelected(false);
-                                    itemList.at(i)->update();
-                                }
-                            }
-                            item->setSelected(true);
-                            item->update();
-                        }
-
-
-
-                        m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps()) * m_scale), (int)(event->pos().y() - m_dragItem->pos().y()));
-                        m_dragItemInfo.startPos = m_dragItem->startPos();
-                        m_dragItemInfo.endPos = m_dragItem->endPos();
-                        m_dragItemInfo.track = m_dragItem->track();
-
-                        m_selectedClipList.clear();
-                        QList<QGraphicsItem *> selected = scene()->selectedItems();
-                        for (int i = 0; i < selected.count(); i++) {
-                            if (selected.at(i)->type() == AVWIDGET || selected.at(i)->type() == TRANSITIONWIDGET)
-                                m_selectedClipList.append(static_cast <AbstractClipItem *>(selected.at(i)));
-                        }
-          */
     m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
 
     if (m_operationMode == KEYFRAME) {
@@ -938,15 +934,18 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
         DocClipBase *clip = m_document->getBaseClip(list.at(0));
         if (clip == NULL) kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << list.at(0);
         ItemInfo info;
-        info.startPos = GenTime(0, m_document->fps());
+        info.startPos = GenTime();
         info.cropStart = GenTime(list.at(1).toInt(), m_document->fps());
-        info.endPos = info.startPos + GenTime(list.at(2).toInt() - list.at(1).toInt(), m_document->fps());
+        info.endPos = GenTime(list.at(2).toInt() - list.at(1).toInt(), m_document->fps());
         info.track = (int)(1 / m_tracksHeight);
         ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0);
         m_selectionGroup->addToGroup(item);
         item->setFlags(QGraphicsItem::ItemIsSelectable);
         //TODO: check if we do not overlap another clip when first dropping in timeline
         // if (insertPossible(m_selectionGroup, event->pos()))
+        QList <GenTime> offsetList;
+        offsetList.append(info.endPos);
+        updateSnapPoints(NULL, offsetList);
         scene()->addItem(m_selectionGroup);
         event->acceptProposedAction();
     } else if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
@@ -957,6 +956,7 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
         m_selectionGroup = new AbstractGroupItem(m_document->fps());
         QPoint pos = QPoint();
         GenTime start = GenTime();
+        QList <GenTime> offsetList;
         for (int i = 0; i < ids.size(); ++i) {
             DocClipBase *clip = m_document->getBaseClip(ids.at(i));
             if (clip == NULL) kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << ids.at(i);
@@ -966,11 +966,13 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
             info.track = (int)(1 / m_tracksHeight);
             ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0);
             start += clip->duration();
+            offsetList.append(start);
             m_selectionGroup->addToGroup(item);
             item->setFlags(QGraphicsItem::ItemIsSelectable);
         }
         //TODO: check if we do not overlap another clip when first dropping in timeline
         //if (insertPossible(m_selectionGroup, event->pos()))
+        updateSnapPoints(NULL, offsetList);
         scene()->addItem(m_selectionGroup);
         event->acceptProposedAction();
     } else QGraphicsView::dragEnterEvent(event);
@@ -2699,27 +2701,35 @@ double CustomTrackView::getSnapPointForPos(double pos) {
     return m_scene->getSnapPointForPos(pos, KdenliveSettings::snaptopoints());
 }
 
-void CustomTrackView::updateSnapPoints(AbstractClipItem *selected) {
+void CustomTrackView::updateSnapPoints(AbstractClipItem *selected, QList <GenTime> offsetList, bool skipSelectedItems) {
     QList <GenTime> snaps;
-    GenTime offset;
-    if (selected) offset = selected->duration();
+    if (selected && offsetList.isEmpty()) offsetList.append(selected->duration());
     QList<QGraphicsItem *> itemList = items();
     for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->type() == AVWIDGET && itemList.at(i) != selected) {
+        if (itemList.at(i) == selected) continue;
+        if (skipSelectedItems && itemList.at(i)->isSelected()) continue;
+        if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             GenTime start = item->startPos();
             GenTime end = item->endPos();
             snaps.append(start);
             snaps.append(end);
-            QList < GenTime > markers = item->snapMarkers();
-            for (int i = 0; i < markers.size(); ++i) {
-                GenTime t = markers.at(i);
-                snaps.append(t);
-                if (t > offset) snaps.append(t - offset);
+            if (!offsetList.isEmpty()) {
+                for (int j = 0; j < offsetList.size(); j++) {
+                    if (start > offsetList.at(j)) snaps.append(start - offsetList.at(j));
+                    if (end > offsetList.at(j)) snaps.append(end - offsetList.at(j));
+                }
             }
-            if (offset != GenTime()) {
-                if (start > offset) snaps.append(start - offset);
-                if (end > offset) snaps.append(end - offset);
+            // Add clip markers
+            QList < GenTime > markers = item->snapMarkers();
+            for (int j = 0; j < markers.size(); ++j) {
+                GenTime t = markers.at(j);
+                snaps.append(t);
+                if (!offsetList.isEmpty()) {
+                    for (int k = 0; k < offsetList.size(); k++) {
+                        if (t > offsetList.at(k)) snaps.append(t - offsetList.at(k));
+                    }
+                }
             }
         } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
             Transition *transition = static_cast <Transition*>(itemList.at(i));
@@ -2727,9 +2737,11 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected) {
             GenTime end = transition->endPos();
             snaps.append(start);
             snaps.append(end);
-            if (offset != GenTime()) {
-                if (start > offset) snaps.append(start - offset);
-                if (end > offset) snaps.append(end - offset);
+            if (!offsetList.isEmpty()) {
+                for (int j = 0; j < offsetList.size(); j++) {
+                    if (start > offsetList.at(j)) snaps.append(start - offsetList.at(j));
+                    if (end > offsetList.at(j)) snaps.append(end - offsetList.at(j));
+                }
             }
         }
     }
@@ -2737,12 +2749,20 @@ void CustomTrackView::updateSnapPoints(AbstractClipItem *selected) {
     // add cursor position
     GenTime pos = GenTime(m_cursorPos, m_document->fps());
     snaps.append(pos);
-    if (offset != GenTime()) snaps.append(pos - offset);
+    if (!offsetList.isEmpty()) {
+        for (int j = 0; j < offsetList.size(); j++) {
+            snaps.append(pos - offsetList.at(j));
+        }
+    }
 
     // add guides
     for (int i = 0; i < m_guides.count(); i++) {
         snaps.append(m_guides.at(i)->position());
-        if (offset != GenTime()) snaps.append(m_guides.at(i)->position() - offset);
+        if (!offsetList.isEmpty()) {
+            for (int j = 0; j < offsetList.size(); j++) {
+                snaps.append(m_guides.at(i)->position() - offsetList.at(j));
+            }
+        }
     }
 
     qSort(snaps);
