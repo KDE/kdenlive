@@ -162,7 +162,7 @@ void TrackView::parseDocument(QDomDocument doc) {
                 m_doc->switchTrackVideo(i - 1, true);
                 m_doc->switchTrackAudio(i - 1, true);
             }
-            trackduration = slotAddProjectTrack(pos, p);
+            trackduration = slotAddProjectTrack(pos, p, m_doc->isTrackLocked(i - 1));
             pos--;
             //kDebug() << " PRO DUR: " << trackduration << ", TRACK DUR: " << duration;
             if (trackduration > duration) duration = trackduration;
@@ -285,6 +285,9 @@ void TrackView::parseDocument(QDomDocument doc) {
                 Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, isAutomatic);
                 if (forceTrack) tr->setForcedTrack(true, a_track);
                 m_scene->addItem(tr);
+                if (m_doc->isTrackLocked(b_track - 1)) {
+                    tr->setItemLocked(true);
+                }
             }
         }
     }
@@ -370,7 +373,7 @@ void TrackView::slotRebuildTrackHeaders() {
 }
 
 
-int TrackView::slotAddProjectTrack(int ix, QDomElement xml) {
+int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked) {
     int trackTop = KdenliveSettings::trackheight() * ix;
     // parse track
     int position = 0;
@@ -405,6 +408,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml) {
                 //kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
                 ClipItem *item = new ClipItem(clip, clipinfo, m_doc->fps(), speed, false);
                 m_scene->addItem(item);
+                if (locked) item->setItemLocked(true);
                 clip->addReference();
                 position += (out - in + 1);
 

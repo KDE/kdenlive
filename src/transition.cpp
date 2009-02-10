@@ -247,6 +247,8 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
 
 
 OPERATIONTYPE Transition::operationMode(QPointF pos) {
+    if (isItemLocked()) return NONE;
+
     const double scale = projectScene()->scale();
     double maximumOffset = 6 / scale;
 

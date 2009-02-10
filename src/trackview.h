@@ -84,7 +84,7 @@ private:
     QVBoxLayout *m_tracksAreaLayout;
     QString m_documentErrors;
     void parseDocument(QDomDocument doc);
-    int slotAddProjectTrack(int ix, QDomElement xml);
+    int slotAddProjectTrack(int ix, QDomElement xml, bool locked);
     DocClipBase *getMissingProducer(const QString id) const;
 
 private slots:

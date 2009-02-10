@@ -105,7 +105,6 @@ Q_OBJECT public:
     void setTrackType(int ix, TrackInfo type);
     const QList <TrackInfo> tracksList() const;
     QPoint getTracksCount() const;
-    QString getTracksInfo() const;
     void switchTrackVideo(int ix, bool hide);
     void switchTrackAudio(int ix, bool hide);
     void switchTrackLock(int ix, bool lock);
@@ -116,6 +115,7 @@ Q_OBJECT public:
     QPoint zone() const;
     void setSceneList();
     void updatePreviewSettings();
+    bool isTrackLocked(int ix) const;
 
 private:
     KUrl m_url;
