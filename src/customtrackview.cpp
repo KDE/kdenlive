@@ -3459,6 +3459,7 @@ void CustomTrackView::slotChangeTrack(int ix) {
         TrackInfo info;
         info.isLocked = false;
         info.isMute = false;
+        ix = view.track_nb->value();
 
         if (view.video_track->isChecked()) {
             info.type = VIDEOTRACK;
@@ -3502,7 +3503,7 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo) {
 }
 
 void CustomTrackView::changeTimelineTrack(int ix, TrackInfo trackinfo) {
-    TrackInfo oldinfo = m_document->trackInfoAt(m_document->tracksCount() - ix);
+    TrackInfo oldinfo = m_document->trackInfoAt(m_document->tracksCount() - ix - 1);
     ChangeTrackCommand *changeTrack = new ChangeTrackCommand(this, ix, oldinfo, trackinfo, true);
     m_commandStack->push(changeTrack);
 }
