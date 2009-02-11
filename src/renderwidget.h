@@ -24,6 +24,7 @@
 #include <QDialog>
 #include <QPushButton>
 #include <QPainter>
+#include <QItemDelegate>
 
 #include "definitions.h"
 #include "ui_renderwidget_ui.h"
