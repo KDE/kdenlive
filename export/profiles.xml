@@ -17,8 +17,8 @@
   <profile name="DVCPRO50 PAL 16:9" standard="PAL" args="f=dv pix_fmt=yuv422p s=720x576 profile=dv_pal_wide" />
 
 
-  <profile name="DV NTSC 4:3" standard="NTSC" args="f=dv pix_fmt=yuv420p s=720x480 profile=dv_ntsc" />
-  <profile name="DV NTSC 16:9" standard="NTSC" args="f=dv pix_fmt=yuv420p s=720x480 profile=dv_ntsc_wide" />
+  <profile name="DV NTSC 4:3" standard="NTSC" args="f=dv pix_fmt=yuv411p s=720x480 profile=dv_ntsc" />
+  <profile name="DV NTSC 16:9" standard="NTSC" args="f=dv pix_fmt=yuv411p s=720x480 profile=dv_ntsc_wide" />
   <profile name="DVCPRO25 NTSC 4:3" standard="NTSC" args="f=dv pix_fmt=yuv411p s=720x480 profile=dv_ntsc" />
   <profile name="DVCPRO25 NTSC 16:9" standard="NTSC" args="f=dv pix_fmt=yuv411p s=720x480 profile=dv_ntsc_wide" />
   <profile name="DVCPRO50 NTSC 4:3" standard="NTSC" args="f=dv pix_fmt=yuv422p s=720x480 profile=dv_ntsc" />
