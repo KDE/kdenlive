@@ -862,38 +862,51 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event) {
         }
     } else if (m_dragItem) {
         ClipDurationDialog d(m_dragItem, m_document->timecode(), this);
+        GenTime minimum;
+        GenTime maximum;
+        if (m_dragItem->type() == TRANSITIONWIDGET) {
+            getTransitionAvailableSpace(m_dragItem, minimum, maximum);
+        } else {
+            getClipAvailableSpace(m_dragItem, minimum, maximum);
+        }
+        //kDebug()<<"// GOT MOVE POS: "<<minimum.frames(25)<<" - "<<maximum.frames(25);
+        d.setMargins(minimum, maximum);
         if (d.exec() == QDialog::Accepted) {
-            if (d.startPos() != m_dragItem->startPos()) {
-                if (m_dragItem->type() == AVWIDGET) {
-                    ItemInfo startInfo;
-                    startInfo.startPos = m_dragItem->startPos();
-                    startInfo.endPos = m_dragItem->endPos();
-                    startInfo.track = m_dragItem->track();
-                    ItemInfo endInfo;
-                    endInfo.startPos = d.startPos();
-                    endInfo.endPos = m_dragItem->endPos() + (endInfo.startPos - startInfo.startPos);
-                    endInfo.track = m_dragItem->track();
-                    MoveClipCommand *command = new MoveClipCommand(this, startInfo, endInfo, true);
-                    m_commandStack->push(command);
-                } else {
-                    //TODO: move transition
+            if (m_dragItem->type() == TRANSITIONWIDGET) {
+                // move & resize transition
+                ItemInfo startInfo;
+                startInfo.startPos = m_dragItem->startPos();
+                startInfo.endPos = m_dragItem->endPos();
+                startInfo.track = m_dragItem->track();
+                ItemInfo endInfo;
+                endInfo.startPos = d.startPos();
+                endInfo.endPos = endInfo.startPos + d.duration();
+                endInfo.track = m_dragItem->track();
+                MoveTransitionCommand *command = new MoveTransitionCommand(this, startInfo, endInfo, true);
+                m_commandStack->push(command);
+            } else {
+                // move and resize clip
+                QUndoCommand *moveCommand = new QUndoCommand();
+                moveCommand->setText(i18n("Edit clip"));
+                ItemInfo clipInfo;
+                clipInfo.startPos = m_dragItem->startPos();
+                clipInfo.endPos = m_dragItem->endPos();
+                clipInfo.track = m_dragItem->track();
+                if (d.startPos() != m_dragItem->startPos()) {
+                    ItemInfo startInfo = clipInfo;
+                    clipInfo.startPos = d.startPos();
+                    clipInfo.endPos = m_dragItem->endPos() + (clipInfo.startPos - startInfo.startPos);
+                    clipInfo.track = m_dragItem->track();
+                    new MoveClipCommand(this, startInfo, clipInfo, true, moveCommand);
                 }
-            }
-            if (d.duration() != m_dragItem->duration()) {
-                if (m_dragItem->type() == AVWIDGET) {
-                    ItemInfo startInfo;
-                    startInfo.startPos = m_dragItem->startPos();
-                    startInfo.endPos = m_dragItem->endPos();
-                    startInfo.track = m_dragItem->track();
+                if (d.duration() != m_dragItem->duration()) {
                     ItemInfo endInfo;
-                    endInfo.startPos = startInfo.startPos;
+                    endInfo.startPos = clipInfo.startPos;
                     endInfo.endPos = endInfo.startPos + d.duration();
                     endInfo.track = m_dragItem->track();
-                    ResizeClipCommand *command = new ResizeClipCommand(this, startInfo, endInfo, true);
-                    m_commandStack->push(command);
-                } else {
-                    //TODO: resize transition
+                    new ResizeClipCommand(this, clipInfo, endInfo, true, moveCommand);
                 }
+                m_commandStack->push(moveCommand);
             }
         }
     } else {
@@ -3536,6 +3549,36 @@ void CustomTrackView::clipNameChanged(const QString id, const QString name) {
         }
     }
     viewport()->update();
+}
+
+void CustomTrackView::getClipAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum) {
+    minimum = GenTime();
+    maximum = GenTime();
+    QList<QGraphicsItem *> selection;
+    selection = m_scene->items(0, item->track() * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), 2);
+    selection.removeAll(item);
+    for (int i = 0; i < selection.count(); i++) {
+        AbstractClipItem *clip = static_cast <AbstractClipItem *>(selection.at(i));
+        if (clip && clip->type() == AVWIDGET) {
+            if (clip->endPos() <= item->startPos() && clip->endPos() > minimum) minimum = clip->endPos();
+            if (clip->startPos() > item->startPos() && (clip->startPos() < maximum || maximum == GenTime())) maximum = clip->startPos();
+        }
+    }
+}
+
+void CustomTrackView::getTransitionAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum) {
+    minimum = GenTime();
+    maximum = GenTime();
+    QList<QGraphicsItem *> selection;
+    selection = m_scene->items(0, (item->track() + 1) * m_tracksHeight, sceneRect().width(), 2);
+    selection.removeAll(item);
+    for (int i = 0; i < selection.count(); i++) {
+        AbstractClipItem *clip = static_cast <AbstractClipItem *>(selection.at(i));
+        if (clip && clip->type() == TRANSITIONWIDGET) {
+            if (clip->endPos() <= item->startPos() && clip->endPos() > minimum) minimum = clip->endPos();
+            if (clip->startPos() > item->startPos() && (clip->startPos() < maximum || maximum == GenTime())) maximum = clip->startPos();
+        }
+    }
 }
 
 #include "customtrackview.moc"

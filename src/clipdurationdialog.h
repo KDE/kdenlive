@@ -37,9 +37,11 @@ public:
     GenTime startPos() const;
     GenTime cropStart() const;
     GenTime duration() const;
+    void setMargins(GenTime min, GenTime max);
 
 protected:
     void wheelEvent(QWheelEvent * event);
+
 private slots:
     void slotPosUp();
     void slotPosDown();
@@ -47,13 +49,16 @@ private slots:
     void slotDurDown();
     void slotCropUp();
     void slotCropDown();
+    void slotCheckDuration();
+    void slotCheckStart();
 
 private:
     Ui::ClipDurationDialog_UI m_view;
     AbstractClipItem *m_clip;
     Timecode m_tc;
     double m_fps;
-
+    GenTime m_min;
+    GenTime m_max;
 };
 
 

@@ -223,6 +223,11 @@ private:
     bool insertPossible(AbstractGroupItem *group, const QPoint &pos) const;
     void resetSelectionGroup(bool selectItems = true);
     void groupSelectedItems(bool force = false);
+    /** Get available space for clip move (min and max free positions) */
+    void getClipAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum);
+    /** Get available space for transition move (min and max free positions) */
+    void getTransitionAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum);
+
 
 private slots:
     void slotRefreshGuides();

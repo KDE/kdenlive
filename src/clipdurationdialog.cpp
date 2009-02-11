@@ -52,6 +52,35 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, QWid
 ClipDurationDialog::~ClipDurationDialog() {
 }
 
+void ClipDurationDialog::setMargins(GenTime min, GenTime max) {
+    m_min = min;
+    m_max = max;
+    connect(m_view.clip_position, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckStart()));
+    connect(m_view.clip_duration, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckDuration()));
+}
+
+void ClipDurationDialog::slotCheckStart() {
+    int pos = m_tc.getFrameCount(m_view.clip_position->text(), m_fps);
+    int dur = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
+    GenTime start(pos, m_fps);
+    GenTime duration(dur, m_fps);
+    if (start < m_min) {
+        m_view.clip_position->setText(m_tc.getTimecode(m_min, m_fps));
+    } else if (start + duration > m_max) {
+        m_view.clip_position->setText(m_tc.getTimecode(m_max - duration, m_fps));
+    }
+}
+
+void ClipDurationDialog::slotCheckDuration() {
+    int pos = m_tc.getFrameCount(m_view.clip_position->text(), m_fps);
+    int dur = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
+    GenTime start(pos, m_fps);
+    GenTime duration(dur, m_fps);
+    if (start + duration > m_max) {
+        m_view.clip_duration->setText(m_tc.getTimecode(m_max - start, m_fps));
+    }
+}
+
 void ClipDurationDialog::slotPosUp() {
     int position = m_tc.getFrameCount(m_view.clip_position->text(), m_fps);
     //if (duration >= m_clip->duration().frames(m_fps)) return;
