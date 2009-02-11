@@ -143,6 +143,7 @@ void Wizard::checkMltComponents() {
             avformatItem->setIcon(0, okIcon);
             // Make sure we have MLT > 0.3.4
             bool recentMlt = false;
+            int version = 0;
             QString exepath = KStandardDirs::findExe("pkg-config");
             if (!exepath.isEmpty()) {
                 checkProcess.start(exepath, QStringList() << "--variable=version" << "mlt-framework");
@@ -151,11 +152,12 @@ void Wizard::checkMltComponents() {
                 } else {
                     checkProcess.waitForFinished();
                     QString mltVersion = checkProcess.readAllStandardOutput();
-                    int version = 100 * mltVersion.section('.', 0, 0).toInt() + 10 * mltVersion.section('.', 1, 1).toInt() + mltVersion.section('.', 2, 2).toInt();
+                    version = 100 * mltVersion.section('.', 0, 0).toInt() + 10 * mltVersion.section('.', 1, 1).toInt() + mltVersion.section('.', 2, 2).toInt();
                     kDebug() << "// FOUND MLT's pkgconfig version: " << version;
                     if (version > 34) recentMlt = true;
                 }
-            } else {
+            }
+            if (version == 0) {
                 checkProcess.start(KdenliveSettings::rendererpath(), QStringList() << "--version");
                 if (!checkProcess.waitForStarted()) {
                     kDebug() << "// Error querying MLT's version";
@@ -164,7 +166,7 @@ void Wizard::checkMltComponents() {
                     QString mltVersion = checkProcess.readAllStandardError();
                     mltVersion = mltVersion.section("\n", 0, 0).simplified();
                     mltVersion = mltVersion.section(' ', -1).simplified();
-                    int version = 100 * mltVersion.section('.', 0, 0).toInt() + 10 * mltVersion.section('.', 1, 1).toInt() + mltVersion.section('.', 2, 2).toInt();
+                    version = 100 * mltVersion.section('.', 0, 0).toInt() + 10 * mltVersion.section('.', 1, 1).toInt() + mltVersion.section('.', 2, 2).toInt();
                     kDebug() << "// FOUND MLT version: " << version;
                     if (version > 34) recentMlt = true;
                 }
