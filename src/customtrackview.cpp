@@ -888,23 +888,18 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event) {
                 // move and resize clip
                 QUndoCommand *moveCommand = new QUndoCommand();
                 moveCommand->setText(i18n("Edit clip"));
-                ItemInfo clipInfo;
-                clipInfo.startPos = m_dragItem->startPos();
-                clipInfo.endPos = m_dragItem->endPos();
-                clipInfo.track = m_dragItem->track();
-                if (d.startPos() != m_dragItem->startPos()) {
+                ItemInfo clipInfo = m_dragItem->info();
+                if (d.startPos() != clipInfo.startPos) {
                     ItemInfo startInfo = clipInfo;
                     clipInfo.startPos = d.startPos();
                     clipInfo.endPos = m_dragItem->endPos() + (clipInfo.startPos - startInfo.startPos);
-                    clipInfo.track = m_dragItem->track();
                     new MoveClipCommand(this, startInfo, clipInfo, true, moveCommand);
                 }
-                if (d.duration() != m_dragItem->duration()) {
-                    ItemInfo endInfo;
-                    endInfo.startPos = clipInfo.startPos;
-                    endInfo.endPos = endInfo.startPos + d.duration();
-                    endInfo.track = m_dragItem->track();
-                    new ResizeClipCommand(this, clipInfo, endInfo, true, moveCommand);
+                if (d.duration() != m_dragItem->duration() || d.cropStart() != clipInfo.cropStart) {
+                    ItemInfo startInfo = clipInfo;
+                    clipInfo.endPos = clipInfo.startPos + d.duration();
+                    clipInfo.cropStart = d.cropStart();
+                    new ResizeClipCommand(this, startInfo, clipInfo, true, moveCommand);
                 }
                 m_commandStack->push(moveCommand);
             }
@@ -2630,12 +2625,11 @@ void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end) {
 }
 
 void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end) {
-    int offset = 0;
     bool resizeClipStart = true;
     if (start.startPos == end.startPos) resizeClipStart = false;
     /*if (resizeClipStart) offset = 1;
     else offset = -1;*/
-    ClipItem *item = getClipItemAt((int)(start.startPos.frames(m_document->fps()) + offset), start.track);
+    ClipItem *item = getClipItemAt((int)(start.startPos.frames(m_document->fps())), start.track);
     if (!item) {
         emit displayMessage(i18n("Cannot move clip at time: %1 on track %2", m_document->timecode().getTimecodeFromFrames(start.startPos.frames(m_document->fps())), start.track), ErrorMessage);
         kDebug() << "----------------  ERROR, CANNOT find clip to resize at... "; // << startPos;
@@ -2643,7 +2637,7 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end) {
     }
     bool snap = KdenliveSettings::snaptopoints();
     KdenliveSettings::setSnaptopoints(false);
-    if (resizeClipStart) {
+    if (resizeClipStart && start.startPos != end.startPos) {
         ItemInfo clipinfo = item->info();
         clipinfo.track = m_document->tracksCount() - clipinfo.track;
         bool success = m_document->renderer()->mltResizeClipStart(clipinfo, end.startPos - item->startPos());
@@ -2651,7 +2645,7 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end) {
             item->resizeStart((int) end.startPos.frames(m_document->fps()));
             updateClipFade(item);
         } else emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
-    } else {
+    } else if (!resizeClipStart) {
         ItemInfo clipinfo = item->info();
         clipinfo.track = m_document->tracksCount() - clipinfo.track;
         bool success = m_document->renderer()->mltResizeClipEnd(clipinfo, end.endPos - clipinfo.startPos);
@@ -2659,6 +2653,16 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end) {
             item->resizeEnd((int) end.endPos.frames(m_document->fps()));
             updateClipFade(item, true);
         } else emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
+    }
+    if (end.cropStart != start.cropStart) {
+        kDebug() << "// RESIZE CROP, DIFF: " << (end.cropStart - start.cropStart).frames(25);
+        ItemInfo clipinfo = end;
+        clipinfo.track = m_document->tracksCount() - end.track;
+        bool success = m_document->renderer()->mltResizeClipCrop(clipinfo, end.cropStart - start.cropStart);
+        if (success) {
+            item->setCropStart(end.cropStart);
+            item->resetThumbs();
+        }
     }
     m_document->renderer()->doRefresh();
     KdenliveSettings::setSnaptopoints(snap);

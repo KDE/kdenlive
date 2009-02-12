@@ -154,6 +154,7 @@ Q_OBJECT public:
     int mltGetSpaceLength(const GenTime pos, int track, bool fromBlankStart);
     bool mltResizeClipEnd(ItemInfo info, GenTime clipDuration);
     bool mltResizeClipStart(ItemInfo info, GenTime diff);
+    bool mltResizeClipCrop(ItemInfo info, GenTime diff);
     bool mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart, Mlt::Producer *prod);
     bool mltMoveClip(int startTrack, int endTrack, int pos, int moveStart, Mlt::Producer *prod);
     bool mltRemoveClip(int track, GenTime position);

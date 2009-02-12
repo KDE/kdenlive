@@ -51,6 +51,7 @@ private slots:
     void slotCropDown();
     void slotCheckDuration();
     void slotCheckStart();
+    void slotCheckCrop();
 
 private:
     Ui::ClipDurationDialog_UI m_view;

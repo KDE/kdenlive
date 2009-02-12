@@ -20,6 +20,7 @@
 
 #include <KDebug>
 
+#include "clipitem.h"
 #include "clipdurationdialog.h"
 #include "kdenlivesettings.h"
 #include <QWheelEvent>
@@ -29,7 +30,14 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, QWid
     m_fps = m_tc.fps();
     m_view.setupUi(this);
 
-    if (clip->type() == TRANSITIONWIDGET) {
+    bool allowCrop = true;
+    if (clip->type() == AVWIDGET) {
+        ClipItem *item = static_cast <ClipItem *>(clip);
+        int t = item->clipType();
+        if (t == COLOR || t == IMAGE || t == TEXT) allowCrop = false;
+    }
+
+    if (!allowCrop || clip->type() == TRANSITIONWIDGET) {
         m_view.crop_up->hide();
         m_view.crop_down->hide();
         m_view.crop_position->hide();
@@ -45,7 +53,7 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, QWid
     connect(m_view.crop_down, SIGNAL(clicked()), this, SLOT(slotCropDown()));
     connect(m_view.duration_up, SIGNAL(clicked()), this, SLOT(slotDurUp()));
     connect(m_view.duration_down, SIGNAL(clicked()), this, SLOT(slotDurDown()));
-
+    connect(m_view.crop_position, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckCrop()));
     adjustSize();
 }
 
@@ -76,8 +84,20 @@ void ClipDurationDialog::slotCheckDuration() {
     int dur = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
     GenTime start(pos, m_fps);
     GenTime duration(dur, m_fps);
-    if (start + duration > m_max) {
-        m_view.clip_duration->setText(m_tc.getTimecode(m_max - start, m_fps));
+    GenTime maxDuration = m_max == GenTime() ? start + m_clip->maxDuration() : qMin(m_max, start + m_clip->maxDuration());
+    if (start + duration > maxDuration) {
+        m_view.clip_duration->setText(m_tc.getTimecode(maxDuration - start, m_fps));
+    }
+}
+
+void ClipDurationDialog::slotCheckCrop() {
+    int dur = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
+    int crop = m_tc.getFrameCount(m_view.crop_position->text(), m_fps);
+    GenTime duration(dur, m_fps);
+    GenTime cropStart(crop, m_fps);
+    GenTime maxDuration = m_clip->maxDuration();
+    if (cropStart + duration > maxDuration) {
+        m_view.crop_position->setText(m_tc.getTimecode(maxDuration - duration, m_fps));
     }
 }
 

@@ -2147,6 +2147,35 @@ void Render::mltChangeTrackState(int track, bool mute, bool blind) {
     refresh();
 }
 
+
+bool Render::mltResizeClipCrop(ItemInfo info, GenTime diff) {
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    int frameOffset = (int) diff.frames(m_fps);
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(info.track));
+    Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
+    if (trackPlaylist.is_blank_at(info.startPos.frames(m_fps))) {
+        kDebug() << "////////  ERROR RSIZING BLANK CLIP!!!!!!!!!!!";
+        return false;
+    }
+    mlt_service_lock(service.get_service());
+    int clipIndex = trackPlaylist.get_clip_index_at(info.startPos.frames(m_fps));
+    Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
+    if (clip == NULL) {
+        kDebug() << "////////  ERROR RSIZING NULL CLIP!!!!!!!!!!!";
+        mlt_service_unlock(service.get_service());
+        return false;
+    }
+    int previousStart = clip->get_in();
+    int previousDuration = trackPlaylist.clip_length(clipIndex) - 1;
+    m_isBlocked = true;
+    trackPlaylist.resize_clip(clipIndex, previousStart + frameOffset, previousStart + previousDuration + frameOffset);
+    m_isBlocked = false;
+    mlt_service_unlock(service.get_service());
+    m_mltConsumer->set("refresh", 1);
+    return true;
+}
+
 bool Render::mltResizeClipStart(ItemInfo info, GenTime diff) {
     //kDebug() << "////////  RSIZING CLIP from: "<<info.startPos.frames(25)<<" to "<<diff.frames(25);
     Mlt::Service service(m_mltProducer->parent().get_service());
@@ -2160,16 +2189,12 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff) {
     }
     mlt_service_lock(service.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at(info.startPos.frames(m_fps));
-    /*int previousStart = trackPlaylist.clip_start(clipIndex);
-    int previousDuration = trackPlaylist.clip_length(clipIndex) - 1;*/
-    //kDebug() << " ** RESIZING CLIP START:" << clipIndex << " on track:" << track << ", mid pos: " << pos.frames(25) << ", moving: " << moveFrame << ", in: " << in.frames(25) << ", out: " << out.frames(25);
     Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
     if (clip == NULL) {
         kDebug() << "////////  ERROR RSIZING NULL CLIP!!!!!!!!!!!";
         mlt_service_unlock(service.get_service());
         return false;
     }
-    //m_mltConsumer->set("refresh", 0);
     int previousStart = clip->get_in();
     int previousDuration = trackPlaylist.clip_length(clipIndex) - 1;
     m_isBlocked = true;
