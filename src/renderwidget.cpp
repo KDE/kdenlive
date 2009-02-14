@@ -765,7 +765,7 @@ void RenderWidget::parseProfiles(QString group, QString profile) {
     filter << "*.xml";
     const QStringList fileList = directory.entryList(filter, QDir::Files);
     foreach(const QString filename, fileList)
-    parseFile(exportFolder + '/' + filename, true);
+    parseFile(exportFolder + '/' + filename, filename == "customprofiles.xml");
 
     refreshView();
     QList<QListWidgetItem *> child;
