@@ -9,3 +9,4 @@ frei0r.gamma
 frei0r.bw0r
 frei0r.flippo
 frei0r.invert0r
+frei0r.brightness
