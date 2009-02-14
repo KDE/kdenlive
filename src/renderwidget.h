@@ -141,6 +141,7 @@ public:
     void setRenderJob(const QString &dest, int progress = 0);
     void setRenderStatus(const QString &dest, int status, const QString &error);
     void setDocumentPath(const QString path);
+    void reloadProfiles();
 
 private slots:
     void slotUpdateButtons(KUrl url);

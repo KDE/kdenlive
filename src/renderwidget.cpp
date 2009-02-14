@@ -746,6 +746,10 @@ void RenderWidget::refreshParams() {
     m_view.buttonStart->setEnabled(true);
 }
 
+void RenderWidget::reloadProfiles() {
+    parseProfiles();
+}
+
 void RenderWidget::parseProfiles(QString group, QString profile) {
     m_view.size_list->clear();
     m_view.format_list->clear();
@@ -753,13 +757,22 @@ void RenderWidget::parseProfiles(QString group, QString profile) {
     m_view.destination_list->addItem(KIcon("video-x-generic"), i18n("File rendering"));
     QString exportFile = KStandardDirs::locate("appdata", "export/profiles.xml");
     parseFile(exportFile, false);
-    exportFile = KStandardDirs::locateLocal("appdata", "export/customprofiles.xml");
-    if (QFile::exists(exportFile)) parseFile(exportFile, true);
+
+
+    QString exportFolder = KStandardDirs::locateLocal("appdata", "export/");
+    QDir directory = QDir(exportFolder);
+    QStringList filter;
+    filter << "*.xml";
+    const QStringList fileList = directory.entryList(filter, QDir::Files);
+    foreach(const QString filename, fileList)
+    parseFile(exportFolder + '/' + filename, true);
+
     refreshView();
     QList<QListWidgetItem *> child;
-    child = m_view.format_list->findItems(group, Qt::MatchExactly);
+    if (!group.isEmpty()) child = m_view.format_list->findItems(group, Qt::MatchExactly);
     if (!child.isEmpty()) m_view.format_list->setCurrentItem(child.at(0));
-    child = m_view.size_list->findItems(profile, Qt::MatchExactly);
+    child.clear();
+    if (!profile.isEmpty()) child = m_view.size_list->findItems(profile, Qt::MatchExactly);
     if (!child.isEmpty()) m_view.size_list->setCurrentItem(child.at(0));
 }
 
@@ -801,6 +814,7 @@ void RenderWidget::parseFile(QString exportFile, bool editable) {
                 else if (metagroupId == "websites") icon = KIcon("applications-internet");
                 else if (metagroupId == "mediaplayers") icon = KIcon("applications-multimedia");
                 else if (metagroupId == "lossless") icon = KIcon("drive-harddisk");
+                else if (metagroupId == "mobile") icon = KIcon("pda");
                 m_view.destination_list->addItem(icon, i18n(metagroupName.toUtf8().data()), metagroupId);
             }
         }

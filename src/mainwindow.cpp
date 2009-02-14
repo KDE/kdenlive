@@ -776,7 +776,9 @@ void MainWindow::setupActions() {
     collection->addAction("manage_profiles", profilesAction);
     connect(profilesAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProfiles()));
 
-    KAction* fileGHNS = KNS::standardAction(i18n("Download New Lumas..."), this, SLOT(slotGetNewStuff()), actionCollection(), "get_new_stuff");
+    KNS::standardAction(i18n("Download New Lumas..."), this, SLOT(slotGetNewLumaStuff()), actionCollection(), "get_new_lumas");
+
+    KNS::standardAction(i18n("Download New Profiles..."), this, SLOT(slotGetNewRenderStuff()), actionCollection(), "get_new_profiles");
 
     KAction* wizAction = new KAction(KIcon("configure"), i18n("Run Config Wizard"), this);
     collection->addAction("run_wizard", wizAction);
@@ -2248,7 +2250,7 @@ void MainWindow::slotSetOutPoint() {
     } else m_activeTimeline->projectView()->setOutPoint();
 }
 
-void MainWindow::slotGetNewStuff() {
+void MainWindow::slotGetNewLumaStuff() {
     //KNS::Entry::List download();
     KNS::Entry::List entries = KNS::Engine::download();
     int numberInstalled = 0;
@@ -2264,6 +2266,27 @@ void MainWindow::slotGetNewStuff() {
     }
     qDeleteAll(entries);
     initEffects::refreshLumas();
+}
+
+void MainWindow::slotGetNewRenderStuff() {
+    //KNS::Entry::List download();
+
+    KNS::Engine engine(0);
+    if (engine.init("kdenlive_render.knsrc")) {
+        KNS::Entry::List entries = engine.downloadDialogModal(this);
+
+        if (entries.size() > 0) {
+            foreach(KNS::Entry* entry, entries) {
+                // care only about installed ones
+                if (entry->status() == KNS::Entry::Installed) {
+                    foreach(const QString &file, entry->installedFiles()) {
+                        kDebug() << "// CURRENTLY INSTALLED: " << file;
+                    }
+                }
+            }
+        }
+        if (m_renderWidget) m_renderWidget->reloadProfiles();
+    }
 }
 
 void MainWindow::slotAutoTransition() {

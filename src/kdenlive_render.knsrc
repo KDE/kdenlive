@@ -1,0 +1,4 @@
+[KNewStuff2]
+ProvidersUrl=http://kdenlive.org/data/rendersources.xml
+TargetDir=kdenlive/export
+Uncompress=archive

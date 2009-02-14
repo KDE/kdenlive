@@ -283,7 +283,8 @@ private slots:
     void slotInsertTrack(int ix = 0);
     void slotDeleteTrack(int ix = 0);
     void slotChangeTrack(int ix = 0);
-    void slotGetNewStuff();
+    void slotGetNewLumaStuff();
+    void slotGetNewRenderStuff();
     void slotAutoTransition();
     void slotRunWizard();
     void generateClip();
