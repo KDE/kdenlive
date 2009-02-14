@@ -1,0 +1,18 @@
+<!DOCTYPE kpartgui>
+<effect tag="crop" id="crop">
+	<name>Crop</name>
+	<description>Trim the edges of a clip</description>
+	<author>Dan Dennedy</author>
+	<parameter type="constant" name="top" max="2000" min="0" default="0">
+		<name>Top</name>
+	</parameter>
+	<parameter type="constant" name="left" max="2000" min="0" default="0">
+		<name>Left</name>
+	</parameter>
+	<parameter type="constant" name="bottom" max="2000" min="0" default="0">
+		<name>Bottom</name>
+	</parameter>
+	<parameter type="constant" name="right" max="2000" min="0" default="0">
+		<name>Right</name>
+	</parameter>
+</effect>

@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<effect tag="affine" id="pan_zoom" type="video">
+	<name>Pan and Zoom</name>
+	<description>Adjust size and position of clip</description>
+	<author>Charles Yates</author>
+	<parameter type="geometry" name="transition.geometry" default="0%,0%:100%x100%" fixed="1">
+		<name>Rectangle</name>
+	</parameter>
+</effect>

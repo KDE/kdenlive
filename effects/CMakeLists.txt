@@ -7,6 +7,7 @@ channelcopy.xml
 charcoal.xml
 chroma_hold.xml
 chroma.xml
+crop.xml
 freeze.xml
 gamma.xml
 greyscale.xml
@@ -24,6 +25,7 @@ ladspa_vinyl.xml
 mirror.xml
 mute.xml
 normalise.xml
+pan_zoom.xml
 obscure.xml
 rotation.xml
 sepia.xml
