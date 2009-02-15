@@ -1067,6 +1067,10 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track) 
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = (ClipItem *)itemList.at(i);
+	    if (item->hasEffect(effect.attribute("tag"), effect.attribute("id")) != -1 && effect.attribute("unique", "0") != "0") {
+		emit displayMessage(i18n("Effect already present in clip"), ErrorMessage);
+		continue;
+	    }
             item->initEffect(effect);
             if (effect.attribute("tag") == "ladspa") {
                 QString ladpsaFile = m_document->getLadspaFile();
