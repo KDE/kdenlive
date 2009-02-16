@@ -195,9 +195,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out) {
             Ui::Positionval_UI *pval = new Ui::Positionval_UI;
             pval->setupUi(toFillin);
             int pos = value.toInt();
-            if (d.attribute("id") == "fadein") {
+            if (d.attribute("id") == "fadein" || d.attribute("id") == "fade_from_black") {
                 pos = pos - m_in;
-            } else if (d.attribute("id") == "fadeout") {
+            } else if (d.attribute("id") == "fadeout" || d.attribute("id") == "fade_to_black") {
                 // fadeout position starts from clip end
                 pos = m_out - (pos - m_in);
             }
@@ -378,13 +378,13 @@ void EffectStackEdit::collectAllParameters() {
         } else if (type == "position") {
             KRestrictedLine *line = ((Ui::Positionval_UI*)valueItems[paramName+"position"])->krestrictedline;
             int pos = m_timecode.getFrameCount(line->text(), KdenliveSettings::project_fps());
-            if (params.attribute("id") == "fadein") {
+            if (params.attribute("id") == "fadein" || params.attribute("id") == "fade_from_black") {
                 pos += m_in;
                 if (pos > m_out) {
                     pos = m_out;
                     line->setText(m_timecode.getTimecodeFromFrames(pos));
                 }
-            } else if (params.attribute("id") == "fadeout") {
+            } else if (params.attribute("id") == "fadeout" || params.attribute("id") == "fade_to_black") {
                 pos = m_out - (pos - m_in);
                 if (pos > m_out - m_in) {
                     pos = m_out - m_in;

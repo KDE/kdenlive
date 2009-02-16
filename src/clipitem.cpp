@@ -155,15 +155,41 @@ void ClipItem::initEffect(QDomElement effect) {
         }
     }
 
-    if (effect.attribute("tag") == "volume") {
-        if (effect.attribute("id") == "fadeout") {
+    if (effect.attribute("tag") == "volume" || effect.attribute("tag") == "brightness") {
+        if (effect.attribute("id") == "fadeout" || effect.attribute("id") == "fade_to_black") {
             int end = (duration() + cropStart()).frames(m_fps);
-            int start = end - EffectsList::parameter(effect, "in").toInt();
+            int start = end;
+            if (effect.attribute("id") == "fadeout" ) {
+                if (m_effectList.hasEffect("", "fade_to_black") == -1) {
+                    start -= EffectsList::parameter(effect, "in").toInt();
+                } else {
+                    QDomElement fadeout = m_effectList.getEffectByTag("", "fade_to_black");
+                    start -= EffectsList::parameter(fadeout, "out").toInt() - EffectsList::parameter(fadeout, "in").toInt();
+                }
+            } else if (effect.attribute("id") == "fade_to_black" ) {
+                if (m_effectList.hasEffect("", "fadeout") == -1) {
+                    start -= EffectsList::parameter(effect, "in").toInt();
+                } else {
+                    QDomElement fadeout = m_effectList.getEffectByTag("", "fadeout");
+                    start -= EffectsList::parameter(fadeout, "out").toInt() - EffectsList::parameter(fadeout, "in").toInt();
+                }
+            }
             EffectsList::setParameter(effect, "in", QString::number(start));
             EffectsList::setParameter(effect, "out", QString::number(end));
-        } else if (effect.attribute("id") == "fadein") {
+        } else if (effect.attribute("id") == "fadein" || effect.attribute("id") == "fade_from_black") {
             int start = cropStart().frames(m_fps);
-            int end = start + EffectsList::parameter(effect, "out").toInt();
+            int end = start;
+            if (effect.attribute("id") == "fadein" ) {
+                if (m_effectList.hasEffect("", "fade_from_black") == -1)
+                    end += EffectsList::parameter(effect, "out").toInt();
+                else
+                    end += EffectsList::parameter(m_effectList.getEffectByTag("", "fade_from_black"), "out").toInt();
+            } else if (effect.attribute("id") == "fade_from_black" ) {
+                if (m_effectList.hasEffect("", "fadein") == -1)
+                    end += EffectsList::parameter(effect, "out").toInt();
+                else
+                    end += EffectsList::parameter(m_effectList.getEffectByTag("", "fadein"), "out").toInt();
+            }
             EffectsList::setParameter(effect, "in", QString::number(start));
             EffectsList::setParameter(effect, "out", QString::number(end));
         }
@@ -1128,7 +1154,9 @@ void ClipItem::setEffectAt(int ix, QDomElement effect) {
     m_effectList.insert(ix, effect);
     m_effectList.removeAt(ix + 1);
     m_effectNames = m_effectList.effectNames().join(" / ");
-    if (effect.attribute("id") == "fadein" || effect.attribute("id") == "fadeout") update(boundingRect());
+	QString id = effect.attribute("id");
+    if (id == "fadein" || id == "fadeout" || id == "fade_from_black" || id == "fade_to_black")
+        update(boundingRect());
     else {
         QRectF r = boundingRect();
         r.setHeight(20);
@@ -1180,12 +1208,44 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool animate) {
                 // check if it is a fade effect
                 if (effectId == "fadein") {
                     needRepaint = true;
-                    if (e.attribute("name") == "out") fade += e.attribute("value").toInt();
-                    else if (e.attribute("name") == "in") fade -= e.attribute("value").toInt();
+                    if (m_effectList.hasEffect("", "fade_from_black") == -1) {
+                        if (e.attribute("name") == "out") fade += e.attribute("value").toInt();
+                        else if (e.attribute("name") == "in") fade -= e.attribute("value").toInt();
+                    } else {
+                        QDomElement fadein = m_effectList.getEffectByTag("", "fade_from_black");
+                        if (fadein.attribute("name") == "out") fade += fadein.attribute("value").toInt();
+                        else if (fadein.attribute("name") == "in") fade -= fadein.attribute("value").toInt();
+                    }
+                } else if (effectId == "fade_from_black") {
+                    needRepaint = true;
+                    if (m_effectList.hasEffect("", "fadein") == -1) {
+                        if (e.attribute("name") == "out") fade += e.attribute("value").toInt();
+                        else if (e.attribute("name") == "in") fade -= e.attribute("value").toInt();
+                    } else {
+                        QDomElement fadein = m_effectList.getEffectByTag("", "fadein");
+                        if (fadein.attribute("name") == "out") fade += fadein.attribute("value").toInt();
+                        else if (fadein.attribute("name") == "in") fade -= fadein.attribute("value").toInt();
+                    }
                 } else if (effectId == "fadeout") {
                     needRepaint = true;
-                    if (e.attribute("name") == "out") fade -= e.attribute("value").toInt();
-                    else if (e.attribute("name") == "in") fade += e.attribute("value").toInt();
+                    if (m_effectList.hasEffect("", "fade_to_black") == -1) {
+                        if (e.attribute("name") == "out") fade -= e.attribute("value").toInt();
+                        else if (e.attribute("name") == "in") fade += e.attribute("value").toInt();
+                    } else {
+                        QDomElement fadeout = m_effectList.getEffectByTag("", "fade_to_black");
+                        if (fadeout.attribute("name") == "out") fade -= fadeout.attribute("value").toInt();
+                        else if (fadeout.attribute("name") == "in") fade += fadeout.attribute("value").toInt();
+                    }
+                } else if (effectId == "fade_to_black") {
+                    needRepaint = true;
+                    if (m_effectList.hasEffect("", "fadeout") == -1) {
+                        if (e.attribute("name") == "out") fade -= e.attribute("value").toInt();
+                        else if (e.attribute("name") == "in") fade += e.attribute("value").toInt();
+                    } else {
+                        QDomElement fadeout = m_effectList.getEffectByTag("", "fadeout");
+                        if (fadeout.attribute("name") == "out") fade -= fadeout.attribute("value").toInt();
+                        else if (fadeout.attribute("name") == "in") fade += fadeout.attribute("value").toInt();
+                    }
                 }
             } else {
                 parameters.addParam(e.attribute("name"), QString::number(e.attribute("value").toDouble() / f));
@@ -1260,13 +1320,17 @@ EffectsParameterList ClipItem::getEffectArgs(QDomElement effect) {
 void ClipItem::deleteEffect(QString index) {
     bool needRepaint = false;
     QString ix;
+
     for (int i = 0; i < m_effectList.size(); ++i) {
         ix = m_effectList.at(i).attribute("kdenlive_ix");
         if (ix == index) {
-            if (m_effectList.at(i).attribute("id") == "fadein") {
+            QString effectId = m_effectList.at(i).attribute("id");
+            if ((effectId == "fadein" && hasEffect("", "fade_from_black") == -1) ||
+                (effectId == "fade_from_black" && hasEffect("", "fadein") == -1)) {
                 m_startFade = 0;
                 needRepaint = true;
-            } else if (m_effectList.at(i).attribute("id") == "fadeout") {
+            } else if ((effectId == "fadeout" && hasEffect("", "fade_to_black") == -1) ||
+                       (effectId == "fade_to_black" && hasEffect("", "fadeout") == -1)) {
                 m_endFade = 0;
                 needRepaint = true;
             }
