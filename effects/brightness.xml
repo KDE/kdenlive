@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="brightness" id="brightness">
-	<name>Brightness</name>
+	<name>Brightness (keyframable)</name>
 	<description>Change image brightness with keyframes</description>
 	<author>Charles Yates</author>
 	<parameter type="keyframe" name="intensity" max="300" min="0" default="100" factor="100">
