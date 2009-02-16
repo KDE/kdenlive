@@ -46,5 +46,7 @@ fadein.xml
 fadeout.xml
 frei0r_squareblur.xml
 frei0r_distort0r.xml
+frei0r_balanc0r.xml
+gain.xml
 
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects)
