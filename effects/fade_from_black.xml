@@ -1,0 +1,15 @@
+<!DOCTYPE kpartgui>
+<effect tag="brightness" id="fade_from_black" type="video" unique="1">
+	<name>Fade from Black</name>
+	<description>Fade video from black</description>
+	<author>Charles Yates</author>
+	<parameter type="position" name="out" max="90000" min="0" default="75">
+		<name>Duration</name>
+	</parameter>
+	<parameter type="fixed" name="start" max="0" min="0" default="0">
+		<name>Start</name>
+	</parameter>
+	<parameter type="fixed" name="end" max="1" min="1" default="1">
+		<name>End</name>
+	</parameter>
+</effect>
