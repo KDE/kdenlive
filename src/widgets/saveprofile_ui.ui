@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>346</width>
-    <height>237</height>
+    <width>384</width>
+    <height>245</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -14,47 +14,57 @@
   </property>
   <layout class="QGridLayout" name="gridLayout" >
    <item row="0" column="0" >
+    <widget class="QLabel" name="label_5" >
+     <property name="text" >
+      <string>Destination</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" colspan="2" >
+    <widget class="KComboBox" name="destination_list" />
+   </item>
+   <item row="1" column="0" >
     <widget class="QLabel" name="label_2" >
      <property name="text" >
       <string>Group</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1" colspan="2" >
+   <item row="1" column="1" colspan="2" >
     <widget class="KComboBox" name="group_name" />
    </item>
-   <item row="1" column="0" >
+   <item row="2" column="0" >
     <widget class="QLabel" name="label_3" >
      <property name="text" >
       <string>Profile name</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1" colspan="2" >
+   <item row="2" column="1" colspan="2" >
     <widget class="KLineEdit" name="profile_name" />
    </item>
-   <item row="2" column="0" >
+   <item row="3" column="0" >
     <widget class="QLabel" name="label_4" >
      <property name="text" >
       <string>Extension</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="1" colspan="2" >
+   <item row="3" column="1" colspan="2" >
     <widget class="KLineEdit" name="extension" >
      <property name="maxLength" >
       <number>4</number>
      </property>
     </widget>
    </item>
-   <item row="3" column="0" colspan="2" >
+   <item row="4" column="0" colspan="2" >
     <widget class="QLabel" name="label" >
      <property name="text" >
       <string>Parameters</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="3" >
+   <item row="5" column="0" colspan="3" >
     <widget class="KTextEdit" name="parameters" >
      <property name="readOnly" >
       <bool>false</bool>
@@ -64,7 +74,7 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="2" >
+   <item row="6" column="2" >
     <spacer name="verticalSpacer" >
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
@@ -77,7 +87,7 @@
      </property>
     </spacer>
    </item>
-   <item row="6" column="0" colspan="3" >
+   <item row="7" column="0" colspan="3" >
     <widget class="QDialogButtonBox" name="buttonBox" >
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
