@@ -1,26 +1,26 @@
 # translation of kdenlive.po to Deutsch
 # translation of de.po to
 # translation of kdenlive.po to
-# Copyright (C) 2008 THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) 2008-2009 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Marco Gittler <g.marco@freenet.de>, 2008.
 # Felix Hammer <f.hammer@gmx.de>, 2008.
 # Thomas Holzmann <holzi1@gmx.at>, 2008.
-# Simon A. Eugster <simon.eu@gmail.com>, 2009.
 # Simon Eugster <simon.eu@gmail.com>, 2009.
+# Markus Slopianka <kamikazow@web.de>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-26 20:15+0100\n"
-"PO-Revision-Date: 2009-01-26 20:16+0100\n"
-"Last-Translator: Simon A. Eugster <simon.eu@gmail.com>\n"
-"Language-Team: Deutsch <de@li.org>\n"
+"PO-Revision-Date: 2009-02-16 22:29+0100\n"
+"Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
+"Language-Team: German <kde-i18n-de@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 0.3\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #: rc.cpp:774 rc.cpp:1977
@@ -160,7 +160,7 @@ msgstr "<strong>Programm %1 wird für den DVD-Assistenen benötigt."
 #: src/renderwidget.cpp:769
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
-msgstr "<strong>Renderung von %1 abgestürzt</strong><br />"
+msgstr "<strong>Rendern von %1 abgestürzt</strong><br />"
 
 #: rc.cpp:522 rc.cpp:534 rc.cpp:576 rc.cpp:1425 rc.cpp:1725 rc.cpp:1737
 #: rc.cpp:1779 rc.cpp:2628
@@ -190,7 +190,7 @@ msgstr "ARTS-Daemon"
 
 #: rc.cpp:822 rc.cpp:2025
 msgid "Abort Job"
-msgstr "Job Abbrechen"
+msgstr "Job abbrechen"
 
 #: src/renderwidget.cpp:777
 msgid "Aborted by user"
@@ -368,7 +368,7 @@ msgstr "Ein OpenSource-Videoschnittprogramm"
 
 #: src/kdenlivesettingsdialog.cpp:209
 msgid "Ascii art library"
-msgstr "Ascii art Bibliothek"
+msgstr "Ascii-Art-Bibliothek"
 
 #: rc.cpp:1338 rc.cpp:2541
 msgid "Aspect ratio:"
@@ -381,7 +381,7 @@ msgstr "Audio"
 
 #: rc.cpp:390 rc.cpp:1593
 msgid "Audio Codecs"
-msgstr "Audiocodecs"
+msgstr "Audio-Codecs"
 
 #: rc.cpp:1110 rc.cpp:2313
 msgid "Audio channels"
@@ -393,7 +393,7 @@ msgstr "Audio-Clip"
 
 #: rc.cpp:1197 rc.cpp:2400
 msgid "Audio codec"
-msgstr "Audiocodec"
+msgstr "Audio-Codec"
 
 #: rc.cpp:1062 rc.cpp:2265
 msgid "Audio device"
@@ -673,7 +673,7 @@ msgstr ""
 
 #: src/customtrackview.cpp:1995 src/customtrackview.cpp:2047
 msgid "Cannot resize transition"
-msgstr "Kann Grösse des Übergangs nicht ändern"
+msgstr "Kann Größe des Übergangs nicht ändern"
 
 #: src/profilesdialog.cpp:153 src/kdenlivedoc.cpp:925
 #, kde-format
@@ -830,7 +830,7 @@ msgstr "Clip hat keine Marker"
 
 #: rc.cpp:807 rc.cpp:825 rc.cpp:2010 rc.cpp:2028
 msgid "Close"
-msgstr "Schliessen"
+msgstr "Schließen"
 
 #: src/mainwindow.cpp:135
 msgid "Close the current tab"
@@ -1194,7 +1194,7 @@ msgstr "Dialog"
 
 #: src/kdenlivesettingsdialog.cpp:206
 msgid "Direct FB"
-msgstr "Direkter FB"
+msgstr "Direct FB"
 
 #: rc.cpp:116
 msgid "Discard color information"
@@ -1264,7 +1264,7 @@ msgstr "DVD-Assistent"
 
 #: rc.cpp:933 rc.cpp:2136
 msgid "Dvd iso image"
-msgstr "DVD-ISO-Image"
+msgstr "DVD-ISO-Abbild"
 
 #: src/wizard.cpp:265
 msgid "Dvdauthor"
@@ -1498,7 +1498,7 @@ msgstr "Datei nicht gefunden"
 
 #: src/renderwidget.cpp:653
 msgid "File rendering"
-msgstr "Dateirenderung"
+msgstr "Datei-Rendern"
 
 #: rc.cpp:1176 rc.cpp:2379
 msgid "File size"
@@ -1670,11 +1670,11 @@ msgstr "Ganzes Projekt"
 
 #: rc.cpp:1131 rc.cpp:2334
 msgid "Full screen capture"
-msgstr "Vollbild Aufnahme"
+msgstr "Vollbild-Aufnahme"
 
 #: rc.cpp:1152 rc.cpp:2355
 msgid "Full shots"
-msgstr ""
+msgstr "Volle Bilder"
 
 #: rc.cpp:220 rc.cpp:226 rc.cpp:264 rc.cpp:298 rc.cpp:368
 msgid "Gain"
@@ -1862,7 +1862,7 @@ msgstr "Inigo Pfad"
 
 #: src/recmonitor.cpp:361 src/recmonitor.cpp:481
 msgid "Initialising..."
-msgstr "Lade..."
+msgstr "Initialisiere..."
 
 #: rc.cpp:140
 msgid "Input gain (dB)"
@@ -1953,7 +1953,7 @@ msgstr "Behalte als Platzhalter"
 
 #: rc.cpp:106
 msgid "Kernel size"
-msgstr "Korngrösse"
+msgstr "Korngröße"
 
 #: rc.cpp:160
 msgid "LADSPA change pitch audio effect"
@@ -2103,7 +2103,7 @@ msgstr "Metadaten"
 
 #: rc.cpp:132
 msgid "Mid gain"
-msgstr "Mid Verstärkung"
+msgstr "Mid-Verstärkung"
 
 #: rc.cpp:208
 msgid "Mirror"
@@ -2282,7 +2282,7 @@ msgstr "Dokument öffnen"
 
 #: rc.cpp:780 rc.cpp:1983
 msgid "Open Dvd wizard after rendering"
-msgstr "DVD-Wizard nach der Renderung öffnen"
+msgstr "DVD-Wizard nach dem Rendern öffnen"
 
 #: rc.cpp:783 rc.cpp:1986
 msgid "Open browser window after export"
@@ -2597,7 +2597,7 @@ msgstr "Bereich"
 
 #: rc.cpp:1134 rc.cpp:2337
 msgid "Region capture"
-msgstr ""
+msgstr "Bereichsaufnahme"
 
 #: rc.cpp:144
 msgid "Release time (s)"
@@ -2648,19 +2648,19 @@ msgstr "Rendere %1"
 #: src/mainwindow.cpp:1471
 #, kde-format
 msgid "Rendering <i>%1</i> started"
-msgstr "Renderung von <i>%1</i> gestartet"
+msgstr "Rendern von <i>%1</i> gestartet"
 
 #: renderer/renderjob.cpp:213
 #, kde-format
 msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
 msgstr ""
-"Renderung von %1 abgebrochen, entstandenes Video ist wahrscheinlich "
+"Rendern von %1 abgebrochen. Das entstandene Video ist wahrscheinlich "
 "unbrauchbar."
 
 #: renderer/renderjob.cpp:234
 #, kde-format
 msgid "Rendering of %1 finished in %2"
-msgstr "Renderung von %1 in %2 fertiggestellt"
+msgstr "Rendern von %1 in %2 fertiggestellt"
 
 #: renderer/renderjob.cpp:159
 msgid "Rendering to"
@@ -2713,7 +2713,7 @@ msgstr ""
 
 #: rc.cpp:768 rc.cpp:1971
 msgid "Rescale"
-msgstr "Vergrössern/Verkleinern"
+msgstr "Skalieren"
 
 #: src/effectstackview.cpp:54
 msgid "Reset effect"
@@ -3131,7 +3131,7 @@ msgstr "Anfangsverstärkung"
 
 #: rc.cpp:804 rc.cpp:2007
 msgid "Start Rendering"
-msgstr "Starte Renderung"
+msgstr "Starte Rendern"
 
 #: rc.cpp:666 rc.cpp:1869
 msgid "Start-/EndViewport"
@@ -3365,7 +3365,7 @@ msgstr "Video"
 
 #: rc.cpp:393 rc.cpp:1596
 msgid "Video Codecs"
-msgstr "Videocodecs"
+msgstr "Video-Codecs"
 
 #: rc.cpp:1458 rc.cpp:2661
 msgid "Video Profile"
@@ -3385,7 +3385,7 @@ msgstr "Video"
 
 #: rc.cpp:1182 rc.cpp:2385
 msgid "Video codec"
-msgstr "Videocodec"
+msgstr "Video-Codec"
 
 #: rc.cpp:1053 rc.cpp:2256
 msgid "Video device"
@@ -3657,4 +3657,5 @@ msgid "your MLT installation cannot be found. Install MLT and restart Kdenlive.\
 msgstr ""
 "Es konnte keine Installation von MLT gefunden werden. Installieren Sie MLT "
 "und starten Sie Kdenlive neu.\n"
+
 
