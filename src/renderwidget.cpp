@@ -110,6 +110,8 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent): QDia
     connect(m_view.format_list, SIGNAL(currentRowChanged(int)), this, SLOT(refreshView()));
     connect(m_view.size_list, SIGNAL(currentRowChanged(int)), this, SLOT(refreshParams()));
 
+    connect(m_view.size_list, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(slotEditItem(QListWidgetItem *)));
+
     connect(m_view.render_guide, SIGNAL(clicked(bool)), this, SLOT(slotUpdateGuideBox()));
     connect(m_view.render_zone, SIGNAL(clicked(bool)), this, SLOT(slotUpdateGuideBox()));
     connect(m_view.render_full, SIGNAL(clicked(bool)), this, SLOT(slotUpdateGuideBox()));
@@ -151,6 +153,11 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent): QDia
 
 
     focusFirstVisibleItem();
+}
+
+void RenderWidget::slotEditItem(QListWidgetItem *item) {
+    if (item->data(EditableRole).toString().isEmpty()) slotSaveProfile();
+    else slotEditProfile();
 }
 
 void RenderWidget::showInfoPanel() {
@@ -232,18 +239,14 @@ void RenderWidget::slotSaveProfile() {
     ui.setupUi(d);
 
     for (int i = 0; i < m_view.destination_list->count(); i++)
-        ui.destination_list->addItem(m_view.destination_list->itemIcon(i), m_view.destination_list->itemText(i), m_view.destination_list->itemData(i, MetaGroupRole));
+        ui.destination_list->addItem(m_view.destination_list->itemIcon(i), m_view.destination_list->itemText(i), m_view.destination_list->itemData(i, Qt::UserRole));
 
     ui.destination_list->setCurrentIndex(m_view.destination_list->currentIndex());
+    QString dest = ui.destination_list->itemData(ui.destination_list->currentIndex(), Qt::UserRole).toString();
 
-    QString customGroup = i18n("Custom");
-    QStringList groupNames;
-    for (int i = 0; i < m_view.format_list->count(); i++)
-        groupNames.append(m_view.format_list->item(i)->text());
-    if (!groupNames.contains(customGroup)) groupNames.prepend(customGroup);
-    ui.group_name->addItems(groupNames);
-    int pos = ui.group_name->findText(customGroup);
-    ui.group_name->setCurrentIndex(pos);
+    QString customGroup = m_view.format_list->currentItem()->text();
+    if (customGroup.isEmpty()) customGroup = i18n("Custom");
+    ui.group_name->setText(customGroup);
 
     ui.parameters->setText(m_view.advanced_params->toPlainText());
     ui.extension->setText(m_view.size_list->currentItem()->data(ExtensionRole).toString());
@@ -254,38 +257,53 @@ void RenderWidget::slotSaveProfile() {
         QFile file(exportFile);
         doc.setContent(&file, false);
         file.close();
-
         QDomElement documentElement;
-        bool groupExists = false;
-        QString groupName;
-        QString newProfileName = ui.profile_name->text().simplified();
-        QString newGroupName = ui.group_name->currentText();
-        QDomNodeList groups = doc.elementsByTagName("group");
-        int i = 0;
-        if (groups.count() == 0) {
-            QDomElement profiles = doc.createElement("profiles");
+        QDomElement profiles = doc.documentElement();
+        if (profiles.isNull() || profiles.tagName() != "profiles") {
+            doc.clear();
+            profiles = doc.createElement("profiles");
+            profiles.setAttribute("version", 1);
             doc.appendChild(profiles);
-        } else while (!groups.item(i).isNull()) {
-                documentElement = groups.item(i).toElement();
-                groupName = documentElement.attribute("name");
-                kDebug() << "// SAVE, PARSING FROUP: " << i << ", name: " << groupName << ", LOOK FR: " << newGroupName;
-                if (groupName == newGroupName) {
-                    groupExists = true;
+        }
+        int version = profiles.attribute("version", 0).toInt();
+        if (version < 1) {
+            kDebug() << "// OLD profile version";
+            doc.clear();
+            profiles = doc.createElement("profiles");
+            profiles.setAttribute("version", 1);
+            doc.appendChild(profiles);
+        }
+
+        QString newProfileName = ui.profile_name->text().simplified();
+        QString newGroupName = ui.group_name->text().simplified();
+        if (newGroupName.isEmpty()) newGroupName = i18n("Custom");
+        QString newMetaGroupId = ui.destination_list->itemData(ui.destination_list->currentIndex(), Qt::UserRole).toString();
+        QDomNodeList profilelist = doc.elementsByTagName("profile");
+        int i = 0;
+        while (!profilelist.item(i).isNull()) {
+            // make sure a profile with same name doesn't exist
+            documentElement = profilelist.item(i).toElement();
+            QString profileName = documentElement.attribute("name");
+            if (profileName == newProfileName) {
+                // a profile with that same name already exists
+                bool ok;
+                newProfileName = QInputDialog::getText(this, i18n("Profile already exists"), i18n("This profile name already exists. Change the name if you don't want to overwrite it."), QLineEdit::Normal, newProfileName, &ok);
+                if (!ok) return;
+                if (profileName == newProfileName) {
+                    profiles.removeChild(profilelist.item(i));
                     break;
                 }
-                i++;
             }
-        if (!groupExists) {
-            documentElement = doc.createElement("group");
-            documentElement.setAttribute("name", ui.group_name->currentText());
-            documentElement.setAttribute("renderer", "avformat");
-            doc.documentElement().appendChild(documentElement);
+            i++;
         }
+
         QDomElement profileElement = doc.createElement("profile");
         profileElement.setAttribute("name", newProfileName);
+        profileElement.setAttribute("category", newGroupName);
+        profileElement.setAttribute("destinationid", newMetaGroupId);
         profileElement.setAttribute("extension", ui.extension->text().simplified());
         profileElement.setAttribute("args", ui.parameters->toPlainText().simplified());
-        documentElement.appendChild(profileElement);
+        profiles.appendChild(profileElement);
 
         //QCString save = doc.toString().utf8();
 
@@ -297,13 +315,12 @@ void RenderWidget::slotSaveProfile() {
         QTextStream out(&file);
         out << doc.toString();
         file.close();
-        parseProfiles(newGroupName, newProfileName);
+        parseProfiles(newMetaGroupId, newGroupName, newProfileName);
     }
     delete d;
 }
 
 void RenderWidget::slotEditProfile() {
-    //TODO: update to correctly use metagroups
     QListWidgetItem *item = m_view.size_list->currentItem();
     if (!item) return;
     QString currentGroup = m_view.format_list->currentItem()->text();
@@ -315,57 +332,78 @@ void RenderWidget::slotEditProfile() {
     Ui::SaveProfile_UI ui;
     QDialog *d = new QDialog(this);
     ui.setupUi(d);
-    QStringList groupNames;
-    for (int i = 0; i < m_view.format_list->count(); i++)
-        groupNames.append(m_view.format_list->item(i)->text());
-    if (!groupNames.contains(currentGroup)) groupNames.prepend(currentGroup);
-    ui.group_name->addItems(groupNames);
-    int pos = ui.group_name->findText(currentGroup);
-    ui.group_name->setCurrentIndex(pos);
+
+    for (int i = 0; i < m_view.destination_list->count(); i++)
+        ui.destination_list->addItem(m_view.destination_list->itemIcon(i), m_view.destination_list->itemText(i), m_view.destination_list->itemData(i, Qt::UserRole));
+
+    ui.destination_list->setCurrentIndex(m_view.destination_list->currentIndex());
+    QString dest = ui.destination_list->itemData(ui.destination_list->currentIndex(), Qt::UserRole).toString();
+
+    QString customGroup = m_view.format_list->currentItem()->text();
+    if (customGroup.isEmpty()) customGroup = i18n("Custom");
+    ui.group_name->setText(customGroup);
+
     ui.profile_name->setText(currentProfile);
     ui.extension->setText(extension);
     ui.parameters->setText(params);
     ui.profile_name->setFocus();
-
+    d->setWindowTitle(i18n("Edit Profile"));
     if (d->exec() == QDialog::Accepted) {
-        slotDeleteProfile();
+        slotDeleteProfile(false);
         QString exportFile = KStandardDirs::locateLocal("appdata", "export/customprofiles.xml");
         QDomDocument doc;
         QFile file(exportFile);
         doc.setContent(&file, false);
         file.close();
-
         QDomElement documentElement;
-        bool groupExists = false;
-        QString groupName;
-        QString newProfileName = ui.profile_name->text();
-        QString newGroupName = ui.group_name->currentText();
-        QDomNodeList groups = doc.elementsByTagName("group");
-        int i = 0;
-        if (groups.count() == 0) {
-            QDomElement profiles = doc.createElement("profiles");
+        QDomElement profiles = doc.documentElement();
+
+        if (profiles.isNull() || profiles.tagName() != "profiles") {
+            doc.clear();
+            profiles = doc.createElement("profiles");
+            profiles.setAttribute("version", 1);
             doc.appendChild(profiles);
-        } else while (!groups.item(i).isNull()) {
-                documentElement = groups.item(i).toElement();
-                groupName = documentElement.attribute("name");
-                kDebug() << "// SAVE, PARSING FROUP: " << i << ", name: " << groupName << ", LOOK FR: " << newGroupName;
-                if (groupName == newGroupName) {
-                    groupExists = true;
+        }
+
+        int version = profiles.attribute("version", 0).toInt();
+        if (version < 1) {
+            kDebug() << "// OLD profile version";
+            doc.clear();
+            profiles = doc.createElement("profiles");
+            profiles.setAttribute("version", 1);
+            doc.appendChild(profiles);
+        }
+
+        QString newProfileName = ui.profile_name->text().simplified();
+        QString newGroupName = ui.group_name->text().simplified();
+        if (newGroupName.isEmpty()) newGroupName = i18n("Custom");
+        QString newMetaGroupId = ui.destination_list->itemData(ui.destination_list->currentIndex(), Qt::UserRole).toString();
+        QDomNodeList profilelist = doc.elementsByTagName("profile");
+        int i = 0;
+        while (!profilelist.item(i).isNull()) {
+            // make sure a profile with same name doesn't exist
+            documentElement = profilelist.item(i).toElement();
+            QString profileName = documentElement.attribute("name");
+            if (profileName == newProfileName) {
+                // a profile with that same name already exists
+                bool ok;
+                newProfileName = QInputDialog::getText(this, i18n("Profile already exists"), i18n("This profile name already exists. Change the name if you don't want to overwrite it."), QLineEdit::Normal, newProfileName, &ok);
+                if (!ok) return;
+                if (profileName == newProfileName) {
+                    profiles.removeChild(profilelist.item(i));
                     break;
                 }
-                i++;
             }
-        if (!groupExists) {
-            documentElement = doc.createElement("group");
-            documentElement.setAttribute("name", ui.group_name->currentText());
-            documentElement.setAttribute("renderer", "avformat");
-            doc.documentElement().appendChild(documentElement);
+            i++;
         }
+
         QDomElement profileElement = doc.createElement("profile");
         profileElement.setAttribute("name", newProfileName);
+        profileElement.setAttribute("category", newGroupName);
+        profileElement.setAttribute("destinationid", newMetaGroupId);
         profileElement.setAttribute("extension", ui.extension->text().simplified());
         profileElement.setAttribute("args", ui.parameters->toPlainText().simplified());
-        documentElement.appendChild(profileElement);
+        profiles.appendChild(profileElement);
 
         //QCString save = doc.toString().utf8();
 
@@ -377,14 +415,15 @@ void RenderWidget::slotEditProfile() {
         QTextStream out(&file);
         out << doc.toString();
         file.close();
-        parseProfiles(newGroupName, newProfileName);
+        parseProfiles(newMetaGroupId, newGroupName, newProfileName);
     }
     delete d;
 }
 
-void RenderWidget::slotDeleteProfile() {
+void RenderWidget::slotDeleteProfile(bool refresh) {
     QString currentGroup = m_view.format_list->currentItem()->text();
     QString currentProfile = m_view.size_list->currentItem()->text();
+    QString metaGroupId = m_view.destination_list->itemData(m_view.destination_list->currentIndex(), Qt::UserRole).toString();
 
     QString exportFile = KStandardDirs::locateLocal("appdata", "export/customprofiles.xml");
     QDomDocument doc;
@@ -393,25 +432,21 @@ void RenderWidget::slotDeleteProfile() {
     file.close();
 
     QDomElement documentElement;
-    bool groupExists = false;
-    QString groupName;
-    QDomNodeList groups = doc.elementsByTagName("group");
+    QDomNodeList profiles = doc.elementsByTagName("profile");
     int i = 0;
+    QString groupName;
+    QString profileName;
+    QString destination;
 
-    while (!groups.item(i).isNull()) {
-        documentElement = groups.item(i).toElement();
-        groupName = documentElement.attribute("name");
-        if (groupName == currentGroup) {
-            QDomNodeList children = documentElement.childNodes();
-            for (int j = 0; j < children.count(); j++) {
-                QDomElement pro = children.at(j).toElement();
-                if (pro.attribute("name") == currentProfile) {
-                    groups.item(i).removeChild(children.at(j));
-                    if (groups.item(i).childNodes().isEmpty())
-                        doc.documentElement().removeChild(groups.item(i));
-                    break;
-                }
-            }
+    while (!profiles.item(i).isNull()) {
+        documentElement = profiles.item(i).toElement();
+        profileName = documentElement.attribute("name");
+        groupName = documentElement.attribute("category");
+        destination = documentElement.attribute("destinationid");
+
+        if (profileName == currentProfile && groupName == currentGroup && destination == metaGroupId) {
+            kDebug() << "// GOT it: " << profileName;
+            doc.documentElement().removeChild(profiles.item(i));
             break;
         }
         i++;
@@ -424,8 +459,10 @@ void RenderWidget::slotDeleteProfile() {
     QTextStream out(&file);
     out << doc.toString();
     file.close();
-    parseProfiles(currentGroup);
-    focusFirstVisibleItem();
+    if (refresh) {
+        parseProfiles(metaGroupId, currentGroup);
+        focusFirstVisibleItem();
+    }
 }
 
 void RenderWidget::updateButtons() {
@@ -598,7 +635,6 @@ void RenderWidget::refreshView() {
     if (m_view.destination_list->currentIndex() > 0)
         destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
 
-    kDebug() << "// SELECTED DESTINATION: " << destination;
 
     if (destination == "dvd") m_view.open_dvd->setVisible(true);
     else m_view.open_dvd->setVisible(false);
@@ -612,7 +648,7 @@ void RenderWidget::refreshView() {
         sizeItem = m_view.format_list->item(i);
         if (sizeItem->data(MetaGroupRole).toString() == destination) {
             sizeItem->setHidden(false);
-            kDebug() << "// SET GRP:: " << sizeItem->text() << ", METY:" << sizeItem->data(MetaGroupRole).toString();
+            //kDebug() << "// SET GRP:: " << sizeItem->text() << ", METY:" << sizeItem->data(MetaGroupRole).toString();
         } else sizeItem->setHidden(true);
     }
 
@@ -627,7 +663,14 @@ void RenderWidget::refreshView() {
         }
         item = m_view.format_list->currentItem();
     }
-    if (!item || item->isHidden()) return;
+    if (!item || item->isHidden()) {
+        m_view.format_list->setEnabled(false);
+        m_view.size_list->setEnabled(false);
+        return;
+    } else {
+        m_view.format_list->setEnabled(true);
+        m_view.size_list->setEnabled(true);
+    }
     int count = 0;
     for (int i = 0; i < m_view.format_list->count() && count < 2; i++) {
         if (!m_view.format_list->isRowHidden(i)) count++;
@@ -772,7 +815,7 @@ void RenderWidget::reloadProfiles() {
     parseProfiles();
 }
 
-void RenderWidget::parseProfiles(QString group, QString profile) {
+void RenderWidget::parseProfiles(QString meta, QString group, QString profile) {
     m_view.size_list->clear();
     m_view.format_list->clear();
     m_view.destination_list->clear();
@@ -796,10 +839,22 @@ void RenderWidget::parseProfiles(QString group, QString profile) {
     foreach(const QString filename, fileList)
     parseFile(exportFolder + '/' + filename, filename == "customprofiles.xml");
 
+    if (!meta.isEmpty()) {
+        m_view.destination_list->blockSignals(true);
+        m_view.destination_list->setCurrentIndex(m_view.destination_list->findData(meta));
+        m_view.destination_list->blockSignals(false);
+    }
     refreshView();
     QList<QListWidgetItem *> child;
     if (!group.isEmpty()) child = m_view.format_list->findItems(group, Qt::MatchExactly);
-    if (!child.isEmpty()) m_view.format_list->setCurrentItem(child.at(0));
+    if (!child.isEmpty()) {
+        for (int i = 0; i < child.count(); i++) {
+            if (child.at(i)->data(MetaGroupRole).toString() == meta) {
+                m_view.format_list->setCurrentItem(child.at(i));
+                break;
+            }
+        }
+    }
     child.clear();
     if (!profile.isEmpty()) child = m_view.size_list->findItems(profile, Qt::MatchExactly);
     if (!child.isEmpty()) m_view.size_list->setCurrentItem(child.at(0));
@@ -818,44 +873,83 @@ void RenderWidget::parseFile(QString exportFile, bool editable) {
     QListWidgetItem *item;
     QDomNodeList groups = doc.elementsByTagName("group");
 
-    if (groups.count() == 0) {
+    if (editable || groups.count() == 0) {
+        QDomElement profiles = doc.documentElement();
+        if (editable && profiles.attribute("version", 0).toInt() < 1) {
+            kDebug() << "// OLD profile version";
+            // this is an old profile version, update it
+            QDomDocument newdoc;
+            QDomElement newprofiles = newdoc.createElement("profiles");
+            newprofiles.setAttribute("version", 1);
+            newdoc.appendChild(newprofiles);
+            QDomNodeList profilelist = doc.elementsByTagName("profile");
+            for (int i = 0; i < profilelist.count(); i++) {
+                QString category = i18n("Custom");
+                QString extension;
+                QDomNode parent = profilelist.at(i).parentNode();
+                if (!parent.isNull()) {
+                    QDomElement parentNode = parent.toElement();
+                    if (parentNode.hasAttribute("name")) category = parentNode.attribute("name");
+                    extension = parentNode.attribute("extension");
+                }
+                profilelist.at(i).toElement().setAttribute("category", category);
+                if (!extension.isEmpty()) profilelist.at(i).toElement().setAttribute("extension", extension);
+                QDomNode n = profilelist.at(i).cloneNode();
+                newprofiles.appendChild(newdoc.importNode(n, true));
+            }
+            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                KMessageBox::sorry(this, i18n("Unable to write to file %1", exportFile));
+                return;
+            }
+            QTextStream out(&file);
+            out << newdoc.toString();
+            file.close();
+            parseFile(exportFile, editable);
+            return;
+        }
+
         QDomNode node = doc.elementsByTagName("profile").at(0);
         if (node.isNull()) {
             kDebug() << "// Export file: " << exportFile << " IS BROKEN";
             return;
         }
-        QDomElement profile = node.toElement();
-        QString profileName = profile.attribute("name");
-        QString standard = profile.attribute("standard");
-        QString params = profile.attribute("args");
-        QString category = profile.attribute("category", i18n("Custom"));
-        QString dest = profile.attribute("destinationid");
-        QString prof_extension = profile.attribute("extension");
-        if (!prof_extension.isEmpty()) extension = prof_extension;
+        int count = 1;
+        while (!node.isNull()) {
+            QDomElement profile = node.toElement();
+            QString profileName = profile.attribute("name");
+            QString standard = profile.attribute("standard");
+            QString params = profile.attribute("args");
+            QString category = profile.attribute("category", i18n("Custom"));
+            QString dest = profile.attribute("destinationid");
+            QString prof_extension = profile.attribute("extension");
+            if (!prof_extension.isEmpty()) extension = prof_extension;
 
-        QList <QListWidgetItem *> list = m_view.format_list->findItems(category, Qt::MatchExactly);
-        bool exists = false;
-        for (int j = 0; j < list.count(); j++) {
-            if (list.at(j)->data(MetaGroupRole) == dest) {
-                exists = true;
-                break;
+            QList <QListWidgetItem *> list = m_view.format_list->findItems(category, Qt::MatchExactly);
+            bool exists = false;
+            for (int j = 0; j < list.count(); j++) {
+                if (list.at(j)->data(MetaGroupRole) == dest) {
+                    exists = true;
+                    break;
+                }
             }
-        }
-        if (!exists) {
-            item = new QListWidgetItem(category, m_view.format_list);
-            item->setData(MetaGroupRole, dest);
-        }
+            if (!exists) {
+                item = new QListWidgetItem(category, m_view.format_list);
+                item->setData(MetaGroupRole, dest);
+            }
 
-        item = new QListWidgetItem(profileName, m_view.size_list);
-        kDebug() << "// ADDINg item with name: " << profileName << ", GRP" << category << ", DEST:" << dest ;
-        item->setData(GroupRole, category);
-        item->setData(MetaGroupRole, dest);
-        item->setData(ExtensionRole, extension);
-        item->setData(RenderRole, "avformat");
-        item->setData(StandardRole, standard);
-        item->setData(ParamsRole, params);
-        if (profile.hasAttribute("url")) item->setData(ExtraRole, profile.attribute("url"));
-        if (editable) item->setData(EditableRole, "true");
+            item = new QListWidgetItem(profileName, m_view.size_list);
+            //kDebug() << "// ADDINg item with name: " << profileName << ", GRP" << category << ", DEST:" << dest ;
+            item->setData(GroupRole, category);
+            item->setData(MetaGroupRole, dest);
+            item->setData(ExtensionRole, extension);
+            item->setData(RenderRole, "avformat");
+            item->setData(StandardRole, standard);
+            item->setData(ParamsRole, params);
+            if (profile.hasAttribute("url")) item->setData(ExtraRole, profile.attribute("url"));
+            if (editable) item->setData(EditableRole, "true");
+            node = doc.elementsByTagName("profile").at(count);
+            count++;
+        }
         return;
     }
 
@@ -1041,7 +1135,7 @@ void RenderWidget::parseScriptFiles() {
         (*it)->setSelected(true);
         activate = true;
     }
-    kDebug() << "SELECTED SCRIPTS: " << m_view.scripts_list->selectedItems().count();
+    kDebug() << "SELECTED SCRIPTS: " << m_view.scripts_list->selectedItems().count();
     m_view.start_script->setEnabled(activate);
     m_view.delete_script->setEnabled(activate);
 }

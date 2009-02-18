@@ -151,7 +151,7 @@ private slots:
     void refreshParams();
     void slotSaveProfile();
     void slotEditProfile();
-    void slotDeleteProfile();
+    void slotDeleteProfile(bool refresh = true);
     void slotUpdateGuideBox();
     void slotCheckStartGuidePosition();
     void slotCheckEndGuidePosition();
@@ -163,12 +163,13 @@ private slots:
     void parseScriptFiles();
     void slotCheckScript();
     void slotCheckJob();
+    void slotEditItem(QListWidgetItem *item);
 
 private:
     Ui::RenderWidget_UI m_view;
     MltVideoProfile m_profile;
     QString m_projectFolder;
-    void parseProfiles(QString group = QString(), QString profile = QString());
+    void parseProfiles(QString meta = QString(), QString group = QString(), QString profile = QString());
     void parseFile(QString exportFile, bool editable);
     void updateButtons();
     KUrl filenameWithExtension(KUrl url, QString extension);
