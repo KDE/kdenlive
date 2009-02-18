@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.colordistance" id="frei0r.colordistance">
+	<name>Color Distance</name>
+	<description></description>
+	<author>Richard Spindler</author>
+	<parameter type="color" name="Color" default="0x000000">
+		<name>Source Color</name>
+	</parameter>
+</effect>
