@@ -54,7 +54,7 @@
 #include "editfoldercommand.h"
 
 ProjectList::ProjectList(QWidget *parent)
-        : QWidget(parent), m_render(NULL), m_fps(-1), m_commandStack(NULL), m_selectedItem(NULL), m_infoQueue(QMap <QString, QDomElement> ()), m_thumbnailQueue(QList <QString> ()), m_refreshed(false) {
+        : QWidget(parent), m_render(NULL), m_fps(-1), m_commandStack(NULL), m_selectedItem(NULL), m_infoQueue(QMap <QString, QDomElement> ()), m_thumbnailQueue(QList <QString> ()), m_refreshed(false), m_editAction(NULL), m_openAction(NULL), m_deleteAction(NULL) {
 
     QWidget *vbox = new QWidget;
     listView = new ProjectListView(this);;
@@ -69,12 +69,6 @@ ProjectList::ProjectList(QWidget *parent)
     m_addButton = new QToolButton(m_toolbar);
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->addWidget(m_addButton);
-
-    m_deleteAction = m_toolbar->addAction(KIcon("edit-delete"), i18n("Delete Clip"));
-    connect(m_deleteAction, SIGNAL(triggered()), this, SLOT(slotRemoveClip()));
-
-    m_editAction = m_toolbar->addAction(KIcon("document-properties"), i18n("Edit Clip"));
-    connect(m_editAction, SIGNAL(triggered()), this, SLOT(slotEditClip()));
 
     layout->addWidget(m_toolbar);
     layout->addWidget(listView);
@@ -110,7 +104,29 @@ ProjectList::~ProjectList() {
 }
 
 void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction) {
-    m_addButton->setMenu(addMenu);
+
+    QList <QAction *> actions = addMenu->actions();
+    for (int i = 0; i < actions.count(); i++) {
+        if (actions.at(i)->data().toString() == "clip_properties") {
+            m_editAction = actions.at(i);
+            m_toolbar->addAction(m_editAction);
+            actions.removeAt(i);
+            i--;
+        } else if (actions.at(i)->data().toString() == "delete_clip") {
+            m_deleteAction = actions.at(i);
+            m_toolbar->addAction(m_deleteAction);
+            actions.removeAt(i);
+            i--;
+        } else if (actions.at(i)->data().toString() == "edit_clip") {
+            m_openAction = actions.at(i);
+            actions.removeAt(i);
+            i--;
+        }
+    }
+
+    QMenu *m = new QMenu();
+    m->addActions(actions);
+    m_addButton->setMenu(m);
     m_addButton->setDefaultAction(defaultAction);
     m_menu = new QMenu();
     m_menu->addActions(addMenu->actions());
@@ -125,6 +141,7 @@ void ProjectList::setupGeneratorMenu(QMenu *addMenu) {
     m_menu->addMenu(addMenu);
     if (addMenu->isEmpty()) addMenu->setEnabled(false);
     m_menu->addAction(m_editAction);
+    m_menu->addAction(m_openAction);
     m_menu->addAction(m_deleteAction);
     m_menu->insertSeparator(m_deleteAction);
 }
@@ -146,7 +163,19 @@ void ProjectList::slotEditClip() {
     }
 }
 
-
+void ProjectList::slotOpenClip() {
+    ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
+    if (item && !item->isGroup()) {
+        if (item->clipType() == IMAGE) {
+            if (KdenliveSettings::defaultimageapp().isEmpty()) KMessageBox::sorry(this, i18n("Please set a default application to open images in the Settings dialog"));
+            else QProcess::startDetached(KdenliveSettings::defaultimageapp(), QStringList() << item->clipUrl().path());
+        }
+        if (item->clipType() == AUDIO) {
+            if (KdenliveSettings::defaultaudioapp().isEmpty()) KMessageBox::sorry(this, i18n("Please set a default application to open audio files in the Settings dialog"));
+            else QProcess::startDetached(KdenliveSettings::defaultaudioapp(), QStringList() << item->clipUrl().path());
+        }
+    }
+}
 
 void ProjectList::setRenderer(Render *projectRender) {
     m_render = projectRender;
@@ -162,10 +191,12 @@ void ProjectList::slotClipSelected() {
         }
         m_editAction->setEnabled(true);
         m_deleteAction->setEnabled(true);
+        m_openAction->setEnabled(true);
     } else {
         emit clipSelected(NULL);
         m_editAction->setEnabled(false);
         m_deleteAction->setEnabled(false);
+        m_openAction->setEnabled(false);
     }
 }
 
@@ -249,6 +280,7 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item) {
     }
     m_editAction->setEnabled(enable);
     m_deleteAction->setEnabled(enable);
+    m_openAction->setEnabled(enable);
     m_menu->popup(pos);
 }
 
@@ -278,6 +310,7 @@ void ProjectList::slotRemoveClip() {
     if (listView->topLevelItemCount() == 0) {
         m_editAction->setEnabled(false);
         m_deleteAction->setEnabled(false);
+        m_openAction->setEnabled(false);
     }
 }
 
@@ -722,6 +755,7 @@ void ProjectList::slotSelectClip(const QString &ix) {
         listView->scrollToItem(p);
         m_editAction->setEnabled(true);
         m_deleteAction->setEnabled(true);
+        m_openAction->setEnabled(true);
     }
 }
 

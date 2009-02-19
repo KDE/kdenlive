@@ -26,6 +26,10 @@
       <Menu name="generators" ><text>Generators</text>
       </Menu>
       <Separator />
+      <Action name="clip_properties" />       
+      <Action name="edit_clip" />
+      <Action name="delete_clip" />
+      <Separator />
       <Action name="project_render" />
       <Action name="project_settings" />
     </Menu>

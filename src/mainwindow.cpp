@@ -1016,12 +1016,31 @@ void MainWindow::setupActions() {
     collection->addAction("add_folder", addFolderButton);
     connect(addFolderButton , SIGNAL(triggered()), m_projectList, SLOT(slotAddFolder()));
 
+    QAction *clipProperties = new KAction(KIcon("document-edit"), i18n("Clip Properties"), this);
+    collection->addAction("clip_properties", clipProperties);
+    clipProperties->setData("clip_properties");
+    connect(clipProperties , SIGNAL(triggered()), m_projectList, SLOT(slotEditClip()));
+
+    QAction *openClip = new KAction(KIcon("document-open"), i18n("Edit Clip"), this);
+    collection->addAction("edit_clip", openClip);
+    openClip->setData("edit_clip");
+    connect(openClip , SIGNAL(triggered()), m_projectList, SLOT(slotOpenClip()));
+
+    QAction *deleteClip = new KAction(KIcon("edit-delete"), i18n("Delete Clip"), this);
+    collection->addAction("delete_clip", deleteClip);
+    deleteClip->setData("delete_clip");
+    connect(deleteClip , SIGNAL(triggered()), m_projectList, SLOT(slotRemoveClip()));
+
     QMenu *addClips = new QMenu();
     addClips->addAction(addClip);
     addClips->addAction(addColorClip);
     addClips->addAction(addSlideClip);
     addClips->addAction(addTitleClip);
     addClips->addAction(addFolderButton);
+
+    addClips->addAction(clipProperties);
+    addClips->addAction(openClip);
+    addClips->addAction(deleteClip);
     m_projectList->setupMenu(addClips, addClip);
 
     //connect(collection, SIGNAL( clearStatusText() ),

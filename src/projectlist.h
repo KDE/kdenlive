@@ -141,6 +141,8 @@ public slots:
     void slotAddClip(KUrl givenUrl = KUrl(), QString group = QString());
     void slotAddFolder(const QString foldername, const QString &clipId, bool remove, bool edit = false);
     void slotResetProjectList();
+    void slotOpenClip();
+    void slotEditClip();
 
 private:
     ProjectListView *listView;
@@ -156,6 +158,7 @@ private:
     ProjectItem *getFolderItemById(const QString &id);
     QAction *m_editAction;
     QAction *m_deleteAction;
+    QAction *m_openAction;
     KdenliveDoc *m_doc;
     ProjectItem *m_selectedItem;
     bool m_refreshed;
@@ -168,7 +171,6 @@ private:
     void editFolder(const QString folderName, const QString oldfolderName, const QString &clipId);
 
 private slots:
-    void slotEditClip();
     void slotClipSelected();
     void slotAddColorClip();
     void slotAddSlideshowClip();
