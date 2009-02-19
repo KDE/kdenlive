@@ -113,6 +113,11 @@
       <default></default>
     </entry>
 
+    <entry name="window_background" type="Color">
+      <label>Background color for SDL monitor.</label>
+      <default>#999999</default>
+    </entry>
+
     <entry name="dropbframes" type="Bool">
       <label>Drop B Frames on H.264 clips for faster playback (For monitor preview only).</label>
       <default>false</default>

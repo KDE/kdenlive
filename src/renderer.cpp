@@ -114,6 +114,7 @@ void Render::buildConsumer() {
     m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("window_id", m_winid);
     m_mltConsumer->set("terminate_on_pause", 1);
+    m_mltConsumer->set("window_background", (int) KdenliveSettings::window_background().rgb ());
 
     m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
     m_mltConsumer->set("rescale", "nearest");
