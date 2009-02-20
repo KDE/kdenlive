@@ -114,7 +114,7 @@ void Render::buildConsumer() {
     m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("window_id", m_winid);
     m_mltConsumer->set("terminate_on_pause", 1);
-    m_mltConsumer->set("window_background", (int) KdenliveSettings::window_background().rgb ());
+    m_mltConsumer->set("window_background", (int) KdenliveSettings::window_background().rgb());
 
     m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
     m_mltConsumer->set("rescale", "nearest");
@@ -461,7 +461,7 @@ void Render::slotSplitView(bool doit) {
     }
 }
 
-void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
+void Render::getFileProperties(const QDomElement &xml, const QString &clipId, bool replaceProducer) {
     int height = 50;
     int width = (int)(height  * m_mltProfile->dar());
     QMap < QString, QString > filePropertyMap;
@@ -470,7 +470,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
     KUrl url = KUrl(xml.attribute("resource", QString::null));
     Mlt::Producer *producer = NULL;
     if (xml.attribute("type").toInt() == TEXT && !QFile::exists(url.path())) {
-        emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap);
+        emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap, replaceProducer);
         return;
     }
     if (xml.attribute("type").toInt() == COLOR) {
@@ -684,7 +684,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId) {
             metadataPropertyMap[ name.section(".", 0, -2)] = value;
     }
 
-    emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap);
+    emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap, replaceProducer);
     kDebug() << "REquested fuile info for: " << url.path();
     if (frame) delete frame;
     //if (producer) delete producer;

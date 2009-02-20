@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="33">
+<gui name="kdenlive" version="35">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -26,6 +26,7 @@
       <Menu name="generators" ><text>Generators</text>
       </Menu>
       <Separator />
+      <Action name="reload_clip" />
       <Action name="clip_properties" />       
       <Action name="edit_clip" />
       <Action name="delete_clip" />

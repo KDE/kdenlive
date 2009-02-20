@@ -54,7 +54,7 @@
 #include "editfoldercommand.h"
 
 ProjectList::ProjectList(QWidget *parent)
-        : QWidget(parent), m_render(NULL), m_fps(-1), m_commandStack(NULL), m_selectedItem(NULL), m_infoQueue(QMap <QString, QDomElement> ()), m_thumbnailQueue(QList <QString> ()), m_refreshed(false), m_editAction(NULL), m_openAction(NULL), m_deleteAction(NULL) {
+        : QWidget(parent), m_render(NULL), m_fps(-1), m_commandStack(NULL), m_selectedItem(NULL), m_infoQueue(QMap <QString, QDomElement> ()), m_thumbnailQueue(QList <QString> ()), m_refreshed(false), m_editAction(NULL), m_openAction(NULL), m_deleteAction(NULL), m_reloadAction(NULL) {
 
     QWidget *vbox = new QWidget;
     listView = new ProjectListView(this);;
@@ -104,7 +104,6 @@ ProjectList::~ProjectList() {
 }
 
 void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction) {
-
     QList <QAction *> actions = addMenu->actions();
     for (int i = 0; i < actions.count(); i++) {
         if (actions.at(i)->data().toString() == "clip_properties") {
@@ -119,6 +118,10 @@ void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction) {
             i--;
         } else if (actions.at(i)->data().toString() == "edit_clip") {
             m_openAction = actions.at(i);
+            actions.removeAt(i);
+            i--;
+        } else if (actions.at(i)->data().toString() == "reload_clip") {
+            m_reloadAction = actions.at(i);
             actions.removeAt(i);
             i--;
         }
@@ -140,6 +143,7 @@ void ProjectList::setupGeneratorMenu(QMenu *addMenu) {
 
     m_menu->addMenu(addMenu);
     if (addMenu->isEmpty()) addMenu->setEnabled(false);
+    m_menu->addAction(m_reloadAction);
     m_menu->addAction(m_editAction);
     m_menu->addAction(m_openAction);
     m_menu->addAction(m_deleteAction);
@@ -177,6 +181,16 @@ void ProjectList::slotOpenClip() {
     }
 }
 
+void ProjectList::slotReloadClip() {
+    ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
+    if (item && !item->isGroup()) {
+        if (item->clipType() == IMAGE) {
+            item->referencedClip()->producer()->set("force_reload", 1);
+        }
+        emit getFileProperties(item->toXml(), item->clipId(), false);
+    }
+}
+
 void ProjectList::setRenderer(Render *projectRender) {
     m_render = projectRender;
     listView->setIconSize(QSize(40 * m_render->dar(), 40));
@@ -191,12 +205,20 @@ void ProjectList::slotClipSelected() {
         }
         m_editAction->setEnabled(true);
         m_deleteAction->setEnabled(true);
-        m_openAction->setEnabled(true);
+        m_reloadAction->setEnabled(true);
+        if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
+            m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
+            m_openAction->setEnabled(true);
+        } else if (clip->clipType() == AUDIO && !KdenliveSettings::defaultaudioapp().isEmpty()) {
+            m_openAction->setIcon(KIcon(KdenliveSettings::defaultaudioapp()));
+            m_openAction->setEnabled(true);
+        } else m_openAction->setEnabled(false);
     } else {
         emit clipSelected(NULL);
         m_editAction->setEnabled(false);
         m_deleteAction->setEnabled(false);
         m_openAction->setEnabled(false);
+        m_reloadAction->setEnabled(false);
     }
 }
 
@@ -280,7 +302,17 @@ void ProjectList::slotContextMenu(const QPoint &pos, QTreeWidgetItem *item) {
     }
     m_editAction->setEnabled(enable);
     m_deleteAction->setEnabled(enable);
-    m_openAction->setEnabled(enable);
+    m_reloadAction->setEnabled(enable);
+    if (enable) {
+        ProjectItem *clip = static_cast <ProjectItem*>(item);
+        if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
+            m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
+            m_openAction->setEnabled(true);
+        } else if (clip->clipType() == AUDIO && !KdenliveSettings::defaultaudioapp().isEmpty()) {
+            m_openAction->setIcon(KIcon(KdenliveSettings::defaultaudioapp()));
+            m_openAction->setEnabled(true);
+        } else m_openAction->setEnabled(false);
+    } else m_openAction->setEnabled(false);
     m_menu->popup(pos);
 }
 
@@ -311,6 +343,7 @@ void ProjectList::slotRemoveClip() {
         m_editAction->setEnabled(false);
         m_deleteAction->setEnabled(false);
         m_openAction->setEnabled(false);
+        m_reloadAction->setEnabled(false);
     }
 }
 
@@ -448,7 +481,7 @@ void ProjectList::slotProcessNextClipInQueue() {
         const QDomElement dom = i.value();
         const QString id = i.key();
         m_infoQueue.remove(i.key());
-        emit getFileProperties(dom, id);
+        emit getFileProperties(dom, id, true);
     }
     if (m_infoQueue.isEmpty()) listView->setEnabled(true);
 }
@@ -700,13 +733,13 @@ void ProjectList::slotRefreshClipThumbnail(ProjectItem *item, bool update) {
     }
 }
 
-void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata) {
+void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata, bool replace) {
     ProjectItem *item = getItemById(clipId);
     if (item && producer) {
         listView->blockSignals(true);
         item->setProperties(properties, metadata);
         Q_ASSERT_X(item->referencedClip(), "void ProjectList::slotReplyGetFileProperties", QString("Item with groupName %1 does not have a clip associated").arg(item->groupName()).toLatin1());
-        item->referencedClip()->setProducer(producer);
+        if (replace) item->referencedClip()->setProducer(producer);
         emit receivedClipDuration(clipId, item->clipMaxDuration());
         listView->blockSignals(false);
     } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
@@ -749,13 +782,20 @@ ProjectItem *ProjectList::getFolderItemById(const QString &id) {
 }
 
 void ProjectList::slotSelectClip(const QString &ix) {
-    ProjectItem *p = getItemById(ix);
-    if (p) {
-        listView->setCurrentItem(p);
-        listView->scrollToItem(p);
+    ProjectItem *clip = getItemById(ix);
+    if (clip) {
+        listView->setCurrentItem(clip);
+        listView->scrollToItem(clip);
         m_editAction->setEnabled(true);
         m_deleteAction->setEnabled(true);
-        m_openAction->setEnabled(true);
+        m_reloadAction->setEnabled(true);
+        if (clip->clipType() == IMAGE && !KdenliveSettings::defaultimageapp().isEmpty()) {
+            m_openAction->setIcon(KIcon(KdenliveSettings::defaultimageapp()));
+            m_openAction->setEnabled(true);
+        } else if (clip->clipType() == AUDIO && !KdenliveSettings::defaultaudioapp().isEmpty()) {
+            m_openAction->setIcon(KIcon(KdenliveSettings::defaultaudioapp()));
+            m_openAction->setEnabled(true);
+        } else m_openAction->setEnabled(false);
     }
 }
 

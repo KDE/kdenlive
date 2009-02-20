@@ -237,7 +237,7 @@ private slots:  // Private slots
 
 signals:   // Signals
     /** emitted when the renderer recieves a reply to a getFileProperties request. */
-    void replyGetFileProperties(const QString &clipId, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &);
+    void replyGetFileProperties(const QString &clipId, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &, bool);
 
     /** emitted when the renderer recieves a reply to a getImage request. */
     void replyGetImage(const QString &, const QPixmap &);
@@ -272,7 +272,7 @@ public slots:  // Public slots
     /** Wraps the VEML command of the same name. Requests the file properties
     for the specified url from the renderer. Upon return, the result will be emitted
     via replyGetFileProperties(). */
-    void getFileProperties(const QDomElement &xml, const QString &clipId);
+    void getFileProperties(const QDomElement &xml, const QString &clipId, bool replaceProducer = true);
 
     void exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime);
     static char *decodedString(QString str);

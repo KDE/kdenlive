@@ -569,9 +569,9 @@ void MainWindow::slotConnectMonitors() {
     m_projectList->setRenderer(m_projectMonitor->render);
     connect(m_projectList, SIGNAL(receivedClipDuration(const QString &, int)), this, SLOT(slotSetClipDuration(const QString &, int)));
     connect(m_projectList, SIGNAL(showClipProperties(DocClipBase *)), this, SLOT(slotShowClipProperties(DocClipBase *)));
-    connect(m_projectList, SIGNAL(getFileProperties(const QDomElement &, const QString &)), m_projectMonitor->render, SLOT(getFileProperties(const QDomElement &, const QString &)));
+    connect(m_projectList, SIGNAL(getFileProperties(const QDomElement &, const QString &, bool)), m_projectMonitor->render, SLOT(getFileProperties(const QDomElement &, const QString &, bool)));
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(const QString &, const QPixmap &)), m_projectList, SLOT(slotReplyGetImage(const QString &, const QPixmap &)));
-    connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &)), m_projectList, SLOT(slotReplyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &)));
+    connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &, bool)), m_projectList, SLOT(slotReplyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &, bool)));
 
     connect(m_projectMonitor->render, SIGNAL(removeInvalidClip(const QString &)), m_projectList, SLOT(slotRemoveInvalidClip(const QString &)));
 
@@ -1020,16 +1020,25 @@ void MainWindow::setupActions() {
     collection->addAction("clip_properties", clipProperties);
     clipProperties->setData("clip_properties");
     connect(clipProperties , SIGNAL(triggered()), m_projectList, SLOT(slotEditClip()));
+    clipProperties->setEnabled(false);
 
     QAction *openClip = new KAction(KIcon("document-open"), i18n("Edit Clip"), this);
     collection->addAction("edit_clip", openClip);
     openClip->setData("edit_clip");
     connect(openClip , SIGNAL(triggered()), m_projectList, SLOT(slotOpenClip()));
+    openClip->setEnabled(false);
 
     QAction *deleteClip = new KAction(KIcon("edit-delete"), i18n("Delete Clip"), this);
     collection->addAction("delete_clip", deleteClip);
     deleteClip->setData("delete_clip");
     connect(deleteClip , SIGNAL(triggered()), m_projectList, SLOT(slotRemoveClip()));
+    deleteClip->setEnabled(false);
+
+    QAction *reloadClip = new KAction(KIcon("view-refresh"), i18n("Reload Clip"), this);
+    collection->addAction("reload_clip", reloadClip);
+    reloadClip->setData("reload_clip");
+    connect(reloadClip , SIGNAL(triggered()), m_projectList, SLOT(slotReloadClip()));
+    reloadClip->setEnabled(false);
 
     QMenu *addClips = new QMenu();
     addClips->addAction(addClip);
@@ -1038,6 +1047,7 @@ void MainWindow::setupActions() {
     addClips->addAction(addTitleClip);
     addClips->addAction(addFolderButton);
 
+    addClips->addAction(reloadClip);
     addClips->addAction(clipProperties);
     addClips->addAction(openClip);
     addClips->addAction(deleteClip);

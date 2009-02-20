@@ -129,7 +129,7 @@ public:
 public slots:
     void setDocument(KdenliveDoc *doc);
     void slotReplyGetImage(const QString &clipId, const QPixmap &pix);
-    void slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata);
+    void slotReplyGetFileProperties(const QString &clipId, Mlt::Producer *producer, const QMap < QString, QString > &properties, const QMap < QString, QString > &metadata, bool replace);
     void slotAddClip(DocClipBase *clip, bool getProperties);
     void slotDeleteClip(const QString &clipId);
     void slotUpdateClip(const QString &id);
@@ -143,6 +143,7 @@ public slots:
     void slotResetProjectList();
     void slotOpenClip();
     void slotEditClip();
+    void slotReloadClip();
 
 private:
     ProjectListView *listView;
@@ -159,6 +160,7 @@ private:
     QAction *m_editAction;
     QAction *m_deleteAction;
     QAction *m_openAction;
+    QAction *m_reloadAction;
     KdenliveDoc *m_doc;
     ProjectItem *m_selectedItem;
     bool m_refreshed;
@@ -188,7 +190,7 @@ private slots:
 
 signals:
     void clipSelected(DocClipBase *);
-    void getFileProperties(const QDomElement&, const QString &);
+    void getFileProperties(const QDomElement&, const QString &, bool);
     void receivedClipDuration(const QString &, int);
     void showClipProperties(DocClipBase *);
     void projectModified();
