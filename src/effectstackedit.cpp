@@ -368,7 +368,6 @@ void EffectStackEdit::collectAllParameters() {
         } else if (type == "color") {
             KColorButton *color = ((Ui::Colorval_UI*)valueItems[paramName])->kcolorbutton;
             setValue = color->color().name();
-            setValue.replace('#', "0x");
         } else if (type == "complex") {
             ComplexParameter *complex = ((ComplexParameter*)valueItems[paramName+"complex"]);
             namenode.item(i) = complex->getParamDesc();
