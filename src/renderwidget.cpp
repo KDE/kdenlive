@@ -470,8 +470,11 @@ void RenderWidget::updateButtons() {
         m_view.buttonSave->setEnabled(false);
         m_view.buttonDelete->setEnabled(false);
         m_view.buttonEdit->setEnabled(false);
+        m_view.buttonStart->setEnabled(false);
     } else {
         m_view.buttonSave->setEnabled(true);
+        kDebug() << "BUTT: " << m_view.size_list->currentItem()->flags();
+        m_view.buttonStart->setEnabled(m_view.size_list->currentItem()->flags() & Qt::ItemIsEnabled);
         if (m_view.size_list->currentItem()->data(EditableRole).toString().isEmpty()) {
             m_view.buttonDelete->setEnabled(false);
             m_view.buttonEdit->setEnabled(false);
@@ -708,9 +711,9 @@ void RenderWidget::refreshView() {
                     if (!format.isEmpty()) {
                         format = format.section(' ', 0, 0).toLower();
                         if (!formatsList.contains(format)) {
-                            kDebug() << "*****  UNSUPPORTED F: " << format;
+                            kDebug() << "***** UNSUPPORTED F: " << format;
                             //sizeItem->setHidden(true);
-                            sizeItem->setFlags(Qt::NoItemFlags);
+                            sizeItem->setFlags(Qt::ItemIsSelectable);
                             sizeItem->setToolTip(i18n("Unsupported video format: %1", format));
                             sizeItem->setIcon(brokenIcon);
                         }
@@ -725,7 +728,7 @@ void RenderWidget::refreshView() {
                         if (!acodecsList.contains(format)) {
                             kDebug() << "*****  UNSUPPORTED ACODEC: " << format;
                             //sizeItem->setHidden(true);
-                            sizeItem->setFlags(Qt::NoItemFlags);
+                            sizeItem->setFlags(Qt::ItemIsSelectable);
                             sizeItem->setToolTip(i18n("Unsupported audio codec: %1", format));
                             sizeItem->setIcon(brokenIcon);
                         }
@@ -740,7 +743,7 @@ void RenderWidget::refreshView() {
                         if (!vcodecsList.contains(format)) {
                             kDebug() << "*****  UNSUPPORTED VCODEC: " << format;
                             //sizeItem->setHidden(true);
-                            sizeItem->setFlags(Qt::NoItemFlags);
+                            sizeItem->setFlags(Qt::ItemIsSelectable);
                             sizeItem->setToolTip(i18n("Unsupported video codec: %1", format));
                             sizeItem->setIcon(brokenIcon);
                         }
@@ -808,7 +811,8 @@ void RenderWidget::refreshParams() {
         m_view.buttonDelete->setEnabled(true);
         m_view.buttonEdit->setEnabled(true);
     }
-    m_view.buttonStart->setEnabled(true);
+
+    m_view.buttonStart->setEnabled(m_view.size_list->currentItem()->flags() & Qt::ItemIsEnabled);
 }
 
 void RenderWidget::reloadProfiles() {
