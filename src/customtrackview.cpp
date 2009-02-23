@@ -1067,10 +1067,10 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track) 
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = (ClipItem *)itemList.at(i);
-	    if (item->hasEffect(effect.attribute("tag"), effect.attribute("id")) != -1 && effect.attribute("unique", "0") != "0") {
-		emit displayMessage(i18n("Effect already present in clip"), ErrorMessage);
-		continue;
-	    }
+            if (item->hasEffect(effect.attribute("tag"), effect.attribute("id")) != -1 && effect.attribute("unique", "0") != "0") {
+                emit displayMessage(i18n("Effect already present in clip"), ErrorMessage);
+                continue;
+            }
             item->initEffect(effect);
             if (effect.attribute("tag") == "ladspa") {
                 QString ladpsaFile = m_document->getLadspaFile();
@@ -1175,17 +1175,22 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut) {
             m_blockRefresh = false;
             return;
         }
+        if (item->parentItem()) {
+            // Item is part of a group, reset group
+            resetSelectionGroup();
+        }
         kDebug() << "/////////  CUTTING CLIP : (" << item->startPos().frames(25) << "-" << item->endPos().frames(25) << "), INFO: (" << info.startPos.frames(25) << "-" << info.endPos.frames(25) << ")" << ", CUT: " << cutTime.frames(25);
 
         m_document->renderer()->mltCutClip(m_document->tracksCount() - info.track, cutTime);
         int cutPos = (int) cutTime.frames(m_document->fps());
         ItemInfo newPos;
+        double speed = item->speed();
         newPos.startPos = cutTime;
         newPos.endPos = info.endPos;
-        newPos.cropStart = item->cropStart() + (cutTime - info.startPos);
+        if (speed == 1) newPos.cropStart = item->info().cropStart + (cutTime - info.startPos);
+        else newPos.cropStart = item->info().cropStart + (cutTime - info.startPos) * speed;
         newPos.track = info.track;
         ClipItem *dup = item->clone(newPos);
-        kDebug() << "// REsizing item to: " << cutPos;
         item->resizeEnd(cutPos, false);
         scene()->addItem(dup);
         if (item->checkKeyFrames()) slotRefreshEffects(item);
@@ -2354,9 +2359,14 @@ void CustomTrackView::changeClipSpeed() {
 void CustomTrackView::doChangeClipSpeed(ItemInfo info, const double speed, const double oldspeed, const QString &id) {
     DocClipBase *baseclip = m_document->clipManager()->getClipById(id);
     ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()) + 1, info.track);
+    if (!item) {
+        kDebug() << "ERROR: Cannot find clip for speed change";
+        emit displayMessage(i18n("Cannot find clip for speed change"), ErrorMessage);
+        return;
+    }
     info.track = m_document->tracksCount() - item->track();
     int endPos = m_document->renderer()->mltChangeClipSpeed(info, speed, oldspeed, baseclip->producer());
-    //kDebug() << "//CH CLIP SPEED: " << speed << "x" << oldspeed << ", END POS: " << endPos;
+    kDebug() << "//CH CLIP SPEED: " << speed << "x" << oldspeed << ", END POS: " << endPos;
     item->setSpeed(speed);
     item->updateRectGeometry();
     if (item->cropDuration().frames(m_document->fps()) > endPos)
@@ -2672,6 +2682,10 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end) {
         kDebug() << "----------------  ERROR, CANNOT find clip to resize at... "; // << startPos;
         return;
     }
+    if (item->parentItem()) {
+        // Item is part of a group, reset group
+        resetSelectionGroup();
+    }
     bool snap = KdenliveSettings::snaptopoints();
     KdenliveSettings::setSnaptopoints(false);
     if (resizeClipStart && start.startPos != end.startPos) {
@@ -2679,6 +2693,7 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end) {
         clipinfo.track = m_document->tracksCount() - clipinfo.track;
         bool success = m_document->renderer()->mltResizeClipStart(clipinfo, end.startPos - item->startPos());
         if (success) {
+            kDebug() << "RESIZE CLP STRAT TO:" << end.startPos.frames(m_document->fps()) << ", OLD ST: " << start.startPos.frames(25);
             item->resizeStart((int) end.startPos.frames(m_document->fps()));
             updateClipFade(item);
         } else emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
@@ -3360,7 +3375,7 @@ void CustomTrackView::setInPoint() {
         return;
     }
     ItemInfo startInfo = clip->info();
-    ItemInfo endInfo = clip->info();
+    ItemInfo endInfo = startInfo;
     endInfo.startPos = GenTime(m_cursorPos, m_document->fps());
     if (endInfo.startPos >= startInfo.endPos) {
         // Check for invalid resize

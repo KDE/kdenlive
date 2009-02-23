@@ -1731,7 +1731,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
         Mlt::Producer *cut;
         if (clipIndex + 1 < trackPlaylist.count() && (info.startPos + newDuration).frames(m_fps) > blankEnd) {
             GenTime maxLength = GenTime(blankEnd, m_fps) - info.startPos;
-            cut = slowprod->cut((int)(info.cropStart.frames(m_fps)), (int)(info.cropStart.frames(m_fps) + maxLength.frames(m_fps) - 1));
+            cut = slowprod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)(info.cropStart.frames(m_fps) / speed + maxLength.frames(m_fps) - 1));
         } else cut = slowprod->cut((int)(info.cropStart.frames(m_fps) / speed), (int)((info.cropStart / speed + newDuration).frames(m_fps) - 1));
 
         trackPlaylist.insert_at(startPos, *cut, 1);

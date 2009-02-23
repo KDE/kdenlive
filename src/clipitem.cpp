@@ -113,7 +113,7 @@ ClipItem::~ClipItem() {
 
 ClipItem *ClipItem::clone(ItemInfo info) const {
     ClipItem *duplicate = new ClipItem(m_clip, info, m_fps, m_speed);
-    if (info.cropStart == cropStart()) duplicate->slotSetStartThumb(m_startPix);
+    if (info.cropStart == m_cropStart) duplicate->slotSetStartThumb(m_startPix);
     if (info.cropStart + (info.endPos - info.startPos) == m_cropStart + m_cropDuration) duplicate->slotSetEndThumb(m_endPix);
     kDebug() << "// CLoning clip: " << (info.cropStart + (info.endPos - info.startPos)).frames(m_fps) << ", CURRENT end: " << (cropStart() + duration()).frames(m_fps);
     duplicate->setEffectList(m_effectList.clone());
@@ -159,14 +159,14 @@ void ClipItem::initEffect(QDomElement effect) {
         if (effect.attribute("id") == "fadeout" || effect.attribute("id") == "fade_to_black") {
             int end = (duration() + cropStart()).frames(m_fps);
             int start = end;
-            if (effect.attribute("id") == "fadeout" ) {
+            if (effect.attribute("id") == "fadeout") {
                 if (m_effectList.hasEffect("", "fade_to_black") == -1) {
                     start -= EffectsList::parameter(effect, "in").toInt();
                 } else {
                     QDomElement fadeout = m_effectList.getEffectByTag("", "fade_to_black");
                     start -= EffectsList::parameter(fadeout, "out").toInt() - EffectsList::parameter(fadeout, "in").toInt();
                 }
-            } else if (effect.attribute("id") == "fade_to_black" ) {
+            } else if (effect.attribute("id") == "fade_to_black") {
                 if (m_effectList.hasEffect("", "fadeout") == -1) {
                     start -= EffectsList::parameter(effect, "in").toInt();
                 } else {
@@ -179,12 +179,12 @@ void ClipItem::initEffect(QDomElement effect) {
         } else if (effect.attribute("id") == "fadein" || effect.attribute("id") == "fade_from_black") {
             int start = cropStart().frames(m_fps);
             int end = start;
-            if (effect.attribute("id") == "fadein" ) {
+            if (effect.attribute("id") == "fadein") {
                 if (m_effectList.hasEffect("", "fade_from_black") == -1)
                     end += EffectsList::parameter(effect, "out").toInt();
                 else
                     end += EffectsList::parameter(m_effectList.getEffectByTag("", "fade_from_black"), "out").toInt();
-            } else if (effect.attribute("id") == "fade_from_black" ) {
+            } else if (effect.attribute("id") == "fade_from_black") {
                 if (m_effectList.hasEffect("", "fadein") == -1)
                     end += EffectsList::parameter(effect, "out").toInt();
                 else
@@ -1154,7 +1154,7 @@ void ClipItem::setEffectAt(int ix, QDomElement effect) {
     m_effectList.insert(ix, effect);
     m_effectList.removeAt(ix + 1);
     m_effectNames = m_effectList.effectNames().join(" / ");
-	QString id = effect.attribute("id");
+    QString id = effect.attribute("id");
     if (id == "fadein" || id == "fadeout" || id == "fade_from_black" || id == "fade_to_black")
         update(boundingRect());
     else {
@@ -1326,7 +1326,7 @@ void ClipItem::deleteEffect(QString index) {
         if (ix == index) {
             QString effectId = m_effectList.at(i).attribute("id");
             if ((effectId == "fadein" && hasEffect("", "fade_from_black") == -1) ||
-                (effectId == "fade_from_black" && hasEffect("", "fadein") == -1)) {
+                    (effectId == "fade_from_black" && hasEffect("", "fadein") == -1)) {
                 m_startFade = 0;
                 needRepaint = true;
             } else if ((effectId == "fadeout" && hasEffect("", "fade_to_black") == -1) ||
