@@ -72,9 +72,9 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent): QDia
 
 
     QMenu *renderMenu = new QMenu(i18n("Start Rendering"), this);
-    QAction *renderAction = renderMenu->addAction(KIcon("file-new"), i18n("Render to File"));
+    QAction *renderAction = renderMenu->addAction(KIcon("video-x-generic"), i18n("Render to File"));
     connect(renderAction, SIGNAL(triggered()), this, SLOT(slotExport()));
-    QAction *scriptAction = renderMenu->addAction(KIcon("file-new"), i18n("Generate Script"));
+    QAction *scriptAction = renderMenu->addAction(KIcon("application-x-shellscript"), i18n("Generate Script"));
     connect(scriptAction, SIGNAL(triggered()), this, SLOT(slotGenerateScript()));
 
     m_view.buttonStart->setMenu(renderMenu);
