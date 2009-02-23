@@ -197,6 +197,8 @@ private:
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
     QAction *m_autoTransition;
+    QAction *m_changeSpeedAction;
+    QAction *m_pasteEffectsAction;
     QTimer m_scrollTimer;
     int m_scrollOffset;
 

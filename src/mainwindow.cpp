@@ -892,6 +892,7 @@ void MainWindow::setupActions() {
 
     KAction* editTimelineClipSpeed = new KAction(i18n("Change Clip Speed"), this);
     collection->addAction("change_clip_speed", editTimelineClipSpeed);
+    editTimelineClipSpeed->setData("change_speed");
     connect(editTimelineClipSpeed, SIGNAL(triggered(bool)), this, SLOT(slotChangeClipSpeed()));
 
     KAction *stickTransition = collection->addAction("auto_transition");
@@ -960,6 +961,7 @@ void MainWindow::setupActions() {
 
     QAction *pasteEffects = new KAction(KIcon("edit-paste"), i18n("Paste Effects"), this);
     collection->addAction("paste_effects", pasteEffects);
+    pasteEffects->setData("paste_effects");
     connect(pasteEffects , SIGNAL(triggered()), this, SLOT(slotPasteEffects()));
 
     m_closeAction = KStandardAction::close(this, SLOT(closeCurrentDocument()), collection);

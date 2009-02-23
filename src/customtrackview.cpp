@@ -79,7 +79,7 @@
 // const int duration = animate ? 1500 : 1;
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscene, QWidget *parent)
-        : QGraphicsView(projectscene, parent), m_scene(projectscene), m_cursorPos(0), m_cursorLine(NULL), m_operationMode(NONE), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()), m_tracksHeight(KdenliveSettings::trackheight()), m_tool(SELECTTOOL), m_dragGuide(NULL), m_findIndex(0), m_menuPosition(QPoint()), m_blockRefresh(false), m_selectionGroup(NULL), m_selectedTrack(0), m_copiedItems(QList<AbstractClipItem *> ()), m_scrollOffset(0) {
+        : QGraphicsView(projectscene, parent), m_scene(projectscene), m_cursorPos(0), m_cursorLine(NULL), m_operationMode(NONE), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()), m_tracksHeight(KdenliveSettings::trackheight()), m_tool(SELECTTOOL), m_dragGuide(NULL), m_findIndex(0), m_menuPosition(QPoint()), m_blockRefresh(false), m_selectionGroup(NULL), m_selectedTrack(0), m_copiedItems(QList<AbstractClipItem *> ()), m_scrollOffset(0), m_changeSpeedAction(NULL), m_pasteEffectsAction(NULL) {
     if (doc) m_commandStack = doc->commandStack();
     else m_commandStack == NULL;
     setMouseTracking(true);
@@ -122,10 +122,20 @@ void CustomTrackView::setDocumentModified() {
 void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition) {
     m_timelineContextMenu = timeline;
     m_timelineContextClipMenu = clip;
+    QList <QAction *> list = m_timelineContextClipMenu->actions();
+    for (int i = 0; i < list.count(); i++) {
+        if (list.at(i)->data().toString() == "change_speed") m_changeSpeedAction = list.at(i);
+        else if (list.at(i)->data().toString() == "paste_effects") m_pasteEffectsAction = list.at(i);
+    }
+
     m_timelineContextTransitionMenu = transition;
-    QList <QAction *> list = m_timelineContextTransitionMenu->actions();
-    for (int i = 0; i < list.count(); i++)
-        if (list.at(i)->data().toString() == "auto") m_autoTransition = list.at(i);
+    list = m_timelineContextTransitionMenu->actions();
+    for (int i = 0; i < list.count(); i++) {
+        if (list.at(i)->data().toString() == "auto") {
+            m_autoTransition = list.at(i);
+            break;
+        }
+    }
 }
 
 void CustomTrackView::checkAutoScroll() {
@@ -667,6 +677,9 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         if (event->modifiers() != Qt::ControlModifier) m_scene->clearSelection();
         m_dragItem->setSelected(!m_dragItem->isSelected());
         groupSelectedItems();
+        ClipItem *clip = static_cast <ClipItem *>(m_dragItem);
+        m_changeSpeedAction->setEnabled(clip->clipType() == AV || clip->clipType() == VIDEO);
+        m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
     }
 
     if (m_selectionGroup == NULL) updateSnapPoints(m_dragItem);
@@ -925,8 +938,12 @@ void CustomTrackView::editKeyFrame(const GenTime pos, const int track, const int
 
 void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip) {
     if (clip == NULL) m_timelineContextMenu->popup(pos);
-    else if (clip->type() == AVWIDGET) m_timelineContextClipMenu->popup(pos);
-    else if (clip->type() == TRANSITIONWIDGET) m_timelineContextTransitionMenu->popup(pos);
+    else if (clip->type() == AVWIDGET) {
+        ClipItem *item = static_cast <ClipItem*>(clip);
+        m_changeSpeedAction->setEnabled(item->clipType() == AV || item->clipType() == VIDEO);
+        m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
+        m_timelineContextClipMenu->popup(pos);
+    } else if (clip->type() == TRANSITIONWIDGET) m_timelineContextTransitionMenu->popup(pos);
 }
 
 void CustomTrackView::activateMonitor() {
@@ -1412,8 +1429,10 @@ void CustomTrackView::dropEvent(QDropEvent * event) {
         QList<QGraphicsItem *> items = m_selectionGroup->childItems();
         resetSelectionGroup();
         m_scene->clearSelection();
+        bool hasVideoClip = false;
         for (int i = 0; i < items.count(); i++) {
             ClipItem *item = static_cast <ClipItem *>(items.at(i));
+            if (!hasVideoClip && (item->clipType() == AV || item->clipType() == VIDEO)) hasVideoClip = true;
             AddTimelineClipCommand *command = new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, false);
             m_commandStack->push(command);
             item->baseClip()->addReference();
@@ -1439,6 +1458,8 @@ void CustomTrackView::dropEvent(QDropEvent * event) {
             m_document->renderer()->mltInsertClip(info, item->xml(), item->baseClip()->producer(item->track()));
             item->setSelected(true);
         }
+        m_changeSpeedAction->setEnabled(hasVideoClip);
+        m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
         groupSelectedItems(true);
         m_document->setModified(true);
     } else QGraphicsView::dropEvent(event);
@@ -2339,14 +2360,16 @@ void CustomTrackView::changeClipSpeed() {
     QUndoCommand *changeSelected = new QUndoCommand();
     changeSelected->setText("Edit clip speed");
     int count = 0;
+    int percent = -1;
+    bool ok;
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             ItemInfo info = item->info();
-            bool ok;
-            int percent = QInputDialog::getInteger(this, i18n("Edit Clip Speed"), i18n("New speed (percents)"), item->speed() * 100, 1, 300, 1, &ok);
+            if (percent == -1) percent = QInputDialog::getInteger(this, i18n("Edit Clip Speed"), i18n("New speed (percents)"), item->speed() * 100, 1, 300, 1, &ok);
+            if (!ok) break;
             double speed = (double) percent / 100.0;
-            if (ok && item->speed() != speed) {
+            if (item->speed() != speed && (item->clipType() == VIDEO || item->clipType() == AV)) {
                 count++;
                 new ChangeSpeedCommand(this, info, item->speed(), speed, item->clipProducer(), true, changeSelected);
             }
