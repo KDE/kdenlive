@@ -2366,7 +2366,7 @@ void CustomTrackView::changeClipSpeed() {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             ItemInfo info = item->info();
-            if (percent == -1) percent = QInputDialog::getInteger(this, i18n("Edit Clip Speed"), i18n("New speed (percents)"), item->speed() * 100, 1, 1000, 1, &ok);
+            if (percent == -1) percent = QInputDialog::getInteger(this, i18n("Edit Clip Speed"), i18n("New speed (percents)"), item->speed() * 100, 1, 10000, 1, &ok);
             if (!ok) break;
             double speed = (double) percent / 100.0;
             if (item->speed() != speed && (item->clipType() == VIDEO || item->clipType() == AV)) {
