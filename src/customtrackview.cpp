@@ -1802,16 +1802,21 @@ void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> t
 
 void CustomTrackView::deleteClip(const QString &clipId) {
     QList<QGraphicsItem *> itemList = items();
+    QUndoCommand *deleteCommand = new QUndoCommand();
+    deleteCommand->setText(i18n("Delete timeline clips"));
+    int count = 0;
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = (ClipItem *)itemList.at(i);
             if (item->clipProducer() == clipId) {
-                AddTimelineClipCommand *command = new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), true, true);
-                m_commandStack->push(command);
+                count++;
+                new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), true, true, deleteCommand);
                 //delete item;
             }
         }
     }
+    if (count > 0) m_commandStack->push(deleteCommand);
+    else delete deleteCommand;
 }
 
 void CustomTrackView::setCursorPos(int pos, bool seek) {
@@ -2335,12 +2340,15 @@ void CustomTrackView::deleteSelectedClips() {
     }
     QUndoCommand *deleteSelected = new QUndoCommand();
     deleteSelected->setText(i18n("Delete selected items"));
+    bool resetGroup = false;
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
+            if (item->parentItem()) resetGroup = true;
             new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), true, true, deleteSelected);
         } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
             Transition *item = static_cast <Transition *>(itemList.at(i));
+            if (item->parentItem()) resetGroup = true;
             ItemInfo info;
             info.startPos = item->startPos();
             info.endPos = item->endPos();
@@ -2349,6 +2357,7 @@ void CustomTrackView::deleteSelectedClips() {
         }
     }
     m_commandStack->push(deleteSelected);
+    if (resetGroup) resetSelectionGroup();
 }
 
 void CustomTrackView::changeClipSpeed() {
