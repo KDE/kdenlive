@@ -270,9 +270,11 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event) {
 
             } else if (m_operationMode == RESIZESTART && move) {
                 double snappedPos = getSnapPointForPos(mappedXPos);
+                m_document->renderer()->pause();
                 m_dragItem->resizeStart((int)(snappedPos));
             } else if (m_operationMode == RESIZEEND && move) {
                 double snappedPos = getSnapPointForPos(mappedXPos);
+                m_document->renderer()->pause();
                 m_dragItem->resizeEnd((int)(snappedPos));
             } else if (m_operationMode == FADEIN && move) {
                 ((ClipItem*) m_dragItem)->setFadeIn((int)(mappedXPos - m_dragItem->startPos().frames(m_document->fps())));
@@ -656,6 +658,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
         }
         AbstractClipItem *clip = static_cast <AbstractClipItem *>(m_dragItem);
         RazorClipCommand* command = new RazorClipCommand(this, clip->info(), GenTime((int)(mapToScene(event->pos()).x()), m_document->fps()), true);
+        m_document->renderer()->pause();
         m_commandStack->push(command);
         m_document->setModified(true);
         m_dragItem = NULL;
