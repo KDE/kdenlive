@@ -110,13 +110,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
     connect(m_configEnv.kp_audio, SIGNAL(clicked()), this, SLOT(slotEditAudioApplication()));
     connect(m_configEnv.kp_player, SIGNAL(clicked()), this, SLOT(slotEditVideoApplication()));
 
-    QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
-    QMapIterator<QString, QString> i(profilesInfo);
-    while (i.hasNext()) {
-        i.next();
-        m_configMisc.kcfg_profiles_list->addItem(i.key(), i.value());
-    }
-
     checkProfile();
 
     slotUpdateDisplay();
@@ -172,6 +165,14 @@ void KdenliveSettingsDialog::slotUpdateRmdRegionStatus() {
 }
 
 void KdenliveSettingsDialog::checkProfile() {
+    m_configMisc.kcfg_profiles_list->clear();
+    QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
+    QMapIterator<QString, QString> i(profilesInfo);
+    while (i.hasNext()) {
+        i.next();
+        m_configMisc.kcfg_profiles_list->addItem(i.key(), i.value());
+    }
+
     if (!KdenliveSettings::default_profile().isEmpty()) {
         for (int i = 0; i < m_configMisc.kcfg_profiles_list->count(); i++) {
             if (m_configMisc.kcfg_profiles_list->itemData(i).toString() == KdenliveSettings::default_profile()) {

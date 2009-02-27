@@ -772,13 +772,15 @@ void MainWindow::setupActions() {
     m_projectSearchNext->setShortcut(Qt::Key_F3);
     m_projectSearchNext->setEnabled(false);
 
-    KAction* profilesAction = new KAction(KIcon("document-new"), i18n("Manage Profiles"), this);
+    KAction* profilesAction = new KAction(KIcon("document-new"), i18n("Manage Project Profiles"), this);
     collection->addAction("manage_profiles", profilesAction);
     connect(profilesAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProfiles()));
 
     KNS::standardAction(i18n("Download New Lumas..."), this, SLOT(slotGetNewLumaStuff()), actionCollection(), "get_new_lumas");
 
-    KNS::standardAction(i18n("Download New Profiles..."), this, SLOT(slotGetNewRenderStuff()), actionCollection(), "get_new_profiles");
+    KNS::standardAction(i18n("Download New Render Profiles..."), this, SLOT(slotGetNewRenderStuff()), actionCollection(), "get_new_profiles");
+
+    KNS::standardAction(i18n("Download New Project Profiles..."), this, SLOT(slotGetNewMltProfileStuff()), actionCollection(), "get_new_mlt_profiles");
 
     KAction* wizAction = new KAction(KIcon("configure"), i18n("Run Config Wizard"), this);
     collection->addAction("run_wizard", wizAction);
@@ -1398,7 +1400,10 @@ void MainWindow::parseProfiles(const QString &mltPath) {
 
 void MainWindow::slotEditProfiles() {
     ProfilesDialog *w = new ProfilesDialog;
-    w->exec();
+    if (w->exec() == QDialog::Accepted) {
+        KdenliveSettingsDialog* d = static_cast <KdenliveSettingsDialog*>(KConfigDialog::exists("settings"));
+        if (d) d->checkProfile();
+    }
     delete w;
 }
 
@@ -1720,7 +1725,6 @@ void MainWindow::slotPreferences(int page, int option) {
     if (KConfigDialog::showDialog("settings")) {
         KdenliveSettingsDialog* d = static_cast <KdenliveSettingsDialog*>(KConfigDialog::exists("settings"));
         if (page != -1) d->showPage(page, option);
-        d->checkProfile();
         return;
     }
 
@@ -2317,6 +2321,30 @@ void MainWindow::slotGetNewRenderStuff() {
             }
         }
         if (m_renderWidget) m_renderWidget->reloadProfiles();
+    }
+}
+
+void MainWindow::slotGetNewMltProfileStuff() {
+    //KNS::Entry::List download();
+
+    KNS::Engine engine(0);
+    if (engine.init("kdenlive_mltprofiles.knsrc")) {
+        KNS::Entry::List entries = engine.downloadDialogModal(this);
+
+        if (entries.size() > 0) {
+            foreach(KNS::Entry* entry, entries) {
+                // care only about installed ones
+                if (entry->status() == KNS::Entry::Installed) {
+                    foreach(const QString &file, entry->installedFiles()) {
+                        kDebug() << "// CURRENTLY INSTALLED: " << file;
+                    }
+                }
+            }
+
+            // update the list of profiles in settings dialog
+            KdenliveSettingsDialog* d = static_cast <KdenliveSettingsDialog*>(KConfigDialog::exists("settings"));
+            if (d) d->checkProfile();
+        }
     }
 }
 
