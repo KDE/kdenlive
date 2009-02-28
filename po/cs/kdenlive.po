@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-29 17:20+0100\n"
-"PO-Revision-Date: 2009-02-08 18:03+0100\n"
+"PO-Revision-Date: 2009-02-28 09:59+0100\n"
 "Last-Translator: Jan Drábek <repli2dev@gmail.com>\n"
 "Language-Team: American English <kde-i18n-doc@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/clipproperties.cpp:462 src/slideshowclip.cpp:128
 #, kde-format
@@ -134,8 +134,8 @@ msgid ""
 "<strong><em>dvgrab</em> utility not found, please install it for firewire "
 "capture</strong>"
 msgstr ""
-"<strong>Program <em>dvgrab</em> nebyl nalezen, nainstalujte jej pokud chcete nahrávat "
-"přes firewire</strong>"
+"<strong>Program <em>dvgrab</em> nebyl nalezen, nainstalujte jej pokud chcete "
+"nahrávat přes firewire</strong>"
 
 #: src/dvdwizardvob.cpp:33 src/dvdwizardvob.cpp:34
 #, kde-format
@@ -1156,7 +1156,7 @@ msgstr "Integrace s vyhledáváním"
 
 #: rc.cpp:396 rc.cpp:1593
 msgid "Destination"
-msgstr "Cílová složka"
+msgstr "Typ renderování"
 
 #: rc.cpp:858 rc.cpp:2055
 msgid "Device"
@@ -1464,7 +1464,8 @@ msgid ""
 "File already exists.\n"
 "Do you want to overwrite it?"
 msgstr ""
-"Soubor již existuje.\n Chcete jej přepsat?"
+"Soubor již existuje.\n"
+" Chcete jej přepsat?"
 
 #: src/renderwidget.cpp:422
 msgid "File already exists. Do you want to overwrite it ?"
@@ -1480,7 +1481,7 @@ msgstr "Soubor nebyl nalezen"
 
 #: src/renderwidget.cpp:685
 msgid "File rendering"
-msgstr "Renderování"
+msgstr "Do souboru"
 
 #: rc.cpp:1338 rc.cpp:2535
 msgid "File size"
@@ -1689,7 +1690,7 @@ msgstr "Hlavní grafické rozhraní"
 
 #: rc.cpp:2781
 msgid "Generators"
-msgstr "Generátory"
+msgstr "Generovat"
 
 #: rc.cpp:6
 msgid "Geometry"
@@ -1817,7 +1818,7 @@ msgstr "Obrázkový klip"
 
 #: rc.cpp:1077 rc.cpp:2274
 msgid "Image clips"
-msgstr "Obrázkové klipy"
+msgstr "Obrázek"
 
 #: rc.cpp:738 rc.cpp:1935
 msgid "Image editing"
@@ -1826,8 +1827,7 @@ msgstr "Editace obrázku"
 #: src/dvdwizard.cpp:91
 #, kde-format
 msgid "Image file %1 already exists. Overwrite ?"
-msgstr ""
-"Soubor již existuje.Chcete jej přepsat?"
+msgstr "Soubor již existuje.Chcete jej přepsat?"
 
 #: rc.cpp:1128 rc.cpp:1320 rc.cpp:2325 rc.cpp:2517
 msgid "Image preview"
@@ -2136,7 +2136,7 @@ msgstr "Monitor"
 
 #: rc.cpp:843 rc.cpp:2040
 msgid "Monitor Preview Speedup Settings"
-msgstr "Nastavení zrychlení náhledového monitoru"
+msgstr "Nastavení pro zrychlení náhledového monitoru"
 
 #: rc.cpp:28
 msgid "Mono to stereo"
@@ -2267,7 +2267,7 @@ msgstr "Posunutí"
 
 #: rc.cpp:531 rc.cpp:1728
 msgid "Opacity"
-msgstr "Průhlednost"
+msgstr "Neprůhlednost"
 
 #: src/titlewidget.cpp:130
 msgid "Open Document"
@@ -2279,7 +2279,7 @@ msgstr "Otevřít průvodce DVD po skončení renderování"
 
 #: rc.cpp:447 rc.cpp:1644
 msgid "Open browser window after export"
-msgstr "Otevřít prohlížeč po skončení exportu"
+msgstr "Otevřít prohlížeč po skončení renderování"
 
 #: rc.cpp:1056 rc.cpp:2253
 msgid "Open last project on startup"
@@ -2481,7 +2481,7 @@ msgstr "Profily"
 
 #: src/renderwidget.cpp:104
 msgid "Progress"
-msgstr "Postup"
+msgstr "Průběh"
 
 #: src/kdenlivesettingsdialog.cpp:421 src/projectsettings.cpp:73 rc.cpp:612
 #: rc.cpp:1809
@@ -2703,7 +2703,8 @@ msgstr "Vyžadováno pro nahrávání přes webovou kamerku"
 
 #: src/wizard.cpp:210
 msgid "Required to work with dv files if avformat module is not installed"
-msgstr "Vyžadováno pro práci s DV soubory, pokud není nainstalován modul pro avformat"
+msgstr ""
+"Vyžadováno pro práci s DV soubory, pokud není nainstalován modul pro avformat"
 
 #: src/wizard.cpp:220 src/wizard.cpp:225
 msgid "Required to work with images"
@@ -2860,7 +2861,7 @@ msgstr "Měřítko"
 
 #: rc.cpp:423 rc.cpp:1620
 msgid "Scanning"
-msgstr "Prohledávání"
+msgstr "Řádkování"
 
 #: rc.cpp:885 rc.cpp:954 rc.cpp:2082 rc.cpp:2151
 msgid "Screen Grab"
@@ -3279,7 +3280,7 @@ msgstr "Přechod"
 
 #: rc.cpp:1569 rc.cpp:1575 rc.cpp:2766 rc.cpp:2772
 msgid "Transparency"
-msgstr "Průhlednost"
+msgstr "Neprůhlednost"
 
 #: rc.cpp:1410 rc.cpp:2607
 msgid "Transparent background"
@@ -3512,7 +3513,8 @@ msgstr ""
 #: src/customtrackview.cpp:1557
 #, kde-format
 msgid "You must be in an empty space to remove space (time: %1, track: %2)"
-msgstr "K odebrání volného místa musíte být v prázdném prostoru (nyní jste v čase %1 "
+msgstr ""
+"K odebrání volného místa musíte být v prázdném prostoru (nyní jste v čase %1 "
 "ve stopě %2)"
 
 #: src/customtrackview.cpp:1563
