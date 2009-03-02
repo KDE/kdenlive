@@ -490,12 +490,12 @@ void RenderWidget::updateButtons() {
         m_view.buttonSave->setEnabled(true);
         m_view.buttonStart->setEnabled(m_view.size_list->currentItem()->flags() & Qt::ItemIsEnabled);
         QString edit = m_view.size_list->currentItem()->data(EditableRole).toString();
-        if (edit.isEmpty()) {
+        if (edit.isEmpty() || !edit.endsWith("customprofiles.xml")) {
             m_view.buttonDelete->setEnabled(false);
             m_view.buttonEdit->setEnabled(false);
         } else {
-            m_view.buttonDelete->setEnabled(edit.endsWith("customprofiles.xml"));
-            m_view.buttonEdit->setEnabled(edit.endsWith("customprofiles.xml"));
+            m_view.buttonDelete->setEnabled(true);
+            m_view.buttonEdit->setEnabled(true);
         }
     }
 }
@@ -819,12 +819,12 @@ void RenderWidget::refreshParams() {
 //     }
     m_view.out_file->setFilter("*." + extension);
     QString edit = item->data(EditableRole).toString();
-    if (edit.isEmpty()) {
+    if (edit.isEmpty() || !edit.endsWith("customprofiles.xml")) {
         m_view.buttonDelete->setEnabled(false);
         m_view.buttonEdit->setEnabled(false);
     } else {
-        m_view.buttonDelete->setEnabled(edit.endsWith("customprofiles.xml"));
-        m_view.buttonEdit->setEnabled(edit.endsWith("customprofiles.xml"));
+        m_view.buttonDelete->setEnabled(true);
+        m_view.buttonEdit->setEnabled(true);
     }
 
     m_view.buttonStart->setEnabled(m_view.size_list->currentItem()->flags() & Qt::ItemIsEnabled);
@@ -981,6 +981,7 @@ void RenderWidget::parseFile(QString exportFile, bool editable) {
             if (editable) {
                 item->setData(EditableRole, exportFile);
                 if (exportFile.endsWith("customprofiles.xml")) item->setIcon(KIcon("emblem-favorite"));
+                else item->setIcon(KIcon("applications-internet"));
             }
             node = doc.elementsByTagName("profile").at(count);
             count++;
