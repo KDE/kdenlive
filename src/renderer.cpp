@@ -1639,7 +1639,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
     int newLength = 0;
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";
-    kDebug() << "Changing clip speed, set in and out: " << info.cropStart.frames(m_fps) << " to " << (info.endPos - info.startPos).frames(m_fps) - 1;
+    //kDebug() << "Changing clip speed, set in and out: " << info.cropStart.frames(m_fps) << " to " << (info.endPos - info.startPos).frames(m_fps) - 1;
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(info.track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
@@ -1648,12 +1648,21 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
     int clipLength = trackPlaylist.clip_length(clipIndex);
 
     Mlt::Producer clip(trackPlaylist.get_clip(clipIndex));
-    QString serv = clip.parent().get("mlt_service");
-    QString id = clip.parent().get("id");
-    kDebug() << "CLIP SERVICE: " << clip.parent().get("mlt_service");
+    if (!clip.is_valid() || clip.is_blank()) {
+	// invalid clip
+	return -1;
+    }
+    Mlt::Producer clipparent = clip.parent();
+    if (!clipparent.is_valid() || clipparent.is_blank()) {
+	// invalid clip
+	return -1;
+    }
+    QString serv = clipparent.get("mlt_service");
+    QString id = clipparent.get("id");
+    //kDebug() << "CLIP SERVICE: " << serv;
     if (serv == "avformat" && speed != 1.0) {
         mlt_service_lock(service.get_service());
-        QString url = clip.parent().get("resource");
+        QString url = clipparent.get("resource");
         url.append("?" + QString::number(speed));
         Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
         if (!slowprod || slowprod->get_producer() == NULL) {
@@ -1704,7 +1713,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
 
     } else if (serv == "framebuffer") {
         mlt_service_lock(service.get_service());
-        QString url = clip.parent().get("resource");
+        QString url = clipparent.get("resource");
         url = url.section("?", 0, 0);
         url.append("?" + QString::number(speed));
         Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
