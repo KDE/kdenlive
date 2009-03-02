@@ -33,6 +33,7 @@
 #include <KComboBox>
 #include <KRun>
 #include <KIO/NetAccess>
+// #include <knewstuff2/engine.h>
 
 #include "kdenlivesettings.h"
 #include "renderwidget.h"
@@ -85,6 +86,8 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent): QDia
     m_view.start_script->setEnabled(false);
     m_view.delete_script->setEnabled(false);
 
+    m_view.format_list->setAlternatingRowColors(true);
+    m_view.size_list->setAlternatingRowColors(true);
 
     parseProfiles();
     parseScriptFiles();
@@ -156,7 +159,8 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent): QDia
 }
 
 void RenderWidget::slotEditItem(QListWidgetItem *item) {
-    if (item->data(EditableRole).toString().isEmpty()) slotSaveProfile();
+    QString edit = item->data(EditableRole).toString();
+    if (edit.isEmpty() || !edit.endsWith("customprofiles.xml")) slotSaveProfile();
     else slotEditProfile();
 }
 
@@ -421,6 +425,17 @@ void RenderWidget::slotEditProfile() {
 }
 
 void RenderWidget::slotDeleteProfile(bool refresh) {
+    //TODO: delete a profile installed by KNewStuff the easy way
+    /*
+    QString edit = m_view.size_list->currentItem()->data(EditableRole).toString();
+    if (!edit.endsWith("customprofiles.xml")) {
+        // This is a KNewStuff installed file, process through KNS
+        KNS::Engine engine(0);
+        if (engine.init("kdenlive_render.knsrc")) {
+            KNS::Entry::List entries;
+        }
+        return;
+    }*/
     QString currentGroup = m_view.format_list->currentItem()->text();
     QString currentProfile = m_view.size_list->currentItem()->text();
     QString metaGroupId = m_view.destination_list->itemData(m_view.destination_list->currentIndex(), Qt::UserRole).toString();
@@ -473,14 +488,14 @@ void RenderWidget::updateButtons() {
         m_view.buttonStart->setEnabled(false);
     } else {
         m_view.buttonSave->setEnabled(true);
-        kDebug() << "BUTT: " << m_view.size_list->currentItem()->flags();
         m_view.buttonStart->setEnabled(m_view.size_list->currentItem()->flags() & Qt::ItemIsEnabled);
-        if (m_view.size_list->currentItem()->data(EditableRole).toString().isEmpty()) {
+        QString edit = m_view.size_list->currentItem()->data(EditableRole).toString();
+        if (edit.isEmpty()) {
             m_view.buttonDelete->setEnabled(false);
             m_view.buttonEdit->setEnabled(false);
         } else {
-            m_view.buttonDelete->setEnabled(true);
-            m_view.buttonEdit->setEnabled(true);
+            m_view.buttonDelete->setEnabled(edit.endsWith("customprofiles.xml"));
+            m_view.buttonEdit->setEnabled(edit.endsWith("customprofiles.xml"));
         }
     }
 }
@@ -803,13 +818,13 @@ void RenderWidget::refreshParams() {
 //         m_view.out_file->setUrl(KUrl(QDir::homePath() + "/untitled." + extension));
 //     }
     m_view.out_file->setFilter("*." + extension);
-
-    if (item->data(EditableRole).toString().isEmpty()) {
+    QString edit = item->data(EditableRole).toString();
+    if (edit.isEmpty()) {
         m_view.buttonDelete->setEnabled(false);
         m_view.buttonEdit->setEnabled(false);
     } else {
-        m_view.buttonDelete->setEnabled(true);
-        m_view.buttonEdit->setEnabled(true);
+        m_view.buttonDelete->setEnabled(edit.endsWith("customprofiles.xml"));
+        m_view.buttonEdit->setEnabled(edit.endsWith("customprofiles.xml"));
     }
 
     m_view.buttonStart->setEnabled(m_view.size_list->currentItem()->flags() & Qt::ItemIsEnabled);
@@ -841,7 +856,7 @@ void RenderWidget::parseProfiles(QString meta, QString group, QString profile) {
     filter << "*.xml";
     const QStringList fileList = directory.entryList(filter, QDir::Files);
     foreach(const QString filename, fileList)
-    parseFile(exportFolder + '/' + filename, filename == "customprofiles.xml");
+    parseFile(exportFolder + '/' + filename, true); //filename == "customprofiles.xml");
 
     if (!meta.isEmpty()) {
         m_view.destination_list->blockSignals(true);
@@ -941,6 +956,19 @@ void RenderWidget::parseFile(QString exportFile, bool editable) {
                 item->setData(MetaGroupRole, dest);
             }
 
+            // Check if item with same name already exists and replace it,
+            // allowing to override default profiles
+
+            list = m_view.size_list->findItems(profileName, Qt::MatchExactly);
+
+            for (int j = 0; j < list.count(); j++) {
+                if (list.at(j)->data(MetaGroupRole) == dest) {
+                    QListWidgetItem *duplicate = list.takeAt(j);
+                    delete duplicate;
+                    j--;
+                }
+            }
+
             item = new QListWidgetItem(profileName, m_view.size_list);
             //kDebug() << "// ADDINg item with name: " << profileName << ", GRP" << category << ", DEST:" << dest ;
             item->setData(GroupRole, category);
@@ -950,7 +978,10 @@ void RenderWidget::parseFile(QString exportFile, bool editable) {
             item->setData(StandardRole, standard);
             item->setData(ParamsRole, params);
             if (profile.hasAttribute("url")) item->setData(ExtraRole, profile.attribute("url"));
-            if (editable) item->setData(EditableRole, "true");
+            if (editable) {
+                item->setData(EditableRole, exportFile);
+                if (exportFile.endsWith("customprofiles.xml")) item->setIcon(KIcon("emblem-favorite"));
+            }
             node = doc.elementsByTagName("profile").at(count);
             count++;
         }
@@ -1021,7 +1052,7 @@ void RenderWidget::parseFile(QString exportFile, bool editable) {
             item->setData(StandardRole, standard);
             item->setData(ParamsRole, params);
             if (profileElement.hasAttribute("url")) item->setData(ExtraRole, profileElement.attribute("url"));
-            if (editable) item->setData(EditableRole, "true");
+            if (editable) item->setData(EditableRole, exportFile);
             n = n.nextSibling();
         }
 
