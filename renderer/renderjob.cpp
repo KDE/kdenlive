@@ -44,6 +44,7 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, const QString &renderer, con
     m_args << scenelist;
     if (in != -1) m_args << "in=" + QString::number(in);
     if (out != -1) m_args << "out=" + QString::number(out);
+
     m_args << preargs;
     //qDebug()<<"PRE ARGS: "<<preargs;
     if (scenelist.startsWith("consumer:")) {
@@ -51,6 +52,10 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, const QString &renderer, con
         m_args << "profile=" + profile;
     } else m_args << "-profile" << profile;
     m_args << "-consumer" << rendermodule + ":" + m_dest << "progress=1" << args;
+
+    m_dualpass = false;
+    if (args.contains("pass=1")) m_dualpass = true;
+
     connect(m_renderProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotIsOver(int, QProcess::ExitStatus)));
     m_renderProcess->setReadChannel(QProcess::StandardError);
 
@@ -239,14 +244,15 @@ void RenderJob::slotIsOver(int exitcode, QProcess::ExitStatus status) {
         // m_logstream << "Rendering of " << m_dest << " aborted, resulting video will probably be corrupted." << endl;
         qDebug() << "Rendering of " << m_dest << " aborted, resulting video will probably be corrupted.";
         QProcess::startDetached("kdialog", args);
+        qApp->quit();
     } else {
-        if (m_kdenliveinterface) {
+        if (!m_dualpass && m_kdenliveinterface) {
             m_dbusargs[1] = (int) - 1;
             m_dbusargs.append(QString());
             m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingFinished", m_dbusargs);
         }
         QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
-        if (interface && interface->isServiceRegistered("org.kde.knotify")) {
+        if (!m_dualpass && interface && interface->isServiceRegistered("org.kde.knotify")) {
             QDBusMessage m = QDBusMessage::createMethodCall("org.kde.knotify",
                              "/Notify",
                              "org.kde.KNotify",
@@ -268,14 +274,17 @@ void RenderJob::slotIsOver(int exitcode, QProcess::ExitStatus status) {
         }
         // m_logstream << "Rendering of " << m_dest << " finished" << endl;
         qDebug() << "Rendering of " << m_dest << " finished";
-        if (m_player != "-") {
+        if (!m_dualpass && m_player != "-") {
             // m_logstream << "Starting player" << endl;
             QStringList args;
             args << m_dest;
             QProcess::startDetached(m_player, args);
         }
+        if (m_dualpass) {
+            emit renderingFinished();
+            deleteLater();
+        } else qApp->quit();
     }
-    qApp->quit();
 }
 
 #include "renderjob.moc"

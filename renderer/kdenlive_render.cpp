@@ -68,9 +68,22 @@ int main(int argc, char **argv) {
         args.takeFirst();
         QString dest = args.at(0);
         args.takeFirst();
+        bool dualpass = false;
+        bool doerase;
+        if (args.contains("pass=2")) {
+            // dual pass encoding
+            dualpass = true;
+            doerase = false;
+            args.replace(args.indexOf("pass=2"), "pass=1");
+        } else doerase = erase;
         qDebug() << "//STARTING RENDERING: " << erase << "," << usekuiserver << "," << render << "," << profile << "," << rendermodule << "," << player << "," << src << "," << dest << "," << preargs << "," << args << "," << in << "," << out ;
-        RenderJob *job = new RenderJob(erase, usekuiserver, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
+        RenderJob *job = new RenderJob(doerase, usekuiserver, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
         job->start();
+        if (dualpass) {
+            args.replace(args.indexOf("pass=1"), "pass=2");
+            RenderJob *dualjob = new RenderJob(erase, usekuiserver, render, profile, rendermodule, player, src, dest, preargs, args, in, out);
+            QObject::connect(job, SIGNAL(renderingFinished()), dualjob, SLOT(start()));
+        }
         app.exec();
     } else {
         fprintf(stderr, "Kdenlive video renderer for MLT.\nUsage: "

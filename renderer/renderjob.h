@@ -31,9 +31,12 @@
 
 class RenderJob : public QObject {
     Q_OBJECT
+
 public:
     RenderJob(bool erase, bool usekuiserver, const QString &renderer, const QString &profile, const QString &rendermodule, const QString &player, const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in = -1, int out = -1);
     ~RenderJob();
+
+public slots:
     void start();
 
 private slots:
@@ -52,6 +55,7 @@ private:
     QString m_player;
     QStringList m_args;
     bool m_erase;
+    bool m_dualpass;
     QDBusInterface *m_jobUiserver;
     QDBusInterface *m_kdenliveinterface;
     QList<QVariant> m_dbusargs;
@@ -62,6 +66,9 @@ private:
     QTemporaryFile m_logfile;
     /** \brief Used to write to the log file */
     QTextStream m_logstream;
+
+signals:
+    void renderingFinished();
 };
 
 #endif
