@@ -72,11 +72,6 @@ bool WestleyPreview::startAndWaitProcess(const QStringList &args) {
 
 bool WestleyPreview::create(const QString &path, int width, int height, QImage &img) {
     QFileInfo fi(path);
-    /*if (fi.suffix().trimmed() != "westley" && fi.suffix().trimmed() != "kdenlive")
-    {
-        kDebug(DBG_AREA) << "westleypreview: matched extension " << fi.suffix().prepend('.') << "; exiting.\n";
-        return false;
-    }*/
     playerBin = KStandardDirs::findExe("inigo");
     if (playerBin.isEmpty()) {
         kDebug(DBG_AREA) << "westleypreview: inigo not found, exiting.\n";
@@ -91,8 +86,8 @@ bool WestleyPreview::create(const QString &path, int width, int height, QImage &
     KUrl furl(path);
     kDebug(DBG_AREA) << "videopreview: url=" << furl << "; local:" << furl.isLocalFile() << endl;
     fileinfo.towidth = width;
-    fileinfo.toheight = height;
-    QPixmap pix;
+    fileinfo.toheight = width * 3 / 4;
+    QImage pix;
 //    if(furl.isLocalFile())
 //    {
     QStringList args;
@@ -117,13 +112,11 @@ bool WestleyPreview::create(const QString &path, int width, int height, QImage &
     fileinfo.seconds = 250;
     fileinfo.fps = 25;
 
-    //kDebug(DBG_AREA) << "videopreview: find length=" << fileinfo.seconds << ", fps=" << fileinfo.fps << endl;
-
     const int LASTTRY = 3;
     for (int i = 0; i <= LASTTRY; i++) {
         pix = getFrame(path);
         if (!pix.isNull()) {
-            uint variance = imageVariance(pix.toImage()/*.bits(),( (width+ 7) & ~0x7), width, height, 1 */);
+            uint variance = imageVariance(pix);
             kDebug(DBG_AREA) << "videopreview: " << QFileInfo(path).fileName() << " frame variance: " << variance << "; " <<
             ((variance <= 40 && (i != LASTTRY - 1)) ? "!!!DROPPING!!!" : "GOOD :-)") << endl;
             if (variance > 40 || i == LASTTRY - 1) break;
@@ -132,21 +125,20 @@ bool WestleyPreview::create(const QString &path, int width, int height, QImage &
     if (pix.isNull()) {
         return false;
     }
-    img = pix.toImage();
+
+    if (pix.depth() != 32)
+        img = pix.convertToFormat(QImage::Format_RGB32);
+    else img = pix;
     return true;
 }
 
-QPixmap WestleyPreview::getFrame(const QString &path) {
+QImage WestleyPreview::getFrame(const QString &path) {
     QStringList args;
 #define START ((fileinfo.seconds*15)/100)
 #define END ((fileinfo.seconds*70)/100)
     args.clear();
     args << playerBin << "\"" + path + "\"";
-    if (fileinfo.towidth > fileinfo.toheight) fileinfo.toheight = -2;
-    else fileinfo.towidth = -2;
-//     switch( flags ){
-//         case random
-//     }
+
     unsigned long start = (unsigned long)(START + (m_rand->getDouble() * (END - START)));
     args << QString("in=%1").arg(start) << QString("out=%1").arg(start) << "-consumer";
 
@@ -154,8 +146,8 @@ QPixmap WestleyPreview::getFrame(const QString &path) {
     temp.setSuffix(".png");
     temp.open();
     args << QString("avformat:%1").arg(temp.fileName()) << "vframes=1" << "f=rawvideo" << "vcodec=png" << QString("s=%1x%2").arg(fileinfo.towidth).arg(fileinfo.toheight);
-    if (! startAndWaitProcess(args)) return NULL;
-    QPixmap retpix(temp.fileName());
+    if (! startAndWaitProcess(args)) return QImage();
+    QImage retpix(temp.fileName());
     temp.close();
     return retpix;
 }
@@ -184,8 +176,9 @@ uint WestleyPreview::imageVariance(QImage image) {
 }
 
 ThumbCreator::Flags WestleyPreview::flags() const {
-    return DrawFrame;
+    return None;
 }
+
 
 #include "westleypreview.moc"
 

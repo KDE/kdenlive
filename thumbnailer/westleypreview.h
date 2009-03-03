@@ -25,7 +25,6 @@
 
 #include <qstring.h>
 
-#include <qpixmap.h>
 #include <kio/thumbcreator.h>
 #include <qobject.h>
 
@@ -45,11 +44,10 @@ public:
     virtual Flags flags() const;
 
 protected:
-    QPixmap getFrame(const QString &path);
+    QImage getFrame(const QString &path);
     static uint imageVariance(QImage image);
 
 private:
-    QPixmap m_pixmap;
     QProcess *m_inigoprocess;
     QStringList customargs;
     KRandomSequence *m_rand;
