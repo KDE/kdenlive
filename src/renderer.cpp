@@ -1323,7 +1323,7 @@ void Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
     if (element.attribute("speed", "1.0").toDouble() != 1.0) {
         // We want a slowmotion producer
         double speed = element.attribute("speed", "1.0").toDouble();
-        QString url = prod->get("resource");
+        QString url = QString::fromUtf8(prod->get("resource"));
         url.append('?' + QString::number(speed));
         Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
         if (!slowprod || slowprod->get_producer() == NULL) {
@@ -1662,7 +1662,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
     //kDebug() << "CLIP SERVICE: " << serv;
     if (serv == "avformat" && speed != 1.0) {
         mlt_service_lock(service.get_service());
-        QString url = clipparent.get("resource");
+        QString url = QString::fromUtf8(clipparent.get("resource"));
         url.append('?' + QString::number(speed));
         Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
         if (!slowprod || slowprod->get_producer() == NULL) {
@@ -1713,7 +1713,7 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
 
     } else if (serv == "framebuffer") {
         mlt_service_lock(service.get_service());
-        QString url = clipparent.get("resource");
+        QString url = QString::fromUtf8(clipparent.get("resource"));
         url = url.section('?', 0, 0);
         url.append('?' + QString::number(speed));
         Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
@@ -2790,7 +2790,7 @@ void Render::fillSlowMotionProducers() {
                 QString id = nprod->get("id");
                 if (id.startsWith("slowmotion:")) {
                     // this is a slowmotion producer, add it to the list
-                    QString url = nprod->get("resource");
+		    QString url = QString::fromUtf8(nprod->get("resource"));
                     if (!m_slowmotionProducers.contains(url)) {
                         m_slowmotionProducers.insert(url, nprod);
                     }
