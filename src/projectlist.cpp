@@ -541,7 +541,7 @@ void ProjectList::slotAddClip(KUrl givenUrl, QString group) {
     } else list.append(givenUrl);
     if (list.isEmpty()) return;
 
-    QString groupId = QString();
+    QString groupId;
     if (group.isEmpty()) {
         ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
         if (item && !item->isGroup()) {
@@ -582,8 +582,8 @@ void ProjectList::slotAddColorClip() {
         QString color = dia_ui->clip_color->color().name();
         color = color.replace(0, 1, "0x") + "ff";
 
-        QString group = QString();
-        QString groupId = QString();
+        QString group;
+        QString groupId;
         ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
         if (item && !item->isGroup()) {
             while (item->parent()) {
@@ -609,8 +609,8 @@ void ProjectList::slotAddSlideshowClip() {
 
     if (dia->exec() == QDialog::Accepted) {
 
-        QString group = QString();
-        QString groupId = QString();
+        QString group;
+        QString groupId;
         ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
         if (item && !item->isGroup()) {
             while (item->parent()) {
@@ -629,8 +629,8 @@ void ProjectList::slotAddSlideshowClip() {
 }
 
 void ProjectList::slotAddTitleClip() {
-    QString group = QString();
-    QString groupId = QString();
+    QString group;
+    QString groupId;
     ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
     if (item && !item->isGroup()) {
         while (item->parent()) {

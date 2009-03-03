@@ -1022,8 +1022,8 @@ void RenderWidget::parseFile(QString exportFile, bool editable) {
             }
         }
         groupName = documentElement.attribute("name", i18n("Custom"));
-        extension = documentElement.attribute("extension", QString::null);
-        renderer = documentElement.attribute("renderer", QString::null);
+        extension = documentElement.attribute("extension", QString());
+        renderer = documentElement.attribute("renderer", QString());
         QList <QListWidgetItem *> list = m_view.format_list->findItems(groupName, Qt::MatchExactly);
         bool exists = false;
         for (int j = 0; j < list.count(); j++) {

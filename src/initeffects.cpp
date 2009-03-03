@@ -256,24 +256,24 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
     }
     QString groupName;
     if (doc.elementsByTagName("effectgroup").item(0).toElement().tagName() == "effectgroup") {
-        groupName = documentElement.attribute("name", QString::null);
+        groupName = documentElement.attribute("name", QString());
     }
 
     int i = 0;
 
     while (!effects.item(i).isNull()) {
         documentElement = effects.item(i).toElement();
-        QString tag = documentElement.attribute("tag", QString::null);
+        QString tag = documentElement.attribute("tag", QString());
         bool ladspaOk = true;
         if (tag == "ladspa") {
-            QString library = documentElement.attribute("library", QString::null);
+            QString library = documentElement.attribute("library", QString());
             if (KStandardDirs::locate("ladspa_plugin", library).isEmpty()) ladspaOk = false;
         }
 
         // Parse effect file
         if ((filtersList.contains(tag) || producersList.contains(tag)) && ladspaOk) {
             bool isAudioEffect = false;
-            QString type = documentElement.attribute("type", QString::null);
+            QString type = documentElement.attribute("type", QString());
             if (type == "audio") audioEffectList->append(documentElement);
             else if (type == "custom") customEffectList->append(documentElement);
             else videoEffectList->append(documentElement);
@@ -297,10 +297,10 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
          QDomNode propsnode = documentElement.elementsByTagName("properties").item(0);
          if (!propsnode.isNull()) {
              QDomElement propselement = propsnode.toElement();
-             id = propselement.attribute("id", QString::null);
-             effectTag = propselement.attribute("tag", QString::null);
-             if (propselement.attribute("type", QString::null) == "audio") type = AUDIOEFFECT;
-             else if (propselement.attribute("type", QString::null) == "custom") type = CUSTOMEFFECT;
+             id = propselement.attribute("id", QString());
+             effectTag = propselement.attribute("tag", QString());
+             if (propselement.attribute("type", QString()) == "audio") type = AUDIOEFFECT;
+             else if (propselement.attribute("type", QString()) == "custom") type = CUSTOMEFFECT;
              else type = VIDEOEFFECT;
          }
 

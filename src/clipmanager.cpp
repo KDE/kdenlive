@@ -57,7 +57,7 @@ void ClipManager::checkAudioThumbs() {
         if (m_generatingAudioId.isEmpty()) startAudioThumbsGeneration();
     } else {
         m_audioThumbsQueue.clear();
-        m_generatingAudioId = QString();
+        m_generatingAudioId.clear();
     }
 }
 
@@ -72,7 +72,7 @@ void ClipManager::askForAudioThumb(const QString &id) {
 void ClipManager::startAudioThumbsGeneration() {
     if (!KdenliveSettings::audiothumbnails()) {
         m_audioThumbsQueue.clear();
-        m_generatingAudioId = QString();
+        m_generatingAudioId.clear();
         return;
     }
     if (!m_audioThumbsQueue.isEmpty()) {
@@ -81,14 +81,14 @@ void ClipManager::startAudioThumbsGeneration() {
         if (!clip || !clip->slotGetAudioThumbs())
             endAudioThumbsGeneration(m_generatingAudioId);
     } else {
-        m_generatingAudioId = QString();
+        m_generatingAudioId.clear();
     }
 }
 
 void ClipManager::endAudioThumbsGeneration(const QString &requestedId) {
     if (!KdenliveSettings::audiothumbnails()) {
         m_audioThumbsQueue.clear();
-        m_generatingAudioId = QString();
+        m_generatingAudioId.clear();
         return;
     }
     if (!m_audioThumbsQueue.isEmpty()) {
@@ -96,7 +96,7 @@ void ClipManager::endAudioThumbsGeneration(const QString &requestedId) {
             startAudioThumbsGeneration();
         }
     } else {
-        m_generatingAudioId = QString();
+        m_generatingAudioId.clear();
     }
 }
 

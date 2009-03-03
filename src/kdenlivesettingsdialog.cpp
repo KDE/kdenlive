@@ -24,6 +24,7 @@
 #include <KDebug>
 #include <kopenwithdialog.h>
 #include <KConfigDialogManager>
+#include <kde_file.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -217,7 +218,7 @@ void KdenliveSettingsDialog::initDevices() {
     // Fill the list of audio playback devices
     m_configSdl.kcfg_audio_device->addItem(i18n("Default"), QString());
     m_configCapture.kcfg_rmd_alsa_device->addItem(i18n("Default"), QString());
-    if (KStandardDirs::findExe("aplay") != QString::null) {
+    if (!KStandardDirs::findExe("aplay").isEmpty()) {
         m_readProcess.setOutputChannelMode(KProcess::OnlyStdoutChannel);
         m_readProcess.setProgram("aplay", QStringList() << "-l");
         connect(&m_readProcess, SIGNAL(readyReadStandardOutput()) , this, SLOT(slotReadAudioDevices()));
@@ -338,7 +339,7 @@ void KdenliveSettingsDialog::slotCheckShuttle(int state) {
             kDebug() << "/// CHECKING OFR: " << filename;
 
             char name[256] = "unknown";
-            fd = ::open((char *) filename.toUtf8().data(), O_RDONLY);
+            fd = KDE_open((char *) filename.toUtf8().data(), O_RDONLY);
             if (fd >= 0 && ioctl(fd, EVIOCGNAME(sizeof(name)), name) >= 0) {
                 m_configShuttle.shuttledevicelist->addItem(name, filename);
             }

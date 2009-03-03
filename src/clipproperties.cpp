@@ -314,7 +314,7 @@ QMap <QString, QString> ClipProperties::properties() {
             m_clipNeedsRefresh = true;
         }
     } else if (old_props.contains("force_aspect_ratio")) {
-        props["force_aspect_ratio"] = QString();
+        props["force_aspect_ratio"].clear();
         m_clipNeedsRefresh = true;
     }
 
@@ -324,7 +324,7 @@ QMap <QString, QString> ClipProperties::properties() {
             props["threads"] = QString::number(threads);
         }
     } else if (old_props.contains("threads")) {
-        props["threads"] = QString();
+        props["threads"].clear();
     }
 
     int vindex = m_view.clip_vindex->value();
@@ -333,7 +333,7 @@ QMap <QString, QString> ClipProperties::properties() {
             props["video_index"] = QString::number(vindex);
         }
     } else if (old_props.contains("video_index")) {
-        props["video_index"] = QString();
+        props["video_index"].clear();
     }
 
     int aindex = m_view.clip_aindex->value();
@@ -342,7 +342,7 @@ QMap <QString, QString> ClipProperties::properties() {
             props["audio_index"] = QString::number(aindex);
         }
     } else if (old_props.contains("audio_index")) {
-        props["audio_index"] = QString();
+        props["audio_index"].clear();
     }
 
     if (t == COLOR) {
@@ -417,8 +417,8 @@ QMap <QString, QString> ClipProperties::properties() {
                 props["luma_file"] = lumaFile;
             }
         } else {
-            if (old_props.value("luma_file") != QString()) {
-                props["luma_file"] = QString();
+            if (!old_props.value("luma_file").isEmpty()) {
+                props["luma_file"].clear();
             }
         }
 

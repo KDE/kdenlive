@@ -467,7 +467,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, bo
     QMap < QString, QString > filePropertyMap;
     QMap < QString, QString > metadataPropertyMap;
 
-    KUrl url = KUrl(xml.attribute("resource", QString::null));
+    KUrl url = KUrl(xml.attribute("resource", QString()));
     Mlt::Producer *producer = NULL;
     if (xml.attribute("type").toInt() == TEXT && !QFile::exists(url.path())) {
         emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap, replaceProducer);

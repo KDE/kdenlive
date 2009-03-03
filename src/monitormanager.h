@@ -38,7 +38,7 @@ public:
     void stopActiveMonitor();
 
 public slots:
-    void activateMonitor(QString name = QString::null);
+    void activateMonitor(QString name = QString());
     void slotPlay();
     void slotPlayZone();
     void slotLoopZone();

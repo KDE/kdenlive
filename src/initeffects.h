@@ -42,7 +42,7 @@ private :
 };
 
 class initEffects : public QObject {
-
+    Q_OBJECT
 public:
     initEffects();
     ~initEffects();

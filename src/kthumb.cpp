@@ -96,7 +96,7 @@ void MyThread::run() {
             int m_samples = mlt_sample_calculator(m_framesPerSecond, m_frequency, mlt_frame_get_position(mlt_frame->get_frame()));
             mlt_audio_format m_audioFormat = mlt_audio_pcm;
 
-            int16_t* m_pcm = mlt_frame->get_audio(m_audioFormat, m_frequency, m_channels, m_samples);
+            qint16* m_pcm = mlt_frame->get_audio(m_audioFormat, m_frequency, m_channels, m_samples);
 
             for (int c = 0;c < m_channels;c++) {
                 QByteArray m_array;

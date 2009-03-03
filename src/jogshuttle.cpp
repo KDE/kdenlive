@@ -58,7 +58,7 @@
 #include <QEvent>
 
 #include <KDebug>
-
+#include <kde_file.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -87,7 +87,7 @@ bool ShuttleThread::isWorking() {
 void ShuttleThread::run() {
     kDebug() << "-------  STARTING SHUTTLE: " << m_device;
 
-    const int fd = open((char *) m_device.toUtf8().data(), O_RDONLY);
+    const int fd = KDE_open((char *) m_device.toUtf8().data(), O_RDONLY);
     if (fd < 0) {
         fprintf(stderr, "Can't open Jog Shuttle FILE DESCRIPTOR\n");
         return;;

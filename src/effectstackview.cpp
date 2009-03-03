@@ -165,7 +165,7 @@ void EffectStackView::setupListView(int ix) {
         if (!namenode.isNull()) {
             // Issue 238: Add icons for effect type in effectstack.
             // Logic more or less copied from initeffects.cpp
-            QString type = d.attribute("type", QString::null);
+            QString type = d.attribute("type", QString());
             if ("audio" == type) {
                 item = new QListWidgetItem(audioIcon, i18n(namenode.toElement().text().toUtf8().data()), ui.effectlist);
             } else if ("custom" == type) {

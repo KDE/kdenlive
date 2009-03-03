@@ -31,7 +31,7 @@
 /**Render encapsulates the client side of the interface to a renderer.
 From Kdenlive's point of view, you treat the Render object as the
 renderer, and simply use it as if it was local. Calls are asyncrhonous -
-you send a call out, and then recieve the return value through the
+you send a call out, and then receive the return value through the
 relevant signal that get's emitted once the call completes.
   *@author Jason Wood
   */

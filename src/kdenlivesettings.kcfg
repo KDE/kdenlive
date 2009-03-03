@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE kcfg SYSTEM
-    "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
 <kcfg>
   <kcfgfile/>
   <group name="misc">

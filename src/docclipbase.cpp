@@ -378,7 +378,7 @@ QString DocClipBase::markerComment(GenTime t) {
             return (*itt).comment();
         ++itt;
     }
-    return QString::null;
+    return QString();
 }
 
 void DocClipBase::deleteProducers() {
@@ -504,7 +504,7 @@ void DocClipBase::slotRefreshProducer() {
                 char *tmp = (char *) qstrdup(resource.toUtf8().data());
                 filter->set("luma.resource", tmp);
                 delete[] tmp;
-                if (getProperty("softness") != QString()) {
+                if (!getProperty("softness").isEmpty()) {
                     int soft = getProperty("softness").toInt();
                     filter->set("luma.softness", (double) soft / 100.0);
                 }
@@ -517,7 +517,7 @@ void DocClipBase::slotRefreshProducer() {
                 char *tmp = (char *) qstrdup(resource.toUtf8().data());
                 filter->set("luma.resource", tmp);
                 delete[] tmp;
-                if (getProperty("softness") != QString()) {
+                if (!getProperty("softness").isEmpty()) {
                     int soft = getProperty("softness").toInt();
                     filter->set("luma.softness", (double) soft / 100.0);
                 }

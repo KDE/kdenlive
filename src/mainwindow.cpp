@@ -2157,7 +2157,7 @@ void MainWindow::slotFind() {
     if (!m_activeDocument || !m_activeTimeline) return;
     m_projectSearch->setEnabled(false);
     m_findActivated = true;
-    m_findString = QString();
+    m_findString.clear();
     m_activeTimeline->projectView()->initSearchStrings();
     statusBar()->showMessage(i18n("Starting -- find text as you type"));
     m_findTimer.start(5000);
@@ -2186,7 +2186,7 @@ void MainWindow::findAhead() {
 void MainWindow::findTimeout() {
     m_projectSearchNext->setEnabled(false);
     m_findActivated = false;
-    m_findString = QString();
+    m_findString.clear();
     statusBar()->showMessage(i18n("Find stopped"), 3000);
     if (m_activeTimeline) m_activeTimeline->projectView()->clearSearchStrings();
     m_projectSearch->setEnabled(true);

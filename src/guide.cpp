@@ -58,7 +58,7 @@ CommentedTime Guide::info() const {
 void Guide::updateGuide(const GenTime newPos, const QString &comment) {
     m_position = newPos;
     setPos(m_position.frames(m_fps), 0);
-    if (comment != QString()) {
+    if (!comment.isEmpty()) {
         m_label = comment;
         setToolTip(m_label);
         const QFontMetrics metric = m_view->fontMetrics();
