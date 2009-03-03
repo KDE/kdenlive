@@ -854,9 +854,13 @@ void RenderWidget::parseProfiles(QString meta, QString group, QString profile) {
     QDir directory = QDir(exportFolder);
     QStringList filter;
     filter << "*.xml";
-    const QStringList fileList = directory.entryList(filter, QDir::Files);
+    QStringList fileList = directory.entryList(filter, QDir::Files);
+    // We should parse customprofiles.xml in last position, so that user profiles
+    // can also override profiles installed by KNewStuff
+    fileList.removeAll("customprofiles.xml");
     foreach(const QString filename, fileList)
-    parseFile(exportFolder + '/' + filename, true); //filename == "customprofiles.xml");
+    parseFile(exportFolder + '/' + filename, true);
+    if (QFile::exists(exportFolder + "/customprofiles.xml")) parseFile(exportFolder + "/customprofiles.xml", true);
 
     if (!meta.isEmpty()) {
         m_view.destination_list->blockSignals(true);
