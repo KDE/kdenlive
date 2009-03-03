@@ -846,7 +846,7 @@ void Render::setSceneList(QString playlist, int position) {
 }
 
 /** Create the producer from the Westley QDomDocument */
-QString Render::sceneList() {
+const QString Render::sceneList() {
     QString playlist;
     Mlt::Consumer westleyConsumer(*m_mltProfile , "westley:kdenlive_playlist");
     m_mltProducer->optimise();
@@ -1649,13 +1649,13 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
 
     Mlt::Producer clip(trackPlaylist.get_clip(clipIndex));
     if (!clip.is_valid() || clip.is_blank()) {
-	// invalid clip
-	return -1;
+        // invalid clip
+        return -1;
     }
     Mlt::Producer clipparent = clip.parent();
     if (!clipparent.is_valid() || clipparent.is_blank()) {
-	// invalid clip
-	return -1;
+        // invalid clip
+        return -1;
     }
     QString serv = clipparent.get("mlt_service");
     QString id = clipparent.get("id");

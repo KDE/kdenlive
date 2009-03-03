@@ -194,7 +194,6 @@ bool DocClipBase::hasFileSize() const {
 // virtual
 QDomElement DocClipBase::toXML() const {
     QDomDocument doc;
-
     QDomElement clip = doc.createElement("producer");
 
     QMapIterator<QString, QString> i(m_properties);
@@ -202,9 +201,9 @@ QDomElement DocClipBase::toXML() const {
         i.next();
         if (!i.value().isEmpty()) clip.setAttribute(i.key(), i.value());
     }
-    //doc.appendChild(clip);
+    doc.appendChild(clip);
     //kDebug()<<"/// CLIP XML: "<<doc.toString();
-    return clip;
+    return doc.documentElement();
 }
 
 DocClipBase *DocClipBase::

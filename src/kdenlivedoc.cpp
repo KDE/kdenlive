@@ -354,14 +354,14 @@ void KdenliveDoc::slotAutoSave() {
             kDebug() << "ERROR; CANNOT CREATE AUTOSAVE FILE";
         }
         kDebug() << "// AUTOSAVE FILE: " << m_autosave->fileName();
-        QDomDocument doc;
+        QString doc;
         if (KdenliveSettings::dropbframes()) {
             KdenliveSettings::setDropbframes(false);
             m_clipManager->updatePreviewSettings();
-            doc.setContent(m_render->sceneList());
+            doc = m_render->sceneList();
             KdenliveSettings::setDropbframes(true);
             m_clipManager->updatePreviewSettings();
-        } else doc.setContent(m_render->sceneList());
+        } else doc = m_render->sceneList();
         saveSceneList(m_autosave->fileName(), doc);
     }
 }
@@ -917,10 +917,13 @@ QPoint KdenliveDoc::zone() const {
     return QPoint(m_zoneStart, m_zoneEnd);
 }
 
-bool KdenliveDoc::saveSceneList(const QString &path, QDomDocument sceneList) {
+bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene) {
+    QDomDocument sceneList;
+    sceneList.setContent(scene, true);
     QDomNode wes = sceneList.elementsByTagName("westley").at(0);
-
     QDomElement addedXml = sceneList.createElement("kdenlivedoc");
+    wes.appendChild(addedXml);
+
     QDomElement markers = sceneList.createElement("markers");
     addedXml.setAttribute("version", "0.82");
     addedXml.setAttribute("profile", profilePath());
@@ -973,7 +976,6 @@ bool KdenliveDoc::saveSceneList(const QString &path, QDomDocument sceneList) {
     addedXml.appendChild(markers);
     if (!m_guidesXml.isNull()) addedXml.appendChild(sceneList.importNode(m_guidesXml, true));
 
-    wes.appendChild(addedXml);
     //wes.appendChild(doc.importNode(kdenliveData, true));
 
     QFile file(path);
@@ -982,6 +984,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, QDomDocument sceneList) {
         KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1", path));
         return false;
     }
+
     QTextStream out(&file);
     out << sceneList.toString();
     file.close();
@@ -1035,7 +1038,7 @@ void KdenliveDoc::moveProjectData(KUrl url) {
     }
 }
 
-QString KdenliveDoc::profilePath() const {
+const QString &KdenliveDoc::profilePath() const {
     return m_profile.path;
 }
 
@@ -1244,7 +1247,7 @@ bool KdenliveDoc::isModified() const {
     return m_modified;
 }
 
-QString KdenliveDoc::description() const {
+const QString KdenliveDoc::description() const {
     if (m_url.isEmpty())
         return i18n("Untitled") + " / " + m_profile.description;
     else

@@ -2402,13 +2402,12 @@ void CustomTrackView::doChangeClipSpeed(ItemInfo info, const double speed, const
     info.track = m_document->tracksCount() - item->track();
     int endPos = m_document->renderer()->mltChangeClipSpeed(info, speed, oldspeed, baseclip->producer());
     if (endPos >= 0) {
-	item->setSpeed(speed);
-	item->updateRectGeometry();
-	if (item->cropDuration().frames(m_document->fps()) > endPos)
-	    item->AbstractClipItem::resizeEnd(info.startPos.frames(m_document->fps()) + endPos, speed);
-	m_document->setModified(true);
-    }
-    else emit displayMessage(i18n("Invalid clip"), ErrorMessage);
+        item->setSpeed(speed);
+        item->updateRectGeometry();
+        if (item->cropDuration().frames(m_document->fps()) > endPos)
+            item->AbstractClipItem::resizeEnd(info.startPos.frames(m_document->fps()) + endPos, speed);
+        m_document->setModified(true);
+    } else emit displayMessage(i18n("Invalid clip"), ErrorMessage);
 }
 
 void CustomTrackView::cutSelectedClips() {

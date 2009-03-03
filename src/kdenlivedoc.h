@@ -80,9 +80,9 @@ Q_OBJECT public:
     void deleteProjectClip(QList <QString> ids);
     /** Inform application of the audio thumbnails generation progress */
     void setThumbsProgress(const QString &message, int progress);
-    QString profilePath() const;
+    const QString &profilePath() const;
     MltVideoProfile mltProfile() const;
-    QString description() const;
+    const QString description() const;
     void setUrl(KUrl url);
     void setProfilePath(QString path);
     const QString &getFreeClipId();
@@ -97,7 +97,7 @@ Q_OBJECT public:
     int zoom() const;
     const double dar();
     double projectDuration() const;
-    bool saveSceneList(const QString &path, QDomDocument sceneList);
+    bool saveSceneList(const QString &path, const QString &scene);
     int tracksCount() const;
     TrackInfo trackInfoAt(int ix) const;
     void insertTrack(int ix, TrackInfo type);

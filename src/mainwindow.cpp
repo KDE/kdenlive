@@ -1181,7 +1181,7 @@ void MainWindow::closeCurrentDocument() {
 }
 
 bool MainWindow::saveFileAs(const QString &outputFileName) {
-    QDomDocument currentSceneList;
+    QString currentSceneList;
     if (KdenliveSettings::dropbframes()) {
         KdenliveSettings::setDropbframes(false);
         m_activeDocument->clipManager()->updatePreviewSettings();

@@ -654,11 +654,9 @@ void Monitor::saveSceneList(QString path, QDomElement info) {
     render->saveSceneList(path, info);
 }
 
-QDomDocument Monitor::sceneList() {
-    if (render == NULL) return QDomDocument();
-    QDomDocument doc;
-    doc.setContent(render->sceneList());
-    return doc;
+const QString Monitor::sceneList() {
+    if (render == NULL) return QString();
+    return render->sceneList();
 }
 
 

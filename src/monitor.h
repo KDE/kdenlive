@@ -71,7 +71,7 @@ public:
     bool isActive() const;
     void pause();
     void setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = NULL);
-    QDomDocument sceneList();
+    const QString sceneList();
     DocClipBase *activeClip();
     GenTime position();
     void checkOverlay();

@@ -91,7 +91,7 @@ Q_OBJECT public:
     void setSceneList(QDomDocument list, int position = 0);
     void setSceneList(QString playlist, int position = 0);
     void setProducer(Mlt::Producer *producer, int position);
-    QString sceneList();
+    const QString sceneList();
     void saveSceneList(QString path, QDomElement kdenliveData = QDomElement());
 
     /** Wraps the VEML command of the same name. Tells the renderer to
