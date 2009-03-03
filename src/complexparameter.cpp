@@ -41,7 +41,7 @@ ComplexParameter::ComplexParameter(QWidget *parent)
     ui.buttonShowInTimeline->setToolTip(i18n("Show keyframes in timeline"));
     ui.buttonHelp->setIcon(KIcon("help-about"));
     ui.buttonHelp->setToolTip(i18n("Parameter info"));
-    ui.buttonNewPoints->setIcon(KIcon("xedit"));
+    ui.buttonNewPoints->setIcon(KIcon("document-new"));
     ui.buttonNewPoints->setToolTip(i18n("Add keyframe"));
 
     connect(ui.buttonLeftRight, SIGNAL(clicked()), this , SLOT(slotSetMoveX()));
