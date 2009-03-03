@@ -60,7 +60,7 @@ ProjectList::ProjectList(QWidget *parent)
     listView = new ProjectListView(this);;
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
-    // mbd: I think this has died at some point: m_clipIdCounter = 0;
+
     // setup toolbar
     searchView = new KTreeWidgetSearchLine(this);
     m_toolbar = new QToolBar("projectToolBar", this);

@@ -406,7 +406,7 @@ void RecMonitor::slotRecord() {
         int i = 1;
         while (QFile::exists(path)) {
             QString num = QString::number(i).rightJustified(4, '0', false);
-            path = KdenliveSettings::capturefolder() + "/capture" + num + "." + extension;
+            path = KdenliveSettings::capturefolder() + "/capture" + num + '.' + extension;
             i++;
         }
 
@@ -567,7 +567,7 @@ void RecMonitor::manageCapturedFiles() {
     filters << "capture*" + extension;
     const QStringList result = dir.entryList(filters, QDir::Files, QDir::Time);
     KUrl::List capturedFiles;
-    foreach(QString name, result) {
+    foreach(const QString &name, result) {
         KUrl url = KUrl(dir.filePath(name));
         if (KIO::NetAccess::exists(url, KIO::NetAccess::SourceSide, this)) {
             KFileItem file(KFileItem::Unknown, KFileItem::Unknown, url, true);
@@ -581,7 +581,7 @@ void RecMonitor::manageCapturedFiles() {
         ManageCapturesDialog *d = new ManageCapturesDialog(capturedFiles, this);
         if (d->exec() == QDialog::Accepted) {
             capturedFiles = d->importFiles();
-            foreach(KUrl url, capturedFiles) {
+            foreach(const KUrl &url, capturedFiles) {
                 emit addProjectClip(url);
             }
         }

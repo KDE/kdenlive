@@ -232,12 +232,12 @@ void KdenliveSettingsDialog::initDevices() {
             while (!stream.atEnd()) {
                 line = stream.readLine();
                 if (line.contains("playback")) {
-                    deviceId = line.section(":", 0, 0);
-                    m_configSdl.kcfg_audio_device->addItem(line.section(":", 1, 1), "plughw:" + QString::number(deviceId.section("-", 0, 0).toInt()) + "," + QString::number(deviceId.section("-", 1, 1).toInt()));
+                    deviceId = line.section(':', 0, 0);
+                    m_configSdl.kcfg_audio_device->addItem(line.section(':', 1, 1), "plughw:" + QString::number(deviceId.section('-', 0, 0).toInt()) + ',' + QString::number(deviceId.section('-', 1, 1).toInt()));
                 }
                 if (line.contains("capture")) {
-                    deviceId = line.section(":", 0, 0);
-                    m_configCapture.kcfg_rmd_alsa_device->addItem(line.section(":", 1, 1), "plughw:" + QString::number(deviceId.section("-", 0, 0).toInt()) + "," + QString::number(deviceId.section("-", 1, 1).toInt()));
+                    deviceId = line.section(':', 0, 0);
+                    m_configCapture.kcfg_rmd_alsa_device->addItem(line.section(':', 1, 1), "plughw:" + QString::number(deviceId.section('-', 0, 0).toInt()) + ',' + QString::number(deviceId.section('-', 1, 1).toInt()));
                 }
             }
             file.close();
@@ -263,13 +263,13 @@ void KdenliveSettingsDialog::slotReadAudioDevices() {
     kDebug() << "// / / / / / READING APLAY: ";
     kDebug() << result;
     QStringList lines = result.split('\n');
-    foreach(QString data, lines) {
+    foreach(const QString &data, lines) {
         kDebug() << "// READING LINE: " << data;
         if (data.simplified().startsWith("card")) {
-            QString card = data.section(":", 0, 0).section(" ", -1);
-            QString device = data.section(":", 1, 1).section(" ", -1);
-            m_configSdl.kcfg_audio_device->addItem(data.section(":", -1), "plughw:" + card + "," + device);
-            m_configCapture.kcfg_rmd_alsa_device->addItem(data.section(":", -1), "plughw:" + card + "," + device);
+            QString card = data.section(':', 0, 0).section(' ', -1);
+            QString device = data.section(':', 1, 1).section(' ', -1);
+            m_configSdl.kcfg_audio_device->addItem(data.section(':', -1), "plughw:" + card + ',' + device);
+            m_configCapture.kcfg_rmd_alsa_device->addItem(data.section(':', -1), "plughw:" + card + ',' + device);
         }
     }
 }
@@ -414,10 +414,10 @@ void KdenliveSettingsDialog::updateSettings() {
 void KdenliveSettingsDialog::slotUpdateDisplay() {
     QString currentProfile = m_configMisc.kcfg_profiles_list->itemData(m_configMisc.kcfg_profiles_list->currentIndex()).toString();
     QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(currentProfile);
-    m_configMisc.p_size->setText(values.value("width") + "x" + values.value("height"));
-    m_configMisc.p_fps->setText(values.value("frame_rate_num") + "/" + values.value("frame_rate_den"));
-    m_configMisc.p_aspect->setText(values.value("sample_aspect_num") + "/" + values.value("sample_aspect_den"));
-    m_configMisc.p_display->setText(values.value("display_aspect_num") + "/" + values.value("display_aspect_den"));
+    m_configMisc.p_size->setText(values.value("width") + 'x' + values.value("height"));
+    m_configMisc.p_fps->setText(values.value("frame_rate_num") + '/' + values.value("frame_rate_den"));
+    m_configMisc.p_aspect->setText(values.value("sample_aspect_num") + '/' + values.value("sample_aspect_den"));
+    m_configMisc.p_display->setText(values.value("display_aspect_num") + '/' + values.value("display_aspect_den"));
     if (values.value("progressive").toInt() == 0) m_configMisc.p_progressive->setText(i18n("Interlaced"));
     else m_configMisc.p_progressive->setText(i18n("Progressive"));
     m_defaultProfile = m_configMisc.kcfg_profiles_list->itemText(m_configMisc.kcfg_profiles_list->currentIndex());

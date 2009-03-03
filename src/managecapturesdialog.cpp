@@ -39,7 +39,7 @@ ManageCapturesDialog::ManageCapturesDialog(KUrl::List files, QWidget * parent): 
     m_importButton = m_view.buttonBox->button(QDialogButtonBox::Ok);
     m_importButton->setText(i18n("import"));
     m_view.treeWidget->setIconSize(QSize(70, 50));
-    foreach(const KUrl url, files) {
+    foreach(const KUrl &url, files) {
         QStringList text;
         text << url.fileName();
         KFileItem file(KFileItem::Unknown, KFileItem::Unknown, url, true);

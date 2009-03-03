@@ -270,7 +270,7 @@ QPixmap Render::getImageThumbnail(KUrl url, int width, int height) {
         filter << "*." + fileType;
         filter << "*." + fileType.toUpper();
         more = dir.entryList(filter, QDir::Files);
-        im.load(url.directory() + "/" + more.at(0));
+        im.load(url.directory() + '/' + more.at(0));
     } else im.load(url.path());
     //pixmap = im.scaled(width, height);
     return pixmap;
@@ -352,8 +352,8 @@ void Render::getImage(KUrl url, int frame_position, QPoint size)
             more = dir.entryList( QDir::Files );
             for ( it = more.begin() ; it != more.end() ; ++it ) {
                 if ((*it).endsWith("."+fileType, Qt::CaseInsensitive)) {
-   if (!im.load(url.directory() + "/" + *it))
-       kDebug()<<"++ ERROR LOADIN IMAGE: "<<url.directory() + "/" + *it;
+   if (!im.load(url.directory() + '/' + *it))
+       kDebug()<<"++ ERROR LOADIN IMAGE: "<<url.directory() + '/' + *it;
    break;
   }
      }
@@ -566,7 +566,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, bo
     filePropertyMap["fps"] = producer->get("source_fps");
 
     if (frame && frame->is_valid()) {
-        filePropertyMap["frame_size"] = QString::number(frame->get_int("width")) + "x" + QString::number(frame->get_int("height"));
+        filePropertyMap["frame_size"] = QString::number(frame->get_int("width")) + 'x' + QString::number(frame->get_int("height"));
         filePropertyMap["frequency"] = QString::number(frame->get_int("frequency"));
         filePropertyMap["channels"] = QString::number(frame->get_int("channels"));
         filePropertyMap["aspect_ratio"] = frame->get("aspect_ratio");
@@ -1324,7 +1324,7 @@ void Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
         // We want a slowmotion producer
         double speed = element.attribute("speed", "1.0").toDouble();
         QString url = prod->get("resource");
-        url.append("?" + QString::number(speed));
+        url.append('?' + QString::number(speed));
         Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
         if (!slowprod || slowprod->get_producer() == NULL) {
             char *tmp = decodedString(url);
@@ -1332,7 +1332,7 @@ void Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
             delete[] tmp;
             QString id = prod->get("id");
             if (id.contains('_')) id = id.section('_', 0, 0);
-            QString producerid = "slowmotion:" + id + ":" + QString::number(speed);
+            QString producerid = "slowmotion:" + id + ':' + QString::number(speed);
             tmp = decodedString(producerid);
             slowprod->set("id", tmp);
             delete[] tmp;
@@ -1374,7 +1374,7 @@ void Render::mltCutClip(int track, GenTime position) {
     int blankDuration = trackPlaylist.clip_length(i) - 1;
     QString blk;
     if (trackPlaylist.is_blank(i)) blk = "(blank)";
-    kDebug()<<"CLIP "<<i<<": ("<<blankStart<<"x"<<blankStart + blankDuration<<")"<<blk;
+    kDebug()<<"CLIP "<<i<<": ("<<blankStart<<'x'<<blankStart + blankDuration<<")"<<blk;
     }*/
 
     int cutPos = (int) position.frames(m_fps);
@@ -1425,7 +1425,7 @@ void Render::mltCutClip(int track, GenTime position) {
     int blankDuration = trackPlaylist.clip_length(i) - 1;
     QString blk;
     if (trackPlaylist.is_blank(i)) blk = "(blank)";
-    kDebug()<<"CLIP "<<i<<": ("<<blankStart<<"x"<<blankStart + blankDuration<<")"<<blk;
+    kDebug()<<"CLIP "<<i<<": ("<<blankStart<<'x'<<blankStart + blankDuration<<")"<<blk;
     }*/
 
     m_isBlocked = false;
@@ -1454,7 +1454,7 @@ bool Render::mltRemoveClip(int track, GenTime position) {
     int blankDuration = trackPlaylist.clip_length(i) - 1;
     QString blk;
     if (trackPlaylist.is_blank(i)) blk = "(blank)";
-    kDebug()<<"CLIP "<<i<<": ("<<blankStart<<"x"<<blankStart + blankDuration<<")"<<blk;
+    kDebug()<<"CLIP "<<i<<": ("<<blankStart<<'x'<<blankStart + blankDuration<<")"<<blk;
     }*/
 
     if (trackPlaylist.is_blank(clipIndex)) {
@@ -1475,7 +1475,7 @@ bool Render::mltRemoveClip(int track, GenTime position) {
     int blankDuration = trackPlaylist.clip_length(i) - 1;
     QString blk;
     if (trackPlaylist.is_blank(i)) blk = "(blank)";
-    kDebug()<<"CLIP "<<i<<": ("<<blankStart<<"x"<<blankStart + blankDuration<<")"<<blk;
+    kDebug()<<"CLIP "<<i<<": ("<<blankStart<<'x'<<blankStart + blankDuration<<")"<<blk;
     }*/
 
     if (track != 0 && trackPlaylist.count() <= clipIndex) mltCheckLength();
@@ -1663,13 +1663,13 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
     if (serv == "avformat" && speed != 1.0) {
         mlt_service_lock(service.get_service());
         QString url = clipparent.get("resource");
-        url.append("?" + QString::number(speed));
+        url.append('?' + QString::number(speed));
         Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
         if (!slowprod || slowprod->get_producer() == NULL) {
             char *tmp = decodedString(url);
             slowprod = new Mlt::Producer(*m_mltProfile, "framebuffer", tmp);
             delete[] tmp;
-            QString producerid = "slowmotion:" + id + ":" + QString::number(speed);
+            QString producerid = "slowmotion:" + id + ':' + QString::number(speed);
             tmp = decodedString(producerid);
             slowprod->set("id", tmp);
             delete[] tmp;
@@ -1714,14 +1714,14 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
     } else if (serv == "framebuffer") {
         mlt_service_lock(service.get_service());
         QString url = clipparent.get("resource");
-        url = url.section("?", 0, 0);
-        url.append("?" + QString::number(speed));
+        url = url.section('?', 0, 0);
+        url.append('?' + QString::number(speed));
         Mlt::Producer *slowprod = m_slowmotionProducers.value(url);
         if (!slowprod || slowprod->get_producer() == NULL) {
             char *tmp = decodedString(url);
             slowprod = new Mlt::Producer(*m_mltProfile, "framebuffer", tmp);
             delete[] tmp;
-            QString producerid = "slowmotion:" + id.section(":", 1, 1) + ":" + QString::number(speed);
+            QString producerid = "slowmotion:" + id.section(':', 1, 1) + ':' + QString::number(speed);
             tmp = decodedString(producerid);
             slowprod->set("id", tmp);
             delete[] tmp;
@@ -1827,7 +1827,7 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
     QString kfr = params.paramValue("keyframes");
 
     if (!kfr.isEmpty()) {
-        QStringList keyFrames = kfr.split(";", QString::SkipEmptyParts);
+        QStringList keyFrames = kfr.split(';', QString::SkipEmptyParts);
         kDebug() << "// ADDING KEYFRAME EFFECT: " << params.paramValue("keyframes");
         char *starttag = decodedString(params.paramValue("starttag", "start"));
         char *endtag = decodedString(params.paramValue("endtag", "end"));
@@ -1847,10 +1847,10 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
             Mlt::Filter *filter = new Mlt::Filter(*m_mltProfile, filterTag);
             if (filter && filter->is_valid()) {
                 filter->set("kdenlive_id", filterId);
-                int x1 = keyFrames.at(i).section(":", 0, 0).toInt() + offset;
-                double y1 = keyFrames.at(i).section(":", 1, 1).toDouble();
-                int x2 = keyFrames.at(i + 1).section(":", 0, 0).toInt();
-                double y2 = keyFrames.at(i + 1).section(":", 1, 1).toDouble();
+                int x1 = keyFrames.at(i).section(':', 0, 0).toInt() + offset;
+                double y1 = keyFrames.at(i).section(':', 1, 1).toDouble();
+                int x2 = keyFrames.at(i + 1).section(':', 0, 0).toInt();
+                double y2 = keyFrames.at(i + 1).section(':', 1, 1).toDouble();
                 if (x2 == -1) x2 = duration;
 
                 for (int j = 0; j < params.count(); j++) {
@@ -2084,7 +2084,7 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration) {
     int blankDuration = trackPlaylist.clip_length(i) - 1;
     QString blk;
     if (trackPlaylist.is_blank(i)) blk = "(blank)";
-    kDebug()<<"CLIP "<<i<<": ("<<blankStart<<"x"<<blankStart + blankDuration<<")"<<blk;
+    kDebug()<<"CLIP "<<i<<": ("<<blankStart<<'x'<<blankStart + blankDuration<<")"<<blk;
     }*/
 
     if (trackPlaylist.is_blank_at((int) info.startPos.frames(m_fps))) {
@@ -2409,12 +2409,12 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
         if (resource == type && startTrack == currentTrack && currentIn <= old_pos && currentOut >= old_pos) {
             mlt_transition_set_in_and_out(tr, new_in, new_out);
             if (newTrack - startTrack != 0) {
-                kDebug() << "///// TRANSITION CHANGE TRACK. CUrrent (b): " << currentTrack << "x" << mlt_transition_get_a_track(tr) << ", NEw: " << newTrack << "x" << newTransitionTrack;
+                kDebug() << "///// TRANSITION CHANGE TRACK. CUrrent (b): " << currentTrack << 'x' << mlt_transition_get_a_track(tr) << ", NEw: " << newTrack << 'x' << newTransitionTrack;
 
                 mlt_properties properties = MLT_TRANSITION_PROPERTIES(tr);
                 mlt_properties_set_int(properties, "a_track", newTransitionTrack);
                 mlt_properties_set_int(properties, "b_track", newTrack);
-                //kDebug() << "set new start & end :" << new_in << new_out<< "TR OFFSET: "<<trackOffset<<", TRACKS: "<<mlt_transition_get_a_track(tr)<<"x"<<mlt_transition_get_b_track(tr);
+                //kDebug() << "set new start & end :" << new_in << new_out<< "TR OFFSET: "<<trackOffset<<", TRACKS: "<<mlt_transition_get_a_track(tr)<<'x'<<mlt_transition_get_b_track(tr);
             }
             break;
         }
@@ -2463,7 +2463,7 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
         int currentIn = (int) mlt_transition_get_in(tr);
         int currentOut = (int) mlt_transition_get_out(tr);
 
-        // kDebug()<<"Looking for transition : " << currentIn <<"x"<<currentOut<< ", OLD oNE: "<<in_pos<<"x"<<out_pos;
+        // kDebug()<<"Looking for transition : " << currentIn <<'x'<<currentOut<< ", OLD oNE: "<<in_pos<<'x'<<out_pos;
 
         if (resource == type && b_track == currentTrack && currentIn == in_pos && currentOut == out_pos) {
             QMap<QString, QString> map = mltGetTransitionParamsFromXml(xml);
@@ -2547,7 +2547,7 @@ QMap<QString, QString> Render::mltGetTransitionParamsFromXml(QDomElement xml) {
             //map[name]=map[name].replace(".",","); //FIXME how to solve locale conversion of . ,
         }
 
-        if (e.attribute("namedesc").contains(";")) {
+        if (e.attribute("namedesc").contains(';')) {
             QString format = e.attribute("format");
             QStringList separators = format.split("%d", QString::SkipEmptyParts);
             QStringList values = e.attribute("value").split(QRegExp("[,:;x]"));
@@ -2633,16 +2633,16 @@ void Render::mltResizeTransparency(int oldStart, int newStart, int newEnd, int t
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
     QString mlt_type = mlt_properties_get(properties, "mlt_type");
     QString resource = mlt_properties_get(properties, "mlt_service");
-    kDebug() << "// resize transpar from: " << oldStart << ", TO: " << newStart << "x" << newEnd << ", " << track << ", " << id;
+    kDebug() << "// resize transpar from: " << oldStart << ", TO: " << newStart << 'x' << newEnd << ", " << track << ", " << id;
     while (mlt_type == "transition") {
         mlt_transition tr = (mlt_transition) nextservice;
         int currentTrack = mlt_transition_get_b_track(tr);
         int currentIn = (int) mlt_transition_get_in(tr);
         //mlt_properties props = MLT_TRANSITION_PROPERTIES(tr);
         int transitionId = QString(mlt_properties_get(properties, "transparency")).toInt();
-        kDebug() << "// resize transpar current in: " << currentIn << ", Track: " << currentTrack << ", id: " << id << "x" << transitionId ;
+        kDebug() << "// resize transpar current in: " << currentIn << ", Track: " << currentTrack << ", id: " << id << 'x' << transitionId ;
         if (resource == "composite" && track == currentTrack && currentIn == oldStart && transitionId == id) {
-            kDebug() << " / / / / /RESIZE TRANS TO: " << newStart << "x" << newEnd;
+            kDebug() << " / / / / /RESIZE TRANS TO: " << newStart << 'x' << newEnd;
             mlt_transition_set_in_and_out(tr, newStart, newEnd);
             break;
         }
@@ -2681,7 +2681,7 @@ void Render::mltMoveTransparency(int startTime, int endTime, int startTrack, int
         int currentOut = (int) mlt_transition_get_out(tr);
         //mlt_properties properties = MLT_TRANSITION_PROPERTIES(tr);
         int transitionId = QString(mlt_properties_get(properties, "transparency")).toInt();
-        //kDebug()<<" + TRANSITION "<<id<<" == "<<transitionId<<", START TMIE: "<<currentIn<<", LOOK FR: "<<startTime<<", TRACK: "<<currentTrack<<"x"<<startTrack;
+        //kDebug()<<" + TRANSITION "<<id<<" == "<<transitionId<<", START TMIE: "<<currentIn<<", LOOK FR: "<<startTime<<", TRACK: "<<currentTrack<<'x'<<startTrack;
         if (resource == "composite" && transitionId == id && startTime == currentIn && startTrack == currentTrack) {
             kDebug() << "//////MOVING";
             mlt_transition_set_in_and_out(tr, endTime, endTime + currentOut - currentIn);

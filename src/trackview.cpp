@@ -395,8 +395,8 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked) {
             QString id = idString;
             double speed = 1.0;
             if (idString.startsWith("slowmotion")) {
-                id = idString.section(":", 1, 1);
-                speed = idString.section(":", 2, 2).toDouble();
+                id = idString.section(':', 1, 1);
+                speed = idString.section(':', 2, 2).toDouble();
             } else id = id.section('_', 0, 0);
             DocClipBase *clip = m_doc->clipManager()->getClipById(id);
             if (clip != NULL) {
@@ -488,7 +488,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked) {
                                         endvalue = effectparam.text().toDouble() * factor;
                                 }
                                 // add first keyframe
-                                keyframes.append(QString::number(effectin) + ":" + QString::number(startvalue) + ";" + QString::number(effectout) + ":" + QString::number(endvalue) + ";");
+                                keyframes.append(QString::number(effectin) + ':' + QString::number(startvalue) + ';' + QString::number(effectout) + ':' + QString::number(endvalue) + ';');
                                 QDomNode lastParsedEffect;
                                 ix++;
                                 QDomNode n2 = effects.at(ix);
@@ -513,7 +513,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked) {
                                         }
                                     }
                                     if (continueParsing) {
-                                        keyframes.append(QString::number(effectout) + ":" + QString::number(endvalue) + ";");
+                                        keyframes.append(QString::number(effectout) + ':' + QString::number(endvalue) + ';');
                                         ix++;
                                     }
                                 }

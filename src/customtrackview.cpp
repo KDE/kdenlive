@@ -956,7 +956,7 @@ void CustomTrackView::activateMonitor() {
 void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
     if (event->mimeData()->hasFormat("kdenlive/clip")) {
         resetSelectionGroup();
-        QStringList list = QString(event->mimeData()->data("kdenlive/clip")).split(";");
+        QStringList list = QString(event->mimeData()->data("kdenlive/clip")).split(';');
         m_selectionGroup = new AbstractGroupItem(m_document->fps());
         QPoint pos = QPoint();
         DocClipBase *clip = m_document->getBaseClip(list.at(0));
@@ -977,7 +977,7 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
         scene()->addItem(m_selectionGroup);
         event->acceptProposedAction();
     } else if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
-        QStringList ids = QString(event->mimeData()->data("kdenlive/producerslist")).split(";");
+        QStringList ids = QString(event->mimeData()->data("kdenlive/producerslist")).split(';');
         m_scene->clearSelection();
         resetSelectionGroup(false);
 

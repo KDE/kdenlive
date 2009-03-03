@@ -65,10 +65,10 @@ ProjectSettings::ProjectSettings(int videotracks, int audiotracks, const QString
 void ProjectSettings::slotUpdateDisplay() {
     QString currentProfile = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
     QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(currentProfile);
-    m_view.p_size->setText(values.value("width") + "x" + values.value("height"));
-    m_view.p_fps->setText(values.value("frame_rate_num") + "/" + values.value("frame_rate_den"));
-    m_view.p_aspect->setText(values.value("sample_aspect_num") + "/" + values.value("sample_aspect_den"));
-    m_view.p_display->setText(values.value("display_aspect_num") + "/" + values.value("display_aspect_den"));
+    m_view.p_size->setText(values.value("width") + 'x' + values.value("height"));
+    m_view.p_fps->setText(values.value("frame_rate_num") + '/' + values.value("frame_rate_den"));
+    m_view.p_aspect->setText(values.value("sample_aspect_num") + '/' + values.value("sample_aspect_den"));
+    m_view.p_display->setText(values.value("display_aspect_num") + '/' + values.value("display_aspect_den"));
     if (values.value("progressive").toInt() == 0) m_view.p_progressive->setText(i18n("Interlaced"));
     else m_view.p_progressive->setText(i18n("Progressive"));
 }

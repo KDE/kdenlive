@@ -575,7 +575,7 @@ void RenderWidget::slotExport(bool scriptExport) {
         width = m_profile.width;
         height = m_profile.height;
     }
-    renderArgs.replace("%dar", "@" + QString::number(m_profile.display_aspect_num) + "/" + QString::number(m_profile.display_aspect_den));
+    renderArgs.replace("%dar", '@' + QString::number(m_profile.display_aspect_num) + '/' + QString::number(m_profile.display_aspect_den));
 
     // Adjust scanning
     if (m_view.scanning_list->currentIndex() == 1) renderArgs.append(" progressive=1");
@@ -858,8 +858,8 @@ void RenderWidget::parseProfiles(QString meta, QString group, QString profile) {
     // We should parse customprofiles.xml in last position, so that user profiles
     // can also override profiles installed by KNewStuff
     fileList.removeAll("customprofiles.xml");
-    foreach(const QString filename, fileList)
-    parseFile(exportFolder + '/' + filename, true);
+    foreach(const QString &filename, fileList)
+	parseFile(exportFolder + '/' + filename, true);
     if (QFile::exists(exportFolder + "/customprofiles.xml")) parseFile(exportFolder + "/customprofiles.xml", true);
 
     if (!meta.isEmpty()) {
@@ -1210,3 +1210,4 @@ void RenderWidget::slotDeleteScript() {
 void RenderWidget::slotGenerateScript() {
     slotExport(true);
 }
+

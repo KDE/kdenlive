@@ -130,7 +130,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         m_view.tabWidget->removeTab(AUDIOTAB);
         m_view.tabWidget->removeTab(VIDEOTAB);
         m_view.clip_thumb->setHidden(true);
-        m_view.clip_color->setColor(QColor("#" + props.value("colour").right(8).left(6)));
+        m_view.clip_color->setColor(QColor('#' + props.value("colour").right(8).left(6)));
     } else if (t == SLIDESHOW) {
         m_view.clip_path->setText(url.directory());
         m_view.tabWidget->removeTab(METATAB);
@@ -347,7 +347,7 @@ QMap <QString, QString> ClipProperties::properties() {
 
     if (t == COLOR) {
         QString new_color = m_view.clip_color->color().name();
-        if (new_color != QString("#" + old_props.value("colour").right(8).left(6))) {
+        if (new_color != QString('#' + old_props.value("colour").right(8).left(6))) {
             m_clipNeedsRefresh = true;
             props["colour"] = "0x" + new_color.right(6) + "ff";
         }

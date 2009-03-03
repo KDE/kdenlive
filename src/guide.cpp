@@ -39,7 +39,7 @@ Guide::Guide(CustomTrackView *view, GenTime pos, QString label, double fps, doub
     setZValue(999);
     setAcceptsHoverEvents(true);
     const QFontMetrics metric = m_view->fontMetrics();
-    m_width = metric.width(" " + m_label + " ") + 2;
+    m_width = metric.width(' ' + m_label + ' ') + 2;
     prepareGeometryChange();
 }
 
@@ -62,7 +62,7 @@ void Guide::updateGuide(const GenTime newPos, const QString &comment) {
         m_label = comment;
         setToolTip(m_label);
         const QFontMetrics metric = m_view->fontMetrics();
-        m_width = metric.width(" " + m_label + " ") + 2;
+        m_width = metric.width(' ' + m_label + ' ') + 2;
         prepareGeometryChange();
     }
 }
@@ -114,7 +114,7 @@ void Guide::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     //QGraphicsLineItem::paint(painter, option, w);
     if (KdenliveSettings::showmarkers()) {
         QPointF p1 = guideline.p1() + QPointF(1, 0);
-        QRectF txtBounding = painter->boundingRect(p1.x(), p1.y() + 10, m_width, 50, Qt::AlignLeft | Qt::AlignTop, " " + m_label + " ");
+        QRectF txtBounding = painter->boundingRect(p1.x(), p1.y() + 10, m_width, 50, Qt::AlignLeft | Qt::AlignTop, ' ' + m_label + ' ');
         QPainterPath path;
         path.addRoundedRect(txtBounding, 3, 3);
         painter->fillPath(path, QBrush(pen().color()));

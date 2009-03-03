@@ -113,7 +113,7 @@ void EffectsListView::slotRemoveEffect() {
     filter << "*.xml";
     const QStringList fileList = directory.entryList(filter, QDir::Files);
     QString itemName;
-    foreach(const QString filename, fileList) {
+    foreach(const QString &filename, fileList) {
         itemName = KUrl(path + filename).path();
         QDomDocument doc;
         QFile file(itemName);

@@ -272,20 +272,20 @@ QString TitleDocument::rectFToString(const QRectF& c) {
 
 QRectF TitleDocument::stringToRect(const QString & s) {
 
-    QStringList l = s.split(",");
+    QStringList l = s.split(',');
     if (l.size() < 4)
         return QRectF();
     return QRectF(l[0].toDouble(), l[1].toDouble(), l[2].toDouble(), l[3].toDouble());
 }
 
 QColor TitleDocument::stringToColor(const QString & s) {
-    QStringList l = s.split(",");
+    QStringList l = s.split(',');
     if (l.size() < 4)
         return QColor();
     return QColor(l[0].toInt(), l[1].toInt(), l[2].toInt(), l[3].toInt());;
 }
 QTransform TitleDocument::stringToTransform(const QString& s) {
-    QStringList l = s.split(",");
+    QStringList l = s.split(',');
     if (l.size() < 9)
         return QTransform();
     return QTransform(

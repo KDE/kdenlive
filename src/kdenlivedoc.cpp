@@ -403,7 +403,7 @@ bool KdenliveDoc::convertDocument(double version) {
     if (version == 0.5 || version == 0.7 || version > 0.81) {
         kDebug() << "Unable to open document with version " << version;
         // TODO: convert 0.7 (0.5?) files to the new document format.
-        return FALSE;
+        return false;
     }
 
     if (version == 0.8) {
@@ -427,7 +427,7 @@ bool KdenliveDoc::convertDocument(double version) {
             if (t.attribute("producer") != "black_track") tracksinfo.appendChild(trackinfo);
         }
         infoXml.appendChild(tracksinfo);
-        return TRUE;
+        return true;
     }
 
     QDomNode westley = m_document.elementsByTagName("westley").at(1);
@@ -877,7 +877,7 @@ bool KdenliveDoc::convertDocument(double version) {
                 //kDebug() << "ready to set additional <avfile />'s attributes (id =" << id << ")";
                 kproducer.setAttribute("channels", avfile.attribute("channels"));
                 kproducer.setAttribute("duration", avfile.attribute("duration"));
-                kproducer.setAttribute("frame_size", avfile.attribute("width") + "x" + avfile.attribute("height"));
+                kproducer.setAttribute("frame_size", avfile.attribute("width") + 'x' + avfile.attribute("height"));
                 kproducer.setAttribute("frequency", avfile.attribute("frequency"));
                 if (kproducer.attribute("description").isEmpty() && !avfile.attribute("description").isEmpty())
                     kproducer.setAttribute("description", avfile.attribute("description"));
@@ -899,7 +899,7 @@ bool KdenliveDoc::convertDocument(double version) {
     */
     //kDebug() << "/////////////////  END CONVERTED DOC:";
 
-    return TRUE;
+    return true;
 }
 
 QString KdenliveDoc::colorToString(const QColor& c) {
@@ -1354,7 +1354,7 @@ void KdenliveDoc::setNewClipResource(const QString &id, const QString &path) {
     for (int i = 0; i < maxprod; i++) {
         QDomNode m = prods.at(i);
         QString prodId = m.toElement().attribute("id");
-        if (prodId == id || prodId.startsWith(id + "_")) {
+        if (prodId == id || prodId.startsWith(id + '_')) {
             QDomNodeList params = m.childNodes();
             for (int j = 0; j < params.count(); j++) {
                 QDomElement e = params.item(j).toElement();

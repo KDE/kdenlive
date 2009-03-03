@@ -164,7 +164,7 @@ void Wizard::checkMltComponents() {
                 } else {
                     checkProcess.waitForFinished();
                     QString mltVersion = checkProcess.readAllStandardError();
-                    mltVersion = mltVersion.section("\n", 0, 0).simplified();
+                    mltVersion = mltVersion.section('\n', 0, 0).simplified();
                     mltVersion = mltVersion.section(' ', -1).simplified();
                     version = 100 * mltVersion.section('.', 0, 0).toInt() + 10 * mltVersion.section('.', 1, 1).toInt() + mltVersion.section('.', 2, 2).toInt();
                     kDebug() << "// FOUND MLT version: " << version;
@@ -184,7 +184,7 @@ void Wizard::checkMltComponents() {
                     QByteArray codecList = checkProcess2.readAllStandardError();
                     QString acodecList(codecList);
                     QStringList result;
-                    QStringList alist = acodecList.split("\n", QString::SkipEmptyParts);
+                    QStringList alist = acodecList.split('\n', QString::SkipEmptyParts);
                     for (int i = 0; i < alist.count(); i++) {
                         if (alist.at(i).contains("- ")) result.append(alist.at(i).section("- ", 1).simplified().toLower());
                     }
@@ -201,7 +201,7 @@ void Wizard::checkMltComponents() {
                     QByteArray codecList = checkProcess2.readAllStandardError();
                     QString vcodecList(codecList);
                     QStringList result;
-                    QStringList vlist = vcodecList.split("\n", QString::SkipEmptyParts);
+                    QStringList vlist = vcodecList.split('\n', QString::SkipEmptyParts);
                     for (int i = 0; i < vlist.count(); i++) {
                         if (vlist.at(i).contains("- ")) result.append(vlist.at(i).section("- ", 1).simplified().toLower());
                     }
@@ -218,7 +218,7 @@ void Wizard::checkMltComponents() {
                     QByteArray codecList = checkProcess2.readAllStandardError();
                     QString vcodecList(codecList);
                     QStringList result;
-                    QStringList vlist = vcodecList.split("\n", QString::SkipEmptyParts);
+                    QStringList vlist = vcodecList.split('\n', QString::SkipEmptyParts);
                     for (int i = 0; i < vlist.count(); i++) {
                         if (vlist.at(i).contains("- ")) {
                             QString format = vlist.at(i).section("- ", 1).simplified().toLower();
@@ -456,12 +456,12 @@ void Wizard::slotCheckMlt() {
     QProcess checkProcess2;
     checkProcess2.start(KdenliveSettings::rendererpath(), QStringList() << "-query" << "consumer");
     if (!checkProcess2.waitForStarted())
-        errorMessage.append(i18n("Error starting MLT's command line player (inigo).") + "\n");
+        errorMessage.append(i18n("Error starting MLT's command line player (inigo).") + '\n');
 
     checkProcess2.waitForFinished();
 
     QByteArray result = checkProcess2.readAllStandardError();
-    if (!result.contains("sdl") || !result.contains("sdl_preview")) errorMessage.append(i18n("MLT's SDL module not found. Please check your MLT install. Kdenlive will not work until this issue is fixed.") + "\n");
+    if (!result.contains("sdl") || !result.contains("sdl_preview")) errorMessage.append(i18n("MLT's SDL module not found. Please check your MLT install. Kdenlive will not work until this issue is fixed.") + '\n');
 
     if (!errorMessage.isEmpty()) {
         errorMessage.prepend(QString("<b>%1</b><br>").arg(i18n("Fatal Error")));

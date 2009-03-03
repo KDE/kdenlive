@@ -246,7 +246,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
         effectsList.insert(effectInfo.at(0).toLower(), effectInfo);
     }
 
-    foreach(QStringList value, effectsList) {
+    foreach(const QStringList &value, effectsList) {
         action = new QAction(value.at(0), this);
         action->setData(value);
         videoEffectsMenu->addAction(action);
@@ -261,7 +261,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
         effectsList.insert(effectInfo.at(0).toLower(), effectInfo);
     }
 
-    foreach(QStringList value, effectsList) {
+    foreach(const QStringList &value, effectsList) {
         action = new QAction(value.at(0), this);
         action->setData(value);
         audioEffectsMenu->addAction(action);
@@ -278,7 +278,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
         effectsList.insert(effectInfo.at(0).toLower(), effectInfo);
     }
 
-    foreach(QStringList value, effectsList) {
+    foreach(const QStringList &value, effectsList) {
         action = new QAction(value.at(0), this);
         action->setData(value);
         m_customEffectsMenu->addAction(action);
@@ -312,7 +312,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
         effectInfo = transitions.effectIdInfo(ix);
         effectsList.insert(effectInfo.at(0).toLower(), effectInfo);
     }
-    foreach(QStringList value, effectsList) {
+    foreach(const QStringList &value, effectsList) {
         action = new QAction(value.at(0), this);
         action->setData(value);
         transitionsMenu->addAction(action);
@@ -406,7 +406,7 @@ void MainWindow::loadPlugins() {
     foreach(const QString &folder, directories) {
         kDebug() << "// PARSING FIOLER: " << folder;
         QDir pluginsDir(folder);
-        foreach(QString fileName, pluginsDir.entryList(filters, QDir::Files)) {
+        foreach(const QString &fileName, pluginsDir.entryList(filters, QDir::Files)) {
             kDebug() << "// FOUND PLUGIN: " << fileName << "= " << pluginsDir.absoluteFilePath(fileName);
             QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
             QObject *plugin = loader.instance();
@@ -431,7 +431,7 @@ void MainWindow::addToMenu(QObject *plugin, const QStringList &texts,
                            QMenu *menu, const char *member,
                            QActionGroup *actionGroup) {
     kDebug() << "// ADD to MENU" << texts;
-    foreach(QString text, texts) {
+    foreach(const QString &text, texts) {
         QAction *action = new QAction(text, plugin);
         action->setData(text);
         connect(action, SIGNAL(triggered()), this, member);

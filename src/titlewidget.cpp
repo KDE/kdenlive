@@ -336,7 +336,7 @@ void TitleWidget::initViewports() {
 
 void TitleWidget::slotUpdateZoom(int pos) {
     m_scene->setZoom((double) pos / 100);
-    zoom_label->setText(QString::number(pos) + "%");
+    zoom_label->setText(QString::number(pos) + '%');
 }
 
 void TitleWidget::slotZoom(bool up) {

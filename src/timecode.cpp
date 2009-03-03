@@ -47,8 +47,8 @@ int Timecode::getFrameCount(const QString duration, double fps) const {
 
         // Number of actual frames in a 10 minute interval :
         int tenMinutes = (normalMinuteFrames * 9) + tenthMinuteFrames;
-        frames = 6 * duration.section(":", 0, 0).toInt() * tenMinutes;
-        int minutes = duration.section(":", 1, 1).toInt();
+        frames = 6 * duration.section(':', 0, 0).toInt() * tenMinutes;
+        int minutes = duration.section(':', 1, 1).toInt();
         frames += ((int) minutes / 10) * tenMinutes;
         int mins = minutes % 10;
         if (mins > 0) {
@@ -57,10 +57,10 @@ int Timecode::getFrameCount(const QString duration, double fps) const {
             if (mins > 0) frames += mins * normalMinuteFrames;
         }
         if (minutes % 10 > 0) frames -= perMinute;
-        frames += duration.section(":", 2, 2).toInt() * m_displayedFramesPerSecond + duration.section(":", 3, 3).toInt();
+        frames += duration.section(':', 2, 2).toInt() * m_displayedFramesPerSecond + duration.section(':', 3, 3).toInt();
         return frames;
     }
-    return (int)((duration.section(":", 0, 0).toInt()*3600.0 + duration.section(":", 1, 1).toInt()*60.0 + duration.section(":", 2, 2).toInt()) * fps + duration.section(":", 3, 3).toInt());
+    return (int)((duration.section(':', 0, 0).toInt()*3600.0 + duration.section(':', 1, 1).toInt()*60.0 + duration.section(':', 2, 2).toInt()) * fps + duration.section(':', 3, 3).toInt());
 }
 
 QString Timecode::getTimecode(const GenTime & time, double fps) const {
@@ -105,29 +105,29 @@ QString Timecode::getEasyTimecode(const GenTime & time, const double &fps) {
     bool trim = false;
 
     if (hours != 0) {
-        text.append(QString::number(hours).rightJustified(2, '0', FALSE));
-        text.append(" " + i18n("hour") + " ");
+        text.append(QString::number(hours).rightJustified(2, '0', false));
+        text.append(' ' + i18n("hour") + ' ');
         trim = true;
     }
     if (minutes != 0 || trim) {
         if (!trim) {
             text.append(QString::number(minutes));
         } else
-            text.append(QString::number(minutes).rightJustified(2, '0', FALSE));
-        text.append(" " + i18n("min.") + " ");
+            text.append(QString::number(minutes).rightJustified(2, '0', false));
+        text.append(' ' + i18n("min.") + ' ');
         trim = true;
     }
     if (seconds != 0 || trim) {
         if (!trim) {
             text.append(QString::number(seconds));
         } else
-            text.append(QString::number(seconds).rightJustified(2, '0', FALSE));
-        text.append(" " + i18n("sec."));
+            text.append(QString::number(seconds).rightJustified(2, '0', false));
+        text.append(' ' + i18n("sec."));
         trim = true;
     }
     if (!trim) {
         text.append(QString::number(frames));
-        text.append(" " + i18n("frames"));
+        text.append(' ' + i18n("frames"));
     }
 
     return text;
@@ -152,13 +152,13 @@ QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const {
 
     QString text;
 
-    text.append(QString::number(hours).rightJustified(2, '0', FALSE));
-    text.append(":");
-    text.append(QString::number(minutes).rightJustified(2, '0', FALSE));
-    text.append(":");
-    text.append(QString::number(seconds).rightJustified(2, '0', FALSE));
-    text.append(":");
-    text.append(QString::number(frames).rightJustified(2, '0', FALSE));
+    text.append(QString::number(hours).rightJustified(2, '0', false));
+    text.append(':');
+    text.append(QString::number(minutes).rightJustified(2, '0', false));
+    text.append(':');
+    text.append(QString::number(seconds).rightJustified(2, '0', false));
+    text.append(':');
+    text.append(QString::number(frames).rightJustified(2, '0', false));
 
     return text;
 }
@@ -174,13 +174,13 @@ QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime & time) const {
 
     QString text;
 
-    text.append(QString::number(hours).rightJustified(2, '0', FALSE));
-    text.append(":");
-    text.append(QString::number(minutes).rightJustified(2, '0', FALSE));
-    text.append(":");
-    text.append(QString::number(seconds).rightJustified(2, '0', FALSE));
-    text.append(":");
-    text.append(QString::number(hundredths).rightJustified(2, '0', FALSE));
+    text.append(QString::number(hours).rightJustified(2, '0', false));
+    text.append(':');
+    text.append(QString::number(minutes).rightJustified(2, '0', false));
+    text.append(':');
+    text.append(QString::number(seconds).rightJustified(2, '0', false));
+    text.append(':');
+    text.append(QString::number(hundredths).rightJustified(2, '0', false));
 
     return text;
 }
@@ -240,14 +240,14 @@ QString Timecode::getTimecodeDropFrame(const GenTime & time, double fps) const {
     // THANK FUCK FOR THAT.
 
     QString text;
-    text.append(QString::number(hours).rightJustified(2, '0', FALSE));
-    text.append(":");
+    text.append(QString::number(hours).rightJustified(2, '0', false));
+    text.append(':');
     text.append(QString::number(tenMinuteIntervals));
     text.append(QString::number(numMinutes));
-    text.append(":");
-    text.append(QString::number(seconds).rightJustified(2, '0', FALSE));
-    text.append(":");
-    text.append(QString::number(frames).rightJustified(2, '0', FALSE));
+    text.append(':');
+    text.append(QString::number(seconds).rightJustified(2, '0', false));
+    text.append(':');
+    text.append(QString::number(frames).rightJustified(2, '0', false));
 
     return text;
 }

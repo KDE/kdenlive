@@ -120,8 +120,8 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out) {
         } else if (type == "list") {
             Ui::Listval_UI *lsval = new Ui::Listval_UI;
             lsval->setupUi(toFillin);
-            QStringList listitems = pa.attribute("paramlist").split(",");
-            QStringList listitemsdisplay = pa.attribute("paramlistdisplay").split(",");
+            QStringList listitems = pa.attribute("paramlist").split(',');
+            QStringList listitemsdisplay = pa.attribute("paramlistdisplay").split(',');
             if (listitemsdisplay.count() != listitems.count()) listitemsdisplay = listitems;
             //lsval->list->addItems(listitems);
             for (int i = 0;i < listitems.count();i++) {
@@ -153,10 +153,10 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out) {
             valueItems[paramName] = bval;
             uiItems.append(bval);
         } else if (type == "complex") {
-            /*QStringList names=nodeAtts.namedItem("name").nodeValue().split(";");
-            QStringList max=nodeAtts.namedItem("max").nodeValue().split(";");
-            QStringList min=nodeAtts.namedItem("min").nodeValue().split(";");
-            QStringList val=value.split(";");
+            /*QStringList names=nodeAtts.namedItem("name").nodeValue().split(';');
+            QStringList max=nodeAtts.namedItem("max").nodeValue().split(';');
+            QStringList min=nodeAtts.namedItem("min").nodeValue().split(';');
+            QStringList val=value.split(';');
             kDebug() << "in complex"<<names.size() << " " << max.size() << " " << min.size() << " " << val.size()  ;
             if ( (names.size() == max.size() ) &&
                  (names.size()== min.size()) &&
@@ -281,8 +281,8 @@ void EffectStackEdit::slotSeekToPos(int pos) {
 
 wipeInfo EffectStackEdit::getWipeInfo(QString value) {
     wipeInfo info;
-    QString start = value.section(";", 0, 0);
-    QString end = value.section(";", 1, 1).section("=", 1, 1);
+    QString start = value.section(';', 0, 0);
+    QString end = value.section(';', 1, 1).section('=', 1, 1);
     if (start.startsWith("-100%,0")) info.start = LEFT;
     else if (start.startsWith("100%,0")) info.start = RIGHT;
     else if (start.startsWith("0%,100%")) info.start = DOWN;
@@ -322,7 +322,7 @@ QString EffectStackEdit::getWipeString(wipeInfo info) {
         start = "0%,0%:100%x100%";
         break;
     }
-    start.append(":" + QString::number(info.startTransparency));
+    start.append(':' + QString::number(info.startTransparency));
 
     switch (info.end) {
     case LEFT:
@@ -341,7 +341,7 @@ QString EffectStackEdit::getWipeString(wipeInfo info) {
         end = "0%,0%:100%x100%";
         break;
     }
-    end.append(":" + QString::number(info.endTransparency));
+    end.append(':' + QString::number(info.endTransparency));
     return QString(start + ";-1=" + end);
 }
 

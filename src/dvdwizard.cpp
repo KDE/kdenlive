@@ -218,11 +218,11 @@ void DvdWizard::generateDvd() {
         while (it.hasNext()) {
             it.next();
             QDomElement but = doc.createElement("button");
-            but.setAttribute("name", "b" + QString::number(i));
-            if (i < max) but.setAttribute("down", "b" + QString::number(i + 1));
+            but.setAttribute("name", 'b' + QString::number(i));
+            if (i < max) but.setAttribute("down", 'b' + QString::number(i + 1));
             else but.setAttribute("down", "b0");
-            if (i > 0) but.setAttribute("up", "b" + QString::number(i - 1));
-            else but.setAttribute("up", "b" + QString::number(max));
+            if (i > 0) but.setAttribute("up", 'b' + QString::number(i - 1));
+            else but.setAttribute("up", 'b' + QString::number(max));
             QRect r = it.value();
             int target = it.key();
             // TODO: solve play all button
@@ -317,8 +317,8 @@ void DvdWizard::generateDvd() {
         menus.appendChild(pgc);
         for (int i = 0; i < buttons.count(); i++) {
             QDomElement button = dvddoc.createElement("button");
-            button.setAttribute("name", "b" + QString::number(i));
-            QDomText nametext = dvddoc.createTextNode("jump title " + buttonsTarget.at(i) + ";");
+            button.setAttribute("name", 'b' + QString::number(i));
+            QDomText nametext = dvddoc.createTextNode("jump title " + buttonsTarget.at(i) + ';');
             button.appendChild(nametext);
             pgc.appendChild(button);
         }

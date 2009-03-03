@@ -162,7 +162,7 @@ void Transition::paint(QPainter *painter,
     //painter->drawPixmap(painter->matrix().map(p1) + QPointF(5, 0), transitionPixmap());
     QString text = transitionName();
     if (m_forceTransitionTrack) text.append("|>");
-    QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, " " + text + " ");
+    QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, ' ' + text + ' ');
     painter->fillRect(txtBounding, QBrush(QColor(50, 50, 0, 150)));
     txtBounding.translate(QPointF(1, 1));
     painter->setPen(QColor(255, 255, 255, 255));

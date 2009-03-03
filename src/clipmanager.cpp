@@ -204,7 +204,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
     QUndoCommand *addClips = new QUndoCommand();
     addClips->setText(i18n("Add clips"));
 
-    foreach(const KUrl file, urls) {
+    foreach(const KUrl &file, urls) {
         if (KIO::NetAccess::exists(file, KIO::NetAccess::SourceSide, NULL)) {
             QDomDocument doc;
             QDomElement prod = doc.createElement("producer");
@@ -336,3 +336,4 @@ void ClipManager::addFolder(const QString &id, const QString &name) {
 void ClipManager::deleteFolder(const QString &id) {
     m_folderList.remove(id);
 }
+
