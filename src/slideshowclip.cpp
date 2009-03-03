@@ -26,11 +26,6 @@
 #include "kdenlivesettings.h"
 #include "slideshowclip.h"
 
-static const int TYPE_JPEG = 0;
-static const int TYPE_PNG = 1;
-static const int TYPE_BMP = 2;
-static const int TYPE_GIF = 3;
-
 SlideshowClip::SlideshowClip(QWidget * parent): QDialog(parent), m_count(0) {
     setFont(KGlobalSettings::toolBarFont());
     setWindowTitle(i18n("Add Slideshow Clip"));
@@ -44,10 +39,14 @@ SlideshowClip::SlideshowClip(QWidget * parent): QDialog(parent), m_count(0) {
     connect(m_view.slide_fade, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLuma(int)));
     connect(m_view.luma_fade, SIGNAL(stateChanged(int)), this, SLOT(slotEnableLumaFile(int)));
 
-    m_view.image_type->addItem("JPG");
-    m_view.image_type->addItem("PNG");
-    m_view.image_type->addItem("BMP");
-    m_view.image_type->addItem("GIF");
+    m_view.image_type->addItem("JPG (*.jpg)", "jpg");
+    m_view.image_type->addItem("JPEG (*.jpeg)", "jpeg");
+    m_view.image_type->addItem("PNG (*.png)", "png");
+    m_view.image_type->addItem("BMP (*.bmp)", "bmp");
+    m_view.image_type->addItem("GIF (*.gif)", "gif");
+    m_view.image_type->addItem("TGA (*.tga)", "tga");
+    m_view.image_type->addItem("TIFF (*.tiff)", "tiff");
+    m_view.image_type->addItem("Open EXR (*.exr)", "exr");
     m_view.clip_duration->setText(KdenliveSettings::image_duration());
     m_view.luma_duration->setText("00:00:00:24");
     m_view.folder_url->setUrl(QDir::homePath());
@@ -103,22 +102,10 @@ void SlideshowClip::parseFolder() {
     QDir dir(m_view.folder_url->url().path());
 
     QStringList filters;
-    switch (m_view.image_type->currentIndex()) {
-    case TYPE_PNG:
-        filters << "*.png";
-        break;
-    case TYPE_BMP:
-        filters << "*.bmp";
-        break;
-    case TYPE_GIF:
-        filters << "*.gif";
-        break;
-    default:
-        filters << "*.jpg";
+    QString filter = m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
+    filters << "*." + filter;
         // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
         // << "*.jpeg";
-        break;
-    }
 
     dir.setNameFilters(filters);
     const QStringList result = dir.entryList(QDir::Files);
@@ -157,21 +144,7 @@ void SlideshowClip::slotSetItemIcon(int row) {
 }
 
 QString SlideshowClip::selectedPath() const {
-    QString extension;
-    switch (m_view.image_type->currentIndex()) {
-    case TYPE_PNG:
-        extension = "/.all.png";
-        break;
-    case TYPE_BMP:
-        extension = "/.all.bmp";
-        break;
-    case TYPE_GIF:
-        extension = "/.all.gif";
-        break;
-    default:
-        extension = "/.all.jpg";
-        break;
-    }
+    QString extension = "/.all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
     return m_view.folder_url->url().path() + extension;
 }
 

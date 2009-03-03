@@ -71,8 +71,6 @@ Q_OBJECT public:
     void addClipInfo(QDomElement elem, QDomElement orig, QString clipId);
     void slotAddClipFile(const KUrl url, const QString group, const QString &groupId = QString());
     void slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId = QString());
-    void slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const QString &groupId = QString());
-    void slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const int softness, const QString group, const QString &groupId = QString());
     void deleteClip(const QString &clipId);
     int getFramePos(QString duration);
     DocClipBase *getBaseClip(const QString &clipId);

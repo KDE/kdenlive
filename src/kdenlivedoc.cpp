@@ -1458,7 +1458,7 @@ void KdenliveDoc::slotAddClipList(const KUrl::List urls, const QString group, co
 
 
 void KdenliveDoc::slotAddClipFile(const KUrl url, const QString group, const QString &groupId) {
-    kDebug() << "/////////  DOCUM, ADD CLP: " << url;
+    //kDebug() << "/////////  DOCUM, ADD CLP: " << url;
     m_clipManager->slotAddClipFile(url, group, groupId);
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
     setModified(true);
@@ -1470,16 +1470,6 @@ const QString&KdenliveDoc::getFreeClipId() {
 
 DocClipBase *KdenliveDoc::getBaseClip(const QString &clipId) {
     return m_clipManager->getClipById(clipId);
-}
-
-void KdenliveDoc::slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const QString &groupId) {
-    m_clipManager->slotAddColorClipFile(name, color, duration, group, groupId);
-    setModified(true);
-}
-
-void KdenliveDoc::slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const int softness, const QString group, const QString &groupId) {
-    m_clipManager->slotAddSlideshowClipFile(name, path, count, duration, loop, fade, luma_duration, luma_file, softness, group, groupId);
-    setModified(true);
 }
 
 void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId) {
