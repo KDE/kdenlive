@@ -127,19 +127,19 @@ bool WestleyPreview::create(const QString &path, int width, int height, QImage &
     }
 
     if (pix.depth() != 32)
-        img = pix.convertToFormat(QImage::Format_RGB32);
+	img = pix.convertToFormat( QImage::Format_RGB32 );
     else img = pix;
     return true;
 }
 
 QImage WestleyPreview::getFrame(const QString &path) {
     QStringList args;
-#define START ((fileinfo.seconds*15)/100)
-#define END ((fileinfo.seconds*70)/100)
+    const int START = 25;
+    const int RANGE = 500;
     args.clear();
     args << playerBin << "\"" + path + "\"";
 
-    unsigned long start = (unsigned long)(START + (m_rand->getDouble() * (END - START)));
+    unsigned long start = (unsigned long)(START + (m_rand->getDouble() * RANGE));
     args << QString("in=%1").arg(start) << QString("out=%1").arg(start) << "-consumer";
 
     KTemporaryFile temp;
@@ -175,7 +175,8 @@ uint WestleyPreview::imageVariance(QImage image) {
     return delta / STEPS;
 }
 
-ThumbCreator::Flags WestleyPreview::flags() const {
+ThumbCreator::Flags WestleyPreview::flags() const
+{
     return None;
 }
 
