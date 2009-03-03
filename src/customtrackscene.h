@@ -35,7 +35,7 @@ class CustomTrackScene : public QGraphicsScene {
     Q_OBJECT
 
 public:
-    CustomTrackScene(KdenliveDoc *doc, QObject *parent = 0);
+    explicit CustomTrackScene(KdenliveDoc *doc, QObject *parent = 0);
     virtual ~ CustomTrackScene();
     void setSnapList(QList <GenTime> snaps);
     GenTime previousSnapPoint(GenTime pos);

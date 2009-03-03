@@ -39,7 +39,7 @@ class RecMonitor : public QWidget {
     Q_OBJECT
 
 public:
-    RecMonitor(QString name, QWidget *parent = 0);
+    explicit RecMonitor(QString name, QWidget *parent = 0);
     virtual ~RecMonitor();
 
     QString name() const;

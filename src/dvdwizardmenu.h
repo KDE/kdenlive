@@ -103,7 +103,7 @@ class DvdWizardMenu : public QWizardPage {
     Q_OBJECT
 
 public:
-    DvdWizardMenu(const QString &profile, QWidget * parent = 0);
+    explicit DvdWizardMenu(const QString &profile, QWidget * parent = 0);
     virtual ~DvdWizardMenu();
     virtual bool isComplete() const;
     bool createMenu() const;

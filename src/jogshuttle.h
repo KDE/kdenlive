@@ -53,7 +53,7 @@ private:
 
 class JogShuttle: public QObject {
 Q_OBJECT public:
-    JogShuttle(QString device, QObject * parent = 0);
+    explicit JogShuttle(QString device, QObject * parent = 0);
     ~JogShuttle();
     void stopDevice();
     void initDevice(QString device);

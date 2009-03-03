@@ -134,7 +134,7 @@ class RenderWidget : public QDialog {
     Q_OBJECT
 
 public:
-    RenderWidget(const QString &projectfolder, QWidget * parent = 0);
+    explicit RenderWidget(const QString &projectfolder, QWidget * parent = 0);
     void setGuides(QDomElement guidesxml, double duration);
     void focusFirstVisibleItem();
     void setProfile(MltVideoProfile profile);

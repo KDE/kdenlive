@@ -38,7 +38,7 @@ class QMouseEvent;
 class Geometryval : public QWidget {
     Q_OBJECT
 public:
-    Geometryval(const MltVideoProfile profile, QWidget* parent = 0);
+    explicit Geometryval(const MltVideoProfile profile, QWidget* parent = 0);
     QDomElement getParamDesc();
 
 private:

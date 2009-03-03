@@ -45,7 +45,7 @@ class TrackView : public QWidget {
     Q_OBJECT
 
 public:
-    TrackView(KdenliveDoc *doc, QWidget *parent = 0);
+    explicit TrackView(KdenliveDoc *doc, QWidget *parent = 0);
 
     const double zoomFactor() const;
     const int mapLocalToValue(int x) const;

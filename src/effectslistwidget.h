@@ -30,7 +30,7 @@ class EffectsListWidget : public KListWidget {
     Q_OBJECT
 
 public:
-    EffectsListWidget(QMenu *menu, QWidget *parent = 0);
+    explicit EffectsListWidget(QMenu *menu, QWidget *parent = 0);
     virtual ~EffectsListWidget();
     QDomElement currentEffect();
     QString currentInfo();

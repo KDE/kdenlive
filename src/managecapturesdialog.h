@@ -33,7 +33,7 @@ class ManageCapturesDialog : public QDialog {
     Q_OBJECT
 
 public:
-    ManageCapturesDialog(KUrl::List files, QWidget * parent = 0);
+    explicit ManageCapturesDialog(KUrl::List files, QWidget * parent = 0);
     ~ManageCapturesDialog();
     KUrl::List importFiles();
 

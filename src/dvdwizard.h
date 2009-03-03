@@ -39,7 +39,7 @@
 class DvdWizard : public QWizard {
     Q_OBJECT
 public:
-    DvdWizard(const QString &url = QString(), const QString &profile = "dv_pal", QWidget * parent = 0);
+    explicit DvdWizard(const QString &url = QString(), const QString &profile = "dv_pal", QWidget * parent = 0);
     virtual ~DvdWizard();
 
 private:
