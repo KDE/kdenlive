@@ -51,7 +51,7 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, const QString &renderer, con
         // Use MLT's producer_consumer, needs a different syntax for profile:
         m_args << "profile=" + profile;
     } else m_args << "-profile" << profile;
-    m_args << "-consumer" << rendermodule + ":" + m_dest << "progress=1" << args;
+    m_args << "-consumer" << rendermodule + ':' + m_dest << "progress=1" << args;
 
     m_dualpass = false;
     if (args.contains("pass=1")) m_dualpass = true;
@@ -121,7 +121,7 @@ void RenderJob::receivedStderr() {
     if (!result.startsWith("Current Frame")) m_errorMessage.append(result + "<br>");
     else {
         // m_logstream << "ReceivedStderr from inigo: " << result << endl;
-        result = result.section(" ", -1);
+        result = result.section(' ', -1);
         int pro = result.toInt();
         if (pro < 0 || pro > 100) return;
         if (pro > m_progress) {

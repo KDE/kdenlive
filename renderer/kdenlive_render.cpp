@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
         }
         if (args.at(0).startsWith("preargs=")) {
             QString a = args.at(0).section('=', 1);
-            preargs = a.split(" ", QString::SkipEmptyParts);
+            preargs = a.split(' ', QString::SkipEmptyParts);
             args.takeFirst();
         }
         QString render = args.at(0);
