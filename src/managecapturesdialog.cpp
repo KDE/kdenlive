@@ -17,20 +17,21 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QTreeWidgetItem>
-#include <QFile>
-#include <QHeaderView>
-#include <QIcon>
-#include <QPixmap>
-#include <QTimer>
+
+#include "managecapturesdialog.h"
+#include "kthumb.h"
 
 #include <KDebug>
 #include <KGlobalSettings>
 #include <KFileItem>
 #include <KIO/NetAccess>
 
-#include "managecapturesdialog.h"
-#include "kthumb.h"
+#include <QTreeWidgetItem>
+#include <QFile>
+#include <QHeaderView>
+#include <QIcon>
+#include <QPixmap>
+#include <QTimer>
 
 
 ManageCapturesDialog::ManageCapturesDialog(KUrl::List files, QWidget * parent): QDialog(parent) {

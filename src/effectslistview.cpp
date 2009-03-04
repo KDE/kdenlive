@@ -17,18 +17,18 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QMenu>
-#include <QMenu>
-#include <QDir>
-
-#include <KDebug>
-#include <KLocale>
-#include <KStandardDirs>
 
 #include "effectslistview.h"
 #include "effectslistwidget.h"
 #include "effectslist.h"
 #include "kdenlivesettings.h"
+
+#include <KDebug>
+#include <KLocale>
+#include <KStandardDirs>
+
+#include <QMenu>
+#include <QDir>
 
 EffectsListView::EffectsListView(QWidget *parent)
         : QWidget(parent) {

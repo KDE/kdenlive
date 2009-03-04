@@ -17,12 +17,14 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QWheelEvent>
-#include <KDebug>
 
 #include "markerdialog.h"
 #include "kthumb.h"
 #include "kdenlivesettings.h"
+
+#include <QWheelEvent>
+#include <KDebug>
+
 
 MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, const QString &caption, QWidget * parent): QDialog(parent), m_tc(tc), m_clip(clip), m_marker(t), m_producer(NULL), m_profile(NULL) {
     setFont(KGlobalSettings::toolBarFont());

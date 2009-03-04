@@ -17,15 +17,17 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "QApplication"
-#include "QMouseEvent"
-#include <QMenu>
-
-#include "KDebug"
 
 #include "effectslistwidget.h"
 #include "effectslist.h"
 #include "mainwindow.h"
+
+#include "KDebug"
+
+#include "QApplication"
+#include "QMouseEvent"
+#include <QMenu>
+
 
 static const int EFFECT_VIDEO = 1;
 static const int EFFECT_AUDIO = 2;

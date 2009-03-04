@@ -29,7 +29,6 @@
 #include <QGraphicsLineItem>
 #include <QDomElement>
 
-#define FRAME_SIZE 90
 
 #include "customtrackscene.h"
 #include "ui_timeline_ui.h"

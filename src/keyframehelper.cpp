@@ -17,14 +17,15 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QMouseEvent>
-#include <QStylePainter>
+
+#include "keyframehelper.h"
+#include "definitions.h"
 
 #include <KDebug>
 #include <KGlobalSettings>
 
-#include "keyframehelper.h"
-#include "definitions.h"
+#include <QMouseEvent>
+#include <QStylePainter>
 
 
 KeyframeHelper::KeyframeHelper(QWidget *parent)

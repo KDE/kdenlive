@@ -17,13 +17,10 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QLabel>
-#include <QFile>
-#include <QXmlStreamWriter>
-#include <QApplication>
-#include <QTimer>
-#include <QGraphicsView>
-#include <QDomDocument>
+
+#include "dvdwizard.h"
+#include "kdenlivesettings.h"
+#include "profilesdialog.h"
 
 #include <KStandardDirs>
 #include <KLocale>
@@ -32,9 +29,11 @@
 #include <KIO/NetAccess>
 #include <KMessageBox>
 
-#include "kdenlivesettings.h"
-#include "profilesdialog.h"
-#include "dvdwizard.h"
+#include <QFile>
+#include <QApplication>
+#include <QTimer>
+#include <QDomDocument>
+
 
 DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent): QWizard(parent), m_profile(profile) {
     //setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));

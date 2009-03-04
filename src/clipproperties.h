@@ -18,10 +18,9 @@
  ***************************************************************************/
 
 
-#ifndef CLIPPROPSDIALOG_H
-#define CLIPPROPSDIALOG_H
+#ifndef CLIPPROPERTIES_H
+#define CLIPPROPERTIES_H
 
-#include <QDialog>
 
 #include "definitions.h"
 #include "timecode.h"

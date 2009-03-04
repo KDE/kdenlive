@@ -17,12 +17,14 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QWheelEvent>
-#include <KDebug>
 
 #include "spacerdialog.h"
 #include "kthumb.h"
 #include "kdenlivesettings.h"
+
+#include <QWheelEvent>
+#include <KDebug>
+
 
 SpacerDialog::SpacerDialog(const GenTime duration, Timecode tc, int track, int trackNumber, QWidget * parent): QDialog(parent), m_tc(tc) {
     setFont(KGlobalSettings::toolBarFont());

@@ -17,20 +17,19 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QLabel>
-#include <QFile>
-#include <QXmlStreamWriter>
-#include <QApplication>
-#include <QTimer>
+#include "wizard.h"
+#include "kdenlivesettings.h"
+#include "profilesdialog.h"
 
 #include <KStandardDirs>
 #include <KLocale>
 #include <KProcess>
 #include <kmimetype.h>
 
-#include "kdenlivesettings.h"
-#include "profilesdialog.h"
-#include "wizard.h"
+#include <QLabel>
+#include <QFile>
+#include <QXmlStreamWriter>
+#include <QTimer>
 
 Wizard::Wizard(QWidget *parent): QWizard(parent) {
     setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));

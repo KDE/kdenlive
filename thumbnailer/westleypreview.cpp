@@ -18,6 +18,8 @@
     Boston, MA 02110-1301, USA.
  ***************************************************************************/
 
+#include "westleypreview.h"
+
 #include <qfile.h>
 #include <qimage.h>
 #include <QtCore/QVarLengthArray>
@@ -34,7 +36,6 @@
 
 #include <unistd.h>
 
-#include "westleypreview.h"
 
 #define DBG_AREA
 

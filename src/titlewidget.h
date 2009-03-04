@@ -19,8 +19,6 @@
 #define TITLEWIDGET_H
 
 
-#include <QDialog>
-
 #include <QMap>
 
 #include "ui_titlewidget_ui.h"

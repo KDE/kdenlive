@@ -17,10 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <KLocale>
 
 #include "resizeclipcommand.h"
 #include "customtrackview.h"
+
+#include <KLocale>
 
 ResizeClipCommand::ResizeClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_startPos(start), m_endPos(end), m_doIt(doIt) {
     setText(i18n("Resize clip"));

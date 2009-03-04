@@ -18,17 +18,15 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QGraphicsScene>
-#include <QGraphicsView>
-#include <QScrollBar>
-#include <QToolTip>
+#include "abstractclipitem.h"
+#include "customtrackscene.h"
+#include "kdenlivesettings.h"
 
 #include <KDebug>
 #include <KLocale>
 
-#include "abstractclipitem.h"
-#include "customtrackscene.h"
-#include "kdenlivesettings.h"
+#include <QPainter>
+#include <QToolTip>
 
 AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps): QGraphicsRectItem(rect), m_track(0), m_fps(fps), m_editedKeyframe(-1), m_selectedKeyframe(0), m_keyframeFactor(1) {
     setFlags(/*QGraphicsItem::ItemClipsToShape | */QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
@@ -367,7 +365,7 @@ bool AbstractClipItem::hasKeyFrames() const {
     return !m_keyframes.isEmpty();
 }
 
-QRect AbstractClipItem::visibleRect() {
+/*QRect AbstractClipItem::visibleRect() {
     QRect rectInView;
     if (scene()->views().size() > 0) {
         rectInView = scene()->views()[0]->viewport()->rect();
@@ -376,7 +374,7 @@ QRect AbstractClipItem::visibleRect() {
         //kDebug() << scene()->views()[0]->viewport()->rect() << " " <<  scene()->views()[0]->horizontalScrollBar()->value();
     }
     return rectInView;
-}
+}*/
 
 CustomTrackScene* AbstractClipItem::projectScene() {
     if (scene()) return static_cast <CustomTrackScene*>(scene());

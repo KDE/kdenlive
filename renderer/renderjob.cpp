@@ -17,10 +17,12 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+
+#include "renderjob.h"
+
 #include <QtDBus>
 #include <QFile>
 #include <QThread>
-#include "renderjob.h"
 
 // Can't believe I need to do this to sleep.
 class SleepThread : QThread {

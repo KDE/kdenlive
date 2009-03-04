@@ -17,19 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QMouseEvent>
-#include <QStylePainter>
-#include <QGraphicsItem>
-#include <QDomDocument>
-#include <QScrollBar>
-#include <QApplication>
-#include <QInputDialog>
-
-#include <KDebug>
-#include <KLocale>
-#include <KUrl>
-#include <KIcon>
-#include <KCursor>
 
 #include "customtrackview.h"
 #include "customtrackscene.h"
@@ -52,8 +39,6 @@
 #include "razorclipcommand.h"
 #include "kdenlivesettings.h"
 #include "transition.h"
-#include "clipitem.h"
-#include "customtrackview.h"
 #include "clipmanager.h"
 #include "renderer.h"
 #include "markerdialog.h"
@@ -69,6 +54,21 @@
 #include "ui_addtrack_ui.h"
 #include "initeffects.h"
 #include "locktrackcommand.h"
+
+#include <KDebug>
+#include <KLocale>
+#include <KUrl>
+#include <KIcon>
+#include <KCursor>
+
+#include <QMouseEvent>
+#include <QStylePainter>
+#include <QGraphicsItem>
+#include <QDomDocument>
+#include <QScrollBar>
+#include <QApplication>
+#include <QInputDialog>
+
 
 //TODO:
 // disable animation if user asked it in KDE's global settings

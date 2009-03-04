@@ -15,12 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "complexparameter.h"
+
 #include <KDebug>
 #include <KLocale>
 
-#include "complexparameter.h"
-#include "effectslist.h"
-#include "clipitem.h"
+
 #include <QHeaderView>
 #include <QMenu>
 

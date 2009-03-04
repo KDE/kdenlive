@@ -17,44 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <stdlib.h>
-
-#include <QTextStream>
-#include <QTimer>
-#include <QAction>
-#include <QtTest>
-#include <QtCore>
-#include <QKeyEvent>
-
-#include <KApplication>
-#include <KAction>
-#include <KLocale>
-#include <KGlobal>
-#include <KActionCollection>
-#include <KStandardAction>
-#include <KFileDialog>
-#include <KMessageBox>
-#include <KDebug>
-#include <KIO/NetAccess>
-#include <KSaveFile>
-#include <KRuler>
-#include <KConfigDialog>
-#include <KXMLGUIFactory>
-#include <KStatusBar>
-#include <kstandarddirs.h>
-#include <KUrlRequesterDialog>
-#include <KTemporaryFile>
-#include <KActionMenu>
-#include <KMenu>
-#include <locale.h>
-#include <ktogglefullscreenaction.h>
-#include <KFileItem>
-#include <KNotification>
-#include <KNotifyConfigWidget>
-#include <knewstuff2/engine.h>
-#include <knewstuff2/ui/knewstuffaction.h>
-
-
 
 #include "mainwindow.h"
 #include "mainwindowadaptor.h"
@@ -86,10 +48,42 @@
 #include "titlewidget.h"
 #include "markerdialog.h"
 #include "clipitem.h"
-
 #include "interfaces.h"
 
-// #include "scriptingpart.h"
+#include <KApplication>
+#include <KAction>
+#include <KLocale>
+#include <KGlobal>
+#include <KActionCollection>
+#include <KStandardAction>
+#include <KFileDialog>
+#include <KMessageBox>
+#include <KDebug>
+#include <KIO/NetAccess>
+#include <KSaveFile>
+#include <KRuler>
+#include <KConfigDialog>
+#include <KXMLGUIFactory>
+#include <KStatusBar>
+#include <kstandarddirs.h>
+#include <KUrlRequesterDialog>
+#include <KTemporaryFile>
+#include <KActionMenu>
+#include <KMenu>
+#include <locale.h>
+#include <ktogglefullscreenaction.h>
+#include <KFileItem>
+#include <KNotification>
+#include <KNotifyConfigWidget>
+#include <knewstuff2/engine.h>
+#include <knewstuff2/ui/knewstuffaction.h>
+
+#include <QTextStream>
+#include <QTimer>
+#include <QAction>
+#include <QKeyEvent>
+
+#include <stdlib.h>
 
 static const int ID_STATUS_MSG = 1;
 static const int ID_EDITMODE_MSG = 2;
@@ -2086,7 +2080,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip) {
 void MainWindow::customEvent(QEvent* e) {
     if (e->type() == QEvent::User) {
         // The timeline playing position changed...
-        kDebug() << "RECIEVED JOG EVEMNT!!!";
+        kDebug() << "RECEIVED JOG EVEMNT!!!";
     }
 }
 void MainWindow::slotActivateEffectStackView() {

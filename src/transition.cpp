@@ -15,23 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QBrush>
-#include <QDomElement>
-#include <QPainter>
-#include <QGraphicsScene>
-#include <QGraphicsView>
-#include <QScrollBar>
-#include <QStyleOptionGraphicsItem>
-
-#include <kdebug.h>
-#include <KIcon>
-#include <klocale.h>
-
 #include "transition.h"
 #include "clipitem.h"
 #include "kdenlivesettings.h"
 #include "customtrackscene.h"
 #include "mainwindow.h"
+
+#include <kdebug.h>
+#include <KIcon>
+#include <klocale.h>
+
+#include <QBrush>
+#include <QDomElement>
+#include <QPainter>
+#include <QStyleOptionGraphicsItem>
+
 
 Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDomElement params, bool automaticTransition) : AbstractClipItem(info, QRectF(), fps), m_automaticTransition(automaticTransition), m_forceTransitionTrack(false) {
     setZValue(2);

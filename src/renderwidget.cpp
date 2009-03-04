@@ -18,14 +18,9 @@
  ***************************************************************************/
 
 
-#include <QDomDocument>
-#include <QItemDelegate>
-#include <QTreeWidgetItem>
-#include <QListWidgetItem>
-#include <QHeaderView>
-#include <QMenu>
-#include <QProcess>
-#include <QInputDialog>
+#include "renderwidget.h"
+#include "kdenlivesettings.h"
+#include "ui_saveprofile_ui.h"
 
 #include <KStandardDirs>
 #include <KDebug>
@@ -35,9 +30,14 @@
 #include <KIO/NetAccess>
 // #include <knewstuff2/engine.h>
 
-#include "kdenlivesettings.h"
-#include "renderwidget.h"
-#include "ui_saveprofile_ui.h"
+#include <QDomDocument>
+#include <QItemDelegate>
+#include <QTreeWidgetItem>
+#include <QListWidgetItem>
+#include <QHeaderView>
+#include <QMenu>
+#include <QProcess>
+#include <QInputDialog>
 
 const int GroupRole = Qt::UserRole;
 const int ExtensionRole = GroupRole + 1;
@@ -614,7 +614,7 @@ void RenderWidget::slotExport(bool scriptExport) {
     if (group == "dvd" && m_view.open_dvd->isChecked()) {
         renderItem->setData(0, Qt::UserRole, group);
         if (renderArgs.contains("profile=")) {
-            // rendering profile contains an MLT profile, so pass it to the running jog item, usefull for dvd
+            // rendering profile contains an MLT profile, so pass it to the running jog item, useful for dvd
             QString prof = renderArgs.section("profile=", 1, 1);
             prof = prof.section(' ', 0, 0);
             kDebug() << "// render profile: " << prof;

@@ -19,6 +19,20 @@
  ***************************************************************************/
 
 
+#include "jogshuttle.h"
+
+#include <KDebug>
+#include <kde_file.h>
+
+#include <QApplication>
+#include <QEvent>
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <linux/input.h>
+
 
 #define DELAY 10
 
@@ -52,23 +66,6 @@
 #define JOG_BACK_SLOW 10007
 #define JOG_BACK_FAST 10008
 #define JOG_STOP 10009
-
-
-#include <QApplication>
-#include <QEvent>
-
-#include <KDebug>
-#include <kde_file.h>
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <linux/input.h>
-
-
-
-#include "jogshuttle.h"
 
 
 void ShuttleThread::init(QObject *parent, QString device) {

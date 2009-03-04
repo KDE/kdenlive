@@ -17,10 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <KLocale>
 
 #include "changetrackcommand.h"
 #include "customtrackview.h"
+
+#include <KLocale>
 
 ChangeTrackCommand::ChangeTrackCommand(CustomTrackView *view, int ix, TrackInfo oldInfo, TrackInfo newInfo, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_ix(ix), m_oldinfo(oldInfo), m_newinfo(newInfo), m_doIt(doIt) {
     setText(i18n("Change track type"));

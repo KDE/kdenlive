@@ -15,16 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QVBoxLayout>
-#include <QSlider>
-#include <QLabel>
-#include <QPushButton>
-#include <QCheckBox>
-#include <QScrollArea>
-
-#include <KDebug>
-#include <KLocale>
-
+#include "effectstackedit.h"
 #include "ui_constval_ui.h"
 #include "ui_listval_ui.h"
 #include "ui_boolval_ui.h"
@@ -32,10 +23,18 @@
 #include "ui_positionval_ui.h"
 #include "ui_wipeval_ui.h"
 #include "complexparameter.h"
-#include "effectstackedit.h"
 #include "geometryval.h"
-
 #include "kdenlivesettings.h"
+
+#include <KDebug>
+#include <KLocale>
+
+#include <QVBoxLayout>
+#include <QSlider>
+#include <QLabel>
+#include <QPushButton>
+#include <QCheckBox>
+#include <QScrollArea>
 
 QMap<QString, QImage> EffectStackEdit::iconCache;
 

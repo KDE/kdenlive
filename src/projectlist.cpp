@@ -17,25 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
-#include <QMouseEvent>
-#include <QStylePainter>
-#include <QPixmap>
-#include <QIcon>
-#include <QDialog>
-#include <QtGui>
-
-#include <KDebug>
-#include <KAction>
-#include <KLocale>
-#include <KFileDialog>
-#include <KInputDialog>
-#include <KMessageBox>
-
-#include <nepomuk/global.h>
-#include <nepomuk/resourcemanager.h>
-//#include <nepomuk/tag.h>
-
 #include "projectlist.h"
 #include "projectitem.h"
 #include "addfoldercommand.h"
@@ -52,6 +33,25 @@
 #include "projectlistview.h"
 #include "editclipcommand.h"
 #include "editfoldercommand.h"
+
+
+#include <KDebug>
+#include <KAction>
+#include <KLocale>
+#include <KFileDialog>
+#include <KInputDialog>
+#include <KMessageBox>
+
+#include <nepomuk/global.h>
+#include <nepomuk/resourcemanager.h>
+//#include <nepomuk/tag.h>
+
+#include <QMouseEvent>
+#include <QStylePainter>
+#include <QPixmap>
+#include <QIcon>
+#include <QMenu>
+#include <QProcess>
 
 ProjectList::ProjectList(QWidget *parent)
         : QWidget(parent), m_render(NULL), m_fps(-1), m_commandStack(NULL), m_selectedItem(NULL), m_infoQueue(QMap <QString, QDomElement> ()), m_thumbnailQueue(QList <QString> ()), m_refreshed(false), m_editAction(NULL), m_openAction(NULL), m_deleteAction(NULL), m_reloadAction(NULL) {

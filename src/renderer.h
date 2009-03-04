@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KRENDER_H
-#define KRENDER_H
+#ifndef RENDERER_H
+#define RENDERER_H
 
 #include <qdom.h>
 #include <qstring.h>
@@ -37,7 +37,8 @@ relevant signal that get's emitted once the call completes.
   */
 
 class Render;
-//class EffectParamDesc;
+
+class QTimer;
 class QPixmap;
 
 namespace Mlt {

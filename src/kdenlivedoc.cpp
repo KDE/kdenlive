@@ -17,8 +17,15 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QCryptographicHash>
-#include <QFile>
+
+#include "kdenlivedoc.h"
+#include "docclipbase.h"
+#include "profilesdialog.h"
+#include "kdenlivesettings.h"
+#include "renderer.h"
+#include "clipmanager.h"
+#include "titlewidget.h"
+#include "mainwindow.h"
 
 #include <KDebug>
 #include <KStandardDirs>
@@ -29,17 +36,11 @@
 #include <KIO/CopyJob>
 #include <KApplication>
 
+#include <QCryptographicHash>
+#include <QFile>
 
 #include <mlt++/Mlt.h>
 
-#include "kdenlivedoc.h"
-#include "docclipbase.h"
-#include "profilesdialog.h"
-#include "kdenlivesettings.h"
-#include "renderer.h"
-#include "clipmanager.h"
-#include "titlewidget.h"
-#include "mainwindow.h"
 
 KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QPoint tracks, Render *render, MainWindow *parent): QObject(parent), m_render(render), m_url(url), m_projectFolder(projectFolder), m_commandStack(new QUndoStack(undoGroup)), m_modified(false), m_documentLoadingProgress(0), m_documentLoadingStep(0.0), m_startPos(0), m_zoom(7), m_autosave(NULL), m_zoneStart(0), m_zoneEnd(100), m_abortLoading(false) {
     m_clipManager = new ClipManager(this);

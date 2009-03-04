@@ -18,13 +18,12 @@
  ***************************************************************************/
 
 
-#include <QMouseEvent>
-#include <QStylePainter>
+#include "smallruler.h"
 
 #include <KDebug>
 
-#include "smallruler.h"
-
+#include <QMouseEvent>
+#include <QStylePainter>
 
 SmallRuler::SmallRuler(QWidget *parent)
         : QWidget(parent), m_scale(1), m_maxval(25) {

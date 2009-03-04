@@ -14,10 +14,12 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <KLocale>
+
 
 #include "addmarkercommand.h"
 #include "customtrackview.h"
+
+#include <KLocale>
 
 AddMarkerCommand::AddMarkerCommand(CustomTrackView *view, const QString &oldcomment, const QString &comment, const QString &id, const GenTime &pos, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_oldcomment(oldcomment), m_comment(comment), m_id(id), m_pos(pos), m_doIt(doIt) {
     if (m_comment.isEmpty()) setText(i18n("Delete marker"));

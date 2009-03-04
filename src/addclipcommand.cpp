@@ -17,10 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <KLocale>
 
 #include "addclipcommand.h"
 #include "kdenlivedoc.h"
+
+#include <KLocale>
 
 AddClipCommand::AddClipCommand(KdenliveDoc *doc, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_doc(doc), m_xml(xml), m_id(id), m_doIt(doIt) {
     if (doIt) setText(i18n("Add clip"));

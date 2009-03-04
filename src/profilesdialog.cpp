@@ -17,16 +17,16 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QDir>
-#include <QCloseEvent>
+#include "profilesdialog.h"
+#include "kdenlivesettings.h"
 
 #include <KStandardDirs>
 #include <KDebug>
 #include <KMessageBox>
 #include <KIO/NetAccess>
 
-#include "kdenlivesettings.h"
-#include "profilesdialog.h"
+#include <QDir>
+#include <QCloseEvent>
 
 ProfilesDialog::ProfilesDialog(QWidget * parent): QDialog(parent), m_isCustomProfile(false), m_profileIsModified(false) {
     m_view.setupUi(this);

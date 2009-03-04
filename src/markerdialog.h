@@ -21,7 +21,6 @@
 #ifndef MARKERDIALOG_H
 #define MARKERDIALOG_H
 
-#include <QDialog>
 
 #include "docclipbase.h"
 #include "timecode.h"

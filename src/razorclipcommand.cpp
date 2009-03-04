@@ -17,10 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <KLocale>
 
 #include "razorclipcommand.h"
 #include "customtrackview.h"
+
+#include <KLocale>
 
 RazorClipCommand::RazorClipCommand(CustomTrackView *view, const ItemInfo info, const GenTime cutTime, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_info(info), m_cutTime(cutTime), m_doIt(doIt) {
     setText(i18n("Razor clip"));

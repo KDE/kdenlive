@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 
-#ifndef EFFECTLISTWIDGET_H
-#define EFFECTLISTWIDGET_H
+#ifndef EFFECTSLISTWIDGET_H
+#define EFFECTSLISTWIDGET_H
 
 #include <KListWidget>
 #include <QDomElement>

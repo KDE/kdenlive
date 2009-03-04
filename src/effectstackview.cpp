@@ -15,22 +15,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QHeaderView>
-#include <QMenu>
-#include <QInputDialog>
-#include <QTextStream>
-#include <QFile>
-
-#include <KDebug>
-#include <KLocale>
-#include <KMessageBox>
-#include <KStandardDirs>
 
 #include "effectstackview.h"
 #include "effectslist.h"
 #include "clipitem.h"
 #include "mainwindow.h"
 #include "kdenlivesettings.h"
+
+#include <KDebug>
+#include <KLocale>
+#include <KMessageBox>
+#include <KStandardDirs>
+
+#include <QMenu>
+#include <QTextStream>
+#include <QFile>
+#include <QInputDialog>
+
 
 EffectStackView::EffectStackView(QWidget *parent)
         : QWidget(parent) {

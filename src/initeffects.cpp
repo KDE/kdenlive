@@ -17,21 +17,20 @@
  *                                                                         *
  ***************************************************************************/
 
-
-#include <QFile>
-#include <qregexp.h>
-#include <QDir>
-#include <QIcon>
-
-#include <KDebug>
-#include <kglobal.h>
-#include <KStandardDirs>
-
 #include "initeffects.h"
 #include "kdenlivesettings.h"
 #include "effectslist.h"
 #include "effectstackedit.h"
 #include "mainwindow.h"
+
+#include <KDebug>
+#include <kglobal.h>
+#include <KStandardDirs>
+
+#include <QFile>
+#include <qregexp.h>
+#include <QDir>
+#include <QIcon>
 
 initEffectsThumbnailer::initEffectsThumbnailer() {
 

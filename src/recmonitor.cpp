@@ -18,25 +18,25 @@
  ***************************************************************************/
 
 
-#include <QMouseEvent>
-#include <QStylePainter>
-#include <QMenu>
-#include <QToolButton>
-#include <QFile>
-#include <QDir>
-#include <QDesktopWidget>
+#include "recmonitor.h"
+#include "gentime.h"
+#include "kdenlivesettings.h"
+#include "managecapturesdialog.h"
 
 #include <KDebug>
 #include <KLocale>
+#include <QPainter>
 #include <KStandardDirs>
 #include <KComboBox>
 #include <KIO/NetAccess>
 #include <KFileItem>
 
-#include "gentime.h"
-#include "kdenlivesettings.h"
-#include "managecapturesdialog.h"
-#include "recmonitor.h"
+#include <QMouseEvent>
+#include <QMenu>
+#include <QToolButton>
+#include <QFile>
+#include <QDir>
+
 
 RecMonitor::RecMonitor(QString name, QWidget *parent)
         : QWidget(parent), m_name(name), m_isActive(false), m_isCapturing(false), m_isPlaying(false), m_didCapture(false) {

@@ -17,10 +17,10 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <KStandardDirs>
-
-#include "kdenlivedoc.h"
 #include "customtrackscene.h"
+#include "kdenlivedoc.h"
+
+#include <KStandardDirs>
 
 CustomTrackScene::CustomTrackScene(KdenliveDoc *doc, QObject *parent)
         : QGraphicsScene(parent), m_document(doc), m_scale(1.0) {

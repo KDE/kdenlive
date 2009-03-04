@@ -17,18 +17,18 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QApplication>
-#include <QHeaderView>
-#include <QAction>
+
+#include "projectlistview.h"
+#include "projectitem.h"
+#include "kdenlivesettings.h"
 
 #include <KDebug>
 #include <KMenu>
 #include <KLocale>
 
-#include "projectitem.h"
-#include "projectlistview.h"
-#include "kdenlivesettings.h"
-
+#include <QApplication>
+#include <QHeaderView>
+#include <QAction>
 
 ProjectListView::ProjectListView(QWidget *parent)
         : QTreeWidget(parent), m_dragStarted(false) {

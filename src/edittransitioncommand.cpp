@@ -14,10 +14,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <KLocale>
 
 #include "edittransitioncommand.h"
 #include "customtrackview.h"
+
+#include <KLocale>
 
 EditTransitionCommand::EditTransitionCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, bool doIt)
         : m_view(view), m_track(track), m_pos(pos), m_oldeffect(oldeffect), m_doIt(doIt) {

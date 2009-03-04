@@ -17,10 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <KLocale>
 
 #include "addtimelineclipcommand.h"
 #include "customtrackview.h"
+
+#include <KLocale>
 
 AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, const QString &clipId, ItemInfo info, EffectsList effects, bool doIt, bool doRemove, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_xml(xml), m_clipId(clipId), m_clipInfo(info), m_effects(effects),  m_doIt(doIt), m_remove(doRemove) {
     if (!m_remove) setText(i18n("Add timeline clip"));

@@ -17,14 +17,14 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QDir>
+#include "projectsettings.h"
+#include "kdenlivesettings.h"
+#include "profilesdialog.h"
 
 #include <KStandardDirs>
 #include <KDebug>
 
-#include "kdenlivesettings.h"
-#include "profilesdialog.h"
-#include "projectsettings.h"
+#include <QDir>
 
 ProjectSettings::ProjectSettings(int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, QWidget * parent): QDialog(parent), m_isCustomProfile(false) {
     m_view.setupUi(this);

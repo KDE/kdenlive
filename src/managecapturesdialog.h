@@ -21,7 +21,6 @@
 #ifndef CAPTUREDIALOG_H
 #define CAPTUREDIALOG_H
 
-#include <QDialog>
 #include <QPushButton>
 
 #include <KUrl>

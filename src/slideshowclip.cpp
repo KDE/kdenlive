@@ -17,14 +17,14 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QDir>
+#include "slideshowclip.h"
+#include "kdenlivesettings.h"
 
 #include <KStandardDirs>
 #include <KDebug>
 #include <KFileItem>
 
-#include "kdenlivesettings.h"
-#include "slideshowclip.h"
+#include <QDir>
 
 SlideshowClip::SlideshowClip(QWidget * parent): QDialog(parent), m_count(0) {
     setFont(KGlobalSettings::toolBarFont());

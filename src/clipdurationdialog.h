@@ -21,7 +21,6 @@
 #ifndef CLIPDURATIONDIALOG_H
 #define CLIPDURATIONDIALOG_H
 
-#include <QDialog>
 
 #include "abstractclipitem.h"
 #include "timecode.h"

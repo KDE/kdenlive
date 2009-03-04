@@ -22,17 +22,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <stdlib.h>
-
-#include <QTimer>
-#include <QDir>
-#include <QApplication>
-
-#include <KDebug>
-#include <KStandardDirs>
-#include <KMessageBox>
-#include <KLocale>
-#include <KTemporaryFile>
 
 #include "renderer.h"
 #include "kdenlivesettings.h"
@@ -41,6 +30,17 @@
 
 #include <mlt++/Mlt.h>
 
+#include <KDebug>
+#include <KStandardDirs>
+#include <KMessageBox>
+#include <KLocale>
+#include <KTemporaryFile>
+
+#include <QTimer>
+#include <QDir>
+#include <QApplication>
+
+#include <stdlib.h>
 
 static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr) {
     // detect if the producer has finished playing. Is there a better way to do it ?
@@ -520,7 +520,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, bo
     }
 
     if (producer == NULL || producer->is_blank() || !producer->is_valid()) {
-        kDebug() << " / / / / / / / /ERRROR / / / / // CANNOT LOAD PRODUCER: ";
+        kDebug() << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: ";
         emit removeInvalidClip(clipId);
         return;
     }
@@ -614,7 +614,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, bo
     char property[200];
     if (producer->get_int("video_index") > -1) {
         /*if (context->duration == AV_NOPTS_VALUE) {
-        kDebug() << " / / / / / / / /ERRROR / / / CLIP HAS UNKNOWN DURATION";
+        kDebug() << " / / / / / / / /ERROR / / / CLIP HAS UNKNOWN DURATION";
             emit removeInvalidClip(clipId);
             return;
         }*/
@@ -681,7 +681,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, bo
         QString name = metadata.get_name(i);
         QString value = QString::fromUtf8(metadata.get(i));
         if (name.endsWith("markup") && !value.isEmpty())
-            metadataPropertyMap[ name.section(".", 0, -2)] = value;
+            metadataPropertyMap[ name.section('.', 0, -2)] = value;
     }
 
     emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap, replaceProducer);

@@ -50,7 +50,7 @@ class Producer;
 class DocClipBase: public QObject {
 Q_OBJECT public:
     /** this enum determines the types of "feed" available within this clip. types must be non-exclusive
-     * - e.g. if you can have audio and video seperately, it should be possible to combin the two, as is
+     * - e.g. if you can have audio and video separately, it should be possible to combin the two, as is
      *   done here. If a new clip type is added then it should be possible to combine it with both audio
      *   and video. */
 

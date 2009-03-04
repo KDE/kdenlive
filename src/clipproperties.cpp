@@ -17,16 +17,17 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QDir>
+
+#include "clipproperties.h"
+#include "kdenlivesettings.h"
+#include "kthumb.h"
+#include "markerdialog.h"
 
 #include <KStandardDirs>
 #include <KDebug>
 #include <KFileItem>
 
-#include "kdenlivesettings.h"
-#include "clipproperties.h"
-#include "kthumb.h"
-#include "markerdialog.h"
+#include <QDir>
 
 static const int VIDEOTAB = 0;
 static const int AUDIOTAB = 1;

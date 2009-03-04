@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 
-#include <KDebug>
 
 #include "transitionsettings.h"
 #include "transition.h"
@@ -24,6 +23,8 @@
 #include "effectstackedit.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
+
+#include <KDebug>
 
 TransitionSettings::TransitionSettings(QWidget* parent): QWidget(parent), m_tracksCount(0), m_usedTransition(NULL) {
     ui.setupUi(this);

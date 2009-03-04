@@ -3,7 +3,8 @@
                              -------------------
     begin                : Fri Apr 12 2002
     copyright            : (C) 2002 by Jason Wood
-    email                : jasonwood@blueyonder.co.uk
+    copyright            : (C) 2009 by Jean-Baptiste Mardelle
+
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,14 +16,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QCryptographicHash>
+
+#include "docclipbase.h"
+#include "kdenlivesettings.h"
+#include "kthumb.h"
+#include "clipmanager.h"
 
 #include <KDebug>
 
-#include "kdenlivesettings.h"
-#include "docclipbase.h"
-#include "kthumb.h"
-#include "clipmanager.h"
+#include <QCryptographicHash>
 
 DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id):
         m_id(id), m_description(QString()), m_refcount(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL), m_properties(QMap <QString, QString> ()), audioFrameChache(QMap<int, QMap<int, QByteArray> > ()), m_baseTrackProducers(QList <Mlt::Producer *>()), m_snapMarkers(QList < CommentedTime > ())  {

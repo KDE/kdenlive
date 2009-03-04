@@ -17,19 +17,18 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QMouseEvent>
-#include <QStylePainter>
-#include <QFrame>
-#include <QWidget>
-#include <QPainter>
-#include <QAction>
+
+#include "headertrack.h"
+#include "kdenlivesettings.h"
 
 #include <KIcon>
 #include <KLocale>
 #include <KDebug>
 
-#include "kdenlivesettings.h"
-#include "headertrack.h"
+#include <QMouseEvent>
+#include <QWidget>
+#include <QPainter>
+#include <QAction>
 
 HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent)
         : QWidget(parent), m_index(index), m_type(info.type) {

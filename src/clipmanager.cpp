@@ -16,17 +16,19 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
-#include <KDebug>
-#include <KFileDialog>
-#include <kio/netaccess.h>
 
+
+#include "clipmanager.h"
 #include "addclipcommand.h"
 #include "kdenlivesettings.h"
-#include "clipmanager.h"
 #include "docclipbase.h"
 #include "kdenlivedoc.h"
 
 #include <mlt++/Mlt.h>
+
+#include <KDebug>
+#include <KFileDialog>
+#include <kio/netaccess.h>
 
 ClipManager::ClipManager(KdenliveDoc *doc): m_doc(doc), m_audioThumbsEnabled(false), m_audioThumbsQueue(QList <QString> ()), m_generatingAudioId(QString()) {
     m_clipIdCounter = 1;

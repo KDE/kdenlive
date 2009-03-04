@@ -18,18 +18,6 @@
  ***************************************************************************/
 
 
-
-#include <QPainter>
-#include <QTimer>
-#include <QStyleOptionGraphicsItem>
-#include <QGraphicsScene>
-#include <QGraphicsView>
-#include <QScrollBar>
-#include <QMimeData>
-#include <QApplication>
-
-#include <KDebug>
-
 #include "clipitem.h"
 #include "customtrackview.h"
 #include "customtrackscene.h"
@@ -38,6 +26,14 @@
 #include "transition.h"
 #include "kdenlivesettings.h"
 #include "kthumb.h"
+
+#include <KDebug>
+
+#include <QPainter>
+#include <QTimer>
+#include <QStyleOptionGraphicsItem>
+#include <QGraphicsScene>
+#include <QMimeData>
 
 
 ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, bool generateThumbs)
@@ -653,7 +649,7 @@ void ClipItem::paint(QPainter *painter,
                 framepos = br.x() + pos.frames(m_fps);
                 const QRectF r1(framepos + 0.04, 10, itemWidth - framepos - 2, itemHeight - 10);
                 const QRectF r2 = painter->matrix().mapRect(r1);
-                const QRectF txtBounding = painter->boundingRect(r2, Qt::AlignLeft | Qt::AlignTop, " " + (*it).comment() + " ");
+                const QRectF txtBounding = painter->boundingRect(r2, Qt::AlignLeft | Qt::AlignTop, ' ' + (*it).comment() + ' ');
 
                 QPainterPath path;
                 path.addRoundedRect(txtBounding, 3, 3);
@@ -719,7 +715,7 @@ void ClipItem::paint(QPainter *painter,
     }
 
     // Draw clip name
-    QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, " " + m_clipName + " ");
+    QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, ' ' + m_clipName + ' ');
     painter->fillRect(txtBounding, QBrush(QColor(0, 0, 0, 150)));
     //painter->setPen(QColor(0, 0, 0, 180));
     //painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
@@ -1352,7 +1348,7 @@ double ClipItem::speed() const {
 void ClipItem::setSpeed(const double speed) {
     m_speed = speed;
     if (m_speed == 1.0) m_clipName = baseClip()->name();
-    else m_clipName = baseClip()->name() + " - " + QString::number(speed * 100, 'f', 0) + "%";
+    else m_clipName = baseClip()->name() + " - " + QString::number(speed * 100, 'f', 0) + '%';
     //update();
 }
 

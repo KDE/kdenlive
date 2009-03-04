@@ -168,7 +168,7 @@ signals:
     void updateClipDisplay(const QString&);
     void deleteTimelineClip(const QString&);
     void progressInfo(const QString &, int);
-    /** emited when the document state has been modified (= needs saving or not) */
+    /** emitted when the document state has been modified (= needs saving or not) */
     void docModified(bool);
     void selectLastAddedClip(const QString &);
     void guidesUpdated();

@@ -21,7 +21,6 @@
 #ifndef PROFILESDIALOG_H
 #define PROFILESDIALOG_H
 
-#include <QDialog>
 
 #include "definitions.h"
 #include "ui_profiledialog_ui.h"

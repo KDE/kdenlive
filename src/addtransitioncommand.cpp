@@ -14,10 +14,12 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <KLocale>
+
 
 #include "addtransitioncommand.h"
 #include "customtrackview.h"
+
+#include <KLocale>
 
 AddTransitionCommand::AddTransitionCommand(CustomTrackView *view, ItemInfo info, int transitiontrack, QDomElement params, bool remove, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_info(info), m_track(transitiontrack), m_params(params), m_remove(remove), m_doIt(doIt) {
     if (m_remove) setText(i18n("Delete transition from clip"));

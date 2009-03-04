@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 
-#ifndef EFFECTLISTVIEW_H
-#define EFFECTLISTVIEW_H
+#ifndef EFFECTSLISTVIEW_H
+#define EFFECTSLISTVIEW_H
 
 #include <KIcon>
 

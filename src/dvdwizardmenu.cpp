@@ -17,10 +17,10 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include "dvdwizardmenu.h"
 
 #include <KDebug>
 
-#include "dvdwizardmenu.h"
 
 DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent): QWizardPage(parent) {
     m_view.setupUi(this);

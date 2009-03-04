@@ -17,16 +17,15 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QMouseEvent>
-#include <QStylePainter>
+#include "customruler.h"
 
 #include <KDebug>
 #include <KIcon>
 #include <KCursor>
 #include <KGlobalSettings>
 
-#include "customruler.h"
-
+#include <QMouseEvent>
+#include <QStylePainter>
 
 static const int FIX_WIDTH = 24; /* widget width in pixel */
 static const int LINE_END = (FIX_WIDTH - 3);

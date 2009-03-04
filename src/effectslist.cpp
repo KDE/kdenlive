@@ -15,10 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <KDebug>
-#include <KLocale>
 
 #include "effectslist.h"
+
+#include <KDebug>
+#include <KLocale>
 
 
 EffectsList::EffectsList():

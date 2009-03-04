@@ -17,11 +17,12 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include "dvdwizardvob.h"
+
 #include <KUrlRequester>
 #include <KDebug>
 #include <KStandardDirs>
 
-#include "dvdwizardvob.h"
 
 DvdWizardVob::DvdWizardVob(QWidget *parent): QWizardPage(parent) {
     m_view.setupUi(this);

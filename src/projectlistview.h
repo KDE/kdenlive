@@ -18,13 +18,16 @@
  ***************************************************************************/
 
 
-#ifndef PRJECTLISTVIEW_H
-#define PRJECTLISTVIEW_H
+#ifndef PROJECTLISTVIEW_H
+#define PROJECTLISTVIEW_H
 
 #include <QTreeWidget>
 #include <QContextMenuEvent>
 #include <QPainter>
 
+class DocClipBase;
+
+class KUrl;
 
 class ProjectListView : public QTreeWidget {
     Q_OBJECT

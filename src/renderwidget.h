@@ -21,13 +21,14 @@
 #ifndef RENDERWIDGET_H
 #define RENDERWIDGET_H
 
-#include <QDialog>
 #include <QPushButton>
 #include <QPainter>
 #include <QItemDelegate>
 
 #include "definitions.h"
 #include "ui_renderwidget_ui.h"
+
+class QDomElement;
 
 
 // RenderViewDelegate is used to draw the progress bars.

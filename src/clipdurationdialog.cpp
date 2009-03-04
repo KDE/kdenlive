@@ -18,11 +18,12 @@
  ***************************************************************************/
 
 
+#include "clipdurationdialog.h"
+#include "clipitem.h"
+#include "kdenlivesettings.h"
+
 #include <KDebug>
 
-#include "clipitem.h"
-#include "clipdurationdialog.h"
-#include "kdenlivesettings.h"
 #include <QWheelEvent>
 
 ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, QWidget * parent): QDialog(parent), m_tc(tc), m_clip(clip) {

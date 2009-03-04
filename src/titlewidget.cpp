@@ -15,24 +15,20 @@
  *                                                                         *
  ***************************************************************************/
 
-
-
-#include <QGraphicsView>
-#include <QDomDocument>
-#include <QGraphicsItem>
-#include <QGraphicsSvgItem>
-#include <QTimer>
-
-#include <QToolBar>
-#include <QMenu>
+#include "titlewidget.h"
+#include "kdenlivesettings.h"
 
 #include <KDebug>
 #include <KGlobalSettings>
 #include <KFileDialog>
 #include <KStandardDirs>
 
-#include "titlewidget.h"
-#include "kdenlivesettings.h"
+#include <QDomDocument>
+#include <QGraphicsItem>
+#include <QGraphicsSvgItem>
+#include <QTimer>
+#include <QToolBar>
+#include <QMenu>
 
 int settingUp = false;
 

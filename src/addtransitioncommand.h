@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TIMELINETRANSITIONCOMMAND_H
-#define TIMELINETRANSITIONCOMMAND_H
+#ifndef ADDTRANSITIONCOMMAND_H
+#define ADDTRANSITIONCOMMAND_H
 
 #include <QUndoCommand>
 #include <QGraphicsView>

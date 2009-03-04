@@ -17,10 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <KLocale>
 
 #include "editeffectcommand.h"
 #include "customtrackview.h"
+
+#include <KLocale>
 
 EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, int stackPos, bool doIt)
         : m_view(view), m_track(track), m_pos(pos), m_oldeffect(oldeffect), m_stackPos(stackPos), m_doIt(doIt) {

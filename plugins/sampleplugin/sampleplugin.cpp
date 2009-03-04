@@ -18,18 +18,17 @@
  ***************************************************************************/
 
 
-#include <QtGui>
-#include <QDialog>
-#include <QDomDocument>
-#include <QInputDialog>
+#include "sampleplugin.h"
+#include "ui_countdown_ui.h"
 
 #include <KUrlRequester>
 #include <KIntSpinBox>
 #include <KDebug>
 #include <KMessageBox>
 
-#include "sampleplugin.h"
-#include "ui_countdown_ui.h"
+#include <QDialog>
+#include <QDomDocument>
+#include <QInputDialog>
 
 QStringList SamplePlugin::generators() const {
     return QStringList() << i18n("Countdown") << i18n("Noise");

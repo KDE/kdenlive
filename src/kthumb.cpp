@@ -20,25 +20,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qxml.h>
-#include <QImage>
-#include <QApplication>
+#include "kthumb.h"
+#include "clipmanager.h"
+#include "renderer.h"
+#include "kdenlivesettings.h"
+
+#include <mlt++/Mlt.h>
 
 #include <kio/netaccess.h>
 #include <kdebug.h>
 #include <klocale.h>
-#include <kdenlivesettings.h>
 #include <kfileitem.h>
 #include <kmessagebox.h>
 #include <KStandardDirs>
 
-#include <mlt++/Mlt.h>
-
-#include "clipmanager.h"
-#include "renderer.h"
-#include "kthumb.h"
-#include "kdenlivesettings.h"
-
+#include <qxml.h>
+#include <QImage>
+#include <QApplication>
 
 void MyThread::init(QObject *parent, KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth) {
     stop_me = false;

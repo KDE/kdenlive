@@ -20,20 +20,18 @@
  ***************************************************************************/
 
 
-#ifndef _westleypreview_H_
-#define _westleypreview_H_
-
-#include <qstring.h>
+#ifndef WESTLEYPREVIEW_H
+#define WESTLEYPREVIEW_H
 
 #include <kio/thumbcreator.h>
+
+#include <qstring.h>
+#include <qstringlist.h>
 #include <qobject.h>
 
 class QProcess;
 class KTempDir;
 class KRandomSequence;
-
-
-
 
 class WestleyPreview : public QObject, public ThumbCreator {
     Q_OBJECT

@@ -21,7 +21,6 @@
 #ifndef SPACERDIALOG_H
 #define SPACERDIALOG_H
 
-#include <QDialog>
 
 #include "timecode.h"
 #include "ui_spacerdialog_ui.h"

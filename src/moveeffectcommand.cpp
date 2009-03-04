@@ -17,10 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <KLocale>
 
 #include "moveeffectcommand.h"
 #include "customtrackview.h"
+
+#include <KLocale>
 
 MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, GenTime pos, int oldPos, int newPos, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_track(track), m_pos(pos), m_oldindex(oldPos), m_newindex(newPos), m_doIt(doIt) {
     /*    QString effectName;

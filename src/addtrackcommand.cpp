@@ -17,10 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <KLocale>
 
 #include "addtrackcommand.h"
 #include "customtrackview.h"
+
+#include <KLocale>
 
 AddTrackCommand::AddTrackCommand(CustomTrackView *view, int ix, TrackInfo info, bool addTrack, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_ix(ix), m_info(info), m_addTrack(addTrack), m_doIt(doIt) {
     if (addTrack) setText(i18n("Add track"));

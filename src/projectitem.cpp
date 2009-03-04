@@ -18,20 +18,15 @@
  ***************************************************************************/
 
 
-#include <QMouseEvent>
-#include <QStylePainter>
-#include <QLabel>
-#include <QLayout>
+#include "projectitem.h"
+#include "timecode.h"
+#include "kdenlivesettings.h"
+#include "docclipbase.h"
 
 #include <KDebug>
 #include <KLocale>
 #include <KIcon>
 
-
-#include "projectitem.h"
-#include "timecode.h"
-#include "kdenlivesettings.h"
-#include "docclipbase.h"
 
 const int NameRole = Qt::UserRole;
 const int DurationRole = NameRole + 1;

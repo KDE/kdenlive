@@ -17,14 +17,18 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QDir>
-#include <QTimer>
+#include "kdenlivesettingsdialog.h"
+#include "profilesdialog.h"
+#include "kdenlivesettings.h"
 
 #include <KStandardDirs>
 #include <KDebug>
 #include <kopenwithdialog.h>
 #include <KConfigDialogManager>
 #include <kde_file.h>
+
+#include <QDir>
+#include <QTimer>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -34,9 +38,6 @@
 #include <linux/input.h>
 #endif /* NO_JOGSHUTTLE */
 
-#include "profilesdialog.h"
-#include "kdenlivesettings.h"
-#include "kdenlivesettingsdialog.h"
 
 KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(parent, "settings", KdenliveSettings::self()) {
 

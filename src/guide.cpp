@@ -17,17 +17,15 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
-#include <QPen>
-#include <QBrush>
-#include <QScrollBar>
-
-#include <KDebug>
-
 #include "guide.h"
 #include "customtrackview.h"
 #include "customtrackscene.h"
 #include "kdenlivesettings.h"
+
+#include <KDebug>
+
+#include <QPen>
+#include <QBrush>
 
 Guide::Guide(CustomTrackView *view, GenTime pos, QString label, double fps, double height)
         : QGraphicsLineItem(), m_view(view), m_position(pos), m_label(label), m_fps(fps) {

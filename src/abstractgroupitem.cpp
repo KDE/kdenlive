@@ -18,19 +18,16 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <QGraphicsScene>
-#include <QGraphicsView>
-#include <QScrollBar>
-#include <QStyleOptionGraphicsItem>
-#include <QToolTip>
-
-#include <KDebug>
-#include <KLocale>
-
 #include "abstractgroupitem.h"
 #include "abstractclipitem.h"
 #include "kdenlivesettings.h"
 #include "customtrackscene.h"
+
+#include <KDebug>
+
+#include <QPainter>
+#include <QStyleOptionGraphicsItem>
+
 
 AbstractGroupItem::AbstractGroupItem(double fps): QGraphicsItemGroup(), m_fps(fps) {
     setZValue(2);

@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 
-#ifndef PRJECTLIST_H
-#define PRJECTLIST_H
+#ifndef PROJECTLIST_H
+#define PROJECTLIST_H
 
 #include <QDomNodeList>
 #include <QToolBar>

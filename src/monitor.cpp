@@ -18,6 +18,18 @@
  ***************************************************************************/
 
 
+#include "monitor.h"
+#include "renderer.h"
+#include "monitormanager.h"
+#include "smallruler.h"
+#include "docclipbase.h"
+
+#include <KDebug>
+#include <KLocale>
+#include <KFileDialog>
+#include <KApplication>
+#include <KMessageBox>
+
 #include <QMouseEvent>
 #include <QStylePainter>
 #include <QMenu>
@@ -26,17 +38,6 @@
 #include <QDesktopWidget>
 #include <QLabel>
 
-#include <KDebug>
-#include <KLocale>
-#include <KFileDialog>
-#include <KApplication>
-#include <KMessageBox>
-
-#include "monitor.h"
-#include "renderer.h"
-#include "monitormanager.h"
-#include "smallruler.h"
-#include "docclipbase.h"
 
 Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
         : QWidget(parent), render(NULL), m_monitorManager(manager), m_name(name), m_isActive(false), m_currentClip(NULL), m_dragStarted(false) {

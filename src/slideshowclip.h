@@ -18,10 +18,9 @@
  ***************************************************************************/
 
 
-#ifndef SLIDESHOWDIALOG_H
-#define SLIDESHOWDIALOG_H
+#ifndef SLIDESHOWCLIP_H
+#define SLIDESHOWCLIP_H
 
-#include <QDialog>
 
 #include "definitions.h"
 #include "docclipbase.h"

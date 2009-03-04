@@ -17,10 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <KLocale>
 
 #include "addeffectcommand.h"
 #include "customtrackview.h"
+
+#include <KLocale>
 
 AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement effect, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_track(track), m_pos(pos), m_effect(effect), m_doIt(doIt) {
     QString effectName;

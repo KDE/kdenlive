@@ -17,10 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <KLocale>
 
 #include "insertspacecommand.h"
 #include "customtrackview.h"
+
+#include <KLocale>
 
 InsertSpaceCommand::InsertSpaceCommand(CustomTrackView *view, QList<ItemInfo> clipsToMove, QList<ItemInfo> transToMove, int track, const GenTime &duration, bool doIt, QUndoCommand * parent)
         : QUndoCommand(parent), m_view(view), m_clipsToMove(clipsToMove), m_transToMove(transToMove), m_track(track), m_duration(duration), m_doIt(doIt) {

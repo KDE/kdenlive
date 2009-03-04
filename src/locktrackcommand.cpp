@@ -17,10 +17,10 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <KLocale>
-
 #include "locktrackcommand.h"
 #include "customtrackview.h"
+
+#include <KLocale>
 
 LockTrackCommand::LockTrackCommand(CustomTrackView *view, int ix, bool lock, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_ix(ix), m_lock(lock), m_doIt(doIt) {
     if (lock) setText(i18n("Lock track"));

@@ -18,13 +18,14 @@
  ***************************************************************************/
 
 
-#include <QObject>
-#include <QTimer>
+#include "monitormanager.h"
+#include "kdenlivesettings.h"
 
 #include <mlt++/Mlt.h>
 
-#include "monitormanager.h"
-#include "kdenlivesettings.h"
+#include <QObject>
+#include <QTimer>
+
 
 MonitorManager::MonitorManager(QWidget *parent)
         : QObject(parent) {

@@ -18,14 +18,9 @@
  ***************************************************************************/
 
 
-#include <QScrollBar>
-
-#include <KDebug>
-#include <KMessageBox>
-
+#include "trackview.h"
 #include "definitions.h"
 #include "headertrack.h"
-#include "trackview.h"
 #include "clipitem.h"
 #include "transition.h"
 #include "kdenlivesettings.h"
@@ -35,6 +30,11 @@
 #include "mainwindow.h"
 #include "customtrackview.h"
 #include "initeffects.h"
+
+#include <KDebug>
+#include <KMessageBox>
+
+#include <QScrollBar>
 
 TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
         : QWidget(parent), m_doc(doc), m_scale(1.0), m_projectTracks(0) {

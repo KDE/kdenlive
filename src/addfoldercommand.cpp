@@ -17,10 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <KLocale>
 
 #include "addfoldercommand.h"
 #include "projectlist.h"
+
+#include <KLocale>
 
 AddFolderCommand::AddFolderCommand(ProjectList *view, const QString folderName, const QString &clipId, bool doIt, QUndoCommand *parent) : QUndoCommand(parent), m_view(view), m_name(folderName), m_id(clipId), m_doIt(doIt) {
     if (doIt) setText(i18n("Add folder"));
