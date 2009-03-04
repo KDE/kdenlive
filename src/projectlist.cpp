@@ -52,6 +52,7 @@
 #include <QIcon>
 #include <QMenu>
 #include <QProcess>
+#include <QHeaderView>
 
 ProjectList::ProjectList(QWidget *parent)
         : QWidget(parent), m_render(NULL), m_fps(-1), m_commandStack(NULL), m_selectedItem(NULL), m_infoQueue(QMap <QString, QDomElement> ()), m_thumbnailQueue(QList <QString> ()), m_refreshed(false), m_editAction(NULL), m_openAction(NULL), m_deleteAction(NULL), m_reloadAction(NULL) {
