@@ -356,13 +356,11 @@ void ProjectList::selectItemById(const QString &clipId) {
 
 void ProjectList::slotDeleteClip(const QString &clipId) {
     ProjectItem *item = getItemById(clipId);
-    QTreeWidgetItem *p = item->parent();
-    if (p) {
-        kDebug() << "///////  DELETED CLIP HAS A PARENT... " << p->indexOfChild(item);
-        QTreeWidgetItem *clone = p->takeChild(p->indexOfChild(item));
-    } else if (item) {
-        delete item;
+    if (!item) {
+	kDebug()<<"/// Cannot find clip to delete";
+	return;
     }
+    delete item;
 }
 
 
