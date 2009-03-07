@@ -59,7 +59,7 @@ Q_OBJECT public:
     virtual ~ DocClipBase();
 
     /** returns the name of this clip. */
-    const QString & name() const;
+    const QString name() const;
 
     /** Returns the description of this clip. */
     const QString description() const;

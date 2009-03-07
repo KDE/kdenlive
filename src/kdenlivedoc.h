@@ -83,7 +83,7 @@ Q_OBJECT public:
     const QString description() const;
     void setUrl(KUrl url);
     void setProfilePath(QString path);
-    const QString &getFreeClipId();
+    const QString getFreeClipId();
     /** does the document need saving */
     bool isModified() const;
     /** Returns project folder, used to store project files (titles, effects,...) */

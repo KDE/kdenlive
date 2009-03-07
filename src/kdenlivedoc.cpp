@@ -1465,7 +1465,7 @@ void KdenliveDoc::slotAddClipFile(const KUrl url, const QString group, const QSt
     setModified(true);
 }
 
-const QString&KdenliveDoc::getFreeClipId() {
+const QString KdenliveDoc::getFreeClipId() {
     return QString::number(m_clipManager->getFreeClipId());
 }
 

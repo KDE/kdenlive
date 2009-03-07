@@ -120,7 +120,7 @@ bool DocClipBase::audioThumbCreated() const {
     return m_audioThumbCreated;
 }
 
-const QString & DocClipBase::name() const {
+const QString DocClipBase::name() const {
 
     return m_properties.value("name");
 }
