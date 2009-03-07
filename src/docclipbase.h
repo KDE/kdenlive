@@ -81,7 +81,7 @@ Q_OBJECT public:
 
     /** returns the duration of this clip */
     const GenTime & duration() const;
-    const GenTime &maxDuration() const;
+    const GenTime maxDuration() const;
     /** returns the duration of this clip */
     void setDuration(GenTime dur);
 
