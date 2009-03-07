@@ -154,7 +154,7 @@ void Transition::paint(QPainter *painter,
 
     painter->fillRect(exposed, brush());
 
-    int top = (int)(br.y() + br.height() / 2 - 7);
+    //int top = (int)(br.y() + br.height() / 2 - 7);
     QPointF p1(br.x(), br.y() + br.height() / 2 - 7);
     painter->setMatrixEnabled(false);
     //painter->drawPixmap(painter->matrix().map(p1) + QPointF(5, 0), transitionPixmap());

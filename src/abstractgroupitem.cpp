@@ -89,7 +89,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         newPos.setX(xpos);
 
         QPointF start = pos();
-        int startTrack = (start.y() + trackHeight / 2) / trackHeight;
+        //int startTrack = (start.y() + trackHeight / 2) / trackHeight;
         int newTrack = (newPos.y()) / trackHeight;
         //kDebug()<<"// GROUP NEW T:"<<newTrack<<",START T:"<<startTrack<<",MAX:"<<projectScene()->tracksCount() - 1;
         newTrack = qMin(newTrack, projectScene()->tracksCount() - (int)(boundingRect().height() + 5) / trackHeight);

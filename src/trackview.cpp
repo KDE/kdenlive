@@ -120,7 +120,7 @@ void TrackView::setDuration(int dur) {
 }
 
 void TrackView::parseDocument(QDomDocument doc) {
-    int cursorPos = 0;
+    //int cursorPos = 0;
     m_documentErrors.clear();
     // kDebug() << "//// DOCUMENT: " << doc.toString();
     /*QDomNode props = doc.elementsByTagName("properties").item(0);

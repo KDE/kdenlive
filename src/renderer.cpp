@@ -940,7 +940,7 @@ void Render::refreshDisplay() {
     if (!m_mltProducer) return;
     //m_mltConsumer->set("refresh", 0);
 
-    mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
+    //mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
     /*if (KdenliveSettings::osdtimecode()) {
         mlt_properties_set_int( properties, "meta.attr.timecode", 1);
         mlt_properties_set( properties, "meta.attr.timecode.markup", "#timecode#");
@@ -1221,8 +1221,8 @@ void Render::exportCurrentFrame(KUrl url, bool notify) {
         return;
     }
 
-    int height = 1080;//KdenliveSettings::defaultheight();
-    int width = 1940; //KdenliveSettings::displaywidth();
+    //int height = 1080;//KdenliveSettings::defaultheight();
+    //int width = 1940; //KdenliveSettings::displaywidth();
     //TODO: rewrite
     QPixmap pix; // = KThumb::getFrame(m_mltProducer, -1, width, height);
     /*
@@ -1576,7 +1576,7 @@ void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> 
             Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
 
 
-            int clipNb = trackPlaylist.count();
+            //int clipNb = trackPlaylist.count();
             insertPos = trackClipStartList.value(trackNb - 1);
             if (insertPos != -1) {
                 insertPos += offset;
@@ -1833,7 +1833,7 @@ bool Render::mltAddEffect(int track, GenTime position, EffectsParameterList para
         char *endtag = decodedString(params.paramValue("endtag", "end"));
         kDebug() << "// ADDING KEYFRAME TAGS: " << starttag << ", " << endtag;
         int duration = clip->get_playtime();
-        double max = params.paramValue("max").toDouble();
+        //double max = params.paramValue("max").toDouble();
         double min = params.paramValue("min").toDouble();
         double factor = params.paramValue("factor", "1").toDouble();
         params.removeParam("starttag");
