@@ -3396,9 +3396,11 @@ ClipItem *CustomTrackView::getActiveClipUnderCursor(bool allowOutsideCursor) con
         }
         if (clips.count() == 1 && allowOutsideCursor) return static_cast < ClipItem *>(clips.at(0));
         for (int i = 0; i < clips.count(); ++i) {
-            if (clips.at(i)->type() == AVWIDGET)
+            if (clips.at(i)->type() == AVWIDGET) {
                 item = static_cast < ClipItem *>(clips.at(i));
-            if (item->startPos().frames(m_document->fps()) <= m_cursorPos && item->endPos().frames(m_document->fps()) >= m_cursorPos) return item;
+                if (item->startPos().frames(m_document->fps()) <= m_cursorPos && item->endPos().frames(m_document->fps()) >= m_cursorPos)
+                    return item;
+            }
         }
     }
     return NULL;
