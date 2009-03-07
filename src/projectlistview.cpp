@@ -239,7 +239,7 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event) {
             drag->setMimeData(mimeData);
             drag->setPixmap(clickItem->icon(0).pixmap(iconSize()));
             drag->setHotSpot(QPoint(0, 50));
-            Qt::DropAction dropAction = drag->exec(Qt::MoveAction);
+            drag->exec(Qt::MoveAction);
         }
         //event->accept();
     }

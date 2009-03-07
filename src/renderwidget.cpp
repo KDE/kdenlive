@@ -1103,7 +1103,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
             emit openDvdWizard(item->text(1), item->data(0, Qt::UserRole + 1).toString());
         } else if (itemGroup == "websites") {
             QString url = item->data(0, Qt::UserRole + 1).toString();
-            if (!url.isEmpty()) KRun *openBrowser = new KRun(url, this);
+            if (!url.isEmpty()) new KRun(url, this);
         }
     } else if (status == -2) {
         // Rendering crashed

@@ -3073,7 +3073,7 @@ void CustomTrackView::slotDeleteAllGuides() {
     QUndoCommand *deleteAll = new QUndoCommand();
     deleteAll->setText("Delete all guides");
     for (int i = 0; i < m_guides.count(); i++) {
-        EditGuideCommand *command = new EditGuideCommand(this, m_guides.at(i)->position(), m_guides.at(i)->label(), GenTime(), QString(), true, deleteAll);
+        new EditGuideCommand(this, m_guides.at(i)->position(), m_guides.at(i)->label(), GenTime(), QString(), true, deleteAll);
     }
     m_commandStack->push(deleteAll);
 }
