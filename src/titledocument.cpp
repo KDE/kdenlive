@@ -169,6 +169,7 @@ int TitleDocument::loadDocument(const KUrl& url, QGraphicsPolygonItem* startv, Q
         KIO::NetAccess::removeTempFile(tmpfile);
         return loadFromXml(doc, startv, endv);
     }
+    return -1;
 }
 
 int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv) {
