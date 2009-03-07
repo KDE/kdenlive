@@ -97,7 +97,9 @@ void ShuttleThread::run() {
     }
 
     while (!stop_me) {
-        read(fd, &ev, sizeof(ev));
+        if (read(fd, &ev, sizeof(ev)) < 0) {
+            fprintf(stderr, "Failed to read event from Jog Shuttle FILE DESCRIPTOR\n");
+        }
         handle_event(ev);
     }
     close(fd);
