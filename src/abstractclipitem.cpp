@@ -191,7 +191,6 @@ QPainterPath AbstractClipItem::upperRectPart(QRectF br) {
     int br_startx = (int)(br.x() + offset);
     int br_starty = (int)(br.y());
     int br_halfy = (int)(br.y() + br.height() / 2 - offset);
-    int br_endy = (int)(br.y() + br.height());
 
     roundRectPathUpper.moveTo(br_endx  , br_halfy);
     roundRectPathUpper.arcTo(br_endx - roundingX , br_starty , roundingX, roundingY, 0.0, 90.0);
@@ -210,7 +209,6 @@ QPainterPath AbstractClipItem::lowerRectPart(QRectF br) {
 
     int br_endx = (int)(br.x() + br .width() - offset);
     int br_startx = (int)(br.x() + offset);
-    int br_starty = (int)(br.y());
     int br_halfy = (int)(br.y() + br.height() / 2 - offset);
     int br_endy = (int)(br.y() + br.height() - 1);
 

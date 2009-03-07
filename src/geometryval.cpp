@@ -45,7 +45,6 @@ Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent): QWidge
     scene = new GraphicsSceneRectMove(this);
     scene->setTool(TITLE_SELECT);
     view->setScene(scene);
-    double aspect = (double) profile.sample_aspect_num / profile.sample_aspect_den * profile.width / profile.height;
     QGraphicsRectItem *m_frameBorder = new QGraphicsRectItem(QRectF(0, 0, profile.width, profile.height));
     m_frameBorder->setZValue(-1100);
     m_frameBorder->setBrush(QColor(255, 255, 0, 30));

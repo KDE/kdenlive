@@ -1260,7 +1260,6 @@ const QString KdenliveDoc::description() const {
 
 void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem) {
     const QString producerId = clipId.section('_', 0, 0);
-    int subtrack = clipId.section('_', 1, 1).toInt();
     DocClipBase *clip = m_clipManager->getClipById(producerId);
     if (clip == NULL) {
         /*kDebug()<<"// CLIP "<<clipId<<" NOT OFUND in LIST, CREATING";

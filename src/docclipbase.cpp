@@ -416,7 +416,6 @@ Mlt::Producer *DocClipBase::producer(int track) {
     }*/
     if (track == -1 || (m_clipType != AUDIO && m_clipType != AV)) {
         if (m_baseTrackProducers.count() == 0) return NULL;
-        int i;
         for (int i = 0; i < m_baseTrackProducers.count(); i++) {
             if (m_baseTrackProducers.at(i) != NULL)
                 return m_baseTrackProducers.at(i);

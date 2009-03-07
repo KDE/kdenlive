@@ -155,7 +155,6 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, 
 int TitleDocument::loadDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv) {
     QString tmpfile;
     QDomDocument doc;
-    double aspect_ratio = 4.0 / 3.0;
     if (!scene)
         return -1;
 

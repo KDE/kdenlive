@@ -169,7 +169,7 @@ void ParameterPlotter::mouseMoveEvent(QMouseEvent * event) {
 
     if (movepoint != NULL) {
         QList<KPlotPoint*> list =   pointsUnderPoint(event->pos() - QPoint(leftPadding(), topPadding())) ;
-        int i = 0, j = -1;
+        int i = 0;
         foreach(KPlotObject *o, plotObjects()) {
             QList<KPlotPoint*> points = o->points();
             for (int p = 0;p < points.size();p++) {

@@ -374,7 +374,6 @@ void TrackView::slotRebuildTrackHeaders() {
 
 
 int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked) {
-    int trackTop = KdenliveSettings::trackheight() * ix;
     // parse track
     int position = 0;
     for (QDomNode n = xml.firstChild(); !n.isNull(); n = n.nextSibling()) {

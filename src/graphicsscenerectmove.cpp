@@ -365,7 +365,6 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
 void GraphicsSceneRectMove::wheelEvent(QGraphicsSceneWheelEvent * wheelEvent) {
     QList<QGraphicsView*> viewlist = views();
     //kDebug() << wheelEvent->delta() << " " << zoom;
-    double scale = 1.0;
     if (viewlist.size() > 0) {
         if (wheelEvent->delta() < 0) emit sceneZoom(true);
         else emit sceneZoom(false);

@@ -2282,7 +2282,6 @@ void MainWindow::slotSetOutPoint() {
 void MainWindow::slotGetNewLumaStuff() {
     //KNS::Entry::List download();
     KNS::Entry::List entries = KNS::Engine::download();
-    int numberInstalled = 0;
     // list of changed entries
     kDebug() << "// PARSING KNS";
     foreach(KNS::Entry* entry, entries) {

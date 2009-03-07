@@ -337,8 +337,6 @@ void ClipItem::updateKeyframeEffect() {
             QString keyframes;
             if (m_keyframes.count() > 1) {
                 QMap<int, double>::const_iterator i = m_keyframes.constBegin();
-                double x1;
-                double y1;
                 while (i != m_keyframes.constEnd()) {
                     keyframes.append(QString::number(i.key()) + ':' + QString::number(i.value()) + ';');
                     ++i;
@@ -629,7 +627,6 @@ void ClipItem::paint(QPainter *painter,
     QList < CommentedTime >::Iterator it = markers.begin();
     GenTime pos;
     double framepos;
-    const int markerwidth = 4;
     QBrush markerBrush;
     markerBrush = QBrush(QColor(120, 120, 0, 140));
     QPen pen = painter->pen();
@@ -800,7 +797,6 @@ QList <GenTime> ClipItem::snapMarkers() const {
     QList < GenTime > snaps;
     QList < GenTime > markers = baseClip()->snapMarkers();
     GenTime pos;
-    double framepos;
 
     for (int i = 0; i < markers.size(); i++) {
         pos = markers.at(i) - cropStart();
@@ -816,7 +812,6 @@ QList <CommentedTime> ClipItem::commentedSnapMarkers() const {
     QList < CommentedTime > snaps;
     QList < CommentedTime > markers = baseClip()->commentedSnapMarkers();
     GenTime pos;
-    double framepos;
 
     for (int i = 0; i < markers.size(); i++) {
         pos = markers.at(i).time() - cropStart();

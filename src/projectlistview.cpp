@@ -68,7 +68,6 @@ void ProjectListView::configureColumns(const QPoint& pos) {
 
     QHeaderView* headerView = header();
     for (int i = 2; i < headerView->count(); ++i) {
-        const int logicalIndex = headerView->logicalIndex(i);
         const QString text = model()->headerData(i, Qt::Horizontal).toString();
         QAction* action = popup.addAction(text);
         action->setCheckable(true);

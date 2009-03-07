@@ -1878,8 +1878,6 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         m_dragItem = NULL;
         return;
     } else if (m_operationMode == SPACER) {
-        int endClick = (int)(mapToScene(event->pos()).x() + 0.5);
-        int mappedClick = (int)(mapToScene(m_clickEvent).x() + 0.5);
         int track = (int)(mapToScene(m_clickEvent).y() / m_tracksHeight);
         if (m_selectionGroup->sceneBoundingRect().height() > m_tracksHeight) {
             // We are moving all tracks

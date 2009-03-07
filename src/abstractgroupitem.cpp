@@ -130,7 +130,6 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         else {
             bool forwardMove = newPos.x() > start.x();
             int offset = 0;
-            const double width = sceneBoundingRect().width() + 1;
             for (int i = 0; i < collindingItems.count(); i++) {
                 QGraphicsItem *collision = collindingItems.at(i);
                 if (collision->type() == AVWIDGET) {

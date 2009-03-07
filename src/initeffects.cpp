@@ -271,7 +271,6 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
 
         // Parse effect file
         if ((filtersList.contains(tag) || producersList.contains(tag)) && ladspaOk) {
-            bool isAudioEffect = false;
             QString type = documentElement.attribute("type", QString());
             if (type == "audio") audioEffectList->append(documentElement);
             else if (type == "custom") customEffectList->append(documentElement);

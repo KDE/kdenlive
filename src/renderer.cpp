@@ -533,7 +533,6 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, bo
     delete[] tmp;
     int frameNumber = xml.attribute("thumbnail", "0").toInt();
     if (frameNumber != 0) producer->seek(frameNumber);
-    mlt_properties properties = MLT_PRODUCER_PROPERTIES(producer->get_producer());
 
     filePropertyMap["duration"] = QString::number(producer->get_playtime());
     //kDebug() << "///////  PRODUCER: " << url.path() << " IS: " << producer.get_playtime();
@@ -2388,7 +2387,6 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
 
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
-    Mlt::Field *field = tractor.field();
 
     mlt_service_lock(service.get_service());
     m_mltConsumer->set("refresh", 0);
@@ -2445,7 +2443,6 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
     m_isBlocked = true;
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
-    Mlt::Field *field = tractor.field();
 
     //m_mltConsumer->set("refresh", 0);
     mlt_service serv = m_mltProducer->parent().get_service();
@@ -2623,7 +2620,6 @@ void Render::mltDeleteTransparency(int pos, int track, int id) {
 void Render::mltResizeTransparency(int oldStart, int newStart, int newEnd, int track, int id) {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
-    Mlt::Field *field = tractor.field();
 
     mlt_service_lock(service.get_service());
     m_mltConsumer->set("refresh", 0);
@@ -2662,7 +2658,6 @@ void Render::mltResizeTransparency(int oldStart, int newStart, int newEnd, int t
 void Render::mltMoveTransparency(int startTime, int endTime, int startTrack, int endTrack, int id) {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
-    Mlt::Field *field = tractor.field();
 
     mlt_service_lock(service.get_service());
     m_mltConsumer->set("refresh", 0);
