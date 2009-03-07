@@ -1212,7 +1212,10 @@ QDomNodeList KdenliveDoc::producersList() {
 }
 
 double KdenliveDoc::projectDuration() const {
-    if (m_render) return GenTime(m_render->getLength(), m_fps).ms() / 1000;
+    if (m_render)
+        return GenTime(m_render->getLength(), m_fps).ms() / 1000;
+    else
+        return 0;
 }
 
 double KdenliveDoc::fps() const {
