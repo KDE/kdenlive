@@ -286,7 +286,7 @@ wipeInfo EffectStackEdit::getWipeInfo(QString value) {
     else if (start.startsWith("100%,0")) info.start = RIGHT;
     else if (start.startsWith("0%,100%")) info.start = DOWN;
     else if (start.startsWith("0%,-100%")) info.start = UP;
-    else if (start.startsWith("0%,0%")) info.start = CENTER;
+    else info.start = CENTER;
     if (start.count(':') == 2) info.startTransparency = start.section(':', -1).toInt();
     else info.startTransparency = 100;
 
@@ -294,7 +294,7 @@ wipeInfo EffectStackEdit::getWipeInfo(QString value) {
     else if (end.startsWith("100%,0")) info.end = RIGHT;
     else if (end.startsWith("0%,100%")) info.end = DOWN;
     else if (end.startsWith("0%,-100%")) info.end = UP;
-    else if (end.startsWith("0%,0%")) info.end = CENTER;
+    else info.end = CENTER;
     if (end.count(':') == 2) info.endTransparency = end.section(':', -1).toInt();
     else info.endTransparency = 100;
     return info;
@@ -398,12 +398,14 @@ void EffectStackEdit::collectAllParameters() {
             else if (wp->start_up->isChecked()) info.start = UP;
             else if (wp->start_down->isChecked()) info.start = DOWN;
             else if (wp->start_center->isChecked()) info.start = CENTER;
+            else info.start = LEFT;
             info.startTransparency = wp->start_transp->value();
             if (wp->end_left->isChecked()) info.end = LEFT;
             else if (wp->end_right->isChecked()) info.end = RIGHT;
             else if (wp->end_up->isChecked()) info.end = UP;
             else if (wp->end_down->isChecked()) info.end = DOWN;
             else if (wp->end_center->isChecked()) info.end = CENTER;
+            else info.end = RIGHT;
             info.endTransparency = wp->end_transp->value();
             setValue = getWipeString(info);
         }

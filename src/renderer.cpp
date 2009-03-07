@@ -428,6 +428,7 @@ void Render::slotSplitView(bool doit) {
                     tmp = "0,50%:50%x50%";
                     break;
                 case 3:
+                default:
                     tmp = "50%,50%:50%x50%";
                     break;
                 }
