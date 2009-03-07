@@ -1126,7 +1126,7 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, i
         }
         if (effectParams.paramValue("disabled") == "1") {
             if (m_document->renderer()->mltRemoveEffect(track, pos, effectParams.paramValue("kdenlive_ix"), false)) {
-                kDebug() << "//////  DISABLING EFFECT: " << index << ", CURRENTLA: " << clip->selectedEffectIndex();
+                kDebug() << "//////  DISABLING EFFECT: " << ix << ", CURRENTLA: " << clip->selectedEffectIndex();
             } else emit displayMessage(i18n("Problem deleting effect"), ErrorMessage);
         } else if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - clip->track(), clip->startPos(), effectParams))
             emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
