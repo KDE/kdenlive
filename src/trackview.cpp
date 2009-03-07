@@ -461,7 +461,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked) {
                             if (MainWindow::videoEffects.hasKeyFrames(currenteffect)) {
                                 //kDebug() << " * * * * * * * * * * ** CLIP EFF WITH KFR FND  * * * * * * * * * * *";
                                 // effect is key-framable, read all effects to retrieve keyframes
-                                double factor;
+                                double factor = 0;
                                 QString starttag;
                                 QString endtag;
                                 QDomNodeList params = currenteffect.elementsByTagName("parameter");
@@ -477,8 +477,8 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked) {
                                 QString keyframes;
                                 int effectin = effect.attribute("in").toInt();
                                 int effectout = effect.attribute("out").toInt();
-                                double startvalue;
-                                double endvalue;
+                                double startvalue = 0;
+                                double endvalue = 0;
                                 for (QDomNode n3 = effect.firstChild(); !n3.isNull(); n3 = n3.nextSibling()) {
                                     // parse effect parameters
                                     QDomElement effectparam = n3.toElement();

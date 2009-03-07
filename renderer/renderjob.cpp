@@ -268,7 +268,7 @@ void RenderJob::slotIsOver(int exitcode, QProcess::ExitStatus status) {
             args.append(QByteArray());   // app icon
             QStringList actionList;
             args.append(actionList);   // actions
-            qlonglong wid;
+            qlonglong wid = 0;
             args.append(wid);   // win id
 
             m.setArguments(args);

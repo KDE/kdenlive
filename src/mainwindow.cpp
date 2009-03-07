@@ -1448,8 +1448,8 @@ void MainWindow::slotRenderProject() {
 void MainWindow::slotDoRender(const QString &dest, const QString &render, const QStringList &overlay_args, const QStringList &avformat_args, bool zoneOnly, bool playAfter, double guideStart, double guideEnd, bool resizeProfile, const QString &scriptExport) {
     kDebug() << "// SCRIPT EXPORT: " << scriptExport;
     if (dest.isEmpty()) return;
-    int in;
-    int out;
+    int in = 0;
+    int out = 0;
     TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
     if (currentTab && zoneOnly) {
         in = currentTab->inPoint();
