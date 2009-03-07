@@ -81,7 +81,7 @@ void MyThread::run() {
     for (int z = (int) m_frame;z < (int)(m_frame + m_frameLength) && m_producer.is_valid();z++) {
         if (stop_me) break;
         val = (int)((z - m_frame) / (m_frame + m_frameLength) * 100.0);
-        if (last_val != val & val > 1) {
+        if (last_val != val && val > 1) {
             emit audioThumbProgress(val);
             //QApplication::postEvent(m_parent, new ProgressEvent(val, (QEvent::Type)10005));
 
