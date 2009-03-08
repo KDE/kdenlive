@@ -1267,27 +1267,16 @@ void Render::mltCheckLength() {
     double blackDuration = Mlt::Producer(blackTrackPlaylist.get_producer()).get_playtime() - 1;
 
     if (blackDuration != duration) {
-        blackTrackPlaylist.remove_region(0, (int)blackDuration);
-        int i = 0;
+        blackTrackPlaylist.clear();
         int dur = (int)duration;
-        QDomDocument doc;
-        QDomElement black = doc.createElement("producer");
-        black.setAttribute("mlt_service", "colour");
-        black.setAttribute("colour", "black");
-        black.setAttribute("id", "black");
-        ItemInfo info;
-        info.track = 0;
         while (dur > 14000) {
-            info.startPos = GenTime(i * 14000, m_fps);
-            info.endPos = info.startPos + GenTime(13999, m_fps);
-            mltInsertClip(info, black, m_blackClip);
+
+            blackTrackPlaylist.append(*m_blackClip, 0, 13999);
             dur = dur - 14000;
             i++;
         }
         if (dur > 0) {
-            info.startPos = GenTime(i * 14000, m_fps);
-            info.endPos = info.startPos + GenTime(dur, m_fps);
-            mltInsertClip(info, black, m_blackClip);
+            blackTrackPlaylist.append(*m_blackClip, 0, dur);
         }
         m_mltProducer->set("out", duration);
         emit durationChanged((int)duration);
