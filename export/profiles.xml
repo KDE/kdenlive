@@ -60,7 +60,7 @@
   <profile name="MPEG-2 4000k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=4000k bf=2 b_strategy=1 trellis=1 aspect=%dar" />
   <profile name="MPEG-2 6000k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=6000k bf=2 b_strategy=1 trellis=1 aspect=%dar" />
   <profile name="MPEG-2 8000k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=8000k bf=2 b_strategy=1 trellis=1 aspect=%dar" />
-  <profile name="MPEG-2 1000k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=10000k bf=2 b_strategy=1 trellis=1 aspect=%dar" />
+  <profile name="MPEG-2 10000k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=10000k bf=2 b_strategy=1 trellis=1 aspect=%dar" />
   <profile name="MPEG-2 12000k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=12000k bf=2 b_strategy=1 trellis=1 aspect=%dar" />
   <profile name="MPEG-2 18000k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=18000k bf=2 b_strategy=1 trellis=1 aspect=%dar" />
   <profile name="MPEG-2 25000k" args="f=mpeg acodec=mp2 ab=384k ar=48000 vcodec=mpeg2video minrate=0 b=25000k bf=2 b_strategy=1 trellis=1 aspect=%dar" />
@@ -166,7 +166,7 @@
   <profile name="Windows Media Player wmv7 1000k" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 ac=2 vcodec=wmv1 minrate=0 b=1000k aspect=%dar" />
   <profile name="Windows Media Player wmv7 2000k" extension="avi" args="acodec=libmp3lame ab=128k ar=48000 ac=2 vcodec=wmv1 minrate=0 b=2000k aspect=%dar" />
   <profile name="Apple Quicktime Player Mpeg4 400k" extension="mov" args="acodec=libfaac ab=128k ac=2 ar=48000 vcodec=mpeg4 minrate=0 b=400k aspect=%dar" />
-  <profile name="Apple Quicktime Player Mpeg4 1000k" extension="mov" args="acodec=libfaac ab=128k ac=2 ar=48000 vcodec=mpeg4 minrate=0 b=2000k aspect=%dar" />
+  <profile name="Apple Quicktime Player Mpeg4 1000k" extension="mov" args="acodec=libfaac ab=128k ac=2 ar=48000 vcodec=mpeg4 minrate=0 b=1000k aspect=%dar" />
   <profile name="Apple Quicktime Player Mpeg4 2000k" extension="mov" args="acodec=libfaac ab=128k ac=2 ar=48000 vcodec=mpeg4 minrate=0 b=2000k aspect=%dar" />
 </group>
 
