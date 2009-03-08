@@ -104,8 +104,8 @@ void SlideshowClip::parseFolder() {
     QStringList filters;
     QString filter = m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
     filters << "*." + filter;
-        // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
-        // << "*.jpeg";
+    // TODO: improve jpeg image detection with extension like jpeg, requires change in MLT image producers
+    // << "*.jpeg";
 
     dir.setNameFilters(filters);
     const QStringList result = dir.entryList(QDir::Files);

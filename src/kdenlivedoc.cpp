@@ -85,10 +85,6 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     }
                     m_startPos = infoXml.attribute("position").toInt();
                     m_zoom = infoXml.attribute("zoom", "7").toInt();
-
-
-
-
                     m_zoneEnd = infoXml.attribute("zoneout", "100").toInt();
                     setProfilePath(profilePath);
 
@@ -113,7 +109,6 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                         westley.removeChild(tracksinfo);
                     }
 
-                    QDomElement orig;
                     QDomNodeList producers = m_document.elementsByTagName("producer");
                     QDomNodeList infoproducers = m_document.elementsByTagName("kdenlive_producer");
                     const int max = producers.count();
@@ -142,7 +137,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                         if (!e.isNull() && prodId != "black" && !prodId.startsWith("slowmotion") && !m_abortLoading) {
                             e.setTagName("producer");
                             // Get MLT's original producer properties
-
+                            QDomElement orig;
                             for (int j = 0; j < max; j++) {
                                 QDomElement o = producers.item(j).cloneNode().toElement();
                                 QString origId = o.attribute("id").section('_', 0, 0);
@@ -1262,10 +1257,6 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
     const QString producerId = clipId.section('_', 0, 0);
     DocClipBase *clip = m_clipManager->getClipById(producerId);
     if (clip == NULL) {
-        /*kDebug()<<"// CLIP "<<clipId<<" NOT OFUND in LIST, CREATING";
-        QDomDocument doc;
-        doc.appendChild(doc.importNode(elem, true));
-        kDebug() << "IMPORTED CLIP: \n" << doc.toString()<<"\n";*/
         elem.setAttribute("id", producerId);
         QString path = elem.attribute("resource");
         QString extension;
@@ -1273,7 +1264,7 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
             extension = KUrl(path).fileName();
             path = KUrl(path).directory();
         }
-        if (!QFile::exists(path) && elem.attribute("type").toInt() == TEXT) {
+        if (elem.attribute("type").toInt() == TEXT && !QFile::exists(path)) {
             kDebug() << "// TITLE: " << elem.attribute("titlename") << " Preview file: " << elem.attribute("resource") << " DOES NOT EXIST";
             QString titlename = elem.attribute("titlename");
             QString titleresource;
@@ -1343,6 +1334,7 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
         clip = new DocClipBase(m_clipManager, elem, producerId);
         m_clipManager->addClip(clip);
     }
+
     if (createClipItem) {
         emit addProjectClip(clip);
         qApp->processEvents();
@@ -1434,7 +1426,7 @@ void KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, QString clipId
             m = m.nextSibling();
         }
         if (!meta.isEmpty()) {
-            clip = m_clipManager->getClipById(clipId);
+            if (clip == NULL) clip = m_clipManager->getClipById(clipId);
             if (clip) clip->setMetadata(meta);
         }
     }

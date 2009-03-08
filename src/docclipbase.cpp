@@ -38,13 +38,15 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
 
     KUrl url = KUrl(xml.attribute("resource"));
     if (!m_properties.contains("file_hash") && !url.isEmpty()) getFileHash(url.path());
-    int out = xml.attribute("out").toInt();
-    if (out != 0) {
-        setDuration(GenTime(out, KdenliveSettings::project_fps()));
+
+    if (xml.hasAttribute("duration")) {
+        setDuration(GenTime(xml.attribute("duration").toInt(), KdenliveSettings::project_fps()));
     } else {
-        out = xml.attribute("duration").toInt();
-        if (out != 0) setDuration(GenTime(out, KdenliveSettings::project_fps()));
+        int out = xml.attribute("out").toInt();
+        int in = xml.attribute("in").toInt();
+        setDuration(GenTime(out - in, KdenliveSettings::project_fps()));
     }
+
     if (!m_properties.contains("name")) m_properties.insert("name", url.fileName());
 
     //if (!url.isEmpty() && QFile::exists(url.path()))

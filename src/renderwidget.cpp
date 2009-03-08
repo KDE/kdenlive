@@ -859,7 +859,7 @@ void RenderWidget::parseProfiles(QString meta, QString group, QString profile) {
     // can also override profiles installed by KNewStuff
     fileList.removeAll("customprofiles.xml");
     foreach(const QString &filename, fileList)
-	parseFile(exportFolder + '/' + filename, true);
+    parseFile(exportFolder + '/' + filename, true);
     if (QFile::exists(exportFolder + "/customprofiles.xml")) parseFile(exportFolder + "/customprofiles.xml", true);
 
     if (!meta.isEmpty()) {

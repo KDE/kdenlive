@@ -31,7 +31,7 @@ public:
     enum Formats { HH_MM_SS_FF, HH_MM_SS_HH, Frames, Seconds };
 
     explicit Timecode(Formats format = HH_MM_SS_FF, int framesPerSecond =
-                 25, bool dropFrame = false);
+                          25, bool dropFrame = false);
 
     /** Set the current timecode format; this is the output format for this timecode. */
     void setFormat(int framesPerSecond, bool dropFrame = false, Formats format = HH_MM_SS_FF) {

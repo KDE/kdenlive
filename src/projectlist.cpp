@@ -356,8 +356,8 @@ void ProjectList::selectItemById(const QString &clipId) {
 void ProjectList::slotDeleteClip(const QString &clipId) {
     ProjectItem *item = getItemById(clipId);
     if (!item) {
-	kDebug()<<"/// Cannot find clip to delete";
-	return;
+        kDebug() << "/// Cannot find clip to delete";
+        return;
     }
     delete item;
 }
@@ -517,9 +517,12 @@ void ProjectList::updateAllClips() {
                     item->setIcon(0, QPixmap(cachedPixmap));
                     listView->blockSignals(false);
                 } else requestClipThumbnail(item->clipId());
-                listView->blockSignals(true);
-                item->changeDuration(item->referencedClip()->producer()->get_playtime());
-                listView->blockSignals(false);
+
+                if (item->data(1, DurationRole).toString().isEmpty()) {
+                    listView->blockSignals(true);
+                    item->changeDuration(item->referencedClip()->producer()->get_playtime());
+                    listView->blockSignals(false);
+                }
             }
             listView->blockSignals(true);
             item->setData(1, UsageRole, QString::number(item->numReferences()));
@@ -595,7 +598,7 @@ void ProjectList::slotAddColorClip() {
         }
 
         m_doc->clipManager()->slotAddColorClipFile(dia_ui->clip_name->text(), color, dia_ui->clip_duration->text(), group, groupId);
-	m_doc->setModified(true);
+        m_doc->setModified(true);
     }
     delete dia_ui;
     delete dia;
@@ -622,8 +625,8 @@ void ProjectList::slotAddSlideshowClip() {
             groupId = item->clipId();
         }
 
-	m_doc->clipManager()->slotAddSlideshowClipFile(dia->clipName(), dia->selectedPath(), dia->imageCount(), dia->clipDuration(), dia->loop(), dia->fade(), dia->lumaDuration(), dia->lumaFile(), dia->softness(), group, groupId);
-	m_doc->setModified(true);
+        m_doc->clipManager()->slotAddSlideshowClipFile(dia->clipName(), dia->selectedPath(), dia->imageCount(), dia->clipDuration(), dia->loop(), dia->fade(), dia->lumaDuration(), dia->lumaFile(), dia->softness(), group, groupId);
+        m_doc->setModified(true);
     }
     delete dia;
 }

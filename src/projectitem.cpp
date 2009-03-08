@@ -56,6 +56,8 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
     setText(1, name);
     setText(2, m_clip->description());
     if ((m_clip->clipType() == AV || m_clip->clipType() == AUDIO) && KdenliveSettings::audiothumbnails()) m_clip->askForAudioThumbs();
+    GenTime duration = m_clip->duration();
+    if (duration != GenTime()) setData(1, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
     //setFlags(Qt::NoItemFlags);
     //kDebug() << "Constructed with clipId: " << m_clipId;
 }
@@ -72,6 +74,8 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip)
     setText(1, name);
     setText(2, m_clip->description());
     if ((m_clip->clipType() == AV || m_clip->clipType() == AUDIO) && KdenliveSettings::audiothumbnails()) m_clip->askForAudioThumbs();
+    GenTime duration = m_clip->duration();
+    if (duration != GenTime()) setData(1, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
     //setFlags(Qt::NoItemFlags);
     //kDebug() << "Constructed with clipId: " << m_clipId;
 }
@@ -199,9 +203,7 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     if (m_clip == NULL) return;
     //setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
     if (attributes.contains("duration")) {
-        //if (m_clipType == AUDIO || m_clipType == VIDEO || m_clipType == AV)
-        //m_clip->setProperty("duration", attributes["duration"]);
-        GenTime duration = GenTime(attributes["duration"].toInt(), KdenliveSettings::project_fps());
+        GenTime duration = GenTime(attributes.value("duration").toInt(), KdenliveSettings::project_fps());
         setData(1, DurationRole, Timecode::getEasyTimecode(duration, KdenliveSettings::project_fps()));
         m_clip->setDuration(duration);
         //kDebug() << "//// LOADED CLIP, DURATIONÂ SET TO: " << duration.frames(KdenliveSettings::project_fps());
@@ -213,18 +215,13 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
     //extend attributes -reh
 
     if (m_clipType == UNKNOWN) {
-        if (attributes.contains("type")) {
-            if (attributes["type"] == "audio")
-                m_clipType = AUDIO;
-            else if (attributes["type"] == "video")
-                m_clipType = VIDEO;
-            else if (attributes["type"] == "av")
-                m_clipType = AV;
-            else if (attributes["type"] == "playlist")
-                m_clipType = PLAYLIST;
-        } else {
-            m_clipType = AV;
-        }
+        QString cliptype = attributes.value("type");
+        if (cliptype == "audio") m_clipType = AUDIO;
+        else if (cliptype == "video") m_clipType = VIDEO;
+        else if (cliptype == "av") m_clipType = AV;
+        else if (cliptype == "playlist") m_clipType = PLAYLIST;
+        else m_clipType = AV;
+
         m_clip->setClipType(m_clipType);
         slotSetToolTip();
     }
@@ -234,10 +231,10 @@ void ProjectItem::setProperties(const QMap < QString, QString > &attributes, con
 
     if (m_clip->description().isEmpty()) {
         if (metadata.contains("description")) {
-            m_clip->setProperty("description", metadata["description"]);
+            m_clip->setProperty("description", metadata.value("description"));
             setText(2, m_clip->description());
         } else if (metadata.contains("comment")) {
-            m_clip->setProperty("description", metadata["comment"]);
+            m_clip->setProperty("description", metadata.value("comment"));
             setText(2, m_clip->description());
         }
     }

@@ -463,15 +463,10 @@ void Render::slotSplitView(bool doit) {
 }
 
 void Render::getFileProperties(const QDomElement &xml, const QString &clipId, bool replaceProducer) {
-    int height = 50;
-    int width = (int)(height  * m_mltProfile->dar());
-    QMap < QString, QString > filePropertyMap;
-    QMap < QString, QString > metadataPropertyMap;
-
     KUrl url = KUrl(xml.attribute("resource", QString()));
     Mlt::Producer *producer = NULL;
     if (xml.attribute("type").toInt() == TEXT && !QFile::exists(url.path())) {
-        emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap, replaceProducer);
+        emit replyGetFileProperties(clipId, producer, QMap < QString, QString >(), QMap < QString, QString >(), replaceProducer);
         return;
     }
     if (xml.attribute("type").toInt() == COLOR) {
@@ -489,35 +484,9 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, bo
         producer = new Mlt::Producer(*m_mltProfile, "westley-xml", tmp);
         delete[] tmp;
     } else {
-        QString urlpath = url.path();
-        /*if (urlpath.contains(':')) {
-            if (!urlpath.startsWith("file:")) urlpath.prepend("file:");
-            char *tmp = decodedString(urlpath);
-            producer = new Mlt::Producer(*m_mltProfile, "avformat", tmp);
-            delete[] tmp;
-        }
-        else {*/
-        char *tmp = decodedString(urlpath);
+        char *tmp = decodedString(url.path());
         producer = new Mlt::Producer(*m_mltProfile, tmp);
         delete[] tmp;
-
-        if (xml.hasAttribute("force_aspect_ratio")) {
-            double aspect = xml.attribute("force_aspect_ratio").toDouble();
-            if (aspect > 0) producer->set("force_aspect_ratio", aspect);
-        }
-        if (xml.hasAttribute("threads")) {
-            int threads = xml.attribute("threads").toInt();
-            if (threads != 1) producer->set("threads", threads);
-        }
-        if (xml.hasAttribute("video_index")) {
-            int vindex = xml.attribute("video_index").toInt();
-            if (vindex != 0) producer->set("video_index", vindex);
-        }
-        if (xml.hasAttribute("audio_index")) {
-            int aindex = xml.attribute("audio_index").toInt();
-            if (aindex != 0) producer->set("audio_index", aindex);
-        }
-        //}
     }
 
     if (producer == NULL || producer->is_blank() || !producer->is_valid()) {
@@ -526,11 +495,34 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, bo
         return;
     }
 
+    if (xml.hasAttribute("force_aspect_ratio")) {
+        double aspect = xml.attribute("force_aspect_ratio").toDouble();
+        if (aspect > 0) producer->set("force_aspect_ratio", aspect);
+    }
+    if (xml.hasAttribute("threads")) {
+        int threads = xml.attribute("threads").toInt();
+        if (threads != 1) producer->set("threads", threads);
+    }
+    if (xml.hasAttribute("video_index")) {
+        int vindex = xml.attribute("video_index").toInt();
+        if (vindex != 0) producer->set("video_index", vindex);
+    }
+    if (xml.hasAttribute("audio_index")) {
+        int aindex = xml.attribute("audio_index").toInt();
+        if (aindex != 0) producer->set("audio_index", aindex);
+    }
+
     if (xml.hasAttribute("out")) producer->set_in_and_out(xml.attribute("in").toInt(), xml.attribute("out").toInt());
 
     char *tmp = decodedString(clipId);
     producer->set("id", tmp);
     delete[] tmp;
+
+    int height = 50;
+    int width = (int)(height  * m_mltProfile->dar());
+    QMap < QString, QString > filePropertyMap;
+    QMap < QString, QString > metadataPropertyMap;
+
     int frameNumber = xml.attribute("thumbnail", "0").toInt();
     if (frameNumber != 0) producer->seek(frameNumber);
 
@@ -2786,7 +2778,7 @@ void Render::fillSlowMotionProducers() {
                 QString id = nprod->get("id");
                 if (id.startsWith("slowmotion:")) {
                     // this is a slowmotion producer, add it to the list
-		    QString url = QString::fromUtf8(nprod->get("resource"));
+                    QString url = QString::fromUtf8(nprod->get("resource"));
                     if (!m_slowmotionProducers.contains(url)) {
                         m_slowmotionProducers.insert(url, nprod);
                     }
