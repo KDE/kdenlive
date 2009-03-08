@@ -139,7 +139,23 @@ void TrackView::parseDocument(QDomDocument doc) {
     QDomElement p;
 
     int pos = m_projectTracks - 1;
-
+    m_invalidProducers.clear();
+    QDomNodeList producers = doc.elementsByTagName("producer");
+    for (int i = 0; i < producers.count(); i++) {
+        // CHeck for invalid producers
+        QDomNode n = producers.item(i);
+        e = n.toElement();
+        int in = e.attribute("in").toInt();
+        int out = e.attribute("out").toInt();
+        if (in > out || in == out) {
+            // invalid producer, remove it
+            QString id = e.attribute("id");
+            m_invalidProducers.append(id);
+            m_documentErrors.append(i18n("Invalid clip producer %1\n", id));
+            doc.documentElement().removeChild(producers.at(i));
+            i--;
+        }
+    }
 
     for (int i = 0; i < m_projectTracks; i++) {
         e = tracks.item(i).toElement();
@@ -376,7 +392,9 @@ void TrackView::slotRebuildTrackHeaders() {
 int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked) {
     // parse track
     int position = 0;
-    for (QDomNode n = xml.firstChild(); !n.isNull(); n = n.nextSibling()) {
+    QDomNodeList children = xml.childNodes();
+    for (int nodeindex = 0; nodeindex < children.count(); nodeindex++) {
+        QDomNode n = children.item(nodeindex);
         QDomElement elem = n.toElement();
         if (elem.tagName() == "blank") {
             position += elem.attribute("length").toInt();
@@ -386,8 +404,10 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked) {
             // Found a clip
             int in = elem.attribute("in").toInt();
             int out = elem.attribute("out").toInt();
-            if (in > out || in == out) {
+            if (in > out || in == out || m_invalidProducers.contains(elem.attribute("producer"))) {
                 m_documentErrors.append(i18n("Invalid clip removed from track %1 at %2\n", ix, position));
+                xml.removeChild(children.at(nodeindex));
+                nodeindex--;
                 continue;
             }
             QString idString = elem.attribute("producer");

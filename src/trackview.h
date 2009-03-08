@@ -70,6 +70,7 @@ private:
     Ui::TimeLine_UI *view;
     CustomRuler *m_ruler;
     CustomTrackView *m_trackview;
+    QList <QString> m_invalidProducers;
     double m_scale;
     int m_projectTracks;
     QString m_editMode;
