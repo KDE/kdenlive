@@ -1270,10 +1270,8 @@ void Render::mltCheckLength() {
         blackTrackPlaylist.clear();
         int dur = (int)duration;
         while (dur > 14000) {
-
             blackTrackPlaylist.append(*m_blackClip, 0, 13999);
             dur = dur - 14000;
-            i++;
         }
         if (dur > 0) {
             blackTrackPlaylist.append(*m_blackClip, 0, dur);
