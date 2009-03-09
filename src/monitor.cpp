@@ -23,6 +23,7 @@
 #include "monitormanager.h"
 #include "smallruler.h"
 #include "docclipbase.h"
+#include "kdenlivesettings.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -40,7 +41,7 @@
 
 
 Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
-        : QWidget(parent), render(NULL), m_monitorManager(manager), m_name(name), m_isActive(false), m_currentClip(NULL), m_dragStarted(false) {
+        : QWidget(parent), render(NULL), m_monitorManager(manager), m_name(name), m_isActive(false), m_currentClip(NULL), m_dragStarted(false), m_overlay(NULL) {
     ui.setupUi(this);
     m_scale = 1;
     m_ruler = new SmallRuler();
@@ -109,11 +110,6 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     render = new Render(m_name, (int) m_monitorRefresh->winId(), -1, this);
     m_monitorRefresh->setRenderer(render);
 
-    m_overlay = new Overlay(m_monitorRefresh);
-    m_overlay->raise();
-    m_overlay->setHidden(true);
-
-
     connect(m_ruler, SIGNAL(seekRenderer(int)), this, SLOT(slotSeek(int)));
     connect(render, SIGNAL(durationChanged(int)), this, SLOT(adjustRulerSize(int)));
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
@@ -139,7 +135,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
 Monitor::~Monitor() {
     delete m_ruler;
     delete m_timePos;
-    delete m_overlay;
+    if (m_overlay) delete m_overlay;
     delete m_monitorRefresh;
 }
 
@@ -163,13 +159,18 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     m_contextMenu->addAction(extractFrame);
 
     if (m_name != "clip") {
-        QAction *splitView = m_contextMenu->addAction(KIcon("document-new"), i18n("Split view"), render, SLOT(slotSplitView(bool)));
+        QAction *splitView = m_contextMenu->addAction(KIcon("view-split-left-right"), i18n("Split view"), render, SLOT(slotSplitView(bool)));
         splitView->setCheckable(true);
         m_configMenu->addAction(splitView);
     } else {
         QAction *setThumbFrame = m_contextMenu->addAction(KIcon("document-new"), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
         m_configMenu->addAction(setThumbFrame);
     }
+
+    QAction *showTips = m_contextMenu->addAction(KIcon("help-hint"), i18n("Monitor overlay infos"), this, SLOT(slotSwitchMonitorInfo(bool)));
+    showTips->setCheckable(true);
+    slotSwitchMonitorInfo(KdenliveSettings::displayMonitorInfo());
+    m_configMenu->addAction(showTips);
 
 }
 
@@ -419,6 +420,7 @@ void Monitor::slotSeek(int pos) {
 }
 
 void Monitor::checkOverlay() {
+    if (m_overlay == NULL) return;
     QPoint zone = m_ruler->zone();
     if (m_position == zone.x()) m_overlay->setOverlayText(i18n("In Point"));
     else if (m_position == zone.y()) m_overlay->setOverlayText(i18n("Out Point"));
@@ -515,6 +517,7 @@ void Monitor::slotForwardOneFrame(int diff) {
 
 void Monitor::seekCursor(int pos) {
     activateMonitor();
+    checkOverlay();
     m_position = pos;
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
     m_ruler->slotNewValue(pos);
@@ -524,7 +527,7 @@ void Monitor::rendererStopped(int pos) {
     //int rulerPos = (int)(pos * m_scale);
     m_ruler->slotNewValue(pos);
     m_position = pos;
-    checkOverlay();
+    //checkOverlay();
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
     m_playAction->setChecked(false);
     m_playAction->setIcon(m_playIcon);
@@ -666,6 +669,19 @@ void Monitor::setClipZone(QPoint pos) {
     m_currentClip->setZone(pos);
 }
 
+void Monitor::slotSwitchMonitorInfo(bool show) {
+    KdenliveSettings::setDisplayMonitorInfo(show);
+    if (show) {
+        if (m_overlay) return;
+        m_overlay = new Overlay(m_monitorRefresh);
+        m_overlay->raise();
+        m_overlay->setHidden(true);
+    } else {
+        delete m_overlay;
+        m_overlay = NULL;
+    }
+}
+
 MonitorRefresh::MonitorRefresh(QWidget* parent): QWidget(parent), m_renderer(NULL) {
     setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_OpaquePaintEvent); //setAttribute(Qt::WA_NoSystemBackground);
@@ -706,7 +722,5 @@ void Overlay::setOverlayText(const QString &text, bool isZone) {
     setHidden(false);
     update();
 }
-
-
 
 #include "monitor.moc"

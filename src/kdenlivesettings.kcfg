@@ -401,6 +401,7 @@
       <label>Show descriptions in project tree view.</label>
       <default>true</default>
     </entry>
+
     <entry name="showratingcolumn" type="Bool">
       <label>Show ratings in project tree view.</label>
       <default>false</default>
@@ -424,6 +425,11 @@
     <entry name="showrenderparams" type="Bool">
       <label>Show avformat render parameters in rendering dialog.</label>
       <default>false</default>
+    </entry>
+
+    <entry name="displayMonitorInfo" type="Bool">
+      <label>Show overlay info on monitor (in / out points, markers,...).</label>
+      <default>true</default>
     </entry>
 
     <entry name="audiocodecs" type="StringList">
