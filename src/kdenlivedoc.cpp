@@ -60,7 +60,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
 
                 // Upgrade old Kdenlive documents to current version
                 if (!convertDocument(version)) {
-                    KMessageBox::sorry(parent, i18n("This project type is unsupported and can't be loaded."), i18n("Unable to open project"));
+                    m_url.clear();
                     m_document = createEmptyDocument(tracks.x(), tracks.y());
                     setProfilePath(profileName);
                 } else {
@@ -372,13 +372,31 @@ int KdenliveDoc::zoom() const {
 
 bool KdenliveDoc::convertDocument(double version) {
     kDebug() << "Opening a document with version " << version;
+    const double current_version = 0.82;
 
-    if (version == 0.82) return true;
+    if (version == current_version) return true;
+
+    if (version > current_version) {
+        kDebug() << "Unable to open document with version " << version;
+        KMessageBox::sorry(kapp->activeWindow(), i18n("This project type is unsupported (version %1) and can't be loaded.\nPlease consider upgrading you Kdenlive version.", version), i18n("Unable to open project"));
+        return false;
+    }
+
+    // Opening a old Kdenlive document
+    if (version == 0.5 || version == 0.7) {
+        KMessageBox::sorry(kapp->activeWindow(), i18n("This project type is unsupported (version %1) and can't be loaded.", version), i18n("Unable to open project"));
+        kDebug() << "Unable to open document with version " << version;
+        // TODO: convert 0.7 (0.5?) files to the new document format.
+        return false;
+    }
+
+    setModified(true);
 
     if (version == 0.81) {
         // Add correct tracks info
         QDomNode kdenlivedoc = m_document.elementsByTagName("kdenlivedoc").at(0);
         QDomElement infoXml = kdenlivedoc.toElement();
+        infoXml.setAttribute("version", current_version);
         QString currentTrackOrder = infoXml.attribute("tracks");
         QDomElement tracksinfo = m_document.createElement("tracksinfo");
         for (int i = 0; i < currentTrackOrder.size(); i++) {
@@ -395,13 +413,6 @@ bool KdenliveDoc::convertDocument(double version) {
         return true;
     }
 
-    // Opening a old Kdenlive document
-    if (version == 0.5 || version == 0.7 || version > 0.81) {
-        kDebug() << "Unable to open document with version " << version;
-        // TODO: convert 0.7 (0.5?) files to the new document format.
-        return false;
-    }
-
     if (version == 0.8) {
         // Add the tracks information
         QDomNodeList tracks = m_document.elementsByTagName("track");
@@ -409,6 +420,7 @@ bool KdenliveDoc::convertDocument(double version) {
 
         QDomNode kdenlivedoc = m_document.elementsByTagName("kdenlivedoc").at(0);
         QDomElement infoXml = kdenlivedoc.toElement();
+        infoXml.setAttribute("version", current_version);
         QDomElement tracksinfo = m_document.createElement("tracksinfo");
 
         for (int i = 0; i < max; i++) {
@@ -430,6 +442,8 @@ bool KdenliveDoc::convertDocument(double version) {
     QDomNode tractor = m_document.elementsByTagName("tractor").at(0);
     QDomNode kdenlivedoc = m_document.elementsByTagName("kdenlivedoc").at(0);
     QDomElement kdenlivedoc_old = kdenlivedoc.cloneNode(true).toElement(); // Needed for folders
+    QDomElement infoXml = kdenlivedoc.toElement();
+    infoXml.setAttribute("version", current_version);
     QDomNode multitrack = m_document.elementsByTagName("multitrack").at(0);
     QDomNodeList playlists = m_document.elementsByTagName("playlist");
 
