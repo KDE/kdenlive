@@ -31,6 +31,8 @@
 #include <QXmlStreamWriter>
 #include <QTimer>
 
+const double recommendedMltVersion = 36;
+
 Wizard::Wizard(QWidget *parent): QWizard(parent) {
     setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
 
@@ -54,6 +56,9 @@ Wizard::Wizard(QWidget *parent): QWizard(parent) {
     QWizardPage *page2 = new QWizardPage;
     page2->setTitle(i18n("Video Standard"));
     m_standard.setupUi(page2);
+
+    m_okIcon = KIcon("dialog-ok");
+    m_badIcon = KIcon("dialog-close");
 
     // build profiles lists
     m_profilesInfo = ProfilesDialog::getProfilesInfo();
@@ -109,23 +114,23 @@ void Wizard::checkMltComponents() {
     m_mltCheck.programList->setRootIsDecorated(false);
     m_mltCheck.programList->setHeaderHidden(true);
     QSize itemSize(20, this->fontMetrics().height() * 2.5);
-    KIcon okIcon("dialog-ok");
-    KIcon missingIcon("dialog-close");
     m_mltCheck.programList->setColumnWidth(0, 30);
     m_mltCheck.programList->setIconSize(QSize(24, 24));
 
 
-    QTreeWidgetItem *item = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("Inigo") + " (" + KdenliveSettings::rendererpath() + ')');
-    item->setData(1, Qt::UserRole, i18n("Required for rendering (part of MLT package)"));
-    item->setSizeHint(0, itemSize);
-    item->setIcon(0, okIcon);
+    QTreeWidgetItem *mltitem = new QTreeWidgetItem(m_mltCheck.programList);
+
+    QTreeWidgetItem *inigoitem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("Inigo") + " (" + KdenliveSettings::rendererpath() + ')');
+    inigoitem->setData(1, Qt::UserRole, i18n("Required for rendering (part of MLT package)"));
+    inigoitem->setSizeHint(0, itemSize);
+    inigoitem->setIcon(0, m_okIcon);
 
     // Check MLT's installed producers
     QProcess checkProcess;
     checkProcess.start(KdenliveSettings::rendererpath(), QStringList() << "-query" << "producer");
     if (!checkProcess.waitForStarted()) {
-        item->setIcon(0, missingIcon);
-        item->setData(1, Qt::UserRole, i18n("Error starting MLT's command line player (inigo)"));
+        inigoitem->setIcon(0, m_badIcon);
+        inigoitem->setData(1, Qt::UserRole, i18n("Error starting MLT's command line player (inigo)"));
         button(QWizard::NextButton)->setEnabled(false);
     } else {
         checkProcess.waitForFinished();
@@ -136,13 +141,14 @@ void Wizard::checkMltComponents() {
         avformatItem->setData(1, Qt::UserRole, i18n("Required to work with various video formats (hdv, mpeg, flash, ...)"));
         avformatItem->setSizeHint(0, itemSize);
         if (!result.contains("- avformat")) {
-            avformatItem->setIcon(0, missingIcon);
+            avformatItem->setIcon(0, m_badIcon);
             m_mltCheck.tabWidget->setTabEnabled(1, false);
         } else {
-            avformatItem->setIcon(0, okIcon);
+            avformatItem->setIcon(0, m_okIcon);
             // Make sure we have MLT > 0.3.4
             bool recentMlt = false;
             int version = 0;
+            QString mltVersion;
             QString exepath = KStandardDirs::findExe("pkg-config");
             if (!exepath.isEmpty()) {
                 checkProcess.start(exepath, QStringList() << "--variable=version" << "mlt-framework");
@@ -150,7 +156,7 @@ void Wizard::checkMltComponents() {
                     kDebug() << "// Error querying MLT's version";
                 } else {
                     checkProcess.waitForFinished();
-                    QString mltVersion = checkProcess.readAllStandardOutput();
+                    mltVersion = checkProcess.readAllStandardOutput();
                     version = 100 * mltVersion.section('.', 0, 0).toInt() + 10 * mltVersion.section('.', 1, 1).toInt() + mltVersion.section('.', 2, 2).toInt();
                     kDebug() << "// FOUND MLT's pkgconfig version: " << version;
                     if (version > 34) recentMlt = true;
@@ -162,13 +168,23 @@ void Wizard::checkMltComponents() {
                     kDebug() << "// Error querying MLT's version";
                 } else {
                     checkProcess.waitForFinished();
-                    QString mltVersion = checkProcess.readAllStandardError();
+                    mltVersion = checkProcess.readAllStandardError();
                     mltVersion = mltVersion.section('\n', 0, 0).simplified();
                     mltVersion = mltVersion.section(' ', -1).simplified();
                     version = 100 * mltVersion.section('.', 0, 0).toInt() + 10 * mltVersion.section('.', 1, 1).toInt() + mltVersion.section('.', 2, 2).toInt();
                     kDebug() << "// FOUND MLT version: " << version;
                     if (version > 34) recentMlt = true;
                 }
+            }
+
+            mltitem->setText(1, i18n("MLT version: %1", mltVersion.simplified()));
+            mltitem->setSizeHint(0, itemSize);
+            if (version < recommendedMltVersion) {
+                mltitem->setData(1, Qt::UserRole, i18n("Please upgrade to the latest MLT version"));
+                mltitem->setIcon(0, m_badIcon);
+            } else {
+                mltitem->setData(1, Qt::UserRole, i18n("MLT version is correct"));
+                mltitem->setIcon(0, m_okIcon);
             }
 
             if (recentMlt) {
@@ -241,9 +257,9 @@ void Wizard::checkMltComponents() {
         dvItem->setData(1, Qt::UserRole, i18n("Required to work with dv files if avformat module is not installed"));
         dvItem->setSizeHint(0, itemSize);
         if (!result.contains("- libdv")) {
-            dvItem->setIcon(0, missingIcon);
+            dvItem->setIcon(0, m_badIcon);
         } else {
-            dvItem->setIcon(0, okIcon);
+            dvItem->setIcon(0, m_okIcon);
         }
 
         // Check MLT image format module
@@ -251,14 +267,14 @@ void Wizard::checkMltComponents() {
         imageItem->setData(1, Qt::UserRole, i18n("Required to work with images"));
         imageItem->setSizeHint(0, itemSize);
         if (!result.contains("- qimage")) {
-            imageItem->setIcon(0, missingIcon);
+            imageItem->setIcon(0, m_badIcon);
             imageItem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("Pixbuf module"));
             imageItem->setData(1, Qt::UserRole, i18n("Required to work with images"));
             imageItem->setSizeHint(0, itemSize);
-            if (!result.contains("- pixbuf")) imageItem->setIcon(0, missingIcon);
-            else imageItem->setIcon(0, okIcon);
+            if (!result.contains("- pixbuf")) imageItem->setIcon(0, m_badIcon);
+            else imageItem->setIcon(0, m_okIcon);
         } else {
-            imageItem->setIcon(0, okIcon);
+            imageItem->setIcon(0, m_okIcon);
         }
     }
 }
@@ -268,8 +284,6 @@ void Wizard::slotCheckPrograms() {
     m_check.programList->setRootIsDecorated(false);
     m_check.programList->setHeaderHidden(true);
     QSize itemSize(20, this->fontMetrics().height() * 2.5);
-    KIcon okIcon("dialog-ok");
-    KIcon missingIcon("dialog-close");
     m_check.programList->setColumnWidth(0, 30);
     m_check.programList->setIconSize(QSize(24, 24));
 
@@ -277,33 +291,33 @@ void Wizard::slotCheckPrograms() {
     item->setData(1, Qt::UserRole, i18n("Required for webcam capture"));
     item->setSizeHint(0, itemSize);
     QString exepath = KStandardDirs::findExe("ffmpeg");
-    if (exepath.isEmpty()) item->setIcon(0, missingIcon);
-    else if (KStandardDirs::findExe("ffplay").isEmpty()) item->setIcon(0, missingIcon);
-    else item->setIcon(0, okIcon);
+    if (exepath.isEmpty()) item->setIcon(0, m_badIcon);
+    else if (KStandardDirs::findExe("ffplay").isEmpty()) item->setIcon(0, m_badIcon);
+    else item->setIcon(0, m_okIcon);
 
     item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("Recordmydesktop"));
     item->setData(1, Qt::UserRole, i18n("Required for screen capture"));
     item->setSizeHint(0, itemSize);
-    if (KStandardDirs::findExe("recordmydesktop").isEmpty()) item->setIcon(0, missingIcon);
-    else item->setIcon(0, okIcon);
+    if (KStandardDirs::findExe("recordmydesktop").isEmpty()) item->setIcon(0, m_badIcon);
+    else item->setIcon(0, m_okIcon);
 
     item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("Dvgrab"));
     item->setData(1, Qt::UserRole, i18n("Required for firewire capture"));
     item->setSizeHint(0, itemSize);
-    if (KStandardDirs::findExe("dvgrab").isEmpty()) item->setIcon(0, missingIcon);
-    else item->setIcon(0, okIcon);
+    if (KStandardDirs::findExe("dvgrab").isEmpty()) item->setIcon(0, m_badIcon);
+    else item->setIcon(0, m_okIcon);
 
     item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("Dvdauthor"));
     item->setData(1, Qt::UserRole, i18n("Required for creation of DVD"));
     item->setSizeHint(0, itemSize);
-    if (KStandardDirs::findExe("dvdauthor").isEmpty()) item->setIcon(0, missingIcon);
-    else item->setIcon(0, okIcon);
+    if (KStandardDirs::findExe("dvdauthor").isEmpty()) item->setIcon(0, m_badIcon);
+    else item->setIcon(0, m_okIcon);
 
     item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("Mkisofs"));
     item->setData(1, Qt::UserRole, i18n("Required for creation of DVD iso images"));
     item->setSizeHint(0, itemSize);
-    if (KStandardDirs::findExe("mkisofs").isEmpty()) item->setIcon(0, missingIcon);
-    else item->setIcon(0, okIcon);
+    if (KStandardDirs::findExe("mkisofs").isEmpty()) item->setIcon(0, m_badIcon);
+    else item->setIcon(0, m_okIcon);
 
 }
 

@@ -26,6 +26,7 @@
 #include <QItemDelegate>
 #include <QPainter>
 
+#include <KIcon>
 #include <KDebug>
 
 #include "ui_wizardstandard_ui.h"
@@ -91,6 +92,8 @@ private:
     QMap <QString, QString> m_profilesInfo;
     void slotCheckPrograms();
     void checkMltComponents();
+    KIcon m_okIcon;
+    KIcon m_badIcon;
 
 private slots:
     void slotCheckThumbs();
