@@ -2,11 +2,11 @@
 [Desktop Entry]
 GenericName=Video Editor
 Type=Application
-Exec=kdenlive -caption "%c" %i %m
-Icon=kdenlive.png
-DocPath=kdenlive/index.html
+Exec=kdenlive %i -caption "%c" %u
+Icon=kdenlive
+X-DocPath=kdenlive/index.html
 Comment=Nonlinear video editor for KDE
-Terminal=0
+Terminal=false
 Name=Kdenlive
 Name[de]=Kdenlive
 MimeType=application/x-kdenlive;
