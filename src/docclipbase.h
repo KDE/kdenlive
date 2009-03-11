@@ -154,7 +154,6 @@ Q_OBJECT public:
     /** Returns the thumbnail used by this clip */
     const QPixmap & thumbnail() const;
 
-    static DocClipBase *createClip(KdenliveDoc *doc, const QDomElement & element);
     /** Cache for every audio Frame with 10 Bytes */
     /** format is frame -> channel ->bytes */
     QMap<int, QMap<int, QByteArray> > audioFrameChache;

@@ -1,7 +1,7 @@
 /***************************************************************************
- *                         DocClipBase.cpp  -  description		   *
- *                           -------------------			   *
- *   begin                : Fri Apr 12 2002				   *
+ *                         DocClipBase.cpp  -  description                 *
+ *                           -------------------                           *
+ *   begin                : Fri Apr 12 2002                                *
  *   Copyright (C) 2002 by Jason Wood (jasonwood@blueyonder.co.uk)         *
  *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
@@ -217,49 +217,6 @@ QDomElement DocClipBase::toXML() const {
     return doc.documentElement();
 }
 
-DocClipBase *DocClipBase::
-createClip(KdenliveDoc */*doc*/, const QDomElement & element) {
-    DocClipBase *clip = 0;
-    QString description;
-    QDomNode node = element;
-    node.normalize();
-    if (element.tagName() != "kdenliveclip") {
-        kWarning() <<
-        "DocClipBase::createClip() element has unknown tagName : " << element.tagName();
-        return 0;
-    }
-
-    QDomNode n = element.firstChild();
-
-    while (!n.isNull()) {
-        QDomElement e = n.toElement();
-        if (!e.isNull()) {
-            QString tagName = e.tagName();
-            if (e.tagName() == "avfile") {
-                // clip = DocClipAVFile::createClip(e);
-            } else if (e.tagName() == "DocTrackBaseList") {
-                // clip = DocClipProject::createClip(doc, e);
-            }
-        } else {
-            QDomText text = n.toText();
-            if (!text.isNull()) {
-                description = text.nodeValue();
-            }
-        }
-
-        n = n.nextSibling();
-    }
-    if (clip == 0) {
-        kWarning() << "DocClipBase::createClip() unable to create clip";
-    } else {
-        // setup DocClipBase specifics of the clip.
-        QMap <QString, QString> props;
-        props.insert("description", description);
-        clip->setProperties(props);
-        clip->setAudioThumbCreated(false);
-    }
-    return clip;
-}
 
 void DocClipBase::setAudioThumbCreated(bool isDone) {
     m_audioThumbCreated = isDone;

@@ -132,13 +132,22 @@ bool DvdWizardMenu::isComplete() const {
             QList<QGraphicsItem *> collisions = button->collidingItems();
             if (!collisions.isEmpty()) {
                 for (int j = 0; j < collisions.count(); j++) {
-                    if (list.at(j)->type() == button->type()) return false;
+                    if (collisions.at(j)->type() == button->type()) return false;
                 }
             }
             targets.append(button->target());
         }
     }
-    if (buttonCount == 0) return false;
+    if (buttonCount == 0) {
+        // We need at least one button
+        return false;
+    }
+
+    if (!m_view.background_image->isHidden()) {
+        // Make sure user selected a valid image / video file
+        if (!QFile::exists(m_view.background_image->url().path())) return false;
+    }
+
     // check that we have a "Play all" entry
     if (targets.contains(0)) return true;
     // ... or that each video file has a button
@@ -278,6 +287,7 @@ void DvdWizardMenu::buildColor() {
 }
 
 void DvdWizardMenu::buildImage() {
+    emit completeChanged();
     if (m_view.background_image->url().isEmpty()) {
         m_scene->removeItem(m_background);
         return;
