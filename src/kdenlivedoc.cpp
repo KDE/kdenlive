@@ -1069,7 +1069,7 @@ void KdenliveDoc::setProfilePath(QString path) {
     else m_timecode.setFormat((int) m_fps);
 }
 
-const double KdenliveDoc::dar() {
+double KdenliveDoc::dar() {
     return (double) m_profile.display_aspect_num / m_profile.display_aspect_den;
 }
 

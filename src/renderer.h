@@ -141,11 +141,11 @@ Q_OBJECT public:
     /** Turn on or off on screen display */
     void refreshDisplay();
     int resetProfile();
-    const double fps() const;
-    const int renderWidth() const;
-    const int renderHeight() const;
+    double fps() const;
+    int renderWidth() const;
+    int renderHeight() const;
     /** get display aspect ratio */
-    const double dar() const;
+    double dar() const;
 
     /** Playlist manipulation */
     void mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod);

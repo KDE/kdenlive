@@ -32,7 +32,7 @@ class KeyframeHelper : public QWidget {
 
 public:
     KeyframeHelper(QWidget *parent = 0);
-    const int value() const;
+    int value() const;
 
 protected:
     virtual void paintEvent(QPaintEvent * /*e*/);

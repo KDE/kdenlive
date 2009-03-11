@@ -103,7 +103,7 @@ void KeyframeHelper::paintEvent(QPaintEvent *e) {
 
 }
 
-const int KeyframeHelper::value() const {
+int KeyframeHelper::value() const {
     return m_position;
 }
 

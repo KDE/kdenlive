@@ -236,11 +236,11 @@ char *Render::decodedString(QString str) {
     return pix;
 }
 */
-const int Render::renderWidth() const {
+int Render::renderWidth() const {
     return (int)(m_mltProfile->height() * m_mltProfile->dar());
 }
 
-const int Render::renderHeight() const {
+int Render::renderHeight() const {
     return m_mltProfile->height();
 }
 
@@ -393,7 +393,7 @@ bool Render::isValid(KUrl url) {
     return true;
 }
 
-const double Render::dar() const {
+double Render::dar() const {
     return m_mltProfile->dar();
 }
 
@@ -905,7 +905,7 @@ void Render::saveZone(KUrl url, QString desc, QPoint zone) {
     westleyConsumer.start();
 }
 
-const double Render::fps() const {
+double Render::fps() const {
     return m_fps;
 }
 

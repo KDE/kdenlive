@@ -38,7 +38,7 @@ int AbstractGroupItem::type() const {
     return GROUPWIDGET;
 }
 
-const int AbstractGroupItem::track() const {
+int AbstractGroupItem::track() const {
     return (int)(scenePos().y() / KdenliveSettings::trackheight());
 }
 

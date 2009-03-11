@@ -93,7 +93,7 @@ Q_OBJECT public:
     void syncGuides(QList <Guide *> guides);
     void setZoom(int factor);
     int zoom() const;
-    const double dar();
+    double dar();
     double projectDuration() const;
     bool saveSceneList(const QString &path, const QString &scene);
     int tracksCount() const;

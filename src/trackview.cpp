@@ -352,11 +352,11 @@ int TrackView::fitZoom() const {
     return i;
 }
 
-const double TrackView::zoomFactor() const {
+double TrackView::zoomFactor() const {
     return m_scale;
 }
 
-const int TrackView::mapLocalToValue(int x) const {
+int TrackView::mapLocalToValue(int x) const {
     return (int)(x * zoomFactor());
 }
 

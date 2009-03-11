@@ -34,7 +34,7 @@ public:
     virtual int type() const;
     CustomTrackScene* projectScene();
     void addItem(QGraphicsItem * item);
-    const int track() const;
+    int track() const;
 
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
