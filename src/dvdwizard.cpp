@@ -35,7 +35,7 @@
 #include <QDomDocument>
 
 
-DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent): QWizard(parent), m_profile(profile) {
+DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent): QWizard(parent), m_profile(profile), m_dvdauthor(NULL), m_mkiso(NULL) {
     //setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
     setAttribute(Qt::WA_DeleteOnClose);
     m_pageVob = new DvdWizardVob(this);
@@ -61,6 +61,7 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
     QWizardPage *page4 = new QWizardPage;
     page4->setTitle(i18n("Creating DVD Image"));
     m_status.setupUi(page4);
+    m_status.error_box->setHidden(true);
     addPage(page4);
 
     connect(this, SIGNAL(currentIdChanged(int)), this, SLOT(slotPageChanged(int)));
@@ -70,6 +71,14 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
 
 DvdWizard::~DvdWizard() {
     // m_menuFile.remove();
+    if (m_dvdauthor) {
+        m_dvdauthor->close();
+        delete m_dvdauthor;
+    }
+    if (m_mkiso) {
+        m_mkiso->close();
+        delete m_mkiso;
+    }
 }
 
 
@@ -85,7 +94,7 @@ void DvdWizard::slotPageChanged(int page) {
             m_status.job_progress->item(i)->setIcon(KIcon());
         QString warnMessage;
         if (KIO::NetAccess::exists(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), KIO::NetAccess::SourceSide, this))
-            warnMessage.append(i18n("Folder %1 already exists. Overwrite ?<br />", m_iso.tmp_folder->url().path() + "/DVD"));
+            warnMessage.append(i18n("Folder %1 already exists. Overwrite ?" + '\n', m_iso.tmp_folder->url().path() + "/DVD"));
         if (KIO::NetAccess::exists(KUrl(m_iso.iso_image->url().path()), KIO::NetAccess::SourceSide, this))
             warnMessage.append(i18n("Image file %1 already exists. Overwrite ?", m_iso.iso_image->url().path()));
 
@@ -179,12 +188,17 @@ void DvdWizard::generateDvd() {
             if (renderbg.waitForFinished()) {
                 if (renderbg.exitStatus() == QProcess::CrashExit) {
                     kDebug() << "/// RENDERING MENU vob crashed";
+                    QByteArray result = renderbg.readAllStandardError();
                     vobitem->setIcon(KIcon("dialog-close"));
+                    m_status.error_log->setText(result);
+                    m_status.error_box->setHidden(false);
                     return;
                 }
             } else {
                 kDebug() << "/// RENDERING MENU vob timed out";
                 vobitem->setIcon(KIcon("dialog-close"));
+                m_status.error_log->setText(i18n("Rendering job timed out"));
+                m_status.error_box->setHidden(false);
                 return;
             }
             vobitem->setIcon(KIcon("dialog-ok"));
@@ -261,13 +275,18 @@ void DvdWizard::generateDvd() {
         if (spumux.waitForFinished()) {
             kDebug() << QString(spumux.readAll()).simplified();
             if (spumux.exitStatus() == QProcess::CrashExit) {
-                kDebug() << "/// RENDERING SPUMUX MENU crashed";
+                QByteArray result = spumux.readAllStandardError();
                 spuitem->setIcon(KIcon("dialog-close"));
+                m_status.error_log->setText(result);
+                m_status.error_box->setHidden(false);
+                kDebug() << "/// RENDERING SPUMUX MENU crashed";
                 return;
             }
         } else {
             kDebug() << "/// RENDERING SPUMUX MENU timed out";
             spuitem->setIcon(KIcon("dialog-close"));
+            m_status.error_log->setText(i18n("Menu job timed out"));
+            m_status.error_box->setHidden(false);
             return;
         }
 
@@ -378,55 +397,117 @@ void DvdWizard::generateDvd() {
         out << dvddoc.toString();
     }
     data2.close();
-
+    /*kDebug() << "------------------";
+    kDebug() << dvddoc.toString();
+    kDebug() << "------------------";*/
 
     QStringList args;
     args << "-x" << m_authorFile.fileName();
     kDebug() << "// DVDAUTH ARGS: " << args;
-    QProcess *dvdauth = new QProcess(this);
-    connect(dvdauth, SIGNAL(finished(int , QProcess::ExitStatus)), this, SLOT(slotRenderFinished(int, QProcess::ExitStatus)));
-    dvdauth->setProcessChannelMode(QProcess::MergedChannels);
-    dvdauth->start("dvdauthor", args);
+    if (m_dvdauthor) {
+        m_dvdauthor->close();
+        delete m_dvdauthor;
+        m_dvdauthor = NULL;
+    }
+    m_creationLog.clear();
+    m_dvdauthor = new QProcess(this);
+    connect(m_dvdauthor, SIGNAL(finished(int , QProcess::ExitStatus)), this, SLOT(slotRenderFinished(int, QProcess::ExitStatus)));
+    m_dvdauthor->setProcessChannelMode(QProcess::MergedChannels);
+    m_dvdauthor->start("dvdauthor", args);
 
 }
 
-void DvdWizard::slotRenderFinished(int /*exitCode*/, QProcess::ExitStatus status) {
+void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status) {
     QListWidgetItem *authitem =  m_status.job_progress->item(3);
     if (status == QProcess::CrashExit) {
+        QByteArray result = m_dvdauthor->readAllStandardError();
+        m_status.error_log->setText(result);
+        m_status.error_box->setHidden(false);
         kDebug() << "DVDAuthor process crashed";
         authitem->setIcon(KIcon("dialog-close"));
+        m_dvdauthor->close();
+        delete m_dvdauthor;
+        m_dvdauthor = NULL;
+        cleanup();
+        return;
+    }
+    m_creationLog.append(m_dvdauthor->readAllStandardError());
+    m_dvdauthor->close();
+    delete m_dvdauthor;
+    m_dvdauthor = NULL;
+
+    // Check if DVD structure has the necessary infos
+    if (!QFile::exists(m_iso.tmp_folder->url().path() + "/DVD/VIDEO_TS/VIDEO_TS.IFO")) {
+        m_status.error_log->setText(m_creationLog + '\n' + i18n("Dvd structure broken"));
+        m_status.error_box->setHidden(false);
+        kDebug() << "DVDAuthor process crashed";
+        authitem->setIcon(KIcon("dialog-close"));
+        cleanup();
         return;
     }
     authitem->setIcon(KIcon("dialog-ok"));
     qApp->processEvents();
     QStringList args;
     args << "-dvd-video" << "-v" << "-o" << m_iso.iso_image->url().path() << m_iso.tmp_folder->url().path() + "/DVD";
-    QProcess *mkiso = new QProcess(this);
-    connect(mkiso, SIGNAL(finished(int , QProcess::ExitStatus)), this, SLOT(slotIsoFinished(int, QProcess::ExitStatus)));
-    mkiso->setProcessChannelMode(QProcess::MergedChannels);
+
+    if (m_mkiso) {
+        m_mkiso->close();
+        delete m_mkiso;
+        m_mkiso = NULL;
+    }
+    m_mkiso = new QProcess(this);
+    connect(m_mkiso, SIGNAL(finished(int , QProcess::ExitStatus)), this, SLOT(slotIsoFinished(int, QProcess::ExitStatus)));
+    m_mkiso->setProcessChannelMode(QProcess::MergedChannels);
     QListWidgetItem *isoitem =  m_status.job_progress->item(4);
     isoitem->setIcon(KIcon("system-run"));
-    mkiso->start("mkisofs", args);
+    m_mkiso->start("mkisofs", args);
 
 }
 
 void DvdWizard::slotIsoFinished(int /*exitCode*/, QProcess::ExitStatus status) {
     QListWidgetItem *isoitem =  m_status.job_progress->item(4);
     if (status == QProcess::CrashExit) {
-        m_authorFile.remove();
-        m_menuFile.remove();
-        KIO::NetAccess::del(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);
+        QByteArray result = m_mkiso->readAllStandardError();
+        m_status.error_log->setText(result);
+        m_status.error_box->setHidden(false);
+        m_mkiso->close();
+        delete m_mkiso;
+        m_mkiso = NULL;
+        cleanup();
         kDebug() << "Iso process crashed";
         isoitem->setIcon(KIcon("dialog-close"));
         return;
     }
+
+    m_creationLog.append(m_mkiso->readAllStandardError());
+    delete m_mkiso;
+    m_mkiso = NULL;
+
+    // Check if DVD iso is ok
+    QFile iso(m_iso.iso_image->url().path());
+    if (!iso.exists() || iso.size() == 0) {
+        if (iso.exists()) {
+            KIO::NetAccess::del(m_iso.iso_image->url(), this);
+        }
+        m_status.error_log->setText(m_creationLog + '\n' + i18n("Dvd iso is broken"));
+        m_status.error_box->setHidden(false);
+        isoitem->setIcon(KIcon("dialog-close"));
+        cleanup();
+        return;
+    }
+
     isoitem->setIcon(KIcon("dialog-ok"));
     kDebug() << "ISO IMAGE " << m_iso.iso_image->url().path() << " Successfully created";
-    m_authorFile.remove();
-    m_menuFile.remove();
-    KIO::NetAccess::del(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);
+    cleanup();
+    kDebug() << m_creationLog;
     KMessageBox::information(this, i18n("DVD iso image %1 successfully created.", m_iso.iso_image->url().path()));
 
 }
 
+
+void DvdWizard::cleanup() {
+    m_authorFile.remove();
+    m_menuFile.remove();
+    KIO::NetAccess::del(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);
+}
 

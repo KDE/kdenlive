@@ -345,21 +345,21 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
         m_scene->removeItem(m_background);
         m_scene->render(&p, QRectF(0, 0, m_width, m_height));
         p.end();
-        img.setNumColors(4);
         QImage saved;
         if (m_view.menu_profile->currentIndex() < 2)
             saved = img.scaled(720, 576);
         else saved = img.scaled(720, 480);
+        saved.setNumColors(4);
         saved.save(img1);
 
         updateColor(m_view.selected_color->color());
         p.begin(&img);
         m_scene->render(&p, QRectF(0, 0, m_width, m_height));
         p.end();
-        img.setNumColors(4);
         if (m_view.menu_profile->currentIndex() < 2)
             saved = img.scaled(720, 576);
         else saved = img.scaled(720, 480);
+        saved.setNumColors(4);
         saved.save(img2);
 
 
@@ -367,10 +367,10 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
         p.begin(&img);
         m_scene->render(&p, QRectF(0, 0, m_width, m_height));
         p.end();
-        img.setNumColors(4);
         if (m_view.menu_profile->currentIndex() < 2)
             saved = img.scaled(720, 576);
         else saved = img.scaled(720, 480);
+        saved.setNumColors(4);
         saved.save(img3);
 
         updateColor();

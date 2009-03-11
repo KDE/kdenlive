@@ -50,6 +50,10 @@ private:
     QString m_profile;
     KTemporaryFile m_menuFile;
     KTemporaryFile m_authorFile;
+    QProcess *m_dvdauthor;
+    QProcess *m_mkiso;
+    QString m_creationLog;
+    void cleanup();
 
 private slots:
     void slotPageChanged(int page);

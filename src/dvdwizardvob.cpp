@@ -22,7 +22,9 @@
 #include <KUrlRequester>
 #include <KDebug>
 #include <KStandardDirs>
+#include <KFileItem>
 
+#include <QHBoxLayout>
 
 DvdWizardVob::DvdWizardVob(QWidget *parent): QWizardPage(parent) {
     m_view.setupUi(this);
@@ -35,11 +37,21 @@ DvdWizardVob::DvdWizardVob(QWidget *parent): QWizardPage(parent) {
     if (KStandardDirs::findExe("mkisofs").isEmpty()) m_errorMessage.append(i18n("<strong>Program %1 is required for the DVD wizard.", i18n("mkisofs")));
     if (m_errorMessage.isEmpty()) m_view.error_message->setVisible(false);
     else m_view.error_message->setText(m_errorMessage);
+
+#if KDE_IS_VERSION(4,2,0)
+    m_capacityBar = new KCapacityBar(KCapacityBar::DrawTextInline, this);
+    QHBoxLayout *layout = new QHBoxLayout;
+    layout->addWidget(m_capacityBar);
+    m_view.size_box->setLayout(layout);
+#else
+    m_view.size_box->setHidden(true);
+#endif
 }
 
 DvdWizardVob::~DvdWizardVob() {
     QList<KUrlRequester *> allUrls = m_view.vob_list->findChildren<KUrlRequester *>();
     qDeleteAll(allUrls);
+    delete m_capacityBar;
 }
 
 // virtual
@@ -96,5 +108,16 @@ void DvdWizardVob::slotCheckVobList(const QString &text) {
         m_view.vob_list->layout()->addWidget(vob);
         connect(vob, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckVobList(const QString &)));
     }
+    qint64 maxSize = (qint64) 47000 * 100000;
+    qint64 totalSize = 0;
+    for (int i = 0; i < allUrls.count(); i++) {
+        QFile f(allUrls.at(i)->url().path());
+        totalSize += f.size();
+    }
+
+#if KDE_IS_VERSION(4,2,0)
+    m_capacityBar->setValue(100 * totalSize / maxSize);
+    m_capacityBar->setText(KIO::convertSize(totalSize));
+#endif
 }
 

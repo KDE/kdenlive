@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>295</width>
-    <height>191</height>
+    <width>399</width>
+    <height>303</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -45,8 +45,47 @@
      </item>
     </widget>
    </item>
+   <item row="1" column="0" >
+    <widget class="QGroupBox" name="error_box" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title" >
+      <string/>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4" >
+      <item row="1" column="0" >
+       <widget class="QLabel" name="label_7" >
+        <property name="text" >
+         <string>Error Log</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" >
+       <widget class="KTextEdit" name="error_log" >
+        <property name="readOnly" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
   </layout>
+  <zorder>job_progress</zorder>
+  <zorder>error_box</zorder>
+  <zorder>error_log</zorder>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>ktextedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

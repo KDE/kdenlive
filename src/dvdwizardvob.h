@@ -21,9 +21,15 @@
 #ifndef DVDWIZARDVOB_H
 #define DVDWIZARDVOB_H
 
-#include <QWizardPage>
-
 #include "ui_dvdwizardvob_ui.h"
+
+#include <kdeversion.h>
+
+#if KDE_IS_VERSION(4,2,0)
+#include <kcapacitybar.h>
+#endif
+
+#include <QWizardPage>
 
 class DvdWizardVob : public QWizardPage {
     Q_OBJECT
@@ -39,6 +45,10 @@ public:
 private:
     Ui::DvdWizardVob_UI m_view;
     QString m_errorMessage;
+
+#if KDE_IS_VERSION(4,2,0)
+    KCapacityBar *m_capacityBar;
+#endif
 
 private slots:
     void slotCheckVobList(const QString &text);
