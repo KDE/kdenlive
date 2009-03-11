@@ -68,7 +68,7 @@ void EffectsListView::filterList(int pos) {
     if (item) {
         if (item->isHidden()) {
             int i;
-            for (i = 0; i < m_effectsList->count() && m_effectsList->item(i)->isHidden(); i++);
+            for (i = 0; i < m_effectsList->count() && m_effectsList->item(i)->isHidden(); i++) /*do nothing*/;
             m_effectsList->setCurrentRow(i);
         } else m_effectsList->scrollToItem(item);
     }
