@@ -417,7 +417,7 @@ void DvdWizard::generateDvd() {
 
 }
 
-void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status) {
+void DvdWizard::slotRenderFinished(int /*exitCode*/, QProcess::ExitStatus status) {
     QListWidgetItem *authitem =  m_status.job_progress->item(3);
     if (status == QProcess::CrashExit) {
         QByteArray result = m_dvdauthor->readAllStandardError();
