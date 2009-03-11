@@ -71,7 +71,7 @@ bool WestleyPreview::startAndWaitProcess(const QStringList &args) {
     return true;
 }
 
-bool WestleyPreview::create(const QString &path, int width, int height, QImage &img) {
+bool WestleyPreview::create(const QString &path, int width, int /*height*/, QImage &img) {
     QFileInfo fi(path);
     playerBin = KStandardDirs::findExe("inigo");
     if (playerBin.isEmpty()) {
@@ -128,7 +128,7 @@ bool WestleyPreview::create(const QString &path, int width, int height, QImage &
     }
 
     if (pix.depth() != 32)
-	img = pix.convertToFormat( QImage::Format_RGB32 );
+        img = pix.convertToFormat(QImage::Format_RGB32);
     else img = pix;
     return true;
 }
@@ -176,8 +176,7 @@ uint WestleyPreview::imageVariance(QImage image) {
     return delta / STEPS;
 }
 
-ThumbCreator::Flags WestleyPreview::flags() const
-{
+ThumbCreator::Flags WestleyPreview::flags() const {
     return None;
 }
 

@@ -171,7 +171,7 @@ int TitleDocument::loadDocument(const KUrl& url, QGraphicsPolygonItem* startv, Q
     return -1;
 }
 
-int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv) {
+int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* /*startv*/, QGraphicsPolygonItem* /*endv*/) {
     QDomNodeList titles = doc.elementsByTagName("kdenlivetitle");
     int maxZValue = 0;
     if (titles.size()) {

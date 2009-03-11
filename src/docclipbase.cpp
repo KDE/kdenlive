@@ -218,7 +218,7 @@ QDomElement DocClipBase::toXML() const {
 }
 
 DocClipBase *DocClipBase::
-createClip(KdenliveDoc *doc, const QDomElement & element) {
+createClip(KdenliveDoc */*doc*/, const QDomElement & element) {
     DocClipBase *clip = 0;
     QString description;
     QDomNode node = element;

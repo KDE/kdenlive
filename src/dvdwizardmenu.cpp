@@ -244,7 +244,7 @@ void DvdWizardMenu::updatePreview() {
     m_safeRect->setRect(safeW, safeH, m_width - 2 * safeW, m_height - 2 * safeH);
 }
 
-void DvdWizardMenu::setTargets(QStringList list) {
+void DvdWizardMenu::setTargets(QStringList /*list*/) {
     m_targets = QStringList() << i18n("Play All");
     // TODO: re-enable different targets
     /*

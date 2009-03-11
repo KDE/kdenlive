@@ -1481,7 +1481,7 @@ DocClipBase *KdenliveDoc::getBaseClip(const QString &clipId) {
     return m_clipManager->getClipById(clipId);
 }
 
-void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId) {
+void KdenliveDoc::slotCreateTextClip(QString /*group*/, const QString &/*groupId*/) {
     QString titlesFolder = projectFolder().path() + "/titles/";
     KStandardDirs::makeDir(titlesFolder);
     TitleWidget *dia_ui = new TitleWidget(KUrl(), titlesFolder, m_render, kapp->activeWindow());

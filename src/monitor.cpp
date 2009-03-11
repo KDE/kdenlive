@@ -691,7 +691,7 @@ void MonitorRefresh::setRenderer(Render* render) {
     m_renderer = render;
 }
 
-void MonitorRefresh::paintEvent(QPaintEvent * event) {
+void MonitorRefresh::paintEvent(QPaintEvent * /*event*/) {
     if (m_renderer) m_renderer->doRefresh();
 }
 
@@ -703,7 +703,7 @@ Overlay::Overlay(QWidget* parent): QLabel(parent) {
     setAutoFillBackground(false);
 }
 
-void Overlay::paintEvent(QPaintEvent * event) {
+void Overlay::paintEvent(QPaintEvent * /*event*/) {
     QPainter painter(this);
     QColor col;
     painter.setPen(Qt::white);

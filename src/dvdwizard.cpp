@@ -390,7 +390,7 @@ void DvdWizard::generateDvd() {
 
 }
 
-void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status) {
+void DvdWizard::slotRenderFinished(int /*exitCode*/, QProcess::ExitStatus status) {
     QListWidgetItem *authitem =  m_status.job_progress->item(3);
     if (status == QProcess::CrashExit) {
         kDebug() << "DVDAuthor process crashed";
@@ -410,7 +410,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status) {
 
 }
 
-void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status) {
+void DvdWizard::slotIsoFinished(int /*exitCode*/, QProcess::ExitStatus status) {
     QListWidgetItem *isoitem =  m_status.job_progress->item(4);
     if (status == QProcess::CrashExit) {
         m_authorFile.remove();

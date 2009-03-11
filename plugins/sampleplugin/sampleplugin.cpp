@@ -35,7 +35,7 @@ QStringList SamplePlugin::generators() const {
 }
 
 
-KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFolder, const QStringList &lumaNames, const QStringList &lumaFiles, const double fps, const int width, const int height) {
+KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFolder, const QStringList &/*lumaNames*/, const QStringList &/*lumaFiles*/, const double fps, const int /*width*/, const int /*height*/) {
     QString prePath;
     if (generator == i18n("Noise")) {
         prePath = projectFolder.path() + "/noise";

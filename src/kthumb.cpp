@@ -122,7 +122,17 @@ void MyThread::run() {
 
 }
 
-KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QString &hash, QObject * parent, const char *name): QObject(parent), m_clipManager(clipManager), m_url(url), m_id(id), m_producer(NULL), m_dar(1), m_mainFrame(-1) {
+KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QString &hash, QObject * parent, const char */*name*/)
+  : QObject(parent),
+    audioThumbProducer(),
+    m_url(url),
+    m_thumbFile(),
+    m_dar(1),
+    m_producer(NULL),
+    m_clipManager(clipManager),
+    m_id(id),
+    m_mainFrame(-1)
+{
     m_thumbFile = clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
     connect(&audioThumbProducer, SIGNAL(audioThumbProgress(const int)), this, SLOT(slotAudioThumbProgress(const int)));
     connect(&audioThumbProducer, SIGNAL(audioThumbOver()), this, SLOT(slotAudioThumbOver()));

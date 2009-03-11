@@ -2219,7 +2219,7 @@ void MainWindow::keyPressEvent(QKeyEvent *ke) {
 
 
 /** Gets called when the window gets hidden */
-void MainWindow::hideEvent(QHideEvent *event) {
+void MainWindow::hideEvent(QHideEvent */*event*/) {
     // kDebug() << "I was hidden";
     // issue http://www.kdenlive.org/mantis/view.php?id=231
     if (this->isMinimized()) {

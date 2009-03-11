@@ -228,7 +228,7 @@ void RenderJob::initKdenliveDbusInterface() {
 }
 
 
-void RenderJob::slotIsOver(int exitcode, QProcess::ExitStatus status) {
+void RenderJob::slotIsOver(int /*exitcode*/, QProcess::ExitStatus status) {
     if (m_jobUiserver) m_jobUiserver->call("terminate", QString());
     if (m_erase) {
         QFile f(m_scenelist);

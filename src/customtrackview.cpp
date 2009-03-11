@@ -1349,7 +1349,7 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition) {
         }
 }
 
-void CustomTrackView::slotAddTransition(ClipItem* clip, ItemInfo transitionInfo, int endTrack, QDomElement transition) {
+void CustomTrackView::slotAddTransition(ClipItem* /*clip*/, ItemInfo transitionInfo, int endTrack, QDomElement transition) {
     if (transitionInfo.startPos >= transitionInfo.endPos) {
         emit displayMessage(i18n("Invalid transition"), ErrorMessage);
         return;
@@ -1371,7 +1371,7 @@ void CustomTrackView::addTransition(ItemInfo transitionInfo, int endTrack, QDomE
     }
 }
 
-void CustomTrackView::deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement params) {
+void CustomTrackView::deleteTransition(ItemInfo transitionInfo, int endTrack, QDomElement /*params*/) {
     Transition *item = getTransitionItemAt(transitionInfo.startPos, transitionInfo.track);
     if (!item) {
         emit displayMessage(i18n("Select clip to delete"), ErrorMessage);

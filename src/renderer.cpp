@@ -257,7 +257,7 @@ QPixmap Render::extractFrame(int frame_position, int width, int height) {
     return KThumb::getFrame(m_mltProducer, frame_position, width, height);
 }
 
-QPixmap Render::getImageThumbnail(KUrl url, int width, int height) {
+QPixmap Render::getImageThumbnail(KUrl url, int /*width*/, int /*height*/) {
     QImage im;
     QPixmap pixmap;
     if (url.fileName().startsWith(".all.")) {  //  check for slideshow
@@ -946,7 +946,7 @@ void Render::refreshDisplay() {
     refresh();
 }
 
-void Render::setVolume(double volume) {
+void Render::setVolume(double /*volume*/) {
     if (!m_mltConsumer || !m_mltProducer) return;
     /*osdTimer->stop();
     m_mltConsumer->set("refresh", 0);
@@ -1202,12 +1202,12 @@ void Render::emitConsumerStopped() {
 
 
 
-void Render::exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime) {
+void Render::exportFileToFirewire(QString /*srcFileName*/, int /*port*/, GenTime /*startTime*/, GenTime /*endTime*/) {
     KMessageBox::sorry(0, i18n("Firewire is not enabled on your system.\n Please install Libiec61883 and recompile Kdenlive"));
 }
 
 
-void Render::exportCurrentFrame(KUrl url, bool notify) {
+void Render::exportCurrentFrame(KUrl url, bool /*notify*/) {
     if (!m_mltProducer) {
         KMessageBox::sorry(qApp->activeWindow(), i18n("There is no clip, cannot extract frame."));
         return;
@@ -2473,7 +2473,7 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
     m_mltConsumer->set("refresh", 1);
 }
 
-void Render::mltDeleteTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool do_refresh) {
+void Render::mltDeleteTransition(QString tag, int /*a_track*/, int b_track, GenTime in, GenTime out, QDomElement /*xml*/, bool /*do_refresh*/) {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
     Mlt::Field *field = tractor.field();
@@ -2679,7 +2679,7 @@ void Render::mltMoveTransparency(int startTime, int endTime, int startTrack, int
 }
 
 
-bool Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool do_refresh) {
+bool Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml, bool /*do_refresh*/) {
     if (in >= out) return false;
     QMap<QString, QString> args = mltGetTransitionParamsFromXml(xml);
     Mlt::Service service(m_mltProducer->parent().get_service());

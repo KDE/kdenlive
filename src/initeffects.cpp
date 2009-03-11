@@ -465,7 +465,7 @@ char* initEffects::ladspaPhaserEffectString(QStringList params) {
 }
 
 
-QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, const QString& type, const QString& filtername) {
+QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, const QString& /*type*/, const QString& filtername) {
 
     QDomDocument ret;
     Mlt::Properties *metadata = repository->metadata(filter_type, filtername.toAscii().data());

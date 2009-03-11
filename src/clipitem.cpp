@@ -516,7 +516,7 @@ void ClipItem::flashClip() {
     m_timeLine->start();
 }
 
-void ClipItem::animate(qreal value) {
+void ClipItem::animate(qreal /*value*/) {
     QRectF r = boundingRect();
     r.setHeight(20);
     update(r);
@@ -529,8 +529,10 @@ void ClipItem::paint(QPainter *painter,
     /*if (parentItem()) m_opacity = 0.5;
     else m_opacity = 1.0;
     painter->setOpacity(m_opacity);*/
-    QBrush paintColor = brush();
-    if (isSelected()) paintColor = QBrush(QColor(79, 93, 121));
+    QBrush paintColor;
+    if (parentItem()) paintColor = QBrush(QColor(255, 248, 149));
+    else paintColor = brush();
+    if (isSelected()) paintColor = QBrush(paintColor.color().darker());
     QRectF br = rect();
     QRectF exposed = option->exposedRect;
     QRectF mapped = painter->matrix().mapRect(br);
@@ -733,10 +735,8 @@ void ClipItem::paint(QPainter *painter,
     // draw frame around clip
     if (isSelected()) {
         pen.setColor(Qt::red);
-        //pen.setWidth(2);
     } else {
         pen.setColor(Qt::black);
-        //pen.setWidth(1);
     }
 
     // draw effect or transition keyframes
@@ -745,9 +745,6 @@ void ClipItem::paint(QPainter *painter,
     painter->setMatrixEnabled(true);
 
     // draw clip border
-
-    //kDebug()<<"/// ITEM PAINTING:: exposed="<<exposed<<", RECT = "<<rect();
-
     // expand clip rect to allow correct painting of clip border
     exposed.setRight(exposed.right() + 1 / scale + 0.5);
     exposed.setBottom(exposed.bottom() + 1);
@@ -956,7 +953,7 @@ void ClipItem::mouseReleaseEvent(QGraphicsSceneMouseEvent * event) {
 }
 
 //virtual
-void ClipItem::hoverEnterEvent(QGraphicsSceneHoverEvent *e) {
+void ClipItem::hoverEnterEvent(QGraphicsSceneHoverEvent */*e*/) {
     //if (e->pos().x() < 20) m_hover = true;
     if (isItemLocked()) return;
     m_hover = true;
@@ -980,7 +977,7 @@ void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *) {
     update(r.right() - width, r.y() + height, width, height);
 }
 
-void ClipItem::resizeStart(int posx, double speed) {
+void ClipItem::resizeStart(int posx, double /*speed*/) {
     const int min = (startPos() - cropStart()).frames(m_fps);
     if (posx < min) posx = min;
     if (posx == startPos().frames(m_fps)) return;
@@ -995,7 +992,7 @@ void ClipItem::resizeStart(int posx, double speed) {
     }
 }
 
-void ClipItem::resizeEnd(int posx, double speed, bool updateKeyFrames) {
+void ClipItem::resizeEnd(int posx, double /*speed*/, bool updateKeyFrames) {
     const int max = (startPos() - cropStart() + maxDuration()).frames(m_fps) + 1;
     if (posx > max) posx = max;
     if (posx == endPos().frames(m_fps)) return;

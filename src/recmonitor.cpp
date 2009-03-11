@@ -590,7 +590,7 @@ void RecMonitor::manageCapturedFiles() {
 }
 
 // virtual
-void RecMonitor::mousePressEvent(QMouseEvent * event) {
+void RecMonitor::mousePressEvent(QMouseEvent * /*event*/) {
     slotPlay();
 }
 

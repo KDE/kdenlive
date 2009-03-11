@@ -123,7 +123,7 @@ void AbstractClipItem::resizeStart(int posx, double speed) {
         }*/
 }
 
-void AbstractClipItem::resizeEnd(int posx, double speed, bool updateKeyFrames) {
+void AbstractClipItem::resizeEnd(int posx, double speed, bool /*updateKeyFrames*/) {
     GenTime durationDiff = GenTime(posx, m_fps) - endPos();
     if (durationDiff == GenTime()) return;
     //kDebug() << "// DUR DIFF1:" << durationDiff.frames(25) << ", ADJUSTED: " << durationDiff.frames(25) * speed << ", SPED:" << speed;
@@ -224,7 +224,7 @@ QPainterPath AbstractClipItem::lowerRectPart(QRectF br) {
     return roundRectPathLower;
 }
 
-void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF exposedRect) {
+void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/) {
     if (m_keyframes.count() < 2) return;
     QRectF br = rect();
     double maxw = br.width() / m_cropDuration.frames(m_fps);

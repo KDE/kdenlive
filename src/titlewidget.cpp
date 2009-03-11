@@ -231,7 +231,7 @@ QString TitleWidget::getTitleResourceFromName(const KUrl &projectUrl, const QStr
 }
 
 //virtual
-void TitleWidget::resizeEvent(QResizeEvent * event) {
+void TitleWidget::resizeEvent(QResizeEvent * /*event*/) {
     //slotAdjustZoom();
 }
 

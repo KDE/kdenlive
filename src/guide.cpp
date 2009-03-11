@@ -103,7 +103,7 @@ QRectF Guide::boundingRect() const {
 }
 
 // virtual
-void Guide::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w) {
+void Guide::paint(QPainter *painter, const QStyleOptionGraphicsItem */*option*/, QWidget */*w*/) {
     painter->setMatrixEnabled(false);
     QLineF guideline = painter->matrix().map(line());
     painter->setPen(pen());

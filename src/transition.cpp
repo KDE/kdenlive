@@ -122,7 +122,7 @@ QPixmap Transition::transitionPixmap() const {
 }
 
 
-void Transition::setTransitionDirection(bool inv) {
+void Transition::setTransitionDirection(bool /*inv*/) {
     //m_parameters.setAttribute("reverse", inv);
 }
 
@@ -145,7 +145,7 @@ bool Transition::forcedTrack() const {
 
 void Transition::paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
-                       QWidget *widget) {
+                       QWidget */*widget*/) {
     const double scale = option->matrix.m11();
     QRectF exposed = option->exposedRect;
     painter->setClipRect(exposed);
