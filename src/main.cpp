@@ -26,7 +26,7 @@
 
 #include "mainwindow.h"
 
-#ifdef __APPLE_KDE__ || __DARWIN__
+#if defined(__APPLE_KDE__) || defined(__DARWIN__)
 #include <SDL/SDL.h>
 #endif
 
