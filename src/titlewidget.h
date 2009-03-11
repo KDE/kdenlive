@@ -19,13 +19,12 @@
 #define TITLEWIDGET_H
 
 
-#include <QMap>
-
 #include "ui_titlewidget_ui.h"
 #include "titledocument.h"
 #include "renderer.h"
 #include "graphicsscenerectmove.h"
 
+#include <QMap>
 
 
 class Transform {

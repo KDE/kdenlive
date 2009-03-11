@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 
-#ifndef CAPTUREDIALOG_H
-#define CAPTUREDIALOG_H
+#ifndef MANAGECAPTURESDIALOG_H
+#define MANAGECAPTURESDIALOG_H
 
 #include <QPushButton>
 
