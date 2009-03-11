@@ -54,19 +54,19 @@ public:
     static QDomElement quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def = QString(), QString min = QString(), QString max = QString(), QString list = QString(), QString listdisplaynames = QString(), QString factor = QString(), QString namedesc = QString(), QString format = QString());
     static void parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, QString name, QStringList filtersList, QStringList producersList);
     static void parseCustomEffectsFile();
-    static char* ladspaEffectString(int ladspaId, QStringList params);
+    static const char* ladspaEffectString(int ladspaId, QStringList params);
     static void ladspaEffectFile(const QString & fname, int ladspaId, QStringList params);
 
-    static char* ladspaPitchEffectString(QStringList params);
-    static char* ladspaReverbEffectString(QStringList params);
-    static char* ladspaRoomReverbEffectString(QStringList params);
-    static char* ladspaEqualizerEffectString(QStringList params);
-    static char* ladspaDeclipEffectString(QStringList);
-    static char* ladspaVinylEffectString(QStringList params);
-    static char* ladspaLimiterEffectString(QStringList params);
-    static char* ladspaPitchShifterEffectString(QStringList params);
-    static char* ladspaPhaserEffectString(QStringList params);
-    static char* ladspaRateScalerEffectString(QStringList params);
+    static const char* ladspaPitchEffectString(QStringList params);
+    static const char* ladspaReverbEffectString(QStringList params);
+    static const char* ladspaRoomReverbEffectString(QStringList params);
+    static const char* ladspaEqualizerEffectString(QStringList params);
+    static const char* ladspaDeclipEffectString(QStringList);
+    static const char* ladspaVinylEffectString(QStringList params);
+    static const char* ladspaLimiterEffectString(QStringList params);
+    static const char* ladspaPitchShifterEffectString(QStringList params);
+    static const char* ladspaPhaserEffectString(QStringList params);
+    static const char* ladspaRateScalerEffectString(QStringList params);
 private:
     static initEffectsThumbnailer thumbnailer;
 };

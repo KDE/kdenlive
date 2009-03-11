@@ -324,7 +324,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
                 setCursor(Qt::OpenHandCursor);
                 break;
             } else if (g->type() == 3 && g->zValue() > -1000) {
-                QRectF r = ((QGraphicsRectItem*)g)->rect();
+                QRectF r = ((const QGraphicsRectItem*)g)->rect();
                 r.translate(g->scenePos());
                 itemFound = true;
                 if ((r.toRect().topLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
