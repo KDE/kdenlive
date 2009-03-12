@@ -1537,8 +1537,11 @@ Qt::DropActions CustomTrackView::supportedDropActions() const {
 }
 
 void CustomTrackView::setDuration(int duration) {
-    if (duration > sceneRect().width())
-        setSceneRect(0, 0, (duration + 100), sceneRect().height());
+    int diff = qAbs(duration - sceneRect().width());
+    if (diff * matrix().m11() > -50) {
+        if (matrix().m11() < 0.4) setSceneRect(0, 0, (duration + 100 / matrix().m11()), sceneRect().height());
+        else setSceneRect(0, 0, (duration + 300), sceneRect().height());
+    }
     m_projectDuration = duration;
 }
 
@@ -3147,27 +3150,15 @@ void CustomTrackView::setScale(double scaleFactor) {
         delete m_animation;
         m_animation = NULL;
     }
-    /*double pos = cursorPos() / m_scale;
-    m_scale = scaleFactor;
-    m_scene->setScale(m_scale);
-    int vert = verticalScrollBar()->value();
-    kDebug() << " HHHHHHHH  SCALING: " << m_scale;
-    QList<QGraphicsItem *> itemList = items();
-    for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->type() == AVWIDGET || itemList.at(i)->type() == TRANSITIONWIDGET) {
-            AbstractClipItem *clip = (AbstractClipItem *)itemList.at(i);
-            clip->setRect(0, 0, (qreal) clip->duration().frames(m_document->fps()) * m_scale - .5, clip->rect().height());
-            clip->setPos((qreal) clip->startPos().frames(m_document->fps()) * m_scale, clip->pos().y());
-        }
-    }
 
-    for (int i = 0; i < m_guides.count(); i++) {
-        m_guides.at(i)->updatePosition(m_scale);
-    }
-
-    setSceneRect(0, 0, (m_projectDuration + 100) * m_scale, sceneRect().height());
-    updateCursorPos();*/
+    //setSceneRect(0, 0, m_projectDuration + 100 * scaleFactor, sceneRect().height());
     setMatrix(matrix);
+    int diff = sceneRect().width() - m_projectDuration;
+    if (diff * matrix.m11() < 50) {
+        if (matrix.m11() < 0.4) setSceneRect(0, 0, (m_projectDuration + 100 / matrix.m11()), sceneRect().height());
+        else setSceneRect(0, 0, (m_projectDuration + 300), sceneRect().height());
+    }
+
     centerOn(QPointF(cursorPos(), m_tracksHeight));
     //verticalScrollBar()->setValue(vert);*/
 }
