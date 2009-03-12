@@ -214,7 +214,7 @@ void CustomRuler::setPixelPerMark(double rate) {
 void CustomRuler::setDuration(int d) {
     int oldduration = m_duration;
     m_duration = d;
-    update(qMin(oldduration, m_duration) * m_factor - 1, 0, qAbs(oldduration - m_duration) * m_factor + 2, height());
+    update(qMin(oldduration, m_duration) * m_factor - 1 - offset(), 0, qAbs(oldduration - m_duration) * m_factor + 2, height());
 }
 
 // virtual
