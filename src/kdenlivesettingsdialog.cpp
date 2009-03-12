@@ -26,6 +26,7 @@
 #include <kopenwithdialog.h>
 #include <KConfigDialogManager>
 #include <kde_file.h>
+#include <KIO/NetAccess>
 
 #include <QDir>
 #include <QTimer>
@@ -65,6 +66,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
     m_configEnv.capturefolderurl->lineEdit()->setObjectName("kcfg_capturefolder");
     page2 = addPage(p2, i18n("Environment"), "terminal");
 
+    m_captureFolder = KdenliveSettings::capturefolder();
     QWidget *p4 = new QWidget;
     m_configCapture.setupUi(p4);
     page4 = addPage(p4, i18n("Capture"), "audio-card");
@@ -378,6 +380,12 @@ void KdenliveSettingsDialog::updateSettings() {
         resetProfile = true;
     }
 
+    if (m_configEnv.capturefolderurl->text() != KdenliveSettings::capturefolder()) {
+        kDebug() << "/// CAPT FOLDER UPDATED";
+        KdenliveSettings::setCapturefolder(m_configEnv.capturefolderurl->text());
+        emit updateCaptureFolder();
+    }
+
     value = m_configCapture.kcfg_rmd_alsa_device->itemData(m_configCapture.kcfg_rmd_alsa_device->currentIndex()).toString();
     if (value != KdenliveSettings::rmd_alsadevicename()) {
         KdenliveSettings::setRmd_alsadevicename(value);
@@ -425,6 +433,7 @@ void KdenliveSettingsDialog::slotUpdateDisplay() {
     m_defaultProfile = m_configMisc.kcfg_profiles_list->itemText(m_configMisc.kcfg_profiles_list->currentIndex());
     m_defaultPath = currentProfile;
 }
+
 
 
 #include "kdenlivesettingsdialog.moc"

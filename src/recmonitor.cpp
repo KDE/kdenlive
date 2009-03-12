@@ -126,6 +126,11 @@ void RecMonitor::slotConfigure() {
     emit showConfigDialog(4, ui.device_selector->currentIndex());
 }
 
+void RecMonitor::slotUpdateCaptureFolder() {
+    if (captureProcess) captureProcess->setWorkingDirectory(KdenliveSettings::capturefolder());
+    slotVideoDeviceChanged(ui.device_selector->currentIndex());
+}
+
 void RecMonitor::slotVideoDeviceChanged(int ix) {
     switch (ix) {
     case SCREENGRAB:

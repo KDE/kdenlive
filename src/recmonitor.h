@@ -98,6 +98,7 @@ public slots:
     void start();
     void activateRecMonitor();
     void slotPlay();
+    void slotUpdateCaptureFolder();
 
 signals:
     void renderPosition(int);

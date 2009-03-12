@@ -78,12 +78,14 @@ private:
     QString m_defaultProfile;
     QString m_defaultPath;
     KProcess m_readProcess;
+    QString m_captureFolder;
     void initDevices();
 
 signals:
     void customChanged();
     void doResetProfile();
     void updatePreviewSettings();
+    void updateCaptureFolder();
 };
 
 
