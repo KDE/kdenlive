@@ -21,9 +21,11 @@
 #ifndef ABSTRACTGROUPITEM
 #define ABSTRACTGROUPITEM
 
-#include <QGraphicsItemGroup>
 #include "definitions.h"
 #include "gentime.h"
+
+#include <QGraphicsItemGroup>
+#include <QGraphicsSceneMouseEvent>
 
 class CustomTrackScene;
 
@@ -39,6 +41,9 @@ public:
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     virtual void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
+    virtual void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
+    virtual void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
+    virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
 
 private:
     QPainterPath groupShape(QPointF);

@@ -66,6 +66,7 @@ public:
     void setScale(double scaleFactor);
     void deleteClip(const QString &clipId);
     void slotAddEffect(QDomElement effect, GenTime pos, int track);
+    void slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group);
     void addEffect(int track, GenTime pos, QDomElement effect);
     void deleteEffect(int track, GenTime pos, QDomElement effect);
     void updateEffect(int track, GenTime pos, QDomElement effect, int ix, bool triggeredByUser = true);
@@ -201,6 +202,7 @@ private:
     QAction *m_pasteEffectsAction;
     QTimer m_scrollTimer;
     int m_scrollOffset;
+    bool m_clipDrag;
 
     QList <CommentedTime> m_searchStrings;
     int m_findIndex;

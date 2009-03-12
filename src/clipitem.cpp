@@ -1379,6 +1379,7 @@ void ClipItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event) {
 void ClipItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event) {
     Q_UNUSED(event);
 }
+
 void ClipItem::addTransition(Transition* t) {
     m_transitionsList.append(t);
     //CustomTrackView *view = (CustomTrackView *) scene()->views()[0];

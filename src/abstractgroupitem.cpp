@@ -22,16 +22,20 @@
 #include "abstractclipitem.h"
 #include "kdenlivesettings.h"
 #include "customtrackscene.h"
+#include "customtrackview.h"
 
 #include <KDebug>
 
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
+#include <QDomDocument>
+#include <QMimeData>
 
 
 AbstractGroupItem::AbstractGroupItem(double fps): QGraphicsItemGroup(), m_fps(fps) {
     setZValue(2);
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    setAcceptDrops(true);
 }
 
 int AbstractGroupItem::type() const {
@@ -175,3 +179,21 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
     return QGraphicsItemGroup::itemChange(change, value);
 }
 
+//virtual
+void AbstractGroupItem::dropEvent(QGraphicsSceneDragDropEvent * event) {
+    QString effects = QString(event->mimeData()->data("kdenlive/effectslist"));
+    QDomDocument doc;
+    doc.setContent(effects, true);
+    QDomElement e = doc.documentElement();
+    CustomTrackView *view = (CustomTrackView *) scene()->views()[0];
+    if (view) view->slotAddGroupEffect(e, this);
+}
+
+//virtual
+void AbstractGroupItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event) {
+    event->setAccepted(event->mimeData()->hasFormat("kdenlive/effectslist"));
+}
+
+void AbstractGroupItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event) {
+    Q_UNUSED(event);
+}

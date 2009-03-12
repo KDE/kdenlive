@@ -79,7 +79,7 @@
 // const int duration = animate ? 1500 : 1;
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscene, QWidget *parent)
-        : QGraphicsView(projectscene, parent), m_scene(projectscene), m_cursorPos(0), m_cursorLine(NULL), m_operationMode(NONE), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()), m_tracksHeight(KdenliveSettings::trackheight()), m_tool(SELECTTOOL), m_dragGuide(NULL), m_findIndex(0), m_menuPosition(QPoint()), m_blockRefresh(false), m_selectionGroup(NULL), m_selectedTrack(0), m_copiedItems(QList<AbstractClipItem *> ()), m_scrollOffset(0), m_changeSpeedAction(NULL), m_pasteEffectsAction(NULL) {
+        : QGraphicsView(projectscene, parent), m_scene(projectscene), m_cursorPos(0), m_cursorLine(NULL), m_operationMode(NONE), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()), m_tracksHeight(KdenliveSettings::trackheight()), m_tool(SELECTTOOL), m_dragGuide(NULL), m_findIndex(0), m_menuPosition(QPoint()), m_blockRefresh(false), m_selectionGroup(NULL), m_selectedTrack(0), m_copiedItems(QList<AbstractClipItem *> ()), m_scrollOffset(0), m_changeSpeedAction(NULL), m_pasteEffectsAction(NULL), m_clipDrag(false) {
     if (doc) m_commandStack = doc->commandStack();
     else m_commandStack = NULL;
     setMouseTracking(true);
@@ -955,6 +955,7 @@ void CustomTrackView::activateMonitor() {
 
 void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
     if (event->mimeData()->hasFormat("kdenlive/clip")) {
+        m_clipDrag = true;
         resetSelectionGroup();
         QStringList list = QString(event->mimeData()->data("kdenlive/clip")).split(';');
         m_selectionGroup = new AbstractGroupItem(m_document->fps());
@@ -977,6 +978,7 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
         scene()->addItem(m_selectionGroup);
         event->acceptProposedAction();
     } else if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
+        m_clipDrag = true;
         QStringList ids = QString(event->mimeData()->data("kdenlive/producerslist")).split(';');
         m_scene->clearSelection();
         resetSelectionGroup(false);
@@ -1003,7 +1005,11 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
         updateSnapPoints(NULL, offsetList);
         scene()->addItem(m_selectionGroup);
         event->acceptProposedAction();
-    } else QGraphicsView::dragEnterEvent(event);
+    } else {
+        // the drag is not a clip (may be effect, ...)
+        m_clipDrag = false;
+        QGraphicsView::dragEnterEvent(event);
+    }
 }
 
 
@@ -1075,8 +1081,50 @@ void CustomTrackView::deleteEffect(int track, GenTime pos, QDomElement effect) {
     }
 }
 
+void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group) {
+    QList<QGraphicsItem *> itemList = group->childItems();
+    QUndoCommand *effectCommand = new QUndoCommand();
+    QString effectName;
+    QDomNode namenode = effect.elementsByTagName("name").item(0);
+    if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());
+    else effectName = i18n("effect");
+    effectCommand->setText(i18n("Add %1", effectName));
+    int count = 0;
+    for (int i = 0; i < itemList.count(); i++) {
+        if (itemList.at(i)->type() == AVWIDGET) {
+            ClipItem *item = (ClipItem *)itemList.at(i);
+            if (item->hasEffect(effect.attribute("tag"), effect.attribute("id")) != -1 && effect.attribute("unique", "0") != "0") {
+                emit displayMessage(i18n("Effect already present in clip"), ErrorMessage);
+                continue;
+            }
+            if (item->isItemLocked()) {
+                continue;
+            }
+            item->initEffect(effect);
+            if (effect.attribute("tag") == "ladspa") {
+                QString ladpsaFile = m_document->getLadspaFile();
+                initEffects::ladspaEffectFile(ladpsaFile, effect.attribute("ladspaid").toInt(), getLadspaParams(effect));
+                effect.setAttribute("src", ladpsaFile);
+            }
+            new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), effect, true, effectCommand);
+            count++;
+        }
+    }
+    if (count > 0) {
+        m_commandStack->push(effectCommand);
+        m_document->setModified(true);
+    } else delete effectCommand;
+}
+
 void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track) {
     QList<QGraphicsItem *> itemList;
+    QUndoCommand *effectCommand = new QUndoCommand();
+    QString effectName;
+    QDomNode namenode = effect.elementsByTagName("name").item(0);
+    if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());
+    else effectName = i18n("effect");
+    effectCommand->setText(i18n("Add %1", effectName));
+    int count = 0;
     if (track == -1) itemList = scene()->selectedItems();
     if (itemList.isEmpty()) {
         ClipItem *clip = getClipItemAt((int)pos.frames(m_document->fps()) + 1, track);
@@ -1091,17 +1139,23 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track) 
                 emit displayMessage(i18n("Effect already present in clip"), ErrorMessage);
                 continue;
             }
+            if (item->isItemLocked()) {
+                continue;
+            }
             item->initEffect(effect);
             if (effect.attribute("tag") == "ladspa") {
                 QString ladpsaFile = m_document->getLadspaFile();
                 initEffects::ladspaEffectFile(ladpsaFile, effect.attribute("ladspaid").toInt(), getLadspaParams(effect));
                 effect.setAttribute("src", ladpsaFile);
             }
-            AddEffectCommand *command = new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), effect, true);
-            m_commandStack->push(command);
+            new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), effect, true, effectCommand);
+            count++;
         }
     }
-    m_document->setModified(true);
+    if (count > 0) {
+        m_commandStack->push(effectCommand);
+        m_document->setModified(true);
+    } else delete effectCommand;
 }
 
 void CustomTrackView::slotDeleteEffect(ClipItem *clip, QDomElement effect) {
@@ -1407,19 +1461,17 @@ void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTr
 void CustomTrackView::dragMoveEvent(QDragMoveEvent * event) {
     event->setDropAction(Qt::IgnoreAction);
     const QPointF pos = mapToScene(event->pos());
-    if (m_selectionGroup) {
+    if (m_selectionGroup && m_clipDrag) {
         m_selectionGroup->setPos(pos.x(), pos.y());
         event->setDropAction(Qt::MoveAction);
-        if (event->mimeData()->hasFormat("kdenlive/producerslist") || event->mimeData()->hasFormat("kdenlive/clip")) {
-            event->acceptProposedAction();
-        }
+        event->acceptProposedAction();
     } else {
         QGraphicsView::dragMoveEvent(event);
     }
 }
 
 void CustomTrackView::dragLeaveEvent(QDragLeaveEvent * event) {
-    if (m_selectionGroup) {
+    if (m_selectionGroup && m_clipDrag) {
         QList<QGraphicsItem *> items = m_selectionGroup->childItems();
         qDeleteAll(items);
         scene()->destroyItemGroup(m_selectionGroup);
@@ -1428,7 +1480,7 @@ void CustomTrackView::dragLeaveEvent(QDragLeaveEvent * event) {
 }
 
 void CustomTrackView::dropEvent(QDropEvent * event) {
-    if (m_selectionGroup) {
+    if (m_selectionGroup && m_clipDrag) {
         QList<QGraphicsItem *> items = m_selectionGroup->childItems();
         resetSelectionGroup();
         m_scene->clearSelection();
@@ -1818,8 +1870,7 @@ void CustomTrackView::deleteClip(const QString &clipId) {
             }
         }
     }
-    if (count > 0) m_commandStack->push(deleteCommand);
-    else delete deleteCommand;
+
 }
 
 void CustomTrackView::setCursorPos(int pos, bool seek) {
