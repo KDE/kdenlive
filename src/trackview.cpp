@@ -352,14 +352,6 @@ int TrackView::fitZoom() const {
     return i;
 }
 
-double TrackView::zoomFactor() const {
-    return m_scale;
-}
-
-int TrackView::mapLocalToValue(int x) const {
-    return (int)(x * zoomFactor());
-}
-
 KdenliveDoc *TrackView::document() {
     return m_doc;
 }

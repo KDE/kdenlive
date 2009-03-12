@@ -46,8 +46,6 @@ class TrackView : public QWidget {
 public:
     explicit TrackView(KdenliveDoc *doc, QWidget *parent = 0);
 
-    double zoomFactor() const;
-    int mapLocalToValue(int x) const;
     void setEditMode(const QString & editMode);
     const QString & editMode() const;
     QGraphicsScene *projectScene();
