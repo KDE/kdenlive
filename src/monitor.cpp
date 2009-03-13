@@ -167,9 +167,10 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
         m_configMenu->addAction(setThumbFrame);
     }
 
-    QAction *showTips = m_contextMenu->addAction(KIcon("help-hint"), i18n("Monitor overlay infos"), this, SLOT(slotSwitchMonitorInfo(bool)));
+    QAction *showTips = m_contextMenu->addAction(KIcon("help-hint"), i18n("Monitor overlay infos"));
     showTips->setCheckable(true);
-    slotSwitchMonitorInfo(KdenliveSettings::displayMonitorInfo());
+    connect(showTips, SIGNAL(toggled(bool)), this, SLOT(slotSwitchMonitorInfo(bool)));
+    showTips->setChecked(KdenliveSettings::displayMonitorInfo());
     m_configMenu->addAction(showTips);
 
 }
@@ -676,7 +677,7 @@ void Monitor::slotSwitchMonitorInfo(bool show) {
         m_overlay = new Overlay(m_monitorRefresh);
         m_overlay->raise();
         m_overlay->setHidden(true);
-    } else {
+    } else if (m_overlay) {
         delete m_overlay;
         m_overlay = NULL;
     }
