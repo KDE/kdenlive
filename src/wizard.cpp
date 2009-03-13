@@ -33,12 +33,16 @@
 
 const double recommendedMltVersion = 36;
 
-Wizard::Wizard(QWidget *parent): QWizard(parent) {
+Wizard::Wizard(bool upgrade, QWidget *parent): QWizard(parent) {
     setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
 
     QWizardPage *page1 = new QWizardPage;
     page1->setTitle(i18n("Welcome"));
-    QLabel *label = new QLabel(i18n("This is the first time you run Kdenlive. This wizard will let you adjust some basic settings, you will be ready to edit your first movie in a few seconds..."));
+    QLabel *label;
+    if (upgrade)
+        label = new QLabel(i18n("Your Kdenlive version was upgraded. Please take some time to review the basic settings"));
+    else
+        label = new QLabel(i18n("This is the first time you run Kdenlive. This wizard will let you adjust some basic settings, you will be ready to edit your first movie in a few seconds..."));
     label->setWordWrap(true);
     m_startLayout = new QVBoxLayout;
     m_startLayout->addWidget(label);
@@ -99,7 +103,6 @@ Wizard::Wizard(QWidget *parent): QWizard(parent) {
     QWizardPage *page5 = new QWizardPage;
     page5->setTitle(i18n("Checking system"));
     m_check.setupUi(page5);
-    slotCheckPrograms();
     addPage(page5);
 
     listViewDelegate = new WizardDelegate(m_check.programList);
@@ -490,6 +493,7 @@ void Wizard::slotCheckMlt() {
     } else m_systemCheckIsOk = true;
 
     if (m_systemCheckIsOk) checkMltComponents();
+    slotCheckPrograms();
 }
 
 bool Wizard::isOk() const {

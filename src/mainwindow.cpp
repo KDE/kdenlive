@@ -49,6 +49,7 @@
 #include "markerdialog.h"
 #include "clipitem.h"
 #include "interfaces.h"
+#include "kdenlive-config.h"
 
 #include <KApplication>
 #include <KAction>
@@ -84,6 +85,8 @@
 #include <QKeyEvent>
 
 #include <stdlib.h>
+
+static const char version[] = VERSION;
 
 static const int ID_STATUS_MSG = 1;
 static const int ID_EDITMODE_MSG = 2;
@@ -1072,22 +1075,31 @@ void MainWindow::readOptions() {
     KSharedConfigPtr config = KGlobal::config();
     m_fileOpenRecent->loadEntries(KConfigGroup(config, "Recent Files"));
     KConfigGroup initialGroup(config, "version");
-    if (!initialGroup.exists()) {
+    bool upgrade = false;
+    if (initialGroup.exists()) {
+        if (initialGroup.readEntry("version", QString()).section(' ', 0, 0) != QString(version).section(' ', 0, 0))
+            upgrade = true;
+
+        if (initialGroup.readEntry("version") == "0.7") {
+            //Add new settings from 0.7.1
+            if (KdenliveSettings::defaultprojectfolder().isEmpty()) {
+                QString path = QDir::homePath() + "/kdenlive";
+                if (KStandardDirs::makeDir(path)  == false) kDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
+                KdenliveSettings::setDefaultprojectfolder(path);
+            }
+        }
+
+    }
+
+    if (!initialGroup.exists() || upgrade) {
         // this is our first run, show Wizard
-        Wizard *w = new Wizard(this);
+        Wizard *w = new Wizard(upgrade, this);
         if (w->exec() == QDialog::Accepted && w->isOk()) {
             w->adjustSettings();
-            initialGroup.writeEntry("version", "0.7");
+            initialGroup.writeEntry("version", version);
             delete w;
         } else {
             ::exit(1);
-        }
-    } else if (initialGroup.readEntry("version") == "0.7") {
-        //Add new settings from 0.7.1
-        if (KdenliveSettings::defaultprojectfolder().isEmpty()) {
-            QString path = QDir::homePath() + "/kdenlive";
-            if (KStandardDirs::makeDir(path)  == false) kDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
-            KdenliveSettings::setDefaultprojectfolder(path);
         }
     }
     KConfigGroup treecolumns(config, "Project Tree");

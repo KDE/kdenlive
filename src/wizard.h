@@ -73,7 +73,7 @@ public:
 class Wizard : public QWizard {
     Q_OBJECT
 public:
-    Wizard(QWidget * parent = 0);
+    Wizard(bool upgrade, QWidget * parent = 0);
     void installExtraMimes(QString baseName, QStringList globs);
     void runUpdateMimeDatabase();
     void adjustSettings();
