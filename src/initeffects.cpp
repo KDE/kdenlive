@@ -649,7 +649,8 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
             } else if (name == "composite") {
                 desc.appendChild(ret.createTextNode("A key-framable alpha-channel compositor for two frames."));
                 paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "0%,0%:100%x100%:100", "-500;-500;-500;-500;0", "500;500;500;500;100"));
-                paramList.append(quickParameterFill(ret, "Distort", "distort", "bool", "1", "1", "1"));
+                paramList.append(quickParameterFill(ret, "Distort", "distort", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, "Align", "aligned", "bool", "1", "0", "1"));
                 tname.appendChild(ret.createTextNode("Composite"));
                 ktrans.setAttribute("id", "composite");
                 /*QDomDocument ret1;
