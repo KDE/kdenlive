@@ -51,7 +51,9 @@ DvdWizardVob::DvdWizardVob(QWidget *parent): QWizardPage(parent) {
 DvdWizardVob::~DvdWizardVob() {
     QList<KUrlRequester *> allUrls = m_view.vob_list->findChildren<KUrlRequester *>();
     qDeleteAll(allUrls);
+#if KDE_IS_VERSION(4,2,0)
     delete m_capacityBar;
+#endif
 }
 
 // virtual
