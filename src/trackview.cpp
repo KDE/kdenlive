@@ -233,8 +233,7 @@ void TrackView::parseDocument(QDomDocument doc) {
             QString transitionId;
             if (mlt_service == "composite") {
                 // When adding composite transition, check if it is a wipe transition
-                if (mlt_geometry == "0%,0%:100%x100%") transitionId = "alphatransparency";
-                else if (mlt_geometry.count(';') == 1) {
+                if (mlt_geometry.count(';') == 1) {
                     mlt_geometry.remove(QChar('%'), Qt::CaseInsensitive);
                     mlt_geometry.replace(QChar('x'), QChar(','), Qt::CaseInsensitive);
                     QString start = mlt_geometry.section(';', 0, 0);
