@@ -380,9 +380,9 @@ void KdenliveSettingsDialog::updateSettings() {
         resetProfile = true;
     }
 
-    if (m_configEnv.capturefolderurl->text() != KdenliveSettings::capturefolder()) {
+    if (m_configEnv.capturefolderurl->url().path() != KdenliveSettings::capturefolder()) {
         kDebug() << "/// CAPT FOLDER UPDATED";
-        KdenliveSettings::setCapturefolder(m_configEnv.capturefolderurl->text());
+        KdenliveSettings::setCapturefolder(m_configEnv.capturefolderurl->url().path());
         emit updateCaptureFolder();
     }
 
