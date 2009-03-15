@@ -610,35 +610,35 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
 
             //kDebug() << ret.toString();
         } else {
-            if (name == "luma") {
+            // Check for Kdenlive installed luma files
+            QStringList imagenamelist;
+            QStringList imagefiles;
+            QStringList filters;
+            filters << "*.pgm" << "*.png";
 
-                tname.appendChild(ret.createTextNode("Luma"));
-                desc.appendChild(ret.createTextNode("Applies a luma transition between the current and next frames"));
-
-                // Check for Kdenlive installed luma files
-                QStringList imagenamelist;
-                QStringList imagefiles;
-                QStringList filters;
-                filters << "*.pgm" << "*.png";
-
-                QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
-                foreach(const QString &folder, customLumas) {
-                    QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
-                    foreach(const QString &fname, filesnames) {
-                        imagenamelist.append(fname);
-                        imagefiles.append(folder + '/' + fname);
-                    }
-                }
-
-                // Check for MLT lumas
-                QString folder = mlt_environment("MLT_DATA");
-                folder.append("/lumas/").append(mlt_environment("MLT_NORMALISATION"));
-                QDir lumafolder(folder);
-                QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
+            QStringList customLumas = KGlobal::dirs()->findDirs("appdata", "lumas");
+            foreach(const QString &folder, customLumas) {
+                QStringList filesnames = QDir(folder).entryList(filters, QDir::Files);
                 foreach(const QString &fname, filesnames) {
                     imagenamelist.append(fname);
                     imagefiles.append(folder + '/' + fname);
                 }
+            }
+
+            // Check for MLT lumas
+            QString folder = mlt_environment("MLT_DATA");
+            folder.append("/lumas/").append(mlt_environment("MLT_NORMALISATION"));
+            QDir lumafolder(folder);
+            QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
+            foreach(const QString &fname, filesnames) {
+                imagenamelist.append(fname);
+                imagefiles.append(folder + '/' + fname);
+            }
+
+            if (name == "luma") {
+
+                tname.appendChild(ret.createTextNode("Luma"));
+                desc.appendChild(ret.createTextNode("Applies a luma transition between the current and next frames"));
 
                 paramList.append(quickParameterFill(ret, "Softness", "softness", "double", "0", "0", "100", "", "", "100"));
                 paramList.append(quickParameterFill(ret, "Invert", "invert", "bool", "0", "0", "1"));
@@ -649,9 +649,17 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
             } else if (name == "composite") {
                 desc.appendChild(ret.createTextNode("A key-framable alpha-channel compositor for two frames."));
                 paramList.append(quickParameterFill(ret, "Geometry", "geometry", "geometry", "0%,0%:100%x100%:100", "-500;-500;-500;-500;0", "500;500;500;500;100"));
-                paramList.append(quickParameterFill(ret, "Distort", "distort", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, "Alpha Channel Operation", "operator", "list", "over", "", "", "over,and,or,xor", "over,and,or,xor"));
                 paramList.append(quickParameterFill(ret, "Align", "aligned", "bool", "1", "0", "1"));
+                paramList.append(quickParameterFill(ret, "Fill", "fill", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, "Distort", "distort", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, "Luma ImageFile", "luma", "list", "", "", "", imagefiles.join(","), imagenamelist.join(",")));
+                paramList.append(quickParameterFill(ret, "Luma Softness", "softness", "double", "0", "0", "100", "", "", "100"));
+                paramList.append(quickParameterFill(ret, "Luma Invert", "luma_invert", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, "Force Progressive Rendering", "progressive", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, "Force Deinterlace Overlay", "deinterlace", "bool", "0", "0", "1"));
                 tname.appendChild(ret.createTextNode("Composite"));
+
                 ktrans.setAttribute("id", "composite");
                 /*QDomDocument ret1;
                 QDomElement ktrans1 = ret1.createElement("ktransition");
