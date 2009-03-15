@@ -135,7 +135,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out) {
                     lsval->list->setItemIcon(i, QPixmap::fromImage(iconCache[entry]));
                 }
             }
-            lsval->list->setCurrentIndex(listitems.indexOf(value));
+            if (!value.isEmpty()) lsval->list->setCurrentIndex(listitems.indexOf(value));
 
             connect(lsval->list, SIGNAL(currentIndexChanged(int)) , this, SLOT(collectAllParameters()));
             lsval->title->setTitle(paramName);

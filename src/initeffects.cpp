@@ -69,9 +69,9 @@ initEffects::~initEffects() {
 // static
 void initEffects::refreshLumas() {
 
-    // Check for Kdenlive installed luma files
-    QStringList imagenamelist;
-    QStringList imagefiles;
+    // Check for Kdenlive installed luma files, add empty string at start for no luma
+    QStringList imagenamelist = QStringList() << i18n("None");
+    QStringList imagefiles = QStringList() << QString();
     QStringList filters;
     filters << "*.pgm" << "*.png";
 
@@ -610,9 +610,9 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
 
             //kDebug() << ret.toString();
         } else {
-            // Check for Kdenlive installed luma files
-            QStringList imagenamelist;
-            QStringList imagefiles;
+            // Check for Kdenlive installed luma files, add empty string at start for no luma
+            QStringList imagenamelist = QStringList() << i18n("None");
+            QStringList imagefiles = QStringList() << QString();
             QStringList filters;
             filters << "*.pgm" << "*.png";
 
