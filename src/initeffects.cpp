@@ -642,7 +642,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
 
                 paramList.append(quickParameterFill(ret, "Softness", "softness", "double", "0", "0", "100", "", "", "100"));
                 paramList.append(quickParameterFill(ret, "Invert", "invert", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, "ImageFile", "resource", "list", "", "", "", imagefiles.join(","), imagenamelist.join(",")));
+                paramList.append(quickParameterFill(ret, "Image File", "resource", "list", "", "", "", imagefiles.join(","), imagenamelist.join(",")));
                 paramList.append(quickParameterFill(ret, "Reverse Transition", "reverse", "bool", "0", "0", "1"));
                 //thumbnailer.prepareThumbnailsCall(imagelist);
 
@@ -653,7 +653,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 paramList.append(quickParameterFill(ret, "Align", "aligned", "bool", "1", "0", "1"));
                 paramList.append(quickParameterFill(ret, "Fill", "fill", "bool", "0", "0", "1"));
                 paramList.append(quickParameterFill(ret, "Distort", "distort", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, "Luma ImageFile", "luma", "list", "", "", "", imagefiles.join(","), imagenamelist.join(",")));
+                paramList.append(quickParameterFill(ret, "Luma Image File", "luma", "list", "", "", "", imagefiles.join(","), imagenamelist.join(",")));
                 paramList.append(quickParameterFill(ret, "Luma Softness", "softness", "double", "0", "0", "100", "", "", "100"));
                 paramList.append(quickParameterFill(ret, "Luma Invert", "luma_invert", "bool", "0", "0", "1"));
                 paramList.append(quickParameterFill(ret, "Force Progressive Rendering", "progressive", "bool", "0", "0", "1"));
