@@ -123,21 +123,20 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out) {
             QStringList listitemsdisplay = pa.attribute("paramlistdisplay").split(',');
             if (listitemsdisplay.count() != listitems.count()) listitemsdisplay = listitems;
             //lsval->list->addItems(listitems);
+            lsval->list->setIconSize(QSize(30, 30));
             for (int i = 0;i < listitems.count();i++) {
                 lsval->list->addItem(listitemsdisplay.at(i), listitems.at(i));
-            }
-            lsval->list->setCurrentIndex(listitems.indexOf(value));
-            for (int i = 0;i < lsval->list->count();i++) {
-                QString entry = lsval->list->itemData(i).toString();
+                QString entry = listitems.at(i);
                 if (!entry.isEmpty() && (entry.endsWith(".png") || entry.endsWith(".pgm"))) {
                     if (!EffectStackEdit::iconCache.contains(entry)) {
                         QImage pix(entry);
                         EffectStackEdit::iconCache[entry] = pix.scaled(30, 30);
                     }
-                    lsval->list->setIconSize(QSize(30, 30));
                     lsval->list->setItemIcon(i, QPixmap::fromImage(iconCache[entry]));
                 }
             }
+            lsval->list->setCurrentIndex(listitems.indexOf(value));
+
             connect(lsval->list, SIGNAL(currentIndexChanged(int)) , this, SLOT(collectAllParameters()));
             lsval->title->setTitle(paramName);
             valueItems[paramName] = lsval;
