@@ -322,6 +322,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 
     m_timelineContextClipMenu->addAction(actionCollection()->action("delete_timeline_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("change_clip_speed"));
+    m_timelineContextClipMenu->addAction(actionCollection()->action("group_clip"));
+    m_timelineContextClipMenu->addAction(actionCollection()->action("ungroup_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action("cut_timeline_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
     m_timelineContextClipMenu->addAction(actionCollection()->action("paste_effects"));
@@ -900,6 +902,15 @@ void MainWindow::setupActions() {
     stickTransition->setEnabled(false);
     stickTransition->setText(i18n("Automatic Transition"));
     connect(stickTransition, SIGNAL(triggered(bool)), this, SLOT(slotAutoTransition()));
+
+    KAction* groupClip = new KAction(KIcon("object-group"), i18n("Group Clips"), this);
+    collection->addAction("group_clip", groupClip);
+    connect(groupClip, SIGNAL(triggered(bool)), this, SLOT(slotGroupClips()));
+
+    KAction* ungroupClip = new KAction(KIcon("object-ungroup"), i18n("Ungroup Clips"), this);
+    collection->addAction("ungroup_clip", ungroupClip);
+    ungroupClip->setData("ungroup_clip");
+    connect(ungroupClip, SIGNAL(triggered(bool)), this, SLOT(slotUnGroupClips()));
 
     KAction* cutTimelineClip = new KAction(KIcon("edit-cut"), i18n("Cut Clip"), this);
     cutTimelineClip->setShortcut(Qt::SHIFT + Qt::Key_R);
@@ -1984,6 +1995,18 @@ void MainWindow::slotDeleteAllGuides() {
 void MainWindow::slotCutTimelineClip() {
     if (m_activeTimeline) {
         m_activeTimeline->projectView()->cutSelectedClips();
+    }
+}
+
+void MainWindow::slotGroupClips() {
+    if (m_activeTimeline) {
+        m_activeTimeline->projectView()->groupClips();
+    }
+}
+
+void MainWindow::slotUnGroupClips() {
+    if (m_activeTimeline) {
+        m_activeTimeline->projectView()->groupClips(false);
     }
 }
 

@@ -77,9 +77,25 @@ void AbstractGroupItem::fixItemRect() {
     }
 }
 
+/*ItemInfo AbstractGroupItem::info() const {
+    ItemInfo itemInfo;
+    itemInfo.startPos = m_startPos;
+    itemInfo.track = m_track;
+    return itemInfo;
+}*/
+
 // virtual
 void AbstractGroupItem::paint(QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *) {
-    p->fillRect(option->exposedRect, QColor(200, 100, 100, 100));
+    const double scale = option->matrix.m11();
+    QRect clipRect = option->exposedRect.toRect();
+    clipRect.adjust(0, 0, 1 / scale + 0.5, 1);
+    p->fillRect(option->exposedRect, QColor(100, 100, 200, 100));
+    p->setClipRect(clipRect);
+    QPen pen = p->pen();
+    pen.setColor(QColor(200, 90, 90));
+    pen.setStyle(Qt::DashLine);
+    p->setPen(pen);
+    p->drawRect(boundingRect());
 }
 
 //virtual
@@ -91,10 +107,11 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         int xpos = projectScene()->getSnapPointForPos((int) newPos.x(), KdenliveSettings::snaptopoints());
         xpos = qMax(xpos, 0);
         newPos.setX(xpos);
-
         QPointF start = pos();
+        kDebug() << "// GRP MOVE, NEW:" << newPos << ", CURR:" << start;
         //int startTrack = (start.y() + trackHeight / 2) / trackHeight;
         int newTrack = (newPos.y()) / trackHeight;
+
         //kDebug()<<"// GROUP NEW T:"<<newTrack<<",START T:"<<startTrack<<",MAX:"<<projectScene()->tracksCount() - 1;
         newTrack = qMin(newTrack, projectScene()->tracksCount() - (int)(boundingRect().height() + 5) / trackHeight);
         newTrack = qMax(newTrack, 0);
@@ -102,6 +119,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         // Check if top item is a clip or a transition
         int offset = 0;
         int topTrack = -1;
+        kDebug() << "// CHG GRP 1";
         QList<QGraphicsItem *> children = childItems();
         for (int i = 0; i < children.count(); i++) {
             int currentTrack = (int)(children.at(i)->scenePos().y() / trackHeight);
@@ -117,6 +135,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                 }
             }
         }
+        kDebug() << "// CHG GRP 2";
         newPos.setY((int)((newTrack) * trackHeight) + offset);
         if (newPos == start) return start;
 
@@ -124,16 +143,19 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
             // If group goes below 0, adjust position to 0
             return QPointF(pos().x() - start.x(), pos().y());
         }
-
+        kDebug() << "// CHG GRP 3";
         QPainterPath shape = groupShape(newPos - pos());
         QList<QGraphicsItem*> collindingItems = scene()->items(shape, Qt::IntersectsItemShape);
         for (int i = 0; i < children.count(); i++) {
             collindingItems.removeAll(children.at(i));
         }
+
+        kDebug() << "// CHG GRP 4" << newPos;
         if (collindingItems.isEmpty()) return newPos;
         else {
             bool forwardMove = newPos.x() > start.x();
             int offset = 0;
+            kDebug() << "// CHG GRP 5";
             for (int i = 0; i < collindingItems.count(); i++) {
                 QGraphicsItem *collision = collindingItems.at(i);
                 if (collision->type() == AVWIDGET) {

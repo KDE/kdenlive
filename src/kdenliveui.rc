@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="36">
+<gui name="kdenlive" version="37">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -24,6 +24,11 @@
       <Action name="add_text_clip" />
       <Action name="add_folder" /> 
       <Menu name="generators" ><text>Generators</text>
+      </Menu>
+      <Menu name="track_menu" ><text>Tracks</text>
+	<Action name="insert_track" />
+	<Action name="delete_track" />
+	<Action name="change_track" />
       </Menu>
       <Separator />
       <Action name="reload_clip" />
@@ -65,11 +70,8 @@
 	<Action name="insert_space" />
 	<Action name="delete_space" />
       </Menu>
-      <Menu name="track_menu" ><text>Tracks</text>
-	<Action name="insert_track" />
-	<Action name="delete_track" />
-	<Action name="change_track" />
-      </Menu>
+      <Action name="group_clip" />
+      <Action name="ungroup_clip" />
       <Separator />
       <Menu name="video_effects_menu" ><text>Add Video Effect</text>
       </Menu>

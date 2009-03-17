@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Marco Gittler (g.marco@freenet.de)              *
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,40 +17,33 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef ABSTRACTGROUPITEM
-#define ABSTRACTGROUPITEM
 
+#ifndef GROUPCLIPSCOMMAND_H
+#define GROUPCLIPSCOMMAND_H
+
+#include <QUndoCommand>
+#include <QGraphicsView>
+#include <QPointF>
+
+#include <KDebug>
 #include "definitions.h"
-#include "gentime.h"
 
-#include <QGraphicsItemGroup>
-#include <QGraphicsSceneMouseEvent>
+class GenTime;
+class CustomTrackView;
 
-class CustomTrackScene;
-
-class AbstractGroupItem : public QObject , public QGraphicsItemGroup {
-    Q_OBJECT
+class GroupClipsCommand : public QUndoCommand {
 public:
-    AbstractGroupItem(double fps);
-    virtual int type() const;
-    CustomTrackScene* projectScene();
-    void addItem(QGraphicsItem * item);
-    int track() const;
-//    ItemInfo info() const;
-
-protected:
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
-    virtual void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
-    virtual void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
-    virtual void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
-    virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
+    GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> clipInfos, const QList <ItemInfo> transitionInfos, bool group, bool doIt, QUndoCommand * parent = 0);
+    virtual void undo();
+    virtual void redo();
 
 private:
-    QPainterPath groupShape(QPointF);
-    void fixItemRect();
-    double m_fps;
-    GenTime m_startPos;
-    int m_track;
+    CustomTrackView *m_view;
+    const QList <ItemInfo> m_clips;
+    const QList <ItemInfo> m_transitions;
+    bool m_doIt;
+    bool m_group;
 };
 
 #endif
+

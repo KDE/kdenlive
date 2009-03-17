@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Marco Gittler (g.marco@freenet.de)              *
- *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *   Copyright (C) 2007 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,40 +17,29 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef ABSTRACTGROUPITEM
-#define ABSTRACTGROUPITEM
 
-#include "definitions.h"
-#include "gentime.h"
+#include "groupclipscommand.h"
+#include "customtrackview.h"
 
-#include <QGraphicsItemGroup>
-#include <QGraphicsSceneMouseEvent>
+#include <KLocale>
 
-class CustomTrackScene;
+GroupClipsCommand::GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> clipInfos, const QList <ItemInfo> transitionInfos, bool group, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_clips(clipInfos), m_transitions(transitionInfos), m_group(group), m_doIt(doIt) {
+    if (m_group) setText(i18n("Group clips"));
+    else setText(i18n("Ungroup clips"));
+}
 
-class AbstractGroupItem : public QObject , public QGraphicsItemGroup {
-    Q_OBJECT
-public:
-    AbstractGroupItem(double fps);
-    virtual int type() const;
-    CustomTrackScene* projectScene();
-    void addItem(QGraphicsItem * item);
-    int track() const;
-//    ItemInfo info() const;
 
-protected:
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
-    virtual void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
-    virtual void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
-    virtual void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
-    virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
+// virtual
+void GroupClipsCommand::undo() {
+// kDebug()<<"----  undoing action";
+    m_doIt = true;
+    m_view->doGroupClips(m_clips, m_transitions, !m_group);
+}
+// virtual
+void GroupClipsCommand::redo() {
+    kDebug() << "----  redoing action";
+    if (m_doIt)
+        m_view->doGroupClips(m_clips, m_transitions, m_group);
+    m_doIt = true;
+}
 
-private:
-    QPainterPath groupShape(QPointF);
-    void fixItemRect();
-    double m_fps;
-    GenTime m_startPos;
-    int m_track;
-};
-
-#endif

@@ -110,6 +110,8 @@ public:
     QStringList getLadspaParams(QDomElement effect) const;
     void initCursorPos(int pos);
     void lockTrack(int ix, bool lock);
+    void groupClips(bool group = true);
+    void doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> transitionInfos, bool group);
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -193,13 +195,14 @@ private:
     void checkScrolling();
     /** Should we auto scroll while playing (keep in sync with KdenliveSettings::autoscroll() */
     bool m_autoScroll;
-    void displayContextMenu(QPoint pos, AbstractClipItem *clip = NULL);
+    void displayContextMenu(QPoint pos, AbstractClipItem *clip, AbstractGroupItem *group);
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;
     QMenu *m_timelineContextTransitionMenu;
     QAction *m_autoTransition;
     QAction *m_changeSpeedAction;
     QAction *m_pasteEffectsAction;
+    QAction *m_ungroupAction;
     QTimer m_scrollTimer;
     int m_scrollOffset;
     bool m_clipDrag;
@@ -226,7 +229,7 @@ private:
     ClipItem *getMainActiveClip() const;
     bool insertPossible(AbstractGroupItem *group, const QPoint &pos) const;
     void resetSelectionGroup(bool selectItems = true);
-    void groupSelectedItems(bool force = false);
+    void groupSelectedItems(bool force = false, bool createNewGroup = false);
     /** Get available space for clip move (min and max free positions) */
     void getClipAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum);
     /** Get available space for transition move (min and max free positions) */

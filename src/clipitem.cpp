@@ -532,7 +532,7 @@ void ClipItem::paint(QPainter *painter,
     QBrush paintColor;
     if (parentItem()) paintColor = QBrush(QColor(255, 248, 149));
     else paintColor = brush();
-    if (isSelected()) paintColor = QBrush(paintColor.color().darker());
+    if (isSelected() || parentItem() && parentItem()->isSelected()) paintColor = QBrush(paintColor.color().darker());
     QRectF br = rect();
     QRectF exposed = option->exposedRect;
     QRectF mapped = painter->matrix().mapRect(br);
@@ -733,7 +733,7 @@ void ClipItem::paint(QPainter *painter,
 
 
     // draw frame around clip
-    if (isSelected()) {
+    if (isSelected() || parentItem() && parentItem()->isSelected()) {
         pen.setColor(Qt::red);
     } else {
         pen.setColor(Qt::black);

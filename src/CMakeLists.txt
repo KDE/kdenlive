@@ -150,6 +150,7 @@ set(kdenlive_SRCS
   dvdwizardmenu.cpp
   dvdwizard.cpp
   locktrackcommand.cpp
+  groupclipscommand.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )
