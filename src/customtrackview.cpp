@@ -823,12 +823,13 @@ void CustomTrackView::resetSelectionGroup(bool selectItems) {
                 children.at(i)->setSelected(selectItems);
 
                 // Rebuild groups or they get corrupted (because of translate / move issues)
-                QGraphicsItemGroup *group = static_cast <QGraphicsItemGroup *>(children.at(i));
+                AbstractGroupItem *group = static_cast <AbstractGroupItem *>(children.at(i));
                 //kDebug()<<"// GRP POS:"<<group->scenePos()<<", SELECT:"<<selectionPos;
                 if (group->scenePos() != selectionPos)
                     group->translate(selectionPos.x(), selectionPos.y());
                 //group->setPos(-selectionPos.x(), -selectionPos.y());
                 QList<QGraphicsItem *> selection = group->childItems();
+                m_document->clipManager()->removeGroup(group);
                 scene()->destroyItemGroup(group);
                 if (!selection.isEmpty()) {
                     QPointF top = selection.at(0)->sceneBoundingRect().topLeft();
@@ -844,7 +845,7 @@ void CustomTrackView::resetSelectionGroup(bool selectItems) {
                         }
                     }
 
-                    AbstractGroupItem *newGroup = new AbstractGroupItem(m_document->fps());
+                    AbstractGroupItem *newGroup = m_document->clipManager()->createGroup();
                     newGroup->translate(-top.x(), -top.y() + 1);
                     newGroup->setPos(top.x(), top.y() - 1);
                     scene()->addItem(newGroup);
@@ -885,22 +886,23 @@ void CustomTrackView::groupSelectedItems(bool force, bool createNewGroup) {
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
         if (createNewGroup) {
-            AbstractGroupItem *newGroup = new AbstractGroupItem(m_document->fps());
+            AbstractGroupItem *newGroup = m_document->clipManager()->createGroup();
             newGroup->translate(-top.x(), -top.y() + 1);
             newGroup->setPos(top.x(), top.y() - 1);
             scene()->addItem(newGroup);
 
             // CHeck if we are trying to include a group in a group
-            QList <QGraphicsItemGroup *> groups;
+            QList <AbstractGroupItem *> groups;
             for (int i = 0; i < selection.count(); i++) {
-                if (selection.at(i)->type() == GROUPWIDGET && !groups.contains(static_cast<QGraphicsItemGroup *>(selection.at(i)))) {
-                    groups.append(static_cast<QGraphicsItemGroup *>(selection.at(i)));
-                } else if (selection.at(i)->parentItem() && !groups.contains(static_cast<QGraphicsItemGroup *>(selection.at(i)->parentItem()))) groups.append(static_cast<QGraphicsItemGroup *>(selection.at(i)->parentItem()));
+                if (selection.at(i)->type() == GROUPWIDGET && !groups.contains(static_cast<AbstractGroupItem *>(selection.at(i)))) {
+                    groups.append(static_cast<AbstractGroupItem *>(selection.at(i)));
+                } else if (selection.at(i)->parentItem() && !groups.contains(static_cast<AbstractGroupItem *>(selection.at(i)->parentItem()))) groups.append(static_cast<AbstractGroupItem *>(selection.at(i)->parentItem()));
             }
             if (!groups.isEmpty()) {
                 // ungroup previous groups
                 while (!groups.isEmpty()) {
-                    QGraphicsItemGroup *grp = groups.takeFirst();
+                    AbstractGroupItem *grp = groups.takeFirst();
+                    m_document->clipManager()->removeGroup(grp);
                     scene()->destroyItemGroup(grp);
                 }
                 selection = m_scene->selectedItems();
@@ -912,7 +914,6 @@ void CustomTrackView::groupSelectedItems(bool force, bool createNewGroup) {
                     selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
                 }
             }
-            syncGroups();
             KdenliveSettings::setSnaptopoints(snap);
         } else {
             m_selectionGroup = new AbstractGroupItem(m_document->fps());
@@ -2629,13 +2630,21 @@ void CustomTrackView::doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> 
         for (int i = 0; i < clipInfos.count(); i++) {
             ClipItem *clip = getClipItemAt(clipInfos.at(i).startPos, clipInfos.at(i).track);
             if (clip == NULL) continue;
-            if (clip->parentItem()) scene()->destroyItemGroup(static_cast <QGraphicsItemGroup *>(clip->parentItem()));
+            if (clip->parentItem() && clip->parentItem()->type() == GROUPWIDGET) {
+                AbstractGroupItem *grp = static_cast <AbstractGroupItem *>(clip->parentItem());
+                m_document->clipManager()->removeGroup(grp);
+                scene()->destroyItemGroup(grp);
+            }
             clip->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         }
         for (int i = 0; i < transitionInfos.count(); i++) {
             Transition *tr = getTransitionItemAt(transitionInfos.at(i).startPos, transitionInfos.at(i).track);
             if (tr == NULL) continue;
-            if (tr->parentItem()) scene()->destroyItemGroup(static_cast <QGraphicsItemGroup *>(tr->parentItem()));
+            if (tr->parentItem() && tr->parentItem()->type() == GROUPWIDGET) {
+                AbstractGroupItem *grp = static_cast <AbstractGroupItem *>(tr->parentItem());
+                m_document->clipManager()->removeGroup(grp);
+                scene()->destroyItemGroup(grp);
+            }
             tr->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         }
         m_document->setModified(true);
@@ -3951,15 +3960,5 @@ void CustomTrackView::getTransitionAvailableSpace(AbstractClipItem *item, GenTim
     }
 }
 
-void CustomTrackView::syncGroups() {
-    // create groups list
-    QList<QGraphicsItem*> items = scene()->items();
-    int i = 0;
-    while (i < items.count()) {
-        if (items.at(i)->type() != GROUPWIDGET) items.removeAt(i);
-        else i++;
-    }
-    m_document->clipManager()->setGroups(items);
-}
 
 #include "customtrackview.moc"

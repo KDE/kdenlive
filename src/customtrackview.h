@@ -234,8 +234,6 @@ private:
     void getClipAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum);
     /** Get available space for transition move (min and max free positions) */
     void getTransitionAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum);
-    /** Send a list of all current groups to clipmanager */
-    void syncGroups();
 
 
 private slots:

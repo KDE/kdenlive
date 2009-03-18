@@ -38,7 +38,7 @@
 
 class KdenliveDoc;
 class DocClipBase;
-class QGraphicsItem;
+class AbstractGroupItem;
 
 namespace Mlt {
 class Producer;
@@ -75,7 +75,8 @@ Q_OBJECT public:
     void addFolder(const QString&, const QString&);
     void deleteFolder(const QString&);
     void clear();
-    void setGroups(QList <QGraphicsItem *> groups);
+    AbstractGroupItem *createGroup();
+    void removeGroup(AbstractGroupItem *group);
     QDomElement groupsXml() const;
 
 public slots:
@@ -85,7 +86,7 @@ private:   // Private attributes
     /** the list of clips in the document */
     QList <DocClipBase*> m_clipList;
     /** the list of groups in the document */
-    QList <QGraphicsItem *> m_groupsList;
+    QList <AbstractGroupItem *> m_groupsList;
     QMap <QString, QString> m_folderList;
     QList <QString> m_audioThumbsQueue;
     /** the document undo stack*/

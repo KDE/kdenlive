@@ -24,6 +24,7 @@
 #include "docclipbase.h"
 #include "kdenlivedoc.h"
 #include "abstractclipitem.h"
+#include "abstractgroupitem.h"
 
 #include <mlt++/Mlt.h>
 
@@ -342,8 +343,14 @@ void ClipManager::deleteFolder(const QString &id) {
     m_folderList.remove(id);
 }
 
-void ClipManager::setGroups(QList <QGraphicsItem *> groups) {
-    m_groupsList = groups;
+AbstractGroupItem *ClipManager::createGroup() {
+    AbstractGroupItem *group = new AbstractGroupItem(m_doc->fps());
+    m_groupsList.append(group);
+    return group;
+}
+
+void ClipManager::removeGroup(AbstractGroupItem *group) {
+    m_groupsList.removeAll(group);
 }
 
 QDomElement ClipManager::groupsXml() const {
@@ -353,7 +360,7 @@ QDomElement ClipManager::groupsXml() const {
     for (int i = 0; i < m_groupsList.count(); i++) {
         QDomElement group = doc.createElement("group");
         groups.appendChild(group);
-        QList <QGraphicsItem *> children = static_cast <QGraphicsItemGroup *>(m_groupsList.at(i))->childItems();
+        QList <QGraphicsItem *> children = m_groupsList.at(i)->childItems();
         for (int j = 0; j < children.count(); j++) {
             if (children.at(j)->type() == AVWIDGET || children.at(j)->type() == TRANSITIONWIDGET) {
                 AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(j));
