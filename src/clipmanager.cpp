@@ -23,12 +23,15 @@
 #include "kdenlivesettings.h"
 #include "docclipbase.h"
 #include "kdenlivedoc.h"
+#include "abstractclipitem.h"
 
 #include <mlt++/Mlt.h>
 
 #include <KDebug>
 #include <KFileDialog>
 #include <kio/netaccess.h>
+
+#include <QGraphicsItemGroup>
 
 ClipManager::ClipManager(KdenliveDoc *doc): m_doc(doc), m_audioThumbsEnabled(false), m_audioThumbsQueue(QList <QString> ()), m_generatingAudioId(QString()) {
     m_clipIdCounter = 1;
@@ -339,3 +342,35 @@ void ClipManager::deleteFolder(const QString &id) {
     m_folderList.remove(id);
 }
 
+void ClipManager::setGroups(QList <QGraphicsItem *> groups) {
+    m_groupsList = groups;
+}
+
+QDomElement ClipManager::groupsXml() const {
+    QDomDocument doc;
+    QDomElement groups = doc.createElement("groups");
+    doc.appendChild(groups);
+    for (int i = 0; i < m_groupsList.count(); i++) {
+        QDomElement group = doc.createElement("group");
+        groups.appendChild(group);
+        QList <QGraphicsItem *> children = static_cast <QGraphicsItemGroup *>(m_groupsList.at(i))->childItems();
+        for (int j = 0; j < children.count(); j++) {
+            if (children.at(j)->type() == AVWIDGET || children.at(j)->type() == TRANSITIONWIDGET) {
+                AbstractClipItem *item = static_cast <AbstractClipItem *>(children.at(j));
+                ItemInfo info = item->info();
+                if (item->type() == AVWIDGET) {
+                    QDomElement clip = doc.createElement("clipitem");
+                    clip.setAttribute("track", info.track);
+                    clip.setAttribute("position", info.startPos.frames(m_doc->fps()));
+                    group.appendChild(clip);
+                } else if (item->type() == TRANSITIONWIDGET) {
+                    QDomElement clip = doc.createElement("transitionitem");
+                    clip.setAttribute("track", info.track);
+                    clip.setAttribute("position", info.startPos.frames(m_doc->fps()));
+                    group.appendChild(clip);
+                }
+            }
+        }
+    }
+    return doc.documentElement();
+}

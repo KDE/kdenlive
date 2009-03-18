@@ -984,7 +984,12 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene) {
         }
     }
     addedXml.appendChild(markers);
+
+    // Add guides
     if (!m_guidesXml.isNull()) addedXml.appendChild(sceneList.importNode(m_guidesXml, true));
+
+    // Add clip groups
+    addedXml.appendChild(sceneList.importNode(m_clipManager->groupsXml(), true));
 
     //wes.appendChild(doc.importNode(kdenliveData, true));
 

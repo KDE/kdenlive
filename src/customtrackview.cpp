@@ -912,6 +912,7 @@ void CustomTrackView::groupSelectedItems(bool force, bool createNewGroup) {
                     selection.at(i)->setFlags(QGraphicsItem::ItemIsSelectable);
                 }
             }
+            syncGroups();
             KdenliveSettings::setSnaptopoints(snap);
         } else {
             m_selectionGroup = new AbstractGroupItem(m_document->fps());
@@ -3948,6 +3949,17 @@ void CustomTrackView::getTransitionAvailableSpace(AbstractClipItem *item, GenTim
             if (clip->startPos() > item->startPos() && (clip->startPos() < maximum || maximum == GenTime())) maximum = clip->startPos();
         }
     }
+}
+
+void CustomTrackView::syncGroups() {
+    // create groups list
+    QList<QGraphicsItem*> items = scene()->items();
+    int i = 0;
+    while (i < items.count()) {
+        if (items.at(i)->type() != GROUPWIDGET) items.removeAt(i);
+        else i++;
+    }
+    m_document->clipManager()->setGroups(items);
 }
 
 #include "customtrackview.moc"
