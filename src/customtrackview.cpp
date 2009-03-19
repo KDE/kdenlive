@@ -55,6 +55,7 @@
 #include "initeffects.h"
 #include "locktrackcommand.h"
 #include "groupclipscommand.h"
+#include "splitaudiocommand.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -3983,6 +3984,74 @@ void CustomTrackView::loadGroups(const QDomNodeList groups) {
             }
         }
         groupSelectedItems(false, true);
+    }
+}
+
+void CustomTrackView::splitAudio() {
+    resetSelectionGroup();
+    QList<QGraphicsItem *> selection = scene()->selectedItems();
+    if (selection.isEmpty()) {
+        emit displayMessage(i18n("You must select one clip for this action"), ErrorMessage);
+        return;
+    }
+    QUndoCommand *splitCommand = new QUndoCommand();
+    splitCommand->setText(i18n("Split audio"));
+    for (int i = 0; i < selection.count(); i++) {
+        if (selection.at(i)->type() == AVWIDGET) {
+            ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
+            if (clip->clipType() == AV || clip->clipType() == PLAYLIST) {
+                if (clip->parentItem()) {
+                    emit displayMessage(i18n("Cannot split audio of grouped clips"), ErrorMessage);
+                } else {
+                    new SplitAudioCommand(this, clip->track(), clip->startPos(), true, splitCommand);
+                }
+            }
+        }
+    }
+    m_commandStack->push(splitCommand);
+}
+
+void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split) {
+    ClipItem *clip = getClipItemAt(pos, track);
+    if (clip == NULL) {
+        kDebug() << "// Cannot find clip to split!!!";
+        return;
+    }
+    if (split) {
+        int start = pos.frames(m_document->fps());
+        int freetrack = m_document->tracksCount() - track - 1;
+        for (; freetrack > 0; freetrack--) {
+            kDebug() << "// CHK DOC TRK:" << freetrack << ", DUR:" << m_document->renderer()->mltTrackDuration(freetrack);
+            if (m_document->trackInfoAt(freetrack - 1).type == AUDIOTRACK) {
+                kDebug() << "// CHK DOC TRK:" << freetrack << ", DUR:" << m_document->renderer()->mltTrackDuration(freetrack);
+                if (m_document->renderer()->mltTrackDuration(freetrack) < start || m_document->renderer()->mltGetSpaceLength(pos, freetrack, false) >= clip->duration().frames(m_document->fps())) {
+                    kDebug() << "FOUND SPACE ON TRK: " << freetrack;
+                    break;
+                }
+            }
+        }
+        kDebug() << "GOT TRK: " << track;
+        if (freetrack == 0) {
+            emit displayMessage(i18n("No empty space to put clip audio"), ErrorMessage);
+        } else {
+            ItemInfo info;
+            info.startPos = clip->startPos();
+            info.endPos = clip->endPos();
+            info.cropStart = clip->cropStart();
+            info.track = m_document->tracksCount() - freetrack;
+            addClip(clip->xml(), clip->clipProducer(), info, clip->effectList());
+            scene()->clearSelection();
+            clip->setSelected(true);
+            ClipItem *audioClip = getClipItemAt(start, info.track);
+            if (audioClip) {
+                clip->setVideoOnly(true);
+                m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - track, start, clip->baseClip()->videoProducer());
+                m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - info.track, start, clip->baseClip()->audioProducer());
+                audioClip->setSelected(true);
+                audioClip->setAudioOnly(true);
+                groupSelectedItems(false, true);
+            }
+        }
     }
 }
 

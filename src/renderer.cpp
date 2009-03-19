@@ -1246,16 +1246,14 @@ void Render::mltCheckLength() {
     double trackDuration;
     if (trackNb == 1) {
         Mlt::Producer trackProducer(tractor.track(0));
-        Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-        duration = Mlt::Producer(trackPlaylist.get_producer()).get_playtime() - 1;
+        duration = trackProducer.get_playtime() - 1;
         m_mltProducer->set("out", duration);
         emit durationChanged((int) duration);
         return;
     }
     while (trackNb > 1) {
         Mlt::Producer trackProducer(tractor.track(trackNb - 1));
-        Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-        trackDuration = Mlt::Producer(trackPlaylist.get_producer()).get_playtime() - 1;
+        trackDuration = trackProducer.get_playtime() - 1;
 
         //kDebug() << " / / /DURATON FOR TRACK " << trackNb - 1 << " = " << trackDuration;
         if (trackDuration > duration) duration = trackDuration;
@@ -1263,10 +1261,10 @@ void Render::mltCheckLength() {
     }
 
     Mlt::Producer blackTrackProducer(tractor.track(0));
-    Mlt::Playlist blackTrackPlaylist((mlt_playlist) blackTrackProducer.get_service());
-    double blackDuration = Mlt::Producer(blackTrackPlaylist.get_producer()).get_playtime() - 1;
+    double blackDuration = blackTrackProducer.get_playtime() - 1;
 
     if (blackDuration != duration) {
+        Mlt::Playlist blackTrackPlaylist((mlt_playlist) blackTrackProducer.get_service());
         blackTrackPlaylist.clear();
         int dur = (int)duration;
         while (dur > 14000) {
@@ -1485,6 +1483,23 @@ int Render::mltGetSpaceLength(const GenTime pos, int track, bool fromBlankStart)
     return trackPlaylist.clip_length(clipIndex) + trackPlaylist.clip_start(clipIndex) - insertPos;
 }
 
+int Render::mltTrackDuration(int track) {
+    if (!m_mltProducer) {
+        kDebug() << "PLAYLIST NOT INITIALISED //////";
+        return -1;
+    }
+    Mlt::Producer parentProd(m_mltProducer->parent());
+    if (parentProd.get_producer() == NULL) {
+        kDebug() << "PLAYLIST BROKEN, CANNOT INSERT CLIP //////";
+        return -1;
+    }
+
+    Mlt::Service service(parentProd.get_service());
+    Mlt::Tractor tractor(service);
+
+    Mlt::Producer trackProducer(tractor.track(track));
+    return trackProducer.get_playtime() - 1;
+}
 
 void Render::mltInsertSpace(QMap <int, int> trackClipStartList, QMap <int, int> trackTransitionStartList, int track, const GenTime duration, const GenTime timeOffset) {
     if (!m_mltProducer) {
@@ -2323,7 +2338,8 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             Mlt::Producer *clip;
             // check if we are moving a slowmotion producer
             QString serv = clipProducer.parent().get("mlt_service");
-            if (serv == "framebuffer") {
+            QString currentid = clipProducer.parent().get("id");
+            if (serv == "framebuffer" || currentid.endsWith("_video")) {
                 clip = &clipProducer;
             } else clip = prod->cut(clipProducer.get_in(), clipProducer.get_out());
 

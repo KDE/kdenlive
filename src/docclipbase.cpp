@@ -34,7 +34,7 @@
 #include <QCryptographicHash>
 
 DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id):
-        m_id(id), m_description(QString()), m_refcount(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL), m_properties(QMap <QString, QString> ()), audioFrameChache(QMap<int, QMap<int, QByteArray> > ()), m_baseTrackProducers(QList <Mlt::Producer *>()), m_snapMarkers(QList < CommentedTime > ())  {
+        m_id(id), m_description(QString()), m_refcount(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL), m_properties(QMap <QString, QString> ()), audioFrameChache(QMap<int, QMap<int, QByteArray> > ()), m_baseTrackProducers(QList <Mlt::Producer *>()), m_snapMarkers(QList < CommentedTime > ()), m_videoOnlyProducer(NULL), m_audioOnlyProducer(NULL)  {
     int type = xml.attribute("type").toInt();
     m_clipType = (CLIPTYPE) type;
 
@@ -360,7 +360,16 @@ void DocClipBase::setProducer(Mlt::Producer *producer) {
     QString id = producer->get("id");
     if (id.contains('_')) {
         // this is a subtrack producer, insert it at correct place
-        int pos = id.section('_', 1, 1).toInt();
+        id = id.section('_', 1, 1);
+        if (id == "audio") {
+            m_audioOnlyProducer = producer;
+            return;
+        }
+        if (id == "video") {
+            m_videoOnlyProducer = producer;
+            return;
+        }
+        int pos = id.toInt();
         if (pos >= m_baseTrackProducers.count()) {
             while (m_baseTrackProducers.count() - 1 < pos) {
                 m_baseTrackProducers.append(NULL);
@@ -374,6 +383,42 @@ void DocClipBase::setProducer(Mlt::Producer *producer) {
     //m_clipProducer = producer;
     //m_clipProducer->set("transparency", m_properties.value("transparency").toInt());
     if (m_thumbProd && !m_thumbProd->hasProducer()) m_thumbProd->setProducer(producer);
+}
+
+Mlt::Producer *DocClipBase::audioProducer() {
+    if (m_audioOnlyProducer == NULL) {
+        int i;
+        for (i = 0; i < m_baseTrackProducers.count(); i++)
+            if (m_baseTrackProducers.at(i) != NULL) break;
+        if (i >= m_baseTrackProducers.count()) return NULL;
+        m_audioOnlyProducer = new Mlt::Producer(*m_baseTrackProducers.at(i)->profile(), m_baseTrackProducers.at(i)->get("resource"));
+        if (m_properties.contains("force_aspect_ratio")) m_audioOnlyProducer->set("force_aspect_ratio", m_properties.value("force_aspect_ratio").toDouble());
+        if (m_properties.contains("threads")) m_audioOnlyProducer->set("threads", m_properties.value("threads").toInt());
+        m_audioOnlyProducer->set("video_index", -1);
+        if (m_properties.contains("audio_index")) m_audioOnlyProducer->set("audio_index", m_properties.value("audio_index").toInt());
+        char *tmp = (char *) qstrdup(QString(getId() + "_audio").toUtf8().data());
+        m_audioOnlyProducer->set("id", tmp);
+        delete[] tmp;
+    }
+    return m_audioOnlyProducer;
+}
+
+Mlt::Producer *DocClipBase::videoProducer() {
+    if (m_videoOnlyProducer == NULL) {
+        int i;
+        for (i = 0; i < m_baseTrackProducers.count(); i++)
+            if (m_baseTrackProducers.at(i) != NULL) break;
+        if (i >= m_baseTrackProducers.count()) return NULL;
+        m_videoOnlyProducer = new Mlt::Producer(*m_baseTrackProducers.at(i)->profile(), m_baseTrackProducers.at(i)->get("resource"));
+        if (m_properties.contains("force_aspect_ratio")) m_videoOnlyProducer->set("force_aspect_ratio", m_properties.value("force_aspect_ratio").toDouble());
+        if (m_properties.contains("threads")) m_videoOnlyProducer->set("threads", m_properties.value("threads").toInt());
+        m_videoOnlyProducer->set("audio_index", -1);
+        if (m_properties.contains("video_index")) m_videoOnlyProducer->set("video_index", m_properties.value("video_index").toInt());
+        char *tmp = (char *) qstrdup(QString(getId() + "_video").toUtf8().data());
+        m_videoOnlyProducer->set("id", tmp);
+        delete[] tmp;
+    }
+    return m_videoOnlyProducer;
 }
 
 Mlt::Producer *DocClipBase::producer(int track) {

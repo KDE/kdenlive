@@ -113,6 +113,8 @@ public:
     void groupClips(bool group = true);
     void doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> transitionInfos, bool group);
     void loadGroups(const QDomNodeList groups);
+    void splitAudio();
+    void doSplitAudio(const GenTime &pos, int track, bool split);
 
 public slots:
     void setCursorPos(int pos, bool seek = true);

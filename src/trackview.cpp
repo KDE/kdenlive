@@ -421,6 +421,8 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked) {
                 clipinfo.track = ix;
                 //kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
                 ClipItem *item = new ClipItem(clip, clipinfo, m_doc->fps(), speed, false);
+                if (idString.endsWith("_video")) item->setVideoOnly(true);
+                else if (idString.endsWith("_audio")) item->setAudioOnly(true);
                 m_scene->addItem(item);
                 if (locked) item->setItemLocked(true);
                 clip->addReference();

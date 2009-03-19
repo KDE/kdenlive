@@ -327,6 +327,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_timelineContextClipMenu->addAction(actionCollection()->action("cut_timeline_clip"));
     m_timelineContextClipMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Copy)));
     m_timelineContextClipMenu->addAction(actionCollection()->action("paste_effects"));
+    m_timelineContextClipMenu->addAction(actionCollection()->action("split_audio"));
 
     QMenu *markersMenu = (QMenu*)(factory()->container("marker_menu", this));
     m_timelineContextClipMenu->addMenu(markersMenu);
@@ -932,6 +933,10 @@ void MainWindow::setupActions() {
     KAction* editClipMarker = new KAction(KIcon("document-properties"), i18n("Edit Marker"), this);
     collection->addAction("edit_clip_marker", editClipMarker);
     connect(editClipMarker, SIGNAL(triggered(bool)), this, SLOT(slotEditClipMarker()));
+
+    KAction* splitAudio = new KAction(KIcon("document-new"), i18n("Split Audio"), this);
+    collection->addAction("split_audio", splitAudio);
+    connect(splitAudio, SIGNAL(triggered(bool)), this, SLOT(slotSplitAudio()));
 
     KAction *insertSpace = new KAction(KIcon(), i18n("Insert Space"), this);
     collection->addAction("insert_space", insertSpace);
@@ -2378,7 +2383,11 @@ void MainWindow::slotGetNewMltProfileStuff() {
 }
 
 void MainWindow::slotAutoTransition() {
-    m_activeTimeline->projectView()->autoTransition();
+    if (m_activeTimeline) m_activeTimeline->projectView()->autoTransition();
+}
+
+void MainWindow::slotSplitAudio() {
+    if (m_activeTimeline) m_activeTimeline->projectView()->splitAudio();
 }
 
 void MainWindow::slotDvdWizard(const QString &url, const QString &profile) {

@@ -107,8 +107,14 @@ Q_OBJECT public:
         return false;
     }
 
+    /** Sets producers for the current clip (one for each track due to a limitation in MLT's track mixing */
     void setProducer(Mlt::Producer *producer);
+    /** Retrieve a producer for a track */
     Mlt::Producer *producer(int track = -1);
+    /** Retrieve the producer that shows only video */
+    Mlt::Producer *videoProducer();
+    /** Retrieve the producer that shows only audio */
+    Mlt::Producer *audioProducer();
 
     /** Returns true if this clip is a project clip, false otherwise. Overridden in DocClipProject,
      * where it returns true. */
@@ -180,6 +186,8 @@ private:   // Private attributes
      * that exist. */
     uint m_refcount;
     QList <Mlt::Producer *> m_baseTrackProducers;
+    Mlt::Producer *m_audioOnlyProducer;
+    Mlt::Producer *m_videoOnlyProducer;
     CLIPTYPE m_clipType;
 
     /** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */

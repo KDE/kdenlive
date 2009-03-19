@@ -294,6 +294,7 @@ private slots:
     void slotDvdWizard(const QString &url = QString(), const QString &profile = "dv_pal");
     void slotGroupClips();
     void slotUnGroupClips();
+    void slotSplitAudio();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

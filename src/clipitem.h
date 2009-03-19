@@ -104,6 +104,8 @@ public:
     bool checkKeyFrames();
     QPixmap startThumb() const;
     QPixmap endThumb() const;
+    void setVideoOnly(bool force);
+    void setAudioOnly(bool force);
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
@@ -127,6 +129,8 @@ private:
     uint m_startFade;
     uint m_endFade;
     int m_maxTrack;
+    bool m_audioOnly;
+    bool m_videoOnly;
 
     QPixmap m_startPix;
     QPixmap m_endPix;

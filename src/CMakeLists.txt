@@ -151,6 +151,7 @@ set(kdenlive_SRCS
   dvdwizard.cpp
   locktrackcommand.cpp
   groupclipscommand.cpp
+  splitaudiocommand.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )
