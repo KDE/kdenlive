@@ -316,6 +316,10 @@ void TrackView::parseDocument(QDomDocument doc) {
         m_trackview->addGuide(pos, comment);
     }
 
+    // Rebuild groups
+    QDomNodeList groups = doc.elementsByTagName("group");
+    m_trackview->loadGroups(groups);
+
     m_trackview->setDuration(duration);
     kDebug() << "///////////  TOTAL PROJECT DURATION: " << duration;
     slotRebuildTrackHeaders();

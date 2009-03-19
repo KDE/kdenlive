@@ -2766,8 +2766,8 @@ ClipItem *CustomTrackView::getClipItemAt(GenTime pos, int track) {
     return getClipItemAt(framepos, track);
 }
 
-Transition *CustomTrackView::getTransitionItemAt(GenTime pos, int track) {
-    QList<QGraphicsItem *> list = scene()->items(QPointF(pos.frames(m_document->fps()), (track + 1) * m_tracksHeight));
+Transition *CustomTrackView::getTransitionItemAt(int pos, int track) {
+    QList<QGraphicsItem *> list = scene()->items(QPointF(pos, (track + 1) * m_tracksHeight));
     Transition *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
         if (list.at(i)->type() == TRANSITIONWIDGET) {
@@ -2776,6 +2776,10 @@ Transition *CustomTrackView::getTransitionItemAt(GenTime pos, int track) {
         }
     }
     return clip;
+}
+
+Transition *CustomTrackView::getTransitionItemAt(GenTime pos, int track) {
+    return getTransitionItemAt(pos.frames(m_document->fps()), track);
 }
 
 Transition *CustomTrackView::getTransitionItemAtEnd(GenTime pos, int track) {
@@ -3960,5 +3964,26 @@ void CustomTrackView::getTransitionAvailableSpace(AbstractClipItem *item, GenTim
     }
 }
 
+
+void CustomTrackView::loadGroups(const QDomNodeList groups) {
+    for (int i = 0; i < groups.count(); i++) {
+        QDomNodeList children = groups.at(i).childNodes();
+        scene()->clearSelection();
+        for (int nodeindex = 0; nodeindex < children.count(); nodeindex++) {
+            QDomNode n = children.item(nodeindex);
+            QDomElement elem = n.toElement();
+            int pos = elem.attribute("position").toInt();
+            int track = elem.attribute("track").toInt();
+            if (elem.tagName() == "clipitem") {
+                ClipItem *clip = getClipItemAt(pos, track); //m_document->tracksCount() - transitiontrack);
+                if (clip) clip->setSelected(true);
+            } else {
+                Transition *clip = getTransitionItemAt(pos, track); //m_document->tracksCount() - transitiontrack);
+                if (clip) clip->setSelected(true);
+            }
+        }
+        groupSelectedItems(false, true);
+    }
+}
 
 #include "customtrackview.moc"

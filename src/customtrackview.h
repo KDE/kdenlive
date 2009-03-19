@@ -112,6 +112,7 @@ public:
     void lockTrack(int ix, bool lock);
     void groupClips(bool group = true);
     void doGroupClips(QList <ItemInfo> clipInfos, QList <ItemInfo> transitionInfos, bool group);
+    void loadGroups(const QDomNodeList groups);
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -189,6 +190,7 @@ private:
     ClipItem *getClipItemAt(GenTime pos, int track);
     ClipItem *getClipItemAtEnd(GenTime pos, int track);
     ClipItem *getClipItemAtStart(GenTime pos, int track);
+    Transition *getTransitionItemAt(int pos, int track);
     Transition *getTransitionItemAt(GenTime pos, int track);
     Transition *getTransitionItemAtEnd(GenTime pos, int track);
     Transition *getTransitionItemAtStart(GenTime pos, int track);
