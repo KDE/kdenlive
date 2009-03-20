@@ -114,7 +114,7 @@ Q_OBJECT public:
     /** Retrieve the producer that shows only video */
     Mlt::Producer *videoProducer();
     /** Retrieve the producer that shows only audio */
-    Mlt::Producer *audioProducer();
+    Mlt::Producer *audioProducer(int track);
 
     /** Returns true if this clip is a project clip, false otherwise. Overridden in DocClipProject,
      * where it returns true. */
@@ -186,7 +186,7 @@ private:   // Private attributes
      * that exist. */
     uint m_refcount;
     QList <Mlt::Producer *> m_baseTrackProducers;
-    Mlt::Producer *m_audioOnlyProducer;
+    QList <Mlt::Producer *> m_audioTrackProducers;
     Mlt::Producer *m_videoOnlyProducer;
     CLIPTYPE m_clipType;
 

@@ -295,6 +295,8 @@ private slots:
     void slotGroupClips();
     void slotUnGroupClips();
     void slotSplitAudio();
+    void slotVideoOnly();
+    void slotAudioOnly();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

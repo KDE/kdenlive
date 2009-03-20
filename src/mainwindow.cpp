@@ -938,6 +938,14 @@ void MainWindow::setupActions() {
     collection->addAction("split_audio", splitAudio);
     connect(splitAudio, SIGNAL(triggered(bool)), this, SLOT(slotSplitAudio()));
 
+    KAction* audioOnly = new KAction(KIcon("document-new"), i18n("Audio Only"), this);
+    collection->addAction("clip_audio_only", audioOnly);
+    connect(audioOnly, SIGNAL(triggered(bool)), this, SLOT(slotAudioOnly()));
+
+    KAction* videoOnly = new KAction(KIcon("document-new"), i18n("Video Only"), this);
+    collection->addAction("clip_video_only", videoOnly);
+    connect(videoOnly, SIGNAL(triggered(bool)), this, SLOT(slotVideoOnly()));
+
     KAction *insertSpace = new KAction(KIcon(), i18n("Insert Space"), this);
     collection->addAction("insert_space", insertSpace);
     connect(insertSpace, SIGNAL(triggered()), this, SLOT(slotInsertSpace()));
@@ -2388,6 +2396,14 @@ void MainWindow::slotAutoTransition() {
 
 void MainWindow::slotSplitAudio() {
     if (m_activeTimeline) m_activeTimeline->projectView()->splitAudio();
+}
+
+void MainWindow::slotAudioOnly() {
+    if (m_activeTimeline) m_activeTimeline->projectView()->audioOnly();
+}
+
+void MainWindow::slotVideoOnly() {
+    if (m_activeTimeline) m_activeTimeline->projectView()->videoOnly();
 }
 
 void MainWindow::slotDvdWizard(const QString &url, const QString &profile) {

@@ -56,6 +56,7 @@
 #include "locktrackcommand.h"
 #include "groupclipscommand.h"
 #include "splitaudiocommand.h"
+#include "changecliptypecommand.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -1685,7 +1686,11 @@ void CustomTrackView::addTrack(TrackInfo type, int ix) {
                 ClipItem *clip = static_cast <ClipItem *>(item);
                 // We add a move clip command so that we get the correct producer for new track number
                 if (clip->clipType() == AV || clip->clipType() == AUDIO) {
-                    m_document->renderer()->mltUpdateClipProducer((int)(m_document->tracksCount() - clipinfo.track), clipinfo.startPos.frames(m_document->fps()), clip->baseClip()->producer(clipinfo.track));
+                    Mlt::Producer *prod;
+                    if (clip->isAudioOnly()) prod = clip->baseClip()->audioProducer(clipinfo.track);
+                    else if (clip->isVideoOnly()) prod = clip->baseClip()->videoProducer();
+                    else prod = clip->baseClip()->producer(clipinfo.track);
+                    m_document->renderer()->mltUpdateClipProducer((int)(m_document->tracksCount() - clipinfo.track), clipinfo.startPos.frames(m_document->fps()), prod);
                     kDebug() << "// UPDATING CLIP TO TRACK PROD: " << clipinfo.track;
                 }
             } else if (item->type() == TRANSITIONWIDGET) {
@@ -1745,8 +1750,13 @@ void CustomTrackView::removeTrack(int ix) {
             ItemInfo clipinfo = clip->info();
             kDebug() << "// CLIP TRK IS: " << clipinfo.track;
             // We add a move clip command so that we get the correct producer for new track number
-            if (clip->clipType() == AV || clip->clipType() == AUDIO)
-                m_document->renderer()->mltUpdateClipProducer((int)(m_document->tracksCount() - clipinfo.track), clipinfo.startPos.frames(m_document->fps()), clip->baseClip()->producer(clipinfo.track));
+            if (clip->clipType() == AV || clip->clipType() == AUDIO) {
+                Mlt::Producer *prod;
+                if (clip->isAudioOnly()) prod = clip->baseClip()->audioProducer(clipinfo.track);
+                else if (clip->isVideoOnly()) prod = clip->baseClip()->videoProducer();
+                else prod = clip->baseClip()->producer(clipinfo.track);
+                m_document->renderer()->mltUpdateClipProducer((int)(m_document->tracksCount() - clipinfo.track), clipinfo.startPos.frames(m_document->fps()), prod);
+            }
         } else if (children.at(i)->type() == TRANSITIONWIDGET) {
             Transition *tr = static_cast <Transition *>(children.at(i));
             tr->updateItem();
@@ -2099,7 +2109,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
             // we are moving one clip, easy
             if (m_dragItem->type() == AVWIDGET && (m_dragItemInfo.startPos != info.startPos || m_dragItemInfo.track != info.track)) {
                 ClipItem *item = static_cast <ClipItem *>(m_dragItem);
-                bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItem->track()), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(m_dragItem->startPos().frames(m_document->fps())), item->baseClip()->producer(info.track));
+                Mlt::Producer *prod;
+                if (item->isAudioOnly()) prod = item->baseClip()->audioProducer(m_dragItemInfo.track);
+                else if (item->isVideoOnly()) prod = item->baseClip()->videoProducer();
+                else prod = item->baseClip()->producer(m_dragItemInfo.track);
+                bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItem->track()), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(m_dragItem->startPos().frames(m_document->fps())), prod);
                 if (success) {
                     int tracknumber = m_document->tracksCount() - item->track() - 1;
                     bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
@@ -2251,7 +2265,11 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                     if (item->type() == AVWIDGET) {
                         ClipItem *clip = static_cast <ClipItem*>(item);
                         info.track = m_document->tracksCount() - info.track;
-                        m_document->renderer()->mltInsertClip(info, clip->xml(), clip->baseClip()->producer(info.track));
+                        Mlt::Producer *prod;
+                        if (clip->isAudioOnly()) prod = clip->baseClip()->audioProducer(info.track);
+                        else if (clip->isVideoOnly()) prod = clip->baseClip()->videoProducer();
+                        else prod = clip->baseClip()->producer(info.track);
+                        m_document->renderer()->mltInsertClip(info, clip->xml(), prod);
                         for (int i = 0; i < clip->effectsCount(); i++) {
                             m_document->renderer()->mltAddEffect(info.track, info.startPos, clip->getEffectArgs(clip->effectAt(i)), false);
                         }
@@ -2699,7 +2717,11 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
     baseclip->addReference();
     m_document->updateClip(baseclip->getId());
     info.track = m_document->tracksCount() - info.track;
-    m_document->renderer()->mltInsertClip(info, xml, baseclip->producer(info.track));
+    Mlt::Producer *prod;
+    if (item->isAudioOnly()) prod = baseclip->audioProducer(info.track);
+    else if (item->isVideoOnly()) prod = baseclip->videoProducer();
+    else prod = baseclip->producer(info.track);
+    m_document->renderer()->mltInsertClip(info, xml, prod);
     for (int i = 0; i < item->effectsCount(); i++) {
         m_document->renderer()->mltAddEffect(info.track, info.startPos, item->getEffectArgs(item->effectAt(i)), false);
     }
@@ -2818,7 +2840,12 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end) {
         kDebug() << "----------------  ERROR, CANNOT find clip to move at.. ";
         return;
     }
-    bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - start.track), (int)(m_document->tracksCount() - end.track), (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()), item->baseClip()->producer(end.track));
+    Mlt::Producer *prod;
+    if (item->isAudioOnly()) prod = item->baseClip()->audioProducer(end.track);
+    else if (item->isVideoOnly()) prod = item->baseClip()->videoProducer();
+    else prod = item->baseClip()->producer(end.track);
+
+    bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - start.track), (int)(m_document->tracksCount() - end.track), (int) start.startPos.frames(m_document->fps()), (int)end.startPos.frames(m_document->fps()), prod);
     if (success) {
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
@@ -2921,7 +2948,11 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
             if (item->type() == AVWIDGET) {
                 ClipItem *clip = static_cast <ClipItem*>(item);
                 info.track = m_document->tracksCount() - info.track;
-                m_document->renderer()->mltInsertClip(info, clip->xml(), clip->baseClip()->producer(info.track));
+                Mlt::Producer *prod;
+                if (clip->isAudioOnly()) prod = clip->baseClip()->audioProducer(info.track);
+                else if (clip->isVideoOnly()) prod = clip->baseClip()->videoProducer();
+                else prod = clip->baseClip()->producer(info.track);
+                m_document->renderer()->mltInsertClip(info, clip->xml(), prod);
             } else {
                 Transition *tr = static_cast <Transition*>(item);
                 int newTrack = tr->transitionEndTrack();
@@ -4046,13 +4077,86 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split) {
             if (audioClip) {
                 clip->setVideoOnly(true);
                 m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - track, start, clip->baseClip()->videoProducer());
-                m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - info.track, start, clip->baseClip()->audioProducer());
+                m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - info.track, start, clip->baseClip()->audioProducer(info.track));
                 audioClip->setSelected(true);
                 audioClip->setAudioOnly(true);
                 groupSelectedItems(false, true);
             }
         }
     }
+}
+
+void CustomTrackView::videoOnly() {
+    resetSelectionGroup();
+    QList<QGraphicsItem *> selection = scene()->selectedItems();
+    if (selection.isEmpty()) {
+        emit displayMessage(i18n("You must select one clip for this action"), ErrorMessage);
+        return;
+    }
+    QUndoCommand *videoCommand = new QUndoCommand();
+    videoCommand->setText(i18n("Video only"));
+    for (int i = 0; i < selection.count(); i++) {
+        if (selection.at(i)->type() == AVWIDGET) {
+            ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
+            if (clip->clipType() == AV || clip->clipType() == PLAYLIST) {
+                if (clip->parentItem()) {
+                    emit displayMessage(i18n("Cannot change grouped clips"), ErrorMessage);
+                } else {
+                    new ChangeClipTypeCommand(this, clip->track(), clip->startPos(), true, false, clip->isVideoOnly(), clip->isAudioOnly(), true, videoCommand);
+                }
+            }
+        }
+    }
+    m_commandStack->push(videoCommand);
+}
+
+void CustomTrackView::audioOnly() {
+    resetSelectionGroup();
+    QList<QGraphicsItem *> selection = scene()->selectedItems();
+    if (selection.isEmpty()) {
+        emit displayMessage(i18n("You must select one clip for this action"), ErrorMessage);
+        return;
+    }
+    QUndoCommand *videoCommand = new QUndoCommand();
+    videoCommand->setText(i18n("Audio only"));
+    for (int i = 0; i < selection.count(); i++) {
+        if (selection.at(i)->type() == AVWIDGET) {
+            ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
+            if (clip->clipType() == AV || clip->clipType() == PLAYLIST) {
+                if (clip->parentItem()) {
+                    emit displayMessage(i18n("Cannot change grouped clips"), ErrorMessage);
+                } else {
+                    new ChangeClipTypeCommand(this, clip->track(), clip->startPos(), false, true, clip->isVideoOnly(), clip->isAudioOnly(), true, videoCommand);
+                }
+            }
+        }
+    }
+    m_commandStack->push(videoCommand);
+}
+
+void CustomTrackView::doChangeClipType(const GenTime &pos, int track, bool videoOnly, bool audioOnly) {
+    ClipItem *clip = getClipItemAt(pos, track);
+    if (clip == NULL) {
+        kDebug() << "// Cannot find clip to split!!!";
+        return;
+    }
+    if (videoOnly) {
+        int start = pos.frames(m_document->fps());
+        clip->setVideoOnly(true);
+        clip->setAudioOnly(false);
+        m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - track, start, clip->baseClip()->videoProducer());
+    } else if (audioOnly) {
+        int start = pos.frames(m_document->fps());
+        clip->setAudioOnly(true);
+        clip->setVideoOnly(false);
+        m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - track, start, clip->baseClip()->audioProducer(track));
+    } else {
+        int start = pos.frames(m_document->fps());
+        clip->setAudioOnly(false);
+        clip->setVideoOnly(false);
+        m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - track, start, clip->baseClip()->producer(track));
+    }
+    clip->update();
 }
 
 #include "customtrackview.moc"

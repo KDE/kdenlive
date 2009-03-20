@@ -36,12 +36,14 @@
 #include <QGraphicsScene>
 #include <QMimeData>
 
-
 ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, bool generateThumbs)
         : AbstractClipItem(info, QRectF(), fps), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_startThumbRequested(false), m_endThumbRequested(false), m_startFade(0), m_endFade(0), m_hover(false), m_selectedEffect(-1), m_speed(speed), framePixelWidth(0), m_startPix(QPixmap()), m_endPix(QPixmap()), m_videoOnly(false), m_audioOnly(false)  {
     setZValue(1);
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (double)(KdenliveSettings::trackheight() - 2));
     setPos(info.startPos.frames(fps), (double)(info.track * KdenliveSettings::trackheight()) + 1);
+
+    m_videoPix = KIcon("video-x-generic").pixmap(QSize(15, 15));
+    m_audioPix = KIcon("audio-x-generic").pixmap(QSize(15, 15));
 
     if (m_speed == 1.0) m_clipName = clip->name();
     else {
@@ -721,9 +723,9 @@ void ClipItem::paint(QPainter *painter,
     //painter->setPen(QColor(0, 0, 0, 180));
     //painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
     if (m_videoOnly) {
-        painter->drawPixmap(txtBounding.topLeft() - QPointF(17, -1), KIcon("video-x-generic").pixmap(QSize(15, 15)));
+        painter->drawPixmap(txtBounding.topLeft() - QPointF(17, -1), m_videoPix);
     } else if (m_audioOnly) {
-        painter->drawPixmap(txtBounding.topLeft() - QPointF(17, -1), KIcon("audio-x-generic").pixmap(QSize(15, 15)));
+        painter->drawPixmap(txtBounding.topLeft() - QPointF(17, -1), m_audioPix);
     }
     txtBounding.translate(QPointF(1, 1));
     painter->setPen(QColor(255, 255, 255, 255));
@@ -1402,6 +1404,15 @@ void ClipItem::setVideoOnly(bool force) {
 void ClipItem::setAudioOnly(bool force) {
     m_audioOnly = force;
 }
+
+bool ClipItem::isAudioOnly() const {
+    return m_audioOnly;
+}
+
+bool ClipItem::isVideoOnly() const {
+    return m_videoOnly;
+}
+
 
 // virtual
 /*

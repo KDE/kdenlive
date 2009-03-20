@@ -34,7 +34,7 @@
 #include <QCryptographicHash>
 
 DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id):
-        m_id(id), m_description(QString()), m_refcount(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL), m_properties(QMap <QString, QString> ()), audioFrameChache(QMap<int, QMap<int, QByteArray> > ()), m_baseTrackProducers(QList <Mlt::Producer *>()), m_snapMarkers(QList < CommentedTime > ()), m_videoOnlyProducer(NULL), m_audioOnlyProducer(NULL)  {
+        m_id(id), m_description(QString()), m_refcount(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL), m_properties(QMap <QString, QString> ()), audioFrameChache(QMap<int, QMap<int, QByteArray> > ()), m_baseTrackProducers(QList <Mlt::Producer *>()), m_snapMarkers(QList < CommentedTime > ()), m_videoOnlyProducer(NULL), m_audioTrackProducers(QList <Mlt::Producer *>())  {
     int type = xml.attribute("type").toInt();
     m_clipType = (CLIPTYPE) type;
 
@@ -360,12 +360,18 @@ void DocClipBase::setProducer(Mlt::Producer *producer) {
     QString id = producer->get("id");
     if (id.contains('_')) {
         // this is a subtrack producer, insert it at correct place
-        id = id.section('_', 1, 1);
-        if (id == "audio") {
-            m_audioOnlyProducer = producer;
+        id = id.section('_', 1);
+        if (id.endsWith("audio")) {
+            int pos = id.section('_', 0, 0).toInt();
+            if (pos >= m_audioTrackProducers.count()) {
+                while (m_audioTrackProducers.count() - 1 < pos) {
+                    m_audioTrackProducers.append(NULL);
+                }
+            }
+            if (m_audioTrackProducers.at(pos) == NULL) m_audioTrackProducers[pos] = producer;
             return;
         }
-        if (id == "video") {
+        if (id.endsWith("video")) {
             m_videoOnlyProducer = producer;
             return;
         }
@@ -385,22 +391,24 @@ void DocClipBase::setProducer(Mlt::Producer *producer) {
     if (m_thumbProd && !m_thumbProd->hasProducer()) m_thumbProd->setProducer(producer);
 }
 
-Mlt::Producer *DocClipBase::audioProducer() {
-    if (m_audioOnlyProducer == NULL) {
-        int i;
-        for (i = 0; i < m_baseTrackProducers.count(); i++)
-            if (m_baseTrackProducers.at(i) != NULL) break;
-        if (i >= m_baseTrackProducers.count()) return NULL;
-        m_audioOnlyProducer = new Mlt::Producer(*m_baseTrackProducers.at(i)->profile(), m_baseTrackProducers.at(i)->get("resource"));
-        if (m_properties.contains("force_aspect_ratio")) m_audioOnlyProducer->set("force_aspect_ratio", m_properties.value("force_aspect_ratio").toDouble());
-        if (m_properties.contains("threads")) m_audioOnlyProducer->set("threads", m_properties.value("threads").toInt());
-        m_audioOnlyProducer->set("video_index", -1);
-        if (m_properties.contains("audio_index")) m_audioOnlyProducer->set("audio_index", m_properties.value("audio_index").toInt());
-        char *tmp = (char *) qstrdup(QString(getId() + "_audio").toUtf8().data());
-        m_audioOnlyProducer->set("id", tmp);
+Mlt::Producer *DocClipBase::audioProducer(int track) {
+    if (m_audioTrackProducers.count() <= track) {
+        while (m_audioTrackProducers.count() - 1 < track) {
+            m_audioTrackProducers.append(NULL);
+        }
+    }
+    if (m_audioTrackProducers.at(track) == NULL) {
+        Mlt::Producer *base = producer();
+        m_audioTrackProducers[track] = new Mlt::Producer(*(base->profile()), base->get("resource"));
+        if (m_properties.contains("force_aspect_ratio")) m_audioTrackProducers.at(track)->set("force_aspect_ratio", m_properties.value("force_aspect_ratio").toDouble());
+        if (m_properties.contains("threads")) m_audioTrackProducers.at(track)->set("threads", m_properties.value("threads").toInt());
+        m_audioTrackProducers.at(track)->set("video_index", -1);
+        if (m_properties.contains("audio_index")) m_audioTrackProducers.at(track)->set("audio_index", m_properties.value("audio_index").toInt());
+        char *tmp = (char *) qstrdup(QString(getId() + '_' + QString::number(track) + "_audio").toUtf8().data());
+        m_audioTrackProducers.at(track)->set("id", tmp);
         delete[] tmp;
     }
-    return m_audioOnlyProducer;
+    return m_audioTrackProducers.at(track);
 }
 
 Mlt::Producer *DocClipBase::videoProducer() {

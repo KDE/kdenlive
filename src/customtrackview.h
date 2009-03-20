@@ -115,6 +115,9 @@ public:
     void loadGroups(const QDomNodeList groups);
     void splitAudio();
     void doSplitAudio(const GenTime &pos, int track, bool split);
+    void videoOnly();
+    void audioOnly();
+    void doChangeClipType(const GenTime &pos, int track, bool videoOnly, bool audioOnly);
 
 public slots:
     void setCursorPos(int pos, bool seek = true);

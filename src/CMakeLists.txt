@@ -152,6 +152,7 @@ set(kdenlive_SRCS
   locktrackcommand.cpp
   groupclipscommand.cpp
   splitaudiocommand.cpp
+  changecliptypecommand.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )

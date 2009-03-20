@@ -106,6 +106,8 @@ public:
     QPixmap endThumb() const;
     void setVideoOnly(bool force);
     void setAudioOnly(bool force);
+    bool isVideoOnly() const;
+    bool isAudioOnly() const;
 
 protected:
     //virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
@@ -154,6 +156,8 @@ private:
     QMap<int, QPainterPath > channelPaths;
     /** Called when clip start is resized, adjust keyframes values */
     void checkEffectsKeyframesPos(const int previous, const int current, bool fromStart);
+    QPixmap m_videoPix;
+    QPixmap m_audioPix;
 
 private slots:
     void slotFetchThumbs();
