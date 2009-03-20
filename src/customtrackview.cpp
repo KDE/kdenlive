@@ -4084,6 +4084,31 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split) {
             }
         }
     }
+    else {
+	// unsplit clip: remove audio part and change video part to normal clip
+	if (clip->parentItem() == NULL || clip->parentItem()->type() != GROUPWIDGET) {
+	    kDebug()<<"//CANNOT FIND CLP GRP";
+	    return;
+	}
+	AbstractGroupItem *grp = static_cast <AbstractGroupItem *> (clip->parentItem());
+	QList<QGraphicsItem *> children = grp->childItems();
+	if (children.count() != 2) {
+	    kDebug()<<"//SOMETHING IS WRONG WITH CLP GRP";
+	    return;
+	}
+        for (int i = 0; i < children.count(); i++) {
+            if (children.at(i) != clip) {
+		ClipItem *clp = static_cast <ClipItem *> (children.at(i));
+		ItemInfo info = clip->info();
+		deleteClip(clp->info());
+		clip->setVideoOnly(false);
+		m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - info.track, info.startPos.frames(m_document->fps()), clip->baseClip()->producer(info.track));
+		break;
+	    }
+	}
+        m_document->clipManager()->removeGroup(grp);
+        scene()->destroyItemGroup(grp);
+    }
 }
 
 void CustomTrackView::videoOnly() {
