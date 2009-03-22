@@ -1,6 +1,4 @@
 # translation of kdenlive.po to Deutsch
-# translation of de.po to
-# translation of kdenlive.po to
 # Copyright (C) 2008-2009 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
@@ -14,8 +12,8 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-03-08 15:38+0100\n"
-"PO-Revision-Date: 2009-03-08 16:07+0100\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2009-03-22 23:10+0100\n"
+"Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -203,7 +201,7 @@ msgstr "Zusätzliche Einstellungen"
 #: rc.cpp:660
 #, no-c-format
 msgid "Adjust audio volume with keyframes"
-msgstr "Lautstärke mit Schlüsselbildern abgleichen"
+msgstr "Lautstärke mit Keyframes abgleichen"
 
 #: src/changespeedcommand.cpp:27
 msgid "Adjust clip length"
@@ -211,7 +209,7 @@ msgstr "Cliplänge einstellen"
 
 #: rc.cpp:432, no-c-format
 msgid "Adjust size and position of clip"
-msgstr "Grösse und Position des Clips anpassen"
+msgstr "Größe und Position des Clips anpassen"
 
 #: rc.cpp:234, no-c-format
 msgid "Adjust the audio volume without keyframes"
@@ -220,7 +218,7 @@ msgstr "Lautstärke ohne Keyframes anpassen"
 #: rc.cpp:194
 #, no-c-format
 msgid "Adjust the white balance / color temperature"
-msgstr "Weissabgleich/Farbtemperatur anpassen"
+msgstr "Weißabgleich/Farbtemperatur anpassen"
 
 #: src/titlewidget.cpp:101
 msgid "Align item horizontally"
@@ -345,7 +343,7 @@ msgstr "Unschärfe Faktor"
 #: rc.cpp:21
 #, no-c-format
 msgid "Blur image with keyframes"
-msgstr "Bilder mit Schlüsselbildern unschärfen"
+msgstr "Bild mit Keyframes unschärfen"
 
 #: src/trackview.cpp:617
 #, kde-format
@@ -404,7 +402,7 @@ msgstr "Keinen Clip gefunden um Schnitt rückgängig zu machen"
 
 #: src/customtrackview.cpp:938
 msgid "Cannot find clip with keyframe"
-msgstr "Keinen Clip mit Schlüsselbild gefunden"
+msgstr "Keinen Clip mit Keyframe gefunden"
 
 #: src/mainwindow.cpp:1378 src/mainwindow.cpp:1488
 msgid "Cannot find the inigo program required for rendering (part of Mlt)"
@@ -522,7 +520,7 @@ msgstr "Gamma Farbwert ändern"
 #: rc.cpp:36
 #, no-c-format
 msgid "Change image brightness with keyframes"
-msgstr "Bild-Helligkeit mit Schlüsselbildern ändern"
+msgstr "Bild-Helligkeit mit Keyframes ändern"
 
 #: src/customtrackview.cpp:3580
 msgid "Change track"
@@ -591,7 +589,7 @@ msgstr "Clip <b>%1</b><br>ist ungültig und wird aus dem Projekt entfernt."
 
 #: src/mainwindow.cpp:172
 msgid "Clip Monitor"
-msgstr "Clipmonitor"
+msgstr "Clip-Monitor"
 
 #: src/mainwindow.cpp:1017
 msgid "Clip Properties"
@@ -617,7 +615,7 @@ msgstr "Koeffizient"
 
 #: src/projectlist.cpp:580
 msgid "Color Clip"
-msgstr "Farbclip"
+msgstr "Farb-Clip"
 
 #: rc.cpp:203, no-c-format
 msgid "Color Distance"
@@ -625,7 +623,7 @@ msgstr "Farbdistanz"
 
 #: src/projectitem.cpp:176
 msgid "Color clip"
-msgstr "Farbclip"
+msgstr "Farb-Clip"
 
 #: rc.cpp:75 rc.cpp:87
 #, no-c-format
@@ -647,7 +645,7 @@ msgstr "Linken Kanal nach rechts kopieren"
 
 #: src/main.cpp:38
 msgid "Copyright (c) 2008 Development team"
-msgstr "Copyright (c) 2008 Entwickerteam"
+msgstr "Copyright © 2008–2009 Entwicker-Team"
 
 #: src/renderer.cpp:986
 msgid ""
@@ -1353,11 +1351,11 @@ msgstr "Gehe zum Anfang des Projekts"
 
 #: src/geometryval.cpp:55
 msgid "Go to next keyframe"
-msgstr "Gehe zum nächsten Schlüsselbild"
+msgstr "Gehe zum nächsten Keyframe"
 
 #: src/geometryval.cpp:57
 msgid "Go to previous keyframe"
-msgstr "Gehe zum vorherigen Schlüsselbild"
+msgstr "Gehe zum vorherigen Keyframe"
 
 #: rc.cpp:200
 #, no-c-format
@@ -1622,8 +1620,8 @@ msgid ""
 "MLT's SDL module not found. Please check your MLT install. Kdenlive will not "
 "work until this issue is fixed."
 msgstr ""
-"MLT's SDL Modul wurde nicht gefunden. Bitte überprüfen Sie Ihre MLT "
-"Installation. Kdenlive wird nicht funktionierenbis das Problem behoben ist."
+"MLTs SDL-Modul wurde nicht gefunden. Bitte überprüfen Sie Ihre MLT-"
+"Installation. Kdenlive wird nicht funktionieren bis das Problem behoben ist."
 
 #: rc.cpp:633
 #, no-c-format
@@ -2415,8 +2413,8 @@ msgid ""
 "Select a region using the mouse. To take the snapshot, press the Enter key. "
 "Press Esc to quit."
 msgstr ""
-"Wählen Sie einen Bereich mit der Maus aus. Drücken Sie Enter, um den "
-"Screenshot aufzunehmen, oder ESC um abzubrechen"
+"Wählen Sie einen Bereich mit der Maus aus. Drücken Sie die Eingabetaste, "
+"um den Schnappschuss aufzunehmen, oder ESC um abzubrechen"
 
 #: src/customtrackview.cpp:2367
 msgid "Select clip to change speed"
@@ -2905,7 +2903,7 @@ msgstr "Willkommen"
 #: rc.cpp:191
 #, no-c-format
 msgid "White Balance"
-msgstr "Weissabgleich"
+msgstr "Weißabgleich"
 
 #: rc.cpp:498
 #, no-c-format
