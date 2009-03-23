@@ -432,7 +432,7 @@ msgstr "Audiobearbeitung"
 #: src/clipitem.cpp:779 src/clipitem.cpp:786
 #, c-format, kde-format
 msgid "Audio fade duration: %1s"
-msgstr "Audio-Fading Dauer: %1 s"
+msgstr "Audio-Fading-Dauer: %1 s"
 
 #: rc.cpp:1134 rc.cpp:2349
 msgid "Audio frequency"
@@ -989,7 +989,7 @@ msgstr "Zuschneiden"
 #: src/clipitem.cpp:782
 #, c-format, kde-format
 msgid "Crop from start: %1s"
-msgstr "Vom Beginn %1sec abscheiden"
+msgstr "Vom Beginn %1 Sekunde abscheiden"
 
 #: rc.cpp:1449 rc.cpp:2664
 msgid "Crop start"
@@ -1069,7 +1069,7 @@ msgstr "Fehlersuche"
 
 #: rc.cpp:353 rc.cpp:365 rc.cpp:385
 msgid "Decay"
-msgstr "Abfall"
+msgstr "Abklingen"
 
 #: rc.cpp:175
 msgid "Declipper"
@@ -1113,7 +1113,7 @@ msgstr "Verzögerung"
 
 #: rc.cpp:243
 msgid "Delay (s/10)"
-msgstr "Verzögerung (sek/10)"
+msgstr "Verzögerung (Zehntel Sek.)"
 
 #: src/addeffectcommand.cpp:32
 #, kde-format
@@ -1692,11 +1692,11 @@ msgstr "Vorwärts"
 
 #: src/mainwindow.cpp:875
 msgid "Forward 1 Frame"
-msgstr "1 Bild Vorwärts "
+msgstr "1 Bild vorwärts "
 
 #: src/mainwindow.cpp:880
 msgid "Forward 1 Second"
-msgstr "1 Sekunde Vorwärts"
+msgstr "1 Sekunde vorwärts"
 
 #: src/monitor.cpp:77
 msgid "Forward 1 frame"
@@ -1746,7 +1746,7 @@ msgstr "Einfrieren"
 
 #: rc.cpp:126
 msgid "Freeze After"
-msgstr "Anschließend Einfrieren"
+msgstr "Anschließend einfrieren"
 
 #: rc.cpp:124
 msgid "Freeze Before"
@@ -1906,7 +1906,7 @@ msgstr "HDV"
 
 #: rc.cpp:187
 msgid "Hi gain"
-msgstr "Hi Verstärkung"
+msgstr "Hi-Verstärkung"
 
 #: rc.cpp:283
 msgid "Hide a region of the clip"
@@ -2147,7 +2147,7 @@ msgstr "Limiter"
 
 #: rc.cpp:183
 msgid "Lo gain"
-msgstr "Lo Verstärkung"
+msgstr "Lo-Verstärkung"
 
 #: src/titlewidget.cpp:263
 msgid "Load Image"
@@ -2750,7 +2750,7 @@ msgstr "Eigenschaften"
 #: src/kdenlivesettingsdialog.cpp:196
 #, fuzzy
 msgid "PulseAudio"
-msgstr "Audio"
+msgstr "PulseAudio"
 
 #: src/wizard.cpp:269
 msgid "QImage module"
@@ -2851,7 +2851,7 @@ msgstr "Entferne Spur"
 
 #: src/insertspacecommand.cpp:29
 msgid "Remove space"
-msgstr "Abstand Entfernen"
+msgstr "Abstand entfernen"
 
 #: src/trackview.cpp:295
 #, kde-format
@@ -2890,11 +2890,11 @@ msgstr "Rendern von <i>%1</i> gestartet"
 
 #: src/renderwidget.cpp:1119
 msgid "Rendering aborted"
-msgstr "Renderung abgebrochen"
+msgstr "Rendern abgebrochen"
 
 #: src/renderwidget.cpp:1110
 msgid "Rendering crashed"
-msgstr "Renderung abgestürzt"
+msgstr "Rendern abgestürzt"
 
 #: src/renderwidget.cpp:1099
 #, kde-format
