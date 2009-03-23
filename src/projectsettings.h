@@ -34,6 +34,8 @@ public:
     QString selectedProfile() const;
     KUrl selectedFolder() const;
     QPoint tracks();
+    bool enableVideoThumbs() const;
+    bool enableAudioThumbs() const;
 
 private slots:
     void slotUpdateDisplay();

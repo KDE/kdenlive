@@ -1151,6 +1151,10 @@ void MainWindow::newFile(bool showProjectSettings) {
         ProjectSettings *w = new ProjectSettings(projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, this);
         if (w->exec() != QDialog::Accepted) return;
         if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
+        KdenliveSettings::setVideothumbnails(w->enableVideoThumbs());
+        m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
+        KdenliveSettings::setAudiothumbnails(w->enableAudioThumbs());
+        m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
         profileName = w->selectedProfile();
         projectFolder = w->selectedFolder();
         projectTracks = w->tracks();

@@ -93,6 +93,14 @@ QPoint ProjectSettings::tracks() {
     return p;
 }
 
+bool ProjectSettings::enableVideoThumbs() const {
+    return m_view.video_thumbs->isChecked();
+}
+
+bool ProjectSettings::enableAudioThumbs() const {
+    return m_view.audio_thumbs->isChecked();
+}
+
 #include "projectsettings.moc"
 
 
