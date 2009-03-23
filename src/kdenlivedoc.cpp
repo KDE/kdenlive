@@ -1067,6 +1067,7 @@ void KdenliveDoc::setProfilePath(QString path) {
     m_profile = ProfilesDialog::getVideoProfile(path);
     KdenliveSettings::setProject_display_ratio((double) m_profile.display_aspect_num / m_profile.display_aspect_den);
     m_fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
+    KdenliveSettings::setProject_fps(m_fps);
     m_width = m_profile.width;
     m_height = m_profile.height;
     kDebug() << "KDEnnlive document, init timecode from path: " << path << ",  " << m_fps;
