@@ -2081,7 +2081,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                         trackClipStartList[m_document->tracksCount() - info.track] = info.startPos.frames(m_document->fps());
                 } else if (item->type() == TRANSITIONWIDGET) {
                     transitionsToMove.append(info);
-                    if (trackClipStartList.value(m_document->tracksCount() - info.track) == -1 || info.startPos.frames(m_document->fps()) < trackTransitionStartList.value(m_document->tracksCount() - info.track))
+                    if (trackTransitionStartList.value(m_document->tracksCount() - info.track) == -1 || info.startPos.frames(m_document->fps()) < trackTransitionStartList.value(m_document->tracksCount() - info.track))
                         trackTransitionStartList[m_document->tracksCount() - info.track] = info.startPos.frames(m_document->fps());
                 }
             }
