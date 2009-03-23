@@ -2530,9 +2530,36 @@ void CustomTrackView::deleteSelectedClips() {
         emit displayMessage(i18n("Select clip to delete"), ErrorMessage);
         return;
     }
+    resetSelectionGroup();
+    scene()->clearSelection();
     QUndoCommand *deleteSelected = new QUndoCommand();
     deleteSelected->setText(i18n("Delete selected items"));
     bool resetGroup = false;
+
+    // expand & destroy groups
+    for (int i = 0; i < itemList.count(); i++) {
+        if (itemList.at(i)->type() == GROUPWIDGET) {
+            QList<QGraphicsItem *> children = itemList.at(i)->childItems();
+            itemList += children;
+            QList <ItemInfo> clipInfos;
+            QList <ItemInfo> transitionInfos;
+            GenTime currentPos = GenTime(m_cursorPos, m_document->fps());
+            for (int j = 0; j < children.count(); j++) {
+                if (children.at(j)->type() == AVWIDGET) {
+                    AbstractClipItem *clip = static_cast <AbstractClipItem *>(children.at(j));
+                    if (!clip->isItemLocked()) clipInfos.append(clip->info());
+                } else if (children.at(j)->type() == TRANSITIONWIDGET) {
+                    AbstractClipItem *clip = static_cast <AbstractClipItem *>(children.at(j));
+                    if (!clip->isItemLocked()) transitionInfos.append(clip->info());
+                }
+            }
+            if (clipInfos.count() > 0) {
+                new GroupClipsCommand(this, clipInfos, transitionInfos, false, true, deleteSelected);
+            }
+        }
+    }
+
+
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
@@ -2549,7 +2576,6 @@ void CustomTrackView::deleteSelectedClips() {
         }
     }
     m_commandStack->push(deleteSelected);
-    if (resetGroup) resetSelectionGroup();
 }
 
 void CustomTrackView::changeClipSpeed() {
@@ -4083,29 +4109,28 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split) {
                 groupSelectedItems(false, true);
             }
         }
-    }
-    else {
-	// unsplit clip: remove audio part and change video part to normal clip
-	if (clip->parentItem() == NULL || clip->parentItem()->type() != GROUPWIDGET) {
-	    kDebug()<<"//CANNOT FIND CLP GRP";
-	    return;
-	}
-	AbstractGroupItem *grp = static_cast <AbstractGroupItem *> (clip->parentItem());
-	QList<QGraphicsItem *> children = grp->childItems();
-	if (children.count() != 2) {
-	    kDebug()<<"//SOMETHING IS WRONG WITH CLP GRP";
-	    return;
-	}
+    } else {
+        // unsplit clip: remove audio part and change video part to normal clip
+        if (clip->parentItem() == NULL || clip->parentItem()->type() != GROUPWIDGET) {
+            kDebug() << "//CANNOT FIND CLP GRP";
+            return;
+        }
+        AbstractGroupItem *grp = static_cast <AbstractGroupItem *>(clip->parentItem());
+        QList<QGraphicsItem *> children = grp->childItems();
+        if (children.count() != 2) {
+            kDebug() << "//SOMETHING IS WRONG WITH CLP GRP";
+            return;
+        }
         for (int i = 0; i < children.count(); i++) {
             if (children.at(i) != clip) {
-		ClipItem *clp = static_cast <ClipItem *> (children.at(i));
-		ItemInfo info = clip->info();
-		deleteClip(clp->info());
-		clip->setVideoOnly(false);
-		m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - info.track, info.startPos.frames(m_document->fps()), clip->baseClip()->producer(info.track));
-		break;
-	    }
-	}
+                ClipItem *clp = static_cast <ClipItem *>(children.at(i));
+                ItemInfo info = clip->info();
+                deleteClip(clp->info());
+                clip->setVideoOnly(false);
+                m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - info.track, info.startPos.frames(m_document->fps()), clip->baseClip()->producer(info.track));
+                break;
+            }
+        }
         m_document->clipManager()->removeGroup(grp);
         scene()->destroyItemGroup(grp);
     }
