@@ -301,3 +301,12 @@ QDomElement Transition::toXML() {
     return m_parameters;
 }
 
+bool Transition::hasGeometry() {
+    QDomNodeList namenode = m_parameters.elementsByTagName("parameter");
+    for (int i = 0;i < namenode.count() ;i++) {
+        QDomElement pa = namenode.item(i).toElement();
+        if (pa.attribute("type") == "geometry") return true;
+    }
+    return false;
+}
+

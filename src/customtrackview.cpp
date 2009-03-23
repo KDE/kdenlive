@@ -3027,6 +3027,7 @@ void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end) {
     KdenliveSettings::setSnaptopoints(snap);
     item->updateTransitionEndTrack(getPreviousVideoTrack(end.track));
     m_document->renderer()->mltMoveTransition(item->transitionTag(), m_document->tracksCount() - start.track, m_document->tracksCount() - end.track, item->transitionEndTrack(), start.startPos, start.endPos, end.startPos, end.endPos);
+    if (m_dragItem && m_dragItem == item) emit transitionItemSelected(item);
 }
 
 void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end) {

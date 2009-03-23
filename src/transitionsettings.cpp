@@ -74,6 +74,7 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent) 
     } else {
         // Same transition, we just want to update the parameters value
         slotUpdateEffectParams(e, e);
+        if (m_usedTransition->hasGeometry()) emit transferParamDesc(m_usedTransition->toXML(), m_usedTransition->startPos().frames(KdenliveSettings::project_fps()), m_usedTransition->endPos().frames(KdenliveSettings::project_fps()));
     }
 }
 

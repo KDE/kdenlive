@@ -71,6 +71,7 @@ public:
     Transition *clone();
     bool isAutomatic() const;
     void setAutomatic(bool automatic);
+    bool hasGeometry();
 
 protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
