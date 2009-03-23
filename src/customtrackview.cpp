@@ -1973,6 +1973,7 @@ void CustomTrackView::insertSpace(QList<ItemInfo> clipsToMove, QList<ItemInfo> t
 }
 
 void CustomTrackView::deleteClip(const QString &clipId) {
+    resetSelectionGroup();
     QList<QGraphicsItem *> itemList = items();
     QUndoCommand *deleteCommand = new QUndoCommand();
     deleteCommand->setText(i18n("Delete timeline clips"));
@@ -1982,12 +1983,16 @@ void CustomTrackView::deleteClip(const QString &clipId) {
             ClipItem *item = (ClipItem *)itemList.at(i);
             if (item->clipProducer() == clipId) {
                 count++;
+                if (item->parentItem()) {
+                    // Clip is in a group, destroy the group
+                    new GroupClipsCommand(this, QList<ItemInfo>() << item->info(), QList<ItemInfo>(), false, true, deleteCommand);
+                }
                 new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), true, true, deleteCommand);
-                //delete item;
             }
         }
     }
-
+    if (count == 0) delete deleteCommand;
+    else m_commandStack->push(deleteCommand);
 }
 
 void CustomTrackView::setCursorPos(int pos, bool seek) {
