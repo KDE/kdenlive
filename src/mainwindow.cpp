@@ -987,6 +987,19 @@ void MainWindow::setupActions() {
     pasteEffects->setData("paste_effects");
     connect(pasteEffects , SIGNAL(triggered()), this, SLOT(slotPasteEffects()));
 
+    QAction *showTimeline = new KAction(i18n("Show Timeline"), this);
+    collection->addAction("show_timeline", showTimeline);
+    showTimeline->setCheckable(true);
+    showTimeline->setChecked(true);
+    connect(showTimeline, SIGNAL(triggered(bool)), this, SLOT(slotShowTimeline(bool)));
+
+    /*QAction *maxCurrent = new KAction(i18n("Maximize Current Widget"), this);
+    collection->addAction("maximize_current", maxCurrent);
+    maxCurrent->setCheckable(true);
+    maxCurrent->setChecked(false);
+    connect(maxCurrent, SIGNAL(triggered(bool)), this, SLOT(slotMaximizeCurrent(bool)));*/
+
+
     m_closeAction = KStandardAction::close(this, SLOT(closeCurrentDocument()), collection);
 
     KStandardAction::quit(this, SLOT(queryQuit()), collection);
@@ -2415,5 +2428,31 @@ void MainWindow::slotDvdWizard(const QString &url, const QString &profile) {
     w->exec();
 }
 
+void MainWindow::slotShowTimeline(bool show) {
+    if (show == false) {
+        m_timelineState = saveState();
+        centralWidget()->setHidden(true);
+    } else {
+        centralWidget()->setHidden(false);
+        restoreState(m_timelineState);
+    }
+}
+
+void MainWindow::slotMaximizeCurrent(bool show) {
+    //TODO: is there a way to maximize current widget?
+    //if (show == true)
+    {
+        m_timelineState = saveState();
+        QWidget *par = focusWidget()->parentWidget();
+        while (par->parentWidget() && par->parentWidget() != this) {
+            par = par->parentWidget();
+        }
+        kDebug() << "CURRENT WIDGET: " << par->objectName();
+    }
+    /*else {
+    //centralWidget()->setHidden(false);
+    //restoreState(m_timelineState);
+    }*/
+}
 
 #include "mainwindow.moc"

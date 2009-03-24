@@ -193,6 +193,7 @@ private:
                    QActionGroup *actionGroup);
     void aboutPlugins();
     QStringList m_pluginFileNames;
+    QByteArray m_timelineState;
 
 public slots:
     void openFile(const KUrl &url);
@@ -297,6 +298,8 @@ private slots:
     void slotSplitAudio();
     void slotVideoOnly();
     void slotAudioOnly();
+    void slotShowTimeline(bool show);
+    void slotMaximizeCurrent(bool show);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

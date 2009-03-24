@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="39">
+<gui name="kdenlive" version="40">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -116,6 +116,8 @@
       <Action name="mark_out" />
     </Menu>
     <Menu name="dockwindows" ><text>View</text>
+      <Action name="maximize_current" />
+      <Action name="show_timeline" />
     </Menu>
     <Menu name="settings" >
       <Action name="manage_profiles" />
