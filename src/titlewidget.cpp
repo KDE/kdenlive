@@ -374,7 +374,7 @@ void TitleWidget::slotNewRect(QGraphicsRectItem * rect) {
 
 void TitleWidget::slotNewText(QGraphicsTextItem *tt) {
     QFont font = font_family->currentFont();
-    font.setPointSize(font_size->value());
+    font.setPixelSize(font_size->value());
     // mbd: issue 551:
     font.setBold(buttonBold->isChecked());
     font.setItalic(buttonItalic->isChecked());
@@ -428,7 +428,7 @@ void TitleWidget::selectionChanged() {
 
             QFont font = i->font();
             font_family->setCurrentFont(font);
-            font_size->setValue(font.pointSize());
+            font_size->setValue(font.pixelSize());
             buttonBold->setChecked(font.bold());
             buttonItalic->setChecked(font.italic());
             buttonUnder->setChecked(font.underline());
@@ -523,7 +523,7 @@ void TitleWidget::textChanged() {
 
 void TitleWidget::slotUpdateText() {
     QFont font = font_family->currentFont();
-    font.setPointSize(font_size->value());
+    font.setPixelSize(font_size->value());
     font.setBold(buttonBold->isChecked());
     font.setItalic(buttonItalic->isChecked());
     font.setUnderline(buttonUnder->isChecked());
@@ -721,7 +721,8 @@ void TitleWidget::writeChoices() {
     KConfigGroup titleConfig(config, "TitleWidget");
     // Write the entries
     titleConfig.writeEntry("font_family", font_family->currentFont());
-    titleConfig.writeEntry("font_size", font_size->value());
+    //titleConfig.writeEntry("font_size", font_size->value());
+    titleConfig.writeEntry("font_pixel_size", font_size->value());
     titleConfig.writeEntry("font_color", fontColorButton->color());
     titleConfig.writeEntry("font_alpha", textAlpha->value());
     titleConfig.writeEntry("font_bold", buttonBold->isChecked());
@@ -748,7 +749,7 @@ void TitleWidget::readChoices() {
     KConfigGroup titleConfig(config, "TitleWidget");
     // read the entries
     font_family->setCurrentFont(titleConfig.readEntry("font_family", font_family->currentFont()));
-    font_size->setValue(titleConfig.readEntry("font_size", font_size->value()));
+    font_size->setValue(titleConfig.readEntry("font_pixel_size", font_size->value()));
     fontColorButton->setColor(titleConfig.readEntry("font_color", fontColorButton->color()));
     textAlpha->setValue(titleConfig.readEntry("font_alpha", textAlpha->value()));
     buttonBold->setChecked(titleConfig.readEntry("font_bold", buttonBold->isChecked()));

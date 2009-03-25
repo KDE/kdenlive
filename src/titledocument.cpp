@@ -14,17 +14,22 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 #include "titledocument.h"
+
+#include <KDebug>
+#include <KTemporaryFile>
+#include <kio/netaccess.h>
+
 #include <QGraphicsScene>
 #include <QDomElement>
 #include <QGraphicsItem>
 #include <QGraphicsRectItem>
 #include <QGraphicsTextItem>
 #include <QGraphicsSvgItem>
-#include <KDebug>
+#include <QFontInfo>
 #include <QFile>
-#include <KTemporaryFile>
-#include <kio/netaccess.h>
+
 
 TitleDocument::TitleDocument() {
     scene = NULL;
@@ -65,12 +70,14 @@ QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonIt
         case 8:
             e.setAttribute("type", "QGraphicsTextItem");
             t = static_cast<QGraphicsTextItem *>(item);
+	    // Don't save empty text nodes
+	    if (t->toPlainText().simplified().isEmpty()) continue;
             //content.appendChild(doc.createTextNode(((QGraphicsTextItem*)item)->toHtml()));
             content.appendChild(doc.createTextNode(t->toPlainText()));
             font = t->font();
             content.setAttribute("font", font.family());
             content.setAttribute("font-bold", font.bold());
-            content.setAttribute("font-size", font.pointSize());
+            content.setAttribute("font-pixel-size", font.pixelSize());
             content.setAttribute("font-italic", font.italic());
             content.setAttribute("font-underline", font.underline());
             content.setAttribute("font-color", colorToString(t->defaultTextColor()));
@@ -183,12 +190,19 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* /*startv*
             int zValue = items.item(i).attributes().namedItem("z-index").nodeValue().toInt();
             if (zValue > -1000)
                 if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsTextItem") {
-                    QFont font(items.item(i).namedItem("content").attributes().namedItem("font").nodeValue());
-                    font.setBold(items.item(i).namedItem("content").attributes().namedItem("font-bold").nodeValue().toInt());
-                    font.setItalic(items.item(i).namedItem("content").attributes().namedItem("font-italic").nodeValue().toInt());
-                    font.setUnderline(items.item(i).namedItem("content").attributes().namedItem("font-underline").nodeValue().toInt());
-                    font.setPointSize(items.item(i).namedItem("content").attributes().namedItem("font-size").nodeValue().toInt());
-                    QColor col(stringToColor(items.item(i).namedItem("content").attributes().namedItem("font-color").nodeValue()));
+		    QDomNamedNodeMap txtProperties = items.item(i).namedItem("content").attributes();
+                    QFont font(txtProperties.namedItem("font").nodeValue());
+                    font.setBold(txtProperties.namedItem("font-bold").nodeValue().toInt());
+                    font.setItalic(txtProperties.namedItem("font-italic").nodeValue().toInt());
+                    font.setUnderline(txtProperties.namedItem("font-underline").nodeValue().toInt());
+		    // Older Kdenlive version did not store pixel size but point size
+		    if (txtProperties.namedItem("font-pixel-size").isNull()) {
+			QFont f2;
+			f2.setPointSize(txtProperties.namedItem("font-size").nodeValue().toInt());
+			font.setPixelSize(QFontInfo(f2).pixelSize());
+		    }
+		    else font.setPixelSize(txtProperties.namedItem("font-pixel-size").nodeValue().toInt());
+                    QColor col(stringToColor(txtProperties.namedItem("font-color").nodeValue()));
                     QGraphicsTextItem *txt = scene->addText(items.item(i).namedItem("content").firstChild().nodeValue(), font);
                     txt->setDefaultTextColor(col);
                     txt->setTextInteractionFlags(Qt::NoTextInteraction);
