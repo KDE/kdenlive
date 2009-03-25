@@ -560,7 +560,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
 
     if (event->modifiers() & Qt::ShiftModifier && collisionList.count() == 0) {
         setDragMode(QGraphicsView::RubberBandDrag);
-        if (!event->modifiers() & Qt::ControlModifier) {
+        if (!(event->modifiers() & Qt::ControlModifier)) {
             resetSelectionGroup();
             scene()->clearSelection();
         }
@@ -666,6 +666,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event) {
     if (m_tool == RAZORTOOL && m_dragItem) {
         if (m_dragItem->type() == TRANSITIONWIDGET) {
             emit displayMessage(i18n("Cannot cut a transition"), ErrorMessage);
+            event->accept();
+            m_dragItem = NULL;
+            return;
+        } else if (m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
+            emit displayMessage(i18n("Cannot cut a clip in a group"), ErrorMessage);
             event->accept();
             m_dragItem = NULL;
             return;
@@ -2621,7 +2626,10 @@ void CustomTrackView::cutSelectedClips() {
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
-            if (currentPos > item->startPos() && currentPos <  item->endPos()) {
+	    if (item->parentItem() && item->parentItem() != m_selectionGroup) {
+		emit displayMessage(i18n("Cannot cut a clip in a group"), ErrorMessage);
+	    }
+            else if (currentPos > item->startPos() && currentPos <  item->endPos()) {
                 RazorClipCommand *command = new RazorClipCommand(this, item->info(), currentPos, true);
                 m_commandStack->push(command);
             }
