@@ -85,14 +85,15 @@ void AbstractClipItem::resizeStart(int posx, double speed) {
         if (m_cropDuration > GenTime(3, m_fps)) durationDiff = GenTime(3, m_fps);
         else return;
     }
-
+    //kDebug()<<"// DURATION DIFF: "<<durationDiff.frames(25)<<", POS: "<<pos().x();
     m_startPos += durationDiff;
     if (type() == AVWIDGET) m_cropStart += durationDiff * speed;
     m_cropDuration = m_cropDuration - durationDiff * speed;
 
     setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
-    setPos(m_startPos.frames(m_fps), pos().y());
-    if ((int) pos().x() != posx) {
+    moveBy(durationDiff.frames(m_fps), 0);
+    //setPos(m_startPos.frames(m_fps), pos().y());
+    if ((int) scenePos().x() != posx) {
         //kDebug()<<"//////  WARNING, DIFF IN XPOS: "<<pos().x()<<" == "<<m_startPos.frames(m_fps);
         GenTime diff = GenTime((int) pos().x() - posx, m_fps);
         if (type() == AVWIDGET) m_cropStart = m_cropStart + diff;

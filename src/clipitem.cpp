@@ -1057,7 +1057,7 @@ void ClipItem::checkEffectsKeyframesPos(const int previous, const int current, b
 QVariant ClipItem::itemChange(GraphicsItemChange change, const QVariant &value) {
     if (change == ItemPositionChange && scene()) {
         // calculate new position.
-        if (parentItem()) return pos();
+        //if (parentItem()) return pos();
         QPointF newPos = value.toPointF();
         //kDebug() << "/// MOVING CLIP ITEM.------------\n++++++++++";
         int xpos = projectScene()->getSnapPointForPos((int) newPos.x(), KdenliveSettings::snaptopoints());

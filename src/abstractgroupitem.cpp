@@ -105,19 +105,22 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
         const int trackHeight = KdenliveSettings::trackheight();
         QPointF start = sceneBoundingRect().topLeft();
         QPointF newPos = value.toPointF();
-        int xpos = projectScene()->getSnapPointForPos((int)(start.x() + newPos.x() - scenePos().x() + 0.5), KdenliveSettings::snaptopoints());
+        //kDebug()<<"REAL:"<<start.x()<<", PROPOSED:"<<(int)(start.x() - pos().x() + newPos.x());
+        int xpos = projectScene()->getSnapPointForPos((int)(start.x() + newPos.x() - pos().x()), KdenliveSettings::snaptopoints());
 
         xpos = qMax(xpos, 0);
-        newPos.setX((int)(scenePos().x() + xpos - (int) start.x()));
+        //kDebug()<<"GRP XPOS:"<<xpos<<", START:"<<start.x()<<",NEW:"<<newPos.x()<<"; SCENE:"<<scenePos().x()<<",POS:"<<pos().x();
+        newPos.setX((int)(pos().x() + xpos - (int) start.x()));
 
         //int startTrack = (start.y() + trackHeight / 2) / trackHeight;
 
-        int newTrack = (start.y() + newPos.y() - scenePos().y()) / trackHeight;
-        int currTrack = start.y() / trackHeight;
-        int currTrack2 = newPos.y() / trackHeight;
+        int realTrack = (start.y() + newPos.y() - pos().y()) / trackHeight;
+        int proposedTrack = newPos.y() / trackHeight;
 
-        newTrack = qMin(newTrack, projectScene()->tracksCount() - (int)(boundingRect().height() + 5) / trackHeight);
-        newTrack = qMax(newTrack, 0);
+        int correctedTrack = qMin(realTrack, projectScene()->tracksCount() - (int)(boundingRect().height() + 5) / trackHeight);
+        correctedTrack = qMax(correctedTrack, 0);
+
+        proposedTrack += (correctedTrack - realTrack);
 
         // Check if top item is a clip or a transition
         int offset = 0;
@@ -137,7 +140,7 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
                 }
             }
         }
-        newPos.setY((int)((currTrack2) * trackHeight) + offset);
+        newPos.setY((int)((proposedTrack) * trackHeight) + offset);
         //if (newPos == start) return start;
 
         /*if (newPos.x() < 0) {

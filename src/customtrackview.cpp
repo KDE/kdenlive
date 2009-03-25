@@ -2344,7 +2344,17 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
             }
 
         }
-
+        if (m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
+            // Item was resized, rebuild group;
+            AbstractGroupItem *group = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
+            QList <QGraphicsItem *> children = group->childItems();
+            m_document->clipManager()->removeGroup(group);
+            scene()->destroyItemGroup(group);
+            for (int i = 0; i < children.count(); i++) {
+                children.at(i)->setSelected(true);
+            }
+            groupSelectedItems(false, true);
+        }
         //m_document->renderer()->doRefresh();
     } else if (m_operationMode == RESIZEEND && m_dragItem->endPos() != m_dragItemInfo.endPos) {
         // resize end
@@ -2394,6 +2404,17 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
                 MoveTransitionCommand *command = new MoveTransitionCommand(this, m_dragItemInfo, info, false);
                 m_commandStack->push(command);
             }
+        }
+        if (m_dragItem->parentItem() && m_dragItem->parentItem() != m_selectionGroup) {
+            // Item was resized, rebuild group;
+            AbstractGroupItem *group = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
+            QList <QGraphicsItem *> children = group->childItems();
+            m_document->clipManager()->removeGroup(group);
+            scene()->destroyItemGroup(group);
+            for (int i = 0; i < children.count(); i++) {
+                children.at(i)->setSelected(true);
+            }
+            groupSelectedItems(false, true);
         }
         //m_document->renderer()->doRefresh();
     } else if (m_operationMode == FADEIN) {
@@ -2626,10 +2647,9 @@ void CustomTrackView::cutSelectedClips() {
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
-	    if (item->parentItem() && item->parentItem() != m_selectionGroup) {
-		emit displayMessage(i18n("Cannot cut a clip in a group"), ErrorMessage);
-	    }
-            else if (currentPos > item->startPos() && currentPos <  item->endPos()) {
+            if (item->parentItem() && item->parentItem() != m_selectionGroup) {
+                emit displayMessage(i18n("Cannot cut a clip in a group"), ErrorMessage);
+            } else if (currentPos > item->startPos() && currentPos <  item->endPos()) {
                 RazorClipCommand *command = new RazorClipCommand(this, item->info(), currentPos, true);
                 m_commandStack->push(command);
             }
@@ -2797,9 +2817,7 @@ ClipItem *CustomTrackView::getClipItemAtStart(GenTime pos, int track) {
 }
 
 ClipItem *CustomTrackView::getClipItemAt(int pos, int track) {
-    QPointF p(pos, track * m_tracksHeight + m_tracksHeight / 2);
-    kDebug() << "LKING POINT:" << p;
-    QList<QGraphicsItem *> list = scene()->items(p);
+    QList<QGraphicsItem *> list = scene()->items(QPointF(pos, track * m_tracksHeight + m_tracksHeight / 2));
     ClipItem *clip = NULL;
     for (int i = 0; i < list.size(); i++) {
         if (list.at(i)->type() == AVWIDGET) {
