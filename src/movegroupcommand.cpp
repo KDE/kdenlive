@@ -24,7 +24,7 @@
 #include <KLocale>
 
 MoveGroupCommand::MoveGroupCommand(CustomTrackView *view, const QList <ItemInfo> startClip, const QList <ItemInfo> startTransition, const GenTime offset, const int trackOffset, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_startClip(startClip), m_startTransition(startTransition), m_offset(offset), m_trackOffset(trackOffset), m_doIt(doIt) {
-    setText(i18n("Move clip"));
+    setText(i18n("Move group"));
 }
 
 
@@ -36,9 +36,8 @@ void MoveGroupCommand::undo() {
 }
 // virtual
 void MoveGroupCommand::redo() {
-    kDebug() << "----  redoing action";
     if (m_doIt)
-        m_view->moveGroup(m_startClip, m_startTransition, m_offset, m_trackOffset);
+        m_view->moveGroup(m_startClip, m_startTransition, m_offset, m_trackOffset, false);
     m_doIt = true;
 }
 
