@@ -1030,7 +1030,7 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
         resetSelectionGroup();
         QStringList list = QString(event->mimeData()->data("kdenlive/clip")).split(';');
         m_selectionGroup = new AbstractGroupItem(m_document->fps());
-        QPoint pos = QPoint();
+        QPoint pos;
         DocClipBase *clip = m_document->getBaseClip(list.at(0));
         if (clip == NULL) kDebug() << " WARNING))))))))) CLIP NOT FOUND : " << list.at(0);
         ItemInfo info;
@@ -1055,8 +1055,8 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event) {
         resetSelectionGroup(false);
 
         m_selectionGroup = new AbstractGroupItem(m_document->fps());
-        QPoint pos = QPoint();
-        GenTime start = GenTime();
+        QPoint pos;
+        GenTime start;
         QList <GenTime> offsetList;
         for (int i = 0; i < ids.size(); ++i) {
             DocClipBase *clip = m_document->getBaseClip(ids.at(i));
@@ -1827,8 +1827,8 @@ void CustomTrackView::slotRemoveSpace() {
     QRectF r(pos.frames(m_document->fps()), track * m_tracksHeight + m_tracksHeight / 2, sceneRect().width() - pos.frames(m_document->fps()), m_tracksHeight / 2 - 1);
     QList<QGraphicsItem *> items = m_scene->items(r);
 
-    QList<ItemInfo> clipsToMove = QList<ItemInfo> ();
-    QList<ItemInfo> transitionsToMove = QList<ItemInfo> ();
+    QList<ItemInfo> clipsToMove;
+    QList<ItemInfo> transitionsToMove;
 
     for (int i = 0; i < items.count(); i++) {
         if (items.at(i)->type() == AVWIDGET || items.at(i)->type() == TRANSITIONWIDGET) {
@@ -1872,8 +1872,8 @@ void CustomTrackView::slotInsertSpace() {
     QRectF r(pos.frames(m_document->fps()), minh, sceneRect().width() - pos.frames(m_document->fps()), maxh);
     QList<QGraphicsItem *> items = m_scene->items(r);
 
-    QList<ItemInfo> clipsToMove = QList<ItemInfo> ();
-    QList<ItemInfo> transitionsToMove = QList<ItemInfo> ();
+    QList<ItemInfo> clipsToMove;
+    QList<ItemInfo> transitionsToMove;
 
     for (int i = 0; i < items.count(); i++) {
         if (items.at(i)->type() == AVWIDGET || items.at(i)->type() == TRANSITIONWIDGET) {
@@ -2039,8 +2039,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
         if (timeOffset != GenTime()) {
             QList<QGraphicsItem *> items = m_selectionGroup->childItems();
 
-            QList<ItemInfo> clipsToMove = QList<ItemInfo> ();
-            QList<ItemInfo> transitionsToMove = QList<ItemInfo> ();
+            QList<ItemInfo> clipsToMove;
+            QList<ItemInfo> transitionsToMove;
 
             // Create lists with start pos for each track
             QMap <int, int> trackClipStartList;
@@ -2209,8 +2209,8 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event) {
             QGraphicsItemGroup *group = static_cast <QGraphicsItemGroup *>(m_dragItem->parentItem());
             QList<QGraphicsItem *> items = group->childItems();
 
-            QList<ItemInfo> clipsToMove = QList<ItemInfo> ();
-            QList<ItemInfo> transitionsToMove = QList<ItemInfo> ();
+            QList<ItemInfo> clipsToMove;
+            QList<ItemInfo> transitionsToMove;
 
             GenTime timeOffset = GenTime(m_dragItem->scenePos().x(), m_document->fps()) - m_dragItemInfo.startPos;
             const int trackOffset = (int)(m_dragItem->scenePos().y() / m_tracksHeight) - m_dragItemInfo.track;

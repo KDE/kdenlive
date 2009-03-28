@@ -135,7 +135,7 @@ QString EffectsListWidget::currentInfo() {
 // virtual
 void EffectsListWidget::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
-        this->m_DragStartPosition = event->pos();
+        m_DragStartPosition = event->pos();
         m_dragStarted = true;
     }
     KListWidget::mousePressEvent(event);

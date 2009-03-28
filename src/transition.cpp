@@ -268,12 +268,12 @@ bool Transition::belongsToClip(const ClipItem * clip) const {
 
 /*
 Transition *Transition::clone() {
-    return new Transition::Transition(rect(), m_referenceClip, this->toXML() , m_fps);
+    return new Transition::Transition(rect(), m_referenceClip, toXML() , m_fps);
 }*/
 
 /*
 Transition *Transition::reparent(ClipItem * clip) {
-    return new Transition::Transition(rect(), clip, this->toXML(), m_fps, m_referenceClip->startPos());
+    return new Transition::Transition(rect(), clip, toXML(), m_fps, m_referenceClip->startPos());
 }*/
 
 bool Transition::isValid() const {

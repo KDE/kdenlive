@@ -178,7 +178,7 @@
    <profile name="Vimeo 640x480" extension="mp4" args="f=mp4 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=3000k s=640x480 aspect=%dar mbd=2 trellis=1 mv4=1" url="http://www.vimeo.com/upload" />
   <profile name="Vimeo 1280x720" extension="mp4" args="f=mp4 acodec=libfaac ab=128k ar=44100 vcodec=libx264 minrate=0 b=5000k s=1280x720 aspect=%dar mbd=2 trellis=1 mv4=1" url="http://www.vimeo.com/upload" />
   <profile name="Youtube 640x480" extension="mp4" args="f=mp4 acodec=libmp3lame ab=128k ar=44100 vcodec=mpeg4 minrate=0 b=800k s=640x480 aspect=%dar mbd=2 trellis=1 mv4=1" url="http://www.youtube.com/upload" />
-  <profile name="Youtube 1290x720" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=41100 vcodec=mpeg4 minrate=0 b=2000k s=1290x720 aspect=%dar mbd=2 trellis=1 mv4=1" url="http://www.youtube.com/upload" />
+  <profile name="Youtube 1280x720" extension="mp4" args="f=mp4 hq=1 acodec=libfaac ab=128k ar=41100 vcodec=mpeg4 minrate=0 b=2000k s=1280x720 aspect=%dar mbd=2 trellis=1 mv4=1" url="http://www.youtube.com/upload" />
 
 </group>
 

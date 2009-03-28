@@ -365,7 +365,7 @@ void TrackView::refresh() {
 
 void TrackView::slotRebuildTrackHeaders() {
     QList <TrackInfo> list = m_doc->tracksList();
-    QList<HeaderTrack *> widgets = this->findChildren<HeaderTrack *>();
+    QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
     for (int i = 0; i < widgets.count(); i++)
         delete widgets.at(i);
     int max = list.count();
@@ -633,7 +633,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked) {
 }
 
 DocClipBase *TrackView::getMissingProducer(const QString id) const {
-    QDomElement missingXml = QDomElement();
+    QDomElement missingXml;
     QDomDocument doc = m_doc->toXml();
     QString docRoot = doc.documentElement().attribute("root");
     if (!docRoot.endsWith('/')) docRoot.append('/');
@@ -684,7 +684,7 @@ const QString & TrackView::editMode() const {
 }
 
 void TrackView::slotChangeTrackLock(int ix, bool lock) {
-    QList<HeaderTrack *> widgets = this->findChildren<HeaderTrack *>();
+    QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
     widgets.at(ix)->setLock(lock);
 }
 

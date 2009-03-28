@@ -868,7 +868,7 @@ bool KdenliveDoc::convertDocument(double version) {
     kDebug() << "found" << avfiles.count() << "<avfile />s and" << kproducers.count() << "<kdenlive_producer />s";
     for (int i = 0; i < avfiles.count(); ++i) {
         QDomElement avfile = avfiles.at(i).toElement();
-        QDomElement kproducer = QDomElement();
+        QDomElement kproducer;
         if (avfile.isNull())
             kWarning() << "found an <avfile /> that is not a QDomElement";
         else {

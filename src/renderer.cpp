@@ -2741,7 +2741,7 @@ void Render::mltSavePlaylist() {
 }
 
 QList <Mlt::Producer *> Render::producersList() {
-    QList <Mlt::Producer *> prods = QList <Mlt::Producer *> ();
+    QList <Mlt::Producer *> prods;
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) return prods;
     Mlt::Tractor tractor(service);

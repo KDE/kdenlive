@@ -116,7 +116,7 @@ void Wizard::checkMltComponents() {
     m_mltCheck.programList->setColumnCount(2);
     m_mltCheck.programList->setRootIsDecorated(false);
     m_mltCheck.programList->setHeaderHidden(true);
-    QSize itemSize(20, this->fontMetrics().height() * 2.5);
+    QSize itemSize(20, fontMetrics().height() * 2.5);
     m_mltCheck.programList->setColumnWidth(0, 30);
     m_mltCheck.programList->setIconSize(QSize(24, 24));
 
@@ -286,7 +286,7 @@ void Wizard::slotCheckPrograms() {
     m_check.programList->setColumnCount(2);
     m_check.programList->setRootIsDecorated(false);
     m_check.programList->setHeaderHidden(true);
-    QSize itemSize(20, this->fontMetrics().height() * 2.5);
+    QSize itemSize(20, fontMetrics().height() * 2.5);
     m_check.programList->setColumnWidth(0, 30);
     m_check.programList->setIconSize(QSize(24, 24));
 

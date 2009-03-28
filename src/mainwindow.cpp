@@ -2288,7 +2288,7 @@ void MainWindow::keyPressEvent(QKeyEvent *ke) {
 void MainWindow::hideEvent(QHideEvent */*event*/) {
     // kDebug() << "I was hidden";
     // issue http://www.kdenlive.org/mantis/view.php?id=231
-    if (this->isMinimized()) {
+    if (isMinimized()) {
         // kDebug() << "I am minimized";
         if (m_monitorManager) m_monitorManager->stopActiveMonitor();
     }

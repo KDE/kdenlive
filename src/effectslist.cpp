@@ -31,8 +31,8 @@ EffectsList::~EffectsList() {
 
 QDomElement EffectsList::getEffectByName(const QString & name) const {
     QString effectName;
-    for (int i = 0; i < this->size(); ++i) {
-        QDomElement effect =  this->at(i);
+    for (int i = 0; i < size(); ++i) {
+        QDomElement effect =  at(i);
         QDomNode namenode = effect.elementsByTagName("name").item(0);
         if (!namenode.isNull()) effectName = i18n(namenode.toElement().text().toUtf8().data());
         if (name == effectName) {
@@ -51,8 +51,8 @@ QDomElement EffectsList::getEffectByName(const QString & name) const {
 
 QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id) const {
 
-    if (!id.isEmpty()) for (int i = 0; i < this->size(); ++i) {
-            QDomElement effect =  this->at(i);
+    if (!id.isEmpty()) for (int i = 0; i < size(); ++i) {
+            QDomElement effect =  at(i);
             //kDebug() << "// SRCH EFFECT; " << id << ", LKING: " << effect.attribute("id");
             if (effect.attribute("id") == id) {
                 QDomNodeList params = effect.elementsByTagName("parameter");
@@ -65,8 +65,8 @@ QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id)
             }
         }
 
-    if (!tag.isEmpty()) for (int i = 0; i < this->size(); ++i) {
-            QDomElement effect =  this->at(i);
+    if (!tag.isEmpty()) for (int i = 0; i < size(); ++i) {
+            QDomElement effect =  at(i);
             if (effect.attribute("tag") == tag) {
                 QDomNodeList params = effect.elementsByTagName("parameter");
                 for (int i = 0; i < params.count(); i++) {
@@ -82,8 +82,8 @@ QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id)
 }
 
 int EffectsList::hasEffect(const QString & tag, const QString & id) const {
-    for (int i = 0; i < this->size(); ++i) {
-        QDomElement effect =  this->at(i);
+    for (int i = 0; i < size(); ++i) {
+        QDomElement effect =  at(i);
         if (!id.isEmpty()) {
             if (effect.attribute("id") == id) return i;
         } else if (!tag.isEmpty() && effect.attribute("tag") == tag) return i;
@@ -93,7 +93,7 @@ int EffectsList::hasEffect(const QString & tag, const QString & id) const {
 
 QStringList EffectsList::effectIdInfo(const int ix) const {
     QStringList info;
-    QDomElement effect =  this->at(ix);
+    QDomElement effect =  at(ix);
     QDomNode namenode = effect.elementsByTagName("name").item(0);
     info << i18n(namenode.toElement().text().toUtf8().data()) << effect.attribute("tag") << effect.attribute("id");
     return info;
@@ -101,8 +101,8 @@ QStringList EffectsList::effectIdInfo(const int ix) const {
 
 QStringList EffectsList::effectNames() {
     QStringList list;
-    for (int i = 0; i < this->size(); ++i) {
-        QDomElement effect =  this->at(i);
+    for (int i = 0; i < size(); ++i) {
+        QDomElement effect =  at(i);
         QDomNode namenode = effect.elementsByTagName("name").item(0);
         if (!namenode.isNull()) list.append(i18n(namenode.toElement().text().toUtf8().data()));
     }
@@ -121,7 +121,7 @@ QString EffectsList::getInfo(const QString & tag, const QString & id) const {
 
 QString EffectsList::getInfoFromIndex(const int ix) const {
     QString info;
-    QDomElement effect = this->at(ix);
+    QDomElement effect = at(ix);
     QDomNode namenode = effect.elementsByTagName("description").item(0);
     if (!namenode.isNull()) info = i18n(namenode.toElement().text().toUtf8().data());
     namenode = effect.elementsByTagName("author").item(0);
@@ -139,9 +139,9 @@ bool EffectsList::hasKeyFrames(QDomElement effect) {
 }
 
 EffectsList EffectsList::clone() const {
-    EffectsList list = EffectsList();
-    for (int i = 0; i < this->size(); ++i) {
-        list.append(this->at(i).cloneNode().toElement());
+    EffectsList list;
+    for (int i = 0; i < size(); ++i) {
+        list.append(at(i).cloneNode().toElement());
     }
     return list;
 }
