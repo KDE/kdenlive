@@ -155,6 +155,9 @@ void ProfilesDialog::saveProfile(const QString path) {
     }
     QTextStream out(&file);
     out << "description=" << m_view.description->text() << "\n" << "frame_rate_num=" << m_view.frame_num->value() << "\n" << "frame_rate_den=" << m_view.frame_den->value() << "\n" << "width=" << m_view.size_w->value() << "\n" << "height=" << m_view.size_h->value() << "\n" << "progressive=" << m_view.progressive->isChecked() << "\n" << "sample_aspect_num=" << m_view.aspect_num->value() << "\n" << "sample_aspect_den=" << m_view.aspect_den->value() << "\n" << "display_aspect_num=" << m_view.display_num->value() << "\n" << "display_aspect_den=" << m_view.display_den->value() << "\n";
+    if (file.error() != QFile::NoError) {
+        KMessageBox::error(this, i18n("Cannot write to file %1", path));
+    }
     file.close();
 }
 

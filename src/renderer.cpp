@@ -854,7 +854,7 @@ const QString Render::sceneList() {
     return playlist;
 }
 
-void Render::saveSceneList(QString path, QDomElement kdenliveData) {
+bool Render::saveSceneList(QString path, QDomElement kdenliveData) {
     QFile file(path);
     QDomDocument doc;
     doc.setContent(sceneList(), false);
@@ -865,11 +865,16 @@ void Render::saveSceneList(QString path, QDomElement kdenliveData) {
     }
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         kWarning() << "//////  ERROR writing to file: " << path;
-        return;
+        return false;
     }
     QTextStream out(&file);
     out << doc.toString();
+    if (file.error() != QFile::NoError) {
+        file.close();
+        return false;
+    }
     file.close();
+    return true;
 }
 
 

@@ -1205,7 +1205,7 @@ void MainWindow::closeCurrentDocument() {
         switch (KMessageBox::warningYesNoCancel(this, i18n("Save changes to document ?"))) {
         case KMessageBox::Yes :
             // save document here. If saving fails, return false;
-            saveFile();
+            if (saveFile() == false) return;
             break;
         case KMessageBox::Cancel :
             return;
@@ -1571,7 +1571,7 @@ void MainWindow::slotDoRender(const QString &dest, const QString &render, const 
             // Generate script file
             QFile file(scriptExport);
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                m_messageLabel->setMessage(i18n("Cannot write to file %1", scriptExport), ErrorMessage);
+                KMessageBox::error(this, i18n("Cannot write to file %1", scriptExport));
                 return;
             }
 
@@ -1580,6 +1580,11 @@ void MainWindow::slotDoRender(const QString &dest, const QString &render, const 
             out << "SOURCE=" << "\"" + scriptExport + ".westley\"" << "\n";
             out << "TARGET=" << "\"" + dest + "\"" << "\n";
             out << renderer << " " << args.join(" ") << "\n" << "\n";
+            if (file.error() != QFile::NoError) {
+                KMessageBox::error(this, i18n("Cannot write to file %1", scriptExport));
+                file.close();
+                return;
+            }
             file.close();
             QFile::setPermissions(scriptExport, file.permissions() | QFile::ExeUser);
         }

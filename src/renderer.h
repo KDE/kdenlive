@@ -93,7 +93,7 @@ Q_OBJECT public:
     void setSceneList(QString playlist, int position = 0);
     void setProducer(Mlt::Producer *producer, int position);
     const QString sceneList();
-    void saveSceneList(QString path, QDomElement kdenliveData = QDomElement());
+    bool saveSceneList(QString path, QDomElement kdenliveData = QDomElement());
 
     /** Wraps the VEML command of the same name. Tells the renderer to
     play the current scene at the speed specified, relative to normal

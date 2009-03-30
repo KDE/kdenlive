@@ -318,6 +318,11 @@ void RenderWidget::slotSaveProfile() {
         }
         QTextStream out(&file);
         out << doc.toString();
+        if (file.error() != QFile::NoError) {
+            KMessageBox::error(this, i18n("Cannot write to file %1", exportFile));
+            file.close();
+            return;
+        }
         file.close();
         parseProfiles(newMetaGroupId, newGroupName, newProfileName);
     }
@@ -410,18 +415,21 @@ void RenderWidget::slotEditProfile() {
         profiles.appendChild(profileElement);
 
         //QCString save = doc.toString().utf8();
-
+        delete d;
         if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            KMessageBox::sorry(this, i18n("Unable to write to file %1", exportFile));
-            delete d;
+            KMessageBox::error(this, i18n("Cannot write to file %1", exportFile));
             return;
         }
         QTextStream out(&file);
         out << doc.toString();
+        if (file.error() != QFile::NoError) {
+            KMessageBox::error(this, i18n("Cannot write to file %1", exportFile));
+            file.close();
+            return;
+        }
         file.close();
         parseProfiles(newMetaGroupId, newGroupName, newProfileName);
-    }
-    delete d;
+    } else delete d;
 }
 
 void RenderWidget::slotDeleteProfile(bool refresh) {
@@ -473,6 +481,11 @@ void RenderWidget::slotDeleteProfile(bool refresh) {
     }
     QTextStream out(&file);
     out << doc.toString();
+    if (file.error() != QFile::NoError) {
+        KMessageBox::error(this, i18n("Cannot write to file %1", exportFile));
+        file.close();
+        return;
+    }
     file.close();
     if (refresh) {
         parseProfiles(metaGroupId, currentGroup);

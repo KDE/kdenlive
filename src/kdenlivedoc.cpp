@@ -1002,6 +1002,11 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene) {
 
     QTextStream out(&file);
     out << sceneList.toString();
+    if (file.error() != QFile::NoError) {
+        KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1", path));
+        file.close();
+        return false;
+    }
     file.close();
     return true;
 }

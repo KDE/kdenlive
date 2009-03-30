@@ -70,8 +70,8 @@ QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonIt
         case 8:
             e.setAttribute("type", "QGraphicsTextItem");
             t = static_cast<QGraphicsTextItem *>(item);
-	    // Don't save empty text nodes
-	    if (t->toPlainText().simplified().isEmpty()) continue;
+            // Don't save empty text nodes
+            if (t->toPlainText().simplified().isEmpty()) continue;
             //content.appendChild(doc.createTextNode(((QGraphicsTextItem*)item)->toHtml()));
             content.appendChild(doc.createTextNode(t->toPlainText()));
             font = t->font();
@@ -150,13 +150,19 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, 
 
     QDomDocument doc = xml(startv, endv);
     KTemporaryFile tmpfile;
-    if (!tmpfile.open()) kWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
+    if (!tmpfile.open()) {
+        kWarning() << "/////  CANNOT CREATE TMP FILE in: " << tmpfile.fileName();
+        return false;
+    }
     QFile xmlf(tmpfile.fileName());
     xmlf.open(QIODevice::WriteOnly);
     xmlf.write(doc.toString().toUtf8());
+    if (xmlf.error() != QFile::NoError) {
+        xmlf.close();
+        return false;
+    }
     xmlf.close();
-    kDebug() << KIO::NetAccess::upload(tmpfile.fileName(), url, 0);
-    return true;
+    return KIO::NetAccess::upload(tmpfile.fileName(), url, 0);
 }
 
 int TitleDocument::loadDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv) {
@@ -190,18 +196,17 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* /*startv*
             int zValue = items.item(i).attributes().namedItem("z-index").nodeValue().toInt();
             if (zValue > -1000)
                 if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsTextItem") {
-		    QDomNamedNodeMap txtProperties = items.item(i).namedItem("content").attributes();
+                    QDomNamedNodeMap txtProperties = items.item(i).namedItem("content").attributes();
                     QFont font(txtProperties.namedItem("font").nodeValue());
                     font.setBold(txtProperties.namedItem("font-bold").nodeValue().toInt());
                     font.setItalic(txtProperties.namedItem("font-italic").nodeValue().toInt());
                     font.setUnderline(txtProperties.namedItem("font-underline").nodeValue().toInt());
-		    // Older Kdenlive version did not store pixel size but point size
-		    if (txtProperties.namedItem("font-pixel-size").isNull()) {
-			QFont f2;
-			f2.setPointSize(txtProperties.namedItem("font-size").nodeValue().toInt());
-			font.setPixelSize(QFontInfo(f2).pixelSize());
-		    }
-		    else font.setPixelSize(txtProperties.namedItem("font-pixel-size").nodeValue().toInt());
+                    // Older Kdenlive version did not store pixel size but point size
+                    if (txtProperties.namedItem("font-pixel-size").isNull()) {
+                        QFont f2;
+                        f2.setPointSize(txtProperties.namedItem("font-size").nodeValue().toInt());
+                        font.setPixelSize(QFontInfo(f2).pixelSize());
+                    } else font.setPixelSize(txtProperties.namedItem("font-pixel-size").nodeValue().toInt());
                     QColor col(stringToColor(txtProperties.namedItem("font-color").nodeValue()));
                     QGraphicsTextItem *txt = scene->addText(items.item(i).namedItem("content").firstChild().nodeValue(), font);
                     txt->setDefaultTextColor(col);

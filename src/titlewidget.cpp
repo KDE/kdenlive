@@ -22,6 +22,7 @@
 #include <KGlobalSettings>
 #include <KFileDialog>
 #include <KStandardDirs>
+#include <KMessageBox>
 
 #include <QDomDocument>
 #include <QGraphicsItem>
@@ -666,7 +667,10 @@ void TitleWidget::loadTitle() {
 
 void TitleWidget::saveTitle(KUrl url) {
     if (url.isEmpty()) url = KFileDialog::getSaveUrl(KUrl(m_projectPath), "*.kdenlivetitle", this, i18n("Save Title"));
-    if (!url.isEmpty()) m_titledocument.saveDocument(url, startViewport, endViewport);
+    if (!url.isEmpty()) {
+        if (m_titledocument.saveDocument(url, startViewport, endViewport) == false)
+            KMessageBox::error(this, i18n("Cannot write to file %1", url.path()));
+    }
 }
 
 QDomDocument TitleWidget::xml() {
