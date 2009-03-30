@@ -1,5 +1,5 @@
 /***************************************************************************
-                          docclipbaseiterator.h  -  description
+                          effectslist.h  -  description
                              -------------------
     begin                : Sat Aug 10 2002
     copyright            : (C) 2002 by Jason Wood
@@ -19,6 +19,7 @@
 #define EFFECTSLIST_H
 
 #include <QList>
+#include <QDomElement>
 
 /**A List for DocClipBase objects. Use this instead of QList<DocClipBase> so as to sort lists correctly.
  * Also contains the ability to set a "master clip", which can be used by a number of operations where
@@ -26,7 +27,6 @@
   * @author Jason Wood
   */
 
-#include <QDomElement>
 
 class EffectsList: public QList < QDomElement > {
 public:

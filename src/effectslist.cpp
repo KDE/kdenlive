@@ -1,5 +1,5 @@
 /***************************************************************************
-                          docclipbaseiterator.cpp  -  description
+                          effectslist.cpp  -  description
                              -------------------
     begin                : Sat Aug 10 2002
     copyright            : (C) 2002 by Jason Wood
