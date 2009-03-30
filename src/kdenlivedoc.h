@@ -64,7 +64,7 @@ Q_OBJECT public:
     void setProducerDuration(const QString &id, int duration);
     int getProducerDuration(const QString &id);
     Render *renderer();
-    QDomElement m_guidesXml;
+    QDomDocument m_guidesXml;
     QDomElement guidesXml() const;
     ClipManager *clipManager();
     void addClip(QDomElement elem, QString clipId, bool createClipItem = true);
@@ -128,7 +128,6 @@ private:
     Timecode m_timecode;
     Render *m_render;
     QUndoStack *m_commandStack;
-    QDomDocument generateSceneList();
     ClipManager *m_clipManager;
     MltVideoProfile m_profile;
     QTimer *m_autoSaveTimer;

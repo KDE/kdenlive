@@ -325,22 +325,22 @@ QDomDocument KdenliveDoc::createEmptyDocument(const int videotracks, const int a
 
 
 void KdenliveDoc::syncGuides(QList <Guide *> guides) {
-    QDomDocument doc;
-    QDomElement e;
     m_guidesXml.clear();
-    m_guidesXml = doc.createElement("guides");
+    QDomElement guideNode = m_guidesXml.createElement("guides");
+    m_guidesXml.appendChild(guideNode);
+    QDomElement e;
 
     for (int i = 0; i < guides.count(); i++) {
-        e = doc.createElement("guide");
+        e = m_guidesXml.createElement("guide");
         e.setAttribute("time", guides.at(i)->position().ms() / 1000);
         e.setAttribute("comment", guides.at(i)->label());
-        m_guidesXml.appendChild(e);
+        guideNode.appendChild(e);
     }
     emit guidesUpdated();
 }
 
 QDomElement KdenliveDoc::guidesXml() const {
-    return m_guidesXml;
+    return m_guidesXml.documentElement();
 }
 
 void KdenliveDoc::slotAutoSave() {
@@ -986,7 +986,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene) {
     addedXml.appendChild(markers);
 
     // Add guides
-    if (!m_guidesXml.isNull()) addedXml.appendChild(sceneList.importNode(m_guidesXml, true));
+    if (!m_guidesXml.isNull()) addedXml.appendChild(sceneList.importNode(m_guidesXml.documentElement(), true));
 
     // Add clip groups
     addedXml.appendChild(sceneList.importNode(m_clipManager->groupsXml(), true));
@@ -1204,14 +1204,6 @@ int KdenliveDoc::getProducerDuration(const QString &id) {
         }
     }
     return result;
-}
-
-
-QDomDocument KdenliveDoc::generateSceneList() {
-    QDomDocument doc;
-    QDomElement westley = doc.createElement("westley");
-    doc.appendChild(westley);
-    QDomElement prod = doc.createElement("producer");
 }
 
 QDomDocument KdenliveDoc::toXml() {

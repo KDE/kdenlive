@@ -214,7 +214,6 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event) {
         if (clickItem) {
             QDrag *drag = new QDrag(this);
             QMimeData *mimeData = new QMimeData;
-            QDomDocument doc;
             const QList <QTreeWidgetItem *> list = selectedItems();
             QStringList ids;
             foreach(const QTreeWidgetItem *item, list) {
