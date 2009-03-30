@@ -84,6 +84,11 @@ KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFo
         }
         QTextStream out(&file);
         out << doc.toString();
+        if (file.error() != QFile::NoError) {
+            KMessageBox::error(0, i18n("Cannot write to file %1", view.path->url().path()));
+            file.close();
+            return KUrl();
+        }
         file.close();
         return view.path->url();
     }
