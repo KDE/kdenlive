@@ -138,7 +138,7 @@ public slots:
     void slotRemoveInvalidClip(const QString &id);
     void slotSelectClip(const QString &ix);
     void slotRemoveClip();
-    void slotAddClip(KUrl givenUrl = KUrl(), QString group = QString());
+    void slotAddClip(const QList <QUrl> givenList = QList <QUrl> (), QString group = QString());
     void slotAddFolder(const QString foldername, const QString &clipId, bool remove, bool edit = false);
     void slotResetProjectList();
     void slotOpenClip();

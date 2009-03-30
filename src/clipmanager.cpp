@@ -214,6 +214,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
         if (KIO::NetAccess::exists(file, KIO::NetAccess::SourceSide, NULL)) {
             QDomDocument doc;
             QDomElement prod = doc.createElement("producer");
+            doc.appendChild(prod);
             if (!group.isEmpty()) {
                 prod.setAttribute("groupname", group);
                 prod.setAttribute("groupid", groupId);
@@ -227,7 +228,7 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
                 prod.setAttribute("in", "0");
                 prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
             }
-            new AddClipCommand(m_doc, prod, QString::number(id), true, addClips);
+            new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true, addClips);
         }
     }
     m_doc->commandStack()->push(addClips);
@@ -237,6 +238,7 @@ void ClipManager::slotAddClipFile(const KUrl url, const QString group, const QSt
     kDebug() << "/////  CLIP MANAGER, ADDING CLIP: " << url;
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
+    doc.appendChild(prod);
     prod.setAttribute("resource", url.path());
     uint id = m_clipIdCounter++;
     prod.setAttribute("id", QString::number(id));
@@ -250,13 +252,14 @@ void ClipManager::slotAddClipFile(const KUrl url, const QString group, const QSt
         prod.setAttribute("in", "0");
         prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
     }
-    AddClipCommand *command = new AddClipCommand(m_doc, prod, QString::number(id), true);
+    AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
     m_doc->commandStack()->push(command);
 }
 
 void ClipManager::slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const QString &groupId) {
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
+    doc.appendChild(prod);
     prod.setAttribute("mlt_service", "colour");
     prod.setAttribute("colour", color);
     prod.setAttribute("type", (int) COLOR);
@@ -269,13 +272,14 @@ void ClipManager::slotAddColorClipFile(const QString name, const QString color, 
         prod.setAttribute("groupname", group);
         prod.setAttribute("groupid", groupId);
     }
-    AddClipCommand *command = new AddClipCommand(m_doc, prod, QString::number(id), true);
+    AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
     m_doc->commandStack()->push(command);
 }
 
 void ClipManager::slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const int softness, QString group, const QString &groupId) {
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
+    doc.appendChild(prod);
     prod.setAttribute("resource", path);
     prod.setAttribute("type", (int) SLIDESHOW);
     uint id = m_clipIdCounter++;
@@ -293,7 +297,7 @@ void ClipManager::slotAddSlideshowClipFile(const QString name, const QString pat
         prod.setAttribute("groupname", group);
         prod.setAttribute("groupid", groupId);
     }
-    AddClipCommand *command = new AddClipCommand(m_doc, prod, QString::number(id), true);
+    AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
     m_doc->commandStack()->push(command);
 }
 
@@ -302,6 +306,7 @@ void ClipManager::slotAddSlideshowClipFile(const QString name, const QString pat
 void ClipManager::slotAddTextClipFile(const QString titleName, const QString imagePath, const QString xml, const QString group, const QString &groupId) {
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
+    doc.appendChild(prod);
     prod.setAttribute("resource", imagePath);
     prod.setAttribute("titlename", titleName);
     prod.setAttribute("xmldata", xml);
@@ -315,7 +320,7 @@ void ClipManager::slotAddTextClipFile(const QString titleName, const QString ima
     prod.setAttribute("transparency", "1");
     prod.setAttribute("in", "0");
     prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
-    AddClipCommand *command = new AddClipCommand(m_doc, prod, QString::number(id), true);
+    AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
     m_doc->commandStack()->push(command);
 }
 

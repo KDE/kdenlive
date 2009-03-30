@@ -1283,8 +1283,7 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
         if (elem.attribute("type").toInt() == SLIDESHOW) {
             extension = KUrl(path).fileName();
             path = KUrl(path).directory();
-        }
-        if (elem.attribute("type").toInt() == TEXT && !QFile::exists(path)) {
+        } else if (elem.attribute("type").toInt() == TEXT && QFile::exists(path) == false) {
             kDebug() << "// TITLE: " << elem.attribute("titlename") << " Preview file: " << elem.attribute("resource") << " DOES NOT EXIST";
             QString titlename = elem.attribute("titlename");
             QString titleresource;
@@ -1306,7 +1305,8 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
             pix.save(titleresource);
             elem.setAttribute("resource", titleresource);
             delete dia_ui;
-        } else if (!path.isEmpty() && !QFile::exists(path) && elem.attribute("type").toInt() != TEXT) {
+        }
+        if (path.isEmpty() == false && QFile::exists(path) == false && elem.attribute("type").toInt() != TEXT) {
             kDebug() << "// FOUND MISSING CLIP: " << path << ", TYPE: " << elem.attribute("type").toInt();
             const QString size = elem.attribute("file_size");
             const QString hash = elem.attribute("file_hash");

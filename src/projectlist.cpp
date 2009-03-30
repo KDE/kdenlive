@@ -82,7 +82,7 @@ ProjectList::ProjectList(QWidget *parent)
     connect(listView, SIGNAL(pauseMonitor()), this, SLOT(slotPauseMonitor()));
     connect(listView, SIGNAL(requestMenu(const QPoint &, QTreeWidgetItem *)), this, SLOT(slotContextMenu(const QPoint &, QTreeWidgetItem *)));
     connect(listView, SIGNAL(addClip()), this, SLOT(slotAddClip()));
-    connect(listView, SIGNAL(addClip(KUrl, const QString &)), this, SLOT(slotAddClip(KUrl, const QString &)));
+    connect(listView, SIGNAL(addClip(const QList <QUrl>, const QString &)), this, SLOT(slotAddClip(const QList <QUrl>, const QString &)));
     connect(listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemEdited(QTreeWidgetItem *, int)));
     connect(listView, SIGNAL(showProperties(DocClipBase *)), this, SIGNAL(showClipProperties(DocClipBase *)));
 
@@ -534,12 +534,15 @@ void ProjectList::updateAllClips() {
     QTimer::singleShot(500, this, SLOT(slotCheckForEmptyQueue()));
 }
 
-void ProjectList::slotAddClip(KUrl givenUrl, QString group) {
+void ProjectList::slotAddClip(const QList <QUrl> givenList, QString group) {
     if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
     KUrl::List list;
-    if (givenUrl.isEmpty()) {
+    if (givenList.isEmpty()) {
         list = KFileDialog::getOpenUrls(KUrl("kfiledialog:///clipfolder"), "application/x-kdenlive video/x-flv application/vnd.rn-realmedia video/x-dv video/dv video/x-msvideo video/x-matroska video/mpeg video/x-ms-wmv audio/mpeg audio/x-mp3 audio/x-wav application/ogg video/mp4 video/quicktime image/gif image/jpeg image/png image/x-tga image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr video/mlt-playlist audio/x-flac audio/mp4 video/x-matroska audio/x-matroska", this);
-    } else list.append(givenUrl);
+    } else {
+        for (int i = 0; i < givenList.count(); i++)
+            list << givenList.at(i);
+    }
     if (list.isEmpty()) return;
 
     QString groupId;

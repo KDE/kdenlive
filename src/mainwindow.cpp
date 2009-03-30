@@ -456,7 +456,7 @@ void MainWindow::generateClip() {
 
     KUrl clipUrl = iGenerator->generatedClip(action->data().toString(), m_activeDocument->projectFolder(), QStringList(), QStringList(), 25, 720, 576);
     if (!clipUrl.isEmpty()) {
-        m_projectList->slotAddClip(clipUrl);
+        m_projectList->slotAddClip(QList <QUrl> () << clipUrl);
     }
 }
 

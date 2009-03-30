@@ -138,10 +138,7 @@ void ProjectListView::dropEvent(QDropEvent *event) {
             else if (item->parent() && ((ProjectItem *) item->parent())->isGroup())
                 groupName = item->parent()->text(1);
         }
-        const QList <QUrl> list = event->mimeData()->urls();
-        foreach(const QUrl &url, list) {
-            emit addClip(KUrl(url), groupName);
-        }
+        emit addClip(event->mimeData()->urls(), groupName);
 
     } else if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
         ProjectItem *item = static_cast <ProjectItem *>(itemAt(event->pos()));
