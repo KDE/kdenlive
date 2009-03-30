@@ -585,7 +585,7 @@ void DocClipBase::clearProperty(const QString &key) {
     m_properties.remove(key);
 }
 
-void DocClipBase::getFileHash(const QString &url) {
+void DocClipBase::getFileHash(const QString url) {
     if (m_clipType == SLIDESHOW) return;
     QFile file(url);
     if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
