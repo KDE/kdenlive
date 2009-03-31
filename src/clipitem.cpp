@@ -532,10 +532,10 @@ void ClipItem::paint(QPainter *painter,
     /*if (parentItem()) m_opacity = 0.5;
     else m_opacity = 1.0;
     painter->setOpacity(m_opacity);*/
-    QBrush paintColor;
-    if (parentItem()) paintColor = QBrush(QColor(255, 248, 149));
-    else paintColor = brush();
-    if (isSelected() || parentItem() && parentItem()->isSelected()) paintColor = QBrush(paintColor.color().darker());
+    QColor paintColor;
+    if (parentItem()) paintColor = QColor(255, 248, 149);
+    else paintColor = brush().color();
+    if (isSelected() || parentItem() && parentItem()->isSelected()) paintColor = paintColor.darker();
     QRectF br = rect();
     QRectF exposed = option->exposedRect;
     QRectF mapped = painter->matrix().mapRect(br);
@@ -553,6 +553,7 @@ void ClipItem::paint(QPainter *painter,
     //Fill clip rectangle
     QRectF bgRect = br;
     bgRect.setLeft(br.left() + xoffset);
+    if (m_clipType == AUDIO || isAudioOnly()) paintColor.setAlpha(80);
     painter->fillRect(bgRect, paintColor);
 
     //painter->setClipPath(resultClipPath, Qt::IntersectClip);
@@ -912,11 +913,9 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
                 }
 
         }
-        if (m_clipType != AV) pixpainter.setBrush(QBrush(QColor(200, 200, 100)));
-        else {
-            pixpainter.setPen(QPen(QColor(0, 0, 0)));
-            pixpainter.setBrush(QBrush(QColor(60, 60, 60)));
-        }
+        pixpainter.setPen(QPen(QColor(0, 0, 0)));
+        pixpainter.setBrush(QBrush(QColor(60, 60, 60)));
+
         for (int i = 0;i < channels;i++) {
             if (fullAreaDraw) {
                 //pixpainter.fillPath(positiveChannelPaths[i].united(negativeChannelPaths[i]),QBrush(Qt::SolidPattern));//or singleif looks better
