@@ -47,6 +47,7 @@ private:
     int m_maxval;
     int m_zoneStart;
     int m_zoneEnd;
+    QColor m_zoneColor;
 
 public slots:
     void slotNewValue(int value);

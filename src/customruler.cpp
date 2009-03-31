@@ -56,6 +56,8 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
         : QWidget(parent), m_timecode(tc), m_view(parent), m_duration(0), m_offset(0) {
     setFont(KGlobalSettings::toolBarFont());
     m_scale = 3;
+    m_bgColor = QColor(245, 245, 245);
+    m_zoneColor = QColor(133, 255, 143);
     littleMarkDistance = FRAME_SIZE;
     mediumMarkDistance = FRAME_SIZE * m_timecode.fps();
     bigMarkDistance = FRAME_SIZE * m_timecode.fps() * 60;
@@ -223,12 +225,13 @@ void CustomRuler::paintEvent(QPaintEvent *e) {
     p.setClipRect(e->rect());
 
     const int projectEnd = (int)(m_duration * m_factor);
-    p.fillRect(QRect(0, 0, projectEnd - m_offset, height()), QBrush(QColor(245, 245, 245)));
+    p.fillRect(0, 0, projectEnd - m_offset, height(), m_bgColor);
 
     const int zoneStart = (int)(m_zoneStart * m_factor);
     const int zoneEnd = (int)(m_zoneEnd * m_factor);
+    const QRect zoneRect();
 
-    p.fillRect(QRect(zoneStart - offset(), height() / 2, zoneEnd - zoneStart, height() / 2), QBrush(QColor(133, 255, 143)));
+    p.fillRect(zoneStart - offset(), height() / 2, zoneEnd - zoneStart, height() / 2, m_zoneColor);
 
     const int value  = m_view->cursorPos() * m_factor - offset();
     int minval = (e->rect().left() + m_offset) / FRAME_SIZE - 1;
