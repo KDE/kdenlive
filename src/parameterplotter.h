@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef _PARAMETERPLOTTER_H_
+#define _PARAMETERPLOTTER_H_
+
 #include <KPlotWidget>
 #include <QDomElement>
 #include <QMap>
@@ -58,3 +61,5 @@ signals:
     void parameterList(QStringList);
 
 };
+
+#endif

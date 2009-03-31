@@ -194,7 +194,7 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* /*startv*
             QGraphicsItem *gitem = NULL;
             kDebug() << items.item(i).attributes().namedItem("type").nodeValue();
             int zValue = items.item(i).attributes().namedItem("z-index").nodeValue().toInt();
-            if (zValue > -1000)
+            if (zValue > -1000) {
                 if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsTextItem") {
                     QDomNamedNodeMap txtProperties = items.item(i).namedItem("content").attributes();
                     QFont font(txtProperties.namedItem("font").nodeValue());
@@ -212,29 +212,27 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* /*startv*
                     txt->setDefaultTextColor(col);
                     txt->setTextInteractionFlags(Qt::NoTextInteraction);
                     gitem = txt;
-                } else
-                    if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsRectItem") {
-                        QString rect = items.item(i).namedItem("content").attributes().namedItem("rect").nodeValue();
-                        QString br_str = items.item(i).namedItem("content").attributes().namedItem("brushcolor").nodeValue();
-                        QString pen_str = items.item(i).namedItem("content").attributes().namedItem("pencolor").nodeValue();
-                        double penwidth = items.item(i).namedItem("content").attributes().namedItem("penwidth").nodeValue().toDouble();
-                        QGraphicsRectItem *rec = scene->addRect(stringToRect(rect), QPen(QBrush(stringToColor(pen_str)), penwidth), QBrush(stringToColor(br_str)));
-                        gitem = rec;
-                    } else
-                        if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsPixmapItem") {
-                            QString url = items.item(i).namedItem("content").attributes().namedItem("url").nodeValue();
-                            QPixmap pix(url);
-                            QGraphicsPixmapItem *rec = scene->addPixmap(pix);
-                            rec->setData(Qt::UserRole, url);
-                            gitem = rec;
-                        } else
-                            if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsSvgItem") {
-                                QString url = items.item(i).namedItem("content").attributes().namedItem("url").nodeValue();
-                                QGraphicsSvgItem *rec = new QGraphicsSvgItem(url);
-                                scene->addItem(rec);
-                                rec->setData(Qt::UserRole, url);
-                                gitem = rec;
-                            }
+                } else if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsRectItem") {
+                    QString rect = items.item(i).namedItem("content").attributes().namedItem("rect").nodeValue();
+                    QString br_str = items.item(i).namedItem("content").attributes().namedItem("brushcolor").nodeValue();
+                    QString pen_str = items.item(i).namedItem("content").attributes().namedItem("pencolor").nodeValue();
+                    double penwidth = items.item(i).namedItem("content").attributes().namedItem("penwidth").nodeValue().toDouble();
+                    QGraphicsRectItem *rec = scene->addRect(stringToRect(rect), QPen(QBrush(stringToColor(pen_str)), penwidth), QBrush(stringToColor(br_str)));
+                    gitem = rec;
+                } else if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsPixmapItem") {
+                    QString url = items.item(i).namedItem("content").attributes().namedItem("url").nodeValue();
+                    QPixmap pix(url);
+                    QGraphicsPixmapItem *rec = scene->addPixmap(pix);
+                    rec->setData(Qt::UserRole, url);
+                    gitem = rec;
+                } else if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsSvgItem") {
+                    QString url = items.item(i).namedItem("content").attributes().namedItem("url").nodeValue();
+                    QGraphicsSvgItem *rec = new QGraphicsSvgItem(url);
+                    scene->addItem(rec);
+                    rec->setData(Qt::UserRole, url);
+                    gitem = rec;
+                }
+            }
             //pos and transform
             if (gitem) {
                 QPointF p(items.item(i).namedItem("position").attributes().namedItem("x").nodeValue().toDouble(),
