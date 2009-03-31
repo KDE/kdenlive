@@ -543,27 +543,26 @@ void ClipItem::paint(QPainter *painter,
     const double itemWidth = br.width();
     const double itemHeight = br.height();
     const double scale = option->matrix.m11();
-
+    const qreal xoffset = pen().widthF() / scale;
 
     //painter->setRenderHints(QPainter::Antialiasing);
 
     //QPainterPath roundRectPathUpper = upperRectPart(br), roundRectPathLower = lowerRectPart(br);
     painter->setClipRect(exposed);
 
-    //build path around clip
-    //QPainterPath resultClipPath = roundRectPathUpper.united(roundRectPathLower);
-    //painter->fillPath(resultClipPath, paintColor);
-    painter->fillRect(exposed, paintColor);
+    //Fill clip rectangle
+    QRectF bgRect = br;
+    bgRect.setLeft(br.left() + xoffset);
+    painter->fillRect(bgRect, paintColor);
 
     //painter->setClipPath(resultClipPath, Qt::IntersectClip);
 
     // draw thumbnails
     painter->setMatrixEnabled(false);
 
-    if (KdenliveSettings::videothumbnails()) {
+    if (KdenliveSettings::videothumbnails() && !isAudioOnly()) {
         QPen pen = painter->pen();
-        pen.setStyle(Qt::DotLine);
-        pen.setColor(Qt::white);
+        pen.setColor(QColor(255, 255, 255, 150));
         painter->setPen(pen);
         if (m_clipType == IMAGE && !m_startPix.isNull()) {
             QPointF p1 = painter->matrix().map(QPointF(itemWidth, 0)) - QPointF(m_startPix.width(), 0);
@@ -579,8 +578,8 @@ void ClipItem::paint(QPainter *painter,
             painter->drawLine(l);
         }
         if (!m_startPix.isNull()) {
-            QPointF p1 = painter->matrix().map(QPointF(0, 0));
-            QPointF p2 = painter->matrix().map(QPointF(0, itemHeight));
+            QPointF p1 = painter->matrix().map(QPointF(0, 0)) + QPointF(1.0, 0);
+            QPointF p2 = painter->matrix().map(QPointF(0, itemHeight)) + QPointF(1.0, 0);
             painter->drawPixmap(p1, m_startPix);
             QLineF l2(p1.x() + m_startPix.width(), p1.y(), p2.x() + m_startPix.width(), p2.y());
             painter->drawLine(l2);
@@ -589,7 +588,7 @@ void ClipItem::paint(QPainter *painter,
     }
 
     // draw audio thumbnails
-    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && ((m_clipType == AV && exposed.bottom() > (itemHeight / 2)) || m_clipType == AUDIO) && audioThumbReady) {
+    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && !isVideoOnly() && ((m_clipType == AV && exposed.bottom() > (itemHeight / 2)) || m_clipType == AUDIO) && audioThumbReady) {
 
         double startpixel = exposed.left();
         if (startpixel < 0)
@@ -601,7 +600,7 @@ void ClipItem::paint(QPainter *painter,
 
         /*QPainterPath path = m_clipType == AV ? roundRectPathLower : resultClipPath;*/
         QRectF mappedRect;
-        if (m_clipType == AV) {
+        if (m_clipType == AV && !isAudioOnly()) {
             QRectF re =  br;
             re.setTop(re.y() + re.height() / 2);
             mappedRect = painter->matrix().mapRect(re);
@@ -717,9 +716,16 @@ void ClipItem::paint(QPainter *painter,
     }
 
     // Draw clip name
-
+    // draw frame around clip
+    QColor frameColor(Qt::black);
+    int alphaBase = 60;
+    if (isSelected() || parentItem() && parentItem()->isSelected()) {
+        frameColor = QColor(Qt::red);
+        alphaBase = 90;
+    }
+    frameColor.setAlpha(150);
     QRectF txtBounding = painter->boundingRect(mapped, Qt::AlignHCenter | Qt::AlignVCenter, ' ' + m_clipName + ' ');
-    painter->fillRect(txtBounding, QBrush(QColor(0, 0, 0, 150)));
+    painter->fillRect(txtBounding, frameColor);
     //painter->setPen(QColor(0, 0, 0, 180));
     //painter->drawText(txtBounding, Qt::AlignCenter, m_clipName);
     if (m_videoOnly) {
@@ -740,14 +746,6 @@ void ClipItem::paint(QPainter *painter,
         painter->drawPixmap(p1, projectScene()->m_transitionPixmap);
     }
 
-
-    // draw frame around clip
-    if (isSelected() || parentItem() && parentItem()->isSelected()) {
-        pen.setColor(Qt::red);
-    } else {
-        pen.setColor(Qt::black);
-    }
-
     // draw effect or transition keyframes
     if (itemWidth > 20) drawKeyFrames(painter, exposed);
 
@@ -755,11 +753,29 @@ void ClipItem::paint(QPainter *painter,
 
     // draw clip border
     // expand clip rect to allow correct painting of clip border
-    exposed.setRight(exposed.right() + 1 / scale + 0.5);
+
+    exposed.setRight(exposed.right() + xoffset + 0.5);
     exposed.setBottom(exposed.bottom() + 1);
     painter->setClipRect(exposed);
-    painter->setPen(pen);
-    painter->drawRect(br);
+
+    frameColor.setAlpha(alphaBase);
+    painter->setPen(frameColor);
+    QLineF line(br.left() + xoffset, br.top(), br.right() - xoffset, br.top());
+    painter->drawLine(line);
+
+    frameColor.setAlpha(alphaBase * 2);
+    painter->setPen(frameColor);
+    line.setLine(br.right(), br.top() + 1.0, br.right(), br.bottom() - 1.0);
+    painter->drawLine(line);
+    line.setLine(br.right() - xoffset, br.bottom(), br.left() + xoffset, br.bottom());
+    painter->drawLine(line);
+    line.setLine(br.left(), br.bottom() - 1.0, br.left(), br.top() + 1.0);
+    painter->drawLine(line);
+
+    painter->setPen(QColor(255, 255, 255, 60));
+    line.setLine(br.right() - xoffset, br.bottom() - 1.0, br.left() + xoffset, br.bottom() - 1.0);
+    painter->drawLine(line);
+    //painter->drawRect(br);
 }
 
 
@@ -831,7 +847,7 @@ QList <CommentedTime> ClipItem::commentedSnapMarkers() const {
 
 void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, int endpixel, int channels) {
     QRectF re =  sceneBoundingRect();
-    if (m_clipType == AV) re.setTop(re.y() + re.height() / 2);
+    if (m_clipType == AV && !isAudioOnly()) re.setTop(re.y() + re.height() / 2);
 
     //kDebug() << "// PREP AUDIO THMB FRMO : scale:" << pixelForOneFrame<< ", from: " << startpixel << ", to: " << endpixel;
     //if ( (!audioThumbWasDrawn || framePixelWidth!=pixelForOneFrame ) && !baseClip()->audioFrameChache.isEmpty()){
