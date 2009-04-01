@@ -438,7 +438,7 @@ void DvdWizard::slotRenderFinished(int /*exitCode*/, QProcess::ExitStatus status
 
     // Check if DVD structure has the necessary infos
     if (!QFile::exists(m_iso.tmp_folder->url().path() + "/DVD/VIDEO_TS/VIDEO_TS.IFO")) {
-        m_status.error_log->setText(m_creationLog + '\n' + i18n("Dvd structure broken"));
+        m_status.error_log->setText(m_creationLog + '\n' + i18n("DVD structure broken"));
         m_status.error_box->setHidden(false);
         kDebug() << "DVDAuthor process crashed";
         authitem->setIcon(KIcon("dialog-close"));
@@ -489,7 +489,7 @@ void DvdWizard::slotIsoFinished(int /*exitCode*/, QProcess::ExitStatus status) {
         if (iso.exists()) {
             KIO::NetAccess::del(m_iso.iso_image->url(), this);
         }
-        m_status.error_log->setText(m_creationLog + '\n' + i18n("Dvd iso is broken"));
+        m_status.error_log->setText(m_creationLog + '\n' + i18n("DVD ISO is broken"));
         m_status.error_box->setHidden(false);
         isoitem->setIcon(KIcon("dialog-close"));
         cleanup();
@@ -500,7 +500,7 @@ void DvdWizard::slotIsoFinished(int /*exitCode*/, QProcess::ExitStatus status) {
     kDebug() << "ISO IMAGE " << m_iso.iso_image->url().path() << " Successfully created";
     cleanup();
     kDebug() << m_creationLog;
-    KMessageBox::information(this, i18n("DVD iso image %1 successfully created.", m_iso.iso_image->url().path()));
+    KMessageBox::information(this, i18n("DVD ISO image %1 successfully created.", m_iso.iso_image->url().path()));
 
 }
 

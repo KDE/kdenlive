@@ -317,7 +317,7 @@ void Wizard::slotCheckPrograms() {
     else item->setIcon(0, m_okIcon);
 
     item = new QTreeWidgetItem(m_check.programList, QStringList() << QString() << i18n("Mkisofs"));
-    item->setData(1, Qt::UserRole, i18n("Required for creation of DVD iso images"));
+    item->setData(1, Qt::UserRole, i18n("Required for creation of DVD ISO images"));
     item->setSizeHint(0, itemSize);
     if (KStandardDirs::findExe("mkisofs").isEmpty()) item->setIcon(0, m_badIcon);
     else item->setIcon(0, m_okIcon);

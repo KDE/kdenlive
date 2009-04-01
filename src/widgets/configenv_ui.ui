@@ -24,13 +24,13 @@
      </property>
      <widget class="QWidget" name="tab" >
       <attribute name="title" >
-       <string>Mlt environment</string>
+       <string>MLT environment</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4" >
        <item row="0" column="0" >
         <widget class="QLabel" name="label" >
          <property name="text" >
-          <string>Mlt profiles folder</string>
+          <string>MLT profiles folder</string>
          </property>
         </widget>
        </item>
