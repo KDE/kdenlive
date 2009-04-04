@@ -891,8 +891,7 @@ bool Render::saveSceneList(QString path, QDomElement kdenliveData)
         kWarning() << "//////  ERROR writing to file: " << path;
         return false;
     }
-    QTextStream out(&file);
-    out << doc.toString();
+    file.write(doc.toString().toUtf8());
     if (file.error() != QFile::NoError) {
         file.close();
         return false;
@@ -2552,7 +2551,7 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
                 char *name = decodedString(key);
                 char *value = decodedString(it.value());
                 mlt_properties_set(transproperties, name, value);
-                kDebug() << " ------  UPDATING TRANS PARAM: " << name << ": " << value;
+                //kDebug() << " ------  UPDATING TRANS PARAM: " << name << ": " << value;
                 //filter->set("kdenlive_id", id);
                 delete[] name;
                 delete[] value;
@@ -2803,8 +2802,8 @@ bool Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
         key = it.key();
         char *name = decodedString(key);
         char *value = decodedString(it.value());
-        transition->set(name, value);
-        kDebug() << " ------  ADDING TRANS PARAM: " << name << ": " << value;
+        if (it.value().isEmpty() == false) transition->set(name, value);
+        //kDebug() << " ------  ADDING TRANS PARAM: " << name << ": " << value;
         //filter->set("kdenlive_id", id);
         delete[] name;
         delete[] value;
