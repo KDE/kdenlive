@@ -9,7 +9,7 @@ else
 	FILES=$(find $SRCDIRS -type f -name \*.cpp -o -name \*.h)
 fi
 
-astyle --indent=spaces=4 --brackets=attach \
+astyle --indent=spaces=4 --brackets=linux \
        --indent-labels --unpad=paren \
        --pad=oper --convert-tabs \
        --indent-preprocessor \
