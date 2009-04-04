@@ -1,10 +1,12 @@
 #! /bin/sh
 
-FILES="`find -type f -wholename './src/*.cpp'` `find -type f -wholename './src/*.h'` `find -type f -wholename './renderer/*.cpp'` `find -type f -wholename './renderer/*.h'` `find -type f -wholename './plugins/*.cpp'` `find -type f -wholename './plugins/*.h'` `find -type f -wholename './thumbnailer/*.cpp'` `find -type f -wholename './thumbnailer/*.h'`"
+SRCDIRS="src plugins renderer thumbnailer"
 
 if [ $# -gt 0 ]
 then
 	FILES=$@
+else
+	FILES=$(find $SRCDIRS -type f -name \*.cpp -o -name \*.h)
 fi
 
 astyle --indent=spaces=4 --brackets=attach \
