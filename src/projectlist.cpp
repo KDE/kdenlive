@@ -568,7 +568,21 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, QString group)
     if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
     KUrl::List list;
     if (givenList.isEmpty()) {
-        list = KFileDialog::getOpenUrls(KUrl("kfiledialog:///clipfolder"), "application/x-kdenlive video/x-flv application/vnd.rn-realmedia video/x-dv video/dv video/x-msvideo video/x-matroska video/mpeg video/x-ms-wmv audio/mpeg audio/x-mp3 audio/x-wav application/ogg video/mp4 video/quicktime image/gif image/jpeg image/png image/x-tga image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr video/mlt-playlist audio/x-flac audio/mp4 video/x-matroska audio/x-matroska", this);
+        // Build list of mime types
+        QStringList mimeTypes = QStringList() << "application/x-kdenlive" << "video/x-flv" << "application/vnd.rn-realmedia" << "video/x-dv" << "video/dv" << "video/x-msvideo" << "video/x-matroska" << "video/mpeg" << "video/x-ms-wmv" << "audio/mpeg" << "audio/x-mp3" << "audio/x-wav" << "application/ogg" << "video/mp4" << "video/quicktime" << "image/gif" << "image/jpeg" << "image/png" << "image/x-tga" << "image/x-bmp" << "image/svg+xml" << "image/tiff" << "image/x-xcf-gimp" << "image/x-vnd.adobe.photoshop" << "image/x-pcx" << "image/x-exr" << "video/mlt-playlist" << "audio/x-flac" << "audio/mp4" << "video/x-matroska" << "audio/x-matroska";
+
+        QString allExtensions;
+        foreach(const QString& mimeType, mimeTypes) {
+            KMimeType::Ptr mime(KMimeType::mimeType(mimeType));
+            if (mime) {
+                allExtensions.append(mime->patterns().join(" "));
+                allExtensions.append(' ');
+            }
+        }
+        QString dialogFilter = allExtensions + ' ' + QLatin1Char('|') + i18n("All Supported Files");
+        dialogFilter.append("\n*" + QLatin1Char('|') + i18n("All Files"));
+        list = KFileDialog::getOpenUrls(KUrl("kfiledialog:///clipfolder"), dialogFilter, this);
+
     } else {
         for (int i = 0; i < givenList.count(); i++)
             list << givenList.at(i);
