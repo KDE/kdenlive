@@ -37,7 +37,8 @@
 #include <QScrollBar>
 
 TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
-        : QWidget(parent), m_doc(doc), m_scale(1.0), m_projectTracks(0) {
+        : QWidget(parent), m_doc(doc), m_scale(1.0), m_projectTracks(0)
+{
 
     view = new Ui::TimeLine_UI();
     view->setupUi(this);
@@ -90,36 +91,44 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
 }
 
 
-int TrackView::duration() const {
+int TrackView::duration() const
+{
     return m_trackview->duration();
 }
 
-int TrackView::tracksNumber() const {
+int TrackView::tracksNumber() const
+{
     return m_projectTracks - 1;
 }
 
-int TrackView::inPoint() const {
+int TrackView::inPoint() const
+{
     return m_ruler->inPoint();
 }
 
-int TrackView::outPoint() const {
+int TrackView::outPoint() const
+{
     return m_ruler->outPoint();
 }
 
-void TrackView::slotSetZone(QPoint p) {
+void TrackView::slotSetZone(QPoint p)
+{
     m_ruler->setZone(p);
 }
 
-void TrackView::slotTransitionItemSelected(Transition *t, bool update) {
+void TrackView::slotTransitionItemSelected(Transition *t, bool update)
+{
     emit transitionItemSelected(t, update);
 }
 
-void TrackView::setDuration(int dur) {
+void TrackView::setDuration(int dur)
+{
     m_trackview->setDuration(dur);
     m_ruler->setDuration(dur);
 }
 
-void TrackView::parseDocument(QDomDocument doc) {
+void TrackView::parseDocument(QDomDocument doc)
+{
     //int cursorPos = 0;
     m_documentErrors.clear();
     // kDebug() << "//// DOCUMENT: " << doc.toString();
@@ -328,26 +337,31 @@ void TrackView::parseDocument(QDomDocument doc) {
     //m_scrollBox->setGeometry(0, 0, 300 * zoomFactor(), m_scrollArea->height());
 }
 
-void TrackView::slotDeleteClip(const QString &clipId) {
+void TrackView::slotDeleteClip(const QString &clipId)
+{
     m_trackview->deleteClip(clipId);
 }
 
-void TrackView::setCursorPos(int pos) {
+void TrackView::setCursorPos(int pos)
+{
     m_trackview->setCursorPos(pos);
 }
 
-void TrackView::moveCursorPos(int pos) {
+void TrackView::moveCursorPos(int pos)
+{
     m_trackview->setCursorPos(pos, false);
 }
 
-void TrackView::slotChangeZoom(int factor) {
+void TrackView::slotChangeZoom(int factor)
+{
     m_doc->setZoom(factor);
     m_ruler->setPixelPerMark(factor);
     m_scale = (double) FRAME_SIZE / m_ruler->comboScale[factor]; // m_ruler->comboScale[m_currentZoom] /
     m_trackview->setScale(m_scale);
 }
 
-int TrackView::fitZoom() const {
+int TrackView::fitZoom() const
+{
     int zoom = (int)((duration() + 20 / m_scale) * FRAME_SIZE / m_trackview->width());
     int i;
     for (i = 0; i < 13; i++)
@@ -355,15 +369,18 @@ int TrackView::fitZoom() const {
     return i;
 }
 
-KdenliveDoc *TrackView::document() {
+KdenliveDoc *TrackView::document()
+{
     return m_doc;
 }
 
-void TrackView::refresh() {
+void TrackView::refresh()
+{
     m_trackview->viewport()->update();
 }
 
-void TrackView::slotRebuildTrackHeaders() {
+void TrackView::slotRebuildTrackHeaders()
+{
     QList <TrackInfo> list = m_doc->tracksList();
     QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
     for (int i = 0; i < widgets.count(); i++)
@@ -384,7 +401,8 @@ void TrackView::slotRebuildTrackHeaders() {
 }
 
 
-int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked) {
+int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
+{
     // parse track
     int position = 0;
     QDomNodeList children = xml.childNodes();
@@ -632,7 +650,8 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked) {
     //track->show();
 }
 
-DocClipBase *TrackView::getMissingProducer(const QString id) const {
+DocClipBase *TrackView::getMissingProducer(const QString id) const
+{
     QDomElement missingXml;
     QDomDocument doc = m_doc->toXml();
     QString docRoot = doc.documentElement().attribute("root");
@@ -667,23 +686,28 @@ DocClipBase *TrackView::getMissingProducer(const QString id) const {
     return missingClip;
 }
 
-QGraphicsScene *TrackView::projectScene() {
+QGraphicsScene *TrackView::projectScene()
+{
     return m_scene;
 }
 
-CustomTrackView *TrackView::projectView() {
+CustomTrackView *TrackView::projectView()
+{
     return m_trackview;
 }
 
-void TrackView::setEditMode(const QString & editMode) {
+void TrackView::setEditMode(const QString & editMode)
+{
     m_editMode = editMode;
 }
 
-const QString & TrackView::editMode() const {
+const QString & TrackView::editMode() const
+{
     return m_editMode;
 }
 
-void TrackView::slotChangeTrackLock(int ix, bool lock) {
+void TrackView::slotChangeTrackLock(int ix, bool lock)
+{
     QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
     widgets.at(ix)->setLock(lock);
 }

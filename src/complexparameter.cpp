@@ -25,7 +25,8 @@
 #include <QMenu>
 
 ComplexParameter::ComplexParameter(QWidget *parent)
-        : QWidget(parent) {
+        : QWidget(parent)
+{
     ui.setupUi(this);
     //ui.effectlist->horizontalHeader()->setVisible(false);
     //ui.effectlist->verticalHeader()->setVisible(false);
@@ -65,34 +66,40 @@ ComplexParameter::ComplexParameter(QWidget *parent)
 
 
 
-void ComplexParameter::slotSetMoveX() {
+void ComplexParameter::slotSetMoveX()
+{
     ui.kplotwidget->setMoveX(!ui.kplotwidget->isMoveX());
     updateButtonStatus();
 }
 
-void ComplexParameter::slotSetMoveY() {
+void ComplexParameter::slotSetMoveY()
+{
     ui.kplotwidget->setMoveY(!ui.kplotwidget->isMoveY());
     updateButtonStatus();
 }
 
-void ComplexParameter::slotSetNew() {
+void ComplexParameter::slotSetNew()
+{
     ui.kplotwidget->setNewPoints(!ui.kplotwidget->isNewPoints());
     updateButtonStatus();
 }
 
-void ComplexParameter::slotSetHelp() {
+void ComplexParameter::slotSetHelp()
+{
     ui.infoBox->setVisible(!ui.infoBox->isVisible());
     ui.buttonHelp->setDown(ui.infoBox->isVisible());
 }
 
-void ComplexParameter::slotShowInTimeline() {
+void ComplexParameter::slotShowInTimeline()
+{
 
     ui.kplotwidget->setMoveTimeLine(!ui.kplotwidget->isMoveTimeline());
     updateButtonStatus();
 
 }
 
-void ComplexParameter::updateButtonStatus() {
+void ComplexParameter::updateButtonStatus()
+{
     ui.buttonLeftRight->setDown(ui.kplotwidget->isMoveX());
     ui.buttonUpDown->setDown(ui.kplotwidget->isMoveY());
 
@@ -103,32 +110,38 @@ void ComplexParameter::updateButtonStatus() {
     ui.buttonNewPoints->setDown(ui.kplotwidget->isNewPoints());
 }
 
-void ComplexParameter::slotParameterChanged(const QString& text) {
+void ComplexParameter::slotParameterChanged(const QString& text)
+{
 
     //ui.buttonNewPoints->setEnabled(text!="all");
     ui.kplotwidget->replot(text);
     updateButtonStatus();
 }
 
-void ComplexParameter::setupParam(const QDomElement& d, const QString& paramName, int from, int to) {
+void ComplexParameter::setupParam(const QDomElement& d, const QString& paramName, int from, int to)
+{
     param = d;
     ui.kplotwidget->setPointLists(d, paramName, from, to);
 }
 
-void ComplexParameter::itemSelectionChanged() {
+void ComplexParameter::itemSelectionChanged()
+{
     //kDebug() << "drop";
 }
 
-void ComplexParameter::slotUpdateEffectParams(QDomElement e) {
+void ComplexParameter::slotUpdateEffectParams(QDomElement e)
+{
     param = e;
     emit parameterChanged();
 }
 
-QDomElement ComplexParameter::getParamDesc() {
+QDomElement ComplexParameter::getParamDesc()
+{
     return param;
 }
 
-void ComplexParameter::slotUpdateParameterList(QStringList l) {
+void ComplexParameter::slotUpdateParameterList(QStringList l)
+{
     kDebug() << l ;
     ui.parameterList->clear();
     ui.parameterList->addItem("all");

@@ -27,7 +27,8 @@
 
 class CustomTrackScene;
 
-class AbstractClipItem : public QObject , public QGraphicsRectItem {
+class AbstractClipItem : public QObject , public QGraphicsRectItem
+{
     Q_OBJECT
 public:
     AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps);

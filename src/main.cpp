@@ -34,7 +34,8 @@
 
 static const char version[] = VERSION;
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     KAboutData aboutData(QByteArray("kdenlive"), QByteArray("kdenlive"),
                          ki18n("Kdenlive"), QByteArray(version),
                          ki18n("An open source video editor."),

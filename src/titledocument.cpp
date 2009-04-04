@@ -31,15 +31,18 @@
 #include <QFile>
 
 
-TitleDocument::TitleDocument() {
+TitleDocument::TitleDocument()
+{
     scene = NULL;
 }
 
-void TitleDocument::setScene(QGraphicsScene* _scene) {
+void TitleDocument::setScene(QGraphicsScene* _scene)
+{
     scene = _scene;
 }
 
-QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv) {
+QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv)
+{
     QDomDocument doc;
 
     QDomElement main = doc.createElement("kdenlivetitle");
@@ -129,7 +132,8 @@ QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonIt
 
 /** \brief Get the background color (incl. alpha) from the document, if possibly
   * \returns The background color of the document, inclusive alpha. If none found, returns (0,0,0,0) */
-QColor TitleDocument::getBackgroundColor() {
+QColor TitleDocument::getBackgroundColor()
+{
     QColor color(0, 0, 0, 0);
     if (scene) {
         QList<QGraphicsItem *> items = scene->items();
@@ -144,7 +148,8 @@ QColor TitleDocument::getBackgroundColor() {
 }
 
 
-bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv) {
+bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv)
+{
     if (!scene)
         return false;
 
@@ -165,7 +170,8 @@ bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, 
     return KIO::NetAccess::upload(tmpfile.fileName(), url, 0);
 }
 
-int TitleDocument::loadDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv) {
+int TitleDocument::loadDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv)
+{
     QString tmpfile;
     QDomDocument doc;
     if (!scene)
@@ -184,7 +190,8 @@ int TitleDocument::loadDocument(const KUrl& url, QGraphicsPolygonItem* startv, Q
     return -1;
 }
 
-int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* /*startv*/, QGraphicsPolygonItem* /*endv*/) {
+int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* /*startv*/, QGraphicsPolygonItem* /*endv*/)
+{
     QDomNodeList titles = doc.elementsByTagName("kdenlivetitle");
     int maxZValue = 0;
     if (titles.size()) {
@@ -275,19 +282,22 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* /*startv*
     return maxZValue;
 }
 
-QString TitleDocument::colorToString(const QColor& c) {
+QString TitleDocument::colorToString(const QColor& c)
+{
     QString ret = "%1,%2,%3,%4";
     ret = ret.arg(c.red()).arg(c.green()).arg(c.blue()).arg(c.alpha());
     return ret;
 }
 
-QString TitleDocument::rectFToString(const QRectF& c) {
+QString TitleDocument::rectFToString(const QRectF& c)
+{
     QString ret = "%1,%2,%3,%4";
     ret = ret.arg(c.x()).arg(c.y()).arg(c.width()).arg(c.height());
     return ret;
 }
 
-QRectF TitleDocument::stringToRect(const QString & s) {
+QRectF TitleDocument::stringToRect(const QString & s)
+{
 
     QStringList l = s.split(',');
     if (l.size() < 4)
@@ -295,13 +305,15 @@ QRectF TitleDocument::stringToRect(const QString & s) {
     return QRectF(l[0].toDouble(), l[1].toDouble(), l[2].toDouble(), l[3].toDouble());
 }
 
-QColor TitleDocument::stringToColor(const QString & s) {
+QColor TitleDocument::stringToColor(const QString & s)
+{
     QStringList l = s.split(',');
     if (l.size() < 4)
         return QColor();
     return QColor(l[0].toInt(), l[1].toInt(), l[2].toInt(), l[3].toInt());;
 }
-QTransform TitleDocument::stringToTransform(const QString& s) {
+QTransform TitleDocument::stringToTransform(const QString& s)
+{
     QStringList l = s.split(',');
     if (l.size() < 9)
         return QTransform();

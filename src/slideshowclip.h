@@ -27,7 +27,8 @@
 #include "timecode.h"
 #include "ui_slideshowclip_ui.h"
 
-class SlideshowClip : public QDialog {
+class SlideshowClip : public QDialog
+{
     Q_OBJECT
 
 public:

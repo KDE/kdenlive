@@ -23,18 +23,21 @@
 
 #include <KLocale>
 
-AddFolderCommand::AddFolderCommand(ProjectList *view, const QString folderName, const QString &clipId, bool doIt, QUndoCommand *parent) : QUndoCommand(parent), m_view(view), m_name(folderName), m_id(clipId), m_doIt(doIt) {
+AddFolderCommand::AddFolderCommand(ProjectList *view, const QString folderName, const QString &clipId, bool doIt, QUndoCommand *parent) : QUndoCommand(parent), m_view(view), m_name(folderName), m_id(clipId), m_doIt(doIt)
+{
     if (doIt) setText(i18n("Add folder"));
     else setText(i18n("Delete folder"));
 }
 
 // virtual
-void AddFolderCommand::undo() {
+void AddFolderCommand::undo()
+{
     if (m_doIt) m_view->slotAddFolder(m_name, m_id, true);
     else m_view->slotAddFolder(m_name, m_id, false);
 }
 // virtual
-void AddFolderCommand::redo() {
+void AddFolderCommand::redo()
+{
     if (m_doIt) m_view->slotAddFolder(m_name, m_id, false);
     else m_view->slotAddFolder(m_name, m_id, true);
 }

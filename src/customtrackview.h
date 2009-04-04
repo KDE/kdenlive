@@ -38,7 +38,8 @@ class AbstractGroupItem;
 class Transition;
 class CustomTrackScene;
 
-class CustomTrackView : public QGraphicsView {
+class CustomTrackView : public QGraphicsView
+{
     Q_OBJECT
 
 public:

@@ -22,18 +22,21 @@
 
 #include <KLocale>
 
-EditClipCommand::EditClipCommand(ProjectList *list, const QString &id, QMap <QString, QString> oldparams, QMap <QString, QString> newparams, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_list(list), m_id(id), m_oldparams(oldparams), m_newparams(newparams), m_doIt(doIt) {
+EditClipCommand::EditClipCommand(ProjectList *list, const QString &id, QMap <QString, QString> oldparams, QMap <QString, QString> newparams, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_list(list), m_id(id), m_oldparams(oldparams), m_newparams(newparams), m_doIt(doIt)
+{
     setText(i18n("Edit clip"));
 }
 
 
 // virtual
-void EditClipCommand::undo() {
+void EditClipCommand::undo()
+{
     kDebug() << "----  undoing action";
     m_list->slotUpdateClipProperties(m_id, m_oldparams);
 }
 // virtual
-void EditClipCommand::redo() {
+void EditClipCommand::redo()
+{
     kDebug() << "----  redoing action";
     if (m_doIt) m_list->slotUpdateClipProperties(m_id, m_newparams);
     m_doIt = true;

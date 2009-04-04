@@ -38,7 +38,8 @@ relevant signal that get's emitted once the call completes.
   */
 
 
-namespace Mlt {
+namespace Mlt
+{
 class Miracle;
 class Consumer;
 class Producer;
@@ -50,7 +51,8 @@ class ClipManager;
 
 
 
-class MyThread : public QThread {
+class MyThread : public QThread
+{
     Q_OBJECT
 public:
     virtual void run();
@@ -74,7 +76,8 @@ signals:
     void audioThumbOver();
 };
 
-class KThumb: public QObject {
+class KThumb: public QObject
+{
 Q_OBJECT public:
 
 

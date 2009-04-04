@@ -28,7 +28,8 @@
 #include <QBrush>
 
 Guide::Guide(CustomTrackView *view, GenTime pos, QString label, double fps, double height)
-        : QGraphicsLineItem(), m_view(view), m_position(pos), m_label(label), m_fps(fps) {
+        : QGraphicsLineItem(), m_view(view), m_position(pos), m_label(label), m_fps(fps)
+{
     setFlags(QGraphicsItem::ItemIsMovable);
     setToolTip(label);
     setLine(0, 0, 0, height);
@@ -41,19 +42,23 @@ Guide::Guide(CustomTrackView *view, GenTime pos, QString label, double fps, doub
     prepareGeometryChange();
 }
 
-QString Guide::label() const {
+QString Guide::label() const
+{
     return m_label;
 }
 
-GenTime Guide::position() const {
+GenTime Guide::position() const
+{
     return m_position;
 }
 
-CommentedTime Guide::info() const {
+CommentedTime Guide::info() const
+{
     return CommentedTime(m_position, m_label);
 }
 
-void Guide::updateGuide(const GenTime newPos, const QString &comment) {
+void Guide::updateGuide(const GenTime newPos, const QString &comment)
+{
     m_position = newPos;
     setPos(m_position.frames(m_fps), 0);
     if (!comment.isEmpty()) {
@@ -66,22 +71,26 @@ void Guide::updateGuide(const GenTime newPos, const QString &comment) {
 }
 
 //virtual
-int Guide::type() const {
+int Guide::type() const
+{
     return GUIDEITEM;
 }
 
 //virtual
-void Guide::hoverEnterEvent(QGraphicsSceneHoverEvent *) {
+void Guide::hoverEnterEvent(QGraphicsSceneHoverEvent *)
+{
     setPen(QPen(QBrush(QColor(200, 0, 0, 180)), 2));
 }
 
 //virtual
-void Guide::hoverLeaveEvent(QGraphicsSceneHoverEvent *) {
+void Guide::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
+{
     setPen(QPen(QBrush(QColor(0, 0, 200, 180)), 2));
 }
 
 //virtual
-QVariant Guide::itemChange(GraphicsItemChange change, const QVariant &value) {
+QVariant Guide::itemChange(GraphicsItemChange change, const QVariant &value)
+{
     if (change == ItemPositionChange && scene()) {
         // value is the new position.
         QPointF newPos = value.toPointF();
@@ -93,7 +102,8 @@ QVariant Guide::itemChange(GraphicsItemChange change, const QVariant &value) {
 }
 
 // virtual
-QRectF Guide::boundingRect() const {
+QRectF Guide::boundingRect() const
+{
     if (KdenliveSettings::showmarkers()) {
         QRectF rect = QGraphicsLineItem::boundingRect();
         rect.setLeft(line().x1());
@@ -103,7 +113,8 @@ QRectF Guide::boundingRect() const {
 }
 
 // virtual
-void Guide::paint(QPainter *painter, const QStyleOptionGraphicsItem */*option*/, QWidget */*w*/) {
+void Guide::paint(QPainter *painter, const QStyleOptionGraphicsItem */*option*/, QWidget */*w*/)
+{
     painter->setMatrixEnabled(false);
     QLineF guideline = painter->matrix().map(line());
     painter->setPen(pen());

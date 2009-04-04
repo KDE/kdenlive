@@ -24,7 +24,8 @@
 class QGraphicsScene;
 class QGraphicsPolygonItem;
 
-class TitleDocument {
+class TitleDocument
+{
     QGraphicsScene* scene;
 public:
     TitleDocument();

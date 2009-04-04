@@ -24,7 +24,8 @@
 #include <QUrl>
 #include <QtPlugin>
 
-class ClipGenerator {
+class ClipGenerator
+{
 public:
     virtual ~ClipGenerator() {}
 

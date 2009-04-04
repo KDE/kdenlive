@@ -28,7 +28,8 @@
   */
 
 
-class EffectsList: public QList < QDomElement > {
+class EffectsList: public QList < QDomElement >
+{
 public:
     EffectsList();
     ~EffectsList();

@@ -36,7 +36,8 @@ class Render;
 class SmallRuler;
 class DocClipBase;
 
-class MonitorRefresh : public QWidget {
+class MonitorRefresh : public QWidget
+{
     Q_OBJECT
 public:
     MonitorRefresh(QWidget* parent);
@@ -47,7 +48,8 @@ private:
     Render *m_renderer;
 };
 
-class Overlay : public QLabel {
+class Overlay : public QLabel
+{
     Q_OBJECT
 public:
     Overlay(QWidget* parent);
@@ -58,7 +60,8 @@ private:
     bool m_isZone;
 };
 
-class Monitor : public QWidget {
+class Monitor : public QWidget
+{
     Q_OBJECT
 
 public:

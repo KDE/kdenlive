@@ -26,7 +26,8 @@
 #include <KDebug>
 
 
-MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, const QString &caption, QWidget * parent): QDialog(parent), m_tc(tc), m_clip(clip), m_marker(t), m_producer(NULL), m_profile(NULL) {
+MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, const QString &caption, QWidget * parent): QDialog(parent), m_tc(tc), m_clip(clip), m_marker(t), m_producer(NULL), m_profile(NULL)
+{
     setFont(KGlobalSettings::toolBarFont());
     m_fps = m_tc.fps();
     m_view.setupUi(this);
@@ -87,13 +88,15 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
     adjustSize();
 }
 
-MarkerDialog::~MarkerDialog() {
+MarkerDialog::~MarkerDialog()
+{
     delete m_previewTimer;
     if (m_producer) delete m_producer;
     if (m_profile) delete m_profile;
 }
 
-void MarkerDialog::slotUpdateThumb() {
+void MarkerDialog::slotUpdateThumb()
+{
     m_previewTimer->stop();
     int pos = m_tc.getFrameCount(m_view.marker_position->text(), m_fps);
     QPixmap p = KThumb::getFrame(m_producer, pos, (int)(100 * m_dar), 100);
@@ -101,25 +104,29 @@ void MarkerDialog::slotUpdateThumb() {
     else kDebug() << "!!!!!!!!!!!  ERROR CREATING THUMB";
 }
 
-void MarkerDialog::slotTimeUp() {
+void MarkerDialog::slotTimeUp()
+{
     int duration = m_tc.getFrameCount(m_view.marker_position->text(), m_fps);
     if (m_clip && duration >= m_clip->duration().frames(m_fps)) return;
     duration ++;
     m_view.marker_position->setText(m_tc.getTimecode(GenTime(duration, m_fps), m_fps));
 }
 
-void MarkerDialog::slotTimeDown() {
+void MarkerDialog::slotTimeDown()
+{
     int duration = m_tc.getFrameCount(m_view.marker_position->text(), m_fps);
     if (duration <= 0) return;
     duration --;
     m_view.marker_position->setText(m_tc.getTimecode(GenTime(duration, m_fps), m_fps));
 }
 
-CommentedTime MarkerDialog::newMarker() {
+CommentedTime MarkerDialog::newMarker()
+{
     return CommentedTime(GenTime(m_tc.getFrameCount(m_view.marker_position->text(), m_fps), m_fps), m_view.marker_comment->text());
 }
 
-void MarkerDialog::wheelEvent(QWheelEvent * event) {
+void MarkerDialog::wheelEvent(QWheelEvent * event)
+{
     if (m_view.marker_position->underMouse() || m_view.clip_thumb->underMouse()) {
         if (event->delta() > 0)
             slotTimeUp();

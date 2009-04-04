@@ -35,7 +35,8 @@ const int UsageRole = NameRole + 2;
 
 // folder
 ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, const QString &clipId)
-        : QTreeWidgetItem(parent, strings), m_clipType(FOLDER), m_clipId(clipId), m_clip(NULL), m_groupname(strings.at(1)) {
+        : QTreeWidgetItem(parent, strings), m_clipType(FOLDER), m_clipId(clipId), m_clip(NULL), m_groupname(strings.at(1))
+{
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     setIcon(0, KIcon("folder"));
@@ -44,7 +45,8 @@ ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, cons
 }
 
 ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
-        : QTreeWidgetItem(parent) {
+        : QTreeWidgetItem(parent)
+{
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     m_clip = clip;
@@ -63,7 +65,8 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
 }
 
 ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip)
-        : QTreeWidgetItem(parent) {
+        : QTreeWidgetItem(parent)
+{
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     m_clip = clip;
@@ -81,31 +84,38 @@ ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip)
 }
 
 
-ProjectItem::~ProjectItem() {
+ProjectItem::~ProjectItem()
+{
 }
 
-int ProjectItem::numReferences() const {
+int ProjectItem::numReferences() const
+{
     if (!m_clip) return 0;
     return m_clip->numReferences();
 }
 
-const QString &ProjectItem::clipId() const {
+const QString &ProjectItem::clipId() const
+{
     return m_clipId;
 }
 
-CLIPTYPE ProjectItem::clipType() const {
+CLIPTYPE ProjectItem::clipType() const
+{
     return m_clipType;
 }
 
-int ProjectItem::clipMaxDuration() const {
+int ProjectItem::clipMaxDuration() const
+{
     return m_clip->getProperty("duration").toInt();
 }
 
-bool ProjectItem::isGroup() const {
+bool ProjectItem::isGroup() const
+{
     return m_clipType == FOLDER;
 }
 
-QStringList ProjectItem::names() const {
+QStringList ProjectItem::names() const
+{
     QStringList result;
     result.append(text(0));
     result.append(text(1));
@@ -113,54 +123,65 @@ QStringList ProjectItem::names() const {
     return result;
 }
 
-QDomElement ProjectItem::toXml() const {
+QDomElement ProjectItem::toXml() const
+{
     return m_clip->toXML();
 }
 
-const KUrl ProjectItem::clipUrl() const {
+const KUrl ProjectItem::clipUrl() const
+{
     if (m_clipType != COLOR && m_clipType != VIRTUAL && m_clipType != UNKNOWN && m_clipType != FOLDER)
         return KUrl(m_clip->getProperty("resource"));
     else return KUrl();
 }
 
-void ProjectItem::changeDuration(int frames) {
+void ProjectItem::changeDuration(int frames)
+{
     setData(1, DurationRole, Timecode::getEasyTimecode(GenTime(frames, KdenliveSettings::project_fps()), KdenliveSettings::project_fps()));
 }
 
-void ProjectItem::setProperties(QMap <QString, QString> props) {
+void ProjectItem::setProperties(QMap <QString, QString> props)
+{
     if (m_clip == NULL) return;
     m_clip->setProperties(props);
 }
 
-QString ProjectItem::getClipHash() const {
+QString ProjectItem::getClipHash() const
+{
     if (m_clip == NULL) return QString();
     return m_clip->getClipHash();
 }
 
-void ProjectItem::setProperty(const QString &key, const QString &value) {
+void ProjectItem::setProperty(const QString &key, const QString &value)
+{
     if (m_clip == NULL) return;
     m_clip->setProperty(key, value);
 }
 
-void ProjectItem::clearProperty(const QString &key) {
+void ProjectItem::clearProperty(const QString &key)
+{
     if (m_clip == NULL) return;
     m_clip->clearProperty(key);
 }
 
-const QString ProjectItem::groupName() const {
+const QString ProjectItem::groupName() const
+{
     return m_groupname;
 }
 
-void ProjectItem::setGroupName(const QString name) {
+void ProjectItem::setGroupName(const QString name)
+{
     m_groupname = name;
     setText(1, name);
 }
 
-DocClipBase *ProjectItem::referencedClip() {
+DocClipBase *ProjectItem::referencedClip()
+{
     return m_clip;
 }
 
-void ProjectItem::slotSetToolTip() {
+void ProjectItem::slotSetToolTip()
+{
     QString tip = "<b>";
     switch (m_clipType) {
     case AUDIO:
@@ -199,7 +220,8 @@ void ProjectItem::slotSetToolTip() {
 }
 
 
-void ProjectItem::setProperties(const QMap < QString, QString > &attributes, const QMap < QString, QString > &metadata) {
+void ProjectItem::setProperties(const QMap < QString, QString > &attributes, const QMap < QString, QString > &metadata)
+{
     if (m_clip == NULL) return;
     //setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
     if (attributes.contains("duration")) {

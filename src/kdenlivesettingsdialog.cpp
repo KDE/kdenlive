@@ -40,7 +40,8 @@
 #endif /* NO_JOGSHUTTLE */
 
 
-KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(parent, "settings", KdenliveSettings::self()) {
+KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(parent, "settings", KdenliveSettings::self())
+{
 
     QWidget *p1 = new QWidget;
     m_configMisc.setupUi(p1);
@@ -164,11 +165,13 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(
 
 KdenliveSettingsDialog::~KdenliveSettingsDialog() {}
 
-void KdenliveSettingsDialog::slotUpdateRmdRegionStatus() {
+void KdenliveSettingsDialog::slotUpdateRmdRegionStatus()
+{
     m_configCapture.region_group->setHidden(m_configCapture.kcfg_rmd_capture_type->currentIndex() != 1);
 }
 
-void KdenliveSettingsDialog::checkProfile() {
+void KdenliveSettingsDialog::checkProfile()
+{
     m_configMisc.kcfg_profiles_list->clear();
     QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
     QMapIterator<QString, QString> i(profilesInfo);
@@ -188,7 +191,8 @@ void KdenliveSettingsDialog::checkProfile() {
     }
 }
 
-void KdenliveSettingsDialog::initDevices() {
+void KdenliveSettingsDialog::initDevices()
+{
     // Fill audio drivers
     m_configSdl.kcfg_audio_driver->addItem(i18n("Automatic"), QString());
     m_configSdl.kcfg_audio_driver->addItem(i18n("OSS"), "dsp");
@@ -262,7 +266,8 @@ void KdenliveSettingsDialog::initDevices() {
 }
 
 
-void KdenliveSettingsDialog::slotReadAudioDevices() {
+void KdenliveSettingsDialog::slotReadAudioDevices()
+{
     QString result = QString(m_readProcess.readAllStandardOutput());
     kDebug() << "// / / / / / READING APLAY: ";
     kDebug() << result;
@@ -278,7 +283,8 @@ void KdenliveSettingsDialog::slotReadAudioDevices() {
     }
 }
 
-void KdenliveSettingsDialog::showPage(int page, int option) {
+void KdenliveSettingsDialog::showPage(int page, int option)
+{
     switch (page) {
     case 1:
         setCurrentPage(page1);
@@ -300,7 +306,8 @@ void KdenliveSettingsDialog::showPage(int page, int option) {
     }
 }
 
-void KdenliveSettingsDialog::slotEditVideoApplication() {
+void KdenliveSettingsDialog::slotEditVideoApplication()
+{
     KService::Ptr service;
     KOpenWithDialog dlg(KUrl::List(), i18n("Select default video player"), m_configEnv.kcfg_defaultplayerapp->text(), this);
     if (dlg.exec() != QDialog::Accepted)
@@ -310,7 +317,8 @@ void KdenliveSettingsDialog::slotEditVideoApplication() {
     m_configEnv.kcfg_defaultplayerapp->setText(service->exec());
 }
 
-void KdenliveSettingsDialog::slotEditAudioApplication() {
+void KdenliveSettingsDialog::slotEditAudioApplication()
+{
     KService::Ptr service;
     KOpenWithDialog dlg(KUrl::List(), i18n("Select default audio editor"), m_configEnv.kcfg_defaultaudioapp->text(), this);
     if (dlg.exec() != QDialog::Accepted)
@@ -320,7 +328,8 @@ void KdenliveSettingsDialog::slotEditAudioApplication() {
     m_configEnv.kcfg_defaultaudioapp->setText(service->exec());
 }
 
-void KdenliveSettingsDialog::slotEditImageApplication() {
+void KdenliveSettingsDialog::slotEditImageApplication()
+{
     KService::Ptr service;
     KOpenWithDialog dlg(KUrl::List(), i18n("Select default image editor"), m_configEnv.kcfg_defaultimageapp->text(), this);
     if (dlg.exec() != QDialog::Accepted)
@@ -331,7 +340,8 @@ void KdenliveSettingsDialog::slotEditImageApplication() {
 }
 
 #ifndef NO_JOGSHUTTLE
-void KdenliveSettingsDialog::slotCheckShuttle(int state) {
+void KdenliveSettingsDialog::slotCheckShuttle(int state)
+{
     m_configShuttle.config_group->setEnabled(state);
     if (m_configShuttle.shuttledevicelist->count() == 0) {
         // parse devices
@@ -352,14 +362,16 @@ void KdenliveSettingsDialog::slotCheckShuttle(int state) {
     }
 }
 
-void KdenliveSettingsDialog::slotUpdateShuttleDevice(int ix) {
+void KdenliveSettingsDialog::slotUpdateShuttleDevice(int ix)
+{
     QString device = m_configShuttle.shuttledevicelist->itemData(ix).toString();
     //KdenliveSettings::setShuttledevice(device);
     m_configShuttle.kcfg_shuttledevice->setText(device);
 }
 #endif /* NO_JOGSHUTTLE */
 
-void KdenliveSettingsDialog::rebuildVideo4Commands() {
+void KdenliveSettingsDialog::rebuildVideo4Commands()
+{
     QString captureCommand;
     if (!m_configCapture.kcfg_video4adevice->text().isEmpty()) captureCommand = "-f " + m_configCapture.kcfg_video4aformat->text() + " -i " + m_configCapture.kcfg_video4adevice->text();
 
@@ -368,7 +380,8 @@ void KdenliveSettingsDialog::rebuildVideo4Commands() {
 }
 
 
-void KdenliveSettingsDialog::updateSettings() {
+void KdenliveSettingsDialog::updateSettings()
+{
     kDebug() << "// // // KCONFIG UPDATE called";
     m_defaultProfile = m_configMisc.kcfg_profiles_list->currentText();
     KdenliveSettings::setDefault_profile(m_defaultPath);
@@ -421,7 +434,8 @@ void KdenliveSettingsDialog::updateSettings() {
     if (updatePreview) emit updatePreviewSettings();
 }
 
-void KdenliveSettingsDialog::slotUpdateDisplay() {
+void KdenliveSettingsDialog::slotUpdateDisplay()
+{
     QString currentProfile = m_configMisc.kcfg_profiles_list->itemData(m_configMisc.kcfg_profiles_list->currentIndex()).toString();
     QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(currentProfile);
     m_configMisc.p_size->setText(values.value("width") + 'x' + values.value("height"));

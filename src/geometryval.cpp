@@ -27,7 +27,8 @@
 #include <QMenu>
 
 
-Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent): QWidget(parent), m_profile(profile), m_geom(NULL), m_path(NULL), paramRect(NULL), m_fixedMode(false) {
+Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent): QWidget(parent), m_profile(profile), m_geom(NULL), m_path(NULL), paramRect(NULL), m_fixedMode(false)
+{
     ui.setupUi(this);
     QVBoxLayout* vbox = new QVBoxLayout(ui.widget);
     QGraphicsView *view = new QGraphicsView(this);
@@ -102,7 +103,8 @@ Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent): QWidge
     connect(scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateTransitionProperties()));
 }
 
-void Geometryval::slotAlignCenter() {
+void Geometryval::slotAlignCenter()
+{
     int pos = ui.spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
@@ -114,7 +116,8 @@ void Geometryval::slotAlignCenter() {
     slotUpdateTransitionProperties();
 }
 
-void Geometryval::slotAlignHCenter() {
+void Geometryval::slotAlignHCenter()
+{
     int pos = ui.spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
@@ -126,7 +129,8 @@ void Geometryval::slotAlignHCenter() {
     slotUpdateTransitionProperties();
 }
 
-void Geometryval::slotAlignVCenter() {
+void Geometryval::slotAlignVCenter()
+{
     int pos = ui.spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
@@ -138,7 +142,8 @@ void Geometryval::slotAlignVCenter() {
     slotUpdateTransitionProperties();
 }
 
-void Geometryval::slotAlignTop() {
+void Geometryval::slotAlignTop()
+{
     int pos = ui.spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
@@ -150,7 +155,8 @@ void Geometryval::slotAlignTop() {
     slotUpdateTransitionProperties();
 }
 
-void Geometryval::slotAlignBottom() {
+void Geometryval::slotAlignBottom()
+{
     int pos = ui.spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
@@ -162,7 +168,8 @@ void Geometryval::slotAlignBottom() {
     slotUpdateTransitionProperties();
 }
 
-void Geometryval::slotAlignLeft() {
+void Geometryval::slotAlignLeft()
+{
     int pos = ui.spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
@@ -174,7 +181,8 @@ void Geometryval::slotAlignLeft() {
     slotUpdateTransitionProperties();
 }
 
-void Geometryval::slotAlignRight() {
+void Geometryval::slotAlignRight()
+{
     int pos = ui.spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
@@ -186,7 +194,8 @@ void Geometryval::slotAlignRight() {
     slotUpdateTransitionProperties();
 }
 
-void Geometryval::slotResize50() {
+void Geometryval::slotResize50()
+{
     int pos = ui.spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
@@ -198,7 +207,8 @@ void Geometryval::slotResize50() {
     slotUpdateTransitionProperties();
 }
 
-void Geometryval::slotResize100() {
+void Geometryval::slotResize100()
+{
     int pos = ui.spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
@@ -210,7 +220,8 @@ void Geometryval::slotResize100() {
     slotUpdateTransitionProperties();
 }
 
-void Geometryval::slotResize200() {
+void Geometryval::slotResize200()
+{
     int pos = ui.spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
@@ -222,7 +233,8 @@ void Geometryval::slotResize200() {
     slotUpdateTransitionProperties();
 }
 
-void Geometryval::slotTransparencyChanged(int transp) {
+void Geometryval::slotTransparencyChanged(int transp)
+{
     int pos = ui.spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->fetch(&item, pos);
@@ -236,11 +248,13 @@ void Geometryval::slotTransparencyChanged(int transp) {
     emit parameterChanged();
 }
 
-void Geometryval::slotSyncCursor() {
+void Geometryval::slotSyncCursor()
+{
     KdenliveSettings::setTransitionfollowcursor(m_syncAction->isChecked());
 }
 
-void Geometryval::slotPositionChanged(int pos, bool seek) {
+void Geometryval::slotPositionChanged(int pos, bool seek)
+{
     if (seek && KdenliveSettings::transitionfollowcursor()) emit seekToPos(pos);
     ui.spinPos->setValue(pos);
     m_helper->setValue(pos);
@@ -268,7 +282,8 @@ void Geometryval::slotPositionChanged(int pos, bool seek) {
     paramRect->setBrush(QColor(255, 0, 0, item.mix()));
 }
 
-void Geometryval::slotDeleteFrame() {
+void Geometryval::slotDeleteFrame()
+{
     // check there is more than one keyframe
     Mlt::GeometryItem item;
     const int pos = ui.spinPos->value();
@@ -291,7 +306,8 @@ void Geometryval::slotDeleteFrame() {
     emit parameterChanged();
 }
 
-void Geometryval::slotAddFrame() {
+void Geometryval::slotAddFrame()
+{
     int pos = ui.spinPos->value();
     Mlt::GeometryItem item;
     item.frame(pos);
@@ -311,7 +327,8 @@ void Geometryval::slotAddFrame() {
     emit parameterChanged();
 }
 
-void Geometryval::slotNextFrame() {
+void Geometryval::slotNextFrame()
+{
     Mlt::GeometryItem item;
     int error = m_geom->next_key(&item, m_helper->value() + 1);
     kDebug() << "// SEEK TO NEXT KFR: " << error;
@@ -324,7 +341,8 @@ void Geometryval::slotNextFrame() {
     ui.spinPos->setValue(pos);
 }
 
-void Geometryval::slotPreviousFrame() {
+void Geometryval::slotPreviousFrame()
+{
     Mlt::GeometryItem item;
     int error = m_geom->prev_key(&item, m_helper->value() - 1);
     kDebug() << "// SEEK TO NEXT KFR: " << error;
@@ -334,13 +352,15 @@ void Geometryval::slotPreviousFrame() {
 }
 
 
-QDomElement Geometryval::getParamDesc() {
+QDomElement Geometryval::getParamDesc()
+{
     param.setAttribute("value", m_geom->serialise());
     kDebug() << " / / UPDATING TRANSITION VALUE: " << param.attribute("value");
     return param;
 }
 
-void Geometryval::setupParam(const QDomElement& par, int minFrame, int maxFrame) {
+void Geometryval::setupParam(const QDomElement& par, int minFrame, int maxFrame)
+{
     param = par;
     QString val = par.attribute("value");
     if (par.attribute("fixed") == "1") {
@@ -392,7 +412,8 @@ void Geometryval::setupParam(const QDomElement& par, int minFrame, int maxFrame)
     connect(ui.spinTransp, SIGNAL(valueChanged(int)), this , SLOT(slotTransparencyChanged(int)));
 }
 
-void Geometryval::updateTransitionPath() {
+void Geometryval::updateTransitionPath()
+{
     if (m_fixedMode) return;
     Mlt::GeometryItem item;
     int pos = 0;
@@ -412,7 +433,8 @@ void Geometryval::updateTransitionPath() {
     m_path->setPath(path);
 }
 
-void Geometryval::slotUpdateTransitionProperties() {
+void Geometryval::slotUpdateTransitionProperties()
+{
     int pos = ui.spinPos->value();
     Mlt::GeometryItem item;
     int error = m_geom->next_key(&item, pos);

@@ -31,7 +31,8 @@
 #include <QDir>
 
 EffectsListView::EffectsListView(QWidget *parent)
-        : QWidget(parent) {
+        : QWidget(parent)
+{
     ui.setupUi(this);
 
     QMenu *menu = new QMenu(this);
@@ -56,7 +57,8 @@ EffectsListView::EffectsListView(QWidget *parent)
 }
 
 
-void EffectsListView::filterList(int pos) {
+void EffectsListView::filterList(int pos)
+{
     QListWidgetItem *item;
     for (int i = 0; i < m_effectsList->count(); i++) {
         item = m_effectsList->item(i);
@@ -74,7 +76,8 @@ void EffectsListView::filterList(int pos) {
     }
 }
 
-void EffectsListView::showInfoPanel() {
+void EffectsListView::showInfoPanel()
+{
     if (ui.infopanel->isVisible()) {
         ui.infopanel->setVisible(false);
         ui.buttonInfo->setDown(false);
@@ -86,24 +89,29 @@ void EffectsListView::showInfoPanel() {
     }
 }
 
-void EffectsListView::slotEffectSelected() {
+void EffectsListView::slotEffectSelected()
+{
     QDomElement effect = m_effectsList->currentEffect().cloneNode().toElement();
     if (!effect.isNull()) emit addEffect(effect);
 }
 
-void EffectsListView::slotUpdateInfo() {
+void EffectsListView::slotUpdateInfo()
+{
     ui.infopanel->setText(m_effectsList->currentInfo());
 }
 
-KListWidget *EffectsListView::listView() {
+KListWidget *EffectsListView::listView()
+{
     return m_effectsList;
 }
 
-void EffectsListView::reloadEffectList() {
+void EffectsListView::reloadEffectList()
+{
     m_effectsList->initList();
 }
 
-void EffectsListView::slotRemoveEffect() {
+void EffectsListView::slotRemoveEffect()
+{
     QListWidgetItem *item = m_effectsList->currentItem();
     QString effectId = item->text();
     QString path = KStandardDirs::locateLocal("appdata", "effects/", true);

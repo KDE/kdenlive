@@ -33,7 +33,8 @@
 
 int settingUp = false;
 
-TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget *parent): QDialog(parent), m_render(render), m_count(0), m_projectPath(projectPath), startViewport(NULL), endViewport(NULL) {
+TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget *parent): QDialog(parent), m_render(render), m_count(0), m_projectPath(projectPath), startViewport(NULL), endViewport(NULL)
+{
     setupUi(this);
     setFont(KGlobalSettings::toolBarFont());
     //toolBox->setFont(KGlobalSettings::toolBarFont());
@@ -192,7 +193,8 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     }
 }
 
-TitleWidget::~TitleWidget() {
+TitleWidget::~TitleWidget()
+{
     delete m_buttonRect;
     delete m_buttonText;
     delete m_buttonImage;
@@ -208,7 +210,8 @@ TitleWidget::~TitleWidget() {
 }
 
 //static
-QStringList TitleWidget::getFreeTitleInfo(const KUrl &projectUrl) {
+QStringList TitleWidget::getFreeTitleInfo(const KUrl &projectUrl)
+{
     QStringList result;
     QString titlePath = projectUrl.path() + "/titles/";
     KStandardDirs::makeDir(titlePath);
@@ -224,7 +227,8 @@ QStringList TitleWidget::getFreeTitleInfo(const KUrl &projectUrl) {
     return result;
 }
 
-QString TitleWidget::getTitleResourceFromName(const KUrl &projectUrl, const QString &titleName) {
+QString TitleWidget::getTitleResourceFromName(const KUrl &projectUrl, const QString &titleName)
+{
     QStringList result;
     QString titlePath = projectUrl.path() + "/titles/";
     KStandardDirs::makeDir(titlePath);
@@ -232,11 +236,13 @@ QString TitleWidget::getTitleResourceFromName(const KUrl &projectUrl, const QStr
 }
 
 //virtual
-void TitleWidget::resizeEvent(QResizeEvent * /*event*/) {
+void TitleWidget::resizeEvent(QResizeEvent * /*event*/)
+{
     //slotAdjustZoom();
 }
 
-void TitleWidget::slotTextTool() {
+void TitleWidget::slotTextTool()
+{
     rect_properties->setHidden(true);
     text_properties->setHidden(false);
     m_scene->setTool(TITLE_TEXT);
@@ -244,7 +250,8 @@ void TitleWidget::slotTextTool() {
     m_buttonCursor->setChecked(false);
 }
 
-void TitleWidget::slotRectTool() {
+void TitleWidget::slotRectTool()
+{
     text_properties->setHidden(true);
     rect_properties->setHidden(false);
     m_scene->setTool(TITLE_RECTANGLE);
@@ -253,14 +260,16 @@ void TitleWidget::slotRectTool() {
     m_buttonRect->setChecked(true);
 }
 
-void TitleWidget::slotSelectTool() {
+void TitleWidget::slotSelectTool()
+{
     m_scene->setTool(TITLE_SELECT);
     m_buttonCursor->setChecked(true);
     m_buttonText->setChecked(false);
     m_buttonRect->setChecked(false);
 }
 
-void TitleWidget::slotImageTool() {
+void TitleWidget::slotImageTool()
+{
     KUrl url = KFileDialog::getOpenUrl(KUrl(), "*.svg *.png *.jpg *.jpeg *.gif *.raw", this, i18n("Load Image"));
     if (!url.isEmpty()) {
         if (url.path().endsWith(".svg")) {
@@ -285,7 +294,8 @@ void TitleWidget::slotImageTool() {
     m_buttonText->setChecked(false);
 }
 
-void TitleWidget::displayBackgroundFrame() {
+void TitleWidget::displayBackgroundFrame()
+{
     if (!displayBg->isChecked()) {
         QPixmap bg(m_frameWidth / 2, m_frameHeight / 2);
         QPixmap pattern(20, 20);
@@ -306,7 +316,8 @@ void TitleWidget::displayBackgroundFrame() {
     }
 }
 
-void TitleWidget::initViewports() {
+void TitleWidget::initViewports()
+{
     startViewport = new QGraphicsPolygonItem(QPolygonF(QRectF(0, 0, 0, 0)));
     endViewport = new QGraphicsPolygonItem(QPolygonF(QRectF(0, 0, 0, 0)));
 
@@ -331,19 +342,22 @@ void TitleWidget::initViewports() {
     graphicsView->scene()->addItem(endViewport);
 }
 
-void TitleWidget::slotUpdateZoom(int pos) {
+void TitleWidget::slotUpdateZoom(int pos)
+{
     m_scene->setZoom((double) pos / 100);
     zoom_label->setText(QString::number(pos) + '%');
 }
 
-void TitleWidget::slotZoom(bool up) {
+void TitleWidget::slotZoom(bool up)
+{
     int pos = zoom_slider->value();
     if (up) pos++;
     else pos--;
     zoom_slider->setValue(pos);
 }
 
-void TitleWidget::slotAdjustZoom() {
+void TitleWidget::slotAdjustZoom()
+{
     /*double scalex = graphicsView->width() / (double)(m_frameWidth * 1.2);
     double scaley = graphicsView->height() / (double)(m_frameHeight * 1.2);
     if (scalex > scaley) scalex = scaley;
@@ -354,12 +368,14 @@ void TitleWidget::slotAdjustZoom() {
     graphicsView->centerOn(m_frameBorder);
 }
 
-void TitleWidget::slotZoomOneToOne() {
+void TitleWidget::slotZoomOneToOne()
+{
     zoom_slider->setValue(100);
     graphicsView->centerOn(m_frameBorder);
 }
 
-void TitleWidget::slotNewRect(QGraphicsRectItem * rect) {
+void TitleWidget::slotNewRect(QGraphicsRectItem * rect)
+{
     QColor f = rectFColor->color();
     f.setAlpha(rectFAlpha->value());
     QPen penf(f);
@@ -373,7 +389,8 @@ void TitleWidget::slotNewRect(QGraphicsRectItem * rect) {
     //graphicsView->setFocus();
 }
 
-void TitleWidget::slotNewText(QGraphicsTextItem *tt) {
+void TitleWidget::slotNewText(QGraphicsTextItem *tt)
+{
     QFont font = font_family->currentFont();
     font.setPixelSize(font_size->value());
     // mbd: issue 551:
@@ -389,18 +406,21 @@ void TitleWidget::slotNewText(QGraphicsTextItem *tt) {
     setCurrentItem(tt);
 }
 
-void TitleWidget::setCurrentItem(QGraphicsItem *item) {
+void TitleWidget::setCurrentItem(QGraphicsItem *item)
+{
     m_scene->setSelectedItem(item);
 }
 
-void TitleWidget::zIndexChanged(int v) {
+void TitleWidget::zIndexChanged(int v)
+{
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() >= 1) {
         l[0]->setZValue(v);
     }
 }
 
-void TitleWidget::selectionChanged() {
+void TitleWidget::selectionChanged()
+{
     if (m_scene->tool() != TITLE_SELECT) return;
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     //toolBox->setItemEnabled(2, false);
@@ -492,7 +512,8 @@ void TitleWidget::selectionChanged() {
     } else frame_properties->setEnabled(false);
 }
 
-void TitleWidget::slotAdjustSelectedItem() {
+void TitleWidget::slotAdjustSelectedItem()
+{
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() >= 1) {
         if (l[0]->type() == 3) {
@@ -508,13 +529,15 @@ void TitleWidget::slotAdjustSelectedItem() {
     }
 }
 
-void TitleWidget::slotChangeBackground() {
+void TitleWidget::slotChangeBackground()
+{
     QColor color = kcolorbutton->color();
     color.setAlpha(horizontalSlider->value());
     m_frameBorder->setBrush(QBrush(color));
 }
 
-void TitleWidget::textChanged() {
+void TitleWidget::textChanged()
+{
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1 && (l[0])->type() == 8 && !l[0]->hasFocus()) {
         //kDebug() << ktextedit->document()->toHtml();
@@ -522,7 +545,8 @@ void TitleWidget::textChanged() {
     }
 }
 
-void TitleWidget::slotUpdateText() {
+void TitleWidget::slotUpdateText()
+{
     QFont font = font_family->currentFont();
     font.setPixelSize(font_size->value());
     font.setBold(buttonBold->isChecked());
@@ -557,7 +581,8 @@ void TitleWidget::slotUpdateText() {
     }*/
 }
 
-void TitleWidget::rectChanged() {
+void TitleWidget::rectChanged()
+{
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1 && (l[0])->type() == 3 && !settingUp) {
         QGraphicsRectItem *rec = (QGraphicsRectItem*)l[0];
@@ -572,14 +597,16 @@ void TitleWidget::rectChanged() {
     }
 }
 
-void TitleWidget::fontBold() {
+void TitleWidget::fontBold()
+{
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1 && (l[0])->type() == 8 && !l[0]->hasFocus()) {
         //ktextedit->document()->setTextOption();
     }
 }
 
-void TitleWidget::itemScaled(int val) {
+void TitleWidget::itemScaled(int val)
+{
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
         Transform x = transformations[l[0]];
@@ -593,7 +620,8 @@ void TitleWidget::itemScaled(int val) {
     }
 }
 
-void TitleWidget::itemRotate(int val) {
+void TitleWidget::itemRotate(int val)
+{
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
         Transform x = transformations[l[0]];
@@ -606,7 +634,8 @@ void TitleWidget::itemRotate(int val) {
     }
 }
 
-void TitleWidget::itemHCenter() {
+void TitleWidget::itemHCenter()
+{
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
         QGraphicsItem *item = l[0];
@@ -620,7 +649,8 @@ void TitleWidget::itemHCenter() {
     }
 }
 
-void TitleWidget::itemVCenter() {
+void TitleWidget::itemVCenter()
+{
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
         QGraphicsItem *item = l[0];
@@ -634,7 +664,8 @@ void TitleWidget::itemVCenter() {
     }
 }
 
-void TitleWidget::setupViewports() {
+void TitleWidget::setupViewports()
+{
     double aspect_ratio = 4.0 / 3.0;//read from project
 
     QRectF sp(0, 0, 0, 0);
@@ -653,7 +684,8 @@ void TitleWidget::setupViewports() {
 
 }
 
-void TitleWidget::loadTitle() {
+void TitleWidget::loadTitle()
+{
     KUrl url = KFileDialog::getOpenUrl(KUrl(m_projectPath), "*.kdenlivetitle", this, i18n("Load Title"));
     if (!url.isEmpty()) {
         QList<QGraphicsItem *> items = m_scene->items();
@@ -665,7 +697,8 @@ void TitleWidget::loadTitle() {
     }
 }
 
-void TitleWidget::saveTitle(KUrl url) {
+void TitleWidget::saveTitle(KUrl url)
+{
     if (url.isEmpty()) url = KFileDialog::getSaveUrl(KUrl(m_projectPath), "*.kdenlivetitle", this, i18n("Save Title"));
     if (!url.isEmpty()) {
         if (m_titledocument.saveDocument(url, startViewport, endViewport) == false)
@@ -673,11 +706,13 @@ void TitleWidget::saveTitle(KUrl url) {
     }
 }
 
-QDomDocument TitleWidget::xml() {
+QDomDocument TitleWidget::xml()
+{
     return m_titledocument.xml(startViewport, endViewport);
 }
 
-void TitleWidget::setXml(QDomDocument doc) {
+void TitleWidget::setXml(QDomDocument doc)
+{
     m_count = m_titledocument.loadFromXml(doc, startViewport, endViewport);
     // mbd: Update the GUI color selectors to match the stuff from the loaded document
     QColor background_color = m_titledocument.getBackgroundColor();
@@ -692,7 +727,8 @@ void TitleWidget::setXml(QDomDocument doc) {
     slotSelectTool();
 }
 
-QImage TitleWidget::renderedPixmap() {
+QImage TitleWidget::renderedPixmap()
+{
     QImage pix(m_frameWidth, m_frameHeight, QImage::Format_ARGB32);
     pix.fill(Qt::transparent);
     QPainter painter(&pix);
@@ -714,12 +750,14 @@ QImage TitleWidget::renderedPixmap() {
 }
 
 /** \brief Connected to the accepted signal - calls writeChoices */
-void TitleWidget::slotAccepted() {
+void TitleWidget::slotAccepted()
+{
     writeChoices();
 }
 
 /** \brief Store the current choices of font, background and rect values */
-void TitleWidget::writeChoices() {
+void TitleWidget::writeChoices()
+{
     // Get a pointer to a shared configuration instance, then get the TitleWidget group.
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup titleConfig(config, "TitleWidget");
@@ -747,7 +785,8 @@ void TitleWidget::writeChoices() {
 }
 
 /** \brief Read the last stored choices into the dialog */
-void TitleWidget::readChoices() {
+void TitleWidget::readChoices()
+{
     // Get a pointer to a shared configuration instance, then get the TitleWidget group.
     KSharedConfigPtr config = KGlobal::config();
     KConfigGroup titleConfig(config, "TitleWidget");

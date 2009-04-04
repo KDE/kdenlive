@@ -35,7 +35,8 @@ RegionGrabber::RegionGrabber() :
         TLHandle(0, 0, handleSize, handleSize), TRHandle(0, 0, handleSize, handleSize),
         BLHandle(0, 0, handleSize, handleSize), BRHandle(0, 0, handleSize, handleSize),
         LHandle(0, 0, handleSize, handleSize), THandle(0, 0, handleSize, handleSize),
-        RHandle(0, 0, handleSize, handleSize), BHandle(0, 0, handleSize, handleSize) {
+        RHandle(0, 0, handleSize, handleSize), BHandle(0, 0, handleSize, handleSize)
+{
     handles << &TLHandle << &TRHandle << &BLHandle << &BRHandle
     << &LHandle << &THandle << &RHandle << &BHandle;
     setMouseTracking(true);
@@ -46,10 +47,12 @@ RegionGrabber::RegionGrabber() :
     idleTimer.start(3000);
 }
 
-RegionGrabber::~RegionGrabber() {
+RegionGrabber::~RegionGrabber()
+{
 }
 
-void RegionGrabber::init() {
+void RegionGrabber::init()
+{
     pixmap = QPixmap::grabWindow(QApplication::desktop()->winId());
     showFullScreen();
     resize(pixmap.size());
@@ -57,12 +60,14 @@ void RegionGrabber::init() {
     setCursor(Qt::CrossCursor);
 }
 
-void RegionGrabber::displayHelp() {
+void RegionGrabber::displayHelp()
+{
     showHelp = true;
     update();
 }
 
-void RegionGrabber::paintEvent(QPaintEvent* e) {
+void RegionGrabber::paintEvent(QPaintEvent* e)
+{
     Q_UNUSED(e);
     if (grabbing)   // grabWindow() should just get the background
         return;
@@ -152,7 +157,8 @@ void RegionGrabber::paintEvent(QPaintEvent* e) {
     }
 }
 
-void RegionGrabber::resizeEvent(QResizeEvent* e) {
+void RegionGrabber::resizeEvent(QResizeEvent* e)
+{
     Q_UNUSED(e);
     if (selection.isNull())
         return;
@@ -164,7 +170,8 @@ void RegionGrabber::resizeEvent(QResizeEvent* e) {
     selection = r;
 }
 
-void RegionGrabber::mousePressEvent(QMouseEvent* e) {
+void RegionGrabber::mousePressEvent(QMouseEvent* e)
+{
     showHelp = false;
     idleTimer.stop();
     if (e->button() == Qt::LeftButton) {
@@ -186,7 +193,8 @@ void RegionGrabber::mousePressEvent(QMouseEvent* e) {
     update();
 }
 
-void RegionGrabber::mouseMoveEvent(QMouseEvent* e) {
+void RegionGrabber::mouseMoveEvent(QMouseEvent* e)
+{
     if (mouseDown) {
         if (newSelection) {
             QPoint p = e->pos();
@@ -257,7 +265,8 @@ void RegionGrabber::mouseMoveEvent(QMouseEvent* e) {
     }
 }
 
-void RegionGrabber::mouseReleaseEvent(QMouseEvent* e) {
+void RegionGrabber::mouseReleaseEvent(QMouseEvent* e)
+{
     mouseDown = false;
     newSelection = false;
     idleTimer.start();
@@ -266,11 +275,13 @@ void RegionGrabber::mouseReleaseEvent(QMouseEvent* e) {
     update();
 }
 
-void RegionGrabber::mouseDoubleClickEvent(QMouseEvent*) {
+void RegionGrabber::mouseDoubleClickEvent(QMouseEvent*)
+{
     grabRect();
 }
 
-void RegionGrabber::keyPressEvent(QKeyEvent* e) {
+void RegionGrabber::keyPressEvent(QKeyEvent* e)
+{
     if (e->key() == Qt::Key_Escape) {
         emit regionGrabbed(QRect());
         close();
@@ -281,7 +292,8 @@ void RegionGrabber::keyPressEvent(QKeyEvent* e) {
     }
 }
 
-void RegionGrabber::grabRect() {
+void RegionGrabber::grabRect()
+{
     QRect r = selection.normalized();
     if (!r.isNull() && r.isValid()) {
         grabbing = true;
@@ -290,7 +302,8 @@ void RegionGrabber::grabRect() {
     close();
 }
 
-void RegionGrabber::updateHandles() {
+void RegionGrabber::updateHandles()
+{
     QRect r = selection.normalized().adjusted(0, 0, -1, -1);
     int s2 = handleSize / 2;
 
@@ -305,14 +318,16 @@ void RegionGrabber::updateHandles() {
     BHandle.moveBottomLeft(QPoint(r.x() + r.width() / 2 - s2, r.bottom()));
 }
 
-QRegion RegionGrabber::handleMask() const {
+QRegion RegionGrabber::handleMask() const
+{
     // note: not normalized QRects are bad here, since they will not be drawn
     QRegion mask;
     foreach(const QRect* rect, handles) mask += QRegion(*rect);
     return mask;
 }
 
-QPoint RegionGrabber::limitPointToRect(const QPoint &p, const QRect &r) const {
+QPoint RegionGrabber::limitPointToRect(const QPoint &p, const QRect &r) const
+{
     QPoint q;
     q.setX(p.x() < r.x() ? r.x() : p.x() < r.right() ? p.x() : r.right());
     q.setY(p.y() < r.y() ? r.y() : p.y() < r.bottom() ? p.y() : r.bottom());

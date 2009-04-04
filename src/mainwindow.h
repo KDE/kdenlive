@@ -61,7 +61,8 @@ class DocClipBase;
 class Render;
 class Transition;
 
-class MainWindow : public KXmlGuiWindow {
+class MainWindow : public KXmlGuiWindow
+{
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kdenlive.MainWindow")
 

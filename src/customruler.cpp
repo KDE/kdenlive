@@ -53,7 +53,8 @@ static int bigMarkDistance;
 const int CustomRuler::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 725, 1500, 3000, 6000, 12000};
 
 CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
-        : QWidget(parent), m_timecode(tc), m_view(parent), m_duration(0), m_offset(0) {
+        : QWidget(parent), m_timecode(tc), m_view(parent), m_duration(0), m_offset(0)
+{
     setFont(KGlobalSettings::toolBarFont());
     m_scale = 3;
     m_bgColor = QColor(245, 245, 245);
@@ -76,7 +77,8 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
     setMinimumHeight(20);
 }
 
-void CustomRuler::setZone(QPoint p) {
+void CustomRuler::setZone(QPoint p)
+{
     int min = qMin(m_zoneStart, p.x());
     int max = qMax(m_zoneEnd, p.y());
     m_zoneStart = p.x();
@@ -85,7 +87,8 @@ void CustomRuler::setZone(QPoint p) {
 }
 
 // virtual
-void CustomRuler::mousePressEvent(QMouseEvent * event) {
+void CustomRuler::mousePressEvent(QMouseEvent * event)
+{
     if (event->button() == Qt::RightButton) {
         m_contextMenu->exec(event->globalPos());
         return;
@@ -103,7 +106,8 @@ void CustomRuler::mousePressEvent(QMouseEvent * event) {
 }
 
 // virtual
-void CustomRuler::mouseMoveEvent(QMouseEvent * event) {
+void CustomRuler::mouseMoveEvent(QMouseEvent * event)
+{
     if (event->buttons() == Qt::LeftButton) {
         int pos = (int)((event->x() + offset()) / m_factor);
         int zoneStart = m_zoneStart;
@@ -140,38 +144,45 @@ void CustomRuler::mouseMoveEvent(QMouseEvent * event) {
 
 
 // virtual
-void CustomRuler::wheelEvent(QWheelEvent * e) {
+void CustomRuler::wheelEvent(QWheelEvent * e)
+{
     int delta = 1;
     if (e->modifiers() == Qt::ControlModifier) delta = m_timecode.fps();
     if (e->delta() < 0) delta = 0 - delta;
     m_view->moveCursorPos(delta);
 }
 
-int CustomRuler::inPoint() const {
+int CustomRuler::inPoint() const
+{
     return m_zoneStart;
 }
 
-int CustomRuler::outPoint() const {
+int CustomRuler::outPoint() const
+{
     return m_zoneEnd;
 }
 
-void CustomRuler::slotMoveRuler(int newPos) {
+void CustomRuler::slotMoveRuler(int newPos)
+{
     m_offset = newPos;
     update();
 }
 
-int CustomRuler::offset() const {
+int CustomRuler::offset() const
+{
     return m_offset;
 }
 
-void CustomRuler::slotCursorMoved(int oldpos, int newpos) {
+void CustomRuler::slotCursorMoved(int oldpos, int newpos)
+{
     if (qAbs(oldpos - newpos) * m_factor > 40) {
         update(oldpos * m_factor - offset() - 6, 7, 17, 16);
         update(newpos * m_factor - offset() - 6, 7, 17, 16);
     } else update(qMin(oldpos, newpos) * m_factor - offset() - 6, 7, qAbs(oldpos - newpos) * m_factor + 17, 16);
 }
 
-void CustomRuler::setPixelPerMark(double rate) {
+void CustomRuler::setPixelPerMark(double rate)
+{
     int scale = comboScale[(int) rate];
     m_factor = 1.0 / (double) scale * FRAME_SIZE;
     m_scale = 1.0 / (double) scale;
@@ -213,14 +224,16 @@ void CustomRuler::setPixelPerMark(double rate) {
     update();
 }
 
-void CustomRuler::setDuration(int d) {
+void CustomRuler::setDuration(int d)
+{
     int oldduration = m_duration;
     m_duration = d;
     update(qMin(oldduration, m_duration) * m_factor - 1 - offset(), 0, qAbs(oldduration - m_duration) * m_factor + 2, height());
 }
 
 // virtual
-void CustomRuler::paintEvent(QPaintEvent *e) {
+void CustomRuler::paintEvent(QPaintEvent *e)
+{
     QStylePainter p(this);
     p.setClipRect(e->rect());
 

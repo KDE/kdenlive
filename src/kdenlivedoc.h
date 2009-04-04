@@ -45,7 +45,8 @@ class DocClipBase;
 class MainWindow;
 class TrackInfo;
 
-class KdenliveDoc: public QObject {
+class KdenliveDoc: public QObject
+{
 Q_OBJECT public:
 
     KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QPoint tracks, Render *render, MainWindow *parent = 0);

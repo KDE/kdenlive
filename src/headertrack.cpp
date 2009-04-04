@@ -31,7 +31,8 @@
 #include <QAction>
 
 HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent)
-        : QWidget(parent), m_index(index), m_type(info.type) {
+        : QWidget(parent), m_index(index), m_type(info.type)
+{
     setFixedHeight(KdenliveSettings::trackheight());
     view.setupUi(this);
     view.track_number->setText(QString::number(m_index));
@@ -75,11 +76,13 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent)
     connect(changeAction, SIGNAL(triggered()), this, SLOT(slotChangeTrack()));
 }
 
-HeaderTrack::~HeaderTrack() {
+HeaderTrack::~HeaderTrack()
+{
     if (m_contextMenu) delete m_contextMenu;
 }
 
-void HeaderTrack::switchVideo() {
+void HeaderTrack::switchVideo()
+{
     if (view.buttonVideo->isChecked()) {
         view.buttonVideo->setIcon(KIcon("kdenlive-show-video"));
     } else {
@@ -88,7 +91,8 @@ void HeaderTrack::switchVideo() {
     emit switchTrackVideo(m_index);
 }
 
-void HeaderTrack::switchAudio() {
+void HeaderTrack::switchAudio()
+{
     if (view.buttonAudio->isChecked()) {
         view.buttonAudio->setIcon(KIcon("kdenlive-show-audio"));
     } else {
@@ -97,7 +101,8 @@ void HeaderTrack::switchAudio() {
     emit switchTrackAudio(m_index);
 }
 
-void HeaderTrack::switchLock(bool emitSignal) {
+void HeaderTrack::switchLock(bool emitSignal)
+{
     if (view.buttonLock->isChecked()) {
         view.buttonLock->setIcon(KIcon("kdenlive-lock"));
     } else {
@@ -107,25 +112,30 @@ void HeaderTrack::switchLock(bool emitSignal) {
 }
 
 
-void HeaderTrack::setLock(bool lock) {
+void HeaderTrack::setLock(bool lock)
+{
     view.buttonLock->setChecked(lock);
     switchLock(false);
 }
 
-void HeaderTrack::slotDeleteTrack() {
+void HeaderTrack::slotDeleteTrack()
+{
     emit deleteTrack(m_index);
 }
 
-void HeaderTrack::slotAddTrack() {
+void HeaderTrack::slotAddTrack()
+{
     emit insertTrack(m_index);
 }
 
-void HeaderTrack::slotChangeTrack() {
+void HeaderTrack::slotChangeTrack()
+{
     emit changeTrack(m_index);
 }
 
 // virtual
-void HeaderTrack::contextMenuEvent(QContextMenuEvent * event) {
+void HeaderTrack::contextMenuEvent(QContextMenuEvent * event)
+{
     m_contextMenu->popup(event->globalPos());
 }
 

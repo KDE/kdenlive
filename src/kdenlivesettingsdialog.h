@@ -33,7 +33,8 @@
 #include "ui_configjogshuttle_ui.h"
 #include "ui_configsdl_ui.h"
 
-class KdenliveSettingsDialog : public KConfigDialog {
+class KdenliveSettingsDialog : public KConfigDialog
+{
     Q_OBJECT
 
 public:

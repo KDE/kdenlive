@@ -29,7 +29,8 @@
 
 typedef struct input_event EV;
 
-class ShuttleThread : public QThread {
+class ShuttleThread : public QThread
+{
 
 public:
     virtual void run();
@@ -51,7 +52,8 @@ private:
 };
 
 
-class JogShuttle: public QObject {
+class JogShuttle: public QObject
+{
 Q_OBJECT public:
     explicit JogShuttle(QString device, QObject * parent = 0);
     ~JogShuttle();

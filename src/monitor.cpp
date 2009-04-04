@@ -41,7 +41,8 @@
 
 
 Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
-        : QWidget(parent), render(NULL), m_monitorManager(manager), m_name(name), m_isActive(false), m_currentClip(NULL), m_dragStarted(false), m_overlay(NULL) {
+        : QWidget(parent), render(NULL), m_monitorManager(manager), m_name(name), m_isActive(false), m_currentClip(NULL), m_dragStarted(false), m_overlay(NULL)
+{
     ui.setupUi(this);
     m_scale = 1;
     m_ruler = new SmallRuler();
@@ -132,18 +133,21 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
     kDebug() << "/////// BUILDING MONITOR, ID: " << ui.video_frame->winId();
 }
 
-Monitor::~Monitor() {
+Monitor::~Monitor()
+{
     delete m_ruler;
     delete m_timePos;
     if (m_overlay) delete m_overlay;
     delete m_monitorRefresh;
 }
 
-QString Monitor::name() const {
+QString Monitor::name() const
+{
     return m_name;
 }
 
-void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu) {
+void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu)
+{
     m_contextMenu = new QMenu(this);
     m_contextMenu->addMenu(m_playMenu);
     m_contextMenu->addMenu(goMenu);
@@ -175,7 +179,8 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
 
 }
 
-void Monitor::slotSetSizeOneToOne() {
+void Monitor::slotSetSizeOneToOne()
+{
     QRect r = QApplication::desktop()->screenGeometry();
     const int maxWidth = r.width() - 20;
     const int maxHeight = r.height() - 20;
@@ -194,7 +199,8 @@ void Monitor::slotSetSizeOneToOne() {
     emit adjustMonitorSize();
 }
 
-void Monitor::slotSetSizeOneToTwo() {
+void Monitor::slotSetSizeOneToTwo()
+{
     QRect r = QApplication::desktop()->screenGeometry();
     const int maxWidth = r.width() - 20;
     const int maxHeight = r.height() - 20;
@@ -213,27 +219,33 @@ void Monitor::slotSetSizeOneToTwo() {
     emit adjustMonitorSize();
 }
 
-void Monitor::resetSize() {
+void Monitor::resetSize()
+{
     ui.video_frame->setMinimumSize(0, 0);
 }
 
-DocClipBase *Monitor::activeClip() {
+DocClipBase *Monitor::activeClip()
+{
     return m_currentClip;
 }
 
-void Monitor::slotSeekToPreviousSnap() {
+void Monitor::slotSeekToPreviousSnap()
+{
     if (m_currentClip) slotSeek(getSnapForPos(true).frames(m_monitorManager->timecode().fps()));
 }
 
-void Monitor::slotSeekToNextSnap() {
+void Monitor::slotSeekToNextSnap()
+{
     if (m_currentClip) slotSeek(getSnapForPos(false).frames(m_monitorManager->timecode().fps()));
 }
 
-GenTime Monitor::position() {
+GenTime Monitor::position()
+{
     return GenTime(m_position, m_monitorManager->timecode().fps());
 }
 
-GenTime Monitor::getSnapForPos(bool previous) {
+GenTime Monitor::getSnapForPos(bool previous)
+{
     QList <GenTime> snaps;
     QList < GenTime > markers = m_currentClip->snapMarkers();
     for (int i = 0; i < markers.size(); ++i) {
@@ -261,20 +273,23 @@ GenTime Monitor::getSnapForPos(bool previous) {
 
 
 
-void Monitor::slotZoneMoved(int start, int end) {
+void Monitor::slotZoneMoved(int start, int end)
+{
     m_ruler->setZone(start, end);
     checkOverlay();
     setClipZone(m_ruler->zone());
 }
 
-void Monitor::slotSetZoneStart() {
+void Monitor::slotSetZoneStart()
+{
     m_ruler->setZone(m_position, -1);
     emit zoneUpdated(m_ruler->zone());
     checkOverlay();
     setClipZone(m_ruler->zone());
 }
 
-void Monitor::slotSetZoneEnd() {
+void Monitor::slotSetZoneEnd()
+{
     m_ruler->setZone(-1, m_position);
     emit zoneUpdated(m_ruler->zone());
     checkOverlay();
@@ -282,7 +297,8 @@ void Monitor::slotSetZoneEnd() {
 }
 
 // virtual
-void Monitor::mousePressEvent(QMouseEvent * event) {
+void Monitor::mousePressEvent(QMouseEvent * event)
+{
     if (event->button() != Qt::RightButton) {
         if (ui.video_frame->underMouse()) {
             m_dragStarted = true;
@@ -292,7 +308,8 @@ void Monitor::mousePressEvent(QMouseEvent * event) {
 }
 
 // virtual
-void Monitor::mouseReleaseEvent(QMouseEvent * event) {
+void Monitor::mouseReleaseEvent(QMouseEvent * event)
+{
     if (m_dragStarted) {
         if (ui.video_frame->underMouse()) {
             slotPlay();
@@ -303,7 +320,8 @@ void Monitor::mouseReleaseEvent(QMouseEvent * event) {
 
 
 // virtual
-void Monitor::mouseMoveEvent(QMouseEvent *event) {
+void Monitor::mouseMoveEvent(QMouseEvent *event)
+{
     // kDebug() << "// DRAG STARTED, MOUSE MOVED: ";
     if (!m_dragStarted || m_currentClip == NULL) return;
 
@@ -352,7 +370,8 @@ Qt::DropActions Monitor::supportedDropActions() const {
     return Qt::MoveAction;
 }*/
 
-QStringList Monitor::mimeTypes() const {
+QStringList Monitor::mimeTypes() const
+{
     QStringList qstrList;
     // list of accepted mime types for drop
     qstrList.append("kdenlive/clip");
@@ -369,7 +388,8 @@ QStringList Monitor::mimeTypes() const {
  * Ctrl+wheel moves single frame, without Ctrl moves a second.
  *
  * See also http://www.kdenlive.org/mantis/view.php?id=265 */
-void Monitor::wheelEvent(QWheelEvent * event) {
+void Monitor::wheelEvent(QWheelEvent * event)
+{
     if (event->modifiers() == Qt::ControlModifier) {
         int delta = m_monitorManager->timecode().fps();
         if (event->delta() < 0) delta = 0 - delta;
@@ -380,7 +400,8 @@ void Monitor::wheelEvent(QWheelEvent * event) {
     }
 }
 
-void Monitor::slotSetThumbFrame() {
+void Monitor::slotSetThumbFrame()
+{
     if (m_currentClip == NULL) {
         return;
     }
@@ -388,7 +409,8 @@ void Monitor::slotSetThumbFrame() {
     emit refreshClipThumbnail(m_currentClip->getId());
 }
 
-void Monitor::slotExtractCurrentFrame() {
+void Monitor::slotExtractCurrentFrame()
+{
     QPixmap frame = render->extractFrame(m_position);
     QString outputFile = KFileDialog::getSaveFileName(KUrl(), "image/png");
     if (!outputFile.isEmpty()) {
@@ -397,20 +419,24 @@ void Monitor::slotExtractCurrentFrame() {
     }
 }
 
-bool Monitor::isActive() const {
+bool Monitor::isActive() const
+{
     return m_isActive;
 }
 
-void Monitor::activateMonitor() {
+void Monitor::activateMonitor()
+{
     if (!m_isActive) m_monitorManager->switchMonitors(); //m_monitorManager->activateMonitor(m_name);
 }
 
-void Monitor::slotSeek() {
+void Monitor::slotSeek()
+{
     const int frames = m_monitorManager->timecode().getFrameCount(m_timePos->text(), m_monitorManager->timecode().fps());
     slotSeek(frames);
 }
 
-void Monitor::slotSeek(int pos) {
+void Monitor::slotSeek(int pos)
+{
     activateMonitor();
     if (render == NULL) return;
     m_position = pos;
@@ -420,7 +446,8 @@ void Monitor::slotSeek(int pos) {
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 
-void Monitor::checkOverlay() {
+void Monitor::checkOverlay()
+{
     if (m_overlay == NULL) return;
     QPoint zone = m_ruler->zone();
     if (m_position == zone.x()) m_overlay->setOverlayText(i18n("In Point"));
@@ -434,7 +461,8 @@ void Monitor::checkOverlay() {
     }
 }
 
-void Monitor::slotStart() {
+void Monitor::slotStart()
+{
     activateMonitor();
     render->play(0);
     m_position = 0;
@@ -443,7 +471,8 @@ void Monitor::slotStart() {
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 
-void Monitor::slotEnd() {
+void Monitor::slotEnd()
+{
     activateMonitor();
     render->play(0);
     m_position = render->getLength();
@@ -452,7 +481,8 @@ void Monitor::slotEnd() {
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 
-void Monitor::slotZoneStart() {
+void Monitor::slotZoneStart()
+{
     activateMonitor();
     render->play(0);
     m_position = m_ruler->zone().x();
@@ -461,7 +491,8 @@ void Monitor::slotZoneStart() {
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 
-void Monitor::slotZoneEnd() {
+void Monitor::slotZoneEnd()
+{
     activateMonitor();
     render->play(0);
     m_position = m_ruler->zone().y();
@@ -470,7 +501,8 @@ void Monitor::slotZoneEnd() {
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 
-void Monitor::slotRewind(double speed) {
+void Monitor::slotRewind(double speed)
+{
     activateMonitor();
     if (speed == 0) {
         double currentspeed = render->playSpeed();
@@ -481,7 +513,8 @@ void Monitor::slotRewind(double speed) {
     m_playAction->setIcon(m_pauseIcon);
 }
 
-void Monitor::slotForward(double speed) {
+void Monitor::slotForward(double speed)
+{
     activateMonitor();
     if (speed == 0) {
         double currentspeed = render->playSpeed();
@@ -492,7 +525,8 @@ void Monitor::slotForward(double speed) {
     m_playAction->setIcon(m_pauseIcon);
 }
 
-void Monitor::slotRewindOneFrame(int diff) {
+void Monitor::slotRewindOneFrame(int diff)
+{
     activateMonitor();
     render->play(0);
     if (m_position < 1) return;
@@ -504,7 +538,8 @@ void Monitor::slotRewindOneFrame(int diff) {
     checkOverlay();
 }
 
-void Monitor::slotForwardOneFrame(int diff) {
+void Monitor::slotForwardOneFrame(int diff)
+{
     activateMonitor();
     render->play(0);
     if (m_position >= m_length) return;
@@ -516,7 +551,8 @@ void Monitor::slotForwardOneFrame(int diff) {
     checkOverlay();
 }
 
-void Monitor::seekCursor(int pos) {
+void Monitor::seekCursor(int pos)
+{
     activateMonitor();
     checkOverlay();
     m_position = pos;
@@ -524,7 +560,8 @@ void Monitor::seekCursor(int pos) {
     m_ruler->slotNewValue(pos);
 }
 
-void Monitor::rendererStopped(int pos) {
+void Monitor::rendererStopped(int pos)
+{
     //int rulerPos = (int)(pos * m_scale);
     m_ruler->slotNewValue(pos);
     m_position = pos;
@@ -534,7 +571,8 @@ void Monitor::rendererStopped(int pos) {
     m_playAction->setIcon(m_playIcon);
 }
 
-void Monitor::initMonitor() {
+void Monitor::initMonitor()
+{
     kDebug() << "/////// INITING MONITOR, ID: " << ui.video_frame->winId();
 }
 
@@ -546,7 +584,8 @@ void Monitor::initMonitor() {
     //
 }*/
 
-void Monitor::adjustRulerSize(int length) {
+void Monitor::adjustRulerSize(int length)
+{
     if (length > 0) m_length = length;
     m_ruler->adjustScale(m_length);
     if (m_currentClip != NULL) {
@@ -555,26 +594,30 @@ void Monitor::adjustRulerSize(int length) {
     }
 }
 
-void Monitor::stop() {
+void Monitor::stop()
+{
     m_isActive = false;
     if (render) render->stop();
     //kDebug()<<"/// MONITOR RENDER STOP";
 }
 
-void Monitor::start() {
+void Monitor::start()
+{
     m_isActive = true;
     if (render) render->start();
     //kDebug()<<"/// MONITOR RENDER START";
 }
 
-void Monitor::refreshMonitor(bool visible) {
+void Monitor::refreshMonitor(bool visible)
+{
     if (visible && render) {
         activateMonitor();
         render->doRefresh(); //askForRefresh();
     }
 }
 
-void Monitor::pause() {
+void Monitor::pause()
+{
     if (render == NULL) return;
     activateMonitor();
     render->pause();
@@ -582,7 +625,8 @@ void Monitor::pause() {
     //m_playAction->setIcon(m_pauseIcon);
 }
 
-void Monitor::slotPlay() {
+void Monitor::slotPlay()
+{
     if (render == NULL) return;
     activateMonitor();
     if (render->playSpeed() == 0) {
@@ -595,7 +639,8 @@ void Monitor::slotPlay() {
     render->switchPlay();
 }
 
-void Monitor::slotPlayZone() {
+void Monitor::slotPlayZone()
+{
     if (render == NULL) return;
     activateMonitor();
     QPoint p = m_ruler->zone();
@@ -604,7 +649,8 @@ void Monitor::slotPlayZone() {
     m_playAction->setIcon(m_pauseIcon);
 }
 
-void Monitor::slotLoopZone() {
+void Monitor::slotLoopZone()
+{
     if (render == NULL) return;
     activateMonitor();
     QPoint p = m_ruler->zone();
@@ -613,7 +659,8 @@ void Monitor::slotLoopZone() {
     m_playAction->setIcon(m_pauseIcon);
 }
 
-void Monitor::slotSetXml(DocClipBase *clip, const int position) {
+void Monitor::slotSetXml(DocClipBase *clip, const int position)
+{
     if (render == NULL) return;
     activateMonitor();
     if (!clip && m_currentClip != NULL) {
@@ -628,7 +675,8 @@ void Monitor::slotSetXml(DocClipBase *clip, const int position) {
     } else if (position != -1) render->seek(GenTime(position, render->fps()));
 }
 
-void Monitor::slotOpenFile(const QString &file) {
+void Monitor::slotOpenFile(const QString &file)
+{
     if (render == NULL) return;
     activateMonitor();
     QDomDocument doc;
@@ -641,7 +689,8 @@ void Monitor::slotOpenFile(const QString &file) {
     render->setSceneList(doc, 0);
 }
 
-void Monitor::slotSaveZone() {
+void Monitor::slotSaveZone()
+{
     if (render == NULL) return;
     emit saveZone(render, m_ruler->zone());
 
@@ -649,28 +698,33 @@ void Monitor::slotSaveZone() {
 }
 
 
-void Monitor::resetProfile() {
+void Monitor::resetProfile()
+{
     if (render == NULL) return;
     render->resetProfile();
 }
 
-void Monitor::saveSceneList(QString path, QDomElement info) {
+void Monitor::saveSceneList(QString path, QDomElement info)
+{
     if (render == NULL) return;
     render->saveSceneList(path, info);
 }
 
-const QString Monitor::sceneList() {
+const QString Monitor::sceneList()
+{
     if (render == NULL) return QString();
     return render->sceneList();
 }
 
 
-void Monitor::setClipZone(QPoint pos) {
+void Monitor::setClipZone(QPoint pos)
+{
     if (m_currentClip == NULL) return;
     m_currentClip->setZone(pos);
 }
 
-void Monitor::slotSwitchMonitorInfo(bool show) {
+void Monitor::slotSwitchMonitorInfo(bool show)
+{
     KdenliveSettings::setDisplayMonitorInfo(show);
     if (show) {
         if (m_overlay) return;
@@ -683,28 +737,33 @@ void Monitor::slotSwitchMonitorInfo(bool show) {
     }
 }
 
-MonitorRefresh::MonitorRefresh(QWidget* parent): QWidget(parent), m_renderer(NULL) {
+MonitorRefresh::MonitorRefresh(QWidget* parent): QWidget(parent), m_renderer(NULL)
+{
     setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_OpaquePaintEvent); //setAttribute(Qt::WA_NoSystemBackground);
 }
 
-void MonitorRefresh::setRenderer(Render* render) {
+void MonitorRefresh::setRenderer(Render* render)
+{
     m_renderer = render;
 }
 
-void MonitorRefresh::paintEvent(QPaintEvent * /*event*/) {
+void MonitorRefresh::paintEvent(QPaintEvent * /*event*/)
+{
     if (m_renderer) m_renderer->doRefresh();
 }
 
 
-Overlay::Overlay(QWidget* parent): QLabel(parent) {
+Overlay::Overlay(QWidget* parent): QLabel(parent)
+{
     setAttribute(Qt::WA_TransparentForMouseEvents);
     setAttribute(Qt::WA_OpaquePaintEvent);
     //setAttribute(Qt::WA_NoSystemBackground);
     setAutoFillBackground(false);
 }
 
-void Overlay::paintEvent(QPaintEvent * /*event*/) {
+void Overlay::paintEvent(QPaintEvent * /*event*/)
+{
     QPainter painter(this);
     QColor col;
     painter.setPen(Qt::white);
@@ -716,7 +775,8 @@ void Overlay::paintEvent(QPaintEvent * /*event*/) {
 
 
 
-void Overlay::setOverlayText(const QString &text, bool isZone) {
+void Overlay::setOverlayText(const QString &text, bool isZone)
+{
     setHidden(true);
     m_isZone = isZone;
     setText(' ' + text + ' ');

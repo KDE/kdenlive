@@ -34,7 +34,8 @@
 #include "ui_wizardcheck_ui.h"
 #include "ui_wizardmltcheck_ui.h"
 
-class WizardDelegate: public QItemDelegate {
+class WizardDelegate: public QItemDelegate
+{
 public:
     WizardDelegate(QAbstractItemView* parent = 0): QItemDelegate(parent) {
     }
@@ -70,7 +71,8 @@ public:
 };
 
 
-class Wizard : public QWizard {
+class Wizard : public QWizard
+{
     Q_OBJECT
 public:
     Wizard(bool upgrade, QWidget * parent = 0);

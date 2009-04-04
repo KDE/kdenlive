@@ -29,7 +29,8 @@
 
 class CustomTrackView;
 
-class Guide : public QGraphicsLineItem {
+class Guide : public QGraphicsLineItem
+{
 
 public:
     Guide(CustomTrackView *view, GenTime pos, QString label, double fps, double height);

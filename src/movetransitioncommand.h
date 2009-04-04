@@ -28,7 +28,8 @@
 
 class CustomTrackView;
 
-class MoveTransitionCommand : public QUndoCommand {
+class MoveTransitionCommand : public QUndoCommand
+{
 public:
     MoveTransitionCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, QUndoCommand * parent = 0);
     virtual void undo();

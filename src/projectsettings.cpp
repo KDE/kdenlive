@@ -26,7 +26,8 @@
 
 #include <QDir>
 
-ProjectSettings::ProjectSettings(int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, QWidget * parent): QDialog(parent), m_isCustomProfile(false) {
+ProjectSettings::ProjectSettings(int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, QWidget * parent): QDialog(parent), m_isCustomProfile(false)
+{
     m_view.setupUi(this);
 
     QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
@@ -62,7 +63,8 @@ ProjectSettings::ProjectSettings(int videotracks, int audiotracks, const QString
 }
 
 
-void ProjectSettings::slotUpdateDisplay() {
+void ProjectSettings::slotUpdateDisplay()
+{
     QString currentProfile = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
     QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(currentProfile);
     m_view.p_size->setText(values.value("width") + 'x' + values.value("height"));
@@ -73,31 +75,37 @@ void ProjectSettings::slotUpdateDisplay() {
     else m_view.p_progressive->setText(i18n("Progressive"));
 }
 
-void ProjectSettings::slotUpdateButton(const QString &path) {
+void ProjectSettings::slotUpdateButton(const QString &path)
+{
     if (path.isEmpty()) buttonOk->setEnabled(false);
     else buttonOk->setEnabled(true);
 }
 
-QString ProjectSettings::selectedProfile() const {
+QString ProjectSettings::selectedProfile() const
+{
     return m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
 }
 
-KUrl ProjectSettings::selectedFolder() const {
+KUrl ProjectSettings::selectedFolder() const
+{
     return m_view.project_folder->url();
 }
 
-QPoint ProjectSettings::tracks() {
+QPoint ProjectSettings::tracks()
+{
     QPoint p;
     p.setX(m_view.video_tracks->value());
     p.setY(m_view.audio_tracks->value());
     return p;
 }
 
-bool ProjectSettings::enableVideoThumbs() const {
+bool ProjectSettings::enableVideoThumbs() const
+{
     return m_view.video_thumbs->isChecked();
 }
 
-bool ProjectSettings::enableAudioThumbs() const {
+bool ProjectSettings::enableAudioThumbs() const
+{
     return m_view.audio_thumbs->isChecked();
 }
 

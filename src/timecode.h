@@ -26,7 +26,8 @@ Handles the conversion of a GenTime into a nicely formatted string, taking into 
 
 @author Jason Wood
 */
-class Timecode {
+class Timecode
+{
 public:
     enum Formats { HH_MM_SS_FF, HH_MM_SS_HH, Frames, Seconds };
 

@@ -34,7 +34,8 @@
 
 
 EffectStackView::EffectStackView(QWidget *parent)
-        : QWidget(parent) {
+        : QWidget(parent)
+{
     ui.setupUi(this);
     effectedit = new EffectStackEdit(ui.frame);
     //ui.effectlist->horizontalHeader()->setVisible(false);
@@ -74,15 +75,18 @@ EffectStackView::EffectStackView(QWidget *parent)
     setEnabled(false);
 }
 
-void EffectStackView::setMenu(QMenu *menu) {
+void EffectStackView::setMenu(QMenu *menu)
+{
     ui.buttonNew->setMenu(menu);
 }
 
-void EffectStackView::updateProjectFormat(MltVideoProfile profile, Timecode t) {
+void EffectStackView::updateProjectFormat(MltVideoProfile profile, Timecode t)
+{
     effectedit->updateProjectFormat(profile, t);
 }
 
-void EffectStackView::slotSaveEffect() {
+void EffectStackView::slotSaveEffect()
+{
     QString name = QInputDialog::getText(this, i18n("Save Effect"), i18n("Name for saved effect: "));
     if (name.isEmpty()) return;
     QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
@@ -117,12 +121,14 @@ void EffectStackView::slotSaveEffect() {
     emit reloadEffects();
 }
 
-void EffectStackView::slotUpdateEffectParams(const QDomElement& old, const QDomElement& e) {
+void EffectStackView::slotUpdateEffectParams(const QDomElement& old, const QDomElement& e)
+{
     if (clipref)
         emit updateClipEffect(clipref, old, e, ui.effectlist->currentRow());
 }
 
-void EffectStackView::slotClipItemSelected(ClipItem* c, int ix) {
+void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
+{
     if (c && c == clipref) {
         if (ix == -1) ix = ui.effectlist->currentRow();
     } else {
@@ -140,7 +146,8 @@ void EffectStackView::slotClipItemSelected(ClipItem* c, int ix) {
     setupListView(ix);
 }
 
-void EffectStackView::slotItemChanged(QListWidgetItem *item) {
+void EffectStackView::slotItemChanged(QListWidgetItem *item)
+{
     bool disable = true;
     if (item->checkState() == Qt::Checked) disable = false;
     ui.buttonReset->setEnabled(!disable);
@@ -151,7 +158,8 @@ void EffectStackView::slotItemChanged(QListWidgetItem *item) {
 }
 
 
-void EffectStackView::setupListView(int ix) {
+void EffectStackView::setupListView(int ix)
+{
     ui.effectlist->clear();
 
     // Issue 238: Add icons for effect type in effectstack.
@@ -198,7 +206,8 @@ void EffectStackView::setupListView(int ix) {
     }
 }
 
-void EffectStackView::slotItemSelectionChanged() {
+void EffectStackView::slotItemSelectionChanged()
+{
     bool hasItem = ui.effectlist->currentItem();
     int activeRow = ui.effectlist->currentRow();
     bool isChecked = false;
@@ -214,26 +223,30 @@ void EffectStackView::slotItemSelectionChanged() {
     ui.buttonDown->setEnabled((activeRow < ui.effectlist->count() - 1) && hasItem);
 }
 
-void EffectStackView::slotItemUp() {
+void EffectStackView::slotItemUp()
+{
     int activeRow = ui.effectlist->currentRow();
     if (activeRow <= 0) return;
     emit changeEffectPosition(clipref, activeRow + 1, activeRow);
 }
 
-void EffectStackView::slotItemDown() {
+void EffectStackView::slotItemDown()
+{
     int activeRow = ui.effectlist->currentRow();
     if (activeRow >= ui.effectlist->count() - 1) return;
     emit changeEffectPosition(clipref, activeRow + 1, activeRow + 2);
 }
 
-void EffectStackView::slotItemDel() {
+void EffectStackView::slotItemDel()
+{
     int activeRow = ui.effectlist->currentRow();
     if (activeRow >= 0) {
         emit removeEffect(clipref, clipref->effectAt(activeRow));
     }
 }
 
-void EffectStackView::slotResetEffect() {
+void EffectStackView::slotResetEffect()
+{
     int activeRow = ui.effectlist->currentRow();
     if (activeRow < 0) return;
     QDomElement old = clipref->effectAt(activeRow).cloneNode().toElement();
@@ -254,12 +267,14 @@ void EffectStackView::slotResetEffect() {
 }
 
 
-void EffectStackView::raiseWindow(QWidget* dock) {
+void EffectStackView::raiseWindow(QWidget* dock)
+{
     if (clipref && dock)
         dock->raise();
 }
 
-void EffectStackView::clear() {
+void EffectStackView::clear()
+{
     ui.effectlist->clear();
     ui.buttonDel->setEnabled(false);
     ui.buttonSave->setEnabled(false);

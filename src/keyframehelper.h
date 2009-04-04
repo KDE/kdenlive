@@ -27,7 +27,8 @@
 
 #include "timecode.h"
 
-class KeyframeHelper : public QWidget {
+class KeyframeHelper : public QWidget
+{
     Q_OBJECT
 
 public:

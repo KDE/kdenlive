@@ -48,7 +48,8 @@ const int EditableRole = GroupRole + 5;
 const int MetaGroupRole = GroupRole + 6;
 const int ExtraRole = GroupRole + 7;
 
-RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent): QDialog(parent), m_projectFolder(projectfolder) {
+RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent): QDialog(parent), m_projectFolder(projectfolder)
+{
     m_view.setupUi(this);
     setWindowTitle(i18n("Rendering"));
     m_view.buttonDelete->setIcon(KIcon("trash-empty"));
@@ -158,13 +159,15 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent): QDia
     focusFirstVisibleItem();
 }
 
-void RenderWidget::slotEditItem(QListWidgetItem *item) {
+void RenderWidget::slotEditItem(QListWidgetItem *item)
+{
     QString edit = item->data(EditableRole).toString();
     if (edit.isEmpty() || !edit.endsWith("customprofiles.xml")) slotSaveProfile();
     else slotEditProfile();
 }
 
-void RenderWidget::showInfoPanel() {
+void RenderWidget::showInfoPanel()
+{
     if (m_view.advanced_params->isVisible()) {
         m_view.advanced_params->setVisible(false);
         m_view.buttonInfo->setDown(false);
@@ -176,28 +179,33 @@ void RenderWidget::showInfoPanel() {
     }
 }
 
-void RenderWidget::setDocumentPath(const QString path) {
+void RenderWidget::setDocumentPath(const QString path)
+{
     m_projectFolder = path;
     const QString fileName = m_view.out_file->url().fileName();
     m_view.out_file->setUrl(KUrl(m_projectFolder + '/' + fileName));
     parseScriptFiles();
 }
 
-void RenderWidget::slotUpdateGuideBox() {
+void RenderWidget::slotUpdateGuideBox()
+{
     m_view.guides_box->setVisible(m_view.render_guide->isChecked());
 }
 
-void RenderWidget::slotCheckStartGuidePosition() {
+void RenderWidget::slotCheckStartGuidePosition()
+{
     if (m_view.guide_start->currentIndex() > m_view.guide_end->currentIndex())
         m_view.guide_start->setCurrentIndex(m_view.guide_end->currentIndex());
 }
 
-void RenderWidget::slotCheckEndGuidePosition() {
+void RenderWidget::slotCheckEndGuidePosition()
+{
     if (m_view.guide_end->currentIndex() < m_view.guide_start->currentIndex())
         m_view.guide_end->setCurrentIndex(m_view.guide_start->currentIndex());
 }
 
-void RenderWidget::setGuides(QDomElement guidesxml, double duration) {
+void RenderWidget::setGuides(QDomElement guidesxml, double duration)
+{
     m_view.guide_start->clear();
     m_view.guide_end->clear();
     QDomNodeList nodes = guidesxml.elementsByTagName("guide");
@@ -218,7 +226,8 @@ void RenderWidget::setGuides(QDomElement guidesxml, double duration) {
 
 // Will be called when the user selects an output file via the file dialog.
 // File extension will be added automatically.
-void RenderWidget::slotUpdateButtons(KUrl url) {
+void RenderWidget::slotUpdateButtons(KUrl url)
+{
     if (m_view.out_file->url().isEmpty()) m_view.buttonStart->setEnabled(false);
     else m_view.buttonStart->setEnabled(true);
     if (url != 0) {
@@ -231,12 +240,14 @@ void RenderWidget::slotUpdateButtons(KUrl url) {
 
 // Will be called when the user changes the output file path in the text line.
 // File extension must NOT be added, would make editing impossible!
-void RenderWidget::slotUpdateButtons() {
+void RenderWidget::slotUpdateButtons()
+{
     if (m_view.out_file->url().isEmpty()) m_view.buttonStart->setEnabled(false);
     else m_view.buttonStart->setEnabled(true);
 }
 
-void RenderWidget::slotSaveProfile() {
+void RenderWidget::slotSaveProfile()
+{
     //TODO: update to correctly use metagroups
     Ui::SaveProfile_UI ui;
     QDialog *d = new QDialog(this);
@@ -329,7 +340,8 @@ void RenderWidget::slotSaveProfile() {
     delete d;
 }
 
-void RenderWidget::slotEditProfile() {
+void RenderWidget::slotEditProfile()
+{
     QListWidgetItem *item = m_view.size_list->currentItem();
     if (!item) return;
     QString currentGroup = m_view.format_list->currentItem()->text();
@@ -432,7 +444,8 @@ void RenderWidget::slotEditProfile() {
     } else delete d;
 }
 
-void RenderWidget::slotDeleteProfile(bool refresh) {
+void RenderWidget::slotDeleteProfile(bool refresh)
+{
     //TODO: delete a profile installed by KNewStuff the easy way
     /*
     QString edit = m_view.size_list->currentItem()->data(EditableRole).toString();
@@ -493,7 +506,8 @@ void RenderWidget::slotDeleteProfile(bool refresh) {
     }
 }
 
-void RenderWidget::updateButtons() {
+void RenderWidget::updateButtons()
+{
     if (!m_view.size_list->currentItem() || m_view.size_list->currentItem()->isHidden()) {
         m_view.buttonSave->setEnabled(false);
         m_view.buttonDelete->setEnabled(false);
@@ -514,7 +528,8 @@ void RenderWidget::updateButtons() {
 }
 
 
-void RenderWidget::focusFirstVisibleItem() {
+void RenderWidget::focusFirstVisibleItem()
+{
     if (m_view.size_list->currentItem() && !m_view.size_list->currentItem()->isHidden()) {
         updateButtons();
         return;
@@ -530,7 +545,8 @@ void RenderWidget::focusFirstVisibleItem() {
     updateButtons();
 }
 
-void RenderWidget::slotExport(bool scriptExport) {
+void RenderWidget::slotExport(bool scriptExport)
+{
     QListWidgetItem *item = m_view.size_list->currentItem();
     if (!item) return;
 
@@ -648,7 +664,8 @@ void RenderWidget::slotExport(bool scriptExport) {
     }
 }
 
-void RenderWidget::setProfile(MltVideoProfile profile) {
+void RenderWidget::setProfile(MltVideoProfile profile)
+{
     m_profile = profile;
     //WARNING: this way to tell the video standard is a bit hackish...
     if (m_profile.description.contains("pal", Qt::CaseInsensitive) || m_profile.description.contains("25", Qt::CaseInsensitive) || m_profile.description.contains("50", Qt::CaseInsensitive)) m_view.format_selection->setCurrentIndex(0);
@@ -657,7 +674,8 @@ void RenderWidget::setProfile(MltVideoProfile profile) {
     refreshView();
 }
 
-void RenderWidget::refreshView() {
+void RenderWidget::refreshView()
+{
     m_view.size_list->blockSignals(true);
     QListWidgetItem *sizeItem;
 
@@ -785,7 +803,8 @@ void RenderWidget::refreshView() {
     refreshParams();
 }
 
-KUrl RenderWidget::filenameWithExtension(KUrl url, QString extension) {
+KUrl RenderWidget::filenameWithExtension(KUrl url, QString extension)
+{
     QString path;
     if (!url.isEmpty()) {
         path = url.path();
@@ -800,7 +819,8 @@ KUrl RenderWidget::filenameWithExtension(KUrl url, QString extension) {
 }
 
 
-void RenderWidget::refreshParams() {
+void RenderWidget::refreshParams()
+{
     QListWidgetItem *item = m_view.size_list->currentItem();
     if (!item || item->isHidden()) {
         m_view.advanced_params->clear();
@@ -843,11 +863,13 @@ void RenderWidget::refreshParams() {
     m_view.buttonStart->setEnabled(m_view.size_list->currentItem()->flags() & Qt::ItemIsEnabled);
 }
 
-void RenderWidget::reloadProfiles() {
+void RenderWidget::reloadProfiles()
+{
     parseProfiles();
 }
 
-void RenderWidget::parseProfiles(QString meta, QString group, QString profile) {
+void RenderWidget::parseProfiles(QString meta, QString group, QString profile)
+{
     m_view.size_list->clear();
     m_view.format_list->clear();
     m_view.destination_list->clear();
@@ -896,7 +918,8 @@ void RenderWidget::parseProfiles(QString meta, QString group, QString profile) {
     if (!child.isEmpty()) m_view.size_list->setCurrentItem(child.at(0));
 }
 
-void RenderWidget::parseFile(QString exportFile, bool editable) {
+void RenderWidget::parseFile(QString exportFile, bool editable)
+{
     kDebug() << "// Parsing file: " << exportFile;
     kDebug() << "------------------------------";
     QDomDocument doc;
@@ -1078,7 +1101,8 @@ void RenderWidget::parseFile(QString exportFile, bool editable) {
     }
 }
 
-void RenderWidget::setRenderJob(const QString &dest, int progress) {
+void RenderWidget::setRenderJob(const QString &dest, int progress)
+{
     QTreeWidgetItem *item;
     QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
     if (!existing.isEmpty()) item = existing.at(0);
@@ -1097,7 +1121,8 @@ void RenderWidget::setRenderJob(const QString &dest, int progress) {
     }
 }
 
-void RenderWidget::setRenderStatus(const QString &dest, int status, const QString &error) {
+void RenderWidget::setRenderStatus(const QString &dest, int status, const QString &error)
+{
     QTreeWidgetItem *item;
     QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
     if (!existing.isEmpty()) item = existing.at(0);
@@ -1136,12 +1161,14 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
     slotCheckJob();
 }
 
-void RenderWidget::slotAbortCurrentJob() {
+void RenderWidget::slotAbortCurrentJob()
+{
     QTreeWidgetItem *current = m_view.running_jobs->currentItem();
     if (current) emit abortProcess(current->text(1));
 }
 
-void RenderWidget::slotCheckJob() {
+void RenderWidget::slotCheckJob()
+{
     bool activate = false;
     QTreeWidgetItem *current = m_view.running_jobs->currentItem();
     if (current) {
@@ -1151,7 +1178,8 @@ void RenderWidget::slotCheckJob() {
     m_view.abort_job->setEnabled(activate);
 }
 
-void RenderWidget::parseScriptFiles() {
+void RenderWidget::parseScriptFiles()
+{
     QStringList scriptsFilter;
     scriptsFilter << "*.sh";
     m_view.scripts_list->clear();
@@ -1193,7 +1221,8 @@ void RenderWidget::parseScriptFiles() {
     m_view.delete_script->setEnabled(activate);
 }
 
-void RenderWidget::slotCheckScript() {
+void RenderWidget::slotCheckScript()
+{
     bool activate = false;
     QTreeWidgetItemIterator it(m_view.scripts_list);
     if (*it) activate = true;
@@ -1201,7 +1230,8 @@ void RenderWidget::slotCheckScript() {
     m_view.delete_script->setEnabled(activate);
 }
 
-void RenderWidget::slotStartScript() {
+void RenderWidget::slotStartScript()
+{
     QTreeWidgetItem *item = m_view.scripts_list->currentItem();
     if (item) {
         QString path = item->data(0, Qt::UserRole + 1).toString();
@@ -1210,7 +1240,8 @@ void RenderWidget::slotStartScript() {
     }
 }
 
-void RenderWidget::slotDeleteScript() {
+void RenderWidget::slotDeleteScript()
+{
     QTreeWidgetItem *item = m_view.scripts_list->currentItem();
     if (item) {
         QString path = item->data(0, Qt::UserRole + 1).toString();
@@ -1220,7 +1251,8 @@ void RenderWidget::slotDeleteScript() {
     }
 }
 
-void RenderWidget::slotGenerateScript() {
+void RenderWidget::slotGenerateScript()
+{
     slotExport(true);
 }
 

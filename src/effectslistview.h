@@ -31,7 +31,8 @@ class EffectsList;
 class EffectsListWidget;
 class KListWidget;
 
-class EffectsListView : public QWidget {
+class EffectsListView : public QWidget
+{
     Q_OBJECT
 
 public:

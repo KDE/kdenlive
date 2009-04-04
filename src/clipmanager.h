@@ -40,11 +40,13 @@ class KdenliveDoc;
 class DocClipBase;
 class AbstractGroupItem;
 
-namespace Mlt {
+namespace Mlt
+{
 class Producer;
 };
 
-class ClipManager: public QObject {
+class ClipManager: public QObject
+{
 Q_OBJECT public:
 
     ClipManager(KdenliveDoc *doc);

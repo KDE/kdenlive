@@ -24,7 +24,8 @@
   *@author Jason Wood
   */
 
-class GenTime {
+class GenTime
+{
 public:
     /** Creates a time object, with a time of 0 seconds. */
     GenTime();

@@ -29,7 +29,8 @@
 
 class CustomTrackView;
 
-class RazorClipCommand : public QUndoCommand {
+class RazorClipCommand : public QUndoCommand
+{
 public:
     RazorClipCommand(CustomTrackView *view, const ItemInfo info, const GenTime cutTime, bool doIt, QUndoCommand * parent = 0);
     virtual void undo();

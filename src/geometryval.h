@@ -35,7 +35,8 @@ class QGraphicsRectItem;
 class QMouseEvent;
 
 
-class Geometryval : public QWidget {
+class Geometryval : public QWidget
+{
     Q_OBJECT
 public:
     explicit Geometryval(const MltVideoProfile profile, QWidget* parent = 0);

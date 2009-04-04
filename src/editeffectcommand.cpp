@@ -24,7 +24,8 @@
 #include <KLocale>
 
 EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, int stackPos, bool doIt)
-        : m_view(view), m_track(track), m_pos(pos), m_oldeffect(oldeffect), m_stackPos(stackPos), m_doIt(doIt) {
+        : m_view(view), m_track(track), m_pos(pos), m_oldeffect(oldeffect), m_stackPos(stackPos), m_doIt(doIt)
+{
     m_effect = effect.cloneNode().toElement();
     QString effectName;
     QDomNode namenode = effect.elementsByTagName("name").item(0);
@@ -34,12 +35,14 @@ EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, Gen
 }
 
 // virtual
-int EditEffectCommand::id() const {
+int EditEffectCommand::id() const
+{
     return 1;
 }
 
 // virtual
-bool EditEffectCommand::mergeWith(const QUndoCommand * other) {
+bool EditEffectCommand::mergeWith(const QUndoCommand * other)
+{
     if (other->id() != id()) return false;
     if (m_track != static_cast<const EditEffectCommand*>(other)->m_track) return false;
     if (m_pos != static_cast<const EditEffectCommand*>(other)->m_pos) return false;
@@ -48,12 +51,14 @@ bool EditEffectCommand::mergeWith(const QUndoCommand * other) {
 }
 
 // virtual
-void EditEffectCommand::undo() {
+void EditEffectCommand::undo()
+{
     kDebug() << "----  undoing action";
     m_view->updateEffect(m_track, m_pos, m_oldeffect, m_stackPos, false);
 }
 // virtual
-void EditEffectCommand::redo() {
+void EditEffectCommand::redo()
+{
     kDebug() << "----  redoing action";
     m_view->updateEffect(m_track, m_pos, m_effect, m_stackPos, m_doIt);
     m_doIt = false;

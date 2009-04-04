@@ -27,7 +27,8 @@
 
 class KdenliveDoc;
 
-class AddClipCommand : public QUndoCommand {
+class AddClipCommand : public QUndoCommand
+{
 public:
     AddClipCommand(KdenliveDoc *doc, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand * parent = 0);
 

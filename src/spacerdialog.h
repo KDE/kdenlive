@@ -25,7 +25,8 @@
 #include "timecode.h"
 #include "ui_spacerdialog_ui.h"
 
-class SpacerDialog : public QDialog {
+class SpacerDialog : public QDialog
+{
     Q_OBJECT
 
 public:

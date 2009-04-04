@@ -26,7 +26,8 @@
 #include "definitions.h"
 #include "ui_trackheader_ui.h"
 
-class HeaderTrack : public QWidget {
+class HeaderTrack : public QWidget
+{
     Q_OBJECT
 
 public:

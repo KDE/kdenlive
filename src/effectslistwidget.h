@@ -26,7 +26,8 @@
 
 class EffectsList;
 
-class EffectsListWidget : public KListWidget {
+class EffectsListWidget : public KListWidget
+{
     Q_OBJECT
 
 public:

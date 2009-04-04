@@ -31,7 +31,8 @@
 class GenTime;
 class CustomTrackView;
 
-class SplitAudioCommand : public QUndoCommand {
+class SplitAudioCommand : public QUndoCommand
+{
 public:
     SplitAudioCommand(CustomTrackView *view, const int track, const GenTime &pos, bool doIt, QUndoCommand * parent = 0);
     virtual void undo();

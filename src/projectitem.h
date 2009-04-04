@@ -35,7 +35,8 @@ class DocClipBase;
 /** \brief Represents a clip or a folder in the projecttree
  *
  * This class represents a clip or folder in the projecttree and in the document(?) */
-class ProjectItem : public QTreeWidgetItem {
+class ProjectItem : public QTreeWidgetItem
+{
 public:
     /** Create folder item */
     ProjectItem(QTreeWidget * parent, const QStringList & strings, const QString &clipId);

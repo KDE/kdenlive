@@ -43,7 +43,8 @@ class QTimer;
  * DolphinStatusBar::Error a dynamic color blending is done to get the
  * attention from the user.
  */
-class StatusBarMessageLabel : public QWidget {
+class StatusBarMessageLabel : public QWidget
+{
     Q_OBJECT
 
 public:
@@ -141,23 +142,28 @@ private:
     QPushButton* m_closeButton;
 };
 
-inline MessageType StatusBarMessageLabel::type() const {
+inline MessageType StatusBarMessageLabel::type() const
+{
     return m_type;
 }
 
-inline const QString& StatusBarMessageLabel::text() const {
+inline const QString& StatusBarMessageLabel::text() const
+{
     return m_text;
 }
 
-inline void StatusBarMessageLabel::setDefaultText(const QString& text) {
+inline void StatusBarMessageLabel::setDefaultText(const QString& text)
+{
     m_defaultText = text;
 }
 
-inline const QString& StatusBarMessageLabel::defaultText() const {
+inline const QString& StatusBarMessageLabel::defaultText() const
+{
     return m_defaultText;
 }
 
-inline int StatusBarMessageLabel::minimumTextHeight() const {
+inline int StatusBarMessageLabel::minimumTextHeight() const
+{
     return m_minTextHeight;
 }
 

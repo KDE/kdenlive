@@ -28,7 +28,8 @@
 //#include "docclipbase.h"
 #include "ui_managecaptures_ui.h"
 
-class ManageCapturesDialog : public QDialog {
+class ManageCapturesDialog : public QDialog
+{
     Q_OBJECT
 
 public:

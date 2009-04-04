@@ -27,7 +27,8 @@
 #include "ui_clipdurationdialog_ui.h"
 
 
-class ClipDurationDialog : public QDialog {
+class ClipDurationDialog : public QDialog
+{
     Q_OBJECT
 
 public:

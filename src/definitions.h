@@ -81,7 +81,8 @@ struct MltVideoProfile {
 };
 
 
-class EffectParameter {
+class EffectParameter
+{
 public:
     EffectParameter(const QString name, const QString value): m_name(name), m_value(value) {}
     QString name()   const          {
@@ -102,7 +103,8 @@ private:
 /** Use our own list for effect parameters so that they are not sorted in any ways, because
     some effects like sox need a precise order
 */
-class EffectsParameterList: public QList < EffectParameter > {
+class EffectsParameterList: public QList < EffectParameter >
+{
 public:
     EffectsParameterList(): QList < EffectParameter >() {}
     bool hasParam(const QString name) const {
@@ -129,7 +131,8 @@ public:
     }
 };
 
-class CommentedTime {
+class CommentedTime
+{
 public:
     CommentedTime(): t(GenTime(0)) {}
     CommentedTime(const GenTime time, QString comment)

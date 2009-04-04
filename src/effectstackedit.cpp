@@ -38,7 +38,8 @@
 
 QMap<QString, QImage> EffectStackEdit::iconCache;
 
-EffectStackEdit::EffectStackEdit(QWidget *parent): QWidget(parent), m_in(0), m_out(0) {
+EffectStackEdit::EffectStackEdit(QWidget *parent): QWidget(parent), m_in(0), m_out(0)
+{
     setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding));
     QVBoxLayout *vbox1 = new QVBoxLayout(parent);
     vbox1->setContentsMargins(0, 0, 0, 0);
@@ -61,20 +62,24 @@ EffectStackEdit::EffectStackEdit(QWidget *parent): QWidget(parent), m_in(0), m_o
 
 }
 
-EffectStackEdit::~EffectStackEdit() {
+EffectStackEdit::~EffectStackEdit()
+{
     iconCache.clear();
 }
 
-void EffectStackEdit::updateProjectFormat(MltVideoProfile profile, Timecode t) {
+void EffectStackEdit::updateProjectFormat(MltVideoProfile profile, Timecode t)
+{
     m_profile = profile;
     m_timecode = t;
 }
 
-void EffectStackEdit::updateParameter(const QString &name, const QString &value) {
+void EffectStackEdit::updateParameter(const QString &name, const QString &value)
+{
     params.setAttribute(name, value);
 }
 
-void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out) {
+void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
+{
     kDebug() << "in";
     params = d;
     m_in = in;
@@ -273,11 +278,13 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out) {
     vbox->addStretch();
 }
 
-void EffectStackEdit::slotSeekToPos(int pos) {
+void EffectStackEdit::slotSeekToPos(int pos)
+{
     emit seekTimeline(m_in + pos);
 }
 
-wipeInfo EffectStackEdit::getWipeInfo(QString value) {
+wipeInfo EffectStackEdit::getWipeInfo(QString value)
+{
     wipeInfo info;
     QString start = value.section(';', 0, 0);
     QString end = value.section(';', 1, 1).section('=', 1, 1);
@@ -299,7 +306,8 @@ wipeInfo EffectStackEdit::getWipeInfo(QString value) {
     return info;
 }
 
-QString EffectStackEdit::getWipeString(wipeInfo info) {
+QString EffectStackEdit::getWipeString(wipeInfo info)
+{
 
     QString start;
     QString end;
@@ -343,7 +351,8 @@ QString EffectStackEdit::getWipeString(wipeInfo info) {
     return QString(start + ";-1=" + end);
 }
 
-void EffectStackEdit::collectAllParameters() {
+void EffectStackEdit::collectAllParameters()
+{
     QDomElement oldparam = params.cloneNode().toElement();
     QDomNodeList namenode = params.elementsByTagName("parameter");
 
@@ -416,7 +425,8 @@ void EffectStackEdit::collectAllParameters() {
     emit parameterChanged(oldparam, params);
 }
 
-void EffectStackEdit::createSliderItem(const QString& name, int val , int min, int max) {
+void EffectStackEdit::createSliderItem(const QString& name, int val , int min, int max)
+{
     QWidget* toFillin = new QWidget;
     Ui::Constval_UI *ctval = new Ui::Constval_UI;
     ctval->setupUi(toFillin);
@@ -435,11 +445,13 @@ void EffectStackEdit::createSliderItem(const QString& name, int val , int min, i
     vbox->addWidget(toFillin);
 }
 
-void EffectStackEdit::slotSliderMoved(int) {
+void EffectStackEdit::slotSliderMoved(int)
+{
     collectAllParameters();
 }
 
-void EffectStackEdit::clearAllItems() {
+void EffectStackEdit::clearAllItems()
+{
     qDeleteAll(items);
     foreach(void *p, uiItems) {
         delete p;

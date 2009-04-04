@@ -28,7 +28,8 @@
 
 class CustomTrackView;
 
-class MoveEffectCommand : public QUndoCommand {
+class MoveEffectCommand : public QUndoCommand
+{
 public:
     MoveEffectCommand(CustomTrackView *view, const int track, GenTime pos, int oldPos, int newPos, bool doIt, QUndoCommand * parent = 0);
 

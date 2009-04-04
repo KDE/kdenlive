@@ -23,13 +23,16 @@
 
 
 EffectsList::EffectsList():
-        QList < QDomElement > () {
+        QList < QDomElement > ()
+{
 }
 
-EffectsList::~EffectsList() {
+EffectsList::~EffectsList()
+{
 }
 
-QDomElement EffectsList::getEffectByName(const QString & name) const {
+QDomElement EffectsList::getEffectByName(const QString & name) const
+{
     QString effectName;
     for (int i = 0; i < size(); ++i) {
         QDomElement effect =  at(i);
@@ -49,7 +52,8 @@ QDomElement EffectsList::getEffectByName(const QString & name) const {
     return QDomElement();
 }
 
-QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id) const {
+QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id) const
+{
 
     if (!id.isEmpty()) for (int i = 0; i < size(); ++i) {
             QDomElement effect =  at(i);
@@ -81,7 +85,8 @@ QDomElement EffectsList::getEffectByTag(const QString & tag, const QString & id)
     return QDomElement();
 }
 
-int EffectsList::hasEffect(const QString & tag, const QString & id) const {
+int EffectsList::hasEffect(const QString & tag, const QString & id) const
+{
     for (int i = 0; i < size(); ++i) {
         QDomElement effect =  at(i);
         if (!id.isEmpty()) {
@@ -91,7 +96,8 @@ int EffectsList::hasEffect(const QString & tag, const QString & id) const {
     return -1;
 }
 
-QStringList EffectsList::effectIdInfo(const int ix) const {
+QStringList EffectsList::effectIdInfo(const int ix) const
+{
     QStringList info;
     QDomElement effect =  at(ix);
     QDomNode namenode = effect.elementsByTagName("name").item(0);
@@ -99,7 +105,8 @@ QStringList EffectsList::effectIdInfo(const int ix) const {
     return info;
 }
 
-QStringList EffectsList::effectNames() {
+QStringList EffectsList::effectNames()
+{
     QStringList list;
     for (int i = 0; i < size(); ++i) {
         QDomElement effect =  at(i);
@@ -109,7 +116,8 @@ QStringList EffectsList::effectNames() {
     return list;
 }
 
-QString EffectsList::getInfo(const QString & tag, const QString & id) const {
+QString EffectsList::getInfo(const QString & tag, const QString & id) const
+{
     QString info;
     QDomElement effect = getEffectByTag(tag, id);
     QDomNode namenode = effect.elementsByTagName("description").item(0);
@@ -119,7 +127,8 @@ QString EffectsList::getInfo(const QString & tag, const QString & id) const {
     return info;
 }
 
-QString EffectsList::getInfoFromIndex(const int ix) const {
+QString EffectsList::getInfoFromIndex(const int ix) const
+{
     QString info;
     QDomElement effect = at(ix);
     QDomNode namenode = effect.elementsByTagName("description").item(0);
@@ -129,7 +138,8 @@ QString EffectsList::getInfoFromIndex(const int ix) const {
     return info;
 }
 
-bool EffectsList::hasKeyFrames(QDomElement effect) {
+bool EffectsList::hasKeyFrames(QDomElement effect)
+{
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
@@ -138,7 +148,8 @@ bool EffectsList::hasKeyFrames(QDomElement effect) {
     return false;
 }
 
-EffectsList EffectsList::clone() const {
+EffectsList EffectsList::clone() const
+{
     EffectsList list;
     for (int i = 0; i < size(); ++i) {
         list.append(at(i).cloneNode().toElement());
@@ -147,7 +158,8 @@ EffectsList EffectsList::clone() const {
 }
 
 // static
-void EffectsList::setParameter(QDomElement effect, const QString &name, const QString &value) {
+void EffectsList::setParameter(QDomElement effect, const QString &name, const QString &value)
+{
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
@@ -159,7 +171,8 @@ void EffectsList::setParameter(QDomElement effect, const QString &name, const QS
 }
 
 // static
-QString EffectsList::parameter(QDomElement effect, const QString &name) {
+QString EffectsList::parameter(QDomElement effect, const QString &name)
+{
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();

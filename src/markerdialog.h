@@ -26,12 +26,14 @@
 #include "timecode.h"
 #include "ui_markerdialog_ui.h"
 
-namespace Mlt {
+namespace Mlt
+{
 class Producer;
 class Profile;
 };
 
-class MarkerDialog : public QDialog {
+class MarkerDialog : public QDialog
+{
     Q_OBJECT
 
 public:

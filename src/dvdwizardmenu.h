@@ -31,7 +31,8 @@
 
 #include "ui_dvdwizardmenu_ui.h"
 
-class DvdScene : public QGraphicsScene {
+class DvdScene : public QGraphicsScene
+{
 
 public:
     DvdScene(QObject * parent = 0): QGraphicsScene(parent) {}
@@ -51,7 +52,8 @@ private:
     int m_height;
 };
 
-class DvdButton : public QGraphicsTextItem {
+class DvdButton : public QGraphicsTextItem
+{
 
 public:
     DvdButton(const QString & text): QGraphicsTextItem(text), m_target(0) {}
@@ -99,7 +101,8 @@ protected:
 };
 
 
-class DvdWizardMenu : public QWizardPage {
+class DvdWizardMenu : public QWizardPage
+{
     Q_OBJECT
 
 public:

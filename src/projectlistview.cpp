@@ -31,7 +31,8 @@
 #include <QAction>
 
 ProjectListView::ProjectListView(QWidget *parent)
-        : QTreeWidget(parent), m_dragStarted(false) {
+        : QTreeWidget(parent), m_dragStarted(false)
+{
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(true);
@@ -58,11 +59,13 @@ ProjectListView::ProjectListView(QWidget *parent)
     setSortingEnabled(true);
 }
 
-ProjectListView::~ProjectListView() {
+ProjectListView::~ProjectListView()
+{
 }
 
 
-void ProjectListView::configureColumns(const QPoint& pos) {
+void ProjectListView::configureColumns(const QPoint& pos)
+{
     KMenu popup(this);
     popup.addTitle(i18nc("@title:menu", "Columns"));
 
@@ -102,12 +105,14 @@ void ProjectListView::configureColumns(const QPoint& pos) {
 }
 
 // virtual
-void ProjectListView::contextMenuEvent(QContextMenuEvent * event) {
+void ProjectListView::contextMenuEvent(QContextMenuEvent * event)
+{
     emit requestMenu(event->globalPos(), itemAt(event->pos()));
 }
 
 // virtual
-void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event) {
+void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
+{
     ProjectItem *item = static_cast <ProjectItem *>(itemAt(event->pos()));
     if (!item) emit addClip();
     else if (item->isGroup()) {
@@ -120,7 +125,8 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event) {
 }
 
 // virtual
-void ProjectListView::dragEnterEvent(QDragEnterEvent *event) {
+void ProjectListView::dragEnterEvent(QDragEnterEvent *event)
+{
     if (event->mimeData()->hasUrls() || event->mimeData()->hasText()) {
         kDebug() << "////////////////  DRAG ENTR OK";
     }
@@ -128,7 +134,8 @@ void ProjectListView::dragEnterEvent(QDragEnterEvent *event) {
 }
 
 // virtual
-void ProjectListView::dropEvent(QDropEvent *event) {
+void ProjectListView::dropEvent(QDropEvent *event)
+{
     kDebug() << "////////////////  DROPPED EVENT";
     if (event->mimeData()->hasUrls()) {
         QTreeWidgetItem *item = itemAt(event->pos());
@@ -189,7 +196,8 @@ void ProjectListView::dropEvent(QDropEvent *event) {
 }
 
 // virtual
-void ProjectListView::mousePressEvent(QMouseEvent *event) {
+void ProjectListView::mousePressEvent(QMouseEvent *event)
+{
     if (event->button() == Qt::LeftButton) {
         m_DragStartPosition = event->pos();
         m_dragStarted = true;
@@ -201,7 +209,8 @@ void ProjectListView::mousePressEvent(QMouseEvent *event) {
 
 
 // virtual
-void ProjectListView::mouseMoveEvent(QMouseEvent *event) {
+void ProjectListView::mouseMoveEvent(QMouseEvent *event)
+{
     //kDebug() << "// DRAG STARTED, MOUSE MOVED: ";
     if (!m_dragStarted) return;
 
@@ -242,7 +251,8 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event) {
 }
 
 // virtual
-void ProjectListView::dragMoveEvent(QDragMoveEvent * event) {
+void ProjectListView::dragMoveEvent(QDragMoveEvent * event)
+{
     event->setDropAction(Qt::IgnoreAction);
     event->setDropAction(Qt::MoveAction);
     if (event->mimeData()->hasText()) {
@@ -252,7 +262,8 @@ void ProjectListView::dragMoveEvent(QDragMoveEvent * event) {
     emit pauseMonitor();
 }
 
-QStringList ProjectListView::mimeTypes() const {
+QStringList ProjectListView::mimeTypes() const
+{
     QStringList qstrList;
     qstrList << QTreeWidget::mimeTypes();
     // list of accepted mime types for drop
@@ -263,7 +274,8 @@ QStringList ProjectListView::mimeTypes() const {
 }
 
 
-Qt::DropActions ProjectListView::supportedDropActions() const {
+Qt::DropActions ProjectListView::supportedDropActions() const
+{
     // returns what actions are supported when dropping
     return Qt::MoveAction;
 }

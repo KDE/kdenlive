@@ -29,7 +29,8 @@ class DocClipBase;
 
 class KUrl;
 
-class ProjectListView : public QTreeWidget {
+class ProjectListView : public QTreeWidget
+{
     Q_OBJECT
 
 public:

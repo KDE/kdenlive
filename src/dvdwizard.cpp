@@ -35,7 +35,8 @@
 #include <QDomDocument>
 
 
-DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent): QWizard(parent), m_profile(profile), m_dvdauthor(NULL), m_mkiso(NULL) {
+DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent): QWizard(parent), m_profile(profile), m_dvdauthor(NULL), m_mkiso(NULL)
+{
     //setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
     setAttribute(Qt::WA_DeleteOnClose);
     m_pageVob = new DvdWizardVob(this);
@@ -69,7 +70,8 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
 //    connect(m_standard.button_all, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
 }
 
-DvdWizard::~DvdWizard() {
+DvdWizard::~DvdWizard()
+{
     // m_menuFile.remove();
     if (m_dvdauthor) {
         m_dvdauthor->close();
@@ -82,7 +84,8 @@ DvdWizard::~DvdWizard() {
 }
 
 
-void DvdWizard::slotPageChanged(int page) {
+void DvdWizard::slotPageChanged(int page)
+{
     kDebug() << "// PAGE CHGD: " << page;
     if (page == 1) {
         m_pageMenu->setTargets(m_pageVob->selectedUrls());
@@ -109,7 +112,8 @@ void DvdWizard::slotPageChanged(int page) {
 
 
 
-void DvdWizard::generateDvd() {
+void DvdWizard::generateDvd()
+{
     KTemporaryFile temp1;
     temp1.setSuffix(".png");
     //temp1.setAutoRemove(false);
@@ -417,7 +421,8 @@ void DvdWizard::generateDvd() {
 
 }
 
-void DvdWizard::slotRenderFinished(int /*exitCode*/, QProcess::ExitStatus status) {
+void DvdWizard::slotRenderFinished(int /*exitCode*/, QProcess::ExitStatus status)
+{
     QListWidgetItem *authitem =  m_status.job_progress->item(3);
     if (status == QProcess::CrashExit) {
         QByteArray result = m_dvdauthor->readAllStandardError();
@@ -464,7 +469,8 @@ void DvdWizard::slotRenderFinished(int /*exitCode*/, QProcess::ExitStatus status
 
 }
 
-void DvdWizard::slotIsoFinished(int /*exitCode*/, QProcess::ExitStatus status) {
+void DvdWizard::slotIsoFinished(int /*exitCode*/, QProcess::ExitStatus status)
+{
     QListWidgetItem *isoitem =  m_status.job_progress->item(4);
     if (status == QProcess::CrashExit) {
         QByteArray result = m_mkiso->readAllStandardError();
@@ -505,7 +511,8 @@ void DvdWizard::slotIsoFinished(int /*exitCode*/, QProcess::ExitStatus status) {
 }
 
 
-void DvdWizard::cleanup() {
+void DvdWizard::cleanup()
+{
     m_authorFile.remove();
     m_menuFile.remove();
     KIO::NetAccess::del(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);

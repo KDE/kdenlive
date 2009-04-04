@@ -22,7 +22,8 @@
 
 #include "gentime.h"
 
-class ProgressEvent : public QEvent {
+class ProgressEvent : public QEvent
+{
 public:
     ProgressEvent(int value, QEvent::Type eventType)
             : QEvent(eventType), m_val(value) {};

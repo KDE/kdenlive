@@ -37,7 +37,8 @@ const int TypeRole = Qt::UserRole;
 const int IdRole = TypeRole + 1;
 
 EffectsListWidget::EffectsListWidget(QMenu *menu, QWidget *parent)
-        : KListWidget(parent), m_menu(menu) {
+        : KListWidget(parent), m_menu(menu)
+{
     //setSelectionMode(QAbstractItemView::ExtendedSelection);
     //setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(true);
@@ -48,10 +49,12 @@ EffectsListWidget::EffectsListWidget(QMenu *menu, QWidget *parent)
     initList();
 }
 
-EffectsListWidget::~EffectsListWidget() {
+EffectsListWidget::~EffectsListWidget()
+{
 }
 
-void EffectsListWidget::initList() {
+void EffectsListWidget::initList()
+{
     clear();
     QListWidgetItem *item;
     QString effectName;
@@ -89,11 +92,13 @@ void EffectsListWidget::initList() {
     }
 }
 
-QDomElement EffectsListWidget::currentEffect() {
+QDomElement EffectsListWidget::currentEffect()
+{
     return itemEffect(currentItem());
 }
 
-QDomElement EffectsListWidget::itemEffect(QListWidgetItem *item) {
+QDomElement EffectsListWidget::itemEffect(QListWidgetItem *item)
+{
     QDomElement effect;
     if (!item) return effect;
     QStringList effectInfo = item->data(IdRole).toStringList();
@@ -113,7 +118,8 @@ QDomElement EffectsListWidget::itemEffect(QListWidgetItem *item) {
 }
 
 
-QString EffectsListWidget::currentInfo() {
+QString EffectsListWidget::currentInfo()
+{
     QListWidgetItem *item = currentItem();
     if (!item) return QString();
     QString info;
@@ -133,7 +139,8 @@ QString EffectsListWidget::currentInfo() {
 }
 
 // virtual
-void EffectsListWidget::mousePressEvent(QMouseEvent *event) {
+void EffectsListWidget::mousePressEvent(QMouseEvent *event)
+{
     if (event->button() == Qt::LeftButton) {
         m_DragStartPosition = event->pos();
         m_dragStarted = true;
@@ -142,7 +149,8 @@ void EffectsListWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 // virtual
-void EffectsListWidget::mouseMoveEvent(QMouseEvent *event) {
+void EffectsListWidget::mouseMoveEvent(QMouseEvent *event)
+{
     if (!m_dragStarted) return;
     if ((event->pos() - m_DragStartPosition).manhattanLength()
             < QApplication::startDragDistance())
@@ -172,7 +180,8 @@ void EffectsListWidget::mouseMoveEvent(QMouseEvent *event) {
     }
 }
 
-void EffectsListWidget::dragMoveEvent(QDragMoveEvent * event) {
+void EffectsListWidget::dragMoveEvent(QDragMoveEvent * event)
+{
     event->setDropAction(Qt::IgnoreAction);
     //if (item) {
     event->setDropAction(Qt::MoveAction);
@@ -183,7 +192,8 @@ void EffectsListWidget::dragMoveEvent(QDragMoveEvent * event) {
 }
 
 //virtual
-void EffectsListWidget::contextMenuEvent(QContextMenuEvent * event) {
+void EffectsListWidget::contextMenuEvent(QContextMenuEvent * event)
+{
     QListWidgetItem *item = itemAt(event->pos());
     if (item && item->data(TypeRole).toInt() == EFFECT_CUSTOM) m_menu->popup(event->globalPos());
 }

@@ -29,7 +29,8 @@
 #include <QTemporaryFile>
 #include <QTextStream>
 
-class RenderJob : public QObject {
+class RenderJob : public QObject
+{
     Q_OBJECT
 
 public:

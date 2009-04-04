@@ -31,7 +31,8 @@
 
 class CustomTrackView;
 
-class ResizeClipCommand : public QUndoCommand {
+class ResizeClipCommand : public QUndoCommand
+{
 public:
     ResizeClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, QUndoCommand * parent = 0);
     virtual void undo();

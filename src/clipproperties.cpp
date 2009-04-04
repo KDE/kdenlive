@@ -43,7 +43,8 @@ static const int TYPE_PNG = 1;
 static const int TYPE_BMP = 2;
 static const int TYPE_GIF = 3;
 
-ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent): QDialog(parent), m_tc(tc), m_clip(clip), m_fps(fps), m_clipNeedsRefresh(false), m_count(0) {
+ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent): QDialog(parent), m_tc(tc), m_clip(clip), m_fps(fps), m_clipNeedsRefresh(false), m_count(0)
+{
     setFont(KGlobalSettings::toolBarFont());
     m_view.setupUi(this);
     KUrl url = m_clip->fileURL();
@@ -235,7 +236,8 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     adjustSize();
 }
 
-void ClipProperties::slotEnableLuma(int state) {
+void ClipProperties::slotEnableLuma(int state)
+{
     bool enable = false;
     if (state == Qt::Checked) enable = true;
     m_view.luma_duration->setEnabled(enable);
@@ -247,7 +249,8 @@ void ClipProperties::slotEnableLuma(int state) {
     m_view.luma_softness->setEnabled(m_view.label_softness->isEnabled());
 }
 
-void ClipProperties::slotEnableLumaFile(int state) {
+void ClipProperties::slotEnableLumaFile(int state)
+{
     bool enable = false;
     if (state == Qt::Checked) enable = true;
     m_view.luma_file->setEnabled(enable);
@@ -255,7 +258,8 @@ void ClipProperties::slotEnableLumaFile(int state) {
     m_view.label_softness->setEnabled(enable);
 }
 
-void ClipProperties::slotFillMarkersList() {
+void ClipProperties::slotFillMarkersList()
+{
     m_view.markers_list->clear();
     QList < CommentedTime > marks = m_clip->commentedSnapMarkers();
     for (uint count = 0; count < marks.count(); ++count) {
@@ -266,7 +270,8 @@ void ClipProperties::slotFillMarkersList() {
     }
 }
 
-void ClipProperties::slotAddMarker() {
+void ClipProperties::slotAddMarker()
+{
     CommentedTime marker(GenTime(), i18n("Marker"));
     MarkerDialog d(m_clip, marker, m_tc, i18n("Add Marker"), this);
     if (d.exec() == QDialog::Accepted) {
@@ -275,7 +280,8 @@ void ClipProperties::slotAddMarker() {
     QTimer::singleShot(500, this, SLOT(slotFillMarkersList()));
 }
 
-void ClipProperties::slotEditMarker() {
+void ClipProperties::slotEditMarker()
+{
     QList < CommentedTime > marks = m_clip->commentedSnapMarkers();
     int pos = m_view.markers_list->currentIndex().row();
     if (pos < 0 || pos > marks.count() - 1) return;
@@ -286,7 +292,8 @@ void ClipProperties::slotEditMarker() {
     QTimer::singleShot(500, this, SLOT(slotFillMarkersList()));
 }
 
-void ClipProperties::slotDeleteMarker() {
+void ClipProperties::slotDeleteMarker()
+{
     QList < CommentedTime > marks = m_clip->commentedSnapMarkers();
     int pos = m_view.markers_list->currentIndex().row();
     if (pos < 0 || pos > marks.count() - 1) return;
@@ -295,12 +302,14 @@ void ClipProperties::slotDeleteMarker() {
     QTimer::singleShot(500, this, SLOT(slotFillMarkersList()));
 }
 
-const QString &ClipProperties::clipId() const {
+const QString &ClipProperties::clipId() const
+{
     return m_clip->getId();
 }
 
 
-QMap <QString, QString> ClipProperties::properties() {
+QMap <QString, QString> ClipProperties::properties()
+{
     QMap <QString, QString> props;
     CLIPTYPE t = m_clip->clipType();
     QMap <QString, QString> old_props = m_clip->properties();
@@ -427,11 +436,13 @@ QMap <QString, QString> ClipProperties::properties() {
     return props;
 }
 
-bool ClipProperties::needsTimelineRefresh() const {
+bool ClipProperties::needsTimelineRefresh() const
+{
     return m_clipNeedsRefresh;
 }
 
-void ClipProperties::parseFolder() {
+void ClipProperties::parseFolder()
+{
 
     QDir dir(m_view.clip_path->text());
     QStringList filters;
@@ -469,7 +480,8 @@ void ClipProperties::parseFolder() {
     m_view.clip_thumb->setPixmap(pix);
 }
 
-void ClipProperties::slotCheckMaxLength() {
+void ClipProperties::slotCheckMaxLength()
+{
     int duration = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
     if (duration > m_clip->maxDuration().frames(m_fps)) {
         m_view.clip_duration->setText(m_tc.getTimecode(m_clip->maxDuration(), m_fps));

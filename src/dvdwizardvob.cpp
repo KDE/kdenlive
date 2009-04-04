@@ -26,7 +26,8 @@
 
 #include <QHBoxLayout>
 
-DvdWizardVob::DvdWizardVob(QWidget *parent): QWizardPage(parent) {
+DvdWizardVob::DvdWizardVob(QWidget *parent): QWizardPage(parent)
+{
     m_view.setupUi(this);
     m_view.intro_vob->setEnabled(false);
     m_view.vob_1->setFilter("video/mpeg");
@@ -48,7 +49,8 @@ DvdWizardVob::DvdWizardVob(QWidget *parent): QWizardPage(parent) {
 #endif
 }
 
-DvdWizardVob::~DvdWizardVob() {
+DvdWizardVob::~DvdWizardVob()
+{
     QList<KUrlRequester *> allUrls = m_view.vob_list->findChildren<KUrlRequester *>();
     qDeleteAll(allUrls);
 #if KDE_IS_VERSION(4,2,0)
@@ -58,18 +60,21 @@ DvdWizardVob::~DvdWizardVob() {
 
 // virtual
 
-bool DvdWizardVob::isComplete() const {
+bool DvdWizardVob::isComplete() const
+{
     if (!m_view.error_message->text().isEmpty()) return false;
     if (m_view.vob_1->url().path().isEmpty()) return false;
     if (QFile::exists(m_view.vob_1->url().path())) return true;
     return false;
 }
 
-void DvdWizardVob::setUrl(const QString &url) {
+void DvdWizardVob::setUrl(const QString &url)
+{
     m_view.vob_1->setPath(url);
 }
 
-QStringList DvdWizardVob::selectedUrls() const {
+QStringList DvdWizardVob::selectedUrls() const
+{
     QStringList result;
     QList<KUrlRequester *> allUrls = m_view.vob_list->findChildren<KUrlRequester *>();
     for (int i = 0; i < allUrls.count(); i++) {
@@ -80,12 +85,14 @@ QStringList DvdWizardVob::selectedUrls() const {
     return result;
 }
 
-QString DvdWizardVob::introMovie() const {
+QString DvdWizardVob::introMovie() const
+{
     if (!m_view.use_intro->isChecked()) return QString();
     return m_view.intro_vob->url().path();
 }
 
-void DvdWizardVob::slotCheckVobList(const QString &text) {
+void DvdWizardVob::slotCheckVobList(const QString &text)
+{
     emit completeChanged();
     QList<KUrlRequester *> allUrls = m_view.vob_list->findChildren<KUrlRequester *>();
     int count = allUrls.count();

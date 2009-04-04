@@ -28,7 +28,8 @@
 #include <QDir>
 #include <QCloseEvent>
 
-ProfilesDialog::ProfilesDialog(QWidget * parent): QDialog(parent), m_isCustomProfile(false), m_profileIsModified(false) {
+ProfilesDialog::ProfilesDialog(QWidget * parent): QDialog(parent), m_isCustomProfile(false), m_profileIsModified(false)
+{
     m_view.setupUi(this);
 
     QStringList profilesFilter;
@@ -61,11 +62,13 @@ ProfilesDialog::ProfilesDialog(QWidget * parent): QDialog(parent), m_isCustomPro
     connect(m_view.size_w, SIGNAL(valueChanged(int)), this, SLOT(slotProfileEdited()));
 }
 
-void ProfilesDialog::slotProfileEdited() {
+void ProfilesDialog::slotProfileEdited()
+{
     m_profileIsModified = true;
 }
 
-void ProfilesDialog::fillList(const QString selectedProfile) {
+void ProfilesDialog::fillList(const QString selectedProfile)
+{
     // List the Mlt profiles
     m_view.profiles_list->clear();
     QMap <QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
@@ -88,11 +91,13 @@ void ProfilesDialog::fillList(const QString selectedProfile) {
     m_selectedProfileIndex = m_view.profiles_list->currentIndex();
 }
 
-void ProfilesDialog::accept() {
+void ProfilesDialog::accept()
+{
     if (askForSave()) QDialog::accept();
 }
 
-void ProfilesDialog::closeEvent(QCloseEvent *event) {
+void ProfilesDialog::closeEvent(QCloseEvent *event)
+{
     if (askForSave()) {
         event->accept();
     } else {
@@ -100,26 +105,30 @@ void ProfilesDialog::closeEvent(QCloseEvent *event) {
     }
 }
 
-bool ProfilesDialog::askForSave() {
+bool ProfilesDialog::askForSave()
+{
     if (!m_profileIsModified) return true;
     if (KMessageBox::questionYesNo(this, i18n("The custom profile was modified, do you want to save it?")) != KMessageBox::Yes) return true;
     return slotSaveProfile();
 }
 
-void ProfilesDialog::slotCreateProfile() {
+void ProfilesDialog::slotCreateProfile()
+{
     m_view.button_delete->setEnabled(false);
     m_view.button_create->setEnabled(false);
     m_view.button_save->setEnabled(true);
     m_view.properties->setEnabled(true);
 }
 
-void ProfilesDialog::slotSetDefaultProfile() {
+void ProfilesDialog::slotSetDefaultProfile()
+{
     int ix = m_view.profiles_list->currentIndex();
     QString path = m_view.profiles_list->itemData(ix).toString();
     if (!path.isEmpty()) KdenliveSettings::setDefault_profile(path);
 }
 
-bool ProfilesDialog::slotSaveProfile() {
+bool ProfilesDialog::slotSaveProfile()
+{
     const QString profileDesc = m_view.description->text();
     int ix = m_view.profiles_list->findText(profileDesc);
     if (ix != -1) {
@@ -147,7 +156,8 @@ bool ProfilesDialog::slotSaveProfile() {
     return true;
 }
 
-void ProfilesDialog::saveProfile(const QString path) {
+void ProfilesDialog::saveProfile(const QString path)
+{
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly)) {
         KMessageBox::sorry(this, i18n("Cannot write to file %1", path));
@@ -161,7 +171,8 @@ void ProfilesDialog::saveProfile(const QString path) {
     file.close();
 }
 
-void ProfilesDialog::slotDeleteProfile() {
+void ProfilesDialog::slotDeleteProfile()
+{
     const QString path = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
     if (path.contains('/')) {
         KIO::NetAccess::del(KUrl(path), this);
@@ -170,7 +181,8 @@ void ProfilesDialog::slotDeleteProfile() {
 }
 
 // static
-MltVideoProfile ProfilesDialog::getVideoProfile(QString name) {
+MltVideoProfile ProfilesDialog::getVideoProfile(QString name)
+{
     MltVideoProfile result;
     QStringList profilesNames;
     QStringList profilesFiles;
@@ -214,7 +226,8 @@ MltVideoProfile ProfilesDialog::getVideoProfile(QString name) {
 }
 
 // static
-QString ProfilesDialog::getProfileDescription(QString name) {
+QString ProfilesDialog::getProfileDescription(QString name)
+{
     QStringList profilesNames;
     QStringList profilesFiles;
     QStringList profilesFilter;
@@ -241,7 +254,8 @@ QString ProfilesDialog::getProfileDescription(QString name) {
 }
 
 // static
-QMap <QString, QString> ProfilesDialog::getProfilesInfo() {
+QMap <QString, QString> ProfilesDialog::getProfilesInfo()
+{
     QMap <QString, QString> result;
     QStringList profilesFilter;
     profilesFilter << "*";
@@ -268,7 +282,8 @@ QMap <QString, QString> ProfilesDialog::getProfilesInfo() {
 }
 
 // static
-QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString path) {
+QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString path)
+{
     QStringList profilesNames;
     QStringList profilesFiles;
     QStringList profilesFilter;
@@ -286,7 +301,8 @@ QMap< QString, QString > ProfilesDialog::getSettingsFromFile(const QString path)
 }
 
 // static
-QMap< QString, QString > ProfilesDialog::getSettingsForProfile(const QString profileName) {
+QMap< QString, QString > ProfilesDialog::getSettingsForProfile(const QString profileName)
+{
     QStringList profilesNames;
     QStringList profilesFiles;
     QStringList profilesFilter;
@@ -320,7 +336,8 @@ QMap< QString, QString > ProfilesDialog::getSettingsForProfile(const QString pro
 }
 
 // static
-QString ProfilesDialog::getPathFromDescription(const QString profileDesc) {
+QString ProfilesDialog::getPathFromDescription(const QString profileDesc)
+{
     QStringList profilesNames;
     QStringList profilesFiles;
     QStringList profilesFilter;
@@ -348,7 +365,8 @@ QString ProfilesDialog::getPathFromDescription(const QString profileDesc) {
 }
 
 
-void ProfilesDialog::slotUpdateDisplay() {
+void ProfilesDialog::slotUpdateDisplay()
+{
     if (askForSave() == false) {
         m_view.profiles_list->blockSignals(true);
         m_view.profiles_list->setCurrentIndex(m_selectedProfileIndex);

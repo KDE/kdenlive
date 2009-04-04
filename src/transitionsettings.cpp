@@ -26,7 +26,8 @@
 
 #include <KDebug>
 
-TransitionSettings::TransitionSettings(QWidget* parent): QWidget(parent), m_tracksCount(0), m_usedTransition(NULL) {
+TransitionSettings::TransitionSettings(QWidget* parent): QWidget(parent), m_tracksCount(0), m_usedTransition(NULL)
+{
     ui.setupUi(this);
     effectEdit = new EffectStackEdit(ui.frame);
     connect(effectEdit, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
@@ -44,7 +45,8 @@ TransitionSettings::TransitionSettings(QWidget* parent): QWidget(parent), m_trac
     connect(effectEdit, SIGNAL(parameterChanged(const QDomElement&, const QDomElement&)), this , SLOT(slotUpdateEffectParams(const QDomElement&, const QDomElement&)));
 }
 
-void TransitionSettings::updateProjectFormat(MltVideoProfile profile, Timecode t, const uint tracksCount) {
+void TransitionSettings::updateProjectFormat(MltVideoProfile profile, Timecode t, const uint tracksCount)
+{
     m_tracksCount = tracksCount;
     effectEdit->updateProjectFormat(profile, t);
     QStringList tracksList;
@@ -60,7 +62,8 @@ void TransitionSettings::updateProjectFormat(MltVideoProfile profile, Timecode t
 }
 
 
-void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent) {
+void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
+{
     QDomElement e = m_usedTransition->toXML().cloneNode().toElement();
     if (reinit) {
         // Reset the transition parameters to the default one
@@ -78,7 +81,8 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent) 
     }
 }
 
-void TransitionSettings::slotTransitionTrackChanged() {
+void TransitionSettings::slotTransitionTrackChanged()
+{
     if (m_usedTransition == NULL) return;
     int ix = 0;
     QDomElement oldxml = m_usedTransition->toXML().cloneNode().toElement();
@@ -95,7 +99,8 @@ void TransitionSettings::slotTransitionTrackChanged() {
     effectEdit->updateParameter("transition_btrack", QString::number(ix));
 }
 
-void TransitionSettings::slotTransitionItemSelected(Transition* t, bool update) {
+void TransitionSettings::slotTransitionItemSelected(Transition* t, bool update)
+{
     setEnabled(t != NULL);
     if (t == m_usedTransition) {
         if (t == NULL) return;
@@ -131,7 +136,8 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, bool update) 
 
 }
 
-void TransitionSettings::slotUpdateEffectParams(const QDomElement &oldparam, const QDomElement &param) {
+void TransitionSettings::slotUpdateEffectParams(const QDomElement &oldparam, const QDomElement &param)
+{
     if (m_usedTransition) {
         m_usedTransition->setTransitionParameters(param);
         m_usedTransition->update();
@@ -142,7 +148,8 @@ void TransitionSettings::slotUpdateEffectParams(const QDomElement &oldparam, con
     }
 }
 
-void TransitionSettings::raiseWindow(QWidget* dock) {
+void TransitionSettings::raiseWindow(QWidget* dock)
+{
     if (dock && m_usedTransition)
         dock->raise();
 

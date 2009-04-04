@@ -27,7 +27,8 @@
 
 class ProjectList;
 
-class EditClipCommand : public QUndoCommand {
+class EditClipCommand : public QUndoCommand
+{
 public:
     EditClipCommand(ProjectList *list, const QString &id, QMap <QString, QString> oldparams, QMap <QString, QString> newparams, bool doIt, QUndoCommand * parent = 0);
 

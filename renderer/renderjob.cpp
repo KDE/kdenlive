@@ -25,7 +25,8 @@
 #include <QThread>
 
 // Can't believe I need to do this to sleep.
-class SleepThread : QThread {
+class SleepThread : QThread
+{
 public:
     virtual void run() {};
     static void msleep(unsigned long msecs) {
@@ -35,7 +36,8 @@ public:
 
 static QDBusConnection connection(QLatin1String(""));
 
-RenderJob::RenderJob(bool erase, bool usekuiserver, const QString &renderer, const QString &profile, const QString &rendermodule, const QString &player, const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in, int out) : QObject(), m_usekuiserver(usekuiserver), m_jobUiserver(NULL), m_kdenliveinterface(NULL) {
+RenderJob::RenderJob(bool erase, bool usekuiserver, const QString &renderer, const QString &profile, const QString &rendermodule, const QString &player, const QString &scenelist, const QString &dest, const QStringList &preargs, const QStringList &args, int in, int out) : QObject(), m_usekuiserver(usekuiserver), m_jobUiserver(NULL), m_kdenliveinterface(NULL)
+{
     m_scenelist = scenelist;
     m_dest = dest;
     m_player = player;
@@ -85,16 +87,19 @@ RenderJob::RenderJob(bool erase, bool usekuiserver, const QString &renderer, con
 }
 
 
-RenderJob::~RenderJob() {
+RenderJob::~RenderJob()
+{
     if (m_renderProcess) delete m_renderProcess;
     // m_logfile.close();
 }
 
-void RenderJob::slotAbort(const QString& url) {
+void RenderJob::slotAbort(const QString& url)
+{
     if (m_dest == url) slotAbort();
 }
 
-void RenderJob::slotAbort() {
+void RenderJob::slotAbort()
+{
     qDebug() << "Kdenlive-render: JOB ABORTED BY USER...";
     m_renderProcess->kill();
 
@@ -118,7 +123,8 @@ void RenderJob::slotAbort() {
     qApp->quit();
 }
 
-void RenderJob::receivedStderr() {
+void RenderJob::receivedStderr()
+{
     QString result = QString(m_renderProcess->readAllStandardError()).simplified();
     if (!result.startsWith("Current Frame")) m_errorMessage.append(result + "<br>");
     else {
@@ -153,7 +159,8 @@ void RenderJob::receivedStderr() {
     }
 }
 
-void RenderJob::start() {
+void RenderJob::start()
+{
     QDBusConnectionInterface* interface = QDBusConnection::sessionBus().interface();
     if (interface && m_usekuiserver) {
         if (!interface->isServiceRegistered("org.kde.JobViewServer")) {
@@ -199,7 +206,8 @@ void RenderJob::start() {
 }
 
 
-void RenderJob::initKdenliveDbusInterface() {
+void RenderJob::initKdenliveDbusInterface()
+{
     QString kdenliveId;
     QDBusConnection connection = QDBusConnection::sessionBus();
     QDBusConnectionInterface *ibus = connection.interface();
@@ -228,7 +236,8 @@ void RenderJob::initKdenliveDbusInterface() {
 }
 
 
-void RenderJob::slotIsOver(int /*exitcode*/, QProcess::ExitStatus status) {
+void RenderJob::slotIsOver(int /*exitcode*/, QProcess::ExitStatus status)
+{
     if (m_jobUiserver) m_jobUiserver->call("terminate", QString());
     if (m_erase) {
         QFile f(m_scenelist);

@@ -30,7 +30,8 @@
 
 class EffectsList;
 
-class initEffectsThumbnailer : public QThread {
+class initEffectsThumbnailer : public QThread
+{
     Q_OBJECT
 public:
     initEffectsThumbnailer();
@@ -41,7 +42,8 @@ private :
 
 };
 
-class initEffects : public QObject {
+class initEffects : public QObject
+{
     Q_OBJECT
 public:
     initEffects();

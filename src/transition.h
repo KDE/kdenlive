@@ -35,7 +35,8 @@
 
 class ClipItem;
 
-class Transition : public AbstractClipItem {
+class Transition : public AbstractClipItem
+{
     Q_OBJECT
 public:
 

@@ -33,7 +33,8 @@
 
 const double recommendedMltVersion = 36;
 
-Wizard::Wizard(bool upgrade, QWidget *parent): QWizard(parent) {
+Wizard::Wizard(bool upgrade, QWidget *parent): QWizard(parent)
+{
     setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
 
     QWizardPage *page1 = new QWizardPage;
@@ -112,7 +113,8 @@ Wizard::Wizard(bool upgrade, QWidget *parent): QWizard(parent) {
 }
 
 
-void Wizard::checkMltComponents() {
+void Wizard::checkMltComponents()
+{
     m_mltCheck.programList->setColumnCount(2);
     m_mltCheck.programList->setRootIsDecorated(false);
     m_mltCheck.programList->setHeaderHidden(true);
@@ -282,7 +284,8 @@ void Wizard::checkMltComponents() {
     }
 }
 
-void Wizard::slotCheckPrograms() {
+void Wizard::slotCheckPrograms()
+{
     m_check.programList->setColumnCount(2);
     m_check.programList->setRootIsDecorated(false);
     m_check.programList->setHeaderHidden(true);
@@ -324,7 +327,8 @@ void Wizard::slotCheckPrograms() {
 
 }
 
-void Wizard::installExtraMimes(QString baseName, QStringList globs) {
+void Wizard::installExtraMimes(QString baseName, QStringList globs)
+{
     QString mimefile = baseName;
     mimefile.replace('/', '-');
     KMimeType::Ptr mime = KMimeType::mimeType(baseName);
@@ -372,7 +376,8 @@ void Wizard::installExtraMimes(QString baseName, QStringList globs) {
     }
 }
 
-void Wizard::runUpdateMimeDatabase() {
+void Wizard::runUpdateMimeDatabase()
+{
     const QString localPackageDir = KStandardDirs::locateLocal("xdgdata-mime", QString());
     //Q_ASSERT(!localPackageDir.isEmpty());
     KProcess proc;
@@ -384,7 +389,8 @@ void Wizard::runUpdateMimeDatabase() {
     }
 }
 
-void Wizard::slotCheckThumbs() {
+void Wizard::slotCheckThumbs()
+{
     QString pixname = "timeline_vthumbs.png";
     if (!m_extra.audiothumbs->isChecked() && !m_extra.videothumbs->isChecked()) {
         pixname = "timeline_nothumbs.png";
@@ -397,7 +403,8 @@ void Wizard::slotCheckThumbs() {
     m_extra.timeline_preview->setPixmap(QPixmap(KStandardDirs::locate("appdata", pixname)));
 }
 
-void Wizard::slotCheckStandard() {
+void Wizard::slotCheckStandard()
+{
     m_standard.profiles_list->clear();
     QStringList profiles;
     if (m_standard.button_dv->isChecked()) {
@@ -424,13 +431,15 @@ void Wizard::slotCheckStandard() {
     m_standard.profiles_list->setCurrentRow(0);
 }
 
-void Wizard::slotCheckSelectedItem() {
+void Wizard::slotCheckSelectedItem()
+{
     // Make sure we always have an item highlighted
     m_standard.profiles_list->setCurrentRow(m_standard.profiles_list->currentRow());
 }
 
 
-void Wizard::adjustSettings() {
+void Wizard::adjustSettings()
+{
     if (m_extra.installmimes->isChecked()) {
         QStringList globs;
         globs << "*.mts" << "*.m2t" << "*.mod" << "*.ts";
@@ -454,7 +463,8 @@ void Wizard::adjustSettings() {
 
 }
 
-void Wizard::slotCheckMlt() {
+void Wizard::slotCheckMlt()
+{
     QString errorMessage;
     if (KdenliveSettings::rendererpath().isEmpty()) {
         errorMessage.append(i18n("your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"));
@@ -496,7 +506,8 @@ void Wizard::slotCheckMlt() {
     slotCheckPrograms();
 }
 
-bool Wizard::isOk() const {
+bool Wizard::isOk() const
+{
     return m_systemCheckIsOk;
 }
 

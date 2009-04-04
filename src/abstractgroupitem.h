@@ -29,7 +29,8 @@
 
 class CustomTrackScene;
 
-class AbstractGroupItem : public QObject , public QGraphicsItemGroup {
+class AbstractGroupItem : public QObject , public QGraphicsItemGroup
+{
     Q_OBJECT
 public:
     AbstractGroupItem(double fps);

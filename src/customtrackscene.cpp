@@ -23,14 +23,17 @@
 #include <KStandardDirs>
 
 CustomTrackScene::CustomTrackScene(KdenliveDoc *doc, QObject *parent)
-        : QGraphicsScene(parent), m_document(doc), m_scale(1.0) {
+        : QGraphicsScene(parent), m_document(doc), m_scale(1.0)
+{
     m_transitionPixmap = QPixmap(KStandardDirs::locate("appdata", "transition.png"));
 }
 
-CustomTrackScene::~CustomTrackScene() {
+CustomTrackScene::~CustomTrackScene()
+{
 }
 
-double CustomTrackScene::getSnapPointForPos(double pos, bool doSnap) {
+double CustomTrackScene::getSnapPointForPos(double pos, bool doSnap)
+{
     double maximumOffset;
     if (doSnap) {
         if (m_scale > 3) maximumOffset = 10 / m_scale;
@@ -45,11 +48,13 @@ double CustomTrackScene::getSnapPointForPos(double pos, bool doSnap) {
     return GenTime(pos, m_document->fps()).frames(m_document->fps());
 }
 
-void CustomTrackScene::setSnapList(QList <GenTime> snaps) {
+void CustomTrackScene::setSnapList(QList <GenTime> snaps)
+{
     m_snapPoints = snaps;
 }
 
-GenTime CustomTrackScene::previousSnapPoint(GenTime pos) {
+GenTime CustomTrackScene::previousSnapPoint(GenTime pos)
+{
     for (int i = 0; i < m_snapPoints.size(); ++i) {
         if (m_snapPoints.at(i) >= pos) {
             if (i == 0) i = 1;
@@ -59,7 +64,8 @@ GenTime CustomTrackScene::previousSnapPoint(GenTime pos) {
     return GenTime();
 }
 
-GenTime CustomTrackScene::nextSnapPoint(GenTime pos) {
+GenTime CustomTrackScene::nextSnapPoint(GenTime pos)
+{
     for (int i = 0; i < m_snapPoints.size(); ++i) {
         if (m_snapPoints.at(i) > pos) {
             return m_snapPoints.at(i);
@@ -68,15 +74,18 @@ GenTime CustomTrackScene::nextSnapPoint(GenTime pos) {
     return pos;
 }
 
-void CustomTrackScene::setScale(double scale) {
+void CustomTrackScene::setScale(double scale)
+{
     m_scale = scale;
 }
 
-double CustomTrackScene::scale() const {
+double CustomTrackScene::scale() const
+{
     return m_scale;
 }
 
-int CustomTrackScene::tracksCount() const {
+int CustomTrackScene::tracksCount() const
+{
     return m_document->tracksCount();
 }
 

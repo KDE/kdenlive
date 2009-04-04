@@ -31,7 +31,8 @@ class KdenliveDoc;
 
 /** This class holds all properties that need to be used by clip items */
 
-class CustomTrackScene : public QGraphicsScene {
+class CustomTrackScene : public QGraphicsScene
+{
     Q_OBJECT
 
 public:

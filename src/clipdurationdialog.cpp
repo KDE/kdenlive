@@ -26,7 +26,8 @@
 
 #include <QWheelEvent>
 
-ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, QWidget * parent): QDialog(parent), m_tc(tc), m_clip(clip) {
+ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, QWidget * parent): QDialog(parent), m_tc(tc), m_clip(clip)
+{
     setFont(KGlobalSettings::toolBarFont());
     m_fps = m_tc.fps();
     m_view.setupUi(this);
@@ -58,17 +59,20 @@ ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, QWid
     adjustSize();
 }
 
-ClipDurationDialog::~ClipDurationDialog() {
+ClipDurationDialog::~ClipDurationDialog()
+{
 }
 
-void ClipDurationDialog::setMargins(GenTime min, GenTime max) {
+void ClipDurationDialog::setMargins(GenTime min, GenTime max)
+{
     m_min = min;
     m_max = max;
     connect(m_view.clip_position, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckStart()));
     connect(m_view.clip_duration, SIGNAL(textChanged(const QString &)), this, SLOT(slotCheckDuration()));
 }
 
-void ClipDurationDialog::slotCheckStart() {
+void ClipDurationDialog::slotCheckStart()
+{
     int pos = m_tc.getFrameCount(m_view.clip_position->text(), m_fps);
     int dur = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
     GenTime start(pos, m_fps);
@@ -80,7 +84,8 @@ void ClipDurationDialog::slotCheckStart() {
     }
 }
 
-void ClipDurationDialog::slotCheckDuration() {
+void ClipDurationDialog::slotCheckDuration()
+{
     int pos = m_tc.getFrameCount(m_view.clip_position->text(), m_fps);
     int dur = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
     GenTime start(pos, m_fps);
@@ -91,7 +96,8 @@ void ClipDurationDialog::slotCheckDuration() {
     }
 }
 
-void ClipDurationDialog::slotCheckCrop() {
+void ClipDurationDialog::slotCheckCrop()
+{
     int dur = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
     int crop = m_tc.getFrameCount(m_view.crop_position->text(), m_fps);
     GenTime duration(dur, m_fps);
@@ -102,21 +108,24 @@ void ClipDurationDialog::slotCheckCrop() {
     }
 }
 
-void ClipDurationDialog::slotPosUp() {
+void ClipDurationDialog::slotPosUp()
+{
     int position = m_tc.getFrameCount(m_view.clip_position->text(), m_fps);
     //if (duration >= m_clip->duration().frames(m_fps)) return;
     position ++;
     m_view.clip_position->setText(m_tc.getTimecode(GenTime(position, m_fps), m_fps));
 }
 
-void ClipDurationDialog::slotPosDown() {
+void ClipDurationDialog::slotPosDown()
+{
     int position = m_tc.getFrameCount(m_view.clip_position->text(), m_fps);
     //if (duration >= m_clip->duration().frames(m_fps)) return;
     position --;
     m_view.clip_position->setText(m_tc.getTimecode(GenTime(position, m_fps), m_fps));
 }
 
-void ClipDurationDialog::slotDurUp() {
+void ClipDurationDialog::slotDurUp()
+{
     int duration = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
     int crop = m_tc.getFrameCount(m_view.crop_position->text(), m_fps);
     if (duration + crop > m_clip->maxDuration().frames(m_fps)) return;
@@ -124,14 +133,16 @@ void ClipDurationDialog::slotDurUp() {
     m_view.clip_duration->setText(m_tc.getTimecode(GenTime(duration, m_fps), m_fps));
 }
 
-void ClipDurationDialog::slotDurDown() {
+void ClipDurationDialog::slotDurDown()
+{
     int duration = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
     if (duration <= 0) return;
     duration --;
     m_view.clip_duration->setText(m_tc.getTimecode(GenTime(duration, m_fps), m_fps));
 }
 
-void ClipDurationDialog::slotCropUp() {
+void ClipDurationDialog::slotCropUp()
+{
     int crop = m_tc.getFrameCount(m_view.crop_position->text(), m_fps);
     int duration = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
     if (duration + crop > m_clip->maxDuration().frames(m_fps)) return;
@@ -139,29 +150,34 @@ void ClipDurationDialog::slotCropUp() {
     m_view.crop_position->setText(m_tc.getTimecode(GenTime(crop, m_fps), m_fps));
 }
 
-void ClipDurationDialog::slotCropDown() {
+void ClipDurationDialog::slotCropDown()
+{
     int crop = m_tc.getFrameCount(m_view.crop_position->text(), m_fps);
     if (crop <= 0) return;
     crop --;
     m_view.crop_position->setText(m_tc.getTimecode(GenTime(crop, m_fps), m_fps));
 }
 
-GenTime ClipDurationDialog::startPos() const {
+GenTime ClipDurationDialog::startPos() const
+{
     int pos = m_tc.getFrameCount(m_view.clip_position->text(), m_fps);
     return GenTime(pos, m_fps);
 }
 
-GenTime ClipDurationDialog::cropStart() const {
+GenTime ClipDurationDialog::cropStart() const
+{
     int pos = m_tc.getFrameCount(m_view.crop_position->text(), m_fps);
     return GenTime(pos, m_fps);
 }
 
-GenTime ClipDurationDialog::duration() const {
+GenTime ClipDurationDialog::duration() const
+{
     int pos = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
     return GenTime(pos, m_fps);
 }
 
-void ClipDurationDialog::wheelEvent(QWheelEvent * event) {
+void ClipDurationDialog::wheelEvent(QWheelEvent * event)
+{
     if (m_view.clip_position->underMouse()) {
         if (event->delta() > 0)
             slotPosUp();

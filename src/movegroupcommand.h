@@ -31,7 +31,8 @@
 class GenTime;
 class CustomTrackView;
 
-class MoveGroupCommand : public QUndoCommand {
+class MoveGroupCommand : public QUndoCommand
+{
 public:
     MoveGroupCommand(CustomTrackView *view, const QList <ItemInfo> startClip, const QList <ItemInfo> startTransition, const GenTime offset, const int trackOffset, bool doIt, QUndoCommand * parent = 0);
     virtual void undo();

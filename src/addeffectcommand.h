@@ -28,7 +28,8 @@
 
 class CustomTrackView;
 
-class AddEffectCommand : public QUndoCommand {
+class AddEffectCommand : public QUndoCommand
+{
 public:
     AddEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement effect, bool doIt, QUndoCommand * parent = 0);
 

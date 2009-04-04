@@ -36,7 +36,8 @@
 #include "ui_dvdwizardiso_ui.h"
 #include "ui_dvdwizardstatus_ui.h"
 
-class DvdWizard : public QWizard {
+class DvdWizard : public QWizard
+{
     Q_OBJECT
 public:
     explicit DvdWizard(const QString &url = QString(), const QString &profile = "dv_pal", QWidget * parent = 0);

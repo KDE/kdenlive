@@ -30,7 +30,8 @@
 
 class CustomTrackView;
 
-class AddTrackCommand : public QUndoCommand {
+class AddTrackCommand : public QUndoCommand
+{
 public:
     AddTrackCommand(CustomTrackView *view, int ix, TrackInfo info, bool addTrack, bool doIt, QUndoCommand * parent = 0);
     virtual void undo();

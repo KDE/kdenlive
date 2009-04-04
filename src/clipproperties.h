@@ -27,7 +27,8 @@
 #include "docclipbase.h"
 #include "ui_clipproperties_ui.h"
 
-class ClipProperties : public QDialog {
+class ClipProperties : public QDialog
+{
     Q_OBJECT
 
 public:

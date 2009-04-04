@@ -25,7 +25,8 @@ class EffectsList;
 class ClipItem;
 class MltVideoProfile;
 
-class EffectStackView : public QWidget {
+class EffectStackView : public QWidget
+{
     Q_OBJECT
 
 public:

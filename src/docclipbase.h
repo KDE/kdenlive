@@ -42,12 +42,14 @@ class KdenliveDoc;
 class KThumb;
 class ClipManager;
 
-namespace Mlt {
+namespace Mlt
+{
 class Producer;
 };
 
 
-class DocClipBase: public QObject {
+class DocClipBase: public QObject
+{
 Q_OBJECT public:
     /** this enum determines the types of "feed" available within this clip. types must be non-exclusive
      * - e.g. if you can have audio and video separately, it should be possible to combin the two, as is

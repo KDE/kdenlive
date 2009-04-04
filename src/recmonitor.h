@@ -35,7 +35,8 @@
 #include "smallruler.h"
 #include "regiongrabber.h"
 
-class RecMonitor : public QWidget {
+class RecMonitor : public QWidget
+{
     Q_OBJECT
 
 public:

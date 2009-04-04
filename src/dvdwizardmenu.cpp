@@ -22,7 +22,8 @@
 #include <KDebug>
 
 
-DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent): QWizardPage(parent) {
+DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent): QWizardPage(parent)
+{
     m_view.setupUi(this);
     m_view.play_text->setText(i18n("Play"));
     m_scene = new DvdScene(this);
@@ -110,7 +111,8 @@ DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent): QWizardPa
 
 }
 
-DvdWizardMenu::~DvdWizardMenu() {
+DvdWizardMenu::~DvdWizardMenu()
+{
     delete m_color;
     delete m_safeRect;
     delete m_background;
@@ -119,7 +121,8 @@ DvdWizardMenu::~DvdWizardMenu() {
 
 // virtual
 
-bool DvdWizardMenu::isComplete() const {
+bool DvdWizardMenu::isComplete() const
+{
     if (!m_view.create_menu->isChecked()) return true;
     QList <int> targets;
     QList<QGraphicsItem *> list = m_scene->items();
@@ -157,7 +160,8 @@ bool DvdWizardMenu::isComplete() const {
     return true;
 }
 
-void DvdWizardMenu::setButtonTarget(int ix) {
+void DvdWizardMenu::setButtonTarget(int ix)
+{
     QList<QGraphicsItem *> list = m_scene->selectedItems();
     for (int i = 0; i < list.count(); i++) {
         if (list.at(i)->type() == QGraphicsItem::UserType + 1) {
@@ -169,7 +173,8 @@ void DvdWizardMenu::setButtonTarget(int ix) {
     emit completeChanged();
 }
 
-void DvdWizardMenu::buttonChanged() {
+void DvdWizardMenu::buttonChanged()
+{
     QList<QGraphicsItem *> list = m_scene->selectedItems();
     bool foundButton = false;
     for (int i = 0; i < list.count(); i++) {
@@ -196,7 +201,8 @@ void DvdWizardMenu::buttonChanged() {
     if (!foundButton) m_view.tabWidget->widget(0)->setEnabled(false);
 }
 
-void DvdWizardMenu::addButton() {
+void DvdWizardMenu::addButton()
+{
     m_scene->clearSelection();
     DvdButton *button = new DvdButton(m_view.play_text->text());
     QFont font = m_view.font_family->currentFont();
@@ -212,7 +218,8 @@ void DvdWizardMenu::addButton() {
     button->setSelected(true);
 }
 
-void DvdWizardMenu::deleteButton() {
+void DvdWizardMenu::deleteButton()
+{
     QList<QGraphicsItem *> list = m_scene->selectedItems();
     for (int i = 0; i < list.count(); i++) {
         if (list.at(i)->type() == QGraphicsItem::UserType + 1) {
@@ -222,7 +229,8 @@ void DvdWizardMenu::deleteButton() {
     }
 }
 
-void DvdWizardMenu::changeProfile(int ix) {
+void DvdWizardMenu::changeProfile(int ix)
+{
     switch (ix) {
     case 1:
         m_width = 720;
@@ -239,7 +247,8 @@ void DvdWizardMenu::changeProfile(int ix) {
     }
 }
 
-void DvdWizardMenu::updatePreview() {
+void DvdWizardMenu::updatePreview()
+{
     m_scene->setProfile(m_width, m_height);
     QMatrix matrix;
     matrix.scale(0.5, 0.5);
@@ -253,7 +262,8 @@ void DvdWizardMenu::updatePreview() {
     m_safeRect->setRect(safeW, safeH, m_width - 2 * safeW, m_height - 2 * safeH);
 }
 
-void DvdWizardMenu::setTargets(QStringList /*list*/) {
+void DvdWizardMenu::setTargets(QStringList /*list*/)
+{
     m_targets = QStringList() << i18n("Play All");
     // TODO: re-enable different targets
     /*
@@ -264,7 +274,8 @@ void DvdWizardMenu::setTargets(QStringList /*list*/) {
     m_view.target_list->addItems(m_targets);
 }
 
-void DvdWizardMenu::checkBackgroundType(int ix) {
+void DvdWizardMenu::checkBackgroundType(int ix)
+{
     if (ix == 0) {
         m_view.background_color->setVisible(true);
         m_view.background_image->setVisible(false);
@@ -282,11 +293,13 @@ void DvdWizardMenu::checkBackgroundType(int ix) {
     }
 }
 
-void DvdWizardMenu::buildColor() {
+void DvdWizardMenu::buildColor()
+{
     m_color->setBrush(m_view.background_color->color());
 }
 
-void DvdWizardMenu::buildImage() {
+void DvdWizardMenu::buildImage()
+{
     emit completeChanged();
     if (m_view.background_image->url().isEmpty()) {
         m_scene->removeItem(m_background);
@@ -302,7 +315,8 @@ void DvdWizardMenu::buildImage() {
     if (m_view.background_list->currentIndex() == 1) m_scene->addItem(m_background);
 }
 
-void DvdWizardMenu::checkBackground() {
+void DvdWizardMenu::checkBackground()
+{
     if (m_view.background_list->currentIndex() != 1) {
         m_scene->removeItem(m_background);
     } else {
@@ -310,7 +324,8 @@ void DvdWizardMenu::checkBackground() {
     }
 }
 
-void DvdWizardMenu::buildButton() {
+void DvdWizardMenu::buildButton()
+{
     DvdButton *button = NULL;
     QList<QGraphicsItem *> list = m_scene->selectedItems();
     for (int i = 0; i < list.count(); i++) {
@@ -328,12 +343,14 @@ void DvdWizardMenu::buildButton() {
     button->setDefaultTextColor(m_view.text_color->color());
 }
 
-void DvdWizardMenu::updateColor() {
+void DvdWizardMenu::updateColor()
+{
     updateColor(m_view.text_color->color());
     m_view.menu_preview->viewport()->update();
 }
 
-void DvdWizardMenu::updateColor(QColor c) {
+void DvdWizardMenu::updateColor(QColor c)
+{
     DvdButton *button = NULL;
     QList<QGraphicsItem *> list = m_scene->items();
     for (int i = 0; i < list.count(); i++) {
@@ -345,7 +362,8 @@ void DvdWizardMenu::updateColor(QColor c) {
 }
 
 
-void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2, const QString &img3) {
+void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2, const QString &img3)
+{
     if (m_view.create_menu->isChecked()) {
         m_scene->clearSelection();
         QImage img(m_width, m_height, QImage::Format_ARGB32);
@@ -392,7 +410,8 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
 }
 
 
-void DvdWizardMenu::createBackgroundImage(const QString &img1) {
+void DvdWizardMenu::createBackgroundImage(const QString &img1)
+{
     QImage img;
     if (m_view.background_list->currentIndex() == 0) {
         // color background
@@ -414,20 +433,24 @@ void DvdWizardMenu::createBackgroundImage(const QString &img1) {
     img.save(img1);
 }
 
-bool DvdWizardMenu::createMenu() const {
+bool DvdWizardMenu::createMenu() const
+{
     return m_view.create_menu->isChecked();
 }
 
-bool DvdWizardMenu::menuMovie() const {
+bool DvdWizardMenu::menuMovie() const
+{
     return m_view.background_list->currentIndex() == 2;
 }
 
-QString DvdWizardMenu::menuMoviePath() const {
+QString DvdWizardMenu::menuMoviePath() const
+{
     return m_view.background_image->url().path();
 }
 
 
-QMap <int, QRect> DvdWizardMenu::buttonsInfo() {
+QMap <int, QRect> DvdWizardMenu::buttonsInfo()
+{
     QMap <int, QRect> info;
     QList<QGraphicsItem *> list = m_scene->items();
     for (int i = 0; i < list.count(); i++) {
@@ -443,6 +466,7 @@ QMap <int, QRect> DvdWizardMenu::buttonsInfo() {
     return info;
 }
 
-bool DvdWizardMenu::isPalMenu() const {
+bool DvdWizardMenu::isPalMenu() const
+{
     return m_isPal;
 }

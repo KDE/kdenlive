@@ -28,14 +28,16 @@
 #include <QPainter>
 #include <QToolTip>
 
-AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps): QGraphicsRectItem(rect), m_track(0), m_fps(fps), m_editedKeyframe(-1), m_selectedKeyframe(0), m_keyframeFactor(1) {
+AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps): QGraphicsRectItem(rect), m_track(0), m_fps(fps), m_editedKeyframe(-1), m_selectedKeyframe(0), m_keyframeFactor(1)
+{
     setFlags(/*QGraphicsItem::ItemClipsToShape | */QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setTrack(info.track);
     m_startPos = info.startPos;
     m_cropDuration = info.endPos - info.startPos;
 }
 
-ItemInfo AbstractClipItem::info() const {
+ItemInfo AbstractClipItem::info() const
+{
     ItemInfo itemInfo;
     itemInfo.startPos = startPos();
     itemInfo.endPos = endPos();
@@ -44,36 +46,44 @@ ItemInfo AbstractClipItem::info() const {
     return itemInfo;
 }
 
-GenTime AbstractClipItem::endPos() const {
+GenTime AbstractClipItem::endPos() const
+{
     return m_startPos + m_cropDuration;
 }
 
-int AbstractClipItem::track() const {
+int AbstractClipItem::track() const
+{
     return m_track;
 }
 
-GenTime AbstractClipItem::cropStart() const {
+GenTime AbstractClipItem::cropStart() const
+{
     return m_cropStart;
 }
 
-GenTime AbstractClipItem::cropDuration() const {
+GenTime AbstractClipItem::cropDuration() const
+{
     return m_cropDuration;
 }
 
-void AbstractClipItem::setCropStart(GenTime pos) {
+void AbstractClipItem::setCropStart(GenTime pos)
+{
     m_cropStart = pos;
 }
 
-void AbstractClipItem::updateItem() {
+void AbstractClipItem::updateItem()
+{
     m_track = (int)(scenePos().y() / KdenliveSettings::trackheight());
     m_startPos = GenTime((int) scenePos().x(), m_fps);
 }
 
-void AbstractClipItem::updateRectGeometry() {
+void AbstractClipItem::updateRectGeometry()
+{
     setRect(0, 0, cropDuration().frames(m_fps) - 0.02, rect().height());
 }
 
-void AbstractClipItem::resizeStart(int posx, double speed) {
+void AbstractClipItem::resizeStart(int posx, double speed)
+{
     GenTime durationDiff = GenTime(posx, m_fps) - m_startPos;
     if (durationDiff == GenTime()) return;
     //kDebug() << "-- RESCALE DIFF=" << durationDiff.frames(25) << ", CLIP: " << startPos().frames(25) << "-" << endPos().frames(25);
@@ -124,7 +134,8 @@ void AbstractClipItem::resizeStart(int posx, double speed) {
         }*/
 }
 
-void AbstractClipItem::resizeEnd(int posx, double speed, bool /*updateKeyFrames*/) {
+void AbstractClipItem::resizeEnd(int posx, double speed, bool /*updateKeyFrames*/)
+{
     GenTime durationDiff = GenTime(posx, m_fps) - endPos();
     if (durationDiff == GenTime()) return;
     //kDebug() << "// DUR DIFF1:" << durationDiff.frames(25) << ", ADJUSTED: " << durationDiff.frames(25) * speed << ", SPED:" << speed;
@@ -154,31 +165,38 @@ void AbstractClipItem::resizeEnd(int posx, double speed, bool /*updateKeyFrames*
     }
 }
 
-GenTime AbstractClipItem::duration() const {
+GenTime AbstractClipItem::duration() const
+{
     return m_cropDuration;
 }
 
-GenTime AbstractClipItem::startPos() const {
+GenTime AbstractClipItem::startPos() const
+{
     return m_startPos;
 }
 
-void AbstractClipItem::setTrack(int track) {
+void AbstractClipItem::setTrack(int track)
+{
     m_track = track;
 }
 
-double AbstractClipItem::fps() const {
+double AbstractClipItem::fps() const
+{
     return m_fps;
 }
 
-GenTime AbstractClipItem::maxDuration() const {
+GenTime AbstractClipItem::maxDuration() const
+{
     return m_maxDuration;
 }
 
-void AbstractClipItem::setMaxDuration(const GenTime &max) {
+void AbstractClipItem::setMaxDuration(const GenTime &max)
+{
     m_maxDuration = max;
 }
 
-QPainterPath AbstractClipItem::upperRectPart(QRectF br) {
+QPainterPath AbstractClipItem::upperRectPart(QRectF br)
+{
     QPainterPath roundRectPathUpper;
     double roundingY = 20;
     double roundingX = 20;
@@ -202,7 +220,8 @@ QPainterPath AbstractClipItem::upperRectPart(QRectF br) {
     return roundRectPathUpper;
 }
 
-QPainterPath AbstractClipItem::lowerRectPart(QRectF br) {
+QPainterPath AbstractClipItem::lowerRectPart(QRectF br)
+{
     QPainterPath roundRectPathLower;
     double roundingY = 20;
     double roundingX = 20;
@@ -225,7 +244,8 @@ QPainterPath AbstractClipItem::lowerRectPart(QRectF br) {
     return roundRectPathLower;
 }
 
-void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/) {
+void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
+{
     if (m_keyframes.count() < 2) return;
     QRectF br = rect();
     double maxw = br.width() / m_cropDuration.frames(m_fps);
@@ -275,7 +295,8 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/) 
     if (isSelected()) painter->fillRect(l2.x2() - 3, l2.y2() - 3, 6, 6, QBrush(color));
 }
 
-int AbstractClipItem::mouseOverKeyFrames(QPointF pos) {
+int AbstractClipItem::mouseOverKeyFrames(QPointF pos)
+{
     QRectF br = sceneBoundingRect();
     double maxw = br.width() / m_cropDuration.frames(m_fps);
     double maxh = br.height() / 100.0 * m_keyframeFactor;
@@ -297,7 +318,8 @@ int AbstractClipItem::mouseOverKeyFrames(QPointF pos) {
     return -1;
 }
 
-void AbstractClipItem::updateSelectedKeyFrame() {
+void AbstractClipItem::updateSelectedKeyFrame()
+{
     if (m_editedKeyframe == -1) return;
     QRectF br = sceneBoundingRect();
     double maxw = br.width() / m_cropDuration.frames(m_fps);
@@ -307,15 +329,18 @@ void AbstractClipItem::updateSelectedKeyFrame() {
     update(br.x() + maxw * (m_selectedKeyframe - m_cropStart.frames(m_fps)) - 3, br.bottom() - m_keyframes[m_selectedKeyframe] * maxh - 3, 12, 12);
 }
 
-int AbstractClipItem::selectedKeyFramePos() const {
+int AbstractClipItem::selectedKeyFramePos() const
+{
     return m_editedKeyframe;
 }
 
-double AbstractClipItem::selectedKeyFrameValue() const {
+double AbstractClipItem::selectedKeyFrameValue() const
+{
     return m_keyframes[m_editedKeyframe];
 }
 
-void AbstractClipItem::updateKeyFramePos(const GenTime pos, const double value) {
+void AbstractClipItem::updateKeyFramePos(const GenTime pos, const double value)
+{
     if (!m_keyframes.contains(m_selectedKeyframe)) return;
     int newpos = (int) pos.frames(m_fps);
     int start = m_cropStart.frames(m_fps);
@@ -345,11 +370,13 @@ void AbstractClipItem::updateKeyFramePos(const GenTime pos, const double value) 
     update();
 }
 
-double AbstractClipItem::keyFrameFactor() const {
+double AbstractClipItem::keyFrameFactor() const
+{
     return m_keyframeFactor;
 }
 
-void AbstractClipItem::addKeyFrame(const GenTime pos, const double value) {
+void AbstractClipItem::addKeyFrame(const GenTime pos, const double value)
+{
     QRectF br = sceneBoundingRect();
     double maxh = 100.0 / br.height() / m_keyframeFactor;
     double newval = (br.bottom() - value) * maxh;
@@ -360,7 +387,8 @@ void AbstractClipItem::addKeyFrame(const GenTime pos, const double value) {
     update();
 }
 
-bool AbstractClipItem::hasKeyFrames() const {
+bool AbstractClipItem::hasKeyFrames() const
+{
     return !m_keyframes.isEmpty();
 }
 
@@ -375,12 +403,14 @@ bool AbstractClipItem::hasKeyFrames() const {
     return rectInView;
 }*/
 
-CustomTrackScene* AbstractClipItem::projectScene() {
+CustomTrackScene* AbstractClipItem::projectScene()
+{
     if (scene()) return static_cast <CustomTrackScene*>(scene());
     return NULL;
 }
 
-void AbstractClipItem::setItemLocked(bool locked) {
+void AbstractClipItem::setItemLocked(bool locked)
+{
     if (locked) {
         setSelected(false);
         setFlag(QGraphicsItem::ItemIsMovable, false);
@@ -388,7 +418,8 @@ void AbstractClipItem::setItemLocked(bool locked) {
     } else setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
 }
 
-bool AbstractClipItem::isItemLocked() const {
+bool AbstractClipItem::isItemLocked() const
+{
     return !(flags() & (QGraphicsItem::ItemIsSelectable));
 }
 

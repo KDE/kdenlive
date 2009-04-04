@@ -39,7 +39,8 @@
 #include "timecode.h"
 #include "kdenlivesettings.h"
 
-namespace Mlt {
+namespace Mlt
+{
 class Producer;
 };
 
@@ -53,7 +54,8 @@ const int NameRole = Qt::UserRole;
 const int DurationRole = NameRole + 1;
 const int UsageRole = NameRole + 2;
 
-class ItemDelegate: public QItemDelegate {
+class ItemDelegate: public QItemDelegate
+{
 public:
     ItemDelegate(QAbstractItemView* parent = 0): QItemDelegate(parent) {
     }
@@ -110,7 +112,8 @@ public:
     }
 };
 
-class ProjectList : public QWidget {
+class ProjectList : public QWidget
+{
     Q_OBJECT
 
 public:

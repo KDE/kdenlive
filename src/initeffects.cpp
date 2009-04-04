@@ -32,17 +32,20 @@
 #include <QDir>
 #include <QIcon>
 
-initEffectsThumbnailer::initEffectsThumbnailer() {
+initEffectsThumbnailer::initEffectsThumbnailer()
+{
 
 }
 
-void initEffectsThumbnailer::prepareThumbnailsCall(const QStringList& list) {
+void initEffectsThumbnailer::prepareThumbnailsCall(const QStringList& list)
+{
     m_list = list;
     start();
     kDebug() << "done";
 }
 
-void initEffectsThumbnailer::run() {
+void initEffectsThumbnailer::run()
+{
     foreach(const QString &entry, m_list) {
         kDebug() << entry;
         if (!entry.isEmpty() && (entry.endsWith(".png") || entry.endsWith(".pgm"))) {
@@ -58,16 +61,19 @@ void initEffectsThumbnailer::run() {
 
 initEffectsThumbnailer initEffects::thumbnailer;
 
-initEffects::initEffects() {
+initEffects::initEffects()
+{
 
 }
 
-initEffects::~initEffects() {
+initEffects::~initEffects()
+{
 }
 
 
 // static
-void initEffects::refreshLumas() {
+void initEffects::refreshLumas()
+{
 
     // Check for Kdenlive installed luma files, add empty string at start for no luma
     QStringList imagenamelist = QStringList() << i18n("None");
@@ -108,7 +114,8 @@ void initEffects::refreshLumas() {
 }
 
 //static
-Mlt::Repository *initEffects::parseEffectFiles() {
+Mlt::Repository *initEffects::parseEffectFiles()
+{
     QStringList::Iterator more;
     QStringList::Iterator it;
     QStringList fileList;
@@ -216,7 +223,8 @@ Mlt::Repository *initEffects::parseEffectFiles() {
 }
 
 // static
-void initEffects::parseCustomEffectsFile() {
+void initEffects::parseCustomEffectsFile()
+{
     MainWindow::customEffects.clear();
     QString path = KStandardDirs::locateLocal("appdata", "effects/", true);
     QDir directory = QDir(path);
@@ -241,7 +249,8 @@ void initEffects::parseCustomEffectsFile() {
 }
 
 // static
-void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, QString name, QStringList filtersList, QStringList producersList) {
+void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *audioEffectList, EffectsList *videoEffectList, QString name, QStringList filtersList, QStringList producersList)
+{
     QDomDocument doc;
     QFile file(name);
     doc.setContent(&file, false);
@@ -351,7 +360,8 @@ void initEffects::parseEffectFile(EffectsList *customEffectList, EffectsList *au
 }
 
 //static
-const char* initEffects::ladspaEffectString(int ladspaId, QStringList params) {
+const char* initEffects::ladspaEffectString(int ladspaId, QStringList params)
+{
     if (ladspaId == 1433)  //Pitch
         return ladspaPitchEffectString(params);
     else if (ladspaId == 1216)  //Room Reverb
@@ -367,7 +377,8 @@ const char* initEffects::ladspaEffectString(int ladspaId, QStringList params) {
 }
 
 //static
-void initEffects::ladspaEffectFile(const QString & fname, int ladspaId, QStringList params) {
+void initEffects::ladspaEffectFile(const QString & fname, int ladspaId, QStringList params)
+{
     const char *filterString;
     switch (ladspaId) {
     case 1433: //Pitch
@@ -418,7 +429,8 @@ void initEffects::ladspaEffectFile(const QString & fname, int ladspaId, QStringL
 const QString jackString = "<?xml version=\"1.0\"?><!DOCTYPE jackrack SYSTEM \"http://purge.bash.sh/~rah/jack_rack_1.2.dtd\"><jackrack><channels>2</channels><samplerate>48000</samplerate><plugin><id>";
 
 
-const char* initEffects::ladspaDeclipEffectString(QStringList) {
+const char* initEffects::ladspaDeclipEffectString(QStringList)
+{
     return qstrdup(QString(jackString + "1195</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall></plugin></jackrack>").toUtf8());
 }
 
@@ -428,44 +440,54 @@ const char* initEffects::ladspaVocoderEffectString(QStringList params)
  return qstrdup( QString(jackString + "1441</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>0.000000</value><value>0.000000</value></controlrow><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%3</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%3</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%3</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%3</value></controlrow><controlrow><lock>true</lock><value>%4</value><value>%4</value></controlrow><controlrow><lock>true</lock><value>%4</value><value>%4</value></controlrow><controlrow><lock>true</lock><value>%4</value><value>%4</value></controlrow><controlrow><lock>true</lock><value>%4</value><value>%4</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]).arg(params[2]).arg(params[3]));
 }*/
 
-const char* initEffects::ladspaVinylEffectString(QStringList params) {
+const char* initEffects::ladspaVinylEffectString(QStringList params)
+{
     return qstrdup(QString(jackString + "1905</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><controlrow><value>%1</value></controlrow><controlrow><value>%2</value></controlrow><controlrow><value>%3</value></controlrow><controlrow><value>%4</value></controlrow><controlrow><value>%5</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]).arg(params[2]).arg(params[3]).arg(params[4]).toUtf8());
 }
 
-const char* initEffects::ladspaPitchEffectString(QStringList params) {
+const char* initEffects::ladspaPitchEffectString(QStringList params)
+{
     return qstrdup(QString(jackString + "1433</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.0</value><value>1.0</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>4.000000</value><value>4.000000</value></controlrow></plugin></jackrack>").arg(params[0]).toUtf8());
 }
 
-const char* initEffects::ladspaRoomReverbEffectString(QStringList params) {
+const char* initEffects::ladspaRoomReverbEffectString(QStringList params)
+{
     return qstrdup(QString(jackString + "1216</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%3</value></controlrow><controlrow><lock>true</lock><value>0.750000</value><value>0.750000</value></controlrow><controlrow><lock>true</lock><value>-70.000000</value><value>-70.000000</value></controlrow><controlrow><lock>true</lock><value>0.000000</value><value>0.000000</value></controlrow><controlrow><lock>true</lock><value>-17.500000</value><value>-17.500000</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]).arg(params[2]).toUtf8());
 }
 
-const char* initEffects::ladspaReverbEffectString(QStringList params) {
+const char* initEffects::ladspaReverbEffectString(QStringList params)
+{
     return qstrdup(QString(jackString + "1423</id><enabled>true</enabled>  <wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked>    <wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values>    <lockall>true</lockall><controlrow><lock>true</lock><value>%1</value>      <value>%1</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>0.250000</value><value>0.250000</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]).toUtf8());
 }
 
-const char* initEffects::ladspaEqualizerEffectString(QStringList params) {
+const char* initEffects::ladspaEqualizerEffectString(QStringList params)
+{
     return qstrdup(QString(jackString + "1901</id><enabled>true</enabled>    <wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked>    <wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><controlrow><value>%1</value></controlrow><controlrow><value>%2</value></controlrow>    <controlrow><value>%3</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]).arg(params[2]).toUtf8());
 }
 
-const char* initEffects::ladspaLimiterEffectString(QStringList params) {
+const char* initEffects::ladspaLimiterEffectString(QStringList params)
+{
     return qstrdup(QString(jackString + "1913</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><controlrow><value>%1</value></controlrow><controlrow><value>%2</value></controlrow><controlrow><value>%3</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]).arg(params[2]).toUtf8());
 }
 
-const char* initEffects::ladspaPitchShifterEffectString(QStringList params) {
+const char* initEffects::ladspaPitchShifterEffectString(QStringList params)
+{
     return qstrdup(QString(jackString + "1193</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow></plugin></jackrack>").arg(params[0]).toUtf8());
 }
 
-const char* initEffects::ladspaRateScalerEffectString(QStringList params) {
+const char* initEffects::ladspaRateScalerEffectString(QStringList params)
+{
     return qstrdup(QString(jackString + "1417</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow></plugin></jackrack>").arg(params[0]).toUtf8());
 }
 
-const char* initEffects::ladspaPhaserEffectString(QStringList params) {
+const char* initEffects::ladspaPhaserEffectString(QStringList params)
+{
     return qstrdup(QString(jackString + "1217</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%3</value></controlrow><controlrow><lock>true</lock><value>%4</value><value>%4</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]).arg(params[2]).arg(params[3]).toUtf8());
 }
 
 
-QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, const QString& /*type*/, const QString& filtername) {
+QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, const QString& /*type*/, const QString& filtername)
+{
 
     QDomDocument ret;
     Mlt::Properties *metadata = repository->metadata(filter_type, filtername.toAscii().data());
@@ -541,7 +563,8 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
     return ret;
 }
 
-void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList* transitions, QStringList names) {
+void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList* transitions, QStringList names)
+{
     // remove transitions that are not implemented
     int pos = names.indexOf("mix");
     if (pos != -1) names.takeAt(pos);
@@ -723,7 +746,8 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
     transitions->append(ret2.documentElement());*/
 }
 
-QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def, QString min, QString max, QString list, QString listdisplaynames, QString factor, QString namedesc, QString format) {
+QDomElement initEffects::quickParameterFill(QDomDocument & doc, QString name, QString tag, QString type, QString def, QString min, QString max, QString list, QString listdisplaynames, QString factor, QString namedesc, QString format)
+{
     QDomElement parameter = doc.createElement("parameter");
     parameter.setAttribute("tag", tag);
     parameter.setAttribute("default", def);

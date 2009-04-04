@@ -40,22 +40,26 @@
 #define DBG_AREA
 
 //#include "config.h"
-extern "C" {
+extern "C"
+{
     KDE_EXPORT ThumbCreator *new_creator() {
         return new WestleyPreview;
     }
 }
 
 WestleyPreview::WestleyPreview()
-        : m_rand(0), m_inigoprocess(0) {
+        : m_rand(0), m_inigoprocess(0)
+{
 }
 
-WestleyPreview::~WestleyPreview() {
+WestleyPreview::~WestleyPreview()
+{
     delete m_rand;
     delete m_inigoprocess;
 }
 
-bool WestleyPreview::startAndWaitProcess(const QStringList &args) {
+bool WestleyPreview::startAndWaitProcess(const QStringList &args)
+{
     kDebug(DBG_AREA) << "westleypreview: starting process with args: " << args << endl;
     m_inigoprocess->start(args.join(" "));
     if (! m_inigoprocess->waitForStarted()) {
@@ -71,7 +75,8 @@ bool WestleyPreview::startAndWaitProcess(const QStringList &args) {
     return true;
 }
 
-bool WestleyPreview::create(const QString &path, int width, int /*height*/, QImage &img) {
+bool WestleyPreview::create(const QString &path, int width, int /*height*/, QImage &img)
+{
     QFileInfo fi(path);
     playerBin = KStandardDirs::findExe("inigo");
     if (playerBin.isEmpty()) {
@@ -133,7 +138,8 @@ bool WestleyPreview::create(const QString &path, int width, int /*height*/, QIma
     return true;
 }
 
-QImage WestleyPreview::getFrame(const QString &path) {
+QImage WestleyPreview::getFrame(const QString &path)
+{
     QStringList args;
     const int START = 25;
     const int RANGE = 500;
@@ -154,7 +160,8 @@ QImage WestleyPreview::getFrame(const QString &path) {
 }
 
 
-uint WestleyPreview::imageVariance(QImage image) {
+uint WestleyPreview::imageVariance(QImage image)
+{
     uint delta = 0;
     uint avg = 0;
     uint bytes = image.numBytes();
@@ -176,7 +183,8 @@ uint WestleyPreview::imageVariance(QImage image) {
     return delta / STEPS;
 }
 
-ThumbCreator::Flags WestleyPreview::flags() const {
+ThumbCreator::Flags WestleyPreview::flags() const
+{
     return None;
 }
 

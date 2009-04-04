@@ -31,7 +31,8 @@
 class GenTime;
 class CustomTrackView;
 
-class GroupClipsCommand : public QUndoCommand {
+class GroupClipsCommand : public QUndoCommand
+{
 public:
     GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> clipInfos, const QList <ItemInfo> transitionInfos, bool group, bool doIt, QUndoCommand * parent = 0);
     virtual void undo();

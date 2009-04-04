@@ -33,24 +33,28 @@
 #include <QTextBlock>
 
 
-GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent): QGraphicsScene(parent), m_selectedItem(NULL), resizeMode(NoResize), m_tool(TITLE_RECTANGLE) {
+GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent): QGraphicsScene(parent), m_selectedItem(NULL), resizeMode(NoResize), m_tool(TITLE_RECTANGLE)
+{
     //grabMouse();
     zoom = 1.0;
     setBackgroundBrush(QBrush(Qt::transparent));
 }
 
-void GraphicsSceneRectMove::setSelectedItem(QGraphicsItem *item) {
+void GraphicsSceneRectMove::setSelectedItem(QGraphicsItem *item)
+{
     clearSelection();
     m_selectedItem = item;
     item->setSelected(true);
     update();
 }
 
-TITLETOOL GraphicsSceneRectMove::tool() {
+TITLETOOL GraphicsSceneRectMove::tool()
+{
     return m_tool;
 }
 
-void GraphicsSceneRectMove::setTool(TITLETOOL tool) {
+void GraphicsSceneRectMove::setTool(TITLETOOL tool)
+{
     m_tool = tool;
     switch (m_tool) {
     case TITLE_RECTANGLE:
@@ -65,7 +69,8 @@ void GraphicsSceneRectMove::setTool(TITLETOOL tool) {
 }
 
 //virtual
-void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent) {
+void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent)
+{
     if (m_selectedItem == NULL) {
         QGraphicsScene::keyPressEvent(keyEvent);
         return;
@@ -109,7 +114,8 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent * keyEvent) {
 }
 
 //virtual
-void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e) {
+void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e)
+{
     QPointF p = e->scenePos();
     p += QPoint(-2, -2);
     resizeMode = NoResize;
@@ -125,13 +131,15 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e) {
     QGraphicsScene::mouseDoubleClickEvent(e);
 }
 
-void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e) {
+void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
+{
     if (m_tool == TITLE_RECTANGLE && m_selectedItem) setSelectedItem(m_selectedItem);
     QGraphicsScene::mouseReleaseEvent(e);
     emit actionFinished();
 }
 
-void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e) {
+void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
+{
     m_clickPoint = e->screenPos();
     QPointF p = e->scenePos();
     p += QPoint(-2, -2);
@@ -222,7 +230,8 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e) {
 
 }
 
-void GraphicsSceneRectMove::clearTextSelection() {
+void GraphicsSceneRectMove::clearTextSelection()
+{
     if (m_selectedItem && m_selectedItem->type() == 8) {
         // disable text editing
         QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(m_selectedItem);
@@ -236,7 +245,8 @@ void GraphicsSceneRectMove::clearTextSelection() {
 }
 
 //virtual
-void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
+void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
+{
     if ((e->screenPos() - m_clickPoint).manhattanLength() < QApplication::startDragDistance()) {
         e->accept();
         return;
@@ -362,7 +372,8 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e) {
     }
 }
 
-void GraphicsSceneRectMove::wheelEvent(QGraphicsSceneWheelEvent * wheelEvent) {
+void GraphicsSceneRectMove::wheelEvent(QGraphicsSceneWheelEvent * wheelEvent)
+{
     QList<QGraphicsView*> viewlist = views();
     //kDebug() << wheelEvent->delta() << " " << zoom;
     if (viewlist.size() > 0) {
@@ -371,7 +382,8 @@ void GraphicsSceneRectMove::wheelEvent(QGraphicsSceneWheelEvent * wheelEvent) {
     }
 }
 
-void GraphicsSceneRectMove::setScale(double s) {
+void GraphicsSceneRectMove::setScale(double s)
+{
     if (zoom < 1.0 / 7.0 && s < 1.0) return;
     else if (zoom > 10.0 / 7.9 && s > 1.0) return;
     QList<QGraphicsView*> viewlist = views();
@@ -382,7 +394,8 @@ void GraphicsSceneRectMove::setScale(double s) {
     //kDebug()<<"//////////  ZOOM: "<<zoom;
 }
 
-void GraphicsSceneRectMove::setZoom(double s) {
+void GraphicsSceneRectMove::setZoom(double s)
+{
     QList<QGraphicsView*> viewlist = views();
     if (viewlist.size() > 0) {
         viewlist[0]->resetTransform();
@@ -393,7 +406,8 @@ void GraphicsSceneRectMove::setZoom(double s) {
     //kDebug()<<"//////////  ZOOM: "<<zoom;
 }
 
-void GraphicsSceneRectMove::setCursor(QCursor c) {
+void GraphicsSceneRectMove::setCursor(QCursor c)
+{
     const QList<QGraphicsView*> l = views();
     foreach(QGraphicsView* v, l) {
         v->setCursor(c);

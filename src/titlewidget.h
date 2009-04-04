@@ -27,7 +27,8 @@
 #include <QMap>
 
 
-class Transform {
+class Transform
+{
 public:
     Transform() {
         scalex = 1.0;
@@ -38,7 +39,8 @@ public:
     double rotate;
 };
 
-class TitleWidget : public QDialog , public Ui::TitleWidget_UI {
+class TitleWidget : public QDialog , public Ui::TitleWidget_UI
+{
     Q_OBJECT
 
 public:

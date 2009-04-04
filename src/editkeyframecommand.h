@@ -29,7 +29,8 @@
 class CustomTrackView;
 
 
-class EditKeyFrameCommand : public QUndoCommand {
+class EditKeyFrameCommand : public QUndoCommand
+{
 public:
     EditKeyFrameCommand(CustomTrackView *view, const int track, GenTime pos, const int effectIndex, const QString& oldkeyframes, const QString& newkeyframes, bool doIt);
     virtual void undo();

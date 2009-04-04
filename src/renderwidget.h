@@ -32,7 +32,8 @@ class QDomElement;
 
 
 // RenderViewDelegate is used to draw the progress bars.
-class RenderViewDelegate : public QItemDelegate {
+class RenderViewDelegate : public QItemDelegate
+{
     Q_OBJECT
 public:
     RenderViewDelegate(QWidget *parent) : QItemDelegate(parent) {}
@@ -97,7 +98,8 @@ public:
 
 
 // RenderScriptDelegate is used to draw the script items.
-class RenderScriptDelegate : public QItemDelegate {
+class RenderScriptDelegate : public QItemDelegate
+{
     Q_OBJECT
 public:
     RenderScriptDelegate(QWidget *parent) : QItemDelegate(parent) {}
@@ -131,7 +133,8 @@ public:
     }
 };
 
-class RenderWidget : public QDialog {
+class RenderWidget : public QDialog
+{
     Q_OBJECT
 
 public:

@@ -36,7 +36,8 @@ class DocClipBase;
 class Transition;
 
 
-class ClipItem : public AbstractClipItem {
+class ClipItem : public AbstractClipItem
+{
     Q_OBJECT
 
 public:

@@ -28,19 +28,23 @@
 
 
 MonitorManager::MonitorManager(QWidget *parent)
-        : QObject(parent) {
+        : QObject(parent)
+{
 }
 
-Timecode MonitorManager::timecode() {
+Timecode MonitorManager::timecode()
+{
     return m_timecode;
 }
 
-void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor) {
+void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor)
+{
     m_clipMonitor = clipMonitor;
     m_projectMonitor = projectMonitor;
 }
 
-void MonitorManager::activateMonitor(QString name) {
+void MonitorManager::activateMonitor(QString name)
+{
     if (m_activeMonitor == name) return;
     if (name == "clip") {
         m_projectMonitor->stop();
@@ -55,7 +59,8 @@ void MonitorManager::activateMonitor(QString name) {
     m_activeMonitor = name;
 }
 
-void MonitorManager::switchMonitors() {
+void MonitorManager::switchMonitors()
+{
     if (m_clipMonitor->isActive()) {
         m_clipMonitor->stop();
         m_projectMonitor->start();
@@ -70,72 +75,86 @@ void MonitorManager::switchMonitors() {
     }
 }
 
-void MonitorManager::stopActiveMonitor() {
+void MonitorManager::stopActiveMonitor()
+{
     if (m_clipMonitor->isActive()) m_clipMonitor->pause();
     else m_projectMonitor->pause();
 }
 
-void MonitorManager::slotPlay() {
+void MonitorManager::slotPlay()
+{
     if (m_clipMonitor->isActive()) m_clipMonitor->slotPlay();
     else m_projectMonitor->slotPlay();
 }
 
-void MonitorManager::slotPlayZone() {
+void MonitorManager::slotPlayZone()
+{
     if (m_clipMonitor->isActive()) m_clipMonitor->slotPlayZone();
     else m_projectMonitor->slotPlayZone();
 }
 
-void MonitorManager::slotLoopZone() {
+void MonitorManager::slotLoopZone()
+{
     if (m_clipMonitor->isActive()) m_clipMonitor->slotLoopZone();
     else m_projectMonitor->slotLoopZone();
 }
 
-void MonitorManager::slotRewind(double speed) {
+void MonitorManager::slotRewind(double speed)
+{
     if (m_clipMonitor->isActive()) m_clipMonitor->slotRewind(speed);
     else m_projectMonitor->slotRewind(speed);
 }
 
-void MonitorManager::slotForward(double speed) {
+void MonitorManager::slotForward(double speed)
+{
     if (m_clipMonitor->isActive()) m_clipMonitor->slotForward(speed);
     else m_projectMonitor->slotForward(speed);
 }
 
-void MonitorManager::slotRewindOneFrame() {
+void MonitorManager::slotRewindOneFrame()
+{
     if (m_clipMonitor->isActive()) m_clipMonitor->slotRewindOneFrame();
     else m_projectMonitor->slotRewindOneFrame();
 }
 
-void MonitorManager::slotForwardOneFrame() {
+void MonitorManager::slotForwardOneFrame()
+{
     if (m_clipMonitor->isActive()) m_clipMonitor->slotForwardOneFrame();
     else m_projectMonitor->slotForwardOneFrame();
 }
 
-void MonitorManager::slotRewindOneSecond() {
+void MonitorManager::slotRewindOneSecond()
+{
     if (m_clipMonitor->isActive()) m_clipMonitor->slotRewindOneFrame(m_timecode.fps());
     else m_projectMonitor->slotRewindOneFrame(m_timecode.fps());
 }
 
-void MonitorManager::slotForwardOneSecond() {
+void MonitorManager::slotForwardOneSecond()
+{
     if (m_clipMonitor->isActive()) m_clipMonitor->slotForwardOneFrame(m_timecode.fps());
     else m_projectMonitor->slotForwardOneFrame(m_timecode.fps());
 }
 
-void MonitorManager::slotStart() {
+void MonitorManager::slotStart()
+{
     if (m_clipMonitor->isActive()) m_clipMonitor->slotStart();
     else m_projectMonitor->slotStart();
 }
 
-void MonitorManager::slotEnd() {
+void MonitorManager::slotEnd()
+{
     if (m_clipMonitor->isActive()) m_clipMonitor->slotEnd();
     else m_projectMonitor->slotEnd();
 }
 
-void MonitorManager::resetProfiles(Timecode tc) {
+void MonitorManager::resetProfiles(Timecode tc)
+{
     m_timecode = tc;
     QTimer::singleShot(300, this, SLOT(slotResetProfiles()));
 }
 
-void MonitorManager::slotResetProfiles() {
+void MonitorManager::slotResetProfiles()
+{
     activateMonitor("clip");
     m_clipMonitor->resetProfile();
     activateMonitor("project");

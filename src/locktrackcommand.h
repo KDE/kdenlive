@@ -26,7 +26,8 @@
 
 class CustomTrackView;
 
-class LockTrackCommand : public QUndoCommand {
+class LockTrackCommand : public QUndoCommand
+{
 public:
     LockTrackCommand(CustomTrackView *view, int ix, bool lock, bool doIt, QUndoCommand * parent = 0);
     virtual void undo();

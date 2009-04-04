@@ -40,7 +40,8 @@ class KdenliveDoc;
 class CustomRuler;
 class DocClipBase;
 
-class TrackView : public QWidget {
+class TrackView : public QWidget
+{
     Q_OBJECT
 
 public:

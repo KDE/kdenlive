@@ -41,7 +41,8 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
         m_illumination(0),
         m_minTextHeight(-1),
         m_timer(0),
-        m_closeButton(0) {
+        m_closeButton(0)
+{
     setMinimumHeight(KIconLoader::SizeSmall);
 
     QPalette palette;
@@ -58,11 +59,13 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
             this, SLOT(closeErrorMessage()));
 }
 
-StatusBarMessageLabel::~StatusBarMessageLabel() {
+StatusBarMessageLabel::~StatusBarMessageLabel()
+{
 }
 
 void StatusBarMessageLabel::setMessage(const QString& text,
-                                       MessageType type) {
+                                       MessageType type)
+{
     if ((text == m_text) && (type == m_type)) {
         return;
     }
@@ -118,7 +121,8 @@ void StatusBarMessageLabel::setMessage(const QString& text,
     show(); //update();
 }
 
-void StatusBarMessageLabel::setMinimumTextHeight(int min) {
+void StatusBarMessageLabel::setMinimumTextHeight(int min)
+{
     if (min != m_minTextHeight) {
         m_minTextHeight = min;
         setMinimumHeight(min);
@@ -128,13 +132,15 @@ void StatusBarMessageLabel::setMinimumTextHeight(int min) {
     }
 }
 
-int StatusBarMessageLabel::widthGap() const {
+int StatusBarMessageLabel::widthGap() const
+{
     QFontMetrics fontMetrics(font());
     const int defaultGap = 10;
     return fontMetrics.width(m_text) - availableTextWidth() + defaultGap;
 }
 
-void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */) {
+void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
+{
     QPainter painter(this);
 
     // draw background
@@ -170,13 +176,15 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */) {
     painter.end();
 }
 
-void StatusBarMessageLabel::resizeEvent(QResizeEvent* event) {
+void StatusBarMessageLabel::resizeEvent(QResizeEvent* event)
+{
     QWidget::resizeEvent(event);
     //updateCloseButtonPosition();
     //QTimer::singleShot(GeometryTimeout, this, SLOT(assureVisibleText()));
 }
 
-void StatusBarMessageLabel::timerDone() {
+void StatusBarMessageLabel::timerDone()
+{
     switch (m_state) {
     case Illuminate: {
         // increase the illumination
@@ -219,7 +227,8 @@ void StatusBarMessageLabel::timerDone() {
     }
 }
 
-void StatusBarMessageLabel::assureVisibleText() {
+void StatusBarMessageLabel::assureVisibleText()
+{
     if (m_text.isEmpty()) {
         return;
     }
@@ -265,26 +274,30 @@ void StatusBarMessageLabel::assureVisibleText() {
     //updateCloseButtonPosition();
 }
 
-int StatusBarMessageLabel::availableTextWidth() const {
+int StatusBarMessageLabel::availableTextWidth() const
+{
     const int buttonWidth = 0; /*(m_type == ErrorMessage) ?
                             m_closeButton->width() + BorderGap : 0;*/
     return width() - m_pixmap.width() - (BorderGap * 4) - buttonWidth;
 }
 
-void StatusBarMessageLabel::updateCloseButtonPosition() {
+void StatusBarMessageLabel::updateCloseButtonPosition()
+{
     const int x = width() - m_closeButton->width() - BorderGap;
     const int y = (height() - m_closeButton->height()) / 2;
     m_closeButton->move(x, y);
 }
 
-void StatusBarMessageLabel::closeErrorMessage() {
+void StatusBarMessageLabel::closeErrorMessage()
+{
     if (!showPendingMessage()) {
         reset();
         setMessage(m_defaultText, DefaultMessage);
     }
 }
 
-bool StatusBarMessageLabel::showPendingMessage() {
+bool StatusBarMessageLabel::showPendingMessage()
+{
     if (!m_pendingMessages.isEmpty()) {
         reset();
         setMessage(m_pendingMessages.takeFirst(), ErrorMessage);
@@ -293,7 +306,8 @@ bool StatusBarMessageLabel::showPendingMessage() {
     return false;
 }
 
-void StatusBarMessageLabel::reset() {
+void StatusBarMessageLabel::reset()
+{
     m_text.clear();
     m_pixmap = QPixmap();
     m_type = DefaultMessage;

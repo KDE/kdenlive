@@ -25,7 +25,8 @@
 class EffectsList;
 class ClipItem;
 
-class ComplexParameter : public QWidget {
+class ComplexParameter : public QWidget
+{
     Q_OBJECT
 
 public:

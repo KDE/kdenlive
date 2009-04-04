@@ -28,7 +28,8 @@
 
 #include "interfaces.h"
 
-class SamplePlugin : public QObject, public ClipGenerator {
+class SamplePlugin : public QObject, public ClipGenerator
+{
     Q_OBJECT
     Q_INTERFACES(ClipGenerator)
 

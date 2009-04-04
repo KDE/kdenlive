@@ -68,7 +68,8 @@
 #define JOG_STOP 10009
 
 
-void ShuttleThread::init(QObject *parent, QString device) {
+void ShuttleThread::init(QObject *parent, QString device)
+{
     m_parent = parent;
     m_device = device;
     stop_me = false;
@@ -77,11 +78,13 @@ void ShuttleThread::init(QObject *parent, QString device) {
     jogvalue = 0xffff;
 }
 
-bool ShuttleThread::isWorking() {
+bool ShuttleThread::isWorking()
+{
     return m_isWorking;
 }
 
-void ShuttleThread::run() {
+void ShuttleThread::run()
+{
     kDebug() << "-------  STARTING SHUTTLE: " << m_device;
 
     const int fd = KDE_open((char *) m_device.toUtf8().data(), O_RDONLY);
@@ -106,7 +109,8 @@ void ShuttleThread::run() {
 
 }
 
-void ShuttleThread::handle_event(EV ev) {
+void ShuttleThread::handle_event(EV ev)
+{
     switch (ev.type) {
     case KEY :
         key(ev.code, ev.value);
@@ -117,7 +121,8 @@ void ShuttleThread::handle_event(EV ev) {
     }
 }
 
-void ShuttleThread::key(unsigned short code, unsigned int value) {
+void ShuttleThread::key(unsigned short code, unsigned int value)
+{
     if (value == 0) {
         // Button release (ignored)
         return;
@@ -134,7 +139,8 @@ void ShuttleThread::key(unsigned short code, unsigned int value) {
 
 }
 
-void ShuttleThread::shuttle(int value) {
+void ShuttleThread::shuttle(int value)
+{
     //gettimeofday( &last_shuttle, 0 );
     //need_synthetic_shuttle = value != 0;
 
@@ -175,7 +181,8 @@ void ShuttleThread::shuttle(int value) {
 
 }
 
-void ShuttleThread::jog(unsigned int value) {
+void ShuttleThread::jog(unsigned int value)
+{
     // We should generate a synthetic event for the shuttle going
     // to the home position if we have not seen one recently
     //check_synthetic();
@@ -190,7 +197,8 @@ void ShuttleThread::jog(unsigned int value) {
 }
 
 
-void ShuttleThread::jogshuttle(unsigned short code, unsigned int value) {
+void ShuttleThread::jogshuttle(unsigned short code, unsigned int value)
+{
     switch (code) {
     case JOG :
         jog(value);
@@ -202,25 +210,30 @@ void ShuttleThread::jogshuttle(unsigned short code, unsigned int value) {
 }
 
 
-JogShuttle::JogShuttle(QString device, QObject *parent): QObject(parent) {
+JogShuttle::JogShuttle(QString device, QObject *parent): QObject(parent)
+{
     initDevice(device);
 }
 
-JogShuttle::~JogShuttle() {
+JogShuttle::~JogShuttle()
+{
     if (m_shuttleProcess.isRunning()) m_shuttleProcess.exit();
 }
 
-void JogShuttle::initDevice(QString device) {
+void JogShuttle::initDevice(QString device)
+{
     if (m_shuttleProcess.isRunning()) return;
     m_shuttleProcess.init(this, device);
     m_shuttleProcess.start(QThread::LowestPriority);
 }
 
-void JogShuttle::stopDevice() {
+void JogShuttle::stopDevice()
+{
     if (m_shuttleProcess.isRunning()) m_shuttleProcess.stop_me = true;
 }
 
-void JogShuttle::customEvent(QEvent* e) {
+void JogShuttle::customEvent(QEvent* e)
+{
     switch (e->type()) {
     case JOG_BACK1:
         emit rewind1();

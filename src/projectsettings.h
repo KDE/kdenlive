@@ -26,7 +26,8 @@
 
 #include "ui_projectsettings_ui.h"
 
-class ProjectSettings : public QDialog {
+class ProjectSettings : public QDialog
+{
     Q_OBJECT
 
 public:

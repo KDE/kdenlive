@@ -22,18 +22,21 @@
 
 #include <KLocale>
 
-LockTrackCommand::LockTrackCommand(CustomTrackView *view, int ix, bool lock, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_ix(ix), m_lock(lock), m_doIt(doIt) {
+LockTrackCommand::LockTrackCommand(CustomTrackView *view, int ix, bool lock, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_ix(ix), m_lock(lock), m_doIt(doIt)
+{
     if (lock) setText(i18n("Lock track"));
     else setText(i18n("Unlock track"));
 }
 
 
 // virtual
-void LockTrackCommand::undo() {
+void LockTrackCommand::undo()
+{
     m_view->lockTrack(m_ix, !m_lock);
 }
 // virtual
-void LockTrackCommand::redo() {
+void LockTrackCommand::redo()
+{
     if (m_doIt) {
         m_view->lockTrack(m_ix, m_lock);
     }

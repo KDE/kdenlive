@@ -26,13 +26,15 @@
 #include <QStylePainter>
 
 SmallRuler::SmallRuler(QWidget *parent)
-        : QWidget(parent), m_scale(1), m_maxval(25) {
+        : QWidget(parent), m_scale(1), m_maxval(25)
+{
     m_zoneStart = 10;
     m_zoneEnd = 60;
     m_zoneColor = QColor(133, 255, 143);
 }
 
-void SmallRuler::adjustScale(int maximum) {
+void SmallRuler::adjustScale(int maximum)
+{
     m_maxval = maximum;
     m_scale = (double) width() / (double) maximum;
     if (m_scale == 0) m_scale = 1;
@@ -51,7 +53,8 @@ void SmallRuler::adjustScale(int maximum) {
     update();
 }
 
-void SmallRuler::setZone(int start, int end) {
+void SmallRuler::setZone(int start, int end)
+{
     if (start != -1) {
         if (end != -1 && start >= end) {
             m_zoneEnd = qMin(m_maxval, end + (start - m_zoneStart));
@@ -73,12 +76,14 @@ void SmallRuler::setZone(int start, int end) {
     update();
 }
 
-QPoint SmallRuler::zone() {
+QPoint SmallRuler::zone()
+{
     return QPoint(m_zoneStart, m_zoneEnd);
 }
 
 // virtual
-void SmallRuler::mousePressEvent(QMouseEvent * event) {
+void SmallRuler::mousePressEvent(QMouseEvent * event)
+{
     const int pos = event->x() / m_scale;
     if (event->button() == Qt::RightButton) {
         // Right button clicked, move selection zone
@@ -91,12 +96,14 @@ void SmallRuler::mousePressEvent(QMouseEvent * event) {
 }
 
 // virtual
-void SmallRuler::mouseMoveEvent(QMouseEvent * event) {
+void SmallRuler::mouseMoveEvent(QMouseEvent * event)
+{
     const int pos = event->x() / m_scale;
     if (event->buttons() & Qt::LeftButton) emit seekRenderer((int) pos);
 }
 
-void SmallRuler::slotNewValue(int value) {
+void SmallRuler::slotNewValue(int value)
+{
     m_cursorFramePosition = value;
     int oldPos = m_cursorPosition;
     m_cursorPosition = value * m_scale;
@@ -108,12 +115,14 @@ void SmallRuler::slotNewValue(int value) {
 }
 
 //virtual
-void SmallRuler::resizeEvent(QResizeEvent *) {
+void SmallRuler::resizeEvent(QResizeEvent *)
+{
     adjustScale(m_maxval);
 }
 
 // virtual
-void SmallRuler::paintEvent(QPaintEvent *e) {
+void SmallRuler::paintEvent(QPaintEvent *e)
+{
 
     QPainter p(this);
     QRect r = e->rect();

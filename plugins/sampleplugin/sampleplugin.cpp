@@ -30,12 +30,14 @@
 #include <QDomDocument>
 #include <QInputDialog>
 
-QStringList SamplePlugin::generators() const {
+QStringList SamplePlugin::generators() const
+{
     return QStringList() << i18n("Countdown") << i18n("Noise");
 }
 
 
-KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFolder, const QStringList &/*lumaNames*/, const QStringList &/*lumaFiles*/, const double fps, const int /*width*/, const int /*height*/) {
+KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFolder, const QStringList &/*lumaNames*/, const QStringList &/*lumaFiles*/, const double fps, const int /*width*/, const int /*height*/)
+{
     QString prePath;
     if (generator == i18n("Noise")) {
         prePath = projectFolder.path() + "/noise";

@@ -27,7 +27,8 @@
 
 enum RULER_MOVE { RULER_CURSOR = 0, RULER_START = 1, RULER_MIDDLE = 2, RULER_END = 3 };
 
-class CustomRuler : public QWidget {
+class CustomRuler : public QWidget
+{
     Q_OBJECT
 
 public:

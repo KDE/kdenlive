@@ -25,7 +25,8 @@
 
 class CustomTrackView;
 
-class EditTransitionCommand : public QUndoCommand {
+class EditTransitionCommand : public QUndoCommand
+{
 public:
     EditTransitionCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, bool doIt);
 

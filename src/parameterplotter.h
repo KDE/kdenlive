@@ -22,7 +22,8 @@
 #include <QDomElement>
 #include <QMap>
 
-class ParameterPlotter : public KPlotWidget {
+class ParameterPlotter : public KPlotWidget
+{
     Q_OBJECT
 public:
     ParameterPlotter(QWidget *parent = 0);

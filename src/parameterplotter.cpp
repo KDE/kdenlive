@@ -23,7 +23,8 @@
 #include <KDebug>
 #include <KPlotPoint>
 
-ParameterPlotter::ParameterPlotter(QWidget *parent): KPlotWidget(parent) {
+ParameterPlotter::ParameterPlotter(QWidget *parent): KPlotWidget(parent)
+{
     setAntialiasing(true);
     setLeftPadding(20);
     setRightPadding(10);
@@ -52,7 +53,8 @@ ParameterPlotter::ParameterPlotter(QWidget *parent): KPlotWidget(parent) {
   </effect>
 
 */
-void ParameterPlotter::setPointLists(const QDomElement& d, const QString& paramName, int startframe, int endframe) {
+void ParameterPlotter::setPointLists(const QDomElement& d, const QString& paramName, int startframe, int endframe)
+{
 
     //QListIterator <QPair <QString, QMap< int , QVariant > > > nameit(params);
     m_paramName = paramName;
@@ -138,7 +140,8 @@ void ParameterPlotter::setPointLists(const QDomElement& d, const QString& paramN
 
 }
 
-void ParameterPlotter::createParametersNew() {
+void ParameterPlotter::createParametersNew()
+{
     QList<KPlotObject*> plotobjs = plotObjects();
     if (plotobjs.size() != parameterNameList.size()) {
         kDebug() << "ERROR size not equal";
@@ -165,7 +168,8 @@ void ParameterPlotter::createParametersNew() {
 }
 
 
-void ParameterPlotter::mouseMoveEvent(QMouseEvent * event) {
+void ParameterPlotter::mouseMoveEvent(QMouseEvent * event)
+{
 
     if (movepoint != NULL) {
         QList<KPlotPoint*> list =   pointsUnderPoint(event->pos() - QPoint(leftPadding(), topPadding())) ;
@@ -195,7 +199,8 @@ void ParameterPlotter::mouseMoveEvent(QMouseEvent * event) {
     }
 }
 
-void ParameterPlotter::replot(const QString & name) {
+void ParameterPlotter::replot(const QString & name)
+{
 
     //removeAllPlotObjects();
     int i = 0;
@@ -218,7 +223,8 @@ void ParameterPlotter::replot(const QString & name) {
     }
 }
 
-void ParameterPlotter::mousePressEvent(QMouseEvent * event) {
+void ParameterPlotter::mousePressEvent(QMouseEvent * event)
+{
     //topPadding and other padding can be wrong and this (i hope) will be correctet in newer kde versions
     QPoint inPlot = event->pos() - QPoint(leftPadding(), topPadding());
     QList<KPlotPoint*> list =   pointsUnderPoint(inPlot) ;
@@ -256,34 +262,42 @@ void ParameterPlotter::mousePressEvent(QMouseEvent * event) {
     }
 }
 
-void ParameterPlotter::setMoveX(bool b) {
+void ParameterPlotter::setMoveX(bool b)
+{
     m_moveX = b;
 }
 
-void ParameterPlotter::setMoveY(bool b) {
+void ParameterPlotter::setMoveY(bool b)
+{
     m_moveY = b;
 }
 
-void ParameterPlotter::setMoveTimeLine(bool b) {
+void ParameterPlotter::setMoveTimeLine(bool b)
+{
     m_moveTimeline = b;
 }
 
-void ParameterPlotter::setNewPoints(bool b) {
+void ParameterPlotter::setNewPoints(bool b)
+{
     m_newPoints = b;
 }
 
-bool ParameterPlotter::isMoveX() {
+bool ParameterPlotter::isMoveX()
+{
     return m_moveX;
 }
 
-bool ParameterPlotter::isMoveY() {
+bool ParameterPlotter::isMoveY()
+{
     return m_moveY;
 }
 
-bool ParameterPlotter::isMoveTimeline() {
+bool ParameterPlotter::isMoveTimeline()
+{
     return m_moveTimeline;
 }
 
-bool ParameterPlotter::isNewPoints() {
+bool ParameterPlotter::isNewPoints()
+{
     return m_newPoints;
 }

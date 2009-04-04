@@ -23,7 +23,8 @@
 
 #include <QWidget>
 
-class SmallRuler : public QWidget {
+class SmallRuler : public QWidget
+{
     Q_OBJECT
 
 public:

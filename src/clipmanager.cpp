@@ -34,16 +34,19 @@
 
 #include <QGraphicsItemGroup>
 
-ClipManager::ClipManager(KdenliveDoc *doc): m_doc(doc), m_audioThumbsEnabled(false), m_audioThumbsQueue(QList <QString> ()), m_generatingAudioId(QString()) {
+ClipManager::ClipManager(KdenliveDoc *doc): m_doc(doc), m_audioThumbsEnabled(false), m_audioThumbsQueue(QList <QString> ()), m_generatingAudioId(QString())
+{
     m_clipIdCounter = 1;
     m_folderIdCounter = 1;
 }
 
-ClipManager::~ClipManager() {
+ClipManager::~ClipManager()
+{
     qDeleteAll(m_clipList);
 }
 
-void ClipManager::clear() {
+void ClipManager::clear()
+{
     qDeleteAll(m_clipList);
     m_clipList.clear();
     m_clipIdCounter = 1;
@@ -52,7 +55,8 @@ void ClipManager::clear() {
     m_audioThumbsQueue.clear();
 }
 
-void ClipManager::checkAudioThumbs() {
+void ClipManager::checkAudioThumbs()
+{
     if (m_audioThumbsEnabled == KdenliveSettings::audiothumbnails()) return;
     m_audioThumbsEnabled = KdenliveSettings::audiothumbnails();
     for (int i = 0; i < m_clipList.count(); i++) {
@@ -67,7 +71,8 @@ void ClipManager::checkAudioThumbs() {
     }
 }
 
-void ClipManager::askForAudioThumb(const QString &id) {
+void ClipManager::askForAudioThumb(const QString &id)
+{
     DocClipBase *clip = getClipById(id);
     if (clip && KdenliveSettings::audiothumbnails()) {
         m_audioThumbsQueue.append(id);
@@ -75,7 +80,8 @@ void ClipManager::askForAudioThumb(const QString &id) {
     }
 }
 
-void ClipManager::startAudioThumbsGeneration() {
+void ClipManager::startAudioThumbsGeneration()
+{
     if (!KdenliveSettings::audiothumbnails()) {
         m_audioThumbsQueue.clear();
         m_generatingAudioId.clear();
@@ -91,7 +97,8 @@ void ClipManager::startAudioThumbsGeneration() {
     }
 }
 
-void ClipManager::endAudioThumbsGeneration(const QString &requestedId) {
+void ClipManager::endAudioThumbsGeneration(const QString &requestedId)
+{
     if (!KdenliveSettings::audiothumbnails()) {
         m_audioThumbsQueue.clear();
         m_generatingAudioId.clear();
@@ -106,19 +113,23 @@ void ClipManager::endAudioThumbsGeneration(const QString &requestedId) {
     }
 }
 
-void ClipManager::setThumbsProgress(const QString &message, int progress) {
+void ClipManager::setThumbsProgress(const QString &message, int progress)
+{
     m_doc->setThumbsProgress(message, progress);
 }
 
-QList <DocClipBase*> ClipManager::documentClipList() const {
+QList <DocClipBase*> ClipManager::documentClipList() const
+{
     return m_clipList;
 }
 
-QMap <QString, QString> ClipManager::documentFolderList() const {
+QMap <QString, QString> ClipManager::documentFolderList() const
+{
     return m_folderList;
 }
 
-void ClipManager::addClip(DocClipBase *clip) {
+void ClipManager::addClip(DocClipBase *clip)
+{
     m_clipList.append(clip);
     const QString id = clip->getId();
     if (id.toInt() >= m_clipIdCounter) m_clipIdCounter = id.toInt() + 1;
@@ -126,7 +137,8 @@ void ClipManager::addClip(DocClipBase *clip) {
     if (!gid.isEmpty() && gid.toInt() >= m_folderIdCounter) m_folderIdCounter = gid.toInt() + 1;
 }
 
-void ClipManager::slotDeleteClip(const QString &clipId) {
+void ClipManager::slotDeleteClip(const QString &clipId)
+{
     for (int i = 0; i < m_clipList.count(); i++) {
         if (m_clipList.at(i)->getId() == clipId) {
             AddClipCommand *command = new AddClipCommand(m_doc, m_clipList.at(i)->toXML(), clipId, false);
@@ -136,7 +148,8 @@ void ClipManager::slotDeleteClip(const QString &clipId) {
     }
 }
 
-void ClipManager::deleteClip(const QString &clipId) {
+void ClipManager::deleteClip(const QString &clipId)
+{
     for (int i = 0; i < m_clipList.count(); i++) {
         if (m_clipList.at(i)->getId() == clipId) {
             DocClipBase *clip = m_clipList.takeAt(i);
@@ -147,11 +160,13 @@ void ClipManager::deleteClip(const QString &clipId) {
     }
 }
 
-DocClipBase *ClipManager::getClipAt(int pos) {
+DocClipBase *ClipManager::getClipAt(int pos)
+{
     return m_clipList.at(pos);
 }
 
-DocClipBase *ClipManager::getClipById(QString clipId) {
+DocClipBase *ClipManager::getClipById(QString clipId)
+{
     //kDebug() << "++++  CLIP MAN, LOOKING FOR CLIP ID: " << clipId;
     clipId = clipId.section('_', 0, 0);
     for (int i = 0; i < m_clipList.count(); i++) {
@@ -163,7 +178,8 @@ DocClipBase *ClipManager::getClipById(QString clipId) {
     return NULL;
 }
 
-DocClipBase *ClipManager::getClipByResource(QString resource) {
+DocClipBase *ClipManager::getClipByResource(QString resource)
+{
     for (int i = 0; i < m_clipList.count(); i++) {
         if (m_clipList.at(i)->getProperty("resource") == resource) {
             return m_clipList.at(i);
@@ -172,7 +188,8 @@ DocClipBase *ClipManager::getClipByResource(QString resource) {
     return NULL;
 }
 
-void ClipManager::updatePreviewSettings() {
+void ClipManager::updatePreviewSettings()
+{
     for (int i = 0; i < m_clipList.count(); i++) {
         if (m_clipList.at(i)->clipType() == AV || m_clipList.at(i)->clipType() == VIDEO) {
             if (m_clipList.at(i)->producerProperty("meta.media.0.codec.name") && strcmp(m_clipList.at(i)->producerProperty("meta.media.0.codec.name"), "h264") == 0) {
@@ -188,7 +205,8 @@ void ClipManager::updatePreviewSettings() {
     }
 }
 
-void ClipManager::resetProducersList(QList <Mlt::Producer *> prods) {
+void ClipManager::resetProducersList(QList <Mlt::Producer *> prods)
+{
     for (int i = 0; i < m_clipList.count(); i++) {
         if (m_clipList.at(i)->numReferences() > 0) {
             m_clipList.at(i)->deleteProducers();
@@ -206,7 +224,8 @@ void ClipManager::resetProducersList(QList <Mlt::Producer *> prods) {
     }
 }
 
-void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId) {
+void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, const QString &groupId)
+{
     QUndoCommand *addClips = new QUndoCommand();
     addClips->setText(i18n("Add clips"));
 
@@ -234,7 +253,8 @@ void ClipManager::slotAddClipList(const KUrl::List urls, const QString group, co
     m_doc->commandStack()->push(addClips);
 }
 
-void ClipManager::slotAddClipFile(const KUrl url, const QString group, const QString &groupId) {
+void ClipManager::slotAddClipFile(const KUrl url, const QString group, const QString &groupId)
+{
     kDebug() << "/////  CLIP MANAGER, ADDING CLIP: " << url;
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
@@ -256,7 +276,8 @@ void ClipManager::slotAddClipFile(const KUrl url, const QString group, const QSt
     m_doc->commandStack()->push(command);
 }
 
-void ClipManager::slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const QString &groupId) {
+void ClipManager::slotAddColorClipFile(const QString name, const QString color, QString duration, const QString group, const QString &groupId)
+{
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
     doc.appendChild(prod);
@@ -276,7 +297,8 @@ void ClipManager::slotAddColorClipFile(const QString name, const QString color, 
     m_doc->commandStack()->push(command);
 }
 
-void ClipManager::slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const int softness, QString group, const QString &groupId) {
+void ClipManager::slotAddSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const int softness, QString group, const QString &groupId)
+{
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
     doc.appendChild(prod);
@@ -303,7 +325,8 @@ void ClipManager::slotAddSlideshowClipFile(const QString name, const QString pat
 
 
 
-void ClipManager::slotAddTextClipFile(const QString titleName, const QString imagePath, const QString xml, const QString group, const QString &groupId) {
+void ClipManager::slotAddTextClipFile(const QString titleName, const QString imagePath, const QString xml, const QString group, const QString &groupId)
+{
     QDomDocument doc;
     QDomElement prod = doc.createElement("producer");
     doc.appendChild(prod);
@@ -324,41 +347,50 @@ void ClipManager::slotAddTextClipFile(const QString titleName, const QString ima
     m_doc->commandStack()->push(command);
 }
 
-int ClipManager::getFreeClipId() {
+int ClipManager::getFreeClipId()
+{
     return m_clipIdCounter++;
 }
 
-int ClipManager::getFreeFolderId() {
+int ClipManager::getFreeFolderId()
+{
     return m_folderIdCounter++;
 }
 
-int ClipManager::lastClipId() const {
+int ClipManager::lastClipId() const
+{
     return m_clipIdCounter - 1;
 }
 
-QString ClipManager::projectFolder() const {
+QString ClipManager::projectFolder() const
+{
     return m_doc->projectFolder().path();
 }
 
-void ClipManager::addFolder(const QString &id, const QString &name) {
+void ClipManager::addFolder(const QString &id, const QString &name)
+{
     m_folderList.insert(id, name);
 }
 
-void ClipManager::deleteFolder(const QString &id) {
+void ClipManager::deleteFolder(const QString &id)
+{
     m_folderList.remove(id);
 }
 
-AbstractGroupItem *ClipManager::createGroup() {
+AbstractGroupItem *ClipManager::createGroup()
+{
     AbstractGroupItem *group = new AbstractGroupItem(m_doc->fps());
     m_groupsList.append(group);
     return group;
 }
 
-void ClipManager::removeGroup(AbstractGroupItem *group) {
+void ClipManager::removeGroup(AbstractGroupItem *group)
+{
     m_groupsList.removeAll(group);
 }
 
-QDomElement ClipManager::groupsXml() const {
+QDomElement ClipManager::groupsXml() const
+{
     QDomDocument doc;
     QDomElement groups = doc.createElement("groups");
     doc.appendChild(groups);

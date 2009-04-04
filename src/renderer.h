@@ -41,7 +41,8 @@ class Render;
 class QTimer;
 class QPixmap;
 
-namespace Mlt {
+namespace Mlt
+{
 class Consumer;
 class Playlist;
 class Tractor;
@@ -54,7 +55,8 @@ class Multitrack;
 
 
 
-class Render: public QObject {
+class Render: public QObject
+{
 Q_OBJECT public:
 
     enum FailStates { OK = 0,

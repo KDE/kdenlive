@@ -27,7 +27,8 @@ class Transition;
 class EffectsList;
 class EffectStackEdit;
 
-class TransitionSettings : public QWidget  {
+class TransitionSettings : public QWidget
+{
     Q_OBJECT
 
 public:

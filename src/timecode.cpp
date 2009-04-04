@@ -21,18 +21,22 @@
 
 Timecode::Timecode(Formats format, int framesPerSecond,
                    bool dropFrame): m_format(format), m_dropFrame(dropFrame),
-        m_displayedFramesPerSecond(framesPerSecond) {
+        m_displayedFramesPerSecond(framesPerSecond)
+{
 }
 
-Timecode::~Timecode() {
+Timecode::~Timecode()
+{
 }
 
-int Timecode::fps() {
+int Timecode::fps()
+{
     return m_displayedFramesPerSecond;
 }
 
 
-int Timecode::getFrameCount(const QString duration, double fps) const {
+int Timecode::getFrameCount(const QString duration, double fps) const
+{
     if (m_dropFrame) {
         // calculate how many frames need to be dropped every minute.
         int frames;
@@ -63,7 +67,8 @@ int Timecode::getFrameCount(const QString duration, double fps) const {
     return (int)((duration.section(':', 0, 0).toInt()*3600.0 + duration.section(':', 1, 1).toInt()*60.0 + duration.section(':', 2, 2).toInt()) * fps + duration.section(':', 3, 3).toInt());
 }
 
-QString Timecode::getTimecode(const GenTime & time, double fps) const {
+QString Timecode::getTimecode(const GenTime & time, double fps) const
+{
     switch (m_format) {
     case HH_MM_SS_FF:
         return getTimecodeHH_MM_SS_FF(time, fps);
@@ -85,12 +90,14 @@ QString Timecode::getTimecode(const GenTime & time, double fps) const {
     }
 }
 
-QString Timecode::getTimecodeFromFrames(int frames) {
+QString Timecode::getTimecodeFromFrames(int frames)
+{
     return getTimecodeHH_MM_SS_FF(frames);
 }
 
 //static
-QString Timecode::getEasyTimecode(const GenTime & time, const double &fps) {
+QString Timecode::getEasyTimecode(const GenTime & time, const double &fps)
+{
     // Returns the timecode in an easily read display, like 3 min. 5 sec.
     int frames = (int)time.frames(fps);
     int seconds = frames / (int) floor(fps + 0.5);
@@ -134,14 +141,16 @@ QString Timecode::getEasyTimecode(const GenTime & time, const double &fps) {
 }
 
 
-QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime & time, double fps) const {
+QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime & time, double fps) const
+{
     if (m_dropFrame)
         return getTimecodeDropFrame(time, fps);
 
     return getTimecodeHH_MM_SS_FF((int)time.frames(fps));
 }
 
-QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const {
+QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const
+{
     int seconds = frames / m_displayedFramesPerSecond;
     frames = frames % m_displayedFramesPerSecond;
 
@@ -163,7 +172,8 @@ QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const {
     return text;
 }
 
-QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime & time) const {
+QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime & time) const
+{
     int hundredths = (int)(time.seconds() * 100);
     int seconds = hundredths / 100;
     hundredths = hundredths % 100;
@@ -185,15 +195,18 @@ QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime & time) const {
     return text;
 }
 
-QString Timecode::getTimecodeFrames(const GenTime & time, double fps) const {
+QString Timecode::getTimecodeFrames(const GenTime & time, double fps) const
+{
     return QString::number(time.frames(fps));
 }
 
-QString Timecode::getTimecodeSeconds(const GenTime & time) const {
+QString Timecode::getTimecodeSeconds(const GenTime & time) const
+{
     return QString::number(time.seconds());
 }
 
-QString Timecode::getTimecodeDropFrame(const GenTime & time, double fps) const {
+QString Timecode::getTimecodeDropFrame(const GenTime & time, double fps) const
+{
     // Calculate the timecode using dropframes to remove the difference in fps. Note that this algorithm should work
     // for NTSC times, but is untested for any others - it is in no way an "official" algorithm, unless it's by fluke.
     int frames = (int)time.frames(fps);

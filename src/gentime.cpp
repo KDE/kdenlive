@@ -20,29 +20,35 @@
 double GenTime::s_delta = 0.00001;
 
 /** Creates a time object, with a time of 0 seconds. */
-GenTime::GenTime() {
+GenTime::GenTime()
+{
     m_time = 0.0;
 }
 
 /** Creates a time object, with time given in seconds. */
-GenTime::GenTime(double seconds) {
+GenTime::GenTime(double seconds)
+{
     m_time = seconds;
 }
 
 /** Creates a time object, by passing number of frames and how many frames per second */
-GenTime::GenTime(int frames, double framesPerSecond) {
+GenTime::GenTime(int frames, double framesPerSecond)
+{
     m_time = (double) frames / framesPerSecond;
 }
 
 /** Returns the time, in milliseconds */
-double GenTime::ms() const {
+double GenTime::ms() const
+{
     return m_time * 1000;
 }
 
 /** Returns the time in frames, after being given the number of frames per second */
-double GenTime::frames(double framesPerSecond) const {
+double GenTime::frames(double framesPerSecond) const
+{
     return floor(m_time * framesPerSecond + 0.5);
 }
 
-GenTime::~GenTime() {
+GenTime::~GenTime()
+{
 }

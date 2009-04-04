@@ -25,7 +25,8 @@
 #include "definitions.h"
 #include "ui_profiledialog_ui.h"
 
-class ProfilesDialog : public QDialog {
+class ProfilesDialog : public QDialog
+{
     Q_OBJECT
 
 public:

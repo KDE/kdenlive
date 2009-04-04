@@ -30,7 +30,8 @@
 
 class CustomTrackView;
 
-class ChangeSpeedCommand : public QUndoCommand {
+class ChangeSpeedCommand : public QUndoCommand
+{
 public:
     ChangeSpeedCommand(CustomTrackView *view, ItemInfo info, double old_speed, double new_speed, const QString &clipId, bool doIt, QUndoCommand * parent = 0);
     virtual void undo();

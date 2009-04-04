@@ -31,7 +31,8 @@
 #include <QStyleOptionGraphicsItem>
 
 
-Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDomElement params, bool automaticTransition) : AbstractClipItem(info, QRectF(), fps), m_automaticTransition(automaticTransition), m_forceTransitionTrack(false) {
+Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDomElement params, bool automaticTransition) : AbstractClipItem(info, QRectF(), fps), m_automaticTransition(automaticTransition), m_forceTransitionTrack(false)
+{
     setZValue(2);
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
     setPos(info.startPos.frames(fps), (qreal)(info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2));
@@ -61,28 +62,34 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDo
     //m_referenceClip->addTransition(this);
 }
 
-Transition::~Transition() {
+Transition::~Transition()
+{
 }
 
-Transition *Transition::clone() {
+Transition *Transition::clone()
+{
     QDomElement xml = toXML().cloneNode().toElement();
     Transition *tr = new Transition(info(), transitionEndTrack(), m_fps, xml);
     return tr;
 }
 
-QString Transition::transitionName() const {
+QString Transition::transitionName() const
+{
     return m_name;
 }
 
-QString Transition::transitionTag() const {
+QString Transition::transitionTag() const
+{
     return m_parameters.attribute("tag");
 }
 
-bool Transition::isAutomatic() const {
+bool Transition::isAutomatic() const
+{
     return m_automaticTransition;
 }
 
-void Transition::setAutomatic(bool automatic) {
+void Transition::setAutomatic(bool automatic)
+{
     m_automaticTransition = automatic;
     if (automatic) {
         m_parameters.setAttribute("automatic", 1);
@@ -94,7 +101,8 @@ void Transition::setAutomatic(bool automatic) {
     update();
 }
 
-void Transition::setTransitionParameters(const QDomElement params) {
+void Transition::setTransitionParameters(const QDomElement params)
+{
     m_parameters = params;
     if (m_parameters.attribute("force_track") == "1") setForcedTrack(true, m_parameters.attribute("transition_btrack").toInt());
     else if (m_parameters.attribute("force_track") == "0") setForcedTrack(false, m_parameters.attribute("transition_btrack").toInt());
@@ -103,11 +111,13 @@ void Transition::setTransitionParameters(const QDomElement params) {
 }
 
 
-bool Transition::invertedTransition() const {
+bool Transition::invertedTransition() const
+{
     return false; //m_parameters.attribute("reverse").toInt();
 }
 
-QPixmap Transition::transitionPixmap() const {
+QPixmap Transition::transitionPixmap() const
+{
     KIcon icon;
     QString tag = transitionTag();
     if (tag == "luma") {
@@ -122,30 +132,36 @@ QPixmap Transition::transitionPixmap() const {
 }
 
 
-void Transition::setTransitionDirection(bool /*inv*/) {
+void Transition::setTransitionDirection(bool /*inv*/)
+{
     //m_parameters.setAttribute("reverse", inv);
 }
 
-int Transition::transitionEndTrack() const {
+int Transition::transitionEndTrack() const
+{
     return m_transitionTrack;
 }
 
-void Transition::updateTransitionEndTrack(int newtrack) {
+void Transition::updateTransitionEndTrack(int newtrack)
+{
     if (!m_forceTransitionTrack) m_transitionTrack = newtrack;
 }
 
-void Transition::setForcedTrack(bool force, int track) {
+void Transition::setForcedTrack(bool force, int track)
+{
     m_forceTransitionTrack = force;
     m_transitionTrack = track;
 }
 
-bool Transition::forcedTrack() const {
+bool Transition::forcedTrack() const
+{
     return m_forceTransitionTrack;
 }
 
 void Transition::paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
-                       QWidget */*widget*/) {
+                       QWidget */*widget*/)
+{
     const double scale = option->matrix.m11();
     QRectF exposed = option->exposedRect;
     painter->setClipRect(exposed);
@@ -190,12 +206,14 @@ void Transition::paint(QPainter *painter,
     painter->drawRect(br);
 }
 
-int Transition::type() const {
+int Transition::type() const
+{
     return TRANSITIONWIDGET;
 }
 
 //virtual
-QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value) {
+QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value)
+{
     if (change == ItemPositionChange && scene()) {
         // calculate new position.
         QPointF newPos = value.toPointF();
@@ -244,7 +262,8 @@ QVariant Transition::itemChange(GraphicsItemChange change, const QVariant &value
 }
 
 
-OPERATIONTYPE Transition::operationMode(QPointF pos) {
+OPERATIONTYPE Transition::operationMode(QPointF pos)
+{
     if (isItemLocked()) return NONE;
 
     const double scale = projectScene()->scale();
@@ -256,12 +275,14 @@ OPERATIONTYPE Transition::operationMode(QPointF pos) {
     return MOVE;
 }
 
-bool Transition::hasClip(const ClipItem * clip) const {
+bool Transition::hasClip(const ClipItem * clip) const
+{
     if (clip == m_secondClip) return true;
     return false;
 }
 
-bool Transition::belongsToClip(const ClipItem * clip) const {
+bool Transition::belongsToClip(const ClipItem * clip) const
+{
     if (clip == m_referenceClip) return true;
     return false;
 }
@@ -276,15 +297,18 @@ Transition *Transition::reparent(ClipItem * clip) {
     return new Transition::Transition(rect(), clip, toXML(), m_fps, m_referenceClip->startPos());
 }*/
 
-bool Transition::isValid() const {
+bool Transition::isValid() const
+{
     return true; //(m_transitionDuration != GenTime());
 }
 
-const ClipItem *Transition::referencedClip() const {
+const ClipItem *Transition::referencedClip() const
+{
     return m_referenceClip;
 }
 
-QDomElement Transition::toXML() {
+QDomElement Transition::toXML()
+{
     m_parameters.setAttribute("type", transitionTag());
     //m_transitionParameters.setAttribute("inverted", invertTransition());
     m_parameters.setAttribute("transition_atrack", track());
@@ -301,7 +325,8 @@ QDomElement Transition::toXML() {
     return m_parameters;
 }
 
-bool Transition::hasGeometry() {
+bool Transition::hasGeometry()
+{
     QDomNodeList namenode = m_parameters.elementsByTagName("parameter");
     for (int i = 0;i < namenode.count() ;i++) {
         QDomElement pa = namenode.item(i).toElement();

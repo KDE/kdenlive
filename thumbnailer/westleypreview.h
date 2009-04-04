@@ -33,7 +33,8 @@ class QProcess;
 class KTempDir;
 class KRandomSequence;
 
-class WestleyPreview : public QObject, public ThumbCreator {
+class WestleyPreview : public QObject, public ThumbCreator
+{
     Q_OBJECT
 public:
     WestleyPreview();

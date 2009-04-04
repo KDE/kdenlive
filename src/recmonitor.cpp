@@ -39,7 +39,8 @@
 
 
 RecMonitor::RecMonitor(QString name, QWidget *parent)
-        : QWidget(parent), m_name(name), m_isActive(false), m_isCapturing(false), m_isPlaying(false), m_didCapture(false) {
+        : QWidget(parent), m_name(name), m_isActive(false), m_isCapturing(false), m_isPlaying(false), m_didCapture(false)
+{
     ui.setupUi(this);
 
     ui.video_frame->setAttribute(Qt::WA_PaintOnScreen);
@@ -113,25 +114,30 @@ RecMonitor::RecMonitor(QString name, QWidget *parent)
     kDebug() << "/////// BUILDING MONITOR, ID: " << ui.video_frame->winId();
 }
 
-RecMonitor::~RecMonitor() {
+RecMonitor::~RecMonitor()
+{
     delete captureProcess;
     delete displayProcess;
 }
 
-QString RecMonitor::name() const {
+QString RecMonitor::name() const
+{
     return m_name;
 }
 
-void RecMonitor::slotConfigure() {
+void RecMonitor::slotConfigure()
+{
     emit showConfigDialog(4, ui.device_selector->currentIndex());
 }
 
-void RecMonitor::slotUpdateCaptureFolder() {
+void RecMonitor::slotUpdateCaptureFolder()
+{
     if (captureProcess) captureProcess->setWorkingDirectory(KdenliveSettings::capturefolder());
     slotVideoDeviceChanged(ui.device_selector->currentIndex());
 }
 
-void RecMonitor::slotVideoDeviceChanged(int ix) {
+void RecMonitor::slotVideoDeviceChanged(int ix)
+{
     switch (ix) {
     case SCREENGRAB:
         m_discAction->setEnabled(false);
@@ -176,7 +182,8 @@ void RecMonitor::slotVideoDeviceChanged(int ix) {
     }
 }
 
-QPixmap RecMonitor::mergeSideBySide(const QPixmap& pix, const QString txt) {
+QPixmap RecMonitor::mergeSideBySide(const QPixmap& pix, const QString txt)
+{
     QPainter p;
     QRect r = p.fontMetrics().boundingRect(QRect(0, 0, ui.video_frame->width(), ui.video_frame->height()), Qt::AlignLeft, txt);
     int strWidth = r.width();
@@ -193,7 +200,8 @@ QPixmap RecMonitor::mergeSideBySide(const QPixmap& pix, const QString txt) {
 }
 
 
-void RecMonitor::checkDeviceAvailability() {
+void RecMonitor::checkDeviceAvailability()
+{
     if (!KIO::NetAccess::exists(KUrl(KdenliveSettings::video4vdevice()), KIO::NetAccess::SourceSide , this)) {
         m_playAction->setEnabled(false);
         m_recAction->setEnabled(false);
@@ -203,7 +211,8 @@ void RecMonitor::checkDeviceAvailability() {
         ui.video_frame->setPixmap(mergeSideBySide(KIcon("camera-web").pixmap(QSize(50, 50)), i18n("Press play or record button\nto start video capture\nFiles will be saved in:\n%1", KdenliveSettings::capturefolder())));
 }
 
-void RecMonitor::slotDisconnect() {
+void RecMonitor::slotDisconnect()
+{
     if (captureProcess->state() == QProcess::NotRunning) {
         m_captureTime = KDateTime::currentLocalDateTime();
         kDebug() << "CURRENT TIME: " << m_captureTime.toString();
@@ -224,15 +233,18 @@ void RecMonitor::slotDisconnect() {
     }
 }
 
-void RecMonitor::slotRewind() {
+void RecMonitor::slotRewind()
+{
     captureProcess->write("a", 1);
 }
 
-void RecMonitor::slotForward() {
+void RecMonitor::slotForward()
+{
     captureProcess->write("z", 1);
 }
 
-void RecMonitor::slotStopCapture() {
+void RecMonitor::slotStopCapture()
+{
     // stop capture
     switch (ui.device_selector->currentIndex()) {
     case FIREWIRE:
@@ -254,7 +266,8 @@ void RecMonitor::slotStopCapture() {
     }
 }
 
-void RecMonitor::slotStartCapture(bool play) {
+void RecMonitor::slotStartCapture(bool play)
+{
 
     /*
     *captureProcess<<"dvgrab";
@@ -369,7 +382,8 @@ void RecMonitor::slotStartCapture(bool play) {
     }
 }
 
-void RecMonitor::slotRecord() {
+void RecMonitor::slotRecord()
+{
     if (captureProcess->state() == QProcess::NotRunning && ui.device_selector->currentIndex() == FIREWIRE) {
         slotStartCapture();
     }
@@ -522,7 +536,8 @@ void RecMonitor::slotStartGrab(const QRect &rect) {
     captureProcess->start("ffmpeg", m_captureArgs);
 }*/
 
-void RecMonitor::slotProcessStatus(QProcess::ProcessState status) {
+void RecMonitor::slotProcessStatus(QProcess::ProcessState status)
+{
     if (status == QProcess::NotRunning) {
         displayProcess->kill();
         if (m_isCapturing && ui.device_selector->currentIndex() != FIREWIRE)
@@ -553,7 +568,8 @@ void RecMonitor::slotProcessStatus(QProcess::ProcessState status) {
     }
 }
 
-void RecMonitor::manageCapturedFiles() {
+void RecMonitor::manageCapturedFiles()
+{
     QString extension;
     switch (KdenliveSettings::firewireformat()) {
     case 0:
@@ -595,32 +611,38 @@ void RecMonitor::manageCapturedFiles() {
 }
 
 // virtual
-void RecMonitor::mousePressEvent(QMouseEvent * /*event*/) {
+void RecMonitor::mousePressEvent(QMouseEvent * /*event*/)
+{
     slotPlay();
 }
 
-void RecMonitor::activateRecMonitor() {
+void RecMonitor::activateRecMonitor()
+{
     //if (!m_isActive) m_monitorManager->activateRecMonitor(m_name);
 }
 
-void RecMonitor::stop() {
+void RecMonitor::stop()
+{
     m_isActive = false;
 
 }
 
-void RecMonitor::start() {
+void RecMonitor::start()
+{
     m_isActive = true;
 
 }
 
-void RecMonitor::refreshRecMonitor(bool visible) {
+void RecMonitor::refreshRecMonitor(bool visible)
+{
     if (visible) {
         //if (!m_isActive) m_monitorManager->activateRecMonitor(m_name);
 
     }
 }
 
-void RecMonitor::slotPlay() {
+void RecMonitor::slotPlay()
+{
 
     //if (!m_isActive) m_monitorManager->activateRecMonitor(m_name);
 

@@ -21,7 +21,8 @@
 #include <KLocale>
 
 EditTransitionCommand::EditTransitionCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, bool doIt)
-        : m_view(view), m_track(track), m_pos(pos), m_oldeffect(oldeffect), m_doIt(doIt) {
+        : m_view(view), m_track(track), m_pos(pos), m_oldeffect(oldeffect), m_doIt(doIt)
+{
     m_effect = effect.cloneNode().toElement();
     QString effectName;
     QDomNode namenode = effect.elementsByTagName("name").item(0);
@@ -31,12 +32,14 @@ EditTransitionCommand::EditTransitionCommand(CustomTrackView *view, const int tr
 }
 
 // virtual
-int EditTransitionCommand::id() const {
+int EditTransitionCommand::id() const
+{
     return 2;
 }
 
 // virtual
-bool EditTransitionCommand::mergeWith(const QUndoCommand * other) {
+bool EditTransitionCommand::mergeWith(const QUndoCommand * other)
+{
     if (other->id() != id()) return false;
     if (m_track != static_cast<const EditTransitionCommand*>(other)->m_track) return false;
     if (m_pos != static_cast<const EditTransitionCommand*>(other)->m_pos) return false;
@@ -45,11 +48,13 @@ bool EditTransitionCommand::mergeWith(const QUndoCommand * other) {
 }
 
 // virtual
-void EditTransitionCommand::undo() {
+void EditTransitionCommand::undo()
+{
     m_view->updateTransition(m_track, m_pos, m_effect, m_oldeffect, m_doIt);
 }
 // virtual
-void EditTransitionCommand::redo() {
+void EditTransitionCommand::redo()
+{
     m_view->updateTransition(m_track, m_pos, m_oldeffect, m_effect, m_doIt);
     m_doIt = true;
 }

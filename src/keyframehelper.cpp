@@ -29,19 +29,22 @@
 
 
 KeyframeHelper::KeyframeHelper(QWidget *parent)
-        : QWidget(parent), m_geom(NULL), m_position(0), m_scale(0) {
+        : QWidget(parent), m_geom(NULL), m_position(0), m_scale(0)
+{
     setFont(KGlobalSettings::toolBarFont());
 }
 
 // virtual
-void KeyframeHelper::mousePressEvent(QMouseEvent * event) {
+void KeyframeHelper::mousePressEvent(QMouseEvent * event)
+{
     m_position = event->x() / m_scale;
     emit positionChanged(m_position);
     update();
 }
 
 // virtual
-void KeyframeHelper::mouseMoveEvent(QMouseEvent * event) {
+void KeyframeHelper::mouseMoveEvent(QMouseEvent * event)
+{
     m_position = event->x() / m_scale;
     m_position = qMax(0, m_position);
     m_position = qMin(m_length, m_position);
@@ -51,7 +54,8 @@ void KeyframeHelper::mouseMoveEvent(QMouseEvent * event) {
 
 
 // virtual
-void KeyframeHelper::wheelEvent(QWheelEvent * e) {
+void KeyframeHelper::wheelEvent(QWheelEvent * e)
+{
     if (e->delta() < 0) m_position = m_position - 1;
     else m_position = m_position + 1;
     m_position = qMax(0, m_position);
@@ -66,7 +70,8 @@ void KeyframeHelper::wheelEvent(QWheelEvent * e) {
 }
 
 // virtual
-void KeyframeHelper::paintEvent(QPaintEvent *e) {
+void KeyframeHelper::paintEvent(QPaintEvent *e)
+{
     QStylePainter p(this);
     const QRectF clipRect = e->rect();
     p.setClipRect(clipRect);
@@ -103,17 +108,20 @@ void KeyframeHelper::paintEvent(QPaintEvent *e) {
 
 }
 
-int KeyframeHelper::value() const {
+int KeyframeHelper::value() const
+{
     return m_position;
 }
 
-void KeyframeHelper::setValue(const int pos) {
+void KeyframeHelper::setValue(const int pos)
+{
     if (pos == m_position || m_geom == NULL) return;
     m_position = pos;
     update();
 }
 
-void KeyframeHelper::setKeyGeometry(Mlt::Geometry *geom, const int length) {
+void KeyframeHelper::setKeyGeometry(Mlt::Geometry *geom, const int length)
+{
     m_geom = geom;
     m_length = length;
     update();

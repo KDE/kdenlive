@@ -38,7 +38,8 @@
 #include <QImage>
 #include <QApplication>
 
-void MyThread::init(QObject *parent, KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth) {
+void MyThread::init(QObject *parent, KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth)
+{
     stop_me = false;
     m_parent = parent;
     m_isWorking = false;
@@ -51,11 +52,13 @@ void MyThread::init(QObject *parent, KUrl url, QString target, double frame, dou
     m_arrayWidth = arrayWidth;
 }
 
-bool MyThread::isWorking() {
+bool MyThread::isWorking()
+{
     return m_isWorking;
 }
 
-void MyThread::run() {
+void MyThread::run()
+{
     if (!f.open(QIODevice::WriteOnly)) {
         kDebug() << "++++++++  ERROR WRITING TO FILE: " << f.fileName() << endl;
         kDebug() << "++++++++  DISABLING AUDIO THUMBS" << endl;
@@ -123,15 +126,15 @@ void MyThread::run() {
 }
 
 KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QString &hash, QObject * parent, const char */*name*/)
-  : QObject(parent),
-    audioThumbProducer(),
-    m_url(url),
-    m_thumbFile(),
-    m_dar(1),
-    m_producer(NULL),
-    m_clipManager(clipManager),
-    m_id(id),
-    m_mainFrame(-1)
+        : QObject(parent),
+        audioThumbProducer(),
+        m_url(url),
+        m_thumbFile(),
+        m_dar(1),
+        m_producer(NULL),
+        m_clipManager(clipManager),
+        m_id(id),
+        m_mainFrame(-1)
 {
     m_thumbFile = clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
     connect(&audioThumbProducer, SIGNAL(audioThumbProgress(const int)), this, SLOT(slotAudioThumbProgress(const int)));
@@ -139,7 +142,8 @@ KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QStr
 
 }
 
-KThumb::~KThumb() {
+KThumb::~KThumb()
+{
     if (audioThumbProducer.isRunning()) {
         slotAudioThumbOver();
         audioThumbProducer.stop_me = true;
@@ -147,24 +151,29 @@ KThumb::~KThumb() {
     }
 }
 
-void KThumb::setProducer(Mlt::Producer *producer) {
+void KThumb::setProducer(Mlt::Producer *producer)
+{
     m_producer = producer;
     m_dar = producer->profile()->dar();
 }
 
-void KThumb::clearProducer() {
+void KThumb::clearProducer()
+{
     m_producer = NULL;
 }
 
-bool KThumb::hasProducer() const {
+bool KThumb::hasProducer() const
+{
     return m_producer != NULL;
 }
 
-void KThumb::updateThumbUrl(const QString &hash) {
+void KThumb::updateThumbUrl(const QString &hash)
+{
     m_thumbFile = m_clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
 }
 
-void KThumb::updateClipUrl(KUrl url, const QString &hash) {
+void KThumb::updateClipUrl(KUrl url, const QString &hash)
+{
     m_url = url;
     if (m_producer) {
         char *tmp = Render::decodedString(url.path());
@@ -175,12 +184,14 @@ void KThumb::updateClipUrl(KUrl url, const QString &hash) {
 }
 
 //static
-QPixmap KThumb::getImage(KUrl url, int width, int height) {
+QPixmap KThumb::getImage(KUrl url, int width, int height)
+{
     if (url.isEmpty()) return QPixmap();
     return getImage(url, 0, width, height);
 }
 
-void KThumb::extractImage(int frame, int frame2) {
+void KThumb::extractImage(int frame, int frame2)
+{
     if (m_url.isEmpty() || !KdenliveSettings::videothumbnails() || m_producer == NULL) return;
 
     const int twidth = (int)(KdenliveSettings::trackheight() * m_dar);
@@ -259,12 +270,14 @@ void KThumb::extractImage(int frame, int frame2) {
     }
 }
 
-QPixmap KThumb::extractImage(int frame, int width, int height) {
+QPixmap KThumb::extractImage(int frame, int width, int height)
+{
     return getFrame(m_producer, frame, width, height);
 }
 
 //static
-QPixmap KThumb::getImage(KUrl url, int frame, int width, int height) {
+QPixmap KThumb::getImage(KUrl url, int frame, int width, int height)
+{
     Mlt::Profile profile((char*) KdenliveSettings::current_profile().data());
     QPixmap pix(width, height);
     if (url.isEmpty()) return pix;
@@ -308,7 +321,8 @@ QPixmap KThumb::getImage(QDomElement xml, int frame, int width, int height) {
 }*/
 
 //static
-QPixmap KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int height) {
+QPixmap KThumb::getFrame(Mlt::Producer *producer, int framepos, int width, int height)
+{
     if (producer == NULL) {
         QPixmap p(width, height);
         p.fill(Qt::red);
@@ -420,18 +434,21 @@ void KThumb::getThumbs(KUrl url, int startframe, int endframe, int width, int he
     emit thumbReady(endframe, image);
 }
 */
-void KThumb::stopAudioThumbs() {
+void KThumb::stopAudioThumbs()
+{
     if (audioThumbProducer.isRunning()) audioThumbProducer.stop_me = true;
 }
 
-void KThumb::removeAudioThumb() {
+void KThumb::removeAudioThumb()
+{
     if (m_thumbFile.isEmpty()) return;
     stopAudioThumbs();
     QFile f(m_thumbFile);
     f.remove();
 }
 
-void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int arrayWidth) {
+void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int arrayWidth)
+{
     if (channel == 0) {
         slotAudioThumbOver();
         return;
@@ -474,16 +491,19 @@ void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int a
     }
 }
 
-void KThumb::slotAudioThumbProgress(const int progress) {
+void KThumb::slotAudioThumbProgress(const int progress)
+{
     m_clipManager->setThumbsProgress(i18n("Creating thumbnail for %1", m_url.fileName()), progress);
 }
 
-void KThumb::slotAudioThumbOver() {
+void KThumb::slotAudioThumbOver()
+{
     m_clipManager->setThumbsProgress(i18n("Creating thumbnail for %1", m_url.fileName()), -1);
     m_clipManager->endAudioThumbsGeneration(m_id);
 }
 
-void KThumb::askForAudioThumbs(const QString &id) {
+void KThumb::askForAudioThumbs(const QString &id)
+{
     m_clipManager->askForAudioThumb(id);
 }
 

@@ -23,19 +23,22 @@
 
 #include <KLocale>
 
-MoveClipCommand::MoveClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_startPos(start), m_endPos(end), m_doIt(doIt) {
+MoveClipCommand::MoveClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_startPos(start), m_endPos(end), m_doIt(doIt)
+{
     setText(i18n("Move clip"));
 }
 
 
 // virtual
-void MoveClipCommand::undo() {
+void MoveClipCommand::undo()
+{
 // kDebug()<<"----  undoing action";
     m_doIt = true;
     m_view->moveClip(m_endPos, m_startPos);
 }
 // virtual
-void MoveClipCommand::redo() {
+void MoveClipCommand::redo()
+{
     kDebug() << "----  redoing action";
     if (m_doIt)
         m_view->moveClip(m_startPos, m_endPos);

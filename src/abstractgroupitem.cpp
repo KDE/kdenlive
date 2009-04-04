@@ -32,26 +32,31 @@
 #include <QMimeData>
 
 
-AbstractGroupItem::AbstractGroupItem(double fps): QGraphicsItemGroup(), m_fps(fps) {
+AbstractGroupItem::AbstractGroupItem(double fps): QGraphicsItemGroup(), m_fps(fps)
+{
     setZValue(2);
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setAcceptDrops(true);
 }
 
-int AbstractGroupItem::type() const {
+int AbstractGroupItem::type() const
+{
     return GROUPWIDGET;
 }
 
-int AbstractGroupItem::track() const {
+int AbstractGroupItem::track() const
+{
     return (int)(scenePos().y() / KdenliveSettings::trackheight());
 }
 
-CustomTrackScene* AbstractGroupItem::projectScene() {
+CustomTrackScene* AbstractGroupItem::projectScene()
+{
     if (scene()) return static_cast <CustomTrackScene*>(scene());
     return NULL;
 }
 
-QPainterPath AbstractGroupItem::groupShape(QPointF offset) {
+QPainterPath AbstractGroupItem::groupShape(QPointF offset)
+{
     QPainterPath path;
     QList<QGraphicsItem *> children = childItems();
     for (int i = 0; i < children.count(); i++) {
@@ -64,12 +69,14 @@ QPainterPath AbstractGroupItem::groupShape(QPointF offset) {
     return path;
 }
 
-void AbstractGroupItem::addItem(QGraphicsItem * item) {
+void AbstractGroupItem::addItem(QGraphicsItem * item)
+{
     addToGroup(item);
     //fixItemRect();
 }
 
-void AbstractGroupItem::fixItemRect() {
+void AbstractGroupItem::fixItemRect()
+{
     QPointF start = boundingRect().topLeft();
     if (start != QPointF(0, 0)) {
         translate(0 - start.x(), 0 - start.y());
@@ -85,7 +92,8 @@ void AbstractGroupItem::fixItemRect() {
 }*/
 
 // virtual
-void AbstractGroupItem::paint(QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *) {
+void AbstractGroupItem::paint(QPainter *p, const QStyleOptionGraphicsItem *option, QWidget *)
+{
     const double scale = option->matrix.m11();
     QRect clipRect = option->exposedRect.toRect();
     clipRect.adjust(0, 0, 1 / scale + 0.5, 1);
@@ -99,7 +107,8 @@ void AbstractGroupItem::paint(QPainter *p, const QStyleOptionGraphicsItem *optio
 }
 
 //virtual
-QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant &value) {
+QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant &value)
+{
     if (change == ItemPositionChange && scene()) {
         // calculate new position.
         const int trackHeight = KdenliveSettings::trackheight();
@@ -203,7 +212,8 @@ QVariant AbstractGroupItem::itemChange(GraphicsItemChange change, const QVariant
 }
 
 //virtual
-void AbstractGroupItem::dropEvent(QGraphicsSceneDragDropEvent * event) {
+void AbstractGroupItem::dropEvent(QGraphicsSceneDragDropEvent * event)
+{
     QString effects = QString(event->mimeData()->data("kdenlive/effectslist"));
     QDomDocument doc;
     doc.setContent(effects, true);
@@ -213,10 +223,12 @@ void AbstractGroupItem::dropEvent(QGraphicsSceneDragDropEvent * event) {
 }
 
 //virtual
-void AbstractGroupItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event) {
+void AbstractGroupItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
+{
     event->setAccepted(event->mimeData()->hasFormat("kdenlive/effectslist"));
 }
 
-void AbstractGroupItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event) {
+void AbstractGroupItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
+{
     Q_UNUSED(event);
 }

@@ -26,7 +26,8 @@
 
 #include <QDir>
 
-SlideshowClip::SlideshowClip(QWidget * parent): QDialog(parent), m_count(0) {
+SlideshowClip::SlideshowClip(QWidget * parent): QDialog(parent), m_count(0)
+{
     setFont(KGlobalSettings::toolBarFont());
     setWindowTitle(i18n("Add Slideshow Clip"));
     m_view.setupUi(this);
@@ -77,7 +78,8 @@ SlideshowClip::SlideshowClip(QWidget * parent): QDialog(parent), m_count(0) {
     adjustSize();
 }
 
-void SlideshowClip::slotEnableLuma(int state) {
+void SlideshowClip::slotEnableLuma(int state)
+{
     bool enable = false;
     if (state == Qt::Checked) enable = true;
     m_view.luma_duration->setEnabled(enable);
@@ -89,7 +91,8 @@ void SlideshowClip::slotEnableLuma(int state) {
     m_view.luma_softness->setEnabled(m_view.label_softness->isEnabled());
 }
 
-void SlideshowClip::slotEnableLumaFile(int state) {
+void SlideshowClip::slotEnableLumaFile(int state)
+{
     bool enable = false;
     if (state == Qt::Checked) enable = true;
     m_view.luma_file->setEnabled(enable);
@@ -97,7 +100,8 @@ void SlideshowClip::slotEnableLumaFile(int state) {
     m_view.label_softness->setEnabled(enable);
 }
 
-void SlideshowClip::parseFolder() {
+void SlideshowClip::parseFolder()
+{
     m_view.icon_list->clear();
     QDir dir(m_view.folder_url->url().path());
 
@@ -131,7 +135,8 @@ void SlideshowClip::parseFolder() {
     m_view.icon_list->setCurrentRow(0);
 }
 
-void SlideshowClip::slotSetItemIcon(int row) {
+void SlideshowClip::slotSetItemIcon(int row)
+{
     QListWidgetItem * item = m_view.icon_list->item(row);
     if (item) {
         QString path = item->data(Qt::UserRole).toString();
@@ -143,41 +148,50 @@ void SlideshowClip::slotSetItemIcon(int row) {
     }
 }
 
-QString SlideshowClip::selectedPath() const {
+QString SlideshowClip::selectedPath() const
+{
     QString extension = "/.all." + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString();
     return m_view.folder_url->url().path() + extension;
 }
 
 
-QString SlideshowClip::clipName() const {
+QString SlideshowClip::clipName() const
+{
     return m_view.clip_name->text();
 }
 
-QString SlideshowClip::clipDuration() const {
+QString SlideshowClip::clipDuration() const
+{
     return m_view.clip_duration->text();
 }
 
-int SlideshowClip::imageCount() const {
+int SlideshowClip::imageCount() const
+{
     return m_count;
 }
 
-int SlideshowClip::softness() const {
+int SlideshowClip::softness() const
+{
     return m_view.luma_softness->value();
 }
 
-bool SlideshowClip::loop() const {
+bool SlideshowClip::loop() const
+{
     return m_view.slide_loop->isChecked();
 }
 
-bool SlideshowClip::fade() const {
+bool SlideshowClip::fade() const
+{
     return m_view.slide_fade->isChecked();
 }
 
-QString SlideshowClip::lumaDuration() const {
+QString SlideshowClip::lumaDuration() const
+{
     return m_view.luma_duration->text();
 }
 
-QString SlideshowClip::lumaFile() const {
+QString SlideshowClip::lumaFile() const
+{
     if (!m_view.luma_fade->isChecked() || !m_view.luma_file->isEnabled()) return QString();
     return m_view.luma_file->itemData(m_view.luma_file->currentIndex()).toString();
 }

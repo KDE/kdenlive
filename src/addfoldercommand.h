@@ -25,7 +25,8 @@
 
 class ProjectList;
 
-class AddFolderCommand : public QUndoCommand {
+class AddFolderCommand : public QUndoCommand
+{
 public:
     AddFolderCommand(ProjectList *view, const QString folderName, const QString &clipId, bool doIt, QUndoCommand *parent = 0);
 

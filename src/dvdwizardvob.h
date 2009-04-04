@@ -31,7 +31,8 @@
 
 #include <QWizardPage>
 
-class DvdWizardVob : public QWizardPage {
+class DvdWizardVob : public QWizardPage
+{
     Q_OBJECT
 
 public:

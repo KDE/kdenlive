@@ -26,7 +26,8 @@
 
 class Monitor;
 
-class MonitorManager : public QObject {
+class MonitorManager : public QObject
+{
     Q_OBJECT
 
 public:

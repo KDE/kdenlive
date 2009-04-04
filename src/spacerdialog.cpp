@@ -26,7 +26,8 @@
 #include <KDebug>
 
 
-SpacerDialog::SpacerDialog(const GenTime duration, Timecode tc, int track, int trackNumber, QWidget * parent): QDialog(parent), m_tc(tc) {
+SpacerDialog::SpacerDialog(const GenTime duration, Timecode tc, int track, int trackNumber, QWidget * parent): QDialog(parent), m_tc(tc)
+{
     setFont(KGlobalSettings::toolBarFont());
     m_fps = m_tc.fps();
     m_view.setupUi(this);
@@ -45,27 +46,32 @@ SpacerDialog::SpacerDialog(const GenTime duration, Timecode tc, int track, int t
     adjustSize();
 }
 
-SpacerDialog::~SpacerDialog() {
+SpacerDialog::~SpacerDialog()
+{
 }
 
-void SpacerDialog::slotTimeUp() {
+void SpacerDialog::slotTimeUp()
+{
     int duration = m_tc.getFrameCount(m_view.space_duration->text(), m_fps);
     duration ++;
     m_view.space_duration->setText(m_tc.getTimecode(GenTime(duration, m_fps), m_fps));
 }
 
-void SpacerDialog::slotTimeDown() {
+void SpacerDialog::slotTimeDown()
+{
     int duration = m_tc.getFrameCount(m_view.space_duration->text(), m_fps);
     if (duration <= 0) return;
     duration --;
     m_view.space_duration->setText(m_tc.getTimecode(GenTime(duration, m_fps), m_fps));
 }
 
-GenTime SpacerDialog::selectedDuration() {
+GenTime SpacerDialog::selectedDuration()
+{
     return GenTime(m_tc.getFrameCount(m_view.space_duration->text(), m_fps), m_fps);
 }
 
-void SpacerDialog::wheelEvent(QWheelEvent * event) {
+void SpacerDialog::wheelEvent(QWheelEvent * event)
+{
     if (m_view.space_duration->underMouse()) {
         if (event->delta() > 0)
             slotTimeUp();
@@ -74,7 +80,8 @@ void SpacerDialog::wheelEvent(QWheelEvent * event) {
     }
 }
 
-int SpacerDialog::selectedTrack() {
+int SpacerDialog::selectedTrack()
+{
     return m_view.track_number->currentIndex() - 1;
 }
 

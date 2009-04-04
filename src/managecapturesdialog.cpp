@@ -34,7 +34,8 @@
 #include <QTimer>
 
 
-ManageCapturesDialog::ManageCapturesDialog(KUrl::List files, QWidget * parent): QDialog(parent) {
+ManageCapturesDialog::ManageCapturesDialog(KUrl::List files, QWidget * parent): QDialog(parent)
+{
     setFont(KGlobalSettings::toolBarFont());
     m_view.setupUi(this);
     m_importButton = m_view.buttonBox->button(QDialogButtonBox::Ok);
@@ -65,7 +66,8 @@ ManageCapturesDialog::ManageCapturesDialog(KUrl::List files, QWidget * parent): 
 
 ManageCapturesDialog::~ManageCapturesDialog() {}
 
-void ManageCapturesDialog::slotCheckItemIcon() {
+void ManageCapturesDialog::slotCheckItemIcon()
+{
     int ct = 0;
     int count = m_view.treeWidget->topLevelItemCount();
     while (ct < count) {
@@ -83,7 +85,8 @@ void ManageCapturesDialog::slotCheckItemIcon() {
     m_view.treeWidget->setEnabled(true);
 }
 
-void ManageCapturesDialog::slotRefreshButtons() {
+void ManageCapturesDialog::slotRefreshButtons()
+{
     int count = m_view.treeWidget->topLevelItemCount();
     bool enabled = false;
     for (int i = 0; i < count; i++) {
@@ -96,7 +99,8 @@ void ManageCapturesDialog::slotRefreshButtons() {
     m_importButton->setEnabled(enabled);
 }
 
-void ManageCapturesDialog::slotDeleteCurrent() {
+void ManageCapturesDialog::slotDeleteCurrent()
+{
     QTreeWidgetItem *item = m_view.treeWidget->currentItem();
     if (!item) return;
     int i = m_view.treeWidget->indexOfTopLevelItem(item);
@@ -109,7 +113,8 @@ void ManageCapturesDialog::slotDeleteCurrent() {
     item = NULL;
 }
 
-void ManageCapturesDialog::slotToggle() {
+void ManageCapturesDialog::slotToggle()
+{
     int count = m_view.treeWidget->topLevelItemCount();
     for (int i = 0; i < count; i++) {
         QTreeWidgetItem *item = m_view.treeWidget->topLevelItem(i);
@@ -120,7 +125,8 @@ void ManageCapturesDialog::slotToggle() {
     }
 }
 
-KUrl::List ManageCapturesDialog::importFiles() {
+KUrl::List ManageCapturesDialog::importFiles()
+{
     KUrl::List result;
 
     int count = m_view.treeWidget->topLevelItemCount();

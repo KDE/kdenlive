@@ -34,7 +34,8 @@
 #include <QCryptographicHash>
 
 DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id):
-        m_id(id), m_description(QString()), m_refcount(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL), m_properties(QMap <QString, QString> ()), audioFrameChache(QMap<int, QMap<int, QByteArray> > ()), m_baseTrackProducers(QList <Mlt::Producer *>()), m_snapMarkers(QList < CommentedTime > ()), m_videoOnlyProducer(NULL), m_audioTrackProducers(QList <Mlt::Producer *>())  {
+        m_id(id), m_description(QString()), m_refcount(0), m_audioThumbCreated(false), m_duration(GenTime()), m_thumbProd(NULL), m_audioTimer(NULL), m_properties(QMap <QString, QString> ()), audioFrameChache(QMap<int, QMap<int, QByteArray> > ()), m_baseTrackProducers(QList <Mlt::Producer *>()), m_snapMarkers(QList < CommentedTime > ()), m_videoOnlyProducer(NULL), m_audioTrackProducers(QList <Mlt::Producer *>())
+{
     int type = xml.attribute("type").toInt();
     m_clipType = (CLIPTYPE) type;
 
@@ -75,7 +76,8 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     return *this;
 }*/
 
-DocClipBase::~DocClipBase() {
+DocClipBase::~DocClipBase()
+{
     if (m_thumbProd) {
         delete m_thumbProd;
     }
@@ -87,30 +89,35 @@ DocClipBase::~DocClipBase() {
     m_baseTrackProducers.clear();
 }
 
-void DocClipBase::setZone(QPoint zone) {
+void DocClipBase::setZone(QPoint zone)
+{
     m_properties.insert("zone_in", QString::number(zone.x()));
     m_properties.insert("zone_out", QString::number(zone.y()));
 }
 
-QPoint DocClipBase::zone() const {
+QPoint DocClipBase::zone() const
+{
     QPoint zone;
     zone.setX(m_properties.value("zone_in").toInt());
     zone.setY(m_properties.value("zone_out", "50").toInt());
     return zone;
 }
 
-void DocClipBase::slotCreateAudioTimer() {
+void DocClipBase::slotCreateAudioTimer()
+{
     connect(m_thumbProd, SIGNAL(audioThumbReady(QMap <int, QMap <int, QByteArray> >)), this , SLOT(updateAudioThumbnail(QMap <int, QMap <int, QByteArray> >)));
     connect(this, SIGNAL(getAudioThumbs()), this , SLOT(slotGetAudioThumbs()));
     m_audioTimer = new QTimer(this);
     connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(slotGetAudioThumbs()));
 }
 
-void DocClipBase::askForAudioThumbs() {
+void DocClipBase::askForAudioThumbs()
+{
     if (m_thumbProd) m_thumbProd->askForAudioThumbs(getId());
 }
 
-void DocClipBase::slotClearAudioCache() {
+void DocClipBase::slotClearAudioCache()
+{
     if (m_thumbProd) m_thumbProd->stopAudioThumbs();
     if (m_audioTimer != NULL) m_audioTimer->stop();
     audioFrameChache.clear();
@@ -121,32 +128,39 @@ void DocClipBase::slotClearAudioCache() {
     if (m_thumbProd) m_thumbProd->getMainThumb(m_properties.value("thumbnail").toInt());
 }*/
 
-KThumb *DocClipBase::thumbProducer() {
+KThumb *DocClipBase::thumbProducer()
+{
     return m_thumbProd;
 }
 
-bool DocClipBase::audioThumbCreated() const {
+bool DocClipBase::audioThumbCreated() const
+{
     return m_audioThumbCreated;
 }
 
-const QString DocClipBase::name() const {
+const QString DocClipBase::name() const
+{
 
     return m_properties.value("name");
 }
 
-const QString &DocClipBase::getId() const {
+const QString &DocClipBase::getId() const
+{
     return m_id;
 }
 
-void DocClipBase::setId(const QString &newId) {
+void DocClipBase::setId(const QString &newId)
+{
     m_id = newId;
 }
 
-const CLIPTYPE & DocClipBase::clipType() const {
+const CLIPTYPE & DocClipBase::clipType() const
+{
     return m_clipType;
 }
 
-void DocClipBase::setClipType(CLIPTYPE type) {
+void DocClipBase::setClipType(CLIPTYPE type)
+{
     m_clipType = type;
 
     m_properties.insert("type", QString::number((int) type));
@@ -154,42 +168,51 @@ void DocClipBase::setClipType(CLIPTYPE type) {
         slotCreateAudioTimer();
 }
 
-KUrl DocClipBase::fileURL() const {
+KUrl DocClipBase::fileURL() const
+{
     QString res = m_properties.value("resource");
     if (m_clipType != COLOR && !res.isEmpty()) return KUrl(res);
     return KUrl();
 }
 
-void DocClipBase::setClipThumbFrame(const uint &ix) {
+void DocClipBase::setClipThumbFrame(const uint &ix)
+{
     m_properties.insert("thumbnail", QString::number((int) ix));
 }
 
-uint DocClipBase::getClipThumbFrame() const {
+uint DocClipBase::getClipThumbFrame() const
+{
     return (uint) m_properties.value("thumbnail").toInt();
 }
 
-const QString DocClipBase::description() const {
+const QString DocClipBase::description() const
+{
     return m_properties.value("description");
 }
 
-bool DocClipBase::isTransparent() const {
+bool DocClipBase::isTransparent() const
+{
     return (m_properties.value("transparency") == "1");
 }
 
-const QString DocClipBase::getProperty(const QString prop) const {
+const QString DocClipBase::getProperty(const QString prop) const
+{
     return m_properties.value(prop);
 }
 
-void DocClipBase::setDuration(GenTime dur) {
+void DocClipBase::setDuration(GenTime dur)
+{
     m_duration = dur;
     m_properties.insert("duration", QString::number((int) dur.frames(KdenliveSettings::project_fps())));
 }
 
-const GenTime &DocClipBase::duration() const {
+const GenTime &DocClipBase::duration() const
+{
     return m_duration;
 }
 
-const GenTime DocClipBase::maxDuration() const {
+const GenTime DocClipBase::maxDuration() const
+{
     if (m_clipType == COLOR || m_clipType == IMAGE || m_clipType == TEXT || (m_clipType == SLIDESHOW &&  m_properties.value("loop") == "1")) {
         const GenTime dur(15000, KdenliveSettings::project_fps());
         return dur;
@@ -197,13 +220,15 @@ const GenTime DocClipBase::maxDuration() const {
     return m_duration;
 }
 
-bool DocClipBase::hasFileSize() const {
+bool DocClipBase::hasFileSize() const
+{
     return true;
 }
 
 
 // virtual
-QDomElement DocClipBase::toXML() const {
+QDomElement DocClipBase::toXML() const
+{
     QDomDocument doc;
     QDomElement clip = doc.createElement("producer");
 
@@ -218,27 +243,32 @@ QDomElement DocClipBase::toXML() const {
 }
 
 
-void DocClipBase::setAudioThumbCreated(bool isDone) {
+void DocClipBase::setAudioThumbCreated(bool isDone)
+{
     m_audioThumbCreated = isDone;
 }
 
 
-void DocClipBase::setThumbnail(const QPixmap & pixmap) {
+void DocClipBase::setThumbnail(const QPixmap & pixmap)
+{
     m_thumbnail = pixmap;
 }
 
-const QPixmap & DocClipBase::thumbnail() const {
+const QPixmap & DocClipBase::thumbnail() const
+{
     return m_thumbnail;
 }
 
-void DocClipBase::updateAudioThumbnail(QMap<int, QMap<int, QByteArray> > data) {
+void DocClipBase::updateAudioThumbnail(QMap<int, QMap<int, QByteArray> > data)
+{
     //kDebug() << "CLIPBASE RECIEDVED AUDIO DATA*********************************************";
     audioFrameChache = data;
     m_audioThumbCreated = true;
     emit gotAudioData();
 }
 
-QList < GenTime > DocClipBase::snapMarkers() const {
+QList < GenTime > DocClipBase::snapMarkers() const
+{
     QList < GenTime > markers;
 
     for (uint count = 0; count < m_snapMarkers.count(); ++count) {
@@ -248,15 +278,18 @@ QList < GenTime > DocClipBase::snapMarkers() const {
     return markers;
 }
 
-QList < CommentedTime > DocClipBase::commentedSnapMarkers() const {
+QList < CommentedTime > DocClipBase::commentedSnapMarkers() const
+{
     return m_snapMarkers;
 }
 
-void DocClipBase::setSnapMarkers(QList < CommentedTime > markers) {
+void DocClipBase::setSnapMarkers(QList < CommentedTime > markers)
+{
     m_snapMarkers = markers;
 }
 
-void DocClipBase::addSnapMarker(const GenTime & time, QString comment) {
+void DocClipBase::addSnapMarker(const GenTime & time, QString comment)
+{
     QList < CommentedTime >::Iterator it = m_snapMarkers.begin();
     for (it = m_snapMarkers.begin(); it != m_snapMarkers.end(); ++it) {
         if ((*it).time() >= time)
@@ -273,7 +306,8 @@ void DocClipBase::addSnapMarker(const GenTime & time, QString comment) {
 
 }
 
-void DocClipBase::editSnapMarker(const GenTime & time, QString comment) {
+void DocClipBase::editSnapMarker(const GenTime & time, QString comment)
+{
     QList < CommentedTime >::Iterator it;
     for (it = m_snapMarkers.begin(); it != m_snapMarkers.end(); ++it) {
         if ((*it).time() == time)
@@ -286,7 +320,8 @@ void DocClipBase::editSnapMarker(const GenTime & time, QString comment) {
     }
 }
 
-QString DocClipBase::deleteSnapMarker(const GenTime & time) {
+QString DocClipBase::deleteSnapMarker(const GenTime & time)
+{
     QString result = i18n("Marker");
     QList < CommentedTime >::Iterator itt = m_snapMarkers.begin();
 
@@ -304,7 +339,8 @@ QString DocClipBase::deleteSnapMarker(const GenTime & time) {
 }
 
 
-GenTime DocClipBase::hasSnapMarkers(const GenTime & time) {
+GenTime DocClipBase::hasSnapMarkers(const GenTime & time)
+{
     QList < CommentedTime >::Iterator itt = m_snapMarkers.begin();
 
     while (itt != m_snapMarkers.end()) {
@@ -316,7 +352,8 @@ GenTime DocClipBase::hasSnapMarkers(const GenTime & time) {
     return GenTime(0.0);
 }
 
-GenTime DocClipBase::findPreviousSnapMarker(const GenTime & currTime) {
+GenTime DocClipBase::findPreviousSnapMarker(const GenTime & currTime)
+{
     int it;
     for (it = 0; it < m_snapMarkers.count(); it++) {
         if (m_snapMarkers[it].time() >= currTime)
@@ -328,7 +365,8 @@ GenTime DocClipBase::findPreviousSnapMarker(const GenTime & currTime) {
     else return m_snapMarkers[it-1].time();
 }
 
-GenTime DocClipBase::findNextSnapMarker(const GenTime & currTime) {
+GenTime DocClipBase::findNextSnapMarker(const GenTime & currTime)
+{
     int it;
     for (it = 0; it < m_snapMarkers.count(); it++) {
         if (m_snapMarkers[it].time() > currTime)
@@ -338,7 +376,8 @@ GenTime DocClipBase::findNextSnapMarker(const GenTime & currTime) {
     return duration();
 }
 
-QString DocClipBase::markerComment(GenTime t) {
+QString DocClipBase::markerComment(GenTime t)
+{
     QList < CommentedTime >::Iterator itt = m_snapMarkers.begin();
 
     while (itt != m_snapMarkers.end()) {
@@ -349,13 +388,15 @@ QString DocClipBase::markerComment(GenTime t) {
     return QString();
 }
 
-void DocClipBase::deleteProducers() {
+void DocClipBase::deleteProducers()
+{
     qDeleteAll(m_baseTrackProducers);
     m_baseTrackProducers.clear();
     if (m_thumbProd) m_thumbProd->clearProducer();
 }
 
-void DocClipBase::setProducer(Mlt::Producer *producer) {
+void DocClipBase::setProducer(Mlt::Producer *producer)
+{
     if (producer == NULL) return;
     QString id = producer->get("id");
     if (id.contains('_')) {
@@ -391,7 +432,8 @@ void DocClipBase::setProducer(Mlt::Producer *producer) {
     if (m_thumbProd && !m_thumbProd->hasProducer()) m_thumbProd->setProducer(producer);
 }
 
-Mlt::Producer *DocClipBase::audioProducer(int track) {
+Mlt::Producer *DocClipBase::audioProducer(int track)
+{
     if (m_audioTrackProducers.count() <= track) {
         while (m_audioTrackProducers.count() - 1 < track) {
             m_audioTrackProducers.append(NULL);
@@ -411,7 +453,8 @@ Mlt::Producer *DocClipBase::audioProducer(int track) {
     return m_audioTrackProducers.at(track);
 }
 
-Mlt::Producer *DocClipBase::videoProducer() {
+Mlt::Producer *DocClipBase::videoProducer()
+{
     if (m_videoOnlyProducer == NULL) {
         int i;
         for (i = 0; i < m_baseTrackProducers.count(); i++)
@@ -429,7 +472,8 @@ Mlt::Producer *DocClipBase::videoProducer() {
     return m_videoOnlyProducer;
 }
 
-Mlt::Producer *DocClipBase::producer(int track) {
+Mlt::Producer *DocClipBase::producer(int track)
+{
     /*for (int i = 0; i < m_baseTrackProducers.count(); i++) {
         if (m_baseTrackProducers.at(i)) kDebug() << "// PROD: " << i << ", ID: " << m_baseTrackProducers.at(i)->get("id");
     }*/
@@ -467,21 +511,24 @@ Mlt::Producer *DocClipBase::producer(int track) {
     return m_baseTrackProducers.at(track);
 }
 
-void DocClipBase::setProducerProperty(const char *name, int data) {
+void DocClipBase::setProducerProperty(const char *name, int data)
+{
     for (int i = 0; i < m_baseTrackProducers.count(); i++) {
         if (m_baseTrackProducers.at(i) != NULL)
             m_baseTrackProducers[i]->set(name, data);
     }
 }
 
-void DocClipBase::setProducerProperty(const char *name, const char *data) {
+void DocClipBase::setProducerProperty(const char *name, const char *data)
+{
     for (int i = 0; i < m_baseTrackProducers.count(); i++) {
         if (m_baseTrackProducers.at(i) != NULL)
             m_baseTrackProducers[i]->set(name, data);
     }
 }
 
-const char *DocClipBase::producerProperty(const char *name) const {
+const char *DocClipBase::producerProperty(const char *name) const
+{
     for (int i = 0; i < m_baseTrackProducers.count(); i++) {
         if (m_baseTrackProducers.at(i) != NULL) {
             return m_baseTrackProducers.at(i)->get(name);
@@ -491,7 +538,8 @@ const char *DocClipBase::producerProperty(const char *name) const {
 }
 
 
-void DocClipBase::slotRefreshProducer() {
+void DocClipBase::slotRefreshProducer()
+{
     if (m_baseTrackProducers.count() == 0) return;
     kDebug() << "////////////   REFRESH CLIP !!!!!!!!!!!!!!!!";
     if (m_clipType == SLIDESHOW) {
@@ -558,7 +606,8 @@ void DocClipBase::slotRefreshProducer() {
     }
 }
 
-void DocClipBase::setProperties(QMap <QString, QString> properties) {
+void DocClipBase::setProperties(QMap <QString, QString> properties)
+{
     // changing clip type is not allowed
     properties.remove("type");
     QMapIterator<QString, QString> i(properties);
@@ -573,19 +622,23 @@ void DocClipBase::setProperties(QMap <QString, QString> properties) {
     if (refreshProducer) slotRefreshProducer();
 }
 
-void DocClipBase::setMetadata(QMap <QString, QString> properties) {
+void DocClipBase::setMetadata(QMap <QString, QString> properties)
+{
     m_metadata = properties;
 }
 
-QMap <QString, QString> DocClipBase::metadata() const {
+QMap <QString, QString> DocClipBase::metadata() const
+{
     return m_metadata;
 }
 
-void DocClipBase::clearProperty(const QString &key) {
+void DocClipBase::clearProperty(const QString &key)
+{
     m_properties.remove(key);
 }
 
-void DocClipBase::getFileHash(const QString url) {
+void DocClipBase::getFileHash(const QString url)
+{
     if (m_clipType == SLIDESHOW) return;
     QFile file(url);
     if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
@@ -610,7 +663,8 @@ void DocClipBase::getFileHash(const QString url) {
     }
 }
 
-QString DocClipBase::getClipHash() const {
+QString DocClipBase::getClipHash() const
+{
     QString hash;
     if (m_clipType == SLIDESHOW) hash = QCryptographicHash::hash(m_properties.value("resource").toAscii().data(), QCryptographicHash::Md5).toHex();
     else if (m_clipType == COLOR) hash = QCryptographicHash::hash(m_properties.value("colour").toAscii().data(), QCryptographicHash::Md5).toHex();
@@ -618,11 +672,13 @@ QString DocClipBase::getClipHash() const {
     return hash;
 }
 
-void DocClipBase::refreshThumbUrl() {
+void DocClipBase::refreshThumbUrl()
+{
     if (m_thumbProd) m_thumbProd->updateThumbUrl(m_properties.value("file_hash"));
 }
 
-void DocClipBase::setProperty(const QString &key, const QString &value) {
+void DocClipBase::setProperty(const QString &key, const QString &value)
+{
     m_properties.insert(key, value);
     if (key == "resource") {
         getFileHash(value);
@@ -658,11 +714,13 @@ void DocClipBase::setProperty(const QString &key, const QString &value) {
     }
 }
 
-QMap <QString, QString> DocClipBase::properties() const {
+QMap <QString, QString> DocClipBase::properties() const
+{
     return m_properties;
 }
 
-bool DocClipBase::slotGetAudioThumbs() {
+bool DocClipBase::slotGetAudioThumbs()
+{
     if (m_thumbProd == NULL) return false;
     if (!KdenliveSettings::audiothumbnails()) {
         if (m_audioTimer != NULL) m_audioTimer->stop();
