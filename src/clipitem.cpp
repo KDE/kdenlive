@@ -71,8 +71,8 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, b
     setAcceptsHoverEvents(true);
     connect(this , SIGNAL(prepareAudioThumb(double, int, int, int)) , this, SLOT(slotPrepareAudioThumb(double, int, int, int)));
 
-    setBrush(QColor(141, 166, 215));
     if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW || m_clipType == PLAYLIST) {
+        setBrush(QColor(141, 166, 215));
         m_hasThumbs = true;
         startThumbTimer = new QTimer(this);
         startThumbTimer->setSingleShot(true);
@@ -97,9 +97,11 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, b
         colour = colour.replace(0, 2, "#");
         setBrush(QColor(colour.left(7)));
     } else if (m_clipType == IMAGE || m_clipType == TEXT) {
+        setBrush(QColor(141, 166, 215));
         m_startPix = KThumb::getImage(KUrl(clip->getProperty("resource")), (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio()), KdenliveSettings::trackheight());
         m_endPix = m_startPix;
     } else if (m_clipType == AUDIO) {
+        setBrush(QColor(141, 215, 166));
         connect(clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
     }
 }
@@ -571,7 +573,7 @@ void ClipItem::paint(QPainter *painter,
     QColor paintColor;
     if (parentItem()) paintColor = QColor(255, 248, 149);
     else paintColor = brush().color();
-    if (isSelected() || parentItem() && parentItem()->isSelected()) paintColor = paintColor.darker();
+    if (isSelected() || (parentItem() && parentItem()->isSelected())) paintColor = paintColor.darker();
     QRectF br = rect();
     QRectF exposed = option->exposedRect;
     QRectF mapped = painter->matrix().mapRect(br);
@@ -589,7 +591,6 @@ void ClipItem::paint(QPainter *painter,
     //Fill clip rectangle
     QRectF bgRect = br;
     bgRect.setLeft(br.left() + xoffset);
-    if (m_clipType == AUDIO || isAudioOnly()) paintColor.setAlpha(80);
     painter->fillRect(bgRect, paintColor);
 
     //painter->setClipPath(resultClipPath, Qt::IntersectClip);
@@ -1491,6 +1492,8 @@ void ClipItem::setVideoOnly(bool force)
 void ClipItem::setAudioOnly(bool force)
 {
     m_audioOnly = force;
+    if (m_audioOnly) setBrush(QColor(141, 215, 166));
+    else setBrush(QColor(141, 166, 215));
 }
 
 bool ClipItem::isAudioOnly() const
