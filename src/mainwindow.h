@@ -171,6 +171,7 @@ private:
     QAction *m_loopZone;
     QAction *m_playZone;
     StatusBarMessageLabel *m_messageLabel;
+    QActionGroup *m_clipTypeGroup;
 
     bool m_findActivated;
     QString m_findString;
@@ -297,8 +298,7 @@ private slots:
     void slotGroupClips();
     void slotUnGroupClips();
     void slotSplitAudio();
-    void slotVideoOnly();
-    void slotAudioOnly();
+    void slotUpdateClipType(QAction *action);
     void slotShowTimeline(bool show);
     void slotMaximizeCurrent(bool show);
 

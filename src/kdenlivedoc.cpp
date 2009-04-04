@@ -49,10 +49,19 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     m_autoSaveTimer->setSingleShot(true);
     if (!url.isEmpty()) {
         QString tmpFile;
-        if (KIO::NetAccess::download(url.path(), tmpFile, parent)) {
+        bool success = KIO::NetAccess::download(url.path(), tmpFile, parent);
+        if (success) {
             QFile file(tmpFile);
-            m_document.setContent(&file, false);
+            QString errorMsg;
+            success = m_document.setContent(&file, false, &errorMsg);
             file.close();
+            if (success == false) {
+                // File is corrupted, warn user
+                KMessageBox::error(parent, errorMsg);
+            }
+        } else KMessageBox::error(parent, KIO::NetAccess::lastErrorString());
+
+        if (success) {
             QDomNode infoXmlNode = m_document.elementsByTagName("kdenlivedoc").at(0);
             QDomNode westley = m_document.elementsByTagName("westley").at(0);
             if (!infoXmlNode.isNull()) {
@@ -187,7 +196,6 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
             }
             KIO::NetAccess::removeTempFile(tmpFile);
         } else {
-            KMessageBox::error(parent, KIO::NetAccess::lastErrorString());
             parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file."), 100);
             m_url = KUrl();
             m_document = createEmptyDocument(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
@@ -1014,8 +1022,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
         return false;
     }
 
-    QTextStream out(&file);
-    out << sceneList.toString();
+    file.write(sceneList.toString().toUtf8());
     if (file.error() != QFile::NoError) {
         KMessageBox::error(kapp->activeWindow(), i18n("Cannot write to file %1", path));
         file.close();

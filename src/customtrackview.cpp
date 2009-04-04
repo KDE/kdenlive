@@ -125,10 +125,11 @@ void CustomTrackView::setDocumentModified()
     m_document->setModified(true);
 }
 
-void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition)
+void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition, QActionGroup *clipTypeGroup)
 {
     m_timelineContextMenu = timeline;
     m_timelineContextClipMenu = clip;
+    m_clipTypeGroup = clipTypeGroup;
     QList <QAction *> list = m_timelineContextClipMenu->actions();
     for (int i = 0; i < list.count(); i++) {
         if (list.at(i)->data().toString() == "change_speed") m_changeSpeedAction = list.at(i);
@@ -646,6 +647,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         m_scene->clearSelection();
         event->accept();
         emit clipItemSelected(NULL);
+        updateClipTypeActions(NULL);
         if (m_tool == SPACERTOOL) {
             QList<QGraphicsItem *> selection;
             if (event->modifiers() == Qt::ControlModifier) {
@@ -742,8 +744,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         bool selected = !m_dragItem->isSelected();
         if (dragGroup) dragGroup->setSelected(selected);
         else m_dragItem->setSelected(selected);
+
         groupSelectedItems();
         ClipItem *clip = static_cast <ClipItem *>(m_dragItem);
+        updateClipTypeActions(dragGroup == NULL ? clip : NULL);
         m_changeSpeedAction->setEnabled(clip->clipType() == AV || clip->clipType() == VIDEO);
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
     }
@@ -1026,11 +1030,13 @@ void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip, Abs
         m_changeSpeedAction->setEnabled(false);
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
         m_ungroupAction->setEnabled(true);
+        updateClipTypeActions(NULL);
         m_timelineContextClipMenu->popup(pos);
     } else {
         m_ungroupAction->setEnabled(false);
         if (clip->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem*>(clip);
+            updateClipTypeActions(item);
             m_changeSpeedAction->setEnabled(item->clipType() == AV || item->clipType() == VIDEO);
             m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
             m_timelineContextClipMenu->popup(pos);
@@ -1604,6 +1610,11 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         for (int i = 0; i < items.count(); i++) {
             ClipItem *item = static_cast <ClipItem *>(items.at(i));
             if (!hasVideoClip && (item->clipType() == AV || item->clipType() == VIDEO)) hasVideoClip = true;
+            if (items.count() == 1) {
+                updateClipTypeActions(item);
+            } else {
+                updateClipTypeActions(NULL);
+            }
             AddTimelineClipCommand *command = new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, false);
             m_commandStack->push(command);
             item->baseClip()->addReference();
@@ -4302,7 +4313,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)
     }
 }
 
-void CustomTrackView::videoOnly()
+void CustomTrackView::setVideoOnly()
 {
     resetSelectionGroup();
     QList<QGraphicsItem *> selection = scene()->selectedItems();
@@ -4327,7 +4338,7 @@ void CustomTrackView::videoOnly()
     m_commandStack->push(videoCommand);
 }
 
-void CustomTrackView::audioOnly()
+void CustomTrackView::setAudioOnly()
 {
     resetSelectionGroup();
     QList<QGraphicsItem *> selection = scene()->selectedItems();
@@ -4345,6 +4356,31 @@ void CustomTrackView::audioOnly()
                     emit displayMessage(i18n("Cannot change grouped clips"), ErrorMessage);
                 } else {
                     new ChangeClipTypeCommand(this, clip->track(), clip->startPos(), false, true, clip->isVideoOnly(), clip->isAudioOnly(), true, videoCommand);
+                }
+            }
+        }
+    }
+    m_commandStack->push(videoCommand);
+}
+
+void CustomTrackView::setAudioAndVideo()
+{
+    resetSelectionGroup();
+    QList<QGraphicsItem *> selection = scene()->selectedItems();
+    if (selection.isEmpty()) {
+        emit displayMessage(i18n("You must select one clip for this action"), ErrorMessage);
+        return;
+    }
+    QUndoCommand *videoCommand = new QUndoCommand();
+    videoCommand->setText(i18n("Audio and Video"));
+    for (int i = 0; i < selection.count(); i++) {
+        if (selection.at(i)->type() == AVWIDGET) {
+            ClipItem *clip = static_cast <ClipItem *>(selection.at(i));
+            if (clip->clipType() == AV || clip->clipType() == PLAYLIST) {
+                if (clip->parentItem()) {
+                    emit displayMessage(i18n("Cannot change grouped clips"), ErrorMessage);
+                } else {
+                    new ChangeClipTypeCommand(this, clip->track(), clip->startPos(), false, false, clip->isVideoOnly(), clip->isAudioOnly(), true, videoCommand);
                 }
             }
         }
@@ -4376,6 +4412,26 @@ void CustomTrackView::doChangeClipType(const GenTime &pos, int track, bool video
         m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - track, start, clip->baseClip()->producer(track));
     }
     clip->update();
+}
+
+void CustomTrackView::updateClipTypeActions(ClipItem *clip)
+{
+    if (clip == NULL || (clip->clipType() != AV && clip->clipType() != PLAYLIST)) {
+        m_clipTypeGroup->setEnabled(false);
+    } else {
+        m_clipTypeGroup->setEnabled(true);
+        QList <QAction *> actions = m_clipTypeGroup->actions();
+        QString lookup;
+        if (clip->isAudioOnly()) lookup = "clip_audio_only";
+        else if (clip->isVideoOnly()) lookup = "clip_video_only";
+        else  lookup = "clip_audio_and_video";
+        for (int i = 0; i < actions.count(); i++) {
+            if (actions.at(i)->data().toString() == lookup) {
+                actions.at(i)->setChecked(true);
+                break;
+            }
+        }
+    }
 }
 
 #include "customtrackview.moc"

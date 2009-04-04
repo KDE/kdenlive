@@ -150,7 +150,7 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
 {
     m_contextMenu = new QMenu(this);
     m_contextMenu->addMenu(m_playMenu);
-    m_contextMenu->addMenu(goMenu);
+    if (goMenu) m_contextMenu->addMenu(goMenu);
     if (markerMenu) m_contextMenu->addMenu(markerMenu);
 
     m_playMenu->addAction(playZone);

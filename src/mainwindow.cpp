@@ -964,11 +964,25 @@ void MainWindow::setupActions()
 
     KAction* audioOnly = new KAction(KIcon("document-new"), i18n("Audio Only"), this);
     collection->addAction("clip_audio_only", audioOnly);
-    connect(audioOnly, SIGNAL(triggered(bool)), this, SLOT(slotAudioOnly()));
+    audioOnly->setData("clip_audio_only");
+    audioOnly->setCheckable(true);
 
     KAction* videoOnly = new KAction(KIcon("document-new"), i18n("Video Only"), this);
     collection->addAction("clip_video_only", videoOnly);
-    connect(videoOnly, SIGNAL(triggered(bool)), this, SLOT(slotVideoOnly()));
+    videoOnly->setData("clip_video_only");
+    videoOnly->setCheckable(true);
+
+    KAction* audioAndVideo = new KAction(KIcon("document-new"), i18n("Audio and Video"), this);
+    collection->addAction("clip_audio_and_video", audioAndVideo);
+    audioAndVideo->setData("clip_audio_and_video");
+    audioAndVideo->setCheckable(true);
+
+    m_clipTypeGroup = new QActionGroup(this);
+    m_clipTypeGroup->addAction(audioOnly);
+    m_clipTypeGroup->addAction(videoOnly);
+    m_clipTypeGroup->addAction(audioAndVideo);
+    connect(m_clipTypeGroup, SIGNAL(triggered(QAction *)), this, SLOT(slotUpdateClipType(QAction *)));
+    m_clipTypeGroup->setEnabled(false);
 
     KAction *insertSpace = new KAction(KIcon(), i18n("Insert Space"), this);
     collection->addAction("insert_space", insertSpace);
@@ -1786,7 +1800,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     connect(trackView, SIGNAL(zoneMoved(int, int)), this, SLOT(slotZoneMoved(int, int)));
     connect(m_projectList, SIGNAL(loadingIsOver()), trackView->projectView(), SLOT(slotUpdateAllThumbs()));
 
-    trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu);
+    trackView->projectView()->setContextMenu(m_timelineContextMenu, m_timelineContextClipMenu, m_timelineContextTransitionMenu, m_clipTypeGroup);
     m_activeTimeline = trackView;
     if (m_renderWidget) {
         m_renderWidget->setProfile(doc->mltProfile());
@@ -2534,14 +2548,13 @@ void MainWindow::slotSplitAudio()
     if (m_activeTimeline) m_activeTimeline->projectView()->splitAudio();
 }
 
-void MainWindow::slotAudioOnly()
+void MainWindow::slotUpdateClipType(QAction *action)
 {
-    if (m_activeTimeline) m_activeTimeline->projectView()->audioOnly();
-}
-
-void MainWindow::slotVideoOnly()
-{
-    if (m_activeTimeline) m_activeTimeline->projectView()->videoOnly();
+    if (m_activeTimeline) {
+        if (action->data().toString() == "clip_audio_only") m_activeTimeline->projectView()->setAudioOnly();
+        else if (action->data().toString() == "clip_video_only") m_activeTimeline->projectView()->setVideoOnly();
+        else m_activeTimeline->projectView()->setAudioAndVideo();
+    }
 }
 
 void MainWindow::slotDvdWizard(const QString &url, const QString &profile)

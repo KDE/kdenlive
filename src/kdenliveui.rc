@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="40">
+<gui name="kdenlive" version="42">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -55,8 +55,10 @@
 	  </Menu>
 	  <Action name="auto_transition" />
 	  <Action name="split_audio" />
+	  <Separator />
 	  <Action name="clip_audio_only" />
 	  <Action name="clip_video_only" />
+	  <Action name="clip_audio_and_video" />
 </Menu>
 
     <Menu name="timeline" ><text>Timeline</text>

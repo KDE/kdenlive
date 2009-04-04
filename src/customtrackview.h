@@ -80,7 +80,7 @@ public:
     int duration() const;
     void deleteSelectedClips();
     void cutSelectedClips();
-    void setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition);
+    void setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition, QActionGroup *clipTypeGroup);
     void checkTrackHeight();
     //QList <TrackInfo> tracksList() const;
     void setTool(PROJECTTOOL tool);
@@ -116,8 +116,9 @@ public:
     void loadGroups(const QDomNodeList groups);
     void splitAudio();
     void doSplitAudio(const GenTime &pos, int track, bool split);
-    void videoOnly();
-    void audioOnly();
+    void setVideoOnly();
+    void setAudioOnly();
+    void setAudioAndVideo();
     void doChangeClipType(const GenTime &pos, int track, bool videoOnly, bool audioOnly);
 
 public slots:
@@ -211,6 +212,7 @@ private:
     QAction *m_changeSpeedAction;
     QAction *m_pasteEffectsAction;
     QAction *m_ungroupAction;
+    QActionGroup *m_clipTypeGroup;
     QTimer m_scrollTimer;
     int m_scrollOffset;
     bool m_clipDrag;
@@ -242,7 +244,7 @@ private:
     void getClipAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum);
     /** Get available space for transition move (min and max free positions) */
     void getTransitionAvailableSpace(AbstractClipItem *item, GenTime &minimum, GenTime &maximum);
-
+    void updateClipTypeActions(ClipItem *clip);
 
 private slots:
     void slotRefreshGuides();

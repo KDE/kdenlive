@@ -43,8 +43,8 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, b
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (double)(KdenliveSettings::trackheight() - 2));
     setPos(info.startPos.frames(fps), (double)(info.track * KdenliveSettings::trackheight()) + 1);
 
-    m_videoPix = KIcon("video-x-generic").pixmap(QSize(15, 15));
-    m_audioPix = KIcon("audio-x-generic").pixmap(QSize(15, 15));
+    m_videoPix = KIcon("kdenlive-show-video").pixmap(QSize(16, 16));
+    m_audioPix = KIcon("kdenlive-show-audio").pixmap(QSize(16, 16));
 
     if (m_speed == 1.0) m_clipName = clip->name();
     else {
@@ -501,7 +501,7 @@ QPixmap ClipItem::endThumb() const
 void ClipItem::slotGotAudioData()
 {
     audioThumbReady = true;
-    if (m_clipType == AV) {
+    if (m_clipType == AV && !isAudioOnly()) {
         QRectF r = boundingRect();
         r.setTop(r.top() + r.height() / 2 - 1);
         update(r);
@@ -626,7 +626,7 @@ void ClipItem::paint(QPainter *painter,
     }
 
     // draw audio thumbnails
-    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && !isVideoOnly() && ((m_clipType == AV && exposed.bottom() > (itemHeight / 2)) || m_clipType == AUDIO) && audioThumbReady) {
+    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && !isVideoOnly() && ((m_clipType == AV && (exposed.bottom() > (itemHeight / 2) || isAudioOnly())) || m_clipType == AUDIO) && audioThumbReady) {
 
         double startpixel = exposed.left();
         if (startpixel < 0)
@@ -1494,6 +1494,7 @@ void ClipItem::setAudioOnly(bool force)
     m_audioOnly = force;
     if (m_audioOnly) setBrush(QColor(141, 215, 166));
     else setBrush(QColor(141, 166, 215));
+    audioThumbCachePic.clear();
 }
 
 bool ClipItem::isAudioOnly() const

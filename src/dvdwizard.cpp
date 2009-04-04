@@ -253,13 +253,9 @@ void DvdWizard::generateDvd()
             i++;
         }
 
-        kDebug() << "///// SPU: ";
-        kDebug() << doc.toString();
-
         QFile data(temp6.fileName());
         if (data.open(QFile::WriteOnly)) {
-            QTextStream out(&data);
-            out << doc.toString();
+            data.write(doc.toString().toUtf8());
         }
         data.close();
 
@@ -397,8 +393,7 @@ void DvdWizard::generateDvd()
     */
     QFile data2(m_authorFile.fileName());
     if (data2.open(QFile::WriteOnly)) {
-        QTextStream out(&data2);
-        out << dvddoc.toString();
+        data2.write(dvddoc.toString().toUtf8());
     }
     data2.close();
     /*kDebug() << "------------------";
