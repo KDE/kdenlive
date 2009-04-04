@@ -21,7 +21,7 @@ read del
 if [ "x${del}" = "xy" ]
 then
    echo "removing .orig files"
-   find src -iname "*.orig" -exec rm {} ";"
+   find $SRCDIRS -iname "*.orig" -exec rm {} ";"
 else
    echo "Not deleting .orig files"
 fi
