@@ -34,7 +34,7 @@ class CustomTrackView;
 class GroupClipsCommand : public QUndoCommand
 {
 public:
-    GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> clipInfos, const QList <ItemInfo> transitionInfos, bool group, bool doIt, QUndoCommand * parent = 0);
+    GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> clipInfos, const QList <ItemInfo> transitionInfos, bool group, QUndoCommand * parent = 0);
     virtual void undo();
     virtual void redo();
 
@@ -42,7 +42,6 @@ private:
     CustomTrackView *m_view;
     const QList <ItemInfo> m_clips;
     const QList <ItemInfo> m_transitions;
-    bool m_doIt;
     bool m_group;
 };
 

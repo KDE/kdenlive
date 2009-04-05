@@ -23,7 +23,7 @@
 
 #include <KLocale>
 
-ChangeSpeedCommand::ChangeSpeedCommand(CustomTrackView *view, ItemInfo info, double old_speed, double new_speed, const QString &clipId, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_clipInfo(info), m_old_speed(old_speed), m_new_speed(new_speed), m_clipId(clipId), m_doIt(doIt)
+ChangeSpeedCommand::ChangeSpeedCommand(CustomTrackView *view, ItemInfo info, double old_speed, double new_speed, const QString &clipId, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_clipInfo(info), m_old_speed(old_speed), m_new_speed(new_speed), m_clipId(clipId)
 {
     setText(i18n("Adjust clip length"));
 }
@@ -37,10 +37,7 @@ void ChangeSpeedCommand::undo()
 // virtual
 void ChangeSpeedCommand::redo()
 {
-    if (m_doIt) {
         m_view->doChangeClipSpeed(m_clipInfo, m_new_speed, m_old_speed, m_clipId);
-    }
-    m_doIt = true;
 }
 
 

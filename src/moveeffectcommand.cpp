@@ -23,7 +23,7 @@
 
 #include <KLocale>
 
-MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, GenTime pos, int oldPos, int newPos, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_track(track), m_pos(pos), m_oldindex(oldPos), m_newindex(newPos), m_doIt(doIt)
+MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, GenTime pos, int oldPos, int newPos, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_track(track), m_pos(pos), m_oldindex(oldPos), m_newindex(newPos)
 {
     /*    QString effectName;
         QDomNode namenode = effect.elementsByTagName("name").item(0);

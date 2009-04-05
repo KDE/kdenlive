@@ -691,7 +691,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             return;
         }
         AbstractClipItem *clip = static_cast <AbstractClipItem *>(m_dragItem);
-        RazorClipCommand* command = new RazorClipCommand(this, clip->info(), GenTime((int)(mapToScene(event->pos()).x()), m_document->fps()), true);
+        RazorClipCommand* command = new RazorClipCommand(this, clip->info(), GenTime((int)(mapToScene(event->pos()).x()), m_document->fps()));
         m_document->renderer()->pause();
         m_commandStack->push(command);
         m_document->setModified(true);
@@ -1337,7 +1337,7 @@ void CustomTrackView::slotChangeEffectState(ClipItem *clip, int effectPos, bool 
 
 void CustomTrackView::slotChangeEffectPosition(ClipItem *clip, int currentPos, int newPos)
 {
-    MoveEffectCommand *command = new MoveEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), currentPos, newPos, true);
+    MoveEffectCommand *command = new MoveEffectCommand(this, m_document->tracksCount() - clip->track(), clip->startPos(), currentPos, newPos);
     m_commandStack->push(command);
     m_document->setModified(true);
 }
@@ -1832,7 +1832,7 @@ void CustomTrackView::slotSwitchTrackAudio(int ix)
 void CustomTrackView::slotSwitchTrackLock(int ix)
 {
     int tracknumber = m_document->tracksCount() - ix - 1;
-    LockTrackCommand *command = new LockTrackCommand(this, ix, !m_document->trackInfoAt(tracknumber).isLocked, true);
+    LockTrackCommand *command = new LockTrackCommand(this, ix, !m_document->trackInfoAt(tracknumber).isLocked);
     m_commandStack->push(command);
 }
 
@@ -2033,7 +2033,7 @@ void CustomTrackView::deleteClip(const QString &clipId)
                 count++;
                 if (item->parentItem()) {
                     // Clip is in a group, destroy the group
-                    new GroupClipsCommand(this, QList<ItemInfo>() << item->info(), QList<ItemInfo>(), false, true, deleteCommand);
+                    new GroupClipsCommand(this, QList<ItemInfo>() << item->info(), QList<ItemInfo>(), false, deleteCommand);
                 }
                 new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), true, true, deleteCommand);
             }
@@ -2648,7 +2648,7 @@ void CustomTrackView::deleteSelectedClips()
                 }
             }
             if (clipInfos.count() > 0) {
-                new GroupClipsCommand(this, clipInfos, transitionInfos, false, true, deleteSelected);
+                new GroupClipsCommand(this, clipInfos, transitionInfos, false, deleteSelected);
             }
         }
     }
@@ -2693,7 +2693,7 @@ void CustomTrackView::changeClipSpeed()
             double speed = (double) percent / 100.0;
             if (item->speed() != speed && (item->clipType() == VIDEO || item->clipType() == AV)) {
                 count++;
-                new ChangeSpeedCommand(this, info, item->speed(), speed, item->clipProducer(), true, changeSelected);
+                new ChangeSpeedCommand(this, info, item->speed(), speed, item->clipProducer(), changeSelected);
             }
         }
     }
@@ -2731,7 +2731,7 @@ void CustomTrackView::cutSelectedClips()
             if (item->parentItem() && item->parentItem() != m_selectionGroup) {
                 emit displayMessage(i18n("Cannot cut a clip in a group"), ErrorMessage);
             } else if (currentPos > item->startPos() && currentPos <  item->endPos()) {
-                RazorClipCommand *command = new RazorClipCommand(this, item->info(), currentPos, true);
+                RazorClipCommand *command = new RazorClipCommand(this, item->info(), currentPos);
                 m_commandStack->push(command);
             }
         }
@@ -2763,7 +2763,7 @@ void CustomTrackView::groupClips(bool group)
         }
     }
     if (clipInfos.count() > 0) {
-        GroupClipsCommand *command = new GroupClipsCommand(this, clipInfos, transitionInfos, group, true);
+        GroupClipsCommand *command = new GroupClipsCommand(this, clipInfos, transitionInfos, group);
         m_commandStack->push(command);
     }
 }
@@ -3398,13 +3398,13 @@ void CustomTrackView::clipEnd()
 void CustomTrackView::slotAddClipMarker(const QString &id, GenTime t, QString c)
 {
     QString oldcomment = m_document->clipManager()->getClipById(id)->markerComment(t);
-    AddMarkerCommand *command = new AddMarkerCommand(this, oldcomment, c, id, t, true);
+    AddMarkerCommand *command = new AddMarkerCommand(this, oldcomment, c, id, t);
     m_commandStack->push(command);
 }
 
 void CustomTrackView::slotDeleteClipMarker(const QString &comment, const QString &id, const GenTime &position)
 {
-    AddMarkerCommand *command = new AddMarkerCommand(this, comment, QString(), id, position, true);
+    AddMarkerCommand *command = new AddMarkerCommand(this, comment, QString(), id, position);
     m_commandStack->push(command);
 }
 
@@ -3421,7 +3421,7 @@ void CustomTrackView::slotDeleteAllClipMarkers(const QString &id)
     deleteMarkers->setText("Delete clip markers");
 
     for (int i = 0; i < markers.size(); i++) {
-        new AddMarkerCommand(this, markers.at(i).comment(), QString(), id, markers.at(i).time(), true, deleteMarkers);
+        new AddMarkerCommand(this, markers.at(i).comment(), QString(), id, markers.at(i).time(), deleteMarkers);
     }
     m_commandStack->push(deleteMarkers);
 }
@@ -4032,7 +4032,7 @@ void CustomTrackView::slotInsertTrack(int ix)
             info.isBlind = true;
             info.isLocked = false;
         }
-        AddTrackCommand *addTrack = new AddTrackCommand(this, ix, info, true, true);
+        AddTrackCommand *addTrack = new AddTrackCommand(this, ix, info, true);
         m_commandStack->push(addTrack);
         m_document->setModified(true);
     }
@@ -4046,7 +4046,7 @@ void CustomTrackView::slotDeleteTrack(int ix)
         TrackInfo info = m_document->trackInfoAt(m_document->tracksCount() - ix - 1);
         deleteTimelineTrack(ix, info);
         m_document->setModified(true);
-        /*AddTrackCommand* command = new AddTrackCommand(this, ix, info, false, true);
+        /*AddTrackCommand* command = new AddTrackCommand(this, ix, info, false);
         m_commandStack->push(command);*/
     }
 }
@@ -4106,14 +4106,14 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
         }
     }
 
-    new AddTrackCommand(this, ix, trackinfo, false, true, deleteTrack);
+    new AddTrackCommand(this, ix, trackinfo, false, deleteTrack);
     m_commandStack->push(deleteTrack);
 }
 
 void CustomTrackView::changeTimelineTrack(int ix, TrackInfo trackinfo)
 {
     TrackInfo oldinfo = m_document->trackInfoAt(m_document->tracksCount() - ix - 1);
-    ChangeTrackCommand *changeTrack = new ChangeTrackCommand(this, ix, oldinfo, trackinfo, true);
+    ChangeTrackCommand *changeTrack = new ChangeTrackCommand(this, ix, oldinfo, trackinfo);
     m_commandStack->push(changeTrack);
 }
 
@@ -4236,7 +4236,7 @@ void CustomTrackView::splitAudio()
                 if (clip->parentItem()) {
                     emit displayMessage(i18n("Cannot split audio of grouped clips"), ErrorMessage);
                 } else {
-                    new SplitAudioCommand(this, clip->track(), clip->startPos(), true, splitCommand);
+                    new SplitAudioCommand(this, clip->track(), clip->startPos(), splitCommand);
                 }
             }
         }
@@ -4330,7 +4330,7 @@ void CustomTrackView::setVideoOnly()
                 if (clip->parentItem()) {
                     emit displayMessage(i18n("Cannot change grouped clips"), ErrorMessage);
                 } else {
-                    new ChangeClipTypeCommand(this, clip->track(), clip->startPos(), true, false, clip->isVideoOnly(), clip->isAudioOnly(), true, videoCommand);
+                    new ChangeClipTypeCommand(this, clip->track(), clip->startPos(), true, false, clip->isVideoOnly(), clip->isAudioOnly(), videoCommand);
                 }
             }
         }
@@ -4355,7 +4355,7 @@ void CustomTrackView::setAudioOnly()
                 if (clip->parentItem()) {
                     emit displayMessage(i18n("Cannot change grouped clips"), ErrorMessage);
                 } else {
-                    new ChangeClipTypeCommand(this, clip->track(), clip->startPos(), false, true, clip->isVideoOnly(), clip->isAudioOnly(), true, videoCommand);
+                    new ChangeClipTypeCommand(this, clip->track(), clip->startPos(), false, true, clip->isVideoOnly(), clip->isAudioOnly(), videoCommand);
                 }
             }
         }
@@ -4380,7 +4380,7 @@ void CustomTrackView::setAudioAndVideo()
                 if (clip->parentItem()) {
                     emit displayMessage(i18n("Cannot change grouped clips"), ErrorMessage);
                 } else {
-                    new ChangeClipTypeCommand(this, clip->track(), clip->startPos(), false, false, clip->isVideoOnly(), clip->isAudioOnly(), true, videoCommand);
+                    new ChangeClipTypeCommand(this, clip->track(), clip->startPos(), false, false, clip->isVideoOnly(), clip->isAudioOnly(), videoCommand);
                 }
             }
         }

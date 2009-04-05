@@ -23,7 +23,7 @@
 
 #include <KLocale>
 
-GroupClipsCommand::GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> clipInfos, const QList <ItemInfo> transitionInfos, bool group, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_clips(clipInfos), m_transitions(transitionInfos), m_group(group), m_doIt(doIt)
+GroupClipsCommand::GroupClipsCommand(CustomTrackView *view, const QList <ItemInfo> clipInfos, const QList <ItemInfo> transitionInfos, bool group, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_clips(clipInfos), m_transitions(transitionInfos), m_group(group)
 {
     if (m_group) setText(i18n("Group clips"));
     else setText(i18n("Ungroup clips"));
@@ -34,15 +34,12 @@ GroupClipsCommand::GroupClipsCommand(CustomTrackView *view, const QList <ItemInf
 void GroupClipsCommand::undo()
 {
 // kDebug()<<"----  undoing action";
-    m_doIt = true;
     m_view->doGroupClips(m_clips, m_transitions, !m_group);
 }
 // virtual
 void GroupClipsCommand::redo()
 {
     kDebug() << "----  redoing action";
-    if (m_doIt)
         m_view->doGroupClips(m_clips, m_transitions, m_group);
-    m_doIt = true;
 }
 

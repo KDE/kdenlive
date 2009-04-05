@@ -29,14 +29,13 @@ class CustomTrackView;
 class LockTrackCommand : public QUndoCommand
 {
 public:
-    LockTrackCommand(CustomTrackView *view, int ix, bool lock, bool doIt, QUndoCommand * parent = 0);
+    LockTrackCommand(CustomTrackView *view, int ix, bool lock, QUndoCommand * parent = 0);
     virtual void undo();
     virtual void redo();
 
 private:
     CustomTrackView *m_view;
     int m_ix;
-    bool m_doIt;
     bool m_lock;
 };
 

@@ -32,7 +32,7 @@ class CustomTrackView;
 class RazorClipCommand : public QUndoCommand
 {
 public:
-    RazorClipCommand(CustomTrackView *view, const ItemInfo info, const GenTime cutTime, bool doIt, QUndoCommand * parent = 0);
+    RazorClipCommand(CustomTrackView *view, const ItemInfo info, const GenTime cutTime, QUndoCommand * parent = 0);
     virtual void undo();
     virtual void redo();
 
@@ -40,7 +40,6 @@ private:
     CustomTrackView *m_view;
     ItemInfo m_info;
     GenTime m_cutTime;
-    bool m_doIt;
 };
 
 #endif

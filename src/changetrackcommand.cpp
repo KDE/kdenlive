@@ -23,7 +23,7 @@
 
 #include <KLocale>
 
-ChangeTrackCommand::ChangeTrackCommand(CustomTrackView *view, int ix, TrackInfo oldInfo, TrackInfo newInfo, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_ix(ix), m_oldinfo(oldInfo), m_newinfo(newInfo), m_doIt(doIt)
+ChangeTrackCommand::ChangeTrackCommand(CustomTrackView *view, int ix, TrackInfo oldInfo, TrackInfo newInfo, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_ix(ix), m_oldinfo(oldInfo), m_newinfo(newInfo)
 {
     setText(i18n("Change track type"));
 }
@@ -33,13 +33,11 @@ ChangeTrackCommand::ChangeTrackCommand(CustomTrackView *view, int ix, TrackInfo 
 void ChangeTrackCommand::undo()
 {
 // kDebug()<<"----  undoing action";
-    m_doIt = true;
     m_view->changeTrack(m_ix, m_oldinfo);
 }
 // virtual
 void ChangeTrackCommand::redo()
 {
-    if (m_doIt) m_view->changeTrack(m_ix, m_newinfo);
-    m_doIt = true;
+    m_view->changeTrack(m_ix, m_newinfo);
 }
 

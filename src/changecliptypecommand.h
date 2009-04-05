@@ -34,7 +34,7 @@ class CustomTrackView;
 class ChangeClipTypeCommand : public QUndoCommand
 {
 public:
-    ChangeClipTypeCommand(CustomTrackView *view, const int track, const GenTime &pos, bool videoOnly, bool audioOnly, bool originalVideo, bool originalAudio, bool doIt, QUndoCommand * parent = 0);
+    ChangeClipTypeCommand(CustomTrackView *view, const int track, const GenTime &pos, bool videoOnly, bool audioOnly, bool originalVideo, bool originalAudio, QUndoCommand * parent = 0);
     virtual void undo();
     virtual void redo();
 
@@ -46,7 +46,6 @@ private:
     bool m_audioOnly;
     bool m_originalVideoOnly;
     bool m_originalAudioOnly;
-    bool m_doIt;
 };
 
 #endif

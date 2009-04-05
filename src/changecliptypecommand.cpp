@@ -23,7 +23,7 @@
 
 #include <KLocale>
 
-ChangeClipTypeCommand::ChangeClipTypeCommand(CustomTrackView *view, const int track, const GenTime &pos, bool videoOnly, bool audioOnly, bool originalVideo, bool originalAudio, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_track(track), m_pos(pos), m_videoOnly(videoOnly), m_audioOnly(audioOnly), m_originalVideoOnly(originalVideo), m_originalAudioOnly(originalAudio), m_doIt(doIt)
+ChangeClipTypeCommand::ChangeClipTypeCommand(CustomTrackView *view, const int track, const GenTime &pos, bool videoOnly, bool audioOnly, bool originalVideo, bool originalAudio, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_track(track), m_pos(pos), m_videoOnly(videoOnly), m_audioOnly(audioOnly), m_originalVideoOnly(originalVideo), m_originalAudioOnly(originalAudio)
 {
     setText(i18n("Change clip type"));
 }
@@ -32,15 +32,12 @@ ChangeClipTypeCommand::ChangeClipTypeCommand(CustomTrackView *view, const int tr
 void ChangeClipTypeCommand::undo()
 {
 // kDebug()<<"----  undoing action";
-    m_doIt = true;
     m_view->doChangeClipType(m_pos, m_track, m_originalVideoOnly, m_originalAudioOnly);
 }
 // virtual
 void ChangeClipTypeCommand::redo()
 {
     kDebug() << "----  redoing action";
-    if (m_doIt)
         m_view->doChangeClipType(m_pos, m_track, m_videoOnly, m_audioOnly);
-    m_doIt = true;
 }
 
