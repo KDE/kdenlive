@@ -592,7 +592,7 @@ void RenderWidget::slotExport(bool scriptExport)
         startPos = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
         endPos = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
     }
-    QString renderArgs = m_view.advanced_params->toPlainText();
+    QString renderArgs = m_view.advanced_params->toPlainText().simplified();
 
     // Adjust frame scale
     int width;
@@ -620,7 +620,12 @@ void RenderWidget::slotExport(bool scriptExport)
 
     QString std = renderArgs;
     QString destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
-    if (std.contains(" s=")) {
+    if (std.startsWith("s=")) {
+        QString subsize = std.section(' ', 0, 0).toLower();
+        subsize = subsize.section("=", 1, 1);
+        const QString currentSize = QString::number(width) + 'x' + QString::number(height);
+        if (subsize != currentSize) resizeProfile = true;
+    } else if (std.contains(" s=")) {
         QString subsize = std.section(" s=", 1, 1);
         subsize = subsize.section(' ', 0, 0).toLower();
         const QString currentSize = QString::number(width) + 'x' + QString::number(height);
