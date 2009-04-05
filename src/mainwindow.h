@@ -168,8 +168,8 @@ private:
     KAction *m_saveAction;
     KAction *m_closeAction;
     QSlider *m_zoomSlider;
-    QAction *m_loopZone;
-    QAction *m_playZone;
+    KAction *m_loopZone;
+    KAction *m_playZone;
     StatusBarMessageLabel *m_messageLabel;
     QActionGroup *m_clipTypeGroup;
 
