@@ -33,6 +33,7 @@
 
 
 AbstractGroupItem::AbstractGroupItem(double fps) :
+        QObject(),
         QGraphicsItemGroup(),
         m_fps(fps)
 {

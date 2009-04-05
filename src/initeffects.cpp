@@ -32,7 +32,8 @@
 #include <QDir>
 #include <QIcon>
 
-initEffectsThumbnailer::initEffectsThumbnailer()
+initEffectsThumbnailer::initEffectsThumbnailer() :
+        QThread()
 {
 
 }

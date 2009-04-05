@@ -34,6 +34,7 @@
 #include <QCryptographicHash>
 
 DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id) :
+        QObject(),
         audioFrameChache(),
         m_description(),
         m_refcount(0),

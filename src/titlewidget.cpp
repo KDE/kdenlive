@@ -35,6 +35,7 @@ int settingUp = false;
 
 TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget *parent) :
         QDialog(parent),
+        Ui::TitleWidget_UI(),
         startViewport(NULL),
         endViewport(NULL),
         m_render(render),

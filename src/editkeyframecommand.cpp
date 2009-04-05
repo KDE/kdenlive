@@ -22,6 +22,7 @@
 #include <KLocale>
 
 EditKeyFrameCommand::EditKeyFrameCommand(CustomTrackView *view, const int track, GenTime pos, const int effectIndex, const QString& oldkeyframes, const QString& newkeyframes, bool doIt) :
+        QUndoCommand(),
         m_view(view),
         m_oldkfr(oldkeyframes),
         m_newkfr(newkeyframes),

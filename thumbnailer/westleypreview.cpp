@@ -48,6 +48,8 @@ extern "C"
 }
 
 WestleyPreview::WestleyPreview() :
+        QObject(),
+        ThumbCreator(),
         m_inigoprocess(0),
         m_rand(0)
 {

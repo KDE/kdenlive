@@ -24,6 +24,7 @@
 #include <KLocale>
 
 EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, int stackPos, bool doIt) :
+        QUndoCommand(),
         m_view(view),
         m_track(track),
         m_oldeffect(oldeffect),

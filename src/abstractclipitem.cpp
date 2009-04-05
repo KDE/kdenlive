@@ -29,6 +29,7 @@
 #include <QToolTip>
 
 AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps) :
+        QObject(),
         QGraphicsRectItem(rect),
         m_track(0),
         m_editedKeyframe(-1),

@@ -35,6 +35,7 @@
 #include <QGraphicsItemGroup>
 
 ClipManager::ClipManager(KdenliveDoc *doc) :
+        QObject(),
         m_audioThumbsQueue(),
         m_doc(doc),
         m_audioThumbsEnabled(false),
