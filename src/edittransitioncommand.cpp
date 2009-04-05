@@ -23,8 +23,8 @@
 EditTransitionCommand::EditTransitionCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, bool doIt) :
         m_view(view),
         m_track(track),
-        m_pos(pos),
         m_oldeffect(oldeffect),
+        m_pos(pos),
         m_doIt(doIt)
 {
     m_effect = effect.cloneNode().toElement();

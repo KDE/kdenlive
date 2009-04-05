@@ -28,8 +28,8 @@
 
 ClipDurationDialog::ClipDurationDialog(AbstractClipItem *clip, Timecode tc, QWidget * parent):
         QDialog(parent),
-        m_tc(tc),
-        m_clip(clip)
+        m_clip(clip),
+        m_tc(tc)
 {
     setFont(KGlobalSettings::toolBarFont());
     m_fps = m_tc.fps();

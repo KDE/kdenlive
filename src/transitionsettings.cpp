@@ -28,8 +28,8 @@
 
 TransitionSettings::TransitionSettings(QWidget* parent) :
         QWidget(parent),
-        m_tracksCount(0),
-        m_usedTransition(NULL)
+        m_usedTransition(NULL),
+        m_tracksCount(0)
 {
     ui.setupUi(this);
     effectEdit = new EffectStackEdit(ui.frame);

@@ -30,9 +30,9 @@
 Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent) :
         QWidget(parent),
         m_profile(profile),
+        paramRect(NULL),
         m_geom(NULL),
         m_path(NULL),
-        paramRect(NULL),
         m_fixedMode(false)
 {
     ui.setupUi(this);

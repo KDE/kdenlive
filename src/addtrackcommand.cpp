@@ -27,8 +27,8 @@ AddTrackCommand::AddTrackCommand(CustomTrackView *view, int ix, TrackInfo info, 
         QUndoCommand(parent),
         m_view(view),
         m_ix(ix),
-        m_info(info),
-        m_addTrack(addTrack)
+        m_addTrack(addTrack),
+        m_info(info)
 {
     if (addTrack) setText(i18n("Add track"));
     else setText(i18n("Delete track"));

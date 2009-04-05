@@ -26,8 +26,8 @@
 EditEffectCommand::EditEffectCommand(CustomTrackView *view, const int track, GenTime pos, QDomElement oldeffect, QDomElement effect, int stackPos, bool doIt) :
         m_view(view),
         m_track(track),
-        m_pos(pos),
         m_oldeffect(oldeffect),
+        m_pos(pos),
         m_stackPos(stackPos),
         m_doIt(doIt)
 {

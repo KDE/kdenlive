@@ -25,9 +25,9 @@
 EditClipCommand::EditClipCommand(ProjectList *list, const QString &id, QMap <QString, QString> oldparams, QMap <QString, QString> newparams, bool doIt, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_list(list),
-        m_id(id),
         m_oldparams(oldparams),
         m_newparams(newparams),
+        m_id(id),
         m_doIt(doIt)
 {
     setText(i18n("Edit clip"));

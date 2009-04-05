@@ -25,10 +25,10 @@ AddTransitionCommand::AddTransitionCommand(CustomTrackView *view, ItemInfo info,
         QUndoCommand(parent),
         m_view(view),
         m_info(info),
-        m_track(transitiontrack),
         m_params(params),
-        m_remove(remove),
-        m_doIt(doIt)
+        m_track(transitiontrack),
+        m_doIt(doIt),
+        m_remove(remove)
 {
     if (m_remove) setText(i18n("Delete transition from clip"));
     else setText(i18n("Add transition to clip"));

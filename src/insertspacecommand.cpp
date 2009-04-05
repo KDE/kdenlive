@@ -28,8 +28,8 @@ InsertSpaceCommand::InsertSpaceCommand(CustomTrackView *view, QList<ItemInfo> cl
         m_view(view),
         m_clipsToMove(clipsToMove),
         m_transToMove(transToMove),
-        m_track(track),
         m_duration(duration),
+        m_track(track),
         m_doIt(doIt)
 {
     if (duration > GenTime()) setText(i18n("Insert space"));

@@ -59,14 +59,14 @@ ProjectList::ProjectList(QWidget *parent) :
         m_render(NULL),
         m_fps(-1),
         m_commandStack(NULL),
-        m_selectedItem(NULL),
-        m_infoQueue(QMap <QString, QDomElement> ()),
-        m_thumbnailQueue(QList <QString> ()),
-        m_refreshed(false),
         m_editAction(NULL),
-        m_openAction(NULL),
         m_deleteAction(NULL),
-        m_reloadAction(NULL)
+        m_openAction(NULL),
+        m_reloadAction(NULL),
+        m_selectedItem(NULL),
+        m_refreshed(false),
+        m_infoQueue(QMap <QString, QDomElement> ()),
+        m_thumbnailQueue(QList <QString> ())
 {
 
     listView = new ProjectListView(this);;

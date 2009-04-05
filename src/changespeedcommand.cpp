@@ -27,9 +27,9 @@ ChangeSpeedCommand::ChangeSpeedCommand(CustomTrackView *view, ItemInfo info, dou
         QUndoCommand(parent),
         m_view(view),
         m_clipInfo(info),
+        m_clipId(clipId),
         m_old_speed(old_speed),
-        m_new_speed(new_speed),
-        m_clipId(clipId)
+        m_new_speed(new_speed)
 {
     setText(i18n("Adjust clip length"));
 }

@@ -26,10 +26,10 @@
 AddTimelineClipCommand::AddTimelineClipCommand(CustomTrackView *view, QDomElement xml, const QString &clipId, ItemInfo info, EffectsList effects, bool doIt, bool doRemove, QUndoCommand * parent) :
         QUndoCommand(parent),
         m_view(view),
-        m_xml(xml),
-        m_clipId(clipId),
         m_clipInfo(info),
         m_effects(effects),
+        m_clipId(clipId),
+        m_xml(xml),
         m_doIt(doIt),
         m_remove(doRemove)
 {

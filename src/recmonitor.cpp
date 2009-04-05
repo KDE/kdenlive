@@ -43,8 +43,8 @@ RecMonitor::RecMonitor(QString name, QWidget *parent) :
         m_name(name),
         m_isActive(false),
         m_isCapturing(false),
-        m_isPlaying(false),
-        m_didCapture(false)
+        m_didCapture(false),
+        m_isPlaying(false)
 {
     ui.setupUi(this);
 

@@ -34,19 +34,19 @@
 #include <QCryptographicHash>
 
 DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id) :
-        m_id(id),
+        audioFrameChache(QMap<int, QMap<int, QByteArray> > ()),
         m_description(QString()),
         m_refcount(0),
-        m_audioThumbCreated(false),
-        m_duration(GenTime()),
-        m_thumbProd(NULL),
-        m_audioTimer(NULL),
-        m_properties(QMap <QString, QString> ()),
-        audioFrameChache(QMap<int, QMap<int, QByteArray> > ()),
         m_baseTrackProducers(QList <Mlt::Producer *>()),
-        m_snapMarkers(QList < CommentedTime > ()),
+        m_audioTrackProducers(QList <Mlt::Producer *>()),
         m_videoOnlyProducer(NULL),
-        m_audioTrackProducers(QList <Mlt::Producer *>())
+        m_snapMarkers(QList < CommentedTime > ()),
+        m_duration(GenTime()),
+        m_audioTimer(NULL),
+        m_thumbProd(NULL),
+        m_audioThumbCreated(false),
+        m_id(id),
+        m_properties(QMap <QString, QString> ())
 {
     int type = xml.attribute("type").toInt();
     m_clipType = (CLIPTYPE) type;

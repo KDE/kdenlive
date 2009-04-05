@@ -35,9 +35,9 @@
 #include <QGraphicsItemGroup>
 
 ClipManager::ClipManager(KdenliveDoc *doc) :
+        m_audioThumbsQueue(QList <QString> ()),
         m_doc(doc),
         m_audioThumbsEnabled(false),
-        m_audioThumbsQueue(QList <QString> ()),
         m_generatingAudioId(QString())
 {
     m_clipIdCounter = 1;

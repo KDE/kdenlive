@@ -36,10 +36,10 @@ const int UsageRole = NameRole + 2;
 // folder
 ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, const QString &clipId) :
         QTreeWidgetItem(parent, strings),
+        m_groupname(strings.at(1)),
         m_clipType(FOLDER),
         m_clipId(clipId),
-        m_clip(NULL),
-        m_groupname(strings.at(1))
+        m_clip(NULL)
 {
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);

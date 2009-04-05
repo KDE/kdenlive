@@ -44,19 +44,19 @@
 
 KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QPoint tracks, Render *render, MainWindow *parent) :
         QObject(parent),
-        m_render(render),
+        m_autosave(NULL),
         m_url(url),
-        m_projectFolder(projectFolder),
+        m_zoom(7),
+        m_startPos(0),
+        m_render(render),
         m_commandStack(new QUndoStack(undoGroup)),
         m_modified(false),
-        m_documentLoadingProgress(0),
+        m_projectFolder(projectFolder),
         m_documentLoadingStep(0.0),
-        m_startPos(0),
-        m_zoom(7),
-        m_autosave(NULL),
+        m_documentLoadingProgress(0),
+        m_abortLoading(false),
         m_zoneStart(0),
-        m_zoneEnd(100),
-        m_abortLoading(false)
+        m_zoneEnd(100)
 {
     m_clipManager = new ClipManager(this);
     m_autoSaveTimer = new QTimer(this);

@@ -27,9 +27,9 @@ MoveEffectCommand::MoveEffectCommand(CustomTrackView *view, const int track, Gen
         QUndoCommand(parent),
         m_view(view),
         m_track(track),
-        m_pos(pos),
         m_oldindex(oldPos),
-        m_newindex(newPos)
+        m_newindex(newPos),
+        m_pos(pos)
 {
     /*    QString effectName;
         QDomNode namenode = effect.elementsByTagName("name").item(0);
