@@ -109,6 +109,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     }
                     m_startPos = infoXml.attribute("position").toInt();
                     m_zoom = infoXml.attribute("zoom", "7").toInt();
+                    m_zoneStart = infoXml.attribute("zonein", "0").toInt();
                     m_zoneEnd = infoXml.attribute("zoneout", "100").toInt();
                     setProfilePath(profilePath);
 
