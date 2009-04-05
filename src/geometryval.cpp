@@ -27,7 +27,13 @@
 #include <QMenu>
 
 
-Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent): QWidget(parent), m_profile(profile), m_geom(NULL), m_path(NULL), paramRect(NULL), m_fixedMode(false)
+Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent) :
+        QWidget(parent),
+        m_profile(profile),
+        m_geom(NULL),
+        m_path(NULL),
+        paramRect(NULL),
+        m_fixedMode(false)
 {
     ui.setupUi(this);
     QVBoxLayout* vbox = new QVBoxLayout(ui.widget);

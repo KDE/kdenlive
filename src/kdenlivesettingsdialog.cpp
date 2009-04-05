@@ -40,7 +40,8 @@
 #endif /* NO_JOGSHUTTLE */
 
 
-KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent): KConfigDialog(parent, "settings", KdenliveSettings::self())
+KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
+        KConfigDialog(parent, "settings", KdenliveSettings::self())
 {
 
     QWidget *p1 = new QWidget;

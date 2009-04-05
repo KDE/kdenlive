@@ -35,7 +35,11 @@
 #include <QDomDocument>
 
 
-DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent): QWizard(parent), m_profile(profile), m_dvdauthor(NULL), m_mkiso(NULL)
+DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent) :
+        QWizard(parent),
+        m_profile(profile),
+        m_dvdauthor(NULL),
+        m_mkiso(NULL)
 {
     //setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
     setAttribute(Qt::WA_DeleteOnClose);

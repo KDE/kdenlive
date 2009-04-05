@@ -52,8 +52,12 @@ static int bigMarkDistance;
 
 const int CustomRuler::comboScale[] = { 1, 2, 5, 10, 25, 50, 125, 250, 500, 725, 1500, 3000, 6000, 12000};
 
-CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent)
-        : QWidget(parent), m_timecode(tc), m_view(parent), m_duration(0), m_offset(0)
+CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
+        QWidget(parent),
+        m_timecode(tc),
+        m_view(parent),
+        m_duration(0),
+        m_offset(0)
 {
     setFont(KGlobalSettings::toolBarFont());
     m_scale = 3;

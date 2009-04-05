@@ -27,8 +27,8 @@
 #include <QTimer>
 
 
-MonitorManager::MonitorManager(QWidget *parent)
-        : QObject(parent)
+MonitorManager::MonitorManager(QWidget *parent) :
+        QObject(parent)
 {
 }
 

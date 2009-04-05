@@ -28,7 +28,10 @@
 #include <QDir>
 #include <QCloseEvent>
 
-ProfilesDialog::ProfilesDialog(QWidget * parent): QDialog(parent), m_isCustomProfile(false), m_profileIsModified(false)
+ProfilesDialog::ProfilesDialog(QWidget * parent) :
+        QDialog(parent),
+        m_isCustomProfile(false),
+        m_profileIsModified(false)
 {
     m_view.setupUi(this);
 

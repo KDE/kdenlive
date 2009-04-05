@@ -34,7 +34,8 @@
 #include <QTimer>
 
 
-ManageCapturesDialog::ManageCapturesDialog(KUrl::List files, QWidget * parent): QDialog(parent)
+ManageCapturesDialog::ManageCapturesDialog(KUrl::List files, QWidget * parent) :
+        QDialog(parent)
 {
     setFont(KGlobalSettings::toolBarFont());
     m_view.setupUi(this);

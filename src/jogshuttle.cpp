@@ -210,7 +210,8 @@ void ShuttleThread::jogshuttle(unsigned short code, unsigned int value)
 }
 
 
-JogShuttle::JogShuttle(QString device, QObject *parent): QObject(parent)
+JogShuttle::JogShuttle(QString device, QObject *parent) :
+        QObject(parent)
 {
     initDevice(device);
 }

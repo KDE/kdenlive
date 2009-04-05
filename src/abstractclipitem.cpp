@@ -28,7 +28,13 @@
 #include <QPainter>
 #include <QToolTip>
 
-AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps): QGraphicsRectItem(rect), m_track(0), m_fps(fps), m_editedKeyframe(-1), m_selectedKeyframe(0), m_keyframeFactor(1)
+AbstractClipItem::AbstractClipItem(const ItemInfo info, const QRectF& rect, double fps) :
+        QGraphicsRectItem(rect),
+        m_track(0),
+        m_fps(fps),
+        m_editedKeyframe(-1),
+        m_selectedKeyframe(0),
+        m_keyframeFactor(1)
 {
     setFlags(/*QGraphicsItem::ItemClipsToShape | */QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setTrack(info.track);

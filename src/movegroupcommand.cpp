@@ -23,7 +23,14 @@
 
 #include <KLocale>
 
-MoveGroupCommand::MoveGroupCommand(CustomTrackView *view, const QList <ItemInfo> startClip, const QList <ItemInfo> startTransition, const GenTime offset, const int trackOffset, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_startClip(startClip), m_startTransition(startTransition), m_offset(offset), m_trackOffset(trackOffset), m_doIt(doIt)
+MoveGroupCommand::MoveGroupCommand(CustomTrackView *view, const QList <ItemInfo> startClip, const QList <ItemInfo> startTransition, const GenTime offset, const int trackOffset, bool doIt, QUndoCommand * parent) :
+        QUndoCommand(parent),
+        m_view(view),
+        m_startClip(startClip),
+        m_startTransition(startTransition),
+        m_offset(offset),
+        m_trackOffset(trackOffset),
+        m_doIt(doIt)
 {
     setText(i18n("Move group"));
 }

@@ -21,7 +21,14 @@
 
 #include <KLocale>
 
-EditKeyFrameCommand::EditKeyFrameCommand(CustomTrackView *view, const int track, GenTime pos, const int effectIndex, const QString& oldkeyframes, const QString& newkeyframes, bool doIt) : m_view(view), m_track(track), m_pos(pos), m_index(effectIndex), m_oldkfr(oldkeyframes), m_newkfr(newkeyframes), m_doIt(doIt)
+EditKeyFrameCommand::EditKeyFrameCommand(CustomTrackView *view, const int track, GenTime pos, const int effectIndex, const QString& oldkeyframes, const QString& newkeyframes, bool doIt) :
+        m_view(view),
+        m_track(track),
+        m_pos(pos),
+        m_index(effectIndex),
+        m_oldkfr(oldkeyframes),
+        m_newkfr(newkeyframes),
+        m_doIt(doIt)
 {
     int prev = m_oldkfr.split(';', QString::SkipEmptyParts).count();
     int next = m_newkfr.split(';', QString::SkipEmptyParts).count();

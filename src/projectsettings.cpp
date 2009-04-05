@@ -26,7 +26,9 @@
 
 #include <QDir>
 
-ProjectSettings::ProjectSettings(int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, QWidget * parent): QDialog(parent), m_isCustomProfile(false)
+ProjectSettings::ProjectSettings(int videotracks, int audiotracks, const QString projectPath, bool readOnlyTracks, QWidget * parent) :
+        QDialog(parent),
+        m_isCustomProfile(false)
 {
     m_view.setupUi(this);
 

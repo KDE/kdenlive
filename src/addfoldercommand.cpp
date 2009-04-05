@@ -23,7 +23,12 @@
 
 #include <KLocale>
 
-AddFolderCommand::AddFolderCommand(ProjectList *view, const QString folderName, const QString &clipId, bool doIt, QUndoCommand *parent) : QUndoCommand(parent), m_view(view), m_name(folderName), m_id(clipId), m_doIt(doIt)
+AddFolderCommand::AddFolderCommand(ProjectList *view, const QString folderName, const QString &clipId, bool doIt, QUndoCommand *parent) :
+        QUndoCommand(parent),
+        m_view(view),
+        m_name(folderName),
+        m_id(clipId),
+        m_doIt(doIt)
 {
     if (doIt) setText(i18n("Add folder"));
     else setText(i18n("Delete folder"));

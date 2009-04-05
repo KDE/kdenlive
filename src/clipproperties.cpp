@@ -43,7 +43,13 @@ static const int TYPE_PNG = 1;
 static const int TYPE_BMP = 2;
 static const int TYPE_GIF = 3;
 
-ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent): QDialog(parent), m_tc(tc), m_clip(clip), m_fps(fps), m_clipNeedsRefresh(false), m_count(0)
+ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidget * parent) :
+        QDialog(parent),
+        m_tc(tc),
+        m_clip(clip),
+        m_fps(fps),
+        m_clipNeedsRefresh(false),
+        m_count(0)
 {
     setFont(KGlobalSettings::toolBarFont());
     m_view.setupUi(this);

@@ -22,7 +22,7 @@
 #include <KLocale>
 
 
-EffectsList::EffectsList():
+EffectsList::EffectsList() :
         QList < QDomElement > ()
 {
 }

@@ -26,7 +26,9 @@
 
 #include <QDir>
 
-SlideshowClip::SlideshowClip(QWidget * parent): QDialog(parent), m_count(0)
+SlideshowClip::SlideshowClip(QWidget * parent) :
+        QDialog(parent),
+        m_count(0)
 {
     setFont(KGlobalSettings::toolBarFont());
     setWindowTitle(i18n("Add Slideshow Clip"));

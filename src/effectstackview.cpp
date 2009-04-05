@@ -33,8 +33,8 @@
 #include <QInputDialog>
 
 
-EffectStackView::EffectStackView(QWidget *parent)
-        : QWidget(parent)
+EffectStackView::EffectStackView(QWidget *parent) :
+        QWidget(parent)
 {
     ui.setupUi(this);
     effectedit = new EffectStackEdit(ui.frame);

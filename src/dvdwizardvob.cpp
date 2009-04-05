@@ -26,7 +26,8 @@
 
 #include <QHBoxLayout>
 
-DvdWizardVob::DvdWizardVob(QWidget *parent): QWizardPage(parent)
+DvdWizardVob::DvdWizardVob(QWidget *parent) :
+        QWizardPage(parent)
 {
     m_view.setupUi(this);
     m_view.intro_vob->setEnabled(false);

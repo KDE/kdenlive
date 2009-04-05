@@ -47,8 +47,9 @@ extern "C"
     }
 }
 
-WestleyPreview::WestleyPreview()
-        : m_rand(0), m_inigoprocess(0)
+WestleyPreview::WestleyPreview() :
+        m_rand(0),
+        m_inigoprocess(0)
 {
 }
 

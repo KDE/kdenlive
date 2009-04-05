@@ -23,7 +23,15 @@
 
 #include <KLocale>
 
-ChangeClipTypeCommand::ChangeClipTypeCommand(CustomTrackView *view, const int track, const GenTime &pos, bool videoOnly, bool audioOnly, bool originalVideo, bool originalAudio, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_track(track), m_pos(pos), m_videoOnly(videoOnly), m_audioOnly(audioOnly), m_originalVideoOnly(originalVideo), m_originalAudioOnly(originalAudio)
+ChangeClipTypeCommand::ChangeClipTypeCommand(CustomTrackView *view, const int track, const GenTime &pos, bool videoOnly, bool audioOnly, bool originalVideo, bool originalAudio, QUndoCommand * parent) :
+        QUndoCommand(parent),
+        m_view(view),
+        m_track(track),
+        m_pos(pos),
+        m_videoOnly(videoOnly),
+        m_audioOnly(audioOnly),
+        m_originalVideoOnly(originalVideo),
+        m_originalAudioOnly(originalAudio)
 {
     setText(i18n("Change clip type"));
 }

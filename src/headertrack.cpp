@@ -30,8 +30,10 @@
 #include <QPainter>
 #include <QAction>
 
-HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent)
-        : QWidget(parent), m_index(index), m_type(info.type)
+HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent) :
+        QWidget(parent),
+        m_index(index),
+        m_type(info.type)
 {
     setFixedHeight(KdenliveSettings::trackheight());
     view.setupUi(this);

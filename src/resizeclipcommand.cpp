@@ -23,7 +23,12 @@
 
 #include <KLocale>
 
-ResizeClipCommand::ResizeClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_startPos(start), m_endPos(end), m_doIt(doIt)
+ResizeClipCommand::ResizeClipCommand(CustomTrackView *view, const ItemInfo start, const ItemInfo end, bool doIt, QUndoCommand * parent) :
+        QUndoCommand(parent),
+        m_view(view),
+        m_startPos(start),
+        m_endPos(end),
+        m_doIt(doIt)
 {
     setText(i18n("Resize clip"));
 }

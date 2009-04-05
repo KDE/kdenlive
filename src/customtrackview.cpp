@@ -81,8 +81,34 @@
 // const bool animate = KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects;
 // const int duration = animate ? 1500 : 1;
 
-CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscene, QWidget *parent)
-        : QGraphicsView(projectscene, parent), m_scene(projectscene), m_cursorPos(0), m_cursorLine(NULL), m_operationMode(NONE), m_dragItem(NULL), m_visualTip(NULL), m_moveOpMode(NONE), m_animation(NULL), m_projectDuration(0), m_clickPoint(QPoint()), m_document(doc), m_autoScroll(KdenliveSettings::autoscroll()), m_tracksHeight(KdenliveSettings::trackheight()), m_tool(SELECTTOOL), m_dragGuide(NULL), m_findIndex(0), m_menuPosition(QPoint()), m_blockRefresh(false), m_selectionGroup(NULL), m_selectedTrack(0), m_copiedItems(QList<AbstractClipItem *> ()), m_scrollOffset(0), m_changeSpeedAction(NULL), m_pasteEffectsAction(NULL), m_ungroupAction(NULL), m_clipDrag(false)
+CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscene, QWidget *parent) :
+        QGraphicsView(projectscene, parent),
+        m_scene(projectscene),
+        m_cursorPos(0),
+        m_cursorLine(NULL),
+        m_operationMode(NONE),
+        m_dragItem(NULL),
+        m_visualTip(NULL),
+        m_moveOpMode(NONE),
+        m_animation(NULL),
+        m_projectDuration(0),
+        m_clickPoint(QPoint()),
+        m_document(doc),
+        m_autoScroll(KdenliveSettings::autoscroll()),
+        m_tracksHeight(KdenliveSettings::trackheight()),
+        m_tool(SELECTTOOL),
+        m_dragGuide(NULL),
+        m_findIndex(0),
+        m_menuPosition(QPoint()),
+        m_blockRefresh(false),
+        m_selectionGroup(NULL),
+        m_selectedTrack(0),
+        m_copiedItems(QList<AbstractClipItem *> ()),
+        m_scrollOffset(0),
+        m_changeSpeedAction(NULL),
+        m_pasteEffectsAction(NULL),
+        m_ungroupAction(NULL),
+        m_clipDrag(false)
 {
     if (doc) m_commandStack = doc->commandStack();
     else m_commandStack = NULL;

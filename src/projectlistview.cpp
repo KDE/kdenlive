@@ -30,8 +30,9 @@
 #include <QHeaderView>
 #include <QAction>
 
-ProjectListView::ProjectListView(QWidget *parent)
-        : QTreeWidget(parent), m_dragStarted(false)
+ProjectListView::ProjectListView(QWidget *parent) :
+        QTreeWidget(parent),
+        m_dragStarted(false)
 {
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setDragDropMode(QAbstractItemView::DragDrop);

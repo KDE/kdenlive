@@ -25,8 +25,10 @@
 #include <QMouseEvent>
 #include <QStylePainter>
 
-SmallRuler::SmallRuler(QWidget *parent)
-        : QWidget(parent), m_scale(1), m_maxval(25)
+SmallRuler::SmallRuler(QWidget *parent) :
+        QWidget(parent),
+        m_scale(1),
+        m_maxval(25)
 {
     m_zoneStart = 10;
     m_zoneEnd = 60;

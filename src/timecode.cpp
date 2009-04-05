@@ -19,8 +19,9 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-Timecode::Timecode(Formats format, int framesPerSecond,
-                   bool dropFrame): m_format(format), m_dropFrame(dropFrame),
+Timecode::Timecode(Formats format, int framesPerSecond, bool dropFrame) :
+        m_format(format),
+        m_dropFrame(dropFrame),
         m_displayedFramesPerSecond(framesPerSecond)
 {
 }

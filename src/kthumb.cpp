@@ -125,8 +125,8 @@ void MyThread::run()
 
 }
 
-KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QString &hash, QObject * parent, const char */*name*/)
-        : QObject(parent),
+KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QString &hash, QObject * parent, const char */*name*/) :
+        QObject(parent),
         audioThumbProducer(),
         m_url(url),
         m_thumbFile(),

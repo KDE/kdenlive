@@ -38,8 +38,13 @@
 #include <QDir>
 
 
-RecMonitor::RecMonitor(QString name, QWidget *parent)
-        : QWidget(parent), m_name(name), m_isActive(false), m_isCapturing(false), m_isPlaying(false), m_didCapture(false)
+RecMonitor::RecMonitor(QString name, QWidget *parent) :
+        QWidget(parent),
+        m_name(name),
+        m_isActive(false),
+        m_isCapturing(false),
+        m_isPlaying(false),
+        m_didCapture(false)
 {
     ui.setupUi(this);
 

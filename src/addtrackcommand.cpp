@@ -23,7 +23,12 @@
 
 #include <KLocale>
 
-AddTrackCommand::AddTrackCommand(CustomTrackView *view, int ix, TrackInfo info, bool addTrack, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_ix(ix), m_info(info), m_addTrack(addTrack)
+AddTrackCommand::AddTrackCommand(CustomTrackView *view, int ix, TrackInfo info, bool addTrack, QUndoCommand * parent) :
+        QUndoCommand(parent),
+        m_view(view),
+        m_ix(ix),
+        m_info(info),
+        m_addTrack(addTrack)
 {
     if (addTrack) setText(i18n("Add track"));
     else setText(i18n("Delete track"));

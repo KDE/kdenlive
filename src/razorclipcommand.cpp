@@ -23,7 +23,11 @@
 
 #include <KLocale>
 
-RazorClipCommand::RazorClipCommand(CustomTrackView *view, const ItemInfo info, const GenTime cutTime, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_info(info), m_cutTime(cutTime)
+RazorClipCommand::RazorClipCommand(CustomTrackView *view, const ItemInfo info, const GenTime cutTime, QUndoCommand * parent) :
+        QUndoCommand(parent),
+        m_view(view),
+        m_info(info),
+        m_cutTime(cutTime)
 {
     setText(i18n("Razor clip"));
 }

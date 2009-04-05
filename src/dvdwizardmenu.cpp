@@ -22,7 +22,8 @@
 #include <KDebug>
 
 
-DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent): QWizardPage(parent)
+DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
+        QWizardPage(parent)
 {
     m_view.setupUi(this);
     m_view.play_text->setText(i18n("Play"));

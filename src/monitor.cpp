@@ -40,8 +40,15 @@
 #include <QLabel>
 
 
-Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent)
-        : QWidget(parent), render(NULL), m_monitorManager(manager), m_name(name), m_isActive(false), m_currentClip(NULL), m_dragStarted(false), m_overlay(NULL)
+Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
+        QWidget(parent),
+        render(NULL),
+        m_monitorManager(manager),
+        m_name(name),
+        m_isActive(false),
+        m_currentClip(NULL),
+        m_dragStarted(false),
+        m_overlay(NULL)
 {
     ui.setupUi(this);
     m_scale = 1;
@@ -737,7 +744,9 @@ void Monitor::slotSwitchMonitorInfo(bool show)
     }
 }
 
-MonitorRefresh::MonitorRefresh(QWidget* parent): QWidget(parent), m_renderer(NULL)
+MonitorRefresh::MonitorRefresh(QWidget* parent) : \
+        QWidget(parent),
+        m_renderer(NULL)
 {
     setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_OpaquePaintEvent); //setAttribute(Qt::WA_NoSystemBackground);
@@ -754,7 +763,8 @@ void MonitorRefresh::paintEvent(QPaintEvent * /*event*/)
 }
 
 
-Overlay::Overlay(QWidget* parent): QLabel(parent)
+Overlay::Overlay(QWidget* parent) :
+        QLabel(parent)
 {
     setAttribute(Qt::WA_TransparentForMouseEvents);
     setAttribute(Qt::WA_OpaquePaintEvent);

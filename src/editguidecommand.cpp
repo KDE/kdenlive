@@ -21,7 +21,14 @@
 
 #include <KLocale>
 
-EditGuideCommand::EditGuideCommand(CustomTrackView *view, const GenTime oldPos, const QString &oldcomment, const GenTime pos, const QString &comment, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_oldPos(oldPos), m_oldcomment(oldcomment), m_pos(pos), m_comment(comment), m_doIt(doIt)
+EditGuideCommand::EditGuideCommand(CustomTrackView *view, const GenTime oldPos, const QString &oldcomment, const GenTime pos, const QString &comment, bool doIt, QUndoCommand * parent) :
+        QUndoCommand(parent),
+        m_view(view),
+        m_oldPos(oldPos),
+        m_oldcomment(oldcomment),
+        m_pos(pos),
+        m_comment(comment),
+        m_doIt(doIt)
 {
     if (m_oldcomment.isEmpty()) setText(i18n("Add guide"));
     else if (m_oldPos == m_pos) setText(i18n("Edit guide"));

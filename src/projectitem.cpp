@@ -34,8 +34,12 @@ const int UsageRole = NameRole + 2;
 
 
 // folder
-ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, const QString &clipId)
-        : QTreeWidgetItem(parent, strings), m_clipType(FOLDER), m_clipId(clipId), m_clip(NULL), m_groupname(strings.at(1))
+ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, const QString &clipId) :
+        QTreeWidgetItem(parent, strings),
+        m_clipType(FOLDER),
+        m_clipId(clipId),
+        m_clip(NULL),
+        m_groupname(strings.at(1))
 {
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
@@ -44,8 +48,8 @@ ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, cons
     //kDebug() << "Constructed as folder, with clipId: " << m_clipId << ", and groupname: " << m_groupname;
 }
 
-ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
-        : QTreeWidgetItem(parent)
+ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip) :
+        QTreeWidgetItem(parent)
 {
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);
@@ -64,8 +68,8 @@ ProjectItem::ProjectItem(QTreeWidget * parent, DocClipBase *clip)
     //kDebug() << "Constructed with clipId: " << m_clipId;
 }
 
-ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip)
-        : QTreeWidgetItem(parent)
+ProjectItem::ProjectItem(QTreeWidgetItem * parent, DocClipBase *clip) :
+        QTreeWidgetItem(parent)
 {
     setSizeHint(0, QSize(65, 45));
     setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsEditable);

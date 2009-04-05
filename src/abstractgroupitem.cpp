@@ -32,7 +32,9 @@
 #include <QMimeData>
 
 
-AbstractGroupItem::AbstractGroupItem(double fps): QGraphicsItemGroup(), m_fps(fps)
+AbstractGroupItem::AbstractGroupItem(double fps) :
+        QGraphicsItemGroup(),
+        m_fps(fps)
 {
     setZValue(2);
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);

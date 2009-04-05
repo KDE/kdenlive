@@ -29,13 +29,23 @@
 #include <KWindowSystem>
 
 RegionGrabber::RegionGrabber() :
-        QWidget(0), selection(), mouseDown(false), newSelection(false),
-        handleSize(10), mouseOverHandle(0), idleTimer(),
-        showHelp(true), grabbing(false),
-        TLHandle(0, 0, handleSize, handleSize), TRHandle(0, 0, handleSize, handleSize),
-        BLHandle(0, 0, handleSize, handleSize), BRHandle(0, 0, handleSize, handleSize),
-        LHandle(0, 0, handleSize, handleSize), THandle(0, 0, handleSize, handleSize),
-        RHandle(0, 0, handleSize, handleSize), BHandle(0, 0, handleSize, handleSize)
+        QWidget(0),
+        selection(),
+        mouseDown(false),
+        newSelection(false),
+        handleSize(10),
+        mouseOverHandle(0),
+        idleTimer(),
+        showHelp(true),
+        grabbing(false),
+        TLHandle(0, 0, handleSize, handleSize),
+        TRHandle(0, 0, handleSize, handleSize),
+        BLHandle(0, 0, handleSize, handleSize),
+        BRHandle(0, 0, handleSize, handleSize),
+        LHandle(0, 0, handleSize, handleSize),
+        THandle(0, 0, handleSize, handleSize),
+        RHandle(0, 0, handleSize, handleSize),
+        BHandle(0, 0, handleSize, handleSize)
 {
     handles << &TLHandle << &TRHandle << &BLHandle << &BRHandle
     << &LHandle << &THandle << &RHandle << &BHandle;

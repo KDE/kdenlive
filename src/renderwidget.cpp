@@ -48,7 +48,9 @@ const int EditableRole = GroupRole + 5;
 const int MetaGroupRole = GroupRole + 6;
 const int ExtraRole = GroupRole + 7;
 
-RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent): QDialog(parent), m_projectFolder(projectfolder)
+RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
+        QDialog(parent),
+        m_projectFolder(projectfolder)
 {
     m_view.setupUi(this);
     setWindowTitle(i18n("Rendering"));

@@ -26,7 +26,13 @@
 #include <KDebug>
 
 
-MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, const QString &caption, QWidget * parent): QDialog(parent), m_tc(tc), m_clip(clip), m_marker(t), m_producer(NULL), m_profile(NULL)
+MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, const QString &caption, QWidget * parent) :
+        QDialog(parent),
+        m_tc(tc),
+        m_clip(clip),
+        m_marker(t),
+        m_producer(NULL),
+        m_profile(NULL)
 {
     setFont(KGlobalSettings::toolBarFont());
     m_fps = m_tc.fps();

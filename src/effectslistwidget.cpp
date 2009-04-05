@@ -36,8 +36,9 @@ static const int EFFECT_CUSTOM = 3;
 const int TypeRole = Qt::UserRole;
 const int IdRole = TypeRole + 1;
 
-EffectsListWidget::EffectsListWidget(QMenu *menu, QWidget *parent)
-        : KListWidget(parent), m_menu(menu)
+EffectsListWidget::EffectsListWidget(QMenu *menu, QWidget *parent) :
+        KListWidget(parent),
+        m_menu(menu)
 {
     //setSelectionMode(QAbstractItemView::ExtendedSelection);
     //setDragDropMode(QAbstractItemView::DragDrop);

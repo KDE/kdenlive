@@ -22,7 +22,11 @@
 
 #include <KLocale>
 
-LockTrackCommand::LockTrackCommand(CustomTrackView *view, int ix, bool lock, QUndoCommand * parent) : QUndoCommand(parent), m_view(view), m_ix(ix), m_lock(lock)
+LockTrackCommand::LockTrackCommand(CustomTrackView *view, int ix, bool lock, QUndoCommand * parent) :
+        QUndoCommand(parent),
+        m_view(view),
+        m_ix(ix),
+        m_lock(lock)
 {
     if (lock) setText(i18n("Lock track"));
     else setText(i18n("Unlock track"));

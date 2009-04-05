@@ -27,8 +27,12 @@
 #include <QPen>
 #include <QBrush>
 
-Guide::Guide(CustomTrackView *view, GenTime pos, QString label, double fps, double height)
-        : QGraphicsLineItem(), m_view(view), m_position(pos), m_label(label), m_fps(fps)
+Guide::Guide(CustomTrackView *view, GenTime pos, QString label, double fps, double height) :
+        QGraphicsLineItem(),
+        m_view(view),
+        m_position(pos),
+        m_label(label),
+        m_fps(fps)
 {
     setFlags(QGraphicsItem::ItemIsMovable);
     setToolTip(label);

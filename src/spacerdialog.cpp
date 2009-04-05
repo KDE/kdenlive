@@ -26,7 +26,9 @@
 #include <KDebug>
 
 
-SpacerDialog::SpacerDialog(const GenTime duration, Timecode tc, int track, int trackNumber, QWidget * parent): QDialog(parent), m_tc(tc)
+SpacerDialog::SpacerDialog(const GenTime duration, Timecode tc, int track, int trackNumber, QWidget * parent) :
+        QDialog(parent),
+        m_tc(tc)
 {
     setFont(KGlobalSettings::toolBarFont());
     m_fps = m_tc.fps();

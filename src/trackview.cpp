@@ -36,8 +36,11 @@
 
 #include <QScrollBar>
 
-TrackView::TrackView(KdenliveDoc *doc, QWidget *parent)
-        : QWidget(parent), m_doc(doc), m_scale(1.0), m_projectTracks(0)
+TrackView::TrackView(KdenliveDoc *doc, QWidget *parent) :
+        QWidget(parent),
+        m_doc(doc),
+        m_scale(1.0),
+        m_projectTracks(0)
 {
 
     view = new Ui::TimeLine_UI();

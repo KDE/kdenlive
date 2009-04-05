@@ -28,8 +28,11 @@
 #include <QStylePainter>
 
 
-KeyframeHelper::KeyframeHelper(QWidget *parent)
-        : QWidget(parent), m_geom(NULL), m_position(0), m_scale(0)
+KeyframeHelper::KeyframeHelper(QWidget *parent) :
+        QWidget(parent),
+        m_geom(NULL),
+        m_position(0),
+        m_scale(0)
 {
     setFont(KGlobalSettings::toolBarFont());
 }

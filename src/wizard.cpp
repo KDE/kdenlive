@@ -33,7 +33,8 @@
 
 const double recommendedMltVersion = 36;
 
-Wizard::Wizard(bool upgrade, QWidget *parent): QWizard(parent)
+Wizard::Wizard(bool upgrade, QWidget *parent) :
+        QWizard(parent)
 {
     setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
 

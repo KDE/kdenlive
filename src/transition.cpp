@@ -31,7 +31,10 @@
 #include <QStyleOptionGraphicsItem>
 
 
-Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDomElement params, bool automaticTransition) : AbstractClipItem(info, QRectF(), fps), m_automaticTransition(automaticTransition), m_forceTransitionTrack(false)
+Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDomElement params, bool automaticTransition) :
+        AbstractClipItem(info, QRectF(), fps),
+        m_automaticTransition(automaticTransition),
+        m_forceTransitionTrack(false)
 {
     setZValue(2);
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));

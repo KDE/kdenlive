@@ -24,8 +24,8 @@
 #include <QHeaderView>
 #include <QMenu>
 
-ComplexParameter::ComplexParameter(QWidget *parent)
-        : QWidget(parent)
+ComplexParameter::ComplexParameter(QWidget *parent) :
+        QWidget(parent)
 {
     ui.setupUi(this);
     //ui.effectlist->horizontalHeader()->setVisible(false);

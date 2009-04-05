@@ -33,7 +33,13 @@
 
 int settingUp = false;
 
-TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget *parent): QDialog(parent), m_render(render), m_count(0), m_projectPath(projectPath), startViewport(NULL), endViewport(NULL)
+TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget *parent) :
+        QDialog(parent),
+        m_render(render),
+        m_count(0),
+        m_projectPath(projectPath),
+        startViewport(NULL),
+        endViewport(NULL)
 {
     setupUi(this);
     setFont(KGlobalSettings::toolBarFont());

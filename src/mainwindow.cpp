@@ -105,13 +105,16 @@ EffectsList MainWindow::audioEffects;
 EffectsList MainWindow::customEffects;
 EffectsList MainWindow::transitions;
 
-MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent)
-        : KXmlGuiWindow(parent),
-        m_activeDocument(NULL), m_activeTimeline(NULL), m_renderWidget(NULL),
+MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent) :
+        KXmlGuiWindow(parent),
+        m_activeDocument(NULL),
+        m_activeTimeline(NULL),
+        m_renderWidget(NULL),
 #ifndef NO_JOGSHUTTLE
         m_jogProcess(NULL),
 #endif /* NO_JOGSHUTTLE */
-        m_findActivated(false), m_initialized(false)
+        m_findActivated(false),
+        m_initialized(false)
 {
 
     // Create DBus interface

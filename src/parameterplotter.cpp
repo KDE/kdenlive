@@ -23,7 +23,8 @@
 #include <KDebug>
 #include <KPlotPoint>
 
-ParameterPlotter::ParameterPlotter(QWidget *parent): KPlotWidget(parent)
+ParameterPlotter::ParameterPlotter(QWidget *parent) :
+        KPlotWidget(parent)
 {
     setAntialiasing(true);
     setLeftPadding(20);

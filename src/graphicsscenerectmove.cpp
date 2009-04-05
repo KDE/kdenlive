@@ -33,7 +33,11 @@
 #include <QTextBlock>
 
 
-GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent): QGraphicsScene(parent), m_selectedItem(NULL), resizeMode(NoResize), m_tool(TITLE_RECTANGLE)
+GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent) :
+        QGraphicsScene(parent),
+        m_selectedItem(NULL),
+        resizeMode(NoResize),
+        m_tool(TITLE_RECTANGLE)
 {
     //grabMouse();
     zoom = 1.0;

@@ -22,8 +22,10 @@
 
 #include <KStandardDirs>
 
-CustomTrackScene::CustomTrackScene(KdenliveDoc *doc, QObject *parent)
-        : QGraphicsScene(parent), m_document(doc), m_scale(1.0)
+CustomTrackScene::CustomTrackScene(KdenliveDoc *doc, QObject *parent) :
+        QGraphicsScene(parent),
+        m_document(doc),
+        m_scale(1.0)
 {
     m_transitionPixmap = QPixmap(KStandardDirs::locate("appdata", "transition.png"));
 }

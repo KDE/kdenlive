@@ -23,7 +23,12 @@
 
 #include <KLocale>
 
-AddClipCommand::AddClipCommand(KdenliveDoc *doc, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand * parent) : QUndoCommand(parent), m_doc(doc), m_xml(xml), m_id(id), m_doIt(doIt)
+AddClipCommand::AddClipCommand(KdenliveDoc *doc, const QDomElement &xml, const QString &id, bool doIt, QUndoCommand * parent) :
+        QUndoCommand(parent),
+        m_doc(doc),
+        m_xml(xml),
+        m_id(id),
+        m_doIt(doIt)
 {
     if (doIt) setText(i18n("Add clip"));
     else setText(i18n("Delete clip"));

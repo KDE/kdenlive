@@ -36,8 +36,30 @@
 #include <QGraphicsScene>
 #include <QMimeData>
 
-ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, bool generateThumbs)
-        : AbstractClipItem(info, QRectF(), fps), m_clip(clip), m_resizeMode(NONE), m_grabPoint(0), m_maxTrack(0), m_hasThumbs(false), startThumbTimer(NULL), endThumbTimer(NULL), audioThumbWasDrawn(false), m_opacity(1.0), m_timeLine(0), m_startThumbRequested(false), m_endThumbRequested(false), m_startFade(0), m_endFade(0), m_hover(false), m_selectedEffect(-1), m_speed(speed), framePixelWidth(0), m_startPix(QPixmap()), m_endPix(QPixmap()), m_videoOnly(false), m_audioOnly(false)
+ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, bool generateThumbs) :
+        AbstractClipItem(info, QRectF(), fps),
+        m_clip(clip),
+        m_resizeMode(NONE),
+        m_grabPoint(0),
+        m_maxTrack(0),
+        m_hasThumbs(false),
+        startThumbTimer(NULL),
+        endThumbTimer(NULL),
+        audioThumbWasDrawn(false),
+        m_opacity(1.0),
+        m_timeLine(0),
+        m_startThumbRequested(false),
+        m_endThumbRequested(false),
+        m_startFade(0),
+        m_endFade(0),
+        m_hover(false),
+        m_selectedEffect(-1),
+        m_speed(speed),
+        framePixelWidth(0),
+        m_startPix(QPixmap()),
+        m_endPix(QPixmap()),
+        m_videoOnly(false),
+        m_audioOnly(false)
 {
     setZValue(1);
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (double)(KdenliveSettings::trackheight() - 2));
