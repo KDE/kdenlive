@@ -35,10 +35,10 @@
 #include <QGraphicsItemGroup>
 
 ClipManager::ClipManager(KdenliveDoc *doc) :
-        m_audioThumbsQueue(QList <QString> ()),
+        m_audioThumbsQueue(),
         m_doc(doc),
         m_audioThumbsEnabled(false),
-        m_generatingAudioId(QString())
+        m_generatingAudioId()
 {
     m_clipIdCounter = 1;
     m_folderIdCounter = 1;

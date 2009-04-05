@@ -96,7 +96,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
         m_dragGuide(NULL),
         m_visualTip(NULL),
         m_animation(NULL),
-        m_clickPoint(QPoint()),
+        m_clickPoint(),
         m_autoScroll(KdenliveSettings::autoscroll()),
         m_changeSpeedAction(NULL),
         m_pasteEffectsAction(NULL),
@@ -105,8 +105,8 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
         m_clipDrag(false),
         m_findIndex(0),
         m_tool(SELECTTOOL),
-        m_copiedItems(QList<AbstractClipItem *> ()),
-        m_menuPosition(QPoint()),
+        m_copiedItems(),
+        m_menuPosition(),
         m_blockRefresh(false),
         m_selectionGroup(NULL)
 {
