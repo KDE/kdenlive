@@ -913,9 +913,9 @@ bool KdenliveDoc::convertDocument(double version)
         }
     }
 
-    //kDebug() << "/////////////////  CONVERTED DOC:";
-    //kDebug() << m_document.toString();
-    /*
+    /*kDebug() << "/////////////////  CONVERTED DOC:";
+    kDebug() << m_document.toString();
+    
     QFile file( "converted.kdenlive" );
     if ( file.open( QIODevice::WriteOnly ) ) {
       QTextStream stream( &file );
@@ -1584,7 +1584,7 @@ void KdenliveDoc::switchTrackLock(int ix, bool lock)
 
 bool KdenliveDoc::isTrackLocked(int ix) const
 {
-    return m_tracksList[ix].isLocked;
+    return m_tracksList.at(ix).isLocked;
 }
 
 void KdenliveDoc::switchTrackVideo(int ix, bool hide)

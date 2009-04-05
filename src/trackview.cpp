@@ -187,6 +187,7 @@ void TrackView::parseDocument(QDomDocument doc)
                 m_doc->switchTrackVideo(i - 1, true);
                 m_doc->switchTrackAudio(i - 1, true);
             }
+
             trackduration = slotAddProjectTrack(pos, p, m_doc->isTrackLocked(i - 1));
             pos--;
             //kDebug() << " PRO DUR: " << trackduration << ", TRACK DUR: " << duration;
@@ -309,7 +310,7 @@ void TrackView::parseDocument(QDomDocument doc)
                 Transition *tr = new Transition(transitionInfo, a_track, m_doc->fps(), base, isAutomatic);
                 if (forceTrack) tr->setForcedTrack(true, a_track);
                 m_scene->addItem(tr);
-                if (m_doc->isTrackLocked(b_track - 1)) {
+                if (b_track > 0 && m_doc->isTrackLocked(b_track - 1)) {
                     tr->setItemLocked(true);
                 }
             }
