@@ -689,10 +689,10 @@ void ClipItem::paint(QPainter *painter,
                 const QRectF r1(framepos + 0.04, 10, itemWidth - framepos - 2, itemHeight - 10);
                 const QRectF r2 = painter->matrix().mapRect(r1);
                 const QRectF txtBounding = painter->boundingRect(r2, Qt::AlignLeft | Qt::AlignTop, ' ' + (*it).comment() + ' ');
-
-                QPainterPath path;
-                path.addRoundedRect(txtBounding, 3, 3);
-                painter->fillPath(path, markerBrush);
+                painter->setBrush(markerBrush);
+                painter->setPen(Qt::NoPen);
+                painter->drawRoundedRect(txtBounding, 3, 3);
+                painter->setPen(Qt::white);
                 painter->drawText(txtBounding, Qt::AlignCenter, (*it).comment());
             }
             //painter->fillRect(QRect(br.x() + framepos, br.y(), 10, br.height()), QBrush(QColor(0, 0, 0, 150)));
@@ -746,9 +746,10 @@ void ClipItem::paint(QPainter *painter,
             txtBounding.setWidth(txtBounding.width() * value);
             markerBrush.setColor(QColor(50 + 200 * (1.0 - value), 50, 50, 100 + 50 * value));
         } else markerBrush.setColor(QColor(50, 50, 50, 150));
-        QPainterPath path;
-        path.addRoundedRect(txtBounding, 4, 4);
-        painter->fillPath(path/*.intersected(resultClipPath)*/, markerBrush);
+        painter->setBrush(markerBrush);
+        painter->setPen(Qt::NoPen);
+        painter->drawRoundedRect(txtBounding, 3, 3);
+        painter->setPen(Qt::white);
         painter->drawText(txtBounding, Qt::AlignCenter, m_effectNames);
         painter->setPen(Qt::black);
     }
