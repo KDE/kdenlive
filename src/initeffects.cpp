@@ -61,16 +61,6 @@ void initEffectsThumbnailer::run()
 
 initEffectsThumbnailer initEffects::thumbnailer;
 
-initEffects::initEffects()
-{
-
-}
-
-initEffects::~initEffects()
-{
-}
-
-
 // static
 void initEffects::refreshLumas()
 {

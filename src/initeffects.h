@@ -42,13 +42,9 @@ private :
 
 };
 
-class initEffects : public QObject
+class initEffects
 {
-    Q_OBJECT
 public:
-    initEffects();
-    ~initEffects();
-
     static Mlt::Repository *parseEffectFiles();
     static void refreshLumas();
     static QDomDocument createDescriptionFromMlt(Mlt::Repository* repository, const QString& type, const QString& name);
@@ -69,7 +65,9 @@ public:
     static const char* ladspaPitchShifterEffectString(QStringList params);
     static const char* ladspaPhaserEffectString(QStringList params);
     static const char* ladspaRateScalerEffectString(QStringList params);
+
 private:
+    initEffects(); // disable the constructor
     static initEffectsThumbnailer thumbnailer;
 };
 
