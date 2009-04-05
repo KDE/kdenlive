@@ -133,8 +133,8 @@ Mlt::Repository *initEffects::parseEffectFiles()
             QString black = in.readLine().simplified();
             if (!black.isEmpty() && !black.startsWith('#')) blackListed.append(black);
         }
+        file.close();
     }
-    file.close();
 
     // Check for blacklisted transitions
     blacklist = KStandardDirs::locate("appdata", "blacklisted_transitions.txt");
@@ -148,8 +148,8 @@ Mlt::Repository *initEffects::parseEffectFiles()
             QString black = in.readLine().simplified();
             if (!black.isEmpty() && !black.startsWith('#')) blackListedtransitions.append(black);
         }
+        file2.close();
     }
-    file2.close();
 
     for (int i = 0 ; i < filters->count() ; i++) {
         filtersList << filters->get_name(i);
