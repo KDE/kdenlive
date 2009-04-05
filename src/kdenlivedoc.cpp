@@ -472,62 +472,90 @@ bool KdenliveDoc::convertDocument(double version)
 
     // move playlists outside of tractor and add the tracks instead
     int max = playlists.count();
-    for (int i = 0; i < max; i++) {
-        QDomNode n = playlists.at(i);
-        westley.insertBefore(n, QDomNode());
-        QDomElement pl = n.toElement();
-        QDomElement track = m_document.createElement("track");
-        QString trackType = pl.attribute("hide");
-        if (!trackType.isEmpty())
-            track.setAttribute("hide", trackType);
-        QString playlist_id =  pl.attribute("id");
-        if (playlist_id.isEmpty()) {
-            playlist_id = "black_track";
-            pl.setAttribute("id", playlist_id);
+    if (westley.isNull()) {
+        westley = m_document.createElement("westley");
+        m_document.documentElement().appendChild(westley);
+    }
+    if (tractor.isNull()) {
+        kDebug() << "// NO WESTLEY PLAYLIST, building empty one";
+        QDomElement blank_tractor = m_document.createElement("tractor");
+        westley.appendChild(blank_tractor);
+        QDomElement blank_playlist = m_document.createElement("playlist");
+        blank_playlist.setAttribute("id", "black_track");
+        westley.insertBefore(blank_playlist, QDomNode());
+        QDomElement blank_track = m_document.createElement("track");
+        blank_track.setAttribute("producer", "black_track");
+        blank_tractor.appendChild(blank_track);
+
+        QDomNodeList kdenlivetracks = m_document.elementsByTagName("kdenlivetrack");
+        for (int i = 0; i < kdenlivetracks.count(); i++) {
+            blank_playlist = m_document.createElement("playlist");
+            blank_playlist.setAttribute("id", "playlist" + QString::number(i));
+            westley.insertBefore(blank_playlist, QDomNode());
+            blank_track = m_document.createElement("track");
+            blank_track.setAttribute("producer", "playlist" + QString::number(i));
+            blank_tractor.appendChild(blank_track);
+            if (kdenlivetracks.at(i).toElement().attribute("cliptype") == "Sound") {
+                blank_playlist.setAttribute("hide", "video");
+                blank_track.setAttribute("hide", "video");
+            }
         }
-        track.setAttribute("producer", playlist_id);
-        //tractor.appendChild(track);
+    } else for (int i = 0; i < max; i++) {
+            QDomNode n = playlists.at(i);
+            westley.insertBefore(n, QDomNode());
+            QDomElement pl = n.toElement();
+            QDomElement track = m_document.createElement("track");
+            QString trackType = pl.attribute("hide");
+            if (!trackType.isEmpty())
+                track.setAttribute("hide", trackType);
+            QString playlist_id =  pl.attribute("id");
+            if (playlist_id.isEmpty()) {
+                playlist_id = "black_track";
+                pl.setAttribute("id", playlist_id);
+            }
+            track.setAttribute("producer", playlist_id);
+            //tractor.appendChild(track);
 #define KEEP_TRACK_ORDER 1
 #ifdef KEEP_TRACK_ORDER
-        tractor.insertAfter(track, QDomNode());
+            tractor.insertAfter(track, QDomNode());
 #else
-        // Insert the new track in an order that hopefully matches the 3 video, then 2 audio tracks of Kdenlive 0.7.0
-        // insertion sort - O( tracks*tracks )
-        // Note, this breaks _all_ transitions - but you can move them up and down afterwards.
-        QDomElement tractor_elem = tractor.toElement();
-        if (! tractor_elem.isNull()) {
-            QDomNodeList tracks = tractor_elem.elementsByTagName("track");
-            int size = tracks.size();
-            if (size == 0) {
-                tractor.insertAfter(track, QDomNode());
-            } else {
-                bool inserted = false;
-                for (int i = 0; i < size; ++i) {
-                    QDomElement track_elem = tracks.at(i).toElement();
-                    if (track_elem.isNull()) {
-                        tractor.insertAfter(track, QDomNode());
-                        inserted = true;
-                        break;
-                    } else {
-                        kDebug() << "playlist_id: " << playlist_id << " producer:" << track_elem.attribute("producer");
-                        if (playlist_id < track_elem.attribute("producer")) {
-                            tractor.insertBefore(track, track_elem);
+            // Insert the new track in an order that hopefully matches the 3 video, then 2 audio tracks of Kdenlive 0.7.0
+            // insertion sort - O( tracks*tracks )
+            // Note, this breaks _all_ transitions - but you can move them up and down afterwards.
+            QDomElement tractor_elem = tractor.toElement();
+            if (! tractor_elem.isNull()) {
+                QDomNodeList tracks = tractor_elem.elementsByTagName("track");
+                int size = tracks.size();
+                if (size == 0) {
+                    tractor.insertAfter(track, QDomNode());
+                } else {
+                    bool inserted = false;
+                    for (int i = 0; i < size; ++i) {
+                        QDomElement track_elem = tracks.at(i).toElement();
+                        if (track_elem.isNull()) {
+                            tractor.insertAfter(track, QDomNode());
                             inserted = true;
                             break;
+                        } else {
+                            kDebug() << "playlist_id: " << playlist_id << " producer:" << track_elem.attribute("producer");
+                            if (playlist_id < track_elem.attribute("producer")) {
+                                tractor.insertBefore(track, track_elem);
+                                inserted = true;
+                                break;
+                            }
                         }
                     }
+                    // Reach here, no insertion, insert last
+                    if (!inserted) {
+                        tractor.insertAfter(track, QDomNode());
+                    }
                 }
-                // Reach here, no insertion, insert last
-                if (!inserted) {
-                    tractor.insertAfter(track, QDomNode());
-                }
+            } else {
+                kWarning() << "tractor was not a QDomElement";
+                tractor.insertAfter(track, QDomNode());
             }
-        } else {
-            kWarning() << "tractor was not a QDomElement";
-            tractor.insertAfter(track, QDomNode());
-        }
 #endif
-    }
+        }
     tractor.removeChild(multitrack);
 
     // audio track mixing transitions should not be added to track view, so add required attribute
@@ -539,6 +567,11 @@ bool KdenliveDoc::convertDocument(double version)
             QDomElement property = m_document.createElement("property");
             property.setAttribute("name", "internal_added");
             QDomText value = m_document.createTextNode("237");
+            property.appendChild(value);
+            tr.appendChild(property);
+            property = m_document.createElement("property");
+            property.setAttribute("name", "mlt_service");
+            value = m_document.createTextNode("mix");
             property.appendChild(value);
             tr.appendChild(property);
         } else {
@@ -652,13 +685,13 @@ bool KdenliveDoc::convertDocument(double version)
         QDomElement prod = producers.at(0).toElement();
         // add resource also as a property (to allow path correction in setNewResource())
         // TODO: will it work with slowmotion? needs testing
-        if (!prod.attribute("resource").isEmpty()) {
+        /*if (!prod.attribute("resource").isEmpty()) {
             QDomElement prop_resource = m_document.createElement("property");
             prop_resource.setAttribute("name", "resource");
             QDomText resource = m_document.createTextNode(prod.attribute("resource"));
             prop_resource.appendChild(resource);
             prod.appendChild(prop_resource);
-        }
+        }*/
         QDomNode m = prod.firstChild();
         if (!m.isNull()) {
             if (m.toElement().tagName() == "markers") {
@@ -793,37 +826,38 @@ bool KdenliveDoc::convertDocument(double version)
             QDomElement wproducer = wproducers.at(i).toElement();
             if (wproducer.isNull()) {
                 kWarning() << "Found producer in westley0, that was not a QDomElement";
+                continue;
+            }
+            if (wproducer.attribute("id") == "black") continue;
+            // We have to do slightly different things, depending on the type
+            kDebug() << "Converting producer element with type" << wproducer.attribute("type");
+            if (wproducer.attribute("type").toInt() == TEXT) {
+                kDebug() << "Found TEXT element in producer" << endl;
+                QDomElement kproducer = wproducer.cloneNode(true).toElement();
+                kproducer.setTagName("kdenlive_producer");
+                kdenlivedoc_new.appendChild(kproducer);
+                // TODO: Perhaps needs some more changes here to "frequency", aspect ratio as a float, frame_size, channels, and later, ressource and title name
             } else {
-                // We have to do slightly different things, depending on the type
-                kDebug() << "Converting producer element with type" << wproducer.attribute("type");
-                if (wproducer.attribute("type").toInt() == TEXT) {
-                    kDebug() << "Found TEXT element in producer" << endl;
-                    QDomElement kproducer = wproducer.cloneNode(true).toElement();
-                    kproducer.setTagName("kdenlive_producer");
-                    kdenlivedoc_new.appendChild(kproducer);
-                    // TODO: Perhaps needs some more changes here to "frequency", aspect ratio as a float, frame_size, channels, and later, ressource and title name
-                } else {
-                    QDomElement kproducer = m_document.createElement("kdenlive_producer");
-                    kproducer.setAttribute("id", wproducer.attribute("id"));
-                    if (!wproducer.attribute("description").isEmpty())
-                        kproducer.setAttribute("description", wproducer.attribute("description"));
-                    kproducer.setAttribute("resource", wproducer.attribute("resource"));
-                    kproducer.setAttribute("type", wproducer.attribute("type"));
-                    // Testing fix for 358
-                    if (!wproducer.attribute("aspect_ratio").isEmpty()) {
-                        kproducer.setAttribute("aspect_ratio", wproducer.attribute("aspect_ratio"));
-                    }
-                    if (!wproducer.attribute("source_fps").isEmpty()) {
-                        kproducer.setAttribute("fps", wproducer.attribute("source_fps"));
-                    }
-                    if (!wproducer.attribute("length").isEmpty()) {
-                        kproducer.setAttribute("duration", wproducer.attribute("length"));
-                    }
-                    kdenlivedoc_new.appendChild(kproducer);
+                QDomElement kproducer = m_document.createElement("kdenlive_producer");
+                kproducer.setAttribute("id", wproducer.attribute("id"));
+                if (!wproducer.attribute("description").isEmpty())
+                    kproducer.setAttribute("description", wproducer.attribute("description"));
+                kproducer.setAttribute("resource", wproducer.attribute("resource"));
+                kproducer.setAttribute("type", wproducer.attribute("type"));
+                // Testing fix for 358
+                if (!wproducer.attribute("aspect_ratio").isEmpty()) {
+                    kproducer.setAttribute("aspect_ratio", wproducer.attribute("aspect_ratio"));
                 }
-                if (wproducer.attribute("id").toInt() > max_kproducer_id) {
-                    max_kproducer_id = wproducer.attribute("id").toInt();
+                if (!wproducer.attribute("source_fps").isEmpty()) {
+                    kproducer.setAttribute("fps", wproducer.attribute("source_fps"));
                 }
+                if (!wproducer.attribute("length").isEmpty()) {
+                    kproducer.setAttribute("duration", wproducer.attribute("length"));
+                }
+                kdenlivedoc_new.appendChild(kproducer);
+            }
+            if (wproducer.attribute("id").toInt() > max_kproducer_id) {
+                max_kproducer_id = wproducer.attribute("id").toInt();
             }
         }
     }
@@ -915,16 +949,17 @@ bool KdenliveDoc::convertDocument(double version)
 
     /*kDebug() << "/////////////////  CONVERTED DOC:";
     kDebug() << m_document.toString();
-    
-    QFile file( "converted.kdenlive" );
-    if ( file.open( QIODevice::WriteOnly ) ) {
-      QTextStream stream( &file );
-      stream << m_document.toString();
-      file.close();
+    kDebug() << "/////////////////  END CONVERTED DOC:";
+
+    QFile file("converted.kdenlive");
+    if (file.open(QIODevice::WriteOnly)) {
+        QTextStream stream(&file);
+        stream << m_document.toString().toUtf8();
+        file.close();
     } else {
-      kDebug() << "Unable to dump file to converted.kdenlive";
-    }
-    */
+        kDebug() << "Unable to dump file to converted.kdenlive";
+    }*/
+
     //kDebug() << "/////////////////  END CONVERTED DOC:";
 
     return true;

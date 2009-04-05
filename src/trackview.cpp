@@ -154,6 +154,7 @@ void TrackView::parseDocument(QDomDocument doc)
         // CHeck for invalid producers
         QDomNode n = producers.item(i);
         e = n.toElement();
+        if (e.hasAttribute("in") == false && e.hasAttribute("out") == false) continue;
         int in = e.attribute("in").toInt();
         int out = e.attribute("out").toInt();
         if (in > out || in == out) {
