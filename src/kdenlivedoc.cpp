@@ -249,7 +249,7 @@ KdenliveDoc::~KdenliveDoc()
 void KdenliveDoc::setSceneList()
 {
     m_render->setSceneList(m_document.toString(), m_startPos);
-    checkProjectClips();
+    //checkProjectClips();
 }
 
 QDomDocument KdenliveDoc::createEmptyDocument(const int videotracks, const int audiotracks)
@@ -1195,6 +1195,10 @@ void KdenliveDoc::setRenderer(Render *render) {
 void KdenliveDoc::checkProjectClips()
 {
     if (m_render == NULL) return;
+    m_clipManager->resetProducersList(m_render->producersList());
+    return;
+
+    // Useless now...
     QList <Mlt::Producer *> prods = m_render->producersList();
     QString id ;
     QString prodId ;
@@ -1207,20 +1211,20 @@ void KdenliveDoc::checkProjectClips()
         if (clip) clip->setProducer(prods.at(i));
         if (clip && clip->clipType() == TEXT && !QFile::exists(clip->fileURL().path())) {
             // regenerate text clip image if required
-            kDebug() << "// TITLE: " << clip->getProperty("titlename") << " Preview file: " << clip->getProperty("resource") << " DOES NOT EXIST";
-            QString titlename = clip->getProperty("titlename");
+            //kDebug() << "// TITLE: " << clip->getProperty("titlename") << " Preview file: " << clip->getProperty("resource") << " DOES NOT EXIST";
+            QString titlename = clip->getProperty("name");
             QString titleresource;
             if (titlename.isEmpty()) {
                 QStringList titleInfo = TitleWidget::getFreeTitleInfo(projectFolder());
                 titlename = titleInfo.at(0);
                 titleresource = titleInfo.at(1);
-                clip->setProperty("titlename", titlename);
+                clip->setProperty("name", titlename);
                 kDebug() << "// New title set to: " << titlename;
             } else {
-                titleresource = TitleWidget::getTitleResourceFromName(projectFolder(), titlename);
+                titleresource = TitleWidget::getFreeTitleInfo(projectFolder()).at(1);
+                //titleresource = TitleWidget::getTitleResourceFromName(projectFolder(), titlename);
             }
-            QString titlepath = projectFolder().path() + "/titles/";
-            TitleWidget *dia_ui = new TitleWidget(KUrl(), titlepath, m_render, kapp->activeWindow());
+            TitleWidget *dia_ui = new TitleWidget(KUrl(), KUrl(titleresource).directory(), m_render, kapp->activeWindow());
             QDomDocument doc;
             doc.setContent(clip->getProperty("xmldata"));
             dia_ui->setXml(doc);
@@ -1383,26 +1387,27 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
             extension = KUrl(path).fileName();
             path = KUrl(path).directory();
         } else if (elem.attribute("type").toInt() == TEXT && QFile::exists(path) == false) {
-            kDebug() << "// TITLE: " << elem.attribute("titlename") << " Preview file: " << elem.attribute("resource") << " DOES NOT EXIST";
-            QString titlename = elem.attribute("titlename");
+            kDebug() << "// TITLE: " << elem.attribute("name") << " Preview file: " << elem.attribute("resource") << " DOES NOT EXIST";
+            QString titlename = elem.attribute("name");
             QString titleresource;
             if (titlename.isEmpty()) {
                 QStringList titleInfo = TitleWidget::getFreeTitleInfo(projectFolder());
                 titlename = titleInfo.at(0);
                 titleresource = titleInfo.at(1);
-                elem.setAttribute("titlename", titlename);
+                elem.setAttribute("name", titlename);
                 kDebug() << "// New title set to: " << titlename;
             } else {
-                titleresource = TitleWidget::getTitleResourceFromName(projectFolder(), titlename);
+                titleresource = TitleWidget::getFreeTitleInfo(projectFolder()).at(1);
+                //titleresource = TitleWidget::getTitleResourceFromName(projectFolder(), titlename);
             }
-            QString titlepath = projectFolder().path() + "/titles/";
-            TitleWidget *dia_ui = new TitleWidget(KUrl(), titlepath, m_render, kapp->activeWindow());
+            TitleWidget *dia_ui = new TitleWidget(KUrl(), KUrl(titleresource).directory(), m_render, kapp->activeWindow());
             QDomDocument doc;
             doc.setContent(elem.attribute("xmldata"));
             dia_ui->setXml(doc);
             QImage pix = dia_ui->renderedPixmap();
             pix.save(titleresource);
             elem.setAttribute("resource", titleresource);
+            setNewClipResource(clipId, titleresource);
             delete dia_ui;
         }
         if (path.isEmpty() == false && QFile::exists(path) == false && elem.attribute("type").toInt() != TEXT) {

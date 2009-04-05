@@ -148,7 +148,7 @@ private:
     bool convertDocument(double version);
     QDomDocument createEmptyDocument(const int videotracks, const int audiotracks);
     QString colorToString(const QColor& c);
-    void checkProjectClips();
+
     void setNewClipResource(const QString &id, const QString &path);
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
     void moveProjectData(KUrl url);
@@ -157,6 +157,7 @@ public slots:
     void slotCreateTextClip(QString group, const QString &groupId);
     /** Set to true if document needs saving, false otherwise */
     void setModified(bool mod = true);
+    void checkProjectClips();
 
 private slots:
     void slotAutoSave();

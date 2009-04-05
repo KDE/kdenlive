@@ -868,6 +868,7 @@ void Render::setSceneList(QString playlist, int position)
     }
     m_isBlocked = false;
     blockSignals(false);
+    emit refreshDocumentProducers();
     //kDebug()<<"// SETSCN LST, POS: "<<position;
     //if (position != 0) emit rendererPosition(position);
 }

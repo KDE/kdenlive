@@ -336,7 +336,7 @@ void ClipManager::slotAddTextClipFile(const QString titleName, const QString ima
     QDomElement prod = doc.createElement("producer");
     doc.appendChild(prod);
     prod.setAttribute("resource", imagePath);
-    prod.setAttribute("titlename", titleName);
+    prod.setAttribute("name", titleName);
     prod.setAttribute("xmldata", xml);
     uint id = m_clipIdCounter++;
     prod.setAttribute("id", QString::number(id));

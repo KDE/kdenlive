@@ -262,6 +262,7 @@ signals:   // Signals
     void rendererPosition(int);
     void rendererStopped(int);
     void removeInvalidClip(const QString &);
+    void refreshDocumentProducers();
 
 public slots:  // Public slots
     /** Start Consumer */

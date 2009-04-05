@@ -134,7 +134,8 @@ void TrackView::parseDocument(QDomDocument doc)
 {
     //int cursorPos = 0;
     m_documentErrors.clear();
-    // kDebug() << "//// DOCUMENT: " << doc.toString();
+
+    //kDebug() << "//// DOCUMENT: " << doc.toString();
     /*QDomNode props = doc.elementsByTagName("properties").item(0);
     if (!props.isNull()) {
         cursorPos = props.toElement().attribute("timeline_position").toInt();
@@ -154,9 +155,25 @@ void TrackView::parseDocument(QDomDocument doc)
     m_invalidProducers.clear();
     QDomNodeList producers = doc.elementsByTagName("producer");
     for (int i = 0; i < producers.count(); i++) {
-        // CHeck for invalid producers
+        // Check for invalid producers
         QDomNode n = producers.item(i);
         e = n.toElement();
+
+        /*
+        // Check for invalid markup
+        QDomNodeList params = e.elementsByTagName("property");
+        for (int j = 0; j < params.count(); j++) {
+            QDomElement p = params.item(j).toElement();
+            if (p.attribute("name") == "markup") {
+         QString val = p.text().toUtf8().data();
+         kDebug()<<"//FOUND MARKUP, VAL: "<<val;
+         //e.setAttribute("value", value);
+         n.removeChild(params.item(j));
+         break;
+            }
+        }
+        */
+
         if (e.hasAttribute("in") == false && e.hasAttribute("out") == false) continue;
         int in = e.attribute("in").toInt();
         int out = e.attribute("out").toInt();
