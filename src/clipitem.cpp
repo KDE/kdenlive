@@ -757,7 +757,7 @@ void ClipItem::paint(QPainter *painter,
     // draw frame around clip
     QColor frameColor(Qt::black);
     int alphaBase = 60;
-    if (isSelected() || parentItem() && parentItem()->isSelected()) {
+    if (isSelected() || (parentItem() && parentItem()->isSelected())) {
         frameColor = QColor(Qt::red);
         alphaBase = 90;
     }

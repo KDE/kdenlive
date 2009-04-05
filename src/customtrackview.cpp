@@ -728,7 +728,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     if (m_dragItem->type() == AVWIDGET && !m_dragItem->isItemLocked()) emit clipItemSelected((ClipItem*) m_dragItem);
     else emit clipItemSelected(NULL);
 
-    if (event->modifiers() != Qt::ControlModifier && (m_dragItem->isSelected() || dragGroup && dragGroup->isSelected())) {
+    if (event->modifiers() != Qt::ControlModifier && (m_dragItem->isSelected() || (dragGroup && dragGroup->isSelected()))) {
         // If clicked item is selected, allow move
         if (dragGroup) dragGroup->setSelected(true);
         //event->accept();
