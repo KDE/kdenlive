@@ -2,26 +2,24 @@
 # Copyright (C) 2009 THE KDENLIVE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the KDENLIVE package.
 # , fuzzy
-#
-#
 # <>, 2009.
-#  <>, 2009.
+# <>, 2009.
+# 
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-31 09:59+0200\n"
-"PO-Revision-Date: 2009-04-02 14:30+0200\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2009-04-04 12:38+0200\n"
+"PO-Revision-Date: 2009-04-06 11:15+0200\n"
+"Last-Translator:  <>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-2\n"
 "Content-Transfer-Encoding: 8bitX-Generator: Lokalize 0.3\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 0.3\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 
-#: src/clipproperties.cpp:463 src/slideshowclip.cpp:115
+#: src/clipproperties.cpp:474 src/slideshowclip.cpp:119
 #, kde-format
 msgid "%1 images found"
 msgstr "%1 slike postoje"
@@ -53,7 +51,7 @@ msgstr ""
 msgid "1"
 msgstr ""
 
-#: src/geometryval.cpp:72
+#: src/geometryval.cpp:73
 msgid "100%"
 msgstr ""
 
@@ -65,7 +63,7 @@ msgstr ""
 msgid "2"
 msgstr ""
 
-#: src/geometryval.cpp:73
+#: src/geometryval.cpp:74
 msgid "200%"
 msgstr ""
 
@@ -97,7 +95,7 @@ msgstr ""
 msgid "48000"
 msgstr ""
 
-#: src/geometryval.cpp:71
+#: src/geometryval.cpp:72
 msgid "50%"
 msgstr ""
 
@@ -121,15 +119,15 @@ msgstr ""
 msgid ":::"
 msgstr ""
 
-#: src/kdenlivesettingsdialog.cpp:161
+#: src/kdenlivesettingsdialog.cpp:162
 msgid ""
 "<strong><em>Recordmydesktop</em> utility not found, please install it for "
 "screen grabs</strong>"
 msgstr ""
-"<strong><em>Recordmydesktop</em>ĂËalat nije pronaĂÂen, treba ga instalirati "
-"za snimku ekrana</strong>"
+"<strong><em>Recordmydesktop</em>ĂËalat nije pronaĂÂen, treba ga "
+"instalirati za snimku ekrana</strong>"
 
-#: src/kdenlivesettingsdialog.cpp:155
+#: src/kdenlivesettingsdialog.cpp:156
 msgid ""
 "<strong><em>dvgrab</em> utility not found, please install it for firewire "
 "capture</strong>"
@@ -137,12 +135,12 @@ msgstr ""
 "<strong><em>dvgrab</em>ĂËalat nije pronaĂÂen,treba ga instalirati "
 "zaĂËfirewireĂËpodrÄšÄku</strong>"
 
-#: src/dvdwizardvob.cpp:36 src/dvdwizardvob.cpp:37
+#: src/dvdwizardvob.cpp:37 src/dvdwizardvob.cpp:38
 #, kde-format
 msgid "<strong>Program %1 is required for the DVD wizard."
 msgstr "<strong>ProgramĂË%1ĂËje potreban DVD ĂÂarobnjaku."
 
-#: src/renderwidget.cpp:1126
+#: src/renderwidget.cpp:1151
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>StvaranjeĂË%1ĂËje puknulo</strong><brĂË/>"
@@ -152,24 +150,24 @@ msgstr "<strong>StvaranjeĂË%1ĂËje puknulo</strong><brĂË/>"
 msgid "A"
 msgstr ""
 
-#: src/customtrackview.cpp:3365
+#: src/customtrackview.cpp:3465
 #, kde-format
 msgid "A guide already exists at position %1"
 msgstr "VodiÄ veÄ postoji na poziciji %1"
 
-#: src/profilesdialog.cpp:129
+#: src/profilesdialog.cpp:138
 msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
 "choose another description for your custom profile."
 msgstr ""
-"Profil sa ovim imenom veÄ postoji u MLT-ovim postojeÄim profilima, izaberite "
-"drugi opis za svoj profil."
+"Profil sa ovim imenom veÄ postoji u MLT-ovim postojeÄim profilima, "
+"izaberite drugi opis za svoj profil."
 
-#: src/kdenlivesettingsdialog.cpp:195 rc.cpp:1074 rc.cpp:2289
+#: src/kdenlivesettingsdialog.cpp:199 rc.cpp:1074 rc.cpp:2289
 msgid "ALSA"
 msgstr ""
 
-#: src/kdenlivesettingsdialog.cpp:199
+#: src/kdenlivesettingsdialog.cpp:203
 msgid "ARTS daemon"
 msgstr ""
 
@@ -181,8 +179,8 @@ msgstr "Prekini rad"
 msgid "Activate crash recovery (auto save)"
 msgstr "Aktiviraj oporavak od pada aplikacijeĂË(autoĂËsnimanje)"
 
-#: src/customtrackview.cpp:1162 src/customtrackview.cpp:1197
-#: src/addeffectcommand.cpp:31
+#: src/customtrackview.cpp:1187 src/customtrackview.cpp:1223
+#: src/addeffectcommand.cpp:32
 #, kde-format
 msgid "Add %1"
 msgstr "Dodaj %1"
@@ -191,11 +189,11 @@ msgstr "Dodaj %1"
 msgid "Add Audio Effect"
 msgstr "Dodaj audio efekt"
 
-#: src/mainwindow.cpp:1037
+#: src/mainwindow.cpp:1061
 msgid "Add Clip"
 msgstr "Dodaj isjeÄak"
 
-#: src/mainwindow.cpp:1041
+#: src/mainwindow.cpp:1065
 msgid "Add Color Clip"
 msgstr "Dodaj isjeÄak boje"
 
@@ -203,35 +201,35 @@ msgstr "Dodaj isjeÄak boje"
 msgid "Add Custom Effect"
 msgstr "Dodaj prilagoÄeni efekt"
 
-#: src/customruler.cpp:65 src/mainwindow.cpp:969 src/customtrackview.cpp:3379
+#: src/customruler.cpp:68 src/mainwindow.cpp:993 src/customtrackview.cpp:3480
 msgid "Add Guide"
 msgstr "Dodaj vodiÄ"
 
-#: src/titlewidget.cpp:119
+#: src/titlewidget.cpp:120
 msgid "Add Image"
 msgstr "Dodaj sliku"
 
-#: src/clipproperties.cpp:271 src/mainwindow.cpp:921 src/mainwindow.cpp:1885
+#: src/clipproperties.cpp:276 src/mainwindow.cpp:945 src/mainwindow.cpp:1947
 msgid "Add Marker"
 msgstr "Dodaj oznaku"
 
-#: src/titlewidget.cpp:111
+#: src/titlewidget.cpp:112
 msgid "Add Rectangle"
 msgstr "Dodaj pravokutnik"
 
-#: src/mainwindow.cpp:1045 src/slideshowclip.cpp:31
+#: src/mainwindow.cpp:1069 src/slideshowclip.cpp:32
 msgid "Add Slideshow Clip"
 msgstr "Dodaj isjeÄak slajdova"
 
-#: src/titlewidget.cpp:115
+#: src/titlewidget.cpp:116
 msgid "Add Text"
 msgstr "Dodaj tekst"
 
-#: src/mainwindow.cpp:1049
+#: src/mainwindow.cpp:1073
 msgid "Add Title Clip"
 msgstr "Dodaj isjeÄak titla"
 
-#: src/mainwindow.cpp:304
+#: src/mainwindow.cpp:306
 msgid "Add Transition"
 msgstr "Dodaj prijelaz"
 
@@ -239,36 +237,36 @@ msgstr "Dodaj prijelaz"
 msgid "Add Video Effect"
 msgstr "Dodaj video efekt"
 
-#: src/clipitem.cpp:778 src/clipitem.cpp:785
+#: src/clipitem.cpp:832 src/clipitem.cpp:839
 msgid "Add audio fade"
 msgstr "Dodaj audio priguĹĄenje"
 
-#: src/addclipcommand.cpp:27
+#: src/addclipcommand.cpp:28
 msgid "Add clip"
 msgstr "Dodaj isjeÄak"
 
-#: src/clipmanager.cpp:211
+#: src/clipmanager.cpp:230
 msgid "Add clips"
 msgstr "Dodaj isjeÄke"
 
-#: src/addfoldercommand.cpp:27
+#: src/addfoldercommand.cpp:28
 msgid "Add folder"
 msgstr "Dodaj mapu"
 
-#: src/editguidecommand.cpp:25
+#: src/editguidecommand.cpp:26
 msgid "Add guide"
 msgstr "Dodaj vodiÄ"
 
-#: src/complexparameter.cpp:45 src/geometryval.cpp:59
-#: src/editkeyframecommand.cpp:29
+#: src/complexparameter.cpp:46 src/geometryval.cpp:60
+#: src/editkeyframecommand.cpp:30
 msgid "Add keyframe"
 msgstr "dodaj kljuÄnu toÄku"
 
-#: src/clipproperties.cpp:223 src/addmarkercommand.cpp:26
+#: src/clipproperties.cpp:224 src/addmarkercommand.cpp:27
 msgid "Add marker"
 msgstr "Dodaj oznaku"
 
-#: src/effectstackview.cpp:45
+#: src/effectstackview.cpp:46
 msgid "Add new effect"
 msgstr "Dodaj novi efekt"
 
@@ -280,23 +278,23 @@ msgstr "Dodaj vrijeme snimke imenu uhvaÄene datoteke"
 msgid "Add space"
 msgstr "Dodaj prostor"
 
-#: src/addtimelineclipcommand.cpp:27
+#: src/addtimelineclipcommand.cpp:28
 msgid "Add timeline clip"
 msgstr "Dodaj vremenski isjeÄak"
 
-#: src/addtrackcommand.cpp:27
+#: src/addtrackcommand.cpp:28
 msgid "Add track"
 msgstr "Dodaj traku"
 
-#: src/clipitem.cpp:792 src/clipitem.cpp:795
+#: src/clipitem.cpp:846 src/clipitem.cpp:849
 msgid "Add transition"
 msgstr "Dodaj prijelaz"
 
-#: src/addtransitioncommand.cpp:26
+#: src/addtransitioncommand.cpp:27
 msgid "Add transition to clip"
 msgstr "Dodaj prijelaz isjeÄku"
 
-#: src/wizard.cpp:90
+#: src/wizard.cpp:91
 msgid "Additional Settings"
 msgstr "Dodatne postavke"
 
@@ -304,7 +302,7 @@ msgstr "Dodatne postavke"
 msgid "Adjust audio volume with keyframes"
 msgstr "Podesi jaÄinu zvuka prema kljuÄnim toÄkama"
 
-#: src/changespeedcommand.cpp:27
+#: src/changespeedcommand.cpp:28
 msgid "Adjust clip length"
 msgstr "Podesi duljinu isjeÄka"
 
@@ -324,15 +322,15 @@ msgstr "Podesi temperaturnu ravnoteĹžu bijele ili neke boje"
 msgid "Advanced"
 msgstr "Napredno"
 
-#: src/titlewidget.cpp:102
+#: src/titlewidget.cpp:103
 msgid "Align item horizontally"
 msgstr "Poravnaj horizontalno"
 
-#: src/titlewidget.cpp:104
+#: src/titlewidget.cpp:105
 msgid "Align item vertically"
 msgstr "Poravnaj vertikalno"
 
-#: src/geometryval.cpp:76
+#: src/geometryval.cpp:77
 msgid "Align..."
 msgstr "Poravnaj..."
 
@@ -340,15 +338,23 @@ msgstr "Poravnaj..."
 msgid "All"
 msgstr "Sve"
 
-#: src/spacerdialog.cpp:35
+#: src/projectlist.cpp:583
+msgid "All Files"
+msgstr "Sve datoteke"
+
+#: src/projectlist.cpp:582
+msgid "All Supported Files"
+msgstr ""
+
+#: src/spacerdialog.cpp:36
 msgid "All tracks"
 msgstr "Sve trake"
 
-#: src/complexparameter.cpp:37
+#: src/complexparameter.cpp:38
 msgid "Allow horizontal moves"
 msgstr "OmoguÄi horizontalni pomak"
 
-#: src/complexparameter.cpp:39
+#: src/complexparameter.cpp:40
 msgid "Allow vertical moves"
 msgstr "OmoguÄi vertikalni pomak"
 
@@ -356,7 +362,7 @@ msgstr "OmoguÄi vertikalni pomak"
 msgid "Amplitude"
 msgstr "Amplituda"
 
-#: src/main.cpp:40
+#: src/main.cpp:41
 msgid "An open source video editor."
 msgstr "Video editor otvorenog koda."
 
@@ -380,7 +386,7 @@ msgstr "Animiraj smicanje po X"
 msgid "Animate Shear Y"
 msgstr "AnimirajĂËsmicanjeĂËpo Y"
 
-#: src/kdenlivesettingsdialog.cpp:219
+#: src/kdenlivesettingsdialog.cpp:223
 msgid "Ascii art library"
 msgstr "Ascii art biblioteka"
 
@@ -397,7 +403,7 @@ msgstr "Audio"
 msgid "Audio Codecs"
 msgstr "Audio kodek"
 
-#: src/mainwindow.cpp:941
+#: src/mainwindow.cpp:965
 msgid "Audio Only"
 msgstr "Samo zvuk"
 
@@ -405,7 +411,7 @@ msgstr "Samo zvuk"
 msgid "Audio channels"
 msgstr "Audio kanali"
 
-#: src/projectitem.cpp:167
+#: src/projectitem.cpp:188
 msgid "Audio clip"
 msgstr "Audio isjeÄak"
 
@@ -429,7 +435,7 @@ msgstr "Audio pogonitelj:"
 msgid "Audio editing"
 msgstr "Audio editiranje"
 
-#: src/clipitem.cpp:779 src/clipitem.cpp:786
+#: src/clipitem.cpp:833 src/clipitem.cpp:840
 #, c-format, kde-format
 msgid "Audio fade duration: %1s"
 msgstr "Duljina audio priguĹĄenja: %1s"
@@ -442,7 +448,7 @@ msgstr "Audio frekvencija"
 msgid "Audio index"
 msgstr "Audio indeks"
 
-#: src/renderwidget.cpp:856 src/customtrackview.cpp:4198
+#: src/renderwidget.cpp:878 src/customtrackview.cpp:4339
 msgid "Audio only"
 msgstr "Samo zvuk"
 
@@ -454,11 +460,11 @@ msgstr "Audio traka"
 msgid "Audio tracks"
 msgstr "Audio trake"
 
-#: src/effectslist.cpp:118 src/effectslist.cpp:128
+#: src/effectslist.cpp:126 src/effectslist.cpp:137
 msgid "Author:"
 msgstr "Autor:"
 
-#: src/transitionsettings.cpp:51 rc.cpp:492 rc.cpp:1707
+#: src/transitionsettings.cpp:53 rc.cpp:492 rc.cpp:1707
 msgid "Auto"
 msgstr "Auto"
 
@@ -470,15 +476,15 @@ msgstr "auto maska"
 msgid "Auto add"
 msgstr "Auto. dodavanje"
 
-#: src/mainwindow.cpp:1324
+#: src/mainwindow.cpp:1361
 msgid "Auto-saved files exist. Do you want to recover them now?"
 msgstr "Postoje automatski snimljene datoteke. Ĺ˝eliĹĄ li ih popraviti?"
 
-#: src/kdenlivesettingsdialog.cpp:193 src/kdenlivesettingsdialog.cpp:210
+#: src/kdenlivesettingsdialog.cpp:197 src/kdenlivesettingsdialog.cpp:214
 msgid "Automatic"
 msgstr "Automatski"
 
-#: src/mainwindow.cpp:904
+#: src/mainwindow.cpp:928
 msgid "Automatic Transition"
 msgstr "Automatski prijelaz"
 
@@ -494,7 +500,7 @@ msgstr "Auto-pomak za vrijeme izvoÄenja"
 msgid "Available Codecs (avformat)"
 msgstr "MoguÄi kodeki (avformat)"
 
-#: src/wizard.cpp:143
+#: src/wizard.cpp:145
 msgid "Avformat module (FFmpeg)"
 msgstr "AvformatĂËmodulĂË(FFmpeg)"
 
@@ -506,7 +512,7 @@ msgstr "Pozadina"
 msgid "BasicOperations"
 msgstr "Osnovne operacije"
 
-#: src/transitionsettings.cpp:55
+#: src/transitionsettings.cpp:57
 msgid "Black"
 msgstr "Crno"
 
@@ -522,7 +528,7 @@ msgstr "Faktor zamuÄenja"
 msgid "Blur image with keyframes"
 msgstr "Zamuti sliku prema kljuÄnim toÄkama."
 
-#: src/trackview.cpp:614
+#: src/trackview.cpp:632
 #, kde-format
 msgid "Boken clip producer %1"
 msgstr "Razbijen producent isjeÄka %1"
@@ -531,7 +537,7 @@ msgstr "Razbijen producent isjeÄka %1"
 msgid "Border color"
 msgstr "Boja okvira"
 
-#: src/geometryval.cpp:84 rc.cpp:70
+#: src/geometryval.cpp:85 rc.cpp:70
 msgid "Bottom"
 msgstr "Dno"
 
@@ -579,103 +585,103 @@ msgstr "Boje gumbi"
 msgid "C"
 msgstr ""
 
-#: src/customtrackview.cpp:772 src/customtrackview.cpp:801
-#: src/customtrackview.cpp:1423 src/customtrackview.cpp:1448
-#: src/customtrackview.cpp:1474 src/customtrackview.cpp:1496
-#: src/customtrackview.cpp:1581 src/customtrackview.cpp:2755
+#: src/customtrackview.cpp:785 src/customtrackview.cpp:814
+#: src/customtrackview.cpp:1458 src/customtrackview.cpp:1483
+#: src/customtrackview.cpp:1509 src/customtrackview.cpp:1533
+#: src/customtrackview.cpp:1624 src/customtrackview.cpp:2828
 msgid "Cannot add transition"
 msgstr "Ne mogu dodati prijelaz"
 
-#: src/customtrackview.cpp:4180 src/customtrackview.cpp:4204
+#: src/customtrackview.cpp:4320 src/customtrackview.cpp:4345
 msgid "Cannot change grouped clips"
 msgstr "Ne mogu promijeniti grupirane isjeÄke"
 
-#: src/customtrackview.cpp:673 src/customtrackview.cpp:2651
+#: src/customtrackview.cpp:686 src/customtrackview.cpp:2721
 msgid "Cannot cut a clip in a group"
 msgstr "Ne mogu isjeÄi isjeÄak u grupi"
 
-#: src/customtrackview.cpp:668
+#: src/customtrackview.cpp:681
 msgid "Cannot cut a transition"
 msgstr "Ne mogu isjeÄi prijelaz"
 
-#: src/customtrackview.cpp:2630
+#: src/customtrackview.cpp:2699
 msgid "Cannot find clip for speed change"
 msgstr "Ne mogu naÄi isjeÄak za promjenu brzine"
 
-#: src/customtrackview.cpp:1138
+#: src/customtrackview.cpp:1161
 msgid "Cannot find clip to add effect"
 msgstr "Ne mogu naÄi isjeÄak za dodati efekt"
 
-#: src/mainwindow.cpp:1880
+#: src/mainwindow.cpp:1942
 msgid "Cannot find clip to add marker"
 msgstr "Ne mogu naÄi isjeÄak za dodati marker"
 
-#: src/customtrackview.cpp:1318
+#: src/customtrackview.cpp:1351
 msgid "Cannot find clip to cut"
 msgstr "Ne mogu naÄi isjeÄak za izrezati"
 
-#: src/mainwindow.cpp:1908 src/mainwindow.cpp:1936 src/mainwindow.cpp:1959
+#: src/mainwindow.cpp:1971 src/mainwindow.cpp:2000 src/mainwindow.cpp:2024
 msgid "Cannot find clip to remove marker"
 msgstr "Ne mogu naÄi isjeÄak za maknuti oznaku"
 
-#: src/customtrackview.cpp:1354
+#: src/customtrackview.cpp:1387
 msgid "Cannot find clip to uncut"
 msgstr "Ne mogu naÄi isjeÄak za vratiti izrezano"
 
-#: src/customtrackview.cpp:1001
+#: src/customtrackview.cpp:1018
 msgid "Cannot find clip with keyframe"
 msgstr "Ne mogu naÄi isjeÄak sa kljuÄnim toÄkama"
 
-#: src/mainwindow.cpp:1431 src/mainwindow.cpp:1541
+#: src/mainwindow.cpp:1471 src/mainwindow.cpp:1585
 msgid "Cannot find the inigo program required for rendering (part of Mlt)"
 msgstr "Ne mogu naÄi inigo program potreban za stvaranje (dio MLT-a)"
 
-#: src/mainwindow.cpp:1416
+#: src/mainwindow.cpp:1456
 msgid "Cannot find your Mlt profiles, please give the path"
 msgstr "Ne mogu pronaÄi tvoje MLT profile, unesite putanju"
 
-#: src/customtrackview.cpp:1923
+#: src/customtrackview.cpp:1980
 #, kde-format
 msgid "Cannot move clip at position %1, track %2"
 msgstr "Ne mogu pomaknuti isjeÄak na poziciji %1, traka %2"
 
-#: src/customtrackview.cpp:2883 src/customtrackview.cpp:3066
+#: src/customtrackview.cpp:2966 src/customtrackview.cpp:3152
 #, kde-format
 msgid "Cannot move clip at time: %1 on track %2"
 msgstr "NeĂËmoguĂËpomaknutiĂËisjeĂÂak na vremenu %1 i traci %2"
 
-#: src/customtrackview.cpp:2190 src/customtrackview.cpp:2919
+#: src/customtrackview.cpp:2255 src/customtrackview.cpp:3002
 #, kde-format
 msgid "Cannot move clip to position %1"
 msgstr "NeĂËmoguĂËpomaknutiĂËisjeĂÂak na poziciju %1"
 
-#: src/customtrackview.cpp:2198
+#: src/customtrackview.cpp:2263
 msgid "Cannot move transition"
 msgstr "NeĂËmoguĂËpomaknutiĂËprijelaz"
 
-#: src/customtrackview.cpp:1933
+#: src/customtrackview.cpp:1990
 #, kde-format
 msgid "Cannot move transition at position %1, track %2"
 msgstr "NeĂËmoguĂËpomaknutiĂËprijelaz na poziciji %1, traka %2"
 
-#: src/customtrackview.cpp:3029
+#: src/customtrackview.cpp:3114
 #, kde-format
 msgid "Cannot move transition at time: %1 on track %2"
 msgstr "NeĂËmoguĂËpomaknutiĂËprijelaz na vremenu %1 i traci %2"
 
-#: src/customtrackview.cpp:3655
+#: src/customtrackview.cpp:3773
 msgid "Cannot paste clip to selected place"
 msgstr "Ne mogu umetnuti isjeÄak na oznaÄeno mjesto"
 
-#: src/customtrackview.cpp:3626 src/customtrackview.cpp:3638
+#: src/customtrackview.cpp:3744 src/customtrackview.cpp:3756
 msgid "Cannot paste selected clips"
 msgstr "Ne mogu umetnuti oznaÄene isjeÄke"
 
-#: src/customtrackview.cpp:3666
+#: src/customtrackview.cpp:3784
 msgid "Cannot paste transition to selected place"
 msgstr "Ne mogu umetnuti prijelaz na oznaÄeno mjesto"
 
-#: src/mainwindow.cpp:1538
+#: src/mainwindow.cpp:1582
 msgid ""
 "Cannot play video after rendering because the default video player "
 "application is not set.\n"
@@ -684,7 +690,7 @@ msgstr ""
 "Ne mogu prikazati video nakon stvaranja jer video player nije podeĹĄen \n"
 "Podesite ga u Kdenlive postavkama."
 
-#: src/recmonitor.cpp:200
+#: src/recmonitor.cpp:208
 #, kde-format
 msgid ""
 "Cannot read from device %1\n"
@@ -693,23 +699,23 @@ msgstr ""
 "Ne mogu Äitati sa ureÄaja %1\n"
 "Provjerite pogonitelje i pristupna prava."
 
-#: src/customtrackview.cpp:2340 src/customtrackview.cpp:2402
+#: src/customtrackview.cpp:2405 src/customtrackview.cpp:2467
 msgid "Cannot resize transition"
 msgstr "Ne mogu rastegnuti prijelaz"
 
-#: src/customtrackview.cpp:4088
+#: src/customtrackview.cpp:4226
 msgid "Cannot split audio of grouped clips"
 msgstr "Ne mogu razdvojiti zvuk grupiranih isjeÄaka"
 
-#: src/kdenlivedoc.cpp:999 src/kdenlivedoc.cpp:1006 src/mainwindow.cpp:1574
-#: src/mainwindow.cpp:1584 src/titlewidget.cpp:672 src/profilesdialog.cpp:153
-#: src/profilesdialog.cpp:159 src/renderwidget.cpp:322
-#: src/renderwidget.cpp:420 src/renderwidget.cpp:426 src/renderwidget.cpp:485
+#: src/kdenlivedoc.cpp:1013 src/kdenlivedoc.cpp:1020 src/mainwindow.cpp:1618
+#: src/mainwindow.cpp:1628 src/titlewidget.cpp:705 src/profilesdialog.cpp:163
+#: src/profilesdialog.cpp:169 src/renderwidget.cpp:333
+#: src/renderwidget.cpp:432 src/renderwidget.cpp:438 src/renderwidget.cpp:498
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Ne mogu zapisati u datoteku %1"
 
-#: src/kdenlivesettingsdialog.cpp:72
+#: src/kdenlivesettingsdialog.cpp:73
 msgid "Capture"
 msgstr "Hvatanje"
 
@@ -717,7 +723,7 @@ msgstr "Hvatanje"
 msgid "Capture audio"
 msgstr "Audio hvatanje"
 
-#: src/recmonitor.cpp:544
+#: src/recmonitor.cpp:559
 msgid "Capture crashed, please check your parameters"
 msgstr "Hvatanje je puklo, provjerite parametre"
 
@@ -737,7 +743,7 @@ msgstr "Parametri hvatanja"
 msgid "Captured files"
 msgstr "UhvaÄene datoteke"
 
-#: src/geometryval.cpp:78
+#: src/geometryval.cpp:79
 msgid "Center"
 msgstr "Centar"
 
@@ -749,19 +755,19 @@ msgstr "Frekventni centar"
 msgid "Change"
 msgstr "Promijeni"
 
-#: src/mainwindow.cpp:895
+#: src/mainwindow.cpp:919
 msgid "Change Clip Speed"
 msgstr "Promijeni brzinu isjeÄka"
 
-#: src/mainwindow.cpp:965
+#: src/mainwindow.cpp:989
 msgid "Change Track"
 msgstr "Promijeni traku"
 
-#: src/customtrackview.cpp:3923 src/headertrack.cpp:73
+#: src/customtrackview.cpp:4052 src/headertrack.cpp:74
 msgid "Change Track Type"
 msgstr "Promijeni tip trake"
 
-#: src/changecliptypecommand.cpp:27
+#: src/changecliptypecommand.cpp:28
 msgid "Change clip type"
 msgstr "Promijeni tip isjeÄka"
 
@@ -773,11 +779,11 @@ msgstr "Promijeni vrijednost game boje"
 msgid "Change image brightness with keyframes"
 msgstr "Promijeni svjetloÄu slike prema kljuÄnim toÄkama"
 
-#: src/customtrackview.cpp:3919
+#: src/customtrackview.cpp:4048
 msgid "Change track"
 msgstr "Promijeni traku"
 
-#: src/changetrackcommand.cpp:27
+#: src/changetrackcommand.cpp:28
 msgid "Change track type"
 msgstr "Promijeni tip trake"
 
@@ -797,11 +803,11 @@ msgstr "Efekt ugljena"
 msgid "CheckBox"
 msgstr "KvadratiÄ"
 
-#: src/wizard.cpp:53
+#: src/wizard.cpp:54
 msgid "Checking MLT engine"
 msgstr "Provjera MLT engine-a"
 
-#: src/wizard.cpp:104
+#: src/wizard.cpp:105
 msgid "Checking system"
 msgstr "Provjera sistema"
 
@@ -817,7 +823,7 @@ msgstr ""
 msgid "Chrominance V"
 msgstr ""
 
-#: src/mainwindow.cpp:201
+#: src/mainwindow.cpp:203
 msgid "Clean"
 msgstr "Äisto"
 
@@ -825,17 +831,18 @@ msgstr "Äisto"
 msgid "Clip"
 msgstr "IsjeÄak"
 
-#: src/kdenlivedoc.cpp:1317 src/kdenlivedoc.cpp:1325
+#: src/kdenlivedoc.cpp:1363 src/kdenlivedoc.cpp:1371
 #, kde-format
 msgid "Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
-msgstr "IsjeĂÂakĂË<b>%1</b><br>nevalja ili nedostaje,ĂËÄšÄto napraviti?"
+msgstr ""
+"IsjeĂÂakĂË<b>%1</b><br>nevalja ili nedostaje,ĂËÄšÄto napraviti?"
 
-#: src/kdenlivedoc.cpp:1314
+#: src/kdenlivedoc.cpp:1360
 #, kde-format
 msgid "Clip <b>%1</b><br>is invalid, what do you want to do?"
 msgstr "IsjeĂÂak <b>%1</b><br>nevalja, ÄšÄtoĂËnapraviti?"
 
-#: src/projectlist.cpp:569
+#: src/projectlist.cpp:614
 #, kde-format
 msgid "Clip <b>%1</b><br>is invalid, will be removed from project."
 msgstr "IsjeÄak <b>%1</b><br>nevalja, bit Äe maknut iz projekta."
@@ -844,20 +851,20 @@ msgstr "IsjeÄak <b>%1</b><br>nevalja, bit Äe maknut iz projekta."
 msgid "Clip Color"
 msgstr "Boja isjeÄka"
 
-#: src/mainwindow.cpp:175
+#: src/mainwindow.cpp:177
 msgid "Clip Monitor"
 msgstr "PrikazivaÄ isjeÄka"
 
-#: src/mainwindow.cpp:1057 rc.cpp:1410 rc.cpp:2625
+#: src/mainwindow.cpp:1081 rc.cpp:1410 rc.cpp:2625
 msgid "Clip Properties"
 msgstr "Svojstva isjeÄka"
 
-#: src/clipitem.cpp:789
+#: src/clipitem.cpp:843
 #, c-format, kde-format
 msgid "Clip duration: %1s"
 msgstr "Duljina isjeÄka: %1s"
 
-#: src/customtrackview.cpp:3310
+#: src/customtrackview.cpp:3406
 msgid "Clip has no markers"
 msgstr "IsjeÄak nema oznake"
 
@@ -865,7 +872,7 @@ msgstr "IsjeÄak nema oznake"
 msgid "Close"
 msgstr "Zatvori"
 
-#: src/mainwindow.cpp:132
+#: src/mainwindow.cpp:134
 msgid "Close the current tab"
 msgstr "Zatvori trenutni tab"
 
@@ -877,7 +884,7 @@ msgstr "Do-efikasan"
 msgid "Color"
 msgstr "Boja"
 
-#: src/projectlist.cpp:583
+#: src/projectlist.cpp:629
 msgid "Color Clip"
 msgstr "IsjeÄak boje"
 
@@ -885,7 +892,7 @@ msgstr "IsjeÄak boje"
 msgid "Color Distance"
 msgstr "Udaljenost boje"
 
-#: src/projectitem.cpp:176
+#: src/projectitem.cpp:197
 msgid "Color clip"
 msgstr "IsjeÄak boje"
 
@@ -901,11 +908,11 @@ msgstr "KljuÄ boje"
 msgid "Comment"
 msgstr "Komentar"
 
-#: src/recmonitor.cpp:78
+#: src/recmonitor.cpp:79
 msgid "Configure"
 msgstr "PodeĹĄavanje"
 
-#: src/recmonitor.cpp:57 src/recmonitor.cpp:532
+#: src/recmonitor.cpp:58 src/recmonitor.cpp:547
 msgid "Connect"
 msgstr "Spoji"
 
@@ -913,11 +920,11 @@ msgstr "Spoji"
 msgid "Copy the left channel to the right"
 msgstr "Kopiraj lijevi kanal u desni"
 
-#: src/main.cpp:42
+#: src/main.cpp:43
 msgid "Copyright (c) 2008 Development team"
 msgstr "CopyrightĂË(c)ĂË2008 Razvojni tim"
 
-#: src/renderer.cpp:991
+#: src/renderer.cpp:1022
 msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install or your driver settings, "
@@ -935,15 +942,15 @@ msgstr "Pucketanje"
 msgid "Crash recovery (automatic backup)"
 msgstr "Popravak ĹĄtete (automatski backup)"
 
-#: src/dvdwizard.cpp:48
+#: src/dvdwizard.cpp:49
 msgid "Create DVD Menu"
 msgstr "Stvaranje DVD izbornika"
 
-#: src/mainwindow.cpp:1053
+#: src/mainwindow.cpp:1077
 msgid "Create Folder"
 msgstr "Stvori mapu"
 
-#: src/renderwidget.cpp:556
+#: src/renderwidget.cpp:572
 msgid "Create Render Script"
 msgstr "Stvori skriptu za stvaranje"
 
@@ -951,11 +958,11 @@ msgstr "Stvori skriptu za stvaranje"
 msgid "Create basic menu"
 msgstr "Stvori osnovni izbornik"
 
-#: src/profilesdialog.cpp:42 src/renderwidget.cpp:63
+#: src/profilesdialog.cpp:43 src/renderwidget.cpp:64
 msgid "Create new profile"
 msgstr "Stvori novi profil"
 
-#: src/dvdwizard.cpp:62
+#: src/dvdwizard.cpp:63
 msgid "Creating DVD Image"
 msgstr "Stvori DVD sliku"
 
@@ -979,7 +986,7 @@ msgstr "Stvori slike izbornika"
 msgid "Creating menu movie"
 msgstr "Stvori film izbornika"
 
-#: src/kthumb.cpp:477 src/kthumb.cpp:481
+#: src/kthumb.cpp:496 src/kthumb.cpp:501
 #, kde-format
 msgid "Creating thumbnail for %1"
 msgstr "Stvori kratki prikaz za %1"
@@ -988,7 +995,7 @@ msgstr "Stvori kratki prikaz za %1"
 msgid "Crop"
 msgstr "ObreĹži"
 
-#: src/clipitem.cpp:782
+#: src/clipitem.cpp:836
 #, c-format, kde-format
 msgid "Crop from start: %1s"
 msgstr "IzreĹži od poÄetka: %1s"
@@ -1005,17 +1012,17 @@ msgstr ""
 msgid "Current jobs"
 msgstr "Trenutni poslovi"
 
-#: src/renderwidget.cpp:252 src/renderwidget.cpp:283 src/renderwidget.cpp:352
-#: src/renderwidget.cpp:388 src/renderwidget.cpp:923 src/renderwidget.cpp:958
-#: src/renderwidget.cpp:1037 rc.cpp:1593 rc.cpp:2808
+#: src/renderwidget.cpp:263 src/renderwidget.cpp:294 src/renderwidget.cpp:364
+#: src/renderwidget.cpp:400 src/renderwidget.cpp:946 src/renderwidget.cpp:981
+#: src/renderwidget.cpp:1060 rc.cpp:1593 rc.cpp:2808
 msgid "Custom"
 msgstr "PrilagoÄen"
 
-#: src/kdenlivesettingsdialog.cpp:95
+#: src/kdenlivesettingsdialog.cpp:96
 msgid "Cut"
 msgstr "IzreĹži"
 
-#: src/mainwindow.cpp:916
+#: src/mainwindow.cpp:940
 msgid "Cut Clip"
 msgstr "IzreĹži isjeÄak"
 
@@ -1040,11 +1047,11 @@ msgstr "DV AVI tip 2"
 msgid "DV Raw"
 msgstr ""
 
-#: src/wizard.cpp:259
+#: src/wizard.cpp:261
 msgid "DV module (libdv)"
 msgstr "DV modul (libdv)"
 
-#: src/renderwidget.cpp:855
+#: src/renderwidget.cpp:877
 msgid "DVD"
 msgstr ""
 
@@ -1052,14 +1059,30 @@ msgstr ""
 msgid "DVD Files"
 msgstr "DVD datoteke"
 
-#: src/dvdwizard.cpp:53
+#: rc.cpp:1569 rc.cpp:2784
+msgid "DVD ISO image"
+msgstr "DVD ISO slika"
+
+#: src/dvdwizard.cpp:509
+#, kde-format
+msgid "DVD ISO image %1 successfully created."
+msgstr "DVD ISO slika %1 je uspje�no stvorena"
+
+#: src/dvdwizard.cpp:498
+msgid "DVD ISO is broken"
+msgstr "DVD ISO je uni�ten"
+
+#: src/dvdwizard.cpp:54
 msgid "DVD Image"
 msgstr "DVD slika"
 
-#: src/dvdwizard.cpp:503
-#, kde-format
-msgid "DVD iso image %1 successfully created."
-msgstr "DVDĂËISOĂËslikaĂË%1ĂËuspjeÄšÄno je stvorena."
+#: src/mainwindow.cpp:840
+msgid "DVD Wizard"
+msgstr "DVD �arobnjak"
+
+#: src/dvdwizard.cpp:446
+msgid "DVD structure broken"
+msgstr "DVD struktura je razbijena"
 
 #: rc.cpp:235 rc.cpp:245
 msgid "Damping"
@@ -1081,7 +1104,7 @@ msgstr ""
 msgid "Decoding threads"
 msgstr "Niti dekodiranja"
 
-#: src/kdenlivesettingsdialog.cpp:222 src/kdenlivesettingsdialog.cpp:223
+#: src/kdenlivesettingsdialog.cpp:226 src/kdenlivesettingsdialog.cpp:227
 msgid "Default"
 msgstr "Zadano"
 
@@ -1117,32 +1140,32 @@ msgstr "ZadrĹĄka"
 msgid "Delay (s/10)"
 msgstr "ZadrĹĄka (s/10)"
 
-#: src/addeffectcommand.cpp:32
+#: src/addeffectcommand.cpp:33
 #, kde-format
 msgid "Delete %1"
 msgstr "ObriĹĄi %1"
 
-#: src/customruler.cpp:71 src/mainwindow.cpp:981
+#: src/customruler.cpp:74 src/mainwindow.cpp:1005
 msgid "Delete All Guides"
 msgstr "ObriĹĄi sve vodiÄe"
 
-#: src/mainwindow.cpp:929
+#: src/mainwindow.cpp:953
 msgid "Delete All Markers"
 msgstr "ObriĹĄi sve oznake"
 
-#: src/projectlist.cpp:330 src/mainwindow.cpp:1069
+#: src/projectlist.cpp:347 src/mainwindow.cpp:1093
 msgid "Delete Clip"
 msgstr "ObriĹĄi isjeÄak"
 
-#: src/projectlist.cpp:333 src/projectlist.cpp:415
+#: src/projectlist.cpp:350 src/projectlist.cpp:438
 msgid "Delete Folder"
 msgstr "ObriĹĄi mapu"
 
-#: src/customruler.cpp:69 src/mainwindow.cpp:973
+#: src/customruler.cpp:72 src/mainwindow.cpp:997
 msgid "Delete Guide"
 msgstr "ObriĹĄi vodiÄ"
 
-#: src/mainwindow.cpp:925
+#: src/mainwindow.cpp:949
 msgid "Delete Marker"
 msgstr "ObriĹĄi oznaku"
 
@@ -1150,15 +1173,15 @@ msgstr "ObriĹĄi oznaku"
 msgid "Delete Script"
 msgstr "ObriĹĄi skriptu"
 
-#: src/mainwindow.cpp:890
+#: src/mainwindow.cpp:914
 msgid "Delete Selected Item"
 msgstr "ObriĹĄi oznaÄenu stavku"
 
-#: src/mainwindow.cpp:961 src/headertrack.cpp:69
+#: src/mainwindow.cpp:985 src/headertrack.cpp:70
 msgid "Delete Track"
 msgstr "ObriĹĄi stavku"
 
-#: src/addclipcommand.cpp:28
+#: src/addclipcommand.cpp:29
 msgid "Delete clip"
 msgstr "ObriĹĄi isjeÄak"
 
@@ -1166,54 +1189,56 @@ msgstr "ObriĹĄi isjeÄak"
 msgid "Delete current file"
 msgstr "ObriĹĄi trenutnu datoteku"
 
-#: src/effectslistview.cpp:48 src/effectstackview.cpp:51
+#: src/effectslistview.cpp:49 src/effectstackview.cpp:52
 msgid "Delete effect"
 msgstr "ObriĹĄi efekt"
 
-#: src/addfoldercommand.cpp:28
+#: src/addfoldercommand.cpp:29
 msgid "Delete folder"
 msgstr "ObriĹĄi mapu"
 
-#: src/projectlist.cpp:333
+#: src/projectlist.cpp:350
 #, kde-format
 msgid ""
 "Delete folder <b>%2</b> ?<br>This will also remove the %1 clips in that "
 "folder"
-msgstr "ObriÄšÄi mapuĂË<b>%2</b>ĂË?<br>Ovo ĂÂe obrisati iĂË%1ĂËisjeĂÂke u mapi"
+msgstr ""
+"ObriÄšÄi mapuĂË<b>%2</b>ĂË?<br>Ovo ĂÂe obrisati iĂË%"
+"1ĂËisjeĂÂke u mapi"
 
-#: src/editguidecommand.cpp:27
+#: src/editguidecommand.cpp:28
 msgid "Delete guide"
 msgstr "ObriĹĄi vodiÄ"
 
-#: src/geometryval.cpp:61 src/editkeyframecommand.cpp:28
+#: src/geometryval.cpp:62 src/editkeyframecommand.cpp:29
 msgid "Delete keyframe"
 msgstr "ObriĹĄi kljuÄnu toÄku"
 
-#: src/clipproperties.cpp:227 src/addmarkercommand.cpp:25
+#: src/clipproperties.cpp:228 src/addmarkercommand.cpp:26
 msgid "Delete marker"
 msgstr "ObriĹĄi oznaku"
 
-#: src/profilesdialog.cpp:38 src/renderwidget.cpp:55
+#: src/profilesdialog.cpp:39 src/renderwidget.cpp:56
 msgid "Delete profile"
 msgstr "ObriĹĄi profil"
 
-#: src/customtrackview.cpp:2552
+#: src/customtrackview.cpp:2619
 msgid "Delete selected items"
 msgstr "ObriĹĄi oznaÄene stavke"
 
-#: src/addtimelineclipcommand.cpp:28
+#: src/addtimelineclipcommand.cpp:29
 msgid "Delete timeline clip"
 msgstr "ObriĹĄi vremenski isjeÄak"
 
-#: src/customtrackview.cpp:1958
+#: src/customtrackview.cpp:2016
 msgid "Delete timeline clips"
 msgstr "ObriĹĄi vremenske isjeÄke"
 
-#: src/addtrackcommand.cpp:28
+#: src/addtrackcommand.cpp:29
 msgid "Delete track"
 msgstr "ObriĹĄi traku"
 
-#: src/addtransitioncommand.cpp:25
+#: src/addtransitioncommand.cpp:26
 msgid "Delete transition from clip"
 msgstr "ObriĹĄi prijelaz iz isjeÄka"
 
@@ -1221,11 +1246,11 @@ msgstr "ObriĹĄi prijelaz iz isjeÄka"
 msgid "Depth"
 msgstr "Dubina"
 
-#: src/projectlistview.cpp:44 rc.cpp:669 rc.cpp:1419 rc.cpp:1884 rc.cpp:2634
+#: src/projectlistview.cpp:45 rc.cpp:669 rc.cpp:1419 rc.cpp:1884 rc.cpp:2634
 msgid "Description"
 msgstr "Opis"
 
-#: src/mainwindow.cpp:2331
+#: src/mainwindow.cpp:2438
 msgid "Description:"
 msgstr "Opis:"
 
@@ -1249,7 +1274,7 @@ msgstr "Postavke ureÄaja"
 msgid "Dialog"
 msgstr ""
 
-#: src/kdenlivesettingsdialog.cpp:216
+#: src/kdenlivesettingsdialog.cpp:220
 msgid "Direct FB"
 msgstr "Direktni FB"
 
@@ -1257,11 +1282,11 @@ msgstr "Direktni FB"
 msgid "Discard color information"
 msgstr "Odbaci informacije o boji"
 
-#: src/recmonitor.cpp:213
+#: src/recmonitor.cpp:222
 msgid "Disonnect"
 msgstr "Prekini"
 
-#: src/kdenlivesettingsdialog.cpp:54
+#: src/kdenlivesettingsdialog.cpp:55
 msgid "Display"
 msgstr "Prikaz"
 
@@ -1269,7 +1294,7 @@ msgstr "Prikaz"
 msgid "Display aspect ratio"
 msgstr "Omjer prikaza"
 
-#: src/wizard.cpp:419 rc.cpp:1626 rc.cpp:2841
+#: src/wizard.cpp:426 rc.cpp:1626 rc.cpp:2841
 msgid "Display aspect ratio:"
 msgstr "Omjer prikaza:"
 
@@ -1285,32 +1310,34 @@ msgstr "Prikaz omjera:"
 msgid "Distort0r"
 msgstr ""
 
-#: src/kdenlivesettingsdialog.cpp:93
+#: src/kdenlivesettingsdialog.cpp:94
 msgid "Do nothing"
 msgstr "Ne Äini niĹĄta"
 
-#: src/kdenlivedoc.cpp:83
+#: src/kdenlivedoc.cpp:84
 #, kde-format
 msgid "Document project folder is invalid, setting it to the default one: %1"
-msgstr "DokumentĂËprojektnaĂËmapa je neispravna,ĂËpodesi je na neku zadanu:ĂË%1"
+msgstr ""
+"DokumentĂËprojektnaĂËmapa je neispravna,ĂËpodesi je na neku zadanu:ĂË"
+"%1"
 
-#: src/main.cpp:53
+#: src/main.cpp:54
 msgid "Document to open"
 msgstr "Dokument za otvoriti"
 
-#: src/mainwindow.cpp:1326
+#: src/mainwindow.cpp:1363
 msgid "Don't recover"
 msgstr "Nemoj popraviti"
 
-#: src/mainwindow.cpp:779
+#: src/mainwindow.cpp:803
 msgid "Download New Lumas..."
 msgstr "Preuzmi nove Luma-e..."
 
-#: src/mainwindow.cpp:783
+#: src/mainwindow.cpp:807
 msgid "Download New Project Profiles..."
 msgstr "Preuzmi nove Projektne profile"
 
-#: src/mainwindow.cpp:781
+#: src/mainwindow.cpp:805
 msgid "Download New Render Profiles..."
 msgstr "Preuzmi nove profile za stvaranje"
 
@@ -1324,27 +1351,11 @@ msgstr "Izbaci B okvire iz H.264 isjeÄaka"
 msgid "Duration"
 msgstr "Trajanje"
 
-#: src/mainwindow.cpp:816
-msgid "Dvd Wizard"
-msgstr "DVD Äarobnjak"
-
-#: rc.cpp:1569 rc.cpp:2784
-msgid "Dvd iso image"
-msgstr "DVD ISO slika"
-
-#: src/dvdwizard.cpp:492
-msgid "Dvd iso is broken"
-msgstr "DVD ISO je uniĹĄten"
-
-#: src/dvdwizard.cpp:441
-msgid "Dvd structure broken"
-msgstr "DVD struktura je razbijena"
-
-#: src/wizard.cpp:313
+#: src/wizard.cpp:316
 msgid "Dvdauthor"
 msgstr ""
 
-#: src/wizard.cpp:307
+#: src/wizard.cpp:310
 msgid "Dvgrab"
 msgstr ""
 
@@ -1356,19 +1367,19 @@ msgstr ""
 msgid "E"
 msgstr ""
 
-#: src/main.cpp:47
+#: src/main.cpp:48
 msgid "EMAIL OF TRANSLATORS"
 msgstr "EMAIL PREVODITELJA"
 
-#: src/mainwindow.cpp:1063
+#: src/mainwindow.cpp:1087
 msgid "Edit Clip"
 msgstr "Uredi isjeÄak"
 
-#: src/customtrackview.cpp:2612
+#: src/customtrackview.cpp:2680
 msgid "Edit Clip Speed"
 msgstr "Uredi brzinu isjeÄka"
 
-#: src/customruler.cpp:67 src/mainwindow.cpp:977 src/customtrackview.cpp:3401
+#: src/customruler.cpp:70 src/mainwindow.cpp:1001 src/customtrackview.cpp:3504
 msgid "Edit Guide"
 msgstr "Uredi vodiÄ"
 
@@ -1376,58 +1387,60 @@ msgstr "Uredi vodiÄ"
 msgid "Edit Keyframe"
 msgstr "Uredi kljuÄnu toÄku"
 
-#: src/clipproperties.cpp:282 src/mainwindow.cpp:933 src/mainwindow.cpp:1971
+#: src/clipproperties.cpp:288 src/mainwindow.cpp:957 src/mainwindow.cpp:2036
 msgid "Edit Marker"
 msgstr "Uredi oznaku"
 
-#: src/renderwidget.cpp:359
+#: src/renderwidget.cpp:371
 msgid "Edit Profile"
 msgstr "Uredi profil"
 
-#: src/editclipcommand.cpp:26 src/customtrackview.cpp:969
+#: src/editclipcommand.cpp:27 src/customtrackview.cpp:985
 msgid "Edit clip"
 msgstr "Uredi isjeÄak"
 
-#: src/editeffectcommand.cpp:33
+#: src/editeffectcommand.cpp:34
 #, kde-format
 msgid "Edit effect %1"
 msgstr "Uredi efekt %1"
 
-#: src/editguidecommand.cpp:26
+#: src/editguidecommand.cpp:27
 msgid "Edit guide"
 msgstr "Uredi vodiÄ"
 
-#: src/editkeyframecommand.cpp:27
+#: src/editkeyframecommand.cpp:28
 msgid "Edit keyframe"
 msgstr "Uredi kljuÄnu toÄku"
 
-#: src/clipproperties.cpp:225 src/addmarkercommand.cpp:27
+#: src/clipproperties.cpp:226 src/addmarkercommand.cpp:28
 msgid "Edit marker"
 msgstr "Uredi oznaku"
 
-#: src/renderwidget.cpp:59
+#: src/renderwidget.cpp:60
 msgid "Edit profile"
 msgstr "Uredi profil"
 
-#: src/edittransitioncommand.cpp:30
+#: src/edittransitioncommand.cpp:31
 #, kde-format
 msgid "Edit transition %1"
 msgstr "Uredi prijelaz %1"
 
-#: src/trackview.cpp:469
+#: src/trackview.cpp:487
 #, kde-format
 msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
-msgstr "EfektĂË%1:%2ĂËnije pronaĂÂen uĂËMLT,ĂËbit ĂÂe maknut iz projekta\n"
+msgstr ""
+"EfektĂË%1:%2ĂËnije pronaĂÂen uĂËMLT,ĂËbit ĂÂe maknut iz "
+"projekta\n"
 
-#: src/mainwindow.cpp:150
+#: src/mainwindow.cpp:152
 msgid "Effect List"
 msgstr "Lista efekata"
 
-#: src/mainwindow.cpp:158
+#: src/mainwindow.cpp:160
 msgid "Effect Stack"
 msgstr "SkladiĹĄte efekata"
 
-#: src/customtrackview.cpp:1168 src/customtrackview.cpp:1210
+#: src/customtrackview.cpp:1193 src/customtrackview.cpp:1236
 msgid "Effect already present in clip"
 msgstr "Efekt je veÄ prisutan u isjeÄku"
 
@@ -1435,7 +1448,7 @@ msgstr "Efekt je veÄ prisutan u isjeÄku"
 msgid "Enable Jog Shuttle device"
 msgstr "OmoguÄi Jog Shuttle ureÄaj"
 
-#: src/recmonitor.cpp:394
+#: src/recmonitor.cpp:408
 msgid "Encoding captured video..."
 msgstr "Enkodiranje uhvaÄenog videa"
 
@@ -1443,7 +1456,7 @@ msgstr "Enkodiranje uhvaÄenog videa"
 msgid "Encoding params"
 msgstr "Parametri enkodiranja"
 
-#: src/renderwidget.cpp:216 rc.cpp:82 rc.cpp:94 rc.cpp:1665 rc.cpp:2880
+#: src/renderwidget.cpp:224 rc.cpp:82 rc.cpp:94 rc.cpp:1665 rc.cpp:2880
 msgid "End"
 msgstr "Kraj"
 
@@ -1455,7 +1468,7 @@ msgstr "Krajnja snaga"
 msgid "EndViewport"
 msgstr ""
 
-#: src/kdenlivesettingsdialog.cpp:67
+#: src/kdenlivesettingsdialog.cpp:68
 msgid "Environment"
 msgstr "Okolina"
 
@@ -1467,31 +1480,31 @@ msgstr ""
 msgid "Error Log"
 msgstr ""
 
-#: src/customtrackview.cpp:1359 src/customtrackview.cpp:2236
-#: src/customtrackview.cpp:2521
+#: src/customtrackview.cpp:1392 src/customtrackview.cpp:2301
+#: src/customtrackview.cpp:2587
 #, kde-format
 msgid "Error removing clip at %1 on track %2"
 msgstr "GreÄšÄka pri uklanjanju isjeĂÂka naĂË%, trakaĂË%2"
 
-#: src/wizard.cpp:136
+#: src/wizard.cpp:138
 msgid "Error starting MLT's command line player (inigo)"
 msgstr "GreĹĄka pri pokretanju MLT-ovog CLI playera (inigo)"
 
-#: src/wizard.cpp:475
+#: src/wizard.cpp:485
 msgid "Error starting MLT's command line player (inigo)."
 msgstr "GreĹĄka pokretanja MLT-ovog CLI playera (inigo)"
 
-#: src/customtrackview.cpp:1382 src/customtrackview.cpp:2333
-#: src/customtrackview.cpp:2395 src/customtrackview.cpp:3084
-#: src/customtrackview.cpp:3092
+#: src/customtrackview.cpp:1415 src/customtrackview.cpp:2398
+#: src/customtrackview.cpp:2460 src/customtrackview.cpp:3170
+#: src/customtrackview.cpp:3178
 msgid "Error when resizing clip"
 msgstr "GreĹĄka pri rastezanju isjeÄka"
 
-#: src/kdenlivesettingsdialog.cpp:198
+#: src/kdenlivesettingsdialog.cpp:202
 msgid "Esound daemon"
 msgstr ""
 
-#: src/renderwidget.cpp:1095
+#: src/renderwidget.cpp:1119
 #, kde-format
 msgid "Estimated time %1"
 msgstr "OÄekivano vrijeme %1"
@@ -1508,11 +1521,11 @@ msgstr "ProĹĄirenje"
 msgid "Extra Toolbar"
 msgstr ""
 
-#: src/monitor.cpp:158
+#: src/monitor.cpp:162
 msgid "Extract frame"
 msgstr "Izvuci okvir"
 
-#: src/wizard.cpp:293
+#: src/wizard.cpp:296
 msgid "FFmpeg & ffplay"
 msgstr ""
 
@@ -1548,7 +1561,7 @@ msgstr "Izblijedi video iz crnog"
 msgid "Fade video to black"
 msgstr "Izblijedi video u crno"
 
-#: src/wizard.cpp:483
+#: src/wizard.cpp:493
 msgid "Fatal Error"
 msgstr "Fatalna greĹĄka"
 
@@ -1556,20 +1569,20 @@ msgstr "Fatalna greĹĄka"
 msgid "Feedback"
 msgstr "Odaziv"
 
-#: src/renderwidget.cpp:139
+#: src/renderwidget.cpp:140
 msgid "File"
 msgstr "Datoteka"
 
-#: src/kdenlivedoc.cpp:181 src/kdenlivedoc.cpp:190
+#: src/kdenlivedoc.cpp:182 src/kdenlivedoc.cpp:191
 #, kde-format
 msgid "File %1 is not a Kdenlive project file."
 msgstr "Datoteka %1 nije Kdenlive projekt"
 
-#: src/mainwindow.cpp:1325
+#: src/mainwindow.cpp:1362
 msgid "File Recovery"
 msgstr "Popravak datoteke"
 
-#: src/monitor.cpp:395 src/mainwindow.cpp:1266
+#: src/monitor.cpp:417 src/mainwindow.cpp:1299
 msgid ""
 "File already exists.\n"
 "Do you want to overwrite it ?"
@@ -1577,7 +1590,7 @@ msgstr ""
 "Datoteka veÄ postoji.\n"
 "Ĺ˝eliĹĄ li je prepisati?"
 
-#: src/effectstackview.cpp:90
+#: src/effectstackview.cpp:94
 msgid ""
 "File already exists.\n"
 "Do you want to overwrite it?"
@@ -1589,11 +1602,11 @@ msgstr ""
 msgid "File name"
 msgstr "Ime datoteke"
 
-#: src/kdenlivedoc.cpp:1314 src/kdenlivedoc.cpp:1317 src/kdenlivedoc.cpp:1325
+#: src/kdenlivedoc.cpp:1360 src/kdenlivedoc.cpp:1363 src/kdenlivedoc.cpp:1371
 msgid "File not found"
 msgstr "Datoteka nije pronaÄena"
 
-#: src/renderwidget.cpp:854
+#: src/renderwidget.cpp:876
 msgid "File rendering"
 msgstr "Datoteka stvaranja"
 
@@ -1601,7 +1614,7 @@ msgstr "Datoteka stvaranja"
 msgid "File size"
 msgstr "VeliÄina datoteke"
 
-#: src/projectlistview.cpp:44
+#: src/projectlistview.cpp:45
 msgid "Filename"
 msgstr "Ime datoteke"
 
@@ -1609,15 +1622,15 @@ msgstr "Ime datoteke"
 msgid "Fill color"
 msgstr "Boja ispune"
 
-#: src/mainwindow.cpp:764
+#: src/mainwindow.cpp:788
 msgid "Find"
 msgstr "PronaÄi"
 
-#: src/mainwindow.cpp:769
+#: src/mainwindow.cpp:793
 msgid "Find Next"
 msgstr "PronaÄi slijedeÄe"
 
-#: src/mainwindow.cpp:2255
+#: src/mainwindow.cpp:2358
 msgid "Find stopped"
 msgstr "Pretraga zaustavljena"
 
@@ -1625,7 +1638,7 @@ msgstr "Pretraga zaustavljena"
 msgid "Firewire"
 msgstr ""
 
-#: src/renderer.cpp:1211
+#: src/renderer.cpp:1262
 msgid ""
 "Firewire is not enabled on your system.\n"
 " Please install Libiec61883 and recompile Kdenlive"
@@ -1633,7 +1646,7 @@ msgstr ""
 "FirewireĂËnije omoguĂÂen na tvom sistemu.\n"
 "InstalirajĂËLibiec61883ĂËi rekompajlirajĂËKdenlive"
 
-#: src/mainwindow.cpp:662
+#: src/mainwindow.cpp:686
 msgid "Fit zoom to project"
 msgstr "Prilagodi zoom prema projektu"
 
@@ -1641,12 +1654,12 @@ msgstr "Prilagodi zoom prema projektu"
 msgid "Flip your image in any direction"
 msgstr "Okreni sliku u nekom smjeru"
 
-#: src/projectlist.cpp:373 src/projectlist.cpp:436 src/projectitem.cpp:42
+#: src/projectlist.cpp:394 src/projectlist.cpp:460 src/projectitem.cpp:43
 #: rc.cpp:1119 rc.cpp:2334
 msgid "Folder"
 msgstr "Mapa"
 
-#: src/dvdwizard.cpp:97
+#: src/dvdwizard.cpp:100
 #, kde-format
 msgid "Folder %1 already exists. Overwrite ?"
 msgstr "Mapa %1 veÄ postoji. Prepisati?"
@@ -1684,23 +1697,23 @@ msgstr "Format"
 msgid "Formats"
 msgstr "Formati"
 
-#: src/monitor.cpp:78 src/mainwindow.cpp:850 src/recmonitor.cpp:69
+#: src/monitor.cpp:79 src/mainwindow.cpp:874 src/recmonitor.cpp:70
 msgid "Forward"
 msgstr "Naprijed"
 
-#: src/mainwindow.cpp:875
+#: src/mainwindow.cpp:899
 msgid "Forward 1 Frame"
 msgstr "Naprijed 1 okvir"
 
-#: src/mainwindow.cpp:880
+#: src/mainwindow.cpp:904
 msgid "Forward 1 Second"
 msgstr "Naprijed 1 sekundu"
 
-#: src/monitor.cpp:77
+#: src/monitor.cpp:78
 msgid "Forward 1 frame"
 msgstr "Naprijed 1 okvir"
 
-#: src/mainwindow.cpp:2234 src/mainwindow.cpp:2244
+#: src/mainwindow.cpp:2335 src/mainwindow.cpp:2346
 #, kde-format
 msgid "Found : %1"
 msgstr "PronaĂÂenoĂË:ĂË%1"
@@ -1718,7 +1731,7 @@ msgstr "Trajanje okvira"
 msgid "Frame rate"
 msgstr "Frame rate"
 
-#: src/wizard.cpp:419 rc.cpp:1188 rc.cpp:1614 rc.cpp:2403 rc.cpp:2829
+#: src/wizard.cpp:426 rc.cpp:1188 rc.cpp:1614 rc.cpp:2403 rc.cpp:2829
 msgid "Frame rate:"
 msgstr "Frame rate:"
 
@@ -1726,15 +1739,15 @@ msgstr "Frame rate:"
 msgid "Frame size"
 msgstr "VeliÄina okvira"
 
-#: src/wizard.cpp:419
+#: src/wizard.cpp:426
 msgid "Frame size:"
 msgstr "VeliÄina okvira:"
 
-#: src/kdenlivesettingsdialog.cpp:215
+#: src/kdenlivesettingsdialog.cpp:219
 msgid "Framebuffer console"
 msgstr ""
 
-#: src/mainwindow.cpp:604
+#: src/mainwindow.cpp:628
 msgid "Frames"
 msgstr "Okviri"
 
@@ -1802,11 +1815,11 @@ msgstr "Izlazna jaÄina"
 msgid "Gamma"
 msgstr ""
 
-#: src/kdenlivesettingsdialog.cpp:218
+#: src/kdenlivesettingsdialog.cpp:222
 msgid "General graphics interface"
 msgstr "OpÄe grafiÄko suÄelje"
 
-#: src/renderwidget.cpp:78
+#: src/renderwidget.cpp:79
 msgid "Generate Script"
 msgstr "Generiraj skriptu"
 
@@ -1822,35 +1835,35 @@ msgstr "Geometrija"
 msgid "Go To"
 msgstr "Idi na"
 
-#: src/mainwindow.cpp:860
+#: src/mainwindow.cpp:884
 msgid "Go to Clip End"
 msgstr "Idi na kraj isjeÄka"
 
-#: src/mainwindow.cpp:855
+#: src/mainwindow.cpp:879
 msgid "Go to Clip Start"
 msgstr "Idi na poÄetak isjeÄka"
 
-#: src/mainwindow.cpp:885
+#: src/mainwindow.cpp:909
 msgid "Go to Next Snap Point"
 msgstr "Idi na slijedeÄu uhvatnu toÄku"
 
-#: src/mainwindow.cpp:845
+#: src/mainwindow.cpp:869
 msgid "Go to Previous Snap Point"
 msgstr "IdiĂËnaĂËprethodnuĂËuhvatnuĂËtoĂÂku"
 
-#: src/mainwindow.cpp:870
+#: src/mainwindow.cpp:894
 msgid "Go to Project End"
 msgstr "Idi na kraj projekta"
 
-#: src/mainwindow.cpp:865
+#: src/mainwindow.cpp:889
 msgid "Go to Project Start"
 msgstr "Idi na poÄetak projekta"
 
-#: src/geometryval.cpp:55
+#: src/geometryval.cpp:56
 msgid "Go to next keyframe"
 msgstr "Idi na slijedeÄu kljuÄnu toÄku"
 
-#: src/geometryval.cpp:57
+#: src/geometryval.cpp:58
 msgid "Go to previous keyframe"
 msgstr "Idi na prethodnu kljuÄnu toÄku"
 
@@ -1870,11 +1883,11 @@ msgstr "Sivi tonovi"
 msgid "Group"
 msgstr "Grupa"
 
-#: src/mainwindow.cpp:907
+#: src/mainwindow.cpp:931
 msgid "Group Clips"
 msgstr "Grupiraj isjeÄke"
 
-#: src/groupclipscommand.cpp:27
+#: src/groupclipscommand.cpp:28
 msgid "Group clips"
 msgstr "Grupiraj isjeÄke"
 
@@ -1882,7 +1895,7 @@ msgstr "Grupiraj isjeÄke"
 msgid "GroupBox"
 msgstr "Okvir grupe"
 
-#: src/customtrackview.cpp:3378
+#: src/customtrackview.cpp:3479
 msgid "Guide"
 msgstr "VodiÄ"
 
@@ -1918,11 +1931,11 @@ msgstr "Sakrij odabranu zonu i prati pokrete"
 msgid "Hide frame"
 msgstr "Sakrij okvir"
 
-#: src/headertrack.cpp:39
+#: src/headertrack.cpp:40
 msgid "Hide track"
 msgstr "Sakrij traku"
 
-#: src/geometryval.cpp:79
+#: src/geometryval.cpp:80
 msgid "Hor. Center"
 msgstr "hor. Centar"
 
@@ -1950,7 +1963,7 @@ msgstr "Slika"
 msgid "Image Type"
 msgstr "Tip slike"
 
-#: src/projectitem.cpp:179
+#: src/projectitem.cpp:200
 msgid "Image clip"
 msgstr "IsjeÄak slike"
 
@@ -1962,7 +1975,7 @@ msgstr "IsjeÄci slika"
 msgid "Image editing"
 msgstr "UreÄivanje slike"
 
-#: src/dvdwizard.cpp:99
+#: src/dvdwizard.cpp:102
 #, kde-format
 msgid "Image file %1 already exists. Overwrite ?"
 msgstr "Slikovna datoteka %1 veÄ postoji. Prepisati?"
@@ -1979,11 +1992,11 @@ msgstr "VeliÄina slike"
 msgid "Image type"
 msgstr "Tip slike"
 
-#: src/monitor.cpp:426
+#: src/monitor.cpp:453
 msgid "In Point"
 msgstr "U toÄku"
 
-#: src/wizard.cpp:126
+#: src/wizard.cpp:128
 msgid "Inigo"
 msgstr ""
 
@@ -1991,7 +2004,7 @@ msgstr ""
 msgid "Inigo path"
 msgstr "Inigo putanja"
 
-#: src/recmonitor.cpp:366 src/recmonitor.cpp:486
+#: src/recmonitor.cpp:379 src/recmonitor.cpp:500
 msgid "Initialising..."
 msgstr "Inicijalizacija..."
 
@@ -1999,15 +2012,15 @@ msgstr "Inicijalizacija..."
 msgid "Input gain (dB)"
 msgstr "Ulazna snaga (dB)"
 
-#: src/mainwindow.cpp:949
+#: src/mainwindow.cpp:973
 msgid "Insert Space"
 msgstr "Umetni prazninu"
 
-#: src/mainwindow.cpp:957 src/customtrackview.cpp:3878 src/headertrack.cpp:65
+#: src/mainwindow.cpp:981 src/customtrackview.cpp:4005 src/headertrack.cpp:66
 msgid "Insert Track"
 msgstr "Umetni traku"
 
-#: src/insertspacecommand.cpp:28
+#: src/insertspacecommand.cpp:29
 msgid "Insert space"
 msgstr "Umetni prazninu"
 
@@ -2027,7 +2040,7 @@ msgstr "Instalirani moduli"
 msgid "Intensity"
 msgstr "Inentezitet"
 
-#: src/kdenlivesettingsdialog.cpp:431 src/projectsettings.cpp:72 rc.cpp:1206
+#: src/kdenlivesettingsdialog.cpp:445 src/projectsettings.cpp:74 rc.cpp:1206
 #: rc.cpp:1632 rc.cpp:2421 rc.cpp:2847
 msgid "Interlaced"
 msgstr ""
@@ -2036,26 +2049,26 @@ msgstr ""
 msgid "Intro movie"
 msgstr "Intro film"
 
-#: src/customtrackview.cpp:3757 src/customtrackview.cpp:3762
-#: src/customtrackview.cpp:3781 src/customtrackview.cpp:3786
+#: src/customtrackview.cpp:3880 src/customtrackview.cpp:3885
+#: src/customtrackview.cpp:3905 src/customtrackview.cpp:3910
 msgid "Invalid action"
 msgstr "PogreĹĄna akcija"
 
-#: src/customtrackview.cpp:2641
+#: src/customtrackview.cpp:2710
 msgid "Invalid clip"
 msgstr "PogreĹĄan isjeÄak"
 
-#: src/trackview.cpp:154
+#: src/trackview.cpp:163
 #, kde-format
 msgid "Invalid clip producer %1\n"
 msgstr "PogreĹĄan producent isjeÄka %1\n"
 
-#: src/trackview.cpp:403
+#: src/trackview.cpp:421
 #, kde-format
 msgid "Invalid clip removed from track %1 at %2\n"
 msgstr "NemoguÄe izbacivanje isjeÄka na traci %1 pri %2\n"
 
-#: src/customtrackview.cpp:1481 src/customtrackview.cpp:3664
+#: src/customtrackview.cpp:1517 src/customtrackview.cpp:3782
 msgid "Invalid transition"
 msgstr "NemoguÄi prijelaz"
 
@@ -2071,7 +2084,7 @@ msgstr "Inverzne boje"
 msgid "Jack"
 msgstr ""
 
-#: src/main.cpp:43
+#: src/main.cpp:44
 msgid "Jean-Baptiste Mardelle"
 msgstr ""
 
@@ -2079,15 +2092,15 @@ msgstr ""
 msgid "Jog Shuttle device disabled."
 msgstr "JogĂËShuttleĂËureĂÂaj onemoguĂÂen."
 
-#: src/kdenlivesettingsdialog.cpp:86
+#: src/kdenlivesettingsdialog.cpp:87
 msgid "JogShuttle"
 msgstr ""
 
-#: src/main.cpp:39
+#: src/main.cpp:40
 msgid "Kdenlive"
 msgstr ""
 
-#: src/kdenlivedoc.cpp:1314 src/kdenlivedoc.cpp:1317 src/kdenlivedoc.cpp:1325
+#: src/kdenlivedoc.cpp:1360 src/kdenlivedoc.cpp:1363 src/kdenlivedoc.cpp:1371
 msgid "Keep as placeholder"
 msgstr "SaÄuvaj kao drĹžaÄ"
 
@@ -2131,7 +2144,7 @@ msgstr "LADSPAĂËreverbĂËaudioĂËefekt"
 msgid "LADSPA room reverb audio effect"
 msgstr "LADSPAĂËroomĂËreverbĂËaudioĂËefekt"
 
-#: src/geometryval.cpp:82 rc.cpp:68
+#: src/geometryval.cpp:83 rc.cpp:68
 msgid "Left"
 msgstr "Lijevo"
 
@@ -2147,23 +2160,23 @@ msgstr "GraniÄnik"
 msgid "Lo gain"
 msgstr "NiĹža snaga"
 
-#: src/titlewidget.cpp:264
+#: src/titlewidget.cpp:273
 msgid "Load Image"
 msgstr "UÄitaj sliku"
 
-#: src/titlewidget.cpp:657
+#: src/titlewidget.cpp:689
 msgid "Load Title"
 msgstr "UÄitaj naslov"
 
-#: src/kdenlivedoc.cpp:125
+#: src/kdenlivedoc.cpp:126
 msgid "Loading project clips"
 msgstr "UÄitaj projektne isjeÄke"
 
-#: src/locktrackcommand.cpp:26 src/headertrack.cpp:43
+#: src/locktrackcommand.cpp:27 src/headertrack.cpp:44
 msgid "Lock track"
 msgstr "ZakljuÄaj traku"
 
-#: src/kdenlivedoc.cpp:1319 src/kdenlivedoc.cpp:1327
+#: src/kdenlivedoc.cpp:1365 src/kdenlivedoc.cpp:1373
 #, kde-format
 msgid "Looking for %1"
 msgstr "Gledam za %1"
@@ -2172,11 +2185,11 @@ msgstr "Gledam za %1"
 msgid "Loop"
 msgstr "Petlja"
 
-#: src/mainwindow.cpp:811
+#: src/mainwindow.cpp:835
 msgid "Loop Zone"
 msgstr "Zona petlje"
 
-#: src/renderwidget.cpp:859
+#: src/renderwidget.cpp:881
 msgid "Lossless / HQ"
 msgstr ""
 
@@ -2192,30 +2205,38 @@ msgstr "Luma datoteka"
 msgid "M"
 msgstr ""
 
-#: src/main.cpp:44
+#: src/main.cpp:45
 msgid "MLT Connection, Transition, Effect, Timeline Developer"
 msgstr ""
 
-#: src/main.cpp:43
+#: rc.cpp:801 rc.cpp:2016
+msgid "MLT environment"
+msgstr "MLT okolina"
+
+#: src/main.cpp:44
 msgid "MLT porting, KDE4 porting, Main developer"
 msgstr ""
 
-#: src/wizard.cpp:189
+#: rc.cpp:804 rc.cpp:2019
+msgid "MLT profiles folder"
+msgstr "Mapa MLT profila"
+
+#: src/wizard.cpp:191
 msgid "MLT version is correct"
 msgstr "MLT verzija je u redu"
 
-#: src/wizard.cpp:183
+#: src/wizard.cpp:185
 #, kde-format
 msgid "MLT version: %1"
 msgstr "MLT verzija: %1"
 
-#: src/wizard.cpp:480
+#: src/wizard.cpp:490
 msgid ""
 "MLT's SDL module not found. Please check your MLT install. Kdenlive will not "
 "work until this issue is fixed."
 msgstr ""
-"MLT-ov SDL modul nije pronaÄen. Pogledajte MLT instalaciju. Kdenlive ne moĹže "
-"raditi dok se ovaj problem ne rijeĹĄi."
+"MLT-ov SDL modul nije pronaÄen. Pogledajte MLT instalaciju. Kdenlive ne "
+"moĹže raditi dok se ovaj problem ne rijeĹĄi."
 
 #: rc.cpp:423
 msgid "Make clip play faster slowly"
@@ -2237,16 +2258,16 @@ msgstr "Napravi odabranu boju prozirnom"
 msgid "Make waves on your clip with keyframes"
 msgstr "Napravi valove na isjeÄku prema kljuÄnim toÄkama"
 
-#: src/mainwindow.cpp:775
+#: src/mainwindow.cpp:799
 msgid "Manage Project Profiles"
 msgstr "Upravljanje projektnim profilima"
 
-#: src/main.cpp:44
+#: src/main.cpp:45
 msgid "Marco Gittler"
 msgstr ""
 
-#: src/definitions.h:139 src/clipproperties.cpp:270 src/mainwindow.cpp:1884
-#: src/docclipbase.cpp:290 rc.cpp:1218 rc.cpp:2433
+#: src/definitions.h:142 src/clipproperties.cpp:275 src/mainwindow.cpp:1946
+#: src/docclipbase.cpp:325 rc.cpp:1218 rc.cpp:2433
 msgid "Marker"
 msgstr "Oznaka"
 
@@ -2254,11 +2275,11 @@ msgstr "Oznaka"
 msgid "Markers"
 msgstr "Oznake"
 
-#: src/renderwidget.cpp:858
+#: src/renderwidget.cpp:880
 msgid "Media players"
 msgstr "ÄitaÄi medija"
 
-#: src/dvdwizard.cpp:288
+#: src/dvdwizard.cpp:292
 msgid "Menu job timed out"
 msgstr "Isteklo vrijeme izbornika"
 
@@ -2278,11 +2299,11 @@ msgstr "Zrcali"
 msgid "Mirroring direction"
 msgstr "Smjer zrcaljenja"
 
-#: src/kdenlivesettingsdialog.cpp:47
+#: src/kdenlivesettingsdialog.cpp:48
 msgid "Misc"
 msgstr "Razno"
 
-#: src/monitor.cpp:83 src/geometryval.cpp:63
+#: src/monitor.cpp:84 src/geometryval.cpp:64
 msgid "Misc..."
 msgstr "Razno..."
 
@@ -2290,19 +2311,11 @@ msgstr "Razno..."
 msgid "Mix"
 msgstr ""
 
-#: src/wizard.cpp:319
+#: src/wizard.cpp:322
 msgid "Mkisofs"
 msgstr ""
 
-#: rc.cpp:801 rc.cpp:2016
-msgid "Mlt environment"
-msgstr "Mlt okolina"
-
-#: rc.cpp:804 rc.cpp:2019
-msgid "Mlt profiles folder"
-msgstr "Mapa Mlt profila"
-
-#: src/renderwidget.cpp:860
+#: src/renderwidget.cpp:882
 msgid "Mobile devices"
 msgstr "Mobilni ureÄaji"
 
@@ -2318,7 +2331,7 @@ msgstr "Postavke brzine monitorovog preglednika"
 msgid "Monitor background color (requires restart)"
 msgstr "Boja pozadine monitora (potreban restart)"
 
-#: src/monitor.cpp:170
+#: src/monitor.cpp:174
 msgid "Monitor overlay infos"
 msgstr "Podaci monitor overlaya"
 
@@ -2326,31 +2339,31 @@ msgstr "Podaci monitor overlaya"
 msgid "Mono to stereo"
 msgstr "Mono u stereo"
 
-#: src/moveclipcommand.cpp:27 src/customtrackview.cpp:2118
+#: src/moveclipcommand.cpp:28 src/customtrackview.cpp:2183
 msgid "Move clip"
 msgstr "Pomakni isjeÄak"
 
-#: src/moveeffectcommand.cpp:32
+#: src/moveeffectcommand.cpp:33
 msgid "Move effect"
 msgstr "Pomakni efekt"
 
-#: src/effectstackview.cpp:49
+#: src/effectstackview.cpp:50
 msgid "Move effect down"
 msgstr "Pomakni efekt dolje"
 
-#: src/effectstackview.cpp:47
+#: src/effectstackview.cpp:48
 msgid "Move effect up"
 msgstr "Pomakni efekt gore"
 
-#: src/movegroupcommand.cpp:27
+#: src/movegroupcommand.cpp:28
 msgid "Move group"
 msgstr "Pomakni grupu"
 
-#: src/editguidecommand.cpp:28
+#: src/editguidecommand.cpp:29
 msgid "Move guide"
 msgstr "Pomakni vodiÄ"
 
-#: src/movetransitioncommand.cpp:24
+#: src/movetransitioncommand.cpp:25
 msgid "Move transition"
 msgstr "Pomakni prijelaz"
 
@@ -2362,11 +2375,11 @@ msgstr "IskljuÄi zvuk"
 msgid "Mute clip"
 msgstr "IskljuÄi zvuk isjeÄka"
 
-#: src/headertrack.cpp:41
+#: src/headertrack.cpp:42
 msgid "Mute track"
 msgstr "UĹĄuti traku"
 
-#: src/projectitem.cpp:170
+#: src/projectitem.cpp:191
 msgid "Mute video clip"
 msgstr "IskljuÄi zvuk video isjeÄka"
 
@@ -2374,11 +2387,11 @@ msgstr "IskljuÄi zvuk video isjeÄka"
 msgid "N"
 msgstr ""
 
-#: src/main.cpp:47
+#: src/main.cpp:48
 msgid "NAME OF TRANSLATORS"
 msgstr "NAZIVI PREVODILACA"
 
-#: src/dvdwizardmenu.cpp:41 rc.cpp:477 rc.cpp:1692
+#: src/dvdwizardmenu.cpp:42 rc.cpp:477 rc.cpp:1692
 msgid "NTSC"
 msgstr ""
 
@@ -2386,11 +2399,11 @@ msgstr ""
 msgid "Name"
 msgstr "Ime"
 
-#: src/effectstackview.cpp:86
+#: src/effectstackview.cpp:90
 msgid "Name for saved effect: "
 msgstr "Ime snimljenog efekta: "
 
-#: src/kdenlivesettingsdialog.cpp:214
+#: src/kdenlivesettingsdialog.cpp:218
 msgid "Nano X"
 msgstr ""
 
@@ -2398,20 +2411,20 @@ msgstr ""
 msgid "Neutral Color"
 msgstr "Neutralna boja"
 
-#: src/customtrackview.cpp:2612
+#: src/customtrackview.cpp:2680
 msgid "New speed (percents)"
 msgstr "Nova brzina (postoci)"
 
-#: src/customtrackview.cpp:2738 src/customtrackview.cpp:3619
+#: src/customtrackview.cpp:2811 src/customtrackview.cpp:3737
 msgid "No clip copied"
 msgstr "IsjeÄak nije kopiran"
 
-#: src/customtrackview.cpp:4119
+#: src/customtrackview.cpp:4258
 msgid "No empty space to put clip audio"
 msgstr "Nema slobodnog prostora za postaviti zvukovni isjeÄak"
 
-#: src/customtrackview.cpp:3356 src/customtrackview.cpp:3397
-#: src/customtrackview.cpp:3420
+#: src/customtrackview.cpp:3455 src/customtrackview.cpp:3499
+#: src/customtrackview.cpp:3524
 msgid "No guide at cursor time"
 msgstr "Nema vodiÄa na mjestu pokazivaÄa"
 
@@ -2419,11 +2432,11 @@ msgstr "Nema vodiÄa na mjestu pokazivaÄa"
 msgid "No image found"
 msgstr "Slika nije pronaÄena"
 
-#: src/mainwindow.cpp:1915 src/mainwindow.cpp:1966
+#: src/mainwindow.cpp:1978 src/mainwindow.cpp:2031
 msgid "No marker found at cursor time"
 msgstr "Oznaka nije pronaÄena kod pokazivaÄa"
 
-#: src/initeffects.cpp:73 src/initeffects.cpp:614
+#: src/initeffects.cpp:79 src/initeffects.cpp:637
 msgid "None"
 msgstr "NiĹĄta"
 
@@ -2439,20 +2452,20 @@ msgstr "Normaliziraj audio za kratke prikaze"
 msgid "Normalise audio volume"
 msgstr "Normaliziraj audio jaÄinu"
 
-#: src/recmonitor.cpp:546 rc.cpp:582 rc.cpp:1797
+#: src/recmonitor.cpp:561 rc.cpp:582 rc.cpp:1797
 msgid "Not connected"
 msgstr "Nije spojen"
 
-#: src/mainwindow.cpp:2247
+#: src/mainwindow.cpp:2349
 #, kde-format
 msgid "Not found : %1"
 msgstr "Nije pronaÄeno : %1"
 
-#: src/kdenlivesettingsdialog.cpp:194
+#: src/kdenlivesettingsdialog.cpp:198
 msgid "OSS"
 msgstr ""
 
-#: src/kdenlivesettingsdialog.cpp:197
+#: src/kdenlivesettingsdialog.cpp:201
 msgid "OSS with DMA access"
 msgstr "OSS sa DMA pristupom"
 
@@ -2468,7 +2481,7 @@ msgstr "Pomak"
 msgid "Opacity"
 msgstr "Neprozirnost"
 
-#: src/titlewidget.cpp:127
+#: src/titlewidget.cpp:128
 msgid "Open Document"
 msgstr "Otvori dokument"
 
@@ -2492,7 +2505,7 @@ msgstr "Otvori projekte u novim tabovima"
 msgid "Out"
 msgstr "Van"
 
-#: src/monitor.cpp:427
+#: src/monitor.cpp:454
 msgid "Out Point"
 msgstr "Izlazna toÄka"
 
@@ -2500,7 +2513,7 @@ msgstr "Izlazna toÄka"
 msgid "Output file"
 msgstr "Izlazna datoteka"
 
-#: src/renderwidget.cpp:541
+#: src/renderwidget.cpp:557
 msgid "Output file already exists. Do you want to overwrite it ?"
 msgstr "Datoteka veÄ postoji. Ĺ˝eliĹĄ je prepisati?"
 
@@ -2508,7 +2521,7 @@ msgstr "Datoteka veÄ postoji. Ĺ˝eliĹĄ je prepisati?"
 msgid "P"
 msgstr ""
 
-#: src/dvdwizardmenu.cpp:41 rc.cpp:474 rc.cpp:1689
+#: src/dvdwizardmenu.cpp:42 rc.cpp:474 rc.cpp:1689
 msgid "PAL"
 msgstr ""
 
@@ -2520,7 +2533,7 @@ msgstr "Pomak i Zum"
 msgid "Param"
 msgstr "Parametri"
 
-#: src/complexparameter.cpp:43
+#: src/complexparameter.cpp:44
 msgid "Parameter info"
 msgstr "Info parametara"
 
@@ -2528,7 +2541,7 @@ msgstr "Info parametara"
 msgid "Parameters"
 msgstr "Parametri"
 
-#: src/mainwindow.cpp:985
+#: src/mainwindow.cpp:1009
 msgid "Paste Effects"
 msgstr "Zalijepi efekte"
 
@@ -2548,7 +2561,7 @@ msgstr ""
 msgid "Pitch Shift"
 msgstr ""
 
-#: src/wizard.cpp:274
+#: src/wizard.cpp:276
 msgid "Pixbuf module"
 msgstr "Pixbuf modul"
 
@@ -2556,7 +2569,7 @@ msgstr "Pixbuf modul"
 msgid "Pixel aspect ratio"
 msgstr "Pixel omjer"
 
-#: src/wizard.cpp:419 rc.cpp:1620 rc.cpp:2835
+#: src/wizard.cpp:426 rc.cpp:1620 rc.cpp:2835
 msgid "Pixel aspect ratio:"
 msgstr "Pixel omjer:"
 
@@ -2564,20 +2577,20 @@ msgstr "Pixel omjer:"
 msgid "Plasma"
 msgstr ""
 
-#: src/dvdwizardmenu.cpp:27 src/monitor.cpp:69 src/mainwindow.cpp:798
-#: src/recmonitor.cpp:63
+#: src/dvdwizardmenu.cpp:28 src/monitor.cpp:70 src/mainwindow.cpp:822
+#: src/recmonitor.cpp:64
 msgid "Play"
 msgstr "Idi"
 
-#: src/kdenlivesettingsdialog.cpp:94
+#: src/kdenlivesettingsdialog.cpp:95
 msgid "Play / Pause"
 msgstr "Idi / Pauza"
 
-#: src/dvdwizardmenu.cpp:257
+#: src/dvdwizardmenu.cpp:267
 msgid "Play All"
 msgstr "Play sve"
 
-#: src/mainwindow.cpp:806
+#: src/mainwindow.cpp:830
 msgid "Play Zone"
 msgstr "Play zonu"
 
@@ -2585,19 +2598,19 @@ msgstr "Play zonu"
 msgid "Play after render"
 msgstr "Play nakon stvaranja"
 
-#: src/monitor.cpp:68
+#: src/monitor.cpp:69
 msgid "Play..."
 msgstr "Play..."
 
-#: src/kdenlivesettingsdialog.cpp:90
+#: src/kdenlivesettingsdialog.cpp:91
 msgid "Playback"
 msgstr ""
 
-#: src/projectitem.cpp:191
+#: src/projectitem.cpp:212
 msgid "Playlist clip"
 msgstr "Playlista isjeÄaka"
 
-#: src/main.cpp:46
+#: src/main.cpp:47
 msgid ""
 "Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
 "org/mantis</a>"
@@ -2605,15 +2618,17 @@ msgstr ""
 "Prijavite greÄšÄke naĂË<aĂËhref=\"http://kdenlive.org/mantis\">http://"
 "kdenlive.org/mantis</a>"
 
-#: src/main.cpp:46
+#: src/main.cpp:47
 msgid "Please report bugs to http://kdenlive.org/mantis"
 msgstr "Prijavite greĹĄke na http://kdenlive.org/mantis"
 
-#: src/projectlist.cpp:178
-msgid "Please set a default application to open audio files in the Settings dialog"
-msgstr "Postavi zadanu aplikaciju za otvaranje zvukovnih datoteka u dijalogu Postavke"
+#: src/projectlist.cpp:186
+msgid ""
+"Please set a default application to open audio files in the Settings dialog"
+msgstr ""
+"Postavi zadanu aplikaciju za otvaranje zvukovnih datoteka u dijalogu Postavke"
 
-#: src/projectlist.cpp:174
+#: src/projectlist.cpp:182
 msgid "Please set a default application to open images in the Settings dialog"
 msgstr "PostaviĂËzadanuĂËaplikacijuĂËzaĂËotvaranjeĂËslikaĂËuĂËdijaloguĂËPostavke"
 
@@ -2621,11 +2636,11 @@ msgstr "PostaviĂËzadanuĂËaplikacijuĂËzaĂËotvaranjeĂË
 msgid "Please set your default video profile"
 msgstr "Podesite svoj zadani video profil"
 
-#: src/wizard.cpp:186
+#: src/wizard.cpp:188
 msgid "Please upgrade to the latest MLT version"
 msgstr "Molim napravite obnovu na zadnju MLT verziju"
 
-#: src/recmonitor.cpp:174
+#: src/recmonitor.cpp:180
 #, kde-format
 msgid ""
 "Plug your camcorder and\n"
@@ -2653,7 +2668,7 @@ msgstr "Poz."
 msgid "Position"
 msgstr "Pozicija"
 
-#: src/recmonitor.cpp:203
+#: src/recmonitor.cpp:211
 #, kde-format
 msgid ""
 "Press play or record button\n"
@@ -2666,7 +2681,7 @@ msgstr ""
 "Datoteke Äe biti spremljene u:\n"
 "%1"
 
-#: src/recmonitor.cpp:148 src/recmonitor.cpp:547
+#: src/recmonitor.cpp:154 src/recmonitor.cpp:562
 #, kde-format
 msgid ""
 "Press record button\n"
@@ -2679,18 +2694,18 @@ msgstr ""
 "Datoteke Äe bit ispremljene u:\n"
 "%1"
 
-#: src/customtrackview.cpp:1128 src/customtrackview.cpp:1136
+#: src/customtrackview.cpp:1150 src/customtrackview.cpp:1159
 msgid "Problem adding effect to clip"
 msgstr "Problem pri dodavanju efekata u isjeÄak"
 
-#: src/customtrackview.cpp:1121 src/customtrackview.cpp:1145
-#: src/customtrackview.cpp:1255
+#: src/customtrackview.cpp:1143 src/customtrackview.cpp:1169
+#: src/customtrackview.cpp:1283
 msgid "Problem deleting effect"
 msgstr "Problem pri brisanju efekta"
 
-#: src/customtrackview.cpp:1257 src/customtrackview.cpp:3126
-#: src/customtrackview.cpp:3143 src/customtrackview.cpp:3165
-#: src/customtrackview.cpp:3182
+#: src/customtrackview.cpp:1285 src/customtrackview.cpp:3213
+#: src/customtrackview.cpp:3230 src/customtrackview.cpp:3252
+#: src/customtrackview.cpp:3269
 msgid "Problem editing effect"
 msgstr "Problem pri ureÄivanju efekta"
 
@@ -2698,7 +2713,7 @@ msgstr "Problem pri ureÄivanju efekta"
 msgid "Profile"
 msgstr "Profil"
 
-#: src/renderwidget.cpp:294 src/renderwidget.cpp:399
+#: src/renderwidget.cpp:305 src/renderwidget.cpp:411
 msgid "Profile already exists"
 msgstr "Profil veÄ postoji"
 
@@ -2710,11 +2725,11 @@ msgstr "Ime profila"
 msgid "Profiles"
 msgstr "Profili"
 
-#: src/renderwidget.cpp:139
+#: src/renderwidget.cpp:140
 msgid "Progress"
 msgstr "Napredak"
 
-#: src/kdenlivesettingsdialog.cpp:432 src/projectsettings.cpp:73 rc.cpp:696
+#: src/kdenlivesettingsdialog.cpp:446 src/projectsettings.cpp:75 rc.cpp:696
 #: rc.cpp:1911
 msgid "Progressive"
 msgstr ""
@@ -2723,15 +2738,15 @@ msgstr ""
 msgid "Project"
 msgstr "Projekt"
 
-#: src/mainwindow.cpp:182
+#: src/mainwindow.cpp:184
 msgid "Project Monitor"
 msgstr "Projektni monitor"
 
-#: src/mainwindow.cpp:789 rc.cpp:1596 rc.cpp:2811
+#: src/mainwindow.cpp:813 rc.cpp:1596 rc.cpp:2811
 msgid "Project Settings"
 msgstr "Postavke projekta"
 
-#: src/mainwindow.cpp:144
+#: src/mainwindow.cpp:146
 msgid "Project Tree"
 msgstr "Projektno drvo"
 
@@ -2743,11 +2758,11 @@ msgstr "Projektna mapa"
 msgid "Properties"
 msgstr "Svojstva"
 
-#: src/kdenlivesettingsdialog.cpp:196
+#: src/kdenlivesettingsdialog.cpp:200
 msgid "PulseAudio"
 msgstr ""
 
-#: src/wizard.cpp:269
+#: src/wizard.cpp:271
 msgid "QImage module"
 msgstr "QImage modul"
 
@@ -2771,40 +2786,40 @@ msgstr "Mjera (Hz)"
 msgid "Rate Scaler"
 msgstr ""
 
-#: src/projectlistview.cpp:44
+#: src/projectlistview.cpp:45
 msgid "Rating"
 msgstr "Procjena"
 
-#: src/razorclipcommand.cpp:27
+#: src/razorclipcommand.cpp:28
 msgid "Razor clip"
 msgstr "Razdvoji isjeÄak"
 
-#: src/mainwindow.cpp:629
+#: src/mainwindow.cpp:653
 msgid "Razor tool"
 msgstr "Alat razdvajanja"
 
-#: src/mainwindow.cpp:2236
+#: src/mainwindow.cpp:2337
 msgid "Reached end of project"
 msgstr "Dosegnut je kraj projekta"
 
-#: src/recmonitor.cpp:72
+#: src/recmonitor.cpp:73
 msgid "Record"
 msgstr "Snimi"
 
-#: src/mainwindow.cpp:188
+#: src/mainwindow.cpp:190
 msgid "Record Monitor"
 msgstr "Monitor snimanja"
 
-#: src/wizard.cpp:301
+#: src/wizard.cpp:304
 msgid "Recordmydesktop"
 msgstr ""
 
-#: src/kdenlivesettingsdialog.cpp:162
+#: src/kdenlivesettingsdialog.cpp:163
 #, kde-format
 msgid "Recordmydesktop found at: %1"
 msgstr "Recordmydesktop pronaÄen na: %1"
 
-#: src/recmonitor.cpp:145
+#: src/recmonitor.cpp:151
 msgid ""
 "Recordmydesktop utility not found,\n"
 " please install it for screen grabs"
@@ -2812,7 +2827,7 @@ msgstr ""
 "RecordmydesktopĂËalat nije pronaĂÂen,\n"
 "ĂËinstaliraj ga za hvatanje ekrana"
 
-#: src/mainwindow.cpp:1326
+#: src/mainwindow.cpp:1363
 msgid "Recover"
 msgstr "Popravak"
 
@@ -2832,32 +2847,32 @@ msgstr "Predio hvatanja"
 msgid "Release time (s)"
 msgstr "Vrijeme otpuĹĄtanja (s)"
 
-#: src/mainwindow.cpp:1075
+#: src/mainwindow.cpp:1099
 msgid "Reload Clip"
 msgstr "Iznova uÄitaj isjeÄak"
 
-#: src/mainwindow.cpp:953 src/customtrackview.cpp:1809
+#: src/mainwindow.cpp:977 src/customtrackview.cpp:1864
 msgid "Remove Space"
 msgstr "Izbaci prazninu"
 
-#: src/customtrackview.cpp:3905
+#: src/customtrackview.cpp:4033
 msgid "Remove Track"
 msgstr "Izbaci traku"
 
-#: src/insertspacecommand.cpp:29
+#: src/insertspacecommand.cpp:30
 msgid "Remove space"
 msgstr "Izbaci prazninu"
 
-#: src/trackview.cpp:295
+#: src/trackview.cpp:304
 #, kde-format
 msgid "Removed invalid transition: %1"
 msgstr "IzbaÄen nemoguÄ prijelaz: %1"
 
-#: src/editfoldercommand.cpp:27
+#: src/editfoldercommand.cpp:28
 msgid "Rename folder"
 msgstr "Promijeni ime mapi"
 
-#: src/mainwindow.cpp:793 src/renderwidget.cpp:205
+#: src/mainwindow.cpp:817 src/renderwidget.cpp:213
 msgid "Render"
 msgstr "Stvori"
 
@@ -2865,89 +2880,91 @@ msgstr "Stvori"
 msgid "Render Project"
 msgstr "Stvori projekt"
 
-#: src/renderwidget.cpp:76
+#: src/renderwidget.cpp:77
 msgid "Render to File"
 msgstr "Stvaranje u datoteku"
 
-#: src/renderwidget.cpp:53
+#: src/renderwidget.cpp:54
 msgid "Rendering"
 msgstr "Stvaranje"
 
-#: renderer/renderjob.cpp:185
+#: renderer/renderjob.cpp:192
 #, kde-format
 msgid "Rendering %1"
 msgstr "Stvaranje %1"
 
-#: src/mainwindow.cpp:1569
+#: src/mainwindow.cpp:1613
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "StvaranjeĂË<i>%1</i>ĂËzapoĂÂelo"
 
-#: src/renderwidget.cpp:1132
+#: src/renderwidget.cpp:1157
 msgid "Rendering aborted"
 msgstr "Stvaranje prekinuto"
 
-#: src/renderwidget.cpp:1123
+#: src/renderwidget.cpp:1148
 msgid "Rendering crashed"
 msgstr "Stvaranje puklo"
 
-#: src/renderwidget.cpp:1112
+#: src/renderwidget.cpp:1137
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Stvaranje zavrĹĄeno u %1"
 
-#: src/dvdwizard.cpp:200
+#: src/dvdwizard.cpp:204
 msgid "Rendering job timed out"
 msgstr "Isteklo je vrijeme stvaranja"
 
-#: renderer/renderjob.cpp:245
+#: renderer/renderjob.cpp:254
 #, kde-format
 msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
-msgstr "StvaranjeĂË%1ĂËprekinuto,ĂËdobiveni video vjerojatno ĂÂe biti neispravan."
+msgstr ""
+"StvaranjeĂË%1ĂËprekinuto,ĂËdobiveni video vjerojatno ĂÂe biti "
+"neispravan."
 
-#: renderer/renderjob.cpp:267
+#: renderer/renderjob.cpp:276
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "StvaranjeĂË%1ĂËzavrÄšÄeno uĂË%2"
 
-#: src/trackview.cpp:615
+#: src/trackview.cpp:633
 #, kde-format
 msgid "Replaced wrong clip producer %1 with %2"
 msgstr "Zamjenjen krivi producer isjeÄka %1 sa %2"
 
-#: src/wizard.cpp:314
+#: src/wizard.cpp:317
 msgid "Required for creation of DVD"
 msgstr "Potrebno za izradu DVD-a"
 
-#: src/wizard.cpp:320
-msgid "Required for creation of DVD iso images"
+#: src/wizard.cpp:323
+msgid "Required for creation of DVD ISO images"
 msgstr "Potrebno za izradu DVD ISO slika"
 
-#: src/wizard.cpp:308
+#: src/wizard.cpp:311
 msgid "Required for firewire capture"
 msgstr "PotrebnoĂËza firewire hvatanje"
 
-#: src/wizard.cpp:127
+#: src/wizard.cpp:129
 msgid "Required for rendering (part of MLT package)"
 msgstr "Potrebno za stvaranje (dio MLT paketa)"
 
-#: src/wizard.cpp:302
+#: src/wizard.cpp:305
 msgid "Required for screen capture"
 msgstr "Potrebno za hvatanje ekrana"
 
-#: src/wizard.cpp:294
+#: src/wizard.cpp:297
 msgid "Required for webcam capture"
 msgstr "Potrebno za hvatanje sa web kamere"
 
-#: src/wizard.cpp:260
+#: src/wizard.cpp:262
 msgid "Required to work with dv files if avformat module is not installed"
 msgstr "Potrebno za rad sa dv datotekama ako avformat modul nije instaliran"
 
-#: src/wizard.cpp:270 src/wizard.cpp:275
+#: src/wizard.cpp:272 src/wizard.cpp:277
 msgid "Required to work with images"
 msgstr "Potrebno za rad sa slikama"
 
-#: src/wizard.cpp:144
+#: src/wizard.cpp:146
 msgid "Required to work with various video formats (hdv, mpeg, flash, ...)"
 msgstr "Potrebno za rad sa raznim video formatima (hdv, mpeg, flash...)"
 
@@ -2955,24 +2972,24 @@ msgstr "Potrebno za rad sa raznim video formatima (hdv, mpeg, flash...)"
 msgid "Rescale"
 msgstr "Skaliraj"
 
-#: src/effectstackview.cpp:55
+#: src/effectstackview.cpp:56
 msgid "Reset effect"
 msgstr "PoniĹĄti efekt"
 
-#: src/monitor.cpp:119
+#: src/monitor.cpp:120
 msgid "Resize (100%)"
 msgstr "Promjeni veliÄinu (100%)"
 
-#: src/monitor.cpp:120
+#: src/monitor.cpp:121
 msgid "Resize (50%)"
 msgstr "Promjeni veliÄinu (50%)"
 
-#: src/resizeclipcommand.cpp:27 src/customtrackview.cpp:2306
-#: src/customtrackview.cpp:2367
+#: src/resizeclipcommand.cpp:28 src/customtrackview.cpp:2371
+#: src/customtrackview.cpp:2432
 msgid "Resize clip"
 msgstr "Promjeni veliÄinu isjeÄka"
 
-#: src/geometryval.cpp:69
+#: src/geometryval.cpp:70
 msgid "Resize..."
 msgstr "Promjeni veliÄinu..."
 
@@ -2992,23 +3009,23 @@ msgstr "Reverb vrijeme"
 msgid "Reverse playing"
 msgstr "Play unatrag"
 
-#: src/monitor.cpp:64 src/mainwindow.cpp:830 src/recmonitor.cpp:60
+#: src/monitor.cpp:65 src/mainwindow.cpp:854 src/recmonitor.cpp:61
 msgid "Rewind"
 msgstr "Prevrti"
 
-#: src/mainwindow.cpp:835
+#: src/mainwindow.cpp:859
 msgid "Rewind 1 Frame"
 msgstr "Prevrti 1 okvir"
 
-#: src/mainwindow.cpp:840
+#: src/mainwindow.cpp:864
 msgid "Rewind 1 Second"
 msgstr "Prevrti 1 sekundu"
 
-#: src/monitor.cpp:65
+#: src/monitor.cpp:66
 msgid "Rewind 1 frame"
 msgstr "Prevrti 1 okvir"
 
-#: src/geometryval.cpp:81 rc.cpp:72
+#: src/geometryval.cpp:82 rc.cpp:72
 msgid "Right"
 msgstr "Desno"
 
@@ -3044,7 +3061,7 @@ msgstr "Rotiraj isjeÄak u neki od 3 pravca"
 msgid "Rotate:"
 msgstr "Rotiraj:"
 
-#: src/mainwindow.cpp:785
+#: src/mainwindow.cpp:809
 msgid "Run Config Wizard"
 msgstr "Startaj Äarobnak za postavke"
 
@@ -3052,15 +3069,15 @@ msgstr "Startaj Äarobnak za postavke"
 msgid "S"
 msgstr ""
 
-#: src/kdenlivesettingsdialog.cpp:217
+#: src/kdenlivesettingsdialog.cpp:221
 msgid "SVGAlib"
 msgstr ""
 
-#: src/titlewidget.cpp:131
+#: src/titlewidget.cpp:132
 msgid "Save As"
 msgstr "Snimi kao"
 
-#: src/effectstackview.cpp:86
+#: src/effectstackview.cpp:90
 msgid "Save Effect"
 msgstr "Snimi efekt"
 
@@ -3068,27 +3085,27 @@ msgstr "Snimi efekt"
 msgid "Save Profile"
 msgstr "Snimi profil"
 
-#: src/titlewidget.cpp:669
+#: src/titlewidget.cpp:702
 msgid "Save Title"
 msgstr "Snimi naslov"
 
-#: src/mainwindow.cpp:385 src/mainwindow.cpp:1205
+#: src/mainwindow.cpp:389 src/mainwindow.cpp:1236
 msgid "Save changes to document ?"
 msgstr "Snimi promjene u dokument ?"
 
-#: src/mainwindow.cpp:2325
+#: src/mainwindow.cpp:2432
 msgid "Save clip zone as:"
 msgstr "Snimi zonu isjeÄka kao:"
 
-#: src/effectstackview.cpp:53
+#: src/effectstackview.cpp:54
 msgid "Save effect"
 msgstr "Snimi efekt"
 
-#: src/profilesdialog.cpp:40
+#: src/profilesdialog.cpp:41
 msgid "Save profile"
 msgstr "Snimi profil"
 
-#: src/monitor.cpp:156
+#: src/monitor.cpp:160
 msgid "Save zone"
 msgstr "Snimi zonu"
 
@@ -3108,15 +3125,15 @@ msgstr "Uhvati ekran"
 msgid "Screen grab"
 msgstr "Uhvati ekran"
 
-#: src/renderwidget.cpp:154
+#: src/renderwidget.cpp:155
 msgid "Script Files"
 msgstr "Datoteke skripti"
 
-#: src/renderwidget.cpp:561
+#: src/renderwidget.cpp:577
 msgid "Script file already exists. Do you want to overwrite it ?"
 msgstr "Skripta veÄ postoji. Ĺ˝eliĹĄ li je prepisati?"
 
-#: src/renderwidget.cpp:556
+#: src/renderwidget.cpp:572
 #, kde-format
 msgid "Script name (will be saved in: %1)"
 msgstr "Ime skripte (bit Äe spremljeno u: %1)"
@@ -3125,27 +3142,27 @@ msgstr "Ime skripte (bit Äe spremljeno u: %1)"
 msgid "Scripts"
 msgstr "Skripte"
 
-#: src/kdenlivedoc.cpp:1314
+#: src/kdenlivedoc.cpp:1360
 msgid "Search automatically"
 msgstr "TraĹži automatski"
 
-#: src/kdenlivedoc.cpp:1317 src/kdenlivedoc.cpp:1325
+#: src/kdenlivedoc.cpp:1363 src/kdenlivedoc.cpp:1371
 msgid "Search manually"
 msgstr "TraĹži ruÄno"
 
-#: src/dvdwizard.cpp:42
+#: src/dvdwizard.cpp:43
 msgid "Select Files For Your DVD"
 msgstr "Odaberi datoteke za DVD"
 
-#: src/customtrackview.cpp:3557
+#: src/customtrackview.cpp:3671
 msgid "Select a clip before copying"
 msgstr "Odaberi isjeÄak prije kopiranja"
 
-#: src/customtrackview.cpp:1203
+#: src/customtrackview.cpp:1229
 msgid "Select a clip if you want to apply an effect"
 msgstr "Odaberi isjeÄak ako ĹželiĹĄ dodati efekt"
 
-#: src/regiongrabber.cpp:99
+#: src/regiongrabber.cpp:104
 msgid ""
 "Select a region using the mouse. To take the snapshot, press the Enter key. "
 "Press Esc to quit."
@@ -3153,23 +3170,23 @@ msgstr ""
 "Odaberi podruÄje koristeÄi miĹĄa. Za uzeti snimku pritisni Enter tipku."
 "Pritisni Esc za izlaz."
 
-#: src/customtrackview.cpp:2600
+#: src/customtrackview.cpp:2668
 msgid "Select clip to change speed"
 msgstr "Odaberi isjeÄak za promjenu brzine"
 
-#: src/customtrackview.cpp:1504 src/customtrackview.cpp:2547
+#: src/customtrackview.cpp:1542 src/customtrackview.cpp:2614
 msgid "Select clip to delete"
 msgstr "Odaberi isjeÄak za brisanje."
 
-#: src/kdenlivesettingsdialog.cpp:315
+#: src/kdenlivesettingsdialog.cpp:323
 msgid "Select default audio editor"
 msgstr "Odaberi zadani audio editor"
 
-#: src/kdenlivesettingsdialog.cpp:325
+#: src/kdenlivesettingsdialog.cpp:334
 msgid "Select default image editor"
 msgstr "Odaberi zadani slikovni editor"
 
-#: src/kdenlivesettingsdialog.cpp:305
+#: src/kdenlivesettingsdialog.cpp:312
 msgid "Select default video player"
 msgstr "Odaberi zadani video player"
 
@@ -3177,11 +3194,11 @@ msgstr "Odaberi zadani video player"
 msgid "Selected zone"
 msgstr "Odaberi zonu"
 
-#: src/titlewidget.cpp:123
+#: src/titlewidget.cpp:124
 msgid "Selection Tool"
 msgstr "Alat odabira"
 
-#: src/mainwindow.cpp:624
+#: src/mainwindow.cpp:648
 msgid "Selection tool"
 msgstr "Alat odabira"
 
@@ -3189,27 +3206,27 @@ msgstr "Alat odabira"
 msgid "Sepia"
 msgstr ""
 
-#: src/mainwindow.cpp:821
+#: src/mainwindow.cpp:845
 msgid "Set In Point"
 msgstr "Postavi ulaznu toÄku"
 
-#: src/mainwindow.cpp:826
+#: src/mainwindow.cpp:850
 msgid "Set Out Point"
 msgstr "Postavi izlaznu toÄku"
 
-#: src/monitor.cpp:166
+#: src/monitor.cpp:170
 msgid "Set current image as thumbnail"
 msgstr "Postavi trenutnu sliku kao kratki prikaz"
 
-#: src/main.cpp:52
+#: src/main.cpp:53
 msgid "Set the path for MLT environnement"
 msgstr "Postavi putanju dod MLT okoline"
 
-#: src/monitor.cpp:62
+#: src/monitor.cpp:63
 msgid "Set zone end"
 msgstr "Postavi kraj zone"
 
-#: src/monitor.cpp:61
+#: src/monitor.cpp:62
 msgid "Set zone start"
 msgstr "Postavi poÄetak zone"
 
@@ -3229,11 +3246,11 @@ msgstr "Smjena"
 msgid "Show All"
 msgstr "PrikaĹži sve"
 
-#: src/mainwindow.cpp:990
+#: src/mainwindow.cpp:1014
 msgid "Show Timeline"
 msgstr "PrikaĹži vremensku liniju"
 
-#: src/mainwindow.cpp:697 rc.cpp:1386 rc.cpp:2601
+#: src/mainwindow.cpp:721 rc.cpp:1386 rc.cpp:2601
 msgid "Show audio thumbnails"
 msgstr "PokaĹži audio kratke prikaze"
 
@@ -3241,15 +3258,15 @@ msgstr "PokaĹži audio kratke prikaze"
 msgid "Show background"
 msgstr "PokaĹži pozadinu"
 
-#: src/complexparameter.cpp:41
+#: src/complexparameter.cpp:42
 msgid "Show keyframes in timeline"
 msgstr "PokaĹži kljuÄne toÄke na vremenskoj liniji"
 
-#: src/mainwindow.cpp:703
+#: src/mainwindow.cpp:727
 msgid "Show markers comments"
 msgstr "PokaĹži komentare oznaka"
 
-#: src/mainwindow.cpp:691 rc.cpp:1383 rc.cpp:2598
+#: src/mainwindow.cpp:715 rc.cpp:1383 rc.cpp:2598
 msgid "Show video thumbnails"
 msgstr "PokaĹži video kratke prikaze"
 
@@ -3270,15 +3287,15 @@ msgstr "VeliÄina:"
 msgid "Slideshow"
 msgstr "Prikaz slajdova"
 
-#: src/slideshowclip.cpp:33 rc.cpp:1113 rc.cpp:2328
+#: src/slideshowclip.cpp:34 rc.cpp:1113 rc.cpp:2328
 msgid "Slideshow Clip"
 msgstr "Prikaz slajdova isjeÄka"
 
-#: src/projectitem.cpp:185
+#: src/projectitem.cpp:206
 msgid "Slideshow clip"
 msgstr "Prikaz slajdova isjeÄka"
 
-#: src/mainwindow.cpp:709
+#: src/mainwindow.cpp:733
 msgid "Snap"
 msgstr "Ĺ kljocnuti"
 
@@ -3374,7 +3391,7 @@ msgstr ""
 msgid "Space"
 msgstr "Praznina"
 
-#: src/mainwindow.cpp:634
+#: src/mainwindow.cpp:658
 msgid "Spacer tool"
 msgstr "Alat praznine"
 
@@ -3382,15 +3399,15 @@ msgstr "Alat praznine"
 msgid "Speed"
 msgstr "Brzina"
 
-#: src/mainwindow.cpp:937
+#: src/mainwindow.cpp:961
 msgid "Split Audio"
 msgstr "Podijeli zvuk"
 
-#: src/splitaudiocommand.cpp:27 src/customtrackview.cpp:4082
+#: src/splitaudiocommand.cpp:28 src/customtrackview.cpp:4220
 msgid "Split audio"
 msgstr "Podijeli zvuk"
 
-#: src/monitor.cpp:162
+#: src/monitor.cpp:166
 msgid "Split view"
 msgstr "Razdvojeni pogled"
 
@@ -3410,7 +3427,7 @@ msgstr "PoÄetak"
 msgid "Start Gain"
 msgstr "PoÄetna jaÄina"
 
-#: src/renderwidget.cpp:75
+#: src/renderwidget.cpp:76
 msgid "Start Rendering"
 msgstr "ZapoÄni stvaranje"
 
@@ -3426,11 +3443,11 @@ msgstr "PoÄetak-/Kraj preglednik"
 msgid "StartViewport"
 msgstr ""
 
-#: src/mainwindow.cpp:2227
+#: src/mainwindow.cpp:2327
 msgid "Starting -- find text as you type"
 msgstr "PoÄinje -- pronaÄi tekst kako tipkaĹĄ"
 
-#: src/recmonitor.cpp:66
+#: src/recmonitor.cpp:67
 msgid "Stop"
 msgstr "Stop"
 
@@ -3442,7 +3459,7 @@ msgstr ""
 msgid "Surface warping"
 msgstr ""
 
-#: src/geometryval.cpp:87
+#: src/geometryval.cpp:88
 msgid "Sync timeline cursor"
 msgstr "Sinkroniziraj pokazivaÄ vremenske linije"
 
@@ -3462,7 +3479,7 @@ msgstr "Privremene daoteke"
 msgid "Text"
 msgstr "Tekst"
 
-#: src/projectitem.cpp:182
+#: src/projectitem.cpp:203
 msgid "Text clip"
 msgstr "Tekst isjeÄak"
 
@@ -3470,36 +3487,39 @@ msgstr "Tekst isjeÄak"
 msgid "TextLabel"
 msgstr ""
 
-#: src/profilesdialog.cpp:105
+#: src/profilesdialog.cpp:111
 msgid "The custom profile was modified, do you want to save it?"
 msgstr "PrilagoÄeni profil je promijenjen, ĹželiĹĄ li ga snimiti?"
 
-#: src/renderer.cpp:1217
+#: src/renderer.cpp:1269
 msgid "There is no clip, cannot extract frame."
 msgstr "Nema isjeÄka, ne mogu izvuÄi okvir"
 
-#: src/wizard.cpp:45
+#: src/wizard.cpp:46
 msgid ""
 "This is the first time you run Kdenlive. This wizard will let you adjust "
 "some basic settings, you will be ready to edit your first movie in a few "
 "seconds..."
 msgstr ""
-"Ovo je prvi puta kako pokreÄeĹĄ Kdenlive. Ovaj Äarobnjak voditi Äe te pri "
-"podeĹĄavanju osnovnih postavki, za koji trenutak moÄi ÄeĹĄ raditi na svom "
-"prvom uradku."
+"Ovo je prvi puta kako pokreÄeĹĄ Kdenlive. Ovaj Äarobnjak voditi Äe te "
+"pri podeĹĄavanju osnovnih postavki, za koji trenutak moÄi ÄeĹĄ raditi na "
+"svom prvom uradku."
 
-#: src/renderwidget.cpp:294 src/renderwidget.cpp:399
+#: src/renderwidget.cpp:305 src/renderwidget.cpp:411
 msgid ""
 "This profile name already exists. Change the name if you don't want to "
 "overwrite it."
-msgstr "Ime profila veÄ postoji. Promijeni mu ime ako ne ĹželiĹĄ da ga prepiĹĄe."
+msgstr ""
+"Ime profila veÄ postoji. Promijeni mu ime ako ne ĹželiĹĄ da ga prepiĹĄe."
 
-#: src/kdenlivedoc.cpp:387
+#: src/kdenlivedoc.cpp:397
 #, kde-format
 msgid "This project type is unsupported (version %1) and can't be loaded."
-msgstr "Ovaj tip projekta nije podrÄšĹžan (verzijaĂË%1) i neĂÂe biti uĂÂitan."
+msgstr ""
+"Ovaj tip projekta nije podrÄšĹžan (verzijaĂË%1) i neĂÂe biti "
+"uĂÂitan."
 
-#: src/kdenlivedoc.cpp:381
+#: src/kdenlivedoc.cpp:391
 #, kde-format
 msgid ""
 "This project type is unsupported (version %1) and can't be loaded.\n"
@@ -3516,7 +3536,7 @@ msgstr "Prag"
 msgid "Threshold value"
 msgstr "Vrijednost praga"
 
-#: src/projectlistview.cpp:44
+#: src/projectlistview.cpp:45
 msgid "Thumbnail"
 msgstr "Kratki prikaz"
 
@@ -3556,11 +3576,11 @@ msgstr "Odaberi"
 msgid "Tool"
 msgstr "Alat"
 
-#: src/geometryval.cpp:83 rc.cpp:66
+#: src/geometryval.cpp:84 rc.cpp:66
 msgid "Top"
 msgstr "Vrh"
 
-#: src/customtrackview.cpp:1809 src/customtrackview.cpp:3905 rc.cpp:1254
+#: src/customtrackview.cpp:1864 src/customtrackview.cpp:4033 rc.cpp:1254
 #: rc.cpp:2469
 msgid "Track"
 msgstr "Traka"
@@ -3573,7 +3593,7 @@ msgstr "Visina trake"
 msgid "Tracks"
 msgstr "Trake"
 
-#: src/mainwindow.cpp:164
+#: src/mainwindow.cpp:166
 msgid "Transition"
 msgstr "Prijelaz"
 
@@ -3597,51 +3617,51 @@ msgstr "Prebaci boje isjeÄka u sepiu"
 msgid "Type"
 msgstr "Tip"
 
-#: src/kdenlivedoc.cpp:381 src/kdenlivedoc.cpp:387
+#: src/kdenlivedoc.cpp:391 src/kdenlivedoc.cpp:397
 msgid "Unable to open project"
 msgstr "Ne mogu otvoriti projekt"
 
-#: src/renderwidget.cpp:315 src/renderwidget.cpp:479 src/renderwidget.cpp:937
+#: src/renderwidget.cpp:326 src/renderwidget.cpp:492 src/renderwidget.cpp:960
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Ne mogu zapisati u datoteku %1"
 
-#: src/mainwindow.cpp:197
+#: src/mainwindow.cpp:199
 msgid "Undo History"
 msgstr "Undo povijest"
 
-#: src/mainwindow.cpp:911
+#: src/mainwindow.cpp:935
 msgid "Ungroup Clips"
 msgstr "Odgrupiraj isjeÄke"
 
-#: src/groupclipscommand.cpp:28
+#: src/groupclipscommand.cpp:29
 msgid "Ungroup clips"
 msgstr "Odgrupiraj isjeÄke"
 
-#: src/projectitem.cpp:194
+#: src/projectitem.cpp:215
 msgid "Unknown clip"
 msgstr "Nepoznati isjeÄak"
 
-#: src/locktrackcommand.cpp:27
+#: src/locktrackcommand.cpp:28
 msgid "Unlock track"
 msgstr "OdkljuÄaj traku"
 
-#: src/renderwidget.cpp:760
+#: src/renderwidget.cpp:778
 #, kde-format
 msgid "Unsupported audio codec: %1"
 msgstr "NepodrĹžani zvukovni kodek: %1"
 
-#: src/renderwidget.cpp:775
+#: src/renderwidget.cpp:793
 #, kde-format
 msgid "Unsupported video codec: %1"
 msgstr "NepodrĹžani video kodek: %1"
 
-#: src/renderwidget.cpp:745
+#: src/renderwidget.cpp:763
 #, kde-format
 msgid "Unsupported video format: %1"
 msgstr "NepodrĹžani video format: %1"
 
-#: src/kdenlivedoc.cpp:1268
+#: src/kdenlivedoc.cpp:1313
 msgid "Untitled"
 msgstr "Bez naziva"
 
@@ -3678,7 +3698,7 @@ msgstr ""
 msgid "Variance"
 msgstr "Varijanca"
 
-#: src/geometryval.cpp:80
+#: src/geometryval.cpp:81
 msgid "Vert. Center"
 msgstr "Vert. Centar"
 
@@ -3703,7 +3723,7 @@ msgstr ""
 msgid "Video Codecs"
 msgstr "Video kodeki"
 
-#: src/mainwindow.cpp:945
+#: src/mainwindow.cpp:969
 msgid "Video Only"
 msgstr "Samo video"
 
@@ -3715,11 +3735,11 @@ msgstr "Video profil"
 msgid "Video Resolution"
 msgstr "Video rezolucija"
 
-#: src/wizard.cpp:61
+#: src/wizard.cpp:62
 msgid "Video Standard"
 msgstr ""
 
-#: src/projectitem.cpp:173
+#: src/projectitem.cpp:194
 msgid "Video clip"
 msgstr "Video isjeÄak"
 
@@ -3739,7 +3759,7 @@ msgstr "Video pogonitelj:"
 msgid "Video index"
 msgstr "Video indeks"
 
-#: src/customtrackview.cpp:4174
+#: src/customtrackview.cpp:4314
 msgid "Video only"
 msgstr "Samo video"
 
@@ -3767,7 +3787,7 @@ msgstr "Pogled"
 msgid "Vinyl"
 msgstr ""
 
-#: src/projectitem.cpp:188
+#: src/projectitem.cpp:209
 msgid "Virtual clip"
 msgstr "Prividni isjeÄak"
 
@@ -3795,11 +3815,11 @@ msgstr "Val"
 msgid "Wear"
 msgstr "Nositi"
 
-#: src/renderwidget.cpp:857
+#: src/renderwidget.cpp:879
 msgid "Web sites"
 msgstr "Web stranice"
 
-#: src/wizard.cpp:40
+#: src/wizard.cpp:41
 msgid "Welcome"
 msgstr "DobrodoĹĄli"
 
@@ -3819,7 +3839,7 @@ msgstr "Prozor"
 msgid "X"
 msgstr ""
 
-#: src/kdenlivesettingsdialog.cpp:212
+#: src/kdenlivesettingsdialog.cpp:216
 msgid "X11"
 msgstr ""
 
@@ -3827,11 +3847,11 @@ msgstr ""
 msgid "X:"
 msgstr ""
 
-#: src/kdenlivesettingsdialog.cpp:213
+#: src/kdenlivesettingsdialog.cpp:217
 msgid "XFree86 DGA 2.0"
 msgstr ""
 
-#: src/kdenlivesettingsdialog.cpp:211
+#: src/kdenlivesettingsdialog.cpp:215
 msgid "XVideo"
 msgstr ""
 
@@ -3847,58 +3867,60 @@ msgstr ""
 msgid "Year"
 msgstr "Godina"
 
-#: src/kdenlivedoc.cpp:1029
+#: src/kdenlivedoc.cpp:1046
 #, kde-format
 msgid ""
 "You have changed the project folder. Do you want to copy the cached data "
 "from %1 to the new folder %2?"
 msgstr ""
-"Promjenio si mapu projekta. Ĺ˝eliĹĄ li iskopirati prikupljene podatke iz %1 "
-"unovu mapu %2?"
+"Promjenio si mapu projekta. Ĺ˝eliĹĄ li iskopirati prikupljene podatke iz %"
+"1 unovu mapu %2?"
 
-#: src/customtrackview.cpp:1817
+#: src/customtrackview.cpp:1872
 #, kde-format
 msgid "You must be in an empty space to remove space (time: %1, track: %2)"
 msgstr ""
-"MoraĹĄ biti u praznom prostoru ako ĹželiĹĄ izbaciti prazninu (vrijeme: %1, "
-"traka: %2)"
+"MoraĹĄ biti u praznom prostoru ako ĹželiĹĄ izbaciti prazninu (vrijeme: %"
+"1, traka: %2)"
 
-#: src/customtrackview.cpp:1823
+#: src/customtrackview.cpp:1878
 #, kde-format
 msgid "You must be in an empty space to remove space (time=%1, track:%2)"
 msgstr ""
 "MoraÄšÄĂËbitiĂËuĂËpraznomĂËprostoruĂËakoĂËÄšĹželiÄšÄĂËizbacitiĂËprazninuĂË"
 "(vrijeme=%1,ĂËtraka:%2)"
 
-#: src/customtrackview.cpp:3674
+#: src/customtrackview.cpp:3793
 msgid "You must copy exactly one clip before pasting effects"
 msgstr "MoraĹĄ izkopirati samo jedan isjeÄak prije ubacivanja efekta"
 
-#: src/customtrackview.cpp:3749 src/customtrackview.cpp:3773
-#: src/customtrackview.cpp:4078 src/customtrackview.cpp:4170
-#: src/customtrackview.cpp:4194
+#: src/customtrackview.cpp:3872 src/customtrackview.cpp:3897
+#: src/customtrackview.cpp:4216 src/customtrackview.cpp:4310
+#: src/customtrackview.cpp:4335
 msgid "You must select one clip for this action"
 msgstr "MoraĹĄ oznaÄiti jedan isjeÄak za ovu akciju"
 
-#: src/customtrackview.cpp:3981
+#: src/customtrackview.cpp:4113
 msgid "You must select one transition for this action"
 msgstr "MoraĹĄ odabrati jedan prijelaz za ovu akciju"
 
-#: src/wizard.cpp:43
+#: src/wizard.cpp:44
 msgid ""
 "Your Kdenlive version was upgraded. Please take some time to review the "
 "basic settings"
-msgstr "VaĹĄa Kdenlive verzija je obnovljena. Uzmite si vremena da pregledate osnovne postavke"
+msgstr ""
+"VaĹĄa Kdenlive verzija je obnovljena. Uzmite si vremena da pregledate "
+"osnovne postavke"
 
 #: rc.cpp:1368 rc.cpp:2583
 msgid "Z-Index:"
 msgstr "Z-Indeks:"
 
-#: src/mainwindow.cpp:754
+#: src/mainwindow.cpp:778
 msgid "Zoom In"
 msgstr "Zoom u"
 
-#: src/mainwindow.cpp:759
+#: src/mainwindow.cpp:783
 msgid "Zoom Out"
 msgstr "Zoom van"
 
@@ -3918,11 +3940,11 @@ msgstr "prije"
 msgid "create new points"
 msgstr "napravi nove toÄke"
 
-#: src/dvdwizardvob.cpp:36
+#: src/dvdwizardvob.cpp:37
 msgid "dvdauthor"
 msgstr ""
 
-#: src/recmonitor.cpp:170
+#: src/recmonitor.cpp:176
 msgid ""
 "dvgrab utility not found,\n"
 " please install it for firewire capture"
@@ -3930,38 +3952,38 @@ msgstr ""
 "dvgrabĂËalat nije pronaĂÂen,\n"
 "instaliraj ga za hvatanje firewire-a"
 
-#: src/kdenlivesettingsdialog.cpp:154
+#: src/kdenlivesettingsdialog.cpp:155
 #, kde-format
 msgid "dvgrab version %1 at %2"
 msgstr "dvgrabĂËvertijaĂË%1ĂËpriĂË%2"
 
-#: src/editeffectcommand.cpp:32 src/edittransitioncommand.cpp:29
-#: src/customtrackview.cpp:1161 src/customtrackview.cpp:1196
-#: src/addeffectcommand.cpp:30
+#: src/editeffectcommand.cpp:33 src/edittransitioncommand.cpp:30
+#: src/customtrackview.cpp:1186 src/customtrackview.cpp:1222
+#: src/addeffectcommand.cpp:31
 msgid "effect"
 msgstr "efekti"
 
-#: src/timecode.cpp:130
+#: src/timecode.cpp:137
 msgid "frames"
 msgstr "okviri"
 
-#: src/mainwindow.cpp:603
+#: src/mainwindow.cpp:627
 msgid "hh:mm:ss::ff"
 msgstr ""
 
-#: src/timecode.cpp:109
+#: src/timecode.cpp:116
 msgid "hour"
 msgstr "sat"
 
-#: src/managecapturesdialog.cpp:41
+#: src/managecapturesdialog.cpp:42
 msgid "import"
 msgstr "uvoz"
 
-#: src/timecode.cpp:117
+#: src/timecode.cpp:124
 msgid "min."
 msgstr ""
 
-#: src/dvdwizardvob.cpp:37
+#: src/dvdwizardvob.cpp:38
 msgid "mkisofs"
 msgstr ""
 
@@ -3981,15 +4003,15 @@ msgstr ""
 msgid "parameter description"
 msgstr "opis parametra"
 
-#: src/renderwidget.cpp:551 src/renderwidget.cpp:554
+#: src/renderwidget.cpp:567 src/renderwidget.cpp:570
 msgid "script"
 msgstr "skripta"
 
-#: src/timecode.cpp:125
+#: src/timecode.cpp:132
 msgid "sec."
 msgstr "sek."
 
-#: src/abstractclipitem.cpp:290
+#: src/abstractclipitem.cpp:311
 msgid "seconds"
 msgstr "sekunde"
 
@@ -4017,12 +4039,21 @@ msgstr ""
 msgid "x1"
 msgstr ""
 
-#: src/wizard.cpp:460
-msgid "your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
-msgstr "Ne mogu pronaÄi MLT instalaciju. Instaliraj MLT i restartaj Kdenlive.\n"
+#: src/wizard.cpp:470
+msgid ""
+"your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
+msgstr ""
+"Ne mogu pronaÄi MLT instalaciju. Instaliraj MLT i restartaj Kdenlive.\n"
+
+#~ msgid "Dvd iso image"
+#~ msgstr "DVD ISO slika"
 
 #~ msgid "<qt>Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
-#~ msgstr "<qt>ClipÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂ<b>%1</b><br>je neispravan ili nedostaje, ĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂĂĹĄĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂto napraviti?"
+#~ msgstr ""
+#~ "<qt>ClipĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂ<b>"
+#~ "%1</b><br>je neispravan ili nedostaje, "
+#~ "ÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂÄÂÄšÄÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂto "
+#~ "napraviti?"
 
 #~ msgid "Brightness"
 #~ msgstr "Svjetlina"
@@ -4031,8 +4062,12 @@ msgstr "Ne mogu pronaÄi MLT instalaciju. Instaliraj MLT i restartaj Kdenlive.
 #~ "Cannot access Desktop Search info for %1.\n"
 #~ "Disabling Desktop Search integration."
 #~ msgstr ""
-#~ "Ne mogu pristupiti Desktop pretraziÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂ%1.\n"
-#~ "IskljuÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂujem podrĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂĂĹĄĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂku Desktop pretrage."
+#~ "Ne mogu pristupiti Desktop "
+#~ "pretraziĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂ"
+#~ "%1.\n"
+#~ "IskljuĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂujem "
+#~ "podrÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂÄÂÄšÄÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂku "
+#~ "Desktop pretrage."
 
 #~ msgid "Remaining time"
 #~ msgstr "Preostalo vrijeme"
