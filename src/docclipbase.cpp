@@ -100,6 +100,10 @@ DocClipBase::~DocClipBase()
     }
     qDeleteAll(m_baseTrackProducers);
     m_baseTrackProducers.clear();
+    qDeleteAll(m_audioTrackProducers);
+    m_audioTrackProducers.clear();
+    if (m_videoOnlyProducer) delete m_videoOnlyProducer;
+    m_videoOnlyProducer = NULL;
 }
 
 void DocClipBase::setZone(QPoint zone)
@@ -406,6 +410,10 @@ void DocClipBase::deleteProducers()
     qDeleteAll(m_baseTrackProducers);
     m_baseTrackProducers.clear();
     if (m_thumbProd) m_thumbProd->clearProducer();
+    qDeleteAll(m_audioTrackProducers);
+    m_audioTrackProducers.clear();
+    if (m_videoOnlyProducer) delete m_videoOnlyProducer;
+    m_videoOnlyProducer = NULL;
 }
 
 void DocClipBase::setProducer(Mlt::Producer *producer)
