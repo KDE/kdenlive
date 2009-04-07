@@ -218,13 +218,6 @@ void CustomTrackView::checkTrackHeight()
     update();
 }
 
-// virtual
-void CustomTrackView::resizeEvent(QResizeEvent * event)
-{
-    QGraphicsView::resizeEvent(event);
-}
-
-// virtual
 /** Zoom or move viewport on mousewheel
  *
  * If mousewheel+Ctrl, zooms in/out on the timeline.

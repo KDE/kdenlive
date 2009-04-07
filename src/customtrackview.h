@@ -166,7 +166,6 @@ protected:
     virtual void wheelEvent(QWheelEvent * e);
     virtual QStringList mimeTypes() const;
     virtual Qt::DropActions supportedDropActions() const;
-    virtual void resizeEvent(QResizeEvent * event);
 
 private:
     uint m_tracksHeight;
