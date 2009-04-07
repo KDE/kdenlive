@@ -12,9 +12,9 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-04-02 12:13+0200\n"
-"PO-Revision-Date: 2009-04-02 12:16+0200\n"
-"Last-Translator: \n"
-"Language-Team: American English <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2009-04-08 01:28+0200\n"
+"Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
+"Language-Team: American English <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -306,7 +306,7 @@ msgstr "Lautstärke mit Keyframes abgleichen"
 
 #: src/changespeedcommand.cpp:27
 msgid "Adjust clip length"
-msgstr "Cliplänge einstellen"
+msgstr "Clip-Länge einstellen"
 
 #: rc.cpp:289
 msgid "Adjust size and position of clip"
@@ -768,7 +768,7 @@ msgstr "Spurtyp ändern"
 
 #: src/changecliptypecommand.cpp:27
 msgid "Change clip type"
-msgstr "Cliptyp ändern"
+msgstr "Clip-Typ ändern"
 
 #: rc.cpp:163
 msgid "Change gamma color value"
@@ -847,7 +847,7 @@ msgstr "Clip <b>%1</b><br>ist ungültig und wird aus dem Projekt entfernt."
 
 #: rc.cpp:783 rc.cpp:1998
 msgid "Clip Color"
-msgstr "Clipfarbe"
+msgstr "Clip-Farbe"
 
 #: src/mainwindow.cpp:175
 msgid "Clip Monitor"
@@ -855,7 +855,7 @@ msgstr "Clip-Monitor"
 
 #: src/mainwindow.cpp:1057 rc.cpp:1521 rc.cpp:2736
 msgid "Clip Properties"
-msgstr "Clipeigenschaften"
+msgstr "Clip-Eigenschaften"
 
 #: src/clipitem.cpp:806
 #, c-format, kde-format
@@ -896,7 +896,7 @@ msgstr "Farb-Clip"
 
 #: rc.cpp:675 rc.cpp:1890
 msgid "Color clips"
-msgstr "Farbclips"
+msgstr "Farb-Clips"
 
 #: rc.cpp:50 rc.cpp:58
 msgid "Color key"
@@ -1099,7 +1099,7 @@ msgstr "Declipper"
 
 #: rc.cpp:1650 rc.cpp:2865
 msgid "Decoding threads"
-msgstr "Decodier-Threads"
+msgstr "Dekodier-Threads"
 
 #: src/kdenlivesettingsdialog.cpp:222 src/kdenlivesettingsdialog.cpp:223
 msgid "Default"
@@ -1339,7 +1339,7 @@ msgstr "Neue Render-Profile herunterladen …"
 
 #: rc.cpp:1266 rc.cpp:2481
 msgid "Drop B frames on H.264 clips"
-msgstr "B-Frames auf H.264-Clip fallen lassen"
+msgstr "B-Frames bei H.264-Clips fallen lassen"
 
 #: rc.cpp:78 rc.cpp:89 rc.cpp:99 rc.cpp:110 rc.cpp:786 rc.cpp:1044 rc.cpp:1440
 #: rc.cpp:1455 rc.cpp:1533 rc.cpp:2001 rc.cpp:2259 rc.cpp:2655 rc.cpp:2670
@@ -1373,7 +1373,7 @@ msgstr "Clip bearbeiten"
 
 #: src/customtrackview.cpp:2612
 msgid "Edit Clip Speed"
-msgstr "Clipgeschwindigkeit bearbeiten"
+msgstr "Clip-Feschwindigkeit bearbeiten"
 
 #: src/customruler.cpp:69 src/customtrackview.cpp:3401 src/mainwindow.cpp:977
 msgid "Edit Guide"
@@ -1446,11 +1446,11 @@ msgstr "Jog-Shuttle-Gerät aktivieren"
 
 #: src/recmonitor.cpp:394
 msgid "Encoding captured video..."
-msgstr "Codiere aufgenommenes Video …"
+msgstr "Kodiere aufgenommenes Video …"
 
 #: rc.cpp:1104 rc.cpp:2319
 msgid "Encoding params"
-msgstr "Encoding-Parameter"
+msgstr "Kodier-Parameter"
 
 #: src/renderwidget.cpp:216 rc.cpp:82 rc.cpp:116 rc.cpp:651 rc.cpp:1866
 msgid "End"
@@ -2058,7 +2058,7 @@ msgstr "Ungültiger Clip"
 #: src/trackview.cpp:154
 #, kde-format
 msgid "Invalid clip producer %1\n"
-msgstr "Kaputter Cliphersteller %1\n"
+msgstr "Ungültiger Clip-Produzent %1\n"
 
 #: src/trackview.cpp:403
 #, kde-format
@@ -2913,7 +2913,7 @@ msgstr "Rendern in %1 fertiggestellt"
 
 #: src/dvdwizard.cpp:200
 msgid "Rendering job timed out"
-msgstr "Renderung abgelaufen (Timeout)"
+msgstr "Rendern abgelaufen (Timeout)"
 
 #: renderer/renderjob.cpp:245
 #, kde-format
@@ -2930,7 +2930,7 @@ msgstr "Rendern von %1 in %2 fertiggestellt"
 #: src/trackview.cpp:615
 #, kde-format
 msgid "Replaced wrong clip producer %1 with %2"
-msgstr "Kaputter Cliphersteller %1 durch %2 ersetzt"
+msgstr "Falscher Clip-Produzent %1 durch %2 ersetzt"
 
 #: src/wizard.cpp:314
 msgid "Required for creation of DVD"
@@ -3572,7 +3572,7 @@ msgstr "Zeitleiste"
 
 #: rc.cpp:843 rc.cpp:2058
 msgid "Title Clip"
-msgstr "Titelclip"
+msgstr "Titel-Clip"
 
 #: rc.cpp:1305 rc.cpp:2520
 msgid "Toggle selection"
@@ -3638,11 +3638,11 @@ msgstr "Aktionsverlauf"
 
 #: src/mainwindow.cpp:911
 msgid "Ungroup Clips"
-msgstr "Clipgruppierung auflösen"
+msgstr "Clip-Gruppierung auflösen"
 
 #: src/groupclipscommand.cpp:28
 msgid "Ungroup clips"
-msgstr "Clipgruppierung auflösen"
+msgstr "Clip-Gruppierung auflösen"
 
 #: src/projectitem.cpp:194
 msgid "Unknown clip"
