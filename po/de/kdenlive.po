@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-04-02 12:13+0200\n"
-"PO-Revision-Date: 2009-04-08 01:28+0200\n"
+"PO-Revision-Date: 2009-04-08 02:07+0200\n"
 "Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
 "Language-Team: American English <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -162,7 +162,7 @@ msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
 "choose another description for your custom profile."
 msgstr ""
-"Ein Profil mit dem selben Namen existiert bereits in MLT's Standardprofilen. "
+"Ein Profil mit dem selben Namen existiert bereits in MLTs Standardprofilen. "
 "Bitte wählen sie einen andere Namen für ihr eigenes Profil."
 
 #: src/kdenlivesettingsdialog.cpp:195 rc.cpp:1152 rc.cpp:2367
@@ -950,7 +950,7 @@ msgstr "Verzeichnis erstellen"
 
 #: src/renderwidget.cpp:556
 msgid "Create Render Script"
-msgstr "Render-Script erstellen"
+msgstr "Render-Skript erstellen"
 
 #: rc.cpp:963 rc.cpp:2178
 msgid "Create basic menu"
@@ -1168,7 +1168,7 @@ msgstr "Marker löschen"
 
 #: rc.cpp:555 rc.cpp:1770
 msgid "Delete Script"
-msgstr "Script löschen"
+msgstr "Skript löschen"
 
 #: src/mainwindow.cpp:890
 msgid "Delete Selected Item"
@@ -1484,11 +1484,11 @@ msgstr "Fehler beim Entfernen von Clip %1 auf Spur %2"
 
 #: src/wizard.cpp:136
 msgid "Error starting MLT's command line player (inigo)"
-msgstr "Fehler beim Starten von MLT's Kommandozeilen-Abspieler (inigo)"
+msgstr "Fehler beim Starten von MLTs Kommandozeilen-Abspieler (inigo)"
 
 #: src/wizard.cpp:475
 msgid "Error starting MLT's command line player (inigo)."
-msgstr "Fehler beim Starten von MLT's Kommandozeilen-Abspieler (inigo)"
+msgstr "Fehler beim Starten von MLTs Kommandozeilen-Abspieler (inigo)"
 
 #: src/customtrackview.cpp:1382 src/customtrackview.cpp:2333
 #: src/customtrackview.cpp:2395 src/customtrackview.cpp:3084
@@ -1888,9 +1888,8 @@ msgid "Group clips"
 msgstr "Cilps gruppieren"
 
 #: rc.cpp:1194 rc.cpp:2409
-#, fuzzy
 msgid "GroupBox"
-msgstr "Gruppe"
+msgstr "Gruppen-Box"
 
 #: src/customtrackview.cpp:3378
 msgid "Guide"
@@ -2192,11 +2191,11 @@ msgstr "Verlustfrei/HQ"
 
 #: rc.cpp:636 rc.cpp:1851
 msgid "Luma File"
-msgstr "Luma Datei"
+msgstr "Luma-Datei"
 
 #: rc.cpp:1599 rc.cpp:2814
 msgid "Luma file"
-msgstr "Luma Datei"
+msgstr "Luma-Datei"
 
 #: rc.cpp:1500 rc.cpp:2715
 msgid "M"
@@ -3131,20 +3130,20 @@ msgstr "Bildschirmaufnahme"
 
 #: src/renderwidget.cpp:154
 msgid "Script Files"
-msgstr "Scriptdateien"
+msgstr "Skriptdateien"
 
 #: src/renderwidget.cpp:561
 msgid "Script file already exists. Do you want to overwrite it ?"
-msgstr "Die Scriptdatei existiert bereits. Soll sie überschrieben werden?"
+msgstr "Die Skriptdatei existiert bereits. Soll sie überschrieben werden?"
 
 #: src/renderwidget.cpp:556
 #, kde-format
 msgid "Script name (will be saved in: %1)"
-msgstr "Scriptname (wird in %1 gespeichert werden)"
+msgstr "Skriptname (wird in %1 gespeichert werden)"
 
 #: rc.cpp:549 rc.cpp:1764
 msgid "Scripts"
-msgstr "Scripts"
+msgstr "Skripts"
 
 #: src/kdenlivedoc.cpp:1314
 msgid "Search automatically"
@@ -3437,7 +3436,7 @@ msgstr "Starte Rendern"
 
 #: rc.cpp:552 rc.cpp:1767
 msgid "Start Script"
-msgstr "Script starten"
+msgstr "Skript starten"
 
 #: rc.cpp:885 rc.cpp:2100
 msgid "Start-/EndViewport"
@@ -3453,7 +3452,7 @@ msgstr "Beginne – Finde Text während der Eingabe"
 
 #: src/recmonitor.cpp:66
 msgid "Stop"
-msgstr "Stop"
+msgstr "Stopp"
 
 #: rc.cpp:427
 msgid "Stroboscope"
@@ -3655,12 +3654,12 @@ msgstr "Spur entsperren"
 #: src/renderwidget.cpp:760
 #, kde-format
 msgid "Unsupported audio codec: %1"
-msgstr "Nicht unterstüẗzter Audiocodec: %1"
+msgstr "Nicht unterstüẗzter Audio-Codec: %1"
 
 #: src/renderwidget.cpp:775
 #, kde-format
 msgid "Unsupported video codec: %1"
-msgstr "Nicht unterstützter Videocodec: %1"
+msgstr "Nicht unterstützter Video-Codec: %1"
 
 #: src/renderwidget.cpp:745
 #, kde-format
@@ -3799,7 +3798,7 @@ msgstr "Virtueller Clip"
 
 #: rc.cpp:439
 msgid "Volume (keframable)"
-msgstr "Volumen (Keyframe-fähig)"
+msgstr "Lautstärke (Keyframe-fähig)"
 
 #: rc.cpp:930 rc.cpp:2145
 msgid "W"
@@ -4002,9 +4001,8 @@ msgid "move on Y axis"
 msgstr "auf Y Achse verschieben"
 
 #: rc.cpp:1107 rc.cpp:2322
-#, fuzzy
 msgid "oss"
-msgstr "Pos"
+msgstr "oss"
 
 #: rc.cpp:1233 rc.cpp:2448
 msgid "parameter description"
@@ -4012,7 +4010,7 @@ msgstr "Parameterbeschreibung"
 
 #: src/renderwidget.cpp:551 src/renderwidget.cpp:554
 msgid "script"
-msgstr "Script"
+msgstr "Skript"
 
 #: src/timecode.cpp:125
 msgid "sec."
