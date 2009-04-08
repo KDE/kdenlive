@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-04-02 12:13+0200\n"
-"PO-Revision-Date: 2009-04-08 13:14+0200\n"
+"PO-Revision-Date: 2009-04-08 13:24+0200\n"
 "Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -1375,7 +1375,7 @@ msgstr "Clip bearbeiten"
 
 #: src/customtrackview.cpp:2612
 msgid "Edit Clip Speed"
-msgstr "Clip-Feschwindigkeit bearbeiten"
+msgstr "Clip-Geschwindigkeit bearbeiten"
 
 #: src/customruler.cpp:69 src/customtrackview.cpp:3401 src/mainwindow.cpp:977
 msgid "Edit Guide"
