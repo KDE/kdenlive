@@ -56,7 +56,7 @@ class MyThread : public QThread
     Q_OBJECT
 public:
     virtual void run();
-    void init(QObject *parent, KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth);
+    void init(KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth);
     bool isWorking();
     bool stop_me;
 
@@ -69,7 +69,6 @@ private:
     int m_channels;
     int m_arrayWidth;
     bool m_isWorking;
-    QObject *m_parent;
 
 signals:
     void audioThumbProgress(const int);

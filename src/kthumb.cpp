@@ -38,10 +38,9 @@
 #include <QImage>
 #include <QApplication>
 
-void MyThread::init(QObject *parent, KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth)
+void MyThread::init(KUrl url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth)
 {
     stop_me = false;
-    m_parent = parent;
     m_isWorking = false;
     f.setFileName(target);
     m_url = url;
@@ -76,8 +75,6 @@ void MyThread::run()
         m_producer.attach(m_convert);
     }
 
-    //QApplication::postEvent(m_parent, new ProgressEvent(-1, (QEvent::Type)10005));
-
     int last_val = 0;
     int val = 0;
     kDebug() << "for " << m_frame << " " << m_frameLength << " " << m_producer.is_valid();
@@ -86,8 +83,6 @@ void MyThread::run()
         val = (int)((z - m_frame) / (m_frame + m_frameLength) * 100.0);
         if (last_val != val && val > 1) {
             emit audioThumbProgress(val);
-            //QApplication::postEvent(m_parent, new ProgressEvent(val, (QEvent::Type)10005));
-
             last_val = val;
         }
         m_producer.seek(z);
@@ -114,15 +109,12 @@ void MyThread::run()
         if (mlt_frame)
             delete mlt_frame;
     }
-    kDebug() << "done";
+    //kDebug() << "done";
     f.close();
     m_isWorking = false;
     if (stop_me) {
         f.remove();
-    }
-    emit audioThumbOver();
-    //QApplication::postEvent(m_parent, new ProgressEvent(-1, (QEvent::Type)10005));
-
+    } else emit audioThumbOver();
 }
 
 KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QString &hash, QObject * parent, const char */*name*/) :
@@ -145,9 +137,9 @@ KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QStr
 KThumb::~KThumb()
 {
     if (audioThumbProducer.isRunning()) {
-        slotAudioThumbOver();
         audioThumbProducer.stop_me = true;
-        audioThumbProducer.wait(300);
+        audioThumbProducer.wait();
+        slotAudioThumbOver();
     }
 }
 
@@ -436,7 +428,10 @@ void KThumb::getThumbs(KUrl url, int startframe, int endframe, int width, int he
 */
 void KThumb::stopAudioThumbs()
 {
-    if (audioThumbProducer.isRunning()) audioThumbProducer.stop_me = true;
+    if (audioThumbProducer.isRunning()) {
+        audioThumbProducer.stop_me = true;
+        slotAudioThumbOver();
+    }
 }
 
 void KThumb::removeAudioThumb()
@@ -485,9 +480,9 @@ void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int a
         slotAudioThumbOver();
     } else {
         if (audioThumbProducer.isRunning()) return;
-        audioThumbProducer.init(this, m_url, m_thumbFile, frame, frameLength, m_frequency, m_channels, arrayWidth);
+        audioThumbProducer.init(m_url, m_thumbFile, frame, frameLength, m_frequency, m_channels, arrayWidth);
         audioThumbProducer.start(QThread::LowestPriority);
-        kDebug() << "STARTING GENERATE THMB FOR: " << m_url << " ................................";
+        kDebug() << "STARTING GENERATE THMB FOR: " << m_url << " ................................";
     }
 }
 
