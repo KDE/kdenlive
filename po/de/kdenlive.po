@@ -12,9 +12,9 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-04-02 12:13+0200\n"
-"PO-Revision-Date: 2009-04-08 12:07+0200\n"
+"PO-Revision-Date: 2009-04-08 12:55+0200\n"
 "Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
-"Language-Team: American English <kde-i18n-de@kde.org>\n"
+"Language-Team: German <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -527,7 +527,7 @@ msgstr "Bild mit Keyframes unschärfen"
 #: src/trackview.cpp:614
 #, kde-format
 msgid "Boken clip producer %1"
-msgstr "Kaputter Clip-Produzent %1"
+msgstr "Beschädigter Clip-Produzent %1"
 
 #: rc.cpp:849 rc.cpp:2064
 msgid "Border color"
