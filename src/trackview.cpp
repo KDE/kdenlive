@@ -462,13 +462,19 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                 if (!clip) {
                     // We cannot find the producer, something is really wrong, add
                     // placeholder color clip
-                    /*QDomElement producerXml;
-                    producerXml.setTagName("producer");
-                    producerXml.setAttribute("resource", "0xff0000ff");
+                    QDomDocument doc;
+                    QDomElement producerXml = doc.createElement("producer");
+                    doc.appendChild(producerXml);
+                    producerXml.setAttribute("colour", "0xff0000ff");
                     producerXml.setAttribute("mlt_service", "colour");
                     producerXml.setAttribute("length", "15000");
+                    producerXml.setAttribute("name", "INVALID");
+                    producerXml.setAttribute("type", COLOR);
                     producerXml.setAttribute("id", id);
-                    missingClip = new DocClipBase(m_doc->clipManager(), producerXml, id);*/
+                    clip = new DocClipBase(m_doc->clipManager(), doc.documentElement(), id);
+                    xml.insertBefore(producerXml, QDomNode());
+                    m_doc->clipManager()->addClip(clip);
+
                     m_documentErrors.append(i18n("Broken clip producer %1", id) + '\n');
                 } else {
                     // Found correct producer
