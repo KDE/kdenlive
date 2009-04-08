@@ -1659,6 +1659,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             m_document->renderer()->mltInsertClip(info, item->xml(), item->baseClip()->producer(item->track()));
             item->setSelected(true);
         }
+	m_document->setModified(true);
         m_changeSpeedAction->setEnabled(hasVideoClip);
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
         groupSelectedItems(true);

@@ -33,7 +33,7 @@
 
 #include <QCryptographicHash>
 
-DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id) :
+DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id, bool placeHolder) :
         QObject(),
         audioFrameChache(),
         m_description(),
@@ -47,6 +47,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
         m_thumbProd(NULL),
         m_audioThumbCreated(false),
         m_id(id),
+        m_placeHolder(placeHolder),
         m_properties()
 {
     int type = xml.attribute("type").toInt();
@@ -758,5 +759,8 @@ bool DocClipBase::slotGetAudioThumbs()
     return true;
 }
 
-
+bool DocClipBase::isPlaceHolder() const
+{
+    return m_placeHolder;
+}
 

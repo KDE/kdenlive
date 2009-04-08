@@ -185,8 +185,11 @@ DocClipBase *ClipManager::getClipById(QString clipId)
 
 DocClipBase *ClipManager::getClipByResource(QString resource)
 {
+    QString clipResource;
     for (int i = 0; i < m_clipList.count(); i++) {
-        if (m_clipList.at(i)->getProperty("resource") == resource) {
+        clipResource = m_clipList.at(i)->getProperty("resource");
+        if (clipResource.isEmpty()) clipResource = m_clipList.at(i)->getProperty("colour");
+        if (clipResource == resource) {
             return m_clipList.at(i);
         }
     }
