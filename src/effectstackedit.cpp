@@ -36,6 +36,26 @@
 #include <QCheckBox>
 #include <QScrollArea>
 
+
+class Boolval: public EffectStackEdit::UiItem, public Ui::Boolval_UI {
+};
+
+class Colorval: public EffectStackEdit::UiItem, public Ui::Colorval_UI {
+};
+
+class Constval: public EffectStackEdit::UiItem, public Ui::Constval_UI {
+};
+
+class Listval: public EffectStackEdit::UiItem, public Ui::Listval_UI {
+};
+
+class Positionval: public EffectStackEdit::UiItem, public Ui::Positionval_UI {
+};
+
+class Wipeval: public EffectStackEdit::UiItem, public Ui::Wipeval_UI {
+};
+
+
 QMap<QString, QImage> EffectStackEdit::iconCache;
 
 EffectStackEdit::EffectStackEdit(QWidget *parent) :
@@ -125,7 +145,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
             delete toFillin;
             toFillin = NULL;
         } else if (type == "list") {
-            Ui::Listval_UI *lsval = new Ui::Listval_UI;
+            Listval *lsval = new Listval;
             lsval->setupUi(toFillin);
             QStringList listitems = pa.attribute("paramlist").split(',');
             QStringList listitemsdisplay = pa.attribute("paramlistdisplay").split(',');
@@ -150,7 +170,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
             valueItems[paramName] = lsval;
             uiItems.append(lsval);
         } else if (type == "bool") {
-            Ui::Boolval_UI *bval = new Ui::Boolval_UI;
+            Boolval *bval = new Boolval;
             bval->setupUi(toFillin);
             bval->checkBox->setCheckState(value == "0" ? Qt::Unchecked : Qt::Checked);
 
@@ -187,7 +207,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
             valueItems[paramName+"geometry"] = geo;
             items.append(geo);
         } else if (type == "color") {
-            Ui::Colorval_UI *cval = new Ui::Colorval_UI;
+            Colorval *cval = new Colorval;
             cval->setupUi(toFillin);
             bool ok;
             cval->kcolorbutton->setColor(value.toUInt(&ok, 16));
@@ -198,7 +218,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
             valueItems[paramName] = cval;
             uiItems.append(cval);
         } else if (type == "position") {
-            Ui::Positionval_UI *pval = new Ui::Positionval_UI;
+            Positionval *pval = new Positionval;
             pval->setupUi(toFillin);
             int pos = value.toInt();
             if (d.attribute("id") == "fadein" || d.attribute("id") == "fade_from_black") {
@@ -213,7 +233,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
             valueItems[paramName + "position"] = pval;
             uiItems.append(pval);
         } else if (type == "wipe") {
-            Ui::Wipeval_UI *wpval = new Ui::Wipeval_UI;
+            Wipeval *wpval = new Wipeval;
             wpval->setupUi(toFillin);
             wipeInfo w = getWipeInfo(value);
             switch (w.start) {
@@ -367,16 +387,16 @@ void EffectStackEdit::collectAllParameters()
 
         QString setValue;
         if (type == "double" || type == "constant") {
-            QSlider* slider = ((Ui::Constval_UI*)valueItems[paramName])->horizontalSlider;
+            QSlider* slider = ((Constval*)valueItems[paramName])->horizontalSlider;
             setValue = QString::number(slider->value());
         } else if (type == "list") {
-            KComboBox *box = ((Ui::Listval_UI*)valueItems[paramName])->list;
+            KComboBox *box = ((Listval*)valueItems[paramName])->list;
             setValue = box->itemData(box->currentIndex()).toString();
         } else if (type == "bool") {
-            QCheckBox *box = ((Ui::Boolval_UI*)valueItems[paramName])->checkBox;
+            QCheckBox *box = ((Boolval*)valueItems[paramName])->checkBox;
             setValue = box->checkState() == Qt::Checked ? "1" : "0" ;
         } else if (type == "color") {
-            KColorButton *color = ((Ui::Colorval_UI*)valueItems[paramName])->kcolorbutton;
+            KColorButton *color = ((Colorval*)valueItems[paramName])->kcolorbutton;
             setValue = color->color().name();
         } else if (type == "complex") {
             ComplexParameter *complex = ((ComplexParameter*)valueItems[paramName+"complex"]);
@@ -385,7 +405,7 @@ void EffectStackEdit::collectAllParameters()
             Geometryval *geom = ((Geometryval*)valueItems[paramName+"geometry"]);
             namenode.item(i) = geom->getParamDesc();
         } else if (type == "position") {
-            KRestrictedLine *line = ((Ui::Positionval_UI*)valueItems[paramName+"position"])->krestrictedline;
+            KRestrictedLine *line = ((Positionval*)valueItems[paramName+"position"])->krestrictedline;
             int pos = m_timecode.getFrameCount(line->text(), KdenliveSettings::project_fps());
             if (params.attribute("id") == "fadein" || params.attribute("id") == "fade_from_black") {
                 pos += m_in;
@@ -402,7 +422,7 @@ void EffectStackEdit::collectAllParameters()
             }
             setValue = QString::number(pos);
         } else if (type == "wipe") {
-            Ui::Wipeval_UI *wp = (Ui::Wipeval_UI*)valueItems[paramName];
+            Wipeval *wp = (Wipeval*)valueItems[paramName];
             wipeInfo info;
             if (wp->start_left->isChecked()) info.start = LEFT;
             else if (wp->start_right->isChecked()) info.start = RIGHT;
@@ -431,7 +451,7 @@ void EffectStackEdit::collectAllParameters()
 void EffectStackEdit::createSliderItem(const QString& name, int val , int min, int max)
 {
     QWidget* toFillin = new QWidget;
-    Ui::Constval_UI *ctval = new Ui::Constval_UI;
+    Constval *ctval = new Constval;
     ctval->setupUi(toFillin);
 
     ctval->horizontalSlider->setMinimum(min);
@@ -456,7 +476,7 @@ void EffectStackEdit::slotSliderMoved(int)
 void EffectStackEdit::clearAllItems()
 {
     qDeleteAll(items);
-    foreach(void *p, uiItems) {
+    foreach(UiItem *p, uiItems) {
         delete p;
     }
     uiItems.clear();

@@ -48,11 +48,17 @@ public:
     static QMap<QString, QImage> iconCache;
     void updateParameter(const QString &name, const QString &value);
 
+    class UiItem {
+    public:
+        UiItem() {};
+        ~UiItem() {};
+    };
+
 private:
     void clearAllItems();
     QVBoxLayout *vbox;
     QList<QWidget*> items;
-    QList<void*> uiItems;
+    QList<UiItem*> uiItems;
     QDomElement params;
     QMap<QString, void*> valueItems;
     void createSliderItem(const QString& name, int val , int min, int max);
