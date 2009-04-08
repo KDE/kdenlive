@@ -168,7 +168,7 @@ protected:
     virtual Qt::DropActions supportedDropActions() const;
 
 private:
-    uint m_tracksHeight;
+    int m_tracksHeight;
     uint m_selectedTrack;
     int m_projectDuration;
     int m_cursorPos;
