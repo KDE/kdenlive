@@ -163,7 +163,7 @@ else(NO_JOGSHUTTLE)
   set(kdenlive_SRCS jogshuttle.cpp ${kdenlive_SRCS})
 endif(NO_JOGSHUTTLE)
 
-kde4_add_kcfg_files(kdenlive_SRCS GENERATE_MOC kdenlivesettings.kcfgc )
+kde4_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc )
 QT4_ADD_DBUS_ADAPTOR(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)
 kde4_add_executable(kdenlive ${kdenlive_SRCS} ${kdenlive_UI})
 
