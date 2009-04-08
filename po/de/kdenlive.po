@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-04-02 12:13+0200\n"
-"PO-Revision-Date: 2009-04-08 02:07+0200\n"
+"PO-Revision-Date: 2009-04-08 12:07+0200\n"
 "Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
 "Language-Team: American English <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -175,7 +175,7 @@ msgstr "ARTS-Daemon"
 
 #: rc.cpp:540 rc.cpp:1755
 msgid "Abort Job"
-msgstr "Job abbrechen"
+msgstr "Aufgabe abbrechen"
 
 #: rc.cpp:771 rc.cpp:1986
 msgid "Activate crash recovery (auto save)"
@@ -527,7 +527,7 @@ msgstr "Bild mit Keyframes unschärfen"
 #: src/trackview.cpp:614
 #, kde-format
 msgid "Boken clip producer %1"
-msgstr "Kaputter Cliphersteller %1"
+msgstr "Kaputter Clip-Produzent %1"
 
 #: rc.cpp:849 rc.cpp:2064
 msgid "Border color"
@@ -764,7 +764,7 @@ msgstr "Spur ändern"
 
 #: src/customtrackview.cpp:3923 src/headertrack.cpp:73
 msgid "Change Track Type"
-msgstr "Spurtyp ändern"
+msgstr "Spur-Typ ändern"
 
 #: src/changecliptypecommand.cpp:27
 msgid "Change clip type"
@@ -784,7 +784,7 @@ msgstr "Spur Ändern"
 
 #: src/changetrackcommand.cpp:27
 msgid "Change track type"
-msgstr "Spurtyp ändern"
+msgstr "Spur-Typ ändern"
 
 #: rc.cpp:1566 rc.cpp:2781
 msgid "Channels"
@@ -942,7 +942,7 @@ msgstr "Absturzwiederherstellung (automatisches Backup)"
 
 #: src/dvdwizard.cpp:48
 msgid "Create DVD Menu"
-msgstr "DVD-Menu erstellen"
+msgstr "DVD-Menü erstellen"
 
 #: src/mainwindow.cpp:1053
 msgid "Create Folder"
@@ -954,7 +954,7 @@ msgstr "Render-Skript erstellen"
 
 #: rc.cpp:963 rc.cpp:2178
 msgid "Create basic menu"
-msgstr "Einfaches Menu erstellen"
+msgstr "Einfaches Menü erstellen"
 
 #: src/profilesdialog.cpp:42 src/renderwidget.cpp:63
 msgid "Create new profile"
@@ -974,15 +974,15 @@ msgstr "Erstelle ISO-Datei"
 
 #: rc.cpp:1467 rc.cpp:2682
 msgid "Creating menu background"
-msgstr "Erstelle Menuhintergrund"
+msgstr "Erstelle Menühintergrund"
 
 #: rc.cpp:1464 rc.cpp:2679
 msgid "Creating menu images"
-msgstr "Erstelle Menubilder"
+msgstr "Erstelle Menübilder"
 
 #: rc.cpp:1470 rc.cpp:2685
 msgid "Creating menu movie"
-msgstr "Erstelle Menufilm"
+msgstr "Erstelle Menüfilm"
 
 #: src/kthumb.cpp:478 src/kthumb.cpp:482
 #, kde-format
@@ -1365,7 +1365,9 @@ msgstr "E"
 
 #: src/main.cpp:47
 msgid "EMAIL OF TRANSLATORS"
-msgstr "g.marco@freenet.de, f.hammer@gmx.de, holzi1@gmx.at, simon.eu@gmail.com"
+msgstr ""
+"g.marco@freenet.de, f.hammer@gmx.de, holzi1@gmx.at, simon.eu@gmail.com, "
+"kamikazow@web.de"
 
 #: src/mainwindow.cpp:1063
 msgid "Edit Clip"
@@ -1442,7 +1444,7 @@ msgstr "Effekt schon im Clip vorhanden"
 
 #: rc.cpp:1410 rc.cpp:2625
 msgid "Enable Jog Shuttle device"
-msgstr "Jog-Shuttle-Gerät aktivieren"
+msgstr "Jog/Shuttle-Gerät aktivieren"
 
 #: src/recmonitor.cpp:394
 msgid "Encoding captured video..."
@@ -1957,7 +1959,7 @@ msgstr "Bild"
 
 #: rc.cpp:624 rc.cpp:1839
 msgid "Image Type"
-msgstr "Bildtyp"
+msgstr "Bild-Typ"
 
 #: src/projectitem.cpp:179
 msgid "Image clip"
@@ -1986,7 +1988,7 @@ msgstr "Bildgröße"
 
 #: rc.cpp:1581 rc.cpp:2796
 msgid "Image type"
-msgstr "Bildtyp"
+msgstr "Bild-Typ"
 
 #: src/monitor.cpp:426
 msgid "In Point"
@@ -1998,7 +2000,7 @@ msgstr "Inigo"
 
 #: rc.cpp:573 rc.cpp:1788
 msgid "Inigo path"
-msgstr "Inigo Pfad"
+msgstr "Inigo-Pfad"
 
 #: src/recmonitor.cpp:366 src/recmonitor.cpp:486
 msgid "Initialising..."
@@ -2022,11 +2024,11 @@ msgstr "Abstand einfügen"
 
 #: rc.cpp:1485 rc.cpp:2700
 msgid "Insert track"
-msgstr "Füge Spur ein"
+msgstr "Spur einfügen"
 
 #: rc.cpp:774 rc.cpp:1989
 msgid "Install extra video mimetypes"
-msgstr "Weitere Video mimetypes installieren"
+msgstr "Weitere Video MIME-Types installieren"
 
 #: rc.cpp:1017 rc.cpp:2232
 msgid "Installed modules"
@@ -2086,11 +2088,11 @@ msgstr "Jean-Baptiste Mardelle"
 
 #: rc.cpp:1413 rc.cpp:2628
 msgid "Jog Shuttle device disabled."
-msgstr "Jog-Shuttle-Gerät deaktiviert."
+msgstr "Jog/Shuttle-Gerät deaktiviert."
 
 #: src/kdenlivesettingsdialog.cpp:86
 msgid "JogShuttle"
-msgstr "JogShuttle"
+msgstr "Jog/Shuttle"
 
 #: src/main.cpp:39
 msgid "Kdenlive"
@@ -2277,7 +2279,7 @@ msgstr "Medienplayer"
 
 #: src/dvdwizard.cpp:288
 msgid "Menu job timed out"
-msgstr "Menu-Job abgelaufen"
+msgstr "Menü-Aufgabe abgelaufen"
 
 #: rc.cpp:1635 rc.cpp:2850
 msgid "Metadata"
@@ -2325,7 +2327,7 @@ msgstr "Beschleunigungseinstellungen für Monitorvorschau"
 
 #: rc.cpp:1260 rc.cpp:2475
 msgid "Monitor background color (requires restart)"
-msgstr "Hintergrundfarbe überwachen (erfordert kdenlive-Neustart)"
+msgstr "Hintergrundfarbe überwachen (erfordert Kdenlive-Neustart)"
 
 #: src/monitor.cpp:170
 msgid "Monitor overlay infos"
@@ -2385,7 +2387,8 @@ msgstr "N"
 
 #: src/main.cpp:47
 msgid "NAME OF TRANSLATORS"
-msgstr "Marco Glitter, Felix Hammer, Thomas Holzmann"
+msgstr ""
+"Marco Glitter, Felix Hammer, Thomas Holzmann, Simon Eugster, Markus Slopianka"
 
 #: src/dvdwizardmenu.cpp:41 rc.cpp:477 rc.cpp:1692
 msgid "NTSC"
@@ -2912,7 +2915,7 @@ msgstr "Rendern in %1 fertiggestellt"
 
 #: src/dvdwizard.cpp:200
 msgid "Rendering job timed out"
-msgstr "Rendern abgelaufen (Timeout)"
+msgstr "Render-Aufgabe ausgelaufen (Timeout)"
 
 #: renderer/renderjob.cpp:245
 #, kde-format
@@ -3010,7 +3013,7 @@ msgstr "Hall-Dauer"
 
 #: rc.cpp:429
 msgid "Reverse playing"
-msgstr "Rückwärts Abspielen"
+msgstr "Rückwärts abspielen"
 
 #: src/recmonitor.cpp:60 src/monitor.cpp:64 src/mainwindow.cpp:830
 msgid "Rewind"
@@ -3492,7 +3495,7 @@ msgstr "Text-Label"
 
 #: src/profilesdialog.cpp:105
 msgid "The custom profile was modified, do you want to save it?"
-msgstr "Das benutzerdefinierte Profil wurde geändert, wollen Sie es speichern?"
+msgstr "Das benutzerdefinierte Profil wurde geändert. Wollen Sie es speichern?"
 
 #: src/renderer.cpp:1217
 msgid "There is no clip, cannot extract frame."
@@ -3520,7 +3523,8 @@ msgstr ""
 #, kde-format
 msgid "This project type is unsupported (version %1) and can't be loaded."
 msgstr ""
-"Dieser Projekttyp wird nicht unterstützt (Version %1) und kann nicht geladen "
+"Dieser Projekt-Typ wird nicht unterstützt (Version %1) und kann nicht "
+"geladen "
 "werden."
 
 #: src/kdenlivedoc.cpp:381
@@ -3529,9 +3533,9 @@ msgid ""
 "This project type is unsupported (version %1) and can't be loaded.\n"
 "Please consider upgrading you Kdenlive version."
 msgstr ""
-"Dieser Projekttyp wird nicht unterstützt (%1) und kann nicht geladen "
+"Dieser Projekt-Typ wird nicht unterstützt (%1) und kann nicht geladen "
 "werden.\n"
-"Bitte aktualisieren Sie Ihre kdenlive-Version, falls möglich."
+"Bitte aktualisieren Sie Ihre Kdenlive-Version, falls möglich."
 
 #: rc.cpp:431
 msgid "Threshold"
@@ -3676,7 +3680,7 @@ msgstr "Hoch"
 
 #: rc.cpp:729 rc.cpp:1944
 msgid "Use KDE job tracking for render jobs"
-msgstr "KDE Job Tracking verwenden, um die Jobs zu rendern"
+msgstr "KDE-weite Fortschrittsanzeige für Render-Aufgaben verwenden"
 
 #: rc.cpp:831 rc.cpp:2046
 msgid "Use as default"
@@ -3914,7 +3918,7 @@ msgid ""
 "Your Kdenlive version was upgraded. Please take some time to review the "
 "basic settings"
 msgstr ""
-"Ihre Version von kdenlive wurde aktualisiert. Bitte nehmen Sie sich etwas "
+"Ihre Version von Kdenlive wurde aktualisiert. Bitte nehmen Sie sich etwas "
 "Zeit, um die Grundeinstellungen durchzusehen."
 
 #: rc.cpp:936 rc.cpp:2151
