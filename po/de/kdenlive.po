@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-04-02 12:13+0200\n"
-"PO-Revision-Date: 2009-04-08 13:24+0200\n"
+"PO-Revision-Date: 2009-04-08 16:14+0200\n"
 "Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -241,7 +241,7 @@ msgstr "Videoeffekt hinzufügen"
 
 #: src/clipitem.cpp:795 src/clipitem.cpp:802
 msgid "Add audio fade"
-msgstr "Audio-Fading hinzufügen"
+msgstr "Audio-Überblendung hinzufügen"
 
 #: src/addclipcommand.cpp:27
 msgid "Add clip"
@@ -432,7 +432,7 @@ msgstr "Audiobearbeitung"
 #: src/clipitem.cpp:796 src/clipitem.cpp:803
 #, c-format, kde-format
 msgid "Audio fade duration: %1s"
-msgstr "Audio-Fading-Dauer: %1 s"
+msgstr "Audio-Überblendungsdauer: %1 Sek."
 
 #: rc.cpp:1134 rc.cpp:2349
 msgid "Audio frequency"
@@ -636,7 +636,7 @@ msgstr ""
 
 #: src/mainwindow.cpp:1416
 msgid "Cannot find your Mlt profiles, please give the path"
-msgstr "Kann Mlt-Profile nicht finden, bitte geben Sie den Pfad an"
+msgstr "Kann MLT-Profile nicht finden. Bitte geben Sie den Pfad an"
 
 #: src/customtrackview.cpp:1923
 #, kde-format
@@ -796,7 +796,7 @@ msgstr "Kohlefilter"
 
 #: rc.cpp:34
 msgid "Charcoal drawing effect"
-msgstr "Charcoal-Zeichnung-Effekt"
+msgstr "Kohlezeichnung-Effekt"
 
 #: rc.cpp:1437 rc.cpp:2652
 msgid "CheckBox"
@@ -928,7 +928,7 @@ msgid ""
 "There is something wrong with your Kdenlive install or your driver settings, "
 "please fix it."
 msgstr ""
-"Kann Video-Vorschau Fenster nicht erstellen.\n"
+"Kann Video-Vorschau-Fenster nicht erstellen.\n"
 "Es stimmt etwas mit Ihrer Kdenlive-Installation oder den Treiber-"
 "Einstellungen nicht. Bitte beheben Sie dieses Problem."
 
@@ -938,7 +938,7 @@ msgstr "Knistern"
 
 #: rc.cpp:666 rc.cpp:1881
 msgid "Crash recovery (automatic backup)"
-msgstr "Absturzwiederherstellung (automatisches Backup)"
+msgstr "Absturzwiederherstellung (automatische Sicherungskopie)"
 
 #: src/dvdwizard.cpp:48
 msgid "Create DVD Menu"
@@ -1004,7 +1004,7 @@ msgstr "Beginn abschneiden"
 
 #: rc.cpp:630 rc.cpp:1593 rc.cpp:1845 rc.cpp:2808
 msgid "Crossfade"
-msgstr "kreuzweise Überblenden"
+msgstr "kreuzweise überblenden"
 
 #: rc.cpp:537 rc.cpp:1752
 msgid "Current jobs"
@@ -1476,7 +1476,7 @@ msgstr "Equalizer"
 
 #: rc.cpp:546 rc.cpp:1479 rc.cpp:1761 rc.cpp:2694
 msgid "Error Log"
-msgstr "Error-Log"
+msgstr "Fehlerbericht"
 
 #: src/customtrackview.cpp:1359 src/customtrackview.cpp:2236
 #: src/customtrackview.cpp:2521
@@ -1533,7 +1533,7 @@ msgstr "Faktor"
 
 #: rc.cpp:74
 msgid "Fade from Black"
-msgstr "Fading von Schwarz"
+msgstr "Überblendung von Schwarz"
 
 #: rc.cpp:84
 msgid "Fade in"
@@ -1549,15 +1549,15 @@ msgstr "Ausblenden"
 
 #: rc.cpp:106
 msgid "Fade to Black"
-msgstr "Fading nach Schwarz"
+msgstr "Überblendung nach Schwarz"
 
 #: rc.cpp:76
 msgid "Fade video from black"
-msgstr "Video von Schwarz faden"
+msgstr "Video von Schwarz überblenden"
 
 #: rc.cpp:108
 msgid "Fade video to black"
-msgstr "Video nach Schwarz faden"
+msgstr "Video nach Schwarz überblenden"
 
 #: src/wizard.cpp:483
 msgid "Fatal Error"
@@ -1759,7 +1759,7 @@ msgstr "Anschließend einfrieren"
 
 #: rc.cpp:124
 msgid "Freeze Before"
-msgstr "Vorher Einfrieren"
+msgstr "Vorher einfrieren"
 
 #: rc.cpp:122
 msgid "Freeze at"
@@ -1915,7 +1915,7 @@ msgstr "HDV"
 
 #: rc.cpp:187
 msgid "Hi gain"
-msgstr "Hi-Verstärkung"
+msgstr "Höhenverstärkung"
 
 #: rc.cpp:283
 msgid "Hide a region of the clip"
@@ -2028,7 +2028,7 @@ msgstr "Spur einfügen"
 
 #: rc.cpp:774 rc.cpp:1989
 msgid "Install extra video mimetypes"
-msgstr "Weitere Video MIME-Types installieren"
+msgstr "Weitere Video-MIME-Types installieren"
 
 #: rc.cpp:1017 rc.cpp:2232
 msgid "Installed modules"
@@ -2108,39 +2108,39 @@ msgstr "Korngröße"
 
 #: rc.cpp:219
 msgid "LADSPA change pitch audio effect"
-msgstr "LADSPA Tonhöhen-Änderung Audioeffekt"
+msgstr "LADSPA Tonhöhen-Änderung-Audioeffekt"
 
 #: rc.cpp:177
 msgid "LADSPA declipper audio effect"
-msgstr "LADSPA Knistern-Entfernung Audioeffekt"
+msgstr "LADSPA Knistern-Entfernung-Audioeffekt"
 
 #: rc.cpp:181
 msgid "LADSPA equalizer audio effect"
-msgstr "LADSPA Equalizer Audioeffekt"
+msgstr "LADSPA Equalizer-Audioeffekt"
 
 #: rc.cpp:191
 msgid "LADSPA limiter audio effect"
-msgstr "LADSPA Limiter Audioeffekt"
+msgstr "LADSPA Limiter-Audioeffekt"
 
 #: rc.cpp:201
 msgid "LADSPA phaser audio effect"
-msgstr "LADSPA Phaser Audioeffekt"
+msgstr "LADSPA Phaser-Audioeffekt"
 
 #: rc.cpp:213
 msgid "LADSPA pitch scale audio effect"
-msgstr "LADSPA Tönhöhen-Skalierung Audioeffekt"
+msgstr "LADSPA Tonhöhen-Skalierung-Audioeffekt"
 
 #: rc.cpp:225
 msgid "LADSPA rate scale audio effect"
-msgstr "LADSPA Frequenz-Skalierung Audioeffekt"
+msgstr "LADSPA Frequenz-Skalierung-Audioeffekt"
 
 #: rc.cpp:231
 msgid "LADSPA reverb audio effect"
-msgstr "LADSPA Hall Audioeffekt"
+msgstr "LADSPA Hall-Audioeffekt"
 
 #: rc.cpp:239
 msgid "LADSPA room reverb audio effect"
-msgstr "LADSPA Raum Hall Audioeffekt"
+msgstr "LADSPA Raum-Hall-Audioeffekt"
 
 #: src/geometryval.cpp:82 rc.cpp:68
 msgid "Left"
@@ -2156,7 +2156,7 @@ msgstr "Limiter"
 
 #: rc.cpp:183
 msgid "Lo gain"
-msgstr "Lo-Verstärkung"
+msgstr "Tiefenverstärkung"
 
 #: src/titlewidget.cpp:264
 msgid "Load Image"
@@ -2246,7 +2246,7 @@ msgstr "Verwandelt das Bild, außer der gewählten Farbe, in ein Graustufenbild"
 
 #: rc.cpp:433
 msgid "Make monochrome clip"
-msgstr "Macht den Clip einfärbig"
+msgstr "Macht den Clip einfarbig"
 
 #: rc.cpp:56
 msgid "Make selected color transparent"
@@ -2287,7 +2287,7 @@ msgstr "Metadaten"
 
 #: rc.cpp:185
 msgid "Mid gain"
-msgstr "Mid-Verstärkung"
+msgstr "Mittenverstärkung"
 
 #: rc.cpp:261
 msgid "Mirror"
@@ -3822,7 +3822,7 @@ msgstr "Wellen"
 
 #: rc.cpp:259
 msgid "Wear"
-msgstr "Abnützung"
+msgstr "Abnutzung"
 
 #: src/renderwidget.cpp:857
 msgid "Web sites"
