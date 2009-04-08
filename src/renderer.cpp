@@ -803,6 +803,7 @@ void Render::setSceneList(QString playlist, int position)
 {
     if (m_winid == -1) return;
     m_isBlocked = true;
+    qDeleteAll(m_slowmotionProducers.values());
     m_slowmotionProducers.clear();
 
     //kWarning() << "//////  RENDER, SET SCENE LIST: " << playlist;
@@ -2857,9 +2858,11 @@ QList <Mlt::Producer *> Render::producersList()
         //kDebug() << "// PARSING SCENE TRACK: " << t << ", CLIPS: " << clipNb;
         for (int i = 0; i < clipNb; i++) {
             Mlt::Producer *nprod = new Mlt::Producer(trackPlaylist.get_clip(i)->get_parent());
-            if (nprod && !nprod->is_blank() && !ids.contains(nprod->get("id"))) {
-                ids.append(nprod->get("id"));
-                prods.append(nprod);
+            if (nprod) {
+                if (!nprod->is_blank() && !ids.contains(nprod->get("id"))) {
+                    ids.append(nprod->get("id"));
+                    prods.append(nprod);
+                } else delete nprod;
             }
         }
     }
@@ -2880,15 +2883,15 @@ void Render::fillSlowMotionProducers()
         int clipNb = trackPlaylist.count();
         for (int i = 0; i < clipNb; i++) {
             Mlt::Producer *nprod = new Mlt::Producer(trackPlaylist.get_clip(i)->get_parent());
-            if (nprod && !nprod->is_blank()) {
+            if (nprod) {
                 QString id = nprod->get("id");
-                if (id.startsWith("slowmotion:")) {
+                if (id.startsWith("slowmotion:") && !nprod->is_blank()) {
                     // this is a slowmotion producer, add it to the list
                     QString url = QString::fromUtf8(nprod->get("resource"));
                     if (!m_slowmotionProducers.contains(url)) {
                         m_slowmotionProducers.insert(url, nprod);
                     }
-                }
+                } else delete nprod;
             }
         }
     }
