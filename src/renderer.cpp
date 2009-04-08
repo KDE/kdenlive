@@ -1452,7 +1452,7 @@ void Render::mltCutClip(int track, GenTime position)
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
-        if (filter->is_valid() && filter->get("kdenlive_id") != "") {
+        if (filter->is_valid() && strcmp(filter->get("kdenlive_id"), "")) {
             // looks like there is no easy way to duplicate a filter,
             // so we will create a new one and duplicate its properties
             Mlt::Filter *dup = new Mlt::Filter(*m_mltProfile, filter->get("mlt_service"));
@@ -1847,7 +1847,7 @@ bool Render::mltRemoveEffect(int track, GenTime position, QString index, bool up
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
-        if ((index == "-1" && filter->get("kdenlive_id") != "")  || filter->get("kdenlive_ix") == index) {// && filter->get("kdenlive_id") == id) {
+        if ((index == "-1" && strcmp(filter->get("kdenlive_id"), ""))  || filter->get("kdenlive_ix") == index) {// && filter->get("kdenlive_id") == id) {
             if (clipService.detach(*filter) == 0) success = true;
             kDebug() << " / / / DLEETED EFFECT: " << ct;
         } else if (updateIndex) {

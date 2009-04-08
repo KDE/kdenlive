@@ -579,14 +579,14 @@ void DocClipBase::slotRefreshProducer()
             int ct = 0;
             Mlt::Filter *filter = clipService.filter(ct);
             while (filter) {
-                if (filter->get("mlt_service") == "luma") {
+                if (strcmp(filter->get("mlt_service"), "luma") == 0) {
                     break;
                 }
                 ct++;
                 filter = clipService.filter(ct);
             }
 
-            if (filter && filter->get("mlt_service") == "luma") {
+            if (filter && strcmp(filter->get("mlt_service"), "luma") == 0) {
                 filter->set("period", getProperty("ttl").toInt() - 1);
                 filter->set("luma.out", getProperty("luma_duration").toInt());
                 QString resource = getProperty("luma_file");
@@ -618,7 +618,7 @@ void DocClipBase::slotRefreshProducer()
             int ct = 0;
             Mlt::Filter *filter = clipService.filter(0);
             while (filter) {
-                if (filter->get("mlt_service") == "luma") {
+                if (strcmp(filter->get("mlt_service"), "luma") == 0) {
                     clipService.detach(*filter);
                 } else ct++;
                 filter = clipService.filter(ct);
