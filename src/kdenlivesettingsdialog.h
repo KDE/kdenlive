@@ -59,6 +59,7 @@ private slots:
     void slotEditVideoApplication();
     void slotReadAudioDevices();
     void slotUpdateRmdRegionStatus();
+    void slotCheckAlsaDriver();
 
 private:
     KPageWidgetItem *page1;

@@ -53,7 +53,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
 
     QWidget *p3 = new QWidget;
     m_configDisplay.setupUi(p3);
-    page3 = addPage(p3, i18n("Display"), "display");
+    page3 = addPage(p3, i18n("Display"), "video-display");
 
     QWidget *p2 = new QWidget;
     m_configEnv.setupUi(p2);
@@ -120,6 +120,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
 
     slotUpdateDisplay();
 
+    connect(m_configSdl.kcfg_audio_driver, SIGNAL(currentIndexChanged(int)), this, SLOT(slotCheckAlsaDriver()));
     initDevices();
     connect(m_configMisc.kcfg_profiles_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDisplay()));
     connect(m_configCapture.kcfg_rmd_capture_type, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateRmdRegionStatus()));
@@ -388,11 +389,6 @@ void KdenliveSettingsDialog::updateSettings()
     KdenliveSettings::setDefault_profile(m_defaultPath);
 
     bool resetProfile = false;
-    QString value = m_configSdl.kcfg_audio_device->itemData(m_configSdl.kcfg_audio_device->currentIndex()).toString();
-    if (value != KdenliveSettings::audiodevicename()) {
-        KdenliveSettings::setAudiodevicename(value);
-        resetProfile = true;
-    }
 
     if (m_configEnv.capturefolderurl->url().path() != KdenliveSettings::capturefolder()) {
         kDebug() << "/// CAPT FOLDER UPDATED";
@@ -400,7 +396,7 @@ void KdenliveSettingsDialog::updateSettings()
         emit updateCaptureFolder();
     }
 
-    value = m_configCapture.kcfg_rmd_alsa_device->itemData(m_configCapture.kcfg_rmd_alsa_device->currentIndex()).toString();
+    QString value = m_configCapture.kcfg_rmd_alsa_device->itemData(m_configCapture.kcfg_rmd_alsa_device->currentIndex()).toString();
     if (value != KdenliveSettings::rmd_alsadevicename()) {
         KdenliveSettings::setRmd_alsadevicename(value);
     }
@@ -415,6 +411,18 @@ void KdenliveSettingsDialog::updateSettings()
     value = m_configSdl.kcfg_audio_driver->itemData(m_configSdl.kcfg_audio_driver->currentIndex()).toString();
     if (value != KdenliveSettings::audiodrivername()) {
         KdenliveSettings::setAudiodrivername(value);
+        resetProfile = true;
+    }
+
+    if (value == "alsa") {
+        // Audio device setting is only valid for alsa driver
+        value = m_configSdl.kcfg_audio_device->itemData(m_configSdl.kcfg_audio_device->currentIndex()).toString();
+        if (value != KdenliveSettings::audiodevicename()) {
+            KdenliveSettings::setAudiodevicename(value);
+            resetProfile = true;
+        }
+    } else if (KdenliveSettings::audiodevicename().isEmpty() == false) {
+        KdenliveSettings::setAudiodevicename(QString::null);
         resetProfile = true;
     }
 
@@ -449,7 +457,11 @@ void KdenliveSettingsDialog::slotUpdateDisplay()
     m_defaultPath = currentProfile;
 }
 
-
+void KdenliveSettingsDialog::slotCheckAlsaDriver()
+{
+    QString value = m_configSdl.kcfg_audio_driver->itemData(m_configSdl.kcfg_audio_driver->currentIndex()).toString();
+    m_configSdl.kcfg_audio_device->setEnabled(value == "alsa");
+}
 
 #include "kdenlivesettingsdialog.moc"
 
