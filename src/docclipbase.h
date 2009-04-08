@@ -56,7 +56,7 @@ Q_OBJECT public:
      *   done here. If a new clip type is added then it should be possible to combine it with both audio
      *   and video. */
 
-    DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id);
+    DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id, bool placeHolder = false);
 //    DocClipBase & operator=(const DocClipBase & clip);
     virtual ~ DocClipBase();
 
@@ -180,6 +180,9 @@ Q_OBJECT public:
     /** Get default play zone for clip monitor */
     QPoint zone() const;
 
+    /** Returns true is clip is missing but user wants to keep it as placeholder */
+    bool isPlaceHolder() const;
+
 private:   // Private attributes
 
     /** A description of this clip */
@@ -205,6 +208,10 @@ private:   // Private attributes
 
     /** a unique numeric id */
     QString m_id;
+
+    /** Wheter the clip is a placeholder (clip missing but user wants to see it) */
+    bool m_placeHolder;
+
     void setAudioThumbCreated(bool isDone);
     /** Holds clip infos like fps, size,... */
     QMap <QString, QString> m_properties;

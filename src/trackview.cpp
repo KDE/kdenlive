@@ -651,7 +651,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                     producerXml.setAttribute("length", "15000");
                     producerXml.setAttribute("id", id);
                     missingClip = new DocClipBase(m_doc->clipManager(), producerXml, id);
-                    m_documentErrors.append(i18n("Boken clip producer %1", id) + '\n');
+                    m_documentErrors.append(i18n("Broken clip producer %1", id) + '\n');
                 } else m_documentErrors.append(i18n("Replaced wrong clip producer %1 with %2", id, missingClip->getId()) + '\n');
                 ClipItem *item = new ClipItem(missingClip, clipinfo, m_doc->fps(), 1.0, false);
                 m_scene->addItem(item);
@@ -692,16 +692,15 @@ DocClipBase *TrackView::getMissingProducer(const QString id) const
 
     QDomNodeList params = missingXml.childNodes();
     QString resource;
-    QString mlt_service;
     for (int j = 0; j < params.count(); j++) {
         QDomElement e = params.item(j).toElement();
         if (e.attribute("name") == "resource") {
             resource = e.firstChild().nodeValue();
-        } else if (e.attribute("name") == "mlt_service") {
-            mlt_service = e.firstChild().nodeValue();
+            break;
         }
     }
-    resource.prepend(docRoot);
+    // prepend westley document root if no path in clip resource and not a color clip
+    if (!resource.contains('/') && !resource.startsWith("0x")) resource.prepend(docRoot);
     DocClipBase *missingClip = NULL;
     if (!resource.isEmpty())
         missingClip = m_doc->clipManager()->getClipByResource(resource);

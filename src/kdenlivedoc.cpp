@@ -1380,6 +1380,7 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
 {
     const QString producerId = clipId.section('_', 0, 0);
     DocClipBase *clip = m_clipManager->getClipById(producerId);
+    bool placeHolder = false;
     if (clip == NULL) {
         elem.setAttribute("id", producerId);
         QString path = elem.attribute("resource");
@@ -1411,6 +1412,7 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
             setNewClipResource(clipId, titleresource);
             delete dia_ui;
         }
+
         if (path.isEmpty() == false && QFile::exists(path) == false && elem.attribute("type").toInt() != TEXT) {
             kDebug() << "// FOUND MISSING CLIP: " << path << ", TYPE: " << elem.attribute("type").toInt();
             const QString size = elem.attribute("file_size");
@@ -1425,17 +1427,17 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
                     int res = KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br>is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
                     if (res == KMessageBox::Yes)
                         newpath = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///clipfolder"), kapp->activeWindow(), i18n("Looking for %1", path));
-                    else if (res == KMessageBox::Cancel) {
+                    else {
                         // Abort project loading
-                        action = KMessageBox::Cancel;
+                        action = res;
                     }
                 } else {
                     int res = KMessageBox::questionYesNoCancel(kapp->activeWindow(), i18n("Clip <b>%1</b><br>is invalid or missing, what do you want to do?", path), i18n("File not found"), KGuiItem(i18n("Search manually")), KGuiItem(i18n("Keep as placeholder")));
                     if (res == KMessageBox::Yes)
                         newpath = KFileDialog::getOpenFileName(KUrl("kfiledialog:///clipfolder"), QString(), kapp->activeWindow(), i18n("Looking for %1", path));
-                    else if (res == KMessageBox::Cancel) {
+                    else {
                         // Abort project loading
-                        action = KMessageBox::Cancel;
+                        action = res;
                     }
                 }
             }
@@ -1448,6 +1450,9 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
             } else if (action == KMessageBox::Cancel) {
                 m_abortLoading = true;
                 return;
+            } else if (action == KMessageBox::No) {
+                // Keep clip as placeHolder
+                placeHolder = true;
             }
             if (!newpath.isEmpty()) {
                 if (elem.attribute("type").toInt() == SLIDESHOW) newpath.append('/' + extension);
@@ -1456,7 +1461,7 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
                 setModified(true);
             }
         }
-        clip = new DocClipBase(m_clipManager, elem, producerId);
+        clip = new DocClipBase(m_clipManager, elem, producerId, placeHolder);
         m_clipManager->addClip(clip);
     }
 

@@ -116,6 +116,7 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
 {
     ProjectItem *item = static_cast <ProjectItem *>(itemAt(event->pos()));
     if (!item) emit addClip();
+    if (!(item->flags() & Qt::ItemIsDragEnabled)) return;
     else if (item->isGroup()) {
         if ((columnAt(event->pos().x()) == 1)) QTreeWidget::mouseDoubleClickEvent(event);
     } else {
@@ -220,8 +221,8 @@ void ProjectListView::mouseMoveEvent(QMouseEvent *event)
         return;
 
     {
-        ProjectItem *clickItem = (ProjectItem *) itemAt(m_DragStartPosition); //event->pos());
-        if (clickItem) {
+        ProjectItem *clickItem = static_cast <ProjectItem *>(itemAt(m_DragStartPosition));
+        if (clickItem && (clickItem->flags() & Qt::ItemIsDragEnabled)) {
             QDrag *drag = new QDrag(this);
             QMimeData *mimeData = new QMimeData;
             const QList <QTreeWidgetItem *> list = selectedItems();

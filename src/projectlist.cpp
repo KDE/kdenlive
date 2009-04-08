@@ -179,6 +179,7 @@ void ProjectList::setHeaderInfo(const QByteArray &state)
 void ProjectList::slotEditClip()
 {
     ProjectItem *item = static_cast <ProjectItem*>(listView->currentItem());
+    if (!(item->flags() & Qt::ItemIsDragEnabled)) return;
     if (item && !item->isGroup()) {
         emit clipSelected(item->referencedClip());
         emit showClipProperties(item->referencedClip());
@@ -548,7 +549,8 @@ void ProjectList::updateAllClips()
                     pix.save(clip->fileURL().path());
                     delete dia_ui;
                 }
-                requestClipInfo(clip->toXML(), clip->getId());
+                if (clip->isPlaceHolder() == false) requestClipInfo(clip->toXML(), clip->getId());
+                else item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
             } else {
                 QString cachedPixmap = m_doc->projectFolder().path() + "/thumbs/" + item->getClipHash() + ".png";
                 if (QFile::exists(cachedPixmap)) {

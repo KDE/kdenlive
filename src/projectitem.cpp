@@ -207,7 +207,7 @@ void ProjectItem::slotSetToolTip()
         tip.append(i18n("Text clip") + "</b><br />" + clipUrl().path());
         break;
     case SLIDESHOW:
-        tip.append(i18n("Slideshow clip"));
+        tip.append(i18n("Slideshow clip") + "</b><br />" + clipUrl().directory());
         break;
     case VIRTUAL:
         tip.append(i18n("Virtual clip"));
