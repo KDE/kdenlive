@@ -453,6 +453,31 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                 speed = idString.section(':', 2, 2).toDouble();
             } else id = id.section('_', 0, 0);
             DocClipBase *clip = m_doc->clipManager()->getClipById(id);
+            if (clip == NULL) {
+                // The clip in playlist was not listed in the kdenlive producers,
+                // something went wrong, repair required.
+                kWarning() << "CANNOT INSERT CLIP " << id;
+
+                clip = getMissingProducer(id);
+                if (!clip) {
+                    // We cannot find the producer, something is really wrong, add
+                    // placeholder color clip
+                    /*QDomElement producerXml;
+                    producerXml.setTagName("producer");
+                    producerXml.setAttribute("resource", "0xff0000ff");
+                    producerXml.setAttribute("mlt_service", "colour");
+                    producerXml.setAttribute("length", "15000");
+                    producerXml.setAttribute("id", id);
+                    missingClip = new DocClipBase(m_doc->clipManager(), producerXml, id);*/
+                    m_documentErrors.append(i18n("Broken clip producer %1", id) + '\n');
+                } else {
+                    // Found correct producer
+                    m_documentErrors.append(i18n("Replaced wrong clip producer %1 with %2", id, clip->getId()) + '\n');
+                    elem.setAttribute("producer", clip->getId());
+                }
+                m_doc->setModified(true);
+            }
+
             if (clip != NULL) {
                 ItemInfo clipinfo;
                 clipinfo.startPos = GenTime(position, m_doc->fps());
@@ -627,38 +652,6 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                         }
                     }
                 }
-            } else {
-                // The clip in playlist was not listed in the kdenlive producers,
-                // something went wrong, repair required.
-                kWarning() << "CANNOT INSERT CLIP " << id;
-                int out = elem.attribute("out").toInt();
-
-                ItemInfo clipinfo;
-                clipinfo.startPos = GenTime(position, m_doc->fps());
-                clipinfo.endPos = clipinfo.startPos + GenTime(out - in + 1, m_doc->fps());
-                clipinfo.cropStart = GenTime(in, m_doc->fps());
-                clipinfo.track = ix;
-                //kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
-
-                DocClipBase *missingClip = getMissingProducer(id);
-                if (!missingClip) {
-                    // We cannot find the producer, something is really wrong, add
-                    // placeholder color clip
-                    QDomElement producerXml;
-                    producerXml.setTagName("producer");
-                    producerXml.setAttribute("resource", "0xff0000ff");
-                    producerXml.setAttribute("mlt_service", "colour");
-                    producerXml.setAttribute("length", "15000");
-                    producerXml.setAttribute("id", id);
-                    missingClip = new DocClipBase(m_doc->clipManager(), producerXml, id);
-                    m_documentErrors.append(i18n("Broken clip producer %1", id) + '\n');
-                } else m_documentErrors.append(i18n("Replaced wrong clip producer %1 with %2", id, missingClip->getId()) + '\n');
-                ClipItem *item = new ClipItem(missingClip, clipinfo, m_doc->fps(), 1.0, false);
-                m_scene->addItem(item);
-                missingClip->addReference();
-                position += (out - in + 1);
-
-                m_doc->setModified(true);
             }
             //m_clipList.append(clip);
         }
