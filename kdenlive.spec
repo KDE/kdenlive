@@ -14,7 +14,7 @@ Requires:       kdebase
 
 %description
 Kdenlive is a non-linear video editor for GNU/Linux, which supports 
-DV, HDV and AVCHD(not complete yet) editing.
+DV, HDV and AVCHD (not complete yet) editing.
 
 %prep
 %setup -q
