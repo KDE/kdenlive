@@ -85,8 +85,8 @@ public:
     /** Returns a list of times for this clip's markers */
     QList <GenTime> snapMarkers() const;
     QList <CommentedTime> commentedSnapMarkers() const;
-    uint fadeIn() const;
-    uint fadeOut() const;
+    int fadeIn() const;
+    int fadeOut() const;
     void setSelectedEffect(const int ix);
     void updateKeyframeEffect();
     QDomElement selectedEffect();
@@ -129,8 +129,8 @@ private:
     CLIPTYPE m_clipType;
     QString m_clipName;
     QString m_effectNames;
-    uint m_startFade;
-    uint m_endFade;
+    int m_startFade;
+    int m_endFade;
     int m_maxTrack;
     bool m_audioOnly;
     bool m_videoOnly;

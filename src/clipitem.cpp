@@ -994,12 +994,12 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
     //}
 }
 
-uint ClipItem::fadeIn() const
+int ClipItem::fadeIn() const
 {
     return m_startFade;
 }
 
-uint ClipItem::fadeOut() const
+int ClipItem::fadeOut() const
 {
     return m_endFade;
 }
