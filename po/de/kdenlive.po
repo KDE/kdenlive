@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-04-02 12:13+0200\n"
-"PO-Revision-Date: 2009-04-08 12:55+0200\n"
+"PO-Revision-Date: 2009-04-08 13:14+0200\n"
 "Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -780,7 +780,7 @@ msgstr "Bild-Helligkeit mit Keyframes ändern"
 
 #: src/customtrackview.cpp:3919
 msgid "Change track"
-msgstr "Spur Ändern"
+msgstr "Spur ändern"
 
 #: src/changetrackcommand.cpp:27
 msgid "Change track type"
@@ -833,12 +833,12 @@ msgstr "Clip"
 #: src/kdenlivedoc.cpp:1317 src/kdenlivedoc.cpp:1325
 #, kde-format
 msgid "Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
-msgstr "Clip <b>%1</b><br /> ist ungültig oder fehlt, was wollen Sie tun?"
+msgstr "Clip <b>%1</b><br /> ist ungültig oder fehlt. Was wollen Sie tun?"
 
 #: src/kdenlivedoc.cpp:1314
 #, kde-format
 msgid "Clip <b>%1</b><br>is invalid, what do you want to do?"
-msgstr "Clip <b>%1</b><br /> ist ungültig, was wollen Sie tun?"
+msgstr "Clip <b>%1</b><br /> ist ungültig. Was wollen Sie tun?"
 
 #: src/projectlist.cpp:569
 #, kde-format
@@ -1718,11 +1718,11 @@ msgstr "Gefunden: %1"
 
 #: rc.cpp:618 rc.cpp:1833
 msgid "Frame Duration"
-msgstr "Framedauer"
+msgstr "Frame-Dauer"
 
 #: rc.cpp:1584 rc.cpp:2799
 msgid "Frame duration"
-msgstr "Framedauer"
+msgstr "Frame-Dauer"
 
 #: rc.cpp:810 rc.cpp:1122 rc.cpp:1185 rc.cpp:1554 rc.cpp:2025 rc.cpp:2337
 #: rc.cpp:2400 rc.cpp:2769
@@ -1735,15 +1735,15 @@ msgstr "Bildwiederholfrequenz:"
 
 #: rc.cpp:1551 rc.cpp:2766
 msgid "Frame size"
-msgstr "Framegröße"
+msgstr "Frame-Größe"
 
 #: src/wizard.cpp:419
 msgid "Frame size:"
-msgstr "Framegröße:"
+msgstr "Frame-Größe"
 
 #: src/kdenlivesettingsdialog.cpp:215
 msgid "Framebuffer console"
-msgstr "Framepuffer Konsole"
+msgstr "Framepuffer-Konsole"
 
 #: src/mainwindow.cpp:604
 msgid "Frames"
@@ -2786,7 +2786,7 @@ msgstr "Frequenz (Hz)"
 
 #: rc.cpp:223
 msgid "Rate Scaler"
-msgstr "Frequenz Skalierung"
+msgstr "Frequenz-Skalierung"
 
 #: src/projectlistview.cpp:44
 msgid "Rating"
@@ -3658,7 +3658,7 @@ msgstr "Spur entsperren"
 #: src/renderwidget.cpp:760
 #, kde-format
 msgid "Unsupported audio codec: %1"
-msgstr "Nicht unterstüẗzter Audio-Codec: %1"
+msgstr "Nicht unterstützter Audio-Codec: %1"
 
 #: src/renderwidget.cpp:775
 #, kde-format
