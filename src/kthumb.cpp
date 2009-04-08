@@ -102,7 +102,7 @@ void MyThread::run()
             for (int c = 0;c < m_channels;c++) {
                 QByteArray m_array;
                 m_array.resize(m_arrayWidth);
-                for (uint i = 0; i < m_array.size(); i++) {
+                for (int i = 0; i < m_array.size(); i++) {
                     m_array[i] = ((*(m_pcm + c + i * m_samples / m_array.size())) >> 9) + 127 / 2 ;
                 }
                 f.write(m_array);

@@ -268,7 +268,7 @@ void ClipProperties::slotFillMarkersList()
 {
     m_view.markers_list->clear();
     QList < CommentedTime > marks = m_clip->commentedSnapMarkers();
-    for (uint count = 0; count < marks.count(); ++count) {
+    for (int count = 0; count < marks.count(); ++count) {
         QString time = m_tc.getTimecode(marks[count].time(), m_tc.fps());
         QStringList itemtext;
         itemtext << time << marks[count].comment();

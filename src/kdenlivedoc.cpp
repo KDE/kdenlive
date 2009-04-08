@@ -311,7 +311,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const int videotracks, const int a
         m_tracksList.append(videoTrack);
     }
 
-    for (uint i = 2; i < total ; i++) {
+    for (int i = 2; i < total ; i++) {
         QDomElement transition = doc.createElement("transition");
         transition.setAttribute("always_active", "1");
 
@@ -592,7 +592,7 @@ bool KdenliveDoc::convertDocument(double version)
         } else {
             // convert transition
             QDomNamedNodeMap attrs = tr.attributes();
-            for (unsigned int j = 0; j < attrs.count(); j++) {
+            for (int j = 0; j < attrs.count(); j++) {
                 QString attrName = attrs.item(j).nodeName();
                 if (attrName != "in" && attrName != "out" && attrName != "id") {
                     QDomElement property = m_document.createElement("property");
@@ -1534,7 +1534,7 @@ void KdenliveDoc::addClipInfo(QDomElement elem, QDomElement orig, QString clipId
         QMap <QString, QString> properties;
         QDomNamedNodeMap attributes = elem.attributes();
         QString attrname;
-        for (unsigned int i = 0; i < attributes.count(); i++) {
+        for (int i = 0; i < attributes.count(); i++) {
             attrname = attributes.item(i).nodeName();
             if (attrname != "resource")
                 properties.insert(attrname, attributes.item(i).nodeValue());

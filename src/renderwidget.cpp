@@ -536,7 +536,7 @@ void RenderWidget::focusFirstVisibleItem()
         updateButtons();
         return;
     }
-    for (uint ix = 0; ix < m_view.size_list->count(); ix++) {
+    for (int ix = 0; ix < m_view.size_list->count(); ix++) {
         QListWidgetItem *item = m_view.size_list->item(ix);
         if (item && !item->isHidden()) {
             m_view.size_list->setCurrentRow(ix);

@@ -53,7 +53,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
     m_clipType = (CLIPTYPE) type;
 
     QDomNamedNodeMap attributes = xml.attributes();
-    for (unsigned int i = 0; i < attributes.count(); i++) {
+    for (int i = 0; i < attributes.count(); i++) {
         m_properties.insert(attributes.item(i).nodeName(), attributes.item(i).nodeValue());
     }
 
@@ -288,7 +288,7 @@ QList < GenTime > DocClipBase::snapMarkers() const
 {
     QList < GenTime > markers;
 
-    for (uint count = 0; count < m_snapMarkers.count(); ++count) {
+    for (int count = 0; count < m_snapMarkers.count(); ++count) {
         markers.append(m_snapMarkers[count].time());
     }
 
