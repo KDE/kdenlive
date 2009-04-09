@@ -2388,10 +2388,10 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     kDebug() << "//////  LOOKING FOR CLIP TO MOVE, INDEX: " << clipIndex;
     bool checkLength = false;
     if (endTrack == startTrack) {
-        //mlt_service_lock(service.get_service());
         Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
         if (!trackPlaylist.is_blank_at(moveEnd) || clipProducer.is_blank()) {
             // error, destination is not empty
+            if (!trackPlaylist.is_blank_at(moveEnd)) trackPlaylist.insert_at(moveStart, clipProducer, 1);
             //int ix = trackPlaylist.get_clip_index_at(moveEnd);
             kDebug() << "// ERROR MOVING CLIP TO : " << moveEnd;
             mlt_service_unlock(m_mltConsumer->get_service());
@@ -2432,7 +2432,15 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             QString currentid = clipProducer.parent().get("id");
             if (serv == "framebuffer" || currentid.endsWith("_video")) {
                 clip = &clipProducer;
-            } else clip = prod->cut(clipProducer.get_in(), clipProducer.get_out());
+            } else {
+                if (prod == NULL) {
+                    // Special case: prod is null when using placeholder clips.
+                    // in that case, use the producer existing in playlist. Note that
+                    // it will bypass the one producer per track logic and might cause
+                    // Sound cracks if clip is moved so that it overlaps another copy of itself
+                    clip = clipProducer.cut(clipProducer.get_in(), clipProducer.get_out());
+                } else clip = prod->cut(clipProducer.get_in(), clipProducer.get_out());
+            }
 
             // move all effects to the correct producer
             Mlt::Service clipService(clipProducer.get_service());

@@ -116,8 +116,8 @@ void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
 {
     ProjectItem *item = static_cast <ProjectItem *>(itemAt(event->pos()));
     if (!item) {
-	emit addClip();
-	return;
+        emit addClip();
+        return;
     }
     if (!(item->flags() & Qt::ItemIsDragEnabled)) return;
     if (item->isGroup()) {

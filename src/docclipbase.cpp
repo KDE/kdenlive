@@ -516,8 +516,13 @@ Mlt::Producer *DocClipBase::producer(int track)
         int i;
         for (i = 0; i < m_baseTrackProducers.count(); i++)
             if (m_baseTrackProducers.at(i) != NULL) break;
+
         if (i >= m_baseTrackProducers.count()) return NULL;
         m_baseTrackProducers[track] = new Mlt::Producer(*m_baseTrackProducers.at(i)->profile(), m_baseTrackProducers.at(i)->get("resource"));
+
+	// special case for placeholder clips
+	if (m_baseTrackProducers[track] == NULL) return NULL;
+
         if (m_properties.contains("force_aspect_ratio")) m_baseTrackProducers[track]->set("force_aspect_ratio", m_properties.value("force_aspect_ratio").toDouble());
         if (m_properties.contains("threads")) m_baseTrackProducers[track]->set("threads", m_properties.value("threads").toInt());
         if (m_properties.contains("video_index")) m_baseTrackProducers[track]->set("video_index", m_properties.value("video_index").toInt());

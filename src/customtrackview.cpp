@@ -1659,7 +1659,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             m_document->renderer()->mltInsertClip(info, item->xml(), item->baseClip()->producer(item->track()));
             item->setSelected(true);
         }
-	m_document->setModified(true);
+        m_document->setModified(true);
         m_changeSpeedAction->setEnabled(hasVideoClip);
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
         groupSelectedItems(true);
@@ -2281,8 +2281,10 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     m_commandStack->push(moveCommand);
                 } else {
                     // undo last move and emit error message
-                    MoveClipCommand *command = new MoveClipCommand(this, info, m_dragItemInfo, true);
-                    m_commandStack->push(command);
+                    bool snap = KdenliveSettings::snaptopoints();
+                    KdenliveSettings::setSnaptopoints(false);
+                    item->setPos((int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(m_dragItemInfo.track * m_tracksHeight + 1));
+                    KdenliveSettings::setSnaptopoints(snap);
                     emit displayMessage(i18n("Cannot move clip to position %1", m_document->timecode().getTimecodeFromFrames(m_dragItemInfo.startPos.frames(m_document->fps()))), ErrorMessage);
                 }
                 m_document->setModified(true);
