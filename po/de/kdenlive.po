@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-04-02 12:13+0200\n"
-"PO-Revision-Date: 2009-04-08 16:14+0200\n"
+"PO-Revision-Date: 2009-04-09 10:49+0200\n"
 "Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -358,7 +358,7 @@ msgstr "Amplitude"
 
 #: src/main.cpp:40
 msgid "An open source video editor."
-msgstr "Ein OpenSource-Videoschnittprogramm"
+msgstr "Ein Open-Source-Videoschnittprogramm"
 
 #: rc.cpp:303
 msgid "Animate Rotate X"
@@ -860,7 +860,7 @@ msgstr "Clip-Eigenschaften"
 #: src/clipitem.cpp:806
 #, c-format, kde-format
 msgid "Clip duration: %1s"
-msgstr "Cliplänge: %1 s"
+msgstr "Clip-Länge: %1 Sek."
 
 #: src/customtrackview.cpp:3310
 msgid "Clip has no markers"
@@ -2526,7 +2526,7 @@ msgstr "PAL"
 
 #: rc.cpp:287 rc.cpp:317
 msgid "Pan and Zoom"
-msgstr "Verschieben und Zoomen"
+msgstr "Verschieben und zoomen"
 
 #: rc.cpp:561 rc.cpp:1776
 msgid "Param"
@@ -2993,7 +2993,7 @@ msgstr "Größenanpassung (50 %)"
 #: src/resizeclipcommand.cpp:27 src/customtrackview.cpp:2306
 #: src/customtrackview.cpp:2367
 msgid "Resize clip"
-msgstr "Clipgröße ändern"
+msgstr "Clip-Größe ändern"
 
 #: src/geometryval.cpp:69
 msgid "Resize..."
@@ -3101,7 +3101,7 @@ msgstr "Änderungen des Dokumentes speichern"
 
 #: src/mainwindow.cpp:2325
 msgid "Save clip zone as:"
-msgstr "Clipbereich speichern als:"
+msgstr "Clip-Bereich speichern als:"
 
 #: src/effectstackview.cpp:53
 msgid "Save effect"
@@ -3927,11 +3927,11 @@ msgstr "Z-Index:"
 
 #: src/mainwindow.cpp:754
 msgid "Zoom In"
-msgstr "Hereinzoomen"
+msgstr "Herein zoomen"
 
 #: src/mainwindow.cpp:759
 msgid "Zoom Out"
-msgstr "Herauszoomen"
+msgstr "Heraus zoomen"
 
 #: rc.cpp:876 rc.cpp:2091
 msgid "Zoom:"
