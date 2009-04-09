@@ -115,9 +115,12 @@ void ProjectListView::contextMenuEvent(QContextMenuEvent * event)
 void ProjectListView::mouseDoubleClickEvent(QMouseEvent * event)
 {
     ProjectItem *item = static_cast <ProjectItem *>(itemAt(event->pos()));
-    if (!item) emit addClip();
+    if (!item) {
+	emit addClip();
+	return;
+    }
     if (!(item->flags() & Qt::ItemIsDragEnabled)) return;
-    else if (item->isGroup()) {
+    if (item->isGroup()) {
         if ((columnAt(event->pos().x()) == 1)) QTreeWidget::mouseDoubleClickEvent(event);
     } else {
         if ((columnAt(event->pos().x()) == 1) && (item->clipType() == SLIDESHOW || item->clipType() == TEXT || item->clipType() == COLOR)) QTreeWidget::mouseDoubleClickEvent(event);
