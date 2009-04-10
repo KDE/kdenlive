@@ -146,6 +146,8 @@ KThumb::~KThumb()
 void KThumb::setProducer(Mlt::Producer *producer)
 {
     m_producer = producer;
+    // FIXME: the profile() call leaks an object, but trying to free
+    // it leads to a double-free in Profile::~Profile()
     m_dar = producer->profile()->dar();
 }
 

@@ -132,8 +132,11 @@ void Render::buildConsumer()
     m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("window_id", m_winid);
     m_mltConsumer->set("terminate_on_pause", 1);
-    m_mltConsumer->set("window_background", decodedString(KdenliveSettings::window_background().name()));
+    tmp = decodedString(KdenliveSettings::window_background().name());
+    m_mltConsumer->set("window_background", tmp);
+    delete [] tmp;
 
+    // FIXME: the event object returned by the listen gets leaked...
     m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
     m_mltConsumer->set("rescale", "nearest");
 
@@ -523,6 +526,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, bo
     if (producer == NULL || producer->is_blank() || !producer->is_valid()) {
         kDebug() << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: ";
         emit removeInvalidClip(clipId);
+        delete producer;
         return;
     }
 
@@ -639,6 +643,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, bo
         /*if (context->duration == AV_NOPTS_VALUE) {
         kDebug() << " / / / / / / / /ERROR / / / CLIP HAS UNKNOWN DURATION";
             emit removeInvalidClip(clipId);
+            delete producer;
             return;
         }*/
         // Get the video_index
@@ -710,6 +715,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, bo
     emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap, replaceProducer);
     kDebug() << "REquested fuile info for: " << url.path();
     if (frame) delete frame;
+    // FIXME: should delete this to avoid a leak...
     //if (producer) delete producer;
 }
 
@@ -966,6 +972,7 @@ void Render::connectPlaylist()
     /*
      if (m_mltConsumer->start() == -1) {
           KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
+          delete m_mltConsumer;
           m_mltConsumer = NULL;
      }
      else {
@@ -1034,6 +1041,7 @@ void Render::start()
         kDebug() << "-----  MONITOR: " << m_name << " WAS STOPPED";
         if (m_mltConsumer->start() == -1) {
             KMessageBox::error(qApp->activeWindow(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
+            delete m_mltConsumer;
             m_mltConsumer = NULL;
             return;
         } else {
@@ -2860,18 +2868,22 @@ QList <Mlt::Producer *> Render::producersList()
 
     int trackNb = tractor.count();
     for (int t = 1; t < trackNb; t++) {
-        Mlt::Producer trackProducer(tractor.track(t));
+        Mlt::Producer *tt = tractor.track(t);
+        Mlt::Producer trackProducer(tt);
+        delete tt;
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
         int clipNb = trackPlaylist.count();
         //kDebug() << "// PARSING SCENE TRACK: " << t << ", CLIPS: " << clipNb;
         for (int i = 0; i < clipNb; i++) {
-            Mlt::Producer *nprod = new Mlt::Producer(trackPlaylist.get_clip(i)->get_parent());
+            Mlt::Producer *c = trackPlaylist.get_clip(i);
+            Mlt::Producer *nprod = new Mlt::Producer(c->get_parent());
             if (nprod) {
                 if (!nprod->is_blank() && !ids.contains(nprod->get("id"))) {
                     ids.append(nprod->get("id"));
                     prods.append(nprod);
                 } else delete nprod;
             }
+            delete c;
         }
     }
     return prods;
@@ -2886,11 +2898,14 @@ void Render::fillSlowMotionProducers()
 
     int trackNb = tractor.count();
     for (int t = 1; t < trackNb; t++) {
-        Mlt::Producer trackProducer(tractor.track(t));
+        Mlt::Producer *tt = tractor.track(t);
+        Mlt::Producer trackProducer(tt);
+        delete tt;
         Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
         int clipNb = trackPlaylist.count();
         for (int i = 0; i < clipNb; i++) {
-            Mlt::Producer *nprod = new Mlt::Producer(trackPlaylist.get_clip(i)->get_parent());
+            Mlt::Producer *c = trackPlaylist.get_clip(i);
+            Mlt::Producer *nprod = new Mlt::Producer(c->get_parent());
             if (nprod) {
                 QString id = nprod->get("id");
                 if (id.startsWith("slowmotion:") && !nprod->is_blank()) {
@@ -2901,6 +2916,7 @@ void Render::fillSlowMotionProducers()
                     }
                 } else delete nprod;
             }
+            delete c;
         }
     }
 }
