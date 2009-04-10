@@ -108,8 +108,7 @@ void DvdWizardVob::slotCheckVobList(const QString &text)
     } else if (text.isEmpty()) {
         if (allUrls.at(count - 1)->url().path().isEmpty() && allUrls.at(count - 2)->url().path().isEmpty()) {
             // The last 2 urlrequesters are empty, remove last one
-            KUrlRequester *vob = allUrls.takeLast();
-            delete vob;
+            delete allUrls.takeLast();
         }
     } else {
         if (allUrls.at(count - 1)->url().path().isEmpty()) return;

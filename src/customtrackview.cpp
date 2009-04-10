@@ -3480,8 +3480,7 @@ void CustomTrackView::editGuide(const GenTime oldPos, const GenTime pos, const Q
         bool found = false;
         for (int i = 0; i < m_guides.count(); i++) {
             if (m_guides.at(i)->position() == oldPos) {
-                Guide *item = m_guides.takeAt(i);
-                delete item;
+                delete m_guides.takeAt(i);
                 found = true;
                 break;
             }
@@ -3693,9 +3692,8 @@ void CustomTrackView::clearSearchStrings()
 
 void CustomTrackView::copyClip()
 {
-    while (m_copiedItems.count() > 0) {
-        delete m_copiedItems.takeFirst();
-    }
+    qDeleteAll(m_copiedItems);
+    m_copiedItems.clear();
     QList<QGraphicsItem *> itemList = scene()->selectedItems();
     if (itemList.count() == 0) {
         emit displayMessage(i18n("Select a clip before copying"), ErrorMessage);

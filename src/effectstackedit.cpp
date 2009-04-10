@@ -476,9 +476,7 @@ void EffectStackEdit::slotSliderMoved(int)
 void EffectStackEdit::clearAllItems()
 {
     qDeleteAll(items);
-    foreach(UiItem *p, uiItems) {
-        delete p;
-    }
+    qDeleteAll(uiItems);
     uiItems.clear();
     items.clear();
     valueItems.clear();
