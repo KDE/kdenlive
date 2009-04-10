@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Type=Service
 Name=Westley Playlists
-ServiceTypes=ThumbCreator
+X-KDE-ServiceTypes=ThumbCreator
 CacheThumbnail=true
 IgnoreMaximumSize=true
 MimeType=video/mlt-playlist;application/x-kdenlive;
