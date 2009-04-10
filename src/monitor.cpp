@@ -144,7 +144,7 @@ Monitor::~Monitor()
 {
     delete m_ruler;
     delete m_timePos;
-    if (m_overlay) delete m_overlay;
+    delete m_overlay;
     delete m_monitorRefresh;
 }
 
@@ -738,7 +738,7 @@ void Monitor::slotSwitchMonitorInfo(bool show)
         m_overlay = new Overlay(m_monitorRefresh);
         m_overlay->raise();
         m_overlay->setHidden(true);
-    } else if (m_overlay) {
+    } else {
         delete m_overlay;
         m_overlay = NULL;
     }

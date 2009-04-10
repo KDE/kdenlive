@@ -97,8 +97,8 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
 MarkerDialog::~MarkerDialog()
 {
     delete m_previewTimer;
-    if (m_producer) delete m_producer;
-    if (m_profile) delete m_profile;
+    delete m_producer;
+    delete m_profile;
 }
 
 void MarkerDialog::slotUpdateThumb()

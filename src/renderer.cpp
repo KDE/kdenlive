@@ -96,11 +96,9 @@ void Render::closeMlt()
 {
     delete osdTimer;
     delete refreshTimer;
-    if (m_mltConsumer)
-        delete m_mltConsumer;
-    if (m_mltProducer)
-        delete m_mltProducer;
-    if (m_blackClip) delete m_blackClip;
+    delete m_mltConsumer;
+    delete m_mltProducer;
+    delete m_blackClip;
     //delete m_osdInfo;
 }
 
@@ -111,7 +109,7 @@ void Render::buildConsumer()
     m_activeProfile = KdenliveSettings::current_profile();
     tmp = decodedString(m_activeProfile);
     setenv("MLT_PROFILE", tmp, 1);
-    if (m_blackClip) delete m_blackClip;
+    delete m_blackClip;
     m_blackClip = NULL;
 
     m_mltProfile = new Mlt::Profile(tmp);
@@ -714,9 +712,9 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, bo
 
     emit replyGetFileProperties(clipId, producer, filePropertyMap, metadataPropertyMap, replaceProducer);
     kDebug() << "REquested fuile info for: " << url.path();
-    if (frame) delete frame;
+    delete frame;
     // FIXME: should delete this to avoid a leak...
-    //if (producer) delete producer;
+    //delete producer;
 }
 
 

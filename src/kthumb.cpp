@@ -106,8 +106,7 @@ void MyThread::run()
         } else {
             f.write(QByteArray(m_arrayWidth, '\x00'));
         }
-        if (mlt_frame)
-            delete mlt_frame;
+        delete mlt_frame;
     }
     //kDebug() << "done";
     f.close();

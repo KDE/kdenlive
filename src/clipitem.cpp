@@ -131,9 +131,9 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, b
 
 ClipItem::~ClipItem()
 {
-    if (startThumbTimer) delete startThumbTimer;
-    if (endThumbTimer) delete endThumbTimer;
-    if (m_timeLine) delete m_timeLine;
+    delete startThumbTimer;
+    delete endThumbTimer;
+    delete m_timeLine;
 }
 
 ClipItem *ClipItem::clone(ItemInfo info) const

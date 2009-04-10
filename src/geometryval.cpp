@@ -404,7 +404,7 @@ void Geometryval::setupParam(const QDomElement& par, int minFrame, int maxFrame)
     Mlt::GeometryItem item;
 
     m_geom->fetch(&item, 0);
-    if (paramRect) delete paramRect;
+    delete paramRect;
     paramRect = new QGraphicsRectItem(QRectF(0, 0, item.w(), item.h()));
     paramRect->setPos(item.x(), item.y());
     paramRect->setZValue(0);

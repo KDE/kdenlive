@@ -211,8 +211,8 @@ TitleWidget::~TitleWidget()
 
     delete m_frameBorder;
     delete m_frameImage;
-    if (startViewport) delete startViewport;
-    if (endViewport) delete endViewport;
+    delete startViewport;
+    delete endViewport;
     delete m_scene;
 }
 

@@ -149,7 +149,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
 
             kDebug() << "// FOUND DVGRAB VERSION: " << dvgrabVersion;
         }
-        if (versionCheck) delete versionCheck;
+        delete versionCheck;
         if (dvgrabVersion < 3.3) {
             KdenliveSettings::setFirewiretimestamp(false);
             m_configCapture.kcfg_firewiretimestamp->setEnabled(false);

@@ -92,9 +92,7 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
 
 DocClipBase::~DocClipBase()
 {
-    if (m_thumbProd) {
-        delete m_thumbProd;
-    }
+    delete m_thumbProd;
     if (m_audioTimer) {
         m_audioTimer->stop();
         delete m_audioTimer;
@@ -103,7 +101,7 @@ DocClipBase::~DocClipBase()
     m_baseTrackProducers.clear();
     qDeleteAll(m_audioTrackProducers);
     m_audioTrackProducers.clear();
-    if (m_videoOnlyProducer) delete m_videoOnlyProducer;
+    delete m_videoOnlyProducer;
     m_videoOnlyProducer = NULL;
 }
 
@@ -413,7 +411,7 @@ void DocClipBase::deleteProducers()
     if (m_thumbProd) m_thumbProd->clearProducer();
     qDeleteAll(m_audioTrackProducers);
     m_audioTrackProducers.clear();
-    if (m_videoOnlyProducer) delete m_videoOnlyProducer;
+    delete m_videoOnlyProducer;
     m_videoOnlyProducer = NULL;
 }
 

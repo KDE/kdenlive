@@ -502,7 +502,7 @@ void MainWindow::slotReloadEffects()
 #ifndef NO_JOGSHUTTLE
 void MainWindow::activateShuttleDevice()
 {
-    if (m_jogProcess) delete m_jogProcess;
+    delete m_jogProcess;
     m_jogProcess = NULL;
     if (KdenliveSettings::enableshuttle() == false) return;
     m_jogProcess = new JogShuttle(KdenliveSettings::shuttledevice());

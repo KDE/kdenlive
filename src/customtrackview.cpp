@@ -326,15 +326,15 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 m_dragItem->updateKeyFramePos(keyFramePos, pos);
             }
 
-            if (m_animation) delete m_animation;
+            delete m_animation;
             m_animation = NULL;
-            if (m_visualTip) delete m_visualTip;
+            delete m_visualTip;
             m_visualTip = NULL;
             return;
         } else if (m_operationMode == MOVEGUIDE) {
-            if (m_animation) delete m_animation;
+            delete m_animation;
             m_animation = NULL;
-            if (m_visualTip) delete m_visualTip;
+            delete m_visualTip;
             m_visualTip = NULL;
             QGraphicsView::mouseMoveEvent(event);
             return;
@@ -385,7 +385,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             return;
         } else {
             if (m_visualTip) {
-                if (m_animation) delete m_animation;
+                delete m_animation;
                 m_animation = NULL;
                 m_animationTimer->stop();
                 delete m_visualTip;
@@ -546,7 +546,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             slotCheckPositionScrolling();
         } else m_moveOpMode = NONE;
         if (m_visualTip) {
-            if (m_animation) delete m_animation;
+            delete m_animation;
             m_animationTimer->stop();
             m_animation = NULL;
             delete m_visualTip;
@@ -3580,14 +3580,10 @@ void CustomTrackView::setScale(double scaleFactor)
     m_scene->setScale(scaleFactor);
     //scale(scaleFactor, 1);
     m_animationTimer->stop();
-    if (m_visualTip) {
-        delete m_visualTip;
-        m_visualTip = NULL;
-    }
-    if (m_animation) {
-        delete m_animation;
-        m_animation = NULL;
-    }
+    delete m_visualTip;
+    m_visualTip = NULL;
+    delete m_animation;
+    m_animation = NULL;
 
     //setSceneRect(0, 0, m_projectDuration + 100 * scaleFactor, sceneRect().height());
     setMatrix(matrix);

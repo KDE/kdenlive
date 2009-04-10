@@ -80,7 +80,7 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent) :
 
 HeaderTrack::~HeaderTrack()
 {
-    if (m_contextMenu) delete m_contextMenu;
+    delete m_contextMenu;
 }
 
 void HeaderTrack::switchVideo()
