@@ -84,7 +84,6 @@
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscene, QWidget *parent) :
         QGraphicsView(projectscene, parent),
         m_tracksHeight(KdenliveSettings::trackheight()),
-        m_selectedTrack(0),
         m_projectDuration(0),
         m_cursorPos(0),
         m_document(doc),

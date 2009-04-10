@@ -108,8 +108,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 #ifndef NO_JOGSHUTTLE
         m_jogProcess(NULL),
 #endif /* NO_JOGSHUTTLE */
-        m_findActivated(false),
-        m_initialized(false)
+        m_findActivated(false)
 {
 
     // Create DBus interface

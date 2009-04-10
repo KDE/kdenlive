@@ -48,7 +48,6 @@ protected:
 
 private:
     QProcess *m_inigoprocess;
-    QStringList customargs;
     KRandomSequence *m_rand;
     QString playerBin;
     bool startAndWaitProcess(const QStringList &args);

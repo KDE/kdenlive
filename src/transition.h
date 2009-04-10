@@ -78,7 +78,6 @@ protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
-    bool m_singleClip;
     QString m_name;
     bool m_forceTransitionTrack;
 

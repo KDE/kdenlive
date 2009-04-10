@@ -40,10 +40,8 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, b
         AbstractClipItem(info, QRectF(), fps),
         m_clip(clip),
         m_resizeMode(NONE),
-        m_grabPoint(0),
         m_startFade(0),
         m_endFade(0),
-        m_maxTrack(0),
         m_audioOnly(false),
         m_videoOnly(false),
         m_startPix(QPixmap()),
@@ -52,13 +50,11 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, b
         startThumbTimer(NULL),
         endThumbTimer(NULL),
         m_selectedEffect(-1),
-        m_opacity(1.0),
         m_timeLine(0),
         m_startThumbRequested(false),
         m_endThumbRequested(false),
         m_hover(false),
         m_speed(speed),
-        audioThumbWasDrawn(false),
         framePixelWidth(0)
 {
     setZValue(1);

@@ -122,7 +122,6 @@ private:
     Ui::DvdWizardMenu_UI m_view;
     bool m_isPal;
     DvdScene *m_scene;
-    DvdButton *m_button;
     QGraphicsPixmapItem *m_background;
     QGraphicsRectItem *m_color;
     QGraphicsRectItem *m_safeRect;

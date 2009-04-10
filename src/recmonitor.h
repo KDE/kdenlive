@@ -32,8 +32,6 @@
 #include <KDateTime>
 
 #include "ui_recmonitor_ui.h"
-#include "smallruler.h"
-#include "regiongrabber.h"
 
 class RecMonitor : public QWidget
 {
@@ -52,9 +50,7 @@ protected:
 
 private:
     Ui::RecMonitor_UI ui;
-    QString m_tmpFolder;
     QString m_name;
-    RegionGrabber *rgnGrab;
     bool m_isActive;
     KDateTime m_captureTime;
 
@@ -64,7 +60,6 @@ private:
 
     QProcess *captureProcess;
     QProcess *displayProcess;
-    QTimer *m_initTimer;
     bool m_isCapturing;
     /** did the user capture something ? */
     bool m_didCapture;

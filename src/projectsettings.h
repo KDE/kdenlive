@@ -44,9 +44,6 @@ private slots:
 
 private:
     Ui::ProjectSettings_UI m_view;
-    QStringList m_mltProfilesList;
-    QStringList m_customProfilesList;
-    bool m_isCustomProfile;
     QPushButton *buttonOk;
 };
 

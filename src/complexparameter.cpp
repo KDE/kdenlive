@@ -30,8 +30,6 @@ ComplexParameter::ComplexParameter(QWidget *parent) :
     ui.setupUi(this);
     //ui.effectlist->horizontalHeader()->setVisible(false);
     //ui.effectlist->verticalHeader()->setVisible(false);
-    activeRow = -1;
-    clipref = NULL;
 
 
     ui.buttonLeftRight->setIcon(KIcon("go-next"));//better icons needed

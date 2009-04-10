@@ -48,7 +48,6 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent * event);
 
 private:
-    int m_cursorPosition;
     Timecode m_timecode;
     CustomTrackView *m_view;
     int m_zoneStart;

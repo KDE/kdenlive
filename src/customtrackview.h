@@ -169,7 +169,6 @@ protected:
 
 private:
     int m_tracksHeight;
-    uint m_selectedTrack;
     int m_projectDuration;
     int m_cursorPos;
     KdenliveDoc *m_document;
@@ -216,7 +215,6 @@ private:
     int m_scrollOffset;
     bool m_clipDrag;
 
-    QList <CommentedTime> m_searchStrings;
     int m_findIndex;
     PROJECTTOOL m_tool;
     QCursor m_razorCursor;

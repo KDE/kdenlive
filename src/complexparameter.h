@@ -33,13 +33,9 @@ public:
     ComplexParameter(QWidget *parent = 0);
     QDomElement getParamDesc();
 private:
-    int activeRow;
-    QList<QDomElement> effects;
     Ui::KeyframeWidget_UI ui;
-    ClipItem* clipref;
     void setupListView();
     void updateButtonStatus();
-    QMap<QString, EffectsList*> effectLists;
 
     QDomElement param;
 public slots:

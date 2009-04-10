@@ -74,13 +74,9 @@ private:
     Ui::ConfigCapture_UI m_configCapture;
     Ui::ConfigJogShuttle_UI m_configShuttle;
     Ui::ConfigSdl_UI m_configSdl;
-    QStringList m_mltProfilesList;
-    QStringList m_customProfilesList;
-    bool m_isCustomProfile;
     QString m_defaultProfile;
     QString m_defaultPath;
     KProcess m_readProcess;
-    QString m_captureFolder;
     void initDevices();
 
 signals:

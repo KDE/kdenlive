@@ -40,7 +40,6 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDo
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
     setPos(info.startPos.frames(fps), (qreal)(info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2));
 
-    m_singleClip = true;
     m_transitionTrack = transitiontrack;
     m_secondClip = NULL;
     m_cropStart = GenTime();

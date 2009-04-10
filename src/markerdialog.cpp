@@ -31,7 +31,6 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
         m_producer(NULL),
         m_profile(NULL),
         m_clip(clip),
-        m_marker(t),
         m_tc(tc)
 {
     setFont(KGlobalSettings::toolBarFont());

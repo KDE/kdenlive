@@ -119,7 +119,6 @@ Q_OBJECT public:
 private:
     KUrl m_url;
     QDomDocument m_document;
-    QString m_projectName;
     double m_fps;
     int m_zoom;
     /** Cursor position at document opening */

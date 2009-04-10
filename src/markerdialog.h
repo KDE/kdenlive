@@ -54,7 +54,6 @@ private:
     Mlt::Profile *m_profile;
     Ui::MarkerDialog_UI m_view;
     DocClipBase *m_clip;
-    CommentedTime m_marker;
     Timecode m_tc;
     double m_fps;
     double m_dar;

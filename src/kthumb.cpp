@@ -124,8 +124,7 @@ KThumb::KThumb(ClipManager *clipManager, KUrl url, const QString &id, const QStr
         m_dar(1),
         m_producer(NULL),
         m_clipManager(clipManager),
-        m_id(id),
-        m_mainFrame(-1)
+        m_id(id)
 {
     m_thumbFile = clipManager->projectFolder() + "/thumbs/" + hash + ".thumb";
     connect(&audioThumbProducer, SIGNAL(audioThumbProgress(const int)), this, SLOT(slotAudioThumbProgress(const int)));

@@ -68,7 +68,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
     m_configEnv.capturefolderurl->lineEdit()->setObjectName("kcfg_capturefolder");
     page2 = addPage(p2, i18n("Environment"), "terminal");
 
-    m_captureFolder = KdenliveSettings::capturefolder();
     QWidget *p4 = new QWidget;
     m_configCapture.setupUi(p4);
     page4 = addPage(p4, i18n("Capture"), "audio-card");

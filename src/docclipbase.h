@@ -185,8 +185,6 @@ Q_OBJECT public:
 
 private:   // Private attributes
 
-    /** A description of this clip */
-    QString m_description;
     /** The number of times this clip is used in the project - the number of references to this clip
      * that exist. */
     uint m_refcount;

@@ -53,20 +53,18 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
     }
 }
 
-Render::Render(const QString & rendererName, int winid, int extid, QWidget *parent) :
+Render::Render(const QString & rendererName, int winid, int /* extid */, QWidget *parent) :
         QObject(parent),
         m_isBlocked(true),
         m_name(rendererName),
         m_mltConsumer(NULL),
         m_mltProducer(NULL),
-        m_mltTextProducer(NULL),
         m_framePosition(0),
         m_isZoneMode(false),
         m_isLoopMode(false),
         m_isSplitView(false),
         m_blackClip(NULL),
-        m_winid(winid),
-        m_externalwinid(extid)
+        m_winid(winid)
 {
     kDebug() << "//////////  USING PROFILE: " << (char*)KdenliveSettings::current_profile().toUtf8().data();
     refreshTimer = new QTimer(this);
@@ -76,8 +74,6 @@ Render::Render(const QString & rendererName, int winid, int extid, QWidget *pare
     else m_monitorId = 10001;*/
     osdTimer = new QTimer(this);
     connect(osdTimer, SIGNAL(timeout()), this, SLOT(slotOsdTimeout()));
-
-    m_osdProfile =   KStandardDirs::locate("data", "kdenlive/profiles/metadata.properties");
 
     buildConsumer();
 

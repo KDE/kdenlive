@@ -50,9 +50,6 @@ protected:
 private:
     QPainterPath groupShape(QPointF);
     void fixItemRect();
-    double m_fps;
-    GenTime m_startPos;
-    int m_track;
 };
 
 #endif

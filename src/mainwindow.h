@@ -138,9 +138,6 @@ private:
 
     KComboBox *m_timecodeFormat;
 
-    QDockWidget *overviewDock;
-    CustomTrackView *m_overView;
-
     QMenu *m_customEffectsMenu;
     QMenu *m_timelineContextMenu;
     QMenu *m_timelineContextClipMenu;
@@ -176,7 +173,6 @@ private:
     bool m_findActivated;
     QString m_findString;
     QTimer m_findTimer;
-    bool m_initialized;
 
     void readOptions();
     void saveOptions();

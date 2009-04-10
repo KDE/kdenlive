@@ -54,8 +54,6 @@ private slots:
 
 private:
     Ui::ProfilesDialog_UI m_view;
-    QStringList m_mltProfilesList;
-    QStringList m_customProfilesList;
     int m_selectedProfileIndex;
     bool m_profileIsModified;
     bool m_isCustomProfile;

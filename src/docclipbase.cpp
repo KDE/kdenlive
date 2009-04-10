@@ -36,7 +36,6 @@
 DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id, bool placeHolder) :
         QObject(),
         audioFrameChache(),
-        m_description(),
         m_refcount(0),
         m_baseTrackProducers(),
         m_audioTrackProducers(),

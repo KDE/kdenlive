@@ -124,14 +124,12 @@ protected:
 private:
     DocClipBase *m_clip;
     OPERATIONTYPE m_resizeMode;
-    int m_grabPoint;
     QString m_producer;
     CLIPTYPE m_clipType;
     QString m_clipName;
     QString m_effectNames;
     int m_startFade;
     int m_endFade;
-    int m_maxTrack;
     bool m_audioOnly;
     bool m_videoOnly;
 
@@ -142,7 +140,6 @@ private:
     QTimer *endThumbTimer;
 
     int m_selectedEffect;
-    double m_opacity;
     QTimeLine *m_timeLine;
     bool m_startThumbRequested;
     bool m_endThumbRequested;
@@ -152,9 +149,8 @@ private:
     EffectsList m_effectList;
     QList <Transition*> m_transitionsList;
     QMap<int, QPixmap> audioThumbCachePic;
-    bool audioThumbWasDrawn, audioThumbReady;
+    bool audioThumbReady;
     double framePixelWidth;
-    QMap<int, QPainterPath > channelPaths;
     /** Called when clip start is resized, adjust keyframes values */
     void checkEffectsKeyframesPos(const int previous, const int current, bool fromStart);
     QPixmap m_videoPix;

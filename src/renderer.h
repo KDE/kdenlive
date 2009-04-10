@@ -195,8 +195,6 @@ private:   // Private attributes & methods
     QString m_name;
     Mlt::Consumer * m_mltConsumer;
     Mlt::Producer * m_mltProducer;
-    Mlt::Producer *m_mltTextProducer;
-    Mlt::Filter *m_osdInfo;
     Mlt::Profile *m_mltProfile;
     double m_framePosition;
     double m_fps;
@@ -211,17 +209,13 @@ private:   // Private attributes & methods
     bool m_isSplitView;
 
     Mlt::Producer *m_blackClip;
-    /** Holds the path to on screen display profile */
-    QString m_osdProfile;
     QString m_activeProfile;
 
     QTimer *refreshTimer;
     QTimer *osdTimer;
-    KUrl m_exportedFile;
 
     /** A human-readable description of this renderer. */
     int m_winid;
-    int m_externalwinid;
 
     /** Sets the description of this renderer to desc. */
     void closeMlt();

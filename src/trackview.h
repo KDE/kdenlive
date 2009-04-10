@@ -76,11 +76,7 @@ private:
     CustomTrackScene *m_scene;
 
     KdenliveDoc *m_doc;
-    QVBoxLayout *m_tracksLayout;
     QVBoxLayout *m_headersLayout;
-    QScrollArea *m_scrollArea;
-    QFrame *m_scrollBox;
-    QVBoxLayout *m_tracksAreaLayout;
     QString m_documentErrors;
     void parseDocument(QDomDocument doc);
     int slotAddProjectTrack(int ix, QDomElement xml, bool locked);

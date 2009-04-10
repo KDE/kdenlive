@@ -37,7 +37,6 @@
 
 DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent) :
         QWizard(parent),
-        m_profile(profile),
         m_dvdauthor(NULL),
         m_mkiso(NULL)
 {
@@ -49,7 +48,7 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
 
     if (!url.isEmpty()) m_pageVob->setUrl(url);
 
-    m_pageMenu = new DvdWizardMenu(m_profile, this);
+    m_pageMenu = new DvdWizardMenu(profile, this);
     m_pageMenu->setTitle(i18n("Create DVD Menu"));
     addPage(m_pageMenu);
 

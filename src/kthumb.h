@@ -114,7 +114,6 @@ private:
     Mlt::Producer *m_producer;
     ClipManager *m_clipManager;
     QString m_id;
-    int m_mainFrame;
 
 signals:
     void thumbReady(int, QPixmap);

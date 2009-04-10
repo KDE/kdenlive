@@ -48,7 +48,6 @@ private:
     DvdWizardMenu *m_pageMenu;
     Ui::DvdWizardIso_UI m_iso;
     Ui::DvdWizardStatus_UI m_status;
-    QString m_profile;
     KTemporaryFile m_menuFile;
     KTemporaryFile m_authorFile;
     QProcess *m_dvdauthor;
