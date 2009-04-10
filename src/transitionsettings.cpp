@@ -31,37 +31,37 @@ TransitionSettings::TransitionSettings(QWidget* parent) :
         m_usedTransition(NULL),
         m_tracksCount(0)
 {
-    ui.setupUi(this);
-    effectEdit = new EffectStackEdit(ui.frame);
-    connect(effectEdit, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
+    m_ui.setupUi(this);
+    m_effectEdit = new EffectStackEdit(m_ui.frame);
+    connect(m_effectEdit, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
     setEnabled(false);
-    ui.transitionList->addItems(MainWindow::transitions.effectNames());
-    for (int i = 0; i < ui.transitionList->count(); i++) {
-        ui.transitionList->setItemData(i, MainWindow::transitions.getInfoFromIndex(i), Qt::ToolTipRole);
+    m_ui.transitionList->addItems(MainWindow::transitions.effectNames());
+    for (int i = 0; i < m_ui.transitionList->count(); i++) {
+        m_ui.transitionList->setItemData(i, MainWindow::transitions.getInfoFromIndex(i), Qt::ToolTipRole);
     }
     //kDebug() << MainWindow::transitions.effectNames().size();
-    //ui.listWidget->setCurrentRow(0);
-    connect(ui.transitionList, SIGNAL(activated(int)), this, SLOT(slotTransitionChanged()));
-    connect(ui.transitionTrack, SIGNAL(activated(int)), this, SLOT(slotTransitionTrackChanged()));
+    //m_ui.listWidget->setCurrentRow(0);
+    connect(m_ui.transitionList, SIGNAL(activated(int)), this, SLOT(slotTransitionChanged()));
+    connect(m_ui.transitionTrack, SIGNAL(activated(int)), this, SLOT(slotTransitionTrackChanged()));
 
-    connect(this, SIGNAL(transferParamDesc(const QDomElement&, int , int)), effectEdit , SLOT(transferParamDesc(const QDomElement&, int , int)));
-    connect(effectEdit, SIGNAL(parameterChanged(const QDomElement&, const QDomElement&)), this , SLOT(slotUpdateEffectParams(const QDomElement&, const QDomElement&)));
+    connect(this, SIGNAL(transferParamDesc(const QDomElement&, int , int)), m_effectEdit , SLOT(transferParamDesc(const QDomElement&, int , int)));
+    connect(m_effectEdit, SIGNAL(parameterChanged(const QDomElement&, const QDomElement&)), this , SLOT(slotUpdateEffectParams(const QDomElement&, const QDomElement&)));
 }
 
 void TransitionSettings::updateProjectFormat(MltVideoProfile profile, Timecode t, const uint tracksCount)
 {
     m_tracksCount = tracksCount;
-    effectEdit->updateProjectFormat(profile, t);
+    m_effectEdit->updateProjectFormat(profile, t);
     QStringList tracksList;
     tracksList << i18n("Auto");
     for (uint i = 0; i < tracksCount; i++) {
         tracksList << QString::number(i);
     }
     tracksList << i18n("Black");
-    ui.transitionTrack->blockSignals(true);
-    ui.transitionTrack->clear();
-    ui.transitionTrack->addItems(tracksList);
-    ui.transitionTrack->blockSignals(false);
+    m_ui.transitionTrack->blockSignals(true);
+    m_ui.transitionTrack->clear();
+    m_ui.transitionTrack->addItems(tracksList);
+    m_ui.transitionTrack->blockSignals(false);
 }
 
 
@@ -70,13 +70,13 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
     QDomElement e = m_usedTransition->toXML().cloneNode().toElement();
     if (reinit) {
         // Reset the transition parameters to the default one
-        QDomElement newTransition = MainWindow::transitions.getEffectByName(ui.transitionList->currentText()).cloneNode().toElement();
+        QDomElement newTransition = MainWindow::transitions.getEffectByName(m_ui.transitionList->currentText()).cloneNode().toElement();
         slotUpdateEffectParams(e, newTransition);
         emit transferParamDesc(newTransition, m_usedTransition->startPos().frames(KdenliveSettings::project_fps()), m_usedTransition->endPos().frames(KdenliveSettings::project_fps()));
     } else if (!updateCurrent) {
         // Transition changed, update parameters dialog
         //slotUpdateEffectParams(e, e);
-        effectEdit->transferParamDesc(e, m_usedTransition->startPos().frames(KdenliveSettings::project_fps()), m_usedTransition->endPos().frames(KdenliveSettings::project_fps()));
+        m_effectEdit->transferParamDesc(e, m_usedTransition->startPos().frames(KdenliveSettings::project_fps()), m_usedTransition->endPos().frames(KdenliveSettings::project_fps()));
     } else {
         // Same transition, we just want to update the parameters value
         slotUpdateEffectParams(e, e);
@@ -89,17 +89,17 @@ void TransitionSettings::slotTransitionTrackChanged()
     if (m_usedTransition == NULL) return;
     int ix = 0;
     QDomElement oldxml = m_usedTransition->toXML().cloneNode().toElement();
-    if (ui.transitionTrack->currentIndex() > 0) {
-        ix = ui.transitionTrack->count() - ui.transitionTrack->currentIndex() - 1;
+    if (m_ui.transitionTrack->currentIndex() > 0) {
+        ix = m_ui.transitionTrack->count() - m_ui.transitionTrack->currentIndex() - 1;
         m_usedTransition->setForcedTrack(true, ix);
-        effectEdit->updateParameter("force_track", "1");
+        m_effectEdit->updateParameter("force_track", "1");
         emit transitionUpdated(m_usedTransition, oldxml);
     } else {
         m_usedTransition->setForcedTrack(false, ix);
-        effectEdit->updateParameter("force_track", "0");
+        m_effectEdit->updateParameter("force_track", "0");
         emit transitionUpdated(m_usedTransition, oldxml);
     }
-    effectEdit->updateParameter("transition_btrack", QString::number(ix));
+    m_effectEdit->updateParameter("transition_btrack", QString::number(ix));
 }
 
 void TransitionSettings::slotTransitionItemSelected(Transition* t, bool update)
@@ -108,10 +108,10 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, bool update)
     if (t == m_usedTransition) {
         if (t == NULL) return;
         if (update) {
-            ui.transitionTrack->blockSignals(true);
-            if (t->forcedTrack()) ui.transitionTrack->setCurrentIndex(m_tracksCount + 1 - t->transitionEndTrack());
-            else ui.transitionTrack->setCurrentIndex(0);
-            ui.transitionTrack->blockSignals(false);
+            m_ui.transitionTrack->blockSignals(true);
+            if (t->forcedTrack()) m_ui.transitionTrack->setCurrentIndex(m_tracksCount + 1 - t->transitionEndTrack());
+            else m_ui.transitionTrack->setCurrentIndex(0);
+            m_ui.transitionTrack->blockSignals(false);
         }
         if (update || t->duration() != m_transitionDuration || t->startPos() != m_transitionStart) {
             m_transitionDuration = t->duration();
@@ -123,17 +123,17 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, bool update)
     if (t) {
         m_transitionDuration = t->duration();
         m_transitionStart = t->startPos();
-        ui.transitionTrack->blockSignals(true);
-        if (!t->forcedTrack()) ui.transitionTrack->setCurrentIndex(0);
-        else ui.transitionTrack->setCurrentIndex(m_tracksCount + 1 - t->transitionEndTrack());
-        ui.transitionTrack->blockSignals(false);
-        int ix = ui.transitionList->findText(t->transitionName(), Qt::MatchExactly);
+        m_ui.transitionTrack->blockSignals(true);
+        if (!t->forcedTrack()) m_ui.transitionTrack->setCurrentIndex(0);
+        else m_ui.transitionTrack->setCurrentIndex(m_tracksCount + 1 - t->transitionEndTrack());
+        m_ui.transitionTrack->blockSignals(false);
+        int ix = m_ui.transitionList->findText(t->transitionName(), Qt::MatchExactly);
         m_usedTransition = t;
         if (ix != -1) {
-            ui.transitionList->blockSignals(true);
-            ui.transitionList->setCurrentIndex(ix);
+            m_ui.transitionList->blockSignals(true);
+            m_ui.transitionList->setCurrentIndex(ix);
             slotTransitionChanged(false, false);
-            ui.transitionList->blockSignals(false);
+            m_ui.transitionList->blockSignals(false);
         }
     }
 

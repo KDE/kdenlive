@@ -43,7 +43,7 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent) :
         m_doc(doc)
 {
 
-    view.setupUi(this);
+    m_view.setupUi(this);
 
     m_scene = new CustomTrackScene(doc);
     m_trackview = new CustomTrackView(doc, m_scene, parent);
@@ -54,7 +54,7 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent) :
     m_ruler = new CustomRuler(doc->timecode(), m_trackview);
     connect(m_ruler, SIGNAL(zoneMoved(int, int)), this, SIGNAL(zoneMoved(int, int)));
     QHBoxLayout *layout = new QHBoxLayout;
-    view.ruler_frame->setLayout(layout);
+    m_view.ruler_frame->setLayout(layout);
     int left_margin;
     int right_margin;
     layout->getContentsMargins(&left_margin, 0, &right_margin, 0);
@@ -63,21 +63,21 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent) :
 
     QHBoxLayout *tracksLayout = new QHBoxLayout;
     tracksLayout->setContentsMargins(0, 0, 0, 0);
-    view.tracks_frame->setLayout(tracksLayout);
+    m_view.tracks_frame->setLayout(tracksLayout);
 
-    view.headers_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    view.headers_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_view.headers_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_view.headers_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     m_headersLayout = new QVBoxLayout;
     m_headersLayout->setContentsMargins(0, 0, 0, 0);
     m_headersLayout->setSpacing(0);
-    view.headers_container->setLayout(m_headersLayout);
+    m_view.headers_container->setLayout(m_headersLayout);
 
-    connect(view.headers_area->verticalScrollBar(), SIGNAL(valueChanged(int)), m_trackview->verticalScrollBar(), SLOT(setValue(int)));
+    connect(m_view.headers_area->verticalScrollBar(), SIGNAL(valueChanged(int)), m_trackview->verticalScrollBar(), SLOT(setValue(int)));
 
     tracksLayout->addWidget(m_trackview);
 
-    connect(m_trackview->verticalScrollBar(), SIGNAL(valueChanged(int)), view.headers_area->verticalScrollBar(), SLOT(setValue(int)));
+    connect(m_trackview->verticalScrollBar(), SIGNAL(valueChanged(int)), m_view.headers_area->verticalScrollBar(), SLOT(setValue(int)));
     connect(m_trackview, SIGNAL(trackHeightChanged()), this, SLOT(slotRebuildTrackHeaders()));
 
     parseDocument(m_doc->toXml());
@@ -417,7 +417,7 @@ void TrackView::slotRebuildTrackHeaders()
         connect(header, SIGNAL(changeTrack(int)), this, SIGNAL(changeTrack(int)));
         m_headersLayout->addWidget(header);
     }
-    view.headers_container->adjustSize();
+    m_view.headers_container->adjustSize();
 }
 
 

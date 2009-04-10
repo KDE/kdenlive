@@ -36,8 +36,8 @@ int settingUp = false;
 TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget *parent) :
         QDialog(parent),
         Ui::TitleWidget_UI(),
-        startViewport(NULL),
-        endViewport(NULL),
+        m_startViewport(NULL),
+        m_endViewport(NULL),
         m_render(render),
         m_count(0),
         m_projectPath(projectPath)
@@ -193,7 +193,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     kDebug() << "// TITLE WIDGWT: " << graphicsView->viewport()->width() << "x" << graphicsView->viewport()->height();
     toolBox->setItemEnabled(2, false);
     if (!url.isEmpty()) {
-        m_count = m_titledocument.loadDocument(url, startViewport, endViewport) + 1;
+        m_count = m_titledocument.loadDocument(url, m_startViewport, m_endViewport) + 1;
         slotSelectTool();
     } else {
         slotRectTool();
@@ -211,8 +211,8 @@ TitleWidget::~TitleWidget()
 
     delete m_frameBorder;
     delete m_frameImage;
-    delete startViewport;
-    delete endViewport;
+    delete m_startViewport;
+    delete m_endViewport;
     delete m_scene;
 }
 
@@ -325,28 +325,28 @@ void TitleWidget::displayBackgroundFrame()
 
 void TitleWidget::initViewports()
 {
-    startViewport = new QGraphicsPolygonItem(QPolygonF(QRectF(0, 0, 0, 0)));
-    endViewport = new QGraphicsPolygonItem(QPolygonF(QRectF(0, 0, 0, 0)));
+    m_startViewport = new QGraphicsPolygonItem(QPolygonF(QRectF(0, 0, 0, 0)));
+    m_endViewport = new QGraphicsPolygonItem(QPolygonF(QRectF(0, 0, 0, 0)));
 
     QPen startpen(Qt::DotLine);
     QPen endpen(Qt::DashDotLine);
     startpen.setColor(QColor(100, 200, 100, 140));
     endpen.setColor(QColor(200, 100, 100, 140));
 
-    startViewport->setPen(startpen);
-    endViewport->setPen(endpen);
+    m_startViewport->setPen(startpen);
+    m_endViewport->setPen(endpen);
 
     startViewportSize->setValue(40);
     endViewportSize->setValue(40);
 
-    startViewport->setZValue(-1000);
-    endViewport->setZValue(-1000);
+    m_startViewport->setZValue(-1000);
+    m_endViewport->setZValue(-1000);
 
-    startViewport->setFlags(/*QGraphicsItem::ItemIsMovable|*/QGraphicsItem::ItemIsSelectable);
-    endViewport->setFlags(/*QGraphicsItem::ItemIsMovable|*/QGraphicsItem::ItemIsSelectable);
+    m_startViewport->setFlags(/*QGraphicsItem::ItemIsMovable|*/QGraphicsItem::ItemIsSelectable);
+    m_endViewport->setFlags(/*QGraphicsItem::ItemIsMovable|*/QGraphicsItem::ItemIsSelectable);
 
-    graphicsView->scene()->addItem(startViewport);
-    graphicsView->scene()->addItem(endViewport);
+    graphicsView->scene()->addItem(m_startViewport);
+    graphicsView->scene()->addItem(m_endViewport);
 }
 
 void TitleWidget::slotUpdateZoom(int pos)
@@ -510,8 +510,8 @@ void TitleWidget::selectionChanged()
             frame_properties->setEnabled(false);
         }
         zValue->setValue((int)l[0]->zValue());
-        itemzoom->setValue((int)(transformations[l[0]].scalex * 100));
-        itemrotate->setValue((int)(transformations[l[0]].rotate));
+        itemzoom->setValue((int)(m_transformations[l[0]].scalex * 100));
+        itemrotate->setValue((int)(m_transformations[l[0]].rotate));
         value_x->blockSignals(false);
         value_y->blockSignals(false);
         value_w->blockSignals(false);
@@ -616,14 +616,14 @@ void TitleWidget::itemScaled(int val)
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
-        Transform x = transformations[l[0]];
+        Transform x = m_transformations[l[0]];
         x.scalex = (double)val / 100.0;
         x.scaley = (double)val / 100.0;
         QTransform qtrans;
         qtrans.scale(x.scalex, x.scaley);
         qtrans.rotate(x.rotate);
         l[0]->setTransform(qtrans);
-        transformations[l[0]] = x;
+        m_transformations[l[0]] = x;
     }
 }
 
@@ -631,13 +631,13 @@ void TitleWidget::itemRotate(int val)
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
-        Transform x = transformations[l[0]];
+        Transform x = m_transformations[l[0]];
         x.rotate = (double)val;
         QTransform qtrans;
         qtrans.scale(x.scalex, x.scaley);
         qtrans.rotate(x.rotate);
         l[0]->setTransform(qtrans);
-        transformations[l[0]] = x;
+        m_transformations[l[0]] = x;
     }
 }
 
@@ -683,11 +683,11 @@ void TitleWidget::setupViewports()
     sp.adjust(-sv_size, -sv_size / aspect_ratio, sv_size, sv_size / aspect_ratio);
     ep.adjust(-ev_size, -ev_size / aspect_ratio, ev_size, ev_size / aspect_ratio);
 
-    startViewport->setPos(startViewportX->value(), startViewportY->value());
-    endViewport->setPos(endViewportX->value(), endViewportY->value());
+    m_startViewport->setPos(startViewportX->value(), startViewportY->value());
+    m_endViewport->setPos(endViewportX->value(), endViewportY->value());
 
-    startViewport->setPolygon(QPolygonF(sp));
-    endViewport->setPolygon(QPolygonF(ep));
+    m_startViewport->setPolygon(QPolygonF(sp));
+    m_endViewport->setPolygon(QPolygonF(ep));
 
 }
 
@@ -699,7 +699,7 @@ void TitleWidget::loadTitle()
         for (int i = 0; i < items.size(); i++) {
             if (items.at(i)->zValue() > -1000) delete items.at(i);
         }
-        m_count = m_titledocument.loadDocument(url, startViewport, endViewport) + 1;
+        m_count = m_titledocument.loadDocument(url, m_startViewport, m_endViewport) + 1;
         slotSelectTool();
     }
 }
@@ -708,19 +708,19 @@ void TitleWidget::saveTitle(KUrl url)
 {
     if (url.isEmpty()) url = KFileDialog::getSaveUrl(KUrl(m_projectPath), "*.kdenlivetitle", this, i18n("Save Title"));
     if (!url.isEmpty()) {
-        if (m_titledocument.saveDocument(url, startViewport, endViewport) == false)
+        if (m_titledocument.saveDocument(url, m_startViewport, m_endViewport) == false)
             KMessageBox::error(this, i18n("Cannot write to file %1", url.path()));
     }
 }
 
 QDomDocument TitleWidget::xml()
 {
-    return m_titledocument.xml(startViewport, endViewport);
+    return m_titledocument.xml(m_startViewport, m_endViewport);
 }
 
 void TitleWidget::setXml(QDomDocument doc)
 {
-    m_count = m_titledocument.loadFromXml(doc, startViewport, endViewport);
+    m_count = m_titledocument.loadFromXml(doc, m_startViewport, m_endViewport);
     // mbd: Update the GUI color selectors to match the stuff from the loaded document
     QColor background_color = m_titledocument.getBackgroundColor();
     horizontalSlider->blockSignals(true);
@@ -743,15 +743,15 @@ QImage TitleWidget::renderedPixmap()
     m_scene->clearTextSelection();
     QPen framepen = m_frameBorder->pen();
     m_frameBorder->setPen(Qt::NoPen);
-    startViewport->setVisible(false);
-    endViewport->setVisible(false);
+    m_startViewport->setVisible(false);
+    m_endViewport->setVisible(false);
     m_frameImage->setVisible(false);
 
     m_scene->render(&painter, QRectF(), QRectF(0, 0, m_frameWidth, m_frameHeight));
     painter.end();
     m_frameBorder->setPen(framepen);
-    startViewport->setVisible(true);
-    endViewport->setVisible(true);
+    m_startViewport->setVisible(true);
+    m_endViewport->setVisible(true);
     m_frameImage->setVisible(true);
     return pix;
 }

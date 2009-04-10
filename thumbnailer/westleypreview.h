@@ -49,7 +49,7 @@ protected:
 private:
     QProcess *m_inigoprocess;
     KRandomSequence *m_rand;
-    QString playerBin;
+    QString m_playerBin;
     bool startAndWaitProcess(const QStringList &args);
     enum frameflags { framerandom = 0x1, framestart = 0x2, frameend = 0x4 };
     struct {

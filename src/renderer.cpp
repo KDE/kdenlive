@@ -67,13 +67,13 @@ Render::Render(const QString & rendererName, int winid, int /* extid */, QWidget
         m_winid(winid)
 {
     kDebug() << "//////////  USING PROFILE: " << (char*)KdenliveSettings::current_profile().toUtf8().data();
-    refreshTimer = new QTimer(this);
-    connect(refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
+    m_refreshTimer = new QTimer(this);
+    connect(m_refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()));
 
     /*if (rendererName == "project") m_monitorId = 10000;
     else m_monitorId = 10001;*/
-    osdTimer = new QTimer(this);
-    connect(osdTimer, SIGNAL(timeout()), this, SLOT(slotOsdTimeout()));
+    m_osdTimer = new QTimer(this);
+    connect(m_osdTimer, SIGNAL(timeout()), this, SLOT(slotOsdTimeout()));
 
     buildConsumer();
 
@@ -90,8 +90,8 @@ Render::~Render()
 
 void Render::closeMlt()
 {
-    delete osdTimer;
-    delete refreshTimer;
+    delete m_osdTimer;
+    delete m_refreshTimer;
     delete m_mltConsumer;
     delete m_mltProducer;
     delete m_blackClip;
@@ -1011,7 +1011,7 @@ void Render::setVolume(double /*volume*/)
      if (m_mltProducer->attach(*m_osdInfo) == 1) kDebug()<<"////// error attaching filter";
     }*/
     refresh();
-    osdTimer->setSingleShot(2500);
+    m_osdTimer->setSingleShot(2500);
 }
 
 void Render::slotOsdTimeout()
@@ -1213,7 +1213,7 @@ void Render::seekToFrame(int pos)
 void Render::askForRefresh()
 {
     // Use a Timer so that we don't refresh too much
-    refreshTimer->start(200);
+    m_refreshTimer->start(200);
 }
 
 void Render::doRefresh()
@@ -1226,7 +1226,7 @@ void Render::refresh()
 {
     if (!m_mltProducer || m_isBlocked)
         return;
-    refreshTimer->stop();
+    m_refreshTimer->stop();
     if (m_mltConsumer) {
         m_mltConsumer->set("refresh", 1);
     }

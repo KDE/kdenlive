@@ -35,7 +35,7 @@
 
 DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id, bool placeHolder) :
         QObject(),
-        audioFrameChache(),
+        m_audioFrameCache(),
         m_refcount(0),
         m_baseTrackProducers(),
         m_audioTrackProducers(),
@@ -135,7 +135,7 @@ void DocClipBase::slotClearAudioCache()
 {
     if (m_thumbProd) m_thumbProd->stopAudioThumbs();
     if (m_audioTimer != NULL) m_audioTimer->stop();
-    audioFrameChache.clear();
+    m_audioFrameCache.clear();
     m_audioThumbCreated = false;
 }
 
@@ -277,7 +277,7 @@ const QPixmap & DocClipBase::thumbnail() const
 void DocClipBase::updateAudioThumbnail(QMap<int, QMap<int, QByteArray> > data)
 {
     //kDebug() << "CLIPBASE RECIEDVED AUDIO DATA*********************************************";
-    audioFrameChache = data;
+    m_audioFrameCache = data;
     m_audioThumbCreated = true;
     emit gotAudioData();
 }

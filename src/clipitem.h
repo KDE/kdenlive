@@ -136,8 +136,8 @@ private:
     QPixmap m_startPix;
     QPixmap m_endPix;
     bool m_hasThumbs;
-    QTimer *startThumbTimer;
-    QTimer *endThumbTimer;
+    QTimer *m_startThumbTimer;
+    QTimer *m_endThumbTimer;
 
     int m_selectedEffect;
     QTimeLine *m_timeLine;
@@ -148,9 +148,9 @@ private:
 
     EffectsList m_effectList;
     QList <Transition*> m_transitionsList;
-    QMap<int, QPixmap> audioThumbCachePic;
-    bool audioThumbReady;
-    double framePixelWidth;
+    QMap<int, QPixmap> m_audioThumbCachePic;
+    bool m_audioThumbReady;
+    double m_framePixelWidth;
     /** Called when clip start is resized, adjust keyframes values */
     void checkEffectsKeyframesPos(const int previous, const int current, bool fromStart);
     QPixmap m_videoPix;

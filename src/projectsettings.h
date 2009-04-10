@@ -44,7 +44,7 @@ private slots:
 
 private:
     Ui::ProjectSettings_UI m_view;
-    QPushButton *buttonOk;
+    QPushButton *m_buttonOk;
 };
 
 

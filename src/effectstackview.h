@@ -37,10 +37,10 @@ public:
     void updateProjectFormat(MltVideoProfile profile, Timecode t);
 
 private:
-    Ui::EffectStack_UI ui;
-    ClipItem* clipref;
-    QMap<QString, EffectsList*> effectLists;
-    EffectStackEdit* effectedit;
+    Ui::EffectStack_UI m_ui;
+    ClipItem* m_clipref;
+    QMap<QString, EffectsList*> m_effectLists;
+    EffectStackEdit* m_effectedit;
     void setupListView(int ix);
     //void updateButtonStatus();
 

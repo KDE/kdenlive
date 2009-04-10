@@ -56,11 +56,11 @@ public:
 
 private:
     void clearAllItems();
-    QVBoxLayout *vbox;
-    QList<QWidget*> items;
-    QList<UiItem*> uiItems;
-    QDomElement params;
-    QMap<QString, void*> valueItems;
+    QVBoxLayout *m_vbox;
+    QList<QWidget*> m_items;
+    QList<UiItem*> m_uiItems;
+    QDomElement m_params;
+    QMap<QString, void*> m_valueItems;
     void createSliderItem(const QString& name, int val , int min, int max);
     wipeInfo getWipeInfo(QString value);
     QString getWipeString(wipeInfo info);
@@ -74,7 +74,7 @@ public slots:
     void slotSliderMoved(int);
     /** \brief Called whenever(?) some parameter is changed in the gui.
      *
-     * Transfers all Dynamic gui parameter settings into params(??) */
+     * Transfers all Dynamic gui parameter settings into m_params(??) */
     void collectAllParameters();
 
 private slots:

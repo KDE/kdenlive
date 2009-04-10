@@ -42,7 +42,7 @@ public:
     //void slotAddEffect(GenTime pos, int track, QString name);
 
 private:
-    Ui::EffectList_UI ui;
+    Ui::EffectList_UI m_ui;
     EffectsListWidget *m_effectsList;
 
 private slots:

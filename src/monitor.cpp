@@ -50,13 +50,13 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
         m_dragStarted(false),
         m_overlay(NULL)
 {
-    ui.setupUi(this);
+    m_ui.setupUi(this);
     m_scale = 1;
     m_ruler = new SmallRuler();
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(m_ruler);
-    ui.ruler_frame->setLayout(layout);
+    m_ui.ruler_frame->setLayout(layout);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setMinimumHeight(200);
     QToolBar *toolbar = new QToolBar(name, this);
@@ -105,15 +105,15 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
     connect(m_timePos, SIGNAL(editingFinished()), this, SLOT(slotSeek()));
 
     layout2->addWidget(toolbar);
-    ui.button_frame->setLayout(layout2);
+    m_ui.button_frame->setLayout(layout2);
     const int toolHeight = toolbar->height();
-    ui.button_frame->setMinimumHeight(toolHeight);
+    m_ui.button_frame->setMinimumHeight(toolHeight);
 
     //m_ruler->setPixelPerMark(3);
 
-    QVBoxLayout *rendererBox = new QVBoxLayout(ui.video_frame);
+    QVBoxLayout *rendererBox = new QVBoxLayout(m_ui.video_frame);
     rendererBox->setContentsMargins(0, 0, 0, 0);
-    m_monitorRefresh = new MonitorRefresh(ui.video_frame);
+    m_monitorRefresh = new MonitorRefresh(m_ui.video_frame);
     rendererBox->addWidget(m_monitorRefresh);
     render = new Render(m_name, (int) m_monitorRefresh->winId(), -1, this);
     m_monitorRefresh->setRenderer(render);
@@ -126,7 +126,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
     m_configMenu->addSeparator();
     m_configMenu->addAction(KIcon("transform-scale"), i18n("Resize (100%)"), this, SLOT(slotSetSizeOneToOne()));
     m_configMenu->addAction(KIcon("transform-scale"), i18n("Resize (50%)"), this, SLOT(slotSetSizeOneToTwo()));
-    //render->createVideoXWindow(ui.video_frame->winId(), -1);
+    //render->createVideoXWindow(m_ui.video_frame->winId(), -1);
     m_length = 0;
 
     if (name != "clip") {
@@ -137,7 +137,7 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
         connect(m_ruler, SIGNAL(zoneChanged(QPoint)), this, SLOT(setClipZone(QPoint)));
     }
     m_monitorRefresh->show();
-    kDebug() << "/////// BUILDING MONITOR, ID: " << ui.video_frame->winId();
+    kDebug() << "/////// BUILDING MONITOR, ID: " << m_ui.video_frame->winId();
 }
 
 Monitor::~Monitor()
@@ -199,10 +199,10 @@ void Monitor::slotSetSizeOneToOne()
         height = height * 0.8;
     }
     kDebug() << "// MONITOR; set SIZE: " << width << ", " << height;
-    ui.video_frame->setFixedSize(width, height);
+    m_ui.video_frame->setFixedSize(width, height);
     updateGeometry();
     adjustSize();
-    //ui.video_frame->setMinimumSize(0, 0);
+    //m_ui.video_frame->setMinimumSize(0, 0);
     emit adjustMonitorSize();
 }
 
@@ -219,16 +219,16 @@ void Monitor::slotSetSizeOneToTwo()
         height = height * 0.8;
     }
     kDebug() << "// MONITOR; set SIZE: " << width << ", " << height;
-    ui.video_frame->setFixedSize(width, height);
+    m_ui.video_frame->setFixedSize(width, height);
     updateGeometry();
     adjustSize();
-    //ui.video_frame->setMinimumSize(0, 0);
+    //m_ui.video_frame->setMinimumSize(0, 0);
     emit adjustMonitorSize();
 }
 
 void Monitor::resetSize()
 {
-    ui.video_frame->setMinimumSize(0, 0);
+    m_ui.video_frame->setMinimumSize(0, 0);
 }
 
 DocClipBase *Monitor::activeClip()
@@ -307,7 +307,7 @@ void Monitor::slotSetZoneEnd()
 void Monitor::mousePressEvent(QMouseEvent * event)
 {
     if (event->button() != Qt::RightButton) {
-        if (ui.video_frame->underMouse()) {
+        if (m_ui.video_frame->underMouse()) {
             m_dragStarted = true;
             m_DragStartPosition = event->pos();
         }
@@ -318,7 +318,7 @@ void Monitor::mousePressEvent(QMouseEvent * event)
 void Monitor::mouseReleaseEvent(QMouseEvent * event)
 {
     if (m_dragStarted) {
-        if (ui.video_frame->underMouse()) {
+        if (m_ui.video_frame->underMouse()) {
             slotPlay();
         } else QWidget::mouseReleaseEvent(event);
         m_dragStarted = false;
@@ -580,7 +580,7 @@ void Monitor::rendererStopped(int pos)
 
 void Monitor::initMonitor()
 {
-    kDebug() << "/////// INITING MONITOR, ID: " << ui.video_frame->winId();
+    kDebug() << "/////// INITING MONITOR, ID: " << m_ui.video_frame->winId();
 }
 
 // virtual

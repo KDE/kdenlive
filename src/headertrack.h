@@ -42,7 +42,7 @@ protected:
 private:
     int m_index;
     TRACKTYPE m_type;
-    Ui::TrackHeader_UI view;
+    Ui::TrackHeader_UI m_view;
     QMenu *m_contextMenu;
 
 private slots:

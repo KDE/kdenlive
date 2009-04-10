@@ -27,37 +27,37 @@
 ComplexParameter::ComplexParameter(QWidget *parent) :
         QWidget(parent)
 {
-    ui.setupUi(this);
-    //ui.effectlist->horizontalHeader()->setVisible(false);
-    //ui.effectlist->verticalHeader()->setVisible(false);
+    m_ui.setupUi(this);
+    //m_ui.effectlist->horizontalHeader()->setVisible(false);
+    //m_ui.effectlist->verticalHeader()->setVisible(false);
 
 
-    ui.buttonLeftRight->setIcon(KIcon("go-next"));//better icons needed
-    ui.buttonLeftRight->setToolTip(i18n("Allow horizontal moves"));
-    ui.buttonUpDown->setIcon(KIcon("go-up"));
-    ui.buttonUpDown->setToolTip(i18n("Allow vertical moves"));
-    ui.buttonShowInTimeline->setIcon(KIcon("kmplayer"));
-    ui.buttonShowInTimeline->setToolTip(i18n("Show keyframes in timeline"));
-    ui.buttonHelp->setIcon(KIcon("help-about"));
-    ui.buttonHelp->setToolTip(i18n("Parameter info"));
-    ui.buttonNewPoints->setIcon(KIcon("document-new"));
-    ui.buttonNewPoints->setToolTip(i18n("Add keyframe"));
+    m_ui.buttonLeftRight->setIcon(KIcon("go-next"));//better icons needed
+    m_ui.buttonLeftRight->setToolTip(i18n("Allow horizontal moves"));
+    m_ui.buttonUpDown->setIcon(KIcon("go-up"));
+    m_ui.buttonUpDown->setToolTip(i18n("Allow vertical moves"));
+    m_ui.buttonShowInTimeline->setIcon(KIcon("kmplayer"));
+    m_ui.buttonShowInTimeline->setToolTip(i18n("Show keyframes in timeline"));
+    m_ui.buttonHelp->setIcon(KIcon("help-about"));
+    m_ui.buttonHelp->setToolTip(i18n("Parameter info"));
+    m_ui.buttonNewPoints->setIcon(KIcon("document-new"));
+    m_ui.buttonNewPoints->setToolTip(i18n("Add keyframe"));
 
-    connect(ui.buttonLeftRight, SIGNAL(clicked()), this , SLOT(slotSetMoveX()));
-    connect(ui.buttonUpDown, SIGNAL(clicked()), this , SLOT(slotSetMoveY()));
-    connect(ui.buttonShowInTimeline, SIGNAL(clicked()), this , SLOT(slotShowInTimeline()));
-    connect(ui.buttonNewPoints, SIGNAL(clicked()), this , SLOT(slotSetNew()));
-    connect(ui.buttonHelp, SIGNAL(clicked()), this , SLOT(slotSetHelp()));
-    connect(ui.parameterList, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(slotParameterChanged(const QString&)));
-    //connect (ui.effectlist, SIGNAL (itemSelectionChanged() ) , this, SLOT ( itemSelectionChanged()));
-    connect(this, SIGNAL(transferParamDesc(const QDomElement&, const QString&, int , int)), ui.kplotwidget, SLOT(setPointLists(const QDomElement&, const QString&, int , int)));
-    connect(ui.kplotwidget, SIGNAL(parameterChanged(QDomElement)), this , SLOT(slotUpdateEffectParams(QDomElement)));
-    connect(ui.kplotwidget, SIGNAL(parameterList(QStringList)), this , SLOT(slotUpdateParameterList(QStringList)));
+    connect(m_ui.buttonLeftRight, SIGNAL(clicked()), this , SLOT(slotSetMoveX()));
+    connect(m_ui.buttonUpDown, SIGNAL(clicked()), this , SLOT(slotSetMoveY()));
+    connect(m_ui.buttonShowInTimeline, SIGNAL(clicked()), this , SLOT(slotShowInTimeline()));
+    connect(m_ui.buttonNewPoints, SIGNAL(clicked()), this , SLOT(slotSetNew()));
+    connect(m_ui.buttonHelp, SIGNAL(clicked()), this , SLOT(slotSetHelp()));
+    connect(m_ui.parameterList, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(slotParameterChanged(const QString&)));
+    //connect (m_ui.effectlist, SIGNAL (itemSelectionChanged() ) , this, SLOT ( itemSelectionChanged()));
+    connect(this, SIGNAL(transferParamDesc(const QDomElement&, const QString&, int , int)), m_ui.kplotwidget, SLOT(setPointLists(const QDomElement&, const QString&, int , int)));
+    connect(m_ui.kplotwidget, SIGNAL(parameterChanged(QDomElement)), this , SLOT(slotUpdateEffectParams(QDomElement)));
+    connect(m_ui.kplotwidget, SIGNAL(parameterList(QStringList)), this , SLOT(slotUpdateParameterList(QStringList)));
     /*ÜeffectLists["audio"]=audioEffectList;
     effectLists["video"]=videoEffectList;
     effectLists["custom"]=customEffectList;*/
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-    ui.infoBox->hide();
+    m_ui.infoBox->hide();
     updateButtonStatus();
 
 }
@@ -66,60 +66,60 @@ ComplexParameter::ComplexParameter(QWidget *parent) :
 
 void ComplexParameter::slotSetMoveX()
 {
-    ui.kplotwidget->setMoveX(!ui.kplotwidget->isMoveX());
+    m_ui.kplotwidget->setMoveX(!m_ui.kplotwidget->isMoveX());
     updateButtonStatus();
 }
 
 void ComplexParameter::slotSetMoveY()
 {
-    ui.kplotwidget->setMoveY(!ui.kplotwidget->isMoveY());
+    m_ui.kplotwidget->setMoveY(!m_ui.kplotwidget->isMoveY());
     updateButtonStatus();
 }
 
 void ComplexParameter::slotSetNew()
 {
-    ui.kplotwidget->setNewPoints(!ui.kplotwidget->isNewPoints());
+    m_ui.kplotwidget->setNewPoints(!m_ui.kplotwidget->isNewPoints());
     updateButtonStatus();
 }
 
 void ComplexParameter::slotSetHelp()
 {
-    ui.infoBox->setVisible(!ui.infoBox->isVisible());
-    ui.buttonHelp->setDown(ui.infoBox->isVisible());
+    m_ui.infoBox->setVisible(!m_ui.infoBox->isVisible());
+    m_ui.buttonHelp->setDown(m_ui.infoBox->isVisible());
 }
 
 void ComplexParameter::slotShowInTimeline()
 {
 
-    ui.kplotwidget->setMoveTimeLine(!ui.kplotwidget->isMoveTimeline());
+    m_ui.kplotwidget->setMoveTimeLine(!m_ui.kplotwidget->isMoveTimeline());
     updateButtonStatus();
 
 }
 
 void ComplexParameter::updateButtonStatus()
 {
-    ui.buttonLeftRight->setDown(ui.kplotwidget->isMoveX());
-    ui.buttonUpDown->setDown(ui.kplotwidget->isMoveY());
+    m_ui.buttonLeftRight->setDown(m_ui.kplotwidget->isMoveX());
+    m_ui.buttonUpDown->setDown(m_ui.kplotwidget->isMoveY());
 
-    ui.buttonShowInTimeline->setEnabled(ui.kplotwidget->isMoveX() || ui.kplotwidget->isMoveY());
-    ui.buttonShowInTimeline->setDown(ui.kplotwidget->isMoveTimeline());
+    m_ui.buttonShowInTimeline->setEnabled(m_ui.kplotwidget->isMoveX() || m_ui.kplotwidget->isMoveY());
+    m_ui.buttonShowInTimeline->setDown(m_ui.kplotwidget->isMoveTimeline());
 
-    ui.buttonNewPoints->setEnabled(ui.parameterList->currentText() != "all");
-    ui.buttonNewPoints->setDown(ui.kplotwidget->isNewPoints());
+    m_ui.buttonNewPoints->setEnabled(m_ui.parameterList->currentText() != "all");
+    m_ui.buttonNewPoints->setDown(m_ui.kplotwidget->isNewPoints());
 }
 
 void ComplexParameter::slotParameterChanged(const QString& text)
 {
 
-    //ui.buttonNewPoints->setEnabled(text!="all");
-    ui.kplotwidget->replot(text);
+    //m_ui.buttonNewPoints->setEnabled(text!="all");
+    m_ui.kplotwidget->replot(text);
     updateButtonStatus();
 }
 
 void ComplexParameter::setupParam(const QDomElement& d, const QString& paramName, int from, int to)
 {
-    param = d;
-    ui.kplotwidget->setPointLists(d, paramName, from, to);
+    m_param = d;
+    m_ui.kplotwidget->setPointLists(d, paramName, from, to);
 }
 
 void ComplexParameter::itemSelectionChanged()
@@ -129,21 +129,21 @@ void ComplexParameter::itemSelectionChanged()
 
 void ComplexParameter::slotUpdateEffectParams(QDomElement e)
 {
-    param = e;
+    m_param = e;
     emit parameterChanged();
 }
 
 QDomElement ComplexParameter::getParamDesc()
 {
-    return param;
+    return m_param;
 }
 
 void ComplexParameter::slotUpdateParameterList(QStringList l)
 {
     kDebug() << l ;
-    ui.parameterList->clear();
-    ui.parameterList->addItem("all");
-    ui.parameterList->addItems(l);
+    m_ui.parameterList->clear();
+    m_ui.parameterList->addItem("all");
+    m_ui.parameterList->addItems(l);
 }
 
 #include "complexparameter.moc"

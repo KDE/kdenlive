@@ -149,8 +149,7 @@ public slots:
     void slotReloadClip();
 
 private:
-    ProjectListView *listView;
-    KTreeWidgetSearchLine *searchView;
+    ProjectListView *m_listView;
     Render *m_render;
     Timecode m_timecode;
     double m_fps;

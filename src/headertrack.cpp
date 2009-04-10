@@ -36,32 +36,32 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent) :
         m_type(info.type)
 {
     setFixedHeight(KdenliveSettings::trackheight());
-    view.setupUi(this);
-    view.track_number->setText(QString::number(m_index));
-    view.buttonVideo->setChecked(!info.isBlind);
-    view.buttonVideo->setToolTip(i18n("Hide track"));
-    view.buttonAudio->setChecked(!info.isMute);
-    view.buttonAudio->setToolTip(i18n("Mute track"));
-    view.buttonLock->setChecked(info.isLocked);
-    view.buttonLock->setToolTip(i18n("Lock track"));
+    m_view.setupUi(this);
+    m_view.track_number->setText(QString::number(m_index));
+    m_view.buttonVideo->setChecked(!info.isBlind);
+    m_view.buttonVideo->setToolTip(i18n("Hide track"));
+    m_view.buttonAudio->setChecked(!info.isMute);
+    m_view.buttonAudio->setToolTip(i18n("Mute track"));
+    m_view.buttonLock->setChecked(info.isLocked);
+    m_view.buttonLock->setToolTip(i18n("Lock track"));
 
     if (m_type == VIDEOTRACK) {
-        view.frame->setBackgroundRole(QPalette::AlternateBase);
-        view.frame->setAutoFillBackground(true);
-        if (!info.isBlind) view.buttonVideo->setIcon(KIcon("kdenlive-show-video"));
-        else view.buttonVideo->setIcon(KIcon("kdenlive-hide-video"));
+        m_view.frame->setBackgroundRole(QPalette::AlternateBase);
+        m_view.frame->setAutoFillBackground(true);
+        if (!info.isBlind) m_view.buttonVideo->setIcon(KIcon("kdenlive-show-video"));
+        else m_view.buttonVideo->setIcon(KIcon("kdenlive-hide-video"));
     } else {
-        view.buttonVideo->setHidden(true);
+        m_view.buttonVideo->setHidden(true);
     }
-    if (!info.isMute) view.buttonAudio->setIcon(KIcon("kdenlive-show-audio"));
-    else view.buttonAudio->setIcon(KIcon("kdenlive-hide-audio"));
+    if (!info.isMute) m_view.buttonAudio->setIcon(KIcon("kdenlive-show-audio"));
+    else m_view.buttonAudio->setIcon(KIcon("kdenlive-hide-audio"));
 
-    if (!info.isLocked) view.buttonLock->setIcon(KIcon("kdenlive-unlock"));
-    else view.buttonLock->setIcon(KIcon("kdenlive-lock"));
+    if (!info.isLocked) m_view.buttonLock->setIcon(KIcon("kdenlive-unlock"));
+    else m_view.buttonLock->setIcon(KIcon("kdenlive-lock"));
 
-    connect(view.buttonVideo, SIGNAL(clicked()), this, SLOT(switchVideo()));
-    connect(view.buttonAudio, SIGNAL(clicked()), this, SLOT(switchAudio()));
-    connect(view.buttonLock, SIGNAL(clicked()), this, SLOT(switchLock()));
+    connect(m_view.buttonVideo, SIGNAL(clicked()), this, SLOT(switchVideo()));
+    connect(m_view.buttonAudio, SIGNAL(clicked()), this, SLOT(switchAudio()));
+    connect(m_view.buttonLock, SIGNAL(clicked()), this, SLOT(switchLock()));
 
     m_contextMenu = new QMenu(this);
 
@@ -85,30 +85,30 @@ HeaderTrack::~HeaderTrack()
 
 void HeaderTrack::switchVideo()
 {
-    if (view.buttonVideo->isChecked()) {
-        view.buttonVideo->setIcon(KIcon("kdenlive-show-video"));
+    if (m_view.buttonVideo->isChecked()) {
+        m_view.buttonVideo->setIcon(KIcon("kdenlive-show-video"));
     } else {
-        view.buttonVideo->setIcon(KIcon("kdenlive-hide-video"));
+        m_view.buttonVideo->setIcon(KIcon("kdenlive-hide-video"));
     }
     emit switchTrackVideo(m_index);
 }
 
 void HeaderTrack::switchAudio()
 {
-    if (view.buttonAudio->isChecked()) {
-        view.buttonAudio->setIcon(KIcon("kdenlive-show-audio"));
+    if (m_view.buttonAudio->isChecked()) {
+        m_view.buttonAudio->setIcon(KIcon("kdenlive-show-audio"));
     } else {
-        view.buttonAudio->setIcon(KIcon("kdenlive-hide-audio"));
+        m_view.buttonAudio->setIcon(KIcon("kdenlive-hide-audio"));
     }
     emit switchTrackAudio(m_index);
 }
 
 void HeaderTrack::switchLock(bool emitSignal)
 {
-    if (view.buttonLock->isChecked()) {
-        view.buttonLock->setIcon(KIcon("kdenlive-lock"));
+    if (m_view.buttonLock->isChecked()) {
+        m_view.buttonLock->setIcon(KIcon("kdenlive-lock"));
     } else {
-        view.buttonLock->setIcon(KIcon("kdenlive-unlock"));
+        m_view.buttonLock->setIcon(KIcon("kdenlive-unlock"));
     }
     if (emitSignal) emit switchTrackLock(m_index);
 }
@@ -116,7 +116,7 @@ void HeaderTrack::switchLock(bool emitSignal)
 
 void HeaderTrack::setLock(bool lock)
 {
-    view.buttonLock->setChecked(lock);
+    m_view.buttonLock->setChecked(lock);
     switchLock(false);
 }
 

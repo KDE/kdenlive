@@ -43,12 +43,12 @@ public:
     QDomElement getParamDesc();
 
 private:
-    Ui::Geometryval ui;
+    Ui::Geometryval m_ui;
     MltVideoProfile m_profile;
     //QGraphicsScene* scene;
-    GraphicsSceneRectMove *scene;
-    QDomElement param;
-    QGraphicsRectItem *paramRect;
+    GraphicsSceneRectMove *m_scene;
+    QDomElement m_param;
+    QGraphicsRectItem *m_paramRect;
     Mlt::Geometry *m_geom;
     KeyframeHelper *m_helper;
     QGraphicsPathItem *m_path;

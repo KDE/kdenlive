@@ -26,7 +26,7 @@ class QGraphicsPolygonItem;
 
 class TitleDocument
 {
-    QGraphicsScene* scene;
+    QGraphicsScene* m_scene;
 public:
     TitleDocument();
     void setScene(QGraphicsScene* scene);

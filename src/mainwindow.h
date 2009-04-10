@@ -104,35 +104,35 @@ protected:
 
 private:
     KTabWidget* m_timelineArea;
-    QProgressBar *statusProgressBar;
+    QProgressBar *m_statusProgressBar;
     void setupActions();
     KdenliveDoc *m_activeDocument;
     TrackView *m_activeTimeline;
     MonitorManager *m_monitorManager;
 
-    QDockWidget *projectListDock;
+    QDockWidget *m_projectListDock;
     ProjectList *m_projectList;
 
-    QDockWidget *effectListDock;
+    QDockWidget *m_effectListDock;
     EffectsListView *m_effectList;
     //KListWidget *m_effectList;
 
-    QDockWidget *effectStackDock;
-    EffectStackView *effectStack;
+    QDockWidget *m_effectStackDock;
+    EffectStackView *m_effectStack;
 
-    QDockWidget *transitionConfigDock;
-    TransitionSettings *transitionConfig;
+    QDockWidget *m_transitionConfigDock;
+    TransitionSettings *m_transitionConfig;
 
-    QDockWidget *clipMonitorDock;
+    QDockWidget *m_clipMonitorDock;
     Monitor *m_clipMonitor;
 
-    QDockWidget *projectMonitorDock;
+    QDockWidget *m_projectMonitorDock;
     Monitor *m_projectMonitor;
 
-    QDockWidget *recMonitorDock;
+    QDockWidget *m_recMonitorDock;
     RecMonitor *m_recMonitor;
 
-    QDockWidget *undoViewDock;
+    QDockWidget *m_undoViewDock;
     QUndoView *m_undoView;
     QUndoGroup *m_commandStack;
 

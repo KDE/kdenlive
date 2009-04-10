@@ -49,7 +49,7 @@ protected:
     virtual void mousePressEvent(QMouseEvent * event);
 
 private:
-    Ui::RecMonitor_UI ui;
+    Ui::RecMonitor_UI m_ui;
     QString m_name;
     bool m_isActive;
     KDateTime m_captureTime;
@@ -58,8 +58,8 @@ private:
     KIcon m_playIcon;
     KIcon m_pauseIcon;
 
-    QProcess *captureProcess;
-    QProcess *displayProcess;
+    QProcess *m_captureProcess;
+    QProcess *m_displayProcess;
     bool m_isCapturing;
     /** did the user capture something ? */
     bool m_didCapture;

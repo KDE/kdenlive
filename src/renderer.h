@@ -211,8 +211,8 @@ private:   // Private attributes & methods
     Mlt::Producer *m_blackClip;
     QString m_activeProfile;
 
-    QTimer *refreshTimer;
-    QTimer *osdTimer;
+    QTimer *m_refreshTimer;
+    QTimer *m_osdTimer;
 
     /** A human-readable description of this renderer. */
     int m_winid;

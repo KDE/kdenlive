@@ -78,9 +78,9 @@ EffectStackEdit::EffectStackEdit(QWidget *parent) :
     vbox1->addWidget(area);
     area->setWidget(wid);
     area->setWidgetResizable(true);
-    vbox = new QVBoxLayout(wid);
-    vbox->setContentsMargins(0, 0, 0, 0);
-    vbox->setSpacing(0);
+    m_vbox = new QVBoxLayout(wid);
+    m_vbox->setContentsMargins(0, 0, 0, 0);
+    m_vbox->setSpacing(0);
     wid->show();
 
 }
@@ -98,23 +98,23 @@ void EffectStackEdit::updateProjectFormat(MltVideoProfile profile, Timecode t)
 
 void EffectStackEdit::updateParameter(const QString &name, const QString &value)
 {
-    params.setAttribute(name, value);
+    m_params.setAttribute(name, value);
 }
 
 void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
 {
     kDebug() << "in";
-    params = d;
+    m_params = d;
     m_in = in;
     m_out = out;
     clearAllItems();
-    if (params.isNull()) return;
+    if (m_params.isNull()) return;
 
     QDomDocument doc;
-    doc.appendChild(doc.importNode(params, true));
+    doc.appendChild(doc.importNode(m_params, true));
     //kDebug() << "IMPORTED TRANS: " << doc.toString();
-    QDomNodeList namenode = params.elementsByTagName("parameter");
-    QDomElement e = params.toElement();
+    QDomNodeList namenode = m_params.elementsByTagName("parameter");
+    QDomElement e = m_params.toElement();
     const int minFrame = e.attribute("start").toInt();
     const int maxFrame = e.attribute("end").toInt();
 
@@ -167,8 +167,8 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
 
             connect(lsval->list, SIGNAL(currentIndexChanged(int)) , this, SLOT(collectAllParameters()));
             lsval->title->setTitle(paramName);
-            valueItems[paramName] = lsval;
-            uiItems.append(lsval);
+            m_valueItems[paramName] = lsval;
+            m_uiItems.append(lsval);
         } else if (type == "bool") {
             Boolval *bval = new Boolval;
             bval->setupUi(toFillin);
@@ -176,8 +176,8 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
 
             connect(bval->checkBox, SIGNAL(stateChanged(int)) , this, SLOT(collectAllParameters()));
             bval->checkBox->setText(paramName);
-            valueItems[paramName] = bval;
-            uiItems.append(bval);
+            m_valueItems[paramName] = bval;
+            m_uiItems.append(bval);
         } else if (type == "complex") {
             /*QStringList names=nodeAtts.namedItem("name").nodeValue().split(';');
             QStringList max=nodeAtts.namedItem("max").nodeValue().split(';');
@@ -195,17 +195,17 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
             ComplexParameter *pl = new ComplexParameter;
             connect(pl, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
             pl->setupParam(d, pa.attribute("name"), 0, 100);
-            vbox->addWidget(pl);
-            valueItems[paramName+"complex"] = pl;
-            items.append(pl);
+            m_vbox->addWidget(pl);
+            m_valueItems[paramName+"complex"] = pl;
+            m_items.append(pl);
         } else if (type == "geometry") {
             Geometryval *geo = new Geometryval(m_profile);
             connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
             connect(geo, SIGNAL(seekToPos(int)), this, SLOT(slotSeekToPos(int)));
             geo->setupParam(pa, minFrame, maxFrame);
-            vbox->addWidget(geo);
-            valueItems[paramName+"geometry"] = geo;
-            items.append(geo);
+            m_vbox->addWidget(geo);
+            m_valueItems[paramName+"geometry"] = geo;
+            m_items.append(geo);
         } else if (type == "color") {
             Colorval *cval = new Colorval;
             cval->setupUi(toFillin);
@@ -215,8 +215,8 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
 
             connect(cval->kcolorbutton, SIGNAL(clicked()) , this, SLOT(collectAllParameters()));
             cval->label->setText(paramName);
-            valueItems[paramName] = cval;
-            uiItems.append(cval);
+            m_valueItems[paramName] = cval;
+            m_uiItems.append(cval);
         } else if (type == "position") {
             Positionval *pval = new Positionval;
             pval->setupUi(toFillin);
@@ -230,8 +230,8 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
             pval->krestrictedline->setText(m_timecode.getTimecodeFromFrames(pos));
             connect(pval->krestrictedline, SIGNAL(editingFinished()), this, SLOT(collectAllParameters()));
             pval->label->setText(paramName);
-            valueItems[paramName + "position"] = pval;
-            uiItems.append(pval);
+            m_valueItems[paramName + "position"] = pval;
+            m_uiItems.append(pval);
         } else if (type == "wipe") {
             Wipeval *wpval = new Wipeval;
             wpval->setupUi(toFillin);
@@ -286,19 +286,19 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
             connect(wpval->start_transp, SIGNAL(valueChanged(int)), this, SLOT(collectAllParameters()));
             connect(wpval->end_transp, SIGNAL(valueChanged(int)), this, SLOT(collectAllParameters()));
             //wpval->title->setTitle(na.toElement().text());
-            valueItems[paramName] = wpval;
-            uiItems.append(wpval);
+            m_valueItems[paramName] = wpval;
+            m_uiItems.append(wpval);
         } else {
             delete toFillin;
             toFillin = NULL;
         }
 
         if (toFillin) {
-            items.append(toFillin);
-            vbox->addWidget(toFillin);
+            m_items.append(toFillin);
+            m_vbox->addWidget(toFillin);
         }
     }
-    vbox->addStretch();
+    m_vbox->addStretch();
 }
 
 void EffectStackEdit::slotSeekToPos(int pos)
@@ -376,8 +376,8 @@ QString EffectStackEdit::getWipeString(wipeInfo info)
 
 void EffectStackEdit::collectAllParameters()
 {
-    QDomElement oldparam = params.cloneNode().toElement();
-    QDomNodeList namenode = params.elementsByTagName("parameter");
+    QDomElement oldparam = m_params.cloneNode().toElement();
+    QDomNodeList namenode = m_params.elementsByTagName("parameter");
 
     for (int i = 0;i < namenode.count() ;i++) {
         QDomNode pa = namenode.item(i);
@@ -387,33 +387,33 @@ void EffectStackEdit::collectAllParameters()
 
         QString setValue;
         if (type == "double" || type == "constant") {
-            QSlider* slider = ((Constval*)valueItems[paramName])->horizontalSlider;
+            QSlider* slider = ((Constval*)m_valueItems[paramName])->horizontalSlider;
             setValue = QString::number(slider->value());
         } else if (type == "list") {
-            KComboBox *box = ((Listval*)valueItems[paramName])->list;
+            KComboBox *box = ((Listval*)m_valueItems[paramName])->list;
             setValue = box->itemData(box->currentIndex()).toString();
         } else if (type == "bool") {
-            QCheckBox *box = ((Boolval*)valueItems[paramName])->checkBox;
+            QCheckBox *box = ((Boolval*)m_valueItems[paramName])->checkBox;
             setValue = box->checkState() == Qt::Checked ? "1" : "0" ;
         } else if (type == "color") {
-            KColorButton *color = ((Colorval*)valueItems[paramName])->kcolorbutton;
+            KColorButton *color = ((Colorval*)m_valueItems[paramName])->kcolorbutton;
             setValue = color->color().name();
         } else if (type == "complex") {
-            ComplexParameter *complex = ((ComplexParameter*)valueItems[paramName+"complex"]);
+            ComplexParameter *complex = ((ComplexParameter*)m_valueItems[paramName+"complex"]);
             namenode.item(i) = complex->getParamDesc();
         } else if (type == "geometry") {
-            Geometryval *geom = ((Geometryval*)valueItems[paramName+"geometry"]);
+            Geometryval *geom = ((Geometryval*)m_valueItems[paramName+"geometry"]);
             namenode.item(i) = geom->getParamDesc();
         } else if (type == "position") {
-            KRestrictedLine *line = ((Positionval*)valueItems[paramName+"position"])->krestrictedline;
+            KRestrictedLine *line = ((Positionval*)m_valueItems[paramName+"position"])->krestrictedline;
             int pos = m_timecode.getFrameCount(line->text(), KdenliveSettings::project_fps());
-            if (params.attribute("id") == "fadein" || params.attribute("id") == "fade_from_black") {
+            if (m_params.attribute("id") == "fadein" || m_params.attribute("id") == "fade_from_black") {
                 pos += m_in;
                 if (pos > m_out) {
                     pos = m_out;
                     line->setText(m_timecode.getTimecodeFromFrames(pos));
                 }
-            } else if (params.attribute("id") == "fadeout" || params.attribute("id") == "fade_to_black") {
+            } else if (m_params.attribute("id") == "fadeout" || m_params.attribute("id") == "fade_to_black") {
                 pos = m_out - (pos - m_in);
                 if (pos > m_out - m_in) {
                     pos = m_out - m_in;
@@ -422,7 +422,7 @@ void EffectStackEdit::collectAllParameters()
             }
             setValue = QString::number(pos);
         } else if (type == "wipe") {
-            Wipeval *wp = (Wipeval*)valueItems[paramName];
+            Wipeval *wp = (Wipeval*)m_valueItems[paramName];
             wipeInfo info;
             if (wp->start_left->isChecked()) info.start = LEFT;
             else if (wp->start_right->isChecked()) info.start = RIGHT;
@@ -445,7 +445,7 @@ void EffectStackEdit::collectAllParameters()
             pa.attributes().namedItem("value").setNodeValue(setValue);
         }
     }
-    emit parameterChanged(oldparam, params);
+    emit parameterChanged(oldparam, m_params);
 }
 
 void EffectStackEdit::createSliderItem(const QString& name, int val , int min, int max)
@@ -461,11 +461,11 @@ void EffectStackEdit::createSliderItem(const QString& name, int val , int min, i
     ctval->horizontalSlider->setPageStep((int)(max - min) / 10);
     ctval->horizontalSlider->setValue(val);
     ctval->label->setText(name);
-    valueItems[name] = ctval;
-    uiItems.append(ctval);
+    m_valueItems[name] = ctval;
+    m_uiItems.append(ctval);
     connect(ctval->horizontalSlider, SIGNAL(valueChanged(int)) , this, SLOT(collectAllParameters()));
-    items.append(toFillin);
-    vbox->addWidget(toFillin);
+    m_items.append(toFillin);
+    m_vbox->addWidget(toFillin);
 }
 
 void EffectStackEdit::slotSliderMoved(int)
@@ -475,15 +475,15 @@ void EffectStackEdit::slotSliderMoved(int)
 
 void EffectStackEdit::clearAllItems()
 {
-    qDeleteAll(items);
-    qDeleteAll(uiItems);
-    uiItems.clear();
-    items.clear();
-    valueItems.clear();
-    QLayoutItem *item = vbox->itemAt(0);
+    qDeleteAll(m_items);
+    qDeleteAll(m_uiItems);
+    m_uiItems.clear();
+    m_items.clear();
+    m_valueItems.clear();
+    QLayoutItem *item = m_vbox->itemAt(0);
     while (item) {
-        vbox->removeItem(item);
+        m_vbox->removeItem(item);
         delete item;
-        item = vbox->itemAt(0);
+        item = m_vbox->itemAt(0);
     }
 }

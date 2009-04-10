@@ -107,7 +107,7 @@ private slots:
     void slotAudioThumbOver();
 
 private:
-    MyThread audioThumbProducer;
+    MyThread m_audioThumbProducer;
     KUrl m_url;
     QString m_thumbFile;
     double m_dar;

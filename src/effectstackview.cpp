@@ -36,53 +36,53 @@
 EffectStackView::EffectStackView(QWidget *parent) :
         QWidget(parent)
 {
-    ui.setupUi(this);
-    effectedit = new EffectStackEdit(ui.frame);
-    //ui.effectlist->horizontalHeader()->setVisible(false);
-    //ui.effectlist->verticalHeader()->setVisible(false);
-    clipref = NULL;
+    m_ui.setupUi(this);
+    m_effectedit = new EffectStackEdit(m_ui.frame);
+    //m_ui.effectlist->horizontalHeader()->setVisible(false);
+    //m_ui.effectlist->verticalHeader()->setVisible(false);
+    m_clipref = NULL;
 
-    ui.buttonNew->setIcon(KIcon("document-new"));
-    ui.buttonNew->setToolTip(i18n("Add new effect"));
-    ui.buttonUp->setIcon(KIcon("go-up"));
-    ui.buttonUp->setToolTip(i18n("Move effect up"));
-    ui.buttonDown->setIcon(KIcon("go-down"));
-    ui.buttonDown->setToolTip(i18n("Move effect down"));
-    ui.buttonDel->setIcon(KIcon("trash-empty"));
-    ui.buttonDel->setToolTip(i18n("Delete effect"));
-    ui.buttonSave->setIcon(KIcon("document-save"));
-    ui.buttonSave->setToolTip(i18n("Save effect"));
-    ui.buttonReset->setIcon(KIcon("view-refresh"));
-    ui.buttonReset->setToolTip(i18n("Reset effect"));
+    m_ui.buttonNew->setIcon(KIcon("document-new"));
+    m_ui.buttonNew->setToolTip(i18n("Add new effect"));
+    m_ui.buttonUp->setIcon(KIcon("go-up"));
+    m_ui.buttonUp->setToolTip(i18n("Move effect up"));
+    m_ui.buttonDown->setIcon(KIcon("go-down"));
+    m_ui.buttonDown->setToolTip(i18n("Move effect down"));
+    m_ui.buttonDel->setIcon(KIcon("trash-empty"));
+    m_ui.buttonDel->setToolTip(i18n("Delete effect"));
+    m_ui.buttonSave->setIcon(KIcon("document-save"));
+    m_ui.buttonSave->setToolTip(i18n("Save effect"));
+    m_ui.buttonReset->setIcon(KIcon("view-refresh"));
+    m_ui.buttonReset->setToolTip(i18n("Reset effect"));
 
 
-    ui.effectlist->setDragDropMode(QAbstractItemView::NoDragDrop);//use internal if drop is recognised right
+    m_ui.effectlist->setDragDropMode(QAbstractItemView::NoDragDrop);//use internal if drop is recognised right
 
-    connect(ui.effectlist, SIGNAL(itemSelectionChanged()), this , SLOT(slotItemSelectionChanged()));
-    connect(ui.effectlist, SIGNAL(itemChanged(QListWidgetItem *)), this , SLOT(slotItemChanged(QListWidgetItem *)));
-    connect(ui.buttonUp, SIGNAL(clicked()), this, SLOT(slotItemUp()));
-    connect(ui.buttonDown, SIGNAL(clicked()), this, SLOT(slotItemDown()));
-    connect(ui.buttonDel, SIGNAL(clicked()), this, SLOT(slotItemDel()));
-    connect(ui.buttonSave, SIGNAL(clicked()), this, SLOT(slotSaveEffect()));
-    connect(ui.buttonReset, SIGNAL(clicked()), this, SLOT(slotResetEffect()));
-    connect(this, SIGNAL(transferParamDesc(const QDomElement&, int , int)), effectedit , SLOT(transferParamDesc(const QDomElement&, int , int)));
-    connect(effectedit, SIGNAL(parameterChanged(const QDomElement&, const QDomElement&)), this , SLOT(slotUpdateEffectParams(const QDomElement&, const QDomElement&)));
-    effectLists["audio"] = &MainWindow::audioEffects;
-    effectLists["video"] = &MainWindow::videoEffects;
-    effectLists["custom"] = &MainWindow::customEffects;
-    ui.splitter->setStretchFactor(1, 10);
-    ui.splitter->setStretchFactor(0, 1);
+    connect(m_ui.effectlist, SIGNAL(itemSelectionChanged()), this , SLOT(slotItemSelectionChanged()));
+    connect(m_ui.effectlist, SIGNAL(itemChanged(QListWidgetItem *)), this , SLOT(slotItemChanged(QListWidgetItem *)));
+    connect(m_ui.buttonUp, SIGNAL(clicked()), this, SLOT(slotItemUp()));
+    connect(m_ui.buttonDown, SIGNAL(clicked()), this, SLOT(slotItemDown()));
+    connect(m_ui.buttonDel, SIGNAL(clicked()), this, SLOT(slotItemDel()));
+    connect(m_ui.buttonSave, SIGNAL(clicked()), this, SLOT(slotSaveEffect()));
+    connect(m_ui.buttonReset, SIGNAL(clicked()), this, SLOT(slotResetEffect()));
+    connect(this, SIGNAL(transferParamDesc(const QDomElement&, int , int)), m_effectedit , SLOT(transferParamDesc(const QDomElement&, int , int)));
+    connect(m_effectedit, SIGNAL(parameterChanged(const QDomElement&, const QDomElement&)), this , SLOT(slotUpdateEffectParams(const QDomElement&, const QDomElement&)));
+    m_effectLists["audio"] = &MainWindow::audioEffects;
+    m_effectLists["video"] = &MainWindow::videoEffects;
+    m_effectLists["custom"] = &MainWindow::customEffects;
+    m_ui.splitter->setStretchFactor(1, 10);
+    m_ui.splitter->setStretchFactor(0, 1);
     setEnabled(false);
 }
 
 void EffectStackView::setMenu(QMenu *menu)
 {
-    ui.buttonNew->setMenu(menu);
+    m_ui.buttonNew->setMenu(menu);
 }
 
 void EffectStackView::updateProjectFormat(MltVideoProfile profile, Timecode t)
 {
-    effectedit->updateProjectFormat(profile, t);
+    m_effectedit->updateProjectFormat(profile, t);
 }
 
 void EffectStackView::slotSaveEffect()
@@ -93,9 +93,9 @@ void EffectStackView::slotSaveEffect()
     path = path + name + ".xml";
     if (QFile::exists(path)) if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it?")) == KMessageBox::No) return;
 
-    int i = ui.effectlist->currentRow();
+    int i = m_ui.effectlist->currentRow();
     QDomDocument doc;
-    QDomElement effect = clipref->effectAt(i).cloneNode().toElement();
+    QDomElement effect = m_clipref->effectAt(i).cloneNode().toElement();
     doc.appendChild(doc.importNode(effect, true));
     effect = doc.firstChild().toElement();
     effect.removeAttribute("kdenlive_ix");
@@ -123,22 +123,22 @@ void EffectStackView::slotSaveEffect()
 
 void EffectStackView::slotUpdateEffectParams(const QDomElement& old, const QDomElement& e)
 {
-    if (clipref)
-        emit updateClipEffect(clipref, old, e, ui.effectlist->currentRow());
+    if (m_clipref)
+        emit updateClipEffect(m_clipref, old, e, m_ui.effectlist->currentRow());
 }
 
 void EffectStackView::slotClipItemSelected(ClipItem* c, int ix)
 {
-    if (c && c == clipref) {
-        if (ix == -1) ix = ui.effectlist->currentRow();
+    if (c && c == m_clipref) {
+        if (ix == -1) ix = m_ui.effectlist->currentRow();
     } else {
-        clipref = c;
+        m_clipref = c;
         if (c) ix = c->selectedEffectIndex();
         else ix = 0;
     }
-    if (clipref == NULL) {
-        ui.effectlist->clear();
-        effectedit->transferParamDesc(QDomElement(), 0, 0);
+    if (m_clipref == NULL) {
+        m_ui.effectlist->clear();
+        m_effectedit->transferParamDesc(QDomElement(), 0, 0);
         setEnabled(false);
         return;
     }
@@ -150,25 +150,25 @@ void EffectStackView::slotItemChanged(QListWidgetItem *item)
 {
     bool disable = true;
     if (item->checkState() == Qt::Checked) disable = false;
-    ui.buttonReset->setEnabled(!disable);
-    int activeRow = ui.effectlist->currentRow();
+    m_ui.buttonReset->setEnabled(!disable);
+    int activeRow = m_ui.effectlist->currentRow();
     if (activeRow >= 0) {
-        emit changeEffectState(clipref, activeRow, disable);
+        emit changeEffectState(m_clipref, activeRow, disable);
     }
 }
 
 
 void EffectStackView::setupListView(int ix)
 {
-    ui.effectlist->clear();
+    m_ui.effectlist->clear();
 
     // Issue 238: Add icons for effect type in effectstack.
     KIcon videoIcon("kdenlive-show-video");
     KIcon audioIcon("kdenlive-show-audio");
     QListWidgetItem* item;
 
-    for (int i = 0;i < clipref->effectsCount();i++) {
-        QDomElement d = clipref->effectAt(i);
+    for (int i = 0;i < m_clipref->effectsCount();i++) {
+        QDomElement d = m_clipref->effectAt(i);
 
         QDomNode namenode = d.elementsByTagName("name").item(0);
         if (!namenode.isNull()) {
@@ -176,84 +176,84 @@ void EffectStackView::setupListView(int ix)
             // Logic more or less copied from initeffects.cpp
             QString type = d.attribute("type", QString());
             if ("audio" == type) {
-                item = new QListWidgetItem(audioIcon, i18n(namenode.toElement().text().toUtf8().data()), ui.effectlist);
+                item = new QListWidgetItem(audioIcon, i18n(namenode.toElement().text().toUtf8().data()), m_ui.effectlist);
             } else if ("custom" == type) {
-                item = new QListWidgetItem(i18n(namenode.toElement().text().toUtf8().data()), ui.effectlist);
+                item = new QListWidgetItem(i18n(namenode.toElement().text().toUtf8().data()), m_ui.effectlist);
             } else {
-                item = new QListWidgetItem(videoIcon, i18n(namenode.toElement().text().toUtf8().data()), ui.effectlist);
+                item = new QListWidgetItem(videoIcon, i18n(namenode.toElement().text().toUtf8().data()), m_ui.effectlist);
             }
             item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
             if (d.attribute("disabled") == "1") item->setCheckState(Qt::Unchecked);
             else item->setCheckState(Qt::Checked);
         }
     }
-    if (clipref->effectsCount() == 0) {
+    if (m_clipref->effectsCount() == 0) {
         emit transferParamDesc(QDomElement(), 0, 0);
-        ui.buttonDel->setEnabled(false);
-        ui.buttonSave->setEnabled(false);
-        ui.buttonReset->setEnabled(false);
-        ui.buttonUp->setEnabled(false);
-        ui.buttonDown->setEnabled(false);
+        m_ui.buttonDel->setEnabled(false);
+        m_ui.buttonSave->setEnabled(false);
+        m_ui.buttonReset->setEnabled(false);
+        m_ui.buttonUp->setEnabled(false);
+        m_ui.buttonDown->setEnabled(false);
     } else {
         if (ix < 0) ix = 0;
-        if (ix > ui.effectlist->count() - 1) ix = ui.effectlist->count() - 1;
-        ui.effectlist->setCurrentRow(ix);
-        ui.buttonDel->setEnabled(true);
-        ui.buttonSave->setEnabled(true);
-        ui.buttonReset->setEnabled(true);
-        ui.buttonUp->setEnabled(ix > 0);
-        ui.buttonDown->setEnabled(ix < clipref->effectsCount() - 1);
+        if (ix > m_ui.effectlist->count() - 1) ix = m_ui.effectlist->count() - 1;
+        m_ui.effectlist->setCurrentRow(ix);
+        m_ui.buttonDel->setEnabled(true);
+        m_ui.buttonSave->setEnabled(true);
+        m_ui.buttonReset->setEnabled(true);
+        m_ui.buttonUp->setEnabled(ix > 0);
+        m_ui.buttonDown->setEnabled(ix < m_clipref->effectsCount() - 1);
     }
 }
 
 void EffectStackView::slotItemSelectionChanged()
 {
-    bool hasItem = ui.effectlist->currentItem();
-    int activeRow = ui.effectlist->currentRow();
+    bool hasItem = m_ui.effectlist->currentItem();
+    int activeRow = m_ui.effectlist->currentRow();
     bool isChecked = false;
-    if (hasItem && ui.effectlist->currentItem()->checkState() == Qt::Checked) isChecked = true;
-    if (hasItem && ui.effectlist->currentItem()->isSelected()) {
-        emit transferParamDesc(clipref->effectAt(activeRow), clipref->cropStart().frames(KdenliveSettings::project_fps()), clipref->cropDuration().frames(KdenliveSettings::project_fps()));//minx max frame
+    if (hasItem && m_ui.effectlist->currentItem()->checkState() == Qt::Checked) isChecked = true;
+    if (hasItem && m_ui.effectlist->currentItem()->isSelected()) {
+        emit transferParamDesc(m_clipref->effectAt(activeRow), m_clipref->cropStart().frames(KdenliveSettings::project_fps()), m_clipref->cropDuration().frames(KdenliveSettings::project_fps()));//minx max frame
     }
-    if (clipref) clipref->setSelectedEffect(activeRow);
-    ui.buttonDel->setEnabled(hasItem);
-    ui.buttonSave->setEnabled(hasItem);
-    ui.buttonReset->setEnabled(hasItem && isChecked);
-    ui.buttonUp->setEnabled(activeRow > 0);
-    ui.buttonDown->setEnabled((activeRow < ui.effectlist->count() - 1) && hasItem);
+    if (m_clipref) m_clipref->setSelectedEffect(activeRow);
+    m_ui.buttonDel->setEnabled(hasItem);
+    m_ui.buttonSave->setEnabled(hasItem);
+    m_ui.buttonReset->setEnabled(hasItem && isChecked);
+    m_ui.buttonUp->setEnabled(activeRow > 0);
+    m_ui.buttonDown->setEnabled((activeRow < m_ui.effectlist->count() - 1) && hasItem);
 }
 
 void EffectStackView::slotItemUp()
 {
-    int activeRow = ui.effectlist->currentRow();
+    int activeRow = m_ui.effectlist->currentRow();
     if (activeRow <= 0) return;
-    emit changeEffectPosition(clipref, activeRow + 1, activeRow);
+    emit changeEffectPosition(m_clipref, activeRow + 1, activeRow);
 }
 
 void EffectStackView::slotItemDown()
 {
-    int activeRow = ui.effectlist->currentRow();
-    if (activeRow >= ui.effectlist->count() - 1) return;
-    emit changeEffectPosition(clipref, activeRow + 1, activeRow + 2);
+    int activeRow = m_ui.effectlist->currentRow();
+    if (activeRow >= m_ui.effectlist->count() - 1) return;
+    emit changeEffectPosition(m_clipref, activeRow + 1, activeRow + 2);
 }
 
 void EffectStackView::slotItemDel()
 {
-    int activeRow = ui.effectlist->currentRow();
+    int activeRow = m_ui.effectlist->currentRow();
     if (activeRow >= 0) {
-        emit removeEffect(clipref, clipref->effectAt(activeRow));
+        emit removeEffect(m_clipref, m_clipref->effectAt(activeRow));
     }
 }
 
 void EffectStackView::slotResetEffect()
 {
-    int activeRow = ui.effectlist->currentRow();
+    int activeRow = m_ui.effectlist->currentRow();
     if (activeRow < 0) return;
-    QDomElement old = clipref->effectAt(activeRow).cloneNode().toElement();
+    QDomElement old = m_clipref->effectAt(activeRow).cloneNode().toElement();
     QDomElement dom;
-    QString effectName = ui.effectlist->currentItem()->text();
-    foreach(const QString &type, effectLists.keys()) {
-        EffectsList *list = effectLists[type];
+    QString effectName = m_ui.effectlist->currentItem()->text();
+    foreach(const QString &type, m_effectLists.keys()) {
+        EffectsList *list = m_effectLists[type];
         if (list->effectNames().contains(effectName)) {
             dom = list->getEffectByName(effectName);
             break;
@@ -261,27 +261,27 @@ void EffectStackView::slotResetEffect()
     }
     if (!dom.isNull()) {
         dom.setAttribute("kdenlive_ix", old.attribute("kdenlive_ix"));
-        emit transferParamDesc(dom, clipref->cropStart().frames(KdenliveSettings::project_fps()), clipref->cropDuration().frames(KdenliveSettings::project_fps()));//minx max frame
-        emit updateClipEffect(clipref, old, dom, activeRow);
+        emit transferParamDesc(dom, m_clipref->cropStart().frames(KdenliveSettings::project_fps()), m_clipref->cropDuration().frames(KdenliveSettings::project_fps()));//minx max frame
+        emit updateClipEffect(m_clipref, old, dom, activeRow);
     }
 }
 
 
 void EffectStackView::raiseWindow(QWidget* dock)
 {
-    if (clipref && dock)
+    if (m_clipref && dock)
         dock->raise();
 }
 
 void EffectStackView::clear()
 {
-    ui.effectlist->clear();
-    ui.buttonDel->setEnabled(false);
-    ui.buttonSave->setEnabled(false);
-    ui.buttonReset->setEnabled(false);
-    ui.buttonUp->setEnabled(false);
-    ui.buttonDown->setEnabled(false);
-    effectedit->transferParamDesc(QDomElement(), 0, 0);
+    m_ui.effectlist->clear();
+    m_ui.buttonDel->setEnabled(false);
+    m_ui.buttonSave->setEnabled(false);
+    m_ui.buttonReset->setEnabled(false);
+    m_ui.buttonUp->setEnabled(false);
+    m_ui.buttonDown->setEnabled(false);
+    m_effectedit->transferParamDesc(QDomElement(), 0, 0);
 }
 
 #include "effectstackview.moc"

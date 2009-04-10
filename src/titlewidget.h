@@ -72,10 +72,10 @@ protected:
     virtual void resizeEvent(QResizeEvent * event);
 
 private:
-    QGraphicsPolygonItem *startViewport, *endViewport;
+    QGraphicsPolygonItem *m_startViewport, *m_endViewport;
     GraphicsSceneRectMove *m_scene;
     void initViewports();
-    QMap<QGraphicsItem*, Transform > transformations;
+    QMap<QGraphicsItem*, Transform > m_transformations;
     TitleDocument m_titledocument;
     QGraphicsRectItem *m_frameBorder;
     QGraphicsPixmapItem *m_frameImage;

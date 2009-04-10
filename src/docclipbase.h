@@ -164,7 +164,7 @@ Q_OBJECT public:
 
     /** Cache for every audio Frame with 10 Bytes */
     /** format is frame -> channel ->bytes */
-    QMap<int, QMap<int, QByteArray> > audioFrameChache;
+    QMap<int, QMap<int, QByteArray> > m_audioFrameCache;
 
     /** Free cache data */
     void slotClearAudioCache();

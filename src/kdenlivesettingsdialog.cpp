@@ -46,14 +46,14 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
 
     QWidget *p1 = new QWidget;
     m_configMisc.setupUi(p1);
-    page1 = addPage(p1, i18n("Misc"), "configure");
+    m_page1 = addPage(p1, i18n("Misc"), "configure");
 
     // Hide multi tab option until Kdenlive really supports it
     m_configMisc.kcfg_activatetabs->setVisible(false);
 
     QWidget *p3 = new QWidget;
     m_configDisplay.setupUi(p3);
-    page3 = addPage(p3, i18n("Display"), "video-display");
+    m_page3 = addPage(p3, i18n("Display"), "video-display");
 
     QWidget *p2 = new QWidget;
     m_configEnv.setupUi(p2);
@@ -66,11 +66,11 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
     m_configEnv.projecturl->lineEdit()->setObjectName("kcfg_defaultprojectfolder");
     m_configEnv.capturefolderurl->setMode(KFile::Directory);
     m_configEnv.capturefolderurl->lineEdit()->setObjectName("kcfg_capturefolder");
-    page2 = addPage(p2, i18n("Environment"), "terminal");
+    m_page2 = addPage(p2, i18n("Environment"), "terminal");
 
     QWidget *p4 = new QWidget;
     m_configCapture.setupUi(p4);
-    page4 = addPage(p4, i18n("Capture"), "audio-card");
+    m_page4 = addPage(p4, i18n("Capture"), "audio-card");
     m_configCapture.tabWidget->setCurrentIndex(KdenliveSettings::defaultcapture());
 
     QWidget *p5 = new QWidget;
@@ -84,11 +84,11 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
     m_configShuttle.kcfg_enableshuttle->hide();
     m_configShuttle.kcfg_enableshuttle->setDisabled(true);
 #endif /* NO_JOGSHUTTLE */
-    page5 = addPage(p5, i18n("JogShuttle"), "input-mouse");
+    m_page5 = addPage(p5, i18n("JogShuttle"), "input-mouse");
 
     QWidget *p6 = new QWidget;
     m_configSdl.setupUi(p6);
-    page6 = addPage(p6, i18n("Playback"), "audio-card");
+    m_page6 = addPage(p6, i18n("Playback"), "audio-card");
 
     QStringList actions;
     actions << i18n("Do nothing");
@@ -288,20 +288,20 @@ void KdenliveSettingsDialog::showPage(int page, int option)
 {
     switch (page) {
     case 1:
-        setCurrentPage(page1);
+        setCurrentPage(m_page1);
         break;
     case 2:
-        setCurrentPage(page2);
+        setCurrentPage(m_page2);
         break;
     case 3:
-        setCurrentPage(page3);
+        setCurrentPage(m_page3);
         break;
     case 4:
-        setCurrentPage(page4);
+        setCurrentPage(m_page4);
         m_configCapture.tabWidget->setCurrentIndex(option);
         break;
     case 5:
-        setCurrentPage(page5);
+        setCurrentPage(m_page5);
         break;
 
     }

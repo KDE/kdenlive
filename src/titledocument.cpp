@@ -33,12 +33,12 @@
 
 TitleDocument::TitleDocument()
 {
-    scene = NULL;
+    m_scene = NULL;
 }
 
 void TitleDocument::setScene(QGraphicsScene* _scene)
 {
-    scene = _scene;
+    m_scene = _scene;
 }
 
 QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv)
@@ -48,7 +48,7 @@ QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonIt
     QDomElement main = doc.createElement("kdenlivetitle");
     doc.appendChild(main);
 
-    foreach(QGraphicsItem* item, scene->items()) {
+    foreach(QGraphicsItem* item, m_scene->items()) {
         QDomElement e = doc.createElement("item");
         QDomElement content = doc.createElement("content");
         QFont font;
@@ -135,8 +135,8 @@ QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonIt
 QColor TitleDocument::getBackgroundColor()
 {
     QColor color(0, 0, 0, 0);
-    if (scene) {
-        QList<QGraphicsItem *> items = scene->items();
+    if (m_scene) {
+        QList<QGraphicsItem *> items = m_scene->items();
         for (int i = 0; i < items.size(); i++) {
             if (items.at(i)->zValue() == -1100) {
                 color = ((QGraphicsRectItem *)items.at(i))->brush().color();
@@ -150,7 +150,7 @@ QColor TitleDocument::getBackgroundColor()
 
 bool TitleDocument::saveDocument(const KUrl& url, QGraphicsPolygonItem* startv, QGraphicsPolygonItem* endv)
 {
-    if (!scene)
+    if (!m_scene)
         return false;
 
     QDomDocument doc = xml(startv, endv);
@@ -174,7 +174,7 @@ int TitleDocument::loadDocument(const KUrl& url, QGraphicsPolygonItem* startv, Q
 {
     QString tmpfile;
     QDomDocument doc;
-    if (!scene)
+    if (!m_scene)
         return -1;
 
     if (KIO::NetAccess::download(url, tmpfile, 0)) {
@@ -215,7 +215,7 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* /*startv*
                         font.setPixelSize(QFontInfo(f2).pixelSize());
                     } else font.setPixelSize(txtProperties.namedItem("font-pixel-size").nodeValue().toInt());
                     QColor col(stringToColor(txtProperties.namedItem("font-color").nodeValue()));
-                    QGraphicsTextItem *txt = scene->addText(items.item(i).namedItem("content").firstChild().nodeValue(), font);
+                    QGraphicsTextItem *txt = m_scene->addText(items.item(i).namedItem("content").firstChild().nodeValue(), font);
                     txt->setDefaultTextColor(col);
                     txt->setTextInteractionFlags(Qt::NoTextInteraction);
                     gitem = txt;
@@ -224,18 +224,18 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* /*startv*
                     QString br_str = items.item(i).namedItem("content").attributes().namedItem("brushcolor").nodeValue();
                     QString pen_str = items.item(i).namedItem("content").attributes().namedItem("pencolor").nodeValue();
                     double penwidth = items.item(i).namedItem("content").attributes().namedItem("penwidth").nodeValue().toDouble();
-                    QGraphicsRectItem *rec = scene->addRect(stringToRect(rect), QPen(QBrush(stringToColor(pen_str)), penwidth), QBrush(stringToColor(br_str)));
+                    QGraphicsRectItem *rec = m_scene->addRect(stringToRect(rect), QPen(QBrush(stringToColor(pen_str)), penwidth), QBrush(stringToColor(br_str)));
                     gitem = rec;
                 } else if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsPixmapItem") {
                     QString url = items.item(i).namedItem("content").attributes().namedItem("url").nodeValue();
                     QPixmap pix(url);
-                    QGraphicsPixmapItem *rec = scene->addPixmap(pix);
+                    QGraphicsPixmapItem *rec = m_scene->addPixmap(pix);
                     rec->setData(Qt::UserRole, url);
                     gitem = rec;
                 } else if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsSvgItem") {
                     QString url = items.item(i).namedItem("content").attributes().namedItem("url").nodeValue();
                     QGraphicsSvgItem *rec = new QGraphicsSvgItem(url);
-                    scene->addItem(rec);
+                    m_scene->addItem(rec);
                     rec->setData(Qt::UserRole, url);
                     gitem = rec;
                 }
@@ -255,7 +255,7 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* /*startv*
                 kDebug() << items.item(i).attributes().namedItem("color").nodeValue();
                 QColor color = QColor(stringToColor(items.item(i).attributes().namedItem("color").nodeValue()));
                 //color.setAlpha(items.item(i).attributes().namedItem("alpha").nodeValue().toInt());
-                QList<QGraphicsItem *> items = scene->items();
+                QList<QGraphicsItem *> items = m_scene->items();
                 for (int i = 0; i < items.size(); i++) {
                     if (items.at(i)->zValue() == -1100) {
                         ((QGraphicsRectItem *)items.at(i))->setBrush(QBrush(color));

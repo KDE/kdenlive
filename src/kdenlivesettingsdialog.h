@@ -62,12 +62,12 @@ private slots:
     void slotCheckAlsaDriver();
 
 private:
-    KPageWidgetItem *page1;
-    KPageWidgetItem *page2;
-    KPageWidgetItem *page3;
-    KPageWidgetItem *page4;
-    KPageWidgetItem *page5;
-    KPageWidgetItem *page6;
+    KPageWidgetItem *m_page1;
+    KPageWidgetItem *m_page2;
+    KPageWidgetItem *m_page3;
+    KPageWidgetItem *m_page4;
+    KPageWidgetItem *m_page5;
+    KPageWidgetItem *m_page6;
     Ui::ConfigEnv_UI m_configEnv;
     Ui::ConfigMisc_UI m_configMisc;
     Ui::ConfigDisplay_UI m_configDisplay;

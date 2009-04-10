@@ -37,8 +37,8 @@ public:
     void updateProjectFormat(MltVideoProfile profile, Timecode t, const uint tracksCount);
 
 private:
-    Ui::TransitionSettings_UI ui;
-    EffectStackEdit *effectEdit;
+    Ui::TransitionSettings_UI m_ui;
+    EffectStackEdit *m_effectEdit;
     Transition* m_usedTransition;
     GenTime m_transitionDuration;
     GenTime m_transitionStart;

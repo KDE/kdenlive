@@ -49,9 +49,9 @@ protected:
 
 private:
     void setCursor(QCursor);
-    double zoom;
+    double m_zoom;
     QGraphicsItem* m_selectedItem;
-    resizeModes resizeMode;
+    resizeModes m_resizeMode;
     QPointF m_sceneClickPoint;
     TITLETOOL m_tool;
     QPoint m_clickPoint;

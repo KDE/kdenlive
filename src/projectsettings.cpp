@@ -48,7 +48,7 @@ ProjectSettings::ProjectSettings(int videotracks, int audiotracks, const QString
         }
     }
 
-    buttonOk = m_view.buttonBox->button(QDialogButtonBox::Ok);
+    m_buttonOk = m_view.buttonBox->button(QDialogButtonBox::Ok);
     //buttonOk->setEnabled(false);
     m_view.audio_thumbs->setChecked(KdenliveSettings::audiothumbnails());
     m_view.video_thumbs->setChecked(KdenliveSettings::videothumbnails());
@@ -78,8 +78,8 @@ void ProjectSettings::slotUpdateDisplay()
 
 void ProjectSettings::slotUpdateButton(const QString &path)
 {
-    if (path.isEmpty()) buttonOk->setEnabled(false);
-    else buttonOk->setEnabled(true);
+    if (path.isEmpty()) m_buttonOk->setEnabled(false);
+    else m_buttonOk->setEnabled(true);
 }
 
 QString ProjectSettings::selectedProfile() const

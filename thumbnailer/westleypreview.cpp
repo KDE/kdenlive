@@ -81,8 +81,8 @@ bool WestleyPreview::startAndWaitProcess(const QStringList &args)
 bool WestleyPreview::create(const QString &path, int width, int /*height*/, QImage &img)
 {
     QFileInfo fi(path);
-    playerBin = KStandardDirs::findExe("inigo");
-    if (playerBin.isEmpty()) {
+    m_playerBin = KStandardDirs::findExe("inigo");
+    if (m_playerBin.isEmpty()) {
         kDebug(DBG_AREA) << "westleypreview: inigo not found, exiting.\n";
         return false;
     }
@@ -147,7 +147,7 @@ QImage WestleyPreview::getFrame(const QString &path)
     const int START = 25;
     const int RANGE = 500;
     args.clear();
-    args << playerBin << "\"" + path + "\"";
+    args << m_playerBin << "\"" + path + "\"";
 
     unsigned long start = (unsigned long)(START + (m_rand->getDouble() * RANGE));
     args << QString("in=%1").arg(start) << QString("out=%1").arg(start) << "-consumer";

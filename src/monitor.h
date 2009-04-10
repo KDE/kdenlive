@@ -92,7 +92,7 @@ protected:
 //    virtual void paintEvent(QPaintEvent * event);
 
 private:
-    Ui::Monitor_UI ui;
+    Ui::Monitor_UI m_ui;
     MonitorManager *m_monitorManager;
     MonitorRefresh *m_monitorRefresh;
     QString m_name;

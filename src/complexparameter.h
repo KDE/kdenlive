@@ -33,11 +33,11 @@ public:
     ComplexParameter(QWidget *parent = 0);
     QDomElement getParamDesc();
 private:
-    Ui::KeyframeWidget_UI ui;
+    Ui::KeyframeWidget_UI m_ui;
     void setupListView();
     void updateButtonStatus();
 
-    QDomElement param;
+    QDomElement m_param;
 public slots:
     void slotSetMoveX();
     void slotSetMoveY();

@@ -38,18 +38,17 @@ public:
     bool isNewPoints();
     void replot(const QString& name = "");
 private:
-    KPlotPoint* movepoint;
-    int activeIndexPlot;
+    KPlotPoint* m_movepoint;
+    int m_activeIndexPlot;
     bool m_moveX, m_moveY, m_moveTimeline, m_newPoints;
-    QPoint oldmousepoint;
-    int maxx, maxy;
-    QStringList parameterNameList;
+    QPoint m_oldmousepoint;
+    QStringList m_parameterNameList;
     void createParametersNew();
-    QList<KPlotObject*> plotobjects;
-    QMap<int, double> stretchFactors;
-    QList<QColor> colors;
-    QDomElement itemParameter;
-    int max_y, min_y;
+    QList<KPlotObject*> m_plotobjects;
+    QMap<int, double> m_stretchFactors;
+    QList<QColor> m_colors;
+    QDomElement m_itemParameter;
+    int m_max_y, m_min_y;
     QString m_paramName;
 protected:
     void mouseMoveEvent(QMouseEvent * event);

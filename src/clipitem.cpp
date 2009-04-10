@@ -47,15 +47,15 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, b
         m_startPix(QPixmap()),
         m_endPix(QPixmap()),
         m_hasThumbs(false),
-        startThumbTimer(NULL),
-        endThumbTimer(NULL),
+        m_startThumbTimer(NULL),
+        m_endThumbTimer(NULL),
         m_selectedEffect(-1),
         m_timeLine(0),
         m_startThumbRequested(false),
         m_endThumbRequested(false),
         m_hover(false),
         m_speed(speed),
-        framePixelWidth(0)
+        m_framePixelWidth(0)
 {
     setZValue(1);
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (double)(KdenliveSettings::trackheight() - 2));
@@ -74,7 +74,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, b
     m_cropStart = info.cropStart;
     m_maxDuration = clip->maxDuration();
     setAcceptDrops(true);
-    audioThumbReady = clip->audioThumbCreated();
+    m_audioThumbReady = clip->audioThumbCreated();
 
     /*
       m_cropStart = xml.attribute("in", 0).toInt();
@@ -92,12 +92,12 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, b
     if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW || m_clipType == PLAYLIST) {
         setBrush(QColor(141, 166, 215));
         m_hasThumbs = true;
-        startThumbTimer = new QTimer(this);
-        startThumbTimer->setSingleShot(true);
-        connect(startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
-        endThumbTimer = new QTimer(this);
-        endThumbTimer->setSingleShot(true);
-        connect(endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
+        m_startThumbTimer = new QTimer(this);
+        m_startThumbTimer->setSingleShot(true);
+        connect(m_startThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetStartThumb()));
+        m_endThumbTimer = new QTimer(this);
+        m_endThumbTimer->setSingleShot(true);
+        connect(m_endThumbTimer, SIGNAL(timeout()), this, SLOT(slotGetEndThumb()));
 
         connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(extractImage(int, int)));
         //connect(this, SIGNAL(getThumb(int, int)), clip->thumbProducer(), SLOT(getVideoThumbs(int, int)));
@@ -127,8 +127,8 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, b
 
 ClipItem::~ClipItem()
 {
-    delete startThumbTimer;
-    delete endThumbTimer;
+    delete m_startThumbTimer;
+    delete m_endThumbTimer;
     delete m_timeLine;
 }
 
@@ -396,7 +396,7 @@ void ClipItem::resetThumbs()
     m_startPix = QPixmap();
     m_endPix = QPixmap();
     slotFetchThumbs();
-    audioThumbCachePic.clear();
+    m_audioThumbCachePic.clear();
 }
 
 
@@ -518,7 +518,7 @@ QPixmap ClipItem::endThumb() const
 
 void ClipItem::slotGotAudioData()
 {
-    audioThumbReady = true;
+    m_audioThumbReady = true;
     if (m_clipType == AV && !isAudioOnly()) {
         QRectF r = boundingRect();
         r.setTop(r.top() + r.height() / 2 - 1);
@@ -644,7 +644,7 @@ void ClipItem::paint(QPainter *painter,
     }
 
     // draw audio thumbnails
-    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && !isVideoOnly() && ((m_clipType == AV && (exposed.bottom() > (itemHeight / 2) || isAudioOnly())) || m_clipType == AUDIO) && audioThumbReady) {
+    if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && !isVideoOnly() && ((m_clipType == AV && (exposed.bottom() > (itemHeight / 2) || isAudioOnly())) || m_clipType == AUDIO) && m_audioThumbReady) {
 
         double startpixel = exposed.left();
         if (startpixel < 0)
@@ -664,8 +664,8 @@ void ClipItem::paint(QPainter *painter,
         } else mappedRect = mapped;
 
         int channels = baseClip()->getProperty("channels").toInt();
-        if (scale != framePixelWidth)
-            audioThumbCachePic.clear();
+        if (scale != m_framePixelWidth)
+            m_audioThumbCachePic.clear();
         double cropLeft = m_cropStart.frames(m_fps);
         const int clipStart = mappedRect.x();
         const int mappedStartPixel =  painter->matrix().map(QPointF(startpixel + cropLeft, 0)).x() - clipStart;
@@ -677,8 +677,8 @@ void ClipItem::paint(QPainter *painter,
         }
 
         for (int startCache = mappedStartPixel - (mappedStartPixel) % 100; startCache < mappedEndPixel; startCache += 100) {
-            if (audioThumbCachePic.contains(startCache) && !audioThumbCachePic[startCache].isNull())
-                painter->drawPixmap(clipStart + startCache - cropLeft, mappedRect.y(),  audioThumbCachePic[startCache]);
+            if (m_audioThumbCachePic.contains(startCache) && !m_audioThumbCachePic[startCache].isNull())
+                painter->drawPixmap(clipStart + startCache - cropLeft, mappedRect.y(),  m_audioThumbCachePic[startCache]);
         }
     }
 
@@ -916,16 +916,16 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
     for (int startCache = startpixel - startpixel % 100;startCache < endpixel;startCache += 100) {
         //kDebug() << "creating " << startCache;
         //if (framePixelWidth!=pixelForOneFrame  ||
-        if (framePixelWidth == pixelForOneFrame && audioThumbCachePic.contains(startCache))
+        if (m_framePixelWidth == pixelForOneFrame && m_audioThumbCachePic.contains(startCache))
             continue;
-        if (audioThumbCachePic[startCache].isNull() || framePixelWidth != pixelForOneFrame) {
-            audioThumbCachePic[startCache] = QPixmap(100, (int)(re.height()));
-            audioThumbCachePic[startCache].fill(QColor(180, 180, 200, 140));
+        if (m_audioThumbCachePic[startCache].isNull() || m_framePixelWidth != pixelForOneFrame) {
+            m_audioThumbCachePic[startCache] = QPixmap(100, (int)(re.height()));
+            m_audioThumbCachePic[startCache].fill(QColor(180, 180, 200, 140));
         }
         bool fullAreaDraw = pixelForOneFrame < 10;
         QMap<int, QPainterPath > positiveChannelPaths;
         QMap<int, QPainterPath > negativeChannelPaths;
-        QPainter pixpainter(&audioThumbCachePic[startCache]);
+        QPainter pixpainter(&m_audioThumbCachePic[startCache]);
         QPen audiopen;
         audiopen.setWidth(0);
         pixpainter.setPen(audiopen);
@@ -937,7 +937,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
             return;
         }
 
-        int channelHeight = audioThumbCachePic[startCache].height() / channels;
+        int channelHeight = m_audioThumbCachePic[startCache].height() / channels;
 
         for (int i = 0;i < channels;i++) {
 
@@ -950,7 +950,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
             int sample = (int)((frame - (int)(frame)) * 20);   // AUDIO_FRAME_SIZE
             if (frame < 0 || sample < 0 || sample > 19)
                 continue;
-            QMap<int, QByteArray> frame_channel_data = baseClip()->audioFrameChache[(int)frame];
+            QMap<int, QByteArray> frame_channel_data = baseClip()->m_audioFrameCache[(int)frame];
 
             for (int channel = 0;channel < channels && frame_channel_data[channel].size() > 0;channel++) {
 
@@ -985,7 +985,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
         }
     }
     //audioThumbWasDrawn=true;
-    framePixelWidth = pixelForOneFrame;
+    m_framePixelWidth = pixelForOneFrame;
 
     //}
 }
@@ -1080,7 +1080,7 @@ void ClipItem::resizeStart(int posx, double /*speed*/)
         checkEffectsKeyframesPos(previous, cropStart().frames(m_fps), true);
         if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
             /*connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));*/
-            startThumbTimer->start(150);
+            m_startThumbTimer->start(150);
         }
     }
 }
@@ -1097,7 +1097,7 @@ void ClipItem::resizeEnd(int posx, double /*speed*/, bool updateKeyFrames)
         if (updateKeyFrames) checkEffectsKeyframesPos(previous, (cropStart() + duration()).frames(m_fps), false);
         if (m_hasThumbs && KdenliveSettings::videothumbnails()) {
             /*connect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));*/
-            endThumbTimer->start(150);
+            m_endThumbTimer->start(150);
         }
     }
 }
@@ -1513,7 +1513,7 @@ void ClipItem::setAudioOnly(bool force)
     m_audioOnly = force;
     if (m_audioOnly) setBrush(QColor(141, 215, 166));
     else setBrush(QColor(141, 166, 215));
-    audioThumbCachePic.clear();
+    m_audioThumbCachePic.clear();
 }
 
 bool ClipItem::isAudioOnly() const

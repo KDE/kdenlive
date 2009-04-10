@@ -36,11 +36,11 @@
 GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent) :
         QGraphicsScene(parent),
         m_selectedItem(NULL),
-        resizeMode(NoResize),
+        m_resizeMode(NoResize),
         m_tool(TITLE_RECTANGLE)
 {
     //grabMouse();
-    zoom = 1.0;
+    m_zoom = 1.0;
     setBackgroundBrush(QBrush(Qt::transparent));
 }
 
@@ -122,7 +122,7 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e)
 {
     QPointF p = e->scenePos();
     p += QPoint(-2, -2);
-    resizeMode = NoResize;
+    m_resizeMode = NoResize;
     m_selectedItem = NULL;
     QGraphicsItem* g = items(QRectF(p , QSizeF(4, 4)).toRect()).at(0);
     if (g) {
@@ -147,7 +147,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
     m_clickPoint = e->screenPos();
     QPointF p = e->scenePos();
     p += QPoint(-2, -2);
-    resizeMode = NoResize;
+    m_resizeMode = NoResize;
     const QList <QGraphicsItem *> list = items(QRectF(p , QSizeF(4, 4)).toRect());
     QGraphicsItem *item = NULL;
     bool hasSelected = false;
@@ -198,22 +198,22 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
                 } else r = m_selectedItem->boundingRect();
 
                 r.translate(item->scenePos());
-                if ((r.toRect().topLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
-                    resizeMode = TopLeft;
-                } else if ((r.toRect().bottomLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
-                    resizeMode = BottomLeft;
-                } else if ((r.toRect().topRight() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
-                    resizeMode = TopRight;
-                } else if ((r.toRect().bottomRight() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
-                    resizeMode = BottomRight;
-                } else if (qAbs(r.toRect().left() - e->scenePos().toPoint().x()) < 3 / zoom) {
-                    resizeMode = Left;
-                } else if (qAbs(r.toRect().right() - e->scenePos().toPoint().x()) < 3 / zoom) {
-                    resizeMode = Right;
-                } else if (qAbs(r.toRect().top() - e->scenePos().toPoint().y()) < 3 / zoom) {
-                    resizeMode = Up;
-                } else if (qAbs(r.toRect().bottom() - e->scenePos().toPoint().y()) < 3 / zoom) {
-                    resizeMode = Down;
+                if ((r.toRect().topLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / m_zoom) {
+                    m_resizeMode = TopLeft;
+                } else if ((r.toRect().bottomLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / m_zoom) {
+                    m_resizeMode = BottomLeft;
+                } else if ((r.toRect().topRight() - e->scenePos().toPoint()).manhattanLength() < 6 / m_zoom) {
+                    m_resizeMode = TopRight;
+                } else if ((r.toRect().bottomRight() - e->scenePos().toPoint()).manhattanLength() < 6 / m_zoom) {
+                    m_resizeMode = BottomRight;
+                } else if (qAbs(r.toRect().left() - e->scenePos().toPoint().x()) < 3 / m_zoom) {
+                    m_resizeMode = Left;
+                } else if (qAbs(r.toRect().right() - e->scenePos().toPoint().x()) < 3 / m_zoom) {
+                    m_resizeMode = Right;
+                } else if (qAbs(r.toRect().top() - e->scenePos().toPoint().y()) < 3 / m_zoom) {
+                    m_resizeMode = Up;
+                } else if (qAbs(r.toRect().bottom() - e->scenePos().toPoint().y()) < 3 / m_zoom) {
+                    m_resizeMode = Down;
                 } else setCursor(Qt::ClosedHandCursor);
             }
         }
@@ -230,7 +230,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
         QGraphicsScene::mousePressEvent(e);
     }
 
-    kDebug() << "//////  MOUSE CLICK, RESIZE MODE: " << resizeMode;
+    kDebug() << "//////  MOUSE CLICK, RESIZE MODE: " << m_resizeMode;
 
 }
 
@@ -264,7 +264,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 
             QPointF newpoint = e->scenePos();
             //newpoint -= m_selectedItem->scenePos();
-            switch (resizeMode) {
+            switch (m_resizeMode) {
             case TopLeft:
                 newrect.setBottomRight(newrect.bottomRight() + m_selectedItem->pos() - newpoint);
                 m_selectedItem->setPos(newpoint);
@@ -300,7 +300,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
                 m_selectedItem->moveBy(diff.x(), diff.y());
                 break;
             }
-            if (m_selectedItem->type() == 3 && resizeMode != NoResize) {
+            if (m_selectedItem->type() == 3 && m_resizeMode != NoResize) {
                 QGraphicsRectItem *gi = (QGraphicsRectItem*)m_selectedItem;
                 gi->setRect(newrect);
             }
@@ -330,7 +330,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
     } else if (m_tool == TITLE_SELECT) {
         QPointF p = e->scenePos();
         p += QPoint(-2, -2);
-        resizeMode = NoResize;
+        m_resizeMode = NoResize;
         bool itemFound = false;
         foreach(const QGraphicsItem* g, items(QRectF(p , QSizeF(4, 4)).toRect())) {
             if ((g->type() == 13 || g->type() == 7) && g->zValue() > -1000) {
@@ -341,21 +341,21 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
                 QRectF r = ((const QGraphicsRectItem*)g)->rect();
                 r.translate(g->scenePos());
                 itemFound = true;
-                if ((r.toRect().topLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
+                if ((r.toRect().topLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / m_zoom) {
                     setCursor(QCursor(Qt::SizeFDiagCursor));
-                } else if ((r.toRect().bottomLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
+                } else if ((r.toRect().bottomLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / m_zoom) {
                     setCursor(QCursor(Qt::SizeBDiagCursor));
-                } else if ((r.toRect().topRight() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
+                } else if ((r.toRect().topRight() - e->scenePos().toPoint()).manhattanLength() < 6 / m_zoom) {
                     setCursor(QCursor(Qt::SizeBDiagCursor));
-                } else if ((r.toRect().bottomRight() - e->scenePos().toPoint()).manhattanLength() < 6 / zoom) {
+                } else if ((r.toRect().bottomRight() - e->scenePos().toPoint()).manhattanLength() < 6 / m_zoom) {
                     setCursor(QCursor(Qt::SizeFDiagCursor));
-                } else if (qAbs(r.toRect().left() - e->scenePos().toPoint().x()) < 3 / zoom) {
+                } else if (qAbs(r.toRect().left() - e->scenePos().toPoint().x()) < 3 / m_zoom) {
                     setCursor(Qt::SizeHorCursor);
-                } else if (qAbs(r.toRect().right() - e->scenePos().toPoint().x()) < 3 / zoom) {
+                } else if (qAbs(r.toRect().right() - e->scenePos().toPoint().x()) < 3 / m_zoom) {
                     setCursor(Qt::SizeHorCursor);
-                } else if (qAbs(r.toRect().top() - e->scenePos().toPoint().y()) < 3 / zoom) {
+                } else if (qAbs(r.toRect().top() - e->scenePos().toPoint().y()) < 3 / m_zoom) {
                     setCursor(Qt::SizeVerCursor);
-                } else if (qAbs(r.toRect().bottom() - e->scenePos().toPoint().y()) < 3 / zoom) {
+                } else if (qAbs(r.toRect().bottom() - e->scenePos().toPoint().y()) < 3 / m_zoom) {
                     setCursor(Qt::SizeVerCursor);
                 } else setCursor(Qt::OpenHandCursor);
                 break;
@@ -370,7 +370,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             emit newRect((QGraphicsRectItem *) m_selectedItem);
             m_selectedItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
             m_selectedItem->setPos(m_sceneClickPoint);
-            resizeMode = BottomRight;
+            m_resizeMode = BottomRight;
             QGraphicsScene::mouseMoveEvent(e);
         }
     }
@@ -388,12 +388,12 @@ void GraphicsSceneRectMove::wheelEvent(QGraphicsSceneWheelEvent * wheelEvent)
 
 void GraphicsSceneRectMove::setScale(double s)
 {
-    if (zoom < 1.0 / 7.0 && s < 1.0) return;
-    else if (zoom > 10.0 / 7.9 && s > 1.0) return;
+    if (m_zoom < 1.0 / 7.0 && s < 1.0) return;
+    else if (m_zoom > 10.0 / 7.9 && s > 1.0) return;
     QList<QGraphicsView*> viewlist = views();
     if (viewlist.size() > 0) {
         viewlist[0]->scale(s, s);
-        zoom = zoom * s;
+        m_zoom = m_zoom * s;
     }
     //kDebug()<<"//////////  ZOOM: "<<zoom;
 }
@@ -404,7 +404,7 @@ void GraphicsSceneRectMove::setZoom(double s)
     if (viewlist.size() > 0) {
         viewlist[0]->resetTransform();
         viewlist[0]->scale(s, s);
-        zoom = s;
+        m_zoom = s;
     }
 
     //kDebug()<<"//////////  ZOOM: "<<zoom;
