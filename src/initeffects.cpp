@@ -547,6 +547,8 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
             ret.appendChild(eff);
         }
     }
+    delete metadata;
+    metadata = 0;
     /* QString outstr;
      QTextStream str(&outstr);
      ret.save(str, 2);
@@ -622,6 +624,8 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 ktrans.appendChild(tname);
             }
 
+            delete metadata;
+            metadata = 0;
             //kDebug() << ret.toString();
         } else {
             // Check for Kdenlive installed luma files, add empty string at start for no luma
