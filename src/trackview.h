@@ -66,7 +66,7 @@ public slots:
     void slotSetZone(QPoint p);
 
 private:
-    Ui::TimeLine_UI *view;
+    Ui::TimeLine_UI view;
     CustomRuler *m_ruler;
     CustomTrackView *m_trackview;
     QList <QString> m_invalidProducers;
