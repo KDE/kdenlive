@@ -283,8 +283,9 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
     int pos = event->x();
     int mappedXPos = (int)(mapToScene(event->pos()).x() + 0.5);
     emit mousePosition(mappedXPos);
+
     if (event->buttons() & Qt::MidButton) return;
-    if ((event->modifiers() == Qt::ControlModifier && m_tool != SPACERTOOL) || event->modifiers() == Qt::ShiftModifier) {
+    if (m_operationMode == RUBBERSELECTION || (event->modifiers() == Qt::ControlModifier && m_tool != SPACERTOOL)) {
         QGraphicsView::mouseMoveEvent(event);
         m_moveOpMode = NONE;
         return;
@@ -2846,6 +2847,8 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
     }
     ClipItem *item = new ClipItem(baseclip, info, m_document->fps(), xml.attribute("speed", "1").toDouble());
     item->setEffectList(effects);
+    if (xml.hasAttribute("audio_only")) item->setAudioOnly(true);
+    else if (xml.hasAttribute("video_only")) item->setVideoOnly(true);
     scene()->addItem(item);
 
     int tracknumber = m_document->tracksCount() - info.track - 1;

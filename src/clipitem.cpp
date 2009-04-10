@@ -139,6 +139,8 @@ ClipItem *ClipItem::clone(ItemInfo info) const
     if (info.cropStart + (info.endPos - info.startPos) == m_cropStart + m_cropDuration) duplicate->slotSetEndThumb(m_endPix);
     kDebug() << "// CLoning clip: " << (info.cropStart + (info.endPos - info.startPos)).frames(m_fps) << ", CURRENT end: " << (cropStart() + duration()).frames(m_fps);
     duplicate->setEffectList(m_effectList.clone());
+    duplicate->setVideoOnly(m_videoOnly);
+    duplicate->setAudioOnly(m_audioOnly);
     //duplicate->setSpeed(m_speed);
     return duplicate;
 }
@@ -540,6 +542,8 @@ QDomElement ClipItem::xml() const
 {
     QDomElement xml = m_clip->toXML();
     if (m_speed != 1.0) xml.setAttribute("speed", m_speed);
+    if (m_audioOnly) xml.setAttribute("audio_only", 1);
+    else if (m_videoOnly) xml.setAttribute("video_only", 1);
     return xml;
 }
 
@@ -1526,31 +1530,5 @@ bool ClipItem::isVideoOnly() const
     return m_videoOnly;
 }
 
-
-// virtual
-/*
-void CustomTrackView::mousePressEvent ( QMouseEvent * event )
-{
-  int pos = event->x();
-  if (event->modifiers() == Qt::ControlModifier)
-    setDragMode(QGraphicsView::ScrollHandDrag);
-  else if (event->modifiers() == Qt::ShiftModifier)
-    setDragMode(QGraphicsView::RubberBandDrag);
-  else {
-    QGraphicsItem * item = itemAt(event->pos());
-    if (item) {
-    }
-    else emit cursorMoved((int) mapToScene(event->x(), 0).x());
-  }
-  kDebug()<<pos;
-  QGraphicsView::mousePressEvent(event);
-}
-
-void CustomTrackView::mouseReleaseEvent ( QMouseEvent * event )
-{
-  QGraphicsView::mouseReleaseEvent(event);
-  setDragMode(QGraphicsView::NoDrag);
-}
-*/
 
 #include "clipitem.moc"
