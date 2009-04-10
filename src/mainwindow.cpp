@@ -136,6 +136,7 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     connect(&m_findTimer, SIGNAL(timeout()), this, SLOT(findTimeout()));
     m_findTimer.setSingleShot(true);
 
+    // FIXME: the next call returns a newly allocated object, which leaks
     initEffects::parseEffectFiles();
     //initEffects::parseCustomEffectsFile();
 
