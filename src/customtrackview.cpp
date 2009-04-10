@@ -135,7 +135,8 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     KIcon spacerIcon("kdenlive-spacer-tool");
     m_spacerCursor = QCursor(spacerIcon.pixmap(22, 22));
     verticalScrollBar()->setTracking(true);
-    connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(slotRefreshGuides()));
+    // Line below was supposed to scroll guides label with scrollbar, not implemented yet
+    //connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(slotRefreshGuides()));
     connect(&m_scrollTimer, SIGNAL(timeout()), this, SLOT(slotCheckMouseScrolling()));
     m_scrollTimer.setInterval(100);
     m_scrollTimer.setSingleShot(true);
