@@ -1322,13 +1322,13 @@ void Render::mltCheckLength()
     Mlt::Tractor tractor(service);
 
     int trackNb = tractor.count();
-    double duration = 0;
-    double trackDuration;
+    int duration = 0;
+    int trackDuration;
     if (trackNb == 1) {
         Mlt::Producer trackProducer(tractor.track(0));
         duration = trackProducer.get_playtime() - 1;
         m_mltProducer->set("out", duration);
-        emit durationChanged((int) duration);
+        emit durationChanged(duration);
         return;
     }
     while (trackNb > 1) {
@@ -1341,12 +1341,12 @@ void Render::mltCheckLength()
     }
 
     Mlt::Producer blackTrackProducer(tractor.track(0));
-    double blackDuration = blackTrackProducer.get_playtime() - 1;
+    int blackDuration = blackTrackProducer.get_playtime() - 1;
 
     if (blackDuration != duration) {
         Mlt::Playlist blackTrackPlaylist((mlt_playlist) blackTrackProducer.get_service());
         blackTrackPlaylist.clear();
-        int dur = (int)duration;
+        int dur = duration;
         while (dur > 14000) {
             blackTrackPlaylist.append(*m_blackClip, 0, 13999);
             dur = dur - 14000;
@@ -1355,7 +1355,7 @@ void Render::mltCheckLength()
             blackTrackPlaylist.append(*m_blackClip, 0, dur);
         }
         m_mltProducer->set("out", duration);
-        emit durationChanged((int)duration);
+        emit durationChanged(duration);
     }
 }
 
