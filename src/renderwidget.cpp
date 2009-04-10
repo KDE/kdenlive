@@ -334,6 +334,7 @@ void RenderWidget::slotSaveProfile()
         if (file.error() != QFile::NoError) {
             KMessageBox::error(this, i18n("Cannot write to file %1", exportFile));
             file.close();
+            delete d;
             return;
         }
         file.close();
