@@ -30,13 +30,16 @@
 #include <QDomDocument>
 #include <QInputDialog>
 
-QStringList SamplePlugin::generators() const
+QStringList SamplePlugin::generators(const QStringList producers) const
 {
-    return QStringList() << i18n("Countdown") << i18n("Noise");
+    QStringList result;
+    if (producers.contains("pango")) result << i18n("Countdown");
+    if (producers.contains("noise")) result << i18n("Noise");
+    return result;
 }
 
 
-KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFolder, const QStringList &/*lumaNames*/, const QStringList &/*lumaFiles*/, const double fps, const int /*width*/, const int /*height*/)
+KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFolder, const QStringList &/*lumaNames*/, const QStringList &/*lumaFiles*/, const double fps, const int /*width*/, const int height)
 {
     QString prePath;
     if (generator == i18n("Noise")) {
@@ -49,10 +52,17 @@ KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFo
         counter = QString::number(ct).rightJustified(5, '0', false);
     }
     QDialog d;
-    if (generator == i18n("Noise")) d.setWindowTitle(tr("Create Noise Clip"));
-    else d.setWindowTitle(tr("Create Countdown Clip"));
     Ui::CountDown_UI view;
     view.setupUi(&d);
+    if (generator == i18n("Noise")) {
+        d.setWindowTitle(tr("Create Noise Clip"));
+        view.font_label->setHidden(true);
+        view.font->setHidden(true);
+    } else {
+        d.setWindowTitle(tr("Create Countdown Clip"));
+        view.font->setValue(height);
+    }
+
     QString clipFile = prePath + counter + ".westley";
     view.path->setPath(clipFile);
     if (d.exec() == QDialog::Accepted) {
@@ -72,7 +82,11 @@ KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFo
                 prod.setAttribute("mlt_service", "pango");
                 prod.setAttribute("in", "0");
                 prod.setAttribute("out", QString::number((int) fps));
-                prod.setAttribute("markup", QString::number(view.duration->value() - i));
+                prod.setAttribute("text", QString::number(view.duration->value() - i));
+                //FIXME: the font and pad values are approximate, the pango producer seems unable
+                // to produce a predictable frame size.
+                prod.setAttribute("font", QString::number(view.font->value()) + "px");
+                //prod.setAttribute("pad", 50);
                 playlist.appendChild(prod);
             }
         }
