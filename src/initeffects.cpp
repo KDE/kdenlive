@@ -674,7 +674,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 paramList.append(quickParameterFill(ret, "Luma Image File", "luma", "list", "", "", "", imagefiles.join(","), imagenamelist.join(",")));
                 paramList.append(quickParameterFill(ret, "Luma Softness", "softness", "double", "0", "0", "100", "", "", "100"));
                 paramList.append(quickParameterFill(ret, "Luma Invert", "luma_invert", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, "Force Progressive Rendering", "progressive", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, "Force Progressive Rendering", "progressive", "bool", "1", "0", "1"));
                 paramList.append(quickParameterFill(ret, "Force Deinterlace Overlay", "deinterlace", "bool", "0", "0", "1"));
                 tname.appendChild(ret.createTextNode("Composite"));
 
