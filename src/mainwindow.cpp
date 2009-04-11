@@ -427,7 +427,7 @@ void MainWindow::populateMenus(QObject *plugin)
     QMenu *addMenu = static_cast<QMenu*>(factory()->container("generators", this));
     ClipGenerator *iGenerator = qobject_cast<ClipGenerator *>(plugin);
     if (iGenerator)
-        addToMenu(plugin, iGenerator->generators(), addMenu, SLOT(generateClip()),
+        addToMenu(plugin, iGenerator->generators(KdenliveSettings::producerslist()), addMenu, SLOT(generateClip()),
                   NULL);
 }
 
@@ -1188,7 +1188,7 @@ void MainWindow::readOptions()
 
 void MainWindow::slotRunWizard()
 {
-    Wizard *w = new Wizard(this);
+    Wizard *w = new Wizard(false, this);
     if (w->exec() == QDialog::Accepted && w->isOk()) {
         w->adjustSettings();
     }

@@ -446,5 +446,10 @@
       <label>Available avformat formats.</label>
       <default></default>
     </entry>
+
+    <entry name="producerslist" type="StringList">
+      <label>List of available MLT producers.</label>
+      <default></default>
+    </entry>
   </group>
 </kcfg>

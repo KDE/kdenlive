@@ -163,6 +163,7 @@ Mlt::Repository *initEffects::parseEffectFiles()
     for (int i = 0 ; i < producers->count() ; i++) {
         producersList << producers->get_name(i);
     }
+    KdenliveSettings::setProducerslist(producersList);
     delete filters;
     delete producers;
 
