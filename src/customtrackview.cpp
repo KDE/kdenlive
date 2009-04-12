@@ -2637,6 +2637,7 @@ void CustomTrackView::deleteClip(ItemInfo info)
     scene()->removeItem(item);
     if (m_dragItem == item) m_dragItem = NULL;
     delete item;
+    m_document->setModified(true);
     m_document->renderer()->doRefresh();
 }
 

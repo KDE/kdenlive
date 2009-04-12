@@ -144,12 +144,10 @@ void ClipManager::addClip(DocClipBase *clip)
 
 void ClipManager::slotDeleteClip(const QString &clipId)
 {
-    for (int i = 0; i < m_clipList.count(); i++) {
-        if (m_clipList.at(i)->getId() == clipId) {
-            AddClipCommand *command = new AddClipCommand(m_doc, m_clipList.at(i)->toXML(), clipId, false);
-            m_doc->commandStack()->push(command);
-            break;
-        }
+    DocClipBase *clip = getClipById(clipId);
+    if (clip) {
+        AddClipCommand *command = new AddClipCommand(m_doc, clip->toXML(), clipId, false);
+        m_doc->commandStack()->push(command);
     }
 }
 
