@@ -2683,6 +2683,7 @@ void CustomTrackView::deleteSelectedClips()
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             if (item->parentItem()) resetGroup = true;
             new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), true, true, deleteSelected);
+            emit clipItemSelected(NULL);
         } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
             Transition *item = static_cast <Transition *>(itemList.at(i));
             if (item->parentItem()) resetGroup = true;
@@ -2691,8 +2692,10 @@ void CustomTrackView::deleteSelectedClips()
             info.endPos = item->endPos();
             info.track = item->track();
             new AddTransitionCommand(this, info, item->transitionEndTrack(), item->toXML(), true, true, deleteSelected);
+            emit transitionItemSelected(NULL);
         }
     }
+
     m_commandStack->push(deleteSelected);
 }
 
