@@ -389,6 +389,8 @@ bool MainWindow::queryClose()
             // save document here. If saving fails, return false;
             return saveFile();
         case KMessageBox::No :
+	    // User does not want to save the changes, clear recovery files
+	    m_activeDocument->m_autosave->resize(0);
             return true;
         default: // cancel
             return false;
