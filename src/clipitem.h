@@ -81,7 +81,7 @@ public:
     /** regenerate audio and video thumbnails */
     void resetThumbs();
     /** update clip properties from base clip */
-    void refreshClip();
+    void refreshClip(bool checkDuration);
     /** Returns a list of times for this clip's markers */
     QList <GenTime> snapMarkers() const;
     QList <CommentedTime> commentedSnapMarkers() const;

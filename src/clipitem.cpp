@@ -402,9 +402,24 @@ void ClipItem::resetThumbs()
 }
 
 
-void ClipItem::refreshClip()
+void ClipItem::refreshClip(bool checkDuration)
 {
-    m_maxDuration = m_clip->maxDuration();
+    if (checkDuration && (m_maxDuration != m_clip->maxDuration())) {
+        m_maxDuration = m_clip->maxDuration();
+        if (m_clipType != IMAGE && m_clipType != TEXT && m_clipType != COLOR) {
+            if (m_cropStart + m_cropDuration > m_maxDuration) {
+                // Clip duration changed, make sure to stay in correct range
+                if (m_cropStart > m_maxDuration) {
+                    m_cropStart = GenTime();
+                    m_cropDuration = qMin(m_cropDuration, m_maxDuration);
+                    updateRectGeometry();
+                } else {
+                    m_cropDuration = m_maxDuration;
+                    updateRectGeometry();
+                }
+            }
+        }
+    }
     if (m_clipType == COLOR) {
         QString colour = m_clip->getProperty("colour");
         colour = colour.replace(0, 2, "#");

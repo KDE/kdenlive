@@ -213,7 +213,7 @@ private slots:
     void updateConfiguration();
     void slotConnectMonitors();
     void slotRaiseMonitor(bool clipMonitor);
-    void slotSetClipDuration(const QString &id, int duration);
+    void slotUpdateClip(const QString &id);
     void slotUpdateMousePosition(int pos);
     void slotAddEffect(QDomElement effect, GenTime pos = GenTime(), int track = -1);
     void slotEditProfiles();

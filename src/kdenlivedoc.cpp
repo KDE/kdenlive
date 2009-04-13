@@ -250,7 +250,9 @@ KdenliveDoc::~KdenliveDoc()
 void KdenliveDoc::setSceneList()
 {
     m_render->setSceneList(m_document.toString(), m_startPos);
-    //checkProjectClips();
+    // m_document xml is now useless, clear it
+    m_document.clear();
+    checkProjectClips();
 }
 
 QDomDocument KdenliveDoc::createEmptyDocument(const int videotracks, const int audiotracks)
@@ -1195,6 +1197,7 @@ void KdenliveDoc::setRenderer(Render *render) {
 
 void KdenliveDoc::checkProjectClips()
 {
+    kDebug() << "+++++++++++++ + + + + CHK PCLIPS";
     if (m_render == NULL) return;
     m_clipManager->resetProducersList(m_render->producersList());
     return;
@@ -1271,34 +1274,6 @@ QString KdenliveDoc::producerName(const QString &id)
         if (e.attribute("id") != "black" && e.attribute("id") == id) {
             result = e.attribute("name");
             if (result.isEmpty()) result = KUrl(e.attribute("resource")).fileName();
-            break;
-        }
-    }
-    return result;
-}
-
-void KdenliveDoc::setProducerDuration(const QString &id, int duration)
-{
-    QDomNodeList prods = producersList();
-    int ct = prods.count();
-    for (int i = 0; i <  ct ; i++) {
-        QDomElement e = prods.item(i).toElement();
-        if (e.attribute("id") != "black" && e.attribute("id") == id) {
-            e.setAttribute("duration", QString::number(duration));
-            break;
-        }
-    }
-}
-
-int KdenliveDoc::getProducerDuration(const QString &id)
-{
-    int result = 0;
-    QDomNodeList prods = producersList();
-    int ct = prods.count();
-    for (int i = 0; i <  ct ; i++) {
-        QDomElement e = prods.item(i).toElement();
-        if (e.attribute("id") != "black" && e.attribute("id") == id) {
-            result = e.attribute("duration").toInt();
             break;
         }
     }

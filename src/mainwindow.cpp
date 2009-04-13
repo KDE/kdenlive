@@ -389,8 +389,8 @@ bool MainWindow::queryClose()
             // save document here. If saving fails, return false;
             return saveFile();
         case KMessageBox::No :
-	    // User does not want to save the changes, clear recovery files
-	    m_activeDocument->m_autosave->resize(0);
+            // User does not want to save the changes, clear recovery files
+            m_activeDocument->m_autosave->resize(0);
             return true;
         default: // cancel
             return false;
@@ -568,8 +568,7 @@ void MainWindow::slotAddEffect(QDomElement effect, GenTime pos, int track)
         kDebug() << "--- ERROR, TRYING TO APPEND NULL EFFECT";
         return;
     }
-    TrackView *currentTimeLine = (TrackView *) m_timelineArea->currentWidget();
-    currentTimeLine->projectView()->slotAddEffect(effect.cloneNode().toElement(), pos, track);
+    m_activeTimeline->projectView()->slotAddEffect(effect.cloneNode().toElement(), pos, track);
 }
 
 void MainWindow::slotRaiseMonitor(bool clipMonitor)
@@ -578,17 +577,17 @@ void MainWindow::slotRaiseMonitor(bool clipMonitor)
     else m_projectMonitorDock->raise();
 }
 
-void MainWindow::slotSetClipDuration(const QString &id, int duration)
+void MainWindow::slotUpdateClip(const QString &id)
 {
     if (!m_activeDocument) return;
-    m_activeDocument->setProducerDuration(id, duration);
+    m_activeTimeline->projectView()->slotUpdateClip(id);
 }
 
 void MainWindow::slotConnectMonitors()
 {
 
     m_projectList->setRenderer(m_projectMonitor->render);
-    connect(m_projectList, SIGNAL(receivedClipDuration(const QString &, int)), this, SLOT(slotSetClipDuration(const QString &, int)));
+    connect(m_projectList, SIGNAL(receivedClipDuration(const QString &)), this, SLOT(slotUpdateClip(const QString &)));
     connect(m_projectList, SIGNAL(showClipProperties(DocClipBase *)), this, SLOT(slotShowClipProperties(DocClipBase *)));
     connect(m_projectList, SIGNAL(getFileProperties(const QDomElement &, const QString &, bool)), m_projectMonitor->render, SLOT(getFileProperties(const QDomElement &, const QString &, bool)));
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(const QString &, const QPixmap &)), m_projectList, SLOT(slotReplyGetImage(const QString &, const QPixmap &)));
@@ -1563,10 +1562,10 @@ void MainWindow::slotDoRender(const QString &dest, const QString &render, const 
     if (dest.isEmpty()) return;
     int in = 0;
     int out = 0;
-    TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
-    if (currentTab && zoneOnly) {
-        in = currentTab->inPoint();
-        out = currentTab->outPoint();
+
+    if (m_activeTimeline && zoneOnly) {
+        in = m_activeTimeline->inPoint();
+        out = m_activeTimeline->outPoint();
     }
     KTemporaryFile temp;
     temp.setAutoRemove(false);

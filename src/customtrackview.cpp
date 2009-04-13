@@ -2894,7 +2894,7 @@ void CustomTrackView::slotUpdateClip(const QString &clipId)
         if (list.at(i)->type() == AVWIDGET) {
             clip = static_cast <ClipItem *>(list.at(i));
             if (clip->clipProducer() == clipId) {
-                clip->refreshClip();
+                clip->refreshClip(true);
                 ItemInfo info = clip->info();
                 info.track = m_document->tracksCount() - clip->track();
                 m_document->renderer()->mltUpdateClip(info, clip->xml(), clip->baseClip()->producer());
@@ -3985,7 +3985,7 @@ void CustomTrackView::slotUpdateAllThumbs()
                     }
                 }
             }
-            item->refreshClip();
+            item->refreshClip(false);
             qApp->processEvents();
         }
     }
@@ -4456,5 +4456,6 @@ void CustomTrackView::updateClipTypeActions(ClipItem *clip)
         }
     }
 }
+
 
 #include "customtrackview.moc"

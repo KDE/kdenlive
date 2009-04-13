@@ -62,8 +62,6 @@ Q_OBJECT public:
     //void setRenderer(Render *render);
     QUndoStack *commandStack();
     QString producerName(const QString &id);
-    void setProducerDuration(const QString &id, int duration);
-    int getProducerDuration(const QString &id);
     Render *renderer();
     QDomDocument m_guidesXml;
     QDomElement guidesXml() const;

@@ -814,7 +814,11 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         item->setProperties(properties, metadata);
         Q_ASSERT_X(item->referencedClip(), "void ProjectList::slotReplyGetFileProperties", QString("Item with groupName %1 does not have a clip associated").arg(item->groupName()).toLatin1());
         if (replace) item->referencedClip()->setProducer(producer);
-        emit receivedClipDuration(clipId, item->clipMaxDuration());
+        else {
+            // Check if duration changed.
+            emit receivedClipDuration(clipId);
+            delete producer;
+        }
         m_listView->blockSignals(false);
     } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
     if (!m_infoQueue.isEmpty()) QTimer::singleShot(300, this, SLOT(slotProcessNextClipInQueue()));

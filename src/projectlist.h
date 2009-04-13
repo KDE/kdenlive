@@ -193,7 +193,7 @@ private slots:
 signals:
     void clipSelected(DocClipBase *);
     void getFileProperties(const QDomElement&, const QString &, bool);
-    void receivedClipDuration(const QString &, int);
+    void receivedClipDuration(const QString &);
     void showClipProperties(DocClipBase *);
     void projectModified();
     void loadingIsOver();
