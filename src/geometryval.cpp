@@ -252,7 +252,7 @@ void Geometryval::slotResizeCustom()
     }
     int scale = m_paramRect->rect().width() * 100 / m_profile.width;
     bool ok;
-    scale =  QInputDialog::getInt(this, i18n("Resize..."), i18n("Scale"), scale, 1, 2147483647, 10, &ok);
+    scale =  QInputDialog::getInteger(this, i18n("Resize..."), i18n("Scale"), scale, 1, 2147483647, 10, &ok);
     if (!ok) return;
     m_paramRect->setRect(0, 0, m_profile.width * scale / 100, m_profile.height * scale / 100);
     slotUpdateTransitionProperties();
