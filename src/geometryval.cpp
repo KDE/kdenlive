@@ -25,6 +25,7 @@
 #include <QVBoxLayout>
 #include <QGraphicsRectItem>
 #include <QMenu>
+#include <QInputDialog>
 
 
 Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent) :
@@ -78,6 +79,7 @@ Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent) :
     m_scaleMenu->addAction(i18n("50%"), this, SLOT(slotResize50()));
     m_scaleMenu->addAction(i18n("100%"), this, SLOT(slotResize100()));
     m_scaleMenu->addAction(i18n("200%"), this, SLOT(slotResize200()));
+    m_scaleMenu->addAction(i18n("Custom"), this, SLOT(slotResizeCustom()));
 
 
     m_alignMenu = new QMenu(i18n("Align..."), this);
@@ -236,6 +238,23 @@ void Geometryval::slotResize200()
         return;
     }
     m_paramRect->setRect(0, 0, m_profile.width * 2, m_profile.height * 2);
+    slotUpdateTransitionProperties();
+}
+
+void Geometryval::slotResizeCustom()
+{
+    int pos = m_ui.spinPos->value();
+    Mlt::GeometryItem item;
+    int error = m_geom->fetch(&item, pos);
+    if (error || item.key() == false) {
+        // no keyframe under cursor
+        return;
+    }
+    int scale = m_paramRect->rect().width() * 100 / m_profile.width;
+    bool ok;
+    scale =  QInputDialog::getInt(this, i18n("Resize..."), i18n("Scale"), scale, 1, 2147483647, 10, &ok);
+    if (!ok) return;
+    m_paramRect->setRect(0, 0, m_profile.width * scale / 100, m_profile.height * scale / 100);
     slotUpdateTransitionProperties();
 }
 

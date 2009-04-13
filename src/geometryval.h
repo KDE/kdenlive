@@ -72,6 +72,7 @@ private slots:
     void slotResize50();
     void slotResize100();
     void slotResize200();
+    void slotResizeCustom();
     void slotAlignRight();
     void slotAlignLeft();
     void slotAlignTop();
