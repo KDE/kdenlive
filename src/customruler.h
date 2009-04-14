@@ -54,6 +54,7 @@ private:
     int m_zoneEnd;
     int m_duration;
     QColor m_bgColor;
+    QColor m_cursorColor;
     QColor m_zoneColor;
     double m_textSpacing;
     double m_factor;

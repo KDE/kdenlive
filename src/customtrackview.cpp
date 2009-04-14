@@ -63,6 +63,7 @@
 #include <KUrl>
 #include <KIcon>
 #include <KCursor>
+#include <KColorScheme>
 
 #include <QMouseEvent>
 #include <QStylePainter>
@@ -2066,6 +2067,7 @@ void CustomTrackView::deleteClip(const QString &clipId)
 
 void CustomTrackView::setCursorPos(int pos, bool seek)
 {
+    if (pos == m_cursorPos) return;
     emit cursorMoved((int)(m_cursorPos), (int)(pos));
     m_cursorPos = pos;
     m_cursorLine->setPos(pos, 0);
@@ -3614,15 +3616,18 @@ void CustomTrackView::slotRefreshGuides()
 
 void CustomTrackView::drawBackground(QPainter * painter, const QRectF & rect)
 {
-    QColor base = palette().button().color();
     QRectF r = rect;
     r.setWidth(r.width() + 1);
     painter->setClipRect(r);
     painter->drawLine(r.left(), 0, r.right(), 0);
     uint max = m_document->tracksCount();
+    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
+    QColor lockedColor = scheme.background(KColorScheme::NegativeBackground).color();
+    QColor audioColor = palette().alternateBase().color();
+    QColor base = scheme.background(KColorScheme::NormalBackground).color();
     for (uint i = 0; i < max;i++) {
-        if (m_document->trackInfoAt(max - i - 1).isLocked == true) painter->fillRect(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1, QBrush(QColor(250, 250, 100)));
-        else if (m_document->trackInfoAt(max - i - 1).type == AUDIOTRACK) painter->fillRect(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1, QBrush(QColor(240, 240, 255)));
+        if (m_document->trackInfoAt(max - i - 1).isLocked == true) painter->fillRect(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1, QBrush(lockedColor));
+        else if (m_document->trackInfoAt(max - i - 1).type == AUDIOTRACK) painter->fillRect(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1, QBrush(audioColor));
         painter->drawLine(r.left(), m_tracksHeight * (i + 1), r.right(), m_tracksHeight * (i + 1));
     }
     int lowerLimit = m_tracksHeight * m_document->tracksCount() + 1;
