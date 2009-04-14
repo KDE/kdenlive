@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-04-04 12:38+0200\n"
-"PO-Revision-Date: 2009-04-14 08:57+0200\n"
+"PO-Revision-Date: 2009-04-14 14:09+0200\n"
 "Last-Translator: Mads Bondo Dydensborg <mads@dydensborg.dk>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -2315,19 +2315,19 @@ msgstr "Monitor"
 
 #: rc.cpp:936 rc.cpp:2151
 msgid "Monitor Preview Speedup Settings"
-msgstr ""
+msgstr "Monitor forhåndsvisning hastighedsopsætning"
 
 #: rc.cpp:933 rc.cpp:2148
 msgid "Monitor background color (requires restart)"
-msgstr ""
+msgstr "Monitor baggrunds farve (kræver genstart)"
 
 #: src/monitor.cpp:174
 msgid "Monitor overlay infos"
-msgstr ""
+msgstr "Monitor overlægsinformation"
 
 #: rc.cpp:28
 msgid "Mono to stereo"
-msgstr ""
+msgstr "Mono til stereo"
 
 #: src/moveclipcommand.cpp:28 src/customtrackview.cpp:2183
 msgid "Move clip"
@@ -2366,9 +2366,8 @@ msgid "Mute clip"
 msgstr "Afbryd lyd på klip"
 
 #: src/headertrack.cpp:42
-#, fuzzy
 msgid "Mute track"
-msgstr "Slet spor"
+msgstr "Afbryd lyd spor"
 
 #: src/projectitem.cpp:191
 msgid "Mute video clip"
@@ -2399,9 +2398,8 @@ msgid "Nano X"
 msgstr "Nano X"
 
 #: rc.cpp:132
-#, fuzzy
 msgid "Neutral Color"
-msgstr "Klipfarve"
+msgstr "Neutral farve"
 
 #: src/customtrackview.cpp:2680
 msgid "New speed (percents)"
@@ -2413,7 +2411,7 @@ msgstr "Intet klip kopieret"
 
 #: src/customtrackview.cpp:4258
 msgid "No empty space to put clip audio"
-msgstr ""
+msgstr "Ingen ledig plads at indsætte klip lyd"
 
 #: src/customtrackview.cpp:3455 src/customtrackview.cpp:3499
 #: src/customtrackview.cpp:3524
@@ -2430,7 +2428,7 @@ msgstr "Ingen markør fundet ved pegertid"
 
 #: src/initeffects.cpp:79 src/initeffects.cpp:637
 msgid "None"
-msgstr ""
+msgstr "Ingen"
 
 #: rc.cpp:275
 msgid "Normalise"
@@ -2479,11 +2477,11 @@ msgstr "Åben dokument"
 
 #: rc.cpp:510 rc.cpp:1725
 msgid "Open Dvd wizard after rendering"
-msgstr ""
+msgstr "Åben DVD guide efter generéring"
 
 #: rc.cpp:513 rc.cpp:1728
 msgid "Open browser window after export"
-msgstr ""
+msgstr "Åben browservindue efter eksport"
 
 #: rc.cpp:1149 rc.cpp:2364
 msgid "Open last project on startup"
@@ -2494,9 +2492,8 @@ msgid "Open projects in new tabs"
 msgstr "Åben projekter i nye faneblade"
 
 #: rc.cpp:90
-#, fuzzy
 msgid "Out"
-msgstr "Klip"
+msgstr "Ud"
 
 #: src/monitor.cpp:454
 msgid "Out Point"
@@ -2507,9 +2504,8 @@ msgid "Output file"
 msgstr "Uddatafil"
 
 #: src/renderwidget.cpp:557
-#, fuzzy
 msgid "Output file already exists. Do you want to overwrite it ?"
-msgstr "Filen eksisterer allerede. Vil du overskrive den?"
+msgstr "Uddatafilen eksisterer allerede. Vil du overskrive den?"
 
 #: rc.cpp:600 rc.cpp:1815
 msgid "P"
@@ -2521,7 +2517,7 @@ msgstr "PAL"
 
 #: rc.cpp:287 rc.cpp:317
 msgid "Pan and Zoom"
-msgstr ""
+msgstr "Panér og zoom"
 
 #: rc.cpp:717 rc.cpp:1932
 msgid "Param"
@@ -2557,7 +2553,7 @@ msgstr "Pitch shift"
 
 #: src/wizard.cpp:276
 msgid "Pixbuf module"
-msgstr ""
+msgstr "Pixbuf modul"
 
 #: rc.cpp:684 rc.cpp:1446 rc.cpp:1899 rc.cpp:2661
 msgid "Pixel aspect ratio"
@@ -2581,9 +2577,8 @@ msgid "Play / Pause"
 msgstr "Spil / Pause"
 
 #: src/dvdwizardmenu.cpp:267
-#, fuzzy
 msgid "Play All"
-msgstr "Afspil"
+msgstr "Afspil alle"
 
 #: src/mainwindow.cpp:830
 msgid "Play Zone"
@@ -2621,10 +2616,14 @@ msgstr "Rapportér venligst fejl til http://kdenlive.org/mantis"
 msgid ""
 "Please set a default application to open audio files in the Settings dialog"
 msgstr ""
+"Angiv venligst en standard applikation til at åbne lydfiler i "
+"indstillingsdialogen"
 
 #: src/projectlist.cpp:182
 msgid "Please set a default application to open images in the Settings dialog"
 msgstr ""
+"Angiv venligst en standard applikation til at åbne billedfiler med i "
+"indstillingsdialogen"
 
 #: rc.cpp:1233 rc.cpp:2448
 msgid "Please set your default video profile"
@@ -2632,7 +2631,7 @@ msgstr "Vær venlig at indstille standard video profil"
 
 #: src/wizard.cpp:188
 msgid "Please upgrade to the latest MLT version"
-msgstr ""
+msgstr "Opgrader venligst til den nyeste MLT udgave"
 
 #: src/recmonitor.cpp:180
 #, kde-format
@@ -2709,7 +2708,7 @@ msgstr "Profil"
 
 #: src/renderwidget.cpp:305 src/renderwidget.cpp:411
 msgid "Profile already exists"
-msgstr ""
+msgstr "Profil eksisterer allerede"
 
 #: rc.cpp:912 rc.cpp:2127
 msgid "Profile name"
@@ -2720,9 +2719,8 @@ msgid "Profiles"
 msgstr "Profiler"
 
 #: src/renderwidget.cpp:140
-#, fuzzy
 msgid "Progress"
-msgstr "Progressiv"
+msgstr "Fremgang"
 
 #: src/kdenlivesettingsdialog.cpp:446 src/projectsettings.cpp:75 rc.cpp:696
 #: rc.cpp:1911
@@ -2754,14 +2752,12 @@ msgid "Properties"
 msgstr "Egenskaber"
 
 #: src/kdenlivesettingsdialog.cpp:200
-#, fuzzy
 msgid "PulseAudio"
-msgstr "Lyd"
+msgstr "PulseAudio"
 
 #: src/wizard.cpp:271
-#, fuzzy
 msgid "QImage module"
-msgstr "Billedetype"
+msgstr "QImage modul"
 
 #: rc.cpp:729 rc.cpp:1944
 msgid "R"
@@ -2829,9 +2825,8 @@ msgid "Recover"
 msgstr "Gendan"
 
 #: rc.cpp:291
-#, fuzzy
 msgid "Rectangle"
-msgstr "Tilføj rektangel"
+msgstr "Rektangel"
 
 #: rc.cpp:285
 msgid "Region"
@@ -2846,9 +2841,8 @@ msgid "Release time (s)"
 msgstr "Udgivelsestidspunkt (s)"
 
 #: src/mainwindow.cpp:1099
-#, fuzzy
 msgid "Reload Clip"
-msgstr "Farveklip"
+msgstr "Genindlæs klip"
 
 #: src/mainwindow.cpp:977 src/customtrackview.cpp:1864
 msgid "Remove Space"
@@ -2862,10 +2856,9 @@ msgstr "Fjern spor"
 msgid "Remove space"
 msgstr "Fjern spor"
 
-#: src/trackview.cpp:304
-#, fuzzy, kde-format
+#: src/trackview.cpp:304, kde-format
 msgid "Removed invalid transition: %1"
-msgstr "Rediger overgang %1"
+msgstr "Fjernede ugyldig overgang: %1"
 
 #: src/editfoldercommand.cpp:28
 msgid "Rename folder"
@@ -2876,14 +2869,12 @@ msgid "Render"
 msgstr "Generér"
 
 #: rc.cpp:459 rc.cpp:1674
-#, fuzzy
 msgid "Render Project"
-msgstr "Projekt"
+msgstr "Generér projekt"
 
 #: src/renderwidget.cpp:77
-#, fuzzy
 msgid "Render to File"
-msgstr "Generérer til"
+msgstr "Generérer til fil"
 
 #: src/renderwidget.cpp:54
 msgid "Rendering"
@@ -2900,24 +2891,20 @@ msgid "Rendering <i>%1</i> started"
 msgstr "Generéring <i>%1</i> begyndt"
 
 #: src/renderwidget.cpp:1157
-#, fuzzy
 msgid "Rendering aborted"
-msgstr "Generéring brudt sammen"
+msgstr "Generéring afbrudt"
 
 #: src/renderwidget.cpp:1148
-#, fuzzy
 msgid "Rendering crashed"
 msgstr "Generéring brudt sammen"
 
-#: src/renderwidget.cpp:1137
-#, fuzzy, kde-format
+#: src/renderwidget.cpp:1137, kde-format
 msgid "Rendering finished in %1"
-msgstr "Generéring af %1 afsluttede i %2"
+msgstr "Generéring afsluttede i %1"
 
 #: src/dvdwizard.cpp:204
-#, fuzzy
 msgid "Rendering job timed out"
-msgstr "Generérer til"
+msgstr "Generéring tidsudløb"
 
 #: renderer/renderjob.cpp:254
 #, kde-format
@@ -2932,17 +2919,15 @@ msgstr "Generéring af %1 afsluttede i %2"
 #: src/trackview.cpp:633
 #, kde-format
 msgid "Replaced wrong clip producer %1 with %2"
-msgstr ""
+msgstr "Erstattede forkert klipproducer %1 med %2"
 
 #: src/wizard.cpp:317
-#, fuzzy
 msgid "Required for creation of DVD"
-msgstr "Krævet for skærmindfangning"
+msgstr "Krævet for dannelse af DVD"
 
 #: src/wizard.cpp:323
-#, fuzzy
 msgid "Required for creation of DVD ISO images"
-msgstr "Krævet for skærmindfangning"
+msgstr "Krævet for dannelse af DVD ISO billede"
 
 #: src/wizard.cpp:311
 msgid "Required for firewire capture"
@@ -2963,19 +2948,20 @@ msgstr "Krævet for indfangning fra webcams"
 #: src/wizard.cpp:262
 msgid "Required to work with dv files if avformat module is not installed"
 msgstr ""
+"Krævet for at arbejde med DV filer hvis avformat module ikke er installeret"
 
 #: src/wizard.cpp:272 src/wizard.cpp:277
 msgid "Required to work with images"
-msgstr ""
+msgstr "Krævet for at arbejde med billeder"
 
 #: src/wizard.cpp:146
 msgid "Required to work with various video formats (hdv, mpeg, flash, ...)"
 msgstr ""
+"Krævet for at arbejde med forskellige video formater (HDV, MPEG, Flash, ...)"
 
 #: rc.cpp:504 rc.cpp:1719
-#, fuzzy
 msgid "Rescale"
-msgstr "Gråskala"
+msgstr "Størrelsesændring"
 
 #: src/effectstackview.cpp:56
 msgid "Reset effect"
@@ -3043,23 +3029,20 @@ msgid "Room size (m)"
 msgstr "Room størrelse (m) "
 
 #: rc.cpp:297
-#, fuzzy
 msgid "Rotate X"
-msgstr "Rotér"
+msgstr "Rotér X"
 
 #: rc.cpp:299
-#, fuzzy
 msgid "Rotate Y"
-msgstr "Rotér"
+msgstr "Rotér Y"
 
 #: rc.cpp:301
-#, fuzzy
 msgid "Rotate Z"
-msgstr "Rotér"
+msgstr "Rotér Z"
 
 #: rc.cpp:293
 msgid "Rotate and Shear"
-msgstr ""
+msgstr "Rotér og trapezér"
 
 #: rc.cpp:295
 msgid "Rotate clip in any 3 directions"
@@ -3123,7 +3106,7 @@ msgstr "Skalér"
 
 #: rc.cpp:489 rc.cpp:1704
 msgid "Scanning"
-msgstr ""
+msgstr "Skanner"
 
 #: rc.cpp:978 rc.cpp:1047 rc.cpp:2193 rc.cpp:2262
 msgid "Screen Grab"
@@ -3135,21 +3118,20 @@ msgstr "Skærmindfangning"
 
 #: src/renderwidget.cpp:155
 msgid "Script Files"
-msgstr ""
+msgstr "Skript filer"
 
 #: src/renderwidget.cpp:577
-#, fuzzy
 msgid "Script file already exists. Do you want to overwrite it ?"
-msgstr "Filen eksisterer allerede. Vil du overskrive den?"
+msgstr "Skriptfilen eksisterer allerede. Vil du overskrive den?"
 
 #: src/renderwidget.cpp:572
 #, kde-format
 msgid "Script name (will be saved in: %1)"
-msgstr ""
+msgstr "Skript navn (vil blive gemt i: %1)"
 
 #: rc.cpp:549 rc.cpp:1764
 msgid "Scripts"
-msgstr ""
+msgstr "Skripter"
 
 #: src/kdenlivedoc.cpp:1360
 msgid "Search automatically"
@@ -3161,7 +3143,7 @@ msgstr "Søg manuelt"
 
 #: src/dvdwizard.cpp:43
 msgid "Select Files For Your DVD"
-msgstr ""
+msgstr "Vælg filer til din DVD"
 
 #: src/customtrackview.cpp:3671
 msgid "Select a clip before copying"
@@ -3242,11 +3224,11 @@ msgstr "Sæt zone start"
 
 #: rc.cpp:309
 msgid "Shear X"
-msgstr ""
+msgstr "Trapezér X"
 
 #: rc.cpp:311
 msgid "Shear Y"
-msgstr ""
+msgstr "Trapezér Y"
 
 #: rc.cpp:215 rc.cpp:393
 msgid "Shift"
@@ -3257,9 +3239,8 @@ msgid "Show All"
 msgstr "Vis all"
 
 #: src/mainwindow.cpp:1014
-#, fuzzy
 msgid "Show Timeline"
-msgstr "Tidslinie"
+msgstr "Vis tidslinie"
 
 #: src/mainwindow.cpp:721 rc.cpp:1386 rc.cpp:2601
 msgid "Show audio thumbnails"
@@ -3315,18 +3296,16 @@ msgid "Softness"
 msgstr "Softness"
 
 #: rc.cpp:139
-#, fuzzy
 msgid "Source Color"
-msgstr "Kantfarve"
+msgstr "Kildefarve"
 
 #: rc.cpp:327
-#, fuzzy
 msgid "Sox Band"
-msgstr "Sox flanger"
+msgstr "Sox band"
 
 #: rc.cpp:335
 msgid "Sox Bass"
-msgstr ""
+msgstr "Sox bas"
 
 #: rc.cpp:343
 msgid "Sox Echo"
@@ -3337,14 +3316,12 @@ msgid "Sox Flanger"
 msgstr "Sox flanger"
 
 #: rc.cpp:369
-#, fuzzy
 msgid "Sox Gain"
-msgstr "Gain"
+msgstr "Sox gain"
 
 #: rc.cpp:375
-#, fuzzy
 msgid "Sox Phaser"
-msgstr "Phaser"
+msgstr "Sox phaser"
 
 #: rc.cpp:389
 msgid "Sox Pitch Shift"
@@ -3355,23 +3332,20 @@ msgid "Sox Reverb"
 msgstr "Sox reverb"
 
 #: rc.cpp:407
-#, fuzzy
 msgid "Sox Stretch"
-msgstr "Sox echo"
+msgstr "Sox stretch"
 
 #: rc.cpp:415
 msgid "Sox Vibro"
 msgstr "Sox vibro"
 
 #: rc.cpp:329
-#, fuzzy
 msgid "Sox band audio effect"
-msgstr "Sox flanger lydeffekt"
+msgstr "Sox band lydeffekt"
 
 #: rc.cpp:337
-#, fuzzy
 msgid "Sox bass audio effect"
-msgstr "Sox vibro lydeffekt"
+msgstr "Sox bas lydeffekt"
 
 #: rc.cpp:391
 msgid "Sox change pitch audio effect"
@@ -3386,23 +3360,20 @@ msgid "Sox flanger audio effect"
 msgstr "Sox flanger lydeffekt"
 
 #: rc.cpp:371
-#, fuzzy
 msgid "Sox gain audio effect"
-msgstr "Sox flanger lydeffekt"
+msgstr "Sox gain lydeffekt"
 
 #: rc.cpp:377
-#, fuzzy
 msgid "Sox phaser audio effect"
-msgstr "LADSPA phaser lydeffekt"
+msgstr "Sox phaser lydeffekt"
 
 #: rc.cpp:399
 msgid "Sox reverb audio effect"
 msgstr "Sox reverb lydeffekt"
 
 #: rc.cpp:409
-#, fuzzy
 msgid "Sox stretch audio effect"
-msgstr "Sox echo lydeffekt"
+msgstr "Sox stretch lydeffekt"
 
 #: rc.cpp:417
 msgid "Sox vibro audio effect"
@@ -3421,14 +3392,12 @@ msgid "Speed"
 msgstr "Hastighed"
 
 #: src/mainwindow.cpp:961
-#, fuzzy
 msgid "Split Audio"
-msgstr "Split visning"
+msgstr "Split lyd"
 
 #: src/splitaudiocommand.cpp:28 src/customtrackview.cpp:4220
-#, fuzzy
 msgid "Split audio"
-msgstr "Indfange lyd"
+msgstr "Split lyd"
 
 #: src/monitor.cpp:166
 msgid "Split view"
@@ -3455,9 +3424,8 @@ msgid "Start Rendering"
 msgstr "Start generéring"
 
 #: rc.cpp:552 rc.cpp:1767
-#, fuzzy
 msgid "Start Script"
-msgstr "StartViewport"
+msgstr "Start skript"
 
 #: rc.cpp:1317 rc.cpp:2532
 msgid "Start-/EndViewport"
@@ -3489,21 +3457,19 @@ msgstr "Synkroniser tidslinie peger"
 
 #: rc.cpp:630 rc.cpp:1845
 msgid "Target"
-msgstr ""
+msgstr "Mål"
 
 #: rc.cpp:1566 rc.cpp:2781
-#, fuzzy
 msgid "Temporary data folder"
-msgstr "Midlertidige filer"
+msgstr "Midlertidige data folder"
 
 #: rc.cpp:816 rc.cpp:2031
 msgid "Temporary files"
 msgstr "Midlertidige filer"
 
 #: rc.cpp:627 rc.cpp:1842
-#, fuzzy
 msgid "Text"
-msgstr "Tilføj tekst"
+msgstr "Tekst"
 
 #: src/projectitem.cpp:203
 msgid "Text clip"
@@ -3514,9 +3480,8 @@ msgid "TextLabel"
 msgstr "Tekstlabel"
 
 #: src/profilesdialog.cpp:111
-#, fuzzy
 msgid "The custom profile was modified, do you want to save it?"
-msgstr "Den tilpassede profil blev ændret. Ønsker du at gemme den?"
+msgstr "Den tilpassede profil blev ændret, ønsker du at gemme den?"
 
 #: src/renderer.cpp:1269
 msgid "There is no clip, cannot extract frame."
@@ -3533,23 +3498,25 @@ msgstr ""
 "i løbet af få sekunder..."
 
 #: src/renderwidget.cpp:305 src/renderwidget.cpp:411
-#, fuzzy
 msgid ""
 "This profile name already exists. Change the name if you don't want to "
 "overwrite it."
-msgstr "Filen eksisterer allerede. Vil du overskrive den?"
+msgstr ""
+"Profilnavnet eksisterer allerede. Ændre navnet hvis du ikke vil overskrive "
+"den."
 
-#: src/kdenlivedoc.cpp:397
-#, fuzzy, kde-format
+#: src/kdenlivedoc.cpp:397, kde-format
 msgid "This project type is unsupported (version %1) and can't be loaded."
-msgstr "Denne projekttype er ikke understøttet og kan ikke indlæses."
+msgstr ""
+"Denne projekttype er ikke understøttet (version %1) og kan ikke indlæses."
 
-#: src/kdenlivedoc.cpp:391
-#, fuzzy, kde-format
+#: src/kdenlivedoc.cpp:391, kde-format
 msgid ""
 "This project type is unsupported (version %1) and can't be loaded.\n"
 "Please consider upgrading you Kdenlive version."
-msgstr "Denne projekttype er ikke understøttet og kan ikke indlæses."
+msgstr ""
+"Dennee projekttype er ikke understøttet (version %1) og kan ikke indlæses.\n"
+"Overvej venligst at opgradere din Kdenlive version."
 
 #: rc.cpp:431
 msgid "Threshold"
@@ -3630,7 +3597,7 @@ msgstr "Gennemsigtig baggrund"
 
 #: rc.cpp:64
 msgid "Trim the edges of a clip"
-msgstr ""
+msgstr "Tilpas kanterne på et klip"
 
 #: rc.cpp:321
 msgid "Turn clip colors to sepia"
@@ -3655,36 +3622,34 @@ msgstr "Genskab historie"
 
 #: src/mainwindow.cpp:935
 msgid "Ungroup Clips"
-msgstr ""
+msgstr "Afgruppér klip"
 
 #: src/groupclipscommand.cpp:29
-#, fuzzy
 msgid "Ungroup clips"
-msgstr "Ukendt klip"
+msgstr "Afgruppér klip"
 
 #: src/projectitem.cpp:215
 msgid "Unknown clip"
 msgstr "Ukendt klip"
 
 #: src/locktrackcommand.cpp:28
-#, fuzzy
 msgid "Unlock track"
-msgstr "Alle spor"
+msgstr "Oplås spor"
 
 #: src/renderwidget.cpp:778
 #, kde-format
 msgid "Unsupported audio codec: %1"
-msgstr ""
+msgstr "Uunderstøttet lyd indkodning: %1"
 
 #: src/renderwidget.cpp:793
 #, kde-format
 msgid "Unsupported video codec: %1"
-msgstr ""
+msgstr "Uunderstøttet video enkodning: %1"
 
 #: src/renderwidget.cpp:763
 #, kde-format
 msgid "Unsupported video format: %1"
-msgstr ""
+msgstr "Uunderstøttet video format: %1"
 
 #: src/kdenlivedoc.cpp:1313
 msgid "Untitled"
@@ -3696,7 +3661,7 @@ msgstr "Op"
 
 #: rc.cpp:1215 rc.cpp:2430
 msgid "Use KDE job tracking for render jobs"
-msgstr ""
+msgstr "Anvende KDE job tracking for generéringsjob"
 
 #: rc.cpp:699 rc.cpp:1914
 msgid "Use as default"
@@ -3745,14 +3710,12 @@ msgid "Video"
 msgstr "Video"
 
 #: rc.cpp:573 rc.cpp:1788
-#, fuzzy
 msgid "Video Codecs"
-msgstr "Videoindkodning"
+msgstr "Video indkodninger"
 
 #: src/mainwindow.cpp:969
-#, fuzzy
 msgid "Video Only"
-msgstr "Videoafspiller"
+msgstr "Video alene"
 
 #: rc.cpp:1602 rc.cpp:2817
 msgid "Video Profile"
@@ -3787,9 +3750,8 @@ msgid "Video index"
 msgstr "Videoindex"
 
 #: src/customtrackview.cpp:4314
-#, fuzzy
 msgid "Video only"
-msgstr "Videoafspiller"
+msgstr "Video alene"
 
 #: rc.cpp:837 rc.cpp:2052
 msgid "Video player"
@@ -3821,7 +3783,7 @@ msgstr "Virtuelt klip"
 
 #: rc.cpp:439
 msgid "Volume (keframable)"
-msgstr ""
+msgstr "Lydstyrke (keyframebart)"
 
 #: rc.cpp:1362 rc.cpp:2577
 msgid "W"
@@ -3845,7 +3807,7 @@ msgstr "Wear"
 
 #: src/renderwidget.cpp:879
 msgid "Web sites"
-msgstr ""
+msgstr "Web sider"
 
 #: src/wizard.cpp:41
 msgid "Welcome"
@@ -3853,16 +3815,15 @@ msgstr "Velkommen"
 
 #: rc.cpp:128
 msgid "White Balance"
-msgstr ""
+msgstr "Hvid balance"
 
 #: rc.cpp:333 rc.cpp:1284 rc.cpp:1287 rc.cpp:2499 rc.cpp:2502
 msgid "Width"
 msgstr "Bredde"
 
 #: rc.cpp:413
-#, fuzzy
 msgid "Window"
-msgstr "Find"
+msgstr "Vindue"
 
 #: rc.cpp:1356 rc.cpp:2571
 msgid "X"
@@ -3877,9 +3838,8 @@ msgid "X:"
 msgstr "X:"
 
 #: src/kdenlivesettingsdialog.cpp:217
-#, fuzzy
 msgid "XFree86 DGA 2.0"
-msgstr "XFREE86 DGA 2.0"
+msgstr "XFree86 DGA 2.0"
 
 #: src/kdenlivesettingsdialog.cpp:215
 msgid "XVideo"
@@ -3897,19 +3857,17 @@ msgstr "Y:"
 msgid "Year"
 msgstr "År"
 
-#: src/kdenlivedoc.cpp:1046
-#, fuzzy, kde-format
+#: src/kdenlivedoc.cpp:1046, kde-format
 msgid ""
 "You have changed the project folder. Do you want to copy the cached data "
 "from %1 to the new folder %2?"
 msgstr ""
-"Du har ændret projektmappen. Ønsker du at kopiere de mellemlagrede datat fra "
-"%1 til den nye mappe %2 ?"
+"Du har ændret projektmappen. Ønsker du at kopiere de mellemlagrede data fra "
+"%1 til den nye mappe %2?"
 
-#: src/customtrackview.cpp:1872
-#, fuzzy, kde-format
+#: src/customtrackview.cpp:1872, kde-format
 msgid "You must be in an empty space to remove space (time: %1, track: %2)"
-msgstr "Du skal være i et tomrum for at fjerne tomrum (tid=%1, spor:%2)"
+msgstr "Du skal være i et tomrum for at fjerne tomrum (tid: %1, spor: %2)"
 
 #: src/customtrackview.cpp:1878
 #, kde-format
@@ -3935,6 +3893,8 @@ msgid ""
 "Your Kdenlive version was upgraded. Please take some time to review the "
 "basic settings"
 msgstr ""
+"Din Kdenlive version blev opgraderet. Brug venligst lidt tid på at gennemse "
+"de basale indstillinger"
 
 #: rc.cpp:1368 rc.cpp:2583
 msgid "Z-Index:"
@@ -3966,7 +3926,7 @@ msgstr "opret nye punkter"
 
 #: src/dvdwizardvob.cpp:37
 msgid "dvdauthor"
-msgstr ""
+msgstr "Dvdauthor"
 
 #: src/recmonitor.cpp:176
 msgid ""
@@ -4009,7 +3969,7 @@ msgstr "min."
 
 #: src/dvdwizardvob.cpp:38
 msgid "mkisofs"
-msgstr ""
+msgstr "Mkisofs"
 
 #: rc.cpp:765 rc.cpp:1980
 msgid "move on X axis"
@@ -4028,9 +3988,8 @@ msgid "parameter description"
 msgstr "parameterbeskrivelse"
 
 #: src/renderwidget.cpp:567 src/renderwidget.cpp:570
-#, fuzzy
 msgid "script"
-msgstr "Beskrivelse"
+msgstr "Skript"
 
 #: src/timecode.cpp:132
 msgid "sec."
