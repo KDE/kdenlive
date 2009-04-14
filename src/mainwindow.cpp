@@ -1493,7 +1493,7 @@ void MainWindow::parseProfiles(const QString &mltPath)
         KdenliveSettings::setRendererpath(rendererPath.path());
     }
 
-    kDebug() << "RESULTING MLT PATH: " << KdenliveSettings::mltpath();
+    kDebug() << "RESULTING MLT PATH: " << KdenliveSettings::mltpath();
 
     // Parse MLT profiles to build a list of available video formats
     if (profilesList.isEmpty()) parseProfiles();
@@ -1699,7 +1699,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 {
     //m_projectMonitor->stop();
     m_closeAction->setEnabled(m_timelineArea->count() > 1);
-    kDebug() << "///////////////////   CONNECTING DOC TO PROJECT VIEW ////////////////";
+    kDebug() << "///////////////////   CONNECTING DOC TO PROJECT VIEW ////////////////";
     if (m_activeDocument) {
         if (m_activeDocument == doc) return;
         if (m_activeTimeline) {
