@@ -3047,15 +3047,10 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end)
 void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> startTransition, const GenTime offset, const int trackOffset, bool reverseMove)
 {
     // Group Items
-    kDebug() << "//GRP MOVE, REVERS:" << reverseMove;
-    kDebug() << "// GROUP MOV; OFFSET: " << offset.frames(25) << ", TK OFF: " << trackOffset;
+    /*kDebug() << "//GRP MOVE, REVERS:" << reverseMove;
+    kDebug() << "// GROUP MOV; OFFSET: " << offset.frames(25) << ", TK OFF: " << trackOffset;*/
     resetSelectionGroup();
     m_scene->clearSelection();
-    QList<QGraphicsItem *> itemList = items();
-    for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->type() == AVWIDGET)
-            kDebug() << "ITEM " << i << ": " << static_cast <AbstractClipItem *>(itemList.at(i))->startPos().frames(25) << ",REEL: " << itemList.at(i)->scenePos();
-    }
 
     for (int i = 0; i < startClip.count(); i++) {
         if (reverseMove) {
@@ -3138,13 +3133,6 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
         }
         KdenliveSettings::setSnaptopoints(snap);
     } else kDebug() << "///////// WARNING; NO GROUP TO MOVE";
-
-    kDebug() << "///////// DONE+++++++++++++";
-    itemList = items();
-    for (int i = 0; i < itemList.count(); i++) {
-        if (itemList.at(i)->type() == AVWIDGET)
-            kDebug() << "ITEM " << i << ": " << static_cast <AbstractClipItem *>(itemList.at(i))->startPos().frames(25) << ",REEL: " << itemList.at(i)->scenePos();
-    }
 }
 
 void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end)
