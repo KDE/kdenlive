@@ -54,22 +54,21 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent) :
     m_ruler = new CustomRuler(doc->timecode(), m_trackview);
     connect(m_ruler, SIGNAL(zoneMoved(int, int)), this, SIGNAL(zoneMoved(int, int)));
     QHBoxLayout *layout = new QHBoxLayout;
+    layout->setContentsMargins(m_trackview->frameWidth(), 0, 0, 0);
+    layout->setSpacing(0);
     m_view.ruler_frame->setLayout(layout);
-    int left_margin;
-    int right_margin;
-    layout->getContentsMargins(&left_margin, 0, &right_margin, 0);
-    layout->setContentsMargins(left_margin, 0, right_margin, 0);
     layout->addWidget(m_ruler);
 
     QHBoxLayout *tracksLayout = new QHBoxLayout;
     tracksLayout->setContentsMargins(0, 0, 0, 0);
+    tracksLayout->setSpacing(0);
     m_view.tracks_frame->setLayout(tracksLayout);
 
     m_view.headers_area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_view.headers_area->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     m_headersLayout = new QVBoxLayout;
-    m_headersLayout->setContentsMargins(0, 0, 0, 0);
+    m_headersLayout->setContentsMargins(0, m_trackview->frameWidth(), 0, 0);
     m_headersLayout->setSpacing(0);
     m_view.headers_container->setLayout(m_headersLayout);
 
