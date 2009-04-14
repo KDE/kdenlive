@@ -263,15 +263,13 @@ void CustomTrackView::slotCheckPositionScrolling()
 {
     // If mouse is at a border of the view, scroll
     if (m_moveOpMode != SEEK) return;
-    int pos = cursorPos();
-    if (mapFromScene(pos, 0).x() < 7) {
+    if (mapFromScene(m_cursorPos, 0).x() < 3) {
         horizontalScrollBar()->setValue(horizontalScrollBar()->value() - 2);
-        setCursorPos(mapToScene(QPoint()).x() - 1);
         QTimer::singleShot(200, this, SLOT(slotCheckPositionScrolling()));
-
-    } else if (viewport()->width() - 5 < mapFromScene(pos + 1, 0).x()) {
+        setCursorPos(mapToScene(QPoint(-2, 0)).x());
+    } else if (viewport()->width() - 3 < mapFromScene(m_cursorPos + 1, 0).x()) {
         horizontalScrollBar()->setValue(horizontalScrollBar()->value() + 2);
-        setCursorPos(mapToScene(viewport()->width(), 0).x() + 1);
+        setCursorPos(mapToScene(QPoint(viewport()->width(), 0)).x() + 1);
         QTimer::singleShot(200, this, SLOT(slotCheckPositionScrolling()));
     }
 }
@@ -541,11 +539,6 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
         m_moveOpMode = opMode;
         setCursor(Qt::SplitHCursor);
     } else {
-        if (event->buttons() != Qt::NoButton && event->modifiers() == Qt::NoModifier) {
-            m_moveOpMode = SEEK;
-            setCursorPos(mappedXPos);
-            slotCheckPositionScrolling();
-        } else m_moveOpMode = NONE;
         if (m_visualTip) {
             delete m_animation;
             m_animationTimer->stop();
@@ -555,6 +548,13 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 
         }
         setCursor(Qt::ArrowCursor);
+        if (event->buttons() != Qt::NoButton && event->modifiers() == Qt::NoModifier) {
+            QGraphicsView::mouseMoveEvent(event);
+            m_moveOpMode = SEEK;
+            setCursorPos(mappedXPos);
+            slotCheckPositionScrolling();
+            return;
+        } else m_moveOpMode = NONE;
     }
     QGraphicsView::mouseMoveEvent(event);
 }
@@ -2070,9 +2070,9 @@ void CustomTrackView::setCursorPos(int pos, bool seek)
     if (pos == m_cursorPos) return;
     emit cursorMoved((int)(m_cursorPos), (int)(pos));
     m_cursorPos = pos;
-    m_cursorLine->setPos(pos, 0);
-    if (seek) m_document->renderer()->seek(GenTime(pos, m_document->fps()));
+    if (seek) m_document->renderer()->seek(GenTime(m_cursorPos, m_document->fps()));
     else if (m_autoScroll) checkScrolling();
+    m_cursorLine->setPos(m_cursorPos, 0);
 }
 
 void CustomTrackView::updateCursorPos()
@@ -2104,9 +2104,7 @@ void CustomTrackView::initCursorPos(int pos)
 
 void CustomTrackView::checkScrolling()
 {
-    int vert = verticalScrollBar()->value();
-    int hor = cursorPos();
-    ensureVisible(hor, vert + 10, 2, 2, 50, 0);
+    ensureVisible(m_cursorPos, verticalScrollBar()->value() + 10, 2, 2, 50, 0);
 }
 
 void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)

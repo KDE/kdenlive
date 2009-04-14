@@ -626,9 +626,9 @@ void ClipItem::paint(QPainter *painter,
     painter->setClipRect(exposed);
 
     //Fill clip rectangle
-    QRectF bgRect = br;
-    bgRect.setLeft(br.left() + xoffset);
-    painter->fillRect(bgRect, paintColor);
+    /*QRectF bgRect = br;
+    bgRect.setLeft(br.left() + xoffset);*/
+    painter->fillRect(exposed, paintColor);
 
     //painter->setClipPath(resultClipPath, Qt::IntersectClip);
 
@@ -792,7 +792,6 @@ void ClipItem::paint(QPainter *painter,
     }
 
     // Draw clip name
-    // draw frame around clip
     QColor frameColor(Qt::black);
     int alphaBase = 60;
     if (isSelected() || (parentItem() && parentItem()->isSelected())) {
