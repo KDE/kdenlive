@@ -77,6 +77,7 @@ ProjectList::ProjectList(QWidget *parent) :
     KTreeWidgetSearchLine *searchView = new KTreeWidgetSearchLine(this);
     m_toolbar = new QToolBar("projectToolBar", this);
     m_toolbar->addWidget(searchView);
+    searchView->setTreeWidget(m_listView);
 
     m_addButton = new QToolButton(m_toolbar);
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
@@ -85,7 +86,7 @@ ProjectList::ProjectList(QWidget *parent) :
     layout->addWidget(m_toolbar);
     layout->addWidget(m_listView);
     setLayout(layout);
-    //m_toolbar->setEnabled(false);
+    
 
 
     connect(m_listView, SIGNAL(itemSelectionChanged()), this, SLOT(slotClipSelected()));
