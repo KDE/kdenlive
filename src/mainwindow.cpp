@@ -668,15 +668,15 @@ void MainWindow::setupActions()
     QWidget * actionWidget;
     actionWidget = toolbar->widgetForAction(m_buttonSelectTool);
     actionWidget->setMaximumWidth(24);
-    actionWidget->setMinimumHeight(17);
+    actionWidget->setMinimumHeight(18);
 
     actionWidget = toolbar->widgetForAction(m_buttonRazorTool);
     actionWidget->setMaximumWidth(24);
-    actionWidget->setMinimumHeight(17);
+    actionWidget->setMinimumHeight(18);
 
     actionWidget = toolbar->widgetForAction(m_buttonSpacerTool);
     actionWidget->setMaximumWidth(24);
-    actionWidget->setMinimumHeight(17);
+    actionWidget->setMinimumHeight(18);
 
     toolbar->setStyleSheet(style1);
     connect(m_toolGroup, SIGNAL(triggered(QAction *)), this, SLOT(slotChangeTool(QAction *)));
@@ -689,7 +689,7 @@ void MainWindow::setupActions()
 
     actionWidget = toolbar->widgetForAction(m_buttonFitZoom);
     actionWidget->setMaximumWidth(24);
-    actionWidget->setMinimumHeight(17);
+    actionWidget->setMinimumHeight(18);
 
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
     m_zoomSlider->setMaximum(13);
@@ -739,19 +739,19 @@ void MainWindow::setupActions()
 
     actionWidget = toolbar->widgetForAction(m_buttonVideoThumbs);
     actionWidget->setMaximumWidth(24);
-    actionWidget->setMinimumHeight(17);
+    actionWidget->setMinimumHeight(18);
 
     actionWidget = toolbar->widgetForAction(m_buttonAudioThumbs);
     actionWidget->setMaximumWidth(24);
-    actionWidget->setMinimumHeight(17);
+    actionWidget->setMinimumHeight(18);
 
     actionWidget = toolbar->widgetForAction(m_buttonShowMarkers);
     actionWidget->setMaximumWidth(24);
-    actionWidget->setMinimumHeight(17);
+    actionWidget->setMinimumHeight(18);
 
     actionWidget = toolbar->widgetForAction(m_buttonSnap);
     actionWidget->setMaximumWidth(24);
-    actionWidget->setMinimumHeight(17);
+    actionWidget->setMinimumHeight(18);
 
     m_messageLabel = new StatusBarMessageLabel(this);
     m_messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
