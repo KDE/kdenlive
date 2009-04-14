@@ -1844,10 +1844,10 @@ void CustomTrackView::slotSwitchTrackAudio(int ix)
 {
     /*for (int i = 0; i < m_document->tracksCount(); i++)
         kDebug() << "TRK " << i << " STATE: " << m_document->trackInfoAt(i).isMute << m_document->trackInfoAt(i).isBlind;*/
-    int tracknumber = m_document->tracksCount() - ix;
-    m_document->switchTrackAudio(tracknumber - 1, !m_document->trackInfoAt(tracknumber - 1).isMute);
-    kDebug() << "NEXT TRK STATE: " << m_document->trackInfoAt(tracknumber - 1).isMute << m_document->trackInfoAt(tracknumber - 1).isBlind;
-    m_document->renderer()->mltChangeTrackState(tracknumber, m_document->trackInfoAt(tracknumber - 1).isMute, m_document->trackInfoAt(tracknumber - 1).isBlind);
+    int tracknumber = m_document->tracksCount() - ix - 1;
+    m_document->switchTrackAudio(tracknumber, !m_document->trackInfoAt(tracknumber).isMute);
+    kDebug() << "NEXT TRK STATE: " << m_document->trackInfoAt(tracknumber).isMute << m_document->trackInfoAt(tracknumber).isBlind;
+    m_document->renderer()->mltChangeTrackState(tracknumber + 1, m_document->trackInfoAt(tracknumber).isMute, m_document->trackInfoAt(tracknumber).isBlind);
     m_document->setModified(true);
 }
 
@@ -1864,7 +1864,7 @@ void CustomTrackView::lockTrack(int ix, bool lock)
     int tracknumber = m_document->tracksCount() - ix - 1;
     m_document->switchTrackLock(tracknumber, lock);
     emit doTrackLock(ix, lock);
-    QList<QGraphicsItem *> selection = items(0, ix * m_tracksHeight + m_tracksHeight / 2, mapFromScene(sceneRect().width(), 0).x(), m_tracksHeight / 2 - 2);
+    QList<QGraphicsItem *> selection = m_scene->items(0, ix * m_tracksHeight + m_tracksHeight / 2, sceneRect().width(), m_tracksHeight / 2 - 2);
 
     for (int i = 0; i < selection.count(); i++) {
         if (selection.at(i)->type() != AVWIDGET && selection.at(i)->type() != TRANSITIONWIDGET) continue;
