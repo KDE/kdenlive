@@ -4,9 +4,10 @@ Kdenlive Installation Instrucions
 
 To compile and install, go in the source directory and type:
 
-cmake .
+mkdir build;cd build
+cmake ..
 (If you want to install in a different path, use instead:
-cmake . -DCMAKE_INSTALL_PREFIX=/install/path)
+cmake .. -DCMAKE_INSTALL_PREFIX=/install/path)
 make
 
 To install, become root:

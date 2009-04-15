@@ -1,4 +1,4 @@
-Kdenlive V 0.7.2 by Jean-Baptiste Mardelle <jb@kdenlive.org>
+Kdenlive V 0.7.3 by Jean-Baptiste Mardelle <jb@kdenlive.org>
 
 Kdenlive is a video editing application for KDE.
 
@@ -12,9 +12,8 @@ the following webpage:
 
 http://www.mltframework.org
 
-This version of Kdenlive requires MLT version >= 0.3.4. It may work with different 
+The recommended MLT version is 0.3.8. It may work with different
 versions, but this is not guaranteed, or (at this stage of development) likely.
-
 
 We welcome all bug reports, feedback and offers for help! so please visit our bugtracker and forums:
 
