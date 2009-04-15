@@ -26,6 +26,7 @@
 #include "clipmanager.h"
 #include "titlewidget.h"
 #include "mainwindow.h"
+#include "kdenlive-config.h"
 
 #include <KDebug>
 #include <KStandardDirs>
@@ -40,7 +41,6 @@
 #include <QFile>
 
 #include <mlt++/Mlt.h>
-
 
 KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QPoint tracks, Render *render, MainWindow *parent) :
         QObject(parent),
@@ -1010,6 +1010,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
 
     QDomElement markers = sceneList.createElement("markers");
     addedXml.setAttribute("version", "0.82");
+    addedXml.setAttribute("kdenliveversion", VERSION);
     addedXml.setAttribute("profile", profilePath());
     addedXml.setAttribute("position", m_render->seekPosition().frames(m_fps));
     addedXml.setAttribute("zonein", m_zoneStart);
