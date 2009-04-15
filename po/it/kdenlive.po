@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-04-04 12:38+0200\n"
-"PO-Revision-Date: 2009-04-15 19:13+0000\n"
+"PO-Revision-Date: 2009-04-16 00:11+0200\n"
 "Last-Translator: Salvatore Brigaglia <opensourcecat@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -480,8 +480,7 @@ msgstr "Aggiungi automaticamente quando terminato"
 
 #: src/mainwindow.cpp:1361
 msgid "Auto-saved files exist. Do you want to recover them now?"
-msgstr ""
-"Trovato un file di ripristino automatico. Recuperare il progetto adesso?"
+msgstr "Trovato un file di ripristino automatico. Recuperare il progetto adesso?"
 
 #: src/kdenlivesettingsdialog.cpp:197 src/kdenlivesettingsdialog.cpp:214
 msgid "Automatic"
@@ -633,8 +632,7 @@ msgstr "Impossibile trovare una clip selezionata per l'annullamento del taglio"
 
 #: src/customtrackview.cpp:1018
 msgid "Cannot find clip with keyframe"
-msgstr ""
-"Impossibile trovare una clip selezionata contenente un fotogramma chiave"
+msgstr "Impossibile trovare una clip selezionata contenente un fotogramma chiave"
 
 #: src/mainwindow.cpp:1471 src/mainwindow.cpp:1585
 msgid "Cannot find the inigo program required for rendering (part of Mlt)"
@@ -644,8 +642,7 @@ msgstr ""
 
 #: src/mainwindow.cpp:1456
 msgid "Cannot find your Mlt profiles, please give the path"
-msgstr ""
-"Non riesco a trovare I profili MLT, è necessario specificarne il percorso."
+msgstr "Non riesco a trovare I profili MLT, è necessario specificarne il percorso."
 
 # , kde-format
 #: src/customtrackview.cpp:1980
@@ -679,8 +676,7 @@ msgstr "Impossibile spostare la transizione alla posizione %1 nella traccia %2"
 #: src/customtrackview.cpp:3114
 #, kde-format
 msgid "Cannot move transition at time: %1 on track %2"
-msgstr ""
-"Impossibile spostare la transizione alla posizione: %1 nella traccia %2"
+msgstr "Impossibile spostare la transizione alla posizione: %1 nella traccia %2"
 
 #: src/customtrackview.cpp:3773
 msgid "Cannot paste clip to selected place"
@@ -719,7 +715,7 @@ msgstr "Impossibile ridimensionare la transizione"
 
 #: src/customtrackview.cpp:4226
 msgid "Cannot split audio of grouped clips"
-msgstr "Impossibile separare l'audio daclip raggruppate"
+msgstr "Impossibile separare l'audio da clip raggruppate"
 
 #: src/kdenlivedoc.cpp:1013 src/kdenlivedoc.cpp:1020 src/mainwindow.cpp:1618
 #: src/mainwindow.cpp:1628 src/titlewidget.cpp:705 src/profilesdialog.cpp:163
@@ -739,8 +735,7 @@ msgstr "Registrazione audio"
 
 #: src/recmonitor.cpp:559
 msgid "Capture crashed, please check your parameters"
-msgstr ""
-"La registrazione si è interrotta inaspettatamente, controllare i parametri"
+msgstr "La registrazione si è interrotta inaspettatamente, controllare i parametri"
 
 #: rc.cpp:819 rc.cpp:2034
 msgid "Capture folder"
@@ -792,8 +787,7 @@ msgstr "Correggi valore Gamma"
 
 #: rc.cpp:24
 msgid "Change image brightness with keyframes"
-msgstr ""
-"Modifica la luminosità dell'immagine tramite l'utilizzo dei fotogrammi chiave"
+msgstr "Modifica la luminosità dell'immagine tramite l'utilizzo dei fotogrammi chiave"
 
 #: src/customtrackview.cpp:4048
 msgid "Change track"
@@ -851,8 +845,7 @@ msgstr "Clip"
 #: src/kdenlivedoc.cpp:1363 src/kdenlivedoc.cpp:1371
 #, kde-format
 msgid "Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
-msgstr ""
-"La Clip <b>%1</b><br>è inutilizzabile o mancante, come si intende procedere?"
+msgstr "La Clip <b>%1</b><br>è inutilizzabile o mancante, come si intende procedere?"
 
 # , kde-format
 #: src/kdenlivedoc.cpp:1360
@@ -1084,11 +1077,11 @@ msgstr "Immagine ISO DVD"
 #: src/dvdwizard.cpp:509
 #, kde-format
 msgid "DVD ISO image %1 successfully created."
-msgstr "L'immagine iso del DVD è stata creata correttamente su %1 "
+msgstr "L'immagine ISO del DVD è stata creata correttamente su %1 "
 
 #: src/dvdwizard.cpp:498
 msgid "DVD ISO is broken"
-msgstr "Il file iso del DVD è corrotto"
+msgstr "Il file ISO del DVD è corrotto"
 
 #: src/dvdwizard.cpp:54
 msgid "DVD Image"
@@ -1335,8 +1328,7 @@ msgstr "Non fare nulla"
 #: src/kdenlivedoc.cpp:84
 #, kde-format
 msgid "Document project folder is invalid, setting it to the default one: %1"
-msgstr ""
-"La cartella del progetto non è valida, imposto la cartella predefinita: %1"
+msgstr "La cartella del progetto non è valida, imposto la cartella predefinita: %1"
 
 #: src/main.cpp:54
 msgid "Document to open"
@@ -1445,8 +1437,7 @@ msgstr "Modifica la transizione %1"
 #: src/trackview.cpp:487
 #, kde-format
 msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
-msgstr ""
-"Effetto %1:%2 non trovato in MLT, è stato rimosso dal progetto attuale\n"
+msgstr "Effetto %1:%2 non trovato in MLT, è stato rimosso dal progetto attuale\n"
 
 #: src/mainwindow.cpp:152
 msgid "Effect List"
@@ -1458,7 +1449,7 @@ msgstr "Gestione effetti"
 
 #: src/customtrackview.cpp:1193 src/customtrackview.cpp:1236
 msgid "Effect already present in clip"
-msgstr "Effettò già presente della clip"
+msgstr "Effetto già presente della clip"
 
 #: rc.cpp:942 rc.cpp:2157
 msgid "Enable Jog Shuttle device"
@@ -2226,8 +2217,7 @@ msgstr "M"
 
 #: src/main.cpp:45
 msgid "MLT Connection, Transition, Effect, Timeline Developer"
-msgstr ""
-"Interfacciamento con MLT,  Transizioni, Effetti,  Sviluppatore della TimeLine"
+msgstr "Interfacciamento con MLT,  Transizioni, Effetti,  Sviluppatore della TimeLine"
 
 #: rc.cpp:801 rc.cpp:2016
 msgid "MLT environment"
@@ -2264,8 +2254,7 @@ msgstr "Make clip play faster slowly"
 
 #: rc.cpp:56
 msgid "Make image greyscale except for chosen color"
-msgstr ""
-"trasforma una immagine in tonalità di grigio tranne per i colori selezionati"
+msgstr "trasforma una immagine in tonalità di grigio tranne per i colori selezionati"
 
 #: rc.cpp:433
 msgid "Make monochrome clip"
@@ -2646,10 +2635,8 @@ msgstr ""
 "mantis per la segnalazione"
 
 #: src/projectlist.cpp:186
-msgid ""
-"Please set a default application to open audio files in the Settings dialog"
-msgstr ""
-"Indicare un riproduttore audio predefinito nella finestra delle impostazioni"
+msgid "Please set a default application to open audio files in the Settings dialog"
+msgstr "Indicare un riproduttore audio predefinito nella finestra delle impostazioni"
 
 #: src/projectlist.cpp:182
 msgid "Please set a default application to open images in the Settings dialog"
@@ -2967,7 +2954,7 @@ msgstr "Richiesto per la creazione dei DVD"
 
 #: src/wizard.cpp:323
 msgid "Required for creation of DVD ISO images"
-msgstr "Richiesto per poter creare l'immagine iso del DVD"
+msgstr "Richiesto per poter creare l'immagine ISO del DVD"
 
 #: src/wizard.cpp:311
 msgid "Required for firewire capture"
@@ -2987,8 +2974,7 @@ msgstr "Richiesto per la registrazione da webcam"
 
 #: src/wizard.cpp:262
 msgid "Required to work with dv files if avformat module is not installed"
-msgstr ""
-"Richiesto per lavorare con i file DV se il modulo avformat non è installato"
+msgstr "Richiesto per lavorare con i file DV se il modulo avformat non è installato"
 
 #: src/wizard.cpp:272 src/wizard.cpp:277
 msgid "Required to work with images"
@@ -2996,8 +2982,7 @@ msgstr "Richiesto per poter lavorare con le immagini"
 
 #: src/wizard.cpp:146
 msgid "Required to work with various video formats (hdv, mpeg, flash, ...)"
-msgstr ""
-"Richiesto per poter lavorare con vari formati video (hdv, mpeg flash...)"
+msgstr "Richiesto per poter lavorare con vari formati video (hdv, mpeg flash...)"
 
 #: rc.cpp:504 rc.cpp:1719
 msgid "Rescale"
@@ -3303,8 +3288,7 @@ msgstr "Mostra l'anteprima video"
 
 #: rc.cpp:249
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
-msgstr ""
-"Simula i rumori di fondo dei dischi in vinile - Effetto fornito da LADSPA"
+msgstr "Simula i rumori di fondo dei dischi in vinile - Effetto fornito da LADSPA"
 
 #: rc.cpp:672 rc.cpp:1104 rc.cpp:1266 rc.cpp:1887 rc.cpp:2319 rc.cpp:2481
 msgid "Size"
@@ -3684,7 +3668,7 @@ msgstr "Sblocca traccia"
 #: src/renderwidget.cpp:778
 #, kde-format
 msgid "Unsupported audio codec: %1"
-msgstr "Codec audio non supportao: %1"
+msgstr "Codec audio non supportato: %1"
 
 #: src/renderwidget.cpp:793
 #, kde-format
@@ -4075,8 +4059,7 @@ msgid "x1"
 msgstr "x1"
 
 #: src/wizard.cpp:470
-msgid ""
-"your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
+msgid "your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr "L'installazione di MLT non è stata trovata.  Installare MLT e riavviare Kdenlive.\n"
 
 #~ msgid "Dvd iso image"
