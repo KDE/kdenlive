@@ -678,7 +678,6 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 paramList.append(quickParameterFill(ret, "Force Progressive Rendering", "progressive", "bool", "1", "0", "1"));
                 paramList.append(quickParameterFill(ret, "Force Deinterlace Overlay", "deinterlace", "bool", "0", "0", "1"));
                 tname.appendChild(ret.createTextNode("Composite"));
-
                 ktrans.setAttribute("id", "composite");
                 /*QDomDocument ret1;
                 QDomElement ktrans1 = ret1.createElement("ktransition");
@@ -731,7 +730,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
         */
     }
 
-    QString wipetrans = "<ktransition tag=\"composite\" id=\"wipe\"><name>Wipe</name><description>Slide image from one side to another</description><parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>Direction</name>                                               </parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>Align</name></parameter></ktransition>";
+    QString wipetrans = "<ktransition tag=\"composite\" id=\"wipe\"><name>Wipe</name><description>Slide image from one side to another</description><parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>Direction</name>                                               </parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>Align</name></parameter><parameter tag=\"progressive\" default=\"1\" type=\"bool\" name=\"progressive\" ><name>Force Progressive Rendering</name></parameter><parameter tag=\"deinterlace\" default=\"0\" type=\"bool\" name=\"deinterlace\" ><name>Force Deinterlace Overlay</name></parameter></ktransition>";
     QDomDocument ret;
     ret.setContent(wipetrans);
     transitions->append(ret.documentElement());
