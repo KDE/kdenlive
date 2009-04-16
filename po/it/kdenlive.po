@@ -2071,7 +2071,7 @@ msgstr "Clip non valida"
 #: src/trackview.cpp:163
 #, kde-format
 msgid "Invalid clip producer %1\n"
-msgstr "clip producer %1 corrotto"
+msgstr "clip producer %1 corrotto\n"
 
 #: src/trackview.cpp:421
 #, kde-format
