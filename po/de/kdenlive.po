@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-04-02 12:13+0200\n"
-"PO-Revision-Date: 2009-04-09 10:49+0200\n"
+"PO-Revision-Date: 2009-04-16 09:17+0200\n"
 "Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -772,7 +772,7 @@ msgstr "Clip-Typ ändern"
 
 #: rc.cpp:163
 msgid "Change gamma color value"
-msgstr "Gamma Farbwert ändern"
+msgstr "Gamma-Farbwert ändern"
 
 #: rc.cpp:24
 msgid "Change image brightness with keyframes"
@@ -1331,7 +1331,7 @@ msgstr "Neue Lumas herunterladen …"
 
 #: src/mainwindow.cpp:783
 msgid "Download New Project Profiles..."
-msgstr "Neue Projektprofile herunterladen …"
+msgstr "Neue Projekt-Profile herunterladen …"
 
 #: src/mainwindow.cpp:781
 msgid "Download New Render Profiles..."
@@ -1606,7 +1606,7 @@ msgstr "Datei nicht gefunden"
 
 #: src/renderwidget.cpp:854
 msgid "File rendering"
-msgstr "Datei-Rendern"
+msgstr "Video-Datei"
 
 #: rc.cpp:1542 rc.cpp:2757
 msgid "File size"
@@ -1976,7 +1976,7 @@ msgstr "Bildbearbeitung"
 #: src/dvdwizard.cpp:99
 #, kde-format
 msgid "Image file %1 already exists. Overwrite ?"
-msgstr "Imagedatei %1 existiert bereits. Überschreiben?"
+msgstr "Image-Datei %1 existiert bereits. Überschreiben?"
 
 #: rc.cpp:1005 rc.cpp:1524 rc.cpp:2220 rc.cpp:2739
 msgid "Image preview"
@@ -2258,7 +2258,7 @@ msgstr "Macht Wellen mit Keyframes auf den Clip"
 
 #: src/mainwindow.cpp:775
 msgid "Manage Project Profiles"
-msgstr "Projektprofile verwalten"
+msgstr "Projekt-Profile verwalten"
 
 #: src/main.cpp:44
 msgid "Marco Gittler"
@@ -2766,7 +2766,7 @@ msgstr "PulseAudio"
 
 #: src/wizard.cpp:269
 msgid "QImage module"
-msgstr "Qimage-Modul"
+msgstr "QImage-Modul"
 
 #: rc.cpp:1323 rc.cpp:2538
 msgid "R"
@@ -3121,7 +3121,7 @@ msgstr "Skalieren"
 
 #: rc.cpp:489 rc.cpp:1704
 msgid "Scanning"
-msgstr "Scanne"
+msgstr "Abtastung"
 
 #: rc.cpp:1056 rc.cpp:1125 rc.cpp:2271 rc.cpp:2340
 msgid "Screen Grab"
@@ -3158,7 +3158,7 @@ msgstr "Suche manuell"
 
 #: src/dvdwizard.cpp:42
 msgid "Select Files For Your DVD"
-msgstr "Wähle Dateien für die DVD"
+msgstr "Dateien für die DVD auswählen"
 
 #: src/customtrackview.cpp:3557
 msgid "Select a clip before copying"
@@ -3435,7 +3435,7 @@ msgstr "Anfangsverstärkung"
 
 #: src/renderwidget.cpp:75
 msgid "Start Rendering"
-msgstr "Starte Rendern"
+msgstr "Rendern beginnen"
 
 #: rc.cpp:552 rc.cpp:1767
 msgid "Start Script"
