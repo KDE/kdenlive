@@ -1604,6 +1604,7 @@ void CustomTrackView::dragMoveEvent(QDragMoveEvent * event)
     const QPointF pos = mapToScene(event->pos());
     if (m_selectionGroup && m_clipDrag) {
         m_selectionGroup->setPos(pos.x(), pos.y());
+        emit mousePosition((int)(m_selectionGroup->scenePos().x() + 0.5));
         event->setDropAction(Qt::MoveAction);
         event->acceptProposedAction();
     } else {
