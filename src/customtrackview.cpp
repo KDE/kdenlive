@@ -1704,8 +1704,10 @@ int CustomTrackView::duration() const
 
 void CustomTrackView::addTrack(TrackInfo type, int ix)
 {
-    if (ix == -1) m_document->insertTrack(ix, type);
-    else {
+    if (ix == -1 || ix == m_document->tracksCount()) {
+        m_document->insertTrack(ix, type);
+        m_document->renderer()->mltInsertTrack(1, type.type == VIDEOTRACK);
+    } else {
         m_document->insertTrack(m_document->tracksCount() - ix, type);
         // insert track in MLT playlist
         m_document->renderer()->mltInsertTrack(m_document->tracksCount() - ix, type.type == VIDEOTRACK);

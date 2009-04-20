@@ -2927,9 +2927,13 @@ void Render::mltInsertTrack(int ix, bool videoTrack)
 
     Mlt::Tractor tractor(service);
 
-    Mlt::Playlist playlist;// = new Mlt::Playlist();
+    Mlt::Playlist playlist;
     int ct = tractor.count();
-    // kDebug() << "// TRACK INSERT: " << ix << ", MAX: " << ct;
+    if (ix > ct) {
+        kDebug() << "// ERROR, TRYING TO insert TRACK " << ix << ", max: " << ct;
+        ix = ct;
+    }
+
     int pos = ix;
     if (pos < ct) {
         Mlt::Producer *prodToMove = new Mlt::Producer(tractor.track(pos));
