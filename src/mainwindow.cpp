@@ -384,7 +384,7 @@ bool MainWindow::queryClose()
     saveOptions();
     if (m_monitorManager) m_monitorManager->stopActiveMonitor();
     if (m_activeDocument && m_activeDocument->isModified()) {
-        switch (KMessageBox::warningYesNoCancel(this, i18n("Save changes to document ?"))) {
+        switch (KMessageBox::warningYesNoCancel(this, i18n("Save changes to document?"))) {
         case KMessageBox::Yes :
             // save document here. If saving fails, return false;
             return saveFile();
@@ -1248,7 +1248,7 @@ void MainWindow::closeCurrentDocument()
     TrackView *tabToClose = (TrackView *) w;
     KdenliveDoc *docToClose = tabToClose->document();
     if (docToClose && docToClose->isModified()) {
-        switch (KMessageBox::warningYesNoCancel(this, i18n("Save changes to document ?"))) {
+        switch (KMessageBox::warningYesNoCancel(this, i18n("Save changes to document?"))) {
         case KMessageBox::Yes :
             // save document here. If saving fails, return false;
             if (saveFile() == false) return;
@@ -1311,7 +1311,7 @@ bool MainWindow::saveFileAs()
     QString outputFile = KFileDialog::getSaveFileName(KUrl(), mimetype);
     if (outputFile.isEmpty()) return false;
     if (QFile::exists(outputFile)) {
-        if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) == KMessageBox::No) return false;
+        if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it?")) == KMessageBox::No) return false;
     }
     return saveFileAs(outputFile);
 }
@@ -1345,7 +1345,7 @@ void MainWindow::openLastFile()
 {
     KSharedConfigPtr config = KGlobal::config();
     KUrl::List urls = m_fileOpenRecent->urls();
-    //WARNING: this is buggy, we get a random url, not the last one. Bug in KRecentFileAction ?
+    //WARNING: this is buggy, we get a random url, not the last one. Bug in KRecentFileAction?
     if (urls.isEmpty()) newFile(false);
     else openFile(urls.last());
 }
@@ -1427,7 +1427,7 @@ void MainWindow::recoverFiles(QList<KAutoSaveFile *> staleFiles)
                   continue;
         }*/
         kDebug() << "// OPENING RECOVERY: " << stale->fileName() << "\nMANAGED: " << stale->managedFile().path();
-        // the stalefiles also contain ".lock" files so we must ignore them... bug in KAutoSaveFile ?
+        // the stalefiles also contain ".lock" files so we must ignore them... bug in KAutoSaveFile?
         if (!stale->fileName().endsWith(".lock")) doOpenFile(KUrl(stale->fileName()), stale);
         else KIO::NetAccess::del(KUrl(stale->fileName()), this);
     }
@@ -2349,7 +2349,7 @@ void MainWindow::slotFind()
 void MainWindow::slotFindNext()
 {
     if (m_activeTimeline && m_activeTimeline->projectView()->findNextString(m_findString)) {
-        statusBar()->showMessage(i18n("Found : %1", m_findString));
+        statusBar()->showMessage(i18n("Found: %1", m_findString));
     } else {
         statusBar()->showMessage(i18n("Reached end of project"));
     }
@@ -2360,10 +2360,10 @@ void MainWindow::findAhead()
 {
     if (m_activeTimeline && m_activeTimeline->projectView()->findString(m_findString)) {
         m_projectSearchNext->setEnabled(true);
-        statusBar()->showMessage(i18n("Found : %1", m_findString));
+        statusBar()->showMessage(i18n("Found: %1", m_findString));
     } else {
         m_projectSearchNext->setEnabled(false);
-        statusBar()->showMessage(i18n("Not found : %1", m_findString));
+        statusBar()->showMessage(i18n("Not found: %1", m_findString));
     }
 }
 

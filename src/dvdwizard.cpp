@@ -100,9 +100,9 @@ void DvdWizard::slotPageChanged(int page)
             m_status.job_progress->item(i)->setIcon(KIcon());
         QString warnMessage;
         if (KIO::NetAccess::exists(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), KIO::NetAccess::SourceSide, this))
-            warnMessage.append(i18n("Folder %1 already exists. Overwrite ?" + '\n', m_iso.tmp_folder->url().path() + "/DVD"));
+            warnMessage.append(i18n("Folder %1 already exists. Overwrite?" + '\n', m_iso.tmp_folder->url().path() + "/DVD"));
         if (KIO::NetAccess::exists(KUrl(m_iso.iso_image->url().path()), KIO::NetAccess::SourceSide, this))
-            warnMessage.append(i18n("Image file %1 already exists. Overwrite ?", m_iso.iso_image->url().path()));
+            warnMessage.append(i18n("Image file %1 already exists. Overwrite?", m_iso.iso_image->url().path()));
 
         if (!warnMessage.isEmpty() && KMessageBox::questionYesNo(this, warnMessage) == KMessageBox::No) {
             back();

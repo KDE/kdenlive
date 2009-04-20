@@ -44,7 +44,7 @@
 
 static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr)
 {
-    // detect if the producer has finished playing. Is there a better way to do it ?
+    // detect if the producer has finished playing. Is there a better way to do it?
     if (self->m_isBlocked) return;
     if (mlt_properties_get_double(MLT_FRAME_PROPERTIES(frame_ptr), "_speed") == 0.0) {
         self->emitConsumerStopped();

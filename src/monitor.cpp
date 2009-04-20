@@ -421,7 +421,7 @@ void Monitor::slotExtractCurrentFrame()
     QPixmap frame = render->extractFrame(m_position);
     QString outputFile = KFileDialog::getSaveFileName(KUrl(), "image/png");
     if (!outputFile.isEmpty()) {
-        if (QFile::exists(outputFile) && KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) == KMessageBox::No) return;
+        if (QFile::exists(outputFile) && KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it?")) == KMessageBox::No) return;
         frame.save(outputFile);
     }
 }

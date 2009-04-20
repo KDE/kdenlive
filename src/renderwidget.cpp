@@ -557,7 +557,7 @@ void RenderWidget::slotExport(bool scriptExport)
     if (dest.isEmpty()) return;
     QFile f(dest);
     if (f.exists()) {
-        if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it ?")) != KMessageBox::Yes)
+        if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes)
             return;
     }
 
@@ -577,7 +577,7 @@ void RenderWidget::slotExport(bool scriptExport)
         scriptName.prepend(scriptsFolder);
         QFile f(scriptName);
         if (f.exists()) {
-            if (KMessageBox::warningYesNo(this, i18n("Script file already exists. Do you want to overwrite it ?")) != KMessageBox::Yes)
+            if (KMessageBox::warningYesNo(this, i18n("Script file already exists. Do you want to overwrite it?")) != KMessageBox::Yes)
                 return;
         }
     }
@@ -1219,7 +1219,7 @@ void RenderWidget::parseScriptFiles()
     QTreeWidgetItemIterator it(m_view.scripts_list);
     if (*it) {
         kDebug() << "// FOUND SCRIPT ITEM:" << (*it)->text(0);
-        // Selecting item does not work, why ???
+        // Selecting item does not work, why???
         m_view.scripts_list->setCurrentItem(*it);
         (*it)->setSelected(true);
         activate = true;
