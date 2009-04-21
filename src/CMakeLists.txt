@@ -176,6 +176,7 @@ target_link_libraries(kdenlive
   ${LIBMLT_LIBRARY}
   ${NEPOMUK_LIBRARIES}
   ${KDE4_KNOTIFYCONFIG_LIBRARY}
+  ${KDE4_KROSSUI_LIBS}
 )
 
 if (APPLE)
