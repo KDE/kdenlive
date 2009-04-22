@@ -5,14 +5,14 @@ add_subdirectory( mimetypes )
 find_package(Nepomuk REQUIRED)
 
 include_directories (
+    ${LIBMLT_INCLUDE_DIR}
+    ${LIBMLTPLUS_INCLUDE_DIR}
     ${QDBUS_INCLUDE_DIRS} 
     ${CMAKE_SOURCE_DIR} 
     ${CMAKE_BINARY_DIR} 
     ${KDE4_INCLUDES}
 
     ${CMAKE_SOURCE_DIR}/src/widgets
-    ${LIBMLT_INCLUDE_DIR}
-    ${LIBMLTPLUS_INCLUDE_DIR}
     ${NEPOMUK_INCLUDES}
 )
 
