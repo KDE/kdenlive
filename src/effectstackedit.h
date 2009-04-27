@@ -48,7 +48,8 @@ public:
     static QMap<QString, QImage> iconCache;
     void updateParameter(const QString &name, const QString &value);
 
-    class UiItem {
+    class UiItem
+    {
     public:
         UiItem() {};
         ~UiItem() {};

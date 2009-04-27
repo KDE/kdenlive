@@ -37,22 +37,28 @@
 #include <QScrollArea>
 
 
-class Boolval: public EffectStackEdit::UiItem, public Ui::Boolval_UI {
+class Boolval: public EffectStackEdit::UiItem, public Ui::Boolval_UI
+{
 };
 
-class Colorval: public EffectStackEdit::UiItem, public Ui::Colorval_UI {
+class Colorval: public EffectStackEdit::UiItem, public Ui::Colorval_UI
+{
 };
 
-class Constval: public EffectStackEdit::UiItem, public Ui::Constval_UI {
+class Constval: public EffectStackEdit::UiItem, public Ui::Constval_UI
+{
 };
 
-class Listval: public EffectStackEdit::UiItem, public Ui::Listval_UI {
+class Listval: public EffectStackEdit::UiItem, public Ui::Listval_UI
+{
 };
 
-class Positionval: public EffectStackEdit::UiItem, public Ui::Positionval_UI {
+class Positionval: public EffectStackEdit::UiItem, public Ui::Positionval_UI
+{
 };
 
-class Wipeval: public EffectStackEdit::UiItem, public Ui::Wipeval_UI {
+class Wipeval: public EffectStackEdit::UiItem, public Ui::Wipeval_UI
+{
 };
 
 
@@ -210,8 +216,9 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
             Colorval *cval = new Colorval;
             cval->setupUi(toFillin);
             bool ok;
+            if (value.startsWith('#')) value = value.replace('#', "0x");
             cval->kcolorbutton->setColor(value.toUInt(&ok, 16));
-            kDebug() << value.toUInt(&ok, 16);
+            //kDebug() << "color: " << value << ", " << value.toUInt(&ok, 16);
 
             connect(cval->kcolorbutton, SIGNAL(clicked()) , this, SLOT(collectAllParameters()));
             cval->label->setText(paramName);
