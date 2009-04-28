@@ -6,6 +6,9 @@
 	<parameter type="position" name="out" max="90000" min="0" default="75">
 		<name>Duration</name>
 	</parameter>
+	<parameter type="fixed" name="in" max="0" min="0" default="0">
+		<name>In</name>
+	</parameter>
 	<parameter type="fixed" name="start" max="0" min="0" default="0">
 		<name>Start</name>
 	</parameter>
