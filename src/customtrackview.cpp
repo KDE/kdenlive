@@ -1326,7 +1326,6 @@ void CustomTrackView::updateEffect(int track, GenTime pos, QDomElement effect, i
                 int pos = effectParams.paramValue("out").toInt() - effectParams.paramValue("in").toInt();
                 clip->setFadeOut(pos);
             }
-
         }
     }
     m_document->setModified(true);
@@ -1396,6 +1395,17 @@ void CustomTrackView::cutClip(ItemInfo info, GenTime cutTime, bool cut)
         else newPos.cropStart = item->info().cropStart + (cutTime - info.startPos) * speed;
         newPos.track = info.track;
         ClipItem *dup = item->clone(newPos);
+        // remove unwanted effects (fade in) from 2nd part of cutted clip
+        int ix = dup->hasEffect(QString(), "fadein");
+        if (ix != -1) {
+            QDomElement oldeffect = item->effectAt(ix);
+            dup->deleteEffect(oldeffect.attribute("kdenlive_ix"));
+        }
+        ix = dup->hasEffect(QString(), "fade_from_black");
+        if (ix != -1) {
+            QDomElement oldeffect = item->effectAt(ix);
+            dup->deleteEffect(oldeffect.attribute("kdenlive_ix"));
+        }
         item->resizeEnd(cutPos, false);
         scene()->addItem(dup);
         if (item->checkKeyFrames()) slotRefreshEffects(item);

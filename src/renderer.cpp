@@ -1455,7 +1455,8 @@ void Render::mltCutClip(int track, GenTime position)
     int ct = 0;
     Mlt::Filter *filter = clipService.filter(ct);
     while (filter) {
-        if (filter->is_valid() && strcmp(filter->get("kdenlive_id"), "")) {
+        // Only duplicate Kdenlive filters, and skip the fade in effects
+        if (filter->is_valid() && strcmp(filter->get("kdenlive_id"), "") && strcmp(filter->get("kdenlive_id"), "fadein") && strcmp(filter->get("kdenlive_id"), "fade_from_black")) {
             // looks like there is no easy way to duplicate a filter,
             // so we will create a new one and duplicate its properties
             Mlt::Filter *dup = new Mlt::Filter(*m_mltProfile, filter->get("mlt_service"));
