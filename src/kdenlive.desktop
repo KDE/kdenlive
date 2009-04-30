@@ -1,13 +1,15 @@
 # KDE Config File
 [Desktop Entry]
+Name=Kdenlive
+Name[de]=Kdenlive
 GenericName=Video Editor
+GenericName[de]=Video-Editor
+Comment=Nonlinear video editor for KDE
+Comment[de]=Nicht-linearer Video-Editor für KDE
 Type=Application
 Exec=kdenlive %i -caption "%c" %u
 Icon=kdenlive
 X-DocPath=kdenlive/index.html
-Comment=Nonlinear video editor for KDE
 Terminal=false
-Name=Kdenlive
-Name[de]=Kdenlive
 MimeType=application/x-kdenlive;
 Categories=Qt;KDE;AudioVideo;AudioVideoEditing;
