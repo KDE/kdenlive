@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-04-20 11:35+0200\n"
-"PO-Revision-Date: 2009-04-20 11:44+0200\n"
+"PO-Revision-Date: 2009-04-30 02:37+0200\n"
 "Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -1265,7 +1265,7 @@ msgstr "Beschreibung:"
 
 #: rc.cpp:657 rc.cpp:1860
 msgid "Desktop search integration"
-msgstr "Desktopsuche-Integration"
+msgstr "Integration in die Desktopsuche"
 
 #: rc.cpp:1269 rc.cpp:1572 rc.cpp:2472 rc.cpp:2775
 msgid "Destination"
