@@ -66,11 +66,11 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
     m_configEnv.projecturl->lineEdit()->setObjectName("kcfg_defaultprojectfolder");
     m_configEnv.capturefolderurl->setMode(KFile::Directory);
     m_configEnv.capturefolderurl->lineEdit()->setObjectName("kcfg_capturefolder");
-    m_page2 = addPage(p2, i18n("Environment"), "terminal");
+    m_page2 = addPage(p2, i18n("Environment"), "application-x-executable-script");
 
     QWidget *p4 = new QWidget;
     m_configCapture.setupUi(p4);
-    m_page4 = addPage(p4, i18n("Capture"), "audio-card");
+    m_page4 = addPage(p4, i18n("Capture"), "media-record");
     m_configCapture.tabWidget->setCurrentIndex(KdenliveSettings::defaultcapture());
 
     QWidget *p5 = new QWidget;
@@ -88,7 +88,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
 
     QWidget *p6 = new QWidget;
     m_configSdl.setupUi(p6);
-    m_page6 = addPage(p6, i18n("Playback"), "audio-card");
+    m_page6 = addPage(p6, i18n("Playback"), "media-playback-start");
 
     QStringList actions;
     actions << i18n("Do nothing");
