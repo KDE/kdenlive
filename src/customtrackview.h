@@ -210,6 +210,8 @@ private:
     QAction *m_changeSpeedAction;
     QAction *m_pasteEffectsAction;
     QAction *m_ungroupAction;
+    QAction *m_editGuide;
+    QAction *m_deleteGuide;
     QActionGroup *m_clipTypeGroup;
     QTimer m_scrollTimer;
     int m_scrollOffset;
@@ -247,7 +249,9 @@ private slots:
     void slotRefreshGuides();
     void slotEnableRefresh();
     void slotCheckMouseScrolling();
-
+    void slotEditTimeLineGuide();
+    void slotDeleteTimeLineGuide();
+    
 signals:
     void cursorMoved(int, int);
     void zoomIn();

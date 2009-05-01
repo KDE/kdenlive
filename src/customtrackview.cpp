@@ -172,6 +172,15 @@ void CustomTrackView::setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transi
             break;
         }
     }
+
+    m_timelineContextMenu->addSeparator();
+    m_deleteGuide = new KAction(KIcon("edit-delete"), i18n("Delete Guide"), this);
+    connect(m_deleteGuide, SIGNAL(triggered()), this, SLOT(slotDeleteTimeLineGuide()));
+    m_timelineContextMenu->addAction(m_deleteGuide);
+
+    m_editGuide = new KAction(KIcon("document-properties"), i18n("Edit Guide"), this);
+    connect(m_editGuide, SIGNAL(triggered()), this, SLOT(slotEditTimeLineGuide()));
+    m_timelineContextMenu->addAction(m_editGuide);
 }
 
 void CustomTrackView::checkAutoScroll()
@@ -583,7 +592,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     }
 
     // check item under mouse
-    QList<QGraphicsItem *> collisionList = items(event->pos());
+    QList<QGraphicsItem *> collisionList = items(m_clickEvent);
 
     if (event->modifiers() == Qt::ControlModifier && m_tool != SPACERTOOL && collisionList.count() == 0) {
         setDragMode(QGraphicsView::ScrollHandDrag);
@@ -605,7 +614,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         return;
     }
 
-    if (collisionList.count() == 1 && collisionList.at(0)->type() == GUIDEITEM) {
+    if (event->button() == Qt::LeftButton && collisionList.count() == 1 && collisionList.at(0)->type() == GUIDEITEM) {
         // a guide item was pressed
         collisionList.at(0)->setFlag(QGraphicsItem::ItemIsMovable, true);
         m_dragItem = NULL;
@@ -645,6 +654,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     // context menu requested
     if (event->button() == Qt::RightButton) {
+        m_dragGuide = NULL;
         if (m_dragItem) {
             if (dragGroup) dragGroup->setSelected(true);
             else if (!m_dragItem->isSelected()) {
@@ -653,6 +663,15 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                 m_dragItem->setSelected(true);
             }
         }
+
+        // check if there is a guide close to mouse click
+        QList<QGraphicsItem *> guidesCollisionList = items(event->pos().x() - 5, event->pos().y(), 10, 1);
+        for (int i = 0; i < guidesCollisionList.count(); i++) {
+            if (guidesCollisionList.at(0)->type() != GUIDEITEM)
+                guidesCollisionList.removeAt(0);
+        }
+        if (!guidesCollisionList.isEmpty())
+            m_dragGuide = static_cast <Guide *>(guidesCollisionList.at(0));
         m_operationMode = NONE;
         displayContextMenu(event->globalPos(), m_dragItem, dragGroup);
         m_menuPosition = m_clickEvent;
@@ -1046,6 +1065,8 @@ void CustomTrackView::editKeyFrame(const GenTime pos, const int track, const int
 
 void CustomTrackView::displayContextMenu(QPoint pos, AbstractClipItem *clip, AbstractGroupItem *group)
 {
+    m_deleteGuide->setEnabled(m_dragGuide != NULL);
+    m_editGuide->setEnabled(m_dragGuide != NULL);
     if (clip == NULL) m_timelineContextMenu->popup(pos);
     else if (group != NULL) {
         m_changeSpeedAction->setEnabled(false);
@@ -2133,9 +2154,12 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         setCursor(Qt::ArrowCursor);
         m_operationMode = NONE;
         m_dragGuide->setFlag(QGraphicsItem::ItemIsMovable, false);
-        EditGuideCommand *command = new EditGuideCommand(this, m_dragGuide->position(), m_dragGuide->label(), GenTime(m_dragGuide->pos().x(), m_document->fps()), m_dragGuide->label(), false);
-        m_commandStack->push(command);
-        m_dragGuide->updateGuide(GenTime(m_dragGuide->pos().x(), m_document->fps()));
+        GenTime newPos = GenTime(m_dragGuide->pos().x(), m_document->fps());
+        if (newPos != m_dragGuide->position()) {
+            EditGuideCommand *command = new EditGuideCommand(this, m_dragGuide->position(), m_dragGuide->label(), newPos, m_dragGuide->label(), false);
+            m_commandStack->push(command);
+            m_dragGuide->updateGuide(GenTime(m_dragGuide->pos().x(), m_document->fps()));
+        }
         m_dragGuide = NULL;
         m_dragItem = NULL;
         return;
@@ -3549,6 +3573,17 @@ void CustomTrackView::slotEditGuide(CommentedTime guide)
 }
 
 
+void CustomTrackView::slotEditTimeLineGuide()
+{
+    if (m_dragGuide == NULL) return;
+    CommentedTime guide = m_dragGuide->info();
+    MarkerDialog d(NULL, guide, m_document->timecode(), i18n("Edit Guide"), this);
+    if (d.exec() == QDialog::Accepted) {
+        EditGuideCommand *command = new EditGuideCommand(this, guide.time(), guide.comment(), d.newMarker().time(), d.newMarker().comment(), true);
+        m_commandStack->push(command);
+    }
+}
+
 void CustomTrackView::slotDeleteGuide()
 {
     GenTime pos = GenTime(m_cursorPos, m_document->fps());
@@ -3563,6 +3598,15 @@ void CustomTrackView::slotDeleteGuide()
     }
     if (!found) emit displayMessage(i18n("No guide at cursor time"), ErrorMessage);
 }
+
+
+void CustomTrackView::slotDeleteTimeLineGuide()
+{
+    if (m_dragGuide == NULL) return;
+    EditGuideCommand *command = new EditGuideCommand(this, m_dragGuide->position(), m_dragGuide->label(), GenTime(), QString(), true);
+    m_commandStack->push(command);
+}
+
 
 void CustomTrackView::slotDeleteAllGuides()
 {
