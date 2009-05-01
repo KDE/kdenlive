@@ -57,7 +57,8 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
         m_timecode(tc),
         m_view(parent),
         m_duration(0),
-        m_offset(0)
+        m_offset(0),
+        m_clickedGuide(-1)
 {
     setFont(KGlobalSettings::toolBarFont());
     m_scale = 3;
@@ -70,14 +71,24 @@ CustomRuler::CustomRuler(Timecode tc, CustomTrackView *parent) :
     m_contextMenu = new QMenu(this);
     QAction *addGuide = m_contextMenu->addAction(KIcon("document-new"), i18n("Add Guide"));
     connect(addGuide, SIGNAL(triggered()), m_view, SLOT(slotAddGuide()));
-    QAction *editGuide = m_contextMenu->addAction(KIcon("document-properties"), i18n("Edit Guide"));
-    connect(editGuide, SIGNAL(triggered()), m_view, SLOT(slotEditGuide()));
-    QAction *delGuide = m_contextMenu->addAction(KIcon("edit-delete"), i18n("Delete Guide"));
-    connect(delGuide, SIGNAL(triggered()), m_view, SLOT(slotDeleteGuide()));
+    m_editGuide = m_contextMenu->addAction(KIcon("document-properties"), i18n("Edit Guide"));
+    connect(m_editGuide, SIGNAL(triggered()), this, SLOT(slotEditGuide()));
+    m_deleteGuide = m_contextMenu->addAction(KIcon("edit-delete"), i18n("Delete Guide"));
+    connect(m_deleteGuide , SIGNAL(triggered()), this, SLOT(slotDeleteGuide()));
     QAction *delAllGuides = m_contextMenu->addAction(KIcon("edit-delete"), i18n("Delete All Guides"));
     connect(delAllGuides, SIGNAL(triggered()), m_view, SLOT(slotDeleteAllGuides()));
     setMouseTracking(true);
     setMinimumHeight(20);
+}
+
+void CustomRuler::slotEditGuide()
+{
+    m_view->slotEditGuide(m_clickedGuide);
+}
+
+void CustomRuler::slotDeleteGuide()
+{
+    m_view->slotDeleteGuide(m_clickedGuide);
 }
 
 void CustomRuler::setZone(QPoint p)
@@ -92,12 +103,15 @@ void CustomRuler::setZone(QPoint p)
 // virtual
 void CustomRuler::mousePressEvent(QMouseEvent * event)
 {
+    int pos = (int)((event->x() + offset()));
     if (event->button() == Qt::RightButton) {
+        m_clickedGuide = m_view->hasGuide((int)(pos / m_factor), (int)(5 / m_factor + 1));
+        m_editGuide->setEnabled(m_clickedGuide > 0);
+        m_deleteGuide->setEnabled(m_clickedGuide > 0);
         m_contextMenu->exec(event->globalPos());
         return;
     }
     m_view->activateMonitor();
-    int pos = (int)((event->x() + offset()));
     m_moveCursor = RULER_CURSOR;
     if (event->y() > 10) {
         if (qAbs(pos - m_zoneStart * m_factor) < 4) m_moveCursor = RULER_START;

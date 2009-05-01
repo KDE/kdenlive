@@ -3494,6 +3494,16 @@ bool sortGuidesList(const Guide *g1 , const Guide *g2)
     return (*g1).position() < (*g2).position();
 }
 
+int CustomTrackView::hasGuide(int pos, int offset)
+{
+    for (int i = 0; i < m_guides.count(); i++) {
+        int guidePos = m_guides.at(i)->position().frames(m_document->fps());
+        if (qAbs(guidePos - pos) < offset) return guidePos;
+        else if (guidePos > pos) return -1;
+    }
+    return -1;
+}
+
 void CustomTrackView::editGuide(const GenTime oldPos, const GenTime pos, const QString &comment)
 {
     if (oldPos > GenTime() && pos > GenTime()) {
@@ -3549,9 +3559,11 @@ void CustomTrackView::slotAddGuide()
     }
 }
 
-void CustomTrackView::slotEditGuide()
+void CustomTrackView::slotEditGuide(int guidePos)
 {
-    GenTime pos = GenTime(m_cursorPos, m_document->fps());
+    GenTime pos;
+    if (guidePos == -1) pos = GenTime(m_cursorPos, m_document->fps());
+    else pos = GenTime(guidePos, m_document->fps());
     bool found = false;
     for (int i = 0; i < m_guides.count(); i++) {
         if (m_guides.at(i)->position() == pos) {
@@ -3584,9 +3596,11 @@ void CustomTrackView::slotEditTimeLineGuide()
     }
 }
 
-void CustomTrackView::slotDeleteGuide()
+void CustomTrackView::slotDeleteGuide(int guidePos)
 {
-    GenTime pos = GenTime(m_cursorPos, m_document->fps());
+    GenTime pos;
+    if (guidePos == -1) pos = GenTime(m_cursorPos, m_document->fps());
+    else pos = GenTime(guidePos, m_document->fps());
     bool found = false;
     for (int i = 0; i < m_guides.count(); i++) {
         if (m_guides.at(i)->position() == pos) {

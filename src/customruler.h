@@ -62,10 +62,17 @@ private:
     int m_offset;
     RULER_MOVE m_moveCursor;
     QMenu *m_contextMenu;
+    QAction *m_editGuide;
+    QAction *m_deleteGuide;
+    int m_clickedGuide;
 
 public slots:
     void slotMoveRuler(int newPos);
     void slotCursorMoved(int oldpos, int newpos);
+
+private slots:
+    void slotEditGuide();
+    void slotDeleteGuide();
 
 signals:
     void zoneMoved(int, int);

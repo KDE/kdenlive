@@ -120,6 +120,7 @@ public:
     void setAudioOnly();
     void setAudioAndVideo();
     void doChangeClipType(const GenTime &pos, int track, bool videoOnly, bool audioOnly);
+    int hasGuide(int pos, int offset);
 
 public slots:
     void setCursorPos(int pos, bool seek = true);
@@ -142,8 +143,8 @@ public slots:
     bool addGuide(const GenTime pos, const QString &comment);
     void slotAddGuide();
     void slotEditGuide(CommentedTime guide);
-    void slotEditGuide();
-    void slotDeleteGuide();
+    void slotEditGuide(int guidePos = -1);
+    void slotDeleteGuide(int guidePos = -1);
     void slotDeleteAllGuides();
     void editGuide(const GenTime oldPos, const GenTime pos, const QString &comment);
     void copyClip();
@@ -251,7 +252,7 @@ private slots:
     void slotCheckMouseScrolling();
     void slotEditTimeLineGuide();
     void slotDeleteTimeLineGuide();
-    
+
 signals:
     void cursorMoved(int, int);
     void zoomIn();
