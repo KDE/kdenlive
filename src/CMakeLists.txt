@@ -2,9 +2,11 @@
 add_subdirectory( widgets )
 add_subdirectory( mimetypes )
 
+find_package(Qt4 REQUIRED)
 find_package(Nepomuk REQUIRED)
 
 include_directories (
+    ${QT_INCLUDES}
     ${LIBMLT_INCLUDE_DIR}
     ${LIBMLTPLUS_INCLUDE_DIR}
     ${QDBUS_INCLUDE_DIRS} 
