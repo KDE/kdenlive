@@ -266,33 +266,49 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             //newpoint -= m_selectedItem->scenePos();
             switch (m_resizeMode) {
             case TopLeft:
-                newrect.setBottomRight(newrect.bottomRight() + m_selectedItem->pos() - newpoint);
-                m_selectedItem->setPos(newpoint);
+                if (newpoint.x() < newrect.right() + m_selectedItem->pos().x() && newpoint.y() < newrect.bottom() + m_selectedItem->pos().y()) {
+                    newrect.setBottomRight(newrect.bottomRight() + m_selectedItem->pos() - newpoint);
+                    m_selectedItem->setPos(newpoint);
+                }
                 break;
             case BottomLeft:
-                newrect.setBottomRight(QPointF(newrect.bottomRight().x() + m_selectedItem->pos().x() - newpoint.x(), newpoint.y() - m_selectedItem->pos().y()));
-                m_selectedItem->setPos(QPointF(newpoint.x(), m_selectedItem->pos().y()));
+                if (newpoint.x() < newrect.right() + m_selectedItem->pos().x() && newpoint.y() > m_selectedItem->pos().y()) {
+                    newrect.setBottomRight(QPointF(newrect.bottomRight().x() + m_selectedItem->pos().x() - newpoint.x(), newpoint.y() - m_selectedItem->pos().y()));
+                    m_selectedItem->setPos(QPointF(newpoint.x(), m_selectedItem->pos().y()));
+                }
                 break;
             case TopRight:
-                newrect.setBottomRight(QPointF(newpoint.x() - m_selectedItem->pos().x(), newrect.bottom() + m_selectedItem->pos().y() - newpoint.y()));
-                m_selectedItem->setPos(QPointF(m_selectedItem->pos().x(), newpoint.y()));
+                if (newpoint.x() > m_selectedItem->pos().x() && newpoint.y() < newrect.bottom() + m_selectedItem->pos().y()) {
+                    newrect.setBottomRight(QPointF(newpoint.x() - m_selectedItem->pos().x(), newrect.bottom() + m_selectedItem->pos().y() - newpoint.y()));
+                    m_selectedItem->setPos(QPointF(m_selectedItem->pos().x(), newpoint.y()));
+                }
                 break;
             case BottomRight:
-                newrect.setBottomRight(newpoint - m_selectedItem->pos());
+                if (newpoint.x() > m_selectedItem->pos().x() && newpoint.y() > m_selectedItem->pos().y()) {
+                    newrect.setBottomRight(newpoint - m_selectedItem->pos());
+                }
                 break;
             case Left:
-                newrect.setRight(m_selectedItem->pos().x() + newrect.width() - newpoint.x());
-                m_selectedItem->setPos(QPointF(newpoint.x(), m_selectedItem->pos().y()));
+                if (newpoint.x() < newrect.right() + m_selectedItem->pos().x()) {
+                    newrect.setRight(m_selectedItem->pos().x() + newrect.width() - newpoint.x());
+                    m_selectedItem->setPos(QPointF(newpoint.x(), m_selectedItem->pos().y()));
+                }
                 break;
             case Right:
-                newrect.setRight(newpoint.x() - m_selectedItem->pos().x());
+                if (newpoint.x() > m_selectedItem->pos().x()) {
+                    newrect.setRight(newpoint.x() - m_selectedItem->pos().x());
+                }
                 break;
             case Up:
-                newrect.setBottom(m_selectedItem->pos().y() + newrect.bottom() - newpoint.y());
-                m_selectedItem->setPos(QPointF(m_selectedItem->pos().x(), newpoint.y()));
+                if (newpoint.y() < newrect.bottom() + m_selectedItem->pos().y()) {
+                    newrect.setBottom(m_selectedItem->pos().y() + newrect.bottom() - newpoint.y());
+                    m_selectedItem->setPos(QPointF(m_selectedItem->pos().x(), newpoint.y()));
+                }
                 break;
             case Down:
-                newrect.setBottom(newpoint.y() - m_selectedItem->pos().y());
+                if (newpoint.y() > m_selectedItem->pos().y()) {
+                    newrect.setBottom(newpoint.y() - m_selectedItem->pos().y());
+                }
                 break;
             default:
                 QPointF diff = e->scenePos() - m_sceneClickPoint;
