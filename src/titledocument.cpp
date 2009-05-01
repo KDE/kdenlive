@@ -65,7 +65,7 @@ QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonIt
             break;
         case 3:
             e.setAttribute("type", "QGraphicsRectItem");
-            content.setAttribute("rect", rectFToString(((QGraphicsRectItem*)item)->rect()));
+            content.setAttribute("rect", rectFToString(((QGraphicsRectItem*)item)->rect().normalized()));
             content.setAttribute("pencolor", colorToString(((QGraphicsRectItem*)item)->pen().color()));
             content.setAttribute("penwidth", ((QGraphicsRectItem*)item)->pen().width());
             content.setAttribute("brushcolor", colorToString(((QGraphicsRectItem*)item)->brush().color()));
@@ -292,7 +292,7 @@ QString TitleDocument::colorToString(const QColor& c)
 QString TitleDocument::rectFToString(const QRectF& c)
 {
     QString ret = "%1,%2,%3,%4";
-    ret = ret.arg(c.x()).arg(c.y()).arg(c.width()).arg(c.height());
+    ret = ret.arg(c.top()).arg(c.left()).arg(c.width()).arg(c.height());
     return ret;
 }
 
@@ -302,7 +302,7 @@ QRectF TitleDocument::stringToRect(const QString & s)
     QStringList l = s.split(',');
     if (l.size() < 4)
         return QRectF();
-    return QRectF(l[0].toDouble(), l[1].toDouble(), l[2].toDouble(), l[3].toDouble());
+    return QRectF(l[0].toDouble(), l[1].toDouble(), l[2].toDouble(), l[3].toDouble()).normalized();
 }
 
 QColor TitleDocument::stringToColor(const QString & s)
