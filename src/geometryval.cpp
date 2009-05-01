@@ -467,10 +467,11 @@ void Geometryval::slotUpdateTransitionProperties()
         // no keyframe under cursor
         return;
     }
+    QRectF r = m_paramRect->rect().normalized();
     item.x(m_paramRect->pos().x());
     item.y(m_paramRect->pos().y());
-    item.w(m_paramRect->rect().width());
-    item.h(m_paramRect->rect().height());
+    item.w(r.width());
+    item.h(r.height());
     m_geom->insert(item);
     updateTransitionPath();
     emit parameterChanged();
