@@ -5,14 +5,18 @@ Comment=Kdenlive
 [Event/RenderFinished]
 Name=Rendering finished
 Name[de]=Rendern beendet
+Name[it]=Esportazione conclusa
 Comment=Rendering is over
 Comment[de]=Das Rendern eines Film wurde beendet
+Comment[it]=L'esportazione del filmato si è conclusa correttaemnte
 Action=Popup
 
 [Event/RenderStarted]
 Name=Rendering started
 Name[de]=Rendern angefangen
+Name[it]=Esportazione iniziata
 Comment=Rendering was started
 Comment[de]=Das Rendern eines Film wurde angefangen
+Comment[it]=È iniziata l'esportazione di un filmato
 Action=Popup
 

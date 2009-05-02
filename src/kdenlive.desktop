@@ -2,10 +2,13 @@
 [Desktop Entry]
 Name=Kdenlive
 Name[de]=Kdenlive
+Name[it]=Kdenlive
 GenericName=Video Editor
 GenericName[de]=Video-Editor
+GenericName[it]=Editor Video
 Comment=Nonlinear video editor for KDE
 Comment[de]=Nicht-linearer Video-Editor für KDE
+Comment[it]=Editor Video non lineare per KDE
 Type=Application
 Exec=kdenlive %i -caption "%c" %u
 Icon=kdenlive
