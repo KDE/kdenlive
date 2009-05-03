@@ -96,7 +96,7 @@
       <item row="2" column="1" >
        <widget class="KIntSpinBox" name="frame_num" >
         <property name="maximum" >
-         <number>30000</number>
+         <number>500000</number>
         </property>
        </widget>
       </item>
