@@ -5,7 +5,7 @@ Summary:        Non-linear video editor
 
 Group:          Applications/Multimedia
 License:        GPL
-URL:            http://www.kdenlive.org/
+URL:            http://kdenlive.org/
 Source0:        kdenlive-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -13,8 +13,8 @@ BuildRequires:  mlt, mlt++, soprano-devel
 Requires:       kdebase
 
 %description
-Kdenlive is a non-linear video editor for GNU/Linux, which supports 
-DV, HDV and AVCHD (not complete yet) editing.
+Kdenlive is a non-linear video editor for GNU/Linux and FreeBSD
+which supports DV, HDV and AVCHD (not complete yet) editing.
 
 %prep
 %setup -q
