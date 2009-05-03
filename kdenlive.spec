@@ -13,8 +13,11 @@ BuildRequires:  mlt, mlt++, soprano-devel
 Requires:       kdebase
 
 %description
-Kdenlive is a non-linear video editor for GNU/Linux and FreeBSD
-which supports DV, HDV and AVCHD (not complete yet) editing.
+Kdenlive is a non-linear video editor for GNU/Linux and FreeBSD, which
+supports DV, AVCHD (experimental support) and HDV editing. Kdenlive relies
+on several other open source projects, such as FFmpeg and the MLT video
+framework. It was designed to answer all needs, from basic video editing to
+semi-professional work.
 
 %prep
 %setup -q
