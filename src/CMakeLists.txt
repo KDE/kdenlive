@@ -2,17 +2,17 @@
 add_subdirectory( widgets )
 add_subdirectory( mimetypes )
 
-find_package(Qt4 REQUIRED)
 find_package(Nepomuk REQUIRED)
 
 include_directories (
+    ${KDE4_INCLUDE_DIR}
+    ${KDE4_INCLUDE_DIR}/KDE
     ${QT_INCLUDES}
     ${LIBMLT_INCLUDE_DIR}
     ${LIBMLTPLUS_INCLUDE_DIR}
     ${QDBUS_INCLUDE_DIRS} 
     ${CMAKE_SOURCE_DIR} 
     ${CMAKE_BINARY_DIR} 
-    ${KDE4_INCLUDES}
 
     ${CMAKE_SOURCE_DIR}/src/widgets
     ${NEPOMUK_INCLUDES}
