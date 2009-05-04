@@ -149,7 +149,7 @@ private:
     void setNewClipResource(const QString &id, const QString &path);
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
     void moveProjectData(KUrl url);
-    void checkDocumentClips();
+    bool checkDocumentClips();
 
 public slots:
     void slotCreateTextClip(QString group, const QString &groupId);

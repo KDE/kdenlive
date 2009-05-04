@@ -134,7 +134,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                         }
                         westley.removeChild(tracksinfo);
                     }
-                    checkDocumentClips();
+                    if (checkDocumentClips() == false) m_abortLoading = true;
                     QDomNodeList producers = m_document.elementsByTagName("producer");
                     QDomNodeList infoproducers = m_document.elementsByTagName("kdenlive_producer");
                     const int max = producers.count();
@@ -1357,7 +1357,7 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
 {
     const QString producerId = clipId.section('_', 0, 0);
     DocClipBase *clip = m_clipManager->getClipById(producerId);
-    bool placeHolder = false;
+
     if (clip == NULL) {
         elem.setAttribute("id", producerId);
         QString path = elem.attribute("resource");
@@ -1390,7 +1390,7 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
             delete dia_ui;
         }
 
-        if (path.isEmpty() == false && QFile::exists(path) == false && elem.attribute("type").toInt() != TEXT) {
+        if (path.isEmpty() == false && QFile::exists(path) == false && elem.attribute("type").toInt() != TEXT && !elem.hasAttribute("placeholder")) {
             kDebug() << "// FOUND MISSING CLIP: " << path << ", TYPE: " << elem.attribute("type").toInt();
             const QString size = elem.attribute("file_size");
             const QString hash = elem.attribute("file_hash");
@@ -1429,7 +1429,7 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
                 return;
             } else if (action == KMessageBox::No) {
                 // Keep clip as placeHolder
-                placeHolder = true;
+                elem.setAttribute("placeholder", '1');
             }
             if (!newpath.isEmpty()) {
                 if (elem.attribute("type").toInt() == SLIDESHOW) newpath.append('/' + extension);
@@ -1438,7 +1438,7 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
                 setModified(true);
             }
         }
-        clip = new DocClipBase(m_clipManager, elem, producerId, placeHolder);
+        clip = new DocClipBase(m_clipManager, elem, producerId);
         m_clipManager->addClip(clip);
     }
 
@@ -1680,10 +1680,10 @@ QString KdenliveDoc::getLadspaFile() const
     return m_projectFolder.path() + "/ladspa/" + counter + ".ladspa";
 }
 
-void KdenliveDoc::checkDocumentClips()
+bool KdenliveDoc::checkDocumentClips()
 {
     DocumentChecker d(m_document);
-    d.exec();
+    return (d.exec() == QDialog::Accepted);
 }
 
 

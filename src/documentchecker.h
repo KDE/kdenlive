@@ -43,6 +43,7 @@ private slots:
     virtual void accept();
     void slotSearchClips();
     void slotEditItem(QTreeWidgetItem *item, int);
+    void slotPlaceholders();
 
 protected:
     //void wheelEvent(QWheelEvent * event);
@@ -51,6 +52,7 @@ private:
     Ui::MissingClips_UI m_view;
     QDomDocument m_doc;
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
+    void checkStatus();
 
 signals:
     //void updateThumb();

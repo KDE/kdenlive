@@ -33,7 +33,7 @@
 
 #include <QCryptographicHash>
 
-DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id, bool placeHolder) :
+DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QString &id) :
         QObject(),
         m_audioFrameCache(),
         m_refcount(0),
@@ -46,12 +46,12 @@ DocClipBase::DocClipBase(ClipManager *clipManager, QDomElement xml, const QStrin
         m_thumbProd(NULL),
         m_audioThumbCreated(false),
         m_id(id),
-        m_placeHolder(placeHolder),
+        m_placeHolder(xml.hasAttribute("placeholder")),
         m_properties()
 {
     int type = xml.attribute("type").toInt();
     m_clipType = (CLIPTYPE) type;
-
+    if (m_placeHolder) xml.removeAttribute("placeholder");
     QDomNamedNodeMap attributes = xml.attributes();
     for (int i = 0; i < attributes.count(); i++) {
         m_properties.insert(attributes.item(i).nodeName(), attributes.item(i).nodeValue());

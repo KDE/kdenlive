@@ -43,6 +43,10 @@ const int sizeRole = Qt::UserRole + 1;
 const int idRole = Qt::UserRole + 2;
 const int statusRole = Qt::UserRole + 3;
 
+const int CLIPMISSING = 0;
+const int CLIPOK = 1;
+const int CLIPPLACEHOLDER = 2;
+
 DocumentChecker::DocumentChecker(QDomDocument doc, QWidget * parent) :
         QDialog(parent), m_doc(doc)
 {
@@ -70,8 +74,8 @@ DocumentChecker::DocumentChecker(QDomDocument doc, QWidget * parent) :
         }
     }
 
-    if (missingClips.isEmpty()) QTimer::singleShot(0, this, SLOT(reject()));
-
+    if (missingClips.isEmpty()) QTimer::singleShot(0, this, SLOT(accept()));
+    m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     for (int i = 0; i < missingClips.count(); i++) {
         e = missingClips.at(i).toElement();
         QString clipType;
@@ -102,9 +106,10 @@ DocumentChecker::DocumentChecker(QDomDocument doc, QWidget * parent) :
         item->setData(0, hashRole, e.attribute("file_hash"));
         item->setData(0, sizeRole, e.attribute("file_size"));
         item->setData(0, idRole, e.attribute("id"));
-        item->setData(0, statusRole, '1');
+        item->setData(0, statusRole, CLIPMISSING);
     }
     connect(m_view.recursiveSearch, SIGNAL(pressed()), this, SLOT(slotSearchClips()));
+    connect(m_view.usePlaceholders, SIGNAL(pressed()), this, SLOT(slotPlaceholders()));
     connect(m_view.treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotEditItem(QTreeWidgetItem *, int)));
     //adjustSize();
 }
@@ -117,16 +122,17 @@ void DocumentChecker::slotSearchClips()
     if (newpath.isEmpty()) return;
     int ix = 0;
     QTreeWidgetItem *child = m_view.treeWidget->topLevelItem(ix);
-    while (child && !child->data(0, statusRole).toString().isEmpty()) {
+    while (child && child->data(0, statusRole).toInt() == CLIPMISSING) {
         QString clipPath = searchFileRecursively(QDir(newpath), child->data(0, sizeRole).toString(), child->data(0, hashRole).toString());
         if (!clipPath.isEmpty()) {
             child->setText(1, clipPath);
             child->setIcon(0, KIcon("dialog-ok"));
-            child->setData(0, statusRole, QString());
+            child->setData(0, statusRole, CLIPOK);
         }
         ix++;
         child = m_view.treeWidget->topLevelItem(ix);
     }
+    checkStatus();
 }
 
 QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const
@@ -173,7 +179,8 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
     item->setText(1, url.path());
     if (KIO::NetAccess::exists(url, KIO::NetAccess::SourceSide, 0)) {
         item->setIcon(0, KIcon("dialog-ok"));
-        item->setData(0, statusRole, QString());
+        item->setData(0, statusRole, CLIPOK);
+        checkStatus();
     }
 }
 
@@ -185,29 +192,72 @@ void DocumentChecker::accept()
     QDomNodeList infoproducers = m_doc.elementsByTagName("kdenlive_producer");
     int ix = 0;
     QTreeWidgetItem *child = m_view.treeWidget->topLevelItem(ix);
-    while (child && child->data(0, statusRole).toString().isEmpty()) {
-        QString id = child->data(0, idRole).toString();
-        for (int i = 0; i < infoproducers.count(); i++) {
-            e = infoproducers.item(i).toElement();
-            if (e.attribute("id") == id) {
-                // Fix clip
-                e.setAttribute("resource", child->text(1));
-                break;
+    while (child) {
+        if (child->data(0, statusRole).toInt() == CLIPOK) {
+            QString id = child->data(0, idRole).toString();
+            for (int i = 0; i < infoproducers.count(); i++) {
+                e = infoproducers.item(i).toElement();
+                if (e.attribute("id") == id) {
+                    // Fix clip
+                    e.setAttribute("resource", child->text(1));
+                    break;
+                }
+            }
+            for (int i = 0; i < producers.count(); i++) {
+                e = producers.item(i).toElement();
+                if (e.attribute("id") == id) {
+                    // Fix clip
+                    e.setAttribute("resource", child->text(1));
+                    break;
+                }
+            }
+        } else if (child->data(0, statusRole).toInt() == CLIPPLACEHOLDER) {
+            QString id = child->data(0, idRole).toString();
+            for (int i = 0; i < infoproducers.count(); i++) {
+                e = infoproducers.item(i).toElement();
+                if (e.attribute("id") == id) {
+                    // Fix clip
+                    e.setAttribute("placeholder", '1');
+                    break;
+                }
             }
         }
-        for (int i = 0; i < producers.count(); i++) {
-            e = producers.item(i).toElement();
-            if (e.attribute("id") == id) {
-                // Fix clip
-                e.setAttribute("resource", child->text(1));
-                break;
-            }
-        }
-
         ix++;
         child = m_view.treeWidget->topLevelItem(ix);
     }
     QDialog::accept();
+}
+
+void DocumentChecker::slotPlaceholders()
+{
+    int ix = 0;
+    QTreeWidgetItem *child = m_view.treeWidget->topLevelItem(ix);
+    while (child) {
+        if (child->data(0, statusRole).toInt() == CLIPMISSING) {
+            child->setData(0, statusRole, CLIPPLACEHOLDER);
+            child->setIcon(0, KIcon("dialog-ok"));
+        }
+        ix++;
+        child = m_view.treeWidget->topLevelItem(ix);
+    }
+    checkStatus();
+}
+
+
+void DocumentChecker::checkStatus()
+{
+    bool status = true;
+    int ix = 0;
+    QTreeWidgetItem *child = m_view.treeWidget->topLevelItem(ix);
+    while (child) {
+        if (child->data(0, statusRole).toInt() == CLIPMISSING) {
+            status = false;
+            break;
+        }
+        ix++;
+        child = m_view.treeWidget->topLevelItem(ix);
+    }
+    m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(status);
 }
 
 #include "documentchecker.moc"
