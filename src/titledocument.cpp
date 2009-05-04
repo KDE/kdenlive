@@ -302,7 +302,7 @@ QRectF TitleDocument::stringToRect(const QString & s)
     QStringList l = s.split(',');
     if (l.size() < 4)
         return QRectF();
-    return QRectF(l[0].toDouble(), l[1].toDouble(), l[2].toDouble(), l[3].toDouble()).normalized();
+    return QRectF(l.at(0).toDouble(), l.at(1).toDouble(), l.at(2).toDouble(), l.at(3).toDouble()).normalized();
 }
 
 QColor TitleDocument::stringToColor(const QString & s)
@@ -310,7 +310,7 @@ QColor TitleDocument::stringToColor(const QString & s)
     QStringList l = s.split(',');
     if (l.size() < 4)
         return QColor();
-    return QColor(l[0].toInt(), l[1].toInt(), l[2].toInt(), l[3].toInt());;
+    return QColor(l.at(0).toInt(), l.at(1).toInt(), l.at(2).toInt(), l.at(3).toInt());;
 }
 QTransform TitleDocument::stringToTransform(const QString& s)
 {
@@ -318,8 +318,8 @@ QTransform TitleDocument::stringToTransform(const QString& s)
     if (l.size() < 9)
         return QTransform();
     return QTransform(
-               l[0].toDouble(), l[1].toDouble(), l[2].toDouble(),
-               l[3].toDouble(), l[4].toDouble(), l[5].toDouble(),
-               l[6].toDouble(), l[7].toDouble(), l[8].toDouble()
+               l.at(0).toDouble(), l.at(1).toDouble(), l.at(2).toDouble(),
+               l.at(3).toDouble(), l.at(4).toDouble(), l.at(5).toDouble(),
+               l.at(6).toDouble(), l.at(7).toDouble(), l.at(8).toDouble()
            );
 }

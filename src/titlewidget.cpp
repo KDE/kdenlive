@@ -33,6 +33,10 @@
 
 int settingUp = false;
 
+const int IMAGEITEM = 7;
+const int RECTITEM = 3;
+const int TEXTITEM = 8;
+
 TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget *parent) :
         QDialog(parent),
         Ui::TitleWidget_UI(),
@@ -436,12 +440,13 @@ void TitleWidget::selectionChanged()
     value_y->blockSignals(true);
     value_w->blockSignals(true);
     value_h->blockSignals(true);
-    //kDebug() << "////////  SELECTION CHANGED; ITEMS: " << l.size();
+    itemzoom->blockSignals(true);
+    itemrotate->blockSignals(true);
     if (l.size() == 1) {
-        if ((l[0])->type() == 8) {
+        if (l.at(0)->type() == TEXTITEM) {
             rect_properties->setHidden(true);
             text_properties->setHidden(false);
-            QGraphicsTextItem* i = ((QGraphicsTextItem*)l[0]);
+            QGraphicsTextItem* i = static_cast <QGraphicsTextItem *>(l.at(0));
             //if (l[0]->hasFocus())
             //ktextedit->setHtml(i->toHtml());
             toolBox->setCurrentIndex(0);
@@ -480,11 +485,11 @@ void TitleWidget::selectionChanged()
             frame_properties->setEnabled(true);
             value_w->setEnabled(false);
             value_h->setEnabled(false);
-        } else if ((l[0])->type() == 3) {
+        } else if ((l.at(0))->type() == RECTITEM) {
             rect_properties->setHidden(false);
             text_properties->setHidden(true);
             settingUp = true;
-            QGraphicsRectItem *rec = ((QGraphicsRectItem*)l[0]);
+            QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *>(l.at(0));
             toolBox->setCurrentIndex(0);
             //toolBox->setItemEnabled(3, true);
             rectFAlpha->setValue(rec->pen().color().alpha());
@@ -509,13 +514,15 @@ void TitleWidget::selectionChanged()
             //toolBox->setCurrentIndex(0);
             frame_properties->setEnabled(false);
         }
-        zValue->setValue((int)l[0]->zValue());
-        itemzoom->setValue((int)(m_transformations[l[0]].scalex * 100));
-        itemrotate->setValue((int)(m_transformations[l[0]].rotate));
+        zValue->setValue((int)l.at(0)->zValue());
+        itemzoom->setValue((int)(m_transformations.value(l.at(0)).scalex * 100.0 + 0.5));
+        itemrotate->setValue((int)(m_transformations.value(l.at(0)).rotate));
         value_x->blockSignals(false);
         value_y->blockSignals(false);
         value_w->blockSignals(false);
         value_h->blockSignals(false);
+        itemzoom->blockSignals(false);
+        itemrotate->blockSignals(false);
     } else frame_properties->setEnabled(false);
 }
 
@@ -523,14 +530,14 @@ void TitleWidget::slotAdjustSelectedItem()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() >= 1) {
-        if (l[0]->type() == 3) {
+        if (l.at(0)->type() == RECTITEM) {
             //rect item
-            QGraphicsRectItem *rec = ((QGraphicsRectItem*)l[0]);
+            QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *>(l.at(0));
             rec->setPos(value_x->value(), value_y->value());
             rec->setRect(QRect(0, 0, value_w->value(), value_h->value()));
-        } else if (l[0]->type() == 8) {
+        } else if (l.at(0)->type() == TEXTITEM) {
             //text item
-            QGraphicsTextItem *rec = ((QGraphicsTextItem*)l[0]);
+            QGraphicsTextItem *rec = static_cast <QGraphicsTextItem *>(l.at(0));
             rec->setPos(value_x->value(), value_y->value());
         }
     }
@@ -546,7 +553,7 @@ void TitleWidget::slotChangeBackground()
 void TitleWidget::textChanged()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    if (l.size() == 1 && (l[0])->type() == 8 && !l[0]->hasFocus()) {
+    if (l.size() == 1 && l.at(0)->type() == TEXTITEM && !l.at(0)->hasFocus()) {
         //kDebug() << ktextedit->document()->toHtml();
         //((QGraphicsTextItem*)l[0])->setHtml(ktextedit->toHtml());
     }
@@ -564,8 +571,8 @@ void TitleWidget::slotUpdateText()
 
     QGraphicsTextItem* item = NULL;
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    if (l.size() == 1 && (l[0])->type() == 8) {
-        item = (QGraphicsTextItem*)l[0];
+    if (l.size() == 1 && l.at(0)->type() == TEXTITEM) {
+        item = static_cast <QGraphicsTextItem *>(l.at(0));
     }
     if (!item) return;
     //if (item->textCursor().selection ().isEmpty())
@@ -591,8 +598,8 @@ void TitleWidget::slotUpdateText()
 void TitleWidget::rectChanged()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    if (l.size() == 1 && (l[0])->type() == 3 && !settingUp) {
-        QGraphicsRectItem *rec = (QGraphicsRectItem*)l[0];
+    if (l.size() == 1 && l.at(0)->type() == RECTITEM && !settingUp) {
+        QGraphicsRectItem *rec = static_cast<QGraphicsRectItem *>(l.at(0));
         QColor f = rectFColor->color();
         f.setAlpha(rectFAlpha->value());
         QPen penf(f);
@@ -607,7 +614,7 @@ void TitleWidget::rectChanged()
 void TitleWidget::fontBold()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    if (l.size() == 1 && (l[0])->type() == 8 && !l[0]->hasFocus()) {
+    if (l.size() == 1 && l.at(0)->type() == TEXTITEM && !l.at(0)->hasFocus()) {
         //ktextedit->document()->setTextOption();
     }
 }
@@ -616,14 +623,14 @@ void TitleWidget::itemScaled(int val)
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
-        Transform x = m_transformations[l[0]];
+        Transform x = m_transformations.value(l.at(0));
         x.scalex = (double)val / 100.0;
         x.scaley = (double)val / 100.0;
         QTransform qtrans;
         qtrans.scale(x.scalex, x.scaley);
         qtrans.rotate(x.rotate);
         l[0]->setTransform(qtrans);
-        m_transformations[l[0]] = x;
+        m_transformations[l.at(0)] = x;
     }
 }
 
@@ -631,13 +638,13 @@ void TitleWidget::itemRotate(int val)
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
-        Transform x = m_transformations[l[0]];
+        Transform x = m_transformations[l.at(0)];
         x.rotate = (double)val;
         QTransform qtrans;
         qtrans.scale(x.scalex, x.scaley);
         qtrans.rotate(x.rotate);
         l[0]->setTransform(qtrans);
-        m_transformations[l[0]] = x;
+        m_transformations[l.at(0)] = x;
     }
 }
 
@@ -645,11 +652,11 @@ void TitleWidget::itemHCenter()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
-        QGraphicsItem *item = l[0];
+        QGraphicsItem *item = l.at(0);
         QRectF br;
-        if (item->type() == 3) {
+        if (item->type() == RECTITEM) {
             br = ((QGraphicsRectItem*)item)->rect();
-        } else br = item->boundingRect();
+        } else br = item->sceneBoundingRect();
         int width = (int) br.width();
         int newPos = (int)((m_frameWidth - width) / 2);
         item->setPos(newPos, item->pos().y());
@@ -660,11 +667,11 @@ void TitleWidget::itemVCenter()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
-        QGraphicsItem *item = l[0];
+        QGraphicsItem *item = l.at(0);
         QRectF br;
-        if (item->type() == 3) {
+        if (item->type() == RECTITEM) {
             br = ((QGraphicsRectItem*)item)->rect();
-        } else br = item->boundingRect();
+        } else br = item->sceneBoundingRect();
         int height = (int) br.height();
         int newPos = (int)((m_frameHeight - height) / 2);
         item->setPos(item->pos().x(), newPos);
@@ -721,6 +728,17 @@ QDomDocument TitleWidget::xml()
 void TitleWidget::setXml(QDomDocument doc)
 {
     m_count = m_titledocument.loadFromXml(doc, m_startViewport, m_endViewport);
+    m_transformations.clear();
+    QList <QGraphicsItem *> items = graphicsView->scene()->items();
+    const double PI = 4.0 * atan(1.0);
+    for (int i = 0; i < items.count(); i++) {
+        QTransform t = items.at(i)->transform();
+        Transform x;
+        x.scalex = t.m11();
+        x.scaley = t.m22();
+        x.rotate = 180. / PI * atan2(-t.m21(), t.m11());
+        m_transformations[items.at(i)] = x;
+    }
     // mbd: Update the GUI color selectors to match the stuff from the loaded document
     QColor background_color = m_titledocument.getBackgroundColor();
     horizontalSlider->blockSignals(true);
