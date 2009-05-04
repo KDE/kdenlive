@@ -4393,6 +4393,7 @@ void CustomTrackView::doSplitAudio(const GenTime &pos, int track, bool split)
                 break;
             }
         }
+        clip->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         m_document->clipManager()->removeGroup(grp);
         scene()->destroyItemGroup(grp);
     }
