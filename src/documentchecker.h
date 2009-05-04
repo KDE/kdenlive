@@ -44,6 +44,7 @@ private slots:
     void slotSearchClips();
     void slotEditItem(QTreeWidgetItem *item, int);
     void slotPlaceholders();
+    void slotDeleteSelected();
 
 protected:
     //void wheelEvent(QWheelEvent * event);

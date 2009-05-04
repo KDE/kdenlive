@@ -29,6 +29,7 @@
 #include <KFileDialog>
 #include <KApplication>
 #include <KUrlRequesterDialog>
+#include <KMessageBox>
 
 #include <QTreeWidgetItem>
 #include <QFile>
@@ -110,6 +111,7 @@ DocumentChecker::DocumentChecker(QDomDocument doc, QWidget * parent) :
     }
     connect(m_view.recursiveSearch, SIGNAL(pressed()), this, SLOT(slotSearchClips()));
     connect(m_view.usePlaceholders, SIGNAL(pressed()), this, SLOT(slotPlaceholders()));
+    connect(m_view.removeSelected, SIGNAL(pressed()), this, SLOT(slotDeleteSelected()));
     connect(m_view.treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotEditItem(QTreeWidgetItem *, int)));
     //adjustSize();
 }
@@ -258,6 +260,70 @@ void DocumentChecker::checkStatus()
         child = m_view.treeWidget->topLevelItem(ix);
     }
     m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(status);
+}
+
+
+void DocumentChecker::slotDeleteSelected()
+{
+    if (KMessageBox::warningContinueCancel(this, i18n("This will remove the selected clips from this project"), i18n("Remove clips")) == KMessageBox::Cancel) return;
+    int ix = 0;
+    QStringList deletedIds;
+    QTreeWidgetItem *child = m_view.treeWidget->topLevelItem(ix);
+    QDomNodeList playlists = m_doc.elementsByTagName("playlist");
+
+    while (child) {
+        if (child->isSelected()) {
+            QString id = child->data(0, idRole).toString();
+            deletedIds.append(id);
+            for (int j = 0; j < playlists.count(); j++)
+                deletedIds.append(id + '_' + QString::number(j));
+            delete child;
+        } else ix++;
+        child = m_view.treeWidget->topLevelItem(ix);
+    }
+    kDebug() << "// Clips to delete: " << deletedIds;
+
+    if (!deletedIds.isEmpty()) {
+        QDomElement e;
+        QDomNodeList producers = m_doc.elementsByTagName("producer");
+        QDomNodeList infoproducers = m_doc.elementsByTagName("kdenlive_producer");
+
+        QDomElement westley = m_doc.firstChildElement("westley");
+        QDomElement kdenlivedoc = westley.firstChildElement("kdenlivedoc");
+
+        for (int i = 0; i < infoproducers.count(); i++) {
+            e = infoproducers.item(i).toElement();
+            if (deletedIds.contains(e.attribute("id"))) {
+                // Remove clip
+                kdenlivedoc.removeChild(e);
+                break;
+            }
+        }
+
+        for (int i = 0; i < producers.count(); i++) {
+            e = producers.item(i).toElement();
+            if (deletedIds.contains(e.attribute("id"))) {
+                // Remove clip
+                westley.removeChild(e);
+                break;
+            }
+        }
+
+        for (int i = 0; i < playlists.count(); i++) {
+            QDomNodeList entries = playlists.at(i).toElement().elementsByTagName("entry");
+            for (int j = 0; j < playlists.count(); j++) {
+                e = entries.item(j).toElement();
+                if (deletedIds.contains(e.attribute("producer"))) {
+                    // Replace clip with blank
+                    e.setTagName("blank");
+                    e.removeAttribute("producer");
+                    int length = e.attribute("out").toInt() - e.attribute("in").toInt();
+                    e.setAttribute("length", length);
+                }
+            }
+        }
+        checkStatus();
+    }
 }
 
 #include "documentchecker.moc"
