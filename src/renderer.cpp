@@ -519,7 +519,7 @@ void Render::getFileProperties(const QDomElement &xml, const QString &clipId, bo
 
     if (producer == NULL || producer->is_blank() || !producer->is_valid()) {
         kDebug() << " / / / / / / / / ERROR / / / / // CANNOT LOAD PRODUCER: ";
-        emit removeInvalidClip(clipId);
+        emit removeInvalidClip(clipId, replaceProducer);
         delete producer;
         return;
     }
@@ -828,11 +828,13 @@ void Render::setSceneList(QString playlist, int position)
     blockSignals(true);
     char *tmp = decodedString(playlist);
     m_mltProducer = new Mlt::Producer(*m_mltProfile, "westley-xml", tmp);
-    delete[] tmp;
 
     if (!m_mltProducer || !m_mltProducer->is_valid()) {
         kDebug() << " WARNING - - - - -INVALID PLAYLIST: " << tmp;
+        m_mltProducer = m_blackClip->cut(0, 50);
     }
+    delete[] tmp;
+
     m_mltProducer->optimise();
 
     /*if (KdenliveSettings::osdtimecode()) {

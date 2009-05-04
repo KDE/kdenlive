@@ -134,9 +134,9 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                         }
                         westley.removeChild(tracksinfo);
                     }
-                    if (checkDocumentClips() == false) m_abortLoading = true;
                     QDomNodeList producers = m_document.elementsByTagName("producer");
                     QDomNodeList infoproducers = m_document.elementsByTagName("kdenlive_producer");
+                    if (checkDocumentClips(producers, infoproducers) == false) m_abortLoading = true;
                     const int max = producers.count();
                     const int infomax = infoproducers.count();
 
@@ -1680,9 +1680,27 @@ QString KdenliveDoc::getLadspaFile() const
     return m_projectFolder.path() + "/ladspa/" + counter + ".ladspa";
 }
 
-bool KdenliveDoc::checkDocumentClips()
+bool KdenliveDoc::checkDocumentClips(QDomNodeList producers, QDomNodeList infoproducers)
 {
-    DocumentChecker d(m_document);
+    int clipType;
+    QDomElement e;
+    QString id;
+    QString resource;
+    QList <QDomElement> missingClips;
+    for (int i = 0; i < infoproducers.count(); i++) {
+        e = infoproducers.item(i).toElement();
+        clipType = e.attribute("type").toInt();
+        if (clipType == TEXT) continue;
+        id = e.attribute("id");
+        resource = e.attribute("resource");
+        if (clipType == SLIDESHOW) resource = KUrl(resource).directory();
+        if (!KIO::NetAccess::exists(KUrl(resource), KIO::NetAccess::SourceSide, 0)) {
+            // Missing clip found
+            missingClips.append(e);
+        }
+    }
+    if (missingClips.isEmpty()) return true;
+    DocumentChecker d(producers, infoproducers, missingClips, m_document);
     return (d.exec() == QDialog::Accepted);
 }
 

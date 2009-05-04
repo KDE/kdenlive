@@ -48,34 +48,13 @@ const int CLIPMISSING = 0;
 const int CLIPOK = 1;
 const int CLIPPLACEHOLDER = 2;
 
-DocumentChecker::DocumentChecker(QDomDocument doc, QWidget * parent) :
+DocumentChecker::DocumentChecker(QDomNodeList producers, QDomNodeList infoproducers, QList <QDomElement> missingClips, QDomDocument doc, QWidget * parent) :
         QDialog(parent), m_doc(doc)
 {
     setFont(KGlobalSettings::toolBarFont());
     m_view.setupUi(this);
-
-    QDomNodeList producers = m_doc.elementsByTagName("producer");
-    QDomNodeList infoproducers = m_doc.elementsByTagName("kdenlive_producer");
-
-    int clipType;
     QDomElement e;
-    QString id;
-    QString resource;
-    QList <QDomElement> missingClips;
-    for (int i = 0; i < infoproducers.count(); i++) {
-        e = infoproducers.item(i).toElement();
-        clipType = e.attribute("type").toInt();
-        if (clipType == TEXT) continue;
-        id = e.attribute("id");
-        resource = e.attribute("resource");
-        if (clipType == SLIDESHOW) resource = KUrl(resource).directory();
-        if (!KIO::NetAccess::exists(KUrl(resource), KIO::NetAccess::SourceSide, 0)) {
-            // Missing clip found
-            missingClips.append(e);
-        }
-    }
 
-    if (missingClips.isEmpty()) QTimer::singleShot(0, this, SLOT(accept()));
     m_view.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     for (int i = 0; i < missingClips.count(); i++) {
         e = missingClips.at(i).toElement();
@@ -123,6 +102,7 @@ void DocumentChecker::slotSearchClips()
     QString newpath = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///clipfolder"), kapp->activeWindow(), i18n("Clips folder"));
     if (newpath.isEmpty()) return;
     int ix = 0;
+    m_view.recursiveSearch->setEnabled(false);
     QTreeWidgetItem *child = m_view.treeWidget->topLevelItem(ix);
     while (child && child->data(0, statusRole).toInt() == CLIPMISSING) {
         QString clipPath = searchFileRecursively(QDir(newpath), child->data(0, sizeRole).toString(), child->data(0, hashRole).toString());
@@ -134,6 +114,7 @@ void DocumentChecker::slotSearchClips()
         ix++;
         child = m_view.treeWidget->topLevelItem(ix);
     }
+    m_view.recursiveSearch->setEnabled(true);
     checkStatus();
 }
 
@@ -163,7 +144,7 @@ QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &m
                     return file.fileName();
             }
         }
-        kDebug() << filesAndDirs.at(i) << file.size() << fileHash.toHex();
+        //kDebug() << filesAndDirs.at(i) << file.size() << fileHash.toHex();
     }
     filesAndDirs = dir.entryList(QDir::Dirs | QDir::Readable | QDir::Executable | QDir::NoDotAndDotDot);
     for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); i++) {

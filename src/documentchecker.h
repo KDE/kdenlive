@@ -26,7 +26,6 @@
 #include <KUrl>
 
 #include <QDir>
-#include <QPushButton>
 #include <QDomElement>
 
 
@@ -35,9 +34,8 @@ class DocumentChecker : public QDialog
     Q_OBJECT
 
 public:
-    explicit DocumentChecker(QDomDocument doc, QWidget * parent = 0);
+    explicit DocumentChecker(QDomNodeList producers, QDomNodeList infoproducers, QList <QDomElement> missingClips, QDomDocument doc, QWidget * parent = 0);
     ~DocumentChecker();
-    KUrl::List importFiles();
 
 private slots:
     virtual void accept();
@@ -46,17 +44,12 @@ private slots:
     void slotPlaceholders();
     void slotDeleteSelected();
 
-protected:
-    //void wheelEvent(QWheelEvent * event);
-
 private:
     Ui::MissingClips_UI m_view;
     QDomDocument m_doc;
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
     void checkStatus();
 
-signals:
-    //void updateThumb();
 };
 
 

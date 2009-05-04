@@ -255,7 +255,7 @@ signals:   // Signals
     void durationChanged(int);
     void rendererPosition(int);
     void rendererStopped(int);
-    void removeInvalidClip(const QString &);
+    void removeInvalidClip(const QString &, bool replaceProducer);
     void refreshDocumentProducers();
 
 public slots:  // Public slots

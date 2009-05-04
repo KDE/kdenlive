@@ -138,7 +138,7 @@ public slots:
     void slotUpdateClip(const QString &id);
     void slotRefreshClipThumbnail(const QString &clipId, bool update = true);
     void slotRefreshClipThumbnail(ProjectItem *item, bool update = true);
-    void slotRemoveInvalidClip(const QString &id);
+    void slotRemoveInvalidClip(const QString &id, bool replace);
     void slotSelectClip(const QString &ix);
     void slotRemoveClip();
     void slotAddClip(const QList <QUrl> givenList = QList <QUrl> (), QString group = QString());
@@ -147,6 +147,7 @@ public slots:
     void slotOpenClip();
     void slotEditClip();
     void slotReloadClip();
+    void slotAddColorClip();
 
 private:
     ProjectListView *m_listView;
@@ -176,7 +177,6 @@ private:
 
 private slots:
     void slotClipSelected();
-    void slotAddColorClip();
     void slotAddSlideshowClip();
     void slotAddTitleClip();
     void slotContextMenu(const QPoint &pos, QTreeWidgetItem *);

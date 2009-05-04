@@ -593,7 +593,7 @@ void MainWindow::slotConnectMonitors()
     connect(m_projectMonitor->render, SIGNAL(replyGetImage(const QString &, const QPixmap &)), m_projectList, SLOT(slotReplyGetImage(const QString &, const QPixmap &)));
     connect(m_projectMonitor->render, SIGNAL(replyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &, bool)), m_projectList, SLOT(slotReplyGetFileProperties(const QString &, Mlt::Producer*, const QMap < QString, QString > &, const QMap < QString, QString > &, bool)));
 
-    connect(m_projectMonitor->render, SIGNAL(removeInvalidClip(const QString &)), m_projectList, SLOT(slotRemoveInvalidClip(const QString &)));
+    connect(m_projectMonitor->render, SIGNAL(removeInvalidClip(const QString &, bool)), m_projectList, SLOT(slotRemoveInvalidClip(const QString &, bool)));
 
     connect(m_clipMonitor, SIGNAL(refreshClipThumbnail(const QString &)), m_projectList, SLOT(slotRefreshClipThumbnail(const QString &)));
 

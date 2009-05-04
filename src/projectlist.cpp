@@ -86,7 +86,7 @@ ProjectList::ProjectList(QWidget *parent) :
     layout->addWidget(m_toolbar);
     layout->addWidget(m_listView);
     setLayout(layout);
-    
+
 
 
     connect(m_listView, SIGNAL(itemSelectionChanged()), this, SLOT(slotClipSelected()));
@@ -619,15 +619,20 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, QString group)
     m_doc->slotAddClipList(list, group, groupId);
 }
 
-void ProjectList::slotRemoveInvalidClip(const QString &id)
+void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
 {
     ProjectItem *item = getItemById(id);
     if (item) {
         const QString path = item->referencedClip()->fileURL().path();
-        if (!path.isEmpty()) KMessageBox::sorry(this, i18n("Clip <b>%1</b><br>is invalid, will be removed from project.", path));
+        if (!path.isEmpty()) {
+            if (replace) KMessageBox::sorry(this, i18n("Clip <b>%1</b><br>is invalid, will be removed from project.", path));
+            else {
+                if (KMessageBox::questionYesNo(this, i18n("Clip <b>%1</b><br>is missing or invalid. Remove it from project?", path), i18n("Invalid clip")) == KMessageBox::Yes) replace = true;
+            }
+        }
         QList <QString> ids;
         ids << id;
-        m_doc->deleteProjectClip(ids);
+        if (replace) m_doc->deleteProjectClip(ids);
     }
     if (!m_infoQueue.isEmpty()) QTimer::singleShot(300, this, SLOT(slotProcessNextClipInQueue()));
     else m_listView->setEnabled(true);
