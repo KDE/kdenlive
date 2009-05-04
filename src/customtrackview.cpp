@@ -4147,6 +4147,11 @@ void CustomTrackView::slotChangeTrack(int ix)
     view.track_nb->setValue(ix);
     d.setWindowTitle(i18n("Change Track Type"));
 
+    if (m_document->trackInfoAt(m_document->tracksCount() - ix - 1).type == VIDEOTRACK)
+        view.video_track->setChecked(true);
+    else
+        view.audio_track->setChecked(true);
+
     if (d.exec() == QDialog::Accepted) {
         TrackInfo info;
         info.isLocked = false;
