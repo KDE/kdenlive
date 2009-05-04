@@ -1,0 +1,215 @@
+/***************************************************************************
+ *   Copyright (C) 2008 by Jean-Baptiste Mardelle (jb@kdenlive.org)        *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ ***************************************************************************/
+
+
+#include "documentchecker.h"
+#include "kthumb.h"
+#include "definitions.h"
+
+#include <KDebug>
+#include <KGlobalSettings>
+#include <KFileItem>
+#include <KIO/NetAccess>
+#include <KFileDialog>
+#include <KApplication>
+#include <KUrlRequesterDialog>
+
+#include <QTreeWidgetItem>
+#include <QFile>
+#include <QHeaderView>
+#include <QIcon>
+#include <QPixmap>
+#include <QTimer>
+#include <QCryptographicHash>
+
+const int hashRole = Qt::UserRole;
+const int sizeRole = Qt::UserRole + 1;
+const int idRole = Qt::UserRole + 2;
+const int statusRole = Qt::UserRole + 3;
+
+DocumentChecker::DocumentChecker(QDomDocument doc, QWidget * parent) :
+        QDialog(parent), m_doc(doc)
+{
+    setFont(KGlobalSettings::toolBarFont());
+    m_view.setupUi(this);
+
+    QDomNodeList producers = m_doc.elementsByTagName("producer");
+    QDomNodeList infoproducers = m_doc.elementsByTagName("kdenlive_producer");
+
+    int clipType;
+    QDomElement e;
+    QString id;
+    QString resource;
+    QList <QDomElement> missingClips;
+    for (int i = 0; i < infoproducers.count(); i++) {
+        e = infoproducers.item(i).toElement();
+        clipType = e.attribute("type").toInt();
+        if (clipType == TEXT) continue;
+        id = e.attribute("id");
+        resource = e.attribute("resource");
+        if (clipType == SLIDESHOW) resource = KUrl(resource).directory();
+        if (!KIO::NetAccess::exists(KUrl(resource), KIO::NetAccess::SourceSide, 0)) {
+            // Missing clip found
+            missingClips.append(e);
+        }
+    }
+
+    if (missingClips.isEmpty()) QTimer::singleShot(0, this, SLOT(reject()));
+
+    for (int i = 0; i < missingClips.count(); i++) {
+        e = missingClips.at(i).toElement();
+        QString clipType;
+        switch (e.attribute("type").toInt()) {
+        case AV:
+            clipType = i18n("Video clip");
+            break;
+        case VIDEO:
+            clipType = i18n("Mute video clip");
+            break;
+        case AUDIO:
+            clipType = i18n("Audio clip");
+            break;
+        case PLAYLIST:
+            clipType = i18n("Playlist clip");
+            break;
+        case IMAGE:
+            clipType = i18n("Image clip");
+            break;
+        case SLIDESHOW:
+            clipType = i18n("Slideshow clip");
+            break;
+        default:
+            clipType = i18n("Video clip");
+        }
+        QTreeWidgetItem *item = new QTreeWidgetItem(m_view.treeWidget, QStringList() << clipType << e.attribute("resource"));
+        item->setIcon(0, KIcon("dialog-close"));
+        item->setData(0, hashRole, e.attribute("file_hash"));
+        item->setData(0, sizeRole, e.attribute("file_size"));
+        item->setData(0, idRole, e.attribute("id"));
+        item->setData(0, statusRole, '1');
+    }
+    connect(m_view.recursiveSearch, SIGNAL(pressed()), this, SLOT(slotSearchClips()));
+    connect(m_view.treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotEditItem(QTreeWidgetItem *, int)));
+    //adjustSize();
+}
+
+DocumentChecker::~DocumentChecker() {}
+
+void DocumentChecker::slotSearchClips()
+{
+    QString newpath = KFileDialog::getExistingDirectory(KUrl("kfiledialog:///clipfolder"), kapp->activeWindow(), i18n("Clips folder"));
+    if (newpath.isEmpty()) return;
+    int ix = 0;
+    QTreeWidgetItem *child = m_view.treeWidget->topLevelItem(ix);
+    while (child && !child->data(0, statusRole).toString().isEmpty()) {
+        QString clipPath = searchFileRecursively(QDir(newpath), child->data(0, sizeRole).toString(), child->data(0, hashRole).toString());
+        if (!clipPath.isEmpty()) {
+            child->setText(1, clipPath);
+            child->setIcon(0, KIcon("dialog-ok"));
+            child->setData(0, statusRole, QString());
+        }
+        ix++;
+        child = m_view.treeWidget->topLevelItem(ix);
+    }
+}
+
+QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const
+{
+    QString foundFileName;
+    QByteArray fileData;
+    QByteArray fileHash;
+    QStringList filesAndDirs = dir.entryList(QDir::Files | QDir::Readable);
+    for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); i++) {
+        QFile file(dir.absoluteFilePath(filesAndDirs.at(i)));
+        if (file.open(QIODevice::ReadOnly)) {
+            if (QString::number(file.size()) == matchSize) {
+                /*
+                * 1 MB = 1 second per 450 files (or faster)
+                * 10 MB = 9 seconds per 450 files (or faster)
+                */
+                if (file.size() > 1000000*2) {
+                    fileData = file.read(1000000);
+                    if (file.seek(file.size() - 1000000))
+                        fileData.append(file.readAll());
+                } else
+                    fileData = file.readAll();
+                file.close();
+                fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+                if (QString(fileHash.toHex()) == matchHash)
+                    return file.fileName();
+            }
+        }
+        kDebug() << filesAndDirs.at(i) << file.size() << fileHash.toHex();
+    }
+    filesAndDirs = dir.entryList(QDir::Dirs | QDir::Readable | QDir::Executable | QDir::NoDotAndDotDot);
+    for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); i++) {
+        foundFileName = searchFileRecursively(dir.absoluteFilePath(filesAndDirs.at(i)), matchSize, matchHash);
+        if (!foundFileName.isEmpty())
+            break;
+    }
+    return foundFileName;
+}
+
+void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
+{
+    KUrl url = KUrlRequesterDialog::getUrl(item->text(1), this, i18n("Enter new location for file"));
+    if (url.isEmpty()) return;
+    item->setText(1, url.path());
+    if (KIO::NetAccess::exists(url, KIO::NetAccess::SourceSide, 0)) {
+        item->setIcon(0, KIcon("dialog-ok"));
+        item->setData(0, statusRole, QString());
+    }
+}
+
+// virtual
+void DocumentChecker::accept()
+{
+    QDomElement e;
+    QDomNodeList producers = m_doc.elementsByTagName("producer");
+    QDomNodeList infoproducers = m_doc.elementsByTagName("kdenlive_producer");
+    int ix = 0;
+    QTreeWidgetItem *child = m_view.treeWidget->topLevelItem(ix);
+    while (child && child->data(0, statusRole).toString().isEmpty()) {
+        QString id = child->data(0, idRole).toString();
+        for (int i = 0; i < infoproducers.count(); i++) {
+            e = infoproducers.item(i).toElement();
+            if (e.attribute("id") == id) {
+                // Fix clip
+                e.setAttribute("resource", child->text(1));
+                break;
+            }
+        }
+        for (int i = 0; i < producers.count(); i++) {
+            e = producers.item(i).toElement();
+            if (e.attribute("id") == id) {
+                // Fix clip
+                e.setAttribute("resource", child->text(1));
+                break;
+            }
+        }
+
+        ix++;
+        child = m_view.treeWidget->topLevelItem(ix);
+    }
+    QDialog::accept();
+}
+
+#include "documentchecker.moc"
+
+

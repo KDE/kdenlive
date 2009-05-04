@@ -26,6 +26,7 @@
 #include "clipmanager.h"
 #include "titlewidget.h"
 #include "mainwindow.h"
+#include "documentchecker.h"
 #include "kdenlive-config.h"
 
 #include <KDebug>
@@ -133,7 +134,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                         }
                         westley.removeChild(tracksinfo);
                     }
-
+                    checkDocumentClips();
                     QDomNodeList producers = m_document.elementsByTagName("producer");
                     QDomNodeList infoproducers = m_document.elementsByTagName("kdenlive_producer");
                     const int max = producers.count();
@@ -1678,6 +1679,13 @@ QString KdenliveDoc::getLadspaFile() const
     }
     return m_projectFolder.path() + "/ladspa/" + counter + ".ladspa";
 }
+
+void KdenliveDoc::checkDocumentClips()
+{
+    DocumentChecker d(m_document);
+    d.exec();
+}
+
 
 #include "kdenlivedoc.moc"
 
