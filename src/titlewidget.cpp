@@ -30,6 +30,8 @@
 #include <QTimer>
 #include <QToolBar>
 #include <QMenu>
+#include <QTextBlockFormat>
+#include <QTextCursor>
 
 int settingUp = false;
 
@@ -99,6 +101,10 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     connect(buttonBold, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonItalic, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonUnder, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
+    connect(buttonAlignLeft, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
+    connect(buttonAlignRight, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
+    connect(buttonAlignCenter, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
+    connect(buttonAlignNone, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(displayBg, SIGNAL(stateChanged(int)), this, SLOT(displayBackgroundFrame()));
 
     // mbd
@@ -109,6 +115,13 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     buttonBold->setIcon(KIcon("format-text-bold"));
     buttonItalic->setIcon(KIcon("format-text-italic"));
     buttonUnder->setIcon(KIcon("format-text-underline"));
+    buttonAlignCenter->setIcon(KIcon("format-justify-center"));
+    buttonAlignLeft->setIcon(KIcon("format-justify-left"));
+    buttonAlignRight->setIcon(KIcon("format-justify-right"));
+    buttonAlignNone->setToolTip(i18n("No alignment"));
+    buttonAlignRight->setToolTip(i18n("Align right"));
+    buttonAlignLeft->setToolTip(i18n("Align left"));
+    buttonAlignCenter->setToolTip(i18n("Align center"));
 
     itemhcenter->setIcon(KIcon("kdenlive-align-hor"));
     itemhcenter->setToolTip(i18n("Align item horizontally"));
@@ -458,6 +471,10 @@ void TitleWidget::selectionChanged()
             buttonUnder->blockSignals(true);
             fontColorButton->blockSignals(true);
             textAlpha->blockSignals(true);
+            buttonAlignLeft->blockSignals(true);
+            buttonAlignRight->blockSignals(true);
+            buttonAlignNone->blockSignals(true);
+            buttonAlignCenter->blockSignals(true);
 
             QFont font = i->font();
             font_family->setCurrentFont(font);
@@ -470,6 +487,13 @@ void TitleWidget::selectionChanged()
             fontColorButton->setColor(color);
             textAlpha->setValue(color.alpha());
 
+            QTextCursor cur = i->textCursor();
+            QTextBlockFormat format = cur.blockFormat();
+            if (i->textWidth() == -1) buttonAlignNone->setChecked(true);
+            else if (format.alignment() == Qt::AlignHCenter) buttonAlignCenter->setChecked(true);
+            else if (format.alignment() == Qt::AlignRight) buttonAlignRight->setChecked(true);
+            else if (format.alignment() == Qt::AlignLeft) buttonAlignLeft->setChecked(true);
+
             font_size->blockSignals(false);
             font_family->blockSignals(false);
             buttonBold->blockSignals(false);
@@ -477,6 +501,10 @@ void TitleWidget::selectionChanged()
             buttonUnder->blockSignals(false);
             fontColorButton->blockSignals(false);
             textAlpha->blockSignals(false);
+            buttonAlignLeft->blockSignals(false);
+            buttonAlignRight->blockSignals(false);
+            buttonAlignNone->blockSignals(false);
+            buttonAlignCenter->blockSignals(false);
 
             value_x->setValue((int) i->pos().x());
             value_y->setValue((int) i->pos().y());
@@ -576,9 +604,27 @@ void TitleWidget::slotUpdateText()
     }
     if (!item) return;
     //if (item->textCursor().selection ().isEmpty())
+    QTextCursor cur = item->textCursor();
+    QTextBlockFormat format = cur.blockFormat();
+    if (buttonAlignLeft->isChecked() || buttonAlignCenter->isChecked() || buttonAlignRight->isChecked()) {
+        item->setTextWidth(item->boundingRect().width());
+        if (buttonAlignCenter->isChecked()) format.setAlignment(Qt::AlignHCenter);
+        else if (buttonAlignRight->isChecked()) format.setAlignment(Qt::AlignRight);
+        else if (buttonAlignLeft->isChecked()) format.setAlignment(Qt::AlignLeft);
+    } else {
+        format.setAlignment(Qt::AlignLeft);
+        item->setTextWidth(-1);
+    }
+
     {
         item->setFont(font);
         item->setDefaultTextColor(color);
+        cur.select(QTextCursor::Document);
+        cur.setBlockFormat(format);
+        item->setTextCursor(cur);
+        cur.clearSelection();
+        item->setTextCursor(cur);
+
     }
     /*else {
     QTextDocumentFragment selec = item->textCursor().selection ();

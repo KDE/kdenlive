@@ -29,6 +29,7 @@
 #include <QGraphicsSvgItem>
 #include <QFontInfo>
 #include <QFile>
+#include <QTextCursor>
 
 
 TitleDocument::TitleDocument()
@@ -84,6 +85,9 @@ QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonIt
             content.setAttribute("font-italic", font.italic());
             content.setAttribute("font-underline", font.underline());
             content.setAttribute("font-color", colorToString(t->defaultTextColor()));
+            if (t->textWidth() != -1) {
+                content.setAttribute("alignment", t->textCursor().blockFormat().alignment());
+            }
             break;
         default:
             continue;
@@ -218,6 +222,18 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* /*startv*
                     QGraphicsTextItem *txt = m_scene->addText(items.item(i).namedItem("content").firstChild().nodeValue(), font);
                     txt->setDefaultTextColor(col);
                     txt->setTextInteractionFlags(Qt::NoTextInteraction);
+                    if (txtProperties.namedItem("alignment").isNull() == false) {
+                        txt->setTextWidth(txt->boundingRect().width());
+                        QTextCursor cur = txt->textCursor();
+                        QTextBlockFormat format = cur.blockFormat();
+                        format.setAlignment((Qt::Alignment) txtProperties.namedItem("alignment").nodeValue().toInt());
+                        cur.select(QTextCursor::Document);
+                        cur.setBlockFormat(format);
+                        txt->setTextCursor(cur);
+                        cur.clearSelection();
+                        txt->setTextCursor(cur);
+                    }
+
                     gitem = txt;
                 } else if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsRectItem") {
                     QString rect = items.item(i).namedItem("content").attributes().namedItem("rect").nodeValue();
