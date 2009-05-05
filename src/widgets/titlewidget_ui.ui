@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>TitleWidget_UI</class>
- <widget class="QDialog" name="TitleWidget_UI" >
-  <property name="geometry" >
+ <widget class="QDialog" name="TitleWidget_UI">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,99 +10,112 @@
     <height>442</height>
    </rect>
   </property>
-  <property name="sizePolicy" >
-   <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Title Clip</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2" >
-   <item row="2" column="1" colspan="8" >
-    <widget class="QFrame" name="rect_properties" >
-     <property name="frameShape" >
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="5" column="7">
+    <spacer name="horizontalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>235</width>
+       <height>28</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="1" colspan="8">
+    <widget class="QFrame" name="rect_properties">
+     <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
-     <property name="frameShadow" >
+     <property name="frameShadow">
       <enum>QFrame::Sunken</enum>
      </property>
-     <layout class="QGridLayout" name="gridLayout_4" >
-      <property name="margin" >
+     <layout class="QGridLayout" name="gridLayout_4">
+      <property name="margin">
        <number>2</number>
       </property>
-      <item row="0" column="0" >
-       <layout class="QHBoxLayout" name="horizontalLayout_3" >
+      <item row="0" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QLabel" name="label_2" >
-          <property name="text" >
+         <widget class="QLabel" name="label_2">
+          <property name="text">
            <string>Fill color</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="KColorButton" name="rectBColor" />
+         <widget class="KColorButton" name="rectBColor"/>
         </item>
         <item>
-         <widget class="QSlider" name="rectBAlpha" >
-          <property name="maximum" >
+         <widget class="QSlider" name="rectBAlpha">
+          <property name="maximum">
            <number>255</number>
           </property>
-          <property name="value" >
+          <property name="value">
            <number>255</number>
           </property>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="Line" name="line_2" >
-          <property name="orientation" >
+         <widget class="Line" name="line_2">
+          <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_11" >
-          <property name="text" >
+         <widget class="QLabel" name="label_11">
+          <property name="text">
            <string>Border color</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="KColorButton" name="rectFColor" />
+         <widget class="KColorButton" name="rectFColor"/>
         </item>
         <item>
-         <widget class="QSlider" name="rectFAlpha" >
-          <property name="maximum" >
+         <widget class="QSlider" name="rectFAlpha">
+          <property name="maximum">
            <number>255</number>
           </property>
-          <property name="value" >
+          <property name="value">
            <number>0</number>
           </property>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_4" >
-          <property name="text" >
+         <widget class="QLabel" name="label_4">
+          <property name="text">
            <string>Width</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="rectLineWidth" />
+         <widget class="QSpinBox" name="rectLineWidth"/>
         </item>
         <item>
-         <spacer name="horizontalSpacer" >
-          <property name="orientation" >
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeHint" stdset="0" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>241</width>
             <height>28</height>
@@ -114,53 +128,53 @@
      </layout>
     </widget>
    </item>
-   <item row="3" column="1" colspan="8" >
-    <widget class="QFrame" name="text_properties" >
-     <property name="frameShape" >
+   <item row="3" column="1" colspan="8">
+    <widget class="QFrame" name="text_properties">
+     <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
-     <property name="frameShadow" >
+     <property name="frameShadow">
       <enum>QFrame::Sunken</enum>
      </property>
-     <layout class="QGridLayout" name="gridLayout_5" >
-      <property name="leftMargin" >
+     <layout class="QGridLayout" name="gridLayout_5">
+      <property name="leftMargin">
        <number>2</number>
       </property>
-      <property name="topMargin" >
+      <property name="topMargin">
        <number>2</number>
       </property>
-      <property name="rightMargin" >
+      <property name="rightMargin">
        <number>2</number>
       </property>
-      <item row="0" column="0" >
-       <layout class="QHBoxLayout" name="horizontalLayout_4" >
+      <item row="0" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
-         <widget class="QFontComboBox" name="font_family" />
+         <widget class="QFontComboBox" name="font_family"/>
         </item>
         <item>
-         <widget class="QLabel" name="label_20" >
-          <property name="text" >
-           <string>Width</string>
+         <widget class="QLabel" name="label_20">
+          <property name="text">
+           <string>Size</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="font_size" >
-          <property name="minimum" >
+         <widget class="QSpinBox" name="font_size">
+          <property name="minimum">
            <number>8</number>
           </property>
-          <property name="maximum" >
+          <property name="maximum">
            <number>1000</number>
           </property>
-          <property name="value" >
+          <property name="value">
            <number>20</number>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="KColorButton" name="fontColorButton" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Fixed" hsizetype="Maximum" >
+         <widget class="KColorButton" name="fontColorButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -168,57 +182,115 @@
          </widget>
         </item>
         <item>
-         <widget class="QSlider" name="textAlpha" >
-          <property name="maximum" >
+         <widget class="QSlider" name="textAlpha">
+          <property name="maximum">
            <number>255</number>
           </property>
-          <property name="value" >
+          <property name="value">
            <number>255</number>
           </property>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="buttonBold" >
-          <property name="text" >
+         <widget class="QToolButton" name="buttonBold">
+          <property name="text">
            <string>...</string>
           </property>
-          <property name="checkable" >
+          <property name="checkable">
            <bool>true</bool>
           </property>
-          <property name="checked" >
+          <property name="checked">
            <bool>false</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="buttonItalic" >
-          <property name="text" >
+         <widget class="QToolButton" name="buttonItalic">
+          <property name="text">
            <string>...</string>
           </property>
-          <property name="checkable" >
+          <property name="checkable">
            <bool>true</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="buttonUnder" >
-          <property name="text" >
+         <widget class="QToolButton" name="buttonUnder">
+          <property name="text">
            <string>...</string>
           </property>
-          <property name="checkable" >
+          <property name="checkable">
            <bool>true</bool>
           </property>
          </widget>
         </item>
         <item>
-         <spacer name="horizontalSpacer_2" >
-          <property name="orientation" >
+         <widget class="QToolButton" name="buttonAlignNone">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <property name="autoExclusive">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="buttonAlignLeft">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+          <property name="autoExclusive">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="buttonAlignCenter">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="autoExclusive">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="buttonAlignRight">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="autoExclusive">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeHint" stdset="0" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>52</width>
             <height>20</height>
@@ -231,43 +303,43 @@
      </layout>
     </widget>
    </item>
-   <item row="4" column="1" colspan="8" >
-    <widget class="QSplitter" name="splitter" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+   <item row="4" column="1" colspan="8">
+    <widget class="QSplitter" name="splitter">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="orientation" >
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QGraphicsView" name="graphicsView" />
-     <widget class="QToolBox" name="toolBox" >
-      <property name="currentIndex" >
+     <widget class="QGraphicsView" name="graphicsView"/>
+     <widget class="QToolBox" name="toolBox">
+      <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="BasicOperations" >
-       <property name="geometry" >
+      <widget class="QWidget" name="BasicOperations">
+       <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>355</width>
-         <height>168</height>
+         <width>358</width>
+         <height>178</height>
         </rect>
        </property>
-       <attribute name="label" >
+       <attribute name="label">
         <string>BasicOperations</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_3" >
-        <item row="0" column="0" colspan="3" >
-         <layout class="QHBoxLayout" name="horizontalLayout" >
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0" colspan="3">
+         <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <spacer name="horizontalSpacer_4" >
-            <property name="orientation" >
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeHint" stdset="0" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>161</width>
               <height>26</height>
@@ -276,27 +348,27 @@
            </spacer>
           </item>
           <item>
-           <widget class="QToolButton" name="itemhcenter" >
-            <property name="text" >
+           <widget class="QToolButton" name="itemhcenter">
+            <property name="text">
              <string>...</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="itemvcenter" >
-            <property name="text" >
+           <widget class="QToolButton" name="itemvcenter">
+            <property name="text">
              <string>...</string>
             </property>
            </widget>
           </item>
          </layout>
         </item>
-        <item row="1" column="0" >
+        <item row="1" column="0">
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeHint" stdset="0" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>40</width>
             <height>20</height>
@@ -304,29 +376,29 @@
           </property>
          </spacer>
         </item>
-        <item row="1" column="1" >
-         <widget class="QLabel" name="label_14" >
-          <property name="text" >
+        <item row="1" column="1">
+         <widget class="QLabel" name="label_14">
+          <property name="text">
            <string>Zoom:</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="2" >
-         <widget class="KIntSpinBox" name="itemzoom" >
-          <property name="maximum" >
+        <item row="1" column="2">
+         <widget class="KIntSpinBox" name="itemzoom">
+          <property name="maximum">
            <number>300</number>
           </property>
-          <property name="value" >
+          <property name="value">
            <number>100</number>
           </property>
          </widget>
         </item>
-        <item row="2" column="0" >
+        <item row="2" column="0">
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeHint" stdset="0" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>40</width>
             <height>20</height>
@@ -334,29 +406,29 @@
           </property>
          </spacer>
         </item>
-        <item row="2" column="1" >
-         <widget class="QLabel" name="label_15" >
-          <property name="text" >
+        <item row="2" column="1">
+         <widget class="QLabel" name="label_15">
+          <property name="text">
            <string>Rotate:</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="2" >
-         <widget class="KIntSpinBox" name="itemrotate" >
-          <property name="minimum" >
+        <item row="2" column="2">
+         <widget class="KIntSpinBox" name="itemrotate">
+          <property name="minimum">
            <number>-360</number>
           </property>
-          <property name="maximum" >
+          <property name="maximum">
            <number>360</number>
           </property>
          </widget>
         </item>
-        <item row="3" column="0" colspan="3" >
+        <item row="3" column="0" colspan="3">
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
-          <property name="sizeHint" stdset="0" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
             <height>40</height>
@@ -366,43 +438,43 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="Background" >
-       <property name="geometry" >
+      <widget class="QWidget" name="Background">
+       <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>355</width>
-         <height>158</height>
+         <width>358</width>
+         <height>178</height>
         </rect>
        </property>
-       <attribute name="label" >
+       <attribute name="label">
         <string>Background</string>
        </attribute>
-       <layout class="QGridLayout" >
-        <item row="0" column="0" >
-         <layout class="QGridLayout" >
-          <item row="0" column="0" >
-           <widget class="KColorButton" name="kcolorbutton" />
+       <layout class="QGridLayout">
+        <item row="0" column="0">
+         <layout class="QGridLayout">
+          <item row="0" column="0">
+           <widget class="KColorButton" name="kcolorbutton"/>
           </item>
-          <item row="1" column="0" >
-           <widget class="QSlider" name="horizontalSlider" >
-            <property name="maximum" >
+          <item row="1" column="0">
+           <widget class="QSlider" name="horizontalSlider">
+            <property name="maximum">
              <number>255</number>
             </property>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
            </widget>
           </item>
-          <item row="2" column="0" >
+          <item row="2" column="0">
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
-            <property name="sizeType" >
+            <property name="sizeType">
              <enum>QSizePolicy::Expanding</enum>
             </property>
-            <property name="sizeHint" stdset="0" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
               <height>400</height>
@@ -414,82 +486,82 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="Seite" >
-       <property name="geometry" >
+      <widget class="QWidget" name="Seite">
+       <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>336</width>
-         <height>210</height>
+         <width>341</width>
+         <height>198</height>
         </rect>
        </property>
-       <attribute name="label" >
+       <attribute name="label">
         <string>Start-/EndViewport</string>
        </attribute>
-       <layout class="QGridLayout" >
-        <item row="0" column="0" >
-         <layout class="QVBoxLayout" >
+       <layout class="QGridLayout">
+        <item row="0" column="0">
+         <layout class="QVBoxLayout">
           <item>
-           <widget class="QGroupBox" name="groupBox_3" >
-            <property name="title" >
+           <widget class="QGroupBox" name="groupBox_3">
+            <property name="title">
              <string>StartViewport</string>
             </property>
-            <layout class="QGridLayout" >
-             <item row="0" column="0" >
-              <layout class="QGridLayout" >
-               <item row="0" column="0" >
-                <widget class="QLabel" name="label_8" >
-                 <property name="text" >
+            <layout class="QGridLayout">
+             <item row="0" column="0">
+              <layout class="QGridLayout">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_8">
+                 <property name="text">
                   <string>X:</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1" >
-                <widget class="QLabel" name="label_9" >
-                 <property name="text" >
+               <item row="0" column="1">
+                <widget class="QLabel" name="label_9">
+                 <property name="text">
                   <string>Y:</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="2" >
-                <widget class="QLabel" name="label_10" >
-                 <property name="text" >
+               <item row="0" column="2">
+                <widget class="QLabel" name="label_10">
+                 <property name="text">
                   <string>Size:</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0" >
-                <widget class="QSpinBox" name="startViewportX" >
-                 <property name="minimum" >
+               <item row="1" column="0">
+                <widget class="QSpinBox" name="startViewportX">
+                 <property name="minimum">
                   <number>-1000</number>
                  </property>
-                 <property name="maximum" >
+                 <property name="maximum">
                   <number>1000</number>
                  </property>
-                 <property name="singleStep" >
+                 <property name="singleStep">
                   <number>10</number>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="1" >
-                <widget class="QSpinBox" name="startViewportY" >
-                 <property name="minimum" >
+               <item row="1" column="1">
+                <widget class="QSpinBox" name="startViewportY">
+                 <property name="minimum">
                   <number>-1000</number>
                  </property>
-                 <property name="maximum" >
+                 <property name="maximum">
                   <number>1000</number>
                  </property>
-                 <property name="singleStep" >
+                 <property name="singleStep">
                   <number>10</number>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="2" >
-                <widget class="QSpinBox" name="startViewportSize" >
-                 <property name="maximum" >
+               <item row="1" column="2">
+                <widget class="QSpinBox" name="startViewportSize">
+                 <property name="maximum">
                   <number>1000</number>
                  </property>
-                 <property name="singleStep" >
+                 <property name="singleStep">
                   <number>5</number>
                  </property>
                 </widget>
@@ -500,66 +572,66 @@
            </widget>
           </item>
           <item>
-           <widget class="QGroupBox" name="groupBox_4" >
-            <property name="title" >
+           <widget class="QGroupBox" name="groupBox_4">
+            <property name="title">
              <string>EndViewport</string>
             </property>
-            <layout class="QGridLayout" >
-             <item row="0" column="0" >
-              <layout class="QGridLayout" >
-               <item row="0" column="0" >
-                <widget class="QLabel" name="label_5" >
-                 <property name="text" >
+            <layout class="QGridLayout">
+             <item row="0" column="0">
+              <layout class="QGridLayout">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_5">
+                 <property name="text">
                   <string>X:</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1" >
-                <widget class="QLabel" name="label_6" >
-                 <property name="text" >
+               <item row="0" column="1">
+                <widget class="QLabel" name="label_6">
+                 <property name="text">
                   <string>Y:</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="2" >
-                <widget class="QLabel" name="label_7" >
-                 <property name="text" >
+               <item row="0" column="2">
+                <widget class="QLabel" name="label_7">
+                 <property name="text">
                   <string>Size:</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0" >
-                <widget class="QSpinBox" name="endViewportX" >
-                 <property name="minimum" >
+               <item row="1" column="0">
+                <widget class="QSpinBox" name="endViewportX">
+                 <property name="minimum">
                   <number>-1000</number>
                  </property>
-                 <property name="maximum" >
+                 <property name="maximum">
                   <number>1000</number>
                  </property>
-                 <property name="singleStep" >
+                 <property name="singleStep">
                   <number>10</number>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="1" >
-                <widget class="QSpinBox" name="endViewportY" >
-                 <property name="minimum" >
+               <item row="1" column="1">
+                <widget class="QSpinBox" name="endViewportY">
+                 <property name="minimum">
                   <number>-1000</number>
                  </property>
-                 <property name="maximum" >
+                 <property name="maximum">
                   <number>1000</number>
                  </property>
-                 <property name="singleStep" >
+                 <property name="singleStep">
                   <number>10</number>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="2" >
-                <widget class="QSpinBox" name="endViewportSize" >
-                 <property name="maximum" >
+               <item row="1" column="2">
+                <widget class="QSpinBox" name="endViewportSize">
+                 <property name="maximum">
                   <number>1000</number>
                  </property>
-                 <property name="singleStep" >
+                 <property name="singleStep">
                   <number>5</number>
                  </property>
                 </widget>
@@ -571,10 +643,10 @@
           </item>
           <item>
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
-            <property name="sizeHint" stdset="0" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
               <height>40</height>
@@ -589,186 +661,173 @@
      </widget>
     </widget>
    </item>
-   <item row="5" column="1" >
-    <widget class="QToolButton" name="buttonFitZoom" >
-     <property name="text" >
+   <item row="5" column="1">
+    <widget class="QToolButton" name="buttonFitZoom">
+     <property name="text">
       <string>V</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="2" >
-    <widget class="QToolButton" name="buttonRealSize" >
-     <property name="text" >
+   <item row="5" column="2">
+    <widget class="QToolButton" name="buttonRealSize">
+     <property name="text">
       <string>V</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="3" colspan="2" >
-    <widget class="QSlider" name="zoom_slider" >
-     <property name="minimumSize" >
+   <item row="5" column="3" colspan="2">
+    <widget class="QSlider" name="zoom_slider">
+     <property name="minimumSize">
       <size>
        <width>100</width>
        <height>0</height>
       </size>
      </property>
-     <property name="maximumSize" >
+     <property name="maximumSize">
       <size>
        <width>150</width>
        <height>16777215</height>
       </size>
      </property>
-     <property name="minimum" >
+     <property name="minimum">
       <number>1</number>
      </property>
-     <property name="maximum" >
+     <property name="maximum">
       <number>150</number>
      </property>
-     <property name="pageStep" >
+     <property name="pageStep">
       <number>30</number>
      </property>
-     <property name="orientation" >
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="5" column="5" >
-    <widget class="QLabel" name="zoom_label" >
-     <property name="text" >
+   <item row="5" column="5">
+    <widget class="QLabel" name="zoom_label">
+     <property name="text">
       <string>x1</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="6" >
-    <widget class="QCheckBox" name="displayBg" >
-     <property name="text" >
+   <item row="5" column="6">
+    <widget class="QCheckBox" name="displayBg">
+     <property name="text">
       <string>Show background</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="7" >
-    <spacer name="horizontalSpacer_3" >
-     <property name="orientation" >
+   <item row="5" column="8">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="sizeHint" stdset="0" >
-      <size>
-       <width>235</width>
-       <height>28</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="5" column="8" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons" >
+     <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
-   <item row="0" column="6" colspan="3" >
-    <widget class="QFrame" name="frame_properties" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Preferred" hsizetype="Maximum" >
+   <item row="0" column="6" colspan="3">
+    <widget class="QFrame" name="frame_properties">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="frameShape" >
+     <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
-     <property name="frameShadow" >
+     <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QGridLayout" name="gridLayout" >
-      <property name="margin" >
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="margin">
        <number>2</number>
       </property>
-      <item row="0" column="0" >
-       <layout class="QHBoxLayout" name="positionLayout" >
+      <item row="0" column="0">
+       <layout class="QHBoxLayout" name="positionLayout">
         <item>
-         <widget class="QLabel" name="label_16" >
-          <property name="text" >
+         <widget class="QLabel" name="label_16">
+          <property name="text">
            <string>X</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="value_x" >
-          <property name="minimum" >
+         <widget class="QSpinBox" name="value_x">
+          <property name="minimum">
            <number>-1000</number>
           </property>
-          <property name="maximum" >
+          <property name="maximum">
            <number>5000</number>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_17" >
-          <property name="text" >
+         <widget class="QLabel" name="label_17">
+          <property name="text">
            <string>Y</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="value_y" >
-          <property name="minimum" >
+         <widget class="QSpinBox" name="value_y">
+          <property name="minimum">
            <number>-1000</number>
           </property>
-          <property name="maximum" >
+          <property name="maximum">
            <number>5000</number>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_18" >
-          <property name="text" >
+         <widget class="QLabel" name="label_18">
+          <property name="text">
            <string>W</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="value_w" >
-          <property name="minimum" >
+         <widget class="QSpinBox" name="value_w">
+          <property name="minimum">
            <number>-1000</number>
           </property>
-          <property name="maximum" >
+          <property name="maximum">
            <number>5000</number>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_19" >
-          <property name="text" >
+         <widget class="QLabel" name="label_19">
+          <property name="text">
            <string>H</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="value_h" >
-          <property name="minimum" >
+         <widget class="QSpinBox" name="value_h">
+          <property name="minimum">
            <number>-1000</number>
           </property>
-          <property name="maximum" >
+          <property name="maximum">
            <number>5000</number>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_12" >
-          <property name="text" >
+         <widget class="QLabel" name="label_12">
+          <property name="text">
            <string>Z-Index:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="zValue" >
-          <property name="minimum" >
+         <widget class="QSpinBox" name="zValue">
+          <property name="minimum">
            <number>-1000</number>
           </property>
-          <property name="maximum" >
+          <property name="maximum">
            <number>1000</number>
           </property>
          </widget>
@@ -778,45 +837,34 @@
      </layout>
     </widget>
    </item>
-   <item row="0" column="1" colspan="5" >
-    <widget class="QFrame" name="frame_toolbar" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+   <item row="0" column="1" colspan="5">
+    <widget class="QFrame" name="frame_toolbar">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="frameShape" >
+     <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
-     <property name="frameShadow" >
+     <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
     </widget>
    </item>
   </layout>
-  <zorder>rect_properties</zorder>
-  <zorder>text_properties</zorder>
-  <zorder>splitter</zorder>
-  <zorder>buttonFitZoom</zorder>
-  <zorder>buttonRealSize</zorder>
-  <zorder>zoom_slider</zorder>
-  <zorder>zoom_label</zorder>
-  <zorder>displayBg</zorder>
-  <zorder>buttonBox</zorder>
-  <zorder>frame_properties</zorder>
-  <zorder>frame_toolbar</zorder>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KColorButton</class>
-   <extends>QPushButton</extends>
-   <header>kcolorbutton.h</header>
-  </customwidget>
   <customwidget>
    <class>KIntSpinBox</class>
    <extends>QSpinBox</extends>
    <header>knuminput.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KColorButton</class>
+   <extends>QPushButton</extends>
+   <header>kcolorbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -827,11 +875,11 @@
    <receiver>TitleWidget_UI</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>253</x>
      <y>558</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>157</x>
      <y>274</y>
     </hint>
@@ -843,11 +891,11 @@
    <receiver>TitleWidget_UI</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>321</x>
      <y>558</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
     </hint>
