@@ -168,6 +168,8 @@ private slots:
     void slotCheckScript();
     void slotCheckJob();
     void slotEditItem(QListWidgetItem *item);
+    void slotCLeanUpJobs();
+    void slotHideLog();
 
 private:
     Ui::RenderWidget_UI m_view;
@@ -177,9 +179,10 @@ private:
     void parseFile(QString exportFile, bool editable);
     void updateButtons();
     KUrl filenameWithExtension(KUrl url, QString extension);
+    void checkRenderStatus();
 
 signals:
-    void doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool, const QString &);
+    void doRender(const QStringList&, const QStringList&);
     void abortProcess(const QString &url);
     void openDvdWizard(const QString &url, const QString &profile);
 };

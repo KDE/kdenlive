@@ -1542,7 +1542,7 @@ void MainWindow::slotRenderProject()
     if (!m_renderWidget) {
         QString projectfolder = m_activeDocument ? m_activeDocument->projectFolder().path() : KdenliveSettings::defaultprojectfolder();
         m_renderWidget = new RenderWidget(projectfolder, this);
-        connect(m_renderWidget, SIGNAL(doRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool, const QString &)), this, SLOT(slotDoRender(const QString&, const QString&, const QStringList &, const QStringList &, bool, bool, double, double, bool, const QString &)));
+        connect(m_renderWidget, SIGNAL(doRender(const QStringList&, const QStringList&)), this, SLOT(slotDoRender(const QStringList&, const QStringList&)));
         connect(m_renderWidget, SIGNAL(abortProcess(const QString &)), this, SIGNAL(abortRenderJob(const QString &)));
         connect(m_renderWidget, SIGNAL(openDvdWizard(const QString &, const QString &)), this, SLOT(slotDvdWizard(const QString &, const QString &)));
         if (m_activeDocument) {
@@ -1556,9 +1556,18 @@ void MainWindow::slotRenderProject()
     m_renderWidget->show();
 }
 
-void MainWindow::slotDoRender(const QString &dest, const QString &render, const QStringList &overlay_args, const QStringList &avformat_args, bool zoneOnly, bool playAfter, double guideStart, double guideEnd, bool resizeProfile, const QString &scriptExport)
+void MainWindow::slotDoRender(const QStringList args, const QStringList overlay_args)
 {
-    kDebug() << "// SCRIPT EXPORT: " << scriptExport;
+    QString dest = args.at(0);
+    QString render = args.at(1);
+    QStringList avformat_args = args.at(2).split(' ');
+    bool zoneOnly = args.at(3).toInt();
+    bool playAfter = args.at(4).toInt();
+    double guideStart = args.at(5).toDouble();
+    double guideEnd = args.at(6).toDouble();
+    bool resizeProfile = args.at(7).toInt();
+    QString scriptExport = args.at(8);
+
     if (dest.isEmpty()) return;
     int in = 0;
     int out = 0;
