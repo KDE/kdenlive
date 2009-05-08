@@ -768,12 +768,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     if (m_dragItem->type() == AVWIDGET && !m_dragItem->isItemLocked()) emit clipItemSelected((ClipItem*) m_dragItem);
     else emit clipItemSelected(NULL);
 
-    if (event->modifiers() != Qt::ControlModifier && (m_dragItem->isSelected() || (dragGroup && dragGroup->isSelected()))) {
-        // If clicked item is selected, allow move
-        if (dragGroup) dragGroup->setSelected(true);
-        //event->accept();
-        if (m_operationMode == NONE) QGraphicsView::mousePressEvent(event);
-    } else {
+    if (event->modifiers() == Qt::ControlModifier || !(m_dragItem->isSelected() || (dragGroup && dragGroup->isSelected()))) {
         resetSelectionGroup();
         if (event->modifiers() != Qt::ControlModifier) m_scene->clearSelection();
         dragGroup = NULL;
@@ -791,6 +786,10 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         m_changeSpeedAction->setEnabled(clip->clipType() == AV || clip->clipType() == VIDEO);
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
     }
+
+    // If clicked item is selected, allow move
+    //event->accept();
+    if (event->modifiers() != Qt::ControlModifier && (m_dragItem->isSelected() || (dragGroup && dragGroup->isSelected())) && m_operationMode == NONE) QGraphicsView::mousePressEvent(event);
 
     m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps())), (int)(event->pos().y() - m_dragItem->pos().y()));
     m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
