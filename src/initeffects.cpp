@@ -187,7 +187,7 @@ Mlt::Repository *initEffects::parseEffectFiles()
 
     kDebug() << "//  INIT EFFECT SEARCH" << endl;
 
-    QStringList direc = KGlobal::dirs()->findDirs("data", "kdenlive/effects");
+    QStringList direc = KGlobal::dirs()->findDirs("appdata", "effects");
 
     QDir directory;
     for (more = direc.begin() ; more != direc.end() ; ++more) {
