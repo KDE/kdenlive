@@ -78,7 +78,6 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
 
         if (success) {
             QDomNode infoXmlNode = m_document.elementsByTagName("kdenlivedoc").at(0);
-            QDomNode westley = m_document.elementsByTagName("westley").at(0);
             if (!infoXmlNode.isNull()) {
                 QDomElement infoXml = infoXmlNode.toElement();
                 double version = infoXml.attribute("version").toDouble();
@@ -90,14 +89,14 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     setProfilePath(profileName);
                 } else {
                     /*
-                     * read again <kdenlivedoc> and <westley> to get all the new
-                     * stuff (convertDocument() can now do anything without breaking
+                     * read again <kdenlivedoc> to get all the new stuff
+                     * (convertDocument() can now do anything without breaking
                      * document loading)
                      */
                     infoXmlNode = m_document.elementsByTagName("kdenlivedoc").at(0);
                     infoXml = infoXmlNode.toElement();
                     version = infoXml.attribute("version").toDouble();
-                    westley = m_document.elementsByTagName("westley").at(0);
+                    QDomNode westley = m_document.elementsByTagName("westley").at(0);
 
                     QString profilePath = infoXml.attribute("profile");
                     QString projectFolderPath = infoXml.attribute("projectfolder");
