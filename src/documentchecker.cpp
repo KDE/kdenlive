@@ -49,7 +49,8 @@ const int CLIPOK = 1;
 const int CLIPPLACEHOLDER = 2;
 
 DocumentChecker::DocumentChecker(QDomNodeList producers, QDomNodeList infoproducers, QList <QDomElement> missingClips, QDomDocument doc, QWidget * parent) :
-        QDialog(parent), m_doc(doc)
+        QDialog(parent),
+        m_doc(doc)
 {
     setFont(KGlobalSettings::toolBarFont());
     m_view.setupUi(this);
@@ -170,9 +171,10 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
 // virtual
 void DocumentChecker::accept()
 {
-    QDomElement e;
+    QDomElement e, property;
     QDomNodeList producers = m_doc.elementsByTagName("producer");
     QDomNodeList infoproducers = m_doc.elementsByTagName("kdenlive_producer");
+    QDomNodeList properties;
     int ix = 0;
     QTreeWidgetItem *child = m_view.treeWidget->topLevelItem(ix);
     while (child) {
@@ -188,9 +190,16 @@ void DocumentChecker::accept()
             }
             for (int i = 0; i < producers.count(); i++) {
                 e = producers.item(i).toElement();
-                if (e.attribute("id") == id) {
+                if (e.attribute("id").section('_', 0, 0) == id) {
                     // Fix clip
-                    e.setAttribute("resource", child->text(1));
+                    properties = e.childNodes();
+                    for (int j = 0; j < properties.count(); ++j) {
+                        property = properties.item(j).toElement();
+                        if (property.attribute("name") == "resource") {
+                            property.firstChild().setNodeValue(child->text(1));
+                            break;
+                        }
+                    }
                     break;
                 }
             }
