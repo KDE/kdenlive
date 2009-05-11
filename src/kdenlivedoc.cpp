@@ -1689,7 +1689,7 @@ bool KdenliveDoc::checkDocumentClips(QDomNodeList producers, QDomNodeList infopr
     for (int i = 0; i < infoproducers.count(); i++) {
         e = infoproducers.item(i).toElement();
         clipType = e.attribute("type").toInt();
-        if (clipType == TEXT) continue;
+        if (clipType == TEXT || clipType == COLOR) continue;
         id = e.attribute("id");
         resource = e.attribute("resource");
         if (clipType == SLIDESHOW) resource = KUrl(resource).directory();
