@@ -191,7 +191,7 @@ void DvdWizard::generateDvd()
 
             kDebug() << "MLT ARGS: " << args;
             QProcess renderbg;
-            renderbg.start("inigo", args);
+            renderbg.start(KdenliveSettings::rendererpath(), args);
             if (renderbg.waitForFinished()) {
                 if (renderbg.exitStatus() == QProcess::CrashExit) {
                     kDebug() << "/// RENDERING MENU vob crashed";
