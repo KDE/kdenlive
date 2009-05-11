@@ -537,8 +537,12 @@ void Monitor::slotRewindOneFrame(int diff)
     activateMonitor();
     render->play(0);
     if (m_position < 1) return;
-    m_position -= diff;
-    m_position = qMax(m_position, 0);
+    /*
+     * freebsd needs this hack to upgrade m_position value:
+     * http://www.kdenlive.org/mantis/view.php?id=491
+     */
+    int position = m_position - diff;
+    m_position = qMax(position, 0);
     render->seekToFrame(m_position);
     emit renderPosition(m_position);
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
