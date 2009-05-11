@@ -29,6 +29,7 @@
 #include "kthumb.h"
 #include "clipmanager.h"
 
+#include <KIO/NetAccess>
 #include <KDebug>
 
 #include <QCryptographicHash>
@@ -515,10 +516,13 @@ Mlt::Producer *DocClipBase::producer(int track)
             if (m_baseTrackProducers.at(i) != NULL) break;
 
         if (i >= m_baseTrackProducers.count()) return NULL;
-        m_baseTrackProducers[track] = new Mlt::Producer(*m_baseTrackProducers.at(i)->profile(), m_baseTrackProducers.at(i)->get("resource"));
 
-        // special case for placeholder clips
-        if (m_baseTrackProducers[track] == NULL) return NULL;
+        if (KIO::NetAccess::exists(KUrl(m_baseTrackProducers.at(i)->get("resource")), KIO::NetAccess::SourceSide, 0))
+            m_baseTrackProducers[track] = new Mlt::Producer(*m_baseTrackProducers.at(i)->profile(), m_baseTrackProducers.at(i)->get("resource"));
+        else { // special case for placeholder clips
+            m_baseTrackProducers[track] = NULL;
+            return NULL;
+        }
 
         if (m_properties.contains("force_aspect_ratio")) m_baseTrackProducers[track]->set("force_aspect_ratio", m_properties.value("force_aspect_ratio").toDouble());
         if (m_properties.contains("threads")) m_baseTrackProducers[track]->set("threads", m_properties.value("threads").toInt());
