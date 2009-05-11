@@ -614,19 +614,22 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         return;
     }
 
-    if (event->button() == Qt::LeftButton && collisionList.count() == 1 && collisionList.at(0)->type() == GUIDEITEM) {
-        // a guide item was pressed
-        collisionList.at(0)->setFlag(QGraphicsItem::ItemIsMovable, true);
-        m_dragItem = NULL;
-        m_dragGuide = (Guide *) collisionList.at(0);
-        collision = true;
-        m_operationMode = MOVEGUIDE;
-        // deselect all clips so that only the guide will move
-        m_scene->clearSelection();
-        resetSelectionGroup();
-        updateSnapPoints(NULL);
-        QGraphicsView::mousePressEvent(event);
-        return;
+    for (int i = 0; event->button() == Qt::LeftButton && i < collisionList.count(); ++i) {
+        // if a guide and a clip were pressed, just move the guide
+        if (collisionList.at(i)->type() == GUIDEITEM) {
+            // a guide item was pressed
+            collisionList.at(i)->setFlag(QGraphicsItem::ItemIsMovable, true);
+            m_dragItem = NULL;
+            m_dragGuide = (Guide *) collisionList.at(i);
+            collision = true;
+            m_operationMode = MOVEGUIDE;
+            // deselect all clips so that only the guide will move
+            m_scene->clearSelection();
+            resetSelectionGroup(false);
+            updateSnapPoints(NULL);
+            QGraphicsView::mousePressEvent(event);
+            return;
+        }
     }
 
     // Find first clip, transition or group under mouse
