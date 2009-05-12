@@ -70,6 +70,9 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
 
     connect(this, SIGNAL(currentIdChanged(int)), this, SLOT(slotPageChanged(int)));
 
+    connect(m_status.button_preview, SIGNAL(clicked()), this, SLOT(slotPreview()));
+    connect(m_status.button_burn, SIGNAL(clicked()), this, SLOT(slotBurn()));
+
 //    connect(m_standard.button_all, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
 }
 
@@ -110,6 +113,10 @@ void DvdWizard::slotPageChanged(int page)
             KIO::NetAccess::del(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);
             QTimer::singleShot(300, this, SLOT(generateDvd()));
         }
+        m_status.button_burn->setIcon(KIcon("tools-media-optical-burn"));
+        m_status.button_preview->setIcon(KIcon("media-playback-start"));
+        m_status.button_preview->setEnabled(false);
+        m_status.button_burn->setEnabled(false);
     }
 }
 
@@ -504,7 +511,12 @@ void DvdWizard::slotIsoFinished(int /*exitCode*/, QProcess::ExitStatus status)
     kDebug() << "ISO IMAGE " << m_iso.iso_image->url().path() << " Successfully created";
     cleanup();
     kDebug() << m_creationLog;
-    KMessageBox::information(this, i18n("DVD ISO image %1 successfully created.", m_iso.iso_image->url().path()));
+
+    m_status.error_log->setText(i18n("DVD ISO image %1 successfully created.", m_iso.iso_image->url().path()));
+    m_status.button_preview->setEnabled(true);
+    m_status.button_burn->setEnabled(true);
+    m_status.error_box->setHidden(false);
+    //KMessageBox::information(this, i18n("DVD ISO image %1 successfully created.", m_iso.iso_image->url().path()));
 
 }
 
@@ -515,4 +527,21 @@ void DvdWizard::cleanup()
     m_menuFile.remove();
     KIO::NetAccess::del(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);
 }
+
+
+void DvdWizard::slotPreview()
+{
+    QString exec = KStandardDirs::findExe("xine");
+    if (exec.isEmpty()) KMessageBox::sorry(this, i18n("You need program <b>%1</b> to perform this action", "xine"));
+    else QProcess::startDetached(exec, QStringList() << "dvd://" + m_iso.iso_image->url().path());
+}
+
+void DvdWizard::slotBurn()
+{
+    QString exec = KStandardDirs::findExe("k3b");
+    if (exec.isEmpty()) KMessageBox::sorry(this, i18n("You need program <b>%1</b> to perform this action", "k3b"));
+    else QProcess::startDetached(exec, QStringList() << "--image" << m_iso.iso_image->url().path());
+}
+
+
 

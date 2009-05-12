@@ -60,6 +60,8 @@ private slots:
     void slotRenderFinished(int exitCode, QProcess::ExitStatus status);
     void slotIsoFinished(int exitCode, QProcess::ExitStatus status);
     void generateDvd();
+    void slotPreview();
+    void slotBurn();
 };
 
 #endif
