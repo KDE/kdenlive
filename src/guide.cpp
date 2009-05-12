@@ -120,7 +120,7 @@ QRectF Guide::boundingRect() const
 QPainterPath Guide::shape() const
 {
     QPainterPath path;
-    path.addRect(line().x1(), line().y1(), line().x2() - line().x1(), line().y2() - line().y1());
+    path.addRect(line().x1() - pen().widthF() / 2, line().y1(), pen().widthF(), line().y2() - line().y1());
     if (KdenliveSettings::showmarkers()) {
         const QFontMetrics metric = m_view->fontMetrics();
         int height = metric.height();

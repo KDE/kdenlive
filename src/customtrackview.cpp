@@ -574,6 +574,8 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     kDebug() << "mousePressEvent STARTED";
     m_menuPosition = QPoint();
     m_blockRefresh = true;
+    m_dragItem = NULL;
+    m_dragGuide = NULL;
     bool collision = false;
 
     if (m_tool != RAZORTOOL) activateMonitor();
@@ -614,29 +616,30 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         return;
     }
 
-    for (int i = 0; event->button() == Qt::LeftButton && i < collisionList.count(); ++i) {
-        // if a guide and a clip were pressed, just move the guide
+    // if a guide and a clip were pressed, just select the guide
+    for (int i = 0; i < collisionList.count(); ++i) {
         if (collisionList.at(i)->type() == GUIDEITEM) {
             // a guide item was pressed
-            collisionList.at(i)->setFlag(QGraphicsItem::ItemIsMovable, true);
-            m_dragItem = NULL;
             m_dragGuide = (Guide *) collisionList.at(i);
-            collision = true;
-            m_operationMode = MOVEGUIDE;
-            // deselect all clips so that only the guide will move
-            m_scene->clearSelection();
-            resetSelectionGroup(false);
-            updateSnapPoints(NULL);
-            QGraphicsView::mousePressEvent(event);
-            return;
+            if (event->button() == Qt::LeftButton) { // move it
+                m_dragGuide->setFlag(QGraphicsItem::ItemIsMovable, true);
+                collision = true;
+                m_operationMode = MOVEGUIDE;
+                // deselect all clips so that only the guide will move
+                m_scene->clearSelection();
+                resetSelectionGroup(false);
+                updateSnapPoints(NULL);
+                QGraphicsView::mousePressEvent(event);
+                return;
+            } else // show context menu
+                break;
         }
     }
 
-    // Find first clip, transition or group under mouse
+    // Find first clip, transition or group under mouse (when no guides selected)
     int ct = 0;
-    m_dragItem = NULL;
     AbstractGroupItem *dragGroup = NULL;
-    while (ct < collisionList.count()) {
+    while (!m_dragGuide && ct < collisionList.count()) {
         if (collisionList.at(ct)->type() == AVWIDGET || collisionList.at(ct)->type() == TRANSITIONWIDGET) {
             m_dragItem = static_cast <AbstractClipItem *>(collisionList.at(ct));
             m_dragItemInfo = m_dragItem->info();
@@ -657,7 +660,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     // context menu requested
     if (event->button() == Qt::RightButton) {
-        m_dragGuide = NULL;
         if (m_dragItem) {
             if (dragGroup) dragGroup->setSelected(true);
             else if (!m_dragItem->isSelected()) {
@@ -665,16 +667,23 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                 m_scene->clearSelection();
                 m_dragItem->setSelected(true);
             }
+        } else if (!m_dragGuide) {
+            // check if there is a guide close to mouse click
+            QList<QGraphicsItem *> guidesCollisionList = items(event->pos().x() - 5, event->pos().y(), 10, 2); // a rect of height < 2 does not always collide with the guide
+            for (int i = 0; i < guidesCollisionList.count(); i++) {
+                if (guidesCollisionList.at(i)->type() == GUIDEITEM) {
+                    m_dragGuide = static_cast <Guide *>(guidesCollisionList.at(i));
+                    break;
+                }
+            }
+            // keep this to support multiple guides context menu in the future (?)
+                /*if (guidesCollisionList.at(0)->type() != GUIDEITEM)
+                    guidesCollisionList.removeAt(0);
+            }
+            if (!guidesCollisionList.isEmpty())
+                m_dragGuide = static_cast <Guide *>(guidesCollisionList.at(0));*/
         }
 
-        // check if there is a guide close to mouse click
-        QList<QGraphicsItem *> guidesCollisionList = items(event->pos().x() - 5, event->pos().y(), 10, 1);
-        for (int i = 0; i < guidesCollisionList.count(); i++) {
-            if (guidesCollisionList.at(0)->type() != GUIDEITEM)
-                guidesCollisionList.removeAt(0);
-        }
-        if (!guidesCollisionList.isEmpty())
-            m_dragGuide = static_cast <Guide *>(guidesCollisionList.at(0));
         m_operationMode = NONE;
         displayContextMenu(event->globalPos(), m_dragItem, dragGroup);
         m_menuPosition = m_clickEvent;
