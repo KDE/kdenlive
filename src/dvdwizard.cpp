@@ -33,12 +33,14 @@
 #include <QApplication>
 #include <QTimer>
 #include <QDomDocument>
+#include <QMenu>
 
 
 DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent) :
         QWizard(parent),
         m_dvdauthor(NULL),
-        m_mkiso(NULL)
+        m_mkiso(NULL),
+        m_burnMenu(new QMenu(this))
 {
     //setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
     setAttribute(Qt::WA_DeleteOnClose);
@@ -71,14 +73,31 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
     connect(this, SIGNAL(currentIdChanged(int)), this, SLOT(slotPageChanged(int)));
 
     connect(m_status.button_preview, SIGNAL(clicked()), this, SLOT(slotPreview()));
-    connect(m_status.button_burn, SIGNAL(clicked()), this, SLOT(slotBurn()));
 
-//    connect(m_standard.button_all, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
+    QString exec = KStandardDirs::findExe("k3b");
+    if (!exec.isEmpty()) {
+        //Add K3b action
+        QAction *k3b = m_burnMenu->addAction(KIcon("k3b"), i18n("Burn with %1", "K3b"), this, SLOT(slotBurn()));
+        k3b->setData(exec);
+    }
+    exec = KStandardDirs::findExe("brasero");
+    if (!exec.isEmpty()) {
+        //Add Brasero action
+        QAction *brasero = m_burnMenu->addAction(KIcon("brasero"), i18n("Burn with %1", "Brasero"), this, SLOT(slotBurn()));
+        brasero->setData(exec);
+    }
+    if (m_burnMenu->isEmpty()) m_burnMenu->addAction(i18n("No burning program found (K3b, Brasero)"));
+    m_status.button_burn->setMenu(m_burnMenu);
+    m_status.button_burn->setIcon(KIcon("tools-media-optical-burn"));
+    m_status.button_burn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    m_status.button_preview->setIcon(KIcon("media-playback-start"));
+
 }
 
 DvdWizard::~DvdWizard()
 {
     // m_menuFile.remove();
+    delete m_burnMenu;
     if (m_dvdauthor) {
         m_dvdauthor->close();
         delete m_dvdauthor;
@@ -113,8 +132,6 @@ void DvdWizard::slotPageChanged(int page)
             KIO::NetAccess::del(KUrl(m_iso.tmp_folder->url().path() + "/DVD"), this);
             QTimer::singleShot(300, this, SLOT(generateDvd()));
         }
-        m_status.button_burn->setIcon(KIcon("tools-media-optical-burn"));
-        m_status.button_preview->setIcon(KIcon("media-playback-start"));
         m_status.button_preview->setEnabled(false);
         m_status.button_burn->setEnabled(false);
     }
@@ -538,9 +555,12 @@ void DvdWizard::slotPreview()
 
 void DvdWizard::slotBurn()
 {
-    QString exec = KStandardDirs::findExe("k3b");
-    if (exec.isEmpty()) KMessageBox::sorry(this, i18n("You need program <b>%1</b> to perform this action", "k3b"));
-    else QProcess::startDetached(exec, QStringList() << "--image" << m_iso.iso_image->url().path());
+    QAction *action = qobject_cast<QAction *>(sender());
+    QString exec = action->data().toString();
+    QStringList args;
+    if (exec.endsWith("k3b")) args << "--image" << m_iso.iso_image->url().path();
+    else args << "--image=" + m_iso.iso_image->url().path();
+    QProcess::startDetached(exec, args);
 }
 
 

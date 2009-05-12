@@ -54,6 +54,7 @@ private:
     QProcess *m_mkiso;
     QString m_creationLog;
     void cleanup();
+    QMenu *m_burnMenu;
 
 private slots:
     void slotPageChanged(int page);
