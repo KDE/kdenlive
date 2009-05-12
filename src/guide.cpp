@@ -38,7 +38,7 @@ Guide::Guide(CustomTrackView *view, GenTime pos, QString label, double fps, doub
     setToolTip(label);
     setLine(0, 0, 0, height);
     setPos(m_position.frames(m_fps), 0);
-    setPen(QPen(QBrush(QColor(0, 0, 200, 180)), 1));
+    setPen(QPen(QBrush(QColor(0, 0, 200, 180)), 2));
     setZValue(999);
     setAcceptsHoverEvents(true);
     const QFontMetrics metric = m_view->fontMetrics();
@@ -114,6 +114,19 @@ QRectF Guide::boundingRect() const
         rect.setWidth(m_width / static_cast <CustomTrackScene*>(scene())->scale());
         return rect;
     } else return QGraphicsLineItem::boundingRect();
+}
+
+// virtual
+QPainterPath Guide::shape() const
+{
+    QPainterPath path;
+    path.addRect(line().x1(), line().y1(), line().x2() - line().x1(), line().y2() - line().y1());
+    if (KdenliveSettings::showmarkers()) {
+        const QFontMetrics metric = m_view->fontMetrics();
+        int height = metric.height();
+        path.addRoundedRect(line().x1(), line().y1() + 10, m_width / static_cast <CustomTrackScene*>(scene())->scale(), height, 3, 3);
+    }
+    return path;
 }
 
 // virtual

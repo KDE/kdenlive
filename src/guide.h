@@ -41,6 +41,7 @@ public:
     virtual int type() const;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w);
     virtual QRectF boundingRect() const;
+    virtual QPainterPath shape() const;
 
 protected:
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *);
