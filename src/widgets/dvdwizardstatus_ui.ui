@@ -86,12 +86,12 @@
        </widget>
       </item>
       <item row="0" column="3">
-       <widget class="QPushButton" name="button_burn">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
+       <widget class="QToolButton" name="button_burn">
         <property name="text">
          <string>Burn</string>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::InstantPopup</enum>
         </property>
        </widget>
       </item>

@@ -205,28 +205,21 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="9">
-        <widget class="QCheckBox" name="open_dvd">
-         <property name="text">
-          <string>Open Dvd wizard after rendering</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0" colspan="9">
+       <item row="9" column="0" colspan="9">
         <widget class="QCheckBox" name="open_browser">
          <property name="text">
           <string>Open browser window after export</string>
          </property>
         </widget>
        </item>
-       <item row="8" column="0" colspan="9">
+       <item row="10" column="0" colspan="9">
         <widget class="QCheckBox" name="play_after">
          <property name="text">
           <string>Play after render</string>
          </property>
         </widget>
        </item>
-       <item row="9" column="0" colspan="9">
+       <item row="11" column="0" colspan="9">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QRadioButton" name="render_full">
@@ -254,7 +247,7 @@
          </item>
         </layout>
        </item>
-       <item row="10" column="0" colspan="9">
+       <item row="12" column="0" colspan="9">
         <widget class="QGroupBox" name="guides_box">
          <property name="title">
           <string/>
@@ -297,14 +290,14 @@
          </layout>
         </widget>
        </item>
-       <item row="11" column="0" colspan="3">
+       <item row="13" column="0" colspan="3">
         <widget class="QToolButton" name="buttonStart">
          <property name="popupMode">
           <enum>QToolButton::MenuButtonPopup</enum>
          </property>
         </widget>
        </item>
-       <item row="11" column="3" colspan="4">
+       <item row="13" column="3" colspan="4">
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -317,10 +310,24 @@
          </property>
         </spacer>
        </item>
-       <item row="11" column="7" colspan="2">
+       <item row="13" column="7" colspan="2">
         <widget class="KPushButton" name="buttonClose">
          <property name="text">
           <string>Close</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="9">
+        <widget class="QCheckBox" name="open_dvd">
+         <property name="text">
+          <string>Open Dvd wizard after rendering</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0" colspan="9">
+        <widget class="QCheckBox" name="create_chapter">
+         <property name="text">
+          <string>Create chapter file based on guides</string>
          </property>
         </widget>
        </item>
