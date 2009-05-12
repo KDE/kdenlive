@@ -51,6 +51,7 @@ public:
     QString getTimecode(const GenTime & time, double fps) const;
     int getFrameCount(const QString duration, double fps) const;
     static QString getEasyTimecode(const GenTime & time, const double &fps);
+    static QString getStringTimecode(int frames, const double &fps);
     QString getTimecodeFromFrames(int frames);
     int fps();
 

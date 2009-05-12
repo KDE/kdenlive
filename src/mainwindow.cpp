@@ -1567,6 +1567,7 @@ void MainWindow::slotDoRender(const QStringList args, const QStringList overlay_
     double guideEnd = args.at(6).toDouble();
     bool resizeProfile = args.at(7).toInt();
     QString scriptExport = args.at(8);
+    bool createChapterFile = args.at(9).toInt();
 
     if (dest.isEmpty()) return;
     int in = 0;
@@ -1576,6 +1577,7 @@ void MainWindow::slotDoRender(const QStringList args, const QStringList overlay_
         in = m_activeTimeline->inPoint();
         out = m_activeTimeline->outPoint();
     }
+
     KTemporaryFile temp;
     temp.setAutoRemove(false);
     temp.setSuffix(".westley");
@@ -1643,11 +1645,11 @@ void MainWindow::slotDoRender(const QStringList args, const QStringList overlay_
                 return;
             }
 
-            QTextStream out(&file);
-            out << "#! /bin/sh" << "\n" << "\n";
-            out << "SOURCE=" << "\"" + scriptExport + ".westley\"" << "\n";
-            out << "TARGET=" << "\"" + dest + "\"" << "\n";
-            out << renderer << " " << args.join(" ") << "\n" << "\n";
+            QTextStream outStream(&file);
+            outStream << "#! /bin/sh" << "\n" << "\n";
+            outStream << "SOURCE=" << "\"" + scriptExport + ".westley\"" << "\n";
+            outStream << "TARGET=" << "\"" + dest + "\"" << "\n";
+            outStream << renderer << " " << args.join(" ") << "\n" << "\n";
             if (file.error() != QFile::NoError) {
                 KMessageBox::error(this, i18n("Cannot write to file %1", scriptExport));
                 file.close();
@@ -1655,6 +1657,50 @@ void MainWindow::slotDoRender(const QStringList args, const QStringList overlay_
             }
             file.close();
             QFile::setPermissions(scriptExport, file.permissions() | QFile::ExeUser);
+        }
+
+        if (createChapterFile) {
+            QDomDocument doc;
+            QDomElement chapters = doc.createElement("chapters");
+            doc.appendChild(chapters);
+
+            QDomElement guidesxml = m_activeDocument->guidesXml();
+            if (!zoneOnly) out = (int) GenTime(m_activeDocument->projectDuration()).frames(m_activeDocument->fps());
+
+            QDomNodeList nodes = guidesxml.elementsByTagName("guide");
+            for (int i = 0; i < nodes.count(); i++) {
+                QDomElement e = nodes.item(i).toElement();
+                if (!e.isNull()) {
+                    QString comment = e.attribute("comment");
+                    int time = (int) GenTime(e.attribute("time").toDouble()).frames(m_activeDocument->fps());
+                    if (time >= in && time < out) {
+			if (zoneOnly) time = time - in;
+                        QDomElement chapter = doc.createElement("chapter");
+                        chapters.appendChild(chapter);
+                        chapter.setAttribute("title", comment);
+                        chapter.setAttribute("time", Timecode::getStringTimecode(time, m_activeDocument->fps()));
+                    }
+                }
+            }
+            if (chapters.childNodes().count() > 0) {
+                if (m_activeTimeline->projectView()->hasGuide(out, 0) == -1) {
+                    // Always insert a guide in pos 0
+                    QDomElement chapter = doc.createElement("chapter");
+                    chapters.insertBefore(chapter, QDomNode());
+                    chapter.setAttribute("title", i18n("Start"));
+                    chapter.setAttribute("time", "0");
+                }
+                // save chapters file
+                QFile file(dest + ".dvdchapter");
+                if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                    kWarning() << "//////  ERROR writing DVD CHAPTER file: " << dest + ".dvdchapter";
+                } else {
+                    file.write(doc.toString().toUtf8());
+                    if (file.error() != QFile::NoError)
+                        kWarning() << "//////  ERROR writing DVD CHAPTER file: " << dest + ".dvdchapter";
+                    file.close();
+                }
+            }
         }
     }
 }

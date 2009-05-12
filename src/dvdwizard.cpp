@@ -111,11 +111,11 @@ DvdWizard::~DvdWizard()
 
 void DvdWizard::slotPageChanged(int page)
 {
-    kDebug() << "// PAGE CHGD: " << page;
+    kDebug() << "// PAGE CHGD: " << page;
     if (page == 1) {
-        m_pageMenu->setTargets(m_pageVob->selectedUrls());
+        m_pageMenu->setTargets(m_pageVob->selectedTitles(), m_pageVob->selectedTargets());
     } else if (page == 2) {
-        m_pageMenu->buttonsInfo();
+        //m_pageMenu->buttonsInfo();
     } else if (page == 3) {
         // clear job icons
         for (int i = 0; i < m_status.job_progress->count(); i++)
@@ -182,7 +182,7 @@ void DvdWizard::generateDvd()
     QListWidgetItem *images =  m_status.job_progress->item(0);
     images->setIcon(KIcon("system-run"));
     qApp->processEvents();
-    QMap <int, QRect> buttons = m_pageMenu->buttonsInfo();
+    QMap <QString, QRect> buttons = m_pageMenu->buttonsInfo();
     QStringList buttonsTarget;
 
     if (m_pageMenu->createMenu()) {
@@ -258,7 +258,7 @@ void DvdWizard::generateDvd()
 
         int max = buttons.count() - 1;
         int i = 0;
-        QMapIterator<int, QRect> it(buttons);
+        QMapIterator<QString, QRect> it(buttons);
         while (it.hasNext()) {
             it.next();
             QDomElement but = doc.createElement("button");
@@ -268,10 +268,10 @@ void DvdWizard::generateDvd()
             if (i > 0) but.setAttribute("up", 'b' + QString::number(i - 1));
             else but.setAttribute("up", 'b' + QString::number(max));
             QRect r = it.value();
-            int target = it.key();
+            //int target = it.key();
             // TODO: solve play all button
-            if (target == 0) target = 1;
-            buttonsTarget.append(QString::number(target));
+            //if (target == 0) target = 1;
+            buttonsTarget.append(it.key());
             but.setAttribute("x0", QString::number(r.x()));
             but.setAttribute("y0", QString::number(r.y()));
             but.setAttribute("x1", QString::number(r.right()));
@@ -363,7 +363,7 @@ void DvdWizard::generateDvd()
         for (int i = 0; i < buttons.count(); i++) {
             QDomElement button = dvddoc.createElement("button");
             button.setAttribute("name", 'b' + QString::number(i));
-            QDomText nametext = dvddoc.createTextNode("jump title " + buttonsTarget.at(i) + ';');
+            QDomText nametext = dvddoc.createTextNode("jump " + buttonsTarget.at(i) + ';');
             button.appendChild(nametext);
             pgc.appendChild(button);
         }
@@ -393,6 +393,23 @@ void DvdWizard::generateDvd()
             // Add vob entry
             QDomElement vob = dvddoc.createElement("vob");
             vob.setAttribute("file", voburls.at(i));
+            if (m_pageVob->useChapters()) {
+                // Add chapters
+                if (QFile::exists(voburls.at(i) + ".dvdchapter")) {
+                    QFile file(voburls.at(i) + ".dvdchapter");
+                    if (file.open(QIODevice::ReadOnly)) {
+                        QDomDocument doc;
+                        doc.setContent(&file);
+                        file.close();
+                        QDomNodeList chapters = doc.elementsByTagName("chapter");
+                        QStringList chaptersList;
+                        for (int j = 0; j < chapters.count(); j++) {
+                            chaptersList.append(chapters.at(j).toElement().attribute("time"));
+                        }
+                        if (!chaptersList.isEmpty()) vob.setAttribute("chapters", chaptersList.join(","));
+                    }
+                }
+            }
             pgc2.appendChild(vob);
         }
     }

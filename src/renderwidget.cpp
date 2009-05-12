@@ -141,6 +141,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
     m_view.rescale_size->setEnabled(false);
     m_view.guides_box->setVisible(false);
     m_view.open_dvd->setVisible(false);
+    m_view.create_chapter->setVisible(false);
     m_view.open_browser->setVisible(false);
     m_view.error_box->setVisible(false);
 
@@ -671,25 +672,33 @@ void RenderWidget::slotExport(bool scriptExport)
     renderParameters << QString::number(m_view.render_zone->isChecked()) << QString::number(m_view.play_after->isChecked());
     renderParameters << QString::number(startPos) << QString::number(endPos) << QString::number(resizeProfile);
     renderParameters << scriptName;
-    renderItem->setData(1, Qt::UserRole + 3, renderParameters);
 
     // Set rendering type
     QString group = m_view.size_list->currentItem()->data(MetaGroupRole).toString();
-    if (group == "dvd" && m_view.open_dvd->isChecked()) {
-        renderItem->setData(0, Qt::UserRole, group);
-        if (renderArgs.contains("profile=")) {
-            // rendering profile contains an MLT profile, so pass it to the running jog item, useful for dvd
-            QString prof = renderArgs.section("profile=", 1, 1);
-            prof = prof.section(' ', 0, 0);
-            kDebug() << "// render profile: " << prof;
-            renderItem->setData(0, Qt::UserRole + 1, prof);
+    if (group == "dvd") {
+        renderParameters << QString::number(m_view.create_chapter->isChecked());
+        if (m_view.open_dvd->isChecked()) {
+            renderItem->setData(0, Qt::UserRole, group);
+            if (renderArgs.contains("profile=")) {
+                // rendering profile contains an MLT profile, so pass it to the running jog item, useful for dvd
+                QString prof = renderArgs.section("profile=", 1, 1);
+                prof = prof.section(' ', 0, 0);
+                kDebug() << "// render profile: " << prof;
+                renderItem->setData(0, Qt::UserRole + 1, prof);
+            }
         }
-    } else if (group == "websites" && m_view.open_browser->isChecked()) {
-        renderItem->setData(0, Qt::UserRole, group);
-        // pass the url
-        QString url = m_view.size_list->currentItem()->data(ExtraRole).toString();
-        renderItem->setData(0, Qt::UserRole + 1, url);
+    } else {
+        renderParameters << QString::number(false);
+        if (group == "websites" && m_view.open_browser->isChecked()) {
+            renderItem->setData(0, Qt::UserRole, group);
+            // pass the url
+            QString url = m_view.size_list->currentItem()->data(ExtraRole).toString();
+            renderItem->setData(0, Qt::UserRole + 1, url);
+        }
     }
+
+
+    renderItem->setData(1, Qt::UserRole + 3, renderParameters);
 
     checkRenderStatus();
     if (scriptName.isEmpty()) m_view.tabWidget->setCurrentIndex(1);
@@ -736,8 +745,13 @@ void RenderWidget::refreshView()
         destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
 
 
-    if (destination == "dvd") m_view.open_dvd->setVisible(true);
-    else m_view.open_dvd->setVisible(false);
+    if (destination == "dvd") {
+        m_view.open_dvd->setVisible(true);
+        m_view.create_chapter->setVisible(true);
+    } else {
+        m_view.open_dvd->setVisible(false);
+        m_view.create_chapter->setVisible(false);
+    }
     if (destination == "websites") m_view.open_browser->setVisible(true);
     else m_view.open_browser->setVisible(false);
     if (!destination.isEmpty() && QString("dvd websites audioonly").contains(destination))

@@ -25,6 +25,7 @@
 #include <KFileItem>
 
 #include <QHBoxLayout>
+#include <QDomDocument>
 
 DvdWizardVob::DvdWizardVob(QWidget *parent) :
         QWizardPage(parent)
@@ -69,6 +70,11 @@ bool DvdWizardVob::isComplete() const
     return false;
 }
 
+bool DvdWizardVob::useChapters() const
+{
+    return m_view.use_chapters->isChecked();
+}
+
 void DvdWizardVob::setUrl(const QString &url)
 {
     m_view.vob_1->setPath(url);
@@ -77,14 +83,75 @@ void DvdWizardVob::setUrl(const QString &url)
 QStringList DvdWizardVob::selectedUrls() const
 {
     QStringList result;
+    QString path;
     QList<KUrlRequester *> allUrls = m_view.vob_list->findChildren<KUrlRequester *>();
     for (int i = 0; i < allUrls.count(); i++) {
-        if (!allUrls.at(i)->url().path().isEmpty()) {
-            result.append(allUrls.at(i)->url().path());
+        path = allUrls.at(i)->url().path();
+        if (!path.isEmpty()) {
+            result.append(path);
         }
     }
     return result;
 }
+
+QStringList DvdWizardVob::selectedTitles() const
+{
+    QStringList result;
+    QString path;
+    QList<KUrlRequester *> allUrls = m_view.vob_list->findChildren<KUrlRequester *>();
+    for (int i = 0; i < allUrls.count(); i++) {
+        path = allUrls.at(i)->url().path();
+        if (!path.isEmpty()) {
+            result.append(path);
+            if (useChapters() && QFile::exists(path + ".dvdchapter")) {
+                // insert chapters as targets
+                QFile file(path + ".dvdchapter");
+                if (file.open(QIODevice::ReadOnly)) {
+                    QDomDocument doc;
+                    doc.setContent(&file);
+                    file.close();
+                    QDomNodeList chapters = doc.elementsByTagName("chapter");
+                    QStringList chaptersList;
+                    for (int j = 0; j < chapters.count(); j++) {
+                        result.append(QString::number(j) + " - " + chapters.at(j).toElement().attribute("title") + " " + chapters.at(j).toElement().attribute("time"));
+                    }
+                }
+
+            }
+        }
+    }
+    return result;
+}
+
+QStringList DvdWizardVob::selectedTargets() const
+{
+    QStringList result;
+    QString path;
+    QList<KUrlRequester *> allUrls = m_view.vob_list->findChildren<KUrlRequester *>();
+    for (int i = 0; i < allUrls.count(); i++) {
+        path = allUrls.at(i)->url().path();
+        if (!path.isEmpty()) {
+            result.append("title " + QString::number(i));
+            if (useChapters() && QFile::exists(path + ".dvdchapter")) {
+                // insert chapters as targets
+                QFile file(path + ".dvdchapter");
+                if (file.open(QIODevice::ReadOnly)) {
+                    QDomDocument doc;
+                    doc.setContent(&file);
+                    file.close();
+                    QDomNodeList chapters = doc.elementsByTagName("chapter");
+                    QStringList chaptersList;
+                    for (int j = 0; j < chapters.count(); j++) {
+                        result.append("title " + QString::number(i + 1) + " chapter " + QString::number(j + 1));
+                    }
+                }
+
+            }
+        }
+    }
+    return result;
+}
+
 
 QString DvdWizardVob::introMovie() const
 {

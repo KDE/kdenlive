@@ -677,11 +677,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                 }
             }
             // keep this to support multiple guides context menu in the future (?)
-                /*if (guidesCollisionList.at(0)->type() != GUIDEITEM)
-                    guidesCollisionList.removeAt(0);
+            /*if (guidesCollisionList.at(0)->type() != GUIDEITEM)
+                guidesCollisionList.removeAt(0);
             }
             if (!guidesCollisionList.isEmpty())
-                m_dragGuide = static_cast <Guide *>(guidesCollisionList.at(0));*/
+            m_dragGuide = static_cast <Guide *>(guidesCollisionList.at(0));*/
         }
 
         m_operationMode = NONE;
@@ -3509,7 +3509,7 @@ int CustomTrackView::hasGuide(int pos, int offset)
 {
     for (int i = 0; i < m_guides.count(); i++) {
         int guidePos = m_guides.at(i)->position().frames(m_document->fps());
-        if (qAbs(guidePos - pos) < offset) return guidePos;
+        if (qAbs(guidePos - pos) <= offset) return guidePos;
         else if (guidePos > pos) return -1;
     }
     return -1;

@@ -96,6 +96,26 @@ QString Timecode::getTimecodeFromFrames(int frames)
     return getTimecodeHH_MM_SS_FF(frames);
 }
 
+
+//static
+QString Timecode::getStringTimecode(int frames, const double &fps)
+{
+    // Returns the timecode in an hh:mm:ss format
+    int seconds = frames / (int) floor(fps + 0.5);
+    int minutes = seconds / 60;
+    seconds = seconds % 60;
+    int hours = minutes / 60;
+    minutes = minutes % 60;
+    QString text;
+    text.append(QString::number(hours).rightJustified(2, '0', false));
+    text.append(':');
+    text.append(QString::number(minutes).rightJustified(2, '0', false));
+    text.append(':');
+    text.append(QString::number(seconds).rightJustified(2, '0', false));
+    return text;
+}
+
+
 //static
 QString Timecode::getEasyTimecode(const GenTime & time, const double &fps)
 {
@@ -161,7 +181,6 @@ QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const
     minutes = minutes % 60;
 
     QString text;
-
     text.append(QString::number(hours).rightJustified(2, '0', false));
     text.append(':');
     text.append(QString::number(minutes).rightJustified(2, '0', false));

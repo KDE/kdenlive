@@ -40,8 +40,11 @@ public:
     virtual ~DvdWizardVob();
     virtual bool isComplete() const;
     QStringList selectedUrls() const;
+    QStringList selectedTitles() const;
+    QStringList selectedTargets() const;
     void setUrl(const QString &url);
     QString introMovie() const;
+    bool useChapters() const;
 
 private:
     Ui::DvdWizardVob_UI m_view;

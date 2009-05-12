@@ -56,13 +56,17 @@ class DvdButton : public QGraphicsTextItem
 {
 
 public:
-    DvdButton(const QString & text): QGraphicsTextItem(text), m_target(0) {}
+    DvdButton(const QString & text): QGraphicsTextItem(text), m_target(0), m_command(QString("title 1")) {}
     enum { Type = UserType + 1 };
-    void setTarget(int t) {
+    void setTarget(int t, QString c) {
         m_target = t;
+        m_command = c;
     }
     int target() const {
         return m_target;
+    }
+    QString command() const {
+        return m_command;
     }
     int type() const {
         // Enable the use of qgraphicsitem_cast with this item.
@@ -71,7 +75,7 @@ public:
 
 private:
     int m_target;
-
+    QString m_command;
 
 protected:
 
@@ -112,8 +116,8 @@ public:
     bool createMenu() const;
     void createBackgroundImage(const QString &img1);
     void createButtonImages(const QString &img1, const QString &img2, const QString &img3);
-    void setTargets(QStringList list);
-    QMap <int, QRect> buttonsInfo();
+    void setTargets(QStringList list, QStringList targetlist);
+    QMap <QString, QRect> buttonsInfo();
     bool menuMovie() const;
     QString menuMoviePath() const;
     bool isPalMenu() const;
@@ -127,7 +131,6 @@ private:
     QGraphicsRectItem *m_safeRect;
     int m_width;
     int m_height;
-    QStringList m_targets;
 
 private slots:
     void buildButton();

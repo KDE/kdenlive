@@ -37,8 +37,8 @@ DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
     m_view.delete_button->setIcon(KIcon("trash-empty"));
 
     // TODO: re-enable add button options
-    m_view.add_button->setVisible(false);
-    m_view.delete_button->setVisible(false);
+    /*m_view.add_button->setVisible(false);
+    m_view.delete_button->setVisible(false);*/
 
     m_view.menu_profile->addItems(QStringList() << i18n("PAL") << i18n("NTSC"));
 
@@ -167,7 +167,7 @@ void DvdWizardMenu::setButtonTarget(int ix)
     for (int i = 0; i < list.count(); i++) {
         if (list.at(i)->type() == QGraphicsItem::UserType + 1) {
             DvdButton *button = static_cast < DvdButton* >(list.at(i));
-            button->setTarget(ix);
+            button->setTarget(ix, m_view.target_list->itemData(ix).toString());
             break;
         }
     }
@@ -263,16 +263,13 @@ void DvdWizardMenu::updatePreview()
     m_safeRect->setRect(safeW, safeH, m_width - 2 * safeW, m_height - 2 * safeH);
 }
 
-void DvdWizardMenu::setTargets(QStringList /*list*/)
+void DvdWizardMenu::setTargets(QStringList list, QStringList targetlist)
 {
-    m_targets = QStringList() << i18n("Play All");
-    // TODO: re-enable different targets
-    /*
-    if (list.count() > 1) {
-    m_targets += list;
+    m_view.target_list->clear();
+    m_view.target_list->addItem(i18n("Play All"), "title 1");
+    for (int i = 0; i < list.count(); i++) {
+        m_view.target_list->addItem(list.at(i), targetlist.at(i));
     }
-    m_view.target_list->clear();*/
-    m_view.target_list->addItems(m_targets);
 }
 
 void DvdWizardMenu::checkBackgroundType(int ix)
@@ -450,9 +447,9 @@ QString DvdWizardMenu::menuMoviePath() const
 }
 
 
-QMap <int, QRect> DvdWizardMenu::buttonsInfo()
+QMap <QString, QRect> DvdWizardMenu::buttonsInfo()
 {
-    QMap <int, QRect> info;
+    QMap <QString, QRect> info;
     QList<QGraphicsItem *> list = m_scene->items();
     for (int i = 0; i < list.count(); i++) {
         if (list.at(i)->type() == QGraphicsItem::UserType + 1) {
@@ -461,7 +458,7 @@ QMap <int, QRect> DvdWizardMenu::buttonsInfo()
             // Make sure y1 is not odd (requested by spumux)
             if (r.height() % 2 == 1) r.setHeight(r.height() + 1);
             if (r.y() % 2 == 1) r.setY(r.y() - 1);
-            info.insertMulti(button->target(), r);
+            info.insertMulti(button->command(), r);
         }
     }
     return info;
