@@ -23,7 +23,9 @@
 
 
 DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
-        QWizardPage(parent)
+        QWizardPage(parent),
+        m_color(NULL),
+        m_safeRect(NULL)
 {
     m_view.setupUi(this);
     m_view.play_text->setText(i18n("Play"));
@@ -46,6 +48,8 @@ DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
         m_view.menu_profile->setCurrentIndex(1);
         m_isPal = false;
     } else m_isPal = true;
+
+    changeProfile(m_view.menu_profile->currentIndex());
 
     // Create color background
     m_color = new QGraphicsRectItem(0, 0, m_width, m_height);
@@ -70,7 +74,6 @@ DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
     m_safeRect->setZValue(5);
     m_scene->addItem(m_safeRect);
 
-    changeProfile(m_view.menu_profile->currentIndex());
     checkBackgroundType(0);
 
     connect(m_view.menu_profile, SIGNAL(activated(int)), this, SLOT(changeProfile(int)));
@@ -256,11 +259,11 @@ void DvdWizardMenu::updatePreview()
     m_view.menu_preview->setMatrix(matrix);
     m_view.menu_preview->setMinimumSize(m_width / 2 + 4, m_height / 2 + 8);
 
-    m_color->setRect(0, 0, m_width, m_height);
+    if (m_color) m_color->setRect(0, 0, m_width, m_height);
 
     int safeW = m_width / 20;
     int safeH = m_height / 20;
-    m_safeRect->setRect(safeW, safeH, m_width - 2 * safeW, m_height - 2 * safeH);
+    if (m_safeRect) m_safeRect->setRect(safeW, safeH, m_width - 2 * safeW, m_height - 2 * safeH);
 }
 
 void DvdWizardMenu::setTargets(QStringList list, QStringList targetlist)
@@ -366,38 +369,50 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
         m_scene->clearSelection();
         QImage img(m_width, m_height, QImage::Format_ARGB32);
         QPainter p(&img);
+        p.setRenderHints(QPainter::Antialiasing, false);
+        p.setRenderHints(QPainter::TextAntialiasing, false);
         m_scene->removeItem(m_safeRect);
         m_scene->removeItem(m_color);
         m_scene->removeItem(m_background);
         m_scene->render(&p, QRectF(0, 0, m_width, m_height));
         p.end();
-        QImage saved;
+        img.setNumColors(4);
+        img.save(img1);
+        /*QImage saved;
         if (m_view.menu_profile->currentIndex() < 2)
             saved = img.scaled(720, 576);
         else saved = img.scaled(720, 480);
         saved.setNumColors(4);
-        saved.save(img1);
+        saved.save(img1);*/
 
         updateColor(m_view.selected_color->color());
         p.begin(&img);
+        p.setRenderHints(QPainter::Antialiasing, false);
+        p.setRenderHints(QPainter::TextAntialiasing, false);
         m_scene->render(&p, QRectF(0, 0, m_width, m_height));
         p.end();
-        if (m_view.menu_profile->currentIndex() < 2)
-            saved = img.scaled(720, 576);
-        else saved = img.scaled(720, 480);
-        saved.setNumColors(4);
-        saved.save(img2);
+        /*        if (m_view.menu_profile->currentIndex() < 2)
+                    saved = img.scaled(720, 576);
+                else saved = img.scaled(720, 480);
+                saved.setNumColors(4);
+                saved.save(img2);*/
+        img.setNumColors(4);
+        img.save(img2);
 
 
         updateColor(m_view.highlighted_color->color());
         p.begin(&img);
+        p.setRenderHints(QPainter::Antialiasing, false);
+        p.setRenderHints(QPainter::TextAntialiasing, false);
         m_scene->render(&p, QRectF(0, 0, m_width, m_height));
         p.end();
-        if (m_view.menu_profile->currentIndex() < 2)
+        /*if (m_view.menu_profile->currentIndex() < 2)
             saved = img.scaled(720, 576);
         else saved = img.scaled(720, 480);
         saved.setNumColors(4);
-        saved.save(img3);
+        saved.save(img3);*/
+        img.setNumColors(4);
+        img.save(img3);
 
         updateColor();
 
