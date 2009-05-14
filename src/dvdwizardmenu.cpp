@@ -38,9 +38,8 @@ DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
     m_view.add_button->setIcon(KIcon("document-new"));
     m_view.delete_button->setIcon(KIcon("trash-empty"));
 
-    // TODO: re-enable add button options
-    /*m_view.add_button->setVisible(false);
-    m_view.delete_button->setVisible(false);*/
+    m_view.add_button->setToolTip(i18n("Add new button"));
+    m_view.delete_button->setToolTip(i18n("Delete current button"));
 
     m_view.menu_profile->addItems(QStringList() << i18n("PAL") << i18n("NTSC"));
 
@@ -105,6 +104,7 @@ DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
     connect(m_view.background_list, SIGNAL(activated(int)), this, SLOT(checkBackgroundType(int)));
 
     connect(m_view.target_list, SIGNAL(activated(int)), this, SLOT(setButtonTarget(int)));
+    connect(m_view.back_to_menu, SIGNAL(toggled(bool)), this, SLOT(setBackToMenu(bool)));
 
     connect(m_view.add_button, SIGNAL(pressed()), this, SLOT(addButton()));
     connect(m_view.delete_button, SIGNAL(pressed()), this, SLOT(deleteButton()));
@@ -159,7 +159,8 @@ bool DvdWizardMenu::isComplete() const
     if (targets.contains(0)) return true;
     // ... or that each video file has a button
     for (int i = m_view.target_list->count() - 1; i > 0; i--) {
-        if (!targets.contains(i)) return false;
+        // If there is a vob file entry and it has no button assigned, don't allow to go further
+        if (m_view.target_list->itemIcon(i).isNull() == false && !targets.contains(i)) return false;
     }
     return true;
 }
@@ -177,6 +178,19 @@ void DvdWizardMenu::setButtonTarget(int ix)
     emit completeChanged();
 }
 
+void DvdWizardMenu::setBackToMenu(bool backToMenu)
+{
+    QList<QGraphicsItem *> list = m_scene->selectedItems();
+    for (int i = 0; i < list.count(); i++) {
+        if (list.at(i)->type() == QGraphicsItem::UserType + 1) {
+            DvdButton *button = static_cast < DvdButton* >(list.at(i));
+            button->setBackMenu(backToMenu);
+            break;
+        }
+    }
+    emit completeChanged();
+}
+
 void DvdWizardMenu::buttonChanged()
 {
     QList<QGraphicsItem *> list = m_scene->selectedItems();
@@ -187,11 +201,13 @@ void DvdWizardMenu::buttonChanged()
             m_view.font_size->blockSignals(true);
             m_view.font_family->blockSignals(true);
             m_view.target_list->blockSignals(true);
+            m_view.back_to_menu->blockSignals(true);
             foundButton = true;
             m_view.tabWidget->widget(0)->setEnabled(true);
             DvdButton *button = static_cast < DvdButton* >(list.at(i));
             m_view.target_list->setCurrentIndex(button->target());
             m_view.play_text->setText(button->toPlainText());
+            m_view.back_to_menu->setChecked(button->backMenu());
             QFont font = button->font();
             m_view.font_size->setValue(font.pixelSize());
             m_view.font_family->setCurrentFont(font);
@@ -199,6 +215,7 @@ void DvdWizardMenu::buttonChanged()
             m_view.font_size->blockSignals(false);
             m_view.font_family->blockSignals(false);
             m_view.target_list->blockSignals(false);
+            m_view.back_to_menu->blockSignals(false);
             break;
         }
     }
@@ -270,9 +287,16 @@ void DvdWizardMenu::setTargets(QStringList list, QStringList targetlist)
 {
     m_view.target_list->clear();
     m_view.target_list->addItem(i18n("Play All"), "title 1");
+    int movieCount = 0;
     for (int i = 0; i < list.count(); i++) {
-        m_view.target_list->addItem(list.at(i), targetlist.at(i));
+        if (targetlist.at(i).contains("chapter"))
+            m_view.target_list->addItem(list.at(i), targetlist.at(i));
+        else {
+            m_view.target_list->addItem(KIcon("video-x-generic"), list.at(i), targetlist.at(i));
+            movieCount++;
+        }
     }
+    m_view.back_to_menu->setHidden(movieCount == 1);
 }
 
 void DvdWizardMenu::checkBackgroundType(int ix)
@@ -473,7 +497,9 @@ QMap <QString, QRect> DvdWizardMenu::buttonsInfo()
             // Make sure y1 is not odd (requested by spumux)
             if (r.height() % 2 == 1) r.setHeight(r.height() + 1);
             if (r.y() % 2 == 1) r.setY(r.y() - 1);
-            info.insertMulti(button->command(), r);
+            QString command = button->command();
+            if (button->backMenu()) command.prepend("g1 = 999;");
+            info.insertMulti(command, r);
         }
     }
     return info;

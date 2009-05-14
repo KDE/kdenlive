@@ -362,10 +362,14 @@ void DvdWizard::generateDvd()
         QDomElement pgc = dvddoc.createElement("pgc");
         pgc.setAttribute("entry", "root");
         menus.appendChild(pgc);
+        QDomElement pre = dvddoc.createElement("pre");
+        pgc.appendChild(pre);
+        QDomText nametext = dvddoc.createTextNode("{g1 = 0;}");
+        pre.appendChild(nametext);
         for (int i = 0; i < buttons.count(); i++) {
             QDomElement button = dvddoc.createElement("button");
             button.setAttribute("name", 'b' + QString::number(i));
-            QDomText nametext = dvddoc.createTextNode("jump " + buttonsTarget.at(i) + ';');
+            nametext = dvddoc.createTextNode('{' + buttonsTarget.at(i) + ";}");
             button.appendChild(nametext);
             pgc.appendChild(button);
         }
@@ -380,19 +384,15 @@ void DvdWizard::generateDvd()
 
     QStringList voburls = m_pageVob->selectedUrls();
 
-    QDomElement pgc2 = dvddoc.createElement("pgc");
-    titles.appendChild(pgc2);
-    if (m_pageMenu->createMenu()) {
-        QDomElement post = dvddoc.createElement("post");
-        QDomText call = dvddoc.createTextNode("call menu;");
-        post.appendChild(call);
-        pgc2.appendChild(post);
-    }
+    QDomElement pgc2;
 
 
     for (int i = 0; i < voburls.count(); i++) {
         if (!voburls.at(i).isEmpty()) {
             // Add vob entry
+            pgc2 = dvddoc.createElement("pgc");
+            pgc2.setAttribute("pause", 0);
+            titles.appendChild(pgc2);
             QDomElement vob = dvddoc.createElement("vob");
             vob.setAttribute("file", voburls.at(i));
             if (m_pageVob->useChapters()) {
@@ -413,30 +413,20 @@ void DvdWizard::generateDvd()
                 }
             }
             pgc2.appendChild(vob);
+            if (m_pageMenu->createMenu()) {
+                QDomElement post = dvddoc.createElement("post");
+                QDomText call;
+                if (i == voburls.count() - 1) call = dvddoc.createTextNode("{g1 = 0; call menu;}");
+                else {
+                    call = dvddoc.createTextNode("{if ( g1 eq 999 ) { call menu; } jump title " + QString::number(i + 2) + ";}");
+                }
+                post.appendChild(call);
+                pgc2.appendChild(post);
+            }
         }
     }
 
-    /*
-        // create one pgc for each video
-        for (int i = 0; i < voburls.count(); i++) {
-            if (!voburls.at(i).isEmpty()) {
-                // Add vob entry
 
-         QDomElement pgc2 = dvddoc.createElement("pgc");
-         titles.appendChild(pgc2);
-         if (m_pageMenu->createMenu()) {
-      QDomElement post = dvddoc.createElement("post");
-      QDomText call = dvddoc.createTextNode("call vmgm menu 1;");
-      post.appendChild(call);
-      pgc2.appendChild(post);
-         }
-
-                QDomElement vob = dvddoc.createElement("vob");
-                vob.setAttribute("file", voburls.at(i));
-                pgc2.appendChild(vob);
-            }
-        }
-    */
     QFile data2(m_authorFile.fileName());
     if (data2.open(QFile::WriteOnly)) {
         data2.write(dvddoc.toString().toUtf8());

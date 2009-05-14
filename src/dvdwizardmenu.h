@@ -56,7 +56,7 @@ class DvdButton : public QGraphicsTextItem
 {
 
 public:
-    DvdButton(const QString & text): QGraphicsTextItem(text), m_target(0), m_command(QString("title 1")) {}
+    DvdButton(const QString & text): QGraphicsTextItem(text), m_target(0), m_command(QString("jump title 1")), m_backToMenu(false) {}
     enum { Type = UserType + 1 };
     void setTarget(int t, QString c) {
         m_target = t;
@@ -68,14 +68,21 @@ public:
     QString command() const {
         return m_command;
     }
+    bool backMenu() const {
+        return m_backToMenu;
+    }
     int type() const {
         // Enable the use of qgraphicsitem_cast with this item.
         return Type;
+    }
+    void setBackMenu(bool back) {
+        m_backToMenu = back;
     }
 
 private:
     int m_target;
     QString m_command;
+    bool m_backToMenu;
 
 protected:
 
@@ -146,6 +153,7 @@ private slots:
     void deleteButton();
     void updateColor();
     void updateColor(QColor c);
+    void setBackToMenu(bool backToMenu);
 };
 
 #endif

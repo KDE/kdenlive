@@ -131,7 +131,7 @@ QStringList DvdWizardVob::selectedTargets() const
     for (int i = 0; i < allUrls.count(); i++) {
         path = allUrls.at(i)->url().path();
         if (!path.isEmpty()) {
-            result.append("title " + QString::number(i));
+            result.append("jump title " + QString::number(i + 1));
             if (useChapters() && QFile::exists(path + ".dvdchapter")) {
                 // insert chapters as targets
                 QFile file(path + ".dvdchapter");
@@ -142,7 +142,7 @@ QStringList DvdWizardVob::selectedTargets() const
                     QDomNodeList chapters = doc.elementsByTagName("chapter");
                     QStringList chaptersList;
                     for (int j = 0; j < chapters.count(); j++) {
-                        result.append("title " + QString::number(i + 1) + " chapter " + QString::number(j + 1));
+                        result.append("jump title " + QString::number(i + 1) + " chapter " + QString::number(j + 1));
                     }
                 }
 
