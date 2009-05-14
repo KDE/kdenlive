@@ -74,16 +74,18 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
 
     connect(m_status.button_preview, SIGNAL(clicked()), this, SLOT(slotPreview()));
 
-    QString exec = KStandardDirs::findExe("k3b");
+    QString programName("k3b");
+    QString exec = KStandardDirs::findExe(programName);
     if (!exec.isEmpty()) {
         //Add K3b action
-        QAction *k3b = m_burnMenu->addAction(KIcon("k3b"), i18n("Burn with %1", "K3b"), this, SLOT(slotBurn()));
+        QAction *k3b = m_burnMenu->addAction(KIcon(programName), i18n("Burn with %1", programName), this, SLOT(slotBurn()));
         k3b->setData(exec);
     }
-    exec = KStandardDirs::findExe("brasero");
+    programName = "brasero";
+    exec = KStandardDirs::findExe(programName);
     if (!exec.isEmpty()) {
         //Add Brasero action
-        QAction *brasero = m_burnMenu->addAction(KIcon("brasero"), i18n("Burn with %1", "Brasero"), this, SLOT(slotBurn()));
+        QAction *brasero = m_burnMenu->addAction(KIcon(programName), i18n("Burn with %1", programName), this, SLOT(slotBurn()));
         brasero->setData(exec);
     }
     if (m_burnMenu->isEmpty()) m_burnMenu->addAction(i18n("No burning program found (K3b, Brasero)"));
@@ -565,8 +567,9 @@ void DvdWizard::cleanup()
 
 void DvdWizard::slotPreview()
 {
-    QString exec = KStandardDirs::findExe("xine");
-    if (exec.isEmpty()) KMessageBox::sorry(this, i18n("You need program <b>%1</b> to perform this action", "xine"));
+    QString programName("xine");
+    QString exec = KStandardDirs::findExe(programName);
+    if (exec.isEmpty()) KMessageBox::sorry(this, i18n("You need program <b>%1</b> to perform this action", programName));
     else QProcess::startDetached(exec, QStringList() << "dvd://" + m_iso.iso_image->url().path());
 }
 
