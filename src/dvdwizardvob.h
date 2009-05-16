@@ -29,6 +29,8 @@
 #include <kcapacitybar.h>
 #endif
 
+#include <KUrl>
+
 #include <QWizardPage>
 
 class DvdWizardVob : public QWizardPage
@@ -36,7 +38,7 @@ class DvdWizardVob : public QWizardPage
     Q_OBJECT
 
 public:
-    DvdWizardVob(QWidget * parent = 0);
+    DvdWizardVob(const QString &profile, QWidget * parent = 0);
     virtual ~DvdWizardVob();
     virtual bool isComplete() const;
     QStringList selectedUrls() const;
@@ -45,6 +47,8 @@ public:
     void setUrl(const QString &url);
     QString introMovie() const;
     bool useChapters() const;
+    bool isPal() const;
+    QStringList chapter(int ix) const;
 
 private:
     Ui::DvdWizardVob_UI m_view;
@@ -55,7 +59,12 @@ private:
 #endif
 
 private slots:
-    void slotCheckVobList(const QString &text);
+    void slotCheckVobList();
+    void slotAddVobFile(KUrl url = KUrl());
+    void slotDeleteVobFile();
+    void slotItemUp();
+    void slotItemDown();
+    void changeFormat();
 };
 
 #endif

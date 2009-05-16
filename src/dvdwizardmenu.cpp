@@ -41,14 +41,11 @@ DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
     m_view.add_button->setToolTip(i18n("Add new button"));
     m_view.delete_button->setToolTip(i18n("Delete current button"));
 
-    m_view.menu_profile->addItems(QStringList() << i18n("PAL") << i18n("NTSC"));
-
     if (profile == "dv_ntsc" || profile == "dv_ntsc_wide") {
-        m_view.menu_profile->setCurrentIndex(1);
-        m_isPal = false;
-    } else m_isPal = true;
+        changeProfile(false);
+    } else changeProfile(true);
 
-    changeProfile(m_view.menu_profile->currentIndex());
+
 
     // Create color background
     m_color = new QGraphicsRectItem(0, 0, m_width, m_height);
@@ -75,7 +72,6 @@ DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
 
     checkBackgroundType(0);
 
-    connect(m_view.menu_profile, SIGNAL(activated(int)), this, SLOT(changeProfile(int)));
 
     // create menu button
     DvdButton *button = new DvdButton(m_view.play_text->text());
@@ -250,21 +246,19 @@ void DvdWizardMenu::deleteButton()
     }
 }
 
-void DvdWizardMenu::changeProfile(int ix)
+void DvdWizardMenu::changeProfile(bool isPal)
 {
-    switch (ix) {
-    case 1:
+    m_isPal = isPal;
+    if (isPal == false) {
         m_width = 720;
         m_height = 480;
         m_isPal = false;
         updatePreview();
-        break;
-    default:
+    } else {
         m_width = 720;
         m_height = 576;
         m_isPal = true;
         updatePreview();
-        break;
     }
 }
 

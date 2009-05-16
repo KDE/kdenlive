@@ -128,6 +128,7 @@ public:
     bool menuMovie() const;
     QString menuMoviePath() const;
     bool isPalMenu() const;
+    void changeProfile(bool isPal);
 
 private:
     Ui::DvdWizardMenu_UI m_view;
@@ -145,7 +146,6 @@ private slots:
     void buildImage();
     void checkBackground();
     void checkBackgroundType(int ix);
-    void changeProfile(int ix);
     void updatePreview();
     void buttonChanged();
     void addButton();

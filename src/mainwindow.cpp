@@ -1662,6 +1662,7 @@ void MainWindow::slotDoRender(const QStringList args, const QStringList overlay_
         if (createChapterFile) {
             QDomDocument doc;
             QDomElement chapters = doc.createElement("chapters");
+            chapters.setAttribute("fps", m_activeDocument->fps());
             doc.appendChild(chapters);
 
             QDomElement guidesxml = m_activeDocument->guidesXml();
@@ -1674,11 +1675,11 @@ void MainWindow::slotDoRender(const QStringList args, const QStringList overlay_
                     QString comment = e.attribute("comment");
                     int time = (int) GenTime(e.attribute("time").toDouble()).frames(m_activeDocument->fps());
                     if (time >= in && time < out) {
-			if (zoneOnly) time = time - in;
+                        if (zoneOnly) time = time - in;
                         QDomElement chapter = doc.createElement("chapter");
                         chapters.appendChild(chapter);
                         chapter.setAttribute("title", comment);
-                        chapter.setAttribute("time", Timecode::getStringTimecode(time, m_activeDocument->fps()));
+                        chapter.setAttribute("time", time);
                     }
                 }
             }

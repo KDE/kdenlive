@@ -44,7 +44,7 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
 {
     //setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
     setAttribute(Qt::WA_DeleteOnClose);
-    m_pageVob = new DvdWizardVob(this);
+    m_pageVob = new DvdWizardVob(profile, this);
     m_pageVob->setTitle(i18n("Select Files For Your DVD"));
     addPage(m_pageVob);
 
@@ -116,6 +116,7 @@ void DvdWizard::slotPageChanged(int page)
     kDebug() << "// PAGE CHGD: " << page;
     if (page == 1) {
         m_pageMenu->setTargets(m_pageVob->selectedTitles(), m_pageVob->selectedTargets());
+        m_pageMenu->changeProfile(m_pageVob->isPal());
     } else if (page == 2) {
         //m_pageMenu->buttonsInfo();
     } else if (page == 3) {
@@ -397,20 +398,8 @@ void DvdWizard::generateDvd()
             vob.setAttribute("file", voburls.at(i));
             if (m_pageVob->useChapters()) {
                 // Add chapters
-                if (QFile::exists(voburls.at(i) + ".dvdchapter")) {
-                    QFile file(voburls.at(i) + ".dvdchapter");
-                    if (file.open(QIODevice::ReadOnly)) {
-                        QDomDocument doc;
-                        doc.setContent(&file);
-                        file.close();
-                        QDomNodeList chapters = doc.elementsByTagName("chapter");
-                        QStringList chaptersList;
-                        for (int j = 0; j < chapters.count(); j++) {
-                            chaptersList.append(chapters.at(j).toElement().attribute("time"));
-                        }
-                        if (!chaptersList.isEmpty()) vob.setAttribute("chapters", chaptersList.join(","));
-                    }
-                }
+                QStringList chaptersList = m_pageVob->chapter(i);
+                if (!chaptersList.isEmpty()) vob.setAttribute("chapters", chaptersList.join(","));
             }
             pgc2.appendChild(vob);
             if (m_pageMenu->createMenu()) {
