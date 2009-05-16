@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>334</width>
-    <height>246</height>
+    <width>391</width>
+    <height>348</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0">
+   <item row="1" column="0" colspan="4">
     <widget class="QCheckBox" name="use_intro">
      <property name="text">
       <string>Intro movie</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1" colspan="2">
+   <item row="1" column="6">
     <widget class="KUrlRequester" name="intro_vob">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -28,38 +28,72 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="3">
-    <widget class="QGroupBox" name="vob_list">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item row="2" column="0" colspan="7">
+    <widget class="QTreeWidget" name="vobs_list">
+     <property name="alternatingRowColors">
+      <bool>true</bool>
      </property>
-     <property name="title">
-      <string>DVD Files</string>
+     <property name="rootIsDecorated">
+      <bool>true</bool>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="KUrlRequester" name="vob_1"/>
-      </item>
-     </layout>
+     <property name="headerHidden">
+      <bool>false</bool>
+     </property>
+     <attribute name="headerVisible">
+      <bool>true</bool>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>File</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Duration</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Size</string>
+      </property>
+     </column>
     </widget>
    </item>
-   <item row="2" column="0">
-    <spacer name="verticalSpacer">
+   <item row="4" column="3">
+    <widget class="QToolButton" name="button_up">
+     <property name="text">
+      <string>...</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="4">
+    <widget class="QToolButton" name="button_down">
+     <property name="text">
+      <string>...</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="5" colspan="2">
+    <spacer name="horizontalSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Horizontal</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>182</width>
-       <height>37</height>
+       <width>244</width>
+       <height>20</height>
       </size>
      </property>
     </spacer>
    </item>
-   <item row="5" column="0" colspan="3">
+   <item row="5" column="0" colspan="7">
+    <widget class="QGroupBox" name="size_box">
+     <property name="title">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0" colspan="7">
     <widget class="QLabel" name="error_message">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -72,17 +106,27 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="3">
-    <widget class="QGroupBox" name="size_box">
-     <property name="title">
-      <string/>
+   <item row="0" column="6">
+    <widget class="KComboBox" name="dvd_profile"/>
+   </item>
+   <item row="0" column="0" colspan="2">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>DVD format</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="0" colspan="3">
-    <widget class="QCheckBox" name="use_chapters">
+   <item row="4" column="1">
+    <widget class="QPushButton" name="button_add">
      <property name="text">
-      <string>Use Kdenlive chapter files</string>
+      <string>Add movie file</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2">
+    <widget class="QPushButton" name="button_delete">
+     <property name="text">
+      <string>Remove file</string>
      </property>
     </widget>
    </item>
@@ -93,6 +137,11 @@
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
