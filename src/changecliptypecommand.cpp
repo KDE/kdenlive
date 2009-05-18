@@ -46,6 +46,6 @@ void ChangeClipTypeCommand::undo()
 void ChangeClipTypeCommand::redo()
 {
     kDebug() << "----  redoing action";
-        m_view->doChangeClipType(m_pos, m_track, m_videoOnly, m_audioOnly);
+    m_view->doChangeClipType(m_pos, m_track, m_videoOnly, m_audioOnly);
 }
 

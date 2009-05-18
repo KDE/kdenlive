@@ -41,7 +41,7 @@ void LockTrackCommand::undo()
 // virtual
 void LockTrackCommand::redo()
 {
-        m_view->lockTrack(m_ix, m_lock);
+    m_view->lockTrack(m_ix, m_lock);
 }
 
 

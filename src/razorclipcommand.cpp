@@ -42,6 +42,6 @@ void RazorClipCommand::undo()
 void RazorClipCommand::redo()
 {
     // kDebug() << "----  redoing action cut: " << m_cutTime.frames(25);
-        m_view->cutClip(m_info, m_cutTime, true);
+    m_view->cutClip(m_info, m_cutTime, true);
 }
 

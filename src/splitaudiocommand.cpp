@@ -42,6 +42,6 @@ void SplitAudioCommand::undo()
 void SplitAudioCommand::redo()
 {
     kDebug() << "----  redoing action";
-        m_view->doSplitAudio(m_pos, m_track, true);
+    m_view->doSplitAudio(m_pos, m_track, true);
 }
 

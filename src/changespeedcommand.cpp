@@ -43,7 +43,7 @@ void ChangeSpeedCommand::undo()
 // virtual
 void ChangeSpeedCommand::redo()
 {
-        m_view->doChangeClipSpeed(m_clipInfo, m_new_speed, m_old_speed, m_clipId);
+    m_view->doChangeClipSpeed(m_clipInfo, m_new_speed, m_old_speed, m_clipId);
 }
 
 

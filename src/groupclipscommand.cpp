@@ -45,6 +45,6 @@ void GroupClipsCommand::undo()
 void GroupClipsCommand::redo()
 {
     kDebug() << "----  redoing action";
-        m_view->doGroupClips(m_clips, m_transitions, m_group);
+    m_view->doGroupClips(m_clips, m_transitions, m_group);
 }
 

@@ -43,6 +43,6 @@ void AddMarkerCommand::undo()
 // virtual
 void AddMarkerCommand::redo()
 {
-        m_view->addMarker(m_id, m_pos, m_comment);
+    m_view->addMarker(m_id, m_pos, m_comment);
 }
 

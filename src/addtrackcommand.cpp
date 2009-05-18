@@ -46,7 +46,7 @@ void AddTrackCommand::undo()
 void AddTrackCommand::redo()
 {
     kDebug() << "----  redoing action";
-        if (m_addTrack) m_view->addTrack(m_info, m_ix);
-        else m_view->removeTrack(m_ix);
+    if (m_addTrack) m_view->addTrack(m_info, m_ix);
+    else m_view->removeTrack(m_ix);
 }
 
