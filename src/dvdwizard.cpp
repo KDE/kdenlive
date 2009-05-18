@@ -109,10 +109,12 @@ DvdWizard::~DvdWizard()
     // m_menuFile.remove();
     delete m_burnMenu;
     if (m_dvdauthor) {
+        m_dvdauthor->blockSignals(true);
         m_dvdauthor->close();
         delete m_dvdauthor;
     }
     if (m_mkiso) {
+        m_mkiso->blockSignals(true);
         m_mkiso->close();
         delete m_mkiso;
     }
@@ -438,6 +440,7 @@ void DvdWizard::generateDvd()
     args << "-x" << m_authorFile.fileName();
     kDebug() << "// DVDAUTH ARGS: " << args;
     if (m_dvdauthor) {
+        m_dvdauthor->blockSignals(true);
         m_dvdauthor->close();
         delete m_dvdauthor;
         m_dvdauthor = NULL;
@@ -485,6 +488,7 @@ void DvdWizard::slotRenderFinished(int /*exitCode*/, QProcess::ExitStatus status
     args << "-dvd-video" << "-v" << "-o" << m_iso.iso_image->url().path() << m_iso.tmp_folder->url().path() + "/DVD";
 
     if (m_mkiso) {
+        m_mkiso->blockSignals(true);
         m_mkiso->close();
         delete m_mkiso;
         m_mkiso = NULL;
