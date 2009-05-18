@@ -58,6 +58,7 @@ private slots:
     void slotAddChapter();
     void slotRemoveChapter();
     void slotGoToChapter();
+    void slotSaveChapter();
 };
 
 #endif

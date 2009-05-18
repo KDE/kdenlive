@@ -121,7 +121,7 @@ DvdWizard::~DvdWizard()
 
 void DvdWizard::slotPageChanged(int page)
 {
-    kDebug() << "// PAGE CHGD: " << page << ", ID: " << visitedPages();
+    //kDebug() << "// PAGE CHGD: " << page << ", ID: " << visitedPages();
     if (page == 1) {
         m_pageChapters->setVobFiles(m_pageVob->isPal(), m_pageVob->selectedUrls(), m_pageVob->durations());
     } else if (page == 2) {

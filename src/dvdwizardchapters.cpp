@@ -32,6 +32,7 @@ DvdWizardChapters::DvdWizardChapters(bool isPal, QWidget *parent) :
     connect(m_view.vob_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateChaptersList()));
     connect(m_view.button_add, SIGNAL(clicked()), this, SLOT(slotAddChapter()));
     connect(m_view.button_delete, SIGNAL(clicked()), this, SLOT(slotRemoveChapter()));
+    connect(m_view.button_save, SIGNAL(clicked()), this, SLOT(slotSaveChapter()));
     connect(m_view.chapters_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotGoToChapter()));
 
     // Build monitor for chapters
@@ -77,6 +78,9 @@ void DvdWizardChapters::slotUpdateChaptersList()
     }
     m_view.chapters_list->clear();
     m_view.chapters_list->addItems(chaptersString);
+
+    bool modified = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 2).toInt();
+    m_view.button_save->setEnabled(modified);
 }
 
 void DvdWizardChapters::slotAddChapter()
@@ -97,9 +101,13 @@ void DvdWizardChapters::slotAddChapter()
         chaptersString.append(Timecode::getStringTimecode(chapterTimes.at(i), m_tc.fps()));
         currentChaps.append(QString::number(chapterTimes.at(i)));
     }
+    // Save item chapters
     m_view.vob_list->setItemData(m_view.vob_list->currentIndex(), currentChaps, Qt::UserRole + 1);
+    // Mark item as modified
+    m_view.vob_list->setItemData(m_view.vob_list->currentIndex(), 1, Qt::UserRole + 2);
     m_view.chapters_list->clear();
     m_view.chapters_list->addItems(chaptersString);
+    m_view.button_save->setEnabled(true);
 }
 
 void DvdWizardChapters::slotRemoveChapter()
@@ -107,7 +115,11 @@ void DvdWizardChapters::slotRemoveChapter()
     int ix = m_view.chapters_list->currentRow();
     QStringList currentChaps = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 1).toStringList();
     currentChaps.removeAt(ix);
+
+    // Save item chapters
     m_view.vob_list->setItemData(m_view.vob_list->currentIndex(), currentChaps, Qt::UserRole + 1);
+    // Mark item as modified
+    m_view.vob_list->setItemData(m_view.vob_list->currentIndex(), 1, Qt::UserRole + 2);
 
     // rebuild chapters
     QStringList chaptersString;
@@ -116,6 +128,7 @@ void DvdWizardChapters::slotRemoveChapter()
     }
     m_view.chapters_list->clear();
     m_view.chapters_list->addItems(chaptersString);
+    m_view.button_save->setEnabled(true);
 }
 
 void DvdWizardChapters::slotGoToChapter()
@@ -205,4 +218,35 @@ QStringList DvdWizardChapters::selectedTargets() const
         }
     }
     return result;
+}
+
+void DvdWizardChapters::slotSaveChapter()
+{
+    QDomDocument doc;
+    QDomElement chapters = doc.createElement("chapters");
+    chapters.setAttribute("fps", m_tc.fps());
+    doc.appendChild(chapters);
+
+    QStringList chaptersList = m_view.vob_list->itemData(m_view.vob_list->currentIndex(), Qt::UserRole + 1).toStringList();
+
+    for (int i = 0; i < chaptersList.count(); i++) {
+        QDomElement chapter = doc.createElement("chapter");
+        chapters.appendChild(chapter);
+        chapter.setAttribute("title", i18n("Chapter %1", i));
+        chapter.setAttribute("time", chaptersList.at(i));
+    }
+    // save chapters file
+    QFile file(m_view.vob_list->currentText() + ".dvdchapter");
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        kWarning() << "//////  ERROR writing DVD CHAPTER file: " << m_view.vob_list->currentText() + ".dvdchapter";
+    } else {
+        file.write(doc.toString().toUtf8());
+        if (file.error() != QFile::NoError)
+            kWarning() << "//////  ERROR writing DVD CHAPTER file: " << m_view.vob_list->currentText() + ".dvdchapter";
+        else {
+            m_view.vob_list->setItemData(m_view.vob_list->currentIndex(), 0, Qt::UserRole + 2);
+            m_view.button_save->setEnabled(false);
+        }
+        file.close();
+    }
 }

@@ -66,8 +66,10 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
     m_playIcon = KIcon("media-playback-start");
     m_pauseIcon = KIcon("media-playback-pause");
 
-    toolbar->addAction(KIcon("kdenlive-zone-start"), i18n("Set zone start"), this, SLOT(slotSetZoneStart()));
-    toolbar->addAction(KIcon("kdenlive-zone-end"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
+    if (name != "chapter") {
+        toolbar->addAction(KIcon("kdenlive-zone-start"), i18n("Set zone start"), this, SLOT(slotSetZoneStart()));
+        toolbar->addAction(KIcon("kdenlive-zone-end"), i18n("Set zone end"), this, SLOT(slotSetZoneEnd()));
+    } else m_ruler->setZone(-3, -2);
 
     toolbar->addAction(KIcon("media-seek-backward"), i18n("Rewind"), this, SLOT(slotRewind()));
     toolbar->addAction(KIcon("media-skip-backward"), i18n("Rewind 1 frame"), this, SLOT(slotRewindOneFrame()));
@@ -87,12 +89,16 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
 
     playButton->setDefaultAction(m_playAction);
 
-    QToolButton *configButton = new QToolButton(toolbar);
-    m_configMenu = new QMenu(i18n("Misc..."), this);
-    configButton->setIcon(KIcon("system-run"));
-    configButton->setMenu(m_configMenu);
-    configButton->setPopupMode(QToolButton::QToolButton::InstantPopup);
-    toolbar->addWidget(configButton);
+    if (name != "chapter") {
+        QToolButton *configButton = new QToolButton(toolbar);
+        m_configMenu = new QMenu(i18n("Misc..."), this);
+        configButton->setIcon(KIcon("system-run"));
+        configButton->setMenu(m_configMenu);
+        configButton->setPopupMode(QToolButton::QToolButton::InstantPopup);
+        toolbar->addWidget(configButton);
+        m_configMenu->addAction(KIcon("transform-scale"), i18n("Resize (100%)"), this, SLOT(slotSetSizeOneToOne()));
+        m_configMenu->addAction(KIcon("transform-scale"), i18n("Resize (50%)"), this, SLOT(slotSetSizeOneToTwo()));
+    }
 
     QWidget *spacer = new QWidget(this);
     spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -123,9 +129,6 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
     connect(render, SIGNAL(rendererPosition(int)), this, SLOT(seekCursor(int)));
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
 
-    m_configMenu->addSeparator();
-    m_configMenu->addAction(KIcon("transform-scale"), i18n("Resize (100%)"), this, SLOT(slotSetSizeOneToOne()));
-    m_configMenu->addAction(KIcon("transform-scale"), i18n("Resize (50%)"), this, SLOT(slotSetSizeOneToTwo()));
     //render->createVideoXWindow(m_ui.video_frame->winId(), -1);
     m_length = 0;
 
