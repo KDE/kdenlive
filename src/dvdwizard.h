@@ -33,8 +33,10 @@
 
 #include "dvdwizardvob.h"
 #include "dvdwizardmenu.h"
+#include "dvdwizardchapters.h"
 #include "ui_dvdwizardiso_ui.h"
 #include "ui_dvdwizardstatus_ui.h"
+#include "ui_dvdwizardchapters_ui.h"
 
 class DvdWizard : public QWizard
 {
@@ -48,6 +50,7 @@ private:
     DvdWizardMenu *m_pageMenu;
     Ui::DvdWizardIso_UI m_iso;
     Ui::DvdWizardStatus_UI m_status;
+    DvdWizardChapters *m_pageChapters;
     KTemporaryFile m_menuFile;
     KTemporaryFile m_authorFile;
     QProcess *m_dvdauthor;

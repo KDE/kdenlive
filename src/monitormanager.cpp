@@ -28,7 +28,9 @@
 
 
 MonitorManager::MonitorManager(QWidget *parent) :
-        QObject(parent)
+        QObject(parent),
+        m_clipMonitor(NULL),
+        m_projectMonitor(NULL)
 {
 }
 
@@ -155,6 +157,7 @@ void MonitorManager::resetProfiles(Timecode tc)
 
 void MonitorManager::slotResetProfiles()
 {
+    if (m_projectMonitor == NULL || m_clipMonitor == NULL) return;
     activateMonitor("clip");
     m_clipMonitor->resetProfile();
     activateMonitor("project");

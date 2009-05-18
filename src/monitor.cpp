@@ -436,6 +436,12 @@ void Monitor::activateMonitor()
     if (!m_isActive) m_monitorManager->switchMonitors(); //m_monitorManager->activateMonitor(m_name);
 }
 
+void Monitor::setTimePos(const QString &pos)
+{
+    m_timePos->setText(pos);
+    slotSeek();
+}
+
 void Monitor::slotSeek()
 {
     const int frames = m_monitorManager->timecode().getFrameCount(m_timePos->text(), m_monitorManager->timecode().fps());

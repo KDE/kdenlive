@@ -21,6 +21,8 @@
 #include "dvdwizard.h"
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
+#include "timecode.h"
+#include "monitormanager.h"
 
 #include <KStandardDirs>
 #include <KLocale>
@@ -47,8 +49,14 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
     m_pageVob = new DvdWizardVob(profile, this);
     m_pageVob->setTitle(i18n("Select Files For Your DVD"));
     addPage(m_pageVob);
-
     if (!url.isEmpty()) m_pageVob->setUrl(url);
+
+
+    m_pageChapters = new DvdWizardChapters(m_pageVob->isPal(), this);
+    m_pageChapters->setTitle(i18n("DVD Chapters"));
+    addPage(m_pageChapters);
+
+
 
     m_pageMenu = new DvdWizardMenu(profile, this);
     m_pageMenu->setTitle(i18n("Create DVD Menu"));
@@ -113,13 +121,15 @@ DvdWizard::~DvdWizard()
 
 void DvdWizard::slotPageChanged(int page)
 {
-    kDebug() << "// PAGE CHGD: " << page;
+    kDebug() << "// PAGE CHGD: " << page << ", ID: " << visitedPages();
     if (page == 1) {
-        m_pageMenu->setTargets(m_pageVob->selectedTitles(), m_pageVob->selectedTargets());
-        m_pageMenu->changeProfile(m_pageVob->isPal());
+        m_pageChapters->setVobFiles(m_pageVob->isPal(), m_pageVob->selectedUrls(), m_pageVob->durations());
     } else if (page == 2) {
-        //m_pageMenu->buttonsInfo();
+        m_pageMenu->setTargets(m_pageChapters->selectedTitles(), m_pageChapters->selectedTargets());
+        m_pageMenu->changeProfile(m_pageVob->isPal());
     } else if (page == 3) {
+        //m_pageMenu->buttonsInfo();
+    } else if (page == 4) {
         // clear job icons
         for (int i = 0; i < m_status.job_progress->count(); i++)
             m_status.job_progress->item(i)->setIcon(KIcon());
@@ -396,11 +406,10 @@ void DvdWizard::generateDvd()
             titles.appendChild(pgc2);
             QDomElement vob = dvddoc.createElement("vob");
             vob.setAttribute("file", voburls.at(i));
-            if (m_pageVob->useChapters()) {
-                // Add chapters
-                QStringList chaptersList = m_pageVob->chapter(i);
-                if (!chaptersList.isEmpty()) vob.setAttribute("chapters", chaptersList.join(","));
-            }
+            // Add chapters
+            QStringList chaptersList = m_pageChapters->chapters(i);
+            if (!chaptersList.isEmpty()) vob.setAttribute("chapters", chaptersList.join(","));
+
             pgc2.appendChild(vob);
             if (m_pageMenu->createMenu()) {
                 QDomElement post = dvddoc.createElement("post");
@@ -561,6 +570,12 @@ void DvdWizard::slotBurn()
     else args << "--image=" + m_iso.iso_image->url().path();
     QProcess::startDetached(exec, args);
 }
+
+
+
+
+
+
 
 
 

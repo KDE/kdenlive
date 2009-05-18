@@ -18,51 +18,46 @@
  ***************************************************************************/
 
 
-#ifndef DVDWIZARDVOB_H
-#define DVDWIZARDVOB_H
-
-#include "ui_dvdwizardvob_ui.h"
-
-#include <kdeversion.h>
-
-#if KDE_IS_VERSION(4,2,0)
-#include <kcapacitybar.h>
-#endif
-
-#include <KUrl>
+#ifndef DVDWIZARDCHAPTERS_H
+#define DVDWIZARDCHAPTERS_H
 
 #include <QWizardPage>
 
-class DvdWizardVob : public QWizardPage
+#include <KDebug>
+
+#include "ui_dvdwizardchapters_ui.h"
+#include "monitor.h"
+#include "monitormanager.h"
+
+class DvdWizardChapters : public QWizardPage
 {
     Q_OBJECT
 
 public:
-    DvdWizardVob(const QString &profile, QWidget * parent = 0);
-    virtual ~DvdWizardVob();
+    explicit DvdWizardChapters(bool isPal, QWidget * parent = 0);
+    virtual ~DvdWizardChapters();
     virtual bool isComplete() const;
-    QStringList selectedUrls() const;
-    void setUrl(const QString &url);
-    QString introMovie() const;
-    bool isPal() const;
-    int duration(int ix) const;
-    QStringList durations() const;
+    void changeProfile(bool isPal);
+    void slotGetChaptersList(int ix);
+    void setPal(bool isPal);
+    void setVobFiles(bool isPal, const QStringList movies, const QStringList durations);
+    QStringList selectedTitles() const;
+    QStringList selectedTargets() const;
+    QStringList chapters(int ix) const;
 
 private:
-    Ui::DvdWizardVob_UI m_view;
-    QString m_errorMessage;
+    Ui::DvdWizardChapters_UI m_view;
+    bool m_isPal;
+    MonitorManager *m_manager;
+    Monitor *m_monitor;
+    Timecode m_tc;
 
-#if KDE_IS_VERSION(4,2,0)
-    KCapacityBar *m_capacityBar;
-#endif
 
 private slots:
-    void slotCheckVobList();
-    void slotAddVobFile(KUrl url = KUrl());
-    void slotDeleteVobFile();
-    void slotItemUp();
-    void slotItemDown();
-    void changeFormat();
+    void slotUpdateChaptersList();
+    void slotAddChapter();
+    void slotRemoveChapter();
+    void slotGoToChapter();
 };
 
 #endif

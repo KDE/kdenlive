@@ -70,6 +70,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/dvdwizardmenu_ui.ui
   widgets/dvdwizardiso_ui.ui
   widgets/dvdwizardstatus_ui.ui
+  widgets/dvdwizardchapters_ui.ui
   widgets/missingclips_ui.ui
 )
  
@@ -157,6 +158,7 @@ set(kdenlive_SRCS
   splitaudiocommand.cpp
   changecliptypecommand.cpp
   documentchecker.cpp
+  dvdwizardchapters.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )

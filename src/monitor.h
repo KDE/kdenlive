@@ -153,6 +153,7 @@ public slots:
     void slotSeekToNextSnap();
     void slotSeekToPreviousSnap();
     void adjustRulerSize(int length);
+    void setTimePos(const QString &pos);
 
 signals:
     void renderPosition(int);

@@ -98,22 +98,6 @@ void DvdWizardVob::slotAddVobFile(KUrl url)
     QTreeWidgetItem *item = new QTreeWidgetItem(m_view.vobs_list, QStringList() << url.path() << QString() << KIO::convertSize(fileSize));
     item->setData(0, Qt::UserRole, fileSize);
     item->setIcon(0, KIcon("video-x-generic"));
-    if (QFile::exists(url.path() + ".dvdchapter")) {
-        // insert chapters as children
-        QFile file(url.path() + ".dvdchapter");
-        if (file.open(QIODevice::ReadOnly)) {
-            QDomDocument doc;
-            doc.setContent(&file);
-            file.close();
-            QDomNodeList chapters = doc.elementsByTagName("chapter");
-            QStringList chaptersList;
-            for (int j = 0; j < chapters.count(); j++) {
-                QTreeWidgetItem *sub = new QTreeWidgetItem(item, QStringList() << QString::number(j) + " - " + chapters.at(j).toElement().attribute("title"));
-                sub->setText(1, Timecode::getStringTimecode(chapters.at(j).toElement().attribute("time").toInt(), profile.fps()));
-                sub->setData(1, Qt::UserRole, chapters.at(j).toElement().attribute("time").toInt());
-            }
-        }
-    }
 
     QPixmap pix(60, 45);
 
@@ -124,7 +108,9 @@ void DvdWizardVob::slotAddVobFile(KUrl url)
     if (producer->is_blank() == false) {
         pix = KThumb::getFrame(producer, 0, 60, 45);
         item->setIcon(0, pix);
-        item->setText(1, Timecode::getStringTimecode(producer->get_playtime(), profile.fps()));
+        int playTime = producer->get_playtime();
+        item->setText(1, Timecode::getStringTimecode(playTime, profile.fps()));
+        item->setData(1, Qt::UserRole, playTime);
     }
     delete producer;
 
@@ -178,11 +164,6 @@ bool DvdWizardVob::isComplete() const
     return true;
 }
 
-bool DvdWizardVob::useChapters() const
-{
-    return true; //m_view.use_chapters->isChecked();
-}
-
 void DvdWizardVob::setUrl(const QString &url)
 {
     slotAddVobFile(KUrl(url));
@@ -200,52 +181,25 @@ QStringList DvdWizardVob::selectedUrls() const
     return result;
 }
 
-QStringList DvdWizardVob::selectedTitles() const
+
+QStringList DvdWizardVob::durations() const
 {
     QStringList result;
+    QString path;
     int max = m_view.vobs_list->topLevelItemCount();
     for (int i = 0; i < max; i++) {
         QTreeWidgetItem *item = m_view.vobs_list->topLevelItem(i);
-        if (item) {
-            result.append(item->text(0));
-            int submax = item->childCount();
-            for (int j = 0; j < submax; j++) {
-                QTreeWidgetItem *subitem = item->child(j);
-                result.append(subitem->text(0) + ' ' + subitem->text(1));
-            }
-        }
+        if (item) result.append(QString::number(item->data(1, Qt::UserRole).toInt()));
     }
     return result;
 }
 
-QStringList DvdWizardVob::chapter(int ix) const
+int DvdWizardVob::duration(int ix) const
 {
-    QStringList result;
+    int result = -1;
     QTreeWidgetItem *item = m_view.vobs_list->topLevelItem(ix);
     if (item) {
-        int submax = item->childCount();
-        for (int j = 0; j < submax; j++) {
-            QTreeWidgetItem *subitem = item->child(j);
-            result.append(subitem->text(1));
-        }
-    }
-    return result;
-}
-
-QStringList DvdWizardVob::selectedTargets() const
-{
-    QStringList result;
-    int max = m_view.vobs_list->topLevelItemCount();
-    for (int i = 0; i < max; i++) {
-        QTreeWidgetItem *item = m_view.vobs_list->topLevelItem(i);
-        if (item) {
-            result.append("jump title " + QString::number(i + 1));
-            int submax = item->childCount();
-            for (int j = 0; j < submax; j++) {
-                QTreeWidgetItem *subitem = item->child(j);
-                result.append("jump title " + QString::number(i + 1) + " chapter " + QString::number(j + 1));
-            }
-        }
+        result = item->data(1, Qt::UserRole).toInt();
     }
     return result;
 }

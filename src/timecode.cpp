@@ -30,7 +30,7 @@ Timecode::~Timecode()
 {
 }
 
-int Timecode::fps()
+int Timecode::fps() const
 {
     return m_displayedFramesPerSecond;
 }

@@ -53,7 +53,7 @@ public:
     static QString getEasyTimecode(const GenTime & time, const double &fps);
     static QString getStringTimecode(int frames, const double &fps);
     QString getTimecodeFromFrames(int frames);
-    int fps();
+    int fps() const;
 
 private:
     Formats m_format;
