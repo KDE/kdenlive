@@ -43,47 +43,47 @@
 extern "C"
 {
     KDE_EXPORT ThumbCreator *new_creator() {
-        return new WestleyPreview;
+        return new MltPreview;
     }
 }
 
-WestleyPreview::WestleyPreview() :
+MltPreview::MltPreview() :
         QObject(),
         ThumbCreator(),
-        m_inigoprocess(0),
+        m_meltProcess(0),
         m_rand(0)
 {
 }
 
-WestleyPreview::~WestleyPreview()
+MltPreview::~MltPreview()
 {
     delete m_rand;
-    delete m_inigoprocess;
+    delete m_meltProcess;
 }
 
-bool WestleyPreview::startAndWaitProcess(const QStringList &args)
+bool MltPreview::startAndWaitProcess(const QStringList &args)
 {
-    kDebug(DBG_AREA) << "westleypreview: starting process with args: " << args << endl;
-    m_inigoprocess->start(args.join(" "));
-    if (! m_inigoprocess->waitForStarted()) {
-        kDebug(DBG_AREA) << "westleypreview: PROCESS NOT STARTED!!! exiting\n";
+    kDebug(DBG_AREA) << "MltPreview: starting process with args: " << args << endl;
+    m_meltProcess->start(args.join(" "));
+    if (! m_meltProcess->waitForStarted()) {
+        kDebug(DBG_AREA) << "MltPreview: PROCESS NOT STARTED!!! exiting\n";
         return false;
     }
-    if (! m_inigoprocess->waitForFinished()) {
-        kDebug(DBG_AREA) << "westleypreview: PROCESS DIDN'T FINISH!! exiting\n";
-        m_inigoprocess->close();
+    if (! m_meltProcess->waitForFinished()) {
+        kDebug(DBG_AREA) << "MltPreview: PROCESS DIDN'T FINISH!! exiting\n";
+        m_meltProcess->close();
         return false;
     }
-    kDebug() << "westleypreview: process started and ended correctly\n";
+    kDebug() << "MltPreview: process started and ended correctly\n";
     return true;
 }
 
-bool WestleyPreview::create(const QString &path, int width, int /*height*/, QImage &img)
+bool MltPreview::create(const QString &path, int width, int /*height*/, QImage &img)
 {
     QFileInfo fi(path);
-    m_playerBin = KStandardDirs::findExe("inigo");
+    m_playerBin = KStandardDirs::findExe("melt");
     if (m_playerBin.isEmpty()) {
-        kDebug(DBG_AREA) << "westleypreview: inigo not found, exiting.\n";
+        kDebug(DBG_AREA) << "MltPreview: melt not found, exiting.\n";
         return false;
     }
 
@@ -91,7 +91,7 @@ bool WestleyPreview::create(const QString &path, int width, int /*height*/, QIma
     fileinfo.fps = 0;
 
     m_rand = new KRandomSequence(QDateTime::currentDateTime().toTime_t());
-    m_inigoprocess = new QProcess();
+    m_meltProcess = new QProcess();
     KUrl furl(path);
     kDebug(DBG_AREA) << "videopreview: url=" << furl << "; local:" << furl.isLocalFile() << endl;
     fileinfo.towidth = width;
@@ -100,7 +100,7 @@ bool WestleyPreview::create(const QString &path, int width, int /*height*/, QIma
 //    if(furl.isLocalFile())
 //    {
     QStringList args;
-    //TODO: modify inigo so that it can return some infos about a westley clip (duration, track number,fps,...)
+    //TODO: modify melt so that it can return some infos about a MLT XML clip (duration, track number,fps,...)
     // without actually playing the file
     /*
         args << playerBin << QString("\"" + path + "\"") << "-file-info";
@@ -108,7 +108,7 @@ bool WestleyPreview::create(const QString &path, int width, int /*height*/, QIma
         kDebug(DBG_AREA) << "videopreview: starting process: --_" << " " << args.join(" ") << "_--\n";
         if (! startAndWaitProcess(args) ) return NULL;
 
-        QString information=QString(inigoprocess->readAllStandardOutput() );
+        QString information=QString(meltProcess->readAllStandardOutput() );
         QRegExp findInfos("ID_VIDEO_FPS=([\\d]*).*ID_LENGTH=([\\d]*).*");
         if(findInfos.indexIn( information) == -1 )
         {
@@ -141,7 +141,7 @@ bool WestleyPreview::create(const QString &path, int width, int /*height*/, QIma
     return true;
 }
 
-QImage WestleyPreview::getFrame(const QString &path)
+QImage MltPreview::getFrame(const QString &path)
 {
     QStringList args;
     const int START = 25;
@@ -163,7 +163,7 @@ QImage WestleyPreview::getFrame(const QString &path)
 }
 
 
-uint WestleyPreview::imageVariance(QImage image)
+uint MltPreview::imageVariance(QImage image)
 {
     uint delta = 0;
     uint avg = 0;
@@ -186,7 +186,7 @@ uint WestleyPreview::imageVariance(QImage image)
     return delta / STEPS;
 }
 
-ThumbCreator::Flags WestleyPreview::flags() const
+ThumbCreator::Flags MltPreview::flags() const
 {
     return None;
 }

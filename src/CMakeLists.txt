@@ -159,6 +159,7 @@ set(kdenlive_SRCS
   changecliptypecommand.cpp
   documentchecker.cpp
   dvdwizardchapters.cpp
+  documentconvert.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )

@@ -45,13 +45,13 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
         m_profile = new Mlt::Profile((char*) KdenliveSettings::current_profile().data());
         m_dar = m_profile->dar();
         QDomDocument doc;
-        QDomElement westley = doc.createElement("westley");
-        QDomElement play = doc.createElement("playlist");
-        doc.appendChild(westley);
-        westley.appendChild(play);
+        QDomElement mlt = doc.createElement("mlt");
+        QDomElement play = doc.createElement("mlt");
+        doc.appendChild(mlt);
+        mlt.appendChild(play);
         play.appendChild(doc.importNode(clip->toXML(), true));
         //char *tmp = doc.toString().toUtf8().data();
-        m_producer = new Mlt::Producer(*m_profile, "westley-xml", doc.toString().toUtf8().data());
+        m_producer = new Mlt::Producer(*m_profile, "xml-string", doc.toString().toUtf8().data());
         //delete[] tmp;
 
         QPixmap p((int)(100 * m_dar), 100);

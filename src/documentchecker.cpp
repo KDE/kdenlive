@@ -278,8 +278,8 @@ void DocumentChecker::slotDeleteSelected()
         QDomNodeList producers = m_doc.elementsByTagName("producer");
         QDomNodeList infoproducers = m_doc.elementsByTagName("kdenlive_producer");
 
-        QDomElement westley = m_doc.firstChildElement("westley");
-        QDomElement kdenlivedoc = westley.firstChildElement("kdenlivedoc");
+        QDomElement mlt = m_doc.firstChildElement("mlt");
+        QDomElement kdenlivedoc = mlt.firstChildElement("kdenlivedoc");
 
         for (int i = 0; i < infoproducers.count(); i++) {
             e = infoproducers.item(i).toElement();
@@ -294,7 +294,7 @@ void DocumentChecker::slotDeleteSelected()
             e = producers.item(i).toElement();
             if (deletedIds.contains(e.attribute("id"))) {
                 // Remove clip
-                westley.removeChild(e);
+                mlt.removeChild(e);
                 break;
             }
         }

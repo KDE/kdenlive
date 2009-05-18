@@ -16,7 +16,6 @@ set(catalogname kdenlive)
 add_definitions (${QT_DEFINITIONS})
 
 FIND_PACKAGE(LIBMLT REQUIRED)
-FIND_PACKAGE(LIBMLTPLUS REQUIRED)
 find_package(MSGFMT REQUIRED)
 
 find_program(EXTRACTRC_EXECUTABLE extractrc)

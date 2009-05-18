@@ -130,7 +130,7 @@ private:
     MltVideoProfile m_profile;
     QTimer *m_autoSaveTimer;
     QString m_searchFolder;
-    /** tells whether current doc has been changed since last save event */
+    /** tells whether current doc has been changed since last save event */
     bool m_modified;
     /** Project folder, used to store project files (titles, effects,...) */
     KUrl m_projectFolder;
@@ -142,9 +142,7 @@ private:
 
     QList <TrackInfo> m_tracksList;
 
-    bool convertDocument(double version);
     QDomDocument createEmptyDocument(const int videotracks, const int audiotracks);
-    QString colorToString(const QColor& c);
 
     void setNewClipResource(const QString &id, const QString &path);
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
@@ -167,7 +165,7 @@ signals:
     void updateClipDisplay(const QString&);
     void deleteTimelineClip(const QString&);
     void progressInfo(const QString &, int);
-    /** emitted when the document state has been modified (= needs saving or not) */
+    /** emitted when the document state has been modified (= needs saving or not) */
     void docModified(bool);
     void selectLastAddedClip(const QString &);
     void guidesUpdated();

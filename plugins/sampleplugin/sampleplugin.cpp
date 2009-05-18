@@ -47,7 +47,7 @@ KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFo
     } else prePath = projectFolder.path() + "/counter";
     int ct = 0;
     QString counter = QString::number(ct).rightJustified(5, '0', false);
-    while (QFile::exists(prePath + counter + ".westley")) {
+    while (QFile::exists(prePath + counter + ".mlt")) {
         ct++;
         counter = QString::number(ct).rightJustified(5, '0', false);
     }
@@ -63,11 +63,11 @@ KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFo
         view.font->setValue(height);
     }
 
-    QString clipFile = prePath + counter + ".westley";
+    QString clipFile = prePath + counter + ".mlt";
     view.path->setPath(clipFile);
     if (d.exec() == QDialog::Accepted) {
         QDomDocument doc;
-        QDomElement westley = doc.createElement("westley");
+        QDomElement mlt = doc.createElement("mlt");
         QDomElement playlist = doc.createElement("playlist");
         if (generator == i18n("Noise")) {
             QDomElement prod = doc.createElement("producer");
@@ -83,15 +83,15 @@ KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFo
                 prod.setAttribute("in", "0");
                 prod.setAttribute("out", QString::number((int) fps));
                 prod.setAttribute("text", QString::number(view.duration->value() - i));
-                //FIXME: the font and pad values are approximate, the pango producer seems unable
+                //FIXME: the font and pad values are approximate, the pango producer seems unable
                 // to produce a predictable frame size.
                 prod.setAttribute("font", QString::number(view.font->value()) + "px");
                 //prod.setAttribute("pad", 50);
                 playlist.appendChild(prod);
             }
         }
-        westley.appendChild(playlist);
-        doc.appendChild(westley);
+        mlt.appendChild(playlist);
+        doc.appendChild(mlt);
         QFile file(view.path->url().path());
         if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
             kWarning() << "//////  ERROR writing to file: " << view.path->url().path();

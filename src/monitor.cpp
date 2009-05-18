@@ -697,10 +697,10 @@ void Monitor::slotOpenFile(const QString &file)
     if (render == NULL) return;
     activateMonitor();
     QDomDocument doc;
-    QDomElement westley = doc.createElement("westley");
-    doc.appendChild(westley);
+    QDomElement mlt = doc.createElement("mlt");
+    doc.appendChild(mlt);
     QDomElement prod = doc.createElement("producer");
-    westley.appendChild(prod);
+    mlt.appendChild(prod);
     prod.setAttribute("mlt_service", "avformat");
     prod.setAttribute("resource", file);
     render->setSceneList(doc, 0);

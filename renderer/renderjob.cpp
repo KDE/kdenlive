@@ -104,7 +104,7 @@ void RenderJob::slotAbort(const QString& url)
 
 void RenderJob::slotAbort()
 {
-    qDebug() << "Kdenlive-render: JOB ABORTED BY USER...";
+    qDebug() << "Kdenlive-render: JOB ABORTED BY USER...";
     m_renderProcess->kill();
 
     if (m_kdenliveinterface) {
@@ -132,7 +132,7 @@ void RenderJob::receivedStderr()
     QString result = QString(m_renderProcess->readAllStandardError()).simplified();
     if (!result.startsWith("Current Frame")) m_errorMessage.append(result + "<br>");
     else {
-        // m_logstream << "ReceivedStderr from inigo: " << result << endl;
+        // m_logstream << "ReceivedStderr from melt: " << result << endl;
         result = result.section(' ', -1);
         int pro = result.toInt();
         if (pro < 0 || pro > 100) return;
@@ -142,14 +142,14 @@ void RenderJob::receivedStderr()
                 if (!m_kdenliveinterface->isValid()) {
                     delete m_kdenliveinterface;
                     m_kdenliveinterface = NULL;
-                    // qDebug() << "BROKEN COMMUNICATION WITH KDENLIVE";
+                    // qDebug() << "BROKEN COMMUNICATION WITH KDENLIVE";
                 } else {
                     m_dbusargs[1] = pro;
                     m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, "setRenderingProgress", m_dbusargs);
                 }
             } else if (pro % 5 == 0) {
                 // Try to restart communication with Kdenlive every 5 percents
-                // qDebug() << "TRYING TO RESTART COMMUNICATION WITH KDENLIVE";
+                // qDebug() << "TRYING TO RESTART COMMUNICATION WITH KDENLIVE";
                 initKdenliveDbusInterface();
             }
 

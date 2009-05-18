@@ -209,7 +209,7 @@ void TrackView::parseDocument(QDomDocument doc)
 
             trackduration = slotAddProjectTrack(pos, p, m_doc->isTrackLocked(i - 1));
             pos--;
-            //kDebug() << " PRO DUR: " << trackduration << ", TRACK DUR: " << duration;
+            //kDebug() << " PRO DUR: " << trackduration << ", TRACK DUR: " << duration;
             if (trackduration > duration) duration = trackduration;
         } else {
             // background black track
@@ -243,10 +243,10 @@ void TrackView::parseDocument(QDomDocument doc)
             p = transitionparams.item(k).toElement();
             if (!p.isNull()) {
                 QString paramName = p.attribute("name");
-                // do not add audio mixing transitions
+                // do not add audio mixing transitions
                 if (paramName == "internal_added" && p.text() == "237") {
                     transitionAdd = false;
-                    //kDebug() << "//  TRANSITRION " << i << " IS NOT VALID (INTERN ADDED)";
+                    //kDebug() << "//  TRANSITRION " << i << " IS NOT VALID (INTERN ADDED)";
                     //break;
                 } else if (paramName == "a_track") a_track = p.text().toInt();
                 else if (paramName == "b_track") b_track = p.text().toInt();
@@ -451,14 +451,14 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
             } else id = id.section('_', 0, 0);
             DocClipBase *clip = m_doc->clipManager()->getClipById(id);
             if (clip == NULL) {
-                // The clip in playlist was not listed in the kdenlive producers,
+                // The clip in playlist was not listed in the kdenlive producers,
                 // something went wrong, repair required.
                 kWarning() << "CANNOT INSERT CLIP " << id;
 
                 clip = getMissingProducer(id);
                 if (!clip) {
                     // We cannot find the producer, something is really wrong, add
-                    // placeholder color clip
+                    // placeholder color clip
                     QDomDocument doc;
                     QDomElement producerXml = doc.createElement("producer");
                     doc.appendChild(producerXml);
@@ -487,7 +487,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
                 clipinfo.endPos = clipinfo.startPos + GenTime(out - in + 1, m_doc->fps());
                 clipinfo.cropStart = GenTime(in, m_doc->fps());
                 clipinfo.track = ix;
-                //kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
+                //kDebug() << "// INSERTING CLIP: " << in << "x" << out << ", track: " << ix << ", ID: " << id << ", SCALE: " << m_scale << ", FPS: " << m_doc->fps();
                 ClipItem *item = new ClipItem(clip, clipinfo, m_doc->fps(), speed, false);
                 if (idString.endsWith("_video")) item->setVideoOnly(true);
                 else if (idString.endsWith("_audio")) item->setAudioOnly(true);
@@ -695,7 +695,7 @@ DocClipBase *TrackView::getMissingProducer(const QString id) const
             break;
         }
     }
-    // prepend westley document root if no path in clip resource and not a color clip
+    // prepend MLT XML document root if no path in clip resource and not a color clip
     if (!resource.contains('/') && !resource.startsWith("0x")) resource.prepend(docRoot);
     DocClipBase *missingClip = NULL;
     if (!resource.isEmpty())

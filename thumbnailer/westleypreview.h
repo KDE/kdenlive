@@ -33,12 +33,12 @@ class QProcess;
 class KTempDir;
 class KRandomSequence;
 
-class WestleyPreview : public QObject, public ThumbCreator
+class MltPreview : public QObject, public ThumbCreator
 {
     Q_OBJECT
 public:
-    WestleyPreview();
-    virtual ~WestleyPreview();
+    MltPreview();
+    virtual ~MltPreview();
     virtual bool create(const QString &path, int width, int height, QImage &img);
     virtual Flags flags() const;
 
@@ -47,7 +47,7 @@ protected:
     static uint imageVariance(QImage image);
 
 private:
-    QProcess *m_inigoprocess;
+    QProcess *m_meltProcess;
     KRandomSequence *m_rand;
     QString m_playerBin;
     bool startAndWaitProcess(const QStringList &args);

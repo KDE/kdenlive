@@ -184,19 +184,21 @@ QPixmap KThumb::getImage(KUrl url, int width, int height)
 
 void KThumb::extractImage(int frame, int frame2)
 {
+    kDebug() << "//extract thumb: " << frame << ", " << frame2;
     if (m_url.isEmpty() || !KdenliveSettings::videothumbnails() || m_producer == NULL) return;
 
     const int twidth = (int)(KdenliveSettings::trackheight() * m_dar);
     const int theight = KdenliveSettings::trackheight();
 
-    mlt_image_format format = mlt_image_yuv422;
     if (m_producer->is_blank()) {
         QPixmap pix(twidth, theight);
         pix.fill(Qt::black);
-        emit thumbReady(frame, pix);
+        if (frame != -1) emit thumbReady(frame, pix);
+        if (frame2 != -1) emit thumbReady(frame2, pix);
         return;
     }
     Mlt::Frame *mltFrame;
+    mlt_image_format format = mlt_image_yuv422;
     if (frame != -1) {
         //videoThumbProducer.getThumb(frame);
         m_producer->seek(frame);
@@ -236,7 +238,7 @@ void KThumb::extractImage(int frame, int frame2)
             kDebug() << "///// BROKEN FRAME";
             QPixmap p(twidth, theight);
             p.fill(Qt::red);
-            emit thumbReady(frame, p);
+            emit thumbReady(frame2, p);
             return;
         } else {
             int frame_width = 0;
@@ -275,8 +277,8 @@ QPixmap KThumb::getImage(KUrl url, int frame, int width, int height)
     if (url.isEmpty()) return pix;
 
     char *tmp = Render::decodedString(url.path());
-    //"<westley><playlist><producer resource=\"" + url.path() + "\" /></playlist></westley>");
-    //Mlt::Producer producer(profile, "westley-xml", tmp);
+    //"<mlt><playlist><producer resource=\"" + url.path() + "\" /></playlist></mlt>");
+    //Mlt::Producer producer(profile, "xml-string", tmp);
     Mlt::Producer *producer = new Mlt::Producer(profile, tmp);
     delete[] tmp;
 
@@ -296,13 +298,13 @@ QPixmap KThumb::getImage(QDomElement xml, int frame, int width, int height) {
     Mlt::Profile profile((char*) KdenliveSettings::current_profile().data());
     QPixmap pix(width, height);
     QDomDocument doc;
-    QDomElement westley = doc.createElement("westley");
+    QDomElement mlt = doc.createElement("mlt");
     QDomElement play = doc.createElement("playlist");
-    doc.appendChild(westley);
-    westley.appendChild(play);
+    doc.appendChild(mlt);
+    mlt.appendChild(play);
     play.appendChild(doc.importNode(xml, true));
     char *tmp = Render::decodedString(doc.toString());
-    Mlt::Producer producer(profile, "westley-xml", tmp);
+    Mlt::Producer producer(profile, "xml-string", tmp);
     delete[] tmp;
 
     if (producer.is_blank()) {

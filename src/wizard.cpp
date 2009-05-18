@@ -31,7 +31,7 @@
 #include <QXmlStreamWriter>
 #include <QTimer>
 
-const double recommendedMltVersion = 38;
+const double recommendedMltVersion = 40;
 
 Wizard::Wizard(bool upgrade, QWidget *parent) :
         QWizard(parent)
@@ -126,17 +126,17 @@ void Wizard::checkMltComponents()
 
     QTreeWidgetItem *mltitem = new QTreeWidgetItem(m_mltCheck.programList);
 
-    QTreeWidgetItem *inigoitem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("Inigo") + " (" + KdenliveSettings::rendererpath() + ')');
-    inigoitem->setData(1, Qt::UserRole, i18n("Required for rendering (part of MLT package)"));
-    inigoitem->setSizeHint(0, itemSize);
-    inigoitem->setIcon(0, m_okIcon);
+    QTreeWidgetItem *meltitem = new QTreeWidgetItem(m_mltCheck.programList, QStringList() << QString() << i18n("Melt") + " (" + KdenliveSettings::rendererpath() + ')');
+    meltitem->setData(1, Qt::UserRole, i18n("Required for rendering (part of MLT package)"));
+    meltitem->setSizeHint(0, itemSize);
+    meltitem->setIcon(0, m_okIcon);
 
     // Check MLT's installed producers
     QProcess checkProcess;
     checkProcess.start(KdenliveSettings::rendererpath(), QStringList() << "-query" << "producer");
     if (!checkProcess.waitForStarted()) {
-        inigoitem->setIcon(0, m_badIcon);
-        inigoitem->setData(1, Qt::UserRole, i18n("Error starting MLT's command line player (inigo)"));
+        meltitem->setIcon(0, m_badIcon);
+        meltitem->setData(1, Qt::UserRole, i18n("Error starting MLT's command line player (melt)"));
         button(QWizard::NextButton)->setEnabled(false);
     } else {
         checkProcess.waitForFinished();
@@ -157,7 +157,7 @@ void Wizard::checkMltComponents()
             QString mltVersion;
             QString exepath = KStandardDirs::findExe("pkg-config");
             if (!exepath.isEmpty()) {
-                checkProcess.start(exepath, QStringList() << "--variable=version" << "mlt-framework");
+                checkProcess.start(exepath, QStringList() << "--variable=version" << "mlt++");
                 if (!checkProcess.waitForStarted()) {
                     kDebug() << "// Error querying MLT's version";
                 } else {
@@ -459,7 +459,7 @@ void Wizard::adjustSettings()
         KdenliveSettings::setDefault_profile(selectedProfile);
     }
     QString path = m_extra.projectfolder->url().path();
-    if (KStandardDirs::makeDir(path) == false) kDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
+    if (KStandardDirs::makeDir(path) == false) kDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
     KdenliveSettings::setDefaultprojectfolder(path);
 
 }
@@ -473,7 +473,7 @@ void Wizard::slotCheckMlt()
     /*QProcess checkProcess;
     checkProcess.start(KdenliveSettings::rendererpath(), QStringList() << "-query" << "producer");
     if (!checkProcess.waitForStarted())
-        errorMessage.append(i18n("Error starting MLT's command line player (inigo)") + ".\n");
+        errorMessage.append(i18n("Error starting MLT's command line player (melt)") + ".\n");
 
     checkProcess.waitForFinished();
 
@@ -483,7 +483,7 @@ void Wizard::slotCheckMlt()
     QProcess checkProcess2;
     checkProcess2.start(KdenliveSettings::rendererpath(), QStringList() << "-query" << "consumer");
     if (!checkProcess2.waitForStarted())
-        errorMessage.append(i18n("Error starting MLT's command line player (inigo).") + '\n');
+        errorMessage.append(i18n("Error starting MLT's command line player (melt).") + '\n');
 
     checkProcess2.waitForFinished();
 

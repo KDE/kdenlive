@@ -468,7 +468,7 @@ void RenderWidget::slotDeleteProfile(bool refresh)
     /*
     QString edit = m_view.size_list->currentItem()->data(EditableRole).toString();
     if (!edit.endsWith("customprofiles.xml")) {
-        // This is a KNewStuff installed file, process through KNS
+        // This is a KNewStuff installed file, process through KNS
         KNS::Engine engine(0);
         if (engine.init("kdenlive_render.knsrc")) {
             KNS::Entry::List entries;
@@ -602,7 +602,7 @@ void RenderWidget::slotExport(bool scriptExport)
         QString filterFile = KStandardDirs::locate("appdata", "metadata.properties");
         overlayargs << "meta.attr.timecode=1" << "meta.attr.timecode.markup=#timecode";
         overlayargs << "-attach" << "data_feed:attr_check" << "-attach";
-        overlayargs << "data_show:" + filterFile << "_fezzik=1" << "dynamic=1";
+        overlayargs << "data_show:" + filterFile << "_loader=1" << "dynamic=1";
     }
     double startPos = -1;
     double endPos = -1;
@@ -1290,7 +1290,7 @@ void RenderWidget::parseScriptFiles()
     m_view.scripts_list->clear();
 
     QTreeWidgetItem *item;
-    // List the project scripts
+    // List the project scripts
     QStringList scriptFiles = QDir(m_projectFolder + "/scripts").entryList(scriptsFilter, QDir::Files);
     for (int i = 0; i < scriptFiles.size(); ++i) {
         KUrl scriptpath(m_projectFolder + "/scripts/" + scriptFiles.at(i));
@@ -1365,7 +1365,7 @@ void RenderWidget::slotDeleteScript()
     QTreeWidgetItem *item = m_view.scripts_list->currentItem();
     if (item) {
         QString path = item->data(0, Qt::UserRole + 1).toString();
-        KIO::NetAccess::del(path + ".westley", this);
+        KIO::NetAccess::del(path + ".mlt", this);
         KIO::NetAccess::del(path, this);
         parseScriptFiles();
     }

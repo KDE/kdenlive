@@ -1163,7 +1163,7 @@ void MainWindow::readOptions()
             //Add new settings from 0.7.1
             if (KdenliveSettings::defaultprojectfolder().isEmpty()) {
                 QString path = QDir::homePath() + "/kdenlive";
-                if (KStandardDirs::makeDir(path)  == false) kDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
+                if (KStandardDirs::makeDir(path)  == false) kDebug() << "/// ERROR CREATING PROJECT FOLDER: " << path;
                 KdenliveSettings::setDefaultprojectfolder(path);
             }
         }
@@ -1441,24 +1441,24 @@ void MainWindow::parseProfiles(const QString &mltPath)
     //KdenliveSettings::setDefaulttmpfolder();
     if (!mltPath.isEmpty()) {
         KdenliveSettings::setMltpath(mltPath + "/share/mlt/profiles/");
-        KdenliveSettings::setRendererpath(mltPath + "/bin/inigo");
+        KdenliveSettings::setRendererpath(mltPath + "/bin/melt");
     }
 
     if (KdenliveSettings::mltpath().isEmpty()) {
         KdenliveSettings::setMltpath(QString(MLT_PREFIX) + QString("/share/mlt/profiles/"));
     }
-    if (KdenliveSettings::rendererpath().isEmpty()) {
-        QString inigoPath = QString(MLT_PREFIX) + QString("/bin/inigo");
-        if (!QFile::exists(inigoPath))
-            inigoPath = KStandardDirs::findExe("inigo");
-        else KdenliveSettings::setRendererpath(inigoPath);
+    if (KdenliveSettings::rendererpath().isEmpty() || KdenliveSettings::rendererpath().endsWith("inigo")) {
+        QString meltPath = QString(MLT_PREFIX) + QString("/bin/melt");
+        if (!QFile::exists(meltPath))
+            meltPath = KStandardDirs::findExe("melt");
+        KdenliveSettings::setRendererpath(meltPath);
     }
     QStringList profilesFilter;
     profilesFilter << "*";
     QStringList profilesList = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
 
     if (profilesList.isEmpty()) {
-        // Cannot find MLT path, try finding inigo
+        // Cannot find MLT path, try finding melt
         QString profilePath = KdenliveSettings::rendererpath();
         if (!profilePath.isEmpty()) {
             profilePath = profilePath.section('/', 0, -3);
@@ -1482,8 +1482,8 @@ void MainWindow::parseProfiles(const QString &mltPath)
     }
 
     if (KdenliveSettings::rendererpath().isEmpty()) {
-        // Cannot find the MLT inigo renderer, ask for location
-        KUrlRequesterDialog *getUrl = new KUrlRequesterDialog(QString(), i18n("Cannot find the inigo program required for rendering (part of Mlt)"), this);
+        // Cannot find the MLT melt renderer, ask for location
+        KUrlRequesterDialog *getUrl = new KUrlRequesterDialog(QString(), i18n("Cannot find the melt program required for rendering (part of Mlt)"), this);
         if (getUrl->exec() == QDialog::Rejected) {
             ::exit(0);
         }
@@ -1580,17 +1580,17 @@ void MainWindow::slotDoRender(const QStringList args, const QStringList overlay_
 
     KTemporaryFile temp;
     temp.setAutoRemove(false);
-    temp.setSuffix(".westley");
+    temp.setSuffix(".mlt");
     if (!scriptExport.isEmpty() || temp.open()) {
         if (KdenliveSettings::dropbframes()) {
             KdenliveSettings::setDropbframes(false);
             m_activeDocument->clipManager()->updatePreviewSettings();
-            if (!scriptExport.isEmpty()) m_projectMonitor->saveSceneList(scriptExport + ".westley");
+            if (!scriptExport.isEmpty()) m_projectMonitor->saveSceneList(scriptExport + ".mlt");
             else m_projectMonitor->saveSceneList(temp.fileName());
             KdenliveSettings::setDropbframes(true);
             m_activeDocument->clipManager()->updatePreviewSettings();
         } else {
-            if (!scriptExport.isEmpty()) m_projectMonitor->saveSceneList(scriptExport + ".westley");
+            if (!scriptExport.isEmpty()) m_projectMonitor->saveSceneList(scriptExport + ".mlt");
             else m_projectMonitor->saveSceneList(temp.fileName());
         }
 
@@ -1608,7 +1608,7 @@ void MainWindow::slotDoRender(const QStringList args, const QStringList overlay_
             if (videoPlayer.isEmpty()) KMessageBox::sorry(this, i18n("Cannot play video after rendering because the default video player application is not set.\nPlease define it in Kdenlive settings dialog."));
         }
         if (!QFile::exists(KdenliveSettings::rendererpath())) {
-            KMessageBox::sorry(this, i18n("Cannot find the inigo program required for rendering (part of Mlt)"));
+            KMessageBox::sorry(this, i18n("Cannot find the melt program required for rendering (part of Mlt)"));
             setRenderingProgress(dest, -3);
             return;
         }
@@ -2312,7 +2312,7 @@ void MainWindow::customEvent(QEvent* e)
 {
     if (e->type() == QEvent::User) {
         // The timeline playing position changed...
-        kDebug() << "RECEIVED JOG EVEMNT!!!";
+        kDebug() << "RECEIVED JOG EVEMNT!!!";
     }
 }
 void MainWindow::slotActivateEffectStackView()
@@ -2505,7 +2505,7 @@ void MainWindow::slotSaveZone(Render *render, QPoint zone)
     QLabel *label1 = new QLabel(i18n("Save clip zone as:"), this);
     QString path = m_activeDocument->projectFolder().path();
     path.append("/");
-    path.append("untitled.westley");
+    path.append("untitled.mlt");
     KUrlRequester *url = new KUrlRequester(KUrl(path), this);
     url->setFilter("video/mlt-playlist");
     QLabel *label2 = new QLabel(i18n("Description:"), this);
@@ -2635,7 +2635,7 @@ void MainWindow::slotShowTimeline(bool show)
 
 void MainWindow::slotMaximizeCurrent(bool show)
 {
-    //TODO: is there a way to maximize current widget?
+    //TODO: is there a way to maximize current widget?
     //if (show == true)
     {
         m_timelineState = saveState();

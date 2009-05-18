@@ -90,16 +90,16 @@ int main(int argc, char **argv)
         fprintf(stderr, "Kdenlive video renderer for MLT.\nUsage: "
                 "kdenlive_render [-erase] [-kuiserver] [in=pos] [out=pos] [render] [profile] [rendermodule] [player] [src] [dest] [[arg1] [arg2] ...]\n"
                 "  -erase: if that parameter is present, src file will be erased at the end\n"
-                "  -kuiserver: if that parameter is present, use KDE job tracker\n"
+                "  -kuiserver: if that parameter is present, use KDE job tracker\n"
                 "  in=pos: start rendering at frame pos\n"
                 "  out=pos: end rendering at frame pos\n"
-                "  render: path to inigo render\n"
+                "  render: path to MLT melt renderer\n"
                 "  profile: the MLT video profile\n"
                 "  rendermodule: the MLT consumer used for rendering, usually it is avformat\n"
                 "  player: path to video player to play when rendering is over, use '-' to disable playing\n"
-                "  src: source file (usually westley playlist)\n"
-                "  dest: destination file\n"
-                "  args: space separated libavformat arguments\n");
+                "  src: source file (usually MLT XML)\n"
+                "  dest: destination file\n"
+                "  args: space separated libavformat arguments\n");
     }
 }
 

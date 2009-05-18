@@ -231,7 +231,7 @@ void DvdWizard::generateDvd()
             renderbg.start(KdenliveSettings::rendererpath(), args);
             if (renderbg.waitForFinished()) {
                 if (renderbg.exitStatus() == QProcess::CrashExit) {
-                    kDebug() << "/// RENDERING MENU vob crashed";
+                    kDebug() << "/// RENDERING MENU vob crashed";
                     QByteArray result = renderbg.readAllStandardError();
                     vobitem->setIcon(KIcon("dialog-close"));
                     m_status.error_log->setText(result);
@@ -239,7 +239,7 @@ void DvdWizard::generateDvd()
                     return;
                 }
             } else {
-                kDebug() << "/// RENDERING MENU vob timed out";
+                kDebug() << "/// RENDERING MENU vob timed out";
                 vobitem->setIcon(KIcon("dialog-close"));
                 m_status.error_log->setText(i18n("Rendering job timed out"));
                 m_status.error_box->setHidden(false);
@@ -282,7 +282,7 @@ void DvdWizard::generateDvd()
             else but.setAttribute("up", 'b' + QString::number(max));
             QRect r = it.value();
             //int target = it.key();
-            // TODO: solve play all button
+            // TODO: solve play all button
             //if (target == 0) target = 1;
             buttonsTarget.append(it.key());
             but.setAttribute("x0", QString::number(r.x()));
@@ -470,7 +470,7 @@ void DvdWizard::slotRenderFinished(int /*exitCode*/, QProcess::ExitStatus status
     delete m_dvdauthor;
     m_dvdauthor = NULL;
 
-    // Check if DVD structure has the necessary infos
+    // Check if DVD structure has the necessary infos
     if (!QFile::exists(m_iso.tmp_folder->url().path() + "/DVD/VIDEO_TS/VIDEO_TS.IFO")) {
         m_status.error_log->setText(m_creationLog + '\n' + i18n("DVD structure broken"));
         m_status.error_box->setHidden(false);
@@ -518,7 +518,7 @@ void DvdWizard::slotIsoFinished(int /*exitCode*/, QProcess::ExitStatus status)
     delete m_mkiso;
     m_mkiso = NULL;
 
-    // Check if DVD iso is ok
+    // Check if DVD iso is ok
     QFile iso(m_iso.iso_image->url().path());
     if (!iso.exists() || iso.size() == 0) {
         if (iso.exists()) {
