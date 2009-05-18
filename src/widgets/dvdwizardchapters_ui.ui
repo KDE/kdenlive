@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DvdWizardChapters_UI</class>
+ <widget class="QWidget" name="DvdWizardChapters_UI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>398</width>
+    <height>338</height>
+   </rect>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Movie file</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" colspan="4">
+    <widget class="KComboBox" name="vob_list"/>
+   </item>
+   <item row="2" column="0" colspan="5">
+    <widget class="QListWidget" name="chapters_list">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QPushButton" name="button_add">
+     <property name="text">
+      <string>Add chapter</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="QPushButton" name="button_delete">
+     <property name="text">
+      <string>Remove chapter</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>79</width>
+       <height>22</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="3" column="4">
+    <widget class="QPushButton" name="button_save">
+     <property name="text">
+      <string>save</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="5">
+    <widget class="QGroupBox" name="monitor_frame">
+     <property name="title">
+      <string/>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
