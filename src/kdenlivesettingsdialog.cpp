@@ -481,8 +481,8 @@ void KdenliveSettingsDialog::loadTranscodeProfiles()
 
     QMap< QString, QString > profiles = transConfig.entryMap();
     if (profiles.isEmpty()) {
-	// TODO: find a better way to store defaule transcode profiles
-	profiles.insert("DNxHD 1920x1080", "-s 1920x1080 -r pal -b 220000k -threads 2 -vcodec dnxhd -acodec copy %1.mov");
+        // TODO: find a better way to store defaule transcode profiles
+        profiles.insert("DNxHD 1920x1080", "-s 1920x1080 -r pal -b 220000k -threads 2 -vcodec dnxhd -acodec copy %1.mov");
     }
     QMapIterator<QString, QString> i(profiles);
     while (i.hasNext()) {

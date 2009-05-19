@@ -41,6 +41,7 @@ private slots:
     void slotShowTranscodeInfo();
     void slotStartTransCode();
     void slotTranscodeFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void slotUpdateParams(int ix = -1);
 
 private:
     Ui::ClipTranscode_UI m_view;

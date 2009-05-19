@@ -298,7 +298,8 @@ private slots:
     void slotUpdateClipType(QAction *action);
     void slotShowTimeline(bool show);
     void slotMaximizeCurrent(bool show);
-    void slotTranscode();
+    void slotTranscode(QString url = QString());
+    void slotTranscodeClip();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

@@ -34,14 +34,14 @@
    <item row="1" column="1" colspan="2">
     <widget class="KUrlRequester" name="dest_url"/>
    </item>
-   <item row="2" column="0" colspan="3">
+   <item row="4" column="0" colspan="3">
     <widget class="QLabel" name="label_3">
      <property name="text">
       <string>FFmpeg parameters</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="0" colspan="3">
+   <item row="5" column="0" colspan="3">
     <widget class="QTextEdit" name="params">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
@@ -51,14 +51,14 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
+   <item row="6" column="0">
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string>Job status</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="3">
+   <item row="7" column="0" colspan="3">
     <widget class="QTextEdit" name="log">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -71,7 +71,7 @@
      </property>
     </widget>
    </item>
-   <item row="8" column="2">
+   <item row="10" column="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -81,21 +81,21 @@
      </property>
     </widget>
    </item>
-   <item row="8" column="0">
+   <item row="10" column="0">
     <widget class="QPushButton" name="button_start">
      <property name="text">
       <string>Start</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="0" colspan="2">
+   <item row="8" column="0" colspan="2">
     <widget class="QCheckBox" name="auto_add">
      <property name="text">
       <string>Add clip to project</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="2">
+   <item row="8" column="2">
     <widget class="QCheckBox" name="auto_close">
      <property name="text">
       <string>Close after transcode</string>
@@ -105,7 +105,7 @@
      </property>
     </widget>
    </item>
-   <item row="8" column="1">
+   <item row="10" column="1">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -118,6 +118,16 @@
      </property>
     </spacer>
    </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_profile">
+     <property name="text">
+      <string>Profile</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" colspan="2">
+    <widget class="KComboBox" name="profile_list"/>
+   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -125,6 +135,11 @@
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

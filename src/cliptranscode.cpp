@@ -38,7 +38,25 @@ ClipTranscode::ClipTranscode(const KUrl &src, const QString &params, QWidget * p
     KUrl dest(newFile);
     m_view.source_url->setUrl(src);
     m_view.dest_url->setUrl(dest);
-    m_view.params->setPlainText(params.simplified());
+    connect(m_view.source_url, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateParams()));
+    if (!params.isEmpty()) {
+        m_view.label_profile->setHidden(true);
+        m_view.profile_list->setHidden(true);
+        m_view.params->setPlainText(params.simplified());
+    } else {
+        // load Profiles
+        KSharedConfigPtr config = KGlobal::config();
+        KConfigGroup transConfig(config, "Transcoding");
+        // read the entries
+        QMap< QString, QString > profiles = transConfig.entryMap();
+        QMapIterator<QString, QString> i(profiles);
+        connect(m_view.profile_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateParams(int)));
+        while (i.hasNext()) {
+            i.next();
+            m_view.profile_list->addItem(i.key(), i.value());
+        }
+    }
+
     kDebug() << "//PARAMS: " << params << "\n\nNAME: " << newFile;
 
     connect(m_view.button_start, SIGNAL(clicked()), this, SLOT(slotStartTransCode()));
@@ -102,6 +120,17 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
     }
 
     m_transcodeProcess.close();
+}
+
+void ClipTranscode::slotUpdateParams(int ix)
+{
+    if (ix == -1) ix = m_view.profile_list->currentIndex();
+    QString fileName = m_view.source_url->url().path();
+    QString params = m_view.profile_list->itemData(ix).toString();
+    QString newFile = params.section(' ', -1).replace("%1", fileName);
+    KUrl dest(newFile);
+    m_view.dest_url->setUrl(dest);
+    m_view.params->setPlainText(params.simplified());
 }
 
 #include "cliptranscode.moc"

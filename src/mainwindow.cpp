@@ -842,6 +842,10 @@ void MainWindow::setupActions()
     collection->addAction("dvd_wizard", dvdWizard);
     connect(dvdWizard, SIGNAL(triggered(bool)), this, SLOT(slotDvdWizard()));
 
+    KAction *transcodeClip =  new KAction(KIcon("edit-copy"), i18n("Transcode Clip"), this);
+    collection->addAction("transcode_clip", transcodeClip);
+    connect(transcodeClip, SIGNAL(triggered(bool)), this, SLOT(slotTranscodeClip()));
+
     KAction *markIn = collection->addAction("mark_in");
     markIn->setText(i18n("Set In Point"));
     markIn->setShortcut(Qt::Key_I);
@@ -2670,18 +2674,27 @@ void MainWindow::loadTranscoders()
     }
 }
 
-void MainWindow::slotTranscode()
+void MainWindow::slotTranscode(QString url)
 {
-    QString url = m_projectList->currentClipUrl();
+    QString params;
+    if (url.isEmpty()) {
+        url = m_projectList->currentClipUrl();
+        QAction *action = qobject_cast<QAction *>(sender());
+        params = action->data().toString();
+
+    }
     if (url.isEmpty()) return;
-    QAction *action = qobject_cast<QAction *>(sender());
-    QString params = action->data().toString();
-    ClipTranscode *d = new ClipTranscode(m_projectList->currentClipUrl(), params);
+    ClipTranscode *d = new ClipTranscode(url, params);
     connect(d, SIGNAL(addClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
     d->show();
-
-
     //QProcess::startDetached("ffmpeg", parameters);
+}
+
+void MainWindow::slotTranscodeClip()
+{
+    KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"));
+    if (url.isEmpty()) return;
+    slotTranscode(url.path());
 }
 
 #include "mainwindow.moc"
