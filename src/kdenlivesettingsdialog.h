@@ -32,6 +32,7 @@
 #include "ui_configcapture_ui.h"
 #include "ui_configjogshuttle_ui.h"
 #include "ui_configsdl_ui.h"
+#include "ui_configtranscode_ui.h"
 
 class KdenliveSettingsDialog : public KConfigDialog
 {
@@ -60,6 +61,8 @@ private slots:
     void slotReadAudioDevices();
     void slotUpdateRmdRegionStatus();
     void slotCheckAlsaDriver();
+    void slotAddTranscode();
+    void slotDeleteTranscode();
 
 private:
     KPageWidgetItem *m_page1;
@@ -68,16 +71,20 @@ private:
     KPageWidgetItem *m_page4;
     KPageWidgetItem *m_page5;
     KPageWidgetItem *m_page6;
+    KPageWidgetItem *m_page7;
     Ui::ConfigEnv_UI m_configEnv;
     Ui::ConfigMisc_UI m_configMisc;
     Ui::ConfigDisplay_UI m_configDisplay;
     Ui::ConfigCapture_UI m_configCapture;
     Ui::ConfigJogShuttle_UI m_configShuttle;
     Ui::ConfigSdl_UI m_configSdl;
+    Ui::ConfigTranscode_UI m_configTranscode;
     QString m_defaultProfile;
     QString m_defaultPath;
     KProcess m_readProcess;
     void initDevices();
+    void loadTranscodeProfiles();
+    void saveTranscodeProfiles();
 
 signals:
     void customChanged();

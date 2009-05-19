@@ -124,10 +124,11 @@ public:
     void setRenderer(Render *projectRender);
     void slotUpdateClipProperties(const QString &id, QMap <QString, QString> properties);
     void updateAllClips();
-    QByteArray headerInfo();
+    QByteArray headerInfo() const;
     void setHeaderInfo(const QByteArray &state);
     void setupMenu(QMenu *addMenu, QAction *defaultAction);
-    void setupGeneratorMenu(QMenu *addMenu);
+    void setupGeneratorMenu(QMenu *addMenu, QMenu *transcodeMenu);
+    QString currentClipUrl() const;
 
 public slots:
     void setDocument(KdenliveDoc *doc);

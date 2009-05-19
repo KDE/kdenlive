@@ -149,7 +149,7 @@ void ProjectList::setupMenu(QMenu *addMenu, QAction *defaultAction)
     m_menu->addActions(addMenu->actions());
 }
 
-void ProjectList::setupGeneratorMenu(QMenu *addMenu)
+void ProjectList::setupGeneratorMenu(QMenu *addMenu, QMenu *transcodeMenu)
 {
     if (!addMenu) return;
     QMenu *menu = m_addButton->menu();
@@ -158,6 +158,8 @@ void ProjectList::setupGeneratorMenu(QMenu *addMenu)
 
     m_menu->addMenu(addMenu);
     if (addMenu->isEmpty()) addMenu->setEnabled(false);
+    m_menu->addMenu(transcodeMenu);
+    if (transcodeMenu->isEmpty()) transcodeMenu->setEnabled(false);
     m_menu->addAction(m_reloadAction);
     m_menu->addAction(m_editAction);
     m_menu->addAction(m_openAction);
@@ -166,7 +168,7 @@ void ProjectList::setupGeneratorMenu(QMenu *addMenu)
 }
 
 
-QByteArray ProjectList::headerInfo()
+QByteArray ProjectList::headerInfo() const
 {
     return m_listView->header()->saveState();
 }
@@ -885,6 +887,13 @@ void ProjectList::slotSelectClip(const QString &ix)
             m_openAction->setEnabled(true);
         } else m_openAction->setEnabled(false);
     }
+}
+
+QString ProjectList::currentClipUrl() const
+{
+    ProjectItem *item = static_cast <ProjectItem*>(m_listView->currentItem());
+    if (item == NULL) return QString();
+    return item->clipUrl().path();
 }
 
 #include "projectlist.moc"

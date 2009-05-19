@@ -30,6 +30,7 @@
 
 #include <QDir>
 #include <QTimer>
+#include <QTreeWidgetItem>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -90,6 +91,12 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
     m_configSdl.setupUi(p6);
     m_page6 = addPage(p6, i18n("Playback"), "media-playback-start");
 
+    QWidget *p7 = new QWidget;
+    m_configTranscode.setupUi(p7);
+    m_page7 = addPage(p7, i18n("Transcode"), "edit-copy");
+    connect(m_configTranscode.button_add, SIGNAL(clicked()), this, SLOT(slotAddTranscode()));
+    connect(m_configTranscode.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteTranscode()));
+
     QStringList actions;
     actions << i18n("Do nothing");
     actions << i18n("Play / Pause");
@@ -125,6 +132,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
     connect(m_configCapture.kcfg_rmd_capture_type, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateRmdRegionStatus()));
 
     slotUpdateRmdRegionStatus();
+    loadTranscodeProfiles();
 
 
     //HACK: check dvgrab version, because only dvgrab >= 3.3 supports
@@ -437,6 +445,9 @@ void KdenliveSettingsDialog::updateSettings()
         updatePreview = true;
     }
 
+    // TODO: only save profiles if modified
+    saveTranscodeProfiles();
+
     KConfigDialog::updateSettings();
     if (resetProfile) emit doResetProfile();
     if (updatePreview) emit updatePreviewSettings();
@@ -460,6 +471,49 @@ void KdenliveSettingsDialog::slotCheckAlsaDriver()
 {
     QString value = m_configSdl.kcfg_audio_driver->itemData(m_configSdl.kcfg_audio_driver->currentIndex()).toString();
     m_configSdl.kcfg_audio_device->setEnabled(value == "alsa");
+}
+
+void KdenliveSettingsDialog::loadTranscodeProfiles()
+{
+    KSharedConfigPtr config = KGlobal::config();
+    KConfigGroup transConfig(config, "Transcoding");
+    // read the entries
+
+    QMap< QString, QString > profiles = transConfig.entryMap();
+    QMapIterator<QString, QString> i(profiles);
+    while (i.hasNext()) {
+        i.next();
+        QTreeWidgetItem *item = new QTreeWidgetItem(m_configTranscode.profiles_list, QStringList() << i.key() << i.value());
+        item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    }
+}
+
+void KdenliveSettingsDialog::saveTranscodeProfiles()
+{
+    KSharedConfigPtr config = KGlobal::config();
+    KConfigGroup transConfig(config, "Transcoding");
+    // read the entries
+    transConfig.deleteGroup();
+    int max = m_configTranscode.profiles_list->topLevelItemCount();
+    for (int i = 0; i < max; i++) {
+        QTreeWidgetItem *item = m_configTranscode.profiles_list->topLevelItem(i);
+        transConfig.writeEntry(item->text(0), item->text(1));
+    }
+    config->sync();
+}
+
+void KdenliveSettingsDialog::slotAddTranscode()
+{
+    QTreeWidgetItem *item = new QTreeWidgetItem(m_configTranscode.profiles_list, QStringList() << i18n("Name") << i18n("Parameters"));
+    item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    m_configTranscode.profiles_list->editItem(item);
+}
+
+void KdenliveSettingsDialog::slotDeleteTranscode()
+{
+    QTreeWidgetItem *item = m_configTranscode.profiles_list->currentItem();
+    if (item == NULL) return;
+    delete item;
 }
 
 #include "kdenlivesettingsdialog.moc"

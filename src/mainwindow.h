@@ -173,6 +173,7 @@ private:
     bool m_findActivated;
     QString m_findString;
     QTimer m_findTimer;
+    QProcess m_transcodeProcess;
 
     void readOptions();
     void saveOptions();
@@ -192,6 +193,7 @@ private:
     void aboutPlugins();
     QStringList m_pluginFileNames;
     QByteArray m_timelineState;
+    void loadTranscoders();
 
 public slots:
     void openFile(const KUrl &url);
@@ -297,6 +299,8 @@ private slots:
     void slotUpdateClipType(QAction *action);
     void slotShowTimeline(bool show);
     void slotMaximizeCurrent(bool show);
+    void slotTranscode();
+    void slotShowTranscodeInfo();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

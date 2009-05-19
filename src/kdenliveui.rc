@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kdenlive" version="42">
+<gui name="kdenlive" version="43">
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render" />
@@ -23,6 +23,8 @@
       <Action name="add_slide_clip" />
       <Action name="add_text_clip" />
       <Action name="add_folder" /> 
+      <Menu name="transcoders" ><text>Transcode</text>
+      </Menu>
       <Menu name="generators" ><text>Generators</text>
       </Menu>
       <Menu name="track_menu" ><text>Tracks</text>
