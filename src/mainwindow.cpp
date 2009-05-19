@@ -50,6 +50,7 @@
 #include "clipitem.h"
 #include "interfaces.h"
 #include "kdenlive-config.h"
+#include "cliptranscode.h"
 
 #include <KApplication>
 #include <KAction>
@@ -2671,40 +2672,16 @@ void MainWindow::loadTranscoders()
 
 void MainWindow::slotTranscode()
 {
-    if (m_transcodeProcess.state() != QProcess::NotRunning) {
-        m_messageLabel->setMessage(i18n("A transcoding job is already running"), ErrorMessage);
-        return;
-    }
     QString url = m_projectList->currentClipUrl();
     if (url.isEmpty()) return;
     QAction *action = qobject_cast<QAction *>(sender());
     QString params = action->data().toString();
-    params = params.simplified();
-    QStringList parameters;
-    parameters << "-i" << url;
-    QString fileName = url; //.section('.', 0, -1);
-    params.replace("%1", fileName);
-    QString newFile = params.section(' ', -1);
-    kDebug() << "//PARAMS: " << params << "\n\nNAME: " << newFile;
-    if (QFile::exists(newFile)) {
-        if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", newFile)) == KMessageBox::No) return;
-        parameters << "-y";
-    }
-    parameters << params.split(' ');
-    kDebug() << "/// FFMPEG ARGS: " << parameters;
-    m_transcodeProcess.setProcessChannelMode(QProcess::MergedChannels);
-    connect(&m_transcodeProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(slotShowTranscodeInfo()));
-    m_transcodeProcess.start("ffmpeg", parameters);
+    ClipTranscode *d = new ClipTranscode(m_projectList->currentClipUrl(), params);
+    connect(d, SIGNAL(addClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
+    d->show();
+
 
     //QProcess::startDetached("ffmpeg", parameters);
-}
-
-void MainWindow::slotShowTranscodeInfo()
-{
-    QString log = QString(m_transcodeProcess.readAll());
-    kDebug() << "//LOG: " << log;
-    //TODO: find better way to display transcode output info
-    m_messageLabel->setMessage(log, ErrorMessage);
 }
 
 #include "mainwindow.moc"

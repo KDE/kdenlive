@@ -173,7 +173,6 @@ private:
     bool m_findActivated;
     QString m_findString;
     QTimer m_findTimer;
-    QProcess m_transcodeProcess;
 
     void readOptions();
     void saveOptions();
@@ -300,7 +299,6 @@ private slots:
     void slotShowTimeline(bool show);
     void slotMaximizeCurrent(bool show);
     void slotTranscode();
-    void slotShowTranscodeInfo();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

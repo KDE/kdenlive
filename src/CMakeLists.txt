@@ -73,6 +73,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/dvdwizardstatus_ui.ui
   widgets/dvdwizardchapters_ui.ui
   widgets/missingclips_ui.ui
+  widgets/cliptranscode_ui.ui
 )
  
 set(kdenlive_SRCS 
@@ -161,6 +162,7 @@ set(kdenlive_SRCS
   documentchecker.cpp
   dvdwizardchapters.cpp
   documentconvert.cpp
+  cliptranscode.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )
