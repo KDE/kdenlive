@@ -45,6 +45,7 @@ public:
     void setUrl(const QString &url);
     QString introMovie() const;
     bool isPal() const;
+    bool isWide() const;
     int duration(int ix) const;
     QStringList durations() const;
 

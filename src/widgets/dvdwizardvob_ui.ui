@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>391</width>
-    <height>348</height>
+    <width>342</width>
+    <height>287</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="1" column="0" colspan="4">
+   <item row="1" column="0" colspan="2">
     <widget class="QCheckBox" name="use_intro">
      <property name="text">
       <string>Intro movie</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="6">
+   <item row="1" column="2" colspan="5">
     <widget class="KUrlRequester" name="intro_vob">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -106,9 +106,6 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="6">
-    <widget class="KComboBox" name="dvd_profile"/>
-   </item>
    <item row="0" column="0" colspan="2">
     <widget class="QLabel" name="label">
      <property name="text">
@@ -129,6 +126,9 @@
       <string>Remove file</string>
      </property>
     </widget>
+   </item>
+   <item row="0" column="2" colspan="5">
+    <widget class="KComboBox" name="dvd_profile"/>
    </item>
   </layout>
  </widget>

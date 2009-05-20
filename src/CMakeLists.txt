@@ -69,7 +69,6 @@ kde4_add_ui_files(kdenlive_UI
   widgets/addtrack_ui.ui
   widgets/dvdwizardvob_ui.ui
   widgets/dvdwizardmenu_ui.ui
-  widgets/dvdwizardiso_ui.ui
   widgets/dvdwizardstatus_ui.ui
   widgets/dvdwizardchapters_ui.ui
   widgets/missingclips_ui.ui

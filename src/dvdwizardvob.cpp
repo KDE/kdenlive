@@ -56,10 +56,11 @@ DvdWizardVob::DvdWizardVob(const QString &profile, QWidget *parent) :
     if (m_errorMessage.isEmpty()) m_view.error_message->setVisible(false);
     else m_view.error_message->setText(m_errorMessage);
 
-    m_view.dvd_profile->addItems(QStringList() << i18n("PAL") << i18n("NTSC"));
-    if (profile == "dv_ntsc" || profile == "dv_ntsc_wide") {
-        m_view.dvd_profile->setCurrentIndex(1);
-    }
+    m_view.dvd_profile->addItems(QStringList() << i18n("PAL 4:3") << i18n("PAL 16:9") << i18n("NTSC 4:3") << i18n("NTSC 16:9"));
+    if (profile == "dv_pal_wide") m_view.dvd_profile->setCurrentIndex(1);
+    else if (profile == "dv_ntsc") m_view.dvd_profile->setCurrentIndex(2);
+    else if (profile == "dv_ntsc_wide") m_view.dvd_profile->setCurrentIndex(3);
+
     connect(m_view.dvd_profile, SIGNAL(activated(int)), this, SLOT(changeFormat()));
     m_view.vobs_list->header()->setStretchLastSection(false);
     m_view.vobs_list->header()->setResizeMode(0, QHeaderView::Stretch);
@@ -258,7 +259,12 @@ void DvdWizardVob::slotItemDown()
 
 bool DvdWizardVob::isPal() const
 {
-    return m_view.dvd_profile->currentIndex() == 0;
+    return m_view.dvd_profile->currentIndex() < 2;
+}
+
+bool DvdWizardVob::isWide() const
+{
+    return (m_view.dvd_profile->currentIndex() == 1 || m_view.dvd_profile->currentIndex() == 3);
 }
 
 
