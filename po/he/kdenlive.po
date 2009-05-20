@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-31 09:59+0200\n"
+"POT-Creation-Date: 2009-05-20 13:34+0200\n"
 "PO-Revision-Date: 2009-03-31 16:05+0300\n"
 "Last-Translator: Amir S. <amir_in@netvision.net.il>\n"
 "Language-Team: Hebrew <<kdenlive-devel@lists.sourceforge.net>>\n"
@@ -18,107 +18,109 @@ msgstr ""
 "X-Generator: Lokalize 0.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/clipproperties.cpp:463 src/slideshowclip.cpp:115
+#: src/clipproperties.cpp:480 src/slideshowclip.cpp:121
 #, kde-format
 msgid "%1 images found"
 msgstr "%1 תמונות נמצאו"
 
-#: rc.cpp:768 rc.cpp:774 rc.cpp:780 rc.cpp:786 rc.cpp:795 rc.cpp:1290
-#: rc.cpp:1293 rc.cpp:1296 rc.cpp:1302 rc.cpp:1305 rc.cpp:1983 rc.cpp:1989
-#: rc.cpp:1995 rc.cpp:2001 rc.cpp:2010 rc.cpp:2505 rc.cpp:2508 rc.cpp:2511
-#: rc.cpp:2517 rc.cpp:2520
+#: rc.cpp:560 rc.cpp:563 rc.cpp:566 rc.cpp:569 rc.cpp:572 rc.cpp:575
+#: rc.cpp:578 rc.cpp:584 rc.cpp:587 rc.cpp:911 rc.cpp:917 rc.cpp:923
+#: rc.cpp:929 rc.cpp:938 rc.cpp:1442 rc.cpp:1754 rc.cpp:1757 rc.cpp:1892
+#: rc.cpp:1895 rc.cpp:1898 rc.cpp:1901 rc.cpp:1904 rc.cpp:1907 rc.cpp:1910
+#: rc.cpp:1916 rc.cpp:1919 rc.cpp:2243 rc.cpp:2249 rc.cpp:2255 rc.cpp:2261
+#: rc.cpp:2270 rc.cpp:2774 rc.cpp:3086 rc.cpp:3089
 msgid "..."
 msgstr "..."
 
-#: rc.cpp:681 rc.cpp:687 rc.cpp:693 rc.cpp:1896 rc.cpp:1902 rc.cpp:1908
+#: rc.cpp:746 rc.cpp:752 rc.cpp:758 rc.cpp:2078 rc.cpp:2084 rc.cpp:2090
 msgid "/"
 msgstr "/"
 
-#: rc.cpp:1014 rc.cpp:2229
+#: rc.cpp:1559 rc.cpp:2891
 msgid "/dev/dsp"
 msgstr "/dev/dsp"
 
-#: rc.cpp:1035 rc.cpp:2250
+#: rc.cpp:1580 rc.cpp:2912
 msgid "/dev/video0"
 msgstr "/dev/video0"
 
-#: rc.cpp:1371 rc.cpp:2586
+#: rc.cpp:716 rc.cpp:2048
 msgid "0"
 msgstr "0"
 
-#: rc.cpp:564 rc.cpp:1527 rc.cpp:1779 rc.cpp:2742
+#: rc.cpp:656 rc.cpp:1121 rc.cpp:1988 rc.cpp:2453
 msgid "1"
 msgstr "1"
 
-#: src/geometryval.cpp:72
+#: src/geometryval.cpp:80
 msgid "100%"
 msgstr "100%"
 
-#: rc.cpp:1071 rc.cpp:2286
+#: rc.cpp:1616 rc.cpp:2948
 msgid "11250"
 msgstr "11250"
 
-#: rc.cpp:1530 rc.cpp:2745
+#: rc.cpp:1124 rc.cpp:2456
 msgid "2"
 msgstr "2"
 
-#: src/geometryval.cpp:73
+#: src/geometryval.cpp:81
 msgid "200%"
 msgstr "200%"
 
-#: rc.cpp:1068 rc.cpp:2283
+#: rc.cpp:1613 rc.cpp:2945
 msgid "22500"
 msgstr "22500"
 
-#: rc.cpp:1191 rc.cpp:1617 rc.cpp:2406 rc.cpp:2832
+#: rc.cpp:1280 rc.cpp:1481 rc.cpp:2612 rc.cpp:2813
 msgid "25/1"
 msgstr "25/1"
 
-#: rc.cpp:1065 rc.cpp:2280
+#: rc.cpp:1610 rc.cpp:2942
 msgid "32000"
 msgstr "32000"
 
-#: rc.cpp:1041 rc.cpp:2256
+#: rc.cpp:1586 rc.cpp:2918
 msgid "320x240"
 msgstr "320x240"
 
-#: rc.cpp:1203 rc.cpp:1629 rc.cpp:2418 rc.cpp:2844
+#: rc.cpp:1292 rc.cpp:1493 rc.cpp:2624 rc.cpp:2825
 msgid "4/3"
 msgstr "4/3"
 
-#: rc.cpp:1062 rc.cpp:2277
+#: rc.cpp:1607 rc.cpp:2939
 msgid "41000"
 msgstr "32000"
 
-#: rc.cpp:1059 rc.cpp:2274
+#: rc.cpp:1604 rc.cpp:2936
 msgid "48000"
 msgstr "48000"
 
-#: src/geometryval.cpp:71
+#: src/geometryval.cpp:79
 msgid "50%"
 msgstr "50%"
 
-#: rc.cpp:1197 rc.cpp:1623 rc.cpp:2412 rc.cpp:2838
+#: rc.cpp:1286 rc.cpp:1487 rc.cpp:2618 rc.cpp:2819
 msgid "59/54"
 msgstr "59/54"
 
-#: rc.cpp:1185 rc.cpp:1611 rc.cpp:2400 rc.cpp:2826
+#: rc.cpp:1274 rc.cpp:1475 rc.cpp:2606 rc.cpp:2807
 msgid "720x576"
 msgstr "720x576"
 
-#: rc.cpp:714 rc.cpp:867 rc.cpp:873 rc.cpp:879 rc.cpp:1125 rc.cpp:1137
-#: rc.cpp:1164 rc.cpp:1173 rc.cpp:1227 rc.cpp:1251 rc.cpp:1407 rc.cpp:1425
-#: rc.cpp:1476 rc.cpp:1485 rc.cpp:1557 rc.cpp:1929 rc.cpp:2082 rc.cpp:2088
-#: rc.cpp:2094 rc.cpp:2340 rc.cpp:2352 rc.cpp:2379 rc.cpp:2388 rc.cpp:2442
-#: rc.cpp:2466 rc.cpp:2622 rc.cpp:2640 rc.cpp:2691 rc.cpp:2700 rc.cpp:2772
+#: rc.cpp:518 rc.cpp:524 rc.cpp:530 rc.cpp:536 rc.cpp:842 rc.cpp:1019
+#: rc.cpp:1070 rc.cpp:1079 rc.cpp:1205 rc.cpp:1235 rc.cpp:1253 rc.cpp:1262
+#: rc.cpp:1319 rc.cpp:1331 rc.cpp:1706 rc.cpp:1850 rc.cpp:1856 rc.cpp:1862
+#: rc.cpp:1868 rc.cpp:2174 rc.cpp:2351 rc.cpp:2402 rc.cpp:2411 rc.cpp:2537
+#: rc.cpp:2567 rc.cpp:2585 rc.cpp:2594 rc.cpp:2651 rc.cpp:2663 rc.cpp:3038
 msgid "99:99:99:99; "
 msgstr "99:99:99:99; "
 
-#: rc.cpp:1167 rc.cpp:2382
+#: rc.cpp:1256 rc.cpp:2588
 msgid ":::"
 msgstr ":::"
 
-#: src/kdenlivesettingsdialog.cpp:161
+#: src/kdenlivesettingsdialog.cpp:171
 msgid ""
 "<strong><em>Recordmydesktop</em> utility not found, please install it for "
 "screen grabs</strong>"
@@ -126,7 +128,7 @@ msgstr ""
 "<strong>תוכנת <em>Recordmydesktop</em> לא נמצאה, אנא התקן אותה על מנת לבצע "
 "לכידת מסך </strong>"
 
-#: src/kdenlivesettingsdialog.cpp:155
+#: src/kdenlivesettingsdialog.cpp:165
 msgid ""
 "<strong><em>dvgrab</em> utility not found, please install it for firewire "
 "capture</strong>"
@@ -134,28 +136,28 @@ msgstr ""
 "<strong>תוכנת  <em>dvgrab</em> לא נמצאה, אנא התקן אותה אותה על מנת לבצע "
 "לכידה מהתקן firewire</strong>"
 
-#: src/dvdwizardvob.cpp:36 src/dvdwizardvob.cpp:37
+#: src/dvdwizardvob.cpp:54 src/dvdwizardvob.cpp:55
 #, kde-format
 msgid "<strong>Program %1 is required for the DVD wizard."
 msgstr "<strong> תוכנה %1 נדרשת בעבור אשף ה-DVD."
 
 # , kde-format
-#: src/renderwidget.cpp:1126
+#: src/renderwidget.cpp:1233
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>צלימה של %1 קרסה</strong><br />"
 
-#: rc.cpp:606 rc.cpp:654 rc.cpp:1374 rc.cpp:1656 rc.cpp:1821 rc.cpp:1869
-#: rc.cpp:2589 rc.cpp:2871
+#: rc.cpp:719 rc.cpp:866 rc.cpp:950 rc.cpp:965 rc.cpp:2051 rc.cpp:2198
+#: rc.cpp:2282 rc.cpp:2297
 msgid "A"
 msgstr "A"
 
-#: src/customtrackview.cpp:3365
+#: src/customtrackview.cpp:3550
 #, kde-format
 msgid "A guide already exists at position %1"
 msgstr "מנחה כבר קיים בנקודה זו %1"
 
-#: src/profilesdialog.cpp:129
+#: src/profilesdialog.cpp:141
 msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
 "choose another description for your custom profile."
@@ -163,300 +165,365 @@ msgstr ""
 "‫פרופיל בשם זה קיים בפרופילי ברירת המחדל של MLT, אנא בחר תיאור אחר עבור "
 "הפרופיל המותאם אישית."
 
-#: src/kdenlivesettingsdialog.cpp:195 rc.cpp:1074 rc.cpp:2289
+#: src/kdenlivesettingsdialog.cpp:208 rc.cpp:1619 rc.cpp:2951
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/kdenlivesettingsdialog.cpp:199
+#: src/kdenlivesettingsdialog.cpp:212
 msgid "ARTS daemon"
 msgstr "ARTS daemon"
 
-#: rc.cpp:540 rc.cpp:1755
+#: src/cliptranscode.cpp:90 rc.cpp:899 rc.cpp:2231
+#, fuzzy
+msgid "Abort"
+msgstr "בטל עבודה"
+
+#: src/renderwidget.cpp:1266 rc.cpp:1433 rc.cpp:2765
 msgid "Abort Job"
 msgstr "בטל עבודה"
 
-#: rc.cpp:1389 rc.cpp:2604
+#: rc.cpp:1175 rc.cpp:2507
 msgid "Activate crash recovery (auto save)"
 msgstr "‮מפעיל התאוששות מקריסה (שמירה אוטומטית)"
 
-#: src/customtrackview.cpp:1162 src/customtrackview.cpp:1197
-#: src/addeffectcommand.cpp:31
+#: src/addeffectcommand.cpp:38 src/customtrackview.cpp:1246
+#: src/customtrackview.cpp:1282
 #, kde-format
 msgid "Add %1"
 msgstr "‮הוסף %1"
 
-#: rc.cpp:2919
+#: rc.cpp:3158
 msgid "Add Audio Effect"
 msgstr "הוסף אפקט שמע"
 
-#: src/mainwindow.cpp:1037
+#: src/mainwindow.cpp:1082
 msgid "Add Clip"
 msgstr "הוסף סרטון"
 
-#: src/mainwindow.cpp:1041
+#: src/mainwindow.cpp:1086
 msgid "Add Color Clip"
 msgstr "הוסף סרטון צבע"
 
-#: rc.cpp:2922
+#: rc.cpp:3161
 msgid "Add Custom Effect"
 msgstr "הוסף אפקט מותאם אישית"
 
-#: src/customruler.cpp:65 src/mainwindow.cpp:969 src/customtrackview.cpp:3379
+#: src/customtrackview.cpp:3565 src/mainwindow.cpp:1012 src/customruler.cpp:72
 msgid "Add Guide"
 msgstr "הוסף מנחה"
 
-#: src/titlewidget.cpp:119
+#: src/titlewidget.cpp:144
 msgid "Add Image"
 msgstr "הוסף תמונה"
 
-#: src/clipproperties.cpp:271 src/mainwindow.cpp:921 src/mainwindow.cpp:1885
+#: src/clipproperties.cpp:282 src/mainwindow.cpp:950 src/mainwindow.cpp:2026
 msgid "Add Marker"
 msgstr "הוסף סמן"
 
-#: src/titlewidget.cpp:111
+#: rc.cpp:1148 rc.cpp:2480
+#, fuzzy
+msgid "Add Profile"
+msgstr "ערוך פרופיל"
+
+#: src/titlewidget.cpp:136
 msgid "Add Rectangle"
 msgstr "הוסף מלבן"
 
-#: src/mainwindow.cpp:1045 src/slideshowclip.cpp:31
+#: src/mainwindow.cpp:1090 src/slideshowclip.cpp:34
 msgid "Add Slideshow Clip"
 msgstr "הוסף סרטון מצגת שקפים"
 
-#: src/titlewidget.cpp:115
+#: src/titlewidget.cpp:140
 msgid "Add Text"
 msgstr "הוסף טקסט"
 
-#: src/mainwindow.cpp:1049
+#: src/mainwindow.cpp:1094
 msgid "Add Title Clip"
 msgstr "הוסף סרטון כותר"
 
-#: src/mainwindow.cpp:304
+#: src/mainwindow.cpp:306
 msgid "Add Transition"
 msgstr "הוסף תרגום"
 
-#: rc.cpp:2916
+#: rc.cpp:3155
 msgid "Add Video Effect"
 msgstr "הוסף אפקט וידאו"
 
-#: src/clipitem.cpp:778 src/clipitem.cpp:785
+#: src/clipitem.cpp:870 src/clipitem.cpp:877
 msgid "Add audio fade"
 msgstr "הוסף עמעום שמע"
 
-#: src/addclipcommand.cpp:27
+#: rc.cpp:1214 rc.cpp:2546
+#, fuzzy
+msgid "Add chapter"
+msgstr "הוסף סמן"
+
+#: src/addclipcommand.cpp:33
 msgid "Add clip"
 msgstr "הוסף סרטון"
 
-#: src/clipmanager.cpp:211
+#: rc.cpp:794 rc.cpp:2126
+#, fuzzy
+msgid "Add clip to project"
+msgstr "התאם זום לפרוייקט"
+
+#: src/clipmanager.cpp:234
 msgid "Add clips"
 msgstr "הוסף סרטונים"
 
-#: src/addfoldercommand.cpp:27
+#: src/addfoldercommand.cpp:33
 msgid "Add folder"
 msgstr "הוסף תיקיה"
 
-#: src/editguidecommand.cpp:25
+#: src/editguidecommand.cpp:33
 msgid "Add guide"
 msgstr "הוסף מנחה"
 
-#: src/complexparameter.cpp:45 src/geometryval.cpp:59
-#: src/editkeyframecommand.cpp:29
+#: src/geometryval.cpp:67 src/editkeyframecommand.cpp:38
+#: src/complexparameter.cpp:44
 msgid "Add keyframe"
 msgstr "הוסף מסגרת מפתח"
 
-#: src/clipproperties.cpp:223 src/addmarkercommand.cpp:26
+#: src/addmarkercommand.cpp:33 src/clipproperties.cpp:230
 msgid "Add marker"
 msgstr "הוסף סמן"
 
-#: src/effectstackview.cpp:45
+#: rc.cpp:1763 rc.cpp:3095
+#, fuzzy
+msgid "Add movie file"
+msgstr "הוסף אפקט וידאו"
+
+#: src/dvdwizardmenu.cpp:41
+#, fuzzy
+msgid "Add new button"
+msgstr "הוסף אפקט חדש"
+
+#: src/effectstackview.cpp:46
 msgid "Add new effect"
 msgstr "הוסף אפקט חדש"
 
-#: rc.cpp:1002 rc.cpp:2217
+#: src/dvdwizardvob.cpp:91
+#, fuzzy
+msgid "Add new video file"
+msgstr "הוסף אפקט חדש"
+
+#: rc.cpp:1547 rc.cpp:2879
 msgid "Add recording time to captured file name"
 msgstr "הוסף את זמן ההקלטה לשם הקובץ הנלכד"
 
-#: rc.cpp:1248 rc.cpp:2463
+#: rc.cpp:533 rc.cpp:1865
 msgid "Add space"
 msgstr "הוסף רווח"
 
-#: src/addtimelineclipcommand.cpp:27
+#: src/addtimelineclipcommand.cpp:36
 msgid "Add timeline clip"
 msgstr "הוסף סרטון ציר זמן"
 
-#: src/addtrackcommand.cpp:27
+#: src/addtrackcommand.cpp:33
 msgid "Add track"
 msgstr "הוסף רצועה"
 
-#: src/clipitem.cpp:792 src/clipitem.cpp:795
+#: src/clipitem.cpp:884 src/clipitem.cpp:887
 msgid "Add transition"
 msgstr "הוסף מעבר"
 
-#: src/addtransitioncommand.cpp:26
+#: src/addtransitioncommand.cpp:34
 msgid "Add transition to clip"
 msgstr "הוסף מעבר לסרטון"
 
-#: src/wizard.cpp:90
+#: src/wizard.cpp:92
 msgid "Additional Settings"
 msgstr "קביעות נוספות"
 
-#: rc.cpp:441
+#: rc.cpp:443
 msgid "Adjust audio volume with keyframes"
 msgstr "כוון עוצמת שמע למסגרות מפתח"
 
-#: src/changespeedcommand.cpp:27
+#: src/changespeedcommand.cpp:34
 msgid "Adjust clip length"
 msgstr "כוון את אורך הסרטון"
 
-#: rc.cpp:289
+#: rc.cpp:291
 msgid "Adjust size and position of clip"
 msgstr "התאם גודל ומיקום סרטון"
 
-#: rc.cpp:157
+#: rc.cpp:159
 msgid "Adjust the audio volume without keyframes"
 msgstr "כוון עוצמת שמע ללא מסגרות מפתח"
 
-#: rc.cpp:130
+#: rc.cpp:132
 msgid "Adjust the white balance / color temperature"
 msgstr "כיוון איזון צבע לבן / טמפרטורת צבע"
 
-#: rc.cpp:1533 rc.cpp:2748
+#: rc.cpp:1127 rc.cpp:2459
 msgid "Advanced"
 msgstr "מתקדם"
 
-#: src/titlewidget.cpp:102
+#: src/titlewidget.cpp:124
+msgid "Align center"
+msgstr ""
+
+#: src/titlewidget.cpp:127
 msgid "Align item horizontally"
 msgstr "כוון פריט בציר אופקי"
 
-#: src/titlewidget.cpp:104
+#: src/titlewidget.cpp:129
 msgid "Align item vertically"
 msgstr "כוון פריט בציר אנכי"
 
-#: src/geometryval.cpp:76
+#: src/titlewidget.cpp:123
+msgid "Align left"
+msgstr ""
+
+#: src/titlewidget.cpp:122
+msgid "Align right"
+msgstr ""
+
+#: src/geometryval.cpp:85
 msgid "Align..."
 msgstr "פלס..."
 
-#: rc.cpp:1584 rc.cpp:2799
+#: rc.cpp:1154 rc.cpp:2486
 msgid "All"
 msgstr "הכל"
 
-#: src/spacerdialog.cpp:35
+#: src/projectlist.cpp:598
+#, fuzzy
+msgid "All Files"
+msgstr "קבצי DVD"
+
+#: src/projectlist.cpp:597
+msgid "All Supported Files"
+msgstr ""
+
+#: src/spacerdialog.cpp:38
 msgid "All tracks"
 msgstr "כל הרצועות"
 
-#: src/complexparameter.cpp:37
+#: src/complexparameter.cpp:36
 msgid "Allow horizontal moves"
 msgstr "אפשר תזוזות אופקיות"
 
-#: src/complexparameter.cpp:39
+#: src/complexparameter.cpp:38
 msgid "Allow vertical moves"
 msgstr "אפשר תזוזות אנכיות"
 
-#: rc.cpp:145 rc.cpp:449
+#: src/renderwidget.cpp:662 src/renderwidget.cpp:1347
+msgid "Already running"
+msgstr ""
+
+#: rc.cpp:147 rc.cpp:451
 msgid "Amplitude"
 msgstr "משרעת"
 
-#: src/main.cpp:40
+#: src/main.cpp:39
 msgid "An open source video editor."
 msgstr "עורך וידאו בקוד חופשי."
 
-#: rc.cpp:303
+#: rc.cpp:305
 msgid "Animate Rotate X"
 msgstr "‮אנימצית סיבוב בציר X"
 
-#: rc.cpp:305
+#: rc.cpp:307
 msgid "Animate Rotate Y"
 msgstr "‮אנימצית סיבוב בציר Y"
 
-#: rc.cpp:307
+#: rc.cpp:309
 msgid "Animate Rotate Z"
 msgstr "‮אנימצית סיבוב בציר Z"
 
-#: rc.cpp:313
+#: rc.cpp:315
 msgid "Animate Shear X"
 msgstr "‮אנימצית גזירה X"
 
-#: rc.cpp:315
+#: rc.cpp:317
 msgid "Animate Shear Y"
 msgstr "‮אנימצית גזירה Y"
 
-#: src/kdenlivesettingsdialog.cpp:219
+#: src/kdenlivesettingsdialog.cpp:232
 msgid "Ascii art library"
 msgstr "‫ספריית אומנות Ascii"
 
-#: rc.cpp:1194 rc.cpp:2409
+#: rc.cpp:1283 rc.cpp:2615
 msgid "Aspect ratio:"
 msgstr "‏‮יחס מימדים:"
 
-#: rc.cpp:888 rc.cpp:1449 rc.cpp:1590 rc.cpp:1641 rc.cpp:2103 rc.cpp:2664
-#: rc.cpp:2805 rc.cpp:2856
+#: rc.cpp:1043 rc.cpp:1160 rc.cpp:1505 rc.cpp:1775 rc.cpp:2375 rc.cpp:2492
+#: rc.cpp:2837 rc.cpp:3107
 msgid "Audio"
 msgstr "שמע"
 
-#: rc.cpp:570 rc.cpp:1785
+#: rc.cpp:662 rc.cpp:1994
 msgid "Audio Codecs"
 msgstr "מקודדי שמע"
 
-#: src/mainwindow.cpp:941
+#: src/mainwindow.cpp:970
 msgid "Audio Only"
 msgstr "שמע בלבד"
 
-#: rc.cpp:1053 rc.cpp:2268
+#: src/customtrackview.cpp:4477 src/mainwindow.cpp:980
+#, fuzzy
+msgid "Audio and Video"
+msgstr "אינדקס שמע"
+
+#: rc.cpp:1598 rc.cpp:2930
 msgid "Audio channels"
 msgstr "ערוצי שמע"
 
-#: src/projectitem.cpp:167
+#: src/documentchecker.cpp:71 src/projectitem.cpp:192
 msgid "Audio clip"
 msgstr "סרטון שמע"
 
-#: rc.cpp:1452 rc.cpp:2667
+#: rc.cpp:1046 rc.cpp:2378
 msgid "Audio codec"
 msgstr "מקודד שמע"
 
-#: rc.cpp:1020 rc.cpp:2235
+#: rc.cpp:1565 rc.cpp:2897
 msgid "Audio device"
 msgstr "‫התקן שמע"
 
-#: rc.cpp:930 rc.cpp:2145
+#: rc.cpp:500 rc.cpp:1832
 msgid "Audio device:"
 msgstr "‫התקן שמע:"
 
-#: rc.cpp:927 rc.cpp:2142
+#: rc.cpp:497 rc.cpp:1829
 msgid "Audio driver:"
 msgstr "‫מנהל התקן שמע:"
 
-#: rc.cpp:831 rc.cpp:2046
+#: rc.cpp:704 rc.cpp:2036
 msgid "Audio editing"
 msgstr "עריכת שמע"
 
-#: src/clipitem.cpp:779 src/clipitem.cpp:786
+#: src/clipitem.cpp:871 src/clipitem.cpp:878
 #, c-format, kde-format
 msgid "Audio fade duration: %1s"
 msgstr "זמן עמעום שמע %1 שניות"
 
-#: rc.cpp:1056 rc.cpp:2271
+#: rc.cpp:1601 rc.cpp:2933
 msgid "Audio frequency"
 msgstr "תדר שמע"
 
-#: rc.cpp:1545 rc.cpp:2760
+#: rc.cpp:1139 rc.cpp:2471
 msgid "Audio index"
 msgstr "אינדקס שמע"
 
-#: src/renderwidget.cpp:856 src/customtrackview.cpp:4198
+#: src/customtrackview.cpp:4452 src/renderwidget.cpp:947
 msgid "Audio only"
 msgstr "שמע בלבד"
 
-#: rc.cpp:858 rc.cpp:2073
+#: rc.cpp:473 rc.cpp:1805
 msgid "Audio track"
 msgstr "רצועת שמע"
 
-#: rc.cpp:1212 rc.cpp:1644 rc.cpp:2427 rc.cpp:2859
+#: rc.cpp:1301 rc.cpp:1508 rc.cpp:2633 rc.cpp:2840
 msgid "Audio tracks"
 msgstr "רצועות שמע"
 
-#: src/effectslist.cpp:118 src/effectslist.cpp:128
+#: src/effectslist.cpp:126 src/effectslist.cpp:137
 msgid "Author:"
 msgstr "מחבר:"
 
-#: src/transitionsettings.cpp:51 rc.cpp:492 rc.cpp:1707
+#: src/transitionsettings.cpp:56 rc.cpp:1382 rc.cpp:2714
 msgid "Auto"
 msgstr "אוטומטי"
 
@@ -464,51 +531,55 @@ msgstr "אוטומטי"
 msgid "Auto Mask"
 msgstr "הסתרה אוטומטית"
 
-#: rc.cpp:585 rc.cpp:1800
+#: rc.cpp:479 rc.cpp:1811
 msgid "Auto add"
 msgstr "הוספה אוטומטית"
 
-#: src/mainwindow.cpp:1324
+#: src/mainwindow.cpp:1382
 msgid "Auto-saved files exist. Do you want to recover them now?"
 msgstr "‫קיימים קבצים שנשמרו אוטומטית. האם ברצונך לאושש אותם כעת?"
 
-#: src/kdenlivesettingsdialog.cpp:193 src/kdenlivesettingsdialog.cpp:210
+#: src/kdenlivesettingsdialog.cpp:206 src/kdenlivesettingsdialog.cpp:223
 msgid "Automatic"
 msgstr "אוטומטי"
 
-#: src/mainwindow.cpp:904
+#: src/mainwindow.cpp:933
 msgid "Automatic Transition"
 msgstr "מעבר אוטומטי"
 
-#: rc.cpp:999 rc.cpp:2214
+#: rc.cpp:1544 rc.cpp:2876
 msgid "Automatically start a new file on scene cut"
 msgstr "אוטומטית התחל קובץ חדש בעת חיתוך קטע"
 
-#: rc.cpp:897 rc.cpp:2112
+#: rc.cpp:1784 rc.cpp:3116
 msgid "Autoscroll while playing"
 msgstr "גלגל אוטומטית בזמן נגינה"
 
-#: rc.cpp:567 rc.cpp:1782
+#: rc.cpp:659 rc.cpp:1991
 msgid "Available Codecs (avformat)"
 msgstr "מקודדים זמינים (avformat) "
 
-#: src/wizard.cpp:143
+#: src/wizard.cpp:146
 msgid "Avformat module (FFmpeg)"
 msgstr "מודול Avformat (FFmpeg)"
 
-#: rc.cpp:639 rc.cpp:642 rc.cpp:1314 rc.cpp:1854 rc.cpp:1857 rc.cpp:2529
+#: rc.cpp:986 rc.cpp:2318
+msgid "Back to menu"
+msgstr ""
+
+#: rc.cpp:596 rc.cpp:989 rc.cpp:992 rc.cpp:1928 rc.cpp:2321 rc.cpp:2324
 msgid "Background"
 msgstr "רקע"
 
-#: rc.cpp:1299 rc.cpp:2514
+#: rc.cpp:581 rc.cpp:1913
 msgid "BasicOperations"
 msgstr "פעולות בסיסיות"
 
-#: src/transitionsettings.cpp:55
+#: src/transitionsettings.cpp:60
 msgid "Black"
 msgstr "שחור"
 
-#: rc.cpp:46
+#: rc.cpp:54
 msgid "Blue Screen"
 msgstr "מסך כחול"
 
@@ -520,16 +591,11 @@ msgstr "מקדם טישטוש"
 msgid "Blur image with keyframes"
 msgstr "טישטוש תמונה באמצעות מסגרות מפתח"
 
-#: src/trackview.cpp:614
-#, kde-format
-msgid "Boken clip producer %1"
-msgstr "מפיק סרטון תקול %1"
-
-#: rc.cpp:1281 rc.cpp:2496
+#: rc.cpp:551 rc.cpp:1883
 msgid "Border color"
 msgstr "צבע מסגרת"
 
-#: src/geometryval.cpp:84 rc.cpp:70
+#: src/geometryval.cpp:93 rc.cpp:70
 msgid "Bottom"
 msgstr "תחתון"
 
@@ -541,141 +607,162 @@ msgstr "טישטוש קופסה"
 msgid "Brightness (keyframable)"
 msgstr "‮עוצמת הארה (במסגרת מפתח)"
 
-#: rc.cpp:1077 rc.cpp:1086 rc.cpp:2292 rc.cpp:2301
+#: src/trackview.cpp:475
+#, fuzzy, kde-format
+msgid "Broken clip producer %1"
+msgstr "מפיק סרטון תקול %1"
+
+#: rc.cpp:1622 rc.cpp:1631 rc.cpp:2954 rc.cpp:2963
 msgid "Buffer"
 msgstr "חוצץ"
 
-#: rc.cpp:624 rc.cpp:1839
+#: src/main.cpp:45
+msgid "Bug fixing etc."
+msgstr ""
+
+#: rc.cpp:890 rc.cpp:2222
+#, fuzzy
+msgid "Burn"
+msgstr "חוצץ"
+
+#: src/dvdwizard.cpp:88 src/dvdwizard.cpp:95
+#, kde-format
+msgid "Burn with %1"
+msgstr ""
+
+#: rc.cpp:971 rc.cpp:2303
 msgid "Button"
 msgstr "כפתור"
 
-#: rc.cpp:954 rc.cpp:2169
+#: rc.cpp:815 rc.cpp:2147
 msgid "Button 1"
 msgstr "כפתור 1"
 
-#: rc.cpp:957 rc.cpp:2172
+#: rc.cpp:818 rc.cpp:2150
 msgid "Button 2"
 msgstr "כפתור 2"
 
-#: rc.cpp:960 rc.cpp:2175
+#: rc.cpp:821 rc.cpp:2153
 msgid "Button 3"
 msgstr "כפתור 3"
 
-#: rc.cpp:963 rc.cpp:2178
+#: rc.cpp:824 rc.cpp:2156
 msgid "Button 4"
 msgstr "כפתור 4"
 
-#: rc.cpp:966 rc.cpp:2181
+#: rc.cpp:827 rc.cpp:2159
 msgid "Button 5"
 msgstr "כפתור 5"
 
-#: rc.cpp:636 rc.cpp:1851
+#: rc.cpp:983 rc.cpp:2315
 msgid "Button colors"
 msgstr "צבעי כפתור"
 
-#: rc.cpp:702 rc.cpp:1917
+#: rc.cpp:767 rc.cpp:2099
 msgid "C"
 msgstr "C"
 
-#: src/customtrackview.cpp:772 src/customtrackview.cpp:801
-#: src/customtrackview.cpp:1423 src/customtrackview.cpp:1448
-#: src/customtrackview.cpp:1474 src/customtrackview.cpp:1496
-#: src/customtrackview.cpp:1581 src/customtrackview.cpp:2755
+#: src/customtrackview.cpp:840 src/customtrackview.cpp:869
+#: src/customtrackview.cpp:1527 src/customtrackview.cpp:1552
+#: src/customtrackview.cpp:1578 src/customtrackview.cpp:1602
+#: src/customtrackview.cpp:1699 src/customtrackview.cpp:2916
 msgid "Cannot add transition"
 msgstr "לא ניתן להוסיף מעבר"
 
-#: src/customtrackview.cpp:4180 src/customtrackview.cpp:4204
+#: src/customtrackview.cpp:4433 src/customtrackview.cpp:4458
+#: src/customtrackview.cpp:4483
 msgid "Cannot change grouped clips"
 msgstr "לא ניתן לשנות סרטונים שקובצו"
 
-#: src/customtrackview.cpp:673 src/customtrackview.cpp:2651
+#: src/customtrackview.cpp:740 src/customtrackview.cpp:2807
 msgid "Cannot cut a clip in a group"
 msgstr "לא ניתן לחתוך סרטון בקבוצה"
 
-#: src/customtrackview.cpp:668
+#: src/customtrackview.cpp:735
 msgid "Cannot cut a transition"
 msgstr "לא ניתן לחתוך מעבר"
 
-#: src/customtrackview.cpp:2630
+#: src/customtrackview.cpp:2785
 msgid "Cannot find clip for speed change"
 msgstr "לא נמצא סרטון לשינוי מהירות"
 
-#: src/customtrackview.cpp:1138
+#: src/customtrackview.cpp:1220
 msgid "Cannot find clip to add effect"
 msgstr "לא נמצא סרטון להוספת אפקט"
 
-#: src/mainwindow.cpp:1880
+#: src/mainwindow.cpp:2021
 msgid "Cannot find clip to add marker"
 msgstr "לא נמצא סרטון להוספת סמן"
 
-#: src/customtrackview.cpp:1318
+#: src/customtrackview.cpp:1409
 msgid "Cannot find clip to cut"
 msgstr "לא נמצא סרטון לחיתוך"
 
-#: src/mainwindow.cpp:1908 src/mainwindow.cpp:1936 src/mainwindow.cpp:1959
+#: src/mainwindow.cpp:2050 src/mainwindow.cpp:2079 src/mainwindow.cpp:2103
 msgid "Cannot find clip to remove marker"
 msgstr "לא נמצא סרטון להסרת סמן"
 
-#: src/customtrackview.cpp:1354
+#: src/customtrackview.cpp:1456
 msgid "Cannot find clip to uncut"
 msgstr "לא נמצא סרטון לביטול חיתוך"
 
-#: src/customtrackview.cpp:1001
+#: src/customtrackview.cpp:1073
 msgid "Cannot find clip with keyframe"
 msgstr "לא נמצא סרטון עם מסגרת מפתח"
 
-#: src/mainwindow.cpp:1431 src/mainwindow.cpp:1541
-msgid "Cannot find the inigo program required for rendering (part of Mlt)"
+#: src/mainwindow.cpp:1492 src/mainwindow.cpp:1617
+#, fuzzy
+msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr "‫לא נמצאה תוכנת inigo הדרושה לביצוע הצלימה (חלק מ-MLT)"
 
-#: src/mainwindow.cpp:1416
+#: src/mainwindow.cpp:1477
 msgid "Cannot find your Mlt profiles, please give the path"
 msgstr "‫לא נמצא פרופיל ה-Mlt, אנא ספק את הנתיב"
 
 # , kde-format
-#: src/customtrackview.cpp:1923
+#: src/customtrackview.cpp:2058
 #, kde-format
 msgid "Cannot move clip at position %1, track %2"
 msgstr "לא ניתן להעביר את הסרטון בנקודה %1, ברצועה %2"
 
-#: src/customtrackview.cpp:2883 src/customtrackview.cpp:3066
+#: src/customtrackview.cpp:3054 src/customtrackview.cpp:3228
 #, kde-format
 msgid "Cannot move clip at time: %1 on track %2"
 msgstr "לא ניתן להעביר את הסרטון בנקודה: %1 ברצועה %2"
 
-#: src/customtrackview.cpp:2190 src/customtrackview.cpp:2919
+#: src/customtrackview.cpp:2337 src/customtrackview.cpp:3090
 #, kde-format
 msgid "Cannot move clip to position %1"
 msgstr "לא ניתן להעביר את הסרטון לנקודה %1"
 
-#: src/customtrackview.cpp:2198
+#: src/customtrackview.cpp:2345
 msgid "Cannot move transition"
 msgstr "לא ניתן להזיז מעבר"
 
 # , kde-format
-#: src/customtrackview.cpp:1933
+#: src/customtrackview.cpp:2068
 #, kde-format
 msgid "Cannot move transition at position %1, track %2"
 msgstr "לא ניתן להעביר את המעברים בנקודה %1, ברצועה %2"
 
-#: src/customtrackview.cpp:3029
+#: src/customtrackview.cpp:3190
 #, kde-format
 msgid "Cannot move transition at time: %1 on track %2"
 msgstr "לא ניתן להעביר את המעברים בנקודה: %1 ברצועה %2"
 
-#: src/customtrackview.cpp:3655
+#: src/customtrackview.cpp:3880
 msgid "Cannot paste clip to selected place"
 msgstr "לא ניתן להדביק את הסרטון לנקודה הנבחרת"
 
-#: src/customtrackview.cpp:3626 src/customtrackview.cpp:3638
+#: src/customtrackview.cpp:3851 src/customtrackview.cpp:3863
 msgid "Cannot paste selected clips"
 msgstr "לא ניתן להדביק את הסרטונים שנבחרו"
 
-#: src/customtrackview.cpp:3666
+#: src/customtrackview.cpp:3891
 msgid "Cannot paste transition to selected place"
 msgstr "לא ניתן להדביק מעברים לנקודה שנבחרה"
 
-#: src/mainwindow.cpp:1538
+#: src/mainwindow.cpp:1614
 msgid ""
 "Cannot play video after rendering because the default video player "
 "application is not set.\n"
@@ -684,7 +771,7 @@ msgstr ""
 "לא ניתן לנגן את הוידאו לאחר הצלימה, לא נקבע נגן ברירת מחדל.\n"
 "‫אנא קבע זאת בהגדרות Kdenlive."
 
-#: src/recmonitor.cpp:200
+#: src/recmonitor.cpp:213
 #, kde-format
 msgid ""
 "Cannot read from device %1\n"
@@ -693,79 +780,79 @@ msgstr ""
 "לא ניתן לקרוא מהתקן %1\n"
 "אנא בדוק את מנהלי ההתקן והגדרות נגישות."
 
-#: src/customtrackview.cpp:2340 src/customtrackview.cpp:2402
+#: src/customtrackview.cpp:2487 src/customtrackview.cpp:2549
 msgid "Cannot resize transition"
 msgstr "לא ניתן לשנות את גודל המעבר"
 
-#: src/customtrackview.cpp:4088
+#: src/customtrackview.cpp:4338
 msgid "Cannot split audio of grouped clips"
 msgstr "לא ניתן לפצל שמע של סרטונים מקובצים"
 
-#: src/kdenlivedoc.cpp:999 src/kdenlivedoc.cpp:1006 src/mainwindow.cpp:1574
-#: src/mainwindow.cpp:1584 src/titlewidget.cpp:672 src/profilesdialog.cpp:153
-#: src/profilesdialog.cpp:159 src/renderwidget.cpp:322
-#: src/renderwidget.cpp:420 src/renderwidget.cpp:426 src/renderwidget.cpp:485
+#: src/titlewidget.cpp:765 src/profilesdialog.cpp:166
+#: src/profilesdialog.cpp:172 src/mainwindow.cpp:1650 src/mainwindow.cpp:1660
+#: src/kdenlivedoc.cpp:494 src/kdenlivedoc.cpp:500 src/renderwidget.cpp:350
+#: src/renderwidget.cpp:450 src/renderwidget.cpp:456 src/renderwidget.cpp:516
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "לא ניתן לכתוב לקובץ %1"
 
-#: src/kdenlivesettingsdialog.cpp:72
+#: src/kdenlivesettingsdialog.cpp:74
 msgid "Capture"
 msgstr "לכידה"
 
-#: rc.cpp:1050 rc.cpp:2265
+#: rc.cpp:1595 rc.cpp:2927
 msgid "Capture audio"
 msgstr "לכידת שמע"
 
-#: src/recmonitor.cpp:544
+#: src/recmonitor.cpp:564
 msgid "Capture crashed, please check your parameters"
 msgstr "הלכידה התרסקה, אנא בדוק את הערכים"
 
-#: rc.cpp:819 rc.cpp:2034
+#: rc.cpp:692 rc.cpp:2024
 msgid "Capture folder"
 msgstr "תיקיית לכידה"
 
-#: rc.cpp:984 rc.cpp:2199
+#: rc.cpp:1529 rc.cpp:2861
 msgid "Capture format"
 msgstr "תסדיר לכידה"
 
-#: rc.cpp:1023 rc.cpp:2238
+#: rc.cpp:1568 rc.cpp:2900
 msgid "Capture params"
 msgstr "פרמטרי לכידה"
 
-#: rc.cpp:1260 rc.cpp:2475
+#: rc.cpp:845 rc.cpp:2177
 msgid "Captured files"
 msgstr "קבצים שנלכדו"
 
-#: src/geometryval.cpp:78
+#: src/geometryval.cpp:87
 msgid "Center"
 msgstr "מרכז"
 
-#: rc.cpp:331
+#: rc.cpp:333
 msgid "Center Frequency"
 msgstr "תדר מרכז"
 
-#: rc.cpp:828 rc.cpp:834 rc.cpp:840 rc.cpp:2043 rc.cpp:2049 rc.cpp:2055
+#: rc.cpp:701 rc.cpp:707 rc.cpp:713 rc.cpp:2033 rc.cpp:2039 rc.cpp:2045
 msgid "Change"
 msgstr "שינוי"
 
-#: src/mainwindow.cpp:895
+#: src/mainwindow.cpp:924
 msgid "Change Clip Speed"
 msgstr "שנה מהירות סרטון"
 
-#: src/mainwindow.cpp:965
+#: src/mainwindow.cpp:1008
 msgid "Change Track"
 msgstr "שינוי ערוץ"
 
-#: src/customtrackview.cpp:3923 src/headertrack.cpp:73
+#: src/customtrackview.cpp:4159 src/headertrack.cpp:76
 msgid "Change Track Type"
 msgstr "שנה סוג ערוץ"
 
-#: src/changecliptypecommand.cpp:27
+#: src/changecliptypecommand.cpp:36
 msgid "Change clip type"
 msgstr "שנה סוג סרטון"
 
-#: rc.cpp:163
+#: rc.cpp:165
 msgid "Change gamma color value"
 msgstr "שינוי ערך צבע גמא"
 
@@ -773,17 +860,22 @@ msgstr "שינוי ערך צבע גמא"
 msgid "Change image brightness with keyframes"
 msgstr "שינוי בהירות תמונה באמצעות מסגרות מפתח"
 
-#: src/customtrackview.cpp:3919
+#: src/customtrackview.cpp:4155
 msgid "Change track"
 msgstr "שינוי רצועה"
 
-#: src/changetrackcommand.cpp:27
+#: src/changetrackcommand.cpp:33
 msgid "Change track type"
 msgstr "שנה סוג רצועה"
 
-#: rc.cpp:1455 rc.cpp:2670
+#: rc.cpp:1049 rc.cpp:2381
 msgid "Channels"
 msgstr "ערוצים"
+
+#: src/dvdwizardchapters.cpp:235
+#, kde-format
+msgid "Chapter %1"
+msgstr ""
 
 #: rc.cpp:32
 msgid "Charcoal"
@@ -793,104 +885,125 @@ msgstr "פחם"
 msgid "Charcoal drawing effect"
 msgstr "אפקט ציור פחם"
 
-#: rc.cpp:579 rc.cpp:1794
+#: rc.cpp:1679 rc.cpp:3011
 msgid "CheckBox"
 msgstr "תיבת סימון"
 
-#: src/wizard.cpp:53
+#: src/wizard.cpp:55
 msgid "Checking MLT engine"
 msgstr "בודק מנוע MLT"
 
-#: src/wizard.cpp:104
+#: src/wizard.cpp:106
 msgid "Checking system"
 msgstr "בודק מערכת"
 
-#: rc.cpp:54
+#: rc.cpp:46
 msgid "Chroma Hold"
 msgstr "Chroma Hold"
 
-#: rc.cpp:323
+#: rc.cpp:325
 msgid "Chrominance U"
 msgstr "Chrominance U"
 
-#: rc.cpp:325
+#: rc.cpp:327
 msgid "Chrominance V"
 msgstr "Chrominance V"
 
-#: src/mainwindow.cpp:201
+#: src/mainwindow.cpp:202
 msgid "Clean"
 msgstr "נקה"
 
-#: rc.cpp:2901
+#: rc.cpp:1445 rc.cpp:2777
+#, fuzzy
+msgid "Clean Up"
+msgstr "נקה"
+
+#: rc.cpp:3140
 msgid "Clip"
 msgstr "סרטון"
 
 # , kde-format
-#: src/kdenlivedoc.cpp:1317 src/kdenlivedoc.cpp:1325
+#: src/kdenlivedoc.cpp:823 src/kdenlivedoc.cpp:831
 #, kde-format
 msgid "Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
 msgstr "‮‫סרטון <b>%1</b><br>אינו תקף או אינו קיים, מה ברצונך לעשות?"
 
-#: src/kdenlivedoc.cpp:1314
+#: src/kdenlivedoc.cpp:820
 #, kde-format
 msgid "Clip <b>%1</b><br>is invalid, what do you want to do?"
 msgstr "‮‫סרטון <b>%1</b><br>אינו תקף, מה ברצונך לעשות?"
 
-#: src/projectlist.cpp:569
+#: src/projectlist.cpp:630
 #, kde-format
 msgid "Clip <b>%1</b><br>is invalid, will be removed from project."
 msgstr "‮‫סרטון <b>%1</b><br>אינו תקף ויוסר מהפרוייקט."
 
-#: rc.cpp:1401 rc.cpp:2616
+#: src/projectlist.cpp:632
+#, fuzzy, kde-format
+msgid "Clip <b>%1</b><br>is missing or invalid. Remove it from project?"
+msgstr "‮‫סרטון <b>%1</b><br>אינו תקף ויוסר מהפרוייקט."
+
+#: rc.cpp:1229 rc.cpp:2561
 msgid "Clip Color"
 msgstr "צבע סרטון"
 
-#: src/mainwindow.cpp:175
+#: src/mainwindow.cpp:176
 msgid "Clip Monitor"
 msgstr "צג סרטון"
 
-#: src/mainwindow.cpp:1057 rc.cpp:1410 rc.cpp:2625
+#: src/mainwindow.cpp:1102 rc.cpp:1004 rc.cpp:2336
 msgid "Clip Properties"
 msgstr "מאפייני סרטון"
 
-#: src/clipitem.cpp:789
+#: src/clipitem.cpp:881
 #, c-format, kde-format
 msgid "Clip duration: %1s"
 msgstr "‫משך סרטון: %1"
 
-#: src/customtrackview.cpp:3310
+#: src/customtrackview.cpp:3482
 msgid "Clip has no markers"
 msgstr "הסרטון אינו מכיל סמנים"
 
-#: rc.cpp:534 rc.cpp:543 rc.cpp:558 rc.cpp:1749 rc.cpp:1758 rc.cpp:1773
+#: src/documentchecker.cpp:103
+#, fuzzy
+msgid "Clips folder"
+msgstr "צבע סרטון"
+
+#: src/cliptranscode.cpp:111 rc.cpp:1421 rc.cpp:1436 rc.cpp:1457 rc.cpp:2753
+#: rc.cpp:2768 rc.cpp:2789
 msgid "Close"
 msgstr "סגור"
+
+#: rc.cpp:797 rc.cpp:2129
+#, fuzzy
+msgid "Close after transcode"
+msgstr "נגן אחרי סיום הצלימה"
 
 #: src/mainwindow.cpp:132
 msgid "Close the current tab"
 msgstr "סגור את הלשונית הנוכחית"
 
-#: rc.cpp:221
+#: rc.cpp:217
 msgid "Co-efficient"
 msgstr "גם יעיל"
 
-#: rc.cpp:645 rc.cpp:1461 rc.cpp:1464 rc.cpp:1860 rc.cpp:2676 rc.cpp:2679
+#: rc.cpp:995 rc.cpp:1055 rc.cpp:1058 rc.cpp:2327 rc.cpp:2387 rc.cpp:2390
 msgid "Color"
 msgstr "צבע"
 
-#: src/projectlist.cpp:583
+#: src/projectlist.cpp:649
 msgid "Color Clip"
 msgstr "סרטון צבע"
 
-#: rc.cpp:136
+#: rc.cpp:138
 msgid "Color Distance"
 msgstr "מרחב צבע"
 
-#: src/projectitem.cpp:176
+#: src/projectitem.cpp:201
 msgid "Color clip"
 msgstr "סרטון צבע"
 
-#: rc.cpp:1161 rc.cpp:2376
+#: rc.cpp:1250 rc.cpp:2582
 msgid "Color clips"
 msgstr "סרטוני צבע"
 
@@ -898,15 +1011,15 @@ msgstr "סרטוני צבע"
 msgid "Color key"
 msgstr "מפתח צבע"
 
-#: rc.cpp:1230 rc.cpp:1512 rc.cpp:2445 rc.cpp:2727
+#: rc.cpp:1106 rc.cpp:1709 rc.cpp:2438 rc.cpp:3041
 msgid "Comment"
 msgstr "הערה"
 
-#: src/recmonitor.cpp:78
+#: src/recmonitor.cpp:84
 msgid "Configure"
 msgstr "קבע תצורה"
 
-#: src/recmonitor.cpp:57 src/recmonitor.cpp:532
+#: src/recmonitor.cpp:63 src/recmonitor.cpp:552
 msgid "Connect"
 msgstr "חבר"
 
@@ -914,11 +1027,12 @@ msgstr "חבר"
 msgid "Copy the left channel to the right"
 msgstr "העתק את הערוץ השמאלי לימיני"
 
-#: src/main.cpp:42
-msgid "Copyright (c) 2008 Development team"
+#: src/main.cpp:41
+#, fuzzy
+msgid "Copyright (c) 2009 Development team"
 msgstr "Copyright (c) 2008 Development team"
 
-#: src/renderer.cpp:991
+#: src/renderer.cpp:1039
 msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install or your driver settings, "
@@ -927,59 +1041,68 @@ msgstr ""
 "לא ניתן ליצור את חלון התצוגה המקדימה של הוידאו.\n"
 "התקנת Kdenlive או הגדרות מנהל ההתקן אינם תקינים. אנא תקן זאת.  "
 
-#: rc.cpp:257
+#: rc.cpp:259
 msgid "Crackle"
 msgstr "פיצפוץ"
 
-#: rc.cpp:1152 rc.cpp:2367
+#: rc.cpp:1241 rc.cpp:2573
 msgid "Crash recovery (automatic backup)"
 msgstr "‫אישוש התרסקות (גיבוי אוטומטי)"
 
-#: src/dvdwizard.cpp:48
+#: src/dvdwizard.cpp:62
 msgid "Create DVD Menu"
 msgstr "צור תפריט DVD"
 
-#: src/mainwindow.cpp:1053
+#: src/mainwindow.cpp:1098
 msgid "Create Folder"
 msgstr "יצירת תיקייה"
 
-#: src/renderwidget.cpp:556
+#: rc.cpp:893 rc.cpp:2225
+#, fuzzy
+msgid "Create ISO image"
+msgstr "יוצר תמונות תפריט"
+
+#: src/renderwidget.cpp:590
 msgid "Create Render Script"
 msgstr "יצירת תסריט צלימה"
 
-#: rc.cpp:621 rc.cpp:1836
+#: rc.cpp:962 rc.cpp:2294
 msgid "Create basic menu"
 msgstr "צור תפריט בסיסי"
 
-#: src/profilesdialog.cpp:42 src/renderwidget.cpp:63
+#: rc.cpp:1427 rc.cpp:2759
+msgid "Create chapter file based on guides"
+msgstr ""
+
+#: src/profilesdialog.cpp:46 src/renderwidget.cpp:72
 msgid "Create new profile"
 msgstr "יצירת פרופיל חדש"
 
-#: src/dvdwizard.cpp:62
+#: src/dvdwizard.cpp:66
 msgid "Creating DVD Image"
 msgstr "יוצר תמונת DVD"
 
-#: rc.cpp:756 rc.cpp:1971
+#: rc.cpp:878 rc.cpp:2210
 msgid "Creating dvd structure"
 msgstr "יוצר מבנה DVD"
 
-#: rc.cpp:759 rc.cpp:1974
+#: rc.cpp:881 rc.cpp:2213
 msgid "Creating iso file"
 msgstr "יוצר קובץ iso"
 
-#: rc.cpp:750 rc.cpp:1965
+#: rc.cpp:872 rc.cpp:2204
 msgid "Creating menu background"
 msgstr "יוצר רקע תפריט"
 
-#: rc.cpp:747 rc.cpp:1962
+#: rc.cpp:869 rc.cpp:2201
 msgid "Creating menu images"
 msgstr "יוצר תמונות תפריט"
 
-#: rc.cpp:753 rc.cpp:1968
+#: rc.cpp:875 rc.cpp:2207
 msgid "Creating menu movie"
 msgstr "יוצר סרט תפריט"
 
-#: src/kthumb.cpp:477 src/kthumb.cpp:481
+#: src/kthumb.cpp:493 src/kthumb.cpp:498
 #, kde-format
 msgid "Creating thumbnail for %1"
 msgstr "יוצר צלמית עבור %1"
@@ -988,80 +1111,97 @@ msgstr "יוצר צלמית עבור %1"
 msgid "Crop"
 msgstr "חיתוך"
 
-#: src/clipitem.cpp:782
+#: src/clipitem.cpp:874
 #, c-format, kde-format
 msgid "Crop from start: %1s"
 msgstr "חתוך מההתחלה :%1s"
 
-#: rc.cpp:870 rc.cpp:2085
+#: rc.cpp:521 rc.cpp:1853
 msgid "Crop start"
 msgstr "תחילת חיתוך"
 
-#: rc.cpp:1134 rc.cpp:1482 rc.cpp:2349 rc.cpp:2697
+#: rc.cpp:1076 rc.cpp:1328 rc.cpp:2408 rc.cpp:2660
 msgid "Crossfade"
 msgstr "עמעום מעבר"
 
-#: rc.cpp:537 rc.cpp:1752
-msgid "Current jobs"
-msgstr "עבודות עדכניות"
-
-#: src/renderwidget.cpp:252 src/renderwidget.cpp:283 src/renderwidget.cpp:352
-#: src/renderwidget.cpp:388 src/renderwidget.cpp:923 src/renderwidget.cpp:958
-#: src/renderwidget.cpp:1037 rc.cpp:1593 rc.cpp:2808
+#: src/geometryval.cpp:82 src/renderwidget.cpp:280 src/renderwidget.cpp:311
+#: src/renderwidget.cpp:382 src/renderwidget.cpp:418 src/renderwidget.cpp:1015
+#: src/renderwidget.cpp:1050 src/renderwidget.cpp:1129 rc.cpp:1163 rc.cpp:2495
 msgid "Custom"
 msgstr "התאמה אישית"
 
-#: src/kdenlivesettingsdialog.cpp:95
+#: src/kdenlivesettingsdialog.cpp:103
 msgid "Cut"
 msgstr "חתוך"
 
-#: src/mainwindow.cpp:916
+#: src/mainwindow.cpp:945
 msgid "Cut Clip"
 msgstr "חתוך סרטון"
 
-#: rc.cpp:486 rc.cpp:609 rc.cpp:657 rc.cpp:708 rc.cpp:735 rc.cpp:1521
-#: rc.cpp:1701 rc.cpp:1824 rc.cpp:1872 rc.cpp:1923 rc.cpp:1950 rc.cpp:2736
+#: rc.cpp:773 rc.cpp:953 rc.cpp:968 rc.cpp:1115 rc.cpp:1196 rc.cpp:1376
+#: rc.cpp:2105 rc.cpp:2285 rc.cpp:2300 rc.cpp:2447 rc.cpp:2528 rc.cpp:2708
 msgid "D"
 msgstr "D"
 
-#: rc.cpp:1239 rc.cpp:2454
+#: rc.cpp:1688 rc.cpp:3020
 msgid "DV"
 msgstr "DV"
 
-#: rc.cpp:990 rc.cpp:2205
+#: rc.cpp:1535 rc.cpp:2867
 msgid "DV AVI type 1"
 msgstr "DV AVI type 1"
 
-#: rc.cpp:993 rc.cpp:2208
+#: rc.cpp:1538 rc.cpp:2870
 msgid "DV AVI type 2"
 msgstr "DV AVI type 2"
 
-#: rc.cpp:987 rc.cpp:2202
+#: rc.cpp:1532 rc.cpp:2864
 msgid "DV Raw"
 msgstr "DV Raw"
 
-#: src/wizard.cpp:259
+#: src/wizard.cpp:262
 msgid "DV module (libdv)"
 msgstr "מודול DV (libdv)"
 
-#: src/renderwidget.cpp:855
+#: src/renderwidget.cpp:946
 msgid "DVD"
 msgstr "DVD"
 
-#: rc.cpp:1581 rc.cpp:2796
-msgid "DVD Files"
-msgstr "קבצי DVD"
+#: src/dvdwizard.cpp:56
+msgid "DVD Chapters"
+msgstr ""
 
-#: src/dvdwizard.cpp:53
-msgid "DVD Image"
+#: rc.cpp:905 rc.cpp:2237
+#, fuzzy
+msgid "DVD ISO image"
 msgstr "תמונת DVD"
 
-#: src/dvdwizard.cpp:503
-#, kde-format
-msgid "DVD iso image %1 successfully created."
+#: src/dvdwizard.cpp:537
+#, fuzzy, kde-format
+msgid "DVD ISO image %1 successfully created."
 msgstr "קובץ DVD iso %1 נוצר בהצלחה."
 
-#: rc.cpp:235 rc.cpp:245
+#: src/dvdwizard.cpp:525
+#, fuzzy
+msgid "DVD ISO is broken"
+msgstr "‮קובץ DVD iso לא תקין"
+
+#: src/mainwindow.cpp:841
+#, fuzzy
+msgid "DVD Wizard"
+msgstr "אשף DVD"
+
+#: rc.cpp:1760 rc.cpp:3092
+#, fuzzy
+msgid "DVD format"
+msgstr "תמונת DVD"
+
+#: src/dvdwizard.cpp:466
+#, fuzzy
+msgid "DVD structure broken"
+msgstr "‮מבנה DVD אינו תקין"
+
+#: rc.cpp:237 rc.cpp:247
 msgid "Damping"
 msgstr "לחות"
 
@@ -1069,454 +1209,460 @@ msgstr "לחות"
 msgid "Debug"
 msgstr "אתר באגים"
 
-#: rc.cpp:353 rc.cpp:365 rc.cpp:385
+#: rc.cpp:355 rc.cpp:367 rc.cpp:387
 msgid "Decay"
 msgstr "דעיכה"
 
-#: rc.cpp:175
+#: rc.cpp:177
 msgid "Declipper"
 msgstr "חיבור"
 
-#: rc.cpp:1539 rc.cpp:2754
+#: rc.cpp:1133 rc.cpp:2465
 msgid "Decoding threads"
 msgstr "פתילי פענוח"
 
-#: src/kdenlivesettingsdialog.cpp:222 src/kdenlivesettingsdialog.cpp:223
+#: src/kdenlivesettingsdialog.cpp:235 src/kdenlivesettingsdialog.cpp:236
 msgid "Default"
 msgstr "ברירת מחדל"
 
-#: rc.cpp:1158 rc.cpp:2373
+#: rc.cpp:1247 rc.cpp:2579
 msgid "Default Durations"
 msgstr "משך ברירת מחדל"
 
-#: rc.cpp:1176 rc.cpp:2391
+#: rc.cpp:1265 rc.cpp:2597
 msgid "Default Profile"
 msgstr "פרופיל ברירת מחדל"
 
-#: rc.cpp:822 rc.cpp:2037
+#: rc.cpp:695 rc.cpp:2027
 msgid "Default apps"
 msgstr "יישומי ברירת מחדל"
 
-#: rc.cpp:969 rc.cpp:2184
+#: rc.cpp:1514 rc.cpp:2846
 msgid "Default capture device"
 msgstr "התקן לכידה ברירת מחדל"
 
-#: rc.cpp:1380 rc.cpp:2595
+#: rc.cpp:1166 rc.cpp:2498
 msgid "Default folder for project files"
 msgstr "תיקיית ברירת מחדל עבור קבצי הפרויקט"
 
-#: rc.cpp:810 rc.cpp:2025
+#: rc.cpp:683 rc.cpp:2015
 msgid "Default folders"
 msgstr "תיקיית ברירת מחדל"
 
-#: rc.cpp:351 rc.cpp:363 rc.cpp:383 rc.cpp:405
+#: rc.cpp:353 rc.cpp:365 rc.cpp:385 rc.cpp:407
 msgid "Delay"
 msgstr "שיהוי"
 
-#: rc.cpp:243
+#: rc.cpp:245
 msgid "Delay (s/10)"
 msgstr "‫‮‫שיהוי (s/10)"
 
-#: src/addeffectcommand.cpp:32
+#: src/addeffectcommand.cpp:39
 #, kde-format
 msgid "Delete %1"
 msgstr "מחק %1"
 
-#: src/customruler.cpp:71 src/mainwindow.cpp:981
+#: src/mainwindow.cpp:1024 src/customruler.cpp:78
 msgid "Delete All Guides"
 msgstr "מחק את כל המנחים"
 
-#: src/mainwindow.cpp:929
+#: src/mainwindow.cpp:958
 msgid "Delete All Markers"
 msgstr "מחק את כל הסמנים"
 
-#: src/projectlist.cpp:330 src/mainwindow.cpp:1069
+#: src/mainwindow.cpp:1114 src/projectlist.cpp:361
 msgid "Delete Clip"
 msgstr "מחק סרטון"
 
-#: src/projectlist.cpp:333 src/projectlist.cpp:415
+#: src/projectlist.cpp:364 src/projectlist.cpp:452
 msgid "Delete Folder"
 msgstr "מחק תיקייה"
 
-#: src/customruler.cpp:69 src/mainwindow.cpp:973
+#: src/customtrackview.cpp:177 src/mainwindow.cpp:1016 src/customruler.cpp:76
 msgid "Delete Guide"
 msgstr "מחק מנחה"
 
-#: src/mainwindow.cpp:925
+#: src/mainwindow.cpp:954
 msgid "Delete Marker"
 msgstr "מחק סמן"
 
-#: rc.cpp:555 rc.cpp:1770
+#: rc.cpp:1151 rc.cpp:2483
+#, fuzzy
+msgid "Delete Profile"
+msgstr "מחק פרופיל"
+
+#: rc.cpp:1454 rc.cpp:2786
 msgid "Delete Script"
 msgstr "מחק תסריט"
 
-#: src/mainwindow.cpp:890
+#: src/mainwindow.cpp:919
 msgid "Delete Selected Item"
 msgstr "מחק פריט נבחר"
 
-#: src/mainwindow.cpp:961 src/headertrack.cpp:69
+#: src/headertrack.cpp:72 src/mainwindow.cpp:1004
 msgid "Delete Track"
 msgstr "מחק ערוץ"
 
-#: src/addclipcommand.cpp:28
+#: src/addclipcommand.cpp:34
 msgid "Delete clip"
 msgstr "מחק סרטון"
 
-#: rc.cpp:1269 rc.cpp:2484
+#: src/dvdwizardmenu.cpp:42
+#, fuzzy
+msgid "Delete current button"
+msgstr "מחק קובץ נוכחי"
+
+#: rc.cpp:854 rc.cpp:2186
 msgid "Delete current file"
 msgstr "מחק קובץ נוכחי"
 
-#: src/effectslistview.cpp:48 src/effectstackview.cpp:51
+#: src/effectslistview.cpp:49 src/effectstackview.cpp:52
 msgid "Delete effect"
 msgstr "מחק אפקט"
 
-#: src/addfoldercommand.cpp:28
+#: src/addfoldercommand.cpp:34
 msgid "Delete folder"
 msgstr "מחק תיקייה"
 
-#: src/projectlist.cpp:333
-#, kde-format
+#: src/projectlist.cpp:364
+#, fuzzy, kde-format
 msgid ""
-"Delete folder <b>%2</b> ?<br>This will also remove the %1 clips in that "
-"folder"
+"Delete folder <b>%2</b>?<br>This will also remove the %1 clips in that folder"
 msgstr "‫מחק תיקייה <b>%2</b> ?<br> בנוסף הסרטונים %1 ימחקו מהתיקייה"
 
-#: src/editguidecommand.cpp:27
+#: src/editguidecommand.cpp:35
 msgid "Delete guide"
 msgstr "מחק מנחה"
 
-#: src/geometryval.cpp:61 src/editkeyframecommand.cpp:28
+#: src/geometryval.cpp:69 src/editkeyframecommand.cpp:37
 msgid "Delete keyframe"
 msgstr "מחק מסגרת מפתח"
 
-#: src/clipproperties.cpp:227 src/addmarkercommand.cpp:25
+#: src/addmarkercommand.cpp:32 src/clipproperties.cpp:234
 msgid "Delete marker"
 msgstr "מחק סמן"
 
-#: src/profilesdialog.cpp:38 src/renderwidget.cpp:55
+#: src/profilesdialog.cpp:42 src/renderwidget.cpp:64
 msgid "Delete profile"
 msgstr "מחק פרופיל"
 
-#: src/customtrackview.cpp:2552
+#: src/customtrackview.cpp:2702
 msgid "Delete selected items"
 msgstr "מחק פריטים נבחרים"
 
-#: src/addtimelineclipcommand.cpp:28
+#: src/addtimelineclipcommand.cpp:37
 msgid "Delete timeline clip"
 msgstr "מחק סרטון רצף זמן"
 
-#: src/customtrackview.cpp:1958
+#: src/customtrackview.cpp:2094
 msgid "Delete timeline clips"
 msgstr "מחק סרטוני רצף זמן"
 
-#: src/addtrackcommand.cpp:28
+#: src/addtrackcommand.cpp:34
 msgid "Delete track"
 msgstr "מחק רצועה"
 
-#: src/addtransitioncommand.cpp:25
+#: src/addtransitioncommand.cpp:33
 msgid "Delete transition from clip"
 msgstr "מחק מעבר מהסרטון"
 
-#: rc.cpp:205
+#: rc.cpp:207
 msgid "Depth"
 msgstr "עומק"
 
-#: src/projectlistview.cpp:44 rc.cpp:669 rc.cpp:1419 rc.cpp:1884 rc.cpp:2634
+#: src/projectlistview.cpp:46 rc.cpp:734 rc.cpp:1013 rc.cpp:2066 rc.cpp:2345
 msgid "Description"
 msgstr "תאור"
 
-#: src/mainwindow.cpp:2331
+#: src/mainwindow.cpp:2517
 msgid "Description:"
 msgstr "‫תאור:"
 
-#: rc.cpp:798 rc.cpp:2013
+#: rc.cpp:671 rc.cpp:2003
 msgid "Desktop search integration"
 msgstr "שילוב חיפוש בשולחן העבודה"
 
-#: rc.cpp:462 rc.cpp:906 rc.cpp:1677 rc.cpp:2121
+#: rc.cpp:782 rc.cpp:1352 rc.cpp:1664 rc.cpp:2114 rc.cpp:2684 rc.cpp:2996
 msgid "Destination"
 msgstr "יעד"
 
-#: rc.cpp:951 rc.cpp:2166
+#: rc.cpp:812 rc.cpp:2144
 msgid "Device"
 msgstr "התקן"
 
-#: rc.cpp:948 rc.cpp:2163
+#: rc.cpp:809 rc.cpp:2141
 msgid "Device configuration"
 msgstr "תצורת התקן"
 
-#: rc.cpp:456 rc.cpp:843 rc.cpp:1395 rc.cpp:1671 rc.cpp:2058 rc.cpp:2610
+#: rc.cpp:458 rc.cpp:776 rc.cpp:1223 rc.cpp:1346 rc.cpp:1790 rc.cpp:2108
+#: rc.cpp:2555 rc.cpp:2678
 msgid "Dialog"
 msgstr "דו-שיח"
 
-#: src/kdenlivesettingsdialog.cpp:216
+#: src/kdenlivesettingsdialog.cpp:229
 msgid "Direct FB"
 msgstr "FB ישיר"
 
-#: rc.cpp:169
+#: rc.cpp:171
 msgid "Discard color information"
 msgstr "סלק מידע על צבע"
 
-#: src/recmonitor.cpp:213
+#: src/recmonitor.cpp:227
 msgid "Disonnect"
 msgstr "נתק"
 
-#: src/kdenlivesettingsdialog.cpp:54
+#: src/kdenlivesettingsdialog.cpp:57
 msgid "Display"
 msgstr "תצוגה"
 
-#: rc.cpp:690 rc.cpp:1905
+#: rc.cpp:755 rc.cpp:2087
 msgid "Display aspect ratio"
 msgstr "‫יחס מימדי תצוגה"
 
-#: src/wizard.cpp:419 rc.cpp:1626 rc.cpp:2841
+#: src/wizard.cpp:427 rc.cpp:1490 rc.cpp:2822
 msgid "Display aspect ratio:"
 msgstr "‫יחס מימדי תצוגה:"
 
-#: rc.cpp:894 rc.cpp:2109
+#: rc.cpp:1781 rc.cpp:3113
 msgid "Display clip markers comments"
 msgstr "הצג הערות סימון בסרטון"
 
-#: rc.cpp:1200 rc.cpp:2415
+#: rc.cpp:1289 rc.cpp:2621
 msgid "Display ratio:"
 msgstr "‫יחס תצוגה:"
 
-#: rc.cpp:141
+#: rc.cpp:143
 msgid "Distort0r"
 msgstr "עוות"
 
-#: src/kdenlivesettingsdialog.cpp:93
+#: src/kdenlivesettingsdialog.cpp:101
 msgid "Do nothing"
 msgstr "עשה כלום"
 
-#: src/kdenlivedoc.cpp:83
+#: src/kdenlivedoc.cpp:112
 #, kde-format
 msgid "Document project folder is invalid, setting it to the default one: %1"
 msgstr "תיקיית מסמכי פרוייקט אינה תקפה, קובע אותה לתיקיית ברירת המחדל: %1"
 
-#: src/main.cpp:53
+#: src/main.cpp:55
 msgid "Document to open"
 msgstr "מסמך לפתוח"
 
-#: src/mainwindow.cpp:1326
+#: src/mainwindow.cpp:1384
 msgid "Don't recover"
 msgstr "אל תאושש"
 
-#: src/mainwindow.cpp:779
+#: src/mainwindow.cpp:804
 msgid "Download New Lumas..."
 msgstr "‫מוריד לומס חדשים..."
 
-#: src/mainwindow.cpp:783
+#: src/mainwindow.cpp:808
 msgid "Download New Project Profiles..."
 msgstr "הורד פרופילי פרוייקט חדשים"
 
-#: src/mainwindow.cpp:781
+#: src/mainwindow.cpp:806
 msgid "Download New Render Profiles..."
 msgstr "‫הורד פרופילי צלימה חדשים..."
 
-#: rc.cpp:939 rc.cpp:2154
+#: rc.cpp:509 rc.cpp:1841
 msgid "Drop B frames on H.264 clips"
 msgstr "הסר מסגרות B בסרטוני H.264"
 
-#: rc.cpp:78 rc.cpp:88 rc.cpp:101 rc.cpp:111 rc.cpp:861 rc.cpp:876 rc.cpp:1257
-#: rc.cpp:1404 rc.cpp:1422 rc.cpp:2076 rc.cpp:2091 rc.cpp:2472 rc.cpp:2619
-#: rc.cpp:2637
+#: rc.cpp:78 rc.cpp:91 rc.cpp:101 rc.cpp:112 rc.cpp:512 rc.cpp:527 rc.cpp:542
+#: rc.cpp:1016 rc.cpp:1232 rc.cpp:1748 rc.cpp:1844 rc.cpp:1859 rc.cpp:1874
+#: rc.cpp:2348 rc.cpp:2564 rc.cpp:3080
 msgid "Duration"
 msgstr "משך"
 
-#: src/mainwindow.cpp:816
-msgid "Dvd Wizard"
-msgstr "אשף DVD"
-
-#: rc.cpp:1569 rc.cpp:2784
-msgid "Dvd iso image"
-msgstr "קובץ DVD iso"
-
-#: src/dvdwizard.cpp:492
-msgid "Dvd iso is broken"
-msgstr "‮קובץ DVD iso לא תקין"
-
-#: src/dvdwizard.cpp:441
-msgid "Dvd structure broken"
-msgstr "‮מבנה DVD אינו תקין"
-
-#: src/wizard.cpp:313
+#: src/wizard.cpp:317
 msgid "Dvdauthor"
 msgstr "Dvdauthor"
 
-#: src/wizard.cpp:307
+#: src/wizard.cpp:311
 msgid "Dvgrab"
 msgstr "Dvgrab"
 
-#: rc.cpp:726 rc.cpp:1941
+#: rc.cpp:1187 rc.cpp:2519
 msgid "Dw"
 msgstr "Dw"
 
-#: rc.cpp:480 rc.cpp:732 rc.cpp:1518 rc.cpp:1695 rc.cpp:1947 rc.cpp:2733
+#: rc.cpp:1112 rc.cpp:1193 rc.cpp:1370 rc.cpp:2444 rc.cpp:2525 rc.cpp:2702
 msgid "E"
 msgstr "E"
 
-#: src/main.cpp:47
+#: src/main.cpp:49
 msgid "EMAIL OF TRANSLATORS"
 msgstr "amir_in@netvision.net.il"
 
-#: src/mainwindow.cpp:1063
+#: src/mainwindow.cpp:1108
 msgid "Edit Clip"
 msgstr "ערוך סרטון"
 
-#: src/customtrackview.cpp:2612
+#: src/customtrackview.cpp:2766
 msgid "Edit Clip Speed"
 msgstr "ערוך מהירות סרטון"
 
-#: src/customruler.cpp:67 src/mainwindow.cpp:977 src/customtrackview.cpp:3401
+#: src/customtrackview.cpp:181 src/customtrackview.cpp:3591
+#: src/customtrackview.cpp:3603 src/mainwindow.cpp:1020 src/customruler.cpp:74
 msgid "Edit Guide"
 msgstr "ערוך מנחה"
 
-#: rc.cpp:1551 rc.cpp:2766
+#: rc.cpp:1199 rc.cpp:2531
 msgid "Edit Keyframe"
 msgstr "ערוך מסגרת מפתח"
 
-#: src/clipproperties.cpp:282 src/mainwindow.cpp:933 src/mainwindow.cpp:1971
+#: src/clipproperties.cpp:294 src/mainwindow.cpp:962 src/mainwindow.cpp:2115
 msgid "Edit Marker"
 msgstr "ערוך סמן"
 
-#: src/renderwidget.cpp:359
+#: src/renderwidget.cpp:389
 msgid "Edit Profile"
 msgstr "ערוך פרופיל"
 
-#: src/editclipcommand.cpp:26 src/customtrackview.cpp:969
+#: src/customtrackview.cpp:1040 src/editclipcommand.cpp:33
 msgid "Edit clip"
 msgstr "ערוך סרטון"
 
-#: src/editeffectcommand.cpp:33
+#: src/editeffectcommand.cpp:40
 #, kde-format
 msgid "Edit effect %1"
 msgstr "ערוך אפקט %1"
 
-#: src/editguidecommand.cpp:26
+#: src/editguidecommand.cpp:34
 msgid "Edit guide"
 msgstr "ערוך מוביל"
 
-#: src/editkeyframecommand.cpp:27
+#: src/editkeyframecommand.cpp:36
 msgid "Edit keyframe"
 msgstr "ערוך מסגרת מפתח"
 
-#: src/clipproperties.cpp:225 src/addmarkercommand.cpp:27
+#: src/addmarkercommand.cpp:34 src/clipproperties.cpp:232
 msgid "Edit marker"
 msgstr "ערוך סמן"
 
-#: src/renderwidget.cpp:59
+#: src/renderwidget.cpp:68
 msgid "Edit profile"
 msgstr "ערוך פרופיל"
 
-#: src/edittransitioncommand.cpp:30
+#: src/edittransitioncommand.cpp:36
 #, kde-format
 msgid "Edit transition %1"
 msgstr "ערוך מעבר %1"
 
-#: src/trackview.cpp:469
+#: src/trackview.cpp:537
 #, kde-format
 msgid "Effect %1:%2 not found in MLT, it was removed from this project\n"
 msgstr "‫‫אפקט %1:%2 לא נמצא ב-MLT, האפקט הוסר מהפרוייקט הנוכחי\n"
 
-#: src/mainwindow.cpp:150
+#: src/mainwindow.cpp:151
 msgid "Effect List"
 msgstr "רשימת אפקטים"
 
-#: src/mainwindow.cpp:158
+#: src/mainwindow.cpp:159
 msgid "Effect Stack"
 msgstr "מחסנית אפקטים"
 
-#: src/customtrackview.cpp:1168 src/customtrackview.cpp:1210
+#: src/customtrackview.cpp:1252 src/customtrackview.cpp:1295
 msgid "Effect already present in clip"
 msgstr "האפקט כבר מופיע בסרטון"
 
-#: rc.cpp:942 rc.cpp:2157
+#: rc.cpp:803 rc.cpp:2135
 msgid "Enable Jog Shuttle device"
 msgstr "אפשר התקן גלגלת עריכה"
 
-#: src/recmonitor.cpp:394
+#: src/recmonitor.cpp:413
 msgid "Encoding captured video..."
 msgstr "‫מקודד וידאו נלכד..."
 
-#: rc.cpp:1026 rc.cpp:2241
+#: rc.cpp:1571 rc.cpp:2903
 msgid "Encoding params"
 msgstr "ערכי קידוד"
 
-#: src/renderwidget.cpp:216 rc.cpp:82 rc.cpp:94 rc.cpp:1665 rc.cpp:2880
+#: src/renderwidget.cpp:241 rc.cpp:84 rc.cpp:118 rc.cpp:1718 rc.cpp:3050
 msgid "End"
 msgstr "סיום"
 
-#: rc.cpp:105 rc.cpp:116
+#: rc.cpp:95 rc.cpp:106
 msgid "End Gain"
 msgstr "שבח סופי"
 
-#: rc.cpp:1332 rc.cpp:2547
+#: rc.cpp:614 rc.cpp:1946
 msgid "EndViewport"
 msgstr "אשנב סופי"
 
-#: src/kdenlivesettingsdialog.cpp:67
+#: src/documentchecker.cpp:161
+msgid "Enter new location for file"
+msgstr ""
+
+#: src/kdenlivesettingsdialog.cpp:70
 msgid "Environment"
 msgstr "סביבה"
 
-#: rc.cpp:179
+#: rc.cpp:181
 msgid "Equalizer"
 msgstr "אקולייזר"
 
-#: rc.cpp:546 rc.cpp:762 rc.cpp:1761 rc.cpp:1977
+#: rc.cpp:1439 rc.cpp:2771
 msgid "Error Log"
 msgstr "יומן שגיאות"
 
-#: src/customtrackview.cpp:1359 src/customtrackview.cpp:2236
-#: src/customtrackview.cpp:2521
+#: src/customtrackview.cpp:1461 src/customtrackview.cpp:2383
+#: src/customtrackview.cpp:2669
 #, kde-format
 msgid "Error removing clip at %1 on track %2"
 msgstr "שגיאה בהסרת הסרטון בנקודה: %1 ברצועה %2"
 
-#: src/wizard.cpp:136
-msgid "Error starting MLT's command line player (inigo)"
+#: src/wizard.cpp:139
+#, fuzzy
+msgid "Error starting MLT's command line player (melt)"
 msgstr "שגיאה בפתיחת נגן שורת פקודה של MLT (inigo)"
 
-#: src/wizard.cpp:475
-msgid "Error starting MLT's command line player (inigo)."
+#: src/wizard.cpp:486
+#, fuzzy
+msgid "Error starting MLT's command line player (melt)."
 msgstr "שגיאה בפתיחת נגן שורת פקודה של inigo."
 
-#: src/customtrackview.cpp:1382 src/customtrackview.cpp:2333
-#: src/customtrackview.cpp:2395 src/customtrackview.cpp:3084
-#: src/customtrackview.cpp:3092
+#: src/customtrackview.cpp:1484 src/customtrackview.cpp:2480
+#: src/customtrackview.cpp:2542 src/customtrackview.cpp:3246
+#: src/customtrackview.cpp:3254
 msgid "Error when resizing clip"
 msgstr "שגיאה בזמן שינוי גודל סרטון"
 
-#: src/kdenlivesettingsdialog.cpp:198
+#: src/kdenlivesettingsdialog.cpp:211
 msgid "Esound daemon"
 msgstr "Esound daemon"
 
-#: src/renderwidget.cpp:1095
+#: src/renderwidget.cpp:1197
 #, kde-format
 msgid "Estimated time %1"
 msgstr "זמן משוער %1"
 
-#: rc.cpp:501 rc.cpp:1716
+#: rc.cpp:1391 rc.cpp:2723
 msgid "Export audio"
 msgstr "יצוא שמע"
 
-#: rc.cpp:915 rc.cpp:2130
+#: rc.cpp:1673 rc.cpp:3005
 msgid "Extension"
 msgstr "הרחבה"
 
-#: rc.cpp:2886
+#: rc.cpp:3122
 msgid "Extra Toolbar"
 msgstr "סרגל כלים נוסף"
 
-#: src/monitor.cpp:158
+#: src/monitor.cpp:172
 msgid "Extract frame"
 msgstr "שלוף מסגרת"
 
-#: src/wizard.cpp:293
+#: src/wizard.cpp:297
 msgid "FFmpeg & ffplay"
 msgstr "FFmpeg & ffplay"
 
-#: rc.cpp:411
+#: rc.cpp:785 rc.cpp:1145 rc.cpp:2117 rc.cpp:2477
+#, fuzzy
+msgid "FFmpeg parameters"
+msgstr "ערכים"
+
+#: rc.cpp:413
 msgid "Factor"
 msgstr "גורם"
 
@@ -1524,19 +1670,19 @@ msgstr "גורם"
 msgid "Fade from Black"
 msgstr "עמעום וידאו משחור"
 
-#: rc.cpp:96
+#: rc.cpp:86
 msgid "Fade in"
 msgstr "עמעום כניסה"
 
-#: rc.cpp:98 rc.cpp:109
+#: rc.cpp:88 rc.cpp:99
 msgid "Fade in audio track"
 msgstr "עמעום כניסת רצועת שמע"
 
-#: rc.cpp:107
+#: rc.cpp:97
 msgid "Fade out"
 msgstr "עמעום יציאה"
 
-#: rc.cpp:84
+#: rc.cpp:108
 msgid "Fade to Black"
 msgstr "עמעום לשחור"
 
@@ -1544,40 +1690,41 @@ msgstr "עמעום לשחור"
 msgid "Fade video from black"
 msgstr "עמעום וידאו משחור"
 
-#: rc.cpp:86
+#: rc.cpp:110
 msgid "Fade video to black"
 msgstr "עמעום וידאו לשחור"
 
-#: src/wizard.cpp:483
+#: src/wizard.cpp:494
 msgid "Fatal Error"
 msgstr "שגיאה מכרעת"
 
-#: rc.cpp:207
+#: rc.cpp:209
 msgid "Feedback"
 msgstr "משוב"
 
-#: src/renderwidget.cpp:139
+#: src/renderwidget.cpp:153 rc.cpp:1745 rc.cpp:3077
 msgid "File"
 msgstr "קובץ"
 
-#: src/kdenlivedoc.cpp:181 src/kdenlivedoc.cpp:190
-#, kde-format
-msgid "File %1 is not a Kdenlive project file."
-msgstr "‫קובץ %1 אינו קובץ פרוייקט של Kdenlive."
-
-#: src/mainwindow.cpp:1325
-msgid "File Recovery"
-msgstr "שחזור קובץ"
-
-#: src/monitor.cpp:395 src/mainwindow.cpp:1266
+#: src/cliptranscode.cpp:87
+#, fuzzy, kde-format
 msgid ""
-"File already exists.\n"
-"Do you want to overwrite it ?"
+"File %1 already exists.\n"
+"Do you want to overwrite it?"
 msgstr ""
 "הקובץ קיים.\n"
 "‫האם ברצונך לדרוס אותו?"
 
-#: src/effectstackview.cpp:90
+#: src/kdenlivedoc.cpp:211 src/kdenlivedoc.cpp:219
+#, kde-format
+msgid "File %1 is not a Kdenlive project file."
+msgstr "‫קובץ %1 אינו קובץ פרוייקט של Kdenlive."
+
+#: src/mainwindow.cpp:1383
+msgid "File Recovery"
+msgstr "שחזור קובץ"
+
+#: src/mainwindow.cpp:1320 src/effectstackview.cpp:94 src/monitor.cpp:427
 msgid ""
 "File already exists.\n"
 "Do you want to overwrite it?"
@@ -1585,47 +1732,47 @@ msgstr ""
 "הקובץ קיים.\n"
 "‫האם ברצונך לדרוס אותו?"
 
-#: rc.cpp:1263 rc.cpp:2478
+#: rc.cpp:848 rc.cpp:2180
 msgid "File name"
 msgstr "שם קובץ"
 
-#: src/kdenlivedoc.cpp:1314 src/kdenlivedoc.cpp:1317 src/kdenlivedoc.cpp:1325
+#: src/kdenlivedoc.cpp:820 src/kdenlivedoc.cpp:823 src/kdenlivedoc.cpp:831
 msgid "File not found"
 msgstr "קובץ לא נמצא"
 
-#: src/renderwidget.cpp:854
+#: src/renderwidget.cpp:945
 msgid "File rendering"
 msgstr "צלימת קובץ"
 
-#: rc.cpp:1431 rc.cpp:2646
+#: rc.cpp:1025 rc.cpp:2357
 msgid "File size"
 msgstr "גודל קובץ"
 
-#: src/projectlistview.cpp:44
+#: src/projectlistview.cpp:46
 msgid "Filename"
 msgstr "שם קובץ"
 
-#: rc.cpp:1278 rc.cpp:2493
+#: rc.cpp:548 rc.cpp:1880
 msgid "Fill color"
 msgstr "צבע מילוי"
 
-#: src/mainwindow.cpp:764
+#: src/mainwindow.cpp:789
 msgid "Find"
 msgstr "חפש"
 
-#: src/mainwindow.cpp:769
+#: src/mainwindow.cpp:794
 msgid "Find Next"
 msgstr "חפש הבא"
 
-#: src/mainwindow.cpp:2255
+#: src/mainwindow.cpp:2437
 msgid "Find stopped"
 msgstr "חיפוש הופסק"
 
-#: rc.cpp:588 rc.cpp:972 rc.cpp:981 rc.cpp:1803 rc.cpp:2187 rc.cpp:2196
+#: rc.cpp:482 rc.cpp:1517 rc.cpp:1526 rc.cpp:1814 rc.cpp:2849 rc.cpp:2858
 msgid "Firewire"
 msgstr "Firewire"
 
-#: src/renderer.cpp:1211
+#: src/renderer.cpp:1280
 msgid ""
 "Firewire is not enabled on your system.\n"
 " Please install Libiec61883 and recompile Kdenlive"
@@ -1633,183 +1780,179 @@ msgstr ""
 "‫התקן ה-Firewire אינו מאופשר במערכת.\n"
 "‫אנא התקן את libiec61883 וקמפל מחדש את Kdenlive"
 
-#: src/mainwindow.cpp:662
+#: src/mainwindow.cpp:687
 msgid "Fit zoom to project"
 msgstr "התאם זום לפרוייקט"
 
-#: rc.cpp:263
+#: rc.cpp:265
 msgid "Flip your image in any direction"
 msgstr "הפוך תמונה בכל תמונה"
 
-#: src/projectlist.cpp:373 src/projectlist.cpp:436 src/projectitem.cpp:42
-#: rc.cpp:1119 rc.cpp:2334
+#: src/projectitem.cpp:47 src/projectlist.cpp:408 src/projectlist.cpp:474
+#: rc.cpp:1313 rc.cpp:2645
 msgid "Folder"
 msgstr "תיקיה"
 
-#: src/dvdwizard.cpp:97, kde-format
-msgid "Folder %1 already exists. Overwrite ?"
+#: src/dvdwizard.cpp:581
+#, fuzzy, kde-format
+msgid "Folder %1 already exists. Overwrite?"
 msgstr "‫‫‏תיקייה %1 קיימת. ‫האם ברצונך לדרוס אותה?"
 
-#: rc.cpp:1095 rc.cpp:2310
+#: rc.cpp:1640 rc.cpp:2972
 msgid "Follow mouse"
 msgstr "עקוב אחר העכבר"
 
-#: rc.cpp:633 rc.cpp:1848
+#: rc.cpp:980 rc.cpp:2312
 msgid "Font"
 msgstr "גופן"
 
-#: rc.cpp:498 rc.cpp:1713
+#: rc.cpp:1388 rc.cpp:2720
 msgid "Force Interlaced"
 msgstr "כפה סריקה שלובה"
 
-#: rc.cpp:495 rc.cpp:1710
+#: rc.cpp:1385 rc.cpp:2717
 msgid "Force Progressive"
 msgstr "כפה פרוגרסיבי"
 
-#: rc.cpp:1536 rc.cpp:2751
+#: rc.cpp:1130 rc.cpp:2462
 msgid "Force pixel aspect ratio"
 msgstr "כפה יחס מימדים עבור הפיקסלים"
 
-#: rc.cpp:618 rc.cpp:744 rc.cpp:1563 rc.cpp:1575 rc.cpp:1833 rc.cpp:1959
-#: rc.cpp:2778 rc.cpp:2790
-msgid "Form"
-msgstr "טופס"
-
-#: rc.cpp:471 rc.cpp:1008 rc.cpp:1017 rc.cpp:1686 rc.cpp:2223 rc.cpp:2232
+#: rc.cpp:1361 rc.cpp:1553 rc.cpp:1562 rc.cpp:2693 rc.cpp:2885 rc.cpp:2894
 msgid "Format"
 msgstr "תסדיר"
 
-#: rc.cpp:576 rc.cpp:1791
+#: rc.cpp:668 rc.cpp:2000
 msgid "Formats"
 msgstr "תסדירים"
 
-#: src/monitor.cpp:78 src/mainwindow.cpp:850 src/recmonitor.cpp:69
+#: src/mainwindow.cpp:879 src/recmonitor.cpp:75 src/monitor.cpp:88
 msgid "Forward"
 msgstr "קדימה"
 
-#: src/mainwindow.cpp:875
+#: src/mainwindow.cpp:904
 msgid "Forward 1 Frame"
 msgstr "קדם מסגרת 1"
 
-#: src/mainwindow.cpp:880
+#: src/mainwindow.cpp:909
 msgid "Forward 1 Second"
 msgstr "קדם שניה אחת"
 
-#: src/monitor.cpp:77
+#: src/monitor.cpp:87
 msgid "Forward 1 frame"
 msgstr "קדם מסגרת 1"
 
-#: src/mainwindow.cpp:2234 src/mainwindow.cpp:2244
-#, kde-format
-msgid "Found : %1"
+#: src/mainwindow.cpp:2414 src/mainwindow.cpp:2425
+#, fuzzy, kde-format
+msgid "Found: %1"
 msgstr "נמצא: %1"
 
-#: rc.cpp:1122 rc.cpp:2337
+#: rc.cpp:1316 rc.cpp:2648
 msgid "Frame Duration"
 msgstr "משך מסגרת"
 
-#: rc.cpp:1473 rc.cpp:2688
+#: rc.cpp:1067 rc.cpp:2399
 msgid "Frame duration"
 msgstr "משך מסגרת"
 
-#: rc.cpp:678 rc.cpp:1044 rc.cpp:1107 rc.cpp:1443 rc.cpp:1893 rc.cpp:2259
-#: rc.cpp:2322 rc.cpp:2658
+#: rc.cpp:743 rc.cpp:1037 rc.cpp:1589 rc.cpp:1652 rc.cpp:2075 rc.cpp:2369
+#: rc.cpp:2921 rc.cpp:2984
 msgid "Frame rate"
 msgstr "קצב מסגרות"
 
-#: src/wizard.cpp:419 rc.cpp:1188 rc.cpp:1614 rc.cpp:2403 rc.cpp:2829
+#: src/wizard.cpp:427 rc.cpp:1277 rc.cpp:1478 rc.cpp:2609 rc.cpp:2810
 msgid "Frame rate:"
 msgstr "‫קצב מסגרות:"
 
-#: rc.cpp:1440 rc.cpp:2655
+#: rc.cpp:1034 rc.cpp:2366
 msgid "Frame size"
 msgstr "גודל מסגרת"
 
-#: src/wizard.cpp:419
+#: src/wizard.cpp:427
 msgid "Frame size:"
 msgstr "גודל מסגרת:"
 
-#: src/kdenlivesettingsdialog.cpp:215
+#: src/kdenlivesettingsdialog.cpp:228
 msgid "Framebuffer console"
 msgstr "קונסולת חוצץ מסגרות"
 
-#: src/mainwindow.cpp:604
+#: src/mainwindow.cpp:629
 msgid "Frames"
 msgstr "מסגרות"
 
-#: rc.cpp:118
+#: rc.cpp:120
 msgid "Freeze"
 msgstr "הקפא"
 
-#: rc.cpp:126
+#: rc.cpp:128
 msgid "Freeze After"
 msgstr "הקפא לאחר"
 
-#: rc.cpp:124
+#: rc.cpp:126
 msgid "Freeze Before"
 msgstr "הקפא לפני"
 
-#: rc.cpp:122
+#: rc.cpp:124
 msgid "Freeze at"
 msgstr "‫הקפא ב-"
 
-#: rc.cpp:120
+#: rc.cpp:122
 msgid "Freeze video on a chosen frame"
 msgstr "הקפא וידאו במסגרת נבחרת"
 
-#: rc.cpp:147 rc.cpp:341 rc.cpp:1458 rc.cpp:2673
+#: rc.cpp:149 rc.cpp:343 rc.cpp:1052 rc.cpp:2384
 msgid "Frequency"
 msgstr "תדר"
 
-#: rc.cpp:528 rc.cpp:1743
+#: rc.cpp:1415 rc.cpp:2747
 msgid "From"
 msgstr "‮מ-"
 
-#: rc.cpp:519 rc.cpp:1734
+#: rc.cpp:1406 rc.cpp:2738
 msgid "Full project"
 msgstr "פרוייקט שלם"
 
-#: rc.cpp:1089 rc.cpp:2304
+#: rc.cpp:1634 rc.cpp:2966
 msgid "Full screen capture"
 msgstr "לכידת מסך מלא"
 
-#: rc.cpp:1110 rc.cpp:2325
+#: rc.cpp:1655 rc.cpp:2987
 msgid "Full shots"
 msgstr "צילומים מלאים"
 
-#: rc.cpp:155 rc.cpp:273 rc.cpp:279 rc.cpp:339 rc.cpp:373 rc.cpp:443
+#: rc.cpp:157 rc.cpp:275 rc.cpp:281 rc.cpp:341 rc.cpp:375 rc.cpp:445
 msgid "Gain"
 msgstr "שבח"
 
-#: rc.cpp:347 rc.cpp:359 rc.cpp:379
+#: rc.cpp:349 rc.cpp:361 rc.cpp:381
 msgid "Gain In"
 msgstr "שבח כניסה"
 
-#: rc.cpp:349 rc.cpp:361 rc.cpp:381
+#: rc.cpp:351 rc.cpp:363 rc.cpp:383
 msgid "Gain Out"
 msgstr "שבח יציאה"
 
-#: rc.cpp:159
+#: rc.cpp:161
 msgid "Gain as Percentage"
 msgstr "שבח כאחוזים"
 
-#: rc.cpp:401
+#: rc.cpp:403
 msgid "Gain out"
 msgstr "שבח יציאה"
 
-#: rc.cpp:161 rc.cpp:165
+#: rc.cpp:163 rc.cpp:167
 msgid "Gamma"
 msgstr "גמא"
 
-#: src/kdenlivesettingsdialog.cpp:218
+#: src/kdenlivesettingsdialog.cpp:231
 msgid "General graphics interface"
 msgstr "ממשק גרפי כללי"
 
-#: src/renderwidget.cpp:78
+#: src/renderwidget.cpp:88
 msgid "Generate Script"
 msgstr "חולל תסריט"
 
-#: rc.cpp:2892
+#: rc.cpp:3131
 msgid "Generators"
 msgstr "מחוללים"
 
@@ -1817,95 +1960,95 @@ msgstr "מחוללים"
 msgid "Geometry"
 msgstr "גאומטריה"
 
-#: rc.cpp:2928
+#: rc.cpp:3167
 msgid "Go To"
 msgstr "עבור אל"
 
-#: src/mainwindow.cpp:860
+#: src/mainwindow.cpp:889
 msgid "Go to Clip End"
 msgstr "עבור אל סיום סרטון"
 
-#: src/mainwindow.cpp:855
+#: src/mainwindow.cpp:884
 msgid "Go to Clip Start"
 msgstr "עבור אל תחילת סרטון"
 
-#: src/mainwindow.cpp:885
+#: src/mainwindow.cpp:914
 msgid "Go to Next Snap Point"
 msgstr "עבור אל נקודת הצמדה הבאה"
 
-#: src/mainwindow.cpp:845
+#: src/mainwindow.cpp:874
 msgid "Go to Previous Snap Point"
 msgstr "עבור אל נקודת הצמדה הקודמת"
 
-#: src/mainwindow.cpp:870
+#: src/mainwindow.cpp:899
 msgid "Go to Project End"
 msgstr "עבור אל סיום הפרוייקט"
 
-#: src/mainwindow.cpp:865
+#: src/mainwindow.cpp:894
 msgid "Go to Project Start"
 msgstr "עבור אל תחילת הפרוייקט"
 
-#: src/geometryval.cpp:55
+#: src/geometryval.cpp:63
 msgid "Go to next keyframe"
 msgstr "עבור אל תמונת מסגרת הבאה"
 
-#: src/geometryval.cpp:57
+#: src/geometryval.cpp:65
 msgid "Go to previous keyframe"
 msgstr "עבור אל תמונת מסגרת קודמת"
 
-#: rc.cpp:789 rc.cpp:2004
+#: rc.cpp:932 rc.cpp:2264
 msgid "GraphView"
 msgstr "מבט גרפי"
 
-#: rc.cpp:134
+#: rc.cpp:136
 msgid "Green Tint"
 msgstr "עמעום ירוק"
 
-#: rc.cpp:167
+#: rc.cpp:169
 msgid "Greyscale"
 msgstr "גווני אפור"
 
-#: rc.cpp:909 rc.cpp:2124
+#: rc.cpp:1667 rc.cpp:2999
 msgid "Group"
 msgstr "קבוצה"
 
-#: src/mainwindow.cpp:907
+#: src/mainwindow.cpp:936
 msgid "Group Clips"
 msgstr "קבץ סרטונים"
 
-#: src/groupclipscommand.cpp:27
+#: src/groupclipscommand.cpp:33
 msgid "Group clips"
 msgstr "קבץ סרטונים"
 
-#: rc.cpp:1572 rc.cpp:2787
+#: rc.cpp:830 rc.cpp:2162
 msgid "GroupBox"
 msgstr "תיבה קבוצתית"
 
-#: src/customtrackview.cpp:3378
+#: src/customtrackview.cpp:3564
 msgid "Guide"
 msgstr "מנחה"
 
-#: rc.cpp:525 rc.cpp:1740
+#: rc.cpp:1412 rc.cpp:2744
 msgid "Guide zone"
 msgstr "אזור מונחה"
 
-#: rc.cpp:2910
+#: rc.cpp:3149
 msgid "Guides"
 msgstr "מנחים"
 
-#: rc.cpp:1365 rc.cpp:2580
+#: rc.cpp:647 rc.cpp:1979
 msgid "H"
 msgstr "H"
 
-#: rc.cpp:996 rc.cpp:1242 rc.cpp:2211 rc.cpp:2457
+#: rc.cpp:1541 rc.cpp:1691 rc.cpp:2873 rc.cpp:3023
 msgid "HDV"
 msgstr "HDV"
 
-#: rc.cpp:187
+#: rc.cpp:189
 msgid "Hi gain"
 msgstr "שבח גבוה"
 
-#: rc.cpp:283
+#: rc.cpp:285
 msgid "Hide a region of the clip"
 msgstr "הסתר אזור בסרטון"
 
@@ -1913,19 +2056,19 @@ msgstr "הסתר אזור בסרטון"
 msgid "Hide a selected zone and follow its movements"
 msgstr "הסתר אזור נבחר ועקוב אחר תנועתו"
 
-#: rc.cpp:1098 rc.cpp:2313
+#: rc.cpp:1643 rc.cpp:2975
 msgid "Hide frame"
 msgstr "הסתר מסגרת"
 
-#: src/headertrack.cpp:39
+#: src/headertrack.cpp:42
 msgid "Hide track"
 msgstr "הסתר רצועה"
 
-#: src/geometryval.cpp:79
+#: src/geometryval.cpp:88
 msgid "Hor. Center"
 msgstr "מרכז אופקי"
 
-#: rc.cpp:451
+#: rc.cpp:453
 msgid "Horizontal factor"
 msgstr "גורם אופקי"
 
@@ -1937,88 +2080,85 @@ msgstr "מכפיל אופקי"
 msgid "Horizontal scatter"
 msgstr "פיזור אופקי"
 
-#: rc.cpp:468 rc.cpp:1683
+#: rc.cpp:1358 rc.cpp:2690
 msgid "I"
 msgstr "I"
 
-#: rc.cpp:648 rc.cpp:1497 rc.cpp:1863 rc.cpp:2712
+#: rc.cpp:998 rc.cpp:1091 rc.cpp:2330 rc.cpp:2423
 msgid "Image"
 msgstr "תמונה"
 
-#: rc.cpp:1128 rc.cpp:2343
+#: rc.cpp:1322 rc.cpp:2654
 msgid "Image Type"
 msgstr "סוג תמונה"
 
-#: src/projectitem.cpp:179
+#: src/documentchecker.cpp:77 src/projectitem.cpp:204
 msgid "Image clip"
 msgstr "סרטון תמונה"
 
-#: rc.cpp:1170 rc.cpp:2385
+#: rc.cpp:1259 rc.cpp:2591
 msgid "Image clips"
 msgstr "סרטוני תמונה"
 
-#: rc.cpp:825 rc.cpp:2040
+#: rc.cpp:698 rc.cpp:2030
 msgid "Image editing"
 msgstr "עריכת תמונה"
 
-#: src/dvdwizard.cpp:99
-#, kde-format
-msgid "Image file %1 already exists. Overwrite ?"
+#: src/dvdwizard.cpp:583
+#, fuzzy, kde-format
+msgid "Image file %1 already exists. Overwrite?"
 msgstr "קובץ תמונה %1 קיים. ‫האם ברצונך לדרוס אותו?"
 
-#: rc.cpp:1221 rc.cpp:1413 rc.cpp:2436 rc.cpp:2628
+#: rc.cpp:1007 rc.cpp:1700 rc.cpp:2339 rc.cpp:3032
 msgid "Image preview"
 msgstr "תצוגה מקדימה"
 
-#: rc.cpp:1038 rc.cpp:1500 rc.cpp:2253 rc.cpp:2715
+#: rc.cpp:1094 rc.cpp:1583 rc.cpp:2426 rc.cpp:2915
 msgid "Image size"
 msgstr "גודל תמונה"
 
-#: rc.cpp:1470 rc.cpp:2685
+#: rc.cpp:1064 rc.cpp:2396
 msgid "Image type"
 msgstr "סוג תמונה"
 
-#: src/monitor.cpp:426
+#: rc.cpp:80
+#, fuzzy
+msgid "In"
+msgstr "I"
+
+#: src/monitor.cpp:469
 msgid "In Point"
 msgstr "נקודת כניסה"
 
-#: src/wizard.cpp:126
-msgid "Inigo"
-msgstr "Inigo"
-
-#: rc.cpp:807 rc.cpp:2022
-msgid "Inigo path"
-msgstr "‮‫נתיב Inigo"
-
-#: src/recmonitor.cpp:366 src/recmonitor.cpp:486
+#: src/recmonitor.cpp:384 src/recmonitor.cpp:505
 msgid "Initialising..."
 msgstr "‫מאתחל..."
 
-#: rc.cpp:193
+#: rc.cpp:195
 msgid "Input gain (dB)"
 msgstr "‫שבח כניסה (dB)"
 
-#: src/mainwindow.cpp:949
+#: src/mainwindow.cpp:992
 msgid "Insert Space"
 msgstr "הכנס רווח"
 
-#: src/mainwindow.cpp:957 src/customtrackview.cpp:3878 src/headertrack.cpp:65
+#: src/customtrackview.cpp:4112 src/headertrack.cpp:68 src/mainwindow.cpp:1000
 msgid "Insert Track"
 msgstr "הכנס ערוץ"
 
-#: src/insertspacecommand.cpp:28
+#: src/insertspacecommand.cpp:35
 msgid "Insert space"
 msgstr "הכנס רווח"
 
-#: rc.cpp:846 rc.cpp:2061
+#: rc.cpp:461 rc.cpp:1793
 msgid "Insert track"
 msgstr "הוסף רצועה"
 
-#: rc.cpp:1392 rc.cpp:2607
+#: rc.cpp:1178 rc.cpp:2510
 msgid "Install extra video mimetypes"
 msgstr "התקן תמיכה בתקני וידאו נוספים"
 
-#: rc.cpp:561 rc.cpp:1776
+#: rc.cpp:653 rc.cpp:1985
 msgid "Installed modules"
 msgstr "מודולים מותקנים"
 
@@ -2026,189 +2166,217 @@ msgstr "מודולים מותקנים"
 msgid "Intensity"
 msgstr "עוצמה"
 
-#: src/kdenlivesettingsdialog.cpp:431 src/projectsettings.cpp:72 rc.cpp:1206
-#: rc.cpp:1632 rc.cpp:2421 rc.cpp:2847
+#: src/projectsettings.cpp:75 src/kdenlivesettingsdialog.cpp:464 rc.cpp:1295
+#: rc.cpp:1496 rc.cpp:2627 rc.cpp:2828
 msgid "Interlaced"
 msgstr "סריקה שלובה"
 
-#: rc.cpp:1578 rc.cpp:2793
+#: rc.cpp:1742 rc.cpp:3074
 msgid "Intro movie"
 msgstr "סרט מבוא"
 
-#: src/customtrackview.cpp:3757 src/customtrackview.cpp:3762
-#: src/customtrackview.cpp:3781 src/customtrackview.cpp:3786
+#: src/customtrackview.cpp:3987 src/customtrackview.cpp:3992
+#: src/customtrackview.cpp:4012 src/customtrackview.cpp:4017
 msgid "Invalid action"
 msgstr "פעולה לא תקפה"
 
-#: src/customtrackview.cpp:2641
+#: src/customtrackview.cpp:2796 src/projectlist.cpp:632
 msgid "Invalid clip"
 msgstr "סרטון לא תקין"
 
-#: src/trackview.cpp:154
+#: src/trackview.cpp:182
 #, kde-format
 msgid "Invalid clip producer %1\n"
 msgstr "מפיק סרטון תקול %1\n"
 
-#: src/trackview.cpp:403
+#: src/trackview.cpp:440
 #, kde-format
 msgid "Invalid clip removed from track %1 at %2\n"
 msgstr "סרטון לא תקף הוסר מרצועה %1 ב-%2\n"
 
-#: src/customtrackview.cpp:1481 src/customtrackview.cpp:3664
+#: src/customtrackview.cpp:1586 src/customtrackview.cpp:3889
 msgid "Invalid transition"
 msgstr "פעולה לא תקפה"
 
-#: rc.cpp:44 rc.cpp:171 rc.cpp:267
+#: rc.cpp:44 rc.cpp:173 rc.cpp:269
 msgid "Invert"
 msgstr "הפוך"
 
-#: rc.cpp:173
+#: rc.cpp:175
 msgid "Invert colors"
 msgstr "הפוך צבעים"
 
-#: rc.cpp:1080 rc.cpp:2295
+#: rc.cpp:1625 rc.cpp:2957
 msgid "Jack"
 msgstr "Jack"
 
-#: src/main.cpp:43
+#: src/main.cpp:46
+msgid "Jason Wood"
+msgstr ""
+
+#: src/main.cpp:42
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: rc.cpp:945 rc.cpp:2160
+#: src/main.cpp:44
+msgid "Jean-Michel Poure"
+msgstr ""
+
+#: rc.cpp:1430 rc.cpp:2762
+msgid "Job Queue"
+msgstr ""
+
+#: rc.cpp:788 rc.cpp:2120
+#, fuzzy
+msgid "Job status"
+msgstr "תחילת חיתוך"
+
+#: rc.cpp:806 rc.cpp:2138
 msgid "Jog Shuttle device disabled."
 msgstr "התקן גלגלת עריכה מנותק."
 
-#: src/kdenlivesettingsdialog.cpp:86
+#: src/kdenlivesettingsdialog.cpp:88
 msgid "JogShuttle"
 msgstr "גלגלת עריכה"
 
-#: src/main.cpp:39
+#: src/main.cpp:38
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/kdenlivedoc.cpp:1314 src/kdenlivedoc.cpp:1317 src/kdenlivedoc.cpp:1325
+#: src/kdenlivedoc.cpp:820 src/kdenlivedoc.cpp:823 src/kdenlivedoc.cpp:831
 msgid "Keep as placeholder"
 msgstr "שמור כשומר מקום"
 
-#: rc.cpp:153
+#: rc.cpp:155
 msgid "Kernel size"
 msgstr "גודל ליבה"
 
-#: rc.cpp:213
+#: rc.cpp:221
 msgid "LADSPA change pitch audio effect"
 msgstr "אפקט שמע - שינוי גובה צליל"
 
-#: rc.cpp:177
+#: rc.cpp:179
 msgid "LADSPA declipper audio effect"
 msgstr "אפקט שמע - ביטול קטימה"
 
-#: rc.cpp:181
+#: rc.cpp:183
 msgid "LADSPA equalizer audio effect"
 msgstr "אפקט שמע - שווין"
 
-#: rc.cpp:191
+#: rc.cpp:193
 msgid "LADSPA limiter audio effect"
 msgstr "אפקט שמע - מגבל"
 
-#: rc.cpp:201
+#: rc.cpp:203
 msgid "LADSPA phaser audio effect"
 msgstr "אפקט שמע - שינוי מופע"
 
-#: rc.cpp:219
+#: rc.cpp:215
 msgid "LADSPA pitch scale audio effect"
 msgstr "אפקט שמע - סולם גובה צליל"
 
-#: rc.cpp:225
+#: rc.cpp:227
 msgid "LADSPA rate scale audio effect"
 msgstr "אפקט שמע - סולם קצב"
 
-#: rc.cpp:231
+#: rc.cpp:233
 msgid "LADSPA reverb audio effect"
 msgstr "אפקט שמע - החזר"
 
-#: rc.cpp:239
+#: rc.cpp:241
 msgid "LADSPA room reverb audio effect"
 msgstr "אפקט שמע - החזר חדר"
 
-#: src/geometryval.cpp:82 rc.cpp:68
+#: src/geometryval.cpp:91 rc.cpp:68
 msgid "Left"
 msgstr "שמאל"
 
-#: rc.cpp:195
+#: rc.cpp:197
 msgid "Limit (dB)"
 msgstr "‫‫הגבל (dB)"
 
-#: rc.cpp:189
+#: rc.cpp:191
 msgid "Limiter"
 msgstr "מגבל"
 
-#: rc.cpp:183
+#: rc.cpp:185
 msgid "Lo gain"
 msgstr "שבח נמוך"
 
-#: src/titlewidget.cpp:264
+#: src/titlewidget.cpp:297
 msgid "Load Image"
 msgstr "טוען תמונה"
 
-#: src/titlewidget.cpp:657
+#: src/titlewidget.cpp:749
 msgid "Load Title"
 msgstr "טוען כותר"
 
-#: src/kdenlivedoc.cpp:125
+#: src/kdenlivedoc.cpp:155
 msgid "Loading project clips"
 msgstr "טוען סרטוני פרוייקט"
 
-#: src/locktrackcommand.cpp:26 src/headertrack.cpp:43
+#: src/headertrack.cpp:46 src/locktrackcommand.cpp:31
 msgid "Lock track"
 msgstr "נעל רצועה"
 
-#: src/kdenlivedoc.cpp:1319 src/kdenlivedoc.cpp:1327
+#: src/kdenlivedoc.cpp:825 src/kdenlivedoc.cpp:833
 #, kde-format
 msgid "Looking for %1"
 msgstr "מחפש את %1"
 
-#: rc.cpp:1131 rc.cpp:1479 rc.cpp:2346 rc.cpp:2694
+#: rc.cpp:1073 rc.cpp:1325 rc.cpp:2405 rc.cpp:2657
 msgid "Loop"
 msgstr "לולאה"
 
-#: src/mainwindow.cpp:811
+#: src/mainwindow.cpp:836
 msgid "Loop Zone"
 msgstr "חזור על האזור בלולאה"
 
-#: src/renderwidget.cpp:859
+#: src/renderwidget.cpp:950
 msgid "Lossless / HQ"
 msgstr "Lossless / HQ"
 
-#: rc.cpp:1140 rc.cpp:2355
+#: rc.cpp:1334 rc.cpp:2666
 msgid "Luma File"
 msgstr "קובץ לומא"
 
-#: rc.cpp:1488 rc.cpp:2703
+#: rc.cpp:1082 rc.cpp:2414
 msgid "Luma file"
 msgstr "קובץ לומא"
 
-#: rc.cpp:597 rc.cpp:1812
+#: rc.cpp:941 rc.cpp:2273
 msgid "M"
 msgstr "M"
 
-#: src/main.cpp:44
+#: src/main.cpp:43
 msgid "MLT Connection, Transition, Effect, Timeline Developer"
 msgstr "Mlt Connection, Transition, Effect, Timeline Developer"
 
-#: src/main.cpp:43
-msgid "MLT porting, KDE4 porting, Main developer"
+#: rc.cpp:674 rc.cpp:2006
+#, fuzzy
+msgid "MLT environment"
+msgstr "‫סביבת MLT"
+
+#: src/main.cpp:42
+#, fuzzy
+msgid "MLT porting, KDE 4 porting, Main developer"
 msgstr "Mlt porting, KDE4 porting, Main developer"
 
-#: src/wizard.cpp:189
+#: rc.cpp:677 rc.cpp:2009
+#, fuzzy
+msgid "MLT profiles folder"
+msgstr "‫תיקיית פרופילי MLT"
+
+#: src/wizard.cpp:192
 msgid "MLT version is correct"
 msgstr "‮ג‏רסת MLT נכונה"
 
-#: src/wizard.cpp:183
+#: src/wizard.cpp:186
 #, kde-format
 msgid "MLT version: %1"
 msgstr "‏‏גרסת MLT: %1"
 
-#: src/wizard.cpp:480
+#: src/wizard.cpp:491
 msgid ""
 "MLT's SDL module not found. Please check your MLT install. Kdenlive will not "
 "work until this issue is fixed."
@@ -2216,108 +2384,113 @@ msgstr ""
 "‫מודול ה-SDL של MLT לא נמצא. אנא בדוק את התקנת ה-MLT. Kdenlive לא יפעל עד "
 "שבעיה זו תתוקן."
 
-#: rc.cpp:423
+#: rc.cpp:425
 msgid "Make clip play faster slowly"
 msgstr "גורם לסרטון לנגן מהר יותר לאט"
 
-#: rc.cpp:56
+#: rc.cpp:48
 msgid "Make image greyscale except for chosen color"
 msgstr "הופך תמונה לגווני אפור למעט צבע נבחר"
 
-#: rc.cpp:433
+#: rc.cpp:435
 msgid "Make monochrome clip"
 msgstr "יוצר סרטון חד-צבעי"
 
-#: rc.cpp:48
+#: rc.cpp:56
 msgid "Make selected color transparent"
 msgstr "הפוך צבע נבחר לשקוף"
 
-#: rc.cpp:447
+#: rc.cpp:449
 msgid "Make waves on your clip with keyframes"
 msgstr "יוצר אפקט גלי על הסרטון בעזרת מסגרות מפתח"
 
-#: src/mainwindow.cpp:775
+#: src/mainwindow.cpp:800
 msgid "Manage Project Profiles"
 msgstr "ניהול פרופילי פרוייקט"
 
-#: src/main.cpp:44
+#: src/main.cpp:43
 msgid "Marco Gittler"
 msgstr "Marco Gittler"
 
-#: src/definitions.h:139 src/clipproperties.cpp:270 src/mainwindow.cpp:1884
-#: src/docclipbase.cpp:290 rc.cpp:1218 rc.cpp:2433
+#: src/docclipbase.cpp:341 src/clipproperties.cpp:281 src/mainwindow.cpp:2025
+#: src/definitions.h:142 rc.cpp:1697 rc.cpp:3029
 msgid "Marker"
 msgstr "סמן"
 
-#: rc.cpp:1506 rc.cpp:2721 rc.cpp:2904
+#: rc.cpp:1100 rc.cpp:2432 rc.cpp:3143
 msgid "Markers"
 msgstr "סמנים"
 
-#: src/renderwidget.cpp:858
+#: src/renderwidget.cpp:949
 msgid "Media players"
 msgstr "נגני וידאו"
 
-#: src/dvdwizard.cpp:288
+#: src/wizard.cpp:129
+msgid "Melt"
+msgstr ""
+
+#: rc.cpp:680 rc.cpp:2012
+msgid "Melt path"
+msgstr ""
+
+#: src/dvdwizard.cpp:309
 msgid "Menu job timed out"
 msgstr "עבודת תפריט התאפסה"
 
-#: rc.cpp:1524 rc.cpp:2739
+#: rc.cpp:1118 rc.cpp:2450
 msgid "Metadata"
 msgstr "מטא-נתונים"
 
-#: rc.cpp:185
+#: rc.cpp:187
 msgid "Mid gain"
 msgstr "שבח אמצעי"
 
-#: rc.cpp:261
+#: rc.cpp:263
 msgid "Mirror"
 msgstr "שיקוף"
 
-#: rc.cpp:265
+#: rc.cpp:267
 msgid "Mirroring direction"
 msgstr "כיוון שיקוף"
 
-#: src/kdenlivesettingsdialog.cpp:47
+#: src/kdenlivesettingsdialog.cpp:50
 msgid "Misc"
 msgstr "שונות"
 
-#: src/monitor.cpp:83 src/geometryval.cpp:63
+#: src/geometryval.cpp:71 src/monitor.cpp:94
 msgid "Misc..."
 msgstr "‫שונות..."
+
+#: rc.cpp:1724 rc.cpp:3056
+#, fuzzy
+msgid "Missing clips"
+msgstr "בטל קיבוץ סרטונים"
 
 #: rc.cpp:42
 msgid "Mix"
 msgstr "מיקס"
 
-#: src/wizard.cpp:319
+#: src/wizard.cpp:323
 msgid "Mkisofs"
 msgstr "Mkisofs"
 
-#: rc.cpp:801 rc.cpp:2016
-msgid "Mlt environment"
-msgstr "‫סביבת MLT"
-
-#: rc.cpp:804 rc.cpp:2019
-msgid "Mlt profiles folder"
-msgstr "‫תיקיית פרופילי MLT"
-
-#: src/renderwidget.cpp:860
+#: src/renderwidget.cpp:951
 msgid "Mobile devices"
 msgstr "התקנים ניידים"
 
-#: rc.cpp:2925
+#: rc.cpp:3164
 msgid "Monitor"
 msgstr "צג"
 
-#: rc.cpp:936 rc.cpp:2151
+#: rc.cpp:506 rc.cpp:1838
 msgid "Monitor Preview Speedup Settings"
 msgstr "הגדרות האצת צג תצוגה מקדימה"
 
-#: rc.cpp:933 rc.cpp:2148
+#: rc.cpp:503 rc.cpp:1835
 msgid "Monitor background color (requires restart)"
 msgstr "צבע רקע בצג (יש צורך באיתחול)"
 
-#: src/monitor.cpp:170
+#: src/monitor.cpp:184
 msgid "Monitor overlay infos"
 msgstr "רבדי מידע בצג"
 
@@ -2325,278 +2498,316 @@ msgstr "רבדי מידע בצג"
 msgid "Mono to stereo"
 msgstr "מונו לסטריאו"
 
-#: src/moveclipcommand.cpp:27 src/customtrackview.cpp:2118
+#: src/customtrackview.cpp:2263 src/moveclipcommand.cpp:33
 msgid "Move clip"
 msgstr "העברת סרטון"
 
-#: src/moveeffectcommand.cpp:32
+#: src/moveeffectcommand.cpp:39
 msgid "Move effect"
 msgstr "העברת סרטון"
 
-#: src/effectstackview.cpp:49
+#: src/effectstackview.cpp:50
 msgid "Move effect down"
 msgstr "העברת סרטון למטה"
 
-#: src/effectstackview.cpp:47
+#: src/effectstackview.cpp:48
 msgid "Move effect up"
 msgstr "העברת סרטון למעלה"
 
-#: src/movegroupcommand.cpp:27
+#: src/movegroupcommand.cpp:35
 msgid "Move group"
 msgstr "העבר קבוצה"
 
-#: src/editguidecommand.cpp:28
+#: src/editguidecommand.cpp:36
 msgid "Move guide"
 msgstr "העברת מנחה"
 
-#: src/movetransitioncommand.cpp:24
+#: src/movetransitioncommand.cpp:30
 msgid "Move transition"
 msgstr "העברת מעבר"
 
-#: rc.cpp:269
+#: rc.cpp:1211 rc.cpp:2543
+#, fuzzy
+msgid "Movie file"
+msgstr "העברת מנחה"
+
+#: rc.cpp:271
 msgid "Mute"
 msgstr "השתק"
 
-#: rc.cpp:271
+#: rc.cpp:273
 msgid "Mute clip"
 msgstr "השתק סרטון"
 
-#: src/headertrack.cpp:41
+#: src/headertrack.cpp:44
 msgid "Mute track"
 msgstr "השתק רצועה"
 
-#: src/projectitem.cpp:170
+#: src/documentchecker.cpp:68 src/projectitem.cpp:195
 msgid "Mute video clip"
 msgstr "השתקת סרטון וידאו"
 
-#: rc.cpp:603 rc.cpp:720 rc.cpp:1515 rc.cpp:1818 rc.cpp:1935 rc.cpp:2730
+#: rc.cpp:947 rc.cpp:1109 rc.cpp:1181 rc.cpp:2279 rc.cpp:2441 rc.cpp:2513
 msgid "N"
 msgstr "N"
 
-#: src/main.cpp:47
+#: src/main.cpp:49
 msgid "NAME OF TRANSLATORS"
 msgstr "Amir S."
 
-#: src/dvdwizardmenu.cpp:41 rc.cpp:477 rc.cpp:1692
+#: rc.cpp:1367 rc.cpp:2699
 msgid "NTSC"
 msgstr "NTSC"
 
-#: rc.cpp:1116 rc.cpp:1398 rc.cpp:2331 rc.cpp:2613
+#: src/dvdwizardvob.cpp:59
+#, fuzzy
+msgid "NTSC 16:9"
+msgstr "NTSC"
+
+#: src/dvdwizardvob.cpp:59
+#, fuzzy
+msgid "NTSC 4:3"
+msgstr "NTSC"
+
+#: src/kdenlivesettingsdialog.cpp:511 rc.cpp:1142 rc.cpp:1226 rc.cpp:1310
+#: rc.cpp:2474 rc.cpp:2558 rc.cpp:2642
 msgid "Name"
 msgstr "שם"
 
-#: src/effectstackview.cpp:86
+#: src/effectstackview.cpp:90
 msgid "Name for saved effect: "
 msgstr "‫שם עבור שמירת אפקט:"
 
-#: src/kdenlivesettingsdialog.cpp:214
+#: src/kdenlivesettingsdialog.cpp:227
 msgid "Nano X"
 msgstr "Nano X"
 
-#: rc.cpp:132
+#: rc.cpp:134
 msgid "Neutral Color"
 msgstr "צבע טבעי"
 
-#: src/customtrackview.cpp:2612
+#: src/customtrackview.cpp:2766
 msgid "New speed (percents)"
 msgstr "‫קצב חדש (אחוזים)"
 
-#: src/customtrackview.cpp:2738 src/customtrackview.cpp:3619
+#: src/titlewidget.cpp:121
+msgid "No alignment"
+msgstr ""
+
+#: src/dvdwizard.cpp:98
+msgid "No burning program found (K3b, Brasero)"
+msgstr ""
+
+#: src/customtrackview.cpp:2897 src/customtrackview.cpp:3844
 msgid "No clip copied"
 msgstr "שום סרטון לא הועתק"
 
-#: src/customtrackview.cpp:4119
+#: src/customtrackview.cpp:4370
 msgid "No empty space to put clip audio"
 msgstr "אין רווח ריק להנחת שמע הסרטון"
 
-#: src/customtrackview.cpp:3356 src/customtrackview.cpp:3397
-#: src/customtrackview.cpp:3420
+#: src/customtrackview.cpp:3540 src/customtrackview.cpp:3586
+#: src/customtrackview.cpp:3624
 msgid "No guide at cursor time"
 msgstr "אין מנחה במיקום סמן"
 
-#: rc.cpp:1146 rc.cpp:1491 rc.cpp:2361 rc.cpp:2706
+#: rc.cpp:1085 rc.cpp:1340 rc.cpp:2417 rc.cpp:2672
 msgid "No image found"
 msgstr "שום תמונה לא נמצאה"
 
-#: src/mainwindow.cpp:1915 src/mainwindow.cpp:1966
+#: src/mainwindow.cpp:2057 src/mainwindow.cpp:2110
 msgid "No marker found at cursor time"
 msgstr "אין סימון במיקום זמן הסמן"
 
-#: src/initeffects.cpp:73 src/initeffects.cpp:614
+#: src/initeffects.cpp:70 src/initeffects.cpp:633
 msgid "None"
 msgstr "כלום"
 
-#: rc.cpp:275
+#: rc.cpp:277
 msgid "Normalise"
 msgstr "נרמל"
 
-#: rc.cpp:891 rc.cpp:2106
+#: rc.cpp:1778 rc.cpp:3110
 msgid "Normalise audio for thumbnails"
 msgstr "נרמל שמע עבור צלמיות"
 
-#: rc.cpp:277
+#: rc.cpp:279
 msgid "Normalise audio volume"
 msgstr "נרמל עוצמת שמע"
 
-#: src/recmonitor.cpp:546 rc.cpp:582 rc.cpp:1797
+#: src/recmonitor.cpp:566 rc.cpp:476 rc.cpp:1808
 msgid "Not connected"
 msgstr "אינו מחובר"
 
-#: src/mainwindow.cpp:2247
-#, kde-format
-msgid "Not found : %1"
+#: src/mainwindow.cpp:2428
+#, fuzzy, kde-format
+msgid "Not found: %1"
 msgstr "לא נמצא: %1"
 
-#: src/kdenlivesettingsdialog.cpp:194
+#: src/kdenlivesettingsdialog.cpp:207
 msgid "OSS"
 msgstr "OSS"
 
-#: src/kdenlivesettingsdialog.cpp:197
+#: src/kdenlivesettingsdialog.cpp:210
 msgid "OSS with DMA access"
 msgstr "OSS with DMA access"
 
-#: rc.cpp:10 rc.cpp:281
+#: rc.cpp:10 rc.cpp:283
 msgid "Obscure"
 msgstr "מוסתר"
 
-#: rc.cpp:1101 rc.cpp:2316
+#: rc.cpp:1646 rc.cpp:2978
 msgid "Offset"
 msgstr "הסט"
 
-#: rc.cpp:615 rc.cpp:1830
+#: rc.cpp:959 rc.cpp:2291
 msgid "Opacity"
 msgstr "אטימות"
 
-#: src/titlewidget.cpp:127
+#: src/titlewidget.cpp:152
 msgid "Open Document"
 msgstr "פתח מסמך"
 
-#: rc.cpp:510 rc.cpp:1725
+#: rc.cpp:1424 rc.cpp:2756
 msgid "Open Dvd wizard after rendering"
 msgstr "פתח אשף DVD לאחר צלימה"
 
-#: rc.cpp:513 rc.cpp:1728
+#: rc.cpp:1400 rc.cpp:2732
 msgid "Open browser window after export"
 msgstr "פתח חלון דפדפן לאחר ייצוא"
 
-#: rc.cpp:1149 rc.cpp:2364
+#: rc.cpp:1238 rc.cpp:2570
 msgid "Open last project on startup"
 msgstr "פתח פרויקט אחרון בזמן איתחול"
 
-#: rc.cpp:1155 rc.cpp:2370
+#: rc.cpp:1244 rc.cpp:2576
 msgid "Open projects in new tabs"
 msgstr "פתח פרוייקטים בטאבים חדשים"
 
-#: rc.cpp:90
+#: src/main.cpp:46
+msgid "Original KDE 3 version author (not active anymore)"
+msgstr ""
+
+#: rc.cpp:114
 msgid "Out"
 msgstr "יציאה"
 
-#: src/monitor.cpp:427
+#: src/monitor.cpp:470
 msgid "Out Point"
 msgstr "נקודת יציאה"
 
-#: rc.cpp:465 rc.cpp:1680
+#: rc.cpp:1355 rc.cpp:2687
 msgid "Output file"
 msgstr "קובץ פלט"
 
-#: src/renderwidget.cpp:541
-msgid "Output file already exists. Do you want to overwrite it ?"
+#: src/renderwidget.cpp:575
+#, fuzzy
+msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "‫הקובץ קיים. האם ברצונך לדרוס אותו?"
 
-#: rc.cpp:600 rc.cpp:1815
+#: rc.cpp:944 rc.cpp:2276
 msgid "P"
 msgstr "P"
 
-#: src/dvdwizardmenu.cpp:41 rc.cpp:474 rc.cpp:1689
+#: rc.cpp:1364 rc.cpp:2696
 msgid "PAL"
 msgstr "PAL"
 
-#: rc.cpp:287 rc.cpp:317
+#: src/dvdwizardvob.cpp:59
+msgid "PAL 16:9"
+msgstr ""
+
+#: src/dvdwizardvob.cpp:59
+#, fuzzy
+msgid "PAL 4:3"
+msgstr "PAL"
+
+#: rc.cpp:289 rc.cpp:319
 msgid "Pan and Zoom"
 msgstr "הסט וזום"
 
-#: rc.cpp:717 rc.cpp:1932
+#: rc.cpp:1343 rc.cpp:2675
 msgid "Param"
 msgstr "משתנה"
 
-#: src/complexparameter.cpp:43
+#: src/complexparameter.cpp:42
 msgid "Parameter info"
 msgstr "מידע ערך"
 
-#: rc.cpp:918 rc.cpp:2133
+#: src/kdenlivesettingsdialog.cpp:511 rc.cpp:1676 rc.cpp:3008
 msgid "Parameters"
 msgstr "ערכים"
 
-#: src/mainwindow.cpp:985
+#: src/mainwindow.cpp:1028
 msgid "Paste Effects"
 msgstr "הדבק אפקטים"
 
-#: rc.cpp:1416 rc.cpp:2631
+#: rc.cpp:1010 rc.cpp:1730 rc.cpp:2342 rc.cpp:3062
 msgid "Path"
 msgstr "נתיב"
 
-#: rc.cpp:199
+#: rc.cpp:201
 msgid "Phaser"
 msgstr "משלב"
 
-#: rc.cpp:217
+#: rc.cpp:213
 msgid "Pitch Scaler"
 msgstr "סולם גובה צליל"
 
-#: rc.cpp:211
+#: rc.cpp:219
 msgid "Pitch Shift"
 msgstr "שנה גובה צליל"
 
-#: src/wizard.cpp:274
+#: src/wizard.cpp:277
 msgid "Pixbuf module"
 msgstr "מודול Pixbuf"
 
-#: rc.cpp:684 rc.cpp:1446 rc.cpp:1899 rc.cpp:2661
+#: rc.cpp:749 rc.cpp:1040 rc.cpp:2081 rc.cpp:2372
 msgid "Pixel aspect ratio"
 msgstr "כפה יחס מימדים"
 
-#: src/wizard.cpp:419 rc.cpp:1620 rc.cpp:2835
+#: src/wizard.cpp:427 rc.cpp:1484 rc.cpp:2816
 msgid "Pixel aspect ratio:"
 msgstr "כפה יחס מימדים:"
 
-#: rc.cpp:143
+#: rc.cpp:145
 msgid "Plasma"
 msgstr "פלזמה"
 
-#: src/dvdwizardmenu.cpp:27 src/monitor.cpp:69 src/mainwindow.cpp:798
-#: src/recmonitor.cpp:63
+#: src/dvdwizardmenu.cpp:31 src/mainwindow.cpp:823 src/recmonitor.cpp:69
+#: src/monitor.cpp:79
 msgid "Play"
 msgstr "נגן"
 
-#: src/kdenlivesettingsdialog.cpp:94
+#: src/kdenlivesettingsdialog.cpp:102
 msgid "Play / Pause"
 msgstr "נגן / השהה"
 
-#: src/dvdwizardmenu.cpp:257
+#: src/dvdwizardmenu.cpp:283
 msgid "Play All"
 msgstr "נגן הכל"
 
-#: src/mainwindow.cpp:806
+#: src/mainwindow.cpp:831
 msgid "Play Zone"
 msgstr "נגן אזור"
 
-#: rc.cpp:516 rc.cpp:1731
+#: rc.cpp:1403 rc.cpp:2735
 msgid "Play after render"
 msgstr "נגן אחרי סיום הצלימה"
 
-#: src/monitor.cpp:68
+#: src/monitor.cpp:78
 msgid "Play..."
 msgstr "‫נגן..."
 
-#: src/kdenlivesettingsdialog.cpp:90
+#: src/kdenlivesettingsdialog.cpp:92
 msgid "Playback"
 msgstr "השמעה"
 
-#: src/projectitem.cpp:191
+#: src/documentchecker.cpp:74 src/projectitem.cpp:216
 msgid "Playlist clip"
 msgstr "רשימת סרטונים"
 
-#: src/main.cpp:46
+#: src/main.cpp:48
 msgid ""
 "Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
 "org/mantis</a>"
@@ -2604,29 +2815,28 @@ msgstr ""
 "‫אנא דווח על תקלות ל- <a href=\"http://kdenlive.org/mantis\">http://kdenlive."
 "org/mantis</a>"
 
-#: src/main.cpp:46
+#: src/main.cpp:48
 msgid "Please report bugs to http://kdenlive.org/mantis"
 msgstr "‫אנא דווח על תקלות ל- http://kdenlive.org/mantis"
 
-#: src/projectlist.cpp:178
+#: src/projectlist.cpp:200
 msgid ""
 "Please set a default application to open audio files in the Settings dialog"
-msgstr ""
-"קבע בדיאלוג ההגדרות את יישום ברירת מחדל לפתיחת קבצי שמע"
+msgstr "קבע בדיאלוג ההגדרות את יישום ברירת מחדל לפתיחת קבצי שמע"
 
-#: src/projectlist.cpp:174
+#: src/projectlist.cpp:196
 msgid "Please set a default application to open images in the Settings dialog"
 msgstr "קבע בדיאלוג ההגדרות את יישום ברירת מחדל לפתיחת קבצי וידאו"
 
-#: rc.cpp:1233 rc.cpp:2448
+#: rc.cpp:1682 rc.cpp:3014
 msgid "Please set your default video profile"
 msgstr "אנא קבע את פורמט ברירת המחדל של הוידאו"
 
-#: src/wizard.cpp:186
+#: src/wizard.cpp:189
 msgid "Please upgrade to the latest MLT version"
 msgstr "‮אנא שדרג לגרסת MLT האחרונה"
 
-#: src/recmonitor.cpp:174
+#: src/recmonitor.cpp:185
 #, kde-format
 msgid ""
 "Plug your camcorder and\n"
@@ -2640,20 +2850,20 @@ msgstr ""
 "הקבצים ישמרו ב-\n"
 "%1"
 
-#: rc.cpp:1083 rc.cpp:2298
+#: rc.cpp:1628 rc.cpp:2960
 msgid "Ports:"
 msgstr "‫פורטים:"
 
-#: rc.cpp:612 rc.cpp:1827
+#: rc.cpp:956 rc.cpp:2288
 msgid "Pos"
 msgstr "מיקום"
 
-#: rc.cpp:711 rc.cpp:864 rc.cpp:1224 rc.cpp:1554 rc.cpp:1926 rc.cpp:2079
-#: rc.cpp:2439 rc.cpp:2769
+#: rc.cpp:515 rc.cpp:839 rc.cpp:1202 rc.cpp:1703 rc.cpp:1847 rc.cpp:2171
+#: rc.cpp:2534 rc.cpp:3035
 msgid "Position"
 msgstr "מיקום"
 
-#: src/recmonitor.cpp:203
+#: src/recmonitor.cpp:216
 #, kde-format
 msgid ""
 "Press play or record button\n"
@@ -2666,7 +2876,7 @@ msgstr ""
 "הקבצים ישמרו ב-\n"
 "%1"
 
-#: src/recmonitor.cpp:148 src/recmonitor.cpp:547
+#: src/recmonitor.cpp:159 src/recmonitor.cpp:567
 #, kde-format
 msgid ""
 "Press record button\n"
@@ -2679,132 +2889,142 @@ msgstr ""
 "הקבצים ישמרו ב-\n"
 "%1"
 
-#: src/customtrackview.cpp:1128 src/customtrackview.cpp:1136
+#: rc.cpp:887 rc.cpp:2219
+#, fuzzy
+msgid "Preview"
+msgstr "התקן"
+
+#: src/customtrackview.cpp:1209 src/customtrackview.cpp:1218
 msgid "Problem adding effect to clip"
 msgstr "בעיה בהוספת אפקט לסרטון"
 
-#: src/customtrackview.cpp:1121 src/customtrackview.cpp:1145
-#: src/customtrackview.cpp:1255
+#: src/customtrackview.cpp:1202 src/customtrackview.cpp:1228
+#: src/customtrackview.cpp:1342
 msgid "Problem deleting effect"
 msgstr "בעיה במחיקת אפקט"
 
-#: src/customtrackview.cpp:1257 src/customtrackview.cpp:3126
-#: src/customtrackview.cpp:3143 src/customtrackview.cpp:3165
-#: src/customtrackview.cpp:3182
+#: src/customtrackview.cpp:1344 src/customtrackview.cpp:3289
+#: src/customtrackview.cpp:3306 src/customtrackview.cpp:3328
+#: src/customtrackview.cpp:3345
 msgid "Problem editing effect"
 msgstr "בעיה בעריכת אפקט"
 
-#: rc.cpp:663 rc.cpp:1179 rc.cpp:1605 rc.cpp:1878 rc.cpp:2394 rc.cpp:2820
+#: rc.cpp:728 rc.cpp:800 rc.cpp:1268 rc.cpp:1469 rc.cpp:2060 rc.cpp:2132
+#: rc.cpp:2600 rc.cpp:2801
 msgid "Profile"
 msgstr "פרופיל"
 
-#: src/renderwidget.cpp:294 src/renderwidget.cpp:399
+#: src/renderwidget.cpp:322 src/renderwidget.cpp:429
 msgid "Profile already exists"
 msgstr "הפרופיל כבר קיים"
 
-#: rc.cpp:912 rc.cpp:2127
+#: rc.cpp:1670 rc.cpp:3002
 msgid "Profile name"
 msgstr "שם פרופיל"
 
-#: rc.cpp:660 rc.cpp:1875
+#: rc.cpp:725 rc.cpp:2057
 msgid "Profiles"
 msgstr "פרופילים"
 
-#: src/renderwidget.cpp:139
+#: src/renderwidget.cpp:153
 msgid "Progress"
 msgstr "התקדמות"
 
-#: src/kdenlivesettingsdialog.cpp:432 src/projectsettings.cpp:73 rc.cpp:696
-#: rc.cpp:1911
+#: src/projectsettings.cpp:76 src/kdenlivesettingsdialog.cpp:465 rc.cpp:761
+#: rc.cpp:2093
 msgid "Progressive"
 msgstr "פרוגרסיבי"
 
-#: rc.cpp:2889
+#: rc.cpp:3125
 msgid "Project"
 msgstr "פרוייקט"
 
-#: src/mainwindow.cpp:182
+#: src/mainwindow.cpp:183
 msgid "Project Monitor"
 msgstr "צג פרוייקט"
 
-#: src/mainwindow.cpp:789 rc.cpp:1596 rc.cpp:2811
+#: src/mainwindow.cpp:814 rc.cpp:1460 rc.cpp:2792
 msgid "Project Settings"
 msgstr "הגדרות פרוייקט"
 
-#: src/mainwindow.cpp:144
+#: src/mainwindow.cpp:145
 msgid "Project Tree"
 msgstr "עץ פרוייקט"
 
-#: rc.cpp:813 rc.cpp:1599 rc.cpp:2028 rc.cpp:2814
+#: rc.cpp:686 rc.cpp:1463 rc.cpp:2018 rc.cpp:2795
 msgid "Project folder"
 msgstr "תיקיית פרוייקט"
 
-#: rc.cpp:666 rc.cpp:1881
+#: rc.cpp:731 rc.cpp:2063
 msgid "Properties"
 msgstr "מאפיינים"
 
-#: src/kdenlivesettingsdialog.cpp:196
+#: src/kdenlivesettingsdialog.cpp:209
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/wizard.cpp:269
+#: src/wizard.cpp:272
 msgid "QImage module"
 msgstr "מודול Qimage"
 
-#: rc.cpp:729 rc.cpp:1944
+#: rc.cpp:1190 rc.cpp:2522
 msgid "R"
 msgstr "R"
 
-#: rc.cpp:253
+#: rc.cpp:255
 msgid "RPM"
 msgstr "סיבובים לדקה"
 
-#: rc.cpp:227
+#: rc.cpp:229
 msgid "Rate"
 msgstr "קצב"
 
-#: rc.cpp:203
+#: rc.cpp:205
 msgid "Rate (Hz)"
 msgstr "‫קצב (הרץ)"
 
-#: rc.cpp:223
+#: rc.cpp:225
 msgid "Rate Scaler"
 msgstr "סולם קצב"
 
-#: src/projectlistview.cpp:44
+#: src/projectlistview.cpp:46
 msgid "Rating"
 msgstr "דירוג"
 
-#: src/razorclipcommand.cpp:27
+#: src/main.cpp:45
+msgid "Ray Lehtiniemi"
+msgstr ""
+
+#: src/razorclipcommand.cpp:32
 msgid "Razor clip"
 msgstr "חתוך סרטון"
 
-#: src/mainwindow.cpp:629
+#: src/mainwindow.cpp:654
 msgid "Razor tool"
 msgstr "כלי חיתוך"
 
-#: src/mainwindow.cpp:2236
+#: src/mainwindow.cpp:2416
 msgid "Reached end of project"
 msgstr "סוף פרוייקט"
 
-#: src/recmonitor.cpp:72
+#: src/recmonitor.cpp:78
 msgid "Record"
 msgstr "הקלט"
 
-#: src/mainwindow.cpp:188
+#: src/mainwindow.cpp:189
 msgid "Record Monitor"
 msgstr "צג הקלטה"
 
-#: src/wizard.cpp:301
+#: src/wizard.cpp:305
 msgid "Recordmydesktop"
 msgstr "Recordmydesktop"
 
-#: src/kdenlivesettingsdialog.cpp:162
+#: src/kdenlivesettingsdialog.cpp:172
 #, kde-format
 msgid "Recordmydesktop found at: %1"
 msgstr "‫Recordmydesktop נמצא ב- %1"
 
-#: src/recmonitor.cpp:145
+#: src/recmonitor.cpp:156
 msgid ""
 "Recordmydesktop utility not found,\n"
 " please install it for screen grabs"
@@ -2812,340 +3032,387 @@ msgstr ""
 "תוכנת Recordmydesktop לא נמצא,\n"
 "אנא התקן אותה בכדי לבצע לכידות מסך"
 
-#: src/mainwindow.cpp:1326
+#: src/mainwindow.cpp:1384
 msgid "Recover"
 msgstr "אישוש"
 
-#: rc.cpp:291
+#: rc.cpp:293
 msgid "Rectangle"
 msgstr "מלבן"
 
-#: rc.cpp:285
+#: rc.cpp:287
 msgid "Region"
 msgstr "אזור"
 
-#: rc.cpp:1092 rc.cpp:2307
+#: rc.cpp:1637 rc.cpp:2969
 msgid "Region capture"
 msgstr "לכידת אזור"
 
-#: rc.cpp:197
+#: rc.cpp:199
 msgid "Release time (s)"
 msgstr "‫זמן שחרור (שנ')"
 
-#: src/mainwindow.cpp:1075
+#: src/mainwindow.cpp:1120
 msgid "Reload Clip"
 msgstr "טען מחדש סרטון"
 
-#: src/mainwindow.cpp:953 src/customtrackview.cpp:1809
+#: src/renderwidget.cpp:1267
+#, fuzzy
+msgid "Remove Job"
+msgstr "הסר רווח"
+
+#: src/customtrackview.cpp:1942 src/mainwindow.cpp:996
 msgid "Remove Space"
 msgstr "הסר רווח"
 
-#: src/customtrackview.cpp:3905
+#: src/customtrackview.cpp:4140
 msgid "Remove Track"
 msgstr "הסר ערוץ"
 
-#: src/insertspacecommand.cpp:29
+#: rc.cpp:1217 rc.cpp:2549
+#, fuzzy
+msgid "Remove chapter"
+msgstr "הסר רווח"
+
+#: src/documentchecker.cpp:258
+#, fuzzy
+msgid "Remove clips"
+msgstr "העברת סרטון"
+
+#: rc.cpp:1766 rc.cpp:3098
+#, fuzzy
+msgid "Remove file"
+msgstr "הסר רווח"
+
+#: rc.cpp:1739 rc.cpp:3071
+#, fuzzy
+msgid "Remove selected clips"
+msgstr "לא ניתן להדביק את הסרטונים שנבחרו"
+
+#: src/insertspacecommand.cpp:36
 msgid "Remove space"
 msgstr "הסר רווח"
 
-#: src/trackview.cpp:295
+#: src/trackview.cpp:324
 #, kde-format
 msgid "Removed invalid transition: %1"
 msgstr "הסר מעבר לא תקף: %1"
 
-#: src/editfoldercommand.cpp:27
+#: src/editfoldercommand.cpp:34
 msgid "Rename folder"
 msgstr "שנה שם תיקייה"
 
-#: src/mainwindow.cpp:793 src/renderwidget.cpp:205
+#: src/mainwindow.cpp:818 src/renderwidget.cpp:226
 msgid "Render"
 msgstr "צלם"
 
-#: rc.cpp:459 rc.cpp:1674
+#: rc.cpp:1349 rc.cpp:2681
 msgid "Render Project"
 msgstr "צלימת פרוייקט"
 
-#: src/renderwidget.cpp:76
+#: src/renderwidget.cpp:86
 msgid "Render to File"
 msgstr "‫צלימה לקובץ"
 
-#: src/renderwidget.cpp:53
+#: src/renderwidget.cpp:62
 msgid "Rendering"
 msgstr "צלימה"
 
-#: renderer/renderjob.cpp:185
+#: renderer/renderjob.cpp:196
 #, kde-format
 msgid "Rendering %1"
 msgstr "צלימת %1"
 
-#: src/mainwindow.cpp:1569
+#: src/mainwindow.cpp:1645
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "‫צלימה <i>%1</i> הסתיימה"
 
-#: src/renderwidget.cpp:1132
+#: src/renderwidget.cpp:1239
 msgid "Rendering aborted"
 msgstr "צלימה ננטשה"
 
-#: src/renderwidget.cpp:1123
+#: src/renderwidget.cpp:1230
 msgid "Rendering crashed"
 msgstr "צלימה קרסה"
 
-#: src/renderwidget.cpp:1112
+#: src/renderwidget.cpp:1219
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "צלימה הסתיימה ב-%1"
 
-#: src/dvdwizard.cpp:200
+#: src/dvdwizard.cpp:225
 msgid "Rendering job timed out"
 msgstr "עבודת צלימה התאפסה"
 
-#: renderer/renderjob.cpp:245
+#: renderer/renderjob.cpp:258
 #, kde-format
 msgid "Rendering of %1 aborted, resulting video will probably be corrupted."
 msgstr "צלימה של %1 בוטלה, הוידאו שנוצר ככל הנראה אינו תקין."
 
-#: renderer/renderjob.cpp:267
+#: renderer/renderjob.cpp:280
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "צלימה של %1 הסתיימה ב-%2"
 
-#: src/trackview.cpp:615
+#: src/main.cpp:44
+msgid "Rendering profiles customisation"
+msgstr ""
+
+#: src/trackview.cpp:478
 #, kde-format
 msgid "Replaced wrong clip producer %1 with %2"
 msgstr "מחליף מפיק סרטון לא נכון %1 ב-%2"
 
-#: src/wizard.cpp:314
+#: src/wizard.cpp:318
 msgid "Required for creation of DVD"
 msgstr "נדרש ליצירת DVD"
 
-#: src/wizard.cpp:320
-msgid "Required for creation of DVD iso images"
+#: src/wizard.cpp:324
+#, fuzzy
+msgid "Required for creation of DVD ISO images"
 msgstr "נדרש ליצירת קבצי iso של DVD"
 
-#: src/wizard.cpp:308
+#: src/wizard.cpp:312
 msgid "Required for firewire capture"
 msgstr "‫נדרש עבור לכידת firewire"
 
-#: src/wizard.cpp:127
+#: src/wizard.cpp:130
 msgid "Required for rendering (part of MLT package)"
 msgstr "נדרש לביצוע הצלימה (חלק מ-MLT)"
 
-#: src/wizard.cpp:302
+#: src/wizard.cpp:306
 msgid "Required for screen capture"
 msgstr "נדרש ללכידת מסך"
 
-#: src/wizard.cpp:294
+#: src/wizard.cpp:298
 msgid "Required for webcam capture"
 msgstr "‫נדרש עבור לכידת מצלמת רשת"
 
-#: src/wizard.cpp:260
+#: src/wizard.cpp:263
 msgid "Required to work with dv files if avformat module is not installed"
 msgstr "נדרש לעבודה עם קבצי dv באם מודול avformat אינו מותקן"
 
-#: src/wizard.cpp:270 src/wizard.cpp:275
+#: src/wizard.cpp:273 src/wizard.cpp:278
 msgid "Required to work with images"
 msgstr "נדרש לעבודה עם תמונות "
 
-#: src/wizard.cpp:144
+#: src/wizard.cpp:147
 msgid "Required to work with various video formats (hdv, mpeg, flash, ...)"
 msgstr "נדרש לעבודה עם תסדירי וידאו שונים (hdv, mpeg, flash, ...)"
 
-#: rc.cpp:504 rc.cpp:1719
+#: rc.cpp:1394 rc.cpp:2726
 msgid "Rescale"
 msgstr "שנה קנה-מידה"
 
-#: src/effectstackview.cpp:55
+#: src/effectstackview.cpp:56
 msgid "Reset effect"
 msgstr "אפס אפקט"
 
-#: src/monitor.cpp:119
+#: src/monitor.cpp:99
 msgid "Resize (100%)"
 msgstr "‫שנה גודל (100%)"
 
-#: src/monitor.cpp:120
+#: src/monitor.cpp:100
 msgid "Resize (50%)"
 msgstr "‫שנה גודל (50%)"
 
-#: src/resizeclipcommand.cpp:27 src/customtrackview.cpp:2306
-#: src/customtrackview.cpp:2367
+#: src/customtrackview.cpp:2453 src/customtrackview.cpp:2514
+#: src/resizeclipcommand.cpp:33
 msgid "Resize clip"
 msgstr "שנה גודל סרטון"
 
-#: src/geometryval.cpp:69
+#: src/geometryval.cpp:77 src/geometryval.cpp:255
 msgid "Resize..."
 msgstr "‫שנה גודל..."
 
-#: rc.cpp:229
+#: rc.cpp:231
 msgid "Reverb"
 msgstr "החזר"
 
-#: rc.cpp:403
+#: rc.cpp:405
 msgid "Reverb Time"
 msgstr "זמן החזר"
 
-#: rc.cpp:233
+#: rc.cpp:235
 msgid "Reverb time"
 msgstr "זמן החזר"
 
-#: rc.cpp:429
+#: rc.cpp:431
 msgid "Reverse playing"
 msgstr "ניגון הפוך"
 
-#: src/monitor.cpp:64 src/mainwindow.cpp:830 src/recmonitor.cpp:60
+#: src/mainwindow.cpp:859 src/recmonitor.cpp:66 src/monitor.cpp:74
 msgid "Rewind"
 msgstr "גלל חזרה"
 
-#: src/mainwindow.cpp:835
+#: src/mainwindow.cpp:864
 msgid "Rewind 1 Frame"
 msgstr "גלל חזרה מסגרת אחת"
 
-#: src/mainwindow.cpp:840
+#: src/mainwindow.cpp:869
 msgid "Rewind 1 Second"
 msgstr "גלל חזרה מסגרת אחת"
 
-#: src/monitor.cpp:65
+#: src/monitor.cpp:75
 msgid "Rewind 1 frame"
 msgstr "גלל חזרה מסגרת אחת"
 
-#: src/geometryval.cpp:81 rc.cpp:72
+#: src/geometryval.cpp:90 rc.cpp:72
 msgid "Right"
 msgstr "ימין"
 
-#: rc.cpp:237
+#: rc.cpp:239
 msgid "Room Reverb"
 msgstr "החזר חדר"
 
-#: rc.cpp:241
+#: rc.cpp:243
 msgid "Room size (m)"
 msgstr "‫גודל חדר (מ')"
 
-#: rc.cpp:297
+#: rc.cpp:299
 msgid "Rotate X"
 msgstr "סובב בציר X"
 
-#: rc.cpp:299
+#: rc.cpp:301
 msgid "Rotate Y"
 msgstr "סובב בציר Y"
 
-#: rc.cpp:301
+#: rc.cpp:303
 msgid "Rotate Z"
 msgstr "סובב בציר Z"
 
-#: rc.cpp:293
+#: rc.cpp:295
 msgid "Rotate and Shear"
 msgstr "סובב וגזור"
 
-#: rc.cpp:295
+#: rc.cpp:297
 msgid "Rotate clip in any 3 directions"
 msgstr "סובב סרטון בשלשת הכיוונים"
 
-#: rc.cpp:1311 rc.cpp:2526
+#: rc.cpp:593 rc.cpp:1925
 msgid "Rotate:"
 msgstr "‫סובב:"
 
-#: src/mainwindow.cpp:785
+#: src/mainwindow.cpp:810
 msgid "Run Config Wizard"
 msgstr "הרץ אשף הגדרות "
 
-#: rc.cpp:483 rc.cpp:705 rc.cpp:1698 rc.cpp:1920
+#: rc.cpp:770 rc.cpp:1373 rc.cpp:2102 rc.cpp:2705
 msgid "S"
 msgstr "S"
 
-#: src/kdenlivesettingsdialog.cpp:217
+#: src/kdenlivesettingsdialog.cpp:230
 msgid "SVGAlib"
 msgstr "SVGAlib"
 
-#: src/titlewidget.cpp:131
+#: src/titlewidget.cpp:156
 msgid "Save As"
 msgstr "‫שמור כ-"
 
-#: src/effectstackview.cpp:86
+#: src/dvdwizard.cpp:606
+#, fuzzy
+msgid "Save DVD Project"
+msgstr "שמור פרופיל"
+
+#: src/effectstackview.cpp:90
 msgid "Save Effect"
 msgstr "שמור אפקט"
 
-#: rc.cpp:903 rc.cpp:2118
+#: rc.cpp:1661 rc.cpp:2993
 msgid "Save Profile"
 msgstr "שמור פרופיל"
 
-#: src/titlewidget.cpp:669
+#: src/titlewidget.cpp:762
 msgid "Save Title"
 msgstr "שמור כותר"
 
-#: src/mainwindow.cpp:385 src/mainwindow.cpp:1205
-msgid "Save changes to document ?"
+#: src/mainwindow.cpp:389 src/mainwindow.cpp:1257
+#, fuzzy
+msgid "Save changes to document?"
 msgstr "האם לשמור שינויים למסמך‫?"
 
-#: src/mainwindow.cpp:2325
+#: src/mainwindow.cpp:2511
 msgid "Save clip zone as:"
 msgstr "‫שמור אזור סרטון כ-"
 
-#: src/effectstackview.cpp:53
+#: src/effectstackview.cpp:54
 msgid "Save effect"
 msgstr "שמור אפקט"
 
-#: src/profilesdialog.cpp:40
+#: src/profilesdialog.cpp:44
 msgid "Save profile"
 msgstr "שמור פרופיל"
 
-#: src/monitor.cpp:156
+#: rc.cpp:896 rc.cpp:2228
+#, fuzzy
+msgid "Save project"
+msgstr "שמור פרופיל"
+
+#: src/monitor.cpp:170
 msgid "Save zone"
 msgstr "שמור אזור"
 
-#: rc.cpp:40
+#: src/geometryval.cpp:255 rc.cpp:40
 msgid "Scale"
 msgstr "קנה-מידה"
 
-#: rc.cpp:489 rc.cpp:1704
+#: rc.cpp:1379 rc.cpp:2711
 msgid "Scanning"
 msgstr "סורק"
 
-#: rc.cpp:978 rc.cpp:1047 rc.cpp:2193 rc.cpp:2262
+#: rc.cpp:1523 rc.cpp:1592 rc.cpp:2855 rc.cpp:2924
 msgid "Screen Grab"
 msgstr "לכידת מסך"
 
-#: rc.cpp:594 rc.cpp:1809
+#: rc.cpp:488 rc.cpp:1820
 msgid "Screen grab"
 msgstr "לכידת מסך"
 
-#: src/renderwidget.cpp:154
+#: src/renderwidget.cpp:168
 msgid "Script Files"
 msgstr "קבצי תסריט"
 
-#: src/renderwidget.cpp:561
-msgid "Script file already exists. Do you want to overwrite it ?"
+#: src/renderwidget.cpp:595
+#, fuzzy
+msgid "Script file already exists. Do you want to overwrite it?"
 msgstr "‮קובץ התסריט קיים. האם ברצונך לדרוס אותו?"
 
-#: src/renderwidget.cpp:556
+#: src/renderwidget.cpp:590
 #, kde-format
 msgid "Script name (will be saved in: %1)"
 msgstr "‮שם תסריט (ישמר ב: %1)"
 
-#: rc.cpp:549 rc.cpp:1764
+#: rc.cpp:1448 rc.cpp:2780
 msgid "Scripts"
 msgstr "תסריטים"
 
-#: src/kdenlivedoc.cpp:1314
+#: src/kdenlivedoc.cpp:820
 msgid "Search automatically"
 msgstr "חפש אוטומטית"
 
-#: src/kdenlivedoc.cpp:1317 src/kdenlivedoc.cpp:1325
+#: src/kdenlivedoc.cpp:823 src/kdenlivedoc.cpp:831
 msgid "Search manually"
 msgstr "חפש ידנית"
 
-#: src/dvdwizard.cpp:42
+#: rc.cpp:1733 rc.cpp:3065
+#, fuzzy
+msgid "Search recursively"
+msgstr "חפש ידנית"
+
+#: src/dvdwizard.cpp:50
 msgid "Select Files For Your DVD"
 msgstr "בחר קבצים עבור ה-DVD"
 
-#: src/customtrackview.cpp:3557
+#: src/customtrackview.cpp:3778
 msgid "Select a clip before copying"
 msgstr "בחר סרטון לפני העתקה"
 
-#: src/customtrackview.cpp:1203
+#: src/customtrackview.cpp:1288
 msgid "Select a clip if you want to apply an effect"
 msgstr "בחר סרטון, על מנת להוסיף אפקט"
 
-#: src/regiongrabber.cpp:99
+#: src/regiongrabber.cpp:114
 msgid ""
 "Select a region using the mouse. To take the snapshot, press the Enter key. "
 "Press Esc to quit."
@@ -3153,332 +3420,351 @@ msgstr ""
 "‫בחר אזור בעזרת העכבר. לחץ על מקש ה-Enter על מנת לבצע צילום מסך. לחץ על מקש ה-"
 "Esc על מנת לבטל."
 
-#: src/customtrackview.cpp:2600
+#: src/customtrackview.cpp:2754
 msgid "Select clip to change speed"
 msgstr "בחר סרטון על מנת לשנות מהירות"
 
-#: src/customtrackview.cpp:1504 src/customtrackview.cpp:2547
+#: src/customtrackview.cpp:1611 src/customtrackview.cpp:2697
 msgid "Select clip to delete"
 msgstr "בחר סרטון לביטול"
 
-#: src/kdenlivesettingsdialog.cpp:315
+#: src/kdenlivesettingsdialog.cpp:332
 msgid "Select default audio editor"
 msgstr "בחר עורך שמע ברירת מחדל"
 
-#: src/kdenlivesettingsdialog.cpp:325
+#: src/kdenlivesettingsdialog.cpp:343
 msgid "Select default image editor"
 msgstr "בחר עורך תמונה ברירת מחדל"
 
-#: src/kdenlivesettingsdialog.cpp:305
+#: src/kdenlivesettingsdialog.cpp:321
 msgid "Select default video player"
 msgstr "בחר נגן וידאו ברירת מחדל"
 
-#: rc.cpp:522 rc.cpp:1737
+#: rc.cpp:1409 rc.cpp:2741
 msgid "Selected zone"
 msgstr "אזור נבחר"
 
-#: src/titlewidget.cpp:123
+#: src/titlewidget.cpp:148
 msgid "Selection Tool"
 msgstr "כלי בחירה"
 
-#: src/mainwindow.cpp:624
+#: src/mainwindow.cpp:649
 msgid "Selection tool"
 msgstr "כלי בחירה"
 
-#: rc.cpp:319
+#: rc.cpp:321
 msgid "Sepia"
 msgstr "ספיה"
 
-#: src/mainwindow.cpp:821
+#: src/mainwindow.cpp:850
 msgid "Set In Point"
 msgstr "קבע נקודת כניסה"
 
-#: src/mainwindow.cpp:826
+#: src/mainwindow.cpp:855
 msgid "Set Out Point"
 msgstr "קבע נקודת יציאה"
 
-#: src/monitor.cpp:166
+#: src/monitor.cpp:180
 msgid "Set current image as thumbnail"
 msgstr "קבע תמונה נוכחית כצלמית"
 
-#: src/main.cpp:52
+#: src/main.cpp:54
 msgid "Set the path for MLT environnement"
 msgstr "‫קבע נתיב לסביבת MLT"
 
-#: src/monitor.cpp:62
+#: src/monitor.cpp:71
 msgid "Set zone end"
 msgstr "קבע סוף אזור"
 
-#: src/monitor.cpp:61
+#: src/monitor.cpp:70
 msgid "Set zone start"
 msgstr "קבע תחילת אזור"
 
-#: rc.cpp:309
+#: rc.cpp:311
 msgid "Shear X"
 msgstr "גזור X"
 
-#: rc.cpp:311
+#: rc.cpp:313
 msgid "Shear Y"
 msgstr "גזור Y"
 
-#: rc.cpp:215 rc.cpp:393
+#: rc.cpp:223 rc.cpp:395
 msgid "Shift"
 msgstr "הזז"
 
-#: rc.cpp:1245 rc.cpp:2460
+#: rc.cpp:1694 rc.cpp:3026
 msgid "Show All"
 msgstr "הראה הכל"
 
-#: src/mainwindow.cpp:990
+#: src/mainwindow.cpp:1033
 msgid "Show Timeline"
 msgstr "הראה ציר זמן"
 
-#: src/mainwindow.cpp:697 rc.cpp:1386 rc.cpp:2601
+#: src/mainwindow.cpp:722 rc.cpp:1172 rc.cpp:2504
 msgid "Show audio thumbnails"
 msgstr "הראה צלמיות שמע"
 
-#: rc.cpp:1353 rc.cpp:2568
+#: rc.cpp:635 rc.cpp:1967
 msgid "Show background"
 msgstr "הראה רקע"
 
-#: src/complexparameter.cpp:41
+#: src/complexparameter.cpp:40
 msgid "Show keyframes in timeline"
 msgstr "הראה מסגרות מפתח בקו הזמן"
 
-#: src/mainwindow.cpp:703
+#: src/mainwindow.cpp:728
 msgid "Show markers comments"
 msgstr "הראה הערות סמנים"
 
-#: src/mainwindow.cpp:691 rc.cpp:1383 rc.cpp:2598
+#: src/mainwindow.cpp:716 rc.cpp:1169 rc.cpp:2501
 msgid "Show video thumbnails"
 msgstr "הראה צלמיות וידאו"
 
-#: rc.cpp:249
+#: rc.cpp:251
 msgid "Simulates a vinyl audio player - LADSPA audio effect"
 msgstr "אפקט שמע - הדמה תקליט ויניל"
 
-#: rc.cpp:672 rc.cpp:1104 rc.cpp:1266 rc.cpp:1887 rc.cpp:2319 rc.cpp:2481
+#: rc.cpp:557 rc.cpp:737 rc.cpp:851 rc.cpp:1649 rc.cpp:1751 rc.cpp:1889
+#: rc.cpp:2069 rc.cpp:2183 rc.cpp:2981 rc.cpp:3083
 msgid "Size"
 msgstr "גודל"
 
-#: rc.cpp:1182 rc.cpp:1329 rc.cpp:1341 rc.cpp:1428 rc.cpp:1608 rc.cpp:2397
-#: rc.cpp:2544 rc.cpp:2556 rc.cpp:2643 rc.cpp:2823
+#: rc.cpp:611 rc.cpp:623 rc.cpp:1022 rc.cpp:1271 rc.cpp:1472 rc.cpp:1943
+#: rc.cpp:1955 rc.cpp:2354 rc.cpp:2603 rc.cpp:2804
 msgid "Size:"
 msgstr "‫גודל:"
 
-#: rc.cpp:1467 rc.cpp:2682
+#: rc.cpp:1061 rc.cpp:2393
 msgid "Slideshow"
 msgstr "מצגת שקופיות"
 
-#: src/slideshowclip.cpp:33 rc.cpp:1113 rc.cpp:2328
+#: src/slideshowclip.cpp:36 rc.cpp:1307 rc.cpp:2639
 msgid "Slideshow Clip"
 msgstr "סרטון מצגת שקופיות"
 
-#: src/projectitem.cpp:185
+#: src/documentchecker.cpp:80 src/projectitem.cpp:210
 msgid "Slideshow clip"
 msgstr "סרטון מצגת שקופיות"
 
-#: src/mainwindow.cpp:709
+#: src/mainwindow.cpp:734
 msgid "Snap"
 msgstr "הצמד"
 
-#: rc.cpp:1143 rc.cpp:1494 rc.cpp:2358 rc.cpp:2709
+#: rc.cpp:1088 rc.cpp:1337 rc.cpp:2420 rc.cpp:2669
 msgid "Softness"
 msgstr "רכות"
 
-#: rc.cpp:139
+#: rc.cpp:779 rc.cpp:2111
+#, fuzzy
+msgid "Source"
+msgstr "צבע מקור"
+
+#: rc.cpp:141
 msgid "Source Color"
 msgstr "צבע מקור"
 
-#: rc.cpp:327
+#: rc.cpp:329
 msgid "Sox Band"
 msgstr "אפקט פס"
 
-#: rc.cpp:335
+#: rc.cpp:337
 msgid "Sox Bass"
 msgstr "אפקט בס"
 
-#: rc.cpp:343
+#: rc.cpp:345
 msgid "Sox Echo"
 msgstr "‫אפקט הד"
 
-#: rc.cpp:355
+#: rc.cpp:357
 msgid "Sox Flanger"
 msgstr "אפקט פלאנגר"
 
-#: rc.cpp:369
+#: rc.cpp:371
 msgid "Sox Gain"
 msgstr "אפקט שבח"
 
-#: rc.cpp:375
+#: rc.cpp:377
 msgid "Sox Phaser"
 msgstr "אפקט מופע"
 
-#: rc.cpp:389
+#: rc.cpp:391
 msgid "Sox Pitch Shift"
 msgstr "אפקט שינוי גובה צליל"
 
-#: rc.cpp:397
+#: rc.cpp:399
 msgid "Sox Reverb"
 msgstr "אפקט החזר"
 
-#: rc.cpp:407
+#: rc.cpp:409
 msgid "Sox Stretch"
 msgstr "‫אפקט מתיחה"
 
-#: rc.cpp:415
+#: rc.cpp:417
 msgid "Sox Vibro"
 msgstr "אפקט רטט"
 
-#: rc.cpp:329
+#: rc.cpp:331
 msgid "Sox band audio effect"
 msgstr "אפקט שמע - פס"
 
-#: rc.cpp:337
+#: rc.cpp:339
 msgid "Sox bass audio effect"
 msgstr "אפקט שמע - בס"
 
-#: rc.cpp:391
+#: rc.cpp:393
 msgid "Sox change pitch audio effect"
 msgstr "אפקט שמע - שינוי גובה צליל"
 
-#: rc.cpp:345
+#: rc.cpp:347
 msgid "Sox echo audio effect"
 msgstr "אפקט שמע - הד"
 
-#: rc.cpp:357
+#: rc.cpp:359
 msgid "Sox flanger audio effect"
 msgstr "אפקט שמע - פלאנגר"
 
-#: rc.cpp:371
+#: rc.cpp:373
 msgid "Sox gain audio effect"
 msgstr "אפקט שמע - שבח"
 
-#: rc.cpp:377
+#: rc.cpp:379
 msgid "Sox phaser audio effect"
 msgstr "אפקט שמע - שינוי מופע"
 
-#: rc.cpp:399
+#: rc.cpp:401
 msgid "Sox reverb audio effect"
 msgstr "אפקט שמע - החזר"
 
-#: rc.cpp:409
+#: rc.cpp:411
 msgid "Sox stretch audio effect"
 msgstr "אפקט שמע - מתיחה"
 
-#: rc.cpp:417
+#: rc.cpp:419
 msgid "Sox vibro audio effect"
 msgstr "אפקט שמע - רטט"
 
-#: rc.cpp:2913
+#: rc.cpp:3152
 msgid "Space"
 msgstr "רווח"
 
-#: src/mainwindow.cpp:634
+#: src/mainwindow.cpp:659
 msgid "Spacer tool"
 msgstr "כלי ריווח"
 
-#: rc.cpp:367 rc.cpp:387 rc.cpp:419 rc.cpp:421 rc.cpp:425
+#: rc.cpp:369 rc.cpp:389 rc.cpp:421 rc.cpp:423 rc.cpp:427
 msgid "Speed"
 msgstr "מהירות"
 
-#: src/mainwindow.cpp:937
+#: src/mainwindow.cpp:966
 msgid "Split Audio"
 msgstr "פצל שמע"
 
-#: src/splitaudiocommand.cpp:27 src/customtrackview.cpp:4082
+#: src/customtrackview.cpp:4332 src/splitaudiocommand.cpp:32
 msgid "Split audio"
 msgstr "פצל שמע"
 
-#: src/monitor.cpp:162
+#: src/monitor.cpp:176
 msgid "Split view"
 msgstr "פצל מראה"
 
-#: rc.cpp:209
+#: rc.cpp:211
 msgid "Spread"
 msgstr "פיזור"
 
-#: rc.cpp:149
+#: rc.cpp:151
 msgid "Square Blur"
 msgstr "טישטוש ריבועי"
 
-#: rc.cpp:80 rc.cpp:92 rc.cpp:1659 rc.cpp:2874
+#: src/mainwindow.cpp:1697 rc.cpp:82 rc.cpp:116 rc.cpp:791 rc.cpp:1712
+#: rc.cpp:2123 rc.cpp:3044
 msgid "Start"
 msgstr "התחלה"
 
-#: rc.cpp:103 rc.cpp:114
+#: rc.cpp:93 rc.cpp:104
 msgid "Start Gain"
 msgstr "שבח תחילי"
 
-#: src/renderwidget.cpp:75
+#: src/renderwidget.cpp:85
 msgid "Start Rendering"
 msgstr "תחילת צלימה"
 
-#: rc.cpp:552 rc.cpp:1767
+#: rc.cpp:1451 rc.cpp:2783
 msgid "Start Script"
 msgstr "תחילת תסריט"
 
-#: rc.cpp:1317 rc.cpp:2532
+#: rc.cpp:599 rc.cpp:1931
 msgid "Start-/EndViewport"
 msgstr "תחילת/סוף כיוון אשנב"
 
-#: rc.cpp:1320 rc.cpp:2535
+#: rc.cpp:602 rc.cpp:1934
 msgid "StartViewport"
 msgstr "תחילת אשנב"
 
-#: src/mainwindow.cpp:2227
+#: src/mainwindow.cpp:2406
 msgid "Starting -- find text as you type"
 msgstr "מתחיל -- חיפוש טקסט במהלך ההקלדה"
 
-#: src/recmonitor.cpp:66
+#: rc.cpp:884 rc.cpp:2216
+#, fuzzy
+msgid "Status"
+msgstr "התחלה"
+
+#: src/recmonitor.cpp:72
 msgid "Stop"
 msgstr "עצור"
 
-#: rc.cpp:427
+#: rc.cpp:429
 msgid "Stroboscope"
 msgstr "מבזק מחזורי"
 
-#: rc.cpp:255
+#: rc.cpp:257
 msgid "Surface warping"
 msgstr "עוות משטח"
 
-#: src/geometryval.cpp:87
+#: src/geometryval.cpp:96
 msgid "Sync timeline cursor"
 msgstr "סנכרן סמן ציר זמן"
 
-#: rc.cpp:630 rc.cpp:1845
+#: rc.cpp:977 rc.cpp:2309
 msgid "Target"
 msgstr "מטרה"
 
-#: rc.cpp:1566 rc.cpp:2781
+#: rc.cpp:902 rc.cpp:2234
 msgid "Temporary data folder"
 msgstr "תיקיית מידע זמנית"
 
-#: rc.cpp:816 rc.cpp:2031
+#: rc.cpp:689 rc.cpp:2021
 msgid "Temporary files"
 msgstr "קבצים זמניים"
 
-#: rc.cpp:627 rc.cpp:1842
+#: rc.cpp:974 rc.cpp:2306
 msgid "Text"
 msgstr "טקסט"
 
-#: src/projectitem.cpp:182
+#: src/projectitem.cpp:207
 msgid "Text clip"
 msgstr "סרטון טקסט"
 
-#: rc.cpp:1548 rc.cpp:2763
+#: rc.cpp:1658 rc.cpp:2990
 msgid "TextLabel"
 msgstr "תווית טקסט"
 
-#: src/profilesdialog.cpp:105
+#: src/profilesdialog.cpp:114
 msgid "The custom profile was modified, do you want to save it?"
 msgstr "‫הפרופיל המותאם אישית שונה, האם ברצונך לשמור אותו?"
 
-#: src/renderer.cpp:1217
+#: src/renderwidget.cpp:662 src/renderwidget.cpp:1347
+#, kde-format
+msgid ""
+"There is already a job writing file:<br><b>%1</b><br>Abort the job if you "
+"want to overwrite it..."
+msgstr ""
+
+#: src/renderer.cpp:1287
 msgid "There is no clip, cannot extract frame."
 msgstr "‫אין סרטון, אין אפשרות לחלץ מסגרת בודדת."
 
-#: src/wizard.cpp:45
+#: src/wizard.cpp:47
 msgid ""
 "This is the first time you run Kdenlive. This wizard will let you adjust "
 "some basic settings, you will be ready to edit your first movie in a few "
@@ -3487,17 +3773,18 @@ msgstr ""
 "‫זו ההפעלה הראשונה של Kdenlive. האשף הזה יאפשר הגדרה של מספר הגדרות בסיסיות, "
 "עריכת הסרט הראשון רחוקה רק מספר שניות..."
 
-#: src/renderwidget.cpp:294 src/renderwidget.cpp:399
+#: src/renderwidget.cpp:322 src/renderwidget.cpp:429
 msgid ""
 "This profile name already exists. Change the name if you don't want to "
 "overwrite it."
 msgstr "‫שם פרופיל כבר קיים. שנה את השם בכדי לא לדרוס אותו."
 
-#: src/kdenlivedoc.cpp:387, kde-format
+#: src/documentconvert.cpp:51
+#, kde-format
 msgid "This project type is unsupported (version %1) and can't be loaded."
 msgstr "סוג זה של פרוייקט אינו נתמך ( גרסה %1) ולכן לא ניתן לטעון אותו."
 
-#: src/kdenlivedoc.cpp:381
+#: src/documentconvert.cpp:45
 #, kde-format
 msgid ""
 "This project type is unsupported (version %1) and can't be loaded.\n"
@@ -3506,80 +3793,102 @@ msgstr ""
 "סוג זה של פרוייקט אינו נתמך (גרסה %1) ולכן לא ניתן לטעון אותו.\n"
 "אנא שקול לשדרג את גרסת Kdenlive."
 
-#: rc.cpp:431
+#: src/documentchecker.cpp:258
+msgid "This will remove the selected clips from this project"
+msgstr ""
+
+#: rc.cpp:433
 msgid "Threshold"
 msgstr "סף"
 
-#: rc.cpp:435
+#: rc.cpp:437
 msgid "Threshold value"
 msgstr "ערך סף"
 
-#: src/projectlistview.cpp:44
+#: src/projectlistview.cpp:46
 msgid "Thumbnail"
 msgstr "דגמית"
 
-#: rc.cpp:882 rc.cpp:2097
+#: rc.cpp:1769 rc.cpp:3101
 msgid "Thumbnails"
 msgstr "דגמיות"
 
-#: rc.cpp:1635 rc.cpp:2850
+#: rc.cpp:1499 rc.cpp:2831
 msgid "Thumbnails:"
 msgstr "דגמיות:"
 
-#: rc.cpp:1509 rc.cpp:2724
+#: rc.cpp:1103 rc.cpp:2435
 msgid "Time"
 msgstr "זמן"
 
-#: rc.cpp:395
+#: rc.cpp:397
 msgid "Time window (ms)"
 msgstr "‫חלון זמן (מילי שניות)"
 
-#: rc.cpp:507 rc.cpp:1722
+#: rc.cpp:1397 rc.cpp:2729
 msgid "Timecode overlay"
 msgstr "רבד קוד זמן"
 
-#: rc.cpp:2907
+#: rc.cpp:3146
 msgid "Timeline"
 msgstr "ציר זמן"
 
-#: rc.cpp:1275 rc.cpp:2490
+#: rc.cpp:545 rc.cpp:1877
 msgid "Title Clip"
 msgstr "סרטון כותר"
 
-#: rc.cpp:1272 rc.cpp:2487
+#: rc.cpp:857 rc.cpp:2189
 msgid "Toggle selection"
 msgstr "החלף בחירה"
 
-#: rc.cpp:2898
+#: rc.cpp:3137
 msgid "Tool"
 msgstr "כלי"
 
-#: src/geometryval.cpp:83 rc.cpp:66
+#: src/geometryval.cpp:92 rc.cpp:66
 msgid "Top"
 msgstr "עליון"
 
-#: src/customtrackview.cpp:1809 src/customtrackview.cpp:3905 rc.cpp:1254
-#: rc.cpp:2469
+#: src/customtrackview.cpp:1942 src/customtrackview.cpp:4140 rc.cpp:539
+#: rc.cpp:1871
 msgid "Track"
 msgstr "ערוץ"
 
-#: rc.cpp:900 rc.cpp:2115
+#: rc.cpp:1787 rc.cpp:3119
 msgid "Track height"
 msgstr "גובה ערוץ"
 
-#: rc.cpp:2895
+#: rc.cpp:3134
 msgid "Tracks"
 msgstr "ערוצים"
 
-#: src/mainwindow.cpp:164
+#: src/kdenlivesettingsdialog.cpp:96 rc.cpp:3128
+#, fuzzy
+msgid "Transcode"
+msgstr "מעבר"
+
+#: src/cliptranscode.cpp:34 src/mainwindow.cpp:845
+msgid "Transcode Clip"
+msgstr ""
+
+#: src/cliptranscode.cpp:119
+msgid "Transcoding FAILED!"
+msgstr ""
+
+#: src/cliptranscode.cpp:115
+#, fuzzy
+msgid "Transcoding finished."
+msgstr "צלימה הסתיימה ב-%1"
+
+#: src/mainwindow.cpp:165
 msgid "Transition"
 msgstr "מעבר"
 
-#: rc.cpp:1662 rc.cpp:1668 rc.cpp:2877 rc.cpp:2883
+#: rc.cpp:1715 rc.cpp:1721 rc.cpp:3047 rc.cpp:3053
 msgid "Transparency"
 msgstr "שקיפות"
 
-#: rc.cpp:1503 rc.cpp:2718
+#: rc.cpp:1097 rc.cpp:2429
 msgid "Transparent background"
 msgstr "רקע שקוף"
 
@@ -3587,88 +3896,92 @@ msgstr "רקע שקוף"
 msgid "Trim the edges of a clip"
 msgstr "קיצוץ שולי סרטון"
 
-#: rc.cpp:321
+#: rc.cpp:323
 msgid "Turn clip colors to sepia"
 msgstr "‫הפוך צבעי סרטון לספיה (חום כהה)"
 
-#: rc.cpp:738 rc.cpp:1953
+#: rc.cpp:833 rc.cpp:1727 rc.cpp:2165 rc.cpp:3059
 msgid "Type"
 msgstr "סוג"
 
-#: src/kdenlivedoc.cpp:381 src/kdenlivedoc.cpp:387
+#: src/documentconvert.cpp:45 src/documentconvert.cpp:51
 msgid "Unable to open project"
 msgstr "לא ניתן לפתוח את הפרוייקט"
 
-#: src/renderwidget.cpp:315 src/renderwidget.cpp:479 src/renderwidget.cpp:937
+#: src/renderwidget.cpp:343 src/renderwidget.cpp:510 src/renderwidget.cpp:1029
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "‫‫‫לא מסוגל לכתוב לקובץ %1"
 
-#: src/mainwindow.cpp:197
+#: src/mainwindow.cpp:198
 msgid "Undo History"
 msgstr "היסטורית ביטול"
 
-#: src/mainwindow.cpp:911
+#: src/mainwindow.cpp:940
 msgid "Ungroup Clips"
 msgstr "ביטול קיבוץ סרטונים"
 
-#: src/groupclipscommand.cpp:28
+#: src/groupclipscommand.cpp:34
 msgid "Ungroup clips"
 msgstr "בטל קיבוץ סרטונים"
 
-#: src/projectitem.cpp:194
+#: src/projectitem.cpp:219
 msgid "Unknown clip"
 msgstr "סרטון לא ידוע"
 
-#: src/locktrackcommand.cpp:27
+#: src/locktrackcommand.cpp:32
 msgid "Unlock track"
 msgstr "בטל נעילת רצועה"
 
-#: src/renderwidget.cpp:760
+#: src/renderwidget.cpp:847
 #, kde-format
 msgid "Unsupported audio codec: %1"
 msgstr "מקודד שמע לא נתמך: %1"
 
-#: src/renderwidget.cpp:775
+#: src/renderwidget.cpp:862
 #, kde-format
 msgid "Unsupported video codec: %1"
 msgstr "מקודד וידאו לא נתמך: %1"
 
-#: src/renderwidget.cpp:745
+#: src/renderwidget.cpp:832
 #, kde-format
 msgid "Unsupported video format: %1"
 msgstr "תסדיר וידאו לא נתמך: %1"
 
-#: src/kdenlivedoc.cpp:1268
+#: src/kdenlivedoc.cpp:770
 msgid "Untitled"
 msgstr "ללא כותרת"
 
-#: rc.cpp:723 rc.cpp:1938
+#: rc.cpp:1184 rc.cpp:2516
 msgid "Up"
 msgstr "למעלה"
 
-#: rc.cpp:1215 rc.cpp:2430
+#: rc.cpp:1304 rc.cpp:2636
 msgid "Use KDE job tracking for render jobs"
 msgstr "השתמש בעקיבת עבודות של KDE עבור עבודות צלימה"
 
-#: rc.cpp:699 rc.cpp:1914
+#: rc.cpp:764 rc.cpp:2096
 msgid "Use as default"
 msgstr "השתמש כברירת מחדל"
 
-#: rc.cpp:437
+#: rc.cpp:1736 rc.cpp:3068
+msgid "Use placeholders for missing clips"
+msgstr ""
+
+#: rc.cpp:439
 msgid "Use transparency"
 msgstr "השתמש בשקיפות"
 
-#: rc.cpp:1344 rc.cpp:1347 rc.cpp:1377 rc.cpp:1650 rc.cpp:1653 rc.cpp:2559
-#: rc.cpp:2562 rc.cpp:2592 rc.cpp:2865 rc.cpp:2868
+#: rc.cpp:626 rc.cpp:629 rc.cpp:722 rc.cpp:860 rc.cpp:863 rc.cpp:1958
+#: rc.cpp:1961 rc.cpp:2054 rc.cpp:2192 rc.cpp:2195
 msgid "V"
 msgstr "V"
 
-#: rc.cpp:1560 rc.cpp:2775
+#: rc.cpp:1208 rc.cpp:2540
 msgid "Value"
 msgstr "ערך"
 
-#: rc.cpp:151
+#: rc.cpp:153
 msgid "Variable-size square blur (frei0r.squareblur)"
 msgstr "טישטוש ריבועי בגודל משתנה"
 
@@ -3676,11 +3989,11 @@ msgstr "טישטוש ריבועי בגודל משתנה"
 msgid "Variance"
 msgstr "שונות"
 
-#: src/geometryval.cpp:80
+#: src/geometryval.cpp:89
 msgid "Vert. Center"
 msgstr "מרכז אנכי"
 
-#: rc.cpp:453
+#: rc.cpp:455
 msgid "Vertical factor"
 msgstr "גורם אנכי"
 
@@ -3692,92 +4005,100 @@ msgstr "מכפיל אנכי"
 msgid "Vertical scatter"
 msgstr "פיזור אנכי"
 
-#: rc.cpp:651 rc.cpp:885 rc.cpp:1434 rc.cpp:1587 rc.cpp:1638 rc.cpp:1866
-#: rc.cpp:2100 rc.cpp:2649 rc.cpp:2802 rc.cpp:2853
+#: rc.cpp:1001 rc.cpp:1028 rc.cpp:1157 rc.cpp:1502 rc.cpp:1772 rc.cpp:2333
+#: rc.cpp:2360 rc.cpp:2489 rc.cpp:2834 rc.cpp:3104
 msgid "Video"
 msgstr "וידאו"
 
-#: rc.cpp:573 rc.cpp:1788
+#: rc.cpp:665 rc.cpp:1997
 msgid "Video Codecs"
 msgstr "מקודדי וידאו"
 
-#: src/mainwindow.cpp:945
+#: src/mainwindow.cpp:975
 msgid "Video Only"
 msgstr "וידאו בלבד"
 
-#: rc.cpp:1602 rc.cpp:2817
+#: rc.cpp:1466 rc.cpp:2798
 msgid "Video Profile"
 msgstr "תצורת וידאו"
 
-#: rc.cpp:1236 rc.cpp:2451
+#: rc.cpp:1685 rc.cpp:3017
 msgid "Video Resolution"
 msgstr "הפרדת וידאו"
 
-#: src/wizard.cpp:61
+#: src/wizard.cpp:63
 msgid "Video Standard"
 msgstr "תקן וידאו"
 
-#: src/projectitem.cpp:173
+#: src/documentchecker.cpp:65 src/documentchecker.cpp:83
+#: src/projectitem.cpp:198
 msgid "Video clip"
 msgstr "סרטון וידאו"
 
-#: rc.cpp:1437 rc.cpp:2652
+#: rc.cpp:1031 rc.cpp:2363
 msgid "Video codec"
 msgstr "מקודד וידאו"
 
-#: rc.cpp:1011 rc.cpp:2226
+#: rc.cpp:1556 rc.cpp:2888
 msgid "Video device"
 msgstr "התקן וידאו"
 
-#: rc.cpp:924 rc.cpp:2139
+#: rc.cpp:494 rc.cpp:1826
 msgid "Video driver:"
 msgstr "‫מנהל התקן וידאו:"
 
-#: rc.cpp:1542 rc.cpp:2757
+#: rc.cpp:1136 rc.cpp:2468
 msgid "Video index"
 msgstr "אינדקס וידאו"
 
-#: src/customtrackview.cpp:4174
+#: src/customtrackview.cpp:4427
 msgid "Video only"
 msgstr "וידאו בלבד"
 
-#: rc.cpp:837 rc.cpp:2052
+#: rc.cpp:710 rc.cpp:2042
 msgid "Video player"
 msgstr "נגן וידאו"
 
-#: rc.cpp:855 rc.cpp:2070
+#: rc.cpp:470 rc.cpp:1802
 msgid "Video track"
 msgstr "רצועת וידאו"
 
-#: rc.cpp:1209 rc.cpp:1647 rc.cpp:2424 rc.cpp:2862
+#: rc.cpp:1298 rc.cpp:1511 rc.cpp:2630 rc.cpp:2843
 msgid "Video tracks"
 msgstr "רצועות וידאו"
 
-#: rc.cpp:591 rc.cpp:975 rc.cpp:1005 rc.cpp:1806 rc.cpp:2190 rc.cpp:2220
+#: rc.cpp:485 rc.cpp:1520 rc.cpp:1550 rc.cpp:1817 rc.cpp:2852 rc.cpp:2882
 msgid "Video4Linux"
 msgstr "Video4Linux"
 
-#: rc.cpp:2931
+#: rc.cpp:3170
 msgid "View"
 msgstr "תצוגה"
 
-#: rc.cpp:247
+#: rc.cpp:249
 msgid "Vinyl"
 msgstr "ויניל"
 
-#: src/projectitem.cpp:188
+#: src/projectitem.cpp:213
 msgid "Virtual clip"
 msgstr "סרטון וירטואלי"
 
-#: rc.cpp:439
-msgid "Volume (keframable)"
+#: rc.cpp:441
+#, fuzzy
+msgid "Volume (keyframable)"
 msgstr "‮עוצמת שמע (במסגרת מפתח)"
 
-#: rc.cpp:1362 rc.cpp:2577
+#: rc.cpp:644 rc.cpp:1976
 msgid "W"
 msgstr "W"
 
-#: rc.cpp:921 rc.cpp:2136
+#: src/renderwidget.cpp:669 src/renderwidget.cpp:1184
+#: src/renderwidget.cpp:1353
+#, fuzzy
+msgid "Waiting..."
+msgstr "‫מאתחל..."
+
+#: rc.cpp:491 rc.cpp:1823
 msgid ""
 "Warning: changes to the drivers and devices can make Kdenlive unstable. "
 "Change only if you know what you do."
@@ -3785,67 +4106,67 @@ msgstr ""
 "אזהרה:ביצוע שינויים למנהלי ההתקן וההתקנים יכול לגרום לאי יציבות. בצע שינויים "
 "רק אם אתה יודע מה אתה עושה."
 
-#: rc.cpp:445
+#: rc.cpp:447
 msgid "Wave"
 msgstr "גל"
 
-#: rc.cpp:259
+#: rc.cpp:261
 msgid "Wear"
 msgstr "שחיקה"
 
-#: src/renderwidget.cpp:857
+#: src/renderwidget.cpp:948
 msgid "Web sites"
 msgstr "אתרי אינטרנט"
 
-#: src/wizard.cpp:40
+#: src/wizard.cpp:42
 msgid "Welcome"
 msgstr "שלום"
 
-#: rc.cpp:128
+#: rc.cpp:130
 msgid "White Balance"
 msgstr "איזון צבע לבן"
 
-#: rc.cpp:333 rc.cpp:1284 rc.cpp:1287 rc.cpp:2499 rc.cpp:2502
+#: rc.cpp:335 rc.cpp:554 rc.cpp:1886
 msgid "Width"
 msgstr "רוחב"
 
-#: rc.cpp:413
+#: rc.cpp:415
 msgid "Window"
 msgstr "חלון"
 
-#: rc.cpp:1356 rc.cpp:2571
+#: rc.cpp:638 rc.cpp:1970
 msgid "X"
 msgstr "X"
 
-#: src/kdenlivesettingsdialog.cpp:212
+#: src/kdenlivesettingsdialog.cpp:225
 msgid "X11"
 msgstr "X11"
 
-#: rc.cpp:1323 rc.cpp:1335 rc.cpp:2538 rc.cpp:2550
+#: rc.cpp:605 rc.cpp:617 rc.cpp:1937 rc.cpp:1949
 msgid "X:"
 msgstr "X:"
 
-#: src/kdenlivesettingsdialog.cpp:213
+#: src/kdenlivesettingsdialog.cpp:226
 msgid "XFree86 DGA 2.0"
 msgstr "XFree86 DGA 2.0"
 
-#: src/kdenlivesettingsdialog.cpp:211
+#: src/kdenlivesettingsdialog.cpp:224
 msgid "XVideo"
 msgstr "XVideo"
 
-#: rc.cpp:1359 rc.cpp:2574
+#: rc.cpp:641 rc.cpp:1973
 msgid "Y"
 msgstr "Y"
 
-#: rc.cpp:1326 rc.cpp:1338 rc.cpp:2541 rc.cpp:2553
+#: rc.cpp:608 rc.cpp:620 rc.cpp:1940 rc.cpp:1952
 msgid "Y:"
 msgstr "Y:"
 
-#: rc.cpp:251
+#: rc.cpp:253
 msgid "Year"
 msgstr "שנה"
 
-#: src/kdenlivedoc.cpp:1029
+#: src/kdenlivedoc.cpp:526
 #, kde-format
 msgid ""
 "You have changed the project folder. Do you want to copy the cached data "
@@ -3854,69 +4175,74 @@ msgstr ""
 "תיקיית הפרוייקט שונתה. האם ברצונך להעתיק את מטמון המידע מ-%1 לתיקייה החדשה %"
 "2?"
 
-#: src/customtrackview.cpp:1817
+#: src/customtrackview.cpp:1950
 #, kde-format
 msgid "You must be in an empty space to remove space (time: %1, track: %2)"
 msgstr "‫יש צורך להיות ברווח ריק על מנת להסיר רווח(זמן: %1, רצועה: %2)  "
 
-#: src/customtrackview.cpp:1823
+#: src/customtrackview.cpp:1956
 #, kde-format
 msgid "You must be in an empty space to remove space (time=%1, track:%2)"
 msgstr "‫יש צורך להיות ברווח ריק על מנת להסיר רווח(זמן=%1, רצועה:%2)  "
 
-#: src/customtrackview.cpp:3674
+#: src/customtrackview.cpp:3900
 msgid "You must copy exactly one clip before pasting effects"
 msgstr "חובה לבחור סרטון אחד בדיוק, לפני הדבקת אפקטים"
 
-#: src/customtrackview.cpp:3749 src/customtrackview.cpp:3773
-#: src/customtrackview.cpp:4078 src/customtrackview.cpp:4170
-#: src/customtrackview.cpp:4194
+#: src/customtrackview.cpp:3979 src/customtrackview.cpp:4004
+#: src/customtrackview.cpp:4328 src/customtrackview.cpp:4423
+#: src/customtrackview.cpp:4448 src/customtrackview.cpp:4473
 msgid "You must select one clip for this action"
 msgstr "חובה לבחור סרטון אחד לביצוע פעולה זו"
 
-#: src/customtrackview.cpp:3981
+#: src/customtrackview.cpp:4225
 msgid "You must select one transition for this action"
 msgstr "חובה לבחור מעבר אחד לביצוע פעולה זו"
 
-#: src/wizard.cpp:43
+#: src/dvdwizard.cpp:558
+#, kde-format
+msgid "You need program <b>%1</b> to perform this action"
+msgstr ""
+
+#: src/wizard.cpp:45
 msgid ""
 "Your Kdenlive version was upgraded. Please take some time to review the "
 "basic settings"
 msgstr "‮גרסת Kdenlive שודרגה. אנא בדוק את ההגדרות הבסיסיות"
 
-#: rc.cpp:1368 rc.cpp:2583
+#: rc.cpp:650 rc.cpp:1982
 msgid "Z-Index:"
 msgstr "‫אינדקס בציר Z:"
 
-#: src/mainwindow.cpp:754
+#: src/mainwindow.cpp:779
 msgid "Zoom In"
 msgstr "התקרב(הגדל זום)"
 
-#: src/mainwindow.cpp:759
+#: src/mainwindow.cpp:784
 msgid "Zoom Out"
 msgstr "התרחק(הקטן זום)"
 
-#: rc.cpp:1308 rc.cpp:2523
+#: rc.cpp:590 rc.cpp:1922
 msgid "Zoom:"
 msgstr "זום:"
 
-#: rc.cpp:852 rc.cpp:2067
+#: rc.cpp:467 rc.cpp:1799
 msgid "after"
 msgstr "אחרי"
 
-#: rc.cpp:849 rc.cpp:2064
+#: rc.cpp:464 rc.cpp:1796
 msgid "before"
 msgstr "קודם"
 
-#: rc.cpp:783 rc.cpp:1998
+#: rc.cpp:926 rc.cpp:2258
 msgid "create new points"
 msgstr "צור נקודות חדשות"
 
-#: src/dvdwizardvob.cpp:36
+#: src/dvdwizardvob.cpp:54
 msgid "dvdauthor"
 msgstr "dvdauthor"
 
-#: src/recmonitor.cpp:170
+#: src/recmonitor.cpp:181
 msgid ""
 "dvgrab utility not found,\n"
 " please install it for firewire capture"
@@ -3924,97 +4250,124 @@ msgstr ""
 "תוכנת dvgrub לא נמצאה\n"
 "אנא התקן אותה על מנת לבצע לכידת‫ firewire"
 
-#: src/kdenlivesettingsdialog.cpp:154
+#: src/kdenlivesettingsdialog.cpp:164
 #, kde-format
 msgid "dvgrab version %1 at %2"
 msgstr "‫dvgrab גרסא %1 ב-%2"
 
-#: src/editeffectcommand.cpp:32 src/edittransitioncommand.cpp:29
-#: src/customtrackview.cpp:1161 src/customtrackview.cpp:1196
-#: src/addeffectcommand.cpp:30
+#: src/addeffectcommand.cpp:37 src/editeffectcommand.cpp:39
+#: src/customtrackview.cpp:1245 src/customtrackview.cpp:1281
+#: src/edittransitioncommand.cpp:35
 msgid "effect"
 msgstr "אפקט"
 
-#: src/timecode.cpp:130
+#: src/timecode.cpp:158
 msgid "frames"
 msgstr "מסגרות"
 
-#: src/mainwindow.cpp:603
+#: src/mainwindow.cpp:628
 msgid "hh:mm:ss::ff"
 msgstr "hh:mm:ss::ff"
 
-#: src/timecode.cpp:109
+#: src/timecode.cpp:137
 msgid "hour"
 msgstr "שעה"
 
-#: src/managecapturesdialog.cpp:41
+#: src/managecapturesdialog.cpp:43
 msgid "import"
 msgstr "ייבוא"
 
-#: src/timecode.cpp:117
+#: src/timecode.cpp:145
 msgid "min."
 msgstr "‫דק'"
 
-#: src/dvdwizardvob.cpp:37
+#: src/dvdwizardvob.cpp:55
 msgid "mkisofs"
 msgstr "mkisofs"
 
-#: rc.cpp:765 rc.cpp:1980
+#: rc.cpp:908 rc.cpp:2240
 msgid "move on X axis"
 msgstr "‫הזז בציר X"
 
-#: rc.cpp:771 rc.cpp:1986
+#: rc.cpp:914 rc.cpp:2246
 msgid "move on Y axis"
 msgstr "‫הזז בציר Y"
 
-#: rc.cpp:1029 rc.cpp:2244
+#: rc.cpp:1574 rc.cpp:2906
 msgid "oss"
 msgstr "oss"
 
-#: rc.cpp:792 rc.cpp:2007
+#: rc.cpp:935 rc.cpp:2267
 msgid "parameter description"
 msgstr "תאור ערך"
 
-#: src/renderwidget.cpp:551 src/renderwidget.cpp:554
+#: rc.cpp:1220 rc.cpp:2552
+#, fuzzy
+msgid "save"
+msgstr "גל"
+
+#: src/renderwidget.cpp:585 src/renderwidget.cpp:588
 msgid "script"
 msgstr "תסריט"
 
-#: src/timecode.cpp:125
+#: src/timecode.cpp:153
 msgid "sec."
 msgstr "‫שנ'"
 
-#: src/abstractclipitem.cpp:290
+#: src/abstractclipitem.cpp:318
 msgid "seconds"
 msgstr "שניות"
 
-#: rc.cpp:531 rc.cpp:1746
+#: rc.cpp:1418 rc.cpp:2750
 msgid "to"
 msgstr "‫ל-"
 
-#: rc.cpp:777 rc.cpp:1992
+#: rc.cpp:920 rc.cpp:2252
 msgid "update values in timeline"
 msgstr "עדכן ערכים בציר הזמן"
 
-#: rc.cpp:1032 rc.cpp:2247
+#: rc.cpp:1577 rc.cpp:2909
 msgid "video4linux2"
 msgstr "video4linux2"
 
-#: rc.cpp:741 rc.cpp:1956
+#: rc.cpp:836 rc.cpp:2168
 msgid "with track"
 msgstr "עם רצועה"
 
-#: rc.cpp:675 rc.cpp:1890
+#: rc.cpp:740 rc.cpp:2072
 msgid "x"
 msgstr "x"
 
-#: rc.cpp:1350 rc.cpp:2565
+#: rc.cpp:632 rc.cpp:1964
 msgid "x1"
 msgstr "x1"
 
-#: src/wizard.cpp:460
+#: src/wizard.cpp:471
 msgid ""
 "your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr "‫התקנת MLT לא נמצאה. התקן את MLT והתחל מחדש את Kdenlive.\n"
+
+#~ msgid "Current jobs"
+#~ msgstr "עבודות עדכניות"
+
+#~ msgid "Dvd iso image"
+#~ msgstr "קובץ DVD iso"
+
+#~ msgid ""
+#~ "File already exists.\n"
+#~ "Do you want to overwrite it ?"
+#~ msgstr ""
+#~ "הקובץ קיים.\n"
+#~ "‫האם ברצונך לדרוס אותו?"
+
+#~ msgid "Form"
+#~ msgstr "טופס"
+
+#~ msgid "Inigo"
+#~ msgstr "Inigo"
+
+#~ msgid "Inigo path"
+#~ msgstr "‮‫נתיב Inigo"
 
 # , kde-format
 #~ msgid "<qt>Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
