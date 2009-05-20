@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-20 13:34+0200\n"
-"PO-Revision-Date: 2009-05-20 13:47+0200\n"
+"PO-Revision-Date: 2009-05-20 15:17+0200\n"
 "Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -356,7 +356,7 @@ msgstr "Erweitert"
 
 #: src/titlewidget.cpp:124
 msgid "Align center"
-msgstr ""
+msgstr "Mittig ausrichten"
 
 #: src/titlewidget.cpp:127
 msgid "Align item horizontally"
@@ -368,11 +368,11 @@ msgstr "Element vertikal ausrichten"
 
 #: src/titlewidget.cpp:123
 msgid "Align left"
-msgstr ""
+msgstr "Links ausrichten"
 
 #: src/titlewidget.cpp:122
 msgid "Align right"
-msgstr ""
+msgstr "Rechts ausrichten"
 
 #: src/geometryval.cpp:85
 msgid "Align..."
@@ -404,7 +404,7 @@ msgstr "Vertikales Verschieben erlauben"
 
 #: src/renderwidget.cpp:662 src/renderwidget.cpp:1347
 msgid "Already running"
-msgstr ""
+msgstr "Läuft bereits"
 
 #: rc.cpp:147 rc.cpp:451
 msgid "Amplitude"
@@ -560,7 +560,7 @@ msgstr "Avformat-Modul (FFmpeg)"
 
 #: rc.cpp:986 rc.cpp:2318
 msgid "Back to menu"
-msgstr ""
+msgstr "Zurück zum Menü"
 
 #: rc.cpp:596 rc.cpp:989 rc.cpp:992 rc.cpp:1928 rc.cpp:2321 rc.cpp:2324
 msgid "Background"
@@ -613,7 +613,7 @@ msgstr "Puffer"
 
 #: src/main.cpp:45
 msgid "Bug fixing etc."
-msgstr ""
+msgstr "Fehlerberichtigung usw."
 
 #: rc.cpp:890 rc.cpp:2222
 msgid "Burn"
@@ -622,7 +622,7 @@ msgstr "Brennen"
 #: src/dvdwizard.cpp:88 src/dvdwizard.cpp:95
 #, kde-format
 msgid "Burn with %1"
-msgstr ""
+msgstr "Brennen mit %1"
 
 #: rc.cpp:971 rc.cpp:2303
 msgid "Button"
@@ -869,7 +869,7 @@ msgstr "Kanäle"
 #: src/dvdwizardchapters.cpp:235
 #, kde-format
 msgid "Chapter %1"
-msgstr ""
+msgstr "Kapitel %1"
 
 #: rc.cpp:32
 msgid "Charcoal"
@@ -893,7 +893,7 @@ msgstr "Prüfe System"
 
 #: rc.cpp:46
 msgid "Chroma Hold"
-msgstr ""
+msgstr "Chroma Hold"
 
 #: rc.cpp:325
 msgid "Chrominance U"
@@ -1060,7 +1060,7 @@ msgstr "Einfaches Menü erstellen"
 
 #: rc.cpp:1427 rc.cpp:2759
 msgid "Create chapter file based on guides"
-msgstr ""
+msgstr "Kapitel anhand der Hilfslinien erstellen"
 
 #: src/profilesdialog.cpp:46 src/renderwidget.cpp:72
 msgid "Create new profile"
@@ -1157,7 +1157,7 @@ msgstr "DVD"
 
 #: src/dvdwizard.cpp:56
 msgid "DVD Chapters"
-msgstr ""
+msgstr "DVD-Kapitel"
 
 #: rc.cpp:905 rc.cpp:2237
 msgid "DVD ISO image"
@@ -1580,7 +1580,7 @@ msgstr "Endfenster"
 
 #: src/documentchecker.cpp:161
 msgid "Enter new location for file"
-msgstr ""
+msgstr "Geben Sie den neuen Ort für die Datei an"
 
 #: src/kdenlivesettingsdialog.cpp:70
 msgid "Environment"
@@ -2195,7 +2195,7 @@ msgstr "Jack"
 
 #: src/main.cpp:46
 msgid "Jason Wood"
-msgstr ""
+msgstr "Jason Wood"
 
 #: src/main.cpp:42
 msgid "Jean-Baptiste Mardelle"
@@ -2203,11 +2203,11 @@ msgstr "Jean-Baptiste Mardelle"
 
 #: src/main.cpp:44
 msgid "Jean-Michel Poure"
-msgstr ""
+msgstr "Jean-Michel Poure"
 
 #: rc.cpp:1430 rc.cpp:2762
 msgid "Job Queue"
-msgstr ""
+msgstr "Aufgaben-Warteschlange"
 
 #: rc.cpp:788 rc.cpp:2120
 msgid "Job status"
@@ -2406,11 +2406,11 @@ msgstr "Medienplayer"
 
 #: src/wizard.cpp:129
 msgid "Melt"
-msgstr ""
+msgstr "Melt"
 
 #: rc.cpp:680 rc.cpp:2012
 msgid "Melt path"
-msgstr ""
+msgstr "Melt-Pfad"
 
 #: src/dvdwizard.cpp:309
 msgid "Menu job timed out"
@@ -2568,11 +2568,11 @@ msgstr "Neue Geschwindigkeit (Prozent)"
 
 #: src/titlewidget.cpp:121
 msgid "No alignment"
-msgstr ""
+msgstr "Nicht ausrichten"
 
 #: src/dvdwizard.cpp:98
 msgid "No burning program found (K3b, Brasero)"
-msgstr ""
+msgstr "Kein Brenn-Programm gefunden (K3b, Brasero)"
 
 #: src/customtrackview.cpp:2897 src/customtrackview.cpp:3844
 msgid "No clip copied"
@@ -2662,7 +2662,7 @@ msgstr "Projekte in neuem Tab öffnen"
 
 #: src/main.cpp:46
 msgid "Original KDE 3 version author (not active anymore)"
-msgstr ""
+msgstr "Originaler Autor der KDE-3-Version (nicht mehr aktiv)"
 
 #: rc.cpp:114
 msgid "Out"
@@ -2690,7 +2690,7 @@ msgstr "PAL"
 
 #: src/dvdwizardvob.cpp:59
 msgid "PAL 16:9"
-msgstr ""
+msgstr "PAL 16:9"
 
 #: src/dvdwizardvob.cpp:59
 msgid "PAL 4:3"
@@ -2971,7 +2971,7 @@ msgstr "Bewertung"
 
 #: src/main.cpp:45
 msgid "Ray Lehtiniemi"
-msgstr ""
+msgstr "Ray Lehtiniemi"
 
 #: src/razorclipcommand.cpp:32
 msgid "Razor clip"
@@ -3132,7 +3132,7 @@ msgstr "Rendern von %1 in %2 fertiggestellt"
 
 #: src/main.cpp:44
 msgid "Rendering profiles customisation"
-msgstr ""
+msgstr "Anpassung der Render-Profile"
 
 #: src/trackview.cpp:478
 #, kde-format
@@ -3845,11 +3845,11 @@ msgstr "Transkodieren"
 
 #: src/cliptranscode.cpp:34 src/mainwindow.cpp:845
 msgid "Transcode Clip"
-msgstr ""
+msgstr "Clip transkodieren"
 
 #: src/cliptranscode.cpp:119
 msgid "Transcoding FAILED!"
-msgstr ""
+msgstr "Transkodieren fehlgeschlagen!"
 
 #: src/cliptranscode.cpp:115
 msgid "Transcoding finished."
@@ -3941,7 +3941,7 @@ msgstr "Als Standard benutzen"
 
 #: rc.cpp:1736 rc.cpp:3068
 msgid "Use placeholders for missing clips"
-msgstr ""
+msgstr "Nutzen Sie Platzhalter für fehlende Clips"
 
 #: rc.cpp:439
 msgid "Use transparency"
