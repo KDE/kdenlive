@@ -11,13 +11,13 @@ msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-20 13:34+0200\n"
-"PO-Revision-Date: 2009-04-06 11:15+0200\n"
+"PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-2\n"
 "Content-Transfer-Encoding: 8bitX-Generator: Lokalize 0.3\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 
 #: src/clipproperties.cpp:480 src/slideshowclip.cpp:121
 #, kde-format
@@ -174,9 +174,8 @@ msgid "ARTS daemon"
 msgstr ""
 
 #: src/cliptranscode.cpp:90 rc.cpp:899 rc.cpp:2231
-#, fuzzy
 msgid "Abort"
-msgstr "Prekini rad"
+msgstr "Prekini"
 
 #: src/renderwidget.cpp:1266 rc.cpp:1433 rc.cpp:2765
 msgid "Abort Job"
@@ -221,9 +220,8 @@ msgid "Add Marker"
 msgstr "Dodaj oznaku"
 
 #: rc.cpp:1148 rc.cpp:2480
-#, fuzzy
 msgid "Add Profile"
-msgstr "Uredi profil"
+msgstr "Dodaj profil"
 
 #: src/titlewidget.cpp:136
 msgid "Add Rectangle"
@@ -254,18 +252,16 @@ msgid "Add audio fade"
 msgstr "Dodaj audio priguĹĄenje"
 
 #: rc.cpp:1214 rc.cpp:2546
-#, fuzzy
 msgid "Add chapter"
-msgstr "Dodaj oznaku"
+msgstr "Dodaj poglavlje"
 
 #: src/addclipcommand.cpp:33
 msgid "Add clip"
 msgstr "Dodaj isjeÄak"
 
 #: rc.cpp:794 rc.cpp:2126
-#, fuzzy
 msgid "Add clip to project"
-msgstr "Prilagodi zoom prema projektu"
+msgstr "dodaj isje�ak projektu"
 
 #: src/clipmanager.cpp:234
 msgid "Add clips"
@@ -289,23 +285,20 @@ msgid "Add marker"
 msgstr "Dodaj oznaku"
 
 #: rc.cpp:1763 rc.cpp:3095
-#, fuzzy
 msgid "Add movie file"
-msgstr "Dodaj video efekt"
+msgstr "Dodaj video datoteku"
 
 #: src/dvdwizardmenu.cpp:41
-#, fuzzy
 msgid "Add new button"
-msgstr "Dodaj novi efekt"
+msgstr "Dodaj novi gumb"
 
 #: src/effectstackview.cpp:46
 msgid "Add new effect"
 msgstr "Dodaj novi efekt"
 
 #: src/dvdwizardvob.cpp:91
-#, fuzzy
 msgid "Add new video file"
-msgstr "Dodaj novi efekt"
+msgstr "Dodaj novu video datoteku"
 
 #: rc.cpp:1547 rc.cpp:2879
 msgid "Add recording time to captured file name"
@@ -361,7 +354,7 @@ msgstr "Napredno"
 
 #: src/titlewidget.cpp:124
 msgid "Align center"
-msgstr ""
+msgstr "Poravnaj po centru"
 
 #: src/titlewidget.cpp:127
 msgid "Align item horizontally"
@@ -373,11 +366,11 @@ msgstr "Poravnaj vertikalno"
 
 #: src/titlewidget.cpp:123
 msgid "Align left"
-msgstr ""
+msgstr "Poravnaj lijevo"
 
 #: src/titlewidget.cpp:122
 msgid "Align right"
-msgstr ""
+msgstr "Poravnaj desno"
 
 #: src/geometryval.cpp:85
 msgid "Align..."
@@ -393,7 +386,7 @@ msgstr "Sve datoteke"
 
 #: src/projectlist.cpp:597
 msgid "All Supported Files"
-msgstr ""
+msgstr "Sve podr�ane datoteke"
 
 #: src/spacerdialog.cpp:38
 msgid "All tracks"
@@ -409,7 +402,7 @@ msgstr "OmoguÄi vertikalni pomak"
 
 #: src/renderwidget.cpp:662 src/renderwidget.cpp:1347
 msgid "Already running"
-msgstr ""
+msgstr "Ve� radi"
 
 #: rc.cpp:147 rc.cpp:451
 msgid "Amplitude"
@@ -461,9 +454,8 @@ msgid "Audio Only"
 msgstr "Samo zvuk"
 
 #: src/customtrackview.cpp:4477 src/mainwindow.cpp:980
-#, fuzzy
 msgid "Audio and Video"
-msgstr "Audio indeks"
+msgstr "Audio i Video"
 
 #: rc.cpp:1598 rc.cpp:2930
 msgid "Audio channels"
@@ -564,7 +556,7 @@ msgstr "AvformatĂËmodulĂË(FFmpeg)"
 
 #: rc.cpp:986 rc.cpp:2318
 msgid "Back to menu"
-msgstr ""
+msgstr "Povratak na izbornik"
 
 #: rc.cpp:596 rc.cpp:989 rc.cpp:992 rc.cpp:1928 rc.cpp:2321 rc.cpp:2324
 msgid "Background"
@@ -607,9 +599,9 @@ msgid "Brightness (keyframable)"
 msgstr "Svjetlina (prema kljuÄnim toÄkama)"
 
 #: src/trackview.cpp:475
-#, fuzzy, kde-format
+#, kde-format
 msgid "Broken clip producer %1"
-msgstr "Razbijen producent isjeÄka %1"
+msgstr "Razbijen producent isje�ka %1"
 
 #: rc.cpp:1622 rc.cpp:1631 rc.cpp:2954 rc.cpp:2963
 msgid "Buffer"
@@ -617,17 +609,16 @@ msgstr "Buffer"
 
 #: src/main.cpp:45
 msgid "Bug fixing etc."
-msgstr ""
+msgstr "Ispravak gre�aka itd."
 
 #: rc.cpp:890 rc.cpp:2222
-#, fuzzy
 msgid "Burn"
-msgstr "Buffer"
+msgstr "Zapr�i"
 
 #: src/dvdwizard.cpp:88 src/dvdwizard.cpp:95
 #, kde-format
 msgid "Burn with %1"
-msgstr ""
+msgstr "Zapr�i sa %1"
 
 #: rc.cpp:971 rc.cpp:2303
 msgid "Button"
@@ -710,9 +701,8 @@ msgid "Cannot find clip with keyframe"
 msgstr "Ne mogu naÄi isjeÄak sa kljuÄnim toÄkama"
 
 #: src/mainwindow.cpp:1492 src/mainwindow.cpp:1617
-#, fuzzy
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
-msgstr "Ne mogu naÄi inigo program potreban za stvaranje (dio MLT-a)"
+msgstr "Ne mogu na�i melt program potreban za stvaranje (dio Mlt-a)"
 
 #: src/mainwindow.cpp:1477
 msgid "Cannot find your Mlt profiles, please give the path"
@@ -872,7 +862,7 @@ msgstr "Kanali"
 #: src/dvdwizardchapters.cpp:235
 #, kde-format
 msgid "Chapter %1"
-msgstr ""
+msgstr "Poglavlje %1"
 
 #: rc.cpp:32
 msgid "Charcoal"
@@ -911,9 +901,8 @@ msgid "Clean"
 msgstr "Äisto"
 
 #: rc.cpp:1445 rc.cpp:2777
-#, fuzzy
 msgid "Clean Up"
-msgstr "Äisto"
+msgstr "O�isti"
 
 #: rc.cpp:3140
 msgid "Clip"
@@ -936,9 +925,9 @@ msgid "Clip <b>%1</b><br>is invalid, will be removed from project."
 msgstr "IsjeÄak <b>%1</b><br>nevalja, bit Äe maknut iz projekta."
 
 #: src/projectlist.cpp:632
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clip <b>%1</b><br>is missing or invalid. Remove it from project?"
-msgstr "IsjeÄak <b>%1</b><br>nevalja, bit Äe maknut iz projekta."
+msgstr "Isje�ak <b>%1</b><br>nevalja. Maknuti iz projekta?"
 
 #: rc.cpp:1229 rc.cpp:2561
 msgid "Clip Color"
@@ -962,9 +951,8 @@ msgid "Clip has no markers"
 msgstr "IsjeÄak nema oznake"
 
 #: src/documentchecker.cpp:103
-#, fuzzy
 msgid "Clips folder"
-msgstr "Boja isjeÄka"
+msgstr "Mapa isje�aka"
 
 #: src/cliptranscode.cpp:111 rc.cpp:1421 rc.cpp:1436 rc.cpp:1457 rc.cpp:2753
 #: rc.cpp:2768 rc.cpp:2789
@@ -972,9 +960,8 @@ msgid "Close"
 msgstr "Zatvori"
 
 #: rc.cpp:797 rc.cpp:2129
-#, fuzzy
 msgid "Close after transcode"
-msgstr "Play nakon stvaranja"
+msgstr "Zatvori nakon stvaranja"
 
 #: src/mainwindow.cpp:132
 msgid "Close the current tab"
@@ -1025,9 +1012,8 @@ msgid "Copy the left channel to the right"
 msgstr "Kopiraj lijevi kanal u desni"
 
 #: src/main.cpp:41
-#, fuzzy
 msgid "Copyright (c) 2009 Development team"
-msgstr "CopyrightĂË(c)ĂË2008 Razvojni tim"
+msgstr "CopyrightĂË(c)ĂË2009 Razvojni tim"
 
 #: src/renderer.cpp:1039
 msgid ""
@@ -1056,9 +1042,8 @@ msgid "Create Folder"
 msgstr "Stvori mapu"
 
 #: rc.cpp:893 rc.cpp:2225
-#, fuzzy
 msgid "Create ISO image"
-msgstr "DVD ISO slika"
+msgstr "Stvori ISO sliku"
 
 #: src/renderwidget.cpp:590
 msgid "Create Render Script"
@@ -1070,7 +1055,7 @@ msgstr "Stvori osnovni izbornik"
 
 #: rc.cpp:1427 rc.cpp:2759
 msgid "Create chapter file based on guides"
-msgstr ""
+msgstr "Kreiraj datoteku poglavlja baziranu na vodi�ima"
 
 #: src/profilesdialog.cpp:46 src/renderwidget.cpp:72
 msgid "Create new profile"
@@ -1167,7 +1152,7 @@ msgstr ""
 
 #: src/dvdwizard.cpp:56
 msgid "DVD Chapters"
-msgstr ""
+msgstr "DVD Poglavlja"
 
 #: rc.cpp:905 rc.cpp:2237
 msgid "DVD ISO image"
@@ -1187,9 +1172,8 @@ msgid "DVD Wizard"
 msgstr "DVD �arobnjak"
 
 #: rc.cpp:1760 rc.cpp:3092
-#, fuzzy
 msgid "DVD format"
-msgstr "DVD slika"
+msgstr "DVD format"
 
 #: src/dvdwizard.cpp:466
 msgid "DVD structure broken"
@@ -1281,9 +1265,8 @@ msgid "Delete Marker"
 msgstr "ObriĹĄi oznaku"
 
 #: rc.cpp:1151 rc.cpp:2483
-#, fuzzy
 msgid "Delete Profile"
-msgstr "ObriĹĄi profil"
+msgstr "Obri�i profil"
 
 #: rc.cpp:1454 rc.cpp:2786
 msgid "Delete Script"
@@ -1302,9 +1285,8 @@ msgid "Delete clip"
 msgstr "ObriĹĄi isjeÄak"
 
 #: src/dvdwizardmenu.cpp:42
-#, fuzzy
 msgid "Delete current button"
-msgstr "ObriĹĄi trenutnu datoteku"
+msgstr "Obri�i trenutni gumb"
 
 #: rc.cpp:854 rc.cpp:2186
 msgid "Delete current file"
@@ -1319,12 +1301,11 @@ msgid "Delete folder"
 msgstr "ObriĹĄi mapu"
 
 #: src/projectlist.cpp:364
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Delete folder <b>%2</b>?<br>This will also remove the %1 clips in that folder"
 msgstr ""
-"ObriÄšÄi mapuĂË<b>%2</b>ĂË?<br>Ovo ĂÂe obrisati iĂË%"
-"1ĂËisjeĂÂke u mapi"
+"Obri�i mapu <b>%2</b>?<br>Ovo �e tako�er obrisati i %1 isje�aka u mapi."
 
 #: src/editguidecommand.cpp:35
 msgid "Delete guide"
@@ -1592,7 +1573,7 @@ msgstr ""
 
 #: src/documentchecker.cpp:161
 msgid "Enter new location for file"
-msgstr ""
+msgstr "Unesi novu lokaciju datoteke"
 
 #: src/kdenlivesettingsdialog.cpp:70
 msgid "Environment"
@@ -1604,7 +1585,7 @@ msgstr ""
 
 #: rc.cpp:1439 rc.cpp:2771
 msgid "Error Log"
-msgstr ""
+msgstr "Lista gre�aka"
 
 #: src/customtrackview.cpp:1461 src/customtrackview.cpp:2383
 #: src/customtrackview.cpp:2669
@@ -1613,14 +1594,12 @@ msgid "Error removing clip at %1 on track %2"
 msgstr "GreÄšÄka pri uklanjanju isjeĂÂka naĂË%, trakaĂË%2"
 
 #: src/wizard.cpp:139
-#, fuzzy
 msgid "Error starting MLT's command line player (melt)"
-msgstr "GreĹĄka pri pokretanju MLT-ovog CLI playera (inigo)"
+msgstr "Gre�kaka pri pokretanju MLT-ovog CLI playera (melt)"
 
 #: src/wizard.cpp:486
-#, fuzzy
 msgid "Error starting MLT's command line player (melt)."
-msgstr "GreĹĄka pokretanja MLT-ovog CLI playera (inigo)"
+msgstr "Gre�ka pokretanja MLT-ovog CLI playera (melt)"
 
 #: src/customtrackview.cpp:1484 src/customtrackview.cpp:2480
 #: src/customtrackview.cpp:2542 src/customtrackview.cpp:3246
@@ -1647,7 +1626,7 @@ msgstr "ProĹĄirenje"
 
 #: rc.cpp:3122
 msgid "Extra Toolbar"
-msgstr ""
+msgstr "Extra alatna traka"
 
 #: src/monitor.cpp:172
 msgid "Extract frame"
@@ -1658,9 +1637,8 @@ msgid "FFmpeg & ffplay"
 msgstr ""
 
 #: rc.cpp:785 rc.cpp:1145 rc.cpp:2117 rc.cpp:2477
-#, fuzzy
 msgid "FFmpeg parameters"
-msgstr "Parametri"
+msgstr "FFmpeg parametri"
 
 #: rc.cpp:413
 msgid "Factor"
@@ -1707,13 +1685,13 @@ msgid "File"
 msgstr "Datoteka"
 
 #: src/cliptranscode.cpp:87
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "File %1 already exists.\n"
 "Do you want to overwrite it?"
-msgstr ""
-"DatotekaĂËveĂÂĂËpostoji.\n"
-"ÄšËeliÄšÄĂËliĂËjeĂËprepisati?"
+msgstr "Datoteka %1 ve� postoji.\n"
+"�elite je prepisati?"
+""
 
 #: src/kdenlivedoc.cpp:211 src/kdenlivedoc.cpp:219
 #, kde-format
@@ -1794,9 +1772,9 @@ msgid "Folder"
 msgstr "Mapa"
 
 #: src/dvdwizard.cpp:581
-#, fuzzy, kde-format
+#, kde-format
 msgid "Folder %1 already exists. Overwrite?"
-msgstr "Mapa %1 veÄ postoji. Prepisati?"
+msgstr "Mapa %1 ve� postoji. Prepisati?"
 
 #: rc.cpp:1640 rc.cpp:2972
 msgid "Follow mouse"
@@ -1843,9 +1821,9 @@ msgid "Forward 1 frame"
 msgstr "Naprijed 1 okvir"
 
 #: src/mainwindow.cpp:2414 src/mainwindow.cpp:2425
-#, fuzzy, kde-format
+#, kde-format
 msgid "Found: %1"
-msgstr "PronaĂÂenoĂË:ĂË%1"
+msgstr "Prona�eno:%1"
 
 #: rc.cpp:1316 rc.cpp:2648
 msgid "Frame Duration"
@@ -2105,9 +2083,9 @@ msgid "Image editing"
 msgstr "UreÄivanje slike"
 
 #: src/dvdwizard.cpp:583
-#, fuzzy, kde-format
+#, kde-format
 msgid "Image file %1 already exists. Overwrite?"
-msgstr "Slikovna datoteka %1 veÄ postoji. Prepisati?"
+msgstr "Slikovna datoteka %1 ve� postoji. Prepisati?"
 
 #: rc.cpp:1007 rc.cpp:1700 rc.cpp:2339 rc.cpp:3032
 msgid "Image preview"
@@ -2226,9 +2204,8 @@ msgid "Job Queue"
 msgstr ""
 
 #: rc.cpp:788 rc.cpp:2120
-#, fuzzy
 msgid "Job status"
-msgstr "IzreĹži poÄetak"
+msgstr "Status posla"
 
 #: rc.cpp:806 rc.cpp:2138
 msgid "Jog Shuttle device disabled."
@@ -2427,7 +2404,7 @@ msgstr ""
 
 #: rc.cpp:680 rc.cpp:2012
 msgid "Melt path"
-msgstr ""
+msgstr "Melt putanja"
 
 #: src/dvdwizard.cpp:309
 msgid "Menu job timed out"
@@ -2458,9 +2435,8 @@ msgid "Misc..."
 msgstr "Razno..."
 
 #: rc.cpp:1724 rc.cpp:3056
-#, fuzzy
 msgid "Missing clips"
-msgstr "Odgrupiraj isjeÄke"
+msgstr "Nedostaju isje�ci"
 
 #: rc.cpp:42
 msgid "Mix"
@@ -2523,9 +2499,8 @@ msgid "Move transition"
 msgstr "Pomakni prijelaz"
 
 #: rc.cpp:1211 rc.cpp:2543
-#, fuzzy
 msgid "Movie file"
-msgstr "Pomakni vodiÄ"
+msgstr "Video datoteka"
 
 #: rc.cpp:271
 msgid "Mute"
@@ -2586,11 +2561,11 @@ msgstr "Nova brzina (postoci)"
 
 #: src/titlewidget.cpp:121
 msgid "No alignment"
-msgstr ""
+msgstr "Bez poravnanja"
 
 #: src/dvdwizard.cpp:98
 msgid "No burning program found (K3b, Brasero)"
-msgstr ""
+msgstr "Ne mogu pronaći program za pržen·(K3b,·Brasero)"
 
 #: src/customtrackview.cpp:2897 src/customtrackview.cpp:3844
 msgid "No clip copied"
@@ -2634,9 +2609,9 @@ msgid "Not connected"
 msgstr "Nije spojen"
 
 #: src/mainwindow.cpp:2428
-#, fuzzy, kde-format
+#, kde-format
 msgid "Not found: %1"
-msgstr "Nije pronaÄeno : %1"
+msgstr "Nije prona�eno : %1"
 
 #: src/kdenlivesettingsdialog.cpp:207
 msgid "OSS"
@@ -2695,9 +2670,8 @@ msgid "Output file"
 msgstr "Izlazna datoteka"
 
 #: src/renderwidget.cpp:575
-#, fuzzy
 msgid "Output file already exists. Do you want to overwrite it?"
-msgstr "Datoteka veÄ postoji. Ĺ˝eliĹĄ je prepisati?"
+msgstr "Izlazna datoteka ve� postoji. �elite je prepisati?"
 
 #: rc.cpp:944 rc.cpp:2276
 msgid "P"
@@ -2885,9 +2859,8 @@ msgstr ""
 "%1"
 
 #: rc.cpp:887 rc.cpp:2219
-#, fuzzy
 msgid "Preview"
-msgstr "UreÄaj"
+msgstr "Pregled"
 
 #: src/customtrackview.cpp:1209 src/customtrackview.cpp:1218
 msgid "Problem adding effect to clip"
@@ -3052,9 +3025,8 @@ msgid "Reload Clip"
 msgstr "Iznova uÄitaj isjeÄak"
 
 #: src/renderwidget.cpp:1267
-#, fuzzy
 msgid "Remove Job"
-msgstr "Izbaci prazninu"
+msgstr "Izbaci posao"
 
 #: src/customtrackview.cpp:1942 src/mainwindow.cpp:996
 msgid "Remove Space"
@@ -3065,24 +3037,20 @@ msgid "Remove Track"
 msgstr "Izbaci traku"
 
 #: rc.cpp:1217 rc.cpp:2549
-#, fuzzy
 msgid "Remove chapter"
-msgstr "Izbaci prazninu"
+msgstr "Izbaci poglavlje"
 
 #: src/documentchecker.cpp:258
-#, fuzzy
 msgid "Remove clips"
-msgstr "Pomakni isjeÄak"
+msgstr "Izbaci isje�ke"
 
 #: rc.cpp:1766 rc.cpp:3098
-#, fuzzy
 msgid "Remove file"
-msgstr "Izbaci prazninu"
+msgstr "Izbaci datoteku"
 
 #: rc.cpp:1739 rc.cpp:3071
-#, fuzzy
 msgid "Remove selected clips"
-msgstr "Ne mogu umetnuti oznaÄene isjeÄke"
+msgstr "Izbaci odabrane isje�ke"
 
 #: src/insertspacecommand.cpp:36
 msgid "Remove space"
@@ -3307,9 +3275,8 @@ msgid "Save As"
 msgstr "Snimi kao"
 
 #: src/dvdwizard.cpp:606
-#, fuzzy
 msgid "Save DVD Project"
-msgstr "Snimi profil"
+msgstr "Snimi DVD projekt"
 
 #: src/effectstackview.cpp:90
 msgid "Save Effect"
@@ -3324,9 +3291,8 @@ msgid "Save Title"
 msgstr "Snimi naslov"
 
 #: src/mainwindow.cpp:389 src/mainwindow.cpp:1257
-#, fuzzy
 msgid "Save changes to document?"
-msgstr "Snimi promjene u dokument ?"
+msgstr "Snimiti promjene u dokument ?"
 
 #: src/mainwindow.cpp:2511
 msgid "Save clip zone as:"
@@ -3341,9 +3307,8 @@ msgid "Save profile"
 msgstr "Snimi profil"
 
 #: rc.cpp:896 rc.cpp:2228
-#, fuzzy
 msgid "Save project"
-msgstr "Snimi profil"
+msgstr "Snimi projekt"
 
 #: src/monitor.cpp:170
 msgid "Save zone"
@@ -3370,9 +3335,8 @@ msgid "Script Files"
 msgstr "Datoteke skripti"
 
 #: src/renderwidget.cpp:595
-#, fuzzy
 msgid "Script file already exists. Do you want to overwrite it?"
-msgstr "Skripta veÄ postoji. Ĺ˝eliĹĄ li je prepisati?"
+msgstr "Skripta ve� postoji. �elite je prepisati?"
 
 #: src/renderwidget.cpp:590
 #, kde-format
@@ -3392,9 +3356,8 @@ msgid "Search manually"
 msgstr "TraĹži ruÄno"
 
 #: rc.cpp:1733 rc.cpp:3065
-#, fuzzy
 msgid "Search recursively"
-msgstr "TraĹži ruÄno"
+msgstr "Tra�i rekurzivno"
 
 #: src/dvdwizard.cpp:50
 msgid "Select Files For Your DVD"
@@ -3551,9 +3514,8 @@ msgid "Softness"
 msgstr "MekoÄa"
 
 #: rc.cpp:779 rc.cpp:2111
-#, fuzzy
 msgid "Source"
-msgstr "Izvorna boja"
+msgstr "Izvor"
 
 #: rc.cpp:141
 msgid "Source Color"
@@ -3701,9 +3663,8 @@ msgid "Starting -- find text as you type"
 msgstr "PoÄinje -- pronaÄi tekst kako tipkaĹĄ"
 
 #: rc.cpp:884 rc.cpp:2216
-#, fuzzy
 msgid "Status"
-msgstr "PoÄetak"
+msgstr "Status"
 
 #: src/recmonitor.cpp:72
 msgid "Stop"
@@ -3754,7 +3715,8 @@ msgstr "PrilagoÄeni profil je promijenjen, ĹželiĹĄ li ga snimiti?"
 msgid ""
 "There is already a job writing file:<br><b>%1</b><br>Abort the job if you "
 "want to overwrite it..."
-msgstr ""
+msgstr "Ve� postoji datoteka za zapis posla:<br><b>%1</b><br>Prekini posao ako"
+"je �eli� prepisati..."
 
 #: src/renderer.cpp:1287
 msgid "There is no clip, cannot extract frame."
@@ -3795,7 +3757,7 @@ msgstr ""
 
 #: src/documentchecker.cpp:258
 msgid "This will remove the selected clips from this project"
-msgstr ""
+msgstr "Ovo �e izbaciti odabrane isje�ke iz projekta"
 
 #: rc.cpp:433
 msgid "Threshold"
@@ -3863,22 +3825,20 @@ msgid "Tracks"
 msgstr "Trake"
 
 #: src/kdenlivesettingsdialog.cpp:96 rc.cpp:3128
-#, fuzzy
 msgid "Transcode"
-msgstr "Prijelaz"
+msgstr "Pretvori"
 
 #: src/cliptranscode.cpp:34 src/mainwindow.cpp:845
 msgid "Transcode Clip"
-msgstr ""
+msgstr "Pretvori isje�ak"
 
 #: src/cliptranscode.cpp:119
 msgid "Transcoding FAILED!"
-msgstr ""
+msgstr "Pretvaranje NEUSPJE�NO!"
 
 #: src/cliptranscode.cpp:115
-#, fuzzy
 msgid "Transcoding finished."
-msgstr "Stvaranje zavrĹĄeno u %1"
+msgstr "Pretvaranje zavr�eno"
 
 #: src/mainwindow.cpp:165
 msgid "Transition"
@@ -3966,7 +3926,7 @@ msgstr "Koristi kao zadano"
 
 #: rc.cpp:1736 rc.cpp:3068
 msgid "Use placeholders for missing clips"
-msgstr ""
+msgstr "Koristi dr�a�e za isje�ke koji nedostaju"
 
 #: rc.cpp:439
 msgid "Use transparency"
@@ -4084,9 +4044,8 @@ msgid "Virtual clip"
 msgstr "Prividni isjeÄak"
 
 #: rc.cpp:441
-#, fuzzy
 msgid "Volume (keyframable)"
-msgstr "GlasnoÄa (prema kljuÄnim toÄkama)"
+msgstr "Glasno�a (prema klju�nim to�kama)"
 
 #: rc.cpp:644 rc.cpp:1976
 msgid "W"
@@ -4094,9 +4053,8 @@ msgstr ""
 
 #: src/renderwidget.cpp:669 src/renderwidget.cpp:1184
 #: src/renderwidget.cpp:1353
-#, fuzzy
 msgid "Waiting..."
-msgstr "Inicijalizacija..."
+msgstr "�ekaj..."
 
 #: rc.cpp:491 rc.cpp:1823
 msgid ""
@@ -4206,7 +4164,7 @@ msgstr "MoraĹĄ odabrati jedan prijelaz za ovu akciju"
 #: src/dvdwizard.cpp:558
 #, kde-format
 msgid "You need program <b>%1</b> to perform this action"
-msgstr ""
+msgstr "Potreban je program <b>%1</b> za izvr�enje ove akcije"
 
 #: src/wizard.cpp:45
 msgid ""
@@ -4308,9 +4266,8 @@ msgid "parameter description"
 msgstr "opis parametra"
 
 #: rc.cpp:1220 rc.cpp:2552
-#, fuzzy
 msgid "save"
-msgstr "Val"
+msgstr "snimi"
 
 #: src/renderwidget.cpp:585 src/renderwidget.cpp:588
 msgid "script"
@@ -4364,8 +4321,8 @@ msgstr ""
 #~ "File already exists.\n"
 #~ "Do you want to overwrite it ?"
 #~ msgstr ""
-#~ "Datoteka veÄ postoji.\n"
-#~ "Ĺ˝eliĹĄ li je prepisati?"
+#~ "Datoteka veĂÂĂÂÄÂĂÂ postoji.\n"
+#~ "ÄÂÄšÄÄÂĂÂeliÄÂÄšÄÄÂĂÂ li je prepisati?"
 
 #~ msgid "Form"
 #~ msgstr "Forma"
@@ -4378,9 +4335,9 @@ msgstr ""
 
 #~ msgid "<qt>Clip <b>%1</b><br>is invalid or missing, what do you want to do?"
 #~ msgstr ""
-#~ "<qt>ClipĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂ<b>"
+#~ "<qt>ClipÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂ<b>"
 #~ "%1</b><br>je neispravan ili nedostaje, "
-#~ "ÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂÄÂÄšÄÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂto "
+#~ "ĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂĂĹĄĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂto "
 #~ "napraviti?"
 
 #~ msgid "Brightness"
@@ -4391,10 +4348,10 @@ msgstr ""
 #~ "Disabling Desktop Search integration."
 #~ msgstr ""
 #~ "Ne mogu pristupiti Desktop "
-#~ "pretraziĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂ"
+#~ "pretraziÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂ"
 #~ "%1.\n"
-#~ "IskljuĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂujem "
-#~ "podrÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂÄÂÄšÄÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂku "
+#~ "IskljuÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂujem "
+#~ "podrĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂĂĹĄĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂÄÂĂÂÄÂĂÂĂÂĂÂÄÂĂÂku "
 #~ "Desktop pretrage."
 
 #~ msgid "Remaining time"
