@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-20 13:34+0200\n"
-"PO-Revision-Date: 2009-05-20 15:17+0200\n"
+"PO-Revision-Date: 2009-05-21 22:46+0200\n"
 "Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -3730,6 +3730,8 @@ msgid ""
 "There is already a job writing file:<br><b>%1</b><br>Abort the job if you "
 "want to overwrite it..."
 msgstr ""
+"Eine Aufgabe schreibt gerade die Datei <br><b>%1</b><br> Brechen Sie die "
+"Aufgabe ab, wenn Sie die Datei überschreiben wollen."
 
 #: src/renderer.cpp:1287
 msgid "There is no clip, cannot extract frame."
@@ -3772,7 +3774,7 @@ msgstr ""
 
 #: src/documentchecker.cpp:258
 msgid "This will remove the selected clips from this project"
-msgstr ""
+msgstr "Dies wird die ausgewählten Clips aus diesem Projekt entfernen"
 
 #: rc.cpp:433
 msgid "Threshold"
@@ -4179,7 +4181,7 @@ msgstr "Für diese Aktion müssen Sie einen Übergang auswählen"
 #: src/dvdwizard.cpp:558
 #, kde-format
 msgid "You need program <b>%1</b> to perform this action"
-msgstr ""
+msgstr "Sie benötigen das Programm <b>%1</b> um diesen Vorgang auszuführen"
 
 #: src/wizard.cpp:45
 msgid ""
