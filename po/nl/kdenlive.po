@@ -5045,7 +5045,7 @@ msgid ""
 "You have changed the project folder. Do you want to copy the cached data "
 "from %1 to the new folder %2?"
 msgstr ""
-"U heeft de projectmap gewijzigd. Wilt U de data in de cache kopi\eren van %1 "
+"U heeft de projectmap gewijzigd. Wilt U de data in de cache kopieren van %1 "
 "naar de nieuwe folder %2?"
 
 #: src/customtrackview.cpp:1950
