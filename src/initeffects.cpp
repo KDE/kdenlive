@@ -184,6 +184,8 @@ Mlt::Repository *initEffects::parseEffectFiles()
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/local/lib/ladspa");
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/opt/lib/ladspa");
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/opt/local/lib/ladspa");
+    KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/lib64/ladspa");
+    KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/local/lib64/ladspa");
 
     kDebug() << "//  INIT EFFECT SEARCH" << endl;
 
