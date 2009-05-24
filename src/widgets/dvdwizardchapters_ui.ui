@@ -61,13 +61,6 @@
      </property>
     </spacer>
    </item>
-   <item row="3" column="4">
-    <widget class="QPushButton" name="button_save">
-     <property name="text">
-      <string>save</string>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="0" colspan="5">
     <widget class="QGroupBox" name="monitor_frame">
      <property name="title">
