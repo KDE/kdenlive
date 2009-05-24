@@ -47,6 +47,7 @@ int main(int argc, char *argv[])
     aboutData.setHomepage("http://kdenlive.org");
     aboutData.setCustomAuthorText(ki18n("Please report bugs to http://kdenlive.org/mantis"), ki18n("Please report bugs to <a href=\"http://kdenlive.org/mantis\">http://kdenlive.org/mantis</a>"));
     aboutData.setTranslator(ki18n("NAME OF TRANSLATORS"), ki18n("EMAIL OF TRANSLATORS"));
+    aboutData.setBugAddress("http://kdenlive.org/mantis");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
 
