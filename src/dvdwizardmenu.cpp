@@ -503,3 +503,104 @@ bool DvdWizardMenu::isPalMenu() const
 {
     return m_isPal;
 }
+
+QDomElement DvdWizardMenu::toXml() const
+{
+    QDomDocument doc;
+    if (!m_view.create_menu->isChecked()) return doc.documentElement();
+    QDomElement xml = doc.createElement("menu");
+    doc.appendChild(xml);
+    if (m_view.background_list->currentIndex() == 0) {
+        // Color bg
+        xml.setAttribute("background_color", m_view.background_color->color().name());
+    } else if (m_view.background_list->currentIndex() == 1) {
+        // Image bg
+        xml.setAttribute("background_image", m_view.background_image->text());
+    } else {
+        // Video bg
+        xml.setAttribute("background_video", m_view.background_image->text());
+    }
+    xml.setAttribute("text_color", m_view.text_color->color().name());
+    xml.setAttribute("selected_color", m_view.selected_color->color().name());
+    xml.setAttribute("highlighted_color", m_view.highlighted_color->color().name());
+
+    QList<QGraphicsItem *> list = m_scene->items();
+    int buttonCount = 0;
+
+    for (int i = 0; i < list.count(); i++) {
+        if (list.at(i)->type() == QGraphicsItem::UserType + 1) {
+            buttonCount++;
+            DvdButton *button = static_cast < DvdButton* >(list.at(i));
+            QDomElement xmlbutton = doc.createElement("button");
+            xmlbutton.setAttribute("target", button->target());
+            xmlbutton.setAttribute("command", button->command());
+            xmlbutton.setAttribute("backtomenu", button->backMenu());
+            xmlbutton.setAttribute("posx", button->pos().x());
+            xmlbutton.setAttribute("posy", button->pos().y());
+            xmlbutton.setAttribute("text", button->toPlainText());
+            QFont font = button->font();
+            xmlbutton.setAttribute("font_size", font.pixelSize());
+            xmlbutton.setAttribute("font_family", font.family());
+            xml.appendChild(xmlbutton);
+        }
+    }
+    return doc.documentElement();
+}
+
+
+void DvdWizardMenu::loadXml(QDomElement xml)
+{
+    kDebug() << "// LOADING MENU";
+    if (xml.isNull()) return;
+    kDebug() << "// LOADING MENU 1";
+    m_view.create_menu->setChecked(true) ;
+    if (xml.hasAttribute("background_color")) {
+        m_view.background_list->setCurrentIndex(0);
+        m_view.background_color->setColor(xml.attribute("background_color"));
+    } else if (xml.hasAttribute("background_image")) {
+        m_view.background_list->setCurrentIndex(1);
+        m_view.background_image->setPath(xml.attribute("background_image"));
+    } else if (xml.hasAttribute("background_video")) {
+        m_view.background_list->setCurrentIndex(2);
+        m_view.background_image->setPath(xml.attribute("background_video"));
+    }
+
+    m_view.text_color->setColor(xml.attribute("text_color"));
+    m_view.selected_color->setColor(xml.attribute("selected_color"));
+    m_view.highlighted_color->setColor(xml.attribute("highlighted_color"));
+
+    QDomNodeList buttons = xml.elementsByTagName("button");
+    kDebug() << "// LOADING MENU 2" << buttons.count();
+
+    if (buttons.count() > 0) {
+        // Clear existing buttons
+        QList<QGraphicsItem *> list = m_scene->items();
+
+        for (int i = 0; i < list.count(); i++) {
+            if (list.at(i)->type() == QGraphicsItem::UserType + 1) {
+                delete list.at(i);
+                i--;
+            }
+        }
+    }
+
+    for (int i = 0; i < buttons.count(); i++) {
+        QDomElement e = buttons.at(i).toElement();
+        // create menu button
+        DvdButton *button = new DvdButton(e.attribute("text"));
+        QFont font(e.attribute("font_family"));
+        font.setPixelSize(e.attribute("font_size").toInt());
+        font.setStyleStrategy(QFont::NoAntialias);
+        button->setFont(font);
+        button->setTarget(e.attribute("target").toInt(), e.attribute("command"));
+        button->setBackMenu(e.attribute("backtomenu").toInt());
+        button->setDefaultTextColor(m_view.text_color->color());
+        button->setZValue(4);
+        button->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+        QRectF r = button->sceneBoundingRect();
+        m_scene->addItem(button);
+        button->setPos(e.attribute("posx").toDouble(), e.attribute("posy").toDouble());
+
+    }
+}
+

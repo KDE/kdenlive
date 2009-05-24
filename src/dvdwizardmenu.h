@@ -26,6 +26,7 @@
 #include <QGraphicsTextItem>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsRectItem>
+#include <QDomElement>
 
 #include <KDebug>
 
@@ -129,6 +130,8 @@ public:
     QString menuMoviePath() const;
     bool isPalMenu() const;
     void changeProfile(bool isPal);
+    QDomElement toXml() const;
+    void loadXml(QDomElement xml);
 
 private:
     Ui::DvdWizardMenu_UI m_view;

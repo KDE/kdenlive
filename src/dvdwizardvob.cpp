@@ -86,23 +86,38 @@ DvdWizardVob::~DvdWizardVob()
 }
 
 
-void DvdWizardVob::slotAddVobFile(KUrl url)
+void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters)
 {
     if (url.isEmpty()) url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"), "video/mpeg", this, i18n("Add new video file"));
     if (url.isEmpty()) return;
     QFile f(url.path());
     qint64 fileSize = f.size();
     QString profilename;
-    if (m_view.dvd_profile->currentIndex() == 0) profilename = "dv_pal";
-    else profilename = "dv_ntsc";
-    Mlt::Profile profile((char*) profilename.data());
+    switch (m_view.dvd_profile->currentIndex()) {
+    case 1:
+        profilename = "dv_pal_wide";
+        break;
+    case 2:
+        profilename = "dv_ntsc";
+        break;
+    case 3:
+        profilename = "dv_ntsc_wide";
+        break;
+    default:
+        profilename = "dv_pal";
+        break;
+    }
+
+    char *tmp = (char*) qstrdup(profilename.toUtf8().data());
+    Mlt::Profile profile(tmp);
+    delete[] tmp;
     QTreeWidgetItem *item = new QTreeWidgetItem(m_view.vobs_list, QStringList() << url.path() << QString() << KIO::convertSize(fileSize));
     item->setData(0, Qt::UserRole, fileSize);
     item->setIcon(0, KIcon("video-x-generic"));
 
     QPixmap pix(60, 45);
 
-    char *tmp = (char *) qstrdup(url.path().toUtf8().data());
+    tmp = (char *) qstrdup(url.path().toUtf8().data());
     Mlt::Producer *producer = new Mlt::Producer(profile, tmp);
     delete[] tmp;
 
@@ -115,6 +130,24 @@ void DvdWizardVob::slotAddVobFile(KUrl url)
     }
     delete producer;
 
+    if (chapters.isEmpty() == false) {
+        item->setData(1, Qt::UserRole + 1, chapters);
+    } else if (QFile::exists(url.path() + ".dvdchapter")) {
+        // insert chapters as children
+        QFile file(url.path() + ".dvdchapter");
+        if (file.open(QIODevice::ReadOnly)) {
+            QDomDocument doc;
+            doc.setContent(&file);
+            file.close();
+            QDomNodeList chapters = doc.elementsByTagName("chapter");
+            QStringList chaptersList;
+            for (int j = 0; j < chapters.count(); j++) {
+                chaptersList.append(QString::number(chapters.at(j).toElement().attribute("time").toInt()));
+            }
+            item->setData(1, Qt::UserRole + 1, chaptersList.join(";"));
+        }
+    }
+
     slotCheckVobList();
 }
 
@@ -122,14 +155,29 @@ void DvdWizardVob::changeFormat()
 {
     int max = m_view.vobs_list->topLevelItemCount();
     QString profilename;
-    if (m_view.dvd_profile->currentIndex() == 0) profilename = "dv_pal";
-    else profilename = "dv_ntsc";
-    Mlt::Profile profile((char*) profilename.data());
+    switch (m_view.dvd_profile->currentIndex()) {
+    case 1:
+        profilename = "dv_pal_wide";
+        break;
+    case 2:
+        profilename = "dv_ntsc";
+        break;
+    case 3:
+        profilename = "dv_ntsc_wide";
+        break;
+    default:
+        profilename = "dv_pal";
+        break;
+    }
+
+    char *tmp = (char*) qstrdup(profilename.toUtf8().data());
+    Mlt::Profile profile(tmp);
+    delete[] tmp;
     QPixmap pix(180, 135);
 
     for (int i = 0; i < max; i++) {
         QTreeWidgetItem *item = m_view.vobs_list->topLevelItem(i);
-        char *tmp = (char *) qstrdup(item->text(0).toUtf8().data());
+        tmp = (char *) qstrdup(item->text(0).toUtf8().data());
         Mlt::Producer *producer = new Mlt::Producer(profile, tmp);
         delete[] tmp;
 
@@ -195,6 +243,27 @@ QStringList DvdWizardVob::durations() const
     return result;
 }
 
+QStringList DvdWizardVob::chapters() const
+{
+    QStringList result;
+    QString path;
+    int max = m_view.vobs_list->topLevelItemCount();
+    for (int i = 0; i < max; i++) {
+        QTreeWidgetItem *item = m_view.vobs_list->topLevelItem(i);
+        if (item) result.append(item->data(1, Qt::UserRole + 1).toString());
+    }
+    return result;
+}
+
+void DvdWizardVob::updateChapters(QMap <QString, QString> chaptersdata)
+{
+    int max = m_view.vobs_list->topLevelItemCount();
+    for (int i = 0; i < max; i++) {
+        QTreeWidgetItem *item = m_view.vobs_list->topLevelItem(i);
+        item->setData(1, Qt::UserRole + 1, chaptersdata.value(item->text(0)));
+    }
+}
+
 int DvdWizardVob::duration(int ix) const
 {
     int result = -1;
@@ -211,6 +280,13 @@ QString DvdWizardVob::introMovie() const
     if (!m_view.use_intro->isChecked()) return QString();
     return m_view.intro_vob->url().path();
 }
+
+void DvdWizardVob::setIntroMovie(const QString path)
+{
+    m_view.intro_vob->setPath(path);
+    m_view.use_intro->setChecked(path.isEmpty() == false);
+}
+
 
 void DvdWizardVob::slotCheckVobList()
 {
@@ -267,5 +343,15 @@ bool DvdWizardVob::isWide() const
     return (m_view.dvd_profile->currentIndex() == 1 || m_view.dvd_profile->currentIndex() == 3);
 }
 
+void DvdWizardVob::setProfile(const QString profile)
+{
+    if (profile == "dv_pal") m_view.dvd_profile->setCurrentIndex(0);
+    else if (profile == "dv_pal_wide") m_view.dvd_profile->setCurrentIndex(1);
+    else if (profile == "dv_ntsc") m_view.dvd_profile->setCurrentIndex(2);
+    else if (profile == "dv_ntsc_wide") m_view.dvd_profile->setCurrentIndex(3);
+}
 
-
+void DvdWizardVob::clear()
+{
+    m_view.vobs_list->clear();
+}

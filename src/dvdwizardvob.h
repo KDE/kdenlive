@@ -48,6 +48,11 @@ public:
     bool isWide() const;
     int duration(int ix) const;
     QStringList durations() const;
+    QStringList chapters() const;
+    void setProfile(const QString profile);
+    void clear();
+    void updateChapters(QMap <QString, QString> chaptersdata);
+    void setIntroMovie(const QString path);
 
 private:
     Ui::DvdWizardVob_UI m_view;
@@ -57,9 +62,11 @@ private:
     KCapacityBar *m_capacityBar;
 #endif
 
+public slots:
+    void slotAddVobFile(KUrl url = KUrl(), const QString &chapters = QString());
+
 private slots:
     void slotCheckVobList();
-    void slotAddVobFile(KUrl url = KUrl());
     void slotDeleteVobFile();
     void slotItemUp();
     void slotItemDown();

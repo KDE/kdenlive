@@ -66,7 +66,10 @@ private slots:
     void slotBurn();
     void slotGenerate();
     void slotAbort();
+    void slotLoad();
     void slotSave();
+    void slotShowRenderInfo();
+    void slotShowIsoInfo();
 };
 
 #endif

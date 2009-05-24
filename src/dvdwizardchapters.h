@@ -38,12 +38,13 @@ public:
     virtual ~DvdWizardChapters();
     virtual bool isComplete() const;
     void changeProfile(bool isPal);
-    void slotGetChaptersList(int ix);
     void setPal(bool isPal);
-    void setVobFiles(bool isPal, const QStringList movies, const QStringList durations);
+    void setVobFiles(bool isPal, const QStringList movies, const QStringList durations, const QStringList chapters);
     QStringList selectedTitles() const;
     QStringList selectedTargets() const;
     QStringList chapters(int ix) const;
+    QDomElement toXml() const;
+    QMap <QString, QString> chaptersData() const;
 
 private:
     Ui::DvdWizardChapters_UI m_view;
@@ -58,7 +59,6 @@ private slots:
     void slotAddChapter();
     void slotRemoveChapter();
     void slotGoToChapter();
-    void slotSaveChapter();
 };
 
 #endif

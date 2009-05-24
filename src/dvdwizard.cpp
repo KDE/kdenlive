@@ -78,7 +78,6 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
     connect(this, SIGNAL(currentIdChanged(int)), this, SLOT(slotPageChanged(int)));
     connect(m_status.button_start, SIGNAL(clicked()), this, SLOT(slotGenerate()));
     connect(m_status.button_abort, SIGNAL(clicked()), this, SLOT(slotAbort()));
-    connect(m_status.button_save, SIGNAL(clicked()), this, SLOT(slotSave()));
     connect(m_status.button_preview, SIGNAL(clicked()), this, SLOT(slotPreview()));
 
     QString programName("k3b");
@@ -101,6 +100,18 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
     m_status.button_burn->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     m_status.button_preview->setIcon(KIcon("media-playback-start"));
 
+    // TODO: uncomment after 0.7.4 release (i18n change)
+    /*setButtonText(QWizard::CustomButton1, i19n("Load"));
+    setButtonText(QWizard::CustomButton2, i19n("Save"));*/
+    button(QWizard::CustomButton1)->setIcon(KIcon("document-open"));
+    button(QWizard::CustomButton2)->setIcon(KIcon("document-save"));
+    connect(button(QWizard::CustomButton1), SIGNAL(clicked()), this, SLOT(slotLoad()));
+    connect(button(QWizard::CustomButton2), SIGNAL(clicked()), this, SLOT(slotSave()));
+    setOption(QWizard::HaveCustomButton1, true);
+    setOption(QWizard::HaveCustomButton2, true);
+    QList<QWizard::WizardButton> layout;
+    layout << QWizard::CustomButton1 << QWizard::CustomButton2 << QWizard::Stretch << QWizard::BackButton << QWizard::NextButton << QWizard::CancelButton << QWizard::FinishButton;
+    setButtonLayout(layout);
 }
 
 DvdWizard::~DvdWizard()
@@ -123,8 +134,11 @@ DvdWizard::~DvdWizard()
 void DvdWizard::slotPageChanged(int page)
 {
     //kDebug() << "// PAGE CHGD: " << page << ", ID: " << visitedPages();
-    if (page == 1) {
-        m_pageChapters->setVobFiles(m_pageVob->isPal(), m_pageVob->selectedUrls(), m_pageVob->durations());
+    if (page == 0) {
+        // Update chapters that were modified in page 1
+        m_pageVob->updateChapters(m_pageChapters->chaptersData());
+    } else if (page == 1) {
+        m_pageChapters->setVobFiles(m_pageVob->isPal(), m_pageVob->selectedUrls(), m_pageVob->durations(), m_pageVob->chapters());
     } else if (page == 2) {
         m_pageMenu->setTargets(m_pageChapters->selectedTitles(), m_pageChapters->selectedTargets());
         m_pageMenu->changeProfile(m_pageVob->isPal());
@@ -135,6 +149,7 @@ void DvdWizard::slotPageChanged(int page)
 
 void DvdWizard::generateDvd()
 {
+    m_status.error_box->setHidden(true);
     KTemporaryFile temp1;
     temp1.setSuffix(".png");
     //temp1.setAutoRemove(false);
@@ -434,16 +449,28 @@ void DvdWizard::generateDvd()
     m_creationLog.clear();
     m_dvdauthor = new QProcess(this);
     connect(m_dvdauthor, SIGNAL(finished(int , QProcess::ExitStatus)), this, SLOT(slotRenderFinished(int, QProcess::ExitStatus)));
+    connect(m_dvdauthor, SIGNAL(readyReadStandardOutput()), this, SLOT(slotShowRenderInfo()));
     m_dvdauthor->setProcessChannelMode(QProcess::MergedChannels);
     m_dvdauthor->start("dvdauthor", args);
     m_status.button_abort->setEnabled(true);
+}
+
+void DvdWizard::slotShowRenderInfo()
+{
+    QString log = QString(m_dvdauthor->readAll());
+    m_status.error_log->setText(log);
+    m_status.error_box->setHidden(false);
 }
 
 void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
 {
     QListWidgetItem *authitem =  m_status.job_progress->item(3);
     if (status == QProcess::CrashExit || exitCode != 0) {
-        QByteArray result = m_dvdauthor->readAllStandardError();
+        QString result(m_dvdauthor->readAllStandardError());
+        result.append("<br><b>");
+
+        //TODO: uncomment after 0.7.4 release (i18n change)
+        //result.append(i19n("DVDAuthor process crashed."));
         m_status.error_log->setText(result);
         m_status.error_box->setHidden(false);
         kDebug() << "DVDAuthor process crashed";
@@ -485,6 +512,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
     }
     m_mkiso = new QProcess(this);
     connect(m_mkiso, SIGNAL(finished(int , QProcess::ExitStatus)), this, SLOT(slotIsoFinished(int, QProcess::ExitStatus)));
+    connect(m_mkiso, SIGNAL(readyReadStandardOutput()), this, SLOT(slotShowIsoInfo()));
     m_mkiso->setProcessChannelMode(QProcess::MergedChannels);
     QListWidgetItem *isoitem =  m_status.job_progress->item(4);
     isoitem->setIcon(KIcon("system-run"));
@@ -492,11 +520,21 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
 
 }
 
+void DvdWizard::slotShowIsoInfo()
+{
+    QString log = QString(m_mkiso->readAll());
+    m_status.error_log->setText(log);
+    m_status.error_box->setHidden(false);
+}
+
 void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
 {
     QListWidgetItem *isoitem =  m_status.job_progress->item(4);
     if (status == QProcess::CrashExit || exitCode != 0) {
-        QByteArray result = m_mkiso->readAllStandardError();
+        QString result(m_mkiso->readAllStandardError());
+        result.append("<br><b>");
+        //TODO: uncomment after 0.7.4 release (i18n change)
+        // result.append(i19n("ISO creation process crashed."));
         m_status.error_log->setText(result);
         m_status.error_box->setHidden(false);
         m_mkiso->close();
@@ -582,7 +620,7 @@ void DvdWizard::slotGenerate()
     if (KIO::NetAccess::exists(KUrl(m_status.iso_image->url().path()), KIO::NetAccess::SourceSide, this))
         warnMessage.append(i18n("Image file %1 already exists. Overwrite?", m_status.iso_image->url().path()));
 
-    if (!warnMessage.isEmpty() && KMessageBox::questionYesNo(this, warnMessage) == KMessageBox::Yes) {
+    if (warnMessage.isEmpty() || KMessageBox::questionYesNo(this, warnMessage) == KMessageBox::Yes) {
         KIO::NetAccess::del(KUrl(m_status.tmp_folder->url().path() + "/DVD"), this);
         QTimer::singleShot(300, this, SLOT(generateDvd()));
         m_status.button_preview->setEnabled(false);
@@ -601,10 +639,11 @@ void DvdWizard::slotAbort()
 
 void DvdWizard::slotSave()
 {
-    KMessageBox::sorry(this, "Not implemented yet");
-    return;
-    KUrl url = KFileDialog::getSaveUrl(KUrl(), "*.kdvd", this, i18n("Save DVD Project"));
+    KUrl url = KFileDialog::getSaveUrl(KUrl("kfiledialog:///projectfolder"), "*.kdvd", this, i18n("Save DVD Project"));
     if (url.isEmpty()) return;
+
+    if (currentId() == 0) m_pageChapters->setVobFiles(m_pageVob->isPal(), m_pageVob->selectedUrls(), m_pageVob->durations(), m_pageVob->chapters());
+
     QDomDocument doc;
     QDomElement dvdproject = doc.createElement("dvdproject");
     QString profile;
@@ -612,10 +651,59 @@ void DvdWizard::slotSave()
     else profile = "dv_ntsc";
     if (m_pageVob->isWide()) profile.append("_wide");
     dvdproject.setAttribute("profile", profile);
+
+    dvdproject.setAttribute("tmp_folder", m_status.tmp_folder->text());
+    dvdproject.setAttribute("iso_image", m_status.iso_image->text());
+
+    dvdproject.setAttribute("intro_movie", m_pageVob->introMovie());
+
     doc.appendChild(dvdproject);
-    //for (int i = 0; i <
+    QDomElement menu = m_pageMenu->toXml();
+    if (!menu.isNull()) dvdproject.appendChild(doc.importNode(menu, true));
+    QDomElement chaps = m_pageChapters->toXml();
+    if (!chaps.isNull()) dvdproject.appendChild(doc.importNode(chaps, true));
 
+    QFile file(url.path());
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        kWarning() << "//////  ERROR writing to file: " << url.path();
+        KMessageBox::error(this, i18n("Cannot write to file %1", url.path()));
+        return;
+    }
 
+    file.write(doc.toString().toUtf8());
+    if (file.error() != QFile::NoError) {
+        KMessageBox::error(this, i18n("Cannot write to file %1", url.path()));
+    }
+    file.close();
 }
 
 
+void DvdWizard::slotLoad()
+{
+    KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"), "*.kdvd");
+    if (url.isEmpty()) return;
+    QDomDocument doc;
+    QFile file(url.path());
+    doc.setContent(&file, false);
+    file.close();
+    QDomElement dvdproject = doc.documentElement();
+    if (dvdproject.tagName() != "dvdproject") {
+        KMessageBox::error(this, i18n("File %1 is not a Kdenlive project file.", url.path()));
+        return;
+    }
+
+    QString profile = dvdproject.attribute("profile");
+    m_pageVob->setProfile(profile);
+
+    m_status.tmp_folder->setPath(dvdproject.attribute("tmp_folder"));
+    m_status.iso_image->setPath(dvdproject.attribute("iso_image"));
+    m_pageVob->setIntroMovie(dvdproject.attribute("intro_movie"));
+
+    QDomNodeList vobs = doc.elementsByTagName("vob");
+    m_pageVob->clear();
+    for (int i = 0; i < vobs.count(); i++) {
+        QDomElement e = vobs.at(i).toElement();
+        m_pageVob->slotAddVobFile(KUrl(e.attribute("file")), e.attribute("chapters"));
+    }
+    m_pageMenu->loadXml(dvdproject.firstChildElement("menu"));
+}

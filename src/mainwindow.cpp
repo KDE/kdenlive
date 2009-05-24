@@ -1442,7 +1442,7 @@ void MainWindow::recoverFiles(QList<KAutoSaveFile *> staleFiles)
 
 void MainWindow::parseProfiles(const QString &mltPath)
 {
-    //kdDebug()<<" + + YOUR MLT INSTALL WAS FOUND IN: "<< MLT_PREFIX <<endl;
+    // kDebug()<<" + + YOUR MLT INSTALL WAS FOUND IN: "<< MLT_PREFIX <<endl;
 
     //KdenliveSettings::setDefaulttmpfolder();
     if (!mltPath.isEmpty()) {
@@ -2639,7 +2639,7 @@ void MainWindow::slotShowTimeline(bool show)
     }
 }
 
-void MainWindow::slotMaximizeCurrent(bool show)
+void MainWindow::slotMaximizeCurrent(bool /*show*/)
 {
     //TODO: is there a way to maximize current widget?
     //if (show == true)
