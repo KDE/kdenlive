@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);"
+"Plural-Forms: nplurals=2; plural=(n != 1);X-Language: cs_CZ\n"
 
 #: src/clipproperties.cpp:480 src/slideshowclip.cpp:121
 #, kde-format
@@ -334,7 +334,7 @@ msgstr "Upravit délku klipu"
 
 #: rc.cpp:291
 msgid "Adjust size and position of clip"
-msgstr "Změnit délku a pozici klipu"
+msgstr "Změna velikosti a přiblížení klipu"
 
 #: rc.cpp:159
 msgid "Adjust the audio volume without keyframes"
@@ -588,7 +588,7 @@ msgstr "Dolů"
 
 #: rc.cpp:12
 msgid "Box Blur"
-msgstr "Částečné rozmazání"
+msgstr "Rozmazání"
 
 #: rc.cpp:22
 msgid "Brightness (keyframable)"
@@ -1091,7 +1091,7 @@ msgstr "Vytváření miniatury pro %1"
 
 #: rc.cpp:62
 msgid "Crop"
-msgstr "Odřezat"
+msgstr "Odřezání"
 
 #: src/clipitem.cpp:874
 #, c-format, kde-format
@@ -1648,15 +1648,15 @@ msgstr "Roztmívačka z černé"
 
 #: rc.cpp:86
 msgid "Fade in"
-msgstr "Roztmívačka"
+msgstr "Postupné zesílení"
 
 #: rc.cpp:88 rc.cpp:99
 msgid "Fade in audio track"
-msgstr "Postupně zesílí nebo zeslabí audio stopu"
+msgstr "Postupně zesílení audio stopy"
 
 #: rc.cpp:97
 msgid "Fade out"
-msgstr "Stmívačka"
+msgstr "Postupné zeslabení"
 
 #: rc.cpp:108
 msgid "Fade to Black"
@@ -1668,7 +1668,7 @@ msgstr "Stmívačka videa z černé"
 
 #: rc.cpp:110
 msgid "Fade video to black"
-msgstr "Stmívačka vida do černé"
+msgstr "Stmívačka videa do černé"
 
 #: src/wizard.cpp:494
 msgid "Fatal Error"
@@ -1856,23 +1856,23 @@ msgstr "Snímky"
 
 #: rc.cpp:120
 msgid "Freeze"
-msgstr "Zamrznutí"
+msgstr "Zmrazení"
 
 #: rc.cpp:128
 msgid "Freeze After"
-msgstr "Zamrznutí po"
+msgstr "Zmrazit po"
 
 #: rc.cpp:126
 msgid "Freeze Before"
-msgstr "Zamrznutí před"
+msgstr "Zmrazit před"
 
 #: rc.cpp:124
 msgid "Freeze at"
-msgstr "Zamrznutí na"
+msgstr "Zmrazit na"
 
 #: rc.cpp:122
 msgid "Freeze video on a chosen frame"
-msgstr "Zamrznout video na vybraném snímku"
+msgstr "Zmrazí video na vybraném snímku"
 
 #: rc.cpp:149 rc.cpp:343 rc.cpp:1052 rc.cpp:2384
 msgid "Frequency"
@@ -1908,7 +1908,7 @@ msgstr "Zeslabení"
 
 #: rc.cpp:161
 msgid "Gain as Percentage"
-msgstr "Zvýšení v procentech"
+msgstr "Zesílení v procentech"
 
 #: rc.cpp:403
 msgid "Gain out"
@@ -2024,11 +2024,12 @@ msgstr "Vysoké zesílení"
 
 #: rc.cpp:285
 msgid "Hide a region of the clip"
-msgstr "Umožní vám skrýt část klipu - rozpixelizovat obraz"
+msgstr ""
+"Umožní vám skrýt část klipu - nahradit část klipu rozmazanými čtverečky"
 
 #: rc.cpp:4
 msgid "Hide a selected zone and follow its movements"
-msgstr "Umožní skrýt vybraný výřez obrazu, včetně jeho následujícího pohybu"
+msgstr "Skryje vybraný výřez obrazovky a sleduje jeho další pohyb"
 
 #: rc.cpp:1643 rc.cpp:2975
 msgid "Hide frame"
@@ -2036,7 +2037,7 @@ msgstr "Skrýt snímek"
 
 #: src/headertrack.cpp:42
 msgid "Hide track"
-msgstr "Schovat stopu"
+msgstr "Schovat obraz"
 
 #: src/geometryval.cpp:88
 msgid "Hor. Center"
@@ -2173,11 +2174,11 @@ msgstr "Neplatný přechod"
 
 #: rc.cpp:44 rc.cpp:173 rc.cpp:269
 msgid "Invert"
-msgstr "Invertovat"
+msgstr "Obrácení barev"
 
 #: rc.cpp:175
 msgid "Invert colors"
-msgstr "Invertuje barvy"
+msgstr "Obrátí (invertuje) barvy"
 
 #: rc.cpp:1625 rc.cpp:2957
 msgid "Jack"
@@ -2241,7 +2242,7 @@ msgstr "Omezovač (LADSPA)"
 
 #: rc.cpp:203
 msgid "LADSPA phaser audio effect"
-msgstr "Fázovač (LADSPA)"
+msgstr "Rozkolísání (LADSPA)"
 
 #: rc.cpp:215
 msgid "LADSPA pitch scale audio effect"
@@ -2249,7 +2250,7 @@ msgstr "Změna výšky tónu (LADSPA)"
 
 #: rc.cpp:227
 msgid "LADSPA rate scale audio effect"
-msgstr "Změna poměru (LADSPA)"
+msgstr "Změna vzorkování (LADSPA)"
 
 #: rc.cpp:233
 msgid "LADSPA reverb audio effect"
@@ -2289,7 +2290,7 @@ msgstr "Načítání klipů projektu"
 
 #: src/headertrack.cpp:46 src/locktrackcommand.cpp:31
 msgid "Lock track"
-msgstr "Zamčít stopu"
+msgstr "Uzamknout stopu"
 
 #: src/kdenlivedoc.cpp:825 src/kdenlivedoc.cpp:833
 #, kde-format
@@ -2367,7 +2368,7 @@ msgstr "Zobrazit klip černobíle (pouze černá nebo bílá)."
 
 #: rc.cpp:56
 msgid "Make selected color transparent"
-msgstr "Tento efekt umožňuje zprůhlednit vybranou barvu."
+msgstr "Nastaví, která barva bude průhledná - lze použít pro klíčování scén"
 
 #: rc.cpp:449
 msgid "Make waves on your clip with keyframes"
@@ -2500,7 +2501,7 @@ msgstr "Filmový soubor"
 
 #: rc.cpp:271
 msgid "Mute"
-msgstr "Umlčet"
+msgstr "Umlčení"
 
 #: rc.cpp:273
 msgid "Mute clip"
@@ -2590,7 +2591,7 @@ msgstr "Žádný"
 
 #: rc.cpp:277
 msgid "Normalise"
-msgstr "Normalizovat"
+msgstr "Normalizace"
 
 #: rc.cpp:1778 rc.cpp:3110
 msgid "Normalise audio for thumbnails"
@@ -2687,7 +2688,7 @@ msgstr "PAL 4:3"
 
 #: rc.cpp:289 rc.cpp:319
 msgid "Pan and Zoom"
-msgstr "Roztáhnout a přiblížit"
+msgstr "Roztažení a přiblížení"
 
 #: rc.cpp:1343 rc.cpp:2675
 msgid "Param"
@@ -2711,7 +2712,7 @@ msgstr "Cesta"
 
 #: rc.cpp:201
 msgid "Phaser"
-msgstr "Fázovač"
+msgstr "Rozkmitání"
 
 #: rc.cpp:213
 msgid "Pitch Scaler"
@@ -3243,11 +3244,11 @@ msgstr "Rotate Z"
 
 #: rc.cpp:295
 msgid "Rotate and Shear"
-msgstr "Otáčet a zkosit"
+msgstr "Otočení a zkosení"
 
 #: rc.cpp:297
 msgid "Rotate clip in any 3 directions"
-msgstr "Umožní vám otočit klip ve třech osách (x,y,z)"
+msgstr "Umožní vám různě otáčet a zkosit klip"
 
 #: rc.cpp:593 rc.cpp:1925
 msgid "Rotate:"
@@ -3516,13 +3517,14 @@ msgstr "Zdroj"
 msgid "Source Color"
 msgstr "Původní barva"
 
+# Nastavení hlavního frekvenčního pásma
 #: rc.cpp:329
 msgid "Sox Band"
-msgstr "Band (Sox)"
+msgstr "Frekvenční pásmo (Sox)"
 
 #: rc.cpp:337
 msgid "Sox Bass"
-msgstr "Basy (Sox)"
+msgstr "Zesílení basů (Sox)"
 
 #: rc.cpp:345
 msgid "Sox Echo"
@@ -3538,19 +3540,19 @@ msgstr "Zesílení (Sox)"
 
 #: rc.cpp:377
 msgid "Sox Phaser"
-msgstr "Fázovač (Sox)"
+msgstr "Rozkmitání (Sox)"
 
 #: rc.cpp:391
 msgid "Sox Pitch Shift"
-msgstr "Ohýbání zvuku (Sox)"
+msgstr "Posun výšky zvuku (Sox)"
 
 #: rc.cpp:399
 msgid "Sox Reverb"
-msgstr "Dozvuk (Sox)"
+msgstr "Ozvěna (Sox)"
 
 #: rc.cpp:409
 msgid "Sox Stretch"
-msgstr "Hluk (Sox)"
+msgstr "Natažení (Sox)"
 
 #: rc.cpp:417
 msgid "Sox Vibro"
@@ -3559,18 +3561,20 @@ msgstr "Vibro (Sox)"
 #: rc.cpp:331
 msgid "Sox band audio effect"
 msgstr ""
+"Nastavení středové frekvence a šířky - lze vytvořit efekt vzdáleně hrajícího "
+"rádia, či postaršího rádia."
 
 #: rc.cpp:339
 msgid "Sox bass audio effect"
-msgstr "Efekt pro přidání basů"
+msgstr "Přidá zesílení basům o vybrané frekvenci."
 
 #: rc.cpp:393
 msgid "Sox change pitch audio effect"
-msgstr "Plynulá (spojitá) změna frekvence zvuku."
+msgstr "Plynulé zvýšení frekvence zvuku (mluveného hlasu)"
 
 #: rc.cpp:347
 msgid "Sox echo audio effect"
-msgstr "Efekt zpožděného opakování zvuku - vytvoří ozvěnu."
+msgstr "Nastavitelné zpoždění opakování zvuku - tedy lidově řečeno ozvěny"
 
 #: rc.cpp:359
 msgid "Sox flanger audio effect"
@@ -3582,15 +3586,15 @@ msgstr "Efekt změny hlasitosti audia"
 
 #: rc.cpp:379
 msgid "Sox phaser audio effect"
-msgstr "Efekt fázovače"
+msgstr "Rozkmitá zvukovou stopu dle nastavení"
 
 #: rc.cpp:401
 msgid "Sox reverb audio effect"
-msgstr "Vytvoří dojem odrazu zvuku."
+msgstr "Vytvoří ozvěnu zvuku."
 
 #: rc.cpp:411
 msgid "Sox stretch audio effect"
-msgstr "Efekt natažení zvuku"
+msgstr "Natáhne zvuk, z původního nechá pouze určitá okna"
 
 #: rc.cpp:419
 msgid "Sox vibro audio effect"
@@ -3710,7 +3714,9 @@ msgstr "Profil byl změněn, chcete jej uložit?"
 msgid ""
 "There is already a job writing file:<br><b>%1</b><br>Abort the job if you "
 "want to overwrite it..."
-msgstr "Již existuje úloha, která zapisuje do soubor: <br><b>%1</b><br>Jestliže úlohu chcete přepsat, nejprve ukončete právě běžící úlohu."
+msgstr ""
+"Již existuje úloha, která zapisuje do soubor: <br><b>%1</b><br>Jestliže "
+"úlohu chcete přepsat, nejprve ukončete právě běžící úlohu."
 
 #: src/renderer.cpp:1287
 msgid "There is no clip, cannot extract frame."
@@ -3751,7 +3757,7 @@ msgstr "Tímto smažete vybrané klipy z tohoto projektu."
 
 #: rc.cpp:433
 msgid "Threshold"
-msgstr "Černobílý"
+msgstr "Černobíle"
 
 #: rc.cpp:437
 msgid "Threshold value"
@@ -3844,7 +3850,7 @@ msgstr "Průhledné pozadí"
 
 #: rc.cpp:64
 msgid "Trim the edges of a clip"
-msgstr "Ořezat hrany klipu"
+msgstr "Ořezání hran klipu"
 
 #: rc.cpp:323
 msgid "Turn clip colors to sepia"
