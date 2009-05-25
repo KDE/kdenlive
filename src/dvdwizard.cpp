@@ -67,8 +67,10 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
     m_status.setupUi(page4);
     m_status.error_box->setHidden(true);
     m_status.tmp_folder->setPath(KdenliveSettings::currenttmpfolder());
+    m_status.tmp_folder->setMode(KFile::Directory | KFile::ExistingOnly);
     m_status.iso_image->setPath(QDir::homePath() + "/untitled.iso");
     m_status.iso_image->setFilter("*.iso");
+    m_status.iso_image->setMode(KFile::File);
     m_status.iso_image->fileDialog()->setOperationMode(KFileDialog::Saving);
 
     addPage(page4);
