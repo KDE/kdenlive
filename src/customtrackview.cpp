@@ -572,6 +572,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 void CustomTrackView::mousePressEvent(QMouseEvent * event)
 {
     kDebug() << "mousePressEvent STARTED";
+    setFocus(Qt::MouseFocusReason);
     m_menuPosition = QPoint();
     m_blockRefresh = true;
     m_dragItem = NULL;

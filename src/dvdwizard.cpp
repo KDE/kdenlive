@@ -453,6 +453,7 @@ void DvdWizard::generateDvd()
     m_dvdauthor->setProcessChannelMode(QProcess::MergedChannels);
     m_dvdauthor->start("dvdauthor", args);
     m_status.button_abort->setEnabled(true);
+    button(QWizard::FinishButton)->setEnabled(false);
 }
 
 void DvdWizard::slotShowRenderInfo()
@@ -481,6 +482,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
         m_status.button_start->setEnabled(true);
         m_status.button_abort->setEnabled(false);
         cleanup();
+        button(QWizard::FinishButton)->setEnabled(true);
         return;
     }
     m_creationLog.append(m_dvdauthor->readAllStandardError());
@@ -497,6 +499,7 @@ void DvdWizard::slotRenderFinished(int exitCode, QProcess::ExitStatus status)
         m_status.button_start->setEnabled(true);
         m_status.button_abort->setEnabled(false);
         cleanup();
+        button(QWizard::FinishButton)->setEnabled(true);
         return;
     }
     authitem->setIcon(KIcon("dialog-ok"));
@@ -529,6 +532,7 @@ void DvdWizard::slotShowIsoInfo()
 
 void DvdWizard::slotIsoFinished(int exitCode, QProcess::ExitStatus status)
 {
+    button(QWizard::FinishButton)->setEnabled(true);
     QListWidgetItem *isoitem =  m_status.job_progress->item(4);
     if (status == QProcess::CrashExit || exitCode != 0) {
         QString result(m_mkiso->readAllStandardError());
