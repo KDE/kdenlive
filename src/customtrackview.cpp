@@ -2171,6 +2171,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             EditGuideCommand *command = new EditGuideCommand(this, m_dragGuide->position(), m_dragGuide->label(), newPos, m_dragGuide->label(), false);
             m_commandStack->push(command);
             m_dragGuide->updateGuide(GenTime(m_dragGuide->pos().x(), m_document->fps()));
+            m_document->syncGuides(m_guides);
         }
         m_dragGuide = NULL;
         m_dragItem = NULL;
