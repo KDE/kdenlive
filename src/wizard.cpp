@@ -443,7 +443,7 @@ void Wizard::adjustSettings()
 {
     if (m_extra.installmimes->isChecked()) {
         QStringList globs;
-        globs << "*.mts" << "*.m2t" << "*.mod" << "*.ts";
+        globs << "*.mts" << "*.m2t" << "*.mod" << "*.ts" << "*.m2ts";
         installExtraMimes("video/mpeg", globs);
         globs.clear();
         globs << "*.dv";
