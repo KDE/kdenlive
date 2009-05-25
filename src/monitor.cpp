@@ -460,6 +460,7 @@ void Monitor::slotSeek(int pos)
     render->seekToFrame(pos);
     emit renderPosition(m_position);
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
+    m_timePos->clearFocus();
 }
 
 void Monitor::checkOverlay()
