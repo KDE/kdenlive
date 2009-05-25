@@ -1653,7 +1653,7 @@ void MainWindow::slotDoRender(const QStringList args, const QStringList overlay_
 
             QTextStream outStream(&file);
             outStream << "#! /bin/sh" << "\n" << "\n";
-            outStream << "SOURCE=" << "\"" + scriptExport + ".westley\"" << "\n";
+            outStream << "SOURCE=" << "\"" + scriptExport + ".mlt\"" << "\n";
             outStream << "TARGET=" << "\"" + dest + "\"" << "\n";
             outStream << renderer << " " << args.join(" ") << "\n" << "\n";
             if (file.error() != QFile::NoError) {

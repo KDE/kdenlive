@@ -576,26 +576,6 @@ void RenderWidget::slotExport(bool scriptExport)
             return;
     }
 
-    QString scriptName;
-    if (scriptExport) {
-        bool ok;
-        int ix = 0;
-        QString scriptsFolder = m_projectFolder + "/scripts/";
-        KStandardDirs::makeDir(scriptsFolder);
-        QString path = scriptsFolder + i18n("script") + QString::number(ix).rightJustified(3, '0', false) + ".sh";
-        while (QFile::exists(path)) {
-            ix++;
-            path = scriptsFolder + i18n("script") + QString::number(ix).rightJustified(3, '0', false) + ".sh";
-        }
-        scriptName = QInputDialog::getText(this, i18n("Create Render Script"), i18n("Script name (will be saved in: %1)", scriptsFolder), QLineEdit::Normal, KUrl(path).fileName(), &ok);
-        if (!ok || scriptName.isEmpty()) return;
-        scriptName.prepend(scriptsFolder);
-        QFile f(scriptName);
-        if (f.exists()) {
-            if (KMessageBox::warningYesNo(this, i18n("Script file already exists. Do you want to overwrite it?")) != KMessageBox::Yes)
-                return;
-        }
-    }
 
     QStringList overlayargs;
     if (m_view.tc_overlay->isChecked()) {
@@ -652,6 +632,42 @@ void RenderWidget::slotExport(bool scriptExport)
         // Add current size parametrer
         renderArgs.append(QString(" s=%1x%2").arg(width).arg(height));
     }
+    QString group = m_view.size_list->currentItem()->data(MetaGroupRole).toString();
+
+    QStringList renderParameters;
+    renderParameters << dest << item->data(RenderRole).toString() << renderArgs.simplified();
+    renderParameters << QString::number(m_view.render_zone->isChecked()) << QString::number(m_view.play_after->isChecked());
+    renderParameters << QString::number(startPos) << QString::number(endPos) << QString::number(resizeProfile);
+
+    QString scriptName;
+    if (scriptExport) {
+        bool ok;
+        int ix = 0;
+        QString scriptsFolder = m_projectFolder + "/scripts/";
+        KStandardDirs::makeDir(scriptsFolder);
+        QString path = scriptsFolder + i18n("script") + QString::number(ix).rightJustified(3, '0', false) + ".sh";
+        while (QFile::exists(path)) {
+            ix++;
+            path = scriptsFolder + i18n("script") + QString::number(ix).rightJustified(3, '0', false) + ".sh";
+        }
+        scriptName = QInputDialog::getText(this, i18n("Create Render Script"), i18n("Script name (will be saved in: %1)", scriptsFolder), QLineEdit::Normal, KUrl(path).fileName(), &ok);
+        if (!ok || scriptName.isEmpty()) return;
+        scriptName.prepend(scriptsFolder);
+        QFile f(scriptName);
+        if (f.exists()) {
+            if (KMessageBox::warningYesNo(this, i18n("Script file already exists. Do you want to overwrite it?")) != KMessageBox::Yes)
+                return;
+        }
+        renderParameters << scriptName;
+        if (group == "dvd") renderParameters << QString::number(m_view.create_chapter->isChecked());
+        else renderParameters << QString::number(false);
+        emit doRender(renderParameters, overlayargs);
+        QTimer::singleShot(400, this, SLOT(parseScriptFiles()));
+        m_view.tabWidget->setCurrentIndex(2);
+        return;
+    }
+    renderParameters << scriptName;
+    m_view.tabWidget->setCurrentIndex(1);
 
     // insert item in running jobs list
     QTreeWidgetItem *renderItem;
@@ -662,6 +678,7 @@ void RenderWidget::slotExport(bool scriptExport)
             KMessageBox::information(this, i18n("There is already a job writing file:<br><b>%1</b><br>Abort the job if you want to overwrite it...", dest), i18n("Already running"));
             return;
         }
+        renderItem->setData(1, Qt::UserRole + 4, QString());
     } else {
         renderItem = new QTreeWidgetItem(m_view.running_jobs, QStringList() << QString() << dest << QString());
         renderItem->setData(1, Qt::UserRole + 2, WAITINGJOB);
@@ -671,14 +688,8 @@ void RenderWidget::slotExport(bool scriptExport)
     renderItem->setSizeHint(1, QSize(m_view.running_jobs->columnWidth(1), fontMetrics().height() * 2));
     renderItem->setData(1, Qt::UserRole + 1, QTime::currentTime());
     renderItem->setData(1, Qt::UserRole + 2, overlayargs);
-    QStringList renderParameters;
-    renderParameters << dest << item->data(RenderRole).toString() << renderArgs.simplified();
-    renderParameters << QString::number(m_view.render_zone->isChecked()) << QString::number(m_view.play_after->isChecked());
-    renderParameters << QString::number(startPos) << QString::number(endPos) << QString::number(resizeProfile);
-    renderParameters << scriptName;
 
     // Set rendering type
-    QString group = m_view.size_list->currentItem()->data(MetaGroupRole).toString();
     if (group == "dvd") {
         renderParameters << QString::number(m_view.create_chapter->isChecked());
         if (m_view.open_dvd->isChecked()) {
@@ -703,13 +714,7 @@ void RenderWidget::slotExport(bool scriptExport)
 
 
     renderItem->setData(1, Qt::UserRole + 3, renderParameters);
-
     checkRenderStatus();
-    if (scriptName.isEmpty()) m_view.tabWidget->setCurrentIndex(1);
-    else {
-        QTimer::singleShot(400, this, SLOT(parseScriptFiles()));
-        m_view.tabWidget->setCurrentIndex(2);
-    }
 }
 
 void RenderWidget::checkRenderStatus()
@@ -719,9 +724,12 @@ void RenderWidget::checkRenderStatus()
         if (item->data(1, Qt::UserRole + 2).toInt() == RUNNINGJOB) break;
         else if (item->data(1, Qt::UserRole + 2).toInt() == WAITINGJOB) {
             item->setData(1, Qt::UserRole + 1, QTime::currentTime());
-            if (item->data(1, Qt::UserRole + 4).isNull())
+            if (item->data(1, Qt::UserRole + 4).isNull()) {
                 emit doRender(item->data(1, Qt::UserRole + 3).toStringList(), item->data(1, Qt::UserRole + 2).toStringList());
-            else QProcess::startDetached(item->data(1, Qt::UserRole + 3).toString());
+            } else {
+                // Script item
+                QProcess::startDetached(item->data(1, Qt::UserRole + 3).toString());
+            }
             break;
         }
         item = m_view.running_jobs->itemBelow(item);
@@ -1341,6 +1349,7 @@ void RenderWidget::slotStartScript()
         // Insert new job in queue
         QTreeWidgetItem *renderItem;
         QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(destination, Qt::MatchExactly, 1);
+        kDebug() << "------  START SCRIPT";
         if (!existing.isEmpty()) {
             renderItem = existing.at(0);
             if (renderItem->data(1, Qt::UserRole + 2).toInt() == RUNNINGJOB) {
@@ -1348,6 +1357,8 @@ void RenderWidget::slotStartScript()
                 return;
             }
         } else renderItem = new QTreeWidgetItem(m_view.running_jobs, QStringList() << QString() << destination << QString());
+        kDebug() << "------  START SCRIPT 2";
+        renderItem->setData(2, Qt::UserRole, 0);
         renderItem->setData(1, Qt::UserRole + 2, WAITINGJOB);
         renderItem->setIcon(0, KIcon("media-playback-pause"));
         renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
