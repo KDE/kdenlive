@@ -298,7 +298,7 @@ msgstr "Přidat nový video soubor"
 
 #: rc.cpp:1547 rc.cpp:2879
 msgid "Add recording time to captured file name"
-msgstr "Přidat délku nahrávání do jména souboru zaznamenaného videa"
+msgstr "Přidat délku do jména souboru"
 
 #: rc.cpp:533 rc.cpp:1865
 msgid "Add space"
@@ -1091,7 +1091,7 @@ msgstr "Vytváření miniatury pro %1"
 
 #: rc.cpp:62
 msgid "Crop"
-msgstr "Odřezání"
+msgstr "Ořezání"
 
 #: src/clipitem.cpp:874
 #, c-format, kde-format
@@ -1184,7 +1184,7 @@ msgstr "Útlum"
 
 #: rc.cpp:8
 msgid "Debug"
-msgstr "Ladit"
+msgstr "Režim ladění"
 
 #: rc.cpp:355 rc.cpp:367 rc.cpp:387
 msgid "Decay"
@@ -1357,7 +1357,7 @@ msgstr "Popis:"
 
 #: rc.cpp:671 rc.cpp:2003
 msgid "Desktop search integration"
-msgstr "Integrace s vyhledáváním"
+msgstr "Integrace s vyhledáváním KDE 4"
 
 #: rc.cpp:782 rc.cpp:1352 rc.cpp:1664 rc.cpp:2114 rc.cpp:2684 rc.cpp:2996
 msgid "Destination"
@@ -1888,11 +1888,11 @@ msgstr "Celý projekt"
 
 #: rc.cpp:1634 rc.cpp:2966
 msgid "Full screen capture"
-msgstr "Nahrávání celé obrazovky"
+msgstr "Nahrávat celou obrazovku"
 
 #: rc.cpp:1655 rc.cpp:2987
 msgid "Full shots"
-msgstr "Celé obrázky pro každý snímek"
+msgstr "Snímat plné snímky (náročné na místo)"
 
 #: rc.cpp:157 rc.cpp:275 rc.cpp:281 rc.cpp:341 rc.cpp:375 rc.cpp:445
 msgid "Gain"
@@ -2049,7 +2049,7 @@ msgstr "Vodorovný faktor"
 
 #: rc.cpp:18
 msgid "Horizontal multiplicator"
-msgstr "Vodorovné rozmnožení"
+msgstr "Vodorovné rozmazání"
 
 #: rc.cpp:36
 msgid "Horizontal scatter"
@@ -2644,7 +2644,7 @@ msgstr "Otevřít prohlížeč po skončení renderování"
 
 #: rc.cpp:1238 rc.cpp:2570
 msgid "Open last project on startup"
-msgstr "Při spouštění načíst poslední otevřený projekt"
+msgstr "Po spouštění načíst poslední otevřený projekt"
 
 #: rc.cpp:1244 rc.cpp:2576
 msgid "Open projects in new tabs"
@@ -2812,9 +2812,11 @@ msgid ""
 "Files will be saved in:\n"
 "%1"
 msgstr ""
-"Prosím připojte vaši kameru a stiskněte tlačítko připojit\n"
-" k iniciaci připojení. Soubory budou uloženy do:\n"
-" %1"
+"Prosím připojte nyní vaši kameru a stiskněte tlačítko připojit\n"
+"\n"
+"k iniciaci spojení. Soubory budou uloženy do:\n"
+"\n"
+"%1"
 
 #: rc.cpp:1628 rc.cpp:2960
 msgid "Ports:"
@@ -2913,7 +2915,7 @@ msgstr "Vlastnosti projektu"
 
 #: src/mainwindow.cpp:145
 msgid "Project Tree"
-msgstr "Str&uktura projektu"
+msgstr "Struktura projektu"
 
 #: rc.cpp:686 rc.cpp:1463 rc.cpp:2018 rc.cpp:2795
 msgid "Project folder"
@@ -2986,7 +2988,7 @@ msgstr "Recordmydesktop"
 #: src/kdenlivesettingsdialog.cpp:172
 #, kde-format
 msgid "Recordmydesktop found at: %1"
-msgstr "Recordmydesktop nalezen v: %1"
+msgstr "Recordmydesktop nalezen v %1"
 
 #: src/recmonitor.cpp:156
 msgid ""
@@ -3010,7 +3012,7 @@ msgstr "Region"
 
 #: rc.cpp:1637 rc.cpp:2969
 msgid "Region capture"
-msgstr "Oblast nahrávání"
+msgstr "Nahrávat část obrazovky"
 
 #: rc.cpp:199
 msgid "Release time (s)"
@@ -3320,11 +3322,11 @@ msgstr "Řádkování"
 
 #: rc.cpp:1523 rc.cpp:1592 rc.cpp:2855 rc.cpp:2924
 msgid "Screen Grab"
-msgstr "Zachytit obrazovku"
+msgstr "Zachycení obrazovky"
 
 #: rc.cpp:488 rc.cpp:1820
 msgid "Screen grab"
-msgstr "Zachytit obrazovku"
+msgstr "Zachycení obrazovky"
 
 #: src/renderwidget.cpp:168
 msgid "Script Files"
@@ -3955,7 +3957,7 @@ msgstr "Vertikální faktor"
 
 #: rc.cpp:20
 msgid "Vertical multiplicator"
-msgstr "Vertikální rozmnožení"
+msgstr "Vertikální rozmazání"
 
 #: rc.cpp:38
 msgid "Vertical scatter"
@@ -4143,7 +4145,7 @@ msgstr ""
 
 #: src/customtrackview.cpp:3900
 msgid "You must copy exactly one clip before pasting effects"
-msgstr "Nebyl zkopírován efekt, který by šel vložit."
+msgstr "Nebyl zkopírován efekt, který by mohl být vložen"
 
 #: src/customtrackview.cpp:3979 src/customtrackview.cpp:4004
 #: src/customtrackview.cpp:4328 src/customtrackview.cpp:4423
@@ -4165,7 +4167,7 @@ msgid ""
 "Your Kdenlive version was upgraded. Please take some time to review the "
 "basic settings"
 msgstr ""
-"Kdenlive bylo upgradováno. Věnujte chvilku času na zkontrolování základního "
+"Kdenlive bylo upgradováno. Věnujte chvilku času zkontrolování základního "
 "nastavení"
 
 #: rc.cpp:650 rc.cpp:1982
