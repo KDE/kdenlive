@@ -13,3 +13,4 @@ frei0r.invert0r
 # effects with XML UI
 frei0r.balanc0r
 frei0r.colordistance
+frei0r.scale0tilt
