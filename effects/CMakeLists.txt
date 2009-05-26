@@ -48,6 +48,7 @@ frei0r_colordistance.xml
 frei0r_squareblur.xml
 frei0r_distort0r.xml
 frei0r_balanc0r.xml
+frei0r_scale0tilt.xml
 gain.xml
 fade_from_black.xml
 fade_to_black.xml

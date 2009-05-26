@@ -1,0 +1,30 @@
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.scale0tilt" id="frei0r.scale0tilt">
+	<name>Scale0tilt</name>
+	<description>Scales, Tilts and Crops an Image</description>
+	<author>Richard Spindler</author>
+	<parameter type="constant" name="Clip left" max="100" min="0" default="0" factor="100">
+		<name>Clip left</name>
+	</parameter>
+	<parameter type="constant" name="Clip right" max="100" min="0" default="0" factor="100">
+		<name>Clip right</name>
+	</parameter>
+	<parameter type="constant" name="Clip top" max="100" min="0" default="0" factor="100">
+		<name>Clip top</name>
+	</parameter>
+	<parameter type="constant" name="Clip bottom" max="100" min="0" default="0" factor="100">
+		<name>Clip bottom</name>
+	</parameter>
+	<parameter type="constant" name="Scale X" max="1000" min="1" default="50" factor="100">
+		<name>Scale X</name>
+	</parameter>
+	<parameter type="constant" name="Scale Y" max="1000" min="1" default="50" factor="100">
+		<name>Scale Y</name>
+	</parameter>
+	<parameter type="constant" name="Tilt X" max="100" min="0" default="50" factor="100">
+		<name>Tilt X</name>
+	</parameter>
+	<parameter type="constant" name="Tilt Y" max="100" min="0" default="50" factor="100">
+		<name>Tilt Y</name>
+	</parameter>
+</effect>
