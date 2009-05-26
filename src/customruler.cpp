@@ -111,6 +111,7 @@ void CustomRuler::mousePressEvent(QMouseEvent * event)
         m_contextMenu->exec(event->globalPos());
         return;
     }
+    setFocus(Qt::MouseFocusReason);
     m_view->activateMonitor();
     m_moveCursor = RULER_CURSOR;
     if (event->y() > 10) {
