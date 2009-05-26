@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>304</width>
-    <height>300</height>
+    <width>316</width>
+    <height>399</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="label_source">
      <property name="text">
       <string>Source</string>
      </property>
@@ -25,7 +25,7 @@
     <widget class="KUrlRequester" name="source_url"/>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="label_dest">
      <property name="text">
       <string>Destination</string>
      </property>
@@ -127,6 +127,9 @@
    </item>
    <item row="3" column="1" colspan="2">
     <widget class="KComboBox" name="profile_list"/>
+   </item>
+   <item row="2" column="0" colspan="3">
+    <widget class="QListWidget" name="urls_list"/>
    </item>
   </layout>
  </widget>
