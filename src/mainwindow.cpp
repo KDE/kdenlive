@@ -2678,17 +2678,16 @@ void MainWindow::loadTranscoders()
     }
 }
 
-void MainWindow::slotTranscode(QString url)
+void MainWindow::slotTranscode(KUrl::List urls)
 {
     QString params;
-    if (url.isEmpty()) {
-        url = m_projectList->currentClipUrl();
+    if (urls.isEmpty()) {
+        urls.append(m_projectList->currentClipUrl());
         QAction *action = qobject_cast<QAction *>(sender());
         params = action->data().toString();
-
     }
-    if (url.isEmpty()) return;
-    ClipTranscode *d = new ClipTranscode(url, params);
+    if (urls.isEmpty()) return;
+    ClipTranscode *d = new ClipTranscode(urls, params);
     connect(d, SIGNAL(addClip(KUrl)), this, SLOT(slotAddProjectClip(KUrl)));
     d->show();
     //QProcess::startDetached("ffmpeg", parameters);
@@ -2696,9 +2695,9 @@ void MainWindow::slotTranscode(QString url)
 
 void MainWindow::slotTranscodeClip()
 {
-    KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///projectfolder"));
-    if (url.isEmpty()) return;
-    slotTranscode(url.path());
+    KUrl::List urls = KFileDialog::getOpenUrls(KUrl("kfiledialog:///projectfolder"));
+    if (urls.isEmpty()) return;
+    slotTranscode(urls);
 }
 
 #include "mainwindow.moc"

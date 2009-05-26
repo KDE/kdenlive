@@ -298,7 +298,7 @@ private slots:
     void slotUpdateClipType(QAction *action);
     void slotShowTimeline(bool show);
     void slotMaximizeCurrent(bool show);
-    void slotTranscode(QString url = QString());
+    void slotTranscode(KUrl::List urls = KUrl::List());
     void slotTranscodeClip();
 
 signals:

@@ -33,7 +33,7 @@ class ClipTranscode : public QDialog
     Q_OBJECT
 
 public:
-    ClipTranscode(const KUrl &src, const QString &params, QWidget * parent = 0);
+    ClipTranscode(KUrl::List urls, const QString &params, QWidget * parent = 0);
     ~ClipTranscode();
 
 
@@ -46,6 +46,7 @@ private slots:
 private:
     Ui::ClipTranscode_UI m_view;
     QProcess m_transcodeProcess;
+    KUrl::List m_urls;
 
 signals:
     void addClip(KUrl url);
