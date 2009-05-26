@@ -45,7 +45,7 @@ ClipTranscode::ClipTranscode(const KUrl &src, const QString &params, QWidget * p
         m_view.params->setPlainText(params.simplified());
     } else {
         // load Profiles
-        KSharedConfigPtr config = KGlobal::config();
+        KSharedConfigPtr config = KSharedConfig::openConfig("kdenlivetranscodingrc");
         KConfigGroup transConfig(config, "Transcoding");
         // read the entries
         QMap< QString, QString > profiles = transConfig.entryMap();

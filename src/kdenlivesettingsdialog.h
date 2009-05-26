@@ -46,7 +46,7 @@ public:
 
 protected slots:
     void updateSettings();
-
+    virtual bool hasChanged();
 
 private slots:
     void slotUpdateDisplay();
@@ -63,6 +63,7 @@ private slots:
     void slotCheckAlsaDriver();
     void slotAddTranscode();
     void slotDeleteTranscode();
+    void slotDialogModified();
 
 private:
     KPageWidgetItem *m_page1;
@@ -82,6 +83,7 @@ private:
     QString m_defaultProfile;
     QString m_defaultPath;
     KProcess m_readProcess;
+    bool m_modified;
     void initDevices();
     void loadTranscodeProfiles();
     void saveTranscodeProfiles();

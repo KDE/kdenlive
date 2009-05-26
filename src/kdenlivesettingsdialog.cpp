@@ -27,6 +27,7 @@
 #include <KConfigDialogManager>
 #include <kde_file.h>
 #include <KIO/NetAccess>
+#include <kdeversion.h>
 
 #include <QDir>
 #include <QTimer>
@@ -42,7 +43,8 @@
 
 
 KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
-        KConfigDialog(parent, "settings", KdenliveSettings::self())
+        KConfigDialog(parent, "settings", KdenliveSettings::self()),
+        m_modified(false)
 {
 
     QWidget *p1 = new QWidget;
@@ -96,6 +98,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QWidget * parent) :
     m_page7 = addPage(p7, i18n("Transcode"), "edit-copy");
     connect(m_configTranscode.button_add, SIGNAL(clicked()), this, SLOT(slotAddTranscode()));
     connect(m_configTranscode.button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteTranscode()));
+    connect(m_configTranscode.profiles_list, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotDialogModified()));
 
     QStringList actions;
     actions << i18n("Do nothing");
@@ -391,7 +394,8 @@ void KdenliveSettingsDialog::rebuildVideo4Commands()
 
 void KdenliveSettingsDialog::updateSettings()
 {
-    kDebug() << "// // // KCONFIG UPDATE called";
+    //kDebug() << "// // // KCONFIG UPDATE called";
+
     m_defaultProfile = m_configMisc.kcfg_profiles_list->currentText();
     KdenliveSettings::setDefault_profile(m_defaultPath);
 
@@ -445,10 +449,17 @@ void KdenliveSettingsDialog::updateSettings()
         updatePreview = true;
     }
 
-    // TODO: only save profiles if modified
-    saveTranscodeProfiles();
+    if (m_modified) {
+        // The transcoding profiles were modified, save.
+        m_modified = false;
+        saveTranscodeProfiles();
+    }
 
-    KConfigDialog::updateSettings();
+#if KDE_IS_VERSION(4,3,0)
+    KConfigDialog::settingsChangedSlot();
+#endif
+
+    //KConfigDialog::updateSettings();
     if (resetProfile) emit doResetProfile();
     if (updatePreview) emit updatePreviewSettings();
 }
@@ -475,26 +486,24 @@ void KdenliveSettingsDialog::slotCheckAlsaDriver()
 
 void KdenliveSettingsDialog::loadTranscodeProfiles()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig("kdenlivetranscodingrc");
     KConfigGroup transConfig(config, "Transcoding");
     // read the entries
-
+    m_configTranscode.profiles_list->blockSignals(true);
     QMap< QString, QString > profiles = transConfig.entryMap();
-    if (profiles.isEmpty()) {
-        // TODO: find a better way to store defaule transcode profiles
-        profiles.insert("DNxHD 1920x1080", "-s 1920x1080 -r pal -b 220000k -threads 2 -vcodec dnxhd -acodec copy %1.mov");
-    }
     QMapIterator<QString, QString> i(profiles);
     while (i.hasNext()) {
         i.next();
         QTreeWidgetItem *item = new QTreeWidgetItem(m_configTranscode.profiles_list, QStringList() << i.key() << i.value());
         item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
     }
+    m_configTranscode.profiles_list->blockSignals(false);
 }
 
 void KdenliveSettingsDialog::saveTranscodeProfiles()
 {
-    KSharedConfigPtr config = KGlobal::config();
+    KSharedConfigPtr config = KSharedConfig::openConfig("kdenlivetranscodingrc");
+    //KSharedConfigPtr config = KGlobal::config();
     KConfigGroup transConfig(config, "Transcoding");
     // read the entries
     transConfig.deleteGroup();
@@ -510,7 +519,9 @@ void KdenliveSettingsDialog::slotAddTranscode()
 {
     QTreeWidgetItem *item = new QTreeWidgetItem(m_configTranscode.profiles_list, QStringList() << i18n("Name") << i18n("Parameters"));
     item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    m_configTranscode.profiles_list->setCurrentItem(item);
     m_configTranscode.profiles_list->editItem(item);
+    slotDialogModified();
 }
 
 void KdenliveSettingsDialog::slotDeleteTranscode()
@@ -518,7 +529,25 @@ void KdenliveSettingsDialog::slotDeleteTranscode()
     QTreeWidgetItem *item = m_configTranscode.profiles_list->currentItem();
     if (item == NULL) return;
     delete item;
+    slotDialogModified();
 }
+
+void KdenliveSettingsDialog::slotDialogModified()
+{
+    m_modified = true;
+#if KDE_IS_VERSION(4,3,0)
+    KConfigDialog::updateButtons();
+#endif
+}
+
+//virtual
+bool KdenliveSettingsDialog::hasChanged()
+{
+    if (m_modified) return true;
+    return KConfigDialog::hasChanged();
+}
+
+
 
 #include "kdenlivesettingsdialog.moc"
 

@@ -1943,6 +1943,9 @@ void MainWindow::updateConfiguration()
     }
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
+
+    // Update list of transcoding profiles
+    loadTranscoders();
 #ifndef NO_JOGSHUTTLE
     activateShuttleDevice();
 #endif /* NO_JOGSHUTTLE */
@@ -2661,7 +2664,8 @@ void MainWindow::loadTranscoders()
 {
     QMenu *transMenu = static_cast<QMenu*>(factory()->container("transcoders", this));
     transMenu->clear();
-    KSharedConfigPtr config = KGlobal::config();
+
+    KSharedConfigPtr config = KSharedConfig::openConfig("kdenlivetranscodingrc");
     KConfigGroup transConfig(config, "Transcoding");
     // read the entries
     QMap< QString, QString > profiles = transConfig.entryMap();
