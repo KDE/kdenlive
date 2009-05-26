@@ -507,9 +507,9 @@ bool DvdWizardMenu::isPalMenu() const
 QDomElement DvdWizardMenu::toXml() const
 {
     QDomDocument doc;
-    if (!m_view.create_menu->isChecked()) return doc.documentElement();
     QDomElement xml = doc.createElement("menu");
     doc.appendChild(xml);
+    xml.setAttribute("enabled", m_view.create_menu->isChecked());
     if (m_view.background_list->currentIndex() == 0) {
         // Color bg
         xml.setAttribute("background_color", m_view.background_color->color().name());
@@ -553,7 +553,7 @@ void DvdWizardMenu::loadXml(QDomElement xml)
     kDebug() << "// LOADING MENU";
     if (xml.isNull()) return;
     kDebug() << "// LOADING MENU 1";
-    m_view.create_menu->setChecked(true) ;
+    m_view.create_menu->setChecked(xml.attribute("enabled").toInt());
     if (xml.hasAttribute("background_color")) {
         m_view.background_list->setCurrentIndex(0);
         m_view.background_color->setColor(xml.attribute("background_color"));
