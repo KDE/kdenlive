@@ -1105,7 +1105,7 @@ void ClipItem::resizeStart(int posx, double /*speed*/)
 
 void ClipItem::resizeEnd(int posx, double /*speed*/, bool updateKeyFrames)
 {
-    const int max = (startPos() - cropStart() + maxDuration()).frames(m_fps) + 1;
+    const int max = (startPos() - cropStart() + maxDuration()).frames(m_fps);
     if (posx > max) posx = max;
     if (posx == endPos().frames(m_fps)) return;
     //kDebug() << "// NEW POS: " << posx << ", OLD END: " << endPos().frames(m_fps);
