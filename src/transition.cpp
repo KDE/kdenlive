@@ -34,16 +34,16 @@
 Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDomElement params, bool automaticTransition) :
         AbstractClipItem(info, QRectF(), fps),
         m_forceTransitionTrack(false),
-        m_automaticTransition(automaticTransition)
+        m_automaticTransition(automaticTransition),
+        m_secondClip(NULL),
+        m_transitionTrack(transitiontrack)
 {
     setZValue(2);
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
     setPos(info.startPos.frames(fps), (qreal)(info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2));
 
-    m_transitionTrack = transitiontrack;
-    m_secondClip = NULL;
     m_cropStart = GenTime();
-    m_maxDuration = GenTime(10000, fps);
+    m_maxDuration = GenTime(600);
 
     if (m_automaticTransition) setBrush(QColor(200, 200, 50, 100));
     else setBrush(QColor(200, 100, 50, 100));

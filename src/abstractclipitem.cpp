@@ -148,7 +148,7 @@ void AbstractClipItem::resizeEnd(int posx, double speed, bool /*updateKeyFrames*
     //kDebug() << "// DUR DIFF1:" << durationDiff.frames(25) << ", ADJUSTED: " << durationDiff.frames(25) * speed << ", SPED:" << speed;
     if (cropDuration() + durationDiff <= GenTime()) {
         durationDiff = GenTime() - (cropDuration() - GenTime(3, m_fps));
-    } else if (cropStart() + cropDuration() + durationDiff >= maxDuration()) {
+    } else if (type() == AVWIDGET && (cropStart() + cropDuration() + durationDiff >= maxDuration())) {
         //kDebug() << "// MAX OVERLOAD:" << cropDuration().frames(25) << " + " << durationDiff.frames(25) << ", MAX:" << maxDuration().frames(25);
         durationDiff = maxDuration() - cropDuration() - cropStart();
     }
