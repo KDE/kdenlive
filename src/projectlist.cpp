@@ -773,6 +773,18 @@ void ProjectList::slotCheckForEmptyQueue()
     } else QTimer::singleShot(500, this, SLOT(slotCheckForEmptyQueue()));
 }
 
+void ProjectList::reloadClipThumbnails()
+{
+    m_thumbnailQueue.clear();
+    QTreeWidgetItemIterator it(m_listView);
+    while (*it) {
+        if (!((ProjectItem *)(*it))->isGroup())
+            m_thumbnailQueue << ((ProjectItem *)(*it))->clipId();
+        ++it;
+    }
+    QTimer::singleShot(300, this, SLOT(slotProcessNextThumbnail()));
+}
+
 void ProjectList::requestClipThumbnail(const QString &id)
 {
     m_thumbnailQueue.append(id);

@@ -129,6 +129,7 @@ public:
     void setupMenu(QMenu *addMenu, QAction *defaultAction);
     void setupGeneratorMenu(QMenu *addMenu, QMenu *transcodeMenu);
     QString currentClipUrl() const;
+    void reloadClipThumbnails();
 
 public slots:
     void setDocument(KdenliveDoc *doc);

@@ -1527,6 +1527,7 @@ void MainWindow::slotEditProjectSettings()
         if (m_renderWidget) m_renderWidget->setDocumentPath(w->selectedFolder().path());
         if (m_activeDocument->profilePath() != profile) {
             // Profile was changed
+            double dar = m_activeDocument->dar();
             m_activeDocument->setProfilePath(profile);
             KdenliveSettings::setCurrent_profile(profile);
             KdenliveSettings::setProject_fps(m_activeDocument->fps());
@@ -1535,7 +1536,7 @@ void MainWindow::slotEditProjectSettings()
             if (m_renderWidget) m_renderWidget->setProfile(m_activeDocument->mltProfile());
             m_timelineArea->setTabText(m_timelineArea->currentIndex(), m_activeDocument->description());
             m_activeDocument->clipManager()->resetProducersList(m_projectMonitor->render->producersList());
-
+            if (dar != m_activeDocument->dar()) m_projectList->reloadClipThumbnails();
             // We need to desactivate & reactivate monitors to get a refresh
             m_monitorManager->switchMonitors();
         }
