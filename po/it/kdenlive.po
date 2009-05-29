@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-20 13:34+0200\n"
-"PO-Revision-Date: 2009-05-20 23:06+0200\n"
+"PO-Revision-Date: 2009-05-30 01:20+0200\n"
 "Last-Translator: Salvatore Brigaglia <opensourcecat@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -935,7 +935,8 @@ msgstr "La Clip <b>%1</b><br>è inutilizzabile, come si intende procedere?"
 msgid "Clip <b>%1</b><br>is invalid, will be removed from project."
 msgstr "La Clip <b>%1</b><br>è inutilizzabile, sarà rimossa dal progetto."
 
-#: src/projectlist.cpp:632, kde-format
+#: src/projectlist.cpp:632
+#, kde-format
 msgid "Clip <b>%1</b><br>is missing or invalid. Remove it from project?"
 msgstr "La Clip <b>%1</b><br>è inutilizzabile o mancante, rimuoverla dal progetto?"
 
@@ -1693,7 +1694,8 @@ msgstr "Riscontro"
 msgid "File"
 msgstr "File"
 
-#: src/cliptranscode.cpp:87, kde-format
+#: src/cliptranscode.cpp:87
+#, kde-format
 msgid ""
 "File %1 already exists.\n"
 "Do you want to overwrite it?"
@@ -2093,7 +2095,7 @@ msgstr "Modifica delle immagini"
 #: src/dvdwizard.cpp:583
 #, kde-format
 msgid "Image file %1 already exists. Overwrite?"
-msgstr "I'immagine %1 esiste. Vuoi sovrascriverla?"
+msgstr "L'immagine %1 esiste. Vuoi sovrascriverla?"
 
 #: rc.cpp:1007 rc.cpp:1700 rc.cpp:2339 rc.cpp:3032
 msgid "Image preview"
@@ -3729,7 +3731,9 @@ msgstr "Il profilo personalizzato è stato modificato, si intende salvarlo?"
 msgid ""
 "There is already a job writing file:<br><b>%1</b><br>Abort the job if you "
 "want to overwrite it..."
-msgstr "C'è un altro lavoro che sta esportando il file <br><b>%1</b><br>. Ferma il lavoro se vuoi sovrascrivere il file..."
+msgstr ""
+"C'è un altro lavoro che sta esportando il file <br><b>%1</b><br>. Ferma il "
+"lavoro se vuoi sovrascrivere il file..."
 
 #: src/renderer.cpp:1287
 msgid "There is no clip, cannot extract frame."
@@ -3742,9 +3746,9 @@ msgid ""
 "seconds..."
 msgstr ""
 "Questa è la prima volta che Kdenlive viene eseguito.\n"
-" Questa procedura automatica ti guiderà nell'impostazione di alcuni parametri "
+"Questa procedura guidata ti guiderà nell'impostazione di alcuni parametri "
 "fondamentali.\n"
-" Sarà possibile iniziare a lavorare sul primo video tra pochi secondi..."
+"Sarà possibile iniziare a lavorare sul primo video tra pochi secondi..."
 
 #: src/renderwidget.cpp:322 src/renderwidget.cpp:429
 msgid ""
@@ -3863,7 +3867,7 @@ msgstr "Transizione"
 
 #: rc.cpp:1715 rc.cpp:1721 rc.cpp:3047 rc.cpp:3053
 msgid "Transparency"
-msgstr ""
+msgstr "Trasparenza"
 
 #: rc.cpp:1097 rc.cpp:2429
 msgid "Transparent background"
