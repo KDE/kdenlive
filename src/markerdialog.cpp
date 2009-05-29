@@ -53,8 +53,9 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
         //char *tmp = doc.toString().toUtf8().data();
         m_producer = new Mlt::Producer(*m_profile, "xml-string", doc.toString().toUtf8().data());
         //delete[] tmp;
-
-        QPixmap p((int)(100 * m_dar), 100);
+        int width = 100.0 * m_dar;
+        if (width % 2 == 1) width++;
+        QPixmap p(width, 100);
         QString colour = clip->getProperty("colour");
         switch (m_clip->clipType()) {
         case VIDEO:
@@ -64,7 +65,7 @@ MarkerDialog::MarkerDialog(DocClipBase *clip, CommentedTime t, Timecode tc, cons
             connect(this, SIGNAL(updateThumb()), m_previewTimer, SLOT(start()));
         case IMAGE:
         case TEXT:
-            p = KThumb::getFrame(m_producer, t.time().frames(m_fps), (int)(100 * m_dar), 100);
+            p = KThumb::getFrame(m_producer, t.time().frames(m_fps), width, 100);
             break;
         case COLOR:
             colour = colour.replace(0, 2, "#");
@@ -104,7 +105,9 @@ void MarkerDialog::slotUpdateThumb()
 {
     m_previewTimer->stop();
     int pos = m_tc.getFrameCount(m_view.marker_position->text(), m_fps);
-    QPixmap p = KThumb::getFrame(m_producer, pos, (int)(100 * m_dar), 100);
+    int width = 100.0 * m_dar;
+    if (width % 2 == 1) width++;
+    QPixmap p = KThumb::getFrame(m_producer, pos, width, 100);
     if (!p.isNull()) m_view.clip_thumb->setPixmap(p);
     else kDebug() << "!!!!!!!!!!!  ERROR CREATING THUMB";
 }

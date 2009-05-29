@@ -272,11 +272,13 @@ QPixmap KThumb::extractImage(int frame, int width, int height)
 //static
 QPixmap KThumb::getImage(KUrl url, int frame, int width, int height)
 {
-    Mlt::Profile profile((char*) KdenliveSettings::current_profile().data());
+    char *tmp = Render::decodedString(KdenliveSettings::current_profile());
+    Mlt::Profile profile(tmp);
+    delete[] tmp;
     QPixmap pix(width, height);
     if (url.isEmpty()) return pix;
 
-    char *tmp = Render::decodedString(url.path());
+    tmp = Render::decodedString(url.path());
     //"<mlt><playlist><producer resource=\"" + url.path() + "\" /></playlist></mlt>");
     //Mlt::Producer producer(profile, "xml-string", tmp);
     Mlt::Producer *producer = new Mlt::Producer(profile, tmp);

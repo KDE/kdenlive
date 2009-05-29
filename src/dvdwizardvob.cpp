@@ -123,7 +123,9 @@ void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters)
     delete[] tmp;
 
     if (producer->is_blank() == false) {
-        pix = KThumb::getFrame(producer, 0, 60, 45);
+        int width = 45.0 * profile.dar();
+        if (width % 2 == 1) width++;
+        pix = KThumb::getFrame(producer, 0, width, 45);
         item->setIcon(0, pix);
         int playTime = producer->get_playtime();
         item->setText(1, Timecode::getStringTimecode(playTime, profile.fps()));
@@ -183,7 +185,7 @@ void DvdWizardVob::changeFormat()
         delete[] tmp;
 
         if (producer->is_blank() == false) {
-            //pix = KThumb::getFrame(producer, 0, 180, 135);
+            //pix = KThumb::getFrame(producer, 0, 135 * profile.dar(), 135);
             //item->setIcon(0, pix);
             item->setText(1, Timecode::getStringTimecode(producer->get_playtime(), profile.fps()));
         }

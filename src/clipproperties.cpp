@@ -214,8 +214,9 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
             m_view.clip_fps->setText(props.value("fps"));
         if (props.contains("aspect_ratio"))
             m_view.clip_ratio->setText(props.value("aspect_ratio"));
-
-        QPixmap pix = m_clip->thumbProducer()->getImage(url, m_clip->getClipThumbFrame(), 240, 180);
+        int width = 180.0 * KdenliveSettings::project_display_ratio();
+        if (width % 2 == 1) width++;
+        QPixmap pix = m_clip->thumbProducer()->getImage(url, m_clip->getClipThumbFrame(), width, 180);
         m_view.clip_thumb->setPixmap(pix);
         if (t == IMAGE || t == VIDEO) m_view.tabWidget->removeTab(AUDIOTAB);
     } else {

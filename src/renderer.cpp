@@ -269,7 +269,7 @@ QPixmap Render::extractFrame(int frame_position, int width, int height)
     if (width == -1) {
         width = renderWidth();
         height = renderHeight();
-    }
+    } else if (width % 2 == 1) width++;
     QPixmap pix(width, height);
     if (!m_mltProducer) {
         pix.fill(Qt::black);
