@@ -173,32 +173,32 @@
 </group>
 
 <group name="Flash" renderer="avformat" extension="flv" type="av">
-  <profile name="Flash 200k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=200k" />
-  <profile name="Flash 200k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=200k pass=2" />
-  <profile name="Flash 400k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=400k" />
-  <profile name="Flash 400k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=400k pass=2" />
-  <profile name="Flash 600k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=600k" />
-  <profile name="Flash 600k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=600k pass=2" />
-  <profile name="Flash 800k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=800k" />
-  <profile name="Flash 800k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=800k pass=2" />
-  <profile name="Flash 1000k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=1000k" />
-  <profile name="Flash 1000k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=1000k pass=2" />
-  <profile name="Flash 2000k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=2000k" />
-  <profile name="Flash 2000k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=2000k pass=2" />
-  <profile name="Flash 4000k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=4000k" />
-  <profile name="Flash 4000k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=4000k pass=2" />
-  <profile name="Flash 6000k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=6000k" />
-  <profile name="Flash 6000k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=6000k pass=2" />
-  <profile name="Flash 8000k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=8000k" />
-  <profile name="Flash 8000k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=8000k pass=2" />
-  <profile name="Flash 10000k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=10000k" />
-  <profile name="Flash 10000k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=10000k pass=2" />
-  <profile name="Flash 12000k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=12000k" />
-  <profile name="Flash 12000k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=12000k pass=2" />
-  <profile name="Flash 720x576" standard="PAL" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=12000k s=720x576" />
-  <profile name="Flash 720x576 2 pass" standard="PAL" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=12000k s=720x576 pass=2" />
-  <profile name="Flash 720x480" standard="NTSC" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=12000k s=720x480" />
-  <profile name="Flash 720x480 2 pass" standard="NTSC" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=12000k s=720x480 pass=2" />
+  <profile name="Flash 200k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=200k progressive=1" />
+  <profile name="Flash 200k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=200k pass=2 progressive=1" />
+  <profile name="Flash 400k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=400k progressive=1" />
+  <profile name="Flash 400k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=400k pass=2 progressive=1" />
+  <profile name="Flash 600k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=600k progressive=1" />
+  <profile name="Flash 600k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=600k pass=2 progressive=1" />
+  <profile name="Flash 800k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=800k progressive=1" />
+  <profile name="Flash 800k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=800k pass=2 progressive=1" />
+  <profile name="Flash 1000k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=1000k progressive=1" />
+  <profile name="Flash 1000k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=1000k pass=2 progressive=1" />
+  <profile name="Flash 2000k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=2000k progressive=1" />
+  <profile name="Flash 2000k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=2000k pass=2 progressive=1" />
+  <profile name="Flash 4000k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=4000k progressive=1" />
+  <profile name="Flash 4000k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=4000k pass=2 progressive=1" />
+  <profile name="Flash 6000k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=6000k progressive=1" />
+  <profile name="Flash 6000k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=6000k pass=2 progressive=1" />
+  <profile name="Flash 8000k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=8000k progressive=1" />
+  <profile name="Flash 8000k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=8000k pass=2 progressive=1" />
+  <profile name="Flash 10000k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=10000k progressive=1" />
+  <profile name="Flash 10000k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=10000k pass=2 progressive=1" />
+  <profile name="Flash 12000k" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=12000k progressive=1" />
+  <profile name="Flash 12000k 2 pass" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=12000k pass=2 progressive=1" />
+  <profile name="Flash 720x576" standard="PAL" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=12000k s=720x576 progressive=1" />
+  <profile name="Flash 720x576 2 pass" standard="PAL" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=12000k s=720x576 pass=2 progressive=1" />
+  <profile name="Flash 720x480" standard="NTSC" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=12000k s=720x480 progressive=1" />
+  <profile name="Flash 720x480 2 pass" standard="NTSC" args="f=flv acodec=libmp3lame ab=128k ar=44100 vcodec=flv minrate=0 b=12000k s=720x480 pass=2 progressive=1" />
 </group>
 
 <group name="RealVideo" renderer="avformat" extension="rm" type="av">
