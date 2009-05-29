@@ -246,7 +246,7 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
     connect(m_view.marker_delete, SIGNAL(clicked()), this, SLOT(slotDeleteMarker()));
     connect(m_view.markers_list, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(slotEditMarker()));
 
-    adjustSize();
+    //adjustSize();
 }
 
 void ClipProperties::slotEnableLuma(int state)

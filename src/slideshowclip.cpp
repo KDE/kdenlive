@@ -83,7 +83,7 @@ SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
         m_view.luma_file->addItem(KIcon(folder + '/' + fname), fname, folder + '/' + fname);
     }
 
-    adjustSize();
+    //adjustSize();
 }
 
 void SlideshowClip::slotEnableLuma(int state)
