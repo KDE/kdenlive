@@ -1,24 +1,25 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ClipProperties_UI</class>
- <widget class="QDialog" name="ClipProperties_UI" >
-  <property name="geometry" >
+ <widget class="QDialog" name="ClipProperties_UI">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>339</width>
-    <height>464</height>
+    <width>286</width>
+    <height>436</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Clip Properties</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2" >
-   <item row="7" column="1" colspan="2" >
-    <spacer name="verticalSpacer_4" >
-     <property name="orientation" >
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="7" column="1" colspan="2">
+    <spacer name="verticalSpacer_4">
+     <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" stdset="0" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
        <height>17</height>
@@ -26,150 +27,150 @@
      </property>
     </spacer>
    </item>
-   <item row="0" column="0" colspan="4" >
-    <widget class="QLabel" name="clip_thumb" >
-     <property name="text" >
-      <string>Image preview</string>
-     </property>
-     <property name="alignment" >
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="4" >
-    <widget class="QLabel" name="label_5" >
-     <property name="text" >
+   <item row="1" column="0" colspan="4">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
       <string>Path</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="4" >
-    <widget class="KLineEdit" name="clip_path" >
-     <property name="readOnly" >
+   <item row="2" column="0" colspan="4">
+    <widget class="KLineEdit" name="clip_path">
+     <property name="readOnly">
       <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="3" column="0" colspan="4" >
-    <widget class="QLabel" name="label_3" >
-     <property name="text" >
+   <item row="3" column="0" colspan="4">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
       <string>Description</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="4" >
-    <widget class="KLineEdit" name="clip_description" />
+   <item row="4" column="0" colspan="4">
+    <widget class="KLineEdit" name="clip_description"/>
    </item>
-   <item row="5" column="0" >
-    <widget class="QLabel" name="clip_filesize_2" >
-     <property name="text" >
+   <item row="5" column="0">
+    <widget class="QLabel" name="clip_filesize_2">
+     <property name="text">
       <string>Duration</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="1" >
-    <widget class="KRestrictedLine" name="clip_duration" >
-     <property name="inputMask" >
+   <item row="5" column="1">
+    <widget class="KRestrictedLine" name="clip_duration">
+     <property name="inputMask">
       <string>99:99:99:99; </string>
      </property>
     </widget>
    </item>
-   <item row="5" column="2" >
-    <widget class="QLabel" name="clip_filesize_3" >
-     <property name="text" >
+   <item row="5" column="2">
+    <widget class="QLabel" name="clip_filesize_3">
+     <property name="text">
       <string>Size:</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="3" >
-    <widget class="QLabel" name="clip_filesize" >
-     <property name="text" >
+   <item row="5" column="3">
+    <widget class="QLabel" name="clip_filesize">
+     <property name="text">
       <string>File size</string>
      </property>
     </widget>
    </item>
-   <item row="8" column="0" colspan="4" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
+   <item row="8" column="0" colspan="4">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="standardButtons" >
+     <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
-   <item row="6" column="0" colspan="4" >
-    <widget class="QTabWidget" name="tabWidget" >
-     <property name="currentIndex" >
+   <item row="0" column="0" colspan="4">
+    <widget class="QLabel" name="clip_thumb">
+     <property name="text">
+      <string>Image preview</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0" colspan="4">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tab_video" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_video">
+      <attribute name="title">
        <string>Video</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout" >
-       <item row="0" column="0" colspan="2" >
-        <widget class="QLabel" name="label_8" >
-         <property name="text" >
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
           <string>Video codec</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="2" >
-        <widget class="KLineEdit" name="clip_vcodec" >
-         <property name="readOnly" >
+       <item row="0" column="2">
+        <widget class="KLineEdit" name="clip_vcodec">
+         <property name="readOnly">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="2" >
-        <widget class="QLabel" name="label_6" >
-         <property name="text" >
+       <item row="1" column="0" colspan="2">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
           <string>Frame size</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="2" >
-        <widget class="KLineEdit" name="clip_size" >
-         <property name="readOnly" >
+       <item row="1" column="2">
+        <widget class="KLineEdit" name="clip_size">
+         <property name="readOnly">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="2" >
-        <widget class="QLabel" name="label_7" >
-         <property name="text" >
+       <item row="2" column="0" colspan="2">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
           <string>Frame rate</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="2" >
-        <widget class="KLineEdit" name="clip_fps" >
-         <property name="readOnly" >
+       <item row="2" column="2">
+        <widget class="KLineEdit" name="clip_fps">
+         <property name="readOnly">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="2" >
-        <widget class="QLabel" name="label_12" >
-         <property name="text" >
+       <item row="3" column="0" colspan="2">
+        <widget class="QLabel" name="label_12">
+         <property name="text">
           <string>Pixel aspect ratio</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="2" >
-        <widget class="KLineEdit" name="clip_ratio" >
-         <property name="readOnly" >
+       <item row="3" column="2">
+        <widget class="KLineEdit" name="clip_ratio">
+         <property name="readOnly">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="4" column="2" >
-        <spacer name="verticalSpacer_2" >
-         <property name="orientation" >
+       <item row="4" column="2">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
            <height>17</height>
@@ -179,31 +180,31 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_audio" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_audio">
+      <attribute name="title">
        <string>Audio</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_4" >
-       <item row="0" column="1" colspan="2" >
-        <widget class="KLineEdit" name="clip_acodec" >
-         <property name="readOnly" >
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="1" colspan="2">
+        <widget class="KLineEdit" name="clip_acodec">
+         <property name="readOnly">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="2" column="1" colspan="2" >
-        <widget class="KLineEdit" name="clip_frequency" >
-         <property name="readOnly" >
+       <item row="2" column="1" colspan="2">
+        <widget class="KLineEdit" name="clip_frequency">
+         <property name="readOnly">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="3" column="2" >
-        <spacer name="verticalSpacer_3" >
-         <property name="orientation" >
+       <item row="3" column="2">
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>77</width>
            <height>52</height>
@@ -211,30 +212,30 @@
          </property>
         </spacer>
        </item>
-       <item row="1" column="1" colspan="2" >
-        <widget class="KLineEdit" name="clip_channels" >
-         <property name="readOnly" >
+       <item row="1" column="1" colspan="2">
+        <widget class="KLineEdit" name="clip_channels">
+         <property name="readOnly">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="0" column="0" >
-        <widget class="QLabel" name="label_9" >
-         <property name="text" >
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
           <string>Audio codec</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" >
-        <widget class="QLabel" name="label_11" >
-         <property name="text" >
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
           <string>Channels</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" >
-        <widget class="QLabel" name="label_10" >
-         <property name="text" >
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
           <string>Frequency</string>
          </property>
         </widget>
@@ -248,27 +249,27 @@
       <zorder>label_11</zorder>
       <zorder>label_10</zorder>
      </widget>
-     <widget class="QWidget" name="tab" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
        <string>Color</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_5" >
-       <item row="0" column="0" >
-        <widget class="QLabel" name="label_13" >
-         <property name="text" >
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_13">
+         <property name="text">
           <string>Color</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1" >
-        <widget class="KColorButton" name="clip_color" />
+       <item row="0" column="1">
+        <widget class="KColorButton" name="clip_color"/>
        </item>
-       <item row="1" column="1" >
-        <spacer name="verticalSpacer_5" >
-         <property name="orientation" >
+       <item row="1" column="1">
+        <spacer name="verticalSpacer_5">
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>122</width>
            <height>118</height>
@@ -278,79 +279,139 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
        <string>Slideshow</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_6" >
-       <item row="0" column="0" >
-        <widget class="QLabel" name="label_14" >
-         <property name="text" >
+      <layout class="QGridLayout" name="gridLayout_6">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_14">
+         <property name="text">
           <string>Image type</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1" >
-        <widget class="KComboBox" name="image_type" />
+       <item row="0" column="1" colspan="2">
+        <widget class="KComboBox" name="image_type"/>
        </item>
-       <item row="1" column="0" >
-        <widget class="QLabel" name="clip_filesize_4" >
-         <property name="text" >
+       <item row="1" column="0">
+        <widget class="QLabel" name="clip_filesize_4">
+         <property name="text">
           <string>Frame duration</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1" >
-        <widget class="KRestrictedLine" name="slide_duration" >
-         <property name="inputMask" >
-          <string>99:99:99:99; </string>
-         </property>
-        </widget>
+       <item row="1" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="KRestrictedLine" name="slide_duration">
+           <property name="inputMask">
+            <string>99:99:99:99; </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="KIntSpinBox" name="slide_duration_frames">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>256000</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
-       <item row="2" column="0" >
-        <widget class="QCheckBox" name="slide_loop" >
-         <property name="text" >
+       <item row="1" column="2">
+        <widget class="KComboBox" name="slide_duration_format"/>
+       </item>
+       <item row="2" column="0" colspan="3">
+        <widget class="QCheckBox" name="slide_loop">
+         <property name="text">
           <string>Loop</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0" >
-        <widget class="QCheckBox" name="slide_fade" >
-         <property name="text" >
+       <item row="3" column="0">
+        <widget class="QCheckBox" name="slide_fade">
+         <property name="text">
           <string>Crossfade</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1" >
-        <widget class="KRestrictedLine" name="luma_duration" >
-         <property name="inputMask" >
-          <string>99:99:99:99; </string>
-         </property>
-        </widget>
+       <item row="3" column="1" colspan="2">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="KRestrictedLine" name="luma_duration">
+           <property name="inputMask">
+            <string>99:99:99:99; </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="KIntSpinBox" name="luma_duration_frames">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>256000</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
-       <item row="4" column="0" >
-        <widget class="QCheckBox" name="slide_luma" >
-         <property name="text" >
+       <item row="4" column="0">
+        <widget class="QCheckBox" name="slide_luma">
+         <property name="text">
           <string>Luma file</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="1" >
-        <widget class="KComboBox" name="luma_file" />
+       <item row="4" column="1" colspan="2">
+        <widget class="KComboBox" name="luma_file"/>
        </item>
-       <item row="6" column="0" colspan="2" >
-        <widget class="QLabel" name="slide_info" >
-         <property name="text" >
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_softness">
+         <property name="text">
+          <string>Softness</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1" colspan="2">
+        <widget class="QSlider" name="luma_softness">
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="3">
+        <widget class="QLabel" name="slide_info">
+         <property name="text">
           <string>No image found</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="1" >
-        <spacer name="verticalSpacer_6" >
-         <property name="orientation" >
+       <item row="7" column="1">
+        <spacer name="verticalSpacer_6">
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
            <height>15</height>
@@ -358,57 +419,40 @@
          </property>
         </spacer>
        </item>
-       <item row="5" column="1" >
-        <widget class="QSlider" name="luma_softness" >
-         <property name="maximum" >
-          <number>100</number>
-         </property>
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" >
-        <widget class="QLabel" name="label_softness" >
-         <property name="text" >
-          <string>Softness</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_4" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_4">
+      <attribute name="title">
        <string>Image</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_8" >
-       <item row="0" column="0" >
-        <widget class="QLabel" name="label_16" >
-         <property name="text" >
+      <layout class="QGridLayout" name="gridLayout_8">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_16">
+         <property name="text">
           <string>Image size</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1" >
-        <widget class="KLineEdit" name="image_size" >
-         <property name="readOnly" >
+       <item row="0" column="1">
+        <widget class="KLineEdit" name="image_size">
+         <property name="readOnly">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="2" >
-        <widget class="QCheckBox" name="image_transparency" >
-         <property name="text" >
+       <item row="1" column="0" colspan="2">
+        <widget class="QCheckBox" name="image_transparency">
+         <property name="text">
           <string>Transparent background</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" >
-        <spacer name="verticalSpacer_7" >
-         <property name="orientation" >
+       <item row="2" column="0">
+        <spacer name="verticalSpacer_7">
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
            <height>151</height>
@@ -418,67 +462,67 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_3" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_3">
+      <attribute name="title">
        <string>Markers</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_7" >
-       <item row="0" column="0" colspan="4" >
-        <widget class="QTreeWidget" name="markers_list" >
-         <property name="alternatingRowColors" >
+      <layout class="QGridLayout" name="gridLayout_7">
+       <item row="0" column="0" colspan="4">
+        <widget class="QTreeWidget" name="markers_list">
+         <property name="alternatingRowColors">
           <bool>true</bool>
          </property>
-         <property name="rootIsDecorated" >
+         <property name="rootIsDecorated">
           <bool>false</bool>
          </property>
-         <property name="itemsExpandable" >
+         <property name="itemsExpandable">
           <bool>false</bool>
          </property>
-         <property name="allColumnsShowFocus" >
+         <property name="allColumnsShowFocus">
           <bool>true</bool>
          </property>
-         <property name="headerHidden" >
+         <property name="headerHidden">
           <bool>true</bool>
          </property>
          <column>
-          <property name="text" >
+          <property name="text">
            <string>Time</string>
           </property>
          </column>
          <column>
-          <property name="text" >
+          <property name="text">
            <string>Comment</string>
           </property>
          </column>
         </widget>
        </item>
-       <item row="1" column="0" >
-        <widget class="QToolButton" name="marker_new" >
-         <property name="text" >
+       <item row="1" column="0">
+        <widget class="QToolButton" name="marker_new">
+         <property name="text">
           <string>N</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1" >
-        <widget class="QToolButton" name="marker_edit" >
-         <property name="text" >
+       <item row="1" column="1">
+        <widget class="QToolButton" name="marker_edit">
+         <property name="text">
           <string>E</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="2" >
-        <widget class="QToolButton" name="marker_delete" >
-         <property name="text" >
+       <item row="1" column="2">
+        <widget class="QToolButton" name="marker_delete">
+         <property name="text">
           <string>D</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="3" >
-        <spacer name="horizontalSpacer" >
-         <property name="orientation" >
+       <item row="1" column="3">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>177</width>
            <height>20</height>
@@ -488,41 +532,41 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_5" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_5">
+      <attribute name="title">
        <string>Metadata</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_9" >
-       <item row="0" column="0" >
-        <widget class="QTreeWidget" name="metadata_list" >
-         <property name="rootIsDecorated" >
+      <layout class="QGridLayout" name="gridLayout_9">
+       <item row="0" column="0">
+        <widget class="QTreeWidget" name="metadata_list">
+         <property name="rootIsDecorated">
           <bool>false</bool>
          </property>
-         <property name="itemsExpandable" >
+         <property name="itemsExpandable">
           <bool>false</bool>
          </property>
-         <property name="sortingEnabled" >
+         <property name="sortingEnabled">
           <bool>false</bool>
          </property>
-         <property name="allColumnsShowFocus" >
+         <property name="allColumnsShowFocus">
           <bool>true</bool>
          </property>
-         <property name="wordWrap" >
+         <property name="wordWrap">
           <bool>true</bool>
          </property>
-         <property name="headerHidden" >
+         <property name="headerHidden">
           <bool>true</bool>
          </property>
-         <property name="columnCount" >
+         <property name="columnCount">
           <number>2</number>
          </property>
          <column>
-          <property name="text" >
+          <property name="text">
            <string>1</string>
           </property>
          </column>
          <column>
-          <property name="text" >
+          <property name="text">
            <string>2</string>
           </property>
          </column>
@@ -530,17 +574,17 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_advanced" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_advanced">
+      <attribute name="title">
        <string>Advanced</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_3" >
-       <item row="4" column="2" >
-        <spacer name="verticalSpacer" >
-         <property name="orientation" >
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="4" column="2">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
            <height>19</height>
@@ -548,76 +592,76 @@
          </property>
         </spacer>
        </item>
-       <item row="0" column="1" >
-        <widget class="QCheckBox" name="clip_force_ar" >
-         <property name="text" >
+       <item row="0" column="1">
+        <widget class="QCheckBox" name="clip_force_ar">
+         <property name="text">
           <string>Force pixel aspect ratio</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="2" >
-        <widget class="KDoubleNumInput" name="clip_ar" >
-         <property name="enabled" >
+       <item row="0" column="2">
+        <widget class="KDoubleNumInput" name="clip_ar">
+         <property name="enabled">
           <bool>false</bool>
          </property>
         </widget>
        </item>
-       <item row="2" column="2" >
-        <widget class="QSpinBox" name="clip_vindex" >
-         <property name="enabled" >
+       <item row="2" column="2">
+        <widget class="QSpinBox" name="clip_vindex">
+         <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="minimum" >
+         <property name="minimum">
           <number>-1</number>
          </property>
-         <property name="value" >
+         <property name="value">
           <number>0</number>
          </property>
         </widget>
        </item>
-       <item row="3" column="2" >
-        <widget class="QSpinBox" name="clip_aindex" >
-         <property name="enabled" >
+       <item row="3" column="2">
+        <widget class="QSpinBox" name="clip_aindex">
+         <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="minimum" >
+         <property name="minimum">
           <number>-1</number>
          </property>
-         <property name="value" >
+         <property name="value">
           <number>0</number>
          </property>
         </widget>
        </item>
-       <item row="1" column="1" >
-        <widget class="QCheckBox" name="clip_force_threads" >
-         <property name="text" >
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="clip_force_threads">
+         <property name="text">
           <string>Decoding threads</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1" >
-        <widget class="QCheckBox" name="clip_force_vindex" >
-         <property name="text" >
+       <item row="2" column="1">
+        <widget class="QCheckBox" name="clip_force_vindex">
+         <property name="text">
           <string>Video index</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1" >
-        <widget class="QCheckBox" name="clip_force_aindex" >
-         <property name="text" >
+       <item row="3" column="1">
+        <widget class="QCheckBox" name="clip_force_aindex">
+         <property name="text">
           <string>Audio index</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="2" >
-        <widget class="QSpinBox" name="clip_threads" >
-         <property name="enabled" >
+       <item row="1" column="2">
+        <widget class="QSpinBox" name="clip_threads">
+         <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="maximum" >
+         <property name="maximum">
           <number>4</number>
          </property>
-         <property name="value" >
+         <property name="value">
           <number>1</number>
          </property>
         </widget>
@@ -630,14 +674,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KColorButton</class>
-   <extends>QPushButton</extends>
-   <header>kcolorbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <class>KIntSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>knuminput.h</header>
   </customwidget>
   <customwidget>
    <class>KDoubleNumInput</class>
@@ -648,6 +687,16 @@
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KColorButton</class>
+   <extends>QPushButton</extends>
+   <header>kcolorbutton.h</header>
   </customwidget>
   <customwidget>
    <class>KRestrictedLine</class>
@@ -663,11 +712,11 @@
    <receiver>ClipProperties_UI</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>248</x>
      <y>254</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>157</x>
      <y>274</y>
     </hint>
@@ -679,11 +728,11 @@
    <receiver>ClipProperties_UI</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>316</x>
      <y>260</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
     </hint>

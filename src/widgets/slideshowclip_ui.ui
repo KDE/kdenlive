@@ -1,142 +1,189 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>SlideshowClip_UI</class>
- <widget class="QDialog" name="SlideshowClip_UI" >
-  <property name="geometry" >
+ <widget class="QDialog" name="SlideshowClip_UI">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>252</width>
-    <height>415</height>
+    <width>275</width>
+    <height>359</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Slideshow Clip</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
-   <item row="0" column="0" >
-    <widget class="QLabel" name="label_3" >
-     <property name="text" >
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
       <string>Name</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1" >
-    <widget class="KLineEdit" name="clip_name" />
+   <item row="0" column="1" colspan="2">
+    <widget class="KLineEdit" name="clip_name"/>
    </item>
-   <item row="1" column="0" >
-    <widget class="QLabel" name="label" >
-     <property name="text" >
+   <item row="1" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
       <string>Folder</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1" >
-    <widget class="KUrlRequester" name="folder_url" />
+   <item row="1" column="1" colspan="2">
+    <widget class="KUrlRequester" name="folder_url"/>
    </item>
-   <item row="2" column="0" >
-    <widget class="QLabel" name="label_2" >
-     <property name="text" >
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
       <string>Frame Duration</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="1" >
-    <widget class="KRestrictedLine" name="clip_duration" >
-     <property name="inputMask" >
-      <string>99:99:99:99; </string>
-     </property>
-    </widget>
+   <item row="2" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="KRestrictedLine" name="clip_duration">
+       <property name="inputMask">
+        <string>99:99:99:99; </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KIntSpinBox" name="clip_duration_frames">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>256000</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
-   <item row="3" column="0" >
-    <widget class="QLabel" name="label_4" >
-     <property name="text" >
+   <item row="2" column="2">
+    <widget class="KComboBox" name="clip_duration_format"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
       <string>Image Type</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="1" >
-    <widget class="KComboBox" name="image_type" />
+   <item row="3" column="1" colspan="2">
+    <widget class="KComboBox" name="image_type"/>
    </item>
-   <item row="4" column="0" >
-    <widget class="QCheckBox" name="slide_loop" >
-     <property name="text" >
+   <item row="4" column="0" colspan="3">
+    <widget class="QCheckBox" name="slide_loop">
+     <property name="text">
       <string>Loop</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="0" >
-    <widget class="QCheckBox" name="slide_fade" >
-     <property name="text" >
+   <item row="5" column="0">
+    <widget class="QCheckBox" name="slide_fade">
+     <property name="text">
       <string>Crossfade</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="1" >
-    <widget class="KRestrictedLine" name="luma_duration" >
-     <property name="enabled" >
-      <bool>false</bool>
-     </property>
-     <property name="inputMask" >
-      <string>99:99:99:99; </string>
-     </property>
-    </widget>
+   <item row="5" column="1" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="KRestrictedLine" name="luma_duration">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="inputMask">
+        <string>99:99:99:99; </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KIntSpinBox" name="luma_duration_frames">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>256000</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
-   <item row="6" column="0" >
-    <widget class="QCheckBox" name="luma_fade" >
-     <property name="enabled" >
+   <item row="6" column="0">
+    <widget class="QCheckBox" name="luma_fade">
+     <property name="enabled">
       <bool>false</bool>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Luma File</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="1" >
-    <widget class="KComboBox" name="luma_file" >
-     <property name="enabled" >
+   <item row="6" column="1" colspan="2">
+    <widget class="KComboBox" name="luma_file">
+     <property name="enabled">
       <bool>false</bool>
      </property>
     </widget>
    </item>
-   <item row="7" column="0" >
-    <widget class="QLabel" name="label_softness" >
-     <property name="enabled" >
+   <item row="7" column="0">
+    <widget class="QLabel" name="label_softness">
+     <property name="enabled">
       <bool>false</bool>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Softness</string>
      </property>
     </widget>
    </item>
-   <item row="7" column="1" >
-    <widget class="QSlider" name="luma_softness" >
-     <property name="enabled" >
+   <item row="7" column="1" colspan="2">
+    <widget class="QSlider" name="luma_softness">
+     <property name="enabled">
       <bool>false</bool>
      </property>
-     <property name="maximum" >
+     <property name="maximum">
       <number>100</number>
      </property>
-     <property name="orientation" >
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="8" column="0" colspan="2" >
-    <widget class="KListWidget" name="icon_list" />
+   <item row="8" column="0" colspan="3">
+    <widget class="KListWidget" name="icon_list"/>
    </item>
-   <item row="9" column="0" >
-    <widget class="QLabel" name="label_info" >
-     <property name="text" >
+   <item row="9" column="0" colspan="3">
+    <widget class="QLabel" name="label_info">
+     <property name="text">
       <string>No image found</string>
      </property>
     </widget>
    </item>
-   <item row="10" column="0" colspan="2" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
+   <item row="10" column="0" colspan="3">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="standardButtons" >
+     <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
@@ -145,14 +192,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <class>KIntSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>knuminput.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
   </customwidget>
   <customwidget>
    <class>KListWidget</class>
@@ -160,14 +207,19 @@
    <header>klistwidget.h</header>
   </customwidget>
   <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
    <class>KRestrictedLine</class>
    <extends>KLineEdit</extends>
    <header>krestrictedline.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KUrlRequester</class>
-   <extends>QFrame</extends>
-   <header>kurlrequester.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -178,11 +230,11 @@
    <receiver>SlideshowClip_UI</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>248</x>
      <y>254</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>157</x>
      <y>274</y>
     </hint>
@@ -194,11 +246,11 @@
    <receiver>SlideshowClip_UI</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>316</x>
      <y>260</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
     </hint>
