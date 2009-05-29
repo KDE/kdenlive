@@ -46,6 +46,7 @@ private slots:
     void slotCheckMaxLength();
     void slotEnableLuma(int state);
     void slotEnableLumaFile(int state);
+    void slotUpdateDurationFormat(int ix);
 
 private:
     Ui::ClipProperties_UI m_view;

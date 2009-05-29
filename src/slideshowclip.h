@@ -32,7 +32,7 @@ class SlideshowClip : public QDialog
     Q_OBJECT
 
 public:
-    SlideshowClip(QWidget * parent = 0);
+    SlideshowClip(Timecode tc, QWidget * parent = 0);
     /** return selected path for slideshow in MLT format */
     QString selectedPath() const;
     QString clipName() const;
@@ -49,10 +49,12 @@ private slots:
     void slotEnableLuma(int state);
     void slotEnableLumaFile(int state);
     void slotSetItemIcon(int row);
+    void slotUpdateDurationFormat(int ix);
 
 private:
     Ui::SlideshowClip_UI m_view;
     int m_count;
+    Timecode m_timecode;
 };
 
 

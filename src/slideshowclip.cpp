@@ -26,9 +26,10 @@
 
 #include <QDir>
 
-SlideshowClip::SlideshowClip(QWidget * parent) :
+SlideshowClip::SlideshowClip(Timecode tc, QWidget * parent) :
         QDialog(parent),
-        m_count(0)
+        m_count(0),
+        m_timecode(tc)
 {
     setFont(KGlobalSettings::toolBarFont());
     setWindowTitle(i18n("Add Slideshow Clip"));
@@ -54,6 +55,11 @@ SlideshowClip::SlideshowClip(QWidget * parent) :
     m_view.luma_duration->setText("00:00:00:24");
     m_view.folder_url->setUrl(QDir::homePath());
 
+    m_view.clip_duration_format->addItem(i18n("hh:mm:ss::ff"));
+    m_view.clip_duration_format->addItem(i18n("Frames"));
+    connect(m_view.clip_duration_format, SIGNAL(activated(int)), this, SLOT(slotUpdateDurationFormat(int)));
+    m_view.clip_duration_frames->setHidden(true);
+    m_view.luma_duration_frames->setHidden(true);
 
     // Check for Kdenlive installed luma files
     QStringList filters;
@@ -85,6 +91,7 @@ void SlideshowClip::slotEnableLuma(int state)
     bool enable = false;
     if (state == Qt::Checked) enable = true;
     m_view.luma_duration->setEnabled(enable);
+    m_view.luma_duration_frames->setEnabled(enable);
     m_view.luma_fade->setEnabled(enable);
     if (enable) {
         m_view.luma_file->setEnabled(m_view.luma_fade->isChecked());
@@ -164,6 +171,10 @@ QString SlideshowClip::clipName() const
 
 QString SlideshowClip::clipDuration() const
 {
+    if (m_view.clip_duration_format->currentIndex() == 1) {
+        // we are in frames mode
+        return m_timecode.getTimecodeFromFrames(m_view.clip_duration_frames->value());
+    }
     return m_view.clip_duration->text();
 }
 
@@ -189,6 +200,10 @@ bool SlideshowClip::fade() const
 
 QString SlideshowClip::lumaDuration() const
 {
+    if (m_view.clip_duration_format->currentIndex() == 1) {
+        // we are in frames mode
+        return m_timecode.getTimecodeFromFrames(m_view.luma_duration_frames->value());
+    }
     return m_view.luma_duration->text();
 }
 
@@ -196,6 +211,24 @@ QString SlideshowClip::lumaFile() const
 {
     if (!m_view.luma_fade->isChecked() || !m_view.luma_file->isEnabled()) return QString();
     return m_view.luma_file->itemData(m_view.luma_file->currentIndex()).toString();
+}
+
+void SlideshowClip::slotUpdateDurationFormat(int ix)
+{
+    bool framesFormat = ix == 1;
+    if (framesFormat) {
+        // switching to frames count, update widget
+        m_view.clip_duration_frames->setValue(m_timecode.getFrameCount(m_view.clip_duration->text(), m_timecode.fps()));
+        m_view.luma_duration_frames->setValue(m_timecode.getFrameCount(m_view.luma_duration->text(), m_timecode.fps()));
+    } else {
+        // switching to timecode format
+        m_view.clip_duration->setText(m_timecode.getTimecodeFromFrames(m_view.clip_duration_frames->value()));
+        m_view.luma_duration->setText(m_timecode.getTimecodeFromFrames(m_view.luma_duration_frames->value()));
+    }
+    m_view.clip_duration_frames->setHidden(!framesFormat);
+    m_view.clip_duration->setHidden(framesFormat);
+    m_view.luma_duration_frames->setHidden(!framesFormat);
+    m_view.luma_duration->setHidden(framesFormat);
 }
 
 #include "slideshowclip.moc"

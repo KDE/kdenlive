@@ -91,7 +91,7 @@ QString Timecode::getTimecode(const GenTime & time, double fps) const
     }
 }
 
-QString Timecode::getTimecodeFromFrames(int frames)
+QString Timecode::getTimecodeFromFrames(int frames) const
 {
     return getTimecodeHH_MM_SS_FF(frames);
 }

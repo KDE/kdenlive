@@ -157,6 +157,13 @@ ClipProperties::ClipProperties(DocClipBase *clip, Timecode tc, double fps, QWidg
         else if (path.endsWith("bmp")) m_view.image_type->setCurrentIndex(TYPE_BMP);
         else if (path.endsWith("gif")) m_view.image_type->setCurrentIndex(TYPE_GIF);
         m_view.slide_duration->setText(tc.getTimecodeFromFrames(props.value("ttl").toInt()));
+
+        m_view.slide_duration_format->addItem(i18n("hh:mm:ss::ff"));
+        m_view.slide_duration_format->addItem(i18n("Frames"));
+        connect(m_view.slide_duration_format, SIGNAL(activated(int)), this, SLOT(slotUpdateDurationFormat(int)));
+        m_view.slide_duration_frames->setHidden(true);
+        m_view.luma_duration_frames->setHidden(true);
+
         parseFolder();
 
         m_view.luma_duration->setText(tc.getTimecodeFromFrames(props.value("luma_duration").toInt()));
@@ -247,6 +254,7 @@ void ClipProperties::slotEnableLuma(int state)
     bool enable = false;
     if (state == Qt::Checked) enable = true;
     m_view.luma_duration->setEnabled(enable);
+    m_view.luma_duration_frames->setEnabled(enable);
     m_view.slide_luma->setEnabled(enable);
     if (enable) {
         m_view.luma_file->setEnabled(m_view.slide_luma->isChecked());
@@ -409,7 +417,11 @@ QMap <QString, QString> ClipProperties::properties()
             props["resource"] = new_path;
             kDebug() << "////  SLIDE EDIT, NEW:" << new_path << ", OLD; " << old_props.value("resource");
         }
-        int duration = m_tc.getFrameCount(m_view.slide_duration->text(), m_fps);
+        int duration;
+        if (m_view.slide_duration_format->currentIndex() == 1) {
+            // we are in frames mode
+            duration = m_view.slide_duration_frames->value();
+        } else duration = m_tc.getFrameCount(m_view.slide_duration->text(), m_fps);
         if (duration != old_props.value("ttl").toInt()) {
             m_clipNeedsRefresh = true;
             props["ttl"] = QString::number(duration);
@@ -420,7 +432,11 @@ QMap <QString, QString> ClipProperties::properties()
             props["out"] = QString::number(duration * m_count);
         }
         if (m_view.slide_fade->isChecked()) {
-            int luma_duration = m_tc.getFrameCount(m_view.luma_duration->text(), m_fps);
+            int luma_duration;
+            if (m_view.slide_duration_format->currentIndex() == 1) {
+                // we are in frames mode
+                luma_duration = m_view.luma_duration_frames->value();
+            } else luma_duration = m_tc.getFrameCount(m_view.luma_duration->text(), m_fps);
             if (luma_duration != old_props.value("luma_duration").toInt()) {
                 m_clipNeedsRefresh = true;
                 props["luma_duration"] = QString::number(luma_duration);
@@ -491,6 +507,28 @@ void ClipProperties::slotCheckMaxLength()
     int duration = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
     if (duration > m_clip->maxDuration().frames(m_fps)) {
         m_view.clip_duration->setText(m_tc.getTimecode(m_clip->maxDuration(), m_fps));
+    }
+}
+
+void ClipProperties::slotUpdateDurationFormat(int ix)
+{
+    bool framesFormat = ix == 1;
+    if (framesFormat) {
+        // switching to frames count, update widget
+        m_view.slide_duration_frames->setValue(m_tc.getFrameCount(m_view.slide_duration->text(), m_tc.fps()));
+        m_view.luma_duration_frames->setValue(m_tc.getFrameCount(m_view.luma_duration->text(), m_tc.fps()));
+        m_view.slide_duration->setHidden(true);
+        m_view.luma_duration->setHidden(true);
+        m_view.slide_duration_frames->setHidden(false);
+        m_view.luma_duration_frames->setHidden(false);
+    } else {
+        // switching to timecode format
+        m_view.slide_duration->setText(m_tc.getTimecodeFromFrames(m_view.slide_duration_frames->value()));
+        m_view.luma_duration->setText(m_tc.getTimecodeFromFrames(m_view.luma_duration_frames->value()));
+        m_view.slide_duration_frames->setHidden(true);
+        m_view.luma_duration_frames->setHidden(true);
+        m_view.slide_duration->setHidden(false);
+        m_view.luma_duration->setHidden(false);
     }
 }
 

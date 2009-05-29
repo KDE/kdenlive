@@ -677,7 +677,7 @@ void ProjectList::slotAddColorClip()
 void ProjectList::slotAddSlideshowClip()
 {
     if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
-    SlideshowClip *dia = new SlideshowClip(this);
+    SlideshowClip *dia = new SlideshowClip(m_timecode, this);
 
     if (dia->exec() == QDialog::Accepted) {
 
