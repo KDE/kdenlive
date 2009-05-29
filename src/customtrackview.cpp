@@ -574,6 +574,15 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     kDebug() << "mousePressEvent STARTED";
     setFocus(Qt::MouseFocusReason);
     m_menuPosition = QPoint();
+
+    // special cases (middle click button or ctrl / shift click
+    if (event->button() == Qt::MidButton) {
+        m_document->renderer()->switchPlay();
+        m_blockRefresh = false;
+        m_operationMode = NONE;
+        return;
+    }
+
     m_blockRefresh = true;
     m_dragItem = NULL;
     m_dragGuide = NULL;
@@ -585,14 +594,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         return;
     }
     m_clickEvent = event->pos();
-
-    // special cases (middle click button or ctrl / shift click
-    if (event->button() == Qt::MidButton) {
-        m_document->renderer()->switchPlay();
-        m_blockRefresh = false;
-        m_operationMode = NONE;
-        return;
-    }
 
     // check item under mouse
     QList<QGraphicsItem *> collisionList = items(m_clickEvent);
@@ -781,7 +782,11 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     if (m_dragItem->type() == AVWIDGET && !m_dragItem->isItemLocked()) emit clipItemSelected((ClipItem*) m_dragItem);
     else emit clipItemSelected(NULL);
 
-    if (event->modifiers() == Qt::ControlModifier || !(m_dragItem->isSelected() || (dragGroup && dragGroup->isSelected()))) {
+    bool itemSelected = false;
+    if (m_dragItem->isSelected()) itemSelected = true;
+    else if (m_dragItem->parentItem() && m_dragItem->parentItem()->isSelected()) itemSelected = true;
+    else if (dragGroup && dragGroup->isSelected()) itemSelected = true;
+    if (event->modifiers() == Qt::ControlModifier || itemSelected == false) {
         resetSelectionGroup();
         if (event->modifiers() != Qt::ControlModifier) m_scene->clearSelection();
         dragGroup = NULL;
@@ -802,7 +807,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     // If clicked item is selected, allow move
     //event->accept();
-    if (event->modifiers() != Qt::ControlModifier && (m_dragItem->isSelected() || (dragGroup && dragGroup->isSelected())) && m_operationMode == NONE) QGraphicsView::mousePressEvent(event);
+    if (event->modifiers() != Qt::ControlModifier && itemSelected && m_operationMode == NONE) QGraphicsView::mousePressEvent(event);
 
     m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps())), (int)(event->pos().y() - m_dragItem->pos().y()));
     m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
@@ -1696,6 +1701,7 @@ void CustomTrackView::dropEvent(QDropEvent * event)
                 Transition *tr = new Transition(info, endTrack, m_document->fps(), MainWindow::transitions.getEffectByTag("composite", "composite"), true);
                 if (m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_document->tracksCount() - info.track, info.startPos, info.endPos, tr->toXML())) {
                     scene()->addItem(tr);
+                    tr->setSelected(true);
                 } else {
                     emit displayMessage(i18n("Cannot add transition"), ErrorMessage);
                     delete tr;
