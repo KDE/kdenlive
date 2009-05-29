@@ -32,6 +32,7 @@
 #include <QHBoxLayout>
 #include <QDomDocument>
 #include <QTreeWidgetItem>
+#include <QHeaderView>
 
 DvdWizardVob::DvdWizardVob(const QString &profile, QWidget *parent) :
         QWizardPage(parent)
