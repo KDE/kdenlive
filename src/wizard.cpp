@@ -92,7 +92,7 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     page3->setTitle(i18n("Additional Settings"));
     m_extra.setupUi(page3);
     m_extra.projectfolder->setMode(KFile::Directory);
-    m_extra.projectfolder->setPath(QDir::homePath() + "/kdenlive");
+    m_extra.projectfolder->setPath(KdenliveSettings::defaultprojectfolder());
     m_extra.videothumbs->setChecked(KdenliveSettings::videothumbnails());
     m_extra.audiothumbs->setChecked(KdenliveSettings::audiothumbnails());
     m_extra.autosave->setChecked(KdenliveSettings::crashrecovery());

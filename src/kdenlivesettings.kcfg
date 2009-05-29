@@ -146,7 +146,7 @@
 
     <entry name="defaultprojectfolder" type="Path">
       <label>Default folder for project files.</label>
-      <default></default>
+      <default>$HOME/kdenlive</default>
     </entry>
 
     <entry name="capturefolder" type="Path">
