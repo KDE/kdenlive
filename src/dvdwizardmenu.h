@@ -90,22 +90,23 @@ protected:
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) {
         if (change == ItemPositionChange && scene()) {
 
-            /*   QList<QGraphicsItem *> list = collidingItems();
-               if (!list.isEmpty()) {
-                   for (int i = 0; i < list.count(); i++) {
-                if (list.at(i)->type() == Type) return pos();
-                   }
-               }
-            */
-            DvdScene *sc = static_cast < DvdScene * >(scene());
-            QRectF rect = QRectF(0, 0, sc->width(), sc->height());
             QPointF newPos = value.toPointF();
-            if (!rect.contains(newPos)) {
-                // Keep the item inside the scene rect.
-                newPos.setX(qMin(rect.right(), qMax(newPos.x(), rect.left())));
-                newPos.setY(qMin(rect.bottom(), qMax(newPos.y(), rect.top())));
-                return newPos;
+            QRectF sceneShape = sceneBoundingRect();
+            DvdScene *sc = static_cast < DvdScene * >(scene());
+            newPos.setX(qMax(newPos.x(), 0.0));
+            newPos.setY(qMax(newPos.y(), 0.0));
+            if (newPos.x() + sceneShape.width() > sc->width()) newPos.setX(sc->width() - sceneShape.width());
+            if (newPos.y() + sceneShape.height() > sc->height()) newPos.setY(sc->height() - sceneShape.height());
+
+            sceneShape.translate(newPos - pos());
+            QList<QGraphicsItem*> list = scene()->items(sceneShape, Qt::IntersectsItemShape);
+            list.removeAll(this);
+            if (!list.isEmpty()) {
+                for (int i = 0; i < list.count(); i++) {
+                    if (list.at(i)->type() == Type) return pos();
+                }
             }
+            return newPos;
         }
         return QGraphicsItem::itemChange(change, value);
     }
@@ -157,6 +158,8 @@ private slots:
     void updateColor();
     void updateColor(QColor c);
     void setBackToMenu(bool backToMenu);
+    void slotZoom();
+    void slotUnZoom();
 };
 
 #endif

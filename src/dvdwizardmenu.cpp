@@ -37,6 +37,8 @@ DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
 
     m_view.add_button->setIcon(KIcon("document-new"));
     m_view.delete_button->setIcon(KIcon("trash-empty"));
+    m_view.zoom_button->setIcon(KIcon("zoom-in"));
+    m_view.unzoom_button->setIcon(KIcon("zoom-out"));
 
     m_view.add_button->setToolTip(i18n("Add new button"));
     m_view.delete_button->setToolTip(i18n("Delete current button"));
@@ -104,6 +106,8 @@ DvdWizardMenu::DvdWizardMenu(const QString &profile, QWidget *parent) :
 
     connect(m_view.add_button, SIGNAL(pressed()), this, SLOT(addButton()));
     connect(m_view.delete_button, SIGNAL(pressed()), this, SLOT(deleteButton()));
+    connect(m_view.zoom_button, SIGNAL(pressed()), this, SLOT(slotZoom()));
+    connect(m_view.unzoom_button, SIGNAL(pressed()), this, SLOT(slotUnZoom()));
     connect(m_scene, SIGNAL(selectionChanged()), this, SLOT(buttonChanged()));
     connect(m_scene, SIGNAL(changed(const QList<QRectF> &)), this, SIGNAL(completeChanged()));
 
@@ -602,5 +606,15 @@ void DvdWizardMenu::loadXml(QDomElement xml)
         button->setPos(e.attribute("posx").toDouble(), e.attribute("posy").toDouble());
 
     }
+}
+
+void DvdWizardMenu::slotZoom()
+{
+    m_view.menu_preview->scale(2.0, 2.0);
+}
+
+void DvdWizardMenu::slotUnZoom()
+{
+    m_view.menu_preview->scale(0.5, 0.5);
 }
 
