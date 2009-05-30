@@ -129,8 +129,8 @@ QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &m
     QStringList filesAndDirs = dir.entryList(QDir::Files | QDir::Readable);
     for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); i++) {
         QFile file(dir.absoluteFilePath(filesAndDirs.at(i)));
-        if (file.open(QIODevice::ReadOnly)) {
-            if (QString::number(file.size()) == matchSize) {
+        if (QString::number(file.size()) == matchSize) {
+            if (file.open(QIODevice::ReadOnly)) {
                 /*
                 * 1 MB = 1 second per 450 files (or faster)
                 * 10 MB = 9 seconds per 450 files (or faster)
