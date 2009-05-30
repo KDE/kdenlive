@@ -1016,7 +1016,7 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
             m_commandStack->push(command);
             updateEffect(m_document->tracksCount() - item->track(), item->startPos(), item->selectedEffect(), item->selectedEffectIndex());
         }
-    } else if (m_dragItem) {
+    } else if (m_dragItem && !m_dragItem->isItemLocked()) {
         ClipDurationDialog d(m_dragItem, m_document->timecode(), this);
         GenTime minimum;
         GenTime maximum;
@@ -1045,13 +1045,21 @@ void CustomTrackView::mouseDoubleClickEvent(QMouseEvent *event)
                 QUndoCommand *moveCommand = new QUndoCommand();
                 moveCommand->setText(i18n("Edit clip"));
                 ItemInfo clipInfo = m_dragItem->info();
+                if (d.duration() < m_dragItem->duration() || d.cropStart() != clipInfo.cropStart) {
+                    // duration was reduced, so process it first
+                    ItemInfo startInfo = clipInfo;
+                    clipInfo.endPos = clipInfo.startPos + d.duration();
+                    clipInfo.cropStart = d.cropStart();
+                    new ResizeClipCommand(this, startInfo, clipInfo, true, moveCommand);
+                }
                 if (d.startPos() != clipInfo.startPos) {
                     ItemInfo startInfo = clipInfo;
                     clipInfo.startPos = d.startPos();
                     clipInfo.endPos = m_dragItem->endPos() + (clipInfo.startPos - startInfo.startPos);
                     new MoveClipCommand(this, startInfo, clipInfo, true, moveCommand);
                 }
-                if (d.duration() != m_dragItem->duration() || d.cropStart() != clipInfo.cropStart) {
+                if (d.duration() > m_dragItem->duration()) {
+                    // duration was increased, so process it after move
                     ItemInfo startInfo = clipInfo;
                     clipInfo.endPos = clipInfo.startPos + d.duration();
                     clipInfo.cropStart = d.cropStart();

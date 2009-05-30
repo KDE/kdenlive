@@ -23,6 +23,7 @@
 #include "kdenlivesettings.h"
 
 #include <KDebug>
+#include <KMessageBox>
 
 #include <QWheelEvent>
 
@@ -80,9 +81,9 @@ void ClipDurationDialog::slotCheckStart()
     int dur = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
     GenTime start(pos, m_fps);
     GenTime duration(dur, m_fps);
-    if (start < m_min) {
+    if (m_min != GenTime() && start < m_min) {
         m_view.clip_position->setText(m_tc.getTimecode(m_min, m_fps));
-    } else if (start + duration > m_max) {
+    } else if (m_max != GenTime() && start + duration > m_max) {
         m_view.clip_position->setText(m_tc.getTimecode(m_max - duration, m_fps));
     }
 }
