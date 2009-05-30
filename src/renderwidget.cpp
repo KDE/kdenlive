@@ -614,24 +614,24 @@ void RenderWidget::slotExport(bool scriptExport)
 
     // Check if the rendering profile is different from project profile,
     // in which case we need to use the producer_comsumer from MLT
-    bool resizeProfile = false;
-
     QString std = renderArgs;
     QString destination = m_view.destination_list->itemData(m_view.destination_list->currentIndex()).toString();
+    const QString currentSize = QString::number(width) + 'x' + QString::number(height);
+    QString subsize = currentSize;
     if (std.startsWith("s=")) {
-        QString subsize = std.section(' ', 0, 0).toLower();
+        subsize = std.section(' ', 0, 0).toLower();
         subsize = subsize.section("=", 1, 1);
-        const QString currentSize = QString::number(width) + 'x' + QString::number(height);
-        if (subsize != currentSize) resizeProfile = true;
     } else if (std.contains(" s=")) {
-        QString subsize = std.section(" s=", 1, 1);
+        subsize = std.section(" s=", 1, 1);
         subsize = subsize.section(' ', 0, 0).toLower();
-        const QString currentSize = QString::number(width) + 'x' + QString::number(height);
-        if (subsize != currentSize) resizeProfile = true;
-    } else if (destination != "audioonly") {
-        // Add current size parametrer
-        renderArgs.append(QString(" s=%1x%2").arg(width).arg(height));
+    } else if (destination != "audioonly" && m_view.rescale->isChecked() && m_view.rescale->isEnabled()) 
+    {
+        subsize = QString(" s=%1x%2").arg(width).arg(height);
+        // Add current size parameter
+        renderArgs.append(subsize);
     }
+    bool resizeProfile = (subsize != currentSize);
+
     QString group = m_view.size_list->currentItem()->data(MetaGroupRole).toString();
 
     QStringList renderParameters;
