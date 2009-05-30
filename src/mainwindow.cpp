@@ -1261,6 +1261,7 @@ void MainWindow::closeCurrentDocument()
             break;
         case KMessageBox::Cancel :
             return;
+            break;
         default:
             break;
         }
@@ -1270,13 +1271,16 @@ void MainWindow::closeCurrentDocument()
         m_timelineArea->setTabBarHidden(true);
         m_closeAction->setEnabled(false);
     }
-    delete docToClose;
-    delete w;
-    if (m_timelineArea->count() == 0) {
+    if (docToClose == m_activeDocument) {
+        delete m_activeDocument;
         m_activeDocument = NULL;
         m_effectStack->clear();
         m_transitionConfig->slotTransitionItemSelected(NULL, false);
-    }
+    } else delete docToClose;
+    if (w == m_activeTimeline) {
+        delete m_activeTimeline;
+        m_activeTimeline = NULL;
+    } else delete w;
 }
 
 bool MainWindow::saveFileAs(const QString &outputFileName)
