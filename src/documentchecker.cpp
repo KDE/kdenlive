@@ -105,12 +105,14 @@ void DocumentChecker::slotSearchClips()
     int ix = 0;
     m_view.recursiveSearch->setEnabled(false);
     QTreeWidgetItem *child = m_view.treeWidget->topLevelItem(ix);
-    while (child && child->data(0, statusRole).toInt() == CLIPMISSING) {
-        QString clipPath = searchFileRecursively(QDir(newpath), child->data(0, sizeRole).toString(), child->data(0, hashRole).toString());
-        if (!clipPath.isEmpty()) {
-            child->setText(1, clipPath);
-            child->setIcon(0, KIcon("dialog-ok"));
-            child->setData(0, statusRole, CLIPOK);
+    while (child) {
+        if (child->data(0, statusRole).toInt() == CLIPMISSING) {
+            QString clipPath = searchFileRecursively(QDir(newpath), child->data(0, sizeRole).toString(), child->data(0, hashRole).toString());
+            if (!clipPath.isEmpty()) {
+                child->setText(1, clipPath);
+                child->setIcon(0, KIcon("dialog-ok"));
+                child->setData(0, statusRole, CLIPOK);
+            }
         }
         ix++;
         child = m_view.treeWidget->topLevelItem(ix);
