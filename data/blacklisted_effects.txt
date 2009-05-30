@@ -5,7 +5,6 @@ frei0r.water
 frei0r.facedetect
 
 # duplicate effects
-frei0r.brightness
 frei0r.gamma
 frei0r.bw0r
 frei0r.flippo
