@@ -259,7 +259,7 @@ signals:
     void zoomOut();
     void mousePosition(int);
     void clipItemSelected(ClipItem*, int ix = -1);
-    void transitionItemSelected(Transition*, bool update = false);
+    void transitionItemSelected(Transition*, QPoint p = QPoint(), bool update = false);
     void activateDocumentMonitor();
     void trackHeightChanged();
     void displayMessage(const QString, MessageType);

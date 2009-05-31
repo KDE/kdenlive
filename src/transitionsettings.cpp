@@ -102,9 +102,10 @@ void TransitionSettings::slotTransitionTrackChanged()
     m_effectEdit->updateParameter("transition_btrack", QString::number(ix));
 }
 
-void TransitionSettings::slotTransitionItemSelected(Transition* t, bool update)
+void TransitionSettings::slotTransitionItemSelected(Transition* t, QPoint p, bool update)
 {
     setEnabled(t != NULL);
+    m_effectEdit->setFrameSize(p);
     if (t == m_usedTransition) {
         if (t == NULL) return;
         if (update) {

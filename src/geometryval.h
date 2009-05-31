@@ -39,7 +39,7 @@ class Geometryval : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Geometryval(const MltVideoProfile profile, QWidget* parent = 0);
+    explicit Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidget* parent = 0);
     QDomElement getParamDesc();
 
 private:
@@ -55,6 +55,7 @@ private:
     QMenu *m_scaleMenu;
     QMenu *m_alignMenu;
     QAction *m_syncAction;
+    QPoint m_frameSize;
     bool m_fixedMode;
     void updateTransitionPath();
 
@@ -73,6 +74,7 @@ private slots:
     void slotResize100();
     void slotResize200();
     void slotResizeCustom();
+    void slotResizeOriginal();
     void slotAlignRight();
     void slotAlignLeft();
     void slotAlignTop();

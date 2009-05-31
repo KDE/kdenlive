@@ -67,7 +67,8 @@ QMap<QString, QImage> EffectStackEdit::iconCache;
 EffectStackEdit::EffectStackEdit(QWidget *parent) :
         QWidget(parent),
         m_in(0),
-        m_out(0)
+        m_out(0),
+        m_frameSize(QPoint())
 {
     setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding));
     QVBoxLayout *vbox1 = new QVBoxLayout(parent);
@@ -94,6 +95,11 @@ EffectStackEdit::EffectStackEdit(QWidget *parent) :
 EffectStackEdit::~EffectStackEdit()
 {
     iconCache.clear();
+}
+
+void EffectStackEdit::setFrameSize(QPoint p)
+{
+    m_frameSize = p;
 }
 
 void EffectStackEdit::updateProjectFormat(MltVideoProfile profile, Timecode t)
@@ -205,7 +211,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
             m_valueItems[paramName+"complex"] = pl;
             m_items.append(pl);
         } else if (type == "geometry") {
-            Geometryval *geo = new Geometryval(m_profile);
+            Geometryval *geo = new Geometryval(m_profile, m_frameSize);
             connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
             connect(geo, SIGNAL(seekToPos(int)), this, SLOT(slotSeekToPos(int)));
             geo->setupParam(pa, minFrame, maxFrame);

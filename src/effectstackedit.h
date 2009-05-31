@@ -47,6 +47,7 @@ public:
     void updateProjectFormat(MltVideoProfile profile, Timecode t);
     static QMap<QString, QImage> iconCache;
     void updateParameter(const QString &name, const QString &value);
+    void setFrameSize(QPoint p);
 
     class UiItem
     {
@@ -69,6 +70,7 @@ private:
     Timecode m_timecode;
     int m_in;
     int m_out;
+    QPoint m_frameSize;
 
 public slots:
     void transferParamDesc(const QDomElement&, int , int);

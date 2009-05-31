@@ -45,7 +45,7 @@ private:
     int m_tracksCount;
 
 public slots:
-    void slotTransitionItemSelected(Transition*, bool);
+    void slotTransitionItemSelected(Transition*, QPoint, bool);
     void slotTransitionChanged(bool reinit = true, bool updateCurrent = false);
     void slotUpdateEffectParams(const QDomElement&, const QDomElement&);
 

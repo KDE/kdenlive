@@ -1650,7 +1650,17 @@ void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTr
     m_document->renderer()->mltUpdateTransition(oldTransition.attribute("tag"), transition.attribute("tag"), transition.attribute("transition_btrack").toInt(), m_document->tracksCount() - transition.attribute("transition_atrack").toInt(), item->startPos(), item->endPos(), transition);
     //kDebug() << "ORIGINAL TRACK: "<< oldTransition.attribute("transition_btrack") << ", NEW TRACK: "<<transition.attribute("transition_btrack");
     item->setTransitionParameters(transition);
-    if (updateTransitionWidget) emit transitionItemSelected(item, true);
+    if (updateTransitionWidget) {
+        ItemInfo info = item->info();
+        QPoint p;
+        ClipItem *transitionClip = getClipItemAt(info.startPos, info.track);
+        if (transitionClip && transitionClip->baseClip()) {
+            QString size = transitionClip->baseClip()->getProperty("frame_size");
+            p.setX(size.section('x', 0, 0).toInt());
+            p.setY(size.section('x', 1, 1).toInt());
+        }
+        emit transitionItemSelected(item, p, true);
+    }
     m_document->setModified(true);
 }
 
@@ -2271,6 +2281,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 else prod = item->baseClip()->producer(m_dragItemInfo.track);
                 bool success = m_document->renderer()->mltMoveClip((int)(m_document->tracksCount() - m_dragItemInfo.track), (int)(m_document->tracksCount() - m_dragItem->track()), (int) m_dragItemInfo.startPos.frames(m_document->fps()), (int)(m_dragItem->startPos().frames(m_document->fps())), prod);
                 if (success) {
+                    kDebug() << "// get trans info";
                     int tracknumber = m_document->tracksCount() - item->track() - 1;
                     bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
                     if (isLocked) item->setItemLocked(true);
@@ -2280,6 +2291,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                     new MoveClipCommand(this, m_dragItemInfo, info, false, moveCommand);
                     // Also move automatic transitions (on lower track)
                     Transition *tr = getTransitionItemAtStart(m_dragItemInfo.startPos, m_dragItemInfo.track);
+                    kDebug() << "// get trans info2";
                     if (tr && tr->isAutomatic()) {
                         ItemInfo trInfo = tr->info();
                         ItemInfo newTrInfo = trInfo;
@@ -2671,8 +2683,17 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         m_commandStack->push(command);
         updateEffect(m_document->tracksCount() - item->track(), item->startPos(), item->selectedEffect(), item->selectedEffectIndex());
     }
-
-    emit transitionItemSelected((m_dragItem && m_dragItem->type() == TRANSITIONWIDGET && m_dragItem->isSelected()) ? static_cast <Transition *>(m_dragItem) : NULL);
+    if (m_dragItem && m_dragItem->type() == TRANSITIONWIDGET && m_dragItem->isSelected()) {
+        // A transition is selected
+        QPoint p;
+        ClipItem *transitionClip = getClipItemAt(m_dragItemInfo.startPos, m_dragItemInfo.track);
+        if (transitionClip && transitionClip->baseClip()) {
+            QString size = transitionClip->baseClip()->getProperty("frame_size");
+            p.setX(size.section('x', 0, 0).toInt());
+            p.setY(size.section('x', 1, 1).toInt());
+        }
+        emit transitionItemSelected(static_cast <Transition *>(m_dragItem), p);
+    } else emit transitionItemSelected(NULL);
     if (m_operationMode != NONE && m_operationMode != MOVE) m_document->setModified(true);
     m_operationMode = NONE;
 }

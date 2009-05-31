@@ -28,13 +28,14 @@
 #include <QInputDialog>
 
 
-Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent) :
+Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidget* parent) :
         QWidget(parent),
         m_profile(profile),
         m_paramRect(NULL),
         m_geom(NULL),
         m_path(NULL),
-        m_fixedMode(false)
+        m_fixedMode(false),
+        m_frameSize(frame_size)
 {
     m_ui.setupUi(this);
     QVBoxLayout* vbox = new QVBoxLayout(m_ui.widget);
@@ -79,6 +80,7 @@ Geometryval::Geometryval(const MltVideoProfile profile, QWidget* parent) :
     m_scaleMenu->addAction(i18n("50%"), this, SLOT(slotResize50()));
     m_scaleMenu->addAction(i18n("100%"), this, SLOT(slotResize100()));
     m_scaleMenu->addAction(i18n("200%"), this, SLOT(slotResize200()));
+    m_scaleMenu->addAction(i18n("Original size"), this, SLOT(slotResizeOriginal()));
     m_scaleMenu->addAction(i18n("Custom"), this, SLOT(slotResizeCustom()));
 
 
@@ -238,6 +240,20 @@ void Geometryval::slotResize200()
         return;
     }
     m_paramRect->setRect(0, 0, m_profile.width * 2, m_profile.height * 2);
+    slotUpdateTransitionProperties();
+}
+
+void Geometryval::slotResizeOriginal()
+{
+    if (m_frameSize.isNull()) slotResize100();
+    int pos = m_ui.spinPos->value();
+    Mlt::GeometryItem item;
+    int error = m_geom->fetch(&item, pos);
+    if (error || item.key() == false) {
+        // no keyframe under cursor
+        return;
+    }
+    m_paramRect->setRect(0, 0, m_frameSize.x(), m_frameSize.y());
     slotUpdateTransitionProperties();
 }
 
