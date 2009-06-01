@@ -808,12 +808,15 @@ void Render::setSceneList(QString playlist, int position)
 
     //kWarning() << "//////  RENDER, SET SCENE LIST: " << playlist;
 
-    if (m_mltConsumer) {
-        m_mltConsumer->stop();
-        //m_mltConsumer->set("refresh", 0);
-    } else {
+    if (m_mltConsumer == NULL) {
+        kWarning() << "///////  ERROR, TRYING TO USE NULL MLT CONSUMER";
         m_isBlocked = false;
         return;
+    }
+
+    if (!m_mltConsumer->is_stopped()) {
+        m_mltConsumer->stop();
+        //m_mltConsumer->set("refresh", 0);
     }
 
     if (m_mltProducer) {
@@ -1337,19 +1340,19 @@ void Render::mltCheckLength()
     }
 
     Mlt::Producer blackTrackProducer(tractor.track(0));
-    int blackDuration = blackTrackProducer.get_playtime() - 1;
 
-    if (blackDuration != duration) {
+    if (blackTrackProducer.get_playtime() - 1 != duration) {
         Mlt::Playlist blackTrackPlaylist((mlt_playlist) blackTrackProducer.get_service());
-        blackTrackPlaylist.clear();
-        int dur = duration;
-        while (dur > 14000) {
-            blackTrackPlaylist.append(*m_blackClip, 0, 13999);
-            dur = dur - 14000;
+        Mlt::Producer *blackclip = blackTrackPlaylist.get_clip(0);
+        if (duration > m_blackClip->get_length()) {
+            m_blackClip->set("length", duration);
+            if (blackclip) blackclip->set("length", duration);
         }
-        if (dur > 0) {
-            blackTrackPlaylist.append(*m_blackClip, 0, dur);
-        }
+        if (blackclip == NULL || blackclip->is_blank() || blackTrackPlaylist.count() != 1) {
+            blackTrackPlaylist.clear();
+            blackTrackPlaylist.append(*m_blackClip, 0, duration - 1);
+        } else blackTrackPlaylist.resize_clip(0, 0, duration - 1);
+        delete blackclip;
         m_mltProducer->set("out", duration);
         emit durationChanged(duration);
     }
@@ -1357,7 +1360,7 @@ void Render::mltCheckLength()
 
 void Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *prod)
 {
-    if (!m_mltProducer) {
+    if (m_mltProducer == NULL) {
         kDebug() << "PLAYLIST NOT INITIALISED //////";
         return;
     }
