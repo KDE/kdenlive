@@ -1,0 +1,4 @@
+?package(kdenlive):needs="X11" section="Applications/Graphics"\
+ title="Kdenlive"\
+ description="A non-linear video editor for KDE."\
+ command="/usr/bin/kdenlive" icon="/usr/share/pixmaps/kdenlive.xpm"
