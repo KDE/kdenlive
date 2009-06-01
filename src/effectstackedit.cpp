@@ -100,6 +100,20 @@ EffectStackEdit::~EffectStackEdit()
 void EffectStackEdit::setFrameSize(QPoint p)
 {
     m_frameSize = p;
+    QDomNodeList namenode = m_params.elementsByTagName("parameter");
+    for (int i = 0;i < namenode.count() ;i++) {
+        QDomNode pa = namenode.item(i);
+        QDomNode na = pa.firstChildElement("name");
+        QString type = pa.attributes().namedItem("type").nodeValue();
+        QString paramName = i18n(na.toElement().text().toUtf8().data());
+
+        if (type == "geometry") {
+            Geometryval *geom = ((Geometryval*)m_valueItems[paramName+"geometry"]);
+            geom->setFrameSize(m_frameSize);
+            break;
+        }
+    }
+
 }
 
 void EffectStackEdit::updateProjectFormat(MltVideoProfile profile, Timecode t)

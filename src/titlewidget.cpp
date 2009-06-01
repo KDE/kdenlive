@@ -768,12 +768,18 @@ void TitleWidget::saveTitle(KUrl url)
 
 QDomDocument TitleWidget::xml()
 {
-    return m_titledocument.xml(m_startViewport, m_endViewport);
+    QDomDocument doc = m_titledocument.xml(m_startViewport, m_endViewport);
+    if (cropImage->isChecked()) {
+        doc.documentElement().setAttribute("crop", 1);
+    }
+    return doc;
 }
 
 void TitleWidget::setXml(QDomDocument doc)
 {
     m_count = m_titledocument.loadFromXml(doc, m_startViewport, m_endViewport);
+    QDomElement e = doc.documentElement();
+    cropImage->setChecked(e.hasAttribute("crop"));
     m_transformations.clear();
     QList <QGraphicsItem *> items = graphicsView->scene()->items();
     const double PI = 4.0 * atan(1.0);
@@ -800,7 +806,27 @@ void TitleWidget::setXml(QDomDocument doc)
 
 QImage TitleWidget::renderedPixmap()
 {
-    QImage pix(m_frameWidth, m_frameHeight, QImage::Format_ARGB32);
+    int minX = 0;
+    int minY = 0;
+    int maxX = m_frameWidth;
+    int maxY = m_frameHeight;
+    if (!cropImage->isChecked()) {
+        m_scene->removeItem(m_startViewport);
+        m_scene->removeItem(m_endViewport);
+        QRect boundingRect = m_scene->itemsBoundingRect().toRect();
+        if (boundingRect.left() < 0) minX = boundingRect.left();
+        if (boundingRect.top() < 0) minY = boundingRect.top();
+        if (boundingRect.right() > maxX) maxX = boundingRect.right();
+        if (boundingRect.bottom() > maxY) maxY = boundingRect.bottom();
+        if (minX < 0) {
+            maxX = maxX - minX;
+        }
+        if (minY < 0) {
+            maxY = maxY - minY;
+        }
+    }
+
+    QImage pix(maxX, maxY, QImage::Format_ARGB32);
     pix.fill(Qt::transparent);
     QPainter painter(&pix);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::HighQualityAntialiasing);
@@ -811,7 +837,7 @@ QImage TitleWidget::renderedPixmap()
     m_endViewport->setVisible(false);
     m_frameImage->setVisible(false);
 
-    m_scene->render(&painter, QRectF(), QRectF(0, 0, m_frameWidth, m_frameHeight));
+    m_scene->render(&painter, QRectF(), QRectF(minX, minY, maxX - minX, maxY - minY));
     painter.end();
     m_frameBorder->setPen(framepen);
     m_startViewport->setVisible(true);
@@ -850,6 +876,8 @@ void TitleWidget::writeChoices()
 
     titleConfig.writeEntry("background_color", kcolorbutton->color());
     titleConfig.writeEntry("background_alpha", horizontalSlider->value());
+
+    titleConfig.writeEntry("crop_image", cropImage->isChecked());
     //! \todo Not sure if I should sync - it is probably safe to do it
     config->sync();
 
@@ -878,5 +906,7 @@ void TitleWidget::readChoices()
 
     kcolorbutton->setColor(titleConfig.readEntry("background_color", kcolorbutton->color()));
     horizontalSlider->setValue(titleConfig.readEntry("background_alpha", horizontalSlider->value()));
+
+    cropImage->setChecked(titleConfig.readEntry("crop_image", cropImage->isChecked()));
 }
 

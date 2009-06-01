@@ -547,3 +547,8 @@ void Geometryval::slotResetPosition()
         m_view->value_height->setValue(m_frameSize.y());
     }
 }
+
+void Geometryval::setFrameSize(QPoint p)
+{
+    m_frameSize = p;
+}

@@ -42,6 +42,7 @@ class Geometryval : public QWidget
 public:
     explicit Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidget* parent = 0);
     QDomElement getParamDesc();
+    void setFrameSize(QPoint p);
 
 private:
     Ui::Geometryval m_ui;

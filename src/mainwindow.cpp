@@ -2298,6 +2298,7 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
             //m_clipManager->slotEditTextClipFile(id, dia_ui->xml().toString());
             QMap <QString, QString> newprops;
             newprops.insert("xmldata", dia_ui->xml().toString());
+            newprops.insert("frame_size", QString::number(pix.width()) + 'x' + QString::number(pix.height()));
             EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
             m_activeDocument->commandStack()->push(command);
             m_clipMonitor->refreshMonitor(true);
