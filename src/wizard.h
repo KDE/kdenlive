@@ -88,10 +88,9 @@ private:
     Ui::WizardCheck_UI m_check;
     QVBoxLayout *m_startLayout;
     bool m_systemCheckIsOk;
-    QStringList m_dvProfiles;
-    QStringList m_hdvProfiles;
-    QStringList m_otherProfiles;
-    QMap <QString, QString> m_profilesInfo;
+    QMap <QString, QString> m_dvProfiles;
+    QMap <QString, QString> m_hdvProfiles;
+    QMap <QString, QString> m_otherProfiles;
     void slotCheckPrograms();
     void checkMltComponents();
     KIcon m_okIcon;

@@ -67,25 +67,40 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     m_badIcon = KIcon("dialog-close");
 
     // build profiles lists
-    m_profilesInfo = ProfilesDialog::getProfilesInfo();
-    QMap<QString, QString>::const_iterator i = m_profilesInfo.constBegin();
-    while (i != m_profilesInfo.constEnd()) {
+    QMap<QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
+    QMap<QString, QString>::const_iterator i = profilesInfo.constBegin();
+    while (i != profilesInfo.constEnd()) {
         QMap< QString, QString > profileData = ProfilesDialog::getSettingsFromFile(i.value());
-        if (profileData.value("width") == "720") m_dvProfiles.append(i.key());
-        else if (profileData.value("width").toInt() >= 1080) m_hdvProfiles.append(i.key());
-        else m_otherProfiles.append(i.key());
+        if (profileData.value("width") == "720") m_dvProfiles.insert(i.key(), i.value());
+        else if (profileData.value("width").toInt() >= 1080) m_hdvProfiles.insert(i.key(), i.value());
+        else m_otherProfiles.insert(i.key(), i.value());
         ++i;
     }
 
+    m_standard.button_all->setChecked(true);
     connect(m_standard.button_all, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
     connect(m_standard.button_hdv, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
     connect(m_standard.button_dv, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
-    m_standard.button_all->setChecked(true);
+    slotCheckStandard();
     connect(m_standard.profiles_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckSelectedItem()));
 
+
+    if (!KdenliveSettings::default_profile().isEmpty()) {
+        for (int i = 0; i < m_standard.profiles_list->count(); i++) {
+            if (m_standard.profiles_list->item(i)->data(Qt::UserRole).toString() == KdenliveSettings::default_profile()) {
+                m_standard.profiles_list->setCurrentRow(i);
+                m_standard.profiles_list->scrollToItem(m_standard.profiles_list->currentItem());
+                break;
+            }
+        }
+    }
+
     // select default profile
+    fprintf(stderr, "LOOKING FOR: %s", ProfilesDialog::getProfileDescription(KdenliveSettings::default_profile()).toUtf8().data());
     QList<QListWidgetItem *> profiles = m_standard.profiles_list->findItems(ProfilesDialog::getProfileDescription(KdenliveSettings::default_profile()), Qt::MatchExactly);
     if (profiles.count() > 0) m_standard.profiles_list->setCurrentItem(profiles.at(0));
+
+    fprintf(stderr, "LOOKING FOR: %s // %d", ProfilesDialog::getProfileDescription(KdenliveSettings::default_profile()).toUtf8().data(), profiles.count());
     addPage(page2);
 
     QWizardPage *page3 = new QWizardPage;
@@ -408,23 +423,39 @@ void Wizard::slotCheckStandard()
 {
     m_standard.profiles_list->clear();
     QStringList profiles;
-    if (m_standard.button_dv->isChecked()) {
+    if (!m_standard.button_hdv->isChecked()) {
         // DV standard
-        m_standard.profiles_list->addItems(m_dvProfiles);
-    } else if (m_standard.button_hdv->isChecked()) {
+        QMapIterator<QString, QString> i(m_dvProfiles);
+        while (i.hasNext()) {
+            i.next();
+            QListWidgetItem *item = new QListWidgetItem(i.key(), m_standard.profiles_list);
+            item->setData(Qt::UserRole, i.value());
+        }
+    }
+    if (!m_standard.button_dv->isChecked()) {
         // HDV standard
-        m_standard.profiles_list->addItems(m_hdvProfiles);
-    } else {
-        m_standard.profiles_list->addItems(m_dvProfiles);
-        m_standard.profiles_list->addItems(m_hdvProfiles);
-        m_standard.profiles_list->addItems(m_otherProfiles);
+        QMapIterator<QString, QString> i(m_hdvProfiles);
+        while (i.hasNext()) {
+            i.next();
+            QListWidgetItem *item = new QListWidgetItem(i.key(), m_standard.profiles_list);
+            item->setData(Qt::UserRole, i.value());
+        }
+    }
+    if (m_standard.button_all->isChecked()) {
+        QMapIterator<QString, QString> i(m_otherProfiles);
+        while (i.hasNext()) {
+            i.next();
+            QListWidgetItem *item = new QListWidgetItem(i.key(), m_standard.profiles_list);
+            item->setData(Qt::UserRole, i.value());
+        }
         //m_standard.profiles_list->sortItems();
     }
 
     for (int i = 0; i < m_standard.profiles_list->count(); i++) {
         QListWidgetItem *item = m_standard.profiles_list->item(i);
-        MltVideoProfile prof = ProfilesDialog::getVideoProfile(m_profilesInfo.value(item->text()));
-        const QString infoString = ("<strong>" + i18n("Frame size:") + " </strong>%1x%2<br /><strong>" + i18n("Frame rate:") + " </strong>%3/%4<br /><strong>" + i18n("Pixel aspect ratio:") + "</strong>%5/%6<br /><strong>" + i18n("Display aspect ratio:") + " </strong>%7/%8").arg(QString::number(prof.width), QString::number(prof.height), QString::number(prof.frame_rate_num), QString::number(prof.frame_rate_den), QString::number(prof.sample_aspect_num), QString::number(prof.sample_aspect_den), QString::number(prof.display_aspect_num), QString::number(prof.display_aspect_den));
+
+        QMap< QString, QString > values = ProfilesDialog::getSettingsFromFile(item->data(Qt::UserRole).toString());
+        const QString infoString = ("<strong>" + i18n("Frame size:") + " </strong>%1x%2<br /><strong>" + i18n("Frame rate:") + " </strong>%3/%4<br /><strong>" + i18n("Pixel aspect ratio:") + "</strong>%5/%6<br /><strong>" + i18n("Display aspect ratio:") + " </strong>%7/%8").arg(values.value("width"), values.value("height"), values.value("frame_rate_num"), values.value("frame_rate_den"), values.value("sample_aspect_num"), values.value("sample_aspect_den"), values.value("display_aspect_num"), values.value("display_aspect_den"));
         item->setToolTip(infoString);
     }
 
@@ -454,7 +485,7 @@ void Wizard::adjustSettings()
     KdenliveSettings::setVideothumbnails(m_extra.videothumbs->isChecked());
     KdenliveSettings::setCrashrecovery(m_extra.autosave->isChecked());
     if (m_standard.profiles_list->currentItem()) {
-        QString selectedProfile = m_profilesInfo.value(m_standard.profiles_list->currentItem()->text());
+        QString selectedProfile = m_standard.profiles_list->currentItem()->data(Qt::UserRole).toString();
         if (selectedProfile.isEmpty()) selectedProfile = "dv_pal";
         KdenliveSettings::setDefault_profile(selectedProfile);
     }
