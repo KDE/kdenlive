@@ -73,6 +73,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/dvdwizardchapters_ui.ui
   widgets/missingclips_ui.ui
   widgets/cliptranscode_ui.ui
+  widgets/geometryposition_ui.ui
 )
  
 set(kdenlive_SRCS 

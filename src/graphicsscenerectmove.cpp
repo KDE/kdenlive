@@ -130,7 +130,7 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* e)
             QGraphicsTextItem *t = static_cast<QGraphicsTextItem *>(g);
             m_selectedItem = g;
             t->setTextInteractionFlags(Qt::TextEditorInteraction);
-        }
+        } else emit doubleClickEvent();
     }
     QGraphicsScene::mouseDoubleClickEvent(e);
 }

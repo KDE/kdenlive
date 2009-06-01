@@ -62,6 +62,7 @@ signals:
     void newRect(QGraphicsRectItem *);
     void newText(QGraphicsTextItem *);
     void actionFinished();
+    void doubleClickEvent();
 };
 
 #endif

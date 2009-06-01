@@ -28,6 +28,7 @@
 #include "ui_geometryval_ui.h"
 #include "definitions.h"
 #include "keyframehelper.h"
+#include "ui_geometryposition_ui.h"
 
 //class QGraphicsScene;
 class GraphicsSceneRectMove;
@@ -58,6 +59,7 @@ private:
     QPoint m_frameSize;
     bool m_fixedMode;
     void updateTransitionPath();
+    Ui::GeometryPosition_UI *m_view;
 
 public slots:
     void setupParam(const QDomElement&, int, int);
@@ -83,6 +85,8 @@ private slots:
     void slotAlignHCenter();
     void slotAlignVCenter();
     void slotSyncCursor();
+    void slotGeometry();
+    void slotResetPosition();
 
 signals:
     void parameterChanged();

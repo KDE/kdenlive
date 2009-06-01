@@ -75,6 +75,8 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidg
     m_ui.buttonMenu->setPopupMode(QToolButton::QToolButton::InstantPopup);
 
 
+    configMenu->addAction(i18n("Geometry"), this, SLOT(slotGeometry()));
+
     m_scaleMenu = new QMenu(i18n("Resize..."), this);
     configMenu->addMenu(m_scaleMenu);
     m_scaleMenu->addAction(i18n("50%"), this, SLOT(slotResize50()));
@@ -82,7 +84,6 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidg
     m_scaleMenu->addAction(i18n("200%"), this, SLOT(slotResize200()));
     m_scaleMenu->addAction(i18n("Original size"), this, SLOT(slotResizeOriginal()));
     m_scaleMenu->addAction(i18n("Custom"), this, SLOT(slotResizeCustom()));
-
 
     m_alignMenu = new QMenu(i18n("Align..."), this);
     configMenu->addMenu(m_alignMenu);
@@ -111,6 +112,8 @@ Geometryval::Geometryval(const MltVideoProfile profile, QPoint frame_size, QWidg
     connect(m_ui.buttonDelete , SIGNAL(clicked()) , this , SLOT(slotDeleteFrame()));
     connect(m_ui.buttonAdd , SIGNAL(clicked()) , this , SLOT(slotAddFrame()));
     connect(m_scene, SIGNAL(actionFinished()), this, SLOT(slotUpdateTransitionProperties()));
+    connect(m_scene, SIGNAL(doubleClickEvent()), this, SLOT(slotGeometry()));
+
 }
 
 void Geometryval::slotAlignCenter()
@@ -491,4 +494,56 @@ void Geometryval::slotUpdateTransitionProperties()
     m_geom->insert(item);
     updateTransitionPath();
     emit parameterChanged();
+}
+
+void Geometryval::slotGeometry()
+{
+    int pos = m_ui.spinPos->value();
+    Mlt::GeometryItem item;
+    int error = m_geom->fetch(&item, pos);
+    if (error || item.key() == false) {
+        // no keyframe under cursor
+        return;
+    }
+    QRectF r = m_paramRect->rect().normalized();
+
+    QDialog d(this);
+    m_view = new Ui::GeometryPosition_UI();
+    m_view->setupUi(&d);
+    d.setWindowTitle(i18n("Frame Geometry"));
+    m_view->value_x->setMaximum(10000);
+    m_view->value_x->setMinimum(-10000);
+    m_view->value_y->setMaximum(10000);
+    m_view->value_y->setMinimum(-10000);
+    m_view->value_width->setMaximum(500000);
+    m_view->value_width->setMinimum(1);
+    m_view->value_height->setMaximum(500000);
+    m_view->value_height->setMinimum(1);
+
+    m_view->value_x->setValue(m_paramRect->pos().x());
+    m_view->value_y->setValue(m_paramRect->pos().y());
+    m_view->value_width->setValue(r.width());
+    m_view->value_height->setValue(r.height());
+    connect(m_view->button_reset , SIGNAL(clicked()) , this , SLOT(slotResetPosition()));
+
+    if (d.exec() == QDialog::Accepted) {
+        m_paramRect->setPos(m_view->value_x->value(), m_view->value_y->value());
+        m_paramRect->setRect(0, 0, m_view->value_width->value(), m_view->value_height->value());
+        slotUpdateTransitionProperties();
+    }
+    delete m_view;
+}
+
+void Geometryval::slotResetPosition()
+{
+    m_view->value_x->setValue(0);
+    m_view->value_y->setValue(0);
+
+    if (m_frameSize.isNull()) {
+        m_view->value_width->setValue(m_profile.width);
+        m_view->value_height->setValue(m_profile.height);
+    } else {
+        m_view->value_width->setValue(m_frameSize.x());
+        m_view->value_height->setValue(m_frameSize.y());
+    }
 }
