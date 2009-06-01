@@ -76,15 +76,6 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, b
     setAcceptDrops(true);
     m_audioThumbReady = clip->audioThumbCreated();
 
-    /*
-      m_cropStart = xml.attribute("in", 0).toInt();
-      m_maxDuration = xml.attribute("duration", 0).toInt();
-      if (m_maxDuration == 0) m_maxDuration = xml.attribute("out", 0).toInt() - m_cropStart;
-
-      if (duration != -1) m_cropDuration = duration;
-      else m_cropDuration = m_maxDuration;*/
-
-
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setAcceptsHoverEvents(true);
     connect(this , SIGNAL(prepareAudioThumb(double, int, int, int)) , this, SLOT(slotPrepareAudioThumb(double, int, int, int)));
@@ -407,7 +398,7 @@ void ClipItem::refreshClip(bool checkDuration)
     if (checkDuration && (m_maxDuration != m_clip->maxDuration())) {
         m_maxDuration = m_clip->maxDuration();
         if (m_clipType != IMAGE && m_clipType != TEXT && m_clipType != COLOR) {
-            if (m_cropStart + m_cropDuration > m_maxDuration) {
+            if (m_maxDuration != GenTime() && m_cropStart + m_cropDuration > m_maxDuration) {
                 // Clip duration changed, make sure to stay in correct range
                 if (m_cropStart > m_maxDuration) {
                     m_cropStart = GenTime();
@@ -1106,7 +1097,7 @@ void ClipItem::resizeStart(int posx, double /*speed*/)
 void ClipItem::resizeEnd(int posx, double /*speed*/, bool updateKeyFrames)
 {
     const int max = (startPos() - cropStart() + maxDuration()).frames(m_fps);
-    if (posx > max) posx = max;
+    if (posx > max && maxDuration() != GenTime()) posx = max;
     if (posx == endPos().frames(m_fps)) return;
     //kDebug() << "// NEW POS: " << posx << ", OLD END: " << endPos().frames(m_fps);
     const int previous = (cropStart() + duration()).frames(m_fps);

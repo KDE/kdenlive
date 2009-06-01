@@ -94,8 +94,10 @@ void ClipDurationDialog::slotCheckDuration()
     int dur = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
     GenTime start(pos, m_fps);
     GenTime duration(dur, m_fps);
-    GenTime maxDuration = m_max == GenTime() ? start + m_clip->maxDuration() : qMin(m_max, start + m_clip->maxDuration());
-    if (start + duration > maxDuration) {
+    GenTime maxDuration;
+    if (m_clip->maxDuration() == GenTime()) maxDuration = m_max;
+    else maxDuration = m_max == GenTime() ? start + m_clip->maxDuration() : qMin(m_max, start + m_clip->maxDuration());
+    if (maxDuration != GenTime() && start + duration > maxDuration) {
         m_view.clip_duration->setText(m_tc.getTimecode(maxDuration - start, m_fps));
     }
 }
@@ -107,7 +109,7 @@ void ClipDurationDialog::slotCheckCrop()
     GenTime duration(dur, m_fps);
     GenTime cropStart(crop, m_fps);
     GenTime maxDuration = m_clip->maxDuration();
-    if (cropStart + duration > maxDuration) {
+    if (maxDuration != GenTime() && cropStart + duration > maxDuration) {
         m_view.crop_position->setText(m_tc.getTimecode(maxDuration - duration, m_fps));
     }
 }
@@ -132,7 +134,7 @@ void ClipDurationDialog::slotDurUp()
 {
     int duration = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
     int crop = m_tc.getFrameCount(m_view.crop_position->text(), m_fps);
-    if (duration + crop > m_clip->maxDuration().frames(m_fps)) return;
+    if (m_clip->maxDuration() != GenTime() && duration + crop > m_clip->maxDuration().frames(m_fps)) return;
     duration ++;
     m_view.clip_duration->setText(m_tc.getTimecode(GenTime(duration, m_fps), m_fps));
 }
@@ -149,7 +151,7 @@ void ClipDurationDialog::slotCropUp()
 {
     int crop = m_tc.getFrameCount(m_view.crop_position->text(), m_fps);
     int duration = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
-    if (duration + crop > m_clip->maxDuration().frames(m_fps)) return;
+    if (m_clip->maxDuration() != GenTime() && duration + crop > m_clip->maxDuration().frames(m_fps)) return;
     crop ++;
     m_view.crop_position->setText(m_tc.getTimecode(GenTime(crop, m_fps), m_fps));
 }

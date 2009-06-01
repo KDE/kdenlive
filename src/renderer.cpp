@@ -2180,17 +2180,20 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
         return false;
     }
     int clipIndex = trackPlaylist.get_clip_index_at((int) info.startPos.frames(m_fps));
-    kDebug() << "// SELECTED CLIP START: " << trackPlaylist.clip_start(clipIndex);
+    //kDebug() << "// SELECTED CLIP START: " << trackPlaylist.clip_start(clipIndex);
     Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
     int previousStart = clip->get_in();
-    int previousDuration = trackPlaylist.clip_length(clipIndex) - 1;
     int newDuration = (int) clipDuration.frames(m_fps) - 1;
+    int diff = newDuration - trackPlaylist.clip_length(clipIndex) - 1;
+    if (newDuration > clip->get_length()) {
+        clip->parent().set("length", newDuration + 1);
+        clip->set("length", newDuration + 1);
+    }
     trackPlaylist.resize_clip(clipIndex, previousStart, newDuration + previousStart);
     trackPlaylist.consolidate_blanks(0);
     // skip to next clip
     clipIndex++;
-    int diff = newDuration - previousDuration;
-    kDebug() << "////////  RESIZE CLIP: " << clipIndex << "( pos: " << info.startPos.frames(25) << "), DIFF: " << diff << ", CURRENT DUR: " << previousDuration << ", NEW DUR: " << newDuration << ", IX: " << clipIndex << ", MAX: " << trackPlaylist.count();
+    //kDebug() << "////////  RESIZE CLIP: " << clipIndex << "( pos: " << info.startPos.frames(25) << "), DIFF: " << diff << ", CURRENT DUR: " << previousDuration << ", NEW DUR: " << newDuration << ", IX: " << clipIndex << ", MAX: " << trackPlaylist.count();
     if (diff > 0) {
         // clip was made longer, trim next blank if there is one.
         if (clipIndex < trackPlaylist.count()) {

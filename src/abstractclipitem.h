@@ -59,7 +59,6 @@ public:
     virtual double fps() const;
     virtual GenTime maxDuration() const;
     virtual void setCropStart(GenTime pos);
-    virtual void setMaxDuration(const GenTime &max);
 
 protected:
     int m_track;

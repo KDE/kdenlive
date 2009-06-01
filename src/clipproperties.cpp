@@ -505,6 +505,7 @@ void ClipProperties::parseFolder()
 
 void ClipProperties::slotCheckMaxLength()
 {
+    if (m_clip->maxDuration() == GenTime()) return;
     int duration = m_tc.getFrameCount(m_view.clip_duration->text(), m_fps);
     if (duration > m_clip->maxDuration().frames(m_fps)) {
         m_view.clip_duration->setText(m_tc.getTimecode(m_clip->maxDuration(), m_fps));

@@ -194,11 +194,6 @@ GenTime AbstractClipItem::maxDuration() const
     return m_maxDuration;
 }
 
-void AbstractClipItem::setMaxDuration(const GenTime &max)
-{
-    m_maxDuration = max;
-}
-
 QPainterPath AbstractClipItem::upperRectPart(QRectF br)
 {
     QPainterPath roundRectPathUpper;
