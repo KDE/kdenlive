@@ -584,7 +584,7 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, QString group)
     KUrl::List list;
     if (givenList.isEmpty()) {
         // Build list of mime types
-        QStringList mimeTypes = QStringList() << "application/x-kdenlive" << "video/x-flv" << "application/vnd.rn-realmedia" << "video/x-dv" << "video/dv" << "video/x-msvideo" << "video/mpeg" << "video/x-ms-wmv" << "audio/mpeg" << "audio/x-mp3" << "audio/x-wav" << "application/ogg" << "video/mp4" << "video/quicktime" << "image/gif" << "image/jpeg" << "image/png" << "image/x-tga" << "image/x-bmp" << "image/svg+xml" << "image/tiff" << "image/x-xcf-gimp" << "image/x-vnd.adobe.photoshop" << "image/x-pcx" << "image/x-exr" << "video/mlt-playlist" << "audio/x-flac" << "audio/mp4" << "video/x-matroska" << "audio/x-matroska";
+        QStringList mimeTypes = QStringList() << "application/x-kdenlive" << "video/x-flv" << "application/vnd.rn-realmedia" << "video/x-dv" << "video/dv" << "video/x-msvideo" << "video/mpeg" << "video/x-ms-wmv" << "audio/mpeg" << "audio/x-mp3" << "audio/x-wav" << "application/ogg" << "video/mp4" << "video/quicktime" << "image/gif" << "image/jpeg" << "image/png" << "image/x-tga" << "image/x-bmp" << "image/svg+xml" << "image/tiff" << "image/x-xcf-gimp" << "image/x-vnd.adobe.photoshop" << "image/x-pcx" << "image/x-exr" << "video/mlt-playlist" << "audio/x-flac" << "audio/mp4" << "video/x-matroska" << "audio/x-matroska" << "video/ogg" << "audio/ogg";
 
         QString allExtensions;
         foreach(const QString& mimeType, mimeTypes) {
