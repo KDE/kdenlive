@@ -48,7 +48,7 @@ const int CLIPMISSING = 0;
 const int CLIPOK = 1;
 const int CLIPPLACEHOLDER = 2;
 
-DocumentChecker::DocumentChecker(QDomNodeList producers, QDomNodeList infoproducers, QList <QDomElement> missingClips, QDomDocument doc, QWidget * parent) :
+DocumentChecker::DocumentChecker(QList <QDomElement> missingClips, QDomDocument doc, QWidget * parent) :
         QDialog(parent),
         m_doc(doc)
 {

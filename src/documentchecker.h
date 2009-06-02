@@ -34,7 +34,7 @@ class DocumentChecker : public QDialog
     Q_OBJECT
 
 public:
-    explicit DocumentChecker(QDomNodeList producers, QDomNodeList infoproducers, QList <QDomElement> missingClips, QDomDocument doc, QWidget * parent = 0);
+    explicit DocumentChecker(QList <QDomElement> missingClips, QDomDocument doc, QWidget * parent = 0);
     ~DocumentChecker();
 
 private slots:

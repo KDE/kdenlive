@@ -140,7 +140,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     }
                     QDomNodeList producers = m_document.elementsByTagName("producer");
                     QDomNodeList infoproducers = m_document.elementsByTagName("kdenlive_producer");
-                    if (checkDocumentClips(producers, infoproducers) == false) m_abortLoading = true;
+                    if (checkDocumentClips(infoproducers) == false) m_abortLoading = true;
                     const int max = producers.count();
                     const int infomax = infoproducers.count();
 
@@ -1099,7 +1099,7 @@ QString KdenliveDoc::getLadspaFile() const
     return m_projectFolder.path() + "/ladspa/" + counter + ".ladspa";
 }
 
-bool KdenliveDoc::checkDocumentClips(QDomNodeList producers, QDomNodeList infoproducers)
+bool KdenliveDoc::checkDocumentClips(QDomNodeList infoproducers)
 {
     int clipType;
     QDomElement e;
@@ -1119,7 +1119,7 @@ bool KdenliveDoc::checkDocumentClips(QDomNodeList producers, QDomNodeList infopr
         }
     }
     if (missingClips.isEmpty()) return true;
-    DocumentChecker d(producers, infoproducers, missingClips, m_document);
+    DocumentChecker d(missingClips, m_document);
     return (d.exec() == QDialog::Accepted);
 }
 
