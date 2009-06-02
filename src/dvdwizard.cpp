@@ -658,8 +658,8 @@ void DvdWizard::slotSave()
     if (m_pageVob->isWide()) profile.append("_wide");
     dvdproject.setAttribute("profile", profile);
 
-    dvdproject.setAttribute("tmp_folder", m_status.tmp_folder->text());
-    dvdproject.setAttribute("iso_image", m_status.iso_image->text());
+    dvdproject.setAttribute("tmp_folder", m_status.tmp_folder->url().path());
+    dvdproject.setAttribute("iso_image", m_status.iso_image->url().path());
 
     dvdproject.setAttribute("intro_movie", m_pageVob->introMovie());
 
