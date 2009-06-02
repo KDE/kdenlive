@@ -806,8 +806,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     }
 
     // If clicked item is selected, allow move
-    //event->accept();
-    if (event->modifiers() != Qt::ControlModifier && itemSelected && m_operationMode == NONE) QGraphicsView::mousePressEvent(event);
+    if (event->modifiers() != Qt::ControlModifier && m_operationMode == NONE && (m_dragItem->isSelected() || (dragGroup && dragGroup->isSelected()))) QGraphicsView::mousePressEvent(event);
 
     m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps())), (int)(event->pos().y() - m_dragItem->pos().y()));
     m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
