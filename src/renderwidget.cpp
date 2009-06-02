@@ -241,8 +241,10 @@ void RenderWidget::setGuides(QDomElement guidesxml, double duration)
         m_view.guide_end->addItem(i18n("End"), QString::number(duration));
 }
 
-// Will be called when the user selects an output file via the file dialog.
-// File extension will be added automatically.
+/** 
+ * Will be called when the user selects an output file via the file dialog.
+ * File extension will be added automatically.
+ */
 void RenderWidget::slotUpdateButtons(KUrl url)
 {
     if (m_view.out_file->url().isEmpty()) m_view.buttonStart->setEnabled(false);
@@ -255,8 +257,10 @@ void RenderWidget::slotUpdateButtons(KUrl url)
     }
 }
 
-// Will be called when the user changes the output file path in the text line.
-// File extension must NOT be added, would make editing impossible!
+/**
+ * Will be called when the user changes the output file path in the text line.
+ * File extension must NOT be added, would make editing impossible!
+ */
 void RenderWidget::slotUpdateButtons()
 {
     if (m_view.out_file->url().isEmpty()) m_view.buttonStart->setEnabled(false);
