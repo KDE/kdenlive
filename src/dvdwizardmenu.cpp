@@ -519,10 +519,10 @@ QDomElement DvdWizardMenu::toXml() const
         xml.setAttribute("background_color", m_view.background_color->color().name());
     } else if (m_view.background_list->currentIndex() == 1) {
         // Image bg
-        xml.setAttribute("background_image", m_view.background_image->text());
+        xml.setAttribute("background_image", m_view.background_image->url().path());
     } else {
         // Video bg
-        xml.setAttribute("background_video", m_view.background_image->text());
+        xml.setAttribute("background_video", m_view.background_image->url().path());
     }
     xml.setAttribute("text_color", m_view.text_color->color().name());
     xml.setAttribute("selected_color", m_view.selected_color->color().name());
