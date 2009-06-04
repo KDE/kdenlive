@@ -12,13 +12,13 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-02 18:27+0200\n"
-"PO-Revision-Date: 2009-06-02 18:29+0200\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2009-06-04 14:44+0200\n"
+"Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 0.3\n"
+"X-Generator: Lokalize 1.0\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #: src/clipproperties.cpp:497 src/slideshowclip.cpp:128
@@ -1058,7 +1058,7 @@ msgstr "DVD-Menü erstellen"
 
 #: src/mainwindow.cpp:1098
 msgid "Create Folder"
-msgstr "Verzeichnis erstellen"
+msgstr "Ordner erstellen"
 
 #: rc.cpp:1582 rc.cpp:2935
 msgid "Create ISO image"
@@ -1124,7 +1124,7 @@ msgstr "Beginn abschneiden"
 
 #: rc.cpp:1018 rc.cpp:2371
 msgid "Crop to frame size"
-msgstr "Auf Frame-Grösse zuschneiden"
+msgstr "Auf Frame-Größe zuschneiden"
 
 #: rc.cpp:679 rc.cpp:1705 rc.cpp:2032 rc.cpp:3058
 msgid "Crossfade"
@@ -1249,11 +1249,11 @@ msgstr "Standardaufnahmegerät"
 
 #: rc.cpp:811 rc.cpp:2164
 msgid "Default folder for project files"
-msgstr "Standardverzeichnis für Projektdateien"
+msgstr "Standard-Ordner für Projektdateien"
 
 #: rc.cpp:625 rc.cpp:1978
 msgid "Default folders"
-msgstr "Standardverzeichnis"
+msgstr "Standard-Ordner"
 
 #: rc.cpp:373 rc.cpp:385 rc.cpp:405 rc.cpp:427
 msgid "Delay"
@@ -1282,7 +1282,7 @@ msgstr "Clip löschen"
 
 #: src/projectlist.cpp:364 src/projectlist.cpp:452
 msgid "Delete Folder"
-msgstr "Verzeichnis löschen"
+msgstr "Ordner löschen"
 
 #: src/customruler.cpp:76 src/customtrackview.cpp:177 src/mainwindow.cpp:1016
 msgid "Delete Guide"
@@ -1326,14 +1326,14 @@ msgstr "Effekt löschen"
 
 #: src/addfoldercommand.cpp:34
 msgid "Delete folder"
-msgstr "Verzeichnis löschen"
+msgstr "Ordner löschen"
 
 #: src/projectlist.cpp:364
 #, kde-format
 msgid ""
 "Delete folder <b>%2</b>?<br>This will also remove the %1 clips in that folder"
 msgstr ""
-"Verzeichnis <b>%2</b> löschen? Dadurch werden auch die %1 Clips in diesem "
+"Ordner <b>%2</b> löschen? Dadurch werden auch die %1 Clips in diesem "
 "Ordner gelöscht"
 
 #: src/editguidecommand.cpp:35
@@ -1805,12 +1805,12 @@ msgstr "Bild in beliebige Richtung drehen"
 #: src/projectitem.cpp:47 src/projectlist.cpp:408 src/projectlist.cpp:474
 #: rc.cpp:664 rc.cpp:2017
 msgid "Folder"
-msgstr "Verzeichnis"
+msgstr "Ordner"
 
 #: src/dvdwizard.cpp:625
 #, kde-format
 msgid "Folder %1 already exists. Overwrite?"
-msgstr "Verzeichnis %1 existiert bereits. Überschreiben?"
+msgstr "Ordner %1 existiert bereits. Überschreiben?"
 
 #: rc.cpp:1261 rc.cpp:2614
 msgid "Follow mouse"
@@ -2704,7 +2704,7 @@ msgstr "Originaler Autor der KDE-3-Version (nicht mehr aktiv)"
 
 #: src/geometryval.cpp:85
 msgid "Original size"
-msgstr "Originalgrösse"
+msgstr "Originalgröße"
 
 #: rc.cpp:114
 msgid "Out"
@@ -2973,7 +2973,7 @@ msgstr "Projektinhalt"
 
 #: rc.cpp:628 rc.cpp:1456 rc.cpp:1981 rc.cpp:2809
 msgid "Project folder"
-msgstr "Projektverzeichnis"
+msgstr "Projektordner"
 
 #: rc.cpp:865 rc.cpp:2218
 msgid "Properties"
@@ -3115,7 +3115,7 @@ msgstr "Ungültiger Übergang entfernt: %1"
 
 #: src/editfoldercommand.cpp:34
 msgid "Rename folder"
-msgstr "Verzeichnis umbenennen"
+msgstr "Ordner umbenennen"
 
 #: src/renderwidget.cpp:226 src/mainwindow.cpp:818
 msgid "Render"
@@ -4214,7 +4214,7 @@ msgid ""
 "from %1 to the new folder %2?"
 msgstr ""
 "Sie haben den Projektordner geändert. Wollen Sie die zwischengespeicherten "
-"Daten von %1 in das neue Verzeichnis %2 kopieren?"
+"Daten von %1 in den neuen Ordner %2 kopieren?"
 
 #: src/customtrackview.cpp:1975
 #, kde-format
