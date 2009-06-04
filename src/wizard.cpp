@@ -194,7 +194,7 @@ void Wizard::checkMltComponents()
                     mltVersion = mltVersion.section(' ', -1).simplified();
                     version = 100 * mltVersion.section('.', 0, 0).toInt() + 10 * mltVersion.section('.', 1, 1).toInt() + mltVersion.section('.', 2, 2).toInt();
                     kDebug() << "// FOUND MLT version: " << version;
-                    if (version > 34) recentMlt = true;
+                    if (version >= 40) recentMlt = true;
                 }
             }
 
@@ -499,7 +499,7 @@ void Wizard::slotCheckMlt()
 {
     QString errorMessage;
     if (KdenliveSettings::rendererpath().isEmpty()) {
-        errorMessage.append(i18n("your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"));
+        errorMessage.append(i18n("Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"));
     }
     /*QProcess checkProcess;
     checkProcess.start(KdenliveSettings::rendererpath(), QStringList() << "-query" << "producer");
