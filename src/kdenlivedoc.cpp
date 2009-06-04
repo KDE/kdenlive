@@ -93,8 +93,8 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     setProfilePath(profileName);
                 } else {
                     /*
-                     * read again <kdenlivedoc> and <mlt> to get all the new
-                     * stuff (convertDocument() can now do anything without breaking
+                     * read again <kdenlivedoc> to get all the new stuff
+                     * (convertDocument() can now do anything without breaking
                      * document loading)
                      */
                     setModified(converter.isModified());
