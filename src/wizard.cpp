@@ -36,6 +36,7 @@ const double recommendedMltVersion = 40;
 Wizard::Wizard(bool upgrade, QWidget *parent) :
         QWizard(parent)
 {
+    setWindowTitle("Config Wizard");
     setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
 
     QWizardPage *page1 = new QWizardPage;

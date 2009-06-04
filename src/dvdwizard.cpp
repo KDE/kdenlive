@@ -44,6 +44,7 @@ DvdWizard::DvdWizard(const QString &url, const QString &profile, QWidget *parent
         m_mkiso(NULL),
         m_burnMenu(new QMenu(this))
 {
+    setWindowTitle("DVD Wizard");
     //setPixmap(QWizard::WatermarkPixmap, QPixmap(KStandardDirs::locate("appdata", "banner.png")));
     setAttribute(Qt::WA_DeleteOnClose);
     m_pageVob = new DvdWizardVob(profile, this);
