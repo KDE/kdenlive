@@ -135,7 +135,7 @@
     </entry>
 
     <entry name="rendererpath" type="Path">
-      <label>Mlt inigo renderer install path.</label>
+      <label>Mlt melt renderer install path.</label>
       <default></default>
     </entry>
 
