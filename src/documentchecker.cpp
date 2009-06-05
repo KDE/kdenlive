@@ -187,6 +187,7 @@ void DocumentChecker::accept()
                 if (e.attribute("id") == id) {
                     // Fix clip
                     e.setAttribute("resource", child->text(1));
+                    e.setAttribute("name", KUrl(child->text(1)).fileName());
                     break;
                 }
             }
