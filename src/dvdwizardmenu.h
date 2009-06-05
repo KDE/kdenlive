@@ -93,8 +93,8 @@ protected:
             QPointF newPos = value.toPointF();
             QRectF sceneShape = sceneBoundingRect();
             DvdScene *sc = static_cast < DvdScene * >(scene());
-            newPos.setX(qMax(newPos.x(), 0.0));
-            newPos.setY(qMax(newPos.y(), 0.0));
+            newPos.setX(qMax(newPos.x(), (qreal)0));
+            newPos.setY(qMax(newPos.y(), (qreal)0));
             if (newPos.x() + sceneShape.width() > sc->width()) newPos.setX(sc->width() - sceneShape.width());
             if (newPos.y() + sceneShape.height() > sc->height()) newPos.setY(sc->height() - sceneShape.height());
 
