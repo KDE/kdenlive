@@ -90,7 +90,7 @@ void initEffects::refreshLumas()
         imagenamelist.append(fname);
         imagefiles.append(folder + '/' + fname);
     }
-    QDomElement lumaTransition = MainWindow::transitions.getEffectByTag("luma", QString());
+    QDomElement lumaTransition = MainWindow::transitions.getEffectByName("Wipe");
     QDomNodeList params = lumaTransition.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
@@ -658,8 +658,8 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
 
             if (name == "luma") {
 
-                tname.appendChild(ret.createTextNode("Luma"));
-                desc.appendChild(ret.createTextNode("Applies a luma transition between the current and next frames"));
+                tname.appendChild(ret.createTextNode("Wipe"));
+                desc.appendChild(ret.createTextNode("Applies a stationary transition between the current and next frames"));
 
                 paramList.append(quickParameterFill(ret, "Softness", "softness", "double", "0", "0", "100", "", "", "100"));
                 paramList.append(quickParameterFill(ret, "Invert", "invert", "bool", "0", "0", "1"));
@@ -674,9 +674,9 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
                 paramList.append(quickParameterFill(ret, "Align", "aligned", "bool", "1", "0", "1"));
                 paramList.append(quickParameterFill(ret, "Fill", "fill", "bool", "0", "0", "1"));
                 paramList.append(quickParameterFill(ret, "Distort", "distort", "bool", "0", "0", "1"));
-                paramList.append(quickParameterFill(ret, "Luma Image File", "luma", "list", "", "", "", imagefiles.join(","), imagenamelist.join(",")));
-                paramList.append(quickParameterFill(ret, "Luma Softness", "softness", "double", "0", "0", "100", "", "", "100"));
-                paramList.append(quickParameterFill(ret, "Luma Invert", "luma_invert", "bool", "0", "0", "1"));
+                paramList.append(quickParameterFill(ret, "Wipe File", "luma", "list", "", "", "", imagefiles.join(","), imagenamelist.join(",")));
+                paramList.append(quickParameterFill(ret, "Wipe Softness", "softness", "double", "0", "0", "100", "", "", "100"));
+                paramList.append(quickParameterFill(ret, "Wipe Invert", "luma_invert", "bool", "0", "0", "1"));
                 paramList.append(quickParameterFill(ret, "Force Progressive Rendering", "progressive", "bool", "1", "0", "1"));
                 paramList.append(quickParameterFill(ret, "Force Deinterlace Overlay", "deinterlace", "bool", "0", "0", "1"));
                 tname.appendChild(ret.createTextNode("Composite"));
@@ -732,10 +732,15 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
         */
     }
 
-    QString wipetrans = "<ktransition tag=\"composite\" id=\"wipe\"><name>Wipe</name><description>Slide image from one side to another</description><parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>Direction</name>                                               </parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>Align</name></parameter><parameter tag=\"progressive\" default=\"1\" type=\"bool\" name=\"progressive\" ><name>Force Progressive Rendering</name></parameter><parameter tag=\"deinterlace\" default=\"0\" type=\"bool\" name=\"deinterlace\" ><name>Force Deinterlace Overlay</name></parameter></ktransition>";
+    QString wipetrans = "<ktransition tag=\"composite\" id=\"slide\"><name>Slide</name><description>Slide image from one side to another</description><parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>Direction</name>                                               </parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>Align</name></parameter><parameter tag=\"progressive\" default=\"1\" type=\"bool\" name=\"progressive\" ><name>Force Progressive Rendering</name></parameter><parameter tag=\"deinterlace\" default=\"0\" type=\"bool\" name=\"deinterlace\" ><name>Force Deinterlace Overlay</name></parameter></ktransition>";
     QDomDocument ret;
     ret.setContent(wipetrans);
     transitions->append(ret.documentElement());
+
+    QString dissolve = "<ktransition tag=\"luma\" id=\"dissolve\"><name>Dissolve</name><description>Fade out one video while fading in the other video</description><parameter tag=\"reverse\" default=\"0\" type=\"bool\" name=\"reverse\" ><name>Reverse</name></parameter></ktransition>";
+    QDomDocument dissolveDoc;
+    dissolveDoc.setContent(dissolve);
+    transitions->append(dissolveDoc.documentElement());
 
     /*QString alphatrans = "<ktransition tag=\"composite\" id=\"alphatransparency\" ><name>Alpha transparency</name><description>Make alpha channel transparent</description><parameter tag=\"geometry\" type=\"fixed\" default=\"0%,0%:100%x100%\" name=\"geometry\"><name>Direction</name></parameter><parameter tag=\"fill\" default=\"0\" type=\"bool\" name=\"fill\" ><name>Rescale</name></parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>Align</name></parameter></ktransition>";
     QDomDocument ret2;

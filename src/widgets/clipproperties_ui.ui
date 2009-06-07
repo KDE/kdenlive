@@ -102,7 +102,7 @@
    <item row="6" column="0" colspan="4">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab_video">
       <attribute name="title">
@@ -341,7 +341,7 @@
        <item row="3" column="0">
         <widget class="QCheckBox" name="slide_fade">
          <property name="text">
-          <string>Crossfade</string>
+          <string>Dissolve</string>
          </property>
         </widget>
        </item>
@@ -375,7 +375,7 @@
        <item row="4" column="0">
         <widget class="QCheckBox" name="slide_luma">
          <property name="text">
-          <string>Luma file</string>
+          <string>Wipe</string>
          </property>
         </widget>
        </item>
@@ -674,19 +674,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
+   <class>KColorButton</class>
+   <extends>QPushButton</extends>
+   <header>kcolorbutton.h</header>
   </customwidget>
   <customwidget>
    <class>KComboBox</class>
@@ -694,9 +684,19 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KColorButton</class>
-   <extends>QPushButton</extends>
-   <header>kcolorbutton.h</header>
+   <class>KDoubleNumInput</class>
+   <extends>QWidget</extends>
+   <header>knuminput.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KIntSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>knuminput.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
   </customwidget>
   <customwidget>
    <class>KRestrictedLine</class>

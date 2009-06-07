@@ -801,7 +801,7 @@ void MainWindow::setupActions()
     collection->addAction("manage_profiles", profilesAction);
     connect(profilesAction, SIGNAL(triggered(bool)), this, SLOT(slotEditProfiles()));
 
-    KNS::standardAction(i18n("Download New Lumas..."), this, SLOT(slotGetNewLumaStuff()), actionCollection(), "get_new_lumas");
+    KNS::standardAction(i18n("Download New Wipes..."), this, SLOT(slotGetNewLumaStuff()), actionCollection(), "get_new_lumas");
 
     KNS::standardAction(i18n("Download New Render Profiles..."), this, SLOT(slotGetNewRenderStuff()), actionCollection(), "get_new_profiles");
 

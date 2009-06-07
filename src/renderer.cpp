@@ -809,7 +809,7 @@ void Render::setSceneList(QString playlist, int position)
     //kWarning() << "//////  RENDER, SET SCENE LIST: " << playlist;
 
     if (m_mltConsumer == NULL) {
-        kWarning() << "///////  ERROR, TRYING TO USE NULL MLT CONSUMER";
+        kWarning() << "///////  ERROR, TRYING TO USE NULL MLT CONSUMER";
         m_isBlocked = false;
         return;
     }
@@ -2831,6 +2831,8 @@ bool Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
     QString key;
     if (xml.attribute("automatic") == "1") transition->set("automatic", 1);
     //kDebug() << " ------  ADDING TRANSITION PARAMs: " << args.count();
+    if (xml.hasAttribute("id"))
+        transition->set("kdenlive_id", xml.attribute("id").toUtf8().constData());
 
     for (it = args.begin(); it != args.end(); ++it) {
         key = it.key();
@@ -2838,7 +2840,6 @@ bool Render::mltAddTransition(QString tag, int a_track, int b_track, GenTime in,
         char *value = decodedString(it.value());
         if (it.value().isEmpty() == false) transition->set(name, value);
         //kDebug() << " ------  ADDING TRANS PARAM: " << name << ": " << value;
-        //filter->set("kdenlive_id", id);
         delete[] name;
         delete[] value;
     }

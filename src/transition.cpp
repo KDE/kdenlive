@@ -50,7 +50,7 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDo
 
     //m_referenceClip = clipa;
     if (params.isNull()) {
-        m_parameters = MainWindow::transitions.getEffectByName("Luma").cloneNode().toElement();
+        m_parameters = MainWindow::transitions.getEffectByName("Dissolve").cloneNode().toElement();
     } else {
         m_parameters = params;
     }

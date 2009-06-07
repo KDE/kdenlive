@@ -239,6 +239,7 @@ void TrackView::parseDocument(QDomDocument doc)
         bool forceTrack = false;
         QString mlt_geometry;
         QString mlt_service;
+        QString transitionId;
         for (int k = 0; k < transitionparams.count(); k++) {
             p = transitionparams.item(k).toElement();
             if (!p.isNull()) {
@@ -251,6 +252,7 @@ void TrackView::parseDocument(QDomDocument doc)
                 } else if (paramName == "a_track") a_track = p.text().toInt();
                 else if (paramName == "b_track") b_track = p.text().toInt();
                 else if (paramName == "mlt_service") mlt_service = p.text();
+                else if (paramName == "kdenlive_id") transitionId = p.text();
                 else if (paramName == "geometry") mlt_geometry = p.text();
                 else if (paramName == "automatic" && p.text() == "1") isAutomatic = true;
                 else if (paramName == "force_track" && p.text() == "1") forceTrack = true;
@@ -259,8 +261,7 @@ void TrackView::parseDocument(QDomDocument doc)
         if (transitionAdd || mlt_service != "mix") {
             // Transition should be added to the scene
             ItemInfo transitionInfo;
-            QString transitionId;
-            if (mlt_service == "composite") {
+            if (mlt_service == "composite" && transitionId.isEmpty()) {
                 // When adding composite transition, check if it is a wipe transition
                 if (mlt_geometry.count(';') == 1) {
                     mlt_geometry.remove(QChar('%'), Qt::CaseInsensitive);
@@ -282,7 +283,7 @@ void TrackView::parseDocument(QDomDocument doc)
                             break;
                         }
                     }
-                    if (isWipeTransition) transitionId = "wipe";
+                    if (isWipeTransition) transitionId = "slide";
                 }
             }
             QDomElement base = MainWindow::transitions.getEffectByTag(mlt_service, transitionId).cloneNode().toElement();

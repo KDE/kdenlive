@@ -91,7 +91,7 @@
    <item row="5" column="0">
     <widget class="QCheckBox" name="slide_fade">
      <property name="text">
-      <string>Crossfade</string>
+      <string>Dissolve</string>
      </property>
     </widget>
    </item>
@@ -134,7 +134,7 @@
       <bool>false</bool>
      </property>
      <property name="text">
-      <string>Luma File</string>
+      <string>Wipe</string>
      </property>
     </widget>
    </item>
@@ -192,19 +192,14 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
    <class>KIntSpinBox</class>
    <extends>QSpinBox</extends>
    <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KUrlRequester</class>
-   <extends>QFrame</extends>
-   <header>kurlrequester.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KListWidget</class>
-   <extends>QListWidget</extends>
-   <header>klistwidget.h</header>
   </customwidget>
   <customwidget>
    <class>KLineEdit</class>
@@ -212,14 +207,19 @@
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <class>KListWidget</class>
+   <extends>QListWidget</extends>
+   <header>klistwidget.h</header>
   </customwidget>
   <customwidget>
    <class>KRestrictedLine</class>
    <extends>KLineEdit</extends>
    <header>krestrictedline.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
