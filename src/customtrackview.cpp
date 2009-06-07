@@ -1547,6 +1547,7 @@ void CustomTrackView::slotAddTransitionToSelectedClips(QDomElement transition)
                     info.startPos = transitionClip->startPos();
                 } else info.startPos = info.endPos - GenTime(65, m_document->fps());
                 if (transition.attribute("tag") == "luma") EffectsList::setParameter(transition, "reverse", "1");
+                else if (transition.attribute("id") == "slide") EffectsList::setParameter(transition, "invert", "1");
 
                 // Check there is no other transition at that place
                 double startY = info.track * m_tracksHeight + 1 + m_tracksHeight / 2;
