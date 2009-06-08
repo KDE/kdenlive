@@ -12,9 +12,9 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-02 18:27+0200\n"
-"PO-Revision-Date: 2009-06-04 14:44+0200\n"
+"PO-Revision-Date: 2009-06-08 11:44+0200\n"
 "Last-Translator: Markus Slopianka <kamikazow@web.de>\n"
-"Language-Team: American English <kde-i18n-doc@kde.org>\n"
+"Language-Team: German <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -58,7 +58,7 @@ msgstr "1"
 
 #: src/geometryval.cpp:83
 msgid "100%"
-msgstr "100 %"
+msgstr "100 %"
 
 #: rc.cpp:1237 rc.cpp:2590
 msgid "11250"
@@ -70,7 +70,7 @@ msgstr "2"
 
 #: src/geometryval.cpp:84
 msgid "200%"
-msgstr "200 %"
+msgstr "200 %"
 
 #: rc.cpp:1234 rc.cpp:2587
 msgid "22500"
@@ -102,7 +102,7 @@ msgstr "48000"
 
 #: src/geometryval.cpp:82
 msgid "50%"
-msgstr "50 %"
+msgstr "50 %"
 
 #: rc.cpp:760 rc.cpp:1480 rc.cpp:2113 rc.cpp:2833
 msgid "59/54"
@@ -142,8 +142,8 @@ msgstr ""
 
 #: src/dvdwizardvob.cpp:55 src/dvdwizardvob.cpp:56
 #, kde-format
-msgid "<strong>Program %1 is required for the DVD wizard."
-msgstr "<strong>Programm %1 wird für den DVD-Assistenen benötigt."
+msgid "<strong>Program %1 is required for the DVD wizard.</strong>"
+msgstr "<strong>Programm %1 wird für den DVD-Assistenten benötigt.</strong>"
 
 #: src/renderwidget.cpp:1261
 #, kde-format
@@ -3235,11 +3235,11 @@ msgstr "Effekt zurücksetzen"
 
 #: src/monitor.cpp:99
 msgid "Resize (100%)"
-msgstr "Größenanpassung (100 %)"
+msgstr "Größenanpassung (100 %)"
 
 #: src/monitor.cpp:100
 msgid "Resize (50%)"
-msgstr "Größenanpassung (50 %)"
+msgstr "Größenanpassung (50 %)"
 
 #: src/resizeclipcommand.cpp:33 src/customtrackview.cpp:2481
 #: src/customtrackview.cpp:2542
