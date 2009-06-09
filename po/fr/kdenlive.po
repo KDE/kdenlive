@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-09 14:55+0200\n"
-"PO-Revision-Date: 2009-06-09 14:57+0200\n"
+"PO-Revision-Date: 2009-06-09 15:10+0200\n"
 "Last-Translator: Stanislas Zeller <uncensored.assault@gmail.com>\n"
 "Language-Team: français <kde-francophone@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -996,9 +996,10 @@ msgid "Clip <b>%1</b><br>is invalid, will be removed from project."
 msgstr "Le clip <b>%1</b><br> est manquant et sera supprimé du projet."
 
 #: src/projectlist.cpp:632
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clip <b>%1</b><br>is missing or invalid. Remove it from project?"
-msgstr "Le clip <b>%1</b><br> est manquant et sera supprimé du projet."
+msgstr ""
+"Le clip <b>%1</b><br> est manquant ou non valide. Le supprimer du projet ?"
 
 #: src/cmake_bindir/ui_colorclip_ui.h:106 rc.cpp:1507 rc.cpp:2860
 msgid "Clip Color"
@@ -1014,9 +1015,8 @@ msgid "Clip Properties"
 msgstr "Propriétés du clip"
 
 #: rc.cpp:161
-#, fuzzy
 msgid "Clip bottom"
-msgstr "Moniteur de clip"
+msgstr "Clip bas"
 
 #: src/clipitem.cpp:872
 #, c-format, kde-format
@@ -1028,19 +1028,16 @@ msgid "Clip has no markers"
 msgstr "Le clip n'a aucun repères"
 
 #: rc.cpp:155
-#, fuzzy
 msgid "Clip left"
-msgstr "Aligner à gauche"
+msgstr "Clip gauche"
 
 #: rc.cpp:157
-#, fuzzy
 msgid "Clip right"
-msgstr "Aligner à droite"
+msgstr "Clip droit"
 
 #: rc.cpp:159
-#, fuzzy
 msgid "Clip top"
-msgstr "Moniteur de clip"
+msgstr "Clip haut"
 
 #: src/documentchecker.cpp:103
 msgid "Clips folder"
@@ -1099,9 +1096,8 @@ msgid "Comment"
 msgstr "Commentaire"
 
 #: src/wizard.cpp:39
-#, fuzzy
 msgid "Config Wizard"
-msgstr "Lancer l'assistant de configuration"
+msgstr "Assistant de configuration"
 
 #: src/recmonitor.cpp:84
 msgid "Configure"
@@ -1116,9 +1112,8 @@ msgid "Copy the left channel to the right"
 msgstr "Copier le canal gauche vers celui de droite"
 
 #: src/main.cpp:41
-#, fuzzy
 msgid "Copyright (c) 2009 Development team"
-msgstr "Copyright (©) 2008 l'équipe de développement"
+msgstr "Copyright (©) 2009 l'équipe de développement"
 
 #: src/renderer.cpp:1042
 msgid ""
@@ -1209,9 +1204,8 @@ msgid "Crop start"
 msgstr "Rogner le début"
 
 #: src/cmake_bindir/ui_titlewidget_ui.h:737 rc.cpp:586 rc.cpp:1939
-#, fuzzy
 msgid "Crop to frame size"
-msgstr "Taille de l'image"
+msgstr "Retailler à la dimension de l'image"
 
 #: src/geometryval.cpp:86 src/cmake_bindir/ui_effectlist_ui.h:109
 #: src/renderwidget.cpp:288 src/renderwidget.cpp:319 src/renderwidget.cpp:390
@@ -1299,7 +1293,7 @@ msgstr "Amortissement"
 
 #: src/main.cpp:46
 msgid "Dan Dennedy"
-msgstr ""
+msgstr "Dan Dennedy"
 
 #: rc.cpp:8
 msgid "Debug"
@@ -1542,7 +1536,7 @@ msgstr "Format d'affichage : "
 #: src/cmake_bindir/ui_slideshowclip_ui.h:225 rc.cpp:961 rc.cpp:1372
 #: rc.cpp:2314 rc.cpp:2725
 msgid "Dissolve"
-msgstr ""
+msgstr "Dissoudre"
 
 #: rc.cpp:143
 msgid "Distort0r"
@@ -1576,7 +1570,7 @@ msgstr "Télécharger des profils de rendus..."
 
 #: src/mainwindow.cpp:804
 msgid "Download New Wipes..."
-msgstr "Télécharger des transitions"
+msgstr "Télécharger des transitions par balayage"
 
 #: src/cmake_bindir/ui_configsdl_ui.h:144 rc.cpp:1222 rc.cpp:2575
 msgid "Drop B frames on H.264 clips"
@@ -1719,7 +1713,7 @@ msgstr "EndViewport"
 
 #: src/documentchecker.cpp:163
 msgid "Enter new location for file"
-msgstr ""
+msgstr "Saisir le chemin du fichier"
 
 #: src/kdenlivesettingsdialog.cpp:72
 msgid "Environment"
@@ -1740,16 +1734,14 @@ msgid "Error removing clip at %1 on track %2"
 msgstr "Erreur durant la suppression du clip à %1 sur la piste %2"
 
 #: src/wizard.cpp:155
-#, fuzzy
 msgid "Error starting MLT's command line player (melt)"
 msgstr ""
-"Erreur durant le lancement du lecteur en ligne de commande de MLT (inigo)"
+"Erreur durant le lancement du lecteur en ligne de commande de MLT (melt)"
 
 #: src/wizard.cpp:518
-#, fuzzy
 msgid "Error starting MLT's command line player (melt)."
 msgstr ""
-"Erreur durant le lancement du lecteur en ligne de commande de MLT (inigo)."
+"Erreur durant le lancement du lecteur en ligne de commande de MLT (melt)."
 
 #: src/customtrackview.cpp:1497 src/customtrackview.cpp:2508
 #: src/customtrackview.cpp:2570 src/customtrackview.cpp:3283
@@ -1838,12 +1830,12 @@ msgid "File"
 msgstr "Fichier"
 
 #: src/cliptranscode.cpp:105
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "File %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr ""
-"Le fichier existe déjà.\n"
+"Le fichier %1 existe déjà.\n"
 "Voulez-vous l'écraser ?"
 
 #: src/dvdwizard.cpp:698 src/kdenlivedoc.cpp:211 src/kdenlivedoc.cpp:219
@@ -1933,7 +1925,7 @@ msgid "Folder"
 msgstr "Dossier"
 
 #: src/dvdwizard.cpp:626
-#, fuzzy, kde-format
+#, kde-format
 msgid "Folder %1 already exists. Overwrite?"
 msgstr "Le dossier %1 existe déjà. L'écraser ?"
 
@@ -1994,9 +1986,8 @@ msgid "Frame Duration"
 msgstr "Durée de l'image"
 
 #: src/geometryval.cpp:513
-#, fuzzy
 msgid "Frame Geometry"
-msgstr "Géométrie"
+msgstr "Géométrie de l'image"
 
 #: src/cmake_bindir/ui_clipproperties_ui.h:596 rc.cpp:1363 rc.cpp:2716
 msgid "Frame duration"
@@ -2200,9 +2191,8 @@ msgid "HDV"
 msgstr "HDV"
 
 #: src/cmake_bindir/ui_geometryposition_ui.h:136 rc.cpp:904 rc.cpp:2257
-#, fuzzy
 msgid "Height"
-msgstr "Droite"
+msgstr "Hauteur"
 
 #: rc.cpp:209
 msgid "Hi gain"
@@ -2267,7 +2257,7 @@ msgid "Image editing"
 msgstr "Retouche d'image"
 
 #: src/dvdwizard.cpp:628
-#, fuzzy, kde-format
+#, kde-format
 msgid "Image file %1 already exists. Overwrite?"
 msgstr "L'image %1 existe déjà. L'écraser ?"
 
@@ -2854,11 +2844,11 @@ msgstr "Ouvrir les projets dans des onglets"
 #: src/main.cpp:47
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr ""
+"Auteur de la première version fonctionnant sous KDE3 (ayant quitté le projet)"
 
 #: src/geometryval.cpp:85
-#, fuzzy
 msgid "Original size"
-msgstr "Taille du rayon"
+msgstr "Taille d'origine"
 
 #: rc.cpp:114
 msgid "Out"
@@ -2873,9 +2863,8 @@ msgid "Output file"
 msgstr "Fichier de sortie"
 
 #: src/renderwidget.cpp:593
-#, fuzzy
 msgid "Output file already exists. Do you want to overwrite it?"
-msgstr "Le fichier existe déjà. Voulez-vous le remplacer ?"
+msgstr "Le fichier de sortie existe déjà. Souhaitez-vous l'écraser ?"
 
 #: src/cmake_bindir/ui_geometryval_ui.h:151 rc.cpp:874 rc.cpp:2227
 msgid "P"
@@ -3343,7 +3332,7 @@ msgstr "Rendu <i>%1</i> terminé dans %2"
 
 #: src/main.cpp:44
 msgid "Rendering profiles customisation"
-msgstr ""
+msgstr "Personnalisation des profils de rendu"
 
 #: src/trackview.cpp:479
 #, kde-format
@@ -3395,9 +3384,8 @@ msgid "Rescale"
 msgstr "Redimensionner"
 
 #: src/cmake_bindir/ui_geometryposition_ui.h:137 rc.cpp:907 rc.cpp:2260
-#, fuzzy
 msgid "Reset"
-msgstr "Redimensionner"
+msgstr "Réinitialiser"
 
 #: src/effectstackview.cpp:56
 msgid "Reset effect"
@@ -3584,7 +3572,6 @@ msgid "Script Files"
 msgstr "Scripts"
 
 #: src/renderwidget.cpp:676
-#, fuzzy
 msgid "Script file already exists. Do you want to overwrite it?"
 msgstr "Le script existe déjà. Voulez-vous l'écraser ?"
 
@@ -4335,9 +4322,8 @@ msgid "Virtual clip"
 msgstr "Clip virtuel"
 
 #: rc.cpp:461
-#, fuzzy
 msgid "Volume (keyframable)"
-msgstr "Volume (par image-clé)"
+msgstr "Volume (supporte les images-clés)"
 
 #: src/cmake_bindir/ui_titlewidget_ui.h:734 rc.cpp:577 rc.cpp:1930
 msgid "W"
@@ -4391,7 +4377,7 @@ msgstr "Fenêtre"
 #: src/cmake_bindir/ui_slideshowclip_ui.h:227 rc.cpp:967 rc.cpp:1378
 #: rc.cpp:2320 rc.cpp:2731
 msgid "Wipe"
-msgstr ""
+msgstr "Transition par balayage"
 
 #: src/cmake_bindir/ui_geometryposition_ui.h:133
 #: src/cmake_bindir/ui_titlewidget_ui.h:732 rc.cpp:571 rc.cpp:895 rc.cpp:1924
@@ -4474,7 +4460,7 @@ msgstr "Sélectionnez une transition pour réaliser cette action"
 #: src/dvdwizard.cpp:603
 #, kde-format
 msgid "You need program <b>%1</b> to perform this action"
-msgstr ""
+msgstr "Le programme <b>%1</b> est nécessaire pour réaliser cette action"
 
 #: src/wizard.cpp:46
 msgid ""
@@ -4485,7 +4471,6 @@ msgstr ""
 "paramètres de bases."
 
 #: src/wizard.cpp:503
-#, fuzzy
 msgid ""
 "Your MLT installation cannot be found. Install MLT and restart Kdenlive.\n"
 msgstr ""
