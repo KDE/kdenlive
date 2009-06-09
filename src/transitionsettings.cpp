@@ -35,12 +35,24 @@ TransitionSettings::TransitionSettings(QWidget* parent) :
     m_effectEdit = new EffectStackEdit(m_ui.frame);
     connect(m_effectEdit, SIGNAL(seekTimeline(int)), this, SIGNAL(seekTimeline(int)));
     setEnabled(false);
-    m_ui.transitionList->addItems(MainWindow::transitions.effectNames());
-    for (int i = 0; i < m_ui.transitionList->count(); i++) {
-        m_ui.transitionList->setItemData(i, MainWindow::transitions.getInfoFromIndex(i), Qt::ToolTipRole);
+
+    QMap<QString, QStringList> transitionsList;
+    int max = MainWindow::transitions.effectNames().count();
+    QStringList transitionInfo;
+    int ix = 0;
+
+    for (; ix < max; ix++) {
+        transitionInfo = MainWindow::transitions.effectIdInfo(ix);
+        transitionInfo << QString::number(ix);
+        transitionsList.insert(transitionInfo.at(0).toLower(), transitionInfo);
     }
-    //kDebug() << MainWindow::transitions.effectNames().size();
-    //m_ui.listWidget->setCurrentRow(0);
+    ix = 0;
+    foreach(const QStringList &value, transitionsList) {
+        m_ui.transitionList->addItem(value.at(0));
+        m_ui.transitionList->setItemData(ix, MainWindow::transitions.getInfoFromIndex(value.last().toInt()), Qt::ToolTipRole);
+        ix++;
+    }
+
     connect(m_ui.transitionList, SIGNAL(activated(int)), this, SLOT(slotTransitionChanged()));
     connect(m_ui.transitionTrack, SIGNAL(activated(int)), this, SLOT(slotTransitionTrackChanged()));
 
