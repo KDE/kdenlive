@@ -190,7 +190,7 @@ void RecMonitor::slotVideoDeviceChanged(int ix)
 QPixmap RecMonitor::mergeSideBySide(const QPixmap& pix, const QString txt)
 {
     QPainter p;
-    QRect r = p.fontMetrics().boundingRect(QRect(0, 0, m_ui.video_frame->width(), m_ui.video_frame->height()), Qt::AlignLeft, txt);
+    QRect r = QApplication::fontMetrics().boundingRect(QRect(0, 0, m_ui.video_frame->width(), m_ui.video_frame->height()), Qt::AlignLeft, txt);
     int strWidth = r.width();
     int strHeight = r.height();
     int pixWidth = pix.width();

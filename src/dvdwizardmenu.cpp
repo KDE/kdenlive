@@ -302,7 +302,7 @@ void DvdWizardMenu::checkBackgroundType(int ix)
     if (ix == 0) {
         m_view.background_color->setVisible(true);
         m_view.background_image->setVisible(false);
-        m_scene->removeItem(m_background);
+        if (m_background->scene() != 0) m_scene->removeItem(m_background);
     } else {
         m_view.background_color->setVisible(false);
         m_view.background_image->setVisible(true);
@@ -310,7 +310,7 @@ void DvdWizardMenu::checkBackgroundType(int ix)
             m_view.background_image->setFilter("*");
             m_scene->addItem(m_background);
         } else {
-            m_scene->removeItem(m_background);
+            if (m_background->scene() != 0) m_scene->removeItem(m_background);
             m_view.background_image->setFilter("video/mpeg");
         }
     }
@@ -325,12 +325,12 @@ void DvdWizardMenu::buildImage()
 {
     emit completeChanged();
     if (m_view.background_image->url().isEmpty()) {
-        m_scene->removeItem(m_background);
+        if (m_background->scene() != 0) m_scene->removeItem(m_background);
         return;
     }
     QPixmap pix;
     if (!pix.load(m_view.background_image->url().path())) {
-        m_scene->removeItem(m_background);
+        if (m_background->scene() != 0) m_scene->removeItem(m_background);
         return;
     }
     pix = pix.scaled(m_width, m_height);
@@ -341,7 +341,7 @@ void DvdWizardMenu::buildImage()
 void DvdWizardMenu::checkBackground()
 {
     if (m_view.background_list->currentIndex() != 1) {
-        m_scene->removeItem(m_background);
+        if (m_background->scene() != 0) m_scene->removeItem(m_background);
     } else {
         m_scene->addItem(m_background);
     }
@@ -393,9 +393,9 @@ void DvdWizardMenu::createButtonImages(const QString &img1, const QString &img2,
         QPainter p(&img);
         p.setRenderHints(QPainter::Antialiasing, false);
         p.setRenderHints(QPainter::TextAntialiasing, false);
-        m_scene->removeItem(m_safeRect);
-        m_scene->removeItem(m_color);
-        m_scene->removeItem(m_background);
+        if (m_safeRect->scene() != 0) m_scene->removeItem(m_safeRect);
+        if (m_color->scene() != 0) m_scene->removeItem(m_color);
+        if (m_background->scene() != 0) m_scene->removeItem(m_background);
         m_scene->render(&p, QRectF(0, 0, m_width, m_height));
         p.end();
         img.setNumColors(4);
