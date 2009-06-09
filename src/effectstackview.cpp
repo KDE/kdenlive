@@ -48,7 +48,7 @@ EffectStackView::EffectStackView(QWidget *parent) :
     m_ui.buttonUp->setToolTip(i18n("Move effect up"));
     m_ui.buttonDown->setIcon(KIcon("go-down"));
     m_ui.buttonDown->setToolTip(i18n("Move effect down"));
-    m_ui.buttonDel->setIcon(KIcon("trash-empty"));
+    m_ui.buttonDel->setIcon(KIcon("edit-delete"));
     m_ui.buttonDel->setToolTip(i18n("Delete effect"));
     m_ui.buttonSave->setIcon(KIcon("document-save"));
     m_ui.buttonSave->setToolTip(i18n("Save effect"));
