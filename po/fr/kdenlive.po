@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-20 13:34+0200\n"
-"PO-Revision-Date: 2009-05-13 16:20+0200\n"
+"PO-Revision-Date: 2009-06-09 14:46+0200\n"
 "Last-Translator: Stanislas Zeller <uncensored.assault@gmail.com>\n"
 "Language-Team: français <kde-francophone@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -175,9 +175,8 @@ msgid "ARTS daemon"
 msgstr "Système de son ARTS"
 
 #: src/cliptranscode.cpp:90 rc.cpp:899 rc.cpp:2231
-#, fuzzy
 msgid "Abort"
-msgstr "Interrompre la tâche"
+msgstr "Interrompre"
 
 #: src/renderwidget.cpp:1266 rc.cpp:1433 rc.cpp:2765
 msgid "Abort Job"
@@ -222,9 +221,8 @@ msgid "Add Marker"
 msgstr "Ajouter un repère"
 
 #: rc.cpp:1148 rc.cpp:2480
-#, fuzzy
 msgid "Add Profile"
-msgstr "Modifier le profil"
+msgstr "Ajouter un profil"
 
 #: src/titlewidget.cpp:136
 msgid "Add Rectangle"
@@ -255,18 +253,16 @@ msgid "Add audio fade"
 msgstr "Ajouter une atténuation audio"
 
 #: rc.cpp:1214 rc.cpp:2546
-#, fuzzy
 msgid "Add chapter"
-msgstr "Ajouter un repère"
+msgstr "Ajouter un chapitre"
 
 #: src/addclipcommand.cpp:33
 msgid "Add clip"
 msgstr "Ajouter un clip"
 
 #: rc.cpp:794 rc.cpp:2126
-#, fuzzy
 msgid "Add clip to project"
-msgstr "Adapter le zoom au projet"
+msgstr "Ajouter un clip au projet"
 
 #: src/clipmanager.cpp:234
 msgid "Add clips"
@@ -290,23 +286,20 @@ msgid "Add marker"
 msgstr "Ajouter un repère"
 
 #: rc.cpp:1763 rc.cpp:3095
-#, fuzzy
 msgid "Add movie file"
-msgstr "Ajouter un effet vidéo"
+msgstr "Ajouter un fichier vidéo"
 
 #: src/dvdwizardmenu.cpp:41
-#, fuzzy
 msgid "Add new button"
-msgstr "Ajouter un effet"
+msgstr "Ajouter un bouton"
 
 #: src/effectstackview.cpp:46
 msgid "Add new effect"
 msgstr "Ajouter un effet"
 
 #: src/dvdwizardvob.cpp:91
-#, fuzzy
 msgid "Add new video file"
-msgstr "Ajouter un effet"
+msgstr "Ajouter un fichier vidéo"
 
 #: rc.cpp:1547 rc.cpp:2879
 msgid "Add recording time to captured file name"
@@ -362,7 +355,7 @@ msgstr "Expert"
 
 #: src/titlewidget.cpp:124
 msgid "Align center"
-msgstr ""
+msgstr "Aligner au centre"
 
 #: src/titlewidget.cpp:127
 msgid "Align item horizontally"
@@ -374,11 +367,11 @@ msgstr "Aligner l'élément verticalement"
 
 #: src/titlewidget.cpp:123
 msgid "Align left"
-msgstr ""
+msgstr "Aligner à gauche"
 
 #: src/titlewidget.cpp:122
 msgid "Align right"
-msgstr ""
+msgstr "Aligner à droite"
 
 #: src/geometryval.cpp:85
 msgid "Align..."
@@ -410,7 +403,7 @@ msgstr "Autoriser les déplacements verticaux"
 
 #: src/renderwidget.cpp:662 src/renderwidget.cpp:1347
 msgid "Already running"
-msgstr ""
+msgstr "En cours d'exécution"
 
 #: rc.cpp:147 rc.cpp:451
 msgid "Amplitude"
@@ -462,9 +455,8 @@ msgid "Audio Only"
 msgstr "Audio seulement"
 
 #: src/customtrackview.cpp:4477 src/mainwindow.cpp:980
-#, fuzzy
 msgid "Audio and Video"
-msgstr "Index audio"
+msgstr "Audio et vidéo"
 
 #: rc.cpp:1598 rc.cpp:2930
 msgid "Audio channels"
@@ -567,7 +559,7 @@ msgstr "Module Avformat (FFmpeg)"
 
 #: rc.cpp:986 rc.cpp:2318
 msgid "Back to menu"
-msgstr ""
+msgstr "Retour au menu"
 
 #: rc.cpp:596 rc.cpp:989 rc.cpp:992 rc.cpp:1928 rc.cpp:2321 rc.cpp:2324
 msgid "Background"
@@ -610,9 +602,9 @@ msgid "Brightness (keyframable)"
 msgstr "Luminosité (par image-clé)"
 
 #: src/trackview.cpp:475
-#, fuzzy, kde-format
+#, kde-format
 msgid "Broken clip producer %1"
-msgstr "Producteur de clip Boken %1"
+msgstr "Producteur de clip %1 cassé"
 
 #: rc.cpp:1622 rc.cpp:1631 rc.cpp:2954 rc.cpp:2963
 msgid "Buffer"
@@ -620,17 +612,16 @@ msgstr "Buffer"
 
 #: src/main.cpp:45
 msgid "Bug fixing etc."
-msgstr ""
+msgstr "Correction de bugs, etc ..."
 
 #: rc.cpp:890 rc.cpp:2222
-#, fuzzy
 msgid "Burn"
-msgstr "Buffer"
+msgstr "Graver"
 
 #: src/dvdwizard.cpp:88 src/dvdwizard.cpp:95
 #, kde-format
 msgid "Burn with %1"
-msgstr ""
+msgstr "Graver avec %1"
 
 #: rc.cpp:971 rc.cpp:2303
 msgid "Button"
@@ -880,7 +871,7 @@ msgstr "Canaux"
 #: src/dvdwizardchapters.cpp:235
 #, kde-format
 msgid "Chapter %1"
-msgstr ""
+msgstr "Chapitre %1"
 
 #: rc.cpp:32
 msgid "Charcoal"
@@ -919,9 +910,8 @@ msgid "Clean"
 msgstr "Effacer"
 
 #: rc.cpp:1445 rc.cpp:2777
-#, fuzzy
 msgid "Clean Up"
-msgstr "Effacer"
+msgstr "Nettoyer"
 
 #: rc.cpp:3140
 msgid "Clip"
@@ -969,9 +959,8 @@ msgid "Clip has no markers"
 msgstr "Le clip n'a aucun repères"
 
 #: src/documentchecker.cpp:103
-#, fuzzy
 msgid "Clips folder"
-msgstr "Clip couleur"
+msgstr "Dossier des clips"
 
 #: src/cliptranscode.cpp:111 rc.cpp:1421 rc.cpp:1436 rc.cpp:1457 rc.cpp:2753
 #: rc.cpp:2768 rc.cpp:2789
@@ -979,9 +968,8 @@ msgid "Close"
 msgstr "Fermer"
 
 #: rc.cpp:797 rc.cpp:2129
-#, fuzzy
 msgid "Close after transcode"
-msgstr "Lire immédiatement après rendu"
+msgstr "Fermer après transcodage"
 
 #: src/mainwindow.cpp:132
 msgid "Close the current tab"
@@ -1063,9 +1051,8 @@ msgid "Create Folder"
 msgstr "Créer un dossier"
 
 #: rc.cpp:893 rc.cpp:2225
-#, fuzzy
 msgid "Create ISO image"
-msgstr "Image ISO DVD"
+msgstr "Créer une image ISO"
 
 #: src/renderwidget.cpp:590
 msgid "Create Render Script"
@@ -1174,7 +1161,7 @@ msgstr "DVD"
 
 #: src/dvdwizard.cpp:56
 msgid "DVD Chapters"
-msgstr ""
+msgstr "Chapitres DVD"
 
 #: rc.cpp:905 rc.cpp:2237
 msgid "DVD ISO image"
@@ -1194,9 +1181,8 @@ msgid "DVD Wizard"
 msgstr "Assistant du DVD"
 
 #: rc.cpp:1760 rc.cpp:3092
-#, fuzzy
 msgid "DVD format"
-msgstr "Image DVD"
+msgstr "Format DVD"
 
 #: src/dvdwizard.cpp:466
 msgid "DVD structure broken"
@@ -1288,7 +1274,6 @@ msgid "Delete Marker"
 msgstr "Supprimer le repère"
 
 #: rc.cpp:1151 rc.cpp:2483
-#, fuzzy
 msgid "Delete Profile"
 msgstr "Supprimer le profil"
 
@@ -1309,9 +1294,8 @@ msgid "Delete clip"
 msgstr "Supprimer le clip"
 
 #: src/dvdwizardmenu.cpp:42
-#, fuzzy
 msgid "Delete current button"
-msgstr "Supprimer le fichier courant"
+msgstr "Supprimer le bouton"
 
 #: rc.cpp:854 rc.cpp:2186
 msgid "Delete current file"
@@ -1666,9 +1650,8 @@ msgid "FFmpeg & ffplay"
 msgstr "FFmpeg && ffplay"
 
 #: rc.cpp:785 rc.cpp:1145 rc.cpp:2117 rc.cpp:2477
-#, fuzzy
 msgid "FFmpeg parameters"
-msgstr "Paramètres"
+msgstr "Paramètres FFmpeg"
 
 #: rc.cpp:413
 msgid "Factor"
@@ -1851,7 +1834,7 @@ msgid "Forward 1 frame"
 msgstr "Avancer d'une image"
 
 #: src/mainwindow.cpp:2414 src/mainwindow.cpp:2425
-#, fuzzy, kde-format
+#, kde-format
 msgid "Found: %1"
 msgstr "Trouvé : %1"
 
@@ -2130,9 +2113,8 @@ msgid "Image type"
 msgstr "Type d'image"
 
 #: rc.cpp:80
-#, fuzzy
 msgid "In"
-msgstr "I"
+msgstr "Dans"
 
 #: src/monitor.cpp:469
 msgid "In Point"
@@ -2220,7 +2202,7 @@ msgstr "Jack"
 
 #: src/main.cpp:46
 msgid "Jason Wood"
-msgstr ""
+msgstr "Jason Wood"
 
 #: src/main.cpp:42
 msgid "Jean-Baptiste Mardelle"
@@ -2228,16 +2210,15 @@ msgstr "Jean-Baptiste Mardelle"
 
 #: src/main.cpp:44
 msgid "Jean-Michel Poure"
-msgstr ""
+msgstr "Jean-Michel Pouré"
 
 #: rc.cpp:1430 rc.cpp:2762
 msgid "Job Queue"
-msgstr ""
+msgstr "Tâches en attente d'exécution"
 
 #: rc.cpp:788 rc.cpp:2120
-#, fuzzy
 msgid "Job status"
-msgstr "Rogner le début"
+msgstr "Avancement des tâches"
 
 #: rc.cpp:806 rc.cpp:2138
 msgid "Jog Shuttle device disabled."
@@ -2366,7 +2347,6 @@ msgid "MLT environment"
 msgstr "Environnement MLT"
 
 #: src/main.cpp:42
-#, fuzzy
 msgid "MLT porting, KDE 4 porting, Main developer"
 msgstr "Portage MLT, portage KDE4, développeur principal"
 
@@ -2436,11 +2416,11 @@ msgstr "Lecteurs vidéo"
 
 #: src/wizard.cpp:129
 msgid "Melt"
-msgstr ""
+msgstr "Melt"
 
 #: rc.cpp:680 rc.cpp:2012
 msgid "Melt path"
-msgstr ""
+msgstr "Chemin vers Melt"
 
 #: src/dvdwizard.cpp:309
 msgid "Menu job timed out"
@@ -2471,9 +2451,8 @@ msgid "Misc..."
 msgstr "Divers..."
 
 #: rc.cpp:1724 rc.cpp:3056
-#, fuzzy
 msgid "Missing clips"
-msgstr "Dégrouper les clips"
+msgstr "Clips manquants"
 
 #: rc.cpp:42
 msgid "Mix"
@@ -2536,9 +2515,8 @@ msgid "Move transition"
 msgstr "Déplacer la transition"
 
 #: rc.cpp:1211 rc.cpp:2543
-#, fuzzy
 msgid "Movie file"
-msgstr "Déplacer le guide"
+msgstr "Fichier vidéo"
 
 #: rc.cpp:271
 msgid "Mute"
@@ -2569,14 +2547,12 @@ msgid "NTSC"
 msgstr "NTSC"
 
 #: src/dvdwizardvob.cpp:59
-#, fuzzy
 msgid "NTSC 16:9"
-msgstr "NTSC"
+msgstr "NTSC 16:9"
 
 #: src/dvdwizardvob.cpp:59
-#, fuzzy
 msgid "NTSC 4:3"
-msgstr "NTSC"
+msgstr "NTSC 4:3"
 
 #: src/kdenlivesettingsdialog.cpp:511 rc.cpp:1142 rc.cpp:1226 rc.cpp:1310
 #: rc.cpp:2474 rc.cpp:2558 rc.cpp:2642
@@ -2601,11 +2577,11 @@ msgstr "Nouvelle vitesse (en pourcentage)"
 
 #: src/titlewidget.cpp:121
 msgid "No alignment"
-msgstr ""
+msgstr "Aucun alignement"
 
 #: src/dvdwizard.cpp:98
 msgid "No burning program found (K3b, Brasero)"
-msgstr ""
+msgstr "Aucun logiciel de gravure n'a été trouvé (K3b, Brasero)"
 
 #: src/customtrackview.cpp:2897 src/customtrackview.cpp:3844
 msgid "No clip copied"
@@ -2649,7 +2625,7 @@ msgid "Not connected"
 msgstr "Déconnecté"
 
 #: src/mainwindow.cpp:2428
-#, fuzzy, kde-format
+#, kde-format
 msgid "Not found: %1"
 msgstr "Non trouvé : %1"
 
@@ -2724,12 +2700,11 @@ msgstr "PAL"
 
 #: src/dvdwizardvob.cpp:59
 msgid "PAL 16:9"
-msgstr ""
+msgstr "PAL 16;9"
 
 #: src/dvdwizardvob.cpp:59
-#, fuzzy
 msgid "PAL 4:3"
-msgstr "PAL"
+msgstr "PAL 4:3"
 
 #: rc.cpp:289 rc.cpp:319
 msgid "Pan and Zoom"
@@ -2904,9 +2879,8 @@ msgstr ""
 "%1"
 
 #: rc.cpp:887 rc.cpp:2219
-#, fuzzy
 msgid "Preview"
-msgstr "Périphérique"
+msgstr "Prévisualiser"
 
 #: src/customtrackview.cpp:1209 src/customtrackview.cpp:1218
 msgid "Problem adding effect to clip"
@@ -3007,7 +2981,7 @@ msgstr "En cours de rééchantillonnage..."
 
 #: src/main.cpp:45
 msgid "Ray Lehtiniemi"
-msgstr ""
+msgstr "Ray Lehtiniemi"
 
 #: src/razorclipcommand.cpp:32
 msgid "Razor clip"
@@ -3071,9 +3045,8 @@ msgid "Reload Clip"
 msgstr "Recharger le clip"
 
 #: src/renderwidget.cpp:1267
-#, fuzzy
 msgid "Remove Job"
-msgstr "Supprimer l'espace"
+msgstr "Supprimer la tâche"
 
 #: src/customtrackview.cpp:1942 src/mainwindow.cpp:996
 msgid "Remove Space"
@@ -3084,24 +3057,20 @@ msgid "Remove Track"
 msgstr "Supprimer la piste"
 
 #: rc.cpp:1217 rc.cpp:2549
-#, fuzzy
 msgid "Remove chapter"
-msgstr "Supprimer l'espace"
+msgstr "Supprimer le chapitre"
 
 #: src/documentchecker.cpp:258
-#, fuzzy
 msgid "Remove clips"
-msgstr "Déplacer le clip"
+msgstr "Supprimer fichiers"
 
 #: rc.cpp:1766 rc.cpp:3098
-#, fuzzy
 msgid "Remove file"
-msgstr "Supprimer l'espace"
+msgstr "Supprimer fichier"
 
 #: rc.cpp:1739 rc.cpp:3071
-#, fuzzy
 msgid "Remove selected clips"
-msgstr "Impossible de coller les clips sélectionnés"
+msgstr "Supprimer les clips sélectionnés"
 
 #: src/insertspacecommand.cpp:36
 msgid "Remove space"
@@ -3329,9 +3298,8 @@ msgid "Save As"
 msgstr "Enregistrer sous"
 
 #: src/dvdwizard.cpp:606
-#, fuzzy
 msgid "Save DVD Project"
-msgstr "Enregistrer le profil"
+msgstr "Enregister le projet DVD"
 
 #: src/effectstackview.cpp:90
 msgid "Save Effect"
@@ -3346,7 +3314,6 @@ msgid "Save Title"
 msgstr "Enregistrer le titre"
 
 #: src/mainwindow.cpp:389 src/mainwindow.cpp:1257
-#, fuzzy
 msgid "Save changes to document?"
 msgstr "Enregistrer les modifications du document ?"
 
@@ -3363,9 +3330,8 @@ msgid "Save profile"
 msgstr "Enregistrer le profil"
 
 #: rc.cpp:896 rc.cpp:2228
-#, fuzzy
 msgid "Save project"
-msgstr "Enregistrer le profil"
+msgstr "Enregistrer le projet"
 
 #: src/monitor.cpp:170
 msgid "Save zone"
@@ -3414,9 +3380,8 @@ msgid "Search manually"
 msgstr "Recherche manuelle"
 
 #: rc.cpp:1733 rc.cpp:3065
-#, fuzzy
 msgid "Search recursively"
-msgstr "Recherche manuelle"
+msgstr "Chercher récursivement"
 
 #: src/dvdwizard.cpp:50
 msgid "Select Files For Your DVD"
@@ -3574,9 +3539,8 @@ msgid "Softness"
 msgstr "Douceur"
 
 #: rc.cpp:779 rc.cpp:2111
-#, fuzzy
 msgid "Source"
-msgstr "Couleur de la source"
+msgstr "Source"
 
 #: rc.cpp:141
 msgid "Source Color"
@@ -3724,9 +3688,8 @@ msgid "Starting -- find text as you type"
 msgstr "Lancement - recherche du texte au fil de la saisie"
 
 #: rc.cpp:884 rc.cpp:2216
-#, fuzzy
 msgid "Status"
-msgstr "Début"
+msgstr "Avancement"
 
 #: src/recmonitor.cpp:72
 msgid "Stop"
@@ -3884,22 +3847,20 @@ msgid "Tracks"
 msgstr "Pistes"
 
 #: src/kdenlivesettingsdialog.cpp:96 rc.cpp:3128
-#, fuzzy
 msgid "Transcode"
-msgstr "Transition"
+msgstr "Transcoder"
 
 #: src/cliptranscode.cpp:34 src/mainwindow.cpp:845
 msgid "Transcode Clip"
-msgstr ""
+msgstr "Transcoder le clip"
 
 #: src/cliptranscode.cpp:119
 msgid "Transcoding FAILED!"
-msgstr ""
+msgstr "Echec du transcodage."
 
 #: src/cliptranscode.cpp:115
-#, fuzzy
 msgid "Transcoding finished."
-msgstr "Rendu terminé dans %1"
+msgstr "Transcodage terminé"
 
 #: src/mainwindow.cpp:165
 msgid "Transition"
@@ -4115,9 +4076,8 @@ msgstr "W"
 
 #: src/renderwidget.cpp:669 src/renderwidget.cpp:1184
 #: src/renderwidget.cpp:1353
-#, fuzzy
 msgid "Waiting..."
-msgstr "Initialisation en cours..."
+msgstr "En cours..."
 
 #: rc.cpp:491 rc.cpp:1823
 msgid ""
@@ -4331,9 +4291,8 @@ msgid "parameter description"
 msgstr "Description du paramètre"
 
 #: rc.cpp:1220 rc.cpp:2552
-#, fuzzy
 msgid "save"
-msgstr "Ondulation"
+msgstr "enregistrer"
 
 #: src/renderwidget.cpp:585 src/renderwidget.cpp:588
 msgid "script"
