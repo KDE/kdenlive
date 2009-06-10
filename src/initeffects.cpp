@@ -65,7 +65,6 @@ initEffectsThumbnailer initEffects::thumbnailer;
 // static
 void initEffects::refreshLumas()
 {
-
     // Check for Kdenlive installed luma files, add empty string at start for no luma
     QStringList imagenamelist = QStringList() << i18n("None");
     QStringList imagefiles = QStringList() << QString();
@@ -90,11 +89,22 @@ void initEffects::refreshLumas()
         imagenamelist.append(fname);
         imagefiles.append(folder + '/' + fname);
     }
-    QDomElement lumaTransition = MainWindow::transitions.getEffectByName("Wipe");
+    QDomElement lumaTransition = MainWindow::transitions.getEffectByTag("luma", "luma");
     QDomNodeList params = lumaTransition.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
         if (e.attribute("tag") == "resource") {
+            e.setAttribute("paramlistdisplay", imagenamelist.join(","));
+            e.setAttribute("paramlist", imagefiles.join(","));
+            break;
+        }
+    }
+
+    QDomElement compositeTransition = MainWindow::transitions.getEffectByTag("composite", "composite");
+    params = compositeTransition.elementsByTagName("parameter");
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        if (e.attribute("tag") == "luma") {
             e.setAttribute("paramlistdisplay", imagenamelist.join(","));
             e.setAttribute("paramlist", imagefiles.join(","));
             break;
@@ -657,7 +667,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
             }
 
             if (name == "luma") {
-
+		ktrans.setAttribute("id", name);
                 tname.appendChild(ret.createTextNode("Wipe"));
                 desc.appendChild(ret.createTextNode("Applies a stationary transition between the current and next frames"));
 
@@ -725,16 +735,16 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
 
         transitions->append(ret.documentElement());
         //kDebug() << "//// ////  TRANSITON XML";
-        // kDebug() << ret.toString();
+        //kDebug() << ret.toString();
         /*
 
          <transition fill="1" in="11" a_track="1" out="73" mlt_service="luma" b_track="2" softness="0" resource="/home/marco/Projekte/kdenlive/install_cmake/share/apps/kdenlive/pgm/PAL/square2.pgm" />
         */
     }
 
-    QString wipetrans = "<ktransition tag=\"composite\" id=\"slide\"><name>Slide</name><description>Slide image from one side to another</description><parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>Direction</name>                                               </parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>Align</name></parameter><parameter tag=\"progressive\" default=\"1\" type=\"bool\" name=\"progressive\" ><name>Force Progressive Rendering</name></parameter><parameter tag=\"deinterlace\" default=\"0\" type=\"bool\" name=\"deinterlace\" ><name>Force Deinterlace Overlay</name></parameter><parameter tag=\"invert\" default=\"0\" type=\"bool\" name=\"invert\" ><name>Invert</name></parameter></ktransition>";
+    QString slidetrans = "<ktransition tag=\"composite\" id=\"slide\"><name>Slide</name><description>Slide image from one side to another</description><parameter tag=\"geometry\" type=\"wipe\" default=\"-100%,0%:100%x100%;-1=0%,0%:100%x100%\" name=\"geometry\"><name>Direction</name>                                               </parameter><parameter tag=\"aligned\" default=\"0\" type=\"bool\" name=\"aligned\" ><name>Align</name></parameter><parameter tag=\"progressive\" default=\"1\" type=\"bool\" name=\"progressive\" ><name>Force Progressive Rendering</name></parameter><parameter tag=\"deinterlace\" default=\"0\" type=\"bool\" name=\"deinterlace\" ><name>Force Deinterlace Overlay</name></parameter><parameter tag=\"invert\" default=\"0\" type=\"bool\" name=\"invert\" ><name>Invert</name></parameter></ktransition>";
     QDomDocument ret;
-    ret.setContent(wipetrans);
+    ret.setContent(slidetrans);
     transitions->append(ret.documentElement());
 
     QString dissolve = "<ktransition tag=\"luma\" id=\"dissolve\"><name>Dissolve</name><description>Fade out one video while fading in the other video</description><parameter tag=\"reverse\" default=\"0\" type=\"bool\" name=\"reverse\" ><name>Reverse</name></parameter></ktransition>";

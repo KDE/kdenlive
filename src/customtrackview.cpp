@@ -4552,5 +4552,53 @@ void CustomTrackView::updateClipTypeActions(ClipItem *clip)
     }
 }
 
+void CustomTrackView::reloadTransitionLumas()
+{
+    QString lumaNames;
+    QString lumaFiles;
+    QDomElement lumaTransition = MainWindow::transitions.getEffectByTag("luma", "luma");
+    QDomNodeList params = lumaTransition.elementsByTagName("parameter");
+    for (int i = 0; i < params.count(); i++) {
+        QDomElement e = params.item(i).toElement();
+        if (e.attribute("tag") == "resource") {
+            lumaNames = e.attribute("paramlistdisplay");
+            lumaFiles = e.attribute("paramlist");
+            break;
+        }
+    }
+  
+    QList<QGraphicsItem *> itemList = items();
+    Transition *transitionitem;
+    QDomElement transitionXml;
+    for (int i = 0; i < itemList.count(); i++) {
+        if (itemList.at(i)->type() == TRANSITIONWIDGET) {
+            transitionitem = static_cast <Transition*> (itemList.at(i));
+	    transitionXml = transitionitem->toXML();
+	    if (transitionXml.attribute("id") == "luma" && transitionXml.attribute("tag") == "luma") {
+		QDomNodeList params = transitionXml.elementsByTagName("parameter");
+		for (int i = 0; i < params.count(); i++) {
+		    QDomElement e = params.item(i).toElement();
+		    if (e.attribute("tag") == "resource") {
+			e.setAttribute("paramlistdisplay", lumaNames);
+			e.setAttribute("paramlist", lumaFiles);
+			break;
+		    }
+		}
+	    }
+	    if (transitionXml.attribute("id") == "composite" && transitionXml.attribute("tag") == "composite") {
+		QDomNodeList params = transitionXml.elementsByTagName("parameter");
+		for (int i = 0; i < params.count(); i++) {
+		    QDomElement e = params.item(i).toElement();
+		    if (e.attribute("tag") == "luma") {
+			e.setAttribute("paramlistdisplay", lumaNames);
+			e.setAttribute("paramlist", lumaFiles);
+			break;
+		    }
+		}
+	    }
+        }
+    }
+    emit transitionItemSelected(NULL);
+}
 
 #include "customtrackview.moc"

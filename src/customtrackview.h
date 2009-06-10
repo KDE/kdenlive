@@ -121,6 +121,7 @@ public:
     void setAudioAndVideo();
     void doChangeClipType(const GenTime &pos, int track, bool videoOnly, bool audioOnly);
     int hasGuide(int pos, int offset);
+    void reloadTransitionLumas();
 
 public slots:
     void setCursorPos(int pos, bool seek = true);

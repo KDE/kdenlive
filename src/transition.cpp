@@ -323,7 +323,6 @@ QDomElement Transition::toXML()
         m_parameters.setAttribute("clipb_starttime", m_secondClip->startPos().frames(m_referenceClip->fps()));
         m_parameters.setAttribute("clipb_track", transitionEndTrack());
     }
-
     return m_parameters;
 }
 

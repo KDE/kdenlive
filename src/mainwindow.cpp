@@ -2564,6 +2564,7 @@ void MainWindow::slotGetNewLumaStuff()
     }
     qDeleteAll(entries);
     initEffects::refreshLumas();
+    m_activeTimeline->projectView()->reloadTransitionLumas();
 }
 
 void MainWindow::slotGetNewRenderStuff()
