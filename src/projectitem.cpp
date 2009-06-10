@@ -27,11 +27,7 @@
 #include <KLocale>
 #include <KIcon>
 
-
-const int NameRole = Qt::UserRole;
-const int DurationRole = NameRole + 1;
-const int UsageRole = NameRole + 2;
-
+const int DurationRole = Qt::UserRole + 1;
 
 // folder
 ProjectItem::ProjectItem(QTreeWidget * parent, const QStringList & strings, const QString &clipId) :
