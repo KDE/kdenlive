@@ -1210,6 +1210,7 @@ void MainWindow::newFile(bool showProjectSettings)
     if (!showProjectSettings && m_timelineArea->count() == 0) {
         if (!KdenliveSettings::activatetabs()) closeCurrentDocument();
         profileName = KdenliveSettings::default_profile();
+        projectFolder = KdenliveSettings::defaultprojectfolder();
     } else {
         ProjectSettings *w = new ProjectSettings(projectTracks.x(), projectTracks.y(), KdenliveSettings::defaultprojectfolder(), false, this);
         if (w->exec() != QDialog::Accepted) return;
@@ -1402,7 +1403,7 @@ void MainWindow::openFile(const KUrl &url)
 
 void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
 {
-    KdenliveDoc *doc = new KdenliveDoc(url, KUrl(), m_commandStack, QString(), QPoint(3, 2), m_projectMonitor->render, this);
+    KdenliveDoc *doc = new KdenliveDoc(url, KUrl(), m_commandStack, QString(), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, this);
     if (stale == NULL) {
         stale = new KAutoSaveFile(url, doc);
         doc->m_autosave = stale;
