@@ -371,6 +371,7 @@ void KdenliveDoc::syncGuides(QList <Guide *> guides)
         e.setAttribute("comment", guides.at(i)->label());
         guideNode.appendChild(e);
     }
+    setModified(true);
     emit guidesUpdated();
 }
 
