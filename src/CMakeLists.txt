@@ -10,9 +10,9 @@ include_directories (
     ${QT_INCLUDES}
     ${LIBMLT_INCLUDE_DIR}
     ${LIBMLTPLUS_INCLUDE_DIR}
-    ${QDBUS_INCLUDE_DIRS} 
-    ${CMAKE_SOURCE_DIR} 
-    ${CMAKE_BINARY_DIR} 
+    ${QDBUS_INCLUDE_DIRS}
+    ${CMAKE_SOURCE_DIR}
+    ${CMAKE_BINARY_DIR}
 
     ${CMAKE_SOURCE_DIR}/src/widgets
     ${NEPOMUK_INCLUDES}
@@ -75,8 +75,8 @@ kde4_add_ui_files(kdenlive_UI
   widgets/cliptranscode_ui.ui
   widgets/geometryposition_ui.ui
 )
- 
-set(kdenlive_SRCS 
+
+set(kdenlive_SRCS
   addclipcommand.cpp
   main.cpp
   mainwindow.cpp
@@ -161,7 +161,7 @@ set(kdenlive_SRCS
   changecliptypecommand.cpp
   documentchecker.cpp
   dvdwizardchapters.cpp
-  documentconvert.cpp
+  documentvalidator.cpp
   cliptranscode.cpp
 )
 
@@ -178,7 +178,7 @@ QT4_ADD_DBUS_ADAPTOR(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h Main
 kde4_add_executable(kdenlive ${kdenlive_SRCS} ${kdenlive_UI})
 
 
-target_link_libraries(kdenlive 
+target_link_libraries(kdenlive
   ${KDE4_KDEUI_LIBS}
   ${KDE4_KIO_LIBS}
   ${KDE4_KNEWSTUFF2_LIBS}

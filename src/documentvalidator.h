@@ -18,25 +18,26 @@
  ***************************************************************************/
 
 
-#ifndef DOCUMENTCONVERT_H
-#define DOCUMENTCONVERT_H
+#ifndef DOCUMENTVALIDATOR_H
+#define DOCUMENTVALIDATOR_H
 
 #include <QDomDocument>
 #include <QColor>
 
-class DocumentConvert
+class DocumentValidator
 {
 
 public:
-    DocumentConvert(QDomDocument doc);
-    bool doConvert(double version, const double current_version);
+    DocumentValidator(QDomDocument doc);
+    bool isProject() const;
+    bool validate(const double currentVersion);
     bool isModified() const;
 
 private:
     bool m_modified;
     QDomDocument m_doc;
+    bool upgrade(double version, const double currentVersion);
     QString colorToString(const QColor& c);
-    void convertToMelt();
 };
 
 #endif
