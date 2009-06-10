@@ -854,7 +854,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             info.startPos = transitionClip->startPos();
         } else info.startPos = info.endPos - GenTime(65, m_document->fps());
         if (info.endPos == info.startPos) info.startPos = info.endPos - GenTime(65, m_document->fps());
-        QDomElement transition = MainWindow::transitions.getEffectByName("Dissolve").cloneNode().toElement();
+        QDomElement transition = MainWindow::transitions.getEffectByTag("luma", "dissolve").cloneNode().toElement();
         EffectsList::setParameter(transition, "reverse", "1");
 
         // Check there is no other transition at that place
