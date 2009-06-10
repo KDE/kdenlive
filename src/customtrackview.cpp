@@ -1695,6 +1695,9 @@ void CustomTrackView::dropEvent(QDropEvent * event)
         resetSelectionGroup();
         m_scene->clearSelection();
         bool hasVideoClip = false;
+        QUndoCommand *addCommand = new QUndoCommand();
+        addCommand->setText(i18n("Add timeline clip"));
+
         for (int i = 0; i < items.count(); i++) {
             ClipItem *item = static_cast <ClipItem *>(items.at(i));
             if (!hasVideoClip && (item->clipType() == AV || item->clipType() == VIDEO)) hasVideoClip = true;
@@ -1703,8 +1706,8 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             } else {
                 updateClipTypeActions(NULL);
             }
-            AddTimelineClipCommand *command = new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, false);
-            m_commandStack->push(command);
+
+            new AddTimelineClipCommand(this, item->xml(), item->clipProducer(), item->info(), item->effectList(), false, false, addCommand);
             item->baseClip()->addReference();
             m_document->updateClip(item->baseClip()->getId());
             ItemInfo info = item->info();
@@ -1713,26 +1716,19 @@ void CustomTrackView::dropEvent(QDropEvent * event)
             bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
             if (isLocked) item->setItemLocked(true);
 
-            if (item->baseClip()->isTransparent()) {
+            if (item->baseClip()->isTransparent() && getTransitionItemAtStart(info.startPos, info.track) == NULL) {
                 // add transparency transition
-                int endTrack = getPreviousVideoTrack(info.track);
-                Transition *tr = new Transition(info, endTrack, m_document->fps(), MainWindow::transitions.getEffectByTag("composite", "composite"), true);
-                if (m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_document->tracksCount() - info.track, info.startPos, info.endPos, tr->toXML())) {
-                    scene()->addItem(tr);
-                    tr->setSelected(true);
-                } else {
-                    emit displayMessage(i18n("Cannot add transition"), ErrorMessage);
-                    delete tr;
-                }
+                new AddTransitionCommand(this, info, getPreviousVideoTrack(info.track), MainWindow::transitions.getEffectByTag("composite", "composite"), false, true, addCommand);
             }
             info.track = m_document->tracksCount() - item->track();
             m_document->renderer()->mltInsertClip(info, item->xml(), item->baseClip()->producer(item->track()));
             item->setSelected(true);
         }
+        m_commandStack->push(addCommand);
         m_document->setModified(true);
         m_changeSpeedAction->setEnabled(hasVideoClip);
         m_pasteEffectsAction->setEnabled(m_copiedItems.count() == 1);
-        groupSelectedItems(true);
+        if (items.count() > 1) groupSelectedItems(true);
     } else QGraphicsView::dropEvent(event);
     setFocus();
 }
@@ -2710,7 +2706,7 @@ void CustomTrackView::deleteClip(ItemInfo info)
     item->baseClip()->removeReference();
     m_document->updateClip(item->baseClip()->getId());
 
-    if (item->baseClip()->isTransparent()) {
+    /*if (item->baseClip()->isTransparent()) {
         // also remove automatic transition
         Transition *tr = getTransitionItemAt(info.startPos, info.track);
         if (tr && tr->isAutomatic()) {
@@ -2718,7 +2714,7 @@ void CustomTrackView::deleteClip(ItemInfo info)
             scene()->removeItem(tr);
             delete tr;
         }
-    }
+    }*/
     scene()->removeItem(item);
     if (m_dragItem == item) m_dragItem = NULL;
     delete item;
@@ -2762,7 +2758,6 @@ void CustomTrackView::deleteSelectedClips()
         }
     }
 
-
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
@@ -2772,11 +2767,7 @@ void CustomTrackView::deleteSelectedClips()
         } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
             Transition *item = static_cast <Transition *>(itemList.at(i));
             if (item->parentItem()) resetGroup = true;
-            ItemInfo info;
-            info.startPos = item->startPos();
-            info.endPos = item->endPos();
-            info.track = item->track();
-            new AddTransitionCommand(this, info, item->transitionEndTrack(), item->toXML(), true, true, deleteSelected);
+            new AddTransitionCommand(this, item->info(), item->transitionEndTrack(), item->toXML(), true, true, deleteSelected);
             emit transitionItemSelected(NULL);
         }
     }
@@ -2943,18 +2934,6 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
     int tracknumber = m_document->tracksCount() - info.track - 1;
     bool isLocked = m_document->trackInfoAt(tracknumber).isLocked;
     if (isLocked) item->setItemLocked(true);
-
-    if (item->baseClip()->isTransparent()) {
-        // add transparency transition
-        int endTrack = getPreviousVideoTrack(info.track);
-        Transition *tr = new Transition(info, endTrack, m_document->fps(), MainWindow::transitions.getEffectByTag("composite", "composite"), true);
-        if (m_document->renderer()->mltAddTransition(tr->transitionTag(), endTrack, m_document->tracksCount() - info.track, info.startPos, info.endPos, tr->toXML())) scene()->addItem(tr);
-        else {
-            emit displayMessage(i18n("Cannot add transition"), ErrorMessage);
-            delete tr;
-        }
-
-    }
 
     baseclip->addReference();
     m_document->updateClip(baseclip->getId());
