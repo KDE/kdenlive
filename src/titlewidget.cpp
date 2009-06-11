@@ -556,6 +556,8 @@ void TitleWidget::selectionChanged()
     } else frame_properties->setEnabled(false);
 }
 
+/** \brief Updates position/size of the selected item when a value
+ * of a text field (coordinates, size) has changed */
 void TitleWidget::slotAdjustSelectedItem()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
@@ -572,6 +574,7 @@ void TitleWidget::slotAdjustSelectedItem()
     }
 }
 
+/** \brief Updates the coordinates in the text fields from the item */
 void TitleWidget::updateCoordinates(QGraphicsItem *i) 
 {
 	value_x->blockSignals(true);
@@ -620,6 +623,7 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
 	value_x->blockSignals(false);
 }
 
+/** \brief Updates the position of an item reading coordinates from the text fields */
 void TitleWidget::updatePosition(QGraphicsItem *i) {
 	
 	if (i->type() == TEXTITEM) {
