@@ -1403,7 +1403,7 @@ void MainWindow::openFile(const KUrl &url)
 
 void MainWindow::doOpenFile(const KUrl &url, KAutoSaveFile *stale)
 {
-    KdenliveDoc *doc = new KdenliveDoc(url, KUrl(), m_commandStack, QString(), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, this);
+    KdenliveDoc *doc = new KdenliveDoc(url, KdenliveSettings::defaultprojectfolder(), m_commandStack, KdenliveSettings::default_profile(), QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), m_projectMonitor->render, this);
     if (stale == NULL) {
         stale = new KAutoSaveFile(url, doc);
         doc->m_autosave = stale;
