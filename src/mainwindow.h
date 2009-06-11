@@ -218,6 +218,7 @@ private slots:
     void slotUpdateMousePosition(int pos);
     void slotAddEffect(QDomElement effect, GenTime pos = GenTime(), int track = -1);
     void slotEditProfiles();
+    void slotDetectAudioDriver();
     void slotEditProjectSettings();
     void slotDisplayActionMessage(QAction *a);
     void slotSwitchVideoThumbs();

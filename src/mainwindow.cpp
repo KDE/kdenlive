@@ -70,6 +70,7 @@
 #include <kstandarddirs.h>
 #include <KUrlRequesterDialog>
 #include <KTemporaryFile>
+#include <KProcess>
 #include <KActionMenu>
 #include <KMenu>
 #include <locale.h>
@@ -172,6 +173,8 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
     m_fileOpenRecent = KStandardAction::openRecent(this, SLOT(openFile(const KUrl &)),
                        actionCollection());
     readOptions();
+
+    slotDetectAudioDriver();
 
     m_clipMonitorDock = new QDockWidget(i18n("Clip Monitor"), this);
     m_clipMonitorDock->setObjectName("clip_monitor");
@@ -1521,6 +1524,31 @@ void MainWindow::slotEditProfiles()
     delete w;
 }
 
+void MainWindow::slotDetectAudioDriver()
+{
+    //decide which audio driver is really best, in some cases SDL is wrong
+    if(KdenliveSettings::audiodrivername().isEmpty()) {
+        QString driver;
+        KProcess readProcess;
+        //PulseAudio needs to be selected if it exists, the ALSA pulse pcm device is not fast enough.
+        if (!KStandardDirs::findExe("pactl").isEmpty()) {
+            readProcess.setOutputChannelMode(KProcess::OnlyStdoutChannel);
+            readProcess.setProgram("pactl", QStringList() << "stat");
+            readProcess.execute(2000); // Kill it after 2 seconds
+
+            QString result = QString(readProcess.readAllStandardOutput());
+            kDebug() << "// / / / / / READING PACTL: ";
+            kDebug() << result;
+            if(!result.isEmpty()) {
+                driver = "pulse";
+                kDebug() << "// / / / / PULSEAUDIO DETECTED";
+            }
+        }
+        //put others here
+        KdenliveSettings::setAutoaudiodrivername(driver);
+    }
+}
+
 void MainWindow::slotEditProjectSettings()
 {
     QPoint p = m_activeDocument->getTracksCount();
@@ -1922,6 +1950,7 @@ void MainWindow::slotPreferences(int page, int option)
     // create it :
     KdenliveSettingsDialog* dialog = new KdenliveSettingsDialog(this);
     connect(dialog, SIGNAL(settingsChanged(const QString&)), this, SLOT(updateConfiguration()));
+    connect(dialog, SIGNAL(doResetProfile()), this, SLOT(slotDetectAudioDriver()));
     connect(dialog, SIGNAL(doResetProfile()), m_monitorManager, SLOT(slotResetProfiles()));
     connect(dialog, SIGNAL(updatePreviewSettings()), this, SLOT(slotUpdatePreviewSettings()));
     connect(dialog, SIGNAL(updateCaptureFolder()), m_recMonitor, SLOT(slotUpdateCaptureFolder()));

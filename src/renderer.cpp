@@ -148,6 +148,8 @@ void Render::buildConsumer()
     }
 
     QString audioDriver = KdenliveSettings::audiodrivername();
+    if (audioDriver.isEmpty())
+        audioDriver = KdenliveSettings::autoaudiodrivername();
     if (!audioDriver.isEmpty()) {
         tmp = decodedString(audioDriver);
         m_mltConsumer->set("audio_driver", tmp);

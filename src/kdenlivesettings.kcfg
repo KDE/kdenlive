@@ -432,6 +432,11 @@
       <default>true</default>
     </entry>
 
+    <entry name="autoaudiodrivername" type="String">
+      <label>Audio driver selected automatically.</label>
+      <default></default>
+    </entry>
+
     <entry name="audiocodecs" type="StringList">
       <label>Available avformat audio codecs.</label>
       <default></default>
