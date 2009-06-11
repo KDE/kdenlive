@@ -95,6 +95,10 @@ private:
     void writeChoices();
     /** \brief Read the last stored choices into the dialog */
     void readChoices();
+	/** \brief Update the displayed X/Y coordinates */
+	void updateCoordinates(QGraphicsItem *i);
+	/** \brief Update the item's position */
+	void updatePosition(QGraphicsItem *i);
 
 public slots:
     void slotNewText(QGraphicsTextItem *tt);
@@ -116,17 +120,58 @@ public slots:
 
 private slots:
     void slotAdjustSelectedItem();
-    void slotUpdateZoom(int pos);
+	
+	/** 
+	 * \brief Switches the origin of the x axis between left and right 
+	 * border of the frame (offset from left/right frame border)
+	 * \param originLeft Take left border?
+	 * 
+	 * Called when the origin of the x coorinate has been changed. The 
+	 * x origin will either be at the left or at the right side of the frame.
+	 * 
+	 * When the origin of the x axis is at the left side, the user can 
+	 * enter the distance between an element's left border and the left
+	 * side of the frame.
+	 * 
+	 * When on the right, the distance from the right border of the 
+	 * frame to the right border of the element can be entered. This 
+	 * will result in negative values as long as the element's right 
+	 * border is at the left of the frame's right border.
+	 * 
+	 * Default value is left.
+	 * 
+	 * |----l----->|#######|<-------r|              
+	 * |           |---w-->|         |
+	 * |           |#######|         |
+	 * |                             |
+	 * |----------m_frameWidth------>|
+	 * |                             |
+	 * 
+	 * Left selected: Value = l
+	 * Right selected: Value = m_frameWidth + r - w
+	 * 
+	 */
+	void slotOriginXClicked();
+	/** \brief Same as slotOriginYChanged, but for the Y axis; default is top. 
+	 *  \param originTop Take top border? */
+	void slotOriginYClicked();
+	
     void slotZoom(bool up);
+    void slotUpdateZoom(int pos);
     void slotAdjustZoom();
     void slotZoomOneToOne();
+	
     void slotUpdateText();
+	
     void displayBackgroundFrame();
+	
     void setCurrentItem(QGraphicsItem *item);
+	
     void slotTextTool();
     void slotRectTool();
     void slotSelectTool();
     void slotImageTool();
+	
     /** \brief Called when accepted, stores the user selections for next time use */
     void slotAccepted();
 };

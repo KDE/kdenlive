@@ -748,16 +748,22 @@
       <item row="0" column="0">
        <layout class="QHBoxLayout" name="positionLayout">
         <item>
-         <widget class="QLabel" name="label_16">
+         <widget class="QPushButton" name="origin_x_left">
           <property name="text">
-           <string>X</string>
+           <string>+X</string>
           </property>
+		  <property name="checkable">
+		   <bool>true</bool>
+		  </property>
+		  <property name="checked">
+		   <bool>false</bool>
+		  </property>
          </widget>
         </item>
         <item>
          <widget class="QSpinBox" name="value_x">
           <property name="minimum">
-           <number>-1000</number>
+           <number>-5000</number>
           </property>
           <property name="maximum">
            <number>5000</number>
@@ -765,16 +771,22 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_17">
+         <widget class="QPushButton" name="origin_y_top">
           <property name="text">
-           <string>Y</string>
+           <string>+Y</string>
           </property>
+		  <property name="checkable">
+		   <bool>true</bool>
+		  </property>
+		  <property name="checked">
+		   <bool>false</bool>
+		  </property>
          </widget>
         </item>
         <item>
          <widget class="QSpinBox" name="value_y">
           <property name="minimum">
-           <number>-1000</number>
+           <number>-5000</number>
           </property>
           <property name="maximum">
            <number>5000</number>

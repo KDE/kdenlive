@@ -92,6 +92,9 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     connect(itemhcenter, SIGNAL(clicked()), this, SLOT(itemHCenter()));
     connect(itemvcenter, SIGNAL(clicked()), this, SLOT(itemVCenter()));
 
+	connect(origin_x_left, SIGNAL(clicked()), this, SLOT(slotOriginXClicked()));
+	connect(origin_y_top, SIGNAL(clicked()), this, SLOT(slotOriginYClicked()));
+
     connect(value_x, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
     connect(value_y, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
     connect(value_w, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
@@ -506,8 +509,7 @@ void TitleWidget::selectionChanged()
             buttonAlignNone->blockSignals(false);
             buttonAlignCenter->blockSignals(false);
 
-            value_x->setValue((int) i->pos().x());
-            value_y->setValue((int) i->pos().y());
+			updateCoordinates(i);
             value_w->setValue((int) i->boundingRect().width());
             value_h->setValue((int) i->boundingRect().height());
             frame_properties->setEnabled(true);
@@ -531,8 +533,8 @@ void TitleWidget::selectionChanged()
             rectBColor->setColor(bcol);
             settingUp = false;
             rectLineWidth->setValue(rec->pen().width());
-            value_x->setValue((int) rec->pos().x());
-            value_y->setValue((int) rec->pos().y());
+			
+			updateCoordinates(rec);
             value_w->setValue((int) rec->rect().width());
             value_h->setValue((int) rec->rect().height());
             frame_properties->setEnabled(true);
@@ -561,14 +563,131 @@ void TitleWidget::slotAdjustSelectedItem()
         if (l.at(0)->type() == RECTITEM) {
             //rect item
             QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *>(l.at(0));
-            rec->setPos(value_x->value(), value_y->value());
+			updatePosition(rec);
             rec->setRect(QRect(0, 0, value_w->value(), value_h->value()));
         } else if (l.at(0)->type() == TEXTITEM) {
             //text item
-            QGraphicsTextItem *rec = static_cast <QGraphicsTextItem *>(l.at(0));
-            rec->setPos(value_x->value(), value_y->value());
+            updatePosition(l.at(0));
         }
     }
+}
+
+void TitleWidget::updateCoordinates(QGraphicsItem *i) 
+{
+	value_x->blockSignals(true);
+	
+	if (i->type() == TEXTITEM) {
+		
+		QGraphicsTextItem *rec = static_cast <QGraphicsTextItem *> (i);
+		
+		// Set the correct x coordinate value
+		if (origin_x_left->isChecked()) {
+			// Origin (0 point) is at m_frameWidth
+			value_x->setValue((int) (rec->pos().x() + rec->boundingRect().width() - m_frameWidth)); 
+		} else {
+			// Origin is at 0 (default)
+			value_x->setValue((int) rec->pos().x());
+		}
+		
+		// Same for y
+		if (origin_y_top->isChecked()) {
+			value_y->setValue((int) (rec->pos().y() + rec->boundingRect().height() - m_frameHeight));
+		} else {
+			value_y->setValue((int) rec->pos().y());
+		}
+		
+	} else if (i->type() == RECTITEM) {
+		
+		QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *> (i);
+		
+		if (origin_x_left->isChecked()) {
+			// Origin (0 point) is at m_frameWidth
+			value_x->setValue((int) (rec->pos().x() + rec->rect().width() - m_frameWidth)); 
+		} else {
+			// Origin is at 0 (default)
+			value_x->setValue((int) rec->pos().x());
+		}
+		
+		if (origin_y_top->isChecked()) {
+			value_y->setValue((int) (rec->pos().y() + rec->rect().height() - m_frameHeight));
+		} else {
+			value_y->setValue((int) rec->pos().y());
+		}
+		
+		
+	}
+	
+	value_x->blockSignals(false);
+}
+
+void TitleWidget::updatePosition(QGraphicsItem *i) {
+	
+	if (i->type() == TEXTITEM) {
+		QGraphicsTextItem *rec = static_cast <QGraphicsTextItem *>(i);
+		
+		int posX = value_x->value();
+		if (origin_x_left->isChecked()) {
+			/* Origin of the x axis is at m_frameWidth,
+			 * and distance to right border of the item is taken.
+			 * Add m_frameWidth, subtract object width 
+			 */
+			posX += m_frameWidth - rec->boundingRect().width();
+		}
+		
+		int posY = value_y->value();
+		if (origin_y_top->isChecked()) {
+			/* Same for y axis */
+			posY += m_frameHeight - rec->boundingRect().height();
+		}
+		
+		rec->setPos(posX, posY);
+	} else if (i->type() == RECTITEM) {
+		
+		QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *> (i);
+		
+		int posX = value_x->value();
+		if (origin_x_left->isChecked()) {
+			posX += m_frameWidth - rec->rect().width();
+		}
+		
+		int posY = value_y->value();
+		if (origin_y_top->isChecked()) {
+			posY += m_frameHeight - rec->rect().height();
+		}
+		
+		rec->setPos(posX, posY);
+	}
+	
+}
+
+void TitleWidget::slotOriginXClicked()
+{
+	// Update the text displayed on the button.
+	if (origin_x_left->isChecked()) {
+		origin_x_left->setText(i18n("\u2212X"));
+	} else {
+		origin_x_left->setText(i18n("+X"));
+	}
+	
+	QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+	if (l.size() >= 1) {
+		updateCoordinates(l.at(0));
+	}
+}
+
+void TitleWidget::slotOriginYClicked()
+{
+	// Update the text displayed on the button.
+	if (origin_y_top->isChecked()) {
+		origin_y_top->setText(i18n("\u2212Y"));
+	} else {
+		origin_y_top->setText(i18n("+Y"));
+	}
+	
+	QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+	if (l.size() >= 1) {
+		updateCoordinates(l.at(0));
+	}
 }
 
 void TitleWidget::slotChangeBackground()
@@ -580,11 +699,18 @@ void TitleWidget::slotChangeBackground()
 
 void TitleWidget::textChanged()
 {
+	// TODO not yet working
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    if (l.size() == 1 && l.at(0)->type() == TEXTITEM && !l.at(0)->hasFocus()) {
-        //kDebug() << ktextedit->document()->toHtml();
-        //((QGraphicsTextItem*)l[0])->setHtml(ktextedit->toHtml());
-    }
+	if (l.size() >= 1 && l.at(0)->type() == TEXTITEM) {
+		if (origin_x_left->isChecked()) {
+			updatePosition(l.at(0));
+		}
+		
+	}
+    //if (l.size() == 1 && l.at(0)->type() == TEXTITEM && !l.at(0)->hasFocus()) {
+    //    kDebug() << ktextedit->document()->toHtml();
+    //    ((QGraphicsTextItem*)l[0])->setHtml(ktextedit->toHtml());
+    //}
 }
 
 void TitleWidget::slotUpdateText()
