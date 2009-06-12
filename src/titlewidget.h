@@ -105,9 +105,7 @@ public slots:
     void slotNewRect(QGraphicsRectItem *rect);
     void slotChangeBackground();
     void selectionChanged();
-    void textChanged();
     void rectChanged();
-    void fontBold();
     void setupViewports();
     void zIndexChanged(int);
     void itemScaled(int);
@@ -135,12 +133,13 @@ private slots:
 	 * 
 	 * When on the right, the distance from the right border of the 
 	 * frame to the right border of the element can be entered. This 
-	 * will result in negative values as long as the element's right 
-	 * border is at the left of the frame's right border.
+	 * would result in negative values as long as the element's right 
+	 * border is at the left of the frame's right border. As that is
+	 * usually the case, I additionally invert the x axis.
 	 * 
 	 * Default value is left.
 	 * 
-	 * |----l----->|#######|<-------r|              
+	 * |----l----->|#######|----r--->|              
 	 * |           |---w-->|         |
 	 * |           |#######|         |
 	 * |                             |
@@ -148,13 +147,20 @@ private slots:
 	 * |                             |
 	 * 
 	 * Left selected: Value = l
-	 * Right selected: Value = m_frameWidth + r - w
+	 * Right selected: Value = r
+	 * 
+	 * To calculate between the two coorindate systems:
+	 * l = m_frameWidth - w - r
+	 * r = m_frameWidth - w - l
 	 * 
 	 */
 	void slotOriginXClicked();
 	/** \brief Same as slotOriginYChanged, but for the Y axis; default is top. 
 	 *  \param originTop Take top border? */
 	void slotOriginYClicked();
+	
+	/** \brief Update coorinates of text fields if necessary and text has changed */
+	void slotChanged();
 	
     void slotZoom(bool up);
     void slotUpdateZoom(int pos);

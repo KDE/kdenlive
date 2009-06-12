@@ -18,6 +18,8 @@
 #include "titlewidget.h"
 #include "kdenlivesettings.h"
 
+#include <iostream>
+
 #include <KDebug>
 #include <KGlobalSettings>
 #include <KFileDialog>
@@ -62,16 +64,12 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     connect(kcolorbutton, SIGNAL(clicked()), this, SLOT(slotChangeBackground())) ;
     // horizontalslider == The alpha of the background
     connect(horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(slotChangeBackground())) ;
-    //connect(ktextedit, SIGNAL(textChanged()), this , SLOT(textChanged()));
-    //connect (fontBold, SIGNAL ( clicked()), this, SLOT( setBold()) ) ;
+	
 
-
-    //ktextedit->setHidden(true);
     connect(fontColorButton, SIGNAL(clicked()), this, SLOT(slotUpdateText())) ;
     connect(font_family, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(slotUpdateText())) ;
     connect(font_size, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText())) ;
     connect(textAlpha, SIGNAL(valueChanged(int)), this, SLOT(slotUpdateText()));
-    //connect (ktextedit, SIGNAL(selectionChanged()), this , SLOT (textChanged()));
 
     connect(rectFAlpha, SIGNAL(valueChanged(int)), this, SLOT(rectChanged()));
     connect(rectBAlpha, SIGNAL(valueChanged(int)), this, SLOT(rectChanged()));
@@ -167,6 +165,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     m_scene = new GraphicsSceneRectMove(this);
     graphicsView->setScene(m_scene);
     m_titledocument.setScene(m_scene);
+	connect(m_scene, SIGNAL(changed(QList<QRectF>)), this, SLOT(slotChanged()));
 
     // a gradient background
     /*QRadialGradient *gradient = new QRadialGradient(0, 0, 10);
@@ -464,7 +463,6 @@ void TitleWidget::selectionChanged()
             text_properties->setHidden(false);
             QGraphicsTextItem* i = static_cast <QGraphicsTextItem *>(l.at(0));
             //if (l[0]->hasFocus())
-            //ktextedit->setHtml(i->toHtml());
             toolBox->setCurrentIndex(0);
             //toolBox->setItemEnabled(2, true);
             font_size->blockSignals(true);
@@ -577,7 +575,9 @@ void TitleWidget::slotAdjustSelectedItem()
 /** \brief Updates the coordinates in the text fields from the item */
 void TitleWidget::updateCoordinates(QGraphicsItem *i) 
 {
+	// Block signals emitted by this method
 	value_x->blockSignals(true);
+	value_y->blockSignals(true);
 	
 	if (i->type() == TEXTITEM) {
 		
@@ -585,8 +585,8 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
 		
 		// Set the correct x coordinate value
 		if (origin_x_left->isChecked()) {
-			// Origin (0 point) is at m_frameWidth
-			value_x->setValue((int) (rec->pos().x() + rec->boundingRect().width() - m_frameWidth)); 
+			// Origin (0 point) is at m_frameWidth, coordinate axis is inverted
+			value_x->setValue((int) (m_frameWidth - rec->pos().x() - rec->boundingRect().width())); 
 		} else {
 			// Origin is at 0 (default)
 			value_x->setValue((int) rec->pos().x());
@@ -594,7 +594,7 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
 		
 		// Same for y
 		if (origin_y_top->isChecked()) {
-			value_y->setValue((int) (rec->pos().y() + rec->boundingRect().height() - m_frameHeight));
+			value_y->setValue((int) (m_frameHeight - rec->pos().y() - rec->boundingRect().height()));
 		} else {
 			value_y->setValue((int) rec->pos().y());
 		}
@@ -605,14 +605,14 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
 		
 		if (origin_x_left->isChecked()) {
 			// Origin (0 point) is at m_frameWidth
-			value_x->setValue((int) (rec->pos().x() + rec->rect().width() - m_frameWidth)); 
+			value_x->setValue((int) (m_frameWidth - rec->pos().x() - rec->rect().width())); 
 		} else {
 			// Origin is at 0 (default)
 			value_x->setValue((int) rec->pos().x());
 		}
 		
 		if (origin_y_top->isChecked()) {
-			value_y->setValue((int) (rec->pos().y() + rec->rect().height() - m_frameHeight));
+			value_y->setValue((int) (m_frameHeight - rec->pos().y() - rec->rect().height()));
 		} else {
 			value_y->setValue((int) rec->pos().y());
 		}
@@ -620,7 +620,9 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
 		
 	}
 	
+	// Stop blocking signals now
 	value_x->blockSignals(false);
+	value_y->blockSignals(false);
 }
 
 /** \brief Updates the position of an item reading coordinates from the text fields */
@@ -629,19 +631,24 @@ void TitleWidget::updatePosition(QGraphicsItem *i) {
 	if (i->type() == TEXTITEM) {
 		QGraphicsTextItem *rec = static_cast <QGraphicsTextItem *>(i);
 		
-		int posX = value_x->value();
+		int posX;
 		if (origin_x_left->isChecked()) {
 			/* Origin of the x axis is at m_frameWidth,
-			 * and distance to right border of the item is taken.
-			 * Add m_frameWidth, subtract object width 
+			 * and distance from right border of the item to the right
+			 * border of the frame is taken.
+			 * See comment to slotOriginXClicked().
 			 */
-			posX += m_frameWidth - rec->boundingRect().width();
+			posX = m_frameWidth - value_x->value() - rec->boundingRect().width();
+		} else {
+			posX = value_x->value();
 		}
 		
-		int posY = value_y->value();
+		int posY;
 		if (origin_y_top->isChecked()) {
 			/* Same for y axis */
-			posY += m_frameHeight - rec->boundingRect().height();
+			posY = m_frameHeight - value_y->value() - rec->boundingRect().height();
+		} else {
+			posY = value_y->value();
 		}
 		
 		rec->setPos(posX, posY);
@@ -649,14 +656,18 @@ void TitleWidget::updatePosition(QGraphicsItem *i) {
 		
 		QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *> (i);
 		
-		int posX = value_x->value();
+		int posX;
 		if (origin_x_left->isChecked()) {
-			posX += m_frameWidth - rec->rect().width();
+			posX = m_frameWidth - value_x->value() - rec->rect().width();
+		} else {
+			posX = value_x->value();
 		}
 		
-		int posY = value_y->value();
+		int posY;
 		if (origin_y_top->isChecked()) {
-			posY += m_frameHeight - rec->rect().height();
+			posY = m_frameHeight - value_y->value() - rec->rect().height();
+		} else {
+			posY = value_y->value();
 		}
 		
 		rec->setPos(posX, posY);
@@ -701,20 +712,24 @@ void TitleWidget::slotChangeBackground()
     m_frameBorder->setBrush(QBrush(color));
 }
 
-void TitleWidget::textChanged()
-{
-	// TODO not yet working
-    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+/**
+ * Something (yeah) has changed in our QGraphicsScene.
+ * If the user has activated origin_x_left (everything also for y),
+ * we need to look whether a text element has been selected. If yes, 
+ * we need to ensure that the right border of the text field 
+ * remains fixed also when some text has been entered.
+ * 
+ * This is also known as right-justified, with the difference that
+ * it is not valid for text but for its boundingRect. Text may still 
+ * be left-justified.
+ */
+void TitleWidget::slotChanged() {
+	QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
 	if (l.size() >= 1 && l.at(0)->type() == TEXTITEM) {
-		if (origin_x_left->isChecked()) {
+		if (origin_x_left->isChecked() || origin_y_top->isChecked()) {
 			updatePosition(l.at(0));
 		}
-		
 	}
-    //if (l.size() == 1 && l.at(0)->type() == TEXTITEM && !l.at(0)->hasFocus()) {
-    //    kDebug() << ktextedit->document()->toHtml();
-    //    ((QGraphicsTextItem*)l[0])->setHtml(ktextedit->toHtml());
-    //}
 }
 
 void TitleWidget::slotUpdateText()
@@ -756,19 +771,6 @@ void TitleWidget::slotUpdateText()
         item->setTextCursor(cur);
 
     }
-    /*else {
-    QTextDocumentFragment selec = item->textCursor().selection ();
-    selec.set
-    }*/
-    //if (ktextedit->textCursor().selectedText().isEmpty()) ktextedit->selectAll();
-
-    //ktextedit->setCurrentFont(font);
-    //ktextedit->setTextColor(color);
-    /*QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    if (l.size() == 1 && (l[0])->type() == 8 && l[0]->hasFocus()) {
-    QGraphicsTextItem* item = static_cast <QGraphicsTextItem*> (l[0]);
-    //item-
-    }*/
 }
 
 void TitleWidget::rectChanged()
@@ -784,14 +786,6 @@ void TitleWidget::rectChanged()
         QColor b = rectBColor->color();
         b.setAlpha(rectBAlpha->value());
         rec->setBrush(QBrush(b));
-    }
-}
-
-void TitleWidget::fontBold()
-{
-    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-    if (l.size() == 1 && l.at(0)->type() == TEXTITEM && !l.at(0)->hasFocus()) {
-        //ktextedit->document()->setTextOption();
     }
 }
 
