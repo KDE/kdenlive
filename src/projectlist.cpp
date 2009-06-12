@@ -257,7 +257,7 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
     ProjectItem *item = getItemById(id);
     if (item) {
         slotUpdateClipProperties(item, properties);
-        if (properties.contains("colour") || properties.contains("resource") || properties.contains("xmldata")) slotRefreshClipThumbnail(item);
+        if (properties.contains("colour") || properties.contains("resource") || properties.contains("xmldata") || properties.contains("force_aspect_ratio")) slotRefreshClipThumbnail(item);
         if (properties.contains("out")) item->changeDuration(properties.value("out").toInt());
     }
 }

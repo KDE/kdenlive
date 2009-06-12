@@ -57,8 +57,8 @@ private:
     QMenu *m_scaleMenu;
     QMenu *m_alignMenu;
     QAction *m_syncAction;
-    QPoint m_frameSize;
     bool m_fixedMode;
+    QPoint m_frameSize;
     void updateTransitionPath();
     Ui::GeometryPosition_UI *m_view;
 

@@ -699,7 +699,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
         resetSelectionGroup();
         setCursor(Qt::ArrowCursor);
         m_scene->clearSelection();
-        event->accept();
+        //event->accept();
         emit clipItemSelected(NULL);
         updateClipTypeActions(NULL);
         if (m_tool == SPACERTOOL) {
@@ -727,6 +727,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             groupSelectedItems(true);
             m_operationMode = SPACER;
         } else setCursorPos((int)(mapToScene(event->x(), 0).x()));
+        QGraphicsView::mousePressEvent(event);
         kDebug() << "END mousePress EVENT ";
         return;
     }
@@ -2958,10 +2959,11 @@ void CustomTrackView::slotUpdateClip(const QString &clipId)
         if (list.at(i)->type() == AVWIDGET) {
             clip = static_cast <ClipItem *>(list.at(i));
             if (clip->clipProducer() == clipId) {
-                clip->refreshClip(true);
                 ItemInfo info = clip->info();
                 info.track = m_document->tracksCount() - clip->track();
                 m_document->renderer()->mltUpdateClip(info, clip->xml(), clip->baseClip()->producer());
+                clip->refreshClip(true);
+                clip->update();
             }
         }
     }
@@ -4566,36 +4568,36 @@ void CustomTrackView::reloadTransitionLumas()
             break;
         }
     }
-  
+
     QList<QGraphicsItem *> itemList = items();
     Transition *transitionitem;
     QDomElement transitionXml;
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == TRANSITIONWIDGET) {
-            transitionitem = static_cast <Transition*> (itemList.at(i));
-	    transitionXml = transitionitem->toXML();
-	    if (transitionXml.attribute("id") == "luma" && transitionXml.attribute("tag") == "luma") {
-		QDomNodeList params = transitionXml.elementsByTagName("parameter");
-		for (int i = 0; i < params.count(); i++) {
-		    QDomElement e = params.item(i).toElement();
-		    if (e.attribute("tag") == "resource") {
-			e.setAttribute("paramlistdisplay", lumaNames);
-			e.setAttribute("paramlist", lumaFiles);
-			break;
-		    }
-		}
-	    }
-	    if (transitionXml.attribute("id") == "composite" && transitionXml.attribute("tag") == "composite") {
-		QDomNodeList params = transitionXml.elementsByTagName("parameter");
-		for (int i = 0; i < params.count(); i++) {
-		    QDomElement e = params.item(i).toElement();
-		    if (e.attribute("tag") == "luma") {
-			e.setAttribute("paramlistdisplay", lumaNames);
-			e.setAttribute("paramlist", lumaFiles);
-			break;
-		    }
-		}
-	    }
+            transitionitem = static_cast <Transition*>(itemList.at(i));
+            transitionXml = transitionitem->toXML();
+            if (transitionXml.attribute("id") == "luma" && transitionXml.attribute("tag") == "luma") {
+                QDomNodeList params = transitionXml.elementsByTagName("parameter");
+                for (int i = 0; i < params.count(); i++) {
+                    QDomElement e = params.item(i).toElement();
+                    if (e.attribute("tag") == "resource") {
+                        e.setAttribute("paramlistdisplay", lumaNames);
+                        e.setAttribute("paramlist", lumaFiles);
+                        break;
+                    }
+                }
+            }
+            if (transitionXml.attribute("id") == "composite" && transitionXml.attribute("tag") == "composite") {
+                QDomNodeList params = transitionXml.elementsByTagName("parameter");
+                for (int i = 0; i < params.count(); i++) {
+                    QDomElement e = params.item(i).toElement();
+                    if (e.attribute("tag") == "luma") {
+                        e.setAttribute("paramlistdisplay", lumaNames);
+                        e.setAttribute("paramlist", lumaFiles);
+                        break;
+                    }
+                }
+            }
         }
     }
     emit transitionItemSelected(NULL);

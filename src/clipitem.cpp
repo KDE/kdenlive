@@ -415,7 +415,7 @@ void ClipItem::refreshClip(bool checkDuration)
         QString colour = m_clip->getProperty("colour");
         colour = colour.replace(0, 2, "#");
         setBrush(QColor(colour.left(7)));
-    } else slotFetchThumbs();
+    } else resetThumbs();
 }
 
 void ClipItem::slotFetchThumbs()
@@ -707,7 +707,7 @@ void ClipItem::paint(QPainter *painter,
         pos = (*it).time() - cropStart();
         if (pos > GenTime()) {
             if (pos > duration()) break;
-            QLineF l(br.x() + pos.frames(m_fps), br.y() + 5, br.x() + pos.frames(m_fps), br.bottom() - 5);
+            QLineF l(br.x() + pos.frames(m_fps), br.y(), br.x() + pos.frames(m_fps), br.bottom());
             QLineF l2 = painter->matrix().map(l);
             //framepos = scale * pos.frames(m_fps);
             //QLineF l(framepos, 5, framepos, itemHeight - 5);

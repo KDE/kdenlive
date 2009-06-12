@@ -233,7 +233,7 @@ KdenliveDoc::~KdenliveDoc()
     delete m_clipManager;
     delete m_autoSaveTimer;
     if (m_autosave) {
-        m_autosave->remove();
+        if (!m_autosave->fileName().isEmpty()) m_autosave->remove();
         delete m_autosave;
     }
 }

@@ -219,6 +219,7 @@ private:   // Private attributes
     void slotCreateAudioTimer();
     void slotRefreshProducer();
     void setProducerProperty(const char *name, int data);
+    void setProducerProperty(const char *name, double data);
     void getFileHash(const QString url);
 
 public slots:

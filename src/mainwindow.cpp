@@ -1527,7 +1527,7 @@ void MainWindow::slotEditProfiles()
 void MainWindow::slotDetectAudioDriver()
 {
     //decide which audio driver is really best, in some cases SDL is wrong
-    if(KdenliveSettings::audiodrivername().isEmpty()) {
+    if (KdenliveSettings::audiodrivername().isEmpty()) {
         QString driver;
         KProcess readProcess;
         //PulseAudio needs to be selected if it exists, the ALSA pulse pcm device is not fast enough.
@@ -1539,7 +1539,7 @@ void MainWindow::slotDetectAudioDriver()
             QString result = QString(readProcess.readAllStandardOutput());
             kDebug() << "// / / / / / READING PACTL: ";
             kDebug() << result;
-            if(!result.isEmpty()) {
+            if (!result.isEmpty()) {
                 driver = "pulse";
                 kDebug() << "// / / / / PULSEAUDIO DETECTED";
             }

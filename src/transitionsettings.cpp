@@ -148,11 +148,10 @@ void TransitionSettings::slotTransitionItemSelected(Transition* t, QPoint p, boo
             slotTransitionChanged(false, false);
             m_ui.transitionList->blockSignals(false);
         }
-    }
-    else {
-	// null transition selected
-	m_usedTransition = NULL;
-	m_effectEdit->transferParamDesc(QDomElement(), 0, 0);
+    } else {
+        // null transition selected
+        m_usedTransition = NULL;
+        m_effectEdit->transferParamDesc(QDomElement(), 0, 0);
     }
 
 }
