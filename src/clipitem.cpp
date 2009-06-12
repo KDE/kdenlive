@@ -309,27 +309,29 @@ void ClipItem::setSelectedEffect(const int ix)
 {
     m_selectedEffect = ix;
     QDomElement effect = effectAt(m_selectedEffect);
-    QDomNodeList params = effect.elementsByTagName("parameter");
-    if (effect.attribute("disabled") != "1")
-        for (int i = 0; i < params.count(); i++) {
-            QDomElement e = params.item(i).toElement();
-            if (!e.isNull() && e.attribute("type") == "keyframe") {
-                m_keyframes.clear();
-                double max = e.attribute("max").toDouble();
-                double min = e.attribute("min").toDouble();
-                m_keyframeFactor = 100.0 / (max - min);
-                m_keyframeDefault = e.attribute("default").toDouble();
-                // parse keyframes
-                const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
-                foreach(const QString &str, keyframes) {
-                    int pos = str.section(':', 0, 0).toInt();
-                    double val = str.section(':', 1, 1).toDouble();
-                    m_keyframes[pos] = val;
+    if (effect.isNull() == false) {
+        QDomNodeList params = effect.elementsByTagName("parameter");
+        if (effect.attribute("disabled") != "1")
+            for (int i = 0; i < params.count(); i++) {
+                QDomElement e = params.item(i).toElement();
+                if (!e.isNull() && e.attribute("type") == "keyframe") {
+                    m_keyframes.clear();
+                    double max = e.attribute("max").toDouble();
+                    double min = e.attribute("min").toDouble();
+                    m_keyframeFactor = 100.0 / (max - min);
+                    m_keyframeDefault = e.attribute("default").toDouble();
+                    // parse keyframes
+                    const QStringList keyframes = e.attribute("keyframes").split(';', QString::SkipEmptyParts);
+                    foreach(const QString &str, keyframes) {
+                        int pos = str.section(':', 0, 0).toInt();
+                        double val = str.section(':', 1, 1).toDouble();
+                        m_keyframes[pos] = val;
+                    }
+                    update();
+                    return;
                 }
-                update();
-                return;
             }
-        }
+    }
     if (!m_keyframes.isEmpty()) {
         m_keyframes.clear();
         update();
@@ -1368,8 +1370,7 @@ EffectsParameterList ClipItem::addEffect(QDomElement effect, bool animate)
         update(r);
     }
     if (m_selectedEffect == -1) {
-        m_selectedEffect = 0;
-        setSelectedEffect(m_selectedEffect);
+        setSelectedEffect(0);
     }
     return parameters;
 }
@@ -1447,6 +1448,13 @@ void ClipItem::deleteEffect(QString index)
         }
     }
     m_effectNames = m_effectList.effectNames().join(" / ");
+    if (m_effectList.isEmpty() || m_selectedEffect - 1 == index.toInt()) {
+        // Current effect was removed
+        if (index.toInt() > m_effectList.count() - 1) {
+            setSelectedEffect(m_effectList.count() - 1);
+        } else setSelectedEffect(index.toInt());
+        return;
+    }
     if (needRepaint) update(boundingRect());
     flashClip();
 }

@@ -1261,7 +1261,7 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
     int count = 0;
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
-            ClipItem *item = (ClipItem *)itemList.at(i);
+            ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
             if (item->hasEffect(effect.attribute("tag"), effect.attribute("id")) != -1 && effect.attribute("unique", "0") != "0") {
                 emit displayMessage(i18n("Effect already present in clip"), ErrorMessage);
                 continue;
@@ -1269,13 +1269,14 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
             if (item->isItemLocked()) {
                 continue;
             }
-            item->initEffect(effect);
+            QDomElement itemEffect = effect.cloneNode().toElement();
+            item->initEffect(itemEffect);
             if (effect.attribute("tag") == "ladspa") {
                 QString ladpsaFile = m_document->getLadspaFile();
                 initEffects::ladspaEffectFile(ladpsaFile, effect.attribute("ladspaid").toInt(), getLadspaParams(effect));
-                effect.setAttribute("src", ladpsaFile);
+                itemEffect.setAttribute("src", ladpsaFile);
             }
-            new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), effect, true, effectCommand);
+            new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), itemEffect, true, effectCommand);
             count++;
         }
     }
