@@ -1248,6 +1248,10 @@ QDomElement ClipItem::effectAt(int ix)
 
 void ClipItem::setEffectAt(int ix, QDomElement effect)
 {
+    if (ix < 0 || ix > (m_effectList.count() - 1)) {
+        kDebug() << "Invalid effect index: " << ix;
+        return;
+    }
     kDebug() << "CHange EFFECT AT: " << ix << ", CURR: " << m_effectList.at(ix).attribute("tag") << ", NEW: " << effect.attribute("tag");
     effect.setAttribute("kdenlive_ix", ix + 1);
     m_effectList.insert(ix, effect);
