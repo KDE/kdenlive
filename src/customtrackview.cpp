@@ -1262,6 +1262,14 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = static_cast <ClipItem *>(itemList.at(i));
+            if (effect.attribute("type") == "audio") {
+                // Don't add audio effects on video clips
+                if (item->isVideoOnly() || (item->clipType() != AUDIO && item->clipType() != AV && item->clipType() != PLAYLIST)) continue;
+            } else if (effect.hasAttribute("type") == false) {
+                // Don't add video effect on audio clips
+                if (item->isAudioOnly() || item->clipType() == AUDIO) continue;
+            }
+
             if (item->hasEffect(effect.attribute("tag"), effect.attribute("id")) != -1 && effect.attribute("unique", "0") != "0") {
                 emit displayMessage(i18n("Effect already present in clip"), ErrorMessage);
                 continue;
@@ -1305,6 +1313,13 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             ClipItem *item = (ClipItem *)itemList.at(i);
+            if (effect.attribute("type") == "audio") {
+                // Don't add audio effects on video clips
+                if (item->isVideoOnly() || (item->clipType() != AUDIO && item->clipType() != AV && item->clipType() != PLAYLIST)) continue;
+            } else if (effect.hasAttribute("type") == false) {
+                // Don't add video effect on audio clips
+                if (item->isAudioOnly() || item->clipType() == AUDIO) continue;
+            }
             if (item->hasEffect(effect.attribute("tag"), effect.attribute("id")) != -1 && effect.attribute("unique", "0") != "0") {
                 emit displayMessage(i18n("Effect already present in clip"), ErrorMessage);
                 continue;

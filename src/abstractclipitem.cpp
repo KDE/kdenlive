@@ -255,7 +255,8 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
     double y2;
 
     // draw line showing default value
-    if (isSelected()) {
+    bool active = isSelected() || (parentItem() && parentItem()->isSelected());
+    if (active) {
         x1 = br.x();
         x2 = br.right();
         y1 = br.bottom() - m_keyframeDefault * maxh;
@@ -285,13 +286,13 @@ void AbstractClipItem::drawKeyFrames(QPainter *painter, QRectF /*exposedRect*/)
         QLineF l(x1, y1, x2, y2);
         l2 = painter->matrix().map(l);
         painter->drawLine(l2);
-        if (isSelected()) {
+        if (active) {
             painter->fillRect(l2.x1() - 3, l2.y1() - 3, 6, 6, QBrush(color));
         }
         x1 = x2;
         y1 = y2;
     }
-    if (isSelected()) painter->fillRect(l2.x2() - 3, l2.y2() - 3, 6, 6, QBrush(color));
+    if (active) painter->fillRect(l2.x2() - 3, l2.y2() - 3, 6, 6, QBrush(color));
 }
 
 int AbstractClipItem::mouseOverKeyFrames(QPointF pos)

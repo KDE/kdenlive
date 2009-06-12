@@ -851,7 +851,7 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
 {
     if (isItemLocked()) return NONE;
 
-    if (isSelected()) {
+    if (isSelected() || (parentItem() && parentItem()->isSelected())) {
         m_editedKeyframe = mouseOverKeyFrames(pos);
         if (m_editedKeyframe != -1) return KEYFRAME;
     }
