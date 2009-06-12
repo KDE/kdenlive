@@ -27,7 +27,7 @@ AddEffectCommand::AddEffectCommand(CustomTrackView *view, const int track, GenTi
         QUndoCommand(parent),
         m_view(view),
         m_track(track),
-        m_effect(effect),
+        m_effect(effect.cloneNode().toElement()),
         m_pos(pos),
         m_doIt(doIt)
 {

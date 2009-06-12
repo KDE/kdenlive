@@ -1269,14 +1269,13 @@ void CustomTrackView::slotAddGroupEffect(QDomElement effect, AbstractGroupItem *
             if (item->isItemLocked()) {
                 continue;
             }
-            QDomElement itemEffect = effect.cloneNode().toElement();
-            item->initEffect(itemEffect);
+            item->initEffect(effect);
             if (effect.attribute("tag") == "ladspa") {
                 QString ladpsaFile = m_document->getLadspaFile();
                 initEffects::ladspaEffectFile(ladpsaFile, effect.attribute("ladspaid").toInt(), getLadspaParams(effect));
-                itemEffect.setAttribute("src", ladpsaFile);
+                effect.setAttribute("src", ladpsaFile);
             }
-            new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), itemEffect, true, effectCommand);
+            new AddEffectCommand(this, m_document->tracksCount() - item->track(), item->startPos(), effect, true, effectCommand);
             count++;
         }
     }
