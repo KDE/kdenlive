@@ -99,6 +99,12 @@ private:
 	void updateCoordinates(QGraphicsItem *i);
 	/** \brief Update the item's position */
 	void updatePosition(QGraphicsItem *i);
+	
+	void textChanged(QGraphicsTextItem *i);
+	void updateAxisButtons(QGraphicsItem *i);
+	
+	void updateTextOriginX();
+	void updateTextOriginY();
 
 public slots:
     void slotNewText(QGraphicsTextItem *tt);

@@ -18,8 +18,6 @@
 #include "titlewidget.h"
 #include "kdenlivesettings.h"
 
-#include <iostream>
-
 #include <KDebug>
 #include <KGlobalSettings>
 #include <KFileDialog>
@@ -457,7 +455,18 @@ void TitleWidget::selectionChanged()
     value_h->blockSignals(true);
     itemzoom->blockSignals(true);
     itemrotate->blockSignals(true);
-    if (l.size() == 1) {
+    if (l.size() == 0) {
+		bool blockX = !origin_x_left->signalsBlocked();
+		bool blockY = !origin_y_top->signalsBlocked();
+		if (blockX) origin_x_left->blockSignals(true);
+		if (blockY) origin_y_top->blockSignals(true);
+		origin_x_left->setChecked(false);
+		origin_y_top->setChecked(false);
+		updateTextOriginX();
+		updateTextOriginY();
+		if (blockX) origin_x_left->blockSignals(false);
+		if (blockY) origin_y_top->blockSignals(false);
+	} else if (l.size() == 1) {
         if (l.at(0)->type() == TEXTITEM) {
             rect_properties->setHidden(true);
             text_properties->setHidden(false);
@@ -507,12 +516,14 @@ void TitleWidget::selectionChanged()
             buttonAlignNone->blockSignals(false);
             buttonAlignCenter->blockSignals(false);
 
+			updateAxisButtons(i);
 			updateCoordinates(i);
             value_w->setValue((int) i->boundingRect().width());
             value_h->setValue((int) i->boundingRect().height());
             frame_properties->setEnabled(true);
             value_w->setEnabled(false);
             value_h->setEnabled(false);
+			
         } else if ((l.at(0))->type() == RECTITEM) {
             rect_properties->setHidden(false);
             text_properties->setHidden(true);
@@ -532,6 +543,7 @@ void TitleWidget::selectionChanged()
             settingUp = false;
             rectLineWidth->setValue(rec->pen().width());
 			
+			updateAxisButtons(l.at(0));
 			updateCoordinates(rec);
             value_w->setValue((int) rec->rect().width());
             value_h->setValue((int) rec->rect().height());
@@ -555,7 +567,7 @@ void TitleWidget::selectionChanged()
 }
 
 /** \brief Updates position/size of the selected item when a value
- * of a text field (coordinates, size) has changed */
+ * of an item (coordinates, size) has changed */
 void TitleWidget::slotAdjustSelectedItem()
 {
     QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
@@ -575,9 +587,13 @@ void TitleWidget::slotAdjustSelectedItem()
 /** \brief Updates the coordinates in the text fields from the item */
 void TitleWidget::updateCoordinates(QGraphicsItem *i) 
 {
+	
+	bool blockX = !value_x->signalsBlocked();
+	bool blockY = !value_y->signalsBlocked();
+	
 	// Block signals emitted by this method
-	value_x->blockSignals(true);
-	value_y->blockSignals(true);
+	if (blockX) value_x->blockSignals(true);
+	if (blockY) value_y->blockSignals(true);
 	
 	if (i->type() == TEXTITEM) {
 		
@@ -621,11 +637,11 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
 	}
 	
 	// Stop blocking signals now
-	value_x->blockSignals(false);
-	value_y->blockSignals(false);
+	if (!blockX) value_x->blockSignals(false);
+	if (!blockY) value_y->blockSignals(false);
 }
 
-/** \brief Updates the position of an item reading coordinates from the text fields */
+/** \brief Updates the position of an item by reading coordinates from the text fields */
 void TitleWidget::updatePosition(QGraphicsItem *i) {
 	
 	if (i->type() == TEXTITEM) {
@@ -642,7 +658,7 @@ void TitleWidget::updatePosition(QGraphicsItem *i) {
 		} else {
 			posX = value_x->value();
 		}
-		
+	
 		int posY;
 		if (origin_y_top->isChecked()) {
 			/* Same for y axis */
@@ -675,34 +691,77 @@ void TitleWidget::updatePosition(QGraphicsItem *i) {
 	
 }
 
-void TitleWidget::slotOriginXClicked()
+void TitleWidget::updateTextOriginX() 
 {
-	// Update the text displayed on the button.
 	if (origin_x_left->isChecked()) {
 		origin_x_left->setText(i18n("\u2212X"));
 	} else {
 		origin_x_left->setText(i18n("+X"));
 	}
+}
+
+void TitleWidget::slotOriginXClicked()
+{
+	// Update the text displayed on the button.
+	updateTextOriginX();
 	
 	QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
 	if (l.size() >= 1) {
 		updateCoordinates(l.at(0));
+		
+		// Remember x axis setting
+		l.at(0)->setData(TitleDocument::OriginXLeft, origin_x_left->isChecked()? 
+			TitleDocument::AxisInverted : TitleDocument::AxisDefault);
+	}
+}
+
+void TitleWidget::updateTextOriginY()
+{
+	if (origin_y_top->isChecked()) {
+		origin_y_top->setText(i18n("\u2212Y"));
+	} else {
+		origin_y_top->setText(i18n("+Y"));
 	}
 }
 
 void TitleWidget::slotOriginYClicked()
 {
 	// Update the text displayed on the button.
-	if (origin_y_top->isChecked()) {
-		origin_y_top->setText(i18n("\u2212Y"));
-	} else {
-		origin_y_top->setText(i18n("+Y"));
-	}
+	updateTextOriginY();
 	
 	QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
 	if (l.size() >= 1) {
 		updateCoordinates(l.at(0));
+		
+		l.at(0)->setData(TitleDocument::OriginYTop, origin_y_top->isChecked()? 
+			TitleDocument::AxisInverted : TitleDocument::AxisDefault);
+			
 	}
+}
+
+void TitleWidget::updateAxisButtons(QGraphicsItem *i) 
+{
+	int xAxis = i->data(TitleDocument::OriginXLeft).toInt();
+	int yAxis = i->data(TitleDocument::OriginYTop).toInt();
+	origin_x_left->blockSignals(true);
+	origin_y_top->blockSignals(true);
+	
+	if (xAxis == TitleDocument::AxisInverted) {
+		origin_x_left->setChecked(true);
+	} else {
+		origin_x_left->setChecked(false);
+	}
+	updateTextOriginX();
+	
+	if (yAxis == TitleDocument::AxisInverted) {
+		origin_y_top->setChecked(true);
+	} else {
+		origin_y_top->setChecked(false);
+	}
+	updateTextOriginY();
+	
+	origin_x_left->blockSignals(false);
+	origin_y_top->blockSignals(false);
 }
 
 void TitleWidget::slotChangeBackground()
@@ -714,7 +773,16 @@ void TitleWidget::slotChangeBackground()
 
 /**
  * Something (yeah) has changed in our QGraphicsScene.
- * If the user has activated origin_x_left (everything also for y),
+ */
+void TitleWidget::slotChanged() {
+	QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+	if (l.size() >= 1 && l.at(0)->type() == TEXTITEM) {
+		textChanged(static_cast <QGraphicsTextItem *> (l.at(0)));
+	}
+}
+
+/**
+ * If the user has set origin_x_left (everything also for y),
  * we need to look whether a text element has been selected. If yes, 
  * we need to ensure that the right border of the text field 
  * remains fixed also when some text has been entered.
@@ -723,11 +791,17 @@ void TitleWidget::slotChangeBackground()
  * it is not valid for text but for its boundingRect. Text may still 
  * be left-justified.
  */
-void TitleWidget::slotChanged() {
-	QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-	if (l.size() >= 1 && l.at(0)->type() == TEXTITEM) {
-		if (origin_x_left->isChecked() || origin_y_top->isChecked()) {
-			updatePosition(l.at(0));
+void TitleWidget::textChanged(QGraphicsTextItem *i) {
+	if (origin_x_left->isChecked() || origin_y_top->isChecked()) {
+
+		if (!i->toPlainText().isEmpty()) {
+			updatePosition(i);
+		} else {
+			/*
+			 * Don't do anything if the string is empty. If the position
+			 * would be updated here, a newly created text field would 
+			 * be set to the position of the last selected text field.
+			 */
 		}
 	}
 }
