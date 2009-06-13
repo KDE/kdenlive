@@ -380,7 +380,10 @@ MainWindow::MainWindow(const QString &MltPath, const KUrl & Url, QWidget *parent
 void MainWindow::queryQuit()
 {
     kDebug() << "----- SAVING CONFUIG";
-    if (queryClose()) kapp->quit();
+    if (queryClose()) {
+        Mlt::Factory::close();
+        kapp->quit();
+    }
 }
 
 //virtual
