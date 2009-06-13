@@ -25,13 +25,11 @@
 
 #include <kio/thumbcreator.h>
 
+#include <mlt++/Mlt.h>
+
 #include <qstring.h>
 #include <qstringlist.h>
 #include <qobject.h>
-
-class QProcess;
-class KTempDir;
-class KRandomSequence;
 
 class MltPreview : public QObject, public ThumbCreator
 {
@@ -43,21 +41,8 @@ public:
     virtual Flags flags() const;
 
 protected:
-    QImage getFrame(const QString &path);
     static uint imageVariance(QImage image);
-
-private:
-    QProcess *m_meltProcess;
-    KRandomSequence *m_rand;
-    QString m_playerBin;
-    bool startAndWaitProcess(const QStringList &args);
-    enum frameflags { framerandom = 0x1, framestart = 0x2, frameend = 0x4 };
-    struct {
-        int towidth;
-        int toheight;
-        int fps;
-        int seconds;
-    } fileinfo;
+    QImage getFrame(Mlt::Producer* producer, int framepos, int width, int height);
 };
 
 #endif

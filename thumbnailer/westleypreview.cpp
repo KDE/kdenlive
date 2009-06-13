@@ -27,7 +27,7 @@
 #include <kstandarddirs.h>
 #include <krandomsequence.h>
 #include <qdatetime.h>
-#include <QProcess>
+#include <QColor>
 #include <kdebug.h>
 #include <ktempdir.h>
 #include <kurl.h>
@@ -49,122 +49,87 @@ extern "C"
 
 MltPreview::MltPreview() :
         QObject(),
-        ThumbCreator(),
-        m_meltProcess(0),
-        m_rand(0)
+        ThumbCreator()
 {
+    Mlt::Factory::init();
 }
 
 MltPreview::~MltPreview()
 {
-    delete m_rand;
-    delete m_meltProcess;
+    Mlt::Factory::close();
 }
 
-bool MltPreview::startAndWaitProcess(const QStringList &args)
+
+bool MltPreview::create(const QString &path, int width, int height, QImage &img)
 {
-    kDebug(DBG_AREA) << "MltPreview: starting process with args: " << args << endl;
-    m_meltProcess->start(args.join(" "));
-    if (! m_meltProcess->waitForStarted()) {
-        kDebug(DBG_AREA) << "MltPreview: PROCESS NOT STARTED!!! exiting\n";
+    Mlt::Profile *profile = new Mlt::Profile("dv_pal");
+    char *tmp = (char *) qstrdup(path.toUtf8().data());
+    Mlt::Producer *producer = new Mlt::Producer(*profile, tmp);
+    delete[] tmp;
+
+
+    if (producer->is_blank()) {
+        delete producer;
         return false;
     }
-    if (! m_meltProcess->waitForFinished()) {
-        kDebug(DBG_AREA) << "MltPreview: PROCESS DIDN'T FINISH!! exiting\n";
-        m_meltProcess->close();
-        return false;
+    int frame = 75;
+    uint variance = 10;
+    int ct = 1;
+
+    //img = getFrame(producer, frame, width, height);
+
+    while (variance <= 40 && ct < 4) {
+        img = getFrame(producer, frame, width, height);
+        variance = imageVariance(img);
+        frame += 100 * ct;
+        ct++;
     }
-    kDebug() << "MltPreview: process started and ended correctly\n";
-    return true;
+
+    delete producer;
+    delete profile;
+    return (img.isNull() == false);
 }
 
-bool MltPreview::create(const QString &path, int width, int /*height*/, QImage &img)
+QImage MltPreview::getFrame(Mlt::Producer *producer, int framepos, int width, int height)
 {
-    QFileInfo fi(path);
-    m_playerBin = KStandardDirs::findExe("melt");
-    if (m_playerBin.isEmpty()) {
-        kDebug(DBG_AREA) << "MltPreview: melt not found, exiting.\n";
-        return false;
+    QImage result;
+    if (producer == NULL) {
+        return result;
     }
 
-    fileinfo.seconds = 0;
-    fileinfo.fps = 0;
-
-    m_rand = new KRandomSequence(QDateTime::currentDateTime().toTime_t());
-    m_meltProcess = new QProcess();
-    KUrl furl(path);
-    kDebug(DBG_AREA) << "videopreview: url=" << furl << "; local:" << furl.isLocalFile() << endl;
-    fileinfo.towidth = width;
-    fileinfo.toheight = width * 3 / 4;
-    QImage pix;
-//    if(furl.isLocalFile())
-//    {
-    QStringList args;
-    //TODO: modify melt so that it can return some infos about a MLT XML clip (duration, track number,fps,...)
-    // without actually playing the file
-    /*
-        args << playerBin << QString("\"" + path + "\"") << "-file-info";
-
-        kDebug(DBG_AREA) << "videopreview: starting process: --_" << " " << args.join(" ") << "_--\n";
-        if (! startAndWaitProcess(args) ) return NULL;
-
-        QString information=QString(meltProcess->readAllStandardOutput() );
-        QRegExp findInfos("ID_VIDEO_FPS=([\\d]*).*ID_LENGTH=([\\d]*).*");
-        if(findInfos.indexIn( information) == -1 )
-        {
-            kDebug(DBG_AREA) << "videopreview: No information found, exiting\n";
-            return NULL;
-        }
-        fileinfo.seconds =findInfos.cap(2).toInt();
-        fileinfo.fps=findInfos.cap(1).toInt();
-        */
-    fileinfo.seconds = 250;
-    fileinfo.fps = 25;
-
-    const int LASTTRY = 3;
-    for (int i = 0; i <= LASTTRY; i++) {
-        pix = getFrame(path);
-        if (!pix.isNull()) {
-            uint variance = imageVariance(pix);
-            kDebug(DBG_AREA) << "videopreview: " << QFileInfo(path).fileName() << " frame variance: " << variance << "; " <<
-            ((variance <= 40 && (i != LASTTRY - 1)) ? "!!!DROPPING!!!" : "GOOD :-)") << endl;
-            if (variance > 40 || i == LASTTRY - 1) break;
-        }
-    }
-    if (pix.isNull()) {
-        return false;
+    producer->seek(framepos);
+    Mlt::Frame *frame = producer->get_frame();
+    if (frame == NULL) {
+        return result;
     }
 
-    if (pix.depth() != 32)
-        img = pix.convertToFormat(QImage::Format_RGB32);
-    else img = pix;
-    return true;
-}
+    mlt_image_format format = mlt_image_yuv422;
+    int frame_width = 0;
+    int frame_height = 0;
+    height = 200;
+    double ar = frame->get_double("aspect_ratio");
+    if (ar == 0.0) ar = 1.33;
+    int calculated_width = (int)((double) height * ar);
+    frame->set("normalised_width", calculated_width);
+    frame->set("normalised_height", height);
+    uint8_t *data = frame->get_image(format, frame_width, frame_height, 0);
+    uint8_t *new_image = (uint8_t *)mlt_pool_alloc(frame_width * (frame_height + 1) * 4);
+    mlt_convert_yuv422_to_rgb24a((uint8_t *)data, new_image, frame_width * frame_height);
+    QImage image((uchar *)new_image, frame_width, frame_height, QImage::Format_ARGB32);
 
-QImage MltPreview::getFrame(const QString &path)
-{
-    QStringList args;
-    const int START = 25;
-    const int RANGE = 500;
-    args.clear();
-    args << m_playerBin << "\"" + path + "\"";
+    if (!image.isNull()) {
+        result = image.rgbSwapped().convertToFormat(QImage::Format_RGB32);
+    }
 
-    unsigned long start = (unsigned long)(START + (m_rand->getDouble() * RANGE));
-    args << QString("in=%1").arg(start) << QString("out=%1").arg(start) << "-consumer";
-
-    KTemporaryFile temp;
-    temp.setSuffix(".png");
-    temp.open();
-    args << QString("avformat:%1").arg(temp.fileName()) << "vframes=1" << "f=rawvideo" << "vcodec=png" << QString("s=%1x%2").arg(fileinfo.towidth).arg(fileinfo.toheight);
-    if (! startAndWaitProcess(args)) return QImage();
-    QImage retpix(temp.fileName());
-    temp.close();
-    return retpix;
+    mlt_pool_release(new_image);
+    delete frame;
+    return result;
 }
 
 
 uint MltPreview::imageVariance(QImage image)
 {
+    if (image.isNull()) return 0;
     uint delta = 0;
     uint avg = 0;
     uint bytes = image.numBytes();
@@ -191,6 +156,4 @@ ThumbCreator::Flags MltPreview::flags() const
     return None;
 }
 
-
-#include "westleypreview.moc"
 
