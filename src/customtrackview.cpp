@@ -4547,6 +4547,7 @@ void CustomTrackView::doChangeClipType(const GenTime &pos, int track, bool video
         m_document->renderer()->mltUpdateClipProducer(m_document->tracksCount() - track, start, clip->baseClip()->producer(track));
     }
     clip->update();
+    m_document->setModified(true);
 }
 
 void CustomTrackView::updateClipTypeActions(ClipItem *clip)
