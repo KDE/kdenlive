@@ -46,7 +46,7 @@
 
 const double DOCUMENTVERSION = 0.83;
 
-KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QPoint tracks, Render *render, MainWindow *parent) :
+KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup *undoGroup, QString profileName, const QPoint tracks, Render *render, MainWindow *parent) :
         QObject(parent),
         m_autosave(NULL),
         m_url(url),
@@ -97,7 +97,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                         QDomElement infoXml = infoXmlNode.toElement();
                         QDomNode mlt = m_document.elementsByTagName("mlt").at(0);
 
-                        QString profilePath = infoXml.attribute("profile");
+                        profileName = infoXml.attribute("profile");
                         m_projectFolder = infoXml.attribute("projectfolder");
 
                         m_startPos = infoXml.attribute("position").toInt();
