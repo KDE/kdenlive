@@ -646,7 +646,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
             m_dragItem = static_cast <AbstractClipItem *>(collisionList.at(ct));
             m_dragItemInfo = m_dragItem->info();
             if (m_dragItem->parentItem() && m_dragItem->parentItem()->type() == GROUPWIDGET && m_dragItem->parentItem() != m_selectionGroup) {
-                //kDebug()<<"// KLIK FOUND GRP: "<<m_dragItem->sceneBoundingRect();
+                // kDebug()<<"// KLIK FOUND GRP: "<<m_dragItem->sceneBoundingRect();
                 dragGroup = static_cast <AbstractGroupItem *>(m_dragItem->parentItem());
             }
             break;
@@ -807,7 +807,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
     }
 
     // If clicked item is selected, allow move
-    if (event->modifiers() != Qt::ControlModifier && m_operationMode == NONE && (m_dragItem->isSelected() || (dragGroup && dragGroup->isSelected()))) QGraphicsView::mousePressEvent(event);
+    if (event->modifiers() != Qt::ControlModifier && m_operationMode == NONE/* && (m_dragItem->isSelected() || (dragGroup && dragGroup->isSelected()))*/) QGraphicsView::mousePressEvent(event);
 
     m_clickPoint = QPoint((int)(mapToScene(event->pos()).x() - m_dragItem->startPos().frames(m_document->fps())), (int)(event->pos().y() - m_dragItem->pos().y()));
     m_operationMode = m_dragItem->operationMode(mapToScene(event->pos()));
