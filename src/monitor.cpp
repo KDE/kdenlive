@@ -47,6 +47,8 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
         m_name(name),
         m_isActive(false),
         m_currentClip(NULL),
+        m_length(0),
+        m_position(-1),
         m_dragStarted(false),
         m_overlay(NULL)
 {
@@ -130,7 +132,6 @@ Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
     connect(render, SIGNAL(rendererStopped(int)), this, SLOT(rendererStopped(int)));
 
     //render->createVideoXWindow(m_ui.video_frame->winId(), -1);
-    m_length = 0;
 
     if (name != "clip") {
         connect(render, SIGNAL(rendererPosition(int)), this, SIGNAL(renderPosition(int)));
@@ -456,10 +457,8 @@ void Monitor::slotSeek(int pos)
     activateMonitor();
     if (render == NULL) return;
     m_position = pos;
-    checkOverlay();
     render->seekToFrame(pos);
     emit renderPosition(m_position);
-    m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 
 void Monitor::checkOverlay()
@@ -484,7 +483,6 @@ void Monitor::slotStart()
     m_position = 0;
     render->seekToFrame(m_position);
     emit renderPosition(m_position);
-    m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 
 void Monitor::slotEnd()
@@ -494,7 +492,6 @@ void Monitor::slotEnd()
     m_position = render->getLength();
     render->seekToFrame(m_position);
     emit renderPosition(m_position);
-    m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 
 void Monitor::slotZoneStart()
@@ -504,7 +501,6 @@ void Monitor::slotZoneStart()
     m_position = m_ruler->zone().x();
     render->seekToFrame(m_position);
     emit renderPosition(m_position);
-    m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 
 void Monitor::slotZoneEnd()
@@ -514,7 +510,6 @@ void Monitor::slotZoneEnd()
     m_position = m_ruler->zone().y();
     render->seekToFrame(m_position);
     emit renderPosition(m_position);
-    m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
 }
 
 void Monitor::slotRewind(double speed)
@@ -553,9 +548,7 @@ void Monitor::slotRewindOneFrame(int diff)
     int position = m_position - diff;
     m_position = qMax(position, 0);
     render->seekToFrame(m_position);
-    emit renderPosition(m_position);
-    m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
-    checkOverlay();
+    emit renderPosition(m_position)
 }
 
 void Monitor::slotForwardOneFrame(int diff)
@@ -567,8 +560,6 @@ void Monitor::slotForwardOneFrame(int diff)
     m_position = qMin(m_position, m_length);
     render->seekToFrame(m_position);
     emit renderPosition(m_position);
-    m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(m_position));
-    checkOverlay();
 }
 
 void Monitor::seekCursor(int pos)
@@ -585,7 +576,7 @@ void Monitor::rendererStopped(int pos)
     //int rulerPos = (int)(pos * m_scale);
     m_ruler->slotNewValue(pos);
     m_position = pos;
-    //checkOverlay();
+    checkOverlay();
     m_timePos->setText(m_monitorManager->timecode().getTimecodeFromFrames(pos));
     m_playAction->setChecked(false);
     m_playAction->setIcon(m_playIcon);

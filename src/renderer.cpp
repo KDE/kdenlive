@@ -866,14 +866,15 @@ void Render::setSceneList(QString playlist, int position)
     }*/
 
     m_fps = m_mltProducer->get_fps();
+    if (position != 0) {
+        // Seek to correct place after opening project.
+        m_mltProducer->seek(position);
+    }
+
     kDebug() << "// NEW SCENE LIST DURATION SET TO: " << m_mltProducer->get_playtime();
     connectPlaylist();
     fillSlowMotionProducers();
-    if (position != 0) {
-        //TODO: seek to correct place after opening project.
-        //  Needs to be done from another place since it crashes here.
-        m_mltProducer->seek(position);
-    }
+
     m_isBlocked = false;
     blockSignals(false);
     emit refreshDocumentProducers();
