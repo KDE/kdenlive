@@ -416,9 +416,13 @@ void DocClipBase::deleteProducers()
     m_videoOnlyProducer = NULL;
 }
 
-void DocClipBase::setProducer(Mlt::Producer *producer)
+void DocClipBase::setProducer(Mlt::Producer *producer, bool reset)
 {
     if (producer == NULL) return;
+    if (reset) {
+        // Clear all previous producers
+        deleteProducers();
+    }
     QString id = producer->get("id");
     if (id.contains('_')) {
         // this is a subtrack producer, insert it at correct place
@@ -450,7 +454,7 @@ void DocClipBase::setProducer(Mlt::Producer *producer)
     }
     //m_clipProducer = producer;
     //m_clipProducer->set("transparency", m_properties.value("transparency").toInt());
-    if (m_thumbProd && !m_thumbProd->hasProducer()) m_thumbProd->setProducer(producer);
+    if (m_thumbProd && (reset || !m_thumbProd->hasProducer())) m_thumbProd->setProducer(producer);
 }
 
 Mlt::Producer *DocClipBase::audioProducer(int track)

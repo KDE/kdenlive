@@ -210,7 +210,7 @@ void ProjectList::slotReloadClip()
         if (item->clipType() == IMAGE) {
             item->referencedClip()->producer()->set("force_reload", 1);
         }
-        emit getFileProperties(item->toXml(), item->clipId(), false);
+        emit getFileProperties(item->toXml(), item->clipId(), true);
     }
 }
 
@@ -520,7 +520,7 @@ void ProjectList::slotProcessNextClipInQueue()
         const QDomElement dom = i.value();
         const QString id = i.key();
         m_infoQueue.remove(i.key());
-        emit getFileProperties(dom, id, true);
+        emit getFileProperties(dom, id, false);
     }
     if (m_infoQueue.isEmpty()) m_listView->setEnabled(true);
 }
@@ -833,12 +833,18 @@ void ProjectList::slotReplyGetFileProperties(const QString &clipId, Mlt::Produce
         m_listView->blockSignals(true);
         item->setProperties(properties, metadata);
         Q_ASSERT_X(item->referencedClip(), "void ProjectList::slotReplyGetFileProperties", QString("Item with groupName %1 does not have a clip associated").arg(item->groupName()).toLatin1());
-        if (replace) item->referencedClip()->setProducer(producer);
-        else {
+        item->referencedClip()->setProducer(producer, replace);
+        emit receivedClipDuration(clipId);
+        if (replace) {
+            // update clip in clip monitor
+            emit clipSelected(NULL);
+            emit clipSelected(item->referencedClip());
+        }
+        /*else {
             // Check if duration changed.
             emit receivedClipDuration(clipId);
             delete producer;
-        }
+        }*/
         m_listView->blockSignals(false);
     } else kDebug() << "////////  COULD NOT FIND CLIP TO UPDATE PRPS...";
     if (!m_infoQueue.isEmpty()) QTimer::singleShot(300, this, SLOT(slotProcessNextClipInQueue()));
