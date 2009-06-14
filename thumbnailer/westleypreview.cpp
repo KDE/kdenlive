@@ -90,7 +90,7 @@ bool MltPreview::create(const QString &path, int width, int height, QImage &img)
     return (img.isNull() == false);
 }
 
-QImage MltPreview::getFrame(Mlt::Producer *producer, int framepos, int width, int height)
+QImage MltPreview::getFrame(Mlt::Producer *producer, int framepos, int /*width*/, int height)
 {
     QImage result;
     if (producer == NULL) {
