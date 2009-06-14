@@ -548,7 +548,7 @@ void Monitor::slotRewindOneFrame(int diff)
     int position = m_position - diff;
     m_position = qMax(position, 0);
     render->seekToFrame(m_position);
-    emit renderPosition(m_position)
+    emit renderPosition(m_position);
 }
 
 void Monitor::slotForwardOneFrame(int diff)
