@@ -121,6 +121,17 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     buttonAlignRight->setToolTip(i18n("Align right"));
     buttonAlignLeft->setToolTip(i18n("Align left"));
     buttonAlignCenter->setToolTip(i18n("Align center"));
+	origin_x_left->setToolTip(i18n("Invert x axis and change 0 point"));
+	origin_y_top->setToolTip(i18n("Invert y axis and change 0 point"));
+	rectBColor->setToolTip(i18n("Select fill color"));
+	rectFColor->setToolTip(i18n("Select border color"));
+	rectBAlpha->setToolTip(i18n("Fill transparency"));
+	rectFAlpha->setToolTip(i18n("Border transparency"));
+	zoom_slider->setToolTip(i18n("Zoom"));
+	buttonRealSize->setToolTip(i18n("Original size (1:1)"));
+	buttonFitZoom->setToolTip(i18n("Fit zoom"));
+	kcolorbutton->setToolTip(i18n("Select background color"));
+	horizontalSlider->setToolTip(i18n("Background Transparency"));
 
     itemhcenter->setIcon(KIcon("kdenlive-align-hor"));
     itemhcenter->setToolTip(i18n("Align item horizontally"));
@@ -132,28 +143,34 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     layout->setContentsMargins(2, 2, 2, 2);
     QToolBar *m_toolbar = new QToolBar("titleToolBar", this);
 
-    m_buttonRect = m_toolbar->addAction(KIcon("kdenlive-insert-rect"), i18n("Add Rectangle"));
+    m_buttonRect = m_toolbar->addAction(KIcon("kdenlive-insert-rect"), i18n("Add Rectangle (Alt+R)"));
     m_buttonRect->setCheckable(true);
+	m_buttonRect->setShortcut(Qt::ALT + Qt::Key_R);
     connect(m_buttonRect, SIGNAL(triggered()), this, SLOT(slotRectTool()));
 
-    m_buttonText = m_toolbar->addAction(KIcon("insert-text"), i18n("Add Text"));
+    m_buttonText = m_toolbar->addAction(KIcon("insert-text"), i18n("Add Text (Alt+T)"));
     m_buttonText->setCheckable(true);
+	m_buttonText->setShortcut(Qt::ALT + Qt::Key_T);
     connect(m_buttonText, SIGNAL(triggered()), this, SLOT(slotTextTool()));
 
-    m_buttonImage = m_toolbar->addAction(KIcon("insert-image"), i18n("Add Image"));
+    m_buttonImage = m_toolbar->addAction(KIcon("insert-image"), i18n("Add Image (Alt+I)"));
     m_buttonImage->setCheckable(false);
+	m_buttonImage->setShortcut(Qt::ALT + Qt::Key_I);
     connect(m_buttonImage, SIGNAL(triggered()), this, SLOT(slotImageTool()));
 
-    m_buttonCursor = m_toolbar->addAction(KIcon("transform-move"), i18n("Selection Tool"));
+    m_buttonCursor = m_toolbar->addAction(KIcon("transform-move"), i18n("Selection Tool (Alt+S)"));
     m_buttonCursor->setCheckable(true);
+	m_buttonCursor->setShortcut(Qt::ALT + Qt::Key_S);
     connect(m_buttonCursor, SIGNAL(triggered()), this, SLOT(slotSelectTool()));
 
     m_buttonLoad = m_toolbar->addAction(KIcon("document-open"), i18n("Open Document"));
     m_buttonLoad->setCheckable(false);
+	m_buttonLoad->setShortcut(Qt::CTRL + Qt::Key_O);
     connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));
 
     m_buttonSave = m_toolbar->addAction(KIcon("document-save-as"), i18n("Save As"));
     m_buttonSave->setCheckable(false);
+	m_buttonSave->setShortcut(Qt::CTRL + Qt::Key_S);
     connect(m_buttonSave, SIGNAL(triggered()), this, SLOT(saveTitle()));
 
     layout->addWidget(m_toolbar);
@@ -464,6 +481,7 @@ void TitleWidget::selectionChanged()
 		origin_y_top->setChecked(false);
 		updateTextOriginX();
 		updateTextOriginY();
+		frame_properties->setEnabled(false);
 		if (blockX) origin_x_left->blockSignals(false);
 		if (blockY) origin_y_top->blockSignals(false);
 	} else if (l.size() == 1) {
@@ -518,8 +536,9 @@ void TitleWidget::selectionChanged()
 
 			updateAxisButtons(i);
 			updateCoordinates(i);
-            value_w->setValue((int) i->boundingRect().width());
-            value_h->setValue((int) i->boundingRect().height());
+			updateDimension(i);
+            //value_w->setValue((int) i->boundingRect().width());
+            //value_h->setValue((int) i->boundingRect().height());
             frame_properties->setEnabled(true);
             value_w->setEnabled(false);
             value_h->setEnabled(false);
@@ -545,12 +564,23 @@ void TitleWidget::selectionChanged()
 			
 			updateAxisButtons(l.at(0));
 			updateCoordinates(rec);
-            value_w->setValue((int) rec->rect().width());
-            value_h->setValue((int) rec->rect().height());
+            updateDimension(rec);
+			//value_w->setValue((int) rec->rect().width());
+            //value_h->setValue((int) rec->rect().height());
             frame_properties->setEnabled(true);
             value_w->setEnabled(true);
             value_h->setEnabled(true);
-        } else {
+        } else if (l.at(0)->type() == IMAGEITEM) {
+			// TODO
+			
+			updateCoordinates(l.at(0));
+			updateDimension(l.at(0));
+			
+			frame_properties->setEnabled(true);
+			value_x->setEnabled(true);
+			value_w->setEnabled(false);
+			value_h->setEnabled(false);
+		} else {
             //toolBox->setCurrentIndex(0);
             frame_properties->setEnabled(false);
         }
@@ -563,7 +593,7 @@ void TitleWidget::selectionChanged()
         value_h->blockSignals(false);
         itemzoom->blockSignals(false);
         itemrotate->blockSignals(false);
-    } else frame_properties->setEnabled(false);
+    }
 }
 
 /** \brief Updates position/size of the selected item when a value
@@ -576,12 +606,51 @@ void TitleWidget::slotAdjustSelectedItem()
             //rect item
             QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *>(l.at(0));
 			updatePosition(rec);
-            rec->setRect(QRect(0, 0, value_w->value(), value_h->value()));
+			rec->setRect(QRect(0, 0, value_w->value(), value_h->value()));
         } else if (l.at(0)->type() == TEXTITEM) {
             //text item
             updatePosition(l.at(0));
-        }
+        } else if (l.at(0)->type() == IMAGEITEM) {
+			//image item
+			updatePosition(l.at(0));
+		}
     }
+}
+
+/** \brief Updates width/height int the text fields, regarding transformation matrix */
+void TitleWidget::updateDimension(QGraphicsItem *i) 
+{
+	bool blockW = !value_w->signalsBlocked();
+	bool blockH = !value_h->signalsBlocked();
+	
+	if (blockW) value_w->blockSignals(true);
+	if (blockH) value_h->blockSignals(true);
+	
+	
+	if (i->type() == IMAGEITEM) {
+		// Get multipliers for rotation/scaling
+		
+		/*Transform t = m_transformations.value(i);
+		QRectF r = i->boundingRect();
+		int width = (int) ( abs(r.width()*t.scalex * cos(t.rotate/180.0*M_PI))
+					+ abs(r.height()*t.scaley * sin(t.rotate/180.0*M_PI)) );
+		int height = (int) ( abs(r.height()*t.scaley * cos(t.rotate/180*M_PI))
+					+ abs(r.width()*t.scalex * sin(t.rotate/180*M_PI)) );*/
+		
+		value_w->setValue(i->sceneBoundingRect().width());
+		value_h->setValue(i->sceneBoundingRect().height());
+	} else if (i->type() == RECTITEM) {
+		QGraphicsRectItem *r = static_cast <QGraphicsRectItem *> (i);
+		value_w->setValue((int) r->rect().width());
+		value_h->setValue((int) r->rect().height());
+	} else if (i->type() == TEXTITEM) {
+		QGraphicsTextItem *t = static_cast <QGraphicsTextItem *> (i);
+		value_w->setValue((int) t->boundingRect().width());
+		value_h->setValue((int) t->boundingRect().height());
+	}
+	
+	if (blockW) value_w->blockSignals(false);
+	if (blockH) value_h->blockSignals(false);
 }
 
 /** \brief Updates the coordinates in the text fields from the item */
@@ -633,6 +702,19 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
 			value_y->setValue((int) rec->pos().y());
 		}
 		
+	} else if (i->type() == IMAGEITEM) {
+		
+		if (origin_x_left->isChecked()) {
+			value_x->setValue((int) (m_frameWidth - i->pos().x() - i->sceneBoundingRect().width()));
+		} else {		
+			value_x->setValue((int) i->pos().x());
+		}
+		
+		if (origin_y_top->isChecked()) {
+			value_y->setValue((int) (m_frameHeight - i->pos().y() - i->sceneBoundingRect().height()));
+		} else {
+			value_y->setValue((int) i->pos().y());
+		}
 		
 	}
 	
@@ -668,6 +750,7 @@ void TitleWidget::updatePosition(QGraphicsItem *i) {
 		}
 		
 		rec->setPos(posX, posY);
+		
 	} else if (i->type() == RECTITEM) {
 		
 		QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *> (i);
@@ -687,6 +770,26 @@ void TitleWidget::updatePosition(QGraphicsItem *i) {
 		}
 		
 		rec->setPos(posX, posY);
+		
+	} else if (i->type() == IMAGEITEM) {
+		
+		int posX;
+		if (origin_x_left->isChecked()) {
+			// Use the sceneBoundingRect because this also regards transformations like zoom
+			posX = m_frameWidth - value_x->value() - i->sceneBoundingRect().width();
+		} else {
+			posX = value_x->value();
+		}
+		
+		int posY;
+		if (origin_y_top->isChecked()) {
+			posY = m_frameHeight - value_y->value() - i->sceneBoundingRect().height();
+		} else {
+			posY = value_y->value();
+		}
+		
+		i->setPos(posX, posY);
+		
 	}
 	
 }
@@ -792,8 +895,11 @@ void TitleWidget::slotChanged() {
  * be left-justified.
  */
 void TitleWidget::textChanged(QGraphicsTextItem *i) {
+	
+	updateDimension(i);
+	
 	if (origin_x_left->isChecked() || origin_y_top->isChecked()) {
-
+			
 		if (!i->toPlainText().isEmpty()) {
 			updatePosition(i);
 		} else {
@@ -875,6 +981,7 @@ void TitleWidget::itemScaled(int val)
         qtrans.rotate(x.rotate);
         l[0]->setTransform(qtrans);
         m_transformations[l.at(0)] = x;
+		updateDimension(l.at(0));
     }
 }
 
@@ -889,6 +996,7 @@ void TitleWidget::itemRotate(int val)
         qtrans.rotate(x.rotate);
         l[0]->setTransform(qtrans);
         m_transformations[l.at(0)] = x;
+		updateDimension(l.at(0));
     }
 }
 
@@ -904,6 +1012,7 @@ void TitleWidget::itemHCenter()
         int width = (int) br.width();
         int newPos = (int)((m_frameWidth - width) / 2);
         item->setPos(newPos, item->pos().y());
+		updateCoordinates(item);
     }
 }
 
@@ -919,6 +1028,7 @@ void TitleWidget::itemVCenter()
         int height = (int) br.height();
         int newPos = (int)((m_frameHeight - height) / 2);
         item->setPos(item->pos().x(), newPos);
+		updateCoordinates(item);
     }
 }
 

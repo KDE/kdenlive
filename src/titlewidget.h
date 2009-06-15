@@ -97,6 +97,7 @@ private:
     void readChoices();
 	/** \brief Update the displayed X/Y coordinates */
 	void updateCoordinates(QGraphicsItem *i);
+	void updateDimension(QGraphicsItem *i);
 	/** \brief Update the item's position */
 	void updatePosition(QGraphicsItem *i);
 	
