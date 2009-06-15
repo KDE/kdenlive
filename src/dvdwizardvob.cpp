@@ -133,9 +133,9 @@ void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters)
     }
     delete producer;
 
-    if (chapters.isEmpty() == false) {
+    if (chapters.isEmpty() == false)
         item->setData(1, Qt::UserRole + 1, chapters);
-    } else if (QFile::exists(url.path() + ".dvdchapter")) {
+    else if (QFile::exists(url.path() + ".dvdchapter")) {
         // insert chapters as children
         QFile file(url.path() + ".dvdchapter");
         if (file.open(QIODevice::ReadOnly)) {
@@ -149,7 +149,8 @@ void DvdWizardVob::slotAddVobFile(KUrl url, const QString &chapters)
             }
             item->setData(1, Qt::UserRole + 1, chaptersList.join(";"));
         }
-    }
+    } else // Explicitly add a chapter at 00:00:00:00
+        item->setData(1, Qt::UserRole + 1, "0");
 
     slotCheckVobList();
 }
