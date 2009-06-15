@@ -93,9 +93,8 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                     success = validator.validate(DOCUMENTVERSION);
                     if (success) { // Let the validator handle error messages
                         setModified(validator.isModified());
-                        QDomNode infoXmlNode = m_document.elementsByTagName("kdenlivedoc").at(0);
-                        QDomElement infoXml = infoXmlNode.toElement();
-                        QDomNode mlt = m_document.elementsByTagName("mlt").at(0);
+                        QDomElement mlt = m_document.firstChildElement("mlt");
+                        QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
 
                         profileName = infoXml.attribute("profile");
                         m_projectFolder = infoXml.attribute("projectfolder");
@@ -107,7 +106,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
 
                         // Build tracks
                         QDomElement e;
-                        QDomNode tracksinfo = m_document.elementsByTagName("tracksinfo").at(0);
+                        QDomElement tracksinfo = infoXml.firstChildElement("tracksinfo");
                         TrackInfo projectTrack;
                         if (!tracksinfo.isNull()) {
                             QDomNodeList trackslist = tracksinfo.childNodes();
@@ -178,7 +177,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                             setProfilePath(KdenliveSettings::default_profile());
                             m_clipManager->clear();
                         } else {
-                            QDomNode markers = m_document.elementsByTagName("markers").at(0);
+                            QDomElement markers = infoXml.firstChildElement("markers");
                             if (!markers.isNull()) {
                                 QDomNodeList markerslist = markers.childNodes();
                                 int maxchild = markerslist.count();
@@ -188,16 +187,17 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                         m_clipManager->getClipById(e.attribute("id"))->addSnapMarker(GenTime(e.attribute("time").toDouble()), e.attribute("comment"));
                                     }
                                 }
-                                mlt.removeChild(markers);
+                                infoXml.removeChild(markers);
                             }
-                            m_document.removeChild(infoXmlNode);
+                            setProfilePath(profileName);
+                            mlt.removeChild(infoXml);
                             kDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
                         }
                     }
                 }
             }
         }
-    }
+    } else setProfilePath(profileName);
 
     // Something went wrong, or a new file was requested: create a new project
     if (!success) {
@@ -206,7 +206,6 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
     }
 
     // Set the video profile (empty == default)
-    setProfilePath(profileName);
 
     // Make sure the project folder is usable
     if (m_projectFolder.isEmpty() || !KIO::NetAccess::exists(m_projectFolder.path(), KIO::NetAccess::DestinationSide, parent)) {
@@ -411,7 +410,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
 {
     QDomDocument sceneList;
     sceneList.setContent(scene, true);
-    QDomNode mlt = sceneList.elementsByTagName("mlt").at(0);
+    QDomElement mlt = sceneList.firstChildElement("mlt");
     QDomElement addedXml = sceneList.createElement("kdenlivedoc");
     mlt.appendChild(addedXml);
 
@@ -424,6 +423,20 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
     addedXml.setAttribute("zoneout", m_zoneEnd);
     addedXml.setAttribute("projectfolder", m_projectFolder.path());
     addedXml.setAttribute("zoom", m_zoom);
+
+    // Add profile info
+    QDomElement profileinfo = sceneList.createElement("profileinfo");
+    profileinfo.setAttribute("description", m_profile.description);
+    profileinfo.setAttribute("frame_rate_num", m_profile.frame_rate_num);
+    profileinfo.setAttribute("frame_rate_den", m_profile.frame_rate_den);
+    profileinfo.setAttribute("width", m_profile.width);
+    profileinfo.setAttribute("height", m_profile.height);
+    profileinfo.setAttribute("progressive", m_profile.progressive);
+    profileinfo.setAttribute("sample_aspect_num", m_profile.sample_aspect_num);
+    profileinfo.setAttribute("sample_aspect_den", m_profile.sample_aspect_den);
+    profileinfo.setAttribute("display_aspect_num", m_profile.display_aspect_num);
+    profileinfo.setAttribute("display_aspect_den", m_profile.display_aspect_den);
+    addedXml.appendChild(profileinfo);
 
     // tracks info
     QDomElement tracksinfo = sceneList.createElement("tracksinfo");
@@ -558,6 +571,29 @@ void KdenliveDoc::setProfilePath(QString path)
     if (path.isEmpty()) path = KdenliveSettings::default_profile();
     if (path.isEmpty()) path = "dv_pal";
     m_profile = ProfilesDialog::getVideoProfile(path);
+    if (m_profile.path.isEmpty()) {
+        // Profile not found, use embedded profile
+        QDomElement profileInfo = m_document.elementsByTagName("profileinfo").at(0).toElement();
+        if (profileInfo.isNull()) {
+            KMessageBox::information(kapp->activeWindow(), i18n("Project profile was not found, using default profile."), i18n("Missing Profile"));
+            m_profile = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
+        } else {
+            KMessageBox::information(kapp->activeWindow(), i18n("Project profile was not found, it will be added to your system now."), i18n("Missing Profile"));
+            m_profile.description = profileInfo.attribute("description");
+            m_profile.frame_rate_num = profileInfo.attribute("frame_rate_num").toInt();
+            m_profile.frame_rate_den = profileInfo.attribute("frame_rate_den").toInt();
+            m_profile.width = profileInfo.attribute("width").toInt();
+            m_profile.height = profileInfo.attribute("height").toInt();
+            m_profile.progressive = profileInfo.attribute("progressive").toInt();
+            m_profile.sample_aspect_num = profileInfo.attribute("sample_aspect_num").toInt();
+            m_profile.sample_aspect_den = profileInfo.attribute("sample_aspect_den").toInt();
+            m_profile.display_aspect_num = profileInfo.attribute("display_aspect_num").toInt();
+            m_profile.display_aspect_den = profileInfo.attribute("display_aspect_den").toInt();
+            ProfilesDialog::saveProfile(m_profile);
+            setModified(true);
+        }
+    }
+
     KdenliveSettings::setProject_display_ratio((double) m_profile.display_aspect_num / m_profile.display_aspect_den);
     m_fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
     KdenliveSettings::setProject_fps(m_fps);

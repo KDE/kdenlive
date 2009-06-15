@@ -39,6 +39,7 @@ public:
     static QString getPathFromDescription(const QString profileDesc);
     static MltVideoProfile getVideoProfile(QString name);
     static QMap <QString, QString> getProfilesInfo();
+    static void saveProfile(MltVideoProfile &profile);
 
 protected:
     virtual void closeEvent(QCloseEvent *event);

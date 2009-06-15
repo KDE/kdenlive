@@ -200,7 +200,7 @@ MltVideoProfile ProfilesDialog::getVideoProfile(QString name)
         profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
         if (profilesFiles.contains(name)) path = KdenliveSettings::mltpath() + '/' + name;
     }
-    if (isCustom  || path.isEmpty()) {
+    if (isCustom || path.isEmpty()) {
         path = name;
     }
 
@@ -210,8 +210,8 @@ MltVideoProfile ProfilesDialog::getVideoProfile(QString name)
             return result;
         }
         if (name == KdenliveSettings::default_profile()) KdenliveSettings::setDefault_profile("dv_pal");
-        kDebug() << "// WARNING, COULD NOT FIND PROFILE " << name;
-        return getVideoProfile("dv_pal");
+        kDebug() << "// WARNING, COULD NOT FIND PROFILE " << name;
+        return result;
     }
     KConfig confFile(path, KConfig::SimpleConfig);
     result.path = name;
@@ -365,6 +365,31 @@ QString ProfilesDialog::getPathFromDescription(const QString profileDesc)
         }
     }
     return QString();
+}
+
+// static
+void ProfilesDialog::saveProfile(MltVideoProfile &profile)
+{
+    int i = 0;
+    QString customName = "profiles/customprofile";
+    QString profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
+    kDebug() << " TYING PROFILE FILE: " << profilePath;
+    while (KIO::NetAccess::exists(KUrl(profilePath), KIO::NetAccess::SourceSide, 0)) {
+        i++;
+        profilePath = KStandardDirs::locateLocal("appdata", customName + QString::number(i));
+    }
+    QFile file(profilePath);
+    if (!file.open(QIODevice::WriteOnly)) {
+        KMessageBox::sorry(0, i18n("Cannot write to file %1", profilePath));
+        return;
+    }
+    QTextStream out(&file);
+    out << "description=" << profile.description << "\n" << "frame_rate_num=" << profile.frame_rate_num << "\n" << "frame_rate_den=" << profile.frame_rate_den << "\n" << "width=" << profile.width << "\n" << "height=" << profile.height << "\n" << "progressive=" << profile.progressive << "\n" << "sample_aspect_num=" << profile.sample_aspect_num << "\n" << "sample_aspect_den=" << profile.sample_aspect_den << "\n" << "display_aspect_num=" << profile.display_aspect_num << "\n" << "display_aspect_den=" << profile.display_aspect_den << "\n";
+    if (file.error() != QFile::NoError) {
+        KMessageBox::error(0, i18n("Cannot write to file %1", profilePath));
+    }
+    file.close();
+    profile.path = profilePath;
 }
 
 
