@@ -40,6 +40,8 @@ public:
     static MltVideoProfile getVideoProfile(QString name);
     static QMap <QString, QString> getProfilesInfo();
     static void saveProfile(MltVideoProfile &profile);
+    static QString existingProfile(MltVideoProfile profile);
+    static bool existingProfileDescription(const QString &desc);
 
 protected:
     virtual void closeEvent(QCloseEvent *event);

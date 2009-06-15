@@ -257,6 +257,75 @@ QString ProfilesDialog::getProfileDescription(QString name)
 }
 
 // static
+bool ProfilesDialog::existingProfileDescription(const QString &desc)
+{
+    QStringList profilesFilter;
+    profilesFilter << "*";
+
+    // List the Mlt profiles
+    QStringList profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+    for (int i = 0; i < profilesFiles.size(); ++i) {
+        KConfig confFile(KdenliveSettings::mltpath() + '/' + profilesFiles.at(i), KConfig::SimpleConfig);
+        if (desc == confFile.entryMap().value("description")) return true;
+    }
+
+    // List custom profiles
+    QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
+    for (int i = 0; i < customProfiles.size(); ++i) {
+        profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
+        for (int j = 0; j < profilesFiles.size(); ++j) {
+            KConfig confFile(customProfiles.at(i) + '/' + profilesFiles.at(j), KConfig::SimpleConfig);
+            if (desc == confFile.entryMap().value("description")) return true;
+        }
+    }
+    return false;
+}
+
+// static
+QString ProfilesDialog::existingProfile(MltVideoProfile profile)
+{
+    // Check if the profile has a matching entry in existing ones
+    QStringList profilesFilter;
+    profilesFilter << "*";
+
+    // Check the Mlt profiles
+    QStringList profilesFiles = QDir(KdenliveSettings::mltpath()).entryList(profilesFilter, QDir::Files);
+    for (int i = 0; i < profilesFiles.size(); ++i) {
+        KConfig confFile(KdenliveSettings::mltpath() + '/' + profilesFiles.at(i), KConfig::SimpleConfig);
+        if (profile.display_aspect_den != confFile.entryMap().value("display_aspect_den").toInt()) continue;
+        if (profile.display_aspect_num != confFile.entryMap().value("display_aspect_num").toInt()) continue;
+        if (profile.sample_aspect_den != confFile.entryMap().value("sample_aspect_den").toInt()) continue;
+        if (profile.sample_aspect_num != confFile.entryMap().value("sample_aspect_num").toInt()) continue;
+        if (profile.width != confFile.entryMap().value("width").toInt()) continue;
+        if (profile.height != confFile.entryMap().value("height").toInt()) continue;
+        if (profile.frame_rate_den != confFile.entryMap().value("frame_rate_den").toInt()) continue;
+        if (profile.frame_rate_num != confFile.entryMap().value("frame_rate_num").toInt()) continue;
+        if (profile.progressive != confFile.entryMap().value("progressive").toInt()) continue;
+        return profilesFiles.at(i);
+    }
+
+    // Check custom profiles
+    QStringList customProfiles = KGlobal::dirs()->findDirs("appdata", "profiles");
+    for (int i = 0; i < customProfiles.size(); ++i) {
+        profilesFiles = QDir(customProfiles.at(i)).entryList(profilesFilter, QDir::Files);
+        for (int j = 0; j < profilesFiles.size(); ++j) {
+            KConfig confFile(customProfiles.at(i) + '/' + profilesFiles.at(j), KConfig::SimpleConfig);
+            if (profile.display_aspect_den != confFile.entryMap().value("display_aspect_den").toInt()) continue;
+            if (profile.display_aspect_num != confFile.entryMap().value("display_aspect_num").toInt()) continue;
+            if (profile.sample_aspect_den != confFile.entryMap().value("sample_aspect_den").toInt()) continue;
+            if (profile.sample_aspect_num != confFile.entryMap().value("sample_aspect_num").toInt()) continue;
+            if (profile.width != confFile.entryMap().value("width").toInt()) continue;
+            if (profile.height != confFile.entryMap().value("height").toInt()) continue;
+            if (profile.frame_rate_den != confFile.entryMap().value("frame_rate_den").toInt()) continue;
+            if (profile.frame_rate_num != confFile.entryMap().value("frame_rate_num").toInt()) continue;
+            if (profile.progressive != confFile.entryMap().value("progressive").toInt()) continue;
+            return customProfiles.at(i) + '/' + profilesFiles.at(j);
+        }
+    }
+    return QString();
+}
+
+// static
 QMap <QString, QString> ProfilesDialog::getProfilesInfo()
 {
     QMap <QString, QString> result;

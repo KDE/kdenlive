@@ -41,6 +41,7 @@
 
 #include <QCryptographicHash>
 #include <QFile>
+#include <QInputDialog>
 
 #include <mlt++/Mlt.h>
 
@@ -578,7 +579,6 @@ void KdenliveDoc::setProfilePath(QString path)
             KMessageBox::information(kapp->activeWindow(), i18n("Project profile was not found, using default profile."), i18n("Missing Profile"));
             m_profile = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
         } else {
-            KMessageBox::information(kapp->activeWindow(), i18n("Project profile was not found, it will be added to your system now."), i18n("Missing Profile"));
             m_profile.description = profileInfo.attribute("description");
             m_profile.frame_rate_num = profileInfo.attribute("frame_rate_num").toInt();
             m_profile.frame_rate_den = profileInfo.attribute("frame_rate_den").toInt();
@@ -589,7 +589,29 @@ void KdenliveDoc::setProfilePath(QString path)
             m_profile.sample_aspect_den = profileInfo.attribute("sample_aspect_den").toInt();
             m_profile.display_aspect_num = profileInfo.attribute("display_aspect_num").toInt();
             m_profile.display_aspect_den = profileInfo.attribute("display_aspect_den").toInt();
-            ProfilesDialog::saveProfile(m_profile);
+            QString existing = ProfilesDialog::existingProfile(m_profile);
+            if (!existing.isEmpty()) {
+                m_profile = ProfilesDialog::getVideoProfile(existing);
+                KMessageBox::information(kapp->activeWindow(), i18n("Project profile not found, replacing with existing one: %1", m_profile.description), i18n("Missing Profile"));
+            } else {
+                QString newDesc = m_profile.description;
+                bool ok = true;
+                while (ok && (newDesc.isEmpty() || ProfilesDialog::existingProfileDescription(newDesc))) {
+                    newDesc = QInputDialog::getText(kapp->activeWindow(), i18n("Existing Profile"), i18n("Your project uses an unknown profile.\nIt uses an existing profile name: %1.\nPlease choose a new name to save it", newDesc), QLineEdit::Normal, newDesc, &ok);
+                }
+                if (ok == false) {
+                    // User canceled, use default profile
+                    m_profile = ProfilesDialog::getVideoProfile(KdenliveSettings::default_profile());
+                } else {
+                    if (newDesc != m_profile.description) {
+                        // Profile description existed, was replaced by new one
+                        m_profile.description = newDesc;
+                    } else {
+                        KMessageBox::information(kapp->activeWindow(), i18n("Project profile was not found, it will be added to your system now."), i18n("Missing Profile"));
+                    }
+                    ProfilesDialog::saveProfile(m_profile);
+                }
+            }
             setModified(true);
         }
     }
