@@ -26,7 +26,7 @@ class QGraphicsPolygonItem;
 
 class TitleDocument
 {
-    QGraphicsScene* m_scene;
+  
 public:
     TitleDocument();
     void setScene(QGraphicsScene* scene);
@@ -37,14 +37,12 @@ public:
     /** \brief Get the background color (incl. alpha) from the document, if possibly
      * \returns The background color of the document, inclusive alpha. If none found, returns (0,0,0,0) */
     QColor getBackgroundColor();
-	
-	static const int OriginXLeft = 0;
-	static const int OriginYTop = 1;
-	
-	static const int AxisDefault = 0;
-	static const int AxisInverted = 1;
+
+    enum ItemOrigin {OriginXLeft = 0, OriginYTop = 1};
+    enum AxisPosition {AxisDefault = 0, AxisInverted = 1};
 
 private:
+    QGraphicsScene* m_scene;
     QString colorToString(const QColor&);
     QString rectFToString(const QRectF&);
     QRectF stringToRect(const QString &);
