@@ -241,7 +241,7 @@ void RenderWidget::setGuides(QDomElement guidesxml, double duration)
         m_view.guide_end->addItem(i18n("End"), QString::number(duration));
 }
 
-/** 
+/**
  * Will be called when the user selects an output file via the file dialog.
  * File extension will be added automatically.
  */
@@ -249,9 +249,9 @@ void RenderWidget::slotUpdateButtons(KUrl url)
 {
     if (m_view.out_file->url().isEmpty()) m_view.buttonStart->setEnabled(false);
     else {
-		updateButtons(); // This also checks whether the selected format is available
-		//m_view.buttonStart->setEnabled(true);
-	}
+        updateButtons(); // This also checks whether the selected format is available
+        //m_view.buttonStart->setEnabled(true);
+    }
     if (url != 0) {
         QListWidgetItem *item = m_view.size_list->currentItem();
         QString extension = item->data(ExtensionRole).toString();
@@ -268,7 +268,7 @@ void RenderWidget::slotUpdateButtons()
 {
     if (m_view.out_file->url().isEmpty()) m_view.buttonStart->setEnabled(false);
     else updateButtons(); // This also checks whether the selected format is available
-	//else m_view.buttonStart->setEnabled(true);
+    //else m_view.buttonStart->setEnabled(true);
 }
 
 void RenderWidget::slotSaveProfile()
@@ -541,7 +541,7 @@ void RenderWidget::updateButtons()
         m_view.buttonStart->setEnabled(false);
     } else {
         m_view.buttonSave->setEnabled(true);
-        m_view.buttonStart->setEnabled(m_view.size_list->currentItem()->flags() & Qt::ItemIsEnabled);
+        m_view.buttonStart->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());
         QString edit = m_view.size_list->currentItem()->data(EditableRole).toString();
         if (edit.isEmpty() || !edit.endsWith("customprofiles.xml")) {
             m_view.buttonDelete->setEnabled(false);
@@ -578,16 +578,16 @@ void RenderWidget::slotExport(bool scriptExport)
 
     QString dest = m_view.out_file->url().path();
     if (dest.isEmpty()) return;
-	
-	// Check whether target file has an extension.
-	// If not, ask whether extension should be added or not.
-	QString extension = item->data(ExtensionRole).toString();
-	if (!dest.endsWith(extension)) {
-		if (KMessageBox::questionYesNo(this, i18n("File has no extension. Add extension (%1)?", extension)) == KMessageBox::Yes) {
-			dest.append("." + extension);
-		}
-	}
-	
+
+    // Check whether target file has an extension.
+    // If not, ask whether extension should be added or not.
+    QString extension = item->data(ExtensionRole).toString();
+    if (!dest.endsWith(extension)) {
+        if (KMessageBox::questionYesNo(this, i18n("File has no extension. Add extension (%1)?", extension)) == KMessageBox::Yes) {
+            dest.append("." + extension);
+        }
+    }
+
     QFile f(dest);
     if (f.exists()) {
         if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes)
@@ -642,8 +642,7 @@ void RenderWidget::slotExport(bool scriptExport)
     } else if (std.contains(" s=")) {
         subsize = std.section(" s=", 1, 1);
         subsize = subsize.section(' ', 0, 0).toLower();
-    } else if (destination != "audioonly" && m_view.rescale->isChecked() && m_view.rescale->isEnabled()) 
-    {
+    } else if (destination != "audioonly" && m_view.rescale->isChecked() && m_view.rescale->isEnabled()) {
         subsize = QString(" s=%1x%2").arg(width).arg(height);
         // Add current size parameter
         renderArgs.append(subsize);
@@ -854,7 +853,7 @@ void RenderWidget::refreshView()
                         if (!formatsList.contains(format)) {
                             kDebug() << "***** UNSUPPORTED F: " << format;
                             //sizeItem->setHidden(true);
-                            sizeItem->setFlags(Qt::ItemIsSelectable);
+                            //sizeItem->setFlags(Qt::ItemIsSelectable);
                             sizeItem->setToolTip(i18n("Unsupported video format: %1", format));
                             sizeItem->setIcon(brokenIcon);
                         }
@@ -869,7 +868,7 @@ void RenderWidget::refreshView()
                         if (!acodecsList.contains(format)) {
                             kDebug() << "*****  UNSUPPORTED ACODEC: " << format;
                             //sizeItem->setHidden(true);
-                            sizeItem->setFlags(Qt::ItemIsSelectable);
+                            //sizeItem->setFlags(Qt::ItemIsSelectable);
                             sizeItem->setToolTip(i18n("Unsupported audio codec: %1", format));
                             sizeItem->setIcon(brokenIcon);
                         }
@@ -884,7 +883,7 @@ void RenderWidget::refreshView()
                         if (!vcodecsList.contains(format)) {
                             kDebug() << "*****  UNSUPPORTED VCODEC: " << format;
                             //sizeItem->setHidden(true);
-                            sizeItem->setFlags(Qt::ItemIsSelectable);
+                            //sizeItem->setFlags(Qt::ItemIsSelectable);
                             sizeItem->setToolTip(i18n("Unsupported video codec: %1", format));
                             sizeItem->setIcon(brokenIcon);
                         }
@@ -919,7 +918,7 @@ KUrl RenderWidget::filenameWithExtension(KUrl url, QString extension)
  */
 void RenderWidget::refreshParams()
 {
-	// Format not available (e.g. codec not installed); Disable start button
+    // Format not available (e.g. codec not installed); Disable start button
     QListWidgetItem *item = m_view.size_list->currentItem();
     if (!item || item->isHidden()) {
         m_view.advanced_params->clear();
@@ -959,7 +958,7 @@ void RenderWidget::refreshParams()
         m_view.buttonEdit->setEnabled(true);
     }
 
-    m_view.buttonStart->setEnabled(m_view.size_list->currentItem()->flags() & Qt::ItemIsEnabled);
+    m_view.buttonStart->setEnabled(m_view.size_list->currentItem()->toolTip().isEmpty());
 }
 
 void RenderWidget::reloadProfiles()
