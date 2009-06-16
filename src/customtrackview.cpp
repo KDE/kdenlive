@@ -4071,7 +4071,7 @@ void CustomTrackView::slotUpdateAllThumbs()
     QList<QGraphicsItem *> itemList = items();
     //if (itemList.isEmpty()) return;
     ClipItem *item;
-    QString thumbBase = m_document->projectFolder().path() + "/thumbs/";
+    const QString thumbBase = m_document->projectFolder().path() + "/thumbs/";
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             item = static_cast <ClipItem *>(itemList.at(i));

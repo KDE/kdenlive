@@ -1375,6 +1375,10 @@ void Render::mltInsertClip(ItemInfo info, QDomElement element, Mlt::Producer *pr
 
     Mlt::Service service(parentProd.get_service());
     Mlt::Tractor tractor(service);
+    if (info.track > tractor.count() - 1) {
+        kDebug() << "ERROR TRYING TO INSERT CLIP ON TRACK " << info.track << ", at POS: " << info.startPos.frames(25);
+        return;
+    }
     mlt_service_lock(service.get_service());
     Mlt::Producer trackProducer(tractor.track(info.track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
