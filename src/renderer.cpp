@@ -3026,6 +3026,7 @@ void Render::mltDeleteTrack(int ix)
         }
         if (mappedProps.value("mlt_service") == "mix" && mappedProps.value("b_track").toInt() == tracksCount) {
             tractor.removeChild(transitions.at(i));
+            i--;
         } else if (mappedProps.value("mlt_service") != "mix" && mappedProps.value("b_track").toInt() >= ix) {
             // Transition needs to be moved
             int a_track = mappedProps.value("a_track").toInt();
