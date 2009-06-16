@@ -84,7 +84,6 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent) :
     connect(m_trackview, SIGNAL(cursorMoved(int, int)), m_ruler, SLOT(slotCursorMoved(int, int)));
     connect(m_trackview->horizontalScrollBar(), SIGNAL(valueChanged(int)), m_ruler, SLOT(slotMoveRuler(int)));
     connect(m_trackview, SIGNAL(mousePosition(int)), this, SIGNAL(mousePosition(int)));
-    connect(m_trackview, SIGNAL(transitionItemSelected(Transition*, QPoint, bool)), this, SLOT(slotTransitionItemSelected(Transition*, QPoint, bool)));
     connect(m_trackview, SIGNAL(doTrackLock(int, bool)), this, SLOT(slotChangeTrackLock(int, bool)));
 
     slotChangeZoom(m_doc->zoom());
@@ -115,11 +114,6 @@ int TrackView::outPoint() const
 void TrackView::slotSetZone(QPoint p)
 {
     m_ruler->setZone(p);
-}
-
-void TrackView::slotTransitionItemSelected(Transition *t, QPoint p, bool update)
-{
-    emit transitionItemSelected(t, p, update);
 }
 
 void TrackView::setDuration(int dur)

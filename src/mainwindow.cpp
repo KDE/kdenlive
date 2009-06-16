@@ -1282,7 +1282,7 @@ void MainWindow::closeCurrentDocument()
         delete m_activeDocument;
         m_activeDocument = NULL;
         m_effectStack->clear();
-        m_transitionConfig->slotTransitionItemSelected(NULL, QPoint(), false);
+        m_transitionConfig->slotTransitionItemSelected(NULL, 0, QPoint(), false);
     } else delete docToClose;
     if (w == m_activeTimeline) {
         delete m_activeTimeline;
@@ -1818,8 +1818,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
             disconnect(m_activeDocument, SIGNAL(deleteTimelineClip(const QString &)), m_activeTimeline, SLOT(slotDeleteClip(const QString &)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), m_effectStack, SLOT(slotClipItemSelected(ClipItem*, int)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), this, SLOT(slotActivateEffectStackView()));
-            disconnect(m_activeTimeline, SIGNAL(transitionItemSelected(Transition*, QPoint, bool)), m_transitionConfig, SLOT(slotTransitionItemSelected(Transition*, QPoint, bool)));
-            disconnect(m_activeTimeline, SIGNAL(transitionItemSelected(Transition*, QPoint, bool)), this, SLOT(slotActivateTransitionView(Transition *)));
+            disconnect(m_activeTimeline->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), m_transitionConfig, SLOT(slotTransitionItemSelected(Transition*, int, QPoint, bool)));
+            disconnect(m_activeTimeline->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), this, SLOT(slotActivateTransitionView(Transition *)));
             disconnect(m_zoomSlider, SIGNAL(valueChanged(int)), m_activeTimeline, SLOT(slotChangeZoom(int)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(displayMessage(const QString&, MessageType)), m_messageLabel, SLOT(setMessage(const QString&, MessageType)));
             disconnect(m_activeTimeline->projectView(), SIGNAL(showClipFrame(DocClipBase *, const int)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *, const int)));
@@ -1878,8 +1878,8 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
 
     connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), m_effectStack, SLOT(slotClipItemSelected(ClipItem*, int)));
     connect(trackView->projectView(), SIGNAL(clipItemSelected(ClipItem*, int)), this, SLOT(slotActivateEffectStackView()));
-    connect(trackView, SIGNAL(transitionItemSelected(Transition*, QPoint, bool)), m_transitionConfig, SLOT(slotTransitionItemSelected(Transition*, QPoint, bool)));
-    connect(trackView, SIGNAL(transitionItemSelected(Transition*, QPoint, bool)), this, SLOT(slotActivateTransitionView(Transition *)));
+    connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), m_transitionConfig, SLOT(slotTransitionItemSelected(Transition*, int, QPoint, bool)));
+    connect(trackView->projectView(), SIGNAL(transitionItemSelected(Transition*, int, QPoint, bool)), this, SLOT(slotActivateTransitionView(Transition *)));
     m_zoomSlider->setValue(doc->zoom());
     connect(m_zoomSlider, SIGNAL(valueChanged(int)), trackView, SLOT(slotChangeZoom(int)));
     connect(trackView->projectView(), SIGNAL(zoomIn()), this, SLOT(slotZoomIn()));

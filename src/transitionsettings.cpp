@@ -29,7 +29,8 @@
 TransitionSettings::TransitionSettings(QWidget* parent) :
         QWidget(parent),
         m_usedTransition(NULL),
-        m_tracksCount(0)
+        m_tracksCount(0),
+        m_autoTrackTransition(0)
 {
     m_ui.setupUi(this);
     m_effectEdit = new EffectStackEdit(m_ui.frame);
@@ -107,6 +108,7 @@ void TransitionSettings::slotTransitionTrackChanged()
         m_effectEdit->updateParameter("force_track", "1");
         emit transitionUpdated(m_usedTransition, oldxml);
     } else {
+        ix = m_autoTrackTransition;
         m_usedTransition->setForcedTrack(false, ix);
         m_effectEdit->updateParameter("force_track", "0");
         emit transitionUpdated(m_usedTransition, oldxml);
@@ -114,10 +116,11 @@ void TransitionSettings::slotTransitionTrackChanged()
     m_effectEdit->updateParameter("transition_btrack", QString::number(ix));
 }
 
-void TransitionSettings::slotTransitionItemSelected(Transition* t, QPoint p, bool update)
+void TransitionSettings::slotTransitionItemSelected(Transition* t, int nextTrack, QPoint p, bool update)
 {
     setEnabled(t != NULL);
     m_effectEdit->setFrameSize(p);
+    m_autoTrackTransition = nextTrack;
     if (t == m_usedTransition) {
         if (t == NULL) return;
         if (update) {

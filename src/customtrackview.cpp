@@ -1675,7 +1675,7 @@ void CustomTrackView::updateTransition(int track, GenTime pos, QDomElement oldTr
             p.setX(size.section('x', 0, 0).toInt());
             p.setY(size.section('x', 1, 1).toInt());
         }
-        emit transitionItemSelected(item, p, true);
+        emit transitionItemSelected(item, getPreviousVideoTrack(info.track), p, true);
     }
     m_document->setModified(true);
 }
@@ -1853,7 +1853,7 @@ void CustomTrackView::removeTrack(int ix)
     m_document->renderer()->mltDeleteTrack(m_document->tracksCount() - ix);
     m_document->deleteTrack(m_document->tracksCount() - ix - 1);
 
-    double startY = ix * m_tracksHeight + 1 + m_tracksHeight / 2;
+    double startY = ix * (m_tracksHeight + 1) + m_tracksHeight / 2;
     QRectF r(0, startY, sceneRect().width(), sceneRect().height() - startY);
     QList<QGraphicsItem *> selection = m_scene->items(r);
 
@@ -1879,7 +1879,6 @@ void CustomTrackView::removeTrack(int ix)
             ClipItem *clip = static_cast <ClipItem *>(children.at(i));
             clip->updateItem();
             ItemInfo clipinfo = clip->info();
-            kDebug() << "// CLIP TRK IS: " << clipinfo.track;
             // We add a move clip command so that we get the correct producer for new track number
             if (clip->clipType() == AV || clip->clipType() == AUDIO) {
                 Mlt::Producer *prod;
@@ -2704,7 +2703,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
             p.setX(size.section('x', 0, 0).toInt());
             p.setY(size.section('x', 1, 1).toInt());
         }
-        emit transitionItemSelected(static_cast <Transition *>(m_dragItem), p);
+        emit transitionItemSelected(static_cast <Transition *>(m_dragItem), getPreviousVideoTrack(m_dragItem->track()), p);
     } else emit transitionItemSelected(NULL);
     if (m_operationMode != NONE && m_operationMode != MOVE) m_document->setModified(true);
     m_operationMode = NONE;
@@ -3247,7 +3246,16 @@ void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end)
     KdenliveSettings::setSnaptopoints(snap);
     item->updateTransitionEndTrack(getPreviousVideoTrack(end.track));
     m_document->renderer()->mltMoveTransition(item->transitionTag(), m_document->tracksCount() - start.track, m_document->tracksCount() - end.track, item->transitionEndTrack(), start.startPos, start.endPos, end.startPos, end.endPos);
-    if (m_dragItem && m_dragItem == item) emit transitionItemSelected(item);
+    if (m_dragItem && m_dragItem == item) {
+        QPoint p;
+        ClipItem *transitionClip = getClipItemAt(item->startPos(), item->track());
+        if (transitionClip && transitionClip->baseClip()) {
+            QString size = transitionClip->baseClip()->getProperty("frame_size");
+            p.setX(size.section('x', 0, 0).toInt());
+            p.setY(size.section('x', 1, 1).toInt());
+        }
+        emit transitionItemSelected(item, getPreviousVideoTrack(item->track()), p);
+    }
 }
 
 void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end)
@@ -4240,6 +4248,7 @@ void CustomTrackView::deleteTimelineTrack(int ix, TrackInfo trackinfo)
         }
     }
 
+    selection = m_scene->items();
     new AddTrackCommand(this, ix, trackinfo, false, deleteTrack);
     m_commandStack->push(deleteTrack);
 }

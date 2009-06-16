@@ -85,14 +85,12 @@ private:
 private slots:
     void setCursorPos(int pos);
     void moveCursorPos(int pos);
-    void slotTransitionItemSelected(Transition*, QPoint p, bool update);
     void slotRebuildTrackHeaders();
     void slotChangeTrackLock(int ix, bool lock);
 
 signals:
     void mousePosition(int);
     void cursorMoved();
-    void transitionItemSelected(Transition*, QPoint, bool);
     void zoneMoved(int, int);
     void insertTrack(int);
     void deleteTrack(int);

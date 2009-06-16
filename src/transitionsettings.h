@@ -43,9 +43,10 @@ private:
     GenTime m_transitionDuration;
     GenTime m_transitionStart;
     int m_tracksCount;
+    int m_autoTrackTransition;
 
 public slots:
-    void slotTransitionItemSelected(Transition*, QPoint, bool);
+    void slotTransitionItemSelected(Transition* t, int nextTrack, QPoint p, bool update);
     void slotTransitionChanged(bool reinit = true, bool updateCurrent = false);
     void slotUpdateEffectParams(const QDomElement&, const QDomElement&);
 
