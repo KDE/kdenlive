@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>757</width>
+    <width>902</width>
     <height>442</height>
    </rect>
   </property>
@@ -286,6 +286,13 @@
          </widget>
         </item>
         <item>
+         <widget class="QToolButton" name="buttonInsertUnicode">
+          <property name="text">
+           <string>...</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="horizontalSpacer_2">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -324,8 +331,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>358</width>
-         <height>178</height>
+         <width>441</width>
+         <height>143</height>
         </rect>
        </property>
        <attribute name="label">
@@ -443,8 +450,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>94</width>
-         <height>65</height>
+         <width>441</width>
+         <height>143</height>
         </rect>
        </property>
        <attribute name="label">
@@ -491,8 +498,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>232</width>
-         <height>198</height>
+         <width>425</width>
+         <height>224</height>
         </rect>
        </property>
        <attribute name="label">
@@ -752,12 +759,12 @@
           <property name="text">
            <string>+X</string>
           </property>
-		  <property name="checkable">
-		   <bool>true</bool>
-		  </property>
-		  <property name="checked">
-		   <bool>false</bool>
-		  </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
          </widget>
         </item>
         <item>
@@ -775,12 +782,12 @@
           <property name="text">
            <string>+Y</string>
           </property>
-		  <property name="checkable">
-		   <bool>true</bool>
-		  </property>
-		  <property name="checked">
-		   <bool>false</bool>
-		  </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
          </widget>
         </item>
         <item>
@@ -876,14 +883,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
    <class>KColorButton</class>
    <extends>QPushButton</extends>
    <header>kcolorbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KIntSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>knuminput.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

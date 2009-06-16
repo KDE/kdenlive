@@ -23,6 +23,7 @@
 #include "titledocument.h"
 #include "renderer.h"
 #include "graphicsscenerectmove.h"
+#include "unicodedialog.h"
 
 #include <QMap>
 
@@ -89,6 +90,8 @@ private:
     QAction *m_buttonCursor;
     QAction *m_buttonSave;
     QAction *m_buttonLoad;
+	/** \brief Dialog for entering unicode in text fields */
+	UnicodeDialog *m_unicodeDialog;
     /** project path for storing title clips */
     QString m_projectPath;
     /** \brief Store the current choices of font, background and rect values */
@@ -175,6 +178,8 @@ private slots:
     void slotZoomOneToOne();
 	
     void slotUpdateText();
+	void slotInsertUnicode();
+	void slotInsertUnicodeString(QString);
 	
     void displayBackgroundFrame();
 	

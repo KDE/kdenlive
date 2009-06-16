@@ -49,6 +49,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/colorval_ui.ui
   widgets/positionval_ui.ui
   widgets/titlewidget_ui.ui
+  widgets/unicodedialog_ui.ui
   widgets/timelinebuttons_ui.ui
   widgets/renderwidget_ui.ui
   widgets/saveprofile_ui.ui
@@ -117,6 +118,7 @@ set(kdenlive_SRCS
   kdenlivesettingsdialog.cpp
   complexparameter.cpp
   titlewidget.cpp
+  unicodedialog.cpp
   graphicsscenerectmove.cpp
   effectslistwidget.cpp
   titledocument.cpp

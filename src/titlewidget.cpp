@@ -1,5 +1,5 @@
 /***************************************************************************
-                          titlewidget.h  -  description
+                          titlewidget.cpp  -  description
                              -------------------
     begin                : Feb 28 2008
     copyright            : (C) 2008 by Marco Gittler
@@ -46,6 +46,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
         m_endViewport(NULL),
         m_render(render),
         m_count(0),
+		m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex)),
         m_projectPath(projectPath)
 {
     setupUi(this);
@@ -56,11 +57,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     text_properties->setFixedHeight(frame_properties->height() + 4);
     m_frameWidth = render->renderWidth();
     m_frameHeight = render->renderHeight();
-    //connect(newTextButton, SIGNAL(clicked()), this, SLOT(slotNewText()));
-    //connect(newRectButton, SIGNAL(clicked()), this, SLOT(slotNewRect()));
-    // kcolorbutton == The color of the background
     connect(kcolorbutton, SIGNAL(clicked()), this, SLOT(slotChangeBackground())) ;
-    // horizontalslider == The alpha of the background
     connect(horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(slotChangeBackground())) ;
 	
 
@@ -104,6 +101,8 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     connect(buttonAlignRight, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonAlignCenter, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonAlignNone, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
+	connect(buttonInsertUnicode, SIGNAL(clicked()), this, SLOT(slotInsertUnicode()));
+	connect(m_unicodeDialog, SIGNAL(charSelected(QString)), this, SLOT(slotInsertUnicodeString(QString)));
     connect(displayBg, SIGNAL(stateChanged(int)), this, SLOT(displayBackgroundFrame()));
 
     // mbd
@@ -121,6 +120,8 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     buttonAlignRight->setToolTip(i18n("Align right"));
     buttonAlignLeft->setToolTip(i18n("Align left"));
     buttonAlignCenter->setToolTip(i18n("Align center"));
+	buttonInsertUnicode->setToolTip(i18n("Insert Unicode character (Shift+Ctrl+U)"));
+	buttonInsertUnicode->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_U);
 	origin_x_left->setToolTip(i18n("Invert x axis and change 0 point"));
 	origin_y_top->setToolTip(i18n("Invert y axis and change 0 point"));
 	rectBColor->setToolTip(i18n("Select fill color"));
@@ -243,6 +244,7 @@ TitleWidget::~TitleWidget()
     delete m_buttonSave;
     delete m_buttonLoad;
 
+	delete m_unicodeDialog;
     delete m_frameBorder;
     delete m_frameImage;
     delete m_startViewport;
@@ -482,6 +484,8 @@ void TitleWidget::selectionChanged()
 		updateTextOriginX();
 		updateTextOriginY();
 		frame_properties->setEnabled(false);
+		text_properties->setEnabled(false);
+		rect_properties->setEnabled(false);
 		if (blockX) origin_x_left->blockSignals(false);
 		if (blockY) origin_y_top->blockSignals(false);
 	} else if (l.size() == 1) {
@@ -540,6 +544,8 @@ void TitleWidget::selectionChanged()
             //value_w->setValue((int) i->boundingRect().width());
             //value_h->setValue((int) i->boundingRect().height());
             frame_properties->setEnabled(true);
+			text_properties->setEnabled(true);
+			rect_properties->setEnabled(false);
             value_w->setEnabled(false);
             value_h->setEnabled(false);
 			
@@ -568,21 +574,27 @@ void TitleWidget::selectionChanged()
 			//value_w->setValue((int) rec->rect().width());
             //value_h->setValue((int) rec->rect().height());
             frame_properties->setEnabled(true);
+			text_properties->setEnabled(false);
+			rect_properties->setEnabled(true);
             value_w->setEnabled(true);
             value_h->setEnabled(true);
-        } else if (l.at(0)->type() == IMAGEITEM) {
-			// TODO
 			
+        } else if (l.at(0)->type() == IMAGEITEM) {
 			updateCoordinates(l.at(0));
 			updateDimension(l.at(0));
 			
 			frame_properties->setEnabled(true);
+			text_properties->setEnabled(false);
+			rect_properties->setEnabled(false);
 			value_x->setEnabled(true);
 			value_w->setEnabled(false);
 			value_h->setEnabled(false);
+			
 		} else {
             //toolBox->setCurrentIndex(0);
             frame_properties->setEnabled(false);
+			text_properties->setEnabled(false);
+			rect_properties->setEnabled(false);
         }
         zValue->setValue((int)l.at(0)->zValue());
         itemzoom->setValue((int)(m_transformations.value(l.at(0)).scalex * 100.0 + 0.5));
@@ -908,6 +920,22 @@ void TitleWidget::textChanged(QGraphicsTextItem *i) {
 			 * would be updated here, a newly created text field would 
 			 * be set to the position of the last selected text field.
 			 */
+		}
+	}
+}
+
+void TitleWidget::slotInsertUnicode()
+{
+	m_unicodeDialog->exec();
+}
+
+void TitleWidget::slotInsertUnicodeString(QString text)
+{
+	QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
+	if (l.size() > 0) {
+		if (l.at(0)->type() == TEXTITEM) {
+			QGraphicsTextItem *t = static_cast <QGraphicsTextItem *> (l.at(0));
+			t->textCursor().insertText(text);
 		}
 	}
 }
