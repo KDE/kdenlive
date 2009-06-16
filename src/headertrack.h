@@ -35,15 +35,10 @@ public:
     ~HeaderTrack();
     void setLock(bool lock);
 
-protected:
-    //virtual void paintEvent(QPaintEvent * /*e*/);
-    virtual void contextMenuEvent(QContextMenuEvent * event);
-
 private:
     int m_index;
     TRACKTYPE m_type;
     Ui::TrackHeader_UI m_view;
-    QMenu *m_contextMenu;
 
 private slots:
     void switchAudio();

@@ -397,8 +397,10 @@ void TrackView::refresh()
 void TrackView::slotRebuildTrackHeaders()
 {
     QList <TrackInfo> list = m_doc->tracksList();
-    QList<HeaderTrack *> widgets = findChildren<HeaderTrack *>();
-    qDeleteAll(widgets);
+    QLayoutItem *child;
+    while ((child = m_headersLayout->takeAt(0)) != 0) {
+        delete child;
+    }
     int max = list.count();
     for (int i = 0; i < max; i++) {
         HeaderTrack *header = new HeaderTrack(i, list.at(max - i - 1), this);

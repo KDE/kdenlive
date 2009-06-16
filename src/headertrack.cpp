@@ -63,24 +63,22 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent) :
     connect(m_view.buttonAudio, SIGNAL(clicked()), this, SLOT(switchAudio()));
     connect(m_view.buttonLock, SIGNAL(clicked()), this, SLOT(switchLock()));
 
-    m_contextMenu = new QMenu(this);
-
+    setContextMenuPolicy(Qt::ActionsContextMenu);
     QAction *insertAction = new QAction(i18n("Insert Track"), this);
-    m_contextMenu->addAction(insertAction);
+    addAction(insertAction);
     connect(insertAction, SIGNAL(triggered()), this, SLOT(slotAddTrack()));
 
     QAction *removeAction = new QAction(KIcon("edit-delete"), i18n("Delete Track"), this);
-    m_contextMenu->addAction(removeAction);
+    addAction(removeAction);
     connect(removeAction, SIGNAL(triggered()), this, SLOT(slotDeleteTrack()));
 
     QAction *changeAction = new QAction(i18n("Change Track Type"), this);
-    m_contextMenu->addAction(changeAction);
+    addAction(changeAction);
     connect(changeAction, SIGNAL(triggered()), this, SLOT(slotChangeTrack()));
 }
 
 HeaderTrack::~HeaderTrack()
 {
-    delete m_contextMenu;
 }
 
 void HeaderTrack::switchVideo()
@@ -135,11 +133,6 @@ void HeaderTrack::slotChangeTrack()
     emit changeTrack(m_index);
 }
 
-// virtual
-void HeaderTrack::contextMenuEvent(QContextMenuEvent * event)
-{
-    m_contextMenu->popup(event->globalPos());
-}
 
 // virtual
 /*void HeaderTrack::paintEvent(QPaintEvent *e) {
