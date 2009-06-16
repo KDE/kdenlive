@@ -26,6 +26,7 @@
 #include <KApplication>
 #include <KLocale>
 
+#include <QFile>
 #include <QColor>
 
 DocumentValidator::DocumentValidator(QDomDocument doc):
@@ -45,7 +46,7 @@ bool DocumentValidator::validate(const double currentVersion)
     if (!upgrade(kdenlivedocElm.attribute("version").toDouble(), currentVersion))
         return false;
 
-	/*
+    /*
      * Check the syntax (this will be replaced by XSD validation with Qt 4.6)
      * and correct some errors
      */
@@ -126,8 +127,10 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     kDebug() << "Opening a document with version " << version;
 
     // No conversion needed
-    if (version == currentVersion)
-        return true;
+    if (version == currentVersion) {
+        if (!m_doc.toString().contains("font-size")) // TODO: remove when currentVersion == 0.84
+            return true;
+    }
 
     // The document is too new
     if (version > currentVersion) {
@@ -136,16 +139,16 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         return false;
     }
 
-    // <kdenlivedoc />
-    QDomNode infoXmlNode = m_doc.elementsByTagName("kdenlivedoc").at(0);
-    QDomElement infoXml = infoXmlNode.toElement();
-
     // Unsupported document versions
     if (version == 0.5 || version == 0.7) {
         kDebug() << "Unable to open document with version " << version;
         KMessageBox::sorry(kapp->activeWindow(), i18n("This project type is unsupported (version %1) and can't be loaded.", version), i18n("Unable to open project"));
         return false;
     }
+
+    // <kdenlivedoc />
+    QDomNode infoXmlNode = m_doc.elementsByTagName("kdenlivedoc").at(0);
+    QDomElement infoXml = infoXmlNode.toElement();
 
     if (version <= 0.6) {
         QDomElement infoXml_old = infoXmlNode.cloneNode(true).toElement(); // Needed for folders
@@ -666,6 +669,38 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         for (int i = 0; i < westleyNodes.count(); i++) {
             QDomElement westley = westleyNodes.at(i).toElement();
             westley.setTagName("mlt");
+        }
+    }
+
+    if (version <= 0.83) {
+        // Replace point size with pixel size in text titles
+        if (m_doc.toString().contains("font-size")) {
+            QDomNodeList kproducerNodes = m_doc.elementsByTagName("kdenlive_producer");
+            for (int i = 0; i < kproducerNodes.count(); ++i) {
+                QDomElement kproducer = kproducerNodes.at(i).toElement();
+                if (kproducer.attribute("type").toInt() == TEXT) {
+                    QDomDocument data;
+                    data.setContent(kproducer.attribute("xmldata"));
+                    QDomNodeList items = data.firstChild().childNodes();
+                    for (int j = 0; j < items.count(); ++j) {
+                        if (items.at(j).attributes().namedItem("type").nodeValue() == "QGraphicsTextItem") {
+                            QDomNamedNodeMap textProperties = items.at(j).namedItem("content").attributes();
+                            if (textProperties.namedItem("font-pixel-size").isNull()) {
+                                QFont font;
+                                font.setPointSize(textProperties.namedItem("font-size").nodeValue().toInt());
+                                QDomElement content = items.at(j).namedItem("content").toElement();
+                                content.setAttribute("font-pixel-size", QFontInfo(font).pixelSize());
+                                content.removeAttribute("font-size");
+                                kproducer.setAttribute("xmldata", data.toString());
+                                QString resource = kproducer.attribute("resource");
+                                if (QFile::exists(resource)) {
+                                    // TODO: delete the preview file
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
