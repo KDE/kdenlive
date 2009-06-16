@@ -692,10 +692,11 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                                 content.setAttribute("font-pixel-size", QFontInfo(font).pixelSize());
                                 content.removeAttribute("font-size");
                                 kproducer.setAttribute("xmldata", data.toString());
-                                QString resource = kproducer.attribute("resource");
-                                if (QFile::exists(resource)) {
-                                    // TODO: delete the preview file
-                                }
+                                /*
+                                 * You may be tempted to delete the preview file
+                                 * to force its recreation: bad idea (see
+                                 * http://www.kdenlive.org/mantis/view.php?id=749)
+                                 */
                             }
                         }
                     }
