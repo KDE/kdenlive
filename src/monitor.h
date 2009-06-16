@@ -93,25 +93,25 @@ protected:
 
 private:
     Ui::Monitor_UI m_ui;
-    MonitorManager *m_monitorManager;
-    MonitorRefresh *m_monitorRefresh;
     QString m_name;
+    MonitorManager *m_monitorManager;
+    DocClipBase *m_currentClip;
+    SmallRuler *m_ruler;
+    Overlay *m_overlay;
+    bool m_isActive;
     double m_scale;
     int m_length;
     int m_position;
-    SmallRuler *m_ruler;
+    bool m_dragStarted;
+    MonitorRefresh *m_monitorRefresh;
     KIcon m_playIcon;
     KIcon m_pauseIcon;
-    bool m_isActive;
     KRestrictedLine *m_timePos;
     QAction *m_playAction;
     QMenu *m_contextMenu;
     QMenu *m_configMenu;
     QMenu *m_playMenu;
-    DocClipBase *m_currentClip;
     QPoint m_DragStartPosition;
-    bool m_dragStarted;
-    Overlay *m_overlay;
     GenTime getSnapForPos(bool previous);
 
 private slots:

@@ -43,18 +43,18 @@
 Monitor::Monitor(QString name, MonitorManager *manager, QWidget *parent) :
         QWidget(parent),
         render(NULL),
-        m_monitorManager(manager),
         m_name(name),
-        m_isActive(false),
+        m_monitorManager(manager),
         m_currentClip(NULL),
+        m_ruler(new SmallRuler()),
+        m_overlay(NULL),
+        m_isActive(false),
+        m_scale(1),
         m_length(0),
         m_position(-1),
-        m_dragStarted(false),
-        m_overlay(NULL)
+        m_dragStarted(false)
 {
     m_ui.setupUi(this);
-    m_scale = 1;
-    m_ruler = new SmallRuler();
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(m_ruler);
@@ -753,7 +753,8 @@ MonitorRefresh::MonitorRefresh(QWidget* parent) : \
         m_renderer(NULL)
 {
     setAttribute(Qt::WA_PaintOnScreen);
-    setAttribute(Qt::WA_OpaquePaintEvent); //setAttribute(Qt::WA_NoSystemBackground);
+    setAttribute(Qt::WA_OpaquePaintEvent);
+    //setAttribute(Qt::WA_NoSystemBackground);
 }
 
 void MonitorRefresh::setRenderer(Render* render)
