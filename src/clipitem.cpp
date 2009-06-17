@@ -167,7 +167,7 @@ void ClipItem::initEffect(QDomElement effect)
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); i++) {
         QDomElement e = params.item(i).toElement();
-        kDebug() << "// inint eff: " << e.attribute("name");
+        kDebug() << "// init eff: " << e.attribute("name");
         if (!e.isNull() && e.attribute("type") == "keyframe") {
             QString def = e.attribute("default");
             // Effect has a keyframe type parameter, we need to set the values
@@ -178,21 +178,28 @@ void ClipItem::initEffect(QDomElement effect)
             }
         }
     }
-
     if (effect.attribute("tag") == "volume" || effect.attribute("tag") == "brightness") {
         if (effect.attribute("id") == "fadeout" || effect.attribute("id") == "fade_to_black") {
             int end = (duration() + cropStart()).frames(m_fps);
             int start = end;
             if (effect.attribute("id") == "fadeout") {
                 if (m_effectList.hasEffect(QString(), "fade_to_black") == -1) {
-                    start -= EffectsList::parameter(effect, "in").toInt();
+                    int effectDuration = EffectsList::parameter(effect, "in").toInt();
+                    if (effectDuration > cropDuration().frames(m_fps)) {
+                        effectDuration = cropDuration().frames(m_fps) / 2;
+                    }
+                    start -= effectDuration;
                 } else {
                     QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fade_to_black");
                     start -= EffectsList::parameter(fadeout, "out").toInt() - EffectsList::parameter(fadeout, "in").toInt();
                 }
             } else if (effect.attribute("id") == "fade_to_black") {
                 if (m_effectList.hasEffect(QString(), "fadeout") == -1) {
-                    start -= EffectsList::parameter(effect, "in").toInt();
+                    int effectDuration = EffectsList::parameter(effect, "in").toInt();
+                    if (effectDuration > cropDuration().frames(m_fps)) {
+                        effectDuration = cropDuration().frames(m_fps) / 2;
+                    }
+                    start -= effectDuration;
                 } else {
                     QDomElement fadeout = m_effectList.getEffectByTag(QString(), "fadeout");
                     start -= EffectsList::parameter(fadeout, "out").toInt() - EffectsList::parameter(fadeout, "in").toInt();
@@ -204,14 +211,22 @@ void ClipItem::initEffect(QDomElement effect)
             int start = cropStart().frames(m_fps);
             int end = start;
             if (effect.attribute("id") == "fadein") {
-                if (m_effectList.hasEffect(QString(), "fade_from_black") == -1)
-                    end += EffectsList::parameter(effect, "out").toInt();
-                else
+                if (m_effectList.hasEffect(QString(), "fade_from_black") == -1) {
+                    int effectDuration = EffectsList::parameter(effect, "out").toInt();
+                    if (effectDuration > cropDuration().frames(m_fps)) {
+                        effectDuration = cropDuration().frames(m_fps) / 2;
+                    }
+                    end += effectDuration;
+                } else
                     end += EffectsList::parameter(m_effectList.getEffectByTag(QString(), "fade_from_black"), "out").toInt();
             } else if (effect.attribute("id") == "fade_from_black") {
-                if (m_effectList.hasEffect(QString(), "fadein") == -1)
-                    end += EffectsList::parameter(effect, "out").toInt();
-                else
+                if (m_effectList.hasEffect(QString(), "fadein") == -1) {
+                    int effectDuration = EffectsList::parameter(effect, "out").toInt();
+                    if (effectDuration > cropDuration().frames(m_fps)) {
+                        effectDuration = cropDuration().frames(m_fps) / 2;
+                    }
+                    end += effectDuration;
+                } else
                     end += EffectsList::parameter(m_effectList.getEffectByTag(QString(), "fadein"), "out").toInt();
             }
             EffectsList::setParameter(effect, "in", QString::number(start));
