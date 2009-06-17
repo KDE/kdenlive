@@ -69,7 +69,7 @@ Q_OBJECT public:
     /** Seeks the renderer clip to the given time. */
     void seek(GenTime time);
     void seekToFrame(int pos);
-    bool m_isBlocked;
+    int m_isBlocked;
 
     //static QPixmap getVideoThumbnail(char *profile, QString file, int frame, int width, int height);
     QPixmap getImageThumbnail(KUrl url, int width, int height);

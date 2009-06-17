@@ -55,7 +55,7 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
 
 Render::Render(const QString & rendererName, int winid, int /* extid */, QWidget *parent) :
         QObject(parent),
-        m_isBlocked(true),
+        m_isBlocked(1),
         m_name(rendererName),
         m_mltConsumer(NULL),
         m_mltProducer(NULL),
@@ -84,6 +84,7 @@ Render::Render(const QString & rendererName, int winid, int /* extid */, QWidget
 
 Render::~Render()
 {
+    m_isBlocked = 1;
     closeMlt();
 }
 
@@ -223,7 +224,7 @@ void Render::seek(GenTime time)
 {
     if (!m_mltProducer)
         return;
-    m_isBlocked = false;
+    m_isBlocked = 0;
     m_mltProducer->seek((int)(time.frames(m_fps)));
     refresh();
 }
@@ -1221,7 +1222,7 @@ void Render::seekToFrame(int pos)
 void Render::askForRefresh()
 {
     // Use a Timer so that we don't refresh too much
-    m_refreshTimer->start(200);
+    m_refreshTimer->start(500);
 }
 
 void Render::doRefresh()
@@ -1511,6 +1512,7 @@ bool Render::mltRemoveClip(int track, GenTime position)
     if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";
 
     Mlt::Tractor tractor(service);
+    mlt_service_lock(service.get_service());
     Mlt::Producer trackProducer(tractor.track(track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
     int clipIndex = trackPlaylist.get_clip_index_at((int) position.frames(m_fps));
@@ -1524,9 +1526,8 @@ bool Render::mltRemoveClip(int track, GenTime position)
     if (trackPlaylist.is_blank(i)) blk = "(blank)";
     kDebug()<<"CLIP "<<i<<": ("<<blankStart<<'x'<<blankStart + blankDuration<<")"<<blk;
     }*/
-
     if (trackPlaylist.is_blank(clipIndex)) {
-        kDebug() << "// WARMNING, TRYING TO REMOVE A BLANK: " << clipIndex << ", AT: " << position.frames(25);
+        kDebug() << "// WARNING, TRYING TO REMOVE A BLANK: " << position.frames(25);
         return false;
     }
     m_isBlocked = true;
@@ -1545,7 +1546,7 @@ bool Render::mltRemoveClip(int track, GenTime position)
     if (trackPlaylist.is_blank(i)) blk = "(blank)";
     kDebug()<<"CLIP "<<i<<": ("<<blankStart<<'x'<<blankStart + blankDuration<<")"<<blk;
     }*/
-
+    mlt_service_unlock(service.get_service());
     if (track != 0 && trackPlaylist.count() <= clipIndex) mltCheckLength();
     m_isBlocked = false;
     return true;
@@ -2352,7 +2353,7 @@ void Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod)
         return;
     }
     kDebug() << "NEW PROD ID: " << prod->get("id");
-    m_mltConsumer->set("refresh", 0);
+    m_isBlocked++;
     kDebug() << "// TRYING TO UPDATE CLIP at: " << pos << ", TK: " << track;
     mlt_service_lock(m_mltConsumer->get_service());
     Mlt::Service service(m_mltProducer->parent().get_service());
@@ -2366,7 +2367,7 @@ void Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod)
     if (clipProducer.is_blank()) {
         kDebug() << "// ERROR UPDATING CLIP PROD";
         mlt_service_unlock(m_mltConsumer->get_service());
-        m_isBlocked = false;
+        m_isBlocked--;
         return;
     }
     Mlt::Producer *clip = prod->cut(clipProducer.get_in(), clipProducer.get_out());
@@ -2387,14 +2388,14 @@ void Render::mltUpdateClipProducer(int track, int pos, Mlt::Producer *prod)
 
     trackPlaylist.insert_at(pos, clip, 1);
     mlt_service_unlock(m_mltConsumer->get_service());
-    m_isBlocked = false;
+    m_isBlocked--;
 }
 
 bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEnd, Mlt::Producer *prod)
 {
-    m_isBlocked = true;
+    m_isBlocked++;
 
-    m_mltConsumer->set("refresh", 0);
+    //m_mltConsumer->set("refresh", 0);
     mlt_service_lock(m_mltConsumer->get_service());
     Mlt::Service service(m_mltProducer->parent().get_service());
     if (service.type() != tractor_type) kWarning() << "// TRACTOR PROBLEM";
@@ -2413,7 +2414,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
             //int ix = trackPlaylist.get_clip_index_at(moveEnd);
             kDebug() << "// ERROR MOVING CLIP TO : " << moveEnd;
             mlt_service_unlock(m_mltConsumer->get_service());
-            m_isBlocked = false;
+            m_isBlocked--;
             return false;
         } else {
             trackPlaylist.consolidate_blanks(0);
@@ -2430,7 +2431,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
         if (!destTrackPlaylist.is_blank_at(moveEnd)) {
             // error, destination is not empty
             mlt_service_unlock(m_mltConsumer->get_service());
-            m_isBlocked = false;
+            m_isBlocked--;
             return false;
         } else {
             Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
@@ -2439,7 +2440,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
                 //int ix = trackPlaylist.get_clip_index_at(moveEnd);
                 kDebug() << "// ERROR MOVING CLIP TO : " << moveEnd;
                 mlt_service_unlock(m_mltConsumer->get_service());
-                m_isBlocked = false;
+                m_isBlocked--;
                 return false;
             }
             trackPlaylist.consolidate_blanks(0);
@@ -2487,8 +2488,9 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
 
     if (checkLength) mltCheckLength();
     mlt_service_unlock(m_mltConsumer->get_service());
-    m_isBlocked = false;
-    m_mltConsumer->set("refresh", 1);
+    m_isBlocked--;
+    //askForRefresh();
+    //m_mltConsumer->set("refresh", 1);
     return true;
 }
 
@@ -2501,9 +2503,9 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
 
+    m_isBlocked++;
     mlt_service_lock(service.get_service());
-    m_mltConsumer->set("refresh", 0);
-    m_isBlocked = true;
+    //m_mltConsumer->set("refresh", 0);
 
     mlt_service serv = m_mltProducer->parent().get_service();
     mlt_service nextservice = mlt_service_get_producer(serv);
@@ -2521,7 +2523,7 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
         if (resource == type && startTrack == currentTrack && currentIn <= old_pos && currentOut >= old_pos) {
             mlt_transition_set_in_and_out(tr, new_in, new_out);
             if (newTrack - startTrack != 0) {
-                kDebug() << "///// TRANSITION CHANGE TRACK. CUrrent (b): " << currentTrack << 'x' << mlt_transition_get_a_track(tr) << ", NEw: " << newTrack << 'x' << newTransitionTrack;
+                //kDebug() << "///// TRANSITION CHANGE TRACK. CUrrent (b): " << currentTrack << 'x' << mlt_transition_get_a_track(tr) << ", NEw: " << newTrack << 'x' << newTransitionTrack;
 
                 mlt_properties properties = MLT_TRANSITION_PROPERTIES(tr);
                 mlt_properties_set_int(properties, "a_track", newTransitionTrack);
@@ -2536,15 +2538,15 @@ bool Render::mltMoveTransition(QString type, int startTrack, int newTrack, int n
         mlt_type = mlt_properties_get(properties, "mlt_type");
         resource = mlt_properties_get(properties, "mlt_service");
     }
-    m_isBlocked = false;
     mlt_service_unlock(service.get_service());
-    m_mltConsumer->set("refresh", 1);
+    m_isBlocked--;
+    //askForRefresh();
+    //if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
     return true;
 }
 
 void Render::mltUpdateTransition(QString oldTag, QString tag, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml)
 {
-    // kDebug() << "update transition"  << tag << " at pos " << in.frames(25);
     if (oldTag == tag) mltUpdateTransitionParams(tag, a_track, b_track, in, out, xml);
     else {
         mltDeleteTransition(oldTag, a_track, b_track, in, out, xml, false);
@@ -2555,13 +2557,12 @@ void Render::mltUpdateTransition(QString oldTag, QString tag, int a_track, int b
 
 void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, GenTime in, GenTime out, QDomElement xml)
 {
-    m_isBlocked = true;
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
+    mlt_service_lock(service.get_service());
+    m_isBlocked++;
 
-    //m_mltConsumer->set("refresh", 0);
     mlt_service serv = m_mltProducer->parent().get_service();
-
     mlt_service nextservice = mlt_service_get_producer(serv);
     mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
     QString mlt_type = mlt_properties_get(properties, "mlt_type");
@@ -2605,14 +2606,19 @@ void Render::mltUpdateTransitionParams(QString type, int a_track, int b_track, G
         mlt_type = mlt_properties_get(properties, "mlt_type");
         resource = mlt_properties_get(properties, "mlt_service");
     }
-    m_isBlocked = false;
-    m_mltConsumer->set("refresh", 1);
+    mlt_service_unlock(service.get_service());
+    m_isBlocked--;
+    //askForRefresh();
+    //if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
 }
 
 void Render::mltDeleteTransition(QString tag, int /*a_track*/, int b_track, GenTime in, GenTime out, QDomElement /*xml*/, bool /*do_refresh*/)
 {
     Mlt::Service service(m_mltProducer->parent().get_service());
     Mlt::Tractor tractor(service);
+    m_isBlocked++;
+    mlt_service_lock(service.get_service());
+
     Mlt::Field *field = tractor.field();
 
     //if (do_refresh) m_mltConsumer->set("refresh", 0);
@@ -2624,6 +2630,7 @@ void Render::mltDeleteTransition(QString tag, int /*a_track*/, int b_track, GenT
     QString resource = mlt_properties_get(properties, "mlt_service");
 
     const int old_pos = (int)((in + out).frames(m_fps) / 2);
+    kDebug() << " del trans pos: " << in.frames(25) << "-" << out.frames(25);
 
     while (mlt_type == "transition") {
         mlt_transition tr = (mlt_transition) nextservice;
@@ -2642,7 +2649,10 @@ void Render::mltDeleteTransition(QString tag, int /*a_track*/, int b_track, GenT
         mlt_type = mlt_properties_get(properties, "mlt_type");
         resource = mlt_properties_get(properties, "mlt_service");
     }
-    //if (do_refresh) m_mltConsumer->set("refresh", 1);
+    mlt_service_unlock(service.get_service());
+    m_isBlocked--;
+    //askForRefresh();
+    //if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
 }
 
 QMap<QString, QString> Render::mltGetTransitionParamsFromXml(QDomElement xml)
@@ -2743,7 +2753,7 @@ void Render::mltResizeTransparency(int oldStart, int newStart, int newEnd, int t
 
     mlt_service_lock(service.get_service());
     m_mltConsumer->set("refresh", 0);
-    m_isBlocked = true;
+    m_isBlocked++;
 
     mlt_service serv = m_mltProducer->parent().get_service();
     mlt_service nextservice = mlt_service_get_producer(serv);
@@ -2769,9 +2779,9 @@ void Render::mltResizeTransparency(int oldStart, int newStart, int newEnd, int t
         mlt_type = mlt_properties_get(properties, "mlt_type");
         resource = mlt_properties_get(properties, "mlt_service");
     }
-    m_isBlocked = false;
     mlt_service_unlock(service.get_service());
-    m_mltConsumer->set("refresh", 1);
+    m_isBlocked--;
+    if (m_isBlocked == 0) m_mltConsumer->set("refresh", 1);
 
 }
 
@@ -2782,7 +2792,7 @@ void Render::mltMoveTransparency(int startTime, int endTime, int startTrack, int
 
     mlt_service_lock(service.get_service());
     m_mltConsumer->set("refresh", 0);
-    m_isBlocked = true;
+    m_isBlocked++;
 
     mlt_service serv = m_mltProducer->parent().get_service();
     mlt_service nextservice = mlt_service_get_producer(serv);
@@ -2815,7 +2825,7 @@ void Render::mltMoveTransparency(int startTime, int endTime, int startTrack, int
         mlt_type = mlt_properties_get(properties, "mlt_type");
         resource = mlt_properties_get(properties, "mlt_service");
     }
-    m_isBlocked = false;
+    m_isBlocked--;
     mlt_service_unlock(service.get_service());
     m_mltConsumer->set("refresh", 1);
 }
@@ -2935,7 +2945,7 @@ void Render::fillSlowMotionProducers()
 void Render::mltInsertTrack(int ix, bool videoTrack)
 {
     blockSignals(true);
-    m_isBlocked = true;
+    m_isBlocked++;
 
     m_mltConsumer->set("refresh", 0);
     mlt_service_lock(m_mltConsumer->get_service());
@@ -3007,7 +3017,7 @@ void Render::mltInsertTrack(int ix, bool videoTrack)
     field->plant_transition(*transition, 1, ct);
 
     mlt_service_unlock(m_mltConsumer->get_service());
-    m_isBlocked = false;
+    m_isBlocked--;
     blockSignals(false);
 }
 
@@ -3031,12 +3041,12 @@ void Render::mltDeleteTrack(int ix)
         if (mappedProps.value("mlt_service") == "mix" && mappedProps.value("b_track").toInt() == tracksCount) {
             tractor.removeChild(transitions.at(i));
             i--;
-        } else if (mappedProps.value("mlt_service") != "mix" && mappedProps.value("b_track").toInt() >= ix) {
+        } else if (mappedProps.value("mlt_service") != "mix" && (mappedProps.value("b_track").toInt() >= ix || mappedProps.value("a_track").toInt() >= ix)) {
             // Transition needs to be moved
             int a_track = mappedProps.value("a_track").toInt();
             int b_track = mappedProps.value("b_track").toInt();
-            if (a_track > 0) a_track --;
-            if (b_track > 0) b_track --;
+            if (a_track > 0 && a_track >= ix) a_track --;
+            if (b_track > 0 && b_track >= ix) b_track --;
             for (int j = 0; j < props.count(); j++) {
                 QDomElement f = props.at(j).toElement();
                 if (f.attribute("name") == "a_track") f.firstChild().setNodeValue(QString::number(a_track));
@@ -3046,6 +3056,7 @@ void Render::mltDeleteTrack(int ix)
         }
     }
     tractor.removeChild(track);
+    //kDebug() << "/////////// RESULT SCENE: \n" << doc.toString();
     setSceneList(doc.toString(), m_framePosition);
     mltCheckLength();
 }
