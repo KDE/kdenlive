@@ -116,6 +116,9 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     buttonAlignCenter->setIcon(KIcon("format-justify-center"));
     buttonAlignLeft->setIcon(KIcon("format-justify-left"));
     buttonAlignRight->setIcon(KIcon("format-justify-right"));
+	buttonAlignNone->setIcon(KIcon("kdenlive-align-none"));
+	buttonInsertUnicode->setIcon(KIcon("kdenlive-insert-unicode"));
+	
     buttonAlignNone->setToolTip(i18n("No alignment"));
     buttonAlignRight->setToolTip(i18n("Align right"));
     buttonAlignLeft->setToolTip(i18n("Align left"));

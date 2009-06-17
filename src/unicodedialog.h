@@ -23,7 +23,7 @@ public:
 	UnicodeDialog(InputMethod inputMeth);
 	~UnicodeDialog();
 	
-	/** \brief Returns infos about an unicode number. Extendable/improvable ;) */
+	/** \brief Returns infos about a unicode number. Extendable/improvable ;) */
 	QString unicodeInfo(QString unicode_number);
 
 private:
@@ -31,8 +31,13 @@ private:
 	
 	/** Selected input method */
 	InputMethod inputMethod;
+	
 	/** \brief Validates text and removes all invalid characters (non-hex e.g.) */
 	QString validateText(QString text);
+	/** \brief Removes all leading zeros */
+	QString trimmedUnicodeNumber(QString text);
+	/** \brief Checks whether the given string is a control character */
+	bool controlCharacter(QString text);
 	
 	int lastCursorPos;
 	QString lastUnicodeNumber;

@@ -39,17 +39,42 @@ UnicodeDialog::~UnicodeDialog()
 
 /// METHODS
 
+bool UnicodeDialog::controlCharacter(QString text)
+{
+	bool isControlCharacter = false;
+	QString t = text.toLower();
+	
+	switch (inputMethod) {
+		case InputHex:
+			if (t == "" 
+				|| (t.length() == 1 && !(t == "9" || t == "a" || t == "d"))
+				|| (t.length() == 2 && t.at(0) == QChar('1'))) {
+				isControlCharacter = true;
+			}
+			break;
+			
+		case InputDec:
+			break;
+	}
+	
+	return isControlCharacter;
+}
+
+QString UnicodeDialog::trimmedUnicodeNumber(QString text)
+{
+	while (text.length() > 0 && text.at(0) == QChar('0')) {
+		text = text.remove(0, 1);
+	}
+	return text;
+}
+
 QString UnicodeDialog::unicodeInfo(QString unicode_number)
 {
 	QString infoText("");
-	QString u = unicode_number;
+	QString u = trimmedUnicodeNumber(unicode_number);
 	
-	while (unicode_number.at(0) == QChar('0')) {
-		unicode_number = unicode_number.remove(0, 1);
-	}
-	
-	if (false) {
-		// Just a placeholder for reason of ease (shifting around lines)
+	if (controlCharacter(u)) {
+		infoText = i18n("Control character. Cannot be inserted/printed. See <a href=\"http://en.wikipedia.org/wiki/Control_character\">Wikipedia:Control_character</a>");
 	} else if (u == "2009") {
 		infoText = i18n("A thin space, in HTML also &amp;thinsp;. See <a href=\"http://en.wikipedia.org/wiki/Space_(punctuation)\">Wikipedia:Space_(punctuation)</a>");
 	} else if (u == "2019") {
@@ -65,9 +90,6 @@ QString UnicodeDialog::unicodeInfo(QString unicode_number)
 	return infoText;
 }
 
-/**
- * Validates an Unicode number.
- */
 QString UnicodeDialog::validateText(QString text)
 {
 	QRegExp regex("([0-9]|[a-f])", Qt::CaseInsensitive, QRegExp::RegExp2);
@@ -76,6 +98,7 @@ QString UnicodeDialog::validateText(QString text)
 	
 	switch (inputMethod) {
 		case InputHex:
+			// Remove all characters we don't want
 			while ((pos = regex.indexIn(text, pos)) != -1) {
 				newText += regex.cap(1);
 				pos++;
@@ -107,6 +130,7 @@ void UnicodeDialog::slotTextChanged(QString text)
 	unicodeNumber->setText(newText);
 	unicodeNumber->setCursorPosition(cursorPos);
 	
+	// Get the decimal number as uint to create the QChar from
 	uint value;
 	switch (inputMethod) {
 		case InputHex:
@@ -118,7 +142,7 @@ void UnicodeDialog::slotTextChanged(QString text)
 	}
 	
 	if (!ok) {
-		//TODO!
+		// Impossible! validateText never fails!
 	}
 	
 	// If an invalid character has been entered:
@@ -135,9 +159,16 @@ void UnicodeDialog::slotTextChanged(QString text)
 	unicodeNumber->blockSignals(false);
 }
 
+/**
+ * When return pressed, we return the selected unicode character
+ * if it was not a control character.
+ */
 void UnicodeDialog::slotReturnPressed() 
 {
-	emit charSelected(unicodeChar->text());
+	QString text = trimmedUnicodeNumber(unicodeNumber->text());
+	if (!controlCharacter(text)) {
+		emit charSelected(unicodeChar->text());
+	}
 	emit accept();
 }
 
