@@ -216,6 +216,7 @@ private:
     QAction *m_deleteGuide;
     QActionGroup *m_clipTypeGroup;
     QTimer m_scrollTimer;
+    QTimer m_thumbsTimer;
     int m_scrollOffset;
     bool m_clipDrag;
 
@@ -229,6 +230,7 @@ private:
     QPoint m_menuPosition;
     bool m_blockRefresh;
     AbstractGroupItem *m_selectionGroup;
+    QList <ClipItem *> m_waitingThumbs;
 
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
@@ -253,6 +255,7 @@ private slots:
     void slotCheckMouseScrolling();
     void slotEditTimeLineGuide();
     void slotDeleteTimeLineGuide();
+    void slotFetchNextThumbs();
 
 signals:
     void cursorMoved(int, int);

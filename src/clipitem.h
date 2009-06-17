@@ -157,7 +157,6 @@ private:
     QPixmap m_audioPix;
 
 private slots:
-    void slotFetchThumbs();
     void slotGetStartThumb();
     void slotGetEndThumb();
     void slotGotAudioData();
@@ -168,6 +167,7 @@ private slots:
     void slotThumbReady(int frame, QPixmap pix);
 
 public slots:
+    void slotFetchThumbs();
     void slotSetStartThumb(const QPixmap pix);
     void slotSetEndThumb(const QPixmap pix);
 

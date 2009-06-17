@@ -118,6 +118,11 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, b
 
 ClipItem::~ClipItem()
 {
+    blockSignals(true);
+    if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW || m_clipType == PLAYLIST) {
+        disconnect(m_clip->thumbProducer(), SIGNAL(thumbReady(int, QPixmap)), this, SLOT(slotThumbReady(int, QPixmap)));
+        disconnect(m_clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
+    }
     delete m_startThumbTimer;
     delete m_endThumbTimer;
     delete m_timeLine;
@@ -491,18 +496,16 @@ void ClipItem::slotSetEndThumb(QImage img)
 void ClipItem::slotThumbReady(int frame, QPixmap pix)
 {
     if (scene() == NULL) return;
-    QRectF r = sceneBoundingRect();
-    double width = m_startPix.width() / projectScene()->scale();
+    QRectF r = boundingRect();
+    double width = pix.width() / projectScene()->scale();
     if (m_startThumbRequested && frame == cropStart().frames(m_fps)) {
         m_startPix = pix;
         m_startThumbRequested = false;
-        double height = r.height();
-        update(r.x(), r.y(), width, height);
+        update(r.left(), r.top(), width, pix.height());
     } else if (m_endThumbRequested && frame == (cropStart() + cropDuration()).frames(m_fps) - 1) {
         m_endPix = pix;
         m_endThumbRequested = false;
-        double height = r.height();
-        update(r.right() - width, r.y(), width, height);
+        update(r.right() - width, r.y(), width, pix.height());
     }
 }
 

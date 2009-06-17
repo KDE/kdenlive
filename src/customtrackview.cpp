@@ -140,11 +140,16 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     connect(&m_scrollTimer, SIGNAL(timeout()), this, SLOT(slotCheckMouseScrolling()));
     m_scrollTimer.setInterval(100);
     m_scrollTimer.setSingleShot(true);
+
+    connect(&m_thumbsTimer, SIGNAL(timeout()), this, SLOT(slotFetchNextThumbs()));
+    m_thumbsTimer.setInterval(500);
+    m_thumbsTimer.setSingleShot(true);
 }
 
 CustomTrackView::~CustomTrackView()
 {
     qDeleteAll(m_guides);
+    m_waitingThumbs.clear();
 }
 
 void CustomTrackView::setDocumentModified()
@@ -257,6 +262,18 @@ int CustomTrackView::getPreviousVideoTrack(int track)
     return 0;
 }
 
+
+void CustomTrackView::slotFetchNextThumbs()
+{
+    if (!m_waitingThumbs.isEmpty()) {
+        ClipItem *item = m_waitingThumbs.takeFirst();
+        while ((item == NULL) && !m_waitingThumbs.isEmpty()) {
+            item = m_waitingThumbs.takeFirst();
+        }
+        if (item) item->slotFetchThumbs();
+        if (!m_waitingThumbs.isEmpty()) m_thumbsTimer.start();
+    }
+}
 
 void CustomTrackView::slotCheckMouseScrolling()
 {
@@ -1158,17 +1175,20 @@ void CustomTrackView::dragEnterEvent(QDragEnterEvent * event)
             info.startPos = start;
             info.endPos = info.startPos + clip->duration();
             info.track = (int)(1 / m_tracksHeight);
-            ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0);
+            ClipItem *item = new ClipItem(clip, info, m_document->fps(), 1.0, false);
             start += clip->duration();
             offsetList.append(start);
             m_selectionGroup->addToGroup(item);
             item->setFlags(QGraphicsItem::ItemIsSelectable);
+            m_waitingThumbs.append(item);
         }
         //TODO: check if we do not overlap another clip when first dropping in timeline
         //if (insertPossible(m_selectionGroup, event->pos()))
         updateSnapPoints(NULL, offsetList);
         scene()->addItem(m_selectionGroup);
+        m_thumbsTimer.start();
         event->acceptProposedAction();
+
     } else {
         // the drag is not a clip (may be effect, ...)
         m_clipDrag = false;
@@ -1697,6 +1717,8 @@ void CustomTrackView::dragMoveEvent(QDragMoveEvent * event)
 void CustomTrackView::dragLeaveEvent(QDragLeaveEvent * event)
 {
     if (m_selectionGroup && m_clipDrag) {
+        m_thumbsTimer.stop();
+        m_waitingThumbs.clear();
         QList<QGraphicsItem *> items = m_selectionGroup->childItems();
         qDeleteAll(items);
         scene()->destroyItemGroup(m_selectionGroup);
@@ -2731,8 +2753,10 @@ void CustomTrackView::deleteClip(ItemInfo info)
         }
     }*/
     scene()->removeItem(item);
+    m_waitingThumbs.removeAll(item);
     if (m_dragItem == item) m_dragItem = NULL;
     delete item;
+    item = NULL;
     m_document->setModified(true);
     m_document->renderer()->doRefresh();
 }
