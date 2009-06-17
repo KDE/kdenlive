@@ -24,6 +24,7 @@
 #include "ui_wipeval_ui.h"
 #include "complexparameter.h"
 #include "geometryval.h"
+#include "effectslist.h"
 #include "kdenlivesettings.h"
 
 #include <KDebug>
@@ -434,20 +435,26 @@ void EffectStackEdit::collectAllParameters()
         } else if (type == "position") {
             KRestrictedLine *line = ((Positionval*)m_valueItems[paramName+"position"])->krestrictedline;
             int pos = m_timecode.getFrameCount(line->text(), KdenliveSettings::project_fps());
+            setValue = QString::number(pos);
             if (m_params.attribute("id") == "fadein" || m_params.attribute("id") == "fade_from_black") {
-                pos += m_in;
+                // Make sure duration is not longer than clip
                 if (pos > m_out) {
                     pos = m_out;
                     line->setText(m_timecode.getTimecodeFromFrames(pos));
                 }
+                EffectsList::setParameter(m_params, "in", QString::number(m_in));
+                EffectsList::setParameter(m_params, "out", QString::number(m_in + pos));
+                setValue.clear();
             } else if (m_params.attribute("id") == "fadeout" || m_params.attribute("id") == "fade_to_black") {
-                pos = m_out - (pos - m_in);
-                if (pos > m_out - m_in) {
-                    pos = m_out - m_in;
+                // Make sure duration is not longer than clip
+                if (pos > m_out) {
+                    pos = m_out;
                     line->setText(m_timecode.getTimecodeFromFrames(pos));
                 }
+                EffectsList::setParameter(m_params, "in", QString::number(m_out + m_in - pos));
+                EffectsList::setParameter(m_params, "out", QString::number(m_out + m_in));
+                setValue.clear();
             }
-            setValue = QString::number(pos);
         } else if (type == "wipe") {
             Wipeval *wp = (Wipeval*)m_valueItems[paramName];
             wipeInfo info;
