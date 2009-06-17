@@ -1531,7 +1531,6 @@ bool Render::mltRemoveClip(int track, GenTime position)
         return false;
     }
     m_isBlocked = true;
-    Mlt::Producer clip(trackPlaylist.get_clip(clipIndex));
     trackPlaylist.replace_with_blank(clipIndex);
     trackPlaylist.consolidate_blanks(0);
     /*if (QString(clip.parent().get("transparency")).toInt() == 1)
@@ -1737,16 +1736,22 @@ int Render::mltChangeClipSpeed(ItemInfo info, double speed, double oldspeed, Mlt
     int clipIndex = trackPlaylist.get_clip_index_at(startPos);
     int clipLength = trackPlaylist.clip_length(clipIndex);
 
-    Mlt::Producer clip(trackPlaylist.get_clip(clipIndex));
-    if (!clip.is_valid() || clip.is_blank()) {
-        // invalid clip
+    Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
+    if (clip == NULL) {
         return -1;
     }
-    Mlt::Producer clipparent = clip.parent();
+    if (!clip->is_valid() || clip->is_blank()) {
+        // invalid clip
+        delete clip;
+        return -1;
+    }
+    Mlt::Producer clipparent = clip->parent();
     if (!clipparent.is_valid() || clipparent.is_blank()) {
         // invalid clip
+        delete clip;
         return -1;
     }
+    delete clip;
     QString serv = clipparent.get("mlt_service");
     QString id = clipparent.get("id");
     //kDebug() << "CLIP SERVICE: " << serv;
@@ -2165,9 +2170,7 @@ void Render::mltMoveEffect(int track, GenTime position, int oldPos, int newPos)
 bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
 {
     m_isBlocked = true;
-
     Mlt::Service service(m_mltProducer->parent().get_service());
-
     Mlt::Tractor tractor(service);
     Mlt::Producer trackProducer(tractor.track(info.track));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
@@ -2193,7 +2196,7 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
     Mlt::Producer *clip = trackPlaylist.get_clip(clipIndex);
     int previousStart = clip->get_in();
     int newDuration = (int) clipDuration.frames(m_fps) - 1;
-    int diff = newDuration - trackPlaylist.clip_length(clipIndex) - 1;
+    int diff = newDuration - (trackPlaylist.clip_length(clipIndex) - 1);
     if (newDuration > clip->get_length()) {
         clip->parent().set("length", newDuration + 1);
         clip->set("length", newDuration + 1);
@@ -2202,6 +2205,7 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
         clip->parent().set_in_and_out(0, newDuration + 1);
         clip->set_in_and_out(0, newDuration + 1);
     }
+    delete clip;
     trackPlaylist.resize_clip(clipIndex, previousStart, newDuration + previousStart);
     trackPlaylist.consolidate_blanks(0);
     // skip to next clip
@@ -2281,6 +2285,7 @@ bool Render::mltResizeClipCrop(ItemInfo info, GenTime diff)
         return false;
     }
     int previousStart = clip->get_in();
+    delete clip;
     int previousDuration = trackPlaylist.clip_length(clipIndex) - 1;
     m_isBlocked = true;
     trackPlaylist.resize_clip(clipIndex, previousStart + frameOffset, previousStart + previousDuration + frameOffset);
@@ -2311,6 +2316,7 @@ bool Render::mltResizeClipStart(ItemInfo info, GenTime diff)
         return false;
     }
     int previousStart = clip->get_in();
+    delete clip;
     int previousDuration = trackPlaylist.clip_length(clipIndex) - 1;
     m_isBlocked = true;
     kDebug() << "RESIZE, old start: " << previousStart << ", PREV DUR: " << previousDuration << ", DIFF: " << moveFrame;
