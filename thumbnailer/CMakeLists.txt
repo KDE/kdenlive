@@ -4,6 +4,7 @@
 include_directories (
     ${KDE4_INCLUDES}
     ${LIBMLT_INCLUDE_DIR}
+    ${LIBMLTPLUS_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR} 
     ${CMAKE_BINARY_DIR} 
 )
