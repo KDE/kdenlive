@@ -199,7 +199,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
                     r = m_selectedItem->boundingRect();
                 /*
                  * The vertices of the rectangle (check for matrix
-                 * transformation); i hope there is a shorter way to do this
+                 * transformation); to be replaced by QTransform::map()?
                  */
                 QPointF itemOrigin = item->scenePos();
                 QTransform transform = item->transform();
@@ -284,7 +284,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             QPointF newpoint = e->scenePos();
             /*
              * The vertices of the rectangle (check for matrix
-             * transformation); i hope there is a shorter way to do this
+             * transformation); to be replaced by QTransform::map()?
              */
             QPointF itemOrigin = m_selectedItem->scenePos();
             QTransform transform = m_selectedItem->transform();
@@ -413,7 +413,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
                 itemFound = true;
                 /*
                  * The vertices of the rectangle (check for matrix
-                 * transformation); i hope there is a shorter way to do this
+                 * transformation); to be replaced by QTransform::map()?
                  */
                 QPointF itemOrigin = g->scenePos();
                 QTransform transform = g->transform();
