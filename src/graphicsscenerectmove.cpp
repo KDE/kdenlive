@@ -193,28 +193,47 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
                 setCursor(Qt::ClosedHandCursor);
             } else if (item->type() == 3 || item->type() == 13 || item->type() == 7) {
                 QRectF r;
-                if (m_selectedItem->type() == 3) {
+                if (m_selectedItem->type() == 3)
                     r = ((QGraphicsRectItem*)m_selectedItem)->rect();
-                } else r = m_selectedItem->boundingRect();
-
-                r.translate(item->scenePos());
-                if ((r.toRect().topLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / m_zoom) {
+                else
+                    r = m_selectedItem->boundingRect();
+                /*
+                 * The vertices of the rectangle (check for matrix
+                 * transformation); i hope there is a shorter way to do this
+                 */
+                QPointF itemOrigin = item->scenePos();
+                QTransform transform = item->transform();
+                QPointF topLeft(transform.m11() * r.toRect().left() + transform.m21() * r.toRect().top() + transform.m31() + itemOrigin.x(), transform.m22() * r.toRect().top() + transform.m12() * r.toRect().left() + transform.m32() + itemOrigin.y());
+                QPointF bottomLeft(transform.m11() * r.toRect().left() + transform.m21() * r.toRect().bottom() + transform.m31() + itemOrigin.x(), transform.m22() * r.toRect().bottom() + transform.m12() * r.toRect().left() + transform.m32() + itemOrigin.y());
+                QPointF topRight(transform.m11() * r.toRect().right() + transform.m21() * r.toRect().top() + transform.m31() + itemOrigin.x(), transform.m22() * r.toRect().top() + transform.m12() * r.toRect().right() + transform.m32() + itemOrigin.y());
+                QPointF bottomRight(transform.m11() * r.toRect().right() + transform.m21() * r.toRect().bottom() + transform.m31() + itemOrigin.x(), transform.m22() * r.toRect().bottom() + transform.m12() * r.toRect().right() + transform.m32() + itemOrigin.y());
+                // The borders (using the transformed coordinates)
+                QGraphicsLineItem borderTop(topLeft.x(), topLeft.y(), topRight.x(), topRight.y());
+                QGraphicsLineItem borderRight(topRight.x(), topRight.y(), bottomRight.x(), bottomRight.y());
+                QGraphicsLineItem borderBottom(bottomRight.x(), bottomRight.y(), bottomLeft.x(), bottomLeft.y());
+                QGraphicsLineItem borderLeft(bottomLeft.x(), bottomLeft.y(), topLeft.x(), topLeft.y());
+                // The area interested by the mouse pointer
+                QPainterPath mouseArea;
+                mouseArea.addRect(e->scenePos().toPoint().x() - 3 / m_zoom, e->scenePos().toPoint().y() - 3 / m_zoom, 6 / m_zoom, 6 / m_zoom);
+                // Check for collisions between the mouse and the borders
+                if (borderLeft.collidesWithPath(mouseArea) && borderTop.collidesWithPath(mouseArea))
                     m_resizeMode = TopLeft;
-                } else if ((r.toRect().bottomLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / m_zoom) {
+                else if (borderLeft.collidesWithPath(mouseArea) && borderBottom.collidesWithPath(mouseArea))
                     m_resizeMode = BottomLeft;
-                } else if ((r.toRect().topRight() - e->scenePos().toPoint()).manhattanLength() < 6 / m_zoom) {
+                else if (borderRight.collidesWithPath(mouseArea) && borderTop.collidesWithPath(mouseArea))
                     m_resizeMode = TopRight;
-                } else if ((r.toRect().bottomRight() - e->scenePos().toPoint()).manhattanLength() < 6 / m_zoom) {
+                else if (borderRight.collidesWithPath(mouseArea) && borderBottom.collidesWithPath(mouseArea))
                     m_resizeMode = BottomRight;
-                } else if (qAbs(r.toRect().left() - e->scenePos().toPoint().x()) < 3 / m_zoom) {
+                else if (borderLeft.collidesWithPath(mouseArea))
                     m_resizeMode = Left;
-                } else if (qAbs(r.toRect().right() - e->scenePos().toPoint().x()) < 3 / m_zoom) {
+                else if (borderRight.collidesWithPath(mouseArea))
                     m_resizeMode = Right;
-                } else if (qAbs(r.toRect().top() - e->scenePos().toPoint().y()) < 3 / m_zoom) {
+                else if (borderTop.collidesWithPath(mouseArea))
                     m_resizeMode = Up;
-                } else if (qAbs(r.toRect().bottom() - e->scenePos().toPoint().y()) < 3 / m_zoom) {
+                else if (borderBottom.collidesWithPath(mouseArea))
                     m_resizeMode = Down;
-                } else setCursor(Qt::ClosedHandCursor);
+                else
+                    setCursor(Qt::ClosedHandCursor);
             }
         }
         QGraphicsScene::mousePressEvent(e);
@@ -258,63 +277,99 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
     if (m_selectedItem && e->buttons() & Qt::LeftButton) {
         if (m_selectedItem->type() == 3 || m_selectedItem->type() == 13 || m_selectedItem->type() == 7) {
             QRectF newrect;
-            if (m_selectedItem->type() == 3) {
+            if (m_selectedItem->type() == 3)
                 newrect = ((QGraphicsRectItem*)m_selectedItem)->rect();
-            } else newrect = m_selectedItem->boundingRect();
-
+            else
+                newrect = m_selectedItem->boundingRect();
             QPointF newpoint = e->scenePos();
-            //newpoint -= m_selectedItem->scenePos();
+            /*
+             * The vertices of the rectangle (check for matrix
+             * transformation); i hope there is a shorter way to do this
+             */
+            QPointF itemOrigin = m_selectedItem->scenePos();
+            QTransform transform = m_selectedItem->transform();
+            QPointF topLeft(transform.m11() * newrect.toRect().left() + transform.m21() * newrect.toRect().top() + transform.m31() + itemOrigin.x(), transform.m22() * newrect.toRect().top() + transform.m12() * newrect.toRect().left() + transform.m32() + itemOrigin.y());
+            QPointF bottomLeft(transform.m11() * newrect.toRect().left() + transform.m21() * newrect.toRect().bottom() + transform.m31() + itemOrigin.x(), transform.m22() * newrect.toRect().bottom() + transform.m12() * newrect.toRect().left() + transform.m32() + itemOrigin.y());
+            QPointF topRight(transform.m11() * newrect.toRect().right() + transform.m21() * newrect.toRect().top() + transform.m31() + itemOrigin.x(), transform.m22() * newrect.toRect().top() + transform.m12() * newrect.toRect().right() + transform.m32() + itemOrigin.y());
+            QPointF bottomRight(transform.m11() * newrect.toRect().right() + transform.m21() * newrect.toRect().bottom() + transform.m31() + itemOrigin.x(), transform.m22() * newrect.toRect().bottom() + transform.m12() * newrect.toRect().right() + transform.m32() + itemOrigin.y());
+            // Convert the mouse coordinates applying inverted transformation
+            QPointF newPointRelative = newpoint - itemOrigin;
+            QPointF resizePoint(transform.inverted().m11() * newPointRelative.x() + transform.inverted().m21() * newPointRelative.y() + transform.inverted().m31(), transform.inverted().m22() * newPointRelative.y() + transform.inverted().m12() * newPointRelative.x() + transform.inverted().m32());
+            /*
+             * Will check if the mouse is on the right of the limit lines with a
+             * determinant (it must be less than zero because the Y axis is
+             * inverted)
+             */
+            int determinant;
             switch (m_resizeMode) {
-            case TopLeft:
-                if (newpoint.x() < newrect.right() + m_selectedItem->pos().x() && newpoint.y() < newrect.bottom() + m_selectedItem->pos().y()) {
-                    newrect.setBottomRight(newrect.bottomRight() + m_selectedItem->pos() - newpoint);
-                    m_selectedItem->setPos(newpoint);
-                }
-                break;
-            case BottomLeft:
-                if (newpoint.x() < newrect.right() + m_selectedItem->pos().x() && newpoint.y() > m_selectedItem->pos().y()) {
-                    newrect.setBottomRight(QPointF(newrect.bottomRight().x() + m_selectedItem->pos().x() - newpoint.x(), newpoint.y() - m_selectedItem->pos().y()));
-                    m_selectedItem->setPos(QPointF(newpoint.x(), m_selectedItem->pos().y()));
-                }
-                break;
-            case TopRight:
-                if (newpoint.x() > m_selectedItem->pos().x() && newpoint.y() < newrect.bottom() + m_selectedItem->pos().y()) {
-                    newrect.setBottomRight(QPointF(newpoint.x() - m_selectedItem->pos().x(), newrect.bottom() + m_selectedItem->pos().y() - newpoint.y()));
-                    m_selectedItem->setPos(QPointF(m_selectedItem->pos().x(), newpoint.y()));
-                }
-                break;
-            case BottomRight:
-                if (newpoint.x() > m_selectedItem->pos().x() && newpoint.y() > m_selectedItem->pos().y()) {
-                    newrect.setBottomRight(newpoint - m_selectedItem->pos());
-                }
-                break;
-            case Left:
-                if (newpoint.x() < newrect.right() + m_selectedItem->pos().x()) {
-                    newrect.setRight(m_selectedItem->pos().x() + newrect.width() - newpoint.x());
-                    m_selectedItem->setPos(QPointF(newpoint.x(), m_selectedItem->pos().y()));
-                }
-                break;
-            case Right:
-                if (newpoint.x() > m_selectedItem->pos().x()) {
-                    newrect.setRight(newpoint.x() - m_selectedItem->pos().x());
-                }
-                break;
-            case Up:
-                if (newpoint.y() < newrect.bottom() + m_selectedItem->pos().y()) {
-                    newrect.setBottom(m_selectedItem->pos().y() + newrect.bottom() - newpoint.y());
-                    m_selectedItem->setPos(QPointF(m_selectedItem->pos().x(), newpoint.y()));
-                }
-                break;
-            case Down:
-                if (newpoint.y() > m_selectedItem->pos().y()) {
-                    newrect.setBottom(newpoint.y() - m_selectedItem->pos().y());
-                }
-                break;
-            default:
-                QPointF diff = e->scenePos() - m_sceneClickPoint;
-                m_sceneClickPoint = e->scenePos();
-                m_selectedItem->moveBy(diff.x(), diff.y());
-                break;
+                case TopLeft:
+                    determinant = (bottomRight.x() - newpoint.x()) * (topRight.y() - newpoint.y()) - (bottomRight.y() - newpoint.y()) * (topRight.x() - newpoint.x());
+                    if (determinant < 0) {
+                        determinant = (bottomLeft.x() - newpoint.x()) * (bottomRight.y() - newpoint.y()) - (bottomLeft.y() - newpoint.y()) * (bottomRight.x() - newpoint.x());
+                        if (determinant < 0) {
+                            // resizePoint is not working for some reason
+                            newrect.setBottomRight(QPointF(newrect.width() - (transform.inverted().m11() * resizePoint.x() + transform.inverted().m21() * resizePoint.y() + transform.inverted().m31()), newrect.bottom() - (transform.inverted().m22() * resizePoint.y() + transform.inverted().m12() * resizePoint.x() + transform.inverted().m32())));
+                            m_selectedItem->setPos(resizePoint + itemOrigin);
+                        }
+                    }
+                    break;
+                case BottomLeft:
+                    determinant = (bottomRight.x() - newpoint.x()) * (topRight.y() - newpoint.y()) - (bottomRight.y() - newpoint.y()) * (topRight.x() - newpoint.x());
+                    if (determinant < 0) {
+                        determinant = (topRight.x() - newpoint.x()) * (topLeft.y() - newpoint.y()) - (topRight.y() - newpoint.y()) * (topLeft.x() - newpoint.x());
+                        if (determinant < 0) {
+                            newrect.setBottomRight(QPointF(newrect.width() - resizePoint.x(), resizePoint.y()));
+                            m_selectedItem->setPos(QPointF(transform.m11() * resizePoint.x() + transform.m21() * (newrect.bottom() - resizePoint.y()) + transform.m31() + itemOrigin.x(), transform.m22() * (newrect.bottom() - resizePoint.y()) + transform.m12() * resizePoint.x() + transform.m32() + itemOrigin.y()));
+                        }
+                    }
+                    break;
+                case TopRight:
+                    determinant = (topLeft.x() - newpoint.x()) * (bottomLeft.y() - newpoint.y()) - (topLeft.y() - newpoint.y()) * (bottomLeft.x() - newpoint.x());
+                    if (determinant < 0) {
+                        determinant = (bottomLeft.x() - newpoint.x()) * (bottomRight.y() - newpoint.y()) - (bottomLeft.y() - newpoint.y()) * (bottomRight.x() - newpoint.x());
+                        if (determinant < 0) {
+                            newrect.setBottomRight(QPointF(resizePoint.x(), newrect.bottom() - resizePoint.y()));
+                            m_selectedItem->setPos(QPointF(transform.m11() * (newrect.width() - resizePoint.x()) + transform.m21() * resizePoint.y() + transform.m31() + itemOrigin.x(), transform.m22() * resizePoint.y() + transform.m12() * (newrect.width() - resizePoint.x()) + transform.m32() + itemOrigin.y()));
+                        }
+                    }
+                    break;
+                case BottomRight:
+                    determinant = (topLeft.x() - newpoint.x()) * (bottomLeft.y() - newpoint.y()) - (topLeft.y() - newpoint.y()) * (bottomLeft.x() - newpoint.x());
+                    if (determinant < 0) {
+                        determinant = (topRight.x() - newpoint.x()) * (topLeft.y() - newpoint.y()) - (topRight.y() - newpoint.y()) * (topLeft.x() - newpoint.x());
+                        if (determinant < 0)
+                            newrect.setBottomRight(resizePoint);
+                    }
+                    break;
+                case Left:
+                    determinant = (bottomRight.x() - newpoint.x()) * (topRight.y() - newpoint.y()) - (bottomRight.y() - newpoint.y()) * (topRight.x() - newpoint.x());
+                    if (determinant < 0) {
+                        newrect.setRight(newrect.width() - resizePoint.x());
+                        m_selectedItem->setPos(QPointF(transform.m11() * resizePoint.x() + transform.m31() + itemOrigin.x(), transform.m12() * resizePoint.x() + transform.m32() + itemOrigin.y()));
+                    }
+                    break;
+                case Right:
+                    determinant = (topLeft.x() - newpoint.x()) * (bottomLeft.y() - newpoint.y()) - (topLeft.y() - newpoint.y()) * (bottomLeft.x() - newpoint.x());
+                    if (determinant < 0)
+                        newrect.setRight(resizePoint.x());
+                    break;
+                case Up:
+                    determinant = (bottomLeft.x() - newpoint.x()) * (bottomRight.y() - newpoint.y()) - (bottomLeft.y() - newpoint.y()) * (bottomRight.x() - newpoint.x());
+                    if (determinant < 0) {
+                        newrect.setBottom(newrect.bottom() - resizePoint.y());
+                        m_selectedItem->setPos(QPointF(transform.m21() * resizePoint.y() + transform.m31() + itemOrigin.x(), transform.m22() * resizePoint.y() + transform.m32() + itemOrigin.y()));
+                    }
+                    break;
+                case Down:
+                    determinant = (topRight.x() - newpoint.x()) * (topLeft.y() - newpoint.y()) - (topRight.y() - newpoint.y()) * (topLeft.x() - newpoint.x());
+                    if (determinant < 0)
+                        newrect.setBottom(resizePoint.y());
+                    break;
+                default:
+                    QPointF diff = e->scenePos() - m_sceneClickPoint;
+                    m_sceneClickPoint = e->scenePos();
+                    m_selectedItem->moveBy(diff.x(), diff.y());
+                    break;
             }
             if (m_selectedItem->type() == 3 && m_resizeMode != NoResize) {
                 QGraphicsRectItem *gi = (QGraphicsRectItem*)m_selectedItem;
@@ -355,25 +410,44 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
                 break;
             } else if (g->type() == 3 && g->zValue() > -1000) {
                 QRectF r = ((const QGraphicsRectItem*)g)->rect();
-                r.translate(g->scenePos());
                 itemFound = true;
-                if ((r.toRect().topLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / m_zoom) {
+                /*
+                 * The vertices of the rectangle (check for matrix
+                 * transformation); i hope there is a shorter way to do this
+                 */
+                QPointF itemOrigin = g->scenePos();
+                QTransform transform = g->transform();
+                QPointF topLeft(transform.m11() * r.toRect().left() + transform.m21() * r.toRect().top() + transform.m31() + itemOrigin.x(), transform.m22() * r.toRect().top() + transform.m12() * r.toRect().left() + transform.m32() + itemOrigin.y());
+                QPointF bottomLeft(transform.m11() * r.toRect().left() + transform.m21() * r.toRect().bottom() + transform.m31() + itemOrigin.x(), transform.m22() * r.toRect().bottom() + transform.m12() * r.toRect().left() + transform.m32() + itemOrigin.y());
+                QPointF topRight(transform.m11() * r.toRect().right() + transform.m21() * r.toRect().top() + transform.m31() + itemOrigin.x(), transform.m22() * r.toRect().top() + transform.m12() * r.toRect().right() + transform.m32() + itemOrigin.y());
+                QPointF bottomRight(transform.m11() * r.toRect().right() + transform.m21() * r.toRect().bottom() + transform.m31() + itemOrigin.x(), transform.m22() * r.toRect().bottom() + transform.m12() * r.toRect().right() + transform.m32() + itemOrigin.y());
+                // The borders (using the transformed coordinates)
+                QGraphicsLineItem borderTop(topLeft.x(), topLeft.y(), topRight.x(), topRight.y());
+                QGraphicsLineItem borderRight(topRight.x(), topRight.y(), bottomRight.x(), bottomRight.y());
+                QGraphicsLineItem borderBottom(bottomRight.x(), bottomRight.y(), bottomLeft.x(), bottomLeft.y());
+                QGraphicsLineItem borderLeft(bottomLeft.x(), bottomLeft.y(), topLeft.x(), topLeft.y());
+                // The area interested by the mouse pointer
+                QPainterPath mouseArea;
+                mouseArea.addRect(e->scenePos().toPoint().x() - 3 / m_zoom, e->scenePos().toPoint().y() - 3 / m_zoom, 6 / m_zoom, 6 / m_zoom);
+                // Check for collisions between the mouse and the borders
+                if (borderLeft.collidesWithPath(mouseArea) && borderTop.collidesWithPath(mouseArea))
                     setCursor(QCursor(Qt::SizeFDiagCursor));
-                } else if ((r.toRect().bottomLeft() - e->scenePos().toPoint()).manhattanLength() < 6 / m_zoom) {
+                else if (borderLeft.collidesWithPath(mouseArea) && borderBottom.collidesWithPath(mouseArea))
                     setCursor(QCursor(Qt::SizeBDiagCursor));
-                } else if ((r.toRect().topRight() - e->scenePos().toPoint()).manhattanLength() < 6 / m_zoom) {
+                else if (borderRight.collidesWithPath(mouseArea) && borderTop.collidesWithPath(mouseArea))
                     setCursor(QCursor(Qt::SizeBDiagCursor));
-                } else if ((r.toRect().bottomRight() - e->scenePos().toPoint()).manhattanLength() < 6 / m_zoom) {
+                else if (borderRight.collidesWithPath(mouseArea) && borderBottom.collidesWithPath(mouseArea))
                     setCursor(QCursor(Qt::SizeFDiagCursor));
-                } else if (qAbs(r.toRect().left() - e->scenePos().toPoint().x()) < 3 / m_zoom) {
+                else if (borderLeft.collidesWithPath(mouseArea))
                     setCursor(Qt::SizeHorCursor);
-                } else if (qAbs(r.toRect().right() - e->scenePos().toPoint().x()) < 3 / m_zoom) {
+                else if (borderRight.collidesWithPath(mouseArea))
                     setCursor(Qt::SizeHorCursor);
-                } else if (qAbs(r.toRect().top() - e->scenePos().toPoint().y()) < 3 / m_zoom) {
+                else if (borderTop.collidesWithPath(mouseArea))
                     setCursor(Qt::SizeVerCursor);
-                } else if (qAbs(r.toRect().bottom() - e->scenePos().toPoint().y()) < 3 / m_zoom) {
+                else if (borderBottom.collidesWithPath(mouseArea))
                     setCursor(Qt::SizeVerCursor);
-                } else setCursor(Qt::OpenHandCursor);
+                else
+                    setCursor(Qt::OpenHandCursor);
                 break;
             }
             if (!itemFound) setCursor(Qt::ArrowCursor);

@@ -59,7 +59,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     m_frameHeight = render->renderHeight();
     connect(kcolorbutton, SIGNAL(clicked()), this, SLOT(slotChangeBackground())) ;
     connect(horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(slotChangeBackground())) ;
-	
+
 
     connect(fontColorButton, SIGNAL(clicked()), this, SLOT(slotUpdateText())) ;
     connect(font_family, SIGNAL(currentFontChanged(const QFont &)), this, SLOT(slotUpdateText())) ;
@@ -551,7 +551,7 @@ void TitleWidget::selectionChanged()
 			rect_properties->setEnabled(false);
             value_w->setEnabled(false);
             value_h->setEnabled(false);
-			
+
         } else if ((l.at(0))->type() == RECTITEM) {
             rect_properties->setHidden(false);
             text_properties->setHidden(true);
@@ -570,7 +570,7 @@ void TitleWidget::selectionChanged()
             rectBColor->setColor(bcol);
             settingUp = false;
             rectLineWidth->setValue(rec->pen().width());
-			
+
 			updateAxisButtons(l.at(0));
 			updateCoordinates(rec);
             updateDimension(rec);
@@ -581,18 +581,18 @@ void TitleWidget::selectionChanged()
 			rect_properties->setEnabled(true);
             value_w->setEnabled(true);
             value_h->setEnabled(true);
-			
+
         } else if (l.at(0)->type() == IMAGEITEM) {
 			updateCoordinates(l.at(0));
 			updateDimension(l.at(0));
-			
+
 			frame_properties->setEnabled(true);
 			text_properties->setEnabled(false);
 			rect_properties->setEnabled(false);
 			value_x->setEnabled(true);
 			value_w->setEnabled(false);
 			value_h->setEnabled(false);
-			
+
 		} else {
             //toolBox->setCurrentIndex(0);
             frame_properties->setEnabled(false);
@@ -633,25 +633,25 @@ void TitleWidget::slotAdjustSelectedItem()
 }
 
 /** \brief Updates width/height int the text fields, regarding transformation matrix */
-void TitleWidget::updateDimension(QGraphicsItem *i) 
+void TitleWidget::updateDimension(QGraphicsItem *i)
 {
 	bool blockW = !value_w->signalsBlocked();
 	bool blockH = !value_h->signalsBlocked();
-	
+
 	if (blockW) value_w->blockSignals(true);
 	if (blockH) value_h->blockSignals(true);
-	
-	
+
+
 	if (i->type() == IMAGEITEM) {
 		// Get multipliers for rotation/scaling
-		
+
 		/*Transform t = m_transformations.value(i);
 		QRectF r = i->boundingRect();
 		int width = (int) ( abs(r.width()*t.scalex * cos(t.rotate/180.0*M_PI))
 					+ abs(r.height()*t.scaley * sin(t.rotate/180.0*M_PI)) );
 		int height = (int) ( abs(r.height()*t.scaley * cos(t.rotate/180*M_PI))
 					+ abs(r.width()*t.scalex * sin(t.rotate/180*M_PI)) );*/
-		
+
 		value_w->setValue(i->sceneBoundingRect().width());
 		value_h->setValue(i->sceneBoundingRect().height());
 	} else if (i->type() == RECTITEM) {
@@ -663,76 +663,76 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
 		value_w->setValue((int) t->boundingRect().width());
 		value_h->setValue((int) t->boundingRect().height());
 	}
-	
+
 	if (blockW) value_w->blockSignals(false);
 	if (blockH) value_h->blockSignals(false);
 }
 
 /** \brief Updates the coordinates in the text fields from the item */
-void TitleWidget::updateCoordinates(QGraphicsItem *i) 
+void TitleWidget::updateCoordinates(QGraphicsItem *i)
 {
-	
+
 	bool blockX = !value_x->signalsBlocked();
 	bool blockY = !value_y->signalsBlocked();
-	
+
 	// Block signals emitted by this method
 	if (blockX) value_x->blockSignals(true);
 	if (blockY) value_y->blockSignals(true);
-	
+
 	if (i->type() == TEXTITEM) {
-		
+
 		QGraphicsTextItem *rec = static_cast <QGraphicsTextItem *> (i);
-		
+
 		// Set the correct x coordinate value
 		if (origin_x_left->isChecked()) {
 			// Origin (0 point) is at m_frameWidth, coordinate axis is inverted
-			value_x->setValue((int) (m_frameWidth - rec->pos().x() - rec->boundingRect().width())); 
+			value_x->setValue((int) (m_frameWidth - rec->pos().x() - rec->boundingRect().width()));
 		} else {
 			// Origin is at 0 (default)
 			value_x->setValue((int) rec->pos().x());
 		}
-		
+
 		// Same for y
 		if (origin_y_top->isChecked()) {
 			value_y->setValue((int) (m_frameHeight - rec->pos().y() - rec->boundingRect().height()));
 		} else {
 			value_y->setValue((int) rec->pos().y());
 		}
-		
+
 	} else if (i->type() == RECTITEM) {
-		
+
 		QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *> (i);
-		
+
 		if (origin_x_left->isChecked()) {
 			// Origin (0 point) is at m_frameWidth
-			value_x->setValue((int) (m_frameWidth - rec->pos().x() - rec->rect().width())); 
+			value_x->setValue((int) (m_frameWidth - rec->pos().x() - rec->rect().width()));
 		} else {
 			// Origin is at 0 (default)
 			value_x->setValue((int) rec->pos().x());
 		}
-		
+
 		if (origin_y_top->isChecked()) {
 			value_y->setValue((int) (m_frameHeight - rec->pos().y() - rec->rect().height()));
 		} else {
 			value_y->setValue((int) rec->pos().y());
 		}
-		
+
 	} else if (i->type() == IMAGEITEM) {
-		
+
 		if (origin_x_left->isChecked()) {
 			value_x->setValue((int) (m_frameWidth - i->pos().x() - i->sceneBoundingRect().width()));
-		} else {		
+		} else {
 			value_x->setValue((int) i->pos().x());
 		}
-		
+
 		if (origin_y_top->isChecked()) {
 			value_y->setValue((int) (m_frameHeight - i->pos().y() - i->sceneBoundingRect().height()));
 		} else {
 			value_y->setValue((int) i->pos().y());
 		}
-		
+
 	}
-	
+
 	// Stop blocking signals now
 	if (!blockX) value_x->blockSignals(false);
 	if (!blockY) value_y->blockSignals(false);
@@ -740,10 +740,10 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
 
 /** \brief Updates the position of an item by reading coordinates from the text fields */
 void TitleWidget::updatePosition(QGraphicsItem *i) {
-	
+
 	if (i->type() == TEXTITEM) {
 		QGraphicsTextItem *rec = static_cast <QGraphicsTextItem *>(i);
-		
+
 		int posX;
 		if (origin_x_left->isChecked()) {
 			/* Origin of the x axis is at m_frameWidth,
@@ -755,7 +755,7 @@ void TitleWidget::updatePosition(QGraphicsItem *i) {
 		} else {
 			posX = value_x->value();
 		}
-	
+
 		int posY;
 		if (origin_y_top->isChecked()) {
 			/* Same for y axis */
@@ -763,31 +763,31 @@ void TitleWidget::updatePosition(QGraphicsItem *i) {
 		} else {
 			posY = value_y->value();
 		}
-		
+
 		rec->setPos(posX, posY);
-		
+
 	} else if (i->type() == RECTITEM) {
-		
+
 		QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *> (i);
-		
+
 		int posX;
 		if (origin_x_left->isChecked()) {
 			posX = m_frameWidth - value_x->value() - rec->rect().width();
 		} else {
 			posX = value_x->value();
 		}
-		
+
 		int posY;
 		if (origin_y_top->isChecked()) {
 			posY = m_frameHeight - value_y->value() - rec->rect().height();
 		} else {
 			posY = value_y->value();
 		}
-		
+
 		rec->setPos(posX, posY);
-		
+
 	} else if (i->type() == IMAGEITEM) {
-		
+
 		int posX;
 		if (origin_x_left->isChecked()) {
 			// Use the sceneBoundingRect because this also regards transformations like zoom
@@ -795,21 +795,21 @@ void TitleWidget::updatePosition(QGraphicsItem *i) {
 		} else {
 			posX = value_x->value();
 		}
-		
+
 		int posY;
 		if (origin_y_top->isChecked()) {
 			posY = m_frameHeight - value_y->value() - i->sceneBoundingRect().height();
 		} else {
 			posY = value_y->value();
 		}
-		
+
 		i->setPos(posX, posY);
-		
+
 	}
-	
+
 }
 
-void TitleWidget::updateTextOriginX() 
+void TitleWidget::updateTextOriginX()
 {
 	if (origin_x_left->isChecked()) {
 		origin_x_left->setText(i18n("\u2212X"));
@@ -822,13 +822,13 @@ void TitleWidget::slotOriginXClicked()
 {
 	// Update the text displayed on the button.
 	updateTextOriginX();
-	
+
 	QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
 	if (l.size() >= 1) {
 		updateCoordinates(l.at(0));
-		
+
 		// Remember x axis setting
-		l.at(0)->setData(TitleDocument::OriginXLeft, origin_x_left->isChecked()? 
+		l.at(0)->setData(TitleDocument::OriginXLeft, origin_x_left->isChecked()?
 			TitleDocument::AxisInverted : TitleDocument::AxisDefault);
 	}
 }
@@ -846,38 +846,38 @@ void TitleWidget::slotOriginYClicked()
 {
 	// Update the text displayed on the button.
 	updateTextOriginY();
-	
+
 	QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
 	if (l.size() >= 1) {
 		updateCoordinates(l.at(0));
-		
-		l.at(0)->setData(TitleDocument::OriginYTop, origin_y_top->isChecked()? 
+
+		l.at(0)->setData(TitleDocument::OriginYTop, origin_y_top->isChecked()?
 			TitleDocument::AxisInverted : TitleDocument::AxisDefault);
-			
+
 	}
 }
 
-void TitleWidget::updateAxisButtons(QGraphicsItem *i) 
+void TitleWidget::updateAxisButtons(QGraphicsItem *i)
 {
 	int xAxis = i->data(TitleDocument::OriginXLeft).toInt();
 	int yAxis = i->data(TitleDocument::OriginYTop).toInt();
 	origin_x_left->blockSignals(true);
 	origin_y_top->blockSignals(true);
-	
+
 	if (xAxis == TitleDocument::AxisInverted) {
 		origin_x_left->setChecked(true);
 	} else {
 		origin_x_left->setChecked(false);
 	}
 	updateTextOriginX();
-	
+
 	if (yAxis == TitleDocument::AxisInverted) {
 		origin_y_top->setChecked(true);
 	} else {
 		origin_y_top->setChecked(false);
 	}
 	updateTextOriginY();
-	
+
 	origin_x_left->blockSignals(false);
 	origin_y_top->blockSignals(false);
 }
@@ -901,26 +901,26 @@ void TitleWidget::slotChanged() {
 
 /**
  * If the user has set origin_x_left (everything also for y),
- * we need to look whether a text element has been selected. If yes, 
- * we need to ensure that the right border of the text field 
+ * we need to look whether a text element has been selected. If yes,
+ * we need to ensure that the right border of the text field
  * remains fixed also when some text has been entered.
- * 
+ *
  * This is also known as right-justified, with the difference that
- * it is not valid for text but for its boundingRect. Text may still 
+ * it is not valid for text but for its boundingRect. Text may still
  * be left-justified.
  */
 void TitleWidget::textChanged(QGraphicsTextItem *i) {
-	
+
 	updateDimension(i);
-	
+
 	if (origin_x_left->isChecked() || origin_y_top->isChecked()) {
-			
+
 		if (!i->toPlainText().isEmpty()) {
 			updatePosition(i);
 		} else {
 			/*
 			 * Don't do anything if the string is empty. If the position
-			 * would be updated here, a newly created text field would 
+			 * would be updated here, a newly created text field would
 			 * be set to the position of the last selected text field.
 			 */
 		}
@@ -1037,11 +1037,12 @@ void TitleWidget::itemHCenter()
     if (l.size() == 1) {
         QGraphicsItem *item = l.at(0);
         QRectF br;
-        if (item->type() == RECTITEM) {
-            br = ((QGraphicsRectItem*)item)->rect();
-        } else br = item->sceneBoundingRect();
-        int width = (int) br.width();
+        br = item->sceneBoundingRect();
+        int width = (int)br.width();
         int newPos = (int)((m_frameWidth - width) / 2);
+        // Check item transformation
+        if (item->type() == RECTITEM)
+            newPos += item->pos().x() - br.left();
         item->setPos(newPos, item->pos().y());
 		updateCoordinates(item);
     }
@@ -1053,11 +1054,12 @@ void TitleWidget::itemVCenter()
     if (l.size() == 1) {
         QGraphicsItem *item = l.at(0);
         QRectF br;
-        if (item->type() == RECTITEM) {
-            br = ((QGraphicsRectItem*)item)->rect();
-        } else br = item->sceneBoundingRect();
-        int height = (int) br.height();
+        br = item->sceneBoundingRect();
+        int height = (int)br.height();
         int newPos = (int)((m_frameHeight - height) / 2);
+        // Check item transformation
+        if (item->type() == RECTITEM)
+            newPos += item->pos().y() - br.top();
         item->setPos(item->pos().x(), newPos);
 		updateCoordinates(item);
     }
