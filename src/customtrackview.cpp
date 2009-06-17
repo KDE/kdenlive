@@ -363,7 +363,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             m_visualTip = NULL;
             QGraphicsView::mouseMoveEvent(event);
             return;
-        } else if (m_operationMode == SPACER && move) {
+        } else if (m_operationMode == SPACER && move && m_selectionGroup) {
             // spacer tool
             int mappedClick = (int)(mapToScene(m_clickEvent).x() + 0.5);
             m_selectionGroup->setPos(mappedXPos + (((int) m_selectionGroup->boundingRect().topLeft().x() + 0.5) - mappedClick) , m_selectionGroup->pos().y());
@@ -713,7 +713,7 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
 
     // No item under click
     if (m_dragItem == NULL || m_tool == SPACERTOOL) {
-        resetSelectionGroup();
+        resetSelectionGroup(false);
         setCursor(Qt::ArrowCursor);
         m_scene->clearSelection();
         //event->accept();
@@ -732,9 +732,6 @@ void CustomTrackView::mousePressEvent(QMouseEvent * event)
                 selection = items(event->pos().x(), 1, mapFromScene(sceneRect().width(), 0).x() - event->pos().x(), sceneRect().height());
                 kDebug() << "SELELCTING ELEMENTS WITHIN =" << event->pos().x() << "/" <<  1 << ", " << mapFromScene(sceneRect().width(), 0).x() - event->pos().x() << "/" << sceneRect().height();
             }
-
-            resetSelectionGroup(false);
-            m_scene->clearSelection();
 
             for (int i = 0; i < selection.count(); i++) {
                 if (selection.at(i)->type() == AVWIDGET || selection.at(i)->type() == TRANSITIONWIDGET || selection.at(i)->type() == GROUPWIDGET) {
@@ -2239,7 +2236,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         m_dragGuide = NULL;
         m_dragItem = NULL;
         return;
-    } else if (m_operationMode == SPACER) {
+    } else if (m_operationMode == SPACER && m_selectionGroup) {
         int track;
         if (event->modifiers() != Qt::ControlModifier) {
             // We are moving all tracks
