@@ -1471,9 +1471,8 @@ void ClipItem::deleteEffect(QString index)
         if (index.toInt() > m_effectList.count() - 1) {
             setSelectedEffect(m_effectList.count() - 1);
         } else setSelectedEffect(index.toInt());
-        return;
     }
-    if (needRepaint) update(boundingRect());
+    if (needRepaint) update();
     flashClip();
 }
 

@@ -1335,10 +1335,16 @@ void CustomTrackView::slotAddEffect(QDomElement effect, GenTime pos, int track)
             ClipItem *item = (ClipItem *)itemList.at(i);
             if (effect.attribute("type") == "audio") {
                 // Don't add audio effects on video clips
-                if (item->isVideoOnly() || (item->clipType() != AUDIO && item->clipType() != AV && item->clipType() != PLAYLIST)) continue;
+                if (item->isVideoOnly() || (item->clipType() != AUDIO && item->clipType() != AV && item->clipType() != PLAYLIST)) {
+                    emit displayMessage(i18n("Cannot add an audio effect to this clip"), ErrorMessage);
+                    continue;
+                }
             } else if (effect.hasAttribute("type") == false) {
                 // Don't add video effect on audio clips
-                if (item->isAudioOnly() || item->clipType() == AUDIO) continue;
+                if (item->isAudioOnly() || item->clipType() == AUDIO) {
+                    emit displayMessage(i18n("Cannot add a video effect to this clip"), ErrorMessage);
+                    continue;
+                }
             }
             if (item->hasEffect(effect.attribute("tag"), effect.attribute("id")) != -1 && effect.attribute("unique", "0") != "0") {
                 emit displayMessage(i18n("Effect already present in clip"), ErrorMessage);
@@ -2597,7 +2603,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 
                 new ResizeClipCommand(this, m_dragItemInfo, info, false, resizeCommand);
                 m_commandStack->push(resizeCommand);
-                updateClipFade(static_cast <ClipItem *>(m_dragItem), true);
+                updateClipFade(static_cast <ClipItem *>(m_dragItem));
             } else {
                 m_dragItem->resizeEnd((int) m_dragItemInfo.endPos.frames(m_document->fps()));
                 emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
@@ -3315,7 +3321,7 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end)
         bool success = m_document->renderer()->mltResizeClipEnd(clipinfo, end.endPos - clipinfo.startPos);
         if (success) {
             item->resizeEnd((int) end.endPos.frames(m_document->fps()));
-            updateClipFade(item, true);
+            updateClipFade(item);
         } else emit displayMessage(i18n("Error when resizing clip"), ErrorMessage);
     }
     if (end.cropStart != start.cropStart) {
@@ -3332,85 +3338,86 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end)
     KdenliveSettings::setSnaptopoints(snap);
 }
 
-void CustomTrackView::updateClipFade(ClipItem * item, bool updateFadeOut)
+void CustomTrackView::updateClipFade(ClipItem * item)
 {
-    if (!updateFadeOut) {
-        int end = item->fadeIn();
-        if (end != 0) {
-            // there is a fade in effect
-            int effectPos = item->hasEffect("volume", "fadein");
-            if (effectPos != -1) {
-                QDomElement oldeffect = item->effectAt(effectPos);
-                int start = item->cropStart().frames(m_document->fps());
-                int max = item->cropDuration().frames(m_document->fps());
-                if (end > max) {
-                    item->setFadeIn(max);
-                    end = item->fadeIn();
-                }
-                end += start;
-                EffectsList::setParameter(oldeffect, "in", QString::number(start));
-                EffectsList::setParameter(oldeffect, "out", QString::number(end));
-                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), item->getEffectArgs(oldeffect)))
-                    emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
-                // if fade effect is displayed, update the effect edit widget with new clip duration
-                if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
+    int end = item->fadeIn();
+    if (end != 0) {
+        // there is a fade in effect
+        int effectPos = item->hasEffect("volume", "fadein");
+        if (effectPos != -1) {
+            QDomElement oldeffect = item->effectAt(effectPos);
+            int start = item->cropStart().frames(m_document->fps());
+            int max = item->cropDuration().frames(m_document->fps());
+            if (end > max) {
+                // Make sure the fade effect is not longer than the clip
+                item->setFadeIn(max);
+                end = item->fadeIn();
             }
-            effectPos = item->hasEffect("brightness", "fade_from_black");
-            if (effectPos != -1) {
-                QDomElement oldeffect = item->effectAt(effectPos);
-                int start = item->cropStart().frames(m_document->fps());
-                int max = item->cropDuration().frames(m_document->fps());
-                if (end > max) {
-                    item->setFadeIn(max);
-                    end = item->fadeIn();
-                }
-                end += start;
-                EffectsList::setParameter(oldeffect, "in", QString::number(start));
-                EffectsList::setParameter(oldeffect, "out", QString::number(end));
-                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), item->getEffectArgs(oldeffect)))
-                    emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
-                // if fade effect is displayed, update the effect edit widget with new clip duration
-                if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
-            }
+            end += start;
+            EffectsList::setParameter(oldeffect, "in", QString::number(start));
+            EffectsList::setParameter(oldeffect, "out", QString::number(end));
+            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), item->getEffectArgs(oldeffect)))
+                emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+            // if fade effect is displayed, update the effect edit widget with new clip duration
+            if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
         }
-    } else {
-        int start = item->fadeOut();
-        if (start != 0) {
-            // there is a fade in effect
-            int effectPos = item->hasEffect("volume", "fadeout");
-            if (effectPos != -1) {
-                QDomElement oldeffect = item->effectAt(effectPos);
-                int end = (item->duration() - item->cropStart()).frames(m_document->fps());
-                int max = item->cropDuration().frames(m_document->fps());
-                if (end > max) {
-                    item->setFadeOut(max);
-                    start = item->fadeOut();
-                }
-                start = end - start;
-                EffectsList::setParameter(oldeffect, "in", QString::number(start));
-                EffectsList::setParameter(oldeffect, "out", QString::number(end));
-                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), item->getEffectArgs(oldeffect)))
-                    emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
-                // if fade effect is displayed, update the effect edit widget with new clip duration
-                if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
+        effectPos = item->hasEffect("brightness", "fade_from_black");
+        if (effectPos != -1) {
+            QDomElement oldeffect = item->effectAt(effectPos);
+            int start = item->cropStart().frames(m_document->fps());
+            int max = item->cropDuration().frames(m_document->fps());
+            if (end > max) {
+                // Make sure the fade effect is not longer than the clip
+                item->setFadeIn(max);
+                end = item->fadeIn();
             }
-            effectPos = item->hasEffect("brightness", "fade_to_black");
-            if (effectPos != -1) {
-                QDomElement oldeffect = item->effectAt(effectPos);
-                int end = (item->duration() - item->cropStart()).frames(m_document->fps());
-                int max = item->cropDuration().frames(m_document->fps());
-                if (end > max) {
-                    item->setFadeOut(max);
-                    start = item->fadeOut();
-                }
-                start = end - start;
-                EffectsList::setParameter(oldeffect, "in", QString::number(start));
-                EffectsList::setParameter(oldeffect, "out", QString::number(end));
-                if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), item->getEffectArgs(oldeffect)))
-                    emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
-                // if fade effect is displayed, update the effect edit widget with new clip duration
-                if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
+            end += start;
+            EffectsList::setParameter(oldeffect, "in", QString::number(start));
+            EffectsList::setParameter(oldeffect, "out", QString::number(end));
+            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), item->getEffectArgs(oldeffect)))
+                emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+            // if fade effect is displayed, update the effect edit widget with new clip duration
+            if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
+        }
+    }
+    int start = item->fadeOut();
+    if (start != 0) {
+        // there is a fade out effect
+        int effectPos = item->hasEffect("volume", "fadeout");
+        if (effectPos != -1) {
+            QDomElement oldeffect = item->effectAt(effectPos);
+            int max = item->cropDuration().frames(m_document->fps());
+            int end = max + item->cropStart().frames(m_document->fps());
+            if (start > max) {
+                // Make sure the fade effect is not longer than the clip
+                item->setFadeOut(max);
+                start = item->fadeOut();
             }
+            start = end - start;
+            EffectsList::setParameter(oldeffect, "in", QString::number(start));
+            EffectsList::setParameter(oldeffect, "out", QString::number(end));
+            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), item->getEffectArgs(oldeffect)))
+                emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+            // if fade effect is displayed, update the effect edit widget with new clip duration
+            if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
+        }
+        effectPos = item->hasEffect("brightness", "fade_to_black");
+        if (effectPos != -1) {
+            QDomElement oldeffect = item->effectAt(effectPos);
+            int max = item->cropDuration().frames(m_document->fps());
+            int end = max + item->cropStart().frames(m_document->fps());
+            if (start > max) {
+                // Make sure the fade effect is not longer than the clip
+                item->setFadeOut(max);
+                start = item->fadeOut();
+            }
+            start = end - start;
+            EffectsList::setParameter(oldeffect, "in", QString::number(start));
+            EffectsList::setParameter(oldeffect, "out", QString::number(end));
+            if (!m_document->renderer()->mltEditEffect(m_document->tracksCount() - item->track(), item->startPos(), item->getEffectArgs(oldeffect)))
+                emit displayMessage(i18n("Problem editing effect"), ErrorMessage);
+            // if fade effect is displayed, update the effect edit widget with new clip duration
+            if (item->isSelected() && effectPos == item->selectedEffectIndex()) emit clipItemSelected(item, effectPos);
         }
     }
 }

@@ -2197,6 +2197,10 @@ bool Render::mltResizeClipEnd(ItemInfo info, GenTime clipDuration)
         clip->parent().set("length", newDuration + 1);
         clip->set("length", newDuration + 1);
     }
+    if (newDuration > clip->get_out()) {
+        clip->parent().set_in_and_out(0, newDuration + 1);
+        clip->set_in_and_out(0, newDuration + 1);
+    }
     trackPlaylist.resize_clip(clipIndex, previousStart, newDuration + previousStart);
     trackPlaylist.consolidate_blanks(0);
     // skip to next clip

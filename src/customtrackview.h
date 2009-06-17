@@ -234,7 +234,7 @@ private:
 
     /** Get the index of the video track that is just below current track */
     int getPreviousVideoTrack(int track);
-    void updateClipFade(ClipItem * item, bool updateFadeOut = false);
+    void updateClipFade(ClipItem * item);
     bool canBePastedTo(ItemInfo info, int type) const;
     bool canBePasted(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
     bool canBeMoved(QList<AbstractClipItem *> items, GenTime offset, int trackOffset) const;
