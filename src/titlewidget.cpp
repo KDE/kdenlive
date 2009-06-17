@@ -118,7 +118,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     buttonAlignRight->setIcon(KIcon("format-justify-right"));
 	buttonAlignNone->setIcon(KIcon("kdenlive-align-none"));
 	buttonInsertUnicode->setIcon(KIcon("kdenlive-insert-unicode"));
-	
+
     buttonAlignNone->setToolTip(i18n("No alignment"));
     buttonAlignRight->setToolTip(i18n("Align right"));
     buttonAlignLeft->setToolTip(i18n("Align left"));
@@ -1040,9 +1040,7 @@ void TitleWidget::itemHCenter()
         br = item->sceneBoundingRect();
         int width = (int)br.width();
         int newPos = (int)((m_frameWidth - width) / 2);
-        // Check item transformation
-        if (item->type() == RECTITEM)
-            newPos += item->pos().x() - br.left();
+        newPos += item->pos().x() - br.left(); // Check item transformation
         item->setPos(newPos, item->pos().y());
 		updateCoordinates(item);
     }
@@ -1057,9 +1055,7 @@ void TitleWidget::itemVCenter()
         br = item->sceneBoundingRect();
         int height = (int)br.height();
         int newPos = (int)((m_frameHeight - height) / 2);
-        // Check item transformation
-        if (item->type() == RECTITEM)
-            newPos += item->pos().y() - br.top();
+        newPos += item->pos().y() - br.top(); // Check item transformation
         item->setPos(item->pos().x(), newPos);
 		updateCoordinates(item);
     }
