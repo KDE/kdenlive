@@ -34,6 +34,7 @@ public:
     HeaderTrack(int index, TrackInfo info, int height, QWidget *parent = 0);
     ~HeaderTrack();
     void setLock(bool lock);
+    void adjustSize(int height);
 
 private:
     int m_index;

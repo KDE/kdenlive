@@ -89,6 +89,16 @@ HeaderTrack::~HeaderTrack()
 {
 }
 
+void HeaderTrack::adjustSize(int height)
+{
+    // Don't show track buttons if size is too small
+    bool smallTracks = height < 40;
+    if (m_type == VIDEOTRACK) m_view.buttonVideo->setHidden(smallTracks);
+    m_view.buttonAudio->setHidden(smallTracks);
+    m_view.buttonLock->setHidden(smallTracks);
+    setFixedHeight(height);
+}
+
 void HeaderTrack::switchVideo()
 {
     if (m_view.buttonVideo->isChecked()) {

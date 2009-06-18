@@ -429,10 +429,10 @@ void TrackView::refresh()
 
 void TrackView::slotRebuildTrackHeaders()
 {
-    // If the slot was triggered by a change in default track size, reset vertical zoom
     QList <TrackInfo> list = m_doc->tracksList();
     QLayoutItem *child;
     while ((child = m_headersLayout->takeAt(0)) != 0) {
+        if (child->widget()) delete child->widget();
         delete child;
     }
     int max = list.count();
@@ -448,9 +448,18 @@ void TrackView::slotRebuildTrackHeaders()
         connect(header, SIGNAL(changeTrack(int)), this, SIGNAL(changeTrack(int)));
         m_headersLayout->addWidget(header);
     }
-    //m_view.headers_container->adjustSize();
 }
 
+
+void TrackView::adjustTrackHeaders()
+{
+    int height = KdenliveSettings::trackheight() * m_scene->scale().y();
+    QLayoutItem *child;
+    for (int i = 0; i < m_headersLayout->count(); i++) {
+        child = m_headersLayout->itemAt(i);
+        if (child->widget())(static_cast <HeaderTrack *>(child->widget()))->adjustSize(height);
+    }
+}
 
 int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
 {
@@ -767,7 +776,7 @@ void TrackView::slotVerticalZoomDown()
     m_verticalZoom--;
     if (m_verticalZoom == 0) m_trackview->setScale(m_scene->scale().x(), 0.5);
     else m_trackview->setScale(m_scene->scale().x(), 1);
-    slotRebuildTrackHeaders();
+    adjustTrackHeaders();
     /*KdenliveSettings::setTrackheight(KdenliveSettings::trackheight() / 2);
     m_trackview->checkTrackHeight(false);*/
 }
@@ -780,7 +789,7 @@ void TrackView::slotVerticalZoomUp()
     m_trackview->checkTrackHeight(false);*/
     if (m_verticalZoom == 2) m_trackview->setScale(m_scene->scale().x(), 2);
     else m_trackview->setScale(m_scene->scale().x(), 1);
-    slotRebuildTrackHeaders();
+    adjustTrackHeaders();
 }
 
 #include "trackview.moc"

@@ -1868,7 +1868,7 @@ void CustomTrackView::addTrack(TrackInfo type, int ix)
     }
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight);
     setSceneRect(0, 0, sceneRect().width(), maxHeight);
-    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged(false)));
+    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
     viewport()->update();
     //setFixedHeight(50 * m_tracksCount);
 }
@@ -1933,7 +1933,7 @@ void CustomTrackView::removeTrack(int ix)
     }
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight);
     setSceneRect(0, 0, sceneRect().width(), maxHeight);
-    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged(false)));
+    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
     viewport()->update();
 }
 
@@ -1942,7 +1942,7 @@ void CustomTrackView::changeTrack(int ix, TrackInfo type)
     int tracknumber = m_document->tracksCount() - ix;
     m_document->setTrackType(tracknumber - 1, type);
     m_document->renderer()->mltChangeTrackState(tracknumber, m_document->trackInfoAt(tracknumber - 1).isMute, m_document->trackInfoAt(tracknumber - 1).isBlind);
-    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged(false)));
+    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
     viewport()->update();
 }
 

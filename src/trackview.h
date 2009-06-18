@@ -82,6 +82,7 @@ private:
     void parseDocument(QDomDocument doc);
     int slotAddProjectTrack(int ix, QDomElement xml, bool locked);
     DocClipBase *getMissingProducer(const QString id) const;
+    void adjustTrackHeaders();
 
 private slots:
     void setCursorPos(int pos);
