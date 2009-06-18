@@ -3726,8 +3726,6 @@ void CustomTrackView::setScale(double scaleFactor, double verticalScale)
     QMatrix matrix;
     matrix = matrix.scale(scaleFactor, verticalScale);
     m_scene->setScale(scaleFactor, verticalScale);
-    kDebug() << "// Set SCALE: " << scaleFactor << "," << verticalScale;
-    //scale(scaleFactor, 1);
     m_animationTimer->stop();
     delete m_visualTip;
     m_visualTip = NULL;

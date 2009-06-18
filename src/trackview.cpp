@@ -70,11 +70,13 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent) :
 
     QToolButton *butSmall = new QToolButton(this);
     butSmall->setIcon(KIcon("kdenlive-zoom-small"));
+    butSmall->setToolTip(i18n("Smaller tracks"));
     connect(butSmall, SIGNAL(clicked()), this, SLOT(slotVerticalZoomDown()));
     sizeLayout->addWidget(butSmall);
 
     QToolButton *butLarge = new QToolButton(this);
     butLarge->setIcon(KIcon("kdenlive-zoom-large"));
+    butLarge->setToolTip(i18n("Bigger tracks"));
     connect(butLarge, SIGNAL(clicked()), this, SLOT(slotVerticalZoomUp()));
     sizeLayout->addWidget(butLarge);
     m_view.size_frame->setStyleSheet(style1);
