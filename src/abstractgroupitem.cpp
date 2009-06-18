@@ -36,7 +36,7 @@ AbstractGroupItem::AbstractGroupItem(double /* fps */) :
         QObject(),
         QGraphicsItemGroup()
 {
-    setZValue(2);
+    setZValue(1);
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setAcceptDrops(true);
 }

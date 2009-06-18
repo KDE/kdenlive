@@ -38,7 +38,7 @@ Transition::Transition(const ItemInfo info, int transitiontrack, double fps, QDo
         m_secondClip(NULL),
         m_transitionTrack(transitiontrack)
 {
-    setZValue(2);
+    setZValue(3);
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (qreal)(KdenliveSettings::trackheight() / 3 * 2 - 1));
     setPos(info.startPos.frames(fps), (qreal)(info.track * KdenliveSettings::trackheight() + KdenliveSettings::trackheight() / 3 * 2));
 

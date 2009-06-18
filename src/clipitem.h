@@ -117,8 +117,8 @@ protected:
     virtual void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     virtual void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
     virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
-    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *);
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
+    //virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *);
+    //virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
@@ -143,7 +143,7 @@ private:
     QTimeLine *m_timeLine;
     bool m_startThumbRequested;
     bool m_endThumbRequested;
-    bool m_hover;
+    //bool m_hover;
     double m_speed;
 
     EffectsList m_effectList;

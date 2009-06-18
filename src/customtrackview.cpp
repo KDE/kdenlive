@@ -405,7 +405,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             return;
         }
         opMode = clip->operationMode(mapToScene(event->pos()));
-        double size = 5;
+        const double size = 5;
         if (opMode == m_moveOpMode) {
             QGraphicsView::mouseMoveEvent(event);
             return;
@@ -426,26 +426,22 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             if (m_visualTip == NULL) {
                 QRectF rect = clip->sceneBoundingRect();
                 QPolygon polygon;
-                polygon << QPoint(0, rect.height() / 2 - size * 2);
-                polygon << QPoint(size * 2, (int)(rect.height() / 2));
-                polygon << QPoint(0, (int)(rect.height() / 2 + size * 2));
-                polygon << QPoint(0, (int)(rect.height() / 2 - size * 2));
+                polygon << QPoint(0, - size * 2);
+                polygon << QPoint(size * 2, 0);
+                polygon << QPoint(0, size * 2);
+                polygon << QPoint(0, - size * 2);
 
                 m_visualTip = new QGraphicsPolygonItem(polygon);
                 ((QGraphicsPolygonItem*) m_visualTip)->setBrush(m_tipColor);
                 ((QGraphicsPolygonItem*) m_visualTip)->setPen(m_tipPen);
-                m_visualTip->setPos(rect.x(), rect.y());
+                m_visualTip->setPos(rect.x(), rect.y() + rect.height() / 2);
                 m_visualTip->setFlags(QGraphicsItem::ItemIgnoresTransformations);
                 m_visualTip->setZValue(100);
                 m_animation = new QGraphicsItemAnimation;
                 m_animation->setItem(m_visualTip);
                 m_animation->setTimeLine(m_animationTimer);
-                double scale = 2.0;
-                m_animation->setScaleAt(.5, scale, 1);
-                //m_animation->setPosAt(.5, QPointF(rect.x() - rect.x() * scale, 0));
-                scale = 1.0;
-                m_animation->setScaleAt(1, scale, 1);
-                //m_animation->setPosAt(1, QPointF(rect.x() - rect.x() * scale, 0));
+                m_animation->setScaleAt(.5, 2, 1);
+                m_animation->setScaleAt(1, 1, 1);
                 scene()->addItem(m_visualTip);
                 m_animationTimer->start();
             }
@@ -454,24 +450,22 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
             if (m_visualTip == NULL) {
                 QRectF rect = clip->sceneBoundingRect();
                 QPolygon polygon;
-                polygon << QPoint(0, (int)(rect.height() / 2 - size * 2));
-                polygon << QPoint(- size * 2, (int)(rect.height() / 2));
-                polygon << QPoint(0, (int)(rect.height() / 2 + size * 2));
-                polygon << QPoint(0, (int)(rect.height() / 2 - size * 2));
+                polygon << QPoint(0, - size * 2);
+                polygon << QPoint(- size * 2, 0);
+                polygon << QPoint(0, size * 2);
+                polygon << QPoint(0, - size * 2);
 
                 m_visualTip = new QGraphicsPolygonItem(polygon);
                 ((QGraphicsPolygonItem*) m_visualTip)->setBrush(m_tipColor);
                 ((QGraphicsPolygonItem*) m_visualTip)->setPen(m_tipPen);
                 m_visualTip->setFlags(QGraphicsItem::ItemIgnoresTransformations);
-                m_visualTip->setPos(rect.right(), rect.y());
+                m_visualTip->setPos(rect.right(), rect.y() + rect.height() / 2);
                 m_visualTip->setZValue(100);
                 m_animation = new QGraphicsItemAnimation;
                 m_animation->setItem(m_visualTip);
                 m_animation->setTimeLine(m_animationTimer);
-                double scale = 2.0;
-                m_animation->setScaleAt(.5, scale, 1);
-                scale = 1.0;
-                m_animation->setScaleAt(1, scale, 1);
+                m_animation->setScaleAt(.5, 2, 1);
+                m_animation->setScaleAt(1, 1, 1);
                 scene()->addItem(m_visualTip);
                 m_animationTimer->start();
             }
@@ -488,10 +482,8 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 m_animation = new QGraphicsItemAnimation;
                 m_animation->setItem(m_visualTip);
                 m_animation->setTimeLine(m_animationTimer);
-                double scale = 2.0;
-                m_animation->setScaleAt(.5, scale, scale);
-                scale = 1.0;
-                m_animation->setScaleAt(1, scale, scale);
+                m_animation->setScaleAt(.5, 2, 2);
+                m_animation->setScaleAt(1, 1, 1);
                 scene()->addItem(m_visualTip);
                 m_animationTimer->start();
             }
@@ -509,51 +501,59 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
                 m_animation = new QGraphicsItemAnimation;
                 m_animation->setItem(m_visualTip);
                 m_animation->setTimeLine(m_animationTimer);
-                double scale = 2.0;
-                m_animation->setScaleAt(.5, scale, scale);
-                scale = 1.0;
-                m_animation->setScaleAt(1, scale, scale);
+                m_animation->setScaleAt(.5, 2, 2);
+                m_animation->setScaleAt(1, 1, 1);
                 scene()->addItem(m_visualTip);
                 m_animationTimer->start();
             }
             setCursor(Qt::PointingHandCursor);
         } else if (opMode == TRANSITIONSTART) {
-            /*if (m_visualTip == NULL) {
+            if (m_visualTip == NULL) {
                 QRectF rect = clip->sceneBoundingRect();
-                m_visualTip = new QGraphicsEllipseItem(-5, -5 , 10, 10);
-                ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
-                ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
+                QPolygon polygon;
+                polygon << QPoint(0, - size * 2);
+                polygon << QPoint(size * 2, 0);
+                polygon << QPoint(0, 0);
+                polygon << QPoint(0, - size * 2);
+
+                m_visualTip = new QGraphicsPolygonItem(polygon);
+                ((QGraphicsPolygonItem*) m_visualTip)->setBrush(m_tipColor);
+                ((QGraphicsPolygonItem*) m_visualTip)->setPen(m_tipPen);
+                m_visualTip->setPos(rect.x(), rect.bottom());
+                m_visualTip->setFlags(QGraphicsItem::ItemIgnoresTransformations);
                 m_visualTip->setZValue(100);
                 m_animation = new QGraphicsItemAnimation;
                 m_animation->setItem(m_visualTip);
                 m_animation->setTimeLine(m_animationTimer);
-                m_visualTip->setPos(rect.x() + 10, rect.y() + rect.height() / 2 + 12);
-                double scale = 2.0;
-                m_animation->setScaleAt(.5, scale, scale);
-                scale = 1.0;
-                m_animation->setScaleAt(1, scale, scale);
+                m_animation->setScaleAt(.5, 2, 2);
+                m_animation->setScaleAt(1, 1, 1);
                 scene()->addItem(m_visualTip);
                 m_animationTimer->start();
-            }*/
+            }
             setCursor(Qt::PointingHandCursor);
         } else if (opMode == TRANSITIONEND) {
-            /*if (m_visualTip == NULL) {
+            if (m_visualTip == NULL) {
                 QRectF rect = clip->sceneBoundingRect();
-                m_visualTip = new QGraphicsEllipseItem(-5, -5 , 10, 10);
-                ((QGraphicsEllipseItem*) m_visualTip)->setBrush(m_tipColor);
-                ((QGraphicsEllipseItem*) m_visualTip)->setPen(m_tipPen);
+                QPolygon polygon;
+                polygon << QPoint(0, - size * 2);
+                polygon << QPoint(- size * 2, 0);
+                polygon << QPoint(0, 0);
+                polygon << QPoint(0, - size * 2);
+
+                m_visualTip = new QGraphicsPolygonItem(polygon);
+                ((QGraphicsPolygonItem*) m_visualTip)->setBrush(m_tipColor);
+                ((QGraphicsPolygonItem*) m_visualTip)->setPen(m_tipPen);
+                m_visualTip->setPos(rect.right(), rect.bottom());
+                m_visualTip->setFlags(QGraphicsItem::ItemIgnoresTransformations);
                 m_visualTip->setZValue(100);
                 m_animation = new QGraphicsItemAnimation;
                 m_animation->setItem(m_visualTip);
                 m_animation->setTimeLine(m_animationTimer);
-                m_visualTip->setPos(rect.x() + rect.width() - 10 , rect.y() + rect.height() / 2 + 12);
-                double scale = 2.0;
-                m_animation->setScaleAt(.5, scale, scale);
-                scale = 1.0;
-                m_animation->setScaleAt(1, scale, scale);
+                m_animation->setScaleAt(.5, 2, 2);
+                m_animation->setScaleAt(1, 1, 1);
                 scene()->addItem(m_visualTip);
                 m_animationTimer->start();
-            }*/
+            }
             setCursor(Qt::PointingHandCursor);
         } else if (opMode == KEYFRAME) {
             setCursor(Qt::PointingHandCursor);

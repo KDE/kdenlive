@@ -53,11 +53,11 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, b
         m_timeLine(0),
         m_startThumbRequested(false),
         m_endThumbRequested(false),
-        m_hover(false),
+        //m_hover(false),
         m_speed(speed),
         m_framePixelWidth(0)
 {
-    setZValue(1);
+    setZValue(2);
     setRect(0, 0, (info.endPos - info.startPos).frames(fps) - 0.02, (double)(KdenliveSettings::trackheight() - 2));
     setPos(info.startPos.frames(fps), (double)(info.track * KdenliveSettings::trackheight()) + 1);
 
@@ -77,7 +77,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, b
     m_audioThumbReady = clip->audioThumbCreated();
 
     setFlags(QGraphicsItem::ItemClipsToShape | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-    setAcceptsHoverEvents(true);
+    //setAcceptsHoverEvents(true);
     connect(this , SIGNAL(prepareAudioThumb(double, int, int, int)) , this, SLOT(slotPrepareAudioThumb(double, int, int, int)));
 
     if (m_clipType == VIDEO || m_clipType == AV || m_clipType == SLIDESHOW || m_clipType == PLAYLIST) {
@@ -828,12 +828,12 @@ void ClipItem::paint(QPainter *painter,
 
 
     // draw transition handles on hover
-    if (m_hover && itemWidth * scale > 40) {
+    /*if (m_hover && itemWidth * scale > 40) {
         QPointF p1 = painter->matrix().map(QPointF(0, itemHeight / 2)) + QPointF(10, 0);
         painter->drawPixmap(p1, projectScene()->m_transitionPixmap);
         p1 = painter->matrix().map(QPointF(itemWidth, itemHeight / 2)) - QPointF(22, 0);
         painter->drawPixmap(p1, projectScene()->m_transitionPixmap);
-    }
+    }*/
 
     // draw effect or transition keyframes
     if (itemWidth > 20) drawKeyFrames(painter, exposed);
@@ -879,25 +879,28 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
     QRectF rect = sceneBoundingRect();
     const double scale = projectScene()->scale().x();
     double maximumOffset = 6 / scale;
+    int addtransitionOffset = 10;
+    // Don't allow add transition if track height is very small
+    if (rect.height() < 30) addtransitionOffset = 0;
 
     if (qAbs((int)(pos.x() - (rect.x() + m_startFade))) < maximumOffset  && qAbs((int)(pos.y() - rect.y())) < 6) {
         if (m_startFade == 0) setToolTip(i18n("Add audio fade"));
         else setToolTip(i18n("Audio fade duration: %1s", GenTime(m_startFade, m_fps).seconds()));
         return FADEIN;
-    } else if (pos.x() - rect.x() < maximumOffset) {
+    } else if (pos.x() - rect.x() < maximumOffset && (rect.bottom() - pos.y() > addtransitionOffset)) {
         setToolTip(i18n("Crop from start: %1s", cropStart().seconds()));
         return RESIZESTART;
     } else if (qAbs((int)(pos.x() - (rect.x() + rect.width() - m_endFade))) < maximumOffset && qAbs((int)(pos.y() - rect.y())) < 6) {
         if (m_endFade == 0) setToolTip(i18n("Add audio fade"));
         else setToolTip(i18n("Audio fade duration: %1s", GenTime(m_endFade, m_fps).seconds()));
         return FADEOUT;
-    } else if (qAbs((int)(pos.x() - (rect.x() + rect.width()))) < maximumOffset) {
+    } else if ((rect.right() - pos.x() < maximumOffset) && (rect.bottom() - pos.y() > addtransitionOffset)) {
         setToolTip(i18n("Clip duration: %1s", duration().seconds()));
         return RESIZEEND;
-    } else if (qAbs((int)(pos.x() - (rect.x() + 16 / scale))) < maximumOffset && qAbs((int)(pos.y() - (rect.y() + rect.height() / 2 + 9))) < 6) {
+    } else if ((pos.x() - rect.x() < 16 / scale) && (rect.bottom() - pos.y() <= addtransitionOffset)) {
         setToolTip(i18n("Add transition"));
         return TRANSITIONSTART;
-    } else if (qAbs((int)(pos.x() - (rect.x() + rect.width() - 21 / scale))) < maximumOffset && qAbs((int)(pos.y() - (rect.y() + rect.height() / 2 + 9))) < 6) {
+    } else if ((rect.right() - pos.x() < 16 / scale) && (rect.bottom() - pos.y() <= addtransitionOffset)) {
         setToolTip(i18n("Add transition"));
         return TRANSITIONEND;
     }
@@ -1074,10 +1077,12 @@ void ClipItem::mouseReleaseEvent(QGraphicsSceneMouseEvent * event)
     QGraphicsRectItem::mouseReleaseEvent(event);
 }
 
+/*
 //virtual
-void ClipItem::hoverEnterEvent(QGraphicsSceneHoverEvent */*e*/)
+void ClipItem::hoverEnterEvent(QGraphicsSceneHoverEvent *e)
 {
     //if (e->pos().x() < 20) m_hover = true;
+    return;
     if (isItemLocked()) return;
     m_hover = true;
     QRectF r = boundingRect();
@@ -1100,6 +1105,7 @@ void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
     update(r.x(), r.y() + height, width, height);
     update(r.right() - width, r.y() + height, width, height);
 }
+*/
 
 void ClipItem::resizeStart(int posx, double /*speed*/)
 {
