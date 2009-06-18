@@ -42,15 +42,15 @@ public:
     GenTime previousSnapPoint(GenTime pos);
     GenTime nextSnapPoint(GenTime pos);
     double getSnapPointForPos(double pos, bool doSnap = true);
-    void setScale(double scale);
-    double scale() const;
+    void setScale(double scale, double vscale);
+    QPointF scale() const;
     int tracksCount() const;
     QPixmap m_transitionPixmap;
 
 private:
     KdenliveDoc *m_document;
     QList <GenTime> m_snapPoints;
-    double m_scale;
+    QPointF m_scale;
 };
 
 #endif

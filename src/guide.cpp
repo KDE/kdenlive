@@ -111,7 +111,7 @@ QRectF Guide::boundingRect() const
     if (KdenliveSettings::showmarkers()) {
         QRectF rect = QGraphicsLineItem::boundingRect();
         rect.setLeft(line().x1());
-        rect.setWidth(m_width / static_cast <CustomTrackScene*>(scene())->scale());
+        rect.setWidth(m_width / static_cast <CustomTrackScene*>(scene())->scale().x());
         return rect;
     } else return QGraphicsLineItem::boundingRect();
 }
@@ -124,7 +124,7 @@ QPainterPath Guide::shape() const
     if (KdenliveSettings::showmarkers()) {
         const QFontMetrics metric = m_view->fontMetrics();
         int height = metric.height();
-        path.addRoundedRect(line().x1(), line().y1() + 10, m_width / static_cast <CustomTrackScene*>(scene())->scale(), height, 3, 3);
+        path.addRoundedRect(line().x1(), line().y1() + 10, m_width / static_cast <CustomTrackScene*>(scene())->scale().x(), height, 3, 3);
     }
     return path;
 }

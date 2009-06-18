@@ -25,7 +25,7 @@
 CustomTrackScene::CustomTrackScene(KdenliveDoc *doc, QObject *parent) :
         QGraphicsScene(parent),
         m_document(doc),
-        m_scale(1.0)
+        m_scale(1.0, 1.0)
 {
     m_transitionPixmap = QPixmap(KStandardDirs::locate("appdata", "transition.png"));
 }
@@ -38,8 +38,8 @@ double CustomTrackScene::getSnapPointForPos(double pos, bool doSnap)
 {
     double maximumOffset;
     if (doSnap) {
-        if (m_scale > 3) maximumOffset = 10 / m_scale;
-        else maximumOffset = 6 / m_scale;
+        if (m_scale.x() > 3) maximumOffset = 10 / m_scale.x();
+        else maximumOffset = 6 / m_scale.x();
         for (int i = 0; i < m_snapPoints.size(); ++i) {
             if (qAbs((int)(pos - m_snapPoints.at(i).frames(m_document->fps()))) < maximumOffset) {
                 return m_snapPoints.at(i).frames(m_document->fps());
@@ -76,12 +76,13 @@ GenTime CustomTrackScene::nextSnapPoint(GenTime pos)
     return pos;
 }
 
-void CustomTrackScene::setScale(double scale)
+void CustomTrackScene::setScale(double scale, double vscale)
 {
-    m_scale = scale;
+    m_scale.setX(scale);
+    m_scale.setY(vscale);
 }
 
-double CustomTrackScene::scale() const
+QPointF CustomTrackScene::scale() const
 {
     return m_scale;
 }

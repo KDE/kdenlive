@@ -31,7 +31,7 @@ class HeaderTrack : public QWidget
     Q_OBJECT
 
 public:
-    HeaderTrack(int index, TrackInfo info, QWidget *parent = 0);
+    HeaderTrack(int index, TrackInfo info, int height, QWidget *parent = 0);
     ~HeaderTrack();
     void setLock(bool lock);
 

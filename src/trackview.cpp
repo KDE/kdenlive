@@ -98,7 +98,7 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent) :
     tracksLayout->addWidget(m_trackview);
 
     connect(m_trackview->verticalScrollBar(), SIGNAL(valueChanged(int)), m_view.headers_area->verticalScrollBar(), SLOT(setValue(int)));
-    connect(m_trackview, SIGNAL(trackHeightChanged(bool)), this, SLOT(slotRebuildTrackHeaders(bool)));
+    connect(m_trackview, SIGNAL(trackHeightChanged()), this, SLOT(slotRebuildTrackHeaders()));
 
     parseDocument(m_doc->toXml());
     m_doc->setSceneList();
@@ -403,7 +403,7 @@ void TrackView::slotChangeZoom(int factor)
     m_doc->setZoom(factor);
     m_ruler->setPixelPerMark(factor);
     m_scale = (double) FRAME_SIZE / m_ruler->comboScale[factor]; // m_ruler->comboScale[m_currentZoom] /
-    m_trackview->setScale(m_scale);
+    m_trackview->setScale(m_scale, m_scene->scale().y());
 }
 
 int TrackView::fitZoom() const
@@ -425,18 +425,18 @@ void TrackView::refresh()
     m_trackview->viewport()->update();
 }
 
-void TrackView::slotRebuildTrackHeaders(bool resetZoom)
+void TrackView::slotRebuildTrackHeaders()
 {
     // If the slot was triggered by a change in default track size, reset vertical zoom
-    if (resetZoom) m_verticalZoom = 1;
     QList <TrackInfo> list = m_doc->tracksList();
     QLayoutItem *child;
     while ((child = m_headersLayout->takeAt(0)) != 0) {
         delete child;
     }
     int max = list.count();
+    int height = KdenliveSettings::trackheight() * m_scene->scale().y();
     for (int i = 0; i < max; i++) {
-        HeaderTrack *header = new HeaderTrack(i, list.at(max - i - 1), this);
+        HeaderTrack *header = new HeaderTrack(i, list.at(max - i - 1), height, this);
         connect(header, SIGNAL(switchTrackVideo(int)), m_trackview, SLOT(slotSwitchTrackVideo(int)));
         connect(header, SIGNAL(switchTrackAudio(int)), m_trackview, SLOT(slotSwitchTrackAudio(int)));
         connect(header, SIGNAL(switchTrackLock(int)), m_trackview, SLOT(slotSwitchTrackLock(int)));
@@ -763,16 +763,22 @@ void TrackView::slotVerticalZoomDown()
 {
     if (m_verticalZoom == 0) return;
     m_verticalZoom--;
-    KdenliveSettings::setTrackheight(KdenliveSettings::trackheight() / 2);
-    m_trackview->checkTrackHeight(false);
+    if (m_verticalZoom == 0) m_trackview->setScale(m_scene->scale().x(), 0.5);
+    else m_trackview->setScale(m_scene->scale().x(), 1);
+    slotRebuildTrackHeaders();
+    /*KdenliveSettings::setTrackheight(KdenliveSettings::trackheight() / 2);
+    m_trackview->checkTrackHeight(false);*/
 }
 
 void TrackView::slotVerticalZoomUp()
 {
     if (m_verticalZoom == 2) return;
     m_verticalZoom++;
-    KdenliveSettings::setTrackheight(KdenliveSettings::trackheight() * 2);
-    m_trackview->checkTrackHeight(false);
+    /*KdenliveSettings::setTrackheight(KdenliveSettings::trackheight() * 2);
+    m_trackview->checkTrackHeight(false);*/
+    if (m_verticalZoom == 2) m_trackview->setScale(m_scene->scale().x(), 2);
+    else m_trackview->setScale(m_scene->scale().x(), 1);
+    slotRebuildTrackHeaders();
 }
 
 #include "trackview.moc"

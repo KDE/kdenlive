@@ -84,7 +84,7 @@
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscene, QWidget *parent) :
         QGraphicsView(projectscene, parent),
-        m_tracksHeight(KdenliveSettings::defaulttrackheight()),
+        m_tracksHeight(KdenliveSettings::trackheight()),
         m_projectDuration(0),
         m_cursorPos(0),
         m_document(doc),
@@ -198,14 +198,11 @@ void CustomTrackView::checkAutoScroll()
     return m_scene->m_tracksList;
 }*/
 
-void CustomTrackView::checkTrackHeight(bool resetTrackHeight)
+void CustomTrackView::checkTrackHeight()
 {
-    if (resetTrackHeight) {
-        KdenliveSettings::setTrackheight(KdenliveSettings::defaulttrackheight());
-    }
     if (m_tracksHeight == KdenliveSettings::trackheight()) return;
     m_tracksHeight = KdenliveSettings::trackheight();
-    emit trackHeightChanged(resetTrackHeight);
+    emit trackHeightChanged();
     QList<QGraphicsItem *> itemList = items();
     ClipItem *item;
     Transition *transitionitem;
@@ -3724,11 +3721,12 @@ void CustomTrackView::setTool(PROJECTTOOL tool)
     m_tool = tool;
 }
 
-void CustomTrackView::setScale(double scaleFactor)
+void CustomTrackView::setScale(double scaleFactor, double verticalScale)
 {
     QMatrix matrix;
-    matrix = matrix.scale(scaleFactor, 1);
-    m_scene->setScale(scaleFactor);
+    matrix = matrix.scale(scaleFactor, verticalScale);
+    m_scene->setScale(scaleFactor, verticalScale);
+    kDebug() << "// Set SCALE: " << scaleFactor << "," << verticalScale;
     //scale(scaleFactor, 1);
     m_animationTimer->stop();
     delete m_visualTip;

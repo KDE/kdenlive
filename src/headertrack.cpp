@@ -19,7 +19,6 @@
 
 
 #include "headertrack.h"
-#include "kdenlivesettings.h"
 
 #include <KIcon>
 #include <KLocale>
@@ -30,12 +29,12 @@
 #include <QPainter>
 #include <QAction>
 
-HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent) :
+HeaderTrack::HeaderTrack(int index, TrackInfo info, int height, QWidget *parent) :
         QWidget(parent),
         m_index(index),
         m_type(info.type)
 {
-    setFixedHeight(KdenliveSettings::trackheight());
+    setFixedHeight(height);
     m_view.setupUi(this);
     m_view.track_number->setText(QString::number(m_index));
 
@@ -65,7 +64,7 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent) :
     connect(m_view.buttonLock, SIGNAL(clicked()), this, SLOT(switchLock()));
 
     // Don't show track buttons if size is too small
-    if (KdenliveSettings::trackheight() < 40) {
+    if (height < 40) {
         m_view.buttonVideo->setHidden(true);
         m_view.buttonAudio->setHidden(true);
         m_view.buttonLock->setHidden(true);

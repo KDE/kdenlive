@@ -268,7 +268,7 @@ OPERATIONTYPE Transition::operationMode(QPointF pos)
 {
     if (isItemLocked()) return NONE;
 
-    const double scale = projectScene()->scale();
+    const double scale = projectScene()->scale().x();
     double maximumOffset = 6 / scale;
 
     QRectF rect = sceneBoundingRect();

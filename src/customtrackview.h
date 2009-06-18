@@ -64,7 +64,7 @@ public:
     void slotDeleteClipMarker(const QString &comment, const QString &id, const GenTime &position);
     void slotDeleteAllClipMarkers(const QString &id);
     void addMarker(const QString &id, const GenTime &pos, const QString comment);
-    void setScale(double scaleFactor);
+    void setScale(double scaleFactor, double verticalScale);
     void deleteClip(const QString &clipId);
     void slotAddEffect(QDomElement effect, GenTime pos, int track);
     void slotAddGroupEffect(QDomElement effect, AbstractGroupItem *group);
@@ -81,7 +81,7 @@ public:
     void deleteSelectedClips();
     void cutSelectedClips();
     void setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition, QActionGroup *clipTypeGroup);
-    void checkTrackHeight(bool resetTrackHeight = false);
+    void checkTrackHeight();
     //QList <TrackInfo> tracksList() const;
     void setTool(PROJECTTOOL tool);
     void cutClip(ItemInfo info, GenTime cutTime, bool cut);
@@ -265,7 +265,7 @@ signals:
     void clipItemSelected(ClipItem*, int ix = -1);
     void transitionItemSelected(Transition*, int track = 0, QPoint p = QPoint(), bool update = false);
     void activateDocumentMonitor();
-    void trackHeightChanged(bool zoom);
+    void trackHeightChanged();
     void displayMessage(const QString, MessageType);
     void showClipFrame(DocClipBase *, const int);
     void doTrackLock(int, bool);

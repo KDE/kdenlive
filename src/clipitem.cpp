@@ -512,7 +512,7 @@ void ClipItem::slotThumbReady(int frame, QPixmap pix)
 {
     if (scene() == NULL) return;
     QRectF r = boundingRect();
-    double width = pix.width() / projectScene()->scale();
+    double width = pix.width() / projectScene()->scale().x();
     if (m_startThumbRequested && frame == cropStart().frames(m_fps)) {
         m_startPix = pix;
         m_startThumbRequested = false;
@@ -874,7 +874,7 @@ OPERATIONTYPE ClipItem::operationMode(QPointF pos)
         if (m_editedKeyframe != -1) return KEYFRAME;
     }
     QRectF rect = sceneBoundingRect();
-    const double scale = projectScene()->scale();
+    const double scale = projectScene()->scale().x();
     double maximumOffset = 6 / scale;
 
     if (qAbs((int)(pos.x() - (rect.x() + m_startFade))) < maximumOffset  && qAbs((int)(pos.y() - rect.y())) < 6) {
@@ -1078,7 +1078,7 @@ void ClipItem::hoverEnterEvent(QGraphicsSceneHoverEvent */*e*/)
     if (isItemLocked()) return;
     m_hover = true;
     QRectF r = boundingRect();
-    double width = 35 / projectScene()->scale();
+    double width = 35 / projectScene()->scale().x();
     double height = r.height() / 2;
     //WARNING: seems like it generates a full repaint of the clip, maybe not so good...
     update(r.x(), r.y() + height, width, height);
@@ -1091,7 +1091,7 @@ void ClipItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
     if (isItemLocked()) return;
     m_hover = false;
     QRectF r = boundingRect();
-    double width = 35 / projectScene()->scale();
+    double width = 35 / projectScene()->scale().x();
     double height = r.height() / 2;
     //WARNING: seems like it generates a full repaint of the clip, maybe not so good...
     update(r.x(), r.y() + height, width, height);

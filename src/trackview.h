@@ -86,7 +86,7 @@ private:
 private slots:
     void setCursorPos(int pos);
     void moveCursorPos(int pos);
-    void slotRebuildTrackHeaders(bool resetZoom = false);
+    void slotRebuildTrackHeaders();
     void slotChangeTrackLock(int ix, bool lock);
     void slotVerticalZoomDown();
     void slotVerticalZoomUp();

@@ -1976,7 +1976,7 @@ void MainWindow::updateConfiguration()
     if (m_activeTimeline) {
         m_activeTimeline->refresh();
         m_activeTimeline->projectView()->checkAutoScroll();
-        m_activeTimeline->projectView()->checkTrackHeight(true);
+        m_activeTimeline->projectView()->checkTrackHeight();
         if (m_activeDocument) m_activeDocument->clipManager()->checkAudioThumbs();
     }
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
