@@ -25,9 +25,13 @@ public:
 	
 	/** \brief Returns infos about a unicode number. Extendable/improvable ;) */
 	QString unicodeInfo(QString unicode_number);
+	
+	void showLastUnicode();
 
 private:
 	Ui::UnicodeDialog_UI m_view;
+	
+	enum Direction { Forward, Backward };
 	
 	/** Selected input method */
 	InputMethod inputMethod;
@@ -38,6 +42,14 @@ private:
 	QString trimmedUnicodeNumber(QString text);
 	/** \brief Checks whether the given string is a control character */
 	bool controlCharacter(QString text);
+	/** \brief Checks whether the given uint is a control character */
+	bool controlCharacter(uint value);
+	
+	/** \brief Returns the next available unicode. */
+	QString nextUnicode(QString text, Direction direction);
+	
+	/** \brief Paints previous and next characters around current char */
+	void updateOverviewChars(uint unicode);
 	
 	int lastCursorPos;
 	QString lastUnicodeNumber;
@@ -49,6 +61,8 @@ signals:
 private slots:
 	void slotTextChanged(QString text);
 	void slotReturnPressed();
+	void slotNextUnicode();
+	void slotPrevUnicode();
 
 };
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>614</width>
-    <height>315</height>
+    <width>576</width>
+    <height>211</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -47,7 +47,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
+      <item row="0" column="4">
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -60,7 +60,7 @@
         </property>
        </spacer>
       </item>
-      <item row="0" column="4">
+      <item row="0" column="7">
        <widget class="QLabel" name="unicodeChar">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -78,7 +78,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="6">
+      <item row="0" column="10">
        <spacer name="horizontalSpacer_2">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -91,7 +91,7 @@
         </property>
        </spacer>
       </item>
-      <item row="0" column="7">
+      <item row="0" column="11">
        <spacer name="horizontalSpacer_3">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -107,16 +107,10 @@
       <item row="0" column="1">
        <widget class="QLineEdit" name="unicodeNumber">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>12</width>
-          <height>0</height>
-         </size>
         </property>
         <property name="font">
          <font>
@@ -129,21 +123,52 @@
         <property name="text">
          <string notr="true"/>
         </property>
+        <property name="maxLength">
+         <number>7</number>
+        </property>
        </widget>
       </item>
-      <item row="0" column="3">
-       <widget class="Line" name="line_2">
+      <item row="0" column="8">
+       <widget class="Line" name="lineRight">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="6">
+       <widget class="Line" name="lineLeft">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
        </widget>
       </item>
       <item row="0" column="5">
-       <widget class="Line" name="line_3">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
+       <widget class="QLabel" name="leftChars">
+        <property name="text">
+         <string notr="true"/>
         </property>
        </widget>
+      </item>
+      <item row="0" column="9">
+       <widget class="QLabel" name="rightChars">
+        <property name="text">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <widget class="KArrowButton" name="arrowUp"/>
+        </item>
+        <item>
+         <widget class="KArrowButton" name="arrowDown">
+          <property name="arrowType" stdset="0">
+           <number>2</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -203,7 +228,7 @@
          <locale language="English" country="UnitedStates"/>
         </property>
         <property name="text">
-         <string>Additional Information:</string>
+         <string>Additional Information</string>
         </property>
        </widget>
       </item>
@@ -226,6 +251,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KArrowButton</class>
+   <extends>QPushButton</extends>
+   <header>karrowbutton.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

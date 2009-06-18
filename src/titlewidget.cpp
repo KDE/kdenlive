@@ -929,6 +929,7 @@ void TitleWidget::textChanged(QGraphicsTextItem *i) {
 
 void TitleWidget::slotInsertUnicode()
 {
+	m_unicodeDialog->showLastUnicode();
 	m_unicodeDialog->exec();
 }
 
