@@ -168,7 +168,6 @@ void Wizard::checkMltComponents()
         } else {
             avformatItem->setIcon(0, m_okIcon);
             // Make sure we have MLT > 0.3.4
-            bool recentMlt = false;
             int version = 0;
             QString mltVersion;
             QString exepath = KStandardDirs::findExe("pkg-config");
@@ -181,7 +180,6 @@ void Wizard::checkMltComponents()
                     mltVersion = checkProcess.readAllStandardOutput();
                     version = 100 * mltVersion.section('.', 0, 0).toInt() + 10 * mltVersion.section('.', 1, 1).toInt() + mltVersion.section('.', 2, 2).toInt();
                     kDebug() << "// FOUND MLT's pkgconfig version: " << version;
-                    if (version > 34) recentMlt = true;
                 }
             }
             if (version == 0) {
@@ -195,21 +193,22 @@ void Wizard::checkMltComponents()
                     mltVersion = mltVersion.section(' ', -1).simplified();
                     version = 100 * mltVersion.section('.', 0, 0).toInt() + 10 * mltVersion.section('.', 1, 1).toInt() + mltVersion.section('.', 2, 2).toInt();
                     kDebug() << "// FOUND MLT version: " << version;
-                    if (version >= 40) recentMlt = true;
                 }
             }
 
             mltitem->setText(1, i18n("MLT version: %1", mltVersion.simplified()));
             mltitem->setSizeHint(0, itemSize);
-            if (version < recommendedMltVersion) {
-                mltitem->setData(1, Qt::UserRole, i18n("Please upgrade to the latest MLT version"));
+            if (version < 40) {
+                mltitem->setData(1, Qt::UserRole, i18n("Your MLT version is unsupported!!!"));
                 mltitem->setIcon(0, m_badIcon);
             } else {
-                mltitem->setData(1, Qt::UserRole, i18n("MLT version is correct"));
-                mltitem->setIcon(0, m_okIcon);
-            }
-
-            if (recentMlt) {
+                if (version < recommendedMltVersion) {
+                    mltitem->setData(1, Qt::UserRole, i18n("Please upgrade to the latest MLT version"));
+                    mltitem->setIcon(0, m_badIcon);
+                } else {
+                    mltitem->setData(1, Qt::UserRole, i18n("MLT version is correct"));
+                    mltitem->setIcon(0, m_okIcon);
+                }
                 // Check installed audio codecs
                 QProcess checkProcess2;
                 checkProcess2.start(KdenliveSettings::rendererpath(), QStringList() << "noise:" << "-consumer" << "avformat" << "acodec=list");
