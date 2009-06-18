@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-09 14:55+0200\n"
-"PO-Revision-Date: 2009-06-18 14:33+0200\n"
+"PO-Revision-Date: 2009-06-18 14:35+0200\n"
 "Last-Translator: Stanislas Zeller <uncensored.assault@gmail.com>\n"
 "Language-Team: français <kde-francophone@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -237,7 +237,7 @@ msgstr "Interrompre la tâche"
 
 #: src/cmake_bindir/ui_wizardextra_ui.h:114 rc.cpp:655 rc.cpp:2008
 msgid "Activate crash recovery (auto save)"
-msgstr "Activer la récupération après plantage (enregistrement automatique)"
+msgstr "Activer la récupération après plantage (sauvegarde automatique)"
 
 #: src/customtrackview.cpp:1259 src/customtrackview.cpp:1295
 #: src/addeffectcommand.cpp:38
