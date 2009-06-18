@@ -38,6 +38,7 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent) :
     setFixedHeight(KdenliveSettings::trackheight());
     m_view.setupUi(this);
     m_view.track_number->setText(QString::number(m_index));
+
     m_view.buttonVideo->setChecked(!info.isBlind);
     m_view.buttonVideo->setToolTip(i18n("Hide track"));
     m_view.buttonAudio->setChecked(!info.isMute);
@@ -62,6 +63,14 @@ HeaderTrack::HeaderTrack(int index, TrackInfo info, QWidget *parent) :
     connect(m_view.buttonVideo, SIGNAL(clicked()), this, SLOT(switchVideo()));
     connect(m_view.buttonAudio, SIGNAL(clicked()), this, SLOT(switchAudio()));
     connect(m_view.buttonLock, SIGNAL(clicked()), this, SLOT(switchLock()));
+
+    // Don't show track buttons if size is too small
+    if (KdenliveSettings::trackheight() < 40) {
+        m_view.buttonVideo->setHidden(true);
+        m_view.buttonAudio->setHidden(true);
+        m_view.buttonLock->setHidden(true);
+        //m_view.horizontalSpacer;
+    }
 
     setContextMenuPolicy(Qt::ActionsContextMenu);
     QAction *insertAction = new QAction(i18n("Insert Track"), this);

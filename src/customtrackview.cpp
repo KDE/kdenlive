@@ -84,7 +84,7 @@
 
 CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscene, QWidget *parent) :
         QGraphicsView(projectscene, parent),
-        m_tracksHeight(KdenliveSettings::trackheight()),
+        m_tracksHeight(KdenliveSettings::defaulttrackheight()),
         m_projectDuration(0),
         m_cursorPos(0),
         m_document(doc),
@@ -114,6 +114,7 @@ CustomTrackView::CustomTrackView(KdenliveDoc *doc, CustomTrackScene* projectscen
     else m_commandStack = NULL;
     setMouseTracking(true);
     setAcceptDrops(true);
+    KdenliveSettings::setTrackheight(m_tracksHeight);
     m_animationTimer = new QTimeLine(800);
     m_animationTimer->setFrameRange(0, 5);
     m_animationTimer->setUpdateInterval(100);
@@ -197,11 +198,14 @@ void CustomTrackView::checkAutoScroll()
     return m_scene->m_tracksList;
 }*/
 
-void CustomTrackView::checkTrackHeight()
+void CustomTrackView::checkTrackHeight(bool resetTrackHeight)
 {
+    if (resetTrackHeight) {
+        KdenliveSettings::setTrackheight(KdenliveSettings::defaulttrackheight());
+    }
     if (m_tracksHeight == KdenliveSettings::trackheight()) return;
     m_tracksHeight = KdenliveSettings::trackheight();
-    emit trackHeightChanged();
+    emit trackHeightChanged(resetTrackHeight);
     QList<QGraphicsItem *> itemList = items();
     ClipItem *item;
     Transition *transitionitem;
@@ -230,7 +234,7 @@ void CustomTrackView::checkTrackHeight()
     setSceneRect(0, 0, sceneRect().width(), m_tracksHeight * m_document->tracksCount());
 //     verticalScrollBar()->setMaximum(m_tracksHeight * m_document->tracksCount());
     KdenliveSettings::setSnaptopoints(snap);
-    update();
+    viewport()->update();
 }
 
 /** Zoom or move viewport on mousewheel
@@ -588,7 +592,7 @@ void CustomTrackView::mouseMoveEvent(QMouseEvent * event)
 // virtual
 void CustomTrackView::mousePressEvent(QMouseEvent * event)
 {
-    kDebug() << "mousePressEvent STARTED";
+    //kDebug() << "mousePressEvent STARTED";
     setFocus(Qt::MouseFocusReason);
     m_menuPosition = QPoint();
 
@@ -1867,7 +1871,7 @@ void CustomTrackView::addTrack(TrackInfo type, int ix)
     }
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight);
     setSceneRect(0, 0, sceneRect().width(), maxHeight);
-    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
+    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged(false)));
     viewport()->update();
     //setFixedHeight(50 * m_tracksCount);
 }
@@ -1932,7 +1936,7 @@ void CustomTrackView::removeTrack(int ix)
     }
     m_cursorLine->setLine(m_cursorLine->line().x1(), 0, m_cursorLine->line().x1(), maxHeight);
     setSceneRect(0, 0, sceneRect().width(), maxHeight);
-    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
+    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged(false)));
     viewport()->update();
 }
 
@@ -1941,7 +1945,7 @@ void CustomTrackView::changeTrack(int ix, TrackInfo type)
     int tracknumber = m_document->tracksCount() - ix;
     m_document->setTrackType(tracknumber - 1, type);
     m_document->renderer()->mltChangeTrackState(tracknumber, m_document->trackInfoAt(tracknumber - 1).isMute, m_document->trackInfoAt(tracknumber - 1).isBlind);
-    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged()));
+    QTimer::singleShot(300, this, SIGNAL(trackHeightChanged(false)));
     viewport()->update();
 }
 
@@ -2291,7 +2295,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
         resetSelectionGroup(false);
         m_operationMode = NONE;
     } else if (m_operationMode == RUBBERSELECTION) {
-        kDebug() << "// END RUBBER SELECT";
+        //kDebug() << "// END RUBBER SELECT";
         resetSelectionGroup();
         groupSelectedItems();
         m_operationMode = NONE;
@@ -2505,7 +2509,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
                 m_document->setModified(true);
             }
         }
-
+        m_document->renderer()->doRefresh();
     } else if (m_operationMode == RESIZESTART && m_dragItem->startPos() != m_dragItemInfo.startPos) {
         // resize start
         if (m_dragItem->type() == AVWIDGET) {
@@ -3148,7 +3152,8 @@ void CustomTrackView::moveClip(const ItemInfo start, const ItemInfo end)
         // undo last move and emit error message
         emit displayMessage(i18n("Cannot move clip to position %1", m_document->timecode().getTimecodeFromFrames(end.startPos.frames(m_document->fps()))), ErrorMessage);
     }
-    kDebug() << " // MOVED CLIP TO: " << end.startPos.frames(25) << ", ITEM START: " << item->startPos().frames(25);
+    m_document->renderer()->doRefresh();
+    //kDebug() << " // MOVED CLIP TO: " << end.startPos.frames(25) << ", ITEM START: " << item->startPos().frames(25);
 }
 
 void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> startTransition, const GenTime offset, const int trackOffset, bool reverseMove)
@@ -3239,6 +3244,7 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
             }
         }
         KdenliveSettings::setSnaptopoints(snap);
+        m_document->renderer()->doRefresh();
     } else kDebug() << "///////// WARNING; NO GROUP TO MOVE";
 }
 
@@ -3283,6 +3289,7 @@ void CustomTrackView::moveTransition(const ItemInfo start, const ItemInfo end)
         }
         emit transitionItemSelected(item, getPreviousVideoTrack(item->track()), p);
     }
+    m_document->renderer()->doRefresh();
 }
 
 void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end)
@@ -3751,7 +3758,7 @@ void CustomTrackView::slotRefreshGuides()
     }
 }
 
-void CustomTrackView::drawBackground(QPainter * painter, const QRectF & rect)
+void CustomTrackView::drawBackground(QPainter * painter, const QRectF &rect)
 {
     QRectF r = rect;
     r.setWidth(r.width() + 1);

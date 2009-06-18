@@ -40,7 +40,8 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent) :
         QWidget(parent),
         m_scale(1.0),
         m_projectTracks(0),
-        m_doc(doc)
+        m_doc(doc),
+        m_verticalZoom(1)
 {
 
     m_view.setupUi(this);
@@ -58,6 +59,26 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent) :
     layout->setSpacing(0);
     m_view.ruler_frame->setLayout(layout);
     layout->addWidget(m_ruler);
+
+
+    QHBoxLayout *sizeLayout = new QHBoxLayout;
+    sizeLayout->setContentsMargins(0, 0, 0, 0);
+    sizeLayout->setSpacing(0);
+    m_view.size_frame->setLayout(sizeLayout);
+
+    QString style1 = "QToolButton {border-style: none;margin: 0px 3px;padding: 0px;} QToolButton:pressed:hover { background-color: rgba(224, 224, 0, 100); border-style: inset; border:1px solid #cc6666;border-radius: 3px;} QToolButton:hover { background-color: rgba(255, 255, 255, 100); border-style: inset; border:1px solid #cc6666;border-radius: 3px;}";
+
+    QToolButton *butSmall = new QToolButton(this);
+    butSmall->setIcon(KIcon("kdenlive-zoom-small"));
+    connect(butSmall, SIGNAL(clicked()), this, SLOT(slotVerticalZoomDown()));
+    sizeLayout->addWidget(butSmall);
+
+    QToolButton *butLarge = new QToolButton(this);
+    butLarge->setIcon(KIcon("kdenlive-zoom-large"));
+    connect(butLarge, SIGNAL(clicked()), this, SLOT(slotVerticalZoomUp()));
+    sizeLayout->addWidget(butLarge);
+    m_view.size_frame->setStyleSheet(style1);
+
 
     QHBoxLayout *tracksLayout = new QHBoxLayout;
     tracksLayout->setContentsMargins(0, 0, 0, 0);
@@ -77,7 +98,7 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent) :
     tracksLayout->addWidget(m_trackview);
 
     connect(m_trackview->verticalScrollBar(), SIGNAL(valueChanged(int)), m_view.headers_area->verticalScrollBar(), SLOT(setValue(int)));
-    connect(m_trackview, SIGNAL(trackHeightChanged()), this, SLOT(slotRebuildTrackHeaders()));
+    connect(m_trackview, SIGNAL(trackHeightChanged(bool)), this, SLOT(slotRebuildTrackHeaders(bool)));
 
     parseDocument(m_doc->toXml());
     m_doc->setSceneList();
@@ -90,6 +111,11 @@ TrackView::TrackView(KdenliveDoc *doc, QWidget *parent) :
     slotSetZone(m_doc->zone());
 }
 
+TrackView::~TrackView()
+{
+    delete m_ruler;
+    delete m_trackview;
+}
 
 int TrackView::duration() const
 {
@@ -345,12 +371,12 @@ void TrackView::parseDocument(QDomDocument doc)
     m_trackview->loadGroups(groups);
     m_trackview->setDuration(duration);
     kDebug() << "///////////  TOTAL PROJECT DURATION: " << duration;
-    
+
     // Remove Kdenlive extra info from xml doc before sending it to MLT
     QDomElement mlt = doc.firstChildElement("mlt");
     QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
     mlt.removeChild(infoXml);
-    
+
     slotRebuildTrackHeaders();
     if (!m_documentErrors.isNull()) KMessageBox::sorry(this, m_documentErrors);
     //m_trackview->setCursorPos(cursorPos);
@@ -399,8 +425,10 @@ void TrackView::refresh()
     m_trackview->viewport()->update();
 }
 
-void TrackView::slotRebuildTrackHeaders()
+void TrackView::slotRebuildTrackHeaders(bool resetZoom)
 {
+    // If the slot was triggered by a change in default track size, reset vertical zoom
+    if (resetZoom) m_verticalZoom = 1;
     QList <TrackInfo> list = m_doc->tracksList();
     QLayoutItem *child;
     while ((child = m_headersLayout->takeAt(0)) != 0) {
@@ -418,7 +446,7 @@ void TrackView::slotRebuildTrackHeaders()
         connect(header, SIGNAL(changeTrack(int)), this, SIGNAL(changeTrack(int)));
         m_headersLayout->addWidget(header);
     }
-    m_view.headers_container->adjustSize();
+    //m_view.headers_container->adjustSize();
 }
 
 
@@ -731,5 +759,20 @@ void TrackView::slotChangeTrackLock(int ix, bool lock)
     widgets.at(ix)->setLock(lock);
 }
 
+void TrackView::slotVerticalZoomDown()
+{
+    if (m_verticalZoom == 0) return;
+    m_verticalZoom--;
+    KdenliveSettings::setTrackheight(KdenliveSettings::trackheight() / 2);
+    m_trackview->checkTrackHeight(false);
+}
+
+void TrackView::slotVerticalZoomUp()
+{
+    if (m_verticalZoom == 2) return;
+    m_verticalZoom++;
+    KdenliveSettings::setTrackheight(KdenliveSettings::trackheight() * 2);
+    m_trackview->checkTrackHeight(false);
+}
 
 #include "trackview.moc"

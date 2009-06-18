@@ -81,7 +81,7 @@ public:
     void deleteSelectedClips();
     void cutSelectedClips();
     void setContextMenu(QMenu *timeline, QMenu *clip, QMenu *transition, QActionGroup *clipTypeGroup);
-    void checkTrackHeight();
+    void checkTrackHeight(bool resetTrackHeight = false);
     //QList <TrackInfo> tracksList() const;
     void setTool(PROJECTTOOL tool);
     void cutClip(ItemInfo info, GenTime cutTime, bool cut);
@@ -265,7 +265,7 @@ signals:
     void clipItemSelected(ClipItem*, int ix = -1);
     void transitionItemSelected(Transition*, int track = 0, QPoint p = QPoint(), bool update = false);
     void activateDocumentMonitor();
-    void trackHeightChanged();
+    void trackHeightChanged(bool zoom);
     void displayMessage(const QString, MessageType);
     void showClipFrame(DocClipBase *, const int);
     void doTrackLock(int, bool);

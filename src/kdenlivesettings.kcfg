@@ -75,7 +75,7 @@
       <default>true</default>
     </entry>
 
-    <entry name="trackheight" type="Int">
+    <entry name="defaulttrackheight" type="Int">
       <label>Tracks height in pixel.</label>
       <default>50</default>
     </entry>
@@ -380,6 +380,11 @@
 
 
   <group name="unmanaged">
+    <entry name="trackheight" type="Int">
+      <label>Tracks height in pixel.</label>
+      <default>50</default>
+    </entry>
+
     <entry name="project_display_ratio" type="Double">
       <label>Current project display ratio.</label>
       <default>1.7777778</default>

@@ -46,7 +46,7 @@ class TrackView : public QWidget
 
 public:
     explicit TrackView(KdenliveDoc *doc, QWidget *parent = 0);
-
+    virtual ~ TrackView();
     void setEditMode(const QString & editMode);
     const QString & editMode() const;
     QGraphicsScene *projectScene();
@@ -76,6 +76,7 @@ private:
     CustomTrackScene *m_scene;
 
     KdenliveDoc *m_doc;
+    int m_verticalZoom;
     QVBoxLayout *m_headersLayout;
     QString m_documentErrors;
     void parseDocument(QDomDocument doc);
@@ -85,8 +86,10 @@ private:
 private slots:
     void setCursorPos(int pos);
     void moveCursorPos(int pos);
-    void slotRebuildTrackHeaders();
+    void slotRebuildTrackHeaders(bool resetZoom = false);
     void slotChangeTrackLock(int ix, bool lock);
+    void slotVerticalZoomDown();
+    void slotVerticalZoomUp();
 
 signals:
     void mousePosition(int);
