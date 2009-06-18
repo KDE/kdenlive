@@ -191,7 +191,6 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                                 infoXml.removeChild(markers);
                             }
                             setProfilePath(profileName);
-                            mlt.removeChild(infoXml);
                             kDebug() << "Reading file: " << url.path() << ", found clips: " << producers.count();
                         }
                     }

@@ -343,9 +343,14 @@ void TrackView::parseDocument(QDomDocument doc)
     // Rebuild groups
     QDomNodeList groups = doc.elementsByTagName("group");
     m_trackview->loadGroups(groups);
-
     m_trackview->setDuration(duration);
     kDebug() << "///////////  TOTAL PROJECT DURATION: " << duration;
+    
+    // Remove Kdenlive extra info from xml doc before sending it to MLT
+    QDomElement mlt = doc.firstChildElement("mlt");
+    QDomElement infoXml = mlt.firstChildElement("kdenlivedoc");
+    mlt.removeChild(infoXml);
+    
     slotRebuildTrackHeaders();
     if (!m_documentErrors.isNull()) KMessageBox::sorry(this, m_documentErrors);
     //m_trackview->setCursorPos(cursorPos);
