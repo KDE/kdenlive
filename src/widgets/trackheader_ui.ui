@@ -1,118 +1,128 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>TrackHeader_UI</class>
- <widget class="QWidget" name="TrackHeader_UI" >
-  <property name="geometry" >
+ <widget class="QWidget" name="TrackHeader_UI">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>58</width>
-    <height>54</height>
+    <width>86</width>
+    <height>51</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2" >
-   <property name="margin" >
+  <layout class="QGridLayout" name="gridLayout_2">
+   <property name="margin">
     <number>0</number>
    </property>
-   <item row="0" column="0" >
-    <widget class="QFrame" name="frame" >
-     <property name="frameShape" >
+   <item row="0" column="0">
+    <widget class="QFrame" name="frame">
+     <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
-     <property name="frameShadow" >
+     <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QGridLayout" name="gridLayout" >
-      <property name="margin" >
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="leftMargin">
+       <number>2</number>
+      </property>
+      <property name="topMargin">
        <number>0</number>
       </property>
-      <property name="spacing" >
-       <number>-1</number>
+      <property name="rightMargin">
+       <number>2</number>
       </property>
-      <item row="0" column="0" >
-       <widget class="QToolButton" name="buttonLock" >
-        <property name="maximumSize" >
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QToolButton" name="buttonLock">
+        <property name="maximumSize">
          <size>
           <width>22</width>
           <height>22</height>
          </size>
         </property>
-        <property name="text" >
+        <property name="text">
          <string/>
         </property>
-        <property name="checkable" >
+        <property name="checkable">
          <bool>true</bool>
         </property>
-        <property name="arrowType" >
+        <property name="arrowType">
          <enum>Qt::NoArrow</enum>
         </property>
        </widget>
       </item>
-      <item row="0" column="2" >
-       <widget class="QLabel" name="track_number" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Maximum" hsizetype="Expanding" >
+      <item row="0" column="2">
+       <widget class="QLabel" name="track_number">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>0</string>
         </property>
-        <property name="alignment" >
+        <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
         </property>
        </widget>
       </item>
-      <item row="1" column="0" >
-       <widget class="QToolButton" name="buttonAudio" >
-        <property name="maximumSize" >
+      <item row="1" column="0">
+       <widget class="QToolButton" name="buttonAudio">
+        <property name="maximumSize">
          <size>
           <width>22</width>
           <height>22</height>
          </size>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>A</string>
         </property>
-        <property name="checkable" >
+        <property name="checkable">
          <bool>true</bool>
         </property>
-        <property name="arrowType" >
+        <property name="arrowType">
          <enum>Qt::NoArrow</enum>
         </property>
        </widget>
       </item>
-      <item row="1" column="2" >
-       <widget class="QToolButton" name="buttonVideo" >
-        <property name="maximumSize" >
+      <item row="1" column="1">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>29</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="2">
+       <widget class="QToolButton" name="buttonVideo">
+        <property name="maximumSize">
          <size>
           <width>22</width>
           <height>22</height>
          </size>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>V</string>
         </property>
-        <property name="checkable" >
+        <property name="checkable">
          <bool>true</bool>
         </property>
-        <property name="checked" >
+        <property name="checked">
          <bool>false</bool>
         </property>
        </widget>
-      </item>
-      <item row="1" column="1" >
-       <spacer name="horizontalSpacer" >
-        <property name="orientation" >
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0" >
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
       </item>
      </layout>
     </widget>
