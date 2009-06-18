@@ -108,7 +108,6 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, b
     } else if (m_clipType == IMAGE || m_clipType == TEXT) {
         setBrush(QColor(141, 166, 215));
         m_startPix = KThumb::getImage(KUrl(clip->getProperty("resource")), (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio()), KdenliveSettings::trackheight());
-        m_endPix = m_startPix;
     } else if (m_clipType == AUDIO) {
         setBrush(QColor(141, 215, 166));
         connect(clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
@@ -629,6 +628,7 @@ void ClipItem::paint(QPainter *painter,
     const double itemWidth = br.width();
     const double itemHeight = br.height();
     const double scale = option->matrix.m11();
+    const double vscale = option->matrix.m22();
     const qreal xoffset = pen().widthF() / scale;
 
     //painter->setRenderHints(QPainter::Antialiasing);
@@ -644,34 +644,37 @@ void ClipItem::paint(QPainter *painter,
     //painter->setClipPath(resultClipPath, Qt::IntersectClip);
 
     // draw thumbnails
-    painter->setMatrixEnabled(false);
 
     if (KdenliveSettings::videothumbnails() && !isAudioOnly()) {
         QPen pen = painter->pen();
         pen.setColor(QColor(255, 255, 255, 150));
         painter->setPen(pen);
-        if (m_clipType == IMAGE && !m_startPix.isNull()) {
-            QPointF p1 = painter->matrix().map(QPointF(itemWidth, 0)) - QPointF(m_startPix.width(), 0);
-            QPointF p2 = painter->matrix().map(QPointF(itemWidth, itemHeight)) - QPointF(m_startPix.width(), 0);
-            painter->drawPixmap(p1, m_startPix);
-            QLineF l(p1, p2);
-            painter->drawLine(l);
+        if ((m_clipType == IMAGE || m_clipType == TEXT) && !m_startPix.isNull()) {
+            double left = itemWidth - m_startPix.width() * vscale / scale;
+            QRectF pixrect(left, 0.0, m_startPix.width() * vscale / scale, m_startPix.height());
+            QRectF source(0.0, 0.0, (double) m_startPix.width(), (double) m_startPix.height());
+            painter->drawPixmap(pixrect, m_startPix, source);
+            QLineF l2(left, 0, left, m_startPix.height());
+            painter->drawLine(l2);
         } else if (!m_endPix.isNull()) {
-            QPointF p1 = painter->matrix().map(QPointF(itemWidth, 0)) - QPointF(m_endPix.width(), 0);
-            QPointF p2 = painter->matrix().map(QPointF(itemWidth, itemHeight)) - QPointF(m_endPix.width(), 0);
-            painter->drawPixmap(p1, m_endPix);
-            QLineF l(p1, p2);
-            painter->drawLine(l);
+            double left = itemWidth - m_endPix.width() * vscale / scale;
+            QRectF pixrect(left, 0.0, m_endPix.width() * vscale / scale, m_endPix.height());
+            QRectF source(0.0, 0.0, (double) m_endPix.width(), (double) m_endPix.height());
+            painter->drawPixmap(pixrect, m_endPix, source);
+            QLineF l2(left, 0, left, m_startPix.height());
+            painter->drawLine(l2);
         }
         if (!m_startPix.isNull()) {
-            QPointF p1 = painter->matrix().map(QPointF(0, 0)) + QPointF(1.0, 0);
-            QPointF p2 = painter->matrix().map(QPointF(0, itemHeight)) + QPointF(1.0, 0);
-            painter->drawPixmap(p1, m_startPix);
-            QLineF l2(p1.x() + m_startPix.width(), p1.y(), p2.x() + m_startPix.width(), p2.y());
+            double right = m_startPix.width() * vscale / scale;
+            QRectF pixrect(0.0, 0.0, right, m_startPix.height());
+            QRectF source(0.0, 0.0, (double) m_startPix.width(), (double) m_startPix.height());
+            painter->drawPixmap(pixrect, m_startPix, source);
+            QLineF l2(right, 0, right, m_startPix.height());
             painter->drawLine(l2);
         }
         painter->setPen(Qt::black);
     }
+    painter->setMatrixEnabled(false);
 
     // draw audio thumbnails
     if (KdenliveSettings::audiothumbnails() && m_speed == 1.0 && !isVideoOnly() && ((m_clipType == AV && (exposed.bottom() > (itemHeight / 2) || isAudioOnly())) || m_clipType == AUDIO) && m_audioThumbReady) {
