@@ -125,6 +125,7 @@ private slots:
     void slotSeek();
     void setClipZone(QPoint pos);
     void slotSwitchMonitorInfo(bool show);
+    void slotSwitchDropFrames(bool show);
 
 public slots:
     void slotOpenFile(const QString &);

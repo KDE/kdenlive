@@ -189,6 +189,7 @@ Q_OBJECT public:
 
     QList <Mlt::Producer *> producersList();
     void updatePreviewSettings();
+    void setDropFrames(bool show);
 
 private:   // Private attributes & methods
     /** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */

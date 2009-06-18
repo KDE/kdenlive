@@ -186,7 +186,14 @@ void Monitor::setupMenu(QMenu *goMenu, QAction *playZone, QAction *loopZone, QMe
     showTips->setCheckable(true);
     connect(showTips, SIGNAL(toggled(bool)), this, SLOT(slotSwitchMonitorInfo(bool)));
     showTips->setChecked(KdenliveSettings::displayMonitorInfo());
+
+    QAction *dropFrames = m_contextMenu->addAction(KIcon(), i18n("Real time (drop frames)"));
+    dropFrames->setCheckable(true);
+    dropFrames->setChecked(true);
+    connect(dropFrames, SIGNAL(toggled(bool)), this, SLOT(slotSwitchDropFrames(bool)));
+
     m_configMenu->addAction(showTips);
+    m_configMenu->addAction(dropFrames);
 
 }
 
@@ -734,6 +741,11 @@ void Monitor::setClipZone(QPoint pos)
     m_currentClip->setZone(pos);
 }
 
+void Monitor::slotSwitchDropFrames(bool show)
+{
+    render->setDropFrames(show);
+}
+
 void Monitor::slotSwitchMonitorInfo(bool show)
 {
     KdenliveSettings::setDisplayMonitorInfo(show);
@@ -747,6 +759,7 @@ void Monitor::slotSwitchMonitorInfo(bool show)
         m_overlay = NULL;
     }
 }
+
 
 MonitorRefresh::MonitorRefresh(QWidget* parent) : \
         QWidget(parent),

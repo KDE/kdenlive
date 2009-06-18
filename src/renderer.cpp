@@ -55,7 +55,7 @@ static void consumer_frame_show(mlt_consumer, Render * self, mlt_frame frame_ptr
 
 Render::Render(const QString & rendererName, int winid, int /* extid */, QWidget *parent) :
         QObject(parent),
-        m_isBlocked(1),
+        m_isBlocked(0),
         m_name(rendererName),
         m_mltConsumer(NULL),
         m_mltProducer(NULL),
@@ -1222,7 +1222,7 @@ void Render::seekToFrame(int pos)
 void Render::askForRefresh()
 {
     // Use a Timer so that we don't refresh too much
-    m_refreshTimer->start(500);
+    m_refreshTimer->start(300);
 }
 
 void Render::doRefresh()
@@ -1238,6 +1238,17 @@ void Render::refresh()
     m_refreshTimer->stop();
     if (m_mltConsumer) {
         m_mltConsumer->set("refresh", 1);
+    }
+}
+
+void Render::setDropFrames(bool show)
+{
+    if (m_mltConsumer) {
+        int dropFrames = 1;
+        if (show == false) dropFrames = 0;
+        m_mltConsumer->stop();
+        m_mltConsumer->set("play.real_time", dropFrames);
+        m_mltConsumer->start();
     }
 }
 
