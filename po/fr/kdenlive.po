@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-09 14:55+0200\n"
-"PO-Revision-Date: 2009-06-18 14:35+0200\n"
+"PO-Revision-Date: 2009-06-18 14:37+0200\n"
 "Last-Translator: Stanislas Zeller <uncensored.assault@gmail.com>\n"
 "Language-Team: français <kde-francophone@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -1275,7 +1275,7 @@ msgstr "L'image ISO DVD est corrompue"
 
 #: src/mainwindow.cpp:841 src/dvdwizard.cpp:47
 msgid "DVD Wizard"
-msgstr "Assistant du DVD"
+msgstr "Assistant de création DVD"
 
 #: src/cmake_bindir/ui_dvdwizardvob_ui.h:149 rc.cpp:637 rc.cpp:1990
 msgid "DVD format"
