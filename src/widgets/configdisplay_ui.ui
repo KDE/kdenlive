@@ -76,7 +76,7 @@
     </widget>
    </item>
    <item row="3" column="1">
-    <widget class="QSpinBox" name="kcfg_defaulttrackheight"/>
+    <widget class="QSpinBox" name="kcfg_trackheight"/>
    </item>
    <item row="3" column="2">
     <spacer name="horizontalSpacer_2">
