@@ -223,7 +223,7 @@ void RenderWidget::setGuides(QDomElement guidesxml, double duration)
     m_view.guide_end->clear();
     QDomNodeList nodes = guidesxml.elementsByTagName("guide");
     if (nodes.count() > 0) {
-        m_view.guide_start->addItem(i18n("Render"), "0");
+        m_view.guide_start->addItem(i18n("Beginning"), "0");
         m_view.render_guide->setEnabled(true);
         m_view.create_chapter->setEnabled(true);
     } else {
