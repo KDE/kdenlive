@@ -1,95 +1,86 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>SaveProfile_UI</class>
- <widget class="QDialog" name="SaveProfile_UI" >
-  <property name="geometry" >
+ <widget class="QDialog" name="SaveProfile_UI">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>384</width>
-    <height>245</height>
+    <width>334</width>
+    <height>250</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Save Profile</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
-   <item row="0" column="0" >
-    <widget class="QLabel" name="label_5" >
-     <property name="text" >
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
       <string>Destination</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1" colspan="2" >
-    <widget class="KComboBox" name="destination_list" />
+   <item row="0" column="1" colspan="2">
+    <widget class="KComboBox" name="destination_list"/>
    </item>
-   <item row="1" column="0" >
-    <widget class="QLabel" name="label_2" >
-     <property name="text" >
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
       <string>Group</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1" colspan="2" >
-    <widget class="KLineEdit" name="group_name" />
+   <item row="1" column="1" colspan="2">
+    <widget class="KLineEdit" name="group_name"/>
    </item>
-   <item row="2" column="0" >
-    <widget class="QLabel" name="label_3" >
-     <property name="text" >
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
       <string>Profile name</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="1" colspan="2" >
-    <widget class="KLineEdit" name="profile_name" />
+   <item row="2" column="1" colspan="2">
+    <widget class="KLineEdit" name="profile_name"/>
    </item>
-   <item row="3" column="0" >
-    <widget class="QLabel" name="label_4" >
-     <property name="text" >
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
       <string>Extension</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="1" colspan="2" >
-    <widget class="KLineEdit" name="extension" >
-     <property name="maxLength" >
+   <item row="3" column="1" colspan="2">
+    <widget class="KLineEdit" name="extension">
+     <property name="maxLength">
       <number>4</number>
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="2" >
-    <widget class="QLabel" name="label" >
-     <property name="text" >
+   <item row="4" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
       <string>Parameters</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="3" >
-    <widget class="KTextEdit" name="parameters" >
-     <property name="readOnly" >
+   <item row="5" column="0" colspan="3">
+    <widget class="KTextEdit" name="parameters">
+     <property name="readOnly">
       <bool>false</bool>
      </property>
-     <property name="acceptRichText" >
+     <property name="acceptRichText">
       <bool>false</bool>
      </property>
     </widget>
    </item>
-   <item row="6" column="0" colspan="2" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons" >
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="2" >
-    <spacer name="verticalSpacer" >
-     <property name="orientation" >
+   <item row="6" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" stdset="0" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
        <height>17</height>
@@ -97,18 +88,28 @@
      </property>
     </spacer>
    </item>
+   <item row="6" column="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
    <class>KTextEdit</class>
@@ -124,11 +125,11 @@
    <receiver>SaveProfile_UI</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>248</x>
      <y>254</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>157</x>
      <y>274</y>
     </hint>
@@ -140,11 +141,11 @@
    <receiver>SaveProfile_UI</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>316</x>
      <y>260</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
     </hint>
