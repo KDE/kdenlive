@@ -28,6 +28,7 @@
 #include <KComboBox>
 #include <KRun>
 #include <KIO/NetAccess>
+#include <KColorScheme>
 // #include <knewstuff2/engine.h>
 
 #include <QDomDocument>
@@ -291,6 +292,7 @@ void RenderWidget::slotSaveProfile()
     ui.parameters->setText(m_view.advanced_params->toPlainText());
     ui.extension->setText(m_view.size_list->currentItem()->data(ExtensionRole).toString());
     ui.profile_name->setFocus();
+
     if (d->exec() == QDialog::Accepted && !ui.profile_name->text().simplified().isEmpty()) {
         QString exportFile = KStandardDirs::locateLocal("appdata", "export/customprofiles.xml");
         QDomDocument doc;
@@ -827,6 +829,10 @@ void RenderWidget::refreshView()
     const QStringList vcodecsList = KdenliveSettings::videocodecs();
     const QStringList acodecsList = KdenliveSettings::audiocodecs();
 
+    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
+    const QColor disabled = scheme.foreground(KColorScheme::InactiveText).color();
+    const QColor disabledbg = scheme.background(KColorScheme::NegativeBackground).color();
+
     for (int i = 0; i < m_view.size_list->count(); i++) {
         sizeItem = m_view.size_list->item(i);
         if ((sizeItem->data(GroupRole) == group || sizeItem->data(GroupRole).toString().isEmpty()) && sizeItem->data(MetaGroupRole) == destination) {
@@ -856,6 +862,7 @@ void RenderWidget::refreshView()
                             //sizeItem->setFlags(Qt::ItemIsSelectable);
                             sizeItem->setToolTip(i18n("Unsupported video format: %1", format));
                             sizeItem->setIcon(brokenIcon);
+                            sizeItem->setForeground(disabled);
                         }
                     }
                 }
@@ -871,6 +878,8 @@ void RenderWidget::refreshView()
                             //sizeItem->setFlags(Qt::ItemIsSelectable);
                             sizeItem->setToolTip(i18n("Unsupported audio codec: %1", format));
                             sizeItem->setIcon(brokenIcon);
+                            sizeItem->setForeground(disabled);
+                            sizeItem->setBackground(disabledbg);
                         }
                     }
                 }
@@ -886,6 +895,7 @@ void RenderWidget::refreshView()
                             //sizeItem->setFlags(Qt::ItemIsSelectable);
                             sizeItem->setToolTip(i18n("Unsupported video codec: %1", format));
                             sizeItem->setIcon(brokenIcon);
+                            sizeItem->setForeground(disabled);
                         }
                     }
                 }
