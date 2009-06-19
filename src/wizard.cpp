@@ -20,11 +20,13 @@
 #include "wizard.h"
 #include "kdenlivesettings.h"
 #include "profilesdialog.h"
+#include "kdenlive-config.h"
 
 #include <KStandardDirs>
 #include <KLocale>
 #include <KProcess>
 #include <kmimetype.h>
+#include <KRun>
 
 #include <QLabel>
 #include <QFile>
@@ -32,6 +34,7 @@
 #include <QTimer>
 
 const double recommendedMltVersion = 40;
+static const char version[] = VERSION;
 
 Wizard::Wizard(bool upgrade, QWidget *parent) :
         QWizard(parent)
@@ -43,12 +46,18 @@ Wizard::Wizard(bool upgrade, QWidget *parent) :
     page1->setTitle(i18n("Welcome"));
     QLabel *label;
     if (upgrade)
-        label = new QLabel(i18n("Your Kdenlive version was upgraded. Please take some time to review the basic settings"));
+        label = new QLabel(i18n("Your Kdenlive version was upgraded to version %1. Please take some time to review the basic settings", QString(version).section(' ', 0, 0)));
     else
         label = new QLabel(i18n("This is the first time you run Kdenlive. This wizard will let you adjust some basic settings, you will be ready to edit your first movie in a few seconds..."));
     label->setWordWrap(true);
     m_startLayout = new QVBoxLayout;
     m_startLayout->addWidget(label);
+    QPushButton *but = new QPushButton(KIcon("help-about"), i18n("Discover the features of this Kdenlive release"), this);
+    connect(but, SIGNAL(clicked()), this, SLOT(slotShowWebInfos()));
+    m_startLayout->addStretch();
+    m_startLayout->addWidget(but);
+
+
     page1->setLayout(m_startLayout);
     addPage(page1);
 
@@ -541,6 +550,11 @@ void Wizard::slotCheckMlt()
 bool Wizard::isOk() const
 {
     return m_systemCheckIsOk;
+}
+
+bool Wizard::slotShowWebInfos()
+{
+    KRun::runUrl(KUrl("http://kdenlive.org/discover/" + QString(version).section(' ', 0, 0)), "text/html", this);
 }
 
 #include "wizard.moc"

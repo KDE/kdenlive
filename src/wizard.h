@@ -101,6 +101,7 @@ private slots:
     void slotCheckStandard();
     void slotCheckSelectedItem();
     void slotCheckMlt();
+    bool slotShowWebInfos();
 };
 
 #endif
