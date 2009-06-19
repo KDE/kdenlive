@@ -130,6 +130,7 @@ public:
     void setupGeneratorMenu(QMenu *addMenu, QMenu *transcodeMenu);
     QString currentClipUrl() const;
     void reloadClipThumbnails();
+    QDomDocument generateTemplateXml(QString data, const QString &replaceString);
 
 public slots:
     void setDocument(KdenliveDoc *doc);
@@ -179,6 +180,7 @@ private:
     void editFolder(const QString folderName, const QString oldfolderName, const QString &clipId);
     QStringList getGroup() const;
     void regenerateTemplate(ProjectItem *clip);
+    void regenerateTemplateImage(ProjectItem *clip);
 
 private slots:
     void slotClipSelected();
@@ -204,6 +206,7 @@ signals:
     void projectModified();
     void loadingIsOver();
     void clipNameChanged(const QString, const QString);
+    void refreshClip();
 };
 
 #endif

@@ -131,7 +131,7 @@ public slots:
     void slotOpenFile(const QString &);
     void slotSetXml(DocClipBase *clip, const int position = -1);
     void initMonitor();
-    void refreshMonitor(bool visible);
+    void refreshMonitor(bool visible = true);
     void slotSeek(int pos);
     void stop();
     void start();

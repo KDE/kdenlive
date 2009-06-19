@@ -33,7 +33,7 @@
 #include "projectlistview.h"
 #include "editclipcommand.h"
 #include "editfoldercommand.h"
-
+#include "ui_templateclip_ui.h"
 
 #include <KDebug>
 #include <KAction>
@@ -264,7 +264,10 @@ void ProjectList::slotUpdateClipProperties(const QString &id, QMap <QString, QSt
     ProjectItem *item = getItemById(id);
     if (item) {
         slotUpdateClipProperties(item, properties);
-        if (properties.contains("colour") || properties.contains("resource") || properties.contains("xmldata") || properties.contains("force_aspect_ratio")) slotRefreshClipThumbnail(item);
+        if (properties.contains("colour") || properties.contains("resource") || properties.contains("xmldata") || properties.contains("force_aspect_ratio")) {
+            slotRefreshClipThumbnail(item);
+            emit refreshClip();
+        }
         if (properties.contains("out")) item->changeDuration(properties.value("out").toInt());
     }
 }
@@ -273,6 +276,7 @@ void ProjectList::slotUpdateClipProperties(ProjectItem *clip, QMap <QString, QSt
 {
     if (!clip) return;
     if (!clip->isGroup()) clip->setProperties(properties);
+    if (properties.contains("xmldata")) regenerateTemplateImage(clip);
     if (properties.contains("name")) {
         m_listView->blockSignals(true);
         clip->setText(1, properties.value("name"));
@@ -302,13 +306,16 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
             QMap <QString, QString> newprops;
             oldprops["description"] = clip->referencedClip()->getProperty("description");
             newprops["description"] = item->text(2);
-            slotUpdateClipProperties(clip, newprops);
+
+            if (clip->clipType() == TEXT && !clip->referencedClip()->getProperty("xmltemplate").isEmpty()) {
+                // This is a text template clip, update the image
+                oldprops.insert("xmldata", clip->referencedClip()->getProperty("xmldata"));
+                newprops.insert("xmldata", generateTemplateXml(clip->referencedClip()->getProperty("xmltemplate"), item->text(2)).toString());
+            }
+
+            slotUpdateClipProperties(clip->clipId(), newprops);
             EditClipCommand *command = new EditClipCommand(this, clip->clipId(), oldprops, newprops, false);
             m_commandStack->push(command);
-            if (!clip->referencedClip()->getProperty("xmltemplate").isEmpty()) {
-                // This is a text template clip, update the image
-                regenerateTemplate(clip);
-            }
         }
     } else if (column == 1) {
         if (clip->isGroup()) {
@@ -644,18 +651,17 @@ void ProjectList::slotAddColorClip()
 {
     if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
     QDialog *dia = new QDialog(this);
-    Ui::ColorClip_UI *dia_ui = new Ui::ColorClip_UI();
-    dia_ui->setupUi(dia);
-    dia_ui->clip_name->setText(i18n("Color Clip"));
-    dia_ui->clip_duration->setText(KdenliveSettings::color_duration());
+    Ui::ColorClip_UI dia_ui;
+    dia_ui.setupUi(dia);
+    dia_ui.clip_name->setText(i18n("Color Clip"));
+    dia_ui.clip_duration->setText(KdenliveSettings::color_duration());
     if (dia->exec() == QDialog::Accepted) {
-        QString color = dia_ui->clip_color->color().name();
+        QString color = dia_ui.clip_color->color().name();
         color = color.replace(0, 1, "0x") + "ff";
         QStringList groupInfo = getGroup();
-        m_doc->clipManager()->slotAddColorClipFile(dia_ui->clip_name->text(), color, dia_ui->clip_duration->text(), groupInfo.at(0), groupInfo.at(1));
+        m_doc->clipManager()->slotAddColorClipFile(dia_ui.clip_name->text(), color, dia_ui.clip_duration->text(), groupInfo.at(0), groupInfo.at(1));
         m_doc->setModified(true);
     }
-    delete dia_ui;
     delete dia;
 }
 
@@ -682,7 +688,37 @@ void ProjectList::slotAddTitleClip()
 void ProjectList::slotAddTitleTemplateClip()
 {
     QStringList groupInfo = getGroup();
-    m_doc->slotCreateTextTemplateClip(groupInfo.at(0), groupInfo.at(1));
+    if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
+
+    // Get the list of existing templates
+    QStringList filter;
+    filter << "*.kdenlivetitle";
+    const QString path = m_doc->projectFolder().path() + "/titles/";
+    QStringList templateFiles = QDir(path).entryList(filter, QDir::Files);
+
+    QDialog *dia = new QDialog(this);
+    Ui::TemplateClip_UI dia_ui;
+    dia_ui.setupUi(dia);
+    for (int i = 0; i < templateFiles.size(); ++i) {
+        dia_ui.template_list->comboBox()->addItem(templateFiles.at(i), path + templateFiles.at(i));
+    }
+    dia_ui.template_list->fileDialog()->setFilter("*.kdenlivetitle");
+    //warning: setting base directory doesn't work??
+    KUrl startDir(path);
+    dia_ui.template_list->fileDialog()->setUrl(startDir);
+    dia_ui.description->setHidden(true);
+    if (dia->exec() == QDialog::Accepted) {
+        QString textTemplate = dia_ui.template_list->comboBox()->itemData(dia_ui.template_list->comboBox()->currentIndex()).toString();
+        if (textTemplate.isEmpty()) textTemplate = dia_ui.template_list->comboBox()->currentText();
+        if (dia_ui.normal_clip->isChecked()) {
+            // Create a normal title clip
+            m_doc->slotCreateTextClip(groupInfo.at(0), groupInfo.at(1), textTemplate);
+        } else {
+            // Create a cloned template clip
+            m_doc->slotCreateTextTemplateClip(groupInfo.at(0), groupInfo.at(1), KUrl(textTemplate));
+        }
+    }
+    delete dia;
 }
 
 QStringList ProjectList::getGroup() const
@@ -907,27 +943,48 @@ void ProjectList::regenerateTemplate(ProjectItem *clip)
     // Generate image for template clip
     const QString comment = clip->referencedClip()->getProperty("description");
     const QString path = clip->referencedClip()->getProperty("xmltemplate");
-    QDomDocument doc;
-    QFile file(path);
-    if (!file.open(QIODevice::ReadOnly))
-        return;
-    if (!doc.setContent(&file)) {
-        file.close();
-        return;
-    }
-    file.close();
-    QDomNodeList texts = doc.elementsByTagName("content");
-    for (int i = 0; i < texts.count(); i++) {
-        QString data = texts.item(i).firstChild().nodeValue();
-        data.replace("%s", comment);
-        texts.item(i).firstChild().setNodeValue(data);
-    }
+    QDomDocument doc = generateTemplateXml(path, comment);
     TitleWidget *dia_ui = new TitleWidget(KUrl(), QString(), m_render, this);
     dia_ui->setXml(doc);
     QImage pix = dia_ui->renderedPixmap();
     pix.save(clip->clipUrl().path());
     delete dia_ui;
     clip->referencedClip()->producer()->set("force_reload", 1);
+}
+
+void ProjectList::regenerateTemplateImage(ProjectItem *clip)
+{
+    // Generate image for template clip
+    TitleWidget *dia_ui = new TitleWidget(KUrl(), QString(), m_render, this);
+    QDomDocument doc;
+    doc.setContent(clip->referencedClip()->getProperty("xmldata"));
+    dia_ui->setXml(doc);
+    QImage pix = dia_ui->renderedPixmap();
+    pix.save(clip->clipUrl().path());
+    delete dia_ui;
+}
+
+QDomDocument ProjectList::generateTemplateXml(QString path, const QString &replaceString)
+{
+    QDomDocument doc;
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly)) {
+        kWarning() << "ERROR, CANNOT READ: " << path;
+        return doc;
+    }
+    if (!doc.setContent(&file)) {
+        kWarning() << "ERROR, CANNOT READ: " << path;
+        file.close();
+        return doc;
+    }
+    file.close();
+    QDomNodeList texts = doc.elementsByTagName("content");
+    for (int i = 0; i < texts.count(); i++) {
+        QString data = texts.item(i).firstChild().nodeValue();
+        data.replace("%s", replaceString);
+        texts.item(i).firstChild().setNodeValue(data);
+    }
+    return doc;
 }
 
 #include "projectlist.moc"

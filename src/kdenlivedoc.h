@@ -150,8 +150,8 @@ private:
     bool checkDocumentClips(QDomNodeList infoproducers);
 
 public slots:
-    void slotCreateTextClip(QString group, const QString &groupId);
-    void slotCreateTextTemplateClip(QString group, const QString &groupId);
+    void slotCreateTextClip(QString group, const QString &groupId, const QString &templatePath = QString());
+    void slotCreateTextTemplateClip(QString group, const QString &groupId, KUrl path);
     /** Set to true if document needs saving, false otherwise */
     void setModified(bool mod = true);
     void checkProjectClips();

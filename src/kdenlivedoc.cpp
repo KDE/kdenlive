@@ -1046,11 +1046,11 @@ DocClipBase *KdenliveDoc::getBaseClip(const QString &clipId)
     return m_clipManager->getClipById(clipId);
 }
 
-void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId)
+void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId, const QString &templatePath)
 {
     QString titlesFolder = projectFolder().path() + "/titles/";
     KStandardDirs::makeDir(titlesFolder);
-    TitleWidget *dia_ui = new TitleWidget(KUrl(), titlesFolder, m_render, kapp->activeWindow());
+    TitleWidget *dia_ui = new TitleWidget(templatePath, titlesFolder, m_render, kapp->activeWindow());
     if (dia_ui->exec() == QDialog::Accepted) {
         QStringList titleInfo = TitleWidget::getFreeTitleInfo(projectFolder());
         QImage pix = dia_ui->renderedPixmap();
@@ -1062,15 +1062,18 @@ void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId)
     delete dia_ui;
 }
 
-void KdenliveDoc::slotCreateTextTemplateClip(QString group, const QString &groupId)
+void KdenliveDoc::slotCreateTextTemplateClip(QString group, const QString &groupId, KUrl path)
 {
-    KUrl titlesFolder = KUrl(projectFolder().path() + "/titles/");
-    KUrl path = KFileDialog::getOpenUrl(titlesFolder, "*.kdenlivetitle", kapp->activeWindow(), i18n("Enter Template Path"));
+    QString titlesFolder = projectFolder().path() + "/titles/";
+    if (path.isEmpty()) {
+        path = KFileDialog::getOpenUrl(KUrl(titlesFolder), "*.kdenlivetitle", kapp->activeWindow(), i18n("Enter Template Path"));
+    }
+
     if (path.isEmpty()) return;
 
     QStringList titleInfo = TitleWidget::getFreeTitleInfo(projectFolder());
 
-    TitleWidget *dia_ui = new TitleWidget(path, titlesFolder.path(), m_render, kapp->activeWindow());
+    TitleWidget *dia_ui = new TitleWidget(path, titlesFolder, m_render, kapp->activeWindow());
     QImage pix = dia_ui->renderedPixmap();
     pix.save(titleInfo.at(1));
     delete dia_ui;

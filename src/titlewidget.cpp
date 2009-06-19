@@ -1145,7 +1145,7 @@ void TitleWidget::setXml(QDomDocument doc)
     slotSelectTool();
 }
 
-QImage TitleWidget::renderedPixmap()
+const QRect TitleWidget::renderedRect()
 {
     int minX = 0;
     int minY = 0;
@@ -1166,8 +1166,14 @@ QImage TitleWidget::renderedPixmap()
             maxY = maxY - minY;
         }
     }
+    QRect rect(minX, minY, maxX, maxY);
+    return rect;
+}
 
-    QImage pix(maxX, maxY, QImage::Format_ARGB32);
+QImage TitleWidget::renderedPixmap()
+{
+    QRect rect = renderedRect();
+    QImage pix(rect.width(), rect.height(), QImage::Format_ARGB32);
     pix.fill(Qt::transparent);
     QPainter painter(&pix);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::HighQualityAntialiasing);
@@ -1178,7 +1184,7 @@ QImage TitleWidget::renderedPixmap()
     m_endViewport->setVisible(false);
     m_frameImage->setVisible(false);
 
-    m_scene->render(&painter, QRectF(), QRectF(minX, minY, maxX - minX, maxY - minY));
+    m_scene->render(&painter, QRectF(), rect); //QRectF(minX, minY, maxX - minX, maxY - minY));
     painter.end();
     m_frameBorder->setPen(framepen);
     m_startViewport->setVisible(true);

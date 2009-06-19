@@ -69,6 +69,11 @@ public:
      * returned. */
     static QString getTitleResourceFromName(const KUrl &projectUrl, const QString &titleName);
 
+    /** \brief returns the size of the rendered pixmap
+    *
+    */
+    const QRect renderedRect();
+
 protected:
     virtual void resizeEvent(QResizeEvent * event);
 

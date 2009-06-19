@@ -51,6 +51,7 @@
 #include "interfaces.h"
 #include "kdenlive-config.h"
 #include "cliptranscode.h"
+#include "ui_templateclip_ui.h"
 
 #include <KApplication>
 #include <KAction>
@@ -1848,6 +1849,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
         }
         //m_activeDocument->setRenderer(NULL);
         disconnect(m_projectList, SIGNAL(clipSelected(DocClipBase *)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *)));
+        disconnect(m_projectList, SIGNAL(refreshClip()), m_clipMonitor, SLOT(refreshMonitor()));
         m_clipMonitor->stop();
     }
     KdenliveSettings::setCurrent_profile(doc->profilePath());
@@ -1857,6 +1859,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     m_transitionConfig->updateProjectFormat(doc->mltProfile(), doc->timecode(), trackView->tracksNumber());
     m_effectStack->updateProjectFormat(doc->mltProfile(), doc->timecode());
     connect(m_projectList, SIGNAL(clipSelected(DocClipBase *)), m_clipMonitor, SLOT(slotSetXml(DocClipBase *)));
+    connect(m_projectList, SIGNAL(refreshClip()), m_clipMonitor, SLOT(refreshMonitor()));
     connect(m_projectList, SIGNAL(projectModified()), doc, SLOT(setModified()));
     connect(m_projectList, SIGNAL(clipNameChanged(const QString, const QString)), trackView->projectView(), SLOT(clipNameChanged(const QString, const QString)));
 
@@ -2326,10 +2329,57 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
         QString titlepath = m_activeDocument->projectFolder().path() + "/titles/";
         if (!clip->getProperty("xmltemplate").isEmpty()) {
             // template text clip
-            KUrl path = KUrlRequesterDialog::getUrl(clip->getProperty("xmltemplate"), this, i18n("Change template path"));
-            if (!path.isEmpty() && (path.path() != clip->getProperty("xmltemplate"))) {
-                // Clip template modified, update
-                m_projectList->regenerateTemplate(clip->getId());
+
+            // Get the list of existing templates
+            QStringList filter;
+            filter << "*.kdenlivetitle";
+            QStringList templateFiles = QDir(titlepath).entryList(filter, QDir::Files);
+
+            QDialog *dia = new QDialog(this);
+            Ui::TemplateClip_UI dia_ui;
+            dia_ui.setupUi(dia);
+            int ix = -1;
+            const QString templatePath = clip->getProperty("xmltemplate");
+            for (int i = 0; i < templateFiles.size(); ++i) {
+                dia_ui.template_list->comboBox()->addItem(templateFiles.at(i), titlepath + templateFiles.at(i));
+                if (templatePath == KUrl(titlepath + templateFiles.at(i)).path()) ix = i;
+            }
+            if (ix != -1) dia_ui.template_list->comboBox()->setCurrentIndex(ix);
+            else dia_ui.template_list->comboBox()->insertItem(0, templatePath);
+            dia_ui.template_list->fileDialog()->setFilter("*.kdenlivetitle");
+            //warning: setting base directory doesn't work??
+            KUrl startDir(titlepath);
+            dia_ui.template_list->fileDialog()->setUrl(startDir);
+            dia_ui.description->setText(clip->getProperty("description"));
+            dia_ui.clone_clip->setChecked(true);
+            if (dia->exec() == QDialog::Accepted) {
+                QString textTemplate = dia_ui.template_list->comboBox()->itemData(dia_ui.template_list->comboBox()->currentIndex()).toString();
+                if (textTemplate.isEmpty()) textTemplate = dia_ui.template_list->comboBox()->currentText();
+
+                QMap <QString, QString> newprops;
+
+                if (KUrl(textTemplate).path() != templatePath) {
+                    // The template was changed
+                    newprops.insert("xmltemplate", textTemplate);
+                }
+
+                if (dia_ui.description->toPlainText() != clip->getProperty("description")) {
+                    newprops.insert("description", dia_ui.description->toPlainText());
+                }
+
+                QString newtemplate = newprops.value("xmltemplate");
+                if (newtemplate.isEmpty()) newtemplate = templatePath;
+
+                // template modified we need to update xmldata
+                QString description = newprops.value("description");
+                if (description.isEmpty()) description = clip->getProperty("description");
+                newprops.insert("xmldata", m_projectList->generateTemplateXml(newtemplate, description).toString());
+                if (dia_ui.normal_clip->isChecked()) {
+                    // Switch clip to normal clip
+                    newprops.insert("xmltemplate", QString());
+                }
+                EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
+                m_activeDocument->commandStack()->push(command);
             }
             return;
         }
@@ -2339,16 +2389,12 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
         doc.setContent(clip->getProperty("xmldata"));
         dia_ui->setXml(doc);
         if (dia_ui->exec() == QDialog::Accepted) {
-            QImage pix = dia_ui->renderedPixmap();
-            pix.save(path);
-            //slotAddClipFile(KUrl("/tmp/kdenlivetitle.png"), QString(), -1);
-            //m_clipManager->slotEditTextClipFile(id, dia_ui->xml().toString());
+            QRect rect = dia_ui->renderedRect();
             QMap <QString, QString> newprops;
             newprops.insert("xmldata", dia_ui->xml().toString());
-            newprops.insert("frame_size", QString::number(pix.width()) + 'x' + QString::number(pix.height()));
+            newprops.insert("frame_size", QString::number(rect.width()) + 'x' + QString::number(rect.height()));
             EditClipCommand *command = new EditClipCommand(m_projectList, clip->getId(), clip->properties(), newprops, true);
             m_activeDocument->commandStack()->push(command);
-            m_clipMonitor->refreshMonitor(true);
             m_activeDocument->setModified(true);
         }
         delete dia_ui;
