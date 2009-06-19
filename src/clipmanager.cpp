@@ -351,6 +351,28 @@ void ClipManager::slotAddTextClipFile(const QString titleName, const QString ima
     m_doc->commandStack()->push(command);
 }
 
+void ClipManager::slotAddTextTemplateClip(QString titleName, const QString imagePath, const KUrl path, const QString group, const QString &groupId)
+{
+    QDomDocument doc;
+    QDomElement prod = doc.createElement("producer");
+    doc.appendChild(prod);
+    prod.setAttribute("resource", imagePath);
+    prod.setAttribute("name", titleName);
+    prod.setAttribute("xmltemplate", path.path());
+    uint id = m_clipIdCounter++;
+    prod.setAttribute("id", QString::number(id));
+    if (!group.isEmpty()) {
+        prod.setAttribute("groupname", group);
+        prod.setAttribute("groupid", groupId);
+    }
+    prod.setAttribute("type", (int) TEXT);
+    prod.setAttribute("transparency", "1");
+    prod.setAttribute("in", "0");
+    prod.setAttribute("out", m_doc->getFramePos(KdenliveSettings::image_duration()) - 1);
+    AddClipCommand *command = new AddClipCommand(m_doc, doc.documentElement(), QString::number(id), true);
+    m_doc->commandStack()->push(command);
+}
+
 int ClipManager::getFreeClipId()
 {
     return m_clipIdCounter++;

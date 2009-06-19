@@ -151,6 +151,7 @@ private:
 
 public slots:
     void slotCreateTextClip(QString group, const QString &groupId);
+    void slotCreateTextTemplateClip(QString group, const QString &groupId);
     /** Set to true if document needs saving, false otherwise */
     void setModified(bool mod = true);
     void checkProjectClips();

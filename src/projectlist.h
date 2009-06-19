@@ -150,6 +150,7 @@ public slots:
     void slotEditClip();
     void slotReloadClip();
     void slotAddColorClip();
+    void regenerateTemplate(const QString &id);
 
 private:
     ProjectListView *m_listView;
@@ -176,11 +177,14 @@ private:
     void requestClipThumbnail(const QString &id);
     void deleteProjectFolder(QMap <QString, QString> map);
     void editFolder(const QString folderName, const QString oldfolderName, const QString &clipId);
+    QStringList getGroup() const;
+    void regenerateTemplate(ProjectItem *clip);
 
 private slots:
     void slotClipSelected();
     void slotAddSlideshowClip();
     void slotAddTitleClip();
+    void slotAddTitleTemplateClip();
     void slotContextMenu(const QPoint &pos, QTreeWidgetItem *);
     void slotAddFolder();
     /** This is triggered when a clip description has been modified */

@@ -1101,6 +1101,10 @@ void MainWindow::setupActions()
     collection->addAction("add_text_clip", addTitleClip);
     connect(addTitleClip , SIGNAL(triggered()), m_projectList, SLOT(slotAddTitleClip()));
 
+    QAction *addTitleTemplateClip = new KAction(KIcon("kdenlive-add-text-clip"), i18n("Add Template Title"), this);
+    collection->addAction("add_text_template_clip", addTitleTemplateClip);
+    connect(addTitleTemplateClip , SIGNAL(triggered()), m_projectList, SLOT(slotAddTitleTemplateClip()));
+
     QAction *addFolderButton = new KAction(KIcon("folder-new"), i18n("Create Folder"), this);
     collection->addAction("add_folder", addFolderButton);
     connect(addFolderButton , SIGNAL(triggered()), m_projectList, SLOT(slotAddFolder()));
@@ -1134,6 +1138,7 @@ void MainWindow::setupActions()
     addClips->addAction(addColorClip);
     addClips->addAction(addSlideClip);
     addClips->addAction(addTitleClip);
+    addClips->addAction(addTitleTemplateClip);
     addClips->addAction(addFolderButton);
 
     addClips->addAction(reloadClip);
@@ -2319,6 +2324,15 @@ void MainWindow::slotShowClipProperties(DocClipBase *clip)
 {
     if (clip->clipType() == TEXT) {
         QString titlepath = m_activeDocument->projectFolder().path() + "/titles/";
+        if (!clip->getProperty("xmltemplate").isEmpty()) {
+            // template text clip
+            KUrl path = KUrlRequesterDialog::getUrl(clip->getProperty("xmltemplate"), this, i18n("Change template path"));
+            if (!path.isEmpty() && (path.path() != clip->getProperty("xmltemplate"))) {
+                // Clip template modified, update
+                m_projectList->regenerateTemplate(clip->getId());
+            }
+            return;
+        }
         QString path = clip->getProperty("resource");
         TitleWidget *dia_ui = new TitleWidget(KUrl(), titlepath, m_projectMonitor->render, this);
         QDomDocument doc;

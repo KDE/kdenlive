@@ -203,6 +203,8 @@ void ProjectList::slotOpenClip()
     }
 }
 
+
+
 void ProjectList::slotReloadClip()
 {
     ProjectItem *item = static_cast <ProjectItem*>(m_listView->currentItem());
@@ -298,6 +300,10 @@ void ProjectList::slotItemEdited(QTreeWidgetItem *item, int column)
             slotUpdateClipProperties(clip, newprops);
             EditClipCommand *command = new EditClipCommand(this, clip->clipId(), oldprops, newprops, false);
             m_commandStack->push(command);
+            if (!clip->referencedClip()->getProperty("xmltemplate").isEmpty()) {
+                // This is a text template clip, update the image
+                regenerateTemplate(clip);
+            }
         }
     } else if (column == 1) {
         if (clip->isGroup()) {
@@ -604,21 +610,10 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, QString group)
     }
     if (list.isEmpty()) return;
 
-    QString groupId;
     if (group.isEmpty()) {
-        ProjectItem *item = static_cast <ProjectItem*>(m_listView->currentItem());
-        if (item && !item->isGroup()) {
-            while (item->parent()) {
-                item = static_cast <ProjectItem*>(item->parent());
-                if (item->isGroup()) break;
-            }
-        }
-        if (item && item->isGroup()) {
-            group = item->groupName();
-            groupId = item->clipId();
-        }
-    }
-    m_doc->slotAddClipList(list, group, groupId);
+        QStringList groupInfo = getGroup();
+        m_doc->slotAddClipList(list, groupInfo.at(0), groupInfo.at(1));
+    } else m_doc->slotAddClipList(list, group, QString());
 }
 
 void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)
@@ -651,22 +646,8 @@ void ProjectList::slotAddColorClip()
     if (dia->exec() == QDialog::Accepted) {
         QString color = dia_ui->clip_color->color().name();
         color = color.replace(0, 1, "0x") + "ff";
-
-        QString group;
-        QString groupId;
-        ProjectItem *item = static_cast <ProjectItem*>(m_listView->currentItem());
-        if (item && !item->isGroup()) {
-            while (item->parent()) {
-                item = static_cast <ProjectItem*>(item->parent());
-                if (item->isGroup()) break;
-            }
-        }
-        if (item && item->isGroup()) {
-            group = item->groupName();
-            groupId = item->clipId();
-        }
-
-        m_doc->clipManager()->slotAddColorClipFile(dia_ui->clip_name->text(), color, dia_ui->clip_duration->text(), group, groupId);
+        QStringList groupInfo = getGroup();
+        m_doc->clipManager()->slotAddColorClipFile(dia_ui->clip_name->text(), color, dia_ui->clip_duration->text(), groupInfo.at(0), groupInfo.at(1));
         m_doc->setModified(true);
     }
     delete dia_ui;
@@ -680,22 +661,8 @@ void ProjectList::slotAddSlideshowClip()
     SlideshowClip *dia = new SlideshowClip(m_timecode, this);
 
     if (dia->exec() == QDialog::Accepted) {
-
-        QString group;
-        QString groupId;
-        ProjectItem *item = static_cast <ProjectItem*>(m_listView->currentItem());
-        if (item && !item->isGroup()) {
-            while (item->parent()) {
-                item = static_cast <ProjectItem*>(item->parent());
-                if (item->isGroup()) break;
-            }
-        }
-        if (item && item->isGroup()) {
-            group = item->groupName();
-            groupId = item->clipId();
-        }
-
-        m_doc->clipManager()->slotAddSlideshowClipFile(dia->clipName(), dia->selectedPath(), dia->imageCount(), dia->clipDuration(), dia->loop(), dia->fade(), dia->lumaDuration(), dia->lumaFile(), dia->softness(), group, groupId);
+        QStringList groupInfo = getGroup();
+        m_doc->clipManager()->slotAddSlideshowClipFile(dia->clipName(), dia->selectedPath(), dia->imageCount(), dia->clipDuration(), dia->loop(), dia->fade(), dia->lumaDuration(), dia->lumaFile(), dia->softness(), groupInfo.at(0), groupInfo.at(1));
         m_doc->setModified(true);
     }
     delete dia;
@@ -703,8 +670,19 @@ void ProjectList::slotAddSlideshowClip()
 
 void ProjectList::slotAddTitleClip()
 {
-    QString group;
-    QString groupId;
+    QStringList groupInfo = getGroup();
+    m_doc->slotCreateTextClip(groupInfo.at(0), groupInfo.at(1));
+}
+
+void ProjectList::slotAddTitleTemplateClip()
+{
+    QStringList groupInfo = getGroup();
+    m_doc->slotCreateTextTemplateClip(groupInfo.at(0), groupInfo.at(1));
+}
+
+QStringList ProjectList::getGroup() const
+{
+    QStringList result;
     ProjectItem *item = static_cast <ProjectItem*>(m_listView->currentItem());
     if (item && !item->isGroup()) {
         while (item->parent()) {
@@ -713,11 +691,10 @@ void ProjectList::slotAddTitleClip()
         }
     }
     if (item && item->isGroup()) {
-        group = item->groupName();
-        groupId = item->clipId();
-    }
-
-    m_doc->slotCreateTextClip(group, groupId);
+        result << item->groupName();
+        result << item->clipId();
+    } else result << QString() << QString();
+    return result;
 }
 
 void ProjectList::setDocument(KdenliveDoc *doc)
@@ -912,6 +889,40 @@ QString ProjectList::currentClipUrl() const
     ProjectItem *item = static_cast <ProjectItem*>(m_listView->currentItem());
     if (item == NULL) return QString();
     return item->clipUrl().path();
+}
+
+void ProjectList::regenerateTemplate(const QString &id)
+{
+    ProjectItem *clip = getItemById(ix);
+    if (clip) regenerateTemplate(clip);
+}
+
+void ProjectList::regenerateTemplate(ProjectItem *clip)
+{
+    // Generate image for template clip
+    const QString comment = clip->referencedClip()->getProperty("description");
+    const QString path = clip->referencedClip()->getProperty("xmltemplate");
+    QDomDocument doc;
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly))
+        return;
+    if (!doc.setContent(&file)) {
+        file.close();
+        return;
+    }
+    file.close();
+    QDomNodeList texts = doc.elementsByTagName("content");
+    for (int i = 0; i < texts.count(); i++) {
+        QString data = texts.item(i).firstChild().nodeValue();
+        data.replace("%s", comment);
+        texts.item(i).firstChild().setNodeValue(data);
+    }
+    TitleWidget *dia_ui = new TitleWidget(KUrl(), QString(), m_render, this);
+    dia_ui->setXml(doc);
+    QImage pix = dia_ui->renderedPixmap();
+    pix.save(clip->clipUrl().path());
+    delete dia_ui;
+    clip->referencedClip()->producer()->set("force_reload", 1);
 }
 
 #include "projectlist.moc"
