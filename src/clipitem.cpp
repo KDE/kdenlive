@@ -795,7 +795,7 @@ void ClipItem::paint(QPainter *painter,
         if (m_timeLine && m_timeLine->state() == QTimeLine::Running) {
             qreal value = m_timeLine->currentValue();
             txtBounding.setWidth(txtBounding.width() * value);
-            markerBrush.setColor(QColor(50 + 200 * (1.0 - value), 50, 50, 100 + 50 * value));
+            markerBrush.setColor(QColor(50 + 200 *(1.0 - value), 50, 50, 100 + 50 * value));
         } else markerBrush.setColor(QColor(50, 50, 50, 150));
         painter->setBrush(markerBrush);
         painter->setPen(Qt::NoPen);
@@ -948,7 +948,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
     //kDebug() << "// PREP AUDIO THMB FRMO : scale:" << pixelForOneFrame<< ", from: " << startpixel << ", to: " << endpixel;
     //if ( (!audioThumbWasDrawn || framePixelWidth!=pixelForOneFrame ) && !baseClip()->audioFrameChache.isEmpty()){
 
-    for (int startCache = startpixel - startpixel % 100;startCache < endpixel;startCache += 100) {
+    for (int startCache = startpixel - startpixel % 100; startCache < endpixel; startCache += 100) {
         //kDebug() << "creating " << startCache;
         //if (framePixelWidth!=pixelForOneFrame  ||
         if (m_framePixelWidth == pixelForOneFrame && m_audioThumbCachePic.contains(startCache))
@@ -974,20 +974,20 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
 
         int channelHeight = m_audioThumbCachePic[startCache].height() / channels;
 
-        for (int i = 0;i < channels;i++) {
+        for (int i = 0; i < channels; i++) {
 
             positiveChannelPaths[i].moveTo(0, channelHeight*i + channelHeight / 2);
             negativeChannelPaths[i].moveTo(0, channelHeight*i + channelHeight / 2);
         }
 
-        for (int samples = 0;samples <= 100;samples++) {
+        for (int samples = 0; samples <= 100; samples++) {
             double frame = (double)(samples + startCache - 0) / pixelForOneFrame;
             int sample = (int)((frame - (int)(frame)) * 20);   // AUDIO_FRAME_SIZE
             if (frame < 0 || sample < 0 || sample > 19)
                 continue;
             QMap<int, QByteArray> frame_channel_data = baseClip()->m_audioFrameCache[(int)frame];
 
-            for (int channel = 0;channel < channels && frame_channel_data[channel].size() > 0;channel++) {
+            for (int channel = 0; channel < channels && frame_channel_data[channel].size() > 0; channel++) {
 
                 int y = channelHeight * channel + channelHeight / 2;
                 int delta = (int)(frame_channel_data[channel][sample] - 127 / 2)  * channelHeight / 64;
@@ -999,7 +999,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
                     negativeChannelPaths[channel].lineTo(samples, 0.1 + y - delta);
                 }
             }
-            for (int channel = 0;channel < channels ;channel++)
+            for (int channel = 0; channel < channels ; channel++)
                 if (fullAreaDraw && samples == 100) {
                     positiveChannelPaths[channel].lineTo(samples, channelHeight*channel + channelHeight / 2);
                     negativeChannelPaths[channel].lineTo(samples, channelHeight*channel + channelHeight / 2);
@@ -1011,7 +1011,7 @@ void ClipItem::slotPrepareAudioThumb(double pixelForOneFrame, int startpixel, in
         pixpainter.setPen(QPen(QColor(0, 0, 0)));
         pixpainter.setBrush(QBrush(QColor(60, 60, 60)));
 
-        for (int i = 0;i < channels;i++) {
+        for (int i = 0; i < channels; i++) {
             if (fullAreaDraw) {
                 //pixpainter.fillPath(positiveChannelPaths[i].united(negativeChannelPaths[i]),QBrush(Qt::SolidPattern));//or singleif looks better
                 pixpainter.drawPath(positiveChannelPaths[i].united(negativeChannelPaths[i]));//or singleif looks better
@@ -1434,7 +1434,7 @@ EffectsParameterList ClipItem::getEffectArgs(QDomElement effect)
             QTextStream txtNeu(&neu);
             if (values.size() > 0)
                 txtNeu << (int)values[0].toDouble();
-            for (int i = 0;i < separators.size() && i + 1 < values.size();i++) {
+            for (int i = 0; i < separators.size() && i + 1 < values.size(); i++) {
                 txtNeu << separators[i];
                 txtNeu << (int)(values[i+1].toDouble());
             }

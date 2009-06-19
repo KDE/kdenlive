@@ -167,7 +167,7 @@ void EffectStackView::setupListView(int ix)
     KIcon audioIcon("kdenlive-show-audio");
     QListWidgetItem* item;
 
-    for (int i = 0;i < m_clipref->effectsCount();i++) {
+    for (int i = 0; i < m_clipref->effectsCount(); i++) {
         QDomElement d = m_clipref->effectAt(i);
 
         QDomNode namenode = d.elementsByTagName("name").item(0);

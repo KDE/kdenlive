@@ -215,7 +215,7 @@ void KdenliveSettingsDialog::initDevices()
     m_configSdl.kcfg_audio_driver->addItem(i18n("ARTS daemon"), "artsc");
 
     if (!KdenliveSettings::audiodrivername().isEmpty())
-        for (int i = 1;i < m_configSdl.kcfg_audio_driver->count(); i++) {
+        for (int i = 1; i < m_configSdl.kcfg_audio_driver->count(); i++) {
             if (m_configSdl.kcfg_audio_driver->itemData(i).toString() == KdenliveSettings::audiodrivername()) {
                 m_configSdl.kcfg_audio_driver->setCurrentIndex(i);
                 KdenliveSettings::setAudio_driver((uint) i);

@@ -62,7 +62,7 @@ KUrl SamplePlugin::generatedClip(const QString &generator, const KUrl &projectFo
         d.setWindowTitle(tr("Create Countdown Clip"));
         view.font->setValue(height);
     }
-    
+
     // Set single file mode. Default seems to be File::ExistingOnly.
     view.path->setMode(KFile::File);
 

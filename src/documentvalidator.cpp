@@ -80,8 +80,8 @@ bool DocumentValidator::validate(const double currentVersion)
         tracksMax = qMax(tracksinfo.count(), tracksMax);
         tracksMax = qMax(1, tracksMax); // Force existance of one track
         if (playlists.count() - 1 < tracksMax ||
-            tracks.count() - 1 < tracksMax ||
-            tracksinfo.count() < tracksMax) {
+                tracks.count() - 1 < tracksMax ||
+                tracksinfo.count() < tracksMax) {
             m_modified = true;
             int difference;
             if (playlists.count() - 1 < tracksMax) {
@@ -194,61 +194,61 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 }
             }
         } else for (int i = 0; i < max; i++) {
-            QDomNode n = playlists.at(i);
-            westley.insertBefore(n, QDomNode());
-            QDomElement pl = n.toElement();
-            QDomElement track = m_doc.createElement("track");
-            QString trackType = pl.attribute("hide");
-            if (!trackType.isEmpty())
-                track.setAttribute("hide", trackType);
-            QString playlist_id =  pl.attribute("id");
-            if (playlist_id.isEmpty()) {
-                playlist_id = "black_track";
-                pl.setAttribute("id", playlist_id);
-            }
-            track.setAttribute("producer", playlist_id);
-            //tractor.appendChild(track);
+                QDomNode n = playlists.at(i);
+                westley.insertBefore(n, QDomNode());
+                QDomElement pl = n.toElement();
+                QDomElement track = m_doc.createElement("track");
+                QString trackType = pl.attribute("hide");
+                if (!trackType.isEmpty())
+                    track.setAttribute("hide", trackType);
+                QString playlist_id =  pl.attribute("id");
+                if (playlist_id.isEmpty()) {
+                    playlist_id = "black_track";
+                    pl.setAttribute("id", playlist_id);
+                }
+                track.setAttribute("producer", playlist_id);
+                //tractor.appendChild(track);
 #define KEEP_TRACK_ORDER 1
 #ifdef KEEP_TRACK_ORDER
-            tractor.insertAfter(track, QDomNode());
+                tractor.insertAfter(track, QDomNode());
 #else
-            // Insert the new track in an order that hopefully matches the 3 video, then 2 audio tracks of Kdenlive 0.7.0
-            // insertion sort - O( tracks*tracks )
-            // Note, this breaks _all_ transitions - but you can move them up and down afterwards.
-            QDomElement tractor_elem = tractor.toElement();
-            if (! tractor_elem.isNull()) {
-                QDomNodeList tracks = tractor_elem.elementsByTagName("track");
-                int size = tracks.size();
-                if (size == 0) {
-                    tractor.insertAfter(track, QDomNode());
-                } else {
-                    bool inserted = false;
-                    for (int i = 0; i < size; ++i) {
-                        QDomElement track_elem = tracks.at(i).toElement();
-                        if (track_elem.isNull()) {
-                            tractor.insertAfter(track, QDomNode());
-                            inserted = true;
-                            break;
-                        } else {
-                            kDebug() << "playlist_id: " << playlist_id << " producer:" << track_elem.attribute("producer");
-                            if (playlist_id < track_elem.attribute("producer")) {
-                                tractor.insertBefore(track, track_elem);
+                // Insert the new track in an order that hopefully matches the 3 video, then 2 audio tracks of Kdenlive 0.7.0
+                // insertion sort - O( tracks*tracks )
+                // Note, this breaks _all_ transitions - but you can move them up and down afterwards.
+                QDomElement tractor_elem = tractor.toElement();
+                if (! tractor_elem.isNull()) {
+                    QDomNodeList tracks = tractor_elem.elementsByTagName("track");
+                    int size = tracks.size();
+                    if (size == 0) {
+                        tractor.insertAfter(track, QDomNode());
+                    } else {
+                        bool inserted = false;
+                        for (int i = 0; i < size; ++i) {
+                            QDomElement track_elem = tracks.at(i).toElement();
+                            if (track_elem.isNull()) {
+                                tractor.insertAfter(track, QDomNode());
                                 inserted = true;
                                 break;
+                            } else {
+                                kDebug() << "playlist_id: " << playlist_id << " producer:" << track_elem.attribute("producer");
+                                if (playlist_id < track_elem.attribute("producer")) {
+                                    tractor.insertBefore(track, track_elem);
+                                    inserted = true;
+                                    break;
+                                }
                             }
                         }
+                        // Reach here, no insertion, insert last
+                        if (!inserted) {
+                            tractor.insertAfter(track, QDomNode());
+                        }
                     }
-                    // Reach here, no insertion, insert last
-                    if (!inserted) {
-                        tractor.insertAfter(track, QDomNode());
-                    }
+                } else {
+                    kWarning() << "tractor was not a QDomElement";
+                    tractor.insertAfter(track, QDomNode());
                 }
-            } else {
-                kWarning() << "tractor was not a QDomElement";
-                tractor.insertAfter(track, QDomNode());
-            }
 #endif
-        }
+            }
         tractor.removeChild(multitrack);
 
         // audio track mixing transitions should not be added to track view, so add required attribute

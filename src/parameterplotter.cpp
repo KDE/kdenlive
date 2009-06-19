@@ -95,11 +95,11 @@ void ParameterPlotter::setPointLists(const QDomElement& d, const QString& paramN
             defaults = pa.attribute("default").split(";");
         QStringList maxv = pa.attribute("max").split(";");
         QStringList minv = pa.attribute("min").split(";");
-        for (int i = 0;i < maxv.size() && i < minv.size();i++) {
+        for (int i = 0; i < maxv.size() && i < minv.size(); i++) {
             if (m_max_y < maxv[i].toInt()) m_max_y = maxv[i].toInt();
             if (m_min_y > minv[i].toInt()) m_min_y = minv[i].toInt();
         }
-        for (int i = 0;i < m_parameterNameList.count();i++) {
+        for (int i = 0; i < m_parameterNameList.count(); i++) {
             KPlotObject *plot = new KPlotObject(m_colors[m_plotobjects.size()%m_colors.size()]);
             plot->setShowLines(true);
             if (!m_stretchFactors.contains(i) && i < maxv.size()) {
@@ -149,7 +149,7 @@ void ParameterPlotter::createParametersNew()
     QTextStream txtstr(&paramlist);
     QDomNode pa = namenode.item(0);
     if (namenode.count() > 0) {
-        for (int i = 0;i < plotobjs.count();i++) {
+        for (int i = 0; i < plotobjs.count(); i++) {
             QList<KPlotPoint*> points = plotobjs[i]->points();
             foreach(const KPlotPoint *o, points) {
                 txtstr << (int)o->y() ;
@@ -174,7 +174,7 @@ void ParameterPlotter::mouseMoveEvent(QMouseEvent * event)
         int i = 0;
         foreach(KPlotObject *o, plotObjects()) {
             QList<KPlotPoint*> points = o->points();
-            for (int p = 0;p < points.size();p++) {
+            for (int p = 0; p < points.size(); p++) {
                 if (points[p] == m_movepoint && (m_activeIndexPlot == -1 || m_activeIndexPlot == i)) {
                     QPoint delta = event->pos() - m_oldmousepoint;
                     double newy = m_movepoint->y() - delta.y() * dataRect().height() / pixRect().height();

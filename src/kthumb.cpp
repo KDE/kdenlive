@@ -78,7 +78,7 @@ void MyThread::run()
     int last_val = 0;
     int val = 0;
     kDebug() << "for " << m_frame << " " << m_frameLength << " " << m_producer.is_valid();
-    for (int z = (int) m_frame;z < (int)(m_frame + m_frameLength) && m_producer.is_valid();z++) {
+    for (int z = (int) m_frame; z < (int)(m_frame + m_frameLength) && m_producer.is_valid(); z++) {
         if (stop_me) break;
         val = (int)((z - m_frame) / (m_frame + m_frameLength) * 100.0);
         if (last_val != val && val > 1) {
@@ -94,7 +94,7 @@ void MyThread::run()
 
             qint16* m_pcm = mlt_frame->get_audio(m_audioFormat, m_frequency, m_channels, m_samples);
 
-            for (int c = 0;c < m_channels;c++) {
+            for (int c = 0; c < m_channels; c++) {
                 QByteArray m_array;
                 m_array.resize(m_arrayWidth);
                 for (int i = 0; i < m_array.size(); i++) {
@@ -472,8 +472,8 @@ void KThumb::getAudioThumbs(int channel, double frame, double frameLength, int a
             return;
         }
         kDebug() << "reading audio thumbs from file";
-        for (int z = (int) frame;z < (int)(frame + frameLength);z++) {
-            for (int c = 0;c < m_channels;c++) {
+        for (int z = (int) frame; z < (int)(frame + frameLength); z++) {
+            for (int c = 0; c < m_channels; c++) {
                 QByteArray m_array(arrayWidth, '\x00');
                 for (int i = 0; i < arrayWidth; i++)
                     m_array[i] = channelarray[z*arrayWidth*m_channels + c*arrayWidth + i];

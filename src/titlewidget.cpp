@@ -46,7 +46,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
         m_endViewport(NULL),
         m_render(render),
         m_count(0),
-		m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex)),
+        m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex)),
         m_projectPath(projectPath)
 {
     setupUi(this);
@@ -85,8 +85,8 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     connect(itemhcenter, SIGNAL(clicked()), this, SLOT(itemHCenter()));
     connect(itemvcenter, SIGNAL(clicked()), this, SLOT(itemVCenter()));
 
-	connect(origin_x_left, SIGNAL(clicked()), this, SLOT(slotOriginXClicked()));
-	connect(origin_y_top, SIGNAL(clicked()), this, SLOT(slotOriginYClicked()));
+    connect(origin_x_left, SIGNAL(clicked()), this, SLOT(slotOriginXClicked()));
+    connect(origin_y_top, SIGNAL(clicked()), this, SLOT(slotOriginYClicked()));
 
     connect(value_x, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
     connect(value_y, SIGNAL(valueChanged(int)), this, SLOT(slotAdjustSelectedItem()));
@@ -101,8 +101,8 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     connect(buttonAlignRight, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonAlignCenter, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonAlignNone, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
-	connect(buttonInsertUnicode, SIGNAL(clicked()), this, SLOT(slotInsertUnicode()));
-	connect(m_unicodeDialog, SIGNAL(charSelected(QString)), this, SLOT(slotInsertUnicodeString(QString)));
+    connect(buttonInsertUnicode, SIGNAL(clicked()), this, SLOT(slotInsertUnicode()));
+    connect(m_unicodeDialog, SIGNAL(charSelected(QString)), this, SLOT(slotInsertUnicodeString(QString)));
     connect(displayBg, SIGNAL(stateChanged(int)), this, SLOT(displayBackgroundFrame()));
 
     // mbd
@@ -116,26 +116,26 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     buttonAlignCenter->setIcon(KIcon("format-justify-center"));
     buttonAlignLeft->setIcon(KIcon("format-justify-left"));
     buttonAlignRight->setIcon(KIcon("format-justify-right"));
-	buttonAlignNone->setIcon(KIcon("kdenlive-align-none"));
-	buttonInsertUnicode->setIcon(KIcon("kdenlive-insert-unicode"));
+    buttonAlignNone->setIcon(KIcon("kdenlive-align-none"));
+    buttonInsertUnicode->setIcon(KIcon("kdenlive-insert-unicode"));
 
     buttonAlignNone->setToolTip(i18n("No alignment"));
     buttonAlignRight->setToolTip(i18n("Align right"));
     buttonAlignLeft->setToolTip(i18n("Align left"));
     buttonAlignCenter->setToolTip(i18n("Align center"));
-	buttonInsertUnicode->setToolTip(i18n("Insert Unicode character (Shift+Ctrl+U)"));
-	buttonInsertUnicode->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_U);
-	origin_x_left->setToolTip(i18n("Invert x axis and change 0 point"));
-	origin_y_top->setToolTip(i18n("Invert y axis and change 0 point"));
-	rectBColor->setToolTip(i18n("Select fill color"));
-	rectFColor->setToolTip(i18n("Select border color"));
-	rectBAlpha->setToolTip(i18n("Fill transparency"));
-	rectFAlpha->setToolTip(i18n("Border transparency"));
-	zoom_slider->setToolTip(i18n("Zoom"));
-	buttonRealSize->setToolTip(i18n("Original size (1:1)"));
-	buttonFitZoom->setToolTip(i18n("Fit zoom"));
-	kcolorbutton->setToolTip(i18n("Select background color"));
-	horizontalSlider->setToolTip(i18n("Background Transparency"));
+    buttonInsertUnicode->setToolTip(i18n("Insert Unicode character (Shift+Ctrl+U)"));
+    buttonInsertUnicode->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_U);
+    origin_x_left->setToolTip(i18n("Invert x axis and change 0 point"));
+    origin_y_top->setToolTip(i18n("Invert y axis and change 0 point"));
+    rectBColor->setToolTip(i18n("Select fill color"));
+    rectFColor->setToolTip(i18n("Select border color"));
+    rectBAlpha->setToolTip(i18n("Fill transparency"));
+    rectFAlpha->setToolTip(i18n("Border transparency"));
+    zoom_slider->setToolTip(i18n("Zoom"));
+    buttonRealSize->setToolTip(i18n("Original size (1:1)"));
+    buttonFitZoom->setToolTip(i18n("Fit zoom"));
+    kcolorbutton->setToolTip(i18n("Select background color"));
+    horizontalSlider->setToolTip(i18n("Background Transparency"));
 
     itemhcenter->setIcon(KIcon("kdenlive-align-hor"));
     itemhcenter->setToolTip(i18n("Align item horizontally"));
@@ -149,32 +149,32 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
 
     m_buttonRect = m_toolbar->addAction(KIcon("kdenlive-insert-rect"), i18n("Add Rectangle (Alt+R)"));
     m_buttonRect->setCheckable(true);
-	m_buttonRect->setShortcut(Qt::ALT + Qt::Key_R);
+    m_buttonRect->setShortcut(Qt::ALT + Qt::Key_R);
     connect(m_buttonRect, SIGNAL(triggered()), this, SLOT(slotRectTool()));
 
     m_buttonText = m_toolbar->addAction(KIcon("insert-text"), i18n("Add Text (Alt+T)"));
     m_buttonText->setCheckable(true);
-	m_buttonText->setShortcut(Qt::ALT + Qt::Key_T);
+    m_buttonText->setShortcut(Qt::ALT + Qt::Key_T);
     connect(m_buttonText, SIGNAL(triggered()), this, SLOT(slotTextTool()));
 
     m_buttonImage = m_toolbar->addAction(KIcon("insert-image"), i18n("Add Image (Alt+I)"));
     m_buttonImage->setCheckable(false);
-	m_buttonImage->setShortcut(Qt::ALT + Qt::Key_I);
+    m_buttonImage->setShortcut(Qt::ALT + Qt::Key_I);
     connect(m_buttonImage, SIGNAL(triggered()), this, SLOT(slotImageTool()));
 
     m_buttonCursor = m_toolbar->addAction(KIcon("transform-move"), i18n("Selection Tool (Alt+S)"));
     m_buttonCursor->setCheckable(true);
-	m_buttonCursor->setShortcut(Qt::ALT + Qt::Key_S);
+    m_buttonCursor->setShortcut(Qt::ALT + Qt::Key_S);
     connect(m_buttonCursor, SIGNAL(triggered()), this, SLOT(slotSelectTool()));
 
     m_buttonLoad = m_toolbar->addAction(KIcon("document-open"), i18n("Open Document"));
     m_buttonLoad->setCheckable(false);
-	m_buttonLoad->setShortcut(Qt::CTRL + Qt::Key_O);
+    m_buttonLoad->setShortcut(Qt::CTRL + Qt::Key_O);
     connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));
 
     m_buttonSave = m_toolbar->addAction(KIcon("document-save-as"), i18n("Save As"));
     m_buttonSave->setCheckable(false);
-	m_buttonSave->setShortcut(Qt::CTRL + Qt::Key_S);
+    m_buttonSave->setShortcut(Qt::CTRL + Qt::Key_S);
     connect(m_buttonSave, SIGNAL(triggered()), this, SLOT(saveTitle()));
 
     layout->addWidget(m_toolbar);
@@ -184,7 +184,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     m_scene = new GraphicsSceneRectMove(this);
     graphicsView->setScene(m_scene);
     m_titledocument.setScene(m_scene);
-	connect(m_scene, SIGNAL(changed(QList<QRectF>)), this, SLOT(slotChanged()));
+    connect(m_scene, SIGNAL(changed(QList<QRectF>)), this, SLOT(slotChanged()));
 
     // a gradient background
     /*QRadialGradient *gradient = new QRadialGradient(0, 0, 10);
@@ -247,7 +247,7 @@ TitleWidget::~TitleWidget()
     delete m_buttonSave;
     delete m_buttonLoad;
 
-	delete m_unicodeDialog;
+    delete m_unicodeDialog;
     delete m_frameBorder;
     delete m_frameImage;
     delete m_startViewport;
@@ -478,20 +478,20 @@ void TitleWidget::selectionChanged()
     itemzoom->blockSignals(true);
     itemrotate->blockSignals(true);
     if (l.size() == 0) {
-		bool blockX = !origin_x_left->signalsBlocked();
-		bool blockY = !origin_y_top->signalsBlocked();
-		if (blockX) origin_x_left->blockSignals(true);
-		if (blockY) origin_y_top->blockSignals(true);
-		origin_x_left->setChecked(false);
-		origin_y_top->setChecked(false);
-		updateTextOriginX();
-		updateTextOriginY();
-		frame_properties->setEnabled(false);
-		text_properties->setEnabled(false);
-		rect_properties->setEnabled(false);
-		if (blockX) origin_x_left->blockSignals(false);
-		if (blockY) origin_y_top->blockSignals(false);
-	} else if (l.size() == 1) {
+        bool blockX = !origin_x_left->signalsBlocked();
+        bool blockY = !origin_y_top->signalsBlocked();
+        if (blockX) origin_x_left->blockSignals(true);
+        if (blockY) origin_y_top->blockSignals(true);
+        origin_x_left->setChecked(false);
+        origin_y_top->setChecked(false);
+        updateTextOriginX();
+        updateTextOriginY();
+        frame_properties->setEnabled(false);
+        text_properties->setEnabled(false);
+        rect_properties->setEnabled(false);
+        if (blockX) origin_x_left->blockSignals(false);
+        if (blockY) origin_y_top->blockSignals(false);
+    } else if (l.size() == 1) {
         if (l.at(0)->type() == TEXTITEM) {
             rect_properties->setHidden(true);
             text_properties->setHidden(false);
@@ -541,14 +541,14 @@ void TitleWidget::selectionChanged()
             buttonAlignNone->blockSignals(false);
             buttonAlignCenter->blockSignals(false);
 
-			updateAxisButtons(i);
-			updateCoordinates(i);
-			updateDimension(i);
+            updateAxisButtons(i);
+            updateCoordinates(i);
+            updateDimension(i);
             //value_w->setValue((int) i->boundingRect().width());
             //value_h->setValue((int) i->boundingRect().height());
             frame_properties->setEnabled(true);
-			text_properties->setEnabled(true);
-			rect_properties->setEnabled(false);
+            text_properties->setEnabled(true);
+            rect_properties->setEnabled(false);
             value_w->setEnabled(false);
             value_h->setEnabled(false);
 
@@ -571,33 +571,33 @@ void TitleWidget::selectionChanged()
             settingUp = false;
             rectLineWidth->setValue(rec->pen().width());
 
-			updateAxisButtons(l.at(0));
-			updateCoordinates(rec);
+            updateAxisButtons(l.at(0));
+            updateCoordinates(rec);
             updateDimension(rec);
-			//value_w->setValue((int) rec->rect().width());
+            //value_w->setValue((int) rec->rect().width());
             //value_h->setValue((int) rec->rect().height());
             frame_properties->setEnabled(true);
-			text_properties->setEnabled(false);
-			rect_properties->setEnabled(true);
+            text_properties->setEnabled(false);
+            rect_properties->setEnabled(true);
             value_w->setEnabled(true);
             value_h->setEnabled(true);
 
         } else if (l.at(0)->type() == IMAGEITEM) {
-			updateCoordinates(l.at(0));
-			updateDimension(l.at(0));
+            updateCoordinates(l.at(0));
+            updateDimension(l.at(0));
 
-			frame_properties->setEnabled(true);
-			text_properties->setEnabled(false);
-			rect_properties->setEnabled(false);
-			value_x->setEnabled(true);
-			value_w->setEnabled(false);
-			value_h->setEnabled(false);
+            frame_properties->setEnabled(true);
+            text_properties->setEnabled(false);
+            rect_properties->setEnabled(false);
+            value_x->setEnabled(true);
+            value_w->setEnabled(false);
+            value_h->setEnabled(false);
 
-		} else {
+        } else {
             //toolBox->setCurrentIndex(0);
             frame_properties->setEnabled(false);
-			text_properties->setEnabled(false);
-			rect_properties->setEnabled(false);
+            text_properties->setEnabled(false);
+            rect_properties->setEnabled(false);
         }
         zValue->setValue((int)l.at(0)->zValue());
         itemzoom->setValue((int)(m_transformations.value(l.at(0)).scalex * 100.0 + 0.5));
@@ -620,266 +620,267 @@ void TitleWidget::slotAdjustSelectedItem()
         if (l.at(0)->type() == RECTITEM) {
             //rect item
             QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *>(l.at(0));
-			updatePosition(rec);
-			rec->setRect(QRect(0, 0, value_w->value(), value_h->value()));
+            updatePosition(rec);
+            rec->setRect(QRect(0, 0, value_w->value(), value_h->value()));
         } else if (l.at(0)->type() == TEXTITEM) {
             //text item
             updatePosition(l.at(0));
         } else if (l.at(0)->type() == IMAGEITEM) {
-			//image item
-			updatePosition(l.at(0));
-		}
+            //image item
+            updatePosition(l.at(0));
+        }
     }
 }
 
 /** \brief Updates width/height int the text fields, regarding transformation matrix */
 void TitleWidget::updateDimension(QGraphicsItem *i)
 {
-	bool blockW = !value_w->signalsBlocked();
-	bool blockH = !value_h->signalsBlocked();
+    bool blockW = !value_w->signalsBlocked();
+    bool blockH = !value_h->signalsBlocked();
 
-	if (blockW) value_w->blockSignals(true);
-	if (blockH) value_h->blockSignals(true);
+    if (blockW) value_w->blockSignals(true);
+    if (blockH) value_h->blockSignals(true);
 
 
-	if (i->type() == IMAGEITEM) {
-		// Get multipliers for rotation/scaling
+    if (i->type() == IMAGEITEM) {
+        // Get multipliers for rotation/scaling
 
-		/*Transform t = m_transformations.value(i);
-		QRectF r = i->boundingRect();
-		int width = (int) ( abs(r.width()*t.scalex * cos(t.rotate/180.0*M_PI))
-					+ abs(r.height()*t.scaley * sin(t.rotate/180.0*M_PI)) );
-		int height = (int) ( abs(r.height()*t.scaley * cos(t.rotate/180*M_PI))
-					+ abs(r.width()*t.scalex * sin(t.rotate/180*M_PI)) );*/
+        /*Transform t = m_transformations.value(i);
+        QRectF r = i->boundingRect();
+        int width = (int) ( abs(r.width()*t.scalex * cos(t.rotate/180.0*M_PI))
+                    + abs(r.height()*t.scaley * sin(t.rotate/180.0*M_PI)) );
+        int height = (int) ( abs(r.height()*t.scaley * cos(t.rotate/180*M_PI))
+                    + abs(r.width()*t.scalex * sin(t.rotate/180*M_PI)) );*/
 
-		value_w->setValue(i->sceneBoundingRect().width());
-		value_h->setValue(i->sceneBoundingRect().height());
-	} else if (i->type() == RECTITEM) {
-		QGraphicsRectItem *r = static_cast <QGraphicsRectItem *> (i);
-		value_w->setValue((int) r->rect().width());
-		value_h->setValue((int) r->rect().height());
-	} else if (i->type() == TEXTITEM) {
-		QGraphicsTextItem *t = static_cast <QGraphicsTextItem *> (i);
-		value_w->setValue((int) t->boundingRect().width());
-		value_h->setValue((int) t->boundingRect().height());
-	}
+        value_w->setValue(i->sceneBoundingRect().width());
+        value_h->setValue(i->sceneBoundingRect().height());
+    } else if (i->type() == RECTITEM) {
+        QGraphicsRectItem *r = static_cast <QGraphicsRectItem *>(i);
+        value_w->setValue((int) r->rect().width());
+        value_h->setValue((int) r->rect().height());
+    } else if (i->type() == TEXTITEM) {
+        QGraphicsTextItem *t = static_cast <QGraphicsTextItem *>(i);
+        value_w->setValue((int) t->boundingRect().width());
+        value_h->setValue((int) t->boundingRect().height());
+    }
 
-	if (blockW) value_w->blockSignals(false);
-	if (blockH) value_h->blockSignals(false);
+    if (blockW) value_w->blockSignals(false);
+    if (blockH) value_h->blockSignals(false);
 }
 
 /** \brief Updates the coordinates in the text fields from the item */
 void TitleWidget::updateCoordinates(QGraphicsItem *i)
 {
 
-	bool blockX = !value_x->signalsBlocked();
-	bool blockY = !value_y->signalsBlocked();
+    bool blockX = !value_x->signalsBlocked();
+    bool blockY = !value_y->signalsBlocked();
 
-	// Block signals emitted by this method
-	if (blockX) value_x->blockSignals(true);
-	if (blockY) value_y->blockSignals(true);
+    // Block signals emitted by this method
+    if (blockX) value_x->blockSignals(true);
+    if (blockY) value_y->blockSignals(true);
 
-	if (i->type() == TEXTITEM) {
+    if (i->type() == TEXTITEM) {
 
-		QGraphicsTextItem *rec = static_cast <QGraphicsTextItem *> (i);
+        QGraphicsTextItem *rec = static_cast <QGraphicsTextItem *>(i);
 
-		// Set the correct x coordinate value
-		if (origin_x_left->isChecked()) {
-			// Origin (0 point) is at m_frameWidth, coordinate axis is inverted
-			value_x->setValue((int) (m_frameWidth - rec->pos().x() - rec->boundingRect().width()));
-		} else {
-			// Origin is at 0 (default)
-			value_x->setValue((int) rec->pos().x());
-		}
+        // Set the correct x coordinate value
+        if (origin_x_left->isChecked()) {
+            // Origin (0 point) is at m_frameWidth, coordinate axis is inverted
+            value_x->setValue((int)(m_frameWidth - rec->pos().x() - rec->boundingRect().width()));
+        } else {
+            // Origin is at 0 (default)
+            value_x->setValue((int) rec->pos().x());
+        }
 
-		// Same for y
-		if (origin_y_top->isChecked()) {
-			value_y->setValue((int) (m_frameHeight - rec->pos().y() - rec->boundingRect().height()));
-		} else {
-			value_y->setValue((int) rec->pos().y());
-		}
+        // Same for y
+        if (origin_y_top->isChecked()) {
+            value_y->setValue((int)(m_frameHeight - rec->pos().y() - rec->boundingRect().height()));
+        } else {
+            value_y->setValue((int) rec->pos().y());
+        }
 
-	} else if (i->type() == RECTITEM) {
+    } else if (i->type() == RECTITEM) {
 
-		QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *> (i);
+        QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *>(i);
 
-		if (origin_x_left->isChecked()) {
-			// Origin (0 point) is at m_frameWidth
-			value_x->setValue((int) (m_frameWidth - rec->pos().x() - rec->rect().width()));
-		} else {
-			// Origin is at 0 (default)
-			value_x->setValue((int) rec->pos().x());
-		}
+        if (origin_x_left->isChecked()) {
+            // Origin (0 point) is at m_frameWidth
+            value_x->setValue((int)(m_frameWidth - rec->pos().x() - rec->rect().width()));
+        } else {
+            // Origin is at 0 (default)
+            value_x->setValue((int) rec->pos().x());
+        }
 
-		if (origin_y_top->isChecked()) {
-			value_y->setValue((int) (m_frameHeight - rec->pos().y() - rec->rect().height()));
-		} else {
-			value_y->setValue((int) rec->pos().y());
-		}
+        if (origin_y_top->isChecked()) {
+            value_y->setValue((int)(m_frameHeight - rec->pos().y() - rec->rect().height()));
+        } else {
+            value_y->setValue((int) rec->pos().y());
+        }
 
-	} else if (i->type() == IMAGEITEM) {
+    } else if (i->type() == IMAGEITEM) {
 
-		if (origin_x_left->isChecked()) {
-			value_x->setValue((int) (m_frameWidth - i->pos().x() - i->sceneBoundingRect().width()));
-		} else {
-			value_x->setValue((int) i->pos().x());
-		}
+        if (origin_x_left->isChecked()) {
+            value_x->setValue((int)(m_frameWidth - i->pos().x() - i->sceneBoundingRect().width()));
+        } else {
+            value_x->setValue((int) i->pos().x());
+        }
 
-		if (origin_y_top->isChecked()) {
-			value_y->setValue((int) (m_frameHeight - i->pos().y() - i->sceneBoundingRect().height()));
-		} else {
-			value_y->setValue((int) i->pos().y());
-		}
+        if (origin_y_top->isChecked()) {
+            value_y->setValue((int)(m_frameHeight - i->pos().y() - i->sceneBoundingRect().height()));
+        } else {
+            value_y->setValue((int) i->pos().y());
+        }
 
-	}
+    }
 
-	// Stop blocking signals now
-	if (!blockX) value_x->blockSignals(false);
-	if (!blockY) value_y->blockSignals(false);
+    // Stop blocking signals now
+    if (!blockX) value_x->blockSignals(false);
+    if (!blockY) value_y->blockSignals(false);
 }
 
 /** \brief Updates the position of an item by reading coordinates from the text fields */
-void TitleWidget::updatePosition(QGraphicsItem *i) {
+void TitleWidget::updatePosition(QGraphicsItem *i)
+{
 
-	if (i->type() == TEXTITEM) {
-		QGraphicsTextItem *rec = static_cast <QGraphicsTextItem *>(i);
+    if (i->type() == TEXTITEM) {
+        QGraphicsTextItem *rec = static_cast <QGraphicsTextItem *>(i);
 
-		int posX;
-		if (origin_x_left->isChecked()) {
-			/* Origin of the x axis is at m_frameWidth,
-			 * and distance from right border of the item to the right
-			 * border of the frame is taken.
-			 * See comment to slotOriginXClicked().
-			 */
-			posX = m_frameWidth - value_x->value() - rec->boundingRect().width();
-		} else {
-			posX = value_x->value();
-		}
+        int posX;
+        if (origin_x_left->isChecked()) {
+            /* Origin of the x axis is at m_frameWidth,
+             * and distance from right border of the item to the right
+             * border of the frame is taken.
+             * See comment to slotOriginXClicked().
+             */
+            posX = m_frameWidth - value_x->value() - rec->boundingRect().width();
+        } else {
+            posX = value_x->value();
+        }
 
-		int posY;
-		if (origin_y_top->isChecked()) {
-			/* Same for y axis */
-			posY = m_frameHeight - value_y->value() - rec->boundingRect().height();
-		} else {
-			posY = value_y->value();
-		}
+        int posY;
+        if (origin_y_top->isChecked()) {
+            /* Same for y axis */
+            posY = m_frameHeight - value_y->value() - rec->boundingRect().height();
+        } else {
+            posY = value_y->value();
+        }
 
-		rec->setPos(posX, posY);
+        rec->setPos(posX, posY);
 
-	} else if (i->type() == RECTITEM) {
+    } else if (i->type() == RECTITEM) {
 
-		QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *> (i);
+        QGraphicsRectItem *rec = static_cast <QGraphicsRectItem *>(i);
 
-		int posX;
-		if (origin_x_left->isChecked()) {
-			posX = m_frameWidth - value_x->value() - rec->rect().width();
-		} else {
-			posX = value_x->value();
-		}
+        int posX;
+        if (origin_x_left->isChecked()) {
+            posX = m_frameWidth - value_x->value() - rec->rect().width();
+        } else {
+            posX = value_x->value();
+        }
 
-		int posY;
-		if (origin_y_top->isChecked()) {
-			posY = m_frameHeight - value_y->value() - rec->rect().height();
-		} else {
-			posY = value_y->value();
-		}
+        int posY;
+        if (origin_y_top->isChecked()) {
+            posY = m_frameHeight - value_y->value() - rec->rect().height();
+        } else {
+            posY = value_y->value();
+        }
 
-		rec->setPos(posX, posY);
+        rec->setPos(posX, posY);
 
-	} else if (i->type() == IMAGEITEM) {
+    } else if (i->type() == IMAGEITEM) {
 
-		int posX;
-		if (origin_x_left->isChecked()) {
-			// Use the sceneBoundingRect because this also regards transformations like zoom
-			posX = m_frameWidth - value_x->value() - i->sceneBoundingRect().width();
-		} else {
-			posX = value_x->value();
-		}
+        int posX;
+        if (origin_x_left->isChecked()) {
+            // Use the sceneBoundingRect because this also regards transformations like zoom
+            posX = m_frameWidth - value_x->value() - i->sceneBoundingRect().width();
+        } else {
+            posX = value_x->value();
+        }
 
-		int posY;
-		if (origin_y_top->isChecked()) {
-			posY = m_frameHeight - value_y->value() - i->sceneBoundingRect().height();
-		} else {
-			posY = value_y->value();
-		}
+        int posY;
+        if (origin_y_top->isChecked()) {
+            posY = m_frameHeight - value_y->value() - i->sceneBoundingRect().height();
+        } else {
+            posY = value_y->value();
+        }
 
-		i->setPos(posX, posY);
+        i->setPos(posX, posY);
 
-	}
+    }
 
 }
 
 void TitleWidget::updateTextOriginX()
 {
-	if (origin_x_left->isChecked()) {
-		origin_x_left->setText(i18n("\u2212X"));
-	} else {
-		origin_x_left->setText(i18n("+X"));
-	}
+    if (origin_x_left->isChecked()) {
+        origin_x_left->setText(i18n("\u2212X"));
+    } else {
+        origin_x_left->setText(i18n("+X"));
+    }
 }
 
 void TitleWidget::slotOriginXClicked()
 {
-	// Update the text displayed on the button.
-	updateTextOriginX();
+    // Update the text displayed on the button.
+    updateTextOriginX();
 
-	QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-	if (l.size() >= 1) {
-		updateCoordinates(l.at(0));
+    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    if (l.size() >= 1) {
+        updateCoordinates(l.at(0));
 
-		// Remember x axis setting
-		l.at(0)->setData(TitleDocument::OriginXLeft, origin_x_left->isChecked()?
-			TitleDocument::AxisInverted : TitleDocument::AxisDefault);
-	}
+        // Remember x axis setting
+        l.at(0)->setData(TitleDocument::OriginXLeft, origin_x_left->isChecked() ?
+                         TitleDocument::AxisInverted : TitleDocument::AxisDefault);
+    }
 }
 
 void TitleWidget::updateTextOriginY()
 {
-	if (origin_y_top->isChecked()) {
-		origin_y_top->setText(i18n("\u2212Y"));
-	} else {
-		origin_y_top->setText(i18n("+Y"));
-	}
+    if (origin_y_top->isChecked()) {
+        origin_y_top->setText(i18n("\u2212Y"));
+    } else {
+        origin_y_top->setText(i18n("+Y"));
+    }
 }
 
 void TitleWidget::slotOriginYClicked()
 {
-	// Update the text displayed on the button.
-	updateTextOriginY();
+    // Update the text displayed on the button.
+    updateTextOriginY();
 
-	QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-	if (l.size() >= 1) {
-		updateCoordinates(l.at(0));
+    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    if (l.size() >= 1) {
+        updateCoordinates(l.at(0));
 
-		l.at(0)->setData(TitleDocument::OriginYTop, origin_y_top->isChecked()?
-			TitleDocument::AxisInverted : TitleDocument::AxisDefault);
+        l.at(0)->setData(TitleDocument::OriginYTop, origin_y_top->isChecked() ?
+                         TitleDocument::AxisInverted : TitleDocument::AxisDefault);
 
-	}
+    }
 }
 
 void TitleWidget::updateAxisButtons(QGraphicsItem *i)
 {
-	int xAxis = i->data(TitleDocument::OriginXLeft).toInt();
-	int yAxis = i->data(TitleDocument::OriginYTop).toInt();
-	origin_x_left->blockSignals(true);
-	origin_y_top->blockSignals(true);
+    int xAxis = i->data(TitleDocument::OriginXLeft).toInt();
+    int yAxis = i->data(TitleDocument::OriginYTop).toInt();
+    origin_x_left->blockSignals(true);
+    origin_y_top->blockSignals(true);
 
-	if (xAxis == TitleDocument::AxisInverted) {
-		origin_x_left->setChecked(true);
-	} else {
-		origin_x_left->setChecked(false);
-	}
-	updateTextOriginX();
+    if (xAxis == TitleDocument::AxisInverted) {
+        origin_x_left->setChecked(true);
+    } else {
+        origin_x_left->setChecked(false);
+    }
+    updateTextOriginX();
 
-	if (yAxis == TitleDocument::AxisInverted) {
-		origin_y_top->setChecked(true);
-	} else {
-		origin_y_top->setChecked(false);
-	}
-	updateTextOriginY();
+    if (yAxis == TitleDocument::AxisInverted) {
+        origin_y_top->setChecked(true);
+    } else {
+        origin_y_top->setChecked(false);
+    }
+    updateTextOriginY();
 
-	origin_x_left->blockSignals(false);
-	origin_y_top->blockSignals(false);
+    origin_x_left->blockSignals(false);
+    origin_y_top->blockSignals(false);
 }
 
 void TitleWidget::slotChangeBackground()
@@ -892,11 +893,12 @@ void TitleWidget::slotChangeBackground()
 /**
  * Something (yeah) has changed in our QGraphicsScene.
  */
-void TitleWidget::slotChanged() {
-	QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
-	if (l.size() >= 1 && l.at(0)->type() == TEXTITEM) {
-		textChanged(static_cast <QGraphicsTextItem *> (l.at(0)));
-	}
+void TitleWidget::slotChanged()
+{
+    QList<QGraphicsItem*> l = graphicsView->scene()->selectedItems();
+    if (l.size() >= 1 && l.at(0)->type() == TEXTITEM) {
+        textChanged(static_cast <QGraphicsTextItem *>(l.at(0)));
+    }
 }
 
 /**
@@ -909,39 +911,40 @@ void TitleWidget::slotChanged() {
  * it is not valid for text but for its boundingRect. Text may still
  * be left-justified.
  */
-void TitleWidget::textChanged(QGraphicsTextItem *i) {
+void TitleWidget::textChanged(QGraphicsTextItem *i)
+{
 
-	updateDimension(i);
+    updateDimension(i);
 
-	if (origin_x_left->isChecked() || origin_y_top->isChecked()) {
+    if (origin_x_left->isChecked() || origin_y_top->isChecked()) {
 
-		if (!i->toPlainText().isEmpty()) {
-			updatePosition(i);
-		} else {
-			/*
-			 * Don't do anything if the string is empty. If the position
-			 * would be updated here, a newly created text field would
-			 * be set to the position of the last selected text field.
-			 */
-		}
-	}
+        if (!i->toPlainText().isEmpty()) {
+            updatePosition(i);
+        } else {
+            /*
+             * Don't do anything if the string is empty. If the position
+             * would be updated here, a newly created text field would
+             * be set to the position of the last selected text field.
+             */
+        }
+    }
 }
 
 void TitleWidget::slotInsertUnicode()
 {
-	m_unicodeDialog->showLastUnicode();
-	m_unicodeDialog->exec();
+    m_unicodeDialog->showLastUnicode();
+    m_unicodeDialog->exec();
 }
 
 void TitleWidget::slotInsertUnicodeString(QString text)
 {
-	QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
-	if (l.size() > 0) {
-		if (l.at(0)->type() == TEXTITEM) {
-			QGraphicsTextItem *t = static_cast <QGraphicsTextItem *> (l.at(0));
-			t->textCursor().insertText(text);
-		}
-	}
+    QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
+    if (l.size() > 0) {
+        if (l.at(0)->type() == TEXTITEM) {
+            QGraphicsTextItem *t = static_cast <QGraphicsTextItem *>(l.at(0));
+            t->textCursor().insertText(text);
+        }
+    }
 }
 
 void TitleWidget::slotUpdateText()
@@ -1013,7 +1016,7 @@ void TitleWidget::itemScaled(int val)
         qtrans.rotate(x.rotate);
         l[0]->setTransform(qtrans);
         m_transformations[l.at(0)] = x;
-		updateDimension(l.at(0));
+        updateDimension(l.at(0));
     }
 }
 
@@ -1028,7 +1031,7 @@ void TitleWidget::itemRotate(int val)
         qtrans.rotate(x.rotate);
         l[0]->setTransform(qtrans);
         m_transformations[l.at(0)] = x;
-		updateDimension(l.at(0));
+        updateDimension(l.at(0));
     }
 }
 
@@ -1043,7 +1046,7 @@ void TitleWidget::itemHCenter()
         int newPos = (int)((m_frameWidth - width) / 2);
         newPos += item->pos().x() - br.left(); // Check item transformation
         item->setPos(newPos, item->pos().y());
-		updateCoordinates(item);
+        updateCoordinates(item);
     }
 }
 
@@ -1058,7 +1061,7 @@ void TitleWidget::itemVCenter()
         int newPos = (int)((m_frameHeight - height) / 2);
         newPos += item->pos().y() - br.top(); // Check item transformation
         item->setPos(item->pos().x(), newPos);
-		updateCoordinates(item);
+        updateCoordinates(item);
     }
 }
 

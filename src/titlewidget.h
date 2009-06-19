@@ -90,25 +90,25 @@ private:
     QAction *m_buttonCursor;
     QAction *m_buttonSave;
     QAction *m_buttonLoad;
-	/** \brief Dialog for entering unicode in text fields */
-	UnicodeDialog *m_unicodeDialog;
+    /** \brief Dialog for entering unicode in text fields */
+    UnicodeDialog *m_unicodeDialog;
     /** project path for storing title clips */
     QString m_projectPath;
     /** \brief Store the current choices of font, background and rect values */
     void writeChoices();
     /** \brief Read the last stored choices into the dialog */
     void readChoices();
-	/** \brief Update the displayed X/Y coordinates */
-	void updateCoordinates(QGraphicsItem *i);
-	void updateDimension(QGraphicsItem *i);
-	/** \brief Update the item's position */
-	void updatePosition(QGraphicsItem *i);
-	
-	void textChanged(QGraphicsTextItem *i);
-	void updateAxisButtons(QGraphicsItem *i);
-	
-	void updateTextOriginX();
-	void updateTextOriginY();
+    /** \brief Update the displayed X/Y coordinates */
+    void updateCoordinates(QGraphicsItem *i);
+    void updateDimension(QGraphicsItem *i);
+    /** \brief Update the item's position */
+    void updatePosition(QGraphicsItem *i);
+
+    void textChanged(QGraphicsTextItem *i);
+    void updateAxisButtons(QGraphicsItem *i);
+
+    void updateTextOriginX();
+    void updateTextOriginY();
 
 public slots:
     void slotNewText(QGraphicsTextItem *tt);
@@ -128,68 +128,68 @@ public slots:
 
 private slots:
     void slotAdjustSelectedItem();
-	
-	/** 
-	 * \brief Switches the origin of the x axis between left and right 
-	 * border of the frame (offset from left/right frame border)
-	 * \param originLeft Take left border?
-	 * 
-	 * Called when the origin of the x coorinate has been changed. The 
-	 * x origin will either be at the left or at the right side of the frame.
-	 * 
-	 * When the origin of the x axis is at the left side, the user can 
-	 * enter the distance between an element's left border and the left
-	 * side of the frame.
-	 * 
-	 * When on the right, the distance from the right border of the 
-	 * frame to the right border of the element can be entered. This 
-	 * would result in negative values as long as the element's right 
-	 * border is at the left of the frame's right border. As that is
-	 * usually the case, I additionally invert the x axis.
-	 * 
-	 * Default value is left.
-	 * 
-	 * |----l----->|#######|----r--->|              
-	 * |           |---w-->|         |
-	 * |           |#######|         |
-	 * |                             |
-	 * |----------m_frameWidth------>|
-	 * |                             |
-	 * 
-	 * Left selected: Value = l
-	 * Right selected: Value = r
-	 * 
-	 * To calculate between the two coorindate systems:
-	 * l = m_frameWidth - w - r
-	 * r = m_frameWidth - w - l
-	 * 
-	 */
-	void slotOriginXClicked();
-	/** \brief Same as slotOriginYChanged, but for the Y axis; default is top. 
-	 *  \param originTop Take top border? */
-	void slotOriginYClicked();
-	
-	/** \brief Update coorinates of text fields if necessary and text has changed */
-	void slotChanged();
-	
+
+    /**
+     * \brief Switches the origin of the x axis between left and right
+     * border of the frame (offset from left/right frame border)
+     * \param originLeft Take left border?
+     *
+     * Called when the origin of the x coorinate has been changed. The
+     * x origin will either be at the left or at the right side of the frame.
+     *
+     * When the origin of the x axis is at the left side, the user can
+     * enter the distance between an element's left border and the left
+     * side of the frame.
+     *
+     * When on the right, the distance from the right border of the
+     * frame to the right border of the element can be entered. This
+     * would result in negative values as long as the element's right
+     * border is at the left of the frame's right border. As that is
+     * usually the case, I additionally invert the x axis.
+     *
+     * Default value is left.
+     *
+     * |----l----->|#######|----r--->|
+     * |           |---w-->|         |
+     * |           |#######|         |
+     * |                             |
+     * |----------m_frameWidth------>|
+     * |                             |
+     *
+     * Left selected: Value = l
+     * Right selected: Value = r
+     *
+     * To calculate between the two coorindate systems:
+     * l = m_frameWidth - w - r
+     * r = m_frameWidth - w - l
+     *
+     */
+    void slotOriginXClicked();
+    /** \brief Same as slotOriginYChanged, but for the Y axis; default is top.
+     *  \param originTop Take top border? */
+    void slotOriginYClicked();
+
+    /** \brief Update coorinates of text fields if necessary and text has changed */
+    void slotChanged();
+
     void slotZoom(bool up);
     void slotUpdateZoom(int pos);
     void slotAdjustZoom();
     void slotZoomOneToOne();
-	
+
     void slotUpdateText();
-	void slotInsertUnicode();
-	void slotInsertUnicodeString(QString);
-	
+    void slotInsertUnicode();
+    void slotInsertUnicodeString(QString);
+
     void displayBackgroundFrame();
-	
+
     void setCurrentItem(QGraphicsItem *item);
-	
+
     void slotTextTool();
     void slotRectTool();
     void slotSelectTool();
     void slotImageTool();
-	
+
     /** \brief Called when accepted, stores the user selections for next time use */
     void slotAccepted();
 };

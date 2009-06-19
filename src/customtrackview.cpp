@@ -3193,7 +3193,7 @@ void CustomTrackView::moveGroup(QList <ItemInfo> startClip, QList <ItemInfo> sta
         bool snap = KdenliveSettings::snaptopoints();
         KdenliveSettings::setSnaptopoints(false);
 
-        m_selectionGroup->moveBy(offset.frames(m_document->fps()), trackOffset * (qreal) m_tracksHeight);
+        m_selectionGroup->moveBy(offset.frames(m_document->fps()), trackOffset *(qreal) m_tracksHeight);
 
         kDebug() << "%% GRP NEW POS: " << m_selectionGroup->scenePos().x();
 
@@ -3765,10 +3765,10 @@ void CustomTrackView::drawBackground(QPainter * painter, const QRectF &rect)
     QColor lockedColor = scheme.background(KColorScheme::NegativeBackground).color();
     QColor audioColor = palette().alternateBase().color();
     QColor base = scheme.background(KColorScheme::NormalBackground).color();
-    for (uint i = 0; i < max;i++) {
+    for (uint i = 0; i < max; i++) {
         if (m_document->trackInfoAt(max - i - 1).isLocked == true) painter->fillRect(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1, QBrush(lockedColor));
         else if (m_document->trackInfoAt(max - i - 1).type == AUDIOTRACK) painter->fillRect(r.left(), m_tracksHeight * i + 1, r.right() - r.left() + 1, m_tracksHeight - 1, QBrush(audioColor));
-        painter->drawLine(r.left(), m_tracksHeight * (i + 1), r.right(), m_tracksHeight * (i + 1));
+        painter->drawLine(r.left(), m_tracksHeight *(i + 1), r.right(), m_tracksHeight *(i + 1));
     }
     int lowerLimit = m_tracksHeight * m_document->tracksCount() + 1;
     if (height() > lowerLimit)

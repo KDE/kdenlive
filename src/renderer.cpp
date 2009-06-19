@@ -1486,7 +1486,7 @@ void Render::mltCutClip(int track, GenTime position)
             Mlt::Filter *dup = new Mlt::Filter(*m_mltProfile, filter->get("mlt_service"));
             if (dup && dup->is_valid()) {
                 Mlt::Properties entries(filter->get_properties());
-                for (int i = 0;i < entries.count();i++) {
+                for (int i = 0; i < entries.count(); i++) {
                     dup->set(entries.get_name(i), entries.get(i));
                 }
                 dupService.attach(*dup);
@@ -2675,7 +2675,7 @@ QMap<QString, QString> Render::mltGetTransitionParamsFromXml(QDomElement xml)
 {
     QDomNodeList attribs = xml.elementsByTagName("parameter");
     QMap<QString, QString> map;
-    for (int i = 0;i < attribs.count();i++) {
+    for (int i = 0; i < attribs.count(); i++) {
         QDomElement e = attribs.item(i).toElement();
         QString name = e.attribute("name");
         //kDebug()<<"-- TRANSITION PARAM: "<<name<<" = "<< e.attribute("name")<<" / " << e.attribute("value");
@@ -2697,7 +2697,7 @@ QMap<QString, QString> Render::mltGetTransitionParamsFromXml(QDomElement xml)
             if (values.size() > 0)
                 txtNeu << (int)values[0].toDouble();
             int i = 0;
-            for (i = 0;i < separators.size() && i + 1 < values.size();i++) {
+            for (i = 0; i < separators.size() && i + 1 < values.size(); i++) {
                 txtNeu << separators[i];
                 txtNeu << (int)(values[i+1].toDouble());
             }

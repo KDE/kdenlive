@@ -102,7 +102,7 @@ void EffectStackEdit::setFrameSize(QPoint p)
 {
     m_frameSize = p;
     QDomNodeList namenode = m_params.elementsByTagName("parameter");
-    for (int i = 0;i < namenode.count() ;i++) {
+    for (int i = 0; i < namenode.count() ; i++) {
         QDomNode pa = namenode.item(i);
         QDomNode na = pa.firstChildElement("name");
         QString type = pa.attributes().namedItem("type").nodeValue();
@@ -146,7 +146,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
     const int maxFrame = e.attribute("end").toInt();
 
 
-    for (int i = 0;i < namenode.count() ;i++) {
+    for (int i = 0; i < namenode.count() ; i++) {
         kDebug() << "in form";
         QDomElement pa = namenode.item(i).toElement();
         QDomNode na = pa.firstChildElement("name");
@@ -179,7 +179,7 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
             if (listitemsdisplay.count() != listitems.count()) listitemsdisplay = listitems;
             //lsval->list->addItems(listitems);
             lsval->list->setIconSize(QSize(30, 30));
-            for (int i = 0;i < listitems.count();i++) {
+            for (int i = 0; i < listitems.count(); i++) {
                 lsval->list->addItem(listitemsdisplay.at(i), listitems.at(i));
                 QString entry = listitems.at(i);
                 if (!entry.isEmpty() && (entry.endsWith(".png") || entry.endsWith(".pgm"))) {
@@ -407,7 +407,7 @@ void EffectStackEdit::collectAllParameters()
     QDomElement oldparam = m_params.cloneNode().toElement();
     QDomNodeList namenode = m_params.elementsByTagName("parameter");
 
-    for (int i = 0;i < namenode.count() ;i++) {
+    for (int i = 0; i < namenode.count() ; i++) {
         QDomNode pa = namenode.item(i);
         QDomNode na = pa.firstChildElement("name");
         QString type = pa.attributes().namedItem("type").nodeValue();

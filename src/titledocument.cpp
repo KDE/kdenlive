@@ -85,14 +85,14 @@ QDomDocument TitleDocument::xml(QGraphicsPolygonItem* startv, QGraphicsPolygonIt
             content.setAttribute("font-italic", font.italic());
             content.setAttribute("font-underline", font.underline());
             content.setAttribute("font-color", colorToString(t->defaultTextColor()));
-			
-			// Only save when necessary.
-			if (t->data(OriginXLeft).toInt() == AxisInverted) {
-				content.setAttribute("kdenlive-axis-x-inverted", t->data(OriginXLeft).toInt());
-			}
-			if (t->data(OriginYTop).toInt() == AxisInverted) {
-				content.setAttribute("kdenlive-axis-y-inverted", t->data(OriginYTop).toInt());
-			}
+
+            // Only save when necessary.
+            if (t->data(OriginXLeft).toInt() == AxisInverted) {
+                content.setAttribute("kdenlive-axis-x-inverted", t->data(OriginXLeft).toInt());
+            }
+            if (t->data(OriginYTop).toInt() == AxisInverted) {
+                content.setAttribute("kdenlive-axis-y-inverted", t->data(OriginYTop).toInt());
+            }
             if (t->textWidth() != -1) {
                 content.setAttribute("alignment", t->textCursor().blockFormat().alignment());
             }
@@ -209,7 +209,7 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* /*startv*
     if (titles.size()) {
 
         QDomNodeList items = titles.item(0).childNodes();
-        for (int i = 0;i < items.count();i++) {
+        for (int i = 0; i < items.count(); i++) {
             QGraphicsItem *gitem = NULL;
             kDebug() << items.item(i).attributes().namedItem("type").nodeValue();
             int zValue = items.item(i).attributes().namedItem("z-index").nodeValue().toInt();
@@ -241,13 +241,13 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* /*startv*
                         cur.clearSelection();
                         txt->setTextCursor(cur);
                     }
-					
-					if (!txtProperties.namedItem("kdenlive-axis-x-inverted").isNull()) {
-						txt->setData(OriginXLeft, txtProperties.namedItem("kdenlive-axis-x-inverted").nodeValue().toInt());
-					}
-					if (!txtProperties.namedItem("kdenlive-axis-y-inverted").isNull()) {
-						txt->setData(OriginYTop, txtProperties.namedItem("kdenlive-axis-y-inverted").nodeValue().toInt());
-					}
+
+                    if (!txtProperties.namedItem("kdenlive-axis-x-inverted").isNull()) {
+                        txt->setData(OriginXLeft, txtProperties.namedItem("kdenlive-axis-x-inverted").nodeValue().toInt());
+                    }
+                    if (!txtProperties.namedItem("kdenlive-axis-y-inverted").isNull()) {
+                        txt->setData(OriginYTop, txtProperties.namedItem("kdenlive-axis-y-inverted").nodeValue().toInt());
+                    }
 
                     gitem = txt;
                 } else if (items.item(i).attributes().namedItem("type").nodeValue() == "QGraphicsRectItem") {

@@ -516,7 +516,7 @@ QDomDocument initEffects::createDescriptionFromMlt(Mlt::Repository* repository, 
             eff.appendChild(desc);
 
             Mlt::Properties param_props((mlt_properties) metadata->get_data("parameters"));
-            for (int j = 0; param_props.is_valid() && j < param_props.count();j++) {
+            for (int j = 0; param_props.is_valid() && j < param_props.count(); j++) {
                 QDomElement params = ret.createElement("parameter");
 
                 Mlt::Properties paramdesc((mlt_properties) param_props.get_data(param_props.get_name(j)));
@@ -594,7 +594,7 @@ void initEffects::fillTransitionsList(Mlt::Repository * repository, EffectsList*
             desc.appendChild(ret.createTextNode(metadata->get("description")));
 
             Mlt::Properties param_props((mlt_properties) metadata->get_data("parameters"));
-            for (int j = 0; param_props.is_valid() && j < param_props.count();j++) {
+            for (int j = 0; param_props.is_valid() && j < param_props.count(); j++) {
                 QDomElement params = ret.createElement("parameter");
 
                 Mlt::Properties paramdesc((mlt_properties) param_props.get_data(param_props.get_name(j)));

@@ -302,74 +302,74 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
              */
             int determinant;
             switch (m_resizeMode) {
-                case TopLeft:
-                    determinant = (bottomRight.x() - newpoint.x()) * (topRight.y() - newpoint.y()) - (bottomRight.y() - newpoint.y()) * (topRight.x() - newpoint.x());
-                    if (determinant < 0) {
-                        determinant = (bottomLeft.x() - newpoint.x()) * (bottomRight.y() - newpoint.y()) - (bottomLeft.y() - newpoint.y()) * (bottomRight.x() - newpoint.x());
-                        if (determinant < 0) {
-                            // resizePoint is not working for some reason
-                            newrect.setBottomRight(QPointF(newrect.width() - (transform.inverted().m11() * resizePoint.x() + transform.inverted().m21() * resizePoint.y() + transform.inverted().m31()), newrect.bottom() - (transform.inverted().m22() * resizePoint.y() + transform.inverted().m12() * resizePoint.x() + transform.inverted().m32())));
-                            m_selectedItem->setPos(resizePoint + itemOrigin);
-                        }
-                    }
-                    break;
-                case BottomLeft:
-                    determinant = (bottomRight.x() - newpoint.x()) * (topRight.y() - newpoint.y()) - (bottomRight.y() - newpoint.y()) * (topRight.x() - newpoint.x());
-                    if (determinant < 0) {
-                        determinant = (topRight.x() - newpoint.x()) * (topLeft.y() - newpoint.y()) - (topRight.y() - newpoint.y()) * (topLeft.x() - newpoint.x());
-                        if (determinant < 0) {
-                            newrect.setBottomRight(QPointF(newrect.width() - resizePoint.x(), resizePoint.y()));
-                            m_selectedItem->setPos(QPointF(transform.m11() * resizePoint.x() + transform.m21() * (newrect.bottom() - resizePoint.y()) + transform.m31() + itemOrigin.x(), transform.m22() * (newrect.bottom() - resizePoint.y()) + transform.m12() * resizePoint.x() + transform.m32() + itemOrigin.y()));
-                        }
-                    }
-                    break;
-                case TopRight:
-                    determinant = (topLeft.x() - newpoint.x()) * (bottomLeft.y() - newpoint.y()) - (topLeft.y() - newpoint.y()) * (bottomLeft.x() - newpoint.x());
-                    if (determinant < 0) {
-                        determinant = (bottomLeft.x() - newpoint.x()) * (bottomRight.y() - newpoint.y()) - (bottomLeft.y() - newpoint.y()) * (bottomRight.x() - newpoint.x());
-                        if (determinant < 0) {
-                            newrect.setBottomRight(QPointF(resizePoint.x(), newrect.bottom() - resizePoint.y()));
-                            m_selectedItem->setPos(QPointF(transform.m11() * (newrect.width() - resizePoint.x()) + transform.m21() * resizePoint.y() + transform.m31() + itemOrigin.x(), transform.m22() * resizePoint.y() + transform.m12() * (newrect.width() - resizePoint.x()) + transform.m32() + itemOrigin.y()));
-                        }
-                    }
-                    break;
-                case BottomRight:
-                    determinant = (topLeft.x() - newpoint.x()) * (bottomLeft.y() - newpoint.y()) - (topLeft.y() - newpoint.y()) * (bottomLeft.x() - newpoint.x());
-                    if (determinant < 0) {
-                        determinant = (topRight.x() - newpoint.x()) * (topLeft.y() - newpoint.y()) - (topRight.y() - newpoint.y()) * (topLeft.x() - newpoint.x());
-                        if (determinant < 0)
-                            newrect.setBottomRight(resizePoint);
-                    }
-                    break;
-                case Left:
-                    determinant = (bottomRight.x() - newpoint.x()) * (topRight.y() - newpoint.y()) - (bottomRight.y() - newpoint.y()) * (topRight.x() - newpoint.x());
-                    if (determinant < 0) {
-                        newrect.setRight(newrect.width() - resizePoint.x());
-                        m_selectedItem->setPos(QPointF(transform.m11() * resizePoint.x() + transform.m31() + itemOrigin.x(), transform.m12() * resizePoint.x() + transform.m32() + itemOrigin.y()));
-                    }
-                    break;
-                case Right:
-                    determinant = (topLeft.x() - newpoint.x()) * (bottomLeft.y() - newpoint.y()) - (topLeft.y() - newpoint.y()) * (bottomLeft.x() - newpoint.x());
-                    if (determinant < 0)
-                        newrect.setRight(resizePoint.x());
-                    break;
-                case Up:
+            case TopLeft:
+                determinant = (bottomRight.x() - newpoint.x()) * (topRight.y() - newpoint.y()) - (bottomRight.y() - newpoint.y()) * (topRight.x() - newpoint.x());
+                if (determinant < 0) {
                     determinant = (bottomLeft.x() - newpoint.x()) * (bottomRight.y() - newpoint.y()) - (bottomLeft.y() - newpoint.y()) * (bottomRight.x() - newpoint.x());
                     if (determinant < 0) {
-                        newrect.setBottom(newrect.bottom() - resizePoint.y());
-                        m_selectedItem->setPos(QPointF(transform.m21() * resizePoint.y() + transform.m31() + itemOrigin.x(), transform.m22() * resizePoint.y() + transform.m32() + itemOrigin.y()));
+                        // resizePoint is not working for some reason
+                        newrect.setBottomRight(QPointF(newrect.width() - (transform.inverted().m11() * resizePoint.x() + transform.inverted().m21() * resizePoint.y() + transform.inverted().m31()), newrect.bottom() - (transform.inverted().m22() * resizePoint.y() + transform.inverted().m12() * resizePoint.x() + transform.inverted().m32())));
+                        m_selectedItem->setPos(resizePoint + itemOrigin);
                     }
-                    break;
-                case Down:
+                }
+                break;
+            case BottomLeft:
+                determinant = (bottomRight.x() - newpoint.x()) * (topRight.y() - newpoint.y()) - (bottomRight.y() - newpoint.y()) * (topRight.x() - newpoint.x());
+                if (determinant < 0) {
+                    determinant = (topRight.x() - newpoint.x()) * (topLeft.y() - newpoint.y()) - (topRight.y() - newpoint.y()) * (topLeft.x() - newpoint.x());
+                    if (determinant < 0) {
+                        newrect.setBottomRight(QPointF(newrect.width() - resizePoint.x(), resizePoint.y()));
+                        m_selectedItem->setPos(QPointF(transform.m11() * resizePoint.x() + transform.m21() *(newrect.bottom() - resizePoint.y()) + transform.m31() + itemOrigin.x(), transform.m22() *(newrect.bottom() - resizePoint.y()) + transform.m12() * resizePoint.x() + transform.m32() + itemOrigin.y()));
+                    }
+                }
+                break;
+            case TopRight:
+                determinant = (topLeft.x() - newpoint.x()) * (bottomLeft.y() - newpoint.y()) - (topLeft.y() - newpoint.y()) * (bottomLeft.x() - newpoint.x());
+                if (determinant < 0) {
+                    determinant = (bottomLeft.x() - newpoint.x()) * (bottomRight.y() - newpoint.y()) - (bottomLeft.y() - newpoint.y()) * (bottomRight.x() - newpoint.x());
+                    if (determinant < 0) {
+                        newrect.setBottomRight(QPointF(resizePoint.x(), newrect.bottom() - resizePoint.y()));
+                        m_selectedItem->setPos(QPointF(transform.m11() *(newrect.width() - resizePoint.x()) + transform.m21() * resizePoint.y() + transform.m31() + itemOrigin.x(), transform.m22() * resizePoint.y() + transform.m12() *(newrect.width() - resizePoint.x()) + transform.m32() + itemOrigin.y()));
+                    }
+                }
+                break;
+            case BottomRight:
+                determinant = (topLeft.x() - newpoint.x()) * (bottomLeft.y() - newpoint.y()) - (topLeft.y() - newpoint.y()) * (bottomLeft.x() - newpoint.x());
+                if (determinant < 0) {
                     determinant = (topRight.x() - newpoint.x()) * (topLeft.y() - newpoint.y()) - (topRight.y() - newpoint.y()) * (topLeft.x() - newpoint.x());
                     if (determinant < 0)
-                        newrect.setBottom(resizePoint.y());
-                    break;
-                default:
-                    QPointF diff = e->scenePos() - m_sceneClickPoint;
-                    m_sceneClickPoint = e->scenePos();
-                    m_selectedItem->moveBy(diff.x(), diff.y());
-                    break;
+                        newrect.setBottomRight(resizePoint);
+                }
+                break;
+            case Left:
+                determinant = (bottomRight.x() - newpoint.x()) * (topRight.y() - newpoint.y()) - (bottomRight.y() - newpoint.y()) * (topRight.x() - newpoint.x());
+                if (determinant < 0) {
+                    newrect.setRight(newrect.width() - resizePoint.x());
+                    m_selectedItem->setPos(QPointF(transform.m11() * resizePoint.x() + transform.m31() + itemOrigin.x(), transform.m12() * resizePoint.x() + transform.m32() + itemOrigin.y()));
+                }
+                break;
+            case Right:
+                determinant = (topLeft.x() - newpoint.x()) * (bottomLeft.y() - newpoint.y()) - (topLeft.y() - newpoint.y()) * (bottomLeft.x() - newpoint.x());
+                if (determinant < 0)
+                    newrect.setRight(resizePoint.x());
+                break;
+            case Up:
+                determinant = (bottomLeft.x() - newpoint.x()) * (bottomRight.y() - newpoint.y()) - (bottomLeft.y() - newpoint.y()) * (bottomRight.x() - newpoint.x());
+                if (determinant < 0) {
+                    newrect.setBottom(newrect.bottom() - resizePoint.y());
+                    m_selectedItem->setPos(QPointF(transform.m21() * resizePoint.y() + transform.m31() + itemOrigin.x(), transform.m22() * resizePoint.y() + transform.m32() + itemOrigin.y()));
+                }
+                break;
+            case Down:
+                determinant = (topRight.x() - newpoint.x()) * (topLeft.y() - newpoint.y()) - (topRight.y() - newpoint.y()) * (topLeft.x() - newpoint.x());
+                if (determinant < 0)
+                    newrect.setBottom(resizePoint.y());
+                break;
+            default:
+                QPointF diff = e->scenePos() - m_sceneClickPoint;
+                m_sceneClickPoint = e->scenePos();
+                m_selectedItem->moveBy(diff.x(), diff.y());
+                break;
             }
             if (m_selectedItem->type() == 3 && m_resizeMode != NoResize) {
                 QGraphicsRectItem *gi = (QGraphicsRectItem*)m_selectedItem;

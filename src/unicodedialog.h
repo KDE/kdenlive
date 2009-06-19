@@ -14,56 +14,56 @@
 
 class UnicodeDialog : public QDialog, public Ui::UnicodeDialog_UI
 {
-	Q_OBJECT
-	
+    Q_OBJECT
+
 public:
-	/** \brief The input method for the dialog. Atm only InputHex supported. */
-	enum InputMethod { InputHex, InputDec };
-	
-	UnicodeDialog(InputMethod inputMeth);
-	~UnicodeDialog();
-	
-	/** \brief Returns infos about a unicode number. Extendable/improvable ;) */
-	QString unicodeInfo(QString unicode_number);
-	
-	void showLastUnicode();
+    /** \brief The input method for the dialog. Atm only InputHex supported. */
+    enum InputMethod { InputHex, InputDec };
+
+    UnicodeDialog(InputMethod inputMeth);
+    ~UnicodeDialog();
+
+    /** \brief Returns infos about a unicode number. Extendable/improvable ;) */
+    QString unicodeInfo(QString unicode_number);
+
+    void showLastUnicode();
 
 private:
-	Ui::UnicodeDialog_UI m_view;
-	
-	enum Direction { Forward, Backward };
-	
-	/** Selected input method */
-	InputMethod inputMethod;
-	
-	/** \brief Validates text and removes all invalid characters (non-hex e.g.) */
-	QString validateText(QString text);
-	/** \brief Removes all leading zeros */
-	QString trimmedUnicodeNumber(QString text);
-	/** \brief Checks whether the given string is a control character */
-	bool controlCharacter(QString text);
-	/** \brief Checks whether the given uint is a control character */
-	bool controlCharacter(uint value);
-	
-	/** \brief Returns the next available unicode. */
-	QString nextUnicode(QString text, Direction direction);
-	
-	/** \brief Paints previous and next characters around current char */
-	void updateOverviewChars(uint unicode);
-	void clearOverviewChars();
-	
-	int lastCursorPos;
-	QString lastUnicodeNumber;
+    Ui::UnicodeDialog_UI m_view;
+
+    enum Direction { Forward, Backward };
+
+    /** Selected input method */
+    InputMethod inputMethod;
+
+    /** \brief Validates text and removes all invalid characters (non-hex e.g.) */
+    QString validateText(QString text);
+    /** \brief Removes all leading zeros */
+    QString trimmedUnicodeNumber(QString text);
+    /** \brief Checks whether the given string is a control character */
+    bool controlCharacter(QString text);
+    /** \brief Checks whether the given uint is a control character */
+    bool controlCharacter(uint value);
+
+    /** \brief Returns the next available unicode. */
+    QString nextUnicode(QString text, Direction direction);
+
+    /** \brief Paints previous and next characters around current char */
+    void updateOverviewChars(uint unicode);
+    void clearOverviewChars();
+
+    int lastCursorPos;
+    QString lastUnicodeNumber;
 
 signals:
-	/** \brief Contains the selected unicode character; emitted when Enter is pressed. */
-	void charSelected(const QString&);
+    /** \brief Contains the selected unicode character; emitted when Enter is pressed. */
+    void charSelected(const QString&);
 
 private slots:
-	void slotTextChanged(QString text);
-	void slotReturnPressed();
-	void slotNextUnicode();
-	void slotPrevUnicode();
+    void slotTextChanged(QString text);
+    void slotReturnPressed();
+    void slotNextUnicode();
+    void slotPrevUnicode();
 
 };
 
