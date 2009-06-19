@@ -203,16 +203,21 @@ void ProjectList::slotOpenClip()
     }
 }
 
-
-
 void ProjectList::slotReloadClip()
 {
-    ProjectItem *item = static_cast <ProjectItem*>(m_listView->currentItem());
-    if (item && !item->isGroup()) {
-        if (item->clipType() == IMAGE) {
-            item->referencedClip()->producer()->set("force_reload", 1);
+    QList<QTreeWidgetItem *> selected = m_listView->selectedItems();
+    ProjectItem *item;
+    for (int i = 0; i < selected.count(); i++) {
+        item = static_cast <ProjectItem *>(selected.at(i));
+        if (item && !item->isGroup()) {
+            if (item->clipType() == IMAGE) {
+                item->referencedClip()->producer()->set("force_reload", 1);
+            } else if (item->clipType() == TEXT) {
+                if (!item->referencedClip()->getProperty("xmltemplate").isEmpty()) regenerateTemplate(item);
+            }
+            //requestClipInfo(item->toXml(), item->clipId(), true);
+            emit getFileProperties(item->toXml(), item->clipId(), true);
         }
-        emit getFileProperties(item->toXml(), item->clipId(), true);
     }
 }
 
@@ -893,7 +898,7 @@ QString ProjectList::currentClipUrl() const
 
 void ProjectList::regenerateTemplate(const QString &id)
 {
-    ProjectItem *clip = getItemById(ix);
+    ProjectItem *clip = getItemById(id);
     if (clip) regenerateTemplate(clip);
 }
 
