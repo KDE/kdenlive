@@ -49,6 +49,7 @@ protected:
 
 private:
     void setCursor(QCursor);
+    void setResizeCursor(qreal angle);
     double m_zoom;
     QGraphicsItem* m_selectedItem;
     resizeModes m_resizeMode;

@@ -214,7 +214,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent* e)
                 QGraphicsLineItem borderLeft(bottomLeft.x(), bottomLeft.y(), topLeft.x(), topLeft.y());
                 // The area interested by the mouse pointer
                 QPainterPath mouseArea;
-                mouseArea.addRect(e->scenePos().toPoint().x() - 3 / m_zoom, e->scenePos().toPoint().y() - 3 / m_zoom, 6 / m_zoom, 6 / m_zoom);
+                mouseArea.addRect(e->scenePos().toPoint().x() - 4 / m_zoom, e->scenePos().toPoint().y() - 4 / m_zoom, 8 / m_zoom, 8 / m_zoom);
                 // Check for collisions between the mouse and the borders
                 if (borderLeft.collidesWithPath(mouseArea) && borderTop.collidesWithPath(mouseArea))
                     m_resizeMode = TopLeft;
@@ -459,24 +459,16 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
                 QGraphicsLineItem borderLeft(bottomLeft.x(), bottomLeft.y(), topLeft.x(), topLeft.y());
                 // The area interested by the mouse pointer
                 QPainterPath mouseArea;
-                mouseArea.addRect(e->scenePos().toPoint().x() - 3 / m_zoom, e->scenePos().toPoint().y() - 3 / m_zoom, 6 / m_zoom, 6 / m_zoom);
+                mouseArea.addRect(e->scenePos().toPoint().x() - 4 / m_zoom, e->scenePos().toPoint().y() - 4 / m_zoom, 8 / m_zoom, 8 / m_zoom);
                 // Check for collisions between the mouse and the borders
-                if (borderLeft.collidesWithPath(mouseArea) && borderTop.collidesWithPath(mouseArea))
-                    setCursor(QCursor(Qt::SizeFDiagCursor));
-                else if (borderLeft.collidesWithPath(mouseArea) && borderBottom.collidesWithPath(mouseArea))
-                    setCursor(QCursor(Qt::SizeBDiagCursor));
-                else if (borderRight.collidesWithPath(mouseArea) && borderTop.collidesWithPath(mouseArea))
-                    setCursor(QCursor(Qt::SizeBDiagCursor));
-                else if (borderRight.collidesWithPath(mouseArea) && borderBottom.collidesWithPath(mouseArea))
-                    setCursor(QCursor(Qt::SizeFDiagCursor));
-                else if (borderLeft.collidesWithPath(mouseArea))
-                    setCursor(Qt::SizeHorCursor);
-                else if (borderRight.collidesWithPath(mouseArea))
-                    setCursor(Qt::SizeHorCursor);
-                else if (borderTop.collidesWithPath(mouseArea))
-                    setCursor(Qt::SizeVerCursor);
-                else if (borderBottom.collidesWithPath(mouseArea))
-                    setCursor(Qt::SizeVerCursor);
+                if (borderLeft.collidesWithPath(mouseArea) && borderTop.collidesWithPath(mouseArea) || borderRight.collidesWithPath(mouseArea) && borderBottom.collidesWithPath(mouseArea))
+                    setResizeCursor(borderLeft.line().angle() - 45);
+                else if (borderLeft.collidesWithPath(mouseArea) && borderBottom.collidesWithPath(mouseArea) || borderRight.collidesWithPath(mouseArea) && borderTop.collidesWithPath(mouseArea))
+                    setResizeCursor(borderLeft.line().angle() + 45);
+                else if (borderLeft.collidesWithPath(mouseArea) || borderRight.collidesWithPath(mouseArea))
+                    setResizeCursor(borderLeft.line().angle());
+                else if (borderTop.collidesWithPath(mouseArea) || borderBottom.collidesWithPath(mouseArea))
+                    setResizeCursor(borderTop.line().angle());
                 else
                     setCursor(Qt::OpenHandCursor);
                 break;
@@ -537,4 +529,21 @@ void GraphicsSceneRectMove::setCursor(QCursor c)
     foreach(QGraphicsView* v, l) {
         v->setCursor(c);
     }
+}
+
+void GraphicsSceneRectMove::setResizeCursor(qreal angle)
+{
+    // % is not working...
+    while (angle < 0)
+        angle += 180;
+    while (angle >= 180)
+        angle -= 180;
+    if (angle > 157.5 || angle <= 22.5)
+        setCursor(Qt::SizeVerCursor);
+    else if (angle > 22.5 && angle <= 67.5)
+        setCursor(Qt::SizeFDiagCursor);
+    else if (angle > 67.5 && angle <= 112.5)
+        setCursor(Qt::SizeHorCursor);
+    else if (angle > 112.5 && angle <= 157.5)
+        setCursor(Qt::SizeBDiagCursor);
 }
