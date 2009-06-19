@@ -192,6 +192,12 @@ void UnicodeDialog::updateOverviewChars(uint unicode)
 	
 }
 
+void UnicodeDialog::clearOverviewChars()
+{
+	leftChars->setText("");
+	rightChars->setText("");
+}
+
 QString UnicodeDialog::nextUnicode(QString text, Direction direction)
 {
 	uint value = 0;
@@ -237,6 +243,7 @@ void UnicodeDialog::slotTextChanged(QString text)
 	if (newText.length() == 0) {
 		unicodeChar->setText("");
 		unicodeNumber->setText("");
+		clearOverviewChars();
 		lastCursorPos = 0;
 		lastUnicodeNumber = "";
 		labelInfoText->setText(unicodeInfo(""));

@@ -50,6 +50,7 @@ private:
 	
 	/** \brief Paints previous and next characters around current char */
 	void updateOverviewChars(uint unicode);
+	void clearOverviewChars();
 	
 	int lastCursorPos;
 	QString lastUnicodeNumber;
