@@ -213,7 +213,7 @@ void CustomTrackView::checkTrackHeight()
             item = (ClipItem*) itemList.at(i);
             item->setRect(0, 0, item->rect().width(), m_tracksHeight - 1);
             item->setPos((qreal) item->startPos().frames(m_document->fps()), (qreal) item->track() * m_tracksHeight + 1);
-            item->resetThumbs();
+            item->resetThumbs(true);
         } else if (itemList.at(i)->type() == TRANSITIONWIDGET) {
             transitionitem = (Transition*) itemList.at(i);
             transitionitem->setRect(0, 0, transitionitem->rect().width(), m_tracksHeight / 3 * 2 - 1);
@@ -2991,6 +2991,8 @@ void CustomTrackView::addClip(QDomElement xml, const QString &clipId, ItemInfo i
     }
     m_document->setModified(true);
     m_document->renderer()->doRefresh();
+    m_waitingThumbs.append(item);
+    m_thumbsTimer.start();
 }
 
 void CustomTrackView::slotUpdateClip(const QString &clipId)
@@ -3332,7 +3334,7 @@ void CustomTrackView::resizeClip(const ItemInfo start, const ItemInfo end)
         bool success = m_document->renderer()->mltResizeClipCrop(clipinfo, end.cropStart - start.cropStart);
         if (success) {
             item->setCropStart(end.cropStart);
-            item->resetThumbs();
+            item->resetThumbs(true);
         }
     }
     m_document->renderer()->doRefresh();
@@ -4106,14 +4108,13 @@ void CustomTrackView::slotUpdateAllThumbs()
     for (int i = 0; i < itemList.count(); i++) {
         if (itemList.at(i)->type() == AVWIDGET) {
             item = static_cast <ClipItem *>(itemList.at(i));
-            if (item->clipType() != COLOR) {
+            if (item->clipType() != COLOR && item->clipType() != AUDIO) {
                 // Check if we have a cached thumbnail
-                if (item->clipType() == IMAGE || item->clipType() == TEXT || item->clipType() == AUDIO) {
+                if (item->clipType() == IMAGE || item->clipType() == TEXT) {
                     QString thumb = thumbBase + item->baseClip()->getClipHash() + "_0.png";
                     if (QFile::exists(thumb)) {
                         QPixmap pix(thumb);
                         item->slotSetStartThumb(pix);
-                        item->slotSetEndThumb(pix);
                     }
                 } else {
                     QString startThumb = thumbBase + item->baseClip()->getClipHash() + '_';

@@ -107,7 +107,7 @@ ClipItem::ClipItem(DocClipBase *clip, ItemInfo info, double fps, double speed, b
         setBrush(QColor(colour.left(7)));
     } else if (m_clipType == IMAGE || m_clipType == TEXT) {
         setBrush(QColor(141, 166, 215));
-        m_startPix = KThumb::getImage(KUrl(clip->getProperty("resource")), (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio()), KdenliveSettings::trackheight());
+        //m_startPix = KThumb::getImage(KUrl(clip->getProperty("resource")), (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio()), KdenliveSettings::trackheight());
     } else if (m_clipType == AUDIO) {
         setBrush(QColor(141, 215, 166));
         connect(clip, SIGNAL(gotAudioData()), this, SLOT(slotGotAudioData()));
@@ -130,9 +130,12 @@ ClipItem::~ClipItem()
 ClipItem *ClipItem::clone(ItemInfo info) const
 {
     ClipItem *duplicate = new ClipItem(m_clip, info, m_fps, m_speed);
-    if (info.cropStart == m_cropStart) duplicate->slotSetStartThumb(m_startPix);
-    if (info.cropStart + (info.endPos - info.startPos) == m_cropStart + m_cropDuration) duplicate->slotSetEndThumb(m_endPix);
-    kDebug() << "// CLoning clip: " << (info.cropStart + (info.endPos - info.startPos)).frames(m_fps) << ", CURRENT end: " << (cropStart() + duration()).frames(m_fps);
+    if (m_clipType == IMAGE || m_clipType == TEXT) duplicate->slotSetStartThumb(m_startPix);
+    else {
+        if (info.cropStart == m_cropStart) duplicate->slotSetStartThumb(m_startPix);
+        if (info.cropStart + (info.endPos - info.startPos) == m_cropStart + m_cropDuration) duplicate->slotSetEndThumb(m_endPix);
+    }
+    //kDebug() << "// CLoning clip: " << (info.cropStart + (info.endPos - info.startPos)).frames(m_fps) << ", CURRENT end: " << (cropStart() + duration()).frames(m_fps);
     duplicate->setEffectList(m_effectList.clone());
     duplicate->setVideoOnly(m_videoOnly);
     duplicate->setAudioOnly(m_audioOnly);
@@ -405,12 +408,14 @@ QDomElement ClipItem::selectedEffect()
     return effectAt(m_selectedEffect);
 }
 
-void ClipItem::resetThumbs()
+void ClipItem::resetThumbs(bool clearExistingThumbs)
 {
-    m_startPix = QPixmap();
-    m_endPix = QPixmap();
+    if (clearExistingThumbs) {
+        m_startPix = QPixmap();
+        m_endPix = QPixmap();
+	m_audioThumbCachePic.clear();
+    }
     slotFetchThumbs();
-    m_audioThumbCachePic.clear();
 }
 
 
@@ -436,11 +441,19 @@ void ClipItem::refreshClip(bool checkDuration)
         QString colour = m_clip->getProperty("colour");
         colour = colour.replace(0, 2, "#");
         setBrush(QColor(colour.left(7)));
-    } else resetThumbs();
+    } else resetThumbs(checkDuration);
 }
 
 void ClipItem::slotFetchThumbs()
 {
+    if (m_clipType == IMAGE || m_clipType == TEXT) {
+        if (m_startPix.isNull()) {
+            m_startPix = KThumb::getImage(KUrl(m_clip->getProperty("resource")), (int)(KdenliveSettings::trackheight() * KdenliveSettings::project_display_ratio()), KdenliveSettings::trackheight());
+            update();
+        }
+        return;
+    }
+
     if (m_endPix.isNull() && m_startPix.isNull()) {
         m_startThumbRequested = true;
         m_endThumbRequested = true;

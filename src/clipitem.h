@@ -79,7 +79,7 @@ public:
     void flashClip();
     void addTransition(Transition*);
     /** regenerate audio and video thumbnails */
-    void resetThumbs();
+    void resetThumbs(bool clearExistingThumbs);
     /** update clip properties from base clip */
     void refreshClip(bool checkDuration);
     /** Returns a list of times for this clip's markers */
