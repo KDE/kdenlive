@@ -51,7 +51,6 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         QObject(parent),
         m_autosave(NULL),
         m_url(url),
-        m_zoom(7),
         m_startPos(0),
         m_render(render),
         m_commandStack(new QUndoStack(undoGroup)),
@@ -59,14 +58,18 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         m_projectFolder(projectFolder),
         m_documentLoadingStep(0.0),
         m_documentLoadingProgress(0),
-        m_abortLoading(false),
-        m_zoneStart(0),
-        m_zoneEnd(100)
+        m_abortLoading(false)
 {
     m_clipManager = new ClipManager(this);
     m_autoSaveTimer = new QTimer(this);
     m_autoSaveTimer->setSingleShot(true);
     bool success = false;
+
+    // init default document properties
+    m_documentProperties["zoom"] = "7";
+    m_documentProperties["zonein"] = "0";
+    m_documentProperties["zoneout"] = "100";
+
     if (!url.isEmpty()) {
         QString tmpFile;
         success = KIO::NetAccess::download(url.path(), tmpFile, parent);
@@ -99,11 +102,13 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
 
                         profileName = infoXml.attribute("profile");
                         m_projectFolder = infoXml.attribute("projectfolder");
-
                         m_startPos = infoXml.attribute("position").toInt();
-                        m_zoom = infoXml.attribute("zoom", "7").toInt();
-                        m_zoneStart = infoXml.attribute("zonein", "0").toInt();
-                        m_zoneEnd = infoXml.attribute("zoneout", "100").toInt();
+
+                        QDomElement docproperties = infoXml.firstChildElement("documentproperties");
+                        QDomNamedNodeMap props = docproperties.attributes();
+                        for (int i = 0; i < props.count(); i++) {
+                            m_documentProperties.insert(props.item(i).nodeName(), props.item(i).nodeValue());
+                        }
 
                         // Build tracks
                         QDomElement e;
@@ -387,23 +392,23 @@ void KdenliveDoc::slotAutoSave()
 
 void KdenliveDoc::setZoom(int factor)
 {
-    m_zoom = factor;
+    m_documentProperties["zoom"] = QString::number(factor);
 }
 
 int KdenliveDoc::zoom() const
 {
-    return m_zoom;
+    return m_documentProperties.value("zoom").toInt();
 }
 
 void KdenliveDoc::setZone(int start, int end)
 {
-    m_zoneStart = start;
-    m_zoneEnd = end;
+    m_documentProperties["zonein"] = QString::number(start);
+    m_documentProperties["zoneout"] = QString::number(end);
 }
 
 QPoint KdenliveDoc::zone() const
 {
-    return QPoint(m_zoneStart, m_zoneEnd);
+    return QPoint(m_documentProperties.value("zonein").toInt(), m_documentProperties.value("zoneout").toInt());
 }
 
 bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
@@ -419,10 +424,15 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
     addedXml.setAttribute("kdenliveversion", VERSION);
     addedXml.setAttribute("profile", profilePath());
     addedXml.setAttribute("position", m_render->seekPosition().frames(m_fps));
-    addedXml.setAttribute("zonein", m_zoneStart);
-    addedXml.setAttribute("zoneout", m_zoneEnd);
     addedXml.setAttribute("projectfolder", m_projectFolder.path());
-    addedXml.setAttribute("zoom", m_zoom);
+
+    QDomElement docproperties = sceneList.createElement("documentproperties");
+    QMapIterator<QString, QString> i(m_documentProperties);
+    while (i.hasNext()) {
+        i.next();
+        docproperties.setAttribute(i.key(), i.value());
+    }
+    addedXml.appendChild(docproperties);
 
     // Add profile info
     QDomElement profileinfo = sceneList.createElement("profileinfo");
@@ -1186,6 +1196,15 @@ bool KdenliveDoc::checkDocumentClips(QDomNodeList infoproducers)
     return (d.exec() == QDialog::Accepted);
 }
 
+void KdenliveDoc::setDocumentProperty(const QString &name, const QString &value)
+{
+    m_documentProperties[name] = value;
+}
+
+const QString KdenliveDoc::getDocumentProperty(const QString &name) const
+{
+    return m_documentProperties.value(name);
+}
 
 #include "kdenlivedoc.moc"
 

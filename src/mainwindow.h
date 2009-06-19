@@ -301,6 +301,7 @@ private slots:
     void slotMaximizeCurrent(bool show);
     void slotTranscode(KUrl::List urls = KUrl::List());
     void slotTranscodeClip();
+    void slotSetDocumentRenderProfile(const QString &dest, const QString &name);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

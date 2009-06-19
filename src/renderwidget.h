@@ -146,6 +146,7 @@ public:
     void setRenderStatus(const QString &dest, int status, const QString &error);
     void setDocumentPath(const QString path);
     void reloadProfiles();
+    void setRenderProfile(const QString &dest, const QString &name);
 
 private slots:
     void slotUpdateButtons(KUrl url);
@@ -185,6 +186,7 @@ signals:
     void doRender(const QStringList&, const QStringList&);
     void abortProcess(const QString &url);
     void openDvdWizard(const QString &url, const QString &profile);
+    void selectedRenderProfile(const QString &category, const QString &name);
 };
 
 

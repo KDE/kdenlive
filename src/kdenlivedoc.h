@@ -113,12 +113,13 @@ Q_OBJECT public:
     void setSceneList();
     void updatePreviewSettings();
     bool isTrackLocked(int ix) const;
+    void setDocumentProperty(const QString &name, const QString &value);
+    const QString getDocumentProperty(const QString &name) const;
 
 private:
     KUrl m_url;
     QDomDocument m_document;
     double m_fps;
-    int m_zoom;
     /** Cursor position at document opening */
     int m_startPos;
     int m_width;
@@ -137,8 +138,7 @@ private:
     double m_documentLoadingStep;
     double m_documentLoadingProgress;
     bool m_abortLoading;
-    int m_zoneStart;
-    int m_zoneEnd;
+    QMap <QString, QString> m_documentProperties;
 
     QList <TrackInfo> m_tracksList;
 

@@ -1592,17 +1592,20 @@ void MainWindow::slotRenderProject()
         QString projectfolder = m_activeDocument ? m_activeDocument->projectFolder().path() : KdenliveSettings::defaultprojectfolder();
         m_renderWidget = new RenderWidget(projectfolder, this);
         connect(m_renderWidget, SIGNAL(doRender(const QStringList&, const QStringList&)), this, SLOT(slotDoRender(const QStringList&, const QStringList&)));
+        connect(m_renderWidget, SIGNAL(selectedRenderProfile(const QString &, const QString &)), this, SLOT(slotSetDocumentRenderProfile(const QString &, const QString &)));
         connect(m_renderWidget, SIGNAL(abortProcess(const QString &)), this, SIGNAL(abortRenderJob(const QString &)));
         connect(m_renderWidget, SIGNAL(openDvdWizard(const QString &, const QString &)), this, SLOT(slotDvdWizard(const QString &, const QString &)));
         if (m_activeDocument) {
             m_renderWidget->setProfile(m_activeDocument->mltProfile());
             m_renderWidget->setGuides(m_activeDocument->guidesXml(), m_activeDocument->projectDuration());
+            m_renderWidget->setRenderProfile(m_activeDocument->getDocumentProperty("renderdestination"), m_activeDocument->getDocumentProperty("renderprofile"));
         }
     }
     /*TrackView *currentTab = (TrackView *) m_timelineArea->currentWidget();
     if (currentTab) m_renderWidget->setTimeline(currentTab);
     m_renderWidget->setDocument(m_activeDocument);*/
     m_renderWidget->show();
+    m_renderWidget->showNormal();
 }
 
 void MainWindow::slotDoRender(const QStringList args, const QStringList overlay_args)
@@ -1915,6 +1918,7 @@ void MainWindow::connectDocument(TrackView *trackView, KdenliveDoc *doc)   //cha
     if (m_renderWidget) {
         m_renderWidget->setProfile(doc->mltProfile());
         m_renderWidget->setDocumentPath(doc->projectFolder().path());
+        m_renderWidget->setRenderProfile(doc->getDocumentProperty("renderdestination"), doc->getDocumentProperty("renderprofile"));
     }
     //doc->setRenderer(m_projectMonitor->render);
     m_commandStack->setActiveStack(doc->commandStack());
@@ -2798,6 +2802,14 @@ void MainWindow::slotTranscodeClip()
     KUrl::List urls = KFileDialog::getOpenUrls(KUrl("kfiledialog:///projectfolder"));
     if (urls.isEmpty()) return;
     slotTranscode(urls);
+}
+
+void MainWindow::slotSetDocumentRenderProfile(const QString &dest, const QString &name)
+{
+    if (m_activeDocument == NULL) return;
+    m_activeDocument->setDocumentProperty("renderdestination", dest);
+    m_activeDocument->setDocumentProperty("renderprofile", name);
+    m_activeDocument->setModified(true);
 }
 
 #include "mainwindow.moc"
