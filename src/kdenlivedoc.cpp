@@ -918,7 +918,7 @@ void KdenliveDoc::addClip(QDomElement elem, QString clipId, bool createClipItem)
     if (createClipItem) {
         emit addProjectClip(clip);
         qApp->processEvents();
-        m_render->getFileProperties(clip->toXML(), clip->getId());
+        m_render->getFileProperties(clip->toXML(), clip->getId(), false);
     }
 }
 
@@ -1040,7 +1040,6 @@ void KdenliveDoc::slotAddClipList(const KUrl::List urls, const QString group, co
 
 void KdenliveDoc::slotAddClipFile(const KUrl url, const QString group, const QString &groupId)
 {
-    //kDebug() << "/////////  DOCUM, ADD CLP: " << url;
     m_clipManager->slotAddClipFile(url, group, groupId);
     emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
     setModified(true);
@@ -1056,6 +1055,20 @@ DocClipBase *KdenliveDoc::getBaseClip(const QString &clipId)
     return m_clipManager->getClipById(clipId);
 }
 
+void KdenliveDoc::slotCreateColorClip(const QString &name, const QString &color, const QString &duration, QString group, const QString &groupId)
+{
+    m_clipManager->slotAddColorClipFile(name, color, duration, group, groupId);
+    setModified(true);
+    emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
+}
+
+void KdenliveDoc::slotCreateSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const int softness, QString group, const QString &groupId)
+{
+    m_clipManager->slotAddSlideshowClipFile(name, path, count, duration, loop, fade, luma_duration, luma_file, softness, group, groupId);
+    setModified(true);
+    emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
+}
+
 void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId, const QString &templatePath)
 {
     QString titlesFolder = projectFolder().path() + "/titles/";
@@ -1068,6 +1081,7 @@ void KdenliveDoc::slotCreateTextClip(QString group, const QString &groupId, cons
         //dia_ui->saveTitle(path + ".kdenlivetitle");
         m_clipManager->slotAddTextClipFile(titleInfo.at(0), titleInfo.at(1), dia_ui->xml().toString(), group, groupId);
         setModified(true);
+        emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
     }
     delete dia_ui;
 }
@@ -1089,6 +1103,7 @@ void KdenliveDoc::slotCreateTextTemplateClip(QString group, const QString &group
     delete dia_ui;
     m_clipManager->slotAddTextTemplateClip(titleInfo.at(0), titleInfo.at(1), path, group, groupId);
     setModified(true);
+    emit selectLastAddedClip(QString::number(m_clipManager->lastClipId()));
 }
 
 int KdenliveDoc::tracksCount() const

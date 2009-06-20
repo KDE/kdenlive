@@ -454,7 +454,7 @@ void ProjectList::slotAddFolder(const QString foldername, const QString &clipId,
             QStringList text;
             text << QString() << foldername;
             m_listView->blockSignals(true);
-            (void) new ProjectItem(m_listView, text, clipId);
+            m_listView->setCurrentItem(new ProjectItem(m_listView, text, clipId));
             m_doc->clipManager()->addFolder(clipId, foldername);
             m_listView->blockSignals(false);
         }
@@ -498,7 +498,6 @@ void ProjectList::slotAddClip(DocClipBase *clip, bool getProperties)
         if (parentitem) item = new ProjectItem(parentitem, clip);
     }
     if (item == NULL) item = new ProjectItem(m_listView, clip);
-
     KUrl url = clip->fileURL();
     if (!url.isEmpty() && KdenliveSettings::activate_nepomuk()) {
         // if file has Nepomuk comment, use it
@@ -659,8 +658,7 @@ void ProjectList::slotAddColorClip()
         QString color = dia_ui.clip_color->color().name();
         color = color.replace(0, 1, "0x") + "ff";
         QStringList groupInfo = getGroup();
-        m_doc->clipManager()->slotAddColorClipFile(dia_ui.clip_name->text(), color, dia_ui.clip_duration->text(), groupInfo.at(0), groupInfo.at(1));
-        m_doc->setModified(true);
+        m_doc->slotCreateColorClip(dia_ui.clip_name->text(), color, dia_ui.clip_duration->text(), groupInfo.at(0), groupInfo.at(1));
     }
     delete dia;
 }
@@ -673,8 +671,7 @@ void ProjectList::slotAddSlideshowClip()
 
     if (dia->exec() == QDialog::Accepted) {
         QStringList groupInfo = getGroup();
-        m_doc->clipManager()->slotAddSlideshowClipFile(dia->clipName(), dia->selectedPath(), dia->imageCount(), dia->clipDuration(), dia->loop(), dia->fade(), dia->lumaDuration(), dia->lumaFile(), dia->softness(), groupInfo.at(0), groupInfo.at(1));
-        m_doc->setModified(true);
+        m_doc->slotCreateSlideshowClipFile(dia->clipName(), dia->selectedPath(), dia->imageCount(), dia->clipDuration(), dia->loop(), dia->fade(), dia->lumaDuration(), dia->lumaFile(), dia->softness(), groupInfo.at(0), groupInfo.at(1));
     }
     delete dia;
 }

@@ -150,6 +150,8 @@ private:
     bool checkDocumentClips(QDomNodeList infoproducers);
 
 public slots:
+    void slotCreateColorClip(const QString &name, const QString &color, const QString &duration, QString group, const QString &groupId);
+    void slotCreateSlideshowClipFile(const QString name, const QString path, int count, const QString duration, const bool loop, const bool fade, const QString &luma_duration, const QString &luma_file, const int softness, QString group, const QString &groupId);
     void slotCreateTextClip(QString group, const QString &groupId, const QString &templatePath = QString());
     void slotCreateTextTemplateClip(QString group, const QString &groupId, KUrl path);
     /** Set to true if document needs saving, false otherwise */
