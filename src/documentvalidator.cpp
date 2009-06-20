@@ -128,8 +128,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
 
     // No conversion needed
     if (version == currentVersion) {
-        if (!m_doc.toString().contains("font-size")) // TODO: remove when currentVersion == 0.84
-            return true;
+        // TODO: uncomment when currentVersion == 0.84
+        //return true;
     }
 
     // The document is too new
@@ -674,8 +674,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
 
     if (version <= 0.83) {
         // Replace point size with pixel size in text titles
-        KMessageBox::ButtonCode convert;
         if (m_doc.toString().contains("font-size")) {
+            KMessageBox::ButtonCode convert;
             QDomNodeList kproducerNodes = m_doc.elementsByTagName("kdenlive_producer");
             for (int i = 0; i < kproducerNodes.count() && convert != KMessageBox::No; ++i) {
                 QDomElement kproducer = kproducerNodes.at(i).toElement();
@@ -708,6 +708,16 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     }
                 }
             }
+        }
+
+        // Fill the <documentproperties /> element
+        QDomElement docProperties = infoXml.firstChildElement("documentproperties");
+        if (docProperties.isNull()) {
+            docProperties = m_doc.createElement("documentproperties");
+            docProperties.setAttribute("zonein", infoXml.attribute("zonein"));
+            docProperties.setAttribute("zoneout", infoXml.attribute("zoneout"));
+            docProperties.setAttribute("zoom", infoXml.attribute("zoom"));
+            infoXml.appendChild(docProperties);
         }
     }
 
