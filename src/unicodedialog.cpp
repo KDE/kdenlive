@@ -17,13 +17,13 @@ const uint MAX_UNICODE_V1 = 65535;
 
 /// CONSTRUCTORS/DECONSTRUCTORS
 
-UnicodeDialog::UnicodeDialog(InputMethod inputMeth, QString lastUnicodeNumber) : 
-	inputMethod(inputMeth), 
-	m_lastCursorPos(0), 
-	m_lastUnicodeNumber(lastUnicodeNumber)
+UnicodeDialog::UnicodeDialog(InputMethod inputMeth, QString lastUnicodeNumber) :
+        inputMethod(inputMeth),
+        m_lastCursorPos(0),
+        m_lastUnicodeNumber(lastUnicodeNumber)
 {
     setupUi(this);
-	showLastUnicode();
+    showLastUnicode();
     connect(unicodeNumber, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
     connect(unicodeNumber, SIGNAL(returnPressed()), this, SLOT(slotReturnPressed()));
     connect(arrowUp, SIGNAL(clicked()), this, SLOT(slotNextUnicode()));
@@ -44,8 +44,8 @@ UnicodeDialog::UnicodeDialog(InputMethod inputMeth, QString lastUnicodeNumber) :
     arrowUp->setToolTip(i18n("Next Unicode character (Arrow Up)"));
     arrowDown->setToolTip(i18n("Previous Unicode character (Arrow Down)"));
     unicodeNumber->setToolTip(i18n("Enter your Unicode number here. Allowed characters: [0-9] and [a-f]."));
-	unicodeNumber->selectAll();	// Selection will be reset by setToolTip and similar, so set it here
-	
+    unicodeNumber->selectAll(); // Selection will be reset by setToolTip and similar, so set it here
+
 }
 
 UnicodeDialog::~UnicodeDialog()
@@ -58,8 +58,8 @@ UnicodeDialog::~UnicodeDialog()
 void UnicodeDialog::showLastUnicode()
 {
     unicodeNumber->setText(m_lastUnicodeNumber);
-	unicodeNumber->selectAll();
-	slotTextChanged(m_lastUnicodeNumber);
+    unicodeNumber->selectAll();
+    slotTextChanged(m_lastUnicodeNumber);
 }
 
 bool UnicodeDialog::controlCharacter(QString text)
@@ -116,11 +116,11 @@ QString UnicodeDialog::unicodeInfo(QString unicode)
     } else if (u == "a") {
         infoText = i18n("Line Feed (newline character, \\\\n)");
     } else if (u == "20") {
-        infoText = i18n("Standard space character. (See U+00a0 and U+2000&#x2013;200b)");
+        infoText = i18n("Standard space character. (Other space characters: U+00a0, U+2000&#x2013;200b, U+202f)");
     } else if (u == "a0") {
-        infoText = i18n("No-break space. &amp;nbsp; in HTML. See U+0020.");
-	} else if (u == "ab" || u == "bb" || u == "2039" || u == "203a") {
-		infoText = i18n("<p><strong>«</strong> (u+00ab, <code>&amp;lfquo;</code> in HTML) and <strong>»</strong> (u+00bb, <code>&amp;rfquo;</code> in HTML) are called Guillemets or angle quotes. Usage in different countries: «&nbsp;France&nbsp;» (with non-breaking Space 0x00a0), «Switzerland», »Germany«, »Finland and Sweden».</p><p><strong>&lsaquo;</strong> and <strong>&rsaquo;</strong> (U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) are their single quote equivalents.</p><p>See <a href=\"http://en.wikipedia.org/wiki/Guillemets\">Wikipedia:Guillemets</a></p>");
+        infoText = i18n("No-break space. &amp;nbsp; in HTML. See U+2009 and U+0020.");
+    } else if (u == "ab" || u == "bb" || u == "2039" || u == "203a") {
+        infoText = i18n("<p><strong>«</strong> (u+00ab, <code>&amp;lfquo;</code> in HTML) and <strong>»</strong> (u+00bb, <code>&amp;rfquo;</code> in HTML) are called Guillemets or angle quotes. Usage in different countries: «&nbsp;France&nbsp;» (with non-breaking Space 0x00a0), «Switzerland», »Germany«, »Finland and Sweden».</p><p><strong>&lsaquo;</strong> and <strong>&rsaquo;</strong> (U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) are their single quote equivalents.</p><p>See <a href=\"http://en.wikipedia.org/wiki/Guillemets\">Wikipedia:Guillemets</a></p>");
     } else if (u == "2002") {
         infoText = i18n("En Space (width of an n)");
     } else if (u == "2003") {
@@ -136,7 +136,7 @@ QString UnicodeDialog::unicodeInfo(QString unicode)
     } else if (u == "2008") {
         infoText = i18n("Punctuation Space. Width the same as between a punctuation character and the next character.");
     } else if (u == "2009") {
-        infoText = i18n("Thin space, in HTML also &amp;thinsp;. See <a href=\"http://en.wikipedia.org/wiki/Space_(punctuation)\">Wikipedia:Space_(punctuation)</a>");
+        infoText = i18n("Thin space, in HTML also &amp;thinsp;. See U+202f and <a href=\"http://en.wikipedia.org/wiki/Space_(punctuation)\">Wikipedia:Space_(punctuation)</a>");
     } else if (u == "200a") {
         infoText = i18n("Hair Space. Thinner than U+2009.");
     } else if (u == "2019") {
@@ -145,8 +145,14 @@ QString UnicodeDialog::unicodeInfo(QString unicode)
         infoText = i18n("<p>An en Dash (dash of the width of an n).</p><p>Usage examples: In English language for value ranges (1878&#x2013;1903), for relationships/connections (Zurich&#x2013;Dublin). In the German language it is also used (with spaces!) for showing thoughts: &ldquo;Es war &#x2013; wie immer in den Ferien &#x2013; ein regnerischer Tag.</p> <p>See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>");
     } else if (u == "2014") {
         infoText = i18n("<p>An em Dash (dash of the widht of an m).</p><p>Usage examples: In English language to mark&#x2014;like here&#x2014;thoughts. Traditionally without spaces. </p><p>See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>");
+    } else if (u == "202f") {
+        infoText = i18n("<p>Narrow no-break space. Has the same width as U+2009.</p><p>Usage: For units (spaces are marked with U+2423, &#x2423;): 230&#x2423;V, &#x2212;21&#x2423;°C, 50&#x2423;lb, <em>but</em> 90° (no space). In German for abbreviations (like: i.&#x202f;d.&#x202f;R. instead of i.&#xa0;d.&#xa0;R. with U+00a0).</p><p>See <a href=\"http://de.wikipedia.org/wiki/Schmales_Leerzeichen\">Wikipedia:de:Schmales_Leerzeichen</a></p>");
     } else if (u == "2026") {
         infoText = i18n("Ellipsis: If text has been left o&#x2026; See <a href=\"http://en.wikipedia.org/wiki/Ellipsis\">Wikipedia:Ellipsis</a>");
+    } else if (u == "2212") {
+        infoText = i18n("Minus sign. For numbers: &#x2212;42");
+    } else if (u == "2423") {
+        infoText = i18n("Open box; stands for a space.");
     } else {
         infoText = i18n("<small>No additional information available for this character.</small>");
     }
@@ -307,7 +313,7 @@ void UnicodeDialog::slotReturnPressed()
     QString text = trimmedUnicodeNumber(unicodeNumber->text());
     if (!controlCharacter(text)) {
         emit charSelected(unicodeChar->text());
-		emit newUnicodeNumber(unicodeNumber->text());
+        emit newUnicodeNumber(unicodeNumber->text());
     }
     emit accept();
 }

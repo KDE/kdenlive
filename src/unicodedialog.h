@@ -58,8 +58,8 @@ private:
 signals:
     /** \brief Contains the selected unicode character; emitted when Enter is pressed. */
     void charSelected(const QString&);
-	/** \brief Contains the last used unicode number. */
-	void newUnicodeNumber(const QString&);
+    /** \brief Contains the last used unicode number. */
+    void newUnicodeNumber(const QString&);
 
 private slots:
     void slotTextChanged(QString text);

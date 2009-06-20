@@ -236,7 +236,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     }
     m_unicodeDialog = new UnicodeDialog(UnicodeDialog::InputHex, m_lastUnicodeNumber);
     connect(m_unicodeDialog, SIGNAL(charSelected(QString)), this, SLOT(slotInsertUnicodeString(QString)));
-	connect(m_unicodeDialog, SIGNAL(newUnicodeNumber(QString)), this, SLOT(slotUnicodeNumber(QString)));
+    connect(m_unicodeDialog, SIGNAL(newUnicodeNumber(QString)), this, SLOT(slotUnicodeNumber(QString)));
 }
 
 TitleWidget::~TitleWidget()
@@ -949,7 +949,7 @@ void TitleWidget::slotInsertUnicodeString(QString text)
 
 void TitleWidget::slotUnicodeNumber(QString newUnicodeNumber)
 {
-	m_lastUnicodeNumber = newUnicodeNumber;
+    m_lastUnicodeNumber = newUnicodeNumber;
 }
 
 void TitleWidget::slotUpdateText()
@@ -1230,9 +1230,9 @@ void TitleWidget::writeChoices()
     titleConfig.writeEntry("background_alpha", horizontalSlider->value());
 
     titleConfig.writeEntry("crop_image", cropImage->isChecked());
-	
-	titleConfig.writeEntry("unicode_number", m_lastUnicodeNumber);
-	
+
+    titleConfig.writeEntry("unicode_number", m_lastUnicodeNumber);
+
     //! \todo Not sure if I should sync - it is probably safe to do it
     config->sync();
 
@@ -1263,7 +1263,7 @@ void TitleWidget::readChoices()
     horizontalSlider->setValue(titleConfig.readEntry("background_alpha", horizontalSlider->value()));
 
     cropImage->setChecked(titleConfig.readEntry("crop_image", cropImage->isChecked()));
-	
-	m_lastUnicodeNumber = titleConfig.readEntry("unicode_number", QString("2013"));
+
+    m_lastUnicodeNumber = titleConfig.readEntry("unicode_number", QString("2013"));
 }
 
