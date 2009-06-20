@@ -51,7 +51,6 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
         QObject(parent),
         m_autosave(NULL),
         m_url(url),
-        m_startPos(0),
         m_render(render),
         m_commandStack(new QUndoStack(undoGroup)),
         m_modified(false),
@@ -102,14 +101,11 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
 
                         profileName = infoXml.attribute("profile");
                         m_projectFolder = infoXml.attribute("projectfolder");
-                        m_startPos = infoXml.attribute("position").toInt();
-
                         QDomElement docproperties = infoXml.firstChildElement("documentproperties");
                         QDomNamedNodeMap props = docproperties.attributes();
                         for (int i = 0; i < props.count(); i++) {
                             m_documentProperties.insert(props.item(i).nodeName(), props.item(i).nodeValue());
                         }
-
                         // Build tracks
                         QDomElement e;
                         QDomElement tracksinfo = infoXml.firstChildElement("tracksinfo");
@@ -175,7 +171,7 @@ KdenliveDoc::KdenliveDoc(const KUrl &url, const KUrl &projectFolder, QUndoGroup 
                         if (m_abortLoading) {
                             //parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file."), 100);
                             emit resetProjectList();
-                            m_startPos = 0;
+                            m_documentProperties.remove("position");
                             m_url = KUrl();
                             m_tracksList.clear();
                             kWarning() << "Aborted loading of: " << url.path();
@@ -244,7 +240,8 @@ KdenliveDoc::~KdenliveDoc()
 
 void KdenliveDoc::setSceneList()
 {
-    m_render->setSceneList(m_document.toString(), m_startPos);
+    m_render->setSceneList(m_document.toString(), m_documentProperties.value("position").toInt());
+    m_documentProperties.remove("position");
     // m_document xml is now useless, clear it
     m_document.clear();
     checkProjectClips();
@@ -423,7 +420,6 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
     addedXml.setAttribute("version", DOCUMENTVERSION);
     addedXml.setAttribute("kdenliveversion", VERSION);
     addedXml.setAttribute("profile", profilePath());
-    addedXml.setAttribute("position", m_render->seekPosition().frames(m_fps));
     addedXml.setAttribute("projectfolder", m_projectFolder.path());
 
     QDomElement docproperties = sceneList.createElement("documentproperties");
@@ -432,6 +428,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
         i.next();
         docproperties.setAttribute(i.key(), i.value());
     }
+    docproperties.setAttribute("position", m_render->seekPosition().frames(m_fps));
     addedXml.appendChild(docproperties);
 
     // Add profile info

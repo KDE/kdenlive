@@ -120,8 +120,6 @@ private:
     KUrl m_url;
     QDomDocument m_document;
     double m_fps;
-    /** Cursor position at document opening */
-    int m_startPos;
     int m_width;
     int m_height;
     Timecode m_timecode;
