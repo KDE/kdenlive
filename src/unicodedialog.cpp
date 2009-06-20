@@ -26,8 +26,8 @@ UnicodeDialog::UnicodeDialog(InputMethod inputMeth) :
     showLastUnicode();
     connect(unicodeNumber, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
     connect(unicodeNumber, SIGNAL(returnPressed()), this, SLOT(slotReturnPressed()));
-    connect(arrowUp, SIGNAL(clicked()), this, SLOT(slotNextUnicode()));
-    connect(arrowDown, SIGNAL(clicked()), this, SLOT(slotPrevUnicode()));
+    connect(arrowUp, SIGNAL(clicked()), this, SLOT(slotPrevUnicode()));
+    connect(arrowDown, SIGNAL(clicked()), this, SLOT(slotNextUnicode()));
 
     switch (inputMethod) {
     case InputHex:
@@ -41,8 +41,8 @@ UnicodeDialog::UnicodeDialog(InputMethod inputMeth) :
     arrowUp->setShortcut(Qt::Key_Up);
     arrowDown->setShortcut(Qt::Key_Down);
 
-    arrowUp->setToolTip(i18n("Next Unicode character (Arrow Up)"));
-    arrowDown->setToolTip(i18n("Previous Unicode character (Arrow Down)"));
+    arrowUp->setToolTip(i18n("Previous Unicode character (Arrow Up)"));
+    arrowDown->setToolTip(i18n("Next Unicode character (Arrow Down)"));
     unicodeNumber->setToolTip(i18n("Enter your Unicode number here. Allowed characters: [0-9] and [a-f]."));
     unicodeNumber->selectAll(); // Selection will be reset by setToolTip and similar, so set it here
 
@@ -153,6 +153,14 @@ QString UnicodeDialog::unicodeInfo(QString unicode)
         infoText = i18n("Minus sign. For numbers: &#x2212;42");
     } else if (u == "2423") {
         infoText = i18n("Open box; stands for a space.");
+    } else if (u == "2669") {
+        infoText = i18n("Quarter note (Am.) or crochet (Brit.). See <a href=\"http://en.wikipedia.org/wiki/Quarter_note\">Wikipedia:Quarter_note</a>");
+    } else if (u == "266a") {
+        infoText = i18n("Eighth note (Am.) or quaver (Brit.). Half as long as a quarter note (U+2669). See <a href=\"http://en.wikipedia.org/wiki/Eighth_note\">Wikipedia:Eighth_note</a>");
+    } else if (u == "266b") {
+        infoText = i18n("Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note (U+266a). See <a href=\"http://en.wikipedia.org/wiki/Sixteenth_note\">Wikipedia:Sixteenth_note</a>");
+    } else if (u == "266c") {
+        infoText = i18n("Thirty-second note (Am.) or demisemiquaver (Brit.). Half as long as a sixteenth note (U+266b). See <a href=\"http://en.wikipedia.org/wiki/Quarter_note\">Wikipedia:Thirty-second_note</a>");
     } else {
         infoText = i18n("<small>No additional information available for this character.</small>");
     }
