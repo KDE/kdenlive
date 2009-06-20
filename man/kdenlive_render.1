@@ -42,6 +42,14 @@ Destination file
 Space separated libavformat arguments
 .SS
 
+.SH ENVIRONMENT
+.TP
+.B KDENLIVE_RENDER_LOG
+If
+.RB $ KDENLIVE_RENDER_LOG 
+is set, a log will be written to /tmp/kdenlive_render.log.XXXXXXXX, that contains information about
+the result of calling melt, ffmpeg, etc. This can be used for debugging.
+
 .SH SEE ALSO
 Please see the homepage at
 .BR http://www.kdenlive.org/
