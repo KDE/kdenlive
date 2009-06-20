@@ -63,6 +63,11 @@ private:
     QTime m_startTime;
     void initKdenliveDbusInterface();
     bool m_usekuiserver;
+    bool m_enablelog;
+    /** \brief Used to create a temporary file for logging */
+    QTemporaryFile m_logfile;
+    /** \brief Used to write to the log file */
+    QTextStream m_logstream;
 
 signals:
     void renderingFinished();
