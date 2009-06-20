@@ -97,8 +97,6 @@ private:
     QAction *m_buttonLoad;
     /** \brief Dialog for entering unicode in text fields */
     UnicodeDialog *m_unicodeDialog;
-    /** \brief Stores the last used unicode */
-    QString m_lastUnicodeNumber;
     /** project path for storing title clips */
     QString m_projectPath;
     /** \brief Store the current choices of font, background and rect values */
@@ -187,8 +185,6 @@ private slots:
     void slotUpdateText();
     void slotInsertUnicode();
     void slotInsertUnicodeString(QString);
-    /** \brief Called when unicode dialog closed, updates the last selected unicode number */
-    void slotUnicodeNumber(QString);
 
     void displayBackgroundFrame();
 

@@ -20,7 +20,7 @@ public:
     /** \brief The input method for the dialog. Atm only InputHex supported. */
     enum InputMethod { InputHex, InputDec };
 
-    UnicodeDialog(InputMethod inputMeth, QString lastUnicodeNumber);
+    UnicodeDialog(InputMethod inputMeth);
     ~UnicodeDialog();
 
     /** \brief Returns infos about a unicode number. Extendable/improvable ;) */
@@ -55,11 +55,14 @@ private:
     int m_lastCursorPos;
     QString m_lastUnicodeNumber;
 
+    /** \brief Reads the last used unicode number from the config file. */
+    void readChoices();
+    /** \brief Writes the last used unicode number into the config file. */
+    void writeChoices();
+
 signals:
     /** \brief Contains the selected unicode character; emitted when Enter is pressed. */
     void charSelected(const QString&);
-    /** \brief Contains the last used unicode number. */
-    void newUnicodeNumber(const QString&);
 
 private slots:
     void slotTextChanged(QString text);

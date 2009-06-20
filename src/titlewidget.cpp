@@ -46,6 +46,7 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
         m_endViewport(NULL),
         m_render(render),
         m_count(0),
+        m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex)),
         m_projectPath(projectPath)
 {
     setupUi(this);
@@ -102,6 +103,8 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     connect(buttonAlignNone, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonInsertUnicode, SIGNAL(clicked()), this, SLOT(slotInsertUnicode()));
     connect(displayBg, SIGNAL(stateChanged(int)), this, SLOT(displayBackgroundFrame()));
+
+    connect(m_unicodeDialog, SIGNAL(charSelected(QString)), this, SLOT(slotInsertUnicodeString(QString)));
 
     // mbd
     connect(this, SIGNAL(accepted()), this, SLOT(slotAccepted()));
@@ -234,9 +237,6 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     } else {
         slotRectTool();
     }
-    m_unicodeDialog = new UnicodeDialog(UnicodeDialog::InputHex, m_lastUnicodeNumber);
-    connect(m_unicodeDialog, SIGNAL(charSelected(QString)), this, SLOT(slotInsertUnicodeString(QString)));
-    connect(m_unicodeDialog, SIGNAL(newUnicodeNumber(QString)), this, SLOT(slotUnicodeNumber(QString)));
 }
 
 TitleWidget::~TitleWidget()
@@ -947,11 +947,6 @@ void TitleWidget::slotInsertUnicodeString(QString text)
     }
 }
 
-void TitleWidget::slotUnicodeNumber(QString newUnicodeNumber)
-{
-    m_lastUnicodeNumber = newUnicodeNumber;
-}
-
 void TitleWidget::slotUpdateText()
 {
     QFont font = font_family->currentFont();
@@ -1231,8 +1226,6 @@ void TitleWidget::writeChoices()
 
     titleConfig.writeEntry("crop_image", cropImage->isChecked());
 
-    titleConfig.writeEntry("unicode_number", m_lastUnicodeNumber);
-
     //! \todo Not sure if I should sync - it is probably safe to do it
     config->sync();
 
@@ -1263,7 +1256,5 @@ void TitleWidget::readChoices()
     horizontalSlider->setValue(titleConfig.readEntry("background_alpha", horizontalSlider->value()));
 
     cropImage->setChecked(titleConfig.readEntry("crop_image", cropImage->isChecked()));
-
-    m_lastUnicodeNumber = titleConfig.readEntry("unicode_number", QString("2013"));
 }
 

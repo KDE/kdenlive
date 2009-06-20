@@ -17,12 +17,12 @@ const uint MAX_UNICODE_V1 = 65535;
 
 /// CONSTRUCTORS/DECONSTRUCTORS
 
-UnicodeDialog::UnicodeDialog(InputMethod inputMeth, QString lastUnicodeNumber) :
+UnicodeDialog::UnicodeDialog(InputMethod inputMeth) :
         inputMethod(inputMeth),
-        m_lastCursorPos(0),
-        m_lastUnicodeNumber(lastUnicodeNumber)
+        m_lastCursorPos(0)
 {
     setupUi(this);
+    readChoices();
     showLastUnicode();
     connect(unicodeNumber, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
     connect(unicodeNumber, SIGNAL(returnPressed()), this, SLOT(slotReturnPressed()));
@@ -245,6 +245,25 @@ QString UnicodeDialog::nextUnicode(QString text, Direction direction)
     return newText;
 }
 
+void UnicodeDialog::readChoices()
+{
+    // Get a pointer to a shared configuration instance, then get the TitleWidget group.
+    KSharedConfigPtr config = KGlobal::config();
+    KConfigGroup titleConfig(config, "TitleWidget");
+
+    // Default is 2013 because there is also (perhaps interesting) information.
+    m_lastUnicodeNumber = titleConfig.readEntry("unicode_number", QString("2013"));
+}
+
+void UnicodeDialog::writeChoices()
+{
+    // Get a pointer to a shared configuration instance, then get the TitleWidget group.
+    KSharedConfigPtr config = KGlobal::config();
+    KConfigGroup titleConfig(config, "TitleWidget");
+
+    titleConfig.writeEntry("unicode_number", m_lastUnicodeNumber);
+}
+
 
 /// SLOTS
 
@@ -313,7 +332,7 @@ void UnicodeDialog::slotReturnPressed()
     QString text = trimmedUnicodeNumber(unicodeNumber->text());
     if (!controlCharacter(text)) {
         emit charSelected(unicodeChar->text());
-        emit newUnicodeNumber(unicodeNumber->text());
+        writeChoices();
     }
     emit accept();
 }
