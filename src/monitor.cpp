@@ -580,7 +580,13 @@ void Monitor::seekCursor(int pos)
 
 void Monitor::rendererStopped(int pos)
 {
-    //int rulerPos = (int)(pos * m_scale);
+    if (m_currentClip != NULL && m_playAction->isChecked()) {
+        // Clip monitor
+        if (pos >= m_length - 1) {
+            slotStart();
+            return;
+        }
+    }
     m_ruler->slotNewValue(pos);
     m_position = pos;
     checkOverlay();
