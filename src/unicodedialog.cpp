@@ -17,9 +17,13 @@ const uint MAX_UNICODE_V1 = 65535;
 
 /// CONSTRUCTORS/DECONSTRUCTORS
 
-UnicodeDialog::UnicodeDialog(InputMethod inputMeth) : inputMethod(inputMeth), lastCursorPos(0), lastUnicodeNumber("")
+UnicodeDialog::UnicodeDialog(InputMethod inputMeth, QString lastUnicodeNumber) : 
+	inputMethod(inputMeth), 
+	m_lastCursorPos(0), 
+	m_lastUnicodeNumber(lastUnicodeNumber)
 {
     setupUi(this);
+	showLastUnicode();
     connect(unicodeNumber, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
     connect(unicodeNumber, SIGNAL(returnPressed()), this, SLOT(slotReturnPressed()));
     connect(arrowUp, SIGNAL(clicked()), this, SLOT(slotNextUnicode()));
@@ -40,6 +44,8 @@ UnicodeDialog::UnicodeDialog(InputMethod inputMeth) : inputMethod(inputMeth), la
     arrowUp->setToolTip(i18n("Next Unicode character (Arrow Up)"));
     arrowDown->setToolTip(i18n("Previous Unicode character (Arrow Down)"));
     unicodeNumber->setToolTip(i18n("Enter your Unicode number here. Allowed characters: [0-9] and [a-f]."));
+	unicodeNumber->selectAll();	// Selection will be reset by setToolTip and similar, so set it here
+	
 }
 
 UnicodeDialog::~UnicodeDialog()
@@ -51,7 +57,9 @@ UnicodeDialog::~UnicodeDialog()
 
 void UnicodeDialog::showLastUnicode()
 {
-    unicodeNumber->setText(lastUnicodeNumber);
+    unicodeNumber->setText(m_lastUnicodeNumber);
+	unicodeNumber->selectAll();
+	slotTextChanged(m_lastUnicodeNumber);
 }
 
 bool UnicodeDialog::controlCharacter(QString text)
@@ -96,12 +104,12 @@ QString UnicodeDialog::trimmedUnicodeNumber(QString text)
     return text;
 }
 
-QString UnicodeDialog::unicodeInfo(QString unicode_number)
+QString UnicodeDialog::unicodeInfo(QString unicode)
 {
     QString infoText(i18n("<small>(no character selected)</small>"));
-    if (unicode_number.length() == 0) return infoText;
+    if (unicode.length() == 0) return infoText;
 
-    QString u = trimmedUnicodeNumber(unicode_number).toLower();
+    QString u = trimmedUnicodeNumber(unicode).toLower();
 
     if (controlCharacter(u)) {
         infoText = i18n("Control character. Cannot be inserted/printed. See <a href=\"http://en.wikipedia.org/wiki/Control_character\">Wikipedia:Control_character</a>");
@@ -111,6 +119,8 @@ QString UnicodeDialog::unicodeInfo(QString unicode_number)
         infoText = i18n("Standard space character. (See U+00a0 and U+2000&#x2013;200b)");
     } else if (u == "a0") {
         infoText = i18n("No-break space. &amp;nbsp; in HTML. See U+0020.");
+	} else if (u == "ab" || u == "bb" || u == "2039" || u == "203a") {
+		infoText = i18n("<p><strong>«</strong> (u+00ab, <code>&amp;lfquo;</code> in HTML) and <strong>»</strong> (u+00bb, <code>&amp;rfquo;</code> in HTML) are called Guillemets or angle quotes. Usage in different countries: «&nbsp;France&nbsp;» (with non-breaking Space 0x00a0), «Switzerland», »Germany«, »Finland and Sweden».</p><p><strong>&lsaquo;</strong> and <strong>&rsaquo;</strong> (U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) are their single quote equivalents.</p><p>See <a href=\"http://en.wikipedia.org/wiki/Guillemets\">Wikipedia:Guillemets</a></p>");
     } else if (u == "2002") {
         infoText = i18n("En Space (width of an n)");
     } else if (u == "2003") {
@@ -132,11 +142,11 @@ QString UnicodeDialog::unicodeInfo(QString unicode_number)
     } else if (u == "2019") {
         infoText = i18n("Punctuation Apostrophe. Should be used instead of U+0027. See <a href=\"http://en.wikipedia.org/wiki/Apostrophe\">Wikipedia:Apostrophe</a>");
     } else if (u == "2013") {
-        infoText = i18n("An en Dash (dash of the width of an n). See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a>");
+        infoText = i18n("<p>An en Dash (dash of the width of an n).</p><p>Usage examples: In English language for value ranges (1878&#x2013;1903), for relationships/connections (Zurich&#x2013;Dublin). In the German language it is also used (with spaces!) for showing thoughts: &ldquo;Es war &#x2013; wie immer in den Ferien &#x2013; ein regnerischer Tag.</p> <p>See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>");
     } else if (u == "2014") {
-        infoText = i18n("An em Dash (dash of the widht of an m). See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a>");
+        infoText = i18n("<p>An em Dash (dash of the widht of an m).</p><p>Usage examples: In English language to mark&#x2014;like here&#x2014;thoughts. Traditionally without spaces. </p><p>See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>");
     } else if (u == "2026") {
-        infoText = i18n("Ellipsis: If text has been left out. See <a href=\"http://en.wikipedia.org/wiki/Ellipsis\">Wikipedia:Ellipsis</a>");
+        infoText = i18n("Ellipsis: If text has been left o&#x2026; See <a href=\"http://en.wikipedia.org/wiki/Ellipsis\">Wikipedia:Ellipsis</a>");
     } else {
         infoText = i18n("<small>No additional information available for this character.</small>");
     }
@@ -244,8 +254,8 @@ void UnicodeDialog::slotTextChanged(QString text)
         unicodeChar->setText("");
         unicodeNumber->setText("");
         clearOverviewChars();
-        lastCursorPos = 0;
-        lastUnicodeNumber = "";
+        m_lastCursorPos = 0;
+        m_lastUnicodeNumber = "";
         labelInfoText->setText(unicodeInfo(""));
 
     } else {
@@ -274,12 +284,12 @@ void UnicodeDialog::slotTextChanged(QString text)
 
         // If an invalid character has been entered:
         // Reset the cursor position because the entered char has been deleted.
-        if (text != newText && newText == lastUnicodeNumber) {
-            unicodeNumber->setCursorPosition(lastCursorPos);
+        if (text != newText && newText == m_lastUnicodeNumber) {
+            unicodeNumber->setCursorPosition(m_lastCursorPos);
         }
 
-        lastCursorPos = unicodeNumber->cursorPosition();
-        lastUnicodeNumber = newText;
+        m_lastCursorPos = unicodeNumber->cursorPosition();
+        m_lastUnicodeNumber = newText;
 
         labelInfoText->setText(unicodeInfo(newText));
         unicodeChar->setText(QChar(value));
@@ -297,6 +307,7 @@ void UnicodeDialog::slotReturnPressed()
     QString text = trimmedUnicodeNumber(unicodeNumber->text());
     if (!controlCharacter(text)) {
         emit charSelected(unicodeChar->text());
+		emit newUnicodeNumber(unicodeNumber->text());
     }
     emit accept();
 }

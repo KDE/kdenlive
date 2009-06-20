@@ -46,7 +46,6 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
         m_endViewport(NULL),
         m_render(render),
         m_count(0),
-        m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex)),
         m_projectPath(projectPath)
 {
     setupUi(this);
@@ -102,7 +101,6 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     connect(buttonAlignCenter, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonAlignNone, SIGNAL(clicked()), this, SLOT(slotUpdateText()));
     connect(buttonInsertUnicode, SIGNAL(clicked()), this, SLOT(slotInsertUnicode()));
-    connect(m_unicodeDialog, SIGNAL(charSelected(QString)), this, SLOT(slotInsertUnicodeString(QString)));
     connect(displayBg, SIGNAL(stateChanged(int)), this, SLOT(displayBackgroundFrame()));
 
     // mbd
@@ -236,6 +234,9 @@ TitleWidget::TitleWidget(KUrl url, QString projectPath, Render *render, QWidget 
     } else {
         slotRectTool();
     }
+    m_unicodeDialog = new UnicodeDialog(UnicodeDialog::InputHex, m_lastUnicodeNumber);
+    connect(m_unicodeDialog, SIGNAL(charSelected(QString)), this, SLOT(slotInsertUnicodeString(QString)));
+	connect(m_unicodeDialog, SIGNAL(newUnicodeNumber(QString)), this, SLOT(slotUnicodeNumber(QString)));
 }
 
 TitleWidget::~TitleWidget()
@@ -932,7 +933,6 @@ void TitleWidget::textChanged(QGraphicsTextItem *i)
 
 void TitleWidget::slotInsertUnicode()
 {
-    m_unicodeDialog->showLastUnicode();
     m_unicodeDialog->exec();
 }
 
@@ -945,6 +945,11 @@ void TitleWidget::slotInsertUnicodeString(QString text)
             t->textCursor().insertText(text);
         }
     }
+}
+
+void TitleWidget::slotUnicodeNumber(QString newUnicodeNumber)
+{
+	m_lastUnicodeNumber = newUnicodeNumber;
 }
 
 void TitleWidget::slotUpdateText()
@@ -1225,6 +1230,9 @@ void TitleWidget::writeChoices()
     titleConfig.writeEntry("background_alpha", horizontalSlider->value());
 
     titleConfig.writeEntry("crop_image", cropImage->isChecked());
+	
+	titleConfig.writeEntry("unicode_number", m_lastUnicodeNumber);
+	
     //! \todo Not sure if I should sync - it is probably safe to do it
     config->sync();
 
@@ -1255,5 +1263,7 @@ void TitleWidget::readChoices()
     horizontalSlider->setValue(titleConfig.readEntry("background_alpha", horizontalSlider->value()));
 
     cropImage->setChecked(titleConfig.readEntry("crop_image", cropImage->isChecked()));
+	
+	m_lastUnicodeNumber = titleConfig.readEntry("unicode_number", QString("2013"));
 }
 
