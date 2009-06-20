@@ -674,29 +674,35 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
 
     if (version <= 0.83) {
         // Replace point size with pixel size in text titles
+        KMessageBox::ButtonCode convert;
         if (m_doc.toString().contains("font-size")) {
             QDomNodeList kproducerNodes = m_doc.elementsByTagName("kdenlive_producer");
-            for (int i = 0; i < kproducerNodes.count(); ++i) {
+            for (int i = 0; i < kproducerNodes.count() && convert != KMessageBox::No; ++i) {
                 QDomElement kproducer = kproducerNodes.at(i).toElement();
                 if (kproducer.attribute("type").toInt() == TEXT) {
                     QDomDocument data;
                     data.setContent(kproducer.attribute("xmldata"));
                     QDomNodeList items = data.firstChild().childNodes();
-                    for (int j = 0; j < items.count(); ++j) {
+                    for (int j = 0; j < items.count() && convert != KMessageBox::No; ++j) {
                         if (items.at(j).attributes().namedItem("type").nodeValue() == "QGraphicsTextItem") {
                             QDomNamedNodeMap textProperties = items.at(j).namedItem("content").attributes();
-                            if (textProperties.namedItem("font-pixel-size").isNull()) {
-                                QFont font;
-                                font.setPointSize(textProperties.namedItem("font-size").nodeValue().toInt());
-                                QDomElement content = items.at(j).namedItem("content").toElement();
-                                content.setAttribute("font-pixel-size", QFontInfo(font).pixelSize());
-                                content.removeAttribute("font-size");
-                                kproducer.setAttribute("xmldata", data.toString());
-                                /*
-                                 * You may be tempted to delete the preview file
-                                 * to force its recreation: bad idea (see
-                                 * http://www.kdenlive.org/mantis/view.php?id=749)
-                                 */
+                            if (textProperties.namedItem("font-pixel-size").isNull() && !textProperties.namedItem("font-size").isNull()) {
+                                // Ask the user if he wants to convert
+                                if (convert != KMessageBox::Yes && convert != KMessageBox::No)
+                                    convert = (KMessageBox::ButtonCode)KMessageBox::warningYesNo(kapp->activeWindow(), i18n("Some of your text clips were saved with size in points, which means different sizes on different displays. Do you want to convert them to pixel size, making them portable? It is recommended you do this on the computer they were first created on, or you could have to adjust their size."), i18n("Update Text Clips"));
+                                if (convert == KMessageBox::Yes) {
+                                    QFont font;
+                                    font.setPointSize(textProperties.namedItem("font-size").nodeValue().toInt());
+                                    QDomElement content = items.at(j).namedItem("content").toElement();
+                                    content.setAttribute("font-pixel-size", QFontInfo(font).pixelSize());
+                                    content.removeAttribute("font-size");
+                                    kproducer.setAttribute("xmldata", data.toString());
+                                    /*
+                                     * You may be tempted to delete the preview file
+                                     * to force its recreation: bad idea (see
+                                     * http://www.kdenlive.org/mantis/view.php?id=749)
+                                     */
+                                }
                             }
                         }
                     }

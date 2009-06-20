@@ -413,7 +413,7 @@ void ClipItem::resetThumbs(bool clearExistingThumbs)
     if (clearExistingThumbs) {
         m_startPix = QPixmap();
         m_endPix = QPixmap();
-	m_audioThumbCachePic.clear();
+        m_audioThumbCachePic.clear();
     }
     slotFetchThumbs();
 }

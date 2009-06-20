@@ -20,6 +20,9 @@
 #include <KDebug>
 #include <KTemporaryFile>
 #include <kio/netaccess.h>
+#include <KApplication>
+#include <KLocale>
+#include <KMessageBox>
 
 #include <QGraphicsScene>
 #include <QDomElement>
@@ -222,10 +225,12 @@ int TitleDocument::loadFromXml(QDomDocument doc, QGraphicsPolygonItem* /*startv*
                     font.setUnderline(txtProperties.namedItem("font-underline").nodeValue().toInt());
                     // Older Kdenlive version did not store pixel size but point size
                     if (txtProperties.namedItem("font-pixel-size").isNull()) {
+                        KMessageBox::information(kapp->activeWindow(), i18n("Some of your text clips were saved with size in points, which means different sizes on different displays. They will be converted to pixel size, making them portable, but you could have to adjust their size."), i18n("Text Clips Updated"));
                         QFont f2;
                         f2.setPointSize(txtProperties.namedItem("font-size").nodeValue().toInt());
                         font.setPixelSize(QFontInfo(f2).pixelSize());
-                    } else font.setPixelSize(txtProperties.namedItem("font-pixel-size").nodeValue().toInt());
+                    } else
+                        font.setPixelSize(txtProperties.namedItem("font-pixel-size").nodeValue().toInt());
                     QColor col(stringToColor(txtProperties.namedItem("font-color").nodeValue()));
                     QGraphicsTextItem *txt = m_scene->addText(items.item(i).namedItem("content").firstChild().nodeValue(), font);
                     txt->setDefaultTextColor(col);
