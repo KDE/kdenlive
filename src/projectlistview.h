@@ -62,7 +62,7 @@ private slots:
 signals:
     void requestMenu(const QPoint &, QTreeWidgetItem *);
     void addClip();
-    void addClip(const QList <QUrl>, const QString &);
+    void addClip(const QList <QUrl>, const QString &, const QString &);
     void showProperties(DocClipBase *);
     void focusMonitor();
     void pauseMonitor();

@@ -94,7 +94,7 @@ ProjectList::ProjectList(QWidget *parent) :
     connect(m_listView, SIGNAL(pauseMonitor()), this, SLOT(slotPauseMonitor()));
     connect(m_listView, SIGNAL(requestMenu(const QPoint &, QTreeWidgetItem *)), this, SLOT(slotContextMenu(const QPoint &, QTreeWidgetItem *)));
     connect(m_listView, SIGNAL(addClip()), this, SLOT(slotAddClip()));
-    connect(m_listView, SIGNAL(addClip(const QList <QUrl>, const QString &)), this, SLOT(slotAddClip(const QList <QUrl>, const QString &)));
+    connect(m_listView, SIGNAL(addClip(const QList <QUrl>, const QString &, const QString &)), this, SLOT(slotAddClip(const QList <QUrl>, const QString &, const QString &)));
     connect(m_listView, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(slotItemEdited(QTreeWidgetItem *, int)));
     connect(m_listView, SIGNAL(showProperties(DocClipBase *)), this, SIGNAL(showClipProperties(DocClipBase *)));
 
@@ -596,7 +596,7 @@ void ProjectList::updateAllClips()
     QTimer::singleShot(500, this, SLOT(slotCheckForEmptyQueue()));
 }
 
-void ProjectList::slotAddClip(const QList <QUrl> givenList, QString group)
+void ProjectList::slotAddClip(const QList <QUrl> givenList, const QString &groupName, const QString &groupId)
 {
     if (!m_commandStack) kDebug() << "!!!!!!!!!!!!!!!! NO CMD STK";
     KUrl::List list;
@@ -622,10 +622,10 @@ void ProjectList::slotAddClip(const QList <QUrl> givenList, QString group)
     }
     if (list.isEmpty()) return;
 
-    if (group.isEmpty()) {
+    if (givenList.isEmpty()) {
         QStringList groupInfo = getGroup();
         m_doc->slotAddClipList(list, groupInfo.at(0), groupInfo.at(1));
-    } else m_doc->slotAddClipList(list, group, QString());
+    } else m_doc->slotAddClipList(list, groupName, groupId);
 }
 
 void ProjectList::slotRemoveInvalidClip(const QString &id, bool replace)

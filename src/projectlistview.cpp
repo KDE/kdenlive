@@ -143,15 +143,17 @@ void ProjectListView::dropEvent(QDropEvent *event)
 {
     kDebug() << "////////////////  DROPPED EVENT";
     if (event->mimeData()->hasUrls()) {
-        QTreeWidgetItem *item = itemAt(event->pos());
+        ProjectItem *item = static_cast <ProjectItem *>(itemAt(event->pos()));
         QString groupName;
+        QString groupId;
         if (item) {
-            if (((ProjectItem *) item)->isGroup()) groupName = item->text(1);
-            else if (item->parent() && ((ProjectItem *) item->parent())->isGroup())
-                groupName = item->parent()->text(1);
+            if (item->parent()) item = static_cast <ProjectItem *>(item->parent());
+            if (item->isGroup()) {
+                groupName = item->groupName();
+                groupId = item->clipId();
+            }
         }
-        emit addClip(event->mimeData()->urls(), groupName);
-
+        emit addClip(event->mimeData()->urls(), groupName, groupId);
     } else if (event->mimeData()->hasFormat("kdenlive/producerslist")) {
         ProjectItem *item = static_cast <ProjectItem *>(itemAt(event->pos()));
         if (item) {
