@@ -193,6 +193,7 @@ private:
     QStringList m_pluginFileNames;
     QByteArray m_timelineState;
     void loadTranscoders();
+    void startWaitingRenderJobs();
 
 public slots:
     void openFile(const KUrl &url);
@@ -226,7 +227,7 @@ private slots:
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
     void slotRenderProject();
-    void slotDoRender(const QStringList args, const QStringList overlay_args);
+    void slotDoRender(const QStringList render_args, const QStringList overlay_args);
     void slotFullScreen();
     void slotUpdateDocumentState(bool modified);
     void slotZoomIn();
@@ -302,6 +303,7 @@ private slots:
     void slotTranscode(KUrl::List urls = KUrl::List());
     void slotTranscodeClip();
     void slotSetDocumentRenderProfile(const QString &dest, const QString &name);
+    void slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile);
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

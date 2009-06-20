@@ -86,6 +86,7 @@
 #include <QTimer>
 #include <QAction>
 #include <QKeyEvent>
+#include <QInputDialog>
 
 #include <stdlib.h>
 
@@ -390,6 +391,24 @@ void MainWindow::queryQuit()
 //virtual
 bool MainWindow::queryClose()
 {
+    if (m_renderWidget) {
+        int waitingJobs = m_renderWidget->waitingJobsCount();
+        if (waitingJobs > 0) {
+            switch (KMessageBox::warningYesNoCancel(this, i18n("You have %1 rendering jobs waiting in the queue.\nWhat do you want to do with these jobs?", waitingJobs), QString(), KGuiItem(i18n("Start them now")), KGuiItem(i18n("Delete them")))) {
+            case KMessageBox::Yes :
+                // create script with waiting jobs and start it
+                //startWaitingRenderJobs();
+                KMessageBox::sorry(this, "not implementd yet");
+                return false;
+                break;
+            case KMessageBox::No :
+                // Don't do anything, jobs will be deleted
+                break;
+            default:
+                return false;
+            }
+        }
+    }
     saveOptions();
     if (m_monitorManager) m_monitorManager->stopActiveMonitor();
     if (m_activeDocument && m_activeDocument->isModified()) {
@@ -1593,6 +1612,7 @@ void MainWindow::slotRenderProject()
         m_renderWidget = new RenderWidget(projectfolder, this);
         connect(m_renderWidget, SIGNAL(doRender(const QStringList&, const QStringList&)), this, SLOT(slotDoRender(const QStringList&, const QStringList&)));
         connect(m_renderWidget, SIGNAL(selectedRenderProfile(const QString &, const QString &)), this, SLOT(slotSetDocumentRenderProfile(const QString &, const QString &)));
+        connect(m_renderWidget, SIGNAL(prepareRenderingData(bool, bool, const QString&)), this, SLOT(slotPrepareRendering(bool, bool, const QString&)));
         connect(m_renderWidget, SIGNAL(abortProcess(const QString &)), this, SIGNAL(abortRenderJob(const QString &)));
         connect(m_renderWidget, SIGNAL(openDvdWizard(const QString &, const QString &)), this, SLOT(slotDvdWizard(const QString &, const QString &)));
         if (m_activeDocument) {
@@ -1608,18 +1628,19 @@ void MainWindow::slotRenderProject()
     m_renderWidget->showNormal();
 }
 
-void MainWindow::slotDoRender(const QStringList args, const QStringList overlay_args)
+void MainWindow::slotDoRender(const QStringList render_args, const QStringList overlay_args)
 {
-    QString dest = args.at(0);
-    QString render = args.at(1);
-    QStringList avformat_args = args.at(2).split(' ');
-    bool zoneOnly = args.at(3).toInt();
-    bool playAfter = args.at(4).toInt();
-    double guideStart = args.at(5).toDouble();
-    double guideEnd = args.at(6).toDouble();
-    bool resizeProfile = args.at(7).toInt();
-    QString scriptExport = args.at(8);
-    bool createChapterFile = args.at(9).toInt();
+    //TODO: remove this function if no problem is detected with the new renderwidget rendering
+    QString dest = render_args.at(0);
+    QString render = render_args.at(1);
+    QStringList avformat_args = render_args.at(2).split(' ');
+    bool zoneOnly = render_args.at(3).toInt();
+    bool playAfter = render_args.at(4).toInt();
+    double guideStart = render_args.at(5).toDouble();
+    double guideEnd = render_args.at(6).toDouble();
+    bool resizeProfile = render_args.at(7).toInt();
+    QString scriptExport = render_args.at(8);
+    bool createChapterFile = render_args.at(9).toInt();
 
     if (dest.isEmpty()) return;
     int in = 0;
@@ -1709,51 +1730,6 @@ void MainWindow::slotDoRender(const QStringList args, const QStringList overlay_
             }
             file.close();
             QFile::setPermissions(scriptExport, file.permissions() | QFile::ExeUser);
-        }
-
-        if (createChapterFile) {
-            QDomDocument doc;
-            QDomElement chapters = doc.createElement("chapters");
-            chapters.setAttribute("fps", m_activeDocument->fps());
-            doc.appendChild(chapters);
-
-            QDomElement guidesxml = m_activeDocument->guidesXml();
-            if (!zoneOnly) out = (int) GenTime(m_activeDocument->projectDuration()).frames(m_activeDocument->fps());
-
-            QDomNodeList nodes = guidesxml.elementsByTagName("guide");
-            for (int i = 0; i < nodes.count(); i++) {
-                QDomElement e = nodes.item(i).toElement();
-                if (!e.isNull()) {
-                    QString comment = e.attribute("comment");
-                    int time = (int) GenTime(e.attribute("time").toDouble()).frames(m_activeDocument->fps());
-                    if (time >= in && time < out) {
-                        if (zoneOnly) time = time - in;
-                        QDomElement chapter = doc.createElement("chapter");
-                        chapters.appendChild(chapter);
-                        chapter.setAttribute("title", comment);
-                        chapter.setAttribute("time", time);
-                    }
-                }
-            }
-            if (chapters.childNodes().count() > 0) {
-                if (m_activeTimeline->projectView()->hasGuide(out, 0) == -1) {
-                    // Always insert a guide in pos 0
-                    QDomElement chapter = doc.createElement("chapter");
-                    chapters.insertBefore(chapter, QDomNode());
-                    chapter.setAttribute("title", i18n("Start"));
-                    chapter.setAttribute("time", "0");
-                }
-                // save chapters file
-                QFile file(dest + ".dvdchapter");
-                if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                    kWarning() << "//////  ERROR writing DVD CHAPTER file: " << dest + ".dvdchapter";
-                } else {
-                    file.write(doc.toString().toUtf8());
-                    if (file.error() != QFile::NoError)
-                        kWarning() << "//////  ERROR writing DVD CHAPTER file: " << dest + ".dvdchapter";
-                    file.close();
-                }
-            }
         }
     }
 }
@@ -2810,6 +2786,92 @@ void MainWindow::slotSetDocumentRenderProfile(const QString &dest, const QString
     m_activeDocument->setDocumentProperty("renderdestination", dest);
     m_activeDocument->setDocumentProperty("renderprofile", name);
     m_activeDocument->setModified(true);
+}
+
+void MainWindow::startWaitingRenderJobs()
+{
+
+}
+
+void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile)
+{
+    if (m_activeDocument == NULL || m_renderWidget == NULL) return;
+    QString scriptPath;
+    QString playlistPath;
+    if (scriptExport) {
+        bool ok;
+        QString scriptsFolder = m_activeDocument->projectFolder().path() + "/scripts/";
+        QString path = m_renderWidget->getFreeScriptName();
+        scriptPath = QInputDialog::getText(this, i18n("Create Render Script"), i18n("Script name (will be saved in: %1)", scriptsFolder), QLineEdit::Normal, KUrl(path).fileName(), &ok);
+        if (!ok || scriptPath.isEmpty()) return;
+        scriptPath.prepend(scriptsFolder);
+        QFile f(scriptPath);
+        if (f.exists()) {
+            if (KMessageBox::warningYesNo(this, i18n("Script file already exists. Do you want to overwrite it?")) != KMessageBox::Yes)
+                return;
+        }
+        playlistPath = scriptPath + ".mlt";
+        m_projectMonitor->saveSceneList(playlistPath);
+    } else {
+        KTemporaryFile temp;
+        temp.setAutoRemove(false);
+        temp.setSuffix(".mlt");
+        temp.open();
+        playlistPath = temp.fileName();
+        m_projectMonitor->saveSceneList(playlistPath);
+    }
+
+    if (!chapterFile.isEmpty()) {
+        int in = 0;
+        int out;
+        if (!zoneOnly) out = (int) GenTime(m_activeDocument->projectDuration()).frames(m_activeDocument->fps());
+        else {
+            in = m_activeTimeline->inPoint();
+            out = m_activeTimeline->outPoint();
+        }
+        QDomDocument doc;
+        QDomElement chapters = doc.createElement("chapters");
+        chapters.setAttribute("fps", m_activeDocument->fps());
+        doc.appendChild(chapters);
+
+        QDomElement guidesxml = m_activeDocument->guidesXml();
+        QDomNodeList nodes = guidesxml.elementsByTagName("guide");
+        for (int i = 0; i < nodes.count(); i++) {
+            QDomElement e = nodes.item(i).toElement();
+            if (!e.isNull()) {
+                QString comment = e.attribute("comment");
+                int time = (int) GenTime(e.attribute("time").toDouble()).frames(m_activeDocument->fps());
+                if (time >= in && time < out) {
+                    if (zoneOnly) time = time - in;
+                    QDomElement chapter = doc.createElement("chapter");
+                    chapters.appendChild(chapter);
+                    chapter.setAttribute("title", comment);
+                    chapter.setAttribute("time", time);
+                }
+            }
+        }
+        if (chapters.childNodes().count() > 0) {
+            if (m_activeTimeline->projectView()->hasGuide(out, 0) == -1) {
+                // Always insert a guide in pos 0
+                QDomElement chapter = doc.createElement("chapter");
+                chapters.insertBefore(chapter, QDomNode());
+                chapter.setAttribute("title", i18n("Start"));
+                chapter.setAttribute("time", "0");
+            }
+            // save chapters file
+            QFile file(chapterFile);
+            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                kWarning() << "//////  ERROR writing DVD CHAPTER file: " << chapterFile;
+            } else {
+                file.write(doc.toString().toUtf8());
+                if (file.error() != QFile::NoError)
+                    kWarning() << "//////  ERROR writing DVD CHAPTER file: " << chapterFile;
+                file.close();
+            }
+        }
+    }
+
+    m_renderWidget->slotExport(scriptExport, m_activeTimeline->inPoint(), m_activeTimeline->outPoint(), playlistPath, scriptPath);
 }
 
 #include "mainwindow.moc"

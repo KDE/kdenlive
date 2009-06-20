@@ -29,6 +29,7 @@
 #include <KRun>
 #include <KIO/NetAccess>
 #include <KColorScheme>
+#include <KNotification>
 // #include <knewstuff2/engine.h>
 
 #include <QDomDocument>
@@ -85,7 +86,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
 
     QMenu *renderMenu = new QMenu(i18n("Start Rendering"), this);
     QAction *renderAction = renderMenu->addAction(KIcon("video-x-generic"), i18n("Render to File"));
-    connect(renderAction, SIGNAL(triggered()), this, SLOT(slotExport()));
+    connect(renderAction, SIGNAL(triggered()), this, SLOT(slotPrepareExport()));
     QAction *scriptAction = renderMenu->addAction(KIcon("application-x-shellscript"), i18n("Generate Script"));
     connect(scriptAction, SIGNAL(triggered()), this, SLOT(slotGenerateScript()));
 
@@ -107,6 +108,7 @@ RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
     connect(m_view.delete_script, SIGNAL(clicked()), this, SLOT(slotDeleteScript()));
     connect(m_view.scripts_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckScript()));
     connect(m_view.running_jobs, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckJob()));
+    connect(m_view.running_jobs, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), this, SLOT(slotPlayRendering(QTreeWidgetItem *, int)));
 
     connect(m_view.buttonInfo, SIGNAL(clicked()), this, SLOT(showInfoPanel()));
 
@@ -573,7 +575,21 @@ void RenderWidget::focusFirstVisibleItem()
     updateButtons();
 }
 
-void RenderWidget::slotExport(bool scriptExport)
+void RenderWidget::slotPrepareExport(bool scriptExport)
+{
+    if (!QFile::exists(KdenliveSettings::rendererpath())) {
+        KMessageBox::sorry(this, i18n("Cannot find the melt program required for rendering (part of Mlt)"));
+        return;
+    }
+    if (m_view.play_after->isChecked() && KdenliveSettings::defaultplayerapp().isEmpty())
+        KMessageBox::sorry(this, i18n("Cannot play video after rendering because the default video player application is not set.\nPlease define it in Kdenlive settings dialog."));
+    QString chapterFile;
+    if (m_view.create_chapter->isChecked()) chapterFile = m_view.out_file->url().path() + ".dvdchapter";
+    emit prepareRenderingData(scriptExport, m_view.render_zone->isChecked(), chapterFile);
+}
+
+
+void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const QString &playlistPath, const QString &scriptPath)
 {
     QListWidgetItem *item = m_view.size_list->currentItem();
     if (!item) return;
@@ -596,7 +612,6 @@ void RenderWidget::slotExport(bool scriptExport)
             return;
     }
 
-
     QStringList overlayargs;
     if (m_view.tc_overlay->isChecked()) {
         QString filterFile = KStandardDirs::locate("appdata", "metadata.properties");
@@ -604,12 +619,28 @@ void RenderWidget::slotExport(bool scriptExport)
         overlayargs << "-attach" << "data_feed:attr_check" << "-attach";
         overlayargs << "data_show:" + filterFile << "_loader=1" << "dynamic=1";
     }
-    double startPos = -1;
-    double endPos = -1;
-    if (m_view.render_guide->isChecked()) {
-        startPos = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
-        endPos = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
+
+    QStringList render_process_args;
+
+    if (!scriptExport) render_process_args << "-erase";
+    if (KdenliveSettings::usekuiserver()) render_process_args << "-kuiserver";
+
+    double guideStart = 0;
+    double guideEnd = 0;
+
+    if (m_view.render_zone->isChecked()) render_process_args << "in=" + QString::number(zoneIn) << "out=" + QString::number(zoneOut);
+    else if (m_view.render_guide->isChecked()) {
+        double fps = (double) m_profile.frame_rate_num / m_profile.frame_rate_den;
+        guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
+        guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
+        render_process_args << "in=" + QString::number(GenTime(guideStart).frames(fps)) << "out=" + QString::number(GenTime(guideEnd).frames(fps));
     }
+
+    render_process_args << overlayargs;
+    render_process_args << KdenliveSettings::rendererpath() << m_profile.path << item->data(RenderRole).toString();
+    if (m_view.play_after->isChecked()) render_process_args << KdenliveSettings::KdenliveSettings::defaultplayerapp();
+    else render_process_args << "-";
+
     QString renderArgs = m_view.advanced_params->toPlainText().simplified();
 
     // Adjust frame scale
@@ -650,37 +681,55 @@ void RenderWidget::slotExport(bool scriptExport)
         renderArgs.append(subsize);
     }
     bool resizeProfile = (subsize != currentSize);
+    QStringList paramsList = renderArgs.split(" ");
+    for (int i = 0; i < paramsList.count(); i++) {
+        if (paramsList.at(i).startsWith("profile=")) {
+            if (paramsList.at(i).section('=', 1) != m_profile.path) resizeProfile = true;
+            break;
+        }
+    }
+
+    if (resizeProfile) render_process_args << "consumer:" + playlistPath;
+    else render_process_args << playlistPath;
+    render_process_args << dest;
+    render_process_args << renderArgs;
 
     QString group = m_view.size_list->currentItem()->data(MetaGroupRole).toString();
 
     QStringList renderParameters;
     renderParameters << dest << item->data(RenderRole).toString() << renderArgs.simplified();
-    renderParameters << QString::number(m_view.render_zone->isChecked()) << QString::number(m_view.play_after->isChecked());
-    renderParameters << QString::number(startPos) << QString::number(endPos) << QString::number(resizeProfile);
+    renderParameters << QString::number(zoneIn) << QString::number(zoneOut) << QString::number(m_view.play_after->isChecked());
+    renderParameters << QString::number(guideStart) << QString::number(guideEnd) << QString::number(resizeProfile);
 
     QString scriptName;
     if (scriptExport) {
-        bool ok;
-        int ix = 0;
-        QString scriptsFolder = m_projectFolder + "/scripts/";
-        KStandardDirs::makeDir(scriptsFolder);
-        QString path = scriptsFolder + i18n("script") + QString::number(ix).rightJustified(3, '0', false) + ".sh";
-        while (QFile::exists(path)) {
-            ix++;
-            path = scriptsFolder + i18n("script") + QString::number(ix).rightJustified(3, '0', false) + ".sh";
-        }
-        scriptName = QInputDialog::getText(this, i18n("Create Render Script"), i18n("Script name (will be saved in: %1)", scriptsFolder), QLineEdit::Normal, KUrl(path).fileName(), &ok);
-        if (!ok || scriptName.isEmpty()) return;
-        scriptName.prepend(scriptsFolder);
-        QFile f(scriptName);
-        if (f.exists()) {
-            if (KMessageBox::warningYesNo(this, i18n("Script file already exists. Do you want to overwrite it?")) != KMessageBox::Yes)
-                return;
-        }
-        renderParameters << scriptName;
+
+        /*renderParameters << scriptName;
         if (group == "dvd") renderParameters << QString::number(m_view.create_chapter->isChecked());
         else renderParameters << QString::number(false);
-        emit doRender(renderParameters, overlayargs);
+        emit doRender(renderParameters, overlayargs);*/
+
+        // Generate script file
+        QFile file(scriptPath);
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            KMessageBox::error(this, i18n("Cannot write to file %1", scriptPath));
+            return;
+        }
+        QString renderer = QCoreApplication::applicationDirPath() + QString("/kdenlive_render");
+        if (!QFile::exists(renderer)) renderer = "kdenlive_render";
+        QTextStream outStream(&file);
+        outStream << "#! /bin/sh" << "\n" << "\n";
+        outStream << "SOURCE=" << "\"" + playlistPath + "\"" << "\n";
+        outStream << "TARGET=" << "\"" + dest + "\"" << "\n";
+        outStream << renderer << " " << render_process_args.join(" ") << "\n" << "\n";
+        if (file.error() != QFile::NoError) {
+            KMessageBox::error(this, i18n("Cannot write to file %1", scriptPath));
+            file.close();
+            return;
+        }
+        file.close();
+        QFile::setPermissions(scriptPath, file.permissions() | QFile::ExeUser);
+
         QTimer::singleShot(400, this, SLOT(parseScriptFiles()));
         m_view.tabWidget->setCurrentIndex(2);
         return;
@@ -703,13 +752,12 @@ void RenderWidget::slotExport(bool scriptExport)
         renderItem->setData(1, Qt::UserRole + 4, QString());
     } else {
         renderItem = new QTreeWidgetItem(m_view.running_jobs, QStringList() << QString() << dest << QString());
-        renderItem->setData(1, Qt::UserRole + 2, WAITINGJOB);
-        renderItem->setIcon(0, KIcon("media-playback-pause"));
-        renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
     }
+    renderItem->setData(1, Qt::UserRole + 2, WAITINGJOB);
+    renderItem->setIcon(0, KIcon("media-playback-pause"));
+    renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
     renderItem->setSizeHint(1, QSize(m_view.running_jobs->columnWidth(1), fontMetrics().height() * 2));
     renderItem->setData(1, Qt::UserRole + 1, QTime::currentTime());
-    renderItem->setData(1, Qt::UserRole + 2, overlayargs);
 
     // Set rendering type
     if (group == "dvd") {
@@ -733,9 +781,7 @@ void RenderWidget::slotExport(bool scriptExport)
             renderItem->setData(0, Qt::UserRole + 1, url);
         }
     }
-
-
-    renderItem->setData(1, Qt::UserRole + 3, renderParameters);
+    renderItem->setData(1, Qt::UserRole + 3, render_process_args);
     checkRenderStatus();
 }
 
@@ -747,7 +793,11 @@ void RenderWidget::checkRenderStatus()
         else if (item->data(1, Qt::UserRole + 2).toInt() == WAITINGJOB) {
             item->setData(1, Qt::UserRole + 1, QTime::currentTime());
             if (item->data(1, Qt::UserRole + 4).isNull()) {
-                emit doRender(item->data(1, Qt::UserRole + 3).toStringList(), item->data(1, Qt::UserRole + 2).toStringList());
+                QString renderer = QCoreApplication::applicationDirPath() + QString("/kdenlive_render");
+                if (!QFile::exists(renderer)) renderer = "kdenlive_render";
+                QProcess::startDetached(renderer, item->data(1, Qt::UserRole + 3).toStringList());
+                KNotification::event("RenderStarted", i18n("Rendering <i>%1</i> started", item->text(1)), QPixmap(), this);
+                //emit doRender(item->data(1, Qt::UserRole + 3).toStringList(), item->data(1, Qt::UserRole + 2).toStringList());
             } else {
                 // Script item
                 QProcess::startDetached(item->data(1, Qt::UserRole + 3).toString());
@@ -756,6 +806,17 @@ void RenderWidget::checkRenderStatus()
         }
         item = m_view.running_jobs->itemBelow(item);
     }
+}
+
+int RenderWidget::waitingJobsCount() const
+{
+    int count = 0;
+    QTreeWidgetItem *item = m_view.running_jobs->topLevelItem(0);
+    while (item) {
+        if (item->data(1, Qt::UserRole + 2).toInt() == WAITINGJOB) count++;
+        item = m_view.running_jobs->itemBelow(item);
+    }
+    return count;
 }
 
 void RenderWidget::setProfile(MltVideoProfile profile)
@@ -1418,7 +1479,7 @@ void RenderWidget::slotDeleteScript()
 
 void RenderWidget::slotGenerateScript()
 {
-    slotExport(true);
+    slotPrepareExport(true);
 }
 
 void RenderWidget::slotHideLog()
@@ -1455,4 +1516,44 @@ void RenderWidget::setRenderProfile(const QString &dest, const QString &name)
     m_view.format_list->blockSignals(false);
 
 }
+
+QMap <QStringList, QStringList> RenderWidget::waitingJobsData()
+{
+
+    QMap <QStringList, QStringList> renderData;
+    /*  QTreeWidgetItem *item = m_view.running_jobs->topLevelItem(0);
+      while (item) {
+          if (item->data(1, Qt::UserRole + 2).toInt() == WAITINGJOB) {
+       if (item->data(1, Qt::UserRole + 4).isNull()) {
+    // We only start straight jobs, script jobs are already saved somewhere...
+    const QStringList params = item->data(1, Qt::UserRole + 3).toStringList();
+    const QStringList ov_params = item->data(1, Qt::UserRole + 2).toStringList();
+    renderData.insert(params, ov_params);
+       }
+    }
+          item = m_view.running_jobs->itemBelow(item);
+      }*/
+    return renderData;
+}
+
+QString RenderWidget::getFreeScriptName()
+{
+    int ix = 0;
+    QString scriptsFolder = m_projectFolder + "/scripts/";
+    KStandardDirs::makeDir(scriptsFolder);
+    QString path = scriptsFolder + i18n("script") + QString::number(ix).rightJustified(3, '0', false) + ".sh";
+    while (QFile::exists(path)) {
+        ix++;
+        path = scriptsFolder + i18n("script") + QString::number(ix).rightJustified(3, '0', false) + ".sh";
+    }
+    return path;
+}
+
+void RenderWidget::slotPlayRendering(QTreeWidgetItem *item, int)
+{
+    if (KdenliveSettings::defaultplayerapp().isEmpty() || item->data(1, Qt::UserRole + 2).toInt() != FINISHEDJOB) return;
+    QProcess::startDetached(KdenliveSettings::defaultplayerapp(), QStringList() << item->text(1));
+}
+
+
 

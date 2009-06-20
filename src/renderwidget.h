@@ -147,11 +147,16 @@ public:
     void setDocumentPath(const QString path);
     void reloadProfiles();
     void setRenderProfile(const QString &dest, const QString &name);
+    int waitingJobsCount() const;
+    QMap <QStringList, QStringList> waitingJobsData();
+    QString getFreeScriptName();
+
+public slots:
+    void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QString &playlistPath, const QString &scriptPath);
 
 private slots:
     void slotUpdateButtons(KUrl url);
     void slotUpdateButtons();
-    void slotExport(bool scriptExport = false);
     void refreshView();
     void refreshParams();
     void slotSaveProfile();
@@ -171,6 +176,8 @@ private slots:
     void slotEditItem(QListWidgetItem *item);
     void slotCLeanUpJobs();
     void slotHideLog();
+    void slotPrepareExport(bool scriptExport = false);
+    void slotPlayRendering(QTreeWidgetItem *item, int);
 
 private:
     Ui::RenderWidget_UI m_view;
@@ -187,6 +194,7 @@ signals:
     void abortProcess(const QString &url);
     void openDvdWizard(const QString &url, const QString &profile);
     void selectedRenderProfile(const QString &category, const QString &name);
+    void prepareRenderingData(bool scriptExport, bool zoneOnly, const QString &chapterFile);
 };
 
 
