@@ -717,6 +717,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             docProperties.setAttribute("zonein", infoXml.attribute("zonein"));
             docProperties.setAttribute("zoneout", infoXml.attribute("zoneout"));
             docProperties.setAttribute("zoom", infoXml.attribute("zoom"));
+            docProperties.setAttribute("position", infoXml.attribute("position"));
             infoXml.appendChild(docProperties);
         }
     }
