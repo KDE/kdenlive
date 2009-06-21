@@ -148,8 +148,8 @@ public:
     void reloadProfiles();
     void setRenderProfile(const QString &dest, const QString &name);
     int waitingJobsCount() const;
-    QMap <QStringList, QStringList> waitingJobsData();
-    QString getFreeScriptName();
+    QString getFreeScriptName(const QString &prefix = QString());
+    bool startWaitingRenderJobs();
 
 public slots:
     void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QString &playlistPath, const QString &scriptPath);
@@ -183,6 +183,7 @@ private:
     Ui::RenderWidget_UI m_view;
     MltVideoProfile m_profile;
     QString m_projectFolder;
+    bool m_blockProcessing;
     void parseProfiles(QString meta = QString(), QString group = QString(), QString profile = QString());
     void parseFile(QString exportFile, bool editable);
     void updateButtons();

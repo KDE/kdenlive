@@ -397,9 +397,7 @@ bool MainWindow::queryClose()
             switch (KMessageBox::warningYesNoCancel(this, i18n("You have %1 rendering jobs waiting in the queue.\nWhat do you want to do with these jobs?", waitingJobs), QString(), KGuiItem(i18n("Start them now")), KGuiItem(i18n("Delete them")))) {
             case KMessageBox::Yes :
                 // create script with waiting jobs and start it
-                //startWaitingRenderJobs();
-                KMessageBox::sorry(this, "not implementd yet");
-                return false;
+                if (m_renderWidget->startWaitingRenderJobs() == false) return false;
                 break;
             case KMessageBox::No :
                 // Don't do anything, jobs will be deleted
@@ -2788,10 +2786,6 @@ void MainWindow::slotSetDocumentRenderProfile(const QString &dest, const QString
     m_activeDocument->setModified(true);
 }
 
-void MainWindow::startWaitingRenderJobs()
-{
-
-}
 
 void MainWindow::slotPrepareRendering(bool scriptExport, bool zoneOnly, const QString &chapterFile)
 {

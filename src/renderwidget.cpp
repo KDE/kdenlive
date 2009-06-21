@@ -58,7 +58,8 @@ const int FINISHEDJOB = 2;
 
 RenderWidget::RenderWidget(const QString &projectfolder, QWidget * parent) :
         QDialog(parent),
-        m_projectFolder(projectfolder)
+        m_projectFolder(projectfolder),
+        m_blockProcessing(false)
 {
     m_view.setupUi(this);
     setWindowTitle(i18n("Rendering"));
@@ -787,6 +788,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
 
 void RenderWidget::checkRenderStatus()
 {
+    if (m_blockProcessing) return;
     QTreeWidgetItem *item = m_view.running_jobs->topLevelItem(0);
     while (item) {
         if (item->data(1, Qt::UserRole + 2).toInt() == RUNNINGJOB) break;
@@ -1517,34 +1519,52 @@ void RenderWidget::setRenderProfile(const QString &dest, const QString &name)
 
 }
 
-QMap <QStringList, QStringList> RenderWidget::waitingJobsData()
+bool RenderWidget::startWaitingRenderJobs()
 {
-
-    QMap <QStringList, QStringList> renderData;
-    /*  QTreeWidgetItem *item = m_view.running_jobs->topLevelItem(0);
-      while (item) {
-          if (item->data(1, Qt::UserRole + 2).toInt() == WAITINGJOB) {
-       if (item->data(1, Qt::UserRole + 4).isNull()) {
-    // We only start straight jobs, script jobs are already saved somewhere...
-    const QStringList params = item->data(1, Qt::UserRole + 3).toStringList();
-    const QStringList ov_params = item->data(1, Qt::UserRole + 2).toStringList();
-    renderData.insert(params, ov_params);
-       }
+    m_blockProcessing = true;
+    QString autoscriptFile = getFreeScriptName("auto");
+    QFile file(autoscriptFile);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        kWarning() << "//////  ERROR writing to file: " << autoscriptFile;
+        KMessageBox::error(0, i18n("Cannot write to file %1", autoscriptFile));
+        return false;
     }
-          item = m_view.running_jobs->itemBelow(item);
-      }*/
-    return renderData;
+
+    QString renderer = QCoreApplication::applicationDirPath() + QString("/kdenlive_render");
+    if (!QFile::exists(renderer)) renderer = "kdenlive_render";
+    QTextStream outStream(&file);
+    outStream << "#! /bin/sh" << "\n" << "\n";
+    QTreeWidgetItem *item = m_view.running_jobs->topLevelItem(0);
+    while (item) {
+        if (item->data(1, Qt::UserRole + 2).toInt() == WAITINGJOB) {
+            // Add render process for item
+            const QString params = item->data(1, Qt::UserRole + 3).toStringList().join(" ");
+            outStream << renderer << " " << params << "\n";
+        }
+        item = m_view.running_jobs->itemBelow(item);
+    }
+    // erase itself when rendering is finished
+    outStream << "rm " << autoscriptFile << "\n" << "\n";
+    if (file.error() != QFile::NoError) {
+        KMessageBox::error(0, i18n("Cannot write to file %1", autoscriptFile));
+        file.close();
+        return false;
+    }
+    file.close();
+    QFile::setPermissions(autoscriptFile, file.permissions() | QFile::ExeUser);
+    QProcess::startDetached(autoscriptFile, QStringList());
+    return true;
 }
 
-QString RenderWidget::getFreeScriptName()
+QString RenderWidget::getFreeScriptName(const QString &prefix)
 {
     int ix = 0;
     QString scriptsFolder = m_projectFolder + "/scripts/";
     KStandardDirs::makeDir(scriptsFolder);
-    QString path = scriptsFolder + i18n("script") + QString::number(ix).rightJustified(3, '0', false) + ".sh";
-    while (QFile::exists(path)) {
+    QString path;
+    while (path.isEmpty() || QFile::exists(path)) {
         ix++;
-        path = scriptsFolder + i18n("script") + QString::number(ix).rightJustified(3, '0', false) + ".sh";
+        path = scriptsFolder + prefix + i18n("script") + QString::number(ix).rightJustified(3, '0', false) + ".sh";
     }
     return path;
 }

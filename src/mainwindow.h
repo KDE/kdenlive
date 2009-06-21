@@ -193,7 +193,7 @@ private:
     QStringList m_pluginFileNames;
     QByteArray m_timelineState;
     void loadTranscoders();
-    void startWaitingRenderJobs();
+
 
 public slots:
     void openFile(const KUrl &url);

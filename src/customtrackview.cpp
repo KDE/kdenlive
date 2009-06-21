@@ -2737,7 +2737,7 @@ void CustomTrackView::mouseReleaseEvent(QMouseEvent * event)
 
 void CustomTrackView::deleteClip(ItemInfo info)
 {
-    ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()) + 1, info.track);
+    ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
 
     if (!item || m_document->renderer()->mltRemoveClip(m_document->tracksCount() - info.track, info.startPos) == false) {
         emit displayMessage(i18n("Error removing clip at %1 on track %2", m_document->timecode().getTimecodeFromFrames(info.startPos.frames(m_document->fps())), info.track), ErrorMessage);
@@ -2850,7 +2850,7 @@ void CustomTrackView::changeClipSpeed()
 void CustomTrackView::doChangeClipSpeed(ItemInfo info, const double speed, const double oldspeed, const QString &id)
 {
     DocClipBase *baseclip = m_document->clipManager()->getClipById(id);
-    ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()) + 1, info.track);
+    ClipItem *item = getClipItemAt((int) info.startPos.frames(m_document->fps()), info.track);
     if (!item) {
         kDebug() << "ERROR: Cannot find clip for speed change";
         emit displayMessage(i18n("Cannot find clip for speed change"), ErrorMessage);

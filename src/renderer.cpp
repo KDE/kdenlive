@@ -2423,7 +2423,7 @@ bool Render::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEn
     mlt_service_lock(service.get_service());
     Mlt::Producer trackProducer(tractor.track(startTrack));
     Mlt::Playlist trackPlaylist((mlt_playlist) trackProducer.get_service());
-    int clipIndex = trackPlaylist.get_clip_index_at(moveStart + 1);
+    int clipIndex = trackPlaylist.get_clip_index_at(moveStart);
     kDebug() << "//////  LOOKING FOR CLIP TO MOVE, INDEX: " << clipIndex;
     bool checkLength = false;
     if (endTrack == startTrack) {

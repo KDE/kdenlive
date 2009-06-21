@@ -477,7 +477,7 @@ int TrackView::slotAddProjectTrack(int ix, QDomElement xml, bool locked)
             // Found a clip
             int in = elem.attribute("in").toInt();
             int out = elem.attribute("out").toInt();
-            if (in > out || in == out || m_invalidProducers.contains(elem.attribute("producer"))) {
+            if (in > out || /*in == out ||*/ m_invalidProducers.contains(elem.attribute("producer"))) {
                 m_documentErrors.append(i18n("Invalid clip removed from track %1 at %2\n", ix, position));
                 xml.removeChild(children.at(nodeindex));
                 nodeindex--;
