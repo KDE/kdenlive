@@ -849,7 +849,7 @@ void ClipItem::paint(QPainter *painter,
     }*/
 
     // draw effect or transition keyframes
-    if (itemWidth > 20) drawKeyFrames(painter, exposed);
+    if (mapped.width() > 20) drawKeyFrames(painter, exposed);
 
     painter->setMatrixEnabled(true);
 
