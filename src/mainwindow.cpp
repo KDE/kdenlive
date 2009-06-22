@@ -958,11 +958,13 @@ void MainWindow::setupActions()
     connect(stickTransition, SIGNAL(triggered(bool)), this, SLOT(slotAutoTransition()));
 
     KAction* groupClip = new KAction(KIcon("object-group"), i18n("Group Clips"), this);
+    groupClip->setShortcut(Qt::CTRL + Qt::Key_G);
     collection->addAction("group_clip", groupClip);
     connect(groupClip, SIGNAL(triggered(bool)), this, SLOT(slotGroupClips()));
 
     KAction* ungroupClip = new KAction(KIcon("object-ungroup"), i18n("Ungroup Clips"), this);
     collection->addAction("ungroup_clip", ungroupClip);
+    ungroupClip->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_G);
     ungroupClip->setData("ungroup_clip");
     connect(ungroupClip, SIGNAL(triggered(bool)), this, SLOT(slotUnGroupClips()));
 
