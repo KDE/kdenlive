@@ -76,6 +76,7 @@ kde4_add_ui_files(kdenlive_UI
   widgets/cliptranscode_ui.ui
   widgets/geometryposition_ui.ui
   widgets/templateclip_ui.ui
+  widgets/keyframeeditor_ui.ui
 )
 
 set(kdenlive_SRCS
@@ -166,6 +167,7 @@ set(kdenlive_SRCS
   dvdwizardchapters.cpp
   documentvalidator.cpp
   cliptranscode.cpp
+  keyframeedit.cpp
 )
 
 add_definitions( ${KDE4_DEFINITIONS} )

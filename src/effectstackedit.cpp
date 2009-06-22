@@ -22,8 +22,10 @@
 #include "ui_colorval_ui.h"
 #include "ui_positionval_ui.h"
 #include "ui_wipeval_ui.h"
+#include "ui_keyframeeditor_ui.h"
 #include "complexparameter.h"
 #include "geometryval.h"
+#include "keyframeedit.h"
 #include "effectslist.h"
 #include "kdenlivesettings.h"
 
@@ -230,6 +232,15 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
             connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
             connect(geo, SIGNAL(seekToPos(int)), this, SLOT(slotSeekToPos(int)));
             geo->setupParam(pa, minFrame, maxFrame);
+            m_vbox->addWidget(geo);
+            m_valueItems[paramName+"geometry"] = geo;
+            m_items.append(geo);
+        } else if (type == "keyframe") {
+            // keyframe editor widget
+            KeyframeEdit *geo = new KeyframeEdit(100, KdenliveSettings::project_fps(), 0, 100);
+            //connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
+            //connect(geo, SIGNAL(seekToPos(int)), this, SLOT(slotSeekToPos(int)));
+            //geo->setupParam(pa, minFrame, maxFrame);
             m_vbox->addWidget(geo);
             m_valueItems[paramName+"geometry"] = geo;
             m_items.append(geo);
