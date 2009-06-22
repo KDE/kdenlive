@@ -22,6 +22,21 @@
    </property>
    <item row="0" column="0" colspan="3">
     <widget class="QTreeWidget" name="keyframe_list">
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+     <property name="rootIsDecorated">
+      <bool>false</bool>
+     </property>
+     <property name="itemsExpandable">
+      <bool>false</bool>
+     </property>
+     <property name="sortingEnabled">
+      <bool>false</bool>
+     </property>
+     <property name="allColumnsShowFocus">
+      <bool>true</bool>
+     </property>
      <column>
       <property name="text">
        <string notr="true">1</string>
