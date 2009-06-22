@@ -53,6 +53,15 @@ UnicodeDialog::~UnicodeDialog()
 }
 
 
+/// PUBLIC SLOTS
+
+int UnicodeDialog::exec()
+{
+    unicodeNumber->setFocus();
+    return QDialog::exec();
+}
+
+
 /// METHODS
 
 void UnicodeDialog::showLastUnicode()

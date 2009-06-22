@@ -28,6 +28,10 @@ public:
 
     void showLastUnicode();
 
+public slots:
+    /** \brief Override QDialog::exec() to assure the focus being on the unicode input field */
+    int exec();
+
 private:
     Ui::UnicodeDialog_UI m_view;
 

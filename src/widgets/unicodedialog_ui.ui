@@ -205,6 +205,9 @@
         <property name="wordWrap">
          <bool>true</bool>
         </property>
+        <property name="openExternalLinks">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item row="0" column="0">
@@ -237,7 +240,7 @@
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QTextEdit" name="labelInfoText">
+       <widget class="QTextBrowser" name="labelInfoText">
         <property name="frameShadow">
          <enum>QFrame::Plain</enum>
         </property>
@@ -245,6 +248,12 @@
          <string notr="true"/>
         </property>
         <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="openExternalLinks">
+         <bool>true</bool>
+        </property>
+        <property name="openLinks">
          <bool>true</bool>
         </property>
        </widget>
