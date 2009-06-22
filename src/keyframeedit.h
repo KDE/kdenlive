@@ -33,11 +33,15 @@ class KeyframeEdit : public QWidget
 {
     Q_OBJECT
 public:
-    explicit KeyframeEdit(int maxFrame, double fps, int minValue, int maxValue, QWidget* parent = 0);
+    explicit KeyframeEdit(Timecode tc, QWidget* parent = 0);
+    void setupParam(int maxFrame, int minValue, int maxValue, QString keyframes);
 
 private:
     Ui::KeyframeEditor_UI m_ui;
-    double m_fps;
+    Timecode m_timecode;
+    int m_min;
+    int m_max;
+    int m_maxFrame;
 
 public slots:
 

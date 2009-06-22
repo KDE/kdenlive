@@ -82,6 +82,7 @@ EffectStackEdit::EffectStackEdit(QWidget *parent) :
     QWidget *wid = new QWidget(parent);
     area->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     area->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    area->setFrameStyle(QFrame::NoFrame);
     wid->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
     area->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
 
@@ -237,12 +238,13 @@ void EffectStackEdit::transferParamDesc(const QDomElement& d, int in, int out)
             m_items.append(geo);
         } else if (type == "keyframe") {
             // keyframe editor widget
-            KeyframeEdit *geo = new KeyframeEdit(100, KdenliveSettings::project_fps(), 0, 100);
-            //connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
+            KeyframeEdit *geo = new KeyframeEdit(m_timecode);
+            connect(geo, SIGNAL(parameterChanged()), this, SLOT(collectAllParameters()));
+            geo->setupParam(100, pa.attribute("min").toInt(), pa.attribute("max").toInt(), pa.attribute("keyframes"));
             //connect(geo, SIGNAL(seekToPos(int)), this, SLOT(slotSeekToPos(int)));
             //geo->setupParam(pa, minFrame, maxFrame);
             m_vbox->addWidget(geo);
-            m_valueItems[paramName+"geometry"] = geo;
+            m_valueItems[paramName+"keyframe"] = geo;
             m_items.append(geo);
         } else if (type == "color") {
             Colorval *cval = new Colorval;
